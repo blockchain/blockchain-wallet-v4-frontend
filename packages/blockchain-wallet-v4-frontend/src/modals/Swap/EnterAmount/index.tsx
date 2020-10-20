@@ -1,8 +1,6 @@
-import { compose } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
-import { reduxForm } from 'redux-form'
 import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
@@ -11,8 +9,8 @@ import { Props as BaseProps } from '..'
 import { ExtractSuccess } from 'core/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { formatCoin } from 'core/exchange/currency'
-import { InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
-import { Option, StyledForm, TopText } from '../components'
+import { InitSwapFormValuesType } from 'data/types'
+import { Option, TopText } from '../components'
 import { selectors } from 'data'
 
 import { getData } from './selectors'
@@ -99,7 +97,7 @@ class EnterAmount extends PureComponent<Props> {
             })}
           </TopText>
         </FlyoutWrapper>
-        <StyledForm onSubmit={this.handleSubmit}>
+        <div>
           <Option
             role='button'
             onClick={() =>
@@ -132,7 +130,7 @@ class EnterAmount extends PureComponent<Props> {
             Loading: () => <Loading />,
             NotAsked: () => <Loading />
           })}
-        </StyledForm>
+        </div>
       </>
     )
   }
@@ -144,9 +142,6 @@ const mapStateToProps = (state: RootState) => {
     initSwapFormValues: selectors.form.getFormValues('initSwap')(
       state
     ) as InitSwapFormValuesType,
-    swapAmountFormValues: selectors.form.getFormValues('swapAmount')(
-      state
-    ) as SwapAmountFormValues,
     quoteR: selectors.components.swap.getQuote(state)
   }
 }
@@ -157,9 +152,5 @@ type OwnProps = BaseProps & { handleClose: () => void }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 
-const enhance = compose(
-  reduxForm<{}, Props>({ form: 'swapAmount', destroyOnUnmount: false }),
-  connector
-)
-
-export default enhance(EnterAmount) as React.ComponentClass<OwnProps>
+// @ts-ignore
+export default connector(EnterAmount)

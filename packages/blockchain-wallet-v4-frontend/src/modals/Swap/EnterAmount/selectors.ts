@@ -1,15 +1,20 @@
-import { ExtractSuccess } from 'core/types'
+import { CoinType, ExtractSuccess, FiatType } from 'core/types'
 import { lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 
-import { InitSwapFormValuesType } from 'data/types'
+import { InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
 import { selectors } from 'data'
 
 export const getData = (state: RootState) => {
+  const formErrors = selectors.form.getFormSyncErrors('swapAmount')(state)
+  const formValues = selectors.form.getFormValues('swapAmount')(
+    state
+  ) as SwapAmountFormValues
   const initSwapFormValues = selectors.form.getFormValues('initSwap')(
     state
   ) as InitSwapFormValuesType
   const limitsR = selectors.components.swap.getLimits(state)
+  const paymentR = selectors.components.swap.getPayment(state)
   const ratesR = selectors.core.data.misc.getRatesSelector(
     initSwapFormValues?.BASE?.coin || 'BTC',
     state
@@ -19,9 +24,15 @@ export const getData = (state: RootState) => {
     (
       limits: ExtractSuccess<typeof limitsR>,
       rates: ExtractSuccess<typeof ratesR>,
-      walletCurrency: ExtractSuccess<typeof walletCurrencyR>
+      walletCurrency: FiatType
     ) => ({
+      formErrors,
+      formValues,
       limits,
+      payment: paymentR.getOrElse({
+        effectiveBalance: 0,
+        coin: 'BTC' as CoinType
+      }),
       rates,
       walletCurrency
     })

@@ -4,7 +4,7 @@ import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: SwapState = {
   limits: Remote.NotAsked,
-  payment: Remote.Success({ effectiveBalance: 0 }),
+  payment: Remote.NotAsked,
   quote: Remote.NotAsked,
   side: 'BASE',
   step: 'INIT_SWAP'

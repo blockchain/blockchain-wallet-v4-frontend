@@ -6,15 +6,16 @@ import * as S from './selectors'
 import { actions, selectors } from 'data'
 import { APIType } from 'core/network/api'
 import {
-  convertBaseToStandard,
-  convertStandardToBase
-} from '../exchange/services'
-import {
+  CoinType,
   Erc20CoinsEnum,
   PaymentType,
   PaymentValue,
   SwapQuoteType
 } from 'blockchain-wallet-v4/src/types'
+import {
+  convertBaseToStandard,
+  convertStandardToBase
+} from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { getDirection, getPair, getRate, NO_QUOTE } from './utils'
 import {
@@ -46,7 +47,11 @@ export default ({
     quote: SwapQuoteType,
     amount,
     fee: MempoolFeeType = 'priority'
-  ): Generator<any, PaymentValue | { effectiveBalance: number }, PaymentType> {
+  ): Generator<
+    any,
+    PaymentValue | { coin: CoinType; effectiveBalance: number },
+    PaymentType
+  > {
     try {
       const coin = source.coin
       const addressOrIndex = source.address
@@ -81,7 +86,7 @@ export default ({
     } catch (e) {
       // eslint-disable-next-line
       console.log(e)
-      return { effectiveBalance: 0 }
+      return { coin: source.coin, effectiveBalance: 0 }
     }
   }
 
@@ -200,7 +205,12 @@ export default ({
         yield put(A.updatePaymentSuccess(payment))
       } else {
         balance = BASE.balance
-        yield put(A.updatePaymentSuccess({ effectiveBalance: BASE.balance }))
+        yield put(
+          A.updatePaymentSuccess({
+            coin: BASE.coin,
+            effectiveBalance: BASE.balance
+          })
+        )
       }
 
       yield put(

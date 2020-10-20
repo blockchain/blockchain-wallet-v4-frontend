@@ -42,7 +42,10 @@ export type SwapSideType = 'BASE' | 'COUNTER'
 // state
 export type SwapState = {
   limits: RemoteDataType<string, SwapUserLimitsType>
-  payment: RemoteDataType<string, { effectiveBalance: number } | PaymentValue>
+  payment: RemoteDataType<
+    string,
+    { coin: CoinType; effectiveBalance: number } | PaymentValue
+  >
   quote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>
   side: SwapSideType
   step: keyof typeof SwapStepType
@@ -93,7 +96,7 @@ interface UpdatePaymentLoadingActionType {
 }
 interface UpdatePaymentSuccessActionType {
   payload: {
-    payment: { effectiveBalance: number } | PaymentValue
+    payment: { coin: CoinType; effectiveBalance: number } | PaymentValue
   }
   type: typeof AT.UPDATE_PAYMENT_SUCCESS
 }
