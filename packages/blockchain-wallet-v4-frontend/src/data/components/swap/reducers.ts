@@ -3,6 +3,8 @@ import { SwapActionTypes, SwapState } from './types'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: SwapState = {
+  limits: Remote.NotAsked,
+  payment: Remote.Success({ effectiveBalance: 0 }),
   quote: Remote.NotAsked,
   side: 'BASE',
   step: 'INIT_SWAP'
@@ -13,6 +15,24 @@ export function swapReducer (
   action: SwapActionTypes
 ): SwapState {
   switch (action.type) {
+    case AT.FETCH_LIMITS_FAILURE: {
+      return {
+        ...state,
+        limits: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_LIMITS_LOADING: {
+      return {
+        ...state,
+        limits: Remote.Loading
+      }
+    }
+    case AT.FETCH_LIMITS_SUCCESS: {
+      return {
+        ...state,
+        limits: Remote.Success(action.payload.limits)
+      }
+    }
     case AT.FETCH_QUOTE_FAILURE: {
       return {
         ...state,
@@ -29,6 +49,24 @@ export function swapReducer (
       return {
         ...state,
         quote: Remote.Success(action.payload)
+      }
+    }
+    case AT.UPDATE_PAYMENT_FAILURE: {
+      return {
+        ...state,
+        payment: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.UPDATE_PAYMENT_LOADING: {
+      return {
+        ...state,
+        payment: Remote.Loading
+      }
+    }
+    case AT.UPDATE_PAYMENT_SUCCESS: {
+      return {
+        ...state,
+        payment: Remote.Success(action.payload.payment)
       }
     }
     case AT.SET_STEP:

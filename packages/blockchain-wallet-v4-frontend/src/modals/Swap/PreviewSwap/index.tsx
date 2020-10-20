@@ -111,11 +111,30 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             <FormattedMessage
               id='copy.coin_network_fee'
               defaultMessage='{coin} Network Fee'
-              values={{ coin: BASE.coin }}
+              values={{ coin: BASE.baseCoin }}
             />
           </Title>
           <Value>
-            {BASE.type === 'CUSTODIAL' ? <>0 {BASE.coin}</> : <>Outgoing fee</>}
+            {BASE.type === 'CUSTODIAL' ? (
+              <>0 {BASE.coin}</>
+            ) : (
+              this.props.paymentR.cata({
+                Success: value => (
+                  <>
+                    {coinToString({
+                      value: convertBaseToStandard(
+                        BASE.baseCoin,
+                        'fee' in value ? value.fee : 0
+                      ),
+                      unit: { symbol: BASE.baseCoin }
+                    })}
+                  </>
+                ),
+                Failure: e => e,
+                Loading: () => <SkeletonRectangle height='18px' width='70px' />,
+                NotAsked: () => <SkeletonRectangle height='18px' width='70px' />
+              })
+            )}
           </Value>
         </Row>
         <Row>
@@ -132,10 +151,12 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 <>
                   {coinToString({
                     value: convertBaseToStandard(
-                      COUNTER.coin,
+                      COUNTER.baseCoin,
                       value.quote.networkFee
                     ),
-                    unit: { symbol: COUNTER.coin }
+                    unit: {
+                      symbol: COUNTER.baseCoin
+                    }
                   })}
                 </>
               ),
@@ -217,6 +238,7 @@ const mapStateToProps = (state: RootState) => ({
     state
   ) as SwapAmountFormValues,
   incomingAmountR: selectors.components.swap.getIncomingAmount(state),
+  paymentR: selectors.components.swap.getPayment(state),
   quoteR: selectors.components.swap.getQuote(state)
 })
 

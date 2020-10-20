@@ -62,7 +62,7 @@ export default ({ api, coreSagas, networks }) => ({
   settings: settings({ coreSagas }),
   signMessage: signMessage({ coreSagas }),
   simpleBuy: simpleBuy({ api, coreSagas, networks }),
-  swap: swap({ api }),
+  swap: swap({ api, coreSagas, networks }),
   uploadDocument: uploadDocuments({ api }),
   withdraw: withdraw({ api }),
   veriff: veriff({ api, coreSagas })

@@ -1,9 +1,18 @@
 import * as AT from './actionTypes'
 
-import { CoinType, SwapQuoteType } from 'core/types'
+import {
+  CoinType,
+  PaymentValue,
+  SwapQuoteType,
+  SwapUserLimitsType
+} from 'core/types'
 import { ModalOriginType } from 'data/modals/types'
-import { SwapAccountType } from '../exchange/types'
-import { SwapActionTypes, SwapSideType, SwapStepPayload } from './types'
+import {
+  SwapAccountType,
+  SwapActionTypes,
+  SwapSideType,
+  SwapStepPayload
+} from './types'
 
 export const changePair = (side: SwapSideType, account: SwapAccountType) => ({
   type: AT.CHANGE_PAIR,
@@ -15,6 +24,27 @@ export const changePair = (side: SwapSideType, account: SwapAccountType) => ({
 
 export const createOrder = () => ({
   type: AT.CREATE_ORDER
+})
+
+export const fetchLimits = () => ({
+  type: AT.FETCH_LIMITS
+})
+export const fetchLimitsFailure = (error: string): SwapActionTypes => ({
+  type: AT.FETCH_LIMITS_FAILURE,
+  payload: {
+    error
+  }
+})
+export const fetchLimitsLoading = (): SwapActionTypes => ({
+  type: AT.FETCH_LIMITS_LOADING
+})
+export const fetchLimitsSuccess = (
+  limits: SwapUserLimitsType
+): SwapActionTypes => ({
+  type: AT.FETCH_LIMITS_SUCCESS,
+  payload: {
+    limits
+  }
 })
 
 export const fetchQuote = () => ({
@@ -38,6 +68,10 @@ export const fetchQuoteSuccess = (
     quote,
     rate
   }
+})
+
+export const initAmountForm = () => ({
+  type: AT.INIT_AMOUNT_FORM
 })
 
 export const setStep = ({ step, options }: SwapStepPayload) => ({
@@ -67,4 +101,22 @@ export const startPollQuote = () => ({
 
 export const stopPollQuote = () => ({
   type: AT.STOP_POLL_QUOTE
+})
+
+export const updatePaymentFailure = (error: string): SwapActionTypes => ({
+  type: AT.UPDATE_PAYMENT_FAILURE,
+  payload: {
+    error
+  }
+})
+export const updatePaymentLoading = (): SwapActionTypes => ({
+  type: AT.UPDATE_PAYMENT_LOADING
+})
+export const updatePaymentSuccess = (
+  payment: PaymentValue | { effectiveBalance: number }
+): SwapActionTypes => ({
+  type: AT.UPDATE_PAYMENT_SUCCESS,
+  payload: {
+    payment
+  }
 })

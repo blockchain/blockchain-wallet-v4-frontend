@@ -1,6 +1,12 @@
-import { SwapOrderDirectionType, SwapOrderType, SwapQuoteType } from './types'
+import { FiatType } from 'core/types'
+import {
+  SwapOrderDirectionType,
+  SwapOrderType,
+  SwapQuoteType,
+  SwapUserLimitsType
+} from './types'
 
-export default ({ authorizedPost, nabuUrl }) => {
+export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
   const createSwapOrder = (
     direction: SwapOrderDirectionType,
     quoteId: string,
@@ -18,6 +24,14 @@ export default ({ authorizedPost, nabuUrl }) => {
         volume,
         destinationAddress
       }
+    })
+
+  const getSwapLimits = (currency: FiatType): SwapUserLimitsType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/trades/limits?currency=${currency}&minor=true`,
+      contentType: 'application/json',
+      ignoreQueryParams: true
     })
 
   const getSwapQuote = (
@@ -38,6 +52,7 @@ export default ({ authorizedPost, nabuUrl }) => {
 
   return {
     createSwapOrder,
+    getSwapLimits,
     getSwapQuote
   }
 }

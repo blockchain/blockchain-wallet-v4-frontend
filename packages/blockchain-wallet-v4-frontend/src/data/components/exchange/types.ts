@@ -1,5 +1,6 @@
 import * as AT from './actionTypes'
 import { CoinType, CurrenciesType, RemoteDataType } from 'core/types'
+import { SwapAccountType } from '../swap/types'
 
 export type SwapFixType = 'baseInFiat' | 'base' | 'counter' | 'counterInFiat'
 
@@ -43,16 +44,6 @@ export type SourceFeeType =
       source: number
       target: number
     }
-
-export type SwapAccountType = {
-  address: number | string
-  archived: boolean
-  balance: number
-  coin: CoinType
-  index: number
-  label: string
-  type: 'ACCOUNT' | 'CUSTODIAL'
-}
 
 export type SwapAccountDropdownItemType = {
   text: string

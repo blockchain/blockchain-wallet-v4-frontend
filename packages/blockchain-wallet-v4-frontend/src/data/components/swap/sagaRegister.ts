@@ -6,12 +6,14 @@ import sagas from './sagas'
 
 let pollTask: Task
 
-export default ({ api }) => {
-  const swapSagas = sagas({ api })
+export default ({ api, coreSagas, networks }) => {
+  const swapSagas = sagas({ api, coreSagas, networks })
 
   return function * swapSaga () {
     yield takeLatest(AT.CHANGE_PAIR, swapSagas.changePair)
     yield takeLatest(AT.CREATE_ORDER, swapSagas.createOrder)
+    yield takeLatest(AT.FETCH_LIMITS, swapSagas.fetchLimits)
+    yield takeLatest(AT.INIT_AMOUNT_FORM, swapSagas.initAmountForm)
     yield takeLatest(AT.SHOW_MODAL, swapSagas.showModal)
 
     yield takeLatest(AT.START_POLL_QUOTE, function * () {

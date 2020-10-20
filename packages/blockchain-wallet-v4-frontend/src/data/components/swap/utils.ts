@@ -1,7 +1,12 @@
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { SwapAccountType } from '../exchange/types'
-import { SwapOrderDirectionType, SwapQuoteType } from 'core/types'
+import { SwapAccountType } from './types'
+import {
+  SwapOrderDirectionType,
+  SwapQuoteType
+} from 'blockchain-wallet-v4/src/types'
 import BigNumber from 'bignumber.js'
+
+export const NO_QUOTE = 'No quote found.'
 
 export const getDirection = (
   BASE: SwapAccountType,

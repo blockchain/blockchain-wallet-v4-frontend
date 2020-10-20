@@ -14,16 +14,16 @@ import {
 } from 'ramda'
 import {
   CoinType,
+  Erc20CoinsEnum,
   ExtractSuccess,
   RemoteDataType,
   SBBalanceType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
 import { coreSelectors, Remote } from 'blockchain-wallet-v4/src'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { getRate } from './utils'
 import { selectors } from 'data'
-import { SwapAccountType } from '../exchange/types'
-import { SwapAmountFormValues, SwapCoinType } from './types'
+import { SwapAccountType, SwapAmountFormValues, SwapCoinType } from './types'
 import BigNumber from 'bignumber.js'
 
 export const getSide = (state: RootState) => state.components.swap.side
@@ -31,6 +31,24 @@ export const getSide = (state: RootState) => state.components.swap.side
 export const getStep = (state: RootState) => state.components.swap.step
 
 export const getQuote = (state: RootState) => state.components.swap.quote
+
+export const getPayment = (state: RootState) => state.components.swap.payment
+
+export const getMaxMin = (coin: CoinType, state: RootState) => {
+  const limitsR = state.components.swap.limits
+  const paymentR = state.components.swap.payment
+  const ratesR = selectors.core.data.misc.getRatesSelector(coin, state)
+
+  return lift(
+    (
+      limits: ExtractSuccess<typeof limitsR>,
+      payment: ExtractSuccess<typeof paymentR>,
+      rates: ExtractSuccess<typeof ratesR>
+    ) => {
+      return { limits, payment, rates }
+    }
+  )(limitsR, paymentR, ratesR)
+}
 
 export const getIncomingAmount = (state: RootState) => {
   const quoteR = getQuote(state)
@@ -54,6 +72,7 @@ const generateCustodyAccount = (coin: CoinType, sbBalance?: SBBalanceType) => {
   const ticker = coin === 'PAX' ? 'USD-D' : coin
   return [
     {
+      baseCoin: coin in Erc20CoinsEnum ? 'ETH' : coin,
       coin,
       label: `${ticker} Trading Wallet`,
       type: ADDRESS_TYPES.CUSTODIAL,
@@ -86,6 +105,7 @@ const bchGetActiveAccounts = createDeepEqualSelector(
 
           return {
             archived: prop('archived', metadata),
+            baseCoin: 'BCH',
             coin: 'BCH',
             label: prop('label', metadata) || xpub,
             address: index,
@@ -114,6 +134,7 @@ const btcGetActiveAccounts = createDeepEqualSelector(
       return btcAccounts
         .map(acc => ({
           archived: prop('archived', acc),
+          baseCoin: 'BTC',
           coin: 'BTC',
           label: prop('label', acc) || prop('xpub', acc),
           address: prop('index', acc),
@@ -147,6 +168,7 @@ const ethGetActiveAccounts = createDeepEqualSelector(
           const data = prop(address, ethData)
 
           return {
+            baseCoin: 'ETH',
             coin: 'ETH',
             label: prop('label', acc) || address,
             address,
@@ -177,6 +199,7 @@ const erc20GetActiveAccounts = createDeepEqualSelector(
     ) =>
       [
         {
+          baseCoin: 'ETH',
           coin: toUpper(token),
           label: prop('label', erc20Account),
           address: ethAddress,
@@ -217,6 +240,7 @@ const xlmGetActiveAccounts = createDeepEqualSelector(
             .getOrElse(0)
           return {
             archived: prop('archived', acc),
+            baseCoin: 'XLM',
             coin: 'XLM',
             label: prop('label', acc) || address,
             address,

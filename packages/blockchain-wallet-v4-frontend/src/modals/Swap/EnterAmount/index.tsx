@@ -49,6 +49,7 @@ class EnterAmount extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {
+    this.props.swapActions.initAmountForm()
     this.props.swapActions.startPollQuote()
   }
 

@@ -92,6 +92,7 @@ const api = ({
     }),
     ...swap({
       nabuUrl,
+      authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
       ...http
     }),

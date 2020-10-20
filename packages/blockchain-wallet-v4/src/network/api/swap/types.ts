@@ -1,3 +1,5 @@
+import { FiatType } from 'core/types'
+
 export type SwapOrderType = {
   createdAt: string
   id: string
@@ -35,6 +37,28 @@ export type SwapOrderStateType =
   | 'EXPIRED'
   | 'FINISHED'
   | 'FAILED'
+
+export type SwapUserLimitsType = {
+  annual: {
+    available: string
+    limit: string
+    used: string
+  }
+  currency: FiatType
+  daily: {
+    available: string
+    limit: string
+    used: string
+  }
+  maxOrder: string
+  maxPossibleOrder: string
+  minOrder: string
+  weekly: {
+    available: string
+    limit: string
+    used: string
+  }
+}
 
 export type SwapQuoteType = {
   createdAt: string
