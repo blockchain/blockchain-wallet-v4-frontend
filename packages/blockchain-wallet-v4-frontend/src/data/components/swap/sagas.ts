@@ -46,7 +46,7 @@ export default ({
     quote: SwapQuoteType,
     amount,
     fee: MempoolFeeType = 'priority'
-  ): Generator<any, PaymentValue, PaymentType> {
+  ): Generator<any, PaymentValue | { effectiveBalance: number }, PaymentType> {
     try {
       const coin = source.coin
       const addressOrIndex = source.address
@@ -81,8 +81,7 @@ export default ({
     } catch (e) {
       // eslint-disable-next-line
       console.log(e)
-      // @ts-ignore
-      return {}
+      return { effectiveBalance: 0 }
     }
   }
 
@@ -197,11 +196,11 @@ export default ({
       const { BASE } = initSwapFormValues
       if (BASE.type === 'ACCOUNT') {
         payment = yield call(calculateProvisionalPayment, BASE, quote.quote, 0)
-        yield put(A.updatePaymentSuccess(payment))
         balance = payment.effectiveBalance
+        yield put(A.updatePaymentSuccess(payment))
       } else {
-        yield put(A.updatePaymentSuccess({ effectiveBalance: BASE.balance }))
         balance = BASE.balance
+        yield put(A.updatePaymentSuccess({ effectiveBalance: BASE.balance }))
       }
 
       yield put(
