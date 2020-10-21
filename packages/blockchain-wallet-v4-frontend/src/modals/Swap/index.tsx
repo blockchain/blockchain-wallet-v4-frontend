@@ -103,6 +103,7 @@ const mapStateToProps = (
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  formActions: bindActionCreators(actions.form, dispatch),
   swapActions: bindActionCreators(actions.components.swap, dispatch)
 })
 

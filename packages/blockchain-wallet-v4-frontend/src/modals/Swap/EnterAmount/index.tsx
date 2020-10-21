@@ -30,11 +30,6 @@ class EnterAmount extends PureComponent<Props> {
     this.props.swapActions.startPollQuote()
   }
 
-  handleSubmit = e => {
-    e.preventDefault()
-    this.props.swapActions.setStep({ step: 'PREVIEW_SWAP' })
-  }
-
   render () {
     if (
       !this.props.initSwapFormValues?.BASE ||
@@ -125,7 +120,7 @@ class EnterAmount extends PureComponent<Props> {
             {JSON.stringify(this.props.initSwapFormValues.COUNTER)}
           </Option>
           {this.props.data.cata({
-            Success: val => <Checkout {...val} {...this.props} />,
+            Success: val => <Checkout {...val} {...this.props} BASE={BASE} />,
             Failure: () => <>oops</>,
             Loading: () => <Loading />,
             NotAsked: () => <Loading />
@@ -150,7 +145,9 @@ const connector = connect(mapStateToProps)
 
 type OwnProps = BaseProps & { handleClose: () => void }
 export type Props = OwnProps & ConnectedProps<typeof connector>
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>> & {
+  formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
+}
 
 // @ts-ignore
 export default connector(EnterAmount)
