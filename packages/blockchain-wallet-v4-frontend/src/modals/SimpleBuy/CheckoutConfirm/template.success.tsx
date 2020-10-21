@@ -22,7 +22,7 @@ import { Props as OwnProps, SuccessStateType } from '.'
 import { SupportedWalletCurrenciesType } from 'core/types'
 
 import { displayFiat, getPaymentMethod } from '../model'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 const CustomForm = styled(Form)`
@@ -70,15 +70,15 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const baseCurrency = getBaseCurrency(props.order, props.supportedCoins)
   const counterAmount = getCounterAmount(props.order)
   const counterCurrency = getCounterCurrency(props.order, props.supportedCoins)
+  const requiresTerms =
+    props.order.paymentType === 'PAYMENT_CARD' ||
+    props.order.paymentType === 'USER_CARD'
 
-  if (
-    !(
-      props.order.paymentType === 'PAYMENT_CARD' ||
-      props.order.paymentType === 'USER_CARD'
-    )
-  ) {
-    setAcceptTerms(true)
-  }
+  useEffect(() => {
+    if (!requiresTerms) {
+      return setAcceptTerms(true)
+    }
+  }, [])
 
   return (
     <CustomForm onSubmit={props.handleSubmit}>
@@ -158,8 +158,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <Value>{getPaymentMethod(props.order, props.supportedCoins)}</Value>
       </Row>
       <Bottom>
-        {(props.order.paymentType === 'PAYMENT_CARD' ||
-          props.order.paymentType === 'USER_CARD') && (
+        {requiresTerms && (
           <Info style={{ marginBottom: '12px' }}>
             <Icon
               name='market-up'
@@ -198,8 +197,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </Text>
         </Info>
 
-        {(props.order.paymentType === 'PAYMENT_CARD' ||
-          props.order.paymentType === 'USER_CARD') && (
+        {requiresTerms && (
           <Info>
             <InfoTerms
               size='12px'
