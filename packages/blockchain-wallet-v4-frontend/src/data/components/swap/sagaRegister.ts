@@ -15,6 +15,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.FETCH_LIMITS, swapSagas.fetchLimits)
     yield takeLatest(AT.INIT_AMOUNT_FORM, swapSagas.initAmountForm)
     yield takeLatest(AT.SHOW_MODAL, swapSagas.showModal)
+    yield takeLatest(AT.TOGGLE_BASE_COUNTER, swapSagas.toggleBaseAndCounter)
 
     yield takeLatest(AT.START_POLL_QUOTE, function * () {
       if (pollTask && pollTask.isRunning) yield cancel(pollTask)

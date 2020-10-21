@@ -21,13 +21,37 @@ const SubTopText = styled.div`
   display: flex;
   align-items: center;
 `
+const Options = styled.div`
+  position: relative;
+`
+const Toggler = styled.div`
+  top: 50%;
+  transform: translateY(-50%);
+  position: absolute;
+  border-radius: 4px;
+  border: 1px solid ${props => props.theme['grey000']};
+  background: ${props => props.theme['white']};
+  right: 16px;
+  display: flex;
+  cursor: pointer;
+  padding: 6px 0px;
+  span {
+    position: relative;
+  }
+  span:first-child {
+    width: 18px;
+    top: -2px;
+  }
+  span:last-child {
+    top: 2px;
+  }
+`
 
 class EnterAmount extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {
     this.props.swapActions.initAmountForm()
-    this.props.swapActions.startPollQuote()
   }
 
   render () {
@@ -93,32 +117,38 @@ class EnterAmount extends PureComponent<Props> {
           </TopText>
         </FlyoutWrapper>
         <div>
-          <Option
-            role='button'
-            onClick={() =>
-              this.props.swapActions.setStep({
-                step: 'COIN_SELECTION',
-                options: {
-                  side: 'BASE'
-                }
-              })
-            }
-          >
-            {JSON.stringify(this.props.initSwapFormValues.BASE)}
-          </Option>
-          <Option
-            role='button'
-            onClick={() =>
-              this.props.swapActions.setStep({
-                step: 'COIN_SELECTION',
-                options: {
-                  side: 'COUNTER'
-                }
-              })
-            }
-          >
-            {JSON.stringify(this.props.initSwapFormValues.COUNTER)}
-          </Option>
+          <Options>
+            <Option
+              role='button'
+              onClick={() =>
+                this.props.swapActions.setStep({
+                  step: 'COIN_SELECTION',
+                  options: {
+                    side: 'BASE'
+                  }
+                })
+              }
+            >
+              {JSON.stringify(this.props.initSwapFormValues.BASE)}
+            </Option>
+            <Toggler onClick={this.props.swapActions.toggleBaseAndCounter}>
+              <Icon color='blue600' size='24px' name='arrow-up' />
+              <Icon color='blue600' size='24px' name='arrow-down' />
+            </Toggler>
+            <Option
+              role='button'
+              onClick={() =>
+                this.props.swapActions.setStep({
+                  step: 'COIN_SELECTION',
+                  options: {
+                    side: 'COUNTER'
+                  }
+                })
+              }
+            >
+              {JSON.stringify(this.props.initSwapFormValues.COUNTER)}
+            </Option>
+          </Options>
           {this.props.data.cata({
             Success: val => <Checkout {...val} {...this.props} BASE={BASE} />,
             Failure: () => <>oops</>,

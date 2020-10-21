@@ -188,6 +188,7 @@ export default ({
     let payment: PaymentValue
     let balance: number = 0
     try {
+      yield put(A.startPollQuote())
       yield put(A.updatePaymentLoading())
       const initSwapFormValues = selectors.form.getFormValues('initSwap')(
         yield select()
@@ -238,12 +239,33 @@ export default ({
     )
   }
 
+  const toggleBaseAndCounter = function * () {
+    const initSwapFormValues = selectors.form.getFormValues('initSwap')(
+      yield select()
+    ) as InitSwapFormValuesType
+    if (
+      !initSwapFormValues ||
+      !initSwapFormValues.BASE ||
+      !initSwapFormValues.COUNTER
+    ) {
+      return yield put(A.setStep({ step: 'INIT_SWAP' }))
+    }
+
+    const { BASE: currentBase, COUNTER: currentCounter } = initSwapFormValues
+
+    yield put(actions.form.change('initSwap', 'BASE', currentCounter))
+    yield put(actions.form.change('initSwap', 'COUNTER', currentBase))
+
+    yield put(A.initAmountForm())
+  }
+
   return {
     changePair,
     createOrder,
     fetchLimits,
     fetchQuote,
     initAmountForm,
-    showModal
+    showModal,
+    toggleBaseAndCounter
   }
 }

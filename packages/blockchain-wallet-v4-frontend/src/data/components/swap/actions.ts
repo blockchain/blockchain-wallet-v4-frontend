@@ -103,6 +103,10 @@ export const stopPollQuote = () => ({
   type: AT.STOP_POLL_QUOTE
 })
 
+export const toggleBaseAndCounter = () => ({
+  type: AT.TOGGLE_BASE_COUNTER
+})
+
 export const updatePaymentFailure = (error: string): SwapActionTypes => ({
   type: AT.UPDATE_PAYMENT_FAILURE,
   payload: {
