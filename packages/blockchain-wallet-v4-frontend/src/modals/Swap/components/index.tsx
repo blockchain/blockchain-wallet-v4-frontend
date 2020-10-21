@@ -23,3 +23,14 @@ export const Option = styled.div`
   padding: 16px 40px;
   cursor: pointer;
 `
+
+export const IconBackground = styled.div<{ color: string }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 24px;
+  z-index: 100;
+  background: ${props => props.theme[props.color]};
+`

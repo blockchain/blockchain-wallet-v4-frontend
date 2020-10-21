@@ -12,6 +12,7 @@ const IcoMoon = {
   'arrow-top-right-bottom-left': '\\e954',
   'arrow-up': '\\e91c',
   'arrow-up-circle': '\\e936',
+  'arrows-horizontal': '\\e957',
   'bank-filled': '\\e901',
   bch: '\\e98c',
   'bch-circle': '\\e98b',

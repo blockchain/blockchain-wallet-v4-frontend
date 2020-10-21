@@ -7,8 +7,8 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { FlyoutWrapper } from 'components/Flyout'
+import { IconBackground, Option, StyledForm, TopText } from '../components'
 import { InitSwapFormValuesType } from 'data/components/swap/types'
-import { Option, StyledForm, TopText } from '../components'
 import { selectors } from 'data'
 
 class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
@@ -152,6 +152,57 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               />
             </Button>
           </FlyoutWrapper>
+          <Text
+            color='grey600'
+            weight={500}
+            size='14px'
+            style={{ marginLeft: '40px' }}
+          >
+            Trending
+          </Text>
+          <Field
+            name='COUNTER'
+            component={() => (
+              <Option
+                role='button'
+                onClick={() =>
+                  this.props.swapActions.setStep({
+                    step: 'COIN_SELECTION',
+                    options: {
+                      side: 'COUNTER'
+                    }
+                  })
+                }
+              >
+                <IconBackground color='blue000'>
+                  <Icon name='arrows-horizontal' size='10px' color='blue600' />
+                </IconBackground>
+                <div>
+                  <Text color='grey600' weight={500} size='14px'>
+                    Receive to
+                  </Text>
+                  <>
+                    <Text
+                      color='grey900'
+                      weight={600}
+                      style={{ marginTop: '4px' }}
+                    >
+                      Select a Wallet
+                    </Text>
+                    <Text
+                      color='grey900'
+                      weight={600}
+                      size='14px'
+                      style={{ marginTop: '4px' }}
+                    >
+                      This is the crypto you get.
+                    </Text>
+                  </>
+                </div>
+                <Icon name='chevron-right' size='20px' color='grey400' />
+              </Option>
+            )}
+          />
         </StyledForm>
       </>
     )
