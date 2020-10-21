@@ -68,7 +68,6 @@ class SimpleBuy extends PureComponent<Props, State> {
     this.setState({ show: false })
     const simpleBuyGoal = find(propEq('name', 'simpleBuy'), this.props.goals)
     const goalID = propOr('', 'id', simpleBuyGoal) as string
-    this.props.preferenceActions.setSBFiatCurrency(this.props.localCurrency)
     !isEmpty(goalID) && this.props.deleteGoal(goalID)
     setTimeout(() => {
       this.props.close()

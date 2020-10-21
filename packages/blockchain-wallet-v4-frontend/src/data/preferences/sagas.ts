@@ -1,9 +1,7 @@
-import * as A from './actions'
 import * as C from 'services/AlertService'
-import * as S from './selectors'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { addLanguageToUrl } from 'services/LocalesService'
-import { put, select } from 'redux-saga/effects'
+import { put } from 'redux-saga/effects'
 
 export default () => {
   const logLocation = 'preferences/sagas'
@@ -21,24 +19,7 @@ export default () => {
     }
   }
 
-  const setSBFiatCurrency = function * () {
-    try {
-      const walletCurrencyR = selectors.core.settings.getCurrency(
-        yield select()
-      )
-      const walletCurrency = walletCurrencyR.getOrElse(undefined)
-      const sbFiatCurrency = S.getSBFiatCurrency(yield select())
-      if (!walletCurrency) return
-      if (!sbFiatCurrency) return
-
-      if (sbFiatCurrency !== walletCurrency) {
-        yield put(A.setSBFiatCurrency(walletCurrency))
-      }
-    } catch (e) {}
-  }
-
   return {
-    setLanguage,
-    setSBFiatCurrency
+    setLanguage
   }
 }

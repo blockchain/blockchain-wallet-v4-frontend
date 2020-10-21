@@ -131,9 +131,9 @@ export default ({ api, coreSagas }) => {
       const countryCodeR = yield select(selectors.core.settings.getCountryCode)
       const countryCode = countryCodeR.getOrElse('US')
       const currency = getCurrencyBasedOnCountry(countryCode)
-      yield put(actions.preferences.setSBFiatCurrency(currency))
-      // TODO - update wallet with currency should be done on BE side
-      yield put(actions.core.settings.setCurrency(currency))
+      if (firstLogin) {
+        yield put(actions.core.settings.setCurrency(currency))
+      }
 
       const showVerifyEmailR = yield select(
         selectors.analytics.selectAbTest(AB_TESTS.VERIFY_EMAIL)
