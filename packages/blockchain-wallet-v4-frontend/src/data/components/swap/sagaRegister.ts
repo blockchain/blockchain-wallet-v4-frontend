@@ -1,4 +1,5 @@
-import { cancel, fork, take, takeLatest } from 'redux-saga/effects'
+import { actionTypes } from 'redux-form'
+import { cancel, fork, take, takeEvery, takeLatest } from 'redux-saga/effects'
 import { Task } from 'redux-saga'
 
 import * as AT from './actionTypes'
@@ -16,6 +17,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.INIT_AMOUNT_FORM, swapSagas.initAmountForm)
     yield takeLatest(AT.SHOW_MODAL, swapSagas.showModal)
     yield takeLatest(AT.TOGGLE_BASE_COUNTER, swapSagas.toggleBaseAndCounter)
+    yield takeEvery(actionTypes.CHANGE, swapSagas.formChanged)
 
     yield takeLatest(AT.START_POLL_QUOTE, function * () {
       if (pollTask && pollTask.isRunning) yield cancel(pollTask)

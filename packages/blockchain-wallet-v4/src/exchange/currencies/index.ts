@@ -23,6 +23,7 @@ import RUB from './RUB'
 import SEK from './SEK'
 import SGD from './SGD'
 import THB from './THB'
+import TRY from './TRY'
 import TWD from './TWD'
 import USD from './USD'
 import USDT from './USDT'
@@ -50,6 +51,7 @@ const FiatCurrencies = {
   SEK,
   SGD,
   THB,
+  TRY,
   TWD
 }
 

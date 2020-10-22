@@ -16,7 +16,6 @@ import {
   CoinType,
   Erc20CoinsEnum,
   ExtractSuccess,
-  FiatType,
   RemoteDataType,
   SBBalanceType
 } from 'blockchain-wallet-v4/src/types'
@@ -37,27 +36,27 @@ export const getPayment = (state: RootState) => state.components.swap.payment
 
 export const getQuote = (state: RootState) => state.components.swap.quote
 
-export const getMaxMin = (
-  coin: CoinType,
-  currency: FiatType,
-  state: RootState
-) => {
-  const limitsR = state.components.swap.limits
-  const paymentR = state.components.swap.payment
-  const ratesR = selectors.core.data.misc.getRatesSelector(coin, state)
+// export const getMaxMin = (
+//   coin: CoinType,
+//   currency: FiatType,
+//   state: RootState
+// ) => {
+//   const limitsR = state.components.swap.limits
+//   const paymentR = state.components.swap.payment
+//   const ratesR = selectors.core.data.misc.getRatesSelector(coin, state)
 
-  return lift(
-    (
-      limits: ExtractSuccess<typeof limitsR>,
-      payment: ExtractSuccess<typeof paymentR>,
-      rates: ExtractSuccess<typeof ratesR>
-    ) => {
-      const effectiveFiatBalance =
-        payment.effectiveBalance * rates[currency].last
-      return Math.min(Number(limits.maxPossibleOrder), effectiveFiatBalance)
-    }
-  )(limitsR, paymentR, ratesR)
-}
+//   return lift(
+//     (
+//       limits: ExtractSuccess<typeof limitsR>,
+//       payment: ExtractSuccess<typeof paymentR>,
+//       rates: ExtractSuccess<typeof ratesR>
+//     ) => {
+//       const effectiveFiatBalance =
+//         payment.effectiveBalance * rates[currency].last
+//       return Math.min(Number(limits.maxPossibleOrder), effectiveFiatBalance)
+//     }
+//   )(limitsR, paymentR, ratesR)
+// }
 
 export const getIncomingAmount = (state: RootState) => {
   const quoteR = getQuote(state)

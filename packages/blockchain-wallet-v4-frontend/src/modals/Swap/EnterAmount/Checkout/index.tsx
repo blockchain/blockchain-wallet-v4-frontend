@@ -77,14 +77,19 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     'max',
     props.limits,
     props.rates[props.walletCurrency],
-    props.payment
+    props.payment,
+    props.BASE
   )
   const min = getMaxMin(
     'min',
     props.limits,
     props.rates[props.walletCurrency],
-    props.payment
+    props.payment,
+    props.BASE
   )
+  const balance = props.payment
+    ? props.payment.effectiveBalance
+    : props.BASE.balance
 
   const handleMinMaxClick = () => {
     const value = amtError === 'BELOW_MIN' ? min : max
@@ -180,7 +185,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 color='grey900'
                 coin={props.BASE.coin}
               >
-                {props.BASE.balance}
+                {balance}
               </CoinDisplay>
               <Text size='14px' weight={500} color='grey600'>
                 &nbsp;(
@@ -191,7 +196,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 color='grey600'
                 coin={props.BASE.coin}
               >
-                {props.BASE.balance}
+                {balance}
               </FiatDisplay>
               <Text size='14px' weight={500} color='grey600'>
                 )

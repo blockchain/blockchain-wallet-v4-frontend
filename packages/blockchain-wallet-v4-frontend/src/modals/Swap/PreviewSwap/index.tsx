@@ -148,7 +148,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     {coinToString({
                       value: convertBaseToStandard(
                         BASE.baseCoin,
-                        'fee' in value ? value.fee : 0
+                        value ? value.fee : 0
                       ),
                       unit: { symbol: BASE.baseCoin }
                     })}

@@ -1,4 +1,4 @@
-import { CoinType, ExtractSuccess, FiatType } from 'core/types'
+import { ExtractSuccess, FiatType } from 'core/types'
 import { lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 
@@ -29,10 +29,7 @@ export const getData = (state: RootState) => {
       formErrors,
       formValues,
       limits,
-      payment: paymentR.getOrElse({
-        effectiveBalance: 0,
-        coin: 'BTC' as CoinType
-      }),
+      payment: paymentR.getOrElse(undefined),
       rates,
       walletCurrency
     })
