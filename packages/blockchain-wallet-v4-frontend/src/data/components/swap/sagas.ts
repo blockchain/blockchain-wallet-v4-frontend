@@ -26,6 +26,9 @@ import {
 import { MempoolFeeType } from '../exchange/types'
 import BigNumber from 'bignumber.js'
 
+import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
+import sendSagas from '../send/sagas'
+
 const DELAY = 60_000 * 2
 
 export default ({
@@ -37,6 +40,12 @@ export default ({
   coreSagas
   networks
 }) => {
+  const { buildAndPublishPayment, paymentGetOrElse } = sendSagas({
+    api,
+    coreSagas,
+    networks
+  })
+
   const changePair = function * ({ payload }: ReturnType<typeof A.changePair>) {
     yield put(actions.form.change('initSwap', payload.side, payload.account))
     yield put(A.setStep({ step: 'INIT_SWAP' }))
@@ -124,9 +133,17 @@ export default ({
         quote.quote.id,
         amount
       )
+      const paymentR = S.getPayment(yield select())
+      let payment = paymentGetOrElse(BASE.coin, paymentR)
+      if (direction === 'FROM_USERKEY' || direction === 'ON_CHAIN') {
+        yield call(
+          buildAndPublishPayment,
+          payment.coin,
+          payment,
+          order.kind.depositAddress
+        )
+      }
       yield put(actions.form.stopSubmit('previewSwap'))
-      // eslint-disable-next-line
-      console.log(order)
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('previewSwap', { _error: error }))
@@ -184,6 +201,45 @@ export default ({
     }
   }
 
+  const formChanged = function * (action) {
+    if (action.meta.form !== 'swapAmount') return
+    if (action.meta.field !== 'amount') return
+
+    const initSwapFormValues = selectors.form.getFormValues('initSwap')(
+      yield select()
+    ) as InitSwapFormValuesType
+    if (!initSwapFormValues || !initSwapFormValues.BASE) return
+
+    const { BASE } = initSwapFormValues
+    const paymentR = S.getPayment(yield select())
+    if (BASE.type === 'CUSTODIAL') return
+
+    // @ts-ignore
+    let payment = paymentGetOrElse(BASE.coin, paymentR)
+    const value = Number(action.payload)
+
+    switch (payment.coin) {
+      case 'BCH':
+      case 'BTC':
+        payment = yield payment.amount(
+          parseInt(convertStandardToBase(payment.coin, value))
+        )
+        break
+      case 'ETH':
+      case 'PAX':
+      case 'USDT':
+      case 'XLM':
+        payment = yield payment.amount(
+          convertStandardToBase(payment.coin, value)
+        )
+        break
+      default:
+        throw new Error(INVALID_COIN_TYPE)
+    }
+
+    yield put(A.updatePaymentSuccess(payment.value()))
+  }
+
   const initAmountForm = function * () {
     let payment: PaymentValue
     let balance: number = 0
@@ -206,12 +262,7 @@ export default ({
         yield put(A.updatePaymentSuccess(payment))
       } else {
         balance = BASE.balance
-        yield put(
-          A.updatePaymentSuccess({
-            coin: BASE.coin,
-            effectiveBalance: BASE.balance
-          })
-        )
+        yield put(A.updatePaymentSuccess(undefined))
       }
 
       yield put(
@@ -264,6 +315,7 @@ export default ({
     createOrder,
     fetchLimits,
     fetchQuote,
+    formChanged,
     initAmountForm,
     showModal,
     toggleBaseAndCounter

@@ -117,7 +117,7 @@ export const updatePaymentLoading = (): SwapActionTypes => ({
   type: AT.UPDATE_PAYMENT_LOADING
 })
 export const updatePaymentSuccess = (
-  payment: PaymentValue | { coin: CoinType; effectiveBalance: number }
+  payment: PaymentValue | undefined
 ): SwapActionTypes => ({
   type: AT.UPDATE_PAYMENT_SUCCESS,
   payload: {

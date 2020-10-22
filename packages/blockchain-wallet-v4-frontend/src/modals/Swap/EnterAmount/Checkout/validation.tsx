@@ -1,24 +1,20 @@
 import {
-  CoinType,
-  PaymentValue,
-  RateType,
-  SwapUserLimitsType
-} from 'core/types'
-import {
   convertBaseToStandard,
   convertStandardToBase
 } from 'data/components/exchange/services'
 import { CRYPTO_DECIMALS } from 'services/ValidationHelper'
+import { PaymentValue, RateType, SwapUserLimitsType } from 'core/types'
 import BigNumber from 'bignumber.js'
 
 import { Props } from '.'
-import { SwapAmountFormValues } from 'data/types'
+import { SwapAccountType, SwapAmountFormValues } from 'data/types'
 
 export const getMaxMin = (
   minOrMax: 'min' | 'max',
   limits: SwapUserLimitsType,
   rate: RateType,
-  payment: { coin: CoinType; effectiveBalance: number } | PaymentValue
+  payment: undefined | PaymentValue,
+  BASE: SwapAccountType
 ) => {
   switch (minOrMax) {
     case 'max':
@@ -26,11 +22,11 @@ export const getMaxMin = (
         convertBaseToStandard('FIAT', limits.maxPossibleOrder)
       )
       const cryptoMax = new BigNumber(
-        convertStandardToBase(payment.coin, fiatMax.dividedBy(rate.last))
+        convertStandardToBase(BASE.coin, fiatMax.dividedBy(rate.last))
       )
-      const userMax = payment.effectiveBalance
+      const userMax = payment ? payment.effectiveBalance : BASE.balance
       return convertBaseToStandard(
-        payment.coin,
+        BASE.coin,
         Math.min(userMax, cryptoMax.toNumber())
       )
     case 'min':
@@ -52,7 +48,9 @@ export const maximumAmount = (
   const { limits, rates, payment, walletCurrency } = restProps
 
   return Number(value) >
-    Number(getMaxMin('max', limits, rates[walletCurrency], payment))
+    Number(
+      getMaxMin('max', limits, rates[walletCurrency], payment, restProps.BASE)
+    )
     ? 'ABOVE_MAX'
     : false
 }
@@ -68,7 +66,9 @@ export const minimumAmount = (
   const { limits, rates, payment, walletCurrency } = restProps
 
   return Number(value) <
-    Number(getMaxMin('min', limits, rates[walletCurrency], payment))
+    Number(
+      getMaxMin('min', limits, rates[walletCurrency], payment, restProps.BASE)
+    )
     ? 'BELOW_MIN'
     : false
 }
