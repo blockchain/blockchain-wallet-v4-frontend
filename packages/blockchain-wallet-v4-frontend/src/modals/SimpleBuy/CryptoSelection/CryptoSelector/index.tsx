@@ -1,4 +1,10 @@
-import { Icon, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
+import {
+  Icon,
+  Image,
+  TabMenu,
+  TabMenuItem,
+  Text
+} from 'blockchain-info-components'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
@@ -19,6 +25,11 @@ const Wrapper = styled.div`
   justify-content: space-between;
   flex-direction: column;
   height: 100%;
+`
+const CloseContainer = styled.div`
+  display: flex;
+  align-items: right;
+  justify-content: flex-end;
 `
 const TabsContainer = styled.div`
   margin-top: 36px;
@@ -42,6 +53,15 @@ const TopText = styled(Text)`
 const SubTitleText = styled(Text)`
   margin-top: 0;
 `
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+
+  span {
+    margin-left: 8px;
+  }
+`
 
 export type Props = OwnProps & SuccessStateType
 
@@ -50,21 +70,32 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   const [orderType, setOrderType] = useState(props.orderType)
 
   const handleSubmit = (pair: SBPairType) => {
-    props.simpleBuyActions.setStep({
-      step: 'ENTER_AMOUNT',
-      orderType: orderType,
-      cryptoCurrency: getCoinFromPair(pair.pair),
-      fiatCurrency: getFiatFromPair(pair.pair),
-      pair
-    })
+    if (!props.emailVerified) {
+      props.simpleBuyActions.setStep({
+        step: 'VERIFY_EMAIL',
+        orderType: orderType,
+        cryptoCurrency: getCoinFromPair(pair.pair),
+        fiatCurrency: getFiatFromPair(pair.pair),
+        pair
+      })
+    } else {
+      props.simpleBuyActions.setStep({
+        step: 'ENTER_AMOUNT',
+        orderType: orderType,
+        cryptoCurrency: getCoinFromPair(pair.pair),
+        fiatCurrency: getFiatFromPair(pair.pair),
+        pair
+      })
+    }
   }
+
+  const showWelcome = props.isFirstLogin
 
   return (
     <Wrapper>
       <Form>
         <FlyoutWrapper>
-          <Top>
-            <Icon cursor name='cart-filled' size='32px' color='blue600' />
+          <CloseContainer>
             <Icon
               cursor
               data-e2e='sbCloseModalIcon'
@@ -74,20 +105,58 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
               role='button'
               onClick={props.handleClose}
             />
+          </CloseContainer>
+          {showWelcome && (
+            <Header>
+              <Image name='intro-hand' width='28px' height='28px' />
+              <Text color='grey600' size='20px' weight={600}>
+                <FormattedMessage
+                  id='modals.wallet.tour.wallet.tour'
+                  defaultMessage='Welcome to Blockchain!'
+                />
+              </Text>
+            </Header>
+          )}
+          <Top>
+            {!showWelcome && (
+              <Icon cursor name='cart-filled' size='32px' color='blue600' />
+            )}
           </Top>
-          <TopText color='grey800' size='20px' weight={600}>
-            <FormattedMessage
-              id='modals.simplebuy.cryptoselect'
-              defaultMessage='Buy Crypto. Sell for Cash.'
-            />
-          </TopText>
-          <SubTitleText color='grey600' weight={500}>
-            <FormattedMessage
-              id='modals.simplebuy.select_crypto'
-              defaultMessage='Easily buy and sell Crypto straight from your Wallet.'
-            />
-          </SubTitleText>
-          {props.invitations.simpleSell && (
+          {!showWelcome && (
+            <>
+              <TopText color='grey800' size='20px' weight={600}>
+                <FormattedMessage
+                  id='modals.simplebuy.cryptoselect'
+                  defaultMessage='Buy Crypto. Sell for Cash.'
+                />
+              </TopText>
+              <SubTitleText color='grey600' weight={500}>
+                <FormattedMessage
+                  id='modals.simplebuy.select_crypto'
+                  defaultMessage='Easily buy and sell Crypto straight from your Wallet.'
+                />
+              </SubTitleText>
+            </>
+          )}
+
+          {showWelcome && (
+            <>
+              <TopText color='grey800' size='20px' weight={600}>
+                <FormattedMessage
+                  id='modals.simplebuy.buy_crypto_now'
+                  defaultMessage='Buy Crypto Now'
+                />
+              </TopText>
+              <SubTitleText color='grey600' weight={500}>
+                <FormattedMessage
+                  id='modals.simplebuy.select_and_verify'
+                  defaultMessage='Select the crypto you want to buy, verify your identity and buy crypto.'
+                />
+              </SubTitleText>
+            </>
+          )}
+
+          {!showWelcome && props.invitations.simpleSell && (
             <TabsContainer>
               <TabMenu>
                 <TabMenuItem

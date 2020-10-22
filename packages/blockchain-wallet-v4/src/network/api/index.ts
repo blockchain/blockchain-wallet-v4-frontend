@@ -15,6 +15,7 @@ import lockbox from './lockbox'
 import misc from './misc'
 import profile from './profile'
 import rates from './rates'
+import sdd from './sdd'
 import settings from './settings'
 import simpleBuy from './simpleBuy'
 import trades from './trades'
@@ -79,6 +80,11 @@ const api = ({
       authorizedPut: authorizedHttp.put,
       ...http
     }),
+    ...sdd({
+      nabuUrl,
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post
+    }),
     ...settings({ rootUrl, ...http }),
     ...simpleBuy({
       everypayUrl,
@@ -108,6 +114,7 @@ export type APIType = ReturnType<typeof analytics> &
   ReturnType<typeof interest> &
   ReturnType<typeof misc> &
   ReturnType<typeof profile> &
+  ReturnType<typeof sdd> &
   ReturnType<typeof simpleBuy> &
   ReturnType<typeof wallet> &
   ReturnType<typeof xlm>

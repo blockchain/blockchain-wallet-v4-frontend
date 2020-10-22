@@ -442,6 +442,17 @@ export default ({
     }
   }
 
+  const fetchSDDEligible = function * () {
+    try {
+      yield put(A.fetchSDDEligibleLoading())
+      const sddEligible = yield call(api.fetchSDDEligible)
+      yield put(A.fetchSDDEligibleSuccess(sddEligible))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchSDDEligibleFailure(error))
+    }
+  }
+
   const fetchSBOrders = function * ({
     payload
   }: ReturnType<typeof A.fetchSBOrders>) {
@@ -912,6 +923,7 @@ export default ({
     fetchSBCard,
     fetchSBCards,
     fetchSBFiatEligible,
+    fetchSDDEligible,
     fetchSBOrders,
     fetchSBPairs,
     fetchSBPaymentAccount,

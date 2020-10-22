@@ -24,6 +24,7 @@ const INITIAL_STATE: SimpleBuyState = {
   pairs: Remote.NotAsked,
   providerDetails: Remote.NotAsked,
   quote: Remote.NotAsked,
+  sddEligable: Remote.NotAsked,
   step: 'CURRENCY_SELECTION'
 }
 
@@ -227,6 +228,22 @@ export function simpleBuyReducer (
         ...state,
         quote: Remote.Success(action.payload.quote)
       }
+    case AT.FETCH_SDD_ELIGIBILITY_FAILURE: {
+      return {
+        ...state,
+        quote: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_SDD_ELIGIBILITY_LOADING:
+      return {
+        ...state,
+        quote: Remote.Loading
+      }
+    case AT.FETCH_SDD_ELIGIBILITY_SUCCESS:
+      return {
+        ...state,
+        sddEligable: Remote.Success(action.payload.sddEligable)
+      }
     case AT.INITIALIZE_CHECKOUT:
       return {
         ...state,
@@ -241,6 +258,7 @@ export function simpleBuyReducer (
     case AT.SET_STEP:
       switch (action.payload.step) {
         case 'ENTER_AMOUNT':
+        case 'VERIFY_EMAIL':
           return {
             ...state,
             orderType: action.payload.orderType,

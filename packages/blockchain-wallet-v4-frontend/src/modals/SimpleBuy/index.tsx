@@ -30,6 +30,7 @@ import PaymentMethods from './PaymentMethods'
 import React, { PureComponent } from 'react'
 import ThreeDSHandler from './ThreeDSHandler'
 import TransferDetails from './TransferDetails'
+import VerifyEmail from './VerifyEmail'
 
 import Loading from './template.loading'
 import Pending from './template.pending'
@@ -126,6 +127,11 @@ class SimpleBuy extends PureComponent<Props, State> {
                   {...this.props}
                   handleClose={this.handleClose}
                 />
+              </FlyoutChild>
+            )}
+            {this.props.step === 'VERIFY_EMAIL' && (
+              <FlyoutChild>
+                <VerifyEmail {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
             {this.props.step === 'ENTER_AMOUNT' && (
@@ -302,7 +308,7 @@ type LinkStatePropsType =
       order?: SBOrderType
       orderType: SBOrderActionType
       pair: SBPairType
-      step: 'ENTER_AMOUNT'
+      step: 'ENTER_AMOUNT' | 'VERIFY_EMAIL'
     }
   | {
       order: SBOrderType

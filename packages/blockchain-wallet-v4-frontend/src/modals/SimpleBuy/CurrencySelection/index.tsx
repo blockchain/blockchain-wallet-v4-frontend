@@ -179,6 +179,7 @@ const CurrencySelection: React.FC<InjectedFormProps<{}, Props> &
           return (
             <CurrencyBoxComponent
               cur={cur}
+              key={cur.code}
               selectedCurrency={selectedCurrency}
               onClick={() => handleSubmit(cur.code as FiatType)}
             />

@@ -15,6 +15,7 @@ class CryptoSelection extends PureComponent<Props> {
     if (this.props.fiatCurrency && !Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
+      this.props.simpleBuyActions.fetchSDDEligible()
     }
   }
 
@@ -30,7 +31,8 @@ class CryptoSelection extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD'
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD',
+  isFirstLogin: selectors.auth.getFirstLogin(state)
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({

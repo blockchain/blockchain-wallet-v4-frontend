@@ -15,7 +15,8 @@ import {
   SBPaymentMethodsType,
   SBPaymentMethodType,
   SBProviderDetailsType,
-  SBQuoteType
+  SBQuoteType,
+  SDDType
 } from 'core/types'
 
 // Types
@@ -47,6 +48,7 @@ export enum SimpleBuyStepType {
   'CURRENCY_SELECTION',
   'CRYPTO_SELECTION',
   'ENTER_AMOUNT',
+  'VERIFY_EMAIL',
   'PAYMENT_METHODS',
   'ORDER_SUMMARY',
   'CHECKOUT_CONFIRM',
@@ -92,6 +94,7 @@ export type SimpleBuyState = {
   pairs: RemoteDataType<string, Array<SBPairType>>
   providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
+  sddEligable: RemoteDataType<string, SDDType>
   step: keyof typeof SimpleBuyStepType
 }
 
@@ -197,7 +200,21 @@ interface FetchSBFiatEligibleSuccess {
   }
   type: typeof AT.FETCH_SB_FIAT_ELIGIBLE_SUCCESS
 }
-
+interface FetchSDDEligibleFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_SDD_ELIGIBILITY_FAILURE
+}
+interface FetchSDDEligibleLoading {
+  type: typeof AT.FETCH_SDD_ELIGIBILITY_LOADING
+}
+interface FetchSDDEligibleSuccess {
+  payload: {
+    sddEligable: SDDType
+  }
+  type: typeof AT.FETCH_SDD_ELIGIBILITY_SUCCESS
+}
 interface FetchSBOrdersFailure {
   payload: {
     error: string
@@ -298,7 +315,7 @@ export type StepActionsPayload =
       order?: SBOrderType
       orderType?: SBOrderActionType
       pair: SBPairType
-      step: 'ENTER_AMOUNT'
+      step: 'ENTER_AMOUNT' | 'VERIFY_EMAIL'
     }
   | {
       cryptoCurrency?: CoinType
@@ -375,6 +392,9 @@ export type SimpleBuyActionTypes =
   | FetchSBQuoteFailure
   | FetchSBQuoteLoading
   | FetchSBQuoteSuccess
+  | FetchSDDEligibleLoading
+  | FetchSDDEligibleFailure
+  | FetchSDDEligibleSuccess
   | InitializeCheckout
   | SetStepAction
   | ShowModalAction

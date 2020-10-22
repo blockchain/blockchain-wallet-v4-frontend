@@ -45,10 +45,17 @@ const Template: React.FC<Props> = props => {
         <Icon cursor name='cart' size='32px' color='blue600' />
         <Title color='grey800' size='24px' weight={600}>
           <ShortTitleContainer>
-            <FormattedMessage
-              id='modals.simplebuy.cryptoselect'
-              defaultMessage='Buy Crypto. Sell for Cash.'
-            />
+            {props.isFirstLogin ? (
+              <FormattedMessage
+                id='modals.simplebuy.cryptoselect_only_crypto'
+                defaultMessage='Buy Crypto'
+              />
+            ) : (
+              <FormattedMessage
+                id='modals.simplebuy.cryptoselect'
+                defaultMessage='Buy Crypto. Sell for Cash.'
+              />
+            )}
           </ShortTitleContainer>
           <Icon
             cursor
@@ -61,10 +68,17 @@ const Template: React.FC<Props> = props => {
           />
         </Title>
         <Text color='grey600' weight={500}>
-          <FormattedMessage
-            id='modals.simplebuy.kycrequired'
-            defaultMessage='We’ve made it just as easy to buy and sell Crypto straight from your Wallet. Every Buy & Sell happens in seconds or less.'
-          />
+          {props.isFirstLogin ? (
+            <FormattedMessage
+              id='modals.simplebuy.kycrequired.only_crypto'
+              defaultMessage='Verify your identity to buy crypto.'
+            />
+          ) : (
+            <FormattedMessage
+              id='modals.simplebuy.kycrequired'
+              defaultMessage='We’ve made it just as easy to buy and sell Crypto straight from your Wallet. Every Buy & Sell happens in seconds or less.'
+            />
+          )}
         </Text>
       </FlyoutWrapper>
 

@@ -23,7 +23,7 @@ import {
   values
 } from 'ramda'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { Exchange, utils } from 'blockchain-wallet-v4/src'
+import { Exchange, Remote, utils } from 'blockchain-wallet-v4/src'
 import {
   getBchBalance,
   getBtcBalance,
@@ -37,7 +37,7 @@ import BigNumber from 'bignumber.js'
 import bip21 from 'bip21'
 import profileSagas from 'data/modules/profile/sagas.ts'
 
-const { TRANSACTION_EVENTS } = model.analytics
+const { TRANSACTION_EVENTS, AB_TESTS } = model.analytics
 
 export default ({ api, coreSagas, networks }) => {
   const { TIERS, KYC_STATES, DOC_RESUBMISSION_REASONS } = model.profile
@@ -580,11 +580,47 @@ export default ({ api, coreSagas, networks }) => {
     const sbInvited = invitations && invitations.simpleBuy
 
     if (firstLogin) {
-      yield put(
-        actions.goals.addInitialModal('welcomeModal', 'WELCOME_MODAL', {
-          sbInvited
-        })
+      const showVerifyEmailR = yield select(
+        selectors.analytics.selectAbTest(AB_TESTS.VERIFY_EMAIL)
       )
+
+      if (Remote.Success.is(showVerifyEmailR)) {
+        const showVerifyEmail = showVerifyEmailR.getOrElse({})
+        if (
+          showVerifyEmail &&
+          showVerifyEmail.command &&
+          // showVerifyEmail.command === 'verify-email'
+          showVerifyEmail.command === 'home'
+        ) {
+          const {
+            data: { amount, crypto, fiatCurrency }
+          } = goal
+
+          yield put(
+            actions.goals.addInitialModal(
+              'simpleBuyModal',
+              'SIMPLE_BUY_MODAL',
+              {
+                amount,
+                crypto,
+                fiatCurrency
+              }
+            )
+          )
+        } else {
+          yield put(
+            actions.goals.addInitialModal('simpleBuyModal', 'WELCOME_MODAL', {
+              sbInvited
+            })
+          )
+        }
+      } else {
+        yield put(
+          actions.goals.addInitialModal('welcomeModal', 'WELCOME_MODAL', {
+            sbInvited
+          })
+        )
+      }
     } else {
       yield put(
         actions.logs.logInfoMessage(
