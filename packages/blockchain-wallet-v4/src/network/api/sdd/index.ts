@@ -14,7 +14,7 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
   ): SDDUpdateType =>
     authorizedPost({
       url: nabuUrl,
-      endPoint: `/sdd/eligible`,
+      endPoint: `/sdd/verified`,
       contentType: 'application/json',
       data: {
         amount,
