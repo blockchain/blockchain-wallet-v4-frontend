@@ -13,7 +13,7 @@ import {
   SkeletonRectangle,
   Text
 } from 'blockchain-info-components'
-import { coinToString } from 'core/exchange/currency'
+import { coinToString, formatCoin } from 'core/exchange/currency'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
@@ -89,6 +89,30 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 <>{coinToString({ value, unit: { symbol: COUNTER.coin } })}</>
               ),
               Failure: e => e,
+              Loading: () => <SkeletonRectangle height='18px' width='70px' />,
+              NotAsked: () => <SkeletonRectangle height='18px' width='70px' />
+            })}
+          </Value>
+        </Row>
+        <Row>
+          <Title>
+            <FormattedMessage id='buttons.receive' defaultMessage='Receive' />
+          </Title>
+          <Value>
+            {this.props.quoteR.cata({
+              Success: val => (
+                <>
+                  1 {BASE.coin} = {formatCoin(val.rate)} {COUNTER.coin}
+                </>
+              ),
+              Failure: () => (
+                <Text size='14px' color='red600'>
+                  <FormattedMessage
+                    id='copy.oops'
+                    defaultMessage='Oops. Something went wrong.'
+                  />
+                </Text>
+              ),
               Loading: () => <SkeletonRectangle height='18px' width='70px' />,
               NotAsked: () => <SkeletonRectangle height='18px' width='70px' />
             })}
