@@ -2,6 +2,7 @@ import { Cartridge } from '@blockchain-com/components'
 import styled from 'styled-components'
 
 export const CustomCartridge = styled(Cartridge)`
+  white-space: nowrap;
   text-transform: none;
   border-radius: 8px;
   padding: 6px 8px;

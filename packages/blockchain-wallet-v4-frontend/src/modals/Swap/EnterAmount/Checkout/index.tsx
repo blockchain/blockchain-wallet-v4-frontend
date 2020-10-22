@@ -1,5 +1,6 @@
 import { Button, Text } from 'blockchain-info-components'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -7,22 +8,36 @@ import { AmountTextBox } from 'components/Exchange'
 import { ErrorCartridge } from 'components/Cartridge'
 import { fiatToString } from 'core/exchange/currency'
 import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
 import { formatTextAmount } from 'services/ValidationHelper'
 import { getMaxMin, maximumAmount, minimumAmount } from './validation'
+import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
 import { Props as OwnProps, SuccessStateType } from '..'
 import { Row } from 'blockchain-wallet-v4-frontend/src/scenes/Exchange/ExchangeForm/Layout'
 import { StyledForm } from '../../components'
 import { SwapAccountType } from 'data/types'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
 
 const AmountRow = styled(Row)`
   position: relative;
-  padding: 24px;
+  padding: 12px;
   justify-content: center;
   border: 0px;
 `
+const Amounts = styled.div`
+  margin-top: 52px;
+  display: flex;
+  justify-content: space-between;
+`
+const MinMaxButtons = styled.div`
+  display: flex;
+`
+const CoinBalance = styled.div`
+  margin-top: 2px;
+  display: flex;
+`
 const Errors = styled.div`
-  margin: 56px 0 24px 0;
+  margin: 32px 0 24px 0;
   display: flex;
   justify-content: center;
 `
@@ -126,7 +141,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <Errors onClick={handleMinMaxClick}>
             <>
               {amtError === 'BELOW_MIN' ? (
-                <CustomErrorCartridge role='button' data-e2e='sbEnterAmountMin'>
+                <CustomErrorCartridge role='button' data-e2e='swapMin'>
                   <FormattedMessage
                     id='copy.below_swap_min'
                     defaultMessage='Minimum Swap is {value}'
@@ -136,7 +151,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   />
                 </CustomErrorCartridge>
               ) : (
-                <CustomErrorCartridge>
+                <CustomErrorCartridge role='button' data-e2e='swapMax'>
                   <FormattedMessage
                     id='copy.above_swap_max'
                     defaultMessage='Maximum Swap is {value}'
@@ -149,6 +164,67 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </>
           </Errors>
         )}
+        <Amounts>
+          <div>
+            <Text size='14px' weight={500} color='grey600'>
+              {props.BASE.coin}{' '}
+              <FormattedMessage
+                id='copy.available'
+                defaultMessage='Available'
+              />
+            </Text>
+            <CoinBalance>
+              <CoinDisplay
+                size='14px'
+                weight={500}
+                color='grey900'
+                coin={props.BASE.coin}
+              >
+                {props.BASE.balance}
+              </CoinDisplay>
+              <Text size='14px' weight={500} color='grey600'>
+                &nbsp;(
+              </Text>
+              <FiatDisplay
+                size='14px'
+                weight={500}
+                color='grey600'
+                coin={props.BASE.coin}
+              >
+                {props.BASE.balance}
+              </FiatDisplay>
+              <Text size='14px' weight={500} color='grey600'>
+                )
+              </Text>
+            </CoinBalance>
+          </div>
+          <MinMaxButtons>
+            <GreyBlueCartridge
+              role='button'
+              data-e2e='swapMin'
+              onClick={() =>
+                props.formActions.change('swapAmount', 'amount', min)
+              }
+            >
+              <FormattedMessage
+                id='buttons.swap_min'
+                defaultMessage='Swap Min'
+              />
+            </GreyBlueCartridge>
+            <GreyBlueCartridge
+              role='button'
+              data-e2e='swapMax'
+              onClick={() =>
+                props.formActions.change('swapAmount', 'amount', max)
+              }
+            >
+              <FormattedMessage
+                id='buttons.swap_max'
+                defaultMessage='Swap Max'
+              />
+            </GreyBlueCartridge>
+          </MinMaxButtons>
+        </Amounts>
         <Button
           nature='primary'
           data-e2e='previewSwap'
