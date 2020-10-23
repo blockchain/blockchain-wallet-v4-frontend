@@ -2,21 +2,24 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import React, { PureComponent } from 'react'
 
-import { Props as BaseProps, SuccessStateType } from '..'
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { compose } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { FlyoutWrapper } from 'components/Flyout'
-import { getData } from './selectors'
 import {
+  BalanceRow,
   IconBackground,
   Option,
   StyledForm,
   TopText,
   TrendingIconRow
 } from '../components'
+import { Props as BaseProps, SuccessStateType } from '..'
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { compose } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { FlyoutWrapper } from 'components/Flyout'
+import { getData } from './selectors'
 import { InitSwapFormValuesType } from 'data/components/swap/types'
 import { selectors } from 'data'
+import FiatDisplay from 'components/Display/FiatDisplay'
 
 class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   state = {}
@@ -27,7 +30,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 
   render () {
-    const { accounts } = this.props
+    const { accounts, coins, values, walletCurrency } = this.props
     return (
       <>
         <FlyoutWrapper>
@@ -71,33 +74,67 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   })
                 }
               >
-                {this.props.values?.BASE ? (
-                  JSON.stringify(this.props.values.BASE)
+                {values?.BASE ? (
+                  <>
+                    <div>
+                      <Text color='grey600' weight={500} size='14px'>
+                        Swap From
+                      </Text>
+                      <Text>{values.BASE.label}</Text>
+                      <BalanceRow>
+                        <FiatDisplay
+                          color='grey800'
+                          coin={values.BASE.coin}
+                          currency={walletCurrency}
+                          loadingHeight='24px'
+                          style={{ lineHeight: '1.5' }}
+                          weight={600}
+                        >
+                          {values.BASE.balance}
+                        </FiatDisplay>
+                        <Text>
+                          (
+                          {convertBaseToStandard(
+                            values.BASE.coin,
+                            values.BASE.balance
+                          )}
+                          )
+                        </Text>
+                      </BalanceRow>
+                    </div>
+                    <Icon
+                      name={coins[values.BASE.coin].icons.circleFilled}
+                      color={coins[values.BASE.coin].colorCode}
+                      size='32px'
+                    />
+                  </>
                 ) : (
-                  <div>
-                    <Text color='grey600' weight={500} size='14px'>
-                      Swap from
-                    </Text>
-                    <>
-                      <Text
-                        color='grey900'
-                        weight={600}
-                        style={{ marginTop: '4px' }}
-                      >
-                        Select a Wallet
+                  <>
+                    <div>
+                      <Text color='grey600' weight={500} size='14px'>
+                        Swap from
                       </Text>
-                      <Text
-                        color='grey900'
-                        weight={600}
-                        size='14px'
-                        style={{ marginTop: '4px' }}
-                      >
-                        This is the crypto you send.
-                      </Text>
-                    </>
-                  </div>
+                      <>
+                        <Text
+                          color='grey900'
+                          weight={600}
+                          style={{ marginTop: '4px' }}
+                        >
+                          Select a Wallet
+                        </Text>
+                        <Text
+                          color='grey900'
+                          weight={600}
+                          size='14px'
+                          style={{ marginTop: '4px' }}
+                        >
+                          This is the crypto you send.
+                        </Text>
+                      </>
+                    </div>
+                    <Icon name='chevron-right' size='20px' color='grey400' />
+                  </>
                 )}
-                <Icon name='chevron-right' size='20px' color='grey400' />
               </Option>
             )}
           />
@@ -115,33 +152,67 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   })
                 }
               >
-                {this.props.values?.COUNTER ? (
-                  JSON.stringify(this.props.values.COUNTER)
+                {values?.COUNTER ? (
+                  <>
+                    <div>
+                      <Text color='grey600' weight={500} size='14px'>
+                        Receive to
+                      </Text>
+                      <Text>{values.COUNTER.label}</Text>
+                      <BalanceRow>
+                        <FiatDisplay
+                          color='grey800'
+                          coin={values.COUNTER.coin}
+                          currency={walletCurrency}
+                          loadingHeight='24px'
+                          style={{ lineHeight: '1.5' }}
+                          weight={600}
+                        >
+                          {values.COUNTER.balance}
+                        </FiatDisplay>
+                        <Text>
+                          (
+                          {convertBaseToStandard(
+                            values.COUNTER.coin,
+                            values.COUNTER.balance
+                          )}
+                          )
+                        </Text>
+                      </BalanceRow>
+                    </div>
+                    <Icon
+                      name={coins[values.COUNTER.coin].icons.circleFilled}
+                      color={coins[values.COUNTER.coin].colorCode}
+                      size='32px'
+                    />
+                  </>
                 ) : (
-                  <div>
-                    <Text color='grey600' weight={500} size='14px'>
-                      Receive to
-                    </Text>
-                    <>
-                      <Text
-                        color='grey900'
-                        weight={600}
-                        style={{ marginTop: '4px' }}
-                      >
-                        Select a Wallet
+                  <>
+                    <div>
+                      <Text color='grey600' weight={500} size='14px'>
+                        Receive to
                       </Text>
-                      <Text
-                        color='grey900'
-                        weight={600}
-                        size='14px'
-                        style={{ marginTop: '4px' }}
-                      >
-                        This is the crypto you get.
-                      </Text>
-                    </>
-                  </div>
+                      <>
+                        <Text
+                          color='grey900'
+                          weight={600}
+                          style={{ marginTop: '4px' }}
+                        >
+                          Select a Wallet
+                        </Text>
+                        <Text
+                          color='grey900'
+                          weight={600}
+                          size='14px'
+                          style={{ marginTop: '4px' }}
+                        >
+                          This is the crypto you get.
+                        </Text>
+                      </>
+                    </div>
+                    <Icon name='chevron-right' size='20px' color='grey400' />
+                  </>
                 )}
-                <Icon name='chevron-right' size='20px' color='grey400' />
               </Option>
             )}
           />
@@ -160,152 +231,165 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               />
             </Button>
           </FlyoutWrapper>
-          <Text
-            color='grey600'
-            weight={500}
-            size='14px'
-            style={{ marginLeft: '40px' }}
-          >
-            Trending
-          </Text>
-          <Field
-            name='TRENDINGONE'
-            component={() => (
-              <Option
-                role='button'
-                onClick={() =>
-                  this.props.swapActions.changeTrendingPair(
-                    accounts.BTC[0],
-                    accounts.ETH[1]
-                  )
-                }
-              >
-                <TrendingIconRow>
-                  <Icon
-                    color='btc'
-                    name='btc-circle-filled'
-                    size='32px'
-                    style={{ marginRight: '16px' }}
-                  />
-                  <IconBackground color='blue000'>
-                    <Icon
-                      name='arrows-horizontal'
-                      size='10px'
-                      color='blue600'
-                    />
-                  </IconBackground>
-                  <Icon color='eth' name='eth-circle-filled' size='32px' />
-                </TrendingIconRow>
-                <div>
-                  <>
-                    <Text
-                      color='grey900'
-                      weight={600}
-                      style={{ marginTop: '4px' }}
+          {!values?.COUNTER ||
+            (!values?.BASE && (
+              <>
+                <Text
+                  color='grey600'
+                  weight={500}
+                  size='14px'
+                  style={{ marginLeft: '40px' }}
+                >
+                  Trending
+                </Text>
+                <Field
+                  name='TRENDINGONE'
+                  component={() => (
+                    <Option
+                      role='button'
+                      onClick={() =>
+                        this.props.swapActions.changeTrendingPair(
+                          accounts.BTC[0],
+                          accounts.ETH[1]
+                        )
+                      }
                     >
-                      Swap Bitcoin
-                    </Text>
-                    <Text color='grey600' weight={500} size='14px'>
-                      Receive Ethereum
-                    </Text>
-                  </>
-                </div>
-                <Icon name='chevron-right' size='20px' color='grey400' />
-              </Option>
-            )}
-          />
-          <Field
-            name='TRENDINGTWO'
-            component={() => (
-              <Option
-                role='button'
-                onClick={() =>
-                  this.props.swapActions.changeTrendingPair(
-                    accounts.BCH[0],
-                    accounts.XLM[0]
-                  )
-                }
-              >
-                <TrendingIconRow>
-                  <Icon
-                    color='bch'
-                    name='bch-circle-filled'
-                    size='32px'
-                    style={{ marginRight: '16px' }}
-                  />
-                  <IconBackground color='blue000'>
-                    <Icon
-                      name='arrows-horizontal'
-                      size='10px'
-                      color='blue600'
-                    />
-                  </IconBackground>
-                  <Icon color='xlm' name='xlm-circle-filled' size='32px' />
-                </TrendingIconRow>
-                <div>
-                  <>
-                    <Text
-                      color='grey900'
-                      weight={600}
-                      style={{ marginTop: '4px' }}
+                      <TrendingIconRow>
+                        <Icon
+                          color='btc'
+                          name='btc-circle-filled'
+                          size='32px'
+                          style={{ marginRight: '16px' }}
+                        />
+                        <IconBackground color='blue000'>
+                          <Icon
+                            name='arrows-horizontal'
+                            size='10px'
+                            color='blue600'
+                          />
+                        </IconBackground>
+                        <Icon
+                          color='eth'
+                          name='eth-circle-filled'
+                          size='32px'
+                        />
+                      </TrendingIconRow>
+                      <div>
+                        <>
+                          <Text
+                            color='grey900'
+                            weight={600}
+                            style={{ marginTop: '4px' }}
+                          >
+                            Swap Bitcoin
+                          </Text>
+                          <Text color='grey600' weight={500} size='14px'>
+                            Receive Ethereum
+                          </Text>
+                        </>
+                      </div>
+                      <Icon name='chevron-right' size='20px' color='grey400' />
+                    </Option>
+                  )}
+                />
+                <Field
+                  name='TRENDINGTWO'
+                  component={() => (
+                    <Option
+                      role='button'
+                      onClick={() =>
+                        this.props.swapActions.changeTrendingPair(
+                          accounts.BCH[0],
+                          accounts.XLM[0]
+                        )
+                      }
                     >
-                      Swap Bitcoin Cash
-                    </Text>
-                    <Text color='grey600' weight={500} size='14px'>
-                      Receive Stellar Lumens
-                    </Text>
-                  </>
-                </div>
-                <Icon name='chevron-right' size='20px' color='grey400' />
-              </Option>
-            )}
-          />
-          <Field
-            name='TRENDINGTHREE'
-            component={() => (
-              <Option
-                role='button'
-                onClick={() =>
-                  this.props.swapActions.changeTrendingPair(
-                    accounts.USDT[0],
-                    accounts.ALGO[0]
-                  )
-                }
-              >
-                <TrendingIconRow>
-                  <Icon
-                    color='usdt'
-                    name='usdt'
-                    size='32px'
-                    style={{ marginRight: '16px' }}
-                  />
-                  <IconBackground color='blue000'>
-                    <Icon
-                      name='arrows-horizontal'
-                      size='10px'
-                      color='blue600'
-                    />
-                  </IconBackground>
-                  <Icon color='algo' name='algo' size='32px' />
-                </TrendingIconRow>
-                <div>
-                  <>
-                    <Text
-                      color='grey900'
-                      weight={600}
-                      style={{ marginTop: '4px' }}
+                      <TrendingIconRow>
+                        <Icon
+                          color='bch'
+                          name='bch-circle-filled'
+                          size='32px'
+                          style={{ marginRight: '16px' }}
+                        />
+                        <IconBackground color='blue000'>
+                          <Icon
+                            name='arrows-horizontal'
+                            size='10px'
+                            color='blue600'
+                          />
+                        </IconBackground>
+                        <Icon
+                          color='xlm'
+                          name='xlm-circle-filled'
+                          size='32px'
+                        />
+                      </TrendingIconRow>
+                      <div>
+                        <>
+                          <Text
+                            color='grey900'
+                            weight={600}
+                            style={{ marginTop: '4px' }}
+                          >
+                            Swap Bitcoin Cash
+                          </Text>
+                          <Text color='grey600' weight={500} size='14px'>
+                            Receive Stellar Lumens
+                          </Text>
+                        </>
+                      </div>
+                      <Icon name='chevron-right' size='20px' color='grey400' />
+                    </Option>
+                  )}
+                />
+                <Field
+                  name='TRENDINGTHREE'
+                  component={() => (
+                    <Option
+                      role='button'
+                      onClick={() =>
+                        this.props.swapActions.changeTrendingPair(
+                          accounts.USDT[0],
+                          accounts.ALGO[0]
+                        )
+                      }
                     >
-                      Swap USDT
-                    </Text>
-                    <Text color='grey600' weight={500} size='14px'>
-                      Receive Algorand
-                    </Text>
-                  </>
-                </div>
-                <Icon name='chevron-right' size='20px' color='grey400' />
-              </Option>
-            )}
-          />
+                      <TrendingIconRow>
+                        <Icon
+                          color='usdt'
+                          name='usdt'
+                          size='32px'
+                          style={{ marginRight: '16px' }}
+                        />
+                        <IconBackground color='blue000'>
+                          <Icon
+                            name='arrows-horizontal'
+                            size='10px'
+                            color='blue600'
+                          />
+                        </IconBackground>
+                        <Icon color='algo' name='algo' size='32px' />
+                      </TrendingIconRow>
+                      <div>
+                        <>
+                          <Text
+                            color='grey900'
+                            weight={600}
+                            style={{ marginTop: '4px' }}
+                          >
+                            Swap USDT
+                          </Text>
+                          <Text color='grey600' weight={500} size='14px'>
+                            Receive Algorand
+                          </Text>
+                        </>
+                      </div>
+                      <Icon name='chevron-right' size='20px' color='grey400' />
+                    </Option>
+                  )}
+                />
+              </>
+            ))}
         </StyledForm>
       </>
     )

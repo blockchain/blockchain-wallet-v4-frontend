@@ -76,7 +76,11 @@ class Swap extends PureComponent<Props, State> {
           )}
           {this.props.step === 'ENTER_AMOUNT' && (
             <FlyoutChild>
-              <EnterAmount {...this.props} handleClose={this.handleClose} />
+              <EnterAmount
+                {...this.props}
+                handleClose={this.handleClose}
+                {...val}
+              />
             </FlyoutChild>
           )}
           {this.props.step === 'PREVIEW_SWAP' && (
