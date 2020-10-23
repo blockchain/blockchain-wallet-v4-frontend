@@ -25,6 +25,8 @@ export const Option = styled.div`
 `
 
 export const IconBackground = styled.div<{ color: string }>`
+  position: absolute;
+  left: 67px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,4 +35,10 @@ export const IconBackground = styled.div<{ color: string }>`
   border-radius: 24px;
   z-index: 100;
   background: ${props => props.theme[props.color]};
+`
+
+export const TrendingIconRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `

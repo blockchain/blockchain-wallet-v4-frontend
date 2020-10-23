@@ -7,7 +7,14 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { FlyoutWrapper } from 'components/Flyout'
-import { IconBackground, Option, StyledForm, TopText } from '../components'
+import { getData } from './selectors'
+import {
+  IconBackground,
+  Option,
+  StyledForm,
+  TopText,
+  TrendingIconRow
+} from '../components'
 import { InitSwapFormValuesType } from 'data/components/swap/types'
 import { selectors } from 'data'
 
@@ -20,6 +27,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 
   render () {
+    const { accounts } = this.props
     return (
       <>
         <FlyoutWrapper>
@@ -161,41 +169,136 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             Trending
           </Text>
           <Field
-            name='COUNTER'
+            name='TRENDINGONE'
             component={() => (
               <Option
                 role='button'
                 onClick={() =>
-                  this.props.swapActions.setStep({
-                    step: 'COIN_SELECTION',
-                    options: {
-                      side: 'COUNTER'
-                    }
-                  })
+                  this.props.swapActions.changeTrendingPair(
+                    accounts.BTC[0],
+                    accounts.ETH[1]
+                  )
                 }
               >
-                <IconBackground color='blue000'>
-                  <Icon name='arrows-horizontal' size='10px' color='blue600' />
-                </IconBackground>
+                <TrendingIconRow>
+                  <Icon
+                    color='btc'
+                    name='btc-circle-filled'
+                    size='32px'
+                    style={{ marginRight: '16px' }}
+                  />
+                  <IconBackground color='blue000'>
+                    <Icon
+                      name='arrows-horizontal'
+                      size='10px'
+                      color='blue600'
+                    />
+                  </IconBackground>
+                  <Icon color='eth' name='eth-circle-filled' size='32px' />
+                </TrendingIconRow>
                 <div>
-                  <Text color='grey600' weight={500} size='14px'>
-                    Receive to
-                  </Text>
                   <>
                     <Text
                       color='grey900'
                       weight={600}
                       style={{ marginTop: '4px' }}
                     >
-                      Select a Wallet
+                      Swap Bitcoin
                     </Text>
+                    <Text color='grey600' weight={500} size='14px'>
+                      Receive Ethereum
+                    </Text>
+                  </>
+                </div>
+                <Icon name='chevron-right' size='20px' color='grey400' />
+              </Option>
+            )}
+          />
+          <Field
+            name='TRENDINGTWO'
+            component={() => (
+              <Option
+                role='button'
+                onClick={() =>
+                  this.props.swapActions.changeTrendingPair(
+                    accounts.BCH[0],
+                    accounts.XLM[0]
+                  )
+                }
+              >
+                <TrendingIconRow>
+                  <Icon
+                    color='bch'
+                    name='bch-circle-filled'
+                    size='32px'
+                    style={{ marginRight: '16px' }}
+                  />
+                  <IconBackground color='blue000'>
+                    <Icon
+                      name='arrows-horizontal'
+                      size='10px'
+                      color='blue600'
+                    />
+                  </IconBackground>
+                  <Icon color='xlm' name='xlm-circle-filled' size='32px' />
+                </TrendingIconRow>
+                <div>
+                  <>
                     <Text
                       color='grey900'
                       weight={600}
-                      size='14px'
                       style={{ marginTop: '4px' }}
                     >
-                      This is the crypto you get.
+                      Swap Bitcoin Cash
+                    </Text>
+                    <Text color='grey600' weight={500} size='14px'>
+                      Receive Stellar Lumens
+                    </Text>
+                  </>
+                </div>
+                <Icon name='chevron-right' size='20px' color='grey400' />
+              </Option>
+            )}
+          />
+          <Field
+            name='TRENDINGTHREE'
+            component={() => (
+              <Option
+                role='button'
+                onClick={() =>
+                  this.props.swapActions.changeTrendingPair(
+                    accounts.USDT[0],
+                    accounts.PAX[0]
+                  )
+                }
+              >
+                <TrendingIconRow>
+                  <Icon
+                    color='usdt'
+                    name='usdt'
+                    size='32px'
+                    style={{ marginRight: '16px' }}
+                  />
+                  <IconBackground color='blue000'>
+                    <Icon
+                      name='arrows-horizontal'
+                      size='10px'
+                      color='blue600'
+                    />
+                  </IconBackground>
+                  <Icon color='usd-d' name='usd-d' size='32px' />
+                </TrendingIconRow>
+                <div>
+                  <>
+                    <Text
+                      color='grey900'
+                      weight={600}
+                      style={{ marginTop: '4px' }}
+                    >
+                      Swap USDT
+                    </Text>
+                    <Text color='grey600' weight={500} size='14px'>
+                      Receive USDD
                     </Text>
                   </>
                 </div>
@@ -212,7 +315,8 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 const mapStateToProps = state => ({
   values: selectors.form.getFormValues('initSwap')(
     state
-  ) as InitSwapFormValuesType
+  ) as InitSwapFormValuesType,
+  ...getData(state)
 })
 
 const connector = connect(mapStateToProps)
