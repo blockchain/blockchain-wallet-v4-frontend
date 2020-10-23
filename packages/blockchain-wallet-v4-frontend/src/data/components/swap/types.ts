@@ -35,7 +35,8 @@ export enum SwapStepType {
   'INIT_SWAP',
   'COIN_SELECTION',
   'ENTER_AMOUNT',
-  'PREVIEW_SWAP'
+  'PREVIEW_SWAP',
+  'ORDER_DETAILS'
 }
 
 export type SwapSideType = 'BASE' | 'COUNTER'
@@ -43,6 +44,7 @@ export type SwapSideType = 'BASE' | 'COUNTER'
 // state
 export type SwapState = {
   limits: RemoteDataType<string, SwapUserLimitsType>
+  order?: SwapOrderType
   payment: RemoteDataType<string, undefined | PaymentValue>
   quote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>
   side: SwapSideType
@@ -134,6 +136,12 @@ export type SwapStepPayload =
       step: 'INIT_SWAP'
     }
   | { options?: never; step: 'PREVIEW_SWAP' }
+  | {
+      options: {
+        order: SwapOrderType
+      }
+      step: 'ORDER_DETAILS'
+    }
   | { options: { side: 'BASE' | 'COUNTER' }; step: 'COIN_SELECTION' }
 
 export type SwapActionTypes =

@@ -4,6 +4,7 @@ import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: SwapState = {
   limits: Remote.NotAsked,
+  order: undefined,
   payment: Remote.NotAsked,
   quote: Remote.NotAsked,
   side: 'BASE',
@@ -108,6 +109,12 @@ export function swapReducer (
             ...state,
             step: action.payload.step,
             side: action.payload.options.side
+          }
+        case 'ORDER_DETAILS':
+          return {
+            ...state,
+            step: action.payload.step,
+            order: action.payload.options.order
           }
         default: {
           return {

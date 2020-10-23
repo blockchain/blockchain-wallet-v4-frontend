@@ -15,6 +15,13 @@ import {
   SwapStepPayload
 } from './types'
 
+export const cancelOrder = (id: string) => ({
+  type: AT.CANCEL_ORDER,
+  payload: {
+    id
+  }
+})
+
 export const changePair = (side: SwapSideType, account: SwapAccountType) => ({
   type: AT.CHANGE_PAIR,
   payload: {

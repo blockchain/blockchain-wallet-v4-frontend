@@ -48,6 +48,18 @@ export default ({
   })
   const { waitForUserData } = profileSagas({ api, coreSagas, networks })
 
+  const cancelOrder = function * ({ payload }: ReturnType<typeof A.cancelOrder>) {
+    try {
+      yield put(actions.form.startSubmit('swapOrderDetails'))
+      yield call(api.cancelSwapOrder, payload.id)
+      yield put(actions.form.stopSubmit('swapOrderDetails'))
+      yield put(A.setStep({ step: 'INIT_SWAP' }))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit('swapOrderDetails', { _error: error }))
+    }
+  }
+
   const changePair = function * ({ payload }: ReturnType<typeof A.changePair>) {
     yield put(actions.form.change('initSwap', payload.side, payload.account))
     yield put(A.setStep({ step: 'INIT_SWAP' }))
@@ -302,6 +314,17 @@ export default ({
         counterCurrency
       })
     )
+
+    const latestPendingOrder = S.getLatestPendingSwapTrade(yield select())
+
+    if (latestPendingOrder) {
+      yield put(
+        A.setStep({
+          step: 'ORDER_DETAILS',
+          options: { order: latestPendingOrder }
+        })
+      )
+    }
   }
 
   const toggleBaseAndCounter = function * () {
@@ -325,6 +348,7 @@ export default ({
   }
 
   return {
+    cancelOrder,
     changePair,
     createOrder,
     fetchLimits,

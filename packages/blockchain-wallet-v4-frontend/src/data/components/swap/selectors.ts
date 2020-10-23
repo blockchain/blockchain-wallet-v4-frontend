@@ -32,6 +32,8 @@ export const getStep = (state: RootState) => state.components.swap.step
 
 export const getLimits = (state: RootState) => state.components.swap.limits
 
+export const getOrder = (state: RootState) => state.components.swap.order
+
 export const getPayment = (state: RootState) => state.components.swap.payment
 
 export const getQuote = (state: RootState) => state.components.swap.quote
@@ -41,18 +43,9 @@ export const getTradesStatus = (state: RootState) =>
 
 export const getLatestPendingSwapTrade = (state: RootState) => {
   const trades = state.components.swap.trades.list
-  const latestTrade = trades[0]
-  if (!latestTrade) return null
-
-  if (
-    latestTrade.state === 'PENDING_DEPOSIT' ||
-    latestTrade.state === 'PENDING_EXECUTION' ||
-    latestTrade.state === 'PENDING_CONFIRMATION'
-  ) {
-    return latestTrade
-  } else {
-    return null
-  }
+  return trades.find(trade => {
+    return trade.state === 'PENDING_DEPOSIT'
+  })
 }
 
 // export const getMaxMin = (

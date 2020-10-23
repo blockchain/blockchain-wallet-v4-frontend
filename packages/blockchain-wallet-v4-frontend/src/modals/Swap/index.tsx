@@ -4,7 +4,7 @@ import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
-import { ExtractSuccess } from 'core/types'
+import { ExtractSuccess, SwapOrderType } from 'core/types'
 import { getData } from './selectors'
 import { ModalPropsType } from '../types'
 import { SwapStepType } from 'data/components/swap/types'
@@ -14,6 +14,7 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 import CoinSelection from './CoinSelection'
 import EnterAmount from './EnterAmount'
 import InitSwapForm from './InitSwapForm'
+import OrderDetails from './OrderDetails'
 import PreviewSwap from './PreviewSwap'
 
 class Swap extends PureComponent<Props, State> {
@@ -75,6 +76,11 @@ class Swap extends PureComponent<Props, State> {
             <PreviewSwap {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
+        {this.props.step === 'ORDER_DETAILS' && (
+          <FlyoutChild>
+            <OrderDetails {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
       </Flyout>
     )
   }
@@ -96,7 +102,12 @@ const mapStateToProps = (
   | {
       step: 'PREVIEW_SWAP'
     }
+  | {
+      order?: SwapOrderType
+      step: 'ORDER_DETAILS'
+    }
 ) => ({
+  order: selectors.components.swap.getOrder(state),
   step: selectors.components.swap.getStep(state),
   side: selectors.components.swap.getSide(state),
   data: getData(state)
