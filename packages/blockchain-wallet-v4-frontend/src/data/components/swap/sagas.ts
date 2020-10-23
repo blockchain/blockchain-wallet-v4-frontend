@@ -154,7 +154,6 @@ export default ({
 
   const fetchLimits = function * () {
     try {
-      yield call(waitForUserData)
       yield put(A.fetchLimitsLoading())
       const limits: ReturnType<typeof api.getSwapLimits> = yield call(
         api.getSwapLimits,
@@ -206,6 +205,7 @@ export default ({
 
   const fetchTrades = function * () {
     try {
+      yield call(waitForUserData)
       yield put(A.fetchTradesLoading())
       const trades = yield call(api.getSwapTrades)
       yield put(A.fetchTradesSuccess(trades))
