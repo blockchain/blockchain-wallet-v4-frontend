@@ -44,7 +44,6 @@ export type SBCurrencySelectFormType = {
 }
 export type SBFixType = 'CRYPTO' | 'FIAT'
 export enum SimpleBuyStepType {
-  'CURRENCY_SELECTION',
   'CRYPTO_SELECTION',
   'ENTER_AMOUNT',
   'PAYMENT_METHODS',
@@ -320,11 +319,7 @@ export type StepActionsPayload =
     }
   | { order?: SBOrderType; step: '3DS_HANDLER' }
   | {
-      step:
-        | 'ADD_CARD'
-        | 'CURRENCY_SELECTION'
-        | 'CC_BILLING_ADDRESS'
-        | 'KYC_REQUIRED'
+      step: 'ADD_CARD' | 'CC_BILLING_ADDRESS' | 'KYC_REQUIRED'
     }
 
 interface SetStepAction {

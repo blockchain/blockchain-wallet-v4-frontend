@@ -24,7 +24,7 @@ const INITIAL_STATE: SimpleBuyState = {
   pairs: Remote.NotAsked,
   providerDetails: Remote.NotAsked,
   quote: Remote.NotAsked,
-  step: 'CURRENCY_SELECTION'
+  step: 'CRYPTO_SELECTION'
 }
 
 export function simpleBuyReducer (
@@ -69,11 +69,10 @@ export function simpleBuyReducer (
         ...state,
         account: Remote.NotAsked,
         cardId: undefined,
-        fiatCurrency: undefined,
         order: undefined,
         pairs: Remote.NotAsked,
         quote: Remote.NotAsked,
-        step: 'CURRENCY_SELECTION'
+        step: 'CRYPTO_SELECTION'
       }
     case AT.FETCH_SB_BALANCES_FAILURE: {
       return {

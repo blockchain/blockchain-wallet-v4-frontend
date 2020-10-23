@@ -50,9 +50,7 @@ const Unsupported: React.FC<Props> = props => {
         size='20px'
         color='grey600'
         role='button'
-        onClick={() =>
-          props.simpleBuyActions.setStep({ step: 'CURRENCY_SELECTION' })
-        }
+        onClick={props.handleClose}
       />
       <Container>
         <Image

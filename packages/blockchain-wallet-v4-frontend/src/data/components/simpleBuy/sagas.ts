@@ -34,7 +34,6 @@ import {
   NO_PAYMENT_TYPE
 } from './model'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { find, pathOr, propEq } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import {
@@ -464,7 +463,6 @@ export default ({
   }: ReturnType<typeof A.fetchSBPairs>) {
     try {
       yield put(A.fetchSBPairsLoading())
-      yield put(actions.preferences.setSBFiatCurrency(currency))
       const { pairs }: ReturnType<typeof api.getSBPairs> = yield call(
         api.getSBPairs,
         currency
@@ -842,20 +840,12 @@ export default ({
     yield put(
       actions.modals.showModal('SIMPLE_BUY_MODAL', { origin, cryptoCurrency })
     )
-    const goals = selectors.goals.getGoals(yield select())
-    const simpleBuyGoal = find(propEq('name', 'simpleBuy'), goals)
-
-    const fiatCurrency = pathOr(
-      selectors.preferences.getSBFiatCurrency(yield select()),
-      ['data', 'fiatCurrency'],
-      simpleBuyGoal
-    )
+    const fiatCurrencyR = selectors.core.settings.getCurrency(yield select())
+    const fiatCurrency = fiatCurrencyR.getOrElse('USD')
 
     const latestPendingOrder = S.getSBLatestPendingOrder(yield select())
 
-    if (!fiatCurrency) {
-      yield put(A.setStep({ step: 'CURRENCY_SELECTION' }))
-    } else if (latestPendingOrder) {
+    if (latestPendingOrder) {
       const step =
         latestPendingOrder.state === 'PENDING_CONFIRMATION'
           ? 'CHECKOUT_CONFIRM'

@@ -50,9 +50,7 @@ const Unsupported: React.FC<Props> = props => {
         size='20px'
         color='grey600'
         role='button'
-        onClick={() =>
-          props.simpleBuyActions.setStep({ step: 'CURRENCY_SELECTION' })
-        }
+        onClick={props.handleClose}
       />
       <Container>
         <Image
@@ -109,7 +107,10 @@ const Unsupported: React.FC<Props> = props => {
           size='16px'
           nature='primary'
           onClick={() =>
-            props.simpleBuyActions.setStep({ step: 'CURRENCY_SELECTION' })
+            props.simpleBuyActions.setStep({
+              step: 'CRYPTO_SELECTION',
+              fiatCurrency: props.fiatCurrency
+            })
           }
           fullwidth
         >
