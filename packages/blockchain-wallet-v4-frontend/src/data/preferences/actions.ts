@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
-import { FiatType, SBOrderActionType } from 'core/types'
 import { SBFixType } from 'data/components/types'
+import { SBOrderActionType } from 'core/types'
 
 export const setCulture = culture => ({
   type: AT.SET_CULTURE,
@@ -12,10 +12,6 @@ export const setLanguage = (language, showAlert) => ({
 })
 export const toggleCoinDisplayed = () => ({ type: AT.TOGGLE_COIN_DISPLAY })
 
-export const setSBFiatCurrency = (currency: FiatType) => ({
-  type: AT.SET_SB_FIAT_CURRENCY,
-  payload: { currency }
-})
 export const setSBCheckoutFix = (
   orderType: SBOrderActionType,
   fix: SBFixType

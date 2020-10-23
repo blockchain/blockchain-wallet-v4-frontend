@@ -20,7 +20,6 @@ import BillingAddress from './BillingAddress'
 import CancelOrder from './CancelOrder'
 import CheckoutConfirm from './CheckoutConfirm'
 import CryptoSelection from './CryptoSelection'
-import CurrencySelection from './CurrencySelection'
 import EnterAmount from './EnterAmount'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import KycRequired from './KycRequired'
@@ -69,8 +68,7 @@ class SimpleBuy extends PureComponent<Props, State> {
   handleClose = () => {
     this.setState({ show: false })
     const simpleBuyGoal = find(propEq('name', 'simpleBuy'), this.props.goals)
-    const goalID = propOr('', 'id', simpleBuyGoal)
-    this.props.preferenceActions.setSBFiatCurrency(this.props.localCurrency)
+    const goalID = propOr('', 'id', simpleBuyGoal) as string
     !isEmpty(goalID) && this.props.deleteGoal(goalID)
     setTimeout(() => {
       this.props.close()
@@ -121,14 +119,6 @@ class SimpleBuy extends PureComponent<Props, State> {
             direction={this.state.direction}
             data-e2e='simpleBuyModal'
           >
-            {this.props.step === 'CURRENCY_SELECTION' && (
-              <FlyoutChild>
-                <CurrencySelection
-                  {...this.props}
-                  handleClose={this.handleClose}
-                />
-              </FlyoutChild>
-            )}
             {this.props.step === 'VERIFY_EMAIL' && (
               <FlyoutChild>
                 <VerifyEmail {...this.props} handleClose={this.handleClose} />
@@ -254,7 +244,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  deleteGoal: id => dispatch(actions.goals.deleteGoal(id)),
+  deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),
   formActions: bindActionCreators(actions.form, dispatch),
   preferenceActions: bindActionCreators(actions.preferences, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
@@ -279,7 +269,6 @@ export type LinkDispatchPropsType = {
 type LinkStatePropsType =
   | {
       step:
-        | 'CURRENCY_SELECTION'
         | 'CRYPTO_SELECTION'
         | '3DS_HANDLER'
         | 'CC_BILLING_ADDRESS'
