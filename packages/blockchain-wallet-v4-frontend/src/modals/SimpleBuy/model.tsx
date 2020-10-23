@@ -15,6 +15,8 @@ import {
 } from 'data/components/simpleBuy/model'
 import React from 'react'
 
+import mapPaxToUsdd from '../../utils/mapPaxToUsdd'
+
 export const BuyOrSell = (props: {
   crypto?: 'Crypto' | CoinType
   orderType: SBOrderActionType
@@ -24,7 +26,7 @@ export const BuyOrSell = (props: {
       <FormattedMessage
         id='buttons.buy_coin'
         defaultMessage='Buy {displayName}'
-        values={{ displayName: props.crypto }}
+        values={{ displayName: `${mapPaxToUsdd(props.crypto)}` }}
       />
     ) : (
       <FormattedMessage

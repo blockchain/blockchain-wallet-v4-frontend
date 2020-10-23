@@ -195,6 +195,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       : amountRowNode.children[amountRowNode.children.length - 1]
     currencyNode.style.fontSize = `${fontSizeNumber * fontSizeRatio}px`
   }
+  const mapPaxToUsdd = function (coin: any): any {
+    return coin === 'PAX' ? 'USD-D' : coin
+  }
 
   return (
     <CustomForm onSubmit={props.handleSubmit}>
@@ -261,7 +264,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
           {fix === 'CRYPTO' && (
             <Text size={'56px'} color='textBlack' weight={500}>
-              {cryptoCurrency}
+              {mapPaxToUsdd(cryptoCurrency)}
             </Text>
           )}
         </AmountRow>
