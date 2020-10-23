@@ -159,6 +159,9 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 }
 
 const mapStateToProps = state => ({
+  latestPendingSwapTrade: selectors.components.swap.getLatestPendingSwapTrade(
+    state
+  ),
   values: selectors.form.getFormValues('initSwap')(
     state
   ) as InitSwapFormValuesType

@@ -27,6 +27,7 @@ import { MempoolFeeType } from '../exchange/types'
 import BigNumber from 'bignumber.js'
 
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
+import profileSagas from '../../../data/modules/profile/sagas'
 import sendSagas from '../send/sagas'
 
 const DELAY = 60_000 * 2
@@ -45,6 +46,7 @@ export default ({
     coreSagas,
     networks
   })
+  const { waitForUserData } = profileSagas({ api, coreSagas, networks })
 
   const changePair = function * ({ payload }: ReturnType<typeof A.changePair>) {
     yield put(actions.form.change('initSwap', payload.side, payload.account))
@@ -152,6 +154,7 @@ export default ({
 
   const fetchLimits = function * () {
     try {
+      yield call(waitForUserData)
       yield put(A.fetchLimitsLoading())
       const limits: ReturnType<typeof api.getSwapLimits> = yield call(
         api.getSwapLimits,
@@ -198,6 +201,17 @@ export default ({
         yield put(A.startPollQuote())
       } finally {
       }
+    }
+  }
+
+  const fetchTrades = function * () {
+    try {
+      yield put(A.fetchTradesLoading())
+      const trades = yield call(api.getSwapTrades)
+      yield put(A.fetchTradesSuccess(trades))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchTradesFailure(error))
     }
   }
 
@@ -315,6 +329,7 @@ export default ({
     createOrder,
     fetchLimits,
     fetchQuote,
+    fetchTrades,
     formChanged,
     initAmountForm,
     showModal,

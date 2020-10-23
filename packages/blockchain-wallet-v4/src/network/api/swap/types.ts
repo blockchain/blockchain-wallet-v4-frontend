@@ -31,6 +31,7 @@ export type SwapOrderDirectionType =
 
 export type SwapOrderStateType =
   | 'PENDING_EXECUTION'
+  | 'PENDING_CONFIRMATION'
   | 'PENDING_DEPOSIT'
   | 'FINISH_DEPOSIT'
   | 'PENDING_WITHDRAWAL'

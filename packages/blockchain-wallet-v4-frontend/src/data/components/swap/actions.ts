@@ -3,6 +3,7 @@ import * as AT from './actionTypes'
 import {
   CoinType,
   PaymentValue,
+  SwapOrderType,
   SwapQuoteType,
   SwapUserLimitsType
 } from 'core/types'
@@ -67,6 +68,27 @@ export const fetchQuoteSuccess = (
   payload: {
     quote,
     rate
+  }
+})
+
+export const fetchTrades = () => ({
+  type: AT.FETCH_TRADES
+})
+export const fetchTradesFailure = (error: string): SwapActionTypes => ({
+  type: AT.FETCH_TRADES_FAILURE,
+  payload: {
+    error
+  }
+})
+export const fetchTradesLoading = (): SwapActionTypes => ({
+  type: AT.FETCH_TRADES_LOADING
+})
+export const fetchTradesSuccess = (
+  trades: Array<SwapOrderType>
+): SwapActionTypes => ({
+  type: AT.FETCH_TRADES_SUCCESS,
+  payload: {
+    trades
   }
 })
 

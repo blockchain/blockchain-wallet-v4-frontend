@@ -50,9 +50,30 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       }
     })
 
+  const getSwapTrades = (
+    limit?: number,
+    offset?: number,
+    before?: string,
+    after?: string,
+    states?: string // comma-separated list of SwapOrderStateType
+  ) =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/custodial/trades`,
+      ignoreQueryParams: true,
+      data: {
+        limit,
+        offset,
+        before,
+        after,
+        states
+      }
+    })
+
   return {
     createSwapOrder,
     getSwapLimits,
-    getSwapQuote
+    getSwapQuote,
+    getSwapTrades
   }
 }

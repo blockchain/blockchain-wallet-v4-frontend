@@ -7,7 +7,11 @@ const INITIAL_STATE: SwapState = {
   payment: Remote.NotAsked,
   quote: Remote.NotAsked,
   side: 'BASE',
-  step: 'INIT_SWAP'
+  step: 'INIT_SWAP',
+  trades: {
+    status: Remote.NotAsked,
+    list: []
+  }
 }
 
 export function swapReducer (
@@ -49,6 +53,34 @@ export function swapReducer (
       return {
         ...state,
         quote: Remote.Success(action.payload)
+      }
+    }
+    case AT.FETCH_TRADES_FAILURE: {
+      return {
+        ...state,
+        trades: {
+          ...state.trades,
+          status: Remote.Failure(action.payload.error)
+        }
+      }
+    }
+    case AT.FETCH_TRADES_LOADING: {
+      return {
+        ...state,
+        trades: {
+          ...state.trades,
+          status: Remote.Loading
+        }
+      }
+    }
+    case AT.FETCH_TRADES_SUCCESS: {
+      return {
+        ...state,
+        trades: {
+          ...state.trades,
+          status: Remote.Success('Success'),
+          list: [...state.trades.list, ...action.payload.trades]
+        }
       }
     }
     case AT.UPDATE_PAYMENT_FAILURE: {

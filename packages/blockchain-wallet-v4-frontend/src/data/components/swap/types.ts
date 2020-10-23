@@ -4,6 +4,7 @@ import {
   Erc20CoinType,
   PaymentValue,
   RemoteDataType,
+  SwapOrderType,
   SwapQuoteType,
   SwapUserLimitsType
 } from 'core/types'
@@ -46,6 +47,10 @@ export type SwapState = {
   quote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>
   side: SwapSideType
   step: keyof typeof SwapStepType
+  trades: {
+    list: Array<SwapOrderType>
+    status: RemoteDataType<string, string>
+  }
 }
 
 // actions
@@ -80,6 +85,22 @@ interface FetchQuoteSuccessActionType {
     rate: number
   }
   type: typeof AT.FETCH_QUOTE_SUCCESS
+}
+
+interface FetchTradesFailureActionType {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_TRADES_FAILURE
+}
+interface FetchTradesLoadingActionType {
+  type: typeof AT.FETCH_TRADES_LOADING
+}
+interface FetchTradesSuccessActionType {
+  payload: {
+    trades: Array<SwapOrderType>
+  }
+  type: typeof AT.FETCH_TRADES_SUCCESS
 }
 
 interface UpdatePaymentFailureActionType {
@@ -122,6 +143,9 @@ export type SwapActionTypes =
   | FetchQuoteFailureActionType
   | FetchQuoteLoadingActionType
   | FetchQuoteSuccessActionType
+  | FetchTradesFailureActionType
+  | FetchTradesLoadingActionType
+  | FetchTradesSuccessActionType
   | UpdatePaymentFailureActionType
   | UpdatePaymentLoadingActionType
   | UpdatePaymentSuccessActionType

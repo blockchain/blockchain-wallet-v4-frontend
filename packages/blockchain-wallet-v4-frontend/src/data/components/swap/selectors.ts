@@ -36,6 +36,25 @@ export const getPayment = (state: RootState) => state.components.swap.payment
 
 export const getQuote = (state: RootState) => state.components.swap.quote
 
+export const getTradesStatus = (state: RootState) =>
+  state.components.swap.trades.status
+
+export const getLatestPendingSwapTrade = (state: RootState) => {
+  const trades = state.components.swap.trades.list
+  const latestTrade = trades[0]
+  if (!latestTrade) return null
+
+  if (
+    latestTrade.state === 'PENDING_DEPOSIT' ||
+    latestTrade.state === 'PENDING_EXECUTION' ||
+    latestTrade.state === 'PENDING_CONFIRMATION'
+  ) {
+    return latestTrade
+  } else {
+    return null
+  }
+}
+
 // export const getMaxMin = (
 //   coin: CoinType,
 //   currency: FiatType,

@@ -170,6 +170,8 @@ export default ({ api, coreSagas }) => {
       if (!simpleBuyGoal) {
         yield put(actions.components.simpleBuy.fetchSBPaymentMethods())
       }
+      // swap tasks
+      yield put(actions.components.swap.fetchTrades())
 
       yield fork(checkExchangeUsage)
       yield fork(checkDataErrors)

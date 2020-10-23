@@ -14,6 +14,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.CHANGE_PAIR, swapSagas.changePair)
     yield takeLatest(AT.CREATE_ORDER, swapSagas.createOrder)
     yield takeLatest(AT.FETCH_LIMITS, swapSagas.fetchLimits)
+    yield takeLatest(AT.FETCH_TRADES, swapSagas.fetchTrades)
     yield takeLatest(AT.INIT_AMOUNT_FORM, swapSagas.initAmountForm)
     yield takeLatest(AT.SHOW_MODAL, swapSagas.showModal)
     yield takeLatest(AT.TOGGLE_BASE_COUNTER, swapSagas.toggleBaseAndCounter)
