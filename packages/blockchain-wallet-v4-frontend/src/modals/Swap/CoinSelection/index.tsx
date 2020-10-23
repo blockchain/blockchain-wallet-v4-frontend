@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 
 import { BalanceRow, CoinOption, TopText } from '../components'
-import { Props as BaseProps } from '..'
+import { Props as BaseProps, SuccessStateType } from '..'
 import { coinOrder, getData } from './selectors'
 import { connect, ConnectedProps } from 'react-redux'
 import { convertBaseToStandard } from 'data/components/exchange/services'
@@ -16,6 +16,7 @@ class CoinSelection extends PureComponent<Props> {
   state = {}
 
   render () {
+    const { coins, walletCurrency } = this.props
     return (
       <>
         <FlyoutWrapper>
@@ -54,8 +55,8 @@ class CoinSelection extends PureComponent<Props> {
                 }
               >
                 <Icon
-                  name='btc'
-                  color='btc'
+                  name={coins[account.coin].icons.circleFilled}
+                  color={coins[account.coin].colorCode}
                   size='32px'
                   style={{ marginRight: '16px' }}
                 />
@@ -71,7 +72,7 @@ class CoinSelection extends PureComponent<Props> {
                     <FiatDisplay
                       color='grey800'
                       coin={account.coin}
-                      currency='EUR'
+                      currency={walletCurrency}
                       loadingHeight='24px'
                       style={{ lineHeight: '1.5' }}
                       weight={600}
@@ -102,6 +103,8 @@ type OwnProps = BaseProps & {
   handleClose: () => void
   side: 'BASE' | 'COUNTER'
 }
-export type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = OwnProps &
+  SuccessStateType &
+  ConnectedProps<typeof connector>
 
 export default connector(CoinSelection)

@@ -9,7 +9,8 @@ export const coinOrder: Array<SwapCoinType> = [
   'BCH',
   'XLM',
   'PAX',
-  'USDT'
+  'USDT',
+  'ALGO'
 ]
 
 export const getData = (state: RootState) => {

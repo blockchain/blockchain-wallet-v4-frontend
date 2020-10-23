@@ -1,4 +1,4 @@
-import { ExtractSuccess } from 'core/types'
+import { ExtractSuccess, FiatType } from 'core/types'
 import { lift } from 'ramda'
 
 import { createDeepEqualSelector } from 'services/ReselectHelper'
@@ -15,7 +15,7 @@ export const getData = createDeepEqualSelector(
       (
         userData: ExtractSuccess<typeof userDataR>,
         coins: ExtractSuccess<typeof coinsR>,
-        walletCurrency: ExtractSuccess<typeof walletCurrencyR>
+        walletCurrency: FiatType
       ) => ({
         userData,
         coins,

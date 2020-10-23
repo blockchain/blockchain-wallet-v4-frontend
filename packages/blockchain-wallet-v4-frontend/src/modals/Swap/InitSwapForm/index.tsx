@@ -2,7 +2,7 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import React, { PureComponent } from 'react'
 
-import { Props as BaseProps } from '..'
+import { Props as BaseProps, SuccessStateType } from '..'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
@@ -268,7 +268,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 onClick={() =>
                   this.props.swapActions.changeTrendingPair(
                     accounts.USDT[0],
-                    accounts.PAX[0]
+                    accounts.ALGO[0]
                   )
                 }
               >
@@ -286,7 +286,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       color='blue600'
                     />
                   </IconBackground>
-                  <Icon color='usd-d' name='usd-d' size='32px' />
+                  <Icon color='algo' name='algo' size='32px' />
                 </TrendingIconRow>
                 <div>
                   <>
@@ -298,7 +298,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       Swap USDT
                     </Text>
                     <Text color='grey600' weight={500} size='14px'>
-                      Receive USDD
+                      Receive Algorand
                     </Text>
                   </>
                 </div>
@@ -326,7 +326,7 @@ const enhance = compose(
   connector
 )
 
-type OwnProps = BaseProps & { handleClose: () => void }
+type OwnProps = BaseProps & SuccessStateType & { handleClose: () => void }
 
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

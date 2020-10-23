@@ -28,7 +28,7 @@ export type InitSwapFormValuesType =
     }
   | undefined
 
-export type SwapCoinType = Exclude<CoinType, 'ALGO'>
+export type SwapCoinType = CoinType
 
 export enum SwapStepType {
   'INIT_SWAP',

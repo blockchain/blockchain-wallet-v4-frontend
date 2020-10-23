@@ -48,35 +48,48 @@ class Swap extends PureComponent<Props, State> {
   }
 
   render () {
-    return (
-      <Flyout
-        {...this.props}
-        in={this.state.show}
-        direction={this.state.direction}
-        onClose={this.handleClose}
-      >
-        {this.props.step === 'INIT_SWAP' && (
-          <FlyoutChild>
-            <InitSwapForm {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
-        {this.props.step === 'COIN_SELECTION' && (
-          <FlyoutChild>
-            <CoinSelection {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
-        {this.props.step === 'ENTER_AMOUNT' && (
-          <FlyoutChild>
-            <EnterAmount {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
-        {this.props.step === 'PREVIEW_SWAP' && (
-          <FlyoutChild>
-            <PreviewSwap {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
-      </Flyout>
-    )
+    return this.props.data.cata({
+      Success: val => (
+        <Flyout
+          {...this.props}
+          in={this.state.show}
+          direction={this.state.direction}
+          onClose={this.handleClose}
+        >
+          {this.props.step === 'INIT_SWAP' && (
+            <FlyoutChild>
+              <InitSwapForm
+                {...this.props}
+                handleClose={this.handleClose}
+                {...val}
+              />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'COIN_SELECTION' && (
+            <FlyoutChild>
+              <CoinSelection
+                {...this.props}
+                handleClose={this.handleClose}
+                {...val}
+              />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'ENTER_AMOUNT' && (
+            <FlyoutChild>
+              <EnterAmount {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'PREVIEW_SWAP' && (
+            <FlyoutChild>
+              <PreviewSwap {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+        </Flyout>
+      ),
+      Failure: () => null,
+      Loading: () => null,
+      NotAsked: () => null
+    })
   }
 }
 
