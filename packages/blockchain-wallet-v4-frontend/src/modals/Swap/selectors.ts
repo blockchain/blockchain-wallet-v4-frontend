@@ -7,17 +7,20 @@ import { selectors } from 'data'
 export const getData = createDeepEqualSelector(
   [
     selectors.modules.profile.getUserData,
-    selectors.core.walletOptions.getSupportedCoins
+    selectors.core.walletOptions.getSupportedCoins,
+    selectors.core.settings.getCurrency
   ],
-  (userDataR, coinsR) => {
+  (userDataR, coinsR, walletCurrencyR) => {
     return lift(
       (
         userData: ExtractSuccess<typeof userDataR>,
-        coins: ExtractSuccess<typeof coinsR>
+        coins: ExtractSuccess<typeof coinsR>,
+        walletCurrency: ExtractSuccess<typeof walletCurrencyR>
       ) => ({
         userData,
-        coins
+        coins,
+        walletCurrency
       })
-    )(userDataR, coinsR)
+    )(userDataR, coinsR, walletCurrencyR)
   }
 )

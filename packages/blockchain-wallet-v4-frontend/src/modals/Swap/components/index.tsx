@@ -23,7 +23,13 @@ export const Option = styled.div`
   padding: 16px 40px;
   cursor: pointer;
 `
-
+export const CoinOption = styled(Option)`
+  justify-content: flex-start;
+`
+export const BalanceRow = styled.div`
+  display: flex;
+  align-items: center;
+`
 export const IconBackground = styled.div<{ color: string }>`
   position: absolute;
   left: 67px;
