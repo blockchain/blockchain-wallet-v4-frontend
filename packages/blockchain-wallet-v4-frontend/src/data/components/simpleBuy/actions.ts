@@ -15,6 +15,7 @@ import {
   SBPaymentMethodType,
   SBProviderDetailsType,
   SBQuoteType,
+  SDDType,
   WalletFiatType
 } from 'core/types'
 import { ModalOriginType } from 'data/modals/types'
@@ -216,6 +217,32 @@ export const fetchSBFiatEligibleSuccess = (
   type: AT.FETCH_SB_FIAT_ELIGIBLE_SUCCESS,
   payload: {
     fiatEligible
+  }
+})
+
+export const fetchSDDEligible = () => ({
+  type: AT.FETCH_SDD_ELIGIBILITY
+})
+
+export const fetchSDDEligibleFailure = (
+  error: string
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SDD_ELIGIBILITY_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchSDDEligibleLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SDD_ELIGIBILITY_LOADING
+})
+
+export const fetchSDDEligibleSuccess = (
+  sddEligable: SDDType
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SDD_ELIGIBILITY_SUCCESS,
+  payload: {
+    sddEligable
   }
 })
 
@@ -432,6 +459,7 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
         order: payload.order,
         pair: payload.pair
       }
+    case 'VERIFY_EMAIL':
     case 'ENTER_AMOUNT':
       return {
         step: payload.step,
