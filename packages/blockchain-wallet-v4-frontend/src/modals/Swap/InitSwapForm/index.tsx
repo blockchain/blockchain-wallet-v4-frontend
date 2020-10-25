@@ -4,12 +4,12 @@ import React, { PureComponent } from 'react'
 
 import {
   BalanceRow,
+  FlexStartRow,
   IconBackground,
   Option,
   StyledForm,
   TopText,
-  TrendingIconRow,
-  TrendingRow
+  TrendingIconRow
 } from '../components'
 import { Props as BaseProps, SuccessStateType } from '..'
 import { Button, Icon, Text } from 'blockchain-info-components'
@@ -258,7 +258,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     )
                   }
                 >
-                  <TrendingRow>
+                  <FlexStartRow>
                     <TrendingIconRow>
                       <Icon
                         color='btc'
@@ -287,7 +287,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         Receive Ethereum
                       </Text>
                     </div>
-                  </TrendingRow>
+                  </FlexStartRow>
                   <Icon name='chevron-right' size='20px' color='grey400' />
                 </Option>
               )}
@@ -304,7 +304,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     )
                   }
                 >
-                  <TrendingRow>
+                  <FlexStartRow>
                     <TrendingIconRow>
                       <Icon
                         color='eth'
@@ -333,7 +333,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         Receive Bitcoin
                       </Text>
                     </div>
-                  </TrendingRow>
+                  </FlexStartRow>
                   <Icon name='chevron-right' size='20px' color='grey400' />
                 </Option>
               )}
@@ -350,7 +350,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     )
                   }
                 >
-                  <TrendingRow>
+                  <FlexStartRow>
                     <TrendingIconRow>
                       <Icon
                         color='btc'
@@ -379,7 +379,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         Receive USD Digital
                       </Text>
                     </div>
-                  </TrendingRow>
+                  </FlexStartRow>
                   <Icon name='chevron-right' size='20px' color='grey400' />
                 </Option>
               )}

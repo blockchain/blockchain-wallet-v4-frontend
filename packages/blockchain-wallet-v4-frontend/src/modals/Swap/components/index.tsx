@@ -23,9 +23,6 @@ export const Option = styled.div`
   padding: 16px 40px;
   cursor: pointer;
 `
-export const CoinOption = styled(Option)`
-  justify-content: flex-start;
-`
 export const BalanceRow = styled.div`
   display: flex;
   align-items: center;
@@ -50,24 +47,22 @@ export const TrendingIconRow = styled.div`
   margin-right: 24px;
 `
 
-export const TrendingRow = styled.div`
+export const FlexStartRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
 `
 
-export const CircleBorder = styled.div<{
-  selected?: boolean
-}>`
+export const CircleBorder = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 24px;
   height: 24px;
-  background-color: ${props =>
-    props.selected ? props.theme.grey100 : 'white'};
+  background-color: white;
   border: 1px solid ${props => props.theme.grey300};
   border-radius: 24px;
+  margin-left: 24px;
 `
 
 export const CircleSelected = styled.div`

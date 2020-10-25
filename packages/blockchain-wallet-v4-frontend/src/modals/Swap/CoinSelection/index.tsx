@@ -2,7 +2,8 @@ import {
   BalanceRow,
   CircleBorder,
   CircleSelected,
-  CoinOption,
+  FlexStartRow,
+  Option,
   TopText
 } from '../components'
 import { Props as BaseProps, SuccessStateType } from '..'
@@ -21,7 +22,26 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import React, { PureComponent } from 'react'
 class CoinSelection extends PureComponent<Props> {
   state = {}
-
+  checkAccountSelected = (side, values, account) => {
+    if (
+      (side === 'BASE' && values?.BASE?.label === account.label) ||
+      (side === 'COUNTER' && values?.COUNTER?.label === account.label)
+    ) {
+      return true
+    } else {
+      return false
+    }
+  }
+  checkCoinSelected = (side, values, account) => {
+    if (
+      (side === 'BASE' && values?.COUNTER?.coin === account.coin) ||
+      (side === 'COUNTER' && values?.BASE?.coin === account.coin)
+    ) {
+      return true
+    } else {
+      return false
+    }
+  }
   render () {
     const { coins, values, walletCurrency } = this.props
     return (
@@ -54,61 +74,68 @@ class CoinSelection extends PureComponent<Props> {
         {coinOrder.map(coin => {
           const accounts = this.props.accounts[coin] as Array<SwapAccountType>
           return accounts.map(account => {
-            const isAccountSelected =
-              !!((this.props.side === 'BASE' &&
-                values?.BASE?.label === account.label) ||
-              (this.props.side === 'COUNTER' &&
-                values?.COUNTER?.label === account.label))
-            const isCoinSelected =
-              !!((this.props.side === 'BASE' &&
-                values?.COUNTER?.coin === account.coin) ||
-              (this.props.side === 'COUNTER' &&
-                values?.BASE?.coin === account.coin))
+            const isAccountSelected = this.checkAccountSelected(
+              this.props.side,
+              values,
+              account
+            )
+            const isCoinSelected = this.checkCoinSelected(
+              this.props.side,
+              values,
+              account
+            )
             return (
               !isCoinSelected && (
-                <CoinOption
+                <Option
                   role='button'
                   onClick={() =>
                     this.props.swapActions.changePair(this.props.side, account)
                   }
                 >
-                  <Icon
-                    name={coins[account.coin].icons.circleFilled}
-                    color={coins[account.coin].colorCode}
-                    size='32px'
-                    style={{ marginRight: '16px' }}
-                  />
-                  <div>
-                    <Text
-                      color='grey900'
-                      weight={600}
-                      style={{ marginTop: '4px' }}
-                    >
-                      {account.label}
-                    </Text>
-                    <BalanceRow>
-                      <FiatDisplay
-                        color='grey800'
-                        coin={account.coin}
-                        currency={walletCurrency}
-                        loadingHeight='24px'
-                        style={{ lineHeight: '1.5' }}
+                  <FlexStartRow>
+                    <Icon
+                      name={coins[account.coin].icons.circleFilled}
+                      color={coins[account.coin].colorCode}
+                      size='32px'
+                      style={{ marginRight: '16px' }}
+                    />
+                    <div>
+                      <Text
+                        color='grey900'
                         weight={600}
+                        style={{ marginTop: '4px' }}
                       >
-                        {account.balance}
-                      </FiatDisplay>
-                      <Text>
-                        ({convertBaseToStandard(account.coin, account.balance)})
+                        {account.label}
                       </Text>
-                    </BalanceRow>
-                  </div>
-                  {account.type === 'CUSTODIAL' && (
-                    <SuccessCartridge>Low Fees</SuccessCartridge>
-                  )}
-                  <CircleBorder>
-                    {isAccountSelected && <CircleSelected />}
-                  </CircleBorder>
-                </CoinOption>
+                      <BalanceRow>
+                        <FiatDisplay
+                          color='grey800'
+                          coin={account.coin}
+                          currency={walletCurrency}
+                          loadingHeight='24px'
+                          style={{ lineHeight: '1.5' }}
+                          weight={500}
+                        >
+                          {account.balance}
+                        </FiatDisplay>
+                        <Text>
+                          (
+                          {convertBaseToStandard(account.coin, account.balance)}
+                          )
+                        </Text>
+                      </BalanceRow>
+                    </div>
+                  </FlexStartRow>
+                  <FlexStartRow>
+                    {account.type === 'CUSTODIAL' &&
+                      this.props.side === 'BASE' && (
+                        <SuccessCartridge>Low Fees</SuccessCartridge>
+                      )}
+                    <CircleBorder>
+                      {isAccountSelected && <CircleSelected />}
+                    </CircleBorder>
+                  </FlexStartRow>
+                </Option>
               )
             )
           })

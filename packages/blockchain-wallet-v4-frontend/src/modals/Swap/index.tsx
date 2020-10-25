@@ -46,6 +46,7 @@ class Swap extends PureComponent<Props, State> {
       this.props.close()
     }, duration)
   }
+
   render () {
     return this.props.data.cata({
       Success: val => (
