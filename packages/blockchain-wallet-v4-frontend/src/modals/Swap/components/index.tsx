@@ -55,3 +55,27 @@ export const TrendingRow = styled.div`
   align-items: center;
   justify-content: flex-start;
 `
+
+export const CircleBorder = styled.div<{
+  selected?: boolean
+}>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  background-color: ${props =>
+    props.selected ? props.theme.grey100 : 'white'};
+  border: 1px solid ${props => props.theme.grey300};
+  border-radius: 24px;
+`
+
+export const CircleSelected = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  background-color: ${props => props.theme.grey300};
+  border-radius: 20px;
+`
