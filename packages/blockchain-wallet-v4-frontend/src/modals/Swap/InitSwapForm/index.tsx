@@ -8,7 +8,8 @@ import {
   Option,
   StyledForm,
   TopText,
-  TrendingIconRow
+  TrendingIconRow,
+  TrendingRow
 } from '../components'
 import { Props as BaseProps, SuccessStateType } from '..'
 import { Button, Icon, Text } from 'blockchain-info-components'
@@ -64,7 +65,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             />
           </Text>
         </FlyoutWrapper>
-        <StyledForm onSubmit={this.handleSubmit} marginTop>
+        <StyledForm onSubmit={this.handleSubmit}>
           <Field
             name='BASE'
             component={() => (
@@ -241,7 +242,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               color='grey600'
               weight={500}
               size='14px'
-              style={{ marginLeft: '40px' }}
+              style={{ margin: '0 0 8px 40px' }}
             >
               Trending
             </Text>
@@ -257,24 +258,24 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     )
                   }
                 >
-                  <TrendingIconRow>
-                    <Icon
-                      color='btc'
-                      name='btc-circle-filled'
-                      size='32px'
-                      style={{ marginRight: '16px' }}
-                    />
-                    <IconBackground color='blue000'>
+                  <TrendingRow>
+                    <TrendingIconRow>
                       <Icon
-                        name='arrows-horizontal'
-                        size='10px'
-                        color='blue600'
+                        color='btc'
+                        name='btc-circle-filled'
+                        size='32px'
+                        style={{ marginRight: '16px' }}
                       />
-                    </IconBackground>
-                    <Icon color='eth' name='eth-circle-filled' size='32px' />
-                  </TrendingIconRow>
-                  <div>
-                    <>
+                      <IconBackground color='blue000'>
+                        <Icon
+                          name='arrows-horizontal'
+                          size='10px'
+                          color='blue600'
+                        />
+                      </IconBackground>
+                      <Icon color='eth' name='eth-circle-filled' size='32px' />
+                    </TrendingIconRow>
+                    <div>
                       <Text
                         color='grey900'
                         weight={600}
@@ -285,8 +286,8 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       <Text color='grey600' weight={500} size='14px'>
                         Receive Ethereum
                       </Text>
-                    </>
-                  </div>
+                    </div>
+                  </TrendingRow>
                   <Icon name='chevron-right' size='20px' color='grey400' />
                 </Option>
               )}
@@ -298,41 +299,41 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   role='button'
                   onClick={() =>
                     this.props.swapActions.changeTrendingPair(
-                      this.getCustodialWallet(accounts, 'BCH'),
-                      this.getCustodialWallet(accounts, 'XLM')
+                      this.getCustodialWallet(accounts, 'ETH'),
+                      this.getCustodialWallet(accounts, 'BTC')
                     )
                   }
                 >
-                  <TrendingIconRow>
-                    <Icon
-                      color='bch'
-                      name='bch-circle-filled'
-                      size='32px'
-                      style={{ marginRight: '16px' }}
-                    />
-                    <IconBackground color='blue000'>
+                  <TrendingRow>
+                    <TrendingIconRow>
                       <Icon
-                        name='arrows-horizontal'
-                        size='10px'
-                        color='blue600'
+                        color='eth'
+                        name='eth-circle-filled'
+                        size='32px'
+                        style={{ marginRight: '16px' }}
                       />
-                    </IconBackground>
-                    <Icon color='xlm' name='xlm-circle-filled' size='32px' />
-                  </TrendingIconRow>
-                  <div>
-                    <>
+                      <IconBackground color='blue000'>
+                        <Icon
+                          name='arrows-horizontal'
+                          size='10px'
+                          color='blue600'
+                        />
+                      </IconBackground>
+                      <Icon color='btc' name='btc-circle-filled' size='32px' />
+                    </TrendingIconRow>
+                    <div>
                       <Text
                         color='grey900'
                         weight={600}
                         style={{ marginTop: '4px' }}
                       >
-                        Swap Bitcoin Cash
+                        Swap Ethereum
                       </Text>
                       <Text color='grey600' weight={500} size='14px'>
-                        Receive Stellar Lumens
+                        Receive Bitcoin
                       </Text>
-                    </>
-                  </div>
+                    </div>
+                  </TrendingRow>
                   <Icon name='chevron-right' size='20px' color='grey400' />
                 </Option>
               )}
@@ -344,41 +345,41 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   role='button'
                   onClick={() =>
                     this.props.swapActions.changeTrendingPair(
-                      this.getCustodialWallet(accounts, 'USDT'),
-                      this.getCustodialWallet(accounts, 'ALGO')
+                      this.getCustodialWallet(accounts, 'BTC'),
+                      this.getCustodialWallet(accounts, 'PAX')
                     )
                   }
                 >
-                  <TrendingIconRow>
-                    <Icon
-                      color='usdt'
-                      name='usdt'
-                      size='32px'
-                      style={{ marginRight: '16px' }}
-                    />
-                    <IconBackground color='blue000'>
+                  <TrendingRow>
+                    <TrendingIconRow>
                       <Icon
-                        name='arrows-horizontal'
-                        size='10px'
-                        color='blue600'
+                        color='btc'
+                        name='btc-circle-filled'
+                        size='32px'
+                        style={{ marginRight: '16px' }}
                       />
-                    </IconBackground>
-                    <Icon color='algo' name='algo' size='32px' />
-                  </TrendingIconRow>
-                  <div>
-                    <>
+                      <IconBackground color='blue000'>
+                        <Icon
+                          name='arrows-horizontal'
+                          size='10px'
+                          color='blue600'
+                        />
+                      </IconBackground>
+                      <Icon color='usd-d' name='usd-d' size='32px' />
+                    </TrendingIconRow>
+                    <div>
                       <Text
                         color='grey900'
                         weight={600}
                         style={{ marginTop: '4px' }}
                       >
-                        Swap USDT
+                        Swap BTC
                       </Text>
                       <Text color='grey600' weight={500} size='14px'>
-                        Receive Algorand
+                        Receive USD Digital
                       </Text>
-                    </>
-                  </div>
+                    </div>
+                  </TrendingRow>
                   <Icon name='chevron-right' size='20px' color='grey400' />
                 </Option>
               )}

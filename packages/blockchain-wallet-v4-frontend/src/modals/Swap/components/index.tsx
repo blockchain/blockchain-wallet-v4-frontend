@@ -47,4 +47,11 @@ export const TrendingIconRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-right: 24px;
+`
+
+export const TrendingRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 `
