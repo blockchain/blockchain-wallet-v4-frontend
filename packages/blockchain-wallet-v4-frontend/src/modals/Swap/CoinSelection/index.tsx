@@ -70,6 +70,24 @@ class CoinSelection extends PureComponent<Props> {
               {this.props.side === 'BASE' ? 'from' : 'to'}
             </Text>
           </TopText>
+          <Text
+            size='16px'
+            color='grey600'
+            weight={500}
+            style={{ margin: '10px 0 0 48px' }}
+          >
+            {this.props.side === 'BASE' ? (
+              <FormattedMessage
+                id='copy.swap_from'
+                defaultMessage='Which wallet do you want to Swap from?'
+              />
+            ) : (
+              <FormattedMessage
+                id='copy.swap_for'
+                defaultMessage='Which crypto do you want to Swap for?'
+              />
+            )}
+          </Text>
         </FlyoutWrapper>
         {coinOrder.map(coin => {
           const accounts = this.props.accounts[coin] as Array<SwapAccountType>

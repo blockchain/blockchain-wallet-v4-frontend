@@ -59,10 +59,17 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             weight={500}
             style={{ marginTop: '10px' }}
           >
-            <FormattedMessage
-              id='copy.select_swap_wallets'
-              defaultMessage='Select the Wallet you want to Swap from and the crypto you want to receive.'
-            />
+            {values?.BASE || values?.COUNTER ? (
+              <FormattedMessage
+                id='copy.select_swap_wallets'
+                defaultMessage='Select the Wallet you want to Swap from and the crypto you want to receive.'
+              />
+            ) : (
+              <FormattedMessage
+                id='copy.instantly_exchange'
+                defaultMessage='Instantly exchange your crypto into any currency we offer in your wallet.'
+              />
+            )}
           </Text>
         </FlyoutWrapper>
         <StyledForm onSubmit={this.handleSubmit}>
@@ -229,7 +236,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               type='submit'
               fullwidth
               jumbo
-              disabled={!this.props.values?.BASE || !this.props.values.COUNTER}
+              disabled={!values?.BASE || !values?.COUNTER}
             >
               <FormattedMessage
                 id='buttons.continue'
@@ -385,6 +392,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               )}
             />
           </>
+          )
         </StyledForm>
       </>
     )
