@@ -283,9 +283,20 @@ const xlmGetActiveAccounts = createDeepEqualSelector(
   }
 )
 
+const algoGetActiveAccounts = createDeepEqualSelector(
+  [getCustodyBalance('ALGO')],
+  sbBalanceR => {
+    const transform = (sbBalance: ExtractSuccess<typeof sbBalanceR>) =>
+      generateCustodyAccount('ALGO', sbBalance)
+
+    return lift(transform)(sbBalanceR)
+  }
+)
+
 // TODO: make dynamic list in future from wallet options getSupportedCoins
 const getActiveAccountsR = state => {
   const accounts = {
+    ALGO: algoGetActiveAccounts(state),
     BCH: bchGetActiveAccounts(state),
     BTC: btcGetActiveAccounts(state),
     ETH: ethGetActiveAccounts(state),
@@ -307,6 +318,7 @@ export const getActiveAccounts = (state: RootState) => {
   > = getActiveAccountsR(state)
 
   const activeAccounts = activeAccountsR.getOrElse({
+    ALGO: [],
     BCH: [],
     BTC: [],
     ETH: [],

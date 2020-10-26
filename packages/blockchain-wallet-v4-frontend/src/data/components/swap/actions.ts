@@ -23,6 +23,17 @@ export const changePair = (side: SwapSideType, account: SwapAccountType) => ({
   }
 })
 
+export const changeTrendingPair = (
+  baseAccount: SwapAccountType,
+  counterAccount: SwapAccountType
+) => ({
+  type: AT.CHANGE_SWAP_TRENDING_PAIR,
+  payload: {
+    baseAccount,
+    counterAccount
+  }
+})
+
 export const createOrder = () => ({
   type: AT.CREATE_ORDER
 })

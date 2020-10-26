@@ -5,13 +5,15 @@ import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-import { Props as BaseProps } from '..'
+import { BalanceRow, Option, TopText } from '../components'
+import { Props as BaseProps, SuccessStateType as SuccessType } from '..'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ExtractSuccess } from 'core/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { formatCoin } from 'core/exchange/currency'
 import { InitSwapFormValuesType } from 'data/types'
-import { Option, TopText } from '../components'
 import { selectors } from 'data'
+import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { getData } from './selectors'
 import Checkout from './Checkout'
@@ -63,6 +65,7 @@ class EnterAmount extends PureComponent<Props> {
     }
 
     const { BASE, COUNTER } = this.props.initSwapFormValues
+    const { coins, walletCurrency } = this.props
 
     return (
       <>
@@ -129,7 +132,32 @@ class EnterAmount extends PureComponent<Props> {
                 })
               }
             >
-              {JSON.stringify(this.props.initSwapFormValues.BASE)}
+              <div>
+                <Text color='grey600' weight={500} size='14px'>
+                  Swap From
+                </Text>
+                <Text>{BASE.label}</Text>
+                <BalanceRow>
+                  <FiatDisplay
+                    color='grey800'
+                    coin={BASE.coin}
+                    currency={walletCurrency}
+                    loadingHeight='24px'
+                    style={{ lineHeight: '1.5' }}
+                    weight={600}
+                  >
+                    {BASE.balance}
+                  </FiatDisplay>
+                  <Text>
+                    ({convertBaseToStandard(BASE.coin, BASE.balance)})
+                  </Text>
+                </BalanceRow>
+              </div>
+              <Icon
+                name={coins[BASE.coin].icons.circleFilled}
+                color={coins[BASE.coin].colorCode}
+                size='32px'
+              />
             </Option>
             <Toggler onClick={this.props.swapActions.toggleBaseAndCounter}>
               <Icon color='blue600' size='24px' name='arrow-up' />
@@ -146,7 +174,32 @@ class EnterAmount extends PureComponent<Props> {
                 })
               }
             >
-              {JSON.stringify(this.props.initSwapFormValues.COUNTER)}
+              <div>
+                <Text color='grey600' weight={500} size='14px'>
+                  Swap From
+                </Text>
+                <Text>{COUNTER.label}</Text>
+                <BalanceRow>
+                  <FiatDisplay
+                    color='grey800'
+                    coin={COUNTER.coin}
+                    currency={walletCurrency}
+                    loadingHeight='24px'
+                    style={{ lineHeight: '1.5' }}
+                    weight={600}
+                  >
+                    {BASE.balance}
+                  </FiatDisplay>
+                  <Text>
+                    ({convertBaseToStandard(COUNTER.coin, COUNTER.balance)})
+                  </Text>
+                </BalanceRow>
+              </div>
+              <Icon
+                name={coins[COUNTER.coin].icons.circleFilled}
+                color={coins[COUNTER.coin].colorCode}
+                size='32px'
+              />
             </Option>
           </Options>
           {this.props.data.cata({
@@ -174,7 +227,7 @@ const mapStateToProps = (state: RootState) => {
 const connector = connect(mapStateToProps)
 
 type OwnProps = BaseProps & { handleClose: () => void }
-export type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = OwnProps & SuccessType & ConnectedProps<typeof connector>
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>> & {
   formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
 }

@@ -53,6 +53,16 @@ export default ({
     yield put(A.setStep({ step: 'INIT_SWAP' }))
   }
 
+  const changeTrendingPair = function * ({
+    payload
+  }: ReturnType<typeof A.changeTrendingPair>) {
+    yield put(actions.form.change('initSwap', 'BASE', payload.baseAccount))
+    yield put(
+      actions.form.change('initSwap', 'COUNTER', payload.counterAccount)
+    )
+    yield put(A.setStep({ step: 'ENTER_AMOUNT' }))
+  }
+
   const calculateProvisionalPayment = function * (
     source: SwapAccountType,
     quote: SwapQuoteType,
@@ -326,6 +336,7 @@ export default ({
 
   return {
     changePair,
+    changeTrendingPair,
     createOrder,
     fetchLimits,
     fetchQuote,
