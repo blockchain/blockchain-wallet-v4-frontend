@@ -24,6 +24,7 @@ import {
   SwapAmountFormValues
 } from './types'
 import { MempoolFeeType } from '../exchange/types'
+import { selectReceiveAddress } from '../utils/sagas'
 import BigNumber from 'bignumber.js'
 
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
@@ -141,11 +142,16 @@ export default ({
         swapAmountFormValues.amount
       )
       const quote = S.getQuote(yield select()).getOrFail('NO_SWAP_QUOTE')
+      const destinationAddr =
+        direction === 'ON_CHAIN' || direction === 'TO_USERKEY'
+          ? yield call(selectReceiveAddress, COUNTER, networks)
+          : undefined
       const order: ReturnType<typeof api.createSwapOrder> = yield call(
         api.createSwapOrder,
         direction,
         quote.quote.id,
-        amount
+        amount,
+        destinationAddr
       )
       const paymentR = S.getPayment(yield select())
       let payment = paymentGetOrElse(BASE.coin, paymentR)

@@ -98,6 +98,7 @@ export const getBtcAccounts = function * () {
     coin: 'BTC',
     text: prop('label', acc) || prop('xpub', acc),
     address: prop('index', acc),
+    // @ts-ignore
     balance: prop('final_balance', prop(prop('xpub', acc), btcData))
   })
 
