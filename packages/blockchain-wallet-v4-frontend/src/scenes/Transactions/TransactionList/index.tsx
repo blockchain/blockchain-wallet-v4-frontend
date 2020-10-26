@@ -43,6 +43,8 @@ class TransactionList extends PureComponent<Props> {
                 coinTicker={coinTicker}
                 currency={currency}
               />
+            ) : 'priceFunnel' in tx ? (
+              JSON.stringify(tx)
             ) : 'pair' in tx ? (
               <SimpleBuyListItem order={tx} />
             ) : (

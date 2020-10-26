@@ -7,14 +7,15 @@ import { APIType } from 'core/network/api'
 import {
   CoinType,
   CoinTypeEnum,
+  ProcessedSwapOrderType,
   SBPendingTransactionStateEnum,
   WalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
-import { FetchSBOrdersAndTransactionsReturnType } from './types'
+import { FetchCustodialOrdersAndTransactionsReturnType } from './types'
 import { ProcessedTxType } from 'core/transactions/types'
 
 export default ({ api }: { api: APIType }) => {
-  const fetchSBOrdersAndTransactions = function * (
+  const fetchCustodialOrdersAndTransactions = function * (
     page: Array<ProcessedTxType>,
     offset: number,
     transactionsAtBound: boolean,
@@ -110,8 +111,21 @@ export default ({ api }: { api: APIType }) => {
         )
       )
 
-      const response: FetchSBOrdersAndTransactionsReturnType = {
-        orders: [...filteredOrders, ...transactions.items]
+      // 3. swap transactions
+      const swaps: ReturnType<typeof api.getUnifiedSwapTrades> = yield call(
+        api.getUnifiedSwapTrades,
+        currency as CoinType,
+        20,
+        before,
+        after
+      )
+      const processedSwaps: Array<ProcessedSwapOrderType> = swaps.map(swap => ({
+        ...swap,
+        insertedAt: swap.createdAt
+      }))
+
+      const response: FetchCustodialOrdersAndTransactionsReturnType = {
+        orders: [...filteredOrders, ...transactions.items, ...processedSwaps]
       }
 
       return response
@@ -122,6 +136,6 @@ export default ({ api }: { api: APIType }) => {
   }
 
   return {
-    fetchSBOrdersAndTransactions
+    fetchCustodialOrdersAndTransactions
   }
 }

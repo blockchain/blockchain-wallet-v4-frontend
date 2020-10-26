@@ -19,7 +19,7 @@ const INITIAL_STATE: SBCoreStateType = {
   EUR: DEFAULT_COIN_SB_STATE
 }
 
-export function simpleBuyCoreReducer (
+export function custodialReducer (
   state = INITIAL_STATE,
   action: SBCoreActionTypes
 ) {

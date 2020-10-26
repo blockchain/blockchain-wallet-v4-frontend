@@ -5,20 +5,20 @@ export const getNextSBTransactionsURL = (
   state: RootState,
   currency: WalletCurrencyType
 ) => {
-  return state.dataPath.sbCore[currency].nextSBTransactionsURL
+  return state.dataPath.custodial[currency].nextSBTransactionsURL
 }
 
 export const getSBTransactionsPending = (
   state: RootState,
   currency: WalletCurrencyType
 ) => {
-  return state.dataPath.sbCore[currency].pendingTxsN
+  return state.dataPath.custodial[currency].pendingTxsN
 }
 
 export const getTotalSBTransactionsPendingN = (state: RootState) => {
   let n = 0
-  Object.keys(state.dataPath.sbCore).map(
-    coin => (n += state.dataPath.sbCore[coin].pendingTxsN)
+  Object.keys(state.dataPath.custodial).map(
+    coin => (n += state.dataPath.custodial[coin].pendingTxsN)
   )
   return n
 }

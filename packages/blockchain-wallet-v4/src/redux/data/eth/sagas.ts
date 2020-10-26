@@ -32,22 +32,22 @@ import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
 import { call, put, select, take } from 'redux-saga/effects'
 import {
   Erc20CoinType,
-  FetchSBOrdersAndTransactionsReturnType
+  FetchCustodialOrdersAndTransactionsReturnType
 } from 'core/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { EthProcessedTxType } from 'core/transactions/types'
 import { EthRawTxType } from 'core/network/api/eth/types'
 import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
 import BigNumber from 'bignumber.js'
+import custodialSagas from '../custodial/sagas'
 import moment from 'moment'
-import simpleBuySagas from '../simpleBuy/sagas'
 const { transformTx, transformErc20Tx } = transactions.eth
 const TX_PER_PAGE = 10
 const TX_REPORT_PAGE_SIZE = 50
 const CONTEXT_FAILURE = 'Could not get ETH context.'
 
 export default ({ api }) => {
-  const { fetchSBOrdersAndTransactions } = simpleBuySagas({ api })
+  const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
   //
   // ETH
   //
@@ -135,21 +135,23 @@ export default ({ api }) => {
         __processTxs,
         txPage
       )
-      const nextSBTransactionsURL = selectors.data.sbCore.getNextSBTransactionsURL(
+      const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
         yield select(),
         'ETH'
       )
-      const sbPage: FetchSBOrdersAndTransactionsReturnType = yield call(
-        fetchSBOrdersAndTransactions,
+      const custodialPage: FetchCustodialOrdersAndTransactionsReturnType = yield call(
+        fetchCustodialOrdersAndTransactions,
         processedTxPage,
         nextPage,
         atBounds,
         'ETH',
         reset ? null : nextSBTransactionsURL
       )
-      const page = flatten([processedTxPage, sbPage.orders]).sort((a, b) => {
-        return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
-      })
+      const page = flatten([processedTxPage, custodialPage.orders]).sort(
+        (a, b) => {
+          return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+        }
+      )
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
@@ -316,19 +318,19 @@ export default ({ api }) => {
         token
       )
       const coin: Erc20CoinType = token.toUpperCase()
-      const nextSBTransactionsURL = selectors.data.sbCore.getNextSBTransactionsURL(
+      const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
         yield select(),
         coin
       )
-      const sbPage: FetchSBOrdersAndTransactionsReturnType = yield call(
-        fetchSBOrdersAndTransactions,
+      const custodialPage: FetchCustodialOrdersAndTransactionsReturnType = yield call(
+        fetchCustodialOrdersAndTransactions,
         walletPage,
         nextPage,
         atBounds,
         coin,
         reset ? null : nextSBTransactionsURL
       )
-      const page = flatten([walletPage, sbPage.orders]).sort((a, b) => {
+      const page = flatten([walletPage, custodialPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
       })
       yield put(A.fetchErc20TransactionsSuccess(token, page, reset))

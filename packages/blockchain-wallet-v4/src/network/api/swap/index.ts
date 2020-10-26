@@ -1,6 +1,7 @@
-import { FiatType } from 'core/types'
+import { CoinType, FiatType } from 'core/types'
 import {
   SwapOrderDirectionType,
+  SwapOrderStateType,
   SwapOrderType,
   SwapQuoteType,
   SwapUserLimitsType
@@ -83,11 +84,31 @@ export default ({
       }
     })
 
+  const getUnifiedSwapTrades = (
+    currency: CoinType,
+    limit?: number,
+    before?: string,
+    after?: string,
+    v2states?: SwapOrderStateType
+  ): Array<SwapOrderType> =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/trades/unified`,
+      data: {
+        currency,
+        limit,
+        before,
+        after,
+        states: v2states
+      }
+    })
+
   return {
     cancelSwapOrder,
     createSwapOrder,
     getSwapLimits,
     getSwapQuote,
-    getSwapTrades
+    getSwapTrades,
+    getUnifiedSwapTrades
   }
 }

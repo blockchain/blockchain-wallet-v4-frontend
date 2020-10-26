@@ -1,8 +1,13 @@
 import * as AT from './actionTypes'
-import { SBOrderType, SBTransactionType, WalletCurrencyType } from 'core/types'
+import {
+  ProcessedSwapOrderType,
+  SBOrderType,
+  SBTransactionType,
+  WalletCurrencyType
+} from 'core/types'
 
-export type FetchSBOrdersAndTransactionsReturnType = {
-  orders: Array<SBOrderType | SBTransactionType>
+export type FetchCustodialOrdersAndTransactionsReturnType = {
+  orders: Array<SBOrderType | SBTransactionType | ProcessedSwapOrderType>
 }
 
 // state

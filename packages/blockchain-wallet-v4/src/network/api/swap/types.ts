@@ -23,6 +23,10 @@ export type SwapOrderType = {
   updatedAt: string
 }
 
+export type ProcessedSwapOrderType = SwapOrderType & {
+  insertedAt: string
+}
+
 export type SwapOrderDirectionType =
   | 'INTERNAL'
   | 'ON_CHAIN'
