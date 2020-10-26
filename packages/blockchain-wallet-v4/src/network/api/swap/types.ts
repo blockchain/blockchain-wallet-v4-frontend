@@ -2,6 +2,8 @@ import { FiatType } from 'core/types'
 
 export type SwapOrderType = {
   createdAt: string
+  fiatCurrency: FiatType
+  fiatValue: string
   id: string
   kind: {
     // Optional fields depending on direction
@@ -11,6 +13,7 @@ export type SwapOrderType = {
     withdrawalAddress: string
     withdrawalTxHash: string
   }
+  pair: string
   priceFunnel: {
     inputMoney: string
     networkFee: string
@@ -18,10 +21,18 @@ export type SwapOrderType = {
     price: string
     staticFee: string
   }
-  quote: SwapQuoteType
   state: SwapOrderStateType
   updatedAt: string
-}
+} & (
+  | {
+      quote: SwapQuoteType
+      version: 'V2'
+    }
+  | {
+      quote: null
+      version: 'V1'
+    }
+)
 
 export type ProcessedSwapOrderType = SwapOrderType & {
   insertedAt: string
@@ -42,6 +53,7 @@ export type SwapOrderStateType =
   | 'EXPIRED'
   | 'FINISHED'
   | 'FAILED'
+  | 'CANCELED'
 
 export type SwapUserLimitsType = {
   annual: {

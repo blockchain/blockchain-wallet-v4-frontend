@@ -3,11 +3,12 @@ import React, { PureComponent } from 'react'
 import { Props as BaseProps } from '..'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { coinToString } from 'core/exchange/currency'
-import { CoinType, SwapOrderType } from 'core/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import { getInput, getOutput } from 'data/components/swap/model'
+import { SwapOrderType } from 'core/types'
 import { TopText } from '../components'
 
 class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
@@ -16,8 +17,8 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   render () {
     if (!this.props.order) return null
 
-    const baseCoin = this.props.order.quote.pair.split('-')[0] as CoinType
-    const counterCoin = this.props.order.quote.pair.split('-')[1] as CoinType
+    const baseCoin = getInput(this.props.order)
+    const counterCoin = getOutput(this.props.order)
 
     return (
       <>
@@ -30,6 +31,7 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               />
             </Text>
             <Icon
+              onClick={this.props.close}
               role='button'
               name='close'
               cursor
@@ -94,7 +96,15 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               }}
             />
           </Title>
-          <Value />
+          <Value>
+            {coinToString({
+              unit: { symbol: baseCoin },
+              value: convertBaseToStandard(
+                baseCoin,
+                this.props.order.priceFunnel.networkFee
+              )
+            })}
+          </Value>
         </Row>
         <Row>
           <Title>
@@ -106,7 +116,15 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               }}
             />
           </Title>
-          <Value />
+          <Value>
+            {coinToString({
+              unit: { symbol: counterCoin },
+              value: convertBaseToStandard(
+                counterCoin,
+                this.props.order.priceFunnel.staticFee
+              )
+            })}
+          </Value>
         </Row>
         {this.props.order.state === 'PENDING_DEPOSIT' && (
           <FlyoutWrapper>

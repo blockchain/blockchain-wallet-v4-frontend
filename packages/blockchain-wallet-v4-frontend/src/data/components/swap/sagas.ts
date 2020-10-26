@@ -174,6 +174,15 @@ export default ({
         )
       }
       yield put(actions.form.stopSubmit('previewSwap'))
+      yield put(actions.components.refresh.refreshClicked())
+      yield put(
+        A.setStep({
+          step: 'ORDER_DETAILS',
+          options: {
+            order
+          }
+        })
+      )
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('previewSwap', { _error: error }))
@@ -338,6 +347,12 @@ export default ({
         A.setStep({
           step: 'ORDER_DETAILS',
           options: { order: latestPendingOrder }
+        })
+      )
+    } else {
+      yield put(
+        A.setStep({
+          step: 'ENTER_AMOUNT'
         })
       )
     }
