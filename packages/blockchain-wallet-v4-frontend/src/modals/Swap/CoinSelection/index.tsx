@@ -1,65 +1,172 @@
-import React, { PureComponent } from 'react'
-
-import { Props as BaseProps } from '..'
+import {
+  BalanceRow,
+  CircleBorder,
+  CircleSelected,
+  FlexStartRow,
+  Option,
+  TopText
+} from '../components'
+import { Props as BaseProps, SuccessStateType } from '..'
 import { coinOrder, getData } from './selectors'
 import { connect, ConnectedProps } from 'react-redux'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
+import { InitSwapFormValuesType } from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
+import { selectors } from 'data'
+import { SuccessCartridge } from 'components/Cartridge'
 import { SwapAccountType } from 'data/types'
-import { TopText } from '../components'
-
+import FiatDisplay from 'components/Display/FiatDisplay'
+import React, { PureComponent } from 'react'
 class CoinSelection extends PureComponent<Props> {
   state = {}
-
+  checkAccountSelected = (side, values, account) => {
+    if (
+      (side === 'BASE' && values?.BASE?.label === account.label) ||
+      (side === 'COUNTER' && values?.COUNTER?.label === account.label)
+    ) {
+      return true
+    } else {
+      return false
+    }
+  }
+  checkCoinSelected = (side, values, account) => {
+    if (
+      (side === 'BASE' && values?.COUNTER?.coin === account.coin) ||
+      (side === 'COUNTER' && values?.BASE?.coin === account.coin)
+    ) {
+      return true
+    } else {
+      return false
+    }
+  }
   render () {
+    const { coins, values, walletCurrency } = this.props
     return (
-      <FlyoutWrapper>
-        <TopText spaceBetween={false} marginBottom>
-          <Icon
-            role='button'
-            name='arrow-left'
-            cursor
-            size='24px'
-            color='grey600'
-            onClick={() =>
-              this.props.swapActions.setStep({
-                step: 'INIT_SWAP'
-              })
-            }
-          />{' '}
+      <>
+        <FlyoutWrapper>
+          <TopText spaceBetween={false} marginBottom>
+            <Icon
+              role='button'
+              name='arrow-left'
+              cursor
+              size='24px'
+              color='grey600'
+              onClick={() =>
+                this.props.swapActions.setStep({
+                  step: 'INIT_SWAP'
+                })
+              }
+            />{' '}
+            <Text
+              size='20px'
+              color='grey900'
+              weight={600}
+              style={{ marginLeft: '24px' }}
+            >
+              <FormattedMessage id='copy.swap' defaultMessage='Swap' />{' '}
+              {this.props.side === 'BASE' ? 'from' : 'to'}
+            </Text>
+          </TopText>
           <Text
-            size='20px'
-            color='grey900'
-            weight={600}
-            style={{ marginLeft: '24px' }}
+            size='16px'
+            color='grey600'
+            weight={500}
+            style={{ margin: '10px 0 0 48px' }}
           >
-            <FormattedMessage id='copy.swap' defaultMessage='Swap' />{' '}
-            {this.props.side === 'BASE' ? 'from' : 'to'}
+            {this.props.side === 'BASE' ? (
+              <FormattedMessage
+                id='copy.swap_from'
+                defaultMessage='Which wallet do you want to Swap from?'
+              />
+            ) : (
+              <FormattedMessage
+                id='copy.swap_for'
+                defaultMessage='Which crypto do you want to Swap for?'
+              />
+            )}
           </Text>
-        </TopText>
+        </FlyoutWrapper>
         {coinOrder.map(coin => {
           const accounts = this.props.accounts[coin] as Array<SwapAccountType>
           return accounts.map(account => {
+            const isAccountSelected = this.checkAccountSelected(
+              this.props.side,
+              values,
+              account
+            )
+            const isCoinSelected = this.checkCoinSelected(
+              this.props.side,
+              values,
+              account
+            )
             return (
-              <div
-                role='button'
-                onClick={() =>
-                  this.props.swapActions.changePair(this.props.side, account)
-                }
-              >
-                {JSON.stringify(account)}
-              </div>
+              !isCoinSelected && (
+                <Option
+                  role='button'
+                  onClick={() =>
+                    this.props.swapActions.changePair(this.props.side, account)
+                  }
+                >
+                  <FlexStartRow>
+                    <Icon
+                      name={coins[account.coin].icons.circleFilled}
+                      color={coins[account.coin].colorCode}
+                      size='32px'
+                      style={{ marginRight: '16px' }}
+                    />
+                    <div>
+                      <Text
+                        color='grey900'
+                        weight={600}
+                        style={{ marginTop: '4px' }}
+                      >
+                        {account.label}
+                      </Text>
+                      <BalanceRow>
+                        <FiatDisplay
+                          color='grey800'
+                          coin={account.coin}
+                          currency={walletCurrency}
+                          loadingHeight='24px'
+                          style={{ lineHeight: '1.5' }}
+                          weight={500}
+                        >
+                          {account.balance}
+                        </FiatDisplay>
+                        <Text>
+                          (
+                          {convertBaseToStandard(account.coin, account.balance)}
+                          )
+                        </Text>
+                      </BalanceRow>
+                    </div>
+                  </FlexStartRow>
+                  <FlexStartRow>
+                    {account.type === 'CUSTODIAL' &&
+                      this.props.side === 'BASE' && (
+                        <SuccessCartridge>Low Fees</SuccessCartridge>
+                      )}
+                    <CircleBorder>
+                      {isAccountSelected && <CircleSelected />}
+                    </CircleBorder>
+                  </FlexStartRow>
+                </Option>
+              )
             )
           })
         })}
-      </FlyoutWrapper>
+      </>
     )
   }
 }
 
 const mapStateToProps = (state: RootState) => ({
+  values: selectors.form.getFormValues('initSwap')(
+    state
+  ) as InitSwapFormValuesType,
   ...getData(state)
 })
 
@@ -69,6 +176,8 @@ type OwnProps = BaseProps & {
   handleClose: () => void
   side: 'BASE' | 'COUNTER'
 }
-export type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = OwnProps &
+  SuccessStateType &
+  ConnectedProps<typeof connector>
 
 export default connector(CoinSelection)

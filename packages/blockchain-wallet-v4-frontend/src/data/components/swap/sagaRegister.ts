@@ -13,6 +13,7 @@ export default ({ api, coreSagas, networks }) => {
   return function * swapSaga () {
     yield takeLatest(AT.CANCEL_ORDER, swapSagas.cancelOrder)
     yield takeLatest(AT.CHANGE_PAIR, swapSagas.changePair)
+    yield takeLatest(AT.CHANGE_SWAP_TRENDING_PAIR, swapSagas.changeTrendingPair)
     yield takeLatest(AT.CREATE_ORDER, swapSagas.createOrder)
     yield takeLatest(AT.FETCH_LIMITS, swapSagas.fetchLimits)
     yield takeLatest(AT.FETCH_TRADES, swapSagas.fetchTrades)
