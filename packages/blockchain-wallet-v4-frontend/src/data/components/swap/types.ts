@@ -32,6 +32,7 @@ export type InitSwapFormValuesType =
 export type SwapCoinType = CoinType
 
 export enum SwapStepType {
+  'VERIFY_IDENTITY',
   'INIT_SWAP',
   'COIN_SELECTION',
   'ENTER_AMOUNT',
@@ -127,6 +128,7 @@ interface SetSwapStepActionType {
 }
 
 export type SwapStepPayload =
+  | { options?: never; step: 'VERIFY_IDENTITY' }
   | {
       options?: never
       step: 'ENTER_AMOUNT'

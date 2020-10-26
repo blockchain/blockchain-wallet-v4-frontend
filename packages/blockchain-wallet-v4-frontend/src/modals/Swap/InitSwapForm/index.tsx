@@ -273,7 +273,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         size='32px'
                         style={{ marginRight: '16px' }}
                       />
-                      <IconBackground color='blue000'>
+                      <IconBackground size='24px' position='absolute'>
                         <Icon
                           name='arrows-horizontal'
                           size='10px'
@@ -319,7 +319,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         size='32px'
                         style={{ marginRight: '16px' }}
                       />
-                      <IconBackground color='blue000'>
+                      <IconBackground size='24px' position='absolute'>
                         <Icon
                           name='arrows-horizontal'
                           size='10px'
@@ -365,7 +365,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         size='32px'
                         style={{ marginRight: '16px' }}
                       />
-                      <IconBackground color='blue000'>
+                      <IconBackground size='24px' position='absolute'>
                         <Icon
                           name='arrows-horizontal'
                           size='10px'

@@ -2,6 +2,10 @@ import { Form } from 'redux-form'
 import { Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+export const Border = styled.div`
+  border-top: 1px solid ${props => props.theme.grey000};
+`
+
 export const TopText = styled(Text)<{
   marginBottom?: boolean
   spaceBetween: boolean
@@ -27,17 +31,17 @@ export const BalanceRow = styled.div`
   display: flex;
   align-items: center;
 `
-export const IconBackground = styled.div<{ color: string }>`
-  position: absolute;
+export const IconBackground = styled.div<{ position?: string, size: string; }>`
+  position: ${props => props.position};
   left: 67px;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 24px;
+  width: ${props => props.size};
+  height: ${props => props.size};
+  border-radius: ${props => props.size};
   z-index: 100;
-  background: ${props => props.theme[props.color]};
+  background: ${props => props.theme.blue000};
 `
 
 export const TrendingIconRow = styled.div`

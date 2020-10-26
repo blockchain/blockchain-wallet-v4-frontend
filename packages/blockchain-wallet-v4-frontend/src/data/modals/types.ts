@@ -76,6 +76,7 @@ export type ModalOriginType =
   | 'SettingsProfile'
   | 'SideNav'
   | 'SimpleBuyLink'
+  | 'Swap'
   | 'SwapGetStarted'
   | 'TheExchangePage'
   | 'TransactionList'
