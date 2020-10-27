@@ -1,8 +1,9 @@
-import { RootState } from 'data/rootReducer'
-
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { selectors } from 'data'
 
-export const getData = (state: RootState) => {
-  const accounts = selectors.components.swap.getActiveAccounts(state)
-  return { accounts }
-}
+export const getData = createDeepEqualSelector(
+  [selectors.components.swap.getActiveAccounts],
+  accounts => {
+    return { accounts }
+  }
+)

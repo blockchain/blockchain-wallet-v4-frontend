@@ -352,7 +352,7 @@ export default ({
     } else {
       yield put(
         A.setStep({
-          step: 'ENTER_AMOUNT'
+          step: 'INIT_SWAP'
         })
       )
     }

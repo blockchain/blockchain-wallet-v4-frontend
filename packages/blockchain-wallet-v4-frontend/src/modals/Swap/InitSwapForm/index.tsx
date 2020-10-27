@@ -7,6 +7,8 @@ import {
   FlexStartRow,
   IconBackground,
   Option,
+  OptionTitle,
+  OptionValue,
   StyledForm,
   TopText,
   TrendingIconRow
@@ -16,12 +18,11 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import { CoinType } from 'core/types'
 import { compose } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { convertBaseToStandard } from 'data/components/exchange/services'
 import { FlyoutWrapper } from 'components/Flyout'
 import { getData } from './selectors'
 import { InitSwapFormValuesType } from 'data/components/swap/types'
 import { selectors } from 'data'
-import FiatDisplay from 'components/Display/FiatDisplay'
+import CoinBalance from './CoinBalance'
 import VerifyIdentity from './VerifyIdentity'
 
 class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
@@ -37,7 +38,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 
   render () {
-    const { accounts, coins, userData, values, walletCurrency } = this.props
+    const { accounts, coins, userData, values } = this.props
     return userData.tiers && userData.tiers.current !== 0 ? (
       <>
         <FlyoutWrapper>
@@ -94,27 +95,15 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       <Text color='grey600' weight={500} size='14px'>
                         Swap From
                       </Text>
-                      <Text>{values.BASE.label}</Text>
-                      <BalanceRow>
-                        <FiatDisplay
-                          color='grey800'
-                          coin={values.BASE.coin}
-                          currency={walletCurrency}
-                          loadingHeight='24px'
-                          style={{ lineHeight: '1.5' }}
-                          weight={600}
-                        >
-                          {values.BASE.balance}
-                        </FiatDisplay>
-                        <Text>
-                          (
-                          {convertBaseToStandard(
-                            values.BASE.coin,
-                            values.BASE.balance
-                          )}
-                          )
-                        </Text>
-                      </BalanceRow>
+                      <OptionTitle>{values.BASE.label}</OptionTitle>
+                      <OptionValue>
+                        <BalanceRow>
+                          <CoinBalance
+                            account={values.BASE}
+                            walletCurrency={this.props.walletCurrency}
+                          />
+                        </BalanceRow>
+                      </OptionValue>
                     </div>
                     <Icon
                       name={coins[values.BASE.coin].icons.circleFilled}
@@ -129,21 +118,10 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         Swap from
                       </Text>
                       <>
-                        <Text
-                          color='grey900'
-                          weight={600}
-                          style={{ marginTop: '4px' }}
-                        >
-                          Select a Wallet
-                        </Text>
-                        <Text
-                          color='grey900'
-                          weight={600}
-                          size='14px'
-                          style={{ marginTop: '4px' }}
-                        >
+                        <OptionTitle>Select a Wallet</OptionTitle>
+                        <OptionValue color='grey900'>
                           This is the crypto you send.
-                        </Text>
+                        </OptionValue>
                       </>
                     </div>
                     <Icon name='chevron-right' size='20px' color='grey400' />
@@ -169,30 +147,18 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 {values?.COUNTER ? (
                   <>
                     <div>
-                      <Text color='grey600' weight={500} size='14px'>
-                        Receive to
-                      </Text>
-                      <Text>{values.COUNTER.label}</Text>
-                      <BalanceRow>
-                        <FiatDisplay
-                          color='grey800'
-                          coin={values.COUNTER.coin}
-                          currency={walletCurrency}
-                          loadingHeight='24px'
-                          style={{ lineHeight: '1.5' }}
-                          weight={600}
-                        >
-                          {values.COUNTER.balance}
-                        </FiatDisplay>
-                        <Text>
-                          (
-                          {convertBaseToStandard(
-                            values.COUNTER.coin,
-                            values.COUNTER.balance
-                          )}
-                          )
-                        </Text>
-                      </BalanceRow>
+                      <OptionValue>Receive to</OptionValue>
+                      <OptionTitle color='grey900'>
+                        {values.COUNTER.label}
+                      </OptionTitle>
+                      <OptionValue>
+                        <BalanceRow>
+                          <CoinBalance
+                            account={values.COUNTER}
+                            walletCurrency={this.props.walletCurrency}
+                          />
+                        </BalanceRow>
+                      </OptionValue>
                     </div>
                     <Icon
                       name={coins[values.COUNTER.coin].icons.circleFilled}
@@ -207,21 +173,10 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         Receive to
                       </Text>
                       <>
-                        <Text
-                          color='grey900'
-                          weight={600}
-                          style={{ marginTop: '4px' }}
-                        >
-                          Select a Wallet
-                        </Text>
-                        <Text
-                          color='grey900'
-                          weight={600}
-                          size='14px'
-                          style={{ marginTop: '4px' }}
-                        >
+                        <OptionTitle>Select a Wallet</OptionTitle>
+                        <OptionValue color='grey900'>
                           This is the crypto you get.
-                        </Text>
+                        </OptionValue>
                       </>
                     </div>
                     <Icon name='chevron-right' size='20px' color='grey400' />
@@ -284,16 +239,8 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       <Icon color='eth' name='eth-circle-filled' size='32px' />
                     </TrendingIconRow>
                     <div>
-                      <Text
-                        color='grey900'
-                        weight={600}
-                        style={{ marginTop: '4px' }}
-                      >
-                        Swap Bitcoin
-                      </Text>
-                      <Text color='grey600' weight={500} size='14px'>
-                        Receive Ethereum
-                      </Text>
+                      <OptionTitle>Swap Bitcoin</OptionTitle>
+                      <OptionValue>Receive Ethereum</OptionValue>
                     </div>
                   </FlexStartRow>
                   <Icon name='chevron-right' size='20px' color='grey400' />
@@ -330,16 +277,8 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       <Icon color='btc' name='btc-circle-filled' size='32px' />
                     </TrendingIconRow>
                     <div>
-                      <Text
-                        color='grey900'
-                        weight={600}
-                        style={{ marginTop: '4px' }}
-                      >
-                        Swap Ethereum
-                      </Text>
-                      <Text color='grey600' weight={500} size='14px'>
-                        Receive Bitcoin
-                      </Text>
+                      <OptionTitle>Swap Ethereum</OptionTitle>
+                      <OptionValue>Receive Bitcoin</OptionValue>
                     </div>
                   </FlexStartRow>
                   <Icon name='chevron-right' size='20px' color='grey400' />
@@ -376,16 +315,8 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       <Icon color='usd-d' name='usd-d' size='32px' />
                     </TrendingIconRow>
                     <div>
-                      <Text
-                        color='grey900'
-                        weight={600}
-                        style={{ marginTop: '4px' }}
-                      >
-                        Swap BTC
-                      </Text>
-                      <Text color='grey600' weight={500} size='14px'>
-                        Receive USD Digital
-                      </Text>
+                      <OptionTitle>Swap BTC</OptionTitle>
+                      <OptionValue>Receive USD Digital</OptionValue>
                     </div>
                   </FlexStartRow>
                   <Icon name='chevron-right' size='20px' color='grey400' />
@@ -393,7 +324,6 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               )}
             />
           </>
-          )
         </StyledForm>
       </>
     ) : (

@@ -1,6 +1,6 @@
 import { Form } from 'redux-form'
 import { Text } from 'blockchain-info-components'
-import styled from 'styled-components'
+import styled, { DefaultTheme } from 'styled-components'
 
 export const Border = styled.div`
   border-top: 1px solid ${props => props.theme.grey000};
@@ -27,11 +27,22 @@ export const Option = styled.div`
   padding: 16px 40px;
   cursor: pointer;
 `
+export const OptionTitle = styled(Text)`
+  color: ${props => props.theme.grey900};
+  margin-top: 4px;
+  font-weight: 600;
+`
+export const OptionValue = styled(Text)<{ color?: keyof DefaultTheme }>`
+  color: ${props => props.color || props.theme.grey600};
+  margin-top: 4px;
+  font-weight: 600;
+  font-size: 14px;
+`
 export const BalanceRow = styled.div`
   display: flex;
   align-items: center;
 `
-export const IconBackground = styled.div<{ position?: string, size: string; }>`
+export const IconBackground = styled.div<{ position?: string; size: string }>`
   position: ${props => props.position};
   left: 67px;
   display: flex;
