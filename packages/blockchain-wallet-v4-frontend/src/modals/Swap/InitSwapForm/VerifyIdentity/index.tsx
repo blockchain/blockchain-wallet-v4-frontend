@@ -1,5 +1,5 @@
-import { Props as BaseProps, SuccessStateType } from '..'
-import { Border, FlexStartRow, IconBackground, TopText } from '../components'
+import { Props as BaseProps, SuccessStateType } from '../../index'
+import { Border, FlexStartRow, IconBackground, TopText } from '../../components'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import React, { PureComponent } from 'react'

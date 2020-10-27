@@ -8,7 +8,7 @@ const INITIAL_STATE: SwapState = {
   payment: Remote.NotAsked,
   quote: Remote.NotAsked,
   side: 'BASE',
-  step: 'VERIFY_IDENTITY',
+  step: 'INIT_SWAP',
   trades: {
     status: Remote.NotAsked,
     list: []

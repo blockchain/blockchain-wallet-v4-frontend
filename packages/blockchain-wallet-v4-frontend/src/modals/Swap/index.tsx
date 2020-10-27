@@ -16,7 +16,6 @@ import EnterAmount from './EnterAmount'
 import InitSwapForm from './InitSwapForm'
 import OrderDetails from './OrderDetails'
 import PreviewSwap from './PreviewSwap'
-import VerifyIdentity from './VerifyIdentity'
 
 class Swap extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
@@ -58,15 +57,6 @@ class Swap extends PureComponent<Props, State> {
           direction={this.state.direction}
           onClose={this.handleClose}
         >
-          {this.props.step === 'VERIFY_IDENTITY' && (
-            <FlyoutChild>
-              <VerifyIdentity
-                {...this.props}
-                handleClose={this.handleClose}
-                {...val}
-              />
-            </FlyoutChild>
-          )}
           {this.props.step === 'INIT_SWAP' && (
             <FlyoutChild>
               <InitSwapForm
@@ -116,7 +106,6 @@ class Swap extends PureComponent<Props, State> {
 const mapStateToProps = (
   state: RootState
 ): { data: ReturnType<typeof getData> } & (
-  | { step: 'VERIFY_IDENTITY' }
   | {
       step: 'INIT_SWAP'
     }
