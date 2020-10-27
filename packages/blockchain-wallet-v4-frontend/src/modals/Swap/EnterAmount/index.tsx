@@ -1,6 +1,6 @@
+import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
@@ -21,6 +21,9 @@ import Loading from './template.loading'
 const SubTopText = styled.div`
   display: flex;
   align-items: center;
+`
+const UpgradeRow = styled(SubTopText)`
+  justify-content: space-between;
 `
 const Options = styled.div`
   position: relative;
@@ -47,15 +50,18 @@ const Toggler = styled.div`
     top: 2px;
   }
 `
+const CustomFlyoutWrapper = styled(FlyoutWrapper)`
+  justify-content: space-between;
+`
 
 class EnterAmount extends PureComponent<Props> {
   state = {}
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.swapActions.initAmountForm()
   }
 
-  render () {
+  render() {
     if (
       !this.props.initSwapFormValues?.BASE ||
       !this.props.initSwapFormValues?.COUNTER
@@ -72,11 +78,11 @@ class EnterAmount extends PureComponent<Props> {
           <TopText spaceBetween>
             <SubTopText>
               <Icon
-                role='button'
-                name='arrow-left'
+                role="button"
+                name="arrow-left"
                 cursor
-                size='24px'
-                color='grey600'
+                size="24px"
+                color="grey600"
                 onClick={() =>
                   this.props.swapActions.setStep({
                     step: 'INIT_SWAP'
@@ -84,36 +90,36 @@ class EnterAmount extends PureComponent<Props> {
                 }
               />{' '}
               <Text
-                size='20px'
-                color='grey900'
+                size="20px"
+                color="grey900"
                 weight={600}
                 style={{ marginLeft: '16px' }}
               >
                 <FormattedMessage
-                  id='copy.new_swap'
-                  defaultMessage='New Swap'
+                  id="copy.new_swap"
+                  defaultMessage="New Swap"
                 />
               </Text>
             </SubTopText>
             {this.props.quoteR.cata({
               Success: val => (
-                <Text size='14px' color='grey900' weight={500}>
+                <Text size="14px" color="grey900" weight={500}>
                   1 {BASE.coin} = {formatCoin(val.rate)} {COUNTER.coin}
                 </Text>
               ),
               Failure: () => (
-                <Text size='14px' color='red600'>
+                <Text size="14px" color="red600">
                   <FormattedMessage
-                    id='copy.oops'
-                    defaultMessage='Oops. Something went wrong.'
+                    id="copy.oops"
+                    defaultMessage="Oops. Something went wrong."
                   />
                 </Text>
               ),
               Loading: () => (
-                <SpinningLoader borderWidth='4px' height='14px' width='14px' />
+                <SpinningLoader borderWidth="4px" height="14px" width="14px" />
               ),
               NotAsked: () => (
-                <SpinningLoader borderWidth='4px' height='14px' width='14px' />
+                <SpinningLoader borderWidth="4px" height="14px" width="14px" />
               )
             })}
           </TopText>
@@ -121,7 +127,7 @@ class EnterAmount extends PureComponent<Props> {
         <div>
           <Options>
             <Option
-              role='button'
+              role="button"
               onClick={() =>
                 this.props.swapActions.setStep({
                   step: 'COIN_SELECTION',
@@ -132,7 +138,7 @@ class EnterAmount extends PureComponent<Props> {
               }
             >
               <div>
-                <Text color='grey600' weight={500} size='14px'>
+                <Text color="grey600" weight={500} size="14px">
                   Swap From
                 </Text>
                 <OptionTitle>{BASE.label}</OptionTitle>
@@ -143,15 +149,15 @@ class EnterAmount extends PureComponent<Props> {
               <Icon
                 name={coins[BASE.coin].icons.circleFilled}
                 color={coins[BASE.coin].colorCode}
-                size='32px'
+                size="32px"
               />
             </Option>
             <Toggler onClick={this.props.swapActions.toggleBaseAndCounter}>
-              <Icon color='blue600' size='24px' name='arrow-up' />
-              <Icon color='blue600' size='24px' name='arrow-down' />
+              <Icon color="blue600" size="24px" name="arrow-up" />
+              <Icon color="blue600" size="24px" name="arrow-down" />
             </Toggler>
             <Option
-              role='button'
+              role="button"
               onClick={() =>
                 this.props.swapActions.setStep({
                   step: 'COIN_SELECTION',
@@ -162,7 +168,7 @@ class EnterAmount extends PureComponent<Props> {
               }
             >
               <div>
-                <Text color='grey600' weight={500} size='14px'>
+                <Text color="grey600" weight={500} size="14px">
                   Swap From
                 </Text>
                 <OptionTitle>{COUNTER.label}</OptionTitle>
@@ -176,7 +182,7 @@ class EnterAmount extends PureComponent<Props> {
               <Icon
                 name={coins[COUNTER.coin].icons.circleFilled}
                 color={coins[COUNTER.coin].colorCode}
-                size='32px'
+                size="32px"
               />
             </Option>
           </Options>
@@ -187,6 +193,41 @@ class EnterAmount extends PureComponent<Props> {
             NotAsked: () => <Loading />
           })}
         </div>
+        <FlyoutWrapper>
+          <UpgradeRow>
+            <div>
+              <Text size="14px" weight={500} color="grey600" lineHeight="150%">
+                <FormattedMessage
+                  id="copy.upgrade"
+                  defaultMessage="Upgrade To Gold"
+                />
+              </Text>
+              <Text size="16px" color="grey800" weight={600} lineHeight="150%">
+                <FormattedMessage
+                  id="copy.swap_up_to"
+                  defaultMessage="Swap Up to $10,000 a Day"
+                />
+              </Text>
+            </div>
+            <Button
+              data-e2e="earnInterestLearnMore"
+              nature="light"
+              onClick={() =>
+                this.props.swapActions.setStep({
+                  step: 'UPGRADE_PROMPT'
+                })
+              }
+              height="32px"
+              width="90px"
+              size="14px"
+            >
+              <FormattedMessage
+                id="buttons.learn_more"
+                defaultMessage="Learn More"
+              />
+            </Button>
+          </UpgradeRow>
+        </FlyoutWrapper>
       </>
     )
   }

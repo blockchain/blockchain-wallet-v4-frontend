@@ -16,6 +16,7 @@ import EnterAmount from './EnterAmount'
 import InitSwapForm from './InitSwapForm'
 import OrderDetails from './OrderDetails'
 import PreviewSwap from './PreviewSwap'
+import UpgradePrompt from './UpgradePrompt'
 
 class Swap extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
@@ -84,6 +85,15 @@ class Swap extends PureComponent<Props, State> {
               />
             </FlyoutChild>
           )}
+          {this.props.step === 'UPGRADE_PROMPT' && (
+            <FlyoutChild>
+              <UpgradePrompt
+                {...this.props}
+                handleClose={this.handleClose}
+                {...val}
+              />
+            </FlyoutChild>
+          )}
           {this.props.step === 'PREVIEW_SWAP' && (
             <FlyoutChild>
               <PreviewSwap {...this.props} handleClose={this.handleClose} />
@@ -115,6 +125,9 @@ const mapStateToProps = (
     }
   | {
       step: 'ENTER_AMOUNT'
+    }
+  | {
+      step: 'UPGRADE_PROMPT'
     }
   | {
       step: 'PREVIEW_SWAP'
