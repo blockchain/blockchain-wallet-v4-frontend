@@ -32,6 +32,7 @@ import sendSagas from '../send/sagas'
 import utils from './sagas.utils'
 
 const { INTEREST_EVENTS } = model.analytics
+const DEPOSIT_FORM = 'interestDepositForm'
 
 export default ({
   api,
@@ -177,11 +178,11 @@ export default ({
 
   const formChanged = function * (action: FormAction) {
     const form = action.meta.form
-    const values: InterestDepositFormType = yield select(
-      selectors.form.getFormValues('interestDepositForm')
-    )
-    if (form !== 'interestDepositForm') return
+    if (form !== DEPOSIT_FORM) return
 
+    const formValues: InterestDepositFormType = yield select(
+      selectors.form.getFormValues(DEPOSIT_FORM)
+    )
     const coin = S.getCoinType(yield select())
     const ratesR = S.getRates(yield select())
     const userCurrency = (yield select(
@@ -223,27 +224,27 @@ export default ({
 
         break
       case 'interestDepositAccount':
-        let newPayment: PaymentValue | undefined
+        let custodialBalances: SBBalancesType | undefined
+        let depositPayment: PaymentValue
+        const isCustodialDeposit =
+          prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
+
+        yield put(A.setPaymentLoading())
         // custodial deposit
-        if (prop('type', values.interestDepositAccount) === 'CUSTODIAL') {
-          const custodialBalances: SBBalancesType = (yield select(
+        if (isCustodialDeposit) {
+          custodialBalances = (yield select(
             selectors.components.simpleBuy.getSBBalances
           )).getOrFail('Failed to get balance')
-          yield call(createLimits, undefined, custodialBalances)
-        } else {
-          // non-custodial deposit
-          yield put(A.setPaymentLoading())
-          newPayment = yield call(createPayment, {
-            ...values.interestDepositAccount,
-            address: getAccountIndexOrAccount(
-              coin,
-              values.interestDepositAccount
-            )
-          })
-
-          yield call(createLimits, newPayment)
-          yield put(A.setPaymentSuccess(newPayment))
         }
+        depositPayment = yield call(createPayment, {
+          ...formValues.interestDepositAccount,
+          address: getAccountIndexOrAccount(
+            coin,
+            formValues.interestDepositAccount
+          )
+        })
+        yield call(createLimits, depositPayment, custodialBalances)
+        yield put(A.setPaymentSuccess(depositPayment))
     }
   }
 
@@ -309,7 +310,7 @@ export default ({
     yield call(createLimits, payment)
     yield put(A.setPaymentSuccess(payment))
     yield put(
-      initialize('interestDepositForm', {
+      initialize(DEPOSIT_FORM, {
         interestDepositAccount: defaultAccountR.getOrElse(),
         coin,
         currency
@@ -350,44 +351,63 @@ export default ({
   }
 
   const sendDeposit = function * () {
-    const FORM = 'interestDepositForm'
-
     try {
-      yield put(actions.form.startSubmit(FORM))
+      yield put(actions.form.startSubmit(DEPOSIT_FORM))
+      const formValues: InterestDepositFormType = yield select(
+        selectors.form.getFormValues(DEPOSIT_FORM)
+      )
+      const isCustodialDeposit =
+        prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
       const coin = S.getCoinType(yield select())
-      yield call(fetchInterestAccount, coin)
-      const depositAddress = yield select(S.getDepositAddress)
       const paymentR = S.getPayment(yield select())
-      let payment = paymentGetOrElse(
+      const payment = paymentGetOrElse(
         coin,
         paymentR as RemoteDataType<string, any>
       )
-      // build and publish payment to network
-      const depositTx = yield call(
-        buildAndPublishPayment,
-        coin,
-        payment,
-        depositAddress
-      )
-      // notify backend of incoming non-custodial deposit
-      yield put(
-        actions.components.send.notifyNonCustodialToCustodialTransfer(
-          depositTx,
-          'SAVINGS'
+      if (isCustodialDeposit) {
+        const { amount } = payment.value()
+        // custodial deposit
+        yield call(
+          // @ts-ignore
+          api.initiateCustodialTransfer,
+          amount && amount[0].toString(),
+          coin,
+          'SAVINGS',
+          'SIMPLEBUY'
         )
-      )
+      } else {
+        // non-custodial deposit
+        yield call(fetchInterestAccount, coin)
+        const depositAddress = yield select(S.getDepositAddress)
+
+        // build and publish payment to network
+        const depositTx = yield call(
+          buildAndPublishPayment,
+          coin,
+          payment,
+          depositAddress
+        )
+        // notify backend of incoming non-custodial deposit
+        yield put(
+          actions.components.send.notifyNonCustodialToCustodialTransfer(
+            depositTx,
+            'SAVINGS'
+          )
+        )
+      }
+
       // notify UI of success
-      yield put(actions.form.stopSubmit(FORM))
+      yield put(actions.form.stopSubmit(DEPOSIT_FORM))
       yield put(A.setInterestStep('ACCOUNT_SUMMARY', { depositSuccess: true }))
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_SUCCESS)
       )
-      yield delay(1500)
+      yield delay(2500)
       yield put(A.fetchInterestBalance())
       yield put(actions.router.push('/interest/history'))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(actions.form.stopSubmit(FORM, { _error: error }))
+      yield put(actions.form.stopSubmit(DEPOSIT_FORM, { _error: error }))
       yield put(
         A.setInterestStep('ACCOUNT_SUMMARY', { depositSuccess: false, error })
       )

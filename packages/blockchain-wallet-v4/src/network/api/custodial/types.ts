@@ -85,7 +85,7 @@ type WithdrawalLockCheckRule = {
   insertedAt: string
   isActive: boolean
   lockTime: number
-  paymenthMethod: 'CARD'
+  paymentMethod: 'CARD'
   updatedAt: string
 }
 
