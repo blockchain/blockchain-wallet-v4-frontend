@@ -22,6 +22,7 @@ import { getData } from './selectors'
 import { InitSwapFormValuesType } from 'data/components/swap/types'
 import { selectors } from 'data'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import VerifyIdentity from './VerifyIdentity'
 
 class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   state = {}
@@ -36,8 +37,8 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 
   render () {
-    const { accounts, coins, values, walletCurrency } = this.props
-    return (
+    const { accounts, coins, userData, values, walletCurrency } = this.props
+    return userData.tiers && userData.tiers.current !== 0 ? (
       <>
         <FlyoutWrapper>
           <TopText spaceBetween marginBottom>
@@ -273,7 +274,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         size='32px'
                         style={{ marginRight: '16px' }}
                       />
-                      <IconBackground color='blue000'>
+                      <IconBackground size='24px' position='absolute'>
                         <Icon
                           name='arrows-horizontal'
                           size='10px'
@@ -319,7 +320,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         size='32px'
                         style={{ marginRight: '16px' }}
                       />
-                      <IconBackground color='blue000'>
+                      <IconBackground size='24px' position='absolute'>
                         <Icon
                           name='arrows-horizontal'
                           size='10px'
@@ -365,7 +366,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         size='32px'
                         style={{ marginRight: '16px' }}
                       />
-                      <IconBackground color='blue000'>
+                      <IconBackground size='24px' position='absolute'>
                         <Icon
                           name='arrows-horizontal'
                           size='10px'
@@ -395,6 +396,8 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           )
         </StyledForm>
       </>
+    ) : (
+      <VerifyIdentity {...this.props} />
     )
   }
 }
