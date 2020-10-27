@@ -22,7 +22,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { getData } from './selectors'
 import { InitSwapFormValuesType } from 'data/components/swap/types'
 import { selectors } from 'data'
-import CoinBalance from './CoinBalance'
+import CoinBalance from '../components/CoinBalance'
 import VerifyIdentity from './VerifyIdentity'
 
 class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {

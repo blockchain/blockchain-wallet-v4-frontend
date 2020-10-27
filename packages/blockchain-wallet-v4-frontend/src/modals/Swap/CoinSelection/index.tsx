@@ -18,7 +18,7 @@ import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 import { SuccessCartridge } from 'components/Cartridge'
 import { SwapAccountType } from 'data/types'
-import CoinBalance from '../InitSwapForm/CoinBalance'
+import CoinBalance from '../components/CoinBalance'
 import React, { PureComponent } from 'react'
 class CoinSelection extends PureComponent<Props> {
   state = {}
