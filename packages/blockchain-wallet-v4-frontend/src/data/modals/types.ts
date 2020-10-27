@@ -3,6 +3,7 @@ import * as AT from './actionTypes'
 export type ModalNamesType =
   | '@EXCHANGE.ETH_AIRDROP_MODAL'
   | '@EXCHANGE.RESULTS_MODAL'
+  | '@KYC.IdentityVerification'
   | '@MODAL.REQUEST.BCH'
   | '@MODAL.REQUEST.BTC'
   | '@MODAL.REQUEST.ETH'
@@ -106,6 +107,9 @@ interface CloseAllModals {
 }
 
 interface CloseModal {
+  payload: {
+    modalName?: ModalNamesType
+  }
   type: typeof AT.CLOSE_MODAL
 }
 
