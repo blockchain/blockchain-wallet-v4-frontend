@@ -106,12 +106,10 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     ? props.payment.effectiveBalance
     : props.BASE.balance
 
-  let maxAmountSilver = true
-  // props.userData.tiers.current === 1 &&
-  // amtError === 'ABOVE_MAX' &&
-  // props.limits.maxPossibleOrder < props.limits.maxOrder
-  //   ? true
-  //   : false
+  const maxAmountSilver =
+    !!(props.userData.tiers.current === 1 &&
+    amtError === 'ABOVE_MAX' &&
+    props.limits.maxPossibleOrder < props.limits.maxOrder)
 
   const handleMinMaxClick = () => {
     const value = amtError === 'BELOW_MIN' ? min : max
