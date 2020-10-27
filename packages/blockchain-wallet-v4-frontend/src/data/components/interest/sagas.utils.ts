@@ -58,15 +58,16 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   }
 
   const createLimits = function * (
-    payment?: PaymentValue,
-    balances?: SBBalancesType
+    payment: PaymentValue,
+    custodialBalances?: SBBalancesType
   ) {
     try {
       const coin = S.getCoinType(yield select())
       const limitsR = S.getInterestLimits(yield select())
       const limits = limitsR.getOrFail('NO_LIMITS_AVAILABLE')
       const balance = payment && payment.effectiveBalance
-      const custodialBalance = balances && balances[coin]?.available
+      const custodialBalance =
+        custodialBalances && custodialBalances[coin]?.available
       const ratesR = S.getRates(yield select())
       const rates = ratesR.getOrElse({} as RatesType)
       const userCurrency = (yield select(
@@ -78,7 +79,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       switch (coin) {
         case 'BCH':
           maxFiat = Exchange.convertBchToFiat({
-            value: balance || custodialBalance || 0,
+            value: custodialBalance || balance || 0,
             fromUnit: 'SAT',
             toCurrency: userCurrency,
             rates
@@ -86,7 +87,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
           break
         case 'BTC':
           maxFiat = Exchange.convertBtcToFiat({
-            value: balance || custodialBalance || 0,
+            value: custodialBalance || balance || 0,
             fromUnit: 'SAT',
             toCurrency: userCurrency,
             rates
@@ -94,7 +95,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
           break
         case 'ETH':
           maxFiat = Exchange.convertEthToFiat({
-            value: balance || custodialBalance || 0,
+            value: custodialBalance || balance || 0,
             fromUnit: 'WEI',
             toCurrency: userCurrency,
             rates
@@ -102,7 +103,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
           break
         case 'PAX':
           maxFiat = Exchange.convertPaxToFiat({
-            value: balance || custodialBalance || 0,
+            value: custodialBalance || balance || 0,
             fromUnit: 'WEI',
             toCurrency: userCurrency,
             rates
@@ -110,7 +111,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
           break
         case 'USDT':
           maxFiat = Exchange.convertUsdtToFiat({
-            value: balance || custodialBalance || 0,
+            value: custodialBalance || balance || 0,
             fromUnit: 'WEI',
             toCurrency: userCurrency,
             rates
@@ -118,7 +119,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
           break
         case 'XLM':
           maxFiat = Exchange.convertXlmToFiat({
-            value: balance || custodialBalance || 0,
+            value: custodialBalance || balance || 0,
             fromUnit: 'STROOP',
             toCurrency: userCurrency,
             rates

@@ -84,12 +84,31 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       }
     })
 
+  const initiateCustodialTransfer = (
+    amount: string,
+    currency: CoinType,
+    destination: NabuCustodialProductType,
+    origin: NabuCustodialProductType
+  ) =>
+    authorizedPost({
+      url: nabuUrl,
+      endPoint: '/custodial/transfer',
+      contentType: 'application/json',
+      data: {
+        amount,
+        currency,
+        destination,
+        origin
+      }
+    })
+
   return {
+    checkWithdrawalLocks,
     getBeneficiaries,
     getWithdrawalLocks,
     getWithdrawalFees,
+    initiateCustodialTransfer,
     notifyNonCustodialToCustodialTransfer,
-    checkWithdrawalLocks,
     withdrawFunds
   }
 }
