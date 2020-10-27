@@ -30,7 +30,7 @@ const Upgrade: React.FC<Props> = props => {
           </Text>
         </div>
         <Button
-          data-e2e='earnInterestLearnMore'
+          data-e2e='learnMoreUpgrade'
           nature='light'
           onClick={() =>
             props.swapActions.setStep({

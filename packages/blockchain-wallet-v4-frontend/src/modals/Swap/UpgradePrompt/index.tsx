@@ -4,10 +4,6 @@ import { FlexStartRow, IconBackground } from '../components'
 import { FormattedMessage } from 'react-intl'
 import React from 'react'
 
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-
-import { actions } from 'data'
 import { FlyoutWrapper } from 'components/Flyout'
 
 const UpgradePrompt: React.FC<Props> = props => {
@@ -132,18 +128,8 @@ const UpgradePrompt: React.FC<Props> = props => {
   )
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  idvActions: bindActionCreators(
-    actions.components.identityVerification,
-    dispatch
-  )
-})
-const connector = connect(undefined, mapDispatchToProps)
-
-const enhance = compose(connector)
-
 type OwnProps = BaseProps & { handleClose: () => void }
 
-export type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = OwnProps
 
-export default enhance(UpgradePrompt)
+export default UpgradePrompt

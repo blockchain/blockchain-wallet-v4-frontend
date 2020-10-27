@@ -65,7 +65,7 @@ class EnterAmount extends PureComponent<Props> {
     }
 
     const { BASE, COUNTER } = this.props.initSwapFormValues
-    const { coins, walletCurrency } = this.props
+    const { coins, userData, walletCurrency } = this.props
 
     return (
       <>
@@ -185,7 +185,7 @@ class EnterAmount extends PureComponent<Props> {
             Success: val => (
               <>
                 <Checkout {...val} {...this.props} BASE={BASE} />
-                <Upgrade {...this.props} />
+                {userData.tiers.current === 1 && <Upgrade {...this.props} />}
               </>
             ),
             Failure: () => <>oops</>,

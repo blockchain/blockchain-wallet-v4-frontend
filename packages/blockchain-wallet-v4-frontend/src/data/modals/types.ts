@@ -80,6 +80,7 @@ export type ModalOriginType =
   | 'Swap'
   | 'SwapGetStarted'
   | 'SwapPrompt'
+  | 'SwapLimitPrompt'
   | 'TheExchangePage'
   | 'TransactionList'
   | 'Unknown'
