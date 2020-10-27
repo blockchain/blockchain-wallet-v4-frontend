@@ -1,6 +1,7 @@
 import { actions } from 'data'
+import { bindActionCreators } from 'redux'
 import { BlockchainLoader } from 'blockchain-info-components'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { SceneWrapper } from 'components/Layout'
 import DataError from 'components/DataError'
@@ -13,20 +14,25 @@ const Loading = () => (
   </SceneWrapper>
 )
 
-export const Profile = ({ data, fetchUser }) =>
-  data.cata({
+export const Profile = (props: Props) =>
+  props.data.cata({
     Success: () => (
       <SceneWrapper>
-        <IdentityVerification />
+        <IdentityVerification {...props} />
       </SceneWrapper>
     ),
     NotAsked: () => <Loading />,
     Loading: () => <Loading />,
-    Failure: () => <DataError onClick={fetchUser} />
+    Failure: () => <DataError onClick={props.fetchUser} />
   })
 
 const mapDispatchToProps = dispatch => ({
-  fetchUser: () => dispatch(actions.modules.profile.fetchUser())
+  fetchUser: () => dispatch(actions.modules.profile.fetchUser()),
+  swapActions: bindActionCreators(actions.components.swap, dispatch)
 })
 
-export default connect(getData, mapDispatchToProps)(Profile)
+const connector = connect(getData, mapDispatchToProps)
+
+export type Props = ConnectedProps<typeof connector>
+
+export default connector(Profile)

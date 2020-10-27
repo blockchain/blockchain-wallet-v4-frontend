@@ -17,7 +17,6 @@ import { withdrawReducer } from './withdraw/reducers'
 import layoutWallet from './layoutWallet/reducers'
 import lockbox from './lockbox/reducers'
 import manageAddresses from './manageAddresses/reducers'
-import onfido from './onfido/reducers'
 import signMessage from './signMessage/reducers'
 import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
@@ -31,7 +30,6 @@ const componentReducer = combineReducers({
   layoutWallet,
   lockbox,
   manageAddresses,
-  onfido,
   priceChart: priceChartReducer,
   recoveryPhrase: recoveryPhraseReducer,
   send: sendReducer,

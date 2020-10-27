@@ -5,7 +5,13 @@ import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-import { BalanceRow, Option, OptionTitle, TopText } from '../components'
+import {
+  BalanceRow,
+  Option,
+  OptionTitle,
+  OptionValue,
+  TopText
+} from '../components'
 import { Props as BaseProps, SuccessStateType as SuccessType } from '..'
 import { ExtractSuccess } from 'core/types'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -102,14 +108,7 @@ class EnterAmount extends PureComponent<Props> {
                   1 {BASE.coin} = {formatCoin(val.rate)} {COUNTER.coin}
                 </Text>
               ),
-              Failure: () => (
-                <Text size='14px' color='red600'>
-                  <FormattedMessage
-                    id='copy.oops'
-                    defaultMessage='Oops. Something went wrong.'
-                  />
-                </Text>
-              ),
+              Failure: () => null,
               Loading: () => (
                 <SpinningLoader borderWidth='4px' height='14px' width='14px' />
               ),
@@ -134,12 +133,20 @@ class EnterAmount extends PureComponent<Props> {
             >
               <div>
                 <Text color='grey600' weight={500} size='14px'>
-                  Swap From
+                  <FormattedMessage
+                    id='copy.swap_from'
+                    defaultMessage='Swap from'
+                  />
                 </Text>
                 <OptionTitle>{BASE.label}</OptionTitle>
-                <BalanceRow>
-                  <CoinBalance account={BASE} walletCurrency={walletCurrency} />
-                </BalanceRow>
+                <OptionValue>
+                  <BalanceRow>
+                    <CoinBalance
+                      account={BASE}
+                      walletCurrency={walletCurrency}
+                    />
+                  </BalanceRow>
+                </OptionValue>
               </div>
               <Icon
                 name={coins[BASE.coin].icons.circleFilled}
@@ -164,15 +171,20 @@ class EnterAmount extends PureComponent<Props> {
             >
               <div>
                 <Text color='grey600' weight={500} size='14px'>
-                  Swap From
+                  <FormattedMessage
+                    id='copy.receive_to'
+                    defaultMessage='Receive to'
+                  />
                 </Text>
                 <OptionTitle>{COUNTER.label}</OptionTitle>
-                <BalanceRow>
-                  <CoinBalance
-                    account={COUNTER}
-                    walletCurrency={walletCurrency}
-                  />
-                </BalanceRow>
+                <OptionValue>
+                  <BalanceRow>
+                    <CoinBalance
+                      account={COUNTER}
+                      walletCurrency={walletCurrency}
+                    />
+                  </BalanceRow>
+                </OptionValue>
               </div>
               <Icon
                 name={coins[COUNTER.coin].icons.circleFilled}

@@ -14,4 +14,5 @@ export type InvitationsType = {
   simpleBuy: boolean
   simpleBuyCC: boolean
   simpleSell: boolean
+  swap2dot0: boolean
 }

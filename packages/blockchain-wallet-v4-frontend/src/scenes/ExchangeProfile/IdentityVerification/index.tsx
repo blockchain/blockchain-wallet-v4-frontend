@@ -5,11 +5,12 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { LinkContainer } from 'react-router-bootstrap'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 import TierCard from 'components/IdentityVerification/TierCard'
+
+import { Props } from '..'
 
 const Wrapper = styled.div`
   display: flex;
@@ -122,14 +123,12 @@ const GoBackLink = styled.div`
   `};
 `
 
-const IdentityVerification = () => {
+const IdentityVerification = ({ swapActions }: Props) => {
   return (
     <Wrapper>
-      <LinkContainer to='/swap'>
-        <GoBackLink>
-          <Icon name='chevron-down-large' color='blue600' />
-        </GoBackLink>
-      </LinkContainer>
+      <GoBackLink onClick={() => swapActions.showModal('SettingsProfile')}>
+        <Icon name='chevron-down-large' color='blue600' />
+      </GoBackLink>
       <Container>
         <Row>
           <Column>

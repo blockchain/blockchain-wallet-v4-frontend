@@ -13,6 +13,7 @@ import { formatTextAmount } from 'services/ValidationHelper'
 import { getMaxMin, maximumAmount, minimumAmount } from './validation'
 import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
 import { Props as OwnProps, SuccessStateType } from '..'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { Row } from 'blockchain-wallet-v4-frontend/src/scenes/Exchange/ExchangeForm/Layout'
 import { StyledForm } from '../../components'
 import { SwapAccountType } from 'data/types'
@@ -119,7 +120,9 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const handleSubmit = e => {
     e.preventDefault()
     props.swapActions.setStep({ step: 'PREVIEW_SWAP' })
-  }
+
+  const isQuoteFailed = Remote.Failure.is(props.quoteR)
+
   return (
     <FlyoutWrapper style={{ paddingTop: '0px' }}>
       <StyledForm onSubmit={handleSubmit}>
@@ -305,13 +308,24 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           jumbo
           fullwidth
           style={{ marginTop: '24px' }}
-          disabled={props.invalid}
+          disabled={props.invalid || isQuoteFailed}
         >
           <FormattedMessage
             id='buttons.preview_swap'
             defaultMessage='Preview Swap'
           />
         </Button>
+        {isQuoteFailed && (
+          <ErrorCartridge style={{ marginTop: '16px' }}>
+            Error:{' '}
+            {props.quoteR.cata({
+              Failure: e => e,
+              Success: () => null,
+              Loading: () => null,
+              NotAsked: () => null
+            })}
+          </ErrorCartridge>
+        )}
       </StyledForm>
     </FlyoutWrapper>
   )

@@ -13,7 +13,6 @@ import * as layoutWallet from './layoutWallet/actions'
 import * as lockbox from './lockbox/actions'
 import * as manageAddresses from './manageAddresses/actions'
 import * as onboarding from './onboarding/actions'
-import * as onfido from './onfido/actions'
 import * as priceChart from './priceChart/actions'
 import * as priceTicker from './priceTicker/actions'
 import * as recoveryPhrase from './recoveryPhrase/actions'
@@ -52,7 +51,6 @@ export {
   interest,
   manageAddresses,
   onboarding,
-  onfido,
   layoutWallet,
   lockbox,
   priceChart,

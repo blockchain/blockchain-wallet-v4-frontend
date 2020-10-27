@@ -27,7 +27,6 @@ export type ModalNamesType =
   | 'KycDocResubmit'
   | 'LinkFromExchangeAccount'
   | 'LinkToExchangeAccount'
-  | 'Onfido'
   | 'PairingCode'
   | 'RECOVERY_PHRASE_MODAL'
   | 'ShowBtcPrivateKey'

@@ -147,7 +147,12 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 {values?.COUNTER ? (
                   <>
                     <div>
-                      <OptionValue>Receive to</OptionValue>
+                      <OptionValue>
+                        <FormattedMessage
+                          id='copy.receive_to'
+                          defaultMessage='Receive to'
+                        />
+                      </OptionValue>
                       <OptionTitle color='grey900'>
                         {values.COUNTER.label}
                       </OptionTitle>
@@ -170,7 +175,10 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   <>
                     <div>
                       <Text color='grey600' weight={500} size='14px'>
-                        Receive to
+                        <FormattedMessage
+                          id='copy.receive_to'
+                          defaultMessage='Receive to'
+                        />
                       </Text>
                       <>
                         <OptionTitle>Select a Wallet</OptionTitle>

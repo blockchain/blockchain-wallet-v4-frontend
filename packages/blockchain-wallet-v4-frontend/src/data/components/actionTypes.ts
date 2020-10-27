@@ -13,7 +13,6 @@ import * as layoutWallet from './layoutWallet/actionTypes'
 import * as lockbox from './lockbox/actionTypes'
 import * as manageAddresses from './manageAddresses/actionTypes'
 import * as onboarding from './onboarding/actionTypes'
-import * as onfido from './onfido/actionTypes'
 import * as priceChart from './priceChart/actionTypes'
 import * as priceTicker from './priceTicker/actionTypes'
 import * as recoveryPhrase from './recoveryPhrase/actionTypes'
@@ -54,7 +53,6 @@ export {
   lockbox,
   manageAddresses,
   onboarding,
-  onfido,
   priceChart,
   priceTicker,
   recoveryPhrase,
