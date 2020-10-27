@@ -1,5 +1,5 @@
+import { CoinType, SupportedWalletCurrenciesType } from 'core/types'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { path } from 'ramda'
 import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
@@ -8,11 +8,12 @@ export const getData = createDeepEqualSelector(
     selectors.core.walletOptions.getSupportedCoins
   ],
   (coinTicker, supportedCoins) => {
-    const cryptoCurrency = path(
-      ['data', coinTicker, 'coinCode'],
-      supportedCoins
-    )
-    const coinName = path(['data', coinTicker, 'displayName'], supportedCoins)
+    const cryptoCurrency = supportedCoins.getOrElse(
+      {} as SupportedWalletCurrenciesType
+    )[coinTicker as CoinType].coinCode
+    const coinName = supportedCoins.getOrElse(
+      {} as SupportedWalletCurrenciesType
+    )[coinTicker as CoinType].displayName
 
     return {
       cryptoCurrency,

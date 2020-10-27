@@ -125,7 +125,6 @@ const UpgradeWallet = React.lazy(() => import('./Wallet/UpgradeWallet'))
 // SOLO
 const Borrow = React.lazy(() => import('./Borrow'))
 const Interest = React.lazy(() => import('./Interest'))
-const Onfido = React.lazy(() => import('./Onfido'))
 const QRCode = React.lazy(() => import('./QRCode'))
 const SignMessage = React.lazy(() => import('./SignMessage'))
 const SimpleBuy = React.lazy(() => import('./SimpleBuy'))
@@ -165,7 +164,6 @@ const Modals = () => (
       <LockboxShowXPubs />
       <MobileNumberChange />
       <MobileNumberVerify />
-      <Onfido />
       <PairingCode />
       <PaxWelcome />
       <PromptInput />

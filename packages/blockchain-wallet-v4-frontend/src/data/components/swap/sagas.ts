@@ -27,7 +27,10 @@ import { MempoolFeeType } from '../exchange/types'
 import { selectReceiveAddress } from '../utils/sagas'
 import BigNumber from 'bignumber.js'
 
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
+import {
+  DEFAULT_INVITATIONS,
+  INVALID_COIN_TYPE
+} from 'blockchain-wallet-v4/src/model'
 import profileSagas from '../../../data/modules/profile/sagas'
 import sendSagas from '../send/sagas'
 
@@ -332,6 +335,12 @@ export default ({
   }
 
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
+    const invitations = selectors.core.settings
+      .getInvitations(yield select())
+      .getOrElse(DEFAULT_INVITATIONS)
+
+    if (!invitations.swap2dot0) return yield put(actions.router.push('/swap'))
+
     const { origin, baseCurrency, counterCurrency } = payload
     yield put(
       actions.modals.showModal('SWAP_MODAL', {
