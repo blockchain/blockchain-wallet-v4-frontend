@@ -22,7 +22,9 @@ import {
   ProcessedTxType,
   RemoteDataType,
   SBOrderType,
-  SBTransactionType
+  SBTransactionType,
+  SupportedWalletCurrenciesType,
+  WalletCurrencyType
 } from 'core/types'
 import { model, selectors } from 'data'
 
@@ -109,7 +111,7 @@ export const getData = (state, coin, isCoinErc20) =>
       selectors.core.settings.getCurrency,
       () => selectors.core.walletOptions.getCoinModel(state, coin)
     ],
-    (userSearch, pagesR, currencyR, coinModelR) => {
+    (userSearch, pagesR, currencyR, coinModelR, supportedCoinsR) => {
       const empty = page => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status: TransferType = propOr('', 'status', userSearch)
@@ -126,9 +128,15 @@ export const getData = (state, coin, isCoinErc20) =>
           : []
 
       return {
-        coinModel: coinModelR.getOrElse({}),
+        coinModel: coinModelR.getOrElse(
+          {} as <P extends WalletCurrencyType>(
+            p: P
+          ) => SupportedWalletCurrenciesType[P]
+        ),
         currency: currencyR.getOrElse(''),
         hasTxResults: !all(empty)(filteredPages),
+        supportedCoins: selectors.core.walletOptions.getSupportedCoins(state),
+        supportedCoinsR,
         // @ts-ignore
         isSearchEntered: search.length > 0 || status !== '',
         pages: filteredPages,

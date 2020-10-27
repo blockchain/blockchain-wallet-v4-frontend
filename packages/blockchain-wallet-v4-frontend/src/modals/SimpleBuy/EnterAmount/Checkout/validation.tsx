@@ -12,12 +12,12 @@ import {
   SBOrderActionType,
   SBPairType,
   SBPaymentMethodType,
-  SBQuoteType
+  SBQuoteType,
+  SupportedWalletCurrenciesType
 } from 'core/types'
 import { SBCheckoutFormValuesType, SBFixType } from 'data/types'
 import { UnitType } from 'core/exchange'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import mapPaxToUsdd from '../../../../utils/mapPaxToUsdd'
 
 export const getQuote = (
   quote: SBQuoteType,
@@ -44,12 +44,13 @@ export const getQuote = (
 export const formatQuote = (
   amt: string,
   quote: SBQuoteType,
-  fix: SBFixType
+  fix: SBFixType,
+  supportedCoins: SupportedWalletCurrenciesType
 ) => {
   if (fix === 'FIAT') {
     return coinToString({
       value: amt,
-      unit: { symbol: mapPaxToUsdd(getCoinFromPair(quote.pair)) }
+      unit: { symbol: supportedCoins[getCoinFromPair(quote.pair)].coinTicker }
     })
   } else {
     return fiatToString({

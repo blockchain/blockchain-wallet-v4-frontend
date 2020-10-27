@@ -132,6 +132,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const fix = props.preferences[props.orderType].fix
   const digits = fix === 'FIAT' ? FIAT_DECIMALS : CRYPTO_DECIMALS
   const baseCurrency = fix === 'FIAT' ? fiatCurrency : cryptoCurrency
+  const adjustedCurrency = cryptoCurrency === 'PAX' ? 'USD-D' : cryptoCurrency
   const conversionCoinType: 'FIAT' | CoinType =
     fix === 'FIAT' ? 'FIAT' : cryptoCurrency
 
@@ -194,9 +195,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       ? amountRowNode.children[0]
       : amountRowNode.children[amountRowNode.children.length - 1]
     currencyNode.style.fontSize = `${fontSizeNumber * fontSizeRatio}px`
-  }
-  const mapPaxToUsdd = function (coin: any): any {
-    return coin === 'PAX' ? 'USD-D' : coin
   }
 
   return (
@@ -264,7 +262,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
           {fix === 'CRYPTO' && (
             <Text size={'56px'} color='textBlack' weight={500}>
-              {mapPaxToUsdd(cryptoCurrency)}
+              {adjustedCurrency}
             </Text>
           )}
         </AmountRow>
@@ -277,7 +275,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             weight={500}
             data-e2e='sbQuoteAmount'
           >
-            {formatQuote(quoteAmt, props.quote, fix)}
+            {formatQuote(quoteAmt, props.quote, fix, props.supportedCoins)}
           </Text>
           <Icon
             color='blue600'
