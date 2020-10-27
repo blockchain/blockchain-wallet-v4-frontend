@@ -31,7 +31,7 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               />
             </Text>
             <Icon
-              onClick={this.props.close}
+              onClick={this.props.handleClose}
               role='button'
               name='close'
               cursor

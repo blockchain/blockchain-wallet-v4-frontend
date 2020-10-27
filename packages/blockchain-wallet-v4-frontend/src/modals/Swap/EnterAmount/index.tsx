@@ -5,18 +5,17 @@ import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-import { BalanceRow, Option, TopText } from '../components'
+import { BalanceRow, Option, OptionTitle, TopText } from '../components'
 import { Props as BaseProps, SuccessStateType as SuccessType } from '..'
-import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ExtractSuccess } from 'core/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { formatCoin } from 'core/exchange/currency'
 import { InitSwapFormValuesType } from 'data/types'
 import { selectors } from 'data'
-import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { getData } from './selectors'
 import Checkout from './Checkout'
+import CoinBalance from '../components/CoinBalance'
 import Loading from './template.loading'
 
 const SubTopText = styled.div`
@@ -33,7 +32,7 @@ const Toggler = styled.div`
   border-radius: 4px;
   border: 1px solid ${props => props.theme['grey000']};
   background: ${props => props.theme['white']};
-  right: 16px;
+  right: 33px;
   display: flex;
   cursor: pointer;
   padding: 6px 0px;
@@ -136,21 +135,9 @@ class EnterAmount extends PureComponent<Props> {
                 <Text color='grey600' weight={500} size='14px'>
                   Swap From
                 </Text>
-                <Text>{BASE.label}</Text>
+                <OptionTitle>{BASE.label}</OptionTitle>
                 <BalanceRow>
-                  <FiatDisplay
-                    color='grey800'
-                    coin={BASE.coin}
-                    currency={walletCurrency}
-                    loadingHeight='24px'
-                    style={{ lineHeight: '1.5' }}
-                    weight={600}
-                  >
-                    {BASE.balance}
-                  </FiatDisplay>
-                  <Text>
-                    ({convertBaseToStandard(BASE.coin, BASE.balance)})
-                  </Text>
+                  <CoinBalance account={BASE} walletCurrency={walletCurrency} />
                 </BalanceRow>
               </div>
               <Icon
@@ -178,21 +165,12 @@ class EnterAmount extends PureComponent<Props> {
                 <Text color='grey600' weight={500} size='14px'>
                   Swap From
                 </Text>
-                <Text>{COUNTER.label}</Text>
+                <OptionTitle>{COUNTER.label}</OptionTitle>
                 <BalanceRow>
-                  <FiatDisplay
-                    color='grey800'
-                    coin={COUNTER.coin}
-                    currency={walletCurrency}
-                    loadingHeight='24px'
-                    style={{ lineHeight: '1.5' }}
-                    weight={600}
-                  >
-                    {BASE.balance}
-                  </FiatDisplay>
-                  <Text>
-                    ({convertBaseToStandard(COUNTER.coin, COUNTER.balance)})
-                  </Text>
+                  <CoinBalance
+                    account={COUNTER}
+                    walletCurrency={walletCurrency}
+                  />
                 </BalanceRow>
               </div>
               <Icon

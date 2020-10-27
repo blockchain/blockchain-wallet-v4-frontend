@@ -4,12 +4,12 @@ import {
   CircleSelected,
   FlexStartRow,
   Option,
+  OptionTitle,
   TopText
 } from '../components'
 import { Props as BaseProps, SuccessStateType } from '..'
 import { coinOrder, getData } from './selectors'
 import { connect, ConnectedProps } from 'react-redux'
-import { convertBaseToStandard } from 'data/components/exchange/services'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
@@ -18,7 +18,7 @@ import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 import { SuccessCartridge } from 'components/Cartridge'
 import { SwapAccountType } from 'data/types'
-import FiatDisplay from 'components/Display/FiatDisplay'
+import CoinBalance from '../InitSwapForm/CoinBalance'
 import React, { PureComponent } from 'react'
 class CoinSelection extends PureComponent<Props> {
   state = {}
@@ -118,37 +118,19 @@ class CoinSelection extends PureComponent<Props> {
                       style={{ marginRight: '16px' }}
                     />
                     <div>
-                      <Text
-                        color='grey900'
-                        weight={600}
-                        style={{ marginTop: '4px' }}
-                      >
-                        {account.label}
-                      </Text>
+                      <OptionTitle>{account.label}</OptionTitle>
                       <BalanceRow>
-                        <FiatDisplay
-                          color='grey800'
-                          coin={account.coin}
-                          currency={walletCurrency}
-                          loadingHeight='24px'
-                          style={{ lineHeight: '1.5' }}
-                          weight={500}
-                        >
-                          {account.balance}
-                        </FiatDisplay>
-                        <Text>
-                          (
-                          {convertBaseToStandard(account.coin, account.balance)}
-                          )
-                        </Text>
+                        <CoinBalance
+                          account={account}
+                          walletCurrency={walletCurrency}
+                        />
                       </BalanceRow>
                     </div>
                   </FlexStartRow>
                   <FlexStartRow>
-                    {account.type === 'CUSTODIAL' &&
-                      this.props.side === 'BASE' && (
-                        <SuccessCartridge>Low Fees</SuccessCartridge>
-                      )}
+                    {account.type === 'CUSTODIAL' && (
+                      <SuccessCartridge>Low Fees</SuccessCartridge>
+                    )}
                     <CircleBorder>
                       {isAccountSelected && <CircleSelected />}
                     </CircleBorder>
