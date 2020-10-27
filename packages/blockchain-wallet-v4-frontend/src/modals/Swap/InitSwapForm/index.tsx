@@ -22,7 +22,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { getData } from './selectors'
 import { InitSwapFormValuesType } from 'data/components/swap/types'
 import { selectors } from 'data'
-import CoinBalance from './CoinBalance'
+import CoinBalance from '../components/CoinBalance'
 import VerifyIdentity from './VerifyIdentity'
 
 class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
@@ -147,7 +147,12 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 {values?.COUNTER ? (
                   <>
                     <div>
-                      <OptionValue>Receive to</OptionValue>
+                      <OptionValue>
+                        <FormattedMessage
+                          id='copy.receive_to'
+                          defaultMessage='Receive to'
+                        />
+                      </OptionValue>
                       <OptionTitle color='grey900'>
                         {values.COUNTER.label}
                       </OptionTitle>
@@ -170,7 +175,10 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   <>
                     <div>
                       <Text color='grey600' weight={500} size='14px'>
-                        Receive to
+                        <FormattedMessage
+                          id='copy.receive_to'
+                          defaultMessage='Receive to'
+                        />
                       </Text>
                       <>
                         <OptionTitle>Select a Wallet</OptionTitle>

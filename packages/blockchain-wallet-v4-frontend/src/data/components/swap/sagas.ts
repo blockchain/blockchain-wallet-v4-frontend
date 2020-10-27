@@ -54,6 +54,7 @@ export default ({
       yield put(actions.form.startSubmit('swapOrderDetails'))
       yield call(api.cancelSwapOrder, payload.id)
       yield put(actions.form.stopSubmit('swapOrderDetails'))
+      yield put(actions.components.refresh.refreshClicked())
       yield put(A.setStep({ step: 'INIT_SWAP' }))
     } catch (e) {
       const error = errorHandler(e)

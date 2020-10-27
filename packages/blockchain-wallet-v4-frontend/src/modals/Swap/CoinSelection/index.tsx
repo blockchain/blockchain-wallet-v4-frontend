@@ -5,6 +5,7 @@ import {
   FlexStartRow,
   Option,
   OptionTitle,
+  OptionValue,
   TopText
 } from '../components'
 import { Props as BaseProps, SuccessStateType } from '..'
@@ -18,7 +19,7 @@ import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 import { SuccessCartridge } from 'components/Cartridge'
 import { SwapAccountType } from 'data/types'
-import CoinBalance from '../InitSwapForm/CoinBalance'
+import CoinBalance from '../components/CoinBalance'
 import React, { PureComponent } from 'react'
 class CoinSelection extends PureComponent<Props> {
   state = {}
@@ -78,12 +79,12 @@ class CoinSelection extends PureComponent<Props> {
           >
             {this.props.side === 'BASE' ? (
               <FormattedMessage
-                id='copy.swap_from'
+                id='copy.swap_from_origin'
                 defaultMessage='Which wallet do you want to Swap from?'
               />
             ) : (
               <FormattedMessage
-                id='copy.swap_for'
+                id='copy.swap_for_destination'
                 defaultMessage='Which crypto do you want to Swap for?'
               />
             )}
@@ -119,12 +120,14 @@ class CoinSelection extends PureComponent<Props> {
                     />
                     <div>
                       <OptionTitle>{account.label}</OptionTitle>
-                      <BalanceRow>
-                        <CoinBalance
-                          account={account}
-                          walletCurrency={walletCurrency}
-                        />
-                      </BalanceRow>
+                      <OptionValue>
+                        <BalanceRow>
+                          <CoinBalance
+                            account={account}
+                            walletCurrency={walletCurrency}
+                          />
+                        </BalanceRow>
+                      </OptionValue>
                     </div>
                   </FlexStartRow>
                   <FlexStartRow>
