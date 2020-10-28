@@ -107,10 +107,11 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     ? props.payment.effectiveBalance
     : props.BASE.balance
 
-  const maxAmountSilver =
-    !!(props.userData.tiers.current === 1 &&
+  const maxAmountSilver = !!(
+    props.userData.tiers.current === 1 &&
     amtError === 'ABOVE_MAX' &&
-    props.limits.maxPossibleOrder < props.limits.maxOrder)
+    props.limits.maxPossibleOrder < props.limits.maxOrder
+  )
 
   const handleMinMaxClick = () => {
     const value = amtError === 'BELOW_MIN' ? min : max
@@ -120,6 +121,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const handleSubmit = e => {
     e.preventDefault()
     props.swapActions.setStep({ step: 'PREVIEW_SWAP' })
+  }
 
   const isQuoteFailed = Remote.Failure.is(props.quoteR)
 
