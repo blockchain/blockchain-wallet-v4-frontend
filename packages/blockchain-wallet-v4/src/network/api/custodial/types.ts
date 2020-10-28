@@ -92,3 +92,10 @@ type WithdrawalLockCheckRule = {
 export type WithdrawalLockCheckResponseType = {
   rule?: WithdrawalLockCheckRule
 }
+
+export type CustodialTransferRequestType = {
+  amount: string
+  currency: CoinType
+  destination: NabuCustodialProductType
+  origin: NabuCustodialProductType
+}
