@@ -1,12 +1,13 @@
-import { Button, SpinningLoader, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { Exchange } from 'core'
-import { fiatToString, formatFiat } from 'core/exchange/currency'
 import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import React from 'react'
+
+import { Button, SpinningLoader, Text } from 'blockchain-info-components'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { Exchange } from 'core'
+import { fiatToString, formatFiat } from 'core/exchange/currency'
 
 import { InterestWithdrawalFormType } from 'data/components/interest/types'
 import { NumberBox } from 'components/Form'
