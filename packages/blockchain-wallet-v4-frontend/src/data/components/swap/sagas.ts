@@ -181,7 +181,7 @@ export default ({
       yield put(actions.components.refresh.refreshClicked())
       yield put(
         A.setStep({
-          step: 'ORDER_DETAILS',
+          step: 'SUCCESSFUL_SWAP',
           options: {
             order
           }

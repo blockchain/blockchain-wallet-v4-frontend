@@ -16,6 +16,7 @@ import EnterAmount from './EnterAmount'
 import InitSwapForm from './InitSwapForm'
 import OrderDetails from './OrderDetails'
 import PreviewSwap from './PreviewSwap'
+import SuccessfulSwap from './SuccessfulSwap'
 import UpgradePrompt from './UpgradePrompt'
 
 class Swap extends PureComponent<Props, State> {
@@ -104,6 +105,11 @@ class Swap extends PureComponent<Props, State> {
               <OrderDetails {...this.props} handleClose={this.handleClose} />
             </FlyoutChild>
           )}
+          {this.props.step === 'SUCCESSFUL_SWAP' && (
+            <FlyoutChild>
+              <SuccessfulSwap {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
         </Flyout>
       ),
       Failure: () => null,
@@ -135,6 +141,10 @@ const mapStateToProps = (
   | {
       order?: SwapOrderType
       step: 'ORDER_DETAILS'
+    }
+  | {
+      order?: SwapOrderType
+      step: 'SUCCESSFUL_SWAP'
     }
 ) => ({
   order: selectors.components.swap.getOrder(state),

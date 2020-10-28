@@ -37,6 +37,7 @@ export enum SwapStepType {
   'ENTER_AMOUNT',
   'UPGRADE_PROMPT',
   'PREVIEW_SWAP',
+  'SUCCESSFUL_SWAP',
   'ORDER_DETAILS'
 }
 
@@ -142,6 +143,12 @@ export type SwapStepPayload =
         order: SwapOrderType
       }
       step: 'ORDER_DETAILS'
+    }
+  | {
+      options: {
+        order: SwapOrderType
+      }
+      step: 'SUCCESSFUL_SWAP'
     }
   | { options: { side: 'BASE' | 'COUNTER' }; step: 'COIN_SELECTION' }
   | { options?: never; step: 'UPGRADE_PROMPT' }
