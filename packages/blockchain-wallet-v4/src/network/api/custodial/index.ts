@@ -2,6 +2,7 @@ import {
   BeneficiariesType,
   BeneficiaryType,
   CustodialProductType,
+  CustodialTransferRequestType,
   NabuCustodialProductType,
   PaymentDepositPendingResponseType,
   WithdrawalLockCheckResponseType,
@@ -84,22 +85,12 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       }
     })
 
-  const initiateCustodialTransfer = (
-    amount: string,
-    currency: CoinType,
-    destination: NabuCustodialProductType,
-    origin: NabuCustodialProductType
-  ) =>
+  const initiateCustodialTransfer = (request: CustodialTransferRequestType) =>
     authorizedPost({
       url: nabuUrl,
       endPoint: '/custodial/transfer',
       contentType: 'application/json',
-      data: {
-        amount,
-        currency,
-        destination,
-        origin
-      }
+      data: request
     })
 
   return {

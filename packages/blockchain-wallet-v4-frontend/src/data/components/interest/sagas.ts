@@ -228,12 +228,15 @@ export default ({
           prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
 
         yield put(A.setPaymentLoading())
-        // custodial deposit
+        yield put(actions.form.change(DEPOSIT_FORM, 'depositAmount', undefined))
+        yield put(actions.form.focus(DEPOSIT_FORM, 'depositAmount'))
+
         if (isCustodialDeposit) {
           custodialBalances = (yield select(
             selectors.components.simpleBuy.getSBBalances
           )).getOrFail('Failed to get balance')
         }
+
         depositPayment = yield call(createPayment, {
           ...formValues.interestDepositAccount,
           address: getAccountIndexOrAccount(
@@ -241,6 +244,7 @@ export default ({
             formValues.interestDepositAccount
           )
         })
+
         yield call(createLimits, depositPayment, custodialBalances)
         yield put(A.setPaymentSuccess(depositPayment))
     }
@@ -364,15 +368,14 @@ export default ({
       )
       if (isCustodialDeposit) {
         const { amount } = payment.value()
+        const amountString = amount && amount[0].toString()
         // custodial deposit
-        yield call(
-          // @ts-ignore
-          api.initiateCustodialTransfer,
-          amount && amount[0].toString(),
-          coin,
-          'SAVINGS',
-          'SIMPLEBUY'
-        )
+        yield call(api.initiateCustodialTransfer, {
+          amount: amountString as string,
+          currency: coin,
+          destination: 'SAVINGS',
+          origin: 'SIMPLEBUY'
+        })
       } else {
         // non-custodial deposit
         yield call(fetchInterestAccount, coin)
@@ -400,7 +403,7 @@ export default ({
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_SUCCESS)
       )
-      yield delay(2500)
+      yield delay(3000)
       yield put(A.fetchInterestBalance())
       yield put(actions.router.push('/interest/history'))
     } catch (e) {
