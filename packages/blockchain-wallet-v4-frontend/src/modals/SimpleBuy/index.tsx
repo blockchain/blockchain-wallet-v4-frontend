@@ -22,6 +22,7 @@ import CheckoutConfirm from './CheckoutConfirm'
 import CryptoSelection from './CryptoSelection'
 import EnterAmount from './EnterAmount'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import InfoAndResidential from './InfoAndResidential'
 import KycRequired from './KycRequired'
 import ModalEnhancer from 'providers/ModalEnhancer'
 import OrderSummary from './OrderSummary'
@@ -127,6 +128,14 @@ class SimpleBuy extends PureComponent<Props, State> {
             {this.props.step === 'ENTER_AMOUNT' && (
               <FlyoutChild>
                 <EnterAmount {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
+            {this.props.step === 'INFO_AND_RESIDENTIAL' && (
+              <FlyoutChild>
+                <InfoAndResidential
+                  {...this.props}
+                  handleClose={this.handleClose}
+                />
               </FlyoutChild>
             )}
             {this.props.step === 'CRYPTO_SELECTION' && (
@@ -297,7 +306,7 @@ type LinkStatePropsType =
       order?: SBOrderType
       orderType: SBOrderActionType
       pair: SBPairType
-      step: 'ENTER_AMOUNT' | 'VERIFY_EMAIL'
+      step: 'ENTER_AMOUNT' | 'VERIFY_EMAIL' | 'INFO_AND_RESIDENTIAL'
     }
   | {
       order: SBOrderType

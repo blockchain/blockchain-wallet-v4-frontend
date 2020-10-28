@@ -54,6 +54,10 @@ export const PaymentArrowContainer = styled.div`
 export const DisplayTitle = styled(Title)`
   margin-top: 4px;
 `
+export const SectionTitle = styled(Text)`
+  margin-top: 4px;
+  padding: 5px 0;
+`
 export const DisplayValue = styled(Value)`
   margin-top: 0px;
 `
@@ -104,8 +108,12 @@ export const renderFund = (
 )
 
 export const getIcon = (
-  value: SBPaymentMethodType | undefined
+  value: SBPaymentMethodType | undefined,
+  isFirstLogin: boolean = false
 ): ReactElement => {
+  if (isFirstLogin) {
+    return <Icon size='18px' color='blue600' name='credit-card-sb' />
+  }
   if (!value) {
     return (
       <Icon cursor name='plus-in-circle-filled' size='22px' color='blue600' />
@@ -139,8 +147,17 @@ export const getIcon = (
 
 export const getText = (
   value: SBPaymentMethodType | undefined,
-  sbBalances: SBBalancesType
+  sbBalances: SBBalancesType,
+  isFirstLogin: boolean = false
 ): ReactElement => {
+  if (isFirstLogin) {
+    return (
+      <FormattedMessage
+        id='modals.simplebuy.confirm.credit_or_debit'
+        defaultMessage='Credit or Debit Card'
+      />
+    )
+  }
   if (!value) {
     return (
       <FormattedMessage

@@ -49,6 +49,7 @@ export enum SimpleBuyStepType {
   'ENTER_AMOUNT',
   'VERIFY_EMAIL',
   'PAYMENT_METHODS',
+  'INFO_AND_RESIDENTIAL',
   'ORDER_SUMMARY',
   'CHECKOUT_CONFIRM',
   'ADD_CARD',
@@ -314,7 +315,7 @@ export type StepActionsPayload =
       order?: SBOrderType
       orderType?: SBOrderActionType
       pair: SBPairType
-      step: 'ENTER_AMOUNT' | 'VERIFY_EMAIL'
+      step: 'ENTER_AMOUNT' | 'VERIFY_EMAIL' | 'INFO_AND_RESIDENTIAL'
     }
   | {
       cryptoCurrency?: CoinType

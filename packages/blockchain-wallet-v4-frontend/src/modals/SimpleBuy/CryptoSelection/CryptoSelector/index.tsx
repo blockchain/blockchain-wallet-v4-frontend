@@ -70,7 +70,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   const [orderType, setOrderType] = useState(props.orderType)
 
   const handleSubmit = (pair: SBPairType) => {
-    if (!props.emailVerified) {
+    if (!props.emailVerified && props.isFirstLogin) {
       props.simpleBuyActions.setStep({
         step: 'VERIFY_EMAIL',
         orderType: orderType,

@@ -460,6 +460,7 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
         pair: payload.pair
       }
     case 'VERIFY_EMAIL':
+    case 'INFO_AND_RESIDENTIAL':
     case 'ENTER_AMOUNT':
       return {
         step: payload.step,

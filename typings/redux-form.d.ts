@@ -36,6 +36,7 @@ export type WalletFormType =
   | 'sbCryptoSelection'
   | 'sbPaymentMethods'
   | 'simpleBuyCheckout'
+  | 'simpleBuyInforAndResidential'
   | 'transferEth'
   | 'transactionReport'
   | 'walletTxSearch'

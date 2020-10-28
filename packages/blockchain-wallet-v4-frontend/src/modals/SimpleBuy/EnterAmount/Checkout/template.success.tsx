@@ -23,6 +23,7 @@ import {
   formatQuote,
   getMaxMin,
   getQuote,
+  MAX_NEW_LIMIT,
   maximumAmount,
   minimumAmount
 } from './validation'
@@ -34,6 +35,7 @@ import ActionButton from './ActionButton'
 import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import Failure from '../template.failure'
+import LargerAmount from './LargerAmount'
 import Payment from './Payment'
 
 const AmountRow = styled(Row)`
@@ -66,6 +68,16 @@ const QuoteRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`
+const ActionsRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 32px;
+`
+const ActionsItem = styled.div`
+  display: flex;
+  flex-direction: column;
 `
 const CustomBlueCartridge = styled(BlueCartridge)`
   border: 1px solid ${props => props.theme.blue000};
@@ -158,7 +170,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.quote,
     props.pair,
     props.formValues,
-    method
+    method,
+    !props.isFirstLogin
   )[fix]
   const min: string = getMaxMin(
     'min',
@@ -167,7 +180,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.quote,
     props.pair,
     props.formValues,
-    method
+    method,
+    !props.isFirstLogin
   )[fix]
 
   const handleMinMaxClick = () => {
@@ -179,7 +193,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       props.quote,
       props.pair,
       props.formValues,
-      method
+      method,
+      !props.isFirstLogin
     )[fix]
     const value = convertStandardToBase(conversionCoinType, maxMin)
     props.simpleBuyActions.handleSBSuggestedAmountClick(
@@ -198,7 +213,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   return (
     <CustomForm onSubmit={props.handleSubmit}>
-      <FlyoutWrapper style={{ paddingBottom: '0px' }}>
+      <FlyoutWrapper style={{ paddingBottom: '0px', borderBottom: 'grey000' }}>
         <TopText color='grey800' size='20px' weight={600}>
           <LeftTopCol>
             <Icon
@@ -295,7 +310,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </QuoteRow>
 
-        {props.pair && (
+        {!props.isFirstLogin && props.pair && (
           <Amounts onClick={handleMinMaxClick}>
             <>
               {amtError === 'BELOW_MIN' ? (
@@ -345,6 +360,36 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </Amounts>
         )}
 
+        {props.isFirstLogin && (
+          <ActionsRow>
+            <ActionsItem>
+              <Text weight={500} size='14px' color='grey600'>
+                <FormattedMessage
+                  id='modals.simplebuy.checkout.max_card_limit'
+                  defaultMessage='Max Card Limit'
+                />
+              </Text>
+              <div>
+                <Text
+                  weight={600}
+                  size='16px'
+                  color='grey900'
+                >{`${Currencies[fiatCurrency].units[fiatCurrency].symbol}${MAX_NEW_LIMIT}`}</Text>
+              </div>
+            </ActionsItem>
+            <ActionsItem>
+              <div onClick={handleMinMaxClick}>
+                <BlueRedCartridge error={amtError === 'ABOVE_MAX'}>
+                  <FormattedMessage
+                    id='modals.simplebuy.checkout.maxbuy'
+                    defaultMessage='Max Buy'
+                  />
+                </BlueRedCartridge>
+              </div>
+            </ActionsItem>
+          </ActionsRow>
+        )}
+
         <Payment {...props} method={method} />
 
         {props.error && (
@@ -360,6 +405,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </ErrorTextContainer>
         )}
         <ActionButton {...props} />
+        {props.isFirstLogin && props.formValues.amount && (
+          <LargerAmount {...props} />
+        )}
       </FlyoutWrapper>
     </CustomForm>
   )

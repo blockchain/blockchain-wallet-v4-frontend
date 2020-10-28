@@ -18,6 +18,9 @@ import { SBCheckoutFormValuesType, SBFixType } from 'data/types'
 import { UnitType } from 'core/exchange'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 
+const MAX_NEW = 15000
+export const MAX_NEW_LIMIT = 150
+
 export const getQuote = (
   quote: SBQuoteType,
   fix: SBFixType,
@@ -65,14 +68,17 @@ export const getMaxMin = (
   quote: SBQuoteType,
   pair: SBPairType,
   allValues?: SBCheckoutFormValuesType,
-  method?: SBPaymentMethodType
+  method?: SBPaymentMethodType,
+  isFirstLogin: boolean = false
 ): { CRYPTO: string; FIAT: string } => {
   switch (orderType) {
     case 'BUY':
       switch (minOrMax) {
         case 'max':
           let defaultMax = {
-            FIAT: convertBaseToStandard('FIAT', pair.buyMax),
+            FIAT: isFirstLogin
+              ? convertBaseToStandard('FIAT', MAX_NEW)
+              : convertBaseToStandard('FIAT', pair.buyMax),
             CRYPTO: getQuote(
               quote,
               'FIAT',
@@ -165,10 +171,15 @@ export const maximumAmount = (
     orderType,
     pair,
     quote,
-    sbBalances
+    sbBalances,
+    isFirstLogin
   } = restProps
   const method = selectedMethod || defaultMethod
   if (!allValues) return
+
+  if (isFirstLogin) {
+    return Number(value) > MAX_NEW_LIMIT ? 'ABOVE_MAX' : false
+  }
 
   return Number(value) >
     Number(

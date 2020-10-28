@@ -257,6 +257,7 @@ export function simpleBuyReducer (
     case AT.SET_STEP:
       switch (action.payload.step) {
         case 'ENTER_AMOUNT':
+        case 'INFO_AND_RESIDENTIAL':
         case 'VERIFY_EMAIL':
           return {
             ...state,

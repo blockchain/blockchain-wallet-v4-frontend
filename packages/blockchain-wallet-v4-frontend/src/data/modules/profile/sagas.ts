@@ -47,7 +47,6 @@ export default ({ api, coreSagas, networks }) => {
       success: take(actionTypes.modules.profile.SET_API_TOKEN_FAILURE),
       failure: take(actionTypes.modules.profile.SET_API_TOKEN_SUCCESS)
     })
-
     // Wait for success or failure
     return yield race({
       success: take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS),

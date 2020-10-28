@@ -40,10 +40,19 @@ class Checkout extends PureComponent<Props> {
     const simpleBuyGoal = find(propEq('name', 'simpleBuy'), this.props.goals)
     const id = propOr('', 'id', simpleBuyGoal)
 
-    !isEmpty(id) && this.props.deleteGoal(id)
+    !isEmpty(id) && this.props.deleteGoal(String(id))
     const method = this.props.method || this.props.defaultMethod
 
-    if (!method) {
+    if (!this.props.isFirstLogin) {
+      const fiatCurrency = this.props.fiatCurrency || 'USD'
+      this.props.simpleBuyActions.setStep({
+        step: 'INFO_AND_RESIDENTIAL',
+        fiatCurrency,
+        pair: this.props.pair,
+        cryptoCurrency: this.props.cryptoCurrency,
+        order: this.props.order
+      })
+    } else if (!method) {
       const fiatCurrency = this.props.fiatCurrency || 'USD'
       this.props.simpleBuyActions.setStep({
         step: 'PAYMENT_METHODS',
@@ -103,12 +112,13 @@ const mapStateToProps = (state: RootState) => ({
     | SBCheckoutFormValuesType
     | undefined,
   goals: selectors.goals.getGoals(state),
-  preferences: selectors.preferences.getSBCheckoutPreferences(state)
+  preferences: selectors.preferences.getSBCheckoutPreferences(state),
+  isFirstLogin: selectors.auth.getFirstLogin(state)
 })
 
 const mapDispatchToProps = dispatch => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  deleteGoal: id => dispatch(actions.goals.deleteGoal(id)),
+  deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
