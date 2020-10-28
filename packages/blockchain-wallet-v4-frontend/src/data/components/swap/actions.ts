@@ -114,6 +114,10 @@ export const initAmountForm = () => ({
   type: AT.INIT_AMOUNT_FORM
 })
 
+export const refreshAccounts = () => ({
+  type: AT.REFRESH_ACCOUNTS
+})
+
 export const setStep = ({ step, options }: SwapStepPayload) => ({
   type: AT.SET_STEP,
   payload: {

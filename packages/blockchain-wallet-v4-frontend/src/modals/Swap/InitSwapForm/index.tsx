@@ -28,6 +28,10 @@ import VerifyIdentity from './VerifyIdentity'
 class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   state = {}
 
+  componentDidMount () {
+    this.props.swapActions.refreshAccounts()
+  }
+
   handleSubmit = e => {
     e.preventDefault()
     this.props.swapActions.setStep({ step: 'ENTER_AMOUNT' })

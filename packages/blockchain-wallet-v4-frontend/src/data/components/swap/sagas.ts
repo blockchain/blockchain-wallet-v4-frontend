@@ -334,6 +334,31 @@ export default ({
     }
   }
 
+  const refreshAccounts = function * () {
+    const initSwapFormValues = selectors.form.getFormValues('initSwap')(
+      yield select()
+    ) as InitSwapFormValuesType
+
+    if (
+      !initSwapFormValues ||
+      !initSwapFormValues.BASE ||
+      !initSwapFormValues.COUNTER
+    ) {
+      return
+    }
+
+    const accounts = S.getActiveAccounts(yield select())
+    const baseAccount = accounts[initSwapFormValues.BASE.coin].find(
+      val => val.label === initSwapFormValues.BASE?.label
+    )
+    const counterAccount = accounts[initSwapFormValues.COUNTER.coin].find(
+      val => val.label === initSwapFormValues.COUNTER?.label
+    )
+
+    yield put(actions.form.change('initSwap', 'BASE', baseAccount))
+    yield put(actions.form.change('initSwap', 'COUNTER', counterAccount))
+  }
+
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
     const invitations = selectors.core.settings
       .getInvitations(yield select())
@@ -398,6 +423,7 @@ export default ({
     fetchTrades,
     formChanged,
     initAmountForm,
+    refreshAccounts,
     showModal,
     toggleBaseAndCounter
   }

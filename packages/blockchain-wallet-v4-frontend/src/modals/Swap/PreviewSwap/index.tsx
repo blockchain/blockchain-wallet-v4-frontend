@@ -34,7 +34,8 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       !this.props.initSwapFormValues?.BASE ||
       !this.props.initSwapFormValues?.COUNTER
     ) {
-      return this.props.swapActions.setStep({ step: 'INIT_SWAP' })
+      this.props.swapActions.setStep({ step: 'INIT_SWAP' })
+      return null
     }
 
     const { BASE, COUNTER } = this.props.initSwapFormValues
