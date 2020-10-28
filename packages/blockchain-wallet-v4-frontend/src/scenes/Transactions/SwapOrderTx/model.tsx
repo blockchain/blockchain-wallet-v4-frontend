@@ -46,6 +46,7 @@ export const Status = ({ order }: Props) => {
         />
       )
     case 'PENDING_EXECUTION':
+      return <>Pending Execution</>
     case 'PENDING_CONFIRMATION':
     case 'PENDING_DEPOSIT':
       return (

@@ -110,6 +110,7 @@ export function swapReducer (
             step: action.payload.step,
             side: action.payload.options.side
           }
+        case 'SUCCESSFUL_SWAP':
         case 'ORDER_DETAILS':
           return {
             ...state,
