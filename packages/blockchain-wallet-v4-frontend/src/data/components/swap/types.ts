@@ -35,6 +35,7 @@ export enum SwapStepType {
   'INIT_SWAP',
   'COIN_SELECTION',
   'ENTER_AMOUNT',
+  'UPGRADE_PROMPT',
   'PREVIEW_SWAP',
   'ORDER_DETAILS'
 }
@@ -143,6 +144,7 @@ export type SwapStepPayload =
       step: 'ORDER_DETAILS'
     }
   | { options: { side: 'BASE' | 'COUNTER' }; step: 'COIN_SELECTION' }
+  | { options?: never; step: 'UPGRADE_PROMPT' }
 
 export type SwapActionTypes =
   | FetchLimitsFailureActionType

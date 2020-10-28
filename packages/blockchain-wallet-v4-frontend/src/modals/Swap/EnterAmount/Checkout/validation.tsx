@@ -46,7 +46,6 @@ export const maximumAmount = (
   if (!allValues) return
 
   const { limits, rates, payment, walletCurrency } = restProps
-
   return Number(value) >
     Number(
       getMaxMin('max', limits, rates[walletCurrency], payment, restProps.BASE)
@@ -71,4 +70,18 @@ export const minimumAmount = (
     )
     ? 'BELOW_MIN'
     : false
+}
+
+export const maximumAmountSilver = (
+  restProps: Props,
+  amtError: string | boolean
+) => {
+  const { limits, userData } = restProps
+  if (userData.tiers.current === 2) return
+  if (
+    userData.tiers.current === 1 &&
+    amtError === 'ABOVE_MAX' &&
+    limits.maxPossibleOrder < limits.maxOrder
+  )
+    return true
 }

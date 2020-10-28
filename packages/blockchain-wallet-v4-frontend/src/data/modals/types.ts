@@ -78,6 +78,8 @@ export type ModalOriginType =
   | 'SimpleBuyLink'
   | 'Swap'
   | 'SwapGetStarted'
+  | 'SwapPrompt'
+  | 'SwapLimitPrompt'
   | 'TheExchangePage'
   | 'TransactionList'
   | 'Unknown'

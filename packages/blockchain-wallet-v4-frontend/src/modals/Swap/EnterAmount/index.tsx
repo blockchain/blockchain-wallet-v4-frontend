@@ -23,6 +23,7 @@ import { getData } from './selectors'
 import Checkout from './Checkout'
 import CoinBalance from '../components/CoinBalance'
 import Loading from './template.loading'
+import Upgrade from './template.upgrade'
 
 const SubTopText = styled.div`
   display: flex;
@@ -70,7 +71,7 @@ class EnterAmount extends PureComponent<Props> {
     }
 
     const { BASE, COUNTER } = this.props.initSwapFormValues
-    const { coins, walletCurrency } = this.props
+    const { coins, userData, walletCurrency } = this.props
 
     return (
       <>
@@ -193,7 +194,12 @@ class EnterAmount extends PureComponent<Props> {
             </Option>
           </Options>
           {this.props.data.cata({
-            Success: val => <Checkout {...val} {...this.props} BASE={BASE} />,
+            Success: val => (
+              <>
+                <Checkout {...val} {...this.props} BASE={BASE} />
+                {userData.tiers.current === 1 && <Upgrade {...this.props} />}
+              </>
+            ),
             Failure: () => <>oops</>,
             Loading: () => <Loading />,
             NotAsked: () => <Loading />

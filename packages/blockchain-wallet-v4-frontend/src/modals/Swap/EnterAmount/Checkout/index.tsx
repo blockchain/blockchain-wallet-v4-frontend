@@ -1,11 +1,12 @@
 import { Button, Text } from 'blockchain-info-components'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
 import { AmountTextBox } from 'components/Exchange'
-import { ErrorCartridge } from 'components/Cartridge'
+import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { fiatToString } from 'core/exchange/currency'
 import { FlyoutWrapper } from 'components/Flyout'
 import { formatTextAmount } from 'services/ValidationHelper'
@@ -33,9 +34,23 @@ const Amounts = styled.div`
 const MinMaxButtons = styled.div`
   display: flex;
 `
+const ButtonsRow = styled(MinMaxButtons)`
+  justify-content: space-between;
+  width: 105%;
+  ${media.mobile`
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  `};
+`
 const CoinBalance = styled.div`
   margin-top: 2px;
   display: flex;
+`
+const UpgradePrompt = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 const Errors = styled.div`
   margin: 32px 0 24px 0;
@@ -92,6 +107,12 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     ? props.payment.effectiveBalance
     : props.BASE.balance
 
+  const maxAmountSilver = !!(
+    props.userData.tiers.current === 1 &&
+    amtError === 'ABOVE_MAX' &&
+    props.limits.maxPossibleOrder < props.limits.maxOrder
+  )
+
   const handleMinMaxClick = () => {
     const value = amtError === 'BELOW_MIN' ? min : max
     props.formActions.change('swapAmount', 'amount', value)
@@ -146,10 +167,14 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <div />
         </QuoteRow>
         {amtError && (
-          <Errors onClick={handleMinMaxClick}>
+          <Errors>
             <>
               {amtError === 'BELOW_MIN' ? (
-                <CustomErrorCartridge role='button' data-e2e='swapMin'>
+                <CustomErrorCartridge
+                  onClick={handleMinMaxClick}
+                  role='button'
+                  data-e2e='swapMin'
+                >
                   <FormattedMessage
                     id='copy.below_swap_min'
                     defaultMessage='Minimum Swap is {value}'
@@ -158,8 +183,53 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     }}
                   />
                 </CustomErrorCartridge>
+              ) : maxAmountSilver ? (
+                <UpgradePrompt>
+                  <BlueCartridge style={{ marginBottom: '26px' }}>
+                    <FormattedMessage
+                      id='copy.above_swap_max_silver'
+                      defaultMessage='Upgrade your profile to swap this amount.'
+                    />
+                  </BlueCartridge>
+                  <ButtonsRow>
+                    <Button
+                      data-e2e='swapUpgradePromptNotNow'
+                      nature='light'
+                      onClick={handleMinMaxClick}
+                      height='48px'
+                      width='192px'
+                    >
+                      <FormattedMessage
+                        id='copy.not_now'
+                        defaultMessage='Not Now'
+                      />
+                    </Button>
+                    <Button
+                      data-e2e='swapLimitUpgradePrompt'
+                      nature='primary'
+                      onClick={() =>
+                        props.idvActions.verifyIdentity(
+                          2,
+                          false,
+                          'SwapLimitPrompt'
+                        )
+                      }
+                      height='48px'
+                      width='192px'
+                    >
+                      <FormattedMessage
+                        id='scenes.exchange.exchangeform.limit_info.upgrade'
+                        defaultMessage='Upgrade'
+                      />
+                    </Button>
+                  </ButtonsRow>
+                </UpgradePrompt>
               ) : (
-                <CustomErrorCartridge role='button' data-e2e='swapMax'>
+                <CustomErrorCartridge
+                  onClick={handleMinMaxClick}
+                  role='button'
+                  data-e2e='swapMax'
+                >
                   <FormattedMessage
                     id='copy.above_swap_max'
                     defaultMessage='Maximum Swap is {value}'
