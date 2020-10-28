@@ -1,14 +1,22 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, CallEffect, put, select } from 'redux-saga/effects'
+import { head, nth } from 'ramda'
 
 import {
   AccountTypes,
+  CoinType,
   FiatType,
+  PaymentType,
   PaymentValue,
   RatesType,
+  RemoteDataType,
   SBBalancesType
 } from 'core/types'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
+import {
+  INVALID_COIN_TYPE,
+  NO_DEFAULT_ACCOUNT
+} from 'blockchain-wallet-v4/src/model'
+import { promptForSecondPassword } from 'services/SagaService'
 import { selectors } from 'data'
 
 import * as A from './actions'
@@ -21,6 +29,37 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     coreSagas,
     networks
   })
+
+  const buildAndPublishPayment = function * (
+    coin: CoinType,
+    payment: PaymentType,
+    destination: string
+  ): Generator<PaymentType | CallEffect, PaymentValue, any> {
+    try {
+      if (coin === 'XLM') {
+        // separate out addresses and memo
+        const depositAddressMemo = destination.split(':')
+        payment = yield payment.to(depositAddressMemo[0], 'CUSTODIAL')
+        // @ts-ignore
+        payment = yield payment.memo(depositAddressMemo[1])
+        // @ts-ignore
+        payment = yield payment.memoType('text')
+        // @ts-ignore
+        payment = yield payment.setDestinationAccountExists(true)
+      } else {
+        payment = yield payment.to(destination, 'CUSTODIAL')
+      }
+      payment = yield payment.build()
+      // ask for second password
+      const password = yield call(promptForSecondPassword)
+      payment = yield payment.sign(password)
+      payment = yield payment.publish()
+    } catch (e) {
+      throw e
+    }
+
+    return payment.value()
+  }
 
   const createLimits = function * (
     payment: PaymentValue,
@@ -134,8 +173,126 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     return payment
   }
 
+  const paymentGetOrElse = (
+    coin: CoinType,
+    paymentR: RemoteDataType<string | Error, PaymentValue | undefined>
+  ): PaymentType => {
+    switch (coin) {
+      case 'BCH':
+        return coreSagas.payment.bch.create({
+          payment: paymentR.getOrElse(<PaymentValue>{}),
+          network: networks.bch
+        })
+      case 'BTC':
+        return coreSagas.payment.btc.create({
+          payment: paymentR.getOrElse(<PaymentValue>{}),
+          network: networks.btc
+        })
+      case 'ETH':
+      case 'PAX':
+      case 'USDT':
+        return coreSagas.payment.eth.create({
+          payment: paymentR.getOrElse(<PaymentValue>{}),
+          network: networks.eth
+        })
+      case 'XLM':
+        return coreSagas.payment.xlm.create({
+          payment: paymentR.getOrElse(<PaymentValue>{})
+        })
+      default:
+        throw new Error(INVALID_COIN_TYPE)
+    }
+  }
+
+  const getDefaultAccountForCoin = function * (coin: CoinType) {
+    let defaultAccountR
+
+    switch (coin) {
+      case 'BCH':
+        const bchAccountsR = yield select(
+          selectors.core.common.bch.getAccountsBalances
+        )
+        const bchDefaultIndex = (yield select(
+          selectors.core.kvStore.bch.getDefaultAccountIndex
+        )).getOrElse(0)
+        defaultAccountR = bchAccountsR.map(nth(bchDefaultIndex))
+        break
+      case 'BTC':
+        const btcAccountsR = yield select(
+          selectors.core.common.btc.getAccountsBalances
+        )
+        const btcDefaultIndex = yield select(
+          selectors.core.wallet.getDefaultAccountIndex
+        )
+        defaultAccountR = btcAccountsR.map(nth(btcDefaultIndex))
+        break
+      case 'ETH':
+        const ethAccountR = yield select(
+          selectors.core.common.eth.getAccountBalances
+        )
+        defaultAccountR = ethAccountR.map(head)
+        break
+      case 'PAX':
+      case 'USDT':
+        const erc20AccountR = yield select(
+          selectors.core.common.eth.getErc20AccountBalances,
+          coin
+        )
+        defaultAccountR = erc20AccountR.map(head)
+        break
+      case 'XLM':
+        defaultAccountR = (yield select(
+          selectors.core.common.xlm.getAccountBalances
+        )).map(head)
+        break
+      default:
+        throw new Error('Invalid Coin Type')
+    }
+
+    return defaultAccountR.getOrFail(NO_DEFAULT_ACCOUNT)
+  }
+
+  const getReceiveAddressForCoin = function * (coin: CoinType) {
+    switch (coin) {
+      case 'BCH':
+        return selectors.core.common.bch
+          .getNextAvailableReceiveAddress(
+            networks.bch,
+            (yield select(
+              selectors.core.kvStore.bch.getDefaultAccountIndex
+            )).getOrFail(),
+            yield select()
+          )
+          .getOrFail('Failed to get BCH receive address')
+      case 'BTC':
+        return selectors.core.common.btc
+          .getNextAvailableReceiveAddress(
+            networks.btc,
+            yield select(selectors.core.wallet.getDefaultAccountIndex),
+            yield select()
+          )
+          .getOrFail('Failed to get BTC receive address')
+      case 'ETH':
+      case 'PAX':
+      case 'USDT':
+        return selectors.core.data.eth
+          .getDefaultAddress(yield select())
+          .getOrFail(`Failed to get ${coin} receive address`)
+      case 'XLM':
+        return selectors.core.kvStore.xlm
+          .getDefaultAccountId(yield select())
+          .getOrFail(`Failed to get XLM receive address`)
+      default:
+        throw new Error('Invalid Coin Type')
+    }
+  }
+
   return {
+    buildAndPublishPayment,
     createLimits,
-    createPayment
+    createPayment,
+    getDefaultAccountForCoin,
+    getReceiveAddressForCoin,
+    paymentGetOrElse
   }
 }

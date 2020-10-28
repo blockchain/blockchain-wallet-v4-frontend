@@ -1,6 +1,6 @@
 import { call, delay, put, select, take } from 'redux-saga/effects'
 import { FormAction, initialize } from 'redux-form'
-import { head, last, nth, prop } from 'ramda'
+import { last, prop } from 'ramda'
 import BigNumber from 'bignumber.js'
 
 import {
@@ -15,6 +15,7 @@ import { actions, model, selectors } from 'data'
 import { APIType } from 'core/network/api'
 import { convertStandardToBase } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 import * as A from './actions'
@@ -22,17 +23,12 @@ import * as AT from './actionTypes'
 import * as S from './selectors'
 import { DEFAULT_INTEREST_BALANCES } from './model'
 import { InterestDepositFormType } from './types'
-import {
-  INVALID_COIN_TYPE,
-  NO_DEFAULT_ACCOUNT
-} from 'blockchain-wallet-v4/src/model'
 import profileSagas from '../../modules/profile/sagas'
-
-import sendSagas from '../send/sagas'
 import utils from './sagas.utils'
 
 const { INTEREST_EVENTS } = model.analytics
 const DEPOSIT_FORM = 'interestDepositForm'
+const WITHDRAWAL_FORM = 'interestWithdrawalForm'
 
 export default ({
   api,
@@ -44,12 +40,14 @@ export default ({
   networks: any
 }) => {
   const { isTier2 } = profileSagas({ api, coreSagas, networks })
-  const { createLimits, createPayment } = utils({
-    coreSagas,
-    networks
-  })
-  const { buildAndPublishPayment, paymentGetOrElse } = sendSagas({
-    api,
+  const {
+    buildAndPublishPayment,
+    createLimits,
+    createPayment,
+    getDefaultAccountForCoin,
+    getReceiveAddressForCoin,
+    paymentGetOrElse
+  } = utils({
     coreSagas,
     networks
   })
@@ -256,7 +254,7 @@ export default ({
     payload
   }: ReturnType<typeof A.initializeDepositForm>) {
     const { coin, currency } = payload
-    let defaultAccountR
+
     yield put(A.setPaymentLoading())
     yield put(A.fetchInterestLimits(coin, currency))
     yield take([
@@ -264,48 +262,7 @@ export default ({
       AT.FETCH_INTEREST_LIMITS_FAILURE
     ])
 
-    switch (coin) {
-      case 'BCH':
-        const bchAccountsR = yield select(
-          selectors.core.common.bch.getAccountsBalances
-        )
-        const bchDefaultIndex = (yield select(
-          selectors.core.kvStore.bch.getDefaultAccountIndex
-        )).getOrElse(0)
-        defaultAccountR = bchAccountsR.map(nth(bchDefaultIndex))
-        break
-      case 'BTC':
-        const btcAccountsR = yield select(
-          selectors.core.common.btc.getAccountsBalances
-        )
-        const btcDefaultIndex = yield select(
-          selectors.core.wallet.getDefaultAccountIndex
-        )
-        defaultAccountR = btcAccountsR.map(nth(btcDefaultIndex))
-        break
-      case 'ETH':
-        const ethAccountR = yield select(
-          selectors.core.common.eth.getAccountBalances
-        )
-        defaultAccountR = ethAccountR.map(head)
-        break
-      case 'PAX':
-      case 'USDT':
-        const erc20AccountR = yield select(
-          selectors.core.common.eth.getErc20AccountBalances,
-          coin
-        )
-        defaultAccountR = erc20AccountR.map(head)
-        break
-      case 'XLM':
-        defaultAccountR = (yield select(
-          selectors.core.common.xlm.getAccountBalances
-        )).map(head)
-        break
-      default:
-        throw new Error('Invalid Coin Type')
-    }
-    const defaultAccount = defaultAccountR.getOrFail(NO_DEFAULT_ACCOUNT)
+    const defaultAccount = yield call(getDefaultAccountForCoin, coin)
     const payment: PaymentValue = yield call(createPayment, {
       ...defaultAccount,
       address: getAccountIndexOrAccount(coin, defaultAccount)
@@ -315,7 +272,7 @@ export default ({
     yield put(A.setPaymentSuccess(payment))
     yield put(
       initialize(DEPOSIT_FORM, {
-        interestDepositAccount: defaultAccountR.getOrElse(),
+        interestDepositAccount: defaultAccount,
         coin,
         currency
       })
@@ -323,23 +280,26 @@ export default ({
   }
 
   const initializeWithdrawalForm = function * ({
-    // eslint-disable-next-line
     payload
   }: ReturnType<typeof A.initializeWithdrawalForm>) {
+    const { coin, walletCurrency } = payload
     try {
+      yield put(A.setWithdrawalMinimumsLoading())
       const response: ReturnType<typeof api.getWithdrawalMinsAndFees> = yield call(
         api.getWithdrawalMinsAndFees
       )
-      yield put(A.setWithdrawalMinimimumsLoading())
-      yield put(A.setWithdrawalMinimimumsSuccess(response))
+      const defaultAccount = yield call(getDefaultAccountForCoin, coin)
+      yield put(
+        initialize(WITHDRAWAL_FORM, {
+          interestWithdrawalAccount: defaultAccount,
+          coin,
+          currency: walletCurrency
+        })
+      )
+      yield put(A.setWithdrawalMinimumsSuccess(response))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.setWithdrawalMinimimumsFailure(error))
-    }
-    try {
-      yield put(initialize('interestWithdrawalForm', {}))
-    } catch (e) {
-      // TODO?
+      yield put(A.setWithdrawalMinimumsFailure(error))
     }
   }
 
@@ -407,7 +367,6 @@ export default ({
       )
       yield delay(3000)
       yield put(A.fetchInterestBalance())
-      yield put(actions.router.push('/interest/history'))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit(DEPOSIT_FORM, { _error: error }))
@@ -424,65 +383,44 @@ export default ({
     payload
   }: ReturnType<typeof A.requestWithdrawal>) {
     const { coin, withdrawalAmount } = payload
-    const FORM = 'interestWithdrawalForm'
     try {
-      yield put(actions.form.startSubmit(FORM))
-      const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmount)
-      let receiveAddress
-      switch (coin) {
-        case 'BCH':
-          receiveAddress = selectors.core.common.bch
-            .getNextAvailableReceiveAddress(
-              networks.bch,
-              (yield select(
-                selectors.core.kvStore.bch.getDefaultAccountIndex
-              )).getOrFail(),
-              yield select()
-            )
-            .getOrFail('Failed to get BCH receive address')
-          break
-        case 'BTC':
-          receiveAddress = selectors.core.common.btc
-            .getNextAvailableReceiveAddress(
-              networks.btc,
-              yield select(selectors.core.wallet.getDefaultAccountIndex),
-              yield select()
-            )
-            .getOrFail('Failed to get BTC receive address')
-          break
-        case 'ETH':
-        case 'PAX':
-        case 'USDT':
-          receiveAddress = selectors.core.data.eth
-            .getDefaultAddress(yield select())
-            .getOrFail(`Failed to get ${coin} receive address`)
-          break
-        case 'XLM':
-          receiveAddress = selectors.core.kvStore.xlm
-            .getDefaultAccountId(yield select())
-            .getOrFail(`Failed to get XLM receive address`)
-          break
-        default:
-          throw new Error('Invalid Coin Type')
-      }
-      // initiate withdrawal request
-      yield call(
-        api.initiateInterestWithdrawal,
-        withdrawalAmountBase,
-        coin,
-        receiveAddress
+      yield put(actions.form.startSubmit(WITHDRAWAL_FORM))
+
+      const formValues: InterestDepositFormType = yield select(
+        selectors.form.getFormValues(WITHDRAWAL_FORM)
       )
+      const isCustodialWithdrawal =
+        prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
+      const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmount)
+
+      if (isCustodialWithdrawal) {
+        yield call(api.initiateCustodialTransfer, {
+          amount: withdrawalAmountBase,
+          currency: coin,
+          destination: 'SIMPLEBUY',
+          origin: 'SAVINGS'
+        })
+      } else {
+        const receiveAddress = yield call(getReceiveAddressForCoin, coin)
+        yield call(
+          api.initiateInterestWithdrawal,
+          withdrawalAmountBase,
+          coin,
+          receiveAddress
+        )
+      }
+
       // notify success
-      yield put(actions.form.stopSubmit(FORM))
+      yield put(actions.form.stopSubmit(WITHDRAWAL_FORM))
       yield put(A.setInterestStep('ACCOUNT_SUMMARY', { withdrawSuccess: true }))
-      yield put(A.fetchInterestBalance())
-      yield put(actions.router.push('/interest/history'))
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.WITHDRAWAL.REQUEST_SUCCESS)
       )
+      yield delay(3000)
+      yield put(A.fetchInterestBalance())
     } catch (e) {
       const error = errorHandler(e)
-      yield put(actions.form.stopSubmit(FORM, { _error: error }))
+      yield put(actions.form.stopSubmit(WITHDRAWAL_FORM, { _error: error }))
       yield put(
         A.setInterestStep('ACCOUNT_SUMMARY', { withdrawSuccess: false, error })
       )
