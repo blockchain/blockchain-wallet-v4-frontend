@@ -109,7 +109,8 @@ export const getData = (state, coin, isCoinErc20) =>
       selectors.form.getFormValues(WALLET_TX_SEARCH),
       coinSelectorMap(state, coin, isCoinErc20),
       selectors.core.settings.getCurrency,
-      () => selectors.core.walletOptions.getCoinModel(state, coin)
+      () => selectors.core.walletOptions.getCoinModel(state, coin),
+      () => selectors.core.walletOptions.getSupportedCoins(state)
     ],
     (userSearch, pagesR, currencyR, coinModelR, supportedCoinsR) => {
       const empty = page => isEmpty(page.data)
@@ -133,10 +134,11 @@ export const getData = (state, coin, isCoinErc20) =>
             p: P
           ) => SupportedWalletCurrenciesType[P]
         ),
+        supportedCoins: supportedCoinsR.getOrElse(
+          {} as SupportedWalletCurrenciesType
+        ),
         currency: currencyR.getOrElse(''),
         hasTxResults: !all(empty)(filteredPages),
-        supportedCoins: selectors.core.walletOptions.getSupportedCoins(state),
-        supportedCoinsR,
         // @ts-ignore
         isSearchEntered: search.length > 0 || status !== '',
         pages: filteredPages,
