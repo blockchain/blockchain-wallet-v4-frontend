@@ -393,6 +393,15 @@ export default ({
     }
   }
 
+  const switchFix = function * ({ payload }: ReturnType<typeof A.switchFix>) {
+    yield put(A.setCheckoutFix(payload.fix))
+    const newAmount = new BigNumber(payload.amount).isGreaterThan(0)
+      ? payload.amount
+      : undefined
+    yield put(actions.form.change('swapAmount', 'amount', newAmount))
+    yield put(actions.form.focus('swapAmount', 'amount'))
+  }
+
   const toggleBaseAndCounter = function * () {
     const initSwapFormValues = selectors.form.getFormValues('initSwap')(
       yield select()
@@ -425,6 +434,7 @@ export default ({
     initAmountForm,
     refreshAccounts,
     showModal,
+    switchFix,
     toggleBaseAndCounter
   }
 }

@@ -136,6 +136,14 @@ interface SetSwapStepActionType {
   type: typeof AT.SET_STEP
 }
 
+interface SwitchFixActionType {
+  payload: {
+    amount: string
+    fix: SwapCheckoutFixType
+  }
+  type: typeof AT.SWITCH_FIX
+}
+
 export type SwapStepPayload =
   | {
       options?: never
@@ -176,3 +184,4 @@ export type SwapActionTypes =
   | UpdatePaymentSuccessActionType
   | SetSwapCheckoutFixType
   | SetSwapStepActionType
+  | SwitchFixActionType

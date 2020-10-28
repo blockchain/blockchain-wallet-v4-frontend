@@ -18,6 +18,7 @@ import { Row } from 'blockchain-wallet-v4-frontend/src/scenes/Exchange/ExchangeF
 import { StyledForm } from '../../components'
 import { SwapAccountType } from 'data/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
 const AmountRow = styled(Row)`
@@ -87,35 +88,40 @@ const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
 }
 
 const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  const amtError =
-    typeof props.formErrors.amount === 'string' && props.formErrors.amount
-  const max = getMaxMin(
-    'max',
-    props.limits,
-    props.rates[props.walletCurrency],
-    props.payment,
-    props.BASE
-  )
-  const min = getMaxMin(
-    'min',
-    props.limits,
-    props.rates[props.walletCurrency],
-    props.payment,
-    props.BASE
-  )
-  const balance = props.payment
-    ? props.payment.effectiveBalance
-    : props.BASE.balance
+  const {
+    BASE,
+    fix,
+    formActions,
+    formErrors,
+    formValues,
+    limits,
+    payment,
+    rates,
+    userData,
+    walletCurrency
+  } = props
+  const amtError = typeof formErrors.amount === 'string' && formErrors.amount
+  const max = getMaxMin('max', limits, rates[walletCurrency], payment, BASE)
+  const min = getMaxMin('min', limits, rates[walletCurrency], payment, BASE)
+  const balance = payment ? payment.effectiveBalance : BASE.balance
 
   const maxAmountSilver = !!(
-    props.userData.tiers.current === 1 &&
+    userData.tiers.current === 1 &&
     amtError === 'ABOVE_MAX' &&
-    props.limits.maxPossibleOrder < props.limits.maxOrder
+    limits.maxPossibleOrder < props.limits.maxOrder
   )
+
+  const quoteAmount =
+    fix === 'FIAT'
+      ? '5'
+      : fiatToString({
+          value: rates[walletCurrency].last * Number(formValues?.amount || 0),
+          unit: walletCurrency
+        })
 
   const handleMinMaxClick = () => {
     const value = amtError === 'BELOW_MIN' ? min : max
-    props.formActions.change('swapAmount', 'amount', value)
+    formActions.change('swapAmount', 'amount', value)
   }
 
   const handleSubmit = e => {
@@ -129,13 +135,18 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     <FlyoutWrapper style={{ paddingTop: '0px' }}>
       <StyledForm onSubmit={handleSubmit}>
         <AmountRow id='amount-row'>
+          {fix === 'FIAT' && (
+            <Text size={'56px'} color='textBlack' weight={500}>
+              {Currencies[walletCurrency].units[walletCurrency].symbol}
+            </Text>
+          )}
           <Field
             data-e2e='swapAmountInput'
             name='amount'
             component={AmountTextBox}
             validate={[maximumAmount, minimumAmount]}
             normalize={normalizeAmount}
-            onUpdate={resizeSymbol.bind(null, false)}
+            onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
             maxFontSize='56px'
             placeholder='0'
             fiatActive={false}
@@ -144,9 +155,11 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               hideError: true
             }}
           />
-          <Text size={'56px'} color='textBlack' weight={500}>
-            {props.BASE.coin}
-          </Text>
+          {fix === 'CRYPTO' && (
+            <Text size={'56px'} color='textBlack' weight={500}>
+              {BASE.coin}
+            </Text>
+          )}
         </AmountRow>
 
         <QuoteRow>
@@ -157,12 +170,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             weight={500}
             data-e2e='swapQuoteAmount'
           >
-            {fiatToString({
-              value:
-                props.rates[props.walletCurrency].last *
-                Number(props.formValues?.amount || 0),
-              unit: props.walletCurrency
-            })}
+            {quoteAmount}
           </Text>
           <div />
           <Icon
@@ -170,8 +178,9 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             cursor
             name='vertical-arrow-switch'
             onClick={() =>
-              props.swapActions.setCheckoutFix(
-                props.fix === 'FIAT' ? 'CRYPTO' : 'FIAT'
+              props.swapActions.switchFix(
+                quoteAmount,
+                fix === 'FIAT' ? 'CRYPTO' : 'FIAT'
               )
             }
             role='button'
@@ -192,7 +201,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     id='copy.below_swap_min'
                     defaultMessage='Minimum Swap is {value}'
                     values={{
-                      value: `${min} ${props.BASE.coin}`
+                      value: `${min} ${BASE.coin}`
                     }}
                   />
                 </CustomErrorCartridge>
@@ -247,7 +256,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     id='copy.above_swap_max'
                     defaultMessage='Maximum Swap is {value}'
                     values={{
-                      value: `${max} ${props.BASE.coin}`
+                      value: `${max} ${BASE.coin}`
                     }}
                   />
                 </CustomErrorCartridge>
@@ -258,7 +267,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <Amounts>
           <div>
             <Text size='14px' weight={500} color='grey600'>
-              {props.BASE.coin}{' '}
+              {BASE.coin}{' '}
               <FormattedMessage
                 id='copy.available'
                 defaultMessage='Available'
@@ -269,7 +278,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 size='14px'
                 weight={500}
                 color='grey900'
-                coin={props.BASE.coin}
+                coin={BASE.coin}
               >
                 {balance}
               </CoinDisplay>
@@ -280,7 +289,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 size='14px'
                 weight={500}
                 color='grey600'
-                coin={props.BASE.coin}
+                coin={BASE.coin}
               >
                 {balance}
               </FiatDisplay>
@@ -293,9 +302,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <GreyBlueCartridge
               role='button'
               data-e2e='swapMin'
-              onClick={() =>
-                props.formActions.change('swapAmount', 'amount', min)
-              }
+              onClick={() => formActions.change('swapAmount', 'amount', min)}
             >
               <FormattedMessage
                 id='buttons.swap_min'
@@ -305,9 +312,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <GreyBlueCartridge
               role='button'
               data-e2e='swapMax'
-              onClick={() =>
-                props.formActions.change('swapAmount', 'amount', max)
-              }
+              onClick={() => formActions.change('swapAmount', 'amount', max)}
             >
               <FormattedMessage
                 id='buttons.swap_max'

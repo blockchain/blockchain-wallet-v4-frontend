@@ -155,6 +155,14 @@ export const stopPollQuote = () => ({
   type: AT.STOP_POLL_QUOTE
 })
 
+export const switchFix = (amount: string, fix: SwapCheckoutFixType) => ({
+  type: AT.SWITCH_FIX,
+  payload: {
+    amount,
+    fix
+  }
+})
+
 export const toggleBaseAndCounter = () => ({
   type: AT.TOGGLE_BASE_COUNTER
 })
