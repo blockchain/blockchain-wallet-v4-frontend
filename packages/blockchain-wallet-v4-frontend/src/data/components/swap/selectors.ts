@@ -38,6 +38,8 @@ export const getPayment = (state: RootState) => state.components.swap.payment
 
 export const getQuote = (state: RootState) => state.components.swap.quote
 
+export const getFix = (state: RootState) => state.components.swap.fix
+
 export const getTradesStatus = (state: RootState) =>
   state.components.swap.trades.status
 

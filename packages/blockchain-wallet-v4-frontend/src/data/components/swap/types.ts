@@ -42,9 +42,11 @@ export enum SwapStepType {
 }
 
 export type SwapSideType = 'BASE' | 'COUNTER'
+export type SwapCheckoutFixType = 'CRYPTO' | 'FIAT'
 
 // state
 export type SwapState = {
+  fix: SwapCheckoutFixType
   limits: RemoteDataType<string, SwapUserLimitsType>
   order?: SwapOrderType
   payment: RemoteDataType<string, undefined | PaymentValue>
@@ -123,6 +125,12 @@ interface UpdatePaymentSuccessActionType {
   type: typeof AT.UPDATE_PAYMENT_SUCCESS
 }
 
+interface SetSwapCheckoutFixType {
+  payload: {
+    fix: SwapCheckoutFixType
+  }
+  type: typeof AT.SET_CHECKOUT_FIX
+}
 interface SetSwapStepActionType {
   payload: SwapStepPayload
   type: typeof AT.SET_STEP
@@ -166,4 +174,5 @@ export type SwapActionTypes =
   | UpdatePaymentFailureActionType
   | UpdatePaymentLoadingActionType
   | UpdatePaymentSuccessActionType
+  | SetSwapCheckoutFixType
   | SetSwapStepActionType

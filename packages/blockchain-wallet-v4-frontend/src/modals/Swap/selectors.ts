@@ -1,16 +1,16 @@
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { ExtractSuccess, FiatType } from 'core/types'
 import { lift } from 'ramda'
-
-import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
   [
     selectors.modules.profile.getUserData,
     selectors.core.walletOptions.getSupportedCoins,
-    selectors.core.settings.getCurrency
+    selectors.core.settings.getCurrency,
+    selectors.components.swap.getFix
   ],
-  (userDataR, coinsR, walletCurrencyR) => {
+  (userDataR, coinsR, walletCurrencyR, fix) => {
     return lift(
       (
         userData: ExtractSuccess<typeof userDataR>,
@@ -19,7 +19,8 @@ export const getData = createDeepEqualSelector(
       ) => ({
         userData,
         coins,
-        walletCurrency
+        walletCurrency,
+        fix
       })
     )(userDataR, coinsR, walletCurrencyR)
   }

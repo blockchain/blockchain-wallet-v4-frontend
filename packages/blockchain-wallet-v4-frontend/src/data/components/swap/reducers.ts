@@ -3,6 +3,7 @@ import { SwapActionTypes, SwapState } from './types'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: SwapState = {
+  fix: 'FIAT',
   limits: Remote.NotAsked,
   order: undefined,
   payment: Remote.NotAsked,
@@ -82,6 +83,12 @@ export function swapReducer (
           status: Remote.Success('Success'),
           list: [...state.trades.list, ...action.payload.trades]
         }
+      }
+    }
+    case AT.SET_CHECKOUT_FIX: {
+      return {
+        ...state,
+        fix: action.payload.fix
       }
     }
     case AT.UPDATE_PAYMENT_FAILURE: {

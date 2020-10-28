@@ -1,4 +1,4 @@
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import media from 'services/ResponsiveService'
@@ -165,6 +165,19 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             })}
           </Text>
           <div />
+          <Icon
+            color='blue600'
+            cursor
+            name='vertical-arrow-switch'
+            onClick={() =>
+              props.swapActions.setCheckoutFix(
+                props.fix === 'FIAT' ? 'CRYPTO' : 'FIAT'
+              )
+            }
+            role='button'
+            size='24px'
+            data-e2e='swapSwitchIcon'
+          />
         </QuoteRow>
         {amtError && (
           <Errors>
