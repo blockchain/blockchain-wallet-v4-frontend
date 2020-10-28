@@ -132,7 +132,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const fix = props.preferences[props.orderType].fix
   const digits = fix === 'FIAT' ? FIAT_DECIMALS : CRYPTO_DECIMALS
   const baseCurrency = fix === 'FIAT' ? fiatCurrency : cryptoCurrency
-  const adjustedCurrency = cryptoCurrency === 'PAX' ? 'USD-D' : cryptoCurrency
   const conversionCoinType: 'FIAT' | CoinType =
     fix === 'FIAT' ? 'FIAT' : cryptoCurrency
 
@@ -262,7 +261,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
           {fix === 'CRYPTO' && (
             <Text size={'56px'} color='textBlack' weight={500}>
-              {adjustedCurrency}
+              {props.supportedCoins[cryptoCurrency].coinTicker}
             </Text>
           )}
         </AmountRow>
