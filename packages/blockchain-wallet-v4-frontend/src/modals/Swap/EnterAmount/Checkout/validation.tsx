@@ -3,6 +3,7 @@ import {
   convertStandardToBase
 } from 'data/components/exchange/services'
 import { CRYPTO_DECIMALS } from 'services/ValidationHelper'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { PaymentValue, RateType, SwapUserLimitsType } from 'core/types'
 import BigNumber from 'bignumber.js'
 
@@ -45,11 +46,19 @@ export const maximumAmount = (
   if (!value) return true
   if (!allValues) return
 
-  const { limits, rates, payment, walletCurrency } = restProps
-  return Number(value) >
-    Number(
-      getMaxMin('max', limits, rates[walletCurrency], payment, restProps.BASE)
-    )
+  const { fix, limits, rates, payment, walletCurrency } = restProps
+
+  const cryptoMax = Number(
+    getMaxMin('max', limits, rates[walletCurrency], payment, restProps.BASE)
+  )
+  const fiatMax = Exchange.convertCoinToFiat(
+    cryptoMax,
+    restProps.BASE.coin,
+    walletCurrency,
+    rates
+  )
+
+  return Number(value) > (fix === 'CRYPTO' ? cryptoMax : fiatMax)
     ? 'ABOVE_MAX'
     : false
 }
@@ -62,12 +71,19 @@ export const minimumAmount = (
   if (!value) return true
   if (!allValues) return
 
-  const { limits, rates, payment, walletCurrency } = restProps
+  const { fix, limits, rates, payment, walletCurrency } = restProps
 
-  return Number(value) <
-    Number(
-      getMaxMin('min', limits, rates[walletCurrency], payment, restProps.BASE)
-    )
+  const cryptoMin = Number(
+    getMaxMin('min', limits, rates[walletCurrency], payment, restProps.BASE)
+  )
+  const fiatMin = Exchange.convertCoinToFiat(
+    cryptoMin,
+    restProps.BASE.coin,
+    walletCurrency,
+    rates
+  )
+
+  return Number(value) < (fix === 'CRYPTO' ? cryptoMin : fiatMin)
     ? 'BELOW_MIN'
     : false
 }
