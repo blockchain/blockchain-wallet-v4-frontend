@@ -1,4 +1,5 @@
 import { Button, Icon, Text } from 'blockchain-info-components'
+import { Exchange } from 'core'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import media from 'services/ResponsiveService'
@@ -7,7 +8,7 @@ import styled from 'styled-components'
 
 import { AmountTextBox } from 'components/Exchange'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
-import { fiatToString } from 'core/exchange/currency'
+import { coinToString, fiatToString } from 'core/exchange/currency'
 import { FlyoutWrapper } from 'components/Flyout'
 import { formatTextAmount } from 'services/ValidationHelper'
 import { getMaxMin, maximumAmount, minimumAmount } from './validation'
@@ -113,7 +114,15 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   const quoteAmount =
     fix === 'FIAT'
-      ? '5'
+      ? coinToString({
+          value: Exchange.convertFiatToCoin(
+            formValues?.amount || 0,
+            BASE.coin,
+            walletCurrency,
+            rates
+          ),
+          unit: { symbol: BASE.coin }
+        })
       : fiatToString({
           value: rates[walletCurrency].last * Number(formValues?.amount || 0),
           unit: walletCurrency

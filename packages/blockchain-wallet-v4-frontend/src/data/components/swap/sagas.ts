@@ -17,6 +17,7 @@ import {
   convertStandardToBase
 } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { getDirection, getPair, getRate, NO_QUOTE } from './utils'
 import {
   InitSwapFormValuesType,
@@ -268,9 +269,12 @@ export default ({
     const { BASE } = initSwapFormValues
     const paymentR = S.getPayment(yield select())
     if (BASE.type === 'CUSTODIAL') return
+    // selector here to get whether state is fiat or crypto
 
     // @ts-ignore
     let payment = paymentGetOrElse(BASE.coin, paymentR)
+    // check if state is fiat, if it is:
+    // return Exchange.convertFiatToCoin(amount, coin, walletCurrency, rates)
     const value = Number(action.payload)
 
     switch (payment.coin) {
@@ -319,12 +323,23 @@ export default ({
         balance = BASE.balance
         yield put(A.updatePaymentSuccess(undefined))
       }
-
+      const userCurrency = selectors.core.settings
+        .getCurrency(yield select())
+        .getOrElse('USD')
+      const rates = selectors.core.data.misc
+        .getRatesSelector(BASE.coin, yield select())
+        .getOrFail('Failed to get rates')
+      const standardAmount = convertBaseToStandard(BASE.coin, balance)
       yield put(
         actions.form.change(
           'swapAmount',
           'amount',
-          convertBaseToStandard(BASE.coin, balance)
+          Exchange.convertCoinToFiat(
+            standardAmount,
+            BASE.coin,
+            userCurrency,
+            rates
+          )
         )
       )
       yield put(A.fetchLimits())
