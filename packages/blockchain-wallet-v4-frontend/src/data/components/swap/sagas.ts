@@ -151,27 +151,11 @@ export default ({
 
       const { BASE, COUNTER } = initSwapFormValues
 
-      const userCurrency = selectors.core.settings
-        .getCurrency(yield select())
-        .getOrElse('USD')
-      const rates = selectors.core.data.misc
-        .getRatesSelector(BASE.coin, yield select())
-        .getOrFail('Failed to get rates')
-
       const direction = getDirection(BASE, COUNTER)
-      const fix = S.getFix(yield select())
-      const amount =
-        fix === 'CRYPTO'
-          ? convertStandardToBase(BASE.coin, swapAmountFormValues.amount)
-          : convertStandardToBase(
-              BASE.coin,
-              Exchange.convertFiatToCoin(
-                swapAmountFormValues.amount,
-                BASE.coin,
-                userCurrency,
-                rates
-              )
-            )
+      const amount = convertStandardToBase(
+        BASE.coin,
+        swapAmountFormValues.cryptoAmount
+      )
 
       const quote = S.getQuote(yield select()).getOrFail('NO_SWAP_QUOTE')
       const destinationAddr =
@@ -277,7 +261,6 @@ export default ({
   const formChanged = function * (action) {
     if (action.meta.form !== 'swapAmount') return
     if (action.meta.field !== 'amount') return
-
     const initSwapFormValues = selectors.form.getFormValues('initSwap')(
       yield select()
     ) as InitSwapFormValuesType

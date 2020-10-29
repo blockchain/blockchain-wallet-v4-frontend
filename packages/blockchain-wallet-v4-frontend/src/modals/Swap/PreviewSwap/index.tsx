@@ -75,7 +75,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           </Title>
           <Value>
             {coinToString({
-              value: this.props.swapAmountFormValues?.amount,
+              value: this.props.swapAmountFormValues?.cryptoAmount,
               unit: { symbol: BASE.coin }
             })}
           </Value>
