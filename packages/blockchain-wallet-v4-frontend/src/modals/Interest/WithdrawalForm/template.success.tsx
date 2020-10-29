@@ -66,6 +66,13 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     e.preventDefault()
     interestActions.requestWithdrawal(coin, withdrawalAmountCrypto)
   }
+  const handleOnClickCryptoAmount = () => {
+    formActions.change(FORM_NAME, 'withdrawalAmount', availToWithdrawCrypto)
+  }
+  const handleOnClickFiatAmount = () => {
+    formActions.touch(FORM_NAME, 'withdrawalAmount')
+    formActions.change(FORM_NAME, 'withdrawalAmount', availToWithdrawFiat)
+  }
 
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const { coinTicker, displayName } = supportedCoins[coin]
@@ -102,6 +109,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     walletCurrency,
     rates
   )
+
   if (!account) return null
   return submitting ? (
     <SendingWrapper>
@@ -215,29 +223,13 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
               defaultMessage='You can withdraw up to'
             />{' '}
             {displayCoin ? (
-              <AmountAvailContainer
-                onClick={() =>
-                  formActions.change(
-                    FORM_NAME,
-                    'withdrawalAmount',
-                    availToWithdrawCrypto
-                  )
-                }
-              >
+              <AmountAvailContainer onClick={handleOnClickCryptoAmount}>
                 <Text color='blue600' size='14px' weight={500}>
                   {availToWithdrawCrypto} {coinTicker}
                 </Text>
               </AmountAvailContainer>
             ) : (
-              <AmountAvailContainer
-                onClick={() =>
-                  formActions.change(
-                    FORM_NAME,
-                    'withdrawalAmount',
-                    availToWithdrawFiat
-                  )
-                }
-              >
+              <AmountAvailContainer onClick={handleOnClickFiatAmount}>
                 <Text color='blue600' size='14px' weight={500}>
                   {fiatToString({
                     value: availToWithdrawFiat,

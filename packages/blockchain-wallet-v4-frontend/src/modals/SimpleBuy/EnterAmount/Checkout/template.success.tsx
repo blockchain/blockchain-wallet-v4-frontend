@@ -261,7 +261,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
           {fix === 'CRYPTO' && (
             <Text size={'56px'} color='textBlack' weight={500}>
-              {cryptoCurrency}
+              {props.supportedCoins[cryptoCurrency].coinTicker}
             </Text>
           )}
         </AmountRow>
@@ -274,7 +274,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             weight={500}
             data-e2e='sbQuoteAmount'
           >
-            {formatQuote(quoteAmt, props.quote, fix)}
+            {formatQuote(quoteAmt, props.quote, fix, props.supportedCoins)}
           </Text>
           <Icon
             color='blue600'

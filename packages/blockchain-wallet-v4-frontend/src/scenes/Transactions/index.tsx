@@ -154,7 +154,11 @@ class TransactionsContainer extends React.PureComponent<Props> {
                       )
                     }}
                   >
-                    <BuyOrSell crypto={coin as CoinType} orderType={'BUY'} />
+                    <BuyOrSell
+                      crypto={coin as CoinType}
+                      orderType={'BUY'}
+                      coinModel={this.props.coinModel}
+                    />
                   </Button>
                 )}
                 {coin in WalletFiatEnum && (
