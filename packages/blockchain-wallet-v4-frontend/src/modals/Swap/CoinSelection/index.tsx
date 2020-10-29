@@ -43,6 +43,18 @@ class CoinSelection extends PureComponent<Props> {
       return false
     }
   }
+
+  checkBaseCustodial = (side, values, account) => {
+    if (
+      side === 'COUNTER' &&
+      values?.BASE?.type === 'CUSTODIAL' &&
+      account.type === 'ACCOUNT'
+    ) {
+      return true
+    } else {
+      return false
+    }
+  }
   render () {
     const { coins, values, walletCurrency } = this.props
     return (
@@ -103,8 +115,14 @@ class CoinSelection extends PureComponent<Props> {
               values,
               account
             )
+            const hideCustodialToAccount = this.checkBaseCustodial(
+              this.props.side,
+              values,
+              account
+            )
             return (
-              !isCoinSelected && (
+              !isCoinSelected &&
+              !hideCustodialToAccount && (
                 <Option
                   role='button'
                   onClick={() =>
