@@ -1,14 +1,12 @@
 import { Button, Icon, Text } from 'blockchain-info-components'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import React from 'react'
 
-import { BuyOrSell, displayFiat, getOrderDestination } from '../model'
-import { capitalize } from '../../../../utils/capitalize'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { DefaultMessageType } from 'blockchain-wallet-v4-frontend/src/assets/locales'
 import { fiatToString } from 'core/exchange/currency'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import {
   getBaseAmount,
   getBaseCurrency,
@@ -17,9 +15,12 @@ import {
   getCounterCurrency,
   getOrderType
 } from 'data/components/simpleBuy/model'
+import styled from 'styled-components'
+
+import { BuyOrSell, displayFiat, getOrderDestination } from '../model'
+import { capitalize } from '../../../../utils/capitalize'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { Status } from './model'
-import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
