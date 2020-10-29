@@ -60,6 +60,7 @@ class EnterAmount extends PureComponent<Props> {
 
   componentDidMount () {
     this.props.swapActions.initAmountForm()
+    this.props.swapActions.setCheckoutFix('FIAT')
   }
 
   render () {
