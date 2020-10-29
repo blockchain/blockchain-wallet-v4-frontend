@@ -329,17 +329,20 @@ export default ({
       const rates = selectors.core.data.misc
         .getRatesSelector(BASE.coin, yield select())
         .getOrFail('Failed to get rates')
-      const standardAmount = convertBaseToStandard(BASE.coin, balance)
+      const fix = S.getFix(yield select())
+      const standardCryptoAmount = convertBaseToStandard(BASE.coin, balance)
       yield put(
         actions.form.change(
           'swapAmount',
           'amount',
-          Exchange.convertCoinToFiat(
-            standardAmount,
-            BASE.coin,
-            userCurrency,
-            rates
-          )
+          fix === 'FIAT'
+            ? Exchange.convertCoinToFiat(
+                standardCryptoAmount,
+                BASE.coin,
+                userCurrency,
+                rates
+              )
+            : standardCryptoAmount
         )
       )
       yield put(A.fetchLimits())
