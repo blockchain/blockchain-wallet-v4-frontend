@@ -3,6 +3,7 @@ import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import React from 'react'
 
+import { capitalizeFirstLetter } from 'services/ValidationHelper'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { DefaultMessageType } from 'blockchain-wallet-v4-frontend/src/assets/locales'
 import { fiatToString } from 'core/exchange/currency'
@@ -18,7 +19,6 @@ import {
 import styled from 'styled-components'
 
 import { BuyOrSell, displayFiat, getOrderDestination } from '../model'
-import { capitalize } from '../../../../utils/capitalize'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { Status } from './model'
 
@@ -60,7 +60,7 @@ const Success: React.FC<Props> = props => {
   const baseCurrency = getBaseCurrency(props.order, props.supportedCoins)
   const counterAmount = getCounterAmount(props.order)
   const counterCurrency = getCounterCurrency(props.order, props.supportedCoins)
-  const msg = `Cancel ${capitalize(orderType)}` as DefaultMessageType
+  const msg = `Cancel ${capitalizeFirstLetter(orderType)}` as DefaultMessageType
   const card =
     props.order.paymentMethodId &&
     props.cards.find(card => card.id === props.order.paymentMethodId)?.card
