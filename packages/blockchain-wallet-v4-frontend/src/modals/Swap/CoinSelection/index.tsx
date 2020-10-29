@@ -14,7 +14,10 @@ import { connect, ConnectedProps } from 'react-redux'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
-import { InitSwapFormValuesType } from 'data/components/swap/types'
+import {
+  InitSwapFormValuesType,
+  SwapSideType
+} from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 import { SuccessCartridge } from 'components/Cartridge'
@@ -33,14 +36,21 @@ class CoinSelection extends PureComponent<Props> {
       return false
     }
   }
-  checkCoinSelected = (side, values, account) => {
+  checkAccountValid = (
+    side: SwapSideType,
+    values: InitSwapFormValuesType,
+    account: SwapAccountType
+  ) => {
     if (
       (side === 'BASE' && values?.COUNTER?.coin === account.coin) ||
-      (side === 'COUNTER' && values?.BASE?.coin === account.coin)
+      (side === 'COUNTER' && values?.BASE?.coin === account.coin) ||
+      (side === 'BASE' &&
+        values?.COUNTER?.type === 'ACCOUNT' &&
+        account.type === 'CUSTODIAL')
     ) {
-      return true
-    } else {
       return false
+    } else {
+      return true
     }
   }
   render () {
@@ -98,13 +108,13 @@ class CoinSelection extends PureComponent<Props> {
               values,
               account
             )
-            const isCoinSelected = this.checkCoinSelected(
+            const isAccountValid = this.checkAccountValid(
               this.props.side,
               values,
               account
             )
             return (
-              !isCoinSelected && (
+              isAccountValid && (
                 <Option
                   role='button'
                   onClick={() =>
