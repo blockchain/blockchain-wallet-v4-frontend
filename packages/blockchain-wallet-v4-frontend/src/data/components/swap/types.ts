@@ -20,7 +20,9 @@ export type SwapAccountType = {
   type: 'ACCOUNT' | 'CUSTODIAL'
 }
 
-export type SwapAmountFormValues = { amount?: string } | undefined
+export type SwapAmountFormValues =
+  | { amount?: string; cryptoAmount?: string }
+  | undefined
 
 export type InitSwapFormValuesType =
   | {

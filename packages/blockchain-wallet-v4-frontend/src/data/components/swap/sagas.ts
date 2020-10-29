@@ -151,11 +151,28 @@ export default ({
 
       const { BASE, COUNTER } = initSwapFormValues
 
+      const userCurrency = selectors.core.settings
+        .getCurrency(yield select())
+        .getOrElse('USD')
+      const rates = selectors.core.data.misc
+        .getRatesSelector(BASE.coin, yield select())
+        .getOrFail('Failed to get rates')
+
       const direction = getDirection(BASE, COUNTER)
-      const amount = convertStandardToBase(
-        BASE.coin,
-        swapAmountFormValues.amount
-      )
+      const fix = S.getFix(yield select())
+      const amount =
+        fix === 'CRYPTO'
+          ? convertStandardToBase(BASE.coin, swapAmountFormValues.amount)
+          : convertStandardToBase(
+              BASE.coin,
+              Exchange.convertFiatToCoin(
+                swapAmountFormValues.amount,
+                BASE.coin,
+                userCurrency,
+                rates
+              )
+            )
+
       const quote = S.getQuote(yield select()).getOrFail('NO_SWAP_QUOTE')
       const destinationAddr =
         direction === 'ON_CHAIN' || direction === 'TO_USERKEY'
@@ -268,14 +285,36 @@ export default ({
 
     const { BASE } = initSwapFormValues
     const paymentR = S.getPayment(yield select())
-    if (BASE.type === 'CUSTODIAL') return
-    // selector here to get whether state is fiat or crypto
+    const fix = S.getFix(yield select())
+    const userCurrency = selectors.core.settings
+      .getCurrency(yield select())
+      .getOrElse('USD')
+    const rates = selectors.core.data.misc
+      .getRatesSelector(BASE.coin, yield select())
+      .getOrFail('Failed to get rates')
 
+    const amountFieldValue =
+      fix === 'CRYPTO'
+        ? action.payload
+        : Exchange.convertFiatToCoin(
+            action.payload,
+            BASE.coin,
+            userCurrency,
+            rates
+          )
+    yield put(
+      actions.form.change('swapAmount', 'cryptoAmount', amountFieldValue)
+    )
+
+    if (BASE.type === 'CUSTODIAL') return
+
+    const swapAmountValues = selectors.form.getFormValues('swapAmount')(
+      yield select()
+    ) as SwapAmountFormValues
     // @ts-ignore
     let payment = paymentGetOrElse(BASE.coin, paymentR)
-    // check if state is fiat, if it is:
-    // return Exchange.convertFiatToCoin(amount, coin, walletCurrency, rates)
-    const value = Number(action.payload)
+
+    const value = Number(swapAmountValues?.cryptoAmount)
 
     switch (payment.coin) {
       case 'BCH':
@@ -323,6 +362,7 @@ export default ({
         balance = BASE.balance
         yield put(A.updatePaymentSuccess(undefined))
       }
+
       const userCurrency = selectors.core.settings
         .getCurrency(yield select())
         .getOrElse('USD')
