@@ -103,12 +103,26 @@ export default ({
       }
     })
 
+  const updateSwapOrder = (
+    id: string,
+    action: 'DEPOSIT_SENT' | 'CANCEL'
+  ): SwapQuoteType =>
+    authorizedPost({
+      url: nabuUrl,
+      endPoint: `/custodial/trades/${id}`,
+      contentType: 'application/json',
+      data: {
+        action
+      }
+    })
+
   return {
     cancelSwapOrder,
     createSwapOrder,
     getSwapLimits,
     getSwapQuote,
     getSwapTrades,
-    getUnifiedSwapTrades
+    getUnifiedSwapTrades,
+    updateSwapOrder
   }
 }

@@ -129,6 +129,8 @@ export default ({
   }
 
   const createOrder = function * () {
+    let onChain = false
+
     try {
       yield put(actions.form.startSubmit('previewSwap'))
       const initSwapFormValues = selectors.form.getFormValues('initSwap')(
@@ -151,15 +153,16 @@ export default ({
       const { BASE, COUNTER } = initSwapFormValues
 
       const direction = getDirection(BASE, COUNTER)
+      onChain = direction === 'ON_CHAIN' || direction === 'TO_USERKEY'
+
       const amount = convertStandardToBase(
         BASE.coin,
         swapAmountFormValues.amount
       )
       const quote = S.getQuote(yield select()).getOrFail('NO_SWAP_QUOTE')
-      const destinationAddr =
-        direction === 'ON_CHAIN' || direction === 'TO_USERKEY'
-          ? yield call(selectReceiveAddress, COUNTER, networks)
-          : undefined
+      const destinationAddr = onChain
+        ? yield call(selectReceiveAddress, COUNTER, networks)
+        : undefined
       const order: ReturnType<typeof api.createSwapOrder> = yield call(
         api.createSwapOrder,
         direction,
@@ -169,13 +172,19 @@ export default ({
       )
       const paymentR = S.getPayment(yield select())
       let payment = paymentGetOrElse(BASE.coin, paymentR)
-      if (direction === 'FROM_USERKEY' || direction === 'ON_CHAIN') {
-        yield call(
-          buildAndPublishPayment,
-          payment.coin,
-          payment,
-          order.kind.depositAddress
-        )
+      if (onChain) {
+        try {
+          yield call(
+            buildAndPublishPayment,
+            payment.coin,
+            payment,
+            order.kind.depositAddress
+          )
+          yield call(api.updateSwapOrder, order.id, 'DEPOSIT_SENT')
+        } catch (e) {
+          yield call(api.updateSwapOrder, order.id, 'CANCEL')
+          throw e
+        }
       }
       yield put(actions.form.stopSubmit('previewSwap'))
       yield put(actions.components.refresh.refreshClicked())
