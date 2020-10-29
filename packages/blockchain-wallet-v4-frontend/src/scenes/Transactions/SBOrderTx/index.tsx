@@ -86,7 +86,13 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
                 weight={600}
                 data-e2e='txTypeText'
               >
-                <BuyOrSell crypto={coin} orderType={orderType} />
+                <BuyOrSell
+                  crypto={coin}
+                  orderType={orderType}
+                  coinModel={
+                    this.props.supportedCoins[orderType].outputCurrency
+                  }
+                />
               </Text>
               <Timestamp {...this.props} />
             </StatusAndType>
