@@ -46,9 +46,12 @@ class CoinSelection extends PureComponent<Props> {
 
   checkBaseCustodial = (side, values, account) => {
     if (
-      side === 'COUNTER' &&
-      values?.BASE?.type === 'CUSTODIAL' &&
-      account.type === 'ACCOUNT'
+      (side === 'COUNTER' &&
+        values?.BASE?.type === 'CUSTODIAL' &&
+        account.type === 'ACCOUNT') ||
+      (side === 'BASE' &&
+        values?.COUNTER?.type === 'ACCOUNT' &&
+        account.type === 'CUSTODIAL')
     ) {
       return true
     } else {
