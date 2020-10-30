@@ -38,6 +38,8 @@ export const getPayment = (state: RootState) => state.components.swap.payment
 
 export const getQuote = (state: RootState) => state.components.swap.quote
 
+export const getFix = (state: RootState) => state.components.swap.fix
+
 export const getTradesStatus = (state: RootState) =>
   state.components.swap.trades.status
 
@@ -75,7 +77,7 @@ export const getIncomingAmount = (state: RootState) => {
   const swapAmountFormValues = selectors.form.getFormValues('swapAmount')(
     state
   ) as SwapAmountFormValues
-  const amount = swapAmountFormValues?.amount || 1
+  const amount = swapAmountFormValues?.cryptoAmount || 1
 
   return lift(({ quote }: ExtractSuccess<typeof quoteR>) => {
     return new BigNumber(getRate(quote.quote.priceTiers, new BigNumber(amount)))

@@ -17,6 +17,7 @@ import {
   convertStandardToBase
 } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { getDirection, getPair, getRate, NO_QUOTE } from './utils'
 import {
   InitSwapFormValuesType,
@@ -157,8 +158,9 @@ export default ({
 
       const amount = convertStandardToBase(
         BASE.coin,
-        swapAmountFormValues.amount
+        swapAmountFormValues.cryptoAmount
       )
+
       const quote = S.getQuote(yield select()).getOrFail('NO_SWAP_QUOTE')
       const destinationAddr = onChain
         ? yield call(selectReceiveAddress, COUNTER, networks)
@@ -268,7 +270,6 @@ export default ({
   const formChanged = function * (action) {
     if (action.meta.form !== 'swapAmount') return
     if (action.meta.field !== 'amount') return
-
     const initSwapFormValues = selectors.form.getFormValues('initSwap')(
       yield select()
     ) as InitSwapFormValuesType
@@ -276,11 +277,36 @@ export default ({
 
     const { BASE } = initSwapFormValues
     const paymentR = S.getPayment(yield select())
+    const fix = S.getFix(yield select())
+    const userCurrency = selectors.core.settings
+      .getCurrency(yield select())
+      .getOrElse('USD')
+    const rates = selectors.core.data.misc
+      .getRatesSelector(BASE.coin, yield select())
+      .getOrFail('Failed to get rates')
+
+    const amountFieldValue =
+      fix === 'CRYPTO'
+        ? action.payload
+        : Exchange.convertFiatToCoin(
+            action.payload,
+            BASE.coin,
+            userCurrency,
+            rates
+          )
+    yield put(
+      actions.form.change('swapAmount', 'cryptoAmount', amountFieldValue)
+    )
+
     if (BASE.type === 'CUSTODIAL') return
 
+    const swapAmountValues = selectors.form.getFormValues('swapAmount')(
+      yield select()
+    ) as SwapAmountFormValues
     // @ts-ignore
     let payment = paymentGetOrElse(BASE.coin, paymentR)
-    const value = Number(action.payload)
+
+    const value = Number(swapAmountValues?.cryptoAmount)
 
     switch (payment.coin) {
       case 'BCH':
@@ -329,11 +355,26 @@ export default ({
         yield put(A.updatePaymentSuccess(undefined))
       }
 
+      const userCurrency = selectors.core.settings
+        .getCurrency(yield select())
+        .getOrElse('USD')
+      const rates = selectors.core.data.misc
+        .getRatesSelector(BASE.coin, yield select())
+        .getOrFail('Failed to get rates')
+      const fix = S.getFix(yield select())
+      const standardCryptoAmount = convertBaseToStandard(BASE.coin, balance)
       yield put(
         actions.form.change(
           'swapAmount',
           'amount',
-          convertBaseToStandard(BASE.coin, balance)
+          fix === 'FIAT'
+            ? Exchange.convertCoinToFiat(
+                standardCryptoAmount,
+                BASE.coin,
+                userCurrency,
+                rates
+              )
+            : standardCryptoAmount
         )
       )
       yield put(A.fetchLimits())
@@ -402,6 +443,15 @@ export default ({
     }
   }
 
+  const switchFix = function * ({ payload }: ReturnType<typeof A.switchFix>) {
+    yield put(A.setCheckoutFix(payload.fix))
+    const newAmount = new BigNumber(payload.amount).isGreaterThan(0)
+      ? payload.amount
+      : undefined
+    yield put(actions.form.change('swapAmount', 'amount', newAmount))
+    yield put(actions.form.focus('swapAmount', 'amount'))
+  }
+
   const toggleBaseAndCounter = function * () {
     const initSwapFormValues = selectors.form.getFormValues('initSwap')(
       yield select()
@@ -434,6 +484,7 @@ export default ({
     initAmountForm,
     refreshAccounts,
     showModal,
+    switchFix,
     toggleBaseAndCounter
   }
 }

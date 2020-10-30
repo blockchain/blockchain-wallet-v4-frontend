@@ -20,7 +20,9 @@ export type SwapAccountType = {
   type: 'ACCOUNT' | 'CUSTODIAL'
 }
 
-export type SwapAmountFormValues = { amount?: string } | undefined
+export type SwapAmountFormValues =
+  | { amount?: string; cryptoAmount?: string }
+  | undefined
 
 export type InitSwapFormValuesType =
   | {
@@ -42,9 +44,11 @@ export enum SwapStepType {
 }
 
 export type SwapSideType = 'BASE' | 'COUNTER'
+export type SwapCheckoutFixType = 'CRYPTO' | 'FIAT'
 
 // state
 export type SwapState = {
+  fix: SwapCheckoutFixType
   limits: RemoteDataType<string, SwapUserLimitsType>
   order?: SwapOrderType
   payment: RemoteDataType<string, undefined | PaymentValue>
@@ -123,9 +127,23 @@ interface UpdatePaymentSuccessActionType {
   type: typeof AT.UPDATE_PAYMENT_SUCCESS
 }
 
+interface SetSwapCheckoutFixType {
+  payload: {
+    fix: SwapCheckoutFixType
+  }
+  type: typeof AT.SET_CHECKOUT_FIX
+}
 interface SetSwapStepActionType {
   payload: SwapStepPayload
   type: typeof AT.SET_STEP
+}
+
+interface SwitchFixActionType {
+  payload: {
+    amount: string
+    fix: SwapCheckoutFixType
+  }
+  type: typeof AT.SWITCH_FIX
 }
 
 export type SwapStepPayload =
@@ -166,4 +184,6 @@ export type SwapActionTypes =
   | UpdatePaymentFailureActionType
   | UpdatePaymentLoadingActionType
   | UpdatePaymentSuccessActionType
+  | SetSwapCheckoutFixType
   | SetSwapStepActionType
+  | SwitchFixActionType

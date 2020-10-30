@@ -11,6 +11,7 @@ import { ModalOriginType } from 'data/modals/types'
 import {
   SwapAccountType,
   SwapActionTypes,
+  SwapCheckoutFixType,
   SwapSideType,
   SwapStepPayload
 } from './types'
@@ -118,6 +119,13 @@ export const refreshAccounts = () => ({
   type: AT.REFRESH_ACCOUNTS
 })
 
+export const setCheckoutFix = (fix: SwapCheckoutFixType) => ({
+  type: AT.SET_CHECKOUT_FIX,
+  payload: {
+    fix
+  }
+})
+
 export const setStep = ({ step, options }: SwapStepPayload) => ({
   type: AT.SET_STEP,
   payload: {
@@ -145,6 +153,14 @@ export const startPollQuote = () => ({
 
 export const stopPollQuote = () => ({
   type: AT.STOP_POLL_QUOTE
+})
+
+export const switchFix = (amount: string, fix: SwapCheckoutFixType) => ({
+  type: AT.SWITCH_FIX,
+  payload: {
+    amount,
+    fix
+  }
 })
 
 export const toggleBaseAndCounter = () => ({

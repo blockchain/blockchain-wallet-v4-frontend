@@ -154,7 +154,10 @@ class EnterAmount extends PureComponent<Props> {
                 size='32px'
               />
             </Option>
-            <Toggler onClick={this.props.swapActions.toggleBaseAndCounter}>
+            <Toggler
+              onClick={this.props.swapActions.toggleBaseAndCounter}
+              data-e2e='toggleBaseandCounter'
+            >
               <Icon color='blue600' size='24px' name='arrow-up' />
               <Icon color='blue600' size='24px' name='arrow-down' />
             </Toggler>

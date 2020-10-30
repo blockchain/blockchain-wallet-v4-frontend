@@ -36,21 +36,19 @@ class CoinSelection extends PureComponent<Props> {
       return false
     }
   }
-  checkAccountValid = (
-    side: SwapSideType,
-    values: InitSwapFormValuesType,
-    account: SwapAccountType
-  ) => {
+
+  checkBaseCustodial = (side, values, account) => {
     if (
-      (side === 'BASE' && values?.COUNTER?.coin === account.coin) ||
-      (side === 'COUNTER' && values?.BASE?.coin === account.coin) ||
+      (side === 'COUNTER' &&
+        values?.BASE?.type === 'CUSTODIAL' &&
+        account.type === 'ACCOUNT') ||
       (side === 'BASE' &&
         values?.COUNTER?.type === 'ACCOUNT' &&
         account.type === 'CUSTODIAL')
     ) {
-      return false
-    } else {
       return true
+    } else {
+      return false
     }
   }
   render () {
@@ -108,13 +106,14 @@ class CoinSelection extends PureComponent<Props> {
               values,
               account
             )
-            const isAccountValid = this.checkAccountValid(
+            const hideCustodialToAccount = this.checkBaseCustodial(
               this.props.side,
               values,
               account
             )
             return (
-              isAccountValid && (
+              !isCoinSelected &&
+              !hideCustodialToAccount && (
                 <Option
                   role='button'
                   onClick={() =>
