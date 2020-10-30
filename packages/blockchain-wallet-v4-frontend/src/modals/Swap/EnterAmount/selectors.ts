@@ -32,9 +32,8 @@ export const getData = (state: RootState) => {
       formValues,
       limits,
       payment: paymentR.getOrElse(undefined),
-      quote,
       rates,
       walletCurrency
     })
-  )(limitsR, ratesR, quoteR, walletCurrencyR)
+  )(limitsR, quoteR, ratesR, walletCurrencyR)
 }
