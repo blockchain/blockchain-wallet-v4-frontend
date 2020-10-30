@@ -14,7 +14,10 @@ import { connect, ConnectedProps } from 'react-redux'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
-import { InitSwapFormValuesType } from 'data/components/swap/types'
+import {
+  InitSwapFormValuesType,
+  SwapSideType
+} from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 import { SuccessCartridge } from 'components/Cartridge'
@@ -27,16 +30,6 @@ class CoinSelection extends PureComponent<Props> {
     if (
       (side === 'BASE' && values?.BASE?.label === account.label) ||
       (side === 'COUNTER' && values?.COUNTER?.label === account.label)
-    ) {
-      return true
-    } else {
-      return false
-    }
-  }
-  checkCoinSelected = (side, values, account) => {
-    if (
-      (side === 'BASE' && values?.COUNTER?.coin === account.coin) ||
-      (side === 'COUNTER' && values?.BASE?.coin === account.coin)
     ) {
       return true
     } else {
@@ -109,11 +102,6 @@ class CoinSelection extends PureComponent<Props> {
           const accounts = this.props.accounts[coin] as Array<SwapAccountType>
           return accounts.map(account => {
             const isAccountSelected = this.checkAccountSelected(
-              this.props.side,
-              values,
-              account
-            )
-            const isCoinSelected = this.checkCoinSelected(
               this.props.side,
               values,
               account
