@@ -106,7 +106,8 @@ class EnterAmount extends PureComponent<Props> {
             {this.props.quoteR.cata({
               Success: val => (
                 <Text size='14px' color='grey900' weight={500}>
-                  1 {BASE.coin} = {formatCoin(val.rate)} {COUNTER.coin}
+                  1 {coins[BASE.coin].coinTicker} = {formatCoin(val.rate)}{' '}
+                  {coins[COUNTER.coin].coinTicker}
                 </Text>
               ),
               Failure: () => null,

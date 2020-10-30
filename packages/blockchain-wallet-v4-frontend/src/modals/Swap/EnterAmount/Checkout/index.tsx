@@ -91,6 +91,7 @@ const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
 const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
     BASE,
+    coins,
     fix,
     formActions,
     formErrors,
@@ -133,7 +134,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             walletCurrency,
             rates
           ),
-          unit: { symbol: BASE.coin }
+          unit: { symbol: coins[BASE.coin].coinTicker }
         })
       : fiatToString({
           value: Exchange.convertCoinToFiat(
@@ -304,7 +305,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <Amounts>
           <div>
             <Text size='14px' weight={500} color='grey600'>
-              {BASE.coin}{' '}
+              {coins[BASE.coin].coinTicker}{' '}
               <FormattedMessage
                 id='copy.available'
                 defaultMessage='Available'
