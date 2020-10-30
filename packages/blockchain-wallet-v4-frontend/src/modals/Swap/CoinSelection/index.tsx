@@ -14,7 +14,10 @@ import { connect, ConnectedProps } from 'react-redux'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
-import { InitSwapFormValuesType } from 'data/components/swap/types'
+import {
+  InitSwapFormValuesType,
+  SwapSideType
+} from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 import { SuccessCartridge } from 'components/Cartridge'
@@ -23,7 +26,11 @@ import CoinBalance from '../components/CoinBalance'
 import React, { PureComponent } from 'react'
 class CoinSelection extends PureComponent<Props> {
   state = {}
-  checkAccountSelected = (side, values, account) => {
+  checkAccountSelected = (
+    side: SwapSideType,
+    values: InitSwapFormValuesType,
+    account: SwapAccountType
+  ) => {
     if (
       (side === 'BASE' && values?.BASE?.label === account.label) ||
       (side === 'COUNTER' && values?.COUNTER?.label === account.label)
@@ -33,8 +40,11 @@ class CoinSelection extends PureComponent<Props> {
       return false
     }
   }
-
-  checkBaseCustodial = (side, values, account) => {
+  checkBaseCustodial = (
+    side: SwapSideType,
+    values: InitSwapFormValuesType,
+    account: SwapAccountType
+  ) => {
     if (
       (side === 'COUNTER' &&
         values?.BASE?.type === 'CUSTODIAL' &&
@@ -48,6 +58,21 @@ class CoinSelection extends PureComponent<Props> {
       return false
     }
   }
+  checkCoinSelected = (
+    side: SwapSideType,
+    values: InitSwapFormValuesType,
+    account: SwapAccountType
+  ) => {
+    if (
+      (side === 'COUNTER' && values?.BASE?.coin === account.coin) ||
+      (side === 'BASE' && values?.COUNTER?.coin === account.coin)
+    ) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   render () {
     const { coins, values, walletCurrency } = this.props
     return (
@@ -103,13 +128,18 @@ class CoinSelection extends PureComponent<Props> {
               values,
               account
             )
+            const isCoinSelected = this.checkCoinSelected(
+              this.props.side,
+              values,
+              account
+            )
             const hideCustodialToAccount = this.checkBaseCustodial(
               this.props.side,
               values,
               account
             )
             return (
-              !isAccountSelected &&
+              !isCoinSelected &&
               !hideCustodialToAccount && (
                 <Option
                   role='button'

@@ -65,7 +65,15 @@ export default ({
 
   const changePair = function * ({ payload }: ReturnType<typeof A.changePair>) {
     yield put(actions.form.change('initSwap', payload.side, payload.account))
-    yield put(A.setStep({ step: 'INIT_SWAP' }))
+    const initSwapFormValues = selectors.form.getFormValues('initSwap')(
+      yield select()
+    ) as InitSwapFormValuesType
+
+    if (initSwapFormValues?.BASE && initSwapFormValues?.COUNTER) {
+      yield put(A.setStep({ step: 'ENTER_AMOUNT' }))
+    } else {
+      yield put(A.setStep({ step: 'INIT_SWAP' }))
+    }
   }
 
   const changeTrendingPair = function * ({
