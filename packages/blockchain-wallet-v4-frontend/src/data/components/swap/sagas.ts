@@ -1,4 +1,6 @@
-import { call, delay, put, select, take } from 'redux-saga/effects'
+import { call, delay, put, race, select, take } from 'redux-saga/effects'
+import BigNumber from 'bignumber.js'
+import moment from 'moment'
 
 import * as A from './actions'
 import * as AT from './actionTypes'
@@ -23,7 +25,6 @@ import {
 } from './types'
 import { MempoolFeeType } from '../exchange/types'
 import { selectReceiveAddress } from '../utils/sagas'
-import BigNumber from 'bignumber.js'
 
 import {
   DEFAULT_INVITATIONS,
@@ -32,7 +33,7 @@ import {
 import profileSagas from '../../../data/modules/profile/sagas'
 import sendSagas from '../send/sagas'
 
-const DELAY = 60_000 * 2
+const FALLBACK_DELAY = 2_500 * 2
 
 export default ({
   api,
@@ -249,11 +250,12 @@ export default ({
         )
         const rate = getRate(quote.quote.priceTiers, new BigNumber(1))
         yield put(A.fetchQuoteSuccess(quote, rate))
-        yield delay(DELAY)
+        const refresh = -moment().diff(quote.expiresAt)
+        yield delay(refresh)
       } catch (e) {
         const error = errorHandler(e)
         yield put(A.fetchQuoteFailure(error))
-        yield delay(DELAY)
+        yield delay(FALLBACK_DELAY)
         yield put(A.startPollQuote())
       } finally {
       }
@@ -339,16 +341,21 @@ export default ({
     let payment: PaymentValue
     try {
       yield put(A.startPollQuote())
+      yield put(A.fetchLimits())
       yield put(A.updatePaymentLoading())
       const initSwapFormValues = selectors.form.getFormValues('initSwap')(
         yield select()
       ) as InitSwapFormValuesType
-      // TODO: SWAP, race success/failure and handle error
-      yield take(AT.FETCH_QUOTE_SUCCESS)
-      const quote = S.getQuote(yield select()).getOrFail(NO_QUOTE)
       if (!initSwapFormValues || !initSwapFormValues.BASE) {
         return yield put(A.setStep({ step: 'INIT_SWAP' }))
       }
+
+      yield race({
+        success: take(AT.FETCH_QUOTE_SUCCESS),
+        failure: take(AT.FETCH_QUOTE_FAILURE)
+      })
+      const quote = S.getQuote(yield select()).getOrFail(NO_QUOTE)
+
       const { BASE } = initSwapFormValues
       if (BASE.type === 'ACCOUNT') {
         payment = yield call(calculateProvisionalPayment, BASE, quote.quote, 0)
@@ -356,8 +363,6 @@ export default ({
       } else {
         yield put(A.updatePaymentSuccess(undefined))
       }
-
-      yield put(A.fetchLimits())
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.updatePaymentFailure(error))

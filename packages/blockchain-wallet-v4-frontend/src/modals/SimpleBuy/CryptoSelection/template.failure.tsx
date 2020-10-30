@@ -46,10 +46,7 @@ const Failure: React.FC<LinkDispatchPropsType> = props => {
             })
           }
         >
-          <FormattedMessage
-            id='modals.simplebuy.eligible.tryagain'
-            defaultMessage='Try Again'
-          />
+          <FormattedMessage id='buttons.tryagain' defaultMessage='Try Again' />
         </Button>
       </div>
     </Wrapper>

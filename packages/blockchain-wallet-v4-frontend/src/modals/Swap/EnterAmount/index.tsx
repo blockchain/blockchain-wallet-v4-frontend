@@ -22,6 +22,7 @@ import { selectors } from 'data'
 import { getData } from './selectors'
 import Checkout from './Checkout'
 import CoinBalance from '../components/CoinBalance'
+import Failure from './template.failure'
 import Loading from './template.loading'
 import Upgrade from './template.upgrade'
 
@@ -203,7 +204,7 @@ class EnterAmount extends PureComponent<Props> {
                 {userData.tiers.current === 1 && <Upgrade {...this.props} />}
               </>
             ),
-            Failure: () => <>oops</>,
+            Failure: () => <Failure {...this.props} />,
             Loading: () => <Loading />,
             NotAsked: () => <Loading />
           })}
