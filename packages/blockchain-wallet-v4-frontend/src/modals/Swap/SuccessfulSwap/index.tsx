@@ -93,6 +93,9 @@ const SuccessfulSwap: React.FC<Props> = props => {
           <FormattedMessage
             id='copy.swap_arrive_soon'
             defaultMessage='Your {coin} will arrive soon.'
+            values={{
+              coin: getOutput(props.order)
+            }}
           />
         </Text>
       )}
