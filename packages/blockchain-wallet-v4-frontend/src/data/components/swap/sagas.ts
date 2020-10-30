@@ -12,10 +12,7 @@ import {
   PaymentValue,
   SwapQuoteType
 } from 'blockchain-wallet-v4/src/types'
-import {
-  convertBaseToStandard,
-  convertStandardToBase
-} from '../exchange/services'
+import { convertStandardToBase } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { getDirection, getPair, getRate, NO_QUOTE } from './utils'
@@ -332,7 +329,6 @@ export default ({
 
   const initAmountForm = function * () {
     let payment: PaymentValue
-    let balance: number = 0
     try {
       yield put(A.startPollQuote())
       yield put(A.updatePaymentLoading())
@@ -348,35 +344,11 @@ export default ({
       const { BASE } = initSwapFormValues
       if (BASE.type === 'ACCOUNT') {
         payment = yield call(calculateProvisionalPayment, BASE, quote.quote, 0)
-        balance = payment.effectiveBalance
         yield put(A.updatePaymentSuccess(payment))
       } else {
-        balance = BASE.balance
         yield put(A.updatePaymentSuccess(undefined))
       }
 
-      const userCurrency = selectors.core.settings
-        .getCurrency(yield select())
-        .getOrElse('USD')
-      const rates = selectors.core.data.misc
-        .getRatesSelector(BASE.coin, yield select())
-        .getOrFail('Failed to get rates')
-      const fix = S.getFix(yield select())
-      const standardCryptoAmount = convertBaseToStandard(BASE.coin, balance)
-      yield put(
-        actions.form.change(
-          'swapAmount',
-          'amount',
-          fix === 'FIAT'
-            ? Exchange.convertCoinToFiat(
-                standardCryptoAmount,
-                BASE.coin,
-                userCurrency,
-                rates
-              )
-            : standardCryptoAmount
-        )
-      )
       yield put(A.fetchLimits())
     } catch (e) {
       const error = errorHandler(e)
