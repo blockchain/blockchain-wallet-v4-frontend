@@ -30,9 +30,17 @@ let renewSessionTask = null
 let renewUserTask = null
 export default ({ api, coreSagas, networks }) => {
   const waitForUserData = function * () {
-    const userId = (yield select(
+    let userId = (yield select(
       selectors.core.kvStore.userCredentials.getUserId
     )).getOrElse(null)
+    // If no user id in kvstore fetch user
+    if (!userId) {
+      yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
+      userId = (yield select(
+        selectors.core.kvStore.userCredentials.getUserId
+      )).getOrElse(null)
+    }
+
     const userData = yield select(selectors.modules.profile.getUserData)
     const apiToken = yield select(selectors.modules.profile.getApiToken)
     // If no user id in kvstore return
@@ -47,7 +55,6 @@ export default ({ api, coreSagas, networks }) => {
       success: take(actionTypes.modules.profile.SET_API_TOKEN_FAILURE),
       failure: take(actionTypes.modules.profile.SET_API_TOKEN_SUCCESS)
     })
-
     // Wait for success or failure
     return yield race({
       success: take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS),
