@@ -1,7 +1,6 @@
 import {
   BalanceRow,
   CircleBorder,
-  CircleSelected,
   FlexStartRow,
   Option,
   OptionTitle,
@@ -105,8 +104,17 @@ class CoinSelection extends PureComponent<Props> {
               weight={600}
               style={{ marginLeft: '24px' }}
             >
-              <FormattedMessage id='copy.swap' defaultMessage='Swap' />{' '}
-              {this.props.side === 'BASE' ? 'from' : 'to'}
+              {this.props.side === 'BASE' ? (
+                <FormattedMessage
+                  id='copy.swap_from'
+                  defaultMessage='Swap from'
+                />
+              ) : (
+                <FormattedMessage
+                  id='copy.receive_to'
+                  defaultMessage='Receive to'
+                />
+              )}
             </Text>
           </TopText>
           <Text
@@ -184,9 +192,16 @@ class CoinSelection extends PureComponent<Props> {
                     {account.type === 'CUSTODIAL' && (
                       <SuccessCartridge>Low Fees</SuccessCartridge>
                     )}
-                    <CircleBorder>
-                      {isAccountSelected && <CircleSelected />}
-                    </CircleBorder>
+                    {isAccountSelected ? (
+                      <Icon
+                        name='checkmark-circle-filled'
+                        color='green600'
+                        size='24px'
+                        style={{ padding: '0 2px' }}
+                      />
+                    ) : (
+                      <CircleBorder />
+                    )}
                   </FlexStartRow>
                 </Option>
               )

@@ -7,6 +7,7 @@ import styled from 'styled-components'
 
 import {
   BalanceRow,
+  Border,
   Option,
   OptionTitle,
   OptionValue,
@@ -21,7 +22,6 @@ import { selectors } from 'data'
 
 import { getData } from './selectors'
 import Checkout from './Checkout'
-import CoinBalance from '../components/CoinBalance'
 import Failure from './template.failure'
 import Loading from './template.loading'
 import Upgrade from './template.upgrade'
@@ -72,7 +72,7 @@ class EnterAmount extends PureComponent<Props> {
     }
 
     const { BASE, COUNTER } = this.props.initSwapFormValues
-    const { coins, userData, walletCurrency } = this.props
+    const { coins, userData } = this.props
 
     return (
       <>
@@ -121,86 +121,89 @@ class EnterAmount extends PureComponent<Props> {
           </TopText>
         </FlyoutWrapper>
         <div>
-          <Options>
-            <Option
-              role='button'
-              onClick={() =>
-                this.props.swapActions.setStep({
-                  step: 'COIN_SELECTION',
-                  options: {
-                    side: 'BASE'
-                  }
-                })
-              }
-            >
-              <div>
-                <Text color='grey600' weight={500} size='14px'>
-                  <FormattedMessage
-                    id='copy.swap_from'
-                    defaultMessage='Swap from'
-                  />
-                </Text>
-                <OptionTitle>{BASE.label}</OptionTitle>
-                <OptionValue>
-                  <BalanceRow>
-                    <CoinBalance
-                      account={BASE}
-                      walletCurrency={walletCurrency}
-                    />
-                  </BalanceRow>
-                </OptionValue>
-              </div>
-              <Icon
-                name={coins[BASE.coin].icons.circleFilled}
-                color={coins[BASE.coin].colorCode}
-                size='32px'
-              />
-            </Option>
-            <Toggler
-              onClick={this.props.swapActions.toggleBaseAndCounter}
-              data-e2e='toggleBaseandCounter'
-            >
-              <Icon color='blue600' size='24px' name='arrow-up' />
-              <Icon color='blue600' size='24px' name='arrow-down' />
-            </Toggler>
-            <Option
-              role='button'
-              onClick={() =>
-                this.props.swapActions.setStep({
-                  step: 'COIN_SELECTION',
-                  options: {
-                    side: 'COUNTER'
-                  }
-                })
-              }
-            >
-              <div>
-                <Text color='grey600' weight={500} size='14px'>
-                  <FormattedMessage
-                    id='copy.receive_to'
-                    defaultMessage='Receive to'
-                  />
-                </Text>
-                <OptionTitle>{COUNTER.label}</OptionTitle>
-                <OptionValue>
-                  <BalanceRow>
-                    <CoinBalance
-                      account={COUNTER}
-                      walletCurrency={walletCurrency}
-                    />
-                  </BalanceRow>
-                </OptionValue>
-              </div>
-              <Icon
-                name={coins[COUNTER.coin].icons.circleFilled}
-                color={coins[COUNTER.coin].colorCode}
-                size='32px'
-              />
-            </Option>
-          </Options>
           {this.props.data.cata({
             Success: val => (
               <>
+                <Options>
+                  <Option
+                    role='button'
+                    onClick={() =>
+                      this.props.swapActions.setStep({
+                        step: 'COIN_SELECTION',
+                        options: {
+                          side: 'BASE'
+                        }
+                      })
+                    }
+                  >
+                    <div>
+                      <Text color='grey600' weight={500} size='14px'>
+                        <FormattedMessage
+                          id='copy.swap'
+                          defaultMessage='Swap'
+                        />
+                      </Text>
+                      <OptionTitle>{BASE.label}</OptionTitle>
+                      <OptionValue>
+                        <BalanceRow>
+                          {val.formValues?.amount
+                            ? `${val.formValues.cryptoAmount} ${
+                                coins[BASE.coin].coinTicker
+                              }`
+                            : `0 ${coins[BASE.coin].coinTicker}`}
+                        </BalanceRow>
+                      </OptionValue>
+                    </div>
+                    <Icon
+                      name={coins[BASE.coin].icons.circleFilled}
+                      color={coins[BASE.coin].colorCode}
+                      size='32px'
+                    />
+                  </Option>
+                  <Toggler
+                    onClick={this.props.swapActions.toggleBaseAndCounter}
+                    data-e2e='toggleBaseandCounter'
+                  >
+                    <Icon color='blue600' size='20px' name='arrow-up' />
+                    <Icon color='blue600' size='20px' name='arrow-down' />
+                  </Toggler>
+                  <Option
+                    role='button'
+                    onClick={() =>
+                      this.props.swapActions.setStep({
+                        step: 'COIN_SELECTION',
+                        options: {
+                          side: 'COUNTER'
+                        }
+                      })
+                    }
+                  >
+                    <div>
+                      <Text color='grey600' weight={500} size='14px'>
+                        <FormattedMessage
+                          id='scenes.exchange.exchangeform.to'
+                          defaultMessage='Receive'
+                        />
+                      </Text>
+                      <OptionTitle>{COUNTER.label}</OptionTitle>
+                      <OptionValue>
+                        <BalanceRow>
+                          {val.formValues?.amount
+                            ? `${val.incomingAmount} ${
+                                coins[COUNTER.coin].coinTicker
+                              }`
+                            : `0 ${coins[COUNTER.coin].coinTicker}`}
+                        </BalanceRow>
+                      </OptionValue>
+                    </div>
+                    <Icon
+                      name={coins[COUNTER.coin].icons.circleFilled}
+                      color={coins[COUNTER.coin].colorCode}
+                      size='32px'
+                    />
+                  </Option>
+                  <Border />
+                </Options>
                 <Checkout {...val} {...this.props} BASE={BASE} />
                 {userData.tiers.current === 1 && <Upgrade {...this.props} />}
               </>

@@ -85,13 +85,3 @@ export const CircleBorder = styled.div`
   border-radius: 24px;
   margin-left: 24px;
 `
-
-export const CircleSelected = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 20px;
-  height: 20px;
-  background-color: ${props => props.theme.grey300};
-  border-radius: 20px;
-`
