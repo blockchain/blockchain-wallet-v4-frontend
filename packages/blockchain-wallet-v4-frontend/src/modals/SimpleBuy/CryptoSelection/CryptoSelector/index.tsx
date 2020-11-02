@@ -162,7 +162,10 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
                 <TabMenuItem
                   role='button'
                   selected={orderType === 'BUY'}
-                  onClick={() => setOrderType('BUY')}
+                  onClick={() => {
+                    setOrderType('BUY')
+                    props.analyticsActions.logEvent('SB_BUY_BUTTON')
+                  }}
                   data-e2e='sbBuyButton'
                 >
                   <FormattedMessage
@@ -173,7 +176,10 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
                 <TabMenuItem
                   role='button'
                   selected={orderType === 'SELL'}
-                  onClick={() => setOrderType('SELL')}
+                  onClick={() => {
+                    setOrderType('SELL')
+                    props.analyticsActions.logEvent('SB_SELL_BUTTON')
+                  }}
                   data-e2e='sbSellButton'
                 >
                   <FormattedMessage
