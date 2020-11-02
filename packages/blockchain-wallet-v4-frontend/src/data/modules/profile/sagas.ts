@@ -19,6 +19,7 @@ import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { UserDataType } from './types'
+import analyticsSagas from 'data/analytics/sagas'
 import moment from 'moment'
 
 export const logLocation = 'modules/profile/sagas'
@@ -29,18 +30,10 @@ export const renewUserDelay = 30000
 let renewSessionTask = null
 let renewUserTask = null
 export default ({ api, coreSagas, networks }) => {
-  const waitForUserData = function * () {
-    let userId = (yield select(
-      selectors.core.kvStore.userCredentials.getUserId
-    )).getOrElse(null)
-    // If no user id in kvstore fetch user
-    if (!userId) {
-      yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
-      userId = (yield select(
-        selectors.core.kvStore.userCredentials.getUserId
-      )).getOrElse(null)
-    }
+  const { waitForUserId } = analyticsSagas()
 
+  const waitForUserData = function * () {
+    const userId = yield call(waitForUserId)
     const userData = yield select(selectors.modules.profile.getUserData)
     const apiToken = yield select(selectors.modules.profile.getApiToken)
     // If no user id in kvstore return

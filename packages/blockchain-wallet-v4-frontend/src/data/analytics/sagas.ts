@@ -226,6 +226,7 @@ export default () => {
     initUserSession,
     postMessage,
     startSession,
-    stopSession
+    stopSession,
+    waitForUserId
   }
 }
