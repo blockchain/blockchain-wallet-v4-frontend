@@ -19,7 +19,6 @@ import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { UserDataType } from './types'
-import analyticsSagas from 'data/analytics/sagas'
 import moment from 'moment'
 
 export const logLocation = 'modules/profile/sagas'
@@ -30,7 +29,19 @@ export const renewUserDelay = 30000
 let renewSessionTask = null
 let renewUserTask = null
 export default ({ api, coreSagas, networks }) => {
-  const { waitForUserId } = analyticsSagas()
+  const waitForUserId = function * () {
+    const userId = yield select(
+      selectors.core.kvStore.userCredentials.getUserId
+    )
+    if (Remote.Success.is(userId)) return userId.getOrElse(null)
+    yield take(
+      actionTypes.core.kvStore.userCredentials
+        .FETCH_METADATA_USER_CREDENTIALS_SUCCESS
+    )
+    return (yield select(
+      selectors.core.kvStore.userCredentials.getUserId
+    )).getOrElse(null)
+  }
 
   const waitForUserData = function * () {
     const userId = yield call(waitForUserId)
@@ -554,6 +565,7 @@ export default ({ api, coreSagas, networks }) => {
     syncUserWithWallet,
     updateUser,
     updateUserAddress,
-    waitForUserData
+    waitForUserData,
+    waitForUserId
   }
 }
