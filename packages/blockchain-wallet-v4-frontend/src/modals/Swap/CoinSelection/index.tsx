@@ -73,6 +73,14 @@ class CoinSelection extends PureComponent<Props> {
     }
   }
 
+  checkBaseAccountZero = (side: SwapSideType, account: SwapAccountType) => {
+    if ((account.balance === 0 || account.balance === '0') && side === 'BASE') {
+      return true
+    } else {
+      return false
+    }
+  }
+
   render () {
     const { coins, values, walletCurrency } = this.props
     return (
@@ -81,7 +89,7 @@ class CoinSelection extends PureComponent<Props> {
           <TopText spaceBetween={false} marginBottom>
             <Icon
               role='button'
-              name='arrow-left'
+              name='arrow-back'
               cursor
               size='24px'
               color='grey600'
@@ -138,7 +146,13 @@ class CoinSelection extends PureComponent<Props> {
               values,
               account
             )
+
+            const isBaseAccountZero = this.checkBaseAccountZero(
+              this.props.side,
+              account
+            )
             return (
+              !isBaseAccountZero &&
               !isCoinSelected &&
               !hideCustodialToAccount && (
                 <Option

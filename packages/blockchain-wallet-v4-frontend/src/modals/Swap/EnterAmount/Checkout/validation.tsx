@@ -25,7 +25,7 @@ export const getMaxMin = (
       const cryptoMax = new BigNumber(
         convertStandardToBase(BASE.coin, fiatMax.dividedBy(rate.last))
       )
-      const userMax = payment ? payment.effectiveBalance : BASE.balance
+      const userMax = Number(payment ? payment.effectiveBalance : BASE.balance)
       return convertBaseToStandard(
         BASE.coin,
         Math.min(userMax, cryptoMax.toNumber())

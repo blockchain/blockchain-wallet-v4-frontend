@@ -81,7 +81,7 @@ class EnterAmount extends PureComponent<Props> {
             <SubTopText>
               <Icon
                 role='button'
-                name='arrow-left'
+                name='arrow-back'
                 cursor
                 size='24px'
                 color='grey600'

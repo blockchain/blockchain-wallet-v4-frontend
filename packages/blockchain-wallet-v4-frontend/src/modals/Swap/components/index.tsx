@@ -26,6 +26,9 @@ export const Option = styled.div`
   border-top: ${props => `1px solid ${props.theme.grey000}`};
   padding: 16px 40px;
   cursor: pointer;
+  &:hover {
+    background-color: ${props => props.theme.blue000};
+  }
 `
 export const OptionTitle = styled(Text)`
   color: ${props => props.theme.grey900};

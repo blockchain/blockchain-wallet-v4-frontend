@@ -12,7 +12,7 @@ const UpgradePrompt: React.FC<Props> = props => {
       <FlyoutWrapper>
         <Icon
           role='button'
-          name='arrow-left'
+          name='arrow-back'
           cursor
           size='24px'
           color='grey600'

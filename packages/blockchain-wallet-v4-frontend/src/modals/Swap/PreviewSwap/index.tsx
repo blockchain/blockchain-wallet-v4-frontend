@@ -48,7 +48,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           <TopText spaceBetween={false} marginBottom>
             <Icon
               role='button'
-              name='arrow-left'
+              name='arrow-back'
               cursor
               size='24px'
               color='grey600'
