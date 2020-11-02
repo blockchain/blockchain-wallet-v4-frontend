@@ -23,6 +23,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     direction: SwapOrderDirectionType,
     quoteId: string,
     volume: string,
+    ccy: FiatType,
     destinationAddress?: string
   ): SwapOrderType =>
     authorizedPost({
@@ -31,6 +32,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       contentType: 'application/json',
       removeDefaultPostData: true,
       data: {
+        ccy,
         direction,
         quoteId,
         volume,
@@ -38,10 +40,10 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       }
     })
 
-  const getSwapLimits = (currency: FiatType): SwapUserLimitsType =>
+  const getSwapLimits = (ccy: FiatType): SwapUserLimitsType =>
     authorizedGet({
       url: nabuUrl,
-      endPoint: `/trades/limits?currency=${currency}&minor=true`,
+      endPoint: `/trades/limits?ccy=${ccy}&minor=true`,
       contentType: 'application/json',
       ignoreQueryParams: true
     })

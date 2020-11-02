@@ -157,6 +157,10 @@ export default ({
         throw new Error('NO_SWAP_AMOUNT_FORM_VALUES')
       }
 
+      const ccy = selectors.core.settings
+        .getCurrency(yield select())
+        .getOrElse('USD')
+
       const { BASE, COUNTER } = initSwapFormValues
 
       const direction = getDirection(BASE, COUNTER)
@@ -176,6 +180,7 @@ export default ({
         direction,
         quote.quote.id,
         amount,
+        ccy,
         destinationAddr
       )
       const paymentR = S.getPayment(yield select())
