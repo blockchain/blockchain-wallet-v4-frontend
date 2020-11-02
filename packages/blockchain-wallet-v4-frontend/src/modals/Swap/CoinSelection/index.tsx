@@ -197,7 +197,7 @@ class CoinSelection extends PureComponent<Props> {
                         name='checkmark-circle-filled'
                         color='green600'
                         size='24px'
-                        style={{ padding: '0 2px' }}
+                        style={{ padding: '0 2px', marginLeft: '24px' }}
                       />
                     ) : (
                       <CircleBorder />

@@ -147,7 +147,7 @@ class EnterAmount extends PureComponent<Props> {
                       <OptionValue>
                         <BalanceRow>
                           {val.formValues?.amount
-                            ? `${val.formValues.cryptoAmount} ${
+                            ? `${formatCoin(val.formValues.cryptoAmount)} ${
                                 coins[BASE.coin].coinTicker
                               }`
                             : `0 ${coins[BASE.coin].coinTicker}`}
@@ -189,7 +189,7 @@ class EnterAmount extends PureComponent<Props> {
                       <OptionValue>
                         <BalanceRow>
                           {val.formValues?.amount
-                            ? `${val.incomingAmount} ${
+                            ? `${formatCoin(val.incomingAmount)} ${
                                 coins[COUNTER.coin].coinTicker
                               }`
                             : `0 ${coins[COUNTER.coin].coinTicker}`}
