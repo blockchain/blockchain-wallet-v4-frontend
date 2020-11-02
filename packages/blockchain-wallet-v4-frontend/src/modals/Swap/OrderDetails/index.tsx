@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 
-import { Props as BaseProps } from '..'
+import { Props as BaseProps, SuccessStateType } from '..'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { coinToString } from 'core/exchange/currency'
 import { convertBaseToStandard } from 'data/components/exchange/services'
@@ -19,7 +19,7 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 
     const baseCoin = getInput(this.props.order)
     const counterCoin = getOutput(this.props.order)
-
+    const { coins, handleClose, order } = this.props
     return (
       <>
         <FlyoutWrapper>
@@ -31,7 +31,7 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               />
             </Text>
             <Icon
-              onClick={this.props.handleClose}
+              onClick={handleClose}
               role='button'
               name='close'
               cursor
@@ -47,7 +47,7 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               defaultMessage='Order ID'
             />
           </Title>
-          <Value>{this.props.order.id}</Value>
+          <Value>{order.id}</Value>
         </Row>
         <Row>
           <Title>
@@ -56,7 +56,7 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               defaultMessage='Status'
             />
           </Title>
-          <Value>{this.props.order.state}</Value>
+          <Value>{order.state}</Value>
         </Row>
         <Row>
           <Title>
@@ -66,9 +66,9 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             {coinToString({
               value: convertBaseToStandard(
                 baseCoin,
-                this.props.order.priceFunnel.inputMoney
+                order.priceFunnel.inputMoney
               ),
-              unit: { symbol: baseCoin }
+              unit: { symbol: coins[baseCoin].coinTicker }
             })}
           </Value>
         </Row>
@@ -82,7 +82,7 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 counterCoin,
                 this.props.order.priceFunnel.outputMoney
               ),
-              unit: { symbol: counterCoin }
+              unit: { symbol: coins[counterCoin].coinTicker }
             })}
           </Value>
         </Row>
@@ -92,13 +92,13 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               id='copy.coin_network_fee'
               defaultMessage='{coin} Network Fee'
               values={{
-                coin: baseCoin
+                coin: coins[baseCoin].coinTicker
               }}
             />
           </Title>
           <Value>
             {coinToString({
-              unit: { symbol: baseCoin },
+              unit: { symbol: coins[baseCoin].coinTicker },
               value: convertBaseToStandard(
                 baseCoin,
                 this.props.order.priceFunnel.networkFee
@@ -118,10 +118,10 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           </Title>
           <Value>
             {coinToString({
-              unit: { symbol: counterCoin },
+              unit: { symbol: coins[counterCoin].coinTicker },
               value: convertBaseToStandard(
                 counterCoin,
-                this.props.order.priceFunnel.staticFee
+                order.priceFunnel.staticFee
               )
             })}
           </Value>
@@ -131,7 +131,7 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             <Form
               onSubmit={(e: any) => {
                 e.preventDefault()
-                this.props.swapActions.cancelOrder(this.props.order!.id)
+                this.props.swapActions.cancelOrder(order!.id)
               }}
             >
               <Button
@@ -155,7 +155,8 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 }
 
-type OwnProps = BaseProps & { handleClose: () => void; order?: SwapOrderType }
+type OwnProps = BaseProps &
+  SuccessStateType & { handleClose: () => void; order?: SwapOrderType }
 export type Props = OwnProps
 
 export default reduxForm<{}, Props>({ form: 'swapOrderDetails' })(OrderDetails)

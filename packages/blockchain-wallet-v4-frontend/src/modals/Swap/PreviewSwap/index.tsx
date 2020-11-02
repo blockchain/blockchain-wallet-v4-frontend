@@ -5,7 +5,7 @@ import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
-import { Props as BaseProps } from '..'
+import { Props as BaseProps, SuccessStateType } from '..'
 import {
   Button,
   HeartbeatLoader,
@@ -39,7 +39,9 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     }
 
     const { BASE, COUNTER } = this.props.initSwapFormValues
-
+    const { coins, swapActions } = this.props
+    const baseCoinTicker = coins[BASE.coin].coinTicker
+    const counterCoinTicker = coins[COUNTER.coin].coinTicker
     return (
       <>
         <FlyoutWrapper>
@@ -51,7 +53,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               size='24px'
               color='grey600'
               onClick={() =>
-                this.props.swapActions.setStep({
+                swapActions.setStep({
                   step: 'ENTER_AMOUNT'
                 })
               }
@@ -76,7 +78,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           <Value>
             {coinToString({
               value: this.props.swapAmountFormValues?.cryptoAmount,
-              unit: { symbol: BASE.coin }
+              unit: { symbol: baseCoinTicker }
             })}
           </Value>
         </Row>
@@ -87,7 +89,9 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           <Value>
             {this.props.incomingAmountR.cata({
               Success: value => (
-                <>{coinToString({ value, unit: { symbol: COUNTER.coin } })}</>
+                <>
+                  {coinToString({ value, unit: { symbol: counterCoinTicker } })}
+                </>
               ),
               Failure: e => e,
               Loading: () => <SkeletonRectangle height='18px' width='70px' />,
@@ -103,7 +107,8 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             {this.props.quoteR.cata({
               Success: val => (
                 <>
-                  1 {BASE.coin} = {formatCoin(val.rate)} {COUNTER.coin}
+                  1 {baseCoinTicker} = {formatCoin(val.rate)}{' '}
+                  {counterCoinTicker}
                 </>
               ),
               Failure: () => (
@@ -136,12 +141,12 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             <FormattedMessage
               id='copy.coin_network_fee'
               defaultMessage='{coin} Network Fee'
-              values={{ coin: BASE.baseCoin }}
+              values={{ coin: coins[BASE.baseCoin].coinTicker }}
             />
           </Title>
           <Value>
             {BASE.type === 'CUSTODIAL' ? (
-              <>0 {BASE.coin}</>
+              <>0 {baseCoinTicker}</>
             ) : (
               this.props.paymentR.cata({
                 Success: value => (
@@ -151,7 +156,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         BASE.baseCoin,
                         value ? value.fee : 0
                       ),
-                      unit: { symbol: BASE.baseCoin }
+                      unit: { symbol: coins[BASE.baseCoin].coinTicker }
                     })}
                   </>
                 ),
@@ -167,7 +172,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             <FormattedMessage
               id='copy.coin_network_fee'
               defaultMessage='{coin} Network Fee'
-              values={{ coin: COUNTER.coin }}
+              values={{ coin: counterCoinTicker }}
             />
           </Title>
           <Value>
@@ -180,7 +185,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       value.quote.networkFee
                     ),
                     unit: {
-                      symbol: COUNTER.baseCoin
+                      symbol: coins[COUNTER.baseCoin].coinTicker
                     }
                   })}
                 </>
@@ -207,7 +212,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 <FormattedMessage
                   id='buttons.swap_x_for_y'
                   defaultMessage='Swap {base} for {counter}'
-                  values={{ base: BASE.coin, counter: COUNTER.coin }}
+                  values={{ base: baseCoinTicker, counter: counterCoinTicker }}
                 />
               )}
             </Button>
@@ -218,9 +223,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               disabled={this.props.submitting}
               fullwidth
               style={{ marginTop: '16px' }}
-              onClick={() =>
-                this.props.swapActions.setStep({ step: 'ENTER_AMOUNT' })
-              }
+              onClick={() => swapActions.setStep({ step: 'ENTER_AMOUNT' })}
             >
               <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
             </Button>
@@ -278,7 +281,7 @@ const enhance = compose(
   connector
 )
 
-type OwnProps = BaseProps & { handleClose: () => void }
+type OwnProps = BaseProps & SuccessStateType & { handleClose: () => void }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default enhance(PreviewSwap) as React.ComponentClass<OwnProps>

@@ -7,18 +7,16 @@ import {
   SwapUserLimitsType
 } from './types'
 
-export default ({
-  authorizedGet,
-  authorizedPost,
-  authorizedDelete,
-  nabuUrl
-}) => {
+export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
   const cancelSwapOrder = (id: string): SwapOrderType =>
-    authorizedDelete({
+    authorizedPost({
       url: nabuUrl,
-      endPoint: `/custodial/trades/${id}/cancel`,
+      endPoint: `/custodial/trades/${id}`,
       removeDefaultPostData: true,
-      contentType: 'application/json'
+      contentType: 'application/json',
+      data: {
+        action: 'CANCEL'
+      }
     })
 
   const createSwapOrder = (

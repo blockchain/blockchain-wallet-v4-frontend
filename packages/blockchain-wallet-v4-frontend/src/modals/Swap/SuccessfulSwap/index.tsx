@@ -2,7 +2,7 @@ import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Props as BaseProps } from '..'
+import { Props as BaseProps, SuccessStateType } from '..'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { getOutput } from 'data/components/swap/model'
@@ -79,7 +79,7 @@ const SuccessfulSwap: React.FC<Props> = props => {
             id='copy.swap_in_wallet'
             defaultMessage='Your {coin} is now in your Wallet.'
             values={{
-              coin: getOutput(props.order)
+              coin: props.coins[getOutput(props.order)].coinTicker
             }}
           />
         </Text>
@@ -93,6 +93,9 @@ const SuccessfulSwap: React.FC<Props> = props => {
           <FormattedMessage
             id='copy.swap_arrive_soon'
             defaultMessage='Your {coin} will arrive soon.'
+            values={{
+              coin: props.coins[getOutput(props.order)].coinTicker
+            }}
           />
         </Text>
       )}
@@ -110,7 +113,8 @@ const SuccessfulSwap: React.FC<Props> = props => {
   )
 }
 
-type OwnProps = BaseProps & { handleClose: () => void; order?: SwapOrderType }
+type OwnProps = BaseProps &
+  SuccessStateType & { handleClose: () => void; order?: SwapOrderType }
 export type Props = OwnProps
 
 export default SuccessfulSwap

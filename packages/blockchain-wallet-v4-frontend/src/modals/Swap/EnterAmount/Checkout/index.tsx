@@ -91,6 +91,7 @@ const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
 const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
     BASE,
+    coins,
     fix,
     formActions,
     formErrors,
@@ -126,24 +127,26 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   const quoteAmount =
     fix === 'FIAT'
+      ? Exchange.convertFiatToCoin(
+          formValues?.amount || 0,
+          BASE.coin,
+          walletCurrency,
+          rates
+        )
+      : Exchange.convertCoinToFiat(
+          formValues?.amount || 0,
+          BASE.coin,
+          walletCurrency,
+          rates
+        )
+
+  const quoteAmountString =
+    fix === 'FIAT'
       ? coinToString({
-          value: Exchange.convertFiatToCoin(
-            formValues?.amount || 0,
-            BASE.coin,
-            walletCurrency,
-            rates
-          ),
-          unit: { symbol: BASE.coin }
+          value: quoteAmount,
+          unit: { symbol: coins[BASE.coin].coinTicker }
         })
-      : fiatToString({
-          value: Exchange.convertCoinToFiat(
-            formValues?.amount || 0,
-            BASE.coin,
-            walletCurrency,
-            rates
-          ),
-          unit: walletCurrency
-        })
+      : fiatToString({ value: quoteAmount, unit: walletCurrency })
 
   const handleMinMaxClick = () => {
     const value =
@@ -202,7 +205,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             weight={500}
             data-e2e='swapQuoteAmount'
           >
-            {quoteAmount}
+            {quoteAmountString}
           </Text>
           <div />
           <Icon
@@ -304,7 +307,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <Amounts>
           <div>
             <Text size='14px' weight={500} color='grey600'>
-              {BASE.coin}{' '}
+              {coins[BASE.coin].coinTicker}{' '}
               <FormattedMessage
                 id='copy.available'
                 defaultMessage='Available'
