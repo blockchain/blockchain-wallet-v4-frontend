@@ -209,7 +209,7 @@ const erc20GetActiveAccounts = createDeepEqualSelector(
     coreSelectors.data.eth.getDefaultAddress,
     (state, token) => coreSelectors.kvStore.eth.getErc20Account(state, token),
     (state, token) => coreSelectors.data.eth.getErc20Balance(state, token),
-    (state, token) => getCustodyBalance(token, state),
+    (state, token) => getCustodyBalance(toUpper(token) as CoinType, state),
     (state, token) => token
   ],
   (ethAddressR, erc20AccountR, erc20BalanceR, sbBalanceR, token) => {
