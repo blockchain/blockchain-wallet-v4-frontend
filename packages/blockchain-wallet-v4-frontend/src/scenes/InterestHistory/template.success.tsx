@@ -208,6 +208,7 @@ function TransactionList (props: Props): ReactElement | null {
                 <React.Fragment>
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionFrom'>
+                      dals/SimpleBuy/OrderSummary/template.success.jsx
                       {displayName} Interest Account
                     </Value>
                   </TableCell>
