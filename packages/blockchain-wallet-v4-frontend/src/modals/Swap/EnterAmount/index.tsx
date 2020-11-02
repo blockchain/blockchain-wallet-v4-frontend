@@ -205,7 +205,7 @@ class EnterAmount extends PureComponent<Props> {
                 {userData.tiers.current === 1 && <Upgrade {...this.props} />}
               </>
             ),
-            Failure: () => <Failure {...this.props} />,
+            Failure: e => <Failure {...this.props} error={e} />,
             Loading: () => <Loading />,
             NotAsked: () => <Loading />
           })}
