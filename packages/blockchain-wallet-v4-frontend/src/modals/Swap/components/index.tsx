@@ -32,10 +32,13 @@ export const OptionTitle = styled(Text)`
   margin-top: 4px;
   font-weight: 600;
 `
-export const OptionValue = styled(Text)<{ color?: keyof DefaultTheme }>`
+export const OptionValue = styled(Text)<{
+  color?: keyof DefaultTheme
+  weight?: number
+}>`
   color: ${props => props.color || props.theme.grey600};
   margin-top: 4px;
-  font-weight: 600;
+  font-weight: ${props => (props.weight ? props.weight : 600)};
   font-size: 14px;
 `
 export const BalanceRow = styled.div`
