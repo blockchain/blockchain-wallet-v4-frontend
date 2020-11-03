@@ -50,7 +50,10 @@ export default ({
     const defaultHDWallet = yield select(
       selectors.core.wallet.getDefaultHDWallet
     )
-    const userId = yield call(waitForUserData)
+    yield call(waitForUserData)
+    const userId = (yield select(
+      selectors.core.kvStore.userCredentials.getUserId
+    )).getOrFail()
     if (userId) return userId
     const { seedHex } = defaultHDWallet
     const mnemonic = BIP39.entropyToMnemonic(seedHex)
