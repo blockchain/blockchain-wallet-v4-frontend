@@ -3,9 +3,7 @@ import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import React from 'react'
 
-import { capitalizeFirstLetter } from 'services/ValidationHelper'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { DefaultMessageType } from 'blockchain-wallet-v4-frontend/src/assets/locales'
 import { fiatToString } from 'core/exchange/currency'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import {
@@ -60,7 +58,6 @@ const Success: React.FC<Props> = props => {
   const baseCurrency = getBaseCurrency(props.order, props.supportedCoins)
   const counterAmount = getCounterAmount(props.order)
   const counterCurrency = getCounterCurrency(props.order, props.supportedCoins)
-  const msg = `Cancel ${capitalizeFirstLetter(orderType)}` as DefaultMessageType
   const card =
     props.order.paymentMethodId &&
     props.cards.find(card => card.id === props.order.paymentMethodId)?.card
@@ -241,13 +238,17 @@ const Success: React.FC<Props> = props => {
                   })
                 }
               >
-                {/* TODO: Simple Buy - order types */}
-                {
+                {orderType === 'BUY' ? (
                   <FormattedMessage
                     id='modals.simplebuy.summary.cancelbuy'
-                    defaultMessage={msg}
+                    defaultMessage='Cancel Buy'
                   />
-                }
+                ) : (
+                  <FormattedMessage
+                    id='modals.simplebuy.summary.cancelsell'
+                    defaultMessage='Cancel Sell'
+                  />
+                )}
               </Button>
             </Bottom>
           ))}
