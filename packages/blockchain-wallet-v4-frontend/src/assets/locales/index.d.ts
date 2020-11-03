@@ -1282,6 +1282,7 @@ type MessagesType = {
   'modals.simplebuy.setupaccount': "Next, we'll set up your account."
   'modals.simplebuy.success': 'Trade Complete'
   'modals.simplebuy.summary.cancelbuy': 'Cancel Buy'
+  'modals.simplebuy.summary.cancelsell': 'Cancel Sell'
   'modals.simplebuy.summary.complete_card_payment': 'Complete Card Payment'
   'modals.simplebuy.summary.complete_card_info': "These funds will be available to sell into a {wallet} fiat wallet immediately, but you will not be able to send or withdraw these funds from Blockchain.com for up to 3 days. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
   'modals.simplebuy.summary.created': 'Created'

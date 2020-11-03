@@ -1,28 +1,30 @@
 import { add, equals, map, not, propOr, reduce } from 'ramda'
-import { call, delay, put, select, take } from 'redux-saga/effects'
+import { call, delay, put, select } from 'redux-saga/effects'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
 
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
-import { actions, actionTypes, selectors } from 'data'
+import { actions, selectors } from 'data'
+import { APIType } from 'core/network/api'
 import { CUSTOM_VARIABLES } from './model'
-import { Remote } from 'blockchain-wallet-v4/src'
+
+import profileSagas from '../modules/profile/sagas'
 
 export const logLocation = 'analytics/sagas'
-export default () => {
-  const waitForUserId = function * () {
-    const userId = yield select(
-      selectors.core.kvStore.userCredentials.getUserId
-    )
-    if (Remote.Success.is(userId)) return userId.getOrElse(null)
-    yield take(
-      actionTypes.core.kvStore.userCredentials
-        .FETCH_METADATA_USER_CREDENTIALS_SUCCESS
-    )
-    return (yield select(
-      selectors.core.kvStore.userCredentials.getUserId
-    )).getOrElse(null)
-  }
+export default ({
+  api,
+  coreSagas,
+  networks
+}: {
+  api: APIType
+  coreSagas: any
+  networks: any
+}) => {
+  const { waitForUserData } = profileSagas({
+    api,
+    coreSagas,
+    networks
+  })
 
   const postMessage = function * (message) {
     try {
@@ -48,7 +50,10 @@ export default () => {
     const defaultHDWallet = yield select(
       selectors.core.wallet.getDefaultHDWallet
     )
-    const userId = yield call(waitForUserId)
+    yield call(waitForUserData)
+    const userId = (yield select(
+      selectors.core.kvStore.userCredentials.getUserId
+    )).getOrFail()
     if (userId) return userId
     const { seedHex } = defaultHDWallet
     const mnemonic = BIP39.entropyToMnemonic(seedHex)

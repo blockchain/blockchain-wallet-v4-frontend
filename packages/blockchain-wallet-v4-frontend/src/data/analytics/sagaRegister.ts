@@ -2,8 +2,12 @@ import * as AT from './actionTypes'
 import { takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
-export default () => {
-  const analyticsSagas = sagas()
+export default ({ api, coreSagas, networks }) => {
+  const analyticsSagas = sagas({
+    api,
+    coreSagas,
+    networks
+  })
 
   return function * analyticsSaga () {
     yield takeLatest(AT.CREATE_AB_TEST, analyticsSagas.createABTest)

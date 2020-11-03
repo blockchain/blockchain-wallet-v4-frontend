@@ -88,6 +88,7 @@ export default ({ api, coreSagas }) => {
     const userFlowSupported = (yield select(
       selectors.modules.profile.userFlowSupported
     )).getOrElse(false)
+
     if (userFlowSupported) yield put(actions.modules.profile.signIn())
   }
 
@@ -127,24 +128,29 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
 
-      const showVerifyEmailR = yield select(
-        selectors.analytics.selectAbTest(AB_TESTS.VERIFY_EMAIL)
-      )
+      if (firstLogin) {
+        const showVerifyEmailR = yield select(
+          selectors.analytics.selectAbTest(AB_TESTS.VERIFY_EMAIL)
+        )
 
-      if (Remote.Success.is(showVerifyEmailR)) {
-        const showVerifyEmail = showVerifyEmailR.getOrElse({})
-        if (
-          showVerifyEmail &&
-          showVerifyEmail.command &&
-          showVerifyEmail.command === 'verify-email'
-        ) {
-          yield put(actions.router.push('/verify-email-step'))
+        if (Remote.Success.is(showVerifyEmailR)) {
+          const showVerifyEmail = showVerifyEmailR.getOrElse({})
+          if (
+            showVerifyEmail &&
+            showVerifyEmail.command &&
+            showVerifyEmail.command === 'verify-email'
+          ) {
+            yield put(actions.router.push('/verify-email-step'))
+          } else {
+            yield put(actions.router.push('/home'))
+          }
         } else {
           yield put(actions.router.push('/home'))
         }
       } else {
         yield put(actions.router.push('/home'))
       }
+
       yield call(authNabu)
       yield call(fetchBalances)
       yield call(saveGoals, firstLogin)
