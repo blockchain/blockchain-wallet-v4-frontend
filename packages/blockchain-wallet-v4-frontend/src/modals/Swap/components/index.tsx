@@ -26,16 +26,22 @@ export const Option = styled.div`
   border-top: ${props => `1px solid ${props.theme.grey000}`};
   padding: 16px 40px;
   cursor: pointer;
+  &:hover {
+    background-color: ${props => props.theme.blue000};
+  }
 `
 export const OptionTitle = styled(Text)`
   color: ${props => props.theme.grey900};
   margin-top: 4px;
   font-weight: 600;
 `
-export const OptionValue = styled(Text)<{ color?: keyof DefaultTheme }>`
+export const OptionValue = styled(Text)<{
+  color?: keyof DefaultTheme
+  weight?: number
+}>`
   color: ${props => props.color || props.theme.grey600};
   margin-top: 4px;
-  font-weight: 600;
+  font-weight: ${props => (props.weight ? props.weight : 600)};
   font-size: 14px;
 `
 export const BalanceRow = styled.div`
@@ -78,14 +84,4 @@ export const CircleBorder = styled.div`
   border: 1px solid ${props => props.theme.grey300};
   border-radius: 24px;
   margin-left: 24px;
-`
-
-export const CircleSelected = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 20px;
-  height: 20px;
-  background-color: ${props => props.theme.grey300};
-  border-radius: 20px;
 `

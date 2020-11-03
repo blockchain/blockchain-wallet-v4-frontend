@@ -1,7 +1,6 @@
 import {
   BalanceRow,
   CircleBorder,
-  CircleSelected,
   FlexStartRow,
   Option,
   OptionTitle,
@@ -73,6 +72,14 @@ class CoinSelection extends PureComponent<Props> {
     }
   }
 
+  checkBaseAccountZero = (side: SwapSideType, account: SwapAccountType) => {
+    if ((account.balance === 0 || account.balance === '0') && side === 'BASE') {
+      return true
+    } else {
+      return false
+    }
+  }
+
   render () {
     const { coins, values, walletCurrency } = this.props
     return (
@@ -81,7 +88,7 @@ class CoinSelection extends PureComponent<Props> {
           <TopText spaceBetween={false} marginBottom>
             <Icon
               role='button'
-              name='arrow-left'
+              name='arrow-back'
               cursor
               size='24px'
               color='grey600'
@@ -97,8 +104,17 @@ class CoinSelection extends PureComponent<Props> {
               weight={600}
               style={{ marginLeft: '24px' }}
             >
-              <FormattedMessage id='copy.swap' defaultMessage='Swap' />{' '}
-              {this.props.side === 'BASE' ? 'from' : 'to'}
+              {this.props.side === 'BASE' ? (
+                <FormattedMessage
+                  id='copy.swap_from'
+                  defaultMessage='Swap from'
+                />
+              ) : (
+                <FormattedMessage
+                  id='copy.receive_to'
+                  defaultMessage='Receive to'
+                />
+              )}
             </Text>
           </TopText>
           <Text
@@ -138,7 +154,13 @@ class CoinSelection extends PureComponent<Props> {
               values,
               account
             )
+
+            const isBaseAccountZero = this.checkBaseAccountZero(
+              this.props.side,
+              account
+            )
             return (
+              !isBaseAccountZero &&
               !isCoinSelected &&
               !hideCustodialToAccount && (
                 <Option
@@ -170,9 +192,16 @@ class CoinSelection extends PureComponent<Props> {
                     {account.type === 'CUSTODIAL' && (
                       <SuccessCartridge>Low Fees</SuccessCartridge>
                     )}
-                    <CircleBorder>
-                      {isAccountSelected && <CircleSelected />}
-                    </CircleBorder>
+                    {isAccountSelected ? (
+                      <Icon
+                        name='checkmark-circle-filled'
+                        color='green600'
+                        size='24px'
+                        style={{ padding: '0 2px', marginLeft: '24px' }}
+                      />
+                    ) : (
+                      <CircleBorder />
+                    )}
                   </FlexStartRow>
                 </Option>
               )

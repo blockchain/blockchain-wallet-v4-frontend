@@ -13,6 +13,7 @@ export const getData = (state: RootState) => {
   const initSwapFormValues = selectors.form.getFormValues('initSwap')(
     state
   ) as InitSwapFormValuesType
+  const incomingAmountR = selectors.components.swap.getIncomingAmount(state)
   const limitsR = selectors.components.swap.getLimits(state)
   const paymentR = selectors.components.swap.getPayment(state)
   const quoteR = selectors.components.swap.getQuote(state)
@@ -23,6 +24,7 @@ export const getData = (state: RootState) => {
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
   return lift(
     (
+      incomingAmount: ExtractSuccess<typeof incomingAmountR>,
       limits: ExtractSuccess<typeof limitsR>,
       quote: ExtractSuccess<typeof quoteR>,
       rates: ExtractSuccess<typeof ratesR>,
@@ -30,10 +32,11 @@ export const getData = (state: RootState) => {
     ) => ({
       formErrors,
       formValues,
+      incomingAmount,
       limits,
       payment: paymentR.getOrElse(undefined),
       rates,
       walletCurrency
     })
-  )(limitsR, quoteR, ratesR, walletCurrencyR)
+  )(incomingAmountR, limitsR, quoteR, ratesR, walletCurrencyR)
 }

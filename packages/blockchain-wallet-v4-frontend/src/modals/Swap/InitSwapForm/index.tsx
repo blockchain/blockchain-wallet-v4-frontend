@@ -52,6 +52,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               name='close'
               color='grey600'
               role='button'
+              size='24px'
               cursor
               onClick={this.props.handleClose}
             />
@@ -97,7 +98,10 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   <>
                     <div>
                       <Text color='grey600' weight={500} size='14px'>
-                        Swap From
+                        <FormattedMessage
+                          id='copy.swap_from'
+                          defaultMessage='Swap from'
+                        />
                       </Text>
                       <OptionTitle>{values.BASE.label}</OptionTitle>
                       <OptionValue>
@@ -119,12 +123,18 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   <>
                     <div>
                       <Text color='grey600' weight={500} size='14px'>
-                        Swap from
+                        <FormattedMessage
+                          id='copy.swap_from'
+                          defaultMessage='Swap from'
+                        />
                       </Text>
                       <>
                         <OptionTitle>Select a Wallet</OptionTitle>
-                        <OptionValue color='grey900'>
-                          This is the crypto you send.
+                        <OptionValue color='grey900' weight={500}>
+                          <FormattedMessage
+                            id='copy.swap_crypto_send'
+                            defaultMessage='This is the crypto you send.'
+                          />
                         </OptionValue>
                       </>
                     </div>
@@ -186,8 +196,11 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       </Text>
                       <>
                         <OptionTitle>Select a Wallet</OptionTitle>
-                        <OptionValue color='grey900'>
-                          This is the crypto you get.
+                        <OptionValue color='grey900' weight={500}>
+                          <FormattedMessage
+                            id='copy.swap_crypto_get'
+                            defaultMessage='This is the crypto you get.'
+                          />
                         </OptionValue>
                       </>
                     </div>
@@ -203,7 +216,8 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               data-e2e='continueSwap'
               type='submit'
               fullwidth
-              jumbo
+              height='48px'
+              size='16px'
               disabled={!values?.BASE || !values?.COUNTER}
             >
               <FormattedMessage
@@ -219,7 +233,10 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               size='14px'
               style={{ margin: '0 0 8px 40px' }}
             >
-              Trending
+              <FormattedMessage
+                id='copy.suggested'
+                defaultMessage='Suggested'
+              />
             </Text>
             <Field
               name='TRENDINGONE'

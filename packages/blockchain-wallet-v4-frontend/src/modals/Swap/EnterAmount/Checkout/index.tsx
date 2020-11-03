@@ -32,6 +32,7 @@ const Amounts = styled.div`
   margin-top: 52px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `
 const MinMaxButtons = styled.div`
   display: flex;
@@ -67,6 +68,7 @@ const QuoteRow = styled.div`
 const CustomErrorCartridge = styled(ErrorCartridge)`
   border: 1px solid ${props => props.theme.red000};
   cursor: pointer;
+  color: ${props => props.theme.red400};
 `
 
 const normalizeAmount = (
@@ -294,7 +296,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 >
                   <FormattedMessage
                     id='copy.above_swap_max'
-                    defaultMessage='Maximum Swap is {value}'
+                    defaultMessage='You can swap up to {value}'
                     values={{
                       value: `${max} ${BASE.coin}`
                     }}

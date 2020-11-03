@@ -6,6 +6,7 @@ import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
 import { Props as BaseProps, SuccessStateType } from '..'
+import { Border, TopText } from '../components'
 import {
   Button,
   HeartbeatLoader,
@@ -19,7 +20,6 @@ import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
-import { TopText } from '../components'
 
 class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   state = {}
@@ -48,7 +48,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           <TopText spaceBetween={false} marginBottom>
             <Icon
               role='button'
-              name='arrow-left'
+              name='arrow-back'
               cursor
               size='24px'
               color='grey600'
@@ -101,7 +101,10 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         </Row>
         <Row>
           <Title>
-            <FormattedMessage id='buttons.receive' defaultMessage='Receive' />
+            <FormattedMessage
+              id='modals.simplebuy.confirm.rate'
+              defaultMessage='Exchange Rate'
+            />
           </Title>
           <Value>
             {this.props.quoteR.cata({
@@ -196,6 +199,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             })}
           </Value>
         </Row>
+        <Border />
         <FlyoutWrapper>
           <Form onSubmit={this.handleSubmit}>
             <Button
@@ -204,7 +208,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               type='submit'
               disabled={this.props.submitting}
               fullwidth
-              jumbo
+              height='48px'
             >
               {this.props.submitting ? (
                 <HeartbeatLoader height='16px' width='16px' color='white' />
@@ -222,6 +226,8 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               type='button'
               disabled={this.props.submitting}
               fullwidth
+              height='48px'
+              color='red400'
               style={{ marginTop: '16px' }}
               onClick={() => swapActions.setStep({ step: 'ENTER_AMOUNT' })}
             >
@@ -235,7 +241,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             >
               <FormattedMessage
                 id='copy.swap_amount_change_disclaimer'
-                defaultMessage='The amount you receive may change slightly due to market activity. Once an order starts, we are unable to stop it.'
+                defaultMessage='The amounts you send and receive may change slightly due to market activity. Once an order starts, we are unable to stop it.'
               />
             </Text>
             {this.props.error && (

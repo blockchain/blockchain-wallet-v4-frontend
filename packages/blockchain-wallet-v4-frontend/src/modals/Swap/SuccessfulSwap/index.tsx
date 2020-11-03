@@ -50,11 +50,7 @@ const SuccessfulSwap: React.FC<Props> = props => {
           <Icon name='arrows-horizontal' color='white' size='28px' />
         </SwapIcon>
         <CheckIcon>
-          <Icon
-            name='checkmark-in-circle-filled'
-            color='green400'
-            size='24px'
-          />
+          <Icon name='checkmark-circle-filled' color='green400' size='32px' />
         </CheckIcon>
       </IconContainer>
       <Text
@@ -64,8 +60,8 @@ const SuccessfulSwap: React.FC<Props> = props => {
         style={{ marginTop: '24px' }}
       >
         <FormattedMessage
-          id='copy.swap_completed'
-          defaultMessage='Swap Completed'
+          id='copy.swap_complete'
+          defaultMessage='Swap Complete'
         />
       </Text>
       {props.order.state === 'FINISHED' ? (
@@ -79,7 +75,7 @@ const SuccessfulSwap: React.FC<Props> = props => {
             id='copy.swap_in_wallet'
             defaultMessage='Your {coin} is now in your Wallet.'
             values={{
-              coin: props.coins[getOutput(props.order)].coinTicker
+              coin: props.coins[getOutput(props.order)].displayName
             }}
           />
         </Text>

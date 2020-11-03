@@ -12,7 +12,7 @@ import {
 export type SwapAccountType = {
   address: number | string
   archived: boolean
-  balance: number
+  balance: number | string
   baseCoin: Exclude<CoinType, Erc20CoinType>
   coin: CoinType
   index: number
