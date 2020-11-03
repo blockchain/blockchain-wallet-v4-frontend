@@ -3,7 +3,8 @@ import {
   FiatType,
   SBOrderActionType,
   SBOrderType,
-  SupportedWalletCurrenciesType
+  SupportedWalletCurrenciesType,
+  SupportedWalletCurrencyType
 } from 'core/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
@@ -16,6 +17,7 @@ import {
 import React from 'react'
 
 export const BuyOrSell = (props: {
+  coinModel: SupportedWalletCurrencyType
   crypto?: 'Crypto' | CoinType
   orderType: SBOrderActionType
 }) => {
@@ -24,7 +26,10 @@ export const BuyOrSell = (props: {
       <FormattedMessage
         id='buttons.buy_coin'
         defaultMessage='Buy {displayName}'
-        values={{ displayName: props.crypto }}
+        values={{
+          displayName:
+            props.crypto === 'Crypto' ? 'Crypto' : props.coinModel.coinTicker
+        }}
       />
     ) : (
       <FormattedMessage

@@ -1,4 +1,5 @@
 import { Icon, Text } from 'blockchain-info-components'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -43,13 +44,16 @@ const Amount = styled(Text)`
   overflow: hidden;
   text-overflow: ellipsis;
 `
-        
-const SimpleBuyInfo = ({ supportedCoins, goalData: { amount, crypto } }) => (
+
+const SimpleBuyInfo = ({
+  supportedCoins,
+  goalData: { amount, crypto, fiatCurrency }
+}) => (
   <SimpleBuyItemWrapper>
     <AmountWrapper>
       <SimpleWrapper>
         <Text size='16px' color='grey400' weight={500}>
-          $
+          {Currencies[fiatCurrency].units[fiatCurrency].symbol}
         </Text>
         <Amount size='16px' color='black' weight={500}>
           {amount}

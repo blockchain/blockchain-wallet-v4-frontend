@@ -64,9 +64,6 @@ export default ({ api }: { api: APIType }) => {
       const locks: ReturnType<typeof api.getWithdrawalLocks> = yield call(
         api.getWithdrawalLocks
       )
-      // eslint-disable-next-line
-      console.log('locks', locks)
-
       yield put(A.fetchWithdrawalLockSuccess(locks))
     } catch (e) {
       const error = errorHandler(e)

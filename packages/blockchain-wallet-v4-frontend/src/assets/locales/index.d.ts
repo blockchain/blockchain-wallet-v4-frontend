@@ -673,9 +673,10 @@ type MessagesType = {
   'modals.interest.deposit.calcdesc': 'With {currencySymbol} {depositAmountFiat} in your Interest Account you can earn:'
   'modals.interest.deposit.calcdesccoin': 'With {depositAmount} {coinTicker} in your Interest Account you can earn:'
   'modals.interest.deposit.confirmtransfer': 'Confirm Transfer'
-  'modals.interest.deposit.agreement1': 'By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) plus network fees from your {displayName} Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
+  'modals.interest.deposit.agreement2': 'By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) plus a network fee of ~{depositFeeFiat} ({depositFeeCrypto}) from your {displayName} Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
   'modals.interest.deposit.calcrate': 'Estimates based on current interest rate and {coinTicker} price.'
   'modals.interest.deposit.calculator.tooltip': 'This is an estimate calculated using the current interest rate for the entire horizon. The actual interest rate is subject to change.'
+  'modals.interest.deposit.agreement.custodial': 'By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) from your {displayName} Trading Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
   'modals.interest.deposit.maxtransfer': 'Maximum transfer: {maxFiat}'
   'modals.interest.deposit.mintransfer': 'Minimum transfer: {minFiat}'
   'modals.interest.deposit.maxtransfer.button': 'Transfer Max'
@@ -1163,6 +1164,7 @@ type MessagesType = {
   'modals.simplebuy.confirm.activity': 'Your final amount may change due to market activity.'
   'modals.simplebuy.confirm.activity_card1': 'Your final amount might change due to market activity.'
   'modals.simplebuy.confirm.activity_card2': 'Your crypto will be available to be withdrawn within <b>3 days</b>.'
+  'modals.simplebuy.confirm.activity_accept_terms': "I agree to Blockchain’s <a href='https://www.blockchain.com/legal/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a> and its return, refund and cancellation policy."
   'modals.simplebuy.confirm.funds_wallet': '{coin} Wallet'
   'modals.simplebuy.confirm.payment_card': 'Credit Card'
   'modals.simplebuy.confirm.buynow': 'Buy Now'
@@ -1228,6 +1230,7 @@ type MessagesType = {
   'modals.simplebuy.setupaccount': "Next, we'll set up your account."
   'modals.simplebuy.success': 'Trade Complete'
   'modals.simplebuy.summary.cancelbuy': 'Cancel Buy'
+  'modals.simplebuy.summary.cancelsell': 'Cancel Sell'
   'modals.simplebuy.summary.complete_card_payment': 'Complete Card Payment'
   'modals.simplebuy.summary.complete_card_info': "These funds will be available to sell into a {wallet} fiat wallet immediately, but you will not be able to send or withdraw these funds from Blockchain.com for up to 3 days. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
   'modals.simplebuy.summary.created': 'Created'
@@ -1276,6 +1279,7 @@ type MessagesType = {
   'modals.simplebuy.transferdetails.domestic': 'Domestic'
   'modals.simplebuy.transferdetails.international': 'International'
   'modals.simplebuy.transferdetails.wire_transfer': 'Wire Transfer'
+  'modals.simplebuy.transferdetails.bank_link_info': 'To link your bank, send {symbol}1 or more to your {currency} wallet.'
   'modals.simplebuy.underreview': 'ID Verification Pending'
   'modals.simplebuy.unknown': 'Unknown Status'
   'modals.simplebuy.unsupported-subcontent': "Currently, we don't support buying crypto with"
@@ -1643,8 +1647,10 @@ type MessagesType = {
   'scenes.interest.earninfo.verified.copy': 'Earn up to {highestRate}% annually when you transfer crypto to your Interest Account.'
   'scenes.interest.earnheaderverified': 'Earn interest on your crypto today.'
   'scenes.interest.earnupgrade.header': 'Upgrade to Gold Level so you can earn interest on your crypto.'
+  'scenes.interest.history.filter': 'Filter by:'
   'scenes.interest.history.header': 'History'
   'scenes.interest.history.type': 'Type'
+  'scenes.interest.history.empty.here': 'All your Interest transactions will show up here.'
   'scenes.interest.interestaccount': 'Interest Account'
   'scenes.interest.legaldiscalimer': 'Legal disclaimer'
   'scenes.interest.legal.one': 'Digital/virtual currencies are not bank deposits, are not legal tender, are not backed by the government, and accounts and value balances are not subject to US Federal Deposit Insurance Corporation or Securities Investor Protection Corporation or any other non-US governmental or government-backed protections.'
@@ -1656,6 +1662,8 @@ type MessagesType = {
   'scenes.interest.summarycard.tooltip': 'The rate is subject to change. Interest rate will be paid in {coin}.'
   'scenes.interest.summarycard.totalinterest': 'Total Interest Earned'
   'scenes.interest.summarycard.earnbutton': 'Earn Interest'
+  'scenes.interest.tab.accounts': 'Accounts'
+  'scenes.interest.tab.history': 'Transaction History'
   'scenes.interest.verifyid': 'Upgrade Now'
   'scenes.interest.kycunderreview': 'Gold Verification In Review'
   'scenes.interest.subheader_store': 'Store crypto and watch it grow.'
@@ -2088,6 +2096,7 @@ type MessagesType = {
   'scenes.settings.preferences.cryptolinkhandling.enable': 'Enable'
   'scenes.settings.preferences.cryptolinkhandling.title': 'Crypto Link Handling'
   'scenes.settings.preferences.cryptolinkhandling.unknownstatus': "We can't detect whether or not handling of crypto links has been enabled. If it has already been enabled, nothing will happen."
+  'scenes.settings.preferences.cryptolinkhandling.unknownstatus.safari': 'This feature is not supported in Safari <a href="https://caniuse.com/?search=registerProtocolHandler" target="_blank" rel="noopener noreferrrer">more details</a>.'
   'scenes.settings.preferences.localcurrency.error.description': 'Select your local currency.'
   'scenes.settings.preferences.localcurrency.error.title': 'Local Currency'
   'scenes.settings.preferences.localcurrency.loading.description': 'Select your local currency.'

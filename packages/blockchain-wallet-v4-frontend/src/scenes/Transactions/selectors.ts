@@ -23,7 +23,9 @@ import {
   RemoteDataType,
   SBOrderType,
   SBTransactionType,
-  TransferType
+  SupportedWalletCurrenciesType,
+  TransferType,
+  WalletCurrencyType
 } from 'core/types'
 import { model, selectors } from 'data'
 
@@ -108,9 +110,10 @@ export const getData = (state, coin, isCoinErc20) =>
       selectors.form.getFormValues(WALLET_TX_SEARCH),
       coinSelectorMap(state, coin, isCoinErc20),
       selectors.core.settings.getCurrency,
-      () => selectors.core.walletOptions.getCoinModel(state, coin)
+      () => selectors.core.walletOptions.getCoinModel(state, coin),
+      () => selectors.core.walletOptions.getSupportedCoins(state)
     ],
-    (userSearch, pagesR, currencyR, coinModelR) => {
+    (userSearch, pagesR, currencyR, coinModelR, supportedCoinsR) => {
       const empty = page => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status: TransferType = propOr('', 'status', userSearch)
@@ -127,7 +130,14 @@ export const getData = (state, coin, isCoinErc20) =>
           : []
 
       return {
-        coinModel: coinModelR.getOrElse({}),
+        coinModel: coinModelR.getOrElse(
+          {} as <P extends WalletCurrencyType>(
+            p: P
+          ) => SupportedWalletCurrenciesType[P]
+        ),
+        supportedCoins: supportedCoinsR.getOrElse(
+          {} as SupportedWalletCurrenciesType
+        ),
         currency: currencyR.getOrElse(''),
         hasTxResults: !all(empty)(filteredPages),
         // @ts-ignore

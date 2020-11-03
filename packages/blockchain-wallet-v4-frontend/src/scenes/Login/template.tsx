@@ -15,7 +15,7 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { CoinType } from 'core/types'
+import { CoinType, WalletFiatType } from 'core/types'
 import {
   Form,
   FormError,
@@ -148,7 +148,8 @@ const LinkAccountTitle = () => (
 type GoalDataType = {
   amount: string
   crypto: CoinType
-  displayName: string
+  email?: string
+  fiatCurrency: WalletFiatType
 }
 
 const Login = (props: InjectedFormProps<{}, Props> & Props) => {
