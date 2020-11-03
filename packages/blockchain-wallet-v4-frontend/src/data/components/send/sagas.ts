@@ -190,6 +190,9 @@ export default ({
         return coreSagas.payment.xlm.create({
           payment: paymentR.getOrElse(<PaymentValue>{})
         })
+      case 'ALGO':
+        // @ts-ignore
+        return {}
       default:
         throw new Error(INVALID_COIN_TYPE)
     }
