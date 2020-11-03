@@ -23,7 +23,6 @@ import moment from 'moment'
 
 export const logLocation = 'modules/profile/sagas'
 export const userRequiresRestoreError = 'User restored'
-export const NO_USER_METADATA = 'Account does not exist'
 export const authRetryDelay = 5000
 export const renewUserDelay = 30000
 
