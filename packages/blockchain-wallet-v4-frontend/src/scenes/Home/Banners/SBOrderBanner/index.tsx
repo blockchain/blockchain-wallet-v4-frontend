@@ -6,7 +6,11 @@ import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { getOrderType } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
-import { SBOrderType, SupportedWalletCurrenciesType } from 'core/types'
+import {
+  SBOrderType,
+  SupportedWalletCurrenciesType,
+  WalletCurrencyType
+} from 'core/types'
 import media from 'services/ResponsiveService'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
@@ -94,7 +98,11 @@ class SBOrderBanner extends PureComponent<Props> {
               <FormattedMessage id='copy.pending' defaultMessage='Pending' />{' '}
               <BuyOrSell
                 orderType={orderType}
-                coinModel={this.props.supportedCoins[orderType].outputCurrency}
+                coinModel={
+                  this.props.supportedCoins[
+                    latestPendingOrder.outputCurrency as WalletCurrencyType
+                  ]
+                }
               />
             </Text>
             <Copy size='16px' color='grey600' weight={500}>
