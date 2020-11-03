@@ -19,7 +19,7 @@ export const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))<{
   fiatActive: boolean
 }>`
   height: 86px;
-  max-width: ${({ fiatActive }) => (fiatActive ? '100%' : '50%')};
+  max-width: ${({ fiatActive }) => (fiatActive ? '100%' : '75%')};
   > div {
     border: none;
     height: 100%;
