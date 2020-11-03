@@ -64,7 +64,7 @@ export default function * rootSaga ({
   yield all([
     call(welcomeSaga),
     fork(alerts),
-    fork(analytics({ api })),
+    fork(analytics({ api, coreSagas, networks })),
     fork(auth({ api, coreSagas })),
     fork(components({ api, coreSagas, networks, options })),
     fork(custodial({ api })),
