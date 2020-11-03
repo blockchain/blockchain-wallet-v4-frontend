@@ -29,7 +29,7 @@ const AmountRow = styled(Row)`
   border: 0px;
 `
 const Amounts = styled.div`
-  margin-top: 52px;
+  margin-top: 64px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -56,14 +56,15 @@ const UpgradePrompt = styled.div`
   align-items: center;
 `
 const Errors = styled.div`
-  margin: 32px 0 24px 0;
   display: flex;
   justify-content: center;
+  min-height: 32px;
 `
 const QuoteRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  min-height: 32px;
 `
 const CustomErrorCartridge = styled(ErrorCartridge)`
   border: 1px solid ${props => props.theme.red000};
@@ -169,7 +170,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   const isQuoteFailed = Remote.Failure.is(props.quoteR)
   return (
-    <FlyoutWrapper style={{ paddingTop: '0px' }}>
+    <FlyoutWrapper style={{ paddingTop: '20px' }}>
       <StyledForm onSubmit={handleSubmit}>
         <AmountRow id='amount-row'>
           {fix === 'FIAT' && (
@@ -199,8 +200,8 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           )}
         </AmountRow>
 
-        <QuoteRow>
-          <div />
+        <QuoteRow style={{ display: amtError ? 'none' : 'flex' }}>
+          <div style={{ width: '24px' }} />
           <Text
             color='grey600'
             size='14px'
@@ -209,7 +210,6 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           >
             {quoteAmountString}
           </Text>
-          <div />
           <Icon
             color='blue600'
             cursor
@@ -223,89 +223,82 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             role='button'
             size='24px'
             data-e2e='swapSwitchIcon'
-            style={{
-              position: 'absolute',
-              right: '80px',
-              marginBottom: '20px'
-            }}
           />
         </QuoteRow>
-        {amtError && (
-          <Errors>
-            <>
-              {amtError === 'BELOW_MIN' ? (
-                <CustomErrorCartridge
-                  onClick={handleMinMaxClick}
-                  role='button'
-                  data-e2e='swapMin'
-                >
+        <Errors style={{ display: !amtError ? 'none' : 'flex' }}>
+          <>
+            {amtError === 'BELOW_MIN' ? (
+              <CustomErrorCartridge
+                onClick={handleMinMaxClick}
+                role='button'
+                data-e2e='swapMin'
+              >
+                <FormattedMessage
+                  id='copy.below_swap_min'
+                  defaultMessage='Minimum Swap is {value}'
+                  values={{
+                    value: `${min} ${BASE.coin}`
+                  }}
+                />
+              </CustomErrorCartridge>
+            ) : maxAmountSilver ? (
+              <UpgradePrompt>
+                <BlueCartridge style={{ marginBottom: '26px' }}>
                   <FormattedMessage
-                    id='copy.below_swap_min'
-                    defaultMessage='Minimum Swap is {value}'
-                    values={{
-                      value: `${min} ${BASE.coin}`
-                    }}
+                    id='copy.above_swap_max_silver'
+                    defaultMessage='Upgrade your profile to swap this amount.'
                   />
-                </CustomErrorCartridge>
-              ) : maxAmountSilver ? (
-                <UpgradePrompt>
-                  <BlueCartridge style={{ marginBottom: '26px' }}>
+                </BlueCartridge>
+                <ButtonsRow>
+                  <Button
+                    data-e2e='swapUpgradePromptNotNow'
+                    nature='light'
+                    onClick={handleMinMaxClick}
+                    height='48px'
+                    width='192px'
+                  >
                     <FormattedMessage
-                      id='copy.above_swap_max_silver'
-                      defaultMessage='Upgrade your profile to swap this amount.'
+                      id='copy.not_now'
+                      defaultMessage='Not Now'
                     />
-                  </BlueCartridge>
-                  <ButtonsRow>
-                    <Button
-                      data-e2e='swapUpgradePromptNotNow'
-                      nature='light'
-                      onClick={handleMinMaxClick}
-                      height='48px'
-                      width='192px'
-                    >
-                      <FormattedMessage
-                        id='copy.not_now'
-                        defaultMessage='Not Now'
-                      />
-                    </Button>
-                    <Button
-                      data-e2e='swapLimitUpgradePrompt'
-                      nature='primary'
-                      onClick={() =>
-                        props.idvActions.verifyIdentity(
-                          2,
-                          false,
-                          'SwapLimitPrompt'
-                        )
-                      }
-                      height='48px'
-                      width='192px'
-                    >
-                      <FormattedMessage
-                        id='scenes.exchange.exchangeform.limit_info.upgrade'
-                        defaultMessage='Upgrade'
-                      />
-                    </Button>
-                  </ButtonsRow>
-                </UpgradePrompt>
-              ) : (
-                <CustomErrorCartridge
-                  onClick={handleMinMaxClick}
-                  role='button'
-                  data-e2e='swapMax'
-                >
-                  <FormattedMessage
-                    id='copy.above_swap_max'
-                    defaultMessage='You can swap up to {value}'
-                    values={{
-                      value: `${max} ${BASE.coin}`
-                    }}
-                  />
-                </CustomErrorCartridge>
-              )}
-            </>
-          </Errors>
-        )}
+                  </Button>
+                  <Button
+                    data-e2e='swapLimitUpgradePrompt'
+                    nature='primary'
+                    onClick={() =>
+                      props.idvActions.verifyIdentity(
+                        2,
+                        false,
+                        'SwapLimitPrompt'
+                      )
+                    }
+                    height='48px'
+                    width='192px'
+                  >
+                    <FormattedMessage
+                      id='scenes.exchange.exchangeform.limit_info.upgrade'
+                      defaultMessage='Upgrade'
+                    />
+                  </Button>
+                </ButtonsRow>
+              </UpgradePrompt>
+            ) : (
+              <CustomErrorCartridge
+                onClick={handleMinMaxClick}
+                role='button'
+                data-e2e='swapMax'
+              >
+                <FormattedMessage
+                  id='copy.above_swap_max'
+                  defaultMessage='You can swap up to {value}'
+                  values={{
+                    value: `${max} ${BASE.coin}`
+                  }}
+                />
+              </CustomErrorCartridge>
+            )}
+          </>
+        </Errors>
         <Amounts>
           <div>
             <Text size='14px' weight={500} color='grey600'>

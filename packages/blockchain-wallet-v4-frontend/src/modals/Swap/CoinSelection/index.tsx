@@ -5,12 +5,12 @@ import {
   Option,
   OptionTitle,
   OptionValue,
+  StickyTopFlyoutWrapper,
   TopText
 } from '../components'
 import { Props as BaseProps, SuccessStateType } from '..'
 import { coinOrder, getData } from './selectors'
 import { connect, ConnectedProps } from 'react-redux'
-import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import {
@@ -84,7 +84,7 @@ class CoinSelection extends PureComponent<Props> {
     const { coins, values, walletCurrency } = this.props
     return (
       <>
-        <FlyoutWrapper>
+        <StickyTopFlyoutWrapper>
           <TopText spaceBetween={false} marginBottom>
             <Icon
               role='button'
@@ -135,7 +135,7 @@ class CoinSelection extends PureComponent<Props> {
               />
             )}
           </Text>
-        </FlyoutWrapper>
+        </StickyTopFlyoutWrapper>
         {coinOrder.map(coin => {
           const accounts = this.props.accounts[coin] as Array<SwapAccountType>
           return accounts.map(account => {

@@ -2,8 +2,16 @@ import { Form } from 'redux-form'
 import { Text } from 'blockchain-info-components'
 import styled, { DefaultTheme } from 'styled-components'
 
+import { FlyoutWrapper } from 'components/Flyout'
+
 export const Border = styled.div`
   border-top: 1px solid ${props => props.theme.grey000};
+`
+
+export const StickyTopFlyoutWrapper = styled(FlyoutWrapper)`
+  background-color: ${props => props.theme.white};
+  position: sticky;
+  top: 0;
 `
 
 export const TopText = styled(Text)<{
@@ -34,6 +42,7 @@ export const OptionTitle = styled(Text)`
   color: ${props => props.theme.grey900};
   margin-top: 4px;
   font-weight: 600;
+  max-width: 200px;
 `
 export const OptionValue = styled(Text)<{
   color?: keyof DefaultTheme
