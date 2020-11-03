@@ -23,6 +23,7 @@ import moment from 'moment'
 
 export const logLocation = 'modules/profile/sagas'
 export const userRequiresRestoreError = 'User restored'
+export const NO_USER_METADATA = 'Account does not exist'
 export const authRetryDelay = 5000
 export const renewUserDelay = 30000
 
@@ -34,10 +35,18 @@ export default ({ api, coreSagas, networks }) => {
       selectors.core.kvStore.userCredentials.getUserId
     )
     if (Remote.Success.is(userId)) return userId.getOrElse(null)
-    yield take(
-      actionTypes.core.kvStore.userCredentials
-        .FETCH_METADATA_USER_CREDENTIALS_SUCCESS
-    )
+
+    yield race({
+      success: take(
+        actionTypes.core.kvStore.userCredentials
+          .FETCH_METADATA_USER_CREDENTIALS_SUCCESS
+      ),
+      failure: take(
+        actionTypes.core.kvStore.userCredentials
+          .FETCH_METADATA_USER_CREDENTIALS_FAILURE
+      )
+    })
+
     return (yield select(
       selectors.core.kvStore.userCredentials.getUserId
     )).getOrElse(null)
@@ -565,7 +574,6 @@ export default ({ api, coreSagas, networks }) => {
     syncUserWithWallet,
     updateUser,
     updateUserAddress,
-    waitForUserData,
-    waitForUserId
+    waitForUserData
   }
 }

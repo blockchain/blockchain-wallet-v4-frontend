@@ -20,7 +20,7 @@ export default ({
   coreSagas: any
   networks: any
 }) => {
-  const { waitForUserId } = profileSagas({
+  const { waitForUserData } = profileSagas({
     api,
     coreSagas,
     networks
@@ -50,7 +50,7 @@ export default ({
     const defaultHDWallet = yield select(
       selectors.core.wallet.getDefaultHDWallet
     )
-    const userId = yield call(waitForUserId)
+    const userId = yield call(waitForUserData)
     if (userId) return userId
     const { seedHex } = defaultHDWallet
     const mnemonic = BIP39.entropyToMnemonic(seedHex)
@@ -228,7 +228,6 @@ export default ({
     initUserSession,
     postMessage,
     startSession,
-    stopSession,
-    waitForUserId
+    stopSession
   }
 }
