@@ -324,6 +324,7 @@
   "copy.private_key": "Private Key",
   "copy.receive_to": "Receive to",
   "copy.refunded": "Refunded",
+  "copy.reset": "Reset",
   "copy.select_swap_wallets": "Select the Wallet you want to Swap from and the crypto you want to receive.",
   "copy.suggested": "Suggested",
   "copy.swap": "Swap",
