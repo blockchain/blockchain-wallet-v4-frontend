@@ -66,7 +66,8 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             weight={500}
             style={{ marginTop: '10px' }}
           >
-            {values?.BASE || values?.COUNTER ? (
+            {(values?.BASE && !values?.COUNTER) ||
+            (values?.COUNTER && !values?.BASE) ? (
               <FormattedMessage
                 id='copy.select_swap_wallets'
                 defaultMessage='Select the Wallet you want to Swap from and the crypto you want to receive.'
@@ -225,6 +226,22 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 defaultMessage='Continue'
               />
             </Button>
+            <Text
+              size='12px'
+              cursor='pointer'
+              color='blue600'
+              weight={500}
+              style={{
+                marginTop: '12px',
+                display: 'flex',
+                justifyContent: 'center',
+                visibility:
+                  values?.BASE && values.COUNTER ? 'visible' : 'hidden'
+              }}
+              onClick={() => this.props.formActions.destroy('initSwap')}
+            >
+              <FormattedMessage id='copy.reset' defaultMessage='Reset' />
+            </Text>
           </FlyoutWrapper>
           <>
             <Text

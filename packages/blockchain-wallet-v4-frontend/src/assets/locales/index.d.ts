@@ -330,6 +330,7 @@ type MessagesType = {
   'copy.pending': 'Pending'
   'copy.pending_txs': 'Pending Transactions'
   'copy.receive_to': 'Receive to'
+  'copy.reset': 'Reset'
   'copy.max': 'Max'
   'copy.in_review': 'In Review'
   'copy.min': 'Min'
