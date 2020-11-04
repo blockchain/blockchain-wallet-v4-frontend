@@ -1,9 +1,11 @@
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { SwapAccountType } from './types'
 import {
+  CoinType,
   SwapOrderDirectionType,
   SwapQuoteType
 } from 'blockchain-wallet-v4/src/types'
+import { convertBaseToStandard } from '../exchange/services'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { SwapAccountType } from './types'
 import BigNumber from 'bignumber.js'
 
 export const NO_QUOTE = 'No quote found.'
@@ -32,6 +34,7 @@ export const getPair = (BASE: SwapAccountType, COUNTER: SwapAccountType) => {
 
 export const getRate = (
   priceTiers: SwapQuoteType['quote']['priceTiers'],
+  coin: CoinType,
   amount: BigNumber
 ): number => {
   try {
@@ -53,7 +56,7 @@ export const getRate = (
         )
 
         if (typeof price === 'string') throw price
-        return price
+        return new BigNumber(convertBaseToStandard(coin, price)).toNumber()
       }
     }
 

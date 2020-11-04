@@ -253,7 +253,11 @@ export default ({
           pair,
           direction
         )
-        const rate = getRate(quote.quote.priceTiers, new BigNumber(1))
+        const rate = getRate(
+          quote.quote.priceTiers,
+          COUNTER.coin,
+          new BigNumber(convertStandardToBase(BASE.coin, 1))
+        )
         yield put(A.fetchQuoteSuccess(quote, rate))
         const refresh = -moment().diff(quote.expiresAt)
         yield delay(refresh)

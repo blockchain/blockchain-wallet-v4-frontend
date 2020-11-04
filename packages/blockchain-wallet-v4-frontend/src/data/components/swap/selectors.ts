@@ -19,11 +19,20 @@ import {
   RemoteDataType,
   SBBalanceType
 } from 'blockchain-wallet-v4/src/types'
+import {
+  convertBaseToStandard,
+  convertStandardToBase
+} from '../exchange/services'
 import { coreSelectors, Remote } from 'blockchain-wallet-v4/src'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { getRate } from './utils'
+import {
+  InitSwapFormValuesType,
+  SwapAccountType,
+  SwapAmountFormValues,
+  SwapCoinType
+} from './types'
 import { selectors } from 'data'
-import { SwapAccountType, SwapAmountFormValues, SwapCoinType } from './types'
 import BigNumber from 'bignumber.js'
 
 export const getSide = (state: RootState) => state.components.swap.side
@@ -74,15 +83,25 @@ export const getLatestPendingSwapTrade = (state: RootState) => {
 
 export const getIncomingAmount = (state: RootState) => {
   const quoteR = getQuote(state)
+  const initSwapFormValues = selectors.form.getFormValues('initSwap')(
+    state
+  ) as InitSwapFormValuesType
   const swapAmountFormValues = selectors.form.getFormValues('swapAmount')(
     state
   ) as SwapAmountFormValues
   const amount = swapAmountFormValues?.cryptoAmount || 1
+  const fromCoin = initSwapFormValues?.BASE?.coin || 'BTC'
+  const toCoin = initSwapFormValues?.COUNTER?.coin || 'BTC'
 
   return lift(({ quote }: ExtractSuccess<typeof quoteR>) => {
-    return new BigNumber(getRate(quote.quote.priceTiers, new BigNumber(amount)))
+    const amtMinor = convertStandardToBase(fromCoin, amount)
+    const amtMajor = new BigNumber(
+      getRate(quote.quote.priceTiers, toCoin, new BigNumber(amtMinor))
+    )
       .times(amount)
       .toNumber()
+
+    return convertBaseToStandard(toCoin, amtMajor)
   })(quoteR)
 }
 

@@ -204,7 +204,12 @@ class EnterAmount extends PureComponent<Props> {
                   </Option>
                   <Border />
                 </Options>
-                <Checkout {...val} {...this.props} BASE={BASE} />
+                <Checkout
+                  {...val}
+                  {...this.props}
+                  BASE={BASE}
+                  COUNTER={COUNTER}
+                />
                 {userData.tiers.current === 1 && <Upgrade {...this.props} />}
               </>
             ),

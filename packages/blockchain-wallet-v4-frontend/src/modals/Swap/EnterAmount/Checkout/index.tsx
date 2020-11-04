@@ -94,6 +94,7 @@ const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
 const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
     BASE,
+    COUNTER,
     coins,
     fix,
     formActions,
@@ -101,19 +102,36 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     formValues,
     limits,
     payment,
+    quote,
     rates,
     userData,
     walletCurrency
   } = props
   const amtError = typeof formErrors.amount === 'string' && formErrors.amount
-  const max = getMaxMin('max', limits, rates[walletCurrency], payment, BASE)
+  const max = getMaxMin(
+    'max',
+    limits,
+    rates[walletCurrency],
+    payment,
+    quote,
+    BASE,
+    COUNTER
+  )
   const fiatMax = Exchange.convertCoinToFiat(
     max,
     BASE.coin,
     walletCurrency,
     rates
   )
-  const min = getMaxMin('min', limits, rates[walletCurrency], payment, BASE)
+  const min = getMaxMin(
+    'min',
+    limits,
+    rates[walletCurrency],
+    payment,
+    quote,
+    BASE,
+    COUNTER
+  )
   const fiatMin = Exchange.convertCoinToFiat(
     min,
     BASE.coin,
@@ -398,7 +416,8 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   )
 }
 
-export type Props = OwnProps & SuccessStateType & { BASE: SwapAccountType }
+export type Props = OwnProps &
+  SuccessStateType & { BASE: SwapAccountType; COUNTER: SwapAccountType }
 
 export default reduxForm<{}, Props>({
   form: 'swapAmount',

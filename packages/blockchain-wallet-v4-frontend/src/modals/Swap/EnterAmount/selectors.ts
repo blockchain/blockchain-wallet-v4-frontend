@@ -35,6 +35,7 @@ export const getData = (state: RootState) => {
       incomingAmount,
       limits,
       payment: paymentR.getOrElse(undefined),
+      quote,
       rates,
       walletCurrency
     })
