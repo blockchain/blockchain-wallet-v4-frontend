@@ -189,7 +189,7 @@ class EnterAmount extends PureComponent<Props> {
                       <OptionValue>
                         <BalanceRow>
                           {val.formValues?.amount
-                            ? `${formatCoin(val.incomingAmount)} ${
+                            ? `${formatCoin(val.incomingAmount.amt)} ${
                                 coins[COUNTER.coin].coinTicker
                               }`
                             : `0 ${coins[COUNTER.coin].coinTicker}`}
@@ -238,7 +238,9 @@ const connector = connect(mapStateToProps)
 type OwnProps = BaseProps & { handleClose: () => void }
 export type Props = OwnProps & SuccessType & ConnectedProps<typeof connector>
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>> & {
-  formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
+  formErrors: {
+    amount?: 'ABOVE_MAX' | 'BELOW_MIN' | 'NEGATIVE_INCOMING_AMT' | boolean
+  }
 }
 
 // @ts-ignore

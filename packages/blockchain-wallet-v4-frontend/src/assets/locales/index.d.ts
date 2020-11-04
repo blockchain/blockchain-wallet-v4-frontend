@@ -334,6 +334,7 @@ type MessagesType = {
   'copy.max': 'Max'
   'copy.in_review': 'In Review'
   'copy.min': 'Min'
+  'copy.negative_incoming_swap': 'Amount is below withdrawal fee.'
   'copy.new': 'New'
   'copy.new_swap': 'New Swap'
   'copy.no_payment_methods': 'No payment methods available.'

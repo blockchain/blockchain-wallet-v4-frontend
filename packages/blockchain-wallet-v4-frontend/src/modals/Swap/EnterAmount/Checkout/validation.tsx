@@ -140,3 +140,8 @@ export const maximumAmountSilver = (
   )
     return true
 }
+
+export const incomingAmountNonZero = (value, allValues, restProps: Props) => {
+  const { incomingAmount } = restProps
+  return incomingAmount.isNegative ? 'NEGATIVE_INCOMING_AMT' : false
+}

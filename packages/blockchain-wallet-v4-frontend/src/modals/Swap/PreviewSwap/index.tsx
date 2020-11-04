@@ -90,7 +90,10 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             {this.props.incomingAmountR.cata({
               Success: value => (
                 <>
-                  {coinToString({ value, unit: { symbol: counterCoinTicker } })}
+                  {coinToString({
+                    value: value.amt,
+                    unit: { symbol: counterCoinTicker }
+                  })}
                 </>
               ),
               Failure: e => e,

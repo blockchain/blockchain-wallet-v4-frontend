@@ -11,7 +11,12 @@ import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { coinToString, fiatToString } from 'core/exchange/currency'
 import { FlyoutWrapper } from 'components/Flyout'
 import { formatTextAmount } from 'services/ValidationHelper'
-import { getMaxMin, maximumAmount, minimumAmount } from './validation'
+import {
+  getMaxMin,
+  incomingAmountNonZero,
+  maximumAmount,
+  minimumAmount
+} from './validation'
 import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
 import { Props as OwnProps, SuccessStateType } from '..'
 
@@ -200,7 +205,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             data-e2e='swapAmountInput'
             name='amount'
             component={AmountTextBox}
-            validate={[maximumAmount, minimumAmount]}
+            validate={[maximumAmount, minimumAmount, incomingAmountNonZero]}
             normalize={normalizeAmount}
             onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
             maxFontSize='56px'
@@ -300,6 +305,13 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   </Button>
                 </ButtonsRow>
               </UpgradePrompt>
+            ) : amtError === 'NEGATIVE_INCOMING_AMT' ? (
+              <CustomErrorCartridge data-e2e='swapBelowZero'>
+                <FormattedMessage
+                  id='copy.negative_incoming_swap'
+                  defaultMessage='Amount is below withdrawal fee.'
+                />
+              </CustomErrorCartridge>
             ) : (
               <CustomErrorCartridge
                 onClick={handleMinMaxClick}

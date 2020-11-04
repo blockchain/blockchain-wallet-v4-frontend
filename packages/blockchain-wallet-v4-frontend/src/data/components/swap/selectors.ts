@@ -94,13 +94,16 @@ export const getIncomingAmount = (state: RootState) => {
 
   return lift(({ quote }: ExtractSuccess<typeof quoteR>) => {
     const amtMinor = convertStandardToBase(toCoin, amount)
-    const amtMajor = new BigNumber(
+    const exRate = new BigNumber(
       getRate(quote.quote.priceTiers, toCoin, new BigNumber(amtMinor))
     )
-      .times(amount)
-      .toNumber()
 
-    return convertBaseToStandard(toCoin, amtMajor)
+    const amt = exRate.times(amount).minus(quote.networkFee)
+
+    return {
+      amt: convertBaseToStandard(toCoin, amt.toNumber()),
+      isNegative: amt.isNegative()
+    }
   })(quoteR)
 }
 
