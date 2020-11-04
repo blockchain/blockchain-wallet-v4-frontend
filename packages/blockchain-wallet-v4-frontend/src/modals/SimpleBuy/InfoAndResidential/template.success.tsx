@@ -1,33 +1,59 @@
+import {
+  ageOverEighteen,
+  countryUsesPostalcode,
+  countryUsesZipcode,
+  required,
+  requiredDOB,
+  requiredZipCode
+} from 'services/FormHelper'
 import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import {
-  // EmailHelper,
-  FaqFormGroup,
-  // FaqFormMessage,
-  // FaqHeaderHelper,
-  // Footer,
-  // IdentityVerificationForm,
-  // IdentityVerificationHeader,
-  // InputWrapper,
-  Label
-} from 'components/IdentityVerification'
+  DateInputBox,
+  Form,
+  FormGroup,
+  FormItem,
+  FormLabel,
+  SelectBox,
+  SelectBoxUSState,
+  TextBox
+} from 'components/Form'
+import { defaultTo, map, replace } from 'ramda'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
-import {
-  // DateInputBox,
-  // EmailVerification,
-  // FooterShadowWrapper,
-  Form,
-  FormItem,
-  SelectBox
-  // TextBox
-} from 'components/Form'
-import { map } from 'ramda'
-
 import { Props as OwnProps, SuccessStateType } from '.'
+
+export const Label = styled.label`
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  display: block;
+  color: ${props => props.theme.grey900};
+`
+
+export const FullNameContainer = styled.div`
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+`
+
+export const CaptionContainer = styled.div`
+  margin-top: 8px;
+  display: flex;
+  flex-direction: row;
+`
+export const Caption = styled(Text)`
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 150%;
+  color: ${props => props.theme.grey600};
+`
+const SmallFormItem = styled(FormItem)`
+  width: 45%;
+`
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -72,9 +98,32 @@ const getCountryElements = countries => [
     )
   }
 ]
+
+const addTrailingZero = string => (string.length >= 2 ? string : `0${string}`)
+const removeTrailingZero = replace(/^0/, '')
+const objectToDOB = ({ date = '', month = '', year = '' }) =>
+  `${year}-${month}-${addTrailingZero(date)}`
+const DOBToObject = value => {
+  const [year = '', month = '', date = ''] = defaultTo('', value).split('-')
+  return {
+    date: removeTrailingZero(date),
+    month,
+    year
+  }
+}
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  // console.log('all props here', props)
-  // console.log('supportedCountries', props.supportedCountries)
+  if (!props.formValues) return null
+
+  const disabled = props.invalid || props.submitting
+
+  if (props.submitting) {
+    return <div>Loading...</div>
+  }
+
+  const countryCode = props.formValues.country
+  const countryIsUS = countryCode === 'US'
+  const countryUsesZipOrPostcode =
+    countryUsesZipcode(countryCode) || countryUsesPostalcode(countryCode)
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ paddingBottom: '0px', borderBottom: 'grey000' }}>
@@ -127,25 +176,271 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </ErrorText>
           </ErrorTextContainer>
         )}
-        Legal Full Name
-        <FaqFormGroup>
+        <FormGroup>
+          <FullNameContainer>
+            <SmallFormItem>
+              <Label htmlFor='firstName'>
+                <Text weight={500} size='14px' color='grey900'>
+                  {/* <FormattedMessage
+                    id='modals.simplebuy.info_and_residential.first_name'
+                    defaultMessage='First Name'
+                  /> */}
+                  <FormattedMessage
+                    id='identityverification.personal.firstnamerequired'
+                    defaultMessage='First Name *'
+                  />
+                </Text>
+              </Label>
+              <Field
+                date-e2e='firstName'
+                name='firstName'
+                validate={required}
+                component={TextBox}
+                errorBottom
+              />
+            </SmallFormItem>
+            <SmallFormItem>
+              <Label htmlFor='lastName'>
+                <Text weight={500} size='14px' color='grey900'>
+                  {/* <FormattedMessage
+                    id='modals.simplebuy.info_and_residential.last_name'
+                    defaultMessage='Last Name'
+                  /> */}
+                  <FormattedMessage
+                    id='identityverification.personal.lastnamerequired'
+                    defaultMessage='Last Name *'
+                  />
+                </Text>
+              </Label>
+              <Field
+                date-e2e='lastName'
+                name='lastName'
+                validate={required}
+                component={TextBox}
+                errorBottom
+              />
+            </SmallFormItem>
+          </FullNameContainer>
+          <Caption>
+            <FormattedMessage
+              id='modals.simplebuy.info_and_residential.id_or_password'
+              defaultMessage='As shown on your government issued ID or Passport'
+            />
+          </Caption>
+        </FormGroup>
+        <FormGroup>
+          <FormItem>
+            <Label htmlFor='dob'>
+              <Text weight={500} size='14px' color='grey900'>
+                {/* <FormattedMessage
+                  id='modals.simplebuy.info_and_residential.dob'
+                  defaultMessage='Date of Birth'
+                /> */}
+                <FormattedMessage
+                  id='identityverification.personal.dateofbirthrequired'
+                  defaultMessage='Date of Birth *'
+                />
+              </Text>
+            </Label>
+            <Field
+              name='dob'
+              validate={[requiredDOB, ageOverEighteen]}
+              component={DateInputBox}
+              fullwidth
+              label
+              errorBottom
+              countryIsUS={countryIsUS}
+              parse={objectToDOB}
+              format={DOBToObject}
+            />
+          </FormItem>
+
+          <CaptionContainer>
+            <Icon name='info' />
+            <Caption>
+              <FormattedMessage
+                id='modals.simplebuy.info_and_residential.dob_caption'
+                defaultMessage='You must be 18 years of age or older to Buy Crypto.'
+              />
+            </Caption>
+          </CaptionContainer>
+        </FormGroup>
+
+        <FormGroup>
+          <FormItem>
+            <Label htmlFor='line1'>
+              <Text weight={500} size='14px' color='grey900'>
+                {/* <FormattedMessage
+                  id='modals.simplebuy.info_and_residential.address_line1'
+                  defaultMessage='Address Line 1'
+                /> */}
+                {countryIsUS ? (
+                  <FormattedMessage
+                    id='identityverification.personal.address_line1required'
+                    defaultMessage='Address Line 1 *'
+                  />
+                ) : (
+                  <FormattedMessage
+                    id='identityverification.personal.streetline1required'
+                    defaultMessage='Street Line 1 *'
+                  />
+                )}
+              </Text>
+            </Label>
+            <Field
+              name='line1'
+              errorBottom
+              validate={required}
+              component={TextBox}
+            />
+          </FormItem>
+        </FormGroup>
+
+        <FormGroup>
+          <FormItem>
+            <Label htmlFor='line2'>
+              <Text weight={500} size='14px' color='grey900'>
+                {/* <FormattedMessage
+                  id='identityverification.personal.address_line2'
+                  defaultMessage='Address Line 2'
+                /> */}
+                {countryIsUS ? (
+                  <FormattedMessage
+                    id='identityverification.personal.address_line2'
+                    defaultMessage='Address Line 2'
+                  />
+                ) : (
+                  <FormattedMessage
+                    id='identityverification.personal.streetline2'
+                    defaultMessage='Street Line 2'
+                  />
+                )}
+              </Text>
+            </Label>
+            <Field name='line2' errorBottom component={TextBox} />
+          </FormItem>
+        </FormGroup>
+
+        <FormGroup>
+          <FormItem>
+            <Label htmlFor='city'>
+              <Text weight={500} size='14px' color='grey900'>
+                {/* <FormattedMessage
+                  id='modals.simplebuy.info_and_residential.city'
+                  defaultMessage='City'
+                /> */}
+                <FormattedMessage
+                  id='identityverification.personal.cityrequired'
+                  defaultMessage='City *'
+                />
+              </Text>
+            </Label>
+            <Field
+              name='city'
+              errorBottom
+              validate={required}
+              component={TextBox}
+            />
+          </FormItem>
+        </FormGroup>
+        <FormGroup inline>
+          <FormItem>
+            {/* <Label htmlFor='state'>
+              <Text weight={500} size='14px' color='grey900'>
+                <FormattedMessage
+                  id='modals.simplebuy.info_and_residential.state'
+                  defaultMessage='State'
+                />
+              </Text>
+            </Label>
+            <Field
+              name='state'
+              errorBottom
+              countryCode={props.countryCode}
+              component={TextBox}
+            /> */}
+            <FormLabel>
+              {countryIsUS ? (
+                <FormattedMessage
+                  id='identityverification.personal.staterequired'
+                  defaultMessage='State *'
+                />
+              ) : (
+                <FormattedMessage
+                  id='identityverification.personal.region'
+                  defaultMessage='Region'
+                />
+              )}
+            </FormLabel>
+            {countryIsUS ? (
+              <Field
+                name='state'
+                component={SelectBoxUSState}
+                errorBottom
+                validate={[required]}
+                normalize={val => val.name}
+              />
+            ) : (
+              <Field name='state' component={TextBox} />
+            )}
+          </FormItem>
+          {countryUsesZipOrPostcode && (
+            <SmallFormItem>
+              <Label htmlFor='postCode'>
+                <Text weight={500} size='14px' color='grey900'>
+                  {/* {countryUsesZipcode(countryCode) ? (
+                    <FormattedMessage
+                      id='modals.simplebuy.info_and_residential.zip'
+                      defaultMessage='Zip'
+                    />
+                  ) : (
+                    <FormattedMessage
+                      id='modals.simplebuy.info_and_residential.postcode'
+                      defaultMessage='Postcode'
+                    />
+                  )} */}
+                  {countryUsesZipcode(countryCode) ? (
+                    <FormattedMessage
+                      id='identityverification.personal.zip'
+                      defaultMessage='Zip Code *'
+                    />
+                  ) : (
+                    <FormattedMessage
+                      id='identityverification.personal.postcoderequired'
+                      defaultMessage='Postcode *'
+                    />
+                  )}
+                </Text>
+              </Label>
+              <Field
+                name='postCode'
+                errorBottom
+                validate={requiredZipCode}
+                component={TextBox}
+              />
+            </SmallFormItem>
+          )}
+        </FormGroup>
+
+        <FormGroup>
           <FormItem>
             <Label htmlFor='country'>
-              <FormattedMessage
-                id='identityverification.personal.countryrequired'
-                defaultMessage='Country *'
-              />
+              <Text weight={500} size='14px' color='grey900'>
+                <FormattedMessage
+                  id='modals.simplebuy.info_and_residential.country'
+                  defaultMessage='Country'
+                />
+              </Text>
             </Label>
 
             <Field
               data-e2e='selectCountryDropdown'
               name='country'
-              // validate={required}
+              validate={required}
               elements={getCountryElements(props.supportedCountries)}
               component={SelectBox}
               menuPlacement='auto'
-              // onChange={onCountrySelect}
-              // onChange={() => console.log('country changed')}
+              onChange={props.onCountrySelect}
               label={
                 <FormattedMessage
                   id='components.selectboxcountry.label'
@@ -154,7 +449,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               }
             />
           </FormItem>
-        </FaqFormGroup>
+        </FormGroup>
         <Button
           data-e2e='submitSBInforAndResidential'
           height='48px'
@@ -162,7 +457,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           nature='primary'
           type='submit'
           fullwidth
-          // disabled={disabled}
+          disabled={disabled}
         >
           {props.submitting ? (
             <HeartbeatLoader height='16px' width='16px' color='white' />
@@ -175,7 +470,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   )
 }
 
-export type Props = OwnProps & SuccessStateType
+export type Props = OwnProps &
+  SuccessStateType & {
+    onCountrySelect: (e, value) => void
+  }
 
 export default reduxForm<{}, Props>({
   form: 'simpleBuyInforAndResidential',

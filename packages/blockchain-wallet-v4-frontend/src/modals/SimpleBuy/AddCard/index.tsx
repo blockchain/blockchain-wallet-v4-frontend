@@ -14,6 +14,7 @@ class AddCard extends PureComponent<Props> {
   componentDidMount () {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
+      this.props.identityVerificationActions.fetchSupportedCountries()
     }
   }
 
@@ -21,10 +22,20 @@ class AddCard extends PureComponent<Props> {
     this.props.simpleBuyActions.addCardDetails()
   }
 
+  onCountryChange = (e, value) => {
+    this.props.formActions.change('addCCForm', 'country', value)
+    this.props.formActions.clearFields('addCCForm', false, false, 'state')
+  }
+
   render () {
     return this.props.data.cata({
       Success: val => (
-        <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
+        <Success
+          {...this.props}
+          {...val}
+          onSubmit={this.handleSubmit}
+          onCountrySelect={this.onCountryChange}
+        />
       ),
       Failure: e => (
         <DataError
@@ -40,11 +51,18 @@ class AddCard extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'EUR'
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'EUR',
+  isFirstLogin: selectors.auth.getFirstLogin(state),
+  countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  identityVerificationActions: bindActionCreators(
+    actions.components.identityVerification,
+    dispatch
+  ),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -54,9 +72,8 @@ type OwnProps = {
   handleClose: () => void
   pair: SBPairType
 }
-type LinkDispatchPropsType = {
-  simpleBuyActions: typeof actions.components.simpleBuy
-}
+
+export type LinkDispatchPropsType = ReturnType<typeof mapDispatchToProps>
 export type SuccessStateType = ReturnType<typeof getData>['data']
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

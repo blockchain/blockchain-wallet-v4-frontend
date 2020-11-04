@@ -16,6 +16,7 @@ class CryptoSelection extends PureComponent<Props> {
       this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSDDEligible()
+      this.props.settingsActions.fetchSettings()
     }
   }
 
@@ -38,7 +39,8 @@ const mapStateToProps = (state: RootState) => ({
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  settingsActions: bindActionCreators(actions.core.settings, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

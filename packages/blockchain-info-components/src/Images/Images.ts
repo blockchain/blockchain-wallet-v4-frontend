@@ -78,6 +78,7 @@ import swapModalBg from './img/swap-modal-bg.svg'
 import twitterWhite from './img/twitter-white.svg'
 import usddIntro from './img/usdd-intro.svg'
 import visaLogo from './img/visa-logo.svg'
+import visaNewLogo from './img/visa-new-logo.svg'
 import wallet from './img/wallet.svg'
 import walletBlue from './img/wallet-blue.svg'
 import walletV3Backup from './img/wallet-v3-backup.jpg'
@@ -228,6 +229,7 @@ const Images = {
   'us-flag': usFlag,
   'usdd-intro': usddIntro,
   'visa-logo': visaLogo,
+  'visa-new-logo': visaNewLogo,
   'wallet-v3-backup': walletV3Backup,
   'wallet-v3-fund-management': walletV3FundManagement,
   'wallet-v3-new-design': walletV3NewDesign,

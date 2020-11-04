@@ -16,7 +16,8 @@ import {
   SBPaymentMethodType,
   SBProviderDetailsType,
   SBQuoteType,
-  SDDType
+  SDDType,
+  SDDUpdateType
 } from 'core/types'
 
 // Types
@@ -33,6 +34,12 @@ export type SBAddCardErrorType =
   | 'CARD_CREATION_FAILED'
   | 'CARD_ALREADY_SAVED'
 export type SBBillingAddressFormValuesType = NabuAddressType
+export type SBInfoAndResidentialFormValuesType = {
+  dob: string
+  firstName: string
+  lastName: string
+} & NabuAddressType
+
 export type SBCheckoutFormValuesType =
   | undefined
   | {
@@ -95,6 +102,7 @@ export type SimpleBuyState = {
   providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
   sddEligable: RemoteDataType<string, SDDType>
+  sddUpdateEligable: RemoteDataType<string, SDDUpdateType>
   step: keyof typeof SimpleBuyStepType
 }
 
@@ -214,6 +222,21 @@ interface FetchSDDEligibleSuccess {
     sddEligable: SDDType
   }
   type: typeof AT.FETCH_SDD_ELIGIBILITY_SUCCESS
+}
+interface UpdateSDDEligibleFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.UPDATE_SDD_ELIGIBILITY_FAILURE
+}
+interface UpdateSDDEligibleLoading {
+  type: typeof AT.UPDATE_SDD_ELIGIBILITY_LOADING
+}
+interface UpdateSDDEligibleSuccess {
+  payload: {
+    sddUpdateEligable: SDDUpdateType
+  }
+  type: typeof AT.UPDATE_SDD_ELIGIBILITY_SUCCESS
 }
 interface FetchSBOrdersFailure {
   payload: {
@@ -394,3 +417,6 @@ export type SimpleBuyActionTypes =
   | InitializeCheckout
   | SetStepAction
   | ShowModalAction
+  | UpdateSDDEligibleFailure
+  | UpdateSDDEligibleLoading
+  | UpdateSDDEligibleSuccess

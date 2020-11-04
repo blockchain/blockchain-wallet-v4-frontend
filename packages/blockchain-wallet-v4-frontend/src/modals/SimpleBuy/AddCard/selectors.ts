@@ -12,10 +12,19 @@ export const getData = (state: RootState) => {
   const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
     state
   )
+  const supportedCountriesR = selectors.components.identityVerification.getSupportedCountries(
+    state
+  )
 
-  return lift((paymentMethods: ExtractSuccess<typeof paymentMethodsR>) => ({
-    formValues,
-    order,
-    paymentMethods
-  }))(paymentMethodsR)
+  return lift(
+    (
+      paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
+      supportedCountries: ExtractSuccess<typeof supportedCountriesR>
+    ) => ({
+      formValues,
+      order,
+      paymentMethods,
+      supportedCountries
+    })
+  )(paymentMethodsR, supportedCountriesR)
 }

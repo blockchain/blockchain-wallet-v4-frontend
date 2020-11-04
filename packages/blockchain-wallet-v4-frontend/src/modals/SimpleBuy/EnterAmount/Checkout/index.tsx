@@ -43,7 +43,7 @@ class Checkout extends PureComponent<Props> {
     !isEmpty(id) && this.props.deleteGoal(String(id))
     const method = this.props.method || this.props.defaultMethod
 
-    if (!this.props.isFirstLogin) {
+    if (this.props.isFirstLogin) {
       const fiatCurrency = this.props.fiatCurrency || 'USD'
       this.props.simpleBuyActions.setStep({
         step: 'INFO_AND_RESIDENTIAL',

@@ -1,4 +1,4 @@
-import { FiatType } from '../../../types'
+import { FiatType } from 'core/types'
 import { SDDType, SDDUpdateType } from './types'
 
 export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
@@ -16,6 +16,7 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
       url: nabuUrl,
       endPoint: `/sdd/verified`,
       contentType: 'application/json',
+      removeDefaultPostData: true,
       data: {
         amount,
         currency

@@ -1,4 +1,11 @@
-import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import {
+  Button,
+  CheckBoxInput,
+  Icon,
+  Image,
+  Link,
+  Text
+} from 'blockchain-info-components'
 import {
   CreditCardBox,
   CreditCardCVCBox,
@@ -6,6 +13,7 @@ import {
   FormGroup,
   FormItem,
   FormLabel,
+  SelectBox,
   TextBox
 } from 'components/Form'
 import {
@@ -17,6 +25,7 @@ import { ErrorCartridge } from 'components/Cartridge'
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
+import { map } from 'ramda'
 import {
   normalizeCreditCard,
   validateCreditCard
@@ -30,10 +39,11 @@ import {
   validateCreditCardExpiry
 } from 'components/Form/CreditCardExpiryBox'
 import { Props as OwnProps, SuccessStateType } from '.'
-import { required } from 'services/FormHelper'
+import { required, requiredZipCode } from 'services/FormHelper'
+
 import { SBAddCardErrorType } from 'data/types'
 import { SBBuyOrderType, SBSellOrderType } from 'core/types'
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
@@ -45,8 +55,62 @@ const TopText = styled(Text)`
   margin-bottom: 24px;
 `
 
+const CardContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 24px 0;
+  > img {
+    margin-right: 8px;
+  }
+`
+export const Label = styled.label`
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  display: block;
+  color: ${props => props.theme.grey900};
+`
+export const CaptionContainer = styled.div`
+  margin-top: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`
+export const CheckBoxContainer = styled.div`
+  margin: 24px 0;
+  display: flex;
+  flex-direction: column;
+`
+export const Caption = styled(Text)`
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 150%;
+  color: ${props => props.theme.grey600};
+`
+const FormGroupRow = styled(FormGroup)`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
+const SmallFormItem = styled(FormItem)`
+  width: 45%;
+`
+const getCountryElements = countries => [
+  {
+    group: '',
+    items: map(
+      country => ({
+        value: country,
+        text: country.name
+      }),
+      countries
+    )
+  }
+]
+
 const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
   Props> = props => {
+  const [billingAddress, setBillingAddress] = useState(false)
   return (
     <CustomFlyoutWrapper>
       <TopText color='grey800' size='20px' weight={600}>
@@ -74,6 +138,22 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
         />
         <FormattedMessage id='buttons.add_card' defaultMessage='Add Card' />
       </TopText>
+
+      {props.isFirstLogin && (
+        <div>
+          <Text weight={500} size='16px' color='grey600'>
+            <FormattedMessage
+              id='modals.simplebuy.add_card.description'
+              defaultMessage='Securely add your card to fund the crypto buy. Buy with any Visa or Mastercard.'
+            />
+          </Text>
+          <CardContainer>
+            <Image name='visa-new-logo' />
+            <Image name='mastercard-logo' />
+          </CardContainer>
+        </div>
+      )}
+
       <Form onSubmit={props.handleSubmit}>
         <FormGroup margin='24px'>
           <FormLabel>
@@ -146,23 +226,171 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
             </ErrorCartridge>
           </FormGroup>
         )}
-        <FormGroup margin='24px'>
-          <Link
-            size='13px'
-            style={{
-              textAlign: 'center',
-              width: '100%'
-            }}
-            onClick={() =>
-              props.simpleBuyActions.setStep({ step: 'CC_BILLING_ADDRESS' })
-            }
-          >
-            <FormattedMessage
-              id='modals.simplebuy.change_billing_address'
-              defaultMessage='Change Billing Address'
-            />
-          </Link>
-        </FormGroup>
+        {!props.isFirstLogin && (
+          <FormGroup margin='24px'>
+            <Link
+              size='13px'
+              style={{
+                textAlign: 'center',
+                width: '100%'
+              }}
+              onClick={() =>
+                props.simpleBuyActions.setStep({ step: 'CC_BILLING_ADDRESS' })
+              }
+            >
+              <FormattedMessage
+                id='modals.simplebuy.change_billing_address'
+                defaultMessage='Change Billing Address'
+              />
+            </Link>
+          </FormGroup>
+        )}
+
+        {props.isFirstLogin && (
+          <>
+            <CheckBoxContainer>
+              <Text weight={600} size='14px' color='grey800' lineHeight='150%'>
+                <FormattedMessage
+                  id='modals.simplebuy.add_card.billing_address'
+                  defaultMessage='Billing Address'
+                />
+              </Text>
+              <CheckBoxInput
+                name='sbSameBillingAddress'
+                checked={!billingAddress}
+                data-e2e='sbSameBillingAddressCheckbox'
+                onChange={() =>
+                  setBillingAddress(billingAddress => !billingAddress)
+                }
+              >
+                <Text weight={500} size='14px'>
+                  <FormattedMessage
+                    id='modals.simplebuy.add_card.residential_address'
+                    defaultMessage='Same as Residential Address'
+                  />
+                </Text>
+              </CheckBoxInput>
+            </CheckBoxContainer>
+            {billingAddress && (
+              <>
+                <FormGroup>
+                  <FormItem>
+                    <Label htmlFor='line1'>
+                      <Text weight={500} size='14px' color='grey900'>
+                        <FormattedMessage
+                          id='modals.simplebuy.info_and_residential.address_line1'
+                          defaultMessage='Address Line 1'
+                        />
+                      </Text>
+                    </Label>
+                    <Field
+                      name='line1'
+                      errorBottom
+                      validate={required}
+                      component={TextBox}
+                    />
+                  </FormItem>
+                </FormGroup>
+
+                <FormGroup>
+                  <FormItem>
+                    <Label htmlFor='line2'>
+                      <Text weight={500} size='14px' color='grey900'>
+                        <FormattedMessage
+                          id='identityverification.personal.address_line2'
+                          defaultMessage='Address Line 2'
+                        />
+                      </Text>
+                    </Label>
+                    <Field name='line2' errorBottom component={TextBox} />
+                  </FormItem>
+                </FormGroup>
+
+                <FormGroup>
+                  <FormItem>
+                    <Label htmlFor='city'>
+                      <Text weight={500} size='14px' color='grey900'>
+                        <FormattedMessage
+                          id='modals.simplebuy.info_and_residential.city'
+                          defaultMessage='City'
+                        />
+                      </Text>
+                    </Label>
+                    <Field
+                      name='city'
+                      errorBottom
+                      validate={required}
+                      component={TextBox}
+                    />
+                  </FormItem>
+                </FormGroup>
+                <FormGroupRow>
+                  <SmallFormItem>
+                    <Label htmlFor='state'>
+                      <Text weight={500} size='14px' color='grey900'>
+                        <FormattedMessage
+                          id='modals.simplebuy.info_and_residential.state'
+                          defaultMessage='State'
+                        />
+                      </Text>
+                    </Label>
+                    <Field
+                      name='state'
+                      errorBottom
+                      countryCode={props.countryCode}
+                      component={TextBox}
+                    />
+                  </SmallFormItem>
+                  <SmallFormItem>
+                    <Label htmlFor='postCode'>
+                      <Text weight={500} size='14px' color='grey900'>
+                        <FormattedMessage
+                          id='modals.simplebuy.info_and_residential.zip'
+                          defaultMessage='Zip'
+                        />
+                      </Text>
+                    </Label>
+                    <Field
+                      name='postCode'
+                      errorBottom
+                      validate={requiredZipCode}
+                      component={TextBox}
+                    />
+                  </SmallFormItem>
+                </FormGroupRow>
+
+                <FormGroup>
+                  <FormItem>
+                    <Label htmlFor='country'>
+                      <Text weight={500} size='14px' color='grey900'>
+                        <FormattedMessage
+                          id='modals.simplebuy.info_and_residential.country'
+                          defaultMessage='Country'
+                        />
+                      </Text>
+                    </Label>
+
+                    <Field
+                      data-e2e='selectCountryDropdown'
+                      name='country'
+                      validate={required}
+                      elements={getCountryElements(props.supportedCountries)}
+                      component={SelectBox}
+                      menuPlacement='auto'
+                      onChange={props.onCountrySelect}
+                      label={
+                        <FormattedMessage
+                          id='components.selectboxcountry.label'
+                          defaultMessage='Select country'
+                        />
+                      }
+                    />
+                  </FormItem>
+                </FormGroup>
+              </>
+            )}
+          </>
+        )}
         <FormGroup>
           <Button
             nature='primary'
@@ -174,13 +402,27 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
           >
             <FormattedMessage id='buttons.next' defaultMessage='Next' />
           </Button>
+
+          <CaptionContainer>
+            <Icon name='lock' />
+            <Caption>
+              <FormattedMessage
+                id='modals.simplebuy.add_card.pricacy_disclaimer'
+                defaultMessage='Privacy protected with 256-Bit SSL encryption.'
+              />
+            </Caption>
+          </CaptionContainer>
         </FormGroup>
       </Form>
     </CustomFlyoutWrapper>
   )
 }
 
-export type Props = OwnProps & SuccessStateType
+export type Props = OwnProps &
+  SuccessStateType & {
+    onCountrySelect: (e, value) => void
+  }
+
 export type ErrorType = SBAddCardErrorType
 
 export default reduxForm<{}, Props, ErrorType>({

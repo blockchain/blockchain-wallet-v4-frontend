@@ -5,12 +5,6 @@ import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 import Template from './template'
 
-export type LinkDispatchPropsType = {
-  identityVerificationActions: typeof actions.components.identityVerification
-  securityCenterActions: typeof actions.modules.securityCenter
-  simpleBuyActions: typeof actions.components.simpleBuy
-}
-
 class VerifyEmail extends PureComponent<Props> {
   state = {}
 
@@ -44,7 +38,7 @@ const mapStateToProps = (state: RootState) => ({
     .getOrElse(false)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
@@ -62,5 +56,5 @@ export type OwnProps = {
   handleClose: () => void
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
-
+export type LinkDispatchPropsType = ReturnType<typeof mapDispatchToProps>
 export default connector(VerifyEmail)

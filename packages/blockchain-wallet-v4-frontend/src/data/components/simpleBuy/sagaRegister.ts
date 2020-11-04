@@ -55,6 +55,10 @@ export default ({ api, coreSagas, networks }) => {
       AT.INITIALIZE_BILLING_ADDRESS,
       simpleBuySagas.initializeBillingAddress
     )
+    yield takeLatest(
+      AT.SAVE_INFO_AND_RESIDNTIAL_DATA,
+      simpleBuySagas.saveInfoAndResidentialData
+    )
     yield takeLatest(AT.INITIALIZE_CHECKOUT, simpleBuySagas.initializeCheckout)
     yield takeLatest(AT.POLL_SB_BALANCES, simpleBuySagas.pollSBBalances)
     yield takeLatest(AT.POLL_SB_CARD, simpleBuySagas.pollSBCard)

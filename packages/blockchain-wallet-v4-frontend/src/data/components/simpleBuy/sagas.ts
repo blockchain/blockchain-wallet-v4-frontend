@@ -27,6 +27,7 @@ import {
   getCoinFromPair,
   getFiatFromPair,
   getNextCardExists,
+  INFO_AND_RESIDENTIAL,
   NO_CHECKOUT_VALS,
   NO_FIAT_CURRENCY,
   NO_ORDER_EXISTS,
@@ -47,6 +48,8 @@ import BigNumber from 'bignumber.js'
 import moment from 'moment'
 import profileSagas from '../../modules/profile/sagas'
 
+export const logLocation = 'components/simpleBuy/sagas'
+
 export default ({
   api,
   coreSagas,
@@ -56,7 +59,14 @@ export default ({
   coreSagas: any
   networks: any
 }) => {
-  const { createUser, isTier2, waitForUserData } = profileSagas({
+  const {
+    createUser,
+    isTier2,
+    waitForUserData,
+    syncUserWithWallet,
+    updateUser,
+    updateUserAddress
+  } = profileSagas({
     api,
     coreSagas,
     networks
@@ -901,6 +911,82 @@ export default ({
     yield put(actions.form.focus('simpleBuyCheckout', 'amount'))
   }
 
+  const saveInfoAndResidentialData = function * () {
+    try {
+      yield put(actions.form.startSubmit(INFO_AND_RESIDENTIAL))
+      yield call(syncUserWithWallet)
+      const {
+        firstName,
+        lastName,
+        dob,
+        line1,
+        line2,
+        city,
+        country,
+        state,
+        postCode
+      } = yield select(selectors.form.getFormValues(INFO_AND_RESIDENTIAL))
+      const personalData = { firstName, lastName, dob }
+      const address = {
+        line1,
+        line2,
+        city,
+        country: country.code,
+        state,
+        postCode
+      }
+      if (address.country === 'US') address.state = address.state.code
+      yield call(updateUser, { payload: { data: personalData } })
+      yield call(updateUserAddress, {
+        payload: { address }
+      })
+
+      const fiatCurrency = S.getFiatCurrency(yield select()) || 'USD'
+      const { amount } = yield select(
+        selectors.form.getFormValues('simpleBuyCheckout')
+      )
+
+      const sddEligable = yield call(
+        api.updateSDDEligible,
+        amount,
+        fiatCurrency
+      )
+
+      if (sddEligable && sddEligable.eligible) {
+        const order = S.getSBOrder(yield select())
+
+        if (!order) throw new Error(NO_ORDER_EXISTS)
+        yield put(
+          A.setStep({
+            step: 'CHECKOUT_CONFIRM',
+            order
+          })
+        )
+      }
+
+      // TODO Jump to gold verified
+
+      // jump to step where we test eligability
+      // yield put(
+      //   A.setStep({
+      //     step: 'ENTER_AMOUNT',
+      //     cryptoCurrency,
+      //     fiatCurrency
+      //   })
+      // )
+      yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL))
+    } catch (e) {
+      yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL, { _error: e }))
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'saveInfoAndResidentialData',
+          `Error saving infor and residential data: ${e}`
+        )
+      )
+    }
+  }
+
   return {
     activateSBCard,
     addCardDetails,
@@ -927,6 +1013,7 @@ export default ({
     pollSBBalances,
     pollSBCard,
     pollSBOrder,
+    saveInfoAndResidentialData,
     setStepChange,
     showModal,
     switchFix

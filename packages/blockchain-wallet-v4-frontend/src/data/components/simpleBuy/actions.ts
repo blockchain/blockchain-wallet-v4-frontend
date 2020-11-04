@@ -16,6 +16,7 @@ import {
   SBProviderDetailsType,
   SBQuoteType,
   SDDType,
+  SDDUpdateType,
   WalletFiatType
 } from 'core/types'
 import { ModalOriginType } from 'data/modals/types'
@@ -243,6 +244,31 @@ export const fetchSDDEligibleSuccess = (
   type: AT.FETCH_SDD_ELIGIBILITY_SUCCESS,
   payload: {
     sddEligable
+  }
+})
+export const updateSDDEligible = () => ({
+  type: AT.UPDATE_SDD_ELIGIBILITY
+})
+
+export const updateSDDEligibleFailure = (
+  error: string
+): SimpleBuyActionTypes => ({
+  type: AT.UPDATE_SDD_ELIGIBILITY_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const updateSDDEligibleLoading = (): SimpleBuyActionTypes => ({
+  type: AT.UPDATE_SDD_ELIGIBILITY_LOADING
+})
+
+export const updateSDDEligibleSuccess = (
+  sddUpdateEligable: SDDUpdateType
+): SimpleBuyActionTypes => ({
+  type: AT.UPDATE_SDD_ELIGIBILITY_SUCCESS,
+  payload: {
+    sddUpdateEligable
   }
 })
 
@@ -516,4 +542,8 @@ export const switchFix = (
     orderType,
     fix
   }
+})
+
+export const saveInfoAndResidentialData = () => ({
+  type: AT.SAVE_INFO_AND_RESIDNTIAL_DATA
 })

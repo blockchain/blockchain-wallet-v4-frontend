@@ -1,4 +1,4 @@
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import {
   CoinType,
@@ -13,11 +13,13 @@ import {
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
-import { SBCheckoutFormValuesType } from 'data/types'
+import { SBInfoAndResidentialFormValuesType } from 'data/types'
 import Failure from './template.failure'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
+
+const { INFO_AND_RESIDENTIAL } = model.components.simpleBuy
 
 class InfoAndResidential extends PureComponent<Props> {
   componentDidMount () {
@@ -76,12 +78,29 @@ class InfoAndResidential extends PureComponent<Props> {
     //   }
     // }
     // console.log('form submit will be here')
+    this.props.simpleBuyActions.saveInfoAndResidentialData()
+    // jump to next step where we will check eligability
+  }
+
+  onCountryChange = (e, value) => {
+    this.props.formActions.change(INFO_AND_RESIDENTIAL, 'country', value)
+    this.props.formActions.clearFields(
+      INFO_AND_RESIDENTIAL,
+      false,
+      false,
+      'state'
+    )
   }
 
   render () {
     return this.props.data.cata({
       Success: val => (
-        <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
+        <Success
+          {...this.props}
+          {...val}
+          onSubmit={this.handleSubmit}
+          onCountrySelect={this.onCountryChange}
+        />
       ),
       Failure: () => (
         <Failure
@@ -103,11 +122,12 @@ const mapStateToProps = (state: RootState) => ({
     selectors.components.simpleBuy.getCryptoCurrency(state) || 'BTC',
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
   formValues: selectors.form.getFormValues('simpleBuyCheckout')(state) as
-    | SBCheckoutFormValuesType
+    | SBInfoAndResidentialFormValuesType
     | undefined,
   goals: selectors.goals.getGoals(state),
   preferences: selectors.preferences.getSBCheckoutPreferences(state),
-  isFirstLogin: selectors.auth.getFirstLogin(state)
+  isFirstLogin: selectors.auth.getFirstLogin(state),
+  countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null)
 })
 
 const mapDispatchToProps = dispatch => ({
