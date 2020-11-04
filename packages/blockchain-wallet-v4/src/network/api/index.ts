@@ -6,6 +6,7 @@ import borrow from './borrow'
 import btc from './btc'
 import coin from './coin'
 import custodial from './custodial'
+import eligible from './eligible'
 import eth from './eth'
 import httpService from './http'
 import interest from './interest'
@@ -55,6 +56,10 @@ const api = ({
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
       ...http
+    }),
+    ...eligible({
+      nabuUrl,
+      authorizedGet: authorizedHttp.get
     }),
     ...eth({ apiUrl, ...http }),
     ...kvStore({ apiUrl, networks, ...http }),
