@@ -90,11 +90,10 @@ export const getIncomingAmount = (state: RootState) => {
     state
   ) as SwapAmountFormValues
   const amount = swapAmountFormValues?.cryptoAmount || 1
-  const fromCoin = initSwapFormValues?.BASE?.coin || 'BTC'
   const toCoin = initSwapFormValues?.COUNTER?.coin || 'BTC'
 
   return lift(({ quote }: ExtractSuccess<typeof quoteR>) => {
-    const amtMinor = convertStandardToBase(fromCoin, amount)
+    const amtMinor = convertStandardToBase(toCoin, amount)
     const amtMajor = new BigNumber(
       getRate(quote.quote.priceTiers, toCoin, new BigNumber(amtMinor))
     )
