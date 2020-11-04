@@ -313,8 +313,7 @@ const Success: React.FC<Props> = props => {
             </Copy>
           </RowCopy>
         )}
-        {((props.account.currency === 'USD' &&
-          transferType === TransferType.DOMESTIC) ||
+        {(props.account.currency === 'USD' ||
           props.account.currency === 'GBP') &&
           !!props.account.agent.account && (
             <RowCopy>

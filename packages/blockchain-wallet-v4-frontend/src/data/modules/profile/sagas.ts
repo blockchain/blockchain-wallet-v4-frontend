@@ -29,10 +29,30 @@ export const renewUserDelay = 30000
 let renewSessionTask = null
 let renewUserTask = null
 export default ({ api, coreSagas, networks }) => {
-  const waitForUserData = function * () {
-    const userId = (yield select(
+  const waitForUserId = function * () {
+    const userId = yield select(
+      selectors.core.kvStore.userCredentials.getUserId
+    )
+    if (Remote.Success.is(userId)) return userId.getOrElse(null)
+
+    yield race({
+      success: take(
+        actionTypes.core.kvStore.userCredentials
+          .FETCH_METADATA_USER_CREDENTIALS_SUCCESS
+      ),
+      failure: take(
+        actionTypes.core.kvStore.userCredentials
+          .FETCH_METADATA_USER_CREDENTIALS_FAILURE
+      )
+    })
+
+    return (yield select(
       selectors.core.kvStore.userCredentials.getUserId
     )).getOrElse(null)
+  }
+
+  const waitForUserData = function * () {
+    const userId = yield call(waitForUserId)
     const userData = yield select(selectors.modules.profile.getUserData)
     const apiToken = yield select(selectors.modules.profile.getApiToken)
     // If no user id in kvstore return

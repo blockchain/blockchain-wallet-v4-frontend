@@ -89,9 +89,7 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
                 <BuyOrSell
                   crypto={coin}
                   orderType={orderType}
-                  coinModel={
-                    this.props.supportedCoins[orderType].outputCurrency
-                  }
+                  coinModel={this.props.supportedCoins[order.outputCurrency]}
                 />
               </Text>
               <Timestamp {...this.props} />
