@@ -236,7 +236,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <Icon
             color='blue600'
             cursor
-            name='vertical-arrow-switch'
+            name='up-down-chevron'
             onClick={() =>
               props.swapActions.switchFix(
                 quoteAmount,

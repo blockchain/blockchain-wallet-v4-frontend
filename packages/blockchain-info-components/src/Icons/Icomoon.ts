@@ -104,6 +104,7 @@ const IcoMoon = {
   timer: '\\e945',
   trash: '\\e951',
   twitter: '\\e916',
+  'up-down-chevron': '\\e95a',
   'usd-d': '\\e948',
   usd: '\\e94f',
   usdt: '\\e94a',
