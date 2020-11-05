@@ -88,6 +88,7 @@ class CoinSelection extends PureComponent<Props> {
           <TopText spaceBetween={false} marginBottom>
             <Icon
               role='button'
+              data-e2e='backToInitSwap'
               name='arrow-back'
               cursor
               size='24px'
@@ -165,6 +166,7 @@ class CoinSelection extends PureComponent<Props> {
               !hideCustodialToAccount && (
                 <Option
                   role='button'
+                  data-e2e='changeAcct'
                   onClick={() =>
                     this.props.swapActions.changePair(this.props.side, account)
                   }

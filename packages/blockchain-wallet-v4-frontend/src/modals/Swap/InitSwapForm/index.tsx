@@ -61,6 +61,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               name='close'
               color='grey600'
               role='button'
+              data-e2e='close'
               size='24px'
               cursor
               onClick={this.props.handleClose}
@@ -95,6 +96,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             component={() => (
               <Option
                 role='button'
+                data-e2e='selectFromAcct'
                 onClick={() =>
                   this.props.swapActions.setStep({
                     step: 'COIN_SELECTION',
@@ -159,6 +161,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             component={() => (
               <Option
                 role='button'
+                data-e2e='selectToAcct'
                 onClick={() =>
                   this.props.swapActions.setStep({
                     step: 'COIN_SELECTION',
@@ -239,6 +242,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               size='12px'
               cursor='pointer'
               color='blue600'
+              data-e2e='resetInitSwap'
               weight={500}
               style={{
                 marginTop: '12px',
@@ -274,6 +278,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               component={() => (
                 <CustomOption
                   role='button'
+                  data-e2e='trending1'
                   onClick={() =>
                     this.props.swapActions.changeTrendingPair(
                       this.getCustodialWallet(accounts, 'BTC'),
@@ -312,6 +317,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               component={() => (
                 <CustomOption
                   role='button'
+                  data-e2e='trending2'
                   onClick={() =>
                     this.props.swapActions.changeTrendingPair(
                       this.getCustodialWallet(accounts, 'ETH'),
@@ -350,6 +356,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               component={() => (
                 <CustomOption
                   role='button'
+                  data-e2e='trending3'
                   onClick={() =>
                     this.props.swapActions.changeTrendingPair(
                       this.getCustodialWallet(accounts, 'BTC'),

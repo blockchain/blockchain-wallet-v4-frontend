@@ -13,6 +13,7 @@ const UpgradePrompt: React.FC<Props> = props => {
         <Icon
           role='button'
           name='arrow-back'
+          data-e2e='backToEnterAmount'
           cursor
           size='24px'
           color='grey600'

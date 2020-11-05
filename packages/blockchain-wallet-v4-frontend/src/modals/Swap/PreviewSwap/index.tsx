@@ -48,6 +48,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           <TopText spaceBetween={false} marginBottom>
             <Icon
               role='button'
+              data-e2e='backToEnterAmount'
               name='arrow-back'
               cursor
               size='24px'

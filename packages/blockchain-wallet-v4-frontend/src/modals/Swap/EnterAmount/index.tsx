@@ -127,6 +127,7 @@ class EnterAmount extends PureComponent<Props> {
                 <Options>
                   <Option
                     role='button'
+                    data-e2e='selectFromAcct'
                     onClick={() =>
                       this.props.swapActions.setStep({
                         step: 'COIN_SELECTION',
@@ -169,6 +170,7 @@ class EnterAmount extends PureComponent<Props> {
                   </Toggler>
                   <Option
                     role='button'
+                    data-e2e='selectToAcct'
                     onClick={() =>
                       this.props.swapActions.setStep({
                         step: 'COIN_SELECTION',
