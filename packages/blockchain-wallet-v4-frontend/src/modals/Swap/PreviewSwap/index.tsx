@@ -147,12 +147,12 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             <FormattedMessage
               id='copy.coin_network_fee'
               defaultMessage='{coin} Network Fee'
-              values={{ coin: coins[BASE.baseCoin].coinTicker }}
+              values={{ coin: coins[BASE.coin].coinTicker }}
             />
           </Title>
           <Value>
             {BASE.type === 'CUSTODIAL' ? (
-              <>0 {baseCoinTicker}</>
+              <>0 {BASE.baseCoin}</>
             ) : (
               this.props.paymentR.cata({
                 Success: value => (

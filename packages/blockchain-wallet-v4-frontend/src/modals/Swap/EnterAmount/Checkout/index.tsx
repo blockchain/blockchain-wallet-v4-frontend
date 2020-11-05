@@ -260,7 +260,10 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   id='copy.below_swap_min'
                   defaultMessage='Minimum Swap is {value}'
                   values={{
-                    value: `${min} ${BASE.coin}`
+                    value:
+                      fix === 'FIAT'
+                        ? fiatToString({ value: fiatMin, unit: walletCurrency })
+                        : `${min} ${BASE.coin}`
                   }}
                 />
               </CustomErrorCartridge>
@@ -322,7 +325,10 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   id='copy.above_swap_max'
                   defaultMessage='You can swap up to {value}'
                   values={{
-                    value: `${max} ${BASE.coin}`
+                    value:
+                      fix === 'FIAT'
+                        ? fiatToString({ value: fiatMax, unit: walletCurrency })
+                        : `${max} ${BASE.coin}`
                   }}
                 />
               </CustomErrorCartridge>

@@ -462,7 +462,7 @@ export default ({
 
     yield put(actions.form.change('initSwap', 'BASE', currentCounter))
     yield put(actions.form.change('initSwap', 'COUNTER', currentBase))
-    yield put(actions.form.change('swapAmount', 'amount', 0))
+    yield put(actions.form.clearFields('swapAmount', false, false, 'amount'))
     yield put(actions.form.change('swapAmount', 'cryptoAmount', 0))
 
     yield put(A.initAmountForm())
