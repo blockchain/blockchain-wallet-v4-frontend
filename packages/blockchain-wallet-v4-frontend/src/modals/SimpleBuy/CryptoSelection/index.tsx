@@ -16,7 +16,6 @@ class CryptoSelection extends PureComponent<Props> {
       this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSDDEligible()
-      this.props.settingsActions.fetchSettings()
     }
   }
 

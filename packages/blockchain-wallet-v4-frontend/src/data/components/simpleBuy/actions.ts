@@ -239,11 +239,11 @@ export const fetchSDDEligibleLoading = (): SimpleBuyActionTypes => ({
 })
 
 export const fetchSDDEligibleSuccess = (
-  sddEligable: SDDType
+  sddEligible: SDDType
 ): SimpleBuyActionTypes => ({
   type: AT.FETCH_SDD_ELIGIBILITY_SUCCESS,
   payload: {
-    sddEligable
+    sddEligible
   }
 })
 export const updateSDDEligible = () => ({
@@ -264,11 +264,11 @@ export const updateSDDEligibleLoading = (): SimpleBuyActionTypes => ({
 })
 
 export const updateSDDEligibleSuccess = (
-  sddUpdateEligable: SDDUpdateType
+  sddUpdateEligible: SDDUpdateType
 ): SimpleBuyActionTypes => ({
   type: AT.UPDATE_SDD_ELIGIBILITY_SUCCESS,
   payload: {
-    sddUpdateEligable
+    sddUpdateEligible
   }
 })
 

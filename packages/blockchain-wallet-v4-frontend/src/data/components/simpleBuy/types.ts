@@ -19,6 +19,7 @@ import {
   SDDType,
   SDDUpdateType
 } from 'core/types'
+import { CountryType } from './../identityVerification/types'
 
 // Types
 export type SBAddCardFormValuesType = {
@@ -35,10 +36,11 @@ export type SBAddCardErrorType =
   | 'CARD_ALREADY_SAVED'
 export type SBBillingAddressFormValuesType = NabuAddressType
 export type SBInfoAndResidentialFormValuesType = {
+  country: CountryType
   dob: string
   firstName: string
   lastName: string
-} & NabuAddressType
+} & NabuAddressType['country']
 
 export type SBCheckoutFormValuesType =
   | undefined
@@ -101,8 +103,8 @@ export type SimpleBuyState = {
   pairs: RemoteDataType<string, Array<SBPairType>>
   providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
-  sddEligable: RemoteDataType<string, SDDType>
-  sddUpdateEligable: RemoteDataType<string, SDDUpdateType>
+  sddEligible: RemoteDataType<string, SDDType>
+  sddUpdateEligible: RemoteDataType<string, SDDUpdateType>
   step: keyof typeof SimpleBuyStepType
 }
 
@@ -219,7 +221,7 @@ interface FetchSDDEligibleLoading {
 }
 interface FetchSDDEligibleSuccess {
   payload: {
-    sddEligable: SDDType
+    sddEligible: SDDType
   }
   type: typeof AT.FETCH_SDD_ELIGIBILITY_SUCCESS
 }
@@ -234,7 +236,7 @@ interface UpdateSDDEligibleLoading {
 }
 interface UpdateSDDEligibleSuccess {
   payload: {
-    sddUpdateEligable: SDDUpdateType
+    sddUpdateEligible: SDDUpdateType
   }
   type: typeof AT.UPDATE_SDD_ELIGIBILITY_SUCCESS
 }

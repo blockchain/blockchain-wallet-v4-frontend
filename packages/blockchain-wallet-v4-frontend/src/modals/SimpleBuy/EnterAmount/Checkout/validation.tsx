@@ -84,7 +84,9 @@ export const getMaxMin = (
             CRYPTO: getQuote(
               quote,
               'FIAT',
-              convertBaseToStandard('FIAT', pair.buyMax)
+              isFirstLogin
+                ? convertBaseToStandard('FIAT', MAX_NEW)
+                : convertBaseToStandard('FIAT', pair.buyMax)
             )
           }
 
@@ -102,11 +104,15 @@ export const getMaxMin = (
           return { FIAT: maxFiat, CRYPTO: maxCrypto }
         case 'min':
           let defaultMin = {
-            FIAT: convertBaseToStandard('FIAT', pair.buyMin),
+            FIAT: isFirstLogin
+              ? convertBaseToStandard('FIAT', MAX_NEW)
+              : convertBaseToStandard('FIAT', pair.buyMin),
             CRYPTO: getQuote(
               quote,
               'FIAT',
-              convertBaseToStandard('FIAT', pair.buyMin)
+              isFirstLogin
+                ? convertBaseToStandard('FIAT', MAX_NEW)
+                : convertBaseToStandard('FIAT', pair.buyMin)
             )
           }
 

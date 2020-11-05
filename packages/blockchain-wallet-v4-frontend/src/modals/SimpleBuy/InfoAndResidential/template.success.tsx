@@ -17,6 +17,7 @@ import {
   SpinningLoader,
   Text
 } from 'blockchain-info-components'
+import { CountryType } from 'data/components/identityVerification/types'
 import {
   DateInputBox,
   Form,
@@ -126,8 +127,6 @@ const DOBToObject = value => {
   }
 }
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  if (!props.formValues) return null
-
   const disabled = props.invalid || props.submitting
 
   if (props.submitting) {
@@ -138,10 +137,25 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     )
   }
 
-  const countryCode = props.formValues.country
+  const countryCode =
+    (props.formValues &&
+      props.formValues.country &&
+      props.formValues.country.code) ||
+    props.countryCode
   const countryIsUS = countryCode === 'US'
   const countryUsesZipOrPostcode =
     countryUsesZipcode(countryCode) || countryUsesPostalcode(countryCode)
+
+  const defaultCountry = props.supportedCountries.find(
+    country => country.code === countryCode
+  )
+
+  if (
+    defaultCountry &&
+    (!props.formValues || (props.formValues && !props.formValues.country))
+  ) {
+    props.updateDefaultCountry(defaultCountry)
+  }
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ paddingBottom: '0px', borderBottom: 'grey000' }}>
@@ -358,15 +372,15 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 component={SelectBoxUSState}
                 errorBottom
                 validate={[required]}
-                normalize={val => val.name}
+                normalize={val => val && val.name}
               />
             ) : (
               <Field name='state' component={TextBox} />
             )}
           </FormItem>
           {countryUsesZipOrPostcode && (
-            <SmallFormItem>
-              <Label htmlFor='postCode'>
+            <FormItem>
+              <FormLabel htmlFor='postCode'>
                 <Text weight={500} size='14px' color='grey900'>
                   {countryUsesZipcode(countryCode) ? (
                     <FormattedMessage
@@ -380,14 +394,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     />
                   )}
                 </Text>
-              </Label>
+              </FormLabel>
               <Field
                 name='postCode'
                 errorBottom
                 validate={requiredZipCode}
                 component={TextBox}
               />
-            </SmallFormItem>
+            </FormItem>
           )}
         </FormGroup>
 
@@ -441,7 +455,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
 export type Props = OwnProps &
   SuccessStateType & {
-    onCountrySelect: (e, value) => void
+    onCountrySelect: (e, value: CountryType) => void
+    updateDefaultCountry: (country: CountryType) => void
   }
 
 export default reduxForm<{}, Props>({

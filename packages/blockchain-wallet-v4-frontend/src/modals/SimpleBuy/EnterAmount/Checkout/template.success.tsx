@@ -74,6 +74,7 @@ const ActionsRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 32px;
+  margin-top: 16px;
 `
 const ActionsItem = styled.div`
   display: flex;
@@ -197,6 +198,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       !props.isFirstLogin
     )[fix]
     const value = convertStandardToBase(conversionCoinType, maxMin)
+    props.simpleBuyActions.handleSBSuggestedAmountClick(
+      value,
+      conversionCoinType
+    )
+  }
+  const handleMaxClick = () => {
+    const value = convertStandardToBase(conversionCoinType, MAX_NEW_LIMIT)
     props.simpleBuyActions.handleSBSuggestedAmountClick(
       value,
       conversionCoinType
@@ -378,7 +386,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               </div>
             </ActionsItem>
             <ActionsItem>
-              <div onClick={handleMinMaxClick}>
+              <div onClick={handleMaxClick}>
                 <BlueRedCartridge error={amtError === 'ABOVE_MAX'}>
                   <FormattedMessage
                     id='modals.simplebuy.checkout.maxbuy'

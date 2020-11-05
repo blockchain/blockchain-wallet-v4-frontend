@@ -1,7 +1,7 @@
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import { APIType } from 'core/network/api'
 import { call, cancel, delay, put, select, take } from 'redux-saga/effects'
 import {
@@ -49,6 +49,7 @@ import moment from 'moment'
 import profileSagas from '../../modules/profile/sagas'
 
 export const logLocation = 'components/simpleBuy/sagas'
+const { TIERS } = model.profile
 
 export default ({
   api,
@@ -488,7 +489,7 @@ export default ({
         api.getSBPairs,
         currency
       )
-      const supportedCoins = selectors.core.walletOptions
+      let supportedCoins = selectors.core.walletOptions
         .getSupportedCoins(yield select())
         .getOrElse({} as SupportedWalletCurrenciesType)
       const filteredPairs = pairs.filter(pair => {
@@ -857,6 +858,7 @@ export default ({
   }
 
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
+    yield call(waitForUserData)
     const { origin, cryptoCurrency } = payload
     yield put(
       actions.modals.showModal('SIMPLE_BUY_MODAL', { origin, cryptoCurrency })
@@ -946,13 +948,13 @@ export default ({
         selectors.form.getFormValues('simpleBuyCheckout')
       )
 
-      const sddEligable = yield call(
+      const sddEligible = yield call(
         api.updateSDDEligible,
         amount,
         fiatCurrency
       )
 
-      if (sddEligable && sddEligable.eligible) {
+      if (sddEligible && sddEligible.eligible) {
         const order = S.getSBOrder(yield select())
 
         if (!order) throw new Error(NO_ORDER_EXISTS)
@@ -965,15 +967,14 @@ export default ({
       }
 
       // TODO Jump to gold verified
-
-      // jump to step where we test eligability
-      // yield put(
-      //   A.setStep({
-      //     step: 'ENTER_AMOUNT',
-      //     cryptoCurrency,
-      //     fiatCurrency
-      //   })
-      // )
+      yield put(actions.modals.closeModal())
+      yield put(
+        actions.components.identityVerification.verifyIdentity(
+          TIERS[2],
+          false,
+          'SwapGetStarted'
+        )
+      )
       yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL))
     } catch (e) {
       yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL, { _error: e }))

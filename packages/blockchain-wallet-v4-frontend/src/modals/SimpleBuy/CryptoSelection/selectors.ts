@@ -12,6 +12,7 @@ export const getData = state => {
   const pairsR = selectors.components.simpleBuy.getSBPairs(state)
   const userDataR = selectors.modules.profile.getUserData(state)
   const emailVerifiedR = selectors.core.settings.getEmailVerified(state)
+  // const sddEligibleR = selectors.components.simpleBuy.getSddEligible(state)
 
   return lift(
     (

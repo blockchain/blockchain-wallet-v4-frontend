@@ -24,8 +24,8 @@ const INITIAL_STATE: SimpleBuyState = {
   pairs: Remote.NotAsked,
   providerDetails: Remote.NotAsked,
   quote: Remote.NotAsked,
-  sddEligable: Remote.NotAsked,
-  sddUpdateEligable: Remote.NotAsked,
+  sddEligible: Remote.NotAsked,
+  sddUpdateEligible: Remote.NotAsked,
   step: 'CRYPTO_SELECTION'
 }
 
@@ -231,34 +231,34 @@ export function simpleBuyReducer (
     case AT.FETCH_SDD_ELIGIBILITY_FAILURE: {
       return {
         ...state,
-        sddEligable: Remote.Failure(action.payload.error)
+        sddEligible: Remote.Failure(action.payload.error)
       }
     }
     case AT.FETCH_SDD_ELIGIBILITY_LOADING:
       return {
         ...state,
-        sddEligable: Remote.Loading
+        sddEligible: Remote.Loading
       }
     case AT.FETCH_SDD_ELIGIBILITY_SUCCESS:
       return {
         ...state,
-        sddEligable: Remote.Success(action.payload.sddEligable)
+        sddEligible: Remote.Success(action.payload.sddEligible)
       }
     case AT.UPDATE_SDD_ELIGIBILITY_FAILURE: {
       return {
         ...state,
-        sddUpdateEligable: Remote.Failure(action.payload.error)
+        sddUpdateEligible: Remote.Failure(action.payload.error)
       }
     }
     case AT.UPDATE_SDD_ELIGIBILITY_LOADING:
       return {
         ...state,
-        sddUpdateEligable: Remote.Loading
+        sddUpdateEligible: Remote.Loading
       }
     case AT.UPDATE_SDD_ELIGIBILITY_SUCCESS:
       return {
         ...state,
-        sddUpdateEligable: Remote.Success(action.payload.sddUpdateEligable)
+        sddUpdateEligible: Remote.Success(action.payload.sddUpdateEligible)
       }
     case AT.INITIALIZE_CHECKOUT:
       return {

@@ -11,6 +11,7 @@ import {
   SBPaymentMethodType
 } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
+import { CountryType } from 'data/components/identityVerification/types'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
 import { SBInfoAndResidentialFormValuesType } from 'data/types'
@@ -27,63 +28,21 @@ class InfoAndResidential extends PureComponent<Props> {
   }
 
   handleSubmit = () => {
-    // if the user is < tier 2 go to kyc but save order info
-    // if the user is tier 2 try to submit order, let BE fail
-    // const { formValues } = this.props
-    // const { userData } = this.props.data.getOrElse({
-    //   userData: { tiers: { current: 0, next: 0, selected: 0 } } as UserDataType
-    // } as SuccessStateType)
-    // const simpleBuyGoal = find(propEq('name', 'simpleBuy'), this.props.goals)
-    // const id = propOr('', 'id', simpleBuyGoal)
-    // !isEmpty(id) && this.props.deleteGoal(String(id))
-    // const method = this.props.method || this.props.defaultMethod
-    // console.log('method', method)
-    // if (!this.props.isFirstLogin) {
-    //   const fiatCurrency = this.props.fiatCurrency || 'USD'
-    //   this.props.simpleBuyActions.setStep({
-    //     step: 'INFO_AND_RESIDENTIAL',
-    //     fiatCurrency,
-    //     pair: this.props.pair,
-    //     cryptoCurrency: this.props.cryptoCurrency,
-    //     order: this.props.order
-    //   })
-    // } else if (!method) {
-    //   const fiatCurrency = this.props.fiatCurrency || 'USD'
-    //   this.props.simpleBuyActions.setStep({
-    //     step: 'PAYMENT_METHODS',
-    //     fiatCurrency,
-    //     pair: this.props.pair,
-    //     cryptoCurrency: this.props.cryptoCurrency,
-    //     order: this.props.order
-    //   })
-    // } else if (userData.tiers.current < 2) {
-    //   this.props.simpleBuyActions.createSBOrder(
-    //     getValidPaymentMethod(method.type)
-    //   )
-    // } else if (formValues && method) {
-    //   switch (method.type) {
-    //     case 'PAYMENT_CARD':
-    //       this.props.simpleBuyActions.setStep({
-    //         step: 'ADD_CARD'
-    //       })
-    //       break
-    //     case 'USER_CARD':
-    //       this.props.simpleBuyActions.createSBOrder('PAYMENT_CARD', method.id)
-    //       break
-    //     case 'FUNDS':
-    //       this.props.simpleBuyActions.createSBOrder('FUNDS')
-    //       break
-    //     case 'BANK_ACCOUNT':
-    //       break
-    //   }
-    // }
-    // console.log('form submit will be here')
     this.props.simpleBuyActions.saveInfoAndResidentialData()
-    // jump to next step where we will check eligability
   }
 
   onCountryChange = (e, value) => {
     this.props.formActions.change(INFO_AND_RESIDENTIAL, 'country', value)
+    this.props.formActions.clearFields(
+      INFO_AND_RESIDENTIAL,
+      false,
+      false,
+      'state'
+    )
+  }
+
+  setDefaultCountry = (country: CountryType) => {
+    this.props.formActions.change(INFO_AND_RESIDENTIAL, 'country', country)
     this.props.formActions.clearFields(
       INFO_AND_RESIDENTIAL,
       false,
@@ -100,6 +59,7 @@ class InfoAndResidential extends PureComponent<Props> {
           {...val}
           onSubmit={this.handleSubmit}
           onCountrySelect={this.onCountryChange}
+          updateDefaultCountry={this.setDefaultCountry}
         />
       ),
       Failure: () => (
@@ -121,7 +81,7 @@ const mapStateToProps = (state: RootState) => ({
   cryptoCurrency:
     selectors.components.simpleBuy.getCryptoCurrency(state) || 'BTC',
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
-  formValues: selectors.form.getFormValues('simpleBuyCheckout')(state) as
+  formValues: selectors.form.getFormValues(INFO_AND_RESIDENTIAL)(state) as
     | SBInfoAndResidentialFormValuesType
     | undefined,
   goals: selectors.goals.getGoals(state),

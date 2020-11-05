@@ -25,7 +25,7 @@ export const getDisplayBack = (state: RootState) =>
 export const getFiatCurrency = (state: RootState) =>
   state.components.simpleBuy.fiatCurrency
 
-const eligableFiatCurrency = currency =>
+const EligibleFiatCurrency = currency =>
   currency === FiatTypeEnum.USD ||
   currency === FiatTypeEnum.GBP ||
   currency === FiatTypeEnum.EUR
@@ -54,7 +54,7 @@ export const getDefaultPaymentMethod = (state: RootState) => {
     switch (actionType) {
       case 'SELL':
         let fiatCurrencyToUse = fiatCurrency
-        if (!eligableFiatCurrency(fiatCurrencyToUse)) {
+        if (!EligibleFiatCurrency(fiatCurrencyToUse)) {
           const currenciesToUse = [
             FiatTypeEnum.USD,
             FiatTypeEnum.GBP,
@@ -164,3 +164,5 @@ export const getSBLatestPendingOrder = (state: RootState) =>
 export const getStep = (state: RootState) => state.components.simpleBuy.step
 export const getAddBank = (state: RootState) =>
   state.components.simpleBuy.addBank
+export const getSddEligible = (state: RootState) =>
+  state.components.simpleBuy.sddEligible

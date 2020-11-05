@@ -41,7 +41,6 @@ const Subcontent = styled(Text)`
 
 const Unsupported: React.FC<Props> = props => {
   const { paymentAccountEligible } = props.eligibility
-
   return (
     <Top>
       <CloseIcon
@@ -106,12 +105,7 @@ const Unsupported: React.FC<Props> = props => {
           height='48px'
           size='16px'
           nature='primary'
-          onClick={() =>
-            props.simpleBuyActions.setStep({
-              step: 'CRYPTO_SELECTION',
-              fiatCurrency: props.fiatCurrency
-            })
-          }
+          onClick={props.handleClose}
           fullwidth
         >
           <FormattedMessage id='buttons.ok' defaultMessage='OK' />

@@ -1,4 +1,4 @@
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import {
   CoinType,
@@ -36,6 +36,8 @@ import Loading from './template.loading'
 import Pending from './template.pending'
 import Rejected from './template.rejected'
 
+const { INFO_AND_RESIDENTIAL } = model.components.simpleBuy
+
 class SimpleBuy extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
 
@@ -62,6 +64,7 @@ class SimpleBuy extends PureComponent<Props, State> {
     this.props.simpleBuyActions.pollSBBalances()
     this.props.simpleBuyActions.destroyCheckout()
     this.props.formActions.destroy('simpleBuyCheckout')
+    this.props.formActions.destroy(INFO_AND_RESIDENTIAL)
     this.props.formActions.destroy('ccBillingAddress')
     this.props.formActions.destroy('addCCForm')
   }
