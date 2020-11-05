@@ -1,9 +1,11 @@
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import React, { PureComponent } from 'react'
+import styled from 'styled-components'
 
 import {
   BalanceRow,
+  CustomOption,
   FlexStartRow,
   IconBackground,
   Option,
@@ -24,6 +26,13 @@ import { InitSwapFormValuesType } from 'data/components/swap/types'
 import { selectors } from 'data'
 import CoinBalance from '../components/CoinBalance'
 import VerifyIdentity from './VerifyIdentity'
+
+const SuggestedTextCustomBorder = styled.span`
+  width: 100%;
+  height: 1px;
+  margin-left: 8px;
+  background-color: ${props => props.theme['grey000']};
+`
 
 class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   state = {}
@@ -248,17 +257,22 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               color='grey600'
               weight={500}
               size='14px'
-              style={{ margin: '0 0 8px 40px' }}
+              style={{
+                margin: '0 0 0 40px',
+                display: 'flex',
+                alignItems: 'flex-end'
+              }}
             >
               <FormattedMessage
                 id='copy.suggested'
                 defaultMessage='Suggested'
               />
+              <SuggestedTextCustomBorder />
             </Text>
             <Field
               name='TRENDINGONE'
               component={() => (
-                <Option
+                <CustomOption
                   role='button'
                   onClick={() =>
                     this.props.swapActions.changeTrendingPair(
@@ -290,13 +304,13 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     </div>
                   </FlexStartRow>
                   <Icon name='chevron-right' size='20px' color='grey400' />
-                </Option>
+                </CustomOption>
               )}
             />
             <Field
               name='TRENDINGTWO'
               component={() => (
-                <Option
+                <CustomOption
                   role='button'
                   onClick={() =>
                     this.props.swapActions.changeTrendingPair(
@@ -328,13 +342,13 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     </div>
                   </FlexStartRow>
                   <Icon name='chevron-right' size='20px' color='grey400' />
-                </Option>
+                </CustomOption>
               )}
             />
             <Field
               name='TRENDINGTHREE'
               component={() => (
-                <Option
+                <CustomOption
                   role='button'
                   onClick={() =>
                     this.props.swapActions.changeTrendingPair(
@@ -366,7 +380,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     </div>
                   </FlexStartRow>
                   <Icon name='chevron-right' size='20px' color='grey400' />
-                </Option>
+                </CustomOption>
               )}
             />
           </>

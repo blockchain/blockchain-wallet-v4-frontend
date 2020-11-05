@@ -38,6 +38,19 @@ export const Option = styled.div`
     background-color: ${props => props.theme.blue000};
   }
 `
+// probably dont want to reuse
+export const CustomOption = styled(Option)`
+  border-top: 0px;
+  position: relative;
+  &:after {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: ${props => props.theme.grey000};
+    content: '';
+  }
+`
 export const OptionTitle = styled(Text)`
   color: ${props => props.theme.grey900};
   margin-top: 4px;
