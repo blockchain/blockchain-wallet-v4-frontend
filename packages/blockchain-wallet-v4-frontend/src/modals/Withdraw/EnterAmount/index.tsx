@@ -27,13 +27,17 @@ class EnterAmount extends PureComponent<Props> {
       {} as SuccessStateType
     )
 
-    if (!defaultBeneficiary || !this.props.beneficiary) return
+    const beneficiary = defaultBeneficiary || this.props.beneficiary
 
-    this.props.withdrawActions.setStep({
-      step: 'CONFIRM_WITHDRAW',
-      amount: this.props.formValues.amount,
-      beneficiary: this.props.beneficiary || defaultBeneficiary
-    })
+    if (!beneficiary) return
+
+    if (defaultBeneficiary || this.props.beneficiary) {
+      this.props.withdrawActions.setStep({
+        step: 'CONFIRM_WITHDRAW',
+        amount: this.props.formValues.amount,
+        beneficiary
+      })
+    }
   }
 
   handleBankSelection = (
