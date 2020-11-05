@@ -60,7 +60,7 @@ const BaseButton = styled.button.attrs(props => ({
   }
 `
 
-const selectColor = (nature, disabled, small) => {
+const selectColor = (nature, small) => {
   switch (nature) {
     case 'dark':
       return {
@@ -112,7 +112,7 @@ const selectColor = (nature, disabled, small) => {
       }
     case 'light-red':
       return {
-        color: 'red600',
+        color: 'red400',
         backgroundColor: 'white',
         borderColor: 'grey000'
       }

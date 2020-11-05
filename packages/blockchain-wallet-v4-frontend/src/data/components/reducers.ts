@@ -12,11 +12,11 @@ import { sendEthReducer } from './sendEth/reducers'
 import { sendReducer } from './send/reducers'
 import { sendXlmReducer } from './sendXlm/reducers'
 import { simpleBuyReducer } from './simpleBuy/reducers'
+import { swapReducer } from './swap/reducers'
 import { withdrawReducer } from './withdraw/reducers'
 import layoutWallet from './layoutWallet/reducers'
 import lockbox from './lockbox/reducers'
 import manageAddresses from './manageAddresses/reducers'
-import onfido from './onfido/reducers'
 import signMessage from './signMessage/reducers'
 import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
@@ -30,7 +30,6 @@ const componentReducer = combineReducers({
   layoutWallet,
   lockbox,
   manageAddresses,
-  onfido,
   priceChart: priceChartReducer,
   recoveryPhrase: recoveryPhraseReducer,
   send: sendReducer,
@@ -40,6 +39,7 @@ const componentReducer = combineReducers({
   sendXlm: sendXlmReducer,
   signMessage,
   simpleBuy: simpleBuyReducer,
+  swap: swapReducer,
   uploadDocuments,
   withdraw: withdrawReducer,
   veriff

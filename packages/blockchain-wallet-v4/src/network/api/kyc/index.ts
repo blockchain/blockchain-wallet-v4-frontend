@@ -33,27 +33,6 @@ export default ({
       cancelToken
     })
 
-  const fetchOnfidoSDKKey = () =>
-    authorizedGet({
-      url: nabuUrl,
-      endPoint: '/kyc/credentials/ONFIDO',
-      headers: {
-        'x-client-type': 'WEB'
-      }
-    })
-
-  const syncOnfido = (applicantId, isSelfie) => {
-    return authorizedPost({
-      url: nabuUrl,
-      endPoint: '/kyc/verifications',
-      contentType: 'application/json',
-      data: { applicantId },
-      headers: {
-        'x-client-type': isSelfie ? 'WEB' : 'APP'
-      }
-    })
-  }
-
   const fetchUploadData = token =>
     get({
       url: nabuUrl,
@@ -133,7 +112,6 @@ export default ({
   return {
     fetchKycAddresses,
     fetchKycConfig,
-    fetchOnfidoSDKKey,
     fetchPreIdvData,
     fetchTiers,
     fetchUploadData,
@@ -144,7 +122,6 @@ export default ({
     selectTier,
     sendCoinifyKyc,
     sendDeeplink,
-    syncOnfido,
     syncVeriff,
     uploadDocuments
   }

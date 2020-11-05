@@ -43,16 +43,17 @@ const FeaturesLarge = (
         </NavbarNavItemButton>
       </NavbarNavItem>
       <NavbarDivider />
-      <LinkContainer to='/swap' activeClassName='active'>
-        <NavbarNavItem>
-          <NavbarNavItemButton data-e2e='exchangeLink'>
-            <NavbarNavItemIcon size='18px' name='arrow-switch-thick' />
-            <NavbarNavItemTextHeader size='14px' weight={600}>
-              <FormattedMessage id='buttons.swap' defaultMessage='Swap' />
-            </NavbarNavItemTextHeader>
-          </NavbarNavItemButton>
-        </NavbarNavItem>
-      </LinkContainer>
+      <NavbarNavItem>
+        <NavbarNavItemButton
+          data-e2e='exchangeLink'
+          onClick={() => props.swapActions.showModal('FeaturesTopNav')}
+        >
+          <NavbarNavItemIcon size='18px' name='arrow-switch-thick' />
+          <NavbarNavItemTextHeader size='14px' weight={600}>
+            <FormattedMessage id='buttons.swap' defaultMessage='Swap' />
+          </NavbarNavItemTextHeader>
+        </NavbarNavItemButton>
+      </NavbarNavItem>
       <NavbarDivider />
       <NavbarNavItem>
         <NavbarNavItemButton

@@ -10,7 +10,6 @@ import identityVerification from './identityVerification/sagas'
 import importBtcAddress from './importBtcAddress/sagas'
 import interest from './interest/sagas'
 import manageAddresses from './manageAddresses/sagas'
-import onfido from './onfido/sagas'
 import priceChart from './priceChart/sagas'
 import priceTicker from './priceTicker/sagas'
 import refresh from './refresh/sagas'
@@ -26,6 +25,7 @@ import sendXlm from './sendXlm/sagas'
 import settings from './settings/sagas'
 import signMessage from './signMessage/sagas'
 import simpleBuy from './simpleBuy/sagas'
+import swap from './swap/sagas'
 import uploadDocuments from './uploadDocuments/sagas'
 import veriff from './veriff/sagas'
 import withdraw from './withdraw/sagas'
@@ -45,7 +45,6 @@ export default ({ api, coreSagas, networks }) => ({
   interest: interest({ api, coreSagas, networks }),
   importBtcAddress: importBtcAddress({ api, coreSagas, networks }),
   manageAddresses: manageAddresses({ api, networks }),
-  onfido: onfido({ api }),
   priceChart: priceChart(),
   priceTicker: priceTicker({ coreSagas }),
   refresh: refresh(),
@@ -61,6 +60,7 @@ export default ({ api, coreSagas, networks }) => ({
   settings: settings({ coreSagas }),
   signMessage: signMessage({ coreSagas }),
   simpleBuy: simpleBuy({ api, coreSagas, networks }),
+  swap: swap({ api, coreSagas, networks }),
   uploadDocument: uploadDocuments({ api }),
   withdraw: withdraw({ api }),
   veriff: veriff({ api, coreSagas })

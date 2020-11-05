@@ -1,18 +1,14 @@
-import { call, CallEffect, put, select } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 
 import {
   AccountTypes,
-  CoinType,
   FiatType,
-  PaymentType,
   PaymentValue,
   RatesType,
-  RemoteDataType,
   SBBalancesType
 } from 'core/types'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
-import { promptForSecondPassword } from 'services/SagaService'
 import { selectors } from 'data'
 
 import * as A from './actions'
@@ -25,37 +21,6 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     coreSagas,
     networks
   })
-
-  const buildAndPublishPayment = function * (
-    coin: CoinType,
-    payment: PaymentType,
-    destination: string
-  ): Generator<PaymentType | CallEffect, PaymentValue, any> {
-    try {
-      if (coin === 'XLM') {
-        // separate out addresses and memo
-        const depositAddressMemo = destination.split(':')
-        payment = yield payment.to(depositAddressMemo[0], 'CUSTODIAL')
-        // @ts-ignore
-        payment = yield payment.memo(depositAddressMemo[1])
-        // @ts-ignore
-        payment = yield payment.memoType('text')
-        // @ts-ignore
-        payment = yield payment.setDestinationAccountExists(true)
-      } else {
-        payment = yield payment.to(destination, 'CUSTODIAL')
-      }
-      payment = yield payment.build()
-      // ask for second password
-      const password = yield call(promptForSecondPassword)
-      payment = yield payment.sign(password)
-      payment = yield payment.publish()
-    } catch (e) {
-      throw e
-    }
-
-    return payment.value()
-  }
 
   const createLimits = function * (
     payment?: PaymentValue,
@@ -168,41 +133,8 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     return payment
   }
 
-  const paymentGetOrElse = (
-    coin: CoinType,
-    paymentR: RemoteDataType<string | Error, PaymentValue | undefined>
-  ): PaymentType => {
-    switch (coin) {
-      case 'BCH':
-        return coreSagas.payment.bch.create({
-          payment: paymentR.getOrElse(<PaymentValue>{}),
-          network: networks.bch
-        })
-      case 'BTC':
-        return coreSagas.payment.btc.create({
-          payment: paymentR.getOrElse(<PaymentValue>{}),
-          network: networks.btc
-        })
-      case 'ETH':
-      case 'PAX':
-      case 'USDT':
-        return coreSagas.payment.eth.create({
-          payment: paymentR.getOrElse(<PaymentValue>{}),
-          network: networks.eth
-        })
-      case 'XLM':
-        return coreSagas.payment.xlm.create({
-          payment: paymentR.getOrElse(<PaymentValue>{})
-        })
-      default:
-        throw new Error(INVALID_COIN_TYPE)
-    }
-  }
-
   return {
-    buildAndPublishPayment,
     createLimits,
-    createPayment,
-    paymentGetOrElse
+    createPayment
   }
 }

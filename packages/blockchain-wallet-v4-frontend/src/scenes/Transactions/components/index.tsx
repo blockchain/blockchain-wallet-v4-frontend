@@ -103,6 +103,7 @@ export const IconTx = ({
     | 'DEPOSIT'
     | 'WITHDRAWAL'
     | 'PENDING'
+    | 'SWAP'
     | 'sent'
     | 'received'
     | 'transferred'
@@ -133,6 +134,15 @@ export const IconTx = ({
             weight={600}
             color='fiat'
             name={type === 'DEPOSIT' ? 'arrow-down' : 'arrow-up'}
+          />
+        )
+      case 'SWAP':
+        return (
+          <Icon
+            size='12px'
+            weight={600}
+            name='arrows-horizontal'
+            color={color}
           />
         )
       case 'received':

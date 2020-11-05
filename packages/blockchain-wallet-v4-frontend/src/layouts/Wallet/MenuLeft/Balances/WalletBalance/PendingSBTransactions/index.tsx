@@ -27,7 +27,7 @@ const PendingSBTransactions: React.FC<Props> = ({ n }) => {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  n: selectors.core.data.sbCore.getTotalSBTransactionsPendingN(state)
+  n: selectors.core.data.custodial.getTotalSBTransactionsPendingN(state)
 })
 
 const connector = connect(mapStateToProps)

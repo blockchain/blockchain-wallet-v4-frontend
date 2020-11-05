@@ -27,6 +27,8 @@ import {
   NO_DEFAULT_ACCOUNT
 } from 'blockchain-wallet-v4/src/model'
 import profileSagas from '../../modules/profile/sagas'
+
+import sendSagas from '../send/sagas'
 import utils from './sagas.utils'
 
 const { INTEREST_EVENTS } = model.analytics
@@ -41,12 +43,12 @@ export default ({
   networks: any
 }) => {
   const { isTier2 } = profileSagas({ api, coreSagas, networks })
-  const {
-    buildAndPublishPayment,
-    createLimits,
-    createPayment,
-    paymentGetOrElse
-  } = utils({
+  const { createLimits, createPayment } = utils({
+    coreSagas,
+    networks
+  })
+  const { buildAndPublishPayment, paymentGetOrElse } = sendSagas({
+    api,
     coreSagas,
     networks
   })
