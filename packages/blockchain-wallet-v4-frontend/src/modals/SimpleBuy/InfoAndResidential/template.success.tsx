@@ -10,7 +10,13 @@ import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import {
+  Button,
+  HeartbeatLoader,
+  Icon,
+  SpinningLoader,
+  Text
+} from 'blockchain-info-components'
 import {
   DateInputBox,
   Form,
@@ -32,6 +38,14 @@ export const Label = styled.label`
   margin-bottom: 12px;
   display: block;
   color: ${props => props.theme.grey900};
+`
+const SpinnerWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
 `
 
 export const FullNameContainer = styled.div`
@@ -117,7 +131,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const disabled = props.invalid || props.submitting
 
   if (props.submitting) {
-    return <div>Loading...</div>
+    return (
+      <SpinnerWrapper>
+        <SpinningLoader />
+      </SpinnerWrapper>
+    )
   }
 
   const countryCode = props.formValues.country
@@ -181,10 +199,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <SmallFormItem>
               <Label htmlFor='firstName'>
                 <Text weight={500} size='14px' color='grey900'>
-                  {/* <FormattedMessage
-                    id='modals.simplebuy.info_and_residential.first_name'
-                    defaultMessage='First Name'
-                  /> */}
                   <FormattedMessage
                     id='identityverification.personal.firstnamerequired'
                     defaultMessage='First Name *'
@@ -202,10 +216,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <SmallFormItem>
               <Label htmlFor='lastName'>
                 <Text weight={500} size='14px' color='grey900'>
-                  {/* <FormattedMessage
-                    id='modals.simplebuy.info_and_residential.last_name'
-                    defaultMessage='Last Name'
-                  /> */}
                   <FormattedMessage
                     id='identityverification.personal.lastnamerequired'
                     defaultMessage='Last Name *'
@@ -232,10 +242,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <FormItem>
             <Label htmlFor='dob'>
               <Text weight={500} size='14px' color='grey900'>
-                {/* <FormattedMessage
-                  id='modals.simplebuy.info_and_residential.dob'
-                  defaultMessage='Date of Birth'
-                /> */}
                 <FormattedMessage
                   id='identityverification.personal.dateofbirthrequired'
                   defaultMessage='Date of Birth *'
@@ -270,10 +276,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <FormItem>
             <Label htmlFor='line1'>
               <Text weight={500} size='14px' color='grey900'>
-                {/* <FormattedMessage
-                  id='modals.simplebuy.info_and_residential.address_line1'
-                  defaultMessage='Address Line 1'
-                /> */}
                 {countryIsUS ? (
                   <FormattedMessage
                     id='identityverification.personal.address_line1required'
@@ -300,10 +302,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <FormItem>
             <Label htmlFor='line2'>
               <Text weight={500} size='14px' color='grey900'>
-                {/* <FormattedMessage
-                  id='identityverification.personal.address_line2'
-                  defaultMessage='Address Line 2'
-                /> */}
                 {countryIsUS ? (
                   <FormattedMessage
                     id='identityverification.personal.address_line2'
@@ -325,10 +323,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <FormItem>
             <Label htmlFor='city'>
               <Text weight={500} size='14px' color='grey900'>
-                {/* <FormattedMessage
-                  id='modals.simplebuy.info_and_residential.city'
-                  defaultMessage='City'
-                /> */}
                 <FormattedMessage
                   id='identityverification.personal.cityrequired'
                   defaultMessage='City *'
@@ -345,20 +339,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </FormGroup>
         <FormGroup inline>
           <FormItem>
-            {/* <Label htmlFor='state'>
-              <Text weight={500} size='14px' color='grey900'>
-                <FormattedMessage
-                  id='modals.simplebuy.info_and_residential.state'
-                  defaultMessage='State'
-                />
-              </Text>
-            </Label>
-            <Field
-              name='state'
-              errorBottom
-              countryCode={props.countryCode}
-              component={TextBox}
-            /> */}
             <FormLabel>
               {countryIsUS ? (
                 <FormattedMessage
@@ -388,17 +368,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <SmallFormItem>
               <Label htmlFor='postCode'>
                 <Text weight={500} size='14px' color='grey900'>
-                  {/* {countryUsesZipcode(countryCode) ? (
-                    <FormattedMessage
-                      id='modals.simplebuy.info_and_residential.zip'
-                      defaultMessage='Zip'
-                    />
-                  ) : (
-                    <FormattedMessage
-                      id='modals.simplebuy.info_and_residential.postcode'
-                      defaultMessage='Postcode'
-                    />
-                  )} */}
                   {countryUsesZipcode(countryCode) ? (
                     <FormattedMessage
                       id='identityverification.personal.zip'
