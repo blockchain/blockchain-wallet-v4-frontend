@@ -76,6 +76,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     formActions,
     formErrors,
     handleDisplayToggle,
+    handleSubmit,
     interestActions,
     interestLimits,
     interestRate,
@@ -120,8 +121,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const insufficientEth =
     payment &&
     isErc20 &&
-      (payment.coin === 'PAX' || payment.coin === 'USDT') &&
-      !payment.isSufficientEthForErc20
+    (payment.coin === 'PAX' || payment.coin === 'USDT') &&
+    !payment.isSufficientEthForErc20
   return submitting ? (
     <SendingWrapper>
       <SpinningLoader />
@@ -150,7 +151,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       </Text>
     </SendingWrapper>
   ) : (
-    <CustomForm onSubmit={props.handleSubmit}>
+    <CustomForm onSubmit={handleSubmit}>
       <Top>
         <TopText color='grey800' size='20px' weight={600}>
           <ArrowIcon
@@ -242,7 +243,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         )}
         <CoinBalanceDropdown
           {...props}
-          includeCustodial={true}
+          includeCustodial
           fiatCurrency={walletCurrency}
           name='interestDepositAccount'
         />

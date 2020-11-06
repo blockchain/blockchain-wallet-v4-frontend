@@ -102,7 +102,7 @@ function TransactionList (props: Props): ReactElement | null {
             <TableRow key={id}>
               <InterestTableCell width='20%'>
                 {type === 'WITHDRAWAL' ? (
-                  <React.Fragment>
+                  <>
                     <IconBackground color={`${colorCode}-light`}>
                       <Icon
                         name='arrow-up'
@@ -137,9 +137,9 @@ function TransactionList (props: Props): ReactElement | null {
                     ) : (
                       <></>
                     )}
-                  </React.Fragment>
+                  </>
                 ) : type === 'DEPOSIT' ? (
-                  <React.Fragment>
+                  <>
                     <IconBackground color={`${colorCode}-light`}>
                       <Icon
                         name='arrow-down'
@@ -174,14 +174,14 @@ function TransactionList (props: Props): ReactElement | null {
                     ) : (
                       <></>
                     )}
-                  </React.Fragment>
+                  </>
                 ) : (
-                  <React.Fragment>
+                  <>
                     <Icon name='percentage' color={colorCode} size='32px' />
                     <Value data-e2e='interestEarnedTx'>
                       {coinTicker} Interest Earned
                     </Value>
-                  </React.Fragment>
+                  </>
                 )}
               </InterestTableCell>
               <TableCell width='20%'>
@@ -192,10 +192,10 @@ function TransactionList (props: Props): ReactElement | null {
                 </Value>
               </TableCell>
               {type === 'DEPOSIT' ? (
-                <React.Fragment>
+                <>
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionFrom'>
-                      My {displayName} Wallet
+                      {displayName} Wallet
                     </Value>
                   </TableCell>
                   <TableCell width='20%'>
@@ -203,9 +203,9 @@ function TransactionList (props: Props): ReactElement | null {
                       {displayName} Interest Account
                     </Value>
                   </TableCell>
-                </React.Fragment>
+                </>
               ) : type === 'WITHDRAWAL' ? (
-                <React.Fragment>
+                <>
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionFrom'>
                       dals/SimpleBuy/OrderSummary/template.success.jsx
@@ -214,12 +214,12 @@ function TransactionList (props: Props): ReactElement | null {
                   </TableCell>
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionTo'>
-                      My {displayName} Wallet
+                      {displayName} Wallet
                     </Value>
                   </TableCell>
-                </React.Fragment>
+                </>
               ) : (
-                <React.Fragment>
+                <>
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionFrom'>
                       Blockchain.com
@@ -230,7 +230,7 @@ function TransactionList (props: Props): ReactElement | null {
                       {displayName} Interest Account
                     </Value>
                   </TableCell>
-                </React.Fragment>
+                </>
               )}
 
               <AmountTableCell width='20%'>
