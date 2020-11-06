@@ -40,10 +40,10 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       }
     })
 
-  const getSwapLimits = (ccy: FiatType): SwapUserLimitsType =>
+  const getSwapLimits = (currency: FiatType): SwapUserLimitsType =>
     authorizedGet({
       url: nabuUrl,
-      endPoint: `/trades/limits?ccy=${ccy}&minor=true`,
+      endPoint: `/trades/limits?currency=${currency}&minor=true`,
       contentType: 'application/json',
       ignoreQueryParams: true
     })
