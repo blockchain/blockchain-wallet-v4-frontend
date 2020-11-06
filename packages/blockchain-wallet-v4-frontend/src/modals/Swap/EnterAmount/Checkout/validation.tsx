@@ -69,14 +69,8 @@ export const getMaxMin = (
       // 4517 satoshi is 0.017672510 ETH is 7 USD (AOTW)
       const counterFeeInBase = exRate.times(standardCounterFee).toNumber()
 
-      // .017672510 ETH (7 USD) is greater than .01123091 ETH (3.5 USD)
-      if (counterFeeInBase > baseMin) {
-        // We add 7 USD to 3.5 USD so worst case user receives 3.5 USD of BTC
-        return (counterFeeInBase + baseMin).toPrecision(CRYPTO_DECIMALS)
-      } else {
-        // The user will receive _at least_ the counterFee
-        return baseMin.toPrecision(CRYPTO_DECIMALS)
-      }
+      // We add 7 USD to 3.5 USD so worst case user receives 3.5 USD of BTC
+      return (counterFeeInBase + baseMin).toPrecision(CRYPTO_DECIMALS)
   }
 }
 
