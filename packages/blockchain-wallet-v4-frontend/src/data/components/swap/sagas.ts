@@ -256,7 +256,7 @@ export default ({
         const rate = getRate(
           quote.quote.priceTiers,
           COUNTER.coin,
-          new BigNumber(convertStandardToBase(COUNTER.coin, 1))
+          new BigNumber(convertStandardToBase(BASE.coin, 1))
         )
         yield put(A.fetchQuoteSuccess(quote, rate))
         const refresh = -moment().diff(quote.expiresAt)
