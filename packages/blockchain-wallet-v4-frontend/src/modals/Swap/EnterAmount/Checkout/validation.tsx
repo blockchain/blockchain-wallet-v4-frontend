@@ -18,7 +18,7 @@ import { SwapAccountType, SwapAmountFormValues } from 'data/types'
 export const getMaxMin = (
   minOrMax: 'min' | 'max',
   limits: SwapUserLimitsType,
-  rate: RateType,
+  baseRate: RateType,
   payment: undefined | PaymentValue,
   quote: { quote: SwapQuoteType; rate: number },
   BASE: SwapAccountType,
@@ -30,7 +30,7 @@ export const getMaxMin = (
         convertBaseToStandard('FIAT', limits.maxPossibleOrder)
       )
       const cryptoMax = new BigNumber(
-        convertStandardToBase(BASE.coin, fiatMax.dividedBy(rate.last))
+        convertStandardToBase(BASE.coin, fiatMax.dividedBy(baseRate.last))
       )
       const userMax = Number(payment ? payment.effectiveBalance : BASE.balance)
       return convertBaseToStandard(
@@ -38,26 +38,39 @@ export const getMaxMin = (
         Math.min(userMax, cryptoMax.toNumber())
       )
     case 'min':
+      // AOTW = As Of This Writing
+      // ℹ️
+      // Let's say you are swapping ETH -> BTC
+      // Let's say the BTC fee is 0.0004517 BTC a.k.a 7 USD (AOTW)
+      // Let's say the minimum you can swap is 3.5 USD
+      // Since 3.5 USD < 7 USD, you would receive -3.5 USD
+      // In that case we say your minimum is the BTC fee + your minimum
+      // 7 USD + 3.5 USD = 10.5 USD
+      // ℹ️
+
+      // ℹ️
+      // In that case you would pay a huge BTC fee, but still end up with
+      // at least the minimum you are allowed swap (send) (3.5 USD)
+      // ℹ️
+
+      // /trades/limits is returned in FIAT (3.5 USD)
       const fiatMin = convertBaseToStandard('FIAT', limits.minOrder)
+      // convert 3.5 USD to BASE coin (0.01123091 ETH)
+      const baseMin = new BigNumber(fiatMin).dividedBy(baseRate.last).toNumber()
 
-      // convert limits endpoint min (fiat) to base crypto
-      // using ticker rate
-      const baseMin = new BigNumber(fiatMin).dividedBy(rate.last).toNumber()
-
-      // calculate the network fee of the incoming tx
-      // in base currency using baseMin
-      const counterRate = new BigNumber(1).dividedBy(quote.rate)
+      // calculate the BTC -> ETH rate
+      // 1 BTC = 39.12444194 ETH
+      const exRate = new BigNumber(1).dividedBy(quote.rate)
+      // BTC fee is 0.0004517 BTC a.k.a 4517 satoshi
       const standardCounterFee = convertBaseToStandard(
         COUNTER.coin,
         quote.quote.networkFee
       )
-      const staticFee = convertBaseToStandard(BASE.coin, quote.quote.staticFee)
-      const counterMin = counterRate
-        .times(standardCounterFee)
-        .plus(staticFee)
-        .toNumber()
+      // 4517 satoshi is 0.017672510 ETH is 7 USD (AOTW)
+      const counterFeeInBase = exRate.times(standardCounterFee).toNumber()
 
-      return Math.max(counterMin, baseMin).toPrecision(CRYPTO_DECIMALS)
+      // We add 7 USD to 3.5 USD so worst case user receives 3.5 USD of BTC
+      return (counterFeeInBase + baseMin).toPrecision(CRYPTO_DECIMALS)
   }
 }
 
@@ -69,13 +82,13 @@ export const maximumAmount = (
   if (!value) return true
   if (!allValues) return
 
-  const { fix, limits, rates, payment, quote, walletCurrency } = restProps
+  const { fix, limits, baseRates, payment, quote, walletCurrency } = restProps
 
   const cryptoMax = Number(
     getMaxMin(
       'max',
       limits,
-      rates[walletCurrency],
+      baseRates[walletCurrency],
       payment,
       quote,
       restProps.BASE,
@@ -86,7 +99,7 @@ export const maximumAmount = (
     cryptoMax,
     restProps.BASE.coin,
     walletCurrency,
-    rates
+    baseRates
   )
 
   return Number(value) > (fix === 'CRYPTO' ? cryptoMax : fiatMax)
@@ -102,13 +115,13 @@ export const minimumAmount = (
   if (!value) return true
   if (!allValues) return
 
-  const { fix, limits, rates, payment, quote, walletCurrency } = restProps
+  const { fix, limits, baseRates, payment, quote, walletCurrency } = restProps
 
   const cryptoMin = Number(
     getMaxMin(
       'min',
       limits,
-      rates[walletCurrency],
+      baseRates[walletCurrency],
       payment,
       quote,
       restProps.BASE,
@@ -119,7 +132,7 @@ export const minimumAmount = (
     cryptoMin,
     restProps.BASE.coin,
     walletCurrency,
-    rates
+    baseRates
   )
 
   return Number(value) < (fix === 'CRYPTO' ? cryptoMin : fiatMin)

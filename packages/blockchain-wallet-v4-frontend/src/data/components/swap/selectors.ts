@@ -89,20 +89,23 @@ export const getIncomingAmount = (state: RootState) => {
   const swapAmountFormValues = selectors.form.getFormValues('swapAmount')(
     state
   ) as SwapAmountFormValues
-  const amount = swapAmountFormValues?.cryptoAmount || 1
+  const amount = swapAmountFormValues?.cryptoAmount || 0
+  const fromCoin = initSwapFormValues?.BASE?.coin || 'BTC'
   const toCoin = initSwapFormValues?.COUNTER?.coin || 'BTC'
 
   return lift(({ quote }: ExtractSuccess<typeof quoteR>) => {
-    const amtMinor = convertStandardToBase(toCoin, amount)
+    const amtMinor = convertStandardToBase(fromCoin, amount)
     const exRate = new BigNumber(
       getRate(quote.quote.priceTiers, toCoin, new BigNumber(amtMinor))
     )
+    const feeMajor = convertBaseToStandard(toCoin, quote.networkFee)
 
-    const amt = exRate.times(amount).minus(quote.networkFee)
+    const amt = exRate.times(amount).minus(feeMajor)
+    const isNegative = amt.isLessThanOrEqualTo(0)
 
     return {
-      amt: convertBaseToStandard(toCoin, amt.toNumber()),
-      isNegative: amt.isNegative()
+      amt: isNegative ? 0 : amt,
+      isNegative
     }
   })(quoteR)
 }

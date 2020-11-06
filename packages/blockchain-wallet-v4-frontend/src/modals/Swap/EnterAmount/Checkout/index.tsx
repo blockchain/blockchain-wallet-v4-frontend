@@ -100,6 +100,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
     BASE,
     COUNTER,
+    baseRates,
     coins,
     fix,
     formActions,
@@ -108,7 +109,6 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     limits,
     payment,
     quote,
-    rates,
     userData,
     walletCurrency
   } = props
@@ -116,7 +116,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const max = getMaxMin(
     'max',
     limits,
-    rates[walletCurrency],
+    baseRates[walletCurrency],
     payment,
     quote,
     BASE,
@@ -126,12 +126,12 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     max,
     BASE.coin,
     walletCurrency,
-    rates
+    baseRates
   )
   const min = getMaxMin(
     'min',
     limits,
-    rates[walletCurrency],
+    baseRates[walletCurrency],
     payment,
     quote,
     BASE,
@@ -141,7 +141,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     min,
     BASE.coin,
     walletCurrency,
-    rates
+    baseRates
   )
   const balance = payment ? payment.effectiveBalance : BASE.balance
 
@@ -157,13 +157,13 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           formValues?.amount || 0,
           BASE.coin,
           walletCurrency,
-          rates
+          baseRates
         )
       : Exchange.convertCoinToFiat(
           formValues?.amount || 0,
           BASE.coin,
           walletCurrency,
-          rates
+          baseRates
         )
 
   const quoteAmountString =
