@@ -1,6 +1,7 @@
 const IcoMoon = {
   'alert-filled': '\\e900',
   algo: '\\e939',
+  'arrow-back': '\\e958',
   'arrow-down': '\\e91d',
   'arrow-down-circle': '\\e935',
   'arrow-left': '\\e90f',
@@ -12,6 +13,7 @@ const IcoMoon = {
   'arrow-top-right-bottom-left': '\\e954',
   'arrow-up': '\\e91c',
   'arrow-up-circle': '\\e936',
+  'arrows-horizontal': '\\e957',
   'bank-filled': '\\e901',
   bch: '\\e98c',
   'bch-circle': '\\e98b',
@@ -102,6 +104,7 @@ const IcoMoon = {
   timer: '\\e945',
   trash: '\\e951',
   twitter: '\\e916',
+  'up-down-chevron': '\\e95a',
   'usd-d': '\\e948',
   usd: '\\e94f',
   usdt: '\\e94a',

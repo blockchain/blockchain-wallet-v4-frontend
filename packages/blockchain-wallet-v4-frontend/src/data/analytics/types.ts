@@ -1,10 +1,11 @@
 import * as AT from './actionTypes'
 import { AB_TESTS } from './model'
 import { RemoteDataType } from 'core/types'
-import { VerifyEmailType } from 'data/components/types'
 
 // types
 export type ABTestNameType = AB_TESTS
+
+export type VerifyEmailType = 'home' | 'verify-email'
 
 export type ABTestCmdType = {
   command: VerifyEmailType

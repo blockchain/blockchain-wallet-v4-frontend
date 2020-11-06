@@ -70,13 +70,14 @@ const FeaturesSmall = (
               <FormattedMessage id='buttons.request' defaultMessage='Request' />
             </Destination>
           </DropdownMenuItem>
-          <LinkContainer to='/swap' activeClassName='active'>
-            <DropdownMenuItem data-e2e='exchangeLink'>
-              <Destination>
-                <FormattedMessage id='buttons.swap' defaultMessage='Swap' />
-              </Destination>
-            </DropdownMenuItem>
-          </LinkContainer>
+          <DropdownMenuItem
+            data-e2e='exchangeLink'
+            onClick={() => props.swapActions.showModal('FeaturesTopNav')}
+          >
+            <Destination>
+              <FormattedMessage id='buttons.swap' defaultMessage='Swap' />
+            </Destination>
+          </DropdownMenuItem>
           <DropdownMenuItem
             data-e2e='buyAndSellLink'
             onClick={() => props.simpleBuyActions.showModal('SideNav')}

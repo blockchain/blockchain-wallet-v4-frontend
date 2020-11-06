@@ -71,7 +71,7 @@ const Success: React.FC<Props> = props => {
               <BuyOrSell
                 orderType={orderType}
                 crypto={getCoinFromPair(props.order.pair)}
-                coinModel={props.supportedCoins[orderType].outputCurrency}
+                coinModel={props.supportedCoins[props.order.outputCurrency]}
               />
             </span>
             <Icon

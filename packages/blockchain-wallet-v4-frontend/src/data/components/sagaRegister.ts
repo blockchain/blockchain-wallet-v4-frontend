@@ -12,7 +12,6 @@ import importBtcAddress from './importBtcAddress/sagaRegister'
 import interest from './interest/sagaRegister'
 import lockbox from './lockbox/sagaRegister'
 import manageAddresses from './manageAddresses/sagaRegister'
-import onfido from './onfido/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
 import priceTicker from './priceTicker/sagaRegister'
 import refresh from './refresh/sagaRegister'
@@ -28,6 +27,7 @@ import sendXlm from './sendXlm/sagaRegister'
 import settings from './settings/sagaRegister'
 import signMessage from './signMessage/sagaRegister'
 import simpleBuy from './simpleBuy/sagaRegister'
+import swap from './swap/sagaRegister'
 import uploadDocuments from './uploadDocuments/sagaRegister'
 import veriff from './veriff/sagaRegister'
 import withdraw from './withdraw/sagaRegister'
@@ -49,7 +49,6 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(lockbox({ api, coreSagas }))
     yield fork(importBtcAddress({ api, coreSagas, networks }))
     yield fork(manageAddresses({ api, networks }))
-    yield fork(onfido({ api, coreSagas }))
     yield fork(priceChart())
     yield fork(priceTicker({ coreSagas }))
     yield fork(refresh())
@@ -65,6 +64,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(settings({ coreSagas }))
     yield fork(signMessage({ coreSagas }))
     yield fork(simpleBuy({ api, coreSagas, networks }))
+    yield fork(swap({ api, coreSagas, networks }))
     yield fork(uploadDocuments({ api }))
     yield fork(withdraw({ api }))
     yield fork(veriff({ api, coreSagas }))

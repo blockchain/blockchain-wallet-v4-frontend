@@ -14,19 +14,19 @@ import {
 import { BchTxType } from 'core/transactions/types'
 import { call, put, select, take } from 'redux-saga/effects'
 import { errorHandler, MISSING_WALLET } from '../../../utils'
-import { FetchSBOrdersAndTransactionsReturnType } from 'core/types'
+import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
 import { flatten, indexBy, length, map, path, prop } from 'ramda'
 import { getAccountsList, getBchTxNotes } from '../../kvStore/bch/selectors'
 import { getLockboxBchAccounts } from '../../kvStore/lockbox/selectors'
 import { HDAccountList } from '../../../types'
+import custodialSagas from '../custodial/sagas'
 import moment from 'moment'
 import Remote from '../../../remote'
-import simpleBuySagas from '../simpleBuy/sagas'
 
 const transformTx = transactions.bch.transformTx
 
 export default ({ api }: { api: APIType }) => {
-  const { fetchSBOrdersAndTransactions } = simpleBuySagas({ api })
+  const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
 
   const fetchData = function * () {
     try {
@@ -82,19 +82,19 @@ export default ({ api }: { api: APIType }) => {
       const atBounds = length(filteredTxs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
       const txPage: Array<BchTxType> = yield call(__processTxs, filteredTxs)
-      const nextSBTransactionsURL = selectors.data.sbCore.getNextSBTransactionsURL(
+      const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
         yield select(),
         'BCH'
       )
-      const sbPage: FetchSBOrdersAndTransactionsReturnType = yield call(
-        fetchSBOrdersAndTransactions,
+      const custodialPage: FetchCustodialOrdersAndTransactionsReturnType = yield call(
+        fetchCustodialOrdersAndTransactions,
         txPage,
         offset,
         atBounds,
         'BCH',
         reset ? null : nextSBTransactionsURL
       )
-      const page = flatten([txPage, sbPage.orders]).sort((a, b) => {
+      const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
       })
       yield put(A.fetchTransactionsSuccess(page, reset))

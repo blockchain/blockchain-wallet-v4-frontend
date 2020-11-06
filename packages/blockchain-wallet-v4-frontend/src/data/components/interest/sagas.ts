@@ -24,6 +24,8 @@ import * as S from './selectors'
 import { DEFAULT_INTEREST_BALANCES } from './model'
 import { InterestDepositFormType } from './types'
 import profileSagas from '../../modules/profile/sagas'
+
+import sendSagas from '../send/sagas'
 import utils from './sagas.utils'
 
 const { INTEREST_EVENTS } = model.analytics
@@ -41,13 +43,17 @@ export default ({
 }) => {
   const { isTier2 } = profileSagas({ api, coreSagas, networks })
   const {
-    buildAndPublishPayment,
     createLimits,
     createPayment,
     getDefaultAccountForCoin,
-    getReceiveAddressForCoin,
-    paymentGetOrElse
+    getReceiveAddressForCoin
   } = utils({
+    coreSagas,
+    networks
+  })
+
+  const { buildAndPublishPayment, paymentGetOrElse } = sendSagas({
+    api,
     coreSagas,
     networks
   })

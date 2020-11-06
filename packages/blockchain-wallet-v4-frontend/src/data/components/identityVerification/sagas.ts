@@ -197,7 +197,7 @@ export default ({ api, coreSagas, networks }) => {
 
     if (step) return yield put(A.setVerificationStep(step))
 
-    yield put(actions.modals.closeAllModals())
+    yield put(actions.modals.closeModal('@KYC.IdentityVerification'))
   }
 
   const goToNextStep = function * () {
@@ -208,7 +208,8 @@ export default ({ api, coreSagas, networks }) => {
 
     if (step) return yield put(A.setVerificationStep(step))
 
-    yield put(actions.modals.closeAllModals())
+    yield put(actions.modules.profile.fetchUser())
+    yield put(actions.modals.closeModal('@KYC.IdentityVerification'))
   }
 
   const updateSmsStep = ({ smsNumber, smsVerified }) => {
