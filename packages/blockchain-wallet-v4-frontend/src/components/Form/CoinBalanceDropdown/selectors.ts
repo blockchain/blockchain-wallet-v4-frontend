@@ -1,5 +1,3 @@
-import { lift } from 'ramda'
-
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
 import {
@@ -9,6 +7,7 @@ import {
 import { getData as getXlmAddressData } from 'components/Form/SelectBoxXlmAddresses/selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 
+import { lift } from 'ramda'
 import { OwnProps } from '.'
 
 export const getData = (state, ownProps: OwnProps) => {

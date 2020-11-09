@@ -19,11 +19,11 @@ export const getData = state => {
   return lift(
     (
       accountBalances,
-      interestLimits,
       rates,
       supportedCoins,
       walletCurrency,
-      withdrawalMinimums
+      withdrawalMinimums,
+      interestLimits
     ) => ({
       accountBalances,
       availToWithdraw: new BigNumber(
@@ -31,18 +31,18 @@ export const getData = state => {
       ).minus(accountBalances[coin].locked),
       coin,
       displayCoin,
-      interestLimits,
       rates,
       supportedCoins,
       walletCurrency,
-      withdrawalMinimums
+      withdrawalMinimums,
+      interestLimits
     })
   )(
     accountBalancesR,
-    interestLimitsR,
     ratesR,
     supportedCoinsR,
     walletCurrencyR,
-    withdrawalMinimumsR
+    withdrawalMinimumsR,
+    interestLimitsR
   )
 }

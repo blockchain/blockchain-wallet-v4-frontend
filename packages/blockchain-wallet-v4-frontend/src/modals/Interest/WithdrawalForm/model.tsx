@@ -44,7 +44,7 @@ export const BalanceItem = styled.div`
 `
 export const MaxAmountContainer = styled.div`
   display: flex;
-  margin: 24px 0 8px;
+  margin-top: 24px;
 `
 export const AmountAvailContainer = styled.div`
   cursor: pointer;

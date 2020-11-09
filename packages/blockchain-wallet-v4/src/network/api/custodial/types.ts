@@ -85,17 +85,10 @@ type WithdrawalLockCheckRule = {
   insertedAt: string
   isActive: boolean
   lockTime: number
-  paymentMethod: 'CARD'
+  paymenthMethod: 'CARD'
   updatedAt: string
 }
 
 export type WithdrawalLockCheckResponseType = {
   rule?: WithdrawalLockCheckRule
-}
-
-export type CustodialTransferRequestType = {
-  amount: string
-  currency: CoinType
-  destination: NabuCustodialProductType
-  origin: NabuCustodialProductType
 }
