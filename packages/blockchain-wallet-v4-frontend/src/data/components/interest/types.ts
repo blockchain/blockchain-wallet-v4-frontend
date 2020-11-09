@@ -34,7 +34,6 @@ export type InterestMinMaxType = {
 }
 
 export type InterestWithdrawalFormType = {
-  interestWithdrawalAccount: AccountTypes
   withdrawalAmount: number
 }
 
@@ -211,7 +210,7 @@ interface SetDepositLimitsAction {
 
 // WITHDRAWAL
 interface InitializeWithdrawalFormAction {
-  payload: { coin: CoinType, walletCurrency: FiatType }
+  payload: { coin: CoinType }
   type: typeof AT.INITIALIZE_WITHDRAWAL_FORM
 }
 interface RequestWithdrawal {
@@ -290,7 +289,6 @@ export type InterestActionTypes =
   | FetchInterestTransactionsSuccess
   | InitializeDepositModalAction
   | InitializeDepositFormAction
-  | InitializeWithdrawalFormAction
   | RequestWithdrawal
   | RouteToTxHash
   | SetInterestStep

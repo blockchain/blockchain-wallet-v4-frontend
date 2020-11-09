@@ -1,6 +1,5 @@
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import BigNumber from 'bignumber.js'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
@@ -17,12 +16,14 @@ import {
 import DataError from 'components/DataError'
 
 import { getData } from './selectors'
+import BigNumber from 'bignumber.js'
 import Loading from './template.loading'
 import WithdrawalForm from './template.success'
 
 class WithdrawalFormContainer extends PureComponent<Props> {
   componentDidMount () {
-    this.handleRefresh()
+    const { coin } = this.props
+    this.props.interestActions.initializeWithdrawalForm(coin)
   }
 
   handleDisplayToggle = isCoin => {
@@ -40,11 +41,8 @@ class WithdrawalFormContainer extends PureComponent<Props> {
   }
 
   handleRefresh = () => {
-    const { coin, data, interestActions } = this.props
-    const { walletCurrency } = data.getOrElse({
-      walletCurrency: 'USD'
-    } as SuccessStateType)
-    interestActions.initializeWithdrawalForm(coin, walletCurrency)
+    const { coin } = this.props
+    this.props.interestActions.initializeWithdrawalForm(coin)
   }
 
   render () {
