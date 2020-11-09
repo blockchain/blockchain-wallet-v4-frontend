@@ -12,7 +12,8 @@ import {
   SBOrderActionType,
   SBPairType,
   SBPaymentMethodType,
-  SBQuoteType
+  SBQuoteType,
+  SupportedWalletCurrenciesType
 } from 'core/types'
 import { SBCheckoutFormValuesType, SBFixType } from 'data/types'
 import { UnitType } from 'core/exchange'
@@ -43,12 +44,13 @@ export const getQuote = (
 export const formatQuote = (
   amt: string,
   quote: SBQuoteType,
-  fix: SBFixType
+  fix: SBFixType,
+  supportedCoins: SupportedWalletCurrenciesType
 ) => {
   if (fix === 'FIAT') {
     return coinToString({
       value: amt,
-      unit: { symbol: getCoinFromPair(quote.pair) }
+      unit: { symbol: supportedCoins[getCoinFromPair(quote.pair)].coinTicker }
     })
   } else {
     return fiatToString({

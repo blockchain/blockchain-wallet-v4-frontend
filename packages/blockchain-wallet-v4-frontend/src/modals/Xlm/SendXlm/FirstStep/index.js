@@ -13,7 +13,11 @@ class FirstStep extends React.PureComponent {
     const { data, actions } = this.props
     return data.cata({
       Success: value => (
-        <Success {...value} onSubmit={actions.firstStepSubmitClicked} />
+        <Success
+          {...value}
+          {...this.props}
+          onSubmit={actions.firstStepSubmitClicked}
+        />
       ),
       Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
@@ -28,7 +32,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.sendXlm, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  swapActions: bindActionCreators(actions.components.swap, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FirstStep)

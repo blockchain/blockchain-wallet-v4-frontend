@@ -1,6 +1,6 @@
 import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { IconButton } from 'blockchain-info-components'
+import { IconButton, TooltipHost } from 'blockchain-info-components'
 import { StickyHeader } from 'components/Layout'
 import { TabMenuTransactionStatus, TextBox } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
@@ -35,26 +35,28 @@ const SearchField = styled<any>(Field)`
 
 const TransactionFilters = ({ handleClickReporting }) => (
   <StickyHeader>
-    <HorizontalMenu marginBottom='0px'>
+    <HorizontalMenu marginBottom='0px' border={false}>
       <Field
         name='status'
         statuses={['', 'sent', 'received', 'transferred']}
         component={TabMenuTransactionStatus}
       />
       <Search>
-        <StyledIconButton
-          data-e2e='generateTxReport'
-          height='45px'
-          name='download'
-          nature='light'
-          onClick={handleClickReporting}
-          width='120px'
-        >
-          <FormattedMessage
-            id='scenes.transactions.export.download'
-            defaultMessage='Download'
-          />
-        </StyledIconButton>
+        <TooltipHost id='copy.on_chain_txs'>
+          <StyledIconButton
+            data-e2e='generateTxReport'
+            height='45px'
+            name='download'
+            nature='light'
+            onClick={handleClickReporting}
+            width='120px'
+          >
+            <FormattedMessage
+              id='scenes.transactions.export.download'
+              defaultMessage='Download'
+            />
+          </StyledIconButton>
+        </TooltipHost>
         <SearchField
           component={TextBox}
           data-e2e='transactionsMenuSearchBox'

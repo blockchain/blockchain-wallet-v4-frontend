@@ -74,10 +74,7 @@ const LimitMessage = ({
     return (
       <LimitText color='btc'>
         &nbsp;
-        <FormattedMessage
-          id='scenes.exchange.exchangeform.limit_info.in_review'
-          defaultMessage='In Review'
-        />
+        <FormattedMessage id='copy.in_review' defaultMessage='In Review' />
       </LimitText>
     )
 

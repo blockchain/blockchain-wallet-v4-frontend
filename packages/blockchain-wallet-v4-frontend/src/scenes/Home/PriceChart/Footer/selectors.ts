@@ -7,12 +7,13 @@ export const getData = createDeepEqualSelector(
     selectors.components.priceChart.getCoin,
     selectors.core.walletOptions.getSupportedCoins
   ],
-  (coinTicker: CoinType, supportedCoinsR) => {
-    const supportedCoins = supportedCoinsR.getOrElse(
+  (coinTicker, supportedCoins) => {
+    const cryptoCurrency = supportedCoins.getOrElse(
       {} as SupportedWalletCurrenciesType
-    )
-    const cryptoCurrency = supportedCoins[coinTicker].coinCode
-    const coinName = supportedCoins[coinTicker].displayName
+    )[coinTicker as CoinType].coinCode
+    const coinName = supportedCoins.getOrElse(
+      {} as SupportedWalletCurrenciesType
+    )[coinTicker as CoinType].displayName
 
     return {
       cryptoCurrency,

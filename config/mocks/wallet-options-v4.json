@@ -58,8 +58,8 @@
           "availability": {
             "send": false,
             "request": false,
-            "deposit": false,
-            "withdrawal": false
+            "deposit": true,
+            "withdrawal": true
           },
           "coinCode": "USD",
           "coinTicker": "USD",
@@ -195,7 +195,7 @@
           "colorCode": "xlm",
           "config": {
             "network": "public",
-            "sendTimeOutSeconds": 10
+            "sendTimeOutSeconds": 600
           },
           "displayName": "Stellar",
           "exchangeAddresses": [

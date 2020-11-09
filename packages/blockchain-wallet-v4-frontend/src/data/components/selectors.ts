@@ -8,7 +8,6 @@ import * as interest from './interest/selectors'
 import * as layoutWallet from './layoutWallet/selectors'
 import * as lockbox from './lockbox/selectors'
 import * as manageAddresses from './manageAddresses/selectors'
-import * as onfido from './onfido/selectors'
 import * as priceChart from './priceChart/selectors'
 import * as priceTicker from './priceTicker/selectors'
 import * as recoveryPhrase from './recoveryPhrase/selectors'
@@ -19,6 +18,7 @@ import * as sendEth from './sendEth/selectors'
 import * as sendXlm from './sendXlm/selectors'
 import * as signMessage from './signMessage/selectors'
 import * as simpleBuy from './simpleBuy/selectors'
+import * as swap from './swap/selectors'
 import * as uploadDocuments from './uploadDocuments/selectors'
 import * as utils from './utils/selectors'
 import * as veriff from './veriff/selectors'
@@ -35,7 +35,6 @@ export {
   layoutWallet,
   lockbox,
   manageAddresses,
-  onfido,
   priceChart,
   priceTicker,
   recoveryPhrase,
@@ -46,6 +45,7 @@ export {
   sendXlm,
   signMessage,
   simpleBuy,
+  swap,
   uploadDocuments,
   utils,
   withdraw,

@@ -65,12 +65,15 @@ export type SBShowModalOriginType =
   | 'SettingsGeneral'
   | 'SettingsProfile'
   | 'SideNav'
+  | 'SimpleBuyLink'
+  | 'TransactionList'
   | 'WelcomeModal'
   | 'WithdrawModal'
 
 // State
 export type SimpleBuyState = {
   account: RemoteDataType<string, SBAccountType>
+  addBank: boolean | undefined
   balances: RemoteDataType<string, SBBalancesType>
   card: RemoteDataType<string, SBCardType>
   cardId: undefined | string
@@ -222,6 +225,7 @@ interface FetchSBPairsLoading {
 }
 interface FetchSBPairsSuccess {
   payload: {
+    coin?: CoinType
     pairs: Array<SBPairType>
   }
   type: typeof AT.FETCH_SB_PAIRS_SUCCESS
@@ -302,6 +306,7 @@ export type StepActionsPayload =
       step: 'CRYPTO_SELECTION'
     }
   | {
+      addBank?: boolean
       displayBack: boolean
       fiatCurrency: FiatType
       step: 'TRANSFER_DETAILS'

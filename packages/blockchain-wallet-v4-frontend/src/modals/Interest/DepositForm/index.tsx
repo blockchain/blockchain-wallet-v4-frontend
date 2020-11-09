@@ -3,17 +3,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
-import {
-  CoinType,
-  FiatType,
-  InterestLimitsType,
-  InterestRateType,
-  PaymentValue,
-  RatesType,
-  RemoteDataType,
-  SupportedWalletCurrenciesType
-} from 'core/types'
-import { InterestMinMaxType } from 'data/types'
+import { CoinType, FiatType } from 'core/types'
+import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
 
 import { getData } from './selectors'
@@ -26,18 +17,21 @@ class DepositForm extends PureComponent<Props> {
   }
 
   handleDisplayToggle = isCoin => {
-    const { displayCoin } = this.props.data.getOrElse({
+    const { data, formActions, interestActions } = this.props
+    const { displayCoin } = data.getOrElse({
       displayCoin: false
     } as SuccessStateType)
+
     if (isCoin === displayCoin) return
-    this.props.formActions.clearFields(
+
+    formActions.clearFields(
       'interestDepositForm',
       false,
       false,
       'depositAmount'
     )
 
-    this.props.interestActions.setCoinDisplay(isCoin)
+    interestActions.setCoinDisplay(isCoin)
   }
 
   handleRefresh = () => {
@@ -45,16 +39,16 @@ class DepositForm extends PureComponent<Props> {
   }
 
   handleInitializeDepositForm = () => {
-    const { coin } = this.props
-    const { walletCurrency } = this.props.data.getOrElse({
+    const { coin, data, interestActions } = this.props
+    const { walletCurrency } = data.getOrElse({
       walletCurrency: 'GBP' as FiatType
     } as SuccessStateType)
-    this.props.interestActions.initializeDepositForm(coin, walletCurrency)
+    interestActions.initializeDepositForm(coin, walletCurrency)
   }
 
   handleSubmit = () => {
-    const { coin } = this.props
-    this.props.interestActions.submitDepositForm(coin)
+    const { coin, interestActions } = this.props
+    interestActions.submitDepositForm(coin)
   }
 
   render () {
@@ -75,7 +69,7 @@ class DepositForm extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState) => ({
   data: getData(state)
 })
 
@@ -92,20 +86,7 @@ export type LinkDispatchPropsType = {
   formActions: typeof actions.form
   interestActions: typeof actions.components.interest
 }
-export type SuccessStateType = {
-  depositLimits: InterestMinMaxType
-  displayCoin: boolean
-  formErrors: { depositAmount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
-  interestLimits: InterestLimitsType
-  interestRate: InterestRateType
-  payment: PaymentValue
-  rates: RatesType
-  supportedCoins: SupportedWalletCurrenciesType
-  walletCurrency: FiatType
-}
-type LinkStatePropsType = {
-  data: RemoteDataType<string | Error, SuccessStateType>
-}
+export type SuccessStateType = ReturnType<typeof getData>['data']
 
 export type OwnProps = {
   coin: CoinType

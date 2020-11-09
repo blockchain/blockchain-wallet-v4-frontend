@@ -1,10 +1,13 @@
 import * as AT from './actionTypes'
 import { actions, actionTypes } from 'data'
-import { put, takeLatest } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
+
+import profileSagas from '../../modules/profile/sagas'
 
 export default ({ api, coreSagas, networks }) => {
   const simpleBuySagas = sagas({ api, coreSagas, networks })
+  const { waitForUserData } = profileSagas({ api, coreSagas, networks })
 
   return function * simpleBuySaga () {
     yield takeLatest(AT.ACTIVATE_SB_CARD, simpleBuySagas.activateSBCard)
@@ -70,6 +73,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.SET_STEP, simpleBuySagas.setStepChange)
     // Refresh coin tx lists
     yield takeLatest(AT.FETCH_SB_ORDERS, function * () {
+      yield call(waitForUserData)
       yield put(actions.core.data.bch.fetchTransactions('', true))
       yield put(actions.core.data.btc.fetchTransactions('', true))
       yield put(actions.core.data.eth.fetchTransactions('', true))

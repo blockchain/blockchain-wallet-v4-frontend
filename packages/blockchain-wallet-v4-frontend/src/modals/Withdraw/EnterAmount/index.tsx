@@ -18,6 +18,8 @@ class EnterAmount extends PureComponent<Props> {
     this.props.custodialActions.fetchCustodialBeneficiaries(
       this.props.fiatCurrency
     )
+    this.props.withdrawActions.fetchWithdrawalFees()
+    this.props.withdrawActions.fetchWithdrawalLock()
   }
 
   handleSubmit = () => {
@@ -25,11 +27,17 @@ class EnterAmount extends PureComponent<Props> {
       {} as SuccessStateType
     )
 
-    this.props.withdrawActions.setStep({
-      step: 'CONFIRM_WITHDRAW',
-      amount: this.props.formValues.amount,
-      beneficiary: this.props.beneficiary || defaultBeneficiary
-    })
+    const beneficiary = defaultBeneficiary || this.props.beneficiary
+
+    if (!beneficiary) return
+
+    if (defaultBeneficiary || this.props.beneficiary) {
+      this.props.withdrawActions.setStep({
+        step: 'CONFIRM_WITHDRAW',
+        amount: this.props.formValues.amount,
+        beneficiary
+      })
+    }
   }
 
   handleBankSelection = (
@@ -42,7 +50,8 @@ class EnterAmount extends PureComponent<Props> {
         this.props.simpleBuyActions.setStep({
           step: 'TRANSFER_DETAILS',
           fiatCurrency: this.props.fiatCurrency,
-          displayBack: false
+          displayBack: false,
+          addBank: true
         })
       } else {
         this.props.simpleBuyActions.setStep({

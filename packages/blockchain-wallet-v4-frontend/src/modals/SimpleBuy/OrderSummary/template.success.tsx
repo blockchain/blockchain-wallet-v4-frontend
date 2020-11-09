@@ -1,9 +1,11 @@
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { BuyOrSell, displayFiat, getOrderDestination } from '../model'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import moment from 'moment'
+import React from 'react'
+
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import {
   getBaseAmount,
   getBaseCurrency,
@@ -12,11 +14,11 @@ import {
   getCounterCurrency,
   getOrderType
 } from 'data/components/simpleBuy/model'
+import styled from 'styled-components'
+
+import { BuyOrSell, displayFiat, getOrderDestination } from '../model'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { Status } from './model'
-import moment from 'moment'
-import React from 'react'
-import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -69,6 +71,7 @@ const Success: React.FC<Props> = props => {
               <BuyOrSell
                 orderType={orderType}
                 crypto={getCoinFromPair(props.order.pair)}
+                coinModel={props.supportedCoins[props.order.outputCurrency]}
               />
             </span>
             <Icon
@@ -235,11 +238,17 @@ const Success: React.FC<Props> = props => {
                   })
                 }
               >
-                {/* TODO: Simple Buy - order types */}
-                <FormattedMessage
-                  id='modals.simplebuy.summary.cancelbuy'
-                  defaultMessage='Cancel Buy'
-                />
+                {orderType === 'BUY' ? (
+                  <FormattedMessage
+                    id='modals.simplebuy.summary.cancelbuy'
+                    defaultMessage='Cancel Buy'
+                  />
+                ) : (
+                  <FormattedMessage
+                    id='modals.simplebuy.summary.cancelsell'
+                    defaultMessage='Cancel Sell'
+                  />
+                )}
               </Button>
             </Bottom>
           ))}

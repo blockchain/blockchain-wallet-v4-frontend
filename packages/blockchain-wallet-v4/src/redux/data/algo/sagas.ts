@@ -7,14 +7,15 @@ import Remote from '../../../remote'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import { SBOrderType } from 'core/types'
+import * as selectors from '../../selectors'
+import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
+import custodialSagas from '../custodial/sagas'
 import moment from 'moment'
-import simpleBuySagas from '../simpleBuy/sagas'
 
 const TX_PER_PAGE = 10
 
 export default ({ api }: { api: APIType }) => {
-  const { fetchSBOrders } = simpleBuySagas({ api })
+  const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
 
   const fetchRates = function * () {
     try {
@@ -47,14 +48,19 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchTransactionsLoading(reset))
       let txs: Array<any> = []
       const txPage: Array<any> = txs
-      const sbPage: Array<SBOrderType> = yield call(
-        fetchSBOrders,
+      const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
+        yield select(),
+        'ALGO'
+      )
+      const custodialPage: FetchCustodialOrdersAndTransactionsReturnType = yield call(
+        fetchCustodialOrdersAndTransactions,
         txPage,
         offset,
         true,
-        'ALGO'
+        'ALGO',
+        reset ? null : nextSBTransactionsURL
       )
-      const page = flatten([txPage, sbPage]).sort((a, b) => {
+      const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
       })
       yield put(A.fetchTransactionsSuccess(page, reset, true))

@@ -24,15 +24,15 @@ import {
 } from 'ramda'
 import { all, call, put, select } from 'redux-saga/effects'
 import { APIType } from 'core/network/api'
+import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
 import { getAccounts, getXlmTxNotes } from '../../kvStore/xlm/selectors'
 import { getLockboxXlmAccounts } from '../../kvStore/lockbox/selectors'
-import { SBOrderType } from 'core/types'
 import { xlm } from '../../../transactions'
 import { XlmTxType } from 'core/transactions/types'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
 import Remote from '../../../remote'
-import simpleBuySagas from '../simpleBuy/sagas'
+import simpleBuySagas from '../custodial/sagas'
 
 const { transformTx, decodeOperations, isLumenOperation } = xlm
 
@@ -55,7 +55,7 @@ const sumBalance = compose(
 )
 
 export default ({ api, networks }: { api: APIType; networks: any }) => {
-  const { fetchSBOrders } = simpleBuySagas({ api })
+  const { fetchCustodialOrdersAndTransactions } = simpleBuySagas({ api })
 
   const fetchLedgerDetails = function * () {
     try {
@@ -134,15 +134,20 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
       } catch (e) {}
       const atBounds = length(txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
+      const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
+        yield select(),
+        'XLM'
+      )
       const txPage: Array<XlmTxType> = yield call(__processTxs, txs)
-      const sbPage: Array<SBOrderType> = yield call(
-        fetchSBOrders,
+      const custodialPage: FetchCustodialOrdersAndTransactionsReturnType = yield call(
+        fetchCustodialOrdersAndTransactions,
         txPage,
         offset,
         atBounds,
-        'XLM'
+        'XLM',
+        reset ? null : nextSBTransactionsURL
       )
-      const page = flatten([txPage, sbPage]).sort((a, b) => {
+      const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
       })
       yield put(A.fetchTransactionsSuccess(page, reset))

@@ -1,4 +1,9 @@
-import { CoinType, CurrenciesType, FiatType } from '../../../types'
+import {
+  CoinType,
+  CurrenciesType,
+  FiatType,
+  WalletCurrencyType
+} from '../../../types'
 import {
   FiatEligibleType,
   NabuAddressType,
@@ -164,7 +169,7 @@ export default ({
     after?: string
     before?: string
     pendingOnly?: boolean
-  }): { orders: Array<SBOrderType> } =>
+  }): Array<SBOrderType> =>
     authorizedGet({
       url: nabuUrl,
       endPoint: '/simple-buy/trades',
@@ -226,7 +231,7 @@ export default ({
     })
 
   const getSBTransactions = (
-    currency: FiatType,
+    currency: WalletCurrencyType,
     next?: string | null,
     limit?: string,
     type?: 'DEPOSIT' | 'WITHDRAWAL',
@@ -244,6 +249,7 @@ export default ({
           data: {
             currency,
             limit,
+            pending: true,
             product: 'SIMPLEBUY',
             state,
             type

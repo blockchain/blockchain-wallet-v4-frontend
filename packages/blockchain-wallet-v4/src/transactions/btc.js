@@ -259,24 +259,25 @@ export const _transformTx = (
   const { from, to, toAddress } = selectFromAndto(inputs, outputs, type)
 
   return {
+    amount: computeAmount(type, inputData, outputData),
     blockHeight: tx.block_height,
+    coin: 'BTC',
     description: getDescription(tx.hash, txNotes, addressLabels, toAddress),
     double_spend: tx.double_spend,
-    rbf: tx.rbf,
+    fee: Remote.Success(tx.fee),
+    from,
+    fromWatchOnly: inputData.isWatchOnly,
     hash: tx.hash,
-    amount: computeAmount(type, inputData, outputData),
-    type: toLower(type),
+    inputs: inputs,
     insertedAt: tx.time * 1000,
+    outputs: outputs,
+    rbf: tx.rbf,
     time: tx.time,
     timeFormatted: getTime(tx),
-    fee: Remote.Success(tx.fee),
-    inputs: inputs,
-    outputs: outputs,
-    fromWatchOnly: inputData.isWatchOnly,
-    toWatchOnly: outputData.isWatchOnly,
+    to,
     toAddress,
-    from,
-    to
+    toWatchOnly: outputData.isWatchOnly,
+    type: toLower(type)
   }
 }
 

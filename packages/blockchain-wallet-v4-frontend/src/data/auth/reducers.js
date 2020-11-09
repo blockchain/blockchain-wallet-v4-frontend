@@ -7,11 +7,13 @@ const INITIAL_STATE = {
   isLoggingIn: false,
   isAuthenticated: false,
   firstLogin: false,
+  mobileLoginStarted: false,
   login: Remote.NotAsked,
   reset_2fa: Remote.NotAsked,
   restoring: Remote.NotAsked,
   remindGuid: Remote.NotAsked,
-  registering: Remote.NotAsked
+  registering: Remote.NotAsked,
+  registerEmail: undefined
 }
 
 const auth = (state = INITIAL_STATE, action) => {
@@ -32,6 +34,12 @@ const auth = (state = INITIAL_STATE, action) => {
     }
     case AT.AUTHENTICATE: {
       return assoc('isAuthenticated', true, state)
+    }
+    case AT.MOBILE_LOGIN_START: {
+      return assoc('mobileLoginStarted', true, state)
+    }
+    case AT.MOBILE_LOGIN_FINISH: {
+      return assoc('mobileLoginStarted', false, state)
     }
     case AT.REGISTER_LOADING: {
       return assoc('registering', Remote.Loading, state)
@@ -78,6 +86,13 @@ const auth = (state = INITIAL_STATE, action) => {
     case AT.SET_AUTH_TYPE: {
       const { authType } = payload
       return assoc('auth_type', authType, state)
+    }
+    case AT.SET_REGISTER_EMAIL: {
+      const { email } = payload
+      return {
+        ...state,
+        registerEmail: email
+      }
     }
     default:
       return state

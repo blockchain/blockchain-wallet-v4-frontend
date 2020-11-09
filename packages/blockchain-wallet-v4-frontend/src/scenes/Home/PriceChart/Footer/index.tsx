@@ -7,26 +7,19 @@ import React from 'react'
 
 class FooterContainer extends React.PureComponent<Props> {
   render () {
-    const { cryptoCurrency, simpleBuyActions } = this.props
-    return (
-      <Footer
-        handleBuy={() =>
-          simpleBuyActions.showModal('PriceChart', cryptoCurrency)
-        }
-        {...this.props}
-      />
-    )
+    return <Footer {...this.props} />
   }
 }
 
 const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  swapActions: bindActionCreators(actions.components.swap, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type Props = ConnectedProps<typeof connector>
+export type Props = ConnectedProps<typeof connector>
 
 export default connector(FooterContainer)

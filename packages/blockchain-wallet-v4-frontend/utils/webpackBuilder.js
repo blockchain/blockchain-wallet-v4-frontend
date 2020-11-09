@@ -283,7 +283,7 @@ const buildDevServerConfig = (
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Content-Security-Policy': [
-        `img-src 'self' data: blob:`,
+        `img-src 'self' *.googleusercontent.com *.zendesk.com data: blob:`,
         allowUnsafeScripts
           ? `script-src 'nonce-${CSP_NONCE}' 'self' 'unsafe-eval'`
           : `script-src 'nonce-${CSP_NONCE}' 'self'`,

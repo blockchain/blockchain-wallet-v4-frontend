@@ -1,3 +1,4 @@
+import { find, isEmpty, isNil, propEq, propOr } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -12,12 +13,18 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
+import {
+  CoinType,
+  SupportedWalletCurrenciesType,
+  WalletFiatType
+} from 'core/types'
 import { GoalsType } from 'data/goals/types'
 import media from 'services/ResponsiveService'
 
 import Header from './Header'
 import LinkExchangeAccount from './LinkExchangeAccount'
 import SignupForm from './SignupForm'
+import SimpleBuyInfo from './SimpleBuyInfo'
 
 const SignupWrapper = styled.div`
   display: flex;
@@ -68,6 +75,11 @@ const Card = styled.div`
     padding: 1.5rem;
   `}
 `
+
+const SimpleBuyCard = styled(Card)`
+  max-width: 27rem;
+`
+
 const CardHeader = styled.div`
   align-items: center;
   display: flex;
@@ -215,8 +227,8 @@ const SignupCard = ({
           <CardInfo>
             <InfoTitle color='grey800' size='18px' weight={600}>
               <FormattedMessage
-                id='scenes.register.walletcard.infotitle'
-                defaultMessage='Be your own bank.'
+                id='scenes.register.walletcard.infotitleuppercase'
+                defaultMessage='Be Your Own Bank'
               />
             </InfoTitle>
 
@@ -315,19 +327,20 @@ const SignupCard = ({
       <LinkContainer to='/login'>
         <Link>
           <SubCard>
-            <Text size='14px' color='whiteFade600' weight={500}>
+            <Text size='14px' color='white' weight={500}>
               <FormattedMessage
                 id='scenes.register.wallet.link'
                 defaultMessage='Already have a wallet?'
               />
             </Text>
             &nbsp;
-            <SignInText color='whiteFade900' size='14px' weight={500}>
+            <SignInText color='white' size='14px' weight={500}>
               <FormattedMessage
                 id='scenes.register.wallet.signin'
                 defaultMessage='Sign In'
               />
             </SignInText>
+            <Icon size='18px' color='white' name='arrow-right' />
           </SubCard>
         </Link>
       </LinkContainer>
@@ -335,8 +348,17 @@ const SignupCard = ({
   )
 }
 
+export type GoalDataType = {
+  amount: string
+  crypto: CoinType
+  email?: string
+  fiatCurrency: WalletFiatType
+}
+
 const Register = (props: InjectedFormProps<{}, Props> & Props) => {
-  const { isLinkAccountGoal } = props
+  const { isLinkAccountGoal, isSimpleBuyGoal, goals } = props
+  const dataGoal = find(propEq('name', 'simpleBuy'), goals)
+  const goalData: GoalDataType = propOr({}, 'data', dataGoal)
 
   if (isLinkAccountGoal) {
     return (
@@ -345,6 +367,66 @@ const Register = (props: InjectedFormProps<{}, Props> & Props) => {
           <LinkExchangeAccount />
           <SignupCard {...props} />
         </CardsWrapper>
+      </SignupWrapper>
+    )
+  }
+
+  if (isSimpleBuyGoal) {
+    return (
+      <SignupWrapper>
+        <CardsWrapper>
+          <SimpleBuyCard>
+            <CardHeader>
+              <Text size='24px' color='textBlack' weight={600}>
+                <FormattedMessage
+                  defaultMessage='Sign Up to Continue Your Crypto Purchase.'
+                  id='scenes.register.simplebuy.signup'
+                />
+              </Text>
+            </CardHeader>
+
+            {!isNil(goalData) && !isEmpty(goalData) && (
+              <SimpleBuyInfo
+                goalData={goalData}
+                supportedCoins={props.supportedCoins}
+              />
+            )}
+
+            <Text size='14px' color='grey600' weight={500}>
+              <FormattedMessage
+                id='scenes.register.simplebuy.change'
+                defaultMessage='You will be able to change your amount later.'
+              />
+            </Text>
+
+            <SignupForm
+              busy={props.busy}
+              handleSubmit={props.handleSubmit}
+              invalid={props.invalid}
+              password={props.password}
+              passwordLength={props.passwordLength}
+            />
+          </SimpleBuyCard>
+        </CardsWrapper>
+        <LinkContainer to='/login'>
+          <Link>
+            <SubCard>
+              <Text size='14px' color='whiteFade600' weight={500}>
+                <FormattedMessage
+                  id='scenes.register.wallet.link'
+                  defaultMessage='Already have a wallet?'
+                />
+              </Text>
+              &nbsp;
+              <SignInText color='whiteFade900' size='14px' weight={500}>
+                <FormattedMessage
+                  id='scenes.register.wallet.signin'
+                  defaultMessage='Sign In'
+                />
+              </SignInText>
+            </SubCard>
+          </Link>
+        </LinkContainer>
       </SignupWrapper>
     )
   }
@@ -446,14 +528,6 @@ const Register = (props: InjectedFormProps<{}, Props> & Props) => {
               </ExchangeButton>
             </Link>
           </Card>
-          <SubCard>
-            <Text size='14px' color='whiteFade600' weight={500}>
-              <FormattedMessage
-                id='scenes.register.exchange.subcard'
-                defaultMessage='You will be taken to our trading experience to continue sign up.'
-              />
-            </Text>
-          </SubCard>
         </CardWrapper>
       </CardsWrapper>
     </SignupWrapper>
@@ -465,10 +539,12 @@ type Props = {
   email: string
   goals: Array<{ data: any; id: string; name: GoalsType }>
   isLinkAccountGoal: boolean
+  isSimpleBuyGoal: boolean
   language: string
   password: string
   passwordLength: number
   showForm: boolean
+  supportedCoins: SupportedWalletCurrenciesType
   toggleForm: any
 }
 

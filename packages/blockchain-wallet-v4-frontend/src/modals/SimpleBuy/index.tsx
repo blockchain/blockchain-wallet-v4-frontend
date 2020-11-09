@@ -9,7 +9,9 @@ import {
   SBPaymentMethodType
 } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
+import { find, isEmpty, propEq, propOr } from 'ramda'
 import { getData } from './selectors'
+import { GoalsType } from 'data/goals/types'
 import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
 import { SimpleBuyStepType } from 'data/types'
@@ -58,7 +60,6 @@ class SimpleBuy extends PureComponent<Props, State> {
   componentWillUnmount () {
     this.props.simpleBuyActions.pollSBBalances()
     this.props.simpleBuyActions.destroyCheckout()
-    this.props.simpleBuyActions.fetchSBOrders(true)
     this.props.formActions.destroy('simpleBuyCheckout')
     this.props.formActions.destroy('ccBillingAddress')
     this.props.formActions.destroy('addCCForm')
@@ -66,6 +67,10 @@ class SimpleBuy extends PureComponent<Props, State> {
 
   handleClose = () => {
     this.setState({ show: false })
+    const simpleBuyGoal = find(propEq('name', 'simpleBuy'), this.props.goals)
+    const goalID = propOr('', 'id', simpleBuyGoal)
+    this.props.preferenceActions.setSBFiatCurrency(this.props.localCurrency)
+    !isEmpty(goalID) && this.props.deleteGoal(goalID)
     setTimeout(() => {
       this.props.close()
     }, duration)
@@ -227,6 +232,7 @@ class SimpleBuy extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => ({
+  addBank: selectors.components.simpleBuy.getAddBank(state),
   step: selectors.components.simpleBuy.getStep(state),
   cardId: selectors.components.simpleBuy.getSBCardId(state),
   pair: selectors.components.simpleBuy.getSBPair(state),
@@ -236,11 +242,15 @@ const mapStateToProps = (state: RootState) => ({
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
   displayBack: selectors.components.simpleBuy.getDisplayBack(state),
   orderType: selectors.components.simpleBuy.getOrderType(state),
+  goals: selectors.goals.getGoals(state),
+  localCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
   data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  deleteGoal: id => dispatch(actions.goals.deleteGoal(id)),
   formActions: bindActionCreators(actions.form, dispatch),
+  preferenceActions: bindActionCreators(actions.preferences, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
@@ -270,6 +280,7 @@ type LinkStatePropsType =
         | 'KYC_REQUIRED'
     }
   | {
+      addBank?: boolean
       displayBack?: boolean
       fiatCurrency: FiatType
       pair: SBPairType
@@ -286,6 +297,7 @@ type LinkStatePropsType =
       step: 'ADD_CARD'
     }
   | {
+      goals: Array<{ data: any; id: string; name: GoalsType }>
       method?: SBPaymentMethodType
       order?: SBOrderType
       orderType: SBOrderActionType

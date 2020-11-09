@@ -1,4 +1,3 @@
-import * as activityList from './activityList/actionTypes'
 import * as algoTransactions from './algoTransactions/actionTypes'
 import * as bchTransactions from './bchTransactions/actionTypes'
 import * as borrow from './borrow/actionTypes'
@@ -14,7 +13,6 @@ import * as layoutWallet from './layoutWallet/actionTypes'
 import * as lockbox from './lockbox/actionTypes'
 import * as manageAddresses from './manageAddresses/actionTypes'
 import * as onboarding from './onboarding/actionTypes'
-import * as onfido from './onfido/actionTypes'
 import * as priceChart from './priceChart/actionTypes'
 import * as priceTicker from './priceTicker/actionTypes'
 import * as recoveryPhrase from './recoveryPhrase/actionTypes'
@@ -32,13 +30,13 @@ import * as settings from './settings/actionTypes'
 import * as signMessage from './signMessage/actionTypes'
 import * as simpleBuy from './simpleBuy/actionTypes'
 import * as stxTransactions from './stxTransactions/actionTypes'
+import * as swap from './swap/actionTypes'
 import * as uploadDocuments from './uploadDocuments/actionTypes'
 import * as veriff from './veriff/actionTypes'
 import * as withdraw from './withdraw/actionTypes'
 import * as xlmTransactions from './xlmTransactions/actionTypes'
 
 export {
-  activityList,
   algoTransactions,
   bchTransactions,
   borrow,
@@ -55,7 +53,6 @@ export {
   lockbox,
   manageAddresses,
   onboarding,
-  onfido,
   priceChart,
   priceTicker,
   recoveryPhrase,
@@ -73,6 +70,7 @@ export {
   signMessage,
   simpleBuy,
   stxTransactions,
+  swap,
   uploadDocuments,
   withdraw,
   veriff

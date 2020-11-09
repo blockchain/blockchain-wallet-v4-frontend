@@ -79,7 +79,8 @@ const Success: React.FC<Props> = props => {
           props.simpleBuyActions.setStep({
             step: 'TRANSFER_DETAILS',
             fiatCurrency: props.fiatCurrency,
-            displayBack: false
+            displayBack: false,
+            addBank: true
           })
         }}
       >

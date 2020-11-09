@@ -1,4 +1,5 @@
 import {
+  CoinType,
   FiatType,
   ProcessedTxType,
   RemoteDataType,
@@ -12,20 +13,19 @@ import styled from 'styled-components'
 
 import CustodialTxListItem from '../CustodialTx'
 import Loading from './template.loading'
+import NonCustodialTxListItem from '../NonCustodialTx'
 import SimpleBuyListItem from '../SBOrderTx'
-import TransactionListItem from 'components/TransactionListItem'
+import SwapOrderTx from '../SwapOrderTx'
 
+// width: 99%; to prevent scrolling weirdness
 const TransactionsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 100%;
-  &:last-child {
-    > div {
-      border: none;
-    }
-  }
+  width: 99%;
+  border-radius: 8px;
+  border: 1px solid ${props => props.theme.grey000};
 `
 
 class TransactionList extends PureComponent<Props> {
@@ -37,13 +37,15 @@ class TransactionList extends PureComponent<Props> {
         <TransactionsWrapper>
           {transactions.map(tx => {
             return 'hash' in tx ? (
-              <TransactionListItem
+              <NonCustodialTxListItem
                 key={tx.hash}
                 transaction={tx}
-                coin={coin}
+                coin={coin as CoinType}
                 coinTicker={coinTicker}
                 currency={currency}
               />
+            ) : 'priceFunnel' in tx ? (
+              <SwapOrderTx order={tx} coin={coin as CoinType} />
             ) : 'pair' in tx ? (
               <SimpleBuyListItem order={tx} />
             ) : (

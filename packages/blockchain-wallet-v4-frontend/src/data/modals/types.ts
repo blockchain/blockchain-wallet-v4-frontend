@@ -3,6 +3,7 @@ import * as AT from './actionTypes'
 export type ModalNamesType =
   | '@EXCHANGE.ETH_AIRDROP_MODAL'
   | '@EXCHANGE.RESULTS_MODAL'
+  | '@KYC.IdentityVerification'
   | '@MODAL.REQUEST.BCH'
   | '@MODAL.REQUEST.BTC'
   | '@MODAL.REQUEST.ETH'
@@ -19,13 +20,13 @@ export type ModalNamesType =
   | 'Confirm'
   | 'CUSTODY_WITHDRAW_MODAL'
   | 'DeleteAddressLabel'
+  | 'EditTxDescription'
   | 'FAQ_MODAL'
   | 'ImportBtcAddress'
   | 'INTEREST_MODAL'
   | 'KycDocResubmit'
   | 'LinkFromExchangeAccount'
   | 'LinkToExchangeAccount'
-  | 'Onfido'
   | 'PairingCode'
   | 'RECOVERY_PHRASE_MODAL'
   | 'ShowBtcPrivateKey'
@@ -34,6 +35,7 @@ export type ModalNamesType =
   | 'SignMessage'
   | 'SIMPLE_BUY_MODAL'
   | 'SunRiverWelcome'
+  | 'SWAP_MODAL'
   | 'SwapGetStarted'
   | 'SwapUpgrade'
   | 'TRANSACTION_REPORT'
@@ -73,7 +75,11 @@ export type ModalOriginType =
   | 'SettingsPage'
   | 'SettingsProfile'
   | 'SideNav'
+  | 'SimpleBuyLink'
+  | 'Swap'
   | 'SwapGetStarted'
+  | 'SwapPrompt'
+  | 'SwapLimitPrompt'
   | 'TheExchangePage'
   | 'TransactionList'
   | 'Unknown'
@@ -102,6 +108,9 @@ interface CloseAllModals {
 }
 
 interface CloseModal {
+  payload: {
+    modalName?: ModalNamesType
+  }
   type: typeof AT.CLOSE_MODAL
 }
 

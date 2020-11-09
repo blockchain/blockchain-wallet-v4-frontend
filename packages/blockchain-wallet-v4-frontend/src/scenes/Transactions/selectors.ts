@@ -17,37 +17,80 @@ import {
 } from 'ramda'
 import { createSelector } from 'reselect'
 
+import {
+  AddressTypesType,
+  ProcessedTxType,
+  RemoteDataType,
+  SBOrderType,
+  SBTransactionType,
+  SupportedWalletCurrenciesType,
+  WalletCurrencyType
+} from 'core/types'
 import { model, selectors } from 'data'
 
-const { WALLET_TX_SEARCH } = model.form
-const filterTransactions = curry((status, criteria, transactions) => {
-  const isOfType = curry((filter, tx) =>
-    propSatisfies(
-      // @ts-ignore
-      x => filter === '' || (x && toUpper(x) === toUpper(filter)),
-      'type',
-      tx
-    )
-  )
-  const search = curry((text, txPath, tx) =>
-    compose(includes(toUpper(text || '')), toUpper, String, path(txPath))(tx)
-  )
-  const searchPredicate = anyPass(
-    map(search(criteria), [
-      ['id'],
-      ['description'],
-      ['from'],
-      ['to'],
-      ['hash'],
-      ['outputs', 0, 'address'],
-      ['inputs', 0, 'address']
-    ])
-  )
-  const fullPredicate = allPass([isOfType(status), searchPredicate])
-  return filter(fullPredicate, transactions)
-})
+import { RootState } from 'data/rootReducer'
+import { TransferType, TxType } from './types'
 
-const coinSelectorMap = (state, coin, isCoinErc20) => {
+const { WALLET_TX_SEARCH } = model.form
+
+const filterTransactions = curry(
+  (
+    status: TransferType,
+    criteria,
+    sourceType: '' | AddressTypesType,
+    transactions: Array<TxType>
+  ) => {
+    const isOfTxType = curry((filter: TransferType, tx) => {
+      return propSatisfies(
+        x =>
+          filter === '' ||
+          // @ts-ignore
+          (x && toUpper(x) === toUpper(filter)) ||
+          (x === 'DEPOSIT' && filter === 'received') ||
+          (x === 'WITHDRAWAL' && filter === 'sent'),
+        'type',
+        tx
+      )
+    })
+    const search = curry((text, txPath, tx) =>
+      compose(includes(toUpper(text || '')), toUpper, String, path(txPath))(tx)
+    )
+    const searchPredicate = anyPass(
+      map(search(criteria), [
+        ['id'],
+        ['description'],
+        ['from'],
+        ['to'],
+        ['hash'],
+        ['outputs', 0, 'address'],
+        ['inputs', 0, 'address']
+      ])
+    )
+
+    const sourceTypeFilter = (tx: TxType) => {
+      switch (sourceType) {
+        case 'CUSTODIAL':
+          return (
+            (tx as SBOrderType).attributes ||
+            (tx as SBTransactionType).extraAttributes
+          )
+        case '':
+          return tx
+        default:
+          return (tx as ProcessedTxType).blockHeight
+      }
+    }
+
+    const fullPredicate = allPass([isOfTxType(status), searchPredicate])
+    return filter(fullPredicate, transactions.filter(sourceTypeFilter))
+  }
+)
+
+const coinSelectorMap = (
+  state,
+  coin,
+  isCoinErc20
+): ((state: RootState) => Array<RemoteDataType<any, Array<TxType>>>) => {
   if (isCoinErc20) {
     return state =>
       selectors.core.common.eth.getErc20WalletTransactions(state, coin)
@@ -66,20 +109,34 @@ export const getData = (state, coin, isCoinErc20) =>
       selectors.form.getFormValues(WALLET_TX_SEARCH),
       coinSelectorMap(state, coin, isCoinErc20),
       selectors.core.settings.getCurrency,
-      () => selectors.core.walletOptions.getCoinModel(state, coin)
+      () => selectors.core.walletOptions.getCoinModel(state, coin),
+      () => selectors.core.walletOptions.getSupportedCoins(state)
     ],
-    (userSearch, pages: any, currencyR, coinModelR) => {
+    (userSearch, pagesR, currencyR, coinModelR, supportedCoinsR) => {
       const empty = page => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
-      const status = propOr('', 'status', userSearch)
-      const sourceType = pathOr('', ['source', 'type'], userSearch)
+      const status: TransferType = propOr('', 'status', userSearch)
+      const sourceType: '' | AddressTypesType = pathOr(
+        '',
+        ['source', 'type'],
+        userSearch
+      )
       const filteredPages =
-        pages && !isEmpty(pages)
-          ? pages.map(map(filterTransactions(status, search)))
+        pagesR && !isEmpty(pagesR)
+          ? pagesR.map((pages: typeof pagesR[0]) =>
+              map(filterTransactions(status, search, sourceType), pages)
+            )
           : []
 
       return {
-        coinModel: coinModelR.getOrElse({}),
+        coinModel: coinModelR.getOrElse(
+          {} as <P extends WalletCurrencyType>(
+            p: P
+          ) => SupportedWalletCurrenciesType[P]
+        ),
+        supportedCoins: supportedCoinsR.getOrElse(
+          {} as SupportedWalletCurrenciesType
+        ),
         currency: currencyR.getOrElse(''),
         hasTxResults: !all(empty)(filteredPages),
         // @ts-ignore

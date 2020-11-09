@@ -4,6 +4,7 @@ import { SimpleBuyActionTypes, SimpleBuyState } from './types'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: SimpleBuyState = {
+  addBank: undefined,
   account: Remote.NotAsked,
   balances: Remote.NotAsked,
   card: Remote.NotAsked,
@@ -169,7 +170,14 @@ export function simpleBuyReducer (
     case AT.FETCH_SB_PAIRS_SUCCESS:
       return {
         ...state,
-        pairs: Remote.Success(action.payload.pairs)
+        pairs: Remote.Success(action.payload.pairs),
+        pair: action.payload.coin
+          ? action.payload.pairs.find(
+              pair =>
+                getCoinFromPair(pair.pair) === action.payload.coin &&
+                getFiatFromPair(pair.pair) === state.fiatCurrency
+            )
+          : state.pair
       }
     case AT.FETCH_SB_PAYMENT_ACCOUNT_FAILURE: {
       return {
@@ -241,14 +249,16 @@ export function simpleBuyReducer (
             step: action.payload.step,
             pair: action.payload.pair,
             method: action.payload.method,
-            order: undefined
+            order: undefined,
+            addBank: undefined
           }
         case 'CRYPTO_SELECTION':
           return {
             ...state,
             cryptoCurrency: action.payload.cryptoCurrency,
             fiatCurrency: action.payload.fiatCurrency,
-            step: action.payload.step
+            step: action.payload.step,
+            addBank: undefined
           }
         case 'PAYMENT_METHODS':
           return {
@@ -256,7 +266,8 @@ export function simpleBuyReducer (
             cryptoCurrency: action.payload.cryptoCurrency,
             fiatCurrency: action.payload.fiatCurrency,
             step: action.payload.step,
-            order: action.payload.order
+            order: action.payload.order,
+            addBank: undefined
           }
         case '3DS_HANDLER':
         case 'CHECKOUT_CONFIRM':
@@ -265,14 +276,16 @@ export function simpleBuyReducer (
           return {
             ...state,
             order: action.payload.order,
-            step: action.payload.step
+            step: action.payload.step,
+            addBank: undefined
           }
         case 'TRANSFER_DETAILS':
           return {
             ...state,
             step: action.payload.step,
             fiatCurrency: action.payload.fiatCurrency,
-            displayBack: action.payload.displayBack
+            displayBack: action.payload.displayBack,
+            addBank: action.payload.addBank
           }
         default: {
           return {
