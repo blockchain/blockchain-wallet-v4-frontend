@@ -108,6 +108,8 @@ export const DepositOrWithdrawal = (props: Props) => {
             defaultMessage='Sent'
           />
         )
+      case 'REFUNDED':
+        return <FormattedMessage id='copy.refunded' defaultMessage='Refunded' />
     }
   } else {
     switch (props.tx.type) {
@@ -119,12 +121,15 @@ export const DepositOrWithdrawal = (props: Props) => {
         return (
           <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />
         )
+      case 'REFUNDED':
+        return <FormattedMessage id='copy.refunded' defaultMessage='Refunded' />
     }
   }
 }
 
 export const Origin = (props: Props) => {
   switch (props.tx.type) {
+    case 'REFUNDED':
     case 'DEPOSIT':
       if (props.tx.amount.symbol in CoinTypeEnum) {
         return <>Wallet</>
@@ -138,6 +143,7 @@ export const Origin = (props: Props) => {
 
 export const Destination = (props: Props) => {
   switch (props.tx.type) {
+    case 'REFUNDED':
     case 'DEPOSIT':
       return <>Trading Wallet</>
     case 'WITHDRAWAL':
