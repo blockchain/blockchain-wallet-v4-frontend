@@ -40,7 +40,10 @@ export const getRate = (
   try {
     for (var index = 0; index <= priceTiers.length; index++) {
       const priceTier = priceTiers[index]
-      if (index === priceTiers.length - 1) return Number(priceTier.price)
+      if (index === priceTiers.length - 1)
+        return new BigNumber(
+          convertBaseToStandard(coin, priceTier.price)
+        ).toNumber()
 
       const nextTier = priceTiers[index + 1]
       const thisVol = new BigNumber(priceTier.volume)
