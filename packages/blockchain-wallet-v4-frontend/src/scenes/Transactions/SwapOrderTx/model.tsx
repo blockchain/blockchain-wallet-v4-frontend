@@ -45,6 +45,8 @@ export const Status = ({ order }: Props) => {
           values={{ type: 'Swap' }}
         />
       )
+    case 'PENDING_WITHDRAWAL':
+      return <>Pending Withdrawal</>
     case 'PENDING_EXECUTION':
       return <>Pending Execution</>
     case 'PENDING_CONFIRMATION':
@@ -73,12 +75,7 @@ export const Status = ({ order }: Props) => {
         />
       )
     default:
-      return (
-        <FormattedMessage
-          id='modals.simplebuy.transactionfeed.unknown'
-          defaultMessage='Unknown Status'
-        />
-      )
+      return <>{order.state}</>
   }
 }
 
