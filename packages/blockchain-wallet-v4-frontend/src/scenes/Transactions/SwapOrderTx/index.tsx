@@ -158,9 +158,9 @@ class SwapOrderTx extends PureComponent<Props, State> {
               </RowHeader>
               <RowValue data-e2e='swapOutFee'>
                 {coinToString({
-                  unit: { symbol: base },
+                  unit: { symbol: counter },
                   value: convertBaseToStandard(
-                    base,
+                    counter,
                     this.props.order.priceFunnel.networkFee
                   )
                 })}
