@@ -6,7 +6,7 @@ import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
 import { Props as BaseProps, SuccessStateType } from '..'
-import { Border, TopText } from '../components'
+import { Border, FreeCartridge, TopText } from '../components'
 import {
   Button,
   HeartbeatLoader,
@@ -153,7 +153,14 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           </Title>
           <Value>
             {BASE.type === 'CUSTODIAL' ? (
-              <>0 {BASE.baseCoin}</>
+              <>
+                <>0 {BASE.baseCoin}</>
+                <div>
+                  <FreeCartridge>
+                    <FormattedMessage id='copy.free' defaultMessage='FREE' />
+                  </FreeCartridge>
+                </div>
+              </>
             ) : (
               this.props.paymentR.cata({
                 Success: value => (
@@ -195,6 +202,16 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       symbol: coins[COUNTER.baseCoin].coinTicker
                     }
                   })}
+                  {COUNTER.type === 'CUSTODIAL' && (
+                    <div>
+                      <FreeCartridge>
+                        <FormattedMessage
+                          id='copy.free'
+                          defaultMessage='FREE'
+                        />
+                      </FreeCartridge>
+                    </div>
+                  )}
                 </>
               ),
               Failure: e => e,
@@ -203,6 +220,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             })}
           </Value>
         </Row>
+
         <Border />
         <FlyoutWrapper>
           <Form onSubmit={this.handleSubmit}>
