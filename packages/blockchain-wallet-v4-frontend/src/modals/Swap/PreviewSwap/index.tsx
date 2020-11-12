@@ -195,11 +195,11 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 <>
                   {coinToString({
                     value: convertBaseToStandard(
-                      COUNTER.baseCoin,
+                      COUNTER.coin,
                       value.quote.networkFee
                     ),
                     unit: {
-                      symbol: coins[COUNTER.baseCoin].coinTicker
+                      symbol: coins[COUNTER.coin].coinTicker
                     }
                   })}
                   {COUNTER.type === 'CUSTODIAL' && (
