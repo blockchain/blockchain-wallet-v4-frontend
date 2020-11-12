@@ -274,7 +274,6 @@ export function simpleBuyReducer (
     case AT.SET_STEP:
       switch (action.payload.step) {
         case 'ENTER_AMOUNT':
-        case 'INFO_AND_RESIDENTIAL':
         case 'VERIFY_EMAIL':
           return {
             ...state,
@@ -285,6 +284,18 @@ export function simpleBuyReducer (
             pair: action.payload.pair,
             method: action.payload.method,
             order: undefined,
+            addBank: undefined
+          }
+        case 'INFO_AND_RESIDENTIAL':
+          return {
+            ...state,
+            orderType: action.payload.orderType,
+            cryptoCurrency: action.payload.cryptoCurrency,
+            fiatCurrency: action.payload.fiatCurrency,
+            step: action.payload.step,
+            pair: action.payload.pair,
+            method: action.payload.method,
+            order: action.payload.order,
             addBank: undefined
           }
         case 'CRYPTO_SELECTION':

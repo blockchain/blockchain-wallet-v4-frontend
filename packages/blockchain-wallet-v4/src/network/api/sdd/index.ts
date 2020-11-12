@@ -1,11 +1,12 @@
 import { FiatType } from 'core/types'
 import { SDDType, SDDUpdateType } from './types'
 
-export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
+export default ({ nabuUrl, authorizedPost, get }) => {
   const fetchSDDEligible = (): SDDType =>
-    authorizedGet({
+    get({
       url: nabuUrl,
-      endPoint: `/sdd/eligible`
+      endPoint: `/sdd/eligible`,
+      ignoreQueryParams: true
     })
 
   const updateSDDEligible = (

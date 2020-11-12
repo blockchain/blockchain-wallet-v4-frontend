@@ -132,7 +132,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   if (props.submitting) {
     return (
       <SpinnerWrapper>
-        <SpinningLoader />
+        <SpinningLoader width='36px' height='36px' />
       </SpinnerWrapper>
     )
   }
@@ -372,7 +372,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 component={SelectBoxUSState}
                 errorBottom
                 validate={[required]}
-                normalize={val => val && val.name}
+                normalize={val => val && val.code}
               />
             ) : (
               <Field name='state' component={TextBox} />

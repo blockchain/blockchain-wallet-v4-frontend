@@ -6,7 +6,6 @@ import BigNumber from 'bignumber.js'
 import {
   ExtractSuccess,
   FiatTypeEnum,
-  RemoteDataType,
   SBOrderType,
   SupportedCoinType,
   SupportedWalletCurrenciesType,
@@ -33,12 +32,19 @@ class CheckoutConfirm extends PureComponent<Props> {
   }
 
   handleSubmit = () => {
+    const { isFirstLogin } = this.props
     const { userData, sbBalances } = this.props.data.getOrElse({
       userData: { tiers: { current: 0 } } as UserDataType
     } as SuccessStateType)
 
     const inputCurrency = this.props.order.inputCurrency as WalletFiatType
 
+    if (isFirstLogin) {
+      this.props.simpleBuyActions.setStep({
+        step: 'ADD_CARD'
+      })
+      return
+    }
     if (userData.tiers.current < 2) {
       this.props.simpleBuyActions.setStep({
         step: 'KYC_REQUIRED'
@@ -92,7 +98,7 @@ class CheckoutConfirm extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
@@ -104,7 +110,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
       PAX: { colorCode: 'pax' } as SupportedCoinType,
       USDT: { colorCode: 'usdt' } as SupportedCoinType,
       XLM: { colorCode: 'xlm' } as SupportedCoinType
-    } as Omit<SupportedWalletCurrenciesType, keyof FiatTypeEnum>)
+    } as Omit<SupportedWalletCurrenciesType, keyof FiatTypeEnum>),
+  isFirstLogin: selectors.auth.getFirstLogin(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -122,10 +129,7 @@ type OwnProps = {
   order: SBOrderType
 }
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-  supportedCoins: SupportedWalletCurrenciesType
-}
+export type LinkDispatchPropsType = ReturnType<typeof mapDispatchToProps>
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(CheckoutConfirm)

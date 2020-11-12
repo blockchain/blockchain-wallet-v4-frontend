@@ -6,6 +6,13 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
+import { CountryType } from 'data/components/identityVerification/types'
+import {
+  countryUsesPostalcode,
+  countryUsesZipcode,
+  required,
+  requiredZipCode
+} from 'services/FormHelper'
 import {
   CreditCardBox,
   CreditCardCVCBox,
@@ -14,6 +21,7 @@ import {
   FormItem,
   FormLabel,
   SelectBox,
+  SelectBoxUSState,
   TextBox
 } from 'components/Form'
 import {
@@ -39,7 +47,6 @@ import {
   validateCreditCardExpiry
 } from 'components/Form/CreditCardExpiryBox'
 import { Props as OwnProps, SuccessStateType } from '.'
-import { required, requiredZipCode } from 'services/FormHelper'
 
 import { SBAddCardErrorType } from 'data/types'
 import { SBBuyOrderType, SBSellOrderType } from 'core/types'
@@ -87,14 +94,6 @@ export const Caption = styled(Text)`
   line-height: 150%;
   color: ${props => props.theme.grey600};
 `
-const FormGroupRow = styled(FormGroup)`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`
-const SmallFormItem = styled(FormItem)`
-  width: 45%;
-`
 const getCountryElements = countries => [
   {
     group: '',
@@ -111,6 +110,31 @@ const getCountryElements = countries => [
 const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
   Props> = props => {
   const [billingAddress, setBillingAddress] = useState(false)
+
+  const countryCode =
+    (props.formValues &&
+      props.formValues.billingaddress &&
+      props.formValues.billingaddress.country) ||
+    props.countryCode
+
+  const countryIsUS = countryCode === 'US'
+  const countryUsesZipOrPostcode =
+    countryUsesZipcode(countryCode) || countryUsesPostalcode(countryCode)
+
+  const defaultCountry = props.supportedCountries.find(
+    country => country.code === countryCode
+  )
+
+  if (
+    defaultCountry &&
+    (!props.formValues ||
+      (props.formValues &&
+        props.formValues.billingaddress &&
+        props.formValues.billingaddress.country))
+  ) {
+    props.updateDefaultCountry(defaultCountry)
+  }
+
   return (
     <CustomFlyoutWrapper>
       <TopText color='grey800' size='20px' weight={600}>
@@ -284,7 +308,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
                       </Text>
                     </Label>
                     <Field
-                      name='line1'
+                      name='billingaddress.line1'
                       errorBottom
                       validate={required}
                       component={TextBox}
@@ -302,7 +326,11 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
                         />
                       </Text>
                     </Label>
-                    <Field name='line2' errorBottom component={TextBox} />
+                    <Field
+                      name='billingaddress.line2'
+                      errorBottom
+                      component={TextBox}
+                    />
                   </FormItem>
                 </FormGroup>
 
@@ -317,47 +345,66 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
                       </Text>
                     </Label>
                     <Field
-                      name='city'
+                      name='billingaddress.city'
                       errorBottom
                       validate={required}
                       component={TextBox}
                     />
                   </FormItem>
                 </FormGroup>
-                <FormGroupRow>
-                  <SmallFormItem>
-                    <Label htmlFor='state'>
-                      <Text weight={500} size='14px' color='grey900'>
+                <FormGroup inline>
+                  <FormItem>
+                    <FormLabel>
+                      {countryIsUS ? (
                         <FormattedMessage
-                          id='modals.simplebuy.info_and_residential.state'
-                          defaultMessage='State'
+                          id='identityverification.personal.staterequired'
+                          defaultMessage='State *'
                         />
-                      </Text>
-                    </Label>
-                    <Field
-                      name='state'
-                      errorBottom
-                      countryCode={props.countryCode}
-                      component={TextBox}
-                    />
-                  </SmallFormItem>
-                  <SmallFormItem>
-                    <Label htmlFor='postCode'>
-                      <Text weight={500} size='14px' color='grey900'>
+                      ) : (
                         <FormattedMessage
-                          id='modals.simplebuy.info_and_residential.zip'
-                          defaultMessage='Zip'
+                          id='identityverification.personal.region'
+                          defaultMessage='Region'
                         />
-                      </Text>
-                    </Label>
-                    <Field
-                      name='postCode'
-                      errorBottom
-                      validate={requiredZipCode}
-                      component={TextBox}
-                    />
-                  </SmallFormItem>
-                </FormGroupRow>
+                      )}
+                    </FormLabel>
+                    {countryIsUS ? (
+                      <Field
+                        name='billingaddress.state'
+                        component={SelectBoxUSState}
+                        errorBottom
+                        validate={[required]}
+                        normalize={val => val && val.code}
+                      />
+                    ) : (
+                      <Field name='state' component={TextBox} />
+                    )}
+                  </FormItem>
+                  {countryUsesZipOrPostcode && (
+                    <FormItem>
+                      <FormLabel htmlFor='billingaddress.postCode'>
+                        <Text weight={500} size='14px' color='grey900'>
+                          {countryUsesZipcode(countryCode) ? (
+                            <FormattedMessage
+                              id='identityverification.personal.zip'
+                              defaultMessage='Zip Code *'
+                            />
+                          ) : (
+                            <FormattedMessage
+                              id='identityverification.personal.postcoderequired'
+                              defaultMessage='Postcode *'
+                            />
+                          )}
+                        </Text>
+                      </FormLabel>
+                      <Field
+                        name='billingaddress.postCode'
+                        errorBottom
+                        validate={requiredZipCode}
+                        component={TextBox}
+                      />
+                    </FormItem>
+                  )}
+                </FormGroup>
 
                 <FormGroup>
                   <FormItem>
@@ -372,7 +419,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
 
                     <Field
                       data-e2e='selectCountryDropdown'
-                      name='country'
+                      name='billingaddress.country'
                       validate={required}
                       elements={getCountryElements(props.supportedCountries)}
                       component={SelectBox}
@@ -421,6 +468,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
 export type Props = OwnProps &
   SuccessStateType & {
     onCountrySelect: (e, value) => void
+    updateDefaultCountry: (country: CountryType) => void
   }
 
 export type ErrorType = SBAddCardErrorType

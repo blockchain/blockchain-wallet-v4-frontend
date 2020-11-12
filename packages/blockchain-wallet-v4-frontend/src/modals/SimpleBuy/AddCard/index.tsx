@@ -2,6 +2,7 @@ import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { CoinType, SBPairType } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
+import { CountryType } from 'data/components/identityVerification/types'
 import { getData } from './selectors'
 import { Remote } from 'core'
 import { RootState } from 'data/rootReducer'
@@ -22,9 +23,28 @@ class AddCard extends PureComponent<Props> {
     this.props.simpleBuyActions.addCardDetails()
   }
 
+  setDefaultCountry = (country: CountryType) => {
+    this.props.formActions.change(
+      'addCCForm',
+      'billingaddress.country',
+      country.code
+    )
+    this.props.formActions.clearFields(
+      'addCCForm',
+      false,
+      false,
+      'billingaddress.state'
+    )
+  }
+
   onCountryChange = (e, value) => {
-    this.props.formActions.change('addCCForm', 'country', value)
-    this.props.formActions.clearFields('addCCForm', false, false, 'state')
+    this.props.formActions.change('addCCForm', 'billingaddress.country', value)
+    this.props.formActions.clearFields(
+      'addCCForm',
+      false,
+      false,
+      'billingaddress.state'
+    )
   }
 
   render () {
@@ -35,6 +55,7 @@ class AddCard extends PureComponent<Props> {
           {...val}
           onSubmit={this.handleSubmit}
           onCountrySelect={this.onCountryChange}
+          updateDefaultCountry={this.setDefaultCountry}
         />
       ),
       Failure: e => (

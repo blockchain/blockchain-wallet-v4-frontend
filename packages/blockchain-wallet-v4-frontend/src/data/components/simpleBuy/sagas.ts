@@ -104,6 +104,9 @@ export default ({
       const formValues: SBAddCardFormValuesType = yield select(
         selectors.form.getFormValues('addCCForm')
       )
+      if (formValues.billingaddress) {
+        yield call(fetchSBCardSDD, formValues.billingaddress)
+      }
       const existingCardsR = S.getSBCards(yield select())
       const existingCards = existingCardsR.getOrElse([] as Array<SBCardType>)
       const nextCardAlreadyExists = getNextCardExists(existingCards, formValues)
@@ -403,6 +406,35 @@ export default ({
         currency,
         {
           ...address
+        },
+        userData.email
+      )
+      yield put(A.fetchSBCardSuccess(card))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchSBCardFailure(error))
+    }
+  }
+
+  const fetchSBCardSDD = function * (
+    billingAddress: SBBillingAddressFormValuesType
+  ) {
+    let card: SBCardType
+    try {
+      yield put(A.fetchSBCardLoading())
+      const currency = S.getFiatCurrency(yield select())
+      if (!currency) throw new Error(NO_FIAT_CURRENCY)
+
+      const userDataR = selectors.modules.profile.getUserData(yield select())
+      const userData = userDataR.getOrFail('NO_USER_ADDRESS')
+
+      if (!billingAddress) throw new Error('NO_USER_ADDRESS')
+
+      card = yield call(
+        api.createSBCard,
+        currency,
+        {
+          ...billingAddress
         },
         userData.email
       )
@@ -937,7 +969,6 @@ export default ({
         state,
         postCode
       }
-      if (address.country === 'US') address.state = address.state.code
       yield call(updateUser, { payload: { data: personalData } })
       yield call(updateUserAddress, {
         payload: { address }
@@ -964,17 +995,18 @@ export default ({
             order
           })
         )
+      } else {
+        yield put(actions.modals.closeModal())
+        // TODO Jump to gold verified
+        yield put(
+          actions.components.identityVerification.verifyIdentity(
+            TIERS[2],
+            false,
+            'SwapGetStarted'
+          )
+        )
       }
 
-      // TODO Jump to gold verified
-      yield put(actions.modals.closeModal())
-      yield put(
-        actions.components.identityVerification.verifyIdentity(
-          TIERS[2],
-          false,
-          'SwapGetStarted'
-        )
-      )
       yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL))
     } catch (e) {
       yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL, { _error: e }))
@@ -988,6 +1020,83 @@ export default ({
     }
   }
 
+  const createSBOrderSDD = function * ({
+    paymentType
+  }: ReturnType<typeof A.createSBOrder>) {
+    const values: SBCheckoutFormValuesType = yield select(
+      selectors.form.getFormValues('simpleBuyCheckout')
+    )
+    try {
+      const pair = S.getSBPair(yield select())
+      if (!values) throw new Error(NO_CHECKOUT_VALS)
+      if (!pair) throw new Error(NO_PAIR_SELECTED)
+      if (!paymentType) throw new Error(NO_PAYMENT_TYPE)
+
+      const { orderType } = values
+      const fiat = getFiatFromPair(pair.pair)
+      const coin = getCoinFromPair(pair.pair)
+      const inputCurrency = fiat
+      const outputCurrency = coin
+      const amount = convertStandardToBase('FIAT', values.amount)
+      const input = { amount, symbol: inputCurrency }
+      const output = { amount, symbol: outputCurrency }
+
+      delete output.amount
+
+      yield put(actions.form.startSubmit('simpleBuyCheckout'))
+      const order: SBOrderType = yield call(
+        api.createSBOrder,
+        pair.pair,
+        orderType,
+        true,
+        input,
+        output,
+        paymentType
+      )
+      yield put(actions.form.stopSubmit('simpleBuyCheckout'))
+
+      const cryptoCurrency = S.getCryptoCurrency(yield select()) || 'BTC'
+      const fiatCurrency = S.getFiatCurrency(yield select()) || 'USD'
+
+      yield put(
+        A.setStep({
+          step: 'INFO_AND_RESIDENTIAL',
+          fiatCurrency,
+          pair,
+          cryptoCurrency,
+          order
+        })
+      )
+      yield put(A.fetchSBOrders())
+    } catch (e) {
+      // After CC has been activated we try to create an order
+      // If order creation fails go back to ENTER_AMOUNT step
+      // Wait for the form to be INITIALIZED and display err
+      const step = S.getStep(yield select())
+      if (step !== 'ENTER_AMOUNT') {
+        const pair = S.getSBPair(yield select())
+        const method = S.getSBPaymentMethod(yield select())
+        if (pair) {
+          yield put(
+            A.setStep({
+              step: 'ENTER_AMOUNT',
+              cryptoCurrency: getCoinFromPair(pair.pair),
+              fiatCurrency: getFiatFromPair(pair.pair),
+              pair,
+              method
+            })
+          )
+          yield take(AT.INITIALIZE_CHECKOUT)
+          yield delay(3000)
+          yield put(actions.form.startSubmit('simpleBuyCheckout'))
+        }
+      }
+
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit('simpleBuyCheckout', { _error: error }))
+    }
+  }
+
   return {
     activateSBCard,
     addCardDetails,
@@ -998,6 +1107,7 @@ export default ({
     deleteSBCard,
     fetchSBBalances,
     fetchSBCard,
+    fetchSBCardSDD,
     fetchSBCards,
     fetchSBFiatEligible,
     fetchSDDEligible,
@@ -1017,6 +1127,7 @@ export default ({
     saveInfoAndResidentialData,
     setStepChange,
     showModal,
+    createSBOrderSDD,
     switchFix
   }
 }

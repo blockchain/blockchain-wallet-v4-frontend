@@ -23,6 +23,7 @@ import { CountryType } from './../identityVerification/types'
 
 // Types
 export type SBAddCardFormValuesType = {
+  billingaddress?: SBBillingAddressFormValuesType
   'card-number': string
   cvc: string
   'expiry-date': string
@@ -35,6 +36,9 @@ export type SBAddCardErrorType =
   | 'CARD_CREATION_FAILED'
   | 'CARD_ALREADY_SAVED'
 export type SBBillingAddressFormValuesType = NabuAddressType
+export type SBBillingAddressFormSDDType = {
+  country: CountryType
+} & NabuAddressType['country']
 export type SBInfoAndResidentialFormValuesType = {
   country: CountryType
   dob: string
