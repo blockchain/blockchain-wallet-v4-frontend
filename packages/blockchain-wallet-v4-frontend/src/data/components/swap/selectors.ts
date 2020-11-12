@@ -280,10 +280,13 @@ const xlmGetActiveAccounts = createDeepEqualSelector(
           const address = prop('publicKey', acc)
           const account = prop(address, xlmData)
           const noAccount = path(['error', 'message'], account) === 'Not Found'
-          const balance = account
-            // @ts-ignore
-            .map(coreSelectors.data.xlm.selectBalanceFromAccount)
-            .getOrElse(0)
+          const balance = convertStandardToBase(
+            'XLM',
+            account
+              // @ts-ignore
+              .map(coreSelectors.data.xlm.selectBalanceFromAccount)
+              .getOrElse(0)
+          )
           return {
             archived: prop('archived', acc),
             baseCoin: 'XLM',
