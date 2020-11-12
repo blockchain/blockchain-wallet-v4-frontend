@@ -70,6 +70,8 @@ type XlmPaymentValue = IPaymentValue & {
 
 type IPaymentType = {
   build: () => PaymentType
+  chain: () => PaymentType
+  done: () => PaymentType
   from: (
     addressOrIndex?: string | number,
     addressType?: AddressTypesType,

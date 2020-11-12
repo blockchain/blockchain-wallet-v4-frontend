@@ -88,7 +88,8 @@ const FirstStep = props => {
     noAccount,
     pristine,
     submit,
-    submitting
+    submitting,
+    swapActions
   } = props
   const amountActive = activeField === 'amount'
   const isFromLockbox = from && from.type === 'LOCKBOX'
@@ -131,7 +132,7 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      {noAccount && <NoAccountTemplate />}
+      {noAccount && <NoAccountTemplate swapActions={swapActions} />}
       {!noAccount && (
         <React.Fragment>
           {isFromLockbox && !disableLockboxSend && (

@@ -9,7 +9,6 @@ import { formatFiat } from 'core/exchange/currency'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { TIERS } from './model'
-import { UserDataType, UserTiersType } from 'data/types'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
@@ -108,13 +107,13 @@ const { TIERS_STATES } = model.profile
 export const TierCard = ({
   column,
   emailVerified,
-  goToSwap,
   mobileVerified,
   tier,
   userData,
   userTiers,
   identityVerificationActions,
-  simpleBuyActions
+  simpleBuyActions,
+  swapActions
 }: Props) => {
   const tierData = userTiers.find(userTier => userTier.index === tier)
   if (!tierData) return null
@@ -224,7 +223,7 @@ export const TierCard = ({
               jumbo
               fullwidth
               nature='primary'
-              onClick={goToSwap}
+              onClick={() => swapActions.showModal('SettingsProfile')}
               data-e2e='swapNowBtn'
             >
               <FormattedMessage
@@ -257,7 +256,7 @@ const mapDispatchToProps = dispatch => ({
     actions.components.identityVerification,
     dispatch
   ),
-  goToSwap: () => dispatch(actions.router.push('/swap')),
+  swapActions: bindActionCreators(actions.components.swap, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
@@ -265,11 +264,9 @@ const connector = connect(getData, mapDispatchToProps)
 
 type OwnProps = {
   column: boolean
-  emailVerified: boolean
-  mobileVerified: boolean
+  emailVerified?: boolean
+  mobileVerified?: boolean
   tier: 1 | 2
-  userData: UserDataType
-  userTiers: UserTiersType
 }
 type Props = OwnProps & ConnectedProps<typeof connector>
 

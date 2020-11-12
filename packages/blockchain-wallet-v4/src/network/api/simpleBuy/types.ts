@@ -240,7 +240,7 @@ export type SBTransactionType = {
         status: 'UNCONFIRMED' | 'CONFIRMED'
         txHash: string
       }
-      type: 'DEPOSIT'
+      type: 'DEPOSIT' | 'REFUNDED'
     }
   | {
       extraAttributes: null | {
@@ -255,7 +255,7 @@ export type SBTransactionType = {
         product: 'SIMPLEBUY'
         user: 'adea2fd5-acc3-4a71-987d-3741811cdeaa'
       }
-      type: 'WITHDRAWAL'
+      type: 'WITHDRAWAL' | 'REFUNDED'
     }
 )
 

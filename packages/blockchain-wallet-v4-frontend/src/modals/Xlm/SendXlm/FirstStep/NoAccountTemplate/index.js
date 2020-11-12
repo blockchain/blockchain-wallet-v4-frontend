@@ -1,5 +1,4 @@
 import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
 import React from 'react'
 
 import { Banner, Button, Text } from 'blockchain-info-components'
@@ -9,7 +8,7 @@ import ModalIcon from '../ModalIcon'
 
 const { CREATE_ACCOUNT_LEARN_MODAL } = model.components.sendXlm
 
-export const NoAccountTemplate = () => (
+export const NoAccountTemplate = ({ swapActions }) => (
   <React.Fragment>
     <FormGroup>
       <Banner type='info' data-e2e='sendXlmNoAccount'>
@@ -23,24 +22,18 @@ export const NoAccountTemplate = () => (
       </Banner>
     </FormGroup>
     <FormGroup>
-      <LinkContainer
-        to={{
-          pathname: '/swap',
-          state: {
-            from: 'BTC',
-            to: 'XLM',
-            amount: '0',
-            fix: model.rates.FIX_TYPES.BASE_IN_FIAT
-          }
-        }}
+      <Button
+        type='submit'
+        nature='primary'
+        uppercase
+        fullwidth
+        onClick={() => swapActions.showModal()}
       >
-        <Button type='submit' nature='primary' uppercase fullwidth>
-          <FormattedMessage
-            id='modals.sendxlm.firststep.swap'
-            defaultMessage='Swap for XLM'
-          />
-        </Button>
-      </LinkContainer>
+        <FormattedMessage
+          id='modals.sendxlm.firststep.swap'
+          defaultMessage='Swap for XLM'
+        />
+      </Button>
     </FormGroup>
   </React.Fragment>
 )

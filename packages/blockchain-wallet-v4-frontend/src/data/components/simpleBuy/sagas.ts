@@ -365,21 +365,13 @@ export default ({
   }: ReturnType<typeof A.fetchSBBalances>) {
     try {
       if (!skipLoading) yield put(A.fetchSBBalancesLoading())
-      if (!(yield call(isTier2)))
-        return yield put(A.fetchSBBalancesSuccess(DEFAULT_SB_BALANCES))
       const balances: ReturnType<typeof api.getSBBalances> = yield call(
         api.getSBBalances,
         currency
       )
-      // const locks: ReturnType<typeof api.getWithdrawalLocks> = yield call(
-      //   api.getWithdrawalLocks
-      // )
-      // eslint-disable-next-line
-      // console.log(locks)
       yield put(A.fetchSBBalancesSuccess(balances))
     } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.fetchSBBalancesFailure(error))
+      yield put(A.fetchSBBalancesSuccess(DEFAULT_SB_BALANCES))
     }
   }
 

@@ -1,9 +1,17 @@
 import * as A from './actions'
 import { actions, model, selectors } from 'data'
-import { call, put, select } from 'redux-saga/effects'
+import { call, CallEffect, put, select } from 'redux-saga/effects'
 
 import { APIType } from 'core/network/api'
-import { BeneficiaryType } from 'core/types'
+import {
+  BeneficiaryType,
+  CoinType,
+  PaymentType,
+  PaymentValue,
+  RemoteDataType
+} from 'core/types'
+import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
+import { promptForSecondPassword } from 'services/SagaService'
 import profileSagas from '../../modules/profile/sagas'
 
 const { BAD_2FA } = model.profile.ERROR_TYPES
@@ -19,6 +27,37 @@ export default ({
 }) => {
   const logLocation = 'components/send/sagas'
   const { waitForUserData } = profileSagas({ api, coreSagas, networks })
+
+  const buildAndPublishPayment = function * (
+    coin: CoinType,
+    payment: PaymentType,
+    destination: string
+  ): Generator<PaymentType | CallEffect, PaymentValue, any> {
+    try {
+      if (coin === 'XLM') {
+        // separate out addresses and memo
+        const depositAddressMemo = destination.split(':')
+        payment = yield payment.to(depositAddressMemo[0], 'CUSTODIAL')
+        // @ts-ignore
+        payment = yield payment.memo(depositAddressMemo[1])
+        // @ts-ignore
+        payment = yield payment.memoType('text')
+        // @ts-ignore
+        payment = yield payment.setDestinationAccountExists(true)
+      } else {
+        payment = yield payment.to(destination, 'CUSTODIAL')
+      }
+      payment = yield payment.build()
+      // ask for second password
+      const password = yield call(promptForSecondPassword)
+      payment = yield payment.sign(password)
+      payment = yield payment.publish()
+    } catch (e) {
+      throw e
+    }
+
+    return payment.value()
+  }
 
   const fetchPaymentsAccountExchange = function * (action) {
     const { currency } = action.payload
@@ -125,10 +164,46 @@ export default ({
     }
   }
 
+  const paymentGetOrElse = (
+    coin: CoinType,
+    paymentR: RemoteDataType<string | Error, PaymentValue | undefined>
+  ): PaymentType => {
+    switch (coin) {
+      case 'BCH':
+        return coreSagas.payment.bch.create({
+          payment: paymentR.getOrElse(<PaymentValue>{}),
+          network: networks.bch
+        })
+      case 'BTC':
+        return coreSagas.payment.btc.create({
+          payment: paymentR.getOrElse(<PaymentValue>{}),
+          network: networks.btc
+        })
+      case 'ETH':
+      case 'PAX':
+      case 'USDT':
+        return coreSagas.payment.eth.create({
+          payment: paymentR.getOrElse(<PaymentValue>{}),
+          network: networks.eth
+        })
+      case 'XLM':
+        return coreSagas.payment.xlm.create({
+          payment: paymentR.getOrElse(<PaymentValue>{})
+        })
+      case 'ALGO':
+        // @ts-ignore
+        return {}
+      default:
+        throw new Error(INVALID_COIN_TYPE)
+    }
+  }
+
   return {
+    buildAndPublishPayment,
     fetchPaymentsAccountExchange,
     fetchPaymentsTradingAccount,
+    getWithdrawalLockCheck,
     notifyNonCustodialToCustodialTransfer,
-    getWithdrawalLockCheck
+    paymentGetOrElse
   }
 }
