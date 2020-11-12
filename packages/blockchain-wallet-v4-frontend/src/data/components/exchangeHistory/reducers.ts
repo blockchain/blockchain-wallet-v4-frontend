@@ -46,7 +46,7 @@ export function exchangeHistoryReducer (state = INITIAL_STATE, action) {
       )
     }
     case AT.ALL_FETCHED: {
-      return assoc('allFetched', true, state)
+      return { ...state, allFetched: true }
     }
     case AT.CLEAR_TRADES: {
       return INITIAL_STATE
