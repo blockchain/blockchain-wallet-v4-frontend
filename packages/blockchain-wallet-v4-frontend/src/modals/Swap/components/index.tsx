@@ -3,11 +3,15 @@ import { Text } from 'blockchain-info-components'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { FlyoutWrapper } from 'components/Flyout'
+import { SuccessCartridge } from 'components/Cartridge'
 
 export const Border = styled.div`
   border-top: 1px solid ${props => props.theme.grey000};
 `
-
+export const FreeCartridge = styled(SuccessCartridge)`
+  font-size: 12px;
+  margin-top: 8px;
+`
 export const StickyTopFlyoutWrapper = styled(FlyoutWrapper)`
   background-color: ${props => props.theme.white};
   position: sticky;
@@ -51,6 +55,7 @@ export const CustomOption = styled(Option)`
     content: '';
   }
 `
+
 export const OptionTitle = styled(Text)`
   color: ${props => props.theme.grey900};
   margin-top: 4px;

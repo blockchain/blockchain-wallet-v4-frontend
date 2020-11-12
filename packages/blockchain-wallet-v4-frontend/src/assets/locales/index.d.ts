@@ -320,6 +320,7 @@ type MessagesType = {
   'copy.error.locked_withdraw_error': 'Your crypto will be available to be withdrawn within 3 days.'
   'copy.failed': 'Failed'
   'copy.fee': 'Fee'
+  'copy.free': 'FREE'
   'copy.from': 'From'
   'copy.from:': 'From: '
   'copy.here': 'here'
