@@ -101,7 +101,6 @@ export const maximumAmount = (
     walletCurrency,
     baseRates
   )
-
   return Number(value) > (fix === 'CRYPTO' ? cryptoMax : fiatMax)
     ? 'ABOVE_MAX'
     : false
@@ -115,7 +114,15 @@ export const minimumAmount = (
   if (!value) return true
   if (!allValues) return
 
-  const { fix, limits, baseRates, payment, quote, walletCurrency } = restProps
+  const {
+    BASE,
+    fix,
+    limits,
+    baseRates,
+    payment,
+    quote,
+    walletCurrency
+  } = restProps
 
   const cryptoMin = Number(
     getMaxMin(
@@ -134,8 +141,10 @@ export const minimumAmount = (
     walletCurrency,
     baseRates
   )
-
-  return Number(value) < (fix === 'CRYPTO' ? cryptoMin : fiatMin)
+  const userMax = Number(payment ? payment.effectiveBalance : BASE.balance)
+  return userMax < (fix === 'CRYPTO' ? cryptoMin : fiatMin)
+    ? 'BALANCE_BELOW_MINIMUM'
+    : Number(value) < (fix === 'CRYPTO' ? cryptoMin : fiatMin)
     ? 'BELOW_MIN'
     : false
 }

@@ -363,6 +363,7 @@ type MessagesType = {
   'copy.swap_in_wallet': 'Your {coin} is now in your Wallet.'
   'copy.swap_instantly_exchange': 'Instantly exchange your crypto.'
   'copy.swap_name_address': 'We need to know your name and address to comply with local laws.'
+  'copy.swap_not_enough_funds': 'This wallet does not have enough funds for a swap.'
   'copy.swap_receive_to': 'Receive to'
   'copy.swap_start': 'Start Swapping'
   'copy.swap_up_to': 'Swap Up to $10,000 a Day'

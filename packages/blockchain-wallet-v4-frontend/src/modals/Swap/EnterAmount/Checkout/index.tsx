@@ -191,7 +191,13 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.swapActions.setStep({ step: 'PREVIEW_SWAP' })
   }
 
+  const balanceBelowMinimum = () => {
+    const userMax = Number(payment ? payment.effectiveBalance : BASE.balance)
+    return userMax < Number(min) ? 'BALANCE_BELOW_MINIMUM' : false
+  }
+
   const isQuoteFailed = Remote.Failure.is(props.quoteR)
+
   return (
     <FlyoutWrapper style={{ paddingTop: '20px' }}>
       <StyledForm onSubmit={handleSubmit}>
@@ -205,7 +211,12 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             data-e2e='swapAmountInput'
             name='amount'
             component={AmountTextBox}
-            validate={[maximumAmount, minimumAmount, incomingAmountNonZero]}
+            validate={[
+              maximumAmount,
+              minimumAmount,
+              incomingAmountNonZero,
+              balanceBelowMinimum
+            ]}
             normalize={normalizeAmount}
             onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
             maxFontSize='56px'
@@ -313,6 +324,13 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 <FormattedMessage
                   id='copy.negative_incoming_swap'
                   defaultMessage='Amount is below withdrawal fee.'
+                />
+              </CustomErrorCartridge>
+            ) : amtError === 'BALANCE_BELOW_MINIMUM' ? (
+              <CustomErrorCartridge data-e2e='balanceBelowMin'>
+                <FormattedMessage
+                  id='copy.swap_not_enough_funds'
+                  defaultMessage='This wallet does not have enough funds for a swap.'
                 />
               </CustomErrorCartridge>
             ) : (
