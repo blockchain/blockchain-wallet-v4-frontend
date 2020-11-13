@@ -1,31 +1,12 @@
 import { add, equals, map, not, propOr, reduce } from 'ramda'
 import { call, delay, put, select } from 'redux-saga/effects'
-import BIP39 from 'bip39'
-import Bitcoin from 'bitcoinjs-lib'
 
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
 import { actions, selectors } from 'data'
-import { APIType } from 'core/network/api'
 import { CUSTOM_VARIABLES } from './model'
 
-import profileSagas from '../modules/profile/sagas'
-
 export const logLocation = 'analytics/sagas'
-export default ({
-  api,
-  coreSagas,
-  networks
-}: {
-  api: APIType
-  coreSagas: any
-  networks: any
-}) => {
-  const { waitForUserData } = profileSagas({
-    api,
-    coreSagas,
-    networks
-  })
-
+export default () => {
   const postMessage = function * (message) {
     try {
       const frame = document.getElementById('matomo-iframe')
@@ -47,21 +28,9 @@ export default ({
   }
 
   const generateUniqueUserID = function * () {
-    const defaultHDWallet = yield select(
-      selectors.core.wallet.getDefaultHDWallet
-    )
-    yield call(waitForUserData)
-    const userId = (yield select(
-      selectors.core.kvStore.userCredentials.getUserId
-    )).getOrFail()
-    if (userId) return userId
-    const { seedHex } = defaultHDWallet
-    const mnemonic = BIP39.entropyToMnemonic(seedHex)
-    const masterhex = BIP39.mnemonicToSeed(mnemonic)
-    const masterHDNode = Bitcoin.HDNode.fromSeedBuffer(masterhex)
-    let hash = crypto.sha256('info.blockchain.matomo')
-    let purpose = hash.slice(0, 4).readUInt32BE(0) & 0x7fffffff
-    return masterHDNode.deriveHardened(purpose).getAddress()
+    const guid = yield select(selectors.core.wallet.getGuid)
+    let hash = crypto.sha256(guid).toString('base64')
+    return hash
   }
 
   const initUserSession = function * () {
