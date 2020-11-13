@@ -3,27 +3,10 @@ import { call, delay, put, select } from 'redux-saga/effects'
 
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
 import { actions, selectors } from 'data'
-import { APIType } from 'core/network/api'
 import { CUSTOM_VARIABLES } from './model'
 
-import profileSagas from '../modules/profile/sagas'
-
 export const logLocation = 'analytics/sagas'
-export default ({
-  api,
-  coreSagas,
-  networks
-}: {
-  api: APIType
-  coreSagas: any
-  networks: any
-}) => {
-  const { waitForUserData } = profileSagas({
-    api,
-    coreSagas,
-    networks
-  })
-
+export default () => {
   const postMessage = function * (message) {
     try {
       const frame = document.getElementById('matomo-iframe')
@@ -45,12 +28,6 @@ export default ({
   }
 
   const generateUniqueUserID = function * () {
-    yield call(waitForUserData)
-    const userId = (yield select(
-      selectors.core.kvStore.userCredentials.getUserId
-    )).getOrFail()
-    if (userId) return userId
-
     const guid = yield select(selectors.core.wallet.getGuid)
     let hash = crypto.sha256(guid).toString('base64')
     return hash
