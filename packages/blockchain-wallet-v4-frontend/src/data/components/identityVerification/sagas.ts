@@ -159,12 +159,10 @@ export default ({ api, coreSagas, networks }) => {
     const smsVerified = (yield select(
       selectors.core.settings.getSmsVerified
     )).getOrElse(0)
-    const currentStep = yield select(S.getVerificationStep)
     const kycState = (selectors.modules.profile.getUserKYCState(
       yield select()
     ) as RemoteDataType<string, KycStateType>).getOrElse('NONE')
     const steps = computeSteps({
-      currentStep,
       kycState,
       mobileVerified,
       needMoreInfo,

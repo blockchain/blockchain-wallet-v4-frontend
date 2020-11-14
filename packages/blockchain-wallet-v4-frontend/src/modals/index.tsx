@@ -62,15 +62,15 @@ const UpgradeForAirdrop = React.lazy(() =>
   import('./Onboarding/UpgradeForAirdrop')
 )
 const Welcome = React.lazy(() => import('./Onboarding/Welcome'))
+const IdentityVerification = React.lazy(() =>
+  import('./Onboarding/KycVerification')
+)
 
 // EXCHANGE
 const AirdropError = React.lazy(() => import('./Exchange/AirdropError'))
 const EthAirdrop = React.lazy(() => import('./Exchange/EthAirdrop'))
 const ExchangeConfirm = React.lazy(() => import('./Exchange/ExchangeConfirm'))
 const ExchangeResults = React.lazy(() => import('./Exchange/ExchangeResults'))
-const IdentityVerification = React.lazy(() =>
-  import('./Exchange/IdentityVerification')
-)
 const KycDocResubmit = React.lazy(() => import('./Exchange/KycDocResubmit'))
 const SwapUpgrade = React.lazy(() => import('./Exchange/SwapUpgrade'))
 const UserExists = React.lazy(() => import('./Exchange/UserExists'))

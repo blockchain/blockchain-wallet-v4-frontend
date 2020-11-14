@@ -20,7 +20,6 @@ import StepIndicator from 'components/StepIndicator'
 import Submitted from './Submitted'
 import Tray, { duration } from 'components/Tray'
 import Verify from './Verify'
-import VerifyMobile from './VerifyMobile'
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -104,12 +103,6 @@ const stepMap = {
       defaultMessage='Info'
     />
   ),
-  [STEPS.mobile]: (
-    <FormattedMessage
-      id='modals.identityverification.steps.mobile'
-      defaultMessage='Phone'
-    />
-  ),
   [STEPS.verify]: (
     <FormattedMessage
       id='modals.identityverification.steps.verify'
@@ -175,14 +168,6 @@ class IdentityVerification extends React.PureComponent<Props> {
 
     if (step === STEPS.moreInfo) return <MoreInfo />
 
-    if (step === STEPS.mobile)
-      return (
-        <VerifyMobile
-          handleSubmit={actions.verifySmsNumber}
-          onBack={actions.goToPrevStep}
-        />
-      )
-
     if (step === STEPS.verify)
       return <Verify onBack={actions.goToPrevStep} onClose={this.handleClose} />
     if (step === STEPS.submitted)
@@ -201,11 +186,11 @@ class IdentityVerification extends React.PureComponent<Props> {
         position={position}
         total={total}
         onClose={this.handleClose}
-        data-e2e='identityVerificationModal'
+        data-e2e='identityVerificationModal_new'
       >
         {steps.cata({
           Success: steps => (
-            <React.Fragment>
+            <>
               <StepHeader onClose={this.handleClose}>
                 <HeaderWrapper>
                   <KycStepIndicator
@@ -220,18 +205,18 @@ class IdentityVerification extends React.PureComponent<Props> {
                 </HeaderWrapper>
               </StepHeader>
               <ModalBody>{this.getStepComponent(step)}</ModalBody>
-            </React.Fragment>
+            </>
           ),
           Loading: () => <Loading />,
           NotAsked: () => <Loading />,
           Failure: error => (
-            <React.Fragment>
+            <>
               <ErrorHeader onClose={this.handleClose} />
               <DataError
                 onClick={this.initializeVerification}
                 message={error}
               />
-            </React.Fragment>
+            </>
           )
         })}
       </IdentityVerificationTray>

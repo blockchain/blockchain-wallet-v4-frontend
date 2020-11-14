@@ -994,7 +994,7 @@ export default ({
           actions.components.identityVerification.verifyIdentity(
             TIERS[2],
             false,
-            'SwapGetStarted'
+            'SBEnterAmountCheckout'
           )
         )
       }

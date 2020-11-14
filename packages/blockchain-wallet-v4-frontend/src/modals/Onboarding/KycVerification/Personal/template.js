@@ -221,7 +221,7 @@ const Personal = ({
                     </EmailVerificationLabel>
                   )}
                   {showEmail && (
-                    <React.Fragment>
+                    <>
                       <FaqFormGroup>
                         <FormItem>
                           <Field
@@ -238,7 +238,7 @@ const Personal = ({
                         </FormItem>
                       </FaqFormGroup>
                       <KycSeparator />
-                    </React.Fragment>
+                    </>
                   )}
                   <PersonalAndCountryWrapper dim={showEmailError}>
                     <FaqFormGroup>
@@ -306,7 +306,7 @@ const Personal = ({
                       </ErrorBanner>
                     )}
                     {showPersonal && (
-                      <React.Fragment>
+                      <>
                         <KycSeparator />
                         <FaqFormGroup>
                           <PersonalItem>
@@ -362,7 +362,7 @@ const Personal = ({
                               />
                             )}
                         </FaqFormGroup>
-                      </React.Fragment>
+                      </>
                     )}
                     {showPersonal && (
                       <FaqFormGroup>
