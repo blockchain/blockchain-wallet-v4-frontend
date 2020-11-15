@@ -317,7 +317,7 @@ type MessagesType = {
   'copy.confirm_swap': 'Confirm Swap'
   'copy.complete': 'Complete'
   'copy.date': 'Date'
-  'copy.error.locked_withdraw_error': 'Your crypto will be available to be withdrawn within 3 days.'
+  'copy.error.locked_withdraw_error': 'Your crypto will be available to be withdrawn within {days} days.'
   'copy.failed': 'Failed'
   'copy.fee': 'Fee'
   'copy.free': 'FREE'
@@ -1218,7 +1218,7 @@ type MessagesType = {
   'modals.simplebuy.checkoutconfirm': 'Checkout'
   'modals.simplebuy.confirm.activity': 'Your final amount may change due to market activity.'
   'modals.simplebuy.confirm.activity_card1': 'Your final amount might change due to market activity.'
-  'modals.simplebuy.confirm.activity_card2': 'Your crypto will be available to be withdrawn within <b>3 days</b>.'
+  'modals.simplebuy.confirm.activity_card2': 'Your crypto will be available to be withdrawn within <b>{days} days</b>.'
   'modals.simplebuy.confirm.activity_accept_terms': "I agree to Blockchain’s <a href='https://www.blockchain.com/legal/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a> and its return, refund and cancellation policy."
   'modals.simplebuy.confirm.funds_wallet': '{coin} Wallet'
   'modals.simplebuy.confirm.payment_card': 'Credit Card'
@@ -1287,7 +1287,8 @@ type MessagesType = {
   'modals.simplebuy.summary.cancelbuy': 'Cancel Buy'
   'modals.simplebuy.summary.cancelsell': 'Cancel Sell'
   'modals.simplebuy.summary.complete_card_payment': 'Complete Card Payment'
-  'modals.simplebuy.summary.complete_card_info': "These funds will be available to sell into a {wallet} fiat wallet immediately, but you will not be able to send or withdraw these funds from Blockchain.com for up to 3 days. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
+  'modals.simplebuy.summary.complete_card_info_main': 'For your security, first time card purchases are subject to a {days} day holding period before you can send or withdraw your purchased crypto. We will notify you when the hold is lifted.'
+  'modals.simplebuy.summary.complete_card_info_additional': "In the meantime, you can sell into Cash, swap, and trade within Blockchain.com.<a href='https://support.blockchain.com/hc/en-us/articles/360048200392' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
   'modals.simplebuy.summary.created': 'Created'
   'modals.simplebuy.summary.paymentmethod': 'Payment Method'
   'modals.simplebuy.summary.purchasing': 'Purchasing'
@@ -1420,7 +1421,7 @@ type MessagesType = {
   'modals.wallet.welcome.sb.skip': 'Skip'
   'modals.wallet.welcome.sb.title': 'Own Crypto in a Few Minutes'
   'modals.wallet.welcome.sb.verifybuy': 'Verify your identity and buy crypto.'
-  'modals.withdraw.info_tooltip': 'The remaining balance will be available to be withdrawn within 3 days.'
+  'modals.withdraw.tooltip_info': 'The remaining balance will be available to be withdrawn within {days} days.'
   'modals.withdraw.available_for_withdrawal': 'Available to Withdraw'
   'modals.withdraw.lock_description': "You have {locks} pending transactions. We’ll email you when these funds become available for withdrawal. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392-Why-can-t-I-withdraw-my-crypto-' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
   'modals.withdraw.fee': 'Withdraw Fee'

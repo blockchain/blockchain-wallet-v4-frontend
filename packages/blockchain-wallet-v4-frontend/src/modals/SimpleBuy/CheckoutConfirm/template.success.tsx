@@ -22,6 +22,7 @@ import { Props as OwnProps, SuccessStateType } from '.'
 import { SupportedWalletCurrenciesType } from 'core/types'
 
 import { displayFiat, getPaymentMethod } from '../model'
+import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
@@ -73,6 +74,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const requiresTerms =
     props.order.paymentType === 'PAYMENT_CARD' ||
     props.order.paymentType === 'USER_CARD'
+
+  const days =
+    props.withdrawLockCheck && props.withdrawLockCheck.lockTime
+      ? moment.duration(props.withdrawLockCheck.lockTime, 'seconds').days()
+      : 3
 
   useEffect(() => {
     if (!requiresTerms) {
@@ -182,11 +188,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             style={{ marginRight: '8px' }}
           />
           <Text size='12px' weight={500} color='grey900'>
-            {props.order.paymentType === 'PAYMENT_CARD' ||
-            props.order.paymentType === 'USER_CARD' ? (
+            {props.order.paymentType === 'PAYMENT_CARD' ? (
               <FormattedHTMLMessage
                 id='modals.simplebuy.confirm.activity_card2'
-                defaultMessage='Your crypto will be available to be withdrawn within <b>3 days</b>.'
+                defaultMessage='Your crypto will be available to be withdrawn within <b>{days} days</b>.'
+                values={{ days: days }}
               />
             ) : (
               <FormattedMessage

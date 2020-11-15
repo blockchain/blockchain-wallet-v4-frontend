@@ -61,6 +61,10 @@ const Success: React.FC<Props> = props => {
   const card =
     props.order.paymentMethodId &&
     props.cards.find(card => card.id === props.order.paymentMethodId)?.card
+  const days =
+    props.withdrawLockCheck && props.withdrawLockCheck.lockTime
+      ? moment.duration(props.withdrawLockCheck.lockTime, 'seconds').days()
+      : 3
 
   return (
     <Wrapper>
@@ -283,9 +287,15 @@ const Success: React.FC<Props> = props => {
           <BottomInfo>
             <Text color='grey600' size='14px' weight={500}>
               <FormattedHTMLMessage
-                id='modals.simplebuy.summary.complete_card_info'
-                defaultMessage="These funds will be available to sell into a {wallet} fiat wallet immediately, but you will not be able to send or withdraw these funds from Blockchain.com for up to 3 days. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
-                values={{ wallet: props.order.inputCurrency }}
+                id='modals.simplebuy.summary.complete_card_info_main'
+                defaultMessage='For your security, first time card purchases are subject to a {days} day holding period before you can send or withdraw your purchased crypto. We will notify you when the hold is lifted.'
+                values={{ days: days }}
+              />
+            </Text>
+            <Text color='grey600' size='14px' weight={500}>
+              <FormattedHTMLMessage
+                id='modals.simplebuy.summary.complete_card_info_additional'
+                defaultMessage="In the meantime, you can sell into Cash, swap, and trade within Blockchain.com.<a href='https://support.blockchain.com/hc/en-us/articles/360048200392' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
               />
             </Text>
           </BottomInfo>

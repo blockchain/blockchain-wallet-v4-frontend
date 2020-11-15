@@ -342,12 +342,6 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Interest accrues daily and is paid monthly. The interest rate may be periodically adjusted.'
           />
         </Tooltip>
-        <Tooltip id='modals.withdraw.info_tooltip' maxWidth='250px'>
-          <FormattedMessage
-            id='modals.withdraw.info_tooltip'
-            defaultMessage='The remaining balance will be available to be withdrawn within 3 days.'
-          />
-        </Tooltip>
         <Tooltip id='copy.on_chain_txs' maxWidth='250px'>
           <FormattedMessage
             id='copy.on_chain_txs'

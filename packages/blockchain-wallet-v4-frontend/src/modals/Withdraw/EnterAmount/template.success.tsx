@@ -1,10 +1,4 @@
-import {
-  Button,
-  Icon,
-  Text,
-  TooltipHost,
-  TooltipIcon
-} from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import React, { ReactChild } from 'react'
 import styled from 'styled-components'
@@ -25,6 +19,7 @@ import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
 import Beneficary from './Beneficiary'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import Currencies from 'core/exchange/currencies'
+import LockTimeTooltip from './LockTimeTooltip'
 
 const Top = styled.div`
   display: flex;
@@ -52,9 +47,6 @@ const CustomBlueCartridge = styled(BlueCartridge)`
 `
 const CustomErrorCartridge = styled(ErrorCartridge)`
   cursor: pointer;
-`
-const TooltipWrapper = styled.div`
-  padding-top: 1px;
 `
 const PendingText = styled(Text)`
   a {
@@ -146,13 +138,7 @@ const Success: React.FC<InjectedFormProps<
         >
           {props.withdrawableBalance}
         </CoinDisplay>
-        {showInfoTooltip && (
-          <TooltipWrapper>
-            <TooltipHost id='modals.withdraw.info_tooltip'>
-              <TooltipIcon name='info' color='grey400' size='14px' />
-            </TooltipHost>
-          </TooltipWrapper>
-        )}
+        {showInfoTooltip && <LockTimeTooltip />}
       </CoinContainer>
       {showPendingTransactions && (
         <CoinContainer style={{ marginTop: '4px', height: '16px' }}>
