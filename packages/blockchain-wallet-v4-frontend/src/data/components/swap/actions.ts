@@ -67,6 +67,25 @@ export const fetchLimitsSuccess = (
   }
 })
 
+export const fetchPairs = () => ({
+  type: AT.FETCH_PAIRS
+})
+export const fetchPairsFailure = (error: string): SwapActionTypes => ({
+  type: AT.FETCH_PAIRS_FAILURE,
+  payload: {
+    error
+  }
+})
+export const fetchPairsLoading = (): SwapActionTypes => ({
+  type: AT.FETCH_PAIRS_LOADING
+})
+export const fetchPairsSuccess = (pairs: Array<string>): SwapActionTypes => ({
+  type: AT.FETCH_PAIRS_SUCCESS,
+  payload: {
+    pairs
+  }
+})
+
 export const fetchQuote = () => ({
   type: AT.FETCH_QUOTE
 })
