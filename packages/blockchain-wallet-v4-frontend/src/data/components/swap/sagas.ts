@@ -137,6 +137,7 @@ export default ({
 
   const createOrder = function * () {
     let onChain = false
+    let toChain = false
 
     try {
       yield put(actions.form.startSubmit('previewSwap'))
@@ -164,7 +165,8 @@ export default ({
       const { BASE, COUNTER } = initSwapFormValues
 
       const direction = getDirection(BASE, COUNTER)
-      onChain = direction === 'ON_CHAIN' || direction === 'TO_USERKEY'
+      onChain = direction === 'ON_CHAIN' || direction === 'FROM_USERKEY'
+      toChain = direction === 'ON_CHAIN' || direction === 'TO_USERKEY'
 
       const amount = convertStandardToBase(
         BASE.coin,
@@ -172,7 +174,7 @@ export default ({
       )
 
       const quote = S.getQuote(yield select()).getOrFail('NO_SWAP_QUOTE')
-      const destinationAddr = onChain
+      const destinationAddr = toChain
         ? yield call(selectReceiveAddress, COUNTER, networks)
         : undefined
       const order: ReturnType<typeof api.createSwapOrder> = yield call(
@@ -226,6 +228,19 @@ export default ({
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchLimitsFailure(error))
+    }
+  }
+
+  const fetchPairs = function * () {
+    try {
+      yield put(A.fetchPairsLoading())
+      const pairs: ReturnType<typeof api.getSwapPairs> = yield call(
+        api.getSwapPairs
+      )
+      yield put(A.fetchPairsSuccess(pairs))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchPairsFailure(error))
     }
   }
 
@@ -474,6 +489,7 @@ export default ({
     changeTrendingPair,
     createOrder,
     fetchLimits,
+    fetchPairs,
     fetchQuote,
     fetchTrades,
     formChanged,

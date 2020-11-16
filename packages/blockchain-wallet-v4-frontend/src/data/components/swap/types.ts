@@ -51,6 +51,7 @@ export type SwapState = {
   fix: SwapCheckoutFixType
   limits: RemoteDataType<string, SwapUserLimitsType>
   order?: SwapOrderType
+  pairs: RemoteDataType<string, Array<string>>
   payment: RemoteDataType<string, undefined | PaymentValue>
   quote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>
   side: SwapSideType
@@ -76,6 +77,22 @@ interface FetchLimitsSuccessActionType {
     limits: SwapUserLimitsType
   }
   type: typeof AT.FETCH_LIMITS_SUCCESS
+}
+
+interface FetchPairsFailureActionType {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_PAIRS_FAILURE
+}
+interface FetchPairsLoadingActionType {
+  type: typeof AT.FETCH_PAIRS_LOADING
+}
+interface FetchPairsSuccessActionType {
+  payload: {
+    pairs: Array<string>
+  }
+  type: typeof AT.FETCH_PAIRS_SUCCESS
 }
 
 interface FetchQuoteFailureActionType {
@@ -178,6 +195,9 @@ export type SwapActionTypes =
   | FetchQuoteFailureActionType
   | FetchQuoteLoadingActionType
   | FetchQuoteSuccessActionType
+  | FetchPairsFailureActionType
+  | FetchPairsLoadingActionType
+  | FetchPairsSuccessActionType
   | FetchTradesFailureActionType
   | FetchTradesLoadingActionType
   | FetchTradesSuccessActionType

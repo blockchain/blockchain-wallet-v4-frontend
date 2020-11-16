@@ -48,6 +48,14 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       ignoreQueryParams: true
     })
 
+  const getSwapPairs = (): Array<string> =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/custodial/trades/pairs`,
+      contentType: 'application/json',
+      ignoreQueryParams: true
+    })
+
   const getSwapQuote = (
     pair: string,
     direction: SwapOrderDirectionType,
@@ -120,6 +128,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     cancelSwapOrder,
     createSwapOrder,
     getSwapLimits,
+    getSwapPairs,
     getSwapQuote,
     getSwapTrades,
     getUnifiedSwapTrades,

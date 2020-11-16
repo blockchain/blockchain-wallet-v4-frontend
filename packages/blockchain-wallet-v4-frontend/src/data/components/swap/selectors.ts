@@ -43,6 +43,8 @@ export const getLimits = (state: RootState) => state.components.swap.limits
 
 export const getOrder = (state: RootState) => state.components.swap.order
 
+export const getPairs = (state: RootState) => state.components.swap.pairs
+
 export const getPayment = (state: RootState) => state.components.swap.payment
 
 export const getQuote = (state: RootState) => state.components.swap.quote
