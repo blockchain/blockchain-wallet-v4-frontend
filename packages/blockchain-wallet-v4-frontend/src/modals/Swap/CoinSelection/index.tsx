@@ -25,6 +25,11 @@ import CoinBalance from '../components/CoinBalance'
 import React, { PureComponent } from 'react'
 class CoinSelection extends PureComponent<Props> {
   state = {}
+
+  componentDidMount () {
+    this.props.swapActions.fetchPairs()
+  }
+
   checkAccountSelected = (
     side: SwapSideType,
     values: InitSwapFormValuesType,
@@ -138,7 +143,8 @@ class CoinSelection extends PureComponent<Props> {
           </Text>
         </StickyTopFlyoutWrapper>
         {coinOrder.map(coin => {
-          const accounts = this.props.accounts[coin] as Array<SwapAccountType>
+          const accounts =
+            (this.props.accounts[coin] as Array<SwapAccountType>) || []
           return accounts.map(account => {
             const isAccountSelected = this.checkAccountSelected(
               this.props.side,
@@ -215,16 +221,16 @@ class CoinSelection extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   values: selectors.form.getFormValues('initSwap')(
     state
   ) as InitSwapFormValuesType,
-  ...getData(state)
+  ...getData(state, ownProps)
 })
 
 const connector = connect(mapStateToProps)
 
-type OwnProps = BaseProps & {
+export type OwnProps = BaseProps & {
   handleClose: () => void
   side: 'BASE' | 'COUNTER'
 }

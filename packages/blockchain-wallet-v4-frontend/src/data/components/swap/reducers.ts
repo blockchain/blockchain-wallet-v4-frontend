@@ -6,6 +6,7 @@ const INITIAL_STATE: SwapState = {
   fix: 'FIAT',
   limits: Remote.NotAsked,
   order: undefined,
+  pairs: Remote.NotAsked,
   payment: Remote.NotAsked,
   quote: Remote.NotAsked,
   side: 'BASE',
@@ -37,6 +38,24 @@ export function swapReducer (
       return {
         ...state,
         limits: Remote.Success(action.payload.limits)
+      }
+    }
+    case AT.FETCH_PAIRS_FAILURE: {
+      return {
+        ...state,
+        pairs: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_PAIRS_LOADING: {
+      return {
+        ...state,
+        pairs: Remote.Loading
+      }
+    }
+    case AT.FETCH_PAIRS_SUCCESS: {
+      return {
+        ...state,
+        pairs: Remote.Success(action.payload.pairs)
       }
     }
     case AT.FETCH_QUOTE_FAILURE: {

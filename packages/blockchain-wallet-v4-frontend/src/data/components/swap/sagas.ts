@@ -231,6 +231,19 @@ export default ({
     }
   }
 
+  const fetchPairs = function * () {
+    try {
+      yield put(A.fetchPairsLoading())
+      const pairs: ReturnType<typeof api.getSwapPairs> = yield call(
+        api.getSwapPairs
+      )
+      yield put(A.fetchPairsSuccess(pairs))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchPairsFailure(error))
+    }
+  }
+
   const fetchQuote = function * () {
     while (true) {
       try {
@@ -476,6 +489,7 @@ export default ({
     changeTrendingPair,
     createOrder,
     fetchLimits,
+    fetchPairs,
     fetchQuote,
     fetchTrades,
     formChanged,
