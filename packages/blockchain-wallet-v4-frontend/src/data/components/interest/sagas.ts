@@ -330,7 +330,12 @@ export default ({
       )
       if (isCustodialDeposit) {
         const { amount } = payment.value()
-        const amountString = amount && amount[0].toString()
+        if (amount === null || amount === undefined) {
+          throw Error('Deposit amount unknown')
+        }
+        // BTC/BCH amounts from payments are returned as objects
+        const amountString =
+          typeof amount === 'object' ? amount[0].toString() : amount.toString()
         // custodial deposit
         yield call(api.initiateCustodialTransfer, {
           amount: amountString as string,
