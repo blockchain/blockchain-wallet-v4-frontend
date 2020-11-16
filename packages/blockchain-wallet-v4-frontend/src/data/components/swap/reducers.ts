@@ -3,6 +3,7 @@ import { SwapActionTypes, SwapState } from './types'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: SwapState = {
+  custodialEligibility: Remote.NotAsked,
   fix: 'FIAT',
   limits: Remote.NotAsked,
   order: undefined,

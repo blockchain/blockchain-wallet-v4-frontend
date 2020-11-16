@@ -46,6 +46,30 @@ export const createOrder = () => ({
   type: AT.CREATE_ORDER
 })
 
+export const fetchCustodialEligibility = () => ({
+  type: AT.FETCH_CUSTODIAL_ELIGIBILITY
+})
+export const fetchCustodialEligibiliyFailure = (
+  error: string
+): SwapActionTypes => ({
+  type: AT.FETCH_CUSTODIAL_ELIGIBILITY_FAILURE,
+  payload: {
+    error
+  }
+})
+export const fetchCustodialEligibilityLoading = (): SwapActionTypes => ({
+  type: AT.FETCH_CUSTODIAL_ELIGIBILITY_LOADING
+})
+
+export const fetchCustodialEligibilitySuccess = (
+  eligibility: boolean
+): SwapActionTypes => ({
+  type: AT.FETCH_CUSTODIAL_ELIGIBILITY_SUCCESS,
+  payload: {
+    eligibility
+  }
+})
+
 export const fetchLimits = () => ({
   type: AT.FETCH_LIMITS
 })

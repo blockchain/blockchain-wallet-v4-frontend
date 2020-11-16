@@ -19,6 +19,12 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       }
     })
 
+  const checkCustodialEligiblity = () =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/eligible/product/swap'
+    })
+
   const createSwapOrder = (
     direction: SwapOrderDirectionType,
     quoteId: string,
@@ -126,6 +132,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
 
   return {
     cancelSwapOrder,
+    checkCustodialEligiblity,
     createSwapOrder,
     getSwapLimits,
     getSwapPairs,
