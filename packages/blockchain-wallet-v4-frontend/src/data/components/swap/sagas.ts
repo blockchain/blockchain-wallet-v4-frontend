@@ -220,7 +220,11 @@ export default ({
   const fetchCustodialEligibility = function * () {
     try {
       yield put(A.fetchCustodialEligibilityLoading())
-      const { eligible } = yield call(api.checkCustodialEligiblity)
+      const {
+        eligible
+      }: ReturnType<typeof api.checkCustodialEligiblity> = yield call(
+        api.checkCustodialEligiblity
+      )
       yield put(A.fetchCustodialEligibilitySuccess(eligible))
     } catch (e) {
       const error = errorHandler(e)

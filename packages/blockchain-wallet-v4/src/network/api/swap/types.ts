@@ -1,7 +1,7 @@
 import { FiatType } from 'core/types'
 
 export type EligibilityResponseType = {
-  eligibile: boolean
+  eligible: boolean
 }
 
 export type SwapOrderType = {
