@@ -23,6 +23,24 @@ export function swapReducer (
   action: SwapActionTypes
 ): SwapState {
   switch (action.type) {
+    case AT.FETCH_CUSTODIAL_ELIGIBILITY_FAILURE: {
+      return {
+        ...state,
+        custodialEligibility: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_CUSTODIAL_ELIGIBILITY_LOADING: {
+      return {
+        ...state,
+        custodialEligibility: Remote.Loading
+      }
+    }
+    case AT.FETCH_CUSTODIAL_ELIGIBILITY_SUCCESS: {
+      return {
+        ...state,
+        custodialEligibility: Remote.Success(action.payload.eligibility)
+      }
+    }
     case AT.FETCH_LIMITS_FAILURE: {
       return {
         ...state,

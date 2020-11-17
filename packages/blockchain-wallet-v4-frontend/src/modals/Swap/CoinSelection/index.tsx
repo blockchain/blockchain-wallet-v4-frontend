@@ -246,7 +246,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   ) as InitSwapFormValuesType,
   custodialEligbility: selectors.components.swap
     .getCustodialEligibility(state)
-    .getOrElse(true),
+    .getOrElse(false),
   ...getData(state, ownProps)
 })
 
