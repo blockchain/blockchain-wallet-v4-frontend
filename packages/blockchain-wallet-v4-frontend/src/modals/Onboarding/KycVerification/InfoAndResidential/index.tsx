@@ -1,17 +1,8 @@
 import { actions, model, selectors } from 'data'
 import { bindActionCreators } from 'redux'
-import {
-  CoinType,
-  ExtractSuccess,
-  FiatType,
-  RemoteDataType,
-  SBOrderActionType,
-  SBOrderType,
-  SBPairType,
-  SBPaymentMethodType
-} from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { CountryType } from 'data/components/identityVerification/types'
+import { ExtractSuccess, RemoteDataType } from 'core/types'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
 import { SBInfoAndResidentialFormValuesType } from 'data/types'
@@ -20,26 +11,29 @@ import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
-const { INFO_AND_RESIDENTIAL } = model.components.simpleBuy
+const { INFO_AND_RESIDENTIAL_FORM } = model.components.identityVerification
 
 class InfoAndResidential extends PureComponent<Props> {
   componentDidMount () {
     this.props.identityVerificationActions.fetchSupportedCountries()
     this.props.identityVerificationActions.fetchStates()
   }
+
   fetchData = () => {
     this.props.identityVerificationActions.fetchSupportedCountries()
     this.props.identityVerificationActions.fetchStates()
   }
 
   handleSubmit = () => {
-    this.props.simpleBuyActions.saveInfoAndResidentialData()
+    this.props.identityVerificationActions.saveInfoAndResidentialData(
+      this.props.metadata
+    )
   }
 
   onCountryChange = (e, value) => {
-    this.props.formActions.change(INFO_AND_RESIDENTIAL, 'country', value)
+    this.props.formActions.change(INFO_AND_RESIDENTIAL_FORM, 'country', value)
     this.props.formActions.clearFields(
-      INFO_AND_RESIDENTIAL,
+      INFO_AND_RESIDENTIAL_FORM,
       false,
       false,
       'state'
@@ -47,9 +41,9 @@ class InfoAndResidential extends PureComponent<Props> {
   }
 
   setDefaultCountry = (country: CountryType) => {
-    this.props.formActions.change(INFO_AND_RESIDENTIAL, 'country', country)
+    this.props.formActions.change(INFO_AND_RESIDENTIAL_FORM, 'country', country)
     this.props.formActions.clearFields(
-      INFO_AND_RESIDENTIAL,
+      INFO_AND_RESIDENTIAL_FORM,
       false,
       false,
       'state'
@@ -77,47 +71,33 @@ class InfoAndResidential extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  cryptoCurrency:
-    selectors.components.simpleBuy.getCryptoCurrency(state) || 'BTC',
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
-  formValues: selectors.form.getFormValues(INFO_AND_RESIDENTIAL)(state) as
+  formValues: selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM)(state) as
     | SBInfoAndResidentialFormValuesType
     | undefined,
-  goals: selectors.goals.getGoals(state),
-  preferences: selectors.preferences.getSBCheckoutPreferences(state),
-  isFirstLogin: selectors.auth.getFirstLogin(state),
   countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null)
 })
 
 const mapDispatchToProps = dispatch => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
   ),
-  formActions: bindActionCreators(actions.form, dispatch),
-  profileActions: bindActionCreators(actions.modules.profile, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
-  handleClose: () => void
-  method?: SBPaymentMethodType
-  order?: SBOrderType
-  orderType: SBOrderActionType
-  pair: SBPairType
+  metadata: any
+  onClose: () => void
 }
+
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+
 export type LinkStatePropsType = {
-  cryptoCurrency: CoinType
   data: RemoteDataType<string, SuccessStateType>
-  fiatCurrency: undefined | FiatType
-  pair: SBPairType
 }
-export type LinkDispatchPropsType = ReturnType<typeof mapDispatchToProps>
+
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(InfoAndResidential)

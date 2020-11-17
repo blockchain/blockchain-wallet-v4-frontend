@@ -9,6 +9,7 @@ export const AIRDROP_ERROR_MODAL = '@KYC.AirdropError'
 export const STEPS = {
   personal: 'personal',
   moreInfo: 'moreInfo',
+  additionalInfo: 'additionalInfo',
   verify: 'verify',
   submitted: 'submitted'
 }
@@ -16,6 +17,7 @@ export const STEPS = {
 export const STEP_TIERS = {
   personal: TIERS[1],
   moreInfo: TIERS[2],
+  additionalInfo: TIERS[2],
   verify: TIERS[2],
   submitted: TIERS[2]
 }
@@ -35,6 +37,7 @@ export const EMAIL_FORM = '@KYC.emailForm'
 export const SMS_NUMBER_FORM = '@KYC.smsNumberForm'
 export const ADDRESS_FORM = '@KYC.addresForm'
 export const ID_VERIFICATION_SUBMITTED_FORM = '@KYC.idVerificationSubmittedForm'
+export const INFO_AND_RESIDENTIAL_FORM = '@KYC.infoAndResidentialForm'
 
 export const PHONE_EXISTS_ERROR = 'Phone number already registered'
 export const BAD_CODE_ERROR = 'SMS Verification Code Incorrect.'

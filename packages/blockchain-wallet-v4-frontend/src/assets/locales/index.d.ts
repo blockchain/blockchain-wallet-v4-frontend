@@ -795,6 +795,18 @@ type MessagesType = {
   'modals.importkey.label.enterlabel': 'Enter a label (optional)'
   'modals.importkey.label.privatekey': 'Enter your private key'
   'modals.importkey.label.transferfunds': 'Transfer funds to an existing wallet (optional)'
+
+  'modals.kycverification.additionalinfo.title': 'Additional Information Required'
+  'modals.kycverification.additionalinfo.description': 'We need to confirm your identity with a government issued ID and selfie. Before proceeding, make sure you have one of the following forms of ID handy and your camera is turned on.'
+  'modals.kycverification.additionalinfo.disclaimer': 'Blockchain.com’s ID verification process is powered by our partner Veriff. We’ll take you to them on the next screen.'
+  'modals.kycverification.additionalinfo.requirement_1': 'Government Issued ID'
+  'modals.kycverification.additionalinfo.requirement_2': 'Valid Driver’s License'
+  'modals.kycverification.additionalinfo.requirement_3': 'National Identity Card'
+  'modals.kycverification.additionalinfo.webcam_and_microphone': 'Be sure to enable your Webcam & Microphone.'
+
+  'modals.kycverification.veriff.title': 'We’re Taking You to Veriff Now...'
+  'modals.kycverification.veriff.description': 'Blockchain.com’s end-to-end verifaction service.'
+
   'modals.lockbox.appmanager.close': 'Close App Manager'
   'modals.lockbox.appmanager.title': 'App Manager'
   'modals.lockbox.connectionprompt.connect.content': 'Connect and unlock your hardware device. Then open the {appName} app on the device.'

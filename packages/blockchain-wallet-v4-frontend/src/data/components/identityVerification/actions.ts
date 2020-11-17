@@ -11,10 +11,11 @@ import { TIERS } from '../../modules/profile/model'
 export const verifyIdentity = (
   tier = TIERS[2],
   needMoreInfo = false,
-  origin: ModalOriginType
+  origin: ModalOriginType,
+  metadata?: any
 ): IdentityVerificationActionTypes => ({
   type: AT.VERIFY_IDENTITY,
-  payload: { tier, needMoreInfo, origin }
+  payload: { tier, needMoreInfo, origin, metadata }
 })
 
 export const initializeVerification = (tier, needMoreInfo) => ({
@@ -175,4 +176,9 @@ export const sendEmailVerification = email => ({
 export const setEmailStep = (step): IdentityVerificationActionTypes => ({
   type: AT.SET_EMAIL_STEP,
   payload: { step }
+})
+
+export const saveInfoAndResidentialData = metadata => ({
+  type: AT.SAVE_INFO_AND_RESIDENTIAL_DATA,
+  payload: { metadata }
 })

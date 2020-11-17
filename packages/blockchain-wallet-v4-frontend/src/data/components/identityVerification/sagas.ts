@@ -8,6 +8,7 @@ import {
   EMAIL_STEPS,
   FLOW_TYPES,
   ID_VERIFICATION_SUBMITTED_FORM,
+  INFO_AND_RESIDENTIAL_FORM,
   KYC_MODAL,
   PERSONAL_FORM,
   PHONE_EXISTS_ERROR,
@@ -128,12 +129,13 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const verifyIdentity = function * ({ payload }) {
-    const { tier, needMoreInfo, origin } = payload
+    const { tier, needMoreInfo, origin, metadata } = payload
     yield put(
       actions.modals.showModal(KYC_MODAL, {
         tier,
         needMoreInfo,
-        origin: origin || 'Unknown'
+        origin: origin || 'Unknown',
+        metadata
       })
     )
   }
@@ -433,6 +435,73 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const saveInfoAndResidentialData = function * ({ payload }) {
+    try {
+      yield put(actions.form.startSubmit(INFO_AND_RESIDENTIAL_FORM))
+      yield call(syncUserWithWallet)
+      const {
+        firstName,
+        lastName,
+        dob,
+        line1,
+        line2,
+        city,
+        country,
+        state,
+        postCode
+      } = yield select(selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM))
+      const personalData = { firstName, lastName, dob }
+      const address = {
+        line1,
+        line2,
+        city,
+        country: country.code,
+        state,
+        postCode
+      }
+      yield call(updateUser, { payload: { data: personalData } })
+      yield call(updateUserAddress, {
+        payload: { address }
+      })
+
+      const { metadata } = payload
+
+      if (
+        metadata &&
+        metadata.checkSDD &&
+        metadata.fiatCurrency &&
+        metadata.amount
+      ) {
+        const sddEligible = yield call(
+          api.updateSDDEligible,
+          metadata.amount,
+          metadata.fiatCurrency
+        )
+
+        if (sddEligible && sddEligible.eligible) {
+          yield put(actions.modals.closeModal(KYC_MODAL))
+        } else {
+          yield call(goToNextStep)
+        }
+      } else {
+        yield call(goToNextStep)
+      }
+
+      yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM))
+    } catch (e) {
+      yield put(
+        actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM, { _error: e })
+      )
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'saveInfoAndResidentialData',
+          `Error saving infor and residential data: ${e}`
+        )
+      )
+    }
+  }
+
   return {
     claimCampaignClicked,
     defineSteps,
@@ -454,6 +523,7 @@ export default ({ api, coreSagas, networks }) => {
     verifySmsNumber,
     checkKycFlow,
     sendDeeplink,
+    saveInfoAndResidentialData,
     sendEmailVerification,
     selectTier,
     updateEmail

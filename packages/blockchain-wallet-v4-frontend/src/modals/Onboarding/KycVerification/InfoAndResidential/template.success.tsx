@@ -31,7 +31,10 @@ import {
 import { defaultTo, map, replace } from 'ramda'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
+import { model } from 'data'
 import { Props as OwnProps, SuccessStateType } from '.'
+
+const { INFO_AND_RESIDENTIAL_FORM } = model.components.identityVerification
 
 export const Label = styled.label`
   font-size: 16px;
@@ -156,6 +159,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   ) {
     props.updateDefaultCountry(defaultCountry)
   }
+
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ paddingBottom: '0px', borderBottom: 'grey000' }}>
@@ -169,15 +173,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               color='grey600'
               role='button'
               style={{ marginRight: '8px' }}
-              onClick={() =>
-                props.simpleBuyActions.setStep({
-                  step: 'ENTER_AMOUNT',
-                  orderType: props.orderType,
-                  cryptoCurrency: props.cryptoCurrency,
-                  fiatCurrency: props.fiatCurrency || 'USD',
-                  pair: props.pair
-                })
-              }
+              onClick={props.onClose}
             />
             <FormattedMessage
               id='modals.simplebuy.info_and_residential.title'
@@ -191,7 +187,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             size='20px'
             color='grey600'
             role='button'
-            onClick={() => props.handleClose()}
+            onClick={props.onClose}
           />
         </TopText>
       </FlyoutWrapper>
@@ -460,6 +456,6 @@ export type Props = OwnProps &
   }
 
 export default reduxForm<{}, Props>({
-  form: 'simpleBuyInforAndResidential',
+  form: INFO_AND_RESIDENTIAL_FORM,
   destroyOnUnmount: false
 })(Success)

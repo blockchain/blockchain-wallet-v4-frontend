@@ -64,5 +64,9 @@ export default ({ api, coreSagas }) => {
       AT.SEND_EMAIL_VERIFICATION,
       identityVerificationSagas.sendEmailVerification
     )
+    yield takeLatest(
+      AT.SAVE_INFO_AND_RESIDENTIAL_DATA,
+      identityVerificationSagas.saveInfoAndResidentialData
+    )
   }
 }

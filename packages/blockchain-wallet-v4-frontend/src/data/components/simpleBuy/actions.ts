@@ -87,16 +87,6 @@ export const createSBOrder = (
   paymentType
 })
 
-export const createSBOrderSDD = (
-  paymentType: Exclude<
-    SBPaymentMethodType['type'],
-    'USER_CARD' | 'BANK_ACCOUNT'
-  >
-) => ({
-  type: AT.CREATE_ORDER_SDD,
-  paymentType
-})
-
 export const confirmSBCreditCardOrder = (
   paymentMethodId: SBCardType['id'],
   order: SBOrderType
@@ -505,16 +495,6 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
         method: payload.method,
         pair: payload.pair
       }
-    case 'INFO_AND_RESIDENTIAL':
-      return {
-        step: payload.step,
-        orderType: payload.orderType || 'BUY',
-        cryptoCurrency: payload.cryptoCurrency,
-        fiatCurrency: payload.fiatCurrency,
-        method: payload.method,
-        pair: payload.pair,
-        order: payload.order
-      }
     case 'CRYPTO_SELECTION':
       return {
         step: payload.step,
@@ -561,8 +541,4 @@ export const switchFix = (
     orderType,
     fix
   }
-})
-
-export const saveInfoAndResidentialData = () => ({
-  type: AT.SAVE_INFO_AND_RESIDNTIAL_DATA
 })

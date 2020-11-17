@@ -207,6 +207,7 @@ interface SetVerificationStepAction {
 
 interface VerifyIdentityAction {
   payload: {
+    metadata?: any
     needMoreInfo?: boolean
     origin: ModalOriginType
     tier: number

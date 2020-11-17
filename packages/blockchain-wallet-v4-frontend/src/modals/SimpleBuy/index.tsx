@@ -1,4 +1,4 @@
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import {
   CoinType,
@@ -22,7 +22,6 @@ import CheckoutConfirm from './CheckoutConfirm'
 import CryptoSelection from './CryptoSelection'
 import EnterAmount from './EnterAmount'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import InfoAndResidential from './InfoAndResidential'
 import KycRequired from './KycRequired'
 import ModalEnhancer from 'providers/ModalEnhancer'
 import OrderSummary from './OrderSummary'
@@ -35,8 +34,6 @@ import VerifyEmail from './VerifyEmail'
 import Loading from './template.loading'
 import Pending from './template.pending'
 import Rejected from './template.rejected'
-
-const { INFO_AND_RESIDENTIAL } = model.components.simpleBuy
 
 class SimpleBuy extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
@@ -64,7 +61,6 @@ class SimpleBuy extends PureComponent<Props, State> {
     this.props.simpleBuyActions.pollSBBalances()
     this.props.simpleBuyActions.destroyCheckout()
     this.props.formActions.destroy('simpleBuyCheckout')
-    this.props.formActions.destroy(INFO_AND_RESIDENTIAL)
     this.props.formActions.destroy('ccBillingAddress')
     this.props.formActions.destroy('addCCForm')
   }
@@ -131,14 +127,6 @@ class SimpleBuy extends PureComponent<Props, State> {
             {this.props.step === 'ENTER_AMOUNT' && (
               <FlyoutChild>
                 <EnterAmount {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'INFO_AND_RESIDENTIAL' && (
-              <FlyoutChild>
-                <InfoAndResidential
-                  {...this.props}
-                  handleClose={this.handleClose}
-                />
               </FlyoutChild>
             )}
             {this.props.step === 'CRYPTO_SELECTION' && (
@@ -309,7 +297,7 @@ type LinkStatePropsType =
       order?: SBOrderType
       orderType: SBOrderActionType
       pair: SBPairType
-      step: 'ENTER_AMOUNT' | 'VERIFY_EMAIL' | 'INFO_AND_RESIDENTIAL'
+      step: 'ENTER_AMOUNT' | 'VERIFY_EMAIL'
     }
   | {
       order: SBOrderType

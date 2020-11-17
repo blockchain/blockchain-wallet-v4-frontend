@@ -272,29 +272,36 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
 
         {props.isFirstLogin && (
           <>
-            <CheckBoxContainer>
-              <Text weight={600} size='14px' color='grey800' lineHeight='150%'>
-                <FormattedMessage
-                  id='modals.simplebuy.add_card.billing_address'
-                  defaultMessage='Billing Address'
-                />
-              </Text>
-              <CheckBoxInput
-                name='sbSameBillingAddress'
-                checked={!billingAddress}
-                data-e2e='sbSameBillingAddressCheckbox'
-                onChange={() =>
-                  setBillingAddress(billingAddress => !billingAddress)
-                }
-              >
-                <Text weight={500} size='14px'>
+            <FormItem>
+              <CheckBoxContainer>
+                <Text
+                  weight={600}
+                  size='14px'
+                  color='grey800'
+                  lineHeight='150%'
+                >
                   <FormattedMessage
-                    id='modals.simplebuy.add_card.residential_address'
-                    defaultMessage='Same as Residential Address'
+                    id='modals.simplebuy.add_card.billing_address'
+                    defaultMessage='Billing Address'
                   />
                 </Text>
-              </CheckBoxInput>
-            </CheckBoxContainer>
+                <CheckBoxInput
+                  name='sbSameBillingAddress'
+                  checked={!billingAddress}
+                  data-e2e='sbSameBillingAddressCheckbox'
+                  onChange={() =>
+                    setBillingAddress(billingAddress => !billingAddress)
+                  }
+                >
+                  <Text weight={500} size='14px'>
+                    <FormattedMessage
+                      id='modals.simplebuy.add_card.residential_address'
+                      defaultMessage='Same as Residential Address'
+                    />
+                  </Text>
+                </CheckBoxInput>
+              </CheckBoxContainer>
+            </FormItem>
             {billingAddress && (
               <>
                 <FormGroup>

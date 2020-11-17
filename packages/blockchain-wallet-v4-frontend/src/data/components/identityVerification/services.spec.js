@@ -20,7 +20,12 @@ const setNextTier = assocPath(['tiers', 'next'])
 
 describe('steps selector', () => {
   it('should select personal, mobile, verify, and submitted steps for next 1 and selected 2', () => {
-    expect(computeSteps(options)).toEqual(['personal', 'verify', 'submitted'])
+    expect(computeSteps(options)).toEqual([
+      'personal',
+      'additionalInfo',
+      'verify',
+      'submitted'
+    ])
   })
 
   it('should select personal step for next 1 and selected 1', () => {
@@ -31,6 +36,7 @@ describe('steps selector', () => {
 
   it('should select mobile and verify step for next 2 and selected 2', () => {
     expect(computeSteps(setNextTier(TIERS[2], options))).toEqual([
+      'additionalInfo',
       'verify',
       'submitted'
     ])
@@ -66,6 +72,7 @@ describe('steps selector', () => {
     const moreInfoOptions = { ...options, needMoreInfo: true }
     expect(computeSteps(moreInfoOptions)).toEqual([
       'personal',
+      'additionalInfo',
       'verify',
       'submitted'
     ])
@@ -74,6 +81,7 @@ describe('steps selector', () => {
     ])
     expect(computeSteps(setNextTier(TIERS[2], moreInfoOptions))).toEqual([
       'moreInfo',
+      'additionalInfo',
       'verify',
       'submitted'
     ])

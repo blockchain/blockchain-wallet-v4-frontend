@@ -28,6 +28,7 @@ export type SBAddCardFormValuesType = {
   cvc: string
   'expiry-date': string
   'name-on-card': string
+  sbSameBillingAddress?: boolean
 }
 export type SBAddCardErrorType =
   | 'PENDING_CARD_AFTER_POLL'
@@ -62,7 +63,6 @@ export enum SimpleBuyStepType {
   'ENTER_AMOUNT',
   'VERIFY_EMAIL',
   'PAYMENT_METHODS',
-  'INFO_AND_RESIDENTIAL',
   'ORDER_SUMMARY',
   'CHECKOUT_CONFIRM',
   'ADD_CARD',
@@ -344,7 +344,7 @@ export type StepActionsPayload =
       order?: SBOrderType
       orderType?: SBOrderActionType
       pair: SBPairType
-      step: 'ENTER_AMOUNT' | 'VERIFY_EMAIL' | 'INFO_AND_RESIDENTIAL'
+      step: 'ENTER_AMOUNT' | 'VERIFY_EMAIL'
     }
   | {
       cryptoCurrency?: CoinType

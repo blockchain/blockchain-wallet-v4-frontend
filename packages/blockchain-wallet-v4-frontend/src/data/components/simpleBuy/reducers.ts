@@ -286,18 +286,6 @@ export function simpleBuyReducer (
             order: undefined,
             addBank: undefined
           }
-        case 'INFO_AND_RESIDENTIAL':
-          return {
-            ...state,
-            orderType: action.payload.orderType,
-            cryptoCurrency: action.payload.cryptoCurrency,
-            fiatCurrency: action.payload.fiatCurrency,
-            step: action.payload.step,
-            pair: action.payload.pair,
-            method: action.payload.method,
-            order: action.payload.order,
-            addBank: undefined
-          }
         case 'CRYPTO_SELECTION':
           return {
             ...state,

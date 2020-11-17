@@ -14,7 +14,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.ADD_CARD_DETAILS, simpleBuySagas.addCardDetails)
     yield takeLatest(AT.CANCEL_ORDER, simpleBuySagas.cancelSBOrder)
     yield takeLatest(AT.CREATE_ORDER, simpleBuySagas.createSBOrder)
-    yield takeLatest(AT.CREATE_ORDER_SDD, simpleBuySagas.createSBOrderSDD)
     yield takeLatest(AT.CONFIRM_FUNDS_ORDER, simpleBuySagas.confirmSBFundsOrder)
     yield takeLatest(
       AT.CONFIRM_CREDIT_CARD_ORDER,
@@ -55,10 +54,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(
       AT.INITIALIZE_BILLING_ADDRESS,
       simpleBuySagas.initializeBillingAddress
-    )
-    yield takeLatest(
-      AT.SAVE_INFO_AND_RESIDNTIAL_DATA,
-      simpleBuySagas.saveInfoAndResidentialData
     )
     yield takeLatest(AT.INITIALIZE_CHECKOUT, simpleBuySagas.initializeCheckout)
     yield takeLatest(AT.POLL_SB_BALANCES, simpleBuySagas.pollSBBalances)
