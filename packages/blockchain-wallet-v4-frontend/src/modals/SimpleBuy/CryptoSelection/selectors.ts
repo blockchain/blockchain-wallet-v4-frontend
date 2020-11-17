@@ -12,6 +12,9 @@ export const getData = state => {
   const pairsR = selectors.components.simpleBuy.getSBPairs(state)
   const userDataR = selectors.modules.profile.getUserData(state)
 
+  // for sell, get 'swap' accounts
+  const accounts = selectors.components.swap.getActiveAccounts(state)
+
   return lift(
     (
       eligibility: ExtractSuccess<typeof eligibilityR>,
@@ -20,6 +23,7 @@ export const getData = state => {
       userData: ExtractSuccess<typeof userDataR>
     ) => ({
       orderType: formValues ? formValues.orderType : 'BUY',
+      accounts,
       eligibility,
       invitations,
       pairs,

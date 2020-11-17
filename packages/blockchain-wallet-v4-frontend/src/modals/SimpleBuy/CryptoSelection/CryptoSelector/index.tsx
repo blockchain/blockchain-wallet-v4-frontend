@@ -123,15 +123,17 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
           )}
         </FlyoutWrapper>
         <Currencies>
-          {props.pairs.map((value, index) => (
-            <CryptoItem
-              key={index}
-              orderType={orderType}
-              fiat={getFiatFromPair(value.pair)}
-              coin={getCoinFromPair(value.pair)}
-              onClick={() => handleSubmit(value as SBPairType)}
-            />
-          ))}
+          {orderType === 'SELL'
+            ? JSON.stringify(props.accounts)
+            : props.pairs.map((value, index) => (
+                <CryptoItem
+                  key={index}
+                  orderType={orderType}
+                  fiat={getFiatFromPair(value.pair)}
+                  coin={getCoinFromPair(value.pair)}
+                  onClick={() => handleSubmit(value as SBPairType)}
+                />
+              ))}
         </Currencies>
       </Form>
       {orderType === 'SELL' && <SellBanner />}
