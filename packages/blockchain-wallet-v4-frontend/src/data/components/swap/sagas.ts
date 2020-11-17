@@ -217,6 +217,21 @@ export default ({
     }
   }
 
+  const fetchCustodialEligibility = function * () {
+    try {
+      yield put(A.fetchCustodialEligibilityLoading())
+      const {
+        eligible
+      }: ReturnType<typeof api.checkCustodialEligiblity> = yield call(
+        api.checkCustodialEligiblity
+      )
+      yield put(A.fetchCustodialEligibilitySuccess(eligible))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchCustodialEligibiliyFailure(error))
+    }
+  }
+
   const fetchLimits = function * () {
     try {
       yield put(A.fetchLimitsLoading())
@@ -486,6 +501,7 @@ export default ({
     changePair,
     changeTrendingPair,
     createOrder,
+    fetchCustodialEligibility,
     fetchLimits,
     fetchPairs,
     fetchQuote,

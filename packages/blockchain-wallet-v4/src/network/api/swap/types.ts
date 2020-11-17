@@ -1,5 +1,9 @@
 import { FiatType } from 'core/types'
 
+export type EligibilityResponseType = {
+  eligible: boolean
+}
+
 export type SwapOrderType = {
   createdAt: string
   fiatCurrency: FiatType
