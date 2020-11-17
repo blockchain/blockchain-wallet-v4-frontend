@@ -6,13 +6,11 @@ export const ETH = 'eth'
 export const LOCKBOX = 'lockbox'
 export const ROOT = 'root'
 export const SHAPESHIFT = 'shapeshift'
-export const WHATSNEW = 'whatsNew'
 export const USER_CREDENTIALS = 'userCredentials'
 export const XLM = 'xlm'
 
 export const derivationMap = {
   [ROOT]: -1,
-  [WHATSNEW]: 2,
   [BUYSELL]: 3,
   [CONTACTS]: 4,
   [ETH]: 5,

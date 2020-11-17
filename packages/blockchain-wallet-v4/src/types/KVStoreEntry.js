@@ -13,7 +13,6 @@ import Type from './Type'
 Payload types:
 0: reserved (guid)
 1: reserved
-2: whatsNew
 3: buy-sell
 4: contacts
 */

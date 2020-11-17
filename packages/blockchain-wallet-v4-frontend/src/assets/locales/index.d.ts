@@ -511,10 +511,7 @@ type MessagesType = {
   'layouts.wallet.header.profile': 'Profile'
   'layouts.wallet.header.seccenter': 'Security Center'
   'layouts.wallet.header.small.refresh': 'Refresh'
-  'layouts.wallet.header.small.whats_new': "What's New?"
   'layouts.wallet.header.walletsaddresses': 'Wallets & Addresses'
-  'layouts.wallet.header.whatsnew.whatsnew.empty': "🎉 You're all caught up!"
-  'layouts.wallet.header.whatsnew.whatsnew.in_progress': "Our team is always working on new features, but if there's something we can improve please let us know about it <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>here<a/>."
   'layouts.wallet.menuleft.failure.refresh': 'Something went wrong. Please refresh.'
   'layouts.wallet.menuleft.footer.ad': 'Ad by bitcoin.com'
   'layouts.wallet.menuleft.footer.adtax': 'Offer by LukkaTax'
@@ -534,17 +531,6 @@ type MessagesType = {
   'layouts.wallet.menutop.balance.walletbalance.wallet': 'Wallet'
   'layouts.wallet.menutop.request': 'Request'
   'layouts.wallet.menutop.send': 'Send'
-  'layouts.wallet.trayright.whatsnew.whatsnewcontent.borrow': 'Borrow USD Digital Today'
-  'layouts.wallet.trayright.whatsnew.whatsnewcontent.borrow.March2020': 'March 2020'
-  'layouts.wallet.trayright.whatsnew.whatsnewcontent.borrow.content': 'Blockchain.com now lets you borrow USD Digital directly from your Blockchain Wallet with crypto as collateral.'
-  'layouts.wallet.trayright.whatsnew.whatsnewcontent.borrow.tellmemore': 'Tell Me More'
-  'layouts.wallet.trayright.whatsnew.whatsnewcontent.txhistory': 'Ready for 2019 Tax Season?'
-  'layouts.wallet.trayright.whatsnew.whatsnewcontent.txhistory.april2020': 'April 2020'
-  'layouts.wallet.trayright.whatsnew.whatsnewcontent.txhistory.content': 'You can now download your transaction history for all currencies as well as Swap! Download a report for each currency on the specific transaction pages, while your Swap report can be downloaded from the Swap order history page.'
-  'layouts.wallet.trayright.whatsnew.whatsnewcontent.usddigital': 'USD PAX is now called USD Digital'
-  'layouts.wallet.trayright.whatsnew.whatsnewcontent.usddigital.checkit': 'Check it Out'
-  'layouts.wallet.trayright.whatsnew.whatsnewcontent.usddigital.stable': 'USD PAX will now be referred to as USD Digital (USD-D, for short) and be represented by a green dollar symbol. If you had USD Pax in the past, they will maintain their value, we’re only changing their name.'
-  'layouts.wallet.trayright.whatsnew.whatsnewcontent.usddigtal.March2020': 'March 2020'
   'loader.message.gettingready': 'Getting Ready...'
   'lockbox.service.messages.appalreadyinstalled': 'App already installed'
   'lockbox.service.messages.btcrequired': 'Unable to remove BTC app as it is required by others.'
@@ -2290,7 +2276,6 @@ type MessagesType = {
   'wallet.tour.stepthree.title': 'Send'
   'wallet.tour.steptwo.content-2': "To receive crypto, all the sender needs is your crypto's address. You can find these addresses here."
   'wallet.tour.steptwo.title': 'Request'
-  'whatsnew.tooltip.description': "What's New"
 }
 
 export type MessageIdType = keyof MessagesType
