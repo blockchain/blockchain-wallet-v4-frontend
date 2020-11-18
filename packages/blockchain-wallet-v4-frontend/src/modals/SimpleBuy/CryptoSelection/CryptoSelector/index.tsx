@@ -61,15 +61,16 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
     })
   }
 
-  const handleSell = (account: SwapAccountType) => {
+  const handleSell = (swapAccount: SwapAccountType) => {
     const pair = props.pairs.find(
-      value => getCoinFromPair(value.pair) === account.coin
+      value => getCoinFromPair(value.pair) === swapAccount.coin
     )
 
     if (!pair) return
 
     props.simpleBuyActions.setStep({
       step: 'ENTER_AMOUNT',
+      swapAccount,
       orderType,
       cryptoCurrency: getCoinFromPair(pair.pair),
       fiatCurrency: getFiatFromPair(pair.pair),

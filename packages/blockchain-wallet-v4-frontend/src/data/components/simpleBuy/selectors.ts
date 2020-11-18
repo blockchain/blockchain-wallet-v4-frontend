@@ -7,6 +7,9 @@ import { FiatType } from 'core/types'
 import { head, isEmpty, lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 
+export const getAddBank = (state: RootState) =>
+  state.components.simpleBuy.addBank
+
 export const getOrderType = (state: RootState) =>
   state.components.simpleBuy.orderType
 
@@ -162,5 +165,6 @@ export const getSBLatestPendingOrder = (state: RootState) =>
   })
 
 export const getStep = (state: RootState) => state.components.simpleBuy.step
-export const getAddBank = (state: RootState) =>
-  state.components.simpleBuy.addBank
+
+export const getSwapAccount = (state: RootState) =>
+  state.components.simpleBuy.swapAccount

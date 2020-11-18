@@ -17,6 +17,7 @@ import {
   SBProviderDetailsType,
   SBQuoteType
 } from 'core/types'
+import { SwapAccountType } from '../swap/types'
 
 // Types
 export type SBAddCardFormValuesType = {
@@ -93,6 +94,7 @@ export type SimpleBuyState = {
   providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
   step: keyof typeof SimpleBuyStepType
+  swapAccount: undefined | SwapAccountType
 }
 
 // Actions
@@ -299,6 +301,7 @@ export type StepActionsPayload =
       orderType?: SBOrderActionType
       pair: SBPairType
       step: 'ENTER_AMOUNT'
+      swapAccount?: SwapAccountType
     }
   | {
       cryptoCurrency?: CoinType

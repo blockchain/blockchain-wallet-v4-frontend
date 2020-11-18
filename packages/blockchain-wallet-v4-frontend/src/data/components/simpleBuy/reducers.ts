@@ -24,7 +24,8 @@ const INITIAL_STATE: SimpleBuyState = {
   pairs: Remote.NotAsked,
   providerDetails: Remote.NotAsked,
   quote: Remote.NotAsked,
-  step: 'CURRENCY_SELECTION'
+  step: 'CURRENCY_SELECTION',
+  swapAccount: undefined
 }
 
 export function simpleBuyReducer (
@@ -244,6 +245,7 @@ export function simpleBuyReducer (
           return {
             ...state,
             orderType: action.payload.orderType,
+            swapAccount: action.payload.swapAccount,
             cryptoCurrency: action.payload.cryptoCurrency,
             fiatCurrency: action.payload.fiatCurrency,
             step: action.payload.step,
@@ -258,6 +260,7 @@ export function simpleBuyReducer (
             cryptoCurrency: action.payload.cryptoCurrency,
             fiatCurrency: action.payload.fiatCurrency,
             step: action.payload.step,
+            swapAccount: undefined,
             addBank: undefined
           }
         case 'PAYMENT_METHODS':

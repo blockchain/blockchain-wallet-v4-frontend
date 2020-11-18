@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
 import { SkeletonRectangle } from 'blockchain-info-components'
+import { SwapAccountType } from 'data/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import React, { PureComponent } from 'react'
@@ -32,7 +33,9 @@ class BalancesMovement extends PureComponent<Props, State> {
             weight={500}
             color='grey800'
           >
-            {val.balances[this.props.coin]?.available}
+            {this.props.account
+              ? this.props.account.balance
+              : val.balances[this.props.coin]?.available}
           </FiatDisplayTitle>
           <CoinDisplayTitle
             coin={this.props.coin}
@@ -40,7 +43,9 @@ class BalancesMovement extends PureComponent<Props, State> {
             weight={500}
             color='grey600'
           >
-            {val.balances[this.props.coin]?.available}
+            {this.props.account
+              ? this.props.account.balance
+              : val.balances[this.props.coin]?.available}
           </CoinDisplayTitle>
         </Container>
       ),
@@ -60,6 +65,7 @@ export const mapDispatchToProps = () => ({})
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
+  account?: SwapAccountType
   coin: CoinType
 }
 

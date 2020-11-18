@@ -82,7 +82,9 @@ const Success: React.FC<Props> = props => {
               <PriceMovement {...props} />
             </>
           )}
-          {props.orderType === 'SELL' && <BalanceMovement coin={coin} />}
+          {props.orderType === 'SELL' && (
+            <BalanceMovement {...props} coin={coin} />
+          )}
         </DisplayTitle>
       </Display>
       {props.onClick && (

@@ -23,7 +23,7 @@ const CryptoAccountOption: React.FC<Props> = props => {
           name={coins[account.coin].icons.circleFilled}
           color={coins[account.coin].colorCode}
           size='32px'
-          style={{ marginRight: '16px' }}
+          style={{ marginRight: '12px' }}
         />
         <div>
           <OptionTitle>{account.label}</OptionTitle>
