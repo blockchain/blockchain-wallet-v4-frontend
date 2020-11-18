@@ -158,7 +158,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.quote,
     props.pair,
     props.formValues,
-    method
+    method,
+    props.swapAccount
   )[fix]
   const min: string = getMaxMin(
     'min',
@@ -167,7 +168,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.quote,
     props.pair,
     props.formValues,
-    method
+    method,
+    props.swapAccount
   )[fix]
 
   const handleMinMaxClick = () => {
@@ -179,7 +181,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       props.quote,
       props.pair,
       props.formValues,
-      method
+      method,
+      props.swapAccount
     )[fix]
     const value = convertStandardToBase(conversionCoinType, maxMin)
     props.simpleBuyActions.handleSBSuggestedAmountClick(

@@ -15,7 +15,11 @@ import {
   SBQuoteType,
   SupportedWalletCurrenciesType
 } from 'core/types'
-import { SBCheckoutFormValuesType, SBFixType } from 'data/types'
+import {
+  SBCheckoutFormValuesType,
+  SBFixType,
+  SwapAccountType
+} from 'data/types'
 import { UnitType } from 'core/exchange'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 
@@ -67,7 +71,8 @@ export const getMaxMin = (
   quote: SBQuoteType,
   pair: SBPairType,
   allValues?: SBCheckoutFormValuesType,
-  method?: SBPaymentMethodType
+  method?: SBPaymentMethodType,
+  account?: SwapAccountType
 ): { CRYPTO: string; FIAT: string } => {
   switch (orderType) {
     case 'BUY':
@@ -123,9 +128,18 @@ export const getMaxMin = (
       const rate = quote.rate
       switch (minOrMax) {
         case 'max':
-          const maxAvailable = sbBalances[coin]?.available || '0'
+          const maxAvailable = account
+            ? account.balance
+            : sbBalances[coin]?.available || '0'
 
-          const maxCrypto = convertBaseToStandard(coin, maxAvailable)
+          const maxSell = new BigNumber(pair.sellMax)
+            .dividedBy(rate)
+            .toFixed(Currencies[coin].units[coin].decimal_digits)
+
+          const maxCrypto = Math.min(
+            Number(convertBaseToStandard(coin, maxAvailable)),
+            Number(maxSell)
+          ).toString()
           const maxFiat = getQuote(quote, 'CRYPTO', maxCrypto)
           return { FIAT: maxFiat, CRYPTO: maxCrypto }
         case 'min':
