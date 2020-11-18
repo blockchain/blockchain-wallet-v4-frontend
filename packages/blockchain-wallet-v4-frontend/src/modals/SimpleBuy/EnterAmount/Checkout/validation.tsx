@@ -141,6 +141,7 @@ export const getMaxMin = (
             Number(maxSell)
           ).toString()
           const maxFiat = getQuote(quote, 'CRYPTO', maxCrypto)
+
           return { FIAT: maxFiat, CRYPTO: maxCrypto }
         case 'min':
           const minStandard = convertBaseToStandard(
@@ -181,16 +182,24 @@ export const maximumAmount = (
     orderType,
     pair,
     quote,
-    sbBalances
+    sbBalances,
+    swapAccount
   } = restProps
   const method = selectedMethod || defaultMethod
   if (!allValues) return
 
   return Number(value) >
     Number(
-      getMaxMin('max', sbBalances, orderType, quote, pair, allValues, method)[
-        allValues.fix
-      ]
+      getMaxMin(
+        'max',
+        sbBalances,
+        orderType,
+        quote,
+        pair,
+        allValues,
+        method,
+        swapAccount
+      )[allValues.fix]
     )
     ? 'ABOVE_MAX'
     : false
@@ -209,16 +218,24 @@ export const minimumAmount = (
     orderType,
     pair,
     quote,
-    sbBalances
+    sbBalances,
+    swapAccount
   } = restProps
   const method = selectedMethod || defaultMethod
   if (!allValues) return
 
   return Number(value) <
     Number(
-      getMaxMin('min', sbBalances, orderType, quote, pair, allValues, method)[
-        allValues.fix
-      ]
+      getMaxMin(
+        'min',
+        sbBalances,
+        orderType,
+        quote,
+        pair,
+        allValues,
+        method,
+        swapAccount
+      )[allValues.fix]
     )
     ? 'BELOW_MIN'
     : false
