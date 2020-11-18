@@ -2,6 +2,7 @@ import { Icon, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import { coinOrder } from 'blockchain-wallet-v4-frontend/src/modals/Swap/CoinSelection/selectors'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
@@ -11,6 +12,8 @@ import {
 } from 'data/components/simpleBuy/model'
 import { Props as OwnProps, SuccessStateType } from '../index'
 import { SBPairType } from 'core/types'
+import { SwapAccountType } from 'data/types'
+import CryptoAccountOption from 'blockchain-wallet-v4-frontend/src/modals/Swap/CoinSelection/CryptoAccountOption'
 import CryptoItem from './CryptoItem'
 
 const Wrapper = styled.div`
@@ -123,7 +126,18 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
         </FlyoutWrapper>
         <Currencies>
           {orderType === 'SELL'
-            ? JSON.stringify(props.accounts)
+            ? coinOrder.map(coin => {
+                const accounts = props.accounts[coin] as Array<SwapAccountType>
+                return accounts.map(account => (
+                  <CryptoAccountOption
+                    account={account}
+                    coins={props.coins}
+                    isAccountSelected={false}
+                    onClick={() => console.log('TODO')}
+                    walletCurrency={props.walletCurrency}
+                  />
+                ))
+              })
             : props.pairs.map((value, index) => (
                 <CryptoItem
                   key={index}

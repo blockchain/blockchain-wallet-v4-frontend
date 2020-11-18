@@ -41,6 +41,9 @@ export const Option = styled.div`
   &:hover {
     background-color: ${props => props.theme.blue000};
   }
+  &:first-child {
+    border-top: 0;
+  }
 `
 // probably dont want to reuse
 export const CustomOption = styled(Option)`
@@ -58,7 +61,6 @@ export const CustomOption = styled(Option)`
 
 export const OptionTitle = styled(Text)`
   color: ${props => props.theme.grey900};
-  margin-top: 4px;
   font-weight: 600;
   max-width: 200px;
 `
