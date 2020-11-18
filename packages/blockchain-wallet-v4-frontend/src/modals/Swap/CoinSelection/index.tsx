@@ -23,11 +23,13 @@ import { SuccessCartridge } from 'components/Cartridge'
 import { SwapAccountType } from 'data/types'
 import CoinBalance from '../components/CoinBalance'
 import React, { PureComponent } from 'react'
+
 class CoinSelection extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {
     this.props.swapActions.fetchPairs()
+    this.props.swapActions.fetchCustodialEligibility()
   }
 
   checkAccountSelected = (
@@ -85,8 +87,19 @@ class CoinSelection extends PureComponent<Props> {
     }
   }
 
+  checkCustodialEligibility = (
+    custodialEligibility: boolean,
+    account: SwapAccountType
+  ) => {
+    if (account.type === 'CUSTODIAL' && !custodialEligibility) {
+      return false
+    } else {
+      return true
+    }
+  }
+
   render () {
-    const { coins, values, walletCurrency } = this.props
+    const { coins, custodialEligbility, values, walletCurrency } = this.props
     return (
       <>
         <StickyTopFlyoutWrapper>
@@ -166,10 +179,16 @@ class CoinSelection extends PureComponent<Props> {
               this.props.side,
               account
             )
+            const isCutodialEligibile = this.checkCustodialEligibility(
+              custodialEligbility,
+              account
+            )
+
             return (
               !isBaseAccountZero &&
               !isCoinSelected &&
-              !hideCustodialToAccount && (
+              !hideCustodialToAccount &&
+              isCutodialEligibile && (
                 <Option
                   role='button'
                   data-e2e='changeAcct'
@@ -225,6 +244,9 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   values: selectors.form.getFormValues('initSwap')(
     state
   ) as InitSwapFormValuesType,
+  custodialEligbility: selectors.components.swap
+    .getCustodialEligibility(state)
+    .getOrElse(false),
   ...getData(state, ownProps)
 })
 

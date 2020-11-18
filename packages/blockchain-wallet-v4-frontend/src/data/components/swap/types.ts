@@ -48,6 +48,7 @@ export type SwapCheckoutFixType = 'CRYPTO' | 'FIAT'
 
 // state
 export type SwapState = {
+  custodialEligibility: RemoteDataType<string, boolean>
   fix: SwapCheckoutFixType
   limits: RemoteDataType<string, SwapUserLimitsType>
   order?: SwapOrderType
@@ -63,6 +64,22 @@ export type SwapState = {
 }
 
 // actions
+interface FetchCustodialEligibilityFailureActionType {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_CUSTODIAL_ELIGIBILITY_FAILURE
+}
+interface FetchCustodialLoadingActionType {
+  type: typeof AT.FETCH_CUSTODIAL_ELIGIBILITY_LOADING
+}
+interface FetchEligibilitySuccessActionType {
+  payload: {
+    eligibility: boolean
+  }
+  type: typeof AT.FETCH_CUSTODIAL_ELIGIBILITY_SUCCESS
+}
+
 interface FetchLimitsFailureActionType {
   payload: {
     error: string
@@ -189,6 +206,9 @@ export type SwapStepPayload =
   | { options?: never; step: 'UPGRADE_PROMPT' }
 
 export type SwapActionTypes =
+  | FetchCustodialEligibilityFailureActionType
+  | FetchCustodialLoadingActionType
+  | FetchEligibilitySuccessActionType
   | FetchLimitsFailureActionType
   | FetchLimitsLoadingActionType
   | FetchLimitsSuccessActionType
