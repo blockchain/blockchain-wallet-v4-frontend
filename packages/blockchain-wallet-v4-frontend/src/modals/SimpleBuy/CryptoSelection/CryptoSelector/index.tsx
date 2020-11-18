@@ -12,7 +12,6 @@ import {
 import { Props as OwnProps, SuccessStateType } from '../index'
 import { SBPairType } from 'core/types'
 import CryptoItem from './CryptoItem'
-import SellBanner from './SellBanner'
 
 const Wrapper = styled.div`
   display: flex;
@@ -136,7 +135,6 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
               ))}
         </Currencies>
       </Form>
-      {orderType === 'SELL' && <SellBanner />}
     </Wrapper>
   )
 }
