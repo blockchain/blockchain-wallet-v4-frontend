@@ -222,7 +222,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
           {fix === 'CRYPTO' && (
             <Text size={'56px'} color='textBlack' weight={500}>
-              {BASE.coin}
+              {coins[BASE.coin].coinTicker}
             </Text>
           )}
         </AmountRow>
@@ -273,7 +273,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     value:
                       fix === 'FIAT'
                         ? fiatToString({ value: fiatMin, unit: walletCurrency })
-                        : `${min} ${BASE.coin}`
+                        : `${min} ${coins[BASE.coin].coinTicker}`
                   }}
                 />
               </CustomErrorCartridge>
@@ -338,7 +338,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     value:
                       fix === 'FIAT'
                         ? fiatToString({ value: fiatMax, unit: walletCurrency })
-                        : `${max} ${BASE.coin}`
+                        : `${max} ${coins[BASE.coin].coinTicker}`
                   }}
                 />
               </CustomErrorCartridge>
