@@ -101,7 +101,6 @@ export const maximumAmount = (
     walletCurrency,
     baseRates
   )
-
   return Number(value) > (fix === 'CRYPTO' ? cryptoMax : fiatMax)
     ? 'ABOVE_MAX'
     : false

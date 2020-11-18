@@ -190,8 +190,11 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     e.preventDefault()
     props.swapActions.setStep({ step: 'PREVIEW_SWAP' })
   }
+  const userMax = Number(payment ? payment.effectiveBalance : BASE.balance)
+  const balanceBelowMinimum = userMax < Number(min)
 
   const isQuoteFailed = Remote.Failure.is(props.quoteR)
+
   return (
     <FlyoutWrapper style={{ paddingTop: '20px' }}>
       <StyledForm onSubmit={handleSubmit}>
@@ -207,6 +210,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             component={AmountTextBox}
             validate={[maximumAmount, minimumAmount, incomingAmountNonZero]}
             normalize={normalizeAmount}
+            props={{ disabled: balanceBelowMinimum }}
             onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
             maxFontSize='56px'
             placeholder='0'
@@ -223,7 +227,9 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           )}
         </AmountRow>
 
-        <QuoteRow style={{ display: amtError ? 'none' : 'flex' }}>
+        <QuoteRow
+          style={{ display: amtError || balanceBelowMinimum ? 'none' : 'flex' }}
+        >
           <div style={{ width: '24px' }} />
           <Text
             color='grey600'
@@ -248,7 +254,11 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             data-e2e='swapSwitchIcon'
           />
         </QuoteRow>
-        <Errors style={{ display: !amtError ? 'none' : 'flex' }}>
+        <Errors
+          style={{
+            display: !amtError || balanceBelowMinimum ? 'none' : 'flex'
+          }}
+        >
           <>
             {amtError === 'BELOW_MIN' ? (
               <CustomErrorCartridge
@@ -335,6 +345,16 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             )}
           </>
         </Errors>
+        {balanceBelowMinimum && (
+          <Errors>
+            <CustomErrorCartridge data-e2e='balanceBelowMin'>
+              <FormattedMessage
+                id='copy.swap_not_enough_funds'
+                defaultMessage='This wallet does not have enough funds for a swap.'
+              />
+            </CustomErrorCartridge>
+          </Errors>
+        )}
         <Amounts>
           <div>
             <Text size='14px' weight={500} color='grey600'>
