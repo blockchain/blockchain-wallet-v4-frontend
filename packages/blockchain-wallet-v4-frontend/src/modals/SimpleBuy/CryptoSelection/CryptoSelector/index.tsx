@@ -51,10 +51,26 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   Props> = props => {
   const [orderType, setOrderType] = useState(props.orderType)
 
-  const handleSubmit = (pair: SBPairType) => {
+  const handleBuy = (pair: SBPairType) => {
     props.simpleBuyActions.setStep({
       step: 'ENTER_AMOUNT',
-      orderType: orderType,
+      orderType,
+      cryptoCurrency: getCoinFromPair(pair.pair),
+      fiatCurrency: getFiatFromPair(pair.pair),
+      pair
+    })
+  }
+
+  const handleSell = (account: SwapAccountType) => {
+    const pair = props.pairs.find(
+      value => getCoinFromPair(value.pair) === account.coin
+    )
+
+    if (!pair) return
+
+    props.simpleBuyActions.setStep({
+      step: 'ENTER_AMOUNT',
+      orderType,
       cryptoCurrency: getCoinFromPair(pair.pair),
       fiatCurrency: getFiatFromPair(pair.pair),
       pair
@@ -133,7 +149,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
                     account={account}
                     coins={props.coins}
                     isAccountSelected={false}
-                    onClick={() => console.log('TODO')}
+                    onClick={() => handleSell(account)}
                     walletCurrency={props.walletCurrency}
                   />
                 ))
@@ -144,7 +160,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
                   orderType={orderType}
                   fiat={getFiatFromPair(value.pair)}
                   coin={getCoinFromPair(value.pair)}
-                  onClick={() => handleSubmit(value as SBPairType)}
+                  onClick={() => handleBuy(value as SBPairType)}
                 />
               ))}
         </Currencies>
