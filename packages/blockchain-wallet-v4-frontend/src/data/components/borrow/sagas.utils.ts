@@ -34,6 +34,7 @@ export default ({
       switch (payment.coin) {
         case 'PAX':
         case 'USDT':
+        case 'WDGLD':
         case 'ETH':
         case 'XLM':
           payment = yield payment.amount(convertStandardToBase(coin, amount))

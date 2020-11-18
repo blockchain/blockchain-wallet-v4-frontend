@@ -120,6 +120,7 @@ export default ({ coreSagas, networks }) => {
         break
       case 'PAX':
       case 'USDT':
+      case 'WDGLD':
       case 'ETH':
         payment = coreSagas.payment.eth
           .create({ network: networks.eth })
@@ -196,6 +197,7 @@ export default ({ coreSagas, networks }) => {
         return yield call(getDefaultEthAccountValue)
       case 'PAX':
       case 'USDT':
+      case 'WDGLD':
         return yield call(getDefaultErc20AccountValue, toLower(coin))
       case 'XLM':
         return yield call(getDefaultXlmAccountValue)

@@ -326,7 +326,8 @@ const getActiveAccountsR = state => {
     ETH: ethGetActiveAccounts(state),
     PAX: erc20GetActiveAccounts(state, 'pax'),
     USDT: erc20GetActiveAccounts(state, 'usdt'),
-    XLM: xlmGetActiveAccounts(state)
+    XLM: xlmGetActiveAccounts(state),
+    WDGLD: erc20GetActiveAccounts(state, 'wdgld')
   }
 
   const isNotLoaded = coinAccounts => Remote.Loading.is(coinAccounts)
@@ -348,7 +349,8 @@ export const getActiveAccounts = (state: RootState) => {
     ETH: [],
     PAX: [],
     USDT: [],
-    XLM: []
+    XLM: [],
+    WDGLD: []
   })
 
   return activeAccounts

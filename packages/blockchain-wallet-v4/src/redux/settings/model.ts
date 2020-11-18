@@ -9,6 +9,7 @@ export const DEFAULT_INVITATIONS: InvitationsType = {
   STX: true,
   XLM: true,
   USDT: true,
+  WDGLD: true,
   interest: true,
   borrow: true,
   coinify: true,

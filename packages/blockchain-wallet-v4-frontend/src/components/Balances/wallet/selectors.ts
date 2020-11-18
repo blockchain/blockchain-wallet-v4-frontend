@@ -176,6 +176,13 @@ export const getUsdtBalance = createDeepEqualSelector(
   }
 )
 
+export const getWdgldBalance = createDeepEqualSelector(
+  [getErc20NonCustodialBalance('wdgld')],
+  balanceR => {
+    return Remote.of(new BigNumber(balanceR.getOrElse(0)))
+  }
+)
+
 export const getXlmBalance = createDeepEqualSelector(
   [
     getXlmNonCustodialBalance,
@@ -463,6 +470,8 @@ export const getBalanceSelector = (coin: WalletCurrencyType) => {
       return getXlmBalance
     case 'USDT':
       return getUsdtBalance
+    case 'WDGLD':
+      return getWdgldBalance
     case 'ALGO':
       return getAlgoBalance
     case 'EUR':

@@ -116,12 +116,14 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     formErrors.depositAmount &&
     typeof formErrors.depositAmount === 'string' &&
     formErrors.depositAmount
-  const isErc20 = coin === 'PAX' || coin === 'USDT'
+  const isErc20 = coin === 'PAX' || coin === 'USDT' || coin === 'WDGLD'
   const insufficientEth =
     payment &&
     isErc20 &&
-      (payment.coin === 'PAX' || payment.coin === 'USDT') &&
-      !payment.isSufficientEthForErc20
+    (payment.coin === 'PAX' ||
+      payment.coin === 'USDT' ||
+      payment.coin === 'WDGLD') &&
+    !payment.isSufficientEthForErc20
   return submitting ? (
     <SendingWrapper>
       <SpinningLoader />

@@ -58,6 +58,7 @@ export default ({
       case 'ETH':
       case 'PAX':
       case 'USDT':
+      case 'WDGLD':
       case 'XLM':
         return account.address
       default:
@@ -209,6 +210,7 @@ export default ({
             case 'ETH':
             case 'PAX':
             case 'USDT':
+            case 'WDGLD':
             case 'XLM':
               payment = yield payment.amount(convertStandardToBase(coin, value))
               break
@@ -286,6 +288,7 @@ export default ({
         break
       case 'PAX':
       case 'USDT':
+      case 'WDGLD':
         const erc20AccountR = yield select(
           selectors.core.common.eth.getErc20AccountBalances,
           coin
@@ -430,6 +433,7 @@ export default ({
         case 'ETH':
         case 'PAX':
         case 'USDT':
+        case 'WDGLD':
           receiveAddress = selectors.core.data.eth
             .getDefaultAddress(yield select())
             .getOrFail(`Failed to get ${coin} receive address`)

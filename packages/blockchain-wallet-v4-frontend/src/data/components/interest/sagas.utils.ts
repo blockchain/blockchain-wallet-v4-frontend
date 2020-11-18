@@ -81,6 +81,14 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
             rates
           }).value
           break
+        case 'WDGLD':
+          maxFiat = Exchange.convertWdgldToFiat({
+            value: balance || custodialBalance || 0,
+            fromUnit: 'WEI',
+            toCurrency: userCurrency,
+            rates
+          }).value
+          break
         case 'XLM':
           maxFiat = Exchange.convertXlmToFiat({
             value: balance || custodialBalance || 0,
