@@ -3,9 +3,11 @@ import { SwapActionTypes, SwapState } from './types'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: SwapState = {
+  custodialEligibility: Remote.NotAsked,
   fix: 'FIAT',
   limits: Remote.NotAsked,
   order: undefined,
+  pairs: Remote.NotAsked,
   payment: Remote.NotAsked,
   quote: Remote.NotAsked,
   side: 'BASE',
@@ -21,6 +23,24 @@ export function swapReducer (
   action: SwapActionTypes
 ): SwapState {
   switch (action.type) {
+    case AT.FETCH_CUSTODIAL_ELIGIBILITY_FAILURE: {
+      return {
+        ...state,
+        custodialEligibility: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_CUSTODIAL_ELIGIBILITY_LOADING: {
+      return {
+        ...state,
+        custodialEligibility: Remote.Loading
+      }
+    }
+    case AT.FETCH_CUSTODIAL_ELIGIBILITY_SUCCESS: {
+      return {
+        ...state,
+        custodialEligibility: Remote.Success(action.payload.eligibility)
+      }
+    }
     case AT.FETCH_LIMITS_FAILURE: {
       return {
         ...state,
@@ -37,6 +57,24 @@ export function swapReducer (
       return {
         ...state,
         limits: Remote.Success(action.payload.limits)
+      }
+    }
+    case AT.FETCH_PAIRS_FAILURE: {
+      return {
+        ...state,
+        pairs: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_PAIRS_LOADING: {
+      return {
+        ...state,
+        pairs: Remote.Loading
+      }
+    }
+    case AT.FETCH_PAIRS_SUCCESS: {
+      return {
+        ...state,
+        pairs: Remote.Success(action.payload.pairs)
       }
     }
     case AT.FETCH_QUOTE_FAILURE: {
