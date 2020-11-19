@@ -129,7 +129,6 @@ const QRCode = React.lazy(() => import('./QRCode'))
 const SignMessage = React.lazy(() => import('./SignMessage'))
 const SimpleBuy = React.lazy(() => import('./SimpleBuy'))
 const Swap = React.lazy(() => import('./Swap'))
-const WhatsNew = React.lazy(() => import('./WhatsNew'))
 const Withdraw = React.lazy(() => import('./Withdraw'))
 
 const Modals = () => (
@@ -198,7 +197,6 @@ const Modals = () => (
       <UserExists />
       <VerifyMessage />
       <Welcome />
-      <WhatsNew />
       <Withdraw />
       <XlmCreateAccountLearn />
       <XlmReserveLearn />
