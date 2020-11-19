@@ -15,6 +15,7 @@ import {
   SBProviderDetailsType,
   SBQuoteType,
   SupportedWalletCurrenciesType,
+  SwapOrderType,
   WalletOptionsType
 } from 'blockchain-wallet-v4/src/types'
 import {
@@ -39,7 +40,8 @@ import { find, pathOr, propEq } from 'ramda'
 
 import { FALLBACK_DELAY, getOutputFromPair } from '../swap/model'
 import { getDirection } from './utils'
-import { getRate } from '../swap/utils'
+import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/validation'
+import { getRate, NO_QUOTE } from '../swap/utils'
 import { Remote } from 'blockchain-wallet-v4/src'
 import {
   SBAddCardErrorType,
@@ -239,19 +241,60 @@ export default ({
       }
 
       yield put(actions.form.startSubmit('simpleBuyCheckout'))
-      const order: SBOrderType = yield call(
-        api.createSBOrder,
-        pair.pair,
-        orderType,
-        true,
-        input,
-        output,
-        paymentType,
-        paymentMethodId
-      )
-      yield put(actions.form.stopSubmit('simpleBuyCheckout'))
-      yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order }))
-      yield put(A.fetchSBOrders())
+      if (orderType === 'SELL') {
+        const from = S.getSwapAccount(yield select())
+        const quote = S.getSellQuote(yield select()).getOrFail(NO_QUOTE)
+
+        if (!from) throw new Error(NO_ACCOUNT)
+
+        const direction = getDirection(from)
+        const cryptoAmt =
+          fix === 'CRYPTO'
+            ? amount
+            : convertStandardToBase(
+                from.coin,
+                getQuote(
+                  pair.pair,
+                  convertStandardToBase('FIAT', quote.rate),
+                  fix,
+                  amount
+                )
+              )
+
+        const sellOrder: SwapOrderType = yield call(
+          api.createSwapOrder,
+          direction,
+          quote.quote.id,
+          cryptoAmt,
+          getFiatFromPair(pair.pair)
+        )
+        yield put(actions.form.stopSubmit('simpleBuyCheckout'))
+        yield put(actions.modals.closeModal())
+        yield put(
+          actions.modals.showModal('SWAP_MODAL', { origin: 'SimpleBuyLink' })
+        )
+        yield put(
+          actions.components.swap.setStep({
+            step: 'SUCCESSFUL_SWAP',
+            options: { order: sellOrder }
+          })
+        )
+        yield put(actions.components.swap.fetchTrades())
+      } else {
+        const buyOrder: SBOrderType = yield call(
+          api.createSBOrder,
+          pair.pair,
+          orderType,
+          true,
+          input,
+          output,
+          paymentType,
+          paymentMethodId
+        )
+        yield put(actions.form.stopSubmit('simpleBuyCheckout'))
+        yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order: buyOrder }))
+        yield put(A.fetchSBOrders())
+      }
     } catch (e) {
       // After CC has been activated we try to create an order
       // If order creation fails go back to ENTER_AMOUNT step
@@ -322,7 +365,10 @@ export default ({
       const order = S.getSBOrder(yield select())
       if (!order) throw new Error(NO_ORDER_EXISTS)
       yield put(actions.form.startSubmit('sbCheckoutConfirm'))
-      const confirmedOrder: SBOrderType = yield call(api.confirmSBOrder, order)
+      const confirmedOrder: SBOrderType = yield call(
+        api.confirmSBOrder,
+        order as SBOrderType
+      )
       yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
       yield put(A.fetchSBOrders())
       yield put(A.setStep({ step: 'ORDER_SUMMARY', order: confirmedOrder }))

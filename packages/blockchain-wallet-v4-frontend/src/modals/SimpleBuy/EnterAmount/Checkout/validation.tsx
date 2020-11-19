@@ -1,6 +1,9 @@
 import BigNumber from 'bignumber.js'
 
-import { coinToString, fiatToString } from 'core/exchange/currency'
+import {
+  coinToString,
+  fiatToString
+} from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   convertBaseToStandard,
   convertStandardToBase
