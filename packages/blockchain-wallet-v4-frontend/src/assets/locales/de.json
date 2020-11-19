@@ -1311,7 +1311,6 @@
   "modals.identityverification.steps.coinify": "Konto",
   "modals.identityverification.steps.mobile": "Telefon",
   "modals.identityverification.steps.more_info": "Info",
-  "modals.identityverification.steps.personal": "Persönlich",
   "modals.identityverification.steps.submitted": "Eingereicht",
   "modals.identityverification.steps.verify": "Verifizieren",
   "modals.import.privatekeys.tooltip": "Das Format des privaten Schlüssels muss WIF komprimiert sein. Wenn Sie einen privaten Schlüssel in einem nicht komprimierten Format importieren, konvertieren Sie ihn vor dem Import in einen komprimierten.",

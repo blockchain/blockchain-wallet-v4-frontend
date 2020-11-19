@@ -3,6 +3,7 @@ import {
   CampaignsType,
   DocumentType,
   IdentityVerificationActionTypes,
+  StepsMetadataType,
   StepsType
 } from './types'
 import { ModalOriginType } from 'data/modals/types'
@@ -12,10 +13,11 @@ export const verifyIdentity = (
   tier = TIERS[2],
   needMoreInfo = false,
   origin: ModalOriginType,
-  metadata?: any
+  metadata?: any,
+  callback?: () => void
 ): IdentityVerificationActionTypes => ({
   type: AT.VERIFY_IDENTITY,
-  payload: { tier, needMoreInfo, origin, metadata }
+  payload: { tier, needMoreInfo, origin, metadata, callback }
 })
 
 export const initializeVerification = (tier, needMoreInfo) => ({
@@ -178,7 +180,7 @@ export const setEmailStep = (step): IdentityVerificationActionTypes => ({
   payload: { step }
 })
 
-export const saveInfoAndResidentialData = metadata => ({
+export const saveInfoAndResidentialData = (metadata: StepsMetadataType) => ({
   type: AT.SAVE_INFO_AND_RESIDENTIAL_DATA,
   payload: { metadata }
 })

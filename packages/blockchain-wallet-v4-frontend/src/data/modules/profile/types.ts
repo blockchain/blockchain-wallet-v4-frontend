@@ -82,6 +82,12 @@ export type UserCampaignsType = {
   userCampaignsInfoResponseList: Array<CampaignInfoType>
 }
 
+export type Tiers = {
+  current: 0 | 1 | 2
+  next: 0 | 1 | 2
+  selected: 0 | 1 | 2
+}
+
 export type UserDataType = {
   address?: NabuAddressType
   dob: string
@@ -98,11 +104,7 @@ export type UserDataType = {
   settings: null
   state: UserActivationStateType
   tags: TagsType
-  tiers: {
-    current: 0 | 1 | 2
-    next: 0 | 1 | 2
-    selected: 0 | 1 | 2
-  }
+  tiers: Tiers
   userName?: string
   walletAddresses: {}
   walletGuid: string

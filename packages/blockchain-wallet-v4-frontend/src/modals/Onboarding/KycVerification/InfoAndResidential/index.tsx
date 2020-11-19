@@ -15,8 +15,7 @@ const { INFO_AND_RESIDENTIAL_FORM } = model.components.identityVerification
 
 class InfoAndResidential extends PureComponent<Props> {
   componentDidMount () {
-    this.props.identityVerificationActions.fetchSupportedCountries()
-    this.props.identityVerificationActions.fetchStates()
+    this.fetchData()
   }
 
   fetchData = () => {
@@ -31,13 +30,8 @@ class InfoAndResidential extends PureComponent<Props> {
   }
 
   onCountryChange = (e, value) => {
-    this.props.formActions.change(INFO_AND_RESIDENTIAL_FORM, 'country', value)
-    this.props.formActions.clearFields(
-      INFO_AND_RESIDENTIAL_FORM,
-      false,
-      false,
-      'state'
-    )
+    e.preventDefault()
+    this.setDefaultCountry(value)
   }
 
   setDefaultCountry = (country: CountryType) => {

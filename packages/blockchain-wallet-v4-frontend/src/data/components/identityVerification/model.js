@@ -7,7 +7,7 @@ export const USER_EXISTS_MODAL = '@KYC.UserExists'
 export const AIRDROP_ERROR_MODAL = '@KYC.AirdropError'
 
 export const STEPS = {
-  personal: 'personal',
+  infoAndResidential: 'infoAndResidential',
   moreInfo: 'moreInfo',
   additionalInfo: 'additionalInfo',
   verify: 'verify',
@@ -15,7 +15,7 @@ export const STEPS = {
 }
 
 export const STEP_TIERS = {
-  personal: TIERS[1],
+  infoAndResidential: TIERS[1],
   moreInfo: TIERS[2],
   additionalInfo: TIERS[2],
   verify: TIERS[2],
@@ -54,11 +54,6 @@ export const isStateSupported = compose(includes('KYC'), propOr([], 'scopes'))
 export const FLOW_TYPES = {
   HIGH: 'HIGH',
   LOW: 'LOW'
-}
-
-export const KYC_PROVIDERS = {
-  ONFIDO: 'ONFIDO',
-  VERIFF: 'VERIFF'
 }
 
 export const ERROR_TYPES = {

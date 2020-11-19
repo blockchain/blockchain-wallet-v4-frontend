@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-export default props => {
+export default () => {
   return (
     <Wrapper>
       <FlyoutWrapper>

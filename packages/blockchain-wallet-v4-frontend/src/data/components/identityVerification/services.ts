@@ -1,36 +1,32 @@
 import { both, compose, filter, flip, gte, lte, prop, values } from 'ramda'
 
-import { KycStateType } from 'data/modules/types'
+import { KycStateType, Tiers } from 'data/modules/types'
 import { model } from 'data'
 import { STEP_TIERS, STEPS } from './model'
 
 export const computeSteps = ({
   kycState,
-  mobileVerified,
   needMoreInfo,
-  smsVerified,
   tiers
 }: {
   kycState: KycStateType
-  mobileVerified: boolean
   needMoreInfo: boolean
-  smsVerified: boolean
-  tiers: any
+  tiers: Tiers
 }) => {
   const { TIERS } = model.profile
   const { next, selected } = tiers
   const getStepTier = flip(prop)(STEP_TIERS)
-  const skipMobile = smsVerified || mobileVerified
 
   const isStepRequired = step => {
-    if ((!needMoreInfo || next < TIERS[2]) && step === STEPS.moreInfo)
+    if ((!needMoreInfo || next < TIERS[2]) && step === STEPS.moreInfo) {
       return false
+    }
     if (
       (kycState === 'PENDING' || kycState === 'VERIFIED') &&
       step === STEPS.verify
-    )
+    ) {
       return false
-    if (skipMobile) return false
+    }
 
     return compose(both(lte(next), gte(selected)), getStepTier)(step)
   }

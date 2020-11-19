@@ -28,7 +28,7 @@ export type SBAddCardFormValuesType = {
   cvc: string
   'expiry-date': string
   'name-on-card': string
-  sbSameBillingAddress?: boolean
+  sameAsBillingAddress?: boolean
 }
 export type SBAddCardErrorType =
   | 'PENDING_CARD_AFTER_POLL'

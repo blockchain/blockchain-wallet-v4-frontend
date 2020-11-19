@@ -1311,7 +1311,6 @@
   "modals.identityverification.steps.coinify": "Compte",
   "modals.identityverification.steps.mobile": "Téléphone",
   "modals.identityverification.steps.more_info": "Info",
-  "modals.identityverification.steps.personal": "Personnel",
   "modals.identityverification.steps.submitted": "Soumis",
   "modals.identityverification.steps.verify": "Vérifier",
   "modals.import.privatekeys.tooltip": "Le format de clé privée doit être compressé WIF. Si vous importez une clé privée dans un format non compressé, veuillez la convertir en format compressé avant l'importation.",

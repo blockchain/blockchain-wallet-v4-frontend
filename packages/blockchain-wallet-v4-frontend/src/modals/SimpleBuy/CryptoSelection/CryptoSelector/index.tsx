@@ -70,23 +70,21 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   const [orderType, setOrderType] = useState(props.orderType)
 
   const handleSubmit = (pair: SBPairType) => {
-    if (!props.emailVerified && props.isFirstLogin) {
-      props.simpleBuyActions.setStep({
-        step: 'VERIFY_EMAIL',
-        orderType: orderType,
-        cryptoCurrency: getCoinFromPair(pair.pair),
-        fiatCurrency: getFiatFromPair(pair.pair),
-        pair
-      })
-    } else {
-      props.simpleBuyActions.setStep({
-        step: 'ENTER_AMOUNT',
-        orderType: orderType,
-        cryptoCurrency: getCoinFromPair(pair.pair),
-        fiatCurrency: getFiatFromPair(pair.pair),
-        pair
-      })
-    }
+    !props.emailVerified && props.isFirstLogin
+      ? props.simpleBuyActions.setStep({
+          step: 'VERIFY_EMAIL',
+          orderType: orderType,
+          cryptoCurrency: getCoinFromPair(pair.pair),
+          fiatCurrency: getFiatFromPair(pair.pair),
+          pair
+        })
+      : props.simpleBuyActions.setStep({
+          step: 'ENTER_AMOUNT',
+          orderType: orderType,
+          cryptoCurrency: getCoinFromPair(pair.pair),
+          fiatCurrency: getFiatFromPair(pair.pair),
+          pair
+        })
   }
 
   const showWelcome = props.isFirstLogin

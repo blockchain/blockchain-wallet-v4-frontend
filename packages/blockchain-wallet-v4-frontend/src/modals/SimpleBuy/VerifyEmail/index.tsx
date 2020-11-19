@@ -21,6 +21,13 @@ class VerifyEmail extends PureComponent<Props> {
     return null
   }
 
+  componentDidMount () {
+    const { isEmailVerified, settingsActions } = this.props
+    if (!isEmailVerified) {
+      settingsActions.fetchSettings()
+    }
+  }
+
   onResendEmail = () => {
     const { securityCenterActions, email } = this.props
     securityCenterActions.resendVerifyEmail(email)
@@ -47,7 +54,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   securityCenterActions: bindActionCreators(
     actions.modules.securityCenter,
     dispatch
-  )
+  ),
+  settingsActions: bindActionCreators(actions.core.settings, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

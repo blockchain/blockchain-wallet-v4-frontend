@@ -42,6 +42,7 @@ import {
   SBBillingAddressFormValuesType,
   SBCheckoutFormValuesType
 } from './types'
+import { StepsMetadataType } from '../identityVerification/types'
 import { UserDataType } from 'data/modules/types'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
@@ -96,10 +97,6 @@ export default ({
         selectors.form.getFormValues('addCCForm')
       )
 
-      // TODO remove this completely
-      if (formValues.billingaddress && !formValues.sbSameBillingAddress) {
-        yield call(fetchSBCardSDD, formValues.billingaddress)
-      }
       const existingCardsR = S.getSBCards(yield select())
       const existingCards = existingCardsR.getOrElse([] as Array<SBCardType>)
       const nextCardAlreadyExists = getNextCardExists(existingCards, formValues)
@@ -114,7 +111,11 @@ export default ({
       yield put(A.addCardDetailsLoading())
 
       // Create card
-      yield put(A.fetchSBCard())
+      if (formValues.billingaddress && !formValues.sameAsBillingAddress) {
+        yield call(fetchSBCardSDD, formValues.billingaddress)
+      } else {
+        yield put(A.fetchSBCard())
+      }
       yield take([AT.FETCH_SB_CARD_SUCCESS, AT.FETCH_SB_CARD_FAILURE])
       const cardR = S.getSBCard(yield select())
       const card = cardR.getOrFail('CARD_CREATION_FAILED')
@@ -265,7 +266,7 @@ export default ({
               checkSDD: true,
               amount,
               fiatCurrency: getFiatFromPair(pair.pair)
-            }
+            } as StepsMetadataType
           )
         )
       }

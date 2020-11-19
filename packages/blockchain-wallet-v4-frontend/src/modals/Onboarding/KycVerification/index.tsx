@@ -7,30 +7,36 @@ import React from 'react'
 import { actions, model } from 'data'
 import { getData } from './selectors'
 import { RemoteDataType } from 'core/types'
+import { StepsMetadataType } from 'data/components/identityVerification/types'
+import AdditionalInfo from './AdditionalInfo'
 import DataError from 'components/DataError'
+import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import InfoAndResidential from './InfoAndResidential'
 import Loading from './template.loading'
 import modalEnhancer from 'providers/ModalEnhancer'
 import MoreInfo from './MoreInfo'
-// import Personal from './Personal'
-import AdditionalInfo from './AdditionalInfo'
-import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import Submitted from './Submitted'
 import Verify from './Verify'
 
 const { STEPS, KYC_MODAL } = model.components.identityVerification
 
 const stepMap = {
-  [STEPS.personal]: (
+  [STEPS.infoAndResidential]: (
     <FormattedMessage
-      id='modals.identityverification.steps.personal'
-      defaultMessage='Personal'
+      id='modals.identityverification.steps.info_and_residential'
+      defaultMessage='Info and residential'
     />
   ),
   [STEPS.moreInfo]: (
     <FormattedMessage
       id='modals.identityverification.steps.more_info'
       defaultMessage='Info'
+    />
+  ),
+  [STEPS.additionalInfo]: (
+    <FormattedMessage
+      id='modals.identityverification.steps.additional_info'
+      defaultMessage='Additional Info'
     />
   ),
   [STEPS.verify]: (
@@ -44,18 +50,12 @@ const stepMap = {
       id='modals.identityverification.steps.submitted'
       defaultMessage='Submitted'
     />
-  ),
-  [STEPS.additionalInfo]: (
-    <FormattedMessage
-      id='modals.identityverification.steps.submitted'
-      defaultMessage='Submitted'
-    />
   )
 }
 
 type OwnProps = {
   close: () => void
-  metadata: any
+  metadata: StepsMetadataType
   needMoreInfo: boolean
   position: number
   step: number
@@ -96,12 +96,8 @@ class IdentityVerification extends React.PureComponent<Props, State> {
   getStepComponent = step => {
     const { actions } = this.props
 
-    if (step === STEPS.personal)
+    if (step === STEPS.infoAndResidential)
       return (
-        // <Personal
-        //   handleSubmit={actions.savePersonalData}
-        //   onBack={actions.goToPrevStep}
-        // />
         <InfoAndResidential
           onClose={this.handleClose}
           metadata={this.props.metadata}
@@ -146,7 +142,10 @@ class IdentityVerification extends React.PureComponent<Props, State> {
           direction={this.state.direction}
           data-e2e='identityVerificationModal_flyout'
         >
-          <Loading />
+          <FlyoutChild>
+            loading inside main
+            <Loading />
+          </FlyoutChild>
         </Flyout>
       ),
       NotAsked: () => (
@@ -177,7 +176,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
 
 // @ts-ignore
 IdentityVerification.defaultProps = {
-  step: STEPS.personal
+  step: STEPS.infoAndResidential
 }
 
 const mapDispatchToProps = dispatch => ({

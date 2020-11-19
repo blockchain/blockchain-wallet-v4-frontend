@@ -1,19 +1,6 @@
+import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
 import {
-  Button,
-  CheckBoxInput,
-  Icon,
-  Image,
-  Link,
-  Text
-} from 'blockchain-info-components'
-import { CountryType } from 'data/components/identityVerification/types'
-import {
-  countryUsesPostalcode,
-  countryUsesZipcode,
-  required,
-  requiredZipCode
-} from 'services/FormHelper'
-import {
+  CheckBox,
   CreditCardBox,
   CreditCardCVCBox,
   CreditCardExpiryBox,
@@ -24,6 +11,13 @@ import {
   SelectBoxUSState,
   TextBox
 } from 'components/Form'
+import { CountryType } from 'data/components/identityVerification/types'
+import {
+  countryUsesPostalcode,
+  countryUsesZipcode,
+  required,
+  requiredZipCode
+} from 'services/FormHelper'
 import {
   DEFAULT_SECURITY_CODE_NAME,
   getCardTypeByValue
@@ -50,7 +44,7 @@ import { Props as OwnProps, SuccessStateType } from '.'
 
 import { SBAddCardErrorType } from 'data/types'
 import { SBBuyOrderType, SBSellOrderType } from 'core/types'
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
@@ -134,6 +128,10 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
   ) {
     props.updateDefaultCountry(defaultCountry)
   }
+
+  useEffect(() => {
+    props.formActions.change('addCCForm', 'sameAsBillingAddress', true)
+  }, [])
 
   return (
     <CustomFlyoutWrapper>
@@ -285,10 +283,11 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
                     defaultMessage='Billing Address'
                   />
                 </Text>
-                <CheckBoxInput
-                  name='sbSameBillingAddress'
-                  checked={!billingAddress}
-                  data-e2e='sbSameBillingAddressCheckbox'
+                <Field
+                  name='sameAsBillingAddress'
+                  id='sameAsBillingAddress'
+                  component={CheckBox}
+                  type='checkbox'
                   onChange={() =>
                     setBillingAddress(billingAddress => !billingAddress)
                   }
@@ -299,7 +298,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
                       defaultMessage='Same as Residential Address'
                     />
                   </Text>
-                </CheckBoxInput>
+                </Field>
               </CheckBoxContainer>
             </FormItem>
             {billingAddress && (

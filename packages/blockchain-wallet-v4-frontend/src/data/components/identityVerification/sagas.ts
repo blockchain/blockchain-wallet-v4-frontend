@@ -155,20 +155,12 @@ export default ({ api, coreSagas, networks }) => {
       next: 0,
       selected: 2
     })
-    const mobileVerified = (yield select(selectors.modules.profile.getUserData))
-      .map(prop('mobileVerified'))
-      .getOrElse(false)
-    const smsVerified = (yield select(
-      selectors.core.settings.getSmsVerified
-    )).getOrElse(0)
     const kycState = (selectors.modules.profile.getUserKYCState(
       yield select()
     ) as RemoteDataType<string, KycStateType>).getOrElse('NONE')
     const steps = computeSteps({
       kycState,
-      mobileVerified,
       needMoreInfo,
-      smsVerified,
       tiers
     })
 
@@ -488,6 +480,7 @@ export default ({ api, coreSagas, networks }) => {
       }
 
       yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM))
+      yield put(actions.modules.profile.fetchUser())
     } catch (e) {
       yield put(
         actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM, { _error: e })
@@ -496,7 +489,7 @@ export default ({ api, coreSagas, networks }) => {
         actions.logs.logErrorMessage(
           logLocation,
           'saveInfoAndResidentialData',
-          `Error saving infor and residential data: ${e}`
+          `Error saving info and residential data: ${e}`
         )
       )
     }

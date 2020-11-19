@@ -29,6 +29,7 @@ class AddCard extends PureComponent<Props> {
       'billingaddress.country',
       country.code
     )
+
     this.props.formActions.clearFields(
       'addCCForm',
       false,
