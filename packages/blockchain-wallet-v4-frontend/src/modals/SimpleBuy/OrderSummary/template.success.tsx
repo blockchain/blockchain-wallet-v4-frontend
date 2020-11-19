@@ -295,7 +295,10 @@ const Success: React.FC<Props> = props => {
             <Text color='grey600' size='14px' weight={500}>
               <FormattedHTMLMessage
                 id='modals.simplebuy.summary.complete_card_info_additional'
-                defaultMessage="In the meantime, you can sell into Cash, swap, and trade within Blockchain.com.<a href='https://support.blockchain.com/hc/en-us/articles/360048200392' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
+                defaultMessage='In the meantime, you can sell into Cash, swap, and trade within Blockchain.com.{link}'
+                values={{
+                  link: `<a href='https://support.blockchain.com/hc/en-us/articles/360048200392' rel='noopener noreferrer' target='_blank'>Learn more.</a>`
+                }}
               />
             </Text>
           </BottomInfo>

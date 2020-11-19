@@ -4,9 +4,11 @@ import { RootState } from 'data/rootReducer'
 import moment from 'moment'
 import React from 'react'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { getData } from './selectors'
 import LockTime from './template'
+
+const { WITHDRAW_LOCK_DEFAULT_DAYS } = model.profile
 
 class LockTimeContainer extends React.PureComponent<Props> {
   componentDidMount () {
@@ -21,12 +23,18 @@ class LockTimeContainer extends React.PureComponent<Props> {
       Success: val => (
         <LockTime
           {...rest}
-          lockTime={moment
-            .duration(val.withdrawLockCheck.lockTime, 'seconds')
-            .days()}
+          lockTime={
+            val.withdrawLockCheck && val.withdrawLockCheck.lockTime
+              ? moment
+                  .duration(val.withdrawLockCheck.lockTime, 'seconds')
+                  .days()
+              : WITHDRAW_LOCK_DEFAULT_DAYS
+          }
         />
       ),
-      Failure: () => null,
+      Failure: () => (
+        <LockTime {...rest} lockTime={WITHDRAW_LOCK_DEFAULT_DAYS} />
+      ),
       NotAsked: () => null,
       Loading: () => null
     })
