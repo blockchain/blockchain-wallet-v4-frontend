@@ -63,10 +63,6 @@ class EnterAmount extends PureComponent<Props> {
     this.props.swapActions.initAmountForm()
   }
 
-  componentWillUnmount () {
-    this.props.formActions.clearFields('swapAmount', false, false, 'amount')
-  }
-
   render () {
     if (
       !this.props.initSwapFormValues?.BASE ||
