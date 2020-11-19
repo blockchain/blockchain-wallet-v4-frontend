@@ -580,8 +580,10 @@ export default ({
         const rate = getRate(
           quote.quote.priceTiers,
           getOutputFromPair(pair),
-          new BigNumber(convertStandardToBase(payload.account.coin, 1))
+          new BigNumber(convertStandardToBase(payload.account.coin, 1)),
+          true
         )
+
         yield put(A.fetchSellQuoteSuccess(quote, rate))
         const refresh = -moment().diff(quote.expiresAt)
         yield delay(refresh)

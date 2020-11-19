@@ -22,7 +22,6 @@ import { Form } from 'components/Form'
 import {
   formatQuote,
   getMaxMin,
-  getMaxMinSell,
   getQuote,
   maximumAmount,
   minimumAmount
@@ -157,24 +156,20 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const amtError =
     typeof props.formErrors.amount === 'string' && props.formErrors.amount
 
-  const maxMinFunction = orderType === 'BUY' ? getMaxMin : getMaxMinSell
-
-  const max: string = maxMinFunction(
+  const max: string = getMaxMin(
     'max',
     props.sbBalances,
     props.orderType,
-    // @ts-ignore
     props.quote,
     props.pair,
     props.formValues,
     method,
     props.swapAccount
   )[fix]
-  const min: string = maxMinFunction(
+  const min: string = getMaxMin(
     'min',
     props.sbBalances,
     props.orderType,
-    // @ts-ignore
     props.quote,
     props.pair,
     props.formValues,
@@ -184,11 +179,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   const handleMinMaxClick = () => {
     const prop = amtError === 'BELOW_MIN' ? 'min' : 'max'
-    const maxMin: string = maxMinFunction(
+    const maxMin: string = getMaxMin(
       prop,
       props.sbBalances,
       props.orderType,
-      // @ts-ignore
       props.quote,
       props.pair,
       props.formValues,

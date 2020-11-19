@@ -1,7 +1,10 @@
 import BigNumber from 'bignumber.js'
 
 import { coinToString, fiatToString } from 'core/exchange/currency'
-import { convertBaseToStandard } from 'data/components/exchange/services'
+import {
+  convertBaseToStandard,
+  convertStandardToBase
+} from 'data/components/exchange/services'
 import {
   getCoinFromPair,
   getFiatFromPair
@@ -70,14 +73,16 @@ export const getMaxMin = (
   minOrMax: 'min' | 'max',
   sbBalances: SBBalancesType,
   orderType: SBOrderActionType,
-  quote: SBQuoteType,
+  QUOTE: SBQuoteType | { quote: SwapQuoteType; rate: number },
   pair: SBPairType,
   allValues?: SBCheckoutFormValuesType,
   method?: SBPaymentMethodType,
   account?: SwapAccountType
 ): { CRYPTO: string; FIAT: string } => {
+  let quote: SBQuoteType | { quote: SwapQuoteType; rate: number }
   switch (orderType) {
     case 'BUY':
+      quote = QUOTE as SBQuoteType
       switch (minOrMax) {
         case 'max':
           let defaultMax = {
@@ -128,38 +133,17 @@ export const getMaxMin = (
       }
       break
     case 'SELL':
-      const coin = getCoinFromPair(pair.pair)
-      const rate = quote.rate
-      switch (minOrMax) {
-        case 'max':
-          const maxAvailable = account
-            ? account.balance
-            : sbBalances[coin]?.available || '0'
-
-          const maxSell = new BigNumber(pair.sellMax)
-            .dividedBy(rate)
-            .toFixed(Currencies[coin].units[coin].decimal_digits)
-
-          const maxCrypto = Math.min(
-            Number(convertBaseToStandard(coin, maxAvailable)),
-            Number(maxSell)
-          ).toString()
-          const maxFiat = getQuote(quote.pair, quote.rate, 'CRYPTO', maxCrypto)
-
-          return { FIAT: maxFiat, CRYPTO: maxCrypto }
-        case 'min':
-          const minStandard = convertBaseToStandard(
-            'FIAT',
-            new BigNumber(pair.sellMin)
-          )
-
-          const minCrypto = new BigNumber(minStandard)
-            .dividedBy(rate)
-            .toFixed(Currencies[coin].units[coin].decimal_digits)
-          const minFiat = minStandard
-
-          return { FIAT: minFiat, CRYPTO: minCrypto }
-      }
+      quote = QUOTE as { quote: SwapQuoteType; rate: number }
+      return getMaxMinSell(
+        minOrMax,
+        sbBalances,
+        orderType,
+        quote,
+        pair,
+        allValues,
+        method,
+        account
+      )
   }
 }
 
@@ -188,7 +172,9 @@ export const getMaxMinSell = (
             ? account.balance
             : sbBalances[coin]?.available || '0'
 
-          const maxSell = new BigNumber(pair.sellMax)
+          const maxSell = new BigNumber(
+            convertStandardToBase('FIAT', pair.sellMax)
+          )
             .dividedBy(rate)
             .toFixed(Currencies[coin].units[coin].decimal_digits)
 
@@ -196,10 +182,7 @@ export const getMaxMinSell = (
             Number(convertBaseToStandard(coin, maxAvailable)),
             Number(maxSell)
           ).toString()
-          const maxFiat = convertBaseToStandard(
-            'FIAT',
-            new BigNumber(pair.sellMin)
-          )
+          const maxFiat = getQuote(pair.pair, rate, 'CRYPTO', maxCrypto)
 
           return { FIAT: maxFiat, CRYPTO: maxCrypto }
         case 'min':
@@ -247,15 +230,12 @@ export const maximumAmount = (
   const method = selectedMethod || defaultMethod
   if (!allValues) return
 
-  const maxMinFunction = orderType === 'BUY' ? getMaxMin : getMaxMinSell
-
   return Number(value) >
     Number(
-      maxMinFunction(
+      getMaxMin(
         'max',
         sbBalances,
         orderType,
-        // @ts-ignore
         quote,
         pair,
         allValues,
@@ -286,15 +266,12 @@ export const minimumAmount = (
   const method = selectedMethod || defaultMethod
   if (!allValues) return
 
-  const maxMinFunction = orderType === 'BUY' ? getMaxMin : getMaxMinSell
-
   return Number(value) <
     Number(
-      maxMinFunction(
+      getMaxMin(
         'min',
         sbBalances,
         orderType,
-        // @ts-ignore
         quote,
         pair,
         allValues,
