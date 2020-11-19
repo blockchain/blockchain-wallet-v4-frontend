@@ -29,6 +29,14 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     this.props.swapActions.createOrder()
   }
 
+  networkFee = value => {
+    return value
+      ? value.coin === 'BTC' || value.coin === 'BCH'
+        ? value.selection.fee
+        : value.fee
+      : 0
+  }
+
   render () {
     if (
       !this.props.initSwapFormValues?.BASE ||
@@ -168,7 +176,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     {coinToString({
                       value: convertBaseToStandard(
                         BASE.baseCoin,
-                        value ? value.fee : 0
+                        this.networkFee(value)
                       ),
                       unit: { symbol: coins[BASE.baseCoin].coinTicker }
                     })}
