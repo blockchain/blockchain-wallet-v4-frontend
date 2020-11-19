@@ -48,6 +48,7 @@ import {
 import BigNumber from 'bignumber.js'
 import EthereumAbi from 'ethereumjs-abi'
 import EthUtil from 'ethereumjs-util'
+import sendSagas from '../send/sagas'
 
 const { TRANSACTION_EVENTS } = model.analytics
 
@@ -61,6 +62,11 @@ export default ({
   coreSagas
   networks
 }) => {
+  const { showWithdrawalLockAlert } = sendSagas({
+    api,
+    coreSagas,
+    networks
+  })
   const initialized = function * (action) {
     try {
       const erc20List = (yield select(
@@ -428,7 +434,7 @@ export default ({
         )
         if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
           if (error === 'Pending withdrawal locks') {
-            yield put(actions.alerts.displayError(C.LOCKED_WITHDRAW_ERROR))
+            yield call(showWithdrawalLockAlert)
           } else {
             yield put(actions.alerts.displayError(error))
           }

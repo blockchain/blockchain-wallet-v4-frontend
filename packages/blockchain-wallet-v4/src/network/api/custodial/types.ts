@@ -79,7 +79,7 @@ type CheckAttributes = {
   tier: number
 }
 
-type WithdrawalLockCheckRule = {
+export type WithdrawalLockCheckRule = {
   attributes: CheckAttributes
   id: string
   insertedAt: string

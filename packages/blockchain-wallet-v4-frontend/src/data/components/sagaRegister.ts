@@ -60,7 +60,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(sendBch({ api, coreSagas, networks }))
     yield fork(sendBtc({ api, coreSagas, networks }))
     yield fork(sendEth({ api, coreSagas, networks }))
-    yield fork(sendXlm({ api, coreSagas }))
+    yield fork(sendXlm({ api, coreSagas, networks }))
     yield fork(settings({ coreSagas }))
     yield fork(signMessage({ coreSagas }))
     yield fork(simpleBuy({ api, coreSagas, networks }))
