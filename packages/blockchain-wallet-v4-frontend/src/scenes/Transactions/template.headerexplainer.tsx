@@ -157,7 +157,7 @@ export const getHeaderExplainer = (coinModel: SupportedWalletCurrencyType) => {
         <ExplainerText>
           <FormattedMessage
             id='scenes.transaction.headertext.explainer.wdgld'
-            defaultMessage='The Wrapped Digital Gold coin (WDGLD) is an ERC-20 standard wrapper for the Digital Gold currency.'
+            defaultMessage='The Wrapped-DGLD coin (WDGLD) is an ERC-20 standard wrapper for the Digital Gold currency.'
           />
           <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
             <LearnMoreText size='15px'>

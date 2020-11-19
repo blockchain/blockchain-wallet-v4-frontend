@@ -2205,7 +2205,7 @@ type MessagesType = {
   'scenes.transaction.headertext.explainer.usdd': 'The USD Digital coin (USD-D) is backed by the US Dollar, making it a Stablecoin.'
   'scenes.transaction.headertext.explainer.usdt': 'The Tether coin (USDT) is backed by the US Dollar, making it a Stablecoin.'
   'scenes.transaction.headertext.explainer.xlm': 'The Stellar Lumen (XLM) connects banks, payments and you to the Stellar Payment network.'
-  'scenes.transaction.headertext.explainer.wdgld': 'The Wrapped Digital Gold coin (WDGLD) is an ERC-20 standard wrapper for the Digital Gold currency.'
+  'scenes.transaction.headertext.explainer.wdgld': 'The Wrapped-DGLD coin (WDGLD) is an ERC-20 standard wrapper for the Digital Gold currency.'
   'scenes.transactions.bitcoin.content.list.listitem.status.received': 'Received {coin}'
   'scenes.transactions.bitcoin.content.list.listitem.status.sent': 'Sent {coin}'
   'scenes.transactions.bitcoin.content.list.listitem.status.transferred': 'Transferred {coin}'

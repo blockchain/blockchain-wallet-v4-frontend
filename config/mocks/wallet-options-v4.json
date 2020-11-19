@@ -333,8 +333,9 @@
           "coinTicker": "WDGLD",
           "colorCode": "wdgld",
           "contractAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
-          "displayName": "Wrapped Digital Gold",
+          "displayName": "Wrapped-DGLD",
           "hasLockboxSupport": false,
+          "showNewTagSidenav": true,
           "icons": {
             "default": "wdgld",
             "circle": "wdgld",

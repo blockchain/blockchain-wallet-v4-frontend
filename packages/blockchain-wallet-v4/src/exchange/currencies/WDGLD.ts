@@ -1,7 +1,7 @@
 export default {
   base: 'WEI',
   code: 'WDGLD',
-  displayName: 'Wrapped Digital Gold',
+  displayName: 'Wrapped-DGLD',
   trade: 'WDGLD',
   units: {
     WEI: {

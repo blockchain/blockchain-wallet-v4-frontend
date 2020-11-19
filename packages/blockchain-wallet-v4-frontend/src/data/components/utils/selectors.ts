@@ -23,10 +23,10 @@ export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
       supportedCoins.ETH,
       supportedCoins.BCH,
       supportedCoins.XLM,
+      supportedCoins.WDGLD,
       supportedCoins.ALGO,
       supportedCoins.PAX,
-      supportedCoins.USDT,
-      supportedCoins.WDGLD
+      supportedCoins.USDT
     ]
     return values(
       mapObjIndexed((coin: SupportedWalletCurrencyType) => {
