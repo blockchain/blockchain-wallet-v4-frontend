@@ -35,6 +35,9 @@ import {
 import { selectors } from 'data'
 import BigNumber from 'bignumber.js'
 
+export const getCustodialEligibility = (state: RootState) =>
+  state.components.swap.custodialEligibility
+
 export const getSide = (state: RootState) => state.components.swap.side
 
 export const getStep = (state: RootState) => state.components.swap.step
@@ -42,6 +45,8 @@ export const getStep = (state: RootState) => state.components.swap.step
 export const getLimits = (state: RootState) => state.components.swap.limits
 
 export const getOrder = (state: RootState) => state.components.swap.order
+
+export const getPairs = (state: RootState) => state.components.swap.pairs
 
 export const getPayment = (state: RootState) => state.components.swap.payment
 

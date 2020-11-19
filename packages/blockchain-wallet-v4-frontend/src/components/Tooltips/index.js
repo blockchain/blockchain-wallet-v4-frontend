@@ -218,12 +218,6 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Verify a message signed by the owner of a particular Bitcoin address.'
           />
         </Tooltip>
-        <Tooltip id='whatsnew.tooltip'>
-          <FormattedMessage
-            id='whatsnew.tooltip.description'
-            defaultMessage="What's New"
-          />
-        </Tooltip>
         <Tooltip id='lockboxRequired'>
           <FormattedMessage
             id='lockboxrequired.tooltip'

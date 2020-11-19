@@ -137,6 +137,7 @@ export default ({
 
   const createOrder = function * () {
     let onChain = false
+    let toChain = false
 
     try {
       yield put(actions.form.startSubmit('previewSwap'))
@@ -164,7 +165,8 @@ export default ({
       const { BASE, COUNTER } = initSwapFormValues
 
       const direction = getDirection(BASE, COUNTER)
-      onChain = direction === 'ON_CHAIN' || direction === 'TO_USERKEY'
+      onChain = direction === 'ON_CHAIN' || direction === 'FROM_USERKEY'
+      toChain = direction === 'ON_CHAIN' || direction === 'TO_USERKEY'
 
       const amount = convertStandardToBase(
         BASE.coin,
@@ -172,7 +174,7 @@ export default ({
       )
 
       const quote = S.getQuote(yield select()).getOrFail('NO_SWAP_QUOTE')
-      const destinationAddr = onChain
+      const destinationAddr = toChain
         ? yield call(selectReceiveAddress, COUNTER, networks)
         : undefined
       const order: ReturnType<typeof api.createSwapOrder> = yield call(
@@ -215,6 +217,21 @@ export default ({
     }
   }
 
+  const fetchCustodialEligibility = function * () {
+    try {
+      yield put(A.fetchCustodialEligibilityLoading())
+      const {
+        eligible
+      }: ReturnType<typeof api.checkCustodialEligiblity> = yield call(
+        api.checkCustodialEligiblity
+      )
+      yield put(A.fetchCustodialEligibilitySuccess(eligible))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchCustodialEligibiliyFailure(error))
+    }
+  }
+
   const fetchLimits = function * () {
     try {
       yield put(A.fetchLimitsLoading())
@@ -226,6 +243,19 @@ export default ({
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchLimitsFailure(error))
+    }
+  }
+
+  const fetchPairs = function * () {
+    try {
+      yield put(A.fetchPairsLoading())
+      const pairs: ReturnType<typeof api.getSwapPairs> = yield call(
+        api.getSwapPairs
+      )
+      yield put(A.fetchPairsSuccess(pairs))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchPairsFailure(error))
     }
   }
 
@@ -328,16 +358,14 @@ export default ({
       case 'BCH':
       case 'BTC':
         payment = yield payment.amount(
-          parseInt(convertStandardToBase(payment.coin, value))
+          parseInt(convertStandardToBase(BASE.coin, value))
         )
         break
       case 'ETH':
       case 'PAX':
       case 'USDT':
       case 'XLM':
-        payment = yield payment.amount(
-          convertStandardToBase(payment.coin, value)
-        )
+        payment = yield payment.amount(convertStandardToBase(BASE.coin, value))
         break
       default:
         throw new Error(INVALID_COIN_TYPE)
@@ -473,7 +501,9 @@ export default ({
     changePair,
     changeTrendingPair,
     createOrder,
+    fetchCustodialEligibility,
     fetchLimits,
+    fetchPairs,
     fetchQuote,
     fetchTrades,
     formChanged,

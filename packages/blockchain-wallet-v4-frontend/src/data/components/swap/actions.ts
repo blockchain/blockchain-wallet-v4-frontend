@@ -46,6 +46,30 @@ export const createOrder = () => ({
   type: AT.CREATE_ORDER
 })
 
+export const fetchCustodialEligibility = () => ({
+  type: AT.FETCH_CUSTODIAL_ELIGIBILITY
+})
+export const fetchCustodialEligibiliyFailure = (
+  error: string
+): SwapActionTypes => ({
+  type: AT.FETCH_CUSTODIAL_ELIGIBILITY_FAILURE,
+  payload: {
+    error
+  }
+})
+export const fetchCustodialEligibilityLoading = (): SwapActionTypes => ({
+  type: AT.FETCH_CUSTODIAL_ELIGIBILITY_LOADING
+})
+
+export const fetchCustodialEligibilitySuccess = (
+  eligibility: boolean
+): SwapActionTypes => ({
+  type: AT.FETCH_CUSTODIAL_ELIGIBILITY_SUCCESS,
+  payload: {
+    eligibility
+  }
+})
+
 export const fetchLimits = () => ({
   type: AT.FETCH_LIMITS
 })
@@ -64,6 +88,25 @@ export const fetchLimitsSuccess = (
   type: AT.FETCH_LIMITS_SUCCESS,
   payload: {
     limits
+  }
+})
+
+export const fetchPairs = () => ({
+  type: AT.FETCH_PAIRS
+})
+export const fetchPairsFailure = (error: string): SwapActionTypes => ({
+  type: AT.FETCH_PAIRS_FAILURE,
+  payload: {
+    error
+  }
+})
+export const fetchPairsLoading = (): SwapActionTypes => ({
+  type: AT.FETCH_PAIRS_LOADING
+})
+export const fetchPairsSuccess = (pairs: Array<string>): SwapActionTypes => ({
+  type: AT.FETCH_PAIRS_SUCCESS,
+  payload: {
+    pairs
   }
 })
 
