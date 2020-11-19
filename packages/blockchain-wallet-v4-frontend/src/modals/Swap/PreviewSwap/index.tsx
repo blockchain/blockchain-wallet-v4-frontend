@@ -30,9 +30,11 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 
   networkFee = value => {
-    return value.coin === 'BTC' || value.coin === 'BCH'
-      ? value.selection.fee
-      : value.fee
+    return value
+      ? value.coin === 'BTC' || value.coin === 'BCH'
+        ? value.selection.fee
+        : value.fee
+      : 0
   }
 
   render () {
@@ -174,7 +176,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     {coinToString({
                       value: convertBaseToStandard(
                         BASE.baseCoin,
-                        value ? this.networkFee(value) : 0
+                        this.networkFee(value)
                       ),
                       unit: { symbol: coins[BASE.baseCoin].coinTicker }
                     })}
