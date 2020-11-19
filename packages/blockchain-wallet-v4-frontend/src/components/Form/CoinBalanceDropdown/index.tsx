@@ -1,6 +1,5 @@
 import {
   CoinType,
-  ExtractSuccess,
   RatesType,
   SupportedCoinType,
   SupportedWalletCurrenciesType
@@ -29,7 +28,6 @@ const DisplayContainer = styled.div<{
     color: ${props => props.theme[props.coinType.colorCode]} !important;
   }
 `
-
 const AccountContainer = styled.div`
   position: relative;
   display: flex;
@@ -47,12 +45,10 @@ const AccountContainer = styled.div`
     height: 0;
   }
 `
-
 const AmountContainer = styled.div`
   margin-top: 4px;
   display: flex;
 `
-
 const FiatContainer = styled.div`
   display: flex;
   font-size: 12px;
@@ -173,12 +169,14 @@ export type OwnProps = {
   coin: CoinType
   fiatCurrency?: string
   includeCustodial: boolean
-  name: 'collateral' | 'interestDepositAccount' | 'repay-principal'
+  name:
+    | 'collateral'
+    | 'interestDepositAccount'
+    | 'interestWithdrawalAccount'
+    | 'repay-principal'
   rates: RatesType
   supportedCoins: SupportedWalletCurrenciesType
 }
-
-type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 
 type Props = OwnProps & ConnectedProps<typeof connector>
 
