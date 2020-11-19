@@ -15,7 +15,8 @@ import {
   SBPaymentMethodsType,
   SBPaymentMethodType,
   SBProviderDetailsType,
-  SBQuoteType
+  SBQuoteType,
+  SwapQuoteType
 } from 'core/types'
 import { SwapAccountType } from '../swap/types'
 
@@ -93,6 +94,7 @@ export type SimpleBuyState = {
   pairs: RemoteDataType<string, Array<SBPairType>>
   providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
+  sellQuote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>
   step: keyof typeof SimpleBuyStepType
   swapAccount: undefined | SwapAccountType
 }
@@ -279,6 +281,22 @@ interface FetchSBQuoteSuccess {
   }
   type: typeof AT.FETCH_SB_QUOTE_SUCCESS
 }
+interface FetchSellQuoteFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_SELL_QUOTE_FAILURE
+}
+interface FetchSellQuoteLoading {
+  type: typeof AT.FETCH_SELL_QUOTE_LOADING
+}
+interface FetchSellQuoteSuccess {
+  payload: {
+    quote: SwapQuoteType
+    rate: number
+  }
+  type: typeof AT.FETCH_SELL_QUOTE_SUCCESS
+}
 
 interface InitializeCheckout {
   amount: string
@@ -378,6 +396,9 @@ export type SimpleBuyActionTypes =
   | FetchSBQuoteFailure
   | FetchSBQuoteLoading
   | FetchSBQuoteSuccess
+  | FetchSellQuoteFailure
+  | FetchSellQuoteLoading
+  | FetchSellQuoteSuccess
   | InitializeCheckout
   | SetStepAction
   | ShowModalAction

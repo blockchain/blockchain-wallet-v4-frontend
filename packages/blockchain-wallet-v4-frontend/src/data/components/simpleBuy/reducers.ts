@@ -24,6 +24,7 @@ const INITIAL_STATE: SimpleBuyState = {
   pairs: Remote.NotAsked,
   providerDetails: Remote.NotAsked,
   quote: Remote.NotAsked,
+  sellQuote: Remote.NotAsked,
   step: 'CURRENCY_SELECTION',
   swapAccount: undefined
 }
@@ -227,6 +228,27 @@ export function simpleBuyReducer (
       return {
         ...state,
         quote: Remote.Success(action.payload.quote)
+      }
+    // used for sell only now, eventually buy as well
+    // TODO: use swap2 quote for buy AND sell
+    case AT.FETCH_SELL_QUOTE_FAILURE: {
+      return {
+        ...state,
+        sellQuote: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_SELL_QUOTE_LOADING:
+      return {
+        ...state,
+        sellQuote: Remote.Loading
+      }
+    case AT.FETCH_SELL_QUOTE_SUCCESS:
+      return {
+        ...state,
+        sellQuote: Remote.Success({
+          quote: action.payload.quote,
+          rate: action.payload.rate
+        })
       }
     case AT.INITIALIZE_CHECKOUT:
       return {

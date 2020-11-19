@@ -137,6 +137,11 @@ export const getSBFiatEligible = (state: RootState) =>
 
 export const getSBQuote = (state: RootState) => state.components.simpleBuy.quote
 
+// used for sell only now, eventually buy as well
+// TODO: use swap2 quote for buy AND sell
+export const getSellQuote = (state: RootState) =>
+  state.components.simpleBuy.sellQuote
+
 export const getSBPairs = (state: RootState) => state.components.simpleBuy.pairs
 
 export const getSBPair = (state: RootState) => state.components.simpleBuy.pair

@@ -22,6 +22,7 @@ import { Form } from 'components/Form'
 import {
   formatQuote,
   getMaxMin,
+  getMaxMinSell,
   getQuote,
   maximumAmount,
   minimumAmount
@@ -135,7 +136,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const conversionCoinType: 'FIAT' | CoinType =
     fix === 'FIAT' ? 'FIAT' : cryptoCurrency
 
-  const quoteAmt = getQuote(props.quote, fix, props.formValues?.amount)
+  const quoteAmt = getQuote(
+    props.pair.pair,
+    props.quote.rate,
+    fix,
+    props.formValues?.amount
+  )
 
   if (!props.formValues) return null
   if (!fiatCurrency || !baseCurrency)
@@ -151,20 +157,24 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const amtError =
     typeof props.formErrors.amount === 'string' && props.formErrors.amount
 
-  const max: string = getMaxMin(
+  const maxMinFunction = orderType === 'BUY' ? getMaxMin : getMaxMinSell
+
+  const max: string = maxMinFunction(
     'max',
     props.sbBalances,
     props.orderType,
+    // @ts-ignore
     props.quote,
     props.pair,
     props.formValues,
     method,
     props.swapAccount
   )[fix]
-  const min: string = getMaxMin(
+  const min: string = maxMinFunction(
     'min',
     props.sbBalances,
     props.orderType,
+    // @ts-ignore
     props.quote,
     props.pair,
     props.formValues,
@@ -174,10 +184,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   const handleMinMaxClick = () => {
     const prop = amtError === 'BELOW_MIN' ? 'min' : 'max'
-    const maxMin: string = getMaxMin(
+    const maxMin: string = maxMinFunction(
       prop,
       props.sbBalances,
       props.orderType,
+      // @ts-ignore
       props.quote,
       props.pair,
       props.formValues,
@@ -278,7 +289,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             weight={500}
             data-e2e='sbQuoteAmount'
           >
-            {formatQuote(quoteAmt, props.quote, fix, props.supportedCoins)}
+            {formatQuote(quoteAmt, props.pair.pair, fix, props.supportedCoins)}
           </Text>
           <Icon
             color='blue600'

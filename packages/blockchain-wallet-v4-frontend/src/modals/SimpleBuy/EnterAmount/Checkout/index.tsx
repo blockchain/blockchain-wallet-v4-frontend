@@ -26,7 +26,8 @@ class Checkout extends PureComponent<Props> {
       this.props.orderType,
       this.props.preferences[this.props.orderType].fix,
       this.props.pair,
-      amount
+      amount,
+      this.props.swapAccount
     )
   }
 
@@ -94,8 +95,8 @@ class Checkout extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
-  data: getData(state),
+const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
+  data: getData(state, ownProps),
   cryptoCurrency:
     selectors.components.simpleBuy.getCryptoCurrency(state) || 'BTC',
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
@@ -120,7 +121,7 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type OwnProps = EnterAmountOwnProps & EnterAmountSuccessStateType
+export type OwnProps = EnterAmountOwnProps & EnterAmountSuccessStateType
 export type SuccessStateType = ReturnType<typeof getData>['data'] & {
   formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
 }

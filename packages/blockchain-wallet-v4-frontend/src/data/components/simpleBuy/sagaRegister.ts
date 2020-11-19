@@ -1,9 +1,13 @@
+import * as A from './actions'
 import * as AT from './actionTypes'
 import { actions, actionTypes } from 'data'
-import { call, put, takeLatest } from 'redux-saga/effects'
+import { call, cancel, fork, put, take, takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
+import { Task } from 'redux-saga'
 import profileSagas from '../../modules/profile/sagas'
+
+let pollTask: Task
 
 export default ({ api, coreSagas, networks }) => {
   const simpleBuySagas = sagas({ api, coreSagas, networks })
@@ -80,6 +84,17 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.core.data.eth.fetchErc20Transactions('pax', true))
       yield put(actions.core.data.eth.fetchErc20Transactions('usdt', true))
       yield put(actions.core.data.xlm.fetchTransactions('', true))
+    })
+
+    // used for sell only now, eventually buy as well
+    // TODO: use swap2 quote for buy AND sell
+    yield takeLatest(AT.START_POLL_SELL_QUOTE, function * (
+      payload: ReturnType<typeof A.startPollSellQuote>
+    ) {
+      if (pollTask && pollTask.isRunning) yield cancel(pollTask)
+      pollTask = yield fork(simpleBuySagas.fetchSellQuote, payload)
+      yield take(AT.STOP_POLL_SELL_QUOTE)
+      yield cancel(pollTask)
     })
   }
 }

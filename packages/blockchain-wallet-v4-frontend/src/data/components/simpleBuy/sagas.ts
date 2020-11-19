@@ -27,6 +27,7 @@ import {
   getCoinFromPair,
   getFiatFromPair,
   getNextCardExists,
+  NO_ACCOUNT,
   NO_CHECKOUT_VALS,
   NO_FIAT_CURRENCY,
   NO_ORDER_EXISTS,
@@ -36,6 +37,9 @@ import {
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { find, pathOr, propEq } from 'ramda'
 
+import { FALLBACK_DELAY, getOutputFromPair } from '../swap/model'
+import { getDirection } from './utils'
+import { getRate } from '../swap/utils'
 import { Remote } from 'blockchain-wallet-v4/src'
 import {
   SBAddCardErrorType,
@@ -553,6 +557,44 @@ export default ({
     }
   }
 
+  // new sell quote fetch
+  // Copied from swap and hopefully eventually
+  // shared between the 2 UIs and 3 methods (buy, sell, swap)
+
+  // used for sell only now, eventually buy as well
+  // TODO: use swap2 quote for buy AND sell
+  const fetchSellQuote = function * (
+    payload: ReturnType<typeof A.fetchSellQuote>
+  ) {
+    while (true) {
+      try {
+        yield put(A.fetchSellQuoteLoading())
+
+        const pair = payload.pair
+        const direction = getDirection(payload.account)
+        const quote: ReturnType<typeof api.getSwapQuote> = yield call(
+          api.getSwapQuote,
+          pair,
+          direction
+        )
+        const rate = getRate(
+          quote.quote.priceTiers,
+          getOutputFromPair(pair),
+          new BigNumber(convertStandardToBase(payload.account.coin, 1))
+        )
+        yield put(A.fetchSellQuoteSuccess(quote, rate))
+        const refresh = -moment().diff(quote.expiresAt)
+        yield delay(refresh)
+      } catch (e) {
+        const error = errorHandler(e)
+        yield put(A.fetchSellQuoteFailure(error))
+        yield delay(FALLBACK_DELAY)
+        yield put(A.startPollSellQuote(payload.pair, payload.account))
+      } finally {
+      }
+    }
+  }
+
   const handleSBDepositFiatClick = function * ({
     payload
   }: ReturnType<typeof A.handleSBDepositFiatClick>) {
@@ -698,7 +740,8 @@ export default ({
   const initializeCheckout = function * ({
     fix,
     orderType,
-    amount
+    amount,
+    account
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
       yield call(waitForUserData)
@@ -709,7 +752,14 @@ export default ({
       if (!pair) throw new Error(NO_PAIR_SELECTED)
 
       // Fetch rates
-      yield put(A.fetchSBQuote(pair.pair, orderType, '0'))
+      if (orderType === 'BUY') {
+        yield put(A.fetchSBQuote(pair.pair, orderType, '0'))
+        // used for sell only now, eventually buy as well
+        // TODO: use swap2 quote for buy AND sell
+      } else {
+        if (!account) throw NO_ACCOUNT
+        yield put(A.startPollSellQuote(pair.pair, account))
+      }
 
       yield put(
         actions.form.initialize('simpleBuyCheckout', {
@@ -909,6 +959,7 @@ export default ({
     fetchSBPaymentAccount,
     fetchSBPaymentMethods,
     fetchSBQuote,
+    fetchSellQuote,
     handleSBDepositFiatClick,
     handleSBSuggestedAmountClick,
     handleSBMethodChange,

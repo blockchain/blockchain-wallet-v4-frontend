@@ -15,6 +15,7 @@ import {
   SBPaymentMethodType,
   SBProviderDetailsType,
   SBQuoteType,
+  SwapQuoteType,
   WalletFiatType
 } from 'core/types'
 import { ModalOriginType } from 'data/modals/types'
@@ -24,6 +25,7 @@ import {
   SimpleBuyActionTypes,
   StepActionsPayload
 } from './types'
+import { SwapAccountType } from '../swap/types'
 
 export const activateSBCard = (card: SBCardType) => ({
   type: AT.ACTIVATE_SB_CARD,
@@ -358,6 +360,37 @@ export const fetchSBQuoteSuccess = (
   }
 })
 
+export const fetchSellQuote = (
+  pair: SBPairsType,
+  account: SwapAccountType
+) => ({
+  type: AT.FETCH_SELL_QUOTE,
+  pair,
+  account
+})
+
+export const fetchSellQuoteFailure = (error: string): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SELL_QUOTE_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchSellQuoteLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SELL_QUOTE_LOADING
+})
+
+export const fetchSellQuoteSuccess = (
+  quote: SwapQuoteType,
+  rate: number
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SELL_QUOTE_SUCCESS,
+  payload: {
+    quote,
+    rate
+  }
+})
+
 export const handleSBDepositFiatClick = (
   coin: WalletFiatType,
   origin: ModalOriginType
@@ -389,9 +422,11 @@ export const initializeCheckout = (
   orderType: SBOrderActionType,
   fix: SBFixType,
   pair?: SBPairType,
-  amount?: string
+  amount?: string,
+  account?: SwapAccountType
 ) => ({
   type: AT.INITIALIZE_CHECKOUT,
+  account,
   amount,
   fix,
   orderType,
@@ -488,4 +523,19 @@ export const switchFix = (
     orderType,
     fix
   }
+})
+
+// used for sell only now, eventually buy as well
+// TODO: use swap2 quote for buy AND sell
+export const startPollSellQuote = (
+  pair: SBPairsType,
+  account: SwapAccountType
+) => ({
+  type: AT.START_POLL_SELL_QUOTE,
+  pair,
+  account
+})
+
+export const stopPollSellQuote = () => ({
+  type: AT.STOP_POLL_SELL_QUOTE
 })
