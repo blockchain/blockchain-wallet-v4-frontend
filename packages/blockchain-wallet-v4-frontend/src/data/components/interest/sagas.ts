@@ -178,75 +178,79 @@ export default ({
     const form = action.meta.form
     if (form !== DEPOSIT_FORM) return
 
-    const formValues: InterestDepositFormType = yield select(
-      selectors.form.getFormValues(DEPOSIT_FORM)
-    )
-    const coin = S.getCoinType(yield select())
-    const ratesR = S.getRates(yield select())
-    const userCurrency = (yield select(
-      selectors.core.settings.getCurrency
-    )).getOrFail('Failed to get user currency')
-    const rates = ratesR.getOrElse({} as RatesType)
-    const rate = rates[userCurrency].last
-    const isDisplayed = S.getCoinDisplay(yield select())
+    try {
+      const formValues: InterestDepositFormType = yield select(
+        selectors.form.getFormValues(DEPOSIT_FORM)
+      )
+      const coin = S.getCoinType(yield select())
+      const ratesR = S.getRates(yield select())
+      const userCurrency = (yield select(
+        selectors.core.settings.getCurrency
+      )).getOrFail('Failed to get user currency')
+      const rates = ratesR.getOrElse({} as RatesType)
+      const rate = rates[userCurrency].last
+      const isDisplayed = S.getCoinDisplay(yield select())
 
-    switch (action.meta.field) {
-      case 'depositAmount':
-        const value = isDisplayed
-          ? new BigNumber(action.payload).toNumber()
-          : new BigNumber(action.payload).dividedBy(rate).toNumber()
-        const paymentR = S.getPayment(yield select())
-        if (paymentR) {
-          let payment = paymentGetOrElse(coin, paymentR)
-          switch (payment.coin) {
-            case 'BCH':
-            case 'BTC':
-              payment = yield payment.amount(
-                parseInt(convertStandardToBase(coin, value))
-              )
-              break
-            case 'ETH':
-            case 'PAX':
-            case 'USDT':
-            case 'XLM':
-              payment = yield payment.amount(convertStandardToBase(coin, value))
-              break
-            default:
-              throw new Error(INVALID_COIN_TYPE)
+      switch (action.meta.field) {
+        case 'depositAmount':
+          const value = isDisplayed
+            ? new BigNumber(action.payload).toNumber()
+            : new BigNumber(action.payload).dividedBy(rate).toNumber()
+          const paymentR = S.getPayment(yield select())
+          if (paymentR) {
+            let payment = paymentGetOrElse(coin, paymentR)
+            switch (payment.coin) {
+              case 'BCH':
+              case 'BTC':
+                payment = yield payment.amount(
+                  parseInt(convertStandardToBase(coin, value))
+                )
+                break
+              case 'ETH':
+              case 'PAX':
+              case 'USDT':
+              case 'XLM':
+                payment = yield payment.amount(
+                  convertStandardToBase(coin, value)
+                )
+                break
+              default:
+                throw new Error(INVALID_COIN_TYPE)
+            }
+            yield put(A.setPaymentSuccess(payment.value()))
+          }
+          break
+        case 'interestDepositAccount':
+          let custodialBalances: SBBalancesType | undefined
+          let depositPayment: PaymentValue
+          const isCustodialDeposit =
+            prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
+
+          yield put(A.setPaymentLoading())
+          yield put(
+            actions.form.change(DEPOSIT_FORM, 'depositAmount', undefined)
+          )
+          yield put(actions.form.focus(DEPOSIT_FORM, 'depositAmount'))
+
+          if (isCustodialDeposit) {
+            custodialBalances = (yield select(
+              selectors.components.simpleBuy.getSBBalances
+            )).getOrFail('Failed to get balance')
           }
 
-          yield put(A.setPaymentSuccess(payment.value()))
-        } else {
-          break
-        }
+          depositPayment = yield call(createPayment, {
+            ...formValues.interestDepositAccount,
+            address: getAccountIndexOrAccount(
+              coin,
+              formValues.interestDepositAccount
+            )
+          })
 
-        break
-      case 'interestDepositAccount':
-        let custodialBalances: SBBalancesType | undefined
-        let depositPayment: PaymentValue
-        const isCustodialDeposit =
-          prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
-
-        yield put(A.setPaymentLoading())
-        yield put(actions.form.change(DEPOSIT_FORM, 'depositAmount', undefined))
-        yield put(actions.form.focus(DEPOSIT_FORM, 'depositAmount'))
-
-        if (isCustodialDeposit) {
-          custodialBalances = (yield select(
-            selectors.components.simpleBuy.getSBBalances
-          )).getOrFail('Failed to get balance')
-        }
-
-        depositPayment = yield call(createPayment, {
-          ...formValues.interestDepositAccount,
-          address: getAccountIndexOrAccount(
-            coin,
-            formValues.interestDepositAccount
-          )
-        })
-
-        yield call(createLimits, depositPayment, custodialBalances)
-        yield put(A.setPaymentSuccess(depositPayment))
+          yield call(createLimits, depositPayment, custodialBalances)
+          yield put(A.setPaymentSuccess(depositPayment))
+      }
+    } catch (e) {
+      // errors are not breaking, just catch so the saga can finish
     }
   }
 
