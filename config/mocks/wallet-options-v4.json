@@ -332,7 +332,7 @@
           "coinCode": "WDGLD",
           "coinTicker": "WDGLD",
           "colorCode": "wdgld",
-          "contractAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+          "contractAddress": "0x123151402076fc819B7564510989e475c9cD93CA",
           "displayName": "Wrapped-DGLD",
           "hasLockboxSupport": false,
           "showNewTagSidenav": true,

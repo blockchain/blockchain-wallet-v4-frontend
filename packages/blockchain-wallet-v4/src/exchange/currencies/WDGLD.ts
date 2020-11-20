@@ -11,9 +11,9 @@ export default {
       currency: 'WDGLD'
     },
     WDGLD: {
-      rate: '1000000',
+      rate: '100000000',
       symbol: 'WDGLD',
-      decimal_digits: 6,
+      decimal_digits: 8,
       currency: 'WDGLD'
     }
   }

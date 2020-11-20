@@ -177,9 +177,18 @@ export const getUsdtBalance = createDeepEqualSelector(
 )
 
 export const getWdgldBalance = createDeepEqualSelector(
-  [getErc20NonCustodialBalance('wdgld')],
-  balanceR => {
-    return Remote.of(new BigNumber(balanceR.getOrElse(0)))
+  [
+    getErc20NonCustodialBalance('wdgld'),
+    selectors.components.simpleBuy.getSBBalances
+  ],
+  (balanceR, sbBalancesR: RemoteDataType<string, SBBalancesType>) => {
+    const sbWdgldBalance = sbBalancesR.getOrElse({ WDGLD: DEFAULT_SB_BALANCE })
+      .WDGLD
+    const sbBalance = sbWdgldBalance ? sbWdgldBalance.available : '0'
+
+    return Remote.of(
+      new BigNumber(balanceR.getOrElse(0)).plus(new BigNumber(sbBalance))
+    )
   }
 )
 
