@@ -38,6 +38,7 @@ import { ModalNamesType } from 'data/modals/types'
 import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
 import BigNumber from 'bignumber.js'
 import bip21 from 'bip21'
+import sendSagas from '../send/sagas'
 
 const DUST = 546
 const DUST_BTC = '0.00000546'
@@ -53,6 +54,11 @@ export default ({
   coreSagas: any
   networks: any
 }) => {
+  const { showWithdrawalLockAlert } = sendSagas({
+    api,
+    coreSagas,
+    networks
+  })
   const initialized = function * (action) {
     try {
       const {
@@ -597,7 +603,7 @@ export default ({
         )
         if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
           if (error === 'Pending withdrawal locks') {
-            yield put(actions.alerts.displayError(C.LOCKED_WITHDRAW_ERROR))
+            yield call(showWithdrawalLockAlert)
           } else {
             yield put(actions.alerts.displayError(error))
           }

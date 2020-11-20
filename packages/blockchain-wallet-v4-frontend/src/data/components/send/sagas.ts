@@ -1,4 +1,5 @@
 import * as A from './actions'
+import * as C from 'services/AlertService'
 import { actions, model, selectors } from 'data'
 import { call, CallEffect, put, select } from 'redux-saga/effects'
 
@@ -12,9 +13,11 @@ import {
 } from 'core/types'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { promptForSecondPassword } from 'services/SagaService'
+import moment from 'moment'
 import profileSagas from '../../modules/profile/sagas'
 
 const { BAD_2FA } = model.profile.ERROR_TYPES
+const { WITHDRAW_LOCK_DEFAULT_DAYS } = model.profile
 
 export default ({
   api,
@@ -154,13 +157,32 @@ export default ({
       yield put(A.getLockRuleSuccess(withdrawalLockCheckResponse))
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'fetchPaymentsTradingAccount',
-          e
-        )
+        actions.logs.logErrorMessage(logLocation, 'getWithdrawalLockCheck', e)
       )
       yield put(A.getLockRuleFailure(e))
+    }
+  }
+
+  const showWithdrawalLockAlert = function * () {
+    try {
+      yield call(getWithdrawalLockCheck)
+      const rule =
+        (yield select(
+          selectors.components.send.getWithdrawLockCheckRule
+        )).getOrElse(WITHDRAW_LOCK_DEFAULT_DAYS) || WITHDRAW_LOCK_DEFAULT_DAYS
+      const days =
+        typeof rule === 'object'
+          ? moment.duration(rule.lockTime, 'seconds').days()
+          : rule
+      yield put(
+        actions.alerts.displayError(C.LOCKED_WITHDRAW_ERROR, {
+          days: days
+        })
+      )
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'showWithdrawalLockAlert', e)
+      )
     }
   }
 
@@ -203,6 +225,7 @@ export default ({
     fetchPaymentsAccountExchange,
     fetchPaymentsTradingAccount,
     getWithdrawalLockCheck,
+    showWithdrawalLockAlert,
     notifyNonCustodialToCustodialTransfer,
     paymentGetOrElse
   }

@@ -51,21 +51,6 @@ const Settings = (props: Props) => {
                 </Destination>
               </DropdownMenuItem>
             </LinkContainer>
-            <DropdownMenuItem
-              data-e2e='notificationsLink'
-              onClick={() =>
-                props.modalActions.showModal('WHATS_NEW_MODAL', {
-                  origin: 'Header'
-                })
-              }
-            >
-              <Destination>
-                <FormattedMessage
-                  id='layouts.wallet.header.small.whats_new'
-                  defaultMessage="What's New?"
-                />
-              </Destination>
-            </DropdownMenuItem>
             <LinkContainer to='/settings/profile' activeClassName='active'>
               <DropdownMenuItem data-e2e='settings_profileLink'>
                 <Destination>

@@ -29,6 +29,7 @@ class CheckoutConfirm extends PureComponent<Props> {
       getOrderType(this.props.order),
       this.props.order.inputQuantity
     )
+    this.props.sendActions.getLockRule('PAYMENT_CARD')
   }
 
   handleSubmit = () => {
@@ -119,7 +120,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     actions.components.identityVerification,
     dispatch
   ),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  sendActions: bindActionCreators(actions.components.send, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

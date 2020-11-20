@@ -43,7 +43,6 @@ export type ModalNamesType =
   | 'UpgradeForAirdrop'
   | 'VerifyMessage'
   | 'WELCOME_MODAL'
-  | 'WHATS_NEW_MODAL'
   | 'WITHDRAWAL_MODAL'
 
 export type ModalOriginType =
@@ -85,7 +84,6 @@ export type ModalOriginType =
   | 'Unknown'
   | 'WalletBalanceDropdown'
   | 'WelcomeModal'
-  | 'WhatsNewHeader'
   | 'WithdrawModal'
 
 export type ModalParamPropsType = {
