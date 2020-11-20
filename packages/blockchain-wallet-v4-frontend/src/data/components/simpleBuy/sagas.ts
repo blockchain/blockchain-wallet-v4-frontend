@@ -354,7 +354,8 @@ export default ({
               cryptoCurrency: getCoinFromPair(pair.pair),
               fiatCurrency: getFiatFromPair(pair.pair),
               pair,
-              method
+              method,
+              orderType: values?.orderType
             })
           )
           yield take(AT.INITIALIZE_CHECKOUT)
