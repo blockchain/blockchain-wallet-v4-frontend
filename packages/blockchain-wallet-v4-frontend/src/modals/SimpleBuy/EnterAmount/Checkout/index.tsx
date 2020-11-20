@@ -44,6 +44,13 @@ class Checkout extends PureComponent<Props> {
     !isEmpty(id) && this.props.deleteGoal(id)
     const method = this.props.method || this.props.defaultMethod
 
+    // wip sell
+    // need to also do kyc check and trigger kyc?
+
+    if (formValues?.orderType === 'SELL') {
+      return this.props.simpleBuyActions.setStep({ step: 'PREVIEW_SELL' })
+    }
+
     if (!method) {
       const fiatCurrency = this.props.fiatCurrency || 'USD'
       this.props.simpleBuyActions.setStep({

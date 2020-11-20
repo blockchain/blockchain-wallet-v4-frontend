@@ -241,6 +241,8 @@ export default ({
       }
 
       yield put(actions.form.startSubmit('simpleBuyCheckout'))
+      // used for sell only now, eventually buy as well
+      // TODO: use swap2 quote for buy AND sell
       if (orderType === 'SELL') {
         const from = S.getSwapAccount(yield select())
         const quote = S.getSellQuote(yield select()).getOrFail(NO_QUOTE)

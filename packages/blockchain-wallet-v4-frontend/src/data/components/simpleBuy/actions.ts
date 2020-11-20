@@ -4,6 +4,7 @@ import {
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
+  PaymentValue,
   SBAccountType,
   SBBalancesType,
   SBCardType,
@@ -538,4 +539,22 @@ export const startPollSellQuote = (
 
 export const stopPollSellQuote = () => ({
   type: AT.STOP_POLL_SELL_QUOTE
+})
+
+export const updatePaymentFailure = (error: string): SimpleBuyActionTypes => ({
+  type: AT.UPDATE_PAYMENT_FAILURE,
+  payload: {
+    error
+  }
+})
+export const updatePaymentLoading = (): SimpleBuyActionTypes => ({
+  type: AT.UPDATE_PAYMENT_LOADING
+})
+export const updatePaymentSuccess = (
+  payment: PaymentValue | undefined
+): SimpleBuyActionTypes => ({
+  type: AT.UPDATE_PAYMENT_SUCCESS,
+  payload: {
+    payment
+  }
 })

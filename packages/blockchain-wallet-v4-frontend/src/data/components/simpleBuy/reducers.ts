@@ -22,6 +22,7 @@ const INITIAL_STATE: SimpleBuyState = {
   orderType: undefined,
   pair: undefined,
   pairs: Remote.NotAsked,
+  payment: Remote.NotAsked,
   providerDetails: Remote.NotAsked,
   quote: Remote.NotAsked,
   sellQuote: Remote.NotAsked,
@@ -261,6 +262,24 @@ export function simpleBuyReducer (
               getFiatFromPair(pair.pair) === state.fiatCurrency
           )
       }
+    case AT.UPDATE_PAYMENT_FAILURE: {
+      return {
+        ...state,
+        payment: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.UPDATE_PAYMENT_LOADING: {
+      return {
+        ...state,
+        payment: Remote.Loading
+      }
+    }
+    case AT.UPDATE_PAYMENT_SUCCESS: {
+      return {
+        ...state,
+        payment: Remote.Success(action.payload.payment)
+      }
+    }
     case AT.SET_STEP:
       switch (action.payload.step) {
         case 'ENTER_AMOUNT':

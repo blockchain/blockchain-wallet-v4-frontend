@@ -5,6 +5,7 @@ import {
   FiatEligibleType,
   FiatType,
   NabuAddressType,
+  PaymentValue,
   RemoteDataType,
   SBAccountType,
   SBBalancesType,
@@ -51,6 +52,7 @@ export enum SimpleBuyStepType {
   'ENTER_AMOUNT',
   'PAYMENT_METHODS',
   'ORDER_SUMMARY',
+  'PREVIEW_SELL',
   'CHECKOUT_CONFIRM',
   'ADD_CARD',
   'CC_BILLING_ADDRESS',
@@ -92,6 +94,7 @@ export type SimpleBuyState = {
   orders: RemoteDataType<string, Array<SBOrderType>>
   pair: undefined | SBPairType
   pairs: RemoteDataType<string, Array<SBPairType>>
+  payment: RemoteDataType<string, undefined | PaymentValue>
   providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
   sellQuote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>
@@ -346,6 +349,7 @@ export type StepActionsPayload =
         | 'CURRENCY_SELECTION'
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
+        | 'PREVIEW_SELL'
     }
 
 interface SetStepAction {
@@ -359,6 +363,22 @@ interface ShowModalAction {
     origin: SBShowModalOriginType
   }
   type: typeof AT.SHOW_MODAL
+}
+
+interface UpdatePaymentFailureAction {
+  payload: {
+    error: string
+  }
+  type: typeof AT.UPDATE_PAYMENT_FAILURE
+}
+interface UpdatePaymentLoadingAction {
+  type: typeof AT.UPDATE_PAYMENT_LOADING
+}
+interface UpdatePaymentSuccessAction {
+  payload: {
+    payment: undefined | PaymentValue
+  }
+  type: typeof AT.UPDATE_PAYMENT_SUCCESS
 }
 
 export type SimpleBuyActionTypes =
@@ -402,3 +422,6 @@ export type SimpleBuyActionTypes =
   | InitializeCheckout
   | SetStepAction
   | ShowModalAction
+  | UpdatePaymentFailureAction
+  | UpdatePaymentLoadingAction
+  | UpdatePaymentSuccessAction

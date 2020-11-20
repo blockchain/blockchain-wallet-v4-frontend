@@ -33,6 +33,7 @@ import TransferDetails from './TransferDetails'
 
 import Loading from './template.loading'
 import Pending from './template.pending'
+import PreviewSell from './PreviewSell'
 import Rejected from './template.rejected'
 
 class SimpleBuy extends PureComponent<Props, State> {
@@ -183,6 +184,15 @@ class SimpleBuy extends PureComponent<Props, State> {
                 <OrderSummary {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
+            {/* 
+                used for sell only now, eventually buy as well
+                TODO: use swap2 quote for buy AND sell
+            */}
+            {this.props.step === 'PREVIEW_SELL' && (
+              <FlyoutChild>
+                <PreviewSell {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
             {this.props.step === 'TRANSFER_DETAILS' && (
               <FlyoutChild>
                 <TransferDetails
@@ -278,6 +288,7 @@ type LinkStatePropsType =
         | '3DS_HANDLER'
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
+        | 'PREVIEW_SELL'
     }
   | {
       addBank?: boolean
