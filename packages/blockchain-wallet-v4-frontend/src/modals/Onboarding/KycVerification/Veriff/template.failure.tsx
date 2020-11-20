@@ -59,9 +59,12 @@ const ServerErrorText = styled(Text)`
   margin-top: 42px;
 `
 
-const Verify = ({ message, onClose }) => {
+const Failure: React.FC<{
+  message?: { message: string | Error }
+  onClick: any
+}> = props => {
   return (
-    <Wrapper>
+    <Wrapper data-e2e='veriffFailureContainer'>
       <Image name='gold-notice' width='70' height='66' />
       <Title color='black' size='30px' weight={600}>
         <FormattedMessage
@@ -86,11 +89,15 @@ const Verify = ({ message, onClose }) => {
           <FormattedMessage
             id='identityverification.failure.server.error'
             defaultMessage='Server Error: {description}'
-            values={message}
+            values={props.message}
           />
         </ServerErrorText>
       </Content>
-      <StartTrading nature='primary' onClick={onClose}>
+      <StartTrading
+        data-e2e='kycStartTradingButton'
+        nature='primary'
+        onClick={props.onClick}
+      >
         <FormattedMessage
           id='identityverification.failure.button'
           defaultMessage='Start Trading'
@@ -100,7 +107,7 @@ const Verify = ({ message, onClose }) => {
         <Text>
           <FormattedMessage
             id='identityverification.failure.content-3'
-            defaultMessage='If you want to learn more about our verification process. Visit our '
+            defaultMessage='If you want to learn more about our verification process. Visit our'
           />
           <Link
             href='https://support.blockchain.com/'
@@ -118,4 +125,4 @@ const Verify = ({ message, onClose }) => {
   )
 }
 
-export default Verify
+export default Failure

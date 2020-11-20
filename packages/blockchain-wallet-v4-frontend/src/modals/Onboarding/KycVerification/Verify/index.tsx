@@ -72,11 +72,9 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 
 export type Props = ConnectedProps<typeof connector> & {
-  onBack: () => void
   onClose: () => void
 }
 
 export default connector(VerifyContainer) as React.ComponentType<{
-  onBack: () => void
   onClose: () => void
 }>

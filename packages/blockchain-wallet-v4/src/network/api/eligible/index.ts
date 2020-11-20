@@ -1,11 +1,11 @@
 import { FiatType } from 'core/types'
-import { PaymentMethod, ProductEligiableResponse, ProductTypes } from './types'
+import { PaymentMethod, ProductEligibleResponse, ProductTypes } from './types'
 
 export default ({ nabuUrl, authorizedGet }) => {
   const fetchIsProductEligible = (
     product: ProductTypes,
     currency: FiatType
-  ): ProductEligiableResponse =>
+  ): ProductEligibleResponse =>
     authorizedGet({
       url: nabuUrl,
       endPoint: `/eligible/product/${product}${

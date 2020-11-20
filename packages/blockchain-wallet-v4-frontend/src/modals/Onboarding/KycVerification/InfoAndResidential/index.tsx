@@ -45,7 +45,6 @@ class InfoAndResidential extends PureComponent<Props> {
   }
 
   render () {
-    // const { countryData, userData, ...rest } = this.props
     return this.props.data.cata({
       Success: val => (
         <Success
@@ -54,6 +53,9 @@ class InfoAndResidential extends PureComponent<Props> {
           onSubmit={this.handleSubmit}
           onCountrySelect={this.onCountryChange}
           updateDefaultCountry={this.setDefaultCountry}
+          initialValues={{
+            ...val.userData
+          }}
         />
       ),
       Failure: () => <DataError onClick={this.fetchData} />,

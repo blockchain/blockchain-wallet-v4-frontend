@@ -15,16 +15,16 @@ export type IneligibilityReasons =
   | 'OTHER'
   | null
 
-export type ProductEligiableResponse =
+export type ProductEligibleResponse =
   | {
       eligible: boolean
       ineligibilityReason: IneligibilityReasons
     }
   | {
-      [key in WalletCurrencyType]: EligiableType
+      [key in WalletCurrencyType]: EligibleType
     }
 
-export type EligiableType = {
+export type EligibleType = {
   eligible: boolean
   ineligibilityReason: IneligibilityReasons
 }

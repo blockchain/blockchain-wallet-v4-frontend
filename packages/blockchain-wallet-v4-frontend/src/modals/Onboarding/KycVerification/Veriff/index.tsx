@@ -1,20 +1,21 @@
 import { actions } from 'data'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import Failure from './template.failure'
-import Loading from './template.loading'
+import Loading from '../Verify/template.loading'
 import React from 'react'
 import Success from './template.success'
 
-class Veriff extends React.PureComponent {
+class Veriff extends React.PureComponent<Props> {
   state = {
     loading: false
   }
   componentDidMount () {
-    if (Remote.Success.is(this.props.veriffUrl)) return
-    this.props.actions.fetchVeriffUrl()
+    if (!Remote.Success.is(this.props.data)) {
+      this.props.actions.fetchVeriffUrl()
+    }
   }
 
   componentWillUnmount () {
@@ -32,27 +33,28 @@ class Veriff extends React.PureComponent {
   }
 
   render () {
-    const { veriffUrl, actions, onClose } = this.props
+    const { actions } = this.props
 
     if (this.state.loading) return <Loading />
 
-    return veriffUrl.cata({
-      Success: url => (
-        <Success url={url} handleVeriffMessage={this.handleVeriffMessage} />
+    return this.props.data.cata({
+      Success: val => (
+        <Success
+          url={val.veriffUrl}
+          handleVeriffMessage={this.handleVeriffMessage}
+        />
       ),
       Loading: () => <Loading />,
       Failure: message => (
-        <Failure
-          data-e2e='veriffFailure'
-          message={message}
-          onClick={actions.fetchVeriffUrl}
-          onClose={onClose}
-        />
+        <Failure message={message} onClick={actions.fetchVeriffUrl} />
       ),
       NotAsked: () => <Loading />
     })
   }
 }
+const mapStateToProps = state => ({
+  data: getData(state)
+})
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.veriff, dispatch),
@@ -62,4 +64,13 @@ const mapDispatchToProps = dispatch => ({
   )
 })
 
-export default connect(getData, mapDispatchToProps)(Veriff)
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+export type LinkDispatchPropsType = ReturnType<typeof mapDispatchToProps>
+
+export type OwnProps = ConnectedProps<typeof connector> & {
+  onClose: () => void
+}
+export type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(Veriff)

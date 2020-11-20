@@ -94,8 +94,6 @@ class IdentityVerification extends React.PureComponent<Props, State> {
   }
 
   getStepComponent = step => {
-    const { actions } = this.props
-
     if (step === STEPS.infoAndResidential)
       return (
         <InfoAndResidential
@@ -111,7 +109,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
       return <AdditionalInfo onClose={this.handleClose} />
     }
     if (step === STEPS.verify) {
-      return <Verify onBack={actions.goToPrevStep} onClose={this.handleClose} />
+      return <Verify onClose={this.handleClose} />
     }
     if (step === STEPS.submitted) {
       return <Submitted onClose={this.handleClose} />
@@ -129,7 +127,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
           in={show}
           onClose={this.handleClose}
           direction={this.state.direction}
-          data-e2e='identityVerificationModal_new'
+          data-e2e='identityVerificationModal'
         >
           <FlyoutChild>{this.getStepComponent(step)}</FlyoutChild>
         </Flyout>
@@ -140,10 +138,9 @@ class IdentityVerification extends React.PureComponent<Props, State> {
           onClose={this.handleClose}
           in={this.state.show}
           direction={this.state.direction}
-          data-e2e='identityVerificationModal_flyout'
+          data-e2e='identityVerificationModal'
         >
           <FlyoutChild>
-            loading inside main
             <Loading />
           </FlyoutChild>
         </Flyout>
@@ -154,7 +151,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
           onClose={this.handleClose}
           in={this.state.show}
           direction={this.state.direction}
-          data-e2e='identityVerificationModal_flyout'
+          data-e2e='identityVerificationModal'
         >
           <Loading />
         </Flyout>
@@ -165,7 +162,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
           onClose={this.handleClose}
           in={this.state.show}
           direction={this.state.direction}
-          data-e2e='identityVerificationModal_flyout'
+          data-e2e='identityVerificationModal'
         >
           <DataError onClick={this.initializeVerification} message={error} />
         </Flyout>
