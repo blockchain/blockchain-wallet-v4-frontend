@@ -218,12 +218,6 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Verify a message signed by the owner of a particular Bitcoin address.'
           />
         </Tooltip>
-        <Tooltip id='whatsnew.tooltip'>
-          <FormattedMessage
-            id='whatsnew.tooltip.description'
-            defaultMessage="What's New"
-          />
-        </Tooltip>
         <Tooltip id='lockboxRequired'>
           <FormattedMessage
             id='lockboxrequired.tooltip'
@@ -340,12 +334,6 @@ class Tooltips extends React.PureComponent {
           <FormattedMessage
             id='modals.interest.moredetails.tooltip.description'
             defaultMessage='Interest accrues daily and is paid monthly. The interest rate may be periodically adjusted.'
-          />
-        </Tooltip>
-        <Tooltip id='modals.withdraw.info_tooltip' maxWidth='250px'>
-          <FormattedMessage
-            id='modals.withdraw.info_tooltip'
-            defaultMessage='The remaining balance will be available to be withdrawn within 3 days.'
           />
         </Tooltip>
         <Tooltip id='copy.on_chain_txs' maxWidth='250px'>

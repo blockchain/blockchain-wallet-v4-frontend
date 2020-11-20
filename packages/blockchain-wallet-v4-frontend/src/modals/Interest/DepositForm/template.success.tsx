@@ -76,6 +76,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     formActions,
     formErrors,
     handleDisplayToggle,
+    handleSubmit,
     interestActions,
     interestLimits,
     interestRate,
@@ -152,7 +153,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       </Text>
     </SendingWrapper>
   ) : (
-    <CustomForm onSubmit={props.handleSubmit}>
+    <CustomForm onSubmit={handleSubmit}>
       <Top>
         <TopText color='grey800' size='20px' weight={600}>
           <ArrowIcon
@@ -244,7 +245,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         )}
         <CoinBalanceDropdown
           {...props}
-          includeCustodial={true}
+          includeCustodial
           fiatCurrency={walletCurrency}
           name='interestDepositAccount'
         />

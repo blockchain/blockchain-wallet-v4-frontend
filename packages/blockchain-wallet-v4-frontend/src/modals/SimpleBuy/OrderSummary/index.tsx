@@ -2,9 +2,9 @@ import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import {
+  ExtractSuccess,
   FiatTypeEnum,
   RemoteDataType,
-  SBCardType,
   SBOrderType,
   SupportedCoinType,
   SupportedWalletCurrenciesType
@@ -23,6 +23,7 @@ class OrderSummary extends PureComponent<Props> {
   componentDidMount () {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBCards()
+      this.props.sendActions.getLockRule('PAYMENT_CARD')
     }
     this.props.simpleBuyActions.fetchSBOrders()
   }
@@ -58,7 +59,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  sendActions: bindActionCreators(actions.components.send, dispatch)
 })
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
@@ -66,9 +68,9 @@ export type OwnProps = {
   handleClose: () => void
   order: SBOrderType
 }
-export type SuccessStateType = {
-  cards: Array<SBCardType>
-}
+
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
   supportedCoins: SupportedWalletCurrenciesType
