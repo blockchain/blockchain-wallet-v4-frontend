@@ -332,6 +332,7 @@ export default ({
         coin,
         paymentR as RemoteDataType<string, any>
       )
+
       if (isCustodialDeposit) {
         const { amount } = payment.value()
         if (amount === null || amount === undefined) {
@@ -353,7 +354,7 @@ export default ({
         const depositAddress = yield select(S.getDepositAddress)
 
         // build and publish payment to network
-        const depositTx = yield call(
+        const transaction = yield call(
           buildAndPublishPayment,
           coin,
           payment,
@@ -362,7 +363,7 @@ export default ({
         // notify backend of incoming non-custodial deposit
         yield put(
           actions.components.send.notifyNonCustodialToCustodialTransfer(
-            depositTx,
+            { ...transaction, fromType: 'ADDRESS' },
             'SAVINGS'
           )
         )
