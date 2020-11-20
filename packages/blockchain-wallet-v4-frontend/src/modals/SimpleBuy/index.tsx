@@ -288,7 +288,11 @@ type LinkStatePropsType =
         | '3DS_HANDLER'
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
-        | 'PREVIEW_SELL'
+    }
+  | {
+      orderType: SBOrderActionType
+      pair: SBPairType
+      step: 'PREVIEW_SELL'
     }
   | {
       addBank?: boolean

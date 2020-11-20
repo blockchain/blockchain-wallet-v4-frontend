@@ -14,21 +14,28 @@ import {
   SkeletonRectangle,
   Text
 } from 'blockchain-info-components'
-import { coinToString, formatCoin } from 'core/exchange/currency'
+import { BuyOrSell } from '../model'
+import { coinToString, formatFiat } from 'core/exchange/currency'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
+import { getFiatFromPair } from 'data/components/simpleBuy/model'
 import { getInputFromPair, getOutputFromPair } from 'data/components/swap/model'
-import { SupportedWalletCurrenciesType } from 'core/types'
+import { getQuote } from '../EnterAmount/Checkout/validation'
+import { SBCheckoutFormValuesType } from 'data/types'
+import {
+  SBOrderActionType,
+  SBPairType,
+  SupportedWalletCurrenciesType
+} from 'core/types'
 
 class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   state = {}
 
   handleSubmit = e => {
     e.preventDefault()
-    // TODO
-    // this.props.simpleBuyActions.createOrder()
+    this.props.simpleBuyActions.createSBOrder()
   }
 
   render () {
@@ -38,12 +45,21 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       NotAsked: () => null,
       Loading: () => null,
       Success: val => {
+        if (!this.props.formValues) return null
         if (!this.props.account) return null
         const BASE = getInputFromPair(val.quote.pair)
         const COUNTER = getOutputFromPair(val.quote.pair)
-        const { account, coins } = this.props
+        const { account, coins, pair } = this.props
         const baseCoinTicker = coins[BASE].coinTicker
         const counterCoinTicker = coins[COUNTER].coinTicker
+
+        const quote = getQuote(
+          pair.pair,
+          val.rate,
+          this.props.formValues.fix,
+          this.props.formValues.amount
+        )
+
         return (
           <>
             <FlyoutWrapper>
@@ -56,10 +72,14 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   size='24px'
                   color='grey600'
                   onClick={() => {
-                    // TODO
-                    // simpleBuyActions.setStep({
-                    //   step: 'ENTER_AMOUNT',
-                    // })
+                    this.props.simpleBuyActions.setStep({
+                      step: 'ENTER_AMOUNT',
+                      pair: this.props.pair,
+                      cryptoCurrency: BASE,
+                      fiatCurrency: getFiatFromPair(this.props.pair.pair),
+                      orderType: this.props.orderType,
+                      swapAccount: this.props.account
+                    })
                   }}
                 />{' '}
                 <Text
@@ -68,22 +88,27 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   weight={600}
                   style={{ marginLeft: '24px' }}
                 >
-                  <FormattedMessage
-                    id='copy.confirm_swap'
-                    defaultMessage='Confirm Swap'
+                  <BuyOrSell
+                    orderType={this.props.orderType}
+                    crypto={account.coin}
+                    coinModel={coins[account.coin]}
                   />
                 </Text>
               </TopText>
             </FlyoutWrapper>
             <Row>
               <Title>
-                <FormattedMessage id='copy.swap' defaultMessage='Swap' />
+                <BuyOrSell
+                  orderType={this.props.orderType}
+                  crypto={account.coin}
+                  coinModel={coins[account.coin]}
+                />
               </Title>
               <Value>
-                {/* {coinToString({
-                value: this.props.swapAmountFormValues?.cryptoAmount,
-                unit: { symbol: baseCoinTicker }
-              })} */}
+                {coinToString({
+                  value: this.props.formValues.amount,
+                  unit: { symbol: baseCoinTicker }
+                })}
               </Value>
             </Row>
             <Row>
@@ -94,23 +119,9 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 />
               </Title>
               <Value>
-                {this.props.incomingAmountR.cata({
-                  Success: value => (
-                    <>
-                      {coinToString({
-                        value: value.amt,
-                        unit: { symbol: counterCoinTicker }
-                      })}
-                    </>
-                  ),
-                  Failure: e => e,
-                  Loading: () => (
-                    <SkeletonRectangle height='18px' width='70px' />
-                  ),
-                  NotAsked: () => (
-                    <SkeletonRectangle height='18px' width='70px' />
-                  )
-                })}
+                <>
+                  {formatFiat(quote)} {COUNTER}
+                </>
               </Value>
             </Row>
             <Row>
@@ -124,7 +135,8 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 {this.props.quoteR.cata({
                   Success: val => (
                     <>
-                      1 {baseCoinTicker} = {formatCoin(val.rate)}{' '}
+                      1 {baseCoinTicker} ={' '}
+                      {formatFiat(convertBaseToStandard('FIAT', val.rate))}{' '}
                       {counterCoinTicker}
                     </>
                   ),
@@ -150,12 +162,6 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 <FormattedMessage id='copy.from' defaultMessage='From' />
               </Title>
               <Value>{account.label}</Value>
-            </Row>
-            <Row>
-              <Title>
-                <FormattedMessage id='copy.to' defaultMessage='To' />
-              </Title>
-              <Value>{COUNTER}</Value>
             </Row>
             <Row>
               <Title>
@@ -204,48 +210,6 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 )}
               </Value>
             </Row>
-            <Row>
-              <Title>
-                <FormattedMessage
-                  id='copy.coin_network_fee'
-                  defaultMessage='{coin} Network Fee'
-                  values={{ coin: counterCoinTicker }}
-                />
-              </Title>
-              <Value>
-                {this.props.quoteR.cata({
-                  Success: value => (
-                    <>
-                      {coinToString({
-                        value: convertBaseToStandard(
-                          COUNTER,
-                          value.quote.networkFee
-                        ),
-                        unit: {
-                          symbol: coins[COUNTER].coinTicker
-                        }
-                      })}
-                      <div>
-                        <FreeCartridge>
-                          <FormattedMessage
-                            id='copy.free'
-                            defaultMessage='FREE'
-                          />
-                        </FreeCartridge>
-                      </div>
-                    </>
-                  ),
-                  Failure: e => e,
-                  Loading: () => (
-                    <SkeletonRectangle height='18px' width='70px' />
-                  ),
-                  NotAsked: () => (
-                    <SkeletonRectangle height='18px' width='70px' />
-                  )
-                })}
-              </Value>
-            </Row>
-
             <Border />
             <FlyoutWrapper>
               <Form onSubmit={this.handleSubmit}>
@@ -260,13 +224,10 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   {this.props.submitting ? (
                     <HeartbeatLoader height='16px' width='16px' color='white' />
                   ) : (
-                    <FormattedMessage
-                      id='buttons.swap_x_for_y'
-                      defaultMessage='Swap {base} for {counter}'
-                      values={{
-                        base: baseCoinTicker,
-                        counter: counterCoinTicker
-                      }}
+                    <BuyOrSell
+                      orderType={this.props.orderType}
+                      crypto={account.coin}
+                      coinModel={coins[account.coin]}
                     />
                   )}
                 </Button>
@@ -320,11 +281,13 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
+  formValues: selectors.form.getFormValues('simpleBuyCheckout')(
+    state
+  ) as SBCheckoutFormValuesType,
   account: selectors.components.simpleBuy.getSwapAccount(state),
   coins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrElse({} as SupportedWalletCurrenciesType),
-  incomingAmountR: selectors.components.simpleBuy.getIncomingAmount(state),
   pair: selectors.components.simpleBuy.getSBPair(state),
   paymentR: selectors.components.simpleBuy.getPayment(state),
   quoteR: selectors.components.simpleBuy.getSellQuote(state)
@@ -341,7 +304,11 @@ const enhance = compose(
   connector
 )
 
-type OwnProps = { handleClose: () => void }
+type OwnProps = {
+  handleClose: () => void
+  orderType: SBOrderActionType
+  pair: SBPairType
+}
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default enhance(PreviewSell) as React.ComponentClass<OwnProps>

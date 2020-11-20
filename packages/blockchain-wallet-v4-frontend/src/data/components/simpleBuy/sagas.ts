@@ -52,7 +52,9 @@ import {
 import { UserDataType } from 'data/modules/types'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
+
 import profileSagas from '../../modules/profile/sagas'
+import sendSagas from '../send/sagas'
 
 export default ({
   api,
@@ -64,6 +66,11 @@ export default ({
   networks: any
 }) => {
   const { createUser, isTier2, waitForUserData } = profileSagas({
+    api,
+    coreSagas,
+    networks
+  })
+  const { buildAndPublishPayment, paymentGetOrElse } = sendSagas({
     api,
     coreSagas,
     networks
@@ -270,6 +277,18 @@ export default ({
           cryptoAmt,
           getFiatFromPair(pair.pair)
         )
+        // on chain
+        if (sellOrder.kind.depositAddress) {
+          const paymentR = S.getSwapAccount(yield select())
+          // @ts-ignore
+          let payment = paymentGetOrElse(from.coin, paymentR)
+          yield call(
+            buildAndPublishPayment,
+            from.coin,
+            payment,
+            sellOrder.kind.depositAddress
+          )
+        }
         yield put(actions.form.stopSubmit('simpleBuyCheckout'))
         yield put(actions.modals.closeModal())
         yield put(
