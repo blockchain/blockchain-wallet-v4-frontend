@@ -22,7 +22,7 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import { DEFAULT_INTEREST_BALANCES } from './model'
-import { InterestDepositFormType } from './types'
+import { InterestDepositFormType, InterestWithdrawalFormType } from './types'
 import profileSagas from '../../modules/profile/sagas'
 import utils from './sagas.utils'
 
@@ -396,11 +396,11 @@ export default ({
     try {
       yield put(actions.form.startSubmit(WITHDRAWAL_FORM))
 
-      const formValues: InterestDepositFormType = yield select(
+      const formValues: InterestWithdrawalFormType = yield select(
         selectors.form.getFormValues(WITHDRAWAL_FORM)
       )
       const isCustodialWithdrawal =
-        prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
+        prop('type', formValues.interestWithdrawalAccount) === 'CUSTODIAL'
       const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmount)
 
       if (isCustodialWithdrawal) {
