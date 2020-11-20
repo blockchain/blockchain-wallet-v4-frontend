@@ -1,7 +1,15 @@
 import * as A from './actions'
 import * as AT from './actionTypes'
 import { actions, actionTypes } from 'data'
-import { call, cancel, fork, put, take, takeLatest } from 'redux-saga/effects'
+import {
+  call,
+  cancel,
+  fork,
+  put,
+  take,
+  takeEvery,
+  takeLatest
+} from 'redux-saga/effects'
 import sagas from './sagas'
 
 import { Task } from 'redux-saga'
@@ -14,6 +22,8 @@ export default ({ api, coreSagas, networks }) => {
   const { waitForUserData } = profileSagas({ api, coreSagas, networks })
 
   return function * simpleBuySaga () {
+    yield takeEvery(actionTypes.form.CHANGE, simpleBuySagas.formChanged)
+
     yield takeLatest(AT.ACTIVATE_SB_CARD, simpleBuySagas.activateSBCard)
     yield takeLatest(AT.ADD_CARD_DETAILS, simpleBuySagas.addCardDetails)
     yield takeLatest(AT.CANCEL_ORDER, simpleBuySagas.cancelSBOrder)

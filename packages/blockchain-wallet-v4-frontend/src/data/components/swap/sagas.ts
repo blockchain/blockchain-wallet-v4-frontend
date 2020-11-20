@@ -513,6 +513,7 @@ export default ({
 
   return {
     cancelOrder,
+    calculateProvisionalPayment,
     changePair,
     changeTrendingPair,
     createOrder,

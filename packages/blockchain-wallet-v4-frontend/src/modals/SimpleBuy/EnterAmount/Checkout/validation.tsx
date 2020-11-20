@@ -189,15 +189,10 @@ export const getMaxMinSell = (
 
           return { FIAT: maxFiat, CRYPTO: maxCrypto }
         case 'min':
-          const minStandard = convertBaseToStandard(
-            'FIAT',
-            new BigNumber(pair.sellMin)
-          )
-
-          const minCrypto = new BigNumber(minStandard)
+          const minCrypto = new BigNumber(pair.sellMin)
             .dividedBy(rate)
             .toFixed(Currencies[coin].units[coin].decimal_digits)
-          const minFiat = minStandard
+          const minFiat = pair.sellMin
 
           return { FIAT: minFiat, CRYPTO: minCrypto }
       }
