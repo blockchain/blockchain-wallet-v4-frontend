@@ -712,10 +712,7 @@ export default ({
         formValues.amount
       )
 
-      const cryptoAmt =
-        formValues.fix === 'CRYPTO'
-          ? convertStandardToBase(account.coin, formValues.amount)
-          : amt
+      const cryptoAmt = formValues.fix === 'CRYPTO' ? formValues.amount : amt
 
       if (account.type === 'CUSTODIAL') return
       // @ts-ignore
