@@ -1,8 +1,8 @@
-import * as A from './actions'
+import { call, CallEffect, put, select } from 'redux-saga/effects'
+import moment from 'moment'
+
 import * as C from 'services/AlertService'
 import { actions, model, selectors } from 'data'
-import { call, CallEffect, put, select } from 'redux-saga/effects'
-
 import { APIType } from 'core/network/api'
 import {
   BeneficiaryType,
@@ -13,7 +13,8 @@ import {
 } from 'core/types'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { promptForSecondPassword } from 'services/SagaService'
-import moment from 'moment'
+
+import * as A from './actions'
 import profileSagas from '../../modules/profile/sagas'
 
 const { BAD_2FA } = model.profile.ERROR_TYPES
@@ -118,24 +119,25 @@ export default ({
     action: ReturnType<typeof A.notifyNonCustodialToCustodialTransfer>
   ) {
     const { payload } = action
-    const { payment } = payload
+    const { payment, product } = payload
+    let address
 
     if (!payment.to) return
     if (!payment.amount) return
     if (!payment.txId) return
-
-    const toType = payment.to[0].type
-    const fromType = payment.fromType
-
-    if (toType !== 'CUSTODIAL') return // do nothing
-    if (fromType === 'CUSTODIAL') return // do nothing
+    if (payment.fromType === 'CUSTODIAL') return
 
     const amount =
       typeof payment.amount === 'string'
         ? payment.amount
         : payment.amount[0].toString()
 
-    const address = payment.to[0].address
+    if (payment.coin === 'BTC' || payment.coin === 'BCH') {
+      address = payment.to[0].address
+    } else {
+      // @ts-ignore
+      address = payment.to.address
+    }
 
     yield call(
       api.notifyNonCustodialToCustodialTransfer,
@@ -143,7 +145,7 @@ export default ({
       address,
       payment.txId,
       amount,
-      payload.product
+      product
     )
   }
 

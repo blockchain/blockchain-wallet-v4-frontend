@@ -22,7 +22,7 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import { DEFAULT_INTEREST_BALANCES } from './model'
-import { InterestDepositFormType } from './types'
+import { InterestDepositFormType, InterestWithdrawalFormType } from './types'
 import profileSagas from '../../modules/profile/sagas'
 import utils from './sagas.utils'
 
@@ -332,6 +332,7 @@ export default ({
         coin,
         paymentR as RemoteDataType<string, any>
       )
+
       if (isCustodialDeposit) {
         const { amount } = payment.value()
         if (amount === null || amount === undefined) {
@@ -353,7 +354,7 @@ export default ({
         const depositAddress = yield select(S.getDepositAddress)
 
         // build and publish payment to network
-        const depositTx = yield call(
+        const transaction = yield call(
           buildAndPublishPayment,
           coin,
           payment,
@@ -362,7 +363,7 @@ export default ({
         // notify backend of incoming non-custodial deposit
         yield put(
           actions.components.send.notifyNonCustodialToCustodialTransfer(
-            depositTx,
+            { ...transaction, fromType: 'ADDRESS' },
             'SAVINGS'
           )
         )
@@ -395,11 +396,11 @@ export default ({
     try {
       yield put(actions.form.startSubmit(WITHDRAWAL_FORM))
 
-      const formValues: InterestDepositFormType = yield select(
+      const formValues: InterestWithdrawalFormType = yield select(
         selectors.form.getFormValues(WITHDRAWAL_FORM)
       )
       const isCustodialWithdrawal =
-        prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
+        prop('type', formValues.interestWithdrawalAccount) === 'CUSTODIAL'
       const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmount)
 
       if (isCustodialWithdrawal) {

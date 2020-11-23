@@ -364,6 +364,7 @@
   "copy.unknown_error": "An unknown error has occurred.",
   "copy.upgrade": "Upgrade To Gold",
   "copy.view": "View",
+  "copy.viewTransaction": "View Transaction",
   "dentityverification.verify.resubmit.reason.missing": "The required photos are missing",
   "exchange-side-nav-tooltip-connected": "connected",
   "exchangepromo.pairs": "Access 20+ trading pairs on the Exchange.",

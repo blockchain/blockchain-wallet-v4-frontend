@@ -98,6 +98,8 @@ function TransactionList (props: Props): ReactElement | null {
           const { coinTicker, colorCode, displayName } = supportedCoins[
             amount.symbol
           ]
+          const isCustodial =
+            extraAttributes && extraAttributes.transferType === 'INTERNAL'
           return (
             <TableRow key={id}>
               <InterestTableCell width='20%'>
@@ -195,7 +197,11 @@ function TransactionList (props: Props): ReactElement | null {
                 <>
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionFrom'>
-                      {displayName} Wallet
+                      {isCustodial ? (
+                        <span>{displayName} Trading Wallet</span>
+                      ) : (
+                        <span>My {displayName} Wallet</span>
+                      )}
                     </Value>
                   </TableCell>
                   <TableCell width='20%'>
@@ -213,7 +219,11 @@ function TransactionList (props: Props): ReactElement | null {
                   </TableCell>
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionTo'>
-                      {displayName} Wallet
+                      {isCustodial ? (
+                        <span>{displayName} Trading Wallet</span>
+                      ) : (
+                        <span>My {displayName} Wallet</span>
+                      )}
                     </Value>
                   </TableCell>
                 </>
@@ -267,7 +277,7 @@ function TransactionList (props: Props): ReactElement | null {
                       }).value
                     }
                   </FiatAmountWrapper>
-                  {type === 'DEPOSIT' && (
+                  {type === 'DEPOSIT' && !isCustodial && (
                     <ViewTransaction
                       data-e2e='viewTxHash'
                       onClick={() =>
@@ -277,22 +287,30 @@ function TransactionList (props: Props): ReactElement | null {
                         )
                       }
                     >
-                      View Transaction
+                      <FormattedMessage
+                        id='copy.viewTransaction'
+                        defaultMessage='View Transaction'
+                      />
                     </ViewTransaction>
                   )}
-                  {type === 'WITHDRAWAL' && state === 'COMPLETE' && (
-                    <ViewTransaction
-                      data-e2e='viewTxHash'
-                      onClick={() =>
-                        interestActions.routeToTxHash(
-                          amount.symbol,
-                          extraAttributes.txHash
-                        )
-                      }
-                    >
-                      View Transaction
-                    </ViewTransaction>
-                  )}
+                  {type === 'WITHDRAWAL' &&
+                    state === 'COMPLETE' &&
+                    !isCustodial && (
+                      <ViewTransaction
+                        data-e2e='viewTxHash'
+                        onClick={() =>
+                          interestActions.routeToTxHash(
+                            amount.symbol,
+                            extraAttributes.txHash
+                          )
+                        }
+                      >
+                        <FormattedMessage
+                          id='copy.viewTransaction'
+                          defaultMessage='View Transaction'
+                        />
+                      </ViewTransaction>
+                    )}
                 </div>
               </AmountTableCell>
             </TableRow>

@@ -244,7 +244,7 @@ export const setPaymentSuccess = (
 })
 
 // MISC
-export const routeToTxHash = (coin: CoinType, txHash: string) => ({
+export const routeToTxHash = (coin: CoinType, txHash?: string) => ({
   payload: { coin, txHash },
   type: AT.ROUTE_TO_TX_HASH
 })
