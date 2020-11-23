@@ -1,7 +1,8 @@
-import * as A from './actions'
-import { actions, model, selectors } from 'data'
 import { call, CallEffect, put, select } from 'redux-saga/effects'
+import moment from 'moment'
 
+import * as C from 'services/AlertService'
+import { actions, model, selectors } from 'data'
 import { APIType } from 'core/network/api'
 import {
   BeneficiaryType,
@@ -12,9 +13,12 @@ import {
 } from 'core/types'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { promptForSecondPassword } from 'services/SagaService'
+
+import * as A from './actions'
 import profileSagas from '../../modules/profile/sagas'
 
 const { BAD_2FA } = model.profile.ERROR_TYPES
+const { WITHDRAW_LOCK_DEFAULT_DAYS } = model.profile
 
 export default ({
   api,
@@ -115,24 +119,25 @@ export default ({
     action: ReturnType<typeof A.notifyNonCustodialToCustodialTransfer>
   ) {
     const { payload } = action
-    const { payment } = payload
+    const { payment, product } = payload
+    let address
 
     if (!payment.to) return
     if (!payment.amount) return
     if (!payment.txId) return
-
-    const toType = payment.to[0].type
-    const fromType = payment.fromType
-
-    if (toType !== 'CUSTODIAL') return // do nothing
-    if (fromType === 'CUSTODIAL') return // do nothing
+    if (payment.fromType === 'CUSTODIAL') return
 
     const amount =
       typeof payment.amount === 'string'
         ? payment.amount
         : payment.amount[0].toString()
 
-    const address = payment.to[0].address
+    if (payment.coin === 'BTC' || payment.coin === 'BCH') {
+      address = payment.to[0].address
+    } else {
+      // @ts-ignore
+      address = payment.to.address
+    }
 
     yield call(
       api.notifyNonCustodialToCustodialTransfer,
@@ -140,7 +145,7 @@ export default ({
       address,
       payment.txId,
       amount,
-      payload.product
+      product
     )
   }
 
@@ -154,13 +159,32 @@ export default ({
       yield put(A.getLockRuleSuccess(withdrawalLockCheckResponse))
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'fetchPaymentsTradingAccount',
-          e
-        )
+        actions.logs.logErrorMessage(logLocation, 'getWithdrawalLockCheck', e)
       )
       yield put(A.getLockRuleFailure(e))
+    }
+  }
+
+  const showWithdrawalLockAlert = function * () {
+    try {
+      yield call(getWithdrawalLockCheck)
+      const rule =
+        (yield select(
+          selectors.components.send.getWithdrawLockCheckRule
+        )).getOrElse(WITHDRAW_LOCK_DEFAULT_DAYS) || WITHDRAW_LOCK_DEFAULT_DAYS
+      const days =
+        typeof rule === 'object'
+          ? moment.duration(rule.lockTime, 'seconds').days()
+          : rule
+      yield put(
+        actions.alerts.displayError(C.LOCKED_WITHDRAW_ERROR, {
+          days: days
+        })
+      )
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'showWithdrawalLockAlert', e)
+      )
     }
   }
 
@@ -203,6 +227,7 @@ export default ({
     fetchPaymentsAccountExchange,
     fetchPaymentsTradingAccount,
     getWithdrawalLockCheck,
+    showWithdrawalLockAlert,
     notifyNonCustodialToCustodialTransfer,
     paymentGetOrElse
   }

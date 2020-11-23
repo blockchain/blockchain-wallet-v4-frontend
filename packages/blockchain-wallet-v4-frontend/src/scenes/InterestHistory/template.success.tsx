@@ -98,11 +98,13 @@ function TransactionList (props: Props): ReactElement | null {
           const { coinTicker, colorCode, displayName } = supportedCoins[
             amount.symbol
           ]
+          const isCustodial =
+            extraAttributes && extraAttributes.transferType === 'INTERNAL'
           return (
             <TableRow key={id}>
               <InterestTableCell width='20%'>
                 {type === 'WITHDRAWAL' ? (
-                  <React.Fragment>
+                  <>
                     <IconBackground color={`${colorCode}-light`}>
                       <Icon
                         name='arrow-up'
@@ -137,9 +139,9 @@ function TransactionList (props: Props): ReactElement | null {
                     ) : (
                       <></>
                     )}
-                  </React.Fragment>
+                  </>
                 ) : type === 'DEPOSIT' ? (
-                  <React.Fragment>
+                  <>
                     <IconBackground color={`${colorCode}-light`}>
                       <Icon
                         name='arrow-down'
@@ -174,14 +176,14 @@ function TransactionList (props: Props): ReactElement | null {
                     ) : (
                       <></>
                     )}
-                  </React.Fragment>
+                  </>
                 ) : (
-                  <React.Fragment>
+                  <>
                     <Icon name='percentage' color={colorCode} size='32px' />
                     <Value data-e2e='interestEarnedTx'>
                       {coinTicker} Interest Earned
                     </Value>
-                  </React.Fragment>
+                  </>
                 )}
               </InterestTableCell>
               <TableCell width='20%'>
@@ -192,10 +194,14 @@ function TransactionList (props: Props): ReactElement | null {
                 </Value>
               </TableCell>
               {type === 'DEPOSIT' ? (
-                <React.Fragment>
+                <>
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionFrom'>
-                      My {displayName} Wallet
+                      {isCustodial ? (
+                        <span>{displayName} Trading Wallet</span>
+                      ) : (
+                        <span>My {displayName} Wallet</span>
+                      )}
                     </Value>
                   </TableCell>
                   <TableCell width='20%'>
@@ -203,9 +209,9 @@ function TransactionList (props: Props): ReactElement | null {
                       {displayName} Interest Account
                     </Value>
                   </TableCell>
-                </React.Fragment>
+                </>
               ) : type === 'WITHDRAWAL' ? (
-                <React.Fragment>
+                <>
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionFrom'>
                       {displayName} Interest Account
@@ -213,12 +219,16 @@ function TransactionList (props: Props): ReactElement | null {
                   </TableCell>
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionTo'>
-                      My {displayName} Wallet
+                      {isCustodial ? (
+                        <span>{displayName} Trading Wallet</span>
+                      ) : (
+                        <span>My {displayName} Wallet</span>
+                      )}
                     </Value>
                   </TableCell>
-                </React.Fragment>
+                </>
               ) : (
-                <React.Fragment>
+                <>
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionFrom'>
                       Blockchain.com
@@ -229,7 +239,7 @@ function TransactionList (props: Props): ReactElement | null {
                       {displayName} Interest Account
                     </Value>
                   </TableCell>
-                </React.Fragment>
+                </>
               )}
 
               <AmountTableCell width='20%'>
@@ -267,7 +277,7 @@ function TransactionList (props: Props): ReactElement | null {
                       }).value
                     }
                   </FiatAmountWrapper>
-                  {type === 'DEPOSIT' && (
+                  {type === 'DEPOSIT' && !isCustodial && (
                     <ViewTransaction
                       data-e2e='viewTxHash'
                       onClick={() =>
@@ -277,22 +287,30 @@ function TransactionList (props: Props): ReactElement | null {
                         )
                       }
                     >
-                      View Transaction
+                      <FormattedMessage
+                        id='copy.viewTransaction'
+                        defaultMessage='View Transaction'
+                      />
                     </ViewTransaction>
                   )}
-                  {type === 'WITHDRAWAL' && state === 'COMPLETE' && (
-                    <ViewTransaction
-                      data-e2e='viewTxHash'
-                      onClick={() =>
-                        interestActions.routeToTxHash(
-                          amount.symbol,
-                          extraAttributes.txHash
-                        )
-                      }
-                    >
-                      View Transaction
-                    </ViewTransaction>
-                  )}
+                  {type === 'WITHDRAWAL' &&
+                    state === 'COMPLETE' &&
+                    !isCustodial && (
+                      <ViewTransaction
+                        data-e2e='viewTxHash'
+                        onClick={() =>
+                          interestActions.routeToTxHash(
+                            amount.symbol,
+                            extraAttributes.txHash
+                          )
+                        }
+                      >
+                        <FormattedMessage
+                          id='copy.viewTransaction'
+                          defaultMessage='View Transaction'
+                        />
+                      </ViewTransaction>
+                    )}
                 </div>
               </AmountTableCell>
             </TableRow>

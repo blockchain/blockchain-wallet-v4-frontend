@@ -25,7 +25,6 @@ const kvStoreMiddleware = ({
       isAuth &&
       !any(equals(action.type), [
         T.root.FETCH_METADATA_ROOT_SUCCESS,
-        T.whatsNew.FETCH_METADATA_WHATSNEW_SUCCESS,
         T.buySell.FETCH_METADATA_BUYSELL_SUCCESS,
         T.contacts.FETCH_METADATA_CONTACTS_SUCCESS,
         T.eth.FETCH_METADATA_ETH_SUCCESS,
@@ -38,7 +37,6 @@ const kvStoreMiddleware = ({
       any(identity, values(changes)):
       const actionCreators = {
         [C.ROOT]: A.root.fetchMetadataRootSuccess,
-        [C.WHATSNEW]: A.whatsNew.fetchMetadataWhatsnewSuccess,
         [C.BUYSELL]: A.buySell.fetchMetadataBuySellSuccess,
         [C.CONTACTS]: A.contacts.fetchMetadataContactsSuccess,
         [C.ETH]: A.eth.fetchMetadataEthSuccess,

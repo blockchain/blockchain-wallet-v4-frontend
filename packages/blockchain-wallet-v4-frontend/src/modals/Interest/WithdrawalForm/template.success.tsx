@@ -9,8 +9,8 @@ import { convertBaseToStandard } from 'data/components/exchange/services'
 import { Exchange } from 'core'
 import { fiatToString, formatFiat } from 'core/exchange/currency'
 
+import { CoinBalanceDropdown, NumberBox } from 'components/Form'
 import { InterestWithdrawalFormType } from 'data/components/interest/types'
-import { NumberBox } from 'components/Form'
 import { required } from 'services/FormHelper'
 import { selectors } from 'data'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -85,7 +85,6 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     interestBalanceBase
   )
   const withdrawalAmount = (values && values.withdrawalAmount) || 0
-
   const availToWithdrawCrypto = convertBaseToStandard(coin, availToWithdraw)
   const availToWithdrawFiat = convertCoinToFiat(
     availToWithdrawCrypto,
@@ -93,7 +92,6 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     walletCurrency,
     rates
   )
-
   const withdrawalAmountFiat = amountToFiat(
     displayCoin,
     withdrawalAmount,
@@ -101,7 +99,6 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     walletCurrency,
     rates
   )
-
   const withdrawalAmountCrypto = amountToCrypto(
     displayCoin,
     withdrawalAmount,
@@ -219,8 +216,8 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
         <MaxAmountContainer>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
-              id='modals.interest.withdrawal.availamount'
-              defaultMessage='You can withdraw up to'
+              id='modals.interest.withdrawal.accountAmount'
+              defaultMessage='Select the account you would like to withdraw your Interest Account funds to. You can withdraw up to'
             />{' '}
             {displayCoin ? (
               <AmountAvailContainer onClick={handleOnClickCryptoAmount}>
@@ -240,6 +237,12 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
             )}
           </Text>
         </MaxAmountContainer>
+        <CoinBalanceDropdown
+          {...props}
+          includeCustodial
+          fiatCurrency={walletCurrency}
+          name='interestWithdrawalAccount'
+        />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage

@@ -29,6 +29,14 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     this.props.swapActions.createOrder()
   }
 
+  networkFee = value => {
+    return value
+      ? value.coin === 'BTC' || value.coin === 'BCH'
+        ? value.selection.fee
+        : value.fee
+      : 0
+  }
+
   render () {
     if (
       !this.props.initSwapFormValues?.BASE ||
@@ -153,14 +161,9 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           </Title>
           <Value>
             {BASE.type === 'CUSTODIAL' ? (
-              <>
-                <>0 {BASE.baseCoin}</>
-                <div>
-                  <FreeCartridge>
-                    <FormattedMessage id='copy.free' defaultMessage='FREE' />
-                  </FreeCartridge>
-                </div>
-              </>
+              <FreeCartridge>
+                <FormattedMessage id='copy.free' defaultMessage='FREE' />
+              </FreeCartridge>
             ) : (
               this.props.paymentR.cata({
                 Success: value => (
@@ -168,7 +171,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     {coinToString({
                       value: convertBaseToStandard(
                         BASE.baseCoin,
-                        value ? value.fee : 0
+                        this.networkFee(value)
                       ),
                       unit: { symbol: coins[BASE.baseCoin].coinTicker }
                     })}
@@ -190,34 +193,30 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             />
           </Title>
           <Value>
-            {this.props.quoteR.cata({
-              Success: value => (
-                <>
-                  {coinToString({
-                    value: convertBaseToStandard(
-                      COUNTER.coin,
-                      value.quote.networkFee
-                    ),
-                    unit: {
-                      symbol: coins[COUNTER.coin].coinTicker
-                    }
-                  })}
-                  {COUNTER.type === 'CUSTODIAL' && (
-                    <div>
-                      <FreeCartridge>
-                        <FormattedMessage
-                          id='copy.free'
-                          defaultMessage='FREE'
-                        />
-                      </FreeCartridge>
-                    </div>
-                  )}
-                </>
-              ),
-              Failure: e => e,
-              Loading: () => <SkeletonRectangle height='18px' width='70px' />,
-              NotAsked: () => <SkeletonRectangle height='18px' width='70px' />
-            })}
+            {COUNTER.type === 'CUSTODIAL' ? (
+              <FreeCartridge>
+                <FormattedMessage id='copy.free' defaultMessage='FREE' />
+              </FreeCartridge>
+            ) : (
+              this.props.quoteR.cata({
+                Success: value => (
+                  <>
+                    {coinToString({
+                      value: convertBaseToStandard(
+                        COUNTER.coin,
+                        value.quote.networkFee
+                      ),
+                      unit: {
+                        symbol: coins[COUNTER.coin].coinTicker
+                      }
+                    })}
+                  </>
+                ),
+                Failure: e => e,
+                Loading: () => <SkeletonRectangle height='18px' width='70px' />,
+                NotAsked: () => <SkeletonRectangle height='18px' width='70px' />
+              })
+            )}
           </Value>
         </Row>
 

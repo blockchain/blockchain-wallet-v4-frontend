@@ -84,3 +84,5 @@ export const getLastUnrejectedTier = findLast(
 export const getLastVerifiedTier = findLast(
   propEq('state', TIERS_STATES.VERIFIED)
 )
+
+export const WITHDRAW_LOCK_DEFAULT_DAYS = 3

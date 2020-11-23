@@ -44,7 +44,7 @@ const AddressesColumn = styled.div`
   white-space: nowrap;
   width: 50%;
   ${media.atLeastTabletL`
-    display: flex;  
+    display: flex;
   `}
 `
 const AmountColumn = styled.div`

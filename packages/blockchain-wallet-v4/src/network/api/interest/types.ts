@@ -50,11 +50,12 @@ export type InterestTransactionType = {
     value: string
   }
   extraAttributes: {
-    address: 'string'
-    confirmations: number
-    hash: string
-    id: string
-    txHash: string
+    address?: 'string'
+    confirmations?: number
+    hash?: string
+    id?: string
+    transferType?: string
+    txHash?: string
   }
   id: string
   insertedAt: string
