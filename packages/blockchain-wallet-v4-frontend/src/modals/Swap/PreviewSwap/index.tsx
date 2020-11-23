@@ -161,14 +161,9 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           </Title>
           <Value>
             {BASE.type === 'CUSTODIAL' ? (
-              <>
-                <>0 {BASE.baseCoin}</>
-                <div>
-                  <FreeCartridge>
-                    <FormattedMessage id='copy.free' defaultMessage='FREE' />
-                  </FreeCartridge>
-                </div>
-              </>
+              <FreeCartridge>
+                <FormattedMessage id='copy.free' defaultMessage='FREE' />
+              </FreeCartridge>
             ) : (
               this.props.paymentR.cata({
                 Success: value => (
@@ -198,34 +193,30 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             />
           </Title>
           <Value>
-            {this.props.quoteR.cata({
-              Success: value => (
-                <>
-                  {coinToString({
-                    value: convertBaseToStandard(
-                      COUNTER.coin,
-                      value.quote.networkFee
-                    ),
-                    unit: {
-                      symbol: coins[COUNTER.coin].coinTicker
-                    }
-                  })}
-                  {COUNTER.type === 'CUSTODIAL' && (
-                    <div>
-                      <FreeCartridge>
-                        <FormattedMessage
-                          id='copy.free'
-                          defaultMessage='FREE'
-                        />
-                      </FreeCartridge>
-                    </div>
-                  )}
-                </>
-              ),
-              Failure: e => e,
-              Loading: () => <SkeletonRectangle height='18px' width='70px' />,
-              NotAsked: () => <SkeletonRectangle height='18px' width='70px' />
-            })}
+            {COUNTER.type === 'CUSTODIAL' ? (
+              <FreeCartridge>
+                <FormattedMessage id='copy.free' defaultMessage='FREE' />
+              </FreeCartridge>
+            ) : (
+              this.props.quoteR.cata({
+                Success: value => (
+                  <>
+                    {coinToString({
+                      value: convertBaseToStandard(
+                        COUNTER.coin,
+                        value.quote.networkFee
+                      ),
+                      unit: {
+                        symbol: coins[COUNTER.coin].coinTicker
+                      }
+                    })}
+                  </>
+                ),
+                Failure: e => e,
+                Loading: () => <SkeletonRectangle height='18px' width='70px' />,
+                NotAsked: () => <SkeletonRectangle height='18px' width='70px' />
+              })
+            )}
           </Value>
         </Row>
 

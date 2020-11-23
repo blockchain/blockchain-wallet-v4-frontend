@@ -75,6 +75,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.order.paymentType === 'PAYMENT_CARD' ||
     props.order.paymentType === 'USER_CARD'
 
+  const showLock = props.withdrawLockCheck && props.withdrawLockCheck.lockTime
+
   const days =
     props.withdrawLockCheck && props.withdrawLockCheck.lockTime
       ? moment.duration(props.withdrawLockCheck.lockTime, 'seconds').days()
@@ -164,7 +166,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <Value>{getPaymentMethod(props.order, props.supportedCoins)}</Value>
       </Row>
       <Bottom>
-        {requiresTerms && (
+        {requiresTerms ? (
           <Info style={{ marginBottom: '12px' }}>
             <Icon
               name='market-up'
@@ -179,30 +181,39 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               />
             </Text>
           </Info>
+        ) : (
+          <Info style={{ marginBottom: '12px' }}>
+            <Icon
+              name='info'
+              color='grey900'
+              size='16px'
+              style={{ marginRight: '8px' }}
+            />
+            <Text size='12px' weight={500} color='grey900'>
+              <FormattedMessage
+                id='modals.simplebuy.confirm.activity'
+                defaultMessage='Your final amount may change due to market activity.'
+              />
+            </Text>
+          </Info>
         )}
-        <Info>
-          <Icon
-            name='info'
-            color='grey900'
-            size='16px'
-            style={{ marginRight: '8px' }}
-          />
-          <Text size='12px' weight={500} color='grey900'>
-            {props.order.paymentType === 'PAYMENT_CARD' ||
-            props.order.paymentType === 'USER_CARD' ? (
+        {showLock && props.order.paymentType === 'USER_CARD' && (
+          <Info>
+            <Icon
+              name='info'
+              color='grey900'
+              size='16px'
+              style={{ marginRight: '8px' }}
+            />
+            <Text size='12px' weight={500} color='grey900'>
               <FormattedHTMLMessage
                 id='modals.simplebuy.confirm.activity_card2'
                 defaultMessage='Your crypto will be available to be withdrawn within <b>{days} days</b>.'
                 values={{ days: days }}
               />
-            ) : (
-              <FormattedMessage
-                id='modals.simplebuy.confirm.activity'
-                defaultMessage='Your final amount may change due to market activity.'
-              />
-            )}
-          </Text>
-        </Info>
+            </Text>
+          </Info>
+        )}
 
         {requiresTerms && (
           <Info>
