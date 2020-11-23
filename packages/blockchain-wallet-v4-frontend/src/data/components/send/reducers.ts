@@ -10,6 +10,7 @@ const INITIAL_STATE: SendState = {
     PAX: Remote.NotAsked,
     XLM: Remote.NotAsked,
     USDT: Remote.NotAsked,
+    WDGLD: Remote.NotAsked,
     ALGO: Remote.NotAsked
   },
   tradingPaymentsAccount: {
@@ -19,6 +20,7 @@ const INITIAL_STATE: SendState = {
     PAX: Remote.NotAsked,
     XLM: Remote.NotAsked,
     USDT: Remote.NotAsked,
+    WDGLD: Remote.NotAsked,
     ALGO: Remote.NotAsked
   },
   withdrawLockCheck: Remote.NotAsked

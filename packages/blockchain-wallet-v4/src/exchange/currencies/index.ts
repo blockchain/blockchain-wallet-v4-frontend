@@ -27,6 +27,7 @@ import TRY from './TRY'
 import TWD from './TWD'
 import USD from './USD'
 import USDT from './USDT'
+import WDGLD from './WDGLD'
 import XLM from './XLM'
 
 const FiatCurrencies = {
@@ -62,12 +63,14 @@ const CryptoCurrencies = {
   ETH,
   PAX,
   XLM,
-  USDT
+  USDT,
+  WDGLD
 }
 
 const ERC20Currencies = {
   PAX,
-  USDT
+  USDT,
+  WDGLD
 }
 
 const Currencies = {

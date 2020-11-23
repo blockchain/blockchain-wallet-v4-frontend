@@ -6,6 +6,7 @@ export type InvitationsType = {
   PAX: boolean
   STX: boolean
   USDT: boolean
+  WDGLD: boolean
   XLM: boolean
   interest: boolean
   borrow: boolean
