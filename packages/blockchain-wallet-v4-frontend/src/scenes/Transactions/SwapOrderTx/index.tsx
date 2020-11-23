@@ -59,7 +59,6 @@ class SwapOrderTx extends PureComponent<Props, State> {
     const base = getInput(this.props.order)
     const counter = getOutput(this.props.order)
     const { outputMoney } = this.props.order.priceFunnel
-
     return (
       <TxRowContainer
         className={this.state.isToggled ? 'active' : ''}
