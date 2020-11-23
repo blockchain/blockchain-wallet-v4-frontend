@@ -2,6 +2,7 @@ import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'data/rootReducer'
+
 import React, { PureComponent } from 'react'
 import Template from './template'
 
@@ -18,6 +19,7 @@ class VerifyEmail extends PureComponent<Props> {
         pair: nextProps.pair
       })
     }
+
     return null
   }
 
@@ -26,6 +28,7 @@ class VerifyEmail extends PureComponent<Props> {
     if (!isEmailVerified) {
       settingsActions.fetchSettings()
     }
+    this.props.simpleBuyActions.fetchSDDEligible()
   }
 
   onResendEmail = () => {
@@ -40,6 +43,9 @@ class VerifyEmail extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   email: selectors.auth.getRegisterEmail(state),
+  isUserSddEligible: selectors.components.simpleBuy
+    .isUserSddEligible(state)
+    .getOrElse(false),
   isEmailVerified: selectors.core.settings
     .getEmailVerified(state)
     .getOrElse(false)

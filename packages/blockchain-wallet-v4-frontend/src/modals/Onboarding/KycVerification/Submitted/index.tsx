@@ -1,57 +1,31 @@
 import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { reduxForm } from 'redux-form'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 import React from 'react'
 import styled from 'styled-components'
 
 import { actions, model } from 'data'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { CampaignsType } from 'data/types'
+import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
-import { IdentityVerificationForm } from 'components/IdentityVerification'
 
 const { ID_VERIFICATION_SUBMITTED_FORM } = model.components.identityVerification
-
-const SubmittedIdentityVerificationForm = styled(IdentityVerificationForm)`
-  justify-content: center;
-`
 
 const SubmittedWrapper = styled.div`
   display: flex;
   height: 100%;
-  width: 450px;
   padding: 48px;
   text-align: center;
   align-items: center;
   flex-direction: column;
 `
-const Header = styled(Text).attrs({
-  size: '30px',
-  weight: 500,
-  color: 'black'
-})`
-  margin-top: 24px;
-`
-const SubHeader = styled(Text).attrs({
-  size: '16px',
-  weight: 400
-})`
-  margin-top: 16px;
-`
+
 const NextSteps = styled.div`
   margin: 42px 0;
 `
-const NextStepsHeader = styled(Text).attrs({
-  size: '22px',
-  color: 'black',
-  weight: '500'
-})``
-const NextStepsSubHeader = styled(Text).attrs({
-  size: '13px',
-  weight: 400
-})`
-  margin-top: 16px;
-`
+
 const CloseButton = styled(Button)`
   margin: 30px auto 0;
   height: 48px;
@@ -60,76 +34,72 @@ const CloseButton = styled(Button)`
   min-width: 210px;
 `
 
-class Submitted extends React.PureComponent {
+class Submitted extends React.PureComponent<
+  InjectedFormProps<{}, Props> & Props
+> {
   componentDidMount () {
     const { identityVerificationActions, campaign } = this.props
-    identityVerificationActions.claimCampaignClicked(campaign)
+    if (campaign) {
+      identityVerificationActions.claimCampaignClicked(campaign)
+    }
   }
 
   render () {
     const { onClose, submitting } = this.props
 
     return (
-      <SubmittedIdentityVerificationForm>
+      <FlyoutWrapper>
         <SubmittedWrapper>
           <Icon name='checkmark-in-circle-filled' color='success' size='36px' />
-          <Header>
+          <Text color='grey900' size='20px' weight={600} lineHeight='30px'>
             <FormattedMessage
-              id='modals.exchange.identityverification.submitted.appcomplete'
-              defaultMessage='Application Complete!'
+              id='modals.exchange.identityverification.submitted.appsubmitted'
+              defaultMessage='Application Submitted'
             />
-          </Header>
-          <SubHeader>
+          </Text>
+          <Text color='grey600' size='16px' style={{ marginBottom: '24px' }}>
             <FormattedMessage
               id='modals.exchange.identityverification.submitted.subheader2'
               defaultMessage="You've successfully submitted your application. A Blockchain Support Member will review your information."
             />
-          </SubHeader>
+          </Text>
           <NextSteps>
-            <NextStepsHeader>
+            <Text color='grey900' size='16px' weight={600} lineHeight='30px'>
               <FormattedMessage
                 id='modals.exchange.identityverification.submitted.nextstepsheader'
                 defaultMessage='What happens next?'
               />
-            </NextStepsHeader>
-            <NextStepsSubHeader>
+            </Text>
+            <Text color='grey600' size='16px'>
               <FormattedHTMLMessage
-                id='modals.exchange.identityverification.submitted.mayaskforid3'
-                defaultMessage='You can check your application status by navigating to Settings > Profile. If something looks odd, we may ask you to upload another form of ID.'
+                id='modals.exchange.identityverification.submitted.settins_profile'
+                defaultMessage='You can check out your application status by navigating to Setting Profile.'
               />
-            </NextStepsSubHeader>
-            <NextStepsSubHeader>
+            </Text>
+            <Text color='grey600' size='16px'>
               <FormattedMessage
                 id='modals.exchange.identityverification.submitted.whileyouwait'
                 defaultMessage='While you wait, you can still trade and move currency up to your current limit.'
               />
-            </NextStepsSubHeader>
+            </Text>
           </NextSteps>
           <Form>
             {submitting && (
-              <HeartbeatLoader
-                height='32px'
-                width='32px'
-                color='blue500'
-                style={{ margin: '0 auto' }}
-              />
+              <HeartbeatLoader height='32px' width='32px' color='blue500' />
             )}
             <CloseButton
+              data-e2e='kycSubmittedDone'
               nature='empty-secondary'
               disabled={submitting}
               onClick={onClose}
             >
-              <FormattedMessage id='buttons.close' defaultMessage='Close' />
+              <FormattedMessage id='buttons.done' defaultMessage='Done' />
             </CloseButton>
           </Form>
         </SubmittedWrapper>
-      </SubmittedIdentityVerificationForm>
+      </FlyoutWrapper>
     )
   }
-}
-
-Submitted.defaultProps = {
-  campaign: ''
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -139,9 +109,15 @@ const mapDispatchToProps = dispatch => ({
   )
 })
 
+const connector = connect(null, mapDispatchToProps)
+
 const enhance = compose(
   reduxForm({ form: ID_VERIFICATION_SUBMITTED_FORM }),
-  connect(null, mapDispatchToProps)
+  connector
 )
 
-export default enhance(Submitted)
+type OwnProps = { campaign?: CampaignsType; onClose: () => void }
+
+type Props = ConnectedProps<typeof connector> & OwnProps
+
+export default enhance(Submitted) as React.ComponentClass<OwnProps>

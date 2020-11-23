@@ -55,6 +55,7 @@ const stepMap = {
 
 type OwnProps = {
   close: () => void
+  emailVerified: boolean
   metadata: StepsMetadataType
   needMoreInfo: boolean
   position: number
@@ -93,7 +94,10 @@ class IdentityVerification extends React.PureComponent<Props, State> {
     this.props.actions.initializeVerification(tier, needMoreInfo)
   }
 
-  getStepComponent = step => {
+  getStepComponent = (emailVerified, step) => {
+    if (!emailVerified) {
+      // TODO Verify EMail step
+    }
     if (step === STEPS.infoAndResidential)
       return (
         <InfoAndResidential
@@ -118,7 +122,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
 
   render () {
     const { show } = this.state
-    const { step, steps } = this.props
+    const { step, steps, emailVerified } = this.props
 
     return steps.cata({
       Success: () => (
@@ -129,7 +133,9 @@ class IdentityVerification extends React.PureComponent<Props, State> {
           direction={this.state.direction}
           data-e2e='identityVerificationModal'
         >
-          <FlyoutChild>{this.getStepComponent(step)}</FlyoutChild>
+          <FlyoutChild>
+            {this.getStepComponent(emailVerified, step)}
+          </FlyoutChild>
         </Flyout>
       ),
       Loading: () => (

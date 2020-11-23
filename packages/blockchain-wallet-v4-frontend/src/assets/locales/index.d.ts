@@ -663,8 +663,8 @@ type MessagesType = {
   'modals.exchange.ethairdrop.firstusddorder': 'Your first USD Digital order has been placed!'
   'modals.exchange.ethairdrop.success': 'Success!'
   'modals.exchange.ethairdrop.viewtrade': 'View Trade Status'
-  'modals.exchange.identityverification.submitted.appcomplete': 'Application Complete!'
-  'modals.exchange.identityverification.submitted.mayaskforid3': 'You can check your application status by navigating to Settings > Profile. If something looks odd, we may ask you to upload another form of ID.'
+  'modals.exchange.identityverification.submitted.appsubmitted': 'Application Submitted'
+  'modals.exchange.identityverification.submitted.settins_profile': 'You can check out your application status by navigating to Setting Profile.'
   'modals.exchange.identityverification.submitted.nextstepsheader': 'What happens next?'
   'modals.exchange.identityverification.submitted.subheader2': "You've successfully submitted your application. A Blockchain Support Member will review your information."
   'modals.exchange.identityverification.submitted.whileyouwait': 'While you wait, you can still trade and move currency up to your current limit.'
@@ -783,7 +783,6 @@ type MessagesType = {
   'modals.importkey.label.enterlabel': 'Enter a label (optional)'
   'modals.importkey.label.privatekey': 'Enter your private key'
   'modals.importkey.label.transferfunds': 'Transfer funds to an existing wallet (optional)'
-
   'modals.kycverification.additionalinfo.title': 'Additional Information Required'
   'modals.kycverification.additionalinfo.description': 'We need to confirm your identity with a government issued ID and selfie. Before proceeding, make sure you have one of the following forms of ID handy and your camera is turned on.'
   'modals.kycverification.additionalinfo.disclaimer': 'Blockchain.com’s ID verification process is powered by our partner Veriff. We’ll take you to them on the next screen.'
@@ -791,10 +790,8 @@ type MessagesType = {
   'modals.kycverification.additionalinfo.requirement_2': 'Valid Driver’s License'
   'modals.kycverification.additionalinfo.requirement_3': 'National Identity Card'
   'modals.kycverification.additionalinfo.webcam_and_microphone': 'Be sure to enable your Webcam & Microphone.'
-
   'modals.kycverification.veriff.title': 'We’re Taking You to Veriff Now...'
   'modals.kycverification.veriff.description': 'Blockchain.com’s end-to-end verifaction service.'
-
   'modals.lockbox.appmanager.close': 'Close App Manager'
   'modals.lockbox.appmanager.title': 'App Manager'
   'modals.lockbox.connectionprompt.connect.content': 'Connect and unlock your hardware device. Then open the {appName} app on the device.'

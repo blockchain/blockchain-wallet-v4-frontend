@@ -166,3 +166,10 @@ export const getAddBank = (state: RootState) =>
   state.components.simpleBuy.addBank
 export const getSddEligible = (state: RootState) =>
   state.components.simpleBuy.sddEligible
+
+export const isUserSddEligible = (state: RootState) => {
+  const sddEligibleR = getSddEligible(state)
+  return lift(
+    (sddEligible: ExtractSuccess<typeof sddEligibleR>) => !sddEligible.eligible
+  )(sddEligibleR)
+}

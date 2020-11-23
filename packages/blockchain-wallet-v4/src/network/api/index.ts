@@ -88,7 +88,7 @@ const api = ({
     }),
     ...sdd({
       nabuUrl,
-      authorizedPost: authorizedHttp.post,
+      authorizedGet: authorizedHttp.get,
       ...http
     }),
     ...settings({ rootUrl, ...http }),

@@ -30,7 +30,6 @@ class InfoAndResidential extends PureComponent<Props> {
   }
 
   onCountryChange = (e, value) => {
-    e.preventDefault()
     this.setDefaultCountry(value)
   }
 

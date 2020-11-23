@@ -371,7 +371,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 normalize={val => val && val.code}
               />
             ) : (
-              <Field name='state' component={TextBox} />
+              <Field
+                name='state'
+                component={TextBox}
+                errorBottom
+                countryCode={countryCode}
+              />
             )}
           </FormItem>
           {countryUsesZipOrPostcode && (

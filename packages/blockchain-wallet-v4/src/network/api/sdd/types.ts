@@ -5,6 +5,5 @@ export type SDDType = {
 }
 
 export type SDDUpdateType = {
-  eligible: boolean
-  rejectReason: 'HIGH_RISK' | 'LIMITS'
+  verified: boolean
 }

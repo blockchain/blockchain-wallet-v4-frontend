@@ -458,17 +458,8 @@ export default ({ api, coreSagas, networks }) => {
 
       const { metadata } = payload
 
-      if (
-        metadata &&
-        metadata.checkSDD &&
-        metadata.fiatCurrency &&
-        metadata.amount
-      ) {
-        const sddEligible = yield call(
-          api.updateSDDEligible,
-          metadata.amount,
-          metadata.fiatCurrency
-        )
+      if (metadata && metadata.checkSDD) {
+        const sddEligible = yield call(api.updateSDDEligible)
 
         if (sddEligible && sddEligible.eligible) {
           yield put(actions.modals.closeModal(KYC_MODAL))
