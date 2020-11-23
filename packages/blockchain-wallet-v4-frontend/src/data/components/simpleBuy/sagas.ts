@@ -347,6 +347,7 @@ export default ({
       if (step !== 'ENTER_AMOUNT') {
         const pair = S.getSBPair(yield select())
         const method = S.getSBPaymentMethod(yield select())
+        const from = S.getSwapAccount(yield select())
         if (pair) {
           yield put(
             A.setStep({
@@ -355,7 +356,8 @@ export default ({
               fiatCurrency: getFiatFromPair(pair.pair),
               pair,
               method,
-              orderType: values?.orderType
+              orderType: values?.orderType,
+              swapAccount: from
             })
           )
           yield take(AT.INITIALIZE_CHECKOUT)

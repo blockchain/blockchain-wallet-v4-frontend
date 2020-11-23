@@ -192,7 +192,7 @@ export const getMaxMinSell = (
           const minCrypto = new BigNumber(pair.sellMin)
             .dividedBy(rate)
             .toFixed(Currencies[coin].units[coin].decimal_digits)
-          const minFiat = pair.sellMin
+          const minFiat = convertBaseToStandard('FIAT', pair.sellMin)
 
           return { FIAT: minFiat, CRYPTO: minCrypto }
       }
