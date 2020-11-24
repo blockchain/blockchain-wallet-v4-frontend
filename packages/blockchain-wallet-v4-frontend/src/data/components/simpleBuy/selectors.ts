@@ -200,15 +200,7 @@ export const getIncomingAmount = (state: RootState) => {
     const amount =
       values.fix === 'CRYPTO'
         ? values.amount
-        : convertStandardToBase(
-            fromCoin,
-            getQuote(
-              quote.pair,
-              convertStandardToBase('FIAT', rate),
-              values.fix,
-              values.amount
-            )
-          )
+        : getQuote(quote.pair, rate, values.fix, values.amount)
     const amtMinor = convertStandardToBase(fromCoin, amount)
     const exRate = new BigNumber(
       getRate(quote.quote.priceTiers, toCoin, new BigNumber(amtMinor))

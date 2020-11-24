@@ -22,7 +22,6 @@ import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { getFiatFromPair } from 'data/components/simpleBuy/model'
 import { getInputFromPair, getOutputFromPair } from 'data/components/swap/model'
-import { getQuote } from '../EnterAmount/Checkout/validation'
 import { SBCheckoutFormValuesType } from 'data/types'
 import {
   SBOrderActionType,
@@ -38,9 +37,18 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     this.props.simpleBuyActions.createSBOrder()
   }
 
+  getAmount = (amt: number | string | Array<number>) => {
+    if (typeof amt === 'number') {
+      return amt
+    } else if (typeof amt === 'string') {
+      return amt
+    } else {
+      return amt[0]
+    }
+  }
+
   render () {
     return this.props.quoteR.cata({
-      // TODO
       Failure: () => null,
       NotAsked: () => null,
       Loading: () => null,
@@ -49,16 +57,9 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         if (!this.props.account) return null
         const BASE = getInputFromPair(val.quote.pair)
         const COUNTER = getOutputFromPair(val.quote.pair)
-        const { account, coins, pair } = this.props
+        const { account, coins } = this.props
         const baseCoinTicker = coins[BASE].coinTicker
         const counterCoinTicker = coins[COUNTER].coinTicker
-
-        const quote = getQuote(
-          pair.pair,
-          val.rate,
-          this.props.formValues.fix,
-          this.props.formValues.amount
-        )
 
         return (
           <>
@@ -105,9 +106,29 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 />
               </Title>
               <Value>
-                {coinToString({
-                  value: this.props.formValues.amount,
-                  unit: { symbol: baseCoinTicker }
+                {this.props.paymentR.cata({
+                  Success: value => (
+                    <>
+                      {coinToString({
+                        value: convertBaseToStandard(
+                          account.coin,
+                          value && value.amount
+                            ? this.getAmount(value.amount)
+                            : 0
+                        ),
+                        unit: {
+                          symbol: coins[account.coin].coinTicker
+                        }
+                      })}
+                    </>
+                  ),
+                  Failure: e => e,
+                  Loading: () => (
+                    <SkeletonRectangle height='18px' width='70px' />
+                  ),
+                  NotAsked: () => (
+                    <SkeletonRectangle height='18px' width='70px' />
+                  )
                 })}
               </Value>
             </Row>
@@ -119,9 +140,27 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 />
               </Title>
               <Value>
-                <>
-                  {formatFiat(quote)} {COUNTER}
-                </>
+                {this.props.incomingAmountR.cata({
+                  Success: val => (
+                    <>
+                      {formatFiat(val.amt)} {counterCoinTicker}
+                    </>
+                  ),
+                  Failure: () => (
+                    <Text size='14px' color='red600'>
+                      <FormattedMessage
+                        id='copy.oops'
+                        defaultMessage='Oops. Something went wrong.'
+                      />
+                    </Text>
+                  ),
+                  Loading: () => (
+                    <SkeletonRectangle height='18px' width='70px' />
+                  ),
+                  NotAsked: () => (
+                    <SkeletonRectangle height='18px' width='70px' />
+                  )
+                })}
               </Value>
             </Row>
             <Row>
@@ -290,6 +329,7 @@ const mapStateToProps = (state: RootState) => ({
     .getOrElse({} as SupportedWalletCurrenciesType),
   pair: selectors.components.simpleBuy.getSBPair(state),
   paymentR: selectors.components.simpleBuy.getPayment(state),
+  incomingAmountR: selectors.components.simpleBuy.getIncomingAmount(state),
   quoteR: selectors.components.simpleBuy.getSellQuote(state)
 })
 
