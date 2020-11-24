@@ -271,7 +271,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </FormItem>
 
           <CaptionContainer>
-            <Icon name='info' />
+            <Icon name='info' style={{ marginRight: '2px' }} />
             <Caption>
               <FormattedMessage
                 id='modals.simplebuy.info_and_residential.dob_caption'

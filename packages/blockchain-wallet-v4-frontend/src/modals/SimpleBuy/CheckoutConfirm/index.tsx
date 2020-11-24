@@ -40,15 +40,16 @@ class CheckoutConfirm extends PureComponent<Props> {
 
     const inputCurrency = this.props.order.inputCurrency as WalletFiatType
 
-    if (isFirstLogin) {
-      this.props.simpleBuyActions.setStep({
-        step: 'ADD_CARD'
-      })
-      return
-    }
     if (userData.tiers.current < 2) {
       this.props.simpleBuyActions.setStep({
         step: 'KYC_REQUIRED'
+      })
+      return
+    }
+
+    if (isFirstLogin && this.props.order.paymentType === 'PAYMENT_CARD') {
+      this.props.simpleBuyActions.setStep({
+        step: 'ADD_CARD'
       })
       return
     }

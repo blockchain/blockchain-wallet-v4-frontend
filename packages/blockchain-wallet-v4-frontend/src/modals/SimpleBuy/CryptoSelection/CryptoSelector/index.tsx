@@ -5,6 +5,7 @@ import {
   TabMenuItem,
   Text
 } from 'blockchain-info-components'
+import { model } from 'data'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
@@ -19,6 +20,8 @@ import { Props as OwnProps, SuccessStateType } from '../index'
 import { SBPairType } from 'core/types'
 import CryptoItem from './CryptoItem'
 import SellBanner from './SellBanner'
+
+const { SB_CRYPTO_SELECTION } = model.components.simpleBuy
 
 const Wrapper = styled.div`
   display: flex;
@@ -207,6 +210,6 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
 }
 
 export default reduxForm<{}, Props>({
-  form: 'sbCryptoSelection',
+  form: SB_CRYPTO_SELECTION,
   destroyOnUnmount: false
 })(CryptoSelector)

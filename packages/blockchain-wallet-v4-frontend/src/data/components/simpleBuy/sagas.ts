@@ -892,7 +892,6 @@ export default ({
   }
 
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
-    yield call(waitForUserData)
     const { origin, cryptoCurrency } = payload
     yield put(
       actions.modals.showModal('SIMPLE_BUY_MODAL', { origin, cryptoCurrency })
