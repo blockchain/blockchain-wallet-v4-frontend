@@ -166,7 +166,6 @@ class SwapOrderTx extends PureComponent<Props, State> {
                       defaultMessage='View Outgoing Transaction'
                     />
                   </Text>
-
                   <Link
                     href={`${supportedCoins[base].txExplorerBaseUrl}/${order.kind.depositTxHash}`}
                     target='_blank'
@@ -192,7 +191,7 @@ class SwapOrderTx extends PureComponent<Props, State> {
                   <Link
                     href={`${supportedCoins[counter].txExplorerBaseUrl}/${order.kind.withdrawalTxHash}`}
                     target='_blank'
-                    data-e2e='swapOutgoingTransactionListItemExplorerLink'
+                    data-e2e='swapIncomingTransactionListItemExplorerLink'
                   >
                     <Icon
                       name='open-in-new-tab'
