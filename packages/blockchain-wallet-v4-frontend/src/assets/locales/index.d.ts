@@ -383,6 +383,8 @@ type MessagesType = {
   'copy.upgrade': 'Upgrade To Gold'
   'copy.unknown_error': 'An unknown error has occurred.'
   'copy.view': 'View'
+  'copy.view_incoming_tx': 'View Incoming Transaction'
+  'copy.view_outgoing_tx': 'View Outgoing Transaction'
   'dentityverification.verify.resubmit.reason.missing': 'The required photos are missing'
   'exchange-side-nav-tooltip-connected': 'connected'
   'exchangepromo.pairs': 'Access 20+ trading pairs on the Exchange.'
