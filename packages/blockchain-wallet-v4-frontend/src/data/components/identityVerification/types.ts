@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
 import { ModalOriginType } from 'data/modals/types'
-import { RemoteDataType } from 'core/types'
+import { NabuAddressType, RemoteDataType } from 'core/types'
 import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
 
 export type EmailSmsStepType = 'edit' | 'verify'
@@ -256,3 +256,14 @@ export type IdentityVerificationActionTypes =
   | SetSupportedDocumentSuccessAction
   | SetVerificationStepAction
   | VerifyIdentityAction
+
+export type InfoAndResidentialFormValuesType = {
+  country: CountryType
+  dob: string
+  firstName: string
+  lastName: string
+} & NabuAddressType['country']
+
+export type VerifyEmailFormValuesType = {
+  email: string
+}

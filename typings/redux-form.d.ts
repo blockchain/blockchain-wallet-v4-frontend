@@ -39,7 +39,6 @@ export type WalletFormType =
   | 'sbPaymentMethods'
   | 'sbChangeEmail'
   | 'simpleBuyCheckout'
-  | 'simpleBuyInforAndResidential'
   | 'swapAmount'
   | 'swapOrderDetails'
   | 'transferEth'

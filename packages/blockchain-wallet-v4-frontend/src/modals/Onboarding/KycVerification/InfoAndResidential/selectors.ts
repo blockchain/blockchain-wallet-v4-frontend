@@ -10,7 +10,6 @@ export const getData = (state: RootState) => {
     INFO_AND_RESIDENTIAL_FORM
   )(state)
   const invitationsR = selectors.core.settings.getInvitations(state)
-  const quoteR = selectors.components.simpleBuy.getSBQuote(state)
   const userDataR = selectors.modules.profile.getUserData(state)
   const supportedCountriesR = selectors.components.identityVerification.getSupportedCountries(
     state
@@ -19,15 +18,13 @@ export const getData = (state: RootState) => {
   return lift(
     (
       invitations: ExtractSuccess<typeof invitationsR>,
-      quote: ExtractSuccess<typeof quoteR>,
       userData: ExtractSuccess<typeof userDataR>,
       supportedCountries: ExtractSuccess<typeof supportedCountriesR>
     ) => ({
       formErrors,
       invitations,
-      quote,
       userData,
       supportedCountries
     })
-  )(invitationsR, quoteR, userDataR, supportedCountriesR)
+  )(invitationsR, userDataR, supportedCountriesR)
 }

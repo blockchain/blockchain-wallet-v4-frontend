@@ -40,12 +40,6 @@ export type SBBillingAddressFormValuesType = NabuAddressType
 export type SBBillingAddressFormSDDType = {
   country: CountryType
 } & NabuAddressType['country']
-export type SBInfoAndResidentialFormValuesType = {
-  country: CountryType
-  dob: string
-  firstName: string
-  lastName: string
-} & NabuAddressType['country']
 
 export type SBVerifyEmailFormValuesType = {
   email: string

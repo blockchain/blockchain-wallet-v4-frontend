@@ -1,6 +1,3 @@
-import React, { useState } from 'react'
-import styled, { DefaultTheme } from 'styled-components'
-
 import {
   Button,
   HeartbeatLoader,
@@ -8,15 +5,18 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
+import { model } from 'data'
+
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { model } from 'data'
 import { Props as OwnProps } from '.'
 import { required, validEmail } from 'services/FormHelper'
+import React, { useState } from 'react'
+import styled, { DefaultTheme } from 'styled-components'
 
-const { SB_CHANGE_EMAIL_FORM } = model.components.simpleBuy
+const { VERIFY_EMAIL_FORM } = model.components.identityVerification
 
 const Wrapper = styled.div`
   width: 100%;
@@ -79,7 +79,7 @@ export const Label = styled.label`
   text-align: left;
 `
 
-const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const [changeEmail, setChangeEmail] = useState(false)
 
   return (
@@ -88,7 +88,7 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <CloseContainer>
           <Icon
             cursor
-            data-e2e='sbCloseModalIcon'
+            data-e2e='kycCloseModalIcon'
             name='close'
             size='20px'
             color='grey600'
@@ -144,7 +144,7 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 </FormItem>
               </FormGroup>
               <Button
-                data-e2e='submitSBInforAndResidential'
+                data-e2e='submitKYCVerifyEmail'
                 height='48px'
                 size='16px'
                 nature='primary'
@@ -233,6 +233,6 @@ type Props = OwnProps & {
 }
 
 export default reduxForm<{}, Props>({
-  form: SB_CHANGE_EMAIL_FORM,
+  form: VERIFY_EMAIL_FORM,
   destroyOnUnmount: false
-})(Template)
+})(Success)

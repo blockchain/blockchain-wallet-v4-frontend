@@ -4,8 +4,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { CountryType } from 'data/components/identityVerification/types'
 import { ExtractSuccess, RemoteDataType } from 'core/types'
 import { getData } from './selectors'
+import { InfoAndResidentialFormValuesType } from 'data/types'
 import { RootState } from 'data/rootReducer'
-import { SBInfoAndResidentialFormValuesType } from 'data/types'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
@@ -67,7 +67,7 @@ class InfoAndResidential extends PureComponent<Props> {
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   formValues: selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM)(state) as
-    | SBInfoAndResidentialFormValuesType
+    | InfoAndResidentialFormValuesType
     | undefined,
   countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null)
 })

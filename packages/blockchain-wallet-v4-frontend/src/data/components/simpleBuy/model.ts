@@ -29,6 +29,8 @@ export const NO_PAYMENT_TYPE = 'NO_PAYMENT_TYPE'
 export const NO_FIAT_CURRENCY = 'NO_FIAT_CURRENCY'
 export const NO_ORDER_EXISTS = 'NO_ORDER_EXISTS_TO_CONFIRM'
 
+export const SB_CHANGE_EMAIL_FORM = 'sbChangeEmail'
+
 export const splitPair = (
   pair: SBPairsType
 ): [WalletFiatType | CoinType, '-', WalletFiatType | CoinType] => {

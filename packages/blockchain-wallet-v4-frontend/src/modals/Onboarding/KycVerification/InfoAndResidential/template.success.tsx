@@ -166,7 +166,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <LeftTopCol>
             <Icon
               cursor
-              data-e2e='sbBackToCryptoSelection'
+              data-e2e='kycBackToCryptoSelection'
               name='arrow-left'
               size='20px'
               color='grey600'
@@ -181,7 +181,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </LeftTopCol>
           <Icon
             cursor
-            data-e2e='sbCloseModalIcon'
+            data-e2e='kycCloseModalIcon'
             name='close'
             size='20px'
             color='grey600'
@@ -434,7 +434,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </FormItem>
         </FormGroup>
         <Button
-          data-e2e='submitSBInforAndResidential'
+          data-e2e='submitKYCInforAndResidential'
           height='48px'
           size='16px'
           nature='primary'

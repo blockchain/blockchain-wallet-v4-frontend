@@ -10,6 +10,7 @@ import { RemoteDataType } from 'core/types'
 import { StepsMetadataType } from 'data/components/identityVerification/types'
 import AdditionalInfo from './AdditionalInfo'
 import DataError from 'components/DataError'
+import EmailVerification from './EmailVerification'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import InfoAndResidential from './InfoAndResidential'
 import Loading from './template.loading'
@@ -95,16 +96,17 @@ class IdentityVerification extends React.PureComponent<Props, State> {
   }
 
   getStepComponent = (emailVerified, step) => {
-    if (!emailVerified) {
-      // TODO Verify EMail step
-    }
-    if (step === STEPS.infoAndResidential)
+    if (step === STEPS.infoAndResidential) {
+      if (!emailVerified) {
+        return <EmailVerification handleClose={this.handleClose} />
+      }
       return (
         <InfoAndResidential
           onClose={this.handleClose}
           metadata={this.props.metadata}
         />
       )
+    }
 
     if (step === STEPS.moreInfo) {
       return <MoreInfo />
