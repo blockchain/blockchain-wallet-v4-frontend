@@ -72,7 +72,6 @@ export const Caption = styled(Text)`
 const SmallFormItem = styled(FormItem)`
   width: 45%;
 `
-
 const CustomForm = styled(Form)`
   height: 100%;
   display: flex;

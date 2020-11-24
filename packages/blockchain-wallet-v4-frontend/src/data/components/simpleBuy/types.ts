@@ -47,6 +47,10 @@ export type SBInfoAndResidentialFormValuesType = {
   lastName: string
 } & NabuAddressType['country']
 
+export type SBVerifyEmailFormValuesType = {
+  email: string
+}
+
 export type SBCheckoutFormValuesType =
   | undefined
   | {
