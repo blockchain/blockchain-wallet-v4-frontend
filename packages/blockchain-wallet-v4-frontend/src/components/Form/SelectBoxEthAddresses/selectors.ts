@@ -203,6 +203,14 @@ export const getErc20Data = (
         toUnit: 'USDT'
       })
     }
+    if (coin === 'WDGLD') {
+      const wdgldAmount = Exchange.convertWdgldToWdgld(data)
+      return Exchange.displayWdgldToWdgld({
+        value: Number(wdgldAmount.value).toFixed(8),
+        fromUnit: 'WDGLD',
+        toUnit: 'WDGLD'
+      })
+    }
     return {}
   }
   const buildCustodialDisplay = (

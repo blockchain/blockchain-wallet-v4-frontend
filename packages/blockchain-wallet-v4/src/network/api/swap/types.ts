@@ -14,6 +14,7 @@ export type SwapOrderType = {
     depositAddress: string
     depositTxHash: string
     direction: SwapOrderDirectionType
+    refundAddress: string
     withdrawalAddress: string
     withdrawalTxHash: string
   }

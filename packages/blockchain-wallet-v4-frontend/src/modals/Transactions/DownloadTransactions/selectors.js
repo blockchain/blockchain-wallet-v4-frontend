@@ -13,6 +13,8 @@ export const getData = (state, coin) => {
       return getPaxData(state)
     case 'USDT':
       return getUsdtData(state)
+    case 'WDGLD':
+      return getWdgldData(state)
     case 'ETH':
       return getEthData(state)
     case 'XLM':
@@ -52,6 +54,18 @@ const getUsdtData = createSelector(
   dataR => {
     const transform = data => {
       const transformedData = map(tx => formatTxData(tx, 'USDT'), data)
+      return [reportHeaders].concat(transformedData)
+    }
+    return {
+      csvData: dataR.map(transform).getOrElse([])
+    }
+  }
+)
+const getWdgldData = createSelector(
+  [state => selectors.core.data.eth.getErc20TransactionHistory(state, 'wdgld')],
+  dataR => {
+    const transform = data => {
+      const transformedData = map(tx => formatTxData(tx, 'WDGLD'), data)
       return [reportHeaders].concat(transformedData)
     }
     return {

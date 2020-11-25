@@ -1,5 +1,5 @@
 import { bindActionCreators, Dispatch } from 'redux'
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import {
   CoinType,
   ProcessedSwapOrderType,
@@ -35,6 +35,15 @@ const LastCol = styled(Col)`
   display: flex;
   justify-content: flex-end;
 `
+const ViewTxWrapper = styled.div`
+  display: flex;
+  justify-items: center;
+  margin-top: 10px;
+  & > :last-child {
+    display: inline;
+    margin-left: 5px;
+  }
+`
 class SwapOrderTx extends PureComponent<Props, State> {
   state: State = { isToggled: false }
 
@@ -55,9 +64,9 @@ class SwapOrderTx extends PureComponent<Props, State> {
   }
 
   render () {
-    const { order, coin } = this.props
-    const base = getInput(this.props.order)
-    const counter = getOutput(this.props.order)
+    const { order, coin, supportedCoins } = this.props
+    const base = getInput(order)
+    const counter = getOutput(order)
     const { outputMoney } = this.props.order.priceFunnel
     return (
       <TxRowContainer
@@ -149,36 +158,50 @@ class SwapOrderTx extends PureComponent<Props, State> {
                   value: order.priceFunnel.price
                 })}
               </RowValue>
-              <RowHeader>
-                <FormattedMessage
-                  id='copy.outgoing_fee'
-                  defaultMessage='Outgoing Fee'
-                />
-              </RowHeader>
-              <RowValue data-e2e='swapOutFee'>
-                {coinToString({
-                  unit: { symbol: counter },
-                  value: convertBaseToStandard(
-                    counter,
-                    this.props.order.priceFunnel.networkFee
-                  )
-                })}
-              </RowValue>
-              <RowHeader>
-                <FormattedMessage
-                  id='copy.incoming_fee'
-                  defaultMessage='Incoming Fee'
-                />
-              </RowHeader>
-              <RowValue data-e2e='swapInFee'>
-                {coinToString({
-                  unit: { symbol: counter },
-                  value: convertBaseToStandard(
-                    counter,
-                    this.props.order.priceFunnel.staticFee
-                  )
-                })}
-              </RowValue>
+              {order.kind.depositTxHash && (
+                <ViewTxWrapper>
+                  <Text size='14px' weight={500} color='grey600'>
+                    <FormattedMessage
+                      id='copy.view_outgoing_tx'
+                      defaultMessage='View Outgoing Transaction'
+                    />
+                  </Text>
+                  <Link
+                    href={`${supportedCoins[base].txExplorerBaseUrl}/${order.kind.depositTxHash}`}
+                    target='_blank'
+                    data-e2e='swapOutgoingTransactionListItemExplorerLink'
+                  >
+                    <Icon
+                      name='open-in-new-tab'
+                      color='marketing-primary'
+                      cursor
+                      size='14px'
+                    />
+                  </Link>
+                </ViewTxWrapper>
+              )}
+              {order.kind.withdrawalTxHash && (
+                <ViewTxWrapper>
+                  <Text size='14px' weight={500} color='grey600'>
+                    <FormattedMessage
+                      id='copy.view_incoming_tx'
+                      defaultMessage='View Incoming Transaction'
+                    />
+                  </Text>
+                  <Link
+                    href={`${supportedCoins[counter].txExplorerBaseUrl}/${order.kind.withdrawalTxHash}`}
+                    target='_blank'
+                    data-e2e='swapIncomingTransactionListItemExplorerLink'
+                  >
+                    <Icon
+                      name='open-in-new-tab'
+                      color='marketing-primary'
+                      cursor
+                      size='14px'
+                    />
+                  </Link>
+                </ViewTxWrapper>
+              )}
             </DetailsColumn>
             <DetailsColumn />
             <DetailsColumn>

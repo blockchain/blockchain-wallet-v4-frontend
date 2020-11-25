@@ -113,6 +113,7 @@ const IcoMoon = {
   'vertical-arrow-switch': '\\e980',
   wallet: '\\e956',
   'wallet-filled': '\\e929',
+  wdgld: '\\e95e',
   xlm: '\\e930',
   'xlm-circle-filled': '\\e91f'
 }

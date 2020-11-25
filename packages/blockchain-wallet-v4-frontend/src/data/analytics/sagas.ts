@@ -66,6 +66,10 @@ export default () => {
         selectors.core.data.eth.getErc20Balance,
         'usdt'
       )).getOrElse(0)
+      const wdgldBalance = (yield select(
+        selectors.core.data.eth.getErc20Balance,
+        'wdgld'
+      )).getOrElse(0)
       const xlmBalance = (yield select(
         selectors.core.data.xlm.getTotalBalance
       )).getOrElse(0)
@@ -108,7 +112,8 @@ export default () => {
             ETH: not(equals(ethBalance, 0)),
             PAX: not(equals(paxBalance, 0)),
             USDT: not(equals(usdtBalance, 0)),
-            XLM: not(equals(xlmBalance, 0))
+            XLM: not(equals(xlmBalance, 0)),
+            WDGLD: not(equals(wdgldBalance, 0))
           }),
           variableScope: 'visit'
         }

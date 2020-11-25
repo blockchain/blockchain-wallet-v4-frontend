@@ -49,7 +49,8 @@ export enum CoinTypeEnum {
   XLM,
   ALGO,
   PAX,
-  USDT
+  USDT,
+  WDGLD
 }
 export enum FiatTypeEnum {
   EUR,

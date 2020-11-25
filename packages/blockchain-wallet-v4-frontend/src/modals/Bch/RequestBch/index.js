@@ -43,6 +43,12 @@ class RequestBchContainer extends React.PureComponent {
           coin: 'USDT',
           lockboxIndex: this.props.lockboxIndex
         })
+      } else if (equals(prop('coin', x), 'WDGLD')) {
+        this.props.modalActions.closeAllModals()
+        this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
+          coin: 'WDGLD',
+          lockboxIndex: this.props.lockboxIndex
+        })
       } else if (equals(prop('coin', x), 'ETH')) {
         this.props.modalActions.closeAllModals()
         this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
