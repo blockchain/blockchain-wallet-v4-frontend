@@ -107,7 +107,7 @@ const Default = {
   usdt: '#26A17B',
   'usdt-light': 'rgba(38, 161, 123, 0.15)',
   wdgld: '#353F52',
-  'wdgld-light': 'rgba(53, 63, 82, 0.15)',
+  'wdgld-light': 'rgba(255, 231, 56, 0.15)',
   // OLD - AVOID USE \\
   // Brand
   'brand-yellow': '#FFB266',
