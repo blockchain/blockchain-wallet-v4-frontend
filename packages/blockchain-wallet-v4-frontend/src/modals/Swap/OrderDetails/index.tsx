@@ -86,46 +86,6 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             })}
           </Value>
         </Row>
-        <Row>
-          <Title>
-            <FormattedMessage
-              id='copy.coin_network_fee'
-              defaultMessage='{coin} Network Fee'
-              values={{
-                coin: coins[baseCoin].coinTicker
-              }}
-            />
-          </Title>
-          <Value>
-            {coinToString({
-              unit: { symbol: coins[baseCoin].coinTicker },
-              value: convertBaseToStandard(
-                baseCoin,
-                this.props.order.priceFunnel.networkFee
-              )
-            })}
-          </Value>
-        </Row>
-        <Row>
-          <Title>
-            <FormattedMessage
-              id='copy.coin_network_fee'
-              defaultMessage='{coin} Network Fee'
-              values={{
-                coin: counterCoin
-              }}
-            />
-          </Title>
-          <Value>
-            {coinToString({
-              unit: { symbol: coins[counterCoin].coinTicker },
-              value: convertBaseToStandard(
-                counterCoin,
-                order.priceFunnel.staticFee
-              )
-            })}
-          </Value>
-        </Row>
         {this.props.order.state === 'PENDING_DEPOSIT' && (
           <FlyoutWrapper>
             <Form

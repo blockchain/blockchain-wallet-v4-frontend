@@ -65,6 +65,7 @@ const Success = (props: Props & SuccessStateType) => {
                         <CoinIcon
                           color={coin.colorCode}
                           name={coin.icons.circleFilled}
+                          size={'32px'}
                         />
                         <CoinName color={'grey700'}>
                           {coin.displayName}

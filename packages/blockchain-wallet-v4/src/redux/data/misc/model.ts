@@ -28,6 +28,7 @@ export const initialPriceChange = {
   ALGO: Remote.NotAsked,
   PAX: Remote.NotAsked,
   USDT: Remote.NotAsked,
+  WDGLD: Remote.NotAsked,
   EUR: Remote.Success(DEFAULT_PRICE_CHANGE),
   GBP: Remote.Success(DEFAULT_PRICE_CHANGE),
   USD: Remote.Success(DEFAULT_PRICE_CHANGE)
@@ -40,7 +41,8 @@ export const start: { [key in CoinType]: number } = {
   XLM: 1409788800,
   ALGO: 0,
   USDT: 0,
-  PAX: 0
+  PAX: 0,
+  WDGLD: 0
 }
 
 export const calculateStart = (

@@ -136,7 +136,10 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<
                   validate={[required, validAddressOrWallet]}
                 />
               )}
-              {(coin === 'ETH' || coin === 'PAX' || coin === 'USDT') && (
+              {(coin === 'ETH' ||
+                coin === 'PAX' ||
+                coin === 'USDT' ||
+                coin === 'WDGLD') && (
                 <Field
                   coin={coin}
                   component={SelectBoxEthAddresses}

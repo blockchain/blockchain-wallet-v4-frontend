@@ -206,6 +206,7 @@ export default ({
       case 'ETH':
       case 'PAX':
       case 'USDT':
+      case 'WDGLD':
         return coreSagas.payment.eth.create({
           payment: paymentR.getOrElse(<PaymentValue>{}),
           network: networks.eth

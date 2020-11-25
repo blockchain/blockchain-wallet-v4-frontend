@@ -111,6 +111,7 @@ const mapStateToProps = (state: RootState) => ({
       ETH: { colorCode: 'eth' } as SupportedCoinType,
       PAX: { colorCode: 'pax' } as SupportedCoinType,
       USDT: { colorCode: 'usdt' } as SupportedCoinType,
+      WDGLD: { colorCode: 'wdgld' } as SupportedCoinType,
       XLM: { colorCode: 'xlm' } as SupportedCoinType
     } as Omit<SupportedWalletCurrenciesType, keyof FiatTypeEnum>),
   isFirstLogin: selectors.auth.getFirstLogin(state)
