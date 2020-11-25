@@ -85,6 +85,7 @@ import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
 import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
 import walletV3SecurityUpgrade from './img/wallet-v3-security-upgrade.jpg'
 import warningCircleFilled from './img/warning-circle-filled.png'
+import wdgld from './img/wdgld.svg'
 import yubikey from './img/yubikey.svg'
 // Lockbox
 import deviceLockbox from './img/lockbox/device-lockbox.png'
@@ -235,6 +236,7 @@ const Images = {
   'warning-circle-filled': warningCircleFilled,
   wallet,
   'wallet-blue': walletBlue,
+  wdgld: wdgld,
   'world-alert': worldAlert,
   'world-alert2': worldAlert2,
   'world-alert3': worldAlert3,

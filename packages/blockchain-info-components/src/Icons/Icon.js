@@ -1,7 +1,9 @@
-import Icomoon from './Icomoon'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
+
+import { Image } from '../..'
+import Icomoon from './Icomoon'
 
 const BaseIcon = styled.span`
   font-weight: ${props => props.weight};
@@ -23,6 +25,19 @@ const BaseIcon = styled.span`
 const Icon = props => {
   const { name, cursor, ...rest } = props
   const code = Icomoon[name]
+
+  // TODO: move off fonts for icons as they can only be one color. WDGLD needs multiple colors and thus this hack
+  if (name === 'wdgld') {
+    return (
+      <BaseIcon {...props}>
+        <Image
+          height={props.height || props.size || '32px'}
+          name='wdgld'
+          width={props.width || props.size || '32px'}
+        />
+      </BaseIcon>
+    )
+  }
 
   return <BaseIcon {...rest} code={code} cursorEnabled={cursor} />
 }
