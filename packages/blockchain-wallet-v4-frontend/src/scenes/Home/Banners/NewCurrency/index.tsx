@@ -68,8 +68,10 @@ const NewCurrency = ({
 }) => {
   const newCoinAnnouncement = `${coin}-homepage`
   const isDismissed =
-    announcementState[newCoinAnnouncement] &&
-    announcementState[newCoinAnnouncement].dismissed
+    (announcementState &&
+      announcementState[newCoinAnnouncement] &&
+      announcementState[newCoinAnnouncement].dismissed) ||
+    false
 
   if (isDismissed) {
     return null
