@@ -2103,7 +2103,7 @@
   "scenes.transaction.headertext.explainer.fiat": "Store {currency} on your wallet and use it to Buy Crypto.",
   "scenes.transaction.headertext.explainer.usdd": "The USD Digital coin (USD-D) is backed by the US Dollar, making it a Stablecoin.",
   "scenes.transaction.headertext.explainer.usdt": "The USD Tether coin (USDT) is backed by the US Dollar, making it a Stablecoin.",
-  "scenes.transaction.headertext.explainer.wdgld": "The Wrapped-DGLD coin (WDGLD) is an ERC-20 standard wrapper for the Digital Gold currency.",
+  "scenes.transaction.headertext.explainer.wdgld": "Wrapped Digital Gold (wDGLD) is an ERC-20, combining a gold-backed token with the power and flexibility of Ethereum.",
   "scenes.transaction.headertext.explainer.xlm": "The Stellar Lumen (XLM) connects banks, payments and you to the Stellar Payment network.",
   "scenes.transaction.interest.view_txs": "Visit the Earn Interest page to view your transaction history.",
   "scenes.transactions.bitcoin.content.list.listitem.status.received": "Received",
