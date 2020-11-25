@@ -53,7 +53,9 @@ const CTAButton = styled(Button)`
     font-size: 14px;
   }
 `
-const CloseLink = styled.span``
+const CloseLink = styled.div`
+  cursor: pointer;
+`
 
 type OwnProps = {
   coin: WalletCurrencyType
@@ -111,7 +113,7 @@ const NewCurrency = ({
         data-e2e='newCoinCloseButton'
         onClick={() => cacheActions.announcementDismissed(newCoinAnnouncement)}
       >
-        <Icon name='close-circle' />
+        <Icon size='20px' color='grey400' name='close-circle' />
       </CloseLink>
     </StyledWrapper>
   )
