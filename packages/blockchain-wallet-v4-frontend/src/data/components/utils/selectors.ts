@@ -3,7 +3,7 @@ import {
   ExtractSuccess,
   SupportedWalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
-import { lift, mapObjIndexed, values } from 'ramda'
+import { isNil, lift, mapObjIndexed, reject, values } from 'ramda'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 
@@ -15,7 +15,8 @@ export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
     paymentMethods: ExtractSuccess<typeof sbMethodsR>,
     supportedCoins: ExtractSuccess<typeof supportedCoinsR>
   ) => {
-    const coinOrder = [
+    // remove coins that may not yet exist in wallet options to avoid app crash
+    const coinOrder = reject(isNil)([
       supportedCoins.USD,
       supportedCoins.EUR,
       supportedCoins.GBP,
@@ -27,7 +28,8 @@ export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
       supportedCoins.ALGO,
       supportedCoins.PAX,
       supportedCoins.USDT
-    ]
+    ])
+
     return values(
       mapObjIndexed((coin: SupportedWalletCurrencyType) => {
         return {
