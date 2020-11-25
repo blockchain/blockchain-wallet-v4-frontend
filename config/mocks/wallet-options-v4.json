@@ -341,7 +341,7 @@
             "circle": "wdgld",
             "circleFilled": "wdgld"
           },
-          "learnMoreLink": " https://support.blockchain.com/hc/en-us/articles/360044952032",
+          "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360052952171",
           "minConfirmations": 12,
           "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
           "txListAppRoute": "/wdgld/transactions"
