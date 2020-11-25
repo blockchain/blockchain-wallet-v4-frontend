@@ -31,7 +31,8 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     quoteId: string,
     volume: string,
     ccy: FiatType,
-    destinationAddress?: string
+    destinationAddress?: string,
+    refundAddress?: string
   ): SwapOrderType =>
     authorizedPost({
       url: nabuUrl,
@@ -43,7 +44,8 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
         direction,
         quoteId,
         volume,
-        destinationAddress
+        destinationAddress,
+        refundAddress
       }
     })
 

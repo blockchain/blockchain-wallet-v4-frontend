@@ -207,7 +207,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         value.quote.networkFee
                       ),
                       unit: {
-                        symbol: coins[COUNTER.coin].coinTicker
+                        symbol: coins[COUNTER.baseCoin].coinTicker
                       }
                     })}
                   </>
