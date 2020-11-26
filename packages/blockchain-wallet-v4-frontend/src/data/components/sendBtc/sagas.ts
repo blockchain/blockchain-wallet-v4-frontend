@@ -512,15 +512,19 @@ export default ({
           new BigNumber(value.amount[0]).toString()
         )
       } else {
+        const value = payment.value()
+        // notify backend of incoming non-custodial deposit
+        if (value.to && value.to[0].type === 'CUSTODIAL') {
+          yield put(
+            actions.components.send.notifyNonCustodialToCustodialTransfer(
+              value,
+              'SIMPLEBUY'
+            )
+          )
+        }
         payment = yield payment.publish()
       }
 
-      yield put(
-        actions.components.send.notifyNonCustodialToCustodialTransfer(
-          payment.value(),
-          'SIMPLEBUY'
-        )
-      )
       yield put(actions.core.data.btc.fetchData())
       yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
       // Set tx note
