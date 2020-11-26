@@ -20,7 +20,7 @@ import { call, delay, put, select, take } from 'redux-saga/effects'
 import { computeSteps } from './services'
 import { isEmpty, prop, toUpper } from 'ramda'
 import { KycStateType } from 'data/modules/types'
-import { RemoteDataType } from 'core/types'
+import { RemoteDataType, SDDVerifiedType } from 'core/types'
 import { StateType, StepsType } from './types'
 import { Types } from 'blockchain-wallet-v4/src'
 import profileSagas from '../../modules/profile/sagas'
@@ -459,9 +459,9 @@ export default ({ api, coreSagas, networks }) => {
       const { metadata } = payload
 
       if (metadata && metadata.checkSDD) {
-        const sddEligible = yield call(api.updateSDDEligible)
+        const sddEligible: SDDVerifiedType = yield call(api.updateSDDEligible)
 
-        if (sddEligible && sddEligible.eligible) {
+        if (sddEligible && sddEligible.verified) {
           yield put(actions.modals.closeModal(KYC_MODAL))
         } else {
           yield call(goToNextStep)

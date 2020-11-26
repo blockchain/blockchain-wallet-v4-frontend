@@ -4,6 +4,6 @@ export type SDDType = {
   tier: 0 | 1 | 2 | 3 | 4
 }
 
-export type SDDUpdateType = {
+export type SDDVerifiedType = {
   verified: boolean
 }

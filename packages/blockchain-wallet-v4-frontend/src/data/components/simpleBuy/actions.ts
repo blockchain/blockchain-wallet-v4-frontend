@@ -16,7 +16,7 @@ import {
   SBProviderDetailsType,
   SBQuoteType,
   SDDType,
-  SDDUpdateType,
+  SDDVerifiedType,
   WalletFiatType
 } from 'core/types'
 import { ModalOriginType } from 'data/modals/types'
@@ -264,7 +264,7 @@ export const updateSDDEligibleLoading = (): SimpleBuyActionTypes => ({
 })
 
 export const updateSDDEligibleSuccess = (
-  sddUpdateEligible: SDDUpdateType
+  sddUpdateEligible: SDDVerifiedType
 ): SimpleBuyActionTypes => ({
   type: AT.UPDATE_SDD_ELIGIBILITY_SUCCESS,
   payload: {

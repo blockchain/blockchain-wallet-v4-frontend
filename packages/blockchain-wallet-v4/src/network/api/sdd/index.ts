@@ -1,4 +1,4 @@
-import { SDDType, SDDUpdateType } from './types'
+import { SDDType, SDDVerifiedType } from './types'
 
 export default ({ nabuUrl, authorizedGet, get }) => {
   const fetchSDDEligible = (): SDDType =>
@@ -8,7 +8,7 @@ export default ({ nabuUrl, authorizedGet, get }) => {
       ignoreQueryParams: true
     })
 
-  const updateSDDEligible = (): SDDUpdateType =>
+  const updateSDDEligible = (): SDDVerifiedType =>
     authorizedGet({
       url: nabuUrl,
       endPoint: `/sdd/verified`,
