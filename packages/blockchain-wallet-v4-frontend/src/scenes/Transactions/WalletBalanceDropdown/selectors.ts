@@ -61,6 +61,14 @@ export const getData = (state, ownProps: OwnProps) => {
       })
       balanceDataR = balanceSelectors.getUsdtBalance(state)
       break
+    case 'WDGLD':
+      addressDataR = getErc20AddressData(state, {
+        coin: 'WDGLD',
+        includeCustodial: true,
+        includeInterest: true
+      })
+      balanceDataR = balanceSelectors.getWdgldBalance(state)
+      break
     case 'XLM':
       addressDataR = getXlmAddressData(state, {
         excludeLockbox: true,

@@ -114,6 +114,7 @@ export default ({
       switch (payment.coin) {
         case 'PAX':
         case 'USDT':
+        case 'WDGLD':
         case 'ETH':
         case 'XLM':
           payment = yield payment.amount(convertStandardToBase(coin, amount))
@@ -174,6 +175,9 @@ export default ({
       )
 
       const quote = S.getQuote(yield select()).getOrFail('NO_SWAP_QUOTE')
+      const refundAddr = onChain
+        ? yield call(selectReceiveAddress, BASE, networks)
+        : undefined
       const destinationAddr = toChain
         ? yield call(selectReceiveAddress, COUNTER, networks)
         : undefined
@@ -183,7 +187,8 @@ export default ({
         quote.quote.id,
         amount,
         ccy,
-        destinationAddr
+        destinationAddr,
+        refundAddr
       )
       const paymentR = S.getPayment(yield select())
       let payment = paymentGetOrElse(BASE.coin, paymentR)
@@ -364,6 +369,7 @@ export default ({
       case 'ETH':
       case 'PAX':
       case 'USDT':
+      case 'WDGLD':
       case 'XLM':
         payment = yield payment.amount(convertStandardToBase(BASE.coin, value))
         break

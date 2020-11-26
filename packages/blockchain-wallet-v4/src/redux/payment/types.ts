@@ -45,7 +45,7 @@ type BtcPaymentValue = IPaymentValue & {
 
 type EthPaymentValue = IPaymentValue & {
   amount?: string
-  coin: 'ETH' | 'PAX' | 'USDT'
+  coin: 'ETH' | 'PAX' | 'USDT' | 'WDGLD'
   description?: string
   fee?: number
   from: {
@@ -103,7 +103,7 @@ export type BtcPaymentType = IPaymentType & {
 
 export type EthPaymentType = IPaymentType & {
   amount: (n: string) => EthPaymentType
-  coin: 'ETH' | 'PAX' | 'USDT'
+  coin: 'ETH' | 'PAX' | 'USDT' | 'WDGLD'
   description: (arg: string) => EthPaymentType
   fee: (arg: number, account: string) => EthPaymentType
   init: (arg: {
