@@ -16,6 +16,7 @@ import DataError from 'components/DataError'
 import Loading from '../AddCard/template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
+import SuccessSdd from './template.sddsuccess'
 
 class OrderSummary extends PureComponent<Props> {
   state = {}
@@ -33,8 +34,14 @@ class OrderSummary extends PureComponent<Props> {
   }
 
   render () {
+    const { isFirstLogin } = this.props
     return this.props.data.cata({
-      Success: val => <Success {...this.props} {...val} />,
+      Success: val => {
+        if (isFirstLogin) {
+          return <SuccessSdd {...val} {...this.props} />
+        }
+        return <Success {...val} {...this.props} />
+      },
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -55,7 +62,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
       USDT: { colorCode: 'usdt' } as SupportedCoinType,
       WDGLD: { colorCode: 'wdgld' } as SupportedCoinType,
       XLM: { colorCode: 'xlm' } as SupportedCoinType
-    } as Omit<SupportedWalletCurrenciesType, keyof FiatTypeEnum>)
+    } as Omit<SupportedWalletCurrenciesType, keyof FiatTypeEnum>),
+  isFirstLogin: selectors.auth.getFirstLogin(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -73,6 +81,7 @@ export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
+  isFirstLogin: boolean
   supportedCoins: SupportedWalletCurrenciesType
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
