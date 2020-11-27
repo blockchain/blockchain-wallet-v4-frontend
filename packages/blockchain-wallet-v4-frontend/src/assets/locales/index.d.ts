@@ -1712,7 +1712,11 @@ type MessagesType = {
   'scenes.home.banner.coinifyToSB.revamped': "We've revamped the Buy Crypto experience"
   'scenes.home.banner.finalize_funds': 'Once we receive your funds, your buy order will complete.'
   'scenes.home.banner.finalize_sell': 'Confirm the transaction details to finalize your sell order.'
+  'scenes.home.banner.buy_crypto_sdd_description': 'Select the crypto you want to buy, verify your identity and buy instantly'
   'scenes.home.banner.finishsigningup': 'Finish Signing Up'
+  'scenes.home.banner.continue_to_gold.button': 'Continue to Gold'
+  'scenes.home.banner.continue_to_gold.description': 'Continue your verification to become Gold level and increase your limits and payment methods'
+  'scenes.home.banner.continue_to_gold.increase_your_limits': 'Increase your limits'
   'scenes.home.banner.pendingbuy': 'Pending Buy'
   'scenes.home.banner.receive_cc_order': 'Once you finalize your credit card information, your buy order will complete.'
   'scenes.home.banner.sborder.details': 'View Details'

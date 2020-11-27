@@ -83,9 +83,9 @@ export type UserCampaignsType = {
 }
 
 export type Tiers = {
-  current: 0 | 1 | 2
-  next: 0 | 1 | 2
-  selected: 0 | 1 | 2
+  current: 0 | 1 | 2 | 3
+  next: 0 | 1 | 2 | 3
+  selected: 0 | 1 | 2 | 3
 }
 
 export type UserDataType = {

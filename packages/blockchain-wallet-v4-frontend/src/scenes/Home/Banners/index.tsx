@@ -2,6 +2,8 @@ import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
+import BuyCryptoSDD from './BuyCryptoSDD'
+import ContinueToGold from './ContinueToGold'
 import FinishKyc from './FinishKyc'
 import KycResubmit from './KycResubmit'
 import NewCurrency from './NewCurrency'
@@ -59,6 +61,18 @@ class Banners extends React.PureComponent<Props> {
         return (
           <BannerWrapper>
             <NewCurrency />
+          </BannerWrapper>
+        )
+      case 'buySDDCrypto':
+        return (
+          <BannerWrapper>
+            <BuyCryptoSDD />
+          </BannerWrapper>
+        )
+      case 'continueToGold':
+        return (
+          <BannerWrapper>
+            <ContinueToGold />
           </BannerWrapper>
         )
       default:

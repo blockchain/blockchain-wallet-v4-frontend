@@ -1,6 +1,7 @@
 import { anyPass, equals } from 'ramda'
 import { model, selectors } from 'data'
 import { SBOrderType } from 'core/types'
+import { UserDataType } from 'data/types'
 
 const { GENERAL, EXPIRED } = model.profile.DOC_RESUBMISSION_REASONS
 export type BannerType =
@@ -11,6 +12,8 @@ export type BannerType =
   | 'verifiedKyc'
   | 'noneKyc'
   | 'newCurrency'
+  | 'buySDDCrypto'
+  | 'continueToGold'
 
 export const getData = (state): { bannerToShow: BannerType } => {
   // @ts-ignore
@@ -37,6 +40,11 @@ export const getData = (state): { bannerToShow: BannerType } => {
     // @ts-ignore
     selectors.modules.profile.getUserKYCState(state).getOrElse('') === 'NONE'
   const isFirstLogin = selectors.auth.getFirstLogin(state)
+
+  const userDataR = selectors.modules.profile.getUserData(state)
+  const userData = userDataR.getOrElse({
+    tiers: { current: 0 }
+  } as UserDataType)
 
   // const isKycGold =
   //   // @ts-ignore
@@ -65,6 +73,17 @@ export const getData = (state): { bannerToShow: BannerType } => {
     //   bannerToShow = 'noneKyc'
     // } else if (isKycGold && methodWithNoBalance) {
     //   bannerToShow = 'verifiedKyc'
+  } else if (
+    isFirstLogin &&
+    ((userData && userData.tiers && userData.tiers.current < 2) ||
+      isKycStateNone)
+  ) {
+    bannerToShow = 'buySDDCrypto'
+  } else if (
+    isFirstLogin &&
+    userData && userData.tiers && userData.tiers.current === 3
+  ) {
+    bannerToShow = 'continueToGold'
   } else {
     bannerToShow = 'newCurrency'
   }
