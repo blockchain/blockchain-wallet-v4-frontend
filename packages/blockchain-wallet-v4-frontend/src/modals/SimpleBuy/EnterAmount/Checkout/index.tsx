@@ -43,7 +43,7 @@ class Checkout extends PureComponent<Props> {
     !isEmpty(id) && this.props.deleteGoal(String(id))
     const method = this.props.method || this.props.defaultMethod
 
-    if (this.props.isFirstLogin) {
+    if (this.props.isFirstLogin || userData?.tiers?.current === 3) {
       this.props.simpleBuyActions.createSBOrder('PAYMENT_CARD')
     } else if (!method) {
       const fiatCurrency = this.props.fiatCurrency || 'USD'

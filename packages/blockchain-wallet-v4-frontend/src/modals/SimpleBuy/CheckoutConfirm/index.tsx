@@ -47,7 +47,10 @@ class CheckoutConfirm extends PureComponent<Props> {
       return
     }
 
-    if (isFirstLogin && this.props.order.paymentType === 'PAYMENT_CARD') {
+    if (
+      (isFirstLogin || userData.tiers.current === 3) &&
+      this.props.order.paymentType === 'PAYMENT_CARD'
+    ) {
       this.props.simpleBuyActions.setStep({
         step: 'ADD_CARD'
       })

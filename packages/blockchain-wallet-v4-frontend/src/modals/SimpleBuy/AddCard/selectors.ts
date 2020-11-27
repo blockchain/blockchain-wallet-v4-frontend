@@ -15,16 +15,19 @@ export const getData = (state: RootState) => {
   const supportedCountriesR = selectors.components.identityVerification.getSupportedCountries(
     state
   )
+  const userDataR = selectors.modules.profile.getUserData(state)
 
   return lift(
     (
       paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
-      supportedCountries: ExtractSuccess<typeof supportedCountriesR>
+      supportedCountries: ExtractSuccess<typeof supportedCountriesR>,
+      userData: ExtractSuccess<typeof userDataR>
     ) => ({
       formValues,
       order,
       paymentMethods,
-      supportedCountries
+      supportedCountries,
+      userData
     })
-  )(paymentMethodsR, supportedCountriesR)
+  )(paymentMethodsR, supportedCountriesR, userDataR)
 }
