@@ -912,6 +912,7 @@ export default ({
         // TODO: use swap2 quote for buy AND sell
       } else {
         if (!account) throw NO_ACCOUNT
+        yield put(A.fetchSellQuote(pair.pair, account))
         yield put(A.startPollSellQuote(pair.pair, account))
         yield race({
           success: take(AT.FETCH_SELL_QUOTE_SUCCESS),

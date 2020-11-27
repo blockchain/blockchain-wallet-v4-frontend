@@ -22,12 +22,13 @@ import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { getFiatFromPair } from 'data/components/simpleBuy/model'
 import { getInputFromPair, getOutputFromPair } from 'data/components/swap/model'
-import { SBCheckoutFormValuesType } from 'data/types'
 import {
+  PaymentValue,
   SBOrderActionType,
   SBPairType,
   SupportedWalletCurrenciesType
 } from 'core/types'
+import { SBCheckoutFormValuesType } from 'data/types'
 
 class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   state = {}
@@ -46,7 +47,13 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       return amt[0]
     }
   }
-
+  networkFee = (value: PaymentValue | undefined) => {
+    return value
+      ? value.coin === 'BTC' || value.coin === 'BCH'
+        ? value.selection?.fee
+        : value.fee
+      : 0
+  }
   render () {
     return this.props.quoteR.cata({
       Failure: () => null,
@@ -230,7 +237,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         {coinToString({
                           value: convertBaseToStandard(
                             account.baseCoin,
-                            value ? value.fee : 0
+                            this.networkFee(value)
                           ),
                           unit: {
                             symbol: coins[account.baseCoin].coinTicker

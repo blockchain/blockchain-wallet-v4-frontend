@@ -20,6 +20,7 @@ import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
+import { PaymentValue } from 'core/types'
 
 class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   state = {}
@@ -29,10 +30,10 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     this.props.swapActions.createOrder()
   }
 
-  networkFee = value => {
+  networkFee = (value: PaymentValue | undefined) => {
     return value
       ? value.coin === 'BTC' || value.coin === 'BCH'
-        ? value.selection.fee
+        ? value.selection?.fee
         : value.fee
       : 0
   }
