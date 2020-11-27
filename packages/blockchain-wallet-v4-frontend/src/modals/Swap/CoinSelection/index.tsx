@@ -184,6 +184,7 @@ class CoinSelection extends PureComponent<Props> {
                   account={account}
                   coins={coins}
                   isAccountSelected={isAccountSelected}
+                  isSwap={true}
                   walletCurrency={walletCurrency}
                   onClick={() =>
                     this.props.swapActions.changePair(this.props.side, account)

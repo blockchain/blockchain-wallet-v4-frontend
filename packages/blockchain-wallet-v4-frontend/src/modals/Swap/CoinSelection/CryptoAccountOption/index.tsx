@@ -15,7 +15,7 @@ import { SwapAccountType } from 'data/types'
 import CoinBalance from '../../components/CoinBalance'
 
 const CryptoAccountOption: React.FC<Props> = props => {
-  const { account, coins, isAccountSelected, walletCurrency } = props
+  const { account, coins, isAccountSelected, isSwap, walletCurrency } = props
   return (
     <Option role='button' data-e2e='changeAcct' onClick={props.onClick}>
       <FlexStartRow>
@@ -38,15 +38,19 @@ const CryptoAccountOption: React.FC<Props> = props => {
         {account.type === 'CUSTODIAL' && (
           <SuccessCartridge>Low Fees</SuccessCartridge>
         )}
-        {isAccountSelected ? (
-          <Icon
-            name='checkmark-circle-filled'
-            color='green600'
-            size='24px'
-            style={{ padding: '0 2px', marginLeft: '24px' }}
-          />
+        {isSwap ? (
+          isAccountSelected ? (
+            <Icon
+              name='checkmark-circle-filled'
+              color='green600'
+              size='24px'
+              style={{ padding: '0 2px', marginLeft: '24px' }}
+            />
+          ) : (
+            <CircleBorder />
+          )
         ) : (
-          <CircleBorder />
+          <Icon name='chevron-right' size='32px' color='grey400' />
         )}
       </FlexStartRow>
     </Option>
@@ -57,6 +61,7 @@ type Props = {
   account: SwapAccountType
   coins: SupportedWalletCurrenciesType
   isAccountSelected: boolean
+  isSwap: boolean
   onClick: () => void
   walletCurrency: FiatType
 }

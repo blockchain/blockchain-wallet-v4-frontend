@@ -150,6 +150,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
                     account={account}
                     coins={props.coins}
                     isAccountSelected={false}
+                    isSwap={false}
                     onClick={() => handleSell(account)}
                     walletCurrency={props.walletCurrency}
                   />
