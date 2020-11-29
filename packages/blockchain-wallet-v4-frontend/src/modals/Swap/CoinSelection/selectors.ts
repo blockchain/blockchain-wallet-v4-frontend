@@ -15,6 +15,7 @@ export const coinOrder: Array<SwapCoinType> = [
   'XLM',
   'PAX',
   'USDT',
+  'WDGLD',
   'ALGO'
 ]
 

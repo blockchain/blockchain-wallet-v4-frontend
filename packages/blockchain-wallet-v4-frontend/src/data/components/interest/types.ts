@@ -211,7 +211,7 @@ interface SetDepositLimitsAction {
 
 // WITHDRAWAL
 interface InitializeWithdrawalFormAction {
-  payload: { coin: CoinType, walletCurrency: FiatType }
+  payload: { coin: CoinType; walletCurrency: FiatType }
   type: typeof AT.INITIALIZE_WITHDRAWAL_FORM
 }
 interface RequestWithdrawal {

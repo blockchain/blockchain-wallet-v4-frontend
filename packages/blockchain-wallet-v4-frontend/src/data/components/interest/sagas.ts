@@ -57,6 +57,7 @@ export default ({
       case 'ETH':
       case 'PAX':
       case 'USDT':
+      case 'WDGLD':
       case 'XLM':
         return account.address
       default:
@@ -209,6 +210,7 @@ export default ({
               case 'ETH':
               case 'PAX':
               case 'USDT':
+              case 'WDGLD':
               case 'XLM':
                 payment = yield payment.amount(
                   convertStandardToBase(coin, value)
@@ -381,7 +383,10 @@ export default ({
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit(DEPOSIT_FORM, { _error: error }))
       yield put(
-        A.setInterestStep('ACCOUNT_SUMMARY', { depositSuccess: false, error })
+        A.setInterestStep('ACCOUNT_SUMMARY', {
+          depositSuccess: false,
+          error
+        })
       )
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_FAILURE)

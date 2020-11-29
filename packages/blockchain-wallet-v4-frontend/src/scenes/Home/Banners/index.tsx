@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import FinishKyc from './FinishKyc'
 import KycResubmit from './KycResubmit'
+import NewCurrency from './NewCurrency'
 import NoneKyc from './NoneKyc'
 import React from 'react'
 import SBOrderBanner from './SBOrderBanner'
@@ -52,6 +53,12 @@ class Banners extends React.PureComponent<Props> {
         return (
           <BannerWrapper>
             <VerifiedKyc />
+          </BannerWrapper>
+        )
+      case 'newCurrency':
+        return (
+          <BannerWrapper>
+            <NewCurrency />
           </BannerWrapper>
         )
       default:

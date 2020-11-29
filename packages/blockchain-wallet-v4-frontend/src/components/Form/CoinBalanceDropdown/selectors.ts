@@ -55,6 +55,13 @@ export const getData = (state, ownProps: OwnProps) => {
         includeInterest: false
       })
       break
+    case 'WDGLD':
+      addressDataR = getErc20AddressData(state, {
+        coin: 'WDGLD',
+        includeCustodial: includeCustodial,
+        includeInterest: false
+      })
+      break
     case 'XLM':
       addressDataR = getXlmAddressData(state, {
         excludeLockbox: true,

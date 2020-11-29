@@ -14,6 +14,7 @@ export default () => {
       yield put(actions.core.data.xlm.fetchData())
       yield put(actions.core.data.eth.fetchErc20Data('pax'))
       yield put(actions.core.data.eth.fetchErc20Data('usdt'))
+      yield put(actions.core.data.eth.fetchErc20Data('wdgld'))
       yield put(actions.components.interest.fetchInterestBalance())
       yield put(actions.components.simpleBuy.fetchSBBalances())
       yield put(actions.components.simpleBuy.fetchSBOrders())
@@ -24,6 +25,7 @@ export default () => {
       yield put(actions.core.data.xlm.fetchRates())
       yield put(actions.core.data.eth.fetchErc20Rates('pax'))
       yield put(actions.core.data.eth.fetchErc20Rates('usdt'))
+      yield put(actions.core.data.eth.fetchErc20Rates('wdgld'))
       const pathname = yield select(selectors.router.getPathname)
       switch (true) {
         case contains('/bch/transactions', pathname):
@@ -40,6 +42,9 @@ export default () => {
           break
         case contains('/usdt/transactions', pathname):
           yield call(refreshErc20Transactions, 'usdt')
+          break
+        case contains('/wdgld/transactions', pathname):
+          yield call(refreshErc20Transactions, 'wdgld')
           break
         case contains('/xlm/transactions', pathname):
           yield call(refreshXlmTransactions)

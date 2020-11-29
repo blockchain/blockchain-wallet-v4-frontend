@@ -103,7 +103,10 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch, { coin }: OwnProps) => {
-  const coinCode = coin === 'PAX' || coin === 'USDT' ? 'eth' : toLower(coin)
+  const coinCode =
+    coin === 'PAX' || coin === 'USDT' || coin === 'WDGLD'
+      ? 'eth'
+      : toLower(coin)
   return {
     clearTransactions: () =>
       dispatch(actions.core.data[coinCode].clearTransactionHistory()),
@@ -125,6 +128,16 @@ const mapDispatchToProps = (dispatch: Dispatch, { coin }: OwnProps) => {
             startDate,
             endDate,
             'usdt'
+          )
+        )
+      }
+      if (coin === 'WDGLD') {
+        return dispatch(
+          actions.core.data.eth.fetchErc20TransactionHistory(
+            address,
+            startDate,
+            endDate,
+            'wdgld'
           )
         )
       }

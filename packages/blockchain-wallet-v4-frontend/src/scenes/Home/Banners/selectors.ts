@@ -10,6 +10,7 @@ export type BannerType =
   | 'coinifyToSb'
   | 'verifiedKyc'
   | 'noneKyc'
+  | 'newCurrency'
 
 export const getData = (state): { bannerToShow: BannerType } => {
   // @ts-ignore
@@ -65,7 +66,7 @@ export const getData = (state): { bannerToShow: BannerType } => {
     // } else if (isKycGold && methodWithNoBalance) {
     //   bannerToShow = 'verifiedKyc'
   } else {
-    bannerToShow = null
+    bannerToShow = 'newCurrency'
   }
 
   return {

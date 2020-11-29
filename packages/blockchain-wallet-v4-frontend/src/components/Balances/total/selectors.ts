@@ -11,6 +11,7 @@ import {
   getFiatBalanceInfo,
   getPaxBalance as getPaxWalletBalance,
   getUsdtBalance as getUsdtWalletBalance,
+  getWdgldBalance as getWdgldWalletBalance,
   getXlmBalance as getXlmWalletBalance
 } from '../wallet/selectors'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
@@ -70,6 +71,7 @@ export const getAlgoBalance = getAlgoWalletBalance
 export const getEthBalance = getEthWalletBalance
 export const getPaxBalance = getPaxWalletBalance
 export const getUsdtBalance = getUsdtWalletBalance
+export const getWdgldBalance = getWdgldWalletBalance
 export const getXlmBalance = getXlmWalletBalance
 
 export const getBtcBalanceInfo = createDeepEqualSelector(
@@ -186,6 +188,33 @@ export const getUsdtBalanceInfo = createDeepEqualSelector(
   }
 )
 
+export const getWdgldBalanceInfo = createDeepEqualSelector(
+  [
+    getWdgldBalance,
+    state => selectors.core.data.eth.getErc20Rates(state, 'wdgld'),
+    selectors.core.settings.getCurrency,
+    selectors.core.settings.getInvitations
+  ],
+  (wdgldBalanceR, erc20RatesR, currencyR, invitationsR) => {
+    const invitations = invitationsR.getOrElse({
+      WDGLD: false
+    } as InvitationsType)
+    const invited = prop('WDGLD', invitations)
+    const transform = (value, rates, toCurrency) => {
+      return Exchange.convertWdgldToFiat({
+        value,
+        fromUnit: 'WEI',
+        toCurrency,
+        rates
+      }).value
+    }
+
+    return invited
+      ? lift(transform)(wdgldBalanceR, erc20RatesR, currencyR)
+      : Remote.Success(0)
+  }
+)
+
 export const getAlgoBalanceInfo = createDeepEqualSelector(
   [
     getAlgoBalance,
@@ -230,6 +259,7 @@ export const getTotalBalance = createDeepEqualSelector(
     getEthBalanceInfo,
     getPaxBalanceInfo,
     getUsdtBalanceInfo,
+    getWdgldBalanceInfo,
     getXlmBalanceInfo,
     getFiatBalanceInfo,
     selectors.core.settings.getCurrency,
@@ -242,6 +272,7 @@ export const getTotalBalance = createDeepEqualSelector(
     ethBalanceInfoR,
     paxBalanceInfoR,
     usdtBalanceInfoR,
+    wdgldBalanceInfoR,
     xlmBalanceInfoR,
     fiatBalanceInfoR,
     currency,
@@ -254,6 +285,7 @@ export const getTotalBalance = createDeepEqualSelector(
       ethBalance,
       paxBalance,
       usdtBalance,
+      wdgldBalance,
       xlmBalance,
       fiatBalance,
       currency
@@ -265,6 +297,7 @@ export const getTotalBalance = createDeepEqualSelector(
           Number(algoBalance) +
           Number(xlmBalance) +
           Number(usdtBalance) +
+          Number(wdgldBalance) +
           Number(paxBalance) +
           Number(fiatBalance)
       )
@@ -278,6 +311,7 @@ export const getTotalBalance = createDeepEqualSelector(
       ethBalanceInfoR,
       paxBalanceInfoR,
       usdtBalanceInfoR,
+      wdgldBalanceInfoR,
       xlmBalanceInfoR,
       fiatBalanceInfoR,
       currency
@@ -299,6 +333,8 @@ export const getBalanceSelector = (coin: WalletCurrencyType) => {
       return getXlmBalance
     case 'USDT':
       return getUsdtBalance
+    case 'WDGLD':
+      return getWdgldBalance
     case 'ALGO':
       return getAlgoBalance
     case 'EUR':

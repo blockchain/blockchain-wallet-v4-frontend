@@ -107,6 +107,8 @@ const DarkTheme: DefaultTheme = {
   'xlm-light': 'rgba(0, 0, 0, 0.15)',
   usdt: '#26A17B',
   'usdt-light': 'rgba(38, 161, 123, 0.15)',
+  wdgld: '#ffe738',
+  'wdgld-light': 'rgba(255, 231, 56, 0.15)',
   // OLD - AVOID USE \\
   // Brand
   'brand-yellow': '#665227',
