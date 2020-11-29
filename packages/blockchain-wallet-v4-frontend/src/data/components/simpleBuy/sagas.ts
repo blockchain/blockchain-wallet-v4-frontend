@@ -836,7 +836,7 @@ export default ({
       yield delay(500)
       yield put(
         A.setStep({
-          step: 'TRANSFER_DETAILS',
+          step: 'BANK_WIRE_DETAILS',
           displayBack: false,
           fiatCurrency: coin
         })
@@ -901,11 +901,25 @@ export default ({
       case 'BANK_ACCOUNT':
         return yield put(
           A.setStep({
-            step: 'TRANSFER_DETAILS',
+            step: 'BANK_WIRE_DETAILS',
             displayBack: true,
             fiatCurrency
           })
         )
+      case 'LINK_BANK':
+        // TODO: YODLEE FIX ME, HACK TESTING
+        return yield put(
+          A.setStep({
+            step: 'LINK_BANK'
+          })
+        )
+      // return yield put(
+      //   A.setStep({
+      //     step: 'BANK_WIRE_DETAILS',
+      //     displayBack: true,
+      //     fiatCurrency
+      //   })
+      // )
       case 'PAYMENT_CARD':
         return yield put(
           A.setStep({

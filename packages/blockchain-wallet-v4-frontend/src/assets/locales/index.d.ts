@@ -2,6 +2,9 @@
 // Update MessagesType w/ new messages
 // en.json is updated ✨automatically ✨when releases are built
 
+import { FormattedMessage } from 'react-intl'
+import React from 'react'
+
 type MessagesType = {
   'bitpaycta.nowsupporting': 'Your {coin} wallet now supports'
   'borrow.amount.tooltip.description': 'This amount does not include the required collateral network fee.'
@@ -30,6 +33,7 @@ type MessagesType = {
   'buttons.go_back': 'Go Back'
   'buttons.hide': 'Hide'
   'buttons.learn_more': 'Learn More'
+  'buttons.link_bank': 'Link a Bank Account'
   'buttons.ok': 'OK'
   'buttons.preview_swap': 'Preview Swap'
   'buttons.receive': 'Receive'
@@ -1297,7 +1301,12 @@ type MessagesType = {
   'modals.simplebuy.buy_crypto_now': 'Buy Crypto Now'
   'modals.simplebuy.select_and_verify': 'Select the crypto you want to buy, verify your identity and buy crypto.'
   'modals.simplebuy.paymentmethods': 'Payment Methods'
-  'modals.simplebuy.depositcash_description': 'Send funds directly from your bank to your Blockchain.com Wallet. Once we receive the manual transfer, use that cash to buy crypto.'
+  'modals.simplebuy.banklink': 'Link a Bank'
+  'modals.simplebuy.bankwire': 'Bank Wire'
+  'modals.simplebuy.bankwire.description': 'Send funds directly from your bank account to your Blockchain.com wallet.'
+  'modals.simplebuy.paymentcard': 'Credit or Debit Card'
+  'modals.simplebuy.linkbank': 'Link a Bank'
+  'modals.simplebuy.linkbank.description': 'Link your bank and instantly buy crypto at anytime.'
   'modals.simplebuy.card_limit': '{card} Limit'
   'modals.simplebuy.card_expire': 'Exp: {month}/{year}'
   'modals.simplebuy.goldupgrade.title1': 'Upgrade Your Profile.'

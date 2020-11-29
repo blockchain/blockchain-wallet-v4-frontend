@@ -359,7 +359,7 @@ export function simpleBuyReducer (
             step: action.payload.step,
             addBank: undefined
           }
-        case 'TRANSFER_DETAILS':
+        case 'BANK_WIRE_DETAILS':
           return {
             ...state,
             step: action.payload.step,

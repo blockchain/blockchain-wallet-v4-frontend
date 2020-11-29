@@ -70,7 +70,7 @@ class CheckoutConfirm extends PureComponent<Props> {
           return this.props.simpleBuyActions.confirmSBFundsOrder()
         } else {
           return this.props.simpleBuyActions.setStep({
-            step: 'TRANSFER_DETAILS',
+            step: 'BANK_WIRE_DETAILS',
             fiatCurrency: inputCurrency,
             displayBack: false
           })

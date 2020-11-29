@@ -3,32 +3,36 @@ import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
-import {
-  CoinType,
-  FiatType,
-  RemoteDataType,
-  SBAccountType,
-  SBOrderType,
-  SBPairType
-} from 'core/types'
+import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
-import { UserDataType } from 'data/types'
 import DataError from 'components/DataError'
 
 import { getData } from './selectors'
-import Loading from '../template.loading'
+import Loading from './template.loading'
 import Success from './template.success'
 
-class TransferDetails extends PureComponent<Props> {
+class LinkBankHandler extends PureComponent<Props, State> {
   componentDidMount () {
-    if (this.props.fiatCurrency) {
-      this.props.simpleBuyActions.fetchSBPaymentAccount()
-    }
+    window.addEventListener('message', this.handlePostMessage, false)
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('message', this.handlePostMessage, false)
+  }
+
+  handlePostMessage = (event: MessageEvent) => {
+    if (event.data.from !== 'yodlee') return
+    if (event.data.to !== 'sb') return
+
+    // TODO: need to handle messages from child
+
+    // eslint-disable-next-line
+    console.info('YODLEE MSG:', event.data)
   }
 
   render () {
     return this.props.data.cata({
-      Success: val => <Success {...val} {...this.props} />,
+      Success: val => <Success {...val} {...this.props} {...this.state} />,
       Failure: e => <DataError message={{ message: e }} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -41,28 +45,21 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type OwnProps = {
-  addBank?: boolean
-  cryptoCurrency?: CoinType
-  displayBack?: boolean
-  fiatCurrency: FiatType
+type OwnProps = {
   handleClose: () => void
-  order?: SBOrderType
-  pair: SBPairType
 }
 export type SuccessStateType = {
-  account: SBAccountType
-  userData: UserDataType
+  iFrameUrl: string
 }
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
+export type State = { threeDSCallbackReceived: boolean }
 
-export default connector(TransferDetails)
+export default connector(LinkBankHandler)

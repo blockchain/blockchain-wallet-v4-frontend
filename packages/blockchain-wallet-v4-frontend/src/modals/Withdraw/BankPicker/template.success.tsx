@@ -77,7 +77,7 @@ const Success: React.FC<Props> = props => {
         onClick={() => {
           props.simpleBuyActions.showModal('WithdrawModal')
           props.simpleBuyActions.setStep({
-            step: 'TRANSFER_DETAILS',
+            step: 'BANK_WIRE_DETAILS',
             fiatCurrency: props.fiatCurrency,
             displayBack: false,
             addBank: true

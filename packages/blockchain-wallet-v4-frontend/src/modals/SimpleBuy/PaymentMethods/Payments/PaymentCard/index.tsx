@@ -47,7 +47,7 @@ const ChevronWrapper = styled.div`
 type Props = {
   icon: ReactElement
   onClick: (string) => void
-  text: string
+  text: ReactElement | string
   value: SBPaymentMethodType
 }
 

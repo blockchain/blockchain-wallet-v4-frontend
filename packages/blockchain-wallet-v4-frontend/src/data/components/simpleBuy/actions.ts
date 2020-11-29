@@ -541,7 +541,7 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
         fiatCurrency: payload.fiatCurrency,
         orderType: payload.orderType
       }
-    case 'TRANSFER_DETAILS':
+    case 'BANK_WIRE_DETAILS':
       return {
         step: payload.step,
         fiatCurrency: payload.fiatCurrency,

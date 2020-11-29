@@ -77,7 +77,10 @@ export enum SimpleBuyStepType {
   'SELL_ORDER_SUMMARY',
   'TRANSFER_DETAILS',
   'UPGRADE_TO_GOLD',
-  'VERIFY_EMAIL'
+  'VERIFY_EMAIL',
+  'LINK_BANK',
+  'LINK_BANK_HANDLER',
+  'BANK_WIRE_DETAILS',
 }
 export type SBShowModalOriginType =
   | 'EmptyFeed'
@@ -391,7 +394,7 @@ export type StepActionsPayload =
       addBank?: boolean
       displayBack: boolean
       fiatCurrency: FiatType
-      step: 'TRANSFER_DETAILS'
+      step: 'BANK_WIRE_DETAILS'
     }
   | {
       cryptoCurrency: CoinType
@@ -408,6 +411,8 @@ export type StepActionsPayload =
         | 'KYC_REQUIRED'
         | 'PREVIEW_SELL'
         | 'UPGRADE_TO_GOLD'
+        | 'LINK_BANK'
+        | 'LINK_BANK_HANDLER' // TODO: need to create new step type and pass partner data?
     }
 
 interface SetStepAction {

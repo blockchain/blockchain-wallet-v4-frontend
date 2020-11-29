@@ -124,6 +124,7 @@ export type SBPaymentTypes =
   | 'BANK_ACCOUNT'
   | 'FUNDS'
   | 'USER_CARD'
+  | 'LINK_BANK' // TODO?
 
 export type SBPaymentMethodType = {
   addedAt?: string
