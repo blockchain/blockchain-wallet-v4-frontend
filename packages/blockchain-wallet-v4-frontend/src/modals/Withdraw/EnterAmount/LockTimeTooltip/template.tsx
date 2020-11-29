@@ -19,11 +19,18 @@ const LockTime = (props: Props) => {
         </TooltipHost>
       </TooltipWrapper>
       <Tooltip id='info_tooltip'>
-        <FormattedMessage
-          id='modals.withdraw.tooltip_info'
-          defaultMessage='The remaining balance will be available to be withdrawn within {days} days.'
-          values={{ days: lockTime }}
-        />
+        {lockTime === 0 || lockTime === 1 ? (
+          <FormattedMessage
+            id='modals.withdraw.tooltip_info_day'
+            defaultMessage='The remaining balance will be available to be withdrawn within 1 day.'
+          />
+        ) : (
+          <FormattedMessage
+            id='modals.withdraw.tooltip_info'
+            defaultMessage='The remaining balance will be available to be withdrawn within {days} days.'
+            values={{ days: lockTime }}
+          />
+        )}
       </Tooltip>
     </>
   )
