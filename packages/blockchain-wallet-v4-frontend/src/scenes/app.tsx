@@ -41,9 +41,6 @@ const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
 const Addresses = React.lazy(() => import('./Settings/Addresses'))
 const Airdrops = React.lazy(() => import('./Airdrops'))
 const Borrow = React.lazy(() => import('./Borrow'))
-const Exchange = React.lazy(() => import('./Exchange'))
-const ExchangeHistory = React.lazy(() => import('./ExchangeHistory'))
-const ExchangeProfile = React.lazy(() => import('./ExchangeProfile'))
 const General = React.lazy(() => import('./Settings/General'))
 const Home = React.lazy(() => import('./Home'))
 const Interest = React.lazy(() => import('./Interest'))
@@ -138,15 +135,6 @@ class App extends React.PureComponent<Props> {
                       <WalletLayout
                         path='/settings/profile'
                         component={Profile}
-                      />
-                      <WalletLayout path='/swap' component={Exchange} exact />
-                      <WalletLayout
-                        path='/swap/history'
-                        component={ExchangeHistory}
-                      />
-                      <WalletLayout
-                        path='/swap/profile'
-                        component={ExchangeProfile}
                       />
                       {values(
                         map(

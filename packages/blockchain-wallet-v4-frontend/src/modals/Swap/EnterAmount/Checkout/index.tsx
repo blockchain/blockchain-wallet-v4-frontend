@@ -20,12 +20,30 @@ import {
 import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
 import { Props as OwnProps, SuccessStateType } from '..'
 
-import { Row } from 'blockchain-wallet-v4-frontend/src/scenes/Exchange/ExchangeForm/Layout'
 import { StyledForm } from '../../components'
 import { SwapAccountType } from 'data/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import FiatDisplay from 'components/Display/FiatDisplay'
+
+export const Cell = styled.div<{ center?: boolean; size?: 'small' }>`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: ${props => (props.center ? 'center' : 'flex-start')};
+  width: ${props => (props.size === 'small' ? '10%' : '45%')};
+  height: 100%;
+`
+
+export const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  box-sizing: border-box;
+  align-items: center;
+  padding: 32px;
+  width: 100%;
+`
 
 const AmountRow = styled(Row)`
   position: relative;
