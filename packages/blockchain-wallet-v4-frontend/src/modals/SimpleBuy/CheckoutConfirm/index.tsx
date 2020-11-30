@@ -17,7 +17,7 @@ import { getFiatFromPair, getOrderType } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 import DataError from 'components/DataError'
-import Loading from './template.loading'
+import Loading from '../template.loading.doingwork'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 

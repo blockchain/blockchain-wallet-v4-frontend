@@ -424,7 +424,8 @@ export const initializeCheckout = (
   fix: SBFixType,
   pair?: SBPairType,
   amount?: string,
-  account?: SwapAccountType
+  account?: SwapAccountType,
+  cryptoAmount?: string
 ) => ({
   type: AT.INITIALIZE_CHECKOUT,
   account,
@@ -432,7 +433,8 @@ export const initializeCheckout = (
   fix,
   orderType,
   pair,
-  pairs
+  pairs,
+  cryptoAmount
 })
 
 export const pollSBBalances = () => ({

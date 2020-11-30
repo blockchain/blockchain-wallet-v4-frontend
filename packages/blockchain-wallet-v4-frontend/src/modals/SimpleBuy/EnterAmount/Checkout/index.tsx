@@ -20,6 +20,7 @@ class Checkout extends PureComponent<Props> {
     const dataGoal = find(propEq('name', 'simpleBuy'), this.props.goals)
     const goalAmount = pathOr('', ['data', 'amount'], dataGoal)
     const amount = goalAmount || this.props.formValues?.amount
+    const cryptoAmount = this.props.formValues?.cryptoAmount
 
     this.props.simpleBuyActions.initializeCheckout(
       this.props.pairs,
@@ -27,7 +28,8 @@ class Checkout extends PureComponent<Props> {
       this.props.preferences[this.props.orderType].fix,
       this.props.pair,
       amount,
-      this.props.swapAccount
+      this.props.swapAccount,
+      cryptoAmount
     )
   }
 

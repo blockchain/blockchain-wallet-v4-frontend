@@ -255,7 +255,6 @@ export default ({
       if (orderType === 'SELL') {
         const from = S.getSwapAccount(yield select())
         const quote = S.getSellQuote(yield select()).getOrFail(NO_QUOTE)
-
         if (!from) throw new Error(NO_ACCOUNT)
 
         const direction = getDirection(from)
@@ -308,6 +307,7 @@ export default ({
             options: { order: sellOrder }
           })
         )
+
         yield put(actions.components.swap.fetchTrades())
       }
 
@@ -716,7 +716,9 @@ export default ({
       )
 
       const cryptoAmt = formValues.fix === 'CRYPTO' ? formValues.amount : amt
-
+      yield put(
+        actions.form.change('simpleBuyCheckout', 'cryptoAmount', cryptoAmt)
+      )
       if (account.type === 'CUSTODIAL') return
       // @ts-ignore
       let payment = paymentGetOrElse(account.coin, paymentR)
@@ -800,7 +802,7 @@ export default ({
     const originalFiatCurrency = S.getFiatCurrency(yield select())
     const fiatCurrency = method.currency || S.getFiatCurrency(yield select())
     const pair = S.getSBPair(yield select())
-
+    const swapAccount = S.getSwapAccount(yield select())
     if (!pair) return NO_PAIR_SELECTED
     const isUserTier2 = yield call(isTier2)
 
@@ -855,7 +857,8 @@ export default ({
             fiatCurrency,
             method,
             orderType: values?.orderType,
-            pair
+            pair,
+            swapAccount
           })
         )
     }
@@ -895,7 +898,8 @@ export default ({
     fix,
     orderType,
     amount,
-    account
+    account,
+    cryptoAmount
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
       yield call(waitForUserData)
@@ -904,7 +908,6 @@ export default ({
       if (!fiatCurrency) throw new Error(NO_FIAT_CURRENCY)
       const pair = S.getSBPair(yield select())
       if (!pair) throw new Error(NO_PAIR_SELECTED)
-
       // Fetch rates
       if (orderType === 'BUY') {
         yield put(A.fetchSBQuote(pair.pair, orderType, '0'))
@@ -912,6 +915,7 @@ export default ({
         // TODO: use swap2 quote for buy AND sell
       } else {
         if (!account) throw NO_ACCOUNT
+
         yield put(A.fetchSellQuote(pair.pair, account))
         yield put(A.startPollSellQuote(pair.pair, account))
         yield race({
@@ -919,7 +923,6 @@ export default ({
           failure: take(AT.FETCH_SELL_QUOTE_FAILURE)
         })
         const quote = S.getSellQuote(yield select()).getOrFail(NO_QUOTE)
-
         if (account.type === 'ACCOUNT') {
           let payment = yield call(
             calculateProvisionalPayment,
@@ -937,7 +940,8 @@ export default ({
         actions.form.initialize('simpleBuyCheckout', {
           fix,
           orderType,
-          amount
+          amount,
+          cryptoAmount
         } as SBCheckoutFormValuesType)
       )
     } catch (e) {

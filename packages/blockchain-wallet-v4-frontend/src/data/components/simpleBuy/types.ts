@@ -39,6 +39,7 @@ export type SBCheckoutFormValuesType =
   | undefined
   | {
       amount: string
+      cryptoAmount: string
       fix: SBFixType
       orderType: SBOrderActionType
     }
@@ -302,10 +303,12 @@ interface FetchSellQuoteSuccess {
 }
 
 interface InitializeCheckout {
-  amount: string
-  orderType: SBOrderActionType
-  pair?: SBPairType
-  pairs: Array<SBPairType>
+  account?: SwapAccountType,
+  amount: string,
+  cryptoAmount?: string,
+  orderType: SBOrderActionType,
+  pair?: SBPairType,
+  pairs: Array<SBPairType>,
   type: typeof AT.INITIALIZE_CHECKOUT
 }
 

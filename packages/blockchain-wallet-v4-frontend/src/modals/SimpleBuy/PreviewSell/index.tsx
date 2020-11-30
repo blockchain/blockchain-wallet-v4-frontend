@@ -29,6 +29,7 @@ import {
   SupportedWalletCurrenciesType
 } from 'core/types'
 import { SBCheckoutFormValuesType } from 'data/types'
+import Loading from '../template.loading.doingwork'
 
 class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   state = {}
@@ -58,16 +59,15 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     return this.props.quoteR.cata({
       Failure: () => null,
       NotAsked: () => null,
-      Loading: () => null,
+      Loading: () => <Loading />,
       Success: val => {
         if (!this.props.formValues) return null
         if (!this.props.account) return null
         const BASE = getInputFromPair(val.quote.pair)
         const COUNTER = getOutputFromPair(val.quote.pair)
-        const { account, coins } = this.props
+        const { account, coins, formValues } = this.props
         const baseCoinTicker = coins[BASE].coinTicker
         const counterCoinTicker = coins[COUNTER].coinTicker
-
         return (
           <>
             <FlyoutWrapper>
@@ -113,29 +113,11 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 />
               </Title>
               <Value>
-                {this.props.paymentR.cata({
-                  Success: value => (
-                    <>
-                      {coinToString({
-                        value: convertBaseToStandard(
-                          account.coin,
-                          value && value.amount
-                            ? this.getAmount(value.amount)
-                            : 0
-                        ),
-                        unit: {
-                          symbol: coins[account.coin].coinTicker
-                        }
-                      })}
-                    </>
-                  ),
-                  Failure: e => e,
-                  Loading: () => (
-                    <SkeletonRectangle height='18px' width='70px' />
-                  ),
-                  NotAsked: () => (
-                    <SkeletonRectangle height='18px' width='70px' />
-                  )
+                {coinToString({
+                  value: formValues?.cryptoAmount,
+                  unit: {
+                    symbol: coins[account.coin].coinTicker
+                  }
                 })}
               </Value>
             </Row>
