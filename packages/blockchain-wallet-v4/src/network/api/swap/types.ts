@@ -13,8 +13,8 @@ export type SwapOrderType = {
     // Optional fields depending on direction
     depositAddress: string
     depositTxHash: string
-    direction: SwapOrderDirectionType,
-    refundAddress: string,
+    direction: SwapOrderDirectionType
+    refundAddress: string
     withdrawalAddress: string
     withdrawalTxHash: string
   }

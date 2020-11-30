@@ -1,7 +1,5 @@
 import { borrowReducer } from './borrow/reducers'
 import { combineReducers } from 'redux'
-import { exchangeHistoryReducer } from './exchangeHistory/reducers'
-import { exchangeReducer } from './exchange/reducers'
 import { identityVerificationReducer } from './identityVerification/reducers'
 import { interestReducer } from './interest/reducers'
 import { priceChartReducer } from './priceChart/reducers'
@@ -23,8 +21,6 @@ import veriff from './veriff/reducers'
 
 const componentReducer = combineReducers({
   borrow: borrowReducer,
-  exchange: exchangeReducer,
-  exchangeHistory: exchangeHistoryReducer,
   identityVerification: identityVerificationReducer,
   interest: interestReducer,
   layoutWallet,

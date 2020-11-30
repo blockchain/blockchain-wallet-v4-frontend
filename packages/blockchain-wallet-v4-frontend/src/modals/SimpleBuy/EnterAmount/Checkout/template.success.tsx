@@ -29,7 +29,7 @@ import {
 } from './validation'
 import { Icon, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '.'
-import { Row } from 'blockchain-wallet-v4-frontend/src/scenes/Exchange/ExchangeForm/Layout'
+import { Row } from '../../../Swap/EnterAmount/Checkout'
 import { SBCheckoutFormValuesType } from 'data/types'
 import ActionButton from './ActionButton'
 import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
