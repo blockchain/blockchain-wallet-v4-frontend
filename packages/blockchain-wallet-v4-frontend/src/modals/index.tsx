@@ -33,7 +33,6 @@ const TransferEth = React.lazy(() => import('./Eth/TransferEth'))
 // XLM
 const RequestXlm = React.lazy(() => import('./Xlm/RequestXlm'))
 const SendXlm = React.lazy(() => import('./Xlm/SendXlm'))
-const SunRiverWelcome = React.lazy(() => import('./Xlm/SunRiverWelcome'))
 const XlmCreateAccountLearn = React.lazy(() =>
   import('./Xlm/XlmCreateAccountLearn')
 )
@@ -57,18 +56,16 @@ const LinkFromExchangeAccount = React.lazy(() =>
 const LinkToExchangeAccount = React.lazy(() =>
   import('./Onboarding/LinkToExchangeAccount')
 )
+const IdentityVerification = React.lazy(() =>
+  import('./Onboarding/KycVerification')
+)
+const KycDocResubmit = React.lazy(() => import('./Onboarding/KycDocResubmit'))
+const KycTierUpgrade = React.lazy(() => import('./Onboarding/KycTierUpgrade'))
 const SwapGetStarted = React.lazy(() => import('./Onboarding/SwapGetStarted'))
 const UpgradeForAirdrop = React.lazy(() =>
   import('./Onboarding/UpgradeForAirdrop')
 )
 const Welcome = React.lazy(() => import('./Onboarding/Welcome'))
-const IdentityVerification = React.lazy(() =>
-  import('./Onboarding/KycVerification')
-)
-
-// EXCHANGE
-const KycDocResubmit = React.lazy(() => import('./Exchange/KycDocResubmit'))
-const SwapUpgrade = React.lazy(() => import('./Exchange/SwapUpgrade'))
 
 // LOCKBOX
 const LockboxAppManager = React.lazy(() =>
@@ -145,6 +142,7 @@ const Modals = () => (
       <ImportBtcAddress />
       <Interest />
       <KycDocResubmit />
+      <KycTierUpgrade />
       <LinkFromExchangeAccount disableOutsideClose />
       <LinkToExchangeAccount disableOutsideClose />
       <LockboxAppManager disableOutsideClose />
@@ -173,11 +171,9 @@ const Modals = () => (
       <ShowXPub />
       <SignMessage />
       <SimpleBuy />
-      <SunRiverWelcome disableOutsideClose />
       <Support />
       <Swap />
       <SwapGetStarted />
-      <SwapUpgrade />
       <TransferEth />
       <TwoStepGoogleAuthenticator />
       <TwoStepSetup />
