@@ -61,7 +61,7 @@ type OwnProps = {
   coin: WalletCurrencyType
 }
 
-// FIXME: make `coin` not hardcoded
+// FIXME: make `coin` & `coinDisplay` not hardcoded
 const NewCurrency = ({
   announcementState,
   cacheActions,
@@ -69,6 +69,7 @@ const NewCurrency = ({
   simpleBuyActions
 }) => {
   const newCoinAnnouncement = `${coin}-homepage`
+  const coinDisplay = 'wDGLD'
   const isDismissed =
     (announcementState &&
       announcementState[newCoinAnnouncement] &&
@@ -85,8 +86,8 @@ const NewCurrency = ({
         <FormattedMessage id='copy.new' defaultMessage='New' />
       </NewAlert>
       <VerbText>
-        <FormattedMessage id='copy.trade' defaultMessage='Trade' /> {coin}{' '}
-        <FormattedMessage id='copy.now' defaultMessage='Now' />
+        <FormattedMessage id='copy.trade' defaultMessage='Trade' />{' '}
+        {coinDisplay} <FormattedMessage id='copy.now' defaultMessage='Now' />
       </VerbText>
       <Description>
         <FormattedMessage
@@ -105,8 +106,8 @@ const NewCurrency = ({
         style={{ borderRadius: '4px' }}
       >
         <Text>
-          <FormattedMessage id='copy.trade' defaultMessage='Trade' /> {coin}{' '}
-          <FormattedMessage id='copy.now' defaultMessage='Now' />
+          <FormattedMessage id='copy.trade' defaultMessage='Trade' />{' '}
+          {coinDisplay} <FormattedMessage id='copy.now' defaultMessage='Now' />
         </Text>
       </CTAButton>
       <CloseLink
