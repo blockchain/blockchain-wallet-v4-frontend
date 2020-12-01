@@ -72,8 +72,8 @@ class Submitted extends React.PureComponent<
             </Text>
             <Text color='grey600' size='16px'>
               <FormattedHTMLMessage
-                id='modals.exchange.identityverification.submitted.settins_profile'
-                defaultMessage='You can check out your application status by navigating to Setting Profile.'
+                id='modals.exchange.identityverification.submitted.view_status'
+                defaultMessage='You can view your application status by navigating to Settings and selecting Profile.'
               />
             </Text>
             <Text color='grey600' size='16px'>

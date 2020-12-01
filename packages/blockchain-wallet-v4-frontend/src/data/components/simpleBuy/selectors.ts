@@ -7,6 +7,11 @@ import { FiatType } from 'core/types'
 import { head, isEmpty, lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 
+const hasEligibleFiatCurrency = currency =>
+  currency === FiatTypeEnum.USD ||
+  currency === FiatTypeEnum.GBP ||
+  currency === FiatTypeEnum.EUR
+
 export const getOrderType = (state: RootState) =>
   state.components.simpleBuy.orderType
 
@@ -24,11 +29,6 @@ export const getDisplayBack = (state: RootState) =>
 
 export const getFiatCurrency = (state: RootState) =>
   state.components.simpleBuy.fiatCurrency
-
-const EligibleFiatCurrency = currency =>
-  currency === FiatTypeEnum.USD ||
-  currency === FiatTypeEnum.GBP ||
-  currency === FiatTypeEnum.EUR
 
 export const getDefaultPaymentMethod = (state: RootState) => {
   const fiatCurrency = getFiatCurrency(state)
@@ -54,7 +54,7 @@ export const getDefaultPaymentMethod = (state: RootState) => {
     switch (actionType) {
       case 'SELL':
         let fiatCurrencyToUse = fiatCurrency
-        if (!EligibleFiatCurrency(fiatCurrencyToUse)) {
+        if (!hasEligibleFiatCurrency(fiatCurrencyToUse)) {
           const currenciesToUse = [
             FiatTypeEnum.USD,
             FiatTypeEnum.GBP,
@@ -111,8 +111,9 @@ export const getDefaultPaymentMethod = (state: RootState) => {
           case 'USER_CARD':
           case undefined:
             return undefined
+          default:
+            break
         }
-        break
     }
   }
 

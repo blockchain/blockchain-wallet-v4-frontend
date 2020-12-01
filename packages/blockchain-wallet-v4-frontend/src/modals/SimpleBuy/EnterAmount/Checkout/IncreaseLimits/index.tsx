@@ -1,17 +1,37 @@
-import {
-  AmountText,
-  IconContainer,
-  InfoText,
-  LargeAmountContainer
-} from './model'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
+
 import { currencySymbolMap } from 'services/CoinifyService'
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
-import { Props } from '../template.success'
-import React from 'react'
+import { Icon, Text } from 'blockchain-info-components'
 
-const LargerAmount: React.FC<Props> = props => (
+import { Props } from '../template.success'
+
+const LargeAmountContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+const AmountText = styled(Text)`
+  flex: 1;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  padding-left: 16px;
+`
+const IconContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 108px;
+`
+const InfoText = styled(Text)`
+  display: inline-flex;
+  font-weight: 500;
+  font-size: 14px;
+  margin-top: 22px;
+`
+
+const IncreaseLimits: React.FC<Props> = props => (
   <LargeAmountContainer>
     <IconContainer>
       <DisplayPaymentIcon showBackground={true}>
@@ -43,4 +63,4 @@ const LargerAmount: React.FC<Props> = props => (
   </LargeAmountContainer>
 )
 
-export default LargerAmount
+export default IncreaseLimits

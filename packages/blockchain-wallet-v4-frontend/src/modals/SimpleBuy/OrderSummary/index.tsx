@@ -16,7 +16,7 @@ import DataError from 'components/DataError'
 import Loading from '../AddCard/template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
-import SuccessSdd from './template.sddsuccess'
+import SuccessSdd from './template.sdd.success'
 
 class OrderSummary extends PureComponent<Props> {
   state = {}

@@ -108,7 +108,7 @@ const Failure: React.FC<{
           <FormattedMessage
             id='identityverification.failure.content-3'
             defaultMessage='If you want to learn more about our verification process. Visit our'
-          />
+          />{' '}
           <Link
             href='https://support.blockchain.com/'
             target='_blank'

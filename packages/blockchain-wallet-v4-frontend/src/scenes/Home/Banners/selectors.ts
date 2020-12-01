@@ -9,10 +9,8 @@ export type BannerType =
   | 'sbOrder'
   | 'finishKyc'
   | 'coinifyToSb'
-  | 'verifiedKyc'
-  | 'noneKyc'
   | 'newCurrency'
-  | 'buySDDCrypto'
+  | 'buyCrypto'
   | 'continueToGold'
 
 export const getData = (state): { bannerToShow: BannerType } => {
@@ -46,22 +44,6 @@ export const getData = (state): { bannerToShow: BannerType } => {
     tiers: { current: 0 }
   } as UserDataType)
 
-  // const isKycGold =
-  //   // @ts-ignore
-  //   selectors.modules.profile.getUserKYCState(state).getOrElse('') ===
-  //   'VERIFIED'
-
-  // const coins = selectors.components.utils
-  //   .getSupportedCoinsWithMethodAndOrder(state)
-  //   .getOrElse([])
-
-  // const methodWithNoBalance = coins.filter(
-  //   coin =>
-  //     coin.coinCode in FiatTypeEnum &&
-  //     coin.method &&
-  //     !balances[coin.coinCode as WalletCurrencyType]
-  // ).length
-
   let bannerToShow
   if (showDocResubmitBanner) {
     bannerToShow = 'resubmit'
@@ -69,20 +51,13 @@ export const getData = (state): { bannerToShow: BannerType } => {
     bannerToShow = 'sbOrder'
   } else if (isKycStateNone && isUserActive && !isFirstLogin) {
     bannerToShow = 'finishKyc'
-    // } else if (isKycStateNone && methodWithNoBalance) {
-    //   bannerToShow = 'noneKyc'
-    // } else if (isKycGold && methodWithNoBalance) {
-    //   bannerToShow = 'verifiedKyc'
   } else if (
     isFirstLogin &&
     ((userData && userData.tiers && userData.tiers.current < 2) ||
       isKycStateNone)
   ) {
     bannerToShow = 'buySDDCrypto'
-  } else if (
-    isFirstLogin &&
-    userData && userData.tiers && userData.tiers.current === 3
-  ) {
+  } else if (userData && userData.tiers && userData.tiers.current === 3) {
     bannerToShow = 'continueToGold'
   } else {
     bannerToShow = 'newCurrency'

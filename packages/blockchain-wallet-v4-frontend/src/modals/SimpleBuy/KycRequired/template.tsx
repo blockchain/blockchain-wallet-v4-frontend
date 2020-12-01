@@ -21,14 +21,12 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
-
 const Title = styled(Text)`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 7px;
 `
-
 const ShortTitleContainer = styled.div`
   max-width: 154px;
   margin-top: 20px;
@@ -45,17 +43,10 @@ const Template: React.FC<Props> = props => {
         <Icon cursor name='cart' size='32px' color='blue600' />
         <Title color='grey800' size='24px' weight={600}>
           <ShortTitleContainer>
-            {props.isFirstLogin ? (
-              <FormattedMessage
-                id='modals.simplebuy.cryptoselect_only_crypto'
-                defaultMessage='Buy Crypto'
-              />
-            ) : (
-              <FormattedMessage
-                id='modals.simplebuy.cryptoselect'
-                defaultMessage='Buy Crypto. Sell for Cash.'
-              />
-            )}
+            <FormattedMessage
+              id='modals.simplebuy.cryptoselect'
+              defaultMessage='Buy Crypto. Sell for Cash.'
+            />
           </ShortTitleContainer>
           <Icon
             cursor
@@ -68,17 +59,10 @@ const Template: React.FC<Props> = props => {
           />
         </Title>
         <Text color='grey600' weight={500}>
-          {props.isFirstLogin ? (
-            <FormattedMessage
-              id='modals.simplebuy.kycrequired.only_crypto'
-              defaultMessage='Verify your identity to buy crypto.'
-            />
-          ) : (
-            <FormattedMessage
-              id='modals.simplebuy.kycrequired'
-              defaultMessage='We’ve made it just as easy to buy and sell Crypto straight from your Wallet. Every Buy & Sell happens in seconds or less.'
-            />
-          )}
+          <FormattedMessage
+            id='modals.simplebuy.kycrequired'
+            defaultMessage='We’ve made it just as easy to buy and sell Crypto straight from your Wallet. Every Buy & Sell happens in seconds or less.'
+          />
         </Text>
       </FlyoutWrapper>
 

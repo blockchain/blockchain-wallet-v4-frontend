@@ -172,7 +172,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
           <Text weight={500} size='16px' color='grey600'>
             <FormattedMessage
               id='modals.simplebuy.add_card.description'
-              defaultMessage='Securely add your card to fund the crypto buy. Buy with any Visa or Mastercard.'
+              defaultMessage='Securely add your card to fund your crypto purchases. We accept Visa or Mastercard.'
             />
           </Text>
           <CardContainer>

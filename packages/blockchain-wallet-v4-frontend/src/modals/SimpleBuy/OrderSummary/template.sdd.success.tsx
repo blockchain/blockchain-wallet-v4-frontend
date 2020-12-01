@@ -18,7 +18,6 @@ const IconWrapper = styled.div`
   display: flex;
   position: relative;
 `
-
 const ContentWrapper = styled.div`
   display: flex;
   text-align: center;
@@ -28,7 +27,6 @@ const ContentWrapper = styled.div`
   flex: 1;
   justify-content: center;
 `
-
 const Content = styled.div`
   display: flex;
   text-align: center;
@@ -39,7 +37,7 @@ const Content = styled.div`
 `
 const CloseContainer = styled.div`
   display: flex;
-  align-items: right;
+  align-items: flex-end;
   justify-content: flex-end;
 `
 const IconBackground = styled.div<{ color: string }>`
@@ -54,12 +52,10 @@ const IconBackground = styled.div<{ color: string }>`
   right: -5px;
   background: ${props => props.theme[props.color]};
 `
-
 const TitleWrapper = styled(Text)`
   margin: 32px 0 24px 0;
   width: 100%;
 `
-
 const Bottom = styled.div`
   display: flex;
   flex-direction: column;
@@ -171,9 +167,10 @@ const Success: React.FC<Props> = props => {
                 >
                   <FormattedMessage
                     id='modals.simplebuy.summary.learn_more'
-                    defaultMessage='Learn more.'
+                    defaultMessage='Learn more'
                   />
                 </a>
+                {'.'}
               </span>
             </Text>
           </Bottom>

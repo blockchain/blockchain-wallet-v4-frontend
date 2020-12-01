@@ -10,7 +10,7 @@ import {
 import { assoc, find, is, prop, propEq } from 'ramda'
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
-import { getCurrencyBasedOnCountry } from './helpers'
+import { guessCurrencyBasedOnCountry } from './helpers'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 const { AB_TESTS } = model.analytics
@@ -131,7 +131,7 @@ export default ({ api, coreSagas }) => {
 
       const countryCodeR = yield select(selectors.core.settings.getCountryCode)
       const countryCode = countryCodeR.getOrElse('US')
-      const currency = getCurrencyBasedOnCountry(countryCode)
+      const currency = guessCurrencyBasedOnCountry(countryCode)
       if (firstLogin) {
         yield put(actions.core.settings.setCurrency(currency))
       }

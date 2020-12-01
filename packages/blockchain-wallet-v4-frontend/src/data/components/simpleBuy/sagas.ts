@@ -254,9 +254,10 @@ export default ({
       )
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order }))
+      const isUserTier2 = yield call(isTier2)
 
       // check SDD if user is not tier 2
-      if (!(yield call(isTier2))) {
+      if (!isUserTier2) {
         yield put(
           actions.components.identityVerification.verifyIdentity(
             2,
@@ -523,7 +524,7 @@ export default ({
         api.getSBPairs,
         currency
       )
-      let supportedCoins = selectors.core.walletOptions
+      const supportedCoins = selectors.core.walletOptions
         .getSupportedCoins(yield select())
         .getOrElse({} as SupportedWalletCurrenciesType)
       const filteredPairs = pairs.filter(pair => {

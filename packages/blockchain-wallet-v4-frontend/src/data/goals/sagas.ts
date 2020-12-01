@@ -581,14 +581,13 @@ export default ({ api, coreSagas, networks }) => {
         if (
           showVerifyEmail &&
           showVerifyEmail.command &&
-          // showVerifyEmail.command === 'verify-email'
           showVerifyEmail.command === 'home'
         ) {
           const {
             data: { amount, crypto, fiatCurrency }
           } = goal
 
-          yield put(
+          return yield put(
             actions.goals.addInitialModal(
               'simpleBuyModal',
               'SIMPLE_BUY_MODAL',
@@ -599,29 +598,22 @@ export default ({ api, coreSagas, networks }) => {
               }
             )
           )
-        } else {
-          yield put(
-            actions.goals.addInitialModal('simpleBuyModal', 'WELCOME_MODAL', {
-              sbInvited
-            })
-          )
         }
-      } else {
-        yield put(
-          actions.goals.addInitialModal('welcomeModal', 'WELCOME_MODAL', {
-            sbInvited
-          })
-        )
       }
-    } else {
-      yield put(
-        actions.logs.logInfoMessage(
-          logLocation,
-          'runWelcomeModal',
-          'login success'
-        )
+      return yield put(
+        actions.goals.addInitialModal('welcomeModal', 'WELCOME_MODAL', {
+          sbInvited
+        })
       )
     }
+
+    yield put(
+      actions.logs.logInfoMessage(
+        logLocation,
+        'runWelcomeModal',
+        'login success'
+      )
+    )
   }
 
   const runTransferEthGoal = function * (goal) {

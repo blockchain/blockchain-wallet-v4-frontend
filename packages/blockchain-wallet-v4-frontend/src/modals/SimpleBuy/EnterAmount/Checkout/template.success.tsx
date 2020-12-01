@@ -1,10 +1,10 @@
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import React, { ReactChild } from 'react'
 import styled from 'styled-components'
 
 import { AmountTextBox } from 'components/Exchange'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
-import { BuyOrSell } from '../../model'
 import {
   coinToString,
   fiatToString
@@ -16,9 +16,13 @@ import {
   FIAT_DECIMALS,
   formatTextAmount
 } from 'services/ValidationHelper'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
+import { Icon, Text } from 'blockchain-info-components'
+import { SBCheckoutFormValuesType } from 'data/types'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+
+import { BuyOrSell } from '../../model'
 import {
   formatQuote,
   getMaxMin,
@@ -27,22 +31,19 @@ import {
   maximumAmount,
   minimumAmount
 } from './validation'
-import { Icon, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { Row } from '../../../Swap/EnterAmount/Checkout'
-import { SBCheckoutFormValuesType } from 'data/types'
 import ActionButton from './ActionButton'
 import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import Failure from '../template.failure'
-import LargerAmount from './LargerAmount'
+import IncreaseLimits from './IncreaseLimits'
 import Payment from './Payment'
 
 const AmountRow = styled(Row)`
   position: relative;
   padding: 24px;
   justify-content: center;
-  border: 0px;
+  border: 0;
 `
 const CustomForm = styled(Form)`
   height: 100%;
@@ -414,7 +415,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         )}
         <ActionButton {...props} />
         {props.isFirstLogin && props.formValues.amount && (
-          <LargerAmount {...props} />
+          <IncreaseLimits {...props} />
         )}
       </FlyoutWrapper>
     </CustomForm>

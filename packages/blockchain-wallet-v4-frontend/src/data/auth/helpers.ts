@@ -34,5 +34,5 @@ const COUNTRIES_CURRENCIES = {
   }
 }
 
-export const getCurrencyBasedOnCountry = (countryCode: string) =>
+export const guessCurrencyBasedOnCountry = (countryCode: string) =>
   COUNTRIES_CURRENCIES.currency[countryCode] || 'USD'
