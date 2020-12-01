@@ -6,9 +6,7 @@ import Unsupported from './template.unsupported'
 const Success: React.FC<Props> = props => {
   const isUserEligible =
     props.pairs.length && props.eligibility.eligible && props.fiatCurrency
-  // TODO remove !
-  const isUserSddEligible = props.pairs.length && true
-  // const isUserSddEligible = props.sddEligible && !props.sddEligible.eligible
+  const isUserSddEligible = props.sddEligible && !props.sddEligible.eligible
 
   useEffect(() => {
     props.analyticsActions.logEvent([
