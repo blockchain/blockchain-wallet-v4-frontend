@@ -275,17 +275,9 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const runReferralGoal = function * (goal) {
-    const { id, data } = goal
+    const { id } = goal
     yield put(actions.goals.deleteGoal(id))
-
-    switch (data.name) {
-      case 'sunriver':
-        yield put(actions.goals.addInitialModal('sunriver', 'SunRiverWelcome'))
-        yield put(actions.modules.profile.setCampaign(data))
-        break
-      default:
-        break
-    }
+    // use this for future airdrop referrals
   }
 
   const runPaymentProtocolGoal = function * (goal) {
@@ -504,7 +496,7 @@ export default ({ api, coreSagas, networks }) => {
     )).getOrElse(false)
     if (closeToTier1Limit)
       return yield put(
-        actions.goals.addInitialModal('swapUpgrade', 'SwapUpgrade', {
+        actions.goals.addInitialModal('swapUpgrade', 'KycTierUpgrade', {
           nextTier: TIERS[2],
           currentTier: TIERS[1]
         })
@@ -675,7 +667,6 @@ export default ({ api, coreSagas, networks }) => {
       linkAccount,
       payment,
       simpleBuyModal,
-      sunriver,
       swapGetStarted,
       swapUpgrade,
       upgradeForAirdrop,
@@ -701,9 +692,6 @@ export default ({ api, coreSagas, networks }) => {
           origin: 'KycDocResubmitGoal'
         })
       )
-    }
-    if (sunriver) {
-      // return yield put(actions.modals.showModal(sunriver.name, sunriver.data))
     }
     if (payment) {
       return yield put(actions.modals.showModal(payment.name, payment.data))

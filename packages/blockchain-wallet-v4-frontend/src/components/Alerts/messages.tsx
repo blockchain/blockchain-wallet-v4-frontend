@@ -1159,11 +1159,18 @@ export const getAlertContent = (message, data = undefined) => {
       )
     case C.LOCKED_WITHDRAW_ERROR:
       return buildMessageTemplate(
-        <FormattedMessage
-          id='copy.error.locked_withdraw_error'
-          defaultMessage='Your crypto will be available to be withdrawn within {days} days.'
-          values={data}
-        />
+        data === 0 || data === 1 ? (
+          <FormattedMessage
+            id='modals.withdraw.tooltip_info_day'
+            defaultMessage='The remaining balance will be available to be withdrawn within 1 day.'
+          />
+        ) : (
+          <FormattedMessage
+            id='copy.error.locked_withdraw_error'
+            defaultMessage='Your crypto will be available to be withdrawn within {days} days.'
+            values={data}
+          />
+        )
       )
     default:
       return buildMessageTemplate(

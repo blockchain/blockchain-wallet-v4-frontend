@@ -20,10 +20,10 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import { getDirection, getPair, getRate, NO_QUOTE } from './utils'
 import {
   InitSwapFormValuesType,
+  MempoolFeeType,
   SwapAccountType,
   SwapAmountFormValues
 } from './types'
-import { MempoolFeeType } from '../exchange/types'
 import { selectReceiveAddress } from '../utils/sagas'
 
 import {

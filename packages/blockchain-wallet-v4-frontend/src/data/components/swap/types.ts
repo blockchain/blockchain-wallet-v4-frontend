@@ -9,6 +9,8 @@ import {
   SwapUserLimitsType
 } from 'core/types'
 
+export type MempoolFeeType = 'regular' | 'priority'
+
 export type SwapAccountType = {
   address: number | string
   archived: boolean

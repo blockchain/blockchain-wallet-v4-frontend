@@ -48,7 +48,7 @@ const FooterButton = styled(Button).attrs({
   margin-bottom: 32px;
 `
 
-class SwapUpgrade extends React.PureComponent {
+class KycTierUpgrade extends React.PureComponent {
   componentDidMount () {
     this.props.dontShowAgain()
   }
@@ -114,6 +114,6 @@ const mapDispatchToProps = (dispatch, { nextTier }) => ({
 export const ConnectedSwapUpgrade = connect(
   getData,
   mapDispatchToProps
-)(SwapUpgrade)
+)(KycTierUpgrade)
 
-export default modalEnhancer('SwapUpgrade')(ConnectedSwapUpgrade)
+export default modalEnhancer('KycTierUpgrade')(ConnectedSwapUpgrade)

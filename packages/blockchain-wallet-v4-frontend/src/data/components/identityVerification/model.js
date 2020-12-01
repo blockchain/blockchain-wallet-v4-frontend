@@ -3,8 +3,6 @@ import { compose, includes, propOr } from 'ramda'
 import { TIERS } from '../../modules/profile/model'
 
 export const KYC_MODAL = '@KYC.IdentityVerification'
-export const USER_EXISTS_MODAL = '@KYC.UserExists'
-export const AIRDROP_ERROR_MODAL = '@KYC.AirdropError'
 
 export const STEPS = {
   infoAndResidential: 'infoAndResidential',

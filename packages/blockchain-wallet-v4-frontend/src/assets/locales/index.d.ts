@@ -1462,6 +1462,7 @@ type MessagesType = {
   'modals.wallet.welcome.sb.skip': 'Skip'
   'modals.wallet.welcome.sb.title': 'Own Crypto in a Few Minutes'
   'modals.wallet.welcome.sb.verifybuy': 'Verify your identity and buy crypto.'
+  'modals.withdraw.tooltip_info_day': 'The remaining balance will be available to be withdrawn within 1 day.'
   'modals.withdraw.tooltip_info': 'The remaining balance will be available to be withdrawn within {days} days.'
   'modals.withdraw.available_for_withdrawal': 'Available to Withdraw'
   'modals.withdraw.lock_description': "You have {locks} pending transactions. We’ll email you when these funds become available for withdrawal. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392-Why-can-t-I-withdraw-my-crypto-' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
