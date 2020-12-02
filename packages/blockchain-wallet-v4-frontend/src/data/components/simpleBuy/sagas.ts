@@ -297,32 +297,22 @@ export default ({
           }
         }
         yield put(actions.form.stopSubmit('simpleBuyCheckout'))
-        yield put(actions.modals.closeModal())
         yield put(
-          actions.modals.showModal('SWAP_MODAL', { origin: 'SimpleBuyLink' })
-        )
-        yield put(
-          actions.components.swap.setStep({
-            step: 'SUCCESSFUL_SWAP',
-            options: { order: sellOrder }
+          A.setStep({
+            step: 'SELL_ORDER_SUMMARY',
+            sellOrder: sellOrder
           })
         )
 
-        yield put(actions.components.swap.fetchTrades())
+        return yield put(actions.components.swap.fetchTrades())
       }
 
       if (!paymentType) throw new Error(NO_PAYMENT_TYPE)
 
-      if (
-        (orderType === 'BUY' && fix === 'CRYPTO') ||
-        (orderType === 'SELL' && fix === 'FIAT')
-      ) {
+      if (orderType === 'BUY' && fix === 'CRYPTO') {
         delete input.amount
       }
-      if (
-        (orderType === 'BUY' && fix === 'FIAT') ||
-        (orderType === 'SELL' && fix === 'CRYPTO')
-      ) {
+      if (orderType === 'BUY' && fix === 'FIAT') {
         delete output.amount
       }
 

@@ -6,6 +6,7 @@ import {
   SBPairsType,
   SBPaymentTypes,
   SupportedWalletCurrenciesType,
+  SwapOrderType,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import { convertBaseToStandard } from '../exchange/services'
@@ -100,6 +101,19 @@ export const getCounterCurrency = (
       orderType === 'BUY' ? order.inputCurrency : order.outputCurrency
     ]?.coinTicker || 'USD'
   )
+}
+// These methods are being used for just sell p3, since we're release sell first
+// Separately from Buy and the order types are different. Once buy is
+export const getSellBaseAmount = (sellOrder: SwapOrderType): string => {
+  const coinCurrency = getCoinFromPair(sellOrder.pair)
+  return convertBaseToStandard(
+    coinCurrency as CoinType,
+    sellOrder.priceFunnel.inputMoney
+  )
+}
+
+export const getSellCounterAmount = (sellOrder: SwapOrderType): string => {
+  return convertBaseToStandard('FIAT', sellOrder.priceFunnel.outputMoney)
 }
 
 export const getNextCardExists = (

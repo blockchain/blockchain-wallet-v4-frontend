@@ -26,6 +26,7 @@ const INITIAL_STATE: SimpleBuyState = {
   providerDetails: Remote.NotAsked,
   quote: Remote.NotAsked,
   sellQuote: Remote.NotAsked,
+  sellOrder: undefined,
   step: 'CURRENCY_SELECTION',
   swapAccount: undefined
 }
@@ -331,6 +332,12 @@ export function simpleBuyReducer (
             fiatCurrency: action.payload.fiatCurrency,
             displayBack: action.payload.displayBack,
             addBank: action.payload.addBank
+          }
+        case 'SELL_ORDER_SUMMARY':
+          return {
+            ...state,
+            step: action.payload.step,
+            sellOrder: action.payload.sellOrder
           }
         default: {
           return {

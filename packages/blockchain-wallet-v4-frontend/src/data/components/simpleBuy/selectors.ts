@@ -174,6 +174,9 @@ export const getSBLatestPendingOrder = (state: RootState) =>
     )
   })
 
+export const getSellOrder = (state: RootState) =>
+  state.components.simpleBuy.sellOrder
+
 export const getStep = (state: RootState) => state.components.simpleBuy.step
 
 export const getSwapAccount = (state: RootState) =>

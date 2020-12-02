@@ -17,6 +17,7 @@ import {
   SBPaymentMethodType,
   SBProviderDetailsType,
   SBQuoteType,
+  SwapOrderType,
   SwapQuoteType
 } from 'core/types'
 import { SwapAccountType } from '../swap/types'
@@ -55,6 +56,7 @@ export enum SimpleBuyStepType {
   'ORDER_SUMMARY',
   'PREVIEW_SELL',
   'CHECKOUT_CONFIRM',
+  'SELL_ORDER_SUMMARY',
   'ADD_CARD',
   'CC_BILLING_ADDRESS',
   '3DS_HANDLER',
@@ -98,7 +100,8 @@ export type SimpleBuyState = {
   payment: RemoteDataType<string, undefined | PaymentValue>
   providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
-  sellQuote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>
+  sellOrder: undefined | SwapOrderType,
+  sellQuote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>,
   step: keyof typeof SimpleBuyStepType
   swapAccount: undefined | SwapAccountType
 }
@@ -303,12 +306,12 @@ interface FetchSellQuoteSuccess {
 }
 
 interface InitializeCheckout {
-  account?: SwapAccountType,
-  amount: string,
-  cryptoAmount?: string,
-  orderType: SBOrderActionType,
-  pair?: SBPairType,
-  pairs: Array<SBPairType>,
+  account?: SwapAccountType
+  amount: string
+  cryptoAmount?: string
+  orderType: SBOrderActionType
+  pair?: SBPairType
+  pairs: Array<SBPairType>
   type: typeof AT.INITIALIZE_CHECKOUT
 }
 
@@ -316,6 +319,10 @@ export type StepActionsPayload =
   | {
       order: SBOrderType
       step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'CANCEL_ORDER'
+    }
+  | {
+      sellOrder: SwapOrderType
+      step: 'SELL_ORDER_SUMMARY'
     }
   | {
       cryptoCurrency: CoinType

@@ -499,6 +499,8 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
       return { step: payload.step, order: payload.order }
     case '3DS_HANDLER':
       return { step: payload.step, order: payload.order }
+    case 'SELL_ORDER_SUMMARY':
+      return { step: payload.step, sellOrder: payload.sellOrder }
     default:
       return { step: payload.step }
   }

@@ -6,7 +6,8 @@ import {
   SBOrderActionType,
   SBOrderType,
   SBPairType,
-  SBPaymentMethodType
+  SBPaymentMethodType,
+  SwapOrderType
 } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { find, isEmpty, propEq, propOr } from 'ramda'
@@ -28,6 +29,7 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 import OrderSummary from './OrderSummary'
 import PaymentMethods from './PaymentMethods'
 import React, { PureComponent } from 'react'
+import SellOrderSummary from './SellOrderSummary'
 import ThreeDSHandler from './ThreeDSHandler'
 import TransferDetails from './TransferDetails'
 
@@ -193,6 +195,14 @@ class SimpleBuy extends PureComponent<Props, State> {
                 <PreviewSell {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
+            {this.props.step === 'SELL_ORDER_SUMMARY' && (
+              <FlyoutChild>
+                <SellOrderSummary
+                  {...this.props}
+                  handleClose={this.handleClose}
+                />
+              </FlyoutChild>
+            )}
             {this.props.step === 'TRANSFER_DETAILS' && (
               <FlyoutChild>
                 <TransferDetails
@@ -305,6 +315,7 @@ type LinkStatePropsType =
       order: SBOrderType
       step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'CANCEL_ORDER'
     }
+  | { order: SwapOrderType; step: 'SELL_ORDER_SUMMARY' }
   | {
       cardId?: string
       cryptoCurrency?: CoinType
