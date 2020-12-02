@@ -1,3 +1,5 @@
+import { SDDType, SDDVerifiedType } from './types'
+
 export default ({
   nabuUrl,
   get,
@@ -37,6 +39,13 @@ export default ({
     get({
       url: nabuUrl,
       endPoint: `/upload/data/${token}`
+    })
+
+  const fetchSDDEligible = (): SDDType =>
+    get({
+      url: nabuUrl,
+      endPoint: `/sdd/eligible`,
+      ignoreQueryParams: true
     })
 
   const fetchVeriffUrl = () =>
@@ -109,10 +118,19 @@ export default ({
       data: { coinifyTraderId }
     })
 
+  const updateSDDEligible = (): SDDVerifiedType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/sdd/verified`,
+      contentType: 'application/json',
+      ignoreQueryParams: true
+    })
+
   return {
     fetchKycAddresses,
     fetchKycConfig,
     fetchPreIdvData,
+    fetchSDDEligible,
     fetchTiers,
     fetchUploadData,
     fetchVeriffUrl,
@@ -123,6 +141,7 @@ export default ({
     sendCoinifyKyc,
     sendDeeplink,
     syncVeriff,
+    updateSDDEligible,
     uploadDocuments
   }
 }

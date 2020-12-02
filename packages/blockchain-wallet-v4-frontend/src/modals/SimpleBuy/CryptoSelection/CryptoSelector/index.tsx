@@ -73,6 +73,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   const [orderType, setOrderType] = useState(props.orderType)
 
   const handleSubmit = (pair: SBPairType) => {
+    // if first time user, send to verify email step which is required future SDD check
     !props.emailVerified && props.isFirstLogin
       ? props.simpleBuyActions.setStep({
           step: 'VERIFY_EMAIL',

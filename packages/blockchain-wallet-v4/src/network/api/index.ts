@@ -6,7 +6,6 @@ import borrow from './borrow'
 import btc from './btc'
 import coin from './coin'
 import custodial from './custodial'
-import eligible from './eligible'
 import eth from './eth'
 import httpService from './http'
 import interest from './interest'
@@ -16,7 +15,6 @@ import lockbox from './lockbox'
 import misc from './misc'
 import profile from './profile'
 import rates from './rates'
-import sdd from './sdd'
 import settings from './settings'
 import simpleBuy from './simpleBuy'
 import swap from './swap'
@@ -58,10 +56,6 @@ const api = ({
       authorizedPost: authorizedHttp.post,
       ...http
     }),
-    ...eligible({
-      nabuUrl,
-      authorizedGet: authorizedHttp.get
-    }),
     ...eth({ apiUrl, ...http }),
     ...kvStore({ apiUrl, networks, ...http }),
     ...kyc({
@@ -84,11 +78,6 @@ const api = ({
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
       authorizedPut: authorizedHttp.put,
-      ...http
-    }),
-    ...sdd({
-      nabuUrl,
-      authorizedGet: authorizedHttp.get,
       ...http
     }),
     ...settings({ rootUrl, ...http }),
@@ -124,9 +113,9 @@ export type APIType = ReturnType<typeof analytics> &
   ReturnType<typeof custodial> &
   ReturnType<typeof eth> &
   ReturnType<typeof interest> &
+  ReturnType<typeof kyc> &
   ReturnType<typeof misc> &
   ReturnType<typeof profile> &
-  ReturnType<typeof sdd> &
   ReturnType<typeof simpleBuy> &
   ReturnType<typeof swap> &
   ReturnType<typeof wallet> &

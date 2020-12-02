@@ -206,8 +206,8 @@ interface SetVerificationStepAction {
   type: typeof AT.SET_VERIFICATION_STEP
 }
 
+// reserved for future use if necessary
 type SwapMetadataType = {}
-
 type InterestMetadataType = {}
 
 type SimpleBuyMetadataType = {
@@ -224,7 +224,7 @@ export type StepsMetadataType =
 interface VerifyIdentityAction {
   payload: {
     callback?: () => void
-    metadata?: StepsMetadataType
+    metadata?: SimpleBuyMetadataType
     needMoreInfo?: boolean
     origin: ModalOriginType
     tier: number

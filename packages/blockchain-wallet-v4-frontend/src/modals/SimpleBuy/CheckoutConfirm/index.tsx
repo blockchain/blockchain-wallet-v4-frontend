@@ -33,7 +33,6 @@ class CheckoutConfirm extends PureComponent<Props> {
   }
 
   handleSubmit = () => {
-    const { isFirstLogin } = this.props
     const { userData, sbBalances } = this.props.data.getOrElse({
       userData: { tiers: { current: 0 } } as UserDataType
     } as SuccessStateType)
@@ -47,8 +46,9 @@ class CheckoutConfirm extends PureComponent<Props> {
       return
     }
 
+    // check for SDD user
     if (
-      (isFirstLogin || userData.tiers.current === 3) &&
+      userData.tiers.current === 3 &&
       this.props.order.paymentType === 'PAYMENT_CARD'
     ) {
       this.props.simpleBuyActions.setStep({
@@ -116,8 +116,7 @@ const mapStateToProps = (state: RootState) => ({
       USDT: { colorCode: 'usdt' } as SupportedCoinType,
       WDGLD: { colorCode: 'wdgld' } as SupportedCoinType,
       XLM: { colorCode: 'xlm' } as SupportedCoinType
-    } as Omit<SupportedWalletCurrenciesType, keyof FiatTypeEnum>),
-  isFirstLogin: selectors.auth.getFirstLogin(state)
+    } as Omit<SupportedWalletCurrenciesType, keyof FiatTypeEnum>)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

@@ -254,10 +254,10 @@ export default ({
       )
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order }))
-      const isUserTier2 = yield call(isTier2)
 
-      // check SDD if user is not tier 2
+      const isUserTier2 = yield call(isTier2)
       if (!isUserTier2) {
+        // user is not tier 2, send to kyc flow with SDD checks enabled
         yield put(
           actions.components.identityVerification.verifyIdentity(
             2,
