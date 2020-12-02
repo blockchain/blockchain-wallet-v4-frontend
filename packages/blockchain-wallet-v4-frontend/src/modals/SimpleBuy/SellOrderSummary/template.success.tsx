@@ -179,7 +179,7 @@ const Success: React.FC<Props> = props => {
           <Value data-e2e='sbPaymentMethod'>
             {isInternal
               ? `${sellBaseCurrency} Trading Wallet`
-              : `${sellBaseCurrency} Trading Wallet`}
+              : `${sellBaseCurrency} Wallet`}
           </Value>
         </Row>
       </div>
