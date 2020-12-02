@@ -58,9 +58,8 @@ const Success: React.FC<Props> = props => {
   const sellCounterCurrency = sellOrder
     ? getFiatFromPair(sellOrder.pair)
     : 'USD'
-
+  const isInternal = sellOrder?.kind.direction === 'INTERNAL'
   const sellCounterAmount = sellOrder ? getSellCounterAmount(sellOrder) : 0
-
   return sellOrder ? (
     <Wrapper>
       <div>
@@ -178,8 +177,9 @@ const Success: React.FC<Props> = props => {
             />
           </Title>
           <Value data-e2e='sbPaymentMethod'>
-            {/* fix this to account for trading wallet */}
-            {sellBaseCurrency} Wallet
+            {isInternal
+              ? `${sellBaseCurrency} Trading Wallet`
+              : `${sellBaseCurrency} Trading Wallet`}
           </Value>
         </Row>
       </div>
