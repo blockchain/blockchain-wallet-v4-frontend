@@ -32,6 +32,7 @@ class EnterAmount extends PureComponent<Props> {
         this.props.cryptoCurrency
       )
       this.props.simpleBuyActions.fetchSBCards()
+      this.props.simpleBuyActions.fetchSDDEligible()
     }
 
     // data was successful but paymentMethods was DEFAULT_SB_METHODS

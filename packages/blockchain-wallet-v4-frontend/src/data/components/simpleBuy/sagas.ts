@@ -490,8 +490,22 @@ export default ({
   const fetchSDDEligible = function * () {
     try {
       yield put(A.fetchSDDEligibleLoading())
-      const sddEligible = yield call(api.fetchSDDEligible)
-      yield put(A.fetchSDDEligibleSuccess(sddEligible))
+      yield call(waitForUserData)
+      // check if user is already tier 2
+      if (!(yield call(isTier2))) {
+        // user not tier 2, call for sdd eligibility
+        const sddEligible = yield call(api.fetchSDDEligible)
+        yield put(A.fetchSDDEligibleSuccess(sddEligible))
+      } else {
+        // user is already tier 2, manually set as ineligible
+        yield put(
+          A.fetchSDDEligibleSuccess({
+            eligible: false,
+            ineligibilityReason: 'KYC_TIER',
+            tier: 2
+          })
+        )
+      }
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchSDDEligibleFailure(error))
