@@ -414,10 +414,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </ErrorTextContainer>
         )}
         <ActionButton {...props} />
-        {props.isSddFlow && props.formValues.amount && (
-          <IncreaseLimits {...props} />
-        )}
       </FlyoutWrapper>
+      {props.isSddFlow && props.formValues.amount && (
+        <IncreaseLimits {...props} />
+      )}
     </CustomForm>
   )
 }

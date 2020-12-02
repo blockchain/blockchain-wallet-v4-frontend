@@ -7,21 +7,27 @@ import { Icon, Text } from 'blockchain-info-components'
 
 import { Props } from '../template.success'
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column-reverse;
+  flex: 1;
+`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 0 40px 40px;
+  border-top: 1px solid ${props => props.theme['grey000']};
 `
-const AmountText = styled(Text)`
-  flex: 1;
-  justify-content: center;
+const TitleText = styled(Text)`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   padding-left: 16px;
 `
-const IconContainer = styled.div`
+const HeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 108px;
+  margin-top: 20px;
 `
 const InfoText = styled(Text)`
   display: inline-flex;
@@ -31,25 +37,27 @@ const InfoText = styled(Text)`
 `
 
 const IncreaseLimits: React.FC<Props> = () => (
-  <Container>
-    <IconContainer>
-      <DisplayPaymentIcon showBackground={true}>
-        <Icon cursor name='plus' size='22px' color='blue600' />
-      </DisplayPaymentIcon>
-      <AmountText size='16px' weight={600} color='grey800'>
+  <Wrapper>
+    <Container>
+      <HeaderContainer>
+        <DisplayPaymentIcon showBackground={true}>
+          <Icon cursor name='plus' size='22px' color='blue600' />
+        </DisplayPaymentIcon>
+        <TitleText size='16px' weight={600} color='grey800'>
+          <FormattedMessage
+            id='modals.simplebuy.checkout.larger_amount.title'
+            defaultMessage='Want to buy larger amounts?'
+          />
+        </TitleText>
+      </HeaderContainer>
+      <InfoText color='grey600'>
         <FormattedMessage
-          id='modals.simplebuy.checkout.larger_amount.title'
-          defaultMessage='Want to buy larger amounts?'
+          id='modals.simplebuy.checkout.larger_amount.info'
+          defaultMessage='After completing this transaction, upgrade to Gold level to unlock higher transaction limits and more payment methods.'
         />
-      </AmountText>
-    </IconContainer>
-    <InfoText color='grey600'>
-      <FormattedMessage
-        id='modals.simplebuy.checkout.larger_amount.info'
-        defaultMessage='After completing this transaction, upgrade to Gold level to unlock higher transaction limits and more payment methods.'
-      />
-    </InfoText>
-  </Container>
+      </InfoText>
+    </Container>
+  </Wrapper>
 )
 
 export default IncreaseLimits
