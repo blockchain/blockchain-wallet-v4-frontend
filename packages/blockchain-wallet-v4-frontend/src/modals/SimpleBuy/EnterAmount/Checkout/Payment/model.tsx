@@ -59,7 +59,7 @@ export const SectionTitle = styled(Text)`
   padding: 5px 0;
 `
 export const DisplayValue = styled(Value)`
-  margin-top: 0px;
+  margin-top: 0;
 `
 
 export const renderCardText = (value: SBPaymentMethodType): string => {

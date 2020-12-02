@@ -31,7 +31,6 @@ const Wrapper = styled.div`
 `
 const CloseContainer = styled.div`
   display: flex;
-  align-items: right;
   justify-content: flex-end;
 `
 const TabsContainer = styled.div`
@@ -71,6 +70,7 @@ export type Props = OwnProps & SuccessStateType
 const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   Props> = props => {
   const [orderType, setOrderType] = useState(props.orderType)
+  const showWelcome = props.isFirstLogin
 
   const handleSubmit = (pair: SBPairType) => {
     // if first time user, send to verify email step which is required future SDD check
@@ -90,8 +90,6 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
           pair
         })
   }
-
-  const showWelcome = props.isFirstLogin
 
   return (
     <Wrapper>
@@ -158,7 +156,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
             </>
           )}
 
-          {!showWelcome && props.invitations.simpleSell && (
+          {!showWelcome && (
             <TabsContainer>
               <TabMenu>
                 <TabMenuItem

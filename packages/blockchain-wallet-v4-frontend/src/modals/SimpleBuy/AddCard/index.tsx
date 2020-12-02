@@ -54,6 +54,9 @@ class AddCard extends PureComponent<Props> {
         <Success
           {...this.props}
           {...val}
+          isSddFlow={
+            this.props.isFirstLogin || val.userData?.tiers?.current === 3
+          }
           onSubmit={this.handleSubmit}
           onCountrySelect={this.onCountryChange}
           updateDefaultCountry={this.setDefaultCountry}

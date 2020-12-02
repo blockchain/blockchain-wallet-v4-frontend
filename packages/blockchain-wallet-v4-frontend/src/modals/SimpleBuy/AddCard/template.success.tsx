@@ -133,12 +133,6 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
     props.formActions.change('addCCForm', 'sameAsBillingAddress', true)
   }, [])
 
-  const showSDDPart =
-    props.isFirstLogin ||
-    (props.userData &&
-      props.userData.tiers &&
-      props.userData.tiers.current === 3)
-
   return (
     <CustomFlyoutWrapper>
       <TopText color='grey800' size='20px' weight={600}>
@@ -167,7 +161,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
         <FormattedMessage id='buttons.add_card' defaultMessage='Add Card' />
       </TopText>
 
-      {showSDDPart && (
+      {props.isSddFlow && (
         <div>
           <Text weight={500} size='16px' color='grey600'>
             <FormattedMessage
@@ -254,7 +248,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
             </ErrorCartridge>
           </FormGroup>
         )}
-        {!showSDDPart && (
+        {!props.isSddFlow && (
           <FormGroup margin='24px'>
             <Link
               size='13px'
@@ -274,7 +268,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
           </FormGroup>
         )}
 
-        {showSDDPart && (
+        {props.isSddFlow && (
           <>
             <FormItem>
               <CheckBoxContainer>
@@ -481,7 +475,7 @@ export type Props = OwnProps &
   SuccessStateType & {
     onCountrySelect: (e, value) => void
     updateDefaultCountry: (country: CountryType) => void
-  }
+  } & { isSddFlow: boolean }
 
 export type ErrorType = SBAddCardErrorType
 

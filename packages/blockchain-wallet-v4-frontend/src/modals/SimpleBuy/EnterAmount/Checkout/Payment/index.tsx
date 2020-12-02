@@ -1,5 +1,9 @@
-import { DisplayPaymentIcon } from 'components/SimpleBuy'
 import { FormattedMessage } from 'react-intl'
+import React from 'react'
+
+import { DisplayPaymentIcon } from 'components/SimpleBuy'
+import { Icon } from 'blockchain-info-components'
+
 import {
   getIcon,
   getText,
@@ -8,9 +12,7 @@ import {
   PaymentText,
   SectionTitle
 } from './model'
-import { Icon } from 'blockchain-info-components'
 import { Props } from '../template.success'
-import React from 'react'
 
 const Payment: React.FC<Props> = props => (
   <>
