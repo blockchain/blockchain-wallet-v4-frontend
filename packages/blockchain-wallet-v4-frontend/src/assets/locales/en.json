@@ -1158,7 +1158,7 @@
   "modals.simplebuy.confirm.activity_card2": "Your crypto will be available to be withdrawn within <b>7 days</b>.",
   "modals.simplebuy.confirm.coin_price": "{coin} Price",
   "modals.simplebuy.confirm.funds_wallet": "{coin} Wallet",
-  "modals.simplebuy.confirm.jump_to_payment": "Select Cash or Card",
+  "modals.simplebuy.confirm.jump_to_payment": "Click continue to contact Yodlee",
   "modals.simplebuy.confirm.payment": "Payment Method",
   "modals.simplebuy.confirm.payment_card": "Credit Card",
   "modals.simplebuy.confirm.rate": "Exchange Rate",

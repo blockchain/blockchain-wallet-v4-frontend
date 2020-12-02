@@ -88,6 +88,7 @@ import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
 import walletV3SecurityUpgrade from './img/wallet-v3-security-upgrade.jpg'
 import warningCircleFilled from './img/warning-circle-filled.png'
 import wdgld from './img/wdgld.svg'
+import yodleeConnect from './img/yodlee-connect.svg'
 import yubikey from './img/yubikey.svg'
 // Lockbox
 import deviceLockbox from './img/lockbox/device-lockbox.png'
@@ -244,6 +245,7 @@ const Images = {
   'world-alert': worldAlert,
   'world-alert2': worldAlert2,
   'world-alert3': worldAlert3,
+  'yodlee-connect': yodleeConnect,
   yubikey: yubikey
 }
 

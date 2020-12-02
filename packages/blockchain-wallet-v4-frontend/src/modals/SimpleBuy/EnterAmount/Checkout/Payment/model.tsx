@@ -162,7 +162,7 @@ export const getText = (
     return (
       <FormattedMessage
         id='modals.simplebuy.confirm.jump_to_payment'
-        defaultMessage='Select Cash or Card'
+        defaultMessage='Add Payment Method'
       />
     )
   }
