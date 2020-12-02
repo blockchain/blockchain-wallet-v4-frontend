@@ -19,8 +19,6 @@ import Success from './template.success'
 import SuccessSdd from './template.sdd.success'
 
 class OrderSummary extends PureComponent<Props> {
-  state = {}
-
   componentDidMount () {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBCards()
@@ -34,13 +32,15 @@ class OrderSummary extends PureComponent<Props> {
   }
 
   render () {
-    const { isFirstLogin } = this.props
     return this.props.data.cata({
       Success: val => {
-        if (isFirstLogin) {
-          return <SuccessSdd {...val} {...this.props} />
-        }
-        return <Success {...val} {...this.props} />
+        const isSddFlow =
+          this.props.isFirstLogin || val.userData?.tiers?.current === 3
+        return isSddFlow ? (
+          <SuccessSdd {...val} {...this.props} />
+        ) : (
+          <Success {...val} {...this.props} />
+        )
       },
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,

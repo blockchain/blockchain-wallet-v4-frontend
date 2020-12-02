@@ -43,6 +43,7 @@ class Checkout extends PureComponent<Props> {
     !isEmpty(id) && this.props.deleteGoal(String(id))
     const method = this.props.method || this.props.defaultMethod
 
+    // check is in SDD flow
     if (this.props.isFirstLogin || userData?.tiers?.current === 3) {
       this.props.simpleBuyActions.createSBOrder('PAYMENT_CARD')
     } else if (!method) {
@@ -73,6 +74,8 @@ class Checkout extends PureComponent<Props> {
           break
         case 'BANK_ACCOUNT':
           break
+        default:
+          break
       }
     }
   }
@@ -80,7 +83,14 @@ class Checkout extends PureComponent<Props> {
   render () {
     return this.props.data.cata({
       Success: val => (
-        <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
+        <Success
+          {...this.props}
+          {...val}
+          isSddFlow={
+            val.userData?.tiers?.current === 3 || this.props.isFirstLogin
+          }
+          onSubmit={this.handleSubmit}
+        />
       ),
       Failure: () => (
         <Failure

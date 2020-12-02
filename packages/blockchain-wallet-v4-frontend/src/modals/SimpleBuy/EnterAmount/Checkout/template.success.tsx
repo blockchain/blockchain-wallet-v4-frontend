@@ -27,9 +27,9 @@ import {
   formatQuote,
   getMaxMin,
   getQuote,
-  MAX_NEW_LIMIT,
   maximumAmount,
-  minimumAmount
+  minimumAmount,
+  SDD_MAX_LIMIT
 } from './validation'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { Row } from '../../../Swap/EnterAmount/Checkout'
@@ -173,7 +173,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.pair,
     props.formValues,
     method,
-    !props.isFirstLogin
+    props.isSddFlow
   )[fix]
   const min: string = getMaxMin(
     'min',
@@ -183,7 +183,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.pair,
     props.formValues,
     method,
-    !props.isFirstLogin
+    props.isSddFlow
   )[fix]
 
   const handleMinMaxClick = () => {
@@ -196,7 +196,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       props.pair,
       props.formValues,
       method,
-      !props.isFirstLogin
+      props.isSddFlow
     )[fix]
     const value = convertStandardToBase(conversionCoinType, maxMin)
     props.simpleBuyActions.handleSBSuggestedAmountClick(
@@ -205,7 +205,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     )
   }
   const handleMaxClick = () => {
-    const value = convertStandardToBase(conversionCoinType, MAX_NEW_LIMIT)
+    const value = convertStandardToBase(conversionCoinType, SDD_MAX_LIMIT)
     props.simpleBuyActions.handleSBSuggestedAmountClick(
       value,
       conversionCoinType
@@ -319,7 +319,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </QuoteRow>
 
-        {!props.isFirstLogin && props.pair && (
+        {!props.isSddFlow && props.pair && (
           <Amounts onClick={handleMinMaxClick}>
             <>
               {amtError === 'BELOW_MIN' ? (
@@ -369,7 +369,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </Amounts>
         )}
 
-        {props.isFirstLogin && (
+        {props.isSddFlow && (
           <ActionsRow>
             <ActionsItem>
               <Text weight={500} size='14px' color='grey600'>
@@ -383,7 +383,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   weight={600}
                   size='16px'
                   color='grey900'
-                >{`${Currencies[fiatCurrency].units[fiatCurrency].symbol}${MAX_NEW_LIMIT}`}</Text>
+                >{`${Currencies[fiatCurrency].units[fiatCurrency].symbol}${SDD_MAX_LIMIT}`}</Text>
               </div>
             </ActionsItem>
             <ActionsItem>
@@ -414,7 +414,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </ErrorTextContainer>
         )}
         <ActionButton {...props} />
-        {props.isFirstLogin && props.formValues.amount && (
+        {props.isSddFlow && props.formValues.amount && (
           <IncreaseLimits {...props} />
         )}
       </FlyoutWrapper>
@@ -422,7 +422,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   )
 }
 
-export type Props = OwnProps & SuccessStateType
+export type Props = OwnProps & SuccessStateType & { isSddFlow: boolean }
 
 export default reduxForm<{}, Props>({
   form: 'simpleBuyCheckout',

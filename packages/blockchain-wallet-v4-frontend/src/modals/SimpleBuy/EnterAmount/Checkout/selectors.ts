@@ -14,6 +14,7 @@ export const getData = (state: RootState) => {
   const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
   const userDataR = selectors.modules.profile.getUserData(state)
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
+
   return lift(
     (
       invitations: ExtractSuccess<typeof invitationsR>,
