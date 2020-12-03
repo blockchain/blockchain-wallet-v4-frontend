@@ -461,6 +461,8 @@ export default ({ api, coreSagas, networks }) => {
         } else {
           // SDD denied, continue to veriff
           yield call(goToNextStep)
+          // create SB order in background in case user drops out of veriff flow
+          payload.onCompletionCallback && payload.onCompletionCallback()
         }
       } else {
         yield call(goToNextStep)
