@@ -7,6 +7,7 @@ import { APIType } from 'core/network/api'
 import {
   CoinType,
   CoinTypeEnum,
+  FiatType,
   ProcessedSwapOrderType,
   SBPendingTransactionStateEnum,
   WalletCurrencyType
@@ -124,8 +125,28 @@ export default ({ api }: { api: APIType }) => {
         insertedAt: swap.createdAt
       }))
 
+      // 4. sell p3 trades. Will eventually be used to fetch buy trades as well
+      const sellOrders: ReturnType<typeof api.getUnifiedSellTrades> = yield call(
+        api.getUnifiedSellTrades,
+        currency as FiatType,
+        20,
+        before,
+        after
+      )
+      const processedSells: Array<ProcessedSwapOrderType> = sellOrders.map(
+        sellOrder => ({
+          ...sellOrder,
+          insertedAt: sellOrder.createdAt
+        })
+      )
+
       const response: FetchCustodialOrdersAndTransactionsReturnType = {
-        orders: [...filteredOrders, ...transactions.items, ...processedSwaps]
+        orders: [
+          ...filteredOrders,
+          ...transactions.items,
+          ...processedSwaps,
+          ...processedSells
+        ]
       }
 
       return response

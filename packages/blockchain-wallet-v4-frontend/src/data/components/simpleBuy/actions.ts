@@ -508,12 +508,14 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
 
 export const showModal = (
   origin: SBShowModalOriginType,
-  cryptoCurrency?: CoinType
+  cryptoCurrency?: CoinType,
+  orderType?: SBOrderActionType
 ) => ({
   type: AT.SHOW_MODAL,
   payload: {
     origin,
-    cryptoCurrency
+    cryptoCurrency,
+    orderType
   }
 })
 

@@ -1046,7 +1046,7 @@ export default ({
   }
 
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
-    const { origin, cryptoCurrency } = payload
+    const { origin, cryptoCurrency, orderType } = payload
     yield put(
       actions.modals.showModal('SIMPLE_BUY_MODAL', { origin, cryptoCurrency })
     )
@@ -1086,7 +1086,8 @@ export default ({
         A.setStep({
           step: 'ENTER_AMOUNT',
           cryptoCurrency,
-          fiatCurrency
+          fiatCurrency,
+          orderType
         })
       )
     } else {

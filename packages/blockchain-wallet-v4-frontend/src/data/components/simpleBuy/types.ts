@@ -100,8 +100,8 @@ export type SimpleBuyState = {
   payment: RemoteDataType<string, undefined | PaymentValue>
   providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
-  sellOrder: undefined | SwapOrderType,
-  sellQuote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>,
+  sellOrder: undefined | SwapOrderType
+  sellQuote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>
   step: keyof typeof SimpleBuyStepType
   swapAccount: undefined | SwapAccountType
 }
@@ -370,6 +370,7 @@ interface SetStepAction {
 interface ShowModalAction {
   payload: {
     cryptoCurrency?: CoinType
+    orderType?: SBOrderActionType,
     origin: SBShowModalOriginType
   }
   type: typeof AT.SHOW_MODAL

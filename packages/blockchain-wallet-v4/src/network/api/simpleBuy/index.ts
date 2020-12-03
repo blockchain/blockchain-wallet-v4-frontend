@@ -23,6 +23,7 @@ import {
   SBTransactionsType
 } from './types'
 import { Moment } from 'moment'
+import { SwapOrderStateType, SwapOrderType } from '../swap/types'
 import { UserDataType } from 'data/types'
 import axios from 'axios'
 
@@ -255,6 +256,27 @@ export default ({
             type
           }
         })
+  // This is to get unified Sell trades from sellp3 using the swap 2.0 api
+  // Will eventually be used to get all trades, buy/sell/swap included
+  // keeping all the swap types until buy/sell everything else is together
+  const getUnifiedSellTrades = (
+    currency: FiatType,
+    limit?: number,
+    before?: string,
+    after?: string,
+    v2states?: SwapOrderStateType
+  ): Array<SwapOrderType> =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/trades/unified`,
+      data: {
+        currency,
+        limit,
+        before,
+        after,
+        states: v2states
+      }
+    })
 
   const submitSBCardDetailsToEverypay = ({
     accessToken,
@@ -333,6 +355,7 @@ export default ({
     getSBFiatEligible,
     getSBQuote,
     getSBTransactions,
+    getUnifiedSellTrades,
     submitSBCardDetailsToEverypay,
     withdrawSBFunds
   }

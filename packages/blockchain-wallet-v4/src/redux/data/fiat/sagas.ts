@@ -2,6 +2,8 @@ import { call, put, select, take } from 'redux-saga/effects'
 import { last } from 'ramda'
 
 import { APIType } from 'core/network/api'
+// import custodialSagas from '../custodial/sagas'
+// import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
 import Remote from '../../../remote'
 
 import * as A from './actions'
@@ -10,6 +12,8 @@ import * as S from './selectors'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 
 export default ({ api }: { api: APIType }) => {
+  // const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
+
   const watchTransactions = function * () {
     while (true) {
       const action = yield take(AT.FETCH_FIAT_TRANSACTIONS)
@@ -33,6 +37,16 @@ export default ({ api }: { api: APIType }) => {
         action.payload.currency,
         reset ? undefined : next
       )
+
+      // const custodialPage: FetchCustodialOrdersAndTransactionsReturnType = yield call(
+      //   fetchCustodialOrdersAndTransactions,
+      //   txPage,
+      //   offset,
+      //   atBounds,
+      //   'Fiat',
+      //   reset ? null : nextSBTransactionsURL
+      // )
+
       yield put(
         A.fetchTransactionsSuccess(action.payload.currency, response, reset)
       )

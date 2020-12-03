@@ -4,10 +4,7 @@ import {
   coinToString,
   fiatToString
 } from 'blockchain-wallet-v4/src/exchange/currency'
-import {
-  convertBaseToStandard,
-  convertStandardToBase
-} from 'data/components/exchange/services'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   getCoinFromPair,
   getFiatFromPair
@@ -175,9 +172,8 @@ export const getMaxMinSell = (
             ? account.balance
             : sbBalances[coin]?.available || '0'
 
-          const maxSell = new BigNumber(
-            convertStandardToBase('FIAT', pair.sellMax)
-          )
+          const maxSell = new BigNumber(pair.sellMax)
+
             .dividedBy(rate)
             .toFixed(Currencies[coin].units[coin].decimal_digits)
 
@@ -186,7 +182,6 @@ export const getMaxMinSell = (
             Number(maxSell)
           ).toString()
           const maxFiat = getQuote(pair.pair, rate, 'CRYPTO', maxCrypto)
-
           return { FIAT: maxFiat, CRYPTO: maxCrypto }
         case 'min':
           const minCrypto = new BigNumber(pair.sellMin)

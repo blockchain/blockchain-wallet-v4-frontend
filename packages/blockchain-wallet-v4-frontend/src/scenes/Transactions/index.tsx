@@ -26,7 +26,6 @@ import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
-import { BuyOrSell } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
 import InterestTransactions from './TransactionList/template.interest'
 import TransactionFilters from './TransactionFilters'
 import TransactionList from './TransactionList'
@@ -144,22 +143,36 @@ class TransactionsContainer extends React.PureComponent<Props> {
               </CoinTitle>
               <TitleActionContainer>
                 {coin in CoinTypeEnum && (
-                  <Button
+                  <>
+                    {/* <Button
                     nature='primary'
-                    data-e2e='buyCrypto'
+                    data-e2e='sellCrypto'
+                      width='100px'
                     onClick={() => {
                       this.props.simpleBuyActions.showModal(
                         'TransactionList',
-                        coin as CoinType
+                        coin as CoinType,
+                        'SELL'
                       )
                     }}
                   >
-                    <BuyOrSell
-                      crypto={coin as CoinType}
-                      orderType={'BUY'}
-                      coinModel={this.props.coinModel}
-                    />
-                  </Button>
+                    <FormattedMessage id="buttons.sell" defaultMessage="Sell" />
+                  </Button> */}
+                    <Button
+                      nature='primary'
+                      data-e2e='buyCrypto'
+                      width='100px'
+                      onClick={() => {
+                        this.props.simpleBuyActions.showModal(
+                          'TransactionList',
+                          coin as CoinType,
+                          'BUY'
+                        )
+                      }}
+                    >
+                      <FormattedMessage id='buttons.buy' defaultMessage='Buy' />
+                    </Button>
+                  </>
                 )}
                 {coin in WalletFiatEnum && (
                   <>
