@@ -145,16 +145,20 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
           {orderType === 'SELL'
             ? coinOrder.map(coin => {
                 const accounts = props.accounts[coin] as Array<SwapAccountType>
-                return accounts.map(account => (
-                  <CryptoAccountOption
-                    account={account}
-                    coins={props.coins}
-                    isAccountSelected={false}
-                    isSwap={false}
-                    onClick={() => handleSell(account)}
-                    walletCurrency={props.walletCurrency}
-                  />
-                ))
+                return accounts.map(
+                  account =>
+                    account.balance !== '0' &&
+                    account.balance !== 0 && (
+                      <CryptoAccountOption
+                        account={account}
+                        coins={props.coins}
+                        isAccountSelected={false}
+                        isSwap={false}
+                        onClick={() => handleSell(account)}
+                        walletCurrency={props.walletCurrency}
+                      />
+                    )
+                )
               })
             : props.pairs.map((value, index) => (
                 <CryptoItem
