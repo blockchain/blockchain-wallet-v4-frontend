@@ -1,9 +1,11 @@
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
-import { Props } from '.'
 import React from 'react'
 import styled from 'styled-components'
+
+import { Button, Icon, Image, Text } from 'blockchain-info-components'
+import { FlyoutWrapper } from 'components/Flyout'
+
+import { Props } from '.'
 
 import {
   NumberContainer,
@@ -21,13 +23,9 @@ const Wrapper = styled.div`
 `
 const Title = styled(Text)`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 7px;
-`
-const ShortTitleContainer = styled.div`
-  max-width: 154px;
-  margin-top: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 20px 0 8px;
 `
 const ContentContainer = styled(FlyoutWrapper)`
   border-top: 1px solid ${props => props.theme.grey000};
@@ -45,13 +43,12 @@ const IconsContainer = styled.div`
   justify-content: space-between;
   width: 100%;
 `
-
 const Template: React.FC<Props> = props => {
   return (
     <Wrapper>
       <FlyoutWrapper>
         <IconsContainer>
-          <Icon cursor name='cart' size='32px' color='blue600' />
+          <Image name='tier-gold' size='32px' />
           <Icon
             cursor
             data-e2e='sbCloseModalIcon'
@@ -63,17 +60,23 @@ const Template: React.FC<Props> = props => {
           />
         </IconsContainer>
         <Title color='grey800' size='24px' weight={600}>
-          <ShortTitleContainer>
+          <div>
             <FormattedMessage
-              id='modals.simplebuy.kycrequired.title'
-              defaultMessage='Buy Crypto'
+              id='modals.simplebuy.goldupgrade.title1'
+              defaultMessage='Upgrade Your Profile.'
             />
-          </ShortTitleContainer>
+          </div>
+          <div>
+            <FormattedMessage
+              id='modals.simplebuy.goldupgrade.title2'
+              defaultMessage='Buy & Sell More Crypto.'
+            />
+          </div>
         </Title>
         <Text color='grey600' weight={500}>
           <FormattedMessage
-            id='modals.simplebuy.kycrequired.subtitle'
-            defaultMessage='Verify your identity to complete your order.'
+            id='modals.simplebuy.goldupgrade.subtitle'
+            defaultMessage='Verify your identity to increase how much you can Buy, Sell and Swap each week.'
           />
         </Text>
       </FlyoutWrapper>
@@ -106,14 +109,14 @@ const Template: React.FC<Props> = props => {
             <NumberDescription>
               <DisplayTitle>
                 <FormattedMessage
-                  id='buttons.buy_crypto'
-                  defaultMessage='Buy Crypto'
+                  id='modals.simplebuy.goldupgrade.step2.title'
+                  defaultMessage='Get Approved'
                 />
               </DisplayTitle>
               <SubTitle>
                 <FormattedMessage
-                  id='modals.simplebuy.kycrequired.buy_crypto_description'
-                  defaultMessage='Use your Bank, Debit or Credit card to fund any crypto purchase.'
+                  id='modals.simplebuy.goldupgrade.step2.desc'
+                  defaultMessage='Most applications are approved within minutes but some may take a few days to be reviewed.'
                 />
               </SubTitle>
             </NumberDescription>
@@ -125,14 +128,14 @@ const Template: React.FC<Props> = props => {
             <NumberDescription>
               <DisplayTitle>
                 <FormattedMessage
-                  id='modals.simplebuy.kycrequired.swap_at_anytime'
-                  defaultMessage='Swap at Anytime'
+                  id='modals.simplebuy.goldupgrade.step3.title'
+                  defaultMessage='Buy More Crypto'
                 />
               </DisplayTitle>
               <SubTitle>
                 <FormattedMessage
-                  id='modals.simplebuy.kycrequired.swap_at_anytime_description'
-                  defaultMessage='Instantly exchange your crypto for another without leaving your wallet.'
+                  id='modals.simplebuy.goldupgrade.step3.desc'
+                  defaultMessage='Buy, Sell, Swap crypto instantly and never miss another big day in the market.'
                 />
               </SubTitle>
             </NumberDescription>
@@ -144,26 +147,35 @@ const Template: React.FC<Props> = props => {
           size='16px'
           height='48px'
           nature='primary'
-          data-e2e='handleVerified'
+          data-e2e='upgradeNowBtn'
           onClick={() => {
             props.identityVerificationActions.verifyIdentity(
               2,
               false,
               'KycRequiredStep'
             )
-            if (props.order) {
-              props.simpleBuyActions.setStep({
-                step: 'CHECKOUT_CONFIRM',
-                order: props.order
-              })
-            }
           }}
           style={{ marginTop: '16px' }}
           type='button'
         >
           <FormattedMessage
-            id='modals.confirm.confirm.verify_identity'
-            defaultMessage='Verify My Identity'
+            id='scenes.airdrops.success.upgradenow'
+            defaultMessage='Upgrade Now'
+          />
+        </Button>
+        <Button
+          fullwidth
+          size='16px'
+          height='48px'
+          nature='empty-blue'
+          data-e2e='doLaterBtn'
+          onClick={props.handleClose}
+          style={{ marginTop: '8px' }}
+          type='button'
+        >
+          <FormattedMessage
+            id='modals.confirm.cancel.verify_identity'
+            defaultMessage="I'll Do This Later"
           />
         </Button>
       </ContentContainer>

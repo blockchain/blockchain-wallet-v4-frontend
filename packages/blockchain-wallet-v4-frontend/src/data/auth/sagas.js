@@ -247,7 +247,7 @@ export default ({ api, coreSagas }) => {
       yield call(api.checkExchangeUsage, defaultAccount.xpub)
     } catch (e) {
       // eslint-disable-next-line
-      console.log(e)
+      // console.log(e)
     }
   }
   const pollingSession = function * (session, n = 50) {

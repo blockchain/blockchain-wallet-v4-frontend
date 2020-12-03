@@ -73,22 +73,34 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   const showWelcome = props.isFirstLogin
 
   const handleSubmit = (pair: SBPairType) => {
+    const currentTier = props.userData?.tiers?.current
+
     // if first time user, send to verify email step which is required future SDD check
-    !props.emailVerified && props.userData?.tiers?.current !== 2
-      ? props.simpleBuyActions.setStep({
-          step: 'VERIFY_EMAIL',
-          orderType: orderType,
-          cryptoCurrency: getCoinFromPair(pair.pair),
-          fiatCurrency: getFiatFromPair(pair.pair),
-          pair
-        })
-      : props.simpleBuyActions.setStep({
-          step: 'ENTER_AMOUNT',
-          orderType: orderType,
-          cryptoCurrency: getCoinFromPair(pair.pair),
-          fiatCurrency: getFiatFromPair(pair.pair),
-          pair
-        })
+    if (!props.emailVerified && currentTier !== 2 && currentTier !== 1) {
+      return props.simpleBuyActions.setStep({
+        step: 'VERIFY_EMAIL',
+        orderType: orderType,
+        cryptoCurrency: getCoinFromPair(pair.pair),
+        fiatCurrency: getFiatFromPair(pair.pair),
+        pair
+      })
+    }
+
+    // if SDD user has already placed on order, force them to Gold upgrade
+    if (currentTier !== 3 && props.sbOrders?.length > 0) {
+      return props.simpleBuyActions.setStep({
+        step: 'UPGRADE_TO_GOLD'
+      })
+    }
+
+    // default continue to enter amount step
+    return props.simpleBuyActions.setStep({
+      step: 'ENTER_AMOUNT',
+      orderType: orderType,
+      cryptoCurrency: getCoinFromPair(pair.pair),
+      fiatCurrency: getFiatFromPair(pair.pair),
+      pair
+    })
   }
 
   return (

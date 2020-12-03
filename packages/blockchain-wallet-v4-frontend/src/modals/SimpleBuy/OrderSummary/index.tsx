@@ -5,10 +5,8 @@ import React, { PureComponent } from 'react'
 import { actions, selectors } from 'data'
 import {
   ExtractSuccess,
-  FiatTypeEnum,
   RemoteDataType,
   SBOrderType,
-  SupportedCoinType,
   SupportedWalletCurrenciesType
 } from 'core/types'
 import { Remote } from 'core'
@@ -53,16 +51,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
-    .getOrElse({
-      ALGO: { colorCode: 'algo' } as SupportedCoinType,
-      BTC: { colorCode: 'btc' } as SupportedCoinType,
-      BCH: { colorCode: 'bch' } as SupportedCoinType,
-      ETH: { colorCode: 'eth' } as SupportedCoinType,
-      PAX: { colorCode: 'pax' } as SupportedCoinType,
-      USDT: { colorCode: 'usdt' } as SupportedCoinType,
-      WDGLD: { colorCode: 'wdgld' } as SupportedCoinType,
-      XLM: { colorCode: 'xlm' } as SupportedCoinType
-    } as Omit<SupportedWalletCurrenciesType, keyof FiatTypeEnum>)
+    .getOrFail('Supported coins missing')
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

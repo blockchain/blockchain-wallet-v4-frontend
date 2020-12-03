@@ -12,6 +12,7 @@ export const getData = state => {
   const pairsR = selectors.components.simpleBuy.getSBPairs(state)
   const userDataR = selectors.modules.profile.getUserData(state)
   const emailVerifiedR = selectors.core.settings.getEmailVerified(state)
+  const sbOrdersR = selectors.components.simpleBuy.getSBOrders(state)
   const sddEligibleR = selectors.components.simpleBuy.getSddEligible(state)
 
   return lift(
@@ -21,6 +22,7 @@ export const getData = state => {
       pairs: ExtractSuccess<typeof pairsR>,
       userData: ExtractSuccess<typeof userDataR>,
       emailVerified: ExtractSuccess<typeof emailVerifiedR>,
+      sbOrders: ExtractSuccess<typeof sbOrdersR>,
       sddEligible: ExtractSuccess<typeof sddEligibleR>
     ) => ({
       orderType: formValues ? formValues.orderType : 'BUY',
@@ -29,7 +31,16 @@ export const getData = state => {
       pairs,
       userData,
       emailVerified,
+      sbOrders,
       sddEligible
     })
-  )(eligibilityR, invitationsR, pairsR, userDataR, emailVerifiedR, sddEligibleR)
+  )(
+    eligibilityR,
+    invitationsR,
+    pairsR,
+    userDataR,
+    emailVerifiedR,
+    sbOrdersR,
+    sddEligibleR
+  )
 }

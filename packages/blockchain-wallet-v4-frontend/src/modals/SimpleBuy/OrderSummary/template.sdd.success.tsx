@@ -1,11 +1,12 @@
+import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
 import { getBaseAmount, getBaseCurrency } from 'data/components/simpleBuy/model'
+
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const Wrapper = styled.div`
@@ -128,8 +129,11 @@ const Success: React.FC<Props> = props => {
               style={{ marginTop: '8px' }}
             >
               <FormattedMessage
-                id='modals.simplebuy.transferdetails.bit_coin_available'
-                defaultMessage='Your Bitcoin is now available in your Trading Wallet.'
+                id='modals.simplebuy.transferdetails.available'
+                defaultMessage='Your {coin} is now available in your Trading Wallet.'
+                values={{
+                  coin: baseCurrency
+                }}
               />
             </Text>
           </TitleWrapper>
@@ -140,7 +144,11 @@ const Success: React.FC<Props> = props => {
               size='16px'
               height='48px'
               nature='primary'
-              onClick={props.handleClose}
+              onClick={() =>
+                props.simpleBuyActions.setStep({
+                  step: 'UPGRADE_TO_GOLD'
+                })
+              }
               style={{ marginBottom: '32px' }}
             >
               <FormattedMessage id='buttons.ok' defaultMessage='OK' />

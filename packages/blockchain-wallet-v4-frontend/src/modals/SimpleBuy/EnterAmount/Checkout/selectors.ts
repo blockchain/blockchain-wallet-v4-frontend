@@ -1,5 +1,6 @@
-import { ExtractSuccess } from 'core/types'
 import { lift } from 'ramda'
+
+import { ExtractSuccess } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 

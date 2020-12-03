@@ -19,11 +19,8 @@ export const getData = (state): { bannerToShow: BannerType } => {
     .getKycDocResubmissionStatus(state)
     .map(anyPass([equals(GENERAL), equals(EXPIRED)]))
     .getOrElse(false)
-
-  // const balancesR = selectors.components.simpleBuy.getSBBalances(state)
   const ordersR = selectors.components.simpleBuy.getSBOrders(state)
   const orders: Array<SBOrderType> = ordersR.getOrElse([])
-  // const balances = balancesR.getOrElse({})
   const isSimpleBuyOrderPending = orders.find(
     order =>
       order.state === 'PENDING_CONFIRMATION' ||
@@ -31,7 +28,6 @@ export const getData = (state): { bannerToShow: BannerType } => {
   )
 
   const isUserActive =
-    // @ts-ignore
     selectors.modules.profile.getUserActivationState(state).getOrElse('') !==
     'NONE'
   const isKycStateNone =
@@ -51,13 +47,9 @@ export const getData = (state): { bannerToShow: BannerType } => {
     bannerToShow = 'sbOrder'
   } else if (isKycStateNone && isUserActive && !isFirstLogin) {
     bannerToShow = 'finishKyc'
-  } else if (
-    isFirstLogin &&
-    ((userData && userData.tiers && userData.tiers.current < 2) ||
-      isKycStateNone)
-  ) {
+  } else if (isFirstLogin && (userData?.tiers?.current < 2 || isKycStateNone)) {
     bannerToShow = 'buySDDCrypto'
-  } else if (userData && userData.tiers && userData.tiers.current === 3) {
+  } else if (userData?.tiers?.current === 3) {
     bannerToShow = 'continueToGold'
   } else {
     bannerToShow = 'newCurrency'

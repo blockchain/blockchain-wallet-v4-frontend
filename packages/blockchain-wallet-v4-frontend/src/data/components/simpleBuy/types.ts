@@ -68,7 +68,8 @@ export enum SimpleBuyStepType {
   '3DS_HANDLER',
   'TRANSFER_DETAILS',
   'CANCEL_ORDER',
-  'KYC_REQUIRED'
+  'KYC_REQUIRED',
+  'UPGRADE_TO_GOLD'
 }
 export type SBShowModalOriginType =
   | 'EmptyFeed'
@@ -364,7 +365,11 @@ export type StepActionsPayload =
     }
   | { order?: SBOrderType; step: '3DS_HANDLER' }
   | {
-      step: 'ADD_CARD' | 'CC_BILLING_ADDRESS' | 'KYC_REQUIRED'
+      step:
+        | 'ADD_CARD'
+        | 'CC_BILLING_ADDRESS'
+        | 'KYC_REQUIRED'
+        | 'UPGRADE_TO_GOLD'
     }
 
 interface SetStepAction {

@@ -123,7 +123,8 @@ const mapStateToProps = (state: RootState) => ({
     | SBCheckoutFormValuesType
     | undefined,
   goals: selectors.goals.getGoals(state),
-  preferences: selectors.preferences.getSBCheckoutPreferences(state)
+  preferences: selectors.preferences.getSBCheckoutPreferences(state),
+  sbOrders: selectors.components.simpleBuy.getSBOrders(state).getOrElse([])
 })
 
 const mapDispatchToProps = dispatch => ({
