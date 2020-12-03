@@ -27,8 +27,8 @@ export default () => {
 
       <Text color='grey600' weight={600} size='14px'>
         <FormattedMessage
-          id='modals.kycverification.veriff.description'
-          defaultMessage='Blockchain.com’s end-to-end verifaction service.'
+          id='modals.kycverification.veriff.desc'
+          defaultMessage='Blockchain.com’s end-to-end verification service.'
         />
       </Text>
     </Wrapper>

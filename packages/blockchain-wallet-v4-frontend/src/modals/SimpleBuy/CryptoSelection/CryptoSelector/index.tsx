@@ -74,7 +74,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
 
   const handleSubmit = (pair: SBPairType) => {
     // if first time user, send to verify email step which is required future SDD check
-    !props.emailVerified && props.isFirstLogin
+    !props.emailVerified && props.userData?.tiers?.current !== 2
       ? props.simpleBuyActions.setStep({
           step: 'VERIFY_EMAIL',
           orderType: orderType,

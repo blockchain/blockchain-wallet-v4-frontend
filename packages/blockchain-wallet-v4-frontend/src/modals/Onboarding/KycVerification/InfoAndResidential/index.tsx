@@ -1,14 +1,16 @@
-import { actions, model, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import React, { PureComponent } from 'react'
+
+import { actions, model, selectors } from 'data'
 import { CountryType } from 'data/components/identityVerification/types'
 import { ExtractSuccess, RemoteDataType } from 'core/types'
-import { getData } from './selectors'
 import { InfoAndResidentialFormValuesType } from 'data/types'
 import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
-import Loading from './template.loading'
-import React, { PureComponent } from 'react'
+
+import { getData } from './selectors'
+import Loading from '../template.loading'
 import Success from './template.success'
 
 const { INFO_AND_RESIDENTIAL_FORM } = model.components.identityVerification
@@ -24,8 +26,14 @@ class InfoAndResidential extends PureComponent<Props> {
   }
 
   handleSubmit = () => {
-    this.props.identityVerificationActions.saveInfoAndResidentialData(
-      this.props.metadata
+    const {
+      checkSddEligibility,
+      identityVerificationActions,
+      onCompletionCallback
+    } = this.props
+    identityVerificationActions.saveInfoAndResidentialData(
+      checkSddEligibility,
+      onCompletionCallback
     )
   }
 
@@ -83,8 +91,9 @@ const mapDispatchToProps = dispatch => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
-  metadata: any
+  checkSddEligibility?: boolean
   onClose: () => void
+  onCompletionCallback?: () => void
 }
 
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>

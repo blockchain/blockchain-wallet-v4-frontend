@@ -422,7 +422,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   )
 }
 
-export type Props = OwnProps & SuccessStateType & { isSddFlow: boolean }
+export type Props = OwnProps & SuccessStateType
 
 export default reduxForm<{}, Props>({
   form: 'simpleBuyCheckout',

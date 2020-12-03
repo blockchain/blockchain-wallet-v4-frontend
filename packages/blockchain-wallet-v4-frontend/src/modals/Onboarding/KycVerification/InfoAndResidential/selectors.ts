@@ -25,7 +25,6 @@ export const getData = (state: RootState) => {
   const formErrors = selectors.form.getFormSyncErrors(
     INFO_AND_RESIDENTIAL_FORM
   )(state)
-  const invitationsR = selectors.core.settings.getInvitations(state)
   const supportedCountriesR = selectors.components.identityVerification.getSupportedCountries(
     state
   )
@@ -35,14 +34,10 @@ export const getData = (state: RootState) => {
   )(state)
 
   return lift(
-    (
-      invitations: ExtractSuccess<typeof invitationsR>,
-      supportedCountries: ExtractSuccess<typeof supportedCountriesR>
-    ) => ({
+    (supportedCountries: ExtractSuccess<typeof supportedCountriesR>) => ({
       formErrors,
-      invitations,
       userData,
       supportedCountries
     })
-  )(invitationsR, supportedCountriesR)
+  )(supportedCountriesR)
 }

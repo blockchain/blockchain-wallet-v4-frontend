@@ -1,14 +1,16 @@
-import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { CoinType, SBPairType } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
+import React, { PureComponent } from 'react'
+
+import { actions, selectors } from 'data'
+import { CoinType, SBPairType } from 'core/types'
 import { CountryType } from 'data/components/identityVerification/types'
-import { getData } from './selectors'
 import { Remote } from 'core'
 import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
-import Loading from './template.loading'
-import React, { PureComponent } from 'react'
+
+import { getData } from './selectors'
+import Loading from '../template.loading'
 import Success from './template.success'
 
 class AddCard extends PureComponent<Props> {
@@ -54,9 +56,7 @@ class AddCard extends PureComponent<Props> {
         <Success
           {...this.props}
           {...val}
-          isSddFlow={
-            this.props.isFirstLogin || val.userData?.tiers?.current === 3
-          }
+          isSddFlow={val.userData?.tiers?.current !== 2}
           onSubmit={this.handleSubmit}
           onCountrySelect={this.onCountryChange}
           updateDefaultCountry={this.setDefaultCountry}
@@ -77,7 +77,6 @@ class AddCard extends PureComponent<Props> {
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'EUR',
-  isFirstLogin: selectors.auth.getFirstLogin(state),
   countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null)
 })
 

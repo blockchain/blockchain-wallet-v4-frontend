@@ -1,8 +1,9 @@
-import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import BigNumber from 'bignumber.js'
+import React, { PureComponent } from 'react'
 
+import { actions, selectors } from 'data'
 import {
   ExtractSuccess,
   FiatTypeEnum,
@@ -11,13 +12,13 @@ import {
   SupportedWalletCurrenciesType,
   WalletFiatType
 } from 'core/types'
-import { getData } from './selectors'
 import { getFiatFromPair, getOrderType } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 import DataError from 'components/DataError'
-import Loading from './template.loading'
-import React, { PureComponent } from 'react'
+
+import { getData } from './selectors'
+import Loading from '../template.loading'
 import Success from './template.success'
 
 class CheckoutConfirm extends PureComponent<Props> {
@@ -39,22 +40,20 @@ class CheckoutConfirm extends PureComponent<Props> {
 
     const inputCurrency = this.props.order.inputCurrency as WalletFiatType
 
-    if (userData.tiers.current < 2) {
-      this.props.simpleBuyActions.setStep({
-        step: 'KYC_REQUIRED'
-      })
-      return
-    }
-
-    // check for SDD user
+    // check for SDD flow and direct to add card
     if (
       userData.tiers.current === 3 &&
       this.props.order.paymentType === 'PAYMENT_CARD'
     ) {
-      this.props.simpleBuyActions.setStep({
+      return this.props.simpleBuyActions.setStep({
         step: 'ADD_CARD'
       })
-      return
+    }
+
+    if (userData.tiers.current < 2) {
+      return this.props.simpleBuyActions.setStep({
+        step: 'KYC_REQUIRED'
+      })
     }
 
     switch (this.props.order.paymentType) {

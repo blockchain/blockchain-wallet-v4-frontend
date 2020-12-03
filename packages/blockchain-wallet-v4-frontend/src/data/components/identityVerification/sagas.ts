@@ -129,15 +129,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const verifyIdentity = function * ({ payload }) {
-    const { tier, needMoreInfo, origin, metadata } = payload
-    yield put(
-      actions.modals.showModal(KYC_MODAL, {
-        tier,
-        needMoreInfo,
-        origin: origin || 'Unknown',
-        metadata
-      })
-    )
+    yield put(actions.modals.showModal(KYC_MODAL, payload))
   }
 
   const defineSteps = function * (tier, needMoreInfo) {
@@ -456,14 +448,18 @@ export default ({ api, coreSagas, networks }) => {
         payload: { address }
       })
 
-      const { metadata } = payload
-
-      if (metadata && metadata.checkSDD) {
+      if (payload.checkSddEligibility) {
         const sddEligible: SDDVerifiedType = yield call(api.updateSDDEligible)
 
         if (sddEligible && sddEligible.verified) {
+          // SDD approved, refetch user profile
+          yield put(actions.modules.profile.fetchUser())
+          // run callback to get back to SB flow
+          payload.onCompletionCallback && payload.onCompletionCallback()
+          // close KYC modal
           yield put(actions.modals.closeModal(KYC_MODAL))
         } else {
+          // SDD denied, continue to veriff
           yield call(goToNextStep)
         }
       } else {

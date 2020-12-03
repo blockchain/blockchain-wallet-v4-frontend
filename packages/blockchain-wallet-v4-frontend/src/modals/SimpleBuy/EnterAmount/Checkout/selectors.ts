@@ -13,6 +13,7 @@ export const getData = (state: RootState) => {
   const ratesR = selectors.core.data.misc.getRatesSelector(coin, state)
   const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
   const userDataR = selectors.modules.profile.getUserData(state)
+  const sddEligibleR = selectors.components.simpleBuy.getSddEligible(state)
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
 
   return lift(
@@ -22,16 +23,26 @@ export const getData = (state: RootState) => {
       rates: ExtractSuccess<typeof ratesR>,
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
       userData: ExtractSuccess<typeof userDataR>,
+      sddEligible: ExtractSuccess<typeof sddEligibleR>,
       supportedCoins: ExtractSuccess<typeof supportedCoinsR>
     ) => ({
       coinModel: supportedCoins[coin],
-      supportedCoins,
       formErrors,
       invitations,
+      isSddFlow: sddEligible.eligible || userData?.tiers?.current === 3,
       quote,
       rates,
       sbBalances,
+      supportedCoins,
       userData
     })
-  )(invitationsR, quoteR, ratesR, sbBalancesR, userDataR, supportedCoinsR)
+  )(
+    invitationsR,
+    quoteR,
+    ratesR,
+    sbBalancesR,
+    userDataR,
+    sddEligibleR,
+    supportedCoinsR
+  )
 }

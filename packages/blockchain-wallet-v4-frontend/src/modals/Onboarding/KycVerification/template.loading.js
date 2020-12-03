@@ -4,20 +4,20 @@ import styled from 'styled-components'
 import { BlockchainLoader } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
   width: 100%;
-  height: 600px;
-  padding: 5px;
-  box-sizing: border-box;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
 `
 
-export default props => {
+const Loading = () => {
   return (
     <Wrapper>
       <BlockchainLoader width='80px' height='80px' />
     </Wrapper>
   )
 }
+
+export default Loading

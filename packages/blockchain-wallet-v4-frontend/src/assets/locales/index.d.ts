@@ -797,7 +797,7 @@ type MessagesType = {
   'modals.kycverification.additionalinfo.requirement_3': 'National Identity Card'
   'modals.kycverification.additionalinfo.webcam_and_microphone': 'Be sure to enable your Webcam & Microphone.'
   'modals.kycverification.veriff.title': 'We’re Taking You to Veriff Now...'
-  'modals.kycverification.veriff.description': 'Blockchain.com’s end-to-end verifaction service.'
+  'modals.kycverification.veriff.desc': 'Blockchain.com’s end-to-end verification service.'
   'modals.lockbox.appmanager.close': 'Close App Manager'
   'modals.lockbox.appmanager.title': 'App Manager'
   'modals.lockbox.connectionprompt.connect.content': 'Connect and unlock your hardware device. Then open the {appName} app on the device.'

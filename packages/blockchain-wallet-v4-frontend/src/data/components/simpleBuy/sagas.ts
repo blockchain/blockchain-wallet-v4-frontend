@@ -1,9 +1,9 @@
-import * as A from './actions'
-import * as AT from './actionTypes'
-import * as S from './selectors'
+import { call, cancel, delay, put, select, take } from 'redux-saga/effects'
+import BigNumber from 'bignumber.js'
+import moment from 'moment'
+
 import { actions, selectors } from 'data'
 import { APIType } from 'core/network/api'
-import { call, cancel, delay, put, select, take } from 'redux-saga/effects'
 import {
   CoinTypeEnum,
   Everypay3DSResponseType,
@@ -17,6 +17,13 @@ import {
   SupportedWalletCurrenciesType,
   WalletOptionsType
 } from 'blockchain-wallet-v4/src/types'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { UserDataType } from 'data/modules/types'
+
+import * as A from './actions'
+import * as AT from './actionTypes'
+import * as S from './selectors'
 import {
   convertBaseToStandard,
   convertStandardToBase
@@ -33,19 +40,14 @@ import {
   NO_PAIR_SELECTED,
   NO_PAYMENT_TYPE
 } from './model'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 
-import { Remote } from 'blockchain-wallet-v4/src'
 import {
   SBAddCardErrorType,
   SBAddCardFormValuesType,
   SBBillingAddressFormValuesType,
   SBCheckoutFormValuesType
 } from './types'
-import { StepsMetadataType } from '../identityVerification/types'
-import { UserDataType } from 'data/modules/types'
-import BigNumber from 'bignumber.js'
-import moment from 'moment'
+
 import profileSagas from '../../modules/profile/sagas'
 
 export const logLocation = 'components/simpleBuy/sagas'
@@ -254,23 +256,6 @@ export default ({
       )
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order }))
-
-      const isUserTier2 = yield call(isTier2)
-      if (!isUserTier2) {
-        // user is not tier 2, send to kyc flow with SDD checks enabled
-        yield put(
-          actions.components.identityVerification.verifyIdentity(
-            2,
-            false,
-            'SBPaymentMethodSelection',
-            {
-              checkSDD: true,
-              amount,
-              fiatCurrency: getFiatFromPair(pair.pair)
-            } as StepsMetadataType
-          )
-        )
-      }
       yield put(A.fetchSBOrders())
     } catch (e) {
       // After CC has been activated we try to create an order

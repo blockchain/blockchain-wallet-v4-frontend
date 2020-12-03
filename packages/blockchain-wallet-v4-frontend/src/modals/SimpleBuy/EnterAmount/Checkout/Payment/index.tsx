@@ -26,7 +26,7 @@ const Payment: React.FC<Props> = props => (
       role='button'
       data-e2e='paymentMethodSelect'
       onClick={() => {
-        return !props.isFirstLogin
+        return !props.isSddFlow
           ? props.simpleBuyActions.setStep({
               step: 'PAYMENT_METHODS',
               pair: props.pair,
@@ -38,12 +38,12 @@ const Payment: React.FC<Props> = props => (
       isMethod={!!props.method}
     >
       <DisplayPaymentIcon showBackground={!props.method}>
-        {getIcon(props.method, props.isFirstLogin)}
+        {getIcon(props.method, props.isSddFlow)}
       </DisplayPaymentIcon>
       <PaymentText isMethod={!!props.method}>
-        {getText(props.method, props.sbBalances, props.isFirstLogin)}
+        {getText(props.method, props.sbBalances, props.isSddFlow)}
       </PaymentText>
-      {!props.isFirstLogin && (
+      {!props.isSddFlow && (
         <PaymentArrowContainer>
           <Icon cursor name='arrow-right' size='20px' color='grey600' />
         </PaymentArrowContainer>

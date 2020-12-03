@@ -1,6 +1,8 @@
-import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import React, { PureComponent } from 'react'
+
+import { actions, selectors } from 'data'
 import {
   ExtractSuccess,
   FiatTypeEnum,
@@ -9,12 +11,12 @@ import {
   SupportedCoinType,
   SupportedWalletCurrenciesType
 } from 'core/types'
-import { getData } from './selectors'
 import { Remote } from 'core'
 import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
-import Loading from '../AddCard/template.loading'
-import React, { PureComponent } from 'react'
+
+import { getData } from './selectors'
+import Loading from '../template.loading'
 import Success from './template.success'
 import SuccessSdd from './template.sdd.success'
 
@@ -34,9 +36,7 @@ class OrderSummary extends PureComponent<Props> {
   render () {
     return this.props.data.cata({
       Success: val => {
-        const isSddFlow =
-          this.props.isFirstLogin || val.userData?.tiers?.current === 3
-        return isSddFlow ? (
+        return val.userData?.tiers?.current !== 2 ? (
           <SuccessSdd {...val} {...this.props} />
         ) : (
           <Success {...val} {...this.props} />
@@ -62,8 +62,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
       USDT: { colorCode: 'usdt' } as SupportedCoinType,
       WDGLD: { colorCode: 'wdgld' } as SupportedCoinType,
       XLM: { colorCode: 'xlm' } as SupportedCoinType
-    } as Omit<SupportedWalletCurrenciesType, keyof FiatTypeEnum>),
-  isFirstLogin: selectors.auth.getFirstLogin(state)
+    } as Omit<SupportedWalletCurrenciesType, keyof FiatTypeEnum>)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -81,7 +80,6 @@ export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
-  isFirstLogin: boolean
   supportedCoins: SupportedWalletCurrenciesType
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>

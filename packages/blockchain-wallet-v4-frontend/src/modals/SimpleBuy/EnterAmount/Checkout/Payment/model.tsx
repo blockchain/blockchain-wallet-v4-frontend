@@ -109,9 +109,9 @@ export const renderFund = (
 
 export const getIcon = (
   value: SBPaymentMethodType | undefined,
-  isFirstLogin: boolean = false
+  isSddFlow: boolean = false
 ): ReactElement => {
-  if (isFirstLogin) {
+  if (isSddFlow) {
     return <Icon size='18px' color='blue600' name='credit-card-sb' />
   }
   if (!value) {
@@ -148,9 +148,9 @@ export const getIcon = (
 export const getText = (
   value: SBPaymentMethodType | undefined,
   sbBalances: SBBalancesType,
-  isFirstLogin: boolean = false
+  isSddFlow: boolean = false
 ): ReactElement => {
-  if (isFirstLogin) {
+  if (isSddFlow) {
     return (
       <FormattedMessage
         id='modals.simplebuy.confirm.credit_or_debit'

@@ -1,23 +1,29 @@
+import { ModalOriginType } from 'data/modals/types'
+
 import * as AT from './actionTypes'
 import {
   CampaignsType,
   DocumentType,
   IdentityVerificationActionTypes,
-  StepsMetadataType,
   StepsType
 } from './types'
-import { ModalOriginType } from 'data/modals/types'
 import { TIERS } from '../../modules/profile/model'
 
 export const verifyIdentity = (
   tier = TIERS[2],
   needMoreInfo = false,
-  origin: ModalOriginType,
-  metadata?: any,
-  callback?: () => void
+  origin: ModalOriginType = 'Unknown',
+  checkSddEligibility?: boolean,
+  onCompletionCallback?: () => void
 ): IdentityVerificationActionTypes => ({
   type: AT.VERIFY_IDENTITY,
-  payload: { tier, needMoreInfo, origin, metadata, callback }
+  payload: {
+    checkSddEligibility,
+    needMoreInfo,
+    onCompletionCallback,
+    origin,
+    tier
+  }
 })
 
 export const initializeVerification = (tier, needMoreInfo) => ({
@@ -180,7 +186,10 @@ export const setEmailStep = (step): IdentityVerificationActionTypes => ({
   payload: { step }
 })
 
-export const saveInfoAndResidentialData = (metadata: StepsMetadataType) => ({
+export const saveInfoAndResidentialData = (
+  checkSddEligibility,
+  onCompletionCallback
+) => ({
   type: AT.SAVE_INFO_AND_RESIDENTIAL_DATA,
-  payload: { metadata }
+  payload: { checkSddEligibility, onCompletionCallback }
 })

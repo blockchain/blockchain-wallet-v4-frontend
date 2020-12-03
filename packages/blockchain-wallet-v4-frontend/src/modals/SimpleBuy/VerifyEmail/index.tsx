@@ -1,12 +1,13 @@
-import { actions, model, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import React, { PureComponent } from 'react'
+
+import { actions, model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { SBVerifyEmailFormValuesType } from 'data/types'
 
 import { getData } from './selectors'
-import { SBVerifyEmailFormValuesType } from 'data/types'
-import Loading from './template.loading'
-import React, { PureComponent } from 'react'
+import Loading from '../template.loading'
 import Success from './template.success'
 
 const { SB_CHANGE_EMAIL_FORM } = model.components.simpleBuy

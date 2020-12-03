@@ -5,13 +5,13 @@ import { includes, pickBy } from 'ramda'
 import React from 'react'
 
 import { actions, model } from 'data'
-import { getData } from './selectors'
 import { RemoteDataType } from 'core/types'
-import { StepsMetadataType } from 'data/components/identityVerification/types'
-import AdditionalInfo from './AdditionalInfo'
 import DataError from 'components/DataError'
-import EmailVerification from './EmailVerification'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+
+import { getData } from './selectors'
+import AdditionalInfo from './AdditionalInfo'
+import EmailVerification from './EmailVerification'
 import InfoAndResidential from './InfoAndResidential'
 import Loading from './template.loading'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -55,10 +55,11 @@ const stepMap = {
 }
 
 type OwnProps = {
+  checkSddEligibility?: boolean
   close: () => void
   emailVerified: boolean
-  metadata: StepsMetadataType
   needMoreInfo: boolean
+  onCompletionCallback?: () => void
   position: number
   step: number
   steps: RemoteDataType<any, any>
@@ -102,8 +103,9 @@ class IdentityVerification extends React.PureComponent<Props, State> {
       }
       return (
         <InfoAndResidential
+          checkSddEligibility={this.props.checkSddEligibility}
           onClose={this.handleClose}
-          metadata={this.props.metadata}
+          onCompletionCallback={this.props.onCompletionCallback}
         />
       )
     }

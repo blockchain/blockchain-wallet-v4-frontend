@@ -1,7 +1,7 @@
-import * as AT from './actionTypes'
 import { ModalOriginType } from 'data/modals/types'
 import { NabuAddressType, RemoteDataType } from 'core/types'
-import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
+
+import * as AT from './actionTypes'
 
 export type EmailSmsStepType = 'edit' | 'verify'
 
@@ -206,26 +206,11 @@ interface SetVerificationStepAction {
   type: typeof AT.SET_VERIFICATION_STEP
 }
 
-// reserved for future use if necessary
-type SwapMetadataType = {}
-type InterestMetadataType = {}
-
-type SimpleBuyMetadataType = {
-  amount: string
-  checkSDD: boolean
-  fiatCurrency: WalletFiatType
-}
-
-export type StepsMetadataType =
-  | SwapMetadataType
-  | InterestMetadataType
-  | SimpleBuyMetadataType
-
 interface VerifyIdentityAction {
   payload: {
-    callback?: () => void
-    metadata?: SimpleBuyMetadataType
+    checkSddEligibility?: boolean
     needMoreInfo?: boolean
+    onCompletionCallback?: () => void
     origin: ModalOriginType
     tier: number
   }

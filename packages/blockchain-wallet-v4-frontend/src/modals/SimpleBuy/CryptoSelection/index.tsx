@@ -9,7 +9,7 @@ import { RootState } from 'data/rootReducer'
 
 import { getData } from './selectors'
 import Failure from './template.failure'
-import Loading from './template.loading'
+import Loading from '../template.loading'
 import Success from './template.success'
 
 class CryptoSelection extends PureComponent<Props> {

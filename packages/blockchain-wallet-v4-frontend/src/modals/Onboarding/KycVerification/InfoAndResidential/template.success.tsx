@@ -11,10 +11,10 @@ import React from 'react'
 import styled from 'styled-components'
 
 import {
+  BlockchainLoader,
   Button,
   HeartbeatLoader,
   Icon,
-  SpinningLoader,
   Text
 } from 'blockchain-info-components'
 import { CountryType } from 'data/components/identityVerification/types'
@@ -134,7 +134,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   if (props.submitting) {
     return (
       <SpinnerWrapper>
-        <SpinningLoader width='36px' height='36px' />
+        <BlockchainLoader width='80px' height='80px' />
       </SpinnerWrapper>
     )
   }
