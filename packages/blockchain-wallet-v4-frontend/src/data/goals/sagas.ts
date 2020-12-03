@@ -235,11 +235,7 @@ export default ({ api, coreSagas, networks }) => {
       )).getOrElse({ current: 0 }) || { current: 0 }
       if (current >= Number(tier)) return
       yield put(
-        actions.components.identityVerification.verifyIdentity(
-          tier,
-          false,
-          'RunKycGoal'
-        )
+        actions.components.identityVerification.verifyIdentity(tier, false)
       )
     } catch (err) {
       yield put(

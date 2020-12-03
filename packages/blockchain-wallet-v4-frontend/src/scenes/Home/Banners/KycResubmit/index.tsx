@@ -1,13 +1,11 @@
-import { actions, model } from 'data'
-import { Button, Text } from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
+import { actions } from 'data'
+import { Button, Text } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'
-
-const { TIERS } = model.profile
 
 const Wrapper = styled.div`
   display: flex;
@@ -81,13 +79,7 @@ const KycResubmit = ({ verifyIdentity }) => (
 
 const mapDispatchToProps = dispatch => ({
   verifyIdentity: () =>
-    dispatch(
-      actions.components.identityVerification.verifyIdentity(
-        TIERS[2],
-        true,
-        'KycDocResubmitGoal'
-      )
-    )
+    dispatch(actions.components.identityVerification.verifyIdentity(2, true))
 })
 
 export default connect(null, mapDispatchToProps)(KycResubmit)

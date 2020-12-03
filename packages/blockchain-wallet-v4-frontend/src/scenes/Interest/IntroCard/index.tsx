@@ -138,9 +138,7 @@ class IntroCard extends PureComponent<
                 data-e2e='verifyIdentityBorrow'
                 style={{ marginTop: '20px' }}
                 disabled={userData.kycState !== 'NONE'}
-                onClick={() =>
-                  idvActions.verifyIdentity(2, false, 'InterestPage')
-                }
+                onClick={() => idvActions.verifyIdentity(2, false)}
               >
                 {userData.kycState === 'UNDER_REVIEW' ||
                 userData.kycState === 'PENDING' ? (

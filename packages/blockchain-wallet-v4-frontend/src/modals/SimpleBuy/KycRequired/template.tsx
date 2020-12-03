@@ -146,11 +146,7 @@ const Template: React.FC<Props> = props => {
           nature='primary'
           data-e2e='handleVerified'
           onClick={() => {
-            props.identityVerificationActions.verifyIdentity(
-              2,
-              false,
-              'KycRequiredStep'
-            )
+            props.identityVerificationActions.verifyIdentity(2, false)
             if (props.order) {
               props.simpleBuyActions.setStep({
                 step: 'CHECKOUT_CONFIRM',

@@ -56,7 +56,6 @@ class Checkout extends PureComponent<Props> {
         this.props.identityVerificationActions.verifyIdentity(
           2,
           false,
-          'SBEnterAmountCheckout',
           true,
           () => this.props.simpleBuyActions.createSBOrder('PAYMENT_CARD')
         )

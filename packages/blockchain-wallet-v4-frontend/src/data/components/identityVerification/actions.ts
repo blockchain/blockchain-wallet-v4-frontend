@@ -1,5 +1,3 @@
-import { ModalOriginType } from 'data/modals/types'
-
 import * as AT from './actionTypes'
 import {
   CampaignsType,
@@ -7,12 +5,10 @@ import {
   IdentityVerificationActionTypes,
   StepsType
 } from './types'
-import { TIERS } from '../../modules/profile/model'
 
 export const verifyIdentity = (
-  tier = TIERS[2],
-  needMoreInfo = false,
-  origin: ModalOriginType = 'Unknown',
+  tier: number,
+  needMoreInfo?: boolean,
   checkSddEligibility?: boolean,
   onCompletionCallback?: () => void
 ): IdentityVerificationActionTypes => ({
@@ -21,7 +17,6 @@ export const verifyIdentity = (
     checkSddEligibility,
     needMoreInfo,
     onCompletionCallback,
-    origin,
     tier
   }
 })

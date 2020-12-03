@@ -148,13 +148,9 @@ const Template: React.FC<Props> = props => {
           height='48px'
           nature='primary'
           data-e2e='upgradeNowBtn'
-          onClick={() => {
-            props.identityVerificationActions.verifyIdentity(
-              2,
-              false,
-              'KycRequiredStep'
-            )
-          }}
+          onClick={() =>
+            props.identityVerificationActions.verifyIdentity(2, false)
+          }
           style={{ marginTop: '16px' }}
           type='button'
         >

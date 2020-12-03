@@ -2,10 +2,11 @@ import { connect } from 'react-redux'
 import React from 'react'
 import styled from 'styled-components'
 
-import { actions, model } from 'data'
+import { actions } from 'data'
+import media from 'services/ResponsiveService'
+
 import { getData } from './selectors'
 import EmailReminder from './template.email'
-import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -18,8 +19,6 @@ const Wrapper = styled.div`
     display: none;
   `};
 `
-
-const { TIERS } = model.profile
 
 class StaticAnnouncementsContainer extends React.PureComponent {
   state = {}
@@ -68,7 +67,7 @@ const mapDispatchToProps = dispatch => ({
   resendEmail: email =>
     dispatch(actions.modules.securityCenter.resendVerifyEmail(email)),
   verifyIdentity: () =>
-    dispatch(actions.components.identityVerification.verifyIdentity(TIERS[2]))
+    dispatch(actions.components.identityVerification.verifyIdentity(2))
 })
 
 export default connect(

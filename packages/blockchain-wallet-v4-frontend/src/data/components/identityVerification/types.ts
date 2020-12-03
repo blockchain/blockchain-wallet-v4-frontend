@@ -1,4 +1,3 @@
-import { ModalOriginType } from 'data/modals/types'
 import { NabuAddressType, RemoteDataType } from 'core/types'
 
 import * as AT from './actionTypes'
@@ -211,7 +210,6 @@ interface VerifyIdentityAction {
     checkSddEligibility?: boolean
     needMoreInfo?: boolean
     onCompletionCallback?: () => void
-    origin: ModalOriginType
     tier: number
   }
   type: typeof AT.VERIFY_IDENTITY

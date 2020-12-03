@@ -4,10 +4,9 @@ import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
-import { actions, model } from 'data'
+import { actions } from 'data'
 import { Button, Image, Modal, Text } from 'blockchain-info-components'
 import modalEnhancer from 'providers/ModalEnhancer'
-const { TIERS } = model.profile
 
 const Header = styled.div`
   display: flex;
@@ -95,7 +94,7 @@ class KycDocResubmit extends React.PureComponent {
 const mapDispatchToProps = dispatch => ({
   closeModal: () => dispatch(actions.modals.closeModal()),
   verifyIdentity: () =>
-    dispatch(actions.components.identityVerification.verifyIdentity(TIERS[2]))
+    dispatch(actions.components.identityVerification.verifyIdentity(2))
 })
 
 const enhance = compose(
