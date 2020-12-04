@@ -16,7 +16,7 @@ import {
   SBPaymentMethodType,
   SBProviderDetailsType,
   SBQuoteType,
-  SDDType,
+  SDDEligibleType,
   SDDVerifiedType
 } from 'core/types'
 import { CountryType } from './../identityVerification/types'
@@ -106,7 +106,7 @@ export type SimpleBuyState = {
   pairs: RemoteDataType<string, Array<SBPairType>>
   providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
-  sddEligible: RemoteDataType<string, SDDType>
+  sddEligible: RemoteDataType<string, SDDEligibleType>
   sddUpdateEligible: RemoteDataType<string, SDDVerifiedType>
   step: keyof typeof SimpleBuyStepType
 }
@@ -224,7 +224,7 @@ interface FetchSDDEligibleLoading {
 }
 interface FetchSDDEligibleSuccess {
   payload: {
-    sddEligible: SDDType
+    sddEligible: SDDEligibleType
   }
   type: typeof AT.FETCH_SDD_ELIGIBILITY_SUCCESS
 }

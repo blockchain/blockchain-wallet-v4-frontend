@@ -449,10 +449,25 @@ export default ({ api, coreSagas, networks }) => {
       })
 
       if (payload.checkSddEligibility) {
-        const sddEligible: SDDVerifiedType = yield call(api.updateSDDEligible)
+        const POLL_SDD_DELAY = 3000
+        let sddVerified: SDDVerifiedType
+        let callCount = 0
 
-        if (sddEligible && sddEligible.verified) {
-          // SDD approved, refetch user profile
+        // poll for SDD verified check to complete
+        // 10 call max * 3 second intervals = 30 second wait before forcing gold flow
+        while (true) {
+          callCount++
+          if (callCount >= 10) {
+            sddVerified = { verified: false, taskComplete: true }
+            break
+          }
+          sddVerified = yield call(api.updateSDDEligible)
+          if (sddVerified?.taskComplete) break
+          yield delay(POLL_SDD_DELAY)
+        }
+
+        if (sddVerified.verified) {
+          // SDD verified, refetch user profile
           yield put(actions.modules.profile.fetchUser())
           // run callback to get back to SB flow
           payload.onCompletionCallback && payload.onCompletionCallback()

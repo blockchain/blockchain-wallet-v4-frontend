@@ -1,4 +1,4 @@
-import { SDDType, SDDVerifiedType } from './types'
+import { SDDEligibleType, SDDVerifiedType } from './types'
 
 export default ({
   nabuUrl,
@@ -41,7 +41,7 @@ export default ({
       endPoint: `/upload/data/${token}`
     })
 
-  const fetchSDDEligible = (): SDDType =>
+  const fetchSDDEligible = (): SDDEligibleType =>
     get({
       url: nabuUrl,
       endPoint: `/sdd/eligible`,

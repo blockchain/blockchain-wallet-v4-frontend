@@ -37,20 +37,17 @@ class CheckoutConfirm extends PureComponent<Props> {
     const { userData, sbBalances } = this.props.data.getOrElse({
       userData: { tiers: { current: 0 } } as UserDataType
     } as SuccessStateType)
-
+    const userTier = userData?.tiers?.current
     const inputCurrency = this.props.order.inputCurrency as WalletFiatType
 
     // check for SDD flow and direct to add card
-    if (
-      userData.tiers.current === 3 &&
-      this.props.order.paymentType === 'PAYMENT_CARD'
-    ) {
+    if (userTier === 3 && this.props.order.paymentType === 'PAYMENT_CARD') {
       return this.props.simpleBuyActions.setStep({
         step: 'ADD_CARD'
       })
     }
 
-    if (userData.tiers.current < 2) {
+    if (userTier < 2) {
       return this.props.simpleBuyActions.setStep({
         step: 'KYC_REQUIRED'
       })

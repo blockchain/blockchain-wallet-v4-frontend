@@ -15,7 +15,7 @@ import {
   SBPaymentMethodType,
   SBProviderDetailsType,
   SBQuoteType,
-  SDDType,
+  SDDEligibleType,
   SDDVerifiedType,
   WalletFiatType
 } from 'core/types'
@@ -239,7 +239,7 @@ export const fetchSDDEligibleLoading = (): SimpleBuyActionTypes => ({
 })
 
 export const fetchSDDEligibleSuccess = (
-  sddEligible: SDDType
+  sddEligible: SDDEligibleType
 ): SimpleBuyActionTypes => ({
   type: AT.FETCH_SDD_ELIGIBILITY_SUCCESS,
   payload: {
