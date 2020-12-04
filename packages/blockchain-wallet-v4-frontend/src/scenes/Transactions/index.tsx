@@ -129,7 +129,6 @@ class TransactionsContainer extends React.PureComponent<Props> {
       sourceType
     } = this.props
     const { colorCode, coinTicker, displayName, icons } = coinModel
-
     return (
       <SceneWrapper>
         <LazyLoadContainer onLazyLoad={loadMoreTxs}>

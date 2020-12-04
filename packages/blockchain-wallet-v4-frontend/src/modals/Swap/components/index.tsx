@@ -60,7 +60,7 @@ export const CustomOption = styled(Option)`
 `
 
 export const OptionTitle = styled(Text)`
-  color: ${props => props.theme.grey900};
+  color: ${props => props.theme.grey800};
   font-weight: 600;
   max-width: 200px;
 `
