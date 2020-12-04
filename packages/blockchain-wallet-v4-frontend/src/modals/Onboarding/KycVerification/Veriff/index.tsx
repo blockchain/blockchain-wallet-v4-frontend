@@ -9,9 +9,8 @@ import React from 'react'
 import Success from './template.success'
 
 class Veriff extends React.PureComponent<Props> {
-  state = {
-    loading: false
-  }
+  state = { loading: false }
+
   componentDidMount () {
     if (!Remote.Success.is(this.props.data)) {
       this.props.actions.fetchVeriffUrl()
@@ -33,7 +32,7 @@ class Veriff extends React.PureComponent<Props> {
   }
 
   render () {
-    const { actions } = this.props
+    const { onClose } = this.props
 
     if (this.state.loading) return <Loading />
 
@@ -45,9 +44,7 @@ class Veriff extends React.PureComponent<Props> {
         />
       ),
       Loading: () => <Loading />,
-      Failure: message => (
-        <Failure message={message} onClick={actions.fetchVeriffUrl} />
-      ),
+      Failure: message => <Failure message={message} onClose={onClose} />,
       NotAsked: () => <Loading />
     })
   }

@@ -434,12 +434,11 @@ type MessagesType = {
   'formhelper.uniquewalletname': 'Wallet name is already taken.'
   'home.balances.error.refresh': 'Refresh {curr} Data'
   'identityverification.failure.button': 'Start Trading'
-  'identityverification.failure.content-1': "We're sorry we can't verify you for Gold. This can be for a number of reasons, for example your country might not be supported right now."
-  'identityverification.failure.content-2': "If you're Silver verified you can trade your crypto in Swap"
-  'identityverification.failure.content-3': 'If you want to learn more about our verification process. Visit our'
-  'identityverification.failure.content-3-link': 'Support Center.'
+  'identityverification.failure.content1': "We're sorry but we can't verify you for Gold at this time. This can be for a number of reasons, for example your country might not be supported right now. If you're Silver verified you can still Buy, Sell or Swap a limited amount of crypto now."
+  'identityverification.failure.content2': 'If you want to learn more about our verification process. Visit our'
+  'identityverification.failure.link': 'Support Center'
   'identityverification.failure.header': 'Gold Unavailable At This Time'
-  'identityverification.failure.server.error': 'Server Error: {description}'
+  'identityverification.failure.error': 'Server Error: {description}'
   'identityverification.highflow.continueonmobile': 'Continue on mobile'
   'identityverification.highflow.followlink': '1 - <b>Follow the link above</b> to log into or download our mobile app.'
   'identityverification.highflow.getidready': '3 - Get your <b>Identity documents</b> (e.g. Passport) and be ready to take a selfie video.'

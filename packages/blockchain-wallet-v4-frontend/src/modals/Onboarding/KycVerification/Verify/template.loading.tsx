@@ -12,25 +12,31 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
+const TitleText = styled(Text)`
+  margin-top: 12px;
+`
+const SubtitleText = styled(Text)`
+  margin-top: 8px;
+`
 
 export default () => {
   return (
     <Wrapper>
       <BlockchainLoader width='80px' height='80px' />
 
-      <Text color='grey800' weight={600} size='20px'>
+      <TitleText color='grey800' weight={600} size='20px'>
         <FormattedMessage
           id='modals.kycverification.veriff.title'
           defaultMessage='We’re Taking You to Veriff Now...'
         />
-      </Text>
+      </TitleText>
 
-      <Text color='grey600' weight={600} size='14px'>
+      <SubtitleText color='grey600' weight={600} size='14px'>
         <FormattedMessage
           id='modals.kycverification.veriff.desc'
           defaultMessage='Blockchain.com’s end-to-end verification service.'
         />
-      </Text>
+      </SubtitleText>
     </Wrapper>
   )
 }

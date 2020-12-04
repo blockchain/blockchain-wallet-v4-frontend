@@ -1,3 +1,9 @@
+import { defaultTo, map, replace } from 'ramda'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
+
 import {
   ageOverEighteen,
   countryUsesPostalcode,
@@ -6,10 +12,6 @@ import {
   requiredDOB,
   requiredZipCode
 } from 'services/FormHelper'
-import { FormattedMessage } from 'react-intl'
-import React from 'react'
-import styled from 'styled-components'
-
 import {
   BlockchainLoader,
   Button,
@@ -28,10 +30,10 @@ import {
   SelectBoxUSState,
   TextBox
 } from 'components/Form'
-import { defaultTo, map, replace } from 'ramda'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
+import { getStateNameFromAbbreviation } from 'services/LocalesService'
 import { model } from 'data'
+
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const { INFO_AND_RESIDENTIAL_FORM } = model.components.identityVerification
@@ -368,6 +370,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 errorBottom
                 validate={[required]}
                 normalize={val => val && val.code}
+                format={val => ({
+                  name: getStateNameFromAbbreviation(val),
+                  code: val
+                })}
               />
             ) : (
               <Field
