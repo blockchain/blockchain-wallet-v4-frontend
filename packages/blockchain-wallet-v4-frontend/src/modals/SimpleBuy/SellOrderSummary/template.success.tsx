@@ -28,12 +28,6 @@ const TopText = styled(Text)`
   align-items: center;
   justify-content: space-between;
 `
-// const Bottom = styled(FlyoutWrapper)`
-//   display: flex;
-//   justify-content: flex-end;
-//   flex-direction: column;
-//   height: 100%;
-// `
 const Amount = styled.div`
   margin-top: 40px;
   > div {
@@ -41,16 +35,6 @@ const Amount = styled.div`
   }
 `
 
-// const BottomInfo = styled(Bottom)`
-//   text-align: center;
-//   a {
-//     color: ${props => props.theme.blue600};
-//     text-decoration: none;
-//   }
-// `
-// I have a lot of checks here and default values because sellOrder can be undefined. This
-// this isn't an issue for regular orders even though their default state value is undefined as well
-// Figure this out to clean up this code
 const Success: React.FC<Props> = props => {
   const { sellOrder } = props
   const sellBaseAmount = sellOrder && getSellBaseAmount(sellOrder)
@@ -183,31 +167,6 @@ const Success: React.FC<Props> = props => {
           </Value>
         </Row>
       </div>
-      {/* {sellOrder.state === 'PENDING_CONFIRMATION' ||
-        (sellOrder.state === 'PENDING_DEPOSIT' &&
-           (
-            <Bottom>
-              <Button
-                data-e2e='sbCancelPending'
-                size='16px'
-                height='48px'
-                nature='light-red'
-                onClick={() =>
-                  props.simpleBuyActions.setStep({
-                    step: 'CANCEL_ORDER',
-                    order: props.order
-                  })
-                }
-              >
-               
-                  <FormattedMessage
-                    id='modals.simplebuy.summary.cancelsell'
-                    defaultMessage='Cancel Sell'
-                  />
-              
-              </Button>
-            </Bottom>
-          ))} */}
     </Wrapper>
   ) : null
 }
