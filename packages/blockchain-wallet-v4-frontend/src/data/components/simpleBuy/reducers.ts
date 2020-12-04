@@ -262,7 +262,6 @@ export function simpleBuyReducer (
               getCoinFromPair(pair.pair) === state.cryptoCurrency &&
               getFiatFromPair(pair.pair) === state.fiatCurrency
           )
-        // swapAccount: action.account
       }
     case AT.UPDATE_PAYMENT_FAILURE: {
       return {

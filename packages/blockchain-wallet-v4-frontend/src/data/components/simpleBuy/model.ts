@@ -103,7 +103,8 @@ export const getCounterCurrency = (
   )
 }
 // These methods are being used for just sell p3, since we're release sell first
-// Separately from Buy and the order types are different. Once buy is
+// Separately from Buy and the order types are different. Once buy is migrated
+// to new API, should use methods similar to this
 export const getSellBaseAmount = (sellOrder: SwapOrderType): string => {
   const coinCurrency = getCoinFromPair(sellOrder.pair)
   return convertBaseToStandard(
