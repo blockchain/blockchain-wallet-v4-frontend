@@ -8,7 +8,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { FormGroup } from 'components/Form'
 import { SBAddCardErrorType } from 'data/types'
 
-import { Props as OwnProps, SuccessStateType } from '.'
+import { Props as _P, SuccessStateType } from '.'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
   height: 100%;
@@ -57,7 +57,8 @@ const TermsText = styled(Text)`
 
 const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
   handleSubmit,
-  submitting
+  submitting,
+  handleBack
 }) => {
   return (
     <CustomFlyoutWrapper>
@@ -69,10 +70,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
           color='grey600'
           role='button'
           style={{ marginRight: '24px' }}
-          onClick={() =>
-            // eslint-disable-next-line
-            window.alert('TODO')
-          }
+          onClick={handleBack}
         />
         <FormattedMessage
           id='buttons.link_bank'
@@ -150,7 +148,8 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
   )
 }
 
-export type Props = OwnProps & SuccessStateType
+type OwnProps = { handleBack: () => void }
+export type Props = _P & SuccessStateType & OwnProps
 export type ErrorType = SBAddCardErrorType
 
 export default reduxForm<{}, Props, ErrorType>({

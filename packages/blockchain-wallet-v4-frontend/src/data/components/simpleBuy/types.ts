@@ -96,6 +96,19 @@ export type SBShowModalOriginType =
   | 'WelcomeModal'
   | 'WithdrawModal'
 
+export type FastLinkType = {
+  attributes: {
+    fastlinkParams: {
+      configName: 'Verification'
+    }
+    fastlinkUrl: string
+    token: string
+    tokenExpiresAt: string
+  },
+  id: string
+  partner: 'YODLEE'
+}
+
 // State
 export type SimpleBuyState = {
   account: RemoteDataType<string, SBAccountType>
@@ -107,6 +120,7 @@ export type SimpleBuyState = {
   cryptoCurrency: undefined | CoinType
   displayBack: boolean
   everypay3DS: RemoteDataType<string, Everypay3DSResponseType>
+  fastLink: RemoteDataType<string, FastLinkType>
   fiatCurrency: undefined | FiatType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
   method: undefined | SBPaymentMethodType
@@ -395,6 +409,10 @@ export type StepActionsPayload =
       displayBack: boolean
       fiatCurrency: FiatType
       step: 'BANK_WIRE_DETAILS'
+    }
+  | {
+      fastLink: FastLinkType
+      step: 'LINK_BANK'
     }
   | {
       cryptoCurrency: CoinType

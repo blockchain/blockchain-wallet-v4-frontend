@@ -13,6 +13,7 @@ const INITIAL_STATE: SimpleBuyState = {
   cryptoCurrency: undefined,
   displayBack: false,
   everypay3DS: Remote.NotAsked,
+  fastLink: Remote.NotAsked,
   fiatCurrency: undefined,
   fiatEligible: Remote.NotAsked,
   method: undefined,
@@ -366,6 +367,12 @@ export function simpleBuyReducer (
             fiatCurrency: action.payload.fiatCurrency,
             displayBack: action.payload.displayBack,
             addBank: action.payload.addBank
+          }
+        case 'LINK_BANK':
+          return {
+            ...state,
+            fastLink: Remote.Success(action.payload.fastLink),
+            step: action.payload.step
           }
         case 'SELL_ORDER_SUMMARY':
           return {

@@ -8,18 +8,18 @@ import { WalletOptionsType } from 'core/types'
 
 export const getData = (state: RootState) => {
   // TODO: YODLEE get partner data from selectors
-  const providerDetailsR = Remote.Success({
-    fastLinkUrl: 'https://en.wikipedia.org/wiki/Bitcoin',
-    partner: 'YODLEE',
-    token: 'abc'
-  })
+  const fastLink = selectors.components.simpleBuy.getFastLink(state)
+  const providerDetailsR = Remote.Success(fastLink)
   const domains = selectors.core.walletOptions.getDomains(state).getOrElse({
     walletHelper: 'https://wallet-helper.blockchain.com'
   } as WalletOptionsType['domains'])
 
   const transform = providerDetails => {
-    const partner = providerDetails.partner.toLowerCase()
-    const queryString = qs.stringify(providerDetails)
+    const partner = providerDetails.data.partner.toLowerCase()
+    const queryString = qs.stringify({
+      ...providerDetails.data.attributes,
+      ...providerDetails.data.attributes.fastlinkParams
+    })
     const iFrameUrl =
       domains.walletHelper +
       '/wallet-helper/' +

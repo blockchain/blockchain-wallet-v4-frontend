@@ -21,10 +21,24 @@ class LinkBank extends PureComponent<Props> {
     this.props.simpleBuyActions.setStep({ step: 'LINK_BANK_HANDLER' })
   }
 
+  handleBack = () => {
+    this.props.simpleBuyActions.setStep({
+      step: 'PAYMENT_METHODS',
+      cryptoCurrency: this.props.cryptoCurrency,
+      fiatCurrency: this.props.fiatCurrency,
+      pair: this.props.pair
+    })
+  }
+
   render () {
     return this.props.data.cata({
       Success: val => (
-        <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
+        <Success
+          {...this.props}
+          {...val}
+          onSubmit={this.handleSubmit}
+          handleBack={this.handleBack}
+        />
       ),
       Failure: e => (
         <DataError
@@ -40,7 +54,8 @@ class LinkBank extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'EUR'
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'EUR',
+  fastLink: state.components.simpleBuy.fastLink
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
@@ -50,7 +65,7 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
-  cryptoCurrency?: CoinType
+  cryptoCurrency: CoinType
   handleClose: () => void
   pair: SBPairType
 }

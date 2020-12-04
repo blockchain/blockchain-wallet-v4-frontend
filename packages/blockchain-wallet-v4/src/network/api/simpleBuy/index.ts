@@ -98,6 +98,24 @@ export default ({
       }
     })
 
+  const createBankAccountLink = (
+    currency: WalletCurrencyType,
+    userId: string // TODO: use UserDataType.id instead of string
+  ) =>
+    authorizedPost({
+      url: nabuUrl,
+      removeDefaultPostData: true,
+      endPoint: `/payments/banktransfer`,
+      contentType: 'application/json',
+      data: {
+        attributes: {
+          userOverride: 'sbMem5fb5284b1f71e2'
+        },
+        currency,
+        userId
+      }
+    })
+
   const confirmSBOrder = (
     order: SBOrderType,
     attributes?: SBProviderAttributesType,
@@ -358,6 +376,7 @@ export default ({
     cancelSBOrder,
     createSBCard,
     createSBOrder,
+    createBankAccountLink,
     confirmSBOrder,
     deleteSBCard,
     getSBBalances,

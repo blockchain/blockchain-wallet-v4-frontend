@@ -907,10 +907,18 @@ export default ({
           })
         )
       case 'LINK_BANK':
-        // TODO: YODLEE FIX ME, HACK TESTING
+        // TODO: YODLEE FIX? ME, HACK TESTING
+        const userDataR = selectors.modules.profile.getUserData(yield select())
+        const userData = userDataR.getOrFail('NO_USER_ADDRESS')
+        const fastLink = yield call(
+          api.createBankAccountLink,
+          'USD',
+          userData.id
+        )
         return yield put(
           A.setStep({
-            step: 'LINK_BANK'
+            step: 'LINK_BANK',
+            fastLink
           })
         )
       // return yield put(
