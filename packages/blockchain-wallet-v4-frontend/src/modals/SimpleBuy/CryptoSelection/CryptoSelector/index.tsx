@@ -87,7 +87,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
     }
 
     // if SDD user has already placed on order, force them to Gold upgrade
-    if (currentTier !== 3 && props.sbOrders?.length > 0) {
+    if (currentTier === 3 && props.sbOrders?.length > 0) {
       return props.simpleBuyActions.setStep({
         step: 'UPGRADE_TO_GOLD'
       })
