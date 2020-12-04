@@ -336,7 +336,8 @@ export type StepActionsPayload =
     }
   | {
       cryptoCurrency?: CoinType
-      fiatCurrency: FiatType
+      fiatCurrency: FiatType,
+      orderType?: SBOrderActionType,
       step: 'CRYPTO_SELECTION'
     }
   | {
@@ -370,7 +371,7 @@ interface SetStepAction {
 interface ShowModalAction {
   payload: {
     cryptoCurrency?: CoinType
-    orderType?: SBOrderActionType,
+    orderType?: SBOrderActionType
     origin: SBShowModalOriginType
   }
   type: typeof AT.SHOW_MODAL

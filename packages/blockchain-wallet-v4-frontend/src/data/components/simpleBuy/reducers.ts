@@ -302,6 +302,7 @@ export function simpleBuyReducer (
             ...state,
             cryptoCurrency: action.payload.cryptoCurrency,
             fiatCurrency: action.payload.fiatCurrency,
+            orderType: action.payload.orderType,
             step: action.payload.step,
             swapAccount: undefined,
             addBank: undefined

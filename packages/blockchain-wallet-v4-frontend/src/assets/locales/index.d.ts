@@ -1218,6 +1218,7 @@ type MessagesType = {
   'modals.simplebuy.confirm.buynow': 'Buy Now'
   'modals.simplebuy.confirm.jump_to_payment': 'Select Cash or Card'
   'modals.simplebuy.confirm.payment': 'Payment Method'
+  'modals.simplebuy.comfirm.price': '{baseCoinTicker} Price'
   'modals.simplebuy.confirm.rate': 'Exchange Rate'
   'modals.simplebuy.confirm.coin_price': '{coin} Price'
   'modals.simplebuy.doing.work': 'Doing Work...'

@@ -143,20 +143,24 @@ class TransactionsContainer extends React.PureComponent<Props> {
               <TitleActionContainer>
                 {coin in CoinTypeEnum && (
                   <>
-                    {/* <Button
-                    nature='primary'
-                    data-e2e='sellCrypto'
+                    <Button
+                      nature='primary'
+                      data-e2e='sellCrypto'
                       width='100px'
-                    onClick={() => {
-                      this.props.simpleBuyActions.showModal(
-                        'TransactionList',
-                        coin as CoinType,
-                        'SELL'
-                      )
-                    }}
-                  >
-                    <FormattedMessage id="buttons.sell" defaultMessage="Sell" />
-                  </Button> */}
+                      style={{ marginRight: '8px' }}
+                      onClick={() => {
+                        this.props.simpleBuyActions.showModal(
+                          'TransactionList',
+                          coin as CoinType,
+                          'SELL'
+                        )
+                      }}
+                    >
+                      <FormattedMessage
+                        id='buttons.sell'
+                        defaultMessage='Sell'
+                      />
+                    </Button>
                     <Button
                       nature='primary'
                       data-e2e='buyCrypto'

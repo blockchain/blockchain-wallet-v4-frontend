@@ -1091,6 +1091,15 @@ export default ({
             orderType
           })
         ))
+      orderType === 'SELL' &&
+        (yield put(
+          A.setStep({
+            step: 'CRYPTO_SELECTION',
+            cryptoCurrency,
+            fiatCurrency,
+            orderType
+          })
+        ))
     } else {
       yield put(
         A.setStep({ step: 'CRYPTO_SELECTION', cryptoCurrency, fiatCurrency })
