@@ -1,13 +1,11 @@
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import {
-  FiatTypeEnum,
-  SupportedCoinType,
-  SupportedWalletCurrenciesType,
-  SwapOrderType
-} from 'core/types'
+import { ExtractSuccess, RemoteDataType } from 'core/types'
+import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
+import DataError from 'components/DataError'
+import Loading from '../AddCard/template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
@@ -27,24 +25,17 @@ class SellOrderSummary extends PureComponent<Props> {
   }
 
   render () {
-    return <Success {...this.props} />
+    return this.props.data.cata({
+      Success: val => <Success {...this.props} {...val} />,
+      Failure: () => <DataError onClick={this.handleRefresh} />,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  sellOrder: selectors.components.simpleBuy.getSellOrder(state),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({
-      ALGO: { colorCode: 'algo' } as SupportedCoinType,
-      BTC: { colorCode: 'btc' } as SupportedCoinType,
-      BCH: { colorCode: 'bch' } as SupportedCoinType,
-      ETH: { colorCode: 'eth' } as SupportedCoinType,
-      PAX: { colorCode: 'pax' } as SupportedCoinType,
-      USDT: { colorCode: 'usdt' } as SupportedCoinType,
-      WDGLD: { colorCode: 'wdgld' } as SupportedCoinType,
-      XLM: { colorCode: 'xlm' } as SupportedCoinType
-    } as Omit<SupportedWalletCurrenciesType, keyof FiatTypeEnum>)
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -56,10 +47,10 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 export type OwnProps = {
   handleClose: () => void
 }
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 
 type LinkStatePropsType = {
-  sellOrder: SwapOrderType | undefined,
-  supportedCoins: SupportedWalletCurrenciesType
+  data: RemoteDataType<string, SuccessStateType>
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

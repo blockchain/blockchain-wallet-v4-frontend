@@ -14,7 +14,7 @@ import {
 import styled from 'styled-components'
 
 import { BuyOrSell } from '../model'
-import { Props as OwnProps } from '.'
+import { Props as OwnProps, SuccessStateType } from '.'
 import { Status } from './model'
 
 const Wrapper = styled.div`
@@ -171,6 +171,6 @@ const Success: React.FC<Props> = props => {
   ) : null
 }
 
-type Props = OwnProps
+type Props = OwnProps & SuccessStateType
 
 export default Success

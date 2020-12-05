@@ -33,6 +33,10 @@ export default ({ api }: { api: APIType }) => {
         action.payload.currency,
         reset ? undefined : next
       )
+      // Here's the api call to get sell orders. Now we have to flatten the two responses to one array, and then sort by time created.
+      // sell orders use 'createdAt' while SB transactions use 'insertedAt'
+      // const sellOrders: ReturnType<typeof api.getUnifiedSellTrades> = yield call(api.getUnifiedSellTrades, action.payload.currency)
+
       yield put(
         A.fetchTransactionsSuccess(action.payload.currency, response, reset)
       )
