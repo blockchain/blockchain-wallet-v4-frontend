@@ -240,7 +240,7 @@ export type SBTransactionType = {
         status: 'UNCONFIRMED' | 'CONFIRMED'
         txHash: string
       }
-      type: 'DEPOSIT' | 'REFUNDED'
+      type: 'DEPOSIT' | 'REFUNDED' | 'SELL'
     }
   | {
       extraAttributes: null | {

@@ -1,5 +1,8 @@
-import { Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
 import React, { useState } from 'react'
+
+import { CoinTypeEnum, FiatSBAndSwapTransactionType } from 'core/types'
+import { Text } from 'blockchain-info-components'
 
 import {
   Addresses,
@@ -15,17 +18,14 @@ import {
   TxRow,
   TxRowContainer
 } from '../components'
-import { CoinTypeEnum, SBTransactionType } from 'core/types'
-
 import {
-  DepositOrWithdrawal,
   Destination,
   IconTx,
   Origin,
   Status,
-  Timestamp
+  Timestamp,
+  TransactionType
 } from './model'
-import { FormattedMessage } from 'react-intl'
 import { Props as OwnProps } from '../TransactionList'
 
 const CustodialTxListItem: React.FC<Props> = props => {
@@ -43,7 +43,7 @@ const CustodialTxListItem: React.FC<Props> = props => {
               weight={600}
               data-e2e='txTypeText'
             >
-              <DepositOrWithdrawal {...props} /> {props.tx.amount.symbol}
+              <TransactionType {...props} /> {props.tx.amount.symbol}
             </Text>
             <Timestamp {...props} />
           </StatusAndType>
@@ -52,12 +52,12 @@ const CustodialTxListItem: React.FC<Props> = props => {
           <Addresses
             from={
               <>
-                {props.tx.amount.symbol} <Origin {...props} />
+                <Origin {...props} />
               </>
             }
             to={
               <>
-                {props.tx.amount.symbol} <Destination {...props} />
+                <Destination {...props} />
               </>
             }
           />
@@ -117,7 +117,7 @@ const CustodialTxListItem: React.FC<Props> = props => {
 }
 
 export type Props = OwnProps & {
-  tx: SBTransactionType
+  tx: FiatSBAndSwapTransactionType
 }
 
 export default CustodialTxListItem

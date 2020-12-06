@@ -91,7 +91,10 @@ export default ({ api }: { api: APIType }) => {
         offset > 0 && !nextSBTransactionsURL
           ? yield { prev: null, next: null, items: [] }
           : // get transactions whether or not nextSBTransactionsURL is null
-            yield call(api.getSBTransactions, currency, nextSBTransactionsURL)
+            yield call(api.getSBTransactions, {
+              currency,
+              next: nextSBTransactionsURL
+            })
 
       const pendingTxsOnState = S.getSBTransactionsPending(
         yield select(),

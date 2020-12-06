@@ -231,13 +231,25 @@ export default ({
       }
     })
 
-  const getSBTransactions = (
-    currency: WalletCurrencyType,
-    next?: string | null,
-    limit?: string,
-    type?: 'DEPOSIT' | 'WITHDRAWAL',
+  type getSBTransactionsType = {
+    currency: WalletCurrencyType
+    fromId?: string
+    fromValue?: string
+    limit?: number
+    next?: string | null
     state?: SBTransactionStateType
-  ): SBTransactionsType =>
+    type?: 'DEPOSIT' | 'WITHDRAWAL'
+  }
+
+  const getSBTransactions = ({
+    currency,
+    fromId,
+    fromValue,
+    limit,
+    next,
+    state,
+    type
+  }: getSBTransactionsType): SBTransactionsType =>
     next
       ? authorizedGet({
           url: nabuUrl,
@@ -250,6 +262,8 @@ export default ({
           data: {
             currency,
             limit,
+            fromId,
+            fromValue,
             pending: true,
             product: 'SIMPLEBUY',
             state,
