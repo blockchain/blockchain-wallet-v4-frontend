@@ -117,6 +117,12 @@ export const handleSBMethodChange = (method: SBPaymentMethodType) => ({
   method
 })
 
+// TODO: ACH stuff should be abstracted from simple buy code
+export const fetchBankTransferUpdate = (providerAccountId: string) => ({
+  type: AT.FETCH_BANK_TRANSFER_UPDATE,
+  providerAccountId
+})
+
 export const fetchSBBalances = (
   currency?: CoinType,
   skipLoading?: boolean

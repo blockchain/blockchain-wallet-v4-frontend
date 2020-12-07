@@ -24,8 +24,8 @@ class LinkBankHandler extends PureComponent<Props, State> {
     if (event.data.from !== 'yodlee') return
     if (event.data.to !== 'sb') return
 
-    // TODO: need to handle messages from child
-
+    const { providerAccountId } = event.data
+    this.props.simpleBuyActions.fetchBankTransferUpdate(providerAccountId)
     // eslint-disable-next-line
     console.info('YODLEE MSG:', event.data)
   }

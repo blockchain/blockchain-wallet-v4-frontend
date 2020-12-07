@@ -445,6 +445,22 @@ export default ({
     }
   }
 
+  const fetchBankTransferUpdate = function * ({
+    providerAccountId
+  }: ReturnType<typeof A.fetchBankTransferUpdate>) {
+    try {
+      const userDataR = selectors.modules.profile.getUserData(yield select())
+      const userData = userDataR.getOrFail('NO_USER_ADDRESS')
+      const status: ReturnType<typeof api.updateBankAccountLink> = yield call(
+        api.updateBankAccountLink,
+        providerAccountId,
+        userData.id
+      )
+      // eslint-disable-next-line no-console
+      console.log('fooooooasdfasdf', status)
+    } catch (e) {}
+  }
+
   const fetchSBBalances = function * ({
     currency,
     skipLoading
@@ -907,7 +923,10 @@ export default ({
           })
         )
       case 'LINK_BANK':
-        // TODO: YODLEE FIX? ME, HACK TESTING
+        // TODO: Making the request to createBankAccountLink aka fastlink api
+        //       makes the UI stop and wait for the entire http request to come
+        //       back before the new LINK_BANK step slides over. Need to do
+        //       these in parallel but LINK_BANK requires `fastLink`
         const userDataR = selectors.modules.profile.getUserData(yield select())
         const userData = userDataR.getOrFail('NO_USER_ADDRESS')
         const fastLink = yield call(
@@ -921,13 +940,6 @@ export default ({
             fastLink
           })
         )
-      // return yield put(
-      //   A.setStep({
-      //     step: 'BANK_WIRE_DETAILS',
-      //     displayBack: true,
-      //     fiatCurrency
-      //   })
-      // )
       case 'PAYMENT_CARD':
         return yield put(
           A.setStep({
@@ -1214,6 +1226,7 @@ export default ({
     confirmSBFundsOrder,
     createSBOrder,
     deleteSBCard,
+    fetchBankTransferUpdate,
     fetchSBBalances,
     fetchSBCard,
     fetchSBCardSDD,
