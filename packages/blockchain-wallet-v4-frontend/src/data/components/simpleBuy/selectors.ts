@@ -174,3 +174,9 @@ export const isUserSddEligible = (state: RootState) => {
     (sddEligible: ExtractSuccess<typeof sddEligibleR>) => !sddEligible.eligible
   )(sddEligibleR)
 }
+export const getUserSddEligibleTier = (state: RootState) => {
+  const sddEligibleR = getSddEligible(state)
+  return lift(
+    (sddEligible: ExtractSuccess<typeof sddEligibleR>) => sddEligible.tier
+  )(sddEligibleR)
+}

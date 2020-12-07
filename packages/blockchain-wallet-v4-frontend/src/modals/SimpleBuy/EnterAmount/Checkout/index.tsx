@@ -5,6 +5,7 @@ import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/simpleBuy/model'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import { SBCheckoutFormValuesType, UserDataType } from 'data/types'
 
@@ -30,6 +31,10 @@ class Checkout extends PureComponent<Props> {
       this.props.pair,
       amount
     )
+
+    if (!Remote.Success.is(this.props.data)) {
+      this.props.simpleBuyActions.fetchSDDEligible()
+    }
   }
 
   handleSubmit = () => {
@@ -48,7 +53,7 @@ class Checkout extends PureComponent<Props> {
 
     if (isSddFlow) {
       const currentTier = userData?.tiers?.current
-      if (currentTier === 2 || currentTier === 3) {
+      if (currentTier === 2 || currentTier === 1) {
         // user in SDD but already completed eligibility check, continue to payment
         this.props.simpleBuyActions.createSBOrder('PAYMENT_CARD')
       } else {

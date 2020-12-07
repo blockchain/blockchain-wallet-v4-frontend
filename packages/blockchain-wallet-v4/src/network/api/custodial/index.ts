@@ -121,6 +121,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
 
     return authorizedGet({
       url: nabuUrl,
+      ignoreQueryParams: true,
       endPoint: `/eligible/payment-methods${parameters ? `?${parameters}` : ''}`
     })
   }
