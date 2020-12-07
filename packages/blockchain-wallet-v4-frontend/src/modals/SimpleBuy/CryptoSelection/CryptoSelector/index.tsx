@@ -15,6 +15,7 @@ import { SBPairType } from 'core/types'
 import { SwapAccountType } from 'data/types'
 import CryptoAccountOption from 'blockchain-wallet-v4-frontend/src/modals/Swap/CoinSelection/CryptoAccountOption'
 import CryptoItem from './CryptoItem'
+// import SellEmptyState from './SellEmptyState'
 
 const Wrapper = styled.div`
   display: flex;
@@ -159,6 +160,10 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
                       />
                     )
                 )
+                // this should only show once if account.balance is 0 for all accounts
+                // if I make this a ternary, this SellEmpty component will show
+                // for every coin in coinOrder.map
+                // <SellEmptyState handleClose={props.handleClose} />
               })
             : props.pairs.map((value, index) => (
                 <CryptoItem

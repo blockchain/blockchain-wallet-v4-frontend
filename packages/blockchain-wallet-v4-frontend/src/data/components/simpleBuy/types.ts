@@ -69,6 +69,7 @@ export type SBShowModalOriginType =
   | 'PendingOrder'
   | 'PriceChart'
   | 'InterestPage'
+  | 'SellEmpty'
   | 'SettingsGeneral'
   | 'SettingsProfile'
   | 'SideNav'
@@ -336,8 +337,8 @@ export type StepActionsPayload =
     }
   | {
       cryptoCurrency?: CoinType
-      fiatCurrency: FiatType,
-      orderType?: SBOrderActionType,
+      fiatCurrency: FiatType
+      orderType?: SBOrderActionType
       step: 'CRYPTO_SELECTION'
     }
   | {

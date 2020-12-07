@@ -318,6 +318,14 @@ type MessagesType = {
   'copy.confirm_withdrawal': 'Confirm Withdrawal'
   'copy.confirm_swap': 'Confirm Swap'
   'copy.complete': 'Complete'
+  'copy.crypto_selection_empty.buybank': "Send cash directly from your bank. Once received, we'll use that balance to buy the crypto of your choice"
+  'copy.crypto_selection_empty.buybanktitle': 'Buy with a Bank Deposit'
+  'copy.crypto_selection_empty.buycard': 'Link any Visa or Mastercard and buy crypto. You will need to verify your identity to link a card.'
+  'copy.crypto_selection_empty.buycardtitle': 'Buy with a Card'
+  'copy.crypto_selection_empty.getstarted': "You're all set to Sell, but we don't see any crypto in this Wallet. Below are 3 ways to get started."
+  'copy.crypto_selection_empty.needtoown': "You'll need to own crypto first..."
+  'copy.crypto_selection_empty.receive': 'Are you holding crypto on a different wallet? Does a friend want to send you some Bitcoin? Copy and paste or share your unique wallet addresses QR codes.'
+  'copy.crypto_selection_empty.receivetitle': 'Receive from Another Wallet'
   'copy.date': 'Date'
   'copy.error.locked_withdraw_error': 'Your crypto will be available to be withdrawn within {days} days.'
   'copy.failed': 'Failed'
