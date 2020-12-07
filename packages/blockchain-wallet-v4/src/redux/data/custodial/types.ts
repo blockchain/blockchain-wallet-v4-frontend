@@ -42,10 +42,11 @@ export type FiatSBAndSwapTransactionType = {
       [key in WalletCurrencyType]: number
     }
     confirmations: number
-    dsr: number
-    hash: string
-    id: string
-    status: 'UNCONFIRMED' | 'CONFIRMED'
+    direction?: 'FROM_USERKEY' | 'INTERNAL',
+    dsr: number,
+    hash: string,
+    id: string,
+    status: 'UNCONFIRMED' | 'CONFIRMED',
     txHash: string
   }
   id: string

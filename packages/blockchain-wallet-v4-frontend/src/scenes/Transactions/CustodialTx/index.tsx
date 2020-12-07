@@ -2,6 +2,7 @@ import { FormattedMessage } from 'react-intl'
 import React, { useState } from 'react'
 
 import { CoinTypeEnum, FiatSBAndSwapTransactionType } from 'core/types'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { Text } from 'blockchain-info-components'
 
 import {
@@ -30,7 +31,6 @@ import { Props as OwnProps } from '../TransactionList'
 
 const CustodialTxListItem: React.FC<Props> = props => {
   const [isToggled, setIsToggled] = useState(false)
-
   return (
     <TxRowContainer onClick={() => setIsToggled(!isToggled)}>
       <TxRow>
@@ -69,7 +69,7 @@ const CustodialTxListItem: React.FC<Props> = props => {
         >
           <StyledCoinDisplay coin={props.coin} data-e2e='orderCoinAmt'>
             {props.tx.amount.symbol in CoinTypeEnum
-              ? props.tx.amountMinor
+              ? convertBaseToStandard('FIAT', props.tx.amountMinor)
               : props.tx.amount.value}
           </StyledCoinDisplay>
           {props.coin !== props.currency && (
@@ -81,7 +81,7 @@ const CustodialTxListItem: React.FC<Props> = props => {
               data-e2e='orderFiatAmt'
             >
               {props.tx.amount.symbol in CoinTypeEnum
-                ? props.tx.amountMinor
+                ? convertBaseToStandard('FIAT', props.tx.amountMinor)
                 : props.tx.amount.value}
             </StyledFiatDisplay>
           )}

@@ -148,7 +148,7 @@ export const Origin = (props: Props) => {
         <>Bank Account</>
       )
     case 'SELL':
-      return props.tx.extraAttributes ? (
+      return props.tx.extraAttributes?.direction === 'FROM_USERKEY' ? (
         <>{props.tx.amount.symbol} Wallet</>
       ) : (
         <>{props.tx.amount.symbol} Trading Wallet</>

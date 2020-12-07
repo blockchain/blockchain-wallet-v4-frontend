@@ -4,7 +4,6 @@ import moment from 'moment'
 
 import { APIType } from 'core/network/api'
 import { CoinType } from 'blockchain-wallet-v4/src/types'
-import { convertBaseToStandard } from 'data/components/exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 
 import * as A from './actions'
@@ -91,14 +90,12 @@ export default ({ api }: { api: APIType }) => {
           swap =>
             ({
               amount: {
-                symbol: swap.pair.split('-')[0] as CoinType,
-                value: convertBaseToStandard(
-                  'FIAT',
-                  swap.priceFunnel.outputMoney
-                )
+                symbol: swap.pair.split('-')[0] as CoinType
               },
               amountMinor: swap.priceFunnel.outputMoney,
-              extraAttributes: null,
+              extraAttributes: {
+                direction: swap.kind.direction
+              },
               id: swap.id,
               insertedAt: swap.createdAt,
               state: swap.state,
