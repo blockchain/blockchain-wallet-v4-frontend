@@ -72,8 +72,8 @@ export default ({ api }: { api: APIType }) => {
         // fetch sb transactions
         sbTransactions = yield call(api.getSBTransactions, {
           currency: action.payload.currency,
-          fromId: nextSbTxId,
-          fromValue: nextSbTxTimestamp,
+          fromId: reset ? undefined : nextSbTxId,
+          fromValue: reset ? undefined : nextSbTxTimestamp,
           limit: PAGE_SIZE
         })
 
@@ -82,7 +82,7 @@ export default ({ api }: { api: APIType }) => {
           api.getUnifiedSwapTrades,
           currency as CoinType,
           PAGE_SIZE,
-          nextSwapPageTimestamp
+          reset ? undefined : nextSwapPageTimestamp
         )
 
         // create a view model that looks like a SB transaction for easier component rendering
