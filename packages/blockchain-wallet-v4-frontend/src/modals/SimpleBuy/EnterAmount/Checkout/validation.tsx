@@ -19,8 +19,8 @@ import { SBCheckoutFormValuesType, SBFixType } from 'data/types'
 import { UnitType } from 'core/exchange'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 
-const SDD_MAX = 15000
-export const SDD_MAX_LIMIT = 150
+const SDD_MAX = 10000
+export const SDD_MAX_LIMIT = 100
 
 export const getQuote = (
   quote: SBQuoteType,
