@@ -12,9 +12,13 @@ class Veriff extends React.PureComponent<Props> {
   state = { loading: false }
 
   componentDidMount () {
-    if (!Remote.Success.is(this.props.data)) {
+    const { data, onClose } = this.props
+    // close the main flyout when veriff iframe takes over
+    if (!Remote.Success.is(data)) {
       this.props.actions.fetchVeriffUrl()
+      return onClose()
     }
+    onClose()
   }
 
   componentWillUnmount () {
