@@ -4,8 +4,6 @@ import bchTransactions from './bchTransactions/sagaRegister'
 import borrow from './borrow/sagaRegister'
 import btcTransactions from './btcTransactions/sagaRegister'
 import ethTransactions from './ethTransactions/sagaRegister'
-import exchange from './exchange/sagaRegister'
-import exchangeHistory from './exchangeHistory/sagaRegister'
 import fiatTransactions from './fiatTransactions/sagaRegister'
 import identityVerification from './identityVerification/sagaRegister'
 import importBtcAddress from './importBtcAddress/sagaRegister'
@@ -41,8 +39,6 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(btcTransactions())
     yield fork(ethTransactions())
     yield fork(xlmTransactions())
-    yield fork(exchange({ api, coreSagas, networks }))
-    yield fork(exchangeHistory({ api }))
     yield fork(fiatTransactions())
     yield fork(identityVerification({ api, coreSagas }))
     yield fork(interest({ api, coreSagas, networks }))
