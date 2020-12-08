@@ -1,5 +1,7 @@
 import * as AT from './actionTypes'
 import {
+  CoinType,
+  FiatType,
   ProcessedSwapOrderType,
   SBOrderType,
   SBTransactionStateType,
@@ -34,7 +36,12 @@ export type SBCoreActionTypes = SetNextSBTransactionsURL
 // 🚨 TEMP HACK 🚨
 // TODO: remove once we have unified custodial transaction endpoints
 export type FiatSBAndSwapTransactionType = {
-  amount: { symbol: WalletCurrencyType; value: string }
+  amount: {
+    fiatSymbol?: FiatType,
+    inputMoney?: string,
+    symbol: CoinType,
+    value: string
+  }
   amountMinor: string
   extraAttributes: null | {
     address: string
@@ -42,11 +49,12 @@ export type FiatSBAndSwapTransactionType = {
       [key in WalletCurrencyType]: number
     }
     confirmations: number
-    direction?: 'FROM_USERKEY' | 'INTERNAL',
-    dsr: number,
-    hash: string,
-    id: string,
-    status: 'UNCONFIRMED' | 'CONFIRMED',
+    direction?: 'FROM_USERKEY' | 'INTERNAL'
+    dsr: number
+    hash: string
+    id: string
+    indicativePrice?: string
+    status: 'UNCONFIRMED' | 'CONFIRMED'
     txHash: string
   }
   id: string

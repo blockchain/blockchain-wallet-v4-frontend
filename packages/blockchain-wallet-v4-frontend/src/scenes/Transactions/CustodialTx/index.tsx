@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 
 import { CoinTypeEnum, FiatSBAndSwapTransactionType } from 'core/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
+import { fiatToString } from 'core/exchange/currency'
 import { Text } from 'blockchain-info-components'
 
 import {
@@ -31,6 +32,7 @@ import { Props as OwnProps } from '../TransactionList'
 
 const CustodialTxListItem: React.FC<Props> = props => {
   const [isToggled, setIsToggled] = useState(false)
+  const { tx } = props
   return (
     <TxRowContainer onClick={() => setIsToggled(!isToggled)}>
       <TxRow>
@@ -43,7 +45,7 @@ const CustodialTxListItem: React.FC<Props> = props => {
               weight={600}
               data-e2e='txTypeText'
             >
-              <TransactionType {...props} /> {props.tx.amount.symbol}
+              <TransactionType {...props} /> {tx.amount.symbol}
             </Text>
             <Timestamp {...props} />
           </StatusAndType>
@@ -68,9 +70,9 @@ const CustodialTxListItem: React.FC<Props> = props => {
           data-e2e='orderAmountColumn'
         >
           <StyledCoinDisplay coin={props.coin} data-e2e='orderCoinAmt'>
-            {props.tx.amount.symbol in CoinTypeEnum
-              ? convertBaseToStandard('FIAT', props.tx.amountMinor)
-              : props.tx.amount.value}
+            {tx.amount.symbol in CoinTypeEnum
+              ? convertBaseToStandard('FIAT', tx.amountMinor)
+              : tx.amount.value}
           </StyledCoinDisplay>
           {props.coin !== props.currency && (
             <StyledFiatDisplay
@@ -80,9 +82,9 @@ const CustodialTxListItem: React.FC<Props> = props => {
               color='grey600'
               data-e2e='orderFiatAmt'
             >
-              {props.tx.amount.symbol in CoinTypeEnum
-                ? convertBaseToStandard('FIAT', props.tx.amountMinor)
-                : props.tx.amount.value}
+              {tx.amount.symbol in CoinTypeEnum
+                ? convertBaseToStandard('FIAT', tx.amountMinor)
+                : tx.amount.value}
             </StyledFiatDisplay>
           )}
         </Col>
@@ -96,7 +98,20 @@ const CustodialTxListItem: React.FC<Props> = props => {
                 id='modals.simplebuy.summary.txid'
               />
             </RowHeader>
-            <RowValue>{props.tx.id}</RowValue>
+            <RowValue>{tx.id}</RowValue>
+            <RowHeader>
+              <FormattedMessage
+                id='modals.simplebuy.summary.rate'
+                defaultMessage='Exchange Rate'
+              />
+            </RowHeader>
+            <RowValue data-e2e='sellRate'>
+              {fiatToString({
+                unit: tx.amount.fiatSymbol || 'USD',
+                value: tx.extraAttributes?.indicativePrice || 0
+              })}{' '}
+              / {tx.amount.symbol}
+            </RowValue>
           </DetailsColumn>
           <DetailsColumn />
           <DetailsColumn>
@@ -108,6 +123,13 @@ const CustodialTxListItem: React.FC<Props> = props => {
             </RowHeader>
             <RowValue>
               <Status {...props} />
+            </RowValue>
+            <RowHeader>
+              <FormattedMessage id='copy.amount' defaultMessage='Amount' />
+            </RowHeader>
+            <RowValue data-e2e='sbSelling'>
+              {convertBaseToStandard(tx.amount.symbol, tx.amount.inputMoney)} of{' '}
+              {tx.amount.symbol}
             </RowValue>
           </DetailsColumn>
         </DetailsRow>

@@ -3,7 +3,7 @@ import { filter, last, take as takeR } from 'ramda'
 import moment from 'moment'
 
 import { APIType } from 'core/network/api'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, FiatType } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 
 import * as A from './actions'
@@ -90,11 +90,14 @@ export default ({ api }: { api: APIType }) => {
           swap =>
             ({
               amount: {
-                symbol: swap.pair.split('-')[0] as CoinType
+                symbol: swap.pair.split('-')[0] as CoinType,
+                inputMoney: swap.priceFunnel.inputMoney,
+                fiatSymbol: swap.pair.split('-')[1] as FiatType
               },
               amountMinor: swap.priceFunnel.outputMoney,
               extraAttributes: {
-                direction: swap.kind.direction
+                direction: swap.kind.direction,
+                indicativePrice: swap.priceFunnel.indicativePrice
               },
               id: swap.id,
               insertedAt: swap.createdAt,
