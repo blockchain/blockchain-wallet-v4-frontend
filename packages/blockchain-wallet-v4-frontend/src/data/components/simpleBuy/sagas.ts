@@ -57,6 +57,7 @@ import {
   SBBillingAddressFormValuesType,
   SBCheckoutFormValuesType
 } from './types'
+import { selectReceiveAddress } from '../utils/sagas'
 import { UserDataType } from 'data/modules/types'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
@@ -270,13 +271,18 @@ export default ({
                   amount
                 )
               )
-
+        const refundAddr =
+          direction === 'FROM_USERKEY'
+            ? yield call(selectReceiveAddress, from, networks)
+            : undefined
         const sellOrder: SwapOrderType = yield call(
           api.createSwapOrder,
           direction,
           quote.quote.id,
           cryptoAmt,
-          getFiatFromPair(pair.pair)
+          getFiatFromPair(pair.pair),
+          undefined,
+          refundAddr
         )
         // on chain
         if (direction === 'FROM_USERKEY') {

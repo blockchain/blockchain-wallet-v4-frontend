@@ -70,7 +70,10 @@ const CustodialTxListItem: React.FC<Props> = props => {
           data-e2e='orderAmountColumn'
         >
           <StyledCoinDisplay coin={props.coin} data-e2e='orderCoinAmt'>
-            {tx.amount.symbol in CoinTypeEnum && tx.type === 'SELL'
+            {tx.amount.symbol in CoinTypeEnum &&
+            (tx.type === 'DEPOSIT' || tx.type === 'WITHDRAWAL')
+              ? tx.amountMinor
+              : tx.amount.symbol in CoinTypeEnum && tx.type === 'SELL'
               ? convertBaseToStandard('FIAT', tx.amountMinor)
               : tx.amount.value}
           </StyledCoinDisplay>
@@ -82,7 +85,10 @@ const CustodialTxListItem: React.FC<Props> = props => {
               color='grey600'
               data-e2e='orderFiatAmt'
             >
-              {tx.amount.symbol in CoinTypeEnum && tx.type === 'SELL'
+              {tx.amount.symbol in CoinTypeEnum &&
+              (tx.type === 'DEPOSIT' || tx.type === 'WITHDRAWAL')
+                ? tx.amountMinor
+                : tx.amount.symbol in CoinTypeEnum && tx.type === 'SELL'
                 ? convertBaseToStandard('FIAT', tx.amountMinor)
                 : tx.amount.value}
             </StyledFiatDisplay>
