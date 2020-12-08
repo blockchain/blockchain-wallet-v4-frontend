@@ -70,7 +70,7 @@ const CustodialTxListItem: React.FC<Props> = props => {
           data-e2e='orderAmountColumn'
         >
           <StyledCoinDisplay coin={props.coin} data-e2e='orderCoinAmt'>
-            {tx.amount.symbol in CoinTypeEnum
+            {tx.amount.symbol in CoinTypeEnum && tx.type === 'SELL'
               ? convertBaseToStandard('FIAT', tx.amountMinor)
               : tx.amount.value}
           </StyledCoinDisplay>
@@ -82,7 +82,7 @@ const CustodialTxListItem: React.FC<Props> = props => {
               color='grey600'
               data-e2e='orderFiatAmt'
             >
-              {tx.amount.symbol in CoinTypeEnum
+              {tx.amount.symbol in CoinTypeEnum && tx.type === 'SELL'
                 ? convertBaseToStandard('FIAT', tx.amountMinor)
                 : tx.amount.value}
             </StyledFiatDisplay>
@@ -128,13 +128,21 @@ const CustodialTxListItem: React.FC<Props> = props => {
             <RowValue>
               <Status {...props} />
             </RowValue>
-            <RowHeader>
-              <FormattedMessage id='copy.amount' defaultMessage='Amount' />
-            </RowHeader>
-            <RowValue data-e2e='sbSelling'>
-              {convertBaseToStandard(tx.amount.symbol, tx.amount.inputMoney)} of{' '}
-              {tx.amount.symbol}
-            </RowValue>
+            {tx.type === 'SELL' && (
+              <>
+                {' '}
+                <RowHeader>
+                  <FormattedMessage id='copy.amount' defaultMessage='Amount' />
+                </RowHeader>
+                <RowValue data-e2e='sbSelling'>
+                  {convertBaseToStandard(
+                    tx.amount.symbol,
+                    tx.amount.inputMoney
+                  )}{' '}
+                  of {tx.amount.symbol}
+                </RowValue>
+              </>
+            )}
           </DetailsColumn>
         </DetailsRow>
       )}
