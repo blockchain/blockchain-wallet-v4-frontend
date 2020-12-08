@@ -7,6 +7,8 @@ import { FiatType } from 'core/types'
 import { head, isEmpty, lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 
+const SDD_MAX = 10000
+
 const hasEligibleFiatCurrency = currency =>
   currency === FiatTypeEnum.USD ||
   currency === FiatTypeEnum.GBP ||
@@ -179,4 +181,14 @@ export const getUserSddEligibleTier = (state: RootState) => {
   return lift(
     (sddEligible: ExtractSuccess<typeof sddEligibleR>) => sddEligible.tier
   )(sddEligibleR)
+}
+
+export const getUserSddELimit = (state: RootState) => {
+  const sbMethodsR = getSBPaymentMethods(state)
+  return lift((sbMethods: ExtractSuccess<typeof sbMethodsR>) => {
+    const paymentMethod = sbMethods.methods.find(
+      method => method.type === 'PAYMENT_CARD'
+    )
+    return paymentMethod?.limits.max || SDD_MAX
+  })(sbMethodsR)
 }

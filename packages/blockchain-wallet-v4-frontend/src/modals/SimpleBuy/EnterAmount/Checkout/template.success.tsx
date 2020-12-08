@@ -29,7 +29,7 @@ import {
   getQuote,
   maximumAmount,
   minimumAmount,
-  SDD_MAX_LIMIT
+  SDD_LIMIT_FACTOR
 } from './validation'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { Row } from '../../../Swap/EnterAmount/Checkout'
@@ -205,7 +205,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     )
   }
   const handleMaxClick = () => {
-    const value = convertStandardToBase(conversionCoinType, SDD_MAX_LIMIT)
+    const limit = Number(props.sddLimit) / SDD_LIMIT_FACTOR
+    const value = convertStandardToBase(conversionCoinType, limit)
     props.simpleBuyActions.handleSBSuggestedAmountClick(
       value,
       conversionCoinType
@@ -220,6 +221,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     currencyNode.style.fontSize = `${fontSizeNumber * fontSizeRatio}px`
   }
 
+  const limit = Number(props.sddLimit) / SDD_LIMIT_FACTOR
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ paddingBottom: '0px', borderBottom: 'grey000' }}>
@@ -383,7 +385,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   weight={600}
                   size='16px'
                   color='grey900'
-                >{`${Currencies[fiatCurrency].units[fiatCurrency].symbol}${SDD_MAX_LIMIT}`}</Text>
+                >{`${Currencies[fiatCurrency].units[fiatCurrency].symbol}${limit}`}</Text>
               </div>
             </ActionsItem>
             <ActionsItem>

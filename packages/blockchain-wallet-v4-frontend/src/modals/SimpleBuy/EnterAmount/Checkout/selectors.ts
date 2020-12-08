@@ -19,6 +19,7 @@ export const getData = (state: RootState) => {
   const userSDDTierR = selectors.components.simpleBuy.getUserSddEligibleTier(
     state
   )
+  const sddLimitR = selectors.components.simpleBuy.getUserSddELimit(state)
 
   return lift(
     (
@@ -29,7 +30,8 @@ export const getData = (state: RootState) => {
       userData: ExtractSuccess<typeof userDataR>,
       sddEligible: ExtractSuccess<typeof sddEligibleR>,
       supportedCoins: ExtractSuccess<typeof supportedCoinsR>,
-      userSDDTier: ExtractSuccess<typeof userSDDTierR>
+      userSDDTier: ExtractSuccess<typeof userSDDTierR>,
+      sddLimit: ExtractSuccess<typeof sddLimitR>
     ) => ({
       coinModel: supportedCoins[coin],
       formErrors,
@@ -39,7 +41,8 @@ export const getData = (state: RootState) => {
       rates,
       sbBalances,
       supportedCoins,
-      userData
+      userData,
+      sddLimit
     })
   )(
     invitationsR,
@@ -49,6 +52,7 @@ export const getData = (state: RootState) => {
     userDataR,
     sddEligibleR,
     supportedCoinsR,
-    userSDDTierR
+    userSDDTierR,
+    sddLimitR
   )
 }
