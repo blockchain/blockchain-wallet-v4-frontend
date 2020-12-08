@@ -53,13 +53,15 @@ const CTAButton = styled(Button)`
     font-size: 14px;
   }
 `
-const CloseLink = styled.span``
+const CloseLink = styled.div`
+  cursor: pointer;
+`
 
 type OwnProps = {
   coin: WalletCurrencyType
 }
 
-// FIXME: make `coin` not hardcoded
+// FIXME: make `coin` & `coinDisplay` not hardcoded
 const NewCurrency = ({
   announcementState,
   cacheActions,
@@ -67,6 +69,7 @@ const NewCurrency = ({
   simpleBuyActions
 }) => {
   const newCoinAnnouncement = `${coin}-homepage`
+  const coinDisplay = 'wDGLD'
   const isDismissed =
     (announcementState &&
       announcementState[newCoinAnnouncement] &&
@@ -83,8 +86,8 @@ const NewCurrency = ({
         <FormattedMessage id='copy.new' defaultMessage='New' />
       </NewAlert>
       <VerbText>
-        <FormattedMessage id='copy.trade' defaultMessage='Trade' /> {coin}{' '}
-        <FormattedMessage id='copy.now' defaultMessage='Now' />
+        <FormattedMessage id='copy.trade' defaultMessage='Trade' />{' '}
+        {coinDisplay} <FormattedMessage id='copy.now' defaultMessage='Now' />
       </VerbText>
       <Description>
         <FormattedMessage
@@ -103,15 +106,15 @@ const NewCurrency = ({
         style={{ borderRadius: '4px' }}
       >
         <Text>
-          <FormattedMessage id='copy.trade' defaultMessage='Trade' /> {coin}{' '}
-          <FormattedMessage id='copy.now' defaultMessage='Now' />
+          <FormattedMessage id='copy.trade' defaultMessage='Trade' />{' '}
+          {coinDisplay} <FormattedMessage id='copy.now' defaultMessage='Now' />
         </Text>
       </CTAButton>
       <CloseLink
         data-e2e='newCoinCloseButton'
         onClick={() => cacheActions.announcementDismissed(newCoinAnnouncement)}
       >
-        <Icon name='close-circle' />
+        <Icon size='20px' color='grey400' name='close-circle' />
       </CloseLink>
     </StyledWrapper>
   )
