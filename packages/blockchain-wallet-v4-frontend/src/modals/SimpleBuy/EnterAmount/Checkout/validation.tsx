@@ -13,11 +13,15 @@ import {
   SBPairType,
   SBPaymentMethodType,
   SBQuoteType,
+  SDDLimits,
   SupportedWalletCurrenciesType
 } from 'core/types'
 import { SBCheckoutFormValuesType, SBFixType } from 'data/types'
+import { selectors } from 'data'
 import { UnitType } from 'core/exchange'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+
+const { SDD_LIMIT } = selectors.components.simpleBuy
 
 export const SDD_LIMIT_FACTOR = 100 // we get 10000 from API
 
@@ -71,7 +75,7 @@ export const getMaxMin = (
   allValues?: SBCheckoutFormValuesType,
   method?: SBPaymentMethodType,
   isSddFlow: boolean = false,
-  sddLimit: number = 10000
+  sddLimit: SDDLimits = SDD_LIMIT
 ): { CRYPTO: string; FIAT: string } => {
   switch (orderType) {
     case 'BUY':
@@ -79,13 +83,13 @@ export const getMaxMin = (
         case 'max':
           let defaultMax = {
             FIAT: isSddFlow
-              ? convertBaseToStandard('FIAT', sddLimit)
+              ? convertBaseToStandard('FIAT', Number(sddLimit.max))
               : convertBaseToStandard('FIAT', pair.buyMax),
             CRYPTO: getQuote(
               quote,
               'FIAT',
               isSddFlow
-                ? convertBaseToStandard('FIAT', sddLimit)
+                ? convertBaseToStandard('FIAT', Number(sddLimit.max))
                 : convertBaseToStandard('FIAT', pair.buyMax)
             )
           }
@@ -105,13 +109,13 @@ export const getMaxMin = (
         case 'min':
           let defaultMin = {
             FIAT: isSddFlow
-              ? convertBaseToStandard('FIAT', sddLimit)
+              ? convertBaseToStandard('FIAT', Number(sddLimit.min))
               : convertBaseToStandard('FIAT', pair.buyMin),
             CRYPTO: getQuote(
               quote,
               'FIAT',
               isSddFlow
-                ? convertBaseToStandard('FIAT', sddLimit)
+                ? convertBaseToStandard('FIAT', Number(sddLimit.min))
                 : convertBaseToStandard('FIAT', pair.buyMin)
             )
           }
@@ -186,7 +190,7 @@ export const maximumAmount = (
   if (!allValues) return
 
   if (isSddFlow) {
-    const limit = Number(sddLimit) / SDD_LIMIT_FACTOR
+    const limit = Number(sddLimit.max) / SDD_LIMIT_FACTOR
     return Number(value) > limit ? 'ABOVE_MAX' : false
   }
 
@@ -201,7 +205,7 @@ export const maximumAmount = (
         allValues,
         method,
         isSddFlow,
-        Number(sddLimit)
+        sddLimit
       )[allValues.fix]
     )
     ? 'ABOVE_MAX'
@@ -239,7 +243,7 @@ export const minimumAmount = (
         allValues,
         method,
         isSddFlow,
-        Number(sddLimit)
+        sddLimit
       )[allValues.fix]
     )
     ? 'BELOW_MIN'

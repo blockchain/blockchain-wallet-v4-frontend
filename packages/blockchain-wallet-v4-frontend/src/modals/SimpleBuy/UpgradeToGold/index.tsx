@@ -7,6 +7,7 @@ import { actions } from 'data'
 import Template from './template'
 
 export type LinkDispatchPropsType = {
+  analyticsActions: typeof actions.analytics
   identityVerificationActions: typeof actions.components.identityVerification
   simpleBuyActions: typeof actions.components.simpleBuy
 }
@@ -18,6 +19,7 @@ class UpgradeToGold extends PureComponent<Props> {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,

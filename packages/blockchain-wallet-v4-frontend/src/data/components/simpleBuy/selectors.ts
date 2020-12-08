@@ -1,13 +1,14 @@
 import {
   ExtractSuccess,
   FiatTypeEnum,
-  SBPaymentMethodType
+  SBPaymentMethodType,
+  SDDLimits
 } from 'blockchain-wallet-v4/src/types'
 import { FiatType } from 'core/types'
 import { head, isEmpty, lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 
-const SDD_MAX = 10000
+export const SDD_LIMIT = { min: '500', max: '10000' } as SDDLimits
 
 const hasEligibleFiatCurrency = currency =>
   currency === FiatTypeEnum.USD ||
@@ -189,6 +190,6 @@ export const getUserSddELimit = (state: RootState) => {
     const paymentMethod = sbMethods.methods.find(
       method => method.type === 'PAYMENT_CARD'
     )
-    return paymentMethod?.limits.max || SDD_MAX
+    return paymentMethod?.limits || SDD_LIMIT
   })(sbMethodsR)
 }
