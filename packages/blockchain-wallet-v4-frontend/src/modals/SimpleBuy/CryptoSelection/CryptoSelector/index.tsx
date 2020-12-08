@@ -1,3 +1,4 @@
+import { any, map, values } from 'ramda'
 import { Icon, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import React, { useState } from 'react'
 import styled from 'styled-components'
@@ -15,7 +16,7 @@ import { SBPairType } from 'core/types'
 import { SwapAccountType } from 'data/types'
 import CryptoAccountOption from 'blockchain-wallet-v4-frontend/src/modals/Swap/CoinSelection/CryptoAccountOption'
 import CryptoItem from './CryptoItem'
-// import SellEmptyState from './SellEmptyState'
+import SellEmptyState from './SellEmptyState'
 
 const Wrapper = styled.div`
   display: flex;
@@ -79,6 +80,16 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
     })
   }
 
+  // Check to see if any accounts have balance
+  // @ts-ignore
+  const checkAccountsBalances = any(hasFunds => hasFunds)(
+    values(
+      map(
+        coin => any(acct => acct.balance !== 0 && acct.balance !== '0')(coin),
+        props.accounts
+      )
+    )
+  )
   return (
     <Wrapper>
       <Form>
@@ -143,8 +154,9 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
           )}
         </FlyoutWrapper>
         <Currencies>
-          {orderType === 'SELL'
-            ? coinOrder.map(coin => {
+          {orderType === 'SELL' ? (
+            checkAccountsBalances ? (
+              coinOrder.map(coin => {
                 const accounts = props.accounts[coin] as Array<SwapAccountType>
                 return accounts.map(
                   account =>
@@ -160,20 +172,21 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
                       />
                     )
                 )
-                // this should only show once if account.balance is 0 for all accounts
-                // if I make this a ternary, this SellEmpty component will show
-                // for every coin in coinOrder.map
-                // <SellEmptyState handleClose={props.handleClose} />
               })
-            : props.pairs.map((value, index) => (
-                <CryptoItem
-                  key={index}
-                  orderType={orderType}
-                  fiat={getFiatFromPair(value.pair)}
-                  coin={getCoinFromPair(value.pair)}
-                  onClick={() => handleBuy(value as SBPairType)}
-                />
-              ))}
+            ) : (
+              <SellEmptyState handleClose={props.handleClose} />
+            )
+          ) : (
+            props.pairs.map((value, index) => (
+              <CryptoItem
+                key={index}
+                orderType={orderType}
+                fiat={getFiatFromPair(value.pair)}
+                coin={getCoinFromPair(value.pair)}
+                onClick={() => handleBuy(value as SBPairType)}
+              />
+            ))
+          )}
         </Currencies>
       </Form>
     </Wrapper>

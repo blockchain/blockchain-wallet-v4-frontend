@@ -99,19 +99,23 @@ const CustodialTxListItem: React.FC<Props> = props => {
               />
             </RowHeader>
             <RowValue>{tx.id}</RowValue>
-            <RowHeader>
-              <FormattedMessage
-                id='modals.simplebuy.summary.rate'
-                defaultMessage='Exchange Rate'
-              />
-            </RowHeader>
-            <RowValue data-e2e='sellRate'>
-              {fiatToString({
-                unit: tx.amount.fiatSymbol || 'USD',
-                value: tx.extraAttributes?.indicativePrice || 0
-              })}{' '}
-              / {tx.amount.symbol}
-            </RowValue>
+            {tx.type === 'SELL' && (
+              <>
+                <RowHeader>
+                  <FormattedMessage
+                    id='modals.simplebuy.summary.rate'
+                    defaultMessage='Exchange Rate'
+                  />
+                </RowHeader>
+                <RowValue data-e2e='sellRate'>
+                  {fiatToString({
+                    unit: tx.amount.fiatSymbol || 'USD',
+                    value: tx.extraAttributes?.indicativePrice || 0
+                  })}{' '}
+                  / {tx.amount.symbol}
+                </RowValue>
+              </>
+            )}
           </DetailsColumn>
           <DetailsColumn />
           <DetailsColumn>
