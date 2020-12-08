@@ -98,10 +98,7 @@ export default ({
       }
     })
 
-  const createBankAccountLink = (
-    currency: WalletCurrencyType,
-    userId: string // TODO: use UserDataType.id instead of string
-  ) =>
+  const createBankAccountLink = (currency: WalletCurrencyType) =>
     authorizedPost({
       url: nabuUrl,
       removeDefaultPostData: true,
@@ -111,23 +108,20 @@ export default ({
         attributes: {
           userOverride: 'sbMem5fb5284b1f71e2'
         },
-        currency,
-        userId
+        currency
       }
     })
 
-  const updateBankAccountLink = (
-    providerAccountId: string,
-    userId: string // TODO: use UserDataType.id instead of string
-  ) =>
+  const updateBankAccountLink = (providerAccountId: number, bankId: string) =>
     authorizedPost({
       url: nabuUrl,
       removeDefaultPostData: true,
-      endPoint: `/payments/banktransfer/${userId}/update`,
+      endPoint: `/payments/banktransfer/${bankId}/update`,
       contentType: 'application/json',
       data: {
         attributes: {
-          providerAccountId
+          providerAccountId: `${providerAccountId}`,
+          userOverride: 'sbMem5fb5284b1f71e2'
         }
       }
     })
@@ -185,7 +179,7 @@ export default ({
       endPoint: '/simple-buy/eligible',
       data: {
         fiatCurrency: currency,
-        methods: 'PAYMENT_CARD,BANK_ACCOUNT'
+        methods: 'PAYMENT_CARD,BANK_ACCOUNT,BANK_TRANSFER'
       }
     })
 
@@ -243,7 +237,7 @@ export default ({
   ): SBPaymentMethodsType =>
     authorizedGet({
       url: nabuUrl,
-      endPoint: '/payments/methods',
+      endPoint: '/eligible/payment-methods',
       contentType: 'application/json',
       data: {
         currency,

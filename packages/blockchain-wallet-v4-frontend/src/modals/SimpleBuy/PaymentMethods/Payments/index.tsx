@@ -58,6 +58,7 @@ export type Props = OwnProps & SuccessStateType
 class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   getType = (value: SBPaymentMethodType) => {
     switch (value.type) {
+      case 'BANK_TRANSFER':
       case 'LINK_BANK':
         return (
           <FormattedMessage
@@ -103,6 +104,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 
   getIcon = (value: SBPaymentMethodType): ReactElement => {
     switch (value.type) {
+      case 'BANK_TRANSFER':
       case 'LINK_BANK':
         return (
           <IconContainer>
@@ -184,6 +186,9 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     )
     const bankAccount = defaultMethods.find(
       method => method.value.type === 'BANK_ACCOUNT' && orderType === 'BUY'
+    )
+    const bankTransfer = defaultMethods.find(
+      method => method.value.type === 'BANK_TRANSFER' && orderType === 'BUY'
     )
 
     const cardMethods = availableCards.map(card => ({
@@ -294,20 +299,21 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 onClick={() => this.handleSubmit(paymentCard.value)}
               />
             )}
-            {/* TODO: fix all of this hardcoding */}
+            {bankTransfer && (
+              <LinkBank
+                {...bankTransfer}
+                // @ts-ignore
+                icon={this.getIcon({ type: 'LINK_BANK' })}
+                onClick={() =>
+                  this.handleSubmit({
+                    ...bankTransfer.value,
+                    type: 'LINK_BANK'
+                  })
+                }
+              />
+            )}
             {bankAccount && fiatCurrency && canDeposit && (
               <>
-                <LinkBank
-                  {...bankAccount}
-                  // @ts-ignore
-                  icon={this.getIcon({ type: 'LINK_BANK' })}
-                  onClick={() =>
-                    this.handleSubmit({
-                      ...bankAccount.value,
-                      type: 'LINK_BANK'
-                    })
-                  }
-                />
                 <BankWire
                   {...bankAccount}
                   icon={this.getIcon(bankAccount.value)}

@@ -124,7 +124,8 @@ export type SBPaymentTypes =
   | 'BANK_ACCOUNT'
   | 'FUNDS'
   | 'USER_CARD'
-  | 'LINK_BANK' // TODO?
+  | 'BANK_TRANSFER'
+  | 'LINK_BANK'
 
 export type SBPaymentMethodType = {
   addedAt?: string
@@ -297,4 +298,14 @@ export type FiatEligibleType = {
 export type SDDLimits = {
   max: string
   min: string
+}
+
+export type YodleeAccountType = {
+  accountId: string
+  additionalStatus: string
+  providerAccountId: number
+  providerId: number
+  providerName: string
+  requestId: string
+  status: string
 }

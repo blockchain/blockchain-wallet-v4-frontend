@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
+import { FastLinkType } from 'data/types'
 import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
@@ -24,8 +25,8 @@ class LinkBankHandler extends PureComponent<Props, State> {
     if (event.data.from !== 'yodlee') return
     if (event.data.to !== 'sb') return
 
-    const { providerAccountId } = event.data
-    this.props.simpleBuyActions.fetchBankTransferUpdate(providerAccountId)
+    const { sites } = event.data
+    this.props.simpleBuyActions.fetchBankTransferUpdate(sites)
     // eslint-disable-next-line
     console.info('YODLEE MSG:', event.data)
   }
@@ -54,6 +55,7 @@ type OwnProps = {
   handleClose: () => void
 }
 export type SuccessStateType = {
+  fastLink: FastLinkType,
   iFrameUrl: string
 }
 type LinkStatePropsType = {

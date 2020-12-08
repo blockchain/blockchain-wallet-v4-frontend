@@ -446,18 +446,19 @@ export default ({
   }
 
   const fetchBankTransferUpdate = function * ({
-    providerAccountId
+    accounts
   }: ReturnType<typeof A.fetchBankTransferUpdate>) {
     try {
-      const userDataR = selectors.modules.profile.getUserData(yield select())
-      const userData = userDataR.getOrFail('NO_USER_ADDRESS')
-      const status: ReturnType<typeof api.updateBankAccountLink> = yield call(
-        api.updateBankAccountLink,
-        providerAccountId,
-        userData.id
-      )
-      // eslint-disable-next-line no-console
-      console.log('fooooooasdfasdf', status)
+      const fastLink = yield select(selectors.components.simpleBuy.getFastLink)
+      for (let a of accounts) {
+        const status: ReturnType<typeof api.updateBankAccountLink> = yield call(
+          api.updateBankAccountLink,
+          a.providerAccountId,
+          fastLink.data.id
+        )
+        // eslint-disable-next-line no-console
+        console.log('fooooooasdfasdf', status)
+      }
     } catch (e) {}
   }
 
@@ -705,7 +706,12 @@ export default ({
         checkEligibility,
         isTier3 ? userSDDTier : undefined
       )
-      yield put(A.fetchSBPaymentMethodsSuccess(methods))
+      yield put(
+        A.fetchSBPaymentMethodsSuccess({
+          currency: currency || fallbackFiatCurrency,
+          methods
+        })
+      )
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchSBPaymentMethodsFailure(error))
@@ -927,13 +933,7 @@ export default ({
         //       makes the UI stop and wait for the entire http request to come
         //       back before the new LINK_BANK step slides over. Need to do
         //       these in parallel but LINK_BANK requires `fastLink`
-        const userDataR = selectors.modules.profile.getUserData(yield select())
-        const userData = userDataR.getOrFail('NO_USER_ADDRESS')
-        const fastLink = yield call(
-          api.createBankAccountLink,
-          'USD',
-          userData.id
-        )
+        const fastLink = yield call(api.createBankAccountLink, 'USD')
         return yield put(
           A.setStep({
             step: 'LINK_BANK',

@@ -54,8 +54,7 @@ class LinkBank extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'EUR',
-  fastLink: state.components.simpleBuy.fastLink
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'EUR'
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({

@@ -19,7 +19,8 @@ import {
   SDDEligibleType,
   SDDVerifiedType,
   SwapQuoteType,
-  WalletFiatType
+  WalletFiatType,
+  YodleeAccountType
 } from 'core/types'
 import { ModalOriginType } from 'data/modals/types'
 import {
@@ -118,9 +119,9 @@ export const handleSBMethodChange = (method: SBPaymentMethodType) => ({
 })
 
 // TODO: ACH stuff should be abstracted from simple buy code
-export const fetchBankTransferUpdate = (providerAccountId: string) => ({
+export const fetchBankTransferUpdate = (accounts: YodleeAccountType[]) => ({
   type: AT.FETCH_BANK_TRANSFER_UPDATE,
-  providerAccountId
+  accounts
 })
 
 export const fetchSBBalances = (
