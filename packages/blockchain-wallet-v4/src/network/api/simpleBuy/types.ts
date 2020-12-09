@@ -121,11 +121,11 @@ export type SBPairType = {
 
 export type SBPaymentTypes =
   | 'PAYMENT_CARD'
-  | 'BANK_ACCOUNT'
+  | 'BANK_ACCOUNT' // Wire Transfers
   | 'FUNDS'
   | 'USER_CARD'
-  | 'BANK_TRANSFER'
-  | 'LINK_BANK'
+  | 'BANK_TRANSFER' // ACH
+  | 'LINK_BANK' // Also ACH
 
 export type SBPaymentMethodType = {
   addedAt?: string

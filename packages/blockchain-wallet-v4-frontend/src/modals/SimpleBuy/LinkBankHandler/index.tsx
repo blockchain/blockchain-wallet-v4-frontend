@@ -27,6 +27,7 @@ class LinkBankHandler extends PureComponent<Props, State> {
 
     const { sites } = event.data
     this.props.simpleBuyActions.fetchBankTransferUpdate(sites)
+    this.props.simpleBuyActions.fetchBTUpdateLoading()
     // eslint-disable-next-line
     console.info('YODLEE MSG:', event.data)
   }
@@ -55,7 +56,7 @@ type OwnProps = {
   handleClose: () => void
 }
 export type SuccessStateType = {
-  fastLink: FastLinkType,
+  fastLink: FastLinkType
   iFrameUrl: string
 }
 type LinkStatePropsType = {

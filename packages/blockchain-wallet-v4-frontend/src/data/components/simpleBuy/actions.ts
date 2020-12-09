@@ -204,6 +204,10 @@ export const fetchSBCardsSuccess = (
   }
 })
 
+export const fetchBTUpdateLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_BANK_TRANSFER_UPDATE_LOADING
+})
+
 export const fetchSBFiatEligible = (currency: FiatType) => ({
   type: AT.FETCH_SB_FIAT_ELIGIBLE,
   currency

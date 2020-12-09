@@ -98,6 +98,13 @@ export default ({
       }
     })
 
+  const getBankTransferAccounts = () =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/payments/banktransfer`,
+      contentType: 'application/json'
+    })
+
   const createBankAccountLink = (currency: WalletCurrencyType) =>
     authorizedPost({
       url: nabuUrl,
@@ -389,6 +396,7 @@ export default ({
     createBankAccountLink,
     confirmSBOrder,
     deleteSBCard,
+    getBankTransferAccounts,
     getSBBalances,
     getSBCard,
     getSBCards,

@@ -14,6 +14,7 @@ import bitpayLogo from './img/bitpay-logo.svg'
 import blankCard from './img/blank-card.svg'
 import blockchainIcon from './img/bc-icon.svg'
 import blockchainLogo from './img/bc-logo.svg'
+import blockchainLogoCircle from './img/bc-logo-circle.svg'
 import buySellColor from './img/buy-sell-color.svg'
 import buySellGrey from './img/buy-sell-grey.svg'
 import buySellLearnMore from './img/buy-sell-learn-more.png'
@@ -139,6 +140,7 @@ const Images = {
   'bitpay-logo': bitpayLogo,
   'blank-card': blankCard,
   'blockchain-logo': blockchainLogo,
+  'blockchain-logo-circle': blockchainLogoCircle,
   'blockchain-icon': blockchainIcon,
   'buy-sell-color': buySellColor,
   'buy-sell-grey': buySellGrey,

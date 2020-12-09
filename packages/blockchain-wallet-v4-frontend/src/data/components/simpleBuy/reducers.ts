@@ -130,6 +130,11 @@ export function simpleBuyReducer (
         ...state,
         cards: Remote.Success(action.payload.cards)
       }
+    case AT.FETCH_BANK_TRANSFER_UPDATE_LOADING:
+      return {
+        ...state,
+        fastLink: Remote.Loading
+      }
     case AT.FETCH_SB_FIAT_ELIGIBLE_FAILURE: {
       return {
         ...state,

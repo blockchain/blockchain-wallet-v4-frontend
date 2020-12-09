@@ -104,7 +104,7 @@ export type FastLinkType = {
     fastlinkUrl: string
     token: string
     tokenExpiresAt: string
-  },
+  }
   id: string
   partner: 'YODLEE'
 }
@@ -226,6 +226,10 @@ interface FetchSBCardsSuccess {
     cards: Array<SBCardType>
   }
   type: typeof AT.FETCH_SB_CARDS_SUCCESS
+}
+
+interface FetchBTUpdateLoading {
+  type: typeof AT.FETCH_BANK_TRANSFER_UPDATE_LOADING
 }
 
 interface FetchSBFiatEligibleFailure {
@@ -471,6 +475,7 @@ export type SimpleBuyActionTypes =
   | AddCardDetailsLoading
   | AddCardDetailsSuccess
   | DestroyCheckout
+  | FetchBTUpdateLoading
   | FetchSBBalancesFailure
   | FetchSBBalancesLoading
   | FetchSBBalancesSuccess
