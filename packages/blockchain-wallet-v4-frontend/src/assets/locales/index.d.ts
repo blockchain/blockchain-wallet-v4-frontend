@@ -377,6 +377,7 @@ type MessagesType = {
   'copy.swap_verify_id': 'Verify your identity to increase how much you can Swap everyday.'
   'copy.swap_your_crypto': 'Swap Your Crypto'
   'copy.viewTransaction': 'View Transaction'
+  'copy.viewTransactions': 'View Transactions'
   'copy.to': 'To'
   'copy.to:': 'To: '
   'copy.transaction_fee': 'Transaction Fee'

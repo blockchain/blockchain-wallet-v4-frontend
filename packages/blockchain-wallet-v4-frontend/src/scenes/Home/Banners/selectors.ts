@@ -40,6 +40,10 @@ export const getData = (state): { bannerToShow: BannerType } => {
     tiers: { current: 0 }
   } as UserDataType)
 
+  const sddEligibleTier = selectors.components.simpleBuy
+    .getUserSddEligibleTier(state)
+    .getOrElse(1)
+
   let bannerToShow
   if (showDocResubmitBanner) {
     bannerToShow = 'resubmit'
@@ -49,7 +53,7 @@ export const getData = (state): { bannerToShow: BannerType } => {
     bannerToShow = 'finishKyc'
   } else if (isFirstLogin && (userData?.tiers?.current < 2 || isKycStateNone)) {
     bannerToShow = 'buySDDCrypto'
-  } else if (userData?.tiers?.current === 3) {
+  } else if (sddEligibleTier === 3) {
     bannerToShow = 'continueToGold'
   } else {
     bannerToShow = 'newCurrency'

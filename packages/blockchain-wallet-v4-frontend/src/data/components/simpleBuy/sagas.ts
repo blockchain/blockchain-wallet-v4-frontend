@@ -38,7 +38,8 @@ import {
   NO_FIAT_CURRENCY,
   NO_ORDER_EXISTS,
   NO_PAIR_SELECTED,
-  NO_PAYMENT_TYPE
+  NO_PAYMENT_TYPE,
+  SDD_TIER
 } from './model'
 
 import {
@@ -586,10 +587,19 @@ export default ({
         S.getFiatCurrency(yield select()) ||
         (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
 
+      const userSDDTier = S.getUserSddEligibleTier(yield select()).getOrElse(1)
+
+      const isTier3 = userSDDTier && userSDDTier === SDD_TIER
+      const checkEligibilityTier2 = isUserTier2 ? true : undefined
+
+      // in case of SDD we have to send tier=3 and checkEligibility=false
+      const checkEligibility = isTier3 ? false : checkEligibilityTier2
+
       const methods = yield call(
         api.getSBPaymentMethods,
         currency || fallbackFiatCurrency,
-        isUserTier2 ? true : undefined
+        checkEligibility,
+        isTier3 ? userSDDTier : undefined
       )
       yield put(A.fetchSBPaymentMethodsSuccess(methods))
     } catch (e) {

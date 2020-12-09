@@ -148,9 +148,13 @@ const Template: React.FC<Props> = props => {
           height='48px'
           nature='primary'
           data-e2e='upgradeNowBtn'
-          onClick={() =>
+          onClick={() => {
+            props.analyticsActions.logEvent([
+              'UPGRADE_TO_GOLD',
+              'upgrade_now_clicked'
+            ])
             props.identityVerificationActions.verifyIdentity(2, false)
-          }
+          }}
           style={{ marginTop: '16px' }}
           type='button'
         >
@@ -165,7 +169,13 @@ const Template: React.FC<Props> = props => {
           height='48px'
           nature='empty-blue'
           data-e2e='doLaterBtn'
-          onClick={props.handleClose}
+          onClick={() => {
+            props.analyticsActions.logEvent([
+              'UPGRADE_TO_GOLD',
+              'Ill_do_it_later_clicked'
+            ])
+            props.handleClose()
+          }}
           style={{ marginTop: '8px' }}
           type='button'
         >

@@ -23,6 +23,8 @@ export const DEFAULT_SB_METHODS = {
   methods: []
 }
 
+export const SDD_TIER = 3
+
 export const NO_CHECKOUT_VALS = 'No checkout values'
 export const NO_PAIR_SELECTED = 'NO_PAIR_SELECTED'
 export const NO_PAYMENT_TYPE = 'NO_PAYMENT_TYPE'

@@ -13,6 +13,7 @@ import {
   WalletFiatType
 } from 'core/types'
 import { getFiatFromPair, getOrderType } from 'data/components/simpleBuy/model'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 import DataError from 'components/DataError'
@@ -31,17 +32,22 @@ class CheckoutConfirm extends PureComponent<Props> {
       this.props.order.inputQuantity
     )
     this.props.sendActions.getLockRule('PAYMENT_CARD')
+    if (!Remote.Success.is(this.props.data)) {
+      this.props.simpleBuyActions.fetchSDDEligible()
+    }
   }
 
   handleSubmit = () => {
-    const { userData, sbBalances } = this.props.data.getOrElse({
-      userData: { tiers: { current: 0 } } as UserDataType
+    const { userData, sbBalances, isSddFlow } = this.props.data.getOrElse({
+      userData: { tiers: { current: 0 } } as UserDataType,
+      isSddFlow: false
     } as SuccessStateType)
+
     const userTier = userData?.tiers?.current
     const inputCurrency = this.props.order.inputCurrency as WalletFiatType
 
     // check for SDD flow and direct to add card
-    if (userTier === 3 && this.props.order.paymentType === 'PAYMENT_CARD') {
+    if (isSddFlow && this.props.order.paymentType === 'PAYMENT_CARD') {
       return this.props.simpleBuyActions.setStep({
         step: 'ADD_CARD'
       })

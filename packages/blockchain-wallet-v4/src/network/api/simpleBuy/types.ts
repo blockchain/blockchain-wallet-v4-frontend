@@ -292,3 +292,8 @@ export type FiatEligibleType = {
   paymentAccountEligible: boolean
   simpleBuyTradingEligible: boolean
 }
+
+export type SDDLimits = {
+  max: string
+  min: string
+}
