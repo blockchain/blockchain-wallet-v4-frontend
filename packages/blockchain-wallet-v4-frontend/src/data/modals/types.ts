@@ -61,6 +61,7 @@ export type ModalOriginType =
   | 'RunKycGoal'
   | 'SBEnterAmountCheckout'
   | 'SBPaymentMethodSelection'
+  | 'SellEmpty'
   | 'Send'
   | 'SendBch'
   | 'SendBtc'

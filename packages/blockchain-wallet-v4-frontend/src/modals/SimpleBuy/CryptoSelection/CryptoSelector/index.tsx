@@ -1,3 +1,11 @@
+import { any, map, values } from 'ramda'
+import { Form, InjectedFormProps, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import React, { useState } from 'react'
+import styled from 'styled-components'
+
+import { coinOrder } from 'blockchain-wallet-v4-frontend/src/modals/Swap/CoinSelection/selectors'
+import { FlyoutWrapper } from 'components/Flyout'
 import {
   Icon,
   Image,
@@ -6,20 +14,17 @@ import {
   Text
 } from 'blockchain-info-components'
 import { model } from 'data'
-import React, { useState } from 'react'
-import styled from 'styled-components'
-
-import { FlyoutWrapper } from 'components/Flyout'
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import {
   getCoinFromPair,
   getFiatFromPair
 } from 'data/components/simpleBuy/model'
-import { Props as OwnProps, SuccessStateType } from '../index'
 import { SBPairType } from 'core/types'
+import { SwapAccountType } from 'data/types'
+import CryptoAccountOption from 'blockchain-wallet-v4-frontend/src/modals/Swap/CoinSelection/CryptoAccountOption'
+
+import { Props as OwnProps, SuccessStateType } from '../index'
 import CryptoItem from './CryptoItem'
-import SellBanner from './SellBanner'
+import SellEmptyState from './SellEmptyState'
 
 const { SB_CRYPTO_SELECTION } = model.components.simpleBuy
 
@@ -72,7 +77,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   const [orderType, setOrderType] = useState(props.orderType)
   const showWelcome = props.isFirstLogin
 
-  const handleSubmit = (pair: SBPairType) => {
+  const handleBuy = (pair: SBPairType) => {
     const currentTier = props.userData?.tiers?.current
 
     // if first time user, send to verify email step which is required future SDD check
@@ -102,6 +107,39 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
       pair
     })
   }
+
+  const handleSell = (swapAccount: SwapAccountType) => {
+    const pair = props.pairs.find(
+      value => getCoinFromPair(value.pair) === swapAccount.coin
+    )
+
+    if (!pair) return
+
+    props.simpleBuyActions.setStep({
+      step: 'ENTER_AMOUNT',
+      swapAccount,
+      orderType,
+      cryptoCurrency: getCoinFromPair(pair.pair),
+      fiatCurrency: getFiatFromPair(pair.pair),
+      pair
+    })
+  }
+
+  // Check to see if any accounts have balance
+  // @ts-ignore
+  const checkAccountsBalances = any(hasFunds => hasFunds)(
+     // @ts-ignore
+    values(
+       // @ts-ignore
+      map(
+         // @ts-ignore
+        coin => any(acct => acct.balance !== 0 && acct.balance !== '0')(coin),
+         // @ts-ignore
+        props.accounts
+      )
+    )
+  )
+
 
   return (
     <Wrapper>
@@ -172,31 +210,31 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
             <TabsContainer>
               <TabMenu>
                 <TabMenuItem
-                  role='button'
+                  role="button"
                   selected={orderType === 'BUY'}
                   onClick={() => {
                     setOrderType('BUY')
                     props.analyticsActions.logEvent('SB_BUY_BUTTON')
                   }}
-                  data-e2e='sbBuyButton'
+                  data-e2e="sbBuyButton"
                 >
                   <FormattedMessage
-                    id='buttons.buy_crypto'
-                    defaultMessage='Buy Crypto'
+                    id="buttons.buy_crypto"
+                    defaultMessage="Buy Crypto"
                   />
                 </TabMenuItem>
                 <TabMenuItem
-                  role='button'
+                  role="button"
                   selected={orderType === 'SELL'}
                   onClick={() => {
                     setOrderType('SELL')
                     props.analyticsActions.logEvent('SB_SELL_BUTTON')
                   }}
-                  data-e2e='sbSellButton'
+                  data-e2e="sbSellButton"
                 >
                   <FormattedMessage
-                    id='buttons.sell_crypto'
-                    defaultMessage='Sell Crypto'
+                    id="buttons.sell_crypto"
+                    defaultMessage="Sell Crypto"
                   />
                 </TabMenuItem>
               </TabMenu>
@@ -204,18 +242,41 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
           )}
         </FlyoutWrapper>
         <Currencies>
-          {props.pairs.map((value, index) => (
-            <CryptoItem
-              key={index}
-              orderType={orderType}
-              fiat={getFiatFromPair(value.pair)}
-              coin={getCoinFromPair(value.pair)}
-              onClick={() => handleSubmit(value as SBPairType)}
-            />
-          ))}
+          {orderType === 'SELL' ? (
+            checkAccountsBalances ? (
+              coinOrder.map(coin => {
+                const accounts = props.accounts[coin] as Array<SwapAccountType>
+                return accounts.map(
+                  account =>
+                    account.balance !== '0' &&
+                    account.balance !== 0 && (
+                      <CryptoAccountOption
+                        account={account}
+                        coins={props.coins}
+                        isAccountSelected={false}
+                        isSwap={false}
+                        onClick={() => handleSell(account)}
+                        walletCurrency={props.walletCurrency}
+                      />
+                    )
+                )
+              })
+            ) : (
+              <SellEmptyState handleClose={props.handleClose} />
+            )
+          ) : (
+            props.pairs.map((value, index) => (
+              <CryptoItem
+                key={index}
+                orderType={orderType}
+                fiat={getFiatFromPair(value.pair)}
+                coin={getCoinFromPair(value.pair)}
+                onClick={() => handleBuy(value as SBPairType)}
+              />
+            ))
+          )}
         </Currencies>
       </Form>
-      {orderType === 'SELL' && <SellBanner />}
     </Wrapper>
   )
 }

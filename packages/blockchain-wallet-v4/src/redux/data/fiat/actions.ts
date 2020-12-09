@@ -1,6 +1,7 @@
+import { WalletFiatType } from 'core/types'
+
 import * as AT from './actionTypes'
-import { FiatActionTypes } from './types'
-import { SBTransactionsType, WalletFiatType } from 'core/types'
+import { FiatActionTypes, FiatTransactionPageResponseType } from './types'
 
 // FETCH_FIAT_TRANSACTIONS
 export const fetchTransactions = (
@@ -26,7 +27,7 @@ export const fetchTransactionsLoading = (
 })
 export const fetchTransactionsSuccess = (
   currency: WalletFiatType,
-  response: SBTransactionsType,
+  response: FiatTransactionPageResponseType,
   reset?: boolean
 ): FiatActionTypes => ({
   type: AT.FETCH_FIAT_TRANSACTIONS_SUCCESS,

@@ -35,7 +35,7 @@ export const BuyOrSell = (props: {
       <FormattedMessage
         id='buttons.sell_coin'
         defaultMessage='Sell {displayName}'
-        values={{ displayName: props.crypto }}
+        values={{ displayName: props.coinModel.coinTicker }}
       />
     )
   }

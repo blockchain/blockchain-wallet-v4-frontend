@@ -23,13 +23,16 @@ class Checkout extends PureComponent<Props> {
     const dataGoal = find(propEq('name', 'simpleBuy'), this.props.goals)
     const goalAmount = pathOr('', ['data', 'amount'], dataGoal)
     const amount = goalAmount || this.props.formValues?.amount
+    const cryptoAmount = this.props.formValues?.cryptoAmount
 
     this.props.simpleBuyActions.initializeCheckout(
       this.props.pairs,
       this.props.orderType,
       this.props.preferences[this.props.orderType].fix,
       this.props.pair,
-      amount
+      amount,
+      this.props.swapAccount,
+      cryptoAmount
     )
 
     if (!Remote.Success.is(this.props.data)) {
@@ -50,6 +53,12 @@ class Checkout extends PureComponent<Props> {
 
     !isEmpty(id) && this.props.deleteGoal(String(id))
     const method = this.props.method || this.props.defaultMethod
+
+    // TODO: sell
+    // need to do kyc check
+    if (formValues?.orderType === 'SELL') {
+      return this.props.simpleBuyActions.setStep({ step: 'PREVIEW_SELL' })
+    }
 
     if (isSddFlow) {
       const currentTier = userData?.tiers?.current
@@ -118,8 +127,8 @@ class Checkout extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
-  data: getData(state),
+const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
+  data: getData(state, ownProps),
   cryptoCurrency:
     selectors.components.simpleBuy.getCryptoCurrency(state) || 'BTC',
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
@@ -145,7 +154,7 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type OwnProps = EnterAmountOwnProps & EnterAmountSuccessStateType
+export type OwnProps = EnterAmountOwnProps & EnterAmountSuccessStateType
 export type SuccessStateType = ReturnType<typeof getData>['data'] & {
   formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
 }

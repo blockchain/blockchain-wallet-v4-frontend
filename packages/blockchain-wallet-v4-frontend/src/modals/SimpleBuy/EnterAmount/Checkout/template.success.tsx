@@ -152,7 +152,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const conversionCoinType: 'FIAT' | CoinType =
     fix === 'FIAT' ? 'FIAT' : cryptoCurrency
 
-  const quoteAmt = getQuote(props.quote, fix, props.formValues?.amount)
+  const quoteAmt = getQuote(
+    props.pair.pair,
+    props.quote.rate,
+    fix,
+    props.formValues?.amount
+  )
 
   if (!props.formValues) return null
   if (!fiatCurrency || !baseCurrency)
@@ -178,6 +183,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.pair,
     props.formValues,
     method,
+    props.swapAccount,
     props.isSddFlow,
     sddLimit
   )[fix]
@@ -189,6 +195,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.pair,
     props.formValues,
     method,
+    props.swapAccount,
     props.isSddFlow,
     sddLimit
   )[fix]
@@ -203,6 +210,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       props.pair,
       props.formValues,
       method,
+      props.swapAccount,
       props.isSddFlow,
       sddLimit
     )[fix]
@@ -230,6 +238,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   }
 
   const limit = Number(props.sddLimit.max) / SDD_LIMIT_FACTOR
+
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ paddingBottom: '0px', borderBottom: 'grey000' }}>
@@ -269,6 +278,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         fiat={props.fiatCurrency || 'USD'}
         coin={props.cryptoCurrency}
         orderType={props.orderType}
+        account={props.swapAccount}
       />
       <FlyoutWrapper style={{ paddingTop: '0px' }}>
         <AmountRow id='amount-row'>
@@ -308,7 +318,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             weight={500}
             data-e2e='sbQuoteAmount'
           >
-            {formatQuote(quoteAmt, props.quote, fix, props.supportedCoins)}
+            {formatQuote(quoteAmt, props.pair.pair, fix, props.supportedCoins)}
           </Text>
           <Icon
             color='blue600'

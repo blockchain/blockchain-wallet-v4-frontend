@@ -10,7 +10,8 @@ import {
   SBOrderActionType,
   SBOrderType,
   SBPairType,
-  SBPaymentMethodType
+  SBPaymentMethodType,
+  SwapOrderType
 } from 'core/types'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
@@ -27,15 +28,18 @@ import CheckoutConfirm from './CheckoutConfirm'
 import CryptoSelection from './CryptoSelection'
 import EnterAmount from './EnterAmount'
 import KycRequired from './KycRequired'
-import Loading from './template.loading'
 import OrderSummary from './OrderSummary'
 import PaymentMethods from './PaymentMethods'
-import Pending from './template.pending'
-import Rejected from './template.rejected'
+import PreviewSell from './PreviewSell'
+import SellOrderSummary from './SellOrderSummary'
 import ThreeDSHandler from './ThreeDSHandler'
 import TransferDetails from './TransferDetails'
 import UpgradeToGold from './UpgradeToGold'
 import VerifyEmail from './VerifyEmail'
+
+import Loading from './template.loading'
+import Pending from './template.pending'
+import Rejected from './template.rejected'
 
 class SimpleBuy extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
@@ -176,6 +180,23 @@ class SimpleBuy extends PureComponent<Props, State> {
                 <OrderSummary {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
+            {/*
+                used for sell only now, eventually buy as well
+                TODO: use swap2 quote for buy AND sell
+            */}
+            {this.props.step === 'PREVIEW_SELL' && (
+              <FlyoutChild>
+                <PreviewSell {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
+            {this.props.step === 'SELL_ORDER_SUMMARY' && (
+              <FlyoutChild>
+                <SellOrderSummary
+                  {...this.props}
+                  handleClose={this.handleClose}
+                />
+              </FlyoutChild>
+            )}
             {this.props.step === 'TRANSFER_DETAILS' && (
               <FlyoutChild>
                 <TransferDetails
@@ -283,6 +304,11 @@ type LinkStatePropsType =
         | 'UPGRADE_TO_GOLD'
     }
   | {
+      orderType: SBOrderActionType
+      pair: SBPairType
+      step: 'PREVIEW_SELL'
+    }
+  | {
       addBank?: boolean
       displayBack?: boolean
       fiatCurrency: FiatType
@@ -293,6 +319,7 @@ type LinkStatePropsType =
       order: SBOrderType
       step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'CANCEL_ORDER'
     }
+  | { order: SwapOrderType; step: 'SELL_ORDER_SUMMARY' }
   | {
       cardId?: string
       cryptoCurrency?: CoinType
