@@ -148,6 +148,14 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     }
   }
 
+  renderBankText = (value: SBPaymentMethodType): string => {
+    return value.details
+      ? value.details.accountName
+        ? value.details.accountName
+        : value.details.accountNumber
+      : 'Bank Account'
+  }
+
   renderCardText = (value: SBPaymentMethodType): string => {
     return value.card
       ? value.card.label
@@ -210,6 +218,20 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           defaultCardMethod && defaultCardMethod.limits
             ? defaultCardMethod.limits
             : { min: '1000', max: '500000' }
+      } as SBPaymentMethodType
+    }))
+
+    const bankMethods = availableBankAccounts.map(account => ({
+      text: account.details
+        ? account.details.accountName
+          ? account.details.accountName
+          : account.details.accountNumber
+        : 'Bank Account',
+      value: {
+        ...account,
+        type: 'BANK_TRANSFER',
+        currency: account.currency,
+        limits: { min: '1000', max: '500000' } // TODO: make this not hardcoded
       } as SBPaymentMethodType
     }))
 
@@ -303,13 +325,13 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 onClick={() => this.handleSubmit(paymentCard.value)}
               />
             )}
-            {availableBankAccounts.length &&
-              availableBankAccounts.map((account, index) => (
+            {bankMethods &&
+              bankMethods.map((bankMethod, index) => (
                 <Bank
                   key={index}
-                  accountNumber={account.details.accountNumber}
-                  bankName={account.details.bankName}
-                  bankAccountType={account.details.bankAccountType}
+                  value={bankMethod.value}
+                  text={this.renderBankText(bankMethod.value)}
+                  onClick={() => this.handleSubmit(bankMethod.value)}
                 />
               ))}
             {bankTransfer && (

@@ -2,6 +2,8 @@ import { DisplayContainer } from 'components/SimpleBuy'
 import React from 'react'
 import styled from 'styled-components'
 
+import { SBPaymentMethodType } from 'core/types'
+
 const BankName = styled.div`
   font-weight: 600;
 `
@@ -11,23 +13,18 @@ const BankDetails = styled.div`
 `
 
 type Props = {
-  accountNumber: string,
-  bankAccountType: string
-  bankName: string
+  onClick: () => void,
+  text: string,
+  value: SBPaymentMethodType
 }
 
-const Bank: React.FC<Props> = ({
-  bankName,
-  bankAccountType,
-  accountNumber
-}) => (
-  <DisplayContainer data-e2e={`sbbankaccount`} role='button' onClick={() => {}}>
-    <BankName>{bankName}</BankName>
+const Bank: React.FC<Props> = ({ text, value, onClick }) => (
+  <DisplayContainer data-e2e={`sbbankaccount`} role='button' onClick={onClick}>
+    <BankName>
+      {text} {value.currency}
+    </BankName>
     <BankDetails>
-      {`${bankAccountType.toLowerCase()} Account ${accountNumber.replace(
-        /x/g,
-        ''
-      )}`}
+      {`${text.toLowerCase()} Account ${text.replace(/x/g, '')}`}
     </BankDetails>
   </DisplayContainer>
 )

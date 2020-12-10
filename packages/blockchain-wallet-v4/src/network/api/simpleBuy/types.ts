@@ -133,6 +133,7 @@ export type SBPaymentMethodType = {
   attributes?: {}
   card?: SBCard
   currency: FiatType
+  details?: BankDetails
   id?: string
   limits: {
     max: string
@@ -310,18 +311,20 @@ export type YodleeAccountType = {
   status: string
 }
 
+export type BankDetails = {
+  accountName: string
+  accountNumber: string
+  bankAccountType: string
+  bankName: string
+  routingNumber: string
+}
+
 export type BankTransferAccountType = {
-  addedAt: string,
-  attributes: {},
-  currency: FiatType,
-  details: {
-    accountName: string,
-    accountNumber: string,
-    bankAccountType: string,
-    bankName: string,
-    routingNumber: string
-  },
-  id: string,
-  partner: string,
+  addedAt: string
+  attributes: {}
+  currency: FiatType
+  details: BankDetails
+  id: string
+  partner: string
   state: string
 }
