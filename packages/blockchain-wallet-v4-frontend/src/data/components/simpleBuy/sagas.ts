@@ -462,6 +462,17 @@ export default ({
     } catch (e) {}
   }
 
+  const fetchBankTransferAccounts = function * () {
+    try {
+      yield put(A.fetchSBCardsLoading())
+      const accounts = yield call(api.getBankTransferAccounts)
+      yield put(A.fetchBankTransferAccountsSuccess(accounts))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchBankTransferAccountsError(error))
+    }
+  }
+
   const fetchSBBalances = function * ({
     currency,
     skipLoading
@@ -1226,6 +1237,7 @@ export default ({
     confirmSBFundsOrder,
     createSBOrder,
     deleteSBCard,
+    fetchBankTransferAccounts,
     fetchBankTransferUpdate,
     fetchSBBalances,
     fetchSBCard,

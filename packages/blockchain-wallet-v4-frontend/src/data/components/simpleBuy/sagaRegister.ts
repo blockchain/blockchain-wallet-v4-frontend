@@ -33,6 +33,10 @@ export default ({ api, coreSagas, networks }) => {
       simpleBuySagas.confirmSBCreditCardOrder
     )
     yield takeLatest(
+      AT.FETCH_BANK_TRANSFER_ACCOUNTS,
+      simpleBuySagas.fetchBankTransferAccounts
+    )
+    yield takeLatest(
       AT.FETCH_BANK_TRANSFER_UPDATE,
       simpleBuySagas.fetchBankTransferUpdate
     )

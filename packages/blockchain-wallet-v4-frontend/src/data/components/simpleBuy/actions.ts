@@ -1,5 +1,6 @@
 import * as AT from './actionTypes'
 import {
+  BankTransferAccountType,
   CoinType,
   Everypay3DSResponseType,
   FiatEligibleType,
@@ -124,6 +125,32 @@ export const fetchBankTransferUpdate = (accounts: YodleeAccountType[]) => ({
   accounts
 })
 
+export const fetchBTUpdateLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_BANK_TRANSFER_UPDATE_LOADING
+})
+
+// TODO: Implement FETCH_BANK_TRANSFER_UPDATE_ERROR and SUCCESS
+
+export const fetchBankTransferAccounts = () => ({
+  type: AT.FETCH_BANK_TRANSFER_ACCOUNTS
+})
+
+export const fetchBankTransferAccountsLoading = () => ({
+  type: AT.FETCH_BANK_TRANSFER_ACCOUNTS_LOADING
+})
+
+export const fetchBankTransferAccountsError = (error: string) => ({
+  type: AT.FETCH_BANK_TRANSFER_ACCOUNTS_ERROR,
+  payload: { error }
+})
+
+export const fetchBankTransferAccountsSuccess = (
+  accounts: BankTransferAccountType[]
+) => ({
+  type: AT.FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS,
+  payload: { accounts }
+})
+
 export const fetchSBBalances = (
   currency?: CoinType,
   skipLoading?: boolean
@@ -202,10 +229,6 @@ export const fetchSBCardsSuccess = (
   payload: {
     cards
   }
-})
-
-export const fetchBTUpdateLoading = (): SimpleBuyActionTypes => ({
-  type: AT.FETCH_BANK_TRANSFER_UPDATE_LOADING
 })
 
 export const fetchSBFiatEligible = (currency: FiatType) => ({

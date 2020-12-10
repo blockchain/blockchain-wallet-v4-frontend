@@ -31,6 +31,7 @@ class EnterAmount extends PureComponent<Props> {
         this.props.fiatCurrency,
         this.props.cryptoCurrency
       )
+      this.props.simpleBuyActions.fetchBankTransferAccounts()
       this.props.simpleBuyActions.fetchSBCards()
       this.props.simpleBuyActions.fetchSDDEligible()
     }

@@ -7,6 +7,7 @@ const INITIAL_STATE: SimpleBuyState = {
   addBank: undefined,
   account: Remote.NotAsked,
   balances: Remote.NotAsked,
+  bankTransferAccounts: Remote.NotAsked,
   card: Remote.NotAsked,
   cardId: undefined,
   cards: Remote.NotAsked,
@@ -81,6 +82,22 @@ export function simpleBuyReducer (
         quote: Remote.NotAsked,
         step: 'CRYPTO_SELECTION'
       }
+    case AT.FETCH_BANK_TRANSFER_ACCOUNTS_LOADING:
+      return {
+        ...state,
+        bankTransferAccounts: Remote.Loading
+      }
+    case AT.FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS:
+      return {
+        ...state,
+        bankTransferAccounts: Remote.Success(action.payload.accounts)
+      }
+    case AT.FETCH_BANK_TRANSFER_ACCOUNTS_ERROR: {
+      return {
+        ...state,
+        bankTransferAccounts: Remote.Failure(action.payload.error)
+      }
+    }
     case AT.FETCH_SB_BALANCES_FAILURE: {
       return {
         ...state,

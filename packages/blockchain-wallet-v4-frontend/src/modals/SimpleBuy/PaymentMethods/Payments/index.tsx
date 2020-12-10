@@ -21,6 +21,7 @@ import PaymentCard from './PaymentCard'
 import React, { PureComponent, ReactElement } from 'react'
 import styled from 'styled-components'
 
+import Bank from './Bank'
 import BankWire from './BankWire'
 import Card from './Card'
 import Fund from './Fund'
@@ -157,6 +158,9 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 
   render () {
     const { fiatCurrency, orderType } = this.props
+    const availableBankAccounts = this.props.bankTransferAccounts.filter(
+      account => account.state === 'ACTIVE' && orderType === 'BUY'
+    )
     const availableCards = this.props.cards.filter(
       card => card.state === 'ACTIVE' && orderType === 'BUY'
     )
@@ -299,6 +303,15 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 onClick={() => this.handleSubmit(paymentCard.value)}
               />
             )}
+            {availableBankAccounts.length &&
+              availableBankAccounts.map((account, index) => (
+                <Bank
+                  key={index}
+                  accountNumber={account.details.accountNumber}
+                  bankName={account.details.bankName}
+                  bankAccountType={account.details.bankAccountType}
+                />
+              ))}
             {bankTransfer && (
               <LinkBank
                 {...bankTransfer}
