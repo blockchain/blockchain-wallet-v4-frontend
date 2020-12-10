@@ -20,7 +20,6 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { Icon, Text } from 'blockchain-info-components'
 import { SBCheckoutFormValuesType } from 'data/types'
-import { selectors } from 'data'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 
 import { BuyOrSell } from '../../model'
@@ -40,7 +39,7 @@ import Failure from '../template.failure'
 import IncreaseLimits from './IncreaseLimits'
 import Payment from './Payment'
 
-const { SDD_LIMIT } = selectors.components.simpleBuy
+const SDD_LIMIT = { min: '500', max: '10000' }
 
 const AmountRow = styled(Row)`
   position: relative;

@@ -20,7 +20,7 @@ import { getInputFromPair, getOutputFromPair } from '../swap/model'
 import { getRate } from '../swap/utils'
 import { SBCheckoutFormValuesType } from './types'
 
-export const SDD_LIMIT = { min: '500', max: '10000' } as SDDLimits
+const SDD_LIMIT = { min: '500', max: '10000' } as SDDLimits
 
 const hasEligibleFiatCurrency = currency =>
   currency === FiatTypeEnum.USD ||

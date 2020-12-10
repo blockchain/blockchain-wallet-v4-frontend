@@ -9,7 +9,6 @@ import {
   getCoinFromPair,
   getFiatFromPair
 } from 'data/components/simpleBuy/model'
-import { Props } from './template.success'
 import {
   SBBalancesType,
   SBOrderActionType,
@@ -25,11 +24,12 @@ import {
   SBFixType,
   SwapAccountType
 } from 'data/types'
-import { selectors } from 'data'
 import { UnitType } from 'core/exchange'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 
-const { SDD_LIMIT } = selectors.components.simpleBuy
+import { Props } from './template.success'
+
+const SDD_LIMIT = { min: '500', max: '10000' }
 
 export const SDD_LIMIT_FACTOR = 100 // we get 10000 from API
 
