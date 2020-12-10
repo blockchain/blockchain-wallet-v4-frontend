@@ -4,6 +4,7 @@ import {
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
+  PaymentValue,
   SBAccountType,
   SBBalancesType,
   SBCardType,
@@ -15,6 +16,7 @@ import {
   SBPaymentMethodType,
   SBProviderDetailsType,
   SBQuoteType,
+  SwapQuoteType,
   WalletFiatType
 } from 'core/types'
 import { ModalOriginType } from 'data/modals/types'
@@ -24,6 +26,7 @@ import {
   SimpleBuyActionTypes,
   StepActionsPayload
 } from './types'
+import { SwapAccountType } from '../swap/types'
 
 export const activateSBCard = (card: SBCardType) => ({
   type: AT.ACTIVATE_SB_CARD,
@@ -74,7 +77,7 @@ export const cancelSBOrder = (order: SBOrderType) => ({
 })
 
 export const createSBOrder = (
-  paymentType: Exclude<
+  paymentType?: Exclude<
     SBPaymentMethodType['type'],
     'USER_CARD' | 'BANK_ACCOUNT'
   >,
@@ -358,6 +361,37 @@ export const fetchSBQuoteSuccess = (
   }
 })
 
+export const fetchSellQuote = (
+  pair: SBPairsType,
+  account: SwapAccountType
+) => ({
+  type: AT.FETCH_SELL_QUOTE,
+  pair,
+  account
+})
+
+export const fetchSellQuoteFailure = (error: string): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SELL_QUOTE_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchSellQuoteLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SELL_QUOTE_LOADING
+})
+
+export const fetchSellQuoteSuccess = (
+  quote: SwapQuoteType,
+  rate: number
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SELL_QUOTE_SUCCESS,
+  payload: {
+    quote,
+    rate
+  }
+})
+
 export const handleSBDepositFiatClick = (
   coin: WalletFiatType,
   origin: ModalOriginType
@@ -389,14 +423,18 @@ export const initializeCheckout = (
   orderType: SBOrderActionType,
   fix: SBFixType,
   pair?: SBPairType,
-  amount?: string
+  amount?: string,
+  account?: SwapAccountType,
+  cryptoAmount?: string
 ) => ({
   type: AT.INITIALIZE_CHECKOUT,
+  account,
   amount,
   fix,
   orderType,
   pair,
-  pairs
+  pairs,
+  cryptoAmount
 })
 
 export const pollSBBalances = () => ({
@@ -439,13 +477,15 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
         cryptoCurrency: payload.cryptoCurrency,
         fiatCurrency: payload.fiatCurrency,
         method: payload.method,
-        pair: payload.pair
+        pair: payload.pair,
+        swapAccount: payload.swapAccount
       }
     case 'CRYPTO_SELECTION':
       return {
         step: payload.step,
         cryptoCurrency: payload.cryptoCurrency,
-        fiatCurrency: payload.fiatCurrency
+        fiatCurrency: payload.fiatCurrency,
+        orderType: payload.orderType
       }
     case 'TRANSFER_DETAILS':
       return {
@@ -460,6 +500,8 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
       return { step: payload.step, order: payload.order }
     case '3DS_HANDLER':
       return { step: payload.step, order: payload.order }
+    case 'SELL_ORDER_SUMMARY':
+      return { step: payload.step, sellOrder: payload.sellOrder }
     default:
       return { step: payload.step }
   }
@@ -467,12 +509,14 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
 
 export const showModal = (
   origin: SBShowModalOriginType,
-  cryptoCurrency?: CoinType
+  cryptoCurrency?: CoinType,
+  orderType?: SBOrderActionType
 ) => ({
   type: AT.SHOW_MODAL,
   payload: {
     origin,
-    cryptoCurrency
+    cryptoCurrency,
+    orderType
   }
 })
 
@@ -486,5 +530,38 @@ export const switchFix = (
     amount,
     orderType,
     fix
+  }
+})
+
+// used for sell only now, eventually buy as well
+// TODO: use swap2 quote for buy AND sell
+export const startPollSellQuote = (
+  pair: SBPairsType,
+  account: SwapAccountType
+) => ({
+  type: AT.START_POLL_SELL_QUOTE,
+  pair,
+  account
+})
+
+export const stopPollSellQuote = () => ({
+  type: AT.STOP_POLL_SELL_QUOTE
+})
+
+export const updatePaymentFailure = (error: string): SimpleBuyActionTypes => ({
+  type: AT.UPDATE_PAYMENT_FAILURE,
+  payload: {
+    error
+  }
+})
+export const updatePaymentLoading = (): SimpleBuyActionTypes => ({
+  type: AT.UPDATE_PAYMENT_LOADING
+})
+export const updatePaymentSuccess = (
+  payment: PaymentValue | undefined
+): SimpleBuyActionTypes => ({
+  type: AT.UPDATE_PAYMENT_SUCCESS,
+  payload: {
+    payment
   }
 })

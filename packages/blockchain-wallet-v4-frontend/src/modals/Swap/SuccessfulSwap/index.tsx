@@ -42,7 +42,6 @@ const CheckIcon = styled.div`
 
 const SuccessfulSwap: React.FC<Props> = props => {
   if (!props.order) return null
-
   return (
     <Wrapper>
       <IconContainer>

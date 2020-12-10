@@ -128,6 +128,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     method: selectedMethod,
     defaultMethod
   } = props
+
   const method = selectedMethod || defaultMethod
   const fix = props.preferences[props.orderType].fix
   const digits = fix === 'FIAT' ? FIAT_DECIMALS : CRYPTO_DECIMALS
@@ -135,7 +136,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const conversionCoinType: 'FIAT' | CoinType =
     fix === 'FIAT' ? 'FIAT' : cryptoCurrency
 
-  const quoteAmt = getQuote(props.quote, fix, props.formValues?.amount)
+  const quoteAmt = getQuote(
+    props.pair.pair,
+    props.quote.rate,
+    fix,
+    props.formValues?.amount
+  )
 
   if (!props.formValues) return null
   if (!fiatCurrency || !baseCurrency)
@@ -158,7 +164,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.quote,
     props.pair,
     props.formValues,
-    method
+    method,
+    props.swapAccount
   )[fix]
   const min: string = getMaxMin(
     'min',
@@ -167,7 +174,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.quote,
     props.pair,
     props.formValues,
-    method
+    method,
+    props.swapAccount
   )[fix]
 
   const handleMinMaxClick = () => {
@@ -179,7 +187,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       props.quote,
       props.pair,
       props.formValues,
-      method
+      method,
+      props.swapAccount
     )[fix]
     const value = convertStandardToBase(conversionCoinType, maxMin)
     props.simpleBuyActions.handleSBSuggestedAmountClick(
@@ -235,6 +244,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         fiat={props.fiatCurrency || 'USD'}
         coin={props.cryptoCurrency}
         orderType={props.orderType}
+        account={props.swapAccount}
       />
       <FlyoutWrapper style={{ paddingTop: '0px' }}>
         <AmountRow id='amount-row'>
@@ -274,7 +284,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             weight={500}
             data-e2e='sbQuoteAmount'
           >
-            {formatQuote(quoteAmt, props.quote, fix, props.supportedCoins)}
+            {formatQuote(quoteAmt, props.pair.pair, fix, props.supportedCoins)}
           </Text>
           <Icon
             color='blue600'

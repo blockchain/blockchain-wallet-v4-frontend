@@ -112,7 +112,7 @@ export const Col = styled.div`
 export const Title = styled(Text)<{ asValue?: boolean }>`
   font-size: 14px;
   font-weight: 500;
-  color: ${props => props.theme.grey600};
+  color: ${props => props.theme.grey900};
   margin-top: ${props => (props.asValue ? '4px' : '0px')};
 `
 export const Value = styled(Text)<{ asTitle?: boolean }>`

@@ -1,11 +1,24 @@
 import {
+  convertBaseToStandard,
+  convertStandardToBase
+} from '../exchange/services'
+import {
   ExtractSuccess,
   FiatTypeEnum,
   SBPaymentMethodType
 } from 'blockchain-wallet-v4/src/types'
 import { FiatType } from 'core/types'
+import { getInputFromPair, getOutputFromPair } from '../swap/model'
+import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/validation'
+import { getRate } from '../swap/utils'
 import { head, isEmpty, lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
+import { SBCheckoutFormValuesType } from './types'
+import { selectors } from 'data'
+import BigNumber from 'bignumber.js'
+
+export const getAddBank = (state: RootState) =>
+  state.components.simpleBuy.addBank
 
 export const getOrderType = (state: RootState) =>
   state.components.simpleBuy.orderType
@@ -25,7 +38,7 @@ export const getDisplayBack = (state: RootState) =>
 export const getFiatCurrency = (state: RootState) =>
   state.components.simpleBuy.fiatCurrency || state.preferences.sbFiatCurrency
 
-const eligableFiatCurrency = currency =>
+export const eligableFiatCurrency = currency =>
   currency === FiatTypeEnum.USD ||
   currency === FiatTypeEnum.GBP ||
   currency === FiatTypeEnum.EUR
@@ -161,6 +174,48 @@ export const getSBLatestPendingOrder = (state: RootState) =>
     )
   })
 
+export const getSellOrder = (state: RootState) =>
+  state.components.simpleBuy.sellOrder
+
 export const getStep = (state: RootState) => state.components.simpleBuy.step
-export const getAddBank = (state: RootState) =>
-  state.components.simpleBuy.addBank
+
+export const getSwapAccount = (state: RootState) =>
+  state.components.simpleBuy.swapAccount
+
+// Sell specific (for now!)
+// used for sell only now, eventually buy as well
+// TODO: use swap2 quote for buy AND sell
+export const getPayment = (state: RootState) =>
+  state.components.simpleBuy.payment
+
+export const getSellQuote = (state: RootState) =>
+  state.components.simpleBuy.sellQuote
+
+export const getIncomingAmount = (state: RootState) => {
+  const quoteR = getSellQuote(state)
+  const values = (selectors.form.getFormValues('simpleBuyCheckout')(
+    state
+  ) as SBCheckoutFormValuesType) || { amount: '0', fix: 'CRYPTO' }
+
+  return lift(({ quote, rate }: ExtractSuccess<typeof quoteR>) => {
+    const fromCoin = getInputFromPair(quote.pair)
+    const toCoin = getOutputFromPair(quote.pair)
+    const amount =
+      values.fix === 'CRYPTO'
+        ? values.amount
+        : getQuote(quote.pair, rate, values.fix, values.amount)
+    const amtMinor = convertStandardToBase(fromCoin, amount)
+    const exRate = new BigNumber(
+      getRate(quote.quote.priceTiers, toCoin, new BigNumber(amtMinor))
+    )
+    const feeMajor = convertBaseToStandard(toCoin, quote.networkFee)
+
+    const amt = exRate.times(amount).minus(feeMajor)
+    const isNegative = amt.isLessThanOrEqualTo(0)
+
+    return {
+      amt: isNegative ? 0 : amt,
+      isNegative
+    }
+  })(quoteR)
+}
