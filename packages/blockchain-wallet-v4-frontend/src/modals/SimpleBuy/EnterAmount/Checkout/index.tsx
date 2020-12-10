@@ -129,7 +129,8 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type OwnProps = EnterAmountOwnProps & EnterAmountSuccessStateType
+export type OwnProps = EnterAmountOwnProps &
+  EnterAmountSuccessStateType & { sellCurrencyAvailable: boolean }
 export type SuccessStateType = ReturnType<typeof getData>['data'] & {
   formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
 }
