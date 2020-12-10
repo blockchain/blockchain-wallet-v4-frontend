@@ -112,7 +112,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   coinModel={coins[account.coin]}
                 />
               </Title>
-              <Value>
+              <Value data-e2e='sbTotalAmount'>
                 {coinToString({
                   value: formValues?.cryptoAmount,
                   unit: {
@@ -128,7 +128,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   defaultMessage='Receive'
                 />
               </Title>
-              <Value>
+              <Value data-e2e='sbIncomingAmount'>
                 {this.props.incomingAmountR.cata({
                   Success: val => (
                     <>
@@ -159,7 +159,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   defaultMessage='Exchange Rate'
                 />
               </Title>
-              <Value>
+              <Value data-e2e='sbExchangeRate'>
                 {this.props.quoteR.cata({
                   Success: val => (
                     <>
@@ -189,7 +189,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               <Title>
                 <FormattedMessage id='copy.from' defaultMessage='From' />
               </Title>
-              <Value>{account.label}</Value>
+              <Value data-e2e='sbOutgoingAccount'>{account.label}</Value>
             </Row>
             <Row>
               <Title>
@@ -199,7 +199,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   values={{ coin: coins[BASE].coinTicker }}
                 />
               </Title>
-              <Value>
+              <Value data-e2e='sbTransactionFee'>
                 {account.type === 'CUSTODIAL' ? (
                   <>
                     <>0 {account.baseCoin}</>
