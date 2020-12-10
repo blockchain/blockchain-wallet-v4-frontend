@@ -1,4 +1,12 @@
-import { call, cancel, delay, put, race, select, take } from 'redux-saga/effects'
+import {
+  call,
+  cancel,
+  delay,
+  put,
+  race,
+  select,
+  take
+} from 'redux-saga/effects'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
 
@@ -331,8 +339,8 @@ export default ({
         paymentMethodId
       )
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
-      yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order: buyOrder }))
       yield put(A.fetchSBOrders())
+      yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order: buyOrder }))
     } catch (e) {
       // After CC has been activated we try to create an order
       // If order creation fails go back to ENTER_AMOUNT step
