@@ -29,7 +29,7 @@ const Success: React.FC<Props> = props => {
         .includes(props.walletCurrency))
 
   return isUserEligible && sellCurrencyAvailable ? (
-    <Checkout {...props} sellCurrencyAvailable={sellCurrencyAvailable} />
+    <Checkout {...props} />
   ) : (
     <Unsupported {...props} />
   )

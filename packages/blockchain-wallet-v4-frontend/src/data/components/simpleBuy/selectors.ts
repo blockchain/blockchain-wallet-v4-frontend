@@ -38,7 +38,7 @@ export const getDisplayBack = (state: RootState) =>
 export const getFiatCurrency = (state: RootState) =>
   state.components.simpleBuy.fiatCurrency || state.preferences.sbFiatCurrency
 
-const eligableFiatCurrency = currency =>
+export const eligableFiatCurrency = currency =>
   currency === FiatTypeEnum.USD ||
   currency === FiatTypeEnum.GBP ||
   currency === FiatTypeEnum.EUR
