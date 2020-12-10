@@ -7,6 +7,10 @@ import styled from 'styled-components'
 import { coinOrder } from 'blockchain-wallet-v4-frontend/src/modals/Swap/CoinSelection/selectors'
 import { FlyoutWrapper } from 'components/Flyout'
 import {
+  getCoinFromPair,
+  getFiatFromPair
+} from 'data/components/simpleBuy/model'
+import {
   Icon,
   Image,
   TabMenu,
@@ -14,10 +18,6 @@ import {
   Text
 } from 'blockchain-info-components'
 import { model } from 'data'
-import {
-  getCoinFromPair,
-  getFiatFromPair
-} from 'data/components/simpleBuy/model'
 import { SBPairType } from 'core/types'
 import { SwapAccountType } from 'data/types'
 import CryptoAccountOption from 'blockchain-wallet-v4-frontend/src/modals/Swap/CoinSelection/CryptoAccountOption'
@@ -128,18 +128,17 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   // Check to see if any accounts have balance
   // @ts-ignore
   const checkAccountsBalances = any(hasFunds => hasFunds)(
-     // @ts-ignore
+    // @ts-ignore
     values(
-       // @ts-ignore
+      // @ts-ignore
       map(
-         // @ts-ignore
+        // @ts-ignore
         coin => any(acct => acct.balance !== 0 && acct.balance !== '0')(coin),
-         // @ts-ignore
+        // @ts-ignore
         props.accounts
       )
     )
   )
-
 
   return (
     <Wrapper>
@@ -210,31 +209,31 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
             <TabsContainer>
               <TabMenu>
                 <TabMenuItem
-                  role="button"
+                  role='button'
                   selected={orderType === 'BUY'}
                   onClick={() => {
                     setOrderType('BUY')
                     props.analyticsActions.logEvent('SB_BUY_BUTTON')
                   }}
-                  data-e2e="sbBuyButton"
+                  data-e2e='sbBuyButton'
                 >
                   <FormattedMessage
-                    id="buttons.buy_crypto"
-                    defaultMessage="Buy Crypto"
+                    id='buttons.buy_crypto'
+                    defaultMessage='Buy Crypto'
                   />
                 </TabMenuItem>
                 <TabMenuItem
-                  role="button"
+                  role='button'
                   selected={orderType === 'SELL'}
                   onClick={() => {
                     setOrderType('SELL')
                     props.analyticsActions.logEvent('SB_SELL_BUTTON')
                   }}
-                  data-e2e="sbSellButton"
+                  data-e2e='sbSellButton'
                 >
                   <FormattedMessage
-                    id="buttons.sell_crypto"
-                    defaultMessage="Sell Crypto"
+                    id='buttons.sell_crypto'
+                    defaultMessage='Sell Crypto'
                   />
                 </TabMenuItem>
               </TabMenu>

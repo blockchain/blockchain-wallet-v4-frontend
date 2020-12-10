@@ -49,6 +49,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       sbBalances,
       supportedCoins,
       userData,
+      sddEligible,
       sddLimit
     })
   )(

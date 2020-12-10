@@ -130,12 +130,12 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.data.xlm.fetchData)
 
       if (firstLogin) {
-        const countryCode = (yield select(
-          selectors.core.settings.getCountryCode
-        )).getOrElse('US')
+        const countryCode = navigator.language.slice(-2) || 'US'
         const currency = guessCurrencyBasedOnCountry(countryCode)
 
         yield put(actions.core.settings.setCurrency(currency))
+        // fetch settings again
+        yield call(coreSagas.settings.fetchSettings)
 
         // TODO: remove this AB test
         const showVerifyEmailR = yield select(

@@ -23,7 +23,6 @@ export const getData = state => {
   // for sell, get 'swap' accounts
   const accounts = selectors.components.swap.getActiveAccounts(state)
 
-
   return lift(
     (
       coins: ExtractSuccess<typeof coinsR>,
@@ -38,24 +37,22 @@ export const getData = state => {
     ) => ({
       // Doing this to check if state has been updated for orderType to be 'SELL'
       // If user clicks on sell button on activity feed header
-      orderType: formValues
-        ? formValues.orderType
-        : stateOrderType || 'BUY',
+      orderType: formValues ? formValues.orderType : stateOrderType || 'BUY',
       accounts,
       coins,
       eligibility,
+      emailVerified,
       invitations,
       pairs,
       userData,
-      emailVerified,
       sbOrders,
       sddEligible,
       walletCurrency
     })
   )(
     coinsR,
-    emailVerifiedR,
     eligibilityR,
+    emailVerifiedR,
     invitationsR,
     pairsR,
     userDataR,
