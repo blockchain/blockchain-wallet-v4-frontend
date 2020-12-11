@@ -1452,6 +1452,7 @@
   "scenes.exchange.secondstep.expiry_text": "This quote will refresh in: {timeLeft}",
   "scenes.exchange.subheader": "We built our own exchange that defines speed, reliability and liquidity. Upgrade your trading.",
   "scenes.exchangehistory.empty.transactions": "Transactions",
+  "scenes.exchangehistory.list.orderstatus.expired": "Expired",
   "scenes.hardware.subheader": "Trade, send and receive from your offline hardware wallet.",
   "scenes.hardware.title": "Hardware",
   "scenes.help.2fa.lostexplain": "Reset your 2FA right now to gain access to your Wallet.",

@@ -123,6 +123,9 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
       fiatCurrency: getFiatFromPair(pair.pair),
       pair
     })
+    // reset form values so order doesn't hold values
+    // if user changes wallet/coin
+    props.formActions.change('simpleBuyCheckout', 'amount', '')
   }
 
   // Check to see if any accounts have balance
@@ -143,7 +146,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   return (
     <Wrapper>
       <Form>
-        <FlyoutWrapper>
+        <Top>
           <CloseContainer>
             <Icon
               cursor
