@@ -25,6 +25,11 @@ export const computeSteps = ({
   const skipMobile =
     currentStep !== STEPS.mobile && (smsVerified || mobileVerified)
 
+  // since kyc tier requirements are no longer in proper order due to SDD
+  // need to check if selected is 3 (SDD) and reassign to 2 (Gold) in order
+  // to ensure the correct next steps are generated for the user
+  const selectedTier = selected === 3 ? 2 : selected
+
   const isStepRequired = step => {
     if ((!needMoreInfo || next < TIERS[2]) && step === STEPS.moreInfo)
       return false
@@ -35,7 +40,7 @@ export const computeSteps = ({
       return false
     if (skipMobile && step === STEPS.mobile) return false
 
-    return compose(both(lte(next), gte(selected)), getStepTier)(step)
+    return compose(both(lte(next), gte(selectedTier)), getStepTier)(step)
   }
   return filter(isStepRequired, values(STEPS))
 }
