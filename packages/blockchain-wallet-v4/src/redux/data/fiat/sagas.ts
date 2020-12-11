@@ -64,10 +64,12 @@ export default ({ api }: { api: APIType }) => {
       // 1) no transactions exist
       // 2) we have a next SB data stored (last tx id and timestamp)
       // 3) we have a next swap page timestamp
+      // 4) reset === true
       if (
         !data?.page.length ||
         (nextSbTxId && nextSbTxTimestamp) ||
-        nextSwapPageTimestamp
+        nextSwapPageTimestamp ||
+        reset
       ) {
         // fetch sb transactions
         sbTransactions = yield call(api.getSBTransactions, {
