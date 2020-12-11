@@ -268,7 +268,16 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   height='48px'
                   color='red400'
                   style={{ marginTop: '16px' }}
-                  // onClick={() => simpleBuyActions.setStep({ step: 'ENTER_AMOUNT' })}
+                  onClick={() => {
+                    this.props.simpleBuyActions.setStep({
+                      step: 'ENTER_AMOUNT',
+                      pair: this.props.pair,
+                      cryptoCurrency: BASE,
+                      fiatCurrency: getFiatFromPair(this.props.pair.pair),
+                      orderType: this.props.orderType,
+                      swapAccount: this.props.account
+                    })
+                  }}
                 >
                   <FormattedMessage
                     id='buttons.cancel'
