@@ -84,6 +84,17 @@ class CheckoutConfirm extends PureComponent<Props> {
         } else {
           return this.props.simpleBuyActions.setStep({ step: 'ADD_CARD' })
         }
+      case 'BANK_TRANSFER':
+        if (this.props.order.paymentMethodId) {
+          return this.props.simpleBuyActions.confirmSBCreditCardOrder(
+            this.props.order.paymentMethodId,
+            this.props.order
+          )
+        } else {
+          return this.props.simpleBuyActions.setStep({
+            step: 'LINK_BANK_HANDLER'
+          })
+        }
       default:
         // Not a valid payment method type, go back to CRYPTO_SELECTION
         return this.props.simpleBuyActions.setStep({

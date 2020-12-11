@@ -100,6 +100,9 @@ class Checkout extends PureComponent<Props> {
         case 'FUNDS':
           this.props.simpleBuyActions.createSBOrder('FUNDS')
           break
+        case 'BANK_TRANSFER':
+          this.props.simpleBuyActions.createSBOrder('BANK_TRANSFER', method.id)
+          break
         case 'BANK_ACCOUNT':
           break
         default:

@@ -85,7 +85,7 @@ export const createSBOrder = (
     SBPaymentMethodType['type'],
     'USER_CARD' | 'BANK_ACCOUNT'
   >,
-  paymentMethodId?: SBCardType['id']
+  paymentMethodId?: SBCardType['id'] | BankTransferAccountType['id']
 ) => ({
   type: AT.CREATE_ORDER,
   paymentMethodId,

@@ -1,31 +1,60 @@
-import { DisplayContainer } from 'components/SimpleBuy'
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
-import { SBPaymentMethodType } from 'core/types'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { DisplayContainer, MultiRowContainer } from 'components/SimpleBuy'
+import { fiatToString } from 'core/exchange/currency'
+import { FiatType, SBPaymentMethodType } from 'core/types'
+import { Title, Value } from 'components/Flyout'
 
-const BankName = styled.div`
-  font-weight: 600;
-`
-
-const BankDetails = styled.div`
-  text-transform: capitalize;
+const DisplayCardDetails = styled.div`
+  text-align: right;
+  white-space: nowrap;
 `
 
 type Props = {
-  onClick: () => void,
-  text: string,
+  onClick: () => void
+  text: string
   value: SBPaymentMethodType
 }
 
 const Bank: React.FC<Props> = ({ text, value, onClick }) => (
-  <DisplayContainer data-e2e={`sbbankaccount`} role='button' onClick={onClick}>
-    <BankName>
-      {text} {value.currency}
-    </BankName>
-    <BankDetails>
-      {`${text.toLowerCase()} Account ${text.replace(/x/g, '')}`}
-    </BankDetails>
+  <DisplayContainer
+    data-e2e={`sb${value.type.toLowerCase()}Cards`}
+    role='button'
+    onClick={onClick}
+  >
+    <MultiRowContainer>
+      <Value asTitle>{text}</Value>
+      <Title asValue>
+        <FormattedMessage
+          id='modals.simplebuy.card_limit'
+          defaultMessage='{card} Limit'
+          values={{
+            card: `${fiatToString({
+              value: convertBaseToStandard('FIAT', value.limits.max),
+              unit: String(value.currency) as FiatType
+            })} ${value.currency}`
+          }}
+        />
+      </Title>
+    </MultiRowContainer>
+    {value.card && (
+      <DisplayCardDetails>
+        <Value asTitle>····{value.card.number}</Value>
+        <Title asValue>
+          <FormattedMessage
+            id='modals.simplebuy.card_expire'
+            defaultMessage='Exp: {month}/{year}'
+            values={{
+              month: value.card.expireMonth,
+              year: value.card.expireYear
+            }}
+          />
+        </Title>
+      </DisplayCardDetails>
+    )}
   </DisplayContainer>
 )
 
