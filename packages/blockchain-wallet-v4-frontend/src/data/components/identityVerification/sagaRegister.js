@@ -31,10 +31,6 @@ export default ({ api, coreSagas }) => {
       identityVerificationSagas.resendSmsCode
     )
     yield takeLatest(
-      AT.SAVE_PERSONAL_DATA,
-      identityVerificationSagas.savePersonalData
-    )
-    yield takeLatest(
       AT.FETCH_SUPPORTED_COUNTRIES,
       identityVerificationSagas.fetchSupportedCountries
     )

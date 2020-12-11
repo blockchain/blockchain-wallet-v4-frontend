@@ -92,8 +92,6 @@ export const setStatesFailure = (e): IdentityVerificationActionTypes => ({
   payload: { e }
 })
 
-export const savePersonalData = () => ({ type: AT.SAVE_PERSONAL_DATA })
-
 export const setSmsStep = (step): IdentityVerificationActionTypes => ({
   type: AT.SET_SMS_STEP,
   payload: { step }
