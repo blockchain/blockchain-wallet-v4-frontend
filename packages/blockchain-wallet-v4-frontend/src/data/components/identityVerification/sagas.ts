@@ -186,7 +186,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const goToNextStep = function * () {
     const steps = (yield select(S.getSteps)).getOrElse([])
-    const currentStep = yield select(S.getVerificationStep)
+    const currentStep = S.getVerificationStep(yield select())
     const currentStepIndex = steps.indexOf(currentStep)
     const step = steps[currentStepIndex + 1]
 
@@ -254,50 +254,6 @@ export default ({ api, coreSagas, networks }) => {
         actions.form.stopSubmit(SMS_NUMBER_FORM, {
           code: failedResendError
         })
-      )
-    }
-  }
-
-  const savePersonalData = function * () {
-    try {
-      yield put(actions.form.startSubmit(PERSONAL_FORM))
-      yield call(syncUserWithWallet)
-      const {
-        firstName,
-        lastName,
-        dob,
-        line1,
-        line2,
-        city,
-        country,
-        state,
-        postCode
-      } = yield select(selectors.form.getFormValues(PERSONAL_FORM))
-      const personalData = { firstName, lastName, dob }
-      const address = {
-        line1,
-        line2,
-        city,
-        country: country.code,
-        state,
-        postCode
-      }
-      if (address.country === 'US') address.state = address.state.code
-      yield call(updateUser, { payload: { data: personalData } })
-      yield call(updateUserAddress, {
-        payload: { address }
-      })
-
-      yield put(actions.form.stopSubmit(PERSONAL_FORM))
-      yield call(goToNextStep)
-    } catch (e) {
-      yield put(actions.form.stopSubmit(PERSONAL_FORM, { _error: e }))
-      yield put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'savePersonalData',
-          `Error saving personal data: ${e}`
-        )
       )
     }
   }
@@ -461,7 +417,7 @@ export default ({ api, coreSagas, networks }) => {
             sddVerified = { verified: false, taskComplete: true }
             break
           }
-          sddVerified = yield call(api.updateSDDEligible)
+          sddVerified = yield call(api.fetchSDDVerified)
           if (sddVerified?.taskComplete) break
           yield delay(POLL_SDD_DELAY)
         }
@@ -514,7 +470,6 @@ export default ({ api, coreSagas, networks }) => {
     registerUserCampaign,
     createUser,
     createRegisterUserCampaign,
-    savePersonalData,
     updateSmsStep,
     updateSmsNumber,
     verifySmsNumber,

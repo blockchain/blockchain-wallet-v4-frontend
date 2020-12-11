@@ -318,6 +318,7 @@ type MessagesType = {
   'copy.amount_sent': 'Amount Sent'
   'copy.balance': 'Balance'
   'copy.below_swap_min': 'Minimum Swap is {value}'
+  'copy.canceled': 'Canceled'
   'copy.coin_network_fee': '{coin} Network Fee'
   'copy.confirm_withdrawal': 'Confirm Withdrawal'
   'copy.confirm_swap': 'Confirm Swap'

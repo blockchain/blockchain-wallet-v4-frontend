@@ -54,6 +54,11 @@ export const getFastLink = (state: RootState) =>
 export const getFiatCurrency = (state: RootState) =>
   state.components.simpleBuy.fiatCurrency
 
+export const eligableFiatCurrency = currency =>
+  currency === FiatTypeEnum.USD ||
+  currency === FiatTypeEnum.GBP ||
+  currency === FiatTypeEnum.EUR
+
 export const getDefaultPaymentMethod = (state: RootState) => {
   const fiatCurrency = getFiatCurrency(state)
   const orders = getSBOrders(state).getOrElse([])
@@ -258,4 +263,15 @@ export const getUserSddELimit = (state: RootState) => {
     )
     return paymentMethod?.limits || SDD_LIMIT
   })(sbMethodsR)
+}
+
+export const getSddVerified = (state: RootState) =>
+  state.components.simpleBuy.sddVerified
+
+export const isUserSddVerified = (state: RootState) => {
+  const sddVerifiedR = getSddVerified(state)
+  return lift(
+    (sddVerified: ExtractSuccess<typeof sddVerifiedR>) =>
+      sddVerified.taskComplete && sddVerified.verified
+  )(sddVerifiedR)
 }

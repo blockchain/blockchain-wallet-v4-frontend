@@ -28,7 +28,7 @@ const INITIAL_STATE: SimpleBuyState = {
   providerDetails: Remote.NotAsked,
   quote: Remote.NotAsked,
   sddEligible: Remote.NotAsked,
-  sddUpdateEligible: Remote.NotAsked,
+  sddVerified: Remote.NotAsked,
   sellOrder: undefined,
   sellQuote: Remote.NotAsked,
   step: 'CRYPTO_SELECTION',
@@ -292,21 +292,21 @@ export function simpleBuyReducer (
         ...state,
         sddEligible: Remote.Success(action.payload.sddEligible)
       }
-    case AT.UPDATE_SDD_ELIGIBILITY_FAILURE: {
+    case AT.FETCH_SDD_VERIFIED_FAILURE: {
       return {
         ...state,
-        sddUpdateEligible: Remote.Failure(action.payload.error)
+        sddVerified: Remote.Failure(action.payload.error)
       }
     }
-    case AT.UPDATE_SDD_ELIGIBILITY_LOADING:
+    case AT.FETCH_SDD_VERIFIED_LOADING:
       return {
         ...state,
-        sddUpdateEligible: Remote.Loading
+        sddVerified: Remote.Loading
       }
-    case AT.UPDATE_SDD_ELIGIBILITY_SUCCESS:
+    case AT.FETCH_SDD_VERIFIED_SUCCESS:
       return {
         ...state,
-        sddUpdateEligible: Remote.Success(action.payload.sddUpdateEligible)
+        sddVerified: Remote.Success(action.payload.sddVerified)
       }
     case AT.INITIALIZE_CHECKOUT:
       return {

@@ -614,6 +614,16 @@ export default ({
       yield put(A.fetchSDDEligibleFailure(error))
     }
   }
+  const fetchSDDVerified = function * () {
+    try {
+      yield put(A.fetchSDDVerifiedLoading())
+      const sddEligible = yield call(api.fetchSDDVerified)
+      yield put(A.fetchSDDVerifiedSuccess(sddEligible))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchSDDVerifiedFailure(error))
+    }
+  }
 
   const fetchSBOrders = function * ({
     payload
@@ -1245,6 +1255,7 @@ export default ({
     fetchSBCards,
     fetchSBFiatEligible,
     fetchSDDEligible,
+    fetchSDDVerified,
     fetchSBOrders,
     fetchSBPairs,
     fetchSBPaymentAccount,

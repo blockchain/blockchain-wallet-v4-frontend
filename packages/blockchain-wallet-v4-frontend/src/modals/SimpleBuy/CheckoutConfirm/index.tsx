@@ -34,11 +34,17 @@ class CheckoutConfirm extends PureComponent<Props> {
     this.props.sendActions.getLockRule('PAYMENT_CARD')
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSDDEligible()
+      this.props.simpleBuyActions.fetchSDDVerified()
     }
   }
 
   handleSubmit = () => {
-    const { userData, sbBalances, isSddFlow } = this.props.data.getOrElse({
+    const {
+      userData,
+      sbBalances,
+      isSddFlow,
+      isUserSddVerified
+    } = this.props.data.getOrElse({
       userData: { tiers: { current: 0 } } as UserDataType,
       isSddFlow: false
     } as SuccessStateType)
@@ -48,9 +54,15 @@ class CheckoutConfirm extends PureComponent<Props> {
 
     // check for SDD flow and direct to add card
     if (isSddFlow && this.props.order.paymentType === 'PAYMENT_CARD') {
-      return this.props.simpleBuyActions.setStep({
-        step: 'ADD_CARD'
-      })
+      if (isUserSddVerified) {
+        return this.props.simpleBuyActions.setStep({
+          step: 'ADD_CARD'
+        })
+      } else {
+        return this.props.simpleBuyActions.setStep({
+          step: 'KYC_REQUIRED'
+        })
+      }
     }
 
     if (userTier < 2) {

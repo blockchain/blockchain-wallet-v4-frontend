@@ -136,7 +136,7 @@ export type SimpleBuyState = {
   providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
   sddEligible: RemoteDataType<string, SDDEligibleType>
-  sddUpdateEligible: RemoteDataType<string, SDDVerifiedType>
+  sddVerified: RemoteDataType<string, SDDVerifiedType>
   sellOrder: undefined | SwapOrderType
   sellQuote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>
   step: keyof typeof SimpleBuyStepType
@@ -280,20 +280,20 @@ interface FetchSDDEligibleSuccess {
   }
   type: typeof AT.FETCH_SDD_ELIGIBILITY_SUCCESS
 }
-interface UpdateSDDEligibleFailure {
+interface FetchSDDVerifiedFailure {
   payload: {
     error: string
   }
-  type: typeof AT.UPDATE_SDD_ELIGIBILITY_FAILURE
+  type: typeof AT.FETCH_SDD_VERIFIED_FAILURE
 }
-interface UpdateSDDEligibleLoading {
-  type: typeof AT.UPDATE_SDD_ELIGIBILITY_LOADING
+interface FetchSDDVerifiedLoading {
+  type: typeof AT.FETCH_SDD_VERIFIED_LOADING
 }
-interface UpdateSDDEligibleSuccess {
+interface FetchSDDVerifiedSuccess {
   payload: {
-    sddUpdateEligible: SDDVerifiedType
+    sddVerified: SDDVerifiedType
   }
-  type: typeof AT.UPDATE_SDD_ELIGIBILITY_SUCCESS
+  type: typeof AT.FETCH_SDD_VERIFIED_SUCCESS
 }
 interface FetchSBOrdersFailure {
   payload: {
@@ -526,15 +526,15 @@ export type SimpleBuyActionTypes =
   | FetchSDDEligibleLoading
   | FetchSDDEligibleFailure
   | FetchSDDEligibleSuccess
+  | FetchSDDVerifiedFailure
+  | FetchSDDVerifiedLoading
+  | FetchSDDVerifiedSuccess
   | FetchSellQuoteFailure
   | FetchSellQuoteLoading
   | FetchSellQuoteSuccess
   | InitializeCheckout
   | SetStepAction
   | ShowModalAction
-  | UpdateSDDEligibleFailure
-  | UpdateSDDEligibleLoading
-  | UpdateSDDEligibleSuccess
   | UpdatePaymentFailureAction
   | UpdatePaymentLoadingAction
   | UpdatePaymentSuccessAction

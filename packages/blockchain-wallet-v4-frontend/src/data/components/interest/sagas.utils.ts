@@ -11,7 +11,7 @@ import {
   RemoteDataType,
   SBBalancesType
 } from 'core/types'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import {
   INVALID_COIN_TYPE,
   NO_DEFAULT_ACCOUNT
@@ -23,6 +23,8 @@ import * as A from './actions'
 import * as S from './selectors'
 import { convertBaseToStandard } from '../exchange/services'
 import exchangeSagaUtils from '../exchange/sagas.utils'
+
+const { isCashAddr, toCashAddr } = utils.bch
 
 export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   const { calculateProvisionalPayment } = exchangeSagaUtils({
@@ -263,7 +265,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   const getReceiveAddressForCoin = function * (coin: CoinType) {
     switch (coin) {
       case 'BCH':
-        return selectors.core.common.bch
+        const address = selectors.core.common.bch
           .getNextAvailableReceiveAddress(
             networks.bch,
             (yield select(
@@ -272,6 +274,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
             yield select()
           )
           .getOrFail('Failed to get BCH receive address')
+        return isCashAddr(address) ? address : toCashAddr(address)
       case 'BTC':
         return selectors.core.common.btc
           .getNextAvailableReceiveAddress(

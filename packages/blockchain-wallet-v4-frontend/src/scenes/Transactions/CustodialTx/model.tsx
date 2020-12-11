@@ -21,16 +21,16 @@ export const IconTx = (props: Props) => {
   switch (props.tx.state) {
     case 'FINISHED':
       return (
-        <IconWrapper color='fiat-light'>
-          <Icon size='20px' color='fiat' name='plus' />
+        <IconWrapper color="fiat-light">
+          <Icon size="20px" color="fiat" name="plus" />
         </IconWrapper>
       )
     case 'COMPLETE':
       return props.coin in WalletFiatEnum ? (
-        <IconWrapper color='fiat-light'>
+        <IconWrapper color="fiat-light">
           <Icon
-            size='20px'
-            color='fiat'
+            size="20px"
+            color="fiat"
             name={props.tx.type === 'DEPOSIT' ? 'arrow-down' : 'arrow-up'}
           />
         </IconWrapper>
@@ -46,16 +46,18 @@ export const IconTx = (props: Props) => {
     case 'MANUAL_REVIEW':
     case 'PENDING':
     case 'PENDING_DEPOSIT':
-      return <SharedIconTx type='PENDING' />
+      return <SharedIconTx type="PENDING" />
+    case 'CANCELED':
+    case 'EXPIRED':
     case 'FAILED':
     case 'REFUNDED':
     case 'REJECTED':
     case 'UNIDENTIFIED':
       return props.coin in WalletFiatEnum ? (
-        <IconWrapper color='red000'>
+        <IconWrapper color="red000">
           <Icon
-            color='red600'
-            size='20px'
+            color="red600"
+            size="20px"
             name={props.tx.type === 'DEPOSIT' ? 'arrow-down' : 'arrow-up'}
           />
         </IconWrapper>
@@ -67,8 +69,8 @@ export const IconTx = (props: Props) => {
       )
     default:
       return (
-        <IconWrapper color='grey000'>
-          <Icon size='20px' weight={500} color='grey600' name={'timer'} />
+        <IconWrapper color="grey000">
+          <Icon size="20px" weight={500} color="grey600" name={'timer'} />
         </IconWrapper>
       )
   }
@@ -87,11 +89,11 @@ export const Timestamp = (props: Props) => {
 
   return (
     <Text
-      size='14px'
+      size="14px"
       weight={500}
-      color='grey600'
+      color="grey600"
       style={{ marginTop: '4px' }}
-      data-e2e='txTimeOrStatus'
+      data-e2e="txTimeOrStatus"
     >
       {getTimeOrStatus()}
     </Text>
@@ -104,35 +106,35 @@ export const TransactionType = (props: Props) => {
       case 'DEPOSIT':
         return (
           <FormattedMessage
-            id='components.form.tabmenutransactionstatus.received'
-            defaultMessage='Received'
+            id="components.form.tabmenutransactionstatus.received"
+            defaultMessage="Received"
           />
         )
       case 'WITHDRAWAL':
         return (
           <FormattedMessage
-            id='components.form.tabmenutransactionstatus.sent'
-            defaultMessage='Sent'
+            id="components.form.tabmenutransactionstatus.sent"
+            defaultMessage="Sent"
           />
         )
       case 'REFUNDED':
-        return <FormattedMessage id='copy.refunded' defaultMessage='Refunded' />
+        return <FormattedMessage id="copy.refunded" defaultMessage="Refunded" />
       case 'SELL':
-        return <FormattedMessage id='copy.sold' defaultMessage='Sold' />
+        return <FormattedMessage id="copy.sold" defaultMessage="Sold" />
     }
   } else {
     switch (props.tx.type) {
       case 'DEPOSIT':
         return (
-          <FormattedMessage id='buttons.deposited' defaultMessage='Deposited' />
+          <FormattedMessage id="buttons.deposited" defaultMessage="Deposited" />
         )
       case 'REFUNDED':
-        return <FormattedMessage id='copy.refunded' defaultMessage='Refunded' />
+        return <FormattedMessage id="copy.refunded" defaultMessage="Refunded" />
       case 'SELL':
-        return <FormattedMessage id='copy.sold' defaultMessage='Sold' />
+        return <FormattedMessage id="copy.sold" defaultMessage="Sold" />
       case 'WITHDRAWAL':
         return (
-          <FormattedMessage id='buttons.withdrew' defaultMessage='Withdrew' />
+          <FormattedMessage id="buttons.withdrew" defaultMessage="Withdrew" />
         )
     }
   }
@@ -191,15 +193,24 @@ export const Status = (props: Props) => {
           />
         )
       }
-      return <FormattedMessage id='copy.complete' defaultMessage='Complete' />
+      return <FormattedMessage id="copy.complete" defaultMessage="Complete" />
     case 'FAILED':
     case 'REFUNDED':
     case 'REJECTED':
     case 'UNIDENTIFIED':
-      return <FormattedMessage id='copy.failed' defaultMessage='Failed' />
+      return <FormattedMessage id="copy.failed" defaultMessage="Failed" />
     case 'MANUAL_REVIEW':
-      return <FormattedMessage id='copy.in_review' defaultMessage='In Review' />
+      return <FormattedMessage id="copy.in_review" defaultMessage="In Review" />
+    case 'CANCELED':
+      return <FormattedMessage id="copy.canceled" defaultMessage="Canceled" />
+    case 'EXPIRED':
+      return (
+        <FormattedMessage
+          id="scenes.exchangehistory.list.orderstatus.expired"
+          defaultMessage="Expired"
+        />
+      )
     default:
-      return <FormattedMessage id='copy.pending' defaultMessage='Pending' />
+      return <FormattedMessage id="copy.pending" defaultMessage="Pending" />
   }
 }

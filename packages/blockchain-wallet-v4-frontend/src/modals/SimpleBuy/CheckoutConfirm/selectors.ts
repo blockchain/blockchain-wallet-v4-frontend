@@ -14,6 +14,9 @@ export const getData = (state: RootState) => {
   const userSDDTierR = selectors.components.simpleBuy.getUserSddEligibleTier(
     state
   )
+  const isUserSddVerifiedR = selectors.components.simpleBuy.isUserSddVerified(
+    state
+  )
 
   return lift(
     (
@@ -22,13 +25,15 @@ export const getData = (state: RootState) => {
       userData: ExtractSuccess<typeof userDataR>,
       withdrawLockCheck: ExtractSuccess<typeof withdrawLockCheckR>,
       sddEligible: ExtractSuccess<typeof sddEligibleR>,
-      userSDDTier: ExtractSuccess<typeof userSDDTierR>
+      userSDDTier: ExtractSuccess<typeof userSDDTierR>,
+      isUserSddVerified: ExtractSuccess<typeof isUserSddVerifiedR>
     ) => ({
       quote,
       sbBalances,
       userData,
       withdrawLockCheck,
-      isSddFlow: sddEligible.eligible || userSDDTier === 3
+      isSddFlow: sddEligible.eligible || userSDDTier === 3,
+      isUserSddVerified
     })
   )(
     quoteR,
@@ -36,6 +41,7 @@ export const getData = (state: RootState) => {
     userDataR,
     withdrawLockCheckR,
     sddEligibleR,
-    userSDDTierR
+    userSDDTierR,
+    isUserSddVerifiedR
   )
 }

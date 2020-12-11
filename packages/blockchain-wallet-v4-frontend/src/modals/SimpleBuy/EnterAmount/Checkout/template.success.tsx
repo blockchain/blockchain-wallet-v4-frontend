@@ -144,6 +144,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     method: selectedMethod,
     defaultMethod
   } = props
+
   const method = selectedMethod || defaultMethod
   const fix = props.preferences[props.orderType].fix
   const digits = fix === 'FIAT' ? FIAT_DECIMALS : CRYPTO_DECIMALS

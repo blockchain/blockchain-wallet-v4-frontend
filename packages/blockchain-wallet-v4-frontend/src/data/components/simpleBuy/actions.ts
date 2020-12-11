@@ -283,29 +283,29 @@ export const fetchSDDEligibleSuccess = (
     sddEligible
   }
 })
-export const updateSDDEligible = () => ({
-  type: AT.UPDATE_SDD_ELIGIBILITY
+export const fetchSDDVerified = () => ({
+  type: AT.FETCH_SDD_VERIFIED
 })
 
-export const updateSDDEligibleFailure = (
+export const fetchSDDVerifiedFailure = (
   error: string
 ): SimpleBuyActionTypes => ({
-  type: AT.UPDATE_SDD_ELIGIBILITY_FAILURE,
+  type: AT.FETCH_SDD_VERIFIED_FAILURE,
   payload: {
     error
   }
 })
 
-export const updateSDDEligibleLoading = (): SimpleBuyActionTypes => ({
-  type: AT.UPDATE_SDD_ELIGIBILITY_LOADING
+export const fetchSDDVerifiedLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SDD_VERIFIED_LOADING
 })
 
-export const updateSDDEligibleSuccess = (
-  sddUpdateEligible: SDDVerifiedType
+export const fetchSDDVerifiedSuccess = (
+  sddVerified: SDDVerifiedType
 ): SimpleBuyActionTypes => ({
-  type: AT.UPDATE_SDD_ELIGIBILITY_SUCCESS,
+  type: AT.FETCH_SDD_VERIFIED_SUCCESS,
   payload: {
-    sddUpdateEligible
+    sddVerified
   }
 })
 

@@ -280,6 +280,8 @@ export type SBTransactionStateType =
   | 'CLEARED'
   | 'COMPLETE'
   | 'REFUNDED'
+  | 'CANCELED'
+  | 'EXPIRED'
 
 export enum SBPendingTransactionStateEnum {
   CLEARED = 'CLEARED',
