@@ -1176,7 +1176,7 @@ const displayWdgldToWdgld = ({
   value: number | string
 }) => {
   return transformWdgldToWdgld({ value, fromUnit, toUnit })
-    .map(x => Currency.coinToString({ ...x, minDigits: 2, maxDigits: 2 }))
+    .map(Currency.coinToString)
     .getOrElse(DefaultDisplay)
 }
 
