@@ -118,7 +118,7 @@ export default ({
       data: { coinifyTraderId }
     })
 
-  const updateSDDEligible = (): SDDVerifiedType =>
+  const fetchSDDVerified = (): SDDVerifiedType =>
     authorizedGet({
       url: nabuUrl,
       endPoint: `/sdd/verified`,
@@ -141,7 +141,7 @@ export default ({
     sendCoinifyKyc,
     sendDeeplink,
     syncVeriff,
-    updateSDDEligible,
+    fetchSDDVerified,
     uploadDocuments
   }
 }

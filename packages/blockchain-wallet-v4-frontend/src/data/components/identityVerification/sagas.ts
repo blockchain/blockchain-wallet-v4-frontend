@@ -417,7 +417,7 @@ export default ({ api, coreSagas, networks }) => {
             sddVerified = { verified: false, taskComplete: true }
             break
           }
-          sddVerified = yield call(api.updateSDDEligible)
+          sddVerified = yield call(api.fetchSDDVerified)
           if (sddVerified?.taskComplete) break
           yield delay(POLL_SDD_DELAY)
         }

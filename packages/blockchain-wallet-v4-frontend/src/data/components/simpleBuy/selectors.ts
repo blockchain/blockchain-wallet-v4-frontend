@@ -251,3 +251,14 @@ export const getUserSddELimit = (state: RootState) => {
     return paymentMethod?.limits || SDD_LIMIT
   })(sbMethodsR)
 }
+
+export const getSddVerified = (state: RootState) =>
+  state.components.simpleBuy.sddVerified
+
+export const isUserSddVerified = (state: RootState) => {
+  const sddVerifiedR = getSddVerified(state)
+  return lift(
+    (sddVerified: ExtractSuccess<typeof sddVerifiedR>) =>
+      sddVerified.taskComplete && sddVerified.verified
+  )(sddVerifiedR)
+}
