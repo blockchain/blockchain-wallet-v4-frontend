@@ -48,6 +48,7 @@ export const IconTx = (props: Props) => {
     case 'PENDING_DEPOSIT':
       return <SharedIconTx type='PENDING' />
     case 'CANCELED':
+    case 'EXPIRED':
     case 'FAILED':
     case 'REFUNDED':
     case 'REJECTED':
@@ -202,6 +203,13 @@ export const Status = (props: Props) => {
       return <FormattedMessage id='copy.in_review' defaultMessage='In Review' />
     case 'CANCELED':
       return <FormattedMessage id='copy.canceled' defaultMessage='Canceled' />
+    case 'EXPIRED':
+      return (
+        <FormattedMessage
+          id='scenes.exchangehistory.list.orderstatus.expired'
+          defaultMessage='Expired'
+        />
+      )
     default:
       return <FormattedMessage id='copy.pending' defaultMessage='Pending' />
   }

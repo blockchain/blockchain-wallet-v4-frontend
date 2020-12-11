@@ -78,82 +78,84 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
       fiatCurrency: getFiatFromPair(pair.pair),
       pair
     })
+    // reset form values so order doesn't hold values
+    // if user changes wallet/coin
+    props.formActions.change('simpleBuyCheckout', 'amount', '')
   }
 
   // Check to see if any accounts have balance
-  
+
   // @ts-ignore
   const checkAccountsBalances = any(hasFunds => hasFunds)(
-     // @ts-ignore
+    // @ts-ignore
     values(
-       // @ts-ignore
+      // @ts-ignore
       map(
-         // @ts-ignore
+        // @ts-ignore
         coin => any(acct => acct.balance !== 0 && acct.balance !== '0')(coin),
-         // @ts-ignore
+        // @ts-ignore
         props.accounts
       )
     )
   )
-
 
   return (
     <Wrapper>
       <Form>
         <FlyoutWrapper>
           <Top>
-            <Icon cursor name="cart-filled" size="32px" color="blue600" />
+            <Icon cursor name='cart-filled' size='32px' color='blue600' />
             <Icon
               cursor
-              data-e2e="sbCloseModalIcon"
-              name="close"
-              size="20px"
-              color="grey600"
-              role="button"
+              data-e2e='sbCloseModalIcon'
+              name='close'
+              size='20px'
+              color='grey600'
+              role='button'
               onClick={props.handleClose}
             />
           </Top>
-          <TopText color="grey800" size="20px" weight={600}>
+          <TopText color='grey800' size='20px' weight={600}>
             <FormattedMessage
-              id="modals.simplebuy.cryptoselect"
-              defaultMessage="Buy Crypto. Sell for Cash."
+              id='modals.simplebuy.cryptoselect'
+              defaultMessage='Buy Crypto. Sell for Cash.'
             />
           </TopText>
-          <SubTitleText color="grey600" weight={500}>
+          <SubTitleText color='grey600' weight={500}>
             <FormattedMessage
-              id="modals.simplebuy.select_crypto"
-              defaultMessage="Easily buy and sell Crypto straight from your Wallet."
+              id='modals.simplebuy.select_crypto'
+              defaultMessage='Easily buy and sell Crypto straight from your Wallet.'
             />
           </SubTitleText>
           {props.invitations.simpleSell && (
             <TabsContainer>
               <TabMenu>
                 <TabMenuItem
-                  role="button"
+                  role='button'
                   selected={orderType === 'BUY'}
                   onClick={() => {
                     setOrderType('BUY')
                     props.analyticsActions.logEvent('SB_BUY_BUTTON')
                   }}
-                  data-e2e="sbBuyButton"
+                  data-e2e='sbBuyButton'
                 >
                   <FormattedMessage
-                    id="buttons.buy_crypto"
-                    defaultMessage="Buy Crypto"
+                    id='buttons.buy_crypto'
+                    defaultMessage='Buy Crypto'
                   />
                 </TabMenuItem>
                 <TabMenuItem
-                  role="button"
+                  role='button'
                   selected={orderType === 'SELL'}
                   onClick={() => {
                     setOrderType('SELL')
                     props.analyticsActions.logEvent('SB_SELL_BUTTON')
                   }}
-                  data-e2e="sbSellButton"
+                  data-e2e='sbSellButton'
                 >
                   <FormattedMessage
-                    id="buttons.sell_crypto"
-                    defaultMessage="Sell Crypto"
+                    id='buttons.sell_crypto'
+                    defaultMessage='Sell Crypto'
                   />
                 </TabMenuItem>
               </TabMenu>
