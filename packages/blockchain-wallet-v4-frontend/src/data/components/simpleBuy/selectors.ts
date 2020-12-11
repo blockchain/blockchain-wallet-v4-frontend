@@ -48,6 +48,11 @@ export const getDisplayBack = (state: RootState) =>
 export const getFiatCurrency = (state: RootState) =>
   state.components.simpleBuy.fiatCurrency
 
+export const eligableFiatCurrency = currency =>
+  currency === FiatTypeEnum.USD ||
+  currency === FiatTypeEnum.GBP ||
+  currency === FiatTypeEnum.EUR
+
 export const getDefaultPaymentMethod = (state: RootState) => {
   const fiatCurrency = getFiatCurrency(state)
   const orders = getSBOrders(state).getOrElse([])
