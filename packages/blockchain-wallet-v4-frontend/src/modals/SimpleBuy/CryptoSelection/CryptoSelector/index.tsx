@@ -146,7 +146,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   return (
     <Wrapper>
       <Form>
-        <Top>
+        <FlyoutWrapper>
           <CloseContainer>
             <Icon
               cursor
