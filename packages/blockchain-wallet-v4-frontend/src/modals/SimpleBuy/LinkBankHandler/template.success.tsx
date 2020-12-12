@@ -1,8 +1,11 @@
-import { FlyoutWrapper } from 'components/Flyout'
-import { Icon } from 'blockchain-info-components'
-import { Props as OwnProps, State, SuccessStateType } from '.'
 import React from 'react'
 import styled from 'styled-components'
+
+import { Icon } from 'blockchain-info-components'
+
+import { FastLinkType } from 'data/types'
+import { FlyoutWrapper } from 'components/Flyout'
+import { Props as OwnProps, State, SuccessStateType } from '.'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
   height: 100%;
@@ -25,8 +28,7 @@ const Success: React.FC<Props> = props => {
           color='grey600'
           role='button'
           onClick={() => {
-            // eslint-disable-next-line
-            window.alert('TODO')
+            props.handleBackButton(props.fastLink)
           }}
         />
         <Iframe src={props.iFrameUrl} />
@@ -35,6 +37,8 @@ const Success: React.FC<Props> = props => {
   )
 }
 
-type Props = OwnProps & State & SuccessStateType
+type Props = OwnProps &
+  State &
+  SuccessStateType & { handleBackButton: (fastLink: FastLinkType) => void }
 
 export default Success

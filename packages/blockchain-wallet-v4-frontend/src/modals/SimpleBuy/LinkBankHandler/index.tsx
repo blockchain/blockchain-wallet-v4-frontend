@@ -32,9 +32,20 @@ class LinkBankHandler extends PureComponent<Props, State> {
     console.info('YODLEE MSG:', event.data)
   }
 
+  handleBackButton = (fastLink: FastLinkType) => {
+    this.props.simpleBuyActions.setStep({ step: 'LINK_BANK', fastLink })
+  }
+
   render () {
     return this.props.data.cata({
-      Success: val => <Success {...val} {...this.props} {...this.state} />,
+      Success: val => (
+        <Success
+          {...val}
+          {...this.props}
+          {...this.state}
+          handleBackButton={this.handleBackButton}
+        />
+      ),
       Failure: e => <DataError message={{ message: e }} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />

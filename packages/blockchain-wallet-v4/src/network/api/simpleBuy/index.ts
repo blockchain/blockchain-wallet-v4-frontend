@@ -105,6 +105,13 @@ export default ({
       contentType: 'application/json'
     })
 
+  const getBankTransferAccountDetails = (bankId: string) =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/payments/banktransfer/${bankId}`,
+      contentType: 'application/json'
+    })
+
   const createBankAccountLink = (currency: WalletCurrencyType) =>
     authorizedPost({
       url: nabuUrl,
@@ -113,7 +120,7 @@ export default ({
       contentType: 'application/json',
       data: {
         attributes: {
-          userOverride: 'sbMem5fb5284b1f71e2'
+          userOverride: 'sbMem5fb5284b1f71e5'
         },
         currency
       }
@@ -128,7 +135,7 @@ export default ({
       data: {
         attributes: {
           providerAccountId: `${providerAccountId}`,
-          userOverride: 'sbMem5fb5284b1f71e2'
+          userOverride: 'sbMem5fb5284b1f71e5'
         }
       }
     })
@@ -397,6 +404,7 @@ export default ({
     confirmSBOrder,
     deleteSBCard,
     getBankTransferAccounts,
+    getBankTransferAccountDetails,
     getSBBalances,
     getSBCard,
     getSBCards,

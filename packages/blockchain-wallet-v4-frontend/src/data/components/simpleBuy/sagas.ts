@@ -4,6 +4,7 @@ import {
   delay,
   put,
   race,
+  retry,
   select,
   take
 } from 'redux-saga/effects'
@@ -445,6 +446,19 @@ export default ({
     }
   }
 
+  const transferAccountActive = function * (id: string) {
+    const data = yield call(api.getBankTransferAccountDetails, id)
+    if (data.state === 'ACTIVE') {
+      return true
+    } else {
+      throw new Error('retry active account check')
+    }
+  }
+
+  const conditionalRetry = function * (id: string) {
+    const data = yield retry(60, 1000, transferAccountActive, id)
+    return data
+  }
   const fetchBankTransferUpdate = function * ({
     accounts
   }: ReturnType<typeof A.fetchBankTransferUpdate>) {
@@ -456,10 +470,18 @@ export default ({
           a.providerAccountId,
           fastLink.data.id
         )
-        // eslint-disable-next-line no-console
-        console.log('fooooooasdfasdf', status)
+
+        // Polls the account details to check for Active state
+        yield call(conditionalRetry, status.id)
+
+        const order = S.getSBLatestPendingOrder(yield select())
+        if (order) {
+          yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order }))
+        }
       }
-    } catch (e) {}
+    } catch (e) {
+      // TODO: handle error state here Leora
+    }
   }
 
   const fetchBankTransferAccounts = function * () {
