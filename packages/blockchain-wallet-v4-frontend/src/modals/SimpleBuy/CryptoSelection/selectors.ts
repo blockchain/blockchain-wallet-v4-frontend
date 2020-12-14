@@ -10,7 +10,7 @@ export const getData = state => {
     state
   ) as SBCheckoutFormValuesType
   const invitationsR = selectors.core.settings.getInvitations(state)
-  // checks orderType on state for the 'SELL' button on top of actitivty feed
+  // checks orderType on state for the 'SELL' button on top of activity feed
   const stateOrderType = selectors.components.simpleBuy.getOrderType(state)
   const pairsR = selectors.components.simpleBuy.getSBPairs(state)
   const userDataR = selectors.modules.profile.getUserData(state)
@@ -30,9 +30,7 @@ export const getData = state => {
     ) => ({
       // Doing this to check if state has been updated for orderType to be 'SELL'
       // If user clicks on sell button on activity feed header
-      orderType: formValues
-        ? formValues.orderType
-        : stateOrderType || 'BUY',
+      orderType: formValues ? formValues.orderType : stateOrderType || 'BUY',
       accounts,
       coins,
       eligibility,

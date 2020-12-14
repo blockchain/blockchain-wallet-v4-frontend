@@ -572,17 +572,14 @@ export default ({ api, coreSagas, networks }) => {
 
   const runWelcomeModal = function * (goal) {
     const { id, data } = goal
-    yield put(actions.goals.deleteGoal(id))
-
     const { firstLogin } = data
-    const invitationsR = yield select(selectors.core.settings.getInvitations)
-    const invitations = invitationsR.getOrElse({ simpleBuy: false })
-    const sbInvited = invitations && invitations.simpleBuy
+
+    yield put(actions.goals.deleteGoal(id))
 
     if (firstLogin) {
       yield put(
         actions.goals.addInitialModal('welcomeModal', 'WELCOME_MODAL', {
-          sbInvited
+          sbInvited: true
         })
       )
     } else {
