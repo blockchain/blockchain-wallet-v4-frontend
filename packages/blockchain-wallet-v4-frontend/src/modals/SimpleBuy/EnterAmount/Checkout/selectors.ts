@@ -10,7 +10,6 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   const formErrors = selectors.form.getFormSyncErrors('simpleBuyCheckout')(
     state
   )
-  const invitationsR = selectors.core.settings.getInvitations(state)
   // used for sell only now, eventually buy as well
   // TODO: use swap2 quote for buy AND sell
   const quoteR =
@@ -23,7 +22,6 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
   return lift(
     (
-      invitations: ExtractSuccess<typeof invitationsR>,
       quote: ExtractSuccess<typeof quoteR>,
       rates: ExtractSuccess<typeof ratesR>,
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
@@ -33,11 +31,10 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       coinModel: supportedCoins[coin],
       supportedCoins,
       formErrors,
-      invitations,
       quote,
       rates,
       sbBalances,
       userData
     })
-  )(invitationsR, quoteR, ratesR, sbBalancesR, userDataR, supportedCoinsR)
+  )(quoteR, ratesR, sbBalancesR, userDataR, supportedCoinsR)
 }

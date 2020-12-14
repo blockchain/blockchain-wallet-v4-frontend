@@ -52,7 +52,6 @@ export type Props = OwnProps & SuccessStateType
 const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   Props> = props => {
   const [orderType, setOrderType] = useState(props.orderType)
-
   const handleBuy = (pair: SBPairType) => {
     props.simpleBuyActions.setStep({
       step: 'ENTER_AMOUNT',
@@ -62,7 +61,16 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
       pair
     })
   }
-
+  const isInvited = true
+  const isInvitedShowNC = (swapAccount: SwapAccountType) => {
+    if (swapAccount.type === 'CUSTODIAL') {
+      return true
+    } else if (swapAccount.type === 'ACCOUNT' && !isInvited) {
+      return false
+    } else {
+      return true
+    }
+  }
   const handleSell = (swapAccount: SwapAccountType) => {
     const pair = props.pairs.find(
       value => getCoinFromPair(value.pair) === swapAccount.coin
@@ -127,40 +135,38 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
               defaultMessage='Easily buy and sell Crypto straight from your Wallet.'
             />
           </SubTitleText>
-          {props.invitations.simpleSell && (
-            <TabsContainer>
-              <TabMenu>
-                <TabMenuItem
-                  role='button'
-                  selected={orderType === 'BUY'}
-                  onClick={() => {
-                    setOrderType('BUY')
-                    props.analyticsActions.logEvent('SB_BUY_BUTTON')
-                  }}
-                  data-e2e='sbBuyButton'
-                >
-                  <FormattedMessage
-                    id='buttons.buy_crypto'
-                    defaultMessage='Buy Crypto'
-                  />
-                </TabMenuItem>
-                <TabMenuItem
-                  role='button'
-                  selected={orderType === 'SELL'}
-                  onClick={() => {
-                    setOrderType('SELL')
-                    props.analyticsActions.logEvent('SB_SELL_BUTTON')
-                  }}
-                  data-e2e='sbSellButton'
-                >
-                  <FormattedMessage
-                    id='buttons.sell_crypto'
-                    defaultMessage='Sell Crypto'
-                  />
-                </TabMenuItem>
-              </TabMenu>
-            </TabsContainer>
-          )}
+          <TabsContainer>
+            <TabMenu>
+              <TabMenuItem
+                role='button'
+                selected={orderType === 'BUY'}
+                onClick={() => {
+                  setOrderType('BUY')
+                  props.analyticsActions.logEvent('SB_BUY_BUTTON')
+                }}
+                data-e2e='sbBuyButton'
+              >
+                <FormattedMessage
+                  id='buttons.buy_crypto'
+                  defaultMessage='Buy Crypto'
+                />
+              </TabMenuItem>
+              <TabMenuItem
+                role='button'
+                selected={orderType === 'SELL'}
+                onClick={() => {
+                  setOrderType('SELL')
+                  props.analyticsActions.logEvent('SB_SELL_BUTTON')
+                }}
+                data-e2e='sbSellButton'
+              >
+                <FormattedMessage
+                  id='buttons.sell_crypto'
+                  defaultMessage='Sell Crypto'
+                />
+              </TabMenuItem>
+            </TabMenu>
+          </TabsContainer>
         </FlyoutWrapper>
         <Currencies>
           {orderType === 'SELL' ? (
@@ -170,7 +176,8 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
                 return accounts.map(
                   account =>
                     account.balance !== '0' &&
-                    account.balance !== 0 && (
+                    account.balance !== 0 &&
+                    isInvitedShowNC(account) && (
                       <CryptoAccountOption
                         account={account}
                         coins={props.coins}
