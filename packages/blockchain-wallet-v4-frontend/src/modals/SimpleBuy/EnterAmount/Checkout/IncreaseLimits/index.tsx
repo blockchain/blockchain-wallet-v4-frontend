@@ -41,7 +41,7 @@ const IncreaseLimits: React.FC<Props> = () => (
     <Container>
       <HeaderContainer>
         <DisplayPaymentIcon showBackground={true}>
-          <Icon cursor name='plus' size='22px' color='blue600' />
+          <Icon name='question-in-circle-filled' size='22px' color='blue600' />
         </DisplayPaymentIcon>
         <TitleText size='16px' weight={600} color='grey800'>
           <FormattedMessage
