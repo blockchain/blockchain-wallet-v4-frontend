@@ -11,7 +11,6 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   const formErrors = selectors.form.getFormSyncErrors('simpleBuyCheckout')(
     state
   )
-  const invitationsR = selectors.core.settings.getInvitations(state)
   // used for sell only now, eventually buy as well
   // TODO: use swap2 quote for buy AND sell
   const quoteR =
@@ -30,7 +29,6 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
 
   return lift(
     (
-      invitations: ExtractSuccess<typeof invitationsR>,
       quote: ExtractSuccess<typeof quoteR>,
       rates: ExtractSuccess<typeof ratesR>,
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
@@ -42,7 +40,6 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
     ) => ({
       coinModel: supportedCoins[coin],
       formErrors,
-      invitations,
       isSddFlow: sddEligible.eligible || userSDDTier === 3,
       quote,
       rates,
@@ -53,7 +50,6 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       sddLimit
     })
   )(
-    invitationsR,
     quoteR,
     ratesR,
     sbBalancesR,
