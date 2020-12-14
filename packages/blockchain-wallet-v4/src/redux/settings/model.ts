@@ -16,6 +16,7 @@ export const DEFAULT_INVITATIONS: InvitationsType = {
   kyc: true,
   simpleBuy: true,
   simpleSell: true,
+  simpleSell2dot0: true,
   simpleBuyCC: true,
   swap2dot0: false
 }
