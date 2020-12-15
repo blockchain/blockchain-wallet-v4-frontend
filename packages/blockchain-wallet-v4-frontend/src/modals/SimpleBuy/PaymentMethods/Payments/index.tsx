@@ -107,11 +107,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     switch (value.type) {
       case 'BANK_TRANSFER':
       case 'LINK_BANK':
-        return (
-          <IconContainer>
-            <Icon size='18px' color='blue600' name='bank-filled' />
-          </IconContainer>
-        )
+        return <Image name='bank' height='48px' />
       case 'BANK_ACCOUNT':
         return (
           <IconContainer>
@@ -331,6 +327,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   key={index}
                   value={bankMethod.value}
                   text={this.renderBankText(bankMethod.value)}
+                  icon={this.getIcon(bankMethod.value)}
                   onClick={() => this.handleSubmit(bankMethod.value)}
                 />
               ))}
@@ -338,7 +335,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               <LinkBank
                 {...bankTransfer}
                 // @ts-ignore
-                icon={this.getIcon({ type: 'LINK_BANK' })}
+                icon={this.getIcon({ type: 'BANK_TRANSFER' })}
                 onClick={() =>
                   this.handleSubmit({
                     ...bankTransfer.value,

@@ -1,9 +1,13 @@
 import { FormattedMessage } from 'react-intl'
-import React from 'react'
+import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { DisplayContainer, MultiRowContainer } from 'components/SimpleBuy'
+import {
+  DisplayContainer,
+  DisplayIcon,
+  MultiRowContainer
+} from 'components/SimpleBuy'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType, SBPaymentMethodType } from 'core/types'
 import { Title, Value } from 'components/Flyout'
@@ -14,17 +18,19 @@ const DisplayCardDetails = styled.div`
 `
 
 type Props = {
+  icon: ReactElement
   onClick: () => void
   text: string
   value: SBPaymentMethodType
 }
 
-const Bank: React.FC<Props> = ({ text, value, onClick }) => (
+const Bank: React.FC<Props> = ({ icon, text, value, onClick }) => (
   <DisplayContainer
     data-e2e={`sb${value.type.toLowerCase()}Cards`}
     role='button'
     onClick={onClick}
   >
+    <DisplayIcon>{icon}</DisplayIcon>
     <MultiRowContainer>
       <Value asTitle>{text}</Value>
       <Title asValue>

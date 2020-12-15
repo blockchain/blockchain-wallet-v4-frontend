@@ -9,6 +9,7 @@ import allowCamera from './img/allow-camera.png'
 import allowCamera2 from './img/allow-camera@2x.png'
 import allowCamera3 from './img/allow-camera@3x.png'
 import appleAppStoreBadge from './img/apple-app-store-badge.svg'
+import bank from './img/bank.svg'
 import bankError from './img/bank-error.svg'
 import bankSuccess from './img/bank-success.svg'
 import bgPattern from './img/bg-pattern.svg'
@@ -138,6 +139,7 @@ const Images = {
   'allow-camera2': allowCamera2,
   'allow-camera3': allowCamera3,
   'apple-app-store-badge': appleAppStoreBadge,
+  bank: bank,
   'bank-error': bankError,
   'bank-success': bankSuccess,
   'bg-pattern': bgPattern,

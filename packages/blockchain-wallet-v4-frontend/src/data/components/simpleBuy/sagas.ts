@@ -385,7 +385,10 @@ export default ({
       const domains = domainsR.getOrElse({
         walletHelper: 'https://wallet-helper.blockchain.com'
       } as WalletOptionsType['domains'])
-      const attributes =
+
+      // TODO: Maybe we can't send any attributes for ACH, but I didn't want
+      //       to put an if statement in so need to test ACH works with attributes
+      let attributes =
         order.paymentMethodId || paymentMethodId
           ? {
               everypay: {
@@ -393,6 +396,11 @@ export default ({
               }
             }
           : undefined
+
+      // if (order.paymentType === 'BANK_TRANSFER') {
+      // } else {
+      // }
+
       const confirmedOrder: SBOrderType = yield call(
         api.confirmSBOrder,
         order,
@@ -400,7 +408,11 @@ export default ({
         paymentMethodId
       )
       yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
-      yield put(A.setStep({ step: '3DS_HANDLER', order: confirmedOrder }))
+      if (order.paymentType === 'BANK_TRANSFER') {
+        yield put(A.setStep({ step: 'ORDER_SUMMARY', order: confirmedOrder }))
+      } else {
+        yield put(A.setStep({ step: '3DS_HANDLER', order: confirmedOrder }))
+      }
       yield put(A.fetchSBOrders())
     } catch (e) {
       const error = errorHandler(e)
