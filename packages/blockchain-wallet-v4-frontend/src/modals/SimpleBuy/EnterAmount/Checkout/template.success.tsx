@@ -221,8 +221,19 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     )
   }
   const handleMaxClick = () => {
-    const limit = Number(props.sddLimit.max) / SDD_LIMIT_FACTOR
-    const value = convertStandardToBase(conversionCoinType, limit)
+    const maxMin: string = getMaxMin(
+      'max',
+      props.sbBalances,
+      props.orderType,
+      props.quote,
+      props.pair,
+      props.formValues,
+      method,
+      props.swapAccount,
+      props.isSddFlow,
+      sddLimit
+    )[fix]
+    const value = convertStandardToBase(conversionCoinType, maxMin)
     props.simpleBuyActions.handleSBSuggestedAmountClick(
       value,
       conversionCoinType

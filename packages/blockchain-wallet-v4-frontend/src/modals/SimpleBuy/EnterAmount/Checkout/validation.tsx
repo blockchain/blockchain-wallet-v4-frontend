@@ -110,7 +110,10 @@ export const getMaxMin = (
           if (!allValues) return defaultMax
           if (!method) return defaultMax
 
-          let max = BigNumber.minimum(method.limits.max, pair.buyMax).toString()
+          let max = BigNumber.minimum(
+            method.limits.max,
+            isSddFlow ? Number(sddLimit.max) : pair.buyMax
+          ).toString()
 
           if (method.type === 'FUNDS' && sbBalances)
             max = sbBalances[method.currency]?.available || '0'
@@ -241,11 +244,6 @@ export const maximumAmount = (
 
   const method = selectedMethod || defaultMethod
   if (!allValues) return
-
-  if (isSddFlow) {
-    const limit = Number(sddLimit.max) / SDD_LIMIT_FACTOR
-    return Number(value) > limit ? 'ABOVE_MAX' : false
-  }
 
   return Number(value) >
     Number(
