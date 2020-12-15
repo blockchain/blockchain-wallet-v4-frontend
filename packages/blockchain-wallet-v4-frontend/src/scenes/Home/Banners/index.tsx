@@ -1,6 +1,6 @@
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import React from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 
 import { actions } from 'data'
@@ -21,6 +21,7 @@ const BannerWrapper = styled.div`
 class Banners extends React.PureComponent<Props> {
   componentDidMount () {
     this.props.simpleBuyActions.fetchSBOrders()
+    this.props.simpleBuyActions.fetchSDDEligible()
   }
 
   render () {
@@ -79,4 +80,4 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector>
 
-export default connector(Banners)
+export default connector(memo(Banners))
