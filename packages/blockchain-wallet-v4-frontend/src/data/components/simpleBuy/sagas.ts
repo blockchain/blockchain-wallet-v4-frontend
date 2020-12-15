@@ -489,6 +489,10 @@ export default ({
         const bankData = yield call(conditionalRetry, status.id)
         // Shows bank status screen based on whether has blocked account or not
         yield put(A.setStep({ step: 'LINK_BANK_STATUS', bankStatus: bankData }))
+
+        if (bankData === 'ACTIVE') {
+          yield put(A.createSBOrder('BANK_TRANSFER', status.id))
+        }
       }
     } catch (e) {
       throw new Error(e)

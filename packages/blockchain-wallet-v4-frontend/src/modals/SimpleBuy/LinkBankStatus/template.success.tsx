@@ -1,11 +1,13 @@
-import { Props as _P, SuccessStateType } from '.'
-import { Button, Icon, Image, Text } from 'blockchain-info-components'
-import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
-type Props = { handleSuccessContinue: () => void } & _P & SuccessStateType
+import { Icon, Image, Text } from 'blockchain-info-components'
+
+import { Props as _P, SuccessStateType } from '.'
+import { FlyoutWrapper } from 'components/Flyout'
+
+type Props = _P & SuccessStateType
 
 const Top = styled(FlyoutWrapper)`
   padding-bottom: 0px;
@@ -40,7 +42,7 @@ const Subcontent = styled(Text)`
   text-align: center;
 `
 
-const Success: React.FC<Props> = props => {
+const Success: React.FC<Props> = ({ handleClose }) => {
   return (
     <Top>
       <CloseIcon
@@ -49,7 +51,7 @@ const Success: React.FC<Props> = props => {
         size='20px'
         color='grey600'
         role='button'
-        onClick={() => props.handleClose}
+        onClick={handleClose}
       />
       <Container>
         <Image width='100px' name='bank-success' />
@@ -65,16 +67,6 @@ const Success: React.FC<Props> = props => {
             defaultMessage='Your {bankName} account is now linked to your Blockchain.com Wallet'
           />
         </Subcontent>
-        <Button
-          data-e2e='submitSBAmount'
-          height='48px'
-          size='16px'
-          nature='primary'
-          onClick={() => props.handleSuccessContinue()}
-          fullwidth
-        >
-          <FormattedMessage id='buttons.ok' defaultMessage='OK' />
-        </Button>
       </Container>
     </Top>
   )
