@@ -222,7 +222,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
             </FormLabel>
             <Field
               name='expiry-date'
-              placeholder='12/40'
+              placeholder='MM/YY'
               component={CreditCardExpiryBox as FunctionComponent}
               normalize={normalizeCreditCardExpiry}
               validate={[required, validateCreditCardExpiry]}
