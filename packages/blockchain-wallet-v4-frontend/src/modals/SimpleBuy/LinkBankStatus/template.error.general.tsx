@@ -67,6 +67,12 @@ const BankLinkError: React.FC<Props> = props => {
               defaultMessage='Please link a Checking Account.'
             />
           )}
+          {bankStatus === 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH' && (
+            <FormattedMessage
+              id='copy.bank_linked_error_title_yourbank'
+              defaultMessage='Is this your bank?'
+            />
+          )}
         </Title>
         <Subcontent color='grey600' weight={500}>
           {bankStatus === 'DEFAULT_ERROR' && (
@@ -94,6 +100,25 @@ const BankLinkError: React.FC<Props> = props => {
               id='copy.bank_linked_error_checking'
               defaultMessage='Your bank may charge you extra fees if you buy cyrpto without a checking account.'
             />
+          )}
+          {bankStatus === 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH' && (
+            <>
+              <FormattedMessage
+                id='copy.bank_linked_error_yourbank'
+                defaultMessage='We noticed the names don’t match. The bank you link must have a matching legal first & last name as your Blockchain.com Account.'
+              />{' '}
+              <Link
+                size='16px'
+                weight={500}
+                target='_blank'
+                href='https://support.blockchain.com/hc/en-us/'
+              >
+                <FormattedMessage
+                  id='buttons.learn_more_arrow'
+                  defaultMessage='Learn more ->'
+                />
+              </Link>
+            </>
           )}
         </Subcontent>
         <Button

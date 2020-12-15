@@ -6,6 +6,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 type Props = { handleSuccessContinue: () => void } & _P & SuccessStateType
+
 const Top = styled(FlyoutWrapper)`
   padding-bottom: 0px;
   position: relative;
