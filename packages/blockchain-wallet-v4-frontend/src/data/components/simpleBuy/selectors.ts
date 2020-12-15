@@ -54,6 +54,9 @@ export const getFastLink = (state: RootState) =>
 export const getFiatCurrency = (state: RootState) =>
   state.components.simpleBuy.fiatCurrency
 
+export const getLinkedBankStatus = (state: RootState) =>
+  state.components.simpleBuy.bankStatus
+
 export const eligableFiatCurrency = currency =>
   currency === FiatTypeEnum.USD ||
   currency === FiatTypeEnum.GBP ||

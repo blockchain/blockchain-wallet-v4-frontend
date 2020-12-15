@@ -7,6 +7,7 @@ const INITIAL_STATE: SimpleBuyState = {
   addBank: undefined,
   account: Remote.NotAsked,
   balances: Remote.NotAsked,
+  bankStatus: Remote.NotAsked,
   bankTransferAccounts: Remote.NotAsked,
   card: Remote.NotAsked,
   cardId: undefined,
@@ -395,6 +396,12 @@ export function simpleBuyReducer (
             ...state,
             fastLink: Remote.Success(action.payload.fastLink),
             step: action.payload.step
+          }
+        case 'LINK_BANK_STATUS':
+          return {
+            ...state,
+            step: action.payload.step,
+            bankStatus: Remote.Success(action.payload.bankStatus)
           }
         case 'SELL_ORDER_SUMMARY':
           return {

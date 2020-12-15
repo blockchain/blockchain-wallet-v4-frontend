@@ -4,6 +4,7 @@ import { find, isEmpty, propEq, propOr } from 'ramda'
 import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
+import { BankStatusType, FastLinkType, SimpleBuyStepType } from 'data/types'
 import {
   CoinType,
   FiatType,
@@ -13,7 +14,6 @@ import {
   SBPaymentMethodType,
   SwapOrderType
 } from 'core/types'
-import { FastLinkType, SimpleBuyStepType } from 'data/types'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
@@ -31,15 +31,16 @@ import CheckoutConfirm from './CheckoutConfirm'
 import CryptoSelection from './CryptoSelection'
 import EnterAmount from './EnterAmount'
 import KycRequired from './KycRequired'
-import PreviewSell from './PreviewSell'
-import SellOrderSummary from './SellOrderSummary'
-import UpgradeToGold from './UpgradeToGold'
-import VerifyEmail from './VerifyEmail'
 import LinkBank from './LinkBank'
 import LinkBankHandler from './LinkBankHandler'
+import LinkBankStatus from './LinkBankStatus'
 import OrderSummary from './OrderSummary'
 import PaymentMethods from './PaymentMethods'
+import PreviewSell from './PreviewSell'
+import SellOrderSummary from './SellOrderSummary'
 import ThreeDSHandler from './ThreeDSHandler'
+import UpgradeToGold from './UpgradeToGold'
+import VerifyEmail from './VerifyEmail'
 
 // step wrappers
 import Loading from './template.loading'
@@ -159,6 +160,15 @@ class SimpleBuy extends PureComponent<Props, State> {
             {this.props.step === 'LINK_BANK_HANDLER' && (
               <FlyoutChild>
                 <LinkBankHandler
+                  {...this.props}
+                  handleClose={this.handleClose}
+                />
+              </FlyoutChild>
+            )}
+            {this.props.step === 'LINK_BANK_STATUS' && (
+              <FlyoutChild>
+                {/* @ts-ignore */}
+                <LinkBankStatus
                   {...this.props}
                   handleClose={this.handleClose}
                 />
@@ -341,9 +351,13 @@ type LinkStatePropsType =
   | { order: SwapOrderType; step: 'SELL_ORDER_SUMMARY' }
   | {
       cryptoCurrency: CoinType
-      fastLink: FastLinkType,
-      pair: SBPairType,
+      fastLink: FastLinkType
+      pair: SBPairType
       step: 'LINK_BANK'
+    }
+  | {
+      bankStatus: BankStatusType,
+      step: 'LINK_BANK_STATUS'
     }
   | {
       cardId?: string

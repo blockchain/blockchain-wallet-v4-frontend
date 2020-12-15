@@ -446,17 +446,19 @@ export default ({
     }
   }
 
-  const transferAccountActive = function * (id: string) {
+  const transferAccountState = function * (id: string) {
     const data = yield call(api.getBankTransferAccountDetails, id)
     if (data.state === 'ACTIVE') {
-      return true
+      return 'ACTIVE'
+    } else if (data.state === 'BLOCKED') {
+      return data.error
     } else {
       throw new Error('retry active account check')
     }
   }
 
   const conditionalRetry = function * (id: string) {
-    const data = yield retry(60, 1000, transferAccountActive, id)
+    const data = yield retry(60, 1000, transferAccountState, id)
     return data
   }
   const fetchBankTransferUpdate = function * ({
@@ -472,15 +474,12 @@ export default ({
         )
 
         // Polls the account details to check for Active state
-        yield call(conditionalRetry, status.id)
-
-        const order = S.getSBLatestPendingOrder(yield select())
-        if (order) {
-          yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order }))
-        }
+        const bankData = yield call(conditionalRetry, status.id)
+        // Shows bank status screen based on whether has blocked account or not
+        yield put(A.setStep({ step: 'LINK_BANK_STATUS', bankStatus: bankData }))
       }
     } catch (e) {
-      // TODO: handle error state here Leora
+      throw new Error(e)
     }
   }
 

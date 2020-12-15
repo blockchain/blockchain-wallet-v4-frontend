@@ -577,6 +577,9 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
       }
     case 'LINK_BANK':
       return { step: payload.step, fastLink: payload.fastLink }
+    case 'LINK_BANK_STATUS': {
+      return { step: payload.step, bankStatus: payload.bankStatus }
+    }
     case 'BANK_WIRE_DETAILS':
       return {
         step: payload.step,

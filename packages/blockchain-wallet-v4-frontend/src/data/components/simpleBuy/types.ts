@@ -81,6 +81,7 @@ export enum SimpleBuyStepType {
   'VERIFY_EMAIL',
   'LINK_BANK',
   'LINK_BANK_HANDLER',
+  'LINK_BANK_STATUS',
   'BANK_WIRE_DETAILS'
 }
 export type SBShowModalOriginType =
@@ -109,12 +110,19 @@ export type FastLinkType = {
   id: string
   partner: 'YODLEE'
 }
+export type BankStatusType =
+  | 'ACTIVE'
+  | 'BANK_TRANSFER_ACCOUNT_INFO_NOT_FOUND'
+  | 'BANK_TRANSFER_ACCOUNT_ALREADY_LINKED'
+  | 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH'
+  | 'DEFAULT_ERROR'
 
 // State
 export type SimpleBuyState = {
   account: RemoteDataType<string, SBAccountType>
   addBank: boolean | undefined
   balances: RemoteDataType<string, SBBalancesType>
+  bankStatus: RemoteDataType<string, BankStatusType>
   bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>
   card: RemoteDataType<string, SBCardType>
   cardId: undefined | string
@@ -435,6 +443,10 @@ export type StepActionsPayload =
   | {
       fastLink: FastLinkType
       step: 'LINK_BANK'
+    }
+  | {
+      bankStatus: BankStatusType,
+      step: 'LINK_BANK_STATUS'
     }
   | {
       cryptoCurrency: CoinType
