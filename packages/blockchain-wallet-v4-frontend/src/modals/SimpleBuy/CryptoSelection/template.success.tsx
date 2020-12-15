@@ -17,14 +17,13 @@ const Success: React.FC<Props> = props => {
         doesWalletConsiderUserEligible: !!isUserEligible
       })
     ])
-    if (isUserSddEligible) {
-      props.analyticsActions.logEvent([
-        'IS_USER_SDD_ELIGIBLE',
-        JSON.stringify({
-          pairs: props.pairs
-        })
-      ])
-    }
+    props.analyticsActions.logEvent([
+      'IS_USER_SDD_ELIGIBLE',
+      JSON.stringify({
+        pairs: props.pairs,
+        eligibility: isUserSddEligible
+      })
+    ])
   }, [])
 
   return isUserEligible || isUserSddEligible ? (
