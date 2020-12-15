@@ -85,11 +85,7 @@ export default ({ api, coreSagas }) => {
       actionTypes.components.identityVerification
         .SET_SUPPORTED_COUNTRIES_FAILURE
     ])
-    const userFlowSupported = (yield select(
-      selectors.modules.profile.userFlowSupported
-    )).getOrElse(false)
-
-    if (userFlowSupported) yield put(actions.modules.profile.signIn())
+    yield put(actions.modules.profile.signIn())
   }
 
   const fetchBalances = function * () {
@@ -513,20 +509,15 @@ export default ({ api, coreSagas }) => {
     yield call(logout)
   }
   const logout = function * () {
-    const isEmailVerified = yield select(
+    const isEmailVerified = (yield select(
       selectors.core.settings.getEmailVerified
-    )
-    const userFlowSupported = (yield select(
-      selectors.modules.profile.userFlowSupported
-    )).getOrElse(false)
-    if (userFlowSupported) {
-      yield put(actions.modules.profile.clearSession())
-      yield put(actions.middleware.webSocket.rates.stopSocket())
-    }
+    )).getOrElse(0)
+    yield put(actions.modules.profile.clearSession())
+    yield put(actions.middleware.webSocket.rates.stopSocket())
     yield put(actions.middleware.webSocket.coins.stopSocket())
     yield put(actions.middleware.webSocket.xlm.stopStreams())
     // only show browser de-auth page to accounts with verified email
-    isEmailVerified.getOrElse(0)
+    isEmailVerified
       ? yield put(actions.router.push('/logout'))
       : yield logoutClearReduxStore()
     yield put(actions.analytics.stopSession())
