@@ -1,7 +1,13 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
+import {
+  CoinType,
+  ExtractSuccess,
+  FiatType,
+  RemoteDataType,
+  SBOrderType
+} from 'core/types'
 import { connect } from 'react-redux'
-import { ExtractSuccess, RemoteDataType, SBOrderType } from 'core/types'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
 import BankLinkError from './template.error.general'
@@ -18,7 +24,9 @@ type LinkDispatchPropsType = {
 }
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
+  cryptoCurrency: CoinType,
+  data: RemoteDataType<string, SuccessStateType>,
+  fiatCurrency: FiatType,
   latestPendingOrder: SBOrderType | undefined
 }
 export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
@@ -54,6 +62,9 @@ class LinkBankStatus extends PureComponent<Props, State> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
+  cryptoCurrency:
+    selectors.components.simpleBuy.getCryptoCurrency(state) || 'BTC',
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD',
   latestPendingOrder: selectors.components.simpleBuy.getSBLatestPendingOrder(
     state
   )
