@@ -106,6 +106,9 @@ const ErrorText = styled(Text)`
   color: ${props => props.theme.red800};
   margin-bottom: 16px;
 `
+const AmountText = styled(Text)`
+  font-size: 56px !important;
+`
 
 const BlueRedCartridge = ({
   error,
@@ -294,9 +297,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       <FlyoutWrapper style={{ paddingTop: '0px' }}>
         <AmountRow id='amount-row'>
           {fix === 'FIAT' && (
-            <Text size={'56px'} color='textBlack' weight={500}>
+            <AmountText size={'56px'} color='textBlack' weight={500}>
               {Currencies[fiatCurrency].units[fiatCurrency].symbol}
-            </Text>
+            </AmountText>
           )}
           <Field
             data-e2e='sbAmountInput'
@@ -315,9 +318,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }}
           />
           {fix === 'CRYPTO' && (
-            <Text size={'56px'} color='textBlack' weight={500}>
+            <AmountText size={'56px'} color='textBlack' weight={500}>
               {props.supportedCoins[cryptoCurrency].coinTicker}
-            </Text>
+            </AmountText>
           )}
         </AmountRow>
 
