@@ -1,5 +1,6 @@
 import {
   CoinType,
+  FiatSBAndSwapTransactionType,
   FiatType,
   ProcessedTxType,
   RemoteDataType,
@@ -49,7 +50,10 @@ class TransactionList extends PureComponent<Props> {
             ) : 'pair' in tx ? (
               <SimpleBuyListItem order={tx} />
             ) : (
-              <CustodialTxListItem tx={tx} {...this.props} />
+              <CustodialTxListItem
+                tx={tx as FiatSBAndSwapTransactionType}
+                {...this.props}
+              />
             )
           })}
         </TransactionsWrapper>

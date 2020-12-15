@@ -6,7 +6,8 @@ import {
   SBOrderActionType,
   SBOrderType,
   SBPairType,
-  SBPaymentMethodType
+  SBPaymentMethodType,
+  SwapOrderType
 } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { find, isEmpty, propEq, propOr } from 'ramda'
@@ -28,11 +29,13 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 import OrderSummary from './OrderSummary'
 import PaymentMethods from './PaymentMethods'
 import React, { PureComponent } from 'react'
+import SellOrderSummary from './SellOrderSummary'
 import ThreeDSHandler from './ThreeDSHandler'
 import TransferDetails from './TransferDetails'
 
 import Loading from './template.loading'
 import Pending from './template.pending'
+import PreviewSell from './PreviewSell'
 import Rejected from './template.rejected'
 
 class SimpleBuy extends PureComponent<Props, State> {
@@ -183,6 +186,23 @@ class SimpleBuy extends PureComponent<Props, State> {
                 <OrderSummary {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
+            {/* 
+                used for sell only now, eventually buy as well
+                TODO: use swap2 quote for buy AND sell
+            */}
+            {this.props.step === 'PREVIEW_SELL' && (
+              <FlyoutChild>
+                <PreviewSell {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
+            {this.props.step === 'SELL_ORDER_SUMMARY' && (
+              <FlyoutChild>
+                <SellOrderSummary
+                  {...this.props}
+                  handleClose={this.handleClose}
+                />
+              </FlyoutChild>
+            )}
             {this.props.step === 'TRANSFER_DETAILS' && (
               <FlyoutChild>
                 <TransferDetails
@@ -280,6 +300,11 @@ type LinkStatePropsType =
         | 'KYC_REQUIRED'
     }
   | {
+      orderType: SBOrderActionType
+      pair: SBPairType
+      step: 'PREVIEW_SELL'
+    }
+  | {
       addBank?: boolean
       displayBack?: boolean
       fiatCurrency: FiatType
@@ -290,6 +315,7 @@ type LinkStatePropsType =
       order: SBOrderType
       step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'CANCEL_ORDER'
     }
+  | { order: SwapOrderType; step: 'SELL_ORDER_SUMMARY' }
   | {
       cardId?: string
       cryptoCurrency?: CoinType

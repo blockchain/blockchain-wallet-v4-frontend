@@ -20,20 +20,19 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import { getDirection, getPair, getRate, NO_QUOTE } from './utils'
 import {
   InitSwapFormValuesType,
+  MempoolFeeType,
   SwapAccountType,
   SwapAmountFormValues
 } from './types'
-import { MempoolFeeType } from '../exchange/types'
 import { selectReceiveAddress } from '../utils/sagas'
 
 import {
   DEFAULT_INVITATIONS,
   INVALID_COIN_TYPE
 } from 'blockchain-wallet-v4/src/model'
+import { FALLBACK_DELAY } from './model'
 import profileSagas from '../../../data/modules/profile/sagas'
 import sendSagas from '../send/sagas'
-
-const FALLBACK_DELAY = 2_500 * 2
 
 export default ({
   api,
@@ -263,6 +262,22 @@ export default ({
       yield put(A.fetchPairsFailure(error))
     }
   }
+
+  // 👋
+  // Eventually there won't be much difference between a swap, buy, or sell.
+  // We have 2 different directories (swap/simpleBuy) of sagas/actions/types
+  // but on the BE there won't be any difference, just on the FE (if product)
+  // decides to keep things that way. In my opinion there is no difference
+  // but for now I'm copying a lot of the code from here and putting it in
+  // simpleBuy.
+  //
+  // As of this writing, simpleBuy only fetches one quote and doesn't need
+  // to worry about expiration, but since we're now using swap 2.0 for sell
+  // (and eventually buy) we'll need to worry about expiration and polling.
+  //
+  // We can't just call the swap fetchQuote function from simpleBuy, because
+  // setting the swap quote loading will set the buy/sell quote loading,
+  // which we might not want. This is a case of breakdown between product/design/development.
 
   const fetchQuote = function * () {
     while (true) {
@@ -504,6 +519,7 @@ export default ({
 
   return {
     cancelOrder,
+    calculateProvisionalPayment,
     changePair,
     changeTrendingPair,
     createOrder,

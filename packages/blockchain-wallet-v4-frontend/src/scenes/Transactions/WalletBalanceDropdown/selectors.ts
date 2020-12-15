@@ -24,7 +24,7 @@ export const getData = (state, ownProps: OwnProps) => {
         excludeLockbox: true,
         excludeImported: true,
         includeCustodial: true,
-        includeInterest: false,
+        includeInterest: true,
         includeAll: false
       })
       balanceDataR = balanceSelectors.getBtcBalance(state)
@@ -33,7 +33,8 @@ export const getData = (state, ownProps: OwnProps) => {
       addressDataR = getBchAddressData(state, {
         coin: 'BCH',
         excludeLockbox: true,
-        includeCustodial: true
+        includeCustodial: true,
+        includeInterest: true
       })
       balanceDataR = balanceSelectors.getBchBalance(state)
       break
@@ -64,15 +65,15 @@ export const getData = (state, ownProps: OwnProps) => {
     case 'WDGLD':
       addressDataR = getErc20AddressData(state, {
         coin: 'WDGLD',
-        includeCustodial: true,
-        includeInterest: true
+        includeCustodial: true
       })
       balanceDataR = balanceSelectors.getWdgldBalance(state)
       break
     case 'XLM':
       addressDataR = getXlmAddressData(state, {
         excludeLockbox: true,
-        includeCustodial: true
+        includeCustodial: true,
+        includeInterest: true
       })
       balanceDataR = balanceSelectors.getXlmBalance(state)
       break

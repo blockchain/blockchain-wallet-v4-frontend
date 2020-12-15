@@ -1,17 +1,9 @@
-import {
-  BalanceRow,
-  CircleBorder,
-  FlexStartRow,
-  Option,
-  OptionTitle,
-  OptionValue,
-  StickyTopFlyoutWrapper,
-  TopText
-} from '../components'
-import { Props as BaseProps, SuccessStateType } from '..'
-import { coinOrder, getData } from './selectors'
 import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import React, { PureComponent } from 'react'
+
+import { Props as BaseProps, SuccessStateType } from '..'
+import { coinOrder, getData } from './selectors'
 import { Icon, Text } from 'blockchain-info-components'
 import {
   InitSwapFormValuesType,
@@ -19,10 +11,9 @@ import {
 } from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
-import { SuccessCartridge } from 'components/Cartridge'
+import { StickyTopFlyoutWrapper, TopText } from '../components'
 import { SwapAccountType } from 'data/types'
-import CoinBalance from '../components/CoinBalance'
-import React, { PureComponent } from 'react'
+import CryptoAccountOption from './CryptoAccountOption'
 
 class CoinSelection extends PureComponent<Props> {
   state = {}
@@ -189,48 +180,16 @@ class CoinSelection extends PureComponent<Props> {
               !isCoinSelected &&
               !hideCustodialToAccount &&
               isCutodialEligibile && (
-                <Option
-                  role='button'
-                  data-e2e='changeAcct'
+                <CryptoAccountOption
+                  account={account}
+                  coins={coins}
+                  isAccountSelected={isAccountSelected}
+                  isSwap={true}
+                  walletCurrency={walletCurrency}
                   onClick={() =>
                     this.props.swapActions.changePair(this.props.side, account)
                   }
-                >
-                  <FlexStartRow>
-                    <Icon
-                      name={coins[account.coin].icons.circleFilled}
-                      color={coins[account.coin].colorCode}
-                      size='32px'
-                      style={{ marginRight: '16px' }}
-                    />
-                    <div>
-                      <OptionTitle>{account.label}</OptionTitle>
-                      <OptionValue>
-                        <BalanceRow>
-                          <CoinBalance
-                            account={account}
-                            walletCurrency={walletCurrency}
-                          />
-                        </BalanceRow>
-                      </OptionValue>
-                    </div>
-                  </FlexStartRow>
-                  <FlexStartRow>
-                    {account.type === 'CUSTODIAL' && (
-                      <SuccessCartridge>Low Fees</SuccessCartridge>
-                    )}
-                    {isAccountSelected ? (
-                      <Icon
-                        name='checkmark-circle-filled'
-                        color='green600'
-                        size='24px'
-                        style={{ padding: '0 2px', marginLeft: '24px' }}
-                      />
-                    ) : (
-                      <CircleBorder />
-                    )}
-                  </FlexStartRow>
-                </Option>
+                />
               )
             )
           })

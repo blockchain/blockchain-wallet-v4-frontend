@@ -3,8 +3,6 @@ import * as bchTransactions from './bchTransactions/actions'
 import * as borrow from './borrow/actions'
 import * as btcTransactions from './btcTransactions/actions'
 import * as ethTransactions from './ethTransactions/actions'
-import * as exchange from './exchange/actions'
-import * as exchangeHistory from './exchangeHistory/actions'
 import * as fiatTransactions from './fiatTransactions/actions'
 import * as identityVerification from './identityVerification/actions'
 import * as importBtcAddress from './importBtcAddress/actions'
@@ -43,8 +41,6 @@ export {
   btcTransactions,
   ethTransactions,
   xlmTransactions,
-  exchange,
-  exchangeHistory,
   fiatTransactions,
   identityVerification,
   importBtcAddress,

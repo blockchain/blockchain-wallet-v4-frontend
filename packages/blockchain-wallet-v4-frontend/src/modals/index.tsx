@@ -64,16 +64,11 @@ const UpgradeForAirdrop = React.lazy(() =>
 const Welcome = React.lazy(() => import('./Onboarding/Welcome'))
 
 // EXCHANGE
-const AirdropError = React.lazy(() => import('./Exchange/AirdropError'))
-const EthAirdrop = React.lazy(() => import('./Exchange/EthAirdrop'))
-const ExchangeConfirm = React.lazy(() => import('./Exchange/ExchangeConfirm'))
-const ExchangeResults = React.lazy(() => import('./Exchange/ExchangeResults'))
 const IdentityVerification = React.lazy(() =>
   import('./Exchange/IdentityVerification')
 )
 const KycDocResubmit = React.lazy(() => import('./Exchange/KycDocResubmit'))
 const SwapUpgrade = React.lazy(() => import('./Exchange/SwapUpgrade'))
-const UserExists = React.lazy(() => import('./Exchange/UserExists'))
 
 // LOCKBOX
 const LockboxAppManager = React.lazy(() =>
@@ -136,7 +131,6 @@ const Modals = () => (
     <div>
       <AddBtcWallet />
       <AirdropClaim />
-      <AirdropError />
       <AirdropSuccess />
       <AutoDisconnection />
       <BitpayInformational />
@@ -147,9 +141,6 @@ const Modals = () => (
       <DeleteAddressLabel />
       <DownloadTransactions />
       <EditTxDescription />
-      <EthAirdrop />
-      <ExchangeConfirm />
-      <ExchangeResults />
       <IdentityVerification />
       <ImportBtcAddress />
       <Interest />
@@ -194,7 +185,6 @@ const Modals = () => (
       <UpgradeAddressLabels />
       <UpgradeForAirdrop />
       <UpgradeWallet />
-      <UserExists />
       <VerifyMessage />
       <Welcome />
       <Withdraw />

@@ -6,5 +6,5 @@ export const getFiatData = (currency: WalletFiatType, state: RootState) => {
 }
 
 export const getTransactions = (currency: WalletFiatType, state: RootState) => {
-  return state.dataPath.fiat[currency]?.transactions || []
+  return state.dataPath.fiat[currency]?.page || []
 }

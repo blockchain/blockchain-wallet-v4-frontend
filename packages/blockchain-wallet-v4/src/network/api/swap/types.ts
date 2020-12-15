@@ -13,17 +13,18 @@ export type SwapOrderType = {
     // Optional fields depending on direction
     depositAddress: string
     depositTxHash: string
-    direction: SwapOrderDirectionType,
-    refundAddress: string,
+    direction: SwapOrderDirectionType
+    refundAddress: string
     withdrawalAddress: string
     withdrawalTxHash: string
   }
   pair: string
   priceFunnel: {
-    inputMoney: string
-    networkFee: string
-    outputMoney: string
-    price: string
+    indicativePrice?: string,
+    inputMoney: string,
+    networkFee: string,
+    outputMoney: string,
+    price: string,
     staticFee: string
   }
   state: SwapOrderStateType

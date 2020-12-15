@@ -1,7 +1,9 @@
+import { any, map, values } from 'ramda'
 import { Icon, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import { coinOrder } from 'blockchain-wallet-v4-frontend/src/modals/Swap/CoinSelection/selectors'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
@@ -11,8 +13,10 @@ import {
 } from 'data/components/simpleBuy/model'
 import { Props as OwnProps, SuccessStateType } from '../index'
 import { SBPairType } from 'core/types'
+import { SwapAccountType } from 'data/types'
+import CryptoAccountOption from 'blockchain-wallet-v4-frontend/src/modals/Swap/CoinSelection/CryptoAccountOption'
 import CryptoItem from './CryptoItem'
-import SellBanner from './SellBanner'
+import SellEmptyState from './SellEmptyState'
 
 const Wrapper = styled.div`
   display: flex;
@@ -48,16 +52,60 @@ export type Props = OwnProps & SuccessStateType
 const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   Props> = props => {
   const [orderType, setOrderType] = useState(props.orderType)
-
-  const handleSubmit = (pair: SBPairType) => {
+  const handleBuy = (pair: SBPairType) => {
     props.simpleBuyActions.setStep({
       step: 'ENTER_AMOUNT',
-      orderType: orderType,
+      orderType,
       cryptoCurrency: getCoinFromPair(pair.pair),
       fiatCurrency: getFiatFromPair(pair.pair),
       pair
     })
   }
+  const isInvited = props.invitations.simpleSell2dot0
+  const isInvitedShowNC = (swapAccount: SwapAccountType) => {
+    if (swapAccount.type === 'CUSTODIAL') {
+      return true
+    } else if (swapAccount.type === 'ACCOUNT' && !isInvited) {
+      return false
+    } else {
+      return true
+    }
+  }
+  const handleSell = (swapAccount: SwapAccountType) => {
+    const pair = props.pairs.find(
+      value => getCoinFromPair(value.pair) === swapAccount.coin
+    )
+
+    if (!pair) return
+
+    props.simpleBuyActions.setStep({
+      step: 'ENTER_AMOUNT',
+      swapAccount,
+      orderType,
+      cryptoCurrency: getCoinFromPair(pair.pair),
+      fiatCurrency: getFiatFromPair(pair.pair),
+      pair
+    })
+    // reset form values so order doesn't hold values
+    // if user changes wallet/coin
+    props.formActions.change('simpleBuyCheckout', 'amount', '')
+  }
+
+  // Check to see if any accounts have balance
+
+  // @ts-ignore
+  const checkAccountsBalances = any(hasFunds => hasFunds)(
+    // @ts-ignore
+    values(
+      // @ts-ignore
+      map(
+        // @ts-ignore
+        coin => any(acct => acct.balance !== 0 && acct.balance !== '0')(coin),
+        // @ts-ignore
+        props.accounts
+      )
+    )
+  )
 
   return (
     <Wrapper>
@@ -87,54 +135,76 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
               defaultMessage='Easily buy and sell Crypto straight from your Wallet.'
             />
           </SubTitleText>
-          {props.invitations.simpleSell && (
-            <TabsContainer>
-              <TabMenu>
-                <TabMenuItem
-                  role='button'
-                  selected={orderType === 'BUY'}
-                  onClick={() => {
-                    setOrderType('BUY')
-                    props.analyticsActions.logEvent('SB_BUY_BUTTON')
-                  }}
-                  data-e2e='sbBuyButton'
-                >
-                  <FormattedMessage
-                    id='buttons.buy_crypto'
-                    defaultMessage='Buy Crypto'
-                  />
-                </TabMenuItem>
-                <TabMenuItem
-                  role='button'
-                  selected={orderType === 'SELL'}
-                  onClick={() => {
-                    setOrderType('SELL')
-                    props.analyticsActions.logEvent('SB_SELL_BUTTON')
-                  }}
-                  data-e2e='sbSellButton'
-                >
-                  <FormattedMessage
-                    id='buttons.sell_crypto'
-                    defaultMessage='Sell Crypto'
-                  />
-                </TabMenuItem>
-              </TabMenu>
-            </TabsContainer>
-          )}
+          <TabsContainer>
+            <TabMenu>
+              <TabMenuItem
+                role='button'
+                selected={orderType === 'BUY'}
+                onClick={() => {
+                  setOrderType('BUY')
+                  props.analyticsActions.logEvent('SB_BUY_BUTTON')
+                }}
+                data-e2e='sbBuyButton'
+              >
+                <FormattedMessage
+                  id='buttons.buy_crypto'
+                  defaultMessage='Buy Crypto'
+                />
+              </TabMenuItem>
+              <TabMenuItem
+                role='button'
+                selected={orderType === 'SELL'}
+                onClick={() => {
+                  setOrderType('SELL')
+                  props.analyticsActions.logEvent('SB_SELL_BUTTON')
+                }}
+                data-e2e='sbSellButton'
+              >
+                <FormattedMessage
+                  id='buttons.sell_crypto'
+                  defaultMessage='Sell Crypto'
+                />
+              </TabMenuItem>
+            </TabMenu>
+          </TabsContainer>
         </FlyoutWrapper>
         <Currencies>
-          {props.pairs.map((value, index) => (
-            <CryptoItem
-              key={index}
-              orderType={orderType}
-              fiat={getFiatFromPair(value.pair)}
-              coin={getCoinFromPair(value.pair)}
-              onClick={() => handleSubmit(value as SBPairType)}
-            />
-          ))}
+          {orderType === 'SELL' ? (
+            checkAccountsBalances ? (
+              coinOrder.map(coin => {
+                const accounts = props.accounts[coin] as Array<SwapAccountType>
+                return accounts.map(
+                  account =>
+                    account.balance !== '0' &&
+                    account.balance !== 0 &&
+                    isInvitedShowNC(account) && (
+                      <CryptoAccountOption
+                        account={account}
+                        coins={props.coins}
+                        isAccountSelected={false}
+                        isSwap={false}
+                        onClick={() => handleSell(account)}
+                        walletCurrency={props.walletCurrency}
+                      />
+                    )
+                )
+              })
+            ) : (
+              <SellEmptyState handleClose={props.handleClose} />
+            )
+          ) : (
+            props.pairs.map((value, index) => (
+              <CryptoItem
+                key={index}
+                orderType={orderType}
+                fiat={getFiatFromPair(value.pair)}
+                coin={getCoinFromPair(value.pair)}
+                onClick={() => handleBuy(value as SBPairType)}
+              />
+            ))
+          )}
         </Currencies>
       </Form>
-      {orderType === 'SELL' && <SellBanner />}
     </Wrapper>
   )
 }

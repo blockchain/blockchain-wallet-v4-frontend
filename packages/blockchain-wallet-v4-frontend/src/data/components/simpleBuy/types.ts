@@ -5,6 +5,7 @@ import {
   FiatEligibleType,
   FiatType,
   NabuAddressType,
+  PaymentValue,
   RemoteDataType,
   SBAccountType,
   SBBalancesType,
@@ -15,8 +16,11 @@ import {
   SBPaymentMethodsType,
   SBPaymentMethodType,
   SBProviderDetailsType,
-  SBQuoteType
+  SBQuoteType,
+  SwapOrderType,
+  SwapQuoteType
 } from 'core/types'
+import { SwapAccountType } from '../swap/types'
 
 // Types
 export type SBAddCardFormValuesType = {
@@ -36,6 +40,7 @@ export type SBCheckoutFormValuesType =
   | undefined
   | {
       amount: string
+      cryptoAmount: string
       fix: SBFixType
       orderType: SBOrderActionType
     }
@@ -49,7 +54,9 @@ export enum SimpleBuyStepType {
   'ENTER_AMOUNT',
   'PAYMENT_METHODS',
   'ORDER_SUMMARY',
+  'PREVIEW_SELL',
   'CHECKOUT_CONFIRM',
+  'SELL_ORDER_SUMMARY',
   'ADD_CARD',
   'CC_BILLING_ADDRESS',
   '3DS_HANDLER',
@@ -62,6 +69,7 @@ export type SBShowModalOriginType =
   | 'PendingOrder'
   | 'PriceChart'
   | 'InterestPage'
+  | 'SellEmpty'
   | 'SettingsGeneral'
   | 'SettingsProfile'
   | 'SideNav'
@@ -90,9 +98,13 @@ export type SimpleBuyState = {
   orders: RemoteDataType<string, Array<SBOrderType>>
   pair: undefined | SBPairType
   pairs: RemoteDataType<string, Array<SBPairType>>
+  payment: RemoteDataType<string, undefined | PaymentValue>
   providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
+  sellOrder: undefined | SwapOrderType
+  sellQuote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>
   step: keyof typeof SimpleBuyStepType
+  swapAccount: undefined | SwapAccountType
 }
 
 // Actions
@@ -277,9 +289,27 @@ interface FetchSBQuoteSuccess {
   }
   type: typeof AT.FETCH_SB_QUOTE_SUCCESS
 }
+interface FetchSellQuoteFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_SELL_QUOTE_FAILURE
+}
+interface FetchSellQuoteLoading {
+  type: typeof AT.FETCH_SELL_QUOTE_LOADING
+}
+interface FetchSellQuoteSuccess {
+  payload: {
+    quote: SwapQuoteType
+    rate: number
+  }
+  type: typeof AT.FETCH_SELL_QUOTE_SUCCESS
+}
 
 interface InitializeCheckout {
+  account?: SwapAccountType
   amount: string
+  cryptoAmount?: string
   orderType: SBOrderActionType
   pair?: SBPairType
   pairs: Array<SBPairType>
@@ -292,6 +322,10 @@ export type StepActionsPayload =
       step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'CANCEL_ORDER'
     }
   | {
+      sellOrder: SwapOrderType
+      step: 'SELL_ORDER_SUMMARY'
+    }
+  | {
       cryptoCurrency: CoinType
       fiatCurrency: FiatType
       method?: SBPaymentMethodType
@@ -299,10 +333,12 @@ export type StepActionsPayload =
       orderType?: SBOrderActionType
       pair: SBPairType
       step: 'ENTER_AMOUNT'
+      swapAccount?: SwapAccountType
     }
   | {
       cryptoCurrency?: CoinType
       fiatCurrency: FiatType
+      orderType?: SBOrderActionType
       step: 'CRYPTO_SELECTION'
     }
   | {
@@ -325,6 +361,7 @@ export type StepActionsPayload =
         | 'CURRENCY_SELECTION'
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
+        | 'PREVIEW_SELL'
     }
 
 interface SetStepAction {
@@ -335,9 +372,26 @@ interface SetStepAction {
 interface ShowModalAction {
   payload: {
     cryptoCurrency?: CoinType
+    orderType?: SBOrderActionType
     origin: SBShowModalOriginType
   }
   type: typeof AT.SHOW_MODAL
+}
+
+interface UpdatePaymentFailureAction {
+  payload: {
+    error: string
+  }
+  type: typeof AT.UPDATE_PAYMENT_FAILURE
+}
+interface UpdatePaymentLoadingAction {
+  type: typeof AT.UPDATE_PAYMENT_LOADING
+}
+interface UpdatePaymentSuccessAction {
+  payload: {
+    payment: undefined | PaymentValue
+  }
+  type: typeof AT.UPDATE_PAYMENT_SUCCESS
 }
 
 export type SimpleBuyActionTypes =
@@ -375,6 +429,12 @@ export type SimpleBuyActionTypes =
   | FetchSBQuoteFailure
   | FetchSBQuoteLoading
   | FetchSBQuoteSuccess
+  | FetchSellQuoteFailure
+  | FetchSellQuoteLoading
+  | FetchSellQuoteSuccess
   | InitializeCheckout
   | SetStepAction
   | ShowModalAction
+  | UpdatePaymentFailureAction
+  | UpdatePaymentLoadingAction
+  | UpdatePaymentSuccessAction

@@ -12,7 +12,6 @@ export type ComponentsActionTypes =
   | SimpleBuyActionTypes
 
 export * from './borrow/types'
-export * from './exchange/types'
 export * from './identityVerification/types'
 export * from './interest/types'
 export * from './recoveryPhrase/types'

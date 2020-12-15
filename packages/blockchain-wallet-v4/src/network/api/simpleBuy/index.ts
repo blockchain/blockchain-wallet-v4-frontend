@@ -23,6 +23,7 @@ import {
   SBTransactionsType
 } from './types'
 import { Moment } from 'moment'
+import { SwapOrderStateType, SwapOrderType } from '../swap/types'
 import { UserDataType } from 'data/types'
 import axios from 'axios'
 
@@ -230,13 +231,25 @@ export default ({
       }
     })
 
-  const getSBTransactions = (
-    currency: WalletCurrencyType,
-    next?: string | null,
-    limit?: string,
-    type?: 'DEPOSIT' | 'WITHDRAWAL',
+  type getSBTransactionsType = {
+    currency: WalletCurrencyType
+    fromId?: string
+    fromValue?: string
+    limit?: number
+    next?: string | null
     state?: SBTransactionStateType
-  ): SBTransactionsType =>
+    type?: 'DEPOSIT' | 'WITHDRAWAL'
+  }
+
+  const getSBTransactions = ({
+    currency,
+    fromId,
+    fromValue,
+    limit,
+    next,
+    state,
+    type
+  }: getSBTransactionsType): SBTransactionsType =>
     next
       ? authorizedGet({
           url: nabuUrl,
@@ -249,12 +262,35 @@ export default ({
           data: {
             currency,
             limit,
+            fromId,
+            fromValue,
             pending: true,
             product: 'SIMPLEBUY',
             state,
             type
           }
         })
+  // This is to get unified Sell trades from sellp3 using the swap 2.0 api
+  // Will eventually be used to get all trades, buy/sell/swap included
+  // keeping all the swap types until buy/sell everything else is together
+  const getUnifiedSellTrades = (
+    currency: FiatType,
+    limit?: number,
+    before?: string,
+    after?: string,
+    v2states?: SwapOrderStateType
+  ): Array<SwapOrderType> =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/trades/unified`,
+      data: {
+        currency,
+        limit,
+        before,
+        after,
+        states: v2states
+      }
+    })
 
   const submitSBCardDetailsToEverypay = ({
     accessToken,
@@ -333,6 +369,7 @@ export default ({
     getSBFiatEligible,
     getSBQuote,
     getSBTransactions,
+    getUnifiedSellTrades,
     submitSBCardDetailsToEverypay,
     withdrawSBFunds
   }

@@ -1,5 +1,10 @@
-import { Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
 import React, { useState } from 'react'
+
+import { CoinTypeEnum, FiatSBAndSwapTransactionType } from 'core/types'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { fiatToString } from 'core/exchange/currency'
+import { Text } from 'blockchain-info-components'
 
 import {
   Addresses,
@@ -15,22 +20,19 @@ import {
   TxRow,
   TxRowContainer
 } from '../components'
-import { CoinTypeEnum, SBTransactionType } from 'core/types'
-
 import {
-  DepositOrWithdrawal,
   Destination,
   IconTx,
   Origin,
   Status,
-  Timestamp
+  Timestamp,
+  TransactionType
 } from './model'
-import { FormattedMessage } from 'react-intl'
 import { Props as OwnProps } from '../TransactionList'
 
 const CustodialTxListItem: React.FC<Props> = props => {
   const [isToggled, setIsToggled] = useState(false)
-
+  const { tx } = props
   return (
     <TxRowContainer onClick={() => setIsToggled(!isToggled)}>
       <TxRow>
@@ -43,7 +45,7 @@ const CustodialTxListItem: React.FC<Props> = props => {
               weight={600}
               data-e2e='txTypeText'
             >
-              <DepositOrWithdrawal {...props} /> {props.tx.amount.symbol}
+              <TransactionType {...props} /> {tx.amount.symbol}
             </Text>
             <Timestamp {...props} />
           </StatusAndType>
@@ -52,12 +54,12 @@ const CustodialTxListItem: React.FC<Props> = props => {
           <Addresses
             from={
               <>
-                {props.tx.amount.symbol} <Origin {...props} />
+                <Origin {...props} />
               </>
             }
             to={
               <>
-                {props.tx.amount.symbol} <Destination {...props} />
+                <Destination {...props} />
               </>
             }
           />
@@ -68,9 +70,11 @@ const CustodialTxListItem: React.FC<Props> = props => {
           data-e2e='orderAmountColumn'
         >
           <StyledCoinDisplay coin={props.coin} data-e2e='orderCoinAmt'>
-            {props.tx.amount.symbol in CoinTypeEnum
-              ? props.tx.amountMinor
-              : props.tx.amount.value}
+            {tx.amount.symbol in CoinTypeEnum && tx.type !== 'SELL'
+              ? tx.amountMinor
+              : tx.amount.symbol in CoinTypeEnum && tx.type === 'SELL'
+              ? convertBaseToStandard('FIAT', tx.amountMinor)
+              : tx.amount.value}
           </StyledCoinDisplay>
           {props.coin !== props.currency && (
             <StyledFiatDisplay
@@ -80,9 +84,11 @@ const CustodialTxListItem: React.FC<Props> = props => {
               color='grey600'
               data-e2e='orderFiatAmt'
             >
-              {props.tx.amount.symbol in CoinTypeEnum
-                ? props.tx.amountMinor
-                : props.tx.amount.value}
+              {tx.amount.symbol in CoinTypeEnum && tx.type !== 'SELL'
+                ? tx.amountMinor
+                : tx.amount.symbol in CoinTypeEnum && tx.type === 'SELL'
+                ? convertBaseToStandard('FIAT', tx.amountMinor)
+                : tx.amount.value}
             </StyledFiatDisplay>
           )}
         </Col>
@@ -96,7 +102,24 @@ const CustodialTxListItem: React.FC<Props> = props => {
                 id='modals.simplebuy.summary.txid'
               />
             </RowHeader>
-            <RowValue>{props.tx.id}</RowValue>
+            <RowValue>{tx.id}</RowValue>
+            {tx.type === 'SELL' && (
+              <>
+                <RowHeader>
+                  <FormattedMessage
+                    id='modals.simplebuy.summary.rate'
+                    defaultMessage='Exchange Rate'
+                  />
+                </RowHeader>
+                <RowValue data-e2e='sellRate'>
+                  {fiatToString({
+                    unit: tx.amount.fiatSymbol || 'USD',
+                    value: tx.extraAttributes?.indicativePrice || 0
+                  })}{' '}
+                  / {tx.amount.symbol}
+                </RowValue>
+              </>
+            )}
           </DetailsColumn>
           <DetailsColumn />
           <DetailsColumn>
@@ -109,6 +132,21 @@ const CustodialTxListItem: React.FC<Props> = props => {
             <RowValue>
               <Status {...props} />
             </RowValue>
+            {tx.type === 'SELL' && (
+              <>
+                {' '}
+                <RowHeader>
+                  <FormattedMessage id='copy.amount' defaultMessage='Amount' />
+                </RowHeader>
+                <RowValue data-e2e='sbSelling'>
+                  {convertBaseToStandard(
+                    tx.amount.symbol,
+                    tx.amount.inputMoney
+                  )}{' '}
+                  of {tx.amount.symbol}
+                </RowValue>
+              </>
+            )}
           </DetailsColumn>
         </DetailsRow>
       )}
@@ -117,7 +155,7 @@ const CustodialTxListItem: React.FC<Props> = props => {
 }
 
 export type Props = OwnProps & {
-  tx: SBTransactionType
+  tx: FiatSBAndSwapTransactionType
 }
 
 export default CustodialTxListItem
