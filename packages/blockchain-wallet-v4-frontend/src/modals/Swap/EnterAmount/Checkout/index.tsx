@@ -3,7 +3,7 @@ import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import media from 'services/ResponsiveService'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import { AmountTextBox } from 'components/Exchange'
@@ -106,14 +106,6 @@ const normalizeAmount = (
   )
 }
 
-const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
-  const amountRowNode = inputNode.closest('#amount-row')
-  const currencyNode = isFiat
-    ? amountRowNode.children[0]
-    : amountRowNode.children[amountRowNode.children.length - 1]
-  currencyNode.style.fontSize = `${fontSizeNumber * fontSizeRatio}px`
-}
-
 const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
     BASE,
@@ -130,7 +122,19 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     userData,
     walletCurrency
   } = props
+  const [fontRatio, setRatio] = useState(1)
   const amtError = typeof formErrors.amount === 'string' && formErrors.amount
+
+  const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
+    if (Number(fontSizeRatio) > 0) {
+      setRatio(fontSizeRatio > 1 ? 1 : fontSizeRatio)
+    }
+    const amountRowNode = inputNode.closest('#amount-row')
+    const currencyNode = isFiat
+      ? amountRowNode.children[0]
+      : amountRowNode.children[amountRowNode.children.length - 1]
+    currencyNode.style.fontSize = `${fontSizeNumber * fontRatio}px`
+  }
   const max = getMaxMin(
     'max',
     limits,

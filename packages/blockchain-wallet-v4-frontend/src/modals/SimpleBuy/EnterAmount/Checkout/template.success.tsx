@@ -1,6 +1,6 @@
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import React, { ReactChild } from 'react'
+import React, { ReactChild, useState } from 'react'
 import styled from 'styled-components'
 
 import { AmountTextBox } from 'components/Exchange'
@@ -144,6 +144,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     method: selectedMethod,
     defaultMethod
   } = props
+  const [fontRatio, setRatio] = useState(1)
 
   const method = selectedMethod || defaultMethod
   const fix = props.preferences[props.orderType].fix
@@ -241,11 +242,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   }
 
   const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
+    if (Number(fontSizeRatio) > 0) {
+      setRatio(fontSizeRatio > 1 ? 1 : fontSizeRatio)
+    }
     const amountRowNode = inputNode.closest('#amount-row')
     const currencyNode = isFiat
       ? amountRowNode.children[0]
       : amountRowNode.children[amountRowNode.children.length - 1]
-    currencyNode.style.fontSize = `${fontSizeNumber * fontSizeRatio}px`
+    currencyNode.style.fontSize = `${fontSizeNumber * fontRatio}px`
   }
 
   const limit = Number(props.sddLimit.max) / SDD_LIMIT_FACTOR
