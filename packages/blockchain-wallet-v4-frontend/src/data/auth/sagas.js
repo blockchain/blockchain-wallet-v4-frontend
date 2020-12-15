@@ -1,19 +1,19 @@
+import { assoc, find, is, prop, propEq } from 'ramda'
+import { call, delay, fork, put, select, take } from 'redux-saga/effects'
+
 import * as C from 'services/AlertService'
 import * as CC from 'services/ConfirmService'
-import { actions, actionTypes, model, selectors } from 'data'
+import { actions, actionTypes, selectors } from 'data'
 import {
   askSecondPasswordEnhancer,
   confirm,
   forceSyncWallet,
   promptForSecondPassword
 } from 'services/SagaService'
-import { assoc, find, is, prop, propEq } from 'ramda'
-import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
-import { guessCurrencyBasedOnCountry } from './helpers'
 import { Remote } from 'blockchain-wallet-v4/src'
 
-const { AB_TESTS } = model.analytics
+import { guessCurrencyBasedOnCountry } from './helpers'
 
 export const logLocation = 'auth/sagas'
 
@@ -136,26 +136,7 @@ export default ({ api, coreSagas }) => {
         yield put(actions.core.settings.setCurrency(currency))
         // fetch settings again
         yield call(coreSagas.settings.fetchSettings)
-
-        // TODO: remove this AB test
-        const showVerifyEmailR = yield select(
-          selectors.analytics.selectAbTest(AB_TESTS.VERIFY_EMAIL)
-        )
-
-        if (Remote.Success.is(showVerifyEmailR)) {
-          const showVerifyEmail = showVerifyEmailR.getOrElse({})
-          if (
-            showVerifyEmail &&
-            showVerifyEmail.command &&
-            showVerifyEmail.command === 'verify-email'
-          ) {
-            yield put(actions.router.push('/verify-email-step'))
-          } else {
-            yield put(actions.router.push('/home'))
-          }
-        } else {
-          yield put(actions.router.push('/home'))
-        }
+        yield put(actions.router.push('/verify-email-step'))
       } else {
         yield put(actions.router.push('/home'))
       }
