@@ -14,7 +14,7 @@ export const getData = state => {
   const emailVerifiedR = selectors.core.settings.getEmailVerified(state)
   const sbOrdersR = selectors.components.simpleBuy.getSBOrders(state)
   const sddEligibleR = selectors.components.simpleBuy.getSddEligible(state)
-  // checks orderType on state for the 'SELL' button on top of actitivity feed
+  // checks orderType on state for the 'SELL' button on top of activity feed
   const stateOrderType = selectors.components.simpleBuy.getOrderType(state)
   const pairsR = selectors.components.simpleBuy.getSBPairs(state)
   const userDataR = selectors.modules.profile.getUserData(state)

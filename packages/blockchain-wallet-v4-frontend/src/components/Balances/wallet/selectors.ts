@@ -1,8 +1,7 @@
-import { add, curry, lift, pathOr, prop, reduce } from 'ramda'
+import { add, curry, lift, pathOr, reduce } from 'ramda'
 import {
   ExtractSuccess,
   InterestAccountBalanceType,
-  InvitationsType,
   RemoteDataType,
   SBBalancesType,
   SBBalanceType,
@@ -315,14 +314,9 @@ export const getPaxBalanceInfo = createDeepEqualSelector(
   [
     getPaxBalance,
     state => selectors.core.data.eth.getErc20Rates(state, 'pax'),
-    selectors.core.settings.getCurrency,
-    selectors.core.settings.getInvitations
+    selectors.core.settings.getCurrency
   ],
-  (paxBalanceR, erc20RatesR, currencyR, invitationsR) => {
-    const invitations = invitationsR.getOrElse({
-      PAX: false
-    } as InvitationsType)
-    const invited = prop('PAX', invitations)
+  (paxBalanceR, erc20RatesR, currencyR) => {
     const transform = (value, rates, toCurrency) => {
       return Exchange.convertPaxToFiat({
         value,
@@ -332,9 +326,7 @@ export const getPaxBalanceInfo = createDeepEqualSelector(
       }).value
     }
 
-    return invited
-      ? lift(transform)(paxBalanceR, erc20RatesR, currencyR)
-      : Remote.Success(0)
+    return lift(transform)(paxBalanceR, erc20RatesR, currencyR)
   }
 )
 

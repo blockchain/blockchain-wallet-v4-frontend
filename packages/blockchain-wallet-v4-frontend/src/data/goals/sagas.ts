@@ -1,5 +1,3 @@
-import * as C from 'services/AlertService'
-import { actions, model, selectors } from 'data'
 import {
   all,
   call,
@@ -22,22 +20,26 @@ import {
   sum,
   values
 } from 'ramda'
+import base64 from 'base-64'
+import BigNumber from 'bignumber.js'
+import bip21 from 'bip21'
+
+import * as C from 'services/AlertService'
+import { actions, model, selectors } from 'data'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { Exchange, Remote, utils } from 'blockchain-wallet-v4/src'
+import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import {
   getBchBalance,
   getBtcBalance,
   getXlmBalance,
   waitForAllBalances
 } from 'data/balance/sagas'
-import { GoalsType } from './types'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
-import base64 from 'base-64'
-import BigNumber from 'bignumber.js'
-import bip21 from 'bip21'
-import profileSagas from 'data/modules/profile/sagas.ts'
+import profileSagas from 'data/modules/profile/sagas'
 
-const { TRANSACTION_EVENTS, AB_TESTS } = model.analytics
+import { GoalsType } from './types'
+
+const { TRANSACTION_EVENTS } = model.analytics
 
 export default ({ api, coreSagas, networks }) => {
   const { TIERS, KYC_STATES, DOC_RESUBMISSION_REASONS } = model.profile
@@ -560,56 +562,12 @@ export default ({ api, coreSagas, networks }) => {
 
   const runWelcomeModal = function * (goal) {
     const { id, data } = goal
+    const { firstLogin } = data
     yield put(actions.goals.deleteGoal(id))
 
-    const { firstLogin } = data
-    const invitationsR = yield select(selectors.core.settings.getInvitations)
-    const invitations = invitationsR.getOrElse({ simpleBuy: false })
-    const sbInvited = invitations && invitations.simpleBuy
-
     if (firstLogin) {
-      const showVerifyEmailR = yield select(
-        selectors.analytics.selectAbTest(AB_TESTS.VERIFY_EMAIL)
-      )
-
-      if (Remote.Success.is(showVerifyEmailR)) {
-        const showVerifyEmail = showVerifyEmailR.getOrElse({})
-        if (
-          showVerifyEmail &&
-          showVerifyEmail.command &&
-          showVerifyEmail.command === 'home'
-        ) {
-          const {
-            data: { amount, crypto, fiatCurrency }
-          } = goal
-
-          return yield put(
-            actions.goals.addInitialModal(
-              'simpleBuyModal',
-              'SIMPLE_BUY_MODAL',
-              {
-                amount,
-                crypto,
-                fiatCurrency
-              }
-            )
-          )
-        }
-      }
-      return yield put(
-        actions.goals.addInitialModal('welcomeModal', 'WELCOME_MODAL', {
-          sbInvited
-        })
-      )
+      yield put(actions.goals.addInitialModal('welcomeModal', 'WELCOME_MODAL'))
     }
-
-    yield put(
-      actions.logs.logInfoMessage(
-        logLocation,
-        'runWelcomeModal',
-        'login success'
-      )
-    )
   }
 
   const runTransferEthGoal = function * (goal) {
