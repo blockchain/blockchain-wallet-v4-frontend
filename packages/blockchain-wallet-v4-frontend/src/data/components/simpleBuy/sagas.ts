@@ -138,13 +138,17 @@ export default ({
       )
       yield put(A.addCardDetailsLoading())
 
+      let waitForAction: boolean = true
       // Create card
       if (formValues.billingaddress && !formValues.sameAsBillingAddress) {
         yield call(fetchSBCardSDD, formValues.billingaddress)
+        waitForAction = false
       } else {
         yield put(A.fetchSBCard())
       }
-      yield take([AT.FETCH_SB_CARD_SUCCESS, AT.FETCH_SB_CARD_FAILURE])
+      if (waitForAction) {
+        yield take([AT.FETCH_SB_CARD_SUCCESS, AT.FETCH_SB_CARD_FAILURE])
+      }
       const cardR = S.getSBCard(yield select())
       const card = cardR.getOrFail('CARD_CREATION_FAILED')
 
@@ -500,7 +504,9 @@ export default ({
     let card: SBCardType
     try {
       yield put(A.fetchSBCardLoading())
-      const currency = S.getFiatCurrency(yield select())
+      const order = S.getSBLatestPendingOrder(yield select())
+      if (!order) throw new Error(NO_ORDER_EXISTS)
+      const currency = getFiatFromPair(order.pair)
       if (!currency) throw new Error(NO_FIAT_CURRENCY)
 
       const userDataR = selectors.modules.profile.getUserData(yield select())
