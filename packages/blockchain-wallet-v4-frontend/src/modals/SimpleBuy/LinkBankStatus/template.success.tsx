@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
-type Props = _P & SuccessStateType
+type Props = { handleSuccessContinue: () => void } & _P & SuccessStateType
 const Top = styled(FlyoutWrapper)`
   padding-bottom: 0px;
   position: relative;
@@ -40,12 +40,6 @@ const Subcontent = styled(Text)`
 `
 
 const Success: React.FC<Props> = props => {
-  const handleSuccessContinue = () =>
-    props.simpleBuyActions.setStep({
-      step: 'CHECKOUT_CONFIRM',
-      order: props.latestPendingOrder
-    })
-
   return (
     <Top>
       <CloseIcon
@@ -75,7 +69,7 @@ const Success: React.FC<Props> = props => {
           height='48px'
           size='16px'
           nature='primary'
-          onClick={() => handleSuccessContinue()}
+          onClick={() => props.handleSuccessContinue()}
           fullwidth
         >
           <FormattedMessage id='buttons.ok' defaultMessage='OK' />

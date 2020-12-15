@@ -323,6 +323,8 @@ type MessagesType = {
   'copy.bank_linked_error': 'Please try linking your bank again. If this keeps happening, please'
   'copy.bank_linked_error_yourbank': 'We noticed the names don’t match. The bank you link must have a matching legal first & last name as your Blockchain.com Account.'
   'copy.bank_linked_error_title_yourbank': 'Is this your bank?'
+  'copy.bank_linked_error_checkingtitle': 'Please link a Checking Account.'
+  'copy.bank_linked_error_checking': 'Your bank may charge you extra fees if you buy cyrpto without a checking account.'
   'copy.bank_linked': 'Your {bankName} account is now linked to your Blockchain.com Wallet'
   'copy.bank_linked_title': 'Bank Linked'
   'copy.below_swap_min': 'Minimum Swap is {value}'
