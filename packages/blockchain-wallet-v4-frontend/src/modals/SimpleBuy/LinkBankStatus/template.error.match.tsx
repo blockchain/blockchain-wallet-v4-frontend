@@ -41,7 +41,7 @@
 // `
 
 // const WrongBank: React.FC<Props> = props => {
-//   const { paymentAccountEligible } = props.eligibility
+
 //   // add prop here, bank linked vs. failure, use to check things
 //   return (
 //     <Top>

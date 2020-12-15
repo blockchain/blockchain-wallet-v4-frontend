@@ -167,7 +167,6 @@ class SimpleBuy extends PureComponent<Props, State> {
             )}
             {this.props.step === 'LINK_BANK_STATUS' && (
               <FlyoutChild>
-                {/* @ts-ignore */}
                 <LinkBankStatus
                   {...this.props}
                   handleClose={this.handleClose}
@@ -356,7 +355,8 @@ type LinkStatePropsType =
       step: 'LINK_BANK'
     }
   | {
-      bankStatus: BankStatusType,
+      bankStatus: BankStatusType
+      order: SBOrderType
       step: 'LINK_BANK_STATUS'
     }
   | {
