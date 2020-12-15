@@ -9,7 +9,6 @@ export const getData = state => {
   )
   const cardsR = selectors.components.simpleBuy.getSBCards(state)
   const eligibilityR = selectors.components.simpleBuy.getSBFiatEligible(state)
-  const fastLinkR = selectors.components.simpleBuy.getFastLink(state)
   const pairsR = selectors.components.simpleBuy.getSBPairs(state)
   const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
     state
@@ -23,7 +22,6 @@ export const getData = state => {
       bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
       cards: ExtractSuccess<typeof cardsR>,
       eligibility: ExtractSuccess<typeof eligibilityR>,
-      fastLink: ExtractSuccess<typeof fastLinkR>,
       pairs: ExtractSuccess<typeof pairsR>,
       paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
       supportedCoins: ExtractSuccess<typeof supportedCoinsR>,
@@ -33,7 +31,6 @@ export const getData = state => {
       bankTransferAccounts,
       cards,
       eligibility,
-      fastLink,
       pairs,
       paymentMethods,
       supportedCoins,
@@ -44,7 +41,6 @@ export const getData = state => {
     bankTransferAccountsR,
     cardsR,
     eligibilityR,
-    fastLinkR,
     pairsR,
     paymentMethodsR,
     supportedCoinsR,
