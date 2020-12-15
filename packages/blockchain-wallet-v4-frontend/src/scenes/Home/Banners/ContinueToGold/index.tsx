@@ -1,12 +1,10 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
+import { actions } from 'data'
 import { Button, Image, Text } from 'blockchain-info-components'
 import { connect, ConnectedProps } from 'react-redux'
+import { Dispatch } from 'redux'
 import { FormattedMessage } from 'react-intl'
-import { RootState } from 'data/rootReducer'
-import { WalletFiatType } from 'core/types'
 import media from 'services/ResponsiveService'
-import React, { PureComponent } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -68,70 +66,47 @@ const BannerButton = styled(Button)`
   `}
 `
 
-class BuyCryptoSDD extends PureComponent<Props> {
-  showModal = () => {
-    this.props.simpleBuyActions.showModal('WelcomeModal')
-
-    this.props.simpleBuyActions.setStep({
-      step: 'CRYPTO_SELECTION',
-      fiatCurrency: this.props.fiatCurrency
-    })
-  }
-
-  render () {
-    return (
-      <Wrapper>
-        <Row>
-          <PendingIconWrapper>
-            <Image name='tier-gold' size='32px' />
-          </PendingIconWrapper>
-          <Column>
-            <Text size='20px' weight={600} color='grey800'>
-              <FormattedMessage
-                id='scenes.home.banner.continue_to_gold.increase_your_limits'
-                defaultMessage='Increase your limits'
-              />
-            </Text>
-            <Copy size='16px' color='grey600' weight={500}>
-              <FormattedMessage
-                id='scenes.home.banner.continue_to_gold.description'
-                defaultMessage='Continue your verification to become Gold level and increase your limits and payment methods'
-              />
-            </Copy>
-          </Column>
-        </Row>
-        <BannerButton
-          onClick={() => this.showModal()}
-          jumbo
-          data-e2e='continueToGoldSDD'
-          nature='primary'
-        >
+const ContinueToGold = ({ verifyIdentity }: Props) => (
+  <Wrapper>
+    <Row>
+      <PendingIconWrapper>
+        <Image name='tier-gold' size='32px' />
+      </PendingIconWrapper>
+      <Column>
+        <Text size='20px' weight={600} color='grey800'>
           <FormattedMessage
-            id='scenes.home.banner.continue_to_gold.button'
-            defaultMessage='Continue to Gold'
+            id='scenes.home.banner.continue_to_gold.increase_your_limits'
+            defaultMessage='Increase your limits'
           />
-        </BannerButton>
-      </Wrapper>
-    )
-  }
-}
-
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(
-    state
-  ) as WalletFiatType
-})
+        </Text>
+        <Copy size='16px' color='grey600' weight={500}>
+          <FormattedMessage
+            id='scenes.home.banner.continue_to_gold.description'
+            defaultMessage='Continue your verification to become Gold level and increase your limits and payment methods'
+          />
+        </Copy>
+      </Column>
+    </Row>
+    <BannerButton
+      onClick={verifyIdentity}
+      jumbo
+      data-e2e='continueToGoldSDD'
+      nature='primary'
+    >
+      <FormattedMessage
+        id='scenes.home.banner.continue_to_gold.button'
+        defaultMessage='Continue to Gold'
+      />
+    </BannerButton>
+  </Wrapper>
+)
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  verifyIdentity: () =>
+    dispatch(actions.components.identityVerification.verifyIdentity(2, false))
 })
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-type LinkStatePropsType = {
-  fiatCurrency: WalletFiatType
-}
+const connector = connect(undefined, mapDispatchToProps)
 type Props = ConnectedProps<typeof connector>
 
-export default connector(BuyCryptoSDD)
+export default connector(ContinueToGold)

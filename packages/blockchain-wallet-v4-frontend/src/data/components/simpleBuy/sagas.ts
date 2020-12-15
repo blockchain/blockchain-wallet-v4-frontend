@@ -590,7 +590,13 @@ export default ({
     try {
       yield call(waitForUserData)
       const { skipLoading } = payload
-      if (!(yield call(isTier2))) return yield put(A.fetchSBCardsSuccess([]))
+
+      yield call(fetchSDDVerified)
+      const isUserTier2 = yield call(isTier2)
+      const sddVerified = S.isUserSddVerified(yield select()).getOrElse(false)
+      const loadCards = isUserTier2 || sddVerified
+
+      if (!loadCards) return yield put(A.fetchSBCardsSuccess([]))
       if (!skipLoading) yield put(A.fetchSBCardsLoading())
       const cards = yield call(api.getSBCards)
       yield put(A.fetchSBCardsSuccess(cards))

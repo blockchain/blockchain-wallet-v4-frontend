@@ -33,7 +33,7 @@ export const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))<{
     outline: 0;
     position: relative;
     font-weight: 500;
-    font-size: 62px;
+    font-size: 62px !important;
     line-height: 88px;
     height: 88px;
     padding: 0;

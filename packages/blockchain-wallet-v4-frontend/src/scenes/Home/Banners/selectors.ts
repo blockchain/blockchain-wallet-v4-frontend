@@ -44,16 +44,18 @@ export const getData = (state): { bannerToShow: BannerType } => {
     .getUserSddEligibleTier(state)
     .getOrElse(1)
 
+  const isTier3SDD = sddEligibleTier === 3
+
   let bannerToShow
-  if (showDocResubmitBanner) {
+  if (showDocResubmitBanner && !isTier3SDD) {
     bannerToShow = 'resubmit'
-  } else if (isSimpleBuyOrderPending) {
+  } else if (isSimpleBuyOrderPending && !isTier3SDD) {
     bannerToShow = 'sbOrder'
-  } else if (isKycStateNone && isUserActive && !isFirstLogin) {
+  } else if (isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD) {
     bannerToShow = 'finishKyc'
   } else if (isFirstLogin && (userData?.tiers?.current < 2 || isKycStateNone)) {
     bannerToShow = 'buySDDCrypto'
-  } else if (sddEligibleTier === 3) {
+  } else if (isTier3SDD) {
     bannerToShow = 'continueToGold'
   } else {
     bannerToShow = 'newCurrency'
