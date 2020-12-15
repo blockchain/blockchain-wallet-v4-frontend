@@ -41,13 +41,7 @@ class AddCard extends PureComponent<Props> {
   }
 
   onCountryChange = (e, value) => {
-    this.props.formActions.change('addCCForm', 'billingaddress.country', value)
-    this.props.formActions.clearFields(
-      'addCCForm',
-      false,
-      false,
-      'billingaddress.state'
-    )
+    this.setDefaultCountry(value)
   }
 
   render () {

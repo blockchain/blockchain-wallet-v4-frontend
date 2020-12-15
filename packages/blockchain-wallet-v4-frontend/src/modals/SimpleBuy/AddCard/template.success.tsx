@@ -101,14 +101,21 @@ const getCountryElements = countries => [
   }
 ]
 
+const getCountryCode = country => {
+  if (country.code) {
+    return country.code
+  }
+  return country
+}
+
 const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
   Props> = props => {
   const [billingAddress, setBillingAddress] = useState(false)
 
   const countryCode =
     (props.formValues &&
-      props.formValues.billingaddress &&
-      props.formValues.billingaddress.country) ||
+      props.formValues?.billingaddress?.country &&
+      getCountryCode(props.formValues.billingaddress.country)) ||
     props.countryCode
 
   const countryIsUS = countryCode === 'US'
