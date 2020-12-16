@@ -41,6 +41,15 @@ import Payment from './Payment'
 
 const SDD_LIMIT = { min: '500', max: '10000' }
 
+const DAILY_LIMIT_MESSAGE = 'User exceeded daily trading limit'
+const WEEKLY_LIMIT_MESSAGE = 'User exceeded weekly trading limit'
+const ANNUAL_LIMIT_MESSAGE = 'User exceeded annual trading limit'
+
+const isLimitError = (error: string) =>
+  error === DAILY_LIMIT_MESSAGE ||
+  error === WEEKLY_LIMIT_MESSAGE ||
+  error === ANNUAL_LIMIT_MESSAGE
+
 const AmountRow = styled(Row)`
   position: relative;
   padding: 24px;
@@ -105,6 +114,9 @@ const ErrorText = styled(Text)`
   background-color: ${props => props.theme.red000};
   color: ${props => props.theme.red800};
   margin-bottom: 16px;
+  > div {
+    cursor: pointer;
+  }
 `
 
 const BlueRedCartridge = ({
@@ -444,7 +456,20 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 color='red600'
                 style={{ marginRight: '4px' }}
               />
-              Error: {props.error}
+              {isLimitError(props.error) ? (
+                <div
+                  onClick={() =>
+                    props.identityVerificationActions.verifyIdentity(2, false)
+                  }
+                >
+                  <FormattedMessage
+                    id='modals.simplebuy.checkout.upgrade_to_gold'
+                    defaultMessage='Trading limit reached. Upgrade to Gold'
+                  />
+                </div>
+              ) : (
+                <>Error: {props.error}</>
+              )}
             </ErrorText>
           </ErrorTextContainer>
         )}
