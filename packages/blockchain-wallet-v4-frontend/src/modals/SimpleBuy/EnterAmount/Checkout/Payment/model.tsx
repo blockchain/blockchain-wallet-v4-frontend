@@ -11,7 +11,7 @@ import { fiatToString } from 'core/exchange/currency'
 import { FiatType, SBBalancesType, SBPaymentMethodType } from 'core/types'
 import { getBankLogoImageName } from '../../../model'
 import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
-import { Icon, Text } from 'blockchain-info-components'
+import { Icon, Image, Text } from 'blockchain-info-components'
 import { Title, Value } from 'components/Flyout'
 
 type PaymentContainerProps = {
@@ -168,8 +168,8 @@ export const getIcon = (
           name={value.currency.toLowerCase() as keyof IcoMoonType}
         />
       )
-    case 'LINK_BANK':
-      return <img src={getBankLogoImageName(value.details?.bankName)} />
+    case 'BANK_TRANSFER':
+      return <Image name={getBankLogoImageName(value.details?.bankName)} />
     default:
       return <></>
   }
