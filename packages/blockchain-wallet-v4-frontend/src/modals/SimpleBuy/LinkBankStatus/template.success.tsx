@@ -42,7 +42,7 @@ const Subcontent = styled(Text)`
   text-align: center;
 `
 
-const Success: React.FC<Props> = ({ handleClose }) => {
+const Success: React.FC<Props> = props => {
   return (
     <Top>
       <CloseIcon
@@ -51,7 +51,7 @@ const Success: React.FC<Props> = ({ handleClose }) => {
         size='20px'
         color='grey600'
         role='button'
-        onClick={handleClose}
+        onClick={props.handleClose}
       />
       <Container>
         <Image width='100px' name='bank-success' />

@@ -5,12 +5,14 @@ import {
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import { getBankLogoImageName } from '../../model'
 import {
   getCoinFromPair,
   getFiatFromPair
 } from 'data/components/simpleBuy/model'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '../index'
+
 import {
   SBPaymentMethodType,
   SupportedFiatType,
@@ -103,48 +105,9 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     this.props.simpleBuyActions.handleSBMethodChange(method)
   }
 
-  getLinkedBankIcon = (bankName: string): ReactElement => {
-    switch (bankName) {
-      case 'Acorns':
-        return <Image name='acorns' height='48px' />
-      case 'Ally':
-        return <Image name='ally' height='48px' />
-      case 'Bank Of America':
-        return <Image name='bank-of-america' height='48px' />
-      case 'BB&T':
-        return <Image name='bbt' height='48px' />
-      case 'Capital One':
-        return <Image name='capital-one' height='48px' />
-      case 'Chase':
-        return <Image name='chase' height='48px' />
-      case 'Citi Bank':
-        return <Image name='citi-bank' height='48px' />
-      case 'Citizens':
-        return <Image name='citizens' height='48px' />
-      case 'Navy Federal':
-        return <Image name='navy-federal' height='48px' />
-      case 'PNC':
-        return <Image name='pnc' height='48px' />
-      case 'Regions':
-        return <Image name='regions' height='48px' />
-      case 'Robinhood':
-        return <Image name='robinhood' height='48px' />
-      case 'Suntrust':
-        return <Image name='suntrust' height='48px' />
-      case 'TD':
-        return <Image name='td' height='48px' />
-      case 'USAA':
-        return <Image name='usaa' height='48px' />
-      case 'US Bank':
-        return <Image name='us-bank' height='48px' />
-      case 'Venmo':
-        return <Image name='venmo' height='48px' />
-      case 'Wells Fargo':
-        return <Image name='wells-fargo' height='48px' />
-      default:
-        return <Image name='bank' height='48px' />
-    }
-  }
+  getLinkedBankIcon = (bankName: string): ReactElement => (
+    <Image name={getBankLogoImageName(bankName)} height='48px' />
+  )
 
   getIcon = (value: SBPaymentMethodType): ReactElement => {
     switch (value.type) {
