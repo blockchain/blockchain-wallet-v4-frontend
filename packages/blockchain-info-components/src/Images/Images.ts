@@ -256,7 +256,7 @@ const Images = {
   'recover-padlock': recoverPadlock,
   refresh,
   regions: regions,
-  robinood: robinhood,
+  robinhood: robinhood,
   search: search,
   'select-arrow': selectArrow,
   'silver-approved': silverApproved,
