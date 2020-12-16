@@ -147,6 +147,6 @@ export const getBankLogoImageName = bankName => {
     case 'Wells Fargo':
       return 'wells-fargo'
     default:
-      return 'wells-fargo'
+      return 'bank'
   }
 }
