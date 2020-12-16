@@ -237,6 +237,15 @@ export default ({
       if (!values) throw new Error(NO_CHECKOUT_VALS)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
       const { fix, orderType } = values
+
+      // since two screens use this order creation saga and they have different
+      // forms, detect the order type and set correct form to submitting
+      if (orderType === 'SELL') {
+        yield put(actions.form.startSubmit('previewSell'))
+      } else {
+        yield put(actions.form.startSubmit('simpleBuyCheckout'))
+      }
+
       const fiat = getFiatFromPair(pair.pair)
       const coin = getCoinFromPair(pair.pair)
       const amount =
@@ -245,11 +254,8 @@ export default ({
           : convertStandardToBase(coin, values.amount)
       const inputCurrency = orderType === 'BUY' ? fiat : coin
       const outputCurrency = orderType === 'BUY' ? coin : fiat
-
       const input = { amount, symbol: inputCurrency }
       const output = { amount, symbol: outputCurrency }
-
-      yield put(actions.form.startSubmit('simpleBuyCheckout'))
 
       // used for sell only now, eventually buy as well
       // TODO: use swap2 quote for buy AND sell
@@ -302,14 +308,13 @@ export default ({
             throw e
           }
         }
-        yield put(actions.form.stopSubmit('simpleBuyCheckout'))
         yield put(
           A.setStep({
             step: 'SELL_ORDER_SUMMARY',
             sellOrder: sellOrder
           })
         )
-
+        yield put(actions.form.stopSubmit('previewSell'))
         return yield put(actions.components.swap.fetchTrades())
       }
 
@@ -332,6 +337,7 @@ export default ({
         paymentType,
         paymentMethodId
       )
+
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order: buyOrder }))
       yield put(A.fetchSBOrders())
@@ -363,6 +369,11 @@ export default ({
       }
 
       const error = errorHandler(e)
+      if (values?.orderType === 'SELL') {
+        return yield put(
+          actions.form.stopSubmit('previewSell', { _error: error })
+        )
+      }
       yield put(actions.form.stopSubmit('simpleBuyCheckout', { _error: error }))
     }
   }
