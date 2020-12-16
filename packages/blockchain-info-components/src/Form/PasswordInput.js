@@ -66,7 +66,7 @@ class PasswordInput extends React.Component {
   }
 
   render () {
-    const { active, errorState, value, ...rest } = this.props
+    const { active, errorState, value, noLastPass, ...rest } = this.props
 
     return (
       <BasePasswordInput
