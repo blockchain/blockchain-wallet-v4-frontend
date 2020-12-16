@@ -1,6 +1,6 @@
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import React, { ReactChild } from 'react'
+import React, { ReactChild, useState } from 'react'
 import styled from 'styled-components'
 
 import { AmountTextBox } from 'components/Exchange'
@@ -40,6 +40,15 @@ import IncreaseLimits from './IncreaseLimits'
 import Payment from './Payment'
 
 const SDD_LIMIT = { min: '500', max: '10000' }
+
+const DAILY_LIMIT_MESSAGE = 'User exceeded daily trading limit'
+const WEEKLY_LIMIT_MESSAGE = 'User exceeded weekly trading limit'
+const ANNUAL_LIMIT_MESSAGE = 'User exceeded annual trading limit'
+
+const isLimitError = (error: string) =>
+  error === DAILY_LIMIT_MESSAGE ||
+  error === WEEKLY_LIMIT_MESSAGE ||
+  error === ANNUAL_LIMIT_MESSAGE
 
 const AmountRow = styled(Row)`
   position: relative;
@@ -105,9 +114,9 @@ const ErrorText = styled(Text)`
   background-color: ${props => props.theme.red000};
   color: ${props => props.theme.red800};
   margin-bottom: 16px;
-`
-const AmountText = styled(Text)`
-  font-size: 56px !important;
+  > div {
+    cursor: pointer;
+  }
 `
 
 const BlueRedCartridge = ({
@@ -147,6 +156,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     method: selectedMethod,
     defaultMethod
   } = props
+  const [fontRatio, setRatio] = useState(1)
 
   const method = selectedMethod || defaultMethod
   const fix = props.preferences[props.orderType].fix
@@ -244,11 +254,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   }
 
   const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
+    if (Number(fontSizeRatio) > 0) {
+      setRatio(fontSizeRatio > 1 ? 1 : fontSizeRatio)
+    }
     const amountRowNode = inputNode.closest('#amount-row')
     const currencyNode = isFiat
       ? amountRowNode.children[0]
       : amountRowNode.children[amountRowNode.children.length - 1]
-    currencyNode.style.fontSize = `${fontSizeNumber * fontSizeRatio}px`
+    currencyNode.style.fontSize = `${fontSizeNumber * fontRatio}px`
   }
 
   const limit = Number(props.sddLimit.max) / SDD_LIMIT_FACTOR
@@ -297,9 +310,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       <FlyoutWrapper style={{ paddingTop: '0px' }}>
         <AmountRow id='amount-row'>
           {fix === 'FIAT' && (
-            <AmountText size={'56px'} color='textBlack' weight={500}>
+            <Text size={'56px'} color='textBlack' weight={500}>
               {Currencies[fiatCurrency].units[fiatCurrency].symbol}
-            </AmountText>
+            </Text>
           )}
           <Field
             data-e2e='sbAmountInput'
@@ -318,9 +331,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }}
           />
           {fix === 'CRYPTO' && (
-            <AmountText size={'56px'} color='textBlack' weight={500}>
+            <Text size={'56px'} color='textBlack' weight={500}>
               {props.supportedCoins[cryptoCurrency].coinTicker}
-            </AmountText>
+            </Text>
           )}
         </AmountRow>
 
@@ -353,7 +366,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </QuoteRow>
 
-        {!props.isSddFlow && props.pair && (
+        {(!props.isSddFlow || props.orderType === 'SELL') && props.pair && (
           <Amounts onClick={handleMinMaxClick}>
             <>
               {amtError === 'BELOW_MIN' ? (
@@ -403,7 +416,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </Amounts>
         )}
 
-        {props.isSddFlow && (
+        {props.isSddFlow && props.orderType === 'BUY' && (
           <ActionsRow>
             <ActionsItem>
               <Text weight={500} size='14px' color='grey600'>
@@ -433,7 +446,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </ActionsRow>
         )}
 
-        <Payment {...props} method={method} />
+        <Payment
+          {...props}
+          method={method}
+          isSddFlow={props.isSddFlow && props.orderType === 'BUY'}
+        />
 
         {props.error && (
           <ErrorTextContainer>
@@ -443,13 +460,28 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 color='red600'
                 style={{ marginRight: '4px' }}
               />
-              Error: {props.error}
+              {isLimitError(props.error) ? (
+                <div
+                  onClick={() =>
+                    props.identityVerificationActions.verifyIdentity(2, false)
+                  }
+                >
+                  <FormattedMessage
+                    id='modals.simplebuy.checkout.upgrade_to_gold'
+                    defaultMessage='Trading limit reached. Upgrade to Gold'
+                  />
+                </div>
+              ) : (
+                <>Error: {props.error}</>
+              )}
             </ErrorText>
           </ErrorTextContainer>
         )}
         <ActionButton {...props} />
       </FlyoutWrapper>
-      {props.isSddFlow && <IncreaseLimits {...props} />}
+      {props.isSddFlow && props.orderType === 'BUY' && (
+        <IncreaseLimits {...props} />
+      )}
     </CustomForm>
   )
 }

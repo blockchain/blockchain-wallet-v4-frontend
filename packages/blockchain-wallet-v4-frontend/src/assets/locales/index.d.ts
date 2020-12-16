@@ -1246,6 +1246,7 @@ type MessagesType = {
   'modals.simplebuy.checkingeligiblity': 'Checking Eligibility...'
   'modals.simplebuy.checkout.abovemax': '{value} Maximum {orderType}'
   'modals.simplebuy.checkout.maxbuy': 'Max Buy'
+  'modals.simplebuy.checkout.upgrade_to_gold': 'Trading limit reached. Upgrade to Gold'
   'modals.simplebuy.checkout.max_card_limit': 'Max Card Limit'
   'modals.simplebuy.checkout.belowmin': '{value} Minimum {orderType}'
   'modals.simplebuy.checkout.buymax': 'Buy Max'

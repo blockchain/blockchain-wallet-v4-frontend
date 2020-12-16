@@ -37,6 +37,9 @@ export const ResizeableFontInputHOC = Component =>
     static defaultProps = {
       onUpdate: () => {}
     }
+    state = {
+      fontRatio: 1
+    }
 
     componentDidMount () {
       window.addEventListener('resize', this.resizeInputFont)
@@ -86,8 +89,11 @@ export const ResizeableFontInputHOC = Component =>
         getFontSizeToCharWidth(maxFontSize),
         this.valueLength
       )
-      if (fontSizeRatio > 1) fontSizeRatio = 1
-      input.style.fontSize = `${fontSizeNumber * fontSizeRatio}px`
+      if (fontSizeRatio > 0) {
+        this.setState({ fontRatio: fontSizeRatio > 1 ? 1 : fontSizeRatio })
+      }
+
+      input.style.fontSize = `${fontSizeNumber * this.state.fontRatio}px`
       onUpdate(input, fontSizeRatio, fontSizeNumber)
     }
 

@@ -8,8 +8,8 @@ import Template from './template'
 
 export type LinkDispatchPropsType = {
   analyticsActions: typeof actions.analytics
-  identityVerificationActions: typeof actions.components.identityVerification
   simpleBuyActions: typeof actions.components.simpleBuy
+  verifyIdentity: () => void
 }
 
 class UpgradeToGold extends PureComponent<Props> {
@@ -21,10 +21,8 @@ class UpgradeToGold extends PureComponent<Props> {
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
-  identityVerificationActions: bindActionCreators(
-    actions.components.identityVerification,
-    dispatch
-  )
+  verifyIdentity: () =>
+    dispatch(actions.components.identityVerification.verifyIdentity(2, false))
 })
 
 const connector = connect(null, mapDispatchToProps)

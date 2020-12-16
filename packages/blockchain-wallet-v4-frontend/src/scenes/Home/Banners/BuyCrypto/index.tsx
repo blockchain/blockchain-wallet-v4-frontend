@@ -69,7 +69,7 @@ const BannerButton = styled(Button)`
   `}
 `
 
-class BuyCryptoSDD extends PureComponent<Props> {
+class BuyCrypto extends PureComponent<Props> {
   showModal = () => {
     this.props.simpleBuyActions.showModal('WelcomeModal')
 
@@ -135,4 +135,4 @@ type LinkStatePropsType = {
 }
 type Props = ConnectedProps<typeof connector>
 
-export default connector(BuyCryptoSDD)
+export default connector(BuyCrypto)

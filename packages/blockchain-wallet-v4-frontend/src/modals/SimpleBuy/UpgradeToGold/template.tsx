@@ -153,7 +153,7 @@ const Template: React.FC<Props> = props => {
               'UPGRADE_TO_GOLD',
               'upgrade_now_clicked'
             ])
-            props.identityVerificationActions.verifyIdentity(2, false)
+            props.verifyIdentity()
           }}
           style={{ marginTop: '16px' }}
           type='button'

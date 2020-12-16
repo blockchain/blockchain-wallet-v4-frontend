@@ -1,12 +1,10 @@
-import * as AT from './actionTypes'
-import { AB_TESTS } from './model'
-import { AnalyticsActionTypes, AnalyticsStateType } from './types'
 import { Remote } from 'blockchain-wallet-v4/src'
 
+import * as AT from './actionTypes'
+import { AnalyticsActionTypes, AnalyticsStateType } from './types'
+
 const INITIAL_STATE: AnalyticsStateType = {
-  ab_tests: {
-    [AB_TESTS.VERIFY_EMAIL]: Remote.NotAsked
-  }
+  ab_tests: {}
 }
 
 export const analyticsReducer = (

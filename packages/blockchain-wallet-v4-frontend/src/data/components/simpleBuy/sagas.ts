@@ -139,13 +139,17 @@ export default ({
       )
       yield put(A.addCardDetailsLoading())
 
+      let waitForAction: boolean = true
       // Create card
       if (formValues.billingaddress && !formValues.sameAsBillingAddress) {
         yield call(fetchSBCardSDD, formValues.billingaddress)
+        waitForAction = false
       } else {
         yield put(A.fetchSBCard())
       }
-      yield take([AT.FETCH_SB_CARD_SUCCESS, AT.FETCH_SB_CARD_FAILURE])
+      if (waitForAction) {
+        yield take([AT.FETCH_SB_CARD_SUCCESS, AT.FETCH_SB_CARD_FAILURE])
+      }
       const cardR = S.getSBCard(yield select())
       const card = cardR.getOrFail('CARD_CREATION_FAILED')
 
@@ -244,6 +248,15 @@ export default ({
       if (!values) throw new Error(NO_CHECKOUT_VALS)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
       const { fix, orderType } = values
+
+      // since two screens use this order creation saga and they have different
+      // forms, detect the order type and set correct form to submitting
+      if (orderType === 'SELL') {
+        yield put(actions.form.startSubmit('previewSell'))
+      } else {
+        yield put(actions.form.startSubmit('simpleBuyCheckout'))
+      }
+
       const fiat = getFiatFromPair(pair.pair)
       const coin = getCoinFromPair(pair.pair)
       const amount =
@@ -252,11 +265,8 @@ export default ({
           : convertStandardToBase(coin, values.amount)
       const inputCurrency = orderType === 'BUY' ? fiat : coin
       const outputCurrency = orderType === 'BUY' ? coin : fiat
-
       const input = { amount, symbol: inputCurrency }
       const output = { amount, symbol: outputCurrency }
-
-      yield put(actions.form.startSubmit('simpleBuyCheckout'))
 
       // used for sell only now, eventually buy as well
       // TODO: use swap2 quote for buy AND sell
@@ -309,14 +319,13 @@ export default ({
             throw e
           }
         }
-        yield put(actions.form.stopSubmit('simpleBuyCheckout'))
         yield put(
           A.setStep({
             step: 'SELL_ORDER_SUMMARY',
             sellOrder: sellOrder
           })
         )
-
+        yield put(actions.form.stopSubmit('previewSell'))
         return yield put(actions.components.swap.fetchTrades())
       }
 
@@ -339,6 +348,7 @@ export default ({
         paymentType,
         paymentMethodId
       )
+
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
       yield put(A.fetchSBOrders())
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order: buyOrder }))
@@ -370,6 +380,11 @@ export default ({
       }
 
       const error = errorHandler(e)
+      if (values?.orderType === 'SELL') {
+        return yield put(
+          actions.form.stopSubmit('previewSell', { _error: error })
+        )
+      }
       yield put(actions.form.stopSubmit('simpleBuyCheckout', { _error: error }))
     }
   }
@@ -565,7 +580,9 @@ export default ({
     let card: SBCardType
     try {
       yield put(A.fetchSBCardLoading())
-      const currency = S.getFiatCurrency(yield select())
+      const order = S.getSBLatestPendingOrder(yield select())
+      if (!order) throw new Error(NO_ORDER_EXISTS)
+      const currency = getFiatFromPair(order.pair)
       if (!currency) throw new Error(NO_FIAT_CURRENCY)
 
       const userDataR = selectors.modules.profile.getUserData(yield select())
@@ -757,6 +774,10 @@ export default ({
         S.getFiatCurrency(yield select()) ||
         (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
 
+      const userSDDTierR = S.getUserSddEligibleTier(yield select())
+      if (!Remote.Success.is(userSDDTierR)) {
+        yield call(fetchSDDEligible)
+      }
       const userSDDTier = S.getUserSddEligibleTier(yield select()).getOrElse(1)
       const isTier3 = userSDDTier && userSDDTier === SDD_TIER
       const checkEligibilityTier2 = isUserTier2 ? true : undefined

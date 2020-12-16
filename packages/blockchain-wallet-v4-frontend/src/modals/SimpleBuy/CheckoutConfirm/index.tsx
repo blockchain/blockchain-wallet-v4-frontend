@@ -35,6 +35,7 @@ class CheckoutConfirm extends PureComponent<Props> {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSDDEligible()
       this.props.simpleBuyActions.fetchSDDVerified()
+      this.props.simpleBuyActions.fetchSBCards()
     }
   }
 
@@ -43,7 +44,8 @@ class CheckoutConfirm extends PureComponent<Props> {
       userData,
       sbBalances,
       isSddFlow,
-      isUserSddVerified
+      isUserSddVerified,
+      cards
     } = this.props.data.getOrElse({
       userData: { tiers: { current: 0 } } as UserDataType,
       isSddFlow: false
@@ -55,6 +57,11 @@ class CheckoutConfirm extends PureComponent<Props> {
     // check for SDD flow and direct to add card
     if (isSddFlow && this.props.order.paymentType === 'PAYMENT_CARD') {
       if (isUserSddVerified) {
+        if (cards && cards.length > 0) {
+          return this.props.simpleBuyActions.setStep({
+            step: '3DS_HANDLER'
+          })
+        }
         return this.props.simpleBuyActions.setStep({
           step: 'ADD_CARD'
         })

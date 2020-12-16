@@ -54,7 +54,7 @@ export const getData = (state): { bannerToShow: BannerType } => {
   } else if (isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD) {
     bannerToShow = 'finishKyc'
   } else if (isFirstLogin && (userData?.tiers?.current < 2 || isKycStateNone)) {
-    bannerToShow = 'buySDDCrypto'
+    bannerToShow = 'buyCrypto'
   } else if (isTier3SDD) {
     bannerToShow = 'continueToGold'
   } else {
