@@ -127,9 +127,30 @@ import worldAlert from './img/world-alert.jpg'
 import worldAlert2 from './img/world-alert@2x.jpg'
 import worldAlert3 from './img/world-alert@3x.jpg'
 
+// Bank Icons
+import acorns from './img/BankIcons/acorns.svg'
+import ally from './img/BankIcons/ally.svg'
+import bankOfAmerica from './img/BankIcons/bank-of-america.svg'
+import bbt from './img/BankIcons/bbt.svg'
+import capitalOne from './img/BankIcons/capital-one.svg'
+import chase from './img/BankIcons/chase.svg'
+import citiBank from './img/BankIcons/citi-bank.svg'
+import citizens from './img/BankIcons/citizens.svg'
+import navyFederal from './img/BankIcons/navy-federal.svg'
+import pnc from './img/BankIcons/pnc.svg'
+import regions from './img/BankIcons/regions.svg'
+import robinhood from './img/BankIcons/robinhood.svg'
+import suntrust from './img/BankIcons/suntrust.svg'
+import td from './img/BankIcons/td.svg'
+import usaa from './img/BankIcons/usaa.svg'
+import usBank from './img/BankIcons/us-bank.svg'
+import venmo from './img/BankIcons/venmo.svg'
+import wellsFargo from './img/BankIcons/wells-fargo.svg'
+
 const Images = {
   'ad-bitcoin-games': adBitcoinGames,
   'ad-bitcoin-games2': adBitcoinGames2,
+  acorns: acorns,
   'airdrop-enrolled': airdropEnrolled,
   'airdrop-welcome-banner': airdropWelcomeBanner,
   'airdrop-welcome-banner2': airdropWelcomeBanner2,
@@ -138,10 +159,13 @@ const Images = {
   'allow-camera': allowCamera,
   'allow-camera2': allowCamera2,
   'allow-camera3': allowCamera3,
+  ally: ally,
   'apple-app-store-badge': appleAppStoreBadge,
   bank: bank,
   'bank-error': bankError,
+  'bank-of-america': bankOfAmerica,
   'bank-success': bankSuccess,
+  bbt: bbt,
   'bg-pattern': bgPattern,
   'bitpay-logo': bitpayLogo,
   'blank-card': blankCard,
@@ -153,8 +177,12 @@ const Images = {
   'buy-sell-learn-more': buySellLearnMore,
   'buy-sell-learn-more2': buySellLearnMore2,
   'buy-wallet': buyWallet,
+  'capital-one': capitalOne,
   'chart-placeholder': chartPlaceholder,
+  chase: chase,
   'checkmark-green': checkmarkGreen,
+  'citi-bank': citiBank,
+  citizens: citizens,
   coins: coins,
   'coin-pax': coinPax,
   'close-error': closeError,
@@ -221,25 +249,34 @@ const Images = {
   'mastercard-logo': mastercardLogo,
   'micro-deposits-whole': microDepositsWhole,
   money: money,
+  'navy-federal': navyFederal,
+  pnc: pnc,
   printer: printer,
   'qr-code': qrCode,
   'recover-padlock': recoverPadlock,
   refresh,
+  regions: regions,
+  robinood: robinhood,
   search: search,
   'select-arrow': selectArrow,
   'silver-approved': silverApproved,
   smartphone: smartphone,
   'starfield-banner-bg': starfieldBannerBg,
+  suntrust: suntrust,
   'swap-carousel1': swapCarousel1,
   'swap-carousel2': swapCarousel2,
   'swap-carousel3': swapCarousel3,
   'swap-carousel4': swapCarousel4,
   'swap-carousel5': swapCarousel5,
   'swap-modal-bg': swapModalBg,
+  td: td,
   'twitter-white': twitterWhite,
   'tier-gold': tierGold,
+  usaa: usaa,
+  'us-bank': usBank,
   'us-flag': usFlag,
   'usdd-intro': usddIntro,
+  venmo: venmo,
   'visa-logo': visaLogo,
   'visa-new-logo': visaNewLogo,
   'wallet-v3-backup': walletV3Backup,
@@ -250,6 +287,7 @@ const Images = {
   wallet,
   'wallet-blue': walletBlue,
   wdgld: wdgld,
+  'wells-fargo': wellsFargo,
   'world-alert': worldAlert,
   'world-alert2': worldAlert2,
   'world-alert3': worldAlert3,
