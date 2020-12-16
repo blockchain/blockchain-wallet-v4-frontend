@@ -698,6 +698,10 @@ export default ({
         S.getFiatCurrency(yield select()) ||
         (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
 
+      const userSDDTierR = S.getUserSddEligibleTier(yield select())
+      if (!Remote.Success.is(userSDDTierR)) {
+        yield call(fetchSDDEligible)
+      }
       const userSDDTier = S.getUserSddEligibleTier(yield select()).getOrElse(1)
       const isTier3 = userSDDTier && userSDDTier === SDD_TIER
       const checkEligibilityTier2 = isUserTier2 ? true : undefined
