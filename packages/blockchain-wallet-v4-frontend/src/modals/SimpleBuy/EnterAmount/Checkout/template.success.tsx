@@ -366,7 +366,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </QuoteRow>
 
-        {!props.isSddFlow && props.pair && (
+        {(!props.isSddFlow || props.orderType === 'SELL') && props.pair && (
           <Amounts onClick={handleMinMaxClick}>
             <>
               {amtError === 'BELOW_MIN' ? (
@@ -416,7 +416,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </Amounts>
         )}
 
-        {props.isSddFlow && (
+        {props.isSddFlow && props.orderType === 'BUY' && (
           <ActionsRow>
             <ActionsItem>
               <Text weight={500} size='14px' color='grey600'>
@@ -446,7 +446,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </ActionsRow>
         )}
 
-        <Payment {...props} method={method} />
+        <Payment
+          {...props}
+          method={method}
+          isSddFlow={props.isSddFlow && props.orderType === 'BUY'}
+        />
 
         {props.error && (
           <ErrorTextContainer>
@@ -475,7 +479,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         )}
         <ActionButton {...props} />
       </FlyoutWrapper>
-      {props.isSddFlow && <IncreaseLimits {...props} />}
+      {props.isSddFlow && props.orderType === 'BUY' && (
+        <IncreaseLimits {...props} />
+      )}
     </CustomForm>
   )
 }
