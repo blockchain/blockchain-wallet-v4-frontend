@@ -119,9 +119,6 @@ export default ({
       endPoint: `/payments/banktransfer`,
       contentType: 'application/json',
       data: {
-        // attributes: {
-        //   userOverride: 'sbMem5fb5284b1f71e5'
-        // },
         currency
       }
     })
@@ -135,7 +132,6 @@ export default ({
       data: {
         attributes: {
           providerAccountId: `${providerAccountId}`
-          // userOverride: 'sbMem5fb5284b1f71e5'
         }
       }
     })
