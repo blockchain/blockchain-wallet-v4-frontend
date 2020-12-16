@@ -5,12 +5,14 @@ import {
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import { getBankLogoImageName } from '../../model'
 import {
   getCoinFromPair,
   getFiatFromPair
 } from 'data/components/simpleBuy/model'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '../index'
+
 import {
   SBPaymentMethodType,
   SupportedFiatType,
@@ -103,6 +105,10 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     this.props.simpleBuyActions.handleSBMethodChange(method)
   }
 
+  getLinkedBankIcon = (bankName: string): ReactElement => (
+    <Image name={getBankLogoImageName(bankName)} height='48px' />
+  )
+
   getIcon = (value: SBPaymentMethodType): ReactElement => {
     switch (value.type) {
       case 'BANK_TRANSFER':
@@ -141,6 +147,8 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             name={value.currency.toLowerCase() as 'eur' | 'gbp'}
           />
         )
+      default:
+        return <Image name='blank-card' />
     }
   }
 
@@ -327,7 +335,13 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   key={index}
                   value={bankMethod.value}
                   text={this.renderBankText(bankMethod.value)}
-                  icon={this.getIcon(bankMethod.value)}
+                  icon={
+                    bankMethod.value.details
+                      ? this.getLinkedBankIcon(
+                          bankMethod.value.details.bankName
+                        )
+                      : this.getIcon(bankMethod.value)
+                  }
                   onClick={() => this.handleSubmit(bankMethod.value)}
                 />
               ))}

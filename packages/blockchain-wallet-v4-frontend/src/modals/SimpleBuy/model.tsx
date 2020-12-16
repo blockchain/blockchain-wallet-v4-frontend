@@ -107,3 +107,46 @@ export const displayFiat = (
     value: convertBaseToStandard('FIAT', amt)
   })
 }
+
+export const getBankLogoImageName = bankName => {
+  switch (bankName) {
+    case 'Acorns':
+      return 'acorns'
+    case 'Ally':
+      return 'ally'
+    case 'Bank Of America':
+      return 'bank-of-america'
+    case 'BB&T':
+      return 'bbt'
+    case 'Capital One':
+      return 'capital-one'
+    case 'Chase':
+      return 'chase'
+    case 'Citi Bank':
+      return 'citi-bank'
+    case 'Citizens':
+      return 'citizens'
+    case 'Navy Federal':
+      return 'navy-federal'
+    case 'PNC':
+      return 'pnc'
+    case 'Regions':
+      return 'regions'
+    case 'Robinhood':
+      return 'robinhood'
+    case 'Suntrust':
+      return 'suntrust'
+    case 'TD':
+      return 'td'
+    case 'USAA':
+      return 'usaa'
+    case 'US Bank':
+      return 'us-bank'
+    case 'Venmo':
+      return 'venmo'
+    case 'Wells Fargo':
+      return 'wells-fargo'
+    default:
+      return 'bank'
+  }
+}
