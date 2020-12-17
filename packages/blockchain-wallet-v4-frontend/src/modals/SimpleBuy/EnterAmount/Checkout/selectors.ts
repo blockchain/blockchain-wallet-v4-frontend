@@ -12,6 +12,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   )
   // used for sell only now, eventually buy as well
   // TODO: use swap2 quote for buy AND sell
+  const paymentR = selectors.components.simpleBuy.getPayment(state)
   const quoteR =
     ownProps.orderType === 'BUY'
       ? selectors.components.simpleBuy.getSBQuote(state)
@@ -23,6 +24,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   return lift(
     (
       quote: ExtractSuccess<typeof quoteR>,
+      payment: ExtractSuccess<typeof paymentR>,
       rates: ExtractSuccess<typeof ratesR>,
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
       userData: ExtractSuccess<typeof userDataR>,
@@ -32,9 +34,10 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       supportedCoins,
       formErrors,
       quote,
+      payment,
       rates,
       sbBalances,
       userData
     })
-  )(quoteR, ratesR, sbBalancesR, userDataR, supportedCoinsR)
+  )(quoteR, paymentR, ratesR, sbBalancesR, userDataR, supportedCoinsR)
 }
