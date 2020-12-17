@@ -1,6 +1,7 @@
 import { actions, model, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import { duration } from 'components/Flyout'
 import React from 'react'
 import VerifyEmail from './template'
 
@@ -14,6 +15,9 @@ class VerifyEmailContainer extends React.PureComponent<PropsType, {}> {
       nextProps.authActions.setRegisterEmail(undefined)
       nextProps.routerActions.push('/home')
       nextProps.analyticsActions.logEvent(EMAIL_VERIFIED)
+      setTimeout(() => {
+        nextProps.simpleBuyActions.showModal('WelcomeModal')
+      }, duration)
     }
     return null
   }
@@ -27,6 +31,9 @@ class VerifyEmailContainer extends React.PureComponent<PropsType, {}> {
     this.props.authActions.setRegisterEmail(undefined)
     this.props.analyticsActions.logEvent(DISMISS_VERIFICATION)
     this.props.routerActions.push('/home')
+    setTimeout(() => {
+      this.props.simpleBuyActions.showModal('WelcomeModal')
+    }, duration)
   }
 
   render () {
@@ -56,7 +63,8 @@ const mapDispatchToProps = dispatch => ({
   ),
   routerActions: bindActionCreators(actions.router, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch),
-  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

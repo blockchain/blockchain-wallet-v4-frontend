@@ -32,6 +32,7 @@ class Veriff extends React.PureComponent<Props> {
     }
     if (event === 'CANCELED') {
       this.props.onClose()
+      this.props.kycActions.resetVerificationStep()
     }
   }
 

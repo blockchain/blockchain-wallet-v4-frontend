@@ -351,6 +351,18 @@ export default ({
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
       yield put(A.fetchSBOrders())
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order: buyOrder }))
+
+      // log user tier
+      const currentTier = selectors.modules.profile.getCurrentTier(
+        yield select()
+      )
+      yield put(
+        actions.analytics.logEvent([
+          'SB_CREATE_ORDER_USER_TIER',
+          'TIER',
+          currentTier
+        ])
+      )
     } catch (e) {
       // After CC has been activated we try to create an order
       // If order creation fails go back to ENTER_AMOUNT step
