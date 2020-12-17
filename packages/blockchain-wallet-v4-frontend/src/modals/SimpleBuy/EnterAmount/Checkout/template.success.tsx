@@ -9,7 +9,7 @@ import {
   coinToString,
   fiatToString
 } from 'blockchain-wallet-v4/src/exchange/currency'
-import { CoinType } from 'core/types'
+import { CoinType, SBPaymentMethodType } from 'core/types'
 import { convertStandardToBase } from 'data/components/exchange/services'
 import {
   CRYPTO_DECIMALS,
@@ -154,11 +154,32 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     cryptoCurrency,
     fiatCurrency,
     method: selectedMethod,
-    defaultMethod
+    defaultMethod,
+    cards
   } = props
   const [fontRatio, setRatio] = useState(1)
 
-  const method = selectedMethod || defaultMethod
+  const isSddBuy = props.isSddFlow && props.orderType === 'BUY'
+
+  let method = selectedMethod || defaultMethod
+  if (isSddBuy && cards && cards.length === 1) {
+    const card = cards[0]
+
+    const defaultCardMethod = props.paymentMethods.methods.find(
+      m => m.type === 'PAYMENT_CARD' && orderType === 'BUY'
+    )
+    method = {
+      ...card,
+      card: card.card,
+      type: 'USER_CARD',
+      currency: card.currency,
+      limits:
+        defaultCardMethod && defaultCardMethod.limits
+          ? defaultCardMethod.limits
+          : { min: '500', max: '10000' }
+    } as SBPaymentMethodType
+  }
+
   const fix = props.preferences[props.orderType].fix
   const digits = fix === 'FIAT' ? FIAT_DECIMALS : CRYPTO_DECIMALS
   const baseCurrency = fix === 'FIAT' ? fiatCurrency : cryptoCurrency

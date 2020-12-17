@@ -37,6 +37,7 @@ class Checkout extends PureComponent<Props> {
 
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSDDEligible()
+      this.props.simpleBuyActions.fetchSBCards()
     }
   }
 

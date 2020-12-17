@@ -58,9 +58,11 @@ class CheckoutConfirm extends PureComponent<Props> {
     if (isSddFlow && this.props.order.paymentType === 'PAYMENT_CARD') {
       if (isUserSddVerified) {
         if (cards && cards.length > 0) {
-          return this.props.simpleBuyActions.setStep({
-            step: '3DS_HANDLER'
-          })
+          const card = cards[0]
+          return this.props.simpleBuyActions.confirmSBCreditCardOrder(
+            card.id,
+            this.props.order
+          )
         }
         return this.props.simpleBuyActions.setStep({
           step: 'ADD_CARD'
