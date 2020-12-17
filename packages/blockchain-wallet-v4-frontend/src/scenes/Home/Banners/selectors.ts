@@ -58,7 +58,7 @@ export const getData = (state): { bannerToShow: BannerType } => {
   } else if (isTier3SDD) {
     bannerToShow = 'continueToGold'
   } else {
-    bannerToShow = 'newCurrency'
+    bannerToShow = null
   }
 
   return {
