@@ -118,8 +118,6 @@ class Checkout extends PureComponent<Props> {
         <Failure
           fiatCurrency={this.props.fiatCurrency}
           simpleBuyActions={this.props.simpleBuyActions}
-          formActions={this.props.formActions}
-          analyticsActions={this.props.analyticsActions}
         />
       ),
       Loading: () => <Loading />,
@@ -142,13 +140,11 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
   ),
-  formActions: bindActionCreators(actions.form, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })

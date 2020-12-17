@@ -83,6 +83,11 @@ export type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
   fiatCurrency: undefined | FiatType
 }
+export type FailurePropsType = {
+  fiatCurrency: undefined | FiatType
+  simpleBuyActions: typeof actions.components.simpleBuy
+}
+
 export type LinkDispatchPropsType = ReturnType<typeof mapDispatchToProps>
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
