@@ -37,6 +37,9 @@ export const setVerificationStep = (
   type: AT.SET_VERIFICATION_STEP,
   payload: { step }
 })
+export const resetVerificationStep = () => ({
+  type: AT.RESET_VERIFICATION_STEP
+})
 
 export const fetchSupportedCountries = () => ({
   type: AT.FETCH_SUPPORTED_COUNTRIES

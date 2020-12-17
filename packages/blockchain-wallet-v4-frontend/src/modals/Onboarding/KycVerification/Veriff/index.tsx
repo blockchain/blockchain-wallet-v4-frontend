@@ -12,13 +12,11 @@ class Veriff extends React.PureComponent<Props> {
   state = { loading: false }
 
   componentDidMount () {
-    const { data, onClose } = this.props
+    const { data } = this.props
     // close the main flyout when veriff iframe takes over
     if (!Remote.Success.is(data)) {
       this.props.actions.fetchVeriffUrl()
-      return onClose()
     }
-    onClose()
   }
 
   componentWillUnmount () {
@@ -32,6 +30,7 @@ class Veriff extends React.PureComponent<Props> {
     }
     if (event === 'CANCELED') {
       this.props.onClose()
+      this.props.kycActions.resetVerificationStep()
     }
   }
 

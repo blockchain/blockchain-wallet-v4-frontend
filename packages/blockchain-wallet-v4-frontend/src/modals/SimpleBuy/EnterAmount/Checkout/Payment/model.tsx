@@ -9,10 +9,11 @@ import {
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType, SBBalancesType, SBPaymentMethodType } from 'core/types'
-import { getBankLogoImageName } from '../../../model'
 import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { Title, Value } from 'components/Flyout'
+
+import { getBankLogoImageName } from '../../../model'
 
 type PaymentContainerProps = {
   isMethod: boolean
@@ -136,22 +137,22 @@ export const renderFund = (
 )
 
 export const getIcon = (
-  value: SBPaymentMethodType | undefined,
+  method: SBPaymentMethodType | undefined,
   isSddFlow: boolean = false
 ): ReactElement => {
-  if (isSddFlow) {
+  if (isSddFlow && !method) {
     return <Icon size='18px' color='blue600' name='credit-card-sb' />
   }
-  if (!value) {
+  if (!method) {
     return (
       <Icon cursor name='plus-in-circle-filled' size='22px' color='blue600' />
     )
   }
 
-  switch (value.type) {
+  switch (method.type) {
     case 'USER_CARD':
       let cardType = CARD_TYPES.find(
-        card => card.type === (value.card ? value.card.type : '')
+        card => card.type === (method.card ? method.card.type : '')
       )
       return (
         <img
@@ -165,22 +166,22 @@ export const getIcon = (
         <Icon
           size='32px'
           color='fiat'
-          name={value.currency.toLowerCase() as keyof IcoMoonType}
+          name={method.currency.toLowerCase() as keyof IcoMoonType}
         />
       )
     case 'BANK_TRANSFER':
-      return <Image name={getBankLogoImageName(value.details?.bankName)} />
+      return <Image name={getBankLogoImageName(method.details?.bankName)} />
     default:
       return <></>
   }
 }
 
 export const getText = (
-  value: SBPaymentMethodType | undefined,
+  method: SBPaymentMethodType | undefined,
   sbBalances: SBBalancesType,
   isSddFlow: boolean = false
 ): ReactElement => {
-  if (isSddFlow) {
+  if (isSddFlow && !method) {
     return (
       <FormattedMessage
         id='modals.simplebuy.confirm.credit_or_debit'
@@ -188,7 +189,7 @@ export const getText = (
       />
     )
   }
-  if (!value) {
+  if (!method) {
     return (
       <FormattedMessage
         id='modals.simplebuy.confirm.jump_to_payment'
@@ -197,9 +198,9 @@ export const getText = (
     )
   }
 
-  return value.type === 'USER_CARD'
-    ? renderCard(value)
-    : value.type === 'BANK_TRANSFER'
-    ? renderBank(value)
-    : renderFund(value, sbBalances)
+  return method.type === 'USER_CARD'
+    ? renderCard(method)
+    : method.type === 'BANK_TRANSFER'
+    ? renderBank(method)
+    : renderFund(method, sbBalances)
 }

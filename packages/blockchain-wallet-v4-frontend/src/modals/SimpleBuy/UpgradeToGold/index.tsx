@@ -21,8 +21,10 @@ class UpgradeToGold extends PureComponent<Props> {
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
-  verifyIdentity: () =>
+  verifyIdentity: () => {
+    dispatch(actions.components.identityVerification.resetVerificationStep())
     dispatch(actions.components.identityVerification.verifyIdentity(2, false))
+  }
 })
 
 const connector = connect(null, mapDispatchToProps)
