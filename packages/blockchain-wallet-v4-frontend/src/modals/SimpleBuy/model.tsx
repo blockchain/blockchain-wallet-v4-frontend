@@ -110,10 +110,6 @@ export const displayFiat = (
 
 export const getBankLogoImageName = bankName => {
   switch (bankName) {
-    case 'Acorns':
-      return 'acorns'
-    case 'Ally':
-      return 'ally'
     case 'Bank Of America':
       return 'bank-of-america'
     case 'BB&T':
@@ -122,28 +118,24 @@ export const getBankLogoImageName = bankName => {
       return 'capital-one'
     case 'Chase':
       return 'chase'
-    case 'Citi Bank':
+    case 'Citibank':
       return 'citi-bank'
     case 'Citizens':
       return 'citizens'
-    case 'Navy Federal':
+    case 'Navy Federal Credit Union':
       return 'navy-federal'
-    case 'PNC':
+    case 'PNC Bank':
       return 'pnc'
-    case 'Regions':
+    case 'Regions Bank':
       return 'regions'
-    case 'Robinhood':
-      return 'robinhood'
-    case 'Suntrust':
+    case 'Suntrust Bank':
       return 'suntrust'
-    case 'TD':
+    case 'TD Ameritrade Inc.':
       return 'td'
     case 'USAA':
       return 'usaa'
-    case 'US Bank':
+    case 'U.S. Bank':
       return 'us-bank'
-    case 'Venmo':
-      return 'venmo'
     case 'Wells Fargo':
       return 'wells-fargo'
     default:
