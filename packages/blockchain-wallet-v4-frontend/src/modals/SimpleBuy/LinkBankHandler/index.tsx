@@ -1,5 +1,6 @@
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import { isEmpty } from 'ramda'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
@@ -26,10 +27,13 @@ class LinkBankHandler extends PureComponent<Props, State> {
     if (event.data.to !== 'sb') return
 
     const { sites } = event.data
-    this.props.simpleBuyActions.fetchBankTransferUpdate(sites)
-    this.props.simpleBuyActions.fetchBTUpdateLoading()
-    // eslint-disable-next-line
-    console.info('YODLEE MSG:', event.data)
+    if (!isEmpty(sites)) {
+      this.props.simpleBuyActions.fetchBankTransferUpdate(sites)
+      this.props.simpleBuyActions.fetchBTUpdateLoading()
+    } else {
+      const { fastLink } = this.props.data.data
+      this.props.simpleBuyActions.setStep({ step: 'LINK_BANK', fastLink })
+    }
   }
 
   handleBackButton = (fastLink: FastLinkType) => {
