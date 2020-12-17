@@ -36,6 +36,7 @@ class CheckoutConfirm extends PureComponent<Props> {
       this.props.simpleBuyActions.fetchSDDEligible()
       this.props.simpleBuyActions.fetchSDDVerified()
       this.props.simpleBuyActions.fetchSBCards()
+      this.props.simpleBuyActions.fetchBankTransferAccounts()
     }
   }
 
