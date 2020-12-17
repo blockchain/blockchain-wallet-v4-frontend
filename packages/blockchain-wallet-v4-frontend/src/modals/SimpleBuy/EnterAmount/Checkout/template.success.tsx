@@ -163,6 +163,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.orderType,
     props.quote,
     props.pair,
+    props.payment,
     props.formValues,
     method,
     props.swapAccount
@@ -173,6 +174,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.orderType,
     props.quote,
     props.pair,
+    props.payment,
     props.formValues,
     method,
     props.swapAccount
@@ -186,6 +188,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       props.orderType,
       props.quote,
       props.pair,
+      props.payment,
       props.formValues,
       method,
       props.swapAccount
