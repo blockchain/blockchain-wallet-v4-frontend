@@ -76,7 +76,7 @@ export const getMaxMin = (
   orderType: SBOrderActionType,
   QUOTE: SBQuoteType | { quote: SwapQuoteType; rate: number },
   pair: SBPairType,
-  payment: undefined | PaymentValue,
+  payment?: PaymentValue,
   allValues?: SBCheckoutFormValuesType,
   method?: SBPaymentMethodType,
   account?: SwapAccountType
@@ -158,7 +158,7 @@ export const getMaxMinSell = (
   orderType: SBOrderActionType,
   quote: { quote: SwapQuoteType; rate: number },
   pair: SBPairType,
-  payment: undefined | PaymentValue,
+  payment?: PaymentValue,
   allValues?: SBCheckoutFormValuesType,
   method?: SBPaymentMethodType,
   account?: SwapAccountType
