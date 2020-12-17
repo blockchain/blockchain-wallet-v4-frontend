@@ -10,6 +10,7 @@ import {
   getFiatFromPair
 } from 'data/components/simpleBuy/model'
 import {
+  PaymentValue,
   SBBalancesType,
   SBOrderActionType,
   SBPairType,
@@ -81,6 +82,7 @@ export const getMaxMin = (
   orderType: SBOrderActionType,
   QUOTE: SBQuoteType | { quote: SwapQuoteType; rate: number },
   pair: SBPairType,
+  payment?: PaymentValue,
   allValues?: SBCheckoutFormValuesType,
   method?: SBPaymentMethodType,
   account?: SwapAccountType,
@@ -159,6 +161,7 @@ export const getMaxMin = (
         orderType,
         quote,
         pair,
+        payment,
         allValues,
         method,
         account
@@ -174,6 +177,7 @@ export const getMaxMinSell = (
   orderType: SBOrderActionType,
   quote: { quote: SwapQuoteType; rate: number },
   pair: SBPairType,
+  payment?: PaymentValue,
   allValues?: SBCheckoutFormValuesType,
   method?: SBPaymentMethodType,
   account?: SwapAccountType
@@ -192,12 +196,14 @@ export const getMaxMinSell = (
             : sbBalances[coin]?.available || '0'
 
           const maxSell = new BigNumber(pair.sellMax)
-
             .dividedBy(rate)
             .toFixed(Currencies[coin].units[coin].decimal_digits)
 
+          const userMax = Number(
+            payment ? payment.effectiveBalance : maxAvailable
+          )
           const maxCrypto = Math.min(
-            Number(convertBaseToStandard(coin, maxAvailable)),
+            Number(convertBaseToStandard(coin, userMax)),
             Number(maxSell)
           ).toString()
           const maxFiat = getQuote(pair.pair, rate, 'CRYPTO', maxCrypto)
@@ -235,6 +241,7 @@ export const maximumAmount = (
     method: selectedMethod,
     orderType,
     pair,
+    payment,
     quote,
     sbBalances,
     swapAccount,
@@ -253,6 +260,7 @@ export const maximumAmount = (
         orderType,
         quote,
         pair,
+        payment,
         allValues,
         method,
         swapAccount,
@@ -276,6 +284,7 @@ export const minimumAmount = (
     method: selectedMethod,
     orderType,
     pair,
+    payment,
     quote,
     sbBalances,
     swapAccount,
@@ -293,6 +302,7 @@ export const minimumAmount = (
         orderType,
         quote,
         pair,
+        payment,
         allValues,
         method,
         swapAccount,

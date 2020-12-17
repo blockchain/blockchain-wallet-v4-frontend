@@ -13,6 +13,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   )
   // used for sell only now, eventually buy as well
   // TODO: use swap2 quote for buy AND sell
+  const paymentR = selectors.components.simpleBuy.getPayment(state)
   const quoteR =
     ownProps.orderType === 'BUY'
       ? selectors.components.simpleBuy.getSBQuote(state)
@@ -30,37 +31,40 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
 
   return lift(
     (
+      cards: ExtractSuccess<typeof cardsR>,
+      payment: ExtractSuccess<typeof paymentR>,
       quote: ExtractSuccess<typeof quoteR>,
       rates: ExtractSuccess<typeof ratesR>,
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
       userData: ExtractSuccess<typeof userDataR>,
       sddEligible: ExtractSuccess<typeof sddEligibleR>,
-      supportedCoins: ExtractSuccess<typeof supportedCoinsR>,
-      userSDDTier: ExtractSuccess<typeof userSDDTierR>,
       sddLimit: ExtractSuccess<typeof sddLimitR>,
-      cards: ExtractSuccess<typeof cardsR>
+      supportedCoins: ExtractSuccess<typeof supportedCoinsR>,
+      userSDDTier: ExtractSuccess<typeof userSDDTierR>
     ) => ({
+      cards,
       coinModel: supportedCoins[coin],
       formErrors,
       isSddFlow: sddEligible.eligible || userSDDTier === 3,
+      payment,
       quote,
       rates,
       sbBalances,
-      supportedCoins,
-      userData,
       sddEligible,
       sddLimit,
-      cards
+      supportedCoins,
+      userData
     })
   )(
+    cardsR,
+    paymentR,
     quoteR,
     ratesR,
     sbBalancesR,
     userDataR,
     sddEligibleR,
-    supportedCoinsR,
-    userSDDTierR,
     sddLimitR,
-    cardsR
+    supportedCoinsR,
+    userSDDTierR
   )
 }
