@@ -47,8 +47,8 @@ const NoMethods = styled(FlyoutWrapper)`
   text-align: center;
 `
 const IconContainer = styled.div`
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background-color: ${props => props.theme.blue000};
   display: flex;
@@ -142,7 +142,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       case 'FUNDS':
         return (
           <Icon
-            size='30px'
+            size='32px'
             color='fiat'
             name={value.currency.toLowerCase() as 'eur' | 'gbp'}
           />

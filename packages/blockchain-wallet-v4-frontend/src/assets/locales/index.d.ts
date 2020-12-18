@@ -1289,7 +1289,7 @@ type MessagesType = {
   'modals.simplebuy.fiataccountineligible': 'your region.'
   'modals.simplebuy.fiatregion': 'your region'
   'modals.simplebuy.gatheringinfo': 'Gathering Some Info...'
-  'modals.simplebuy.link_bank': 'Blockchain.com uses Yodlee to verify your bank credentials & securely link your accounts. link your bank.'
+  'modals.simplebuy.link_bank': 'Blockchain.com uses Yodlee to verify your bank credentials & securely link your accounts.'
   'modals.simplebuy.link_bank_yodlee_terms': "By hitting Continue, you Agree to Yodlee's"
   'modals.simplebuy.secure_connection': 'Secure Connection'
   'modals.simplebuy.yodlee_description': 'Yodlee securely stores your credentials adhering to leading industry practices for data security, regulatory compliance, and privacy.'
