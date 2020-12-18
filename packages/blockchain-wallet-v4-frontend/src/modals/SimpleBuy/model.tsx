@@ -88,7 +88,12 @@ export const getPaymentMethod = (
         `${baseCurrency} Trading Wallet`
       )
     case 'BANK_TRANSFER':
-      const { details: d } = bankAccount
+      const defaultBankInfo = {
+        details: 'Bank Transfer',
+        bankAccountType: '',
+        accountNumber: ''
+      }
+      const d = (bankAccount && bankAccount.details) || defaultBankInfo
       return `${d.bankName} ${d.bankAccountType.toLowerCase()} ${
         d.accountNumber
       }`
