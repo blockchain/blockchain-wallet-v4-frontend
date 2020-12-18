@@ -1,18 +1,21 @@
-import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import { find, isEmpty, pathOr, propEq, propOr } from 'ramda'
+import React, { PureComponent } from 'react'
+
+import { actions, selectors } from 'data'
+import { getValidPaymentMethod } from 'data/components/simpleBuy/model'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { RootState } from 'data/rootReducer'
+import { SBCheckoutFormValuesType, UserDataType } from 'data/types'
+
 import {
   OwnProps as EnterAmountOwnProps,
   SuccessStateType as EnterAmountSuccessStateType
 } from '../index'
-import { find, isEmpty, pathOr, propEq, propOr } from 'ramda'
 import { getData } from './selectors'
-import { getValidPaymentMethod } from 'data/components/simpleBuy/model'
-import { RootState } from 'data/rootReducer'
-import { SBCheckoutFormValuesType, UserDataType } from 'data/types'
 import Failure from '../template.failure'
-import Loading from './template.loading'
-import React, { PureComponent } from 'react'
+import Loading from '../../template.loading'
 import Success from './template.success'
 
 class Checkout extends PureComponent<Props> {
@@ -31,19 +34,25 @@ class Checkout extends PureComponent<Props> {
       this.props.swapAccount,
       cryptoAmount
     )
+
+    if (!Remote.Success.is(this.props.data)) {
+      this.props.simpleBuyActions.fetchSDDEligible()
+      this.props.simpleBuyActions.fetchSBCards()
+    }
   }
 
   handleSubmit = () => {
     // if the user is < tier 2 go to kyc but save order info
     // if the user is tier 2 try to submit order, let BE fail
     const { formValues } = this.props
-    const { userData } = this.props.data.getOrElse({
-      userData: { tiers: { current: 0, next: 0, selected: 0 } } as UserDataType
+    const { isSddFlow, userData } = this.props.data.getOrElse({
+      userData: { tiers: { current: 0, next: 0, selected: 0 } } as UserDataType,
+      isSddFlow: false
     } as SuccessStateType)
     const simpleBuyGoal = find(propEq('name', 'simpleBuy'), this.props.goals)
     const id = propOr('', 'id', simpleBuyGoal)
 
-    !isEmpty(id) && this.props.deleteGoal(id)
+    !isEmpty(id) && this.props.deleteGoal(String(id))
     const method = this.props.method || this.props.defaultMethod
 
     // TODO: sell
@@ -52,7 +61,21 @@ class Checkout extends PureComponent<Props> {
       return this.props.simpleBuyActions.setStep({ step: 'PREVIEW_SELL' })
     }
 
-    if (!method) {
+    if (isSddFlow) {
+      const currentTier = userData?.tiers?.current
+      if (currentTier === 2 || currentTier === 1) {
+        // user in SDD but already completed eligibility check, continue to payment
+        this.props.simpleBuyActions.createSBOrder('PAYMENT_CARD')
+      } else {
+        // user in SDD but needs to confirm KYC and SDD eligibility
+        this.props.identityVerificationActions.verifyIdentity(
+          2,
+          false,
+          true,
+          () => this.props.simpleBuyActions.createSBOrder('PAYMENT_CARD')
+        )
+      }
+    } else if (!method) {
       const fiatCurrency = this.props.fiatCurrency || 'USD'
       this.props.simpleBuyActions.setStep({
         step: 'PAYMENT_METHODS',
@@ -80,6 +103,8 @@ class Checkout extends PureComponent<Props> {
           break
         case 'BANK_ACCOUNT':
           break
+        default:
+          break
       }
     }
   }
@@ -93,8 +118,6 @@ class Checkout extends PureComponent<Props> {
         <Failure
           fiatCurrency={this.props.fiatCurrency}
           simpleBuyActions={this.props.simpleBuyActions}
-          formActions={this.props.formActions}
-          analyticsActions={this.props.analyticsActions}
         />
       ),
       Loading: () => <Loading />,
@@ -112,17 +135,16 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
     | SBCheckoutFormValuesType
     | undefined,
   goals: selectors.goals.getGoals(state),
-  preferences: selectors.preferences.getSBCheckoutPreferences(state)
+  preferences: selectors.preferences.getSBCheckoutPreferences(state),
+  sbOrders: selectors.components.simpleBuy.getSBOrders(state).getOrElse([])
 })
 
 const mapDispatchToProps = dispatch => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  deleteGoal: id => dispatch(actions.goals.deleteGoal(id)),
+  deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
   ),
-  formActions: bindActionCreators(actions.form, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })

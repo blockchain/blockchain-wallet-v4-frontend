@@ -30,6 +30,12 @@ export function identityVerificationReducer (
         verificationStep: action.payload.step
       }
     }
+    case AT.RESET_VERIFICATION_STEP: {
+      return {
+        ...state,
+        verificationStep: null
+      }
+    }
     case AT.SET_SMS_STEP: {
       return {
         ...state,

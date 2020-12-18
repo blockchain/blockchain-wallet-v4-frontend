@@ -1,4 +1,3 @@
-import * as AT from './actionTypes'
 import {
   CoinType,
   Everypay3DSResponseType,
@@ -17,17 +16,24 @@ import {
   SBPaymentMethodType,
   SBProviderDetailsType,
   SBQuoteType,
+  SDDEligibleType,
+  SDDVerifiedType,
   SwapOrderType,
   SwapQuoteType
 } from 'core/types'
+
+import * as AT from './actionTypes'
+import { CountryType } from './../identityVerification/types'
 import { SwapAccountType } from '../swap/types'
 
 // Types
 export type SBAddCardFormValuesType = {
+  billingaddress?: SBBillingAddressFormValuesType
   'card-number': string
   cvc: string
   'expiry-date': string
   'name-on-card': string
+  sameAsBillingAddress?: boolean
 }
 export type SBAddCardErrorType =
   | 'PENDING_CARD_AFTER_POLL'
@@ -36,6 +42,14 @@ export type SBAddCardErrorType =
   | 'CARD_CREATION_FAILED'
   | 'CARD_ALREADY_SAVED'
 export type SBBillingAddressFormValuesType = NabuAddressType
+export type SBBillingAddressFormSDDType = {
+  country: CountryType
+} & NabuAddressType['country']
+
+export type SBVerifyEmailFormValuesType = {
+  email: string
+}
+
 export type SBCheckoutFormValuesType =
   | undefined
   | {
@@ -49,20 +63,21 @@ export type SBCurrencySelectFormType = {
 }
 export type SBFixType = 'CRYPTO' | 'FIAT'
 export enum SimpleBuyStepType {
-  'CURRENCY_SELECTION',
+  '3DS_HANDLER',
+  'ADD_CARD',
+  'CANCEL_ORDER',
+  'CC_BILLING_ADDRESS',
+  'CHECKOUT_CONFIRM',
   'CRYPTO_SELECTION',
   'ENTER_AMOUNT',
+  'KYC_REQUIRED',
   'PAYMENT_METHODS',
-  'ORDER_SUMMARY',
   'PREVIEW_SELL',
-  'CHECKOUT_CONFIRM',
+  'ORDER_SUMMARY',
   'SELL_ORDER_SUMMARY',
-  'ADD_CARD',
-  'CC_BILLING_ADDRESS',
-  '3DS_HANDLER',
   'TRANSFER_DETAILS',
-  'CANCEL_ORDER',
-  'KYC_REQUIRED'
+  'UPGRADE_TO_GOLD',
+  'VERIFY_EMAIL'
 }
 export type SBShowModalOriginType =
   | 'EmptyFeed'
@@ -101,6 +116,8 @@ export type SimpleBuyState = {
   payment: RemoteDataType<string, undefined | PaymentValue>
   providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
+  sddEligible: RemoteDataType<string, SDDEligibleType>
+  sddVerified: RemoteDataType<string, SDDVerifiedType>
   sellOrder: undefined | SwapOrderType
   sellQuote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>
   step: keyof typeof SimpleBuyStepType
@@ -209,7 +226,36 @@ interface FetchSBFiatEligibleSuccess {
   }
   type: typeof AT.FETCH_SB_FIAT_ELIGIBLE_SUCCESS
 }
-
+interface FetchSDDEligibleFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_SDD_ELIGIBILITY_FAILURE
+}
+interface FetchSDDEligibleLoading {
+  type: typeof AT.FETCH_SDD_ELIGIBILITY_LOADING
+}
+interface FetchSDDEligibleSuccess {
+  payload: {
+    sddEligible: SDDEligibleType
+  }
+  type: typeof AT.FETCH_SDD_ELIGIBILITY_SUCCESS
+}
+interface FetchSDDVerifiedFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_SDD_VERIFIED_FAILURE
+}
+interface FetchSDDVerifiedLoading {
+  type: typeof AT.FETCH_SDD_VERIFIED_LOADING
+}
+interface FetchSDDVerifiedSuccess {
+  payload: {
+    sddVerified: SDDVerifiedType
+  }
+  type: typeof AT.FETCH_SDD_VERIFIED_SUCCESS
+}
 interface FetchSBOrdersFailure {
   payload: {
     error: string
@@ -332,7 +378,7 @@ export type StepActionsPayload =
       order?: SBOrderType
       orderType?: SBOrderActionType
       pair: SBPairType
-      step: 'ENTER_AMOUNT'
+      step: 'ENTER_AMOUNT' | 'VERIFY_EMAIL'
       swapAccount?: SwapAccountType
     }
   | {
@@ -358,10 +404,10 @@ export type StepActionsPayload =
   | {
       step:
         | 'ADD_CARD'
-        | 'CURRENCY_SELECTION'
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'PREVIEW_SELL'
+        | 'UPGRADE_TO_GOLD'
     }
 
 interface SetStepAction {
@@ -429,6 +475,12 @@ export type SimpleBuyActionTypes =
   | FetchSBQuoteFailure
   | FetchSBQuoteLoading
   | FetchSBQuoteSuccess
+  | FetchSDDEligibleLoading
+  | FetchSDDEligibleFailure
+  | FetchSDDEligibleSuccess
+  | FetchSDDVerifiedFailure
+  | FetchSDDVerifiedLoading
+  | FetchSDDVerifiedSuccess
   | FetchSellQuoteFailure
   | FetchSellQuoteLoading
   | FetchSellQuoteSuccess

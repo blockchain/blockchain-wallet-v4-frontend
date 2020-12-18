@@ -49,7 +49,6 @@ export const getSupportedCoins = createDeepEqualSelector(
       const invited = invitationsR.map(propOr(true, coin)).getOrElse(false)
       return set(lensProp('invited'), invited, obj)
     }
-
     // @ts-ignore
     return webOptionsR.map(prop('coins')).map(mapObjIndexed(addInvited))
   }

@@ -1,5 +1,3 @@
-import * as C from 'services/AlertService'
-import { actions, model, selectors } from 'data'
 import {
   all,
   call,
@@ -22,6 +20,12 @@ import {
   sum,
   values
 } from 'ramda'
+import base64 from 'base-64'
+import BigNumber from 'bignumber.js'
+import bip21 from 'bip21'
+
+import * as C from 'services/AlertService'
+import { actions, model, selectors } from 'data'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import {
@@ -30,12 +34,10 @@ import {
   getXlmBalance,
   waitForAllBalances
 } from 'data/balance/sagas'
-import { GoalsType } from './types'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
-import base64 from 'base-64'
-import BigNumber from 'bignumber.js'
-import bip21 from 'bip21'
-import profileSagas from 'data/modules/profile/sagas.ts'
+import profileSagas from 'data/modules/profile/sagas'
+
+import { GoalsType } from './types'
 
 const { TRANSACTION_EVENTS } = model.analytics
 
@@ -235,11 +237,7 @@ export default ({ api, coreSagas, networks }) => {
       )).getOrElse({ current: 0 }) || { current: 0 }
       if (current >= Number(tier)) return
       yield put(
-        actions.components.identityVerification.verifyIdentity(
-          tier,
-          false,
-          'RunKycGoal'
-        )
+        actions.components.identityVerification.verifyIdentity(tier, false)
       )
     } catch (err) {
       yield put(
@@ -275,17 +273,9 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const runReferralGoal = function * (goal) {
-    const { id, data } = goal
+    const { id } = goal
     yield put(actions.goals.deleteGoal(id))
-
-    switch (data.name) {
-      case 'sunriver':
-        yield put(actions.goals.addInitialModal('sunriver', 'SunRiverWelcome'))
-        yield put(actions.modules.profile.setCampaign(data))
-        break
-      default:
-        break
-    }
+    // use this for future airdrop referrals
   }
 
   const runPaymentProtocolGoal = function * (goal) {
@@ -504,7 +494,7 @@ export default ({ api, coreSagas, networks }) => {
     )).getOrElse(false)
     if (closeToTier1Limit)
       return yield put(
-        actions.goals.addInitialModal('swapUpgrade', 'SwapUpgrade', {
+        actions.goals.addInitialModal('swapUpgrade', 'KycTierUpgrade', {
           nextTier: TIERS[2],
           currentTier: TIERS[1]
         })
@@ -572,27 +562,11 @@ export default ({ api, coreSagas, networks }) => {
 
   const runWelcomeModal = function * (goal) {
     const { id, data } = goal
+    const { firstLogin } = data
     yield put(actions.goals.deleteGoal(id))
 
-    const { firstLogin } = data
-    const invitationsR = yield select(selectors.core.settings.getInvitations)
-    const invitations = invitationsR.getOrElse({ simpleBuy: false })
-    const sbInvited = invitations && invitations.simpleBuy
-
     if (firstLogin) {
-      yield put(
-        actions.goals.addInitialModal('welcomeModal', 'WELCOME_MODAL', {
-          sbInvited
-        })
-      )
-    } else {
-      yield put(
-        actions.logs.logInfoMessage(
-          logLocation,
-          'runWelcomeModal',
-          'login success'
-        )
-      )
+      yield put(actions.goals.addInitialModal('welcomeModal', 'WELCOME_MODAL'))
     }
   }
 
@@ -639,7 +613,6 @@ export default ({ api, coreSagas, networks }) => {
       linkAccount,
       payment,
       simpleBuyModal,
-      sunriver,
       swapGetStarted,
       swapUpgrade,
       upgradeForAirdrop,
@@ -665,9 +638,6 @@ export default ({ api, coreSagas, networks }) => {
           origin: 'KycDocResubmitGoal'
         })
       )
-    }
-    if (sunriver) {
-      // return yield put(actions.modals.showModal(sunriver.name, sunriver.data))
     }
     if (payment) {
       return yield put(actions.modals.showModal(payment.name, payment.data))

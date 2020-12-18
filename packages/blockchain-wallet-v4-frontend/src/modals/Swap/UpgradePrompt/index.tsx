@@ -114,9 +114,7 @@ const UpgradePrompt: React.FC<Props> = props => {
           nature='primary'
           data-e2e='swapVerify'
           height='48px'
-          onClick={() =>
-            props.idvActions.verifyIdentity(2, false, 'SwapPrompt')
-          }
+          onClick={() => props.idvActions.verifyIdentity(2, false)}
           fullwidth
         >
           <FormattedMessage

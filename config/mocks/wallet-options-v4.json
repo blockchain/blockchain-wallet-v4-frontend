@@ -332,7 +332,6 @@
           "contractAddress": "0x123151402076fc819B7564510989e475c9cD93CA",
           "displayName": "Wrapped-DGLD",
           "hasLockboxSupport": false,
-          "showNewTagSidenav": true,
           "icons": {
             "default": "wdgld",
             "circle": "wdgld",

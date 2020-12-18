@@ -1,18 +1,19 @@
+import { assoc, find, is, prop, propEq } from 'ramda'
+import { call, delay, fork, put, select, take } from 'redux-saga/effects'
+
 import * as C from 'services/AlertService'
 import * as CC from 'services/ConfirmService'
-import { actions, actionTypes, model, selectors } from 'data'
+import { actions, actionTypes, selectors } from 'data'
 import {
   askSecondPasswordEnhancer,
   confirm,
   forceSyncWallet,
   promptForSecondPassword
 } from 'services/SagaService'
-import { assoc, find, is, prop, propEq } from 'ramda'
-import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 import { Remote } from 'blockchain-wallet-v4/src'
 
-const { AB_TESTS } = model.analytics
+import { guessCurrencyBasedOnCountry } from './helpers'
 
 export const logLocation = 'auth/sagas'
 
@@ -85,11 +86,7 @@ export default ({ api, coreSagas }) => {
       actionTypes.components.identityVerification
         .SET_SUPPORTED_COUNTRIES_FAILURE
     ])
-    const userFlowSupported = (yield select(
-      selectors.modules.profile.userFlowSupported
-    )).getOrElse(false)
-
-    if (userFlowSupported) yield put(actions.modules.profile.signIn())
+    yield put(actions.modules.profile.signIn())
   }
 
   const fetchBalances = function * () {
@@ -129,24 +126,13 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.data.xlm.fetchData)
 
       if (firstLogin) {
-        const showVerifyEmailR = yield select(
-          selectors.analytics.selectAbTest(AB_TESTS.VERIFY_EMAIL)
-        )
+        const countryCode = navigator.language.slice(-2) || 'US'
+        const currency = guessCurrencyBasedOnCountry(countryCode)
 
-        if (Remote.Success.is(showVerifyEmailR)) {
-          const showVerifyEmail = showVerifyEmailR.getOrElse({})
-          if (
-            showVerifyEmail &&
-            showVerifyEmail.command &&
-            showVerifyEmail.command === 'verify-email'
-          ) {
-            yield put(actions.router.push('/verify-email-step'))
-          } else {
-            yield put(actions.router.push('/home'))
-          }
-        } else {
-          yield put(actions.router.push('/home'))
-        }
+        yield put(actions.core.settings.setCurrency(currency))
+        // fetch settings again
+        yield call(coreSagas.settings.fetchSettings)
+        yield put(actions.router.push('/verify-email-step'))
       } else {
         yield put(actions.router.push('/home'))
       }
@@ -238,7 +224,7 @@ export default ({ api, coreSagas }) => {
       yield call(api.checkExchangeUsage, defaultAccount.xpub)
     } catch (e) {
       // eslint-disable-next-line
-      console.log(e)
+      // console.log(e)
     }
   }
   const pollingSession = function * (session, n = 50) {
@@ -513,20 +499,15 @@ export default ({ api, coreSagas }) => {
     yield call(logout)
   }
   const logout = function * () {
-    const isEmailVerified = yield select(
+    const isEmailVerified = (yield select(
       selectors.core.settings.getEmailVerified
-    )
-    const userFlowSupported = (yield select(
-      selectors.modules.profile.userFlowSupported
-    )).getOrElse(false)
-    if (userFlowSupported) {
-      yield put(actions.modules.profile.clearSession())
-      yield put(actions.middleware.webSocket.rates.stopSocket())
-    }
+    )).getOrElse(0)
+    yield put(actions.modules.profile.clearSession())
+    yield put(actions.middleware.webSocket.rates.stopSocket())
     yield put(actions.middleware.webSocket.coins.stopSocket())
     yield put(actions.middleware.webSocket.xlm.stopStreams())
     // only show browser de-auth page to accounts with verified email
-    isEmailVerified.getOrElse(0)
+    isEmailVerified
       ? yield put(actions.router.push('/logout'))
       : yield logoutClearReduxStore()
     yield put(actions.analytics.stopSession())

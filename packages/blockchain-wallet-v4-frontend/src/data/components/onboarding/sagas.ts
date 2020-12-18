@@ -40,11 +40,7 @@ export default () => {
       yield put(actions.preferences.hideKycGetStarted())
       yield put(actions.modals.closeModal())
       yield put(
-        actions.components.identityVerification.verifyIdentity(
-          1,
-          false,
-          'SwapGetStarted'
-        )
+        actions.components.identityVerification.verifyIdentity(1, false)
       )
     } catch (e) {
       yield put(

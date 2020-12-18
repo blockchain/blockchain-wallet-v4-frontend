@@ -1,6 +1,7 @@
 import { anyPass, equals } from 'ramda'
 import { model, selectors } from 'data'
 import { SBOrderType } from 'core/types'
+import { UserDataType } from 'data/types'
 
 const { GENERAL, EXPIRED } = model.profile.DOC_RESUBMISSION_REASONS
 export type BannerType =
@@ -8,9 +9,9 @@ export type BannerType =
   | 'sbOrder'
   | 'finishKyc'
   | 'coinifyToSb'
-  | 'verifiedKyc'
-  | 'noneKyc'
   | 'newCurrency'
+  | 'buyCrypto'
+  | 'continueToGold'
 
 export const getData = (state): { bannerToShow: BannerType } => {
   // @ts-ignore
@@ -18,11 +19,8 @@ export const getData = (state): { bannerToShow: BannerType } => {
     .getKycDocResubmissionStatus(state)
     .map(anyPass([equals(GENERAL), equals(EXPIRED)]))
     .getOrElse(false)
-
-  // const balancesR = selectors.components.simpleBuy.getSBBalances(state)
   const ordersR = selectors.components.simpleBuy.getSBOrders(state)
   const orders: Array<SBOrderType> = ordersR.getOrElse([])
-  // const balances = balancesR.getOrElse({})
   const isSimpleBuyOrderPending = orders.find(
     order =>
       order.state === 'PENDING_CONFIRMATION' ||
@@ -30,7 +28,6 @@ export const getData = (state): { bannerToShow: BannerType } => {
   )
 
   const isUserActive =
-    // @ts-ignore
     selectors.modules.profile.getUserActivationState(state).getOrElse('') !==
     'NONE'
   const isKycStateNone =
@@ -38,35 +35,30 @@ export const getData = (state): { bannerToShow: BannerType } => {
     selectors.modules.profile.getUserKYCState(state).getOrElse('') === 'NONE'
   const isFirstLogin = selectors.auth.getFirstLogin(state)
 
-  // const isKycGold =
-  //   // @ts-ignore
-  //   selectors.modules.profile.getUserKYCState(state).getOrElse('') ===
-  //   'VERIFIED'
+  const userDataR = selectors.modules.profile.getUserData(state)
+  const userData = userDataR.getOrElse({
+    tiers: { current: 0 }
+  } as UserDataType)
 
-  // const coins = selectors.components.utils
-  //   .getSupportedCoinsWithMethodAndOrder(state)
-  //   .getOrElse([])
+  const sddEligibleTier = selectors.components.simpleBuy
+    .getUserSddEligibleTier(state)
+    .getOrElse(1)
 
-  // const methodWithNoBalance = coins.filter(
-  //   coin =>
-  //     coin.coinCode in FiatTypeEnum &&
-  //     coin.method &&
-  //     !balances[coin.coinCode as WalletCurrencyType]
-  // ).length
+  const isTier3SDD = sddEligibleTier === 3
 
   let bannerToShow
-  if (showDocResubmitBanner) {
+  if (showDocResubmitBanner && !isTier3SDD) {
     bannerToShow = 'resubmit'
-  } else if (isSimpleBuyOrderPending) {
+  } else if (isSimpleBuyOrderPending && !isTier3SDD) {
     bannerToShow = 'sbOrder'
-  } else if (isKycStateNone && isUserActive && !isFirstLogin) {
+  } else if (isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD) {
     bannerToShow = 'finishKyc'
-    // } else if (isKycStateNone && methodWithNoBalance) {
-    //   bannerToShow = 'noneKyc'
-    // } else if (isKycGold && methodWithNoBalance) {
-    //   bannerToShow = 'verifiedKyc'
+  } else if (isFirstLogin && (userData?.tiers?.current < 2 || isKycStateNone)) {
+    bannerToShow = 'buyCrypto'
+  } else if (isTier3SDD) {
+    bannerToShow = 'continueToGold'
   } else {
-    bannerToShow = 'newCurrency'
+    bannerToShow = null
   }
 
   return {

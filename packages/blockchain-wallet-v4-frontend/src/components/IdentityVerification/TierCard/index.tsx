@@ -198,11 +198,7 @@ export const TierCard = ({
             fullwidth
             nature='primary'
             onClick={() =>
-              identityVerificationActions.verifyIdentity(
-                tier,
-                false,
-                'SettingsProfile'
-              )
+              identityVerificationActions.verifyIdentity(tier, false)
             }
             data-e2e={`continueKycTier${tier}Btn`}
           >

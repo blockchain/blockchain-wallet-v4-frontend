@@ -9,7 +9,9 @@ const INITIAL_STATE: TransferEthState = {
 export function transferEthReducer (state = INITIAL_STATE, action) {
   switch (action.type) {
     case AT.TRANSFER_ETH_INITIALIZED:
-      return INITIAL_STATE
+      return {
+        payment: Remote.NotAsked
+      }
     case AT.TRANSFER_ETH_PAYMENT_UPDATED_LOADING: {
       return {
         ...state,

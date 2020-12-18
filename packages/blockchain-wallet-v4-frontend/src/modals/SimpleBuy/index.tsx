@@ -1,5 +1,9 @@
-import { actions, selectors } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
+import { find, isEmpty, propEq, propOr } from 'ramda'
+import React, { PureComponent } from 'react'
+
+import { actions, selectors } from 'data'
 import {
   CoinType,
   FiatType,
@@ -9,33 +13,32 @@ import {
   SBPaymentMethodType,
   SwapOrderType
 } from 'core/types'
-import { connect, ConnectedProps } from 'react-redux'
-import { find, isEmpty, propEq, propOr } from 'ramda'
-import { getData } from './selectors'
 import { GoalsType } from 'data/goals/types'
-import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
 import { SimpleBuyStepType } from 'data/types'
+import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import ModalEnhancer from 'providers/ModalEnhancer'
+
+import { getData } from './selectors'
+import { ModalPropsType } from '../types'
 import AddCard from './AddCard'
 import BillingAddress from './BillingAddress'
 import CancelOrder from './CancelOrder'
 import CheckoutConfirm from './CheckoutConfirm'
 import CryptoSelection from './CryptoSelection'
-import CurrencySelection from './CurrencySelection'
 import EnterAmount from './EnterAmount'
-import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import KycRequired from './KycRequired'
-import ModalEnhancer from 'providers/ModalEnhancer'
 import OrderSummary from './OrderSummary'
 import PaymentMethods from './PaymentMethods'
-import React, { PureComponent } from 'react'
+import PreviewSell from './PreviewSell'
 import SellOrderSummary from './SellOrderSummary'
 import ThreeDSHandler from './ThreeDSHandler'
 import TransferDetails from './TransferDetails'
+import UpgradeToGold from './UpgradeToGold'
+import VerifyEmail from './VerifyEmail'
 
 import Loading from './template.loading'
 import Pending from './template.pending'
-import PreviewSell from './PreviewSell'
 import Rejected from './template.rejected'
 
 class SimpleBuy extends PureComponent<Props, State> {
@@ -71,8 +74,7 @@ class SimpleBuy extends PureComponent<Props, State> {
   handleClose = () => {
     this.setState({ show: false })
     const simpleBuyGoal = find(propEq('name', 'simpleBuy'), this.props.goals)
-    const goalID = propOr('', 'id', simpleBuyGoal)
-    this.props.preferenceActions.setSBFiatCurrency(this.props.localCurrency)
+    const goalID = propOr('', 'id', simpleBuyGoal) as string
     !isEmpty(goalID) && this.props.deleteGoal(goalID)
     setTimeout(() => {
       this.props.close()
@@ -123,14 +125,6 @@ class SimpleBuy extends PureComponent<Props, State> {
             direction={this.state.direction}
             data-e2e='simpleBuyModal'
           >
-            {this.props.step === 'CURRENCY_SELECTION' && (
-              <FlyoutChild>
-                <CurrencySelection
-                  {...this.props}
-                  handleClose={this.handleClose}
-                />
-              </FlyoutChild>
-            )}
             {this.props.step === 'ENTER_AMOUNT' && (
               <FlyoutChild>
                 <EnterAmount {...this.props} handleClose={this.handleClose} />
@@ -186,7 +180,7 @@ class SimpleBuy extends PureComponent<Props, State> {
                 <OrderSummary {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
-            {/* 
+            {/*
                 used for sell only now, eventually buy as well
                 TODO: use swap2 quote for buy AND sell
             */}
@@ -219,6 +213,16 @@ class SimpleBuy extends PureComponent<Props, State> {
             {this.props.step === 'KYC_REQUIRED' && (
               <FlyoutChild>
                 <KycRequired {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
+            {this.props.step === 'VERIFY_EMAIL' && (
+              <FlyoutChild>
+                <VerifyEmail {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
+            {this.props.step === 'UPGRADE_TO_GOLD' && (
+              <FlyoutChild>
+                <UpgradeToGold {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
           </Flyout>
@@ -268,7 +272,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  deleteGoal: id => dispatch(actions.goals.deleteGoal(id)),
+  deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),
   formActions: bindActionCreators(actions.form, dispatch),
   preferenceActions: bindActionCreators(actions.preferences, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
@@ -293,11 +297,11 @@ export type LinkDispatchPropsType = {
 type LinkStatePropsType =
   | {
       step:
-        | 'CURRENCY_SELECTION'
         | 'CRYPTO_SELECTION'
         | '3DS_HANDLER'
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
+        | 'UPGRADE_TO_GOLD'
     }
   | {
       orderType: SBOrderActionType
@@ -328,7 +332,7 @@ type LinkStatePropsType =
       order?: SBOrderType
       orderType: SBOrderActionType
       pair: SBPairType
-      step: 'ENTER_AMOUNT'
+      step: 'ENTER_AMOUNT' | 'VERIFY_EMAIL'
     }
   | {
       order: SBOrderType

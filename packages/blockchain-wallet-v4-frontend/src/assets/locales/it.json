@@ -1256,7 +1256,6 @@
   "modals.identityverification.steps.coinify": "account",
   "modals.identityverification.steps.mobile": "Telefono",
   "modals.identityverification.steps.more_info": "Info",
-  "modals.identityverification.steps.personal": "Personale",
   "modals.identityverification.steps.submitted": "Inserito",
   "modals.identityverification.steps.verify": "Verifica",
   "modals.import.privatekeys.tooltip": "Il formato della chiave privata deve essere compresso WIF. Se stai importando una chiave privata in un formato non compresso, convertila in compressa prima dell'importazione.",

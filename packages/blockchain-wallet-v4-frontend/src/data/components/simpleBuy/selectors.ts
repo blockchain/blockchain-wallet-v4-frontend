@@ -1,21 +1,31 @@
+import { head, isEmpty, lift } from 'ramda'
+import BigNumber from 'bignumber.js'
+
+import {
+  ExtractSuccess,
+  FiatTypeEnum,
+  SBPaymentMethodType,
+  SDDLimits
+} from 'blockchain-wallet-v4/src/types'
+import { FiatType } from 'core/types'
+import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/validation'
+import { RootState } from 'data/rootReducer'
+import { selectors } from 'data'
+
 import {
   convertBaseToStandard,
   convertStandardToBase
 } from '../exchange/services'
-import {
-  ExtractSuccess,
-  FiatTypeEnum,
-  SBPaymentMethodType
-} from 'blockchain-wallet-v4/src/types'
-import { FiatType } from 'core/types'
 import { getInputFromPair, getOutputFromPair } from '../swap/model'
-import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/validation'
 import { getRate } from '../swap/utils'
-import { head, isEmpty, lift } from 'ramda'
-import { RootState } from 'data/rootReducer'
 import { SBCheckoutFormValuesType } from './types'
-import { selectors } from 'data'
-import BigNumber from 'bignumber.js'
+
+const SDD_LIMIT = { min: '500', max: '10000' } as SDDLimits
+
+const hasEligibleFiatCurrency = currency =>
+  currency === FiatTypeEnum.USD ||
+  currency === FiatTypeEnum.GBP ||
+  currency === FiatTypeEnum.EUR
 
 export const getAddBank = (state: RootState) =>
   state.components.simpleBuy.addBank
@@ -36,7 +46,7 @@ export const getDisplayBack = (state: RootState) =>
   state.components.simpleBuy.displayBack
 
 export const getFiatCurrency = (state: RootState) =>
-  state.components.simpleBuy.fiatCurrency || state.preferences.sbFiatCurrency
+  state.components.simpleBuy.fiatCurrency
 
 export const eligableFiatCurrency = currency =>
   currency === FiatTypeEnum.USD ||
@@ -67,7 +77,7 @@ export const getDefaultPaymentMethod = (state: RootState) => {
     switch (actionType) {
       case 'SELL':
         let fiatCurrencyToUse = fiatCurrency
-        if (!eligableFiatCurrency(fiatCurrencyToUse)) {
+        if (!hasEligibleFiatCurrency(fiatCurrencyToUse)) {
           const currenciesToUse = [
             FiatTypeEnum.USD,
             FiatTypeEnum.GBP,
@@ -124,8 +134,9 @@ export const getDefaultPaymentMethod = (state: RootState) => {
           case 'USER_CARD':
           case undefined:
             return undefined
+          default:
+            break
         }
-        break
     }
   }
 
@@ -174,6 +185,9 @@ export const getSBLatestPendingOrder = (state: RootState) =>
     )
   })
 
+export const getSellQuote = (state: RootState) =>
+  state.components.simpleBuy.sellQuote
+
 export const getSellOrder = (state: RootState) =>
   state.components.simpleBuy.sellOrder
 
@@ -187,9 +201,6 @@ export const getSwapAccount = (state: RootState) =>
 // TODO: use swap2 quote for buy AND sell
 export const getPayment = (state: RootState) =>
   state.components.simpleBuy.payment
-
-export const getSellQuote = (state: RootState) =>
-  state.components.simpleBuy.sellQuote
 
 export const getIncomingAmount = (state: RootState) => {
   const quoteR = getSellQuote(state)
@@ -218,4 +229,41 @@ export const getIncomingAmount = (state: RootState) => {
       isNegative
     }
   })(quoteR)
+}
+
+export const getSddEligible = (state: RootState) =>
+  state.components.simpleBuy.sddEligible
+
+export const isUserSddEligible = (state: RootState) => {
+  const sddEligibleR = getSddEligible(state)
+  return lift(
+    (sddEligible: ExtractSuccess<typeof sddEligibleR>) => !sddEligible.eligible
+  )(sddEligibleR)
+}
+export const getUserSddEligibleTier = (state: RootState) => {
+  const sddEligibleR = getSddEligible(state)
+  return lift(
+    (sddEligible: ExtractSuccess<typeof sddEligibleR>) => sddEligible.tier
+  )(sddEligibleR)
+}
+
+export const getUserSddELimit = (state: RootState) => {
+  const sbMethodsR = getSBPaymentMethods(state)
+  return lift((sbMethods: ExtractSuccess<typeof sbMethodsR>) => {
+    const paymentMethod = sbMethods.methods.find(
+      method => method.type === 'PAYMENT_CARD'
+    )
+    return paymentMethod?.limits || SDD_LIMIT
+  })(sbMethodsR)
+}
+
+export const getSddVerified = (state: RootState) =>
+  state.components.simpleBuy.sddVerified
+
+export const isUserSddVerified = (state: RootState) => {
+  const sddVerifiedR = getSddVerified(state)
+  return lift(
+    (sddVerified: ExtractSuccess<typeof sddVerifiedR>) =>
+      sddVerified.taskComplete && sddVerified.verified
+  )(sddVerifiedR)
 }

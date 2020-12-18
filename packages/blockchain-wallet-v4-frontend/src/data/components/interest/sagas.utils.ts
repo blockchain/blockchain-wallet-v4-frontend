@@ -1,5 +1,5 @@
 import { call, CallEffect, put, select } from 'redux-saga/effects'
-import { head, nth } from 'ramda'
+import { head, isNil, nth } from 'ramda'
 
 import {
   AccountTypes,
@@ -41,9 +41,17 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       if (coin === 'XLM') {
         // separate out addresses and memo
         const depositAddressMemo = destination.split(':')
+        const txMemo = depositAddressMemo[1]
+        // throw error if we cant parse the memo for tx
+        if (
+          isNil(txMemo) ||
+          (typeof txMemo === 'string' && txMemo.length === 0)
+        ) {
+          throw new Error('Memo for transaction is missing')
+        }
         payment = yield payment.to(depositAddressMemo[0], 'CUSTODIAL')
         // @ts-ignore
-        payment = yield payment.memo(depositAddressMemo[1])
+        payment = yield payment.memo(txMemo)
         // @ts-ignore
         payment = yield payment.memoType('text')
         // @ts-ignore

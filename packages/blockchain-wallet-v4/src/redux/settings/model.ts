@@ -10,13 +10,5 @@ export const DEFAULT_INVITATIONS: InvitationsType = {
   XLM: true,
   USDT: true,
   WDGLD: true,
-  interest: true,
-  borrow: true,
-  coinify: true,
-  kyc: true,
-  simpleBuy: true,
-  simpleSell: true,
-  simpleSell2dot0: false,
-  simpleBuyCC: true,
-  swap2dot0: false
+  simpleSell2dot0: false
 }

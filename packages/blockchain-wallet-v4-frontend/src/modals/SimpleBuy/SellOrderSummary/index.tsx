@@ -1,12 +1,14 @@
-import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import React, { PureComponent } from 'react'
+
+import { actions } from 'data'
 import { ExtractSuccess, RemoteDataType } from 'core/types'
-import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
-import Loading from '../AddCard/template.loading'
-import React, { PureComponent } from 'react'
+
+import { getData } from './selectors'
+import Loading from '../template.loading'
 import Success from './template.success'
 
 // This is a new order summary created for sell p3. Order type looks like what is currently a swap order type rather than an SB order type

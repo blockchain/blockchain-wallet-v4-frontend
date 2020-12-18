@@ -14,7 +14,6 @@ export function recoveryPhraseReducer (
       ...state,
       step: action.payload.step
     }
-  } else {
-    return state
   }
+  return state
 }

@@ -1,15 +1,17 @@
-import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import React, { memo } from 'react'
+import styled from 'styled-components'
+
+import { actions } from 'data'
+
 import { getData } from './selectors'
+import BuyCrypto from './BuyCrypto'
+import ContinueToGold from './ContinueToGold'
 import FinishKyc from './FinishKyc'
 import KycResubmit from './KycResubmit'
 import NewCurrency from './NewCurrency'
-import NoneKyc from './NoneKyc'
-import React from 'react'
 import SBOrderBanner from './SBOrderBanner'
-import styled from 'styled-components'
-import VerifiedKyc from './VerifiedKyc'
 
 const BannerWrapper = styled.div`
   margin-bottom: 25px;
@@ -19,6 +21,7 @@ const BannerWrapper = styled.div`
 class Banners extends React.PureComponent<Props> {
   componentDidMount () {
     this.props.simpleBuyActions.fetchSBOrders()
+    this.props.simpleBuyActions.fetchSDDEligible()
   }
 
   render () {
@@ -43,22 +46,22 @@ class Banners extends React.PureComponent<Props> {
             <SBOrderBanner />
           </BannerWrapper>
         )
-      case 'noneKyc':
-        return (
-          <BannerWrapper>
-            <NoneKyc />
-          </BannerWrapper>
-        )
-      case 'verifiedKyc':
-        return (
-          <BannerWrapper>
-            <VerifiedKyc />
-          </BannerWrapper>
-        )
       case 'newCurrency':
         return (
           <BannerWrapper>
             <NewCurrency />
+          </BannerWrapper>
+        )
+      case 'buyCrypto':
+        return (
+          <BannerWrapper>
+            <BuyCrypto />
+          </BannerWrapper>
+        )
+      case 'continueToGold':
+        return (
+          <BannerWrapper>
+            <ContinueToGold />
           </BannerWrapper>
         )
       default:
@@ -77,4 +80,4 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector>
 
-export default connector(Banners)
+export default connector(memo(Banners))

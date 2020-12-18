@@ -6,6 +6,7 @@ import Unsupported from './template.unsupported'
 const Success: React.FC<Props> = props => {
   const isUserEligible =
     props.pairs.length && props.eligibility.eligible && props.fiatCurrency
+  const isUserSddEligible = props.sddEligible && props.sddEligible.eligible
 
   useEffect(() => {
     props.analyticsActions.logEvent([
@@ -16,9 +17,16 @@ const Success: React.FC<Props> = props => {
         doesWalletConsiderUserEligible: !!isUserEligible
       })
     ])
+    props.analyticsActions.logEvent([
+      'IS_USER_SDD_ELIGIBLE',
+      JSON.stringify({
+        pairs: props.pairs,
+        eligibility: isUserSddEligible
+      })
+    ])
   }, [])
 
-  return isUserEligible ? (
+  return isUserEligible || isUserSddEligible ? (
     <CryptoSelector {...props} />
   ) : (
     <Unsupported {...props} />

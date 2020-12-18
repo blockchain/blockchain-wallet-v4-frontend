@@ -72,7 +72,7 @@ class TextInput extends React.Component {
   }
 
   render () {
-    const { errorState, disabled, ...rest } = this.props
+    const { errorState, disabled, noLastPass, ...rest } = this.props
     return (
       <BaseTextInput
         ref={this.refInput}
