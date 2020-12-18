@@ -31,7 +31,7 @@ class CheckoutConfirm extends PureComponent<Props> {
       getOrderType(this.props.order),
       this.props.order.inputQuantity
     )
-    this.props.sendActions.getLockRule('PAYMENT_CARD')
+    this.props.sendActions.getLockRule()
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSDDEligible()
       this.props.simpleBuyActions.fetchSDDVerified()

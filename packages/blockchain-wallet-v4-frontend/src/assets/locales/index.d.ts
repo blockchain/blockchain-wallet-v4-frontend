@@ -1358,6 +1358,7 @@ type MessagesType = {
   'modals.simplebuy.kycrequired.swap_at_anytime_description': 'Instantly exchange your crypto for another without leaving your wallet.'
   'modals.simplebuy.setupaccount': "Next, we'll set up your account."
   'modals.simplebuy.success': 'Trade Complete'
+  'modals.simplebuy.summary.ach_lock': 'Note: You will not be able to Send or Withdraw these funds from your Wallet for the next {days} days.'
   'modals.simplebuy.summary.cancelbuy': 'Cancel Buy'
   'modals.simplebuy.summary.cancelsell': 'Cancel Sell'
   'modals.simplebuy.summary.complete_card_payment': 'Complete Card Payment'

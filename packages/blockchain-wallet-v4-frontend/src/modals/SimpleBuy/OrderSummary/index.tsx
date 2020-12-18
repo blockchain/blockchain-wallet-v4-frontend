@@ -22,7 +22,7 @@ class OrderSummary extends PureComponent<Props> {
   componentDidMount () {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBCards()
-      this.props.sendActions.getLockRule('PAYMENT_CARD')
+      this.props.sendActions.getLockRule()
     }
     this.props.simpleBuyActions.fetchSBOrders()
   }

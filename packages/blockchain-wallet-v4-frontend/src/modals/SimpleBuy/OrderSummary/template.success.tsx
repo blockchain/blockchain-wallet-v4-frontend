@@ -219,6 +219,29 @@ const Success: React.FC<Props> = props => {
                 </Text>
               </BottomInfo>
             )}
+          {orderType === 'BUY' && props.order.paymentType === 'BANK_TRANSFER' && (
+            <BottomInfo>
+              <Text color='grey600' size='14px' weight={500}>
+                <FormattedHTMLMessage
+                  id='modals.simplebuy.summary.ach_lock'
+                  defaultMessage='Note: You will not be able to Send or Withdraw these funds from your Wallet for the next {days} days.'
+                  values={{ days: days }}
+                />{' '}
+                <span>
+                  <a
+                    href='https://support.blockchain.com/hc/en-us/articles/360048200392'
+                    rel='noopener noreferrer'
+                    target='_blank'
+                  >
+                    <FormattedMessage
+                      id='modals.simplebuy.summary.learn_more'
+                      defaultMessage='Learn more.'
+                    />
+                  </a>
+                </span>
+              </Text>
+            </BottomInfo>
+          )}
         </Content>
       </ContentWrapper>
     </Wrapper>
