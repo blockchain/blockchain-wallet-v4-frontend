@@ -24,7 +24,6 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   return lift(
     (
       quote: ExtractSuccess<typeof quoteR>,
-      payment: ExtractSuccess<typeof paymentR>,
       rates: ExtractSuccess<typeof ratesR>,
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
       userData: ExtractSuccess<typeof userDataR>,
@@ -34,10 +33,10 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       supportedCoins,
       formErrors,
       quote,
-      payment,
+      payment: paymentR.getOrElse(undefined),
       rates,
       sbBalances,
       userData
     })
-  )(quoteR, paymentR, ratesR, sbBalancesR, userDataR, supportedCoinsR)
+  )(quoteR, ratesR, sbBalancesR, userDataR, supportedCoinsR)
 }
