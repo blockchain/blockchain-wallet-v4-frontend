@@ -399,6 +399,10 @@ interface FetchSellQuoteSuccess {
   type: typeof AT.FETCH_SELL_QUOTE_SUCCESS
 }
 
+interface HandleBankLinkStep {
+  type: typeof AT.HANDLE_BANK_LINK_STEP
+}
+
 interface InitializeCheckout {
   account?: SwapAccountType
   amount: string
@@ -445,7 +449,7 @@ export type StepActionsPayload =
       step: 'LINK_BANK'
     }
   | {
-      bankStatus: BankStatusType,
+      bankStatus: BankStatusType
       step: 'LINK_BANK_STATUS'
     }
   | {
@@ -544,6 +548,7 @@ export type SimpleBuyActionTypes =
   | FetchSellQuoteFailure
   | FetchSellQuoteLoading
   | FetchSellQuoteSuccess
+  | HandleBankLinkStep
   | InitializeCheckout
   | SetStepAction
   | ShowModalAction

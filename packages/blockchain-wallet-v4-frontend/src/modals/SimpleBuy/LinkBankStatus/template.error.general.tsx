@@ -55,18 +55,13 @@ const BankLinkError: React.FC<Props> = props => {
       <Container>
         <Image width='100px' name='bank-error' />
         <Title color='grey800' size='20px' weight={600}>
-          {bankStatus === 'DEFAULT_ERROR' && (
-            <FormattedMessage
-              id='scenes.exchange.confirm.oopsheader'
-              defaultMessage='Oops! Something went wrong.'
-            />
-          )}
-          {bankStatus === 'BANK_TRANSFER_ACCOUNT_INFO_NOT_FOUND' && (
-            <FormattedMessage
-              id='copy.bank_linked_error_checkingtitle'
-              defaultMessage='Please link a Checking Account.'
-            />
-          )}
+          {bankStatus === 'DEFAULT_ERROR' ||
+            (bankStatus === 'BANK_TRANSFER_ACCOUNT_INFO_NOT_FOUND' && (
+              <FormattedMessage
+                id='scenes.exchange.confirm.oopsheader'
+                defaultMessage='Oops! Something went wrong.'
+              />
+            ))}
           {bankStatus === 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH' && (
             <FormattedMessage
               id='copy.bank_linked_error_title_yourbank'
@@ -75,32 +70,27 @@ const BankLinkError: React.FC<Props> = props => {
           )}
         </Title>
         <Subcontent color='grey600' weight={500}>
-          {bankStatus === 'DEFAULT_ERROR' && (
-            <>
-              <FormattedMessage
-                id='copy.bank_linked_error'
-                defaultMessage='Please try linking your bank again. If this keeps happening, please'
-              />{' '}
-              <Link
-                size='16px'
-                weight={500}
-                target='_blank'
-                href='https://support.blockchain.com/hc/en-us/'
-              >
+          {bankStatus === 'DEFAULT_ERROR' ||
+            (bankStatus === 'BANK_TRANSFER_ACCOUNT_INFO_NOT_FOUND' && (
+              <>
                 <FormattedMessage
-                  id='buttons.contact_support'
-                  defaultMessage='Contact Support'
-                />
-              </Link>
-              {'.'}
-            </>
-          )}
-          {bankStatus === 'BANK_TRANSFER_ACCOUNT_INFO_NOT_FOUND' && (
-            <FormattedMessage
-              id='copy.bank_linked_error_checking'
-              defaultMessage='Your bank may charge you extra fees if you buy cyrpto without a checking account.'
-            />
-          )}
+                  id='copy.bank_linked_error'
+                  defaultMessage='Please try linking your bank again. If this keeps happening, please'
+                />{' '}
+                <Link
+                  size='16px'
+                  weight={500}
+                  target='_blank'
+                  href='https://support.blockchain.com/hc/en-us/'
+                >
+                  <FormattedMessage
+                    id='buttons.contact_support'
+                    defaultMessage='Contact Support'
+                  />
+                </Link>
+                {'.'}
+              </>
+            ))}
           {bankStatus === 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH' && (
             <>
               <FormattedMessage
@@ -126,9 +116,7 @@ const BankLinkError: React.FC<Props> = props => {
           height='48px'
           size='16px'
           nature='primary'
-          onClick={() =>
-            props.simpleBuyActions.setStep({ step: 'LINK_BANK_HANDLER' })
-          }
+          onClick={() => props.simpleBuyActions.handleBankLinkStep()}
           fullwidth
         >
           <FormattedMessage id='buttons.tryagain' defaultMessage='Try Again' />

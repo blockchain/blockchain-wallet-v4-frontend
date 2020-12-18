@@ -468,6 +468,9 @@ export const fetchSellQuoteLoading = (): SimpleBuyActionTypes => ({
   type: AT.FETCH_SELL_QUOTE_LOADING
 })
 
+export const handleBankLinkStep = (): SimpleBuyActionTypes => ({
+  type: AT.HANDLE_BANK_LINK_STEP
+})
 export const fetchSellQuoteSuccess = (
   quote: SwapQuoteType,
   rate: number
