@@ -18,6 +18,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
     ownProps.orderType === 'BUY'
       ? selectors.components.simpleBuy.getSBQuote(state)
       : selectors.components.simpleBuy.getSellQuote(state)
+  const ratesR = selectors.core.data.misc.getRatesSelector(coin, state)
   const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
   const userDataR = selectors.modules.profile.getUserData(state)
   const sddEligibleR = selectors.components.simpleBuy.getSddEligible(state)
@@ -32,6 +33,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
     (
       cards: ExtractSuccess<typeof cardsR>,
       quote: ExtractSuccess<typeof quoteR>,
+      rates: ExtractSuccess<typeof ratesR>,
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
       userData: ExtractSuccess<typeof userDataR>,
       sddEligible: ExtractSuccess<typeof sddEligibleR>,
@@ -45,6 +47,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       isSddFlow: sddEligible.eligible || userSDDTier === 3,
       payment: paymentR.getOrElse(undefined),
       quote,
+      rates,
       sbBalances,
       sddEligible,
       sddLimit,
@@ -54,6 +57,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   )(
     cardsR,
     quoteR,
+    ratesR,
     sbBalancesR,
     userDataR,
     sddEligibleR,
