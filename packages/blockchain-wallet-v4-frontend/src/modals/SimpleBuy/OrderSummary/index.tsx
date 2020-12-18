@@ -16,6 +16,7 @@ import DataError from 'components/DataError'
 import { getData } from './selectors'
 import Loading from '../template.loading'
 import Success from './template.success'
+import SuccessSdd from './template.sdd.success'
 
 class OrderSummary extends PureComponent<Props> {
   componentDidMount () {
@@ -32,7 +33,13 @@ class OrderSummary extends PureComponent<Props> {
 
   render () {
     return this.props.data.cata({
-      Success: val => <Success {...val} {...this.props} />,
+      Success: val => {
+        return val.userData?.tiers?.current !== 2 ? (
+          <SuccessSdd {...val} {...this.props} />
+        ) : (
+          <Success {...val} {...this.props} />
+        )
+      },
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
