@@ -89,7 +89,7 @@ export const getPaymentMethod = (
       )
     case 'BANK_TRANSFER':
       const defaultBankInfo = {
-        details: 'Bank Transfer',
+        bankName: 'Bank Transfer',
         bankAccountType: '',
         accountNumber: ''
       }
