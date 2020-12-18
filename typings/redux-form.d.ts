@@ -38,6 +38,7 @@ export type WalletFormType =
   | 'sbCurrencySelection'
   | 'sbCryptoSelection'
   | 'sbPaymentMethods'
+  | 'sbChangeEmail'
   | 'simpleBuyCheckout'
   | 'swapAmount'
   | 'swapOrderDetails'

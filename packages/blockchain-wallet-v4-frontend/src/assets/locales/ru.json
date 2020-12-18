@@ -1256,7 +1256,6 @@
   "modals.identityverification.steps.coinify": "Учетная запись",
   "modals.identityverification.steps.mobile": "Телефон",
   "modals.identityverification.steps.more_info": "Информация",
-  "modals.identityverification.steps.personal": "Личный",
   "modals.identityverification.steps.submitted": "Отправлено",
   "modals.identityverification.steps.verify": "Верифицировать",
   "modals.import.privatekeys.tooltip": "Формат закрытого ключа должен быть сжат WIF. Если вы импортируете закрытый ключ в несжатом формате, перед импортом преобразуйте его в сжатый.",

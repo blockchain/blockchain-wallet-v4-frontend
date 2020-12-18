@@ -1,28 +1,42 @@
 import { any, map, values } from 'ramda'
-import { Icon, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
+import { Form, InjectedFormProps, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import { coinOrder } from 'blockchain-wallet-v4-frontend/src/modals/Swap/CoinSelection/selectors'
 import { FlyoutWrapper } from 'components/Flyout'
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import {
   getCoinFromPair,
   getFiatFromPair
 } from 'data/components/simpleBuy/model'
-import { Props as OwnProps, SuccessStateType } from '../index'
+import {
+  Icon,
+  Image,
+  TabMenu,
+  TabMenuItem,
+  Text
+} from 'blockchain-info-components'
+import { model } from 'data'
 import { SBPairType } from 'core/types'
 import { SwapAccountType } from 'data/types'
 import CryptoAccountOption from 'blockchain-wallet-v4-frontend/src/modals/Swap/CoinSelection/CryptoAccountOption'
+
+import { Props as OwnProps, SuccessStateType } from '../index'
 import CryptoItem from './CryptoItem'
 import SellEmptyState from './SellEmptyState'
+
+const { SB_CRYPTO_SELECTION } = model.components.simpleBuy
 
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   height: 100%;
+`
+const CloseContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `
 const TabsContainer = styled.div`
   margin-top: 36px;
@@ -46,16 +60,48 @@ const TopText = styled(Text)`
 const SubTitleText = styled(Text)`
   margin-top: 0;
 `
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+
+  span {
+    margin-left: 8px;
+  }
+`
 
 export type Props = OwnProps & SuccessStateType
 
 const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   Props> = props => {
   const [orderType, setOrderType] = useState(props.orderType)
+  const showWelcome = props.isFirstLogin
+
   const handleBuy = (pair: SBPairType) => {
-    props.simpleBuyActions.setStep({
+    const currentTier = props.userData?.tiers?.current
+
+    // if first time user, send to verify email step which is required future SDD check
+    if (!props.emailVerified && currentTier !== 2 && currentTier !== 1) {
+      return props.simpleBuyActions.setStep({
+        step: 'VERIFY_EMAIL',
+        orderType: orderType,
+        cryptoCurrency: getCoinFromPair(pair.pair),
+        fiatCurrency: getFiatFromPair(pair.pair),
+        pair
+      })
+    }
+
+    // if SDD user has already placed on order, force them to Gold upgrade
+    if (currentTier === 3 && props.sbOrders?.length > 0) {
+      return props.simpleBuyActions.setStep({
+        step: 'UPGRADE_TO_GOLD'
+      })
+    }
+
+    // default continue to enter amount step
+    return props.simpleBuyActions.setStep({
       step: 'ENTER_AMOUNT',
-      orderType,
+      orderType: orderType,
       cryptoCurrency: getCoinFromPair(pair.pair),
       fiatCurrency: getFiatFromPair(pair.pair),
       pair
@@ -92,7 +138,6 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   }
 
   // Check to see if any accounts have balance
-
   // @ts-ignore
   const checkAccountsBalances = any(hasFunds => hasFunds)(
     // @ts-ignore
@@ -111,8 +156,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
     <Wrapper>
       <Form>
         <FlyoutWrapper>
-          <Top>
-            <Icon cursor name='cart-filled' size='32px' color='blue600' />
+          <CloseContainer>
             <Icon
               cursor
               data-e2e='sbCloseModalIcon'
@@ -122,51 +166,91 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
               role='button'
               onClick={props.handleClose}
             />
+          </CloseContainer>
+          {showWelcome && (
+            <Header>
+              <Image name='intro-hand' width='28px' height='28px' />
+              <Text color='grey600' size='20px' weight={600}>
+                <FormattedMessage
+                  id='modals.wallet.tour.wallet.tour'
+                  defaultMessage='Welcome to Blockchain!'
+                />
+              </Text>
+            </Header>
+          )}
+          <Top>
+            {!showWelcome && (
+              <Icon cursor name='cart-filled' size='32px' color='blue600' />
+            )}
           </Top>
-          <TopText color='grey800' size='20px' weight={600}>
-            <FormattedMessage
-              id='modals.simplebuy.cryptoselect'
-              defaultMessage='Buy Crypto. Sell for Cash.'
-            />
-          </TopText>
-          <SubTitleText color='grey600' weight={500}>
-            <FormattedMessage
-              id='modals.simplebuy.select_crypto'
-              defaultMessage='Easily buy and sell Crypto straight from your Wallet.'
-            />
-          </SubTitleText>
-          <TabsContainer>
-            <TabMenu>
-              <TabMenuItem
-                role='button'
-                selected={orderType === 'BUY'}
-                onClick={() => {
-                  setOrderType('BUY')
-                  props.analyticsActions.logEvent('SB_BUY_BUTTON')
-                }}
-                data-e2e='sbBuyButton'
-              >
+          {!showWelcome && (
+            <>
+              <TopText color='grey800' size='20px' weight={600}>
                 <FormattedMessage
-                  id='buttons.buy_crypto'
-                  defaultMessage='Buy Crypto'
+                  id='modals.simplebuy.cryptoselect'
+                  defaultMessage='Buy Crypto. Sell for Cash.'
                 />
-              </TabMenuItem>
-              <TabMenuItem
-                role='button'
-                selected={orderType === 'SELL'}
-                onClick={() => {
-                  setOrderType('SELL')
-                  props.analyticsActions.logEvent('SB_SELL_BUTTON')
-                }}
-                data-e2e='sbSellButton'
-              >
+              </TopText>
+              <SubTitleText color='grey600' weight={500}>
                 <FormattedMessage
-                  id='buttons.sell_crypto'
-                  defaultMessage='Sell Crypto'
+                  id='modals.simplebuy.select_crypto'
+                  defaultMessage='Easily buy and sell Crypto straight from your Wallet.'
                 />
-              </TabMenuItem>
-            </TabMenu>
-          </TabsContainer>
+              </SubTitleText>
+            </>
+          )}
+
+          {showWelcome && (
+            <>
+              <TopText color='grey800' size='20px' weight={600}>
+                <FormattedMessage
+                  id='modals.simplebuy.buy_crypto_now'
+                  defaultMessage='Buy Crypto Now'
+                />
+              </TopText>
+              <SubTitleText color='grey600' weight={500}>
+                <FormattedMessage
+                  id='modals.simplebuy.select_and_verify'
+                  defaultMessage='Select the crypto you want to buy, verify your identity and buy crypto.'
+                />
+              </SubTitleText>
+            </>
+          )}
+
+          {!showWelcome && (
+            <TabsContainer>
+              <TabMenu>
+                <TabMenuItem
+                  role='button'
+                  selected={orderType === 'BUY'}
+                  onClick={() => {
+                    setOrderType('BUY')
+                    props.analyticsActions.logEvent('SB_BUY_BUTTON')
+                  }}
+                  data-e2e='sbBuyButton'
+                >
+                  <FormattedMessage
+                    id='buttons.buy_crypto'
+                    defaultMessage='Buy Crypto'
+                  />
+                </TabMenuItem>
+                <TabMenuItem
+                  role='button'
+                  selected={orderType === 'SELL'}
+                  onClick={() => {
+                    setOrderType('SELL')
+                    props.analyticsActions.logEvent('SB_SELL_BUTTON')
+                  }}
+                  data-e2e='sbSellButton'
+                >
+                  <FormattedMessage
+                    id='buttons.sell_crypto'
+                    defaultMessage='Sell Crypto'
+                  />
+                </TabMenuItem>
+              </TabMenu>
+            </TabsContainer>
+          )}
         </FlyoutWrapper>
         <Currencies>
           {orderType === 'SELL' ? (
@@ -210,6 +294,6 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
 }
 
 export default reduxForm<{}, Props>({
-  form: 'sbCryptoSelection',
+  form: SB_CRYPTO_SELECTION,
   destroyOnUnmount: false
 })(CryptoSelector)

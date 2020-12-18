@@ -1,5 +1,6 @@
-import { ExtractSuccess, FiatType } from 'core/types'
 import { lift } from 'ramda'
+
+import { ExtractSuccess, FiatType } from 'core/types'
 import { SBCheckoutFormValuesType } from 'data/types'
 import { selectors } from 'data'
 
@@ -10,6 +11,9 @@ export const getData = state => {
     state
   ) as SBCheckoutFormValuesType
   const invitationsR = selectors.core.settings.getInvitations(state)
+  const emailVerifiedR = selectors.core.settings.getEmailVerified(state)
+  const sbOrdersR = selectors.components.simpleBuy.getSBOrders(state)
+  const sddEligibleR = selectors.components.simpleBuy.getSddEligible(state)
   // checks orderType on state for the 'SELL' button on top of activity feed
   const stateOrderType = selectors.components.simpleBuy.getOrderType(state)
   const pairsR = selectors.components.simpleBuy.getSBPairs(state)
@@ -23,9 +27,12 @@ export const getData = state => {
     (
       coins: ExtractSuccess<typeof coinsR>,
       eligibility: ExtractSuccess<typeof eligibilityR>,
+      emailVerified: ExtractSuccess<typeof emailVerifiedR>,
       invitations: ExtractSuccess<typeof invitationsR>,
       pairs: ExtractSuccess<typeof pairsR>,
       userData: ExtractSuccess<typeof userDataR>,
+      sbOrders: ExtractSuccess<typeof sbOrdersR>,
+      sddEligible: ExtractSuccess<typeof sddEligibleR>,
       walletCurrency: FiatType
     ) => ({
       // Doing this to check if state has been updated for orderType to be 'SELL'
@@ -34,10 +41,23 @@ export const getData = state => {
       accounts,
       coins,
       eligibility,
+      emailVerified,
       invitations,
       pairs,
       userData,
+      sbOrders,
+      sddEligible,
       walletCurrency
     })
-  )(coinsR, eligibilityR, invitationsR, pairsR, userDataR, walletCurrencyR)
+  )(
+    coinsR,
+    eligibilityR,
+    emailVerifiedR,
+    invitationsR,
+    pairsR,
+    userDataR,
+    sbOrdersR,
+    sddEligibleR,
+    walletCurrencyR
+  )
 }

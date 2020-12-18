@@ -1,8 +1,8 @@
 import { ActionsWrapper, Content, MainContent, Status } from './styles'
 import {
+  BlockchainLoader,
   Button,
   Icon,
-  SpinningLoader,
   Text,
   TextGroup
 } from 'blockchain-info-components'
@@ -37,7 +37,9 @@ const Loading: React.FC<Props & { close: () => void }> = props => {
         )}
       </ActionsWrapper>
       <MainContent>
-        {props.emailVerified ? <SpinningLoader /> : null}
+        {props.emailVerified ? (
+          <BlockchainLoader width='80px' height='80px' />
+        ) : null}
         {!props.emailVerified && (
           <>
             <DisplayIcon showBackground>

@@ -257,8 +257,7 @@ const Success: React.FC<Props> = props => {
             </Bottom>
           ))}
       {props.order.state === 'PENDING_DEPOSIT' &&
-        props.order.attributes &&
-        props.order.attributes.everypay.paymentState ===
+        props.order.attributes?.everypay?.paymentState ===
           'WAITING_FOR_3DS_RESPONSE' && (
           <Bottom>
             <Button

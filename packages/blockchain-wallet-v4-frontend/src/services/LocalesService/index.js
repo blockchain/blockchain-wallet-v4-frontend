@@ -276,5 +276,8 @@ const stateList = {
   WY: 'Wyoming'
 }
 
-export const getStateNameFromAbbreviation = a =>
-  stateList[toUpper(a)] ? stateList[toUpper(a)] : '????'
+export const getStateNameFromAbbreviation = abbreviation => {
+  return abbreviation && stateList[toUpper(abbreviation)]
+    ? stateList[toUpper(abbreviation)]
+    : abbreviation
+}

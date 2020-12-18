@@ -1,8 +1,3 @@
-import * as A from './actions'
-import * as AT from './actionTypes'
-import * as S from './selectors'
-import { actions, selectors } from 'data'
-import { APIType } from 'core/network/api'
 import {
   call,
   cancel,
@@ -12,6 +7,11 @@ import {
   select,
   take
 } from 'redux-saga/effects'
+import BigNumber from 'bignumber.js'
+import moment from 'moment'
+
+import { actions, selectors } from 'data'
+import { APIType } from 'core/network/api'
 import {
   CoinTypeEnum,
   Everypay3DSResponseType,
@@ -26,6 +26,15 @@ import {
   SwapOrderType,
   WalletOptionsType
 } from 'blockchain-wallet-v4/src/types'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/validation'
+import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { UserDataType } from 'data/modules/types'
+
+import * as A from './actions'
+import * as AT from './actionTypes'
+import * as S from './selectors'
 import {
   convertBaseToStandard,
   convertStandardToBase
@@ -41,16 +50,12 @@ import {
   NO_FIAT_CURRENCY,
   NO_ORDER_EXISTS,
   NO_PAIR_SELECTED,
-  NO_PAYMENT_TYPE
+  NO_PAYMENT_TYPE,
+  SDD_TIER
 } from './model'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { find, pathOr, propEq } from 'ramda'
-
 import { FALLBACK_DELAY, getOutputFromPair } from '../swap/model'
 import { getDirection } from './utils'
-import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/validation'
 import { getRate, NO_QUOTE } from '../swap/utils'
-import { Remote } from 'blockchain-wallet-v4/src'
 import {
   SBAddCardErrorType,
   SBAddCardFormValuesType,
@@ -58,14 +63,11 @@ import {
   SBCheckoutFormValuesType
 } from './types'
 import { selectReceiveAddress } from '../utils/sagas'
-import { UserDataType } from 'data/modules/types'
-import BigNumber from 'bignumber.js'
-import moment from 'moment'
-
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import profileSagas from '../../modules/profile/sagas'
 import sendSagas from '../send/sagas'
 import swapSagas from '../swap/sagas'
+
+export const logLocation = 'components/simpleBuy/sagas'
 
 export default ({
   api,
@@ -136,9 +138,17 @@ export default ({
       )
       yield put(A.addCardDetailsLoading())
 
+      let waitForAction: boolean = true
       // Create card
-      yield put(A.fetchSBCard())
-      yield take([AT.FETCH_SB_CARD_SUCCESS, AT.FETCH_SB_CARD_FAILURE])
+      if (formValues.billingaddress && !formValues.sameAsBillingAddress) {
+        yield call(fetchSBCardSDD, formValues.billingaddress)
+        waitForAction = false
+      } else {
+        yield put(A.fetchSBCard())
+      }
+      if (waitForAction) {
+        yield take([AT.FETCH_SB_CARD_SUCCESS, AT.FETCH_SB_CARD_FAILURE])
+      }
       const cardR = S.getSBCard(yield select())
       const card = cardR.getOrFail('CARD_CREATION_FAILED')
 
@@ -339,8 +349,20 @@ export default ({
       )
 
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
-      yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order: buyOrder }))
       yield put(A.fetchSBOrders())
+      yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order: buyOrder }))
+
+      // log user tier
+      const currentTier = selectors.modules.profile.getCurrentTier(
+        yield select()
+      )
+      yield put(
+        actions.analytics.logEvent([
+          'SB_CREATE_ORDER_USER_TIER',
+          'TIER',
+          currentTier
+        ])
+      )
     } catch (e) {
       // After CC has been activated we try to create an order
       // If order creation fails go back to ENTER_AMOUNT step
@@ -499,13 +521,50 @@ export default ({
     }
   }
 
+  const fetchSBCardSDD = function * (
+    billingAddress: SBBillingAddressFormValuesType
+  ) {
+    let card: SBCardType
+    try {
+      yield put(A.fetchSBCardLoading())
+      const order = S.getSBLatestPendingOrder(yield select())
+      if (!order) throw new Error(NO_ORDER_EXISTS)
+      const currency = getFiatFromPair(order.pair)
+      if (!currency) throw new Error(NO_FIAT_CURRENCY)
+
+      const userDataR = selectors.modules.profile.getUserData(yield select())
+      const userData = userDataR.getOrFail('NO_USER_ADDRESS')
+
+      if (!billingAddress) throw new Error('NO_USER_ADDRESS')
+
+      card = yield call(
+        api.createSBCard,
+        currency,
+        {
+          ...billingAddress
+        },
+        userData.email
+      )
+      yield put(A.fetchSBCardSuccess(card))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchSBCardFailure(error))
+    }
+  }
+
   const fetchSBCards = function * ({
     payload
   }: ReturnType<typeof A.fetchSBCards>) {
     try {
       yield call(waitForUserData)
       const { skipLoading } = payload
-      if (!(yield call(isTier2))) return yield put(A.fetchSBCardsSuccess([]))
+
+      yield call(fetchSDDVerified)
+      const isUserTier2 = yield call(isTier2)
+      const sddVerified = S.isUserSddVerified(yield select()).getOrElse(false)
+      const loadCards = isUserTier2 || sddVerified
+
+      if (!loadCards) return yield put(A.fetchSBCardsSuccess([]))
       if (!skipLoading) yield put(A.fetchSBCardsLoading())
       const cards = yield call(api.getSBCards)
       yield put(A.fetchSBCardsSuccess(cards))
@@ -538,6 +597,41 @@ export default ({
     }
   }
 
+  const fetchSDDEligible = function * () {
+    try {
+      yield put(A.fetchSDDEligibleLoading())
+      yield call(waitForUserData)
+      // check if user is already tier 2
+      if (!(yield call(isTier2))) {
+        // user not tier 2, call for sdd eligibility
+        const sddEligible = yield call(api.fetchSDDEligible)
+        yield put(A.fetchSDDEligibleSuccess(sddEligible))
+      } else {
+        // user is already tier 2, manually set as ineligible
+        yield put(
+          A.fetchSDDEligibleSuccess({
+            eligible: false,
+            ineligibilityReason: 'KYC_TIER',
+            tier: 2
+          })
+        )
+      }
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchSDDEligibleFailure(error))
+    }
+  }
+  const fetchSDDVerified = function * () {
+    try {
+      yield put(A.fetchSDDVerifiedLoading())
+      const sddEligible = yield call(api.fetchSDDVerified)
+      yield put(A.fetchSDDVerifiedSuccess(sddEligible))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchSDDVerifiedFailure(error))
+    }
+  }
+
   const fetchSBOrders = function * ({
     payload
   }: ReturnType<typeof A.fetchSBOrders>) {
@@ -560,7 +654,6 @@ export default ({
   }: ReturnType<typeof A.fetchSBPairs>) {
     try {
       yield put(A.fetchSBPairsLoading())
-      yield put(actions.preferences.setSBFiatCurrency(currency))
       const { pairs }: ReturnType<typeof api.getSBPairs> = yield call(
         api.getSBPairs,
         currency
@@ -628,10 +721,22 @@ export default ({
         S.getFiatCurrency(yield select()) ||
         (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
 
+      const userSDDTierR = S.getUserSddEligibleTier(yield select())
+      if (!Remote.Success.is(userSDDTierR)) {
+        yield call(fetchSDDEligible)
+      }
+      const userSDDTier = S.getUserSddEligibleTier(yield select()).getOrElse(1)
+      const isTier3 = userSDDTier && userSDDTier === SDD_TIER
+      const checkEligibilityTier2 = isUserTier2 ? true : undefined
+
+      // in case of SDD we have to send tier=3 and checkEligibility=false
+      const checkEligibility = isTier3 ? false : checkEligibilityTier2
+
       const methods = yield call(
         api.getSBPaymentMethods,
         currency || fallbackFiatCurrency,
-        isUserTier2 ? true : undefined
+        checkEligibility,
+        isTier3 ? userSDDTier : undefined
       )
       yield put(A.fetchSBPaymentMethodsSuccess(methods))
     } catch (e) {
@@ -1067,20 +1172,12 @@ export default ({
     yield put(
       actions.modals.showModal('SIMPLE_BUY_MODAL', { origin, cryptoCurrency })
     )
-    const goals = selectors.goals.getGoals(yield select())
-    const simpleBuyGoal = find(propEq('name', 'simpleBuy'), goals)
-
-    const fiatCurrency = pathOr(
-      selectors.preferences.getSBFiatCurrency(yield select()),
-      ['data', 'fiatCurrency'],
-      simpleBuyGoal
-    )
+    const fiatCurrencyR = selectors.core.settings.getCurrency(yield select())
+    const fiatCurrency = fiatCurrencyR.getOrElse('USD')
 
     const latestPendingOrder = S.getSBLatestPendingOrder(yield select())
 
-    if (!fiatCurrency) {
-      yield put(A.setStep({ step: 'CURRENCY_SELECTION' }))
-    } else if (latestPendingOrder) {
+    if (latestPendingOrder) {
       const step =
         latestPendingOrder.state === 'PENDING_CONFIRMATION'
           ? 'CHECKOUT_CONFIRM'
@@ -1146,8 +1243,11 @@ export default ({
     deleteSBCard,
     fetchSBBalances,
     fetchSBCard,
+    fetchSBCardSDD,
     fetchSBCards,
     fetchSBFiatEligible,
+    fetchSDDEligible,
+    fetchSDDVerified,
     fetchSBOrders,
     fetchSBPairs,
     fetchSBPaymentAccount,

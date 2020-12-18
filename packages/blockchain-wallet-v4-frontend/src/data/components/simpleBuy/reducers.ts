@@ -25,9 +25,11 @@ const INITIAL_STATE: SimpleBuyState = {
   payment: Remote.NotAsked,
   providerDetails: Remote.NotAsked,
   quote: Remote.NotAsked,
-  sellQuote: Remote.NotAsked,
+  sddEligible: Remote.NotAsked,
+  sddVerified: Remote.NotAsked,
   sellOrder: undefined,
-  step: 'CURRENCY_SELECTION',
+  sellQuote: Remote.NotAsked,
+  step: 'CRYPTO_SELECTION',
   swapAccount: undefined
 }
 
@@ -73,11 +75,10 @@ export function simpleBuyReducer (
         ...state,
         account: Remote.NotAsked,
         cardId: undefined,
-        fiatCurrency: undefined,
         order: undefined,
         pairs: Remote.NotAsked,
         quote: Remote.NotAsked,
-        step: 'CURRENCY_SELECTION'
+        step: 'CRYPTO_SELECTION'
       }
     case AT.FETCH_SB_BALANCES_FAILURE: {
       return {
@@ -252,6 +253,38 @@ export function simpleBuyReducer (
           rate: action.payload.rate
         })
       }
+    case AT.FETCH_SDD_ELIGIBILITY_FAILURE: {
+      return {
+        ...state,
+        sddEligible: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_SDD_ELIGIBILITY_LOADING:
+      return {
+        ...state,
+        sddEligible: Remote.Loading
+      }
+    case AT.FETCH_SDD_ELIGIBILITY_SUCCESS:
+      return {
+        ...state,
+        sddEligible: Remote.Success(action.payload.sddEligible)
+      }
+    case AT.FETCH_SDD_VERIFIED_FAILURE: {
+      return {
+        ...state,
+        sddVerified: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_SDD_VERIFIED_LOADING:
+      return {
+        ...state,
+        sddVerified: Remote.Loading
+      }
+    case AT.FETCH_SDD_VERIFIED_SUCCESS:
+      return {
+        ...state,
+        sddVerified: Remote.Success(action.payload.sddVerified)
+      }
     case AT.INITIALIZE_CHECKOUT:
       return {
         ...state,
@@ -284,6 +317,7 @@ export function simpleBuyReducer (
     case AT.SET_STEP:
       switch (action.payload.step) {
         case 'ENTER_AMOUNT':
+        case 'VERIFY_EMAIL':
           return {
             ...state,
             orderType: action.payload.orderType,

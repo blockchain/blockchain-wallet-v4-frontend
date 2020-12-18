@@ -1256,7 +1256,6 @@
   "modals.identityverification.steps.coinify": "hesap",
   "modals.identityverification.steps.mobile": "Telefon",
   "modals.identityverification.steps.more_info": "Info",
-  "modals.identityverification.steps.personal": "Kişiye özel",
   "modals.identityverification.steps.submitted": "Gönderilen",
   "modals.identityverification.steps.verify": "Doğrula",
   "modals.import.privatekeys.tooltip": "Özel anahtar biçimi WIF olarak sıkıştırılmalıdır. Sıkıştırılmamış biçimdeki özel bir anahtarı içe aktarıyorsanız, lütfen içe aktarmadan önce sıkıştırılmış haline getirin.",

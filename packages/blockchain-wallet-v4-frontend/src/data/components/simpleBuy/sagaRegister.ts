@@ -23,7 +23,6 @@ export default ({ api, coreSagas, networks }) => {
 
   return function * simpleBuySaga () {
     yield takeEvery(actionTypes.form.CHANGE, simpleBuySagas.formChanged)
-
     yield takeLatest(AT.ACTIVATE_SB_CARD, simpleBuySagas.activateSBCard)
     yield takeLatest(AT.ADD_CARD_DETAILS, simpleBuySagas.addCardDetails)
     yield takeLatest(AT.CANCEL_ORDER, simpleBuySagas.cancelSBOrder)
@@ -41,6 +40,8 @@ export default ({ api, coreSagas, networks }) => {
       AT.FETCH_SB_FIAT_ELIGIBLE,
       simpleBuySagas.fetchSBFiatEligible
     )
+    yield takeLatest(AT.FETCH_SDD_ELIGIBILITY, simpleBuySagas.fetchSDDEligible)
+    yield takeLatest(AT.FETCH_SDD_VERIFIED, simpleBuySagas.fetchSDDVerified)
     yield takeLatest(AT.FETCH_SB_ORDERS, simpleBuySagas.fetchSBOrders)
     yield takeLatest(AT.FETCH_SB_PAIRS, simpleBuySagas.fetchSBPairs)
     yield takeLatest(

@@ -113,6 +113,7 @@ export type APIType = ReturnType<typeof analytics> &
   ReturnType<typeof custodial> &
   ReturnType<typeof eth> &
   ReturnType<typeof interest> &
+  ReturnType<typeof kyc> &
   ReturnType<typeof misc> &
   ReturnType<typeof profile> &
   ReturnType<typeof simpleBuy> &

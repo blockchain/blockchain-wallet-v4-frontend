@@ -16,6 +16,8 @@ import {
   SBPaymentMethodType,
   SBProviderDetailsType,
   SBQuoteType,
+  SDDEligibleType,
+  SDDVerifiedType,
   SwapQuoteType,
   WalletFiatType
 } from 'core/types'
@@ -219,6 +221,57 @@ export const fetchSBFiatEligibleSuccess = (
   type: AT.FETCH_SB_FIAT_ELIGIBLE_SUCCESS,
   payload: {
     fiatEligible
+  }
+})
+
+export const fetchSDDEligible = () => ({
+  type: AT.FETCH_SDD_ELIGIBILITY
+})
+
+export const fetchSDDEligibleFailure = (
+  error: string
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SDD_ELIGIBILITY_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchSDDEligibleLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SDD_ELIGIBILITY_LOADING
+})
+
+export const fetchSDDEligibleSuccess = (
+  sddEligible: SDDEligibleType
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SDD_ELIGIBILITY_SUCCESS,
+  payload: {
+    sddEligible
+  }
+})
+export const fetchSDDVerified = () => ({
+  type: AT.FETCH_SDD_VERIFIED
+})
+
+export const fetchSDDVerifiedFailure = (
+  error: string
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SDD_VERIFIED_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchSDDVerifiedLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SDD_VERIFIED_LOADING
+})
+
+export const fetchSDDVerifiedSuccess = (
+  sddVerified: SDDVerifiedType
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SDD_VERIFIED_SUCCESS,
+  payload: {
+    sddVerified
   }
 })
 
@@ -470,6 +523,7 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
         order: payload.order,
         pair: payload.pair
       }
+    case 'VERIFY_EMAIL':
     case 'ENTER_AMOUNT':
       return {
         step: payload.step,
