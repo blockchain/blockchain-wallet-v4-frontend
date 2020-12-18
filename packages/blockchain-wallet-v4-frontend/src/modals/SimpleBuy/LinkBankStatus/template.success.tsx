@@ -64,7 +64,7 @@ const Success: React.FC<Props> = props => {
         <Subcontent color='grey600' weight={500}>
           <FormattedMessage
             id='copy.bank_linked'
-            defaultMessage='Your {bankName} account is now linked to your Blockchain.com Wallet'
+            defaultMessage='Your bank account is now linked to your Blockchain.com Wallet'
           />
         </Subcontent>
       </Container>

@@ -62,6 +62,10 @@ export default ({ api, coreSagas, networks }) => {
     )
     yield takeLatest(AT.FETCH_SB_QUOTE, simpleBuySagas.fetchSBQuote)
     yield takeLatest(
+      AT.HANDLE_BANK_LINK_STEP,
+      simpleBuySagas.handleBankLinkStep
+    )
+    yield takeLatest(
       AT.HANDLE_SB_DEPOSIT_FIAT_CLICK,
       simpleBuySagas.handleSBDepositFiatClick
     )

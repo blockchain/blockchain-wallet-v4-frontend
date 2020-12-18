@@ -352,6 +352,18 @@ export default ({
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
       yield put(A.fetchSBOrders())
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order: buyOrder }))
+
+      // log user tier
+      const currentTier = selectors.modules.profile.getCurrentTier(
+        yield select()
+      )
+      yield put(
+        actions.analytics.logEvent([
+          'SB_CREATE_ORDER_USER_TIER',
+          'TIER',
+          currentTier
+        ])
+      )
     } catch (e) {
       // After CC has been activated we try to create an order
       // If order creation fails go back to ENTER_AMOUNT step
@@ -512,6 +524,16 @@ export default ({
     } catch (e) {
       throw new Error(e)
     }
+  }
+
+  const handleBankLinkStep = function * () {
+    const fastLink = yield call(api.createBankAccountLink, 'USD')
+    yield put(
+      A.setStep({
+        step: 'LINK_BANK',
+        fastLink
+      })
+    )
   }
 
   const fetchBankTransferAccounts = function * () {
@@ -1018,13 +1040,8 @@ export default ({
         //       makes the UI stop and wait for the entire http request to come
         //       back before the new LINK_BANK step slides over. Need to do
         //       these in parallel but LINK_BANK requires `fastLink`
-        const fastLink = yield call(api.createBankAccountLink, 'USD')
-        return yield put(
-          A.setStep({
-            step: 'LINK_BANK',
-            fastLink
-          })
-        )
+        return yield call(handleBankLinkStep)
+
       case 'PAYMENT_CARD':
         return yield put(
           A.setStep({
@@ -1327,6 +1344,7 @@ export default ({
     fetchSBQuote,
     fetchSellQuote,
     formChanged,
+    handleBankLinkStep,
     handleSBDepositFiatClick,
     handleSBSuggestedAmountClick,
     handleSBMethodChange,

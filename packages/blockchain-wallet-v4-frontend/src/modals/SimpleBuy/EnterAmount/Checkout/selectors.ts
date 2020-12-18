@@ -13,11 +13,11 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   )
   // used for sell only now, eventually buy as well
   // TODO: use swap2 quote for buy AND sell
+  const paymentR = selectors.components.simpleBuy.getPayment(state)
   const quoteR =
     ownProps.orderType === 'BUY'
       ? selectors.components.simpleBuy.getSBQuote(state)
       : selectors.components.simpleBuy.getSellQuote(state)
-  const ratesR = selectors.core.data.misc.getRatesSelector(coin, state)
   const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
   const userDataR = selectors.modules.profile.getUserData(state)
   const sddEligibleR = selectors.components.simpleBuy.getSddEligible(state)
@@ -26,37 +26,39 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
     state
   )
   const sddLimitR = selectors.components.simpleBuy.getUserSddELimit(state)
+  const cardsR = selectors.components.simpleBuy.getSBCards(state) || []
 
   return lift(
     (
+      cards: ExtractSuccess<typeof cardsR>,
       quote: ExtractSuccess<typeof quoteR>,
-      rates: ExtractSuccess<typeof ratesR>,
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
       userData: ExtractSuccess<typeof userDataR>,
       sddEligible: ExtractSuccess<typeof sddEligibleR>,
+      sddLimit: ExtractSuccess<typeof sddLimitR>,
       supportedCoins: ExtractSuccess<typeof supportedCoinsR>,
-      userSDDTier: ExtractSuccess<typeof userSDDTierR>,
-      sddLimit: ExtractSuccess<typeof sddLimitR>
+      userSDDTier: ExtractSuccess<typeof userSDDTierR>
     ) => ({
+      cards,
       coinModel: supportedCoins[coin],
       formErrors,
       isSddFlow: sddEligible.eligible || userSDDTier === 3,
+      payment: paymentR.getOrElse(undefined),
       quote,
-      rates,
       sbBalances,
-      supportedCoins,
-      userData,
       sddEligible,
-      sddLimit
+      sddLimit,
+      supportedCoins,
+      userData
     })
   )(
+    cardsR,
     quoteR,
-    ratesR,
     sbBalancesR,
     userDataR,
     sddEligibleR,
+    sddLimitR,
     supportedCoinsR,
-    userSDDTierR,
-    sddLimitR
+    userSDDTierR
   )
 }

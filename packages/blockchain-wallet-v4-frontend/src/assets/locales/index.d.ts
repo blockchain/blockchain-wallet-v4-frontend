@@ -325,7 +325,7 @@ type MessagesType = {
   'copy.bank_linked_error_title_yourbank': 'Is this your bank?'
   'copy.bank_linked_error_checkingtitle': 'Please link a Checking Account.'
   'copy.bank_linked_error_checking': 'Your bank may charge you extra fees if you buy cyrpto without a checking account.'
-  'copy.bank_linked': 'Your {bankName} account is now linked to your Blockchain.com Wallet'
+  'copy.bank_linked': 'Your bank account is now linked to your Blockchain.com Wallet'
   'copy.bank_linked_title': 'Bank Linked'
   'copy.below_swap_min': 'Minimum Swap is {value}'
   'copy.canceled': 'Canceled'

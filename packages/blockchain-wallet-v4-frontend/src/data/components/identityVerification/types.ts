@@ -205,6 +205,10 @@ interface SetVerificationStepAction {
   type: typeof AT.SET_VERIFICATION_STEP
 }
 
+interface ResetVerificationStepAction {
+  type: typeof AT.RESET_VERIFICATION_STEP
+}
+
 interface VerifyIdentityAction {
   payload: {
     checkSddEligibility?: boolean
@@ -238,6 +242,7 @@ export type IdentityVerificationActionTypes =
   | SetSupportedDocumentLoadingAction
   | SetSupportedDocumentSuccessAction
   | SetVerificationStepAction
+  | ResetVerificationStepAction
   | VerifyIdentityAction
 
 export type InfoAndResidentialFormValuesType = {

@@ -96,7 +96,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
     this.props.actions.initializeVerification(tier, needMoreInfo)
   }
 
-  getStepComponent = (emailVerified, step) => {
+  getStepComponent = (emailVerified: boolean, step: number) => {
     if (step === STEPS.infoAndResidential) {
       if (!emailVerified) {
         return <EmailVerification handleClose={this.handleClose} />
