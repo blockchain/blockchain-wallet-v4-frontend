@@ -143,6 +143,52 @@ const Success: React.FC<Props> = props => {
           </TitleWrapper>
 
           <Bottom>
+            {props.order.state === 'PENDING_CONFIRMATION' ||
+              (props.order.state === 'PENDING_DEPOSIT' &&
+                !props.order.paymentMethodId && (
+                  <Button
+                    data-e2e='sbSDDCancelPending'
+                    size='16px'
+                    height='48px'
+                    nature='light-red'
+                    onClick={() =>
+                      props.simpleBuyActions.setStep({
+                        step: 'CANCEL_ORDER',
+                        order: props.order
+                      })
+                    }
+                    style={{ marginBottom: '16px' }}
+                  >
+                    <FormattedMessage
+                      id='modals.simplebuy.summary.cancelbuy'
+                      defaultMessage='Cancel Buy'
+                    />
+                  </Button>
+                ))}
+
+            {props.order.state === 'PENDING_DEPOSIT' &&
+              props.order.attributes?.everypay?.paymentState ===
+                'WAITING_FOR_3DS_RESPONSE' && (
+                <Button
+                  data-e2e='sbSDDRetryCard'
+                  size='16px'
+                  height='48px'
+                  nature='primary'
+                  onClick={() =>
+                    props.simpleBuyActions.setStep({
+                      step: '3DS_HANDLER',
+                      order: props.order
+                    })
+                  }
+                  style={{ marginBottom: '16px' }}
+                >
+                  <FormattedMessage
+                    id='modals.simplebuy.summary.complete_card_payment'
+                    defaultMessage='Complete Card Payment'
+                  />
+                </Button>
+              )}
+
             <Button
               data-e2e='sbSDDOverviewOkButton'
               size='16px'
