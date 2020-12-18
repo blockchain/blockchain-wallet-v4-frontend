@@ -13,7 +13,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   )
   // used for sell only now, eventually buy as well
   // TODO: use swap2 quote for buy AND sell
-  // const paymentR = selectors.components.simpleBuy.getPayment(state)
+  const paymentR = selectors.components.simpleBuy.getPayment(state)
   const quoteR =
     ownProps.orderType === 'BUY'
       ? selectors.components.simpleBuy.getSBQuote(state)
@@ -28,31 +28,31 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   const sddLimitR = selectors.components.simpleBuy.getUserSddELimit(state)
   const cardsR = selectors.components.simpleBuy.getSBCards(state) || []
 
-  return lift((
-    cards: ExtractSuccess<typeof cardsR>,
-    // payment: ExtractSuccess<typeof paymentR>,
-    quote: ExtractSuccess<typeof quoteR>,
-    sbBalances: ExtractSuccess<typeof sbBalancesR>,
-    userData: ExtractSuccess<typeof userDataR>,
-    sddEligible: ExtractSuccess<typeof sddEligibleR>,
-    sddLimit: ExtractSuccess<typeof sddLimitR>,
-    supportedCoins: ExtractSuccess<typeof supportedCoinsR>,
-    userSDDTier: ExtractSuccess<typeof userSDDTierR>
-  ) => ({
-    cards,
-    coinModel: supportedCoins[coin],
-    formErrors,
-    isSddFlow: sddEligible.eligible || userSDDTier === 3,
-    payment: undefined,
-    quote,
-    sbBalances,
-    sddEligible,
-    sddLimit,
-    supportedCoins,
-    userData
-  }))(
+  return lift(
+    (
+      cards: ExtractSuccess<typeof cardsR>,
+      quote: ExtractSuccess<typeof quoteR>,
+      sbBalances: ExtractSuccess<typeof sbBalancesR>,
+      userData: ExtractSuccess<typeof userDataR>,
+      sddEligible: ExtractSuccess<typeof sddEligibleR>,
+      sddLimit: ExtractSuccess<typeof sddLimitR>,
+      supportedCoins: ExtractSuccess<typeof supportedCoinsR>,
+      userSDDTier: ExtractSuccess<typeof userSDDTierR>
+    ) => ({
+      cards,
+      coinModel: supportedCoins[coin],
+      formErrors,
+      isSddFlow: sddEligible.eligible || userSDDTier === 3,
+      payment: paymentR.getOrElse(undefined),
+      quote,
+      sbBalances,
+      sddEligible,
+      sddLimit,
+      supportedCoins,
+      userData
+    })
+  )(
     cardsR,
-    // paymentR,
     quoteR,
     sbBalancesR,
     userDataR,
