@@ -82,7 +82,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
           <HeaderText color='grey900'>
             <FormattedMessage
               id='modals.simplebuy.link_bank'
-              defaultMessage='Blockchain.com uses Yodlee to verify your bank credentials & securely link your accounts. link your bank.'
+              defaultMessage='Blockchain.com uses Yodlee to verify your bank credentials & securely link your accounts.'
             />
           </HeaderText>
           <Image
@@ -103,7 +103,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
             />{' '}
             <Link href='/foo.html' rel='noopener noreferrer' target='_blank'>
               <FormattedMessage
-                defaultMessage='Learn More.'
+                defaultMessage='Learn More'
                 id='modals.simplebuy.summary.learn_more'
               />
             </Link>
