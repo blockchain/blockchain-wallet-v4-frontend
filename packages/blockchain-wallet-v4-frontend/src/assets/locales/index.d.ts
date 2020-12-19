@@ -1255,6 +1255,7 @@ type MessagesType = {
   'modals.simplebuy.checkout.larger_amount.title': 'Want to buy larger amounts?'
   'modals.simplebuy.checkout.larger_amount.info': 'After completing this transaction, upgrade to Gold level to unlock higher transaction limits and more payment methods.'
   'modals.simplebuy.checkoutconfirm': 'Checkout'
+  'modals.simplebuy.confirm.ach': 'For your security, buy orders with a bank account are subject up to a 14 day holding period. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
   'modals.simplebuy.confirm.activity': 'Your final amount may change due to market activity.'
   'modals.simplebuy.confirm.activity_card1': 'Your final amount might change due to market activity.'
   'modals.simplebuy.confirm.activity_card2': 'Your crypto will be available to be withdrawn within <b>{days} days</b>.'

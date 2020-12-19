@@ -84,6 +84,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     defaultTo([])(path(['data', 'bankAccounts'], props.data))
   )
   const showLock = props.withdrawLockCheck && props.withdrawLockCheck.lockTime
+  const isBankLink = props.order.paymentType === 'BANK_TRANSFER'
 
   const days =
     props.withdrawLockCheck && props.withdrawLockCheck.lockTime
@@ -245,6 +246,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 />
               </CheckBoxInput>
             </InfoTerms>
+          </Info>
+        )}
+        {isBankLink && (
+          <Info>
+            <Text size='12px' weight={500} color='grey900'>
+              <FormattedMessage
+                id='modals.simplebuy.confirm.ach'
+                defaultMessage='For your security, buy orders with a bank account are subject up to a 14 day holding period. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
+              />
+            </Text>
           </Info>
         )}
 
