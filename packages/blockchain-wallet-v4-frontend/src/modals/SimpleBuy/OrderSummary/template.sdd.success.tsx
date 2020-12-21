@@ -53,6 +53,15 @@ const IconBackground = styled.div<{ color: string }>`
   right: -5px;
   background: ${props => props.theme[props.color]};
 `
+const IconProgressBackground = styled.div<{ color: string }>`
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: ${props => props.theme[props.color]};
+`
 const TitleWrapper = styled(Text)`
   margin: 32px 0 24px 0;
   width: 100%;
@@ -76,6 +85,11 @@ const Success: React.FC<Props> = props => {
       ? moment.duration(props.withdrawLockCheck.lockTime, 'seconds').days()
       : 3
 
+  const isTransactionPending =
+    props.order.state === 'PENDING_DEPOSIT' &&
+    props.order.attributes?.everypay?.paymentState ===
+      'WAITING_FOR_3DS_RESPONSE'
+
   return (
     <Wrapper>
       <FlyoutWrapper>
@@ -94,20 +108,28 @@ const Success: React.FC<Props> = props => {
 
       <ContentWrapper>
         <Content>
-          <IconWrapper>
-            <Icon
-              color={props.supportedCoins[baseCurrency].colorCode}
-              name={props.supportedCoins[baseCurrency].icons.circleFilled}
-              size='64px'
-            />
-            <IconBackground color='white'>
+          {isTransactionPending ? (
+            <IconWrapper>
+              <IconProgressBackground color='orange100'>
+                <Icon color='orange600' name='pending' size='30px' />
+              </IconProgressBackground>
+            </IconWrapper>
+          ) : (
+            <IconWrapper>
               <Icon
-                name='checkmark-circle-filled'
-                size='24px'
-                color='green400'
+                color={props.supportedCoins[baseCurrency].colorCode}
+                name={props.supportedCoins[baseCurrency].icons.circleFilled}
+                size='64px'
               />
-            </IconBackground>
-          </IconWrapper>
+              <IconBackground color='white'>
+                <Icon
+                  name='checkmark-circle-filled'
+                  size='24px'
+                  color='green400'
+                />
+              </IconBackground>
+            </IconWrapper>
+          )}
 
           <TitleWrapper>
             <Text
@@ -116,14 +138,21 @@ const Success: React.FC<Props> = props => {
               weight={600}
               color='grey800'
             >
-              <FormattedMessage
-                id='modals.simplebuy.summary.purchased'
-                defaultMessage='{amount} {coin} Purchased'
-                values={{
-                  amount: baseAmount,
-                  coin: baseCurrency
-                }}
-              />
+              {isTransactionPending ? (
+                <FormattedMessage
+                  id='modals.simplebuy.summary.pending_buy'
+                  defaultMessage='Pending Buy'
+                />
+              ) : (
+                <FormattedMessage
+                  id='modals.simplebuy.summary.purchased'
+                  defaultMessage='{amount} {coin} Purchased'
+                  values={{
+                    amount: baseAmount,
+                    coin: baseCurrency
+                  }}
+                />
+              )}
             </Text>
 
             <Text
@@ -132,13 +161,20 @@ const Success: React.FC<Props> = props => {
               color='grey600'
               style={{ marginTop: '8px' }}
             >
-              <FormattedMessage
-                id='modals.simplebuy.transferdetails.available'
-                defaultMessage='Your {coin} is now available in your Trading Wallet.'
-                values={{
-                  coin: baseCurrency
-                }}
-              />
+              {isTransactionPending ? (
+                <FormattedMessage
+                  id='modals.simplebuy.transferdetails.available'
+                  defaultMessage='Your {coin} is now available in your Trading Wallet.'
+                  values={{
+                    coin: baseCurrency
+                  }}
+                />
+              ) : (
+                <FormattedMessage
+                  id='modals.simplebuy.summary.pending_buy_description'
+                  defaultMessage='Once you finalize your credit card information, your buy order will complete.'
+                />
+              )}
             </Text>
           </TitleWrapper>
 
@@ -166,71 +202,73 @@ const Success: React.FC<Props> = props => {
                   </Button>
                 ))}
 
-            {props.order.state === 'PENDING_DEPOSIT' &&
-              props.order.attributes?.everypay?.paymentState ===
-                'WAITING_FOR_3DS_RESPONSE' && (
-                <Button
-                  data-e2e='sbSDDRetryCard'
-                  size='16px'
-                  height='48px'
-                  nature='primary'
-                  onClick={() =>
-                    props.simpleBuyActions.setStep({
-                      step: '3DS_HANDLER',
-                      order: props.order
-                    })
-                  }
-                  style={{ marginBottom: '16px' }}
-                >
-                  <FormattedMessage
-                    id='modals.simplebuy.summary.complete_card_payment'
-                    defaultMessage='Complete Card Payment'
-                  />
-                </Button>
-              )}
+            {isTransactionPending && (
+              <Button
+                data-e2e='sbSDDRetryCard'
+                size='16px'
+                height='48px'
+                nature='primary'
+                onClick={() =>
+                  props.simpleBuyActions.setStep({
+                    step: '3DS_HANDLER',
+                    order: props.order
+                  })
+                }
+                style={{ marginBottom: '16px' }}
+              >
+                <FormattedMessage
+                  id='modals.simplebuy.summary.complete_card_payment'
+                  defaultMessage='Complete Card Payment'
+                />
+              </Button>
+            )}
 
-            <Button
-              data-e2e='sbSDDOverviewOkButton'
-              size='16px'
-              height='48px'
-              nature='primary'
-              onClick={() =>
-                props.simpleBuyActions.setStep({
-                  step: 'UPGRADE_TO_GOLD'
-                })
-              }
-              style={{ marginBottom: '32px' }}
-            >
-              <FormattedMessage id='buttons.ok' defaultMessage='OK' />
-            </Button>
+            {!isTransactionPending && (
+              <Button
+                data-e2e='sbSDDOverviewOkButton'
+                size='16px'
+                height='48px'
+                nature='primary'
+                onClick={() =>
+                  props.simpleBuyActions.setStep({
+                    step: 'UPGRADE_TO_GOLD'
+                  })
+                }
+                style={{ marginBottom: '32px' }}
+              >
+                <FormattedMessage id='buttons.ok' defaultMessage='OK' />
+              </Button>
+            )}
 
-            <Text color='grey600' size='12px' weight={500}>
-              <span>
-                {days === 0 || days === 1 ? (
-                  <FormattedMessage
-                    id='modals.simplebuy.summary.disclaimer'
-                    defaultMessage='You will not be able to Send or Withdraw these funds from your Wallet for the next 1 day.'
-                  />
-                ) : (
-                  <FormattedMessage
-                    id='modals.simplebuy.summary.disclaimer_plural'
-                    defaultMessage='You will not be able to Send or Withdraw these funds from your Wallet for the next {days} days.'
-                    values={{ days }}
-                  />
-                )}
-                <a
-                  href='https://support.blockchain.com/hc/en-us/articles/360048200392-Why-can-t-I-withdraw-my-crypto-'
-                  rel='noopener noreferrer'
-                  target='_blank'
-                >
-                  <FormattedMessage
-                    id='modals.simplebuy.summary.learn_more'
-                    defaultMessage='Learn more'
-                  />
-                </a>
-                {'.'}
-              </span>
-            </Text>
+            {!isTransactionPending && (
+              <Text color='grey600' size='12px' weight={500}>
+                <span>
+                  {days === 0 || days === 1 ? (
+                    <FormattedMessage
+                      id='modals.simplebuy.summary.disclaimer'
+                      defaultMessage='You will not be able to Send or Withdraw these funds from your Wallet for the next 1 day.'
+                    />
+                  ) : (
+                    <FormattedMessage
+                      id='modals.simplebuy.summary.disclaimer_plural'
+                      defaultMessage='You will not be able to Send or Withdraw these funds from your Wallet for the next {days} days.'
+                      values={{ days }}
+                    />
+                  )}
+                  <a
+                    href='https://support.blockchain.com/hc/en-us/articles/360048200392-Why-can-t-I-withdraw-my-crypto-'
+                    rel='noopener noreferrer'
+                    target='_blank'
+                  >
+                    <FormattedMessage
+                      id='modals.simplebuy.summary.learn_more'
+                      defaultMessage='Learn more'
+                    />
+                  </a>
+                  {'.'}
+                </span>
+              </Text>
+            )}
           </Bottom>
         </Content>
       </ContentWrapper>

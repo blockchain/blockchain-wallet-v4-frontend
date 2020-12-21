@@ -1344,6 +1344,8 @@ type MessagesType = {
   'modals.simplebuy.summary.created': 'Created'
   'modals.simplebuy.summary.paymentmethod': 'Payment Method'
   'modals.simplebuy.summary.purchased': '{amount} {coin} Purchased'
+  'modals.simplebuy.summary.pending_buy': 'Pending Buy'
+  'modals.simplebuy.summary.pending_buy_description': 'Once you finalize your credit card information, your buy order will complete.'
   'modals.simplebuy.summary.disclaimer': 'You will not be able to Send or Withdraw these funds from your Wallet for the next 1 day.'
   'modals.simplebuy.summary.disclaimer_plural': 'You will not be able to Send or Withdraw these funds from your Wallet for the next {days} days.'
   'modals.simplebuy.summary.purchasing': 'Purchasing'
