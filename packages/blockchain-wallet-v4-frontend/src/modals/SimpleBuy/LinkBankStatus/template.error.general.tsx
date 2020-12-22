@@ -129,12 +129,8 @@ const BankLinkError: React.FC<Props> = props => {
           style={{ marginTop: '16px' }}
           onClick={() =>
             props.simpleBuyActions.setStep({
-              step: 'PAYMENT_METHODS',
-              fiatCurrency: props.fiatCurrency,
-              // @ts-ignore
-              pair: props.order.pair,
-              cryptoCurrency: props.cryptoCurrency,
-              order: props.order
+              step: 'CRYPTO_SELECTION',
+              fiatCurrency: props.fiatCurrency
             })
           }
           fullwidth
