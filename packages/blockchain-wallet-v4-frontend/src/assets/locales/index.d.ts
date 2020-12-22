@@ -321,7 +321,7 @@ type MessagesType = {
   'copy.amount_sent': 'Amount Sent'
   'copy.balance': 'Balance'
   'copy.bank_linked_error': 'Please try linking your bank again. If this keeps happening, please'
-  'copy.bank_linked_error_alreadylinked': 'To link this bank, please log into your other Wallets and remove it. If this doesnt look right to you, please contact us immediately.'
+  'copy.bank_linked_error_alreadylinked': 'To link this bank, please log into your other Wallets and remove it. If this doesnt look right to you, please'
   'copy.bank_linked_error_yourbank': 'We noticed the names don’t match. The bank you link must have a matching legal first & last name as your Blockchain.com Account.'
   'copy.bank_linked_error_title_alreadylinked': 'Sorry,that bank account is linked to the maximum number of Blockchain Wallets.'
   'copy.bank_linked_error_title_yourbank': 'Is this your bank?'

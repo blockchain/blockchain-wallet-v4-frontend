@@ -74,10 +74,24 @@ const BankLinkError: React.FC<Props> = props => {
         </Title>
         <Subcontent color='grey600' weight={500}>
           {bankStatus === 'BANK_TRANSFER_ACCOUNT_ALREADY_LINKED' ? (
-            <FormattedMessage
-              id='copy.bank_linked_error_alreadylinked'
-              defaultMessage='To link this bank, please log into your other Wallets and remove it. If this doesnt look right to you, please contact us immediately.'
-            />
+            <>
+              <FormattedMessage
+                id='copy.bank_linked_error_alreadylinked'
+                defaultMessage='To link this bank, please log into your other Wallets and remove it. If this doesnt look right to you, please'
+              />{' '}
+              <Link
+                size='16px'
+                weight={500}
+                target='_blank'
+                href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000190032'
+              >
+                <FormattedMessage
+                  id='buttons.contact_support'
+                  defaultMessage='Contact Support'
+                />
+              </Link>
+              {'.'}
+            </>
           ) : bankStatus === 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH' ? (
             <>
               <FormattedMessage
