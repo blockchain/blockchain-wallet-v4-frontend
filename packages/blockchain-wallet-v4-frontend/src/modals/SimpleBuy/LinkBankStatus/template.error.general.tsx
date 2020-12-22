@@ -68,6 +68,12 @@ const BankLinkError: React.FC<Props> = props => {
               defaultMessage='Is this your bank?'
             />
           )}
+          {bankStatus === 'BANK_TRANSFER_ACCOUNT_ALREADY_LINKED' && (
+            <FormattedMessage
+              id='copy.bank_linked_error_title_alreadylinked'
+              defaultMessage='Sorry,that bank account is linked to the maximum number of Blockchain Wallets.'
+            />
+          )}
         </Title>
         <Subcontent color='grey600' weight={500}>
           {bankStatus === 'DEFAULT_ERROR' ||
@@ -109,6 +115,12 @@ const BankLinkError: React.FC<Props> = props => {
                 />
               </Link>
             </>
+          )}
+          {bankStatus === 'BANK_TRANSFER_ACCOUNT_ALREADY_LINKED' && (
+            <FormattedMessage
+              id='copy.bank_linked_error_alreadylinked'
+              defaultMessage='To link this bank, please log into your other Wallets and remove it. If this doesnt look right to you, please contact us immediately.'
+            />
           )}
         </Subcontent>
         <Button
