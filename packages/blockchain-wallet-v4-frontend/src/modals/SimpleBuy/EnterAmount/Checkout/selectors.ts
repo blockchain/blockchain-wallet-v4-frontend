@@ -23,28 +23,20 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   const userDataR = selectors.modules.profile.getUserData(state)
   const sddEligibleR = selectors.components.simpleBuy.getSddEligible(state)
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
-  const userSDDTierR = selectors.components.simpleBuy.getUserSddEligibleTier(
-    state
-  )
   const sddLimitR = selectors.components.simpleBuy.getUserSddELimit(state)
-  const cardsR = selectors.components.simpleBuy.getSBCards(state) || []
 
   return lift(
     (
-      cards: ExtractSuccess<typeof cardsR>,
       quote: ExtractSuccess<typeof quoteR>,
       rates: ExtractSuccess<typeof ratesR>,
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
       userData: ExtractSuccess<typeof userDataR>,
       sddEligible: ExtractSuccess<typeof sddEligibleR>,
       sddLimit: ExtractSuccess<typeof sddLimitR>,
-      supportedCoins: ExtractSuccess<typeof supportedCoinsR>,
-      userSDDTier: ExtractSuccess<typeof userSDDTierR>
+      supportedCoins: ExtractSuccess<typeof supportedCoinsR>
     ) => ({
-      cards,
       coinModel: supportedCoins[coin],
       formErrors,
-      isSddFlow: sddEligible.eligible || userSDDTier === 3,
       payment: paymentR.getOrElse(undefined),
       quote,
       rates,
@@ -55,14 +47,12 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       userData
     })
   )(
-    cardsR,
     quoteR,
     ratesR,
     sbBalancesR,
     userDataR,
     sddEligibleR,
     sddLimitR,
-    supportedCoinsR,
-    userSDDTierR
+    supportedCoinsR
   )
 }

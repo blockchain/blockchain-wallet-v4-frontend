@@ -26,28 +26,24 @@ const Payment: React.FC<Props> = props => (
       role='button'
       data-e2e='paymentMethodSelect'
       onClick={() => {
-        return !props.isSddFlow
-          ? props.simpleBuyActions.setStep({
-              step: 'PAYMENT_METHODS',
-              pair: props.pair,
-              fiatCurrency: props.fiatCurrency || 'USD',
-              cryptoCurrency: props.cryptoCurrency
-            })
-          : null
+        return props.simpleBuyActions.setStep({
+          step: 'PAYMENT_METHODS',
+          pair: props.pair,
+          fiatCurrency: props.fiatCurrency || 'USD',
+          cryptoCurrency: props.cryptoCurrency
+        })
       }}
       isMethod={!!props.method}
     >
       <DisplayPaymentIcon showBackground={!props.method}>
-        {getIcon(props.method, props.isSddFlow)}
+        {getIcon(props.method)}
       </DisplayPaymentIcon>
       <PaymentText isMethod={!!props.method}>
-        {getText(props.method, props.sbBalances, props.isSddFlow)}
+        {getText(props.method, props.sbBalances)}
       </PaymentText>
-      {!props.isSddFlow && (
-        <PaymentArrowContainer>
-          <Icon cursor name='arrow-right' size='20px' color='grey600' />
-        </PaymentArrowContainer>
-      )}
+      <PaymentArrowContainer>
+        <Icon cursor name='arrow-right' size='20px' color='grey600' />
+      </PaymentArrowContainer>
     </PaymentContainer>
   </>
 )

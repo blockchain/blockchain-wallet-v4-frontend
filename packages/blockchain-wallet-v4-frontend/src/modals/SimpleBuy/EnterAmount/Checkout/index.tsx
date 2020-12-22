@@ -5,7 +5,6 @@ import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/simpleBuy/model'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import { SBCheckoutFormValuesType, UserDataType } from 'data/types'
 
@@ -34,20 +33,14 @@ class Checkout extends PureComponent<Props> {
       this.props.swapAccount,
       cryptoAmount
     )
-
-    if (!Remote.Success.is(this.props.data)) {
-      this.props.simpleBuyActions.fetchSDDEligible()
-      this.props.simpleBuyActions.fetchSBCards()
-    }
   }
 
   handleSubmit = () => {
     // if the user is < tier 2 go to kyc but save order info
     // if the user is tier 2 try to submit order, let BE fail
     const { formValues } = this.props
-    const { isSddFlow, userData } = this.props.data.getOrElse({
-      userData: { tiers: { current: 0, next: 0, selected: 0 } } as UserDataType,
-      isSddFlow: false
+    const { userData } = this.props.data.getOrElse({
+      userData: { tiers: { current: 0, next: 0, selected: 0 } } as UserDataType
     } as SuccessStateType)
     const simpleBuyGoal = find(propEq('name', 'simpleBuy'), this.props.goals)
     const id = propOr('', 'id', simpleBuyGoal)
@@ -61,21 +54,7 @@ class Checkout extends PureComponent<Props> {
       return this.props.simpleBuyActions.setStep({ step: 'PREVIEW_SELL' })
     }
 
-    if (isSddFlow) {
-      const currentTier = userData?.tiers?.current
-      if (currentTier === 2 || currentTier === 1) {
-        // user in SDD but already completed eligibility check, continue to payment
-        this.props.simpleBuyActions.createSBOrder('PAYMENT_CARD')
-      } else {
-        // user in SDD but needs to confirm KYC and SDD eligibility
-        this.props.identityVerificationActions.verifyIdentity(
-          2,
-          false,
-          true,
-          () => this.props.simpleBuyActions.createSBOrder('PAYMENT_CARD')
-        )
-      }
-    } else if (!method) {
+    if (!method) {
       const fiatCurrency = this.props.fiatCurrency || 'USD'
       this.props.simpleBuyActions.setStep({
         step: 'PAYMENT_METHODS',

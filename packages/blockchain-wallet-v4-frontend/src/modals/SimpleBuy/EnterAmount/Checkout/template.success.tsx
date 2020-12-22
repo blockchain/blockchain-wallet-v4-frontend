@@ -9,7 +9,7 @@ import {
   coinToString,
   fiatToString
 } from 'blockchain-wallet-v4/src/exchange/currency'
-import { CoinType, SBPaymentMethodType } from 'core/types'
+import { CoinType } from 'core/types'
 import { convertStandardToBase } from 'data/components/exchange/services'
 import {
   CRYPTO_DECIMALS,
@@ -28,18 +28,14 @@ import {
   getMaxMin,
   getQuote,
   maximumAmount,
-  minimumAmount,
-  SDD_LIMIT_FACTOR
+  minimumAmount
 } from './validation'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { Row } from '../../../Swap/EnterAmount/Checkout'
 import ActionButton from './ActionButton'
 import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
 import Failure from '../template.failure'
-import IncreaseLimits from './IncreaseLimits'
 import Payment from './Payment'
-
-const SDD_LIMIT = { min: '500', max: '10000' }
 
 const DAILY_LIMIT_MESSAGE = 'User exceeded daily trading limit'
 const WEEKLY_LIMIT_MESSAGE = 'User exceeded weekly trading limit'
@@ -81,17 +77,7 @@ const QuoteRow = styled.div`
   align-items: center;
   justify-content: space-between;
 `
-const ActionsRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 32px;
-  margin-top: 16px;
-`
-const ActionsItem = styled.div`
-  display: flex;
-  flex-direction: column;
-`
+
 const CustomBlueCartridge = styled(BlueCartridge)`
   border: 1px solid ${props => props.theme.blue000};
   cursor: pointer;
@@ -154,31 +140,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     cryptoCurrency,
     fiatCurrency,
     method: selectedMethod,
-    defaultMethod,
-    cards
+    defaultMethod
   } = props
   const [fontRatio, setRatio] = useState(1)
-
-  const isSddBuy = props.isSddFlow && props.orderType === 'BUY'
-
   let method = selectedMethod || defaultMethod
-  if (isSddBuy && cards && cards.length === 1) {
-    const card = cards[0]
-
-    const defaultCardMethod = props.paymentMethods.methods.find(
-      m => m.type === 'PAYMENT_CARD' && orderType === 'BUY'
-    )
-    method = {
-      ...card,
-      card: card.card,
-      type: 'USER_CARD',
-      currency: card.currency,
-      limits:
-        defaultCardMethod && defaultCardMethod.limits
-          ? defaultCardMethod.limits
-          : { min: '500', max: '10000' }
-    } as SBPaymentMethodType
-  }
 
   const fix = props.preferences[props.orderType].fix
   const digits = fix === 'FIAT' ? FIAT_DECIMALS : CRYPTO_DECIMALS
@@ -205,8 +170,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const amtError =
     typeof props.formErrors.amount === 'string' && props.formErrors.amount
 
-  const sddLimit = props.sddLimit || SDD_LIMIT
-
   const max: string = getMaxMin(
     'max',
     props.sbBalances,
@@ -216,9 +179,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.payment,
     props.formValues,
     method,
-    props.swapAccount,
-    props.isSddFlow,
-    sddLimit
+    props.swapAccount
   )[fix]
   const min: string = getMaxMin(
     'min',
@@ -229,9 +190,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.payment,
     props.formValues,
     method,
-    props.swapAccount,
-    props.isSddFlow,
-    sddLimit
+    props.swapAccount
   )[fix]
 
   const handleMinMaxClick = () => {
@@ -245,29 +204,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       props.payment,
       props.formValues,
       method,
-      props.swapAccount,
-      props.isSddFlow,
-      sddLimit
-    )[fix]
-    const value = convertStandardToBase(conversionCoinType, maxMin)
-    props.simpleBuyActions.handleSBSuggestedAmountClick(
-      value,
-      conversionCoinType
-    )
-  }
-  const handleMaxClick = () => {
-    const maxMin: string = getMaxMin(
-      'max',
-      props.sbBalances,
-      props.orderType,
-      props.quote,
-      props.pair,
-      props.payment,
-      props.formValues,
-      method,
-      props.swapAccount,
-      props.isSddFlow,
-      sddLimit
+      props.swapAccount
     )[fix]
     const value = convertStandardToBase(conversionCoinType, maxMin)
     props.simpleBuyActions.handleSBSuggestedAmountClick(
@@ -286,8 +223,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       : amountRowNode.children[amountRowNode.children.length - 1]
     currencyNode.style.fontSize = `${fontSizeNumber * fontRatio}px`
   }
-
-  const limit = Number(props.sddLimit.max) / SDD_LIMIT_FACTOR
 
   return (
     <CustomForm onSubmit={props.handleSubmit}>
@@ -389,7 +324,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </QuoteRow>
 
-        {(!props.isSddFlow || props.orderType === 'SELL') && props.pair && (
+        {props.pair && (
           <Amounts onClick={handleMinMaxClick}>
             <>
               {amtError === 'BELOW_MIN' ? (
@@ -439,41 +374,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </Amounts>
         )}
 
-        {props.isSddFlow && props.orderType === 'BUY' && (
-          <ActionsRow>
-            <ActionsItem>
-              <Text weight={500} size='14px' color='grey600'>
-                <FormattedMessage
-                  id='modals.simplebuy.checkout.max_card_limit'
-                  defaultMessage='Max Card Limit'
-                />
-              </Text>
-              <div>
-                <Text
-                  weight={600}
-                  size='16px'
-                  color='grey900'
-                >{`${Currencies[fiatCurrency].units[fiatCurrency].symbol}${limit}`}</Text>
-              </div>
-            </ActionsItem>
-            <ActionsItem>
-              <div onClick={handleMaxClick}>
-                <BlueRedCartridge error={amtError === 'ABOVE_MAX'}>
-                  <FormattedMessage
-                    id='modals.simplebuy.checkout.maxbuy'
-                    defaultMessage='Max Buy'
-                  />
-                </BlueRedCartridge>
-              </div>
-            </ActionsItem>
-          </ActionsRow>
-        )}
-
-        <Payment
-          {...props}
-          method={method}
-          isSddFlow={props.isSddFlow && props.orderType === 'BUY'}
-        />
+        <Payment {...props} method={method} />
 
         {props.error && (
           <ErrorTextContainer>
@@ -502,9 +403,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         )}
         <ActionButton {...props} />
       </FlyoutWrapper>
-      {props.isSddFlow && props.orderType === 'BUY' && (
-        <IncreaseLimits {...props} />
-      )}
     </CustomForm>
   )
 }
