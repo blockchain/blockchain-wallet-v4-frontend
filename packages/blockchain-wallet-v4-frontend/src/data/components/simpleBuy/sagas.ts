@@ -1102,7 +1102,6 @@ export default ({
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
       yield call(waitForUserData)
-
       const fiatCurrency = S.getFiatCurrency(yield select())
       if (!fiatCurrency) throw new Error(NO_FIAT_CURRENCY)
       const pair = S.getSBPair(yield select())
