@@ -1255,6 +1255,7 @@ type MessagesType = {
   'modals.simplebuy.confirm.rate': 'Exchange Rate'
   'modals.simplebuy.confirm.coin_price': '{coin} Price'
   'modals.simplebuy.doing.work': 'Doing Work...'
+  'modals.simplebuy.processing': 'Processing…'
   'modals.simplebuy.deposit.bank_transfer': 'Bank Transfer'
   'modals.simplebuy.deposit.bank_transfer_only': 'Bank Transfers Only'
   'modals.simplebuy.deposit.bank_transfer_only_description': 'Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected.'
