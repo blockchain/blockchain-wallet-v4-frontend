@@ -71,9 +71,6 @@ export const Caption = styled(Text)`
   line-height: 150%;
   color: ${props => props.theme.grey600};
 `
-const SmallFormItem = styled(FormItem)`
-  width: 45%;
-`
 const CustomForm = styled(Form)`
   height: 100%;
   display: flex;
@@ -205,43 +202,43 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </ErrorText>
           </ErrorTextContainer>
         )}
+        <FormGroup inline>
+          <FormItem>
+            <Label htmlFor='firstName'>
+              <Text weight={500} size='14px' color='grey900'>
+                <FormattedMessage
+                  id='identityverification.personal.firstnamerequired'
+                  defaultMessage='First Name *'
+                />
+              </Text>
+            </Label>
+            <Field
+              date-e2e='firstName'
+              name='firstName'
+              validate={required}
+              component={TextBox}
+              errorBottom
+            />
+          </FormItem>
+          <FormItem>
+            <Label htmlFor='lastName'>
+              <Text weight={500} size='14px' color='grey900'>
+                <FormattedMessage
+                  id='identityverification.personal.lastnamerequired'
+                  defaultMessage='Last Name *'
+                />
+              </Text>
+            </Label>
+            <Field
+              date-e2e='lastName'
+              name='lastName'
+              validate={required}
+              component={TextBox}
+              errorBottom
+            />
+          </FormItem>
+        </FormGroup>
         <FormGroup>
-          <FullNameContainer>
-            <SmallFormItem>
-              <Label htmlFor='firstName'>
-                <Text weight={500} size='14px' color='grey900'>
-                  <FormattedMessage
-                    id='identityverification.personal.firstnamerequired'
-                    defaultMessage='First Name *'
-                  />
-                </Text>
-              </Label>
-              <Field
-                date-e2e='firstName'
-                name='firstName'
-                validate={required}
-                component={TextBox}
-                errorBottom
-              />
-            </SmallFormItem>
-            <SmallFormItem>
-              <Label htmlFor='lastName'>
-                <Text weight={500} size='14px' color='grey900'>
-                  <FormattedMessage
-                    id='identityverification.personal.lastnamerequired'
-                    defaultMessage='Last Name *'
-                  />
-                </Text>
-              </Label>
-              <Field
-                date-e2e='lastName'
-                name='lastName'
-                validate={required}
-                component={TextBox}
-                errorBottom
-              />
-            </SmallFormItem>
-          </FullNameContainer>
           <Caption>
             <FormattedMessage
               id='modals.simplebuy.info_and_residential.id_or_password'
