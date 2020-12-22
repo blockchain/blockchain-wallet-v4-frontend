@@ -1254,7 +1254,6 @@ type MessagesType = {
   'modals.simplebuy.comfirm.price': '{baseCoinTicker} Price'
   'modals.simplebuy.confirm.rate': 'Exchange Rate'
   'modals.simplebuy.confirm.coin_price': '{coin} Price'
-  'modals.simplebuy.doing.work': 'Doing Work...'
   'modals.simplebuy.processing': 'Processing…'
   'modals.simplebuy.deposit.bank_transfer': 'Bank Transfer'
   'modals.simplebuy.deposit.bank_transfer_only': 'Bank Transfers Only'
