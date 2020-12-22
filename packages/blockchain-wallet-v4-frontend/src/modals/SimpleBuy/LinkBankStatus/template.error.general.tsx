@@ -55,49 +55,30 @@ const BankLinkError: React.FC<Props> = props => {
       <Container>
         <Image width='100px' name='bank-error' />
         <Title color='grey800' size='20px' weight={600}>
-          {bankStatus === 'DEFAULT_ERROR' ||
-            (bankStatus === 'BANK_TRANSFER_ACCOUNT_INFO_NOT_FOUND' && (
-              <FormattedMessage
-                id='scenes.exchange.confirm.oopsheader'
-                defaultMessage='Oops! Something went wrong.'
-              />
-            ))}
-          {bankStatus === 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH' && (
-            <FormattedMessage
-              id='copy.bank_linked_error_title_yourbank'
-              defaultMessage='Is this your bank?'
-            />
-          )}
-          {bankStatus === 'BANK_TRANSFER_ACCOUNT_ALREADY_LINKED' && (
+          {bankStatus === 'BANK_TRANSFER_ACCOUNT_ALREADY_LINKED' ? (
             <FormattedMessage
               id='copy.bank_linked_error_title_alreadylinked'
               defaultMessage='Sorry,that bank account is linked to the maximum number of Blockchain Wallets.'
             />
+          ) : bankStatus === 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH' ? (
+            <FormattedMessage
+              id='copy.bank_linked_error_title_yourbank'
+              defaultMessage='Is this your bank?'
+            />
+          ) : (
+            <FormattedMessage
+              id='scenes.exchange.confirm.oopsheader'
+              defaultMessage='Oops! Something went wrong.'
+            />
           )}
         </Title>
         <Subcontent color='grey600' weight={500}>
-          {bankStatus === 'DEFAULT_ERROR' ||
-            (bankStatus === 'BANK_TRANSFER_ACCOUNT_INFO_NOT_FOUND' && (
-              <>
-                <FormattedMessage
-                  id='copy.bank_linked_error'
-                  defaultMessage='Please try linking your bank again. If this keeps happening, please'
-                />{' '}
-                <Link
-                  size='16px'
-                  weight={500}
-                  target='_blank'
-                  href='https://support.blockchain.com/hc/en-us/'
-                >
-                  <FormattedMessage
-                    id='buttons.contact_support'
-                    defaultMessage='Contact Support'
-                  />
-                </Link>
-                {'.'}
-              </>
-            ))}
-          {bankStatus === 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH' && (
+          {bankStatus === 'BANK_TRANSFER_ACCOUNT_ALREADY_LINKED' ? (
+            <FormattedMessage
+              id='copy.bank_linked_error_alreadylinked'
+              defaultMessage='To link this bank, please log into your other Wallets and remove it. If this doesnt look right to you, please contact us immediately.'
+            />
+          ) : bankStatus === 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH' ? (
             <>
               <FormattedMessage
                 id='copy.bank_linked_error_yourbank'
@@ -115,12 +96,25 @@ const BankLinkError: React.FC<Props> = props => {
                 />
               </Link>
             </>
-          )}
-          {bankStatus === 'BANK_TRANSFER_ACCOUNT_ALREADY_LINKED' && (
-            <FormattedMessage
-              id='copy.bank_linked_error_alreadylinked'
-              defaultMessage='To link this bank, please log into your other Wallets and remove it. If this doesnt look right to you, please contact us immediately.'
-            />
+          ) : (
+            <>
+              <FormattedMessage
+                id='copy.bank_linked_error'
+                defaultMessage='Please try linking your bank again. If this keeps happening, please'
+              />{' '}
+              <Link
+                size='16px'
+                weight={500}
+                target='_blank'
+                href='https://support.blockchain.com/hc/en-us/'
+              >
+                <FormattedMessage
+                  id='buttons.contact_support'
+                  defaultMessage='Contact Support'
+                />
+              </Link>
+              {'.'}
+            </>
           )}
         </Subcontent>
         <Button
