@@ -216,7 +216,16 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const balanceBelowMinimum = userMax < Number(min)
 
   const isQuoteFailed = Remote.Failure.is(props.quoteR)
-
+  const isErc20 =
+    BASE.coin === 'PAX' || BASE.coin === 'USDT' || BASE.coin === 'WDGLD'
+  const isSufficientEthForErc20 =
+    props.payment &&
+    (props.payment.coin === 'PAX' ||
+      props.payment.coin === 'USDT' ||
+      props.payment.coin === 'WDGLD') &&
+    props.payment.isSufficientEthForErc20
+  const disableInsufficientEth =
+    isErc20 && !isSufficientEthForErc20 && BASE.type === 'ACCOUNT'
   return (
     <FlyoutWrapper style={{ paddingTop: '20px' }}>
       <StyledForm onSubmit={handleSubmit}>
@@ -447,7 +456,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           jumbo
           fullwidth
           style={{ marginTop: '24px' }}
-          disabled={props.invalid || isQuoteFailed}
+          disabled={props.invalid || isQuoteFailed || disableInsufficientEth}
         >
           <FormattedMessage
             id='buttons.preview_swap'
@@ -463,6 +472,17 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               Loading: () => null,
               NotAsked: () => null
             })}
+          </ErrorCartridge>
+        )}
+        {disableInsufficientEth && (
+          <ErrorCartridge style={{ marginTop: '16px' }}>
+            <FormattedMessage
+              id='modals.interest.deposit.notenougheth'
+              defaultMessage='ETH is required to send {coinTicker}. You do not have enough ETH to perform a transaction.'
+              values={{
+                coinTicker: coins[BASE.coin].coinTicker
+              }}
+            />
           </ErrorCartridge>
         )}
       </StyledForm>

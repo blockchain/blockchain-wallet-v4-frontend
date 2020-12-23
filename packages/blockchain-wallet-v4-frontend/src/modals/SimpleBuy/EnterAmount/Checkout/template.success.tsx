@@ -298,7 +298,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     (props.payment.coin === 'PAX' ||
       props.payment.coin === 'USDT' ||
       props.payment.coin === 'WDGLD') &&
-    props.payment?.isSufficientEthForErc20 &&  props.swapAccount?.type === 'CUSTODIAL' &&  props.orderType === 'BUY' 
+    props.payment.isSufficientEthForErc20
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ paddingBottom: '0px', borderBottom: 'grey000' }}>
@@ -521,7 +521,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       )}
       {!isSufficientEthForErc20 &&
         isErc20 &&
-       (
+        props.swapAccount?.type === 'ACCOUNT' &&
+        props.orderType === 'SELL' && (
           <ErrorTextContainer>
             <ErrorText>
               <Icon
