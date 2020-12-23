@@ -21,8 +21,8 @@ const Loading: React.FC<Props> = () => {
       <BlockchainLoader width='80px' height='80px' />
       <Text weight={600} color='grey600' style={{ marginTop: '24px' }}>
         <FormattedMessage
-          id='modals.simplebuy.doing.work'
-          defaultMessage='Doing Work...'
+          id='modals.simplebuy.processing'
+          defaultMessage='Processing…'
         />
       </Text>
     </Wrapper>
