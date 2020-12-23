@@ -5,7 +5,6 @@ import React from 'react'
 
 type Props = {
   invalid: boolean
-  isErc20: boolean
   isSufficientEthForErc20: boolean
   submitting: boolean
 } & OwnProps &
@@ -13,11 +12,7 @@ type Props = {
 
 const ActionButton: React.FC<Props> = props => {
   const disabled = props.invalid || props.submitting
-  const disableInsufficientEth =
-    props.orderType === 'SELL' &&
-    props.isSufficientEthForErc20 &&
-    props.swapAccount?.type === 'ACCOUNT' &&
-    props.isErc20
+  const disableInsufficientEth = props.isSufficientEthForErc20
 
   switch (props.userData.kycState) {
     case 'EXPIRED':

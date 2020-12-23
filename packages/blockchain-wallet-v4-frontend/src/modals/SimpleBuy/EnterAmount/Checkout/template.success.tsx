@@ -298,7 +298,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     (props.payment.coin === 'PAX' ||
       props.payment.coin === 'USDT' ||
       props.payment.coin === 'WDGLD') &&
-    props.payment.isSufficientEthForErc20
+    !props.payment.isSufficientEthForErc20 &&
+    isErc20 &&
+    props.swapAccount?.type === 'ACCOUNT' &&
+    props.orderType === 'SELL'
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ paddingBottom: '0px', borderBottom: 'grey000' }}>
@@ -513,33 +516,29 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <ActionButton
           {...props}
           isSufficientEthForErc20={isSufficientEthForErc20 || false}
-          isErc20={isErc20 || false}
         />
       </FlyoutWrapper>
       {props.isSddFlow && props.orderType === 'BUY' && (
         <IncreaseLimits {...props} />
       )}
-      {!isSufficientEthForErc20 &&
-        isErc20 &&
-        props.swapAccount?.type === 'ACCOUNT' &&
-        props.orderType === 'SELL' && (
-          <ErrorTextContainer>
-            <ErrorText>
-              <Icon
-                name='alert-filled'
-                color='red600'
-                style={{ marginRight: '4px' }}
-              />
-              <FormattedMessage
-                id='modals.interest.deposit.notenougheth'
-                defaultMessage='ETH is required to send {coinTicker}. You do not have enough ETH to perform a transaction.'
-                values={{
-                  coinTicker: props.supportedCoins[cryptoCurrency].coinTicker
-                }}
-              />
-            </ErrorText>
-          </ErrorTextContainer>
-        )}
+      {isSufficientEthForErc20 && (
+        <ErrorTextContainer>
+          <ErrorText>
+            <Icon
+              name='alert-filled'
+              color='red600'
+              style={{ marginRight: '4px' }}
+            />
+            <FormattedMessage
+              id='modals.interest.deposit.notenougheth'
+              defaultMessage='ETH is required to send {coinTicker}. You do not have enough ETH to perform a transaction.'
+              values={{
+                coinTicker: props.supportedCoins[cryptoCurrency].coinTicker
+              }}
+            />
+          </ErrorText>
+        </ErrorTextContainer>
+      )}
     </CustomForm>
   )
 }
