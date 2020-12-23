@@ -364,6 +364,7 @@ export function simpleBuyReducer (
             swapAccount: undefined,
             addBank: undefined
           }
+        case 'LINKED_PAYMENT_ACCOUNTS':
         case 'PAYMENT_METHODS':
           return {
             ...state,

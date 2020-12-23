@@ -23,10 +23,7 @@ import PaymentCard from './PaymentCard'
 import React, { PureComponent, ReactElement } from 'react'
 import styled from 'styled-components'
 
-import Bank from './Bank'
 import BankWire from './BankWire'
-import Card from './Card'
-import Fund from './Fund'
 import LinkBank from './LinkBank'
 
 const Wrapper = styled.div`
@@ -58,7 +55,7 @@ const IconContainer = styled.div`
 
 export type Props = OwnProps & SuccessStateType
 
-class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
+class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   getType = (value: SBPaymentMethodType) => {
     switch (value.type) {
       case 'BANK_TRANSFER':
@@ -170,9 +167,6 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 
   render () {
     const { fiatCurrency, orderType } = this.props
-    const availableBankAccounts = this.props.bankTransferAccounts.filter(
-      account => account.state === 'ACTIVE' && orderType === 'BUY'
-    )
     const availableCards = this.props.cards.filter(
       card => card.state === 'ACTIVE' && orderType === 'BUY'
     )
@@ -222,22 +216,6 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           defaultCardMethod && defaultCardMethod.limits
             ? defaultCardMethod.limits
             : { min: '1000', max: '500000' }
-      } as SBPaymentMethodType
-    }))
-
-    const bankMethods = availableBankAccounts.map(account => ({
-      text: account.details
-        ? account.details.accountName
-          ? account.details.accountName
-          : account.details.accountNumber
-        : 'Bank Account',
-      value: {
-        ...account,
-        type: 'BANK_TRANSFER',
-        currency: account.currency,
-        limits: (bankTransfer &&
-          bankTransfer.value &&
-          bankTransfer.value.limits) || { min: '100', max: '200000' }
       } as SBPaymentMethodType
     }))
 
@@ -298,32 +276,6 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 </Text>
               </NoMethods>
             )}
-            {funds &&
-              funds.map((fund, index) => (
-                <Fund
-                  key={`${fund.text}-${index}`}
-                  value={fund.value}
-                  icon={this.getIcon(fund.value)}
-                  onClick={() => this.handleSubmit(fund.value)}
-                  balances={
-                    this.props.balances[fund.value.currency] || {
-                      available: '0',
-                      pending: '0'
-                    }
-                  }
-                  walletCurrency={this.props.walletCurrency}
-                />
-              ))}
-            {cardMethods &&
-              cardMethods.map((cardMethod, index) => (
-                <Card
-                  key={index}
-                  value={cardMethod.value}
-                  text={this.renderCardText(cardMethod.value)}
-                  icon={this.getIcon(cardMethod.value)}
-                  onClick={() => this.handleSubmit(cardMethod.value)}
-                />
-              ))}
             {paymentCard && (
               <PaymentCard
                 {...paymentCard}
@@ -331,22 +283,6 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 onClick={() => this.handleSubmit(paymentCard.value)}
               />
             )}
-            {bankMethods &&
-              bankMethods.map((bankMethod, index) => (
-                <Bank
-                  key={index}
-                  value={bankMethod.value}
-                  text={this.renderBankText(bankMethod.value)}
-                  icon={
-                    bankMethod.value.details
-                      ? this.getLinkedBankIcon(
-                          bankMethod.value.details.bankName
-                        )
-                      : this.getIcon(bankMethod.value)
-                  }
-                  onClick={() => this.handleSubmit(bankMethod.value)}
-                />
-              ))}
             {bankTransfer && (
               <LinkBank
                 {...bankTransfer}
@@ -379,4 +315,4 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 export default reduxForm<{}, Props>({
   form: 'sbPaymentMethods',
   destroyOnUnmount: false
-})(Payments)
+})(Methods)

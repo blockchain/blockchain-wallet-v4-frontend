@@ -552,6 +552,7 @@ export const setStep = (payload: StepActionsPayload): SimpleBuyActionTypes => ({
 
 const getPayloadObjectForStep = (payload: StepActionsPayload) => {
   switch (payload.step) {
+    case 'LINKED_PAYMENT_ACCOUNTS':
     case 'PAYMENT_METHODS':
       return {
         step: payload.step,
