@@ -104,7 +104,7 @@ const ActionButton: React.FC<Props> = props => {
           nature='primary'
           type='submit'
           fullwidth
-          disabled={disabled && disableInsufficientEth}
+          disabled={disabled || disableInsufficientEth}
         >
           {props.submitting ? (
             <HeartbeatLoader height='16px' width='16px' color='white' />
