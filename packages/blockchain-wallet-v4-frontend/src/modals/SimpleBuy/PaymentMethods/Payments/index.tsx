@@ -235,7 +235,9 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         ...account,
         type: 'BANK_TRANSFER',
         currency: account.currency,
-        limits: { min: '1000', max: '500000' } // TODO: make this not hardcoded
+        limits: (bankTransfer &&
+          bankTransfer.value &&
+          bankTransfer.value.limits) || { min: '100', max: '200000' }
       } as SBPaymentMethodType
     }))
 
