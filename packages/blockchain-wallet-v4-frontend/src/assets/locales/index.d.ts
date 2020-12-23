@@ -351,6 +351,7 @@ type MessagesType = {
   'copy.new_swap': 'New Swap'
   'copy.no_payment_methods': 'No payment methods available.'
   'copy.now': 'Now'
+  'copy.not_enough_eth': 'ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in "My Ether Wallet" for this transaction, not the Ether Trading Wallet.'
   'copy.not_now': 'Not Now'
   'copy.on_chain_txs': 'On-chain transactions only'
   'copy.outgoing_fee': 'Outgoing Fee'

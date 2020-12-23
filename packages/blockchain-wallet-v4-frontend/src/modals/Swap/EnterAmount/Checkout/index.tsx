@@ -477,10 +477,10 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         {disableInsufficientEth && (
           <ErrorCartridge style={{ marginTop: '16px' }}>
             <FormattedMessage
-              id='modals.interest.deposit.notenougheth'
-              defaultMessage='ETH is required to send {coinTicker}. You do not have enough ETH to perform a transaction.'
+              id='copy.not_enough_eth'
+              defaultMessage='ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in "My Ether Wallet" for this transaction, not the Ether Trading Wallet.'
               values={{
-                coinTicker: coins[BASE.coin].coinTicker
+                coin: coins[BASE.coin].coinTicker
               }}
             />
           </ErrorCartridge>

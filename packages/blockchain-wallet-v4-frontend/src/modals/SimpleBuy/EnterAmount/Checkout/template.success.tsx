@@ -288,11 +288,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   }
 
   const limit = Number(props.sddLimit.max) / SDD_LIMIT_FACTOR
-  const isErc20 =
-    props.payment &&
-    (props.payment.coin === 'PAX' ||
-      props.payment.coin === 'USDT' ||
-      props.payment.coin === 'WDGLD')
+  const isErc20 = props.supportedCoins[cryptoCurrency].contractAddress
   const isSufficientEthForErc20 =
     props.payment &&
     (props.payment.coin === 'PAX' ||
@@ -530,10 +526,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               style={{ marginRight: '4px' }}
             />
             <FormattedMessage
-              id='modals.interest.deposit.notenougheth'
-              defaultMessage='ETH is required to send {coinTicker}. You do not have enough ETH to perform a transaction.'
+              id='copy.not_enough_eth'
+              defaultMessage='ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in "My Ether Wallet" for this transaction, not the Ether Trading Wallet.'
               values={{
-                coinTicker: props.supportedCoins[cryptoCurrency].coinTicker
+                coin: props.supportedCoins[cryptoCurrency].coinTicker
               }}
             />
           </ErrorText>
