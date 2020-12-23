@@ -216,8 +216,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const balanceBelowMinimum = userMax < Number(min)
 
   const isQuoteFailed = Remote.Failure.is(props.quoteR)
-  const isErc20 =
-    BASE.coin === 'PAX' || BASE.coin === 'USDT' || BASE.coin === 'WDGLD'
+  const isErc20 = coins[BASE.coin].contractAddress
   const isSufficientEthForErc20 =
     props.payment &&
     (props.payment.coin === 'PAX' ||
