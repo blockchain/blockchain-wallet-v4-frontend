@@ -288,7 +288,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   }
 
   const limit = Number(props.sddLimit.max) / SDD_LIMIT_FACTOR
-
+  const isErc20 = props.supportedCoins[cryptoCurrency].contractAddress
+  const isSufficientEthForErc20 =
+    props.payment &&
+    (props.payment.coin === 'PAX' ||
+      props.payment.coin === 'USDT' ||
+      props.payment.coin === 'WDGLD') &&
+    !props.payment.isSufficientEthForErc20 &&
+    isErc20 &&
+    props.swapAccount?.type === 'ACCOUNT' &&
+    props.orderType === 'SELL'
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ paddingBottom: '0px', borderBottom: 'grey000' }}>
@@ -500,10 +509,31 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </ErrorText>
           </ErrorTextContainer>
         )}
-        <ActionButton {...props} />
+        <ActionButton
+          {...props}
+          isSufficientEthForErc20={isSufficientEthForErc20 || false}
+        />
       </FlyoutWrapper>
       {props.isSddFlow && props.orderType === 'BUY' && (
         <IncreaseLimits {...props} />
+      )}
+      {isSufficientEthForErc20 && (
+        <ErrorTextContainer>
+          <ErrorText>
+            <Icon
+              name='alert-filled'
+              color='red600'
+              style={{ marginRight: '4px' }}
+            />
+            <FormattedMessage
+              id='copy.not_enough_eth'
+              defaultMessage='ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in "My Ether Wallet" for this transaction, not the Ether Trading Wallet.'
+              values={{
+                coin: props.supportedCoins[cryptoCurrency].coinTicker
+              }}
+            />
+          </ErrorText>
+        </ErrorTextContainer>
       )}
     </CustomForm>
   )

@@ -855,7 +855,6 @@ export default ({
         default:
           throw new Error(INVALID_COIN_TYPE)
       }
-
       yield put(A.updatePaymentSuccess(payment.value()))
     } catch (e) {
       // eslint-disable-next-line
