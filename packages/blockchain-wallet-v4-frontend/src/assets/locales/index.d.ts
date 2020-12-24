@@ -1239,6 +1239,7 @@ type MessagesType = {
   'modals.simplebuy.checkout.buymax': 'Buy Max'
   'modals.simplebuy.checkout.buymin': 'Buy Min'
   'modals.simplebuy.checkout.payment_method': 'Payment Method'
+  'modals.simplebuy.checkout.receive': 'Recipient Account'
   'modals.simplebuy.checkout.larger_amount.title': 'Want to buy larger amounts?'
   'modals.simplebuy.checkout.larger_amount.info': 'After completing this transaction, upgrade to Gold level to unlock higher transaction limits and more payment methods.'
   'modals.simplebuy.checkoutconfirm': 'Checkout'
