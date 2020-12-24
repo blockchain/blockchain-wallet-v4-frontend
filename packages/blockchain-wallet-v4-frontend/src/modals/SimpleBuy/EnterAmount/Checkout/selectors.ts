@@ -41,8 +41,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       sddEligible: ExtractSuccess<typeof sddEligibleR>,
       sddLimit: ExtractSuccess<typeof sddLimitR>,
       supportedCoins: ExtractSuccess<typeof supportedCoinsR>,
-      userSDDTier: ExtractSuccess<typeof userSDDTierR>,
-      sddLimits: ExtractSuccess<typeof sddLimitsR>
+      userSDDTier: ExtractSuccess<typeof userSDDTierR>
     ) => ({
       cards,
       coinModel: supportedCoins[coin],
@@ -56,7 +55,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       sddLimit,
       supportedCoins,
       userData,
-      sddLimits
+      sddLimits: sddLimitsR.getOrElse(undefined)
     })
   )(
     cardsR,
@@ -67,7 +66,6 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
     sddEligibleR,
     sddLimitR,
     supportedCoinsR,
-    userSDDTierR,
-    sddLimitsR
+    userSDDTierR
   )
 }
