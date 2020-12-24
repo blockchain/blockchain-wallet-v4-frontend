@@ -205,7 +205,15 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const amtError =
     typeof props.formErrors.amount === 'string' && props.formErrors.amount
 
-  const sddLimit = props.sddLimit || SDD_LIMIT
+  const limits = props.sddLimit || SDD_LIMIT
+  const sddLimit = { ...limits }
+
+  if (
+    props.sddLimits?.maxPossibleOrder &&
+    Number(props.sddLimits.maxPossibleOrder) < Number(props.sddLimit.max)
+  ) {
+    sddLimit.max = props.sddLimits.maxPossibleOrder
+  }
 
   const max: string = getMaxMin(
     'max',

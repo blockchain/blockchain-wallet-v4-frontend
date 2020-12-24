@@ -42,6 +42,7 @@ export default ({ api, coreSagas, networks }) => {
     )
     yield takeLatest(AT.FETCH_SDD_ELIGIBILITY, simpleBuySagas.fetchSDDEligible)
     yield takeLatest(AT.FETCH_SDD_VERIFIED, simpleBuySagas.fetchSDDVerified)
+    yield takeLatest(AT.FETCH_SDD_LIMITS, simpleBuySagas.fetchSDDLimits)
     yield takeLatest(AT.FETCH_SB_ORDERS, simpleBuySagas.fetchSBOrders)
     yield takeLatest(AT.FETCH_SB_PAIRS, simpleBuySagas.fetchSBPairs)
     yield takeLatest(
