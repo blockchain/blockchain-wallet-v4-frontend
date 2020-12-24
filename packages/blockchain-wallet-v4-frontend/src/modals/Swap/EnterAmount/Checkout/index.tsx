@@ -214,17 +214,17 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   }
   const userMax = Number(payment ? payment.effectiveBalance : BASE.balance)
   const balanceBelowMinimum = userMax < Number(min)
-
   const isQuoteFailed = Remote.Failure.is(props.quoteR)
+  // if user is attempting to send NC ERC20, ensure they have sufficient
+  // ETH balance else warn user and disable trade
   const isErc20 = coins[BASE.coin].contractAddress
-  const isSufficientEthForErc20 =
-    props.payment &&
-    (props.payment.coin === 'PAX' ||
-      props.payment.coin === 'USDT' ||
-      props.payment.coin === 'WDGLD') &&
-    props.payment.isSufficientEthForErc20
   const disableInsufficientEth =
-    isErc20 && !isSufficientEthForErc20 && BASE.type === 'ACCOUNT'
+    props.payment &&
+    BASE.type === 'ACCOUNT' &&
+    isErc20 &&
+    // @ts-ignore
+    props.payment.isSufficientEthForErc20
+
   return (
     <FlyoutWrapper style={{ paddingTop: '20px' }}>
       <StyledForm onSubmit={handleSubmit}>

@@ -104,13 +104,16 @@ const ErrorTextContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: row;
+  margin-left: 40px;
+  margin-right: 40px;
 `
 const ErrorText = styled(Text)`
   display: inline-flex;
+  align-items: center;
   font-weight: 500;
   font-size: 14px;
   padding: 6px 12px;
-  border-radius: 32px;
+  border-radius: 8px;
   background-color: ${props => props.theme.red000};
   color: ${props => props.theme.red800};
   margin-bottom: 16px;
@@ -286,18 +289,18 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       : amountRowNode.children[amountRowNode.children.length - 1]
     currencyNode.style.fontSize = `${fontSizeNumber * fontRatio}px`
   }
-
   const limit = Number(props.sddLimit.max) / SDD_LIMIT_FACTOR
+  // if user is attempting to send NC ERC20, ensure they have sufficient
+  // ETH balance else warn user and disable trade
   const isErc20 = props.supportedCoins[cryptoCurrency].contractAddress
   const isSufficientEthForErc20 =
     props.payment &&
-    (props.payment.coin === 'PAX' ||
-      props.payment.coin === 'USDT' ||
-      props.payment.coin === 'WDGLD') &&
-    !props.payment.isSufficientEthForErc20 &&
-    isErc20 &&
     props.swapAccount?.type === 'ACCOUNT' &&
-    props.orderType === 'SELL'
+    props.orderType === 'SELL' &&
+    isErc20 &&
+    // @ts-ignore
+    !props.payment.isSufficientEthForErc20
+
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ paddingBottom: '0px', borderBottom: 'grey000' }}>
