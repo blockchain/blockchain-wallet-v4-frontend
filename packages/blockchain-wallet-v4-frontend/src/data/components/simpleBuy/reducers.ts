@@ -33,7 +33,8 @@ const INITIAL_STATE: SimpleBuyState = {
   sellOrder: undefined,
   sellQuote: Remote.NotAsked,
   step: 'CRYPTO_SELECTION',
-  swapAccount: undefined
+  swapAccount: undefined,
+  sddLimits: Remote.NotAsked
 }
 
 export function simpleBuyReducer (
@@ -299,6 +300,22 @@ export function simpleBuyReducer (
         sddVerified: Remote.Failure(action.payload.error)
       }
     }
+    case AT.FETCH_SDD_LIMITS_FAILURE: {
+      return {
+        ...state,
+        sddLimits: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_SDD_LIMITS_LOADING:
+      return {
+        ...state,
+        sddLimits: Remote.Loading
+      }
+    case AT.FETCH_SDD_LIMITS_SUCCESS:
+      return {
+        ...state,
+        sddLimits: Remote.Success(action.payload.sddLimits)
+      }
     case AT.FETCH_SDD_VERIFIED_LOADING:
       return {
         ...state,

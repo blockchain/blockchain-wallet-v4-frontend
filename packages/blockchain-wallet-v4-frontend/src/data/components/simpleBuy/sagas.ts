@@ -935,7 +935,6 @@ export default ({
         default:
           throw new Error(INVALID_COIN_TYPE)
       }
-
       yield put(A.updatePaymentSuccess(payment.value()))
     } catch (e) {
       // eslint-disable-next-line
@@ -1319,6 +1318,22 @@ export default ({
     yield put(actions.form.focus('simpleBuyCheckout', 'amount'))
   }
 
+  const fetchSDDLimits = function * ({
+    currency
+  }: ReturnType<typeof A.fetchSBFiatEligible>) {
+    try {
+      yield put(A.fetchSDDLimitsLoading())
+      const limits: ReturnType<typeof api.getSwapLimits> = yield call(
+        api.getSwapLimits,
+        currency
+      )
+      yield put(A.fetchSDDLimitsSuccess(limits))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchSDDLimitsFailure(error))
+    }
+  }
+
   return {
     activateSBCard,
     addCardDetails,
@@ -1336,6 +1351,7 @@ export default ({
     fetchSBFiatEligible,
     fetchSDDEligible,
     fetchSDDVerified,
+    fetchSDDLimits,
     fetchSBOrders,
     fetchSBPairs,
     fetchSBPaymentAccount,

@@ -246,11 +246,19 @@ export const maximumAmount = (
     sbBalances,
     swapAccount,
     isSddFlow,
-    sddLimit
+    sddLimit,
+    sddLimits
   } = restProps
 
   const method = selectedMethod || defaultMethod
   if (!allValues) return
+
+  if (
+    sddLimits?.maxPossibleOrder &&
+    Number(sddLimits.maxPossibleOrder) < Number(sddLimit.max)
+  ) {
+    sddLimit.max = sddLimits.maxPossibleOrder
+  }
 
   return Number(value) >
     Number(

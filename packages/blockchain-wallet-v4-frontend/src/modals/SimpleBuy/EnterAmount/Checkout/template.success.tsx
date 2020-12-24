@@ -104,13 +104,16 @@ const ErrorTextContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: row;
+  margin-left: 40px;
+  margin-right: 40px;
 `
 const ErrorText = styled(Text)`
   display: inline-flex;
+  align-items: center;
   font-weight: 500;
   font-size: 14px;
   padding: 6px 12px;
-  border-radius: 32px;
+  border-radius: 8px;
   background-color: ${props => props.theme.red000};
   color: ${props => props.theme.red800};
   margin-bottom: 16px;
@@ -205,7 +208,15 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const amtError =
     typeof props.formErrors.amount === 'string' && props.formErrors.amount
 
-  const sddLimit = props.sddLimit || SDD_LIMIT
+  const limits = props.sddLimit || SDD_LIMIT
+  const sddLimit = { ...limits }
+
+  if (
+    props.sddLimits?.maxPossibleOrder &&
+    Number(props.sddLimits.maxPossibleOrder) < Number(props.sddLimit.max)
+  ) {
+    sddLimit.max = props.sddLimits.maxPossibleOrder
+  }
 
   const max: string = getMaxMin(
     'max',
@@ -286,8 +297,17 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       : amountRowNode.children[amountRowNode.children.length - 1]
     currencyNode.style.fontSize = `${fontSizeNumber * fontRatio}px`
   }
-
   const limit = Number(props.sddLimit.max) / SDD_LIMIT_FACTOR
+  // if user is attempting to send NC ERC20, ensure they have sufficient
+  // ETH balance else warn user and disable trade
+  const isErc20 = props.supportedCoins[cryptoCurrency].contractAddress
+  const isSufficientEthForErc20 =
+    props.payment &&
+    props.swapAccount?.type === 'ACCOUNT' &&
+    props.orderType === 'SELL' &&
+    isErc20 &&
+    // @ts-ignore
+    !props.payment.isSufficientEthForErc20
 
   return (
     <CustomForm onSubmit={props.handleSubmit}>
@@ -500,10 +520,31 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </ErrorText>
           </ErrorTextContainer>
         )}
-        <ActionButton {...props} />
+        <ActionButton
+          {...props}
+          isSufficientEthForErc20={isSufficientEthForErc20 || false}
+        />
       </FlyoutWrapper>
       {props.isSddFlow && props.orderType === 'BUY' && (
         <IncreaseLimits {...props} />
+      )}
+      {isSufficientEthForErc20 && (
+        <ErrorTextContainer>
+          <ErrorText>
+            <Icon
+              name='alert-filled'
+              color='red600'
+              style={{ marginRight: '4px' }}
+            />
+            <FormattedMessage
+              id='copy.not_enough_eth'
+              defaultMessage='ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in "My Ether Wallet" for this transaction, not the Ether Trading Wallet.'
+              values={{
+                coin: props.supportedCoins[cryptoCurrency].coinTicker
+              }}
+            />
+          </ErrorText>
+        </ErrorTextContainer>
       )}
     </CustomForm>
   )
