@@ -1232,6 +1232,22 @@ export default ({
     yield put(actions.form.focus('simpleBuyCheckout', 'amount'))
   }
 
+  const fetchSDDLimits = function * ({
+    currency
+  }: ReturnType<typeof A.fetchSBFiatEligible>) {
+    try {
+      yield put(A.fetchSDDLimitsLoading())
+      const limits: ReturnType<typeof api.getSwapLimits> = yield call(
+        api.getSwapLimits,
+        currency
+      )
+      yield put(A.fetchSDDLimitsSuccess(limits))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchSDDLimitsFailure(error))
+    }
+  }
+
   return {
     activateSBCard,
     addCardDetails,
@@ -1247,6 +1263,7 @@ export default ({
     fetchSBFiatEligible,
     fetchSDDEligible,
     fetchSDDVerified,
+    fetchSDDLimits,
     fetchSBOrders,
     fetchSBPairs,
     fetchSBPaymentAccount,
