@@ -5,12 +5,14 @@ import React from 'react'
 
 type Props = {
   invalid: boolean
+  isSufficientEthForErc20: boolean
   submitting: boolean
 } & OwnProps &
   SuccessStateType
 
 const ActionButton: React.FC<Props> = props => {
   const disabled = props.invalid || props.submitting
+  const disableInsufficientEth = props.isSufficientEthForErc20
 
   switch (props.userData.kycState) {
     case 'EXPIRED':
@@ -102,7 +104,7 @@ const ActionButton: React.FC<Props> = props => {
           nature='primary'
           type='submit'
           fullwidth
-          disabled={disabled}
+          disabled={disabled || disableInsufficientEth}
         >
           {props.submitting ? (
             <HeartbeatLoader height='16px' width='16px' color='white' />
