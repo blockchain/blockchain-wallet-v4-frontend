@@ -46,22 +46,22 @@ class PairingCode extends React.PureComponent<Props> {
               id='scenes.settings.general.pairingcode.description2'
               defaultMessage='Download our mobile applications below.'
             />
-            <Text size='14px' weight={400} color='error'>
+            <Text color='error' size='14px' weight={500}>
               <FormattedMessage
                 id='scenes.settings.general.pairingcode.warning'
                 defaultMessage='Do not share your Pairing Code with others.'
               />
             </Text>
             <BadgesContainer>
-              <Badge type='applestore' />
-              <Badge type='googleplay' />
+              <Badge size='34px' type='applestore' />
+              <Badge size='34px' type='googleplay' />
             </BadgesContainer>
           </SettingDescription>
         </SettingSummary>
         <SettingComponent>
           <Button
             data-e2e='showQrCode'
-            nature='primary'
+            nature='empty-blue'
             onClick={this.onShowCode}
           >
             <FormattedMessage
