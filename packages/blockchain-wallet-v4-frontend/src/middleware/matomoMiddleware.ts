@@ -27,6 +27,7 @@ const WhitelistActionTypesEnum = {
   '@EVENT.BORROW.SET_STEP': '@EVENT.BORROW.SET_STEP',
   '@EVENT.SET_SB_STEP': '@EVENT.SET_SB_STEP',
   '@EVENT.SET_SWAP_STEP': '@EVENT.SET_SWAP_STEP',
+  '@EVENT.CREATE_SWAP_ORDER': '@EVENT.CREATE_SWAP_ORDER',
   CLOSE_MODAL: 'CLOSE_MODAL',
   SHOW_MODAL: 'SHOW_MODAL'
 }
@@ -126,7 +127,7 @@ const sanitizeEvent = (
             nextCategory,
             formatEvent({
               step: swapAction.step,
-              orderType: swapAction.options.order.kind,
+              orderType: swapAction.options.order.kind.direction,
               orderPair: swapAction.options.order.pair
             })
           ]
@@ -159,7 +160,8 @@ const matomoMiddleware = () => () => next => action => {
       !equals(nextEvent, lastEvent) &&
       !includes(nextAction, EVENT_ACTION_BLACKLIST)
     ) {
-      // console.info('EVENT', nextEvent) // uncomment to assist with debugging
+      // console.info('EVENT', nextEvent)
+      // uncomment to assist with debugging
       const frame = document.getElementById('matomo-iframe')
       frame &&
         // @ts-ignore
