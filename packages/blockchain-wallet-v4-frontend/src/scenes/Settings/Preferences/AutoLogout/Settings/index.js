@@ -36,7 +36,12 @@ class SettingContainer extends React.PureComponent {
       />
     ) : (
       <SettingWrapper>
-        <Text data-e2e='autoLogoutValue'>
+        <Text
+          data-e2e='autoLogoutValue'
+          color='grey800'
+          size='15px'
+          weight={600}
+        >
           <FormattedMessage
             id='scenes.preferences.autologout.settings.minutes'
             defaultMessage='{time} minutes'

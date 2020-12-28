@@ -46,7 +46,7 @@ class PairingCode extends React.PureComponent<Props> {
               id='scenes.settings.general.pairingcode.description2'
               defaultMessage='Download our mobile applications below.'
             />
-            <Text color='error' size='14px' weight={500}>
+            <Text color='error' size='13px' weight={600}>
               <FormattedMessage
                 id='scenes.settings.general.pairingcode.warning'
                 defaultMessage='Do not share your Pairing Code with others.'
