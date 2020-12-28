@@ -2205,7 +2205,7 @@ type MessagesType = {
   'scenes.settings.general.privacypolicy.description': 'Read about the privacy and security of your personal information.'
   'scenes.settings.general.privacypolicy.title': 'Privacy Policy'
   'scenes.settings.general.title': 'General Information'
-  'scenes.settings.general.subtitle': 'View your wallet guid, mobile pairing codes and helpful links.'
+  'scenes.settings.general.subtitle': 'View your wallet ID, mobile pairing codes and helpful links.'
   'scenes.settings.general.termsofservice.description': 'Read our terms and services agreement.'
   'scenes.settings.general.termsofservice.title': 'Terms of Service'
   'scenes.settings.general.walletid.description': 'Wallet ID is your unique identifier. It is completely individual to you, and it is what you will use to log in and access your wallet. It is NOT a bitcoin address for sending or receiving.'

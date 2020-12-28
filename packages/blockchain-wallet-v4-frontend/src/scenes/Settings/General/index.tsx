@@ -34,7 +34,7 @@ const General = () => {
         <Text size='14px' weight={500} color='grey700'>
           <FormattedMessage
             id='scenes.settings.general.subtitle'
-            defaultMessage='View your wallet guid, mobile pairing codes and helpful links.'
+            defaultMessage='View your wallet ID, mobile pairing codes and helpful links.'
           />
         </Text>
       </MenuHeader>
