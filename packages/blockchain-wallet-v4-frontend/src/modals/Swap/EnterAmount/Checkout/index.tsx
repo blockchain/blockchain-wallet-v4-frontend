@@ -223,7 +223,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     BASE.type === 'ACCOUNT' &&
     isErc20 &&
     // @ts-ignore
-    props.payment.isSufficientEthForErc20
+    !props.payment.isSufficientEthForErc20
 
   return (
     <FlyoutWrapper style={{ paddingTop: '20px' }}>
