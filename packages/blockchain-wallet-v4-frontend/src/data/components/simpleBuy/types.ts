@@ -119,6 +119,7 @@ export type SimpleBuyState = {
   quote: RemoteDataType<string, SBQuoteType>
   sddEligible: RemoteDataType<string, SDDEligibleType>
   sddLimits: RemoteDataType<string, undefined | SwapUserLimitsType>
+  sddTransactionFinished: boolean
   sddVerified: RemoteDataType<string, SDDVerifiedType>
   sellOrder: undefined | SwapOrderType
   sellQuote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>
@@ -458,6 +459,9 @@ interface FetchSDDLimitsSuccess {
   }
   type: typeof AT.FETCH_SDD_LIMITS_SUCCESS
 }
+interface UpdateSddTransactionFinished {
+  type: typeof AT.UPDATE_SDD_TRANSACTION_FINISHED
+}
 
 export type SimpleBuyActionTypes =
   | ActivateSBCardFailure
@@ -512,3 +516,4 @@ export type SimpleBuyActionTypes =
   | UpdatePaymentFailureAction
   | UpdatePaymentLoadingAction
   | UpdatePaymentSuccessAction
+  | UpdateSddTransactionFinished

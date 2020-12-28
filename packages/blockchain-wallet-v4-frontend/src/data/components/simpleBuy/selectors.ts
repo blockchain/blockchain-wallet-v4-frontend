@@ -269,3 +269,6 @@ export const isUserSddVerified = (state: RootState) => {
 }
 export const getSddLimits = (state: RootState) =>
   state.components.simpleBuy.sddLimits
+
+export const getSddTransactionFinished = (state: RootState) =>
+  state.components.simpleBuy.sddTransactionFinished

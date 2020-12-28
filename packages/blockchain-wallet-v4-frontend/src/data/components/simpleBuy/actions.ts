@@ -644,3 +644,6 @@ export const fetchSDDLimitsSuccess = (
     sddLimits
   }
 })
+export const updateSddTransactionFinished = () => ({
+  type: AT.UPDATE_SDD_TRANSACTION_FINISHED
+})
