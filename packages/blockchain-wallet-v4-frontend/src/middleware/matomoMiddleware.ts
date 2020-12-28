@@ -1,6 +1,6 @@
 import { equals, includes, path, prop } from 'ramda'
 
-import { StepActionsPayload } from 'data/types'
+import { StepActionsPayload, SwapStepPayload } from 'data/types'
 
 const PAYLOAD = ['payload']
 const NAME = ['payload', 'name']
@@ -26,6 +26,7 @@ const WhitelistActionTypesEnum = {
   '@EVENT.KYC.UPDATE_EMAIL': '@EVENT.KYC.UPDATE_EMAIL',
   '@EVENT.BORROW.SET_STEP': '@EVENT.BORROW.SET_STEP',
   '@EVENT.SET_SB_STEP': '@EVENT.SET_SB_STEP',
+  '@EVENT.SET_SWAP_STEP': '@EVENT.SET_SWAP_STEP',
   CLOSE_MODAL: 'CLOSE_MODAL',
   SHOW_MODAL: 'SHOW_MODAL'
 }
@@ -78,6 +79,59 @@ const sanitizeEvent = (
           ]
         default:
           return [nextCategory, formatEvent(sbAction.step)]
+      }
+    case '@EVENT.SET_SWAP_STEP':
+      const swapAction = nextAction as SwapStepPayload
+      switch (swapAction.step) {
+        case 'COIN_SELECTION':
+          return [
+            nextCategory,
+            formatEvent({
+              side: swapAction.options.side
+            })
+          ]
+        case 'INIT_SWAP':
+          return [
+            nextCategory,
+            formatEvent({
+              step: swapAction.step,
+              side: swapAction.options?.side,
+              coin: swapAction.options?.coin,
+              accountType: swapAction.options?.account
+            })
+          ]
+        case 'ENTER_AMOUNT':
+          return [
+            nextCategory,
+            formatEvent({
+              step: swapAction.step,
+              side: swapAction.options?.side,
+              coin: swapAction.options?.coin,
+              accountType: swapAction.options?.account
+            })
+          ]
+        case 'PREVIEW_SWAP':
+          return [
+            nextCategory,
+            formatEvent({
+              step: swapAction.step,
+              baseCoin: swapAction.options?.baseCoin,
+              baseAccountType: swapAction.options?.baseAccountType,
+              counterCoin: swapAction.options?.counterCoin,
+              counterAccountType: swapAction.options?.counterAccountType
+            })
+          ]
+        case 'SUCCESSFUL_SWAP':
+          return [
+            nextCategory,
+            formatEvent({
+              step: swapAction.step,
+              orderType: swapAction.options.order.kind,
+              orderPair: swapAction.options.order.pair
+            })
+          ]
+        default:
+          return [nextCategory, formatEvent(swapAction.step)]
       }
     default:
       return [nextCategory, formatEvent(nextAction), formatEvent(nextName)]
