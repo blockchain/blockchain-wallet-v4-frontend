@@ -75,7 +75,24 @@ const sanitizeEvent = (
               fiatCurrency: sbAction.fiatCurrency,
               pair: sbAction.pair ? sbAction.pair.pair : '',
               side: sbAction.orderType,
+              sellOrderType: sbAction.swapAccount?.type,
               step: sbAction.step
+            })
+          ]
+        case 'PREVIEW_SELL':
+          return [
+            nextCategory,
+            formatEvent({
+              step: sbAction.step,
+              sellOrderType: sbAction.sellOrderType
+            })
+          ]
+        case 'SELL_ORDER_SUMMARY':
+          return [
+            nextCategory,
+            formatEvent({
+              step: sbAction.step,
+              sellOrderType: sbAction.sellOrder.kind.direction
             })
           ]
         default:
@@ -160,8 +177,7 @@ const matomoMiddleware = () => () => next => action => {
       !equals(nextEvent, lastEvent) &&
       !includes(nextAction, EVENT_ACTION_BLACKLIST)
     ) {
-      // console.info('EVENT', nextEvent)
-      // uncomment to assist with debugging
+      // console.info('EVENT', nextEvent) // uncomment to assist with debugging
       const frame = document.getElementById('matomo-iframe')
       frame &&
         // @ts-ignore

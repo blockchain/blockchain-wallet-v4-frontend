@@ -404,11 +404,14 @@ export type StepActionsPayload =
     }
   | { order?: SBOrderType; step: '3DS_HANDLER' }
   | {
+      sellOrderType?: 'ACCOUNT' | 'CUSTODIAL'
+      step: 'PREVIEW_SELL'
+    }
+  | {
       step:
         | 'ADD_CARD'
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
-        | 'PREVIEW_SELL'
         | 'UPGRADE_TO_GOLD'
     }
 
