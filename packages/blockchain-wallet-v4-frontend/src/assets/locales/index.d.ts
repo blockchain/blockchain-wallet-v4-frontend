@@ -1926,7 +1926,7 @@ type MessagesType = {
   'scenes.profile.identityverification.swaplimit.airdrops.learnmore': 'Learn more.'
   'scenes.profile.identityverification.swaplimit.goldcompleteairdropeligible-1': 'By completing the Gold Level requirements you are automatically eligible for our airdrop programs extended to your region.'
   'scenes.profile.identityverification.swaplimit.learnmorelimits': "We’ve put together an article on Trading Limits. <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
-  'scenes.profile.identityverification.swaplimit.tradelimit': 'Your trading limits are how much you can trade each day. That includes Swap and Buy transactions. Limits are necessary for compliance and fraud prevention.'
+  'scenes.profile.identityverification.swaplimit.tradelimit': 'Your trading limits are how much you can trade each day. These limits include all Swap, Buy and Sell transactions. Limits are necessary for compliance and fraud prevention.'
   'scenes.profile.identityverification.swaplimit.learnmoreread': "Read the article we've put together on Trading Limits <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>here</a>."
   'scenes.profile.identityverification.swaplimit.wanttolearnmore': 'Want to learn more?'
   'scenes.profile.identityverification.tradingtitle': 'Trading Limits'
@@ -2204,6 +2204,8 @@ type MessagesType = {
   'scenes.settings.general.pairingcode.warning': 'Do not share your Pairing Code with others.'
   'scenes.settings.general.privacypolicy.description': 'Read about the privacy and security of your personal information.'
   'scenes.settings.general.privacypolicy.title': 'Privacy Policy'
+  'scenes.settings.general.title': 'General Information'
+  'scenes.settings.general.subtitle': 'View your wallet ID, mobile pairing codes and helpful links.'
   'scenes.settings.general.termsofservice.description': 'Read our terms and services agreement.'
   'scenes.settings.general.termsofservice.title': 'Terms of Service'
   'scenes.settings.general.walletid.description': 'Wallet ID is your unique identifier. It is completely individual to you, and it is what you will use to log in and access your wallet. It is NOT a bitcoin address for sending or receiving.'
@@ -2259,6 +2261,8 @@ type MessagesType = {
   'scenes.settings.preferences.themes.title': 'Themes'
   'scenes.settings.preferences.walletlanguage.success.description': 'Set your preferred language.'
   'scenes.settings.preferences.walletlanguage.success.title': 'Wallet Language'
+  'scenes.settings.profile.title': 'User Profile'
+  'scenes.settings.profile.subtitle': 'View and manage your KYC status and trading limits.'
   'scenes.settings.profile.menu.failedkyc': "We had trouble verifying your identity. Your Swap feature has been disabled at this time. <a href='https://support.blockchain.com/hc/en-us/articles/360018080352-Why-has-my-ID-submission-been-rejected-' target='_blank' rel='noopener noreferrer'>Learn more</a>"
   'scenes.settings.tor.description': 'Enable the following option to prevent IP addresses that are known to be part of the Tor anonymizing network from accessing your wallet.'
   'scenes.settings.tor.description2': 'The Tor network is frequently used by hackers attempting to access Blockchain users wallets.'
