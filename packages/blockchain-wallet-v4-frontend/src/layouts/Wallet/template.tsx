@@ -43,6 +43,12 @@ const Content = styled.div`
   ${media.tablet`
     padding: 8px 16px;
     width: 100%;
+    max-width: 100%;
+  `}
+  ${media.mobile`
+    padding: 8px 16px;
+    width: 100%;
+    max-width: 100%;
   `}
 `
 

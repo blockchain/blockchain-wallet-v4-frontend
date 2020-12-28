@@ -66,9 +66,6 @@ export const NavbarNavItem = styled.li`
   padding: 0px 16px;
   margin: 0 -1px;
   cursor: pointer;
-  &:first-child {
-    padding-left: 0px;
-  }
 
   &.active {
     background: ${props => props.theme.grey800};

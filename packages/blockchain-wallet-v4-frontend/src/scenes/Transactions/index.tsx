@@ -270,6 +270,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state, ownProps): LinkStatePropsType =>
+  // @ts-ignore
   getData(state, ownProps.coin, ownProps.isCoinErc20)
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
