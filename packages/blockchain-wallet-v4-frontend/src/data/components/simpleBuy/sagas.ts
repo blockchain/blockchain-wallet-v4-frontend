@@ -509,7 +509,8 @@ export default ({
         const status: ReturnType<typeof api.updateBankAccountLink> = yield call(
           api.updateBankAccountLink,
           a.providerAccountId,
-          fastLink.data.id
+          fastLink.data.id,
+          a.accountId
         )
 
         // Polls the account details to check for Active state
