@@ -1,4 +1,10 @@
 import React from 'react'
+import styled from 'styled-components'
+
+import { FiatType, SupportedWalletCurrenciesType } from 'core/types'
+import { Icon } from 'blockchain-info-components'
+import { SuccessCartridge } from 'components/Cartridge'
+import { SwapAccountType } from 'data/types'
 
 import {
   BalanceRow,
@@ -8,11 +14,12 @@ import {
   OptionTitle,
   OptionValue
 } from '../../components'
-import { FiatType, SupportedWalletCurrenciesType } from 'core/types'
-import { Icon } from 'blockchain-info-components'
-import { SuccessCartridge } from 'components/Cartridge'
-import { SwapAccountType } from 'data/types'
 import CoinBalance from '../../components/CoinBalance'
+
+const LowFeeCartridge = styled(SuccessCartridge)`
+  font-size: 12px;
+  padding: 6px;
+`
 
 const CryptoAccountOption: React.FC<Props> = props => {
   const { account, coins, isAccountSelected, isSwap, walletCurrency } = props
@@ -36,7 +43,7 @@ const CryptoAccountOption: React.FC<Props> = props => {
       </FlexStartRow>
       <FlexStartRow>
         {account.type === 'CUSTODIAL' && (
-          <SuccessCartridge>Low Fees</SuccessCartridge>
+          <LowFeeCartridge>Low Fees</LowFeeCartridge>
         )}
         {isSwap ? (
           isAccountSelected ? (
