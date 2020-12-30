@@ -62,7 +62,10 @@ class Checkout extends PureComponent<Props> {
     // TODO: sell
     // need to do kyc check
     if (formValues?.orderType === 'SELL') {
-      return this.props.simpleBuyActions.setStep({ step: 'PREVIEW_SELL' })
+      return this.props.simpleBuyActions.setStep({
+        step: 'PREVIEW_SELL',
+        sellOrderType: this.props.swapAccount?.type
+      })
     }
 
     if (isSddFlow) {

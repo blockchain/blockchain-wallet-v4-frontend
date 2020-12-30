@@ -592,6 +592,9 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
         displayBack: payload.displayBack,
         addBank: payload.addBank
       }
+    case 'PREVIEW_SELL': {
+      return { step: payload.step, sellOrderType: payload.sellOrderType }
+    }
     case 'CHECKOUT_CONFIRM':
     case 'ORDER_SUMMARY':
     case 'CANCEL_ORDER':
@@ -686,4 +689,7 @@ export const fetchSDDLimitsSuccess = (
   payload: {
     sddLimits
   }
+})
+export const updateSddTransactionFinished = () => ({
+  type: AT.UPDATE_SDD_TRANSACTION_FINISHED
 })

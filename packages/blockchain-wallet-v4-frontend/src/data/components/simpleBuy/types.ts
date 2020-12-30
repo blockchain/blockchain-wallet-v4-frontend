@@ -147,6 +147,7 @@ export type SimpleBuyState = {
   quote: RemoteDataType<string, SBQuoteType>
   sddEligible: RemoteDataType<string, SDDEligibleType>
   sddLimits: RemoteDataType<string, undefined | SwapUserLimitsType>
+  sddTransactionFinished: boolean
   sddVerified: RemoteDataType<string, SDDVerifiedType>
   sellOrder: undefined | SwapOrderType
   sellQuote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>
@@ -471,11 +472,14 @@ export type StepActionsPayload =
     }
   | { order?: SBOrderType; step: '3DS_HANDLER' }
   | {
+      sellOrderType?: 'ACCOUNT' | 'CUSTODIAL'
+      step: 'PREVIEW_SELL'
+    }
+  | {
       step:
         | 'ADD_CARD'
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
-        | 'PREVIEW_SELL'
         | 'UPGRADE_TO_GOLD'
         | 'LINK_BANK_HANDLER'
     }
@@ -525,6 +529,9 @@ interface FetchSDDLimitsSuccess {
     sddLimits: SwapUserLimitsType
   }
   type: typeof AT.FETCH_SDD_LIMITS_SUCCESS
+}
+interface UpdateSddTransactionFinished {
+  type: typeof AT.UPDATE_SDD_TRANSACTION_FINISHED
 }
 
 export type SimpleBuyActionTypes =
@@ -585,3 +592,4 @@ export type SimpleBuyActionTypes =
   | UpdatePaymentFailureAction
   | UpdatePaymentLoadingAction
   | UpdatePaymentSuccessAction
+  | UpdateSddTransactionFinished

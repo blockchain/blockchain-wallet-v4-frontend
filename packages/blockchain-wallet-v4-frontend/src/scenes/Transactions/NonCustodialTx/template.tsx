@@ -34,7 +34,7 @@ import {
 import { Props } from '.'
 
 const BannerWrapper = styled.div`
-  margin-left: 8px;
+  margin-left: 6px;
 `
 const AddressesColumn = styled.div`
   display: none;
@@ -84,21 +84,9 @@ const NonCustodialTx = ({
           <Status type={transaction.type} coinTicker={coinTicker} />
           <Timestamp time={Number(transaction.time) * 1000} />
         </StatusAndType>
-        {'fromWatchOnly' in transaction &&
-          transaction.toWatchOnly &&
-          transaction.fromWatchOnly && (
-            <BannerWrapper>
-              <Banner label='true' type='informational'>
-                <FormattedMessage
-                  id='components.txlistitem.watchonly'
-                  defaultMessage='Non-Spendable'
-                />
-              </Banner>
-            </BannerWrapper>
-          )}
         {'rbf' in transaction && transaction.rbf && (
           <BannerWrapper>
-            <Banner label='true' type='informational'>
+            <Banner label='true' size='10px' type='informational'>
               <FormattedMessage
                 id='components.txlistitem.rbf'
                 defaultMessage='Replace-By-Fee'
@@ -108,7 +96,7 @@ const NonCustodialTx = ({
         )}
         {'erc20' in transaction && transaction.erc20 && (
           <BannerWrapper>
-            <Banner label='true' type='informational'>
+            <Banner label='true' size='10px' type='informational'>
               <FormattedMessage
                 id='components.txlistitem.erc20fee'
                 defaultMessage='ERC20 Fee'
@@ -207,7 +195,7 @@ const NonCustodialTx = ({
               />
             </RowHeader>
             {prop('inputs', transaction).map(input => (
-              <RowValue>{input.address}</RowValue>
+              <RowValue size='13px'>{input.address}</RowValue>
             ))}
             <RowHeader>
               <FormattedMessage
@@ -217,16 +205,11 @@ const NonCustodialTx = ({
             </RowHeader>
             {prop('outputs', transaction).map(output => (
               <IOAddressText size='14px' weight={400}>
-                <RowValue>{output.address}</RowValue>
+                <RowValue size='13px'>{output.address}</RowValue>
                 {output.change && (
                   <RowValue>
-                    <span>&nbsp;</span>
-                    <FormattedMessage
-                      id='components.txlistitem.change'
-                      defaultMessage='(Change Address)'
-                    />
                     <TooltipHost id='txlist.change.tooltip'>
-                      <TooltipIcon name='info' />
+                      <TooltipIcon name='info' size='12px' />
                     </TooltipHost>
                   </RowValue>
                 )}

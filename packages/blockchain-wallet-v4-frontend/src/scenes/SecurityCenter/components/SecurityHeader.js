@@ -1,7 +1,5 @@
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
-
 const SecurityHeader = styled.div`
   display: flex;
   flex-direction: row;
@@ -9,12 +7,9 @@ const SecurityHeader = styled.div`
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 500;
-  font-size: 18px;
-  color: ${props => props.theme.grey700};
-  width: 100%;
-  ${media.atLeastMobile`
   font-size: 16px;
-  `}
+  color: ${props => props.theme.black};
+  width: 100%;
 
   & > * {
     margin-right: 10px;

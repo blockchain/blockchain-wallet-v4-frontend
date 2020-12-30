@@ -30,6 +30,7 @@ const INITIAL_STATE: SimpleBuyState = {
   quote: Remote.NotAsked,
   sddEligible: Remote.NotAsked,
   sddVerified: Remote.NotAsked,
+  sddTransactionFinished: false,
   sellOrder: undefined,
   sellQuote: Remote.NotAsked,
   step: 'CRYPTO_SELECTION',
@@ -353,6 +354,12 @@ export function simpleBuyReducer (
       return {
         ...state,
         payment: Remote.Success(action.payload.payment)
+      }
+    }
+    case AT.UPDATE_SDD_TRANSACTION_FINISHED: {
+      return {
+        ...state,
+        sddTransactionFinished: true
       }
     }
     case AT.SET_STEP:
