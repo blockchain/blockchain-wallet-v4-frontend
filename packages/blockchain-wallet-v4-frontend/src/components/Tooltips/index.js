@@ -157,20 +157,18 @@ class Tooltips extends React.PureComponent {
           />
         </Tooltip>
         <Tooltip id='scenes.interest.legaldisclaimer'>
-          <TextGroup block style={{ paddingTop: '8px' }}>
-            <Text size='12px' weight={500} color='white'>
-              <FormattedMessage
-                id='scenes.interest.legal.one'
-                defaultMessage='Digital/virtual currencies are not bank deposits, are not legal tender, are not backed by the government, and accounts and value balances are not subject to US Federal Deposit Insurance Corporation or Securities Investor Protection Corporation or any other non-US governmental or government-backed protections.'
-              />
-            </Text>
-            <Text size='12px' weight={500} color='white'>
-              <FormattedMessage
-                id='scenes.interest.legal.two'
-                defaultMessage='Legislative and regulatory changes or actions at the US State, Federal, or international level may adversely affect the use, transfer, exchange, and value of digital/virtual currencies.'
-              />
-            </Text>
-          </TextGroup>
+          <div style={{ marginBottom: '8px' }}>
+            <FormattedMessage
+              id='scenes.interest.legal.one'
+              defaultMessage='Digital/virtual currencies are not bank deposits, are not legal tender, are not backed by the government, and accounts and value balances are not subject to US Federal Deposit Insurance Corporation or Securities Investor Protection Corporation or any other non-US governmental or government-backed protections.'
+            />
+          </div>
+          <div>
+            <FormattedMessage
+              id='scenes.interest.legal.two'
+              defaultMessage='Legislative and regulatory changes or actions at the US State, Federal, or international level may adversely affect the use, transfer, exchange, and value of digital/virtual currencies.'
+            />
+          </div>
         </Tooltip>
         <Tooltip id='sendbtc.firststep.sharetooltip'>
           <FormattedMessage

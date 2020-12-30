@@ -154,6 +154,17 @@ export const getDefaultPaymentMethod = (state: RootState) => {
   return lift(transform)(sbCardsR, sbMethodsR, sbBalancesR)
 }
 
+export const hasFiatBalances = (state: RootState) => {
+  const fiatBalances = Object.keys(
+    state.components.simpleBuy.balances.data
+  ).filter(
+    currency =>
+      currency in FiatTypeEnum &&
+      state.components.simpleBuy.balances.data[currency].available > 0
+  )
+  return fiatBalances.length > 0
+}
+
 export const getSBBalances = (state: RootState) =>
   state.components.simpleBuy.balances
 
@@ -280,3 +291,6 @@ export const isUserSddVerified = (state: RootState) => {
 }
 export const getSddLimits = (state: RootState) =>
   state.components.simpleBuy.sddLimits
+
+export const getSddTransactionFinished = (state: RootState) =>
+  state.components.simpleBuy.sddTransactionFinished

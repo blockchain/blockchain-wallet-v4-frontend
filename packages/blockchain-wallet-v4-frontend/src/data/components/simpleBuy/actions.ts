@@ -553,6 +553,7 @@ export const setStep = (payload: StepActionsPayload): SimpleBuyActionTypes => ({
 
 const getPayloadObjectForStep = (payload: StepActionsPayload) => {
   switch (payload.step) {
+    case 'LINKED_PAYMENT_ACCOUNTS':
     case 'PAYMENT_METHODS':
       return {
         step: payload.step,
@@ -591,6 +592,9 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
         displayBack: payload.displayBack,
         addBank: payload.addBank
       }
+    case 'PREVIEW_SELL': {
+      return { step: payload.step, sellOrderType: payload.sellOrderType }
+    }
     case 'CHECKOUT_CONFIRM':
     case 'ORDER_SUMMARY':
     case 'CANCEL_ORDER':
@@ -685,4 +689,7 @@ export const fetchSDDLimitsSuccess = (
   payload: {
     sddLimits
   }
+})
+export const updateSddTransactionFinished = () => ({
+  type: AT.UPDATE_SDD_TRANSACTION_FINISHED
 })

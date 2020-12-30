@@ -30,6 +30,7 @@ const INITIAL_STATE: SimpleBuyState = {
   quote: Remote.NotAsked,
   sddEligible: Remote.NotAsked,
   sddVerified: Remote.NotAsked,
+  sddTransactionFinished: false,
   sellOrder: undefined,
   sellQuote: Remote.NotAsked,
   step: 'CRYPTO_SELECTION',
@@ -355,6 +356,12 @@ export function simpleBuyReducer (
         payment: Remote.Success(action.payload.payment)
       }
     }
+    case AT.UPDATE_SDD_TRANSACTION_FINISHED: {
+      return {
+        ...state,
+        sddTransactionFinished: true
+      }
+    }
     case AT.SET_STEP:
       switch (action.payload.step) {
         case 'ENTER_AMOUNT':
@@ -381,6 +388,7 @@ export function simpleBuyReducer (
             swapAccount: undefined,
             addBank: undefined
           }
+        case 'LINKED_PAYMENT_ACCOUNTS':
         case 'PAYMENT_METHODS':
           return {
             ...state,

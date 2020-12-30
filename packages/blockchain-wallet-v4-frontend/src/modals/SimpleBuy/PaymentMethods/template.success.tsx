@@ -1,5 +1,5 @@
 import { LinkStatePropsType, Props as OwnProps, SuccessStateType } from '.'
-import Payments from './Payments'
+import Methods from './Methods'
 import React, { useEffect } from 'react'
 import Unsupported from './template.unsupported'
 
@@ -18,7 +18,7 @@ const Success: React.FC<Props> = props => {
     ])
   }, [])
 
-  return isUserEligible ? <Payments {...props} /> : <Unsupported {...props} />
+  return isUserEligible ? <Methods {...props} /> : <Unsupported {...props} />
 }
 
 export type Props = OwnProps & SuccessStateType & LinkStatePropsType

@@ -1798,6 +1798,7 @@ type MessagesType = {
   'scenes.initborrow.comingsoon': 'Coming Soon'
   'scenes.initborrow.userblocked': 'Blockchain Borrow is not available in your country or region at the moment.'
   'scenes.initborrow.youcanborrow': 'You can borrow up to'
+  'scenes.interest.ineligible': 'You are not currently eligible to use this feature.'
   'scenes.interest.earnbody.access': 'Upgrade to Gold Level and access benefits like earning up to {highestRate}% annually on your crypto.'
   'scenes.interest.earninfo.verified.copy': 'Earn up to {highestRate}% annually when you transfer crypto to your Interest Account.'
   'scenes.interest.earnheaderverified': 'Earn interest on your crypto today.'

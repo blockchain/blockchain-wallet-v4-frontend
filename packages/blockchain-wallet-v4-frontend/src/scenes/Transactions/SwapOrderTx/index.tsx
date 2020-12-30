@@ -1,16 +1,22 @@
 import { bindActionCreators, Dispatch } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import { replace } from 'ramda'
+import React, { PureComponent } from 'react'
+import styled from 'styled-components'
+
+import { actions, selectors } from 'data'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import { coinToString, fiatToString } from 'core/exchange/currency'
 import {
   CoinType,
   ProcessedSwapOrderType,
   SupportedWalletCurrenciesType
 } from 'core/types'
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import React, { PureComponent } from 'react'
-import styled from 'styled-components'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { getInput, getOutput } from 'data/components/swap/model'
+import { RootState } from 'data/rootReducer'
 
-import { actions, selectors } from 'data'
 import {
   Addresses,
   Col,
@@ -25,11 +31,7 @@ import {
   TxRow,
   TxRowContainer
 } from '../components'
-import { coinToString, fiatToString } from 'core/exchange/currency'
-import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getDestination, getOrigin, IconTx, Status, Timestamp } from './model'
-import { getInput, getOutput } from 'data/components/swap/model'
-import { RootState } from 'data/rootReducer'
 
 const LastCol = styled(Col)`
   display: flex;
@@ -83,7 +85,7 @@ class SwapOrderTx extends PureComponent<Props, State> {
                 weight={600}
                 data-e2e='txTypeText'
               >
-                Swap {this.props.order.pair}
+                Swap {replace('PAX', 'USD-D', this.props.order.pair)}
               </Text>
               <Timestamp {...this.props} />
             </StatusAndType>

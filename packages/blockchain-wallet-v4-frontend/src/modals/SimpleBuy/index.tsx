@@ -34,6 +34,7 @@ import KycRequired from './KycRequired'
 import LinkBank from './LinkBank'
 import LinkBankHandler from './LinkBankHandler'
 import LinkBankStatus from './LinkBankStatus'
+import LinkedPaymentAccounts from './LinkedPaymentAccounts'
 import OrderSummary from './OrderSummary'
 import PaymentMethods from './PaymentMethods'
 import PreviewSell from './PreviewSell'
@@ -147,6 +148,14 @@ class SimpleBuy extends PureComponent<Props, State> {
             {this.props.step === 'PAYMENT_METHODS' && (
               <FlyoutChild>
                 <PaymentMethods
+                  {...this.props}
+                  handleClose={this.handleClose}
+                />
+              </FlyoutChild>
+            )}
+            {this.props.step === 'LINKED_PAYMENT_ACCOUNTS' && (
+              <FlyoutChild>
+                <LinkedPaymentAccounts
                   {...this.props}
                   handleClose={this.handleClose}
                 />
@@ -378,6 +387,12 @@ type LinkStatePropsType =
       orderType: SBOrderActionType
       pair: SBPairType
       step: 'PAYMENT_METHODS'
+    }
+  | {
+      order: SBOrderType
+      orderType: SBOrderActionType
+      pair: SBPairType
+      step: 'LINKED_PAYMENT_ACCOUNTS'
     }
 
 type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>

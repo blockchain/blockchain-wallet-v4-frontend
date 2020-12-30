@@ -234,11 +234,12 @@ const Success: React.FC<Props> = props => {
                 size='16px'
                 height='48px'
                 nature='primary'
-                onClick={() =>
+                onClick={() => {
                   props.simpleBuyActions.setStep({
                     step: 'UPGRADE_TO_GOLD'
                   })
-                }
+                  props.simpleBuyActions.updateSddTransactionFinished()
+                }}
                 style={{ marginBottom: '32px' }}
               >
                 <FormattedMessage id='buttons.ok' defaultMessage='OK' />

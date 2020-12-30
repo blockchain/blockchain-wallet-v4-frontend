@@ -67,9 +67,27 @@ export default ({
     ) as InitSwapFormValuesType
 
     if (initSwapFormValues?.BASE && initSwapFormValues?.COUNTER) {
-      yield put(A.setStep({ step: 'ENTER_AMOUNT' }))
+      yield put(
+        A.setStep({
+          step: 'ENTER_AMOUNT',
+          options: {
+            coin: payload.account.coin,
+            account: payload.account.type,
+            side: payload.side
+          }
+        })
+      )
     } else {
-      yield put(A.setStep({ step: 'INIT_SWAP' }))
+      yield put(
+        A.setStep({
+          step: 'INIT_SWAP',
+          options: {
+            coin: payload.account.coin,
+            account: payload.account.type,
+            side: payload.side
+          }
+        })
+      )
     }
   }
 

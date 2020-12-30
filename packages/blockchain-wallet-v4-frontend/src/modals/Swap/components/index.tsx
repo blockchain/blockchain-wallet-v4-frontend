@@ -112,5 +112,5 @@ export const CircleBorder = styled.div`
   background-color: white;
   border: 1px solid ${props => props.theme.grey300};
   border-radius: 24px;
-  margin-left: 24px;
+  margin-left: 18px;
 `

@@ -1,11 +1,13 @@
-import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
+import React from 'react'
+
+import { actions } from 'data'
+
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
-import React from 'react'
 import Success from './template.success'
 
 class GoogleAuthContainer extends React.PureComponent {
