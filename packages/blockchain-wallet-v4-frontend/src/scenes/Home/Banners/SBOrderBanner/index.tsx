@@ -106,8 +106,7 @@ class SBOrderBanner extends PureComponent<Props> {
               />
             </Text>
             <Copy size='16px' color='grey600' weight={500}>
-              {latestPendingOrder.paymentMethodId ||
-              latestPendingOrder.paymentType === 'PAYMENT_CARD' ? (
+              {latestPendingOrder.paymentType === 'PAYMENT_CARD' ? (
                 <FormattedMessage
                   id='scenes.home.banner.receive_cc_order'
                   defaultMessage='Once you finalize your credit card information, your buy order will complete.'

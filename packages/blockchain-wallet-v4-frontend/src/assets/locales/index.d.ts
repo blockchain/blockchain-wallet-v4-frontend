@@ -1394,6 +1394,7 @@ type MessagesType = {
   'modals.simplebuy.transferdetails.accountType': 'Account Type'
   'modals.simplebuy.transferdetails.back': 'Back'
   'modals.simplebuy.transferdetails.available': 'Your {coin} is now available in your Trading Wallet.'
+  'modals.simplebuy.transferdetails.pending': 'Your order is pending. Your funds will be available in your Trading Wallet once the order is complete.'
   'modals.simplebuy.transferdetails.IBAN': 'IBAN'
   'modals.simplebuy.transferdetails.account': 'Account Number'
   'modals.simplebuy.transferdetails.agree': 'Terms and Conditions of Modular'

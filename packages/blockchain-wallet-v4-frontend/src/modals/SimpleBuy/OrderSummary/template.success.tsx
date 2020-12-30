@@ -122,13 +122,22 @@ const Success: React.FC<Props> = props => {
               color='grey600'
               style={{ marginTop: '8px' }}
             >
-              <FormattedMessage
-                id='modals.simplebuy.transferdetails.available'
-                defaultMessage='Your {coin} is now available in your Trading Wallet.'
-                values={{
-                  coin: baseCurrency
-                }}
-              />
+              {props.order.state === 'FINISHED' && (
+                <FormattedMessage
+                  id='modals.simplebuy.transferdetails.available'
+                  defaultMessage='Your {coin} is now available in your Trading Wallet.'
+                  values={{
+                    coin: baseCurrency
+                  }}
+                />
+              )}
+              {props.order.state === 'PENDING_DEPOSIT' ||
+                (props.order.state === 'PENDING_CONFIRMATION' && (
+                  <FormattedMessage
+                    id='modals.simplebuy.transferdetails.pending'
+                    defaultMessage='Your order is pending. Your funds will be available in your Trading Wallet once the order is complete.'
+                  />
+                ))}
             </Text>
           </TitleWrapper>
           {props.order.state === 'PENDING_DEPOSIT' &&
