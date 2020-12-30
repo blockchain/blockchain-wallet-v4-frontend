@@ -25,6 +25,8 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const sddLimitR = selectors.components.simpleBuy.getUserSddELimit(state)
 
+  const sddLimitsR = selectors.components.simpleBuy.getSddLimits(state)
+
   return lift(
     (
       quote: ExtractSuccess<typeof quoteR>,
@@ -44,7 +46,8 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       sddEligible,
       sddLimit,
       supportedCoins,
-      userData
+      userData,
+      sddLimits: sddLimitsR.getOrElse(undefined)
     })
   )(
     quoteR,

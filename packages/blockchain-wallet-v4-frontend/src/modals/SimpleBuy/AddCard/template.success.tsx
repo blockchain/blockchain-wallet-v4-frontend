@@ -284,6 +284,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
                   size='14px'
                   color='grey800'
                   lineHeight='150%'
+                  style={{ marginBottom: '16px' }}
                 >
                   <FormattedMessage
                     id='modals.simplebuy.add_card.billing_address'

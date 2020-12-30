@@ -1,7 +1,7 @@
 import { Button, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
-import React, { Fragment } from 'react'
+import React from 'react'
 
 import { SettingWrapper } from 'components/Setting'
 
@@ -18,7 +18,7 @@ const Setting = props => {
   return (
     <SettingWrapper>
       {showWarning ? (
-        <Fragment>
+        <>
           <Text>
             <FormattedMessage
               id='scenes.settings.preferences.mobilenumber.settings.2fawarning'
@@ -26,6 +26,7 @@ const Setting = props => {
             />
           </Text>
           <Button
+            data-e2e='disable2faBtn'
             nature='primary'
             onClick={() => {
               resetWarning()
@@ -45,15 +46,19 @@ const Setting = props => {
               defaultMessage='Disable 2FA'
             />
           </Button>
-        </Fragment>
+        </>
       ) : (
-        <Fragment>
-          {smsNumber && <Text>{smsNumber}</Text>}
+        <>
+          {smsNumber && (
+            <Text color='grey800' size='15px' weight={600}>
+              {smsNumber}
+            </Text>
+          )}
           {smsVerified === 1 ? (
             <Button
+              data-e2e='prefsMobileNumberChange'
               nature='primary'
               onClick={handleClick}
-              data-e2e='prefsMobileNumberChange'
             >
               <FormattedMessage
                 id='scenes.settings.preferences.mobilenumber.settings.change'
@@ -83,7 +88,7 @@ const Setting = props => {
               />
             </Button>
           )}
-        </Fragment>
+        </>
       )}
     </SettingWrapper>
   )

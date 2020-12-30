@@ -19,6 +19,7 @@ import {
   SDDEligibleType,
   SDDVerifiedType,
   SwapQuoteType,
+  SwapUserLimitsType,
   WalletFiatType
 } from 'core/types'
 import { ModalOriginType } from 'data/modals/types'
@@ -608,6 +609,18 @@ export const updatePaymentFailure = (error: string): SimpleBuyActionTypes => ({
     error
   }
 })
+
+export const fetchSDDLimits = (currency: FiatType) => ({
+  type: AT.FETCH_SDD_LIMITS,
+  currency
+})
+
+export const fetchSDDLimitsFailure = (error: string): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SDD_LIMITS_FAILURE,
+  payload: {
+    error
+  }
+})
 export const updatePaymentLoading = (): SimpleBuyActionTypes => ({
   type: AT.UPDATE_PAYMENT_LOADING
 })
@@ -618,4 +631,19 @@ export const updatePaymentSuccess = (
   payload: {
     payment
   }
+})
+export const fetchSDDLimitsLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SDD_LIMITS_LOADING
+})
+
+export const fetchSDDLimitsSuccess = (
+  sddLimits: SwapUserLimitsType
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SDD_LIMITS_SUCCESS,
+  payload: {
+    sddLimits
+  }
+})
+export const updateSddTransactionFinished = () => ({
+  type: AT.UPDATE_SDD_TRANSACTION_FINISHED
 })

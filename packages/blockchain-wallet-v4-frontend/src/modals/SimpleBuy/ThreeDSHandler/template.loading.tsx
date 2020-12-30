@@ -26,8 +26,8 @@ const Loading: React.FC<Props> = ({ order, polling }) => {
       >
         {polling || order ? (
           <FormattedMessage
-            id='modals.simplebuy.doing.work'
-            defaultMessage='Doing Work...'
+            id='modals.simplebuy.processing'
+            defaultMessage='Processing…'
           />
         ) : (
           <FormattedMessage
