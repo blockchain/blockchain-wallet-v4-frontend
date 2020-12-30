@@ -258,12 +258,12 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
               coinOrder.map(coin => {
                 const accounts = props.accounts[coin] as Array<SwapAccountType>
                 return accounts.map(
-                  (account, index) =>
+                  account =>
                     account.balance !== '0' &&
                     account.balance !== 0 &&
                     isInvitedShowNC(account) && (
                       <CryptoAccountOption
-                        key={index}
+                        key={account.index}
                         account={account}
                         coins={props.coins}
                         isAccountSelected={false}

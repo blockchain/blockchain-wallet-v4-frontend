@@ -309,6 +309,18 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     // @ts-ignore
     !props.payment.isSufficientEthForErc20
 
+  const getValue = value =>
+    fix === 'FIAT'
+      ? fiatToString({
+          digits,
+          unit: fiatCurrency,
+          value
+        })
+      : coinToString({
+          value,
+          unit: { symbol: cryptoCurrency }
+        })
+
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ paddingBottom: '0px', borderBottom: 'grey000' }}>
@@ -423,17 +435,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       id='modals.simplebuy.checkout.belowmin'
                       defaultMessage='{value} Minimum {orderType}'
                       values={{
-                        value:
-                          fix === 'FIAT'
-                            ? fiatToString({
-                                digits,
-                                unit: fiatCurrency,
-                                value: min
-                              })
-                            : coinToString({
-                                value: min,
-                                unit: { symbol: cryptoCurrency }
-                              }),
+                        value: getValue(min),
                         orderType: props.orderType === 'BUY' ? 'Buy' : 'Sell'
                       }}
                     />
@@ -444,17 +446,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       id='modals.simplebuy.checkout.abovemax'
                       defaultMessage='{value} Maximum {orderType}'
                       values={{
-                        value:
-                          fix === 'FIAT'
-                            ? fiatToString({
-                                digits,
-                                unit: fiatCurrency,
-                                value: max
-                              })
-                            : coinToString({
-                                value: max,
-                                unit: { symbol: cryptoCurrency }
-                              }),
+                        value: getValue(max),
                         orderType: orderType === 'BUY' ? 'Buy' : 'Sell'
                       }}
                     />
