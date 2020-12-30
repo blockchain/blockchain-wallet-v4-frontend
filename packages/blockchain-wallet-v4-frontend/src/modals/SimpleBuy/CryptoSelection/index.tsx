@@ -34,7 +34,10 @@ class CryptoSelection extends PureComponent<Props> {
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD',
-  isFirstLogin: selectors.auth.getFirstLogin(state)
+  isFirstLogin: selectors.auth.getFirstLogin(state),
+  sddTransactionFinished: selectors.components.simpleBuy.getSddTransactionFinished(
+    state
+  )
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
