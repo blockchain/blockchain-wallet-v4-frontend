@@ -20,6 +20,7 @@ import {
   SDDEligibleType,
   SDDVerifiedType,
   SwapQuoteType,
+  SwapUserLimitsType,
   WalletFiatType,
   YodleeAccountType
 } from 'core/types'
@@ -651,6 +652,18 @@ export const updatePaymentFailure = (error: string): SimpleBuyActionTypes => ({
     error
   }
 })
+
+export const fetchSDDLimits = (currency: FiatType) => ({
+  type: AT.FETCH_SDD_LIMITS,
+  currency
+})
+
+export const fetchSDDLimitsFailure = (error: string): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SDD_LIMITS_FAILURE,
+  payload: {
+    error
+  }
+})
 export const updatePaymentLoading = (): SimpleBuyActionTypes => ({
   type: AT.UPDATE_PAYMENT_LOADING
 })
@@ -660,5 +673,17 @@ export const updatePaymentSuccess = (
   type: AT.UPDATE_PAYMENT_SUCCESS,
   payload: {
     payment
+  }
+})
+export const fetchSDDLimitsLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SDD_LIMITS_LOADING
+})
+
+export const fetchSDDLimitsSuccess = (
+  sddLimits: SwapUserLimitsType
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SDD_LIMITS_SUCCESS,
+  payload: {
+    sddLimits
   }
 })

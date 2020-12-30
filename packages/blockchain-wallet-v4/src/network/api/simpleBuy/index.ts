@@ -123,7 +123,11 @@ export default ({
       }
     })
 
-  const updateBankAccountLink = (providerAccountId: number, bankId: string) =>
+  const updateBankAccountLink = (
+    providerAccountId: number,
+    bankId: string,
+    accountId: string
+  ) =>
     authorizedPost({
       url: nabuUrl,
       removeDefaultPostData: true,
@@ -131,7 +135,8 @@ export default ({
       contentType: 'application/json',
       data: {
         attributes: {
-          providerAccountId: `${providerAccountId}`
+          providerAccountId: `${providerAccountId}`,
+          accountId: `${accountId}`
         }
       }
     })

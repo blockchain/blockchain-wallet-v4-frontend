@@ -228,7 +228,7 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     const canDeposit =
       fiatCurrency &&
       (this.props.supportedCoins[fiatCurrency] as SupportedFiatType)
-        .availability.deposit
+        ?.availability?.deposit
 
     return (
       <Wrapper>

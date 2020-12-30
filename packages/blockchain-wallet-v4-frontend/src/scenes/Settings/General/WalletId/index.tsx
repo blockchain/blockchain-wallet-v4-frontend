@@ -26,7 +26,7 @@ const WalletId = (props: Props) => {
             id='scenes.settings.general.walletid.description'
             defaultMessage='Wallet ID is your unique identifier. It is completely individual to you, and it is what you will use to log in and access your wallet. It is NOT a bitcoin address for sending or receiving.'
           />
-          <Text size='14px' weight={400} color='error'>
+          <Text color='error' size='13px' weight={600}>
             <FormattedMessage
               id='scenes.settings.general.walletid.warning'
               defaultMessage='Do not share your Wallet ID with others.'
@@ -35,7 +35,9 @@ const WalletId = (props: Props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Text data-e2e='walletId'>{props.guid}</Text>
+        <Text color='grey800' data-e2e='walletId' size='14px' weight={600}>
+          {props.guid}
+        </Text>
       </SettingComponent>
     </SettingContainer>
   )

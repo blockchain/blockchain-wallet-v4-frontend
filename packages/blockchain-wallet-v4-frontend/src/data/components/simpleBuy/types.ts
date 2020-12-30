@@ -20,7 +20,8 @@ import {
   SDDEligibleType,
   SDDVerifiedType,
   SwapOrderType,
-  SwapQuoteType
+  SwapQuoteType,
+  SwapUserLimitsType
 } from 'core/types'
 
 import * as AT from './actionTypes'
@@ -145,6 +146,7 @@ export type SimpleBuyState = {
   providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
   sddEligible: RemoteDataType<string, SDDEligibleType>
+  sddLimits: RemoteDataType<string, undefined | SwapUserLimitsType>
   sddVerified: RemoteDataType<string, SDDVerifiedType>
   sellOrder: undefined | SwapOrderType
   sellQuote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>
@@ -475,7 +477,7 @@ export type StepActionsPayload =
         | 'KYC_REQUIRED'
         | 'PREVIEW_SELL'
         | 'UPGRADE_TO_GOLD'
-        | 'LINK_BANK_HANDLER' // TODO: need to create new step type and pass partner data?
+        | 'LINK_BANK_HANDLER'
     }
 
 interface SetStepAction {
@@ -491,7 +493,6 @@ interface ShowModalAction {
   }
   type: typeof AT.SHOW_MODAL
 }
-
 interface UpdatePaymentFailureAction {
   payload: {
     error: string
@@ -506,6 +507,24 @@ interface UpdatePaymentSuccessAction {
     payment: undefined | PaymentValue
   }
   type: typeof AT.UPDATE_PAYMENT_SUCCESS
+}
+
+interface FetchSDDLimitsFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_SDD_LIMITS_FAILURE
+}
+
+interface FetchSDDLimitsLoading {
+  type: typeof AT.FETCH_SDD_LIMITS_LOADING
+}
+
+interface FetchSDDLimitsSuccess {
+  payload: {
+    sddLimits: SwapUserLimitsType
+  }
+  type: typeof AT.FETCH_SDD_LIMITS_SUCCESS
 }
 
 export type SimpleBuyActionTypes =
@@ -556,6 +575,9 @@ export type SimpleBuyActionTypes =
   | FetchSellQuoteFailure
   | FetchSellQuoteLoading
   | FetchSellQuoteSuccess
+  | FetchSDDLimitsLoading
+  | FetchSDDLimitsFailure
+  | FetchSDDLimitsSuccess
   | HandleBankLinkStep
   | InitializeCheckout
   | SetStepAction

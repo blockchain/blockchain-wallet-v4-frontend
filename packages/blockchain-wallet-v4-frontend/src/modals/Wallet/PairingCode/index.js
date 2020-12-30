@@ -5,7 +5,8 @@ import {
   Modal,
   ModalBody,
   ModalFooter,
-  ModalHeader
+  ModalHeader,
+  Text
 } from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
@@ -34,7 +35,7 @@ class PairingCodeContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, position, total, close, closeAll } = this.props
+    const { data, position, total, closeAll } = this.props
 
     let PairingCode = data.cata({
       Success: val => <Success val={val} />,
@@ -47,15 +48,32 @@ class PairingCodeContainer extends React.PureComponent {
       <Modal size='large' position={position} total={total}>
         <ModalHeader icon='request' onClose={closeAll}>
           <FormattedMessage
-            id='modals.pairingcode.title'
-            defaultMessage='Scan Pairing Code'
+            id='modals.pairingcode.title1'
+            defaultMessage='Mobile Pairing Code'
           />
         </ModalHeader>
         <ModalBody>
+          <Text color='grey800' size='14px' weight={500}>
+            <FormattedMessage
+              id='modals.pairingcode.description'
+              defaultMessage='Scan the QR code below with your Blockchain Wallet mobile application.'
+            />
+          </Text>
+          <Text color='error' size='14px' weight={600}>
+            <FormattedMessage
+              id='modals.pairingcode.warning'
+              defaultMessage='Do not share this QR Code with others.'
+            />
+          </Text>
           <QRCodeContainer>{PairingCode}</QRCodeContainer>
         </ModalBody>
         <ModalFooter>
-          <Button nature='primary' fullwidth onClick={close}>
+          <Button
+            data-e2e='closeBtn'
+            nature='primary'
+            fullwidth
+            onClick={closeAll}
+          >
             <FormattedMessage id='buttons.close' defaultMessage='Close' />
           </Button>
         </ModalFooter>

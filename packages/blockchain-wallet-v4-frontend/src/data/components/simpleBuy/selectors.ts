@@ -289,3 +289,5 @@ export const isUserSddVerified = (state: RootState) => {
       sddVerified.taskComplete && sddVerified.verified
   )(sddVerifiedR)
 }
+export const getSddLimits = (state: RootState) =>
+  state.components.simpleBuy.sddLimits
