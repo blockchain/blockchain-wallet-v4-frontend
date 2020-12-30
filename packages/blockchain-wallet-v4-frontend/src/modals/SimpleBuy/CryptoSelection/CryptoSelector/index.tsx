@@ -154,7 +154,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
 
   return (
     <Wrapper>
-      <Form>
+      <Form onSubmit={() => {}}>
         <FlyoutWrapper>
           <CloseContainer>
             <Icon
@@ -258,11 +258,12 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
               coinOrder.map(coin => {
                 const accounts = props.accounts[coin] as Array<SwapAccountType>
                 return accounts.map(
-                  account =>
+                  (account, index) =>
                     account.balance !== '0' &&
                     account.balance !== 0 &&
                     isInvitedShowNC(account) && (
                       <CryptoAccountOption
+                        key={index}
                         account={account}
                         coins={props.coins}
                         isAccountSelected={false}

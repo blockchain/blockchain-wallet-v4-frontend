@@ -5,12 +5,12 @@ import styled from 'styled-components'
 
 import { selectBorderColor, selectFocusBorderColor } from './helper'
 
-const BaseTextInput = styled(AutosizeInput).attrs({
+const BaseTextInput = styled(AutosizeInput).attrs(props => ({
   type: 'text',
-  'data-lpignore': props => props.noLastPass,
-  disabled: props => props.disabled,
-  maxLength: props => props.maxLength
-})`
+  'data-lpignore': props.noLastPass,
+  disabled: props.disabled,
+  maxLength: props.maxLength
+}))`
   display: block;
   width: 100%;
   height: ${props => props.height};
@@ -72,7 +72,17 @@ class TextInput extends React.Component {
   }
 
   render () {
-    const { errorState, disabled, noLastPass, ...rest } = this.props
+    const {
+      errorState,
+      disabled,
+      noLastPass,
+      borderColor,
+      focusedBorderColor,
+      borderRightNone,
+      minHeight,
+      active,
+      ...rest
+    } = this.props
     return (
       <BaseTextInput
         ref={this.refInput}
