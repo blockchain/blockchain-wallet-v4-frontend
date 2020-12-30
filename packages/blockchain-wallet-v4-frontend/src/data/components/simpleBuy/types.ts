@@ -73,6 +73,7 @@ export enum SimpleBuyStepType {
   'CRYPTO_SELECTION',
   'ENTER_AMOUNT',
   'KYC_REQUIRED',
+  'LINKED_PAYMENT_ACCOUNTS',
   'PAYMENT_METHODS',
   'PREVIEW_SELL',
   'ORDER_SUMMARY',
@@ -460,6 +461,13 @@ export type StepActionsPayload =
       order?: SBOrderType
       pair: SBPairType
       step: 'PAYMENT_METHODS'
+    }
+  | {
+      cryptoCurrency: CoinType
+      fiatCurrency: FiatType
+      order?: SBOrderType
+      pair: SBPairType
+      step: 'LINKED_PAYMENT_ACCOUNTS'
     }
   | { order?: SBOrderType; step: '3DS_HANDLER' }
   | {
