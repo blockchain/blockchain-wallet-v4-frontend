@@ -210,7 +210,15 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   const handleSubmit = e => {
     e.preventDefault()
-    props.swapActions.setStep({ step: 'PREVIEW_SWAP' })
+    props.swapActions.setStep({
+      step: 'PREVIEW_SWAP',
+      options: {
+        baseCoin: BASE.coin,
+        baseAccountType: BASE.type,
+        counterCoin: COUNTER.coin,
+        counterAccountType: COUNTER.type
+      }
+    })
   }
   const userMax = Number(payment ? payment.effectiveBalance : BASE.balance)
   const balanceBelowMinimum = userMax < Number(min)

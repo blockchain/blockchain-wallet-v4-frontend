@@ -183,15 +183,32 @@ interface SwitchFixActionType {
 }
 
 export type SwapStepPayload =
+  // added these optional payloads for data science tracking
   | {
-      options?: never
+      options?: {
+        account?: 'ACCOUNT' | 'CUSTODIAL',
+        coin?: CoinType,
+        side?: 'BASE' | 'COUNTER'
+      }
       step: 'ENTER_AMOUNT'
     }
   | {
-      options?: never
+      options?: {
+        account?: 'ACCOUNT' | 'CUSTODIAL',
+        coin?: CoinType,
+        side?: 'BASE' | 'COUNTER'
+      }
       step: 'INIT_SWAP'
     }
-  | { options?: never; step: 'PREVIEW_SWAP' }
+  | {
+      options?: {
+        baseAccountType?: 'ACCOUNT' | 'CUSTODIAL',
+        baseCoin?: CoinType,
+        counterAccountType?: 'ACCOUNT' | 'CUSTODIAL',
+        counterCoin?: CoinType
+      }
+      step: 'PREVIEW_SWAP'
+    }
   | {
       options: {
         order: SwapOrderType
