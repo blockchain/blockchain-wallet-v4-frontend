@@ -154,7 +154,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
 
   return (
     <Wrapper>
-      <Form>
+      <Form onSubmit={() => {}}>
         <FlyoutWrapper>
           <CloseContainer>
             <Icon
@@ -263,6 +263,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
                     account.balance !== 0 &&
                     isInvitedShowNC(account) && (
                       <CryptoAccountOption
+                        key={account.index}
                         account={account}
                         coins={props.coins}
                         isAccountSelected={false}
