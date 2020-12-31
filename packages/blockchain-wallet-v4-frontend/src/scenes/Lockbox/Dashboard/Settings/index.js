@@ -40,11 +40,6 @@ export default class LockboxSettings extends React.PureComponent {
         )}
         <RenameDevice deviceIndex={deviceIndex} />
         <DownloadUpdater />
-        {/* TODO: re-enable once new firmware is released */}
-        {/* <UpdateDevice */}
-        {/*  deviceIndex={deviceIndex} */}
-        {/*  isBrowserSupported={isBrowserSupported} */}
-        {/* /> */}
         <AddDevice isBrowserSupported={isBrowserSupported} />
         <RestoreDevice />
         <ShowXPubs deviceIndex={deviceIndex} />
