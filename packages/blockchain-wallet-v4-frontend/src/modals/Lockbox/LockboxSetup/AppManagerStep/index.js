@@ -5,7 +5,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { actions } from 'data'
-import { AppManager } from 'components/Lockbox'
+
+import AppManager from '../../components/AppManager'
 
 const Wrapper = styled.div`
   display: flex;

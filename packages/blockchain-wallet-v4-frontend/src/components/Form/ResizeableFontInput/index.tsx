@@ -32,7 +32,7 @@ const getValueLength = value => {
  * THIS HOC CAN ONLY BE USED ON CLASS COMPONENTS
  * ANY SFC WILL NOT WORK AND SFC WRAPPED WITH styled() WILL BREAK IN PROD
  */
-export const ResizeableFontInputHOC = Component =>
+export const ResizeableFontInput = Component =>
   class ResizeableInput extends React.PureComponent {
     static defaultProps = {
       onUpdate: () => {}

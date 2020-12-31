@@ -17,7 +17,7 @@ import {
 import { model } from 'data'
 import { required } from 'services/FormHelper'
 import CopyClipboard from 'components/CopyClipboard'
-import QRCodeWrapper from 'components/QRCodeWrapper'
+import QRCodeWrapper from 'components/QRCode/Wrapper'
 
 const AddressContainer = styled.div`
   display: flex;

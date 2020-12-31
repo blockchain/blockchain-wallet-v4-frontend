@@ -34,7 +34,7 @@ import ComboDisplay from 'components/Display/ComboDisplay'
 import ExchangePromo from 'components/Send/ExchangePromo'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import PropTypes from 'prop-types'
-import QRCodeCapture from 'components/QRCodeCapture'
+import QRCodeCapture from 'components/QRCode/Capture'
 import React from 'react'
 import styled from 'styled-components'
 

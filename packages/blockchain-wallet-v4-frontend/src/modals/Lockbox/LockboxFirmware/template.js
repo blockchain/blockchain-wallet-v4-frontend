@@ -4,7 +4,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
-import ModalStepper from 'components/ModalStepper'
+
+import ModalStepper from '../components'
 
 const ContentWrapper = styled(ModalBody)`
   padding: 20px;

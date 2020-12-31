@@ -8,7 +8,7 @@ import { Button, Text, TextGroup } from 'blockchain-info-components'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import CopyClipboard from 'components/CopyClipboard'
-import QRCodeWrapper from 'components/QRCodeWrapper'
+import QRCodeWrapper from 'components/QRCode/Wrapper'
 
 const Details = styled.div`
   width: 100%;

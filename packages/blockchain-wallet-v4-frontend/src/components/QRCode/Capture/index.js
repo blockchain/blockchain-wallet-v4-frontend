@@ -8,7 +8,8 @@ import React from 'react'
 import * as C from 'services/AlertService'
 import { actions, model, selectors } from 'data'
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
-import QRCodeCapture from './template.js'
+
+import QRCodeCapture from './template'
 
 const { FORM: BTC_FORM } = model.components.sendBtc
 const { FORM: BCH_FORM } = model.components.sendBch
