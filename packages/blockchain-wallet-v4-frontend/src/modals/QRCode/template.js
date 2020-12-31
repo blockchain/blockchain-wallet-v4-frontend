@@ -14,7 +14,7 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import CopyClipboard from 'components/CopyClipboard'
+import CopyClipboard from 'components/Clipboard/CopyClipboard'
 
 const QRCodeContainer = styled.div`
   display: flex;

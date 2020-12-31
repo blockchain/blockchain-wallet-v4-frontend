@@ -20,7 +20,7 @@ import {
 import { invalidAmountMax, invalidAmountMin } from './validation'
 import { model } from 'data'
 import { required } from 'services/FormHelper'
-import CopyClipboard from 'components/CopyClipboard'
+import CopyClipboard from 'components/Clipboard/CopyClipboard'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 
 const AddressContainer = styled.div`
