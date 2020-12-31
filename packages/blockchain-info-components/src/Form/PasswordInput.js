@@ -3,12 +3,12 @@ import styled from 'styled-components'
 
 import { selectBorderColor, selectFocusBorderColor } from './helper'
 
-const BasePasswordInput = styled.input.attrs({
+const BasePasswordInput = styled.input.attrs(props => ({
   type: 'password',
   spellCheck: 'false',
-  disabled: props => props.disabled,
-  'data-lpignore': props => props.noLastPass
-})`
+  disabled: props.disabled,
+  'data-lpignore': props.noLastPass
+}))`
   position: relative;
   display: block;
   width: 100%;

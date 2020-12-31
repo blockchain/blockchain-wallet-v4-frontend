@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { FiatType, SupportedWalletCurrenciesType } from 'core/types'
+import { FormattedMessage } from 'react-intl'
 import { Icon } from 'blockchain-info-components'
 import { SuccessCartridge } from 'components/Cartridge'
 import { SwapAccountType } from 'data/types'
@@ -43,7 +44,12 @@ const CryptoAccountOption: React.FC<Props> = props => {
       </FlexStartRow>
       <FlexStartRow>
         {account.type === 'CUSTODIAL' && (
-          <LowFeeCartridge>Low Fees</LowFeeCartridge>
+          <LowFeeCartridge>
+            <FormattedMessage
+              id='scenes.swap.low_fees'
+              defaultMessage='Low Fees'
+            />
+          </LowFeeCartridge>
         )}
         {isSwap ? (
           isAccountSelected ? (
