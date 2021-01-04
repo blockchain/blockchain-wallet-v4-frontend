@@ -1967,6 +1967,7 @@ type MessagesType = {
   'scenes.register.simplebuy.change': 'You will be able to change your amount later.'
   'scenes.register.simplebuy.signin': 'Sign In to Continue Your Crypto Purchase.'
   'scenes.register.simplebuy.signup': 'Sign Up to Continue Your Crypto Purchase.'
+  'scenes.register.understand-secret-phase': 'I understand that Blockchain.com cannot recover my password for me. If Iose access to my wallet, I must use my <a href="https://support.blockchain.com/hc/en-us/articles/360029029911-Your-Wallet-101" rel="noopener noreferrer" target="_blank"> Secret Phase </a> to access my funds.'
   'scenes.register.wallet.link': 'Already have a wallet?'
   'scenes.register.wallet.signin': 'Sign In'
   'scenes.register.walletcard.infotitleuppercase': 'Be Your Own Bank'

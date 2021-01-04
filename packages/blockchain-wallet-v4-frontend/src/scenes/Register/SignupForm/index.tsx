@@ -2,10 +2,11 @@ import {
   Banner,
   Button,
   HeartbeatLoader,
-  Text
+  Text,
+  TextGroup
 } from 'blockchain-info-components'
 import { Field } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import {
   required,
   validEmail,
@@ -18,6 +19,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import {
+  CheckBox,
   Form,
   FormGroup,
   FormItem,
@@ -40,7 +42,6 @@ const isSupportedBrowser = browser.satisfies({
 
 const RegisterForm = styled(Form)`
   margin-top: 20px;
-  max-height: 26rem;
 
   > div * {
     max-height: 26rem;
@@ -54,6 +55,11 @@ const BrowserWarning = styled.div`
 `
 const PasswordTip = styled(Text)`
   margin-top: 4px;
+`
+
+const FieldWrapper = styled.div`
+  margin-top: 0.25rem;
+  margin-right: 0 !important;
 `
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
@@ -171,6 +177,26 @@ const SignupForm = ({
             validate={[required, validatePasswordConfirmation]}
           />
         </FormItem>
+      </FormGroup>
+      <FormGroup inline>
+        <FieldWrapper>
+          <Field
+            name='secretPhase'
+            validate={[required]}
+            component={CheckBox}
+            hideErrors
+          />
+        </FieldWrapper>
+        <FormLabel>
+          <TextGroup inline>
+            <Text size='12px' weight={400}>
+              <FormattedHTMLMessage
+                id='scenes.register.understand-secret-phase'
+                defaultMessage='I understand that Blockchain.com cannot recover my password for me. If Iose access to my wallet, I must use my <a href="https://support.blockchain.com/hc/en-us/articles/360029029911-Your-Wallet-101" rel="noopener noreferrer" target="_blank"> Secret Phase </a> to access my funds.'
+              />
+            </Text>
+          </TextGroup>
+        </FormLabel>
       </FormGroup>
       <FormGroup>
         <FormItem>
