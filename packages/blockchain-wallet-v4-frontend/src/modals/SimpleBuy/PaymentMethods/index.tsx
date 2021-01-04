@@ -10,11 +10,12 @@ import {
   SBOrderType,
   SBPairType
 } from 'core/types'
-import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
+
+import { getData } from './selectors'
 import Failure from './template.failure'
-import Loading from './template.loading'
+import Loading from '../template.loading'
 import Success from './template.success'
 
 class PaymentMethods extends PureComponent<Props> {

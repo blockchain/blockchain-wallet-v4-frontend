@@ -5,13 +5,13 @@ import styled from 'styled-components'
 import { Icon } from '../Icons'
 import { selectBorderColor, selectFocusBorderColor } from './helper'
 
-const BaseTextInput = styled.input.attrs({
+const BaseTextInput = styled.input.attrs(props => ({
   type: 'text',
-  'data-lpignore': props => props.noLastPass,
-  disabled: props => props.disabled,
-  maxLength: props => props.maxLength,
-  spellCheck: props => (props.disableSpellcheck ? 'false' : 'true')
-})`
+  'data-lpignore': props.noLastPass,
+  disabled: props.disabled,
+  maxLength: props.maxLength,
+  spellCheck: props.disableSpellcheck ? 'false' : 'true'
+}))`
   display: block;
   width: 100%;
   height: ${props => props.height};
@@ -94,7 +94,19 @@ class TextInput extends React.Component {
   }
 
   render () {
-    const { disabled, errorState, icon, iconSize, value, ...rest } = this.props
+    const {
+      disabled,
+      errorState,
+      icon,
+      iconSize,
+      value,
+      borderColor,
+      focusedBorderColor,
+      borderRightNone,
+      minHeight,
+      active,
+      ...rest
+    } = this.props
 
     return (
       <Container>
@@ -108,6 +120,7 @@ class TextInput extends React.Component {
           onKeyDown={this.onKeyPressed}
           ref={this.refInput}
           value={value}
+          minHeight={minHeight}
           {...rest}
         />
       </Container>

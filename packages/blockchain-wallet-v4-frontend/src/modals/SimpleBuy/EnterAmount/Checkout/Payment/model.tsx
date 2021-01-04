@@ -54,8 +54,12 @@ export const PaymentArrowContainer = styled.div`
 export const DisplayTitle = styled(Title)`
   margin-top: 4px;
 `
+export const SectionTitle = styled(Text)`
+  margin-top: 4px;
+  padding: 5px 0;
+`
 export const DisplayValue = styled(Value)`
-  margin-top: 0px;
+  margin-top: 0;
 `
 
 export const renderCardText = (value: SBPaymentMethodType): string => {
@@ -104,18 +108,22 @@ export const renderFund = (
 )
 
 export const getIcon = (
-  value: SBPaymentMethodType | undefined
+  method: SBPaymentMethodType | undefined,
+  isSddFlow: boolean = false
 ): ReactElement => {
-  if (!value) {
+  if (isSddFlow && !method) {
+    return <Icon size='18px' color='blue600' name='credit-card-sb' />
+  }
+  if (!method) {
     return (
       <Icon cursor name='plus-in-circle-filled' size='22px' color='blue600' />
     )
   }
 
-  switch (value.type) {
+  switch (method.type) {
     case 'USER_CARD':
       let cardType = CARD_TYPES.find(
-        card => card.type === (value.card ? value.card.type : '')
+        card => card.type === (method.card ? method.card.type : '')
       )
       return (
         <img
@@ -129,7 +137,7 @@ export const getIcon = (
         <Icon
           size='32px'
           color='fiat'
-          name={value.currency.toLowerCase() as keyof IcoMoonType}
+          name={method.currency.toLowerCase() as keyof IcoMoonType}
         />
       )
     default:
@@ -138,10 +146,19 @@ export const getIcon = (
 }
 
 export const getText = (
-  value: SBPaymentMethodType | undefined,
-  sbBalances: SBBalancesType
+  method: SBPaymentMethodType | undefined,
+  sbBalances: SBBalancesType,
+  isSddFlow: boolean = false
 ): ReactElement => {
-  if (!value) {
+  if (isSddFlow && !method) {
+    return (
+      <FormattedMessage
+        id='modals.simplebuy.confirm.credit_or_debit'
+        defaultMessage='Credit or Debit Card'
+      />
+    )
+  }
+  if (!method) {
     return (
       <FormattedMessage
         id='modals.simplebuy.confirm.jump_to_payment'
@@ -150,7 +167,7 @@ export const getText = (
     )
   }
 
-  return value.type === 'USER_CARD'
-    ? renderCard(value)
-    : renderFund(value, sbBalances)
+  return method.type === 'USER_CARD'
+    ? renderCard(method)
+    : renderFund(method, sbBalances)
 }

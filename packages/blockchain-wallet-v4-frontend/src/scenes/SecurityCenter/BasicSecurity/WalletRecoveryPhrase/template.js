@@ -1,7 +1,10 @@
 /* stylelint-disable */
-
-import { Button } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
+
+import { Button, Text } from 'blockchain-info-components'
+
 import {
   IconContainer,
   SecurityComponent,
@@ -10,9 +13,7 @@ import {
   SecurityHeader,
   SecurityIcon,
   SecuritySummary
-} from 'components/Security'
-import React from 'react'
-import styled from 'styled-components'
+} from '../../components'
 
 const SecurityGridContainer = styled(SecurityContainer)`
   border-bottom-left-radius: 0;
@@ -43,6 +44,11 @@ const BackupButton = styled(Button)`
     min-width: 0;
     font-size: 14px;
   }
+`
+const WarningText = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
 `
 
 const WalletRecoveryPhrase = props => {
@@ -110,6 +116,14 @@ const WalletRecoveryPhrase = props => {
                 />
               </span>
             </SecurityDescription>
+            <WarningText>
+              <Text size='14px' weight={500} color='error'>
+                <FormattedMessage
+                  id='scenes.securitysettings.basicsecurity.recoveryphrase.warning'
+                  defaultMessage=' Never share this backup phrase with anyone! Blockchain.com will never ask you for this information.'
+                />
+              </Text>
+            </WarningText>
           </SecuritySummary>
         </IconAndHeaderContainer>
         {buttonHelper()}

@@ -88,7 +88,10 @@ export const MenuItem = styled.button<{ colorCode?: keyof DefaultTheme }>`
     }
     &:hover {
       background: ${props =>
-        props.colorCode && transparentize(0.85, props.theme[props.colorCode])};
+        props.colorCode &&
+        (props.colorCode === 'wdgld'
+          ? props.theme.grey000
+          : transparentize(0.85, props.theme[props.colorCode]))};
       .destination {
         color: ${props => props.theme.grey600};
       }
@@ -96,7 +99,10 @@ export const MenuItem = styled.button<{ colorCode?: keyof DefaultTheme }>`
     &.active,
     &:active {
       background: ${props =>
-        props.colorCode && transparentize(0.75, props.theme[props.colorCode])};
+        props.colorCode &&
+        (props.colorCode === 'wdgld'
+          ? props.theme.grey000
+          : transparentize(0.75, props.theme[props.colorCode]))};
       .destination {
         color: ${props => props.theme.grey800};
       }

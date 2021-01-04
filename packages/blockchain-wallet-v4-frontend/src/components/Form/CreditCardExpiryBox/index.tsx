@@ -25,9 +25,12 @@ export const normalizeCreditCardExpiry = (value, previousValue) => {
   } else {
     if (onlyNumsOrSlash.length === 2) {
       return onlyNumsOrSlash + '/'
-    } else {
-      return onlyNumsOrSlash
     }
+    if (onlyNumsOrSlash.length === 4 && !onlyNumsOrSlash.includes('/')) {
+      const num = onlyNumsOrSlash
+      return `${num.substring(0, 2)}/${num.substring(2, 4)}`
+    }
+    return onlyNumsOrSlash
   }
 }
 

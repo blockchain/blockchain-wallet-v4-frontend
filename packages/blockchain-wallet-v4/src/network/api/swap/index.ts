@@ -1,5 +1,6 @@
 import { CoinType, FiatType } from 'core/types'
 import {
+  EligibilityResponseType,
   SwapOrderDirectionType,
   SwapOrderStateType,
   SwapOrderType,
@@ -19,12 +20,19 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       }
     })
 
+  const checkCustodialEligiblity = (): EligibilityResponseType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/eligible/product/swap'
+    })
+
   const createSwapOrder = (
     direction: SwapOrderDirectionType,
     quoteId: string,
     volume: string,
     ccy: FiatType,
-    destinationAddress?: string
+    destinationAddress?: string,
+    refundAddress?: string
   ): SwapOrderType =>
     authorizedPost({
       url: nabuUrl,
@@ -36,7 +44,8 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
         direction,
         quoteId,
         volume,
-        destinationAddress
+        destinationAddress,
+        refundAddress
       }
     })
 
@@ -44,6 +53,14 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     authorizedGet({
       url: nabuUrl,
       endPoint: `/trades/limits?currency=${currency}&minor=true`,
+      contentType: 'application/json',
+      ignoreQueryParams: true
+    })
+
+  const getSwapPairs = (): Array<string> =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/custodial/trades/pairs`,
       contentType: 'application/json',
       ignoreQueryParams: true
     })
@@ -118,8 +135,10 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
 
   return {
     cancelSwapOrder,
+    checkCustodialEligiblity,
     createSwapOrder,
     getSwapLimits,
+    getSwapPairs,
     getSwapQuote,
     getSwapTrades,
     getUnifiedSwapTrades,

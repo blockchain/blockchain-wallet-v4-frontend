@@ -3,13 +3,13 @@ import React from 'react'
 import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
-// import AndroidAppBanner from 'components/AndroidAppBanner'
-import DropdownLanguage from 'components/DropdownLanguage'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import media from 'services/ResponsiveService'
 
-import Footer from './Footer'
-import Header from './Header'
+// import AndroidAppBanner from './components/AndroidAppBanner'
+import DropdownLanguage from './components/DropdownLanguage'
+import Footer from './components/Footer'
+import Header from './components/Header'
 
 const FooterWrapper = styled.div`
   display: flex;

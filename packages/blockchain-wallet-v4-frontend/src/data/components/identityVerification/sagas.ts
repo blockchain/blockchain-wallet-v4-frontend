@@ -8,6 +8,7 @@ import {
   EMAIL_STEPS,
   FLOW_TYPES,
   ID_VERIFICATION_SUBMITTED_FORM,
+  INFO_AND_RESIDENTIAL_FORM,
   KYC_MODAL,
   PERSONAL_FORM,
   PHONE_EXISTS_ERROR,
@@ -19,7 +20,7 @@ import { call, delay, put, select, take } from 'redux-saga/effects'
 import { computeSteps } from './services'
 import { isEmpty, prop, toUpper } from 'ramda'
 import { KycStateType } from 'data/modules/types'
-import { RemoteDataType } from 'core/types'
+import { RemoteDataType, SDDVerifiedType } from 'core/types'
 import { StateType, StepsType } from './types'
 import { Types } from 'blockchain-wallet-v4/src'
 import profileSagas from '../../modules/profile/sagas'
@@ -67,7 +68,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const createRegisterUserCampaign = function * () {
     try {
-      yield call(verifyIdentity, { payload: { tier: TIERS[2] } })
+      yield call(verifyIdentity, { payload: { tier: 2 } })
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
@@ -128,14 +129,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const verifyIdentity = function * ({ payload }) {
-    const { tier, needMoreInfo, origin } = payload
-    yield put(
-      actions.modals.showModal(KYC_MODAL, {
-        tier,
-        needMoreInfo,
-        origin: origin || 'Unknown'
-      })
-    )
+    yield put(actions.modals.showModal(KYC_MODAL, payload))
   }
 
   const defineSteps = function * (tier, needMoreInfo) {
@@ -153,22 +147,12 @@ export default ({ api, coreSagas, networks }) => {
       next: 0,
       selected: 2
     })
-    const mobileVerified = (yield select(selectors.modules.profile.getUserData))
-      .map(prop('mobileVerified'))
-      .getOrElse(false)
-    const smsVerified = (yield select(
-      selectors.core.settings.getSmsVerified
-    )).getOrElse(0)
-    const currentStep = yield select(S.getVerificationStep)
     const kycState = (selectors.modules.profile.getUserKYCState(
       yield select()
     ) as RemoteDataType<string, KycStateType>).getOrElse('NONE')
     const steps = computeSteps({
-      currentStep,
       kycState,
-      mobileVerified,
       needMoreInfo,
-      smsVerified,
       tiers
     })
 
@@ -202,7 +186,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const goToNextStep = function * () {
     const steps = (yield select(S.getSteps)).getOrElse([])
-    const currentStep = yield select(S.getVerificationStep)
+    const currentStep = S.getVerificationStep(yield select())
     const currentStepIndex = steps.indexOf(currentStep)
     const step = steps[currentStepIndex + 1]
 
@@ -270,50 +254,6 @@ export default ({ api, coreSagas, networks }) => {
         actions.form.stopSubmit(SMS_NUMBER_FORM, {
           code: failedResendError
         })
-      )
-    }
-  }
-
-  const savePersonalData = function * () {
-    try {
-      yield put(actions.form.startSubmit(PERSONAL_FORM))
-      yield call(syncUserWithWallet)
-      const {
-        firstName,
-        lastName,
-        dob,
-        line1,
-        line2,
-        city,
-        country,
-        state,
-        postCode
-      } = yield select(selectors.form.getFormValues(PERSONAL_FORM))
-      const personalData = { firstName, lastName, dob }
-      const address = {
-        line1,
-        line2,
-        city,
-        country: country.code,
-        state,
-        postCode
-      }
-      if (address.country === 'US') address.state = address.state.code
-      yield call(updateUser, { payload: { data: personalData } })
-      yield call(updateUserAddress, {
-        payload: { address }
-      })
-
-      yield put(actions.form.stopSubmit(PERSONAL_FORM))
-      yield call(goToNextStep)
-    } catch (e) {
-      yield put(actions.form.stopSubmit(PERSONAL_FORM, { _error: e }))
-      yield put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'savePersonalData',
-          `Error saving personal data: ${e}`
-        )
       )
     }
   }
@@ -435,6 +375,86 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const saveInfoAndResidentialData = function * ({ payload }) {
+    try {
+      yield put(actions.form.startSubmit(INFO_AND_RESIDENTIAL_FORM))
+      yield call(syncUserWithWallet)
+      const {
+        firstName,
+        lastName,
+        dob,
+        line1,
+        line2,
+        city,
+        country,
+        state,
+        postCode
+      } = yield select(selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM))
+      const personalData = { firstName, lastName, dob }
+      const address = {
+        line1,
+        line2,
+        city,
+        country: country.code,
+        state,
+        postCode
+      }
+      yield call(updateUser, { payload: { data: personalData } })
+      yield call(updateUserAddress, {
+        payload: { address }
+      })
+
+      if (payload.checkSddEligibility) {
+        const POLL_SDD_DELAY = 3000
+        let sddVerified: SDDVerifiedType
+        let callCount = 0
+
+        // poll for SDD verified check to complete
+        // 10 call max * 3 second intervals = 30 second wait before forcing gold flow
+        while (true) {
+          callCount++
+          if (callCount >= 10) {
+            sddVerified = { verified: false, taskComplete: true }
+            break
+          }
+          sddVerified = yield call(api.fetchSDDVerified)
+          if (sddVerified?.taskComplete) break
+          yield delay(POLL_SDD_DELAY)
+        }
+
+        if (sddVerified.verified) {
+          // SDD verified, refetch user profile
+          yield put(actions.modules.profile.fetchUser())
+          // run callback to get back to SB flow
+          payload.onCompletionCallback && payload.onCompletionCallback()
+          // close KYC modal
+          yield put(actions.modals.closeModal(KYC_MODAL))
+        } else {
+          // SDD denied, continue to veriff
+          yield call(goToNextStep)
+          // create SB order in background in case user drops out of veriff flow
+          payload.onCompletionCallback && payload.onCompletionCallback()
+        }
+      } else {
+        yield call(goToNextStep)
+      }
+
+      yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM))
+      yield put(actions.modules.profile.fetchUser())
+    } catch (e) {
+      yield put(
+        actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM, { _error: e })
+      )
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'saveInfoAndResidentialData',
+          `Error saving info and residential data: ${e}`
+        )
+      )
+    }
+  }
+
   return {
     claimCampaignClicked,
     defineSteps,
@@ -450,12 +470,12 @@ export default ({ api, coreSagas, networks }) => {
     registerUserCampaign,
     createUser,
     createRegisterUserCampaign,
-    savePersonalData,
     updateSmsStep,
     updateSmsNumber,
     verifySmsNumber,
     checkKycFlow,
     sendDeeplink,
+    saveInfoAndResidentialData,
     sendEmailVerification,
     selectTier,
     updateEmail

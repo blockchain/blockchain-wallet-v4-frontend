@@ -1,12 +1,14 @@
-import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
+import React, { PureComponent } from 'react'
+
+import { actions } from 'data'
 import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
-import Loading from './template.loading'
-import React, { PureComponent } from 'react'
+
+import { getData } from './selectors'
+import Loading from '../template.loading'
 import Success from './template.success'
 
 class BillingAddress extends PureComponent<Props> {

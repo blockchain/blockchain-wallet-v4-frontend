@@ -9,6 +9,8 @@ import {
   SwapUserLimitsType
 } from 'core/types'
 
+export type MempoolFeeType = 'regular' | 'priority'
+
 export type SwapAccountType = {
   address: number | string
   archived: boolean
@@ -48,9 +50,11 @@ export type SwapCheckoutFixType = 'CRYPTO' | 'FIAT'
 
 // state
 export type SwapState = {
+  custodialEligibility: RemoteDataType<string, boolean>
   fix: SwapCheckoutFixType
   limits: RemoteDataType<string, SwapUserLimitsType>
   order?: SwapOrderType
+  pairs: RemoteDataType<string, Array<string>>
   payment: RemoteDataType<string, undefined | PaymentValue>
   quote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>
   side: SwapSideType
@@ -62,6 +66,22 @@ export type SwapState = {
 }
 
 // actions
+interface FetchCustodialEligibilityFailureActionType {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_CUSTODIAL_ELIGIBILITY_FAILURE
+}
+interface FetchCustodialLoadingActionType {
+  type: typeof AT.FETCH_CUSTODIAL_ELIGIBILITY_LOADING
+}
+interface FetchEligibilitySuccessActionType {
+  payload: {
+    eligibility: boolean
+  }
+  type: typeof AT.FETCH_CUSTODIAL_ELIGIBILITY_SUCCESS
+}
+
 interface FetchLimitsFailureActionType {
   payload: {
     error: string
@@ -76,6 +96,22 @@ interface FetchLimitsSuccessActionType {
     limits: SwapUserLimitsType
   }
   type: typeof AT.FETCH_LIMITS_SUCCESS
+}
+
+interface FetchPairsFailureActionType {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_PAIRS_FAILURE
+}
+interface FetchPairsLoadingActionType {
+  type: typeof AT.FETCH_PAIRS_LOADING
+}
+interface FetchPairsSuccessActionType {
+  payload: {
+    pairs: Array<string>
+  }
+  type: typeof AT.FETCH_PAIRS_SUCCESS
 }
 
 interface FetchQuoteFailureActionType {
@@ -147,15 +183,32 @@ interface SwitchFixActionType {
 }
 
 export type SwapStepPayload =
+  // added these optional payloads for data science tracking
   | {
-      options?: never
+      options?: {
+        account?: 'ACCOUNT' | 'CUSTODIAL'
+        coin?: CoinType
+        side?: 'BASE' | 'COUNTER'
+      }
       step: 'ENTER_AMOUNT'
     }
   | {
-      options?: never
+      options?: {
+        account?: 'ACCOUNT' | 'CUSTODIAL'
+        coin?: CoinType
+        side?: 'BASE' | 'COUNTER'
+      }
       step: 'INIT_SWAP'
     }
-  | { options?: never; step: 'PREVIEW_SWAP' }
+  | {
+      options?: {
+        baseAccountType?: 'ACCOUNT' | 'CUSTODIAL'
+        baseCoin?: CoinType
+        counterAccountType?: 'ACCOUNT' | 'CUSTODIAL'
+        counterCoin?: CoinType
+      }
+      step: 'PREVIEW_SWAP'
+    }
   | {
       options: {
         order: SwapOrderType
@@ -172,12 +225,18 @@ export type SwapStepPayload =
   | { options?: never; step: 'UPGRADE_PROMPT' }
 
 export type SwapActionTypes =
+  | FetchCustodialEligibilityFailureActionType
+  | FetchCustodialLoadingActionType
+  | FetchEligibilitySuccessActionType
   | FetchLimitsFailureActionType
   | FetchLimitsLoadingActionType
   | FetchLimitsSuccessActionType
   | FetchQuoteFailureActionType
   | FetchQuoteLoadingActionType
   | FetchQuoteSuccessActionType
+  | FetchPairsFailureActionType
+  | FetchPairsLoadingActionType
+  | FetchPairsSuccessActionType
   | FetchTradesFailureActionType
   | FetchTradesLoadingActionType
   | FetchTradesSuccessActionType

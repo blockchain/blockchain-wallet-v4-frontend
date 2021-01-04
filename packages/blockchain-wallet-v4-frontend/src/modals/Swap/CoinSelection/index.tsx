@@ -1,17 +1,9 @@
-import {
-  BalanceRow,
-  CircleBorder,
-  FlexStartRow,
-  Option,
-  OptionTitle,
-  OptionValue,
-  StickyTopFlyoutWrapper,
-  TopText
-} from '../components'
-import { Props as BaseProps, SuccessStateType } from '..'
-import { coinOrder, getData } from './selectors'
 import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import React, { PureComponent } from 'react'
+
+import { Props as BaseProps, SuccessStateType } from '..'
+import { coinOrder, getData } from './selectors'
 import { Icon, Text } from 'blockchain-info-components'
 import {
   InitSwapFormValuesType,
@@ -19,12 +11,18 @@ import {
 } from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
-import { SuccessCartridge } from 'components/Cartridge'
+import { StickyTopFlyoutWrapper, TopText } from '../components'
 import { SwapAccountType } from 'data/types'
-import CoinBalance from '../components/CoinBalance'
-import React, { PureComponent } from 'react'
+import CryptoAccountOption from './CryptoAccountOption'
+
 class CoinSelection extends PureComponent<Props> {
   state = {}
+
+  componentDidMount () {
+    this.props.swapActions.fetchPairs()
+    this.props.swapActions.fetchCustodialEligibility()
+  }
+
   checkAccountSelected = (
     side: SwapSideType,
     values: InitSwapFormValuesType,
@@ -80,8 +78,19 @@ class CoinSelection extends PureComponent<Props> {
     }
   }
 
+  checkCustodialEligibility = (
+    custodialEligibility: boolean,
+    account: SwapAccountType
+  ) => {
+    if (account.type === 'CUSTODIAL' && !custodialEligibility) {
+      return false
+    } else {
+      return true
+    }
+  }
+
   render () {
-    const { coins, values, walletCurrency } = this.props
+    const { coins, custodialEligbility, values, walletCurrency } = this.props
     return (
       <>
         <StickyTopFlyoutWrapper>
@@ -138,7 +147,8 @@ class CoinSelection extends PureComponent<Props> {
           </Text>
         </StickyTopFlyoutWrapper>
         {coinOrder.map(coin => {
-          const accounts = this.props.accounts[coin] as Array<SwapAccountType>
+          const accounts =
+            (this.props.accounts[coin] as Array<SwapAccountType>) || []
           return accounts.map(account => {
             const isAccountSelected = this.checkAccountSelected(
               this.props.side,
@@ -160,52 +170,26 @@ class CoinSelection extends PureComponent<Props> {
               this.props.side,
               account
             )
+            const isCutodialEligibile = this.checkCustodialEligibility(
+              custodialEligbility,
+              account
+            )
+
             return (
               !isBaseAccountZero &&
               !isCoinSelected &&
-              !hideCustodialToAccount && (
-                <Option
-                  role='button'
-                  data-e2e='changeAcct'
+              !hideCustodialToAccount &&
+              isCutodialEligibile && (
+                <CryptoAccountOption
+                  account={account}
+                  coins={coins}
+                  isAccountSelected={isAccountSelected}
+                  isSwap={true}
+                  walletCurrency={walletCurrency}
                   onClick={() =>
                     this.props.swapActions.changePair(this.props.side, account)
                   }
-                >
-                  <FlexStartRow>
-                    <Icon
-                      name={coins[account.coin].icons.circleFilled}
-                      color={coins[account.coin].colorCode}
-                      size='32px'
-                      style={{ marginRight: '16px' }}
-                    />
-                    <div>
-                      <OptionTitle>{account.label}</OptionTitle>
-                      <OptionValue>
-                        <BalanceRow>
-                          <CoinBalance
-                            account={account}
-                            walletCurrency={walletCurrency}
-                          />
-                        </BalanceRow>
-                      </OptionValue>
-                    </div>
-                  </FlexStartRow>
-                  <FlexStartRow>
-                    {account.type === 'CUSTODIAL' && (
-                      <SuccessCartridge>Low Fees</SuccessCartridge>
-                    )}
-                    {isAccountSelected ? (
-                      <Icon
-                        name='checkmark-circle-filled'
-                        color='green600'
-                        size='24px'
-                        style={{ padding: '0 2px', marginLeft: '24px' }}
-                      />
-                    ) : (
-                      <CircleBorder />
-                    )}
-                  </FlexStartRow>
-                </Option>
+                />
               )
             )
           })
@@ -215,16 +199,19 @@ class CoinSelection extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   values: selectors.form.getFormValues('initSwap')(
     state
   ) as InitSwapFormValuesType,
-  ...getData(state)
+  custodialEligbility: selectors.components.swap
+    .getCustodialEligibility(state)
+    .getOrElse(false),
+  ...getData(state, ownProps)
 })
 
 const connector = connect(mapStateToProps)
 
-type OwnProps = BaseProps & {
+export type OwnProps = BaseProps & {
   handleClose: () => void
   side: 'BASE' | 'COUNTER'
 }

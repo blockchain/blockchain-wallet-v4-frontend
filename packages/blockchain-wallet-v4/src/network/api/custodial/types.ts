@@ -19,7 +19,9 @@ export type BeneficiaryType = {
 
 export type BeneficiariesType = Array<BeneficiaryType>
 
-export type NabuCustodialProductType = 'SIMPLEBUY' | 'SAVINGS'
+export type NabuCustodialProductType = 'SWAP' | 'SIMPLEBUY' | 'SAVINGS'
+
+export type WithdrawalFeesProductType = 'simplebuy' | 'mercurial'
 
 export type NabuMoneyFloatType = {
   symbol: CoinType | FiatType
@@ -73,14 +75,8 @@ export type WithdrawalMinsAndFeesResponse = {
   minAmounts: Array<NabuMoneyFloatType>
 }
 
-export type CustodialProductType = 'simplebuy' | 'mercurial'
-
-type CheckAttributes = {
-  tier: number
-}
-
-type WithdrawalLockCheckRule = {
-  attributes: CheckAttributes
+export type WithdrawalLockCheckRule = {
+  attributes: { tier: number }
   id: string
   insertedAt: string
   isActive: boolean
@@ -98,4 +94,40 @@ export type CustodialTransferRequestType = {
   currency: CoinType
   destination: NabuCustodialProductType
   origin: NabuCustodialProductType
+}
+
+export type IneligibilityReasons =
+  | 'INVALID_USER'
+  | 'TIER_TOO_LOW'
+  | 'INVALID_ADDRESS'
+  | 'UNSUPPORTED_CURRENCY'
+  | 'UNSUPPORTED_REGION'
+  | 'LIMIT_DOES_NOT_EXIST'
+  | 'DOCUMENT_NOT_FOUND'
+  | 'DOCUMENT_NOT_FROM_UK'
+  | 'DOCUMENT_NOT_FROM_TR'
+  | 'OTHER'
+  | null
+
+export type ProductEligibleResponse =
+  | {
+      eligible: boolean
+      ineligibilityReason: IneligibilityReasons
+    }
+  | {
+      [key in WalletCurrencyType]: EligibleType
+    }
+
+export type EligibleType = {
+  eligible: boolean
+  ineligibilityReason: IneligibilityReasons
+}
+
+export type PaymentMethod = {
+  currency: FiatType
+  eligible: boolean
+  ineligibleReason: IneligibilityReasons
+  limits: { max: string; min: string }
+  subTypes: string[]
+  type: 'PAYMENT_CARD' | 'BANK_ACCOUNT'
 }

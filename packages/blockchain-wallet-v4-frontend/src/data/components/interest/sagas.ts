@@ -22,10 +22,8 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import { DEFAULT_INTEREST_BALANCES } from './model'
-import { InterestDepositFormType } from './types'
+import { InterestDepositFormType, InterestWithdrawalFormType } from './types'
 import profileSagas from '../../modules/profile/sagas'
-
-import sendSagas from '../send/sagas'
 import utils from './sagas.utils'
 
 const { INTEREST_EVENTS } = model.analytics
@@ -43,17 +41,13 @@ export default ({
 }) => {
   const { isTier2 } = profileSagas({ api, coreSagas, networks })
   const {
+    buildAndPublishPayment,
     createLimits,
     createPayment,
     getDefaultAccountForCoin,
-    getReceiveAddressForCoin
+    getReceiveAddressForCoin,
+    paymentGetOrElse
   } = utils({
-    coreSagas,
-    networks
-  })
-
-  const { buildAndPublishPayment, paymentGetOrElse } = sendSagas({
-    api,
     coreSagas,
     networks
   })
@@ -63,6 +57,7 @@ export default ({
       case 'ETH':
       case 'PAX':
       case 'USDT':
+      case 'WDGLD':
       case 'XLM':
         return account.address
       default:
@@ -184,75 +179,80 @@ export default ({
     const form = action.meta.form
     if (form !== DEPOSIT_FORM) return
 
-    const formValues: InterestDepositFormType = yield select(
-      selectors.form.getFormValues(DEPOSIT_FORM)
-    )
-    const coin = S.getCoinType(yield select())
-    const ratesR = S.getRates(yield select())
-    const userCurrency = (yield select(
-      selectors.core.settings.getCurrency
-    )).getOrFail('Failed to get user currency')
-    const rates = ratesR.getOrElse({} as RatesType)
-    const rate = rates[userCurrency].last
-    const isDisplayed = S.getCoinDisplay(yield select())
+    try {
+      const formValues: InterestDepositFormType = yield select(
+        selectors.form.getFormValues(DEPOSIT_FORM)
+      )
+      const coin = S.getCoinType(yield select())
+      const ratesR = S.getRates(yield select())
+      const userCurrency = (yield select(
+        selectors.core.settings.getCurrency
+      )).getOrFail('Failed to get user currency')
+      const rates = ratesR.getOrElse({} as RatesType)
+      const rate = rates[userCurrency].last
+      const isDisplayed = S.getCoinDisplay(yield select())
 
-    switch (action.meta.field) {
-      case 'depositAmount':
-        const value = isDisplayed
-          ? new BigNumber(action.payload).toNumber()
-          : new BigNumber(action.payload).dividedBy(rate).toNumber()
-        const paymentR = S.getPayment(yield select())
-        if (paymentR) {
-          let payment = paymentGetOrElse(coin, paymentR)
-          switch (payment.coin) {
-            case 'BCH':
-            case 'BTC':
-              payment = yield payment.amount(
-                parseInt(convertStandardToBase(coin, value))
-              )
-              break
-            case 'ETH':
-            case 'PAX':
-            case 'USDT':
-            case 'XLM':
-              payment = yield payment.amount(convertStandardToBase(coin, value))
-              break
-            default:
-              throw new Error(INVALID_COIN_TYPE)
+      switch (action.meta.field) {
+        case 'depositAmount':
+          const value = isDisplayed
+            ? new BigNumber(action.payload).toNumber()
+            : new BigNumber(action.payload).dividedBy(rate).toNumber()
+          const paymentR = S.getPayment(yield select())
+          if (paymentR) {
+            let payment = paymentGetOrElse(coin, paymentR)
+            switch (payment.coin) {
+              case 'BCH':
+              case 'BTC':
+                payment = yield payment.amount(
+                  parseInt(convertStandardToBase(coin, value))
+                )
+                break
+              case 'ETH':
+              case 'PAX':
+              case 'USDT':
+              case 'WDGLD':
+              case 'XLM':
+                payment = yield payment.amount(
+                  convertStandardToBase(coin, value)
+                )
+                break
+              default:
+                throw new Error(INVALID_COIN_TYPE)
+            }
+            yield put(A.setPaymentSuccess(payment.value()))
+          }
+          break
+        case 'interestDepositAccount':
+          let custodialBalances: SBBalancesType | undefined
+          let depositPayment: PaymentValue
+          const isCustodialDeposit =
+            prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
+
+          yield put(A.setPaymentLoading())
+          yield put(
+            actions.form.change(DEPOSIT_FORM, 'depositAmount', undefined)
+          )
+          yield put(actions.form.focus(DEPOSIT_FORM, 'depositAmount'))
+
+          if (isCustodialDeposit) {
+            custodialBalances = (yield select(
+              selectors.components.simpleBuy.getSBBalances
+            )).getOrFail('Failed to get balance')
           }
 
-          yield put(A.setPaymentSuccess(payment.value()))
-        } else {
-          break
-        }
+          depositPayment = yield call(createPayment, {
+            ...formValues.interestDepositAccount,
+            address: getAccountIndexOrAccount(
+              coin,
+              formValues.interestDepositAccount
+            )
+          })
 
-        break
-      case 'interestDepositAccount':
-        let custodialBalances: SBBalancesType | undefined
-        let depositPayment: PaymentValue
-        const isCustodialDeposit =
-          prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
-
-        yield put(A.setPaymentLoading())
-        yield put(actions.form.change(DEPOSIT_FORM, 'depositAmount', undefined))
-        yield put(actions.form.focus(DEPOSIT_FORM, 'depositAmount'))
-
-        if (isCustodialDeposit) {
-          custodialBalances = (yield select(
-            selectors.components.simpleBuy.getSBBalances
-          )).getOrFail('Failed to get balance')
-        }
-
-        depositPayment = yield call(createPayment, {
-          ...formValues.interestDepositAccount,
-          address: getAccountIndexOrAccount(
-            coin,
-            formValues.interestDepositAccount
-          )
-        })
-
-        yield call(createLimits, depositPayment, custodialBalances)
-        yield put(A.setPaymentSuccess(depositPayment))
+          yield call(createLimits, depositPayment, custodialBalances)
+          yield put(A.setPaymentSuccess(depositPayment))
+      }
+    } catch (e) {
+      // errors are not breaking, just catch so the saga can finish
     }
   }
 
@@ -334,9 +334,15 @@ export default ({
         coin,
         paymentR as RemoteDataType<string, any>
       )
+
       if (isCustodialDeposit) {
         const { amount } = payment.value()
-        const amountString = amount && amount[0].toString()
+        if (amount === null || amount === undefined) {
+          throw Error('Deposit amount unknown')
+        }
+        // BTC/BCH amounts from payments are returned as objects
+        const amountString =
+          typeof amount === 'object' ? amount[0].toString() : amount.toString()
         // custodial deposit
         yield call(api.initiateCustodialTransfer, {
           amount: amountString as string,
@@ -350,7 +356,7 @@ export default ({
         const depositAddress = yield select(S.getDepositAddress)
 
         // build and publish payment to network
-        const depositTx = yield call(
+        const transaction = yield call(
           buildAndPublishPayment,
           coin,
           payment,
@@ -359,7 +365,7 @@ export default ({
         // notify backend of incoming non-custodial deposit
         yield put(
           actions.components.send.notifyNonCustodialToCustodialTransfer(
-            depositTx,
+            { ...transaction, fromType: 'ADDRESS' },
             'SAVINGS'
           )
         )
@@ -377,7 +383,10 @@ export default ({
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit(DEPOSIT_FORM, { _error: error }))
       yield put(
-        A.setInterestStep('ACCOUNT_SUMMARY', { depositSuccess: false, error })
+        A.setInterestStep('ACCOUNT_SUMMARY', {
+          depositSuccess: false,
+          error
+        })
       )
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_FAILURE)
@@ -392,11 +401,11 @@ export default ({
     try {
       yield put(actions.form.startSubmit(WITHDRAWAL_FORM))
 
-      const formValues: InterestDepositFormType = yield select(
+      const formValues: InterestWithdrawalFormType = yield select(
         selectors.form.getFormValues(WITHDRAWAL_FORM)
       )
       const isCustodialWithdrawal =
-        prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
+        prop('type', formValues.interestWithdrawalAccount) === 'CUSTODIAL'
       const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmount)
 
       if (isCustodialWithdrawal) {

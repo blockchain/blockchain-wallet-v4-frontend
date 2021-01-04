@@ -1,31 +1,12 @@
-import * as Bitcoin from 'bitcoinjs-lib'
 import { add, equals, map, not, propOr, reduce } from 'ramda'
 import { call, delay, put, select } from 'redux-saga/effects'
-import BIP39 from 'bip39'
 
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
 import { actions, selectors } from 'data'
-import { APIType } from 'core/network/api'
 import { CUSTOM_VARIABLES } from './model'
 
-import profileSagas from '../modules/profile/sagas'
-
 export const logLocation = 'analytics/sagas'
-export default ({
-  api,
-  coreSagas,
-  networks
-}: {
-  api: APIType
-  coreSagas: any
-  networks: any
-}) => {
-  const { waitForUserData } = profileSagas({
-    api,
-    coreSagas,
-    networks
-  })
-
+export default () => {
   const postMessage = function * (message) {
     try {
       const frame = document.getElementById('matomo-iframe')
@@ -47,21 +28,9 @@ export default ({
   }
 
   const generateUniqueUserID = function * () {
-    const defaultHDWallet = yield select(
-      selectors.core.wallet.getDefaultHDWallet
-    )
-    yield call(waitForUserData)
-    const userId = (yield select(
-      selectors.core.kvStore.userCredentials.getUserId
-    )).getOrFail()
-    if (userId) return userId
-    const { seedHex } = defaultHDWallet
-    const mnemonic = BIP39.entropyToMnemonic(seedHex)
-    const masterhex = BIP39.mnemonicToSeed(mnemonic)
-    const masterHDNode = Bitcoin.bip32.fromSeed(masterhex)
-    let hash = crypto.sha256('info.blockchain.matomo')
-    let purpose = hash.slice(0, 4).readUInt32BE(0) & 0x7fffffff
-    return masterHDNode.deriveHardened(purpose).toBase58()
+    const guid = yield select(selectors.core.wallet.getGuid)
+    let hash = crypto.sha256(guid).toString('base64')
+    return hash
   }
 
   const initUserSession = function * () {
@@ -96,6 +65,10 @@ export default ({
       const usdtBalance = (yield select(
         selectors.core.data.eth.getErc20Balance,
         'usdt'
+      )).getOrElse(0)
+      const wdgldBalance = (yield select(
+        selectors.core.data.eth.getErc20Balance,
+        'wdgld'
       )).getOrElse(0)
       const xlmBalance = (yield select(
         selectors.core.data.xlm.getTotalBalance
@@ -139,7 +112,8 @@ export default ({
             ETH: not(equals(ethBalance, 0)),
             PAX: not(equals(paxBalance, 0)),
             USDT: not(equals(usdtBalance, 0)),
-            XLM: not(equals(xlmBalance, 0))
+            XLM: not(equals(xlmBalance, 0)),
+            WDGLD: not(equals(wdgldBalance, 0))
           }),
           variableScope: 'visit'
         }

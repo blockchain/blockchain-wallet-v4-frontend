@@ -201,7 +201,7 @@ export const getData = (
         ? [b3, b1, b2, b4, b5]
         : [b1, b2, b3, b4, b5]
       // @ts-ignore
-      const data = reduce(concat, [], orderArray)
+      const data = reduce(concat, [], orderArray) as array
 
       if (includeAll) {
         return { data: prepend(allWallets, data) }

@@ -1,7 +1,7 @@
 import { compose, length, prop, reverse, sortBy } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { HeartbeatLoader, Text } from 'blockchain-info-components'
-import EmptyTx from 'components/EmptyTx'
+import EmptyResults from 'components/EmptyResults'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import NonCustodialTxItem from '../../../Transactions/NonCustodialTx'
 import PropTypes from 'prop-types'
@@ -49,7 +49,7 @@ const LockboxTransactions = props => {
               />
             </Text>
           ) : (
-            <EmptyTx />
+            <EmptyResults />
           )
         ) : null}
       </Row>

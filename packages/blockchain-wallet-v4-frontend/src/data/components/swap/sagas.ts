@@ -20,20 +20,16 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import { getDirection, getPair, getRate, NO_QUOTE } from './utils'
 import {
   InitSwapFormValuesType,
+  MempoolFeeType,
   SwapAccountType,
   SwapAmountFormValues
 } from './types'
-import { MempoolFeeType } from '../exchange/types'
 import { selectReceiveAddress } from '../utils/sagas'
 
-import {
-  DEFAULT_INVITATIONS,
-  INVALID_COIN_TYPE
-} from 'blockchain-wallet-v4/src/model'
+import { FALLBACK_DELAY } from './model'
+import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import profileSagas from '../../../data/modules/profile/sagas'
 import sendSagas from '../send/sagas'
-
-const FALLBACK_DELAY = 2_500 * 2
 
 export default ({
   api,
@@ -71,9 +67,27 @@ export default ({
     ) as InitSwapFormValuesType
 
     if (initSwapFormValues?.BASE && initSwapFormValues?.COUNTER) {
-      yield put(A.setStep({ step: 'ENTER_AMOUNT' }))
+      yield put(
+        A.setStep({
+          step: 'ENTER_AMOUNT',
+          options: {
+            coin: payload.account.coin,
+            account: payload.account.type,
+            side: payload.side
+          }
+        })
+      )
     } else {
-      yield put(A.setStep({ step: 'INIT_SWAP' }))
+      yield put(
+        A.setStep({
+          step: 'INIT_SWAP',
+          options: {
+            coin: payload.account.coin,
+            account: payload.account.type,
+            side: payload.side
+          }
+        })
+      )
     }
   }
 
@@ -114,6 +128,7 @@ export default ({
       switch (payment.coin) {
         case 'PAX':
         case 'USDT':
+        case 'WDGLD':
         case 'ETH':
         case 'XLM':
           payment = yield payment.amount(convertStandardToBase(coin, amount))
@@ -137,6 +152,7 @@ export default ({
 
   const createOrder = function * () {
     let onChain = false
+    let toChain = false
 
     try {
       yield put(actions.form.startSubmit('previewSwap'))
@@ -164,7 +180,8 @@ export default ({
       const { BASE, COUNTER } = initSwapFormValues
 
       const direction = getDirection(BASE, COUNTER)
-      onChain = direction === 'ON_CHAIN' || direction === 'TO_USERKEY'
+      onChain = direction === 'ON_CHAIN' || direction === 'FROM_USERKEY'
+      toChain = direction === 'ON_CHAIN' || direction === 'TO_USERKEY'
 
       const amount = convertStandardToBase(
         BASE.coin,
@@ -172,7 +189,10 @@ export default ({
       )
 
       const quote = S.getQuote(yield select()).getOrFail('NO_SWAP_QUOTE')
-      const destinationAddr = onChain
+      const refundAddr = onChain
+        ? yield call(selectReceiveAddress, BASE, networks)
+        : undefined
+      const destinationAddr = toChain
         ? yield call(selectReceiveAddress, COUNTER, networks)
         : undefined
       const order: ReturnType<typeof api.createSwapOrder> = yield call(
@@ -181,7 +201,8 @@ export default ({
         quote.quote.id,
         amount,
         ccy,
-        destinationAddr
+        destinationAddr,
+        refundAddr
       )
       const paymentR = S.getPayment(yield select())
       let payment = paymentGetOrElse(BASE.coin, paymentR)
@@ -215,6 +236,21 @@ export default ({
     }
   }
 
+  const fetchCustodialEligibility = function * () {
+    try {
+      yield put(A.fetchCustodialEligibilityLoading())
+      const {
+        eligible
+      }: ReturnType<typeof api.checkCustodialEligiblity> = yield call(
+        api.checkCustodialEligiblity
+      )
+      yield put(A.fetchCustodialEligibilitySuccess(eligible))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchCustodialEligibiliyFailure(error))
+    }
+  }
+
   const fetchLimits = function * () {
     try {
       yield put(A.fetchLimitsLoading())
@@ -228,6 +264,35 @@ export default ({
       yield put(A.fetchLimitsFailure(error))
     }
   }
+
+  const fetchPairs = function * () {
+    try {
+      yield put(A.fetchPairsLoading())
+      const pairs: ReturnType<typeof api.getSwapPairs> = yield call(
+        api.getSwapPairs
+      )
+      yield put(A.fetchPairsSuccess(pairs))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchPairsFailure(error))
+    }
+  }
+
+  // 👋
+  // Eventually there won't be much difference between a swap, buy, or sell.
+  // We have 2 different directories (swap/simpleBuy) of sagas/actions/types
+  // but on the BE there won't be any difference, just on the FE (if product)
+  // decides to keep things that way. In my opinion there is no difference
+  // but for now I'm copying a lot of the code from here and putting it in
+  // simpleBuy.
+  //
+  // As of this writing, simpleBuy only fetches one quote and doesn't need
+  // to worry about expiration, but since we're now using swap 2.0 for sell
+  // (and eventually buy) we'll need to worry about expiration and polling.
+  //
+  // We can't just call the swap fetchQuote function from simpleBuy, because
+  // setting the swap quote loading will set the buy/sell quote loading,
+  // which we might not want. This is a case of breakdown between product/design/development.
 
   const fetchQuote = function * () {
     while (true) {
@@ -328,16 +393,15 @@ export default ({
       case 'BCH':
       case 'BTC':
         payment = yield payment.amount(
-          parseInt(convertStandardToBase(payment.coin, value))
+          parseInt(convertStandardToBase(BASE.coin, value))
         )
         break
       case 'ETH':
       case 'PAX':
       case 'USDT':
+      case 'WDGLD':
       case 'XLM':
-        payment = yield payment.amount(
-          convertStandardToBase(payment.coin, value)
-        )
+        payment = yield payment.amount(convertStandardToBase(BASE.coin, value))
         break
       default:
         throw new Error(INVALID_COIN_TYPE)
@@ -404,12 +468,6 @@ export default ({
   }
 
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
-    const invitations = selectors.core.settings
-      .getInvitations(yield select())
-      .getOrElse(DEFAULT_INVITATIONS)
-
-    if (!invitations.swap2dot0) return yield put(actions.router.push('/swap'))
-
     const { origin, baseCurrency, counterCurrency } = payload
     yield put(
       actions.modals.showModal('SWAP_MODAL', {
@@ -470,10 +528,13 @@ export default ({
 
   return {
     cancelOrder,
+    calculateProvisionalPayment,
     changePair,
     changeTrendingPair,
     createOrder,
+    fetchCustodialEligibility,
     fetchLimits,
+    fetchPairs,
     fetchQuote,
     fetchTrades,
     formChanged,

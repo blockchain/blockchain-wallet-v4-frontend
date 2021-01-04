@@ -1,5 +1,9 @@
 import { FiatType } from 'core/types'
 
+export type EligibilityResponseType = {
+  eligible: boolean
+}
+
 export type SwapOrderType = {
   createdAt: string
   fiatCurrency: FiatType
@@ -10,11 +14,13 @@ export type SwapOrderType = {
     depositAddress: string
     depositTxHash: string
     direction: SwapOrderDirectionType
+    refundAddress: string
     withdrawalAddress: string
     withdrawalTxHash: string
   }
   pair: string
   priceFunnel: {
+    indicativePrice?: string
     inputMoney: string
     networkFee: string
     outputMoney: string

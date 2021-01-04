@@ -33,7 +33,6 @@ const TransferEth = React.lazy(() => import('./Eth/TransferEth'))
 // XLM
 const RequestXlm = React.lazy(() => import('./Xlm/RequestXlm'))
 const SendXlm = React.lazy(() => import('./Xlm/SendXlm'))
-const SunRiverWelcome = React.lazy(() => import('./Xlm/SunRiverWelcome'))
 const XlmCreateAccountLearn = React.lazy(() =>
   import('./Xlm/XlmCreateAccountLearn')
 )
@@ -57,23 +56,16 @@ const LinkFromExchangeAccount = React.lazy(() =>
 const LinkToExchangeAccount = React.lazy(() =>
   import('./Onboarding/LinkToExchangeAccount')
 )
+const IdentityVerification = React.lazy(() =>
+  import('./Onboarding/KycVerification')
+)
+const KycDocResubmit = React.lazy(() => import('./Onboarding/KycDocResubmit'))
+const KycTierUpgrade = React.lazy(() => import('./Onboarding/KycTierUpgrade'))
 const SwapGetStarted = React.lazy(() => import('./Onboarding/SwapGetStarted'))
 const UpgradeForAirdrop = React.lazy(() =>
   import('./Onboarding/UpgradeForAirdrop')
 )
 const Welcome = React.lazy(() => import('./Onboarding/Welcome'))
-
-// EXCHANGE
-const AirdropError = React.lazy(() => import('./Exchange/AirdropError'))
-const EthAirdrop = React.lazy(() => import('./Exchange/EthAirdrop'))
-const ExchangeConfirm = React.lazy(() => import('./Exchange/ExchangeConfirm'))
-const ExchangeResults = React.lazy(() => import('./Exchange/ExchangeResults'))
-const IdentityVerification = React.lazy(() =>
-  import('./Exchange/IdentityVerification')
-)
-const KycDocResubmit = React.lazy(() => import('./Exchange/KycDocResubmit'))
-const SwapUpgrade = React.lazy(() => import('./Exchange/SwapUpgrade'))
-const UserExists = React.lazy(() => import('./Exchange/UserExists'))
 
 // LOCKBOX
 const LockboxAppManager = React.lazy(() =>
@@ -129,7 +121,6 @@ const QRCode = React.lazy(() => import('./QRCode'))
 const SignMessage = React.lazy(() => import('./SignMessage'))
 const SimpleBuy = React.lazy(() => import('./SimpleBuy'))
 const Swap = React.lazy(() => import('./Swap'))
-const WhatsNew = React.lazy(() => import('./WhatsNew'))
 const Withdraw = React.lazy(() => import('./Withdraw'))
 
 const Modals = () => (
@@ -137,7 +128,6 @@ const Modals = () => (
     <div>
       <AddBtcWallet />
       <AirdropClaim />
-      <AirdropError />
       <AirdropSuccess />
       <AutoDisconnection />
       <BitpayInformational />
@@ -148,13 +138,11 @@ const Modals = () => (
       <DeleteAddressLabel />
       <DownloadTransactions />
       <EditTxDescription />
-      <EthAirdrop />
-      <ExchangeConfirm />
-      <ExchangeResults />
       <IdentityVerification />
       <ImportBtcAddress />
       <Interest />
       <KycDocResubmit />
+      <KycTierUpgrade />
       <LinkFromExchangeAccount disableOutsideClose />
       <LinkToExchangeAccount disableOutsideClose />
       <LockboxAppManager disableOutsideClose />
@@ -183,11 +171,9 @@ const Modals = () => (
       <ShowXPub />
       <SignMessage />
       <SimpleBuy />
-      <SunRiverWelcome disableOutsideClose />
       <Support />
       <Swap />
       <SwapGetStarted />
-      <SwapUpgrade />
       <TransferEth />
       <TwoStepGoogleAuthenticator />
       <TwoStepSetup />
@@ -195,10 +181,8 @@ const Modals = () => (
       <UpgradeAddressLabels />
       <UpgradeForAirdrop />
       <UpgradeWallet disableOutsideClose />
-      <UserExists />
       <VerifyMessage />
       <Welcome />
-      <WhatsNew />
       <Withdraw />
       <XlmCreateAccountLearn />
       <XlmReserveLearn />

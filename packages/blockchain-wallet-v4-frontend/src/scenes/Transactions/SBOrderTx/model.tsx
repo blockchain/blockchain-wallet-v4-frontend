@@ -95,7 +95,7 @@ export const Timestamp = (props: Props) => {
 
   return (
     <Text
-      size='14px'
+      size='13px'
       weight={500}
       color='grey600'
       style={{ marginTop: '4px' }}

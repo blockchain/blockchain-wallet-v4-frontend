@@ -35,12 +35,18 @@ export const getPair = (BASE: SwapAccountType, COUNTER: SwapAccountType) => {
 export const getRate = (
   priceTiers: SwapQuoteType['quote']['priceTiers'],
   coin: CoinType,
-  amount: BigNumber
+  amount: BigNumber,
+  minor?: boolean
 ): number => {
   try {
     for (var index = 0; index <= priceTiers.length; index++) {
       const priceTier = priceTiers[index]
-      if (index === priceTiers.length - 1) return Number(priceTier.price)
+      if (index === priceTiers.length - 1)
+        return minor
+          ? Number(priceTier.price)
+          : new BigNumber(
+              convertBaseToStandard(coin, priceTier.price)
+            ).toNumber()
 
       const nextTier = priceTiers[index + 1]
       const thisVol = new BigNumber(priceTier.volume)
@@ -56,7 +62,10 @@ export const getRate = (
         )
 
         if (typeof price === 'string') throw price
-        return new BigNumber(convertBaseToStandard(coin, price)).toNumber()
+
+        return minor
+          ? price
+          : new BigNumber(convertBaseToStandard(coin, price)).toNumber()
       }
     }
 

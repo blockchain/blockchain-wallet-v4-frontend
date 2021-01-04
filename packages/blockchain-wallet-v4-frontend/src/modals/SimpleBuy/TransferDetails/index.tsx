@@ -1,5 +1,8 @@
-import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
+import React, { PureComponent } from 'react'
+
+import { actions } from 'data'
 import {
   CoinType,
   FiatType,
@@ -8,13 +11,12 @@ import {
   SBOrderType,
   SBPairType
 } from 'core/types'
-import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 import DataError from 'components/DataError'
-import Loading from './template.loading'
-import React, { PureComponent } from 'react'
+
+import { getData } from './selectors'
+import Loading from '../template.loading'
 import Success from './template.success'
 
 class TransferDetails extends PureComponent<Props> {

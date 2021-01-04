@@ -3,11 +3,15 @@ import { Text } from 'blockchain-info-components'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { FlyoutWrapper } from 'components/Flyout'
+import { SuccessCartridge } from 'components/Cartridge'
 
 export const Border = styled.div`
   border-top: 1px solid ${props => props.theme.grey000};
 `
-
+export const FreeCartridge = styled(SuccessCartridge)`
+  font-size: 12px;
+  margin-top: 8px;
+`
 export const StickyTopFlyoutWrapper = styled(FlyoutWrapper)`
   background-color: ${props => props.theme.white};
   position: sticky;
@@ -37,6 +41,9 @@ export const Option = styled.div`
   &:hover {
     background-color: ${props => props.theme.blue000};
   }
+  &:first-child {
+    border-top: 0;
+  }
 `
 // probably dont want to reuse
 export const CustomOption = styled(Option)`
@@ -51,9 +58,9 @@ export const CustomOption = styled(Option)`
     content: '';
   }
 `
+
 export const OptionTitle = styled(Text)`
-  color: ${props => props.theme.grey900};
-  margin-top: 4px;
+  color: ${props => props.theme.grey800};
   font-weight: 600;
   max-width: 200px;
 `
@@ -105,5 +112,5 @@ export const CircleBorder = styled.div`
   background-color: white;
   border: 1px solid ${props => props.theme.grey300};
   border-radius: 24px;
-  margin-left: 24px;
+  margin-left: 18px;
 `

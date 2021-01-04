@@ -1,7 +1,15 @@
 /* stylelint-disable */
+import { FormattedMessage } from 'react-intl'
+import { pulse } from 'react-animations'
+import { reduxForm } from 'redux-form'
+import PropTypes from 'prop-types'
+import React, { Fragment } from 'react'
+import styled, { css, keyframes } from 'styled-components'
 
 import { Button, Link, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
+import { spacing } from 'services/StyleService'
+import media from 'services/ResponsiveService'
+
 import {
   IconContainer,
   SecurityComponent,
@@ -11,17 +19,10 @@ import {
   SecurityIcon,
   SecuritySummary,
   SecurityTip
-} from 'components/Security'
-import { pulse } from 'react-animations'
-import { reduxForm } from 'redux-form'
-import { spacing } from 'services/StyleService'
+} from '../../components'
 import Choices from './Choices'
 import GoogleAuth from './GoogleAuth'
-import media from 'services/ResponsiveService'
-import PropTypes from 'prop-types'
-import React, { Fragment } from 'react'
 import SmsAuth from './SMS'
-import styled, { css, keyframes } from 'styled-components'
 import Yubikey from './Yubikey'
 
 const pulseFrames = keyframes`${pulse}`

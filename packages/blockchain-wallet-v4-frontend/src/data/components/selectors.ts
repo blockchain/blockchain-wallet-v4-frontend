@@ -1,8 +1,6 @@
 import * as bchTransactions from './bchTransactions/selectors'
 import * as borrow from './borrow/selectors'
 import * as btcTransactions from './btcTransactions/selectors'
-import * as exchange from './exchange/selectors'
-import * as exchangeHistory from './exchangeHistory/selectors'
 import * as identityVerification from './identityVerification/selectors'
 import * as interest from './interest/selectors'
 import * as layoutWallet from './layoutWallet/selectors'
@@ -26,10 +24,8 @@ import * as withdraw from './withdraw/selectors'
 
 export {
   bchTransactions,
-  btcTransactions,
   borrow,
-  exchange,
-  exchangeHistory,
+  btcTransactions,
   identityVerification,
   interest,
   layoutWallet,

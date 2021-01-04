@@ -22,6 +22,7 @@ import { Props as OwnProps, SuccessStateType } from '.'
 import { SupportedWalletCurrenciesType } from 'core/types'
 
 import { displayFiat, getPaymentMethod } from '../model'
+import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
@@ -73,6 +74,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const requiresTerms =
     props.order.paymentType === 'PAYMENT_CARD' ||
     props.order.paymentType === 'USER_CARD'
+
+  const showLock = props.withdrawLockCheck && props.withdrawLockCheck.lockTime
+
+  const days =
+    props.withdrawLockCheck && props.withdrawLockCheck.lockTime
+      ? moment.duration(props.withdrawLockCheck.lockTime, 'seconds').days()
+      : 3
 
   useEffect(() => {
     if (!requiresTerms) {
@@ -158,7 +166,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <Value>{getPaymentMethod(props.order, props.supportedCoins)}</Value>
       </Row>
       <Bottom>
-        {requiresTerms && (
+        {requiresTerms ? (
           <Info style={{ marginBottom: '12px' }}>
             <Icon
               name='market-up'
@@ -173,29 +181,39 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               />
             </Text>
           </Info>
-        )}
-        <Info>
-          <Icon
-            name='info'
-            color='grey900'
-            size='16px'
-            style={{ marginRight: '8px' }}
-          />
-          <Text size='12px' weight={500} color='grey900'>
-            {props.order.paymentType === 'PAYMENT_CARD' ||
-            props.order.paymentType === 'USER_CARD' ? (
-              <FormattedHTMLMessage
-                id='modals.simplebuy.confirm.activity_card2'
-                defaultMessage='Your crypto will be available to be withdrawn within <b>3 days</b>.'
-              />
-            ) : (
+        ) : (
+          <Info style={{ marginBottom: '12px' }}>
+            <Icon
+              name='info'
+              color='grey900'
+              size='16px'
+              style={{ marginRight: '8px' }}
+            />
+            <Text size='12px' weight={500} color='grey900'>
               <FormattedMessage
                 id='modals.simplebuy.confirm.activity'
                 defaultMessage='Your final amount may change due to market activity.'
               />
-            )}
-          </Text>
-        </Info>
+            </Text>
+          </Info>
+        )}
+        {showLock && props.order.paymentType === 'USER_CARD' && (
+          <Info>
+            <Icon
+              name='info'
+              color='grey900'
+              size='16px'
+              style={{ marginRight: '8px' }}
+            />
+            <Text size='12px' weight={500} color='grey900'>
+              <FormattedHTMLMessage
+                id='modals.simplebuy.confirm.activity_card2'
+                defaultMessage='Your crypto will be available to be withdrawn within <b>{days} days</b>.'
+                values={{ days: days }}
+              />
+            </Text>
+          </Info>
+        )}
 
         {requiresTerms && (
           <Info>

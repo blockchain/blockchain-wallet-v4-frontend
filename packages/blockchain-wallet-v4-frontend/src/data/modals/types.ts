@@ -1,8 +1,6 @@
 import * as AT from './actionTypes'
 
 export type ModalNamesType =
-  | '@EXCHANGE.ETH_AIRDROP_MODAL'
-  | '@EXCHANGE.RESULTS_MODAL'
   | '@KYC.IdentityVerification'
   | '@MODAL.REQUEST.BCH'
   | '@MODAL.REQUEST.BTC'
@@ -25,6 +23,7 @@ export type ModalNamesType =
   | 'ImportBtcAddress'
   | 'INTEREST_MODAL'
   | 'KycDocResubmit'
+  | 'KycTierUpgrade'
   | 'LinkFromExchangeAccount'
   | 'LinkToExchangeAccount'
   | 'PairingCode'
@@ -34,16 +33,13 @@ export type ModalNamesType =
   | 'ShowXPub'
   | 'SignMessage'
   | 'SIMPLE_BUY_MODAL'
-  | 'SunRiverWelcome'
   | 'SWAP_MODAL'
   | 'SwapGetStarted'
-  | 'SwapUpgrade'
   | 'TRANSACTION_REPORT'
   | 'TransferEth'
   | 'UpgradeForAirdrop'
   | 'VerifyMessage'
   | 'WELCOME_MODAL'
-  | 'WHATS_NEW_MODAL'
   | 'WITHDRAWAL_MODAL'
 
 export type ModalOriginType =
@@ -65,6 +61,7 @@ export type ModalOriginType =
   | 'RunKycGoal'
   | 'SBEnterAmountCheckout'
   | 'SBPaymentMethodSelection'
+  | 'SellEmpty'
   | 'Send'
   | 'SendBch'
   | 'SendBtc'
@@ -85,7 +82,6 @@ export type ModalOriginType =
   | 'Unknown'
   | 'WalletBalanceDropdown'
   | 'WelcomeModal'
-  | 'WhatsNewHeader'
   | 'WithdrawModal'
 
 export type ModalParamPropsType = {

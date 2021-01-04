@@ -3,7 +3,7 @@ import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import media from 'services/ResponsiveService'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import { AmountTextBox } from 'components/Exchange'
@@ -20,12 +20,30 @@ import {
 import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
 import { Props as OwnProps, SuccessStateType } from '..'
 
-import { Row } from 'blockchain-wallet-v4-frontend/src/scenes/Exchange/ExchangeForm/Layout'
 import { StyledForm } from '../../components'
 import { SwapAccountType } from 'data/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import FiatDisplay from 'components/Display/FiatDisplay'
+
+export const Cell = styled.div<{ center?: boolean; size?: 'small' }>`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: ${props => (props.center ? 'center' : 'flex-start')};
+  width: ${props => (props.size === 'small' ? '10%' : '45%')};
+  height: 100%;
+`
+
+export const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  box-sizing: border-box;
+  align-items: center;
+  padding: 32px;
+  width: 100%;
+`
 
 const AmountRow = styled(Row)`
   position: relative;
@@ -88,14 +106,6 @@ const normalizeAmount = (
   )
 }
 
-const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
-  const amountRowNode = inputNode.closest('#amount-row')
-  const currencyNode = isFiat
-    ? amountRowNode.children[0]
-    : amountRowNode.children[amountRowNode.children.length - 1]
-  currencyNode.style.fontSize = `${fontSizeNumber * fontSizeRatio}px`
-}
-
 const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
     BASE,
@@ -112,7 +122,19 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     userData,
     walletCurrency
   } = props
+  const [fontRatio, setRatio] = useState(1)
   const amtError = typeof formErrors.amount === 'string' && formErrors.amount
+
+  const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
+    if (Number(fontSizeRatio) > 0) {
+      setRatio(fontSizeRatio > 1 ? 1 : fontSizeRatio)
+    }
+    const amountRowNode = inputNode.closest('#amount-row')
+    const currencyNode = isFiat
+      ? amountRowNode.children[0]
+      : amountRowNode.children[amountRowNode.children.length - 1]
+    currencyNode.style.fontSize = `${fontSizeNumber * fontRatio}px`
+  }
   const max = getMaxMin(
     'max',
     limits,
@@ -188,10 +210,29 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   const handleSubmit = e => {
     e.preventDefault()
-    props.swapActions.setStep({ step: 'PREVIEW_SWAP' })
+    props.swapActions.setStep({
+      step: 'PREVIEW_SWAP',
+      options: {
+        baseCoin: BASE.coin,
+        baseAccountType: BASE.type,
+        counterCoin: COUNTER.coin,
+        counterAccountType: COUNTER.type
+      }
+    })
   }
-
+  const userMax = Number(payment ? payment.effectiveBalance : BASE.balance)
+  const balanceBelowMinimum = userMax < Number(min)
   const isQuoteFailed = Remote.Failure.is(props.quoteR)
+  // if user is attempting to send NC ERC20, ensure they have sufficient
+  // ETH balance else warn user and disable trade
+  const isErc20 = coins[BASE.coin].contractAddress
+  const disableInsufficientEth =
+    props.payment &&
+    BASE.type === 'ACCOUNT' &&
+    isErc20 &&
+    // @ts-ignore
+    !props.payment.isSufficientEthForErc20
+
   return (
     <FlyoutWrapper style={{ paddingTop: '20px' }}>
       <StyledForm onSubmit={handleSubmit}>
@@ -207,6 +248,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             component={AmountTextBox}
             validate={[maximumAmount, minimumAmount, incomingAmountNonZero]}
             normalize={normalizeAmount}
+            props={{ disabled: balanceBelowMinimum }}
             onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
             maxFontSize='56px'
             placeholder='0'
@@ -218,12 +260,14 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
           {fix === 'CRYPTO' && (
             <Text size={'56px'} color='textBlack' weight={500}>
-              {BASE.coin}
+              {coins[BASE.coin].coinTicker}
             </Text>
           )}
         </AmountRow>
 
-        <QuoteRow style={{ display: amtError ? 'none' : 'flex' }}>
+        <QuoteRow
+          style={{ display: amtError || balanceBelowMinimum ? 'none' : 'flex' }}
+        >
           <div style={{ width: '24px' }} />
           <Text
             color='grey600'
@@ -248,7 +292,11 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             data-e2e='swapSwitchIcon'
           />
         </QuoteRow>
-        <Errors style={{ display: !amtError ? 'none' : 'flex' }}>
+        <Errors
+          style={{
+            display: !amtError || balanceBelowMinimum ? 'none' : 'flex'
+          }}
+        >
           <>
             {amtError === 'BELOW_MIN' ? (
               <CustomErrorCartridge
@@ -263,7 +311,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     value:
                       fix === 'FIAT'
                         ? fiatToString({ value: fiatMin, unit: walletCurrency })
-                        : `${min} ${BASE.coin}`
+                        : `${min} ${coins[BASE.coin].coinTicker}`
                   }}
                 />
               </CustomErrorCartridge>
@@ -291,13 +339,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   <Button
                     data-e2e='swapLimitUpgradePrompt'
                     nature='primary'
-                    onClick={() =>
-                      props.idvActions.verifyIdentity(
-                        2,
-                        false,
-                        'SwapLimitPrompt'
-                      )
-                    }
+                    onClick={() => props.idvActions.verifyIdentity(2, false)}
                     height='48px'
                     width='192px'
                   >
@@ -328,13 +370,23 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     value:
                       fix === 'FIAT'
                         ? fiatToString({ value: fiatMax, unit: walletCurrency })
-                        : `${max} ${BASE.coin}`
+                        : `${max} ${coins[BASE.coin].coinTicker}`
                   }}
                 />
               </CustomErrorCartridge>
             )}
           </>
         </Errors>
+        {balanceBelowMinimum && (
+          <Errors>
+            <CustomErrorCartridge data-e2e='balanceBelowMin'>
+              <FormattedMessage
+                id='copy.swap_not_enough_funds'
+                defaultMessage='This wallet does not have enough funds for a swap.'
+              />
+            </CustomErrorCartridge>
+          </Errors>
+        )}
         <Amounts>
           <div>
             <Text size='14px' weight={500} color='grey600'>
@@ -411,7 +463,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           jumbo
           fullwidth
           style={{ marginTop: '24px' }}
-          disabled={props.invalid || isQuoteFailed}
+          disabled={props.invalid || isQuoteFailed || disableInsufficientEth}
         >
           <FormattedMessage
             id='buttons.preview_swap'
@@ -427,6 +479,17 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               Loading: () => null,
               NotAsked: () => null
             })}
+          </ErrorCartridge>
+        )}
+        {disableInsufficientEth && (
+          <ErrorCartridge style={{ marginTop: '16px' }}>
+            <FormattedMessage
+              id='copy.not_enough_eth'
+              defaultMessage='ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in "My Ether Wallet" for this transaction, not the Ether Trading Wallet.'
+              values={{
+                coin: coins[BASE.coin].coinTicker
+              }}
+            />
           </ErrorCartridge>
         )}
       </StyledForm>

@@ -108,7 +108,7 @@ const Navigation = (props: OwnProps & Props) => {
                   <Destination>{coin.displayName}</Destination>
                   {coin.showNewTagSidenav && (
                     <NewCartridge>
-                      <Text color='orange600' size='12' weight={500} uppercase>
+                      <Text color='blue600' size='12' weight={700} uppercase>
                         <FormattedMessage id='copy.new' defaultMessage='New' />
                       </Text>
                     </NewCartridge>

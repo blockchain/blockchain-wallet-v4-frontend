@@ -1,19 +1,22 @@
-import { call, put, select } from 'redux-saga/effects'
-import { head, nth } from 'ramda'
+import { call, CallEffect, put, select } from 'redux-saga/effects'
+import { head, isNil, nth } from 'ramda'
 
 import {
   AccountTypes,
   CoinType,
   FiatType,
+  PaymentType,
   PaymentValue,
   RatesType,
+  RemoteDataType,
   SBBalancesType
 } from 'core/types'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import {
   INVALID_COIN_TYPE,
   NO_DEFAULT_ACCOUNT
 } from 'blockchain-wallet-v4/src/model'
+import { promptForSecondPassword } from 'services/SagaService'
 import { selectors } from 'data'
 
 import * as A from './actions'
@@ -21,11 +24,52 @@ import * as S from './selectors'
 import { convertBaseToStandard } from '../exchange/services'
 import exchangeSagaUtils from '../exchange/sagas.utils'
 
+const { isCashAddr, toCashAddr } = utils.bch
+
 export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   const { calculateProvisionalPayment } = exchangeSagaUtils({
     coreSagas,
     networks
   })
+
+  const buildAndPublishPayment = function * (
+    coin: CoinType,
+    payment: PaymentType,
+    destination: string
+  ): Generator<PaymentType | CallEffect, PaymentValue, any> {
+    try {
+      if (coin === 'XLM') {
+        // separate out addresses and memo
+        const depositAddressMemo = destination.split(':')
+        const txMemo = depositAddressMemo[1]
+        // throw error if we cant parse the memo for tx
+        if (
+          isNil(txMemo) ||
+          (typeof txMemo === 'string' && txMemo.length === 0)
+        ) {
+          throw new Error('Memo for transaction is missing')
+        }
+        payment = yield payment.to(depositAddressMemo[0], 'CUSTODIAL')
+        // @ts-ignore
+        payment = yield payment.memo(txMemo)
+        // @ts-ignore
+        payment = yield payment.memoType('text')
+        // @ts-ignore
+        payment = yield payment.setDestinationAccountExists(true)
+      } else {
+        payment = yield payment.to(destination, 'CUSTODIAL')
+      }
+      payment = yield payment.build()
+      // ask for second password
+      const password = yield call(promptForSecondPassword)
+      payment = yield payment.sign(password)
+      payment = yield payment.publish()
+    } catch (e) {
+      throw e
+    }
+
+    return payment.value()
+  }
 
   const createLimits = function * (
     payment: PaymentValue,
@@ -87,6 +131,14 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
             rates
           }).value
           break
+        case 'WDGLD':
+          maxFiat = Exchange.convertWdgldToFiat({
+            value: balance || custodialBalance || 0,
+            fromUnit: 'WEI',
+            toCurrency: userCurrency,
+            rates
+          }).value
+          break
         case 'XLM':
           maxFiat = Exchange.convertXlmToFiat({
             value: custodialBalance || balance || 0,
@@ -137,6 +189,37 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     )
 
     return payment
+  }
+
+  const paymentGetOrElse = (
+    coin: CoinType,
+    paymentR: RemoteDataType<string | Error, PaymentValue | undefined>
+  ): PaymentType => {
+    switch (coin) {
+      case 'BCH':
+        return coreSagas.payment.bch.create({
+          payment: paymentR.getOrElse(<PaymentValue>{}),
+          network: networks.bch
+        })
+      case 'BTC':
+        return coreSagas.payment.btc.create({
+          payment: paymentR.getOrElse(<PaymentValue>{}),
+          network: networks.btc
+        })
+      case 'ETH':
+      case 'PAX':
+      case 'USDT':
+        return coreSagas.payment.eth.create({
+          payment: paymentR.getOrElse(<PaymentValue>{}),
+          network: networks.eth
+        })
+      case 'XLM':
+        return coreSagas.payment.xlm.create({
+          payment: paymentR.getOrElse(<PaymentValue>{})
+        })
+      default:
+        throw new Error(INVALID_COIN_TYPE)
+    }
   }
 
   const getDefaultAccountForCoin = function * (coin: CoinType) {
@@ -190,7 +273,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   const getReceiveAddressForCoin = function * (coin: CoinType) {
     switch (coin) {
       case 'BCH':
-        return selectors.core.common.bch
+        const address = selectors.core.common.bch
           .getNextAvailableReceiveAddress(
             networks.bch,
             (yield select(
@@ -199,6 +282,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
             yield select()
           )
           .getOrFail('Failed to get BCH receive address')
+        return isCashAddr(address) ? address : toCashAddr(address)
       case 'BTC':
         return selectors.core.common.btc
           .getNextAvailableReceiveAddress(
@@ -223,9 +307,11 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   }
 
   return {
+    buildAndPublishPayment,
     createLimits,
     createPayment,
     getDefaultAccountForCoin,
-    getReceiveAddressForCoin
+    getReceiveAddressForCoin,
+    paymentGetOrElse
   }
 }

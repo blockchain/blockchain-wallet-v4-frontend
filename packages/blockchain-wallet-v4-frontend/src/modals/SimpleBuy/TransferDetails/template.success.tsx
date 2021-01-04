@@ -17,7 +17,7 @@ import {
 } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { TransferType } from './types'
-import CopyClipboardButton from 'components/CopyClipboardButton'
+import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import React, { useState } from 'react'
 import styled from 'styled-components'

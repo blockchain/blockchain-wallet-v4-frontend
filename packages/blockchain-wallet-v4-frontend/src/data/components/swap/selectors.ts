@@ -35,6 +35,9 @@ import {
 import { selectors } from 'data'
 import BigNumber from 'bignumber.js'
 
+export const getCustodialEligibility = (state: RootState) =>
+  state.components.swap.custodialEligibility
+
 export const getSide = (state: RootState) => state.components.swap.side
 
 export const getStep = (state: RootState) => state.components.swap.step
@@ -42,6 +45,8 @@ export const getStep = (state: RootState) => state.components.swap.step
 export const getLimits = (state: RootState) => state.components.swap.limits
 
 export const getOrder = (state: RootState) => state.components.swap.order
+
+export const getPairs = (state: RootState) => state.components.swap.pairs
 
 export const getPayment = (state: RootState) => state.components.swap.payment
 
@@ -280,10 +285,13 @@ const xlmGetActiveAccounts = createDeepEqualSelector(
           const address = prop('publicKey', acc)
           const account = prop(address, xlmData)
           const noAccount = path(['error', 'message'], account) === 'Not Found'
-          const balance = account
-            // @ts-ignore
-            .map(coreSelectors.data.xlm.selectBalanceFromAccount)
-            .getOrElse(0)
+          const balance = convertStandardToBase(
+            'XLM',
+            account
+              // @ts-ignore
+              .map(coreSelectors.data.xlm.selectBalanceFromAccount)
+              .getOrElse(0)
+          )
           return {
             archived: prop('archived', acc),
             baseCoin: 'XLM',
@@ -321,7 +329,8 @@ const getActiveAccountsR = state => {
     ETH: ethGetActiveAccounts(state),
     PAX: erc20GetActiveAccounts(state, 'pax'),
     USDT: erc20GetActiveAccounts(state, 'usdt'),
-    XLM: xlmGetActiveAccounts(state)
+    XLM: xlmGetActiveAccounts(state),
+    WDGLD: erc20GetActiveAccounts(state, 'wdgld')
   }
 
   const isNotLoaded = coinAccounts => Remote.Loading.is(coinAccounts)
@@ -343,7 +352,8 @@ export const getActiveAccounts = (state: RootState) => {
     ETH: [],
     PAX: [],
     USDT: [],
-    XLM: []
+    XLM: [],
+    WDGLD: []
   })
 
   return activeAccounts

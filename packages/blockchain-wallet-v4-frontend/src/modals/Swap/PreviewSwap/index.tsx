@@ -6,7 +6,7 @@ import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
 import { Props as BaseProps, SuccessStateType } from '..'
-import { Border, TopText } from '../components'
+import { Border, FreeCartridge, TopText } from '../components'
 import {
   Button,
   HeartbeatLoader,
@@ -20,6 +20,7 @@ import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
+import { PaymentValue } from 'core/types'
 
 class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   state = {}
@@ -27,6 +28,14 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   handleSubmit = e => {
     e.preventDefault()
     this.props.swapActions.createOrder()
+  }
+
+  networkFee = (value: PaymentValue | undefined) => {
+    return value
+      ? value.coin === 'BTC' || value.coin === 'BCH'
+        ? value.selection?.fee
+        : value.fee
+      : 0
   }
 
   render () {
@@ -153,7 +162,9 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           </Title>
           <Value>
             {BASE.type === 'CUSTODIAL' ? (
-              <>0 {BASE.baseCoin}</>
+              <FreeCartridge>
+                <FormattedMessage id='copy.free' defaultMessage='FREE' />
+              </FreeCartridge>
             ) : (
               this.props.paymentR.cata({
                 Success: value => (
@@ -161,7 +172,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     {coinToString({
                       value: convertBaseToStandard(
                         BASE.baseCoin,
-                        value ? value.fee : 0
+                        this.networkFee(value)
                       ),
                       unit: { symbol: coins[BASE.baseCoin].coinTicker }
                     })}
@@ -183,26 +194,33 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             />
           </Title>
           <Value>
-            {this.props.quoteR.cata({
-              Success: value => (
-                <>
-                  {coinToString({
-                    value: convertBaseToStandard(
-                      COUNTER.baseCoin,
-                      value.quote.networkFee
-                    ),
-                    unit: {
-                      symbol: coins[COUNTER.baseCoin].coinTicker
-                    }
-                  })}
-                </>
-              ),
-              Failure: e => e,
-              Loading: () => <SkeletonRectangle height='18px' width='70px' />,
-              NotAsked: () => <SkeletonRectangle height='18px' width='70px' />
-            })}
+            {COUNTER.type === 'CUSTODIAL' ? (
+              <FreeCartridge>
+                <FormattedMessage id='copy.free' defaultMessage='FREE' />
+              </FreeCartridge>
+            ) : (
+              this.props.quoteR.cata({
+                Success: value => (
+                  <>
+                    {coinToString({
+                      value: convertBaseToStandard(
+                        COUNTER.coin,
+                        value.quote.networkFee
+                      ),
+                      unit: {
+                        symbol: coins[COUNTER.coin].coinTicker
+                      }
+                    })}
+                  </>
+                ),
+                Failure: e => e,
+                Loading: () => <SkeletonRectangle height='18px' width='70px' />,
+                NotAsked: () => <SkeletonRectangle height='18px' width='70px' />
+              })
+            )}
           </Value>
         </Row>
+
         <Border />
         <FlyoutWrapper>
           <Form onSubmit={this.handleSubmit}>

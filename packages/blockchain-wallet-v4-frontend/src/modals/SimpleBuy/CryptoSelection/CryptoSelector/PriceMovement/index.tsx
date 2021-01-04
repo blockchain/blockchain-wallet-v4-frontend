@@ -13,7 +13,7 @@ const Container = styled.span`
   margin-left: 4px;
 `
 const Change = styled.span<{ color: keyof DefaultTheme }>`
-  font-weight: 500;
+  font-weight: 600;
   color: ${props => props.theme[props.color]};
 `
 

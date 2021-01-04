@@ -240,7 +240,7 @@ export type SBTransactionType = {
         status: 'UNCONFIRMED' | 'CONFIRMED'
         txHash: string
       }
-      type: 'DEPOSIT'
+      type: 'DEPOSIT' | 'REFUNDED' | 'SELL'
     }
   | {
       extraAttributes: null | {
@@ -255,7 +255,7 @@ export type SBTransactionType = {
         product: 'SIMPLEBUY'
         user: 'adea2fd5-acc3-4a71-987d-3741811cdeaa'
       }
-      type: 'WITHDRAWAL'
+      type: 'WITHDRAWAL' | 'REFUNDED'
     }
 )
 
@@ -277,6 +277,8 @@ export type SBTransactionStateType =
   | 'CLEARED'
   | 'COMPLETE'
   | 'REFUNDED'
+  | 'CANCELED'
+  | 'EXPIRED'
 
 export enum SBPendingTransactionStateEnum {
   CLEARED = 'CLEARED',
@@ -291,4 +293,9 @@ export type FiatEligibleType = {
   eligible: boolean
   paymentAccountEligible: boolean
   simpleBuyTradingEligible: boolean
+}
+
+export type SDDLimits = {
+  max: string
+  min: string
 }

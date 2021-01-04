@@ -86,15 +86,6 @@ const Column = styled.div`
     }
   }
 `
-const Announcement = styled(Text)`
-  display: flex;
-  background: linear-gradient(180deg, #162241 0%, #324069 100%);
-  border-radius: 8px 8px 0 0;
-  justify-content: center;
-  align-items: center;
-  letter-spacing: 2px;
-  height: 50px;
-`
 const Content = styled.div`
   margin-top: 10px;
 `
@@ -134,14 +125,6 @@ export const TierCard = ({
 
   return (
     <Wrapper className={className}>
-      {tier === 2 && (
-        <Announcement uppercase weight={500} size='18px' color='white'>
-          <FormattedMessage
-            id='components.identityverification.tiercard.getfreecrypto'
-            defaultMessage='Get Free Crypto'
-          />
-        </Announcement>
-      )}
       <Container>
         <Header color='marketing-primary' uppercase>
           {headers[path([tier, 'level'], TIERS)]}
@@ -198,11 +181,7 @@ export const TierCard = ({
             fullwidth
             nature='primary'
             onClick={() =>
-              identityVerificationActions.verifyIdentity(
-                tier,
-                false,
-                'SettingsProfile'
-              )
+              identityVerificationActions.verifyIdentity(tier, false)
             }
             data-e2e={`continueKycTier${tier}Btn`}
           >

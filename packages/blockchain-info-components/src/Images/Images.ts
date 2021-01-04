@@ -75,9 +75,11 @@ import swapCarousel3 from './img/swap-carousel3.png'
 import swapCarousel4 from './img/swap-carousel4.png'
 import swapCarousel5 from './img/swap-carousel5.png'
 import swapModalBg from './img/swap-modal-bg.svg'
+import tierGold from './img/tier-gold.svg'
 import twitterWhite from './img/twitter-white.svg'
 import usddIntro from './img/usdd-intro.svg'
 import visaLogo from './img/visa-logo.svg'
+import visaNewLogo from './img/visa-new-logo.svg'
 import wallet from './img/wallet.svg'
 import walletBlue from './img/wallet-blue.svg'
 import walletV3Backup from './img/wallet-v3-backup.jpg'
@@ -85,6 +87,7 @@ import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
 import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
 import walletV3SecurityUpgrade from './img/wallet-v3-security-upgrade.jpg'
 import warningCircleFilled from './img/warning-circle-filled.png'
+import wdgld from './img/wdgld.svg'
 import yubikey from './img/yubikey.svg'
 // Lockbox
 import deviceLockbox from './img/lockbox/device-lockbox.png'
@@ -225,9 +228,11 @@ const Images = {
   'swap-carousel5': swapCarousel5,
   'swap-modal-bg': swapModalBg,
   'twitter-white': twitterWhite,
+  'tier-gold': tierGold,
   'us-flag': usFlag,
   'usdd-intro': usddIntro,
   'visa-logo': visaLogo,
+  'visa-new-logo': visaNewLogo,
   'wallet-v3-backup': walletV3Backup,
   'wallet-v3-fund-management': walletV3FundManagement,
   'wallet-v3-new-design': walletV3NewDesign,
@@ -235,6 +240,7 @@ const Images = {
   'warning-circle-filled': warningCircleFilled,
   wallet,
   'wallet-blue': walletBlue,
+  wdgld: wdgld,
   'world-alert': worldAlert,
   'world-alert2': worldAlert2,
   'world-alert3': worldAlert3,
