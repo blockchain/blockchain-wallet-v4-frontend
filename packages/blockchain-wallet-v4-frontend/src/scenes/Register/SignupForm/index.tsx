@@ -192,7 +192,7 @@ const SignupForm = ({
             <Text color='grey800' size='12px' weight={500}>
               <FormattedHTMLMessage
                 id='scenes.register.understand-secret-phase'
-                defaultMessage='I understand that Blockchain.com cannot recover my password for me. If Iose access to my wallet, I must use my <a href="https://support.blockchain.com/hc/en-us/articles/360029029911-Your-Wallet-101" rel="noopener noreferrer" target="_blank"> Secret Phase </a> to access my funds.'
+                defaultMessage='I understand that Blockchain.com cannot recover my password for me. If I lose access to my wallet, I must use my <a href="https://support.blockchain.com/hc/en-us/articles/360029029911-Your-Wallet-101" rel="noopener noreferrer" target="_blank"> Secret Phase </a> to access my funds.'
               />
             </Text>
           </TextGroup>
