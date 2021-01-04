@@ -14,7 +14,7 @@ const Header = styled(Text)`
   margin: 15px 0 5px;
 `
 
-class EmptyTxContainer extends React.PureComponent {
+class EmptyResultsContainer extends React.PureComponent {
   render () {
     return (
       <Wrapper data-e2e='noTransactionsFound'>
@@ -57,4 +57,4 @@ class EmptyTxContainer extends React.PureComponent {
   }
 }
 
-export default EmptyTxContainer
+export default EmptyResultsContainer

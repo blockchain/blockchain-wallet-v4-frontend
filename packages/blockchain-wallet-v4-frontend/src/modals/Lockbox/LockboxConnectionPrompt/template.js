@@ -1,12 +1,9 @@
 import { FormattedMessage } from 'react-intl'
+import { prop } from 'ramda'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
-import { prop } from 'ramda'
-import ModalStepper from 'components/ModalStepper'
-
-import { CONFIRM_STEPS } from './model'
 import {
   Image,
   Modal,
@@ -14,6 +11,9 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
+
+import { CONFIRM_STEPS } from './model'
+import ModalStepper from '../components'
 
 const Title = styled.div`
   text-align: center;
