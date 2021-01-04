@@ -2,7 +2,7 @@ import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Link, Text, TextGroup } from 'blockchain-info-components'
+import { Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 
 const TermsContainer = styled.div`
@@ -117,48 +117,26 @@ const Terms = props => {
       )
     default:
       return (
-        <TermsContainer style={{ paddingLeft: '4px', margin: '8px 0' }}>
+        <TermsContainer style={{ paddingLeft: '4px' }}>
           {recovery ? (
-            <Text color='grey800' size='12px' weight={500}>
+            <Text
+              color='grey800'
+              size='12px'
+              weight={500}
+              style={{ margin: '4px 0' }}
+            >
               <FormattedMessage
                 id='scenes.register.registerform.blockchain.read-recovery'
                 defaultMessage='By recovering an account, you agree to Blockchain’s'
               />
             </Text>
           ) : (
-            <>
-              <TextGroup inline>
-                <Text color='grey800' size='12px' weight={500}>
-                  <FormattedMessage
-                    id='scenes.register.registerform.blockchain.terms1'
-                    defaultMessage='By creating an account, you acknowledge that Blockchain.com cannot recover your password. If you lose access to your wallet and need to recover your funds, you must use your'
-                  />
-                </Text>{' '}
-                <Link
-                  href='https://support.blockchain.com/hc/en-us/articles/360029029911-Your-Wallet-101'
-                  target='_blank'
-                  size='12px'
-                  weight={500}
-                >
-                  <FormattedMessage
-                    id='scenes.register.registerform.blockchain.terms2'
-                    defaultMessage='Backup Phrase'
-                  />
-                </Link>
-                <span style={{ marginLeft: '-2px' }}>.</span>
-              </TextGroup>
-              <Text
-                color='grey800'
-                size='12px'
-                weight={500}
-                style={{ marginTop: '10px' }}
-              >
-                <FormattedMessage
-                  id='scenes.register.registerform.blockchain.terms3'
-                  defaultMessage='You are also agreeing to Blockchain’s'
-                />
-              </Text>
-            </>
+            <Text color='grey800' size='12px' weight={500}>
+              <FormattedMessage
+                id='scenes.register.registerform.blockchain.read_1'
+                defaultMessage='By creating an account, you agree to Blockchain’s'
+              />
+            </Text>
           )}
           <span>&nbsp;</span>
           <Link

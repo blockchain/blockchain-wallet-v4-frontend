@@ -20,7 +20,7 @@ import { reduxForm } from 'redux-form'
 import { SceneWrapper } from 'components/Layout'
 import CoinIntroduction from './CoinIntroduction'
 import CoinPerformance from './CoinPerformance'
-import EmptyTx from 'components/EmptyTx'
+import EmptyResults from 'components/EmptyResults'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import media from 'services/ResponsiveService'
 import React from 'react'
@@ -239,7 +239,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
           {!hasTxResults ? (
             isSearchEntered ? (
               <SceneWrapper centerContent>
-                <EmptyTx />
+                <EmptyResults />
               </SceneWrapper>
             ) : (
               <SceneWrapper centerContent>
