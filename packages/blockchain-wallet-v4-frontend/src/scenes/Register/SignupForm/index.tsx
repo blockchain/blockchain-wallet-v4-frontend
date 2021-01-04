@@ -2,6 +2,7 @@ import {
   Banner,
   Button,
   HeartbeatLoader,
+  Link,
   Text,
   TextGroup
 } from 'blockchain-info-components'
@@ -191,8 +192,26 @@ const SignupForm = ({
           <TextGroup inline>
             <Text color='grey800' size='12px' weight={500}>
               <FormattedHTMLMessage
-                id='scenes.register.understand-secret-phase'
-                defaultMessage='I understand that Blockchain.com cannot recover my password for me. If I lose access to my wallet, I must use my <a href="https://support.blockchain.com/hc/en-us/articles/360029029911-Your-Wallet-101" rel="noopener noreferrer" target="_blank"> Secret Phase </a> to access my funds.'
+                id='scenes.register.backupphrase1'
+                defaultMessage='I understand that Blockchain.com never stores passwords and therefore cannot recover or reset my password. If I lose access to my wallet, I must use my'
+              />
+            </Text>
+            <Link
+              href='https://www.blockchain.com/legal/terms'
+              target='_blank'
+              size='12px'
+              weight={500}
+              data-e2e='blockchainTermsLink'
+            >
+              <FormattedMessage
+                id='scenes.securitysettings.basicsecurity.recoveryphrase.title'
+                defaultMessage='Backup Phrase'
+              />
+            </Link>
+            <Text color='grey800' size='12px' weight={500}>
+              <FormattedHTMLMessage
+                id='scenes.register.backupphrase2'
+                defaultMessage='to access my funds.'
               />
             </Text>
           </TextGroup>
