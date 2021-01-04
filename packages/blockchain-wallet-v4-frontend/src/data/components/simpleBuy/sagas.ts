@@ -373,6 +373,10 @@ export default ({
         const pair = S.getSBPair(yield select())
         const method = S.getSBPaymentMethod(yield select())
         const from = S.getSwapAccount(yield select())
+        // If user doesn't enter amount into checkout
+        // they are redirected back to checkout screen
+        // ensures newly linked bank account is fetched
+        yield call(fetchBankTransferAccounts)
         if (pair) {
           yield put(
             A.setStep({
