@@ -309,6 +309,18 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     // @ts-ignore
     !props.payment.isSufficientEthForErc20
 
+  const getValue = value =>
+    fix === 'FIAT'
+      ? fiatToString({
+          digits,
+          unit: fiatCurrency,
+          value
+        })
+      : coinToString({
+          value,
+          unit: { symbol: cryptoCurrency }
+        })
+
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ paddingBottom: '0px', borderBottom: 'grey000' }}>
@@ -409,53 +421,52 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </QuoteRow>
 
-        {(!props.isSddFlow || props.orderType === 'SELL') && props.pair && (
-          <Amounts onClick={handleMinMaxClick}>
-            <>
-              {amtError === 'BELOW_MIN' ? (
-                <CustomErrorCartridge role='button' data-e2e='sbEnterAmountMin'>
-                  <FormattedMessage
-                    id='modals.simplebuy.checkout.belowmin'
-                    defaultMessage='{value} Minimum {orderType}'
-                    values={{
-                      value:
-                        fix === 'FIAT'
-                          ? fiatToString({
-                              digits,
-                              unit: fiatCurrency,
-                              value: min
-                            })
-                          : coinToString({
-                              value: min,
-                              unit: { symbol: cryptoCurrency }
-                            }),
-                      orderType: props.orderType === 'BUY' ? 'Buy' : 'Sell'
-                    }}
-                  />
-                </CustomErrorCartridge>
-              ) : (
-                <BlueRedCartridge error={amtError === 'ABOVE_MAX'}>
-                  <FormattedMessage
-                    id='modals.simplebuy.checkout.abovemax'
-                    defaultMessage='{value} Maximum {orderType}'
-                    values={{
-                      value:
-                        fix === 'FIAT'
-                          ? fiatToString({
-                              digits,
-                              unit: fiatCurrency,
-                              value: max
-                            })
-                          : coinToString({
-                              value: max,
-                              unit: { symbol: cryptoCurrency }
-                            }),
-                      orderType: orderType === 'BUY' ? 'Buy' : 'Sell'
-                    }}
-                  />
-                </BlueRedCartridge>
-              )}
-            </>
+        {(!props.isSddFlow || props.orderType === 'SELL') &&
+          props.pair &&
+          min <= max && (
+            <Amounts onClick={handleMinMaxClick}>
+              <>
+                {amtError === 'BELOW_MIN' ? (
+                  <CustomErrorCartridge
+                    role='button'
+                    data-e2e='sbEnterAmountMin'
+                  >
+                    <FormattedMessage
+                      id='modals.simplebuy.checkout.belowmin'
+                      defaultMessage='{value} Minimum {orderType}'
+                      values={{
+                        value: getValue(min),
+                        orderType: props.orderType === 'BUY' ? 'Buy' : 'Sell'
+                      }}
+                    />
+                  </CustomErrorCartridge>
+                ) : (
+                  <BlueRedCartridge error={amtError === 'ABOVE_MAX'}>
+                    <FormattedMessage
+                      id='modals.simplebuy.checkout.abovemax'
+                      defaultMessage='{value} Maximum {orderType}'
+                      values={{
+                        value: getValue(max),
+                        orderType: orderType === 'BUY' ? 'Buy' : 'Sell'
+                      }}
+                    />
+                  </BlueRedCartridge>
+                )}
+              </>
+            </Amounts>
+          )}
+
+        {props.orderType === 'SELL' && props.pair && min > max && (
+          <Amounts>
+            <CustomErrorCartridge
+              role='button'
+              data-e2e='sbEnterAmountNotEnoughFundsForSell'
+            >
+              <FormattedMessage
+                id='modals.simplebuy.checkout.not_enough_funds_for_sell'
+                defaultMessage='Not Enough funds for Sell'
+              />
+            </CustomErrorCartridge>
           </Amounts>
         )}
 
