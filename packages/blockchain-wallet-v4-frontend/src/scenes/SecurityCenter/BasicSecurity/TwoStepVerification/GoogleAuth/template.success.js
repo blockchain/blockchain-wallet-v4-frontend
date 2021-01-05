@@ -9,7 +9,7 @@ import { Button, Text } from 'blockchain-info-components'
 import { required } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 import { TextBox } from 'components/Form'
-import QRCodeWrapper from 'components/QRCodeWrapper'
+import QRCodeWrapper from 'components/QRCode/Wrapper'
 
 const AuthenticatorSummary = styled.div`
   width: 100%;

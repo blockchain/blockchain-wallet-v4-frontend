@@ -20,7 +20,7 @@ import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, State, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
 import { model, selectors } from 'data'
-import QRCodeWrapper from 'components/QRCodeWrapper'
+import QRCodeWrapper from 'components/QRCode/Wrapper'
 import React from 'react'
 import styled from 'styled-components'
 

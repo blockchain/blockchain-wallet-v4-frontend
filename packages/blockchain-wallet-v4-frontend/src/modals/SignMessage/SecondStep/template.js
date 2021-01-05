@@ -4,7 +4,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-import CopyClipboard from 'components/CopyClipboard'
+import CopyClipboard from 'components/Clipboard/CopyClipboard'
 
 const Wrapper = styled.div`
   display: flex;

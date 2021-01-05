@@ -11,7 +11,7 @@ import { flex, spacing } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
 import { utils } from 'blockchain-wallet-v4/src'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import QRCodeWrapper from 'components/QRCodeWrapper'
+import QRCodeWrapper from 'components/QRCode/Wrapper'
 import React from 'react'
 import styled from 'styled-components'
 
