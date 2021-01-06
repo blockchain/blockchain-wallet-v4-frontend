@@ -106,6 +106,11 @@ export const confirmSBFundsOrder = () => ({
   type: AT.CONFIRM_FUNDS_ORDER
 })
 
+export const deleteSavedBank = (bankId: BankTransferAccountType['id']) => ({
+  type: AT.DELETE_SAVED_BANK,
+  bankId
+})
+
 export const deleteSBCard = (cardId?: SBCardType['id']) => ({
   type: AT.DELETE_SB_CARD,
   cardId

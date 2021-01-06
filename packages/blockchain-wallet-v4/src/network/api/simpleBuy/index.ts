@@ -1,10 +1,5 @@
 import {
-  CoinType,
-  CurrenciesType,
-  FiatType,
-  WalletCurrencyType
-} from '../../../types'
-import {
+  BankTransferAccountType,
   FiatEligibleType,
   NabuAddressType,
   SBAccountType,
@@ -22,6 +17,12 @@ import {
   SBTransactionStateType,
   SBTransactionsType
 } from './types'
+import {
+  CoinType,
+  CurrenciesType,
+  FiatType,
+  WalletCurrencyType
+} from '../../../types'
 import { Moment } from 'moment'
 import { SwapOrderStateType, SwapOrderType } from '../swap/types'
 import { UserDataType } from 'data/types'
@@ -158,10 +159,14 @@ export default ({
       }
     })
 
-  const deleteSBCard = (cardId: SBCardType['id']): SBCardType =>
+  // TODO: move this BROKERAGE component
+  const deleteSavedAccount = (
+    accountId: SBCardType['id'] | BankTransferAccountType['id'],
+    accountType: 'cards' | 'banktransfer'
+  ): SBCardType | BankTransferAccountType =>
     authorizedDelete({
       url: nabuUrl,
-      endPoint: `/payments/cards/${cardId}`
+      endPoint: `/payments/${accountType}/${accountId}`
     })
 
   const getSBBalances = (currency?: CoinType): SBBalancesType =>
@@ -403,7 +408,7 @@ export default ({
     createSBOrder,
     createBankAccountLink,
     confirmSBOrder,
-    deleteSBCard,
+    deleteSavedAccount,
     getBankTransferAccounts,
     getBankTransferAccountDetails,
     getSBBalances,

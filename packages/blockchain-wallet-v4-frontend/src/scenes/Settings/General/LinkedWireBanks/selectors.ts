@@ -9,16 +9,19 @@ export const getData = (state: RootState) => {
     state
   )
 
+  const beneficiariesR = selectors.custodial.getBeneficiaries(state)
   const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
     state
   )
   return lift(
     (
       bankAccounts: ExtractSuccess<typeof bankAccountsR>,
+      beneficiaries: ExtractSuccess<typeof beneficiariesR>,
       paymentMethods: ExtractSuccess<typeof paymentMethodsR>
     ) => ({
       bankAccounts,
+      beneficiaries,
       paymentMethods
     })
-  )(bankAccountsR, paymentMethodsR)
+  )(bankAccountsR, beneficiariesR, paymentMethodsR)
 }

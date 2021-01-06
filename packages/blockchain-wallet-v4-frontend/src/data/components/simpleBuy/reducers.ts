@@ -91,9 +91,12 @@ export function simpleBuyReducer (
         bankTransferAccounts: Remote.Loading
       }
     case AT.FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS:
+      const accounts = action.payload.accounts.filter(
+        a => a.state !== 'PENDING' && a.state !== 'BLOCKED'
+      )
       return {
         ...state,
-        bankTransferAccounts: Remote.Success(action.payload.accounts)
+        bankTransferAccounts: Remote.Success(accounts)
       }
     case AT.FETCH_BANK_TRANSFER_ACCOUNTS_ERROR: {
       return {

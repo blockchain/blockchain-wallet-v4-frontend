@@ -7,6 +7,7 @@ import { Text } from 'blockchain-info-components'
 import About from './About'
 import LinkedBanks from './LinkedBanks'
 import LinkedCards from './LinkedCards'
+import LinkedWireBanks from './LinkedWireBanks'
 import PairingCode from './PairingCode'
 import PrivacyPolicy from './PrivacyPolicy'
 import TermsOfService from './TermsOfService'
@@ -40,6 +41,7 @@ const General = () => {
       </MenuHeader>
       <WalletId />
       <PairingCode />
+      <LinkedWireBanks />
       <LinkedBanks />
       <LinkedCards />
       <PrivacyPolicy />

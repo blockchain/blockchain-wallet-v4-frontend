@@ -101,7 +101,11 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
               id='modals.simplebuy.yodlee_description'
               defaultMessage='Yodlee securely stores your credentials adhering to leading industry practices for data security, regulatory compliance, and privacy.'
             />{' '}
-            <Link href='/foo.html' rel='noopener noreferrer' target='_blank'>
+            <Link
+              href='https://www.yodlee.com/legal/yodlee-security'
+              rel='noopener noreferrer'
+              target='_blank'
+            >
               <FormattedMessage
                 defaultMessage='Learn More'
                 id='modals.simplebuy.summary.learn_more'
@@ -126,7 +130,11 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
             id='modals.simplebuy.link_bank_yodlee_terms'
             defaultMessage="By hitting Continue, you Agree to Yodlee's"
           />{' '}
-          <Link href='/foo.html' rel='noopener noreferrer' target='_blank'>
+          <Link
+            href='https://www.yodlee.com/legal/terms-of-use'
+            rel='noopener noreferrer'
+            target='_blank'
+          >
             <FormattedMessage
               id='scenes.register.registerform.blockchain.default.terms_conditions'
               defaultMessage='Terms and Conditions'
@@ -136,7 +144,11 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
             id='scenes.securitycenter.2fa.tip.two'
             defaultMessage='and'
           />{' '}
-          <Link href='/foo.html' rel='noopener noreferrer' target='_blank'>
+          <Link
+            href='https://www.yodlee.com/legal/privacy-notice'
+            rel='noopener noreferrer'
+            target='_blank'
+          >
             <FormattedMessage
               id='scenes.register.registerform.blockchain.default.privacypolicy'
               defaultMessage='Privacy Policy'

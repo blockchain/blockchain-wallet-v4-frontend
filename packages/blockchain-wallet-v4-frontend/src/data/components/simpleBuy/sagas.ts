@@ -471,13 +471,35 @@ export default ({
     }
   }
 
+  // TODO: move to BROKERAGE
+  const deleteSavedBank = function * ({
+    bankId
+  }: ReturnType<typeof A.deleteSavedBank>) {
+    try {
+      yield put(actions.form.startSubmit('linkedBanks'))
+      yield call(api.deleteSavedAccount, bankId, 'banktransfer')
+      yield put(A.fetchBankTransferAccounts())
+      yield take([
+        AT.FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS,
+        AT.FETCH_BANK_TRANSFER_UPDATE_ERROR
+      ])
+      yield put(actions.form.stopSubmit('linkedBanks'))
+      yield put(actions.alerts.displaySuccess('Bank removed.'))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit('linkedBanks', { _error: error }))
+      yield put(actions.alerts.displayError('Error removing bank.'))
+    }
+  }
+
+  // TODO: move to BROKERAGE
   const deleteSBCard = function * ({
     cardId
   }: ReturnType<typeof A.deleteSBCard>) {
     try {
       if (!cardId) return
       yield put(actions.form.startSubmit('linkedCards'))
-      yield call(api.deleteSBCard, cardId)
+      yield call(api.deleteSavedAccount, cardId, 'cards')
       yield put(A.fetchSBCards(true))
       yield take([AT.FETCH_SB_CARDS_SUCCESS, AT.FETCH_SB_CARDS_FAILURE])
       yield put(actions.form.stopSubmit('linkedCards'))
@@ -543,7 +565,6 @@ export default ({
 
   const fetchBankTransferAccounts = function * () {
     try {
-      yield put(A.fetchSBCardsLoading())
       const accounts = yield call(api.getBankTransferAccounts)
       yield put(A.fetchBankTransferAccountsSuccess(accounts))
     } catch (e) {
@@ -1347,6 +1368,7 @@ export default ({
     confirmSBCreditCardOrder,
     confirmSBFundsOrder,
     createSBOrder,
+    deleteSavedBank,
     deleteSBCard,
     fetchBankTransferAccounts,
     fetchBankTransferUpdate,
