@@ -492,7 +492,7 @@ export default ({
   const transferAccountState = function * (id: string) {
     const data = yield call(api.getBankTransferAccountDetails, id)
     if (data.state === 'ACTIVE') {
-      return 'ACTIVE'
+      return data
     } else if (data.state === 'BLOCKED') {
       return data.error
     } else {
@@ -520,10 +520,32 @@ export default ({
         // Polls the account details to check for Active state
         const bankData = yield call(conditionalRetry, status.id)
         // Shows bank status screen based on whether has blocked account or not
-        yield put(A.setStep({ step: 'LINK_BANK_STATUS', bankStatus: bankData }))
+        yield put(
+          A.setStep({ step: 'LINK_BANK_STATUS', bankStatus: bankData.state })
+        )
 
-        if (bankData === 'ACTIVE') {
-          yield put(A.createSBOrder('BANK_TRANSFER', status.id))
+        if (bankData.state === 'ACTIVE') {
+          const values: SBCheckoutFormValuesType = yield select(
+            selectors.form.getFormValues('simpleBuyCheckout')
+          )
+          if (values?.amount) {
+            yield put(A.createSBOrder('BANK_TRANSFER', status.id))
+          } else {
+            const sbMethodsR = S.getSBPaymentMethods(yield select())
+            const sbMethods = sbMethodsR.getOrElse(DEFAULT_SB_METHODS)
+            if (Remote.Success.is(sbMethodsR) && sbMethods.methods.length) {
+              const bankTransferMethod = sbMethods.methods.filter(
+                method => method.type === 'BANK_TRANSFER'
+              )[0]
+              yield put(
+                A.handleSBMethodChange({
+                  ...bankData,
+                  limits: bankTransferMethod.limits,
+                  type: 'BANK_TRANSFER'
+                })
+              )
+            }
+          }
         }
       }
     } catch (e) {
