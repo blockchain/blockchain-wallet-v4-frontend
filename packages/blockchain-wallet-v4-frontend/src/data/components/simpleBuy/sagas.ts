@@ -571,7 +571,9 @@ export default ({
         }
       }
     } catch (e) {
-      throw new Error(e)
+      yield put(
+        A.setStep({ step: 'LINK_BANK_STATUS', bankStatus: 'DEFAULT_ERROR' })
+      )
     }
   }
 
