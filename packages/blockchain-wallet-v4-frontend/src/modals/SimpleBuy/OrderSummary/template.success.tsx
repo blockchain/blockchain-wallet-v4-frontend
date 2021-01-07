@@ -216,7 +216,7 @@ const Success: React.FC<Props> = props => {
                   >
                     <FormattedMessage
                       id='modals.simplebuy.summary.learn_more'
-                      defaultMessage='Learn more.'
+                      defaultMessage='Learn more'
                     />
                   </a>
                 </span>
