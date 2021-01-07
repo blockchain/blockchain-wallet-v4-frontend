@@ -38,6 +38,7 @@ class Checkout extends PureComponent<Props> {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSDDEligible()
       this.props.simpleBuyActions.fetchSBCards()
+      this.props.simpleBuyActions.fetchBankTransferAccounts()
       this.props.simpleBuyActions.fetchSDDLimits(
         this.props.fiatCurrency || 'USD'
       )
@@ -107,6 +108,9 @@ class Checkout extends PureComponent<Props> {
         case 'FUNDS':
           this.props.simpleBuyActions.createSBOrder('FUNDS')
           break
+        case 'BANK_TRANSFER':
+          this.props.simpleBuyActions.createSBOrder('BANK_TRANSFER', method.id)
+          break
         case 'BANK_ACCOUNT':
           break
         default:
@@ -142,7 +146,8 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
     | undefined,
   goals: selectors.goals.getGoals(state),
   preferences: selectors.preferences.getSBCheckoutPreferences(state),
-  sbOrders: selectors.components.simpleBuy.getSBOrders(state).getOrElse([])
+  sbOrders: selectors.components.simpleBuy.getSBOrders(state).getOrElse([]),
+  hasFiatBalance: selectors.components.simpleBuy.hasFiatBalances(state)
 })
 
 const mapDispatchToProps = dispatch => ({

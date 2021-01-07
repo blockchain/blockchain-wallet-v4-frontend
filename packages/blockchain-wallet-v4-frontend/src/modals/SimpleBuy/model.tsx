@@ -1,4 +1,5 @@
 import {
+  BankTransferAccountType,
   CoinType,
   FiatType,
   SBOrderActionType,
@@ -59,7 +60,8 @@ export const getOrderDestination = (order: SBOrderType, supportedCoins) => {
 
 export const getPaymentMethod = (
   order: SBOrderType,
-  supportedCoins: SupportedWalletCurrenciesType
+  supportedCoins: SupportedWalletCurrenciesType,
+  bankAccount: BankTransferAccountType
 ) => {
   const baseCurrency = getBaseCurrency(order, supportedCoins)
   const counterCurrency = getCounterCurrency(order, supportedCoins)
@@ -85,6 +87,16 @@ export const getPaymentMethod = (
       ) : (
         `${baseCurrency} Trading Wallet`
       )
+    case 'BANK_TRANSFER':
+      const defaultBankInfo = {
+        bankName: 'Bank Transfer',
+        bankAccountType: '',
+        accountNumber: ''
+      }
+      const d = (bankAccount && bankAccount.details) || defaultBankInfo
+      return `${d.bankName} ${d.bankAccountType.toLowerCase()} ${
+        d.accountNumber
+      }`
     default:
       return (
         <FormattedMessage
@@ -106,4 +118,39 @@ export const displayFiat = (
     unit: counterCurrency as FiatType,
     value: convertBaseToStandard('FIAT', amt)
   })
+}
+
+export const getBankLogoImageName = bankName => {
+  switch (bankName) {
+    case 'Bank Of America':
+      return 'bank-of-america'
+    case 'BB&T':
+      return 'bbt'
+    case 'Capital One':
+      return 'capital-one'
+    case 'Chase':
+      return 'chase'
+    case 'Citibank':
+      return 'citi-bank'
+    case 'Citizens':
+      return 'citizens'
+    case 'Navy Federal Credit Union':
+      return 'navy-federal'
+    case 'PNC Bank':
+      return 'pnc'
+    case 'Regions Bank':
+      return 'regions'
+    case 'Suntrust Bank':
+      return 'suntrust'
+    case 'TD Ameritrade Inc.':
+      return 'td'
+    case 'USAA':
+      return 'usaa'
+    case 'U.S. Bank':
+      return 'us-bank'
+    case 'Wells Fargo':
+      return 'wells-fargo'
+    default:
+      return 'bank'
+  }
 }

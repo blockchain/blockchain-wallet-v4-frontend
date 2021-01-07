@@ -21,23 +21,28 @@ const DisplayIconBank = styled(DisplayIcon)`
 type Props = {
   icon: ReactElement
   onClick: (string) => void
-  text: string
+  text: ReactElement | string
   value: SBPaymentMethodType
 }
 
-const BankAccount: React.FC<Props> = ({ value, onClick, icon, text }) => (
+const LinkBank: React.FC<Props> = ({ value, onClick, icon }) => (
   <DisplayContainer
-    data-e2e={`sb${value.type.toLowerCase()}BankAccount`}
+    data-e2e={`sb${value.type.toLowerCase()}LinkBank`}
     role='button'
     onClick={onClick}
   >
     <DisplayIconBank>{icon}</DisplayIconBank>
     <Content>
-      <DisplayTitleBank>{text}</DisplayTitleBank>
+      <DisplayTitleBank>
+        <FormattedMessage
+          id='modals.simplebuy.linkbank'
+          defaultMessage='Link a Bank'
+        />
+      </DisplayTitleBank>
       <Title>
         <FormattedMessage
-          id='modals.simplebuy.depositcash_description'
-          defaultMessage='Send funds directly from your bank to your Blockchain.com Wallet. Once we receive the manual transfer, use that cash to buy crypto.'
+          id='modals.simplebuy.linkbank.description'
+          defaultMessage='Link your bank and instantly buy crypto at anytime.'
         />
       </Title>
     </Content>
@@ -45,4 +50,4 @@ const BankAccount: React.FC<Props> = ({ value, onClick, icon, text }) => (
   </DisplayContainer>
 )
 
-export default BankAccount
+export default LinkBank

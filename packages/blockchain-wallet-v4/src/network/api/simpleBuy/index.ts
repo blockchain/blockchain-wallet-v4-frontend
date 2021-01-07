@@ -1,10 +1,5 @@
 import {
-  CoinType,
-  CurrenciesType,
-  FiatType,
-  WalletCurrencyType
-} from '../../../types'
-import {
+  BankTransferAccountType,
   FiatEligibleType,
   NabuAddressType,
   SBAccountType,
@@ -22,6 +17,12 @@ import {
   SBTransactionStateType,
   SBTransactionsType
 } from './types'
+import {
+  CoinType,
+  CurrenciesType,
+  FiatType,
+  WalletCurrencyType
+} from '../../../types'
 import { Moment } from 'moment'
 import { SwapOrderStateType, SwapOrderType } from '../swap/types'
 import { UserDataType } from 'data/types'
@@ -98,6 +99,49 @@ export default ({
       }
     })
 
+  const getBankTransferAccounts = () =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/payments/banktransfer`,
+      contentType: 'application/json'
+    })
+
+  const getBankTransferAccountDetails = (bankId: string) =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/payments/banktransfer/${bankId}`,
+      contentType: 'application/json'
+    })
+
+  const createBankAccountLink = (currency: WalletCurrencyType) =>
+    authorizedPost({
+      url: nabuUrl,
+      removeDefaultPostData: true,
+      endPoint: `/payments/banktransfer`,
+      contentType: 'application/json',
+      data: {
+        currency
+      }
+    })
+
+  const updateBankAccountLink = (
+    providerAccountId: number,
+    bankId: string,
+    accountId: string
+  ) =>
+    authorizedPost({
+      url: nabuUrl,
+      removeDefaultPostData: true,
+      endPoint: `/payments/banktransfer/${bankId}/update`,
+      contentType: 'application/json',
+      data: {
+        attributes: {
+          providerAccountId: `${providerAccountId}`,
+          accountId: `${accountId}`
+        }
+      }
+    })
+
   const confirmSBOrder = (
     order: SBOrderType,
     attributes?: SBProviderAttributesType,
@@ -115,10 +159,14 @@ export default ({
       }
     })
 
-  const deleteSBCard = (cardId: SBCardType['id']): SBCardType =>
+  // TODO: move this BROKERAGE component
+  const deleteSavedAccount = (
+    accountId: SBCardType['id'] | BankTransferAccountType['id'],
+    accountType: 'cards' | 'banktransfer'
+  ): SBCardType | BankTransferAccountType =>
     authorizedDelete({
       url: nabuUrl,
-      endPoint: `/payments/cards/${cardId}`
+      endPoint: `/payments/${accountType}/${accountId}`
     })
 
   const getSBBalances = (currency?: CoinType): SBBalancesType =>
@@ -151,7 +199,7 @@ export default ({
       endPoint: '/simple-buy/eligible',
       data: {
         fiatCurrency: currency,
-        methods: 'PAYMENT_CARD,BANK_ACCOUNT'
+        methods: 'PAYMENT_CARD,BANK_ACCOUNT,BANK_TRANSFER'
       }
     })
 
@@ -209,7 +257,7 @@ export default ({
   ): SBPaymentMethodsType =>
     authorizedGet({
       url: nabuUrl,
-      endPoint: '/payments/methods',
+      endPoint: '/eligible/payment-methods',
       contentType: 'application/json',
       data: {
         currency,
@@ -358,8 +406,11 @@ export default ({
     cancelSBOrder,
     createSBCard,
     createSBOrder,
+    createBankAccountLink,
     confirmSBOrder,
-    deleteSBCard,
+    deleteSavedAccount,
+    getBankTransferAccounts,
+    getBankTransferAccountDetails,
     getSBBalances,
     getSBCard,
     getSBCards,
@@ -373,6 +424,7 @@ export default ({
     getSBTransactions,
     getUnifiedSellTrades,
     submitSBCardDetailsToEverypay,
+    updateBankAccountLink,
     withdrawSBFunds
   }
 }

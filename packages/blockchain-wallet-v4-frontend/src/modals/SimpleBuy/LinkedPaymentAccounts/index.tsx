@@ -2,34 +2,34 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import {
-  CoinType,
   FiatType,
   RemoteDataType,
-  SBAccountType,
+  SBOrderActionType,
   SBOrderType,
   SBPairType
 } from 'core/types'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
-import { UserDataType } from 'data/types'
-import DataError from 'components/DataError'
 
 import { getData } from './selectors'
+import Failure from '../PaymentMethods/template.failure'
 import Loading from '../template.loading'
 import Success from './template.success'
 
-class TransferDetails extends PureComponent<Props> {
+class PaymentMethods extends PureComponent<Props> {
   componentDidMount () {
-    if (this.props.fiatCurrency) {
-      this.props.simpleBuyActions.fetchSBPaymentAccount()
+    if (!Remote.Success.is(this.props.data)) {
+      this.props.simpleBuyActions.fetchSBCards()
+      this.props.simpleBuyActions.fetchBankTransferAccounts()
     }
   }
 
   render () {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} />,
-      Failure: e => <DataError message={{ message: e }} />,
+      Failure: () => <Failure {...this.props} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -37,32 +37,32 @@ class TransferDetails extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  data: getData(state)
+  data: getData(state),
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
-  addBank?: boolean
-  cryptoCurrency?: CoinType
-  displayBack?: boolean
-  fiatCurrency: FiatType
   handleClose: () => void
-  order?: SBOrderType
+  order: SBOrderType
+  orderType: SBOrderActionType
   pair: SBPairType
 }
-export type SuccessStateType = {
-  account: SBAccountType
-  userData: UserDataType
-}
-type LinkStatePropsType = {
+
+export type SuccessStateType = ReturnType<typeof getData>['data']
+
+export type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
+  fiatCurrency: undefined | FiatType
 }
+export type LinkDispatchPropsType = ReturnType<typeof mapDispatchToProps>
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default connector(TransferDetails)
+export default connector(PaymentMethods)

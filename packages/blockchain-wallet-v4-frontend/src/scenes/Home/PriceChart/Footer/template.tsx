@@ -38,7 +38,9 @@ const Footer = ({
         data-e2e='buyButton'
         height='48px'
         nature='primary'
-        onClick={() => simpleBuyActions.showModal('PriceChart', cryptoCurrency)}
+        onClick={() =>
+          simpleBuyActions.showModal('PriceChart', cryptoCurrency, 'BUY')
+        }
       >
         <FormattedMessage
           id='price.chart.buy.coin'

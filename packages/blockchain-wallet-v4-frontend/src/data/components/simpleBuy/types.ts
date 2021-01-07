@@ -1,4 +1,5 @@
 import {
+  BankTransferAccountType,
   CoinType,
   Everypay3DSResponseType,
   FiatEligibleType,
@@ -72,13 +73,18 @@ export enum SimpleBuyStepType {
   'CRYPTO_SELECTION',
   'ENTER_AMOUNT',
   'KYC_REQUIRED',
+  'LINKED_PAYMENT_ACCOUNTS',
   'PAYMENT_METHODS',
   'PREVIEW_SELL',
   'ORDER_SUMMARY',
   'SELL_ORDER_SUMMARY',
   'TRANSFER_DETAILS',
   'UPGRADE_TO_GOLD',
-  'VERIFY_EMAIL'
+  'VERIFY_EMAIL',
+  'LINK_BANK',
+  'LINK_BANK_HANDLER',
+  'LINK_BANK_STATUS',
+  'BANK_WIRE_DETAILS'
 }
 export type SBShowModalOriginType =
   | 'EmptyFeed'
@@ -94,17 +100,39 @@ export type SBShowModalOriginType =
   | 'WelcomeModal'
   | 'WithdrawModal'
 
+export type FastLinkType = {
+  attributes: {
+    fastlinkParams: {
+      configName: 'Verification'
+    }
+    fastlinkUrl: string
+    token: string
+    tokenExpiresAt: string
+  }
+  id: string
+  partner: 'YODLEE'
+}
+export type BankStatusType =
+  | 'ACTIVE'
+  | 'BANK_TRANSFER_ACCOUNT_INFO_NOT_FOUND'
+  | 'BANK_TRANSFER_ACCOUNT_ALREADY_LINKED'
+  | 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH'
+  | 'DEFAULT_ERROR'
+
 // State
 export type SimpleBuyState = {
   account: RemoteDataType<string, SBAccountType>
   addBank: boolean | undefined
   balances: RemoteDataType<string, SBBalancesType>
+  bankStatus: RemoteDataType<string, BankStatusType>
+  bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>
   card: RemoteDataType<string, SBCardType>
   cardId: undefined | string
   cards: RemoteDataType<string, Array<SBCardType>>
   cryptoCurrency: undefined | CoinType
   displayBack: boolean
   everypay3DS: RemoteDataType<string, Everypay3DSResponseType>
+  fastLink: RemoteDataType<string, FastLinkType>
   fiatCurrency: undefined | FiatType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
   method: undefined | SBPaymentMethodType
@@ -164,6 +192,22 @@ interface ActivateSBCardSuccess {
 interface DestroyCheckout {
   type: typeof AT.DESTROY_CHECKOUT
 }
+interface FetchBankTransferAccountsFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_BANK_TRANSFER_ACCOUNTS_ERROR
+}
+interface FetchBankTransferAccountsLoading {
+  type: typeof AT.FETCH_BANK_TRANSFER_ACCOUNTS_LOADING
+}
+
+interface FetchBankTransferAccountsSuccess {
+  payload: {
+    accounts: BankTransferAccountType[]
+  }
+  type: typeof AT.FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS
+}
 interface FetchSBBalancesFailure {
   payload: {
     error: string
@@ -212,6 +256,10 @@ interface FetchSBCardsSuccess {
     cards: Array<SBCardType>
   }
   type: typeof AT.FETCH_SB_CARDS_SUCCESS
+}
+
+interface FetchBTUpdateLoading {
+  type: typeof AT.FETCH_BANK_TRANSFER_UPDATE_LOADING
 }
 
 interface FetchSBFiatEligibleFailure {
@@ -355,6 +403,10 @@ interface FetchSellQuoteSuccess {
   type: typeof AT.FETCH_SELL_QUOTE_SUCCESS
 }
 
+interface HandleBankLinkStep {
+  type: typeof AT.HANDLE_BANK_LINK_STEP
+}
+
 interface InitializeCheckout {
   account?: SwapAccountType
   amount: string
@@ -394,7 +446,15 @@ export type StepActionsPayload =
       addBank?: boolean
       displayBack: boolean
       fiatCurrency: FiatType
-      step: 'TRANSFER_DETAILS'
+      step: 'BANK_WIRE_DETAILS'
+    }
+  | {
+      fastLink: FastLinkType
+      step: 'LINK_BANK'
+    }
+  | {
+      bankStatus: BankStatusType
+      step: 'LINK_BANK_STATUS'
     }
   | {
       cryptoCurrency: CoinType
@@ -402,6 +462,13 @@ export type StepActionsPayload =
       order?: SBOrderType
       pair: SBPairType
       step: 'PAYMENT_METHODS'
+    }
+  | {
+      cryptoCurrency: CoinType
+      fiatCurrency: FiatType
+      order?: SBOrderType
+      pair: SBPairType
+      step: 'LINKED_PAYMENT_ACCOUNTS'
     }
   | { order?: SBOrderType; step: '3DS_HANDLER' }
   | {
@@ -414,6 +481,7 @@ export type StepActionsPayload =
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
+        | 'LINK_BANK_HANDLER'
     }
 
 interface SetStepAction {
@@ -474,6 +542,10 @@ export type SimpleBuyActionTypes =
   | AddCardDetailsLoading
   | AddCardDetailsSuccess
   | DestroyCheckout
+  | FetchBankTransferAccountsLoading
+  | FetchBankTransferAccountsSuccess
+  | FetchBankTransferAccountsFailure
+  | FetchBTUpdateLoading
   | FetchSBBalancesFailure
   | FetchSBBalancesLoading
   | FetchSBBalancesSuccess
@@ -513,6 +585,7 @@ export type SimpleBuyActionTypes =
   | FetchSDDLimitsLoading
   | FetchSDDLimitsFailure
   | FetchSDDLimitsSuccess
+  | HandleBankLinkStep
   | InitializeCheckout
   | SetStepAction
   | ShowModalAction

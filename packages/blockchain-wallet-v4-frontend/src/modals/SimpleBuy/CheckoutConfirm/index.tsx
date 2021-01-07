@@ -31,11 +31,12 @@ class CheckoutConfirm extends PureComponent<Props> {
       getOrderType(this.props.order),
       this.props.order.inputQuantity
     )
-    this.props.sendActions.getLockRule('PAYMENT_CARD')
+    this.props.sendActions.getLockRule()
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSDDEligible()
       this.props.simpleBuyActions.fetchSDDVerified()
       this.props.simpleBuyActions.fetchSBCards()
+      this.props.simpleBuyActions.fetchBankTransferAccounts()
     }
   }
 
@@ -91,7 +92,7 @@ class CheckoutConfirm extends PureComponent<Props> {
           return this.props.simpleBuyActions.confirmSBFundsOrder()
         } else {
           return this.props.simpleBuyActions.setStep({
-            step: 'TRANSFER_DETAILS',
+            step: 'BANK_WIRE_DETAILS',
             fiatCurrency: inputCurrency,
             displayBack: false
           })
@@ -104,6 +105,17 @@ class CheckoutConfirm extends PureComponent<Props> {
           )
         } else {
           return this.props.simpleBuyActions.setStep({ step: 'ADD_CARD' })
+        }
+      case 'BANK_TRANSFER':
+        if (this.props.order.paymentMethodId) {
+          return this.props.simpleBuyActions.confirmSBCreditCardOrder(
+            this.props.order.paymentMethodId,
+            this.props.order
+          )
+        } else {
+          return this.props.simpleBuyActions.setStep({
+            step: 'LINK_BANK_HANDLER'
+          })
         }
       default:
         // Not a valid payment method type, go back to CRYPTO_SELECTION

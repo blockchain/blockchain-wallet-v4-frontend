@@ -24,6 +24,9 @@ export const getOrigin = (props: Props) => {
       return 'Credit/Debit Card'
     case 'BANK_ACCOUNT':
       return 'Bank Transfer'
+    case 'LINK_BANK':
+    case 'BANK_TRANSFER': // LOL this is so bad
+      return 'Bank Account'
     case undefined:
       return 'Unknown Payment Type'
   }

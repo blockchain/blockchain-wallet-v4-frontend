@@ -10,8 +10,10 @@ import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType, SBBalancesType, SBPaymentMethodType } from 'core/types'
 import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
-import { Icon, Text } from 'blockchain-info-components'
+import { Icon, Image, Text } from 'blockchain-info-components'
 import { Title, Value } from 'components/Flyout'
+
+import { getBankLogoImageName } from '../../../model'
 
 type PaymentContainerProps = {
   isMethod: boolean
@@ -61,6 +63,33 @@ export const SectionTitle = styled(Text)`
 export const DisplayValue = styled(Value)`
   margin-top: 0;
 `
+
+// TODO: this code is also in EnterAmount/Checkout/Payment file, dedupe it.
+export const renderBankText = (value: SBPaymentMethodType): string => {
+  return value.details
+    ? value.details.accountName
+      ? value.details.accountName
+      : value.details.accountNumber
+    : 'Bank Account'
+}
+
+export const renderBank = (value: SBPaymentMethodType) => (
+  <>
+    <DisplayValue>{renderBankText(value)}</DisplayValue>
+    <DisplayTitle>
+      <FormattedMessage
+        id='modals.simplebuy.card_limit'
+        defaultMessage='{card} Limit'
+        values={{
+          card: `${fiatToString({
+            value: convertBaseToStandard('FIAT', value.limits.max),
+            unit: value.currency as FiatType
+          })} ${value.currency}`
+        }}
+      />
+    </DisplayTitle>
+  </>
+)
 
 export const renderCardText = (value: SBPaymentMethodType): string => {
   return value.card
@@ -140,6 +169,8 @@ export const getIcon = (
           name={method.currency.toLowerCase() as keyof IcoMoonType}
         />
       )
+    case 'BANK_TRANSFER':
+      return <Image name={getBankLogoImageName(method.details?.bankName)} />
     default:
       return <></>
   }
@@ -162,12 +193,14 @@ export const getText = (
     return (
       <FormattedMessage
         id='modals.simplebuy.confirm.jump_to_payment'
-        defaultMessage='Select Cash or Card'
+        defaultMessage='Add Payment Method'
       />
     )
   }
 
   return method.type === 'USER_CARD'
     ? renderCard(method)
+    : method.type === 'BANK_TRANSFER'
+    ? renderBank(method)
     : renderFund(method, sbBalances)
 }

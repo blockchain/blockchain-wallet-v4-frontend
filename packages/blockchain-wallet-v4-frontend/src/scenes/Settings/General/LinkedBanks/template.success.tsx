@@ -1,4 +1,10 @@
-import { CardDetails, CardWrapper, Child, CustomSettingHeader } from '../styles'
+import {
+  CardDetails,
+  CardWrapper,
+  Child,
+  CustomSettingHeader,
+  RemoveButton
+} from '../styles'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
 import { FormattedMessage } from 'react-intl'
@@ -32,8 +38,8 @@ const getAvailableAmountForCurrency = (
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  const walletBeneficiaries = props.beneficiaries.filter(
-    beneficiary => beneficiary.currency in WalletFiatEnum
+  const walletBeneficiaries = props.bankAccounts.filter(
+    account => account.currency in WalletFiatEnum
   )
 
   if (!walletBeneficiaries.length) return null
@@ -48,10 +54,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </CustomSettingHeader>
         <div>
-          {props.beneficiaries.map((beneficiary, i) => {
+          {props.bankAccounts.map((account, i) => {
             const availableAmount = getAvailableAmountForCurrency(
               props.paymentMethods.methods,
-              beneficiary.currency as WalletFiatType
+              account.currency as WalletFiatType
             )
             return (
               <CardWrapper key={i}>
@@ -61,7 +67,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   </BankIconWrapper>
                   <CardDetails>
                     <Text size='16px' color='grey800' weight={600}>
-                      {beneficiary.name}
+                      {account.details.bankName}
                     </Text>
 
                     {availableAmount && (
@@ -75,7 +81,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                                 'FIAT',
                                 availableAmount
                               ),
-                              unit: (beneficiary.currency ||
+                              unit: (account.currency ||
                                 'EUR') as WalletFiatType
                             })
                           }}
@@ -87,9 +93,28 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 <Child>
                   <CardDetails right>
                     <Text size='16px' color='grey800' weight={600}>
-                      {beneficiary.address}
+                      ····{account.details.accountNumber}
+                    </Text>
+                    <Text size='16px' color='grey800' weight={600}>
+                      {account.details.accountName}
                     </Text>
                   </CardDetails>
+                  <RemoveButton
+                    data-e2e='removeBankAccount'
+                    nature='light-red'
+                    disabled={props.submitting}
+                    style={{ marginLeft: '18px', minWidth: 'auto' }}
+                    // @ts-ignore
+                    onClick={(e: SyntheticEvent) => {
+                      e.stopPropagation()
+                      props.simpleBuyActions.deleteSavedBank(account.id)
+                    }}
+                  >
+                    <FormattedMessage
+                      id='buttons.remove'
+                      defaultMessage='Remove'
+                    />
+                  </RemoveButton>
                 </Child>
               </CardWrapper>
             )

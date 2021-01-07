@@ -9,7 +9,9 @@ import {
   CoinType,
   PaymentType,
   PaymentValue,
-  RemoteDataType
+  RemoteDataType,
+  SBOrderType,
+  SBPaymentTypes
 } from 'core/types'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { promptForSecondPassword } from 'services/SagaService'
@@ -152,9 +154,20 @@ export default ({
   const getWithdrawalLockCheck = function * () {
     try {
       yield put(A.getLockRuleLoading())
+      const payment: SBOrderType = yield select(
+        selectors.components.simpleBuy.getSBOrder
+      )
+      // Lock rule can only be called with BANK_TRANSFER and PAYMENT_CARD
+      // Adding check here to only pass those too, else pass BANK_TRANSFER
+      const withdrawalCheckPayment: SBPaymentTypes =
+        payment.paymentType === 'BANK_TRANSFER' ||
+        payment.paymentType === 'PAYMENT_CARD'
+          ? payment.paymentType
+          : 'BANK_TRANSFER'
+
       const withdrawalLockCheckResponse = yield call(
         api.checkWithdrawalLocks,
-        'PAYMENT_CARD'
+        withdrawalCheckPayment
       )
       yield put(A.getLockRuleSuccess(withdrawalLockCheckResponse))
     } catch (e) {

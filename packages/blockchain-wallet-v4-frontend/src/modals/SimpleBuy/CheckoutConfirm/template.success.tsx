@@ -1,4 +1,8 @@
 import {
+  BankTransferAccountType,
+  SupportedWalletCurrenciesType
+} from 'core/types'
+import {
   Button,
   CheckBoxInput,
   HeartbeatLoader,
@@ -19,8 +23,8 @@ import {
 } from 'data/components/simpleBuy/model'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
-import { SupportedWalletCurrenciesType } from 'core/types'
 
+import { defaultTo, filter, path } from 'ramda'
 import { displayFiat, getPaymentMethod } from '../model'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
@@ -74,8 +78,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const requiresTerms =
     props.order.paymentType === 'PAYMENT_CARD' ||
     props.order.paymentType === 'USER_CARD'
-
+  const bankAccount = filter(
+    (b: BankTransferAccountType) =>
+      b.state === 'ACTIVE' && b.id === props.order.paymentMethodId,
+    defaultTo([])(path(['data', 'bankAccounts'], props.data))
+  )
   const showLock = props.withdrawLockCheck && props.withdrawLockCheck.lockTime
+  const isBankLink = props.order.paymentType === 'BANK_TRANSFER'
 
   const days =
     props.withdrawLockCheck && props.withdrawLockCheck.lockTime
@@ -163,7 +172,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Payment Method'
           />
         </Title>
-        <Value>{getPaymentMethod(props.order, props.supportedCoins)}</Value>
+        <Value>
+          {getPaymentMethod(props.order, props.supportedCoins, bankAccount[0])}
+        </Value>
       </Row>
       <Bottom>
         {requiresTerms ? (
@@ -235,6 +246,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 />
               </CheckBoxInput>
             </InfoTerms>
+          </Info>
+        )}
+        {isBankLink && (
+          <Info>
+            <Text size='12px' weight={500} color='grey900'>
+              <FormattedMessage
+                id='modals.simplebuy.confirm.ach'
+                defaultMessage='For your security, buy orders with a bank account are subject up to a 14 day holding period. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
+              />
+            </Text>
           </Info>
         )}
 

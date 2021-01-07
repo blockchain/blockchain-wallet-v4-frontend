@@ -1,24 +1,15 @@
 import { Button, Icon, Text } from 'blockchain-info-components'
+import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import moment from 'moment'
-import React from 'react'
-
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { fiatToString } from 'core/exchange/currency'
-import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import {
   getBaseAmount,
   getBaseCurrency,
-  getCoinFromPair,
-  getCounterAmount,
-  getCounterCurrency,
   getOrderType
 } from 'data/components/simpleBuy/model'
-import styled from 'styled-components'
-
-import { BuyOrSell, displayFiat, getOrderDestination } from '../model'
 import { Props as OwnProps, SuccessStateType } from '.'
-import { Status } from './model'
+import moment from 'moment'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,22 +17,48 @@ const Wrapper = styled.div`
   flex-direction: column;
   height: 100%;
 `
-const TopText = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
 const Bottom = styled(FlyoutWrapper)`
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
   height: 100%;
 `
-const Amount = styled.div`
-  margin-top: 40px;
-  > div {
-    display: inline;
-  }
+const ContentWrapper = styled.div`
+  display: flex;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 40px;
+  flex: 1;
+  justify-content: center;
+`
+const Content = styled.div`
+  display: flex;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 250px;
+  width: 100%;
+`
+const IconBackground = styled.div<{ color: string }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 28px;
+  z-index: 100;
+  position: absolute;
+  right: -5px;
+  background: ${props => props.theme[props.color]};
+`
+const IconWrapper = styled.div`
+  display: flex;
+  position: relative;
+`
+const TitleWrapper = styled(Text)`
+  margin: 32px 0 24px 0;
+  width: 100%;
 `
 
 const BottomInfo = styled(Bottom)`
@@ -56,11 +73,6 @@ const Success: React.FC<Props> = props => {
   const orderType = getOrderType(props.order)
   const baseAmount = getBaseAmount(props.order)
   const baseCurrency = getBaseCurrency(props.order, props.supportedCoins)
-  const counterAmount = getCounterAmount(props.order)
-  const counterCurrency = getCounterCurrency(props.order, props.supportedCoins)
-  const card =
-    props.order.paymentMethodId &&
-    props.cards.find(card => card.id === props.order.paymentMethodId)?.card
   const days =
     props.withdrawLockCheck && props.withdrawLockCheck.lockTime
       ? moment.duration(props.withdrawLockCheck.lockTime, 'seconds').days()
@@ -68,254 +80,151 @@ const Success: React.FC<Props> = props => {
 
   return (
     <Wrapper>
-      <div>
-        <FlyoutWrapper>
-          <TopText color='grey800' size='20px' weight={600}>
-            <span>
-              <BuyOrSell
-                orderType={orderType}
-                crypto={getCoinFromPair(props.order.pair)}
-                coinModel={props.supportedCoins[props.order.outputCurrency]}
-              />
-            </span>
+      <ContentWrapper>
+        <Content>
+          <IconWrapper>
             <Icon
-              cursor
-              name='close'
+              color={props.supportedCoins[props.order.outputCurrency].colorCode}
+              name={
+                props.supportedCoins[props.order.outputCurrency].icons
+                  .circleFilled
+              }
+              size='64px'
+            />
+            <IconBackground color='white'>
+              <Icon
+                name='checkmark-circle-filled'
+                size='24px'
+                color='green400'
+              />
+            </IconBackground>
+          </IconWrapper>
+          <TitleWrapper>
+            <Text
+              data-e2e='sbSddPurchasing'
               size='20px'
-              color='grey600'
-              onClick={() => props.handleClose()}
-            />
-          </TopText>
-          <Amount>
-            <Text color='grey800' data-e2e='sbAmount' size='32px' weight={600}>
-              {baseAmount} of
-            </Text>
-            <Text
-              size='32px'
               weight={600}
-              color={
-                props.supportedCoins[
-                  orderType === 'BUY'
-                    ? props.order.outputCurrency
-                    : props.order.inputCurrency
-                ].colorCode
-              }
+              color='grey800'
             >
-              {baseCurrency}
+              <FormattedMessage
+                id='modals.simplebuy.summary.purchased'
+                defaultMessage='{amount} {coin} Purchased'
+                values={{
+                  amount: baseAmount,
+                  coin: baseCurrency
+                }}
+              />
             </Text>
-          </Amount>
-          <div style={{ margin: '16px 0' }}>
-            <Status {...props} />
-          </div>
-        </FlyoutWrapper>
-        <Row>
-          <Title color='grey600' size='14px' weight={500}>
-            <FormattedMessage
-              id='modals.simplebuy.summary.txid'
-              defaultMessage='Transaction ID'
-            />
-          </Title>
-          <Value data-e2e='sbTransactionId'>{props.order.id}</Value>
-        </Row>
-        <Row>
-          <Title>
-            <FormattedMessage
-              id='modals.simplebuy.summary.created'
-              defaultMessage='Created'
-            />
-          </Title>
-          <Value data-e2e='sbCreated'>
-            {moment(props.order.insertedAt).format('LLL')}
-          </Value>
-        </Row>
-        {props.order.price ? (
-          <>
-            {props.order.state !== 'FAILED' && (
-              <Row>
-                <Title>
-                  <FormattedMessage
-                    id='modals.simplebuy.summary.rate'
-                    defaultMessage='Exchange Rate'
-                  />
-                </Title>
-                <Value data-e2e='sbRate'>
-                  {fiatToString({
-                    unit: counterCurrency,
-                    value: convertBaseToStandard(
-                      orderType === 'BUY' ? 'FIAT' : baseCurrency,
-                      props.order.price
-                    )
-                  })}{' '}
-                  / {baseCurrency}
-                </Value>
-              </Row>
-            )}
-            <Row>
-              <Title>
-                <FormattedMessage id='copy.amount' defaultMessage='Amount' />
-              </Title>
-              <Value data-e2e='sbPurchasing'>
-                {baseAmount} of {baseCurrency}
-              </Value>
-            </Row>
-          </>
-        ) : (
-          <Row>
-            <Title>
-              <FormattedMessage
-                id='modals.simplebuy.summary.purchasing'
-                defaultMessage='Purchasing'
-              />
-            </Title>
-            <Value data-e2e='sbPurchasing'>
-              {baseAmount} of {baseCurrency}
-            </Value>
-          </Row>
-        )}
-        {props.order.fee !== '0' && (
-          <Row>
-            <Title>
-              <FormattedMessage id='copy.fee' defaultMessage='Fee' />
-            </Title>
-            <Value data-e2e='sbFee'>
-              {displayFiat(
-                props.order,
-                props.supportedCoins,
-                props.order.fee || '0'
-              )}
-            </Value>
-          </Row>
-        )}
-        {props.order.outputQuantity !== '0' && props.order.state !== 'FAILED' && (
-          <Row>
-            <Title>
-              <FormattedMessage
-                id='modals.simplebuy.summary.sent_to'
-                defaultMessage='Sent To'
-              />
-            </Title>
-            <Value data-e2e='sbSentTo'>
-              {getOrderDestination(props.order, props.supportedCoins)}
-            </Value>
-          </Row>
-        )}
-        {props.order.outputQuantity !== '0' && (
-          <Row>
-            <Title>
-              <FormattedMessage id='copy.total' defaultMessage='Total' />
-            </Title>
-            <Value data-e2e='sbSentTotal'>
-              {fiatToString({
-                unit: counterCurrency,
-                value: counterAmount
-              })}
-            </Value>
-          </Row>
-        )}
-        <Row>
-          <Title>
-            <FormattedMessage
-              id='modals.simplebuy.summary.paymentmethod'
-              defaultMessage='Payment Method'
-            />
-          </Title>
-          <Value data-e2e='sbPaymentMethod'>
-            {card
-              ? `${card.label ? card.label : card.type} ····${card.number}`
-              : `${props.order.inputCurrency} Wallet`}
-          </Value>
-        </Row>
-      </div>
-      {props.order.state === 'PENDING_CONFIRMATION' ||
-        (props.order.state === 'PENDING_DEPOSIT' &&
-          !props.order.paymentMethodId && (
-            <Bottom>
-              <Button
-                data-e2e='sbCancelPending'
-                size='16px'
-                height='48px'
-                nature='light-red'
-                onClick={() =>
-                  props.simpleBuyActions.setStep({
-                    step: 'CANCEL_ORDER',
-                    order: props.order
-                  })
-                }
-              >
-                {orderType === 'BUY' ? (
-                  <FormattedMessage
-                    id='modals.simplebuy.summary.cancelbuy'
-                    defaultMessage='Cancel Buy'
-                  />
-                ) : (
-                  <FormattedMessage
-                    id='modals.simplebuy.summary.cancelsell'
-                    defaultMessage='Cancel Sell'
-                  />
-                )}
-              </Button>
-            </Bottom>
-          ))}
-      {props.order.state === 'PENDING_DEPOSIT' &&
-        props.order.attributes?.everypay?.paymentState ===
-          'WAITING_FOR_3DS_RESPONSE' && (
-          <Bottom>
-            <Button
-              data-e2e='sbRetryCard'
-              size='16px'
-              height='48px'
-              nature='primary'
-              onClick={() =>
-                props.simpleBuyActions.setStep({
-                  step: '3DS_HANDLER',
-                  order: props.order
-                })
-              }
-            >
-              <FormattedMessage
-                id='modals.simplebuy.summary.complete_card_payment'
-                defaultMessage='Complete Card Payment'
-              />
-            </Button>
-          </Bottom>
-        )}
 
-      {orderType === 'BUY' &&
-        (props.order.paymentType === 'PAYMENT_CARD' ||
-          props.order.paymentType === 'USER_CARD') && (
-          <BottomInfo>
-            <Text color='grey600' size='14px' weight={500}>
-              <FormattedHTMLMessage
-                id='modals.simplebuy.summary.complete_card_info_main'
-                defaultMessage='For your security, first time card purchases are subject to a {days} day holding period before you can send or withdraw your purchased crypto. We will notify you when the hold is lifted.'
-                values={{ days: days }}
-              />
-            </Text>
             <Text
-              color='grey600'
               size='14px'
               weight={500}
-              style={{ marginTop: '16px' }}
+              color='grey600'
+              style={{ marginTop: '8px' }}
             >
-              <span>
+              {props.order.state === 'FINISHED' && (
                 <FormattedMessage
-                  id='modals.simplebuy.summary.complete_card_info_additional'
-                  defaultMessage='In the meantime, you can sell into Cash, swap, and trade within Blockchain.com.'
+                  id='modals.simplebuy.transferdetails.available'
+                  defaultMessage='Your {coin} is now available in your Trading Wallet.'
+                  values={{
+                    coin: baseCurrency
+                  }}
                 />
-                <a
-                  href='https://support.blockchain.com/hc/en-us/articles/360048200392'
-                  rel='noopener noreferrer'
-                  target='_blank'
+              )}
+              {props.order.state === 'PENDING_DEPOSIT' ||
+                (props.order.state === 'PENDING_CONFIRMATION' && (
+                  <FormattedMessage
+                    id='modals.simplebuy.transferdetails.pending'
+                    defaultMessage='Your order is pending. Your funds will be available in your Trading Wallet once the order is complete.'
+                  />
+                ))}
+            </Text>
+          </TitleWrapper>
+          {props.order.state === 'PENDING_DEPOSIT' &&
+            props.order.attributes?.everypay?.paymentState ===
+              'WAITING_FOR_3DS_RESPONSE' && (
+              <Bottom>
+                <Button
+                  data-e2e='sbRetryCard'
+                  size='16px'
+                  height='48px'
+                  nature='primary'
+                  onClick={() =>
+                    props.simpleBuyActions.setStep({
+                      step: '3DS_HANDLER',
+                      order: props.order
+                    })
+                  }
                 >
                   <FormattedMessage
-                    id='modals.simplebuy.summary.learn_more'
-                    defaultMessage='Learn more.'
+                    id='modals.simplebuy.summary.complete_card_payment'
+                    defaultMessage='Complete Card Payment'
                   />
-                </a>
-              </span>
-            </Text>
-          </BottomInfo>
-        )}
+                </Button>
+              </Bottom>
+            )}
+
+          {orderType === 'BUY' &&
+            (props.order.paymentType === 'PAYMENT_CARD' ||
+              props.order.paymentType === 'USER_CARD') && (
+              <BottomInfo>
+                <Text color='grey600' size='14px' weight={500}>
+                  <FormattedHTMLMessage
+                    id='modals.simplebuy.summary.complete_card_info_main'
+                    defaultMessage='For your security, first time card purchases are subject to a {days} day holding period before you can send or withdraw your purchased crypto. We will notify you when the hold is lifted.'
+                    values={{ days: days }}
+                  />
+                </Text>
+                <Text
+                  color='grey600'
+                  size='14px'
+                  weight={500}
+                  style={{ marginTop: '16px' }}
+                >
+                  <span>
+                    <FormattedMessage
+                      id='modals.simplebuy.summary.complete_card_info_additional'
+                      defaultMessage='In the meantime, you can sell into Cash, swap, and trade within Blockchain.com.'
+                    />
+                    <a
+                      href='https://support.blockchain.com/hc/en-us/articles/360048200392'
+                      rel='noopener noreferrer'
+                      target='_blank'
+                    >
+                      <FormattedMessage
+                        id='modals.simplebuy.summary.learn_more'
+                        defaultMessage='Learn more'
+                      />
+                    </a>
+                  </span>
+                </Text>
+              </BottomInfo>
+            )}
+          {orderType === 'BUY' && props.order.paymentType === 'BANK_TRANSFER' && (
+            <BottomInfo>
+              <Text color='grey600' size='14px' weight={500}>
+                <FormattedHTMLMessage
+                  id='modals.simplebuy.summary.ach_lock'
+                  defaultMessage='Note: You will not be able to Send or Withdraw these funds from your Wallet for the next {days} days.'
+                  values={{ days: days }}
+                />{' '}
+                <span>
+                  <a
+                    href='https://support.blockchain.com/hc/en-us/articles/360048200392'
+                    rel='noopener noreferrer'
+                    target='_blank'
+                  >
+                    <FormattedMessage
+                      id='modals.simplebuy.summary.learn_more'
+                      defaultMessage='Learn more.'
+                    />
+                  </a>
+                </span>
+              </Text>
+            </BottomInfo>
+          )}
+        </Content>
+      </ContentWrapper>
     </Wrapper>
   )
 }

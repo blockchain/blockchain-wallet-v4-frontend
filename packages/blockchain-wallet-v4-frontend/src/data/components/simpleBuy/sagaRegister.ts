@@ -32,8 +32,17 @@ export default ({ api, coreSagas, networks }) => {
       AT.CONFIRM_CREDIT_CARD_ORDER,
       simpleBuySagas.confirmSBCreditCardOrder
     )
+    yield takeLatest(
+      AT.FETCH_BANK_TRANSFER_ACCOUNTS,
+      simpleBuySagas.fetchBankTransferAccounts
+    )
+    yield takeLatest(
+      AT.FETCH_BANK_TRANSFER_UPDATE,
+      simpleBuySagas.fetchBankTransferUpdate
+    )
     yield takeLatest(AT.FETCH_SB_BALANCES, simpleBuySagas.fetchSBBalances)
     yield takeLatest(AT.DELETE_SB_CARD, simpleBuySagas.deleteSBCard)
+    yield takeLatest(AT.DELETE_SAVED_BANK, simpleBuySagas.deleteSavedBank)
     yield takeLatest(AT.FETCH_SB_CARD, simpleBuySagas.fetchSBCard)
     yield takeLatest(AT.FETCH_SB_CARDS, simpleBuySagas.fetchSBCards)
     yield takeLatest(
@@ -54,6 +63,10 @@ export default ({ api, coreSagas, networks }) => {
       simpleBuySagas.fetchSBPaymentMethods
     )
     yield takeLatest(AT.FETCH_SB_QUOTE, simpleBuySagas.fetchSBQuote)
+    yield takeLatest(
+      AT.HANDLE_BANK_LINK_STEP,
+      simpleBuySagas.handleBankLinkStep
+    )
     yield takeLatest(
       AT.HANDLE_SB_DEPOSIT_FIAT_CLICK,
       simpleBuySagas.handleSBDepositFiatClick

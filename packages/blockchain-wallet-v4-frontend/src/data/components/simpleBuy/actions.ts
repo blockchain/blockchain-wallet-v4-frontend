@@ -1,5 +1,6 @@
 import * as AT from './actionTypes'
 import {
+  BankTransferAccountType,
   CoinType,
   Everypay3DSResponseType,
   FiatEligibleType,
@@ -20,7 +21,8 @@ import {
   SDDVerifiedType,
   SwapQuoteType,
   SwapUserLimitsType,
-  WalletFiatType
+  WalletFiatType,
+  YodleeAccountType
 } from 'core/types'
 import { ModalOriginType } from 'data/modals/types'
 import {
@@ -84,7 +86,7 @@ export const createSBOrder = (
     SBPaymentMethodType['type'],
     'USER_CARD' | 'BANK_ACCOUNT'
   >,
-  paymentMethodId?: SBCardType['id']
+  paymentMethodId?: SBCardType['id'] | BankTransferAccountType['id']
 ) => ({
   type: AT.CREATE_ORDER,
   paymentMethodId,
@@ -104,6 +106,11 @@ export const confirmSBFundsOrder = () => ({
   type: AT.CONFIRM_FUNDS_ORDER
 })
 
+export const deleteSavedBank = (bankId: BankTransferAccountType['id']) => ({
+  type: AT.DELETE_SAVED_BANK,
+  bankId
+})
+
 export const deleteSBCard = (cardId?: SBCardType['id']) => ({
   type: AT.DELETE_SB_CARD,
   cardId
@@ -116,6 +123,38 @@ export const destroyCheckout = () => ({
 export const handleSBMethodChange = (method: SBPaymentMethodType) => ({
   type: AT.HANDLE_SB_METHOD_CHANGE,
   method
+})
+
+// TODO: ACH stuff should be abstracted from simple buy code
+export const fetchBankTransferUpdate = (accounts: YodleeAccountType[]) => ({
+  type: AT.FETCH_BANK_TRANSFER_UPDATE,
+  accounts
+})
+
+export const fetchBTUpdateLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_BANK_TRANSFER_UPDATE_LOADING
+})
+
+// TODO: Implement FETCH_BANK_TRANSFER_UPDATE_ERROR and SUCCESS
+
+export const fetchBankTransferAccounts = () => ({
+  type: AT.FETCH_BANK_TRANSFER_ACCOUNTS
+})
+
+export const fetchBankTransferAccountsLoading = () => ({
+  type: AT.FETCH_BANK_TRANSFER_ACCOUNTS_LOADING
+})
+
+export const fetchBankTransferAccountsError = (error: string) => ({
+  type: AT.FETCH_BANK_TRANSFER_ACCOUNTS_ERROR,
+  payload: { error }
+})
+
+export const fetchBankTransferAccountsSuccess = (
+  accounts: BankTransferAccountType[]
+) => ({
+  type: AT.FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS,
+  payload: { accounts }
 })
 
 export const fetchSBBalances = (
@@ -435,6 +474,9 @@ export const fetchSellQuoteLoading = (): SimpleBuyActionTypes => ({
   type: AT.FETCH_SELL_QUOTE_LOADING
 })
 
+export const handleBankLinkStep = (): SimpleBuyActionTypes => ({
+  type: AT.HANDLE_BANK_LINK_STEP
+})
 export const fetchSellQuoteSuccess = (
   quote: SwapQuoteType,
   rate: number
@@ -516,6 +558,7 @@ export const setStep = (payload: StepActionsPayload): SimpleBuyActionTypes => ({
 
 const getPayloadObjectForStep = (payload: StepActionsPayload) => {
   switch (payload.step) {
+    case 'LINKED_PAYMENT_ACCOUNTS':
     case 'PAYMENT_METHODS':
       return {
         step: payload.step,
@@ -542,7 +585,12 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
         fiatCurrency: payload.fiatCurrency,
         orderType: payload.orderType
       }
-    case 'TRANSFER_DETAILS':
+    case 'LINK_BANK':
+      return { step: payload.step, fastLink: payload.fastLink }
+    case 'LINK_BANK_STATUS': {
+      return { step: payload.step, bankStatus: payload.bankStatus }
+    }
+    case 'BANK_WIRE_DETAILS':
       return {
         step: payload.step,
         fiatCurrency: payload.fiatCurrency,

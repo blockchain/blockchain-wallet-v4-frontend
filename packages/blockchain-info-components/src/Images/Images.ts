@@ -9,11 +9,15 @@ import allowCamera from './img/allow-camera.png'
 import allowCamera2 from './img/allow-camera@2x.png'
 import allowCamera3 from './img/allow-camera@3x.png'
 import appleAppStoreBadge from './img/apple-app-store-badge.svg'
+import bank from './img/bank.svg'
+import bankError from './img/bank-error.svg'
+import bankSuccess from './img/bank-success.svg'
 import bgPattern from './img/bg-pattern.svg'
 import bitpayLogo from './img/bitpay-logo.svg'
 import blankCard from './img/blank-card.svg'
 import blockchainIcon from './img/bc-icon.svg'
 import blockchainLogo from './img/bc-logo.svg'
+import blockchainLogoCircle from './img/bc-logo-circle.svg'
 import buySellColor from './img/buy-sell-color.svg'
 import buySellGrey from './img/buy-sell-grey.svg'
 import buySellLearnMore from './img/buy-sell-learn-more.png'
@@ -88,6 +92,7 @@ import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
 import walletV3SecurityUpgrade from './img/wallet-v3-security-upgrade.jpg'
 import warningCircleFilled from './img/warning-circle-filled.png'
 import wdgld from './img/wdgld.svg'
+import yodleeConnect from './img/yodlee-connect.svg'
 import yubikey from './img/yubikey.svg'
 // Lockbox
 import deviceLockbox from './img/lockbox/device-lockbox.png'
@@ -122,6 +127,22 @@ import worldAlert from './img/world-alert.jpg'
 import worldAlert2 from './img/world-alert@2x.jpg'
 import worldAlert3 from './img/world-alert@3x.jpg'
 
+// Bank Icons
+import bankOfAmerica from './img/BankIcons/bank-of-america.svg'
+import bbt from './img/BankIcons/bbt.svg'
+import capitalOne from './img/BankIcons/capital-one.svg'
+import chase from './img/BankIcons/chase.svg'
+import citiBank from './img/BankIcons/citi-bank.svg'
+import citizens from './img/BankIcons/citizens.svg'
+import navyFederal from './img/BankIcons/navy-federal.svg'
+import pnc from './img/BankIcons/pnc.svg'
+import regions from './img/BankIcons/regions.svg'
+import suntrust from './img/BankIcons/suntrust.svg'
+import td from './img/BankIcons/td.svg'
+import usaa from './img/BankIcons/usaa.svg'
+import usBank from './img/BankIcons/us-bank.svg'
+import wellsFargo from './img/BankIcons/wells-fargo.svg'
+
 const Images = {
   'ad-bitcoin-games': adBitcoinGames,
   'ad-bitcoin-games2': adBitcoinGames2,
@@ -134,18 +155,28 @@ const Images = {
   'allow-camera2': allowCamera2,
   'allow-camera3': allowCamera3,
   'apple-app-store-badge': appleAppStoreBadge,
+  bank: bank,
+  'bank-error': bankError,
+  'bank-of-america': bankOfAmerica,
+  'bank-success': bankSuccess,
+  bbt: bbt,
   'bg-pattern': bgPattern,
   'bitpay-logo': bitpayLogo,
   'blank-card': blankCard,
   'blockchain-logo': blockchainLogo,
+  'blockchain-logo-circle': blockchainLogoCircle,
   'blockchain-icon': blockchainIcon,
   'buy-sell-color': buySellColor,
   'buy-sell-grey': buySellGrey,
   'buy-sell-learn-more': buySellLearnMore,
   'buy-sell-learn-more2': buySellLearnMore2,
   'buy-wallet': buyWallet,
+  'capital-one': capitalOne,
   'chart-placeholder': chartPlaceholder,
+  chase: chase,
   'checkmark-green': checkmarkGreen,
+  'citi-bank': citiBank,
+  citizens: citizens,
   coins: coins,
   'coin-pax': coinPax,
   'close-error': closeError,
@@ -212,23 +243,30 @@ const Images = {
   'mastercard-logo': mastercardLogo,
   'micro-deposits-whole': microDepositsWhole,
   money: money,
+  'navy-federal': navyFederal,
+  pnc: pnc,
   printer: printer,
   'qr-code': qrCode,
   'recover-padlock': recoverPadlock,
   refresh,
+  regions: regions,
   search: search,
   'select-arrow': selectArrow,
   'silver-approved': silverApproved,
   smartphone: smartphone,
   'starfield-banner-bg': starfieldBannerBg,
+  suntrust: suntrust,
   'swap-carousel1': swapCarousel1,
   'swap-carousel2': swapCarousel2,
   'swap-carousel3': swapCarousel3,
   'swap-carousel4': swapCarousel4,
   'swap-carousel5': swapCarousel5,
   'swap-modal-bg': swapModalBg,
+  td: td,
   'twitter-white': twitterWhite,
   'tier-gold': tierGold,
+  usaa: usaa,
+  'us-bank': usBank,
   'us-flag': usFlag,
   'usdd-intro': usddIntro,
   'visa-logo': visaLogo,
@@ -241,9 +279,11 @@ const Images = {
   wallet,
   'wallet-blue': walletBlue,
   wdgld: wdgld,
+  'wells-fargo': wellsFargo,
   'world-alert': worldAlert,
   'world-alert2': worldAlert2,
   'world-alert3': worldAlert3,
+  'yodlee-connect': yodleeConnect,
   yubikey: yubikey
 }
 

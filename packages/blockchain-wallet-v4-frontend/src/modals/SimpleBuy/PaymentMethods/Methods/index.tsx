@@ -5,24 +5,26 @@ import {
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import { getBankLogoImageName } from '../../model'
 import {
   getCoinFromPair,
   getFiatFromPair
 } from 'data/components/simpleBuy/model'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '../index'
+
 import {
   SBPaymentMethodType,
   SupportedFiatType,
   WalletCurrencyType,
   WalletFiatEnum
 } from 'core/types'
-import BankAccount from './BankAccount'
-import Card from './Card'
-import Fund from './Fund'
 import PaymentCard from './PaymentCard'
 import React, { PureComponent, ReactElement } from 'react'
 import styled from 'styled-components'
+
+import BankWire from './BankWire'
+import LinkBank from './LinkBank'
 
 const Wrapper = styled.div`
   display: flex;
@@ -42,8 +44,8 @@ const NoMethods = styled(FlyoutWrapper)`
   text-align: center;
 `
 const IconContainer = styled.div`
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background-color: ${props => props.theme.blue000};
   display: flex;
@@ -53,19 +55,44 @@ const IconContainer = styled.div`
 
 export type Props = OwnProps & SuccessStateType
 
-class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
+class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   getType = (value: SBPaymentMethodType) => {
     switch (value.type) {
+      case 'BANK_TRANSFER':
+      case 'LINK_BANK':
+        return (
+          <FormattedMessage
+            id='modals.simplebuy.banklink'
+            defaultMessage='Link a Bank'
+          />
+        )
       case 'BANK_ACCOUNT':
-        return 'Deposit Cash'
+        return (
+          <FormattedMessage
+            id='modals.simplebuy.bankwire'
+            defaultMessage='Wire Transfer'
+          />
+        )
       case 'PAYMENT_CARD':
-        return 'Add a Credit or Debit Card'
+        return (
+          <FormattedMessage
+            id='modals.simplebuy.paymentcard'
+            defaultMessage='Credit or Debit Card'
+          />
+        )
       case 'USER_CARD':
-        return value && value.card
-          ? value.card.label
-            ? value.card.label
-            : value.card.type
-          : 'Add a Credit or Debit Card'
+        return value && value.card ? (
+          value.card.label ? (
+            value.card.label
+          ) : (
+            value.card.type
+          )
+        ) : (
+          <FormattedMessage
+            id='modals.simplebuy.paymentcard'
+            defaultMessage='Credit or Debit Card'
+          />
+        )
       case 'FUNDS':
         return ''
     }
@@ -75,8 +102,15 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     this.props.simpleBuyActions.handleSBMethodChange(method)
   }
 
+  getLinkedBankIcon = (bankName: string): ReactElement => (
+    <Image name={getBankLogoImageName(bankName)} height='48px' />
+  )
+
   getIcon = (value: SBPaymentMethodType): ReactElement => {
     switch (value.type) {
+      case 'BANK_TRANSFER':
+      case 'LINK_BANK':
+        return <Image name='bank' height='48px' />
       case 'BANK_ACCOUNT':
         return (
           <IconContainer>
@@ -105,12 +139,22 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       case 'FUNDS':
         return (
           <Icon
-            size='30px'
+            size='32px'
             color='fiat'
             name={value.currency.toLowerCase() as 'eur' | 'gbp'}
           />
         )
+      default:
+        return <Image name='blank-card' />
     }
+  }
+
+  renderBankText = (value: SBPaymentMethodType): string => {
+    return value.details
+      ? value.details.accountName
+        ? value.details.accountName
+        : value.details.accountNumber
+      : 'Bank Account'
   }
 
   renderCardText = (value: SBPaymentMethodType): string => {
@@ -126,6 +170,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     const availableCards = this.props.cards.filter(
       card => card.state === 'ACTIVE' && orderType === 'BUY'
     )
+
     const defaultMethods = this.props.paymentMethods.methods.map(value => ({
       text: this.getType(value),
       value
@@ -151,6 +196,9 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     )
     const bankAccount = defaultMethods.find(
       method => method.value.type === 'BANK_ACCOUNT' && orderType === 'BUY'
+    )
+    const bankTransfer = defaultMethods.find(
+      method => method.value.type === 'BANK_TRANSFER' && orderType === 'BUY'
     )
 
     const cardMethods = availableCards.map(card => ({
@@ -228,47 +276,34 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 </Text>
               </NoMethods>
             )}
-            {funds &&
-              funds.map((fund, index) => (
-                <Fund
-                  key={`${fund.text}-${index}`}
-                  value={fund.value}
-                  icon={this.getIcon(fund.value)}
-                  onClick={() => this.handleSubmit(fund.value)}
-                  balances={
-                    this.props.balances[fund.value.currency] || {
-                      available: '0',
-                      pending: '0'
-                    }
-                  }
-                  walletCurrency={this.props.walletCurrency}
-                />
-              ))}
-            {cardMethods &&
-              cardMethods.map((cardMethod, index) => (
-                <Card
-                  key={`${cardMethod.text}-${index}`}
-                  value={cardMethod.value}
-                  text={this.renderCardText(cardMethod.value)}
-                  icon={this.getIcon(cardMethod.value)}
-                  onClick={() => this.handleSubmit(cardMethod.value)}
-                />
-              ))}
             {paymentCard && (
               <PaymentCard
-                key={`${paymentCard.text}`}
                 {...paymentCard}
                 icon={this.getIcon(paymentCard.value)}
                 onClick={() => this.handleSubmit(paymentCard.value)}
               />
             )}
-            {bankAccount && fiatCurrency && canDeposit && (
-              <BankAccount
-                key={`${bankAccount.text}`}
-                {...bankAccount}
-                icon={this.getIcon(bankAccount.value)}
-                onClick={() => this.handleSubmit(bankAccount.value)}
+            {bankTransfer && (
+              <LinkBank
+                {...bankTransfer}
+                // @ts-ignore
+                icon={this.getIcon({ type: 'BANK_TRANSFER' })}
+                onClick={() =>
+                  this.handleSubmit({
+                    ...bankTransfer.value,
+                    type: 'LINK_BANK'
+                  })
+                }
               />
+            )}
+            {bankAccount && fiatCurrency && canDeposit && (
+              <>
+                <BankWire
+                  {...bankAccount}
+                  icon={this.getIcon(bankAccount.value)}
+                  onClick={() => this.handleSubmit(bankAccount.value)}
+                />
+              </>
             )}
           </PaymentsWrapper>
         </Form>
@@ -280,4 +315,4 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 export default reduxForm<{}, Props>({
   form: 'sbPaymentMethods',
   destroyOnUnmount: false
-})(Payments)
+})(Methods)

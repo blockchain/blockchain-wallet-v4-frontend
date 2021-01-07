@@ -33,6 +33,9 @@ export const getAddBank = (state: RootState) =>
 export const getOrderType = (state: RootState) =>
   state.components.simpleBuy.orderType
 
+export const getBankTransferAccounts = (state: RootState) =>
+  state.components.simpleBuy.bankTransferAccounts
+
 export const getEverypay3DSDetails = (state: RootState) =>
   state.components.simpleBuy.everypay3DS
 
@@ -45,8 +48,14 @@ export const getCryptoCurrency = (state: RootState) =>
 export const getDisplayBack = (state: RootState) =>
   state.components.simpleBuy.displayBack
 
+export const getFastLink = (state: RootState) =>
+  state.components.simpleBuy.fastLink
+
 export const getFiatCurrency = (state: RootState) =>
   state.components.simpleBuy.fiatCurrency
+
+export const getLinkedBankStatus = (state: RootState) =>
+  state.components.simpleBuy.bankStatus
 
 export const eligableFiatCurrency = currency =>
   currency === FiatTypeEnum.USD ||
@@ -131,6 +140,8 @@ export const getDefaultPaymentMethod = (state: RootState) => {
                 method.currency === fiatCurrency
             )
           case 'BANK_ACCOUNT':
+          case 'BANK_TRANSFER':
+          case 'LINK_BANK':
           case 'USER_CARD':
           case undefined:
             return undefined
@@ -141,6 +152,17 @@ export const getDefaultPaymentMethod = (state: RootState) => {
   }
 
   return lift(transform)(sbCardsR, sbMethodsR, sbBalancesR)
+}
+
+export const hasFiatBalances = (state: RootState) => {
+  const fiatBalances = Object.keys(
+    state.components.simpleBuy.balances.data
+  ).filter(
+    currency =>
+      currency in FiatTypeEnum &&
+      state.components.simpleBuy.balances.data[currency].available > 0
+  )
+  return fiatBalances.length > 0
 }
 
 export const getSBBalances = (state: RootState) =>

@@ -24,6 +24,7 @@ export type WalletFormType =
   | 'interestDepositForm'
   | 'interestHistoryCoin'
   | 'interestWithdrawalForm'
+  | 'linkBankForm'
   | 'linkedBanks'
   | 'linkedCards'
   | 'login'

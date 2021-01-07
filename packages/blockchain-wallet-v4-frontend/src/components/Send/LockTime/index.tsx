@@ -12,7 +12,7 @@ import LockTime from './template'
 class LockTimeContainer extends React.PureComponent<Props> {
   componentDidMount () {
     const { sendActions } = this.props
-    sendActions.getLockRule('PAYMENT_CARD')
+    sendActions.getLockRule()
   }
 
   render () {
