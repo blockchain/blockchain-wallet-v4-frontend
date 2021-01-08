@@ -4,7 +4,6 @@ import { isEmpty } from 'ramda'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
-import { FastLinkType } from 'data/types'
 import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
@@ -31,8 +30,7 @@ class LinkBankHandler extends PureComponent<Props, State> {
       this.props.simpleBuyActions.fetchBankTransferUpdate(sites)
       this.props.simpleBuyActions.fetchBTUpdateLoading()
     } else {
-      const { fastLink } = this.props.data.data
-      this.props.simpleBuyActions.setStep({ step: 'LINK_BANK', fastLink })
+      this.props.simpleBuyActions.setStep({ step: 'LINK_BANK' })
     }
   }
 
@@ -60,7 +58,6 @@ type OwnProps = {
   handleClose: () => void
 }
 export type SuccessStateType = {
-  fastLink: FastLinkType
   iFrameUrl: string
 }
 type LinkStatePropsType = {

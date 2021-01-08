@@ -403,8 +403,8 @@ interface FetchSellQuoteSuccess {
   type: typeof AT.FETCH_SELL_QUOTE_SUCCESS
 }
 
-interface HandleBankLinkStep {
-  type: typeof AT.HANDLE_BANK_LINK_STEP
+interface FetchFastLinkType {
+  type: typeof AT.FETCH_FAST_LINK
 }
 
 interface InitializeCheckout {
@@ -449,10 +449,6 @@ export type StepActionsPayload =
       step: 'BANK_WIRE_DETAILS'
     }
   | {
-      fastLink: FastLinkType
-      step: 'LINK_BANK'
-    }
-  | {
       bankStatus: BankStatusType
       step: 'LINK_BANK_STATUS'
     }
@@ -482,11 +478,17 @@ export type StepActionsPayload =
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
         | 'LINK_BANK_HANDLER'
+        | 'LINK_BANK'
     }
 
 interface SetStepAction {
   payload: StepActionsPayload
   type: typeof AT.SET_STEP
+}
+
+interface SetFastLinkAction {
+  payload: { fastLink: FastLinkType }
+  type: typeof AT.SET_FAST_LINK
 }
 
 interface ShowModalAction {
@@ -585,8 +587,9 @@ export type SimpleBuyActionTypes =
   | FetchSDDLimitsLoading
   | FetchSDDLimitsFailure
   | FetchSDDLimitsSuccess
-  | HandleBankLinkStep
+  | FetchFastLinkType
   | InitializeCheckout
+  | SetFastLinkAction
   | SetStepAction
   | ShowModalAction
   | UpdatePaymentFailureAction
