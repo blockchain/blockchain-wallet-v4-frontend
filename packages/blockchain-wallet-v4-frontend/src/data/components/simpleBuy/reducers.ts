@@ -365,6 +365,11 @@ export function simpleBuyReducer (
         sddTransactionFinished: true
       }
     }
+    case AT.SET_FAST_LINK:
+      return {
+        ...state,
+        fastLink: Remote.Success(action.payload.fastLink)
+      }
     case AT.SET_STEP:
       switch (action.payload.step) {
         case 'ENTER_AMOUNT':
@@ -422,7 +427,6 @@ export function simpleBuyReducer (
         case 'LINK_BANK':
           return {
             ...state,
-            fastLink: Remote.Success(action.payload.fastLink),
             step: action.payload.step
           }
         case 'LINK_BANK_STATUS':

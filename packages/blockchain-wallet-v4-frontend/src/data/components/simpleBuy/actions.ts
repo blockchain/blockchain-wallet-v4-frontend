@@ -24,13 +24,14 @@ import {
   WalletFiatType,
   YodleeAccountType
 } from 'core/types'
-import { ModalOriginType } from 'data/modals/types'
 import {
+  FastLinkType,
   SBFixType,
   SBShowModalOriginType,
   SimpleBuyActionTypes,
   StepActionsPayload
 } from './types'
+import { ModalOriginType } from 'data/modals/types'
 import { SwapAccountType } from '../swap/types'
 
 export const activateSBCard = (card: SBCardType) => ({
@@ -474,8 +475,8 @@ export const fetchSellQuoteLoading = (): SimpleBuyActionTypes => ({
   type: AT.FETCH_SELL_QUOTE_LOADING
 })
 
-export const handleBankLinkStep = (): SimpleBuyActionTypes => ({
-  type: AT.HANDLE_BANK_LINK_STEP
+export const fetchFastLink = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_FAST_LINK
 })
 export const fetchSellQuoteSuccess = (
   quote: SwapQuoteType,
@@ -551,6 +552,13 @@ export const pollSBOrder = (orderId: string) => ({
   }
 })
 
+export const setFastLink = (fastLink: FastLinkType): SimpleBuyActionTypes => ({
+  type: AT.SET_FAST_LINK,
+  payload: {
+    fastLink
+  }
+})
+
 export const setStep = (payload: StepActionsPayload): SimpleBuyActionTypes => ({
   type: AT.SET_STEP,
   payload: getPayloadObjectForStep(payload)
@@ -585,8 +593,6 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
         fiatCurrency: payload.fiatCurrency,
         orderType: payload.orderType
       }
-    case 'LINK_BANK':
-      return { step: payload.step, fastLink: payload.fastLink }
     case 'LINK_BANK_STATUS': {
       return { step: payload.step, bankStatus: payload.bankStatus }
     }
@@ -608,6 +614,7 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
       return { step: payload.step, order: payload.order }
     case 'SELL_ORDER_SUMMARY':
       return { step: payload.step, sellOrder: payload.sellOrder }
+    case 'LINK_BANK':
     default:
       return { step: payload.step }
   }

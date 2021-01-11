@@ -136,7 +136,7 @@ const BankLinkError: React.FC<Props> = props => {
           height='48px'
           size='16px'
           nature='primary'
-          onClick={() => props.simpleBuyActions.handleBankLinkStep()}
+          onClick={() => props.simpleBuyActions.setStep({ step: 'LINK_BANK' })}
           fullwidth
         >
           <FormattedMessage id='buttons.tryagain' defaultMessage='Try Again' />

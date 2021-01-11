@@ -14,6 +14,7 @@ class LinkBank extends PureComponent<Props> {
   componentDidMount () {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
+      this.props.simpleBuyActions.fetchFastLink()
     }
   }
 

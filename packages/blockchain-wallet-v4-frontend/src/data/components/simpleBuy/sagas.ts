@@ -577,14 +577,14 @@ export default ({
     }
   }
 
-  const handleBankLinkStep = function * () {
-    const fastLink = yield call(api.createBankAccountLink, 'USD')
-    yield put(
-      A.setStep({
-        step: 'LINK_BANK',
-        fastLink
-      })
-    )
+  const fetchFastLink = function * () {
+    try {
+      const fastLink = yield call(api.createBankAccountLink, 'USD')
+      yield put(A.setFastLink(fastLink))
+    } catch (e) {
+      // eslint-disable-next-line
+      console.log(e)
+    }
   }
 
   const fetchBankTransferAccounts = function * () {
@@ -1086,11 +1086,11 @@ export default ({
           })
         )
       case 'LINK_BANK':
-        // TODO: Making the request to createBankAccountLink aka fastlink api
-        //       makes the UI stop and wait for the entire http request to come
-        //       back before the new LINK_BANK step slides over. Need to do
-        //       these in parallel but LINK_BANK requires `fastLink`
-        return yield call(handleBankLinkStep)
+        return yield put(
+          A.setStep({
+            step: 'LINK_BANK'
+          })
+        )
 
       case 'PAYMENT_CARD':
         return yield put(
@@ -1411,7 +1411,7 @@ export default ({
     fetchSBQuote,
     fetchSellQuote,
     formChanged,
-    handleBankLinkStep,
+    fetchFastLink,
     handleSBDepositFiatClick,
     handleSBSuggestedAmountClick,
     handleSBMethodChange,
