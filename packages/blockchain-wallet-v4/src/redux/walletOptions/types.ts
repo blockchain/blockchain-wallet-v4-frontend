@@ -15,6 +15,7 @@ export type SupportedCoinType = {
   }
   coinCode: CoinType
   coinTicker: CoinType
+  // TODO: create this dynamically
   colorCode:
     | 'algo'
     | 'btc'

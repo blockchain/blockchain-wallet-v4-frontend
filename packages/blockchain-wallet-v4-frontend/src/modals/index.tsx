@@ -11,6 +11,10 @@ const UpgradeAddressLabels = React.lazy(() =>
   import('./Addresses/UpgradeAddressLabels')
 )
 
+// BITPAY
+const BitpayInformational = React.lazy(() => import('./BitPay/Informational'))
+const BitpayInvoiceExpired = React.lazy(() => import('./BitPay/InvoiceExpired'))
+
 // COINS
 // BTC
 const AddBtcWallet = React.lazy(() => import('./Btc/AddBtcWallet'))
@@ -38,9 +42,8 @@ const XlmCreateAccountLearn = React.lazy(() =>
 )
 const XlmReserveLearn = React.lazy(() => import('./Xlm/XlmReserveLearn'))
 
-// BITPAY
-const BitpayInformational = React.lazy(() => import('./BitPay/Informational'))
-const BitpayInvoiceExpired = React.lazy(() => import('./BitPay/InvoiceExpired'))
+// CRYPTO
+const RequestCrypto = React.lazy(() => import('./RequestCrypto'))
 
 // GENERIC
 const Confirm = React.lazy(() => import('./Generic/Confirm'))
@@ -157,6 +160,7 @@ const Modals = () => (
       <PromptInput />
       <QRCode />
       <RecoveryPhrase />
+      <RequestCrypto />
       <RequestBch />
       <RequestBtc />
       <RequestEth />

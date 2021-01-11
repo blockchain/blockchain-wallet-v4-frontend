@@ -1031,6 +1031,8 @@ type MessagesType = {
   'modals.repayloan.choosewaytopay': 'How do you want to repay?'
   'modals.repayloan.repayamount': 'Repay amount'
   'modals.repayloan.repayfrom': 'Repay from'
+  'modals.requestcrypto.coinselect.title': 'Receive Crypto'
+  'modals.requestcrypto.coinselect.subtitle': 'Select and share your address or QR code to receive crypto from anyone around the world.'
   'modals.requestbch.address': 'Address:'
   'modals.requestbch.firststep.lockbox.clickhere': 'Click here'
   'modals.requestbch.firststep.lockbox.confirm.warnbrowser': 'Unsupported browser to confirm the receive address on your Lockbox.  Please use the Brave, Chrome, Firefox or Opera browsers to confirm or continue without confirming the address at your own risk.'
