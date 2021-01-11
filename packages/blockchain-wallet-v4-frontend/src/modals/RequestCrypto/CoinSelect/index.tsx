@@ -48,7 +48,11 @@ class RequestCoinSelect extends React.PureComponent<InjectedFormProps & Props> {
             height='32px'
             name='coin'
             props={{
-              additionalOptions: [{ text: 'All Wallets', value: 'ALL' }] as any
+              additionalOptions: [{ text: 'All Wallets', value: 'ALL' }],
+              limitTo: requestableCoins.map(coin => ({
+                text: coin,
+                value: coin
+              }))
             }}
             type='request'
           />
@@ -57,7 +61,6 @@ class RequestCoinSelect extends React.PureComponent<InjectedFormProps & Props> {
           Next
         </button>
         <p>{coin}</p>
-        <p>{JSON.stringify(requestableCoins)}</p>
       </Wrapper>
     )
   }
