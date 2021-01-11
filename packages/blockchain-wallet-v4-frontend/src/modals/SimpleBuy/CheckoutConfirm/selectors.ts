@@ -13,14 +13,6 @@ export const getData = (state: RootState) => {
   const withdrawLockCheckR = selectors.components.send.getWithdrawLockCheckRule(
     state
   )
-  const sddEligibleR = selectors.components.simpleBuy.getSddEligible(state)
-  const userSDDTierR = selectors.components.simpleBuy.getUserSddEligibleTier(
-    state
-  )
-  const isUserSddVerifiedR = selectors.components.simpleBuy.isUserSddVerified(
-    state
-  )
-  const cardsR = selectors.components.simpleBuy.getSBCards(state)
 
   return lift(
     (
@@ -28,30 +20,13 @@ export const getData = (state: RootState) => {
       quote: ExtractSuccess<typeof quoteR>,
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
       userData: ExtractSuccess<typeof userDataR>,
-      withdrawLockCheck: ExtractSuccess<typeof withdrawLockCheckR>,
-      sddEligible: ExtractSuccess<typeof sddEligibleR>,
-      userSDDTier: ExtractSuccess<typeof userSDDTierR>,
-      isUserSddVerified: ExtractSuccess<typeof isUserSddVerifiedR>,
-      cards: ExtractSuccess<typeof cardsR>
+      withdrawLockCheck: ExtractSuccess<typeof withdrawLockCheckR>
     ) => ({
       bankAccounts,
       quote,
       sbBalances,
       userData,
-      withdrawLockCheck,
-      isSddFlow: sddEligible.eligible || userSDDTier === 3,
-      isUserSddVerified,
-      cards
+      withdrawLockCheck
     })
-  )(
-    bankAccountsR,
-    quoteR,
-    sbBalancesR,
-    userDataR,
-    withdrawLockCheckR,
-    sddEligibleR,
-    userSDDTierR,
-    isUserSddVerifiedR,
-    cardsR
-  )
+  )(bankAccountsR, quoteR, sbBalancesR, userDataR, withdrawLockCheckR)
 }
