@@ -30,7 +30,9 @@ class VerifyContainer extends React.PureComponent<Props> {
     const { actions, data, preIdvData, onClose } = this.props
 
     const VerificationFlow = data.cata({
-      Success: () => <Veriff onClose={onClose} />,
+      Success: () => {
+        return <Veriff onClose={onClose} />
+      },
       Loading: () => <Loading />,
       NotAsked: () => null,
       Failure: message => <DataError message={message} />
