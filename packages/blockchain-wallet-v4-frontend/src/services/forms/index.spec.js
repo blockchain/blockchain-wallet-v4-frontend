@@ -1,18 +1,19 @@
-import * as FormHelper from './index.js'
-import * as M from './validationMessages'
 import { networks } from 'bitcoinjs-lib'
 import bip39 from 'bip39'
 import React from 'react'
 
+import * as FormHelper from './index.js'
+import * as M from './validationMessages'
+
 describe('FormHelper', () => {
   beforeEach(() => {
     jest.mock('blockchain-wallet-v4/src')
-    jest.mock('./../ValidationHelper')
+    jest.mock('./utils')
   })
 
   afterEach(() => {
     jest.unmock('blockchain-wallet-v4/src')
-    jest.unmock('./../ValidationHelper')
+    jest.unmock('./utils')
   })
 
   describe('required()', () => {

@@ -1,7 +1,7 @@
 import { equals, path } from 'ramda'
 import { put, select } from 'redux-saga/effects'
 
-import * as C from 'services/AlertService'
+import * as C from 'services/alerts'
 import { actions, model, selectors } from 'data'
 
 export default () => {

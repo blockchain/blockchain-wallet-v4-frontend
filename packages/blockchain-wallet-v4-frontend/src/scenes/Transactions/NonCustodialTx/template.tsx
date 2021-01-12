@@ -9,10 +9,10 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import { media } from 'services/styles'
 import Confirmations from './Confirmations'
 import Description from './Description'
 import FiatAtTime from './FiatAtTime'
-import media from 'services/ResponsiveService'
 import Status from './Status'
 import TransactionFee from './TransactionFee'
 

@@ -16,7 +16,7 @@ import {
 import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
 import { ExtractSuccess } from 'core/types'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
-import { promptForSecondPassword } from 'services/SagaService'
+import { promptForSecondPassword } from 'services/sagas'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { UserDataType } from './types'
 import moment from 'moment'

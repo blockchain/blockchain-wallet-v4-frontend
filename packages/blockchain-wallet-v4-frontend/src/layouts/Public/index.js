@@ -2,9 +2,9 @@ import { Route } from 'react-router-dom'
 import React from 'react'
 import styled from 'styled-components'
 
+import { media } from 'services/styles'
 import Alerts from 'components/Alerts'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
-import media from 'services/ResponsiveService'
 
 // import AndroidAppBanner from './components/AndroidAppBanner'
 import DropdownLanguage from './components/DropdownLanguage'

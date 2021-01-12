@@ -19,6 +19,7 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 
     const baseCoin = getInput(this.props.order)
     const counterCoin = getOutput(this.props.order)
+    // @ts-ignore
     const { coins, handleClose, order } = this.props
     return (
       <>

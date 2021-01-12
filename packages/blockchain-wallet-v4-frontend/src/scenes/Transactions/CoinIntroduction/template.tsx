@@ -1,6 +1,6 @@
 import { Button, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 import React from 'react'
 import styled from 'styled-components'
 

@@ -12,7 +12,7 @@ import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 const TitleGroup = styled(TextGroup)`
   display: flex;

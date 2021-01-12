@@ -12,7 +12,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { Props as OwnProps } from '.'
-import { required, validEmail } from 'services/FormHelper'
+import { required, validEmail } from 'services/forms'
 import React, { useState } from 'react'
 import styled, { DefaultTheme } from 'styled-components'
 

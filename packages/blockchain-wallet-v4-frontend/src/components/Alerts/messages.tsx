@@ -3,7 +3,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import React from 'react'
 import styled from 'styled-components'
 
-import * as C from 'services/AlertService'
+import * as C from 'services/alerts'
 import { Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 
 const Content = styled.div`

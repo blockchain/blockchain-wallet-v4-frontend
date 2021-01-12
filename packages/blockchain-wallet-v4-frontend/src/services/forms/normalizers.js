@@ -1,8 +1,4 @@
-import {
-  formatDOB,
-  formatSSN,
-  formatUSZipcode
-} from 'services/ValidationHelper'
+import { formatDOB, formatSSN, formatUSZipcode } from './utils'
 
 export const normalizeSocialSecurity = (val, prevVal) => formatSSN(val, prevVal)
 

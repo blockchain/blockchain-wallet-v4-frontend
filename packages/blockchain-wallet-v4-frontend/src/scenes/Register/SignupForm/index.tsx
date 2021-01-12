@@ -13,7 +13,7 @@ import {
   validEmail,
   validPasswordConfirmation,
   validStrongPassword
-} from 'services/FormHelper'
+} from 'services/forms'
 
 import Bowser from 'bowser'
 import React from 'react'

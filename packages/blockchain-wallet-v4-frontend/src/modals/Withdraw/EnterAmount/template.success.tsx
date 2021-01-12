@@ -10,7 +10,7 @@ import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { Form, NumberBox } from 'components/Form'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { formatTextAmount } from 'services/ValidationHelper'
+import { formatTextAmount } from 'services/forms'
 import { isEmpty } from 'ramda'
 import { maximumAmount, minimumAmount } from './validation'
 

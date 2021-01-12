@@ -1,8 +1,8 @@
-import * as C from 'services/AlertService'
+import * as C from 'services/alerts'
 import { actions, selectors } from 'data'
-import { askSecondPasswordEnhancer, promptForInput } from 'services/SagaService'
+import { askSecondPasswordEnhancer, promptForInput } from 'services/sagas'
 import { call, put, select } from 'redux-saga/effects'
-import { requireUniqueWalletName } from 'services/FormHelper'
+import { requireUniqueWalletName } from 'services/forms'
 
 export default ({ coreSagas }) => {
   const logLocation = 'wallet/sagas'

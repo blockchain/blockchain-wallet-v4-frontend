@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { createDeepEqualSelector } from 'services/misc'
 import { ExtractSuccess } from 'core/types'
 import { OwnProps } from '.'
 import { selectors } from 'data'

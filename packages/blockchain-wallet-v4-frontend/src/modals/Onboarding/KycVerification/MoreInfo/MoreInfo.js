@@ -15,7 +15,7 @@ import {
 } from 'components/IdentityVerification'
 import { Button } from 'blockchain-info-components'
 import { FooterShadowWrapper } from 'components/Form'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 const MoreInfoWrapper = styled.div`
   display: flex;

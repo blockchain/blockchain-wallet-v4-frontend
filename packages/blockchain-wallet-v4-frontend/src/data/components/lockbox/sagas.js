@@ -1,10 +1,3 @@
-import * as A from './actions'
-import * as AT from './actionTypes'
-import * as C from 'services/AlertService'
-import * as CC from 'services/ConfirmService'
-import * as Lockbox from 'services/LockboxService'
-import * as S from './selectors'
-import { actions, actionTypes, selectors } from 'data'
 import {
   call,
   cancelled,
@@ -14,7 +7,6 @@ import {
   take,
   takeEvery
 } from 'redux-saga/effects'
-import { confirm, promptForLockbox } from 'services/SagaService'
 import { END, eventChannel } from 'redux-saga'
 import {
   filter,
@@ -26,6 +18,15 @@ import {
   propEq,
   values
 } from 'ramda'
+
+import * as C from 'services/alerts'
+import * as Lockbox from 'services/lockbox'
+import { actions, actionTypes, selectors } from 'data'
+import { confirm } from 'services/sagas'
+
+import * as A from './actions'
+import * as AT from './actionTypes'
+import * as S from './selectors'
 
 const logLocation = 'components/lockbox/sagas'
 const sagaCancelledMsg = 'Saga cancelled from user modal close'
@@ -209,7 +210,7 @@ export default ({ api }) => {
       let entry
       switch (coin) {
         case 'xlm':
-          yield call(promptForLockbox, 'XLM', deviceType, [], false)
+          yield call(Lockbox.promptForLockbox, 'XLM', deviceType, [], false)
           const { transport } = yield select(S.getCurrentConnection)
           const { publicKey } = yield call(
             Lockbox.utils.getXlmPublicKey,
@@ -262,8 +263,8 @@ export default ({ api }) => {
       const { deviceIndex } = action.payload
 
       const confirmed = yield call(confirm, {
-        title: CC.CONFIRM_DELETE_LOCKBOX_TITLE,
-        message: CC.CONFIRM_DELETE_LOCKBOX_MESSAGE,
+        title: C.CONFIRM_DELETE_LOCKBOX_TITLE,
+        message: C.CONFIRM_DELETE_LOCKBOX_MESSAGE,
         nature: 'warning'
       })
       if (confirmed) {

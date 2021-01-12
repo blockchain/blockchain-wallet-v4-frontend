@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 import TextBox from '../TextBox'
 
 const Container = styled.div``

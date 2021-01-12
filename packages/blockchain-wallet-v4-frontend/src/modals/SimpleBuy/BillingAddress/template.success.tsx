@@ -4,7 +4,7 @@ import {
   countryUsesZipcode,
   required,
   requiredZipCode
-} from 'services/FormHelper'
+} from 'services/forms'
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'

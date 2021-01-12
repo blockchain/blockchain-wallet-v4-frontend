@@ -1,7 +1,7 @@
 import { call, CallEffect, put, select } from 'redux-saga/effects'
 import moment from 'moment'
 
-import * as C from 'services/AlertService'
+import * as C from 'services/alerts'
 import { actions, model, selectors } from 'data'
 import { APIType } from 'core/network/api'
 import {
@@ -14,7 +14,7 @@ import {
   SBPaymentTypes
 } from 'core/types'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
-import { promptForSecondPassword } from 'services/SagaService'
+import { promptForSecondPassword } from 'services/sagas'
 
 import * as A from './actions'
 import profileSagas from '../../modules/profile/sagas'

@@ -1,10 +1,13 @@
-import * as C from 'services/ConfirmService'
-import { actions } from 'data'
 import { bindActionCreators } from 'redux'
-import { Button, Link } from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { prop } from 'ramda'
+import Bowser from 'bowser'
+import React from 'react'
+
+import * as C from 'services/alerts'
+import { actions } from 'data'
+import { Button, Link } from 'blockchain-info-components'
 import {
   SettingComponent,
   SettingContainer,
@@ -12,10 +15,8 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
-import Bowser from 'bowser'
 import linuxUpdater from 'assets/lockbox/lockbox-updater-1.0.0.AppImage'
 import macUpdater from 'assets/lockbox/lockbox-updater-1.0.0.dmg'
-import React from 'react'
 import windowsUpdater from 'assets/lockbox/lockbox-updater-1.0.0.exe'
 
 class DownloadUpdaterContainer extends React.PureComponent {

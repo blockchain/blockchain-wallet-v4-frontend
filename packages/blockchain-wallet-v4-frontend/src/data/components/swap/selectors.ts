@@ -24,7 +24,7 @@ import {
   convertStandardToBase
 } from '../exchange/services'
 import { coreSelectors, Remote } from 'blockchain-wallet-v4/src'
-import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { createDeepEqualSelector } from 'services/misc'
 import { getRate } from './utils'
 import {
   InitSwapFormValuesType,
@@ -165,7 +165,7 @@ const bchGetActiveAccounts = createDeepEqualSelector(
           }
         })
         .filter(isActive)
-        .concat(generateCustodyAccount('BCH', sbBalance))
+        .concat(generateCustodyAccount('BCH', sbBalance as SBBalanceType))
 
     return lift(transform)(bchDataR, bchMetadataR, sbBalanceR)
   }
@@ -194,7 +194,7 @@ const btcGetActiveAccounts = createDeepEqualSelector(
           type: ADDRESS_TYPES.ACCOUNT
         }))
         .filter(isActive)
-        .concat(generateCustodyAccount('BTC', sbBalance))
+        .concat(generateCustodyAccount('BTC', sbBalance as SBBalanceType))
     }
 
     return lift(transform)(btcDataR, sbBalanceR)
@@ -227,7 +227,7 @@ const ethGetActiveAccounts = createDeepEqualSelector(
             type: ADDRESS_TYPES.ACCOUNT
           }
         })
-        .concat(generateCustodyAccount('ETH', sbBalance))
+        .concat(generateCustodyAccount('ETH', sbBalance as SBBalanceType))
 
     return lift(transform)(ethDataR, ethMetadataR, sbBalanceR)
   }
@@ -304,7 +304,7 @@ const xlmGetActiveAccounts = createDeepEqualSelector(
           }
         })
         .filter(isActive)
-        .concat(generateCustodyAccount('XLM', sbBalance))
+        .concat(generateCustodyAccount('XLM', sbBalance as SBBalanceType))
 
     return lift(transform)(xlmMetadataR, sbBalanceR)
   }
@@ -314,7 +314,7 @@ const algoGetActiveAccounts = createDeepEqualSelector(
   [getCustodyBalance('ALGO')],
   sbBalanceR => {
     const transform = (sbBalance: ExtractSuccess<typeof sbBalanceR>) =>
-      generateCustodyAccount('ALGO', sbBalance)
+      generateCustodyAccount('ALGO', sbBalance as SBBalanceType)
 
     return lift(transform)(sbBalanceR)
   }

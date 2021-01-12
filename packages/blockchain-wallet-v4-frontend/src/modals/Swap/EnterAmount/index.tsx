@@ -72,6 +72,7 @@ class EnterAmount extends PureComponent<Props> {
     }
 
     const { BASE, COUNTER } = this.props.initSwapFormValues
+    // @ts-ignore
     const { coins, userData } = this.props
 
     return (

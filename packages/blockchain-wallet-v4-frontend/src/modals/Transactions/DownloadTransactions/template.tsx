@@ -21,7 +21,7 @@ import {
   SelectBoxEthAddresses,
   SelectBoxXlmAddresses
 } from 'components/Form'
-import { required } from 'services/FormHelper'
+import { required } from 'services/forms'
 
 const Container = styled.div`
   display: flex;

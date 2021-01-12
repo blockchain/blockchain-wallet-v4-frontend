@@ -90,6 +90,7 @@ class CoinSelection extends PureComponent<Props> {
   }
 
   render () {
+    // @ts-ignore
     const { coins, custodialEligbility, values, walletCurrency } = this.props
     return (
       <>

@@ -3,7 +3,7 @@
 import { Button, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { spacing } from 'services/StyleService'
+import { spacing } from 'services/styles'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'

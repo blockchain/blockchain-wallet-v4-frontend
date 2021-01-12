@@ -1,4 +1,4 @@
-import { calculateInterval } from 'services/ChartService'
+import { calculateInterval } from 'services/charts'
 import { calculateStart } from 'blockchain-wallet-v4/src/redux/data/misc/model'
 import { CoinType, FiatType, PriceChangeTimeRangeType } from 'core/types'
 import { getConfig, renderMinMax } from './services'

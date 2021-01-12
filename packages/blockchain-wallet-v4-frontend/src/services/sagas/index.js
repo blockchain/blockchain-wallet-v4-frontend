@@ -60,34 +60,6 @@ export const promptForInput = function * ({
   }
 }
 
-export const promptForLockbox = function * (
-  coin,
-  deviceType,
-  marquees = [],
-  isTx = true
-) {
-  if (marquees && !Array.isArray(marquees)) {
-    throw new Error('MARQUEES_NEEDS_TO_BE_ARRAY')
-  }
-  yield put(
-    actions.modals.showModal('LockboxConnectionPrompt', {
-      coin,
-      marquees,
-      isTx
-    })
-  )
-  yield put(actions.components.lockbox.pollForDeviceApp(coin, null, deviceType))
-  let { canceled } = yield race({
-    response: take(actionTypes.components.lockbox.SET_CONNECTION_INFO),
-    canceled: take(actionTypes.modals.CLOSE_MODAL)
-  })
-  if (canceled) {
-    throw new Error('PROMPT_FOR_LOCKBOX_CANCELED')
-  } else {
-    yield put(actions.components.lockbox.setConnectionReady())
-  }
-}
-
 export const confirm = function * ({
   title,
   message,
@@ -117,16 +89,5 @@ export const confirm = function * ({
   } else {
     yield put(actions.modals.closeModal())
     return response.payload.value
-  }
-}
-
-export const forceSyncWallet = function * () {
-  yield put(actions.core.walletSync.forceSync())
-  const { error } = yield race({
-    success: take(actionTypes.core.walletSync.SYNC_SUCCESS),
-    error: take(actionTypes.core.walletSync.SYNC_ERROR)
-  })
-  if (error) {
-    throw new Error('Sync failed')
   }
 }

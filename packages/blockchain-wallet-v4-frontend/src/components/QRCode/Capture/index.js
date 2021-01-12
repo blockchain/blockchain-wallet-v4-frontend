@@ -5,7 +5,7 @@ import bip21 from 'bip21'
 import PropTypes from 'prop-types'
 import React from 'react'
 
-import * as C from 'services/AlertService'
+import * as C from 'services/alerts'
 import { actions, model, selectors } from 'data'
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
 

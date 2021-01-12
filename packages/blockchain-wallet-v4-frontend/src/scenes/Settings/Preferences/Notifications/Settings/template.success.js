@@ -5,8 +5,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { CheckBox } from 'components/Form'
+import { media } from 'services/styles'
 import { Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;

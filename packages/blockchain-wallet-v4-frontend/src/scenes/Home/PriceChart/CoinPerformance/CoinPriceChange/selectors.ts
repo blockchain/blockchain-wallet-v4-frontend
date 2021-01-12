@@ -1,4 +1,4 @@
-import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { createDeepEqualSelector } from 'services/misc'
 import { lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'

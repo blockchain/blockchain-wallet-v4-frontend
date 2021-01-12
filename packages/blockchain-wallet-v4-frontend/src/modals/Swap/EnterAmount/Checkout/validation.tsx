@@ -2,7 +2,7 @@ import {
   convertBaseToStandard,
   convertStandardToBase
 } from 'data/components/exchange/services'
-import { CRYPTO_DECIMALS } from 'services/ValidationHelper'
+import { CRYPTO_DECIMALS } from 'services/forms'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import {
   PaymentValue,
@@ -82,6 +82,7 @@ export const maximumAmount = (
   if (!value) return true
   if (!allValues) return
 
+  // @ts-ignore
   const { fix, limits, baseRates, payment, quote, walletCurrency } = restProps
 
   const cryptoMax = Number(
@@ -114,6 +115,7 @@ export const minimumAmount = (
   if (!value) return true
   if (!allValues) return
 
+  // @ts-ignore
   const { fix, limits, baseRates, payment, quote, walletCurrency } = restProps
 
   const cryptoMin = Number(
@@ -143,6 +145,7 @@ export const maximumAmountSilver = (
   restProps: Props,
   amtError: string | boolean
 ) => {
+  // @ts-ignore
   const { limits, userData } = restProps
   if (userData.tiers.current === 2) return
   if (

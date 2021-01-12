@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import React from 'react'
 
 import { actions, selectors } from 'data'
-import { languagesSortedByName } from 'services/LocalesService'
+import { languagesSortedByName } from 'services/locales'
 import { SimpleDropdown } from 'blockchain-info-components/src/Dropdowns'
 
 class DropdownLanguageContainer extends React.PureComponent {
