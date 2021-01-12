@@ -36,6 +36,8 @@ import { UserDataType } from 'data/modules/types'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
+import * as T from './types'
+
 import {
   convertBaseToStandard,
   convertStandardToBase
@@ -57,12 +59,6 @@ import {
 import { FALLBACK_DELAY, getOutputFromPair } from '../swap/model'
 import { getDirection } from './utils'
 import { getRate, NO_QUOTE } from '../swap/utils'
-import {
-  SBAddCardErrorType,
-  SBAddCardFormValuesType,
-  SBBillingAddressFormValuesType,
-  SBCheckoutFormValuesType
-} from './types'
 import { selectReceiveAddress } from '../utils/sagas'
 import profileSagas from '../../modules/profile/sagas'
 import sendSagas from '../send/sagas'
@@ -123,7 +119,7 @@ export default ({
 
   const addCardDetails = function * () {
     try {
-      const formValues: SBAddCardFormValuesType = yield select(
+      const formValues: T.SBAddCardFormValuesType = yield select(
         selectors.form.getFormValues('addCCForm')
       )
       const existingCardsR = S.getSBCards(yield select())
@@ -187,7 +183,7 @@ export default ({
       yield put(actions.form.startSubmit('addCCForm'))
       yield put(
         actions.form.stopSubmit('addCCForm', {
-          _error: error as SBAddCardErrorType
+          _error: error as T.SBAddCardErrorType
         })
       )
       yield put(A.addCardDetailsFailure(error))
@@ -240,7 +236,7 @@ export default ({
     paymentMethodId,
     paymentType
   }: ReturnType<typeof A.createSBOrder>) {
-    const values: SBCheckoutFormValuesType = yield select(
+    const values: T.SBCheckoutFormValuesType = yield select(
       selectors.form.getFormValues('simpleBuyCheckout')
     )
     try {
@@ -542,12 +538,20 @@ export default ({
         // Polls the account details to check for Active state
         const bankData = yield call(conditionalRetry, status.id)
         // Shows bank status screen based on whether has blocked account or not
-        yield put(
-          A.setStep({ step: 'LINK_BANK_STATUS', bankStatus: bankData.state })
-        )
+        let bankStatus: T.BankStatusType = 'DEFAULT_ERROR'
+        switch (bankData.state) {
+          case 'ACTIVE':
+            bankStatus = bankData.state
+            break
+          case 'BLOCKED':
+            bankStatus = bankData.error
+            break
+        }
+
+        yield put(A.setStep({ step: 'LINK_BANK_STATUS', bankStatus }))
 
         if (bankData.state === 'ACTIVE') {
-          const values: SBCheckoutFormValuesType = yield select(
+          const values: T.SBCheckoutFormValuesType = yield select(
             selectors.form.getFormValues('simpleBuyCheckout')
           )
           if (values?.amount) {
@@ -622,7 +626,7 @@ export default ({
 
       const userDataR = selectors.modules.profile.getUserData(yield select())
       const billingAddressForm:
-        | SBBillingAddressFormValuesType
+        | T.SBBillingAddressFormValuesType
         | undefined = yield select(
         selectors.form.getFormValues('ccBillingAddress')
       )
@@ -647,7 +651,7 @@ export default ({
   }
 
   const fetchSBCardSDD = function * (
-    billingAddress: SBBillingAddressFormValuesType
+    billingAddress: T.SBBillingAddressFormValuesType
   ) {
     let card: SBCardType
     try {
@@ -938,7 +942,7 @@ export default ({
       if (action.meta.field !== 'amount') return
       const formValues = selectors.form.getFormValues('simpleBuyCheckout')(
         yield select()
-      ) as SBCheckoutFormValuesType
+      ) as T.SBCheckoutFormValuesType
       const account = S.getSwapAccount(yield select())
       const pair = S.getSBPair(yield select())
 
@@ -1034,7 +1038,7 @@ export default ({
   const handleSBMethodChange = function * (
     action: ReturnType<typeof A.handleSBMethodChange>
   ) {
-    const values: SBCheckoutFormValuesType = yield select(
+    const values: T.SBCheckoutFormValuesType = yield select(
       selectors.form.getFormValues('simpleBuyCheckout')
     )
 
@@ -1190,7 +1194,7 @@ export default ({
           orderType,
           amount,
           cryptoAmount
-        } as SBCheckoutFormValuesType)
+        } as T.SBCheckoutFormValuesType)
       )
     } catch (e) {
       const error = errorHandler(e)
