@@ -7,9 +7,9 @@ import styled from 'styled-components'
 import { CoinType, SupportedWalletCurrenciesType } from 'core/types'
 import { getBlockHeight } from './selectors'
 import { Icon, Link, Tooltip, TooltipHost } from 'blockchain-info-components'
+import { media } from 'services/styles'
 import { RowValue } from '../../components'
 import { selectors } from 'data'
-import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;

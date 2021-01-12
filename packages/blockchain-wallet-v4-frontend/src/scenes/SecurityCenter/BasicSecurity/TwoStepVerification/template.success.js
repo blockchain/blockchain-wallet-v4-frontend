@@ -7,8 +7,7 @@ import React, { Fragment } from 'react'
 import styled, { css, keyframes } from 'styled-components'
 
 import { Button, Link, Text } from 'blockchain-info-components'
-import { spacing } from 'services/StyleService'
-import media from 'services/ResponsiveService'
+import { media, spacing } from 'services/styles'
 
 import {
   IconContainer,

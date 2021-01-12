@@ -1,6 +1,6 @@
+import { media } from 'services/styles'
 import { Modal, Text } from 'blockchain-info-components'
 import { ModalPropsType } from 'blockchain-wallet-v4-frontend/src/modals/types'
-import media from 'services/ResponsiveService'
 import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import styled from 'styled-components'

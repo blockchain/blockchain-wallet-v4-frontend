@@ -4,7 +4,7 @@ import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 import { Text } from 'blockchain-info-components'
 import NumberBox from '../NumberBox'

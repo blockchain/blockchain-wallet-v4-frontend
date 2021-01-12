@@ -9,9 +9,9 @@ import styled from 'styled-components'
 import * as C from 'services/alerts'
 import { actions, selectors } from 'data'
 import { Button, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
+import { media } from 'services/styles'
 import linuxUpdater from 'assets/lockbox/lockbox-updater-1.0.0.AppImage'
 import macUpdater from 'assets/lockbox/lockbox-updater-1.0.0.dmg'
-import media from 'services/ResponsiveService'
 import windowsUpdater from 'assets/lockbox/lockbox-updater-1.0.0.exe'
 
 const Wrapper = styled.div`

@@ -11,10 +11,10 @@ import {
 } from 'components/SimpleBuy'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
+import { media } from 'services/styles'
 import { SBPaymentMethodType } from 'core/types'
 import { SuccessCartridge } from 'components/Cartridge'
 import { Title } from 'components/Flyout'
-import media from 'services/ResponsiveService'
 
 const SubTitle = styled(Title)`
   color: ${props => props.theme.grey600};

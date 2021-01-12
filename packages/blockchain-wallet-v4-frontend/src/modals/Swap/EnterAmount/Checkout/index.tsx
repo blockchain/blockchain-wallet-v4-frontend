@@ -2,7 +2,7 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 

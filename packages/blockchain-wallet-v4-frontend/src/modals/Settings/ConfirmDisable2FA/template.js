@@ -1,4 +1,4 @@
-import { flex, spacing } from 'services/StyleService'
+import { flex, spacing } from 'services/styles'
 import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'

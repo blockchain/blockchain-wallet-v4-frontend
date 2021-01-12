@@ -20,7 +20,7 @@ import {
   WalletFiatType
 } from 'core/types'
 import { GoalsType } from 'data/goals/types'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 import Header from './Header'
 import LinkExchangeAccount from './LinkExchangeAccount'

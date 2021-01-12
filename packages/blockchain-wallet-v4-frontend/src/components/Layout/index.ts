@@ -1,6 +1,6 @@
 import { Box } from '../Box'
+import { media } from 'services/styles'
 import { Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
 import styled from 'styled-components'
 
 export const StickyHeader = styled.div`

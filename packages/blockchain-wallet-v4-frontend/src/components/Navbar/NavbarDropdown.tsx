@@ -1,6 +1,6 @@
+import { media } from 'services/styles'
 import { MenuItem } from 'components/MenuLeft'
 import { triangle } from 'polished'
-import media from 'services/ResponsiveService'
 import styled from 'styled-components'
 
 export const DropdownMenu = styled.div`

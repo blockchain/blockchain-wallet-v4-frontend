@@ -7,8 +7,8 @@ import { BlueCartridge } from 'components/Cartridge'
 import { CoinType, CustodialFromType } from 'core/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { FormGroup, FormLabel } from 'components/Form'
+import { media } from 'services/styles'
 import LockTime from './LockTime'
-import media from 'services/ResponsiveService'
 import styled, { css } from 'styled-components'
 
 export const Row = styled.div`

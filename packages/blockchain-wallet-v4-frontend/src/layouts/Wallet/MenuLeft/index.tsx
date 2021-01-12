@@ -33,10 +33,12 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>> & {
+  lockboxDevices: Array<any>
+}
 
 export type Props = ConnectedProps<typeof connector> & {
-  domains?: any,
+  domains?: any
   menuOpened?: boolean
 }
 

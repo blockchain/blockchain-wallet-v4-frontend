@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
 import { required } from 'services/forms'
-import { spacing } from 'services/StyleService'
+import { spacing } from 'services/styles'
 import { TextBox } from 'components/Form'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 

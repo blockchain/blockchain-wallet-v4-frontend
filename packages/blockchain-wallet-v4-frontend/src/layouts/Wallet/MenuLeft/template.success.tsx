@@ -1,12 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import media, { useMedia } from 'services/ResponsiveService'
-
-import Balances from './Balances'
-import Navigation from './Navigation'
+import { media, useMedia } from 'services/styles'
 
 import { Props as OwnProps, SuccessStateType } from '.'
+import Balances from './Balances'
+import Navigation from './Navigation'
 
 export const Container = styled.div<{ toggled?: boolean }>`
   display: flex;

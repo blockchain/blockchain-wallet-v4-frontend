@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { media } from 'services/styles'
 import CoinChart from './CoinChart'
 import CoinPrices from './CoinPrices'
-import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;

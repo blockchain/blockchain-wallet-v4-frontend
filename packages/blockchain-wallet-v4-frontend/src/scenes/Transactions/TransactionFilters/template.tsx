@@ -1,10 +1,10 @@
 import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { IconButton, TooltipHost } from 'blockchain-info-components'
+import { media } from 'services/styles'
 import { StickyHeader } from 'components/Layout'
 import { TabMenuTransactionStatus, TextBox } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
-import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 

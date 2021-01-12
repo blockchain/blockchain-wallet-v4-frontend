@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { calculateInterval } from 'services/charts'
 import { calculateStart } from 'blockchain-wallet-v4/src/redux/data/misc/model'
 import { getConfig } from './model'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   width: 100%;

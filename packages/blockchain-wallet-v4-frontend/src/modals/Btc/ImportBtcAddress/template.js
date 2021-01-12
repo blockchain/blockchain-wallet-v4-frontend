@@ -19,7 +19,7 @@ import {
 import { FormattedMessage } from 'react-intl'
 import { removeWhitespace } from 'services/forms/normalizers'
 import { required, validBtcPrivateKey } from 'services/forms'
-import { spacing } from 'services/StyleService'
+import { spacing } from 'services/styles'
 import QRCodeCapture from 'components/QRCode/Capture'
 import React from 'react'
 import styled from 'styled-components'

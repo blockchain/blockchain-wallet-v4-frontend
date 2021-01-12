@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { actions } from 'data'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 import { getData } from './selectors'
 import EmailReminder from './template.email'

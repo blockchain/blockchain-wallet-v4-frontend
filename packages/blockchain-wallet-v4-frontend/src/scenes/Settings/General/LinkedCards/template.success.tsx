@@ -15,13 +15,13 @@ import { fiatToString } from 'core/exchange/currency'
 import { FiatType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps, reduxForm } from 'redux-form'
+import { media } from 'services/styles'
 import { Props as OwnProps, SuccessStateType } from '.'
 import {
   SettingComponent,
   SettingContainer,
   SettingSummary
 } from 'components/Setting'
-import media from 'services/ResponsiveService'
 import React, { SyntheticEvent } from 'react'
 import styled from 'styled-components'
 
