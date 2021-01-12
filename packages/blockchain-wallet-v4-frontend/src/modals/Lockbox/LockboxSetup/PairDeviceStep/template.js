@@ -13,7 +13,7 @@ import {
   TooltipIcon
 } from 'blockchain-info-components'
 import { CheckBox, Form, FormGroup, FormItem } from 'components/Form'
-import { required } from 'services/FormHelper'
+import { required } from 'services/forms'
 
 const Wrapper = styled.div`
   display: flex;

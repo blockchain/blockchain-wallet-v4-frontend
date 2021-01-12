@@ -17,7 +17,7 @@ import {
   countryUsesZipcode,
   required,
   requiredZipCode
-} from 'services/FormHelper'
+} from 'services/forms'
 import {
   DEFAULT_SECURITY_CODE_NAME,
   getCardTypeByValue

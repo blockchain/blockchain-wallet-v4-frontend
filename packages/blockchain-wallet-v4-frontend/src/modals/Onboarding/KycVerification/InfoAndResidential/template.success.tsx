@@ -11,7 +11,7 @@ import {
   required,
   requiredDOB,
   requiredZipCode
-} from 'services/FormHelper'
+} from 'services/forms'
 import {
   BlockchainLoader,
   Button,
@@ -31,7 +31,7 @@ import {
   TextBox
 } from 'components/Form'
 import { FlyoutWrapper } from 'components/Flyout'
-import { getStateNameFromAbbreviation } from 'services/LocalesService'
+import { getStateNameFromAbbreviation } from 'services/locales'
 import { model } from 'data'
 
 import { Props as OwnProps, SuccessStateType } from '.'

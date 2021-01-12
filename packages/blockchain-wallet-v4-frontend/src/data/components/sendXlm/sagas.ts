@@ -1,6 +1,6 @@
 import * as A from './actions'
-import * as C from 'services/AlertService'
-import * as Lockbox from 'services/LockboxService'
+import * as C from 'services/alerts'
+import * as Lockbox from 'services/lockbox'
 import * as S from './selectors'
 import { actions, model, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
@@ -20,7 +20,7 @@ import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
 import { ModalNamesType } from 'data/modals/types'
-import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
+import { promptForSecondPassword } from 'services/sagas'
 import sendSagas from '../send/sagas'
 
 const { TRANSACTION_EVENTS } = model.analytics
@@ -265,7 +265,7 @@ export default ({
           fromAddress
         )).getOrFail('missing_device')
         const deviceType = prop('device_type', device)
-        yield call(promptForLockbox, 'XLM', deviceType, [toAddress])
+        yield call(Lockbox.promptForLockbox, 'XLM', deviceType, [toAddress])
         let connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )

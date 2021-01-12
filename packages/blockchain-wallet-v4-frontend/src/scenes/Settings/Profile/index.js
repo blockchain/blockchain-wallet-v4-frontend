@@ -5,8 +5,8 @@ import styled from 'styled-components'
 
 import { actions } from 'data'
 import { BlockchainLoader, Text } from 'blockchain-info-components'
+import { media } from 'services/styles'
 import DataError from 'components/DataError'
-import media from 'services/ResponsiveService'
 
 import { getData } from './selectors'
 import IdentityVerification from './IdentityVerification'

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 import { DisplayContainer } from 'components/SimpleBuy'
 import { fiatToString } from 'core/exchange/currency'

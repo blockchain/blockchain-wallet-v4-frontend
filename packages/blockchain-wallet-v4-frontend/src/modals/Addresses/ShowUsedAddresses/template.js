@@ -12,7 +12,7 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import { spacing } from 'services/StyleService'
+import { spacing } from 'services/styles'
 
 const HeaderWrapper = styled.div`
   display: flex;

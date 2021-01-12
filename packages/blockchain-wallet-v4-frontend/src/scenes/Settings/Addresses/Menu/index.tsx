@@ -8,10 +8,10 @@ import { withRouter } from 'react-router-dom'
 import React from 'react'
 import styled from 'styled-components'
 
+import { media } from 'services/styles'
 import { StickyHeader } from 'components/Layout'
 import { TextBox } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
-import media from 'services/ResponsiveService'
 
 const { WALLET_TX_SEARCH } = model.form
 

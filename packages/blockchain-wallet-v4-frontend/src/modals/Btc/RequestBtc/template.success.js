@@ -19,7 +19,7 @@ import {
 } from 'components/Form'
 import { invalidAmountMax, invalidAmountMin } from './validation'
 import { model } from 'data'
-import { required } from 'services/FormHelper'
+import { required } from 'services/forms'
 import CopyClipboard from 'components/Clipboard/CopyClipboard'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 

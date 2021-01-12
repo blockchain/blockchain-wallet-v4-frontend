@@ -394,6 +394,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         </StyledForm>
       </>
     ) : (
+      // @ts-ignore
       <VerifyIdentity {...this.props} />
     )
   }

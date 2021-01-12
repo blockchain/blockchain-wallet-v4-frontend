@@ -7,7 +7,7 @@ import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { Image, Text } from 'blockchain-info-components'
 import { KYC_STATES } from 'data/modules/profile/model'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 import TierCard from 'components/IdentityVerification/TierCard'
 
 const Wrapper = styled.div`

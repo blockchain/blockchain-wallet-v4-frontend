@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import { actions } from 'data'
 import { Button, Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   display: flex;

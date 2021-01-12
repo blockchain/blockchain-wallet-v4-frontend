@@ -1,9 +1,9 @@
 import * as A from './actions.js'
-import * as C from 'services/AlertService'
+import * as C from 'services/alerts'
 import * as signer from 'blockchain-wallet-v4/src/signer'
 import { actions, selectors } from 'data'
 import { call, put, select } from 'redux-saga/effects'
-import { promptForSecondPassword } from 'services/SagaService'
+import { promptForSecondPassword } from 'services/sagas'
 import { Types } from 'blockchain-wallet-v4/src'
 
 const taskToPromise = t =>

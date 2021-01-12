@@ -2,7 +2,7 @@ import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector, SubmissionError } from 'redux-form'
-import { requireUniqueDeviceName } from 'services/FormHelper'
+import { requireUniqueDeviceName } from 'services/forms'
 import React from 'react'
 import RenameDevice from './template'
 

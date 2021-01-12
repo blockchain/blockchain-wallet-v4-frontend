@@ -14,7 +14,7 @@ import {
 import * as services from './services'
 import { FormattedMessage } from 'react-intl'
 import { FormItem, FormLabel, TextArea, TextBox } from 'components/Form'
-import { validBtcAddress } from 'services/FormHelper'
+import { validBtcAddress } from 'services/forms'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
 import styled from 'styled-components'

@@ -14,7 +14,7 @@ import {
   Text
 } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'
-import { required } from 'services/FormHelper'
+import { required } from 'services/forms'
 
 const QRCode = styled.div`
   display: flex;

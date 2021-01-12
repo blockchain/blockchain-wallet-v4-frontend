@@ -23,7 +23,7 @@ import {
   formatFiat
 } from 'blockchain-wallet-v4/src/exchange/currency'
 import { InterestDepositFormType } from 'data/components/interest/types'
-import { required } from 'services/FormHelper'
+import { required } from 'services/forms'
 
 import {
   AgreementContainer,

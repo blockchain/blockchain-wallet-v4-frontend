@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { IntlProvider } from 'react-intl'
 import React from 'react'
 
-import { languages, loadLocaleData } from 'services/LocalesService'
+import { languages, loadLocaleData } from 'services/locales'
 import { selectors } from 'data'
 
 class TranslationsProvider extends React.Component {

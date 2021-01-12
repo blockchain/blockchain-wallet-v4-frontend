@@ -1,7 +1,7 @@
 import { Button, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
-import { mediaHeight } from 'services/ResponsiveService'
+import { mediaHeight } from 'services/styles'
 import { Props } from '../index'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'

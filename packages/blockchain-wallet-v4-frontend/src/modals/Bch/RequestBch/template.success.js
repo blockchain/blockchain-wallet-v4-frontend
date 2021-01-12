@@ -15,7 +15,7 @@ import {
   SelectBoxCoin
 } from 'components/Form'
 import { model } from 'data'
-import { required } from 'services/FormHelper'
+import { required } from 'services/forms'
 import CopyClipboard from 'components/Clipboard/CopyClipboard'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 

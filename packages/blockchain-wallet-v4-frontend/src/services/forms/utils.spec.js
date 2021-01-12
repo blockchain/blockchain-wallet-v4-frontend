@@ -1,6 +1,6 @@
 import { isNumeric } from './index'
 
-var testCases = [
+const testCases = [
   { input: '', output: false },
   { input: '?', output: false },
   { input: [1, 2], output: false },

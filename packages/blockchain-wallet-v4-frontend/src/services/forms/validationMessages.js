@@ -1,6 +1,7 @@
 import { FormattedMessage } from 'react-intl'
-import { Link } from 'blockchain-info-components'
 import React from 'react'
+
+import { Link } from 'blockchain-info-components'
 
 export const AgeOverEighteenMessage = () => (
   <FormattedMessage

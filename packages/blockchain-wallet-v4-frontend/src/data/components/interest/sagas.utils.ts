@@ -16,7 +16,7 @@ import {
   INVALID_COIN_TYPE,
   NO_DEFAULT_ACCOUNT
 } from 'blockchain-wallet-v4/src/model'
-import { promptForSecondPassword } from 'services/SagaService'
+import { promptForSecondPassword } from 'services/sagas'
 import { selectors } from 'data'
 
 import * as A from './actions'

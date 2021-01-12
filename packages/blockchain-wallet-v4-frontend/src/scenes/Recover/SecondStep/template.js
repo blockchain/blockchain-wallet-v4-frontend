@@ -14,7 +14,7 @@ import {
   validEmail,
   validPasswordConfirmation,
   validStrongPassword
-} from 'services/FormHelper'
+} from 'services/forms'
 import { Wrapper } from 'components/Public'
 import React from 'react'
 import styled from 'styled-components'

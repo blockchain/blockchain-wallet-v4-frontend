@@ -1,5 +1,5 @@
 import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
-import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
+import { checkForVulnerableAddressError } from 'services/misc'
 import { FETCH_FEES_FAILURE } from 'blockchain-wallet-v4/src/redux/payment/model'
 import { FormattedMessage } from 'react-intl'
 import { prop } from 'ramda'
