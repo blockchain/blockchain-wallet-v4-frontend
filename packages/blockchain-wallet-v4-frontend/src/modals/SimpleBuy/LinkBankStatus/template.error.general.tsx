@@ -57,7 +57,7 @@ const BankLinkError: React.FC<Props> = props => {
         <Title color='grey800' size='20px' weight={600}>
           {bankStatus === 'BANK_TRANSFER_ACCOUNT_ALREADY_LINKED' ? (
             <FormattedMessage
-              id='copy.bank_linked_error_title_alreadylinked'
+              id='copy.bank_linked_error_title_already_linked'
               defaultMessage='This bank has already been linked to your account.'
             />
           ) : bankStatus === 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH' ? (
