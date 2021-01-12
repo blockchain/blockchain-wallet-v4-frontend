@@ -58,7 +58,7 @@ const BankLinkError: React.FC<Props> = props => {
           {bankStatus === 'BANK_TRANSFER_ACCOUNT_ALREADY_LINKED' ? (
             <FormattedMessage
               id='copy.bank_linked_error_title_alreadylinked'
-              defaultMessage='Sorry,that bank account is linked to the maximum number of Blockchain Wallets.'
+              defaultMessage='This bank has already been linked to your account.'
             />
           ) : bankStatus === 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH' ? (
             <FormattedMessage
@@ -76,8 +76,8 @@ const BankLinkError: React.FC<Props> = props => {
           {bankStatus === 'BANK_TRANSFER_ACCOUNT_ALREADY_LINKED' ? (
             <>
               <FormattedMessage
-                id='copy.bank_linked_error_alreadylinked'
-                defaultMessage='To link this bank, please log into your other Wallets and remove it. If this doesnt look right to you, please'
+                id='copy.bank_linked_error_alreadylinked1'
+                defaultMessage='Log into your Exchange account and link your Wallet. This will connect your bank. If any of this doesn’t look right to you, please'
               />{' '}
               <Link
                 size='16px'
@@ -86,11 +86,14 @@ const BankLinkError: React.FC<Props> = props => {
                 href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000190032'
               >
                 <FormattedMessage
-                  id='buttons.contact_support'
-                  defaultMessage='Contact Support'
+                  id='copy.contact_us'
+                  defaultMessage='contact us'
                 />
-              </Link>
-              {'.'}
+              </Link>{' '}
+              <FormattedMessage
+                id='copy.bank_linked_error_alreadylinked2'
+                defaultMessage='immediately.'
+              />
             </>
           ) : bankStatus === 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH' ? (
             <>
