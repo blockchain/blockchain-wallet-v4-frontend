@@ -1,38 +1,42 @@
-import { compose } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import { reduxForm } from 'redux-form'
 import React, { PureComponent } from 'react'
 
-import { CoinType, WalletCurrencyType } from 'core/types'
+import { actions, selectors } from 'data'
+import {
+  CoinType,
+  FiatType,
+  SupportedWalletCurrenciesType,
+  WalletCurrencyType
+} from 'core/types'
 import Flyout, { duration, FlyoutChild, FlyoutWrapper } from 'components/Flyout'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { getData } from './selectors'
 import { Header } from './components'
 import { ModalPropsType } from '../types'
+import { REQUEST_FORM } from './model'
+import { RequestFormType, RequestSteps } from './types'
 import RequestCoinSelect from './CoinSelect'
-
-enum RequestSteps {
-  'COIN_SELECT',
-  'SHOW_ADDRESS'
-}
 
 class RequestCrypto extends PureComponent<Props, State> {
   state: State = {
     direction: 'left',
-    show: false,
-    step: 'COIN_SELECT'
+    show: false
   }
 
   componentDidMount () {
     // eslint-disable-next-line
-    this.setState({ show: true, step: 'COIN_SELECT' })
+    this.setState({ show: true })
   }
 
-  componentDidUpdate (prevProps: Props, prevState: State) {
-    const { step } = this.state
-    if (step === prevState.step) return
+  componentDidUpdate (prevProps: Props) {
+    const newStep = this.props.formValues.step
+    const previousStep = prevProps.formValues.step
+    if (newStep === previousStep) return
     /* eslint-disable */
-    if (RequestSteps[step] > RequestSteps[prevState.step]) {
+    if (RequestSteps[newStep] > RequestSteps[previousStep]) {
       this.setState({ direction: 'left' })
     } else {
       this.setState({ direction: 'right' })
@@ -49,13 +53,14 @@ class RequestCrypto extends PureComponent<Props, State> {
 
   render () {
     const {
-      coin,
+      formActions,
+      formValues,
       position,
-      requestableCoins,
       userClickedOutside,
       total
     } = this.props
-    const { direction, show, step } = this.state
+    const { step } = formValues || {}
+    const { direction, show } = this.state
 
     return (
       <Flyout
@@ -67,23 +72,28 @@ class RequestCrypto extends PureComponent<Props, State> {
         data-e2e='requestCryptoModal'
         total={total}
       >
-        {step === 'COIN_SELECT' && (
+        {step === RequestSteps.COIN_SELECT && (
           <FlyoutChild>
             <FlyoutWrapper>
               <Header handleClose={this.handleClose} />
-              <RequestCoinSelect
-                coin={coin}
-                requestableCoins={requestableCoins}
-              />
+              <RequestCoinSelect {...this.props} />
             </FlyoutWrapper>
           </FlyoutChild>
         )}
-        {step === 'SHOW_ADDRESS' && (
+        {step === RequestSteps.SHOW_ADDRESS && (
           <FlyoutChild>
             <FlyoutWrapper>
               <Header handleClose={this.handleClose} />
               <h1>Share</h1>
-              <button onClick={() => this.setState({ step: 'COIN_SELECT' })}>
+              <button
+                onClick={() =>
+                  formActions.change(
+                    'requestCrypto',
+                    'step',
+                    RequestSteps.COIN_SELECT
+                  )
+                }
+              >
                 Back
               </button>
             </FlyoutWrapper>
@@ -94,26 +104,51 @@ class RequestCrypto extends PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state): LinkStatePropsType => ({
-  requestableCoins: getData(state)
+// TODO: fix initial coin passing
+const mapStateToProps = (state, ownProps): LinkStatePropsType => ({
+  formValues: selectors.form.getFormValues(REQUEST_FORM)(
+    state
+  ) as RequestFormType,
+  initialValues: {
+    selectedCoin: ownProps.coin || 'ALL',
+    step: RequestSteps.COIN_SELECT
+  },
+  requestableCoins: getData(state),
+  supportedCoins: selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrElse({} as SupportedWalletCurrenciesType),
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = dispatch => ({
+  formActions: bindActionCreators(actions.form, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type State = {
   direction: 'left' | 'right'
   show: boolean
-  step: string
 }
 type OwnProps = ModalPropsType & { coin?: CoinType }
 type LinkStatePropsType = {
+  formValues: RequestFormType
+  initialValues: { selectedCoin: CoinType | string; step: RequestSteps }
   requestableCoins: Array<WalletCurrencyType>
+  supportedCoins: SupportedWalletCurrenciesType
+  walletCurrency: FiatType
 }
-export type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = OwnProps &
+  LinkStatePropsType &
+  ConnectedProps<typeof connector>
 
 const enhance = compose<any>(
-  modalEnhancer('REQUEST_CRYPTO_MODAL', { transition: duration }),
-  connector
+  connector,
+  reduxForm({
+    form: REQUEST_FORM,
+    enableReinitialize: true
+  }),
+  modalEnhancer('REQUEST_CRYPTO_MODAL', { transition: duration })
 )
 
 export default enhance(RequestCrypto)

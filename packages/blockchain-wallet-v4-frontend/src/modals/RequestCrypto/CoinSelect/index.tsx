@@ -1,28 +1,37 @@
-import { compose } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
+import { SwapAccountType } from 'data/components/swap/types'
 import { Text } from 'blockchain-info-components'
 import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 
+import { getData } from './selectors'
 import { Props as OwnProps } from '..'
+import { REQUEST_FORM } from '../model'
+import { RequestSteps } from '../types'
+import CryptoAccountOption from './CryptoAccountOption'
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
 const SelectCoinWrapper = styled.div`
-  margin: 24px 0;
+  margin: 24px 0 28px;
   width: 40%;
 `
 
-class RequestCoinSelect extends React.PureComponent<InjectedFormProps & Props> {
+class RequestCoinSelect extends React.PureComponent<Props> {
   render () {
-    const { coin, requestableCoins } = this.props
-
+    const {
+      accounts,
+      formActions,
+      requestableCoins,
+      supportedCoins,
+      walletCurrency
+    } = this.props
     return (
       <Wrapper>
         <Text size='24px' color='grey900' weight={600}>
@@ -46,7 +55,7 @@ class RequestCoinSelect extends React.PureComponent<InjectedFormProps & Props> {
           <Field
             component={SelectBoxCoin}
             height='32px'
-            name='coin'
+            name='selectedCoin'
             props={{
               additionalOptions: [{ text: 'All Wallets', value: 'ALL' }],
               limitTo: requestableCoins.map(coin => ({
@@ -57,28 +66,34 @@ class RequestCoinSelect extends React.PureComponent<InjectedFormProps & Props> {
             type='request'
           />
         </SelectCoinWrapper>
-        <button onClick={() => this.setState({ step: 'SHOW_ADDRESS' })}>
-          Next
-        </button>
-        <p>{coin}</p>
+        {accounts.map(account => (
+          <CryptoAccountOption
+            account={account}
+            coinModel={supportedCoins[account.coin]}
+            onClick={() => {
+              formActions.change(REQUEST_FORM, 'selectedAccount', account)
+              formActions.change(
+                REQUEST_FORM,
+                'step',
+                RequestSteps.SHOW_ADDRESS
+              )
+            }}
+            walletCurrency={walletCurrency}
+          />
+        ))}
       </Wrapper>
     )
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  initialValues: { coin: ownProps.coin || 'ALL' }
+  accounts: getData(state, ownProps)
 })
 
 const connector = connect(mapStateToProps)
-type Props = ConnectedProps<typeof connector> & OwnProps
+type Props = ConnectedProps<typeof connector> &
+  OwnProps & {
+    handleAccountChange: (account: SwapAccountType) => void
+  }
 
-const enhance = compose<any>(
-  connector,
-  reduxForm({
-    form: 'requestCrypto',
-    enableReinitialize: true
-  })
-)
-
-export default enhance(RequestCoinSelect)
+export default connector(RequestCoinSelect)

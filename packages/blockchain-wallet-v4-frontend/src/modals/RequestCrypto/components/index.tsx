@@ -12,7 +12,7 @@ export const TopText = styled(Text)<{
   align-items: center;
   justify-content: ${props =>
     props.spaceBetween ? 'space-between' : 'initial'};
-  margin-bottom: ${props => (props.marginBottom ? '16px' : '0px')};
+  margin-bottom: ${props => (props.marginBottom ? '24px' : '0px')};
 `
 
 export const Header = ({ handleClose }) => (

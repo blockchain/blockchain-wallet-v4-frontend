@@ -91,7 +91,7 @@ class CoinSelection extends PureComponent<Props> {
 
   render () {
     // @ts-ignore
-    const { coins, custodialEligbility, values, walletCurrency } = this.props
+    const { coins, custodialEligibility, values, walletCurrency } = this.props
     return (
       <>
         <StickyTopFlyoutWrapper>
@@ -171,8 +171,8 @@ class CoinSelection extends PureComponent<Props> {
               this.props.side,
               account
             )
-            const isCutodialEligibile = this.checkCustodialEligibility(
-              custodialEligbility,
+            const isCustodialEligible = this.checkCustodialEligibility(
+              custodialEligibility,
               account
             )
 
@@ -180,7 +180,7 @@ class CoinSelection extends PureComponent<Props> {
               !isBaseAccountZero &&
               !isCoinSelected &&
               !hideCustodialToAccount &&
-              isCutodialEligibile && (
+              isCustodialEligible && (
                 <CryptoAccountOption
                   account={account}
                   coins={coins}
@@ -204,7 +204,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   values: selectors.form.getFormValues('initSwap')(
     state
   ) as InitSwapFormValuesType,
-  custodialEligbility: selectors.components.swap
+  custodialEligibility: selectors.components.swap
     .getCustodialEligibility(state)
     .getOrElse(false),
   ...getData(state, ownProps)
