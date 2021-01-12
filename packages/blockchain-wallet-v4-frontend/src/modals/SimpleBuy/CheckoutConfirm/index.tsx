@@ -13,7 +13,6 @@ import {
   WalletFiatType
 } from 'core/types'
 import { getFiatFromPair, getOrderType } from 'data/components/simpleBuy/model'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 import DataError from 'components/DataError'
@@ -32,9 +31,6 @@ class CheckoutConfirm extends PureComponent<Props> {
       this.props.order.inputQuantity
     )
     this.props.sendActions.getLockRule()
-    if (!Remote.Success.is(this.props.data)) {
-      this.props.simpleBuyActions.fetchBankTransferAccounts()
-    }
   }
 
   handleSubmit = () => {
