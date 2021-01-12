@@ -70,13 +70,23 @@ const IdentityVerification = ({ userData, userTiers }) => {
   return (
     <Wrapper>
       <Row>
-        <SwapText size='18px' color='black' weight={500}>
+        <SwapText
+          size='18px'
+          color='black'
+          weight={500}
+          style={{ width: '100%' }}
+        >
           <FormattedMessage
             id='scenes.profile.identityverification.tradingtitle'
             defaultMessage='Trading Limits'
           />
         </SwapText>
-        <SwapText color='grey800' size='14px' weight={400}>
+        <SwapText
+          color='grey800'
+          size='14px'
+          weight={400}
+          style={{ width: '100%' }}
+        >
           <FormattedMessage
             id='scenes.profile.identityverification.swaplimit.tradelimit'
             defaultMessage='Your trading limits are how much you can trade each day. These limits include all Swap, Buy and Sell transactions. Limits are necessary for compliance and fraud prevention.'
