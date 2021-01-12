@@ -13,7 +13,7 @@ import {
   Text
 } from 'blockchain-info-components'
 import { Form, PhoneNumberBox } from 'components/Form'
-import { required, validMobileNumber } from 'services/FormHelper'
+import { required, validMobileNumber } from 'services/forms'
 import { spacing } from 'services/StyleService'
 
 const MobileNumber = styled.div`

@@ -6,7 +6,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-import { required } from 'services/FormHelper'
+import { required } from 'services/forms'
 import { spacing } from 'services/StyleService'
 import { TextBox } from 'components/Form'
 import QRCodeWrapper from 'components/QRCode/Wrapper'

@@ -10,21 +10,21 @@ import { AmountTextBox } from 'components/Exchange'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { coinToString, fiatToString } from 'core/exchange/currency'
 import { FlyoutWrapper } from 'components/Flyout'
-import { formatTextAmount } from 'services/ValidationHelper'
+import { formatTextAmount } from 'services/forms'
+import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
+import { SwapAccountType } from 'data/types'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import FiatDisplay from 'components/Display/FiatDisplay'
+
 import {
   getMaxMin,
   incomingAmountNonZero,
   maximumAmount,
   minimumAmount
 } from './validation'
-import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
 import { Props as OwnProps, SuccessStateType } from '..'
-
 import { StyledForm } from '../../components'
-import { SwapAccountType } from 'data/types'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import FiatDisplay from 'components/Display/FiatDisplay'
 
 export const Cell = styled.div<{ center?: boolean; size?: 'small' }>`
   display: flex;
@@ -111,7 +111,9 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     BASE,
     COUNTER,
     baseRates,
+    // @ts-ignore
     coins,
+    // @ts-ignore
     fix,
     formActions,
     formErrors,
@@ -119,6 +121,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     limits,
     payment,
     quote,
+    // @ts-ignore
     userData,
     walletCurrency
   } = props

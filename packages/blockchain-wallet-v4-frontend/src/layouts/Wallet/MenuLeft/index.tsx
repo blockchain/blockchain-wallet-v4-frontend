@@ -35,6 +35,9 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 
-export type Props = ConnectedProps<typeof connector>
+export type Props = ConnectedProps<typeof connector> & {
+  domains?: any,
+  menuOpened?: boolean
+}
 
 export default connector(MenuLeftContainer)

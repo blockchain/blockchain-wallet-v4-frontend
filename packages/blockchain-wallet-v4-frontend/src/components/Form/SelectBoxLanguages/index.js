@@ -2,7 +2,7 @@ import { assoc, curry, keys, map, reduce } from 'ramda'
 import { connect } from 'react-redux'
 import React from 'react'
 
-import { languagesSortedByName } from 'services/LocalesService'
+import { languagesSortedByName } from 'services/locales'
 import { selectors } from 'data'
 import SelectBox from '../SelectBox'
 

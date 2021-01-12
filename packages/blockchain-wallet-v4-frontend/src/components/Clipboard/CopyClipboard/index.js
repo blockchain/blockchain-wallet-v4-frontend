@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import React from 'react'
 
-import * as C from 'services/AlertService'
+import * as C from 'services/alerts'
 import { actions, selectors } from 'data'
 import CopyClipboard from './template'
 

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
-import * as Lockbox from 'services/LockboxService'
+import * as Lockbox from 'services/lockbox'
 import { actions, selectors } from 'data'
 import {
   BlockchainLoader,

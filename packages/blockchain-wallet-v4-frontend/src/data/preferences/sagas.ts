@@ -1,6 +1,6 @@
-import * as C from 'services/AlertService'
+import * as C from 'services/alerts'
 import { actions } from 'data'
-import { addLanguageToUrl } from 'services/LocalesService'
+import { addLanguageToUrl } from 'services/locales'
 import { put } from 'redux-saga/effects'
 
 export default () => {

@@ -116,6 +116,7 @@ const Navigation = (props: OwnProps & Props) => {
                 </MenuItem>
               </LinkContainer>
             ),
+          // @ts-ignore
           props.coins
         )
       )}
@@ -145,7 +146,8 @@ const Navigation = (props: OwnProps & Props) => {
           <ExchangeNavItem {...props} />
         </MenuItem>
       </LinkContainer>
-      {props.lockboxDevices.length > 0 ? (
+      {// @ts-ignore
+      props.lockboxDevices.length > 0 ? (
         <LinkContainer to='/lockbox' activeClassName='active'>
           <MenuItem data-e2e='lockboxLink'>
             <MenuIcon

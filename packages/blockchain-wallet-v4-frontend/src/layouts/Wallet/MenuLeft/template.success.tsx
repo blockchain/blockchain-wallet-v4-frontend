@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -54,14 +53,6 @@ const MenuLeft = (props: Props) => {
       </Overflow>
     </Container>
   )
-}
-
-MenuLeft.propTypes = {
-  toggled: PropTypes.bool.isRequired
-}
-
-MenuLeft.defaultProps = {
-  toggled: false
 }
 
 export type Props = OwnProps & SuccessStateType

@@ -1,17 +1,19 @@
+import * as moment from 'moment'
 import { compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
+import { prop, toLower } from 'ramda'
+import locale from 'browser-locale'
 import React, { Component } from 'react'
 
-import * as moment from 'moment'
 import { actions, selectors } from 'data'
-import { prop, toLower } from 'ramda'
-import modalEnhancer from 'providers/ModalEnhancer'
-import momentHelper from 'services/MomentHelper'
-
 import { CoinType, SupportedCoinType } from 'core/types'
-import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
+import modalEnhancer from 'providers/ModalEnhancer'
+
+import { getData } from './selectors'
 import DownloadTransactions from './template'
+
+const momentHelper = moment.locale(locale())
 
 export type StateProps = {
   filename: string
@@ -50,9 +52,11 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
     const { initForm } = this.props
     initForm({
       from: 'all',
+      // @ts-ignore
       start: momentHelper()
         .startOf('day')
         .subtract(7, 'day'),
+      // @ts-ignore
       end: momentHelper().endOf('day')
     })
   }

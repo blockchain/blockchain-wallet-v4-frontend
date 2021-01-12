@@ -1,6 +1,6 @@
 import * as actions from '../../actions'
 import * as actionTypes from '../../actionTypes'
-import * as Lockbox from 'services/LockboxService'
+import * as Lockbox from 'services/lockbox'
 import * as selectors from '../../selectors'
 import { identity, prop } from 'ramda'
 import { put, select, take } from 'redux-saga/effects'

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import ReactHighcharts from 'react-highcharts'
 import styled from 'styled-components'
 
-import { calculateInterval } from 'services/ChartService'
+import { calculateInterval } from 'services/charts'
 import { calculateStart } from 'blockchain-wallet-v4/src/redux/data/misc/model'
 import { getConfig } from './model'
 import media from 'services/ResponsiveService'

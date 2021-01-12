@@ -1,7 +1,7 @@
 import * as actions from './actions'
 import { all, call, delay, fork, put } from 'redux-saga/effects'
 import { coreRootSagaFactory, coreSagasFactory } from 'blockchain-wallet-v4/src'
-import { tryParseLanguageFromUrl } from 'services/LocalesService'
+import { tryParseLanguageFromUrl } from 'services/locales'
 import alerts from './alerts/sagaRegister'
 import analytics from './analytics/sagaRegister'
 import auth from './auth/sagaRegister'

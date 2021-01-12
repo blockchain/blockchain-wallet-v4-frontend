@@ -5,7 +5,7 @@ import React from 'react'
 import { actions, selectors } from 'data'
 import { Types } from 'blockchain-wallet-v4/src'
 
-import * as C from 'services/AlertService'
+import * as C from 'services/alerts'
 import modalEnhancer from 'providers/ModalEnhancer'
 import SecondPassword from './template.js'
 

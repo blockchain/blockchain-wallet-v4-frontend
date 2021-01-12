@@ -1,7 +1,7 @@
 import { add, lift, pathOr, reduce, toLower } from 'ramda'
 
 import { CoinType, RemoteDataType } from 'core/types'
-import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { createDeepEqualSelector } from 'services/misc'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'

@@ -1,11 +1,13 @@
-import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { formValueSelector, getFormMeta } from 'redux-form'
-import { isEmail, isGuid } from '../../services/ValidationHelper'
-import { SupportedWalletCurrenciesType } from 'core/types'
-import Login from './template'
 import React from 'react'
+
+import { actions, selectors } from 'data'
+import { isEmail, isGuid } from 'services/forms'
+import { SupportedWalletCurrenciesType } from 'core/types'
+
+import Login from './template'
 
 class LoginContainer extends React.PureComponent<Props> {
   state = { useCode: true }

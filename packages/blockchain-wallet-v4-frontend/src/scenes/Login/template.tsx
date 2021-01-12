@@ -25,7 +25,7 @@ import {
   PasswordBox,
   TextBox
 } from 'components/Form'
-import { required, validWalletId } from 'services/FormHelper'
+import { required, validWalletId } from 'services/forms'
 import { Wrapper } from 'components/Public'
 import media from 'services/ResponsiveService'
 
