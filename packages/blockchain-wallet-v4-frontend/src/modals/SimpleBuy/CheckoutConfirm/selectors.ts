@@ -4,7 +4,7 @@ import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 
 export const getData = (state: RootState) => {
-  const bankAccountsR = selectors.components.simpleBuy.getBankTransferAccounts(
+  const bankAccountsR = selectors.components.brokerage.getBankTransferAccounts(
     state
   )
   const quoteR = selectors.components.simpleBuy.getSBQuote(state)

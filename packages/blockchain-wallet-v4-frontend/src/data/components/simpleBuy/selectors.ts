@@ -33,9 +33,6 @@ export const getAddBank = (state: RootState) =>
 export const getOrderType = (state: RootState) =>
   state.components.simpleBuy.orderType
 
-export const getBankTransferAccounts = (state: RootState) =>
-  state.components.simpleBuy.bankTransferAccounts
-
 export const getEverypay3DSDetails = (state: RootState) =>
   state.components.simpleBuy.everypay3DS
 
@@ -47,9 +44,6 @@ export const getCryptoCurrency = (state: RootState) =>
 
 export const getDisplayBack = (state: RootState) =>
   state.components.simpleBuy.displayBack
-
-export const getFastLink = (state: RootState) =>
-  state.components.simpleBuy.fastLink
 
 export const getFiatCurrency = (state: RootState) =>
   state.components.simpleBuy.fiatCurrency

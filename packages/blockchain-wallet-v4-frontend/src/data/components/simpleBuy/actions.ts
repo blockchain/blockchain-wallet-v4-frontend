@@ -22,10 +22,8 @@ import {
   SwapQuoteType,
   SwapUserLimitsType,
   WalletFiatType,
-  YodleeAccountType
 } from 'core/types'
 import {
-  FastLinkType,
   SBFixType,
   SBShowModalOriginType,
   SimpleBuyActionTypes,
@@ -107,11 +105,6 @@ export const confirmSBFundsOrder = () => ({
   type: AT.CONFIRM_FUNDS_ORDER
 })
 
-export const deleteSavedBank = (bankId: BankTransferAccountType['id']) => ({
-  type: AT.DELETE_SAVED_BANK,
-  bankId
-})
-
 export const deleteSBCard = (cardId?: SBCardType['id']) => ({
   type: AT.DELETE_SB_CARD,
   cardId
@@ -124,38 +117,6 @@ export const destroyCheckout = () => ({
 export const handleSBMethodChange = (method: SBPaymentMethodType) => ({
   type: AT.HANDLE_SB_METHOD_CHANGE,
   method
-})
-
-// TODO: ACH stuff should be abstracted from simple buy code
-export const fetchBankTransferUpdate = (accounts: YodleeAccountType[]) => ({
-  type: AT.FETCH_BANK_TRANSFER_UPDATE,
-  accounts
-})
-
-export const fetchBTUpdateLoading = (): SimpleBuyActionTypes => ({
-  type: AT.FETCH_BANK_TRANSFER_UPDATE_LOADING
-})
-
-// TODO: Implement FETCH_BANK_TRANSFER_UPDATE_ERROR and SUCCESS
-
-export const fetchBankTransferAccounts = () => ({
-  type: AT.FETCH_BANK_TRANSFER_ACCOUNTS
-})
-
-export const fetchBankTransferAccountsLoading = () => ({
-  type: AT.FETCH_BANK_TRANSFER_ACCOUNTS_LOADING
-})
-
-export const fetchBankTransferAccountsError = (error: string) => ({
-  type: AT.FETCH_BANK_TRANSFER_ACCOUNTS_ERROR,
-  payload: { error }
-})
-
-export const fetchBankTransferAccountsSuccess = (
-  accounts: BankTransferAccountType[]
-) => ({
-  type: AT.FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS,
-  payload: { accounts }
 })
 
 export const fetchSBBalances = (
@@ -475,9 +436,6 @@ export const fetchSellQuoteLoading = (): SimpleBuyActionTypes => ({
   type: AT.FETCH_SELL_QUOTE_LOADING
 })
 
-export const fetchFastLink = (): SimpleBuyActionTypes => ({
-  type: AT.FETCH_FAST_LINK
-})
 export const fetchSellQuoteSuccess = (
   quote: SwapQuoteType,
   rate: number
@@ -549,13 +507,6 @@ export const pollSBOrder = (orderId: string) => ({
   type: AT.POLL_SB_ORDER,
   payload: {
     orderId
-  }
-})
-
-export const setFastLink = (fastLink: FastLinkType): SimpleBuyActionTypes => ({
-  type: AT.SET_FAST_LINK,
-  payload: {
-    fastLink
   }
 })
 

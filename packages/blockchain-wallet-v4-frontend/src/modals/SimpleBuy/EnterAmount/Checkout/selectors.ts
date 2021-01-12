@@ -28,9 +28,10 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   )
   const sddLimitR = selectors.components.simpleBuy.getUserSddELimit(state)
   const cardsR = selectors.components.simpleBuy.getSBCards(state) || []
-  const bankTransferAccountsR = selectors.components.simpleBuy.getBankTransferAccounts(
-    state
-  )
+  const bankTransferAccountsR =
+    selectors.components.brokerage.getBankTransferAccounts(
+      state
+    )
 
   const sddLimitsR = selectors.components.simpleBuy.getSddLimits(state)
 

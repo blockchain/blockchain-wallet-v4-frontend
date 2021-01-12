@@ -27,6 +27,7 @@ import {
 import * as AT from './actionTypes'
 import { CountryType } from './../identityVerification/types'
 import { SwapAccountType } from '../swap/types'
+import { FastLinkType, BankStatusType } from '../brokerage/types'
 
 // Types
 export type SBAddCardFormValuesType = {
@@ -100,39 +101,18 @@ export type SBShowModalOriginType =
   | 'WelcomeModal'
   | 'WithdrawModal'
 
-export type FastLinkType = {
-  attributes: {
-    fastlinkParams: {
-      configName: 'Verification'
-    }
-    fastlinkUrl: string
-    token: string
-    tokenExpiresAt: string
-  }
-  id: string
-  partner: 'YODLEE'
-}
-export type BankStatusType =
-  | 'ACTIVE'
-  | 'BANK_TRANSFER_ACCOUNT_INFO_NOT_FOUND'
-  | 'BANK_TRANSFER_ACCOUNT_ALREADY_LINKED'
-  | 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH'
-  | 'DEFAULT_ERROR'
-
 // State
 export type SimpleBuyState = {
   account: RemoteDataType<string, SBAccountType>
   addBank: boolean | undefined
   balances: RemoteDataType<string, SBBalancesType>
   bankStatus: RemoteDataType<string, BankStatusType>
-  bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>
   card: RemoteDataType<string, SBCardType>
   cardId: undefined | string
   cards: RemoteDataType<string, Array<SBCardType>>
   cryptoCurrency: undefined | CoinType
   displayBack: boolean
   everypay3DS: RemoteDataType<string, Everypay3DSResponseType>
-  fastLink: RemoteDataType<string, FastLinkType>
   fiatCurrency: undefined | FiatType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
   method: undefined | SBPaymentMethodType
@@ -192,22 +172,6 @@ interface ActivateSBCardSuccess {
 interface DestroyCheckout {
   type: typeof AT.DESTROY_CHECKOUT
 }
-interface FetchBankTransferAccountsFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_BANK_TRANSFER_ACCOUNTS_ERROR
-}
-interface FetchBankTransferAccountsLoading {
-  type: typeof AT.FETCH_BANK_TRANSFER_ACCOUNTS_LOADING
-}
-
-interface FetchBankTransferAccountsSuccess {
-  payload: {
-    accounts: BankTransferAccountType[]
-  }
-  type: typeof AT.FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS
-}
 interface FetchSBBalancesFailure {
   payload: {
     error: string
@@ -257,11 +221,6 @@ interface FetchSBCardsSuccess {
   }
   type: typeof AT.FETCH_SB_CARDS_SUCCESS
 }
-
-interface FetchBTUpdateLoading {
-  type: typeof AT.FETCH_BANK_TRANSFER_UPDATE_LOADING
-}
-
 interface FetchSBFiatEligibleFailure {
   payload: {
     error: string
@@ -402,11 +361,6 @@ interface FetchSellQuoteSuccess {
   }
   type: typeof AT.FETCH_SELL_QUOTE_SUCCESS
 }
-
-interface FetchFastLinkType {
-  type: typeof AT.FETCH_FAST_LINK
-}
-
 interface InitializeCheckout {
   account?: SwapAccountType
   amount: string
@@ -486,11 +440,6 @@ interface SetStepAction {
   type: typeof AT.SET_STEP
 }
 
-interface SetFastLinkAction {
-  payload: { fastLink: FastLinkType }
-  type: typeof AT.SET_FAST_LINK
-}
-
 interface ShowModalAction {
   payload: {
     cryptoCurrency?: CoinType
@@ -544,10 +493,6 @@ export type SimpleBuyActionTypes =
   | AddCardDetailsLoading
   | AddCardDetailsSuccess
   | DestroyCheckout
-  | FetchBankTransferAccountsLoading
-  | FetchBankTransferAccountsSuccess
-  | FetchBankTransferAccountsFailure
-  | FetchBTUpdateLoading
   | FetchSBBalancesFailure
   | FetchSBBalancesLoading
   | FetchSBBalancesSuccess
@@ -587,9 +532,7 @@ export type SimpleBuyActionTypes =
   | FetchSDDLimitsLoading
   | FetchSDDLimitsFailure
   | FetchSDDLimitsSuccess
-  | FetchFastLinkType
   | InitializeCheckout
-  | SetFastLinkAction
   | SetStepAction
   | ShowModalAction
   | UpdatePaymentFailureAction
