@@ -197,7 +197,7 @@ const SignupForm = ({
               />
             </Text>
             <Link
-              href='https://www.blockchain.com/legal/terms'
+              href='https://support.blockchain.com/hc/en-us/articles/209564506-Make-a-Wallet-Backup'
               target='_blank'
               size='12px'
               weight={500}
