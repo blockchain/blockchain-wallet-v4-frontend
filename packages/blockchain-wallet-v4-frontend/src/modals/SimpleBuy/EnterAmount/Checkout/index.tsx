@@ -84,8 +84,12 @@ class Checkout extends PureComponent<Props> {
       }
     } else if (!method) {
       const fiatCurrency = this.props.fiatCurrency || 'USD'
+      // @ts-ignore why...?
+      const nextStep = this.props.hasPaymentAccount
+        ? 'LINKED_PAYMENT_ACCOUNTS'
+        : 'PAYMENT_METHODS'
       this.props.simpleBuyActions.setStep({
-        step: 'PAYMENT_METHODS',
+        step: nextStep,
         fiatCurrency,
         pair: this.props.pair,
         cryptoCurrency: this.props.cryptoCurrency,
@@ -146,8 +150,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
     | undefined,
   goals: selectors.goals.getGoals(state),
   preferences: selectors.preferences.getSBCheckoutPreferences(state),
-  sbOrders: selectors.components.simpleBuy.getSBOrders(state).getOrElse([]),
-  hasFiatBalance: selectors.components.simpleBuy.hasFiatBalances(state)
+  sbOrders: selectors.components.simpleBuy.getSBOrders(state).getOrElse([])
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -165,6 +168,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 export type OwnProps = EnterAmountOwnProps & EnterAmountSuccessStateType
 export type SuccessStateType = ReturnType<typeof getData>['data'] & {
   formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
+  hasPaymentAccount: boolean
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

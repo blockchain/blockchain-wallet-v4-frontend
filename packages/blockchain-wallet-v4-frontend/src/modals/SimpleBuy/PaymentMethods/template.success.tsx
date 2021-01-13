@@ -1,6 +1,7 @@
+import React, { useEffect } from 'react'
+
 import { LinkStatePropsType, Props as OwnProps, SuccessStateType } from '.'
 import Methods from './Methods'
-import React, { useEffect } from 'react'
 import Unsupported from './template.unsupported'
 
 const Success: React.FC<Props> = props => {

@@ -26,12 +26,9 @@ const RightArrowIcon = styled(Icon)<{
 `
 
 const Payment: React.FC<Props & { invalid?: boolean }> = props => {
-  const step =
-    props.hasFiatBalance ||
-    props.cards.length ||
-    props.bankTransferAccounts.length
-      ? 'LINKED_PAYMENT_ACCOUNTS'
-      : 'PAYMENT_METHODS'
+  const nextStep = props.hasPaymentAccount
+    ? 'LINKED_PAYMENT_ACCOUNTS'
+    : 'PAYMENT_METHODS'
 
   // disable payment method selection if SDD flow or there is invalid amount entered
   const disablePaymentSelect = props.isSddFlow ? false : props.invalid
@@ -39,7 +36,7 @@ const Payment: React.FC<Props & { invalid?: boolean }> = props => {
   const onPaymentMethodClick = () => {
     return !disablePaymentSelect && !props.isSddFlow
       ? props.simpleBuyActions.setStep({
-          step,
+          step: nextStep,
           pair: props.pair,
           fiatCurrency: props.fiatCurrency || 'USD',
           cryptoCurrency: props.cryptoCurrency
