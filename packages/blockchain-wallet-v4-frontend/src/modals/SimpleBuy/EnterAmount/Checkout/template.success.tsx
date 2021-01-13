@@ -423,7 +423,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
         {(!props.isSddFlow || props.orderType === 'SELL') &&
           props.pair &&
-          min <= max && (
+          Number(min) <= Number(max) && (
             <Amounts onClick={handleMinMaxClick}>
               <>
                 {amtError === 'BELOW_MIN' ? (
@@ -456,7 +456,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </Amounts>
           )}
 
-        {props.orderType === 'SELL' && props.pair && min > max && (
+        {props.orderType === 'SELL' && props.pair && Number(min) > Number(max) && (
           <Amounts>
             <CustomErrorCartridge
               role='button'
