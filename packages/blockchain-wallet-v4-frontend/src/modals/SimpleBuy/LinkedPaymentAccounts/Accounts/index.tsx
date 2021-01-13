@@ -1,4 +1,4 @@
-import { Button, Icon, Image , Text } from 'blockchain-info-components'
+import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import {
   CARD_TYPES,
   DEFAULT_CARD_SVG_LOGO
@@ -12,7 +12,6 @@ import {
   getFiatFromPair
 } from 'data/components/simpleBuy/model'
 import { Props as OwnProps, SuccessStateType } from '../index'
-
 
 import {
   SBPaymentMethodType,
@@ -172,8 +171,8 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 
   renderBankText = (value: SBPaymentMethodType): string => {
     return value.details
-      ? value.details.accountName
-        ? value.details.accountName
+      ? value.details.bankName
+        ? value.details.bankName
         : value.details.accountNumber
       : 'Bank Account'
   }
