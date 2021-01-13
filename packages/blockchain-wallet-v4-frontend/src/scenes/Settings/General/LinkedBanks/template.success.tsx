@@ -1,3 +1,4 @@
+import { Button, Icon, Text } from 'blockchain-info-components'
 import {
   CardDetails,
   CardWrapper,
@@ -5,14 +6,16 @@ import {
   CustomSettingHeader,
   RemoveButton
 } from '../styles'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { fiatToString } from 'core/exchange/currency'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Text } from 'blockchain-info-components'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
-import { SBPaymentMethodType, WalletFiatEnum, WalletFiatType } from 'core/types'
-import { SettingContainer, SettingSummary } from 'components/Setting'
+import {
+  SettingComponent,
+  SettingContainer,
+  SettingSummary
+} from 'components/Setting'
+import { WalletFiatEnum } from 'core/types'
+import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -24,18 +27,16 @@ const BankIconWrapper = styled.div`
   display: flex;
 `
 
-const getAvailableAmountForCurrency = (
-  methods: SBPaymentMethodType[],
-  currency: WalletFiatType
-) => {
-  const method = methods.find(
-    method => method.type === 'FUNDS' && method.currency === currency
-  )
-  if (method) {
-    return Number(method.limits.max)
-  }
-  return null
-}
+const CapText = styled(Text)`
+  text-transform: capitalize;
+`
+
+const CustomSettingComponent = styled(SettingComponent)`
+  margin-top: 36px;
+  ${media.tablet`
+    margin-top: 8px;
+  `}
+`
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const walletBeneficiaries = props.bankAccounts.filter(
@@ -61,10 +62,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </Text>
           )}
           {walletBeneficiaries.map((account, i) => {
-            const availableAmount = getAvailableAmountForCurrency(
-              props.paymentMethods.methods,
-              account.currency as WalletFiatType
-            )
             return (
               <CardWrapper key={i}>
                 <Child>
@@ -75,36 +72,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     <Text size='16px' color='grey800' weight={600}>
                       {account.details.bankName}
                     </Text>
-
-                    {availableAmount && (
-                      <Text size='14px' color='grey600' weight={500}>
-                        <FormattedMessage
-                          id='scenes.settings.linked_banks.daily_limit'
-                          defaultMessage='{amount} Daily Limit'
-                          values={{
-                            amount: fiatToString({
-                              value: convertBaseToStandard(
-                                'FIAT',
-                                availableAmount
-                              ),
-                              unit: (account.currency ||
-                                'EUR') as WalletFiatType
-                            })
-                          }}
-                        />
-                      </Text>
-                    )}
+                    <CapText size='14px' color='grey600' weight={500}>
+                      {account.details?.bankAccountType.toLowerCase()} account{' '}
+                      {account.details?.accountNumber}
+                    </CapText>
                   </CardDetails>
                 </Child>
                 <Child>
-                  <CardDetails right>
-                    <Text size='16px' color='grey800' weight={600}>
-                      ····{account.details.accountNumber}
-                    </Text>
-                    <Text size='16px' color='grey800' weight={600}>
-                      {account.details.accountName}
-                    </Text>
-                  </CardDetails>
                   <RemoveButton
                     data-e2e='removeBankAccount'
                     nature='light-red'
@@ -127,9 +101,18 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           })}
         </div>
       </SettingSummary>
+      <CustomSettingComponent>
+        <Button
+          nature='primary'
+          data-e2e='addCardFromSettings'
+          onClick={() => props.handleBankClick()}
+        >
+          <FormattedMessage id='buttons.add_bank' defaultMessage='Add a Bank' />
+        </Button>
+      </CustomSettingComponent>
     </SettingContainer>
   )
 }
 
-type Props = OwnProps & SuccessStateType
+type Props = OwnProps & SuccessStateType & { handleBankClick: () => void }
 export default reduxForm<{}, Props>({ form: 'linkedBanks' })(Success)
