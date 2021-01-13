@@ -843,7 +843,6 @@ export default ({
 
       // 🚨Create the user if you have a currency
       yield call(createUser)
-      const isUserTier2 = yield call(isTier2)
 
       // If no currency fallback to sb fiat currency or wallet
       const fallbackFiatCurrency =
@@ -854,23 +853,36 @@ export default ({
       if (!Remote.Success.is(userSDDTierR)) {
         yield call(fetchSDDEligible)
       }
-      const userSDDTier = S.getUserSddEligibleTier(yield select()).getOrElse(1)
-      const isTier3 = userSDDTier && userSDDTier === SDD_TIER
-      const checkEligibilityTier2 = isUserTier2 ? true : undefined
+      const state = yield select()
+      const currentUserTier = selectors.modules.profile.getCurrentTier(state)
+      const userSDDEligibleTier = S.getUserSddEligibleTier(state).getOrElse(1)
+      // only fetch non-eligible payment methods if user is not tier 2
+      const includeNonEligibleMethods = currentUserTier === 2
+      // if user is SDD tier 3 eligible, fetch limits for tier 3
+      // else let endpoint return default current tier limits for current tier of user
+      const includeTierLimits =
+        userSDDEligibleTier === SDD_TIER ? SDD_TIER : undefined
 
-      // in case of SDD we have to send tier=3 and checkEligibility=false
-      const checkEligibility = isTier3 ? false : checkEligibilityTier2
-
-      const methods = yield call(
+      let paymentMethods = yield call(
         api.getSBPaymentMethods,
         currency || fallbackFiatCurrency,
-        checkEligibility,
-        isTier3 ? userSDDTier : undefined
+        includeNonEligibleMethods,
+        includeTierLimits
       )
+
+      // 🚨👋 temporarily remove ACH from user payment methods if they are not t2
+      // t2 users who are invited to ACH beta will still get method since the API will
+      // return that method if they are actually eligible
+      if (currentUserTier !== 2) {
+        paymentMethods = paymentMethods.filter(
+          method => method.type !== 'BANK_TRANSFER'
+        )
+      }
+
       yield put(
         A.fetchSBPaymentMethodsSuccess({
           currency: currency || fallbackFiatCurrency,
-          methods
+          methods: paymentMethods
         })
       )
     } catch (e) {
