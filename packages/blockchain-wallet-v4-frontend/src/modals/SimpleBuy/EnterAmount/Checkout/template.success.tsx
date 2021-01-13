@@ -538,7 +538,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <ActionButton
           {...props}
           isSufficientEthForErc20={isSufficientEthForErc20 || false}
-          isDailyLimitExceeded={isDailyLimitExceeded}
+          isDailyLimitExceeded={isDailyLimitExceeded || false}
         />
 
         {isDailyLimitExceeded && (
