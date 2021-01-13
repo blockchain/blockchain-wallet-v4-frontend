@@ -16,8 +16,19 @@ import { Title, Value } from 'components/Flyout'
 import { getBankLogoImageName } from '../../../model'
 
 type PaymentContainerProps = {
+  disabled?: boolean
   isMethod: boolean
 }
+
+const DisablableIcon = styled(Icon)<{
+  disabled?: boolean
+}>`
+  ${props =>
+    props.disabled &&
+    css`
+      cursor: not-allowed;
+    `}
+`
 
 export const PaymentContainer = styled.div<PaymentContainerProps>`
   border: 1px solid ${props => props.theme.grey100};
@@ -31,6 +42,12 @@ export const PaymentContainer = styled.div<PaymentContainerProps>`
   padding: ${props => (props.isMethod ? `12px 28px` : `23px 28px`)};
   justify-content: space-between;
   ${props => !props.isMethod && `line-height: 32px;`}
+  ${props =>
+    props.disabled &&
+    css`
+      background-color: ${props => props.theme.grey000};
+      cursor: not-allowed;
+    `}
 `
 
 export const PaymentText = styled(Text)<PaymentContainerProps>`
@@ -48,10 +65,17 @@ export const PaymentText = styled(Text)<PaymentContainerProps>`
       line-height: 35px;
     `}
 `
-export const PaymentArrowContainer = styled.div`
+export const PaymentArrowContainer = styled.div<{
+  disabled?: boolean
+}>`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  ${props =>
+    props.disabled &&
+    css`
+      cursor: not-allowed;
+    `}
 `
 export const DisplayTitle = styled(Title)`
   margin-top: 4px;
@@ -138,14 +162,28 @@ export const renderFund = (
 
 export const getIcon = (
   method: SBPaymentMethodType | undefined,
-  isSddFlow: boolean = false
+  isSddFlow: boolean = false,
+  disabled?: boolean
 ): ReactElement => {
   if (isSddFlow && !method) {
-    return <Icon size='18px' color='blue600' name='credit-card-sb' />
+    return (
+      <DisablableIcon
+        disabled={disabled}
+        size='18px'
+        color='blue600'
+        name='credit-card-sb'
+      />
+    )
   }
   if (!method) {
     return (
-      <Icon cursor name='plus-in-circle-filled' size='22px' color='blue600' />
+      <DisablableIcon
+        cursor
+        disabled={disabled}
+        name='plus-in-circle-filled'
+        size='22px'
+        color='blue600'
+      />
     )
   }
 
