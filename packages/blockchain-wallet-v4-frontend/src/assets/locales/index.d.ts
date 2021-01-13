@@ -1255,6 +1255,7 @@ type MessagesType = {
   'modals.simplebuy.checkout.max_card_limit': 'Max Card Limit'
   'modals.simplebuy.checkout.belowmin': '{value} Minimum {orderType}'
   'modals.simplebuy.checkout.not_enough_funds_for_sell': 'Not Enough funds for Sell'
+  'modals.simplebuy.checkout.dailylimitexceeded': 'Your daily limit has been exceeded.'
   'modals.simplebuy.checkout.buymax': 'Buy Max'
   'modals.simplebuy.checkout.buymin': 'Buy Min'
   'modals.simplebuy.checkout.payment_method': 'Payment Method'
