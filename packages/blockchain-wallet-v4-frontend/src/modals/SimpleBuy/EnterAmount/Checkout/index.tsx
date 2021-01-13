@@ -49,8 +49,13 @@ class Checkout extends PureComponent<Props> {
     // if the user is < tier 2 go to kyc but save order info
     // if the user is tier 2 try to submit order, let BE fail
     const { formValues } = this.props
-    const { isSddFlow, userData } = this.props.data.getOrElse({
+    const {
+      hasPaymentAccount,
+      isSddFlow,
+      userData
+    } = this.props.data.getOrElse({
       userData: { tiers: { current: 0, next: 0, selected: 0 } } as UserDataType,
+      hasPaymentAccount: false,
       isSddFlow: false
     } as SuccessStateType)
     const simpleBuyGoal = find(propEq('name', 'simpleBuy'), this.props.goals)
@@ -84,8 +89,7 @@ class Checkout extends PureComponent<Props> {
       }
     } else if (!method) {
       const fiatCurrency = this.props.fiatCurrency || 'USD'
-      // @ts-ignore why...?
-      const nextStep = this.props.hasPaymentAccount
+      const nextStep = hasPaymentAccount
         ? 'LINKED_PAYMENT_ACCOUNTS'
         : 'PAYMENT_METHODS'
       this.props.simpleBuyActions.setStep({
