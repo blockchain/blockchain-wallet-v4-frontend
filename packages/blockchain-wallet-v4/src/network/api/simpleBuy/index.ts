@@ -252,8 +252,8 @@ export default ({
 
   const getSBPaymentMethods = (
     currency: FiatType,
-    checkEligibility?: boolean,
-    tier?: number
+    includeNonEligibleMethods?: boolean,
+    includeTierLimits?: number
   ): SBPaymentMethodsType =>
     authorizedGet({
       url: nabuUrl,
@@ -261,8 +261,8 @@ export default ({
       contentType: 'application/json',
       data: {
         currency,
-        checkEligibility,
-        tier
+        eligibleOnly: includeNonEligibleMethods,
+        tier: includeTierLimits
       }
     })
 

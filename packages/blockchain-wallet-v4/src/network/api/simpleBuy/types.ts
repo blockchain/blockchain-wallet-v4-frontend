@@ -134,7 +134,9 @@ export type SBPaymentMethodType = {
   card?: SBCard
   currency: FiatType
   details?: BankDetails
+  eligible?: boolean
   id?: string
+  ineligibleReason?: string
   limits: {
     max: string
     min: string
