@@ -10,15 +10,15 @@ import {
   SupportedWalletCurrenciesType,
   WalletCurrencyType
 } from 'core/types'
-import Flyout, { duration, FlyoutChild, FlyoutWrapper } from 'components/Flyout'
+import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { getData } from './selectors'
-import { Header } from './components'
 import { ModalPropsType } from '../types'
 import { REQUEST_FORM } from './model'
 import { RequestFormType, RequestSteps } from './types'
 import RequestCoinSelect from './CoinSelect'
+import RequestShowAddress from './ShowAddress'
 
 class RequestCrypto extends PureComponent<Props, State> {
   state: State = {
@@ -32,8 +32,8 @@ class RequestCrypto extends PureComponent<Props, State> {
   }
 
   componentDidUpdate (prevProps: Props) {
-    const newStep = this.props.formValues.step
-    const previousStep = prevProps.formValues.step
+    const newStep = this.props.formValues?.step
+    const previousStep = prevProps.formValues?.step
     if (newStep === previousStep) return
     /* eslint-disable */
     if (RequestSteps[newStep] > RequestSteps[previousStep]) {
@@ -44,6 +44,18 @@ class RequestCrypto extends PureComponent<Props, State> {
     /* eslint-enable */
   }
 
+  componentWillUnmount () {
+    this.goToCoinSelectStep()
+  }
+
+  goToCoinSelectStep = () => {
+    this.props.formActions.change(
+      REQUEST_FORM,
+      'step',
+      RequestSteps.COIN_SELECT
+    )
+  }
+
   handleClose = () => {
     this.setState({ show: false })
     setTimeout(() => {
@@ -52,13 +64,7 @@ class RequestCrypto extends PureComponent<Props, State> {
   }
 
   render () {
-    const {
-      formActions,
-      formValues,
-      position,
-      userClickedOutside,
-      total
-    } = this.props
+    const { formValues, position, userClickedOutside, total } = this.props
     const { step } = formValues || {}
     const { direction, show } = this.state
 
@@ -74,29 +80,15 @@ class RequestCrypto extends PureComponent<Props, State> {
       >
         {step === RequestSteps.COIN_SELECT && (
           <FlyoutChild>
-            <FlyoutWrapper>
-              <Header handleClose={this.handleClose} />
-              <RequestCoinSelect {...this.props} />
-            </FlyoutWrapper>
+            <RequestCoinSelect {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {step === RequestSteps.SHOW_ADDRESS && (
           <FlyoutChild>
-            <FlyoutWrapper>
-              <Header handleClose={this.handleClose} />
-              <h1>Share</h1>
-              <button
-                onClick={() =>
-                  formActions.change(
-                    'requestCrypto',
-                    'step',
-                    RequestSteps.COIN_SELECT
-                  )
-                }
-              >
-                Back
-              </button>
-            </FlyoutWrapper>
+            <RequestShowAddress
+              {...this.props}
+              handleBack={this.goToCoinSelectStep}
+            />
           </FlyoutChild>
         )}
       </Flyout>
@@ -133,7 +125,10 @@ type State = {
 type OwnProps = ModalPropsType & { coin?: CoinType }
 type LinkStatePropsType = {
   formValues: RequestFormType
-  initialValues: { selectedCoin: CoinType | string; step: RequestSteps }
+  initialValues: {
+    selectedCoin: CoinType | string
+    step: RequestSteps
+  }
   requestableCoins: Array<WalletCurrencyType>
   supportedCoins: SupportedWalletCurrenciesType
   walletCurrency: FiatType

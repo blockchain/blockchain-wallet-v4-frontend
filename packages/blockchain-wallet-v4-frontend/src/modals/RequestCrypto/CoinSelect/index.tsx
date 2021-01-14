@@ -4,19 +4,23 @@ import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
+import { FlyoutWrapper } from 'components/Flyout'
+import { Icon, Text } from 'blockchain-info-components'
 import { SwapAccountType } from 'data/components/swap/types'
-import { Text } from 'blockchain-info-components'
 import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 
 import { getData } from './selectors'
 import { Props as OwnProps } from '..'
-import { REQUEST_FORM } from '../model'
+import { REQUEST_FORM, StepHeader } from '../model'
 import { RequestSteps } from '../types'
 import CryptoAccountOption from './CryptoAccountOption'
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+`
+const Header = styled.div`
+  padding: 0 40px;
 `
 const SelectCoinWrapper = styled.div`
   margin: 24px 0 28px;
@@ -28,44 +32,61 @@ class RequestCoinSelect extends React.PureComponent<Props> {
     const {
       accounts,
       formActions,
+      handleClose,
       requestableCoins,
       supportedCoins,
       walletCurrency
     } = this.props
     return (
       <Wrapper>
-        <Text size='24px' color='grey900' weight={600}>
-          <FormattedMessage
-            id='modals.requestcrypto.coinselect.title'
-            defaultMessage='Receive Crypto'
-          />
-        </Text>
-        <Text
-          size='16px'
-          color='grey600'
-          weight={500}
-          style={{ marginTop: '10px' }}
-        >
-          <FormattedMessage
-            id='modals.requestcrypto.coinselect.subtitle'
-            defaultMessage='Select and share your address or QR code to receive crypto from anyone around the world.'
-          />
-        </Text>
-        <SelectCoinWrapper>
-          <Field
-            component={SelectBoxCoin}
-            height='32px'
-            name='selectedCoin'
-            props={{
-              additionalOptions: [{ text: 'All Wallets', value: 'ALL' }],
-              limitTo: requestableCoins.map(coin => ({
-                text: coin,
-                value: coin
-              }))
-            }}
-            type='request'
-          />
-        </SelectCoinWrapper>
+        <FlyoutWrapper>
+          <StepHeader spaceBetween>
+            <Icon name='arrow-bottom-right' color='blue600' size='24px' />
+            <Icon
+              name='close'
+              color='grey600'
+              role='button'
+              data-e2e='close'
+              size='24px'
+              cursor
+              onClick={handleClose}
+            />
+          </StepHeader>
+        </FlyoutWrapper>
+        <Header>
+          <Text size='24px' color='grey900' weight={600}>
+            <FormattedMessage
+              id='modals.requestcrypto.coinselect.title'
+              defaultMessage='Receive Crypto'
+            />
+          </Text>
+          <Text
+            size='16px'
+            color='grey600'
+            weight={500}
+            style={{ marginTop: '10px' }}
+          >
+            <FormattedMessage
+              id='modals.requestcrypto.coinselect.subtitle'
+              defaultMessage='Select and share your address or QR code to receive crypto from anyone around the world.'
+            />
+          </Text>
+          <SelectCoinWrapper>
+            <Field
+              component={SelectBoxCoin}
+              height='32px'
+              name='selectedCoin'
+              props={{
+                additionalOptions: [{ text: 'All Wallets', value: 'ALL' }],
+                limitTo: requestableCoins.map(coin => ({
+                  text: coin,
+                  value: coin
+                }))
+              }}
+              type='request'
+            />
+          </SelectCoinWrapper>
+        </Header>
         {accounts.map(account => (
           <CryptoAccountOption
             account={account}
@@ -94,6 +115,7 @@ const connector = connect(mapStateToProps)
 type Props = ConnectedProps<typeof connector> &
   OwnProps & {
     handleAccountChange: (account: SwapAccountType) => void
+    handleClose: () => void
   }
 
 export default connector(RequestCoinSelect)

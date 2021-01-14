@@ -4,21 +4,23 @@ import styled from 'styled-components'
 import { FiatType, SupportedCoinType } from 'core/types'
 import { Icon } from 'blockchain-info-components'
 
+// TODO: make these generic and share
 import {
   BalanceRow,
   FlexStartRow,
   OptionTitle,
   OptionValue
 } from '../../../Swap/components'
-import { SwapAccountType } from 'data/components/swap/types'
 import CoinBalance from '../../../Swap/components/CoinBalance'
+
+import { SwapAccountType } from 'data/components/swap/types'
 
 export const Option = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-top: ${props => `1px solid ${props.theme.grey000}`};
-  padding: 16px 12px;
+  padding: 16px 40px;
   cursor: pointer;
   &:hover {
     background-color: ${props => props.theme.blue000};
