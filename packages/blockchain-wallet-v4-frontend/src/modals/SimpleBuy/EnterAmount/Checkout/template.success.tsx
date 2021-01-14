@@ -549,7 +549,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             >
               <FormattedMessage
                 id='modals.simplebuy.checkout.dailylimitexceeded'
-                defaultMessage='Your daily limit has been exceeded.'
+                defaultMessage="You've reached your daily trading limit"
               />
             </CustomErrorCartridge>
           </Amounts>
