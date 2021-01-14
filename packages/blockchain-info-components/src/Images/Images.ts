@@ -136,6 +136,7 @@ import capitalOne from './img/BankIcons/capital-one.svg'
 import chase from './img/BankIcons/chase.svg'
 import citiBank from './img/BankIcons/citi-bank.svg'
 import citizens from './img/BankIcons/citizens.svg'
+import dagSite from './img/BankIcons/yodlee-test.svg'
 import navyFederal from './img/BankIcons/navy-federal.svg'
 import pnc from './img/BankIcons/pnc.svg'
 import regions from './img/BankIcons/regions.svg'
@@ -186,6 +187,7 @@ const Images = {
   coins: coins,
   'coin-pax': coinPax,
   'close-error': closeError,
+  'dag-site': dagSite,
   'email-error': emailError,
   'email-success': emailSuccess,
   'empty-search': emptySearch,

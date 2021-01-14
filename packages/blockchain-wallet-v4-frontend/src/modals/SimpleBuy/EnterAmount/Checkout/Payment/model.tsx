@@ -167,7 +167,12 @@ export const getIcon = (
         />
       )
     case 'BANK_TRANSFER':
-      return <Image name={getBankLogoImageName(method.details?.bankName)} />
+      return (
+        <Image
+          name={getBankLogoImageName(method.details?.bankName)}
+          height='48px'
+        />
+      )
     default:
       return <></>
   }

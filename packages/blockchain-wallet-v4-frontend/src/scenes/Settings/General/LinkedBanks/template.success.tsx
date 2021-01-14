@@ -1,4 +1,4 @@
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, Image, Text } from 'blockchain-info-components'
 import {
   CardDetails,
   CardWrapper,
@@ -7,6 +7,7 @@ import {
   RemoveButton
 } from '../styles'
 import { FormattedMessage } from 'react-intl'
+import { getBankLogoImageName } from '../../../../modals/SimpleBuy/model'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
 import {
@@ -21,7 +22,6 @@ import styled from 'styled-components'
 
 const BankIconWrapper = styled.div`
   margin-right: 14px;
-  width: 24px;
   justify-content: center;
   flex-direction: column;
   display: flex;
@@ -66,7 +66,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               <CardWrapper key={i}>
                 <Child>
                   <BankIconWrapper>
-                    <Icon name='bank-filled' color='blue600' size='16px' />
+                    <Image
+                      name={getBankLogoImageName(account.details?.bankName)}
+                    />
                   </BankIconWrapper>
                   <CardDetails>
                     <Text size='16px' color='grey800' weight={600}>

@@ -142,6 +142,8 @@ export const getBankLogoImageName = bankName => {
     case 'Citizens State Bank (WI)':
     case 'Citizens Tri-County Bank':
       return 'citizens'
+    case 'Dag Site':
+      return 'dag-site'
     case 'Navy Federal':
     case 'Navy Federal Credit Union':
       return 'navy-federal'

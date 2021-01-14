@@ -329,7 +329,7 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   icon={
                     bankMethod.value.details
                       ? this.getLinkedBankIcon(
-                          bankMethod.value.details.bankName
+                          bankMethod.value?.details?.bankName
                         )
                       : this.getIcon(bankMethod.value)
                   }
