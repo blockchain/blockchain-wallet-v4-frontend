@@ -7,7 +7,7 @@ import {
   RemoveButton
 } from '../styles'
 import { FormattedMessage } from 'react-intl'
-import { getBankLogoImageName } from '../../../../modals/SimpleBuy/model'
+import { getBankLogoImageName } from 'services/ImagesService'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
 import {
@@ -75,7 +75,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       {account.details.bankName}
                     </Text>
                     <CapText size='14px' color='grey600' weight={500}>
-                      {account.details?.bankAccountType.toLowerCase()} account{' '}
+                      {account.details?.bankAccountType.toLowerCase()}{' '}
+                      <FormattedMessage
+                        id='scenes.settings.general.account'
+                        defaultMessage='account'
+                      />{' '}
                       {account.details?.accountNumber}
                     </CapText>
                   </CardDetails>
