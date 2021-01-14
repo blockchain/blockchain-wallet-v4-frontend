@@ -218,6 +218,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     sddLimit.max = props.sddLimits.maxPossibleOrder
   }
 
+  const isDailyLimitExceeded =
+    props.sddLimits?.daily?.available &&
+    Number(props.sddLimits.daily.available) === 0
+
   const max: string = getMaxMin(
     'max',
     props.sbBalances,
@@ -534,7 +538,22 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <ActionButton
           {...props}
           isSufficientEthForErc20={isSufficientEthForErc20 || false}
+          isDailyLimitExceeded={isDailyLimitExceeded || false}
         />
+
+        {isDailyLimitExceeded && (
+          <Amounts>
+            <CustomErrorCartridge
+              role='button'
+              data-e2e='sbEnterAmountDailyLimitExceeded'
+            >
+              <FormattedMessage
+                id='modals.simplebuy.checkout.dailylimitexceeded'
+                defaultMessage='Your daily limit has been exceeded.'
+              />
+            </CustomErrorCartridge>
+          </Amounts>
+        )}
       </FlyoutWrapper>
       {props.isSddFlow && props.orderType === 'BUY' && (
         <IncreaseLimits {...props} />
