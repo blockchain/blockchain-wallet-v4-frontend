@@ -1,13 +1,15 @@
 import { FormattedMessage } from 'react-intl'
-import { getCoinFromPair, getOrderType } from 'data/components/simpleBuy/model'
 import React from 'react'
+
+import { BankTransferAccountType } from 'core/network/api/simpleBuy/types'
+import { getCoinFromPair, getOrderType } from 'data/components/simpleBuy/model'
+import { Text } from 'blockchain-info-components'
 
 import { Props } from '.'
 import {
   IconTx as SharedIconTx,
   Timestamp as SharedTimestamp
 } from '../components'
-import { Text } from 'blockchain-info-components'
 
 export const IconTx = (props: Props) => {
   const orderType = getOrderType(props.order)
@@ -15,7 +17,10 @@ export const IconTx = (props: Props) => {
   return <SharedIconTx type={orderType} coin={coin} />
 }
 
-export const getOrigin = (props: Props) => {
+export const getOrigin = (
+  props: Props,
+  bankAccounts: Array<BankTransferAccountType>
+) => {
   switch (props.order.paymentType) {
     case 'FUNDS':
       return props.order.inputCurrency + ' Wallet'
@@ -25,8 +30,19 @@ export const getOrigin = (props: Props) => {
     case 'BANK_ACCOUNT':
       return 'Bank Transfer'
     case 'LINK_BANK':
-    case 'BANK_TRANSFER': // LOL this is so bad
-      return 'Bank Account'
+    case 'BANK_TRANSFER':
+      // should always be a bank account but user may have removed the account
+      try {
+        const accounts = bankAccounts.filter(
+          acct => acct.id === props.order.paymentMethodId
+        )
+        const { details } = accounts[0]
+        return `${details.bankName} ${details.bankAccountType.toLowerCase()} ${
+          details.accountNumber
+        }`
+      } catch {
+        return 'Bank Account'
+      }
     case undefined:
       return 'Unknown Payment Type'
   }
