@@ -38,13 +38,17 @@ const CustomSettingComponent = styled(SettingComponent)`
   `}
 `
 
+const StyledSettingsContainer = styled(SettingContainer)`
+  border-bottom: none;
+`
+
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const walletBeneficiaries = props.bankAccounts.filter(
     account => account.currency in WalletFiatEnum
   )
 
   return (
-    <SettingContainer>
+    <StyledSettingsContainer>
       <SettingSummary>
         <CustomSettingHeader>
           <FormattedMessage
@@ -116,7 +120,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <FormattedMessage id='buttons.add_bank' defaultMessage='Add a Bank' />
         </Button>
       </CustomSettingComponent>
-    </SettingContainer>
+    </StyledSettingsContainer>
   )
 }
 

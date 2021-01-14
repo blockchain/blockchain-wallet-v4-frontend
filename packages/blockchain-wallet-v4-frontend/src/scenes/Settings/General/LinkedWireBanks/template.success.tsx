@@ -1,4 +1,4 @@
-import { CardDetails, CardWrapper, Child, CustomSettingHeader } from '../styles'
+import { CardDetails, CardWrapper, Child } from '../styles'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
 import { FormattedMessage } from 'react-intl'
@@ -39,21 +39,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   return (
     <SettingContainer>
       <SettingSummary>
-        <CustomSettingHeader>
-          <FormattedMessage
-            id='scenes.settings.linked_beneficiaries'
-            defaultMessage='Linked Beneficiaries'
-          />
-        </CustomSettingHeader>
         <div>
-          {!walletBeneficiaries.length && (
-            <Text size='14px' color='grey600' weight={500}>
-              <FormattedMessage
-                id='scenes.settings.no_linked_wire_banks'
-                defaultMessage='No Linked Wire Banks'
-              />
-            </Text>
-          )}
           {walletBeneficiaries.map((beneficiary, i) => {
             const availableAmount = getAvailableAmountForCurrency(
               props.paymentMethods.methods,
