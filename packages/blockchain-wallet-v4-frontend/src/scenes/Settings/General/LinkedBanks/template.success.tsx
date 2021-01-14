@@ -42,8 +42,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     account => account.currency in WalletFiatEnum
   )
 
-  if (!walletBeneficiaries.length) return null
-
   return (
     <SettingContainer>
       <SettingSummary>
@@ -54,7 +52,15 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </CustomSettingHeader>
         <div>
-          {props.bankAccounts.map((account, i) => {
+          {!walletBeneficiaries.length && (
+            <Text size='14px' color='grey600' weight={500}>
+              <FormattedMessage
+                id='scenes.settings.no_linked_banks'
+                defaultMessage='No Linked Banks'
+              />
+            </Text>
+          )}
+          {walletBeneficiaries.map((account, i) => {
             const availableAmount = getAvailableAmountForCurrency(
               props.paymentMethods.methods,
               account.currency as WalletFiatType

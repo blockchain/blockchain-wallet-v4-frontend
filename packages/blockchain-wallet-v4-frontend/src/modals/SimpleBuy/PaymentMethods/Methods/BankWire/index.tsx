@@ -1,21 +1,27 @@
+import { FormattedMessage } from 'react-intl'
+import React, { ReactElement } from 'react'
+import styled from 'styled-components'
+
 import {
   Content,
   DisplayContainer,
   DisplayIcon,
   DisplayTitle
 } from 'components/SimpleBuy'
-import { FormattedMessage } from 'react-intl'
 import { Icon } from 'blockchain-info-components'
 import { SBPaymentMethodType } from 'core/types'
 import { Title } from 'components/Flyout'
-import React, { ReactElement } from 'react'
-import styled from 'styled-components'
 
 const DisplayTitleBank = styled(DisplayTitle)`
   margin-bottom: 2px;
 `
 const DisplayIconBank = styled(DisplayIcon)`
   min-height: 75px;
+`
+const SubTitle = styled(Title)`
+  color: ${props => props.theme.grey600};
+  margin-top: 5px;
+  line-height: 21px;
 `
 
 type Props = {
@@ -34,12 +40,12 @@ const BankWire: React.FC<Props> = ({ value, onClick, icon, text }) => (
     <DisplayIconBank>{icon}</DisplayIconBank>
     <Content>
       <DisplayTitleBank>{text}</DisplayTitleBank>
-      <Title>
+      <SubTitle>
         <FormattedMessage
           id='modals.simplebuy.bankwire.description'
           defaultMessage='Send funds directly from your bank account to your Blockchain.com wallet.'
         />
-      </Title>
+      </SubTitle>
     </Content>
     <Icon name='chevron-right' size='24px' color='grey400' />
   </DisplayContainer>

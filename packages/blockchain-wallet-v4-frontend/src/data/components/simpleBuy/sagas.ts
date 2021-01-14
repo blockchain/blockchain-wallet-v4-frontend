@@ -36,6 +36,8 @@ import { UserDataType } from 'data/modules/types'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
+import * as T from './types'
+
 import {
   convertBaseToStandard,
   convertStandardToBase
@@ -57,12 +59,6 @@ import {
 import { FALLBACK_DELAY, getOutputFromPair } from '../swap/model'
 import { getDirection } from './utils'
 import { getRate, NO_QUOTE } from '../swap/utils'
-import {
-  SBAddCardErrorType,
-  SBAddCardFormValuesType,
-  SBBillingAddressFormValuesType,
-  SBCheckoutFormValuesType
-} from './types'
 import { selectReceiveAddress } from '../utils/sagas'
 import profileSagas from '../../modules/profile/sagas'
 import sendSagas from '../send/sagas'
@@ -123,7 +119,7 @@ export default ({
 
   const addCardDetails = function * () {
     try {
-      const formValues: SBAddCardFormValuesType = yield select(
+      const formValues: T.SBAddCardFormValuesType = yield select(
         selectors.form.getFormValues('addCCForm')
       )
       const existingCardsR = S.getSBCards(yield select())
@@ -187,7 +183,7 @@ export default ({
       yield put(actions.form.startSubmit('addCCForm'))
       yield put(
         actions.form.stopSubmit('addCCForm', {
-          _error: error as SBAddCardErrorType
+          _error: error as T.SBAddCardErrorType
         })
       )
       yield put(A.addCardDetailsFailure(error))
@@ -240,7 +236,7 @@ export default ({
     paymentMethodId,
     paymentType
   }: ReturnType<typeof A.createSBOrder>) {
-    const values: SBCheckoutFormValuesType = yield select(
+    const values: T.SBCheckoutFormValuesType = yield select(
       selectors.form.getFormValues('simpleBuyCheckout')
     )
     try {
@@ -542,12 +538,20 @@ export default ({
         // Polls the account details to check for Active state
         const bankData = yield call(conditionalRetry, status.id)
         // Shows bank status screen based on whether has blocked account or not
-        yield put(
-          A.setStep({ step: 'LINK_BANK_STATUS', bankStatus: bankData.state })
-        )
+        let bankStatus: T.BankStatusType = 'DEFAULT_ERROR'
+        switch (bankData.state) {
+          case 'ACTIVE':
+            bankStatus = bankData.state
+            break
+          case 'BLOCKED':
+            bankStatus = bankData.error
+            break
+        }
+
+        yield put(A.setStep({ step: 'LINK_BANK_STATUS', bankStatus }))
 
         if (bankData.state === 'ACTIVE') {
-          const values: SBCheckoutFormValuesType = yield select(
+          const values: T.SBCheckoutFormValuesType = yield select(
             selectors.form.getFormValues('simpleBuyCheckout')
           )
           if (values?.amount) {
@@ -622,7 +626,7 @@ export default ({
 
       const userDataR = selectors.modules.profile.getUserData(yield select())
       const billingAddressForm:
-        | SBBillingAddressFormValuesType
+        | T.SBBillingAddressFormValuesType
         | undefined = yield select(
         selectors.form.getFormValues('ccBillingAddress')
       )
@@ -647,7 +651,7 @@ export default ({
   }
 
   const fetchSBCardSDD = function * (
-    billingAddress: SBBillingAddressFormValuesType
+    billingAddress: T.SBBillingAddressFormValuesType
   ) {
     let card: SBCardType
     try {
@@ -839,7 +843,6 @@ export default ({
 
       // 🚨Create the user if you have a currency
       yield call(createUser)
-      const isUserTier2 = yield call(isTier2)
 
       // If no currency fallback to sb fiat currency or wallet
       const fallbackFiatCurrency =
@@ -850,23 +853,36 @@ export default ({
       if (!Remote.Success.is(userSDDTierR)) {
         yield call(fetchSDDEligible)
       }
-      const userSDDTier = S.getUserSddEligibleTier(yield select()).getOrElse(1)
-      const isTier3 = userSDDTier && userSDDTier === SDD_TIER
-      const checkEligibilityTier2 = isUserTier2 ? true : undefined
+      const state = yield select()
+      const currentUserTier = selectors.modules.profile.getCurrentTier(state)
+      const userSDDEligibleTier = S.getUserSddEligibleTier(state).getOrElse(1)
+      // only fetch non-eligible payment methods if user is not tier 2
+      const includeNonEligibleMethods = currentUserTier === 2
+      // if user is SDD tier 3 eligible, fetch limits for tier 3
+      // else let endpoint return default current tier limits for current tier of user
+      const includeTierLimits =
+        userSDDEligibleTier === SDD_TIER ? SDD_TIER : undefined
 
-      // in case of SDD we have to send tier=3 and checkEligibility=false
-      const checkEligibility = isTier3 ? false : checkEligibilityTier2
-
-      const methods = yield call(
+      let paymentMethods = yield call(
         api.getSBPaymentMethods,
         currency || fallbackFiatCurrency,
-        checkEligibility,
-        isTier3 ? userSDDTier : undefined
+        includeNonEligibleMethods,
+        includeTierLimits
       )
+
+      // 🚨👋 temporarily remove ACH from user payment methods if they are not t2
+      // t2 users who are invited to ACH beta will still get method since the API will
+      // return that method if they are actually eligible
+      if (currentUserTier !== 2) {
+        paymentMethods = paymentMethods.filter(
+          method => method.type !== 'BANK_TRANSFER'
+        )
+      }
+
       yield put(
         A.fetchSBPaymentMethodsSuccess({
           currency: currency || fallbackFiatCurrency,
-          methods
+          methods: paymentMethods
         })
       )
     } catch (e) {
@@ -938,7 +954,7 @@ export default ({
       if (action.meta.field !== 'amount') return
       const formValues = selectors.form.getFormValues('simpleBuyCheckout')(
         yield select()
-      ) as SBCheckoutFormValuesType
+      ) as T.SBCheckoutFormValuesType
       const account = S.getSwapAccount(yield select())
       const pair = S.getSBPair(yield select())
 
@@ -1034,7 +1050,7 @@ export default ({
   const handleSBMethodChange = function * (
     action: ReturnType<typeof A.handleSBMethodChange>
   ) {
-    const values: SBCheckoutFormValuesType = yield select(
+    const values: T.SBCheckoutFormValuesType = yield select(
       selectors.form.getFormValues('simpleBuyCheckout')
     )
 
@@ -1190,7 +1206,7 @@ export default ({
           orderType,
           amount,
           cryptoAmount
-        } as SBCheckoutFormValuesType)
+        } as T.SBCheckoutFormValuesType)
       )
     } catch (e) {
       const error = errorHandler(e)

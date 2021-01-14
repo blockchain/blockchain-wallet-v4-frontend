@@ -78,6 +78,12 @@ const Success: React.FC<Props> = props => {
       ? moment.duration(props.withdrawLockCheck.lockTime, 'seconds').days()
       : 3
 
+  const isPendingDeposit = props.order.state === 'PENDING_DEPOSIT'
+  const isTransactionPending =
+    isPendingDeposit &&
+    props.order.attributes?.everypay?.paymentState ===
+      'WAITING_FOR_3DS_RESPONSE'
+
   return (
     <Wrapper>
       <ContentWrapper>
@@ -106,14 +112,21 @@ const Success: React.FC<Props> = props => {
               weight={600}
               color='grey800'
             >
-              <FormattedMessage
-                id='modals.simplebuy.summary.purchased'
-                defaultMessage='{amount} {coin} Purchased'
-                values={{
-                  amount: baseAmount,
-                  coin: baseCurrency
-                }}
-              />
+              {isPendingDeposit ? (
+                <FormattedMessage
+                  id='modals.simplebuy.summary.pending_buy'
+                  defaultMessage='Pending Buy'
+                />
+              ) : (
+                <FormattedMessage
+                  id='modals.simplebuy.summary.purchased'
+                  defaultMessage='{amount} {coin} Purchased'
+                  values={{
+                    amount: baseAmount,
+                    coin: baseCurrency
+                  }}
+                />
+              )}
             </Text>
 
             <Text
@@ -140,29 +153,27 @@ const Success: React.FC<Props> = props => {
                 ))}
             </Text>
           </TitleWrapper>
-          {props.order.state === 'PENDING_DEPOSIT' &&
-            props.order.attributes?.everypay?.paymentState ===
-              'WAITING_FOR_3DS_RESPONSE' && (
-              <Bottom>
-                <Button
-                  data-e2e='sbRetryCard'
-                  size='16px'
-                  height='48px'
-                  nature='primary'
-                  onClick={() =>
-                    props.simpleBuyActions.setStep({
-                      step: '3DS_HANDLER',
-                      order: props.order
-                    })
-                  }
-                >
-                  <FormattedMessage
-                    id='modals.simplebuy.summary.complete_card_payment'
-                    defaultMessage='Complete Card Payment'
-                  />
-                </Button>
-              </Bottom>
-            )}
+          {isTransactionPending && (
+            <Bottom>
+              <Button
+                data-e2e='sbRetryCard'
+                size='16px'
+                height='48px'
+                nature='primary'
+                onClick={() =>
+                  props.simpleBuyActions.setStep({
+                    step: '3DS_HANDLER',
+                    order: props.order
+                  })
+                }
+              >
+                <FormattedMessage
+                  id='modals.simplebuy.summary.complete_card_payment'
+                  defaultMessage='Complete Card Payment'
+                />
+              </Button>
+            </Bottom>
+          )}
 
           {orderType === 'BUY' &&
             (props.order.paymentType === 'PAYMENT_CARD' ||

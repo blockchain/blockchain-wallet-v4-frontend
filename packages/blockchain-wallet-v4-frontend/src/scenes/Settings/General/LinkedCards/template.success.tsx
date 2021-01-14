@@ -53,7 +53,7 @@ const Success: React.FC<InjectedFormProps<
   )
   const activeCards = props.cards.filter(card => card.state === 'ACTIVE')
 
-  return !activeCards.length ? null : (
+  return (
     <CustomSettingContainer>
       <SettingSummary>
         <CustomSettingHeader>
@@ -62,6 +62,15 @@ const Success: React.FC<InjectedFormProps<
             defaultMessage='Linked Cards'
           />
         </CustomSettingHeader>
+
+        {!activeCards.length && (
+          <Text size='14px' color='grey600' weight={500}>
+            <FormattedMessage
+              id='scenes.settings.no_credit_cards'
+              defaultMessage='No Credit Cards'
+            />
+          </Text>
+        )}
         {activeCards.map((card, i) => {
           let cardType = CARD_TYPES.find(
             cardType => cardType.type === (card.card ? card.card.type : '')
