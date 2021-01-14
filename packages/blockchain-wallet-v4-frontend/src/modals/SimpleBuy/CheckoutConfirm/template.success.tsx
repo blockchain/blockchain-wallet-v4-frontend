@@ -19,7 +19,8 @@ import {
   getBaseCurrency,
   getCounterAmount,
   getCounterCurrency,
-  getOrderType
+  getOrderType,
+  getPaymentMethodId
 } from 'data/components/simpleBuy/model'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -75,13 +76,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const baseCurrency = getBaseCurrency(props.order, props.supportedCoins)
   const counterAmount = getCounterAmount(props.order)
   const counterCurrency = getCounterCurrency(props.order, props.supportedCoins)
+  const paymentMethodId = getPaymentMethodId(props.order)
   const requiresTerms =
     props.order.paymentType === 'PAYMENT_CARD' ||
     props.order.paymentType === 'USER_CARD'
-  const bankAccount = filter(
+  const [bankAccount] = filter(
     (b: BankTransferAccountType) =>
-      b.state === 'ACTIVE' && b.id === props.order.paymentMethodId,
-    defaultTo([])(path(['data', 'bankAccounts'], props.data))
+      b.state === 'ACTIVE' && b.id === paymentMethodId,
+    defaultTo([])(path(['bankAccounts'], props))
   )
   const showLock = props.withdrawLockCheck && props.withdrawLockCheck.lockTime
   const isBankLink = props.order.paymentType === 'BANK_TRANSFER'
@@ -173,7 +175,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </Title>
         <Value>
-          {getPaymentMethod(props.order, props.supportedCoins, bankAccount[0])}
+          {getPaymentMethod(props.order, props.supportedCoins, bankAccount)}
         </Value>
       </Row>
       <Bottom>

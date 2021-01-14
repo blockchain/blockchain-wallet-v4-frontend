@@ -50,6 +50,10 @@ export const getOrderType = (order: SBOrderType): SBOrderActionType => {
   return order.side
 }
 
+export const getPaymentMethodId = (order: SBOrderType): string | undefined => {
+  return order.paymentMethodId
+}
+
 export const getCoinFromPair = (pair: SBPairsType): CoinType => {
   const index = 0
   return splitPair(pair)[index] as CoinType

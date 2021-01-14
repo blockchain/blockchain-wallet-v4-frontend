@@ -13,7 +13,7 @@ import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { Title, Value } from 'components/Flyout'
 
-import { getBankLogoImageName } from '../../../model'
+import { getBankLogoImageName } from 'services/ImagesService'
 
 type PaymentContainerProps = {
   disabled?: boolean
@@ -79,6 +79,10 @@ export const PaymentArrowContainer = styled.div<{
 `
 export const DisplayTitle = styled(Title)`
   margin-top: 4px;
+  text-transform: capitalize;
+  color: ${p => p.theme.grey600};
+  font-weight: 500;
+  font-size: 14px;
 `
 export const SectionTitle = styled(Text)`
   margin-top: 4px;
@@ -91,8 +95,8 @@ export const DisplayValue = styled(Value)`
 // TODO: this code is also in EnterAmount/Checkout/Payment file, dedupe it.
 export const renderBankText = (value: SBPaymentMethodType): string => {
   return value.details
-    ? value.details.accountName
-      ? value.details.accountName
+    ? value.details.bankName
+      ? value.details.bankName
       : value.details.accountNumber
     : 'Bank Account'
 }
@@ -101,16 +105,9 @@ export const renderBank = (value: SBPaymentMethodType) => (
   <>
     <DisplayValue>{renderBankText(value)}</DisplayValue>
     <DisplayTitle>
-      <FormattedMessage
-        id='modals.simplebuy.card_limit'
-        defaultMessage='{card} Limit'
-        values={{
-          card: `${fiatToString({
-            value: convertBaseToStandard('FIAT', value.limits.max),
-            unit: value.currency as FiatType
-          })} ${value.currency}`
-        }}
-      />
+      {`${value.details?.bankAccountType.toLowerCase()} account ${
+        value.details?.accountNumber
+      }`}
     </DisplayTitle>
   </>
 )
@@ -208,7 +205,12 @@ export const getIcon = (
         />
       )
     case 'BANK_TRANSFER':
-      return <Image name={getBankLogoImageName(method.details?.bankName)} />
+      return (
+        <Image
+          name={getBankLogoImageName(method.details?.bankName)}
+          height='48px'
+        />
+      )
     default:
       return <></>
   }

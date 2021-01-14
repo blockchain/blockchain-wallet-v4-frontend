@@ -128,22 +128,28 @@ import worldAlert2 from './img/world-alert@2x.jpg'
 import worldAlert3 from './img/world-alert@3x.jpg'
 
 // Bank Icons
-import bankOfAmerica from './img/BankIcons/bank-of-america.svg'
-import bbt from './img/BankIcons/bbt.svg'
-import capitalOne from './img/BankIcons/capital-one.svg'
-import chase from './img/BankIcons/chase.svg'
-import citiBank from './img/BankIcons/citi-bank.svg'
-import citizens from './img/BankIcons/citizens.svg'
-import navyFederal from './img/BankIcons/navy-federal.svg'
-import pnc from './img/BankIcons/pnc.svg'
-import regions from './img/BankIcons/regions.svg'
-import suntrust from './img/BankIcons/suntrust.svg'
-import td from './img/BankIcons/td.svg'
-import usaa from './img/BankIcons/usaa.svg'
-import usBank from './img/BankIcons/us-bank.svg'
-import wellsFargo from './img/BankIcons/wells-fargo.svg'
+import bankLogoAcorns from './img/bank-logo-acorns.svg'
+import bankLogoAlly from './img/bank-logo-ally.svg'
+import bankLogoBankOfAmerica from './img/bank-logo-bank-of-america.svg'
+import bankLogoBbt from './img/bank-logo-bbt.svg'
+import bankLogoCapitalOne from './img/bank-logo-capital-one.svg'
+import bankLogoChase from './img/bank-logo-chase.svg'
+import bankLogoCitiBank from './img/bank-logo-citi-bank.svg'
+import bankLogoCitizens from './img/bank-logo-citizens.svg'
+import bankLogoDagSite from './img/bank-logo-yodlee-test.svg'
+import bankLogoNavyFederal from './img/bank-logo-navy-federal.svg'
+import bankLogoPnc from './img/bank-logo-pnc.svg'
+import bankLogoRegions from './img/bank-logo-regions.svg'
+import bankLogoRobinhood from './img/bank-logo-robinhood.svg'
+import bankLogoSuntrust from './img/bank-logo-suntrust.svg'
+import bankLogoTd from './img/bank-logo-td.svg'
+import bankLogoUsaa from './img/bank-logo-usaa.svg'
+import bankLogoUsBank from './img/bank-logo-us-bank.svg'
+import bankLogoVenmo from './img/bank-logo-venmo.svg'
+import bankLogoWellsFargo from './img/bank-logo-wells-fargo.svg'
 
 const Images = {
+  'bank-logo-acorns': bankLogoAcorns,
   'ad-bitcoin-games': adBitcoinGames,
   'ad-bitcoin-games2': adBitcoinGames2,
   'airdrop-enrolled': airdropEnrolled,
@@ -154,12 +160,13 @@ const Images = {
   'allow-camera': allowCamera,
   'allow-camera2': allowCamera2,
   'allow-camera3': allowCamera3,
+  'bank-logo-ally': bankLogoAlly,
   'apple-app-store-badge': appleAppStoreBadge,
-  bank: bank,
+  bank,
   'bank-error': bankError,
-  'bank-of-america': bankOfAmerica,
+  'bank-logo-bank-of-america': bankLogoBankOfAmerica,
   'bank-success': bankSuccess,
-  bbt: bbt,
+  'bank-logo-bbt': bankLogoBbt,
   'bg-pattern': bgPattern,
   'bitpay-logo': bitpayLogo,
   'blank-card': blankCard,
@@ -171,15 +178,16 @@ const Images = {
   'buy-sell-learn-more': buySellLearnMore,
   'buy-sell-learn-more2': buySellLearnMore2,
   'buy-wallet': buyWallet,
-  'capital-one': capitalOne,
+  'bank-logo-capital-one': bankLogoCapitalOne,
   'chart-placeholder': chartPlaceholder,
-  chase: chase,
+  'bank-logo-chase': bankLogoChase,
   'checkmark-green': checkmarkGreen,
-  'citi-bank': citiBank,
-  citizens: citizens,
+  'bank-logo-citi-bank': bankLogoCitiBank,
+  'bank-logo-citizens': bankLogoCitizens,
   coins: coins,
   'coin-pax': coinPax,
   'close-error': closeError,
+  'bank-logo-dag-site': bankLogoDagSite,
   'email-error': emailError,
   'email-success': emailSuccess,
   'empty-search': emptySearch,
@@ -243,32 +251,34 @@ const Images = {
   'mastercard-logo': mastercardLogo,
   'micro-deposits-whole': microDepositsWhole,
   money: money,
-  'navy-federal': navyFederal,
-  pnc: pnc,
+  'bank-logo-navy-federal': bankLogoNavyFederal,
+  'bank-logo-pnc': bankLogoPnc,
   printer: printer,
   'qr-code': qrCode,
   'recover-padlock': recoverPadlock,
   refresh,
-  regions: regions,
+  'bank-logo-regions': bankLogoRegions,
+  'bank-logo-robinhood': bankLogoRobinhood,
   search: search,
   'select-arrow': selectArrow,
   'silver-approved': silverApproved,
   smartphone: smartphone,
   'starfield-banner-bg': starfieldBannerBg,
-  suntrust: suntrust,
+  'bank-logo-suntrust': bankLogoSuntrust,
   'swap-carousel1': swapCarousel1,
   'swap-carousel2': swapCarousel2,
   'swap-carousel3': swapCarousel3,
   'swap-carousel4': swapCarousel4,
   'swap-carousel5': swapCarousel5,
   'swap-modal-bg': swapModalBg,
-  td: td,
+  'bank-logo-td': bankLogoTd,
   'twitter-white': twitterWhite,
   'tier-gold': tierGold,
-  usaa: usaa,
-  'us-bank': usBank,
+  'bank-logo-usaa': bankLogoUsaa,
+  'bank-logo-us-bank': bankLogoUsBank,
   'us-flag': usFlag,
   'usdd-intro': usddIntro,
+  'bank-logo-venmo': bankLogoVenmo,
   'visa-logo': visaLogo,
   'visa-new-logo': visaNewLogo,
   'wallet-v3-backup': walletV3Backup,
@@ -279,7 +289,7 @@ const Images = {
   wallet,
   'wallet-blue': walletBlue,
   wdgld: wdgld,
-  'wells-fargo': wellsFargo,
+  'bank-logo-wells-fargo': bankLogoWellsFargo,
   'world-alert': worldAlert,
   'world-alert2': worldAlert2,
   'world-alert3': worldAlert3,
