@@ -14,7 +14,7 @@ class LinkBank extends PureComponent<Props> {
   componentDidMount () {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
-      this.props.simpleBuyActions.fetchFastLink()
+      this.props.brokerageActions.fetchFastLink()
     }
   }
 
@@ -59,7 +59,8 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -70,6 +71,7 @@ type OwnProps = {
   pair: SBPairType
 }
 type LinkDispatchPropsType = {
+  brokerageActions: typeof actions.components.brokerage
   simpleBuyActions: typeof actions.components.simpleBuy
 }
 export type SuccessStateType = ReturnType<typeof getData>['data']

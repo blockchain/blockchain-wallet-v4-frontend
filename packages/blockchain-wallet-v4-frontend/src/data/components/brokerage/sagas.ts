@@ -1,31 +1,17 @@
-import {
-  call,
-  put,
-  retry,
-  select,
-  take
-} from 'redux-saga/effects'
+import { call, put, retry, select, take } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
-import { SBCheckoutFormValuesType } from 'data/types'
 import { APIType } from 'core/network/api'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { SBCheckoutFormValuesType } from 'data/types'
 
 import * as A from './actions'
 import * as AT from './actionTypes'
-import {
-  DEFAULT_SB_METHODS,
-} from '../simplebuy/model' // TODO: removed this SB dependency
-import { FastLinkType } from './types'
+import { DEFAULT_SB_METHODS } from '../simpleBuy/model' // TODO: removed this SB dependency
+// import { FastLinkType } from './types'
 
-export default ({
-  api,
-}: {
-  api: APIType
-  coreSagas: any
-  networks: any
-}) => {
+export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
   const deleteSavedBank = function * ({
     bankId
   }: ReturnType<typeof A.deleteSavedBank>) {
@@ -65,8 +51,7 @@ export default ({
     accounts
   }: ReturnType<typeof A.fetchBankTransferUpdate>) {
     try {
-      const fastLink =
-        yield select(selectors.components.brokerage.getFastLink)
+      const fastLink = yield select(selectors.components.brokerage.getFastLink)
       for (let a of accounts) {
         const status: ReturnType<typeof api.updateBankAccountLink> = yield call(
           api.updateBankAccountLink,
@@ -78,11 +63,11 @@ export default ({
         // Polls the account details to check for Active state
         const bankData = yield call(conditionalRetry, status.id)
         // Shows bank status screen based on whether has blocked account or not
-        
+
         yield put(
           actions.components.simpleBuy.setStep({
             step: 'LINK_BANK_STATUS',
-            bankStatus: bankData.state,
+            bankStatus: bankData.state
           })
         )
 
@@ -94,12 +79,13 @@ export default ({
             yield put(
               actions.components.simpleBuy.createSBOrder(
                 'BANK_TRANSFER',
-                status.id,
+                status.id
               )
             )
           } else {
-            const sbMethodsR =
-              selectors.components.simpleBuy.getSBPaymentMethods(yield select())
+            const sbMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
+              yield select()
+            )
             const sbMethods = sbMethodsR.getOrElse(DEFAULT_SB_METHODS)
             if (Remote.Success.is(sbMethodsR) && sbMethods.methods.length) {
               const bankTransferMethod = sbMethods.methods.filter(
@@ -120,7 +106,7 @@ export default ({
       yield put(
         actions.components.simpleBuy.setStep({
           step: 'LINK_BANK_STATUS',
-          bankStatus: 'DEFAULT_ERROR',
+          bankStatus: 'DEFAULT_ERROR'
         })
       )
     }
@@ -150,6 +136,6 @@ export default ({
     deleteSavedBank,
     fetchBankTransferAccounts,
     fetchBankTransferUpdate,
-    fetchFastLink,
+    fetchFastLink
   }
 }

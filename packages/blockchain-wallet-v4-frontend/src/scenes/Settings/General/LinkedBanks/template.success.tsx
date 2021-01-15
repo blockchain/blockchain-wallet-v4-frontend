@@ -107,7 +107,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     // @ts-ignore
                     onClick={(e: SyntheticEvent) => {
                       e.stopPropagation()
-                      props.simpleBuyActions.deleteSavedBank(account.id)
+                      props.brokerageActions.deleteSavedBank(account.id)
                     }}
                   >
                     <FormattedMessage

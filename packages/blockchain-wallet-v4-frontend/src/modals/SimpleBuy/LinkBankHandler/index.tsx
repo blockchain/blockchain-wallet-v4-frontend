@@ -27,8 +27,8 @@ class LinkBankHandler extends PureComponent<Props, State> {
 
     const { sites } = event.data
     if (!isEmpty(sites)) {
-      this.props.simpleBuyActions.fetchBankTransferUpdate(sites)
-      this.props.simpleBuyActions.fetchBTUpdateLoading()
+      this.props.brokerageActions.fetchBankTransferUpdate(sites)
+      this.props.brokerageActions.fetchBTUpdateLoading()
     } else {
       this.props.simpleBuyActions.setStep({ step: 'LINK_BANK' })
     }
@@ -49,7 +49,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

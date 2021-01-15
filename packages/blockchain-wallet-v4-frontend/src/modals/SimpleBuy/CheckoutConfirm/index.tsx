@@ -36,7 +36,7 @@ class CheckoutConfirm extends PureComponent<Props> {
       this.props.simpleBuyActions.fetchSDDEligible()
       this.props.simpleBuyActions.fetchSDDVerified()
       this.props.simpleBuyActions.fetchSBCards()
-      this.props.simpleBuyActions.fetchBankTransferAccounts()
+      this.props.brokerageActions.fetchBankTransferAccounts()
     }
   }
 
@@ -160,7 +160,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch
   ),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
-  sendActions: bindActionCreators(actions.components.send, dispatch)
+  sendActions: bindActionCreators(actions.components.send, dispatch),
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
