@@ -1033,6 +1033,7 @@ type MessagesType = {
   'modals.repayloan.choosewaytopay': 'How do you want to repay?'
   'modals.repayloan.repayamount': 'Repay amount'
   'modals.repayloan.repayfrom': 'Repay from'
+  'modals.requestcrypto.coinselect.noaccounts': 'Currently there are no receivable accounts for the selected crypto.'
   'modals.requestcrypto.coinselect.title': 'Receive Crypto'
   'modals.requestcrypto.coinselect.subtitle': 'Select and share your address or QR code to receive crypto from anyone around the world.'
   'modals.requestcrypto.showaddress.title': 'Scan or Share'

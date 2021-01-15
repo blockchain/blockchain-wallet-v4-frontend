@@ -25,6 +25,11 @@ const SelectCoinWrapper = styled.div`
   margin: 24px 0 28px;
   width: 40%;
 `
+const NoAccountsText = styled.div`
+  border-top: ${props => `1px solid ${props.theme.grey000}`};
+  padding: 40px 40px 0;
+  text-align: center;
+`
 
 class RequestCoinSelect extends React.PureComponent<Props> {
   render () {
@@ -101,6 +106,21 @@ class RequestCoinSelect extends React.PureComponent<Props> {
             walletCurrency={walletCurrency}
           />
         ))}
+        {accounts.length === 0 && (
+          <NoAccountsText>
+            <Text
+              size='16px'
+              color='grey900'
+              weight={500}
+              style={{ marginTop: '10px' }}
+            >
+              <FormattedMessage
+                id='modals.requestcrypto.coinselect.noaccounts'
+                defaultMessage='Currently there are no receivable accounts for the selected crypto.'
+              />
+            </Text>
+          </NoAccountsText>
+        )}
       </Wrapper>
     )
   }

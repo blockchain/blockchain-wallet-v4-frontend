@@ -43,8 +43,8 @@ class RequestShowAddress extends React.PureComponent<Props> {
     const { selectedAccount } = formValues
 
     // TODO: ensure selectors return next address for BCH/BTC
-    // @ts-ignore
-    const receiveAddress: string =
+    const receiveAddress =
+      // @ts-ignore
       selectedAccount.nextAddress || selectedAccount.address
 
     return (
