@@ -31,18 +31,16 @@ export const getOrigin = (
       return 'Bank Transfer'
     case 'LINK_BANK':
     case 'BANK_TRANSFER':
-      // should always be a bank account but user may have removed the account
-      try {
-        const accounts = bankAccounts.filter(
-          acct => acct.id === props.order.paymentMethodId
-        )
-        const { details } = accounts[0]
+      const bankAccount = bankAccounts.find(
+        acct => acct.id === props.order.paymentMethodId
+      )
+      if (bankAccount) {
+        const { details } = bankAccount
         return `${details.bankName} ${details.bankAccountType.toLowerCase()} ${
           details.accountNumber
         }`
-      } catch {
-        return 'Bank Account'
       }
+      return 'Bank Account'
     case undefined:
       return 'Unknown Payment Type'
   }
