@@ -8,6 +8,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { Icon, Text } from 'blockchain-info-components'
 import { selectors } from 'data'
 import { SupportedWalletCurrenciesType } from 'core/redux/walletOptions/types'
+import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 
 import { Props as OwnProps } from '../index'
 import { StepHeader } from '../model'
@@ -77,12 +78,10 @@ class RequestShowAddress extends React.PureComponent<Props> {
               GBH4TZYZ4IRCPO44CBOLFUHULU2WGALXTAVESQA6432MBJMABBB4GIYI
             </Text>
           </AddressDisplay>
-          <div style={{ marginLeft: '40px' }}>
-            <Icon
+          <div style={{ marginLeft: '40px', marginTop: '6px' }}>
+            <CopyClipboardButton
+              textToCopy={'TEST'}
               color='blue600'
-              cursor
-              name='copy-clipboard'
-              onClick={() => {}}
               size='24px'
             />
           </div>
