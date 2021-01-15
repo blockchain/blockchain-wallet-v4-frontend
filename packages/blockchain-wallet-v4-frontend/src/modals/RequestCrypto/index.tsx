@@ -97,12 +97,13 @@ class RequestCrypto extends PureComponent<Props, State> {
   }
 }
 
+// TODO: fix form dropdown
 const mapStateToProps = (state): LinkStatePropsType => ({
   formValues: selectors.form.getFormValues(REQUEST_FORM)(
     state
   ) as RequestFormType,
   initialValues: {
-    selectedCoin: selectors.router.getCoinFromPageUrl(state) || 'ALL',
+    selectedCoin: 'ALL', // selectors.router.getCoinFromPageUrl(state) || 'ALL',
     step: RequestSteps.COIN_SELECT
   },
   requestableCoins: getData(state),

@@ -42,6 +42,11 @@ class RequestShowAddress extends React.PureComponent<Props> {
     const { formValues, supportedCoins, walletCurrency } = this.props
     const { selectedAccount } = formValues
 
+    // TODO: ensure selectors return next address for BCH/BTC
+    // @ts-ignore
+    const receiveAddress: string =
+      selectedAccount.nextAddress || selectedAccount.address
+
     return (
       <Wrapper>
         <FlyoutWrapper>
@@ -75,12 +80,12 @@ class RequestShowAddress extends React.PureComponent<Props> {
               <FormattedMessage id='copy.address' defaultMessage='Address' />
             </Text>
             <Text color='grey800' size='16px' weight={600} lineHeight='24px'>
-              GBH4TZYZ4IRCPO44CBOLFUHULU2WGALXTAVESQA6432MBJMABBB4GIYI
+              {receiveAddress}
             </Text>
           </AddressDisplay>
           <div style={{ marginLeft: '40px', marginTop: '6px' }}>
             <CopyClipboardButton
-              textToCopy={'TEST'}
+              textToCopy={receiveAddress}
               color='blue600'
               size='24px'
             />
