@@ -14,7 +14,7 @@ const CoinBalance: React.FC<Props> = props => {
         coin={props.account.coin}
         currency={props.walletCurrency}
         loadingHeight='24px'
-        style={{ cursor: 'pointer', lineHeight: 1.25 }}
+        style={{ cursor: !props.displayOnly && 'pointer', lineHeight: 1.25 }}
         weight={600}
       >
         {props.account.balance}
@@ -28,7 +28,7 @@ const CoinBalance: React.FC<Props> = props => {
         color='grey600'
         coin={props.account.coin}
         weight={600}
-        style={{ cursor: 'pointer', lineHeight: 1.25 }}
+        style={{ cursor: !props.displayOnly && 'pointer', lineHeight: 1.25 }}
       >
         {props.account.balance}
       </CoinDisplay>
@@ -41,6 +41,7 @@ const CoinBalance: React.FC<Props> = props => {
 
 type Props = {
   account: SwapAccountType
+  displayOnly?: boolean
   walletCurrency: FiatType
 }
 

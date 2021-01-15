@@ -9,11 +9,10 @@ import { Icon, Text } from 'blockchain-info-components'
 import { SwapAccountType } from 'data/components/swap/types'
 import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 
+import { CryptoAccountOption, REQUEST_FORM, StepHeader } from '../model'
 import { getData } from './selectors'
 import { Props as OwnProps } from '..'
-import { REQUEST_FORM, StepHeader } from '../model'
 import { RequestSteps } from '../types'
-import CryptoAccountOption from './CryptoAccountOption'
 
 const Wrapper = styled.div`
   display: flex;
