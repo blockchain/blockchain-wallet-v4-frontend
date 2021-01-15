@@ -21,7 +21,7 @@ class FeaturesContainer extends React.PureComponent<Props> {
       supportedCoins
     } = this.props
     // TODO: remove BTC check just for dev testing now
-    if (type === 'REQUEST' && coin === 'BTC') {
+    if ((type === 'REQUEST' && coin === 'BTC') || coin === 'SECURITY-CENTER') {
       return modalActions.showModal('REQUEST_CRYPTO_MODAL', {
         coin: coin in CoinTypeEnum && coin,
         origin: 'FeaturesTopNav'

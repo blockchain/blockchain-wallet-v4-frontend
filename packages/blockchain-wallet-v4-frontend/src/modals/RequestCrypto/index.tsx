@@ -34,6 +34,7 @@ class RequestCrypto extends PureComponent<Props, State> {
   componentDidUpdate (prevProps: Props) {
     const newStep = this.props.formValues?.step
     const previousStep = prevProps.formValues?.step
+
     if (newStep === previousStep) return
     /* eslint-disable */
     if (RequestSteps[newStep] > RequestSteps[previousStep]) {
@@ -96,13 +97,12 @@ class RequestCrypto extends PureComponent<Props, State> {
   }
 }
 
-// TODO: fix initial coin passing
-const mapStateToProps = (state, ownProps): LinkStatePropsType => ({
+const mapStateToProps = (state): LinkStatePropsType => ({
   formValues: selectors.form.getFormValues(REQUEST_FORM)(
     state
   ) as RequestFormType,
   initialValues: {
-    selectedCoin: ownProps.coin || 'ALL',
+    selectedCoin: selectors.router.getCoinFromPageUrl(state) || 'ALL',
     step: RequestSteps.COIN_SELECT
   },
   requestableCoins: getData(state),
@@ -126,7 +126,7 @@ type OwnProps = ModalPropsType & { coin?: CoinType }
 type LinkStatePropsType = {
   formValues: RequestFormType
   initialValues: {
-    selectedCoin: CoinType | string
+    selectedCoin: CoinType | string | undefined
     step: RequestSteps
   }
   requestableCoins: Array<WalletCurrencyType>
@@ -139,11 +139,11 @@ export type Props = OwnProps &
 
 const enhance = compose<any>(
   connector,
+  modalEnhancer('REQUEST_CRYPTO_MODAL', { transition: duration }),
   reduxForm({
     form: REQUEST_FORM,
     enableReinitialize: true
-  }),
-  modalEnhancer('REQUEST_CRYPTO_MODAL', { transition: duration })
+  })
 )
 
 export default enhance(RequestCrypto)
