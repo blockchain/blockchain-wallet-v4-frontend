@@ -3,12 +3,13 @@ import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { CoinAccountListOption } from 'components/Form'
 import { FlyoutWrapper } from 'components/Flyout'
-import { Icon, Text } from 'blockchain-info-components'
 import { selectors } from 'data'
 import { SupportedWalletCurrenciesType } from 'core/redux/walletOptions/types'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
+import QRCodeWrapper from 'components/QRCode/Wrapper'
 
 import { Props as OwnProps } from '../index'
 import { StepHeader } from '../model'
@@ -35,6 +36,21 @@ const AddressDisplay = styled.div`
   overflow-wrap: anywhere;
   word-break: break-all;
   hyphens: none;
+`
+const QRCodeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 40px 0 36px;
+  width: 100%;
+`
+const ButtonsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 `
 
 class RequestShowAddress extends React.PureComponent<Props> {
@@ -91,6 +107,23 @@ class RequestShowAddress extends React.PureComponent<Props> {
             />
           </div>
         </AddressWrapper>
+        <QRCodeContainer>
+          <QRCodeWrapper
+            id='qrCode'
+            data-e2e='requestAddressQrCode'
+            size={280}
+            value={receiveAddress}
+          />
+        </QRCodeContainer>
+        <ButtonsWrapper>
+          <Button
+            data-e2e='createRequestLink'
+            nature='empty-blue'
+            width='310px'
+          >
+            Create Link
+          </Button>
+        </ButtonsWrapper>
       </Wrapper>
     )
   }
