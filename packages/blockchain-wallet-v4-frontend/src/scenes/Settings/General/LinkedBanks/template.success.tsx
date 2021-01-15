@@ -76,7 +76,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   </BankIconWrapper>
                   <CardDetails>
                     <Text size='16px' color='grey800' weight={600}>
-                      {account.details.bankName}
+                      {account.details?.bankName}
                     </Text>
                     <CapText size='14px' color='grey600' weight={500}>
                       {account.details?.bankAccountType.toLowerCase()}{' '}
