@@ -3,13 +3,14 @@ import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
+import { CoinAccountListOption } from 'components/Form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Icon, Text } from 'blockchain-info-components'
 import { selectors } from 'data'
 import { SupportedWalletCurrenciesType } from 'core/redux/walletOptions/types'
 
-import { CryptoAccountOption, StepHeader } from '../model'
 import { Props as OwnProps } from '../index'
+import { StepHeader } from '../model'
 
 const Wrapper = styled.div`
   display: flex;
@@ -60,7 +61,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
             </Text>
           </StepHeader>
         </FlyoutWrapper>
-        <CryptoAccountOption
+        <CoinAccountListOption
           account={selectedAccount}
           coinModel={supportedCoins[selectedAccount.coin]}
           displayOnly

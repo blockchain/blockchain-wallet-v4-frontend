@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import { CoinAccountListOption } from 'components/Form'
 import { coinOrder } from 'blockchain-wallet-v4-frontend/src/modals/Swap/CoinSelection/selectors'
 import { FlyoutWrapper } from 'components/Flyout'
 import {
@@ -20,7 +21,6 @@ import {
 import { model } from 'data'
 import { SBPairType } from 'core/types'
 import { SwapAccountType } from 'data/types'
-import CryptoAccountOption from 'blockchain-wallet-v4-frontend/src/modals/Swap/CoinSelection/CryptoAccountOption'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
 import CryptoItem from './CryptoItem'
@@ -260,13 +260,14 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
                     account.balance !== '0' &&
                     account.balance !== 0 &&
                     isInvitedShowNC(account) && (
-                      <CryptoAccountOption
+                      <CoinAccountListOption
                         key={account.index}
                         account={account}
-                        coins={props.coins}
+                        coinModel={props.coins[account.coin]}
                         isAccountSelected={false}
                         isSwap={false}
                         onClick={() => handleSell(account)}
+                        showLowFeeBadges
                         walletCurrency={props.walletCurrency}
                       />
                     )

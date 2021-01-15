@@ -4,14 +4,14 @@ import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
+import { CoinAccountListOption, SelectBoxCoin } from 'components/Form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Icon, Text } from 'blockchain-info-components'
 import { SwapAccountType } from 'data/components/swap/types'
-import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 
-import { CryptoAccountOption, REQUEST_FORM, StepHeader } from '../model'
 import { getData } from './selectors'
 import { Props as OwnProps } from '..'
+import { REQUEST_FORM, StepHeader } from '../model'
 import { RequestSteps } from '../types'
 
 const Wrapper = styled.div`
@@ -87,7 +87,7 @@ class RequestCoinSelect extends React.PureComponent<Props> {
           </SelectCoinWrapper>
         </Header>
         {accounts.map(account => (
-          <CryptoAccountOption
+          <CoinAccountListOption
             account={account}
             coinModel={supportedCoins[account.coin]}
             onClick={() => {

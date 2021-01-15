@@ -1,7 +1,16 @@
+import { compose } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
+
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { CoinAccountListBalance } from 'components/Form'
+import { CoinType } from 'core/types'
+import { FlyoutWrapper } from 'components/Flyout'
+import { InitSwapFormValuesType } from 'data/components/swap/types'
+import { selectors } from 'data'
 
 import {
   BalanceRow,
@@ -16,15 +25,7 @@ import {
   TrendingIconRow
 } from '../components'
 import { Props as BaseProps, SuccessStateType } from '..'
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { CoinType } from 'core/types'
-import { compose } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { FlyoutWrapper } from 'components/Flyout'
 import { getData } from './selectors'
-import { InitSwapFormValuesType } from 'data/components/swap/types'
-import { selectors } from 'data'
-import CoinBalance from '../components/CoinBalance'
 import VerifyIdentity from './VerifyIdentity'
 
 const SuggestedTextCustomBorder = styled.span`
@@ -118,7 +119,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       <OptionTitle>{values.BASE.label}</OptionTitle>
                       <OptionValue>
                         <BalanceRow>
-                          <CoinBalance
+                          <CoinAccountListBalance
                             account={values.BASE}
                             walletCurrency={this.props.walletCurrency}
                           />
@@ -185,7 +186,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       </OptionTitle>
                       <OptionValue>
                         <BalanceRow>
-                          <CoinBalance
+                          <CoinAccountListBalance
                             account={values.COUNTER}
                             walletCurrency={this.props.walletCurrency}
                           />

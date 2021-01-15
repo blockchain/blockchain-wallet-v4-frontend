@@ -2,8 +2,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import React, { PureComponent } from 'react'
 
-import { Props as BaseProps, SuccessStateType } from '..'
-import { coinOrder, getData } from './selectors'
+import { CoinAccountListOption } from 'components/Form'
 import { Icon, Text } from 'blockchain-info-components'
 import {
   InitSwapFormValuesType,
@@ -11,9 +10,11 @@ import {
 } from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
-import { StickyTopFlyoutWrapper, TopText } from '../components'
 import { SwapAccountType } from 'data/types'
-import CryptoAccountOption from './CryptoAccountOption'
+
+import { Props as BaseProps, SuccessStateType } from '..'
+import { coinOrder, getData } from './selectors'
+import { StickyTopFlyoutWrapper, TopText } from '../components'
 
 class CoinSelection extends PureComponent<Props> {
   state = {}
@@ -181,15 +182,16 @@ class CoinSelection extends PureComponent<Props> {
               !isCoinSelected &&
               !hideCustodialToAccount &&
               isCustodialEligible && (
-                <CryptoAccountOption
+                <CoinAccountListOption
                   account={account}
-                  coins={coins}
-                  isAccountSelected={isAccountSelected}
-                  isSwap={true}
-                  walletCurrency={walletCurrency}
+                  coinModel={coins[account.coin]}
                   onClick={() =>
                     this.props.swapActions.changePair(this.props.side, account)
                   }
+                  isAccountSelected={isAccountSelected}
+                  isSwap={true}
+                  showLowFeeBadges
+                  walletCurrency={walletCurrency}
                 />
               )
             )
