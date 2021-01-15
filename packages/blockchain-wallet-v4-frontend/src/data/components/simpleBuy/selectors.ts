@@ -113,7 +113,6 @@ export const getDefaultPaymentMethod = (state: RootState) => {
             method.type === 'FUNDS' && method.currency === fiatCurrencyToUse
         )
       default:
-        // TODO: need to search for payment types instead of return
         if (!lastOrder) return undefined
 
         const methodsOfType = sbMethods.methods.filter(
