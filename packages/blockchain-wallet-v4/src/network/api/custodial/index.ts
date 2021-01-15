@@ -1,4 +1,4 @@
-import { CoinType, FiatType, SBPaymentTypes, WalletFiatType } from 'core/types'
+import { CoinType, SBPaymentTypes, WalletFiatType } from 'core/types'
 
 import {
   BeneficiariesType,
@@ -6,8 +6,6 @@ import {
   CustodialTransferRequestType,
   NabuCustodialProductType,
   PaymentDepositPendingResponseType,
-  PaymentMethod,
-  ProductEligibleResponse,
   WithdrawalFeesProductType,
   WithdrawalLockCheckResponseType,
   WithdrawalLockResponseType,
@@ -96,40 +94,8 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       data: request
     })
 
-  const fetchIsProductEligible = (
-    product: NabuCustodialProductType,
-    currency: FiatType
-  ): ProductEligibleResponse =>
-    authorizedGet({
-      url: nabuUrl,
-      endPoint: `/eligible/product/${product}${
-        currency ? `?currency=${currency}` : ''
-      }`
-    })
-
-  const fetchEligiblePaymentMethods = (
-    eligibleOnly: string,
-    currency: string,
-    tier: string
-  ): PaymentMethod[] => {
-    const queryObj = {
-      eligibleOnly,
-      currency,
-      tier
-    }
-    const parameters = new URLSearchParams(queryObj).toString()
-
-    return authorizedGet({
-      url: nabuUrl,
-      ignoreQueryParams: true,
-      endPoint: `/eligible/payment-methods${parameters ? `?${parameters}` : ''}`
-    })
-  }
-
   return {
     checkWithdrawalLocks,
-    fetchIsProductEligible,
-    fetchEligiblePaymentMethods,
     getBeneficiaries,
     getWithdrawalLocks,
     getWithdrawalFees,

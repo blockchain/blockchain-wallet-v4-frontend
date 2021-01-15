@@ -49,8 +49,13 @@ class Checkout extends PureComponent<Props> {
     // if the user is < tier 2 go to kyc but save order info
     // if the user is tier 2 try to submit order, let BE fail
     const { formValues } = this.props
-    const { isSddFlow, userData } = this.props.data.getOrElse({
+    const {
+      hasPaymentAccount,
+      isSddFlow,
+      userData
+    } = this.props.data.getOrElse({
       userData: { tiers: { current: 0, next: 0, selected: 0 } } as UserDataType,
+      hasPaymentAccount: false,
       isSddFlow: false
     } as SuccessStateType)
     const simpleBuyGoal = find(propEq('name', 'simpleBuy'), this.props.goals)
@@ -84,8 +89,11 @@ class Checkout extends PureComponent<Props> {
       }
     } else if (!method) {
       const fiatCurrency = this.props.fiatCurrency || 'USD'
+      const nextStep = hasPaymentAccount
+        ? 'LINKED_PAYMENT_ACCOUNTS'
+        : 'PAYMENT_METHODS'
       this.props.simpleBuyActions.setStep({
-        step: 'PAYMENT_METHODS',
+        step: nextStep,
         fiatCurrency,
         pair: this.props.pair,
         cryptoCurrency: this.props.cryptoCurrency,
@@ -146,8 +154,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
     | undefined,
   goals: selectors.goals.getGoals(state),
   preferences: selectors.preferences.getSBCheckoutPreferences(state),
-  sbOrders: selectors.components.simpleBuy.getSBOrders(state).getOrElse([]),
-  hasFiatBalance: selectors.components.simpleBuy.hasFiatBalances(state)
+  sbOrders: selectors.components.simpleBuy.getSBOrders(state).getOrElse([])
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -166,6 +173,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 export type OwnProps = EnterAmountOwnProps & EnterAmountSuccessStateType
 export type SuccessStateType = ReturnType<typeof getData>['data'] & {
   formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
+  hasPaymentAccount: boolean
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

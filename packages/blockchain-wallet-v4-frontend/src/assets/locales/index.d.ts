@@ -321,9 +321,10 @@ type MessagesType = {
   'copy.amount_sent': 'Amount Sent'
   'copy.balance': 'Balance'
   'copy.bank_linked_error': 'Please try linking your bank again. If this keeps happening, please'
-  'copy.bank_linked_error_alreadylinked': 'To link this bank, please log into your other Wallets and remove it. If this doesnt look right to you, please'
+  'copy.bank_linked_error_alreadylinked1': 'Log into your Exchange account and link your Wallet. This will connect your bank. If any of this doesn’t look right to you, please'
+  'copy.bank_linked_error_alreadylinked2': 'immediately.'
   'copy.bank_linked_error_yourbank': 'We noticed the names don’t match. The bank you link must have a matching legal first & last name as your Blockchain.com Account.'
-  'copy.bank_linked_error_title_alreadylinked': 'Sorry,that bank account is linked to the maximum number of Blockchain Wallets.'
+  'copy.bank_linked_error_title_already_linked': 'This bank has already been linked to your account.'
   'copy.bank_linked_error_title_yourbank': 'Is this your bank?'
   'copy.bank_linked_error_checkingtitle': 'Please link a Checking Account.'
   'copy.bank_linked_error_checking': 'Your bank may charge you extra fees if you buy cyrpto without a checking account.'
@@ -334,6 +335,7 @@ type MessagesType = {
   'copy.coin_network_fee': '{coin} Network Fee'
   'copy.confirm_withdrawal': 'Confirm Withdrawal'
   'copy.confirm_swap': 'Confirm Swap'
+  'copy.contact_us': 'contact us'
   'copy.complete': 'Complete'
   'copy.crypto_selection_empty.buybank': "Send cash directly from your bank. Once received, we'll use that balance to buy the crypto of your choice"
   'copy.crypto_selection_empty.buybanktitle': 'Buy with a Bank Deposit'
@@ -1253,6 +1255,7 @@ type MessagesType = {
   'modals.simplebuy.checkout.max_card_limit': 'Max Card Limit'
   'modals.simplebuy.checkout.belowmin': '{value} Minimum {orderType}'
   'modals.simplebuy.checkout.not_enough_funds_for_sell': 'Not Enough funds for Sell'
+  'modals.simplebuy.checkout.dailylimitexceeded': "You've reached your daily trading limit"
   'modals.simplebuy.checkout.buymax': 'Buy Max'
   'modals.simplebuy.checkout.buymin': 'Buy Min'
   'modals.simplebuy.checkout.payment_method': 'Payment Method'
@@ -2228,6 +2231,7 @@ type MessagesType = {
   'scenes.settings.addresses.viewkeys.warning-body': 'Do not share your private keys with anyone. We will never ask for them. Sharing your keys may result in a loss of funds.'
   'scenes.settings.general.about.description': 'Learn more about our company.'
   'scenes.settings.general.about.title': 'About'
+  'scenes.settings.general.account': 'account'
   'scenes.settings.general.explain': 'Use your Wallet ID to log in using our web client,'
   'scenes.settings.general.explain2': "or simply scan the code below (click on 'Show Pairing Code') with your Blockchain Mobile Wallet (iOS or Android) to access your wallet on your mobile devices."
   'scenes.settings.general.pairingcode.description': "Scan the code (click on 'Show Pairing Code') with your Blockchain Wallet (iOS or Android) for a seamless connection to your wallet."
@@ -2246,6 +2250,9 @@ type MessagesType = {
   'scenes.settings.general.walletid.warning': 'Do not share your Wallet ID with others.'
   'scenes.settings.linked_banks': 'Linked Banks'
   'scenes.settings.linked_banks.daily_limit': '{amount} Daily Limit'
+  'scenes.settings.no_linked_banks': 'No Linked Banks'
+  'scenes.settings.no_credit_cards': 'No Credit Cards'
+  'scenes.settings.no_linked_wire_banks': 'No Linked Wire Banks'
   'scenes.settings.linked_beneficiaries': 'Linked Beneficiaries'
   'scenes.settings.linked_cards': 'Linked Cards'
   'scenes.settings.menu.title': 'Wallets & Addresses'

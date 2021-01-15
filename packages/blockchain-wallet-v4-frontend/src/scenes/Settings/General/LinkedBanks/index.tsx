@@ -14,9 +14,22 @@ class LinkedBanks extends PureComponent<Props> {
     this.props.simpleBuyActions.fetchSBPaymentMethods()
   }
 
+  handleBankClick = () => {
+    this.props.simpleBuyActions.showModal('SettingsGeneral')
+    this.props.simpleBuyActions.setStep({
+      step: 'LINK_BANK'
+    })
+  }
+
   render () {
     return this.props.data.cata({
-      Success: val => <Success {...this.props} {...val} />,
+      Success: val => (
+        <Success
+          {...this.props}
+          {...val}
+          handleBankClick={this.handleBankClick}
+        />
+      ),
       Loading: () => <Loading />,
       Failure: () => null,
       NotAsked: () => null

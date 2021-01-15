@@ -5,7 +5,7 @@ import {
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { getBankLogoImageName } from '../../model'
+import { getBankLogoImageName } from 'services/ImagesService'
 import {
   getCoinFromPair,
   getFiatFromPair

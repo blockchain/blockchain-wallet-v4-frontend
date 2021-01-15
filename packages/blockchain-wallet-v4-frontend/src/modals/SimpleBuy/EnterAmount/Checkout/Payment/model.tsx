@@ -13,11 +13,22 @@ import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { Title, Value } from 'components/Flyout'
 
-import { getBankLogoImageName } from '../../../model'
+import { getBankLogoImageName } from 'services/ImagesService'
 
 type PaymentContainerProps = {
+  disabled?: boolean
   isMethod: boolean
 }
+
+const DisablableIcon = styled(Icon)<{
+  disabled?: boolean
+}>`
+  ${props =>
+    props.disabled &&
+    css`
+      cursor: not-allowed;
+    `}
+`
 
 export const PaymentContainer = styled.div<PaymentContainerProps>`
   border: 1px solid ${props => props.theme.grey100};
@@ -31,6 +42,12 @@ export const PaymentContainer = styled.div<PaymentContainerProps>`
   padding: ${props => (props.isMethod ? `12px 28px` : `23px 28px`)};
   justify-content: space-between;
   ${props => !props.isMethod && `line-height: 32px;`}
+  ${props =>
+    props.disabled &&
+    css`
+      background-color: ${props => props.theme.grey000};
+      cursor: not-allowed;
+    `}
 `
 
 export const PaymentText = styled(Text)<PaymentContainerProps>`
@@ -48,13 +65,24 @@ export const PaymentText = styled(Text)<PaymentContainerProps>`
       line-height: 35px;
     `}
 `
-export const PaymentArrowContainer = styled.div`
+export const PaymentArrowContainer = styled.div<{
+  disabled?: boolean
+}>`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  ${props =>
+    props.disabled &&
+    css`
+      cursor: not-allowed;
+    `}
 `
 export const DisplayTitle = styled(Title)`
   margin-top: 4px;
+  text-transform: capitalize;
+  color: ${p => p.theme.grey600};
+  font-weight: 500;
+  font-size: 14px;
 `
 export const SectionTitle = styled(Text)`
   margin-top: 4px;
@@ -67,8 +95,8 @@ export const DisplayValue = styled(Value)`
 // TODO: this code is also in EnterAmount/Checkout/Payment file, dedupe it.
 export const renderBankText = (value: SBPaymentMethodType): string => {
   return value.details
-    ? value.details.accountName
-      ? value.details.accountName
+    ? value.details.bankName
+      ? value.details.bankName
       : value.details.accountNumber
     : 'Bank Account'
 }
@@ -77,16 +105,9 @@ export const renderBank = (value: SBPaymentMethodType) => (
   <>
     <DisplayValue>{renderBankText(value)}</DisplayValue>
     <DisplayTitle>
-      <FormattedMessage
-        id='modals.simplebuy.card_limit'
-        defaultMessage='{card} Limit'
-        values={{
-          card: `${fiatToString({
-            value: convertBaseToStandard('FIAT', value.limits.max),
-            unit: value.currency as FiatType
-          })} ${value.currency}`
-        }}
-      />
+      {`${value.details?.bankAccountType.toLowerCase()} account ${
+        value.details?.accountNumber
+      }`}
     </DisplayTitle>
   </>
 )
@@ -138,14 +159,28 @@ export const renderFund = (
 
 export const getIcon = (
   method: SBPaymentMethodType | undefined,
-  isSddFlow: boolean = false
+  isSddFlow: boolean = false,
+  disabled?: boolean
 ): ReactElement => {
   if (isSddFlow && !method) {
-    return <Icon size='18px' color='blue600' name='credit-card-sb' />
+    return (
+      <DisablableIcon
+        disabled={disabled}
+        size='18px'
+        color='blue600'
+        name='credit-card-sb'
+      />
+    )
   }
   if (!method) {
     return (
-      <Icon cursor name='plus-in-circle-filled' size='22px' color='blue600' />
+      <DisablableIcon
+        cursor
+        disabled={disabled}
+        name='plus-in-circle-filled'
+        size='22px'
+        color='blue600'
+      />
     )
   }
 
@@ -170,7 +205,12 @@ export const getIcon = (
         />
       )
     case 'BANK_TRANSFER':
-      return <Image name={getBankLogoImageName(method.details?.bankName)} />
+      return (
+        <Image
+          name={getBankLogoImageName(method.details?.bankName)}
+          height='48px'
+        />
+      )
     default:
       return <></>
   }
