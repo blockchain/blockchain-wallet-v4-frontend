@@ -30,6 +30,7 @@ class CheckoutConfirm extends PureComponent<Props> {
       getOrderType(this.props.order),
       this.props.order.inputQuantity
     )
+    this.props.simpleBuyActions.fetchBankTransferAccounts()
     this.props.sendActions.getLockRule()
   }
 

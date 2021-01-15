@@ -1,4 +1,4 @@
-import { Button, Icon, Image , Text } from 'blockchain-info-components'
+import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import {
   CARD_TYPES,
   DEFAULT_CARD_SVG_LOGO
@@ -6,13 +6,12 @@ import {
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { getBankLogoImageName } from '../../model'
+import { getBankLogoImageName } from 'services/ImagesService'
 import {
   getCoinFromPair,
   getFiatFromPair
 } from 'data/components/simpleBuy/model'
 import { Props as OwnProps, SuccessStateType } from '../index'
-
 
 import {
   SBPaymentMethodType,
@@ -172,8 +171,8 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 
   renderBankText = (value: SBPaymentMethodType): string => {
     return value.details
-      ? value.details.accountName
-        ? value.details.accountName
+      ? value.details.bankName
+        ? value.details.bankName
         : value.details.accountNumber
       : 'Bank Account'
   }
@@ -330,7 +329,7 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   icon={
                     bankMethod.value.details
                       ? this.getLinkedBankIcon(
-                          bankMethod.value.details.bankName
+                          bankMethod.value?.details?.bankName
                         )
                       : this.getIcon(bankMethod.value)
                   }

@@ -2234,6 +2234,7 @@ type MessagesType = {
   'scenes.settings.addresses.viewkeys.warning-body': 'Do not share your private keys with anyone. We will never ask for them. Sharing your keys may result in a loss of funds.'
   'scenes.settings.general.about.description': 'Learn more about our company.'
   'scenes.settings.general.about.title': 'About'
+  'scenes.settings.general.account': 'account'
   'scenes.settings.general.explain': 'Use your Wallet ID to log in using our web client,'
   'scenes.settings.general.explain2': "or simply scan the code below (click on 'Show Pairing Code') with your Blockchain Mobile Wallet (iOS or Android) to access your wallet on your mobile devices."
   'scenes.settings.general.pairingcode.description': "Scan the code (click on 'Show Pairing Code') with your Blockchain Wallet (iOS or Android) for a seamless connection to your wallet."
