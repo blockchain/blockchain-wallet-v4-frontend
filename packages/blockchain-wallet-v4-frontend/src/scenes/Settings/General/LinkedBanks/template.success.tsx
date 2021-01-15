@@ -7,7 +7,7 @@ import {
   RemoveButton
 } from '../styles'
 import { FormattedMessage } from 'react-intl'
-import { getBankLogoImageName } from 'services/ImagesService'
+import { getBankLogoImageName } from 'services/images'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
 import {
