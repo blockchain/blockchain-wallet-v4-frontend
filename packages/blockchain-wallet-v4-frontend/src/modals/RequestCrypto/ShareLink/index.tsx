@@ -4,11 +4,11 @@ import bip21 from 'bip21'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Text, TextGroup } from 'blockchain-info-components'
 import { CoinAccountListOption } from 'components/Form'
+import { Exchange } from 'core'
 import { FlyoutWrapper } from 'components/Flyout'
 import { selectors } from 'data'
-import { SupportedWalletCurrenciesType } from 'core/redux/walletOptions/types'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 
@@ -65,19 +65,42 @@ class ShareLink extends React.PureComponent<Props> {
     const {
       formValues,
       handleClose,
+      rates,
       setStep,
       supportedCoins,
       walletCurrency
     } = this.props
-    const { requestDescription, selectedAccount } = formValues
-    const coin = selectedAccount.coin.toLowerCase()
+    const {
+      currencyDisplay,
+      requestAmount,
+      requestDescription,
+      selectedAccount
+    } = formValues
     const receiveAddress =
       // @ts-ignore
       selectedAccount.nextAddress || selectedAccount.address
 
-    // TODO: get coin amount formatted
-    const coinAmount = '0.00043'
-    const requestLink = `https://blockchain.com/${coin}/payment_request?address=${receiveAddress}&amount=${coinAmount}&message=${requestDescription}`
+    const currencySymbol = Exchange.getSymbol(walletCurrency) as string
+    const coinAmount =
+      currencyDisplay === walletCurrency
+        ? Exchange.convertFiatToCoin(
+            requestAmount,
+            selectedAccount.coin,
+            walletCurrency,
+            rates
+          )
+        : requestAmount
+    const fiatAmount =
+      currencyDisplay === walletCurrency
+        ? requestAmount
+        : Exchange.convertCoinToFiat(
+            requestAmount,
+            selectedAccount.coin,
+            walletCurrency,
+            rates
+          )
+
+    const requestLink = `https://blockchain.com/${selectedAccount.coin.toLowerCase()}/payment_request?address=${receiveAddress}&amount=${coinAmount}&message=${requestDescription}`
     const requestLinkBip21 = bip21.encode(receiveAddress, {
       amount: coinAmount,
       label: requestDescription
@@ -138,9 +161,15 @@ class ShareLink extends React.PureComponent<Props> {
           <Text color='grey600' size='14px' lineHeight='21px' weight={500}>
             <FormattedMessage id='copy.amount' defaultMessage='Amount' />
           </Text>
-          <Text color='grey800' size='16px' weight={600} lineHeight='21px'>
-            {coinAmount}
-          </Text>
+          <TextGroup inline>
+            <Text color='grey800' size='16px' weight={600} lineHeight='21px'>
+              {coinAmount} {selectedAccount.coin}
+            </Text>
+            <Text color='grey600' size='16px' weight={600} lineHeight='21px'>
+              ({currencySymbol}
+              {Exchange.displayFiatToFiat({ value: fiatAmount })})
+            </Text>
+          </TextGroup>
         </SectionWrapper>
         <SectionWrapper direction='column'>
           <Text color='grey600' size='14px' lineHeight='21px' weight={500}>
@@ -171,10 +200,13 @@ class ShareLink extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType)
+const mapStateToProps = (state, ownProps) => ({
+  rates: selectors.core.data.misc
+    .getRatesSelector(
+      ownProps.formValues?.selectedAccount?.coin || 'BTC',
+      state
+    )
+    .getOrFail('Failed to get coin rates')
 })
 
 const connector = connect(mapStateToProps)

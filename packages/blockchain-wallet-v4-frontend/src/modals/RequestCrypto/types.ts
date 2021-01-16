@@ -1,4 +1,4 @@
-import { CoinType } from 'core/types'
+import { CoinType, WalletCurrencyType } from 'core/types'
 import { SwapAccountType } from 'data/components/swap/types'
 
 export enum RequestSteps {
@@ -9,6 +9,7 @@ export enum RequestSteps {
 }
 
 export type RequestFormType = {
+  currencyDisplay: WalletCurrencyType
   requestAmount: number | string
   requestDescription: string
   selectedAccount: SwapAccountType

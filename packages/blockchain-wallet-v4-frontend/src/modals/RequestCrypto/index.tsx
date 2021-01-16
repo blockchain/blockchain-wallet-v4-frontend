@@ -116,6 +116,9 @@ const mapStateToProps = (state): LinkStatePropsType => ({
     state
   ) as RequestFormType,
   initialValues: {
+    currencyDisplay: selectors.core.settings
+      .getCurrency(state)
+      .getOrElse('USD'),
     selectedCoin: selectors.router.getCoinFromPageUrl(state) || 'ALL',
     step: RequestSteps.COIN_SELECT
   },
@@ -140,6 +143,7 @@ type OwnProps = ModalPropsType & { coin?: CoinType }
 type LinkStatePropsType = {
   formValues: RequestFormType
   initialValues: {
+    currencyDisplay: WalletCurrencyType
     selectedCoin: CoinType | string | undefined
     step: RequestSteps
   }

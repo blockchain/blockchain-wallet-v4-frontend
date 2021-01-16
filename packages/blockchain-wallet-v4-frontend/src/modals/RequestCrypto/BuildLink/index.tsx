@@ -1,20 +1,19 @@
-import { connect, ConnectedProps } from 'react-redux'
-import { Field, Form } from 'redux-form'
+import { BaseFieldProps, Field, Form } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { CoinAccountListOption, NumberBox, TextBox } from 'components/Form'
+import { Exchange } from 'core'
 import { FlyoutWrapper } from 'components/Flyout'
 import { required } from 'services/forms'
-import { selectors } from 'data'
-import { SupportedWalletCurrenciesType } from 'core/redux/walletOptions/types'
+import { WalletCurrencyType } from 'core/types'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 
-import { Props as OwnProps } from '../index'
+import { Props as OwnProps } from '..'
+import { REQUEST_FORM, StepHeader } from '../model'
 import { RequestSteps } from '../types'
-import { StepHeader } from '../model'
 
 const Wrapper = styled.div`
   display: flex;
@@ -70,8 +69,44 @@ const FormLabel = styled.div`
   justify-content: space-between;
   width: 100%;
 `
+const AmountFieldContainer = styled.div`
+  display: flex;
+  position: relative;
+  width: 100%;
+`
+const CustomField = styled(Field)<
+  BaseFieldProps & {
+    autoFocus: boolean
+    isFiatBaseCcy: boolean
+    placeholder: string
+  }
+>`
+  > input {
+    padding-left: ${props => (props.isFiatBaseCcy ? '32px' : '50px')};
+  }
+  > div:last-child {
+    display: none;
+  }
+`
+const BaseCurrencyAbsolute = styled.div`
+  position: absolute;
+  top: 16px;
+  left: 12px;
+`
+const ToggleCurrencyText = styled(Text)<{ selected?: boolean }>`
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline;
+  color: ${props =>
+    props.selected ? props.theme.blue600 : props.theme.grey800};
+`
 
 class BuildLink extends React.PureComponent<Props> {
+  handleDisplayToggle = (currency: WalletCurrencyType) => {
+    this.props.formActions.change(REQUEST_FORM, 'currencyDisplay', currency)
+  }
+
   render () {
     const {
       formValues,
@@ -80,9 +115,9 @@ class BuildLink extends React.PureComponent<Props> {
       supportedCoins,
       walletCurrency
     } = this.props
-    const { selectedAccount } = formValues
-
-    // TODO: ensure selectors return next address for BCH/BTC
+    const { currencyDisplay, selectedAccount } = formValues
+    const currencySymbol = Exchange.getSymbol(walletCurrency) as string
+    const isFiatBaseCcy = currencyDisplay === walletCurrency
     const receiveAddress =
       // @ts-ignore
       selectedAccount.nextAddress || selectedAccount.address
@@ -136,21 +171,43 @@ class BuildLink extends React.PureComponent<Props> {
             <Text color='grey600' weight={500} size='14px'>
               <FormattedMessage id='copy.amount' defaultMessage='Amount' />
             </Text>
-            <Text color='grey600' weight={500} size='14px'>
-              USD | BTC
-            </Text>
+            <div style={{ display: 'inline' }}>
+              <ToggleCurrencyText
+                data-e2e='toggleFiat'
+                onClick={() =>
+                  this.handleDisplayToggle(walletCurrency as WalletCurrencyType)
+                }
+                selected={isFiatBaseCcy}
+              >
+                {walletCurrency}
+              </ToggleCurrencyText>
+              |{' '}
+              <ToggleCurrencyText
+                data-e2e='toggleCoin'
+                onClick={() => this.handleDisplayToggle(selectedAccount.coin)}
+                selected={!isFiatBaseCcy}
+              >
+                {selectedAccount.coin}
+              </ToggleCurrencyText>
+            </div>
           </FormLabel>
-          <Field
-            autoFocus
-            coin={selectedAccount.coin}
-            component={NumberBox}
-            data-e2e='requestAmount'
-            displayCoin={false}
-            name='requestAmount'
-            placeholder='0.00'
-            validate={[required]}
-            {...{ errorBottom: true }}
-          />
+          <AmountFieldContainer>
+            <CustomField
+              autoFocus
+              component={NumberBox}
+              data-e2e='requestAmount'
+              isFiatBaseCcy={isFiatBaseCcy}
+              name='requestAmount'
+              placeholder='0.00'
+              validate={[required]}
+              {...{ errorBottom: true }}
+            />
+            <BaseCurrencyAbsolute>
+              <Text color='grey600' size='14px' weight={600}>
+                {isFiatBaseCcy ? currencySymbol : selectedAccount.coin}
+              </Text>
+            </BaseCurrencyAbsolute>
+          </AmountFieldContainer>
           <FormLabel style={{ marginTop: '24px' }}>
             <Text color='grey600' weight={500} size='14px'>
               <FormattedMessage
@@ -197,16 +254,6 @@ class BuildLink extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType)
-})
+type Props = OwnProps & { setStep: (step: RequestSteps) => void }
 
-const connector = connect(mapStateToProps)
-type Props = ConnectedProps<typeof connector> &
-  OwnProps & {
-    setStep: (step: RequestSteps) => void
-  }
-
-export default connector(BuildLink)
+export default BuildLink
