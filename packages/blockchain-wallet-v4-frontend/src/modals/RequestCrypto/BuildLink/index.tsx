@@ -1,15 +1,16 @@
 import { connect, ConnectedProps } from 'react-redux'
+import { Field, Form } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { CoinAccountListOption } from 'components/Form'
+import { CoinAccountListOption, NumberBox, TextBox } from 'components/Form'
 import { FlyoutWrapper } from 'components/Flyout'
+import { required } from 'services/forms'
 import { selectors } from 'data'
 import { SupportedWalletCurrenciesType } from 'core/redux/walletOptions/types'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
-import QRCodeWrapper from 'components/QRCode/Wrapper'
 
 import { Props as OwnProps } from '../index'
 import { RequestSteps } from '../types'
@@ -19,6 +20,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  box-sizing: border-box;
 `
 const AddressWrapper = styled.div`
   display: flex;
@@ -42,23 +44,33 @@ const ClipboardWrapper = styled.div`
   margin-left: 24px;
   margin-top: 6px;
 `
-const QRCodeContainer = styled.div`
+const FormContainer = styled(Form)`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 40px 0 36px;
-  width: 100%;
+  margin: 40px 0;
+  padding: 0 40px;
 `
 const ButtonsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 0 40px;
+
+  & > :last-child {
+    margin-top: 16px;
+  }
+`
+const FormLabel = styled.div`
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
   width: 100%;
 `
 
-class RequestShowAddress extends React.PureComponent<Props> {
+class BuildLink extends React.PureComponent<Props> {
   render () {
     const { formValues, setStep, supportedCoins, walletCurrency } = this.props
     const { selectedAccount } = formValues
@@ -74,7 +86,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
           <StepHeader>
             <Icon
               cursor
-              onClick={() => setStep(RequestSteps.COIN_SELECT)}
+              onClick={() => setStep(RequestSteps.SHOW_ADDRESS)}
               name='arrow-back'
               color='grey600'
               size='24px'
@@ -82,8 +94,8 @@ class RequestShowAddress extends React.PureComponent<Props> {
             />
             <Text size='24px' color='grey800' weight={600}>
               <FormattedMessage
-                id='modals.requestcrypto.showaddress.title'
-                defaultMessage='Scan or Share'
+                id='modals.requestcrypto.buildlink.title'
+                defaultMessage='Create Link'
               />
             </Text>
           </StepHeader>
@@ -112,26 +124,69 @@ class RequestShowAddress extends React.PureComponent<Props> {
             />
           </ClipboardWrapper>
         </AddressWrapper>
-        <QRCodeContainer>
-          <QRCodeWrapper
-            data-e2e='requestAddressQrCode'
-            size={280}
-            value={receiveAddress}
+        <FormContainer>
+          <FormLabel>
+            <Text color='grey600' weight={500} size='14px'>
+              <FormattedMessage id='copy.amount' defaultMessage='Amount' />
+            </Text>
+            <Text color='grey600' weight={500} size='14px'>
+              USD | BTC
+            </Text>
+          </FormLabel>
+          <Field
+            autoFocus
+            coin={selectedAccount.coin}
+            component={NumberBox}
+            data-e2e='requestAmount'
+            displayCoin={false}
+            name='requestAmount'
+            placeholder='0.00'
+            validate={[required]}
+            {...{
+              errorBottom: true,
+              errorLeft: true
+            }}
           />
-        </QRCodeContainer>
+          <FormLabel style={{ marginTop: '40px' }}>
+            <Text color='grey600' weight={500} size='14px'>
+              <FormattedMessage
+                id='copy.description'
+                defaultMessage='Description'
+              />
+            </Text>
+          </FormLabel>
+          <Field
+            component={TextBox}
+            name='requestDescription'
+            placeholder="What's this for?"
+            validate={[required]}
+            {...{
+              errorBottom: true,
+              errorLeft: true
+            }}
+          />
+        </FormContainer>
         <ButtonsWrapper>
           <Button
-            data-e2e='createRequestLink'
+            data-e2e='createRequestLinkNext'
+            fullwidth
+            height='48px'
+            nature='primary'
+            onClick={() => setStep(RequestSteps.SHARE_LINK)}
+          >
+            <Text color='white' size='16px' weight={600}>
+              <FormattedMessage id='copy.next' defaultMessage='Next' />
+            </Text>
+          </Button>
+          <Button
+            data-e2e='createRequestLinkBack'
+            fullwidth
             height='48px'
             nature='empty-blue'
-            onClick={() => setStep(RequestSteps.BUILD_LINK)}
-            width='310px'
+            onClick={() => setStep(RequestSteps.SHOW_ADDRESS)}
           >
             <Text color='blue600' size='16px' weight={600}>
-              <FormattedMessage
-                id='modals.requestcrypto.showaddress.createlink'
-                defaultMessage='Create Link'
-              />
+              <FormattedMessage id='copy.back' defaultMessage='Back' />
             </Text>
           </Button>
         </ButtonsWrapper>
@@ -152,4 +207,4 @@ type Props = ConnectedProps<typeof connector> &
     setStep: (step: RequestSteps) => void
   }
 
-export default connector(RequestShowAddress)
+export default connector(BuildLink)

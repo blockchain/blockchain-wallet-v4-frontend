@@ -20,7 +20,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   width: 100%;
 `
-const AddressWrapper = styled.div`
+const LinkWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -29,7 +29,7 @@ const AddressWrapper = styled.div`
   border-top: ${props => `1px solid ${props.theme.grey000}`};
   border-bottom: ${props => `1px solid ${props.theme.grey000}`};
 `
-const AddressDisplay = styled.div`
+const LinkDisplay = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -37,10 +37,6 @@ const AddressDisplay = styled.div`
   overflow-wrap: anywhere;
   word-break: break-all;
   hyphens: none;
-`
-const ClipboardWrapper = styled.div`
-  margin-left: 24px;
-  margin-top: 6px;
 `
 const QRCodeContainer = styled.div`
   display: flex;
@@ -55,18 +51,19 @@ const ButtonsWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  padding: 0 40px;
+
+  & > :last-child {
+    margin-top: 16px;
+  }
 `
 
-class RequestShowAddress extends React.PureComponent<Props> {
+class ShareLink extends React.PureComponent<Props> {
   render () {
     const { formValues, setStep, supportedCoins, walletCurrency } = this.props
     const { selectedAccount } = formValues
 
-    // TODO: ensure selectors return next address for BCH/BTC
-    const receiveAddress =
-      // @ts-ignore
-      selectedAccount.nextAddress || selectedAccount.address
+    const tempUrl = 'https://blockchain.com/btc/payment_requ'
 
     return (
       <Wrapper>
@@ -74,7 +71,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
           <StepHeader>
             <Icon
               cursor
-              onClick={() => setStep(RequestSteps.COIN_SELECT)}
+              onClick={() => setStep(RequestSteps.BUILD_LINK)}
               name='arrow-back'
               color='grey600'
               size='24px'
@@ -82,8 +79,8 @@ class RequestShowAddress extends React.PureComponent<Props> {
             />
             <Text size='24px' color='grey800' weight={600}>
               <FormattedMessage
-                id='modals.requestcrypto.showaddress.title'
-                defaultMessage='Scan or Share'
+                id='modals.requestcrypto.sharelink.title'
+                defaultMessage='Share Link'
               />
             </Text>
           </StepHeader>
@@ -95,43 +92,54 @@ class RequestShowAddress extends React.PureComponent<Props> {
           hideActionIcon
           walletCurrency={walletCurrency}
         />
-        <AddressWrapper>
-          <AddressDisplay>
+        <QRCodeContainer>
+          <QRCodeWrapper
+            data-e2e='requestLinkQrCode'
+            size={280}
+            value={tempUrl}
+          />
+        </QRCodeContainer>
+        <LinkWrapper>
+          <LinkDisplay>
             <Text color='grey600' size='14px' lineHeight='21px' weight={500}>
-              <FormattedMessage id='copy.address' defaultMessage='Address' />
+              Your Link
             </Text>
             <Text color='grey800' size='16px' weight={600} lineHeight='24px'>
-              {receiveAddress}
+              {tempUrl}
             </Text>
-          </AddressDisplay>
-          <ClipboardWrapper>
+          </LinkDisplay>
+          <div style={{ marginLeft: '40px', marginTop: '6px' }}>
             <CopyClipboardButton
-              textToCopy={receiveAddress}
+              textToCopy={tempUrl}
               color='blue600'
               size='24px'
             />
-          </ClipboardWrapper>
-        </AddressWrapper>
-        <QRCodeContainer>
-          <QRCodeWrapper
-            data-e2e='requestAddressQrCode'
-            size={280}
-            value={receiveAddress}
-          />
-        </QRCodeContainer>
+          </div>
+        </LinkWrapper>
         <ButtonsWrapper>
           <Button
-            data-e2e='createRequestLink'
+            data-e2e='copyRequestLink'
+            fullwidth
+            height='48px'
+            nature='primary'
+            onClick={() => {}}
+          >
+            <Text color='white' size='16px' weight={600}>
+              <FormattedMessage
+                id='modals.requestcrypto.sharelink.copy'
+                defaultMessage='Copy Link'
+              />
+            </Text>
+          </Button>
+          <Button
+            data-e2e='cancelRequestLink'
+            fullwidth
             height='48px'
             nature='empty-blue'
             onClick={() => setStep(RequestSteps.BUILD_LINK)}
-            width='310px'
           >
             <Text color='blue600' size='16px' weight={600}>
-              <FormattedMessage
-                id='modals.requestcrypto.showaddress.createlink'
-                defaultMessage='Create Link'
-              />
+              <FormattedMessage id='copy.cancel' defaultMessage='Cancel' />
             </Text>
           </Button>
         </ButtonsWrapper>
@@ -152,4 +160,4 @@ type Props = ConnectedProps<typeof connector> &
     setStep: (step: RequestSteps) => void
   }
 
-export default connector(RequestShowAddress)
+export default connector(ShareLink)

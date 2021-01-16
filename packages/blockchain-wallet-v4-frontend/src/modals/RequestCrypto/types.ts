@@ -3,10 +3,14 @@ import { SwapAccountType } from 'data/components/swap/types'
 
 export enum RequestSteps {
   'COIN_SELECT',
-  'SHOW_ADDRESS'
+  'SHOW_ADDRESS',
+  'BUILD_LINK',
+  'SHARE_LINK'
 }
 
 export type RequestFormType = {
+  requestAmount: number | string
+  requestDescription: string
   selectedAccount: SwapAccountType
   selectedCoin: CoinType | string
   step: RequestSteps

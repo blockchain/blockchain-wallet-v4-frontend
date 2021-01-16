@@ -17,7 +17,10 @@ import { getData } from './selectors'
 import { ModalPropsType } from '../types'
 import { REQUEST_FORM } from './model'
 import { RequestFormType, RequestSteps } from './types'
+
+import RequestBuildLink from './BuildLink'
 import RequestCoinSelect from './CoinSelect'
+import RequestShareLink from './ShareLink'
 import RequestShowAddress from './ShowAddress'
 
 class RequestCrypto extends PureComponent<Props, State> {
@@ -37,7 +40,7 @@ class RequestCrypto extends PureComponent<Props, State> {
 
     if (newStep === previousStep) return
     /* eslint-disable */
-    if (RequestSteps[newStep] > RequestSteps[previousStep]) {
+    if (newStep > previousStep) {
       this.setState({ direction: 'left' })
     } else {
       this.setState({ direction: 'right' })
@@ -46,15 +49,11 @@ class RequestCrypto extends PureComponent<Props, State> {
   }
 
   componentWillUnmount () {
-    this.goToCoinSelectStep()
+    this.setStep(RequestSteps.COIN_SELECT)
   }
 
-  goToCoinSelectStep = () => {
-    this.props.formActions.change(
-      REQUEST_FORM,
-      'step',
-      RequestSteps.COIN_SELECT
-    )
+  setStep = (step: RequestSteps) => {
+    this.props.formActions.change(REQUEST_FORM, 'step', step)
   }
 
   handleClose = () => {
@@ -86,10 +85,17 @@ class RequestCrypto extends PureComponent<Props, State> {
         )}
         {step === RequestSteps.SHOW_ADDRESS && (
           <FlyoutChild>
-            <RequestShowAddress
-              {...this.props}
-              handleBack={this.goToCoinSelectStep}
-            />
+            <RequestShowAddress {...this.props} setStep={this.setStep} />
+          </FlyoutChild>
+        )}
+        {step === RequestSteps.BUILD_LINK && (
+          <FlyoutChild>
+            <RequestBuildLink {...this.props} setStep={this.setStep} />
+          </FlyoutChild>
+        )}
+        {step === RequestSteps.SHARE_LINK && (
+          <FlyoutChild>
+            <RequestShareLink {...this.props} setStep={this.setStep} />
           </FlyoutChild>
         )}
       </Flyout>
@@ -97,13 +103,12 @@ class RequestCrypto extends PureComponent<Props, State> {
   }
 }
 
-// TODO: fix form dropdown
 const mapStateToProps = (state): LinkStatePropsType => ({
   formValues: selectors.form.getFormValues(REQUEST_FORM)(
     state
   ) as RequestFormType,
   initialValues: {
-    selectedCoin: 'ALL', // selectors.router.getCoinFromPageUrl(state) || 'ALL',
+    selectedCoin: selectors.router.getCoinFromPageUrl(state) || 'ALL',
     step: RequestSteps.COIN_SELECT
   },
   requestableCoins: getData(state),
@@ -138,9 +143,10 @@ export type Props = OwnProps &
   LinkStatePropsType &
   ConnectedProps<typeof connector>
 
+// 👋 Order of composition is important, do not change!
 const enhance = compose<any>(
-  connector,
   modalEnhancer('REQUEST_CRYPTO_MODAL', { transition: duration }),
+  connector,
   reduxForm({
     form: REQUEST_FORM,
     enableReinitialize: true
