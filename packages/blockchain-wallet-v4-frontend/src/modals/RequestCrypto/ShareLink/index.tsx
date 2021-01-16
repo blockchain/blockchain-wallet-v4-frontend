@@ -1,5 +1,6 @@
 import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import bip21 from 'bip21'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -20,14 +21,13 @@ const Wrapper = styled.div`
   flex-direction: column;
   width: 100%;
 `
-const LinkWrapper = styled.div`
+const SectionWrapper = styled.div<{ center?: boolean; direction?: string }>`
   display: flex;
-  flex-direction: row;
+  flex-direction: ${props => props.direction || 'row'};
   justify-content: space-between;
-  align-items: center;
+  align-items: ${props => (props.center ? 'center' : 'flex-start')};
   padding: 16px 40px;
   border-top: ${props => `1px solid ${props.theme.grey000}`};
-  border-bottom: ${props => `1px solid ${props.theme.grey000}`};
 `
 const LinkDisplay = styled.div`
   display: flex;
@@ -43,27 +43,45 @@ const QRCodeContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 40px 0 36px;
+  padding: 24px 0;
   width: 100%;
+  border-top: ${props => `1px solid ${props.theme.grey000}`};
+`
+const ClipboardWrapper = styled.div`
+  margin-left: 24px;
+  margin-top: 6px;
 `
 const ButtonsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0 40px;
-
-  & > :last-child {
-    margin-top: 16px;
-  }
+  padding: 40px;
+  border-top: ${props => `1px solid ${props.theme.grey000}`};
 `
 
 class ShareLink extends React.PureComponent<Props> {
   render () {
-    const { formValues, setStep, supportedCoins, walletCurrency } = this.props
-    const { selectedAccount } = formValues
+    const {
+      formValues,
+      handleClose,
+      setStep,
+      supportedCoins,
+      walletCurrency
+    } = this.props
+    const { requestDescription, selectedAccount } = formValues
+    const coin = selectedAccount.coin.toLowerCase()
+    const receiveAddress =
+      // @ts-ignore
+      selectedAccount.nextAddress || selectedAccount.address
 
-    const tempUrl = 'https://blockchain.com/btc/payment_requ'
+    // TODO: get coin amount formatted
+    const coinAmount = '0.00043'
+    const requestLink = `https://blockchain.com/${coin}/payment_request?address=${receiveAddress}&amount=${coinAmount}&message=${requestDescription}`
+    const requestLinkBip21 = bip21.encode(receiveAddress, {
+      amount: coinAmount,
+      label: requestDescription
+    })
 
     return (
       <Wrapper>
@@ -96,50 +114,55 @@ class ShareLink extends React.PureComponent<Props> {
           <QRCodeWrapper
             data-e2e='requestLinkQrCode'
             size={280}
-            value={tempUrl}
+            value={requestLinkBip21}
           />
         </QRCodeContainer>
-        <LinkWrapper>
+        <SectionWrapper center>
           <LinkDisplay>
             <Text color='grey600' size='14px' lineHeight='21px' weight={500}>
-              Your Link
+              <FormattedMessage id='copy.yourlink' defaultMessage='Your Link' />
             </Text>
-            <Text color='grey800' size='16px' weight={600} lineHeight='24px'>
-              {tempUrl}
+            <Text color='grey800' size='16px' weight={600} lineHeight='21px'>
+              {requestLink.substr(0, 38)}…
             </Text>
           </LinkDisplay>
-          <div style={{ marginLeft: '40px', marginTop: '6px' }}>
+          <ClipboardWrapper>
             <CopyClipboardButton
-              textToCopy={tempUrl}
+              textToCopy={requestLink}
               color='blue600'
               size='24px'
             />
-          </div>
-        </LinkWrapper>
+          </ClipboardWrapper>
+        </SectionWrapper>
+        <SectionWrapper direction='column'>
+          <Text color='grey600' size='14px' lineHeight='21px' weight={500}>
+            <FormattedMessage id='copy.amount' defaultMessage='Amount' />
+          </Text>
+          <Text color='grey800' size='16px' weight={600} lineHeight='21px'>
+            {coinAmount}
+          </Text>
+        </SectionWrapper>
+        <SectionWrapper direction='column'>
+          <Text color='grey600' size='14px' lineHeight='21px' weight={500}>
+            <FormattedMessage
+              id='copy.description'
+              defaultMessage='Description'
+            />
+          </Text>
+          <Text color='grey800' size='16px' weight={600} lineHeight='21px'>
+            {requestDescription}
+          </Text>
+        </SectionWrapper>
         <ButtonsWrapper>
           <Button
             data-e2e='copyRequestLink'
             fullwidth
             height='48px'
             nature='primary'
-            onClick={() => {}}
+            onClick={handleClose}
           >
             <Text color='white' size='16px' weight={600}>
-              <FormattedMessage
-                id='modals.requestcrypto.sharelink.copy'
-                defaultMessage='Copy Link'
-              />
-            </Text>
-          </Button>
-          <Button
-            data-e2e='cancelRequestLink'
-            fullwidth
-            height='48px'
-            nature='empty-blue'
-            onClick={() => setStep(RequestSteps.BUILD_LINK)}
-          >
-            <Text color='blue600' size='16px' weight={600}>
-              <FormattedMessage id='copy.cancel' defaultMessage='Cancel' />
+              <FormattedMessage id='copy.close' defaultMessage='Close' />
             </Text>
           </Button>
         </ButtonsWrapper>
@@ -157,6 +180,7 @@ const mapStateToProps = state => ({
 const connector = connect(mapStateToProps)
 type Props = ConnectedProps<typeof connector> &
   OwnProps & {
+    handleClose: () => void
     setStep: (step: RequestSteps) => void
   }
 

@@ -58,6 +58,7 @@ const ButtonsWrapper = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0 40px;
+  margin-top: 8px;
 
   & > :last-child {
     margin-top: 16px;
@@ -72,7 +73,13 @@ const FormLabel = styled.div`
 
 class BuildLink extends React.PureComponent<Props> {
   render () {
-    const { formValues, setStep, supportedCoins, walletCurrency } = this.props
+    const {
+      formValues,
+      invalid,
+      setStep,
+      supportedCoins,
+      walletCurrency
+    } = this.props
     const { selectedAccount } = formValues
 
     // TODO: ensure selectors return next address for BCH/BTC
@@ -142,12 +149,9 @@ class BuildLink extends React.PureComponent<Props> {
             name='requestAmount'
             placeholder='0.00'
             validate={[required]}
-            {...{
-              errorBottom: true,
-              errorLeft: true
-            }}
+            {...{ errorBottom: true }}
           />
-          <FormLabel style={{ marginTop: '40px' }}>
+          <FormLabel style={{ marginTop: '24px' }}>
             <Text color='grey600' weight={500} size='14px'>
               <FormattedMessage
                 id='copy.description'
@@ -160,15 +164,13 @@ class BuildLink extends React.PureComponent<Props> {
             name='requestDescription'
             placeholder="What's this for?"
             validate={[required]}
-            {...{
-              errorBottom: true,
-              errorLeft: true
-            }}
+            {...{ errorBottom: true }}
           />
         </FormContainer>
         <ButtonsWrapper>
           <Button
             data-e2e='createRequestLinkNext'
+            disabled={invalid}
             fullwidth
             height='48px'
             nature='primary'

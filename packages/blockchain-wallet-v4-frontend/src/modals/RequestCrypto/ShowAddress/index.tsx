@@ -55,12 +55,22 @@ const ButtonsWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  padding: 0 40px;
+
+  & > :last-child {
+    margin-top: 16px;
+  }
 `
 
 class RequestShowAddress extends React.PureComponent<Props> {
   render () {
-    const { formValues, setStep, supportedCoins, walletCurrency } = this.props
+    const {
+      formValues,
+      handleClose,
+      setStep,
+      supportedCoins,
+      walletCurrency
+    } = this.props
     const { selectedAccount } = formValues
 
     // TODO: ensure selectors return next address for BCH/BTC
@@ -120,18 +130,31 @@ class RequestShowAddress extends React.PureComponent<Props> {
           />
         </QRCodeContainer>
         <ButtonsWrapper>
+          {selectedAccount.coin === 'BTC' && (
+            <Button
+              data-e2e='createRequestLink'
+              fullwidth
+              height='48px'
+              nature='empty-blue'
+              onClick={() => setStep(RequestSteps.BUILD_LINK)}
+            >
+              <Text color='blue600' size='16px' weight={600}>
+                <FormattedMessage
+                  id='modals.requestcrypto.showaddress.createlink'
+                  defaultMessage='Create Link'
+                />
+              </Text>
+            </Button>
+          )}
           <Button
-            data-e2e='createRequestLink'
+            data-e2e='copyRequestLink'
+            fullwidth
             height='48px'
-            nature='empty-blue'
-            onClick={() => setStep(RequestSteps.BUILD_LINK)}
-            width='310px'
+            nature='primary'
+            onClick={handleClose}
           >
-            <Text color='blue600' size='16px' weight={600}>
-              <FormattedMessage
-                id='modals.requestcrypto.showaddress.createlink'
-                defaultMessage='Create Link'
-              />
+            <Text color='white' size='16px' weight={600}>
+              <FormattedMessage id='copy.close' defaultMessage='Close' />
             </Text>
           </Button>
         </ButtonsWrapper>
@@ -149,6 +172,7 @@ const mapStateToProps = state => ({
 const connector = connect(mapStateToProps)
 type Props = ConnectedProps<typeof connector> &
   OwnProps & {
+    handleClose: () => void
     setStep: (step: RequestSteps) => void
   }
 

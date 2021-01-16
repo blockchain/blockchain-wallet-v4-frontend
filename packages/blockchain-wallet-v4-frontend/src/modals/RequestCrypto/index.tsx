@@ -1,6 +1,6 @@
 import { bindActionCreators, compose } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { reduxForm } from 'redux-form'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
@@ -85,7 +85,11 @@ class RequestCrypto extends PureComponent<Props, State> {
         )}
         {step === RequestSteps.SHOW_ADDRESS && (
           <FlyoutChild>
-            <RequestShowAddress {...this.props} setStep={this.setStep} />
+            <RequestShowAddress
+              {...this.props}
+              handleClose={this.handleClose}
+              setStep={this.setStep}
+            />
           </FlyoutChild>
         )}
         {step === RequestSteps.BUILD_LINK && (
@@ -95,7 +99,11 @@ class RequestCrypto extends PureComponent<Props, State> {
         )}
         {step === RequestSteps.SHARE_LINK && (
           <FlyoutChild>
-            <RequestShareLink {...this.props} setStep={this.setStep} />
+            <RequestShareLink
+              {...this.props}
+              handleClose={this.handleClose}
+              setStep={this.setStep}
+            />
           </FlyoutChild>
         )}
       </Flyout>
@@ -140,6 +148,7 @@ type LinkStatePropsType = {
   walletCurrency: FiatType
 }
 export type Props = OwnProps &
+  InjectedFormProps &
   LinkStatePropsType &
   ConnectedProps<typeof connector>
 
