@@ -2,12 +2,12 @@ import { css } from 'styled-components'
 import { mergeAll } from 'ramda'
 import { useEffect, useState } from 'react'
 
-let types = {
+const types = {
   m: 'margin',
   p: 'padding'
 }
 
-let templates = {
+const templates = {
   a: (type, size) => ({ [type]: size }),
   h: (type, size) => ({ [type]: `0px ${size}px` }),
   v: (type, size) => ({ [type]: `${size}px 0px` }),
@@ -27,17 +27,17 @@ export const spacing = value =>
     })
   )
 
-let flexDirections = {
+const flexDirections = {
   row: 'row',
   col: 'column'
 }
 
-let flexProperties = {
+const flexProperties = {
   align: 'alignItems',
   justify: 'justifyContent'
 }
 
-let flexRules = {
+const flexRules = {
   center: 'center',
   end: 'flex-end',
   start: 'flex-start',
@@ -48,15 +48,15 @@ let flexRules = {
 }
 
 export const flex = value => {
-  let [directions, ...params] = value.split(' ')
-  let base = {
+  const [directions, ...params] = value.split(' ')
+  const base = {
     display: 'flex',
     flexDirection: flexDirections[directions]
   }
   return mergeAll(
     [base].concat(
       params.map(p => {
-        let [property, rule] = p.split('/')
+        const [property, rule] = p.split('/')
         return { [flexProperties[property]]: flexRules[rule] }
       })
     )
