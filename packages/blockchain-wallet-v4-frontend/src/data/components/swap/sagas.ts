@@ -14,7 +14,9 @@ import {
 import { convertStandardToBase } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { SWAP_SELECTOR_CONFIG } from 'coins'
+import { getCoinAccounts } from 'coins/selectors'
+import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
+import { SWAP_ACCOUNTS_SELECTOR } from 'coins/features/swap'
 
 import * as A from './actions'
 import * as AT from './actionTypes'
@@ -27,7 +29,6 @@ import {
   SwapAccountType,
   SwapAmountFormValues
 } from './types'
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { selectReceiveAddress } from '../utils/sagas'
 import profileSagas from '../../../data/modules/profile/sagas'
 import sendSagas from '../send/sagas'
@@ -456,7 +457,7 @@ export default ({
       return
     }
 
-    const accounts = S.getActiveAccounts(yield select(), SWAP_SELECTOR_CONFIG)
+    const accounts = getCoinAccounts(yield select(), SWAP_ACCOUNTS_SELECTOR)
     const baseAccount = accounts[initSwapFormValues.BASE.coin].find(
       val => val.label === initSwapFormValues.BASE?.label
     )

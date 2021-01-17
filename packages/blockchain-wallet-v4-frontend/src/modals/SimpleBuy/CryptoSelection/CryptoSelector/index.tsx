@@ -19,7 +19,7 @@ import {
 } from 'blockchain-info-components'
 import { model } from 'data'
 import { SBPairType } from 'core/types'
-import { SWAP_COIN_ORDER } from 'coins'
+import { SUPPORTED_COINS } from 'coins/features/swap'
 import { SwapAccountType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
@@ -253,7 +253,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
         <Currencies>
           {orderType === 'SELL' ? (
             checkAccountsBalances ? (
-              SWAP_COIN_ORDER.map(coin => {
+              SUPPORTED_COINS.map(coin => {
                 const accounts = props.accounts[coin] as Array<SwapAccountType>
                 return accounts.map(
                   account =>

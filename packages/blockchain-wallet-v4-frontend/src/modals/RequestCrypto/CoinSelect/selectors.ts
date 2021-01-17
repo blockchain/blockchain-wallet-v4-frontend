@@ -3,8 +3,10 @@ import Bitcoin from 'bitcoinjs-lib'
 import BitcoinCash from 'bitcoinforksjs-lib'
 
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { CoinAccountSelectorType, REQUEST_SELECTOR_CONFIG } from 'coins'
+import { CoinAccountSelectorType } from 'coins/types'
 import { createDeepEqualSelector } from 'services/misc'
+import { getCoinAccounts } from 'coins/selectors'
+import { REQUEST_ACCOUNTS_SELECTOR } from 'coins/features/request'
 import { selectors } from 'data'
 import { SwapAccountType } from 'data/components/swap/types'
 import { utils } from 'blockchain-wallet-v4/src'
@@ -13,9 +15,9 @@ const { isCashAddr, toCashAddr } = utils.bch
 
 export const getData = createDeepEqualSelector(
   [
-    (state, ownProps) => selectors.components.swap.getActiveAccounts(state, {
+    (state, ownProps) => getCoinAccounts(state, {
       coins: ownProps.requestableCoins,
-      ...REQUEST_SELECTOR_CONFIG
+      ...REQUEST_ACCOUNTS_SELECTOR
     } as CoinAccountSelectorType),
     selectors.core.walletOptions.getAllCoinAvailabilities,
     selectors.core.walletOptions.getBtcNetwork,

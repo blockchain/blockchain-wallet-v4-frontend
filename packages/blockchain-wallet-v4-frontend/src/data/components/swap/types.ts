@@ -34,8 +34,6 @@ export type InitSwapFormValuesType =
     }
   | undefined
 
-export type SwapCoinType = CoinType
-
 export enum SwapStepType {
   'INIT_SWAP',
   'COIN_SELECTION',

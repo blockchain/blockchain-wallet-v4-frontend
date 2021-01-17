@@ -11,7 +11,7 @@ import {
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
-import { SWAP_COIN_ORDER } from 'coins'
+import { SUPPORTED_COINS } from 'coins/features/swap'
 import { SwapAccountType } from 'data/types'
 
 import { Props as BaseProps, SuccessStateType } from '..'
@@ -150,7 +150,7 @@ class CoinSelection extends PureComponent<Props> {
             )}
           </Text>
         </StickyHeaderFlyoutWrapper>
-        {SWAP_COIN_ORDER.map(coin => {
+        {SUPPORTED_COINS.map(coin => {
           const accounts =
             (this.props.accounts[coin] as Array<SwapAccountType>) || []
           return accounts.map(account => {
