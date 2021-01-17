@@ -76,8 +76,9 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
     alias: {
-      core: path.resolve(__dirname, '../../blockchain-wallet-v4/src/'),
+      coins: path.resolve(__dirname, '../src/coins/'),
       components: path.resolve(__dirname, '../src/components/'),
+      core: path.resolve(__dirname, '../../blockchain-wallet-v4/src/'),
       data: path.resolve(__dirname, '../src/data/'),
       layouts: path.resolve(__dirname, '../src/layouts/'),
       providers: path.resolve(__dirname, '../src/providers/'),

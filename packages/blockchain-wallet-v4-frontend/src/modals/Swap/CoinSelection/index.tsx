@@ -10,10 +10,11 @@ import {
 } from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
+import { SWAP_COIN_ORDER } from 'coins'
 import { SwapAccountType } from 'data/types'
 
 import { Props as BaseProps, SuccessStateType } from '..'
-import { coinOrder, getData } from './selectors'
+import { getData } from './selectors'
 import { StickyTopFlyoutWrapper, TopText } from '../components'
 
 class CoinSelection extends PureComponent<Props> {
@@ -148,7 +149,7 @@ class CoinSelection extends PureComponent<Props> {
             )}
           </Text>
         </StickyTopFlyoutWrapper>
-        {coinOrder.map(coin => {
+        {SWAP_COIN_ORDER.map(coin => {
           const accounts =
             (this.props.accounts[coin] as Array<SwapAccountType>) || []
           return accounts.map(account => {

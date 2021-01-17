@@ -5,7 +5,6 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import { CoinAccountListOption } from 'components/Form'
-import { coinOrder } from 'blockchain-wallet-v4-frontend/src/modals/Swap/CoinSelection/selectors'
 import { FlyoutWrapper } from 'components/Flyout'
 import {
   getCoinFromPair,
@@ -20,6 +19,7 @@ import {
 } from 'blockchain-info-components'
 import { model } from 'data'
 import { SBPairType } from 'core/types'
+import { SWAP_COIN_ORDER } from 'coins'
 import { SwapAccountType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
@@ -253,7 +253,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
         <Currencies>
           {orderType === 'SELL' ? (
             checkAccountsBalances ? (
-              coinOrder.map(coin => {
+              SWAP_COIN_ORDER.map(coin => {
                 const accounts = props.accounts[coin] as Array<SwapAccountType>
                 return accounts.map(
                   account =>

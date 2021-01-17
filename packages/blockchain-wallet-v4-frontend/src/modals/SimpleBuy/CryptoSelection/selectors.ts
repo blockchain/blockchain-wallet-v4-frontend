@@ -3,6 +3,7 @@ import { lift } from 'ramda'
 import { ExtractSuccess, FiatType } from 'core/types'
 import { SBCheckoutFormValuesType } from 'data/types'
 import { selectors } from 'data'
+import { SWAP_SELECTOR_CONFIG } from 'coins'
 
 export const getData = state => {
   const coinsR = selectors.core.walletOptions.getSupportedCoins(state)
@@ -21,7 +22,7 @@ export const getData = state => {
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
   // for sell, get 'swap' accounts
-  const accounts = selectors.components.swap.getActiveAccounts(state)
+  const accounts = selectors.components.swap.getActiveAccounts(state, SWAP_SELECTOR_CONFIG)
 
   return lift(
     (
