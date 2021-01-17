@@ -14,3 +14,8 @@ export const StepHeader = styled(Text)<{
     props.spaceBetween ? 'space-between' : 'initial'};
   margin-bottom: ${props => (props.marginBottom ? '24px' : '0px')};
 `
+
+export const ClipboardWrapper = styled.div`
+  margin-left: 18px;
+  margin-top: 6px;
+`

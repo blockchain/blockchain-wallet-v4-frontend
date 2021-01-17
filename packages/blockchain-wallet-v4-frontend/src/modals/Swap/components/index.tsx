@@ -2,7 +2,6 @@ import { Form } from 'redux-form'
 import { Text } from 'blockchain-info-components'
 import styled, { DefaultTheme } from 'styled-components'
 
-import { FlyoutWrapper } from 'components/Flyout'
 import { SuccessCartridge } from 'components/Cartridge'
 
 export const Border = styled.div`
@@ -12,12 +11,6 @@ export const Border = styled.div`
 export const FreeCartridge = styled(SuccessCartridge)`
   font-size: 12px;
   margin-top: 8px;
-`
-
-export const StickyTopFlyoutWrapper = styled(FlyoutWrapper)`
-  background-color: ${props => props.theme.white};
-  position: sticky;
-  top: 0;
 `
 
 export const TopText = styled(Text)<{

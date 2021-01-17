@@ -152,6 +152,12 @@ export const AmountFieldContainer = styled.div<{ isCrypto?: boolean }>`
   }
 `
 
+export const StickyHeaderFlyoutWrapper = styled(FlyoutWrapper)`
+  background-color: ${props => props.theme.white};
+  position: sticky;
+  top: 0;
+`
+
 class Flyout extends React.PureComponent<
   Omit<ModalPropsType, 'close'> & {
     direction: 'right' | 'left'

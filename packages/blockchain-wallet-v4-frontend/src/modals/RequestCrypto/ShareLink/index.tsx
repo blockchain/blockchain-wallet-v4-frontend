@@ -12,9 +12,9 @@ import { selectors } from 'data'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 
+import { ClipboardWrapper, StepHeader } from '../model'
 import { Props as OwnProps } from '../index'
 import { RequestSteps } from '../types'
-import { StepHeader } from '../model'
 
 const Wrapper = styled.div`
   display: flex;
@@ -46,10 +46,6 @@ const QRCodeContainer = styled.div`
   padding: 24px 0;
   width: 100%;
   border-top: ${props => `1px solid ${props.theme.grey000}`};
-`
-const ClipboardWrapper = styled.div`
-  margin-left: 24px;
-  margin-top: 6px;
 `
 const ButtonsWrapper = styled.div`
   display: flex;

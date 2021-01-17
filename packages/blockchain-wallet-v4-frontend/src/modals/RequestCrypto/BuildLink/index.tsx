@@ -11,8 +11,8 @@ import { required } from 'services/forms'
 import { WalletCurrencyType } from 'core/types'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 
+import { ClipboardWrapper, REQUEST_FORM, StepHeader } from '../model'
 import { Props as OwnProps } from '..'
-import { REQUEST_FORM, StepHeader } from '../model'
 import { RequestSteps } from '../types'
 
 const Wrapper = styled.div`
@@ -38,10 +38,6 @@ const AddressDisplay = styled.div`
   overflow-wrap: anywhere;
   word-break: break-all;
   hyphens: none;
-`
-const ClipboardWrapper = styled.div`
-  margin-left: 24px;
-  margin-top: 6px;
 `
 const FormContainer = styled(Form)`
   display: flex;

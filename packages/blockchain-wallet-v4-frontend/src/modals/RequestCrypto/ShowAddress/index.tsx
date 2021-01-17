@@ -11,9 +11,9 @@ import { SupportedWalletCurrenciesType } from 'core/redux/walletOptions/types'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 
+import { ClipboardWrapper, StepHeader } from '../model'
 import { Props as OwnProps } from '../index'
 import { RequestSteps } from '../types'
-import { StepHeader } from '../model'
 
 const Wrapper = styled.div`
   display: flex;
@@ -37,10 +37,6 @@ const AddressDisplay = styled.div`
   overflow-wrap: anywhere;
   word-break: break-all;
   hyphens: none;
-`
-const ClipboardWrapper = styled.div`
-  margin-left: 24px;
-  margin-top: 6px;
 `
 const QRCodeContainer = styled.div`
   display: flex;
