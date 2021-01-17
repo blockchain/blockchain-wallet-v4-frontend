@@ -20,14 +20,14 @@ class FeaturesContainer extends React.PureComponent<Props> {
       modalActions,
       supportedCoins
     } = this.props
-    // TODO: remove BTC check just for dev testing now
-    if ((type === 'REQUEST' && coin === 'BTC') || coin === 'SECURITY-CENTER') {
+    if (type === 'REQUEST') {
       return modalActions.showModal('REQUEST_CRYPTO_MODAL', {
         coin: coin in CoinTypeEnum && coin,
         origin: 'FeaturesTopNav'
       })
     }
-    // TODO: remove with send refactor
+
+    // TODO: remove with send refactor 🙏
     if (includes(coin, erc20List)) {
       return modalActions.showModal(`@MODAL.${type}.ETH` as ModalNamesType, {
         coin,
@@ -35,7 +35,7 @@ class FeaturesContainer extends React.PureComponent<Props> {
       })
     } else if (includes(coin, keys(supportedCoins))) {
       return this.props.modalActions.showModal(
-        `@MODAL.${type}.${coin}` as ModalNamesType,
+        `@MODAL.SEND.${coin}` as ModalNamesType,
         {
           lockboxIndex: lockboxPath ? lockboxDeviceId : null,
           origin: 'FeaturesTopNav'
@@ -43,7 +43,7 @@ class FeaturesContainer extends React.PureComponent<Props> {
       )
     }
     return this.props.modalActions.showModal(
-      `@MODAL.${type}.BTC` as ModalNamesType,
+      `@MODAL.SEND.BTC` as ModalNamesType,
       {
         lockboxIndex: lockboxPath ? lockboxDeviceId : null,
         origin: 'FeaturesTopNav'

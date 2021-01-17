@@ -120,7 +120,7 @@ class BuildLink extends React.PureComponent<Props> {
     const isFiatBaseCcy = currencyDisplay === walletCurrency
     const receiveAddress =
       // @ts-ignore
-      selectedAccount.nextAddress || selectedAccount.address
+      selectedAccount.nextReceiveAddress || selectedAccount.address
 
     return (
       <Wrapper>

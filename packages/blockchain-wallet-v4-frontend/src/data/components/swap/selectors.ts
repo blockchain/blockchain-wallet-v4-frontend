@@ -142,12 +142,13 @@ const bchGetActiveAccounts = createDeepEqualSelector(
             const metadata = bchMetadata[index]
 
             return {
+              accountIndex: prop('index', acc),
+              address: index,
               archived: prop('archived', metadata),
+              balance: prop('final_balance', data),
               baseCoin: coin,
               coin,
               label: prop('label', metadata) || xpub,
-              address: index,
-              balance: prop('final_balance', data),
               type: ADDRESS_TYPES.ACCOUNT
             }
           })
@@ -200,14 +201,14 @@ const btcGetActiveAccounts = createDeepEqualSelector(
       if (ownProps?.nonCustodialAccounts) {
         accounts = accounts.concat(btcAccounts
           .map(acc => ({
+            accountIndex: prop('index', acc),
+            address: prop('index', acc),
             archived: prop('archived', acc),
+            // @ts-ignore
+            balance: prop('final_balance', prop(prop('xpub', acc), btcData)),
             baseCoin: coin,
             coin,
             label: prop('label', acc) || prop('xpub', acc),
-            accountIndex: prop('index', acc),
-            address: prop('index', acc),
-            // @ts-ignore
-            balance: prop('final_balance', prop(prop('xpub', acc), btcData)),
             type: ADDRESS_TYPES.ACCOUNT
           }))
           .filter(propEq('archived', false)))

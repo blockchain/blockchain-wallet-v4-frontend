@@ -78,7 +78,7 @@ class ShareLink extends React.PureComponent<Props> {
     } = formValues
     const receiveAddress =
       // @ts-ignore
-      selectedAccount.nextAddress || selectedAccount.address
+      selectedAccount.nextReceiveAddress || selectedAccount.address
 
     const currencySymbol = Exchange.getSymbol(walletCurrency) as string
     const coinAmount =
