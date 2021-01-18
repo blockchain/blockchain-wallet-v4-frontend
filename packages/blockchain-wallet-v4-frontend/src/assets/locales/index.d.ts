@@ -2,9 +2,6 @@
 // Update MessagesType w/ new messages
 // en.json is updated ✨automatically ✨when releases are built
 
-import { FormattedMessage } from 'react-intl'
-import React from 'react'
-
 type MessagesType = {
   'bitpaycta.nowsupporting': 'Your {coin} wallet now supports'
   'borrow.amount.tooltip.description': 'This amount does not include the required collateral network fee.'
@@ -62,6 +59,17 @@ type MessagesType = {
   'buttons.withdraw': 'Withdraw'
   'buttons.withdrew': 'Withdrew'
   'buttons.withdraw_value': 'Withdraw {value}'
+  'coins.algo.intro': 'Algorand (ALGO) is a public blockchain based on a pure proof-of-stake consensus protocol.'
+  'coins.bch.intro': 'Bitcoin Cash (BCH) is a fork of Bitcoin built for everyday transactions.'
+  'coins.btc.intro': 'Bitcoin (BTC) is the original crypto and the internet’s premier digital currency.'
+  'coins.eth.intro': 'Ethereum (ETH) is a currency and platform for execution of decentralized smart contracts.'
+  'coins.eur.intro': 'Store Euros in your wallet and use it to Buy crypto.'
+  'coins.gbp.intro': 'Store British pounds in your wallet and use it to Buy crypto.'
+  'coins.pax.intro': 'USD Digital (USD-D) is a stablecoin backed by the U.S. dollar.'
+  'coins.usd.intro': 'Store U.S. dollars in your wallet and use it to Buy crypto.'
+  'coins.usdt.intro': 'Tether (USDT) is a stablecoin backed by the U.S. dollar.'
+  'coins.wdgld.intro': 'Wrapped Digital Gold (wDGLD) is a gold-backed token built with the power and flexibility of Ethereum.'
+  'coins.xlm.intro': 'Stellar (XLM) connects banks, payments and you to the Stellar Payment network.'
   'components.DateInputBox.placeholder.month': 'Month'
   'components.EmailVerification.changeemail': 'Change Email'
   'components.EmailVerification.checkinbox': 'Check your inbox. We sent an email to:'

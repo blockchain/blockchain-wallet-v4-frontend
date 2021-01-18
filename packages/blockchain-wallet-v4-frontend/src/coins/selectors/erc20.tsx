@@ -1,4 +1,6 @@
+import { FormattedMessage } from 'react-intl'
 import { lift, prop, toLower } from 'ramda'
+import React from 'react'
 
 import { ADDRESS_TYPES } from 'core/redux/payment/btc/utils'
 import { CoinType } from 'core/types'
@@ -9,6 +11,38 @@ import { generateCustodyAccount } from 'coins/utils'
 import { SBBalanceType } from 'core/network/api/simpleBuy/types'
 
 import { getCustodialBalance } from './'
+
+// retrieves introduction text for coin on its transaction page
+export const getTransactionPageHeaderText = (coin) => {
+  switch (coin) {
+    case 'PAX':
+    case 'USDD':
+    case 'USD-D':
+      return (
+        <FormattedMessage
+          id='coins.pax.intro'
+          defaultMessage='USD Digital (USD-D) is a stablecoin backed by the U.S. dollar.'
+        />
+      )
+    case 'USDT':
+      return (
+        <FormattedMessage
+          id='coins.usdt.intro'
+          defaultMessage='Tether (USDT) is a stablecoin backed by the U.S. dollar.'
+        />
+      )
+    case 'WDGLD':
+      return (
+        <FormattedMessage
+          id='coins.wdgld.intro'
+          defaultMessage='Wrapped Digital Gold (wDGLD) is a gold-backed token built with the power and flexibility of Ethereum.'
+        />
+      )
+    default:
+      return <span>Coin introduction missing!</span>
+  }
+}
+
 
 // main selector for all ERC20 account types
 // accepts a CoinAccountSelectorType config object

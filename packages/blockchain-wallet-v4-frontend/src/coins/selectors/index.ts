@@ -8,12 +8,14 @@ import { selectors } from 'data'
 import { SUPPORTED_COINS } from 'coins/features/swap'
 import { SwapAccountType } from 'data/components/swap/types'
 
-// 👋 keep these alphabetized
 import * as ALGO from './algo'
 import * as BCH from './bch'
 import * as BTC from './btc'
 import * as ERC20 from './erc20'
 import * as ETH from './eth'
+import * as EUR from './eur'
+import * as GBP from './gbp'
+import * as USD from './usd'
 import * as XLM from './xlm'
 
 // need to create a function map since selectors are created dynamically
@@ -23,8 +25,15 @@ const coinSelectors = {
   BTC,
   ERC20,
   ETH,
+  EUR,
+  GBP,
+  USD,
   XLM
 }
+
+// retrieves introduction text for coin on its transaction page
+export const getIntroductionText = (coin) =>
+  coinSelectors[coin in Erc20CoinsEnum ? 'ERC20' : coin].getTransactionPageHeaderText(coin)
 
 // retrieves custodial account balances
 export const getCustodialBalance = curry((coin: CoinType, state) => {

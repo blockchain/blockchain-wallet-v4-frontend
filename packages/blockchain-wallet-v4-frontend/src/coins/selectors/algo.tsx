@@ -1,4 +1,6 @@
+import { FormattedMessage } from 'react-intl'
 import { lift } from 'ramda'
+import React from 'react'
 
 import { createDeepEqualSelector } from 'services/misc'
 import { ExtractSuccess } from 'core/remote/types'
@@ -6,6 +8,14 @@ import { generateCustodyAccount } from 'coins/utils'
 import { SBBalanceType } from 'core/network/api/simpleBuy/types'
 
 import { getCustodialBalance } from './'
+
+// retrieves introduction text for coin on its transaction page
+export const getTransactionPageHeaderText = () => (
+  <FormattedMessage
+    id='coins.algo.intro'
+    defaultMessage='Algorand (ALGO) is a public blockchain based on a pure proof-of-stake consensus protocol.'
+  />
+)
 
 // main selector for all ALGO account types
 // accepts a CoinAccountSelectorType config object

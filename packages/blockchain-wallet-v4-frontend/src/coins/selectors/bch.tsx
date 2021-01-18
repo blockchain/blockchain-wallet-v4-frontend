@@ -1,4 +1,6 @@
+import { FormattedMessage } from 'react-intl'
 import { lift, prop, propEq } from 'ramda'
+import React from 'react'
 
 import { ADDRESS_TYPES } from 'core/redux/payment/btc/utils'
 import { coreSelectors } from 'core'
@@ -8,6 +10,14 @@ import { generateCustodyAccount } from 'coins/utils'
 import { SBBalanceType } from 'core/network/api/simpleBuy/types'
 
 import { getCustodialBalance } from './'
+
+// retrieves introduction text for coin on its transaction page
+export const getTransactionPageHeaderText = () => (
+  <FormattedMessage
+    id='coins.bch.intro'
+    defaultMessage='Bitcoin Cash (BCH) is a fork of Bitcoin built for everyday transactions.'
+  />
+)
 
 // main selector for all BCH account types
 // accepts a CoinAccountSelectorType config object

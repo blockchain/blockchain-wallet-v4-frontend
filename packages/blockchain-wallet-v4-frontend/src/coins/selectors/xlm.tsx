@@ -1,4 +1,6 @@
 import { lift, path, prop, propEq } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import React from 'react'
 
 import { ADDRESS_TYPES } from 'core/redux/payment/btc/utils'
 import { convertStandardToBase } from 'data/components/exchange/services'
@@ -9,6 +11,14 @@ import { generateCustodyAccount } from 'coins/utils'
 import { SBBalanceType } from 'core/network/api/simpleBuy/types'
 
 import { getCustodialBalance } from './'
+
+// retrieves introduction text for coin on its transaction page
+export const getTransactionPageHeaderText = () => (
+  <FormattedMessage
+    id='coins.xlm.intro'
+    defaultMessage='Stellar (XLM) connects banks, payments and you to the Stellar Payment network.'
+  />
+)
 
 // main selector for all XLM account types
 // accepts a CoinAccountSelectorType config object
