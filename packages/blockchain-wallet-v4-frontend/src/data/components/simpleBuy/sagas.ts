@@ -1069,7 +1069,6 @@ export default ({
         // REMOVE THIS WHEN BACKEND CAN HANDLE PENDING 'FUNDS' ORDERS
         // 👇--------------------------------------------------------
         case 'BANK_ACCOUNT':
-          // case 'USER_CARD': commenting out until we figure out SDD issues
           return yield put(
             A.setStep({
               step: 'KYC_REQUIRED'
