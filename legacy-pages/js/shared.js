@@ -5,7 +5,7 @@ var symbol_btc = {code : "BTC", symbol : "BTC", name : "Bitcoin",  conversion : 
 var symbol_local = {"conversion":0,"symbol":"$","name":"U.S. dollar","symbolAppearsAfter":false,"local":true,"code":"USD"}; //Users local currency object
 var symbol = symbol_btc; //Active currency object
 var root = '/';
-var resource = '/Resources/';
+var resource = '/legacy-pages/';
 var war_checksum;
 var min = false; //whether to load minified scripts
 var isExtension = false;
