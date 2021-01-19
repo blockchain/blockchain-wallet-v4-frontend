@@ -202,8 +202,7 @@ export const getSBLatestPendingOrder = (state: RootState) =>
   state.components.simpleBuy.orders.getOrElse([]).find(order => {
     return (
       order.state === 'PENDING_CONFIRMATION' ||
-      order.state === 'PENDING_DEPOSIT' ||
-      order.state === 'DEPOSIT_MATCHED'
+      order.state === 'PENDING_DEPOSIT'
     )
   })
 
