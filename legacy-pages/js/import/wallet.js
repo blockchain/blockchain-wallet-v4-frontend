@@ -1047,7 +1047,7 @@ var MyWallet = new function() {
         }
 
         if (hdWalletsPlaceHolder) {
-            out += ',\n "hd_wallets" : ' + JSON.stringify(hdWalletsPlaceHolder)            
+            out += ',\n "hd_wallets" : ' + JSON.stringify(hdWalletsPlaceHolder)
         }
 
         if (nKeys(tx_notes) > 0) {
@@ -4629,13 +4629,14 @@ var MyWallet = new function() {
             return;
         }
 
+        // Andrew/Mark debugged and removed this due to it no longer being supported by browsers
         //Listener to reload the page on App Cache update
-        window.applicationCache.addEventListener('updateready', function () {
-            if(window.applicationCache.status === window.applicationCache.UPDATEREADY) {
-                window.applicationCache.swapCache();
-                location.reload();
-            }
-        });
+        // window.applicationCache.addEventListener('updateready', function () {
+        //     if(window.applicationCache.status === window.applicationCache.UPDATEREADY) {
+        //         window.applicationCache.swapCache();
+        //         location.reload();
+        //     }
+        // });
 
         //Disable autocomplete in firefox
         $("input,button,select").attr("autocomplete","off");

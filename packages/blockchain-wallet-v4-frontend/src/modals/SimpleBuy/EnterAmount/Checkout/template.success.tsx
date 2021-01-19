@@ -460,19 +460,21 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </Amounts>
           )}
 
-        {props.orderType === 'SELL' && props.pair && Number(min) > Number(max) && (
-          <Amounts>
-            <CustomErrorCartridge
-              role='button'
-              data-e2e='sbEnterAmountNotEnoughFundsForSell'
-            >
-              <FormattedMessage
-                id='modals.simplebuy.checkout.not_enough_funds_for_sell'
-                defaultMessage='Not Enough funds for Sell'
-              />
-            </CustomErrorCartridge>
-          </Amounts>
-        )}
+        {(!props.isSddFlow || props.orderType === 'SELL') &&
+          props.pair &&
+          Number(min) > Number(max) && (
+            <Amounts>
+              <CustomErrorCartridge
+                role='button'
+                data-e2e='sbEnterAmountNotEnoughFundsForSell'
+              >
+                <FormattedMessage
+                  id='modals.simplebuy.checkout.not_enough_funds_for_sell'
+                  defaultMessage='Not Enough funds for Sell'
+                />
+              </CustomErrorCartridge>
+            </Amounts>
+          )}
 
         {props.isSddFlow && props.orderType === 'BUY' && (
           <ActionsRow>
