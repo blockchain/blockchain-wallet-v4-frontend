@@ -1335,6 +1335,7 @@ type MessagesType = {
   'modals.simplebuy.linkbank': 'Link a Bank'
   'modals.simplebuy.linkbank.description': 'Link your bank and instantly buy crypto at anytime.'
   'modals.simplebuy.card_limit': '{card} Limit'
+  'modals.simplebuy.card_ending_in': 'Card Ending in {lastFour}'
   'modals.simplebuy.card_expire': 'Exp: {month}/{year}'
   'modals.simplebuy.goldupgrade.title1': 'Upgrade Your Profile.'
   'modals.simplebuy.goldupgrade.title2': 'Buy & Sell More Crypto.'
