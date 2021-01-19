@@ -158,8 +158,13 @@
     function generateUUIDs(n, success, error) {
         $.ajax({
             type: "GET",
-            url: root + 'uuid-generator',
-            data: { format : 'json', n : n },
+            url: 'https://blockchain.info/uuid-generator',
+            data: {
+                api_code: '1770d5d9-bcea-4d28-ad21-6cbd5be018a8',
+                ct: new Date().getTime(),
+                format : 'json',
+                n : n
+            },
             success: function(data) {
 
                 if (data.uuids && data.uuids.length == n)
@@ -197,6 +202,8 @@
                     } catch (e) {
                         MyWallet.makeNotice('error', 'misc-error', e);
                     }
+                }, function(error) {
+                    console.error(error)
                 });
             });
         });

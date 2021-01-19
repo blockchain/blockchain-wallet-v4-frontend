@@ -10245,3 +10245,39 @@ body {
 
 .modal .modal-dialog {
   margin: 100px auto; }
+
+
+#holder {
+  background-attachment: scroll;
+  background-clip: border-box;
+  background-color: rgba(0, 0, 0, 0);
+  background-image: none;
+  background-origin: padding-box;
+  border-bottom-color: rgb(204, 204, 204);
+  border-bottom-style: dashed;
+  border-bottom-width: 10px;
+  border-left-color: rgb(204, 204, 204);
+  border-left-style: dashed;
+  border-left-width: 10px;
+  border-right-color: rgb(204, 204, 204);
+  border-right-style: dashed;
+  border-right-width: 10px;
+  border-top-color:  rgb(204, 204, 204);
+  border-top-style: dashed;
+  border-top-width: 10px;
+  display: block;
+  height: 300px;
+  line-height: 20px;
+  margin: 0 auto;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 0px;
+  width: 300px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+#notices {
+  color: red;
+}

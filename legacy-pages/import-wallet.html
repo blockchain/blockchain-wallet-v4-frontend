@@ -11,7 +11,7 @@
   <link href="css/blockchain.css" nonce="**CSP_NONCE**" type="text/css" rel="stylesheet"/>
   <script src="js/jquery.min.js" nonce="**CSP_NONCE**" type="text/javascript"></script>
   <script src="js/bootstrap.min.js" nonce="**CSP_NONCE**" type="text/javascript"></script>
-  <script src="js/shared.min.js" nonce="**CSP_NONCE**" type="text/javascript"></script>
+  <script src="js/shared.js" nonce="**CSP_NONCE**" type="text/javascript"></script>
   <script src='js/block-alert.js' nonce="**CSP_NONCE**" type="text/javascript"></script>
   <script src="js/wallet-index.js" nonce="**CSP_NONCE**" type="text/javascript"></script>
   <script src="js/import/bitcoinjs.min.js" nonce="**CSP_NONCE**" type="text/javascript"></script>
@@ -22,38 +22,6 @@
   <script nonce="**CSP_NONCE**">
     window.NONCE = '**CSP_NONCE**'
   </script>
-  <style type="text/css">
-    #holder {
-      background-attachment: scroll;
-      background-clip: border-box;
-      background-color: rgba(0, 0, 0, 0);
-      background-image: none;
-      background-origin: padding-box;
-      border-bottom-color: rgb(204, 204, 204);
-      border-bottom-style: dashed;
-      border-bottom-width: 10px;
-      border-left-color: rgb(204, 204, 204);
-      border-left-style: dashed;
-      border-left-width: 10px;
-      border-right-color: rgb(204, 204, 204);
-      border-right-style: dashed;
-      border-right-width: 10px;
-      border-top-color:  rgb(204, 204, 204);
-      border-top-style: dashed;
-      border-top-width: 10px;
-      display: block;
-      height: 300px;
-      line-height: 20px;
-      margin: 0 auto;
-      padding-bottom: 0px;
-      padding-left: 0px;
-      padding-right: 0px;
-      padding-top: 0px;
-      width: 300px;
-      margin-top: 25px;
-      margin-bottom: 25px;
-    }
-  </style>
 </head>
 <body data-war-checksum="1e64a0eb9697314b" class="opaque-nav" id="home-container">
 <nav role="navigation">
@@ -66,9 +34,6 @@
   </ul>
 </nav>
 <div class="container pt-100">
-  <div id="main-notices-container" style="margin:0 auto; width:auto; min-width:280px;">
-    <span id="notices" style="max-width: 600px; width:100%;"></span>
-  </div>
   <h1 class="page-header">Import Wallet <br /><small>Create a new wallet by importing an existing wallet file.</small></h1>
   <div id="holder" align="center">
     <img src="img/loading_large.gif" style="display:none;padding-top:25px" class="loading-indicator">
@@ -128,6 +93,9 @@
         </div>
       </div>
     </div>
+  </div>
+  <div id="main-notices-container" style="margin:0 auto; width:auto; min-width:280px;">
+    <span id="notices" style="max-width: 600px; width:100%;"></span>
   </div>
 </body>
 <div id="import-second-password-modal" class="modal hide">
