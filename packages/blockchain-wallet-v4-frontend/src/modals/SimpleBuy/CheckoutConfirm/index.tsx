@@ -13,6 +13,7 @@ import {
   WalletFiatType
 } from 'core/types'
 import { getFiatFromPair, getOrderType } from 'data/components/simpleBuy/model'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 import DataError from 'components/DataError'
@@ -30,17 +31,48 @@ class CheckoutConfirm extends PureComponent<Props> {
       getOrderType(this.props.order),
       this.props.order.inputQuantity
     )
-    this.props.simpleBuyActions.fetchBankTransferAccounts()
     this.props.sendActions.getLockRule()
+    if (!Remote.Success.is(this.props.data)) {
+      this.props.simpleBuyActions.fetchSDDEligible()
+      this.props.simpleBuyActions.fetchSDDVerified()
+      this.props.simpleBuyActions.fetchSBCards()
+      this.props.simpleBuyActions.fetchBankTransferAccounts()
+    }
   }
 
   handleSubmit = () => {
-    const { userData, sbBalances } = this.props.data.getOrElse({
-      userData: { tiers: { current: 0 } } as UserDataType
+    const {
+      userData,
+      sbBalances,
+      isSddFlow,
+      isUserSddVerified,
+      cards
+    } = this.props.data.getOrElse({
+      userData: { tiers: { current: 0 } } as UserDataType,
+      isSddFlow: false
     } as SuccessStateType)
 
     const userTier = userData?.tiers?.current
     const inputCurrency = this.props.order.inputCurrency as WalletFiatType
+
+    // check for SDD flow and direct to add card
+    if (isSddFlow && this.props.order.paymentType === 'PAYMENT_CARD') {
+      if (isUserSddVerified) {
+        if (cards && cards.length > 0) {
+          const card = cards[0]
+          return this.props.simpleBuyActions.confirmSBCreditCardOrder(
+            card.id,
+            this.props.order
+          )
+        }
+        return this.props.simpleBuyActions.setStep({
+          step: 'ADD_CARD'
+        })
+      }
+      return this.props.simpleBuyActions.setStep({
+        step: 'KYC_REQUIRED'
+      })
+    }
 
     if (userTier < 2) {
       return this.props.simpleBuyActions.setStep({

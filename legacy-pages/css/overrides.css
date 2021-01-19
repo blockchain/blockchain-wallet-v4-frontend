@@ -50,7 +50,6 @@ body {
 }
 
 .external {
-    background: url(/Resources/external.png);
     width:10px;
     display: inline-block;
     height:10px;
