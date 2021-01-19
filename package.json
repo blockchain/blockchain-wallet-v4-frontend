@@ -34,16 +34,16 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,tsx}": [
+    "packages/**/*.{js,ts,tsx}": [
       "prettier --write",
       "eslint --fix",
       "yarn test --bail --findRelatedTests",
       "git add"
     ],
-    "*.{js,tsx}": [
+    "packages/**/*.{js,tsx}": [
       "stylelint './packages/*/src/**/*.{js,tsx}'"
     ],
-    "*.json": [
+    "packages/**/*.json": [
       "prettier --write",
       "git add"
     ]
