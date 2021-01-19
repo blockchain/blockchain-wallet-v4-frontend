@@ -41,8 +41,8 @@ const General = () => {
       </MenuHeader>
       <WalletId />
       <PairingCode />
-      <LinkedWireBanks />
       <LinkedBanks />
+      <LinkedWireBanks />
       <LinkedCards />
       <PrivacyPolicy />
       <TermsOfService />
