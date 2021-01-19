@@ -68,11 +68,10 @@ class CheckoutConfirm extends PureComponent<Props> {
         return this.props.simpleBuyActions.setStep({
           step: 'ADD_CARD'
         })
-      } else {
-        return this.props.simpleBuyActions.setStep({
-          step: 'KYC_REQUIRED'
-        })
       }
+      return this.props.simpleBuyActions.setStep({
+        step: 'KYC_REQUIRED'
+      })
     }
 
     if (userTier < 2) {
