@@ -1250,6 +1250,7 @@ type MessagesType = {
   'modals.simplebuy.change_billing_address': 'Change Billing Address'
   'modals.simplebuy.checkingeligiblity': 'Checking Eligibility...'
   'modals.simplebuy.checkout.abovemax': '{value} Maximum {orderType}'
+  'modals.simplebuy.checkout.maxbuysell': '{orderType} Max'
   'modals.simplebuy.checkout.maxbuy': 'Max Buy'
   'modals.simplebuy.checkout.upgrade_to_gold': 'Trading limit reached. Upgrade to Gold'
   'modals.simplebuy.checkout.max_card_limit': 'Max Card Limit'

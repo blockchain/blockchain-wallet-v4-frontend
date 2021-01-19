@@ -333,7 +333,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <Icon
               cursor
               data-e2e='sbBackToCryptoSelection'
-              name='arrow-left'
+              name='arrow-back'
               size='20px'
               color='grey600'
               role='button'
@@ -349,15 +349,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
             <BuyOrSell {...props} crypto={cryptoCurrency || 'Crypto'} />
           </LeftTopCol>
-          <Icon
-            cursor
-            data-e2e='sbCloseModalIcon'
-            name='close'
-            size='20px'
-            color='grey600'
-            role='button'
-            onClick={() => props.handleClose()}
-          />
         </TopText>
       </FlyoutWrapper>
       <CryptoItem
@@ -409,7 +400,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <Icon
             color='blue600'
             cursor
-            name='vertical-arrow-switch'
+            name='up-down-chevron'
             onClick={() =>
               props.simpleBuyActions.switchFix(
                 quoteAmt,
@@ -447,10 +438,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 ) : (
                   <BlueRedCartridge error={amtError === 'ABOVE_MAX'}>
                     <FormattedMessage
-                      id='modals.simplebuy.checkout.abovemax'
-                      defaultMessage='{value} Maximum {orderType}'
+                      id='modals.simplebuy.checkout.maxbuysell'
+                      defaultMessage='{orderType} Max'
                       values={{
-                        value: getValue(max),
                         orderType: orderType === 'BUY' ? 'Buy' : 'Sell'
                       }}
                     />
