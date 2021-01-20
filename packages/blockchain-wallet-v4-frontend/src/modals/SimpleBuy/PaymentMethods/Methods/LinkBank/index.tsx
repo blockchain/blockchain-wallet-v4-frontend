@@ -4,24 +4,20 @@ import styled from 'styled-components'
 
 import {
   Content,
+  Description,
   DisplayContainer,
   DisplayIcon,
+  DisplaySubTitle,
   DisplayTitle
 } from 'components/SimpleBuy'
 import { Icon } from 'blockchain-info-components'
 import { SBPaymentMethodType } from 'core/types'
-import { Title } from 'components/Flyout'
 
 const DisplayTitleBank = styled(DisplayTitle)`
   margin-bottom: 2px;
 `
 const DisplayIconBank = styled(DisplayIcon)`
   min-height: 75px;
-`
-const SubTitle = styled(Title)`
-  color: ${props => props.theme.grey600};
-  margin-top: 5px;
-  line-height: 21px;
 `
 
 type Props = {
@@ -45,12 +41,18 @@ const LinkBank: React.FC<Props> = ({ value, onClick, icon }) => (
           defaultMessage='Link a Bank'
         />
       </DisplayTitleBank>
-      <SubTitle>
+      <DisplaySubTitle>
+        <FormattedMessage
+          id='copy.instantly_available'
+          defaultMessage='Instantly Available'
+        />
+      </DisplaySubTitle>
+      <Description>
         <FormattedMessage
           id='modals.simplebuy.linkbank.description'
           defaultMessage='Link your bank and instantly buy crypto at anytime.'
         />
-      </SubTitle>
+      </Description>
     </Content>
     <Icon name='chevron-right' size='24px' color='grey400' />
   </DisplayContainer>

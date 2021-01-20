@@ -22,6 +22,7 @@ const DisplayPaymentIcon = styled(DisplayIcon)<{
     `}
 `
 
+export * from './Description'
 export {
   DisplayIcon,
   DisplayContainer,

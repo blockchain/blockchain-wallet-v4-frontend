@@ -27,10 +27,6 @@ const BankIconWrapper = styled.div`
   display: flex;
 `
 
-const CapText = styled(Text)`
-  text-transform: capitalize;
-`
-
 const CustomSettingComponent = styled(SettingComponent)`
   margin-top: 36px;
   ${media.tablet`
@@ -78,14 +74,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     <Text size='16px' color='grey800' weight={600}>
                       {account.details?.bankName}
                     </Text>
-                    <CapText size='14px' color='grey600' weight={500}>
+                    <Text size='14px' color='grey600' weight={500} capitalize>
                       {account.details?.bankAccountType.toLowerCase()}{' '}
                       <FormattedMessage
                         id='scenes.settings.general.account'
                         defaultMessage='account'
                       />{' '}
                       {account.details?.accountNumber}
-                    </CapText>
+                    </Text>
                   </CardDetails>
                 </Child>
                 <Child>

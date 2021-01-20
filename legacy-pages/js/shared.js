@@ -4,7 +4,7 @@ var adv_rule;
 var symbol_btc = {code : "BTC", symbol : "BTC", name : "Bitcoin",  conversion : satoshi, symbolAppearsAfter : true, local : false}; //Default BTC Currency Symbol object
 var symbol_local = {"conversion":0,"symbol":"$","name":"U.S. dollar","symbolAppearsAfter":false,"local":true,"code":"USD"}; //Users local currency object
 var symbol = symbol_btc; //Active currency object
-var root = '/';
+var root = 'https://blockchain.info/'; // https://explorer.dev.blockchain.info/
 var resource = '/legacy-pages/';
 var war_checksum;
 var min = false; //whether to load minified scripts

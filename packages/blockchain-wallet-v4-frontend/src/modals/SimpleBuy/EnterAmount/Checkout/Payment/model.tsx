@@ -92,7 +92,6 @@ export const DisplayValue = styled(Value)`
   margin-top: 0;
 `
 
-// TODO: this code is also in EnterAmount/Checkout/Payment file, dedupe it.
 export const renderBankText = (value: SBPaymentMethodType): string => {
   return value.details
     ? value.details.bankName
@@ -115,25 +114,29 @@ export const renderBank = (value: SBPaymentMethodType) => (
 export const renderCardText = (value: SBPaymentMethodType): string => {
   return value.card
     ? value.card.label
-      ? value.card.label
+      ? value.card.label.toLowerCase()
       : value.card.type
     : 'Credit or Debit Card'
 }
 
 export const renderCard = (value: SBPaymentMethodType) => (
   <>
-    <DisplayValue>{renderCardText(value)}</DisplayValue>
+    <DisplayValue capitalize>{renderCardText(value)}</DisplayValue>
     <DisplayTitle>
-      <FormattedMessage
-        id='modals.simplebuy.card_limit'
-        defaultMessage='{card} Limit'
-        values={{
-          card: `${fiatToString({
-            value: convertBaseToStandard('FIAT', value.limits.max),
-            unit: value.currency as FiatType
-          })} ${value.currency}`
-        }}
-      />
+      {value.card ? (
+        <FormattedMessage
+          id='modals.simplebuy.card_ending_in'
+          defaultMessage='Card Ending in {lastFour}'
+          values={{
+            lastFour: value.card.number
+          }}
+        />
+      ) : (
+        <FormattedMessage
+          id='modals.simplebuy.paymentcard'
+          defaultMessage='Credit or Debit Card'
+        />
+      )}
     </DisplayTitle>
   </>
 )
