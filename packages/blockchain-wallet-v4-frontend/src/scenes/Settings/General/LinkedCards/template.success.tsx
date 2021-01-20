@@ -91,7 +91,7 @@ const Success: React.FC<InjectedFormProps<
                   src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO}
                 />
                 <CardDetails>
-                  <Text size='16px' color='grey800' weight={600} uppercase>
+                  <Text size='16px' color='grey800' weight={600} capitalize>
                     {(card.card.label && card.card.label.toLowerCase()) ||
                       card.card.type}
                   </Text>
