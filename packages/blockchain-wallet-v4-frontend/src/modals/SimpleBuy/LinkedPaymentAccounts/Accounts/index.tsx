@@ -255,7 +255,7 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             <TopText color='grey800' size='20px' weight={600}>
               <Icon
                 cursor
-                name='arrow-left'
+                name='arrow-back'
                 size='20px'
                 color='grey600'
                 style={{ marginRight: '28px' }}
