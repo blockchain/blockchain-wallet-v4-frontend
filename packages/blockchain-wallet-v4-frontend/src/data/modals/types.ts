@@ -15,6 +15,7 @@ export type ModalNamesType =
   | 'AirdropSuccess'
   | 'BitPayInvoiceExpired'
   | 'BORROW_MODAL'
+  | 'BROKERAGE_MODAL'
   | 'Confirm'
   | 'CUSTODY_WITHDRAW_MODAL'
   | 'DeleteAddressLabel'
@@ -83,6 +84,7 @@ export type ModalOriginType =
   | 'WalletBalanceDropdown'
   | 'WelcomeModal'
   | 'WithdrawModal'
+  | 'BankDetailsModal'
 
 export type ModalParamPropsType = {
   [key: string]: any

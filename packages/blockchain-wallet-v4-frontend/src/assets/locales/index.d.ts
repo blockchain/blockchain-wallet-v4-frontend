@@ -580,6 +580,10 @@ type MessagesType = {
   'lockbox.service.messages.storagespace': 'Insufficient storage space on device'
   'lockbox.service.messages.unknown': 'An unknown error has occurred.'
   'lockboxrequired.tooltip': 'Hardware device is required'
+  'modals.brokerage.bank_preview.disclaimer': 'This account can be used for buys, sells & withdrawals.'
+  'modals.brokerage.remove_bank.description': "You'e about to remove your {bankAccount}"
+  'modals.brokerage.remove_bank.back': 'Back'
+  'modals.brokerage.curency': 'Curency'
   'modal.createaccountlearn.info1': 'Stellar requires that all Stellar accounts hold a minimum balance of lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to a new Stellar account, you must send enough XLM to meet the minimum balance requirement.'
   'modal.createaccountlearn.info2': 'The current minimum balance requirement is 1 XLM.'
   'modal.createaccountlearn.info3': "You can read more information about Stellar's minimum balance requirement at"

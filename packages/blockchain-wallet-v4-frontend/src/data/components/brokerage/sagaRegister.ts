@@ -1,13 +1,11 @@
 import * as AT from './actionTypes'
-import {
-  takeLatest
-} from 'redux-saga/effects'
+import { takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
 export default ({ api, coreSagas, networks }) => {
   const brokerageSagas = sagas({ api, coreSagas, networks })
 
-  return function * brokerageSaga() {
+  return function * brokerageSaga () {
     yield takeLatest(
       AT.FETCH_BANK_TRANSFER_ACCOUNTS,
       brokerageSagas.fetchBankTransferAccounts
@@ -18,5 +16,6 @@ export default ({ api, coreSagas, networks }) => {
     )
     yield takeLatest(AT.DELETE_SAVED_BANK, brokerageSagas.deleteSavedBank)
     yield takeLatest(AT.FETCH_FAST_LINK, brokerageSagas.fetchFastLink)
+    yield takeLatest(AT.SHOW_MODAL, brokerageSagas.showModal)
   }
 }

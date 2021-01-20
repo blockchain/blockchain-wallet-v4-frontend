@@ -1,8 +1,8 @@
 import { BorrowActionTypes } from './borrow/types'
+import { BrokerageActionTypes } from './brokerage/types'
 import { IdentityVerificationActionTypes } from './identityVerification/types'
 import { RecoveryPhraseActionTypes } from './recoveryPhrase/types'
 import { SimpleBuyActionTypes } from './simpleBuy/types'
-import { BrokerageActionTypes } from './brokerage/types'
 
 // All relative ActionTypes should go here
 // export type ComponentsActionTypes = IdentityVerificationActionTypes | ActivityListActionTypes | BchTransactionsActionTypes

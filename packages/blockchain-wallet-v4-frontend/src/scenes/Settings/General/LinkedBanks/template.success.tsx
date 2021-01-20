@@ -1,3 +1,4 @@
+import { BankTransferAccountType, WalletFiatEnum } from 'core/types'
 import { Button, Image, Text } from 'blockchain-info-components'
 import {
   CardDetails,
@@ -10,12 +11,12 @@ import { FormattedMessage } from 'react-intl'
 import { getBankLogoImageName } from 'services/ImagesService'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
+
 import {
   SettingComponent,
   SettingContainer,
   SettingSummary
 } from 'components/Setting'
-import { WalletFiatEnum } from 'core/types'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
@@ -61,9 +62,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               />
             </Text>
           )}
-          {walletBeneficiaries.map((account, i) => {
+          {walletBeneficiaries.map(account => {
             return (
-              <CardWrapper key={i}>
+              <CardWrapper
+                key={account.id}
+                onClick={() => props.handleShowBankClick(account)}
+                data-e2e={`bankAccountRow-${account.id}`}
+              >
                 <Child>
                   <BankIconWrapper>
                     <Image
@@ -86,14 +91,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 </Child>
                 <Child>
                   <RemoveButton
-                    data-e2e='removeBankAccount'
+                    data-e2e={`removeBankAccount-${account.id}`}
                     nature='light-red'
                     disabled={props.submitting}
                     style={{ marginLeft: '18px', minWidth: 'auto' }}
                     // @ts-ignore
                     onClick={(e: SyntheticEvent) => {
                       e.stopPropagation()
-                      props.brokerageActions.deleteSavedBank(account.id)
+                      props.handleDeleteBank(account)
                     }}
                   >
                     <FormattedMessage
@@ -120,5 +125,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   )
 }
 
-type Props = OwnProps & SuccessStateType & { handleBankClick: () => void }
+type Props = OwnProps &
+  SuccessStateType & {
+    handleBankClick: () => void
+    handleDeleteBank: (account: BankTransferAccountType) => void
+    handleShowBankClick: (account: BankTransferAccountType) => void
+  }
 export default reduxForm<{}, Props>({ form: 'linkedBanks' })(Success)

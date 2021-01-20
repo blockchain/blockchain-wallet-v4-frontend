@@ -64,7 +64,9 @@ export const getDefaultPaymentMethod = (state: RootState) => {
   const sbMethodsR = getSBPaymentMethods(state)
   const actionType = getOrderType(state)
   const sbBalancesR = getSBBalances(state)
-  const bankAccountsR = getBankTransferAccounts(state)
+  const bankAccountsR = selectors.components.brokerage.getBankTransferAccounts(
+    state
+  )
 
   const transform = (
     bankAccounts: ExtractSuccess<typeof bankAccountsR>,

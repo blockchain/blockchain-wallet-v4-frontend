@@ -1,7 +1,13 @@
 import { actions, selectors } from 'data'
+import {
+  BankTransferAccountType,
+  ExtractSuccess,
+  RemoteDataType,
+  WalletFiatType
+} from 'core/types'
 import { bindActionCreators, Dispatch } from 'redux'
+import { BrokerageModalOriginType, BrokerageStepType } from 'data/types'
 import { connect, ConnectedProps } from 'react-redux'
-import { ExtractSuccess, RemoteDataType, WalletFiatType } from 'core/types'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
 import Loading from './template.loading'
@@ -21,6 +27,22 @@ class LinkedBanks extends PureComponent<Props> {
     })
   }
 
+  handleShowBankClick = (account: BankTransferAccountType) => {
+    this.props.brokerageActions.showModal(BrokerageModalOriginType.BANK)
+    this.props.brokerageActions.setStep({
+      step: BrokerageStepType.SHOW_BANK,
+      account
+    })
+  }
+
+  handleDeleteBank = (account: BankTransferAccountType) => {
+    this.props.brokerageActions.showModal(BrokerageModalOriginType.BANK)
+    this.props.brokerageActions.setStep({
+      step: BrokerageStepType.REMOVE_BANK,
+      account
+    })
+  }
+
   render () {
     return this.props.data.cata({
       Success: val => (
@@ -28,6 +50,8 @@ class LinkedBanks extends PureComponent<Props> {
           {...this.props}
           {...val}
           handleBankClick={this.handleBankClick}
+          handleShowBankClick={this.handleShowBankClick}
+          handleDeleteBank={this.handleDeleteBank}
         />
       ),
       Loading: () => <Loading />,

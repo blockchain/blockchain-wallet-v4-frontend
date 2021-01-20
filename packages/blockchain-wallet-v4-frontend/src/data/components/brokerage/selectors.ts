@@ -5,3 +5,9 @@ export const getBankTransferAccounts = (state: RootState) =>
 
 export const getFastLink = (state: RootState) =>
   state.components.brokerage.fastLink
+
+export const getStep = (state: RootState) => state.components.brokerage.step
+export const getAccount = (state: RootState) =>
+  state.components.brokerage.account
+export const getRedirectBackToStep = (state: RootState) =>
+  state.components.brokerage.redirectBackToStep

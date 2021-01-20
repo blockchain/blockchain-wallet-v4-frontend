@@ -21,15 +21,15 @@ import {
   SDDVerifiedType,
   SwapQuoteType,
   SwapUserLimitsType,
-  WalletFiatType,
+  WalletFiatType
 } from 'core/types'
+import { ModalOriginType } from 'data/modals/types'
 import {
   SBFixType,
   SBShowModalOriginType,
   SimpleBuyActionTypes,
   StepActionsPayload
 } from './types'
-import { ModalOriginType } from 'data/modals/types'
 import { SwapAccountType } from '../swap/types'
 
 export const activateSBCard = (card: SBCardType) => ({

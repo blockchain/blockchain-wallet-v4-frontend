@@ -1,6 +1,6 @@
 import {
   BankTransferAccountType, // TODO: move to Brokerage core types
-  RemoteDataType,
+  RemoteDataType
 } from 'core/types'
 
 import * as AT from './actionTypes'
@@ -25,10 +25,38 @@ export type BankStatusType =
   | 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH'
   | 'DEFAULT_ERROR'
 
+export type BrokerageStepPayload =
+  | {
+      account: BankTransferAccountType
+      step: BrokerageStepType.SHOW_BANK
+    }
+  | {
+      account: BankTransferAccountType
+      redirectBackToStep?: BrokerageStepType.SHOW_BANK
+      step: BrokerageStepType.REMOVE_BANK
+    }
+  | {
+      step: BrokerageStepType.LINK_BANK | BrokerageStepType.DEFAULT
+    }
+
+export enum BrokerageStepType {
+  DEFAULT = 'DEFAULT',
+  LINK_BANK = 'LINK_BANK',
+  REMOVE_BANK = 'REMOVE_BANK',
+  SHOW_BANK = 'SHOW_BANK'
+}
+
+export enum BrokerageModalOriginType {
+  BANK = 'BankDetailsModal'
+}
+
 // State
 export type BrokerageState = {
+  account: BankTransferAccountType | undefined
   bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>
   fastLink: RemoteDataType<string, FastLinkType>
+  redirectBackToStep: BrokerageStepType.SHOW_BANK | undefined
+  step: BrokerageStepType
 }
 
 interface FetchFastLinkType {
@@ -61,6 +89,11 @@ interface SetFastLinkAction {
   type: typeof AT.SET_FAST_LINK
 }
 
+interface SetStepAction {
+  payload: BrokerageStepPayload
+  type: typeof AT.SET_STEP
+}
+
 export type BrokerageActionTypes =
   | FetchBankTransferAccountsFailure
   | FetchBankTransferAccountsLoading
@@ -68,3 +101,4 @@ export type BrokerageActionTypes =
   | FetchBTUpdateLoading
   | FetchFastLinkType
   | SetFastLinkAction
+  | SetStepAction

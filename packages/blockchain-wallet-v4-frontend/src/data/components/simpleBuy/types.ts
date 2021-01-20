@@ -1,5 +1,4 @@
 import {
-  BankTransferAccountType,
   CoinType,
   Everypay3DSResponseType,
   FiatEligibleType,
@@ -25,9 +24,9 @@ import {
 } from 'core/types'
 
 import * as AT from './actionTypes'
+import { BankStatusType } from '../brokerage/types'
 import { CountryType } from './../identityVerification/types'
 import { SwapAccountType } from '../swap/types'
-import { FastLinkType, BankStatusType } from '../brokerage/types'
 
 // Types
 export type SBAddCardFormValuesType = {

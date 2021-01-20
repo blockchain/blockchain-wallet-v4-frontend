@@ -132,10 +132,16 @@ export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
     }
   }
 
+  const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
+    const { origin } = payload
+    yield put(actions.modals.showModal('BROKERAGE_MODAL', { origin }))
+  }
+
   return {
     deleteSavedBank,
     fetchBankTransferAccounts,
     fetchBankTransferUpdate,
-    fetchFastLink
+    fetchFastLink,
+    showModal
   }
 }
