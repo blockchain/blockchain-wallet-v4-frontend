@@ -2,25 +2,17 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { Button, Text } from 'blockchain-info-components'
 import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-import { SBOrderType, SupportedWalletCurrenciesType } from 'core/types'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
 import { actions, selectors } from 'data'
 import {
-  Addresses,
-  Col,
-  DetailsColumn,
-  DetailsRow,
-  Row,
-  RowHeader,
-  RowValue,
-  StatusAndType,
-  StyledCoinDisplay,
-  StyledFiatDisplay,
-  TxRow,
-  TxRowContainer
-} from '../components'
+  BankTransferAccountType,
+  ExtractSuccess,
+  RemoteDataType,
+  SBOrderType,
+  SupportedWalletCurrenciesType
+} from 'core/types'
 import {
   BuyOrSell,
   displayFiat
@@ -35,8 +27,24 @@ import {
   getCounterCurrency,
   getOrderType
 } from 'data/components/simpleBuy/model'
-import { getOrigin, IconTx, Status, Timestamp } from './model'
 import { RootState } from 'data/rootReducer'
+
+import {
+  Addresses,
+  Col,
+  DetailsColumn,
+  DetailsRow,
+  Row,
+  RowHeader,
+  RowValue,
+  StatusAndType,
+  StyledCoinDisplay,
+  StyledFiatDisplay,
+  TxRow,
+  TxRowContainer
+} from '../components'
+import { getData } from './selectors'
+import { getOrigin, IconTx, Status, Timestamp } from './model'
 
 const LastCol = styled(Col)`
   display: flex;
@@ -63,7 +71,8 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
   }
 
   render () {
-    const { order, supportedCoins } = this.props
+    const { data, order, supportedCoins } = this.props
+    const bankAccounts = data.getOrElse([] as Array<BankTransferAccountType>)
     const coin = getCoinFromPair(order.pair)
     const orderType = getOrderType(order)
     const baseAmount = getBaseAmount(order)
@@ -97,7 +106,7 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
           </Row>
           <Col width='50%' data-e2e='orderToAndFrom'>
             <Addresses
-              from={<>{getOrigin(this.props)}</>}
+              from={<>{getOrigin(this.props, bankAccounts)}</>}
               to={<>{this.props.order.outputCurrency} Trading Wallet</>}
             />
           </Col>
@@ -220,7 +229,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+  data: getData(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrElse({} as SupportedWalletCurrenciesType)
@@ -230,6 +240,11 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
   order: SBOrderType
+}
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+type LinkStatePropsType = {
+  data: RemoteDataType<string, SuccessStateType>
+  supportedCoins: SupportedWalletCurrenciesType
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 type State = { isToggled: boolean }
