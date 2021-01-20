@@ -1,7 +1,6 @@
 import {
   ErrorCartridge,
   GreyCartridge,
-  OrangeCartridge,
   SuccessCartridge
 } from 'components/Cartridge'
 import { FormattedMessage } from 'react-intl'
@@ -47,12 +46,6 @@ export const Status = ({ order }: { order: SBOrderType }) => {
             defaultMessage='Trade Complete'
           />
         </SuccessCartridge>
-      )
-    case 'DEPOSIT_MATCHED':
-      return (
-        <OrangeCartridge>
-          <FormattedMessage id='copy.pending' defaultMessage='Pending' />
-        </OrangeCartridge>
       )
     default:
       return (
