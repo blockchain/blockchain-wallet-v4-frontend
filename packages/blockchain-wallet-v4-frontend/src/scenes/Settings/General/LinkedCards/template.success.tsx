@@ -43,10 +43,6 @@ const CardImg = styled.img`
   width: 24px;
 `
 
-const CapText = styled(Text)`
-  text-transform: capitalize;
-`
-
 const Success: React.FC<InjectedFormProps<
   {},
   Props & { fiatCurrency?: FiatType }
@@ -95,10 +91,10 @@ const Success: React.FC<InjectedFormProps<
                   src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO}
                 />
                 <CardDetails>
-                  <CapText size='16px' color='grey800' weight={600}>
+                  <Text size='16px' color='grey800' weight={600} uppercase>
                     {(card.card.label && card.card.label.toLowerCase()) ||
                       card.card.type}
-                  </CapText>
+                  </Text>
                   {ccPaymentMethod && (
                     <Text size='14px' color='grey600' weight={500}>
                       {fiatToString({
