@@ -65,14 +65,6 @@ export const Status = ({ order }: Props) => {
           defaultMessage='Pending Deposit'
         />
       )
-    case 'DEPOSIT_MATCHED':
-      return (
-        <FormattedMessage
-          id='modals.simplebuy.transactionfeed.pending'
-          defaultMessage='Pending {type}'
-          values={{ type: type === 'BUY' ? 'Buy' : 'Sell' }}
-        />
-      )
     case 'CANCELED':
       return (
         <FormattedMessage
