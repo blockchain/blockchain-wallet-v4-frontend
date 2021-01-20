@@ -114,14 +114,14 @@ export const renderBank = (value: SBPaymentMethodType) => (
 export const renderCardText = (value: SBPaymentMethodType): string => {
   return value.card
     ? value.card.label
-      ? value.card.label
+      ? value.card.label.toLowerCase()
       : value.card.type
     : 'Credit or Debit Card'
 }
 
 export const renderCard = (value: SBPaymentMethodType) => (
   <>
-    <DisplayValue>{renderCardText(value)}</DisplayValue>
+    <DisplayValue capitalize>{renderCardText(value)}</DisplayValue>
     <DisplayTitle>
       {value.card ? (
         <FormattedMessage
