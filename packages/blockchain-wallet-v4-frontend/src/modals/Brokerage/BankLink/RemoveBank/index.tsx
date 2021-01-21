@@ -19,11 +19,8 @@ type LinkStatePropsType = {
   redirectBackToStep: BrokerageStepType.SHOW_BANK | undefined
 }
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
-type State = {}
 
-class CancelOrder extends PureComponent<Props, State> {
-  state = {}
-
+class CancelOrder extends PureComponent<Props, {}> {
   handleSubmit = () => {
     if (this.props.account) {
       this.props.brokerageActions.deleteSavedBank(this.props.account.id)

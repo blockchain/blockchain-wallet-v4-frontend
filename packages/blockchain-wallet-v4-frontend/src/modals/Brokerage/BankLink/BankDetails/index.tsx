@@ -18,11 +18,8 @@ type LinkStatePropsType = {
   account: BankTransferAccountType | undefined
 }
 export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
-type State = {}
 
-class BankDetails extends PureComponent<Props, State> {
-  state = {}
-
+class BankDetails extends PureComponent<Props, {}> {
   handleSubmit = () => {
     if (this.props.account) {
       this.props.brokerageActions.setStep({

@@ -46,7 +46,6 @@ export type WalletFormType =
   | 'transferEth'
   | 'transactionReport'
   | 'walletTxSearch'
-  | 'removeBankForm'
 
 declare module 'redux-form' {
   /* eslint-disable */

@@ -15,8 +15,16 @@ const Wrapper = styled.div`
   height: 100%;
   display: flex;
 `
+const RemoveBankFlyout = styled(FlyoutWrapper)`
+  display: flex;
+  flex-direction: column;
+`
 const CustomForm = styled(Form)`
   text-align: center;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
 `
 const TopText = styled(Text)`
   display: flex;
@@ -41,13 +49,13 @@ type Props = OwnProps &
 const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   return (
     <Wrapper>
-      <FlyoutWrapper>
+      <RemoveBankFlyout>
         {props.redirectBack ? (
           <TopText color='grey800' size='20px' weight={600}>
             <LeftTopCol>
               <Icon
                 cursor
-                data-e2e='sbBackToCryptoSelection'
+                data-e2e='brokerageBackToBankDetails'
                 name='arrow-back'
                 size='20px'
                 color='grey600'
@@ -55,12 +63,7 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 style={{ marginRight: '8px' }}
                 onClick={props.onClickBack}
               />
-              <Text
-                color='grey800'
-                size='24px'
-                weight={600}
-                style={{ marginTop: '32px' }}
-              >
+              <Text color='grey800' size='24px' weight={600}>
                 <FormattedMessage
                   id='modals.brokerage.remove_bank.back'
                   defaultMessage='Back'
@@ -118,7 +121,7 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             size='16px'
             height='48px'
             nature='light'
-            data-e2e='cancelSBOrder'
+            data-e2e='removeLinkedBank'
             disabled={props.submitting}
             type='submit'
           >
@@ -133,7 +136,7 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             size='16px'
             height='48px'
             nature='light'
-            data-e2e='cancelSBOrder'
+            data-e2e='cancelRemoveOfLinkedBank'
             disabled={props.submitting}
             onClick={props.onClickBack}
             style={{ marginTop: '16px' }}
@@ -142,9 +145,9 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
           </Button>
         </CustomForm>
-      </FlyoutWrapper>
+      </RemoveBankFlyout>
     </Wrapper>
   )
 }
 
-export default reduxForm<{}, Props>({ form: 'removeBankForm' })(Template)
+export default reduxForm<{}, Props>({ form: 'linkedBanks' })(Template)

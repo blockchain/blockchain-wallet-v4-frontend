@@ -8,7 +8,9 @@ import { SBCheckoutFormValuesType } from 'data/types'
 
 import * as A from './actions'
 import * as AT from './actionTypes'
-import { DEFAULT_SB_METHODS } from '../simpleBuy/model' // TODO: removed this SB dependency
+
+// TODO: removed this SB dependency
+import { DEFAULT_SB_METHODS } from '../simpleBuy/model'
 // import { FastLinkType } from './types'
 
 export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
@@ -25,6 +27,7 @@ export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
       ])
       yield put(actions.form.stopSubmit('linkedBanks'))
       yield put(actions.alerts.displaySuccess('Bank removed.'))
+      yield put(actions.modals.closeModal('BROKERAGE_MODAL'))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('linkedBanks', { _error: error }))
@@ -70,6 +73,8 @@ export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
             bankStatus: bankData.state
           })
         )
+
+        yield put(actions.components.brokerage.fetchBankTransferAccounts())
 
         if (bankData.state === 'ACTIVE') {
           const values: SBCheckoutFormValuesType = yield select(

@@ -23,16 +23,15 @@ const Wrapper = styled.div`
   flex-direction: column;
   flex: 1;
 `
-const MainContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-`
 const BankFlyoutWrapper = styled(FlyoutWrapper)`
-  justify-content: space-between;
+  justify-content: flex-end;
   display: flex;
   flex-direction: column;
   height: 100%;
+`
+const DisclaimerWrapper = styled(FlyoutWrapper)`
+  justify-content: center;
+  display: flex;
 `
 
 const CloseContainer = styled.div`
@@ -43,7 +42,7 @@ const CurrencyContainer = styled.div`
   margin-top: 35px;
   display: flex;
   flex-direction: column;
-  padding: 16px 0 16px 0;
+  padding: 16px 0 16px 40px;
   border-top: 1px solid ${props => props.theme.grey000};
   border-bottom: 1px solid ${props => props.theme.grey000};
 `
@@ -65,63 +64,61 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const { account } = props
   return (
     <Wrapper>
-      <BankFlyoutWrapper>
-        <MainContent>
-          <CloseContainer>
-            <Icon
-              cursor
-              data-e2e='bankDetailsCloseIcon'
-              name='close'
-              size='20px'
-              color='grey600'
-              role='button'
-              onClick={props.handleClose}
-            />
-          </CloseContainer>
-
-          <BankIconWrapper>
-            <Image name={getBankLogoImageName(account.details?.bankName)} />
-          </BankIconWrapper>
-
-          <BankDetails>
-            <Text size='24px' color='grey900' weight={600}>
-              {account.details?.bankName}
-            </Text>
-            <Text size='24px' color='grey600' weight={500}>
-              {account.details?.bankAccountType.toLowerCase()}{' '}
-              <FormattedMessage
-                id='scenes.settings.general.account'
-                defaultMessage='account'
-              />{' '}
-              {account.details?.accountNumber}
-            </Text>
-          </BankDetails>
-
-          <CurrencyContainer>
-            <Text color='grey600' size='14px' weight={500}>
-              <FormattedMessage
-                id='modals.brokerage.curency'
-                defaultMessage='Curency'
-              />
-            </Text>
-            <Text color='grey800' size='16px' weight={600}>
-              {account.currency}
-            </Text>
-          </CurrencyContainer>
-
-          <Text
+      <FlyoutWrapper>
+        <CloseContainer>
+          <Icon
+            cursor
+            data-e2e='bankDetailsCloseIcon'
+            name='close'
+            size='20px'
             color='grey600'
-            size='12px'
-            weight={500}
-            style={{ marginTop: '40px' }}
-          >
-            <FormattedMessage
-              id='modals.brokerage.bank_preview.disclaimer'
-              defaultMessage='This account can be used for buys, sells & withdrawals.'
-            />
-          </Text>
-        </MainContent>
+            role='button'
+            onClick={props.handleClose}
+          />
+        </CloseContainer>
 
+        <BankIconWrapper>
+          <Image name={getBankLogoImageName(account.details?.bankName)} />
+        </BankIconWrapper>
+        <BankDetails>
+          <Text size='24px' color='grey900' weight={600}>
+            {account.details?.bankName}
+          </Text>
+          <Text size='24px' color='grey600' weight={500}>
+            {account.details?.bankAccountType.toLowerCase()}{' '}
+            <FormattedMessage
+              id='scenes.settings.general.account'
+              defaultMessage='account'
+            />{' '}
+            {account.details?.accountNumber}
+          </Text>
+        </BankDetails>
+      </FlyoutWrapper>
+      <CurrencyContainer>
+        <Text color='grey600' size='14px' weight={500}>
+          <FormattedMessage
+            id='modals.brokerage.curency'
+            defaultMessage='Curency'
+          />
+        </Text>
+        <Text color='grey800' size='16px' weight={600}>
+          {account.currency}
+        </Text>
+      </CurrencyContainer>
+      <DisclaimerWrapper>
+        <Text
+          color='grey600'
+          size='12px'
+          weight={500}
+          style={{ marginTop: '40px', textAlign: 'center' }}
+        >
+          <FormattedMessage
+            id='modals.brokerage.bank_preview.disclaimer'
+            defaultMessage='This account can be used for buys, sells & withdrawals.'
+          />
+        </Text>
+      </DisclaimerWrapper>
+      <BankFlyoutWrapper>
         <Form onSubmit={props.handleSubmit}>
           <Button
             fullwidth
@@ -144,4 +141,4 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   )
 }
 
-export default reduxForm<{}, Props>({ form: 'removeBankForm' })(Template)
+export default reduxForm<{}, Props>({ form: 'linkedBanks' })(Template)
