@@ -264,13 +264,6 @@ const buildDevServerConfig = (
 
         res.json(mockWalletOptions)
       })
-
-      app.get('/Resources/wallet-options.json', function(req, res) {
-        mockWalletOptions.domains = {
-          comWalletApp: localhostUrl
-        }
-        res.json(mockWalletOptions)
-      })
     },
     proxy: {
       '/ledger': {
