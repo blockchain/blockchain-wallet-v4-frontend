@@ -248,13 +248,9 @@ export default ({ api, coreSagas, networks }) => {
 
   const generateAuthCredentials = function * () {
     const retailToken = yield call(generateRetailToken)
-    const coinifyId = (yield select(
-      selectors.core.kvStore.buySell.getCoinifyUser
-    )).getOrElse(null)
     const { userId, token: lifetimeToken } = yield call(
       api.createUser,
-      retailToken,
-      coinifyId
+      retailToken
     )
     yield put(
       actions.core.kvStore.userCredentials.setUserCredentials(

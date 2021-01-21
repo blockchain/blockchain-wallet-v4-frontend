@@ -5,8 +5,7 @@ export default ({
   get,
   post,
   authorizedGet,
-  authorizedPost,
-  authorizedPut
+  authorizedPost
 }) => {
   const getSupportedCountries = () =>
     get({
@@ -110,14 +109,6 @@ export default ({
       endPoint: '/kyc/verifications/mobile-email'
     })
 
-  const sendCoinifyKyc = coinifyTraderId =>
-    authorizedPut({
-      url: nabuUrl,
-      endPoint: `/kyc/update-coinify-id`,
-      contentType: `application/json`,
-      data: { coinifyTraderId }
-    })
-
   const fetchSDDVerified = (): SDDVerifiedType =>
     authorizedGet({
       url: nabuUrl,
@@ -138,7 +129,6 @@ export default ({
     getSupportedCountries,
     getSupportedDocuments,
     selectTier,
-    sendCoinifyKyc,
     sendDeeplink,
     syncVeriff,
     fetchSDDVerified,

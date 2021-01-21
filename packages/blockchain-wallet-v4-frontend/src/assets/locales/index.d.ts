@@ -1790,10 +1790,6 @@ type MessagesType = {
   'scenes.home.activitylist.nonspendable': 'This transaction involves a non-spendable address.'
   'scenes.home.balance.hardware': 'Hardware'
   'scenes.home.balance.wallet': 'Wallet'
-  'scenes.home.banner.coinifyToSB.access': 'Eligible users can buy any crypto supported in the Wallet. To access previous order history,'
-  'scenes.home.banner.coinifyToSB.checkitout': 'Check It Out'
-  'scenes.home.banner.coinifyToSB.read': 'read here.'
-  'scenes.home.banner.coinifyToSB.revamped': "We've revamped the Buy Crypto experience"
   'scenes.home.banner.finalize_funds': 'Once we receive your funds, your buy order will complete.'
   'scenes.home.banner.finalize_sell': 'Confirm the transaction details to finalize your sell order.'
   'scenes.home.banner.buy_crypto_sdd_description': 'Select the crypto you want to buy, verify your identity and buy instantly'
