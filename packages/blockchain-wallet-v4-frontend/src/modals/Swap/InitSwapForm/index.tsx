@@ -115,7 +115,9 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                           defaultMessage='Swap from'
                         />
                       </Text>
-                      <OptionTitle>{values.BASE.label}</OptionTitle>
+                      <OptionTitle data-e2e='swapFromWallet'>
+                        {values.BASE.label}
+                      </OptionTitle>
                       <OptionValue>
                         <BalanceRow>
                           <CoinBalance
@@ -180,7 +182,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                           defaultMessage='Receive to'
                         />
                       </OptionValue>
-                      <OptionTitle color='grey900'>
+                      <OptionTitle data-e2e='swapToWallet' color='grey900'>
                         {values.COUNTER.label}
                       </OptionTitle>
                       <OptionValue>

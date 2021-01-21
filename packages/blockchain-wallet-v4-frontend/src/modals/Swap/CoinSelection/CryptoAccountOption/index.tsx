@@ -34,7 +34,7 @@ const CryptoAccountOption: React.FC<Props> = props => {
           style={{ marginRight: '12px' }}
         />
         <div>
-          <OptionTitle>{account.label}</OptionTitle>
+          <OptionTitle data-e2e={account.label}>{account.label}</OptionTitle>
           <OptionValue>
             <BalanceRow>
               <CoinBalance account={account} walletCurrency={walletCurrency} />
