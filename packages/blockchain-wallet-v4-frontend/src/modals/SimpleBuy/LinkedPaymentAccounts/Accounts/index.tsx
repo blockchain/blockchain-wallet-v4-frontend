@@ -231,8 +231,8 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         type: 'USER_CARD',
         currency: card.currency,
         limits: {
-          min: cardMethod?.value.limits.min,
-          max: cardMethod?.value.limits.max
+          min: cardMethod?.value.limits.min || '10000',
+          max: cardMethod?.value.limits.max || '50000'
         }
       } as SBPaymentMethodType
     }))
