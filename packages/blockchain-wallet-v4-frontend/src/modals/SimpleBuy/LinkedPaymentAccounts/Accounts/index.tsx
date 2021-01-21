@@ -214,6 +214,11 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           ) > 0)
     )
 
+    // use this to get min/max for card buys from eligible/payment-methods
+    // limits aren't available on availableCards
+    const cardMethod = defaultMethods.find(
+      method => method.value.type === 'PAYMENT_CARD'
+    )
     const cardMethods = availableCards.map(card => ({
       text: card.card
         ? card.card.label
@@ -225,7 +230,10 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         card: card.card,
         type: 'USER_CARD',
         currency: card.currency,
-        limits: { min: '1000', max: '500000' }
+        limits: {
+          min: cardMethod?.value.limits.min,
+          max: cardMethod?.value.limits.max
+        }
       } as SBPaymentMethodType
     }))
 
@@ -247,7 +255,6 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 
     const availableMethods =
       funds.length || cardMethods.length || bankMethods.length
-
     return (
       <Wrapper>
         <Form>
