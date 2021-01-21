@@ -65,7 +65,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
       <NavText color='grey800' size='20px' weight={600}>
         <Icon
           cursor
-          name='arrow-left'
+          name='arrow-back'
           size='20px'
           color='grey600'
           role='button'

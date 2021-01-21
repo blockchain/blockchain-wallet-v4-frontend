@@ -210,7 +210,6 @@ export type SBOrderType = SBBuyOrderType | SBSellOrderType
 export type SBOrderStateType =
   | 'PENDING_CONFIRMATION'
   | 'PENDING_DEPOSIT'
-  | 'DEPOSIT_MATCHED'
   | 'FINISHED'
   | 'CANCELED'
   | 'FAILED'

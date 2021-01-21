@@ -18,6 +18,7 @@ import { Props } from '../template.success'
 const RightArrowIcon = styled(Icon)<{
   disabled?: boolean
 }>`
+  transform: rotate(180deg);
   ${props =>
     props.disabled &&
     css`
@@ -77,7 +78,7 @@ const Payment: React.FC<Props & { invalid?: boolean }> = props => {
             <RightArrowIcon
               cursor
               disabled={disablePaymentSelect}
-              name='arrow-right'
+              name='arrow-back'
               size='20px'
               color='grey600'
             />

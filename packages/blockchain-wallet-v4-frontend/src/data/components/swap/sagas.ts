@@ -224,6 +224,7 @@ export default ({
       }
       yield put(actions.form.stopSubmit('previewSwap'))
       yield put(actions.components.refresh.refreshClicked())
+      yield put(actions.form.destroy('swapAmount'))
       yield put(
         A.setStep({
           step: 'SUCCESSFUL_SWAP',

@@ -114,6 +114,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       this.props.currency,
       'week'
     )
+    this.props.simpleBuyActions.fetchBankTransferAccounts()
   }
 
   componentDidUpdate (prevProps) {

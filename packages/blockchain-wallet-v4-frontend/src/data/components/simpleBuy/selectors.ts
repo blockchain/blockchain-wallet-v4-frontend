@@ -5,6 +5,7 @@ import {
   ExtractSuccess,
   FiatTypeEnum,
   SBPaymentMethodType,
+  SBPaymentTypes,
   SDDLimits
 } from 'blockchain-wallet-v4/src/types'
 import { FiatType } from 'core/types'
@@ -69,8 +70,10 @@ export const getDefaultPaymentMethod = (state: RootState) => {
   const sbMethodsR = getSBPaymentMethods(state)
   const actionType = getOrderType(state)
   const sbBalancesR = getSBBalances(state)
+  const bankAccountsR = getBankTransferAccounts(state)
 
   const transform = (
+    bankAccounts: ExtractSuccess<typeof bankAccountsR>,
     sbCards: ExtractSuccess<typeof sbCardsR>,
     sbMethods: ExtractSuccess<typeof sbMethodsR>,
     sbBalances: ExtractSuccess<typeof sbBalancesR>
@@ -115,10 +118,11 @@ export const getDefaultPaymentMethod = (state: RootState) => {
         const methodsOfType = sbMethods.methods.filter(
           method => method.type === lastOrder.paymentType
         )
+        const method = head(methodsOfType)
 
         switch (lastOrder.paymentType) {
+          case 'USER_CARD':
           case 'PAYMENT_CARD':
-            const method = head(methodsOfType)
             if (!method) return
             const sbCard = sbCards.find(
               value => value.id === lastOrder.paymentMethodId
@@ -139,10 +143,22 @@ export const getDefaultPaymentMethod = (state: RootState) => {
                 method.currency === lastOrder.inputCurrency &&
                 method.currency === fiatCurrency
             )
-          case 'BANK_ACCOUNT':
-          case 'BANK_TRANSFER':
           case 'LINK_BANK':
-          case 'USER_CARD':
+          case 'BANK_TRANSFER':
+            if (!method) return
+            const bankAccount = bankAccounts.find(
+              acct => acct.id === lastOrder.paymentMethodId
+            )
+            if (bankAccount && bankAccount.state === 'ACTIVE') {
+              return {
+                ...method,
+                ...bankAccount,
+                state: 'ACTIVE',
+                type: lastOrder.paymentType as SBPaymentTypes
+              }
+            }
+            return undefined
+          case 'BANK_ACCOUNT':
           case undefined:
             return undefined
           default:
@@ -151,7 +167,7 @@ export const getDefaultPaymentMethod = (state: RootState) => {
     }
   }
 
-  return lift(transform)(sbCardsR, sbMethodsR, sbBalancesR)
+  return lift(transform)(bankAccountsR, sbCardsR, sbMethodsR, sbBalancesR)
 }
 
 export const hasFiatBalances = (state: RootState) => {
@@ -202,8 +218,7 @@ export const getSBLatestPendingOrder = (state: RootState) =>
   state.components.simpleBuy.orders.getOrElse([]).find(order => {
     return (
       order.state === 'PENDING_CONFIRMATION' ||
-      order.state === 'PENDING_DEPOSIT' ||
-      order.state === 'DEPOSIT_MATCHED'
+      order.state === 'PENDING_DEPOSIT'
     )
   })
 

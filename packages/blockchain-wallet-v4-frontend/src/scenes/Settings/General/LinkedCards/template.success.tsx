@@ -91,8 +91,9 @@ const Success: React.FC<InjectedFormProps<
                   src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO}
                 />
                 <CardDetails>
-                  <Text size='16px' color='grey800' weight={600}>
-                    {card.card.label || card.card.type}
+                  <Text size='16px' color='grey800' weight={600} capitalize>
+                    {(card.card.label && card.card.label.toLowerCase()) ||
+                      card.card.type}
                   </Text>
                   {ccPaymentMethod && (
                     <Text size='14px' color='grey600' weight={500}>

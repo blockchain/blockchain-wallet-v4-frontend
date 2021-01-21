@@ -5,22 +5,16 @@ import styled from 'styled-components'
 
 import {
   Content,
+  Description,
   DisplayContainer,
   DisplayIcon,
+  DisplaySubTitle,
   DisplayTitle
 } from 'components/SimpleBuy'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { fiatToString } from 'core/exchange/currency'
 import { media } from 'services/styles'
 import { SBPaymentMethodType } from 'core/types'
 import { SuccessCartridge } from 'components/Cartridge'
-import { Title } from 'components/Flyout'
 
-const SubTitle = styled(Title)`
-  color: ${props => props.theme.grey600};
-  margin-top: 5px;
-  line-height: 21px;
-`
 const DisplayIconPayment = styled(DisplayIcon)`
   min-height: 110px;
 `
@@ -60,24 +54,18 @@ const PaymentCard: React.FC<Props> = ({ value, onClick, icon, text }) => (
     <DisplayIconPayment>{icon}</DisplayIconPayment>
     <Content>
       <DisplayTitle>{text}</DisplayTitle>
-      <SubTitle>
+      <DisplaySubTitle>
         <FormattedMessage
-          id='modals.simplebuy.card_limit'
-          defaultMessage='{card} Limit'
-          values={{
-            card: `${fiatToString({
-              value: convertBaseToStandard('FIAT', value.limits.max),
-              unit: value.currency
-            })} ${value.currency}`
-          }}
+          id='copy.instantly_available'
+          defaultMessage='Instantly Available'
         />
-      </SubTitle>
-      <SubTitle>
+      </DisplaySubTitle>
+      <Description>
         <FormattedMessage
           id='modals.simplebuy.instantly_buy'
           defaultMessage='Instantly buy crypto with any Visa or Mastercard.'
         />
-      </SubTitle>
+      </Description>
       <CartridgeContainer>
         <SuccessCartridge>
           <FormattedMessage

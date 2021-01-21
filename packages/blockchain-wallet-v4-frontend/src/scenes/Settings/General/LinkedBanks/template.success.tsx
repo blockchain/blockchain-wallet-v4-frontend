@@ -27,15 +27,15 @@ const BankIconWrapper = styled.div`
   display: flex;
 `
 
-const CapText = styled(Text)`
-  text-transform: capitalize;
-`
-
 const CustomSettingComponent = styled(SettingComponent)`
   margin-top: 36px;
   ${media.tablet`
     margin-top: 8px;
   `}
+`
+
+const StyledSettingsContainer = styled(SettingContainer)`
+  border-bottom: none;
 `
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
@@ -44,7 +44,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   )
 
   return (
-    <SettingContainer>
+    <StyledSettingsContainer>
       <SettingSummary>
         <CustomSettingHeader>
           <FormattedMessage
@@ -72,16 +72,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   </BankIconWrapper>
                   <CardDetails>
                     <Text size='16px' color='grey800' weight={600}>
-                      {account.details.bankName}
+                      {account.details?.bankName}
                     </Text>
-                    <CapText size='14px' color='grey600' weight={500}>
+                    <Text size='14px' color='grey600' weight={500} capitalize>
                       {account.details?.bankAccountType.toLowerCase()}{' '}
                       <FormattedMessage
                         id='scenes.settings.general.account'
                         defaultMessage='account'
                       />{' '}
                       {account.details?.accountNumber}
-                    </CapText>
+                    </Text>
                   </CardDetails>
                 </Child>
                 <Child>
@@ -116,7 +116,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <FormattedMessage id='buttons.add_bank' defaultMessage='Add a Bank' />
         </Button>
       </CustomSettingComponent>
-    </SettingContainer>
+    </StyledSettingsContainer>
   )
 }
 
