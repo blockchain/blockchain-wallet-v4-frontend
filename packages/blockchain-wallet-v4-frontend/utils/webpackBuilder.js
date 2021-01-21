@@ -240,7 +240,7 @@ const buildDevServerConfig = (
       : '',
     port: 8080,
     before(app) {
-      app.get('/Resources/wallet-options-v4.json', function(req, res) {
+      app.get('/wallet-options-v4.json', function(req, res) {
         // combine wallet options base with custom environment config
         mockWalletOptions.domains = {
           api: envConfig.API_DOMAIN,
@@ -262,13 +262,6 @@ const buildDevServerConfig = (
           mockWalletOptions.platforms.web.coins.BTC.config.network = 'testnet'
         }
 
-        res.json(mockWalletOptions)
-      })
-
-      app.get('/Resources/wallet-options.json', function(req, res) {
-        mockWalletOptions.domains = {
-          comWalletApp: localhostUrl
-        }
         res.json(mockWalletOptions)
       })
     },
