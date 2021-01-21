@@ -11,7 +11,7 @@ import {
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { NO_OFFER_EXISTS } from './model'
-import { promptForSecondPassword } from 'services/SagaService'
+import { promptForSecondPassword } from 'services/sagas'
 import BigNumber from 'bignumber.js'
 
 export default ({

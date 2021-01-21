@@ -3,12 +3,12 @@ import { SpinningLoader } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
+import { media } from 'services/styles'
 import {
   SettingContainer,
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
-import media from 'services/ResponsiveService'
 
 const CustomSettingContainer = styled(SettingContainer)`
   ${media.atLeastTabletL`

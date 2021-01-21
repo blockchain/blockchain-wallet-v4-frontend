@@ -15,9 +15,11 @@ const Container = styled.div`
 const Error = styled(Text)`
   position: absolute;
   display: block;
-  height: 15px;
   top: ${props => (props.errorBottom ? props.height : '-20px')};
+  left: ${props => (props.errorLeft ? '0' : 'initial')};
+  bottom: ${props => (props.errorBottom ? '-20px' : 'initial')};
   right: 0;
+  height: 15px;
 `
 
 const WarningIcon = styled(Icon)`
@@ -80,6 +82,7 @@ const TextBox = field => {
             color='error'
             height={height}
             errorBottom={errorBottom}
+            {...field}
             data-e2e='textBoxError'
           >
             {error}

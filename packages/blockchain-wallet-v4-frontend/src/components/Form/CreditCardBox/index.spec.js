@@ -1,4 +1,4 @@
-import { normalizeCreditCard } from './index.tsx'
+import { normalizeCreditCard } from './index'
 
 describe('normalizeCreditCard', () => {
   it('should normalize a cc number', () => {

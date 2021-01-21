@@ -4,7 +4,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { Form, TextBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { Props } from '.'
-import { required } from 'services/FormHelper'
+import { required } from 'services/forms'
 import React from 'react'
 import styled from 'styled-components'
 

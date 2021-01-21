@@ -6,7 +6,7 @@ import { length } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
 
-import * as C from 'services/AlertService'
+import * as C from 'services/alerts'
 import { actions, selectors } from 'data'
 import {
   Banner,

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { createDeepEqualSelector } from 'services/misc'
 import { merge } from 'ramda'
 import { Palette } from 'blockchain-info-components'
 import { selectors } from 'data'

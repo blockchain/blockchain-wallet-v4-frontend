@@ -11,7 +11,7 @@ import {
   SettingSummary,
   SettingWrapper
 } from 'components/Setting'
-import { validPasswordStretchingNumber } from 'services/FormHelper'
+import { validPasswordStretchingNumber } from 'services/forms'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'

@@ -10,7 +10,7 @@ import {
 import { filter } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { SettingDescription, SettingHeader } from 'components/Setting'
-import { spacing } from 'services/StyleService'
+import { spacing } from 'services/styles'
 import AddressRow from '../AddressRow'
 import React from 'react'
 import styled from 'styled-components'

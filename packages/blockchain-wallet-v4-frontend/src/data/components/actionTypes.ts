@@ -15,10 +15,6 @@ import * as priceChart from './priceChart/actionTypes'
 import * as priceTicker from './priceTicker/actionTypes'
 import * as recoveryPhrase from './recoveryPhrase/actionTypes'
 import * as refresh from './refresh/actionTypes'
-import * as requestBch from './requestBch/actionTypes'
-import * as requestBtc from './requestBtc/actionTypes'
-import * as requestEth from './requestEth/actionTypes'
-import * as requestXlm from './requestXlm/actionTypes'
 import * as send from './send/actionTypes'
 import * as sendBch from './sendBch/actionTypes'
 import * as sendBtc from './sendBtc/actionTypes'
@@ -53,10 +49,6 @@ export {
   priceTicker,
   recoveryPhrase,
   refresh,
-  requestBtc,
-  requestBch,
-  requestEth,
-  requestXlm,
   send,
   sendBch,
   sendBtc,

@@ -11,7 +11,7 @@ import {
   SettingWrapper
 } from 'components/Setting'
 import { TextBox } from 'components/Form'
-import { validIpList } from 'services/FormHelper'
+import { validIpList } from 'services/forms'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'

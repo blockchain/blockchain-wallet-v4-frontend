@@ -11,7 +11,7 @@ import { fiatToString, formatFiat } from 'core/exchange/currency'
 
 import { CoinBalanceDropdown, NumberBox } from 'components/Form'
 import { InterestWithdrawalFormType } from 'data/components/interest/types'
-import { required } from 'services/FormHelper'
+import { required } from 'services/forms'
 import { selectors } from 'data'
 import FiatDisplay from 'components/Display/FiatDisplay'
 

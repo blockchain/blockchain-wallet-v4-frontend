@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
-import { validEmail } from 'services/FormHelper'
+import { validEmail } from 'services/forms'
 
 import { SecuritySummary } from '../../../components'
 

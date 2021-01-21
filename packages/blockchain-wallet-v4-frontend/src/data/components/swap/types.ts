@@ -12,7 +12,8 @@ import {
 export type MempoolFeeType = 'regular' | 'priority'
 
 export type SwapAccountType = {
-  address: number | string
+  accountIndex?: number,
+  address: number | string,
   archived: boolean
   balance: number | string
   baseCoin: Exclude<CoinType, Erc20CoinType>
@@ -32,8 +33,6 @@ export type InitSwapFormValuesType =
       COUNTER?: SwapAccountType
     }
   | undefined
-
-export type SwapCoinType = CoinType
 
 export enum SwapStepType {
   'INIT_SWAP',

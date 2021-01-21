@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div<{ border: boolean; marginBottom: string }>`
   box-sizing: border-box;

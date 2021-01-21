@@ -1,4 +1,4 @@
-import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { createDeepEqualSelector } from 'services/misc'
 import { FormattedMessage } from 'react-intl'
 import { gt, head, includes, isEmpty, path, prop, propOr } from 'ramda'
 import { model, selectors } from 'data'

@@ -2,9 +2,6 @@ import { call, delay, put, race, select, take } from 'redux-saga/effects'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
 
-import * as A from './actions'
-import * as AT from './actionTypes'
-import * as S from './selectors'
 import { actions, selectors } from 'data'
 import { APIType } from 'core/network/api'
 import {
@@ -17,6 +14,14 @@ import {
 import { convertStandardToBase } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Exchange } from 'blockchain-wallet-v4/src'
+import { getCoinAccounts } from 'coins/selectors'
+import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
+import { SWAP_ACCOUNTS_SELECTOR } from 'coins/features/swap'
+
+import * as A from './actions'
+import * as AT from './actionTypes'
+import * as S from './selectors'
+import { FALLBACK_DELAY } from './model'
 import { getDirection, getPair, getRate, NO_QUOTE } from './utils'
 import {
   InitSwapFormValuesType,
@@ -25,9 +30,6 @@ import {
   SwapAmountFormValues
 } from './types'
 import { selectReceiveAddress } from '../utils/sagas'
-
-import { FALLBACK_DELAY } from './model'
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import profileSagas from '../../../data/modules/profile/sagas'
 import sendSagas from '../send/sagas'
 
@@ -456,7 +458,7 @@ export default ({
       return
     }
 
-    const accounts = S.getActiveAccounts(yield select())
+    const accounts = getCoinAccounts(yield select(), SWAP_ACCOUNTS_SELECTOR)
     const baseAccount = accounts[initSwapFormValues.BASE.coin].find(
       val => val.label === initSwapFormValues.BASE?.label
     )

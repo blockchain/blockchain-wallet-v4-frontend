@@ -7,7 +7,7 @@ import {
   SelectInput,
   Text
 } from 'blockchain-info-components'
-import { flex, spacing } from 'services/StyleService'
+import { flex, spacing } from 'services/styles'
 import { FormattedMessage } from 'react-intl'
 import { utils } from 'blockchain-wallet-v4/src'
 import CoinDisplay from 'components/Display/CoinDisplay'

@@ -1,5 +1,5 @@
+import { media } from 'services/styles'
 import { Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
 import styled, { css } from 'styled-components'
 
 export const Wrapper = styled.div`

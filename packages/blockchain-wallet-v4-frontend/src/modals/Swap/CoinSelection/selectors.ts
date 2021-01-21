@@ -1,26 +1,17 @@
-import { RootState } from 'data/rootReducer'
+import { uniq } from 'ramda'
 
 import { CoinType } from 'core/types'
+import { getCoinAccounts } from 'coins/selectors'
 import { getInputFromPair, getOutputFromPair } from 'data/components/swap/model'
+import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
-import { SwapAccountType, SwapCoinType } from 'data/components/swap/types'
-import { uniq } from 'ramda'
+import { SWAP_ACCOUNTS_SELECTOR } from 'coins/features/swap'
+import { SwapAccountType } from 'data/components/swap/types'
 
 import { OwnProps } from '.'
 
-export const coinOrder: Array<SwapCoinType> = [
-  'BTC',
-  'ETH',
-  'BCH',
-  'XLM',
-  'PAX',
-  'USDT',
-  'WDGLD',
-  'ALGO'
-]
-
 export const getData = (state: RootState, { side }: OwnProps) => {
-  const accounts = selectors.components.swap.getActiveAccounts(state)
+  const accounts = getCoinAccounts(state, SWAP_ACCOUNTS_SELECTOR)
   const pairs = selectors.components.swap.getPairs(state).getOrElse([])
   let coinsForSide
 
@@ -41,7 +32,7 @@ export const getData = (state: RootState, { side }: OwnProps) => {
       }
     },
     {}
-  ) as { [key in SwapCoinType]: Array<SwapAccountType> }
+  ) as { [key in CoinType]: Array<SwapAccountType> }
 
   return { accounts: accountsForSide }
 }

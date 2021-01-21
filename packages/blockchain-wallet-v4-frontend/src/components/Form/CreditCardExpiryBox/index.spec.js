@@ -1,4 +1,4 @@
-import { normalizeCreditCardExpiry } from './index.tsx'
+import { normalizeCreditCardExpiry } from './index'
 
 describe('normalizeCreditCardExpiry', () => {
   it('should normalize a cc expiry date', () => {

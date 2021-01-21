@@ -1,6 +1,6 @@
 import { Button } from 'blockchain-info-components'
+import { media } from 'services/styles'
 import { SettingHeader } from 'components/Setting'
-import media from 'services/ResponsiveService'
 import styled from 'styled-components'
 
 export const CardWrapper = styled.div`

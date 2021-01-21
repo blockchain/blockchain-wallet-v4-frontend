@@ -11,36 +11,34 @@ const UpgradeAddressLabels = React.lazy(() =>
   import('./Addresses/UpgradeAddressLabels')
 )
 
+// BITPAY
+const BitpayInformational = React.lazy(() => import('./BitPay/Informational'))
+const BitpayInvoiceExpired = React.lazy(() => import('./BitPay/InvoiceExpired'))
+
 // COINS
 // BTC
 const AddBtcWallet = React.lazy(() => import('./Btc/AddBtcWallet'))
 const ImportBtcAddress = React.lazy(() => import('./Btc/ImportBtcAddress'))
-const RequestBtc = React.lazy(() => import('./Btc/RequestBtc'))
 const SendBtc = React.lazy(() => import('./Btc/SendBtc'))
 const ShowBtcPrivateKey = React.lazy(() => import('./Btc/ShowBtcPrivateKey'))
 const VerifyMessage = React.lazy(() => import('./Btc/VerifyMessage'))
 
 // BCH
-const RequestBch = React.lazy(() => import('./Bch/RequestBch'))
 const SendBch = React.lazy(() => import('./Bch/SendBch'))
 
 // ETH
-const PaxWelcome = React.lazy(() => import('./Eth/PaxWelcome'))
-const RequestEth = React.lazy(() => import('./Eth/RequestEth'))
 const SendEth = React.lazy(() => import('./Eth/SendEth'))
 const TransferEth = React.lazy(() => import('./Eth/TransferEth'))
 
 // XLM
-const RequestXlm = React.lazy(() => import('./Xlm/RequestXlm'))
 const SendXlm = React.lazy(() => import('./Xlm/SendXlm'))
 const XlmCreateAccountLearn = React.lazy(() =>
   import('./Xlm/XlmCreateAccountLearn')
 )
 const XlmReserveLearn = React.lazy(() => import('./Xlm/XlmReserveLearn'))
 
-// BITPAY
-const BitpayInformational = React.lazy(() => import('./BitPay/Informational'))
-const BitpayInvoiceExpired = React.lazy(() => import('./BitPay/InvoiceExpired'))
+// CRYPTO
+const RequestCrypto = React.lazy(() => import('./RequestCrypto'))
 
 // GENERIC
 const Confirm = React.lazy(() => import('./Generic/Confirm'))
@@ -153,14 +151,10 @@ const Modals = () => (
       <MobileNumberChange />
       <MobileNumberVerify />
       <PairingCode />
-      <PaxWelcome />
       <PromptInput />
       <QRCode />
       <RecoveryPhrase />
-      <RequestBch />
-      <RequestBtc />
-      <RequestEth />
-      <RequestXlm />
+      <RequestCrypto />
       <SecondPassword />
       <SendBch />
       <SendBtc />

@@ -2,9 +2,9 @@ import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
+import { media } from 'services/styles'
 import { SpinningLoader, Text } from 'blockchain-info-components'
 import Header from 'layouts/Public/components/Header'
-import media from 'services/ResponsiveService'
 
 interface Props {}
 

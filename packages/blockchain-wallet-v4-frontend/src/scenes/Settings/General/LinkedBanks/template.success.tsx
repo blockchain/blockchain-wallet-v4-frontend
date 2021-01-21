@@ -7,8 +7,9 @@ import {
   RemoveButton
 } from '../styles'
 import { FormattedMessage } from 'react-intl'
-import { getBankLogoImageName } from 'services/ImagesService'
+import { getBankLogoImageName } from 'services/images'
 import { InjectedFormProps, reduxForm } from 'redux-form'
+import { media } from 'services/styles'
 import { Props as OwnProps, SuccessStateType } from '.'
 import {
   SettingComponent,
@@ -16,7 +17,6 @@ import {
   SettingSummary
 } from 'components/Setting'
 import { WalletFiatEnum } from 'core/types'
-import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 

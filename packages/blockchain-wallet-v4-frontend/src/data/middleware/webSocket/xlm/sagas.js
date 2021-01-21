@@ -1,4 +1,4 @@
-import * as T from 'services/AlertService'
+import * as T from 'services/alerts'
 import {
   append,
   compose,

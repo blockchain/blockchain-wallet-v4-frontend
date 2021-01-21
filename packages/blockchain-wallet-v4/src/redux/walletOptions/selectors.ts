@@ -4,6 +4,7 @@ import {
   filter,
   keys,
   lensProp,
+  map,
   mapObjIndexed,
   path,
   prop,
@@ -73,9 +74,14 @@ export const getXlmExchangeAddresses = state =>
   getSupportedCoins(state).map(path(['XLM', 'exchangeAddresses']))
 export const getStxCampaign = state =>
   getWebOptions(state).map(path(['coins', 'STX', 'campaign']))
+
+// coin feature availability
 export const getCoinAvailability = curry((state, coin) =>
   getSupportedCoins(state).map(path([toUpper(coin), 'availability']))
 )
+export const getAllCoinAvailabilities = state =>
+  map(map(prop('availability')), getSupportedCoins(state))
+
 export const getErc20CoinList = state =>
   getSupportedCoins(state).map(x =>
     // @ts-ignore

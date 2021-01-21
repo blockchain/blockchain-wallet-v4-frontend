@@ -1,13 +1,17 @@
-import * as C from 'services/AlertService'
-import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import CopyClipboard from './template'
 import React from 'react'
 
+import * as C from 'services/alerts'
+import { actions } from 'data'
+
+import CopyClipboard from './template'
+
 export interface OwnProps {
-  address: string
   alertActions: any
+  color?: string
+  size?: string
+  textToCopy: string
 }
 
 export interface State {
@@ -41,9 +45,11 @@ class CopyToClipboardContainer extends React.PureComponent<Props, State> {
     return (
       <CopyClipboard
         active={this.state.active}
-        address={this.props.address}
+        color={this.props.color}
         handleClick={this.handleClick}
         data-e2e={this.props['data-e2e']}
+        textToCopy={this.props.textToCopy}
+        size={this.props.size}
       />
     )
   }

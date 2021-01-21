@@ -24,7 +24,7 @@ import base64 from 'base-64'
 import BigNumber from 'bignumber.js'
 import bip21 from 'bip21'
 
-import * as C from 'services/AlertService'
+import * as C from 'services/alerts'
 import { actions, model, selectors } from 'data'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Exchange, utils } from 'blockchain-wallet-v4/src'

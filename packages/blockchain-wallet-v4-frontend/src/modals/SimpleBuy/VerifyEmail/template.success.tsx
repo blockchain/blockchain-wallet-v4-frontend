@@ -14,7 +14,7 @@ import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { model } from 'data'
 import { Props as OwnProps } from '.'
-import { required, validEmail } from 'services/FormHelper'
+import { required, validEmail } from 'services/forms'
 
 const { SB_CHANGE_EMAIL_FORM } = model.components.simpleBuy
 

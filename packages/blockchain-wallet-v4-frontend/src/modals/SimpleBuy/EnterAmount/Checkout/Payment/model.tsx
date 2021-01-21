@@ -13,7 +13,7 @@ import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { Title, Value } from 'components/Flyout'
 
-import { getBankLogoImageName } from 'services/ImagesService'
+import { getBankLogoImageName } from 'services/images'
 
 type PaymentContainerProps = {
   disabled?: boolean

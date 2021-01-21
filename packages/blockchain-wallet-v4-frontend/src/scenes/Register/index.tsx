@@ -67,7 +67,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   goals: selectors.goals.getGoals(state),
   language: selectors.preferences.getLanguage(state),
   password: formValueSelector('register')(state, 'password') || '',
-  search: selectors.router.getSearch(state),
+  search: selectors.router.getSearch(state) as string,
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrElse({} as SupportedWalletCurrenciesType)

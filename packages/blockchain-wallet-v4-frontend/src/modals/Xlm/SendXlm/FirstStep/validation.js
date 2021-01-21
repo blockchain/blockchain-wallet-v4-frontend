@@ -1,16 +1,22 @@
 import * as StellarSdk from 'stellar-sdk'
 import { BigNumber } from 'bignumber.js'
-import { path, prop } from 'ramda'
+import { mapObjIndexed, path, prop } from 'ramda'
 import React from 'react'
 
-import { currencySymbolMap } from 'services/CoinifyService'
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+
 import {
   InsufficientFundsMessage,
   InvalidAmountMessage,
   WrongIdMemoFormat,
   WrongTextMemoFormat
 } from './validationMessages'
+
+const currencySymbolMap = mapObjIndexed(
+  (value, code) => value.units[code].symbol,
+  Currencies
+)
 
 export const ACCOUNT_CREATION_ERROR = 'Not enough funds to create new account'
 export const NO_FUNDS_ERROR = 'Wallet amount at base reserve'

@@ -10,7 +10,7 @@ import styled from 'styled-components'
 import Transactions from './Transactions'
 import UpdateRequiredNotice from './UpdateRequiredNotice'
 
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   height: 100%;
