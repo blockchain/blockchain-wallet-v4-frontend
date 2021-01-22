@@ -2,6 +2,7 @@ export const getBankLogoImageName = bankName => {
   switch (bankName) {
     case 'Acorns':
       return 'bank-logo-acorns'
+    case 'Ally Bank':
     case 'Ally':
       return 'bank-logo-ally'
     case 'Bank Of America':
