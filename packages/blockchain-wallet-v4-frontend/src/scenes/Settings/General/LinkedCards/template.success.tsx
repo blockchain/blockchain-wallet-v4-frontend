@@ -78,6 +78,10 @@ const Success: React.FC<InjectedFormProps<
 
           if (card.state !== 'ACTIVE') return
 
+          const cardLabel =
+            (card?.card.label && card?.card.label.toLowerCase()) ||
+            card?.card.type
+
           return (
             <CardWrapper
               key={i}
@@ -92,8 +96,9 @@ const Success: React.FC<InjectedFormProps<
                 />
                 <CardDetails>
                   <Text size='16px' color='grey800' weight={600} capitalize>
-                    {(card.card.label && card.card.label.toLowerCase()) ||
-                      card.card.type}
+                    {cardLabel.length > 22
+                      ? `${cardLabel.slice(0, 22)}…`
+                      : cardLabel}
                   </Text>
                   {ccPaymentMethod && (
                     <Text size='14px' color='grey600' weight={500}>
