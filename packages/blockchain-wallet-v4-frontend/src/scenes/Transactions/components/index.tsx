@@ -172,6 +172,8 @@ export const IconTx = ({
             color={color}
           />
         )
+      default:
+        return <></>
     }
   }
 

@@ -21,6 +21,8 @@ export const getDestination = (props: Props) => {
     case 'FROM_USERKEY':
     case 'INTERNAL':
       return getOutput(props.order) + ' Trading Wallet'
+    default:
+      return ''
   }
 }
 
@@ -32,6 +34,8 @@ export const getOrigin = (props: Props) => {
     case 'TO_USERKEY':
     case 'INTERNAL':
       return getInput(props.order) + ' Trading Wallet'
+    default:
+      return ''
   }
 }
 
