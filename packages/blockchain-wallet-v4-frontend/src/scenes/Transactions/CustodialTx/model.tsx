@@ -25,6 +25,7 @@ export const IconTx = (props: Props) => {
           <Icon size='20px' color='fiat' name='plus' />
         </IconWrapper>
       )
+    case 'REFUNDED':
     case 'COMPLETE':
       return props.coin in WalletFiatEnum ? (
         <IconWrapper color='fiat-light'>
@@ -50,7 +51,6 @@ export const IconTx = (props: Props) => {
     case 'CANCELED':
     case 'EXPIRED':
     case 'FAILED':
-    case 'REFUNDED':
     case 'REJECTED':
     case 'UNIDENTIFIED':
       return props.coin in WalletFiatEnum ? (
@@ -81,6 +81,7 @@ export const Timestamp = (props: Props) => {
     switch (props.tx.state) {
       case 'COMPLETE':
       case 'FINISHED':
+      case 'REFUNDED':
         return <SharedTimestamp time={props.tx.insertedAt} />
       default:
         return <Status {...props} />
@@ -121,11 +122,15 @@ export const TransactionType = (props: Props) => {
         return <FormattedMessage id='copy.refunded' defaultMessage='Refunded' />
       case 'SELL':
         return <FormattedMessage id='copy.sold' defaultMessage='Sold' />
+      default:
+        return <></>
     }
   } else {
     switch (props.tx.type) {
       case 'DEPOSIT':
-        return (
+        return props.tx.state === 'REFUNDED' ? (
+          <FormattedMessage id='copy.refunded' defaultMessage='Refunded' />
+        ) : (
           <FormattedMessage id='buttons.deposited' defaultMessage='Deposited' />
         )
       case 'REFUNDED':
@@ -136,6 +141,8 @@ export const TransactionType = (props: Props) => {
         return (
           <FormattedMessage id='buttons.withdrew' defaultMessage='Withdrew' />
         )
+      default:
+        return <></>
     }
   }
 }
@@ -157,6 +164,8 @@ export const Origin = (props: Props) => {
       )
     case 'WITHDRAWAL':
       return <>{props.coinTicker} Wallet</>
+    default:
+      return <></>
   }
 }
 
@@ -173,6 +182,8 @@ export const Destination = (props: Props) => {
       ) : (
         <>Bank Account</>
       )
+    default:
+      return <></>
   }
 }
 
@@ -194,8 +205,9 @@ export const Status = (props: Props) => {
         )
       }
       return <FormattedMessage id='copy.complete' defaultMessage='Complete' />
-    case 'FAILED':
     case 'REFUNDED':
+      return <FormattedMessage id='copy.refunded' defaultMessage='Refunded' />
+    case 'FAILED':
     case 'REJECTED':
     case 'UNIDENTIFIED':
       return <FormattedMessage id='copy.failed' defaultMessage='Failed' />
