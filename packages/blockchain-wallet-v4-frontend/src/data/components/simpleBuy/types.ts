@@ -119,6 +119,14 @@ export type BankStatusType =
   | 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH'
   | 'DEFAULT_ERROR'
 
+export enum SBCardStateEnum {
+  PENDING,
+  CREATED,
+  ACTIVE,
+  BLOCKED,
+  FRAUD_REVIEW
+}
+
 // State
 export type SimpleBuyState = {
   account: RemoteDataType<string, SBAccountType>
