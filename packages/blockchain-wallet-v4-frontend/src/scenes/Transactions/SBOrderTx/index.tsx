@@ -112,7 +112,15 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
           <Col width='50%' data-e2e='orderToAndFrom'>
             <Addresses
               from={<>{getOrigin(this.props, bankAccounts)}</>}
-              to={<>{this.props.order.outputCurrency} Trading Wallet</>}
+              to={
+                <>
+                  {
+                    this.props.supportedCoins[this.props.order.outputCurrency]
+                      .coinTicker
+                  }{' '}
+                  Trading Wallet
+                </>
+              }
             />
           </Col>
           {order.state === 'PENDING_CONFIRMATION' ||

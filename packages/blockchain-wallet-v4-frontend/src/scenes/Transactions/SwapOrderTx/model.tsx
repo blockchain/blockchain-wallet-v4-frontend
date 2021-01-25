@@ -17,10 +17,15 @@ export const getDestination = (props: Props) => {
   switch (props.order.kind.direction) {
     case 'TO_USERKEY':
     case 'ON_CHAIN':
-      return getOutput(props.order) + ' Wallet'
+      return (
+        props.supportedCoins[getOutput(props.order)].displayName + ' Wallet'
+      )
     case 'FROM_USERKEY':
     case 'INTERNAL':
-      return getOutput(props.order) + ' Trading Wallet'
+      return (
+        props.supportedCoins[getOutput(props.order)].displayName +
+        ' Trading Wallet'
+      )
     default:
       return ''
   }
@@ -30,10 +35,13 @@ export const getOrigin = (props: Props) => {
   switch (props.order.kind.direction) {
     case 'FROM_USERKEY':
     case 'ON_CHAIN':
-      return getInput(props.order) + ' Wallet'
+      return props.supportedCoins[getInput(props.order)].displayName + ' Wallet'
     case 'TO_USERKEY':
     case 'INTERNAL':
-      return getInput(props.order) + ' Trading Wallet'
+      return (
+        props.supportedCoins[getInput(props.order)].displayName +
+        ' Trading Wallet'
+      )
     default:
       return ''
   }

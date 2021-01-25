@@ -152,18 +152,21 @@ export const Origin = (props: Props) => {
     case 'REFUNDED':
     case 'DEPOSIT':
       return props.tx.amount.symbol in CoinTypeEnum ? (
-        <>{props.coinTicker} Wallet</>
+        <>{props.supportedCoins[props.coin].displayName} Wallet</>
       ) : (
         <>Bank Account</>
       )
     case 'SELL':
       return props.tx.extraAttributes?.direction === 'FROM_USERKEY' ? (
-        <>{props.tx.amount.symbol} Wallet</>
+        <>{props.supportedCoins[props.tx.amount.symbol].displayName} Wallet</>
       ) : (
-        <>{props.tx.amount.symbol} Trading Wallet</>
+        <>
+          {props.supportedCoins[props.tx.amount.symbol].displayName} Trading
+          Wallet
+        </>
       )
     case 'WITHDRAWAL':
-      return <>{props.coinTicker} Wallet</>
+      return <>{props.supportedCoins[props.coin].displayName} Wallet</>
     default:
       return <></>
   }
@@ -173,12 +176,12 @@ export const Destination = (props: Props) => {
   switch (props.tx.type) {
     case 'REFUNDED':
     case 'DEPOSIT':
-      return <>{props.coinTicker} Wallet</>
+      return <>{props.supportedCoins[props.coin].displayName} Wallet</>
     case 'SELL':
-      return <>{props.coinTicker} Wallet</>
+      return <>{props.supportedCoins[props.coin].displayName} Wallett</>
     case 'WITHDRAWAL':
       return props.tx.amount.symbol in CoinTypeEnum ? (
-        <>{props.tx.amount.symbol} Wallet</>
+        <>{props.supportedCoins[props.tx.amount.symbol].displayName} Wallet</>
       ) : (
         <>Bank Account</>
       )
