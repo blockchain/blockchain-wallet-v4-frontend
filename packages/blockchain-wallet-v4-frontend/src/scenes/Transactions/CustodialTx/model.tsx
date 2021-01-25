@@ -1,5 +1,6 @@
 import { Icon as BCIcon, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
+import { path } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -16,7 +17,16 @@ const Icon = styled(BCIcon)`
   size: 18px;
   font-weight: 600;
 `
+const getSymbolDisplayName = (props: Props) => {
+  return path(
+    [`${props.tx.amount.symbol}`, 'displayName'],
+    props.supportedCoins
+  )
+}
 
+const getCoinDisplayName = (props: Props) => {
+  return path([`${props.coin}`, 'displayName'], props.supportedCoins)
+}
 export const IconTx = (props: Props) => {
   switch (props.tx.state) {
     case 'FINISHED':
@@ -152,21 +162,22 @@ export const Origin = (props: Props) => {
     case 'REFUNDED':
     case 'DEPOSIT':
       return props.tx.amount.symbol in CoinTypeEnum ? (
-        <>{props.supportedCoins[props.coin].displayName} Wallet</>
+        <>{getCoinDisplayName(props)} Wallet</>
       ) : (
         <>Bank Account</>
       )
     case 'SELL':
       return props.tx.extraAttributes?.direction === 'FROM_USERKEY' ? (
-        <>{props.supportedCoins[props.tx.amount.symbol].displayName} Wallet</>
+        <> {getSymbolDisplayName(props)} Wallet</>
       ) : (
-        <>
-          {props.supportedCoins[props.tx.amount.symbol].displayName} Trading
-          Wallet
-        </>
+        <>{getSymbolDisplayName(props)} Trading Wallet</>
       )
     case 'WITHDRAWAL':
-      return <>{props.supportedCoins[props.coin].displayName} Wallet</>
+      return (
+        <>
+          {path([`${props.coin}`, 'displayName'], props.supportedCoins)} Wallet
+        </>
+      )
     default:
       return <></>
   }
@@ -176,12 +187,12 @@ export const Destination = (props: Props) => {
   switch (props.tx.type) {
     case 'REFUNDED':
     case 'DEPOSIT':
-      return <>{props.supportedCoins[props.coin].displayName} Wallet</>
+      return <>{getCoinDisplayName(props)} Wallet</>
     case 'SELL':
-      return <>{props.supportedCoins[props.coin].displayName} Wallett</>
+      return <>{getCoinDisplayName(props)} Wallet</>
     case 'WITHDRAWAL':
       return props.tx.amount.symbol in CoinTypeEnum ? (
-        <>{props.supportedCoins[props.tx.amount.symbol].displayName} Wallet</>
+        <>{getSymbolDisplayName(props)} Wallet</>
       ) : (
         <>Bank Account</>
       )
