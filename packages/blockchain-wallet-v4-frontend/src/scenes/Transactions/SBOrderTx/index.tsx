@@ -38,6 +38,7 @@ import {
   RowHeader,
   RowValue,
   StatusAndType,
+  StyledBuyFiatDisplay,
   StyledCoinDisplay,
   StyledFiatDisplay,
   TxRow,
@@ -79,6 +80,10 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
     const baseCurrency = getBaseCurrency(order, supportedCoins)
     const counterAmount = getCounterAmount(order)
     const counterCurrency = getCounterCurrency(order, supportedCoins)
+    const totalTxAmount = fiatToString({
+      unit: counterCurrency,
+      value: counterAmount
+    })
 
     return (
       <TxRowContainer
@@ -142,17 +147,28 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
                   ? order.outputQuantity
                   : order.inputQuantity}
               </StyledCoinDisplay>
-              <StyledFiatDisplay
-                size='14px'
-                weight={500}
-                color='grey600'
-                coin={coin}
-                data-e2e='orderFiatAmt'
-              >
-                {orderType === 'BUY'
-                  ? order.outputQuantity
-                  : order.inputQuantity}
-              </StyledFiatDisplay>
+              {orderType === 'BUY' ? (
+                <StyledBuyFiatDisplay>
+                  <Text
+                    color='grey600'
+                    data-e2e='orderFiatAmt'
+                    size='14px'
+                    weight={500}
+                  >
+                    {totalTxAmount}
+                  </Text>
+                </StyledBuyFiatDisplay>
+              ) : (
+                <StyledFiatDisplay
+                  size='14px'
+                  weight={500}
+                  color='grey600'
+                  coin={coin}
+                  data-e2e='orderFiatAmt'
+                >
+                  {order.inputQuantity}
+                </StyledFiatDisplay>
+              )}
             </Col>
           )}
         </TxRow>
@@ -210,12 +226,7 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
               <RowHeader>
                 <FormattedMessage id='copy.total' defaultMessage='Total' />
               </RowHeader>
-              <RowValue data-e2e='sbSentTotal'>
-                {fiatToString({
-                  unit: counterCurrency,
-                  value: counterAmount
-                })}
-              </RowValue>
+              <RowValue data-e2e='sbSentTotal'>{totalTxAmount}</RowValue>
             </DetailsColumn>
           </DetailsRow>
         )}

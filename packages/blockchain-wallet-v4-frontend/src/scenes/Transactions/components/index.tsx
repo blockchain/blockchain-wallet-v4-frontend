@@ -172,6 +172,8 @@ export const IconTx = ({
             color={color}
           />
         )
+      default:
+        return <></>
     }
   }
 
@@ -215,6 +217,11 @@ export const StyledCoinDisplay = styled(CoinDisplay)`
 `
 export const StyledFiatDisplay = styled(FiatDisplay)`
   color: ${props => props.theme.grey600};
+  margin-top: 4px;
+  justify-content: flex-end;
+`
+export const StyledBuyFiatDisplay = styled.div`
+  display: flex;
   margin-top: 4px;
   justify-content: flex-end;
 `

@@ -86,7 +86,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           <Title>
             <FormattedMessage id='copy.swap' defaultMessage='Swap' />
           </Title>
-          <Value>
+          <Value data-e2e='swapOutgoingValue'>
             {coinToString({
               value: this.props.swapAmountFormValues?.cryptoAmount,
               unit: { symbol: baseCoinTicker }
@@ -97,7 +97,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           <Title>
             <FormattedMessage id='buttons.receive' defaultMessage='Receive' />
           </Title>
-          <Value>
+          <Value data-e2e='swapIncomingValue'>
             {this.props.incomingAmountR.cata({
               Success: value => (
                 <>
@@ -120,7 +120,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               defaultMessage='Exchange Rate'
             />
           </Title>
-          <Value>
+          <Value data-e2e='swapExchangeRate'>
             {this.props.quoteR.cata({
               Success: val => (
                 <>
@@ -145,13 +145,13 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           <Title>
             <FormattedMessage id='copy.from' defaultMessage='From' />
           </Title>
-          <Value>{BASE.label}</Value>
+          <Value data-e2e='swapOutgoingWallet'>{BASE.label}</Value>
         </Row>
         <Row>
           <Title>
             <FormattedMessage id='copy.to' defaultMessage='To' />
           </Title>
-          <Value>{COUNTER.label}</Value>
+          <Value data-e2e='swapIncomingWallet'>{COUNTER.label}</Value>
         </Row>
         <Row>
           <Title>
@@ -161,7 +161,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               values={{ coin: coins[BASE.coin].coinTicker }}
             />
           </Title>
-          <Value>
+          <Value data-e2e='swapOutgoingFee'>
             {BASE.type === 'CUSTODIAL' ? (
               <FreeCartridge>
                 <FormattedMessage id='copy.free' defaultMessage='FREE' />
@@ -194,7 +194,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               values={{ coin: counterCoinTicker }}
             />
           </Title>
-          <Value>
+          <Value data-e2e='swapIncomingFee'>
             {COUNTER.type === 'CUSTODIAL' ? (
               <FreeCartridge>
                 <FormattedMessage id='copy.free' defaultMessage='FREE' />
