@@ -62,7 +62,6 @@ const api = ({
       nabuUrl,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
-      authorizedPut: authorizedHttp.put,
       ...http
     }),
     ...interest({
