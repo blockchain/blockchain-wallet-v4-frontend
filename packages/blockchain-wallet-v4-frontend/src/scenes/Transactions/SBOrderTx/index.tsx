@@ -77,7 +77,7 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
     const bankAccounts = data.getOrElse([] as Array<BankTransferAccountType>)
     const coin = getCoinFromPair(order.pair)
     const coinDisplayName = path(
-      [`${this.props.order.outputCurrency}`, 'coinTicker'],
+      [this.props.order.outputCurrency, 'coinTicker'],
       this.props.supportedCoins
     )
     const orderType = getOrderType(order)

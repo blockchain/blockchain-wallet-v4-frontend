@@ -18,14 +18,11 @@ const Icon = styled(BCIcon)`
   font-weight: 600;
 `
 const getSymbolDisplayName = (props: Props) => {
-  return path(
-    [`${props.tx.amount.symbol}`, 'displayName'],
-    props.supportedCoins
-  )
+  return path([props.tx.amount.symbol, 'displayName'], props.supportedCoins)
 }
 
 const getCoinDisplayName = (props: Props) => {
-  return path([`${props.coin}`, 'displayName'], props.supportedCoins)
+  return path([props.coin, 'displayName'], props.supportedCoins)
 }
 export const IconTx = (props: Props) => {
   switch (props.tx.state) {
@@ -174,9 +171,7 @@ export const Origin = (props: Props) => {
       )
     case 'WITHDRAWAL':
       return (
-        <>
-          {path([`${props.coin}`, 'displayName'], props.supportedCoins)} Wallet
-        </>
+        <>{path([props.coin, 'displayName'], props.supportedCoins)} Wallet</>
       )
     default:
       return <></>

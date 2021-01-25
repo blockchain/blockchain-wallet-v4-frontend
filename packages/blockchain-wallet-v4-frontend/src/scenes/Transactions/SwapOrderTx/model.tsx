@@ -11,13 +11,10 @@ import {
 import { Text } from 'blockchain-info-components'
 
 const getOutputCoinDisplayName = (props: Props) => {
-  return path(
-    [`${getOutput(props.order)}`, 'displayName'],
-    props.supportedCoins
-  )
+  return path([getOutput(props.order), 'displayName'], props.supportedCoins)
 }
 const getInputCoinDisplayName = (props: Props) => {
-  return path([`${getInput(props.order)}`, 'displayName'], props.supportedCoins)
+  return path([getInput(props.order), 'displayName'], props.supportedCoins)
 }
 export const IconTx = (props: Props) => {
   return <SharedIconTx type='SWAP' coin={props.coin} />
