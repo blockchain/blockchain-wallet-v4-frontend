@@ -1,11 +1,11 @@
+import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
-import { model } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
-
+import { actions, model } from 'data'
 import {
   Icon,
   Link,
@@ -14,6 +14,7 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 const Header = styled.div`
   cursor: pointer;
@@ -42,18 +43,25 @@ const BackIcon = styled(Icon)`
 `
 
 class XlmCreateAccountLearn extends React.PureComponent {
+  onClose = () => {
+    this.props.closeAll()
+    this.props.modalActions.showModal('@MODAL.SEND.XLM', {
+      origin: '@SEND.XLM.CREATE_ACCOUNT_LEARN_MODAL'
+    })
+  }
+
   render () {
-    const { position, total, close } = this.props
+    const { position, total } = this.props
     return (
       <Modal
         size='medium'
         position={position}
         total={total}
-        closeAll={close}
+        closeAll={this.onClose}
         data-e2e='xlmMinimumModalShort'
       >
-        <ModalHeader onClose={close}>
-          <Header onClick={close}>
+        <ModalHeader onClose={this.onClose}>
+          <Header onClick={this.onClose}>
             <BackIcon
               name='arrow-left'
               data-e2e='xlmMinimumModalBack'
@@ -108,6 +116,13 @@ XlmCreateAccountLearn.propTypes = {
   reserveXlm: PropTypes.string.isRequired
 }
 
-export default modalEnhancer(
-  model.components.sendXlm.CREATE_ACCOUNT_LEARN_MODAL
-)(XlmCreateAccountLearn)
+const mapDispatchToProps = dispatch => ({
+  modalActions: bindActionCreators(actions.modals, dispatch)
+})
+
+const enhance = compose(
+  modalEnhancer(model.components.sendXlm.CREATE_ACCOUNT_LEARN_MODAL),
+  connect(null, mapDispatchToProps)
+)
+
+export default enhance(XlmCreateAccountLearn)

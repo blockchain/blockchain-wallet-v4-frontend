@@ -52,7 +52,7 @@ const Row = styled.div`
 const Bold = styled.b`
   font-weight: 500;
 `
-class XlmCreateAccountLearn extends React.PureComponent {
+class XlmReserveLearn extends React.PureComponent {
   onClose = () => {
     this.props.closeAll()
     this.props.modalActions.showModal('@MODAL.SEND.XLM', {
@@ -188,7 +188,7 @@ class XlmCreateAccountLearn extends React.PureComponent {
   }
 }
 
-XlmCreateAccountLearn.propTypes = {
+XlmReserveLearn.propTypes = {
   currency: PropTypes.string.isRequired,
   effectiveBalanceXlm: PropTypes.string.isRequired,
   reserveXlm: PropTypes.string.isRequired,
@@ -205,4 +205,4 @@ const enhance = compose(
   connect(getData, mapDispatchToProps)
 )
 
-export default enhance(XlmCreateAccountLearn)
+export default enhance(XlmReserveLearn)
