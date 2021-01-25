@@ -220,6 +220,11 @@ export const StyledFiatDisplay = styled(FiatDisplay)`
   margin-top: 4px;
   justify-content: flex-end;
 `
+export const StyledBuyFiatDisplay = styled.div`
+  display: flex;
+  margin-top: 4px;
+  justify-content: flex-end;
+`
 export const StatusAndType = styled.div`
   margin-left: 16px;
 `
