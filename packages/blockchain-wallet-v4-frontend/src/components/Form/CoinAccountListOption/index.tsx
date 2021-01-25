@@ -97,7 +97,7 @@ const CoinAccountListOption: React.FC<Props> = props => {
           style={{ marginRight: '12px' }}
         />
         <div>
-          <OptionTitle>{account.label}</OptionTitle>
+          <OptionTitle data-e2e={account.label}>{account.label}</OptionTitle>
           <OptionValue>
             <BalanceRow>
               <CoinAccountListBalance
