@@ -100,19 +100,6 @@ export type SBShowModalOriginType =
   | 'WelcomeModal'
   | 'WithdrawModal'
 
-export type FastLinkType = {
-  attributes: {
-    fastlinkParams: {
-      configName: 'Verification'
-    }
-    fastlinkUrl: string
-    token: string
-    tokenExpiresAt: string
-  }
-  id: string
-  partner: 'YODLEE'
-}
-
 export enum SBCardStateEnum {
   PENDING,
   CREATED,
