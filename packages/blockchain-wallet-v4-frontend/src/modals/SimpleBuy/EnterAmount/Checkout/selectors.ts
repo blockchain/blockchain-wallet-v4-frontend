@@ -28,16 +28,14 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   )
   const sddLimitR = selectors.components.simpleBuy.getUserSddLimit(state)
   const cardsR = selectors.components.simpleBuy.getSBCards(state) || []
-  const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
-    state
-  )
-
+  const bankTransferAccounts = selectors.components.simpleBuy
+    .getBankTransferAccounts(state)
+    .getOrElse([])
   const sddLimitsR = selectors.components.simpleBuy.getSddLimits(state)
   const hasFiatBalance = selectors.components.simpleBuy.hasFiatBalances(state)
 
   return lift(
     (
-      bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
       cards: ExtractSuccess<typeof cardsR>,
       quote: ExtractSuccess<typeof quoteR>,
       rates: ExtractSuccess<typeof ratesR>,
@@ -67,7 +65,6 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       sddLimits: sddLimitsR.getOrElse(undefined)
     })
   )(
-    bankTransferAccountsR,
     cardsR,
     quoteR,
     ratesR,

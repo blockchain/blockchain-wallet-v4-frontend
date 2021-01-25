@@ -43,6 +43,8 @@ export const getOrigin = (
       return 'Bank Account'
     case undefined:
       return 'Unknown Payment Type'
+    default:
+      return ''
   }
 }
 

@@ -19,7 +19,7 @@ import {
 } from '../exchange/services'
 import { getInputFromPair, getOutputFromPair } from '../swap/model'
 import { getRate } from '../swap/utils'
-import { SBCheckoutFormValuesType } from './types'
+import { SBCardStateEnum, SBCheckoutFormValuesType } from './types'
 
 const SDD_LIMIT = { min: '500', max: '10000' } as SDDLimits
 
@@ -64,12 +64,11 @@ export const getDefaultPaymentMethod = (state: RootState) => {
   const sbMethodsR = getSBPaymentMethods(state)
   const actionType = getOrderType(state)
   const sbBalancesR = getSBBalances(state)
-  const bankAccountsR = selectors.components.brokerage.getBankTransferAccounts(
-    state
-  )
+  const bankAccounts = selectors.components.brokerage
+    .getBankTransferAccounts(state)
+    .getOrElse([])
 
   const transform = (
-    bankAccounts: ExtractSuccess<typeof bankAccountsR>,
     sbCards: ExtractSuccess<typeof sbCardsR>,
     sbMethods: ExtractSuccess<typeof sbMethodsR>,
     sbBalances: ExtractSuccess<typeof sbBalancesR>
@@ -120,8 +119,11 @@ export const getDefaultPaymentMethod = (state: RootState) => {
           case 'USER_CARD':
           case 'PAYMENT_CARD':
             if (!method) return
+            const active = SBCardStateEnum.ACTIVE
             const sbCard = sbCards.find(
-              value => value.id === lastOrder.paymentMethodId
+              value =>
+                value.id === lastOrder.paymentMethodId &&
+                value.state === SBCardStateEnum[active]
             )
             const card = sbCard?.card || undefined
 
@@ -163,7 +165,7 @@ export const getDefaultPaymentMethod = (state: RootState) => {
     }
   }
 
-  return lift(transform)(bankAccountsR, sbCardsR, sbMethodsR, sbBalancesR)
+  return lift(transform)(sbCardsR, sbMethodsR, sbBalancesR)
 }
 
 export const hasFiatBalances = (state: RootState) => {
