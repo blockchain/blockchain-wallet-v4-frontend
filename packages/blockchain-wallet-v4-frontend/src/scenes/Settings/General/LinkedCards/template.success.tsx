@@ -83,13 +83,7 @@ const Success: React.FC<InjectedFormProps<
             card?.card.type
 
           return (
-            <CardWrapper
-              key={i}
-              onClick={() => {
-                if (props.submitting) return
-                props.handleCreditCardClick()
-              }}
-            >
+            <CardWrapper key={i}>
               <Child>
                 <CardImg
                   src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO}
