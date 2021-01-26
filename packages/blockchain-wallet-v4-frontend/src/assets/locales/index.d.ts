@@ -2254,6 +2254,7 @@ type MessagesType = {
   'scenes.settings.general.walletid.warning': 'Do not share your Wallet ID with others.'
   'scenes.settings.linked_banks': 'Linked Banks'
   'scenes.settings.linked_banks.daily_limit': '{amount} Daily Limit'
+  'scenes.settings.card_ending_in': 'Card Ending in {cardNumber}'
   'scenes.settings.no_linked_banks': 'No Linked Banks'
   'scenes.settings.no_credit_cards': 'No Credit Cards'
   'scenes.settings.no_linked_wire_banks': 'No Linked Wire Banks'
