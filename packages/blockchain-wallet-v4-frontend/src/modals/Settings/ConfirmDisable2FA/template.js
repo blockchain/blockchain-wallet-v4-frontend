@@ -41,7 +41,6 @@ const ConfirmDisable2FA = props => {
   const {
     position,
     total,
-    close,
     handleContinue,
     extraCopy,
     authName,
