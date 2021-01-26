@@ -28,7 +28,6 @@ import { RootState } from 'data/rootReducer'
 import { SBCheckoutFormValuesType } from 'data/types'
 
 import { Border, FreeCartridge, TopText } from '../../Swap/components'
-import { BuyOrSell } from '../model'
 import Loading from '../template.loading'
 
 class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
@@ -39,15 +38,6 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     this.props.simpleBuyActions.createSBOrder()
   }
 
-  getAmount = (amt: number | string | Array<number>) => {
-    if (typeof amt === 'number') {
-      return amt
-    } else if (typeof amt === 'string') {
-      return amt
-    } else {
-      return amt[0]
-    }
-  }
   networkFee = (value: PaymentValue | undefined) => {
     return value
       ? value.coin === 'BTC' || value.coin === 'BCH'
@@ -55,7 +45,17 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         : value.fee
       : 0
   }
-  render() {
+
+  displayAmount = (formValues, coins, account) => {
+    return coinToString({
+      value: formValues?.cryptoAmount,
+      unit: {
+        symbol: coins[account.coin].coinTicker
+      }
+    })
+  }
+
+  render () {
     return this.props.quoteR.cata({
       Failure: () => null,
       NotAsked: () => null,
@@ -66,19 +66,18 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         const BASE = getInputFromPair(val.quote.pair)
         const COUNTER = getOutputFromPair(val.quote.pair)
         const { account, coins, formValues } = this.props
-        const baseCoinTicker = coins[BASE].coinTicker
         const counterCoinTicker = coins[COUNTER].coinTicker
         return (
           <>
             <FlyoutWrapper>
               <TopText spaceBetween={false} marginBottom>
                 <Icon
-                  role="button"
-                  data-e2e="backToEnterAmount"
-                  name="arrow-back"
+                  role='button'
+                  data-e2e='backToEnterAmount'
+                  name='arrow-back'
                   cursor
-                  size="24px"
-                  color="grey600"
+                  size='24px'
+                  color='grey600'
                   onClick={() => {
                     this.props.simpleBuyActions.setStep({
                       step: 'ENTER_AMOUNT',
@@ -91,123 +90,89 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   }}
                 />{' '}
                 <Text
-                  size="20px"
-                  color="grey900"
+                  size='20px'
+                  color='grey900'
                   weight={600}
                   style={{ marginLeft: '24px' }}
                 >
-                  <BuyOrSell
-                    orderType={this.props.orderType}
-                    crypto={account.coin}
-                    coinModel={coins[account.coin]}
+                  <FormattedMessage
+                    id='modals.simplebuy.checkoutconfirm'
+                    defaultMessage='Checkout'
                   />
                 </Text>
               </TopText>
+              <Text
+                size='32px'
+                color='grey900'
+                weight={600}
+                style={{ margin: '40px 0 0 5px' }}
+              >
+                {this.displayAmount(formValues, coins, account)}
+              </Text>
             </FlyoutWrapper>
             <Row>
-              <Title>
-                <BuyOrSell
-                  orderType={this.props.orderType}
-                  crypto={account.coin}
-                  coinModel={coins[account.coin]}
-                />
-              </Title>
-              <Value data-e2e="sbTotalAmount">
-                {coinToString({
-                  value: formValues?.cryptoAmount,
-                  unit: {
-                    symbol: coins[account.coin].coinTicker
-                  }
-                })}
-              </Value>
-            </Row>
-            <Row>
-              <Title>
+              <Title color='grey600'>
                 <FormattedMessage
-                  id="buttons.receive"
-                  defaultMessage="Receive"
+                  id='modals.simplebuy.confirm.coin_price'
+                  defaultMessage='{coin} Price'
+                  values={{ coin: coins[account.coin].coinTicker }}
                 />
               </Title>
-              <Value data-e2e="sbIncomingAmount">
-                {this.props.incomingAmountR.cata({
-                  Success: val => (
-                    <>
-                      {formatFiat(val.amt)} {counterCoinTicker}
-                    </>
-                  ),
-                  Failure: () => (
-                    <Text size="14px" color="red600">
-                      <FormattedMessage
-                        id="copy.oops"
-                        defaultMessage="Oops. Something went wrong."
-                      />
-                    </Text>
-                  ),
-                  Loading: () => (
-                    <SkeletonRectangle height="18px" width="70px" />
-                  ),
-                  NotAsked: () => (
-                    <SkeletonRectangle height="18px" width="70px" />
-                  )
-                })}
-              </Value>
-            </Row>
-            <Row>
-              <Title>
-                <FormattedMessage
-                  id="modals.simplebuy.confirm.rate"
-                  defaultMessage="Exchange Rate"
-                />
-              </Title>
-              <Value data-e2e="sbExchangeRate">
+              <Value data-e2e='sbExchangeRate'>
                 {this.props.quoteR.cata({
                   Success: val => (
                     <>
-                      1 {baseCoinTicker} ={' '}
                       {formatFiat(convertBaseToStandard('FIAT', val.rate))}{' '}
                       {counterCoinTicker}
                     </>
                   ),
                   Failure: () => (
-                    <Text size="14px" color="red600">
+                    <Text size='14px' color='red600'>
                       <FormattedMessage
-                        id="copy.oops"
-                        defaultMessage="Oops. Something went wrong."
+                        id='copy.oops'
+                        defaultMessage='Oops. Something went wrong.'
                       />
                     </Text>
                   ),
                   Loading: () => (
-                    <SkeletonRectangle height="18px" width="70px" />
+                    <SkeletonRectangle height='18px' width='70px' />
                   ),
                   NotAsked: () => (
-                    <SkeletonRectangle height="18px" width="70px" />
+                    <SkeletonRectangle height='18px' width='70px' />
                   )
                 })}
               </Value>
             </Row>
             <Row>
-              <Title>
-                <FormattedMessage id="copy.from" defaultMessage="From" />
+              <Title color='grey600'>
+                <FormattedMessage id='copy.from' defaultMessage='From' />
               </Title>
-              <Value data-e2e="sbOutgoingAccount">{account.label}</Value>
+              <Value data-e2e='sbOutgoingAccount'>{account.label}</Value>
             </Row>
             <Row>
-              <Title>
+              <Title color='grey600'>
+                <FormattedMessage id='copy.to' defaultMessage='To' />
+              </Title>
+              <Value data-e2e='sbIncomingAccount'>
+                {counterCoinTicker} Wallet
+              </Value>
+            </Row>
+            <Row>
+              <Title color='grey600'>
                 <FormattedMessage
-                  id="copy.coin_network_fee"
-                  defaultMessage="{coin} Network Fee"
-                  values={{ coin: coins[BASE].coinTicker }}
+                  id='copy.coin_network_fee'
+                  defaultMessage='Network Fee'
                 />
               </Title>
-              <Value data-e2e="sbTransactionFee">
+              <Value data-e2e='sbTransactionFee'>
                 {account.type === 'CUSTODIAL' ? (
                   <>
                     <>0 {account.baseCoin}</>
                     <div>
                       <FreeCartridge>
                         <FormattedMessage
-                          id="copy.free"
-                          defaultMessage="FREE"
+                          id='copy.free'
+                          defaultMessage='FREE'
                         />
                       </FreeCartridge>
                     </div>
@@ -229,44 +194,81 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     ),
                     Failure: e => e,
                     Loading: () => (
-                      <SkeletonRectangle height="18px" width="70px" />
+                      <SkeletonRectangle height='18px' width='70px' />
                     ),
                     NotAsked: () => (
-                      <SkeletonRectangle height="18px" width="70px" />
+                      <SkeletonRectangle height='18px' width='70px' />
                     )
                   })
                 )}
+              </Value>
+            </Row>
+            <Row>
+              <Title color='grey600'>
+                <FormattedMessage id='copy.total' defaultMessage='Total' />
+              </Title>
+              <Value data-e2e='sbIncomingAmount'>
+                {this.props.incomingAmountR.cata({
+                  Success: val => (
+                    <>
+                      {formatFiat(val.amt)} {counterCoinTicker}
+                    </>
+                  ),
+                  Failure: () => (
+                    <Text size='14px' color='red600'>
+                      <FormattedMessage
+                        id='copy.oops'
+                        defaultMessage='Oops. Something went wrong.'
+                      />
+                    </Text>
+                  ),
+                  Loading: () => (
+                    <SkeletonRectangle height='18px' width='70px' />
+                  ),
+                  NotAsked: () => (
+                    <SkeletonRectangle height='18px' width='70px' />
+                  )
+                })}{' '}
+                ({this.displayAmount(formValues, coins, account)})
               </Value>
             </Row>
             <Border />
             <FlyoutWrapper>
               <Form onSubmit={this.handleSubmit}>
                 <Button
-                  nature="primary"
-                  data-e2e="swapBtn"
-                  type="submit"
+                  nature='primary'
+                  data-e2e='swapBtn'
+                  type='submit'
                   disabled={this.props.submitting}
                   fullwidth
-                  height="48px"
+                  height='48px'
                 >
                   {this.props.submitting ? (
-                    <HeartbeatLoader height="16px" width="16px" color="white" />
+                    <HeartbeatLoader height='16px' width='16px' color='white' />
                   ) : (
-                    <BuyOrSell
-                      orderType={this.props.orderType}
-                      crypto={account.coin}
-                      coinModel={coins[account.coin]}
-                    />
+                    <Text weight={600} color='white'>
+                      <FormattedMessage
+                        id='buttons.sell_coin'
+                        defaultMessage='Sell {displayName}'
+                        values={{
+                          displayName: this.displayAmount(
+                            formValues,
+                            coins,
+                            account
+                          )
+                        }}
+                      />
+                    </Text>
                   )}
                 </Button>
                 <Button
-                  nature="light-red"
-                  data-e2e="swapCancelBtn"
-                  type="button"
+                  nature='light-red'
+                  data-e2e='swapCancelBtn'
+                  type='button'
                   disabled={this.props.submitting}
                   fullwidth
-                  height="48px"
-                  color="red400"
+                  height='48px'
+                  color='red400'
                   style={{ marginTop: '16px' }}
                   onClick={() => {
                     this.props.simpleBuyActions.setStep({
@@ -280,29 +282,29 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   }}
                 >
                   <FormattedMessage
-                    id="buttons.cancel"
-                    defaultMessage="Cancel"
+                    id='buttons.cancel'
+                    defaultMessage='Cancel'
                   />
                 </Button>
                 <Text
-                  size="12px"
+                  size='12px'
                   weight={500}
-                  color="grey600"
+                  color='grey600'
                   style={{ textAlign: 'center', marginTop: '16px' }}
                 >
                   <FormattedMessage
-                    id="copy.swap_amount_change_disclaimer"
-                    defaultMessage="The amounts you send and receive may change slightly due to market activity. Once an order starts, we are unable to stop it."
+                    id='copy.swap_amount_change_disclaimer'
+                    defaultMessage='The amounts you send and receive may change slightly due to market activity. Once an order starts, we are unable to stop it.'
                   />
                 </Text>
                 {this.props.error && (
                   <ErrorCartridge
                     style={{ marginTop: '16px' }}
-                    data-e2e="checkoutError"
+                    data-e2e='checkoutError'
                   >
                     <Icon
-                      name="alert-filled"
-                      color="red600"
+                      name='alert-filled'
+                      color='red600'
                       style={{ marginRight: '4px' }}
                     />
                     Error: {this.props.error}
