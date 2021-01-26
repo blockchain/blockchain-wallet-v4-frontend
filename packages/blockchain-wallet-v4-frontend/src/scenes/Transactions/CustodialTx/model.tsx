@@ -1,5 +1,6 @@
 import { Icon as BCIcon, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
+import { path } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -16,7 +17,13 @@ const Icon = styled(BCIcon)`
   size: 18px;
   font-weight: 600;
 `
+const getSymbolDisplayName = (props: Props) => {
+  return path([props.tx.amount.symbol, 'displayName'], props.supportedCoins)
+}
 
+const getCoinDisplayName = (props: Props) => {
+  return path([props.coin, 'displayName'], props.supportedCoins)
+}
 export const IconTx = (props: Props) => {
   switch (props.tx.state) {
     case 'FINISHED':
@@ -152,18 +159,20 @@ export const Origin = (props: Props) => {
     case 'REFUNDED':
     case 'DEPOSIT':
       return props.tx.amount.symbol in CoinTypeEnum ? (
-        <>{props.coinTicker} Wallet</>
+        <>{getCoinDisplayName(props)} Wallet</>
       ) : (
         <>Bank Account</>
       )
     case 'SELL':
       return props.tx.extraAttributes?.direction === 'FROM_USERKEY' ? (
-        <>{props.tx.amount.symbol} Wallet</>
+        <> {getSymbolDisplayName(props)} Wallet</>
       ) : (
-        <>{props.tx.amount.symbol} Trading Wallet</>
+        <>{getSymbolDisplayName(props)} Trading Wallet</>
       )
     case 'WITHDRAWAL':
-      return <>{props.coinTicker} Wallet</>
+      return (
+        <>{path([props.coin, 'displayName'], props.supportedCoins)} Wallet</>
+      )
     default:
       return <></>
   }
@@ -173,12 +182,12 @@ export const Destination = (props: Props) => {
   switch (props.tx.type) {
     case 'REFUNDED':
     case 'DEPOSIT':
-      return <>{props.coinTicker} Wallet</>
+      return <>{getCoinDisplayName(props)} Wallet</>
     case 'SELL':
-      return <>{props.coinTicker} Wallet</>
+      return <>{getCoinDisplayName(props)} Wallet</>
     case 'WITHDRAWAL':
       return props.tx.amount.symbol in CoinTypeEnum ? (
-        <>{props.tx.amount.symbol} Wallet</>
+        <>{getSymbolDisplayName(props)} Wallet</>
       ) : (
         <>Bank Account</>
       )
