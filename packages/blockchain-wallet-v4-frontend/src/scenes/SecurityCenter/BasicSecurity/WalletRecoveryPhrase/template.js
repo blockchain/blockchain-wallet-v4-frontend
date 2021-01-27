@@ -99,20 +99,15 @@ const WalletRecoveryPhrase = props => {
           <SecuritySummary>
             <SecurityHeader greyOut={isMnemonicVerified}>
               <FormattedMessage
-                id='scenes.securitysettings.basicsecurity.recoveryphrase.title'
-                defaultMessage='Backup Phrase'
+                id='scenes.securitysettings.basicsecurity.seceretphrase.title'
+                defaultMessage='Secret Private Key Recovery Phrase'
               />
             </SecurityHeader>
             <SecurityDescription greyOut={isMnemonicVerified}>
               <span>
                 <FormattedMessage
                   id='scenes.securitysettings.basicsecurity.recoveryphrase.description'
-                  defaultMessage='Your backup phrase contains all of the private keys within your wallet. Please write these 12 words down, in order, and keep them somewhere safe offline. This phrase gives you (or anyone who has it) a way to restore your wallet and access your funds.'
-                />
-                <span>&nbsp;</span>
-                <FormattedMessage
-                  id='scenes.securitysettings.basicsecurity.recoveryphrase.description2'
-                  defaultMessage='In the event that you lose your password or our service is unavailable, this will be your safety net.'
+                  defaultMessage='Your Secret Recovery Phrase is needed to recover your wallet in case the password is lost. Please write these 12 words down, in order, and keep them somewhere safe offline. The secret recovery phrase gives you (or anyone who has it) a way to restore your wallet and access your funds. In the event that you lose your password or our service is unavailable, this will be your safety net.'
                 />
               </span>
             </SecurityDescription>
@@ -120,7 +115,7 @@ const WalletRecoveryPhrase = props => {
               <Text size='14px' weight={500} color='error'>
                 <FormattedMessage
                   id='scenes.securitysettings.basicsecurity.recoveryphrase.warning'
-                  defaultMessage=' Never share this backup phrase with anyone! Blockchain.com will never ask you for this information.'
+                  defaultMessage='Never share your secret phrase with anyone. Blockchain.com will never ask you for this information.'
                 />
               </Text>
             </WarningText>
