@@ -1011,7 +1011,7 @@ type MessagesType = {
   'modals.onboarding.linktoexchangeaccount.na.subtitle-1': "There's a new way to trade. Link your Wallet for instant access. "
   'modals.onboarding.linktoexchangeaccount.success.subtitle-1': 'Your Blockchain Wallet is now connected to Exchange!'
   'modals.onboarding.linktoexchangeaccount.success.title': 'Success!'
-  'modals.pairingcode.title': 'Scan Pairing Code'
+  'modals.pairingcode.title': 'Pairing Code'
   'modals.prompt.button': 'Submit'
   'modals.qrcode.scan': 'Scan QR Code'
   'modals.qrcode.title': 'Request'
@@ -2246,8 +2246,12 @@ type MessagesType = {
   'scenes.settings.general.pairingcode.description': "Scan the code (click on 'Show Pairing Code') with your Blockchain Wallet (iOS or Android) for a seamless connection to your wallet."
   'scenes.settings.general.pairingcode.description2': 'Download our mobile applications below.'
   'scenes.settings.general.pairingcode.settings.show': 'Show Pairing Code'
+  'scenes.settings.general.pairingcode.settings.scan': 'Scan Pairing Code'
   'scenes.settings.general.pairingcode.title': 'Mobile App Pairing Code'
   'scenes.settings.general.pairingcode.warning': 'Do not share your Pairing Code with others.'
+  'scenes.settings.general.pairingcode.warningone': 'Never share your mobile pairing QR code with anyone.'
+  'scenes.settings.general.pairingcode.warningtwo': 'Anyone who can view this QR code can withdraw funds.'
+  'scenes.settings.general.pairingcode.warningthree': 'Blockchain.com will never ask to view or receive your mobile pairing QR code.'
   'scenes.settings.general.privacypolicy.description': 'Read about the privacy and security of your personal information.'
   'scenes.settings.general.privacypolicy.title': 'Privacy Policy'
   'scenes.settings.general.title': 'General Information'
