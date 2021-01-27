@@ -1,7 +1,6 @@
-import { Button, Image, Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
-import { mediaHeight } from 'services/ResponsiveService'
 import { Props } from '../index'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
@@ -18,11 +17,6 @@ const Header = styled.div`
   align-items: center;
   margin-bottom: 40px;
 `
-
-const ContentContainer = styled.div`
-  margin-bottom: 50px;
-`
-
 const ButtonWrapper = styled(FlyoutWrapper)`
   padding-top: 0px;
   display: flex;
@@ -34,16 +28,18 @@ const ButtonWrapper = styled(FlyoutWrapper)`
     margin-bottom: 15px;
   }
 `
-
-const ImageContainer = styled.div`
-  width: 100%;
-  justify-content: center;
+const WarningContent = styled.div`
   display: flex;
-  ${mediaHeight.small`
-    img {
-      max-width: 180px;
-    }
-  `};
+  margin-top: 48px;
+`
+const WarningCircle = styled.div<{ color: string; size: string }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: ${props => props.size};
+  height: ${props => props.size};
+  border-radius: ${props => props.size};
+  background: ${props => props.theme[props.color]};
 `
 
 class RecoveryPhraseIntro extends PureComponent<Props> {
@@ -55,32 +51,78 @@ class RecoveryPhraseIntro extends PureComponent<Props> {
       <Wrapper>
         <FlyoutWrapper>
           <Header>
-            <Text color='grey600' size='20px' weight={600}>
+            <Text color='grey900' size='24px' weight={600}>
               <FormattedMessage
-                id='modals.recoveryphrase.backupyourwallet.header'
-                defaultMessage='Backup Your Wallet'
+                id='scenes.securitysettings.basicsecurity.seceretphrase.title'
+                defaultMessage='Secret Private Key Recovery Phrase'
               />
             </Text>
           </Header>
-          <ContentContainer>
-            <Text color='grey600' weight={500}>
-              <FormattedMessage
-                id='modals.recoveryphrase.backupyourwallet.content.one'
-                defaultMessage='Your backup phrase will allow you to recover your crypto if you lose access to your wallet.'
-              />
-            </Text>
-            <Text color='grey600' weight={500} style={{ marginTop: '30px' }}>
-              <FormattedMessage
-                id='modals.recoveryphrase.backupyourwallet.content.two'
-                defaultMessage='Please write down these 12 words in order and keep them somwhere safe. Never share it with anyone. Your backup phrase is the key to recovering your crypto if you ever lose your password.'
-              />
-            </Text>
-          </ContentContainer>
-          <ImageContainer>
-            <Image name='recover-padlock' width='375px' />
-          </ImageContainer>
-        </FlyoutWrapper>
 
+          <Text color='grey600' size='14px' weight={500}>
+            <FormattedMessage
+              id='modals.recoveryphrase.backupyourwallet.content.subheader'
+              defaultMessage="In crypto, when you hold the private keys, you're in control of the funds in your Private Key Wallet. The downside is that WHOEVER holds your private keys can control your Private Key Wallet."
+            />
+          </Text>
+          <Text
+            color='grey600'
+            size='14px'
+            weight={500}
+            style={{ marginTop: '25px' }}
+            lineHeight='1.5'
+          >
+            <FormattedMessage
+              id='modals.recoveryphrase.backupyourwallet.content.youmust'
+              defaultMessage='So you must:'
+            />
+          </Text>
+          <Text color='grey600' size='14px' weight={500} lineHeight='1.5'>
+            <FormattedMessage
+              id='modals.recoveryphrase.backupyourwallet.content.one'
+              defaultMessage='1. Write down the 12 word phrase on the next screen in the exact order it appears.'
+            />
+          </Text>
+          <Text color='grey600' size='14px' weight={500} lineHeight='1.5'>
+            <FormattedMessage
+              id='modals.recoveryphrase.backupyourwallet.content.two'
+              defaultMessage='2. Keep it safe, ideally on a securely stored piece of paper (in other words, not a digital copy).'
+            />
+          </Text>
+          <Text color='grey600' size='14px' weight={500} lineHeight='1.5'>
+            <FormattedMessage
+              id='modals.recoveryphrase.backupyourwallet.content.three'
+              defaultMessage='3. NEVER share your backup phrase with anyone.'
+            />
+          </Text>
+          <Text
+            color='grey900'
+            size='14px'
+            weight={600}
+            style={{ marginTop: '25px' }}
+            lineHeight='1.5'
+          >
+            <FormattedMessage
+              id='modals.recoveryphrase.backupyourwallet.content.warning1'
+              defaultMessage='Warning: If someone has your backup phrase they will have access to your Private Key Wallet and can withdraw funds.'
+            />
+          </Text>
+          <WarningContent>
+            <WarningCircle color='red100' size='35px'>
+              <WarningCircle color='red400' size='20px'>
+                <Text color='white' size='14px' weight={600}>
+                  !
+                </Text>
+              </WarningCircle>
+            </WarningCircle>
+            <Text color='error' weight={600} style={{ marginLeft: '30px' }}>
+              <FormattedMessage
+                id='modals.recoveryphrase.backupyourwallet.content.warning2'
+                defaultMessage='Blockchain.com will never as to view or receive your recovery phrase.'
+              />
+            </Text>
+          </WarningContent>
+        </FlyoutWrapper>
         <ButtonWrapper>
           <Button
             capitalize
@@ -92,8 +134,8 @@ class RecoveryPhraseIntro extends PureComponent<Props> {
             size='16px'
           >
             <FormattedMessage
-              id='modals.recoveryphrase.backupyourwallet.backupnow'
-              defaultMessage='Backup Now'
+              id='modals.recoveryphrase.backupyourwallet.viewphrase'
+              defaultMessage='View Recovery Phrase'
             />
           </Button>
           <Button
