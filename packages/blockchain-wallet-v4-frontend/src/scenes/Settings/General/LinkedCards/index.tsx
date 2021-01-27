@@ -23,9 +23,11 @@ class LinkedCards extends PureComponent<Props> {
 
   handleCreditCardClick = () => {
     this.props.simpleBuyActions.showModal('SettingsGeneral')
+    this.props.simpleBuyActions.setFiatCurrency(
+      this.props.fiatCurrency || 'USD'
+    )
     this.props.simpleBuyActions.setStep({
-      step: 'CRYPTO_SELECTION',
-      fiatCurrency: this.props.fiatCurrency || 'USD'
+      step: 'ADD_CARD'
     })
   }
 

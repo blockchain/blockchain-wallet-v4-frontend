@@ -365,6 +365,11 @@ export function simpleBuyReducer (
         sddTransactionFinished: true
       }
     }
+    case AT.SET_FIAT_CURRENCY:
+      return {
+        ...state,
+        fiatCurrency: action.payload.fiatCurrency
+      }
     case AT.SET_FAST_LINK:
       return {
         ...state,

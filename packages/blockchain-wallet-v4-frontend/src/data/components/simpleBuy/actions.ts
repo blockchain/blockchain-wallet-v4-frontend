@@ -552,6 +552,15 @@ export const pollSBOrder = (orderId: string) => ({
   }
 })
 
+export const setFiatCurrency = (
+  fiatCurrency: FiatType
+): SimpleBuyActionTypes => ({
+  type: AT.SET_FIAT_CURRENCY,
+  payload: {
+    fiatCurrency
+  }
+})
+
 export const setFastLink = (fastLink: FastLinkType): SimpleBuyActionTypes => ({
   type: AT.SET_FAST_LINK,
   payload: {

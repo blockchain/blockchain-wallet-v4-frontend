@@ -494,6 +494,11 @@ interface SetStepAction {
   type: typeof AT.SET_STEP
 }
 
+interface SetFiatCurrencyAction {
+  payload: { fiatCurrency: FiatType }
+  type: typeof AT.SET_FIAT_CURRENCY
+}
+
 interface SetFastLinkAction {
   payload: { fastLink: FastLinkType }
   type: typeof AT.SET_FAST_LINK
@@ -597,6 +602,7 @@ export type SimpleBuyActionTypes =
   | FetchSDDLimitsSuccess
   | FetchFastLinkType
   | InitializeCheckout
+  | SetFiatCurrencyAction
   | SetFastLinkAction
   | SetStepAction
   | ShowModalAction
