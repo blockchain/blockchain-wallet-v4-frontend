@@ -108,14 +108,14 @@ class RecoveryPhraseIntro extends PureComponent<Props> {
             />
           </Text>
           <WarningContent>
-            <WarningCircle color='red100' size='35px'>
+            <WarningCircle color='red100' size='40px'>
               <WarningCircle color='red400' size='20px'>
                 <Text color='white' size='14px' weight={600}>
                   !
                 </Text>
               </WarningCircle>
             </WarningCircle>
-            <Text color='error' weight={600} style={{ marginLeft: '30px' }}>
+            <Text color='error' weight={600} style={{ marginLeft: '20px' }}>
               <FormattedMessage
                 id='modals.recoveryphrase.backupyourwallet.content.warning2'
                 defaultMessage='Blockchain.com will never as to view or receive your recovery phrase.'
