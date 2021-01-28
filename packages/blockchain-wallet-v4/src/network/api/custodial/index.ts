@@ -75,14 +75,16 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     })
 
   const checkWithdrawalLocks = (
-    paymentMethod: SBPaymentTypes
+    paymentMethod: SBPaymentTypes,
+    currency: WalletFiatType
   ): WithdrawalLockCheckResponseType =>
     authorizedPost({
       url: nabuUrl,
       endPoint: '/payments/withdrawals/locks/check',
       contentType: 'application/json',
       data: {
-        paymentMethod
+        paymentMethod,
+        currency
       }
     })
 
