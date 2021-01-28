@@ -1023,7 +1023,7 @@ type MessagesType = {
   'modals.recoveryphrase.backupyourwallet.content.two': '2. Keep it safe, ideally on a securely stored piece of paper (in other words, not a digital copy).'
   'modals.recoveryphrase.backupyourwallet.content.three': '3. NEVER share your backup phrase with anyone.'
   'modals.recoveryphrase.backupyourwallet.content.warning1': 'Warning: If someone has your backup phrase they will have access to your Private Key Wallet and can withdraw funds.'
-  'modals.recoveryphrase.backupyourwallet.content.warning2': 'Blockchain.com will never as to view or receive your recovery phrase.'
+  'modals.recoveryphrase.backupyourwallet.content.warning2': 'Blockchain.com will never ask to view or receive your recovery phrase.'
   'modals.recoveryphrase.backupyourwallet.later': 'Do This Later'
   'modals.recoveryphrase.confirmwords.body': 'Please enter the words that match the numbers you see below.'
   'modals.recoveryphrase.confirmwords.button': 'Confirm'
