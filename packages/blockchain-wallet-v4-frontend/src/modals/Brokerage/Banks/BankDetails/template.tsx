@@ -96,10 +96,7 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       </FlyoutWrapper>
       <CurrencyContainer>
         <Text color='grey600' size='14px' weight={500}>
-          <FormattedMessage
-            id='modals.brokerage.curency'
-            defaultMessage='Curency'
-          />
+          <FormattedMessage id='copy.currency' defaultMessage='Currency' />
         </Text>
         <Text color='grey800' size='16px' weight={600}>
           {account.currency}

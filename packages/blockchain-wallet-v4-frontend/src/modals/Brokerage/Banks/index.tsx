@@ -4,12 +4,12 @@ import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 
 import { BrokerageStepType } from 'data/types'
-import { ModalPropsType } from '../types'
+import { ModalPropsType } from '../../types'
 import { selectors } from 'data'
-import BankDetails from './BankLink/BankDetails'
+import BankDetails from './BankDetails'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
-import RemoveBank from './BankLink/RemoveBank'
+import RemoveBank from './RemoveBank'
 
 class Brokerage extends PureComponent<Props> {
   state: State = { show: false, direction: 'left' }

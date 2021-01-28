@@ -8,9 +8,8 @@ import { SBCheckoutFormValuesType } from 'data/types'
 
 import * as A from './actions'
 import * as AT from './actionTypes'
+import { DEFAULT_METHODS } from './model'
 
-// TODO: removed this SB dependency
-import { DEFAULT_SB_METHODS } from '../simpleBuy/model'
 // import { FastLinkType } from './types'
 
 export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
@@ -91,7 +90,7 @@ export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
             const sbMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
               yield select()
             )
-            const sbMethods = sbMethodsR.getOrElse(DEFAULT_SB_METHODS)
+            const sbMethods = sbMethodsR.getOrElse(DEFAULT_METHODS)
             if (Remote.Success.is(sbMethodsR) && sbMethods.methods.length) {
               const bankTransferMethod = sbMethods.methods.filter(
                 method => method.type === 'BANK_TRANSFER'

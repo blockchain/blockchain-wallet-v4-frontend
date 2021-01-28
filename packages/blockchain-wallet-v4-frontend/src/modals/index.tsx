@@ -124,7 +124,7 @@ const Swap = React.lazy(() => import('./Swap'))
 const Withdraw = React.lazy(() => import('./Withdraw'))
 
 // BROKERAGE
-const Brokerage = React.lazy(() => import('./Brokerage'))
+const Banks = React.lazy(() => import('./Brokerage/Banks'))
 
 const Modals = () => (
   <Suspense fallback={null}>
@@ -136,7 +136,7 @@ const Modals = () => (
       <BitpayInformational />
       <BitpayInvoiceExpired />
       <Borrow />
-      <Brokerage />
+      <Banks />
       <Confirm />
       <ConfirmDisable2FA />
       <DeleteAddressLabel />

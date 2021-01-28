@@ -45,6 +45,7 @@ export type ModalNamesType =
 
 export type ModalOriginType =
   | 'AirdropClaimGoal'
+  | 'BankDetailsModal'
   | 'BorrowHistorySection'
   | 'BorrowLandingPage'
   | 'EmptyFeed'
@@ -84,7 +85,6 @@ export type ModalOriginType =
   | 'WalletBalanceDropdown'
   | 'WelcomeModal'
   | 'WithdrawModal'
-  | 'BankDetailsModal'
 
 export type ModalParamPropsType = {
   [key: string]: any

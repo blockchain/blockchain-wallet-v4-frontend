@@ -64,10 +64,7 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 onClick={props.onClickBack}
               />
               <Text color='grey800' size='24px' weight={600}>
-                <FormattedMessage
-                  id='modals.brokerage.remove_bank.back'
-                  defaultMessage='Back'
-                />
+                <FormattedMessage id='buttons.back' defaultMessage='Back' />
               </Text>
             </LeftTopCol>
           </TopText>
@@ -110,7 +107,7 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           >
             <FormattedMessage
               id='modals.brokerage.remove_bank.description'
-              defaultMessage="You'e about to remove your {bankAccount}"
+              defaultMessage="You're about to remove your {bankAccount}"
               values={{
                 bankAccount: `${props.account.details?.bankName} ${props.account.details?.accountNumber}`
               }}
