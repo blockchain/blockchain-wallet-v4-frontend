@@ -885,7 +885,7 @@
   "modals.recoveryphrase.backupyourwallet.content.three": "3. NEVER share your backup phrase with anyone.",
   "modals.recoveryphrase.backupyourwallet.content.two": "Please write down these 12 words in order and keep them somwhere safe. Never share it with anyone. Your backup phrase is the key to recovering your crypto if you ever lose your password.",
   "modals.recoveryphrase.backupyourwallet.content.warning1": "Warning: If someone has your backup phrase they will have access to your Private Key Wallet and can withdraw funds.",
-  "modals.recoveryphrase.backupyourwallet.content.warning2": "Blockchain.com will never as to view or receive your recovery phrase.",
+  "modals.recoveryphrase.backupyourwallet.content.warningtwo": "Blockchain.com will never ask to view or receive your recovery phrase.",
   "modals.recoveryphrase.backupyourwallet.content.youmust": "So you must:",
   "modals.recoveryphrase.backupyourwallet.later": "Do This Later",
   "modals.recoveryphrase.backupyourwallet.viewphrase": "View Recovery Phrase",
