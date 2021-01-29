@@ -144,7 +144,7 @@ const getTierStatus = (
 }
 
 const Template: React.FC<Props> = props => {
-  const { userTiers, userData } = props
+  const { userTiers, userData, sddEligible } = props
 
   if (!Array.isArray(userTiers)) {
     return null
@@ -155,7 +155,10 @@ const Template: React.FC<Props> = props => {
   const goldTier = userTiers.find(
     userTier => userTier.index === TIER_TYPES.GOLD
   )
-  const currentTier: number | undefined = path(['tiers', 'current'], userData)
+  const currentTier: number | undefined =
+    sddEligible && sddEligible.tier === TIER_TYPES.SILVER_PLUS
+      ? TIER_TYPES.SILVER_PLUS
+      : path(['tiers', 'current'], userData)
   const isUserGold = currentTier === TIER_TYPES.GOLD
   const isUserVerifiedSilver = currentTier === TIER_TYPES.SILVER || isUserGold
 
@@ -217,7 +220,7 @@ const Template: React.FC<Props> = props => {
           <Text color='grey900' size='14px' weight={500}>
             <FormattedMessage
               id='modals.tradinglimits.silver_subheader'
-              defaultMessage='Swap, Buy & Sell up to {amount}/year.'
+              defaultMessage='Trade up to {amount}/year.'
               values={{
                 amount: fiatToString({
                   value: silverTier.limits.annual,
@@ -284,7 +287,13 @@ const Template: React.FC<Props> = props => {
           </Text>
         </TierDescription>
 
-        {getTierStatus(currentTier, TIER_TYPES.GOLD, goldTier)}
+        {getTierStatus(
+          currentTier === TIER_TYPES.SILVER_PLUS
+            ? TIER_TYPES.SILVER
+            : currentTier,
+          TIER_TYPES.GOLD,
+          goldTier
+        )}
       </ContentItem>
 
       <ContentItem>

@@ -11,8 +11,16 @@ export const getData = (state: RootState) => {
     .getTiers(state)
     .getOrElse({} as UserTierType)
 
-  return lift((userData: ExtractSuccess<typeof userDataR>) => ({
-    userData,
-    userTiers
-  }))(userDataR)
+  const sddEligibleR = selectors.components.simpleBuy.getSddEligible(state)
+
+  return lift(
+    (
+      userData: ExtractSuccess<typeof userDataR>,
+      sddEligible: ExtractSuccess<typeof sddEligibleR>
+    ) => ({
+      userData,
+      userTiers,
+      sddEligible
+    })
+  )(userDataR, sddEligibleR)
 }

@@ -1487,7 +1487,7 @@ type MessagesType = {
   'modals.tradinglimits.silver_description': 'Please verify your email address, add your name, home address and date of birth.'
   'modals.tradinglimits.gold_description': 'You’ll need to verify your identity by uploading an ID and a selfie. Requires Silver Tier Approval'
   'modals.tradinglimits.gold_subheader': 'Earn Interest & trade up to {amount}/day.'
-  'modals.tradinglimits.silver_subheader': 'Swap, Buy & Sell up to {amount}/year.'
+  'modals.tradinglimits.silver_subheader': 'Trade up to {amount}/year.'
   'modals.tradinglimits.unlocked': 'Unlocked'
   'modals.tradinglimits.send_crypto': 'Send Crypto'
   'modals.tradinglimits.receive_crypto': 'Receive Crypto'

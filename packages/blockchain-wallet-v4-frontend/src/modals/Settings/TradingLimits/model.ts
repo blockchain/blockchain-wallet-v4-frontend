@@ -17,8 +17,8 @@ export enum ITEMS {
 
 export const TIERS = {
   [TIER_TYPES.NONE]: {
-    [ITEMS.SEND]: false,
-    [ITEMS.RECEIVE]: false,
+    [ITEMS.SEND]: true,
+    [ITEMS.RECEIVE]: true,
     [ITEMS.SWAP]: false,
     [ITEMS.CASH_ACCOUNT]: false,
     [ITEMS.BUY_WITH_A_CARD]: false,
@@ -27,7 +27,7 @@ export const TIERS = {
   },
   [TIER_TYPES.SILVER]: {
     [ITEMS.SEND]: true,
-    receive: true,
+    [ITEMS.RECEIVE]: true,
     [ITEMS.SWAP]: true,
     [ITEMS.CASH_ACCOUNT]: false,
     [ITEMS.BUY_WITH_A_CARD]: false,
@@ -36,7 +36,7 @@ export const TIERS = {
   },
   [TIER_TYPES.GOLD]: {
     [ITEMS.SEND]: true,
-    receive: true,
+    [ITEMS.RECEIVE]: true,
     [ITEMS.SWAP]: true,
     [ITEMS.CASH_ACCOUNT]: true,
     [ITEMS.BUY_WITH_A_CARD]: true,
@@ -45,7 +45,7 @@ export const TIERS = {
   },
   [TIER_TYPES.SILVER_PLUS]: {
     [ITEMS.SEND]: true,
-    receive: true,
+    [ITEMS.RECEIVE]: true,
     [ITEMS.SWAP]: true,
     [ITEMS.CASH_ACCOUNT]: false,
     [ITEMS.BUY_WITH_A_CARD]: true,
