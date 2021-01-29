@@ -20,7 +20,6 @@ import { connect, ConnectedProps } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { FormGroup, FormLabel } from 'components/Form'
-import { OrangeCartridge } from 'components/Cartridge'
 import { RootState } from 'data/rootReducer'
 import { USER_BLOCKED } from 'data/components/borrow/model'
 import Amount from './Amount'
@@ -48,10 +47,6 @@ const HorizontalBorder = styled.div`
   height: 1px;
   margin: 16px auto 8px auto;
   background-color: ${props => props.theme.grey000};
-`
-
-const CustomOrangeCartridge = styled(OrangeCartridge)<{ show: boolean }>`
-  opacity: ${props => (props.show ? 1 : 0)};
 `
 
 const AbsoluteWarning = styled(Text)`
@@ -86,12 +81,6 @@ class InitBorrowForm extends PureComponent<Props> {
     })
   }
 
-  isDisabled = () => {
-    const offer = this.getOfferForCoin()
-    const userBlocked = this.getIsUserBlocked() === true
-    return !offer || this.props.isDisabled || userBlocked
-  }
-
   initBorrow = () => {
     const offer = this.getOfferForCoin()
     if (!offer) return
@@ -124,20 +113,12 @@ class InitBorrowForm extends PureComponent<Props> {
                   defaultMessage='Collateral'
                 />
               </Text>
-              <CustomOrangeCartridge
-                show={!!this.props.values && this.props.values.coin !== 'BTC'}
-              >
-                <FormattedMessage
-                  id='scenes.initborrow.comingsoon'
-                  defaultMessage='Coming Soon'
-                />
-              </CustomOrangeCartridge>
             </CustomFormLabel>
             <Field component={SelectBoxCoin} name='coin' type='send' />
           </FormGroup>
         </div>
         <Button
-          disabled={this.isDisabled()}
+          disabled
           style={{ marginTop: '16px' }}
           nature='primary'
           fullwidth
@@ -149,27 +130,26 @@ class InitBorrowForm extends PureComponent<Props> {
             defaultMessage='Borrow USD Digital'
           />
         </Button>
-        {this.getIsUserBlocked() && (
-          <AbsoluteWarning size='12px' weight={500} color='grey600'>
-            <Icon name='info' color='grey600' />
-            <div style={{ marginLeft: '8px' }}>
+
+        <AbsoluteWarning size='12px' weight={500} color='grey600'>
+          <Icon name='info' color='grey600' />
+          <div style={{ marginLeft: '8px' }}>
+            <FormattedMessage
+              id='scenes.initborrow.userblocked'
+              defaultMessage='Blockchain Borrow is not available in your country or region at the moment.'
+            />{' '}
+            <Link
+              size='12px'
+              weight={500}
+              href='https://support.blockchain.com/hc/en-us/articles/360040444691-How-it-works'
+            >
               <FormattedMessage
-                id='scenes.initborrow.userblocked'
-                defaultMessage='Blockchain Borrow is not available in your country or region at the moment.'
-              />{' '}
-              <Link
-                size='12px'
-                weight={500}
-                href='https://support.blockchain.com/hc/en-us/articles/360040444691-How-it-works'
-              >
-                <FormattedMessage
-                  id='buttons.learn_more'
-                  defaultMessage='Learn More'
-                />
-              </Link>
-            </div>
-          </AbsoluteWarning>
-        )}
+                id='buttons.learn_more'
+                defaultMessage='Learn More'
+              />
+            </Link>
+          </div>
+        </AbsoluteWarning>
       </CustomBox>
     )
   }
@@ -190,9 +170,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type OwnProps = {
-  isDisabled: boolean
-}
 type LinkStatePropsType = {
   offersR: RemoteDataType<NabuApiErrorType, Array<OfferType>>
   userHistoryR: RemoteDataType<NabuApiErrorType, Array<LoanType>>
@@ -201,7 +178,7 @@ type LinkStatePropsType = {
   }
 }
 
-type Props = OwnProps & ConnectedProps<typeof connector>
+type Props = ConnectedProps<typeof connector>
 
 const enhance = compose<any>(
   reduxForm({ form: 'initBorrow', initialValues: { coin: 'BTC' } }),
