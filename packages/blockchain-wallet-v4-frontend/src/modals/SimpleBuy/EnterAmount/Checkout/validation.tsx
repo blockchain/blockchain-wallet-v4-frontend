@@ -18,7 +18,8 @@ import {
   SBQuoteType,
   SDDLimits,
   SupportedWalletCurrenciesType,
-  SwapQuoteType
+  SwapQuoteType,
+  SwapUserLimitsType
 } from 'core/types'
 import {
   SBCheckoutFormValuesType,
@@ -87,7 +88,8 @@ export const getMaxMin = (
   method?: SBPaymentMethodType,
   account?: SwapAccountType,
   isSddFlow: boolean = false,
-  sddLimit: SDDLimits = SDD_LIMIT
+  sddLimit: SDDLimits = SDD_LIMIT,
+  sddLimits?: SwapUserLimitsType
 ): { CRYPTO: string; FIAT: string } => {
   let quote: SBQuoteType | { quote: SwapQuoteType; rate: number }
   switch (orderType) {
@@ -117,8 +119,25 @@ export const getMaxMin = (
             isSddFlow ? Number(sddLimit.max) : pair.buyMax
           ).toString()
 
-          if (method.type === 'FUNDS' && sbBalances)
-            max = sbBalances[method.currency]?.available || '0'
+          if (
+            method.type === 'FUNDS' &&
+            sbBalances &&
+            sddLimits?.maxPossibleOrder
+          ) {
+            const { available } = sbBalances[method.currency]
+            switch (true) {
+              case !available:
+              default:
+                max = '0'
+                break
+              case available >= sddLimits.maxPossibleOrder:
+                max = sddLimits.maxPossibleOrder
+                break
+              case available < sddLimits.maxPossibleOrder:
+                max = available
+                break
+            }
+          }
 
           const maxFiat = convertBaseToStandard('FIAT', max)
           const maxCrypto = getQuote(quote.pair, quote.rate, 'FIAT', maxFiat)
@@ -273,7 +292,8 @@ export const maximumAmount = (
         method,
         swapAccount,
         isSddFlow,
-        sddLimit
+        sddLimit,
+        sddLimits
       )[allValues.fix]
     )
     ? 'ABOVE_MAX'

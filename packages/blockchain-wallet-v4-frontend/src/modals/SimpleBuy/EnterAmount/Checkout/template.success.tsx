@@ -210,14 +210,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   const limits = props.sddLimit || SDD_LIMIT
   const sddLimit = { ...limits }
-
   if (
     props.sddLimits?.maxPossibleOrder &&
     Number(props.sddLimits.maxPossibleOrder) < Number(props.sddLimit.max)
   ) {
     sddLimit.max = props.sddLimits.maxPossibleOrder
   }
-
   const isDailyLimitExceeded =
     props.sddLimits?.daily?.available &&
     Number(props.sddLimits.daily.available) === 0
@@ -262,7 +260,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       method,
       props.swapAccount,
       props.isSddFlow,
-      sddLimit
+      sddLimit,
+      props.sddLimits
     )[fix]
     const value = convertStandardToBase(conversionCoinType, maxMin)
     props.simpleBuyActions.handleSBSuggestedAmountClick(
