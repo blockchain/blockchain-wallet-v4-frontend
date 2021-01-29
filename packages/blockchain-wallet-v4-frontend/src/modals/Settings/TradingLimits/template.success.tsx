@@ -204,8 +204,9 @@ const Template: React.FC<Props> = props => {
         isClickable={!isUserVerifiedSilver}
         data-e2e={`continueKycTier${TIER_TYPES.SILVER}Btn`}
       >
-        <Image name='tier-silver' size='32px' />
-
+        <div>
+          <Image name='tier-silver' size='32px' />
+        </div>
         <TierDescription>
           <Text color='grey900' size='16px' weight={600}>
             <FormattedMessage
@@ -250,7 +251,9 @@ const Template: React.FC<Props> = props => {
         isClickable={!isUserGold}
         data-e2e={`continueKycTier${TIER_TYPES.GOLD}Btn`}
       >
-        <Image name='tier-gold' size='32px' />
+        <div>
+          <Image name='tier-gold' size='32px' />
+        </div>
         <TierDescription>
           <Text color='grey900' size='16px' weight={600}>
             <FormattedMessage
