@@ -19,6 +19,7 @@ import {
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { Icon, Text } from 'blockchain-info-components'
+import { model } from 'data'
 import { SBCheckoutFormValuesType } from 'data/types'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 
@@ -28,8 +29,7 @@ import {
   getMaxMin,
   getQuote,
   maximumAmount,
-  minimumAmount,
-  SDD_LIMIT_FACTOR
+  minimumAmount
 } from './validation'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { Row } from '../../../Swap/EnterAmount/Checkout'
@@ -39,7 +39,7 @@ import Failure from '../template.failure'
 import IncreaseLimits from './IncreaseLimits'
 import Payment from './Payment'
 
-const SDD_LIMIT = { min: '500', max: '10000' }
+const { LIMIT, LIMIT_FACTOR } = model.components.simpleBuy
 
 const DAILY_LIMIT_MESSAGE = 'User exceeded daily trading limit'
 const WEEKLY_LIMIT_MESSAGE = 'User exceeded weekly trading limit'
@@ -208,17 +208,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const amtError =
     typeof props.formErrors.amount === 'string' && props.formErrors.amount
 
-  const limits = props.sddLimit || SDD_LIMIT
+  const limits = props.sddLimit || LIMIT
   const sddLimit = { ...limits }
   if (
-    props.sddLimits?.maxPossibleOrder &&
-    Number(props.sddLimits.maxPossibleOrder) < Number(props.sddLimit.max)
+    props.limits?.maxPossibleOrder &&
+    Number(props.limits.maxPossibleOrder) < Number(props.sddLimit.max)
   ) {
-    sddLimit.max = props.sddLimits.maxPossibleOrder
+    sddLimit.max = props.limits.maxPossibleOrder
   }
   const isDailyLimitExceeded =
-    props.sddLimits?.daily?.available &&
-    Number(props.sddLimits.daily.available) === 0
+    props.limits?.daily?.available && Number(props.limits.daily.available) === 0
 
   const max: string = getMaxMin(
     'max',
@@ -261,7 +260,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       props.swapAccount,
       props.isSddFlow,
       sddLimit,
-      props.sddLimits
+      props.limits
     )[fix]
     const value = convertStandardToBase(conversionCoinType, maxMin)
     props.simpleBuyActions.handleSBSuggestedAmountClick(
@@ -300,7 +299,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       : amountRowNode.children[amountRowNode.children.length - 1]
     currencyNode.style.fontSize = `${fontSizeNumber * fontRatio}px`
   }
-  const limit = Number(props.sddLimit.max) / SDD_LIMIT_FACTOR
+  const limit = Number(props.sddLimit.max) / LIMIT_FACTOR
   // if user is attempting to send NC ERC20, ensure they have sufficient
   // ETH balance else warn user and disable trade
   const isErc20 = props.supportedCoins[cryptoCurrency].contractAddress

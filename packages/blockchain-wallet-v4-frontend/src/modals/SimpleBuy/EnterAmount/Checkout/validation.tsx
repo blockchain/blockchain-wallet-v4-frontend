@@ -9,6 +9,7 @@ import {
   getCoinFromPair,
   getFiatFromPair
 } from 'data/components/simpleBuy/model'
+import { model } from 'data'
 import {
   PaymentValue,
   SBBalancesType,
@@ -16,7 +17,6 @@ import {
   SBPairType,
   SBPaymentMethodType,
   SBQuoteType,
-  SDDLimits,
   SupportedWalletCurrenciesType,
   SwapQuoteType,
   SwapUserLimitsType
@@ -31,9 +31,7 @@ import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 
 import { Props } from './template.success'
 
-const SDD_LIMIT = { min: '500', max: '10000' }
-
-export const SDD_LIMIT_FACTOR = 100 // we get 10000 from API
+const { LIMIT } = model.components.simpleBuy
 
 export const getQuote = (
   pair: string,
@@ -88,8 +86,8 @@ export const getMaxMin = (
   method?: SBPaymentMethodType,
   account?: SwapAccountType,
   isSddFlow: boolean = false,
-  sddLimit: SDDLimits = SDD_LIMIT,
-  sddLimits?: SwapUserLimitsType
+  sddLimit = LIMIT,
+  limits?: SwapUserLimitsType
 ): { CRYPTO: string; FIAT: string } => {
   let quote: SBQuoteType | { quote: SwapQuoteType; rate: number }
   switch (orderType) {
@@ -122,7 +120,7 @@ export const getMaxMin = (
           if (
             method.type === 'FUNDS' &&
             sbBalances &&
-            sddLimits?.maxPossibleOrder
+            limits?.maxPossibleOrder
           ) {
             const { available } = sbBalances[method.currency]
             switch (true) {
@@ -130,10 +128,10 @@ export const getMaxMin = (
               default:
                 max = '0'
                 break
-              case available >= sddLimits.maxPossibleOrder:
-                max = sddLimits.maxPossibleOrder
+              case Number(available) >= Number(limits.maxPossibleOrder):
+                max = limits.maxPossibleOrder
                 break
-              case available < sddLimits.maxPossibleOrder:
+              case Number(available) < Number(limits.maxPossibleOrder):
                 max = available
                 break
             }
@@ -266,17 +264,17 @@ export const maximumAmount = (
     swapAccount,
     isSddFlow,
     sddLimit,
-    sddLimits
+    limits
   } = restProps
 
   const method = selectedMethod || defaultMethod
   if (!allValues) return
 
   if (
-    sddLimits?.maxPossibleOrder &&
-    Number(sddLimits.maxPossibleOrder) < Number(sddLimit.max)
+    limits?.maxPossibleOrder &&
+    Number(limits.maxPossibleOrder) < Number(sddLimit.max)
   ) {
-    sddLimit.max = sddLimits.maxPossibleOrder
+    sddLimit.max = limits.maxPossibleOrder
   }
 
   return Number(value) >
@@ -293,7 +291,7 @@ export const maximumAmount = (
         swapAccount,
         isSddFlow,
         sddLimit,
-        sddLimits
+        limits
       )[allValues.fix]
     )
     ? 'ABOVE_MAX'

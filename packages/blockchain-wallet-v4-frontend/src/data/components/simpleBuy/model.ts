@@ -10,6 +10,7 @@ import {
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import { convertBaseToStandard } from '../exchange/services'
+import { Limits } from 'core/types'
 import { SBAddCardFormValuesType } from './types'
 import moment from 'moment'
 
@@ -23,6 +24,9 @@ export const DEFAULT_SB_METHODS = {
   currency: 'EUR' as WalletFiatType,
   methods: []
 }
+
+export const LIMIT = { min: '500', max: '10000' } as Limits
+export const LIMIT_FACTOR = 100 // we get 10000 from API
 
 export const SDD_TIER = 3
 
