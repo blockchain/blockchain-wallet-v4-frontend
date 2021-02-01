@@ -87,8 +87,8 @@ const BchImportedAddresses = props => {
                 color='brand-yellow'
               />
               <FormattedMessage
-                id='scenes.settings.addresses.bch.importedaddresses.description'
-                defaultMessage='Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.'
+                id='scenes.settings.addresses.bch.importedaddresses.description1'
+                defaultMessage='Imported funds are not protected by your Secret Private Key Recovery Phrase. To ensure these funds are secured, please transfer them directly into your wallet.'
               />
             </WarningWrapper>
           </SettingDescription>

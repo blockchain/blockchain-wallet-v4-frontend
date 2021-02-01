@@ -91,8 +91,8 @@ class RecoveryPhraseIntro extends PureComponent<Props> {
           </Text>
           <Text color='grey600' size='14px' weight={500} lineHeight='1.5'>
             <FormattedMessage
-              id='modals.recoveryphrase.backupyourwallet.content.three'
-              defaultMessage='3. NEVER share your backup phrase with anyone.'
+              id='modals.recoveryphrase.backupyourwallet.content.three_update'
+              defaultMessage='3. NEVER share your Secret Private Key Recovery Phrase with anyone.'
             />
           </Text>
           <Text
@@ -103,8 +103,8 @@ class RecoveryPhraseIntro extends PureComponent<Props> {
             lineHeight='1.5'
           >
             <FormattedMessage
-              id='modals.recoveryphrase.backupyourwallet.content.warning1'
-              defaultMessage='Warning: If someone has your backup phrase they will have access to your Private Key Wallet and can withdraw funds.'
+              id='modals.recoveryphrase.backupyourwallet.content.warning'
+              defaultMessage='Warning: If someone has your Secret Private Key Recovery Phrase they will have access to your Private Key Wallet and can withdraw funds.'
             />
           </Text>
           <WarningContent>
@@ -117,8 +117,8 @@ class RecoveryPhraseIntro extends PureComponent<Props> {
             </WarningCircle>
             <Text color='error' weight={600} style={{ marginLeft: '20px' }}>
               <FormattedMessage
-                id='modals.recoveryphrase.backupyourwallet.content.warningtwo'
-                defaultMessage='Blockchain.com will never ask to view or receive your recovery phrase.'
+                id='modals.recoveryphrase.backupyourwallet.content.warningtwo_new'
+                defaultMessage='Blockchain.com will never ask to view or receive your Secret Private Key Recovery Phrase.'
               />
             </Text>
           </WarningContent>
@@ -134,8 +134,8 @@ class RecoveryPhraseIntro extends PureComponent<Props> {
             size='16px'
           >
             <FormattedMessage
-              id='modals.recoveryphrase.backupyourwallet.viewphrase'
-              defaultMessage='View Recovery Phrase'
+              id='modals.recoveryphrase.backupyourwallet.viewsecretphrase'
+              defaultMessage='View Secret Private Key Recovery Phrase'
             />
           </Button>
           <Button
