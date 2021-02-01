@@ -23,8 +23,8 @@ const LowEthWarningForErc20 = props => {
       <WarningLeftColumn>
         <WarningHeader size='14px' weight={500} color='orange600'>
           <FormattedMessage
-            id='modals.sendeth.lowethwarningforerc20.title1'
-            defaultMessage='Not Enough ETH'
+            id='modals.sendeth.lowethwarningforerc20.title'
+            defaultMessage='Not Enough ETH in My Ether Wallet'
           />
         </WarningHeader>
         <Text size='13px' weight={400}>
