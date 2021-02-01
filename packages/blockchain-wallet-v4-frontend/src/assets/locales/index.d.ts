@@ -1170,7 +1170,7 @@ type MessagesType = {
   'modals.sendeth.insufficientfundsmessage': 'Insufficient funds'
   'modals.sendeth.lowbalancewarning.title': 'Running low!'
   'modals.sendeth.lowethwarningforerc20.explain1': "You'll need ETH to send your ERC20 Tokens."
-  'modals.sendeth.lowethwarningforerc20.title1': 'Not Enough ETH'
+  'modals.sendeth.lowethwarningforerc20.title': 'Not Enough ETH in My Ether Wallet'
   'modals.sendeth.maximumamountlink.maximum': 'maximum'
   'modals.sendeth.maximumamountmessage': 'Not enough funds. Use'
   'modals.sendeth.maximumfeelink.userecupperlimit': 'Use our recommended upper limit.'
