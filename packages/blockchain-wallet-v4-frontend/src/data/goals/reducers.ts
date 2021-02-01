@@ -31,7 +31,10 @@ export function goalsReducer (state = INITIAL_STATE, action): GoalsState {
       }
     }
     case AT.INITIAL_MODAL_DISPLAYED: {
-      return assoc('initialModalDisplayed', true, state)
+      return {
+        ...state,
+        initialModalDisplayed: true
+      }
     }
     default:
       return state

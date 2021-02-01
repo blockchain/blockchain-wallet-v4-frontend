@@ -46,7 +46,7 @@ const EmailReminder = props => {
   const { onEmailResend, emailReminded, email } = props
 
   return (
-    <React.Fragment>
+    <>
       <ItemWrapper>
         <Icon name='email' color='white' size='24px' />
         <Text
@@ -93,7 +93,7 @@ const EmailReminder = props => {
           </Action>
         </LinkContainer>
       </ItemWrapper>
-    </React.Fragment>
+    </>
   )
 }
 

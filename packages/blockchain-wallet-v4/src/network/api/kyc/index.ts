@@ -1,3 +1,5 @@
+import { SDDEligibleType, SDDVerifiedType } from './types'
+
 export default ({
   nabuUrl,
   get,
@@ -33,31 +35,17 @@ export default ({
       cancelToken
     })
 
-  const fetchOnfidoSDKKey = () =>
-    authorizedGet({
-      url: nabuUrl,
-      endPoint: '/kyc/credentials/ONFIDO',
-      headers: {
-        'x-client-type': 'WEB'
-      }
-    })
-
-  const syncOnfido = (applicantId, isSelfie) => {
-    return authorizedPost({
-      url: nabuUrl,
-      endPoint: '/kyc/verifications',
-      contentType: 'application/json',
-      data: { applicantId },
-      headers: {
-        'x-client-type': isSelfie ? 'WEB' : 'APP'
-      }
-    })
-  }
-
   const fetchUploadData = token =>
     get({
       url: nabuUrl,
       endPoint: `/upload/data/${token}`
+    })
+
+  const fetchSDDEligible = (): SDDEligibleType =>
+    get({
+      url: nabuUrl,
+      endPoint: `/sdd/eligible`,
+      ignoreQueryParams: true
     })
 
   const fetchVeriffUrl = () =>
@@ -130,11 +118,19 @@ export default ({
       data: { coinifyTraderId }
     })
 
+  const fetchSDDVerified = (): SDDVerifiedType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/sdd/verified`,
+      contentType: 'application/json',
+      ignoreQueryParams: true
+    })
+
   return {
     fetchKycAddresses,
     fetchKycConfig,
-    fetchOnfidoSDKKey,
     fetchPreIdvData,
+    fetchSDDEligible,
     fetchTiers,
     fetchUploadData,
     fetchVeriffUrl,
@@ -144,8 +140,8 @@ export default ({
     selectTier,
     sendCoinifyKyc,
     sendDeeplink,
-    syncOnfido,
     syncVeriff,
+    fetchSDDVerified,
     uploadDocuments
   }
 }

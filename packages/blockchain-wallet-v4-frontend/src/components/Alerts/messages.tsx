@@ -509,8 +509,8 @@ export const getAlertContent = (message, data = undefined) => {
     case C.MNEMONIC_VERIFY_SUCCESS:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.mnemonic_verify_success'
-          defaultMessage='Your backup phrase has been verified!'
+          id='components.alerts.mnemonic_verify_success_new'
+          defaultMessage='Your Secret Private Key Recovery Phrase has been verified!'
         />
       )
     case C.MOBILE_CODE_SENT_ERROR:
@@ -1159,10 +1159,18 @@ export const getAlertContent = (message, data = undefined) => {
       )
     case C.LOCKED_WITHDRAW_ERROR:
       return buildMessageTemplate(
-        <FormattedMessage
-          id='copy.error.locked_withdraw_error'
-          defaultMessage='Your crypto will be available to be withdrawn within 3 days.'
-        />
+        data === 0 || data === 1 ? (
+          <FormattedMessage
+            id='modals.withdraw.tooltip_info_day'
+            defaultMessage='The remaining balance will be available to be withdrawn within 1 day.'
+          />
+        ) : (
+          <FormattedMessage
+            id='copy.error.locked_withdraw_error'
+            defaultMessage='Your crypto will be available to be withdrawn within {days} days.'
+            values={data}
+          />
+        )
       )
     default:
       return buildMessageTemplate(

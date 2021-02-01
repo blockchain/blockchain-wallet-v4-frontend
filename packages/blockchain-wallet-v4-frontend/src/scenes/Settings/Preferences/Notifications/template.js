@@ -21,8 +21,8 @@ const Notifications = () => {
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.settings.preferences.notifications.description'
-            defaultMessage='Get notified when you receive bitcoin.'
+            id='scenes.settings.preferences.notifications.desc'
+            defaultMessage='Choose how to get notified when you receive crypto.'
           />
         </SettingDescription>
       </SettingSummary>

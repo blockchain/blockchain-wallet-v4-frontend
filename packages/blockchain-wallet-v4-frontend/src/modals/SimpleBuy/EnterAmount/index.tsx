@@ -19,7 +19,7 @@ import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import Failure from './template.failure'
-import Loading from './template.loading'
+import Loading from '../template.loading'
 import Success from './template.success'
 
 class EnterAmount extends PureComponent<Props> {
@@ -27,8 +27,13 @@ class EnterAmount extends PureComponent<Props> {
     if (this.props.fiatCurrency && !Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
-      this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
+      this.props.simpleBuyActions.fetchSBPairs(
+        this.props.fiatCurrency,
+        this.props.cryptoCurrency
+      )
+      this.props.simpleBuyActions.fetchBankTransferAccounts()
       this.props.simpleBuyActions.fetchSBCards()
+      this.props.simpleBuyActions.fetchSDDEligible()
     }
 
     // data was successful but paymentMethods was DEFAULT_SB_METHODS
@@ -79,6 +84,11 @@ export type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
   fiatCurrency: undefined | FiatType
 }
+export type FailurePropsType = {
+  fiatCurrency: undefined | FiatType
+  simpleBuyActions: typeof actions.components.simpleBuy
+}
+
 export type LinkDispatchPropsType = ReturnType<typeof mapDispatchToProps>
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

@@ -6,13 +6,11 @@ import * as eth from './eth/actionTypes'
 import * as lockbox from './lockbox/actionTypes'
 import * as root from './root/actionTypes'
 import * as userCredentials from './userCredentials/actionTypes'
-import * as whatsNew from './whatsNew/actionTypes'
-import * as xlm from './xlm/actionTypes'
 import * as walletCredentials from './walletCredentials/actionTypes'
+import * as xlm from './xlm/actionTypes'
 
 export {
   root,
-  whatsNew,
   eth,
   buySell,
   contacts,
@@ -20,6 +18,6 @@ export {
   btc,
   lockbox,
   userCredentials,
-  xlm,
-  walletCredentials
+  walletCredentials,
+  xlm
 }

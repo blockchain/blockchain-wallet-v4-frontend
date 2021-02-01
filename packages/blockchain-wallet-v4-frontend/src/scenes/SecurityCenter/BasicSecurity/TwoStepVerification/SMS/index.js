@@ -1,12 +1,12 @@
-import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
-import { getData } from './selectors'
-import Error from './template.error'
-import Loading from './template.loading'
 import React from 'react'
-import Success from './template.success'
+
+import { actions } from 'data'
+
+import { getData } from './selectors'
+import Sms from './template'
 
 class SmsAuthContainer extends React.PureComponent {
   constructor (props) {
@@ -70,11 +70,11 @@ class SmsAuthContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, verificationCode, goBack, ...rest } = this.props
+    const { data, verificationCode, goBack } = this.props
 
     return data.cata({
       Success: value => (
-        <Success
+        <Sms
           data={value}
           handleClick={this.handleClick}
           onSubmit={this.onSubmit}
@@ -84,9 +84,9 @@ class SmsAuthContainer extends React.PureComponent {
           code={verificationCode}
         />
       ),
-      Failure: message => <Error {...rest} message={message} />,
-      Loading: () => <Loading {...rest} />,
-      NotAsked: () => <Loading {...rest} />
+      Failure: () => null,
+      Loading: () => null,
+      NotAsked: () => null
     })
   }
 }

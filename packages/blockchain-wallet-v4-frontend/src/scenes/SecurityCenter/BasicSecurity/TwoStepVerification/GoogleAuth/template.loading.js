@@ -1,15 +1,17 @@
-import { FlatLoader } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
+import React from 'react'
+
+import { FlatLoader } from 'blockchain-info-components'
+
 import {
   SecurityComponent,
   SecurityContainer,
   SecurityDescription,
   SecurityHeader,
   SecuritySummary
-} from 'components/Security'
-import React from 'react'
+} from '../../../components'
 
-const EmailAddress = props => {
+const EmailAddress = () => {
   return (
     <SecurityContainer>
       <SecuritySummary>

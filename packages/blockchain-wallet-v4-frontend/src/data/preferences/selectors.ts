@@ -27,8 +27,6 @@ export const getPriceChart = (state: RootState) => {
 }
 export const getSBCheckoutPreferences = (state: RootState) =>
   state.preferences.sbCheckout
-export const getSBFiatCurrency = (state: RootState) =>
-  state.preferences.sbFiatCurrency
 export const getShowAirdropClaimModal = (state: RootState) =>
   state.preferences.showAirdropClaimModal
 export const getShowInterestInfoBox = (state: RootState) =>

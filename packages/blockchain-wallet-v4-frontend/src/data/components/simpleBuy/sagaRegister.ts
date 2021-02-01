@@ -1,15 +1,28 @@
+import * as A from './actions'
 import * as AT from './actionTypes'
 import { actions, actionTypes } from 'data'
-import { call, put, takeLatest } from 'redux-saga/effects'
+import {
+  call,
+  cancel,
+  fork,
+  put,
+  take,
+  takeEvery,
+  takeLatest
+} from 'redux-saga/effects'
 import sagas from './sagas'
 
+import { Task } from 'redux-saga'
 import profileSagas from '../../modules/profile/sagas'
+
+let pollTask: Task
 
 export default ({ api, coreSagas, networks }) => {
   const simpleBuySagas = sagas({ api, coreSagas, networks })
   const { waitForUserData } = profileSagas({ api, coreSagas, networks })
 
   return function * simpleBuySaga () {
+    yield takeEvery(actionTypes.form.CHANGE, simpleBuySagas.formChanged)
     yield takeLatest(AT.ACTIVATE_SB_CARD, simpleBuySagas.activateSBCard)
     yield takeLatest(AT.ADD_CARD_DETAILS, simpleBuySagas.addCardDetails)
     yield takeLatest(AT.CANCEL_ORDER, simpleBuySagas.cancelSBOrder)
@@ -19,14 +32,26 @@ export default ({ api, coreSagas, networks }) => {
       AT.CONFIRM_CREDIT_CARD_ORDER,
       simpleBuySagas.confirmSBCreditCardOrder
     )
+    yield takeLatest(
+      AT.FETCH_BANK_TRANSFER_ACCOUNTS,
+      simpleBuySagas.fetchBankTransferAccounts
+    )
+    yield takeLatest(
+      AT.FETCH_BANK_TRANSFER_UPDATE,
+      simpleBuySagas.fetchBankTransferUpdate
+    )
     yield takeLatest(AT.FETCH_SB_BALANCES, simpleBuySagas.fetchSBBalances)
     yield takeLatest(AT.DELETE_SB_CARD, simpleBuySagas.deleteSBCard)
+    yield takeLatest(AT.DELETE_SAVED_BANK, simpleBuySagas.deleteSavedBank)
     yield takeLatest(AT.FETCH_SB_CARD, simpleBuySagas.fetchSBCard)
     yield takeLatest(AT.FETCH_SB_CARDS, simpleBuySagas.fetchSBCards)
     yield takeLatest(
       AT.FETCH_SB_FIAT_ELIGIBLE,
       simpleBuySagas.fetchSBFiatEligible
     )
+    yield takeLatest(AT.FETCH_SDD_ELIGIBILITY, simpleBuySagas.fetchSDDEligible)
+    yield takeLatest(AT.FETCH_SDD_VERIFIED, simpleBuySagas.fetchSDDVerified)
+    yield takeLatest(AT.FETCH_SDD_LIMITS, simpleBuySagas.fetchSDDLimits)
     yield takeLatest(AT.FETCH_SB_ORDERS, simpleBuySagas.fetchSBOrders)
     yield takeLatest(AT.FETCH_SB_PAIRS, simpleBuySagas.fetchSBPairs)
     yield takeLatest(
@@ -38,6 +63,7 @@ export default ({ api, coreSagas, networks }) => {
       simpleBuySagas.fetchSBPaymentMethods
     )
     yield takeLatest(AT.FETCH_SB_QUOTE, simpleBuySagas.fetchSBQuote)
+    yield takeLatest(AT.FETCH_FAST_LINK, simpleBuySagas.fetchFastLink)
     yield takeLatest(
       AT.HANDLE_SB_DEPOSIT_FIAT_CLICK,
       simpleBuySagas.handleSBDepositFiatClick
@@ -79,7 +105,19 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.core.data.eth.fetchTransactions('', true))
       yield put(actions.core.data.eth.fetchErc20Transactions('pax', true))
       yield put(actions.core.data.eth.fetchErc20Transactions('usdt', true))
+      yield put(actions.core.data.eth.fetchErc20Transactions('wdgld', true))
       yield put(actions.core.data.xlm.fetchTransactions('', true))
+    })
+
+    // used for sell only now, eventually buy as well
+    // TODO: use swap2 quote for buy AND sell
+    yield takeLatest(AT.START_POLL_SELL_QUOTE, function * (
+      payload: ReturnType<typeof A.startPollSellQuote>
+    ) {
+      if (pollTask && pollTask.isRunning) yield cancel(pollTask)
+      pollTask = yield fork(simpleBuySagas.fetchSellQuote, payload)
+      yield take(AT.STOP_POLL_SELL_QUOTE)
+      yield cancel(pollTask)
     })
   }
 }

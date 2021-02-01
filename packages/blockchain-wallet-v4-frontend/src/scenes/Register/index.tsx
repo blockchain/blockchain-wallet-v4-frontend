@@ -5,17 +5,12 @@ import { formValueSelector } from 'redux-form'
 import React from 'react'
 
 import { actions, selectors } from 'data'
-import { CoinType, SupportedWalletCurrenciesType } from 'core/types'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
+import { SupportedWalletCurrenciesType } from 'core/types'
 
 import Register from './template'
 
-type GoalDataType = {
-  amount: string
-  crypto: CoinType
-  displayName: string
-}
 class RegisterContainer extends React.PureComponent<PropsType, StateType> {
   state = {
     showForm: false

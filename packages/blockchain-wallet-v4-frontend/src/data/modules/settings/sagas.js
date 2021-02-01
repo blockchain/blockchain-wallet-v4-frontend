@@ -89,10 +89,7 @@ export default ({ api, coreSagas }) => {
   const updateMobile = function * (action) {
     try {
       yield call(coreSagas.settings.setMobile, action.payload)
-      const userFlowSupported = (yield select(
-        selectors.modules.profile.userFlowSupported
-      )).getOrElse(false)
-      if (userFlowSupported) yield call(syncUserWithWallet)
+      yield call(syncUserWithWallet)
       yield put(actions.alerts.displaySuccess(C.MOBILE_UPDATE_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateMobile', e))
@@ -114,11 +111,7 @@ export default ({ api, coreSagas }) => {
   const verifyMobile = function * (action) {
     try {
       yield call(coreSagas.settings.setMobileVerified, action.payload)
-
-      const userFlowSupported = (yield select(
-        selectors.modules.profile.userFlowSupported
-      )).getOrElse(false)
-      if (userFlowSupported) yield call(syncUserWithWallet)
+      yield call(syncUserWithWallet)
       yield put(actions.alerts.displaySuccess(C.MOBILE_VERIFY_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'verifyMobile', e))
@@ -142,7 +135,6 @@ export default ({ api, coreSagas }) => {
   const updateCurrency = function * (action) {
     try {
       yield call(coreSagas.settings.setCurrency, action.payload)
-      yield put(actions.preferences.setSBFiatCurrency(action.payload.currency))
       if (!action.payload.hideAlert) {
         yield put(actions.alerts.displaySuccess(C.CURRENCY_UPDATE_SUCCESS))
       }

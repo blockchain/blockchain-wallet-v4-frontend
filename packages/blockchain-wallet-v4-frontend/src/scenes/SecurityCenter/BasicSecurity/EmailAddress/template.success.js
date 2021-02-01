@@ -1,6 +1,12 @@
 /* stylelint-disable */
-import { Button, Text } from 'blockchain-info-components'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { reduxForm } from 'redux-form'
+import React from 'react'
+import styled from 'styled-components'
+
+import { Button, Text } from 'blockchain-info-components'
+import media from 'services/ResponsiveService'
+
 import {
   IconContainer,
   SecurityComponent,
@@ -9,12 +15,8 @@ import {
   SecurityHeader,
   SecurityIcon,
   SecuritySummary
-} from 'components/Security'
-import { reduxForm } from 'redux-form'
+} from '../../components'
 import ChangeEmailSteps from './ChangeEmailSteps'
-import media from 'services/ResponsiveService'
-import React from 'react'
-import styled from 'styled-components'
 
 const EmailExplanation = styled.div``
 const ChangeEmailText = styled(Text)`
@@ -183,7 +185,7 @@ const EmailAddress = props => {
       </IconAndHeaderContainer>
       <EmailSecurityComponent>
         {uiHelper() && !verified ? (
-          <React.Fragment>
+          <>
             <EmailButton nature='primary' onClick={props.handleVerifyClick}>
               <FormattedMessage
                 id='scenes.security.email.settings.updateform.resendemail'
@@ -197,24 +199,23 @@ const EmailAddress = props => {
               data-e2e='changeYourEmailLink'
             >
               <FormattedMessage
-                id='scenes.security.email.upateform.changetext'
-                defaultMessage='Change Your Email'
+                id='scenes.security.email.updateform.change'
+                defaultMessage='Change Email'
               />
             </ChangeEmailText>
-          </React.Fragment>
+          </>
         ) : null}
         {uiHelper() && verified ? (
-          <Text
-            color='blue600'
-            size='13px'
-            style={{ cursor: 'pointer' }}
+          <Button
+            nature='primary'
             onClick={props.handleChangeEmailView}
+            data-e2e='changeEmailButton'
           >
             <FormattedMessage
-              id='scenes.security.email.settings.updateform.changeyouremail'
-              defaultMessage='Change Your Email'
+              id='scenes.security.email.settings.updateform.change'
+              defaultMessage='Change Email'
             />
-          </Text>
+          </Button>
         ) : null}
       </EmailSecurityComponent>
       <FieldsContainer>

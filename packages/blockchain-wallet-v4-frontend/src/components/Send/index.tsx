@@ -7,7 +7,7 @@ import { BlueCartridge } from 'components/Cartridge'
 import { CoinType, CustodialFromType } from 'core/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { FormGroup, FormLabel } from 'components/Form'
-import { WITHDRAWAL_LOCK_TIME_DAYS } from 'data/components/simpleBuy/model'
+import LockTime from './LockTime'
 import media from 'services/ResponsiveService'
 import styled, { css } from 'styled-components'
 
@@ -86,7 +86,7 @@ const customCartridge = css`
   align-items: center;
   font-size: 14px;
 `
-const CustomBlueCartridge = styled(BlueCartridge)`
+export const CustomBlueCartridge = styled(BlueCartridge)`
   ${customCartridge}
 `
 
@@ -112,33 +112,16 @@ export const CustodyToAccountMessage = ({
     account.available
   ).isEqualTo(account.withdrawable)
 
-  const lockTime = WITHDRAWAL_LOCK_TIME_DAYS
-
   switch (true) {
     // all funds are 'locked'
     case isWithdrawableNone && !isAvailableNone:
-      return (
-        <CustomBlueCartridge>
-          <FormattedMessage
-            id='modals.send.firststep.available_in_x_days'
-            defaultMessage='Your {coin} will be available to be withdrawn within {lockTime} days.'
-            values={{ coin, lockTime }}
-          />
-        </CustomBlueCartridge>
-      )
+      return <LockTime coin={coin} />
     case !isWithdrawableNone && !isAvailableEqualToWithdrawable:
       return (
-        <CustomBlueCartridge>
-          <FormattedMessage
-            id='modals.send.firststep.amt_greater_than_custody_withdraw'
-            defaultMessage='Your available balance is {withdrawable} {coin}. The remaining balance will be available to be withdrawn within {lockTime} days.'
-            values={{
-              coin,
-              lockTime,
-              withdrawable: convertBaseToStandard(coin, account.withdrawable)
-            }}
-          />
-        </CustomBlueCartridge>
+        <LockTime
+          coin={coin}
+          withdrawable={convertBaseToStandard(coin, account.withdrawable)}
+        />
       )
     default:
       return (

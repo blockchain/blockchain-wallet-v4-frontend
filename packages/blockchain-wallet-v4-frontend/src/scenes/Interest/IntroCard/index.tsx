@@ -30,6 +30,15 @@ const IconWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
 `
+const IneligibleBanner = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 5%;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+`
 
 class IntroCard extends PureComponent<
   ParentStateType & Props & SuccessStateType
@@ -45,6 +54,28 @@ class IntroCard extends PureComponent<
       userData
     } = this.props
     const highestRate = interestRateArray.reduce((a, b) => Math.max(a, b))
+
+    if (!isGoldTier && userData.kycState === 'REJECTED') {
+      return (
+        <IneligibleBanner>
+          <div>
+            <Icon name='alert-filled' color='error' size='40px' />
+          </div>
+          <Text
+            size='16px'
+            color='grey800'
+            weight={600}
+            style={{ marginTop: '16px' }}
+          >
+            <FormattedMessage
+              id='scenes.interest.ineligible'
+              defaultMessage='You are not currently eligible to use this feature.'
+            />
+          </Text>
+        </IneligibleBanner>
+      )
+    }
+
     return (
       showInterestInfoBox && (
         <BoxStyled>
@@ -138,9 +169,7 @@ class IntroCard extends PureComponent<
                 data-e2e='verifyIdentityBorrow'
                 style={{ marginTop: '20px' }}
                 disabled={userData.kycState !== 'NONE'}
-                onClick={() =>
-                  idvActions.verifyIdentity(2, false, 'InterestPage')
-                }
+                onClick={() => idvActions.verifyIdentity(2, false)}
               >
                 {userData.kycState === 'UNDER_REVIEW' ||
                 userData.kycState === 'PENDING' ? (

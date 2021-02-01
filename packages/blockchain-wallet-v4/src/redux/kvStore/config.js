@@ -13,7 +13,7 @@ export const WALLET_CREDENTIALS = 'walletCredentials'
 
 export const derivationMap = {
   [ROOT]: -1,
-  [WHATSNEW]: 2,
+  [WHATSNEW]: 2, // TODO: Deprecate
   [BUYSELL]: 3,
   [CONTACTS]: 4,
   [ETH]: 5,

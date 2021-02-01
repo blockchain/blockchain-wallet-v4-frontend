@@ -1,4 +1,4 @@
-import QRCodeWrapper from 'components/QRCodeWrapper'
+import QRCodeWrapper from 'components/QRCode/Wrapper'
 import React from 'react'
 
 const PairingCode = props => {

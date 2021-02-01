@@ -41,7 +41,7 @@ const Default = {
   green100: '#D1F0DB',
   green200: '#AEE6CA',
   green300: '#8BDCB3',
-  green400: '#17CE73',
+  green400: '#17CF73',
   green500: '#00B26B',
   green600: '#00994C',
   green700: '#006633',
@@ -106,6 +106,8 @@ const Default = {
   'xlm-light': 'rgba(0, 0, 0, 0.15)',
   usdt: '#26A17B',
   'usdt-light': 'rgba(38, 161, 123, 0.15)',
+  wdgld: '#353F52',
+  'wdgld-light': 'rgba(255, 231, 56, 0.15)',
   // OLD - AVOID USE \\
   // Brand
   'brand-yellow': '#FFB266',

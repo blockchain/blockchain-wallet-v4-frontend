@@ -49,7 +49,8 @@ export enum CoinTypeEnum {
   XLM,
   ALGO,
   PAX,
-  USDT
+  USDT,
+  WDGLD
 }
 export enum FiatTypeEnum {
   EUR,
@@ -100,18 +101,17 @@ export type BtcAccountType = {
   index: number
   label: string
   network: 'mainnet' | 'testnet'
-  type: 'ACCOUNT'
+  type: 'ACCOUNT' | 'CUSTODIAL'
   xpub: string
 }
 
 export type AccountTypes = BtcAccountType
 
 export * from './WalletPayload'
-
 export * from '../redux/payment/types'
 export * from '../redux/settings/'
 export * from '../redux/data/misc/types'
-export * from '../redux/data/simpleBuy/types'
+export * from '../redux/data/custodial/types'
 export * from '../redux/walletOptions/types'
 export * from '../network/api/eth/types'
 export * from '../network/api/borrow/types'
@@ -119,6 +119,8 @@ export * from '../network/api/custodial/types'
 export * from '../network/api/interest/types'
 export * from '../network/api/misc/types'
 export * from '../network/api/simpleBuy/types'
+export * from '../network/api/kyc/types'
+export * from '../network/api/swap/types'
 export * from '../exchange/currencies'
 export * from '../network/types'
 export * from '../remote/types'

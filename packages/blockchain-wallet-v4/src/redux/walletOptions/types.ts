@@ -15,7 +15,16 @@ export type SupportedCoinType = {
   }
   coinCode: CoinType
   coinTicker: CoinType
-  colorCode: 'algo' | 'btc' | 'bch' | 'eth' | 'xlm' | 'pax' | 'stx' | 'usdt'
+  colorCode:
+    | 'algo'
+    | 'btc'
+    | 'bch'
+    | 'eth'
+    | 'xlm'
+    | 'pax'
+    | 'stx'
+    | 'usdt'
+    | 'wdgld'
   config: {
     network: string
   }

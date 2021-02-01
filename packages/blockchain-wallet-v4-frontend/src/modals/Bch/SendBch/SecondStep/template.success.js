@@ -155,12 +155,12 @@ const Success = props => {
             />
           </Text>
           <ExchangeAmounts>
-            <SummaryExchangeAmount>
+            <SummaryExchangeAmount data-e2e={`${coin}SendTotal`}>
               <FiatDisplay coin={coin} size='16px' weight={500}>
                 {total}
               </FiatDisplay>
             </SummaryExchangeAmount>
-            <SummarySubExchangeAmount>
+            <SummarySubExchangeAmount data-e2e={`${coin}SendSubTotal`}>
               <CoinDisplay coin={coin} size='14px' weight={300}>
                 {total}
               </CoinDisplay>

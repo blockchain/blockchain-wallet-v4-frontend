@@ -11,9 +11,14 @@ import {
   HeartbeatLoader,
   Icon,
   Link,
-  Text
+  Text,
+  TextGroup
 } from 'blockchain-info-components'
-import { CoinType, SupportedWalletCurrenciesType } from 'core/types'
+import {
+  CoinType,
+  SupportedWalletCurrenciesType,
+  WalletFiatType
+} from 'core/types'
 import { GoalsType } from 'data/goals/types'
 import media from 'services/ResponsiveService'
 
@@ -223,54 +228,60 @@ const SignupCard = ({
           <CardInfo>
             <InfoTitle color='grey800' size='18px' weight={600}>
               <FormattedMessage
-                id='scenes.register.walletcard.infotitle'
-                defaultMessage='Be your own bank.'
+                id='scenes.register.walletcard.infotitleuppercase'
+                defaultMessage='Be Your Own Bank'
               />
             </InfoTitle>
 
             <InfoItem>
-              <Text color='grey800' size='16px' weight={600}>
-                <FormattedMessage
-                  id='scenes.register.walletcard.item.1.bold'
-                  defaultMessage='Easily buy and sell'
-                />
-              </Text>
-              <Text color='grey600' size='16px' weight={500}>
-                <FormattedMessage
-                  id='scenes.register.walletcard.item.1.regular'
-                  defaultMessage='Bitcoin, Ether, and more.'
-                />
-              </Text>
+              <TextGroup inline>
+                <Text color='grey800' size='16px' weight={600}>
+                  <FormattedMessage
+                    id='scenes.register.walletcard.item.1.bold'
+                    defaultMessage='Easily buy and sell'
+                  />
+                </Text>
+                <Text color='grey600' size='16px' weight={500}>
+                  <FormattedMessage
+                    id='scenes.register.walletcard.item.1.regular1'
+                    defaultMessage='Bitcoin, Ether and more.'
+                  />
+                </Text>
+              </TextGroup>
             </InfoItem>
 
             <InfoItem>
-              <Text color='grey800' size='16px' weight={600}>
-                <FormattedMessage
-                  id='scenes.register.walletcard.item.2.bold'
-                  defaultMessage='Securely store your'
-                />
-              </Text>
-              <Text color='grey600' size='16px' weight={500}>
-                <FormattedMessage
-                  id='scenes.register.walletcard.item.2.regular'
-                  defaultMessage='crypto on mobile and desktop.'
-                />
-              </Text>
+              <TextGroup inline>
+                <Text color='grey800' size='16px' weight={600}>
+                  <FormattedMessage
+                    id='scenes.register.walletcard.item.2.bold'
+                    defaultMessage='Securely store your'
+                  />
+                </Text>
+                <Text color='grey600' size='16px' weight={500}>
+                  <FormattedMessage
+                    id='scenes.register.walletcard.item.2.regular'
+                    defaultMessage='crypto on mobile and desktop.'
+                  />
+                </Text>
+              </TextGroup>
             </InfoItem>
 
             <InfoItem>
-              <Text color='grey800' size='16px' weight={600}>
-                <FormattedMessage
-                  id='scenes.register.walletcard.item.3.bold'
-                  defaultMessage='Control your money'
-                />
-              </Text>
-              <Text color='grey600' size='16px' weight={500}>
-                <FormattedMessage
-                  id='scenes.register.walletcard.item.3.regular'
-                  defaultMessage='by holding your private keys.'
-                />
-              </Text>
+              <TextGroup inline>
+                <Text color='grey800' size='16px' weight={600}>
+                  <FormattedMessage
+                    id='scenes.register.walletcard.item.3.bold'
+                    defaultMessage='Control your money'
+                  />
+                </Text>
+                <Text color='grey600' size='16px' weight={500}>
+                  <FormattedMessage
+                    id='scenes.register.walletcard.item.3.regular'
+                    defaultMessage='by holding your private keys.'
+                  />
+                </Text>
+              </TextGroup>
             </InfoItem>
           </CardInfo>
         )}
@@ -323,19 +334,20 @@ const SignupCard = ({
       <LinkContainer to='/login'>
         <Link>
           <SubCard>
-            <Text size='14px' color='whiteFade600' weight={500}>
+            <Text size='14px' color='white' weight={500}>
               <FormattedMessage
                 id='scenes.register.wallet.link'
                 defaultMessage='Already have a wallet?'
               />
             </Text>
             &nbsp;
-            <SignInText color='whiteFade900' size='14px' weight={500}>
+            <SignInText color='white' size='14px' weight={500}>
               <FormattedMessage
                 id='scenes.register.wallet.signin'
                 defaultMessage='Sign In'
               />
             </SignInText>
+            <Icon size='18px' color='white' name='arrow-right' />
           </SubCard>
         </Link>
       </LinkContainer>
@@ -346,7 +358,8 @@ const SignupCard = ({
 export type GoalDataType = {
   amount: string
   crypto: CoinType
-  displayName: string
+  email?: string
+  fiatCurrency: WalletFiatType
 }
 
 const Register = (props: InjectedFormProps<{}, Props> & Props) => {
@@ -454,48 +467,54 @@ const Register = (props: InjectedFormProps<{}, Props> & Props) => {
               </InfoTitle>
 
               <InfoItem>
-                <Text color='grey800' size='16px' weight={600}>
-                  <FormattedMessage
-                    id='scenes.register.exchangecard.item.1.bold'
-                    defaultMessage='Lightning-fast trades'
-                  />
-                </Text>
-                <Text color='grey600' size='16px' weight={500}>
-                  <FormattedMessage
-                    id='scenes.register.exchangecard.item.1.regular'
-                    defaultMessage='mean you get the best price.'
-                  />
-                </Text>
+                <TextGroup inline>
+                  <Text color='grey800' size='16px' weight={600}>
+                    <FormattedMessage
+                      id='scenes.register.exchangecard.item.1.bold'
+                      defaultMessage='Lightning-fast trades'
+                    />
+                  </Text>
+                  <Text color='grey600' size='16px' weight={500}>
+                    <FormattedMessage
+                      id='scenes.register.exchangecard.item.1.regular'
+                      defaultMessage='mean you get the best price.'
+                    />
+                  </Text>
+                </TextGroup>
               </InfoItem>
 
               <InfoItem>
-                <Text color='grey800' size='16px' weight={600}>
-                  <FormattedMessage
-                    id='scenes.register.exchangecard.item.2.bold'
-                    defaultMessage='Over 20 trading pairs'
-                  />
-                </Text>
-                <Text color='grey600' size='16px' weight={500}>
-                  <FormattedMessage
-                    id='scenes.register.exchangecard.item.2.regular'
-                    defaultMessage='including USD, GBP, and EUR.'
-                  />
-                </Text>
+                <TextGroup inline>
+                  <Text color='grey800' size='16px' weight={600}>
+                    <FormattedMessage
+                      id='scenes.register.exchangecard.item.2.bold1'
+                      defaultMessage='Many trading pairs'
+                    />
+                  </Text>
+                  <Text color='grey600' size='16px' weight={500}>
+                    <FormattedMessage
+                      id='scenes.register.exchangecard.item.2.regular1'
+                      defaultMessage='including USD, GBP and EUR.'
+                    />
+                  </Text>
+                </TextGroup>
               </InfoItem>
 
               <InfoItem>
-                <Text color='grey800' size='16px' weight={600}>
-                  <FormattedMessage
-                    id='scenes.register.exchangecard.item.3.bold'
-                    defaultMessage='Control your money'
-                  />
-                </Text>
-                <Text color='grey600' size='16px' weight={500}>
-                  <FormattedMessage
-                    id='scenes.register.exchangecard.item.3.regular'
-                    defaultMessage='by connecting your Wallet.'
-                  />
-                </Text>
+                <TextGroup inline>
+                  <Text color='grey800' size='16px' weight={600}>
+                    <FormattedMessage
+                      id='scenes.register.exchangecard.item.3.bold'
+                      defaultMessage='Control your money'
+                    />
+                  </Text>
+                  <Text color='grey600' size='16px' weight={500}>
+                    <FormattedMessage
+                      id='scenes.register.exchangecard.item.3.regular'
+                      defaultMessage='by connecting your Wallet.'
+                    />
+                  </Text>
+                </TextGroup>
               </InfoItem>
             </CardInfo>
             <Link
@@ -522,14 +541,6 @@ const Register = (props: InjectedFormProps<{}, Props> & Props) => {
               </ExchangeButton>
             </Link>
           </Card>
-          <SubCard>
-            <Text size='14px' color='whiteFade600' weight={500}>
-              <FormattedMessage
-                id='scenes.register.exchange.subcard'
-                defaultMessage='You will be taken to our trading experience to continue sign up.'
-              />
-            </Text>
-          </SubCard>
         </CardWrapper>
       </CardsWrapper>
     </SignupWrapper>

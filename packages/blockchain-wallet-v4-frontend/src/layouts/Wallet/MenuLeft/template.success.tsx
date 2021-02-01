@@ -46,7 +46,6 @@ const Overflow = styled.div`
 
 const MenuLeft = (props: Props) => {
   const isLaptop = useMedia('laptop')
-
   return (
     <Container toggled={props.menuOpened}>
       {!isLaptop && <Balances />}

@@ -107,7 +107,7 @@ describe('App Store Config', () => {
     // assertions
     // wallet options
     expect(fetch.mock.calls.length).toEqual(1)
-    expect(fetch.mock.calls[0][0]).toEqual('/Resources/wallet-options-v4.json')
+    expect(fetch.mock.calls[0][0]).toEqual('/wallet-options-v4.json')
     // socket registration
     expect(Socket.mock.calls.length).toEqual(1)
     expect(Socket.mock.calls[0][0]).toEqual({

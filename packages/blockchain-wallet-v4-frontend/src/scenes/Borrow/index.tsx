@@ -23,10 +23,6 @@ class Borrow extends PureComponent<Props, State> {
   state: State = { isDisabled: true }
 
   componentDidMount () {
-    if (!this.props.invitationsR.getOrElse({ borrow: false }).borrow) {
-      this.props.routerActions.push('/home')
-    }
-
     this.props.borrowActions.fetchBorrowOffers()
     this.checkUserData()
   }
@@ -84,7 +80,6 @@ class Borrow extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  invitationsR: selectors.core.settings.getInvitations(state),
   userDataR: selectors.modules.profile.getUserData(state)
 })
 
@@ -99,7 +94,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 type LinkStatePropsType = {
-  invitationsR: RemoteDataType<string | Error, { [key in string]: boolean }>
   userDataR: RemoteDataType<NabuApiErrorType, UserDataType>
 }
 export type Props = ConnectedProps<typeof connector>

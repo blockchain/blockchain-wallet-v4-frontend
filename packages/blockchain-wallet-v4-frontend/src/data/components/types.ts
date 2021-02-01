@@ -12,11 +12,11 @@ export type ComponentsActionTypes =
   | SimpleBuyActionTypes
 
 export * from './borrow/types'
-export * from './exchange/types'
 export * from './identityVerification/types'
 export * from './interest/types'
 export * from './recoveryPhrase/types'
 export * from './sendBch/types'
 export * from './sendBtc/types'
 export * from './simpleBuy/types'
+export * from './swap/types'
 export * from './withdraw/types'

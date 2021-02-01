@@ -27,7 +27,7 @@ const DarkTheme: DefaultTheme = {
   grey600: '#677185',
   grey700: lighten(0.1, '#50596B'),
   grey800: lighten(0.1, '#B1B8C7'),
-  grey900: '#121D33',
+  grey900: lighten(0.15, '#121D33'),
   blue000: '#ECF5FE',
   blue100: '#D8EBFD',
   blue200: '#BBDBFC',
@@ -107,6 +107,8 @@ const DarkTheme: DefaultTheme = {
   'xlm-light': 'rgba(0, 0, 0, 0.15)',
   usdt: '#26A17B',
   'usdt-light': 'rgba(38, 161, 123, 0.15)',
+  wdgld: '#ffe738',
+  'wdgld-light': 'rgba(255, 231, 56, 0.15)',
   // OLD - AVOID USE \\
   // Brand
   'brand-yellow': '#665227',

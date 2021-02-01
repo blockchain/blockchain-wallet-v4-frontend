@@ -1,14 +1,17 @@
-import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import React, { memo } from 'react'
+import styled from 'styled-components'
+
+import { actions } from 'data'
+
 import { getData } from './selectors'
+import BuyCrypto from './BuyCrypto'
+import ContinueToGold from './ContinueToGold'
 import FinishKyc from './FinishKyc'
 import KycResubmit from './KycResubmit'
-import NoneKyc from './NoneKyc'
-import React from 'react'
+import NewCurrency from './NewCurrency'
 import SBOrderBanner from './SBOrderBanner'
-import styled from 'styled-components'
-import VerifiedKyc from './VerifiedKyc'
 
 const BannerWrapper = styled.div`
   margin-bottom: 25px;
@@ -18,6 +21,7 @@ const BannerWrapper = styled.div`
 class Banners extends React.PureComponent<Props> {
   componentDidMount () {
     this.props.simpleBuyActions.fetchSBOrders()
+    this.props.simpleBuyActions.fetchSDDEligible()
   }
 
   render () {
@@ -42,16 +46,22 @@ class Banners extends React.PureComponent<Props> {
             <SBOrderBanner />
           </BannerWrapper>
         )
-      case 'noneKyc':
+      case 'newCurrency':
         return (
           <BannerWrapper>
-            <NoneKyc />
+            <NewCurrency />
           </BannerWrapper>
         )
-      case 'verifiedKyc':
+      case 'buyCrypto':
         return (
           <BannerWrapper>
-            <VerifiedKyc />
+            <BuyCrypto />
+          </BannerWrapper>
+        )
+      case 'continueToGold':
+        return (
+          <BannerWrapper>
+            <ContinueToGold />
           </BannerWrapper>
         )
       default:
@@ -70,4 +80,4 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector>
 
-export default connector(Banners)
+export default connector(memo(Banners))

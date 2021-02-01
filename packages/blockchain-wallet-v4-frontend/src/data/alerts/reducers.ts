@@ -9,7 +9,7 @@ export function alertsReducer (state = INITIAL_STATE, action) {
 
   switch (type) {
     case ALERTS_CLEAR: {
-      return INITIAL_STATE
+      return []
     }
     case ALERTS_DISMISS: {
       const { id } = payload

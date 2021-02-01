@@ -1,8 +1,7 @@
 import * as AT from './actionTypes'
 
 export type ModalNamesType =
-  | '@EXCHANGE.ETH_AIRDROP_MODAL'
-  | '@EXCHANGE.RESULTS_MODAL'
+  | '@KYC.IdentityVerification'
   | '@MODAL.REQUEST.BCH'
   | '@MODAL.REQUEST.BTC'
   | '@MODAL.REQUEST.ETH'
@@ -24,9 +23,9 @@ export type ModalNamesType =
   | 'ImportBtcAddress'
   | 'INTEREST_MODAL'
   | 'KycDocResubmit'
+  | 'KycTierUpgrade'
   | 'LinkFromExchangeAccount'
   | 'LinkToExchangeAccount'
-  | 'Onfido'
   | 'PairingCode'
   | 'RECOVERY_PHRASE_MODAL'
   | 'ShowBtcPrivateKey'
@@ -34,15 +33,13 @@ export type ModalNamesType =
   | 'ShowXPub'
   | 'SignMessage'
   | 'SIMPLE_BUY_MODAL'
-  | 'SunRiverWelcome'
+  | 'SWAP_MODAL'
   | 'SwapGetStarted'
-  | 'SwapUpgrade'
   | 'TRANSACTION_REPORT'
   | 'TransferEth'
   | 'UpgradeForAirdrop'
   | 'VerifyMessage'
   | 'WELCOME_MODAL'
-  | 'WHATS_NEW_MODAL'
   | 'WITHDRAWAL_MODAL'
 
 export type ModalOriginType =
@@ -64,6 +61,7 @@ export type ModalOriginType =
   | 'RunKycGoal'
   | 'SBEnterAmountCheckout'
   | 'SBPaymentMethodSelection'
+  | 'SellEmpty'
   | 'Send'
   | 'SendBch'
   | 'SendBtc'
@@ -75,13 +73,15 @@ export type ModalOriginType =
   | 'SettingsProfile'
   | 'SideNav'
   | 'SimpleBuyLink'
+  | 'Swap'
   | 'SwapGetStarted'
+  | 'SwapPrompt'
+  | 'SwapLimitPrompt'
   | 'TheExchangePage'
   | 'TransactionList'
   | 'Unknown'
   | 'WalletBalanceDropdown'
   | 'WelcomeModal'
-  | 'WhatsNewHeader'
   | 'WithdrawModal'
 
 export type ModalParamPropsType = {
@@ -104,6 +104,9 @@ interface CloseAllModals {
 }
 
 interface CloseModal {
+  payload: {
+    modalName?: ModalNamesType
+  }
   type: typeof AT.CLOSE_MODAL
 }
 

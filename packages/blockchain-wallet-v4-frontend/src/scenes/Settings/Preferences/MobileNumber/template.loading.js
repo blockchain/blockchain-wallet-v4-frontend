@@ -9,7 +9,7 @@ import {
 } from 'components/Setting'
 import React from 'react'
 
-const MobileNumber = props => {
+const MobileNumber = () => {
   return (
     <SettingContainer>
       <SettingSummary>

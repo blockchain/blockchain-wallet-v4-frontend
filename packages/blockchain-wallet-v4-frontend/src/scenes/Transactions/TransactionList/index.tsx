@@ -1,5 +1,6 @@
 import {
   CoinType,
+  FiatSBAndSwapTransactionType,
   FiatType,
   ProcessedTxType,
   RemoteDataType,
@@ -15,6 +16,7 @@ import CustodialTxListItem from '../CustodialTx'
 import Loading from './template.loading'
 import NonCustodialTxListItem from '../NonCustodialTx'
 import SimpleBuyListItem from '../SBOrderTx'
+import SwapOrderTx from '../SwapOrderTx'
 
 // width: 99%; to prevent scrolling weirdness
 const TransactionsWrapper = styled.div`
@@ -43,10 +45,15 @@ class TransactionList extends PureComponent<Props> {
                 coinTicker={coinTicker}
                 currency={currency}
               />
+            ) : 'priceFunnel' in tx ? (
+              <SwapOrderTx order={tx} coin={coin as CoinType} />
             ) : 'pair' in tx ? (
               <SimpleBuyListItem order={tx} />
             ) : (
-              <CustodialTxListItem tx={tx} {...this.props} />
+              <CustodialTxListItem
+                tx={tx as FiatSBAndSwapTransactionType}
+                {...this.props}
+              />
             )
           })}
         </TransactionsWrapper>

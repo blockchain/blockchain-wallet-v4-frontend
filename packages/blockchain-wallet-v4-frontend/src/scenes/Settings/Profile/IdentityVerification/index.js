@@ -1,76 +1,33 @@
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
-import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import {
-  Image,
-  Text,
-  TooltipHost,
-  TooltipIcon
-} from 'blockchain-info-components'
-import { KYC_STATES } from 'data/modules/profile/model'
 import { pathOr, propEq } from 'ramda'
-import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
+
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { Image, Text } from 'blockchain-info-components'
+import { KYC_STATES } from 'data/modules/profile/model'
+import media from 'services/ResponsiveService'
 import TierCard from 'components/IdentityVerification/TierCard'
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  height: auto;
-  box-sizing: border-box;
-`
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: flex-start;
   width: 100%;
   height: auto;
-
-  ${media.atLeastLaptop`
-    flex-direction: row;
-    justify-content: flex-start;
-    width: 100%;
-  `}
-`
-const Column = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: auto;
   box-sizing: border-box;
-
-  ${media.atLeastLaptop`
-    width: ${props => props.width || 'auto'};
-  `}
 `
 const Row = styled.div`
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
   margin-bottom: 15px;
   flex-wrap: wrap;
-
-  &:not(:last-child) {
-    max-width: 416px;
-    margin-right: 40px;
-    margin-top: 16px;
-  }
-
-  ${media.atLeastLaptop`
-    flex-direction: row;
-    min-height: 100%;
-    width: ${props => props.width || '100%'};
-    margin-bottom: 0;
-  `}
 `
-
 const SwapText = styled(Text)`
   margin-bottom: 10px;
   a {
@@ -78,7 +35,6 @@ const SwapText = styled(Text)`
     text-decoration: none;
   }
 `
-
 const TierWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -113,75 +69,74 @@ const IdentityVerification = ({ userData, userTiers }) => {
 
   return (
     <Wrapper>
-      <Container>
-        <Row width='40%'>
-          <Column>
-            <SwapText size='20px' color='textBlack' weight={500}>
-              <FormattedMessage
-                id='scenes.profile.identityverification.tradingtitle'
-                defaultMessage='Trading Limits'
-              />
-            </SwapText>
-            <SwapText size='14px' weight={400}>
-              <FormattedMessage
-                id='scenes.profile.identityverification.swaplimit.tradelimit'
-                defaultMessage='Your trading limits are how much you can trade each day. That includes Swap and Buy transactions. Limits are necessary for compliance and fraud prevention.'
-              />
-            </SwapText>
-            <LearnMoreContainer>
-              <SwapText size='13px' color='textBlack'>
+      <Row>
+        <SwapText
+          size='18px'
+          color='black'
+          weight={500}
+          style={{ width: '100%' }}
+        >
+          <FormattedMessage
+            id='scenes.profile.identityverification.tradingtitle'
+            defaultMessage='Trading Limits'
+          />
+        </SwapText>
+        <SwapText
+          color='grey800'
+          size='14px'
+          weight={400}
+          style={{ width: '100%' }}
+        >
+          <FormattedMessage
+            id='scenes.profile.identityverification.swaplimit.tradelimit'
+            defaultMessage='Your trading limits are how much you can trade each day. These limits include all Swap, Buy and Sell transactions. Limits are necessary for compliance and fraud prevention.'
+          />
+        </SwapText>
+      </Row>
+      <Row>
+        <TierWrapper>
+          <TierCard tier={1} />
+        </TierWrapper>
+        <TierWrapper>
+          <TierCard tier={2} />
+        </TierWrapper>
+      </Row>
+      <Row>
+        <LearnMoreContainer>
+          <SwapText size='14px' color='grey800' weight={500}>
+            <FormattedMessage
+              id='scenes.profile.identityverification.swaplimit.wanttolearnmore'
+              defaultMessage='Want to learn more?'
+            />
+          </SwapText>
+          <SwapText color='grey800' size='14px' weight={400}>
+            <FormattedHTMLMessage
+              id='scenes.profile.identityverification.swaplimit.learnmoreread'
+              defaultMessage="Read the article we've put together on Trading Limits <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>here</a>."
+            />
+          </SwapText>
+        </LearnMoreContainer>
+        <LearnMoreContainer>
+          {isUnderReview && (
+            <>
+              <SwapText>
+                <Image
+                  name='warning-circle-filled'
+                  width='32px'
+                  height='32px'
+                />
+              </SwapText>
+              <SwapText size='14px'>
                 <FormattedMessage
-                  id='scenes.profile.identityverification.swaplimit.wanttolearnmore'
-                  defaultMessage='Want to learn more?'
+                  id='scenes.profile.idv.swaplimit.airdropdisclaimer1'
+                  defaultMessage="Gold verification is currently under review. Once verified you'll be able to use Swap (trading up to {tier2Limit}) and also be eligible for future crypto airdrops!"
+                  values={{ tier2Limit: formattedTier2Limit }}
                 />
               </SwapText>
-              <SwapText size='13px' weight={400}>
-                <FormattedHTMLMessage
-                  id='scenes.profile.identityverification.swaplimit.learnmoreread'
-                  defaultMessage="Read the article we've put together on Trading Limits <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>here</a>."
-                />
-              </SwapText>
-            </LearnMoreContainer>
-            <LearnMoreContainer>
-              {isUnderReview && (
-                <>
-                  <SwapText>
-                    <Image
-                      name='warning-circle-filled'
-                      width='32px'
-                      height='32px'
-                    />
-                  </SwapText>
-                  <SwapText size='14px'>
-                    <FormattedMessage
-                      id='scenes.profile.idv.swaplimit.airdropdisclaimer1'
-                      defaultMessage="Gold verification is currently under review. Once verified you'll be able to use Swap (trading up to {tier2Limit}) and also be eligible for future crypto airdrops!"
-                      values={{ tier2Limit: formattedTier2Limit }}
-                    />
-                  </SwapText>
-                </>
-              )}
-            </LearnMoreContainer>
-          </Column>
-        </Row>
-        <Row width='60%'>
-          <Column>
-            <TierWrapper>
-              <TierCard tier={1} />
-            </TierWrapper>
-            <TierWrapper>
-              <TierCard tier={2} />
-              <TooltipHost id='swaplimit.airdrops.tooltip' data-place='right'>
-                <TooltipIcon
-                  size='24px'
-                  name='question-in-circle-filled'
-                  color='grey200'
-                />
-              </TooltipHost>
-            </TierWrapper>
-          </Column>
-        </Row>
-      </Container>
+            </>
+          )}
+        </LearnMoreContainer>
+      </Row>
     </Wrapper>
   )
 }

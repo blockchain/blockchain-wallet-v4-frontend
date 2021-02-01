@@ -5,7 +5,6 @@ export type FlyoutE2EType =
   | 'recoveryPhraseModal'
   | 'simpleBuyModal'
   | 'welcomeModal'
-  | 'whatsNewModal'
   | 'withdrawalModal'
   | 'custodyWithdrawModal'
   | 'infoModalLinkFromExchangeAccount'

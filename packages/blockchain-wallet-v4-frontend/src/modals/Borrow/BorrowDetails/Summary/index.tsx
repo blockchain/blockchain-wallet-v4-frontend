@@ -1,8 +1,11 @@
+import { FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
+
 import {
   CollateralAmt,
   Status
 } from 'blockchain-wallet-v4-frontend/src/scenes/Borrow/BorrowHistory/model'
-import { FormattedMessage } from 'react-intl'
 import {
   isLastTxStatus,
   showBorrowSummary,
@@ -10,12 +13,11 @@ import {
 } from 'data/components/borrow/model'
 import { model } from 'data'
 import { OfferType } from 'core/types'
-import { Props as OwnProps, SuccessStateType } from '..'
-import { TableRow, Title, Value } from 'components/Borrow'
 import { Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import React from 'react'
-import styled from 'styled-components'
+
+import { Props as OwnProps, SuccessStateType } from '..'
+import { TableRow, Title, Value } from '../../components'
 
 type Props = OwnProps & SuccessStateType & { offer: OfferType }
 

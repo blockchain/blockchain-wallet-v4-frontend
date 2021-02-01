@@ -5,7 +5,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Wrapper } from 'components/Public'
-import QRReader from 'components/QRReader'
+import QRReader from 'components/QRCode/Reader'
 
 const Header = styled.div`
   display: flex;

@@ -12,7 +12,8 @@ const INITIAL_STATE = {
   reset_2fa: Remote.NotAsked,
   restoring: Remote.NotAsked,
   remindGuid: Remote.NotAsked,
-  registering: Remote.NotAsked
+  registering: Remote.NotAsked,
+  registerEmail: undefined
 }
 
 const auth = (state = INITIAL_STATE, action) => {
@@ -85,6 +86,13 @@ const auth = (state = INITIAL_STATE, action) => {
     case AT.SET_AUTH_TYPE: {
       const { authType } = payload
       return assoc('auth_type', authType, state)
+    }
+    case AT.SET_REGISTER_EMAIL: {
+      const { email } = payload
+      return {
+        ...state,
+        registerEmail: email
+      }
     }
     default:
       return state

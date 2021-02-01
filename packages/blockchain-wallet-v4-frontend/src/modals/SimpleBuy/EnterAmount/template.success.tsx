@@ -1,6 +1,7 @@
+import React, { useEffect } from 'react'
+
 import { LinkStatePropsType, Props as OwnProps, SuccessStateType } from '.'
 import Checkout from './Checkout'
-import React, { useEffect } from 'react'
 import Unsupported from './template.unsupported'
 
 const Success: React.FC<Props> = props => {
@@ -18,7 +19,21 @@ const Success: React.FC<Props> = props => {
     ])
   }, [])
 
-  return isUserEligible ? <Checkout {...props} /> : <Unsupported {...props} />
+  // Check to see if user can sell into their wallet's preferred currency
+  // Handles the case where we support credit card buy for the currency but not sell, i.e. CAD
+  const sellCurrencyAvailable =
+    props.orderType === 'BUY' ||
+    (props.orderType === 'SELL' &&
+      props.paymentMethods.methods
+        .filter(method => method.type === 'FUNDS')
+        .map(method => method.currency)
+        .includes(props.walletCurrency))
+
+  return isUserEligible && sellCurrencyAvailable ? (
+    <Checkout {...props} />
+  ) : (
+    <Unsupported {...props} />
+  )
 }
 
 export type Props = OwnProps & SuccessStateType & LinkStatePropsType

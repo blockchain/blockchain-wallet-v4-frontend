@@ -1,6 +1,6 @@
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
-import QRCodeWrapper from 'components/QRCodeWrapper'
+import QRCodeWrapper from 'components/QRCode/Wrapper'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -14,7 +14,7 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import CopyClipboard from 'components/CopyClipboard'
+import CopyClipboard from 'components/Clipboard/CopyClipboard'
 
 const QRCodeContainer = styled.div`
   display: flex;

@@ -93,11 +93,7 @@ class FinishKyc extends PureComponent<Props> {
         </Row>
         <BannerButton
           onClick={() =>
-            this.props.identityVerificationActions.verifyIdentity(
-              2,
-              false,
-              'RunKycGoal'
-            )
+            this.props.identityVerificationActions.verifyIdentity(2, false)
           }
           jumbo
           data-e2e='openKycTier2'

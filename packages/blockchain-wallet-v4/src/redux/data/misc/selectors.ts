@@ -55,6 +55,8 @@ export const getRatesSelector = (
       return selectors.data.algo.getRates(state)
     case 'USDT':
       return selectors.data.eth.getErc20Rates(state, 'usdt')
+    case 'WDGLD':
+      return selectors.data.eth.getErc20Rates(state, 'wdgld')
     case 'PAX':
       return selectors.data.eth.getErc20Rates(state, 'pax')
     default:

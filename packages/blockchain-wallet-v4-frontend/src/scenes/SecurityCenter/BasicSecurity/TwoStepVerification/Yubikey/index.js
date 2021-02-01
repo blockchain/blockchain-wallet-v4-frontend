@@ -1,11 +1,11 @@
-import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { getData } from './selectors'
-import Error from './template.error'
-import Loading from './template.loading'
 import React from 'react'
-import Success from './template.success'
+
+import { actions } from 'data'
+
+import { getData } from './selectors'
+import Yubikey from './template'
 
 class YubikeyContainer extends React.PureComponent {
   constructor (props) {
@@ -47,11 +47,9 @@ class YubikeyContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, ...rest } = this.props
-
-    return data.cata({
+    return this.props.data.cata({
       Success: value => (
-        <Success
+        <Yubikey
           data={value}
           handleClick={this.handleClick}
           onSubmit={this.onSubmit}
@@ -61,9 +59,9 @@ class YubikeyContainer extends React.PureComponent {
           uiState={this.state}
         />
       ),
-      Failure: message => <Error {...rest} message={message} />,
-      Loading: () => <Loading {...rest} />,
-      NotAsked: () => <Loading {...rest} />
+      Failure: () => null,
+      Loading: () => null,
+      NotAsked: () => null
     })
   }
 }

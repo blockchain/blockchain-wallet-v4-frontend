@@ -45,8 +45,9 @@ type BtcPaymentValue = IPaymentValue & {
 
 type EthPaymentValue = IPaymentValue & {
   amount?: string
-  coin: 'ETH' | 'PAX' | 'USDT'
+  coin: 'ETH' | 'PAX' | 'USDT' | 'WDGLD'
   description?: string
+  fee?: number
   from: {
     address: string
     type: AddressTypesType
@@ -62,12 +63,15 @@ type XlmPaymentValue = IPaymentValue & {
   amount?: string
   coin: 'XLM'
   description?: string
+  fee?: number
   to?: XlmAccountFromType | XlmAddressFromType
   txId?: string
 }
 
 type IPaymentType = {
   build: () => PaymentType
+  chain: () => PaymentType
+  done: () => PaymentType
   from: (
     addressOrIndex?: string | number,
     addressType?: AddressTypesType,
@@ -99,7 +103,7 @@ export type BtcPaymentType = IPaymentType & {
 
 export type EthPaymentType = IPaymentType & {
   amount: (n: string) => EthPaymentType
-  coin: 'ETH' | 'PAX' | 'USDT'
+  coin: 'ETH' | 'PAX' | 'USDT' | 'WDGLD'
   description: (arg: string) => EthPaymentType
   fee: (arg: number, account: string) => EthPaymentType
   init: (arg: {

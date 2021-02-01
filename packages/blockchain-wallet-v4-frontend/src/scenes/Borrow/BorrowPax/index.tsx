@@ -49,8 +49,7 @@ class BorrowPax extends PureComponent<Props & State> {
                 onClick={() =>
                   this.props.identityVerificationActions.verifyIdentity(
                     2,
-                    false,
-                    'BorrowLandingPage'
+                    false
                   )
                 }
               >

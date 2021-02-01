@@ -27,13 +27,17 @@ class EnterAmount extends PureComponent<Props> {
       {} as SuccessStateType
     )
 
-    if (!defaultBeneficiary || !this.props.beneficiary) return
+    const beneficiary = defaultBeneficiary || this.props.beneficiary
 
-    this.props.withdrawActions.setStep({
-      step: 'CONFIRM_WITHDRAW',
-      amount: this.props.formValues.amount,
-      beneficiary: this.props.beneficiary || defaultBeneficiary
-    })
+    if (!beneficiary) return
+
+    if (defaultBeneficiary || this.props.beneficiary) {
+      this.props.withdrawActions.setStep({
+        step: 'CONFIRM_WITHDRAW',
+        amount: this.props.formValues.amount,
+        beneficiary
+      })
+    }
   }
 
   handleBankSelection = (
@@ -44,9 +48,10 @@ class EnterAmount extends PureComponent<Props> {
       this.props.simpleBuyActions.showModal('WithdrawModal')
       if (userData.tiers.current === 2) {
         this.props.simpleBuyActions.setStep({
-          step: 'TRANSFER_DETAILS',
+          step: 'BANK_WIRE_DETAILS',
           fiatCurrency: this.props.fiatCurrency,
-          displayBack: false
+          displayBack: false,
+          addBank: true
         })
       } else {
         this.props.simpleBuyActions.setStep({

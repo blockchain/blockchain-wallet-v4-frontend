@@ -42,7 +42,7 @@ import ComboDisplay from 'components/Display/ComboDisplay'
 import ExchangePromo from 'components/Send/ExchangePromo'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import PropTypes from 'prop-types'
-import QRCodeCapture from 'components/QRCodeCapture'
+import QRCodeCapture from 'components/QRCode/Capture'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -88,7 +88,8 @@ const FirstStep = props => {
     noAccount,
     pristine,
     submit,
-    submitting
+    submitting,
+    swapActions
   } = props
   const amountActive = activeField === 'amount'
   const isFromLockbox = from && from.type === 'LOCKBOX'
@@ -131,7 +132,7 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      {noAccount && <NoAccountTemplate />}
+      {noAccount && <NoAccountTemplate swapActions={swapActions} />}
       {!noAccount && (
         <React.Fragment>
           {isFromLockbox && !disableLockboxSend && (

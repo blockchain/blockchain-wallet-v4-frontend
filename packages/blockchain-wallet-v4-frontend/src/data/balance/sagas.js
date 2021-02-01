@@ -100,13 +100,15 @@ export const waitForAllBalances = function * () {
   const ethT = yield fork(getEthBalance)
   const paxT = yield fork(getErc20Balance, 'pax')
   const usdtT = yield fork(getErc20Balance, 'usdt')
+  const wdgldT = yield fork(getErc20Balance, 'wdgld')
   const xlmT = yield fork(getXlmBalance)
   const btc = yield join(btcT)
   const bch = yield join(bchT)
   const eth = yield join(ethT)
   const pax = yield join(paxT)
   const usdt = yield join(usdtT)
+  const wdgld = yield join(wdgldT)
   const xlm = yield join(xlmT)
 
-  return { btc, eth, bch, pax, xlm, usdt }
+  return { btc, eth, bch, pax, xlm, usdt, wdgld }
 }

@@ -6,13 +6,11 @@ import * as eth from './eth/selectors'
 import * as lockbox from './lockbox/selectors'
 import * as root from './root/selectors'
 import * as userCredentials from './userCredentials/selectors'
-import * as whatsNew from './whatsNew/selectors'
-import * as xlm from './xlm/selectors'
 import * as walletCredentials from './walletCredentials/selectors'
+import * as xlm from './xlm/selectors'
 
 export {
   root,
-  whatsNew,
   eth,
   buySell,
   contacts,
@@ -20,6 +18,6 @@ export {
   btc,
   lockbox,
   userCredentials,
-  xlm,
-  walletCredentials
+  walletCredentials,
+  xlm
 }

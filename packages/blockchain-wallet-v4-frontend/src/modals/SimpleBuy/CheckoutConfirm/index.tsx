@@ -1,24 +1,25 @@
-import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import BigNumber from 'bignumber.js'
+import React, { PureComponent } from 'react'
 
+import { actions, selectors } from 'data'
 import {
   ExtractSuccess,
   FiatTypeEnum,
-  RemoteDataType,
   SBOrderType,
   SupportedCoinType,
   SupportedWalletCurrenciesType,
   WalletFiatType
 } from 'core/types'
-import { getData } from './selectors'
 import { getFiatFromPair, getOrderType } from 'data/components/simpleBuy/model'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 import DataError from 'components/DataError'
-import Loading from './template.loading'
-import React, { PureComponent } from 'react'
+
+import { getData } from './selectors'
+import Loading from '../template.loading'
 import Success from './template.success'
 
 class CheckoutConfirm extends PureComponent<Props> {
@@ -30,20 +31,53 @@ class CheckoutConfirm extends PureComponent<Props> {
       getOrderType(this.props.order),
       this.props.order.inputQuantity
     )
+    this.props.sendActions.getLockRule()
+    if (!Remote.Success.is(this.props.data)) {
+      this.props.simpleBuyActions.fetchSDDEligible()
+      this.props.simpleBuyActions.fetchSDDVerified()
+      this.props.simpleBuyActions.fetchSBCards()
+      this.props.simpleBuyActions.fetchBankTransferAccounts()
+    }
   }
 
   handleSubmit = () => {
-    const { userData, sbBalances } = this.props.data.getOrElse({
-      userData: { tiers: { current: 0 } } as UserDataType
+    const {
+      userData,
+      sbBalances,
+      isSddFlow,
+      isUserSddVerified,
+      cards
+    } = this.props.data.getOrElse({
+      userData: { tiers: { current: 0 } } as UserDataType,
+      isSddFlow: false
     } as SuccessStateType)
 
+    const userTier = userData?.tiers?.current
     const inputCurrency = this.props.order.inputCurrency as WalletFiatType
 
-    if (userData.tiers.current < 2) {
-      this.props.simpleBuyActions.setStep({
+    // check for SDD flow and direct to add card
+    if (isSddFlow && this.props.order.paymentType === 'PAYMENT_CARD') {
+      if (isUserSddVerified) {
+        if (cards && cards.length > 0) {
+          const card = cards[0]
+          return this.props.simpleBuyActions.confirmSBCreditCardOrder(
+            card.id,
+            this.props.order
+          )
+        }
+        return this.props.simpleBuyActions.setStep({
+          step: 'ADD_CARD'
+        })
+      }
+      return this.props.simpleBuyActions.setStep({
         step: 'KYC_REQUIRED'
       })
-      return
+    }
+
+    if (userTier < 2) {
+      return this.props.simpleBuyActions.setStep({
+        step: 'KYC_REQUIRED'
+      })
     }
 
     switch (this.props.order.paymentType) {
@@ -57,7 +91,7 @@ class CheckoutConfirm extends PureComponent<Props> {
           return this.props.simpleBuyActions.confirmSBFundsOrder()
         } else {
           return this.props.simpleBuyActions.setStep({
-            step: 'TRANSFER_DETAILS',
+            step: 'BANK_WIRE_DETAILS',
             fiatCurrency: inputCurrency,
             displayBack: false
           })
@@ -70,6 +104,17 @@ class CheckoutConfirm extends PureComponent<Props> {
           )
         } else {
           return this.props.simpleBuyActions.setStep({ step: 'ADD_CARD' })
+        }
+      case 'BANK_TRANSFER':
+        if (this.props.order.paymentMethodId) {
+          return this.props.simpleBuyActions.confirmSBCreditCardOrder(
+            this.props.order.paymentMethodId,
+            this.props.order
+          )
+        } else {
+          return this.props.simpleBuyActions.setStep({
+            step: 'LINK_BANK_HANDLER'
+          })
         }
       default:
         // Not a valid payment method type, go back to CRYPTO_SELECTION
@@ -92,7 +137,7 @@ class CheckoutConfirm extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
@@ -103,6 +148,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
       ETH: { colorCode: 'eth' } as SupportedCoinType,
       PAX: { colorCode: 'pax' } as SupportedCoinType,
       USDT: { colorCode: 'usdt' } as SupportedCoinType,
+      WDGLD: { colorCode: 'wdgld' } as SupportedCoinType,
       XLM: { colorCode: 'xlm' } as SupportedCoinType
     } as Omit<SupportedWalletCurrenciesType, keyof FiatTypeEnum>)
 })
@@ -112,7 +158,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     actions.components.identityVerification,
     dispatch
   ),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  sendActions: bindActionCreators(actions.components.send, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -122,10 +169,7 @@ type OwnProps = {
   order: SBOrderType
 }
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-  supportedCoins: SupportedWalletCurrenciesType
-}
+export type LinkDispatchPropsType = ReturnType<typeof mapDispatchToProps>
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(CheckoutConfirm)

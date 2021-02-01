@@ -1,5 +1,5 @@
 import { FormattedMessage } from 'react-intl'
-import QRCodeWrapper from 'components/QRCodeWrapper'
+import QRCodeWrapper from 'components/QRCode/Wrapper'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 

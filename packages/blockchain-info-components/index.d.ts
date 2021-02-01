@@ -197,6 +197,7 @@ export const SkeletonRectangle: FunctionComponent<{
 export const SpinningLoader: FunctionComponent<{
   width?: string
   height?: string
+  borderWidth?: string
 }>
 export const TabMenu: FunctionComponent<{}>
 export const TabMenuItem: FunctionComponent<{
@@ -250,4 +251,11 @@ export const TooltipIcon: FunctionComponent<{
   color?: keyof DefaultTheme
   name: keyof IcoMoonType
   size?: string
+}>
+export const CheckBoxInput: FunctionComponent<{
+  name: string
+  checked?: boolean
+  disabled?: boolean
+  onClick?: () => void
+  onChange?: () => void
 }>

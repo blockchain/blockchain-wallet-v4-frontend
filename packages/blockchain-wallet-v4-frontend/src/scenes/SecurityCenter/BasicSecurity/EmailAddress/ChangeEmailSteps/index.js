@@ -1,12 +1,13 @@
-import { Button, Text } from 'blockchain-info-components'
 import { Field } from 'redux-form'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { SecuritySummary } from 'components/Security'
-import { TextBox } from 'components/Form'
 import React from 'react'
 import styled from 'styled-components'
 
+import { Button, Text } from 'blockchain-info-components'
+import { TextBox } from 'components/Form'
 import { validEmail } from 'services/FormHelper'
+
+import { SecuritySummary } from '../../../components'
 
 const ChangeEmailWrapper = styled.div`
   width: 100%;

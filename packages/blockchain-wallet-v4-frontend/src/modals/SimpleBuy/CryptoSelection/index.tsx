@@ -1,13 +1,15 @@
-import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import React, { PureComponent } from 'react'
+
+import { actions, selectors } from 'data'
 import { ExtractSuccess } from 'core/types'
-import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
+
+import { getData } from './selectors'
 import Failure from './template.failure'
-import Loading from './template.loading'
-import React, { PureComponent } from 'react'
+import Loading from '../template.loading'
 import Success from './template.success'
 
 class CryptoSelection extends PureComponent<Props> {
@@ -15,6 +17,7 @@ class CryptoSelection extends PureComponent<Props> {
     if (this.props.fiatCurrency && !Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
+      this.props.simpleBuyActions.fetchSDDEligible()
     }
   }
 
@@ -30,7 +33,11 @@ class CryptoSelection extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD'
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD',
+  isFirstLogin: selectors.auth.getFirstLogin(state),
+  sddTransactionFinished: selectors.components.simpleBuy.getSddTransactionFinished(
+    state
+  )
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({

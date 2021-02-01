@@ -8,13 +8,11 @@ import eth from './eth/reducers'
 import lockbox from './lockbox/reducers'
 import root from './root/reducers'
 import userCredentials from './userCredentials/reducers'
-import whatsNew from './whatsNew/reducers'
-import xlm from './xlm/reducers'
 import walletCredentials from './walletCredentials/reducers'
+import xlm from './xlm/reducers'
 
 const kvStoreReducer = combineReducers({
   [C.ROOT]: root,
-  [C.WHATSNEW]: whatsNew,
   [C.ETH]: eth,
   [C.BUYSELL]: buySell,
   [C.CONTACTS]: contacts,

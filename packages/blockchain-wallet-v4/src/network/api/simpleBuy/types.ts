@@ -121,9 +121,11 @@ export type SBPairType = {
 
 export type SBPaymentTypes =
   | 'PAYMENT_CARD'
-  | 'BANK_ACCOUNT'
+  | 'BANK_ACCOUNT' // Wire Transfers
   | 'FUNDS'
   | 'USER_CARD'
+  | 'BANK_TRANSFER' // ACH
+  | 'LINK_BANK' // Also ACH
 
 export type SBPaymentMethodType = {
   addedAt?: string
@@ -131,7 +133,10 @@ export type SBPaymentMethodType = {
   attributes?: {}
   card?: SBCard
   currency: FiatType
+  details?: BankDetails
+  eligible?: boolean
   id?: string
+  ineligibleReason?: string
   limits: {
     max: string
     min: string
@@ -205,7 +210,6 @@ export type SBOrderType = SBBuyOrderType | SBSellOrderType
 export type SBOrderStateType =
   | 'PENDING_CONFIRMATION'
   | 'PENDING_DEPOSIT'
-  | 'DEPOSIT_MATCHED'
   | 'FINISHED'
   | 'CANCELED'
   | 'FAILED'
@@ -240,7 +244,7 @@ export type SBTransactionType = {
         status: 'UNCONFIRMED' | 'CONFIRMED'
         txHash: string
       }
-      type: 'DEPOSIT'
+      type: 'DEPOSIT' | 'REFUNDED' | 'SELL'
     }
   | {
       extraAttributes: null | {
@@ -255,7 +259,7 @@ export type SBTransactionType = {
         product: 'SIMPLEBUY'
         user: 'adea2fd5-acc3-4a71-987d-3741811cdeaa'
       }
-      type: 'WITHDRAWAL'
+      type: 'WITHDRAWAL' | 'REFUNDED'
     }
 )
 
@@ -277,6 +281,8 @@ export type SBTransactionStateType =
   | 'CLEARED'
   | 'COMPLETE'
   | 'REFUNDED'
+  | 'CANCELED'
+  | 'EXPIRED'
 
 export enum SBPendingTransactionStateEnum {
   CLEARED = 'CLEARED',
@@ -291,4 +297,37 @@ export type FiatEligibleType = {
   eligible: boolean
   paymentAccountEligible: boolean
   simpleBuyTradingEligible: boolean
+}
+
+export type SDDLimits = {
+  max: string
+  min: string
+}
+
+export type YodleeAccountType = {
+  accountId: string
+  additionalStatus: string
+  providerAccountId: number
+  providerId: number
+  providerName: string
+  requestId: string
+  status: string
+}
+
+export type BankDetails = {
+  accountName: string
+  accountNumber: string
+  bankAccountType: string
+  bankName: string
+  routingNumber: string
+}
+
+export type BankTransferAccountType = {
+  addedAt: string
+  attributes: {}
+  currency: FiatType
+  details: BankDetails
+  id: string
+  partner: string
+  state: string
 }
