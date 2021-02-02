@@ -327,6 +327,7 @@ export default ({
           })
         )
         yield put(actions.form.stopSubmit('previewSell'))
+        yield put(actions.components.refresh.refreshClicked())
         return yield put(actions.components.swap.fetchTrades())
       }
 
