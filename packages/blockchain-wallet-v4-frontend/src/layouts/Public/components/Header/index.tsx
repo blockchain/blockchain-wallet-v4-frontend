@@ -27,6 +27,14 @@ const BlockchainLogoImage = styled(Image)`
     width: 200px;
   `}
 `
+const SegwitLogo = styled(Image)`
+  width: 180px;
+  display: block;
+  margin-top: -6px;
+  ${media.tablet`
+    width: 200px;
+  `}
+`
 const PublicBrand = styled.div`
   display: flex;
   flex-direction: row;
@@ -41,6 +49,7 @@ const Header = () => (
           <Link href='https://www.blockchain.com'>
             <BlockchainLogoImage name='blockchain-logo' height='24px' />
           </Link>
+          <SegwitLogo name='segwit-logo' height='40px' />
         </PublicBrand>
       </NavbarBrandStyled>
     </NavbarStyled>

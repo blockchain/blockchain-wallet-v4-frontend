@@ -69,6 +69,7 @@ import qrCode from './img/qr-code.png'
 import recoverPadlock from './img/recover-padlock.svg'
 import refresh from './img/refresh.svg'
 import search from './img/search.svg'
+import segwitLogo from './img/segwit-logo.png'
 import selectArrow from './img/select-arrow.png'
 import silverApproved from './img/silver-approved.svg'
 import smartphone from './img/smartphone.png'
@@ -260,6 +261,7 @@ const Images = {
   'bank-logo-regions': bankLogoRegions,
   'bank-logo-robinhood': bankLogoRobinhood,
   search: search,
+  'segwit-logo': segwitLogo,
   'select-arrow': selectArrow,
   'silver-approved': silverApproved,
   smartphone: smartphone,
