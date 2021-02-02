@@ -95,13 +95,12 @@ const ConfirmDisable2FA = React.lazy(() =>
 )
 const RecoveryPhrase = React.lazy(() => import('./Settings/RecoveryPhrase'))
 const SecondPassword = React.lazy(() => import('./Settings/SecondPassword'))
+const TradingLimits = React.lazy(() => import('./Settings/TradingLimits'))
 const TwoStepGoogleAuthenticator = React.lazy(() =>
   import('./Settings/TwoStepGoogleAuthenticator')
 )
 const TwoStepSetup = React.lazy(() => import('./Settings/TwoStepSetup'))
 const TwoStepYubico = React.lazy(() => import('./Settings/TwoStepYubico'))
-
-const TradingLimits = React.lazy(() => import('./Settings/TradingLimits'))
 
 // TRANSACTIONS
 const DownloadTransactions = React.lazy(() =>

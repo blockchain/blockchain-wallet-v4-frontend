@@ -66,18 +66,11 @@ const CartridgeWrapper = styled.div`
   flex: 1;
   justify-content: flex-end;
 `
-
-const Success = styled(SuccessCartridge)`
-  font-size: 12px;
-`
-const Errors = styled(ErrorCartridge)`
-  font-size: 12px;
-`
-const Blue = styled(BlueCartridge)`
-  font-size: 12px;
-`
-const Orange = styled(OrangeCartridge)`
-  font-size: 12px;
+const ItemTitle = styled(Text)`
+  color: ${props => props.theme.grey900};
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: 20px;
 `
 
 type Props = OwnProps & SuccessStateType
@@ -85,21 +78,21 @@ type Props = OwnProps & SuccessStateType
 const getItemBadgeStatus = (tier: number | undefined, type: ITEMS) => {
   return tier && TIERS[tier][type] ? (
     <CartridgeWrapper>
-      <Success>
+      <SuccessCartridge fontSize='12px'>
         <FormattedMessage
           id='modals.tradinglimits.unlocked'
           defaultMessage='Unlocked'
         />
-      </Success>
+      </SuccessCartridge>
     </CartridgeWrapper>
   ) : (
     <CartridgeWrapper>
-      <Errors>
+      <ErrorCartridge fontSize='12px'>
         <FormattedMessage
           id='modals.tradinglimits.locked'
           defaultMessage='Locked'
         />
-      </Errors>
+      </ErrorCartridge>
     </CartridgeWrapper>
   )
 }
@@ -113,9 +106,9 @@ const getTierStatus = (
     return (
       <div>
         <CartridgeWrapper>
-          <Orange>
+          <OrangeCartridge fontSize='12px'>
             <FormattedMessage id='copy.in_review' defaultMessage='In Review' />
-          </Orange>
+          </OrangeCartridge>
         </CartridgeWrapper>
       </div>
     )
@@ -125,12 +118,12 @@ const getTierStatus = (
     return (
       <div>
         <CartridgeWrapper>
-          <Blue>
+          <BlueCartridge fontSize='12px'>
             <FormattedMessage
               id='modals.tradinglimits.approved'
               defaultMessage='Approved'
             />
-          </Blue>
+          </BlueCartridge>
         </CartridgeWrapper>
       </div>
     )
@@ -299,112 +292,75 @@ const Template: React.FC<Props> = props => {
       <ContentItem>
         <IconWrapper>
           <Icon name='send' color='blue600' size='20px' />
-          <Text
-            color='grey900'
-            size='16px'
-            weight={600}
-            style={{ marginLeft: '20px' }}
-          >
+          <ItemTitle>
             <FormattedMessage
               id='modals.tradinglimits.send_crypto'
               defaultMessage='Send Crypto'
             />
-          </Text>
+          </ItemTitle>
         </IconWrapper>
         {getItemBadgeStatus(currentTier, ITEMS.SEND)}
       </ContentItem>
 
       <ContentItem>
         <Icon name='qr-code' color='blue600' size='20px' />
-        <Text
-          color='grey900'
-          size='16px'
-          weight={600}
-          style={{ marginLeft: '20px' }}
-        >
+        <ItemTitle>
           <FormattedMessage
             id='modals.tradinglimits.receive_crypto'
             defaultMessage='Receive Crypto'
           />
-        </Text>
+        </ItemTitle>
         {getItemBadgeStatus(currentTier, ITEMS.RECEIVE)}
       </ContentItem>
       <ContentItem>
         <Icon name='arrow-switch-thick' color='blue600' size='20px' />
-        <Text
-          color='grey900'
-          size='16px'
-          weight={600}
-          style={{ marginLeft: '20px' }}
-        >
+        <ItemTitle>
           <FormattedMessage
             id='modals.tradinglimits.swap_crypto'
             defaultMessage='Swap Crypto'
           />
-        </Text>
+        </ItemTitle>
         {getItemBadgeStatus(currentTier, ITEMS.SWAP)}
       </ContentItem>
 
       <ContentItem>
         <Icon name='usd' color='blue600' size='20px' />
-        <Text
-          color='grey900'
-          size='16px'
-          weight={600}
-          style={{ marginLeft: '20px' }}
-        >
+        <ItemTitle>
           <FormattedMessage
             id='modals.tradinglimits.cash_accounts'
             defaultMessage='Cash Accounts'
           />
-        </Text>
+        </ItemTitle>
         {getItemBadgeStatus(currentTier, ITEMS.CASH_ACCOUNT)}
       </ContentItem>
       <ContentItem>
         <Icon name='credit-card-sb' color='blue600' size='20px' />
-        <Text
-          color='grey900'
-          size='16px'
-          weight={600}
-          style={{ marginLeft: '20px' }}
-        >
+        <ItemTitle>
           <FormattedMessage
             id='modals.tradinglimits.buy_with_a_card'
             defaultMessage='Buy with a Card'
           />
-        </Text>
+        </ItemTitle>
         {getItemBadgeStatus(currentTier, ITEMS.BUY_WITH_A_CARD)}
       </ContentItem>
       <ContentItem>
         <Icon name='bank-filled' color='blue600' size='20px' />
-
-        <Text
-          color='grey900'
-          size='16px'
-          weight={600}
-          style={{ marginLeft: '20px' }}
-        >
+        <ItemTitle>
           <FormattedMessage
             id='modals.tradinglimits.deposits_and_withdrawals'
             defaultMessage='Deposits & Withdrawals'
           />
-        </Text>
+        </ItemTitle>
         {getItemBadgeStatus(currentTier, ITEMS.DEPOSIT_AND_WITHDRAWAL)}
       </ContentItem>
       <ContentItem>
         <Icon name='percentage' color='blue600' size='20px' />
-
-        <Text
-          color='grey900'
-          size='16px'
-          weight={600}
-          style={{ marginLeft: '20px' }}
-        >
+        <ItemTitle>
           <FormattedMessage
             id='modals.tradinglimits.earn_interest'
             defaultMessage='Earn Interest'
           />
-        </Text>
+        </ItemTitle>
         {getItemBadgeStatus(currentTier, ITEMS.EARN_INTEREST)}
       </ContentItem>
 
