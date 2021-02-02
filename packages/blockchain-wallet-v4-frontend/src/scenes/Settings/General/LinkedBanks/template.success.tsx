@@ -1,3 +1,4 @@
+import { any } from 'ramda'
 import { Button, Image, Text } from 'blockchain-info-components'
 import {
   CardDetails,
@@ -10,12 +11,12 @@ import { FormattedMessage } from 'react-intl'
 import { getBankLogoImageName } from 'services/ImagesService'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
+import { SBPaymentMethodType, WalletFiatEnum } from 'core/types'
 import {
   SettingComponent,
   SettingContainer,
   SettingSummary
 } from 'components/Setting'
-import { WalletFiatEnum } from 'core/types'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
@@ -42,6 +43,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const walletBeneficiaries = props.bankAccounts.filter(
     account => account.currency in WalletFiatEnum
   )
+
+  const isEligible = any(
+    (method: SBPaymentMethodType) => method.type === 'BANK_TRANSFER'
+  )(props.paymentMethods.methods)
 
   return (
     <StyledSettingsContainer>
@@ -107,15 +112,20 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           })}
         </div>
       </SettingSummary>
-      <CustomSettingComponent>
-        <Button
-          nature='primary'
-          data-e2e='addCardFromSettings'
-          onClick={() => props.handleBankClick()}
-        >
-          <FormattedMessage id='buttons.add_bank' defaultMessage='Add a Bank' />
-        </Button>
-      </CustomSettingComponent>
+      {isEligible && (
+        <CustomSettingComponent>
+          <Button
+            nature='primary'
+            data-e2e='addCardFromSettings'
+            onClick={() => props.handleBankClick()}
+          >
+            <FormattedMessage
+              id='buttons.add_bank'
+              defaultMessage='Add a Bank'
+            />
+          </Button>
+        </CustomSettingComponent>
+      )}
     </StyledSettingsContainer>
   )
 }

@@ -54,7 +54,7 @@ const LowBalanceWarning = props => {
           <Link
             size='13px'
             weight={500}
-            href='https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Pax-FAQ'
+            href='https://support.blockchain.com/hc/en-us/articles/360027492092-Why-do-I-need-ETH-to-send-USD-Digital-previously-USD-PAX-'
             target='_blank'
           >
             <FormattedMessage

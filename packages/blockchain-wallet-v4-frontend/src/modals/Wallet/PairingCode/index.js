@@ -28,10 +28,33 @@ const QRCodeContainer = styled.div`
   height: 256px;
   padding: 30px 0;
 `
-
+const WarningBody = styled.div`
+  display: flex;
+`
+const WarningCopy = styled.div`
+  margin-left: 16px;
+  > div {
+    margin-bottom: 15px;
+  }
+`
+const WarningCircle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: ${props => props.size};
+  height: ${props => props.size};
+  border-radius: ${props => props.size};
+  background: ${props => props.theme[props.color]};
+`
 class PairingCodeContainer extends React.PureComponent {
+  state = { showCode: false }
+
   componentDidMount () {
     this.props.actions.encodePairingCode()
+  }
+
+  handleClick = () => {
+    this.setState({ showCode: !this.state.showCode })
   }
 
   render () {
@@ -46,36 +69,77 @@ class PairingCodeContainer extends React.PureComponent {
 
     return (
       <Modal size='large' position={position} total={total}>
-        <ModalHeader icon='request' onClose={closeAll}>
-          <FormattedMessage
-            id='modals.pairingcode.title1'
-            defaultMessage='Mobile Pairing Code'
-          />
+        <ModalHeader onClose={closeAll}>
+          {this.state.showCode ? (
+            <FormattedMessage
+              id='scenes.settings.general.pairingcode.settings.scan'
+              defaultMessage='Scan Pairing Code'
+            />
+          ) : (
+            <FormattedMessage
+              id='modals.pairingcode.title'
+              defaultMessage='Pairing Code'
+            />
+          )}
         </ModalHeader>
         <ModalBody>
-          <Text color='grey800' size='14px' weight={500}>
-            <FormattedMessage
-              id='modals.pairingcode.description'
-              defaultMessage='Scan the QR code below with your Blockchain Wallet mobile application.'
-            />
-          </Text>
-          <Text color='error' size='14px' weight={600}>
-            <FormattedMessage
-              id='modals.pairingcode.warning'
-              defaultMessage='Do not share this QR Code with others.'
-            />
-          </Text>
-          <QRCodeContainer>{PairingCode}</QRCodeContainer>
+          <WarningBody>
+            <WarningCircle color='red100' size='35px'>
+              <WarningCircle color='red400' size='20px'>
+                <Text color='white' size='14px' weight={600}>
+                  !
+                </Text>
+              </WarningCircle>
+            </WarningCircle>
+            <WarningCopy>
+              <Text color='error' weight={600} lineHeight='1.5'>
+                <FormattedMessage
+                  id='scenes.settings.general.pairingcode.warningone'
+                  defaultMessage='Never share your mobile pairing QR code with anyone.'
+                />
+              </Text>
+              <Text color='error' weight={600} lineHeight='1.5'>
+                <FormattedMessage
+                  id='scenes.settings.general.pairingcode.warningtwo'
+                  defaultMessage='Anyone who can view this QR code can withdraw funds.'
+                />
+              </Text>
+              <Text color='error' weight={600} lineHeight='1.5'>
+                <FormattedMessage
+                  id='scenes.settings.general.pairingcode.warningthree'
+                  defaultMessage='Blockchain.com will never ask to view or receive your mobile pairing QR code.'
+                />
+              </Text>
+            </WarningCopy>
+          </WarningBody>
+          {this.state.showCode && (
+            <QRCodeContainer>{PairingCode}</QRCodeContainer>
+          )}
         </ModalBody>
         <ModalFooter>
-          <Button
-            data-e2e='closeBtn'
-            nature='primary'
-            fullwidth
-            onClick={closeAll}
-          >
-            <FormattedMessage id='buttons.close' defaultMessage='Close' />
-          </Button>
+          {!this.state.showCode && (
+            <Button
+              data-e2e='showCode'
+              nature='primary'
+              fullwidth
+              onClick={this.handleClick}
+            >
+              <FormattedMessage
+                id='scenes.settings.general.pairingcode.settings.show'
+                defaultMessage='Show Pairing Code'
+              />
+            </Button>
+          )}
+          {this.state.showCode && (
+            <Button
+              data-e2e='closeBtn'
+              nature='primary'
+              fullwidth
+              onClick={closeAll}
+            >
+              <FormattedMessage id='buttons.close' defaultMessage='Close' />
+            </Button>
+          )}
         </ModalFooter>
       </Modal>
     )
