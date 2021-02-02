@@ -204,8 +204,8 @@ const SignupForm = ({
               data-e2e='blockchainTermsLink'
             >
               <FormattedMessage
-                id='scenes.securitysettings.basicsecurity.recoveryphrase.title'
-                defaultMessage='Backup Phrase'
+                id='scenes.securitysettings.basicsecurity.secretrecoveryphrase.title'
+                defaultMessage='Secret Private Key Recovery Phrase'
               />
             </Link>
             <Text color='grey800' size='12px' weight={500}>

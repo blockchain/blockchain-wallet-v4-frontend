@@ -192,8 +192,8 @@ export default ({
   const fetchBorrowOffers = function * () {
     try {
       yield put(A.fetchBorrowOffersLoading())
-      const offers = yield call(api.getOffers)
-      yield put(A.fetchBorrowOffersSuccess(offers))
+      // easiest way to ensure no new loans are created while this feat is sunset
+      yield put(A.fetchBorrowOffersSuccess([]))
     } catch (e) {
       yield put(A.fetchBorrowOffersFailure(e))
     }

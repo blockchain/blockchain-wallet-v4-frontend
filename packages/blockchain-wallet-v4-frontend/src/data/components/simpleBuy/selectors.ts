@@ -140,11 +140,13 @@ export const getDefaultPaymentMethod = (state: RootState) => {
               card
             }
           case 'FUNDS':
-            return methodsOfType.find(
-              method =>
+            return methodsOfType.find(method => {
+              return (
                 method.currency === lastOrder.inputCurrency &&
-                method.currency === fiatCurrency
-            )
+                method.currency === fiatCurrency &&
+                sbBalances[method?.currency]?.available > 0
+              )
+            })
           case 'LINK_BANK':
           case 'BANK_TRANSFER':
             if (!method) return
