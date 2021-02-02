@@ -3,8 +3,8 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 
+import { BankStepType } from 'data/types'
 import { BankTransferAccountType } from 'core/types'
-import { BrokerageStepType } from 'data/types'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { LinkDispatchPropsType, OwnProps } from '.'
 import React from 'react'
@@ -43,7 +43,7 @@ type Props = OwnProps &
   LinkDispatchPropsType & {
     account: BankTransferAccountType
     onClickBack: () => void
-    redirectBack: BrokerageStepType.SHOW_BANK | undefined
+    redirectBack: BankStepType.SHOW_BANK | undefined
   }
 
 const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {

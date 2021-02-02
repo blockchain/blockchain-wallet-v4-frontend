@@ -1,4 +1,5 @@
 import { actions, selectors } from 'data'
+import { BankStepType, BrokerageModalOriginType } from 'data/types'
 import {
   BankTransferAccountType,
   ExtractSuccess,
@@ -6,7 +7,6 @@ import {
   WalletFiatType
 } from 'core/types'
 import { bindActionCreators, Dispatch } from 'redux'
-import { BrokerageModalOriginType, BrokerageStepType } from 'data/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
@@ -30,7 +30,7 @@ class LinkedBanks extends PureComponent<Props> {
   handleShowBankClick = (account: BankTransferAccountType) => {
     this.props.brokerageActions.showModal(BrokerageModalOriginType.BANK)
     this.props.brokerageActions.setStep({
-      step: BrokerageStepType.SHOW_BANK,
+      step: BankStepType.SHOW_BANK,
       account
     })
   }
@@ -38,7 +38,7 @@ class LinkedBanks extends PureComponent<Props> {
   handleDeleteBank = (account: BankTransferAccountType) => {
     this.props.brokerageActions.showModal(BrokerageModalOriginType.BANK)
     this.props.brokerageActions.setStep({
-      step: BrokerageStepType.REMOVE_BANK,
+      step: BankStepType.REMOVE_BANK,
       account
     })
   }

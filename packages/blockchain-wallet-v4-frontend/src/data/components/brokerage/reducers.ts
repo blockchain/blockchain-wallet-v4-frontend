@@ -1,15 +1,11 @@
 import * as AT from './actionTypes'
-import {
-  BrokerageActionTypes,
-  BrokerageState,
-  BrokerageStepType
-} from './types'
+import { BankStepType, BrokerageActionTypes, BrokerageState } from './types'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: BrokerageState = {
   bankTransferAccounts: Remote.NotAsked,
   fastLink: Remote.NotAsked,
-  step: BrokerageStepType.DEFAULT,
+  step: BankStepType.DEFAULT,
   account: undefined,
   redirectBackToStep: undefined
 }
@@ -50,14 +46,14 @@ export function brokerageReducer (
       }
     case AT.SET_STEP:
       switch (action.payload.step) {
-        case BrokerageStepType.REMOVE_BANK:
+        case BankStepType.REMOVE_BANK:
           return {
             ...state,
             account: action.payload.account,
             step: action.payload.step,
             redirectBackToStep: action.payload.redirectBackToStep
           }
-        case BrokerageStepType.SHOW_BANK:
+        case BankStepType.SHOW_BANK:
           return {
             ...state,
             account: action.payload.account,

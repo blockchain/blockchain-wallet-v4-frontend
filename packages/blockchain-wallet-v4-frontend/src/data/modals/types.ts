@@ -15,7 +15,7 @@ export type ModalNamesType =
   | 'AirdropSuccess'
   | 'BitPayInvoiceExpired'
   | 'BORROW_MODAL'
-  | 'BROKERAGE_MODAL'
+  | 'BANKS_MODAL'
   | 'Confirm'
   | 'CUSTODY_WITHDRAW_MODAL'
   | 'DeleteAddressLabel'

@@ -26,7 +26,7 @@ export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
       ])
       yield put(actions.form.stopSubmit('linkedBanks'))
       yield put(actions.alerts.displaySuccess('Bank removed.'))
-      yield put(actions.modals.closeModal('BROKERAGE_MODAL'))
+      yield put(actions.modals.closeModal('BANKS_MODAL'))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('linkedBanks', { _error: error }))
@@ -138,7 +138,7 @@ export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
 
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
     const { origin } = payload
-    yield put(actions.modals.showModal('BROKERAGE_MODAL', { origin }))
+    yield put(actions.modals.showModal('BANKS_MODAL', { origin }))
   }
 
   return {

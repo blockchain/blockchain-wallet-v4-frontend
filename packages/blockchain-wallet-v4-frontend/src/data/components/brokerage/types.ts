@@ -28,18 +28,18 @@ export type BankStatusType =
 export type BrokerageStepPayload =
   | {
       account: BankTransferAccountType
-      step: BrokerageStepType.SHOW_BANK
+      step: BankStepType.SHOW_BANK
     }
   | {
       account: BankTransferAccountType
-      redirectBackToStep?: BrokerageStepType.SHOW_BANK
-      step: BrokerageStepType.REMOVE_BANK
+      redirectBackToStep?: BankStepType.SHOW_BANK
+      step: BankStepType.REMOVE_BANK
     }
   | {
-      step: BrokerageStepType.LINK_BANK | BrokerageStepType.DEFAULT
+      step: BankStepType.LINK_BANK | BankStepType.DEFAULT
     }
 
-export enum BrokerageStepType {
+export enum BankStepType {
   DEFAULT = 'DEFAULT',
   LINK_BANK = 'LINK_BANK',
   REMOVE_BANK = 'REMOVE_BANK',
@@ -55,8 +55,8 @@ export type BrokerageState = {
   account: BankTransferAccountType | undefined
   bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>
   fastLink: RemoteDataType<string, FastLinkType>
-  redirectBackToStep: BrokerageStepType.SHOW_BANK | undefined
-  step: BrokerageStepType
+  redirectBackToStep: BankStepType.SHOW_BANK | undefined
+  step: BankStepType
 }
 
 interface FetchFastLinkType {

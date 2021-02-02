@@ -3,7 +3,7 @@ import { BankTransferAccountType } from 'core/types'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 
-import { BrokerageStepType } from 'data/types'
+import { BankStepType } from 'data/types'
 import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 import Template from './template'
@@ -16,7 +16,7 @@ export type LinkDispatchPropsType = {
 }
 type LinkStatePropsType = {
   account: BankTransferAccountType | undefined
-  redirectBackToStep: BrokerageStepType.SHOW_BANK | undefined
+  redirectBackToStep: BankStepType.SHOW_BANK | undefined
 }
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 

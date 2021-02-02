@@ -3,7 +3,7 @@ import { BankTransferAccountType } from 'core/types'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 
-import { BrokerageStepType } from 'data/types'
+import { BankStepType } from 'data/types'
 import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 import Template from './template'
@@ -23,9 +23,9 @@ class BankDetails extends PureComponent<Props, {}> {
   handleSubmit = () => {
     if (this.props.account) {
       this.props.brokerageActions.setStep({
-        step: BrokerageStepType.REMOVE_BANK,
+        step: BankStepType.REMOVE_BANK,
         account: this.props.account,
-        redirectBackToStep: BrokerageStepType.SHOW_BANK
+        redirectBackToStep: BankStepType.SHOW_BANK
       })
     }
   }

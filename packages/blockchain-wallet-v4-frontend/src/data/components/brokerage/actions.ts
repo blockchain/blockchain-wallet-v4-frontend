@@ -2,9 +2,9 @@ import * as AT from './actionTypes'
 import { BankTransferAccountType, YodleeAccountType } from 'core/types'
 
 import {
+  BankStepType,
   BrokerageActionTypes,
   BrokerageStepPayload,
-  BrokerageStepType,
   FastLinkType
 } from './types'
 import { BrokerageModalOriginType } from 'data/types'
@@ -63,12 +63,12 @@ export const setStep = (
 
 const getPayloadObjectForStep = (payload: BrokerageStepPayload) => {
   switch (payload.step) {
-    case BrokerageStepType.SHOW_BANK:
+    case BankStepType.SHOW_BANK:
       return {
         step: payload.step,
         account: payload.account
       }
-    case BrokerageStepType.REMOVE_BANK:
+    case BankStepType.REMOVE_BANK:
       return {
         step: payload.step,
         account: payload.account,

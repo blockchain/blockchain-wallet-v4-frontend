@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 
-import { BrokerageStepType } from 'data/types'
+import { BankStepType } from 'data/types'
 import { ModalPropsType } from '../../types'
 import { selectors } from 'data'
 import BankDetails from './BankDetails'
@@ -11,7 +11,7 @@ import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
 import RemoveBank from './RemoveBank'
 
-class Brokerage extends PureComponent<Props> {
+class Banks extends PureComponent<Props> {
   state: State = { show: false, direction: 'left' }
 
   componentDidMount () {
@@ -22,9 +22,7 @@ class Brokerage extends PureComponent<Props> {
 
   componentDidUpdate (prevProps: Props) {
     if (this.props.step === prevProps.step) return
-    if (
-      BrokerageStepType[this.props.step] > BrokerageStepType[prevProps.step]
-    ) {
+    if (BankStepType[this.props.step] > BankStepType[prevProps.step]) {
       /* eslint-disable */
       this.setState({ direction: 'left' })
     } else {
@@ -47,14 +45,14 @@ class Brokerage extends PureComponent<Props> {
         onClose={this.handleClose}
         in={this.state.show}
         direction={this.state.direction}
-        data-e2e='brokerageModal'
+        data-e2e='banksModal'
       >
-        {this.props.step === BrokerageStepType.REMOVE_BANK && (
+        {this.props.step === BankStepType.REMOVE_BANK && (
           <FlyoutChild>
             <RemoveBank {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
-        {this.props.step === BrokerageStepType.SHOW_BANK && (
+        {this.props.step === BankStepType.SHOW_BANK && (
           <FlyoutChild>
             <BankDetails {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
@@ -71,13 +69,13 @@ const mapStateToProps = (state: RootState) => ({
 const connector = connect(mapStateToProps)
 
 const enhance = compose(
-  ModalEnhancer('BROKERAGE_MODAL', { transition: duration }),
+  ModalEnhancer('BANKS_MODAL', { transition: duration }),
   connector
 )
 
 type OwnProps = ModalPropsType
 type LinkStatePropsType = {
-  step: BrokerageStepType
+  step: BankStepType
 }
 
 export type Props = OwnProps &
@@ -86,4 +84,4 @@ export type Props = OwnProps &
 
 type State = { direction: 'left' | 'right'; show: boolean }
 
-export default enhance(Brokerage)
+export default enhance(Banks)
