@@ -50,8 +50,8 @@ const TransferEth = (props: InjectedFormProps<{}, Props> & Props) => {
           <TextGroup inline>
             <Text size='14px' weight={400}>
               <FormattedMessage
-                id='modals.transfereth.para1'
-                defaultMessage='As we leave our beta program we want to make sure your backup phrase is compatible with other Ethereum wallets.'
+                id='modals.transfereth.para1_new'
+                defaultMessage='As we leave our beta program we want to make sure your Secret Private Key Recovery Phrase is compatible with other Ethereum wallets.'
               />
             </Text>
             <Text size='14px' weight={400}>

@@ -110,7 +110,6 @@ const FirstStep = props => {
     isRetryAttempt &&
     new BigNumber(fee).isLessThanOrEqualTo(minFeeRequiredForRetry)
   const disableCustodySend = isFromCustody && !isMnemonicVerified
-
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'15px'} style={{ zIndex: 3 }}>
@@ -342,7 +341,7 @@ const FirstStep = props => {
         </CustomFeeAlertBanner>
       ) : null}
       {disableRetryAttempt && <MinFeeForRetryInvalid />}
-      {disableDueToLowEth && <LowEthWarningForErc20 />}
+      {disableDueToLowEth && <LowEthWarningForErc20 coin={coin} />}
       {isFromCustody && !isMnemonicVerified ? (
         <MnemonicRequiredForCustodySend />
       ) : null}

@@ -218,6 +218,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     sddLimit.max = props.sddLimits.maxPossibleOrder
   }
 
+  const isDailyLimitExceeded =
+    props.sddLimits?.daily?.available &&
+    Number(props.sddLimits.daily.available) === 0
+
   const max: string = getMaxMin(
     'max',
     props.sbBalances,
@@ -329,7 +333,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <Icon
               cursor
               data-e2e='sbBackToCryptoSelection'
-              name='arrow-left'
+              name='arrow-back'
               size='20px'
               color='grey600'
               role='button'
@@ -345,15 +349,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
             <BuyOrSell {...props} crypto={cryptoCurrency || 'Crypto'} />
           </LeftTopCol>
-          <Icon
-            cursor
-            data-e2e='sbCloseModalIcon'
-            name='close'
-            size='20px'
-            color='grey600'
-            role='button'
-            onClick={() => props.handleClose()}
-          />
         </TopText>
       </FlyoutWrapper>
       <CryptoItem
@@ -405,7 +400,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <Icon
             color='blue600'
             cursor
-            name='vertical-arrow-switch'
+            name='up-down-chevron'
             onClick={() =>
               props.simpleBuyActions.switchFix(
                 quoteAmt,
@@ -423,7 +418,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
         {(!props.isSddFlow || props.orderType === 'SELL') &&
           props.pair &&
-          min <= max && (
+          Number(min) <= Number(max) && (
             <Amounts onClick={handleMinMaxClick}>
               <>
                 {amtError === 'BELOW_MIN' ? (
@@ -443,10 +438,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 ) : (
                   <BlueRedCartridge error={amtError === 'ABOVE_MAX'}>
                     <FormattedMessage
-                      id='modals.simplebuy.checkout.abovemax'
-                      defaultMessage='{value} Maximum {orderType}'
+                      id='modals.simplebuy.checkout.maxbuysell'
+                      defaultMessage='{orderType} Max'
                       values={{
-                        value: getValue(max),
                         orderType: orderType === 'BUY' ? 'Buy' : 'Sell'
                       }}
                     />
@@ -456,19 +450,21 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </Amounts>
           )}
 
-        {props.orderType === 'SELL' && props.pair && min > max && (
-          <Amounts>
-            <CustomErrorCartridge
-              role='button'
-              data-e2e='sbEnterAmountNotEnoughFundsForSell'
-            >
-              <FormattedMessage
-                id='modals.simplebuy.checkout.not_enough_funds_for_sell'
-                defaultMessage='Not Enough funds for Sell'
-              />
-            </CustomErrorCartridge>
-          </Amounts>
-        )}
+        {(!props.isSddFlow || props.orderType === 'SELL') &&
+          props.pair &&
+          Number(min) > Number(max) && (
+            <Amounts>
+              <CustomErrorCartridge
+                role='button'
+                data-e2e='sbEnterAmountNotEnoughFundsForSell'
+              >
+                <FormattedMessage
+                  id='modals.simplebuy.checkout.not_enough_funds_for_sell'
+                  defaultMessage='Not Enough funds for Sell'
+                />
+              </CustomErrorCartridge>
+            </Amounts>
+          )}
 
         {props.isSddFlow && props.orderType === 'BUY' && (
           <ActionsRow>
@@ -534,7 +530,22 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <ActionButton
           {...props}
           isSufficientEthForErc20={isSufficientEthForErc20 || false}
+          isDailyLimitExceeded={isDailyLimitExceeded || false}
         />
+
+        {isDailyLimitExceeded && (
+          <Amounts>
+            <CustomErrorCartridge
+              role='button'
+              data-e2e='sbEnterAmountDailyLimitExceeded'
+            >
+              <FormattedMessage
+                id='modals.simplebuy.checkout.dailylimitexceeded'
+                defaultMessage="You've reached your daily trading limit"
+              />
+            </CustomErrorCartridge>
+          </Amounts>
+        )}
       </FlyoutWrapper>
       {props.isSddFlow && props.orderType === 'BUY' && (
         <IncreaseLimits {...props} />

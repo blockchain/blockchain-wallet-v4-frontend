@@ -10,8 +10,6 @@ import {
   CustomSettingHeader,
   RemoveButton
 } from '../styles'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { fiatToString } from 'core/exchange/currency'
 import { FiatType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps, reduxForm } from 'redux-form'
@@ -53,7 +51,7 @@ const Success: React.FC<InjectedFormProps<
   )
   const activeCards = props.cards.filter(card => card.state === 'ACTIVE')
 
-  return !activeCards.length ? null : (
+  return (
     <CustomSettingContainer>
       <SettingSummary>
         <CustomSettingHeader>
@@ -62,6 +60,15 @@ const Success: React.FC<InjectedFormProps<
             defaultMessage='Linked Cards'
           />
         </CustomSettingHeader>
+
+        {!activeCards.length && (
+          <Text size='14px' color='grey600' weight={500}>
+            <FormattedMessage
+              id='scenes.settings.no_credit_cards'
+              defaultMessage='No Credit Cards'
+            />
+          </Text>
+        )}
         {activeCards.map((card, i) => {
           let cardType = CARD_TYPES.find(
             cardType => cardType.type === (card.card ? card.card.type : '')
@@ -69,45 +76,34 @@ const Success: React.FC<InjectedFormProps<
 
           if (card.state !== 'ACTIVE') return
 
+          const cardLabel =
+            (card?.card.label && card?.card.label.toLowerCase()) ||
+            card?.card.type
+
           return (
-            <CardWrapper
-              key={i}
-              onClick={() => {
-                if (props.submitting) return
-                props.handleCreditCardClick()
-              }}
-            >
+            <CardWrapper key={i}>
               <Child>
                 <CardImg
                   src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO}
                 />
                 <CardDetails>
-                  <Text size='16px' color='grey800' weight={600}>
-                    {card.card.label || card.card.type}
+                  <Text size='16px' color='grey800' weight={600} capitalize>
+                    {cardLabel.length > 22
+                      ? `${cardLabel.slice(0, 22)}…`
+                      : cardLabel}
                   </Text>
                   {ccPaymentMethod && (
                     <Text size='14px' color='grey600' weight={500}>
-                      {fiatToString({
-                        value: convertBaseToStandard(
-                          'FIAT',
-                          ccPaymentMethod.limits.max
-                        ),
-                        unit: props.fiatCurrency || 'USD'
-                      })}{' '}
-                      {props.fiatCurrency} Limit
+                      <FormattedMessage
+                        id='scenes.settings.card_ending_in'
+                        defaultMessage='Card Ending in {cardNumber}'
+                        values={{ cardNumber: card.card.number }}
+                      />
                     </Text>
                   )}
                 </CardDetails>
               </Child>
               <Child>
-                <CardDetails right>
-                  <Text size='16px' color='grey800' weight={600}>
-                    ····{card.card.number}
-                  </Text>
-                  <Text size='14px' color='grey600' weight={500}>
-                    Exp: {card.card.expireMonth}/{card.card.expireYear}
-                  </Text>
-                </CardDetails>
                 <RemoveButton
                   data-e2e='removeCard'
                   nature='light-red'

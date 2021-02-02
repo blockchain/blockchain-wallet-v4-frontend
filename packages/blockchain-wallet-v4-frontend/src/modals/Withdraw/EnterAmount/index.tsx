@@ -48,7 +48,7 @@ class EnterAmount extends PureComponent<Props> {
       this.props.simpleBuyActions.showModal('WithdrawModal')
       if (userData.tiers.current === 2) {
         this.props.simpleBuyActions.setStep({
-          step: 'TRANSFER_DETAILS',
+          step: 'BANK_WIRE_DETAILS',
           fiatCurrency: this.props.fiatCurrency,
           displayBack: false,
           addBank: true

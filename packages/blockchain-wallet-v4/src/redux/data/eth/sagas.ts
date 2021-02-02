@@ -194,7 +194,6 @@ export default ({ api }) => {
         fullTxList = fullTxList.concat(prop('transactions', txPage))
         currentPage++
       }
-
       // process txs further for report
       const processedTxList = yield call(
         __processReportTxs,
@@ -540,7 +539,7 @@ export default ({ api }) => {
     // remove txs that dont match coin type and are not within date range
     let prunedTxList = filter(tx => {
       // @ts-ignore
-      return !tx.erc20 && moment.unix(tx.time).isBetween(startDate, endDate)
+      return moment.unix(tx.time).isBetween(startDate, endDate)
     }, fullTxList)
 
     // return empty list if no tx found in filter set

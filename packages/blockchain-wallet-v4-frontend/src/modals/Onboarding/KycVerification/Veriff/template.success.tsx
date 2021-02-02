@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 function Success ({ handleVeriffMessage, url }) {
   const [isActive, setIsActive] = useState(false)
   useEffect(() => {
-    if (!isActive) {
+    if (!isActive && !document.getElementById('veriffFrame')) {
       createVeriffFrame({
         url,
         onEvent: handleVeriffMessage

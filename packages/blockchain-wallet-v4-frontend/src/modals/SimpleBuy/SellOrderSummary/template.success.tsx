@@ -36,7 +36,7 @@ const Amount = styled.div`
 `
 
 const Success: React.FC<Props> = props => {
-  const { sellOrder } = props
+  const { sellOrder, supportedCoins } = props
   const sellBaseAmount = sellOrder && getSellBaseAmount(sellOrder)
   const sellBaseCurrency = sellOrder ? getCoinFromPair(sellOrder.pair) : 'BTC'
   const sellCounterCurrency = sellOrder
@@ -53,7 +53,7 @@ const Success: React.FC<Props> = props => {
               <BuyOrSell
                 orderType={'SELL'}
                 crypto={sellBaseCurrency}
-                coinModel={props.supportedCoins[sellCounterCurrency]}
+                coinModel={supportedCoins[sellBaseCurrency]}
               />
             </span>
             <Icon
@@ -71,9 +71,9 @@ const Success: React.FC<Props> = props => {
             <Text
               size='32px'
               weight={600}
-              color={props.supportedCoins[sellBaseCurrency].colorCode}
+              color={supportedCoins[sellBaseCurrency].colorCode}
             >
-              {sellBaseCurrency}
+              {supportedCoins[sellBaseCurrency].coinTicker}
             </Text>
           </Amount>
           <div style={{ margin: '16px 0' }}>
@@ -115,7 +115,7 @@ const Success: React.FC<Props> = props => {
                   unit: sellCounterCurrency,
                   value: sellOrder.priceFunnel.price
                 })}{' '}
-                / 1 {sellBaseCurrency}
+                / 1 {supportedCoins[sellBaseCurrency].coinTicker}
               </Value>
             </Row>
           )}
@@ -124,7 +124,7 @@ const Success: React.FC<Props> = props => {
               <FormattedMessage id='copy.amount' defaultMessage='Amount' />
             </Title>
             <Value data-e2e='sbPurchasing'>
-              {sellBaseAmount} of {sellBaseCurrency}
+              {sellBaseAmount} of {supportedCoins[sellBaseCurrency].coinTicker}
             </Value>
           </Row>
         </>
@@ -162,8 +162,8 @@ const Success: React.FC<Props> = props => {
           </Title>
           <Value data-e2e='sbPaymentMethod'>
             {isInternal
-              ? `${sellBaseCurrency} Trading Wallet`
-              : `${sellBaseCurrency} Wallet`}
+              ? `${supportedCoins[sellBaseCurrency].coinTicker} Trading Wallet`
+              : `${supportedCoins[sellBaseCurrency].coinTicker} Wallet`}
           </Value>
         </Row>
       </div>

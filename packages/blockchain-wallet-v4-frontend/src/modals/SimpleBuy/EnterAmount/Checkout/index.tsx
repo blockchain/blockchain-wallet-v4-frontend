@@ -38,6 +38,7 @@ class Checkout extends PureComponent<Props> {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSDDEligible()
       this.props.simpleBuyActions.fetchSBCards()
+      this.props.simpleBuyActions.fetchBankTransferAccounts()
       this.props.simpleBuyActions.fetchSDDLimits(
         this.props.fiatCurrency || 'USD'
       )
@@ -48,8 +49,13 @@ class Checkout extends PureComponent<Props> {
     // if the user is < tier 2 go to kyc but save order info
     // if the user is tier 2 try to submit order, let BE fail
     const { formValues } = this.props
-    const { isSddFlow, userData } = this.props.data.getOrElse({
+    const {
+      hasPaymentAccount,
+      isSddFlow,
+      userData
+    } = this.props.data.getOrElse({
       userData: { tiers: { current: 0, next: 0, selected: 0 } } as UserDataType,
+      hasPaymentAccount: false,
       isSddFlow: false
     } as SuccessStateType)
     const simpleBuyGoal = find(propEq('name', 'simpleBuy'), this.props.goals)
@@ -83,8 +89,11 @@ class Checkout extends PureComponent<Props> {
       }
     } else if (!method) {
       const fiatCurrency = this.props.fiatCurrency || 'USD'
+      const nextStep = hasPaymentAccount
+        ? 'LINKED_PAYMENT_ACCOUNTS'
+        : 'PAYMENT_METHODS'
       this.props.simpleBuyActions.setStep({
-        step: 'PAYMENT_METHODS',
+        step: nextStep,
         fiatCurrency,
         pair: this.props.pair,
         cryptoCurrency: this.props.cryptoCurrency,
@@ -106,6 +115,9 @@ class Checkout extends PureComponent<Props> {
           break
         case 'FUNDS':
           this.props.simpleBuyActions.createSBOrder('FUNDS')
+          break
+        case 'BANK_TRANSFER':
+          this.props.simpleBuyActions.createSBOrder('BANK_TRANSFER', method.id)
           break
         case 'BANK_ACCOUNT':
           break
@@ -160,6 +172,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 export type OwnProps = EnterAmountOwnProps & EnterAmountSuccessStateType
 export type SuccessStateType = ReturnType<typeof getData>['data'] & {
   formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
+  hasPaymentAccount: boolean
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

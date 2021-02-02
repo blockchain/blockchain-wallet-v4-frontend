@@ -3,7 +3,6 @@ import {
   BeneficiaryType,
   CoinType,
   PaymentValue,
-  SBPaymentTypes,
   WithdrawalLockCheckResponseType
 } from 'core/types'
 
@@ -55,9 +54,8 @@ export const notifyNonCustodialToCustodialTransfer = (
   }
 })
 
-export const getLockRule = (paymentMethod: SBPaymentTypes) => ({
-  type: AT.GET_LOCK_RULE,
-  payload: { paymentMethod }
+export const getLockRule = () => ({
+  type: AT.GET_LOCK_RULE
 })
 export const getLockRuleLoading = () => ({
   type: AT.GET_LOCK_RULE_LOADING

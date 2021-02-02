@@ -5,6 +5,7 @@ import {
   ExtractSuccess,
   FiatTypeEnum,
   SBPaymentMethodType,
+  SBPaymentTypes,
   SDDLimits
 } from 'blockchain-wallet-v4/src/types'
 import { FiatType } from 'core/types'
@@ -18,7 +19,7 @@ import {
 } from '../exchange/services'
 import { getInputFromPair, getOutputFromPair } from '../swap/model'
 import { getRate } from '../swap/utils'
-import { SBCheckoutFormValuesType } from './types'
+import { SBCardStateEnum, SBCheckoutFormValuesType } from './types'
 
 const SDD_LIMIT = { min: '500', max: '10000' } as SDDLimits
 
@@ -33,6 +34,9 @@ export const getAddBank = (state: RootState) =>
 export const getOrderType = (state: RootState) =>
   state.components.simpleBuy.orderType
 
+export const getBankTransferAccounts = (state: RootState) =>
+  state.components.simpleBuy.bankTransferAccounts
+
 export const getEverypay3DSDetails = (state: RootState) =>
   state.components.simpleBuy.everypay3DS
 
@@ -45,8 +49,14 @@ export const getCryptoCurrency = (state: RootState) =>
 export const getDisplayBack = (state: RootState) =>
   state.components.simpleBuy.displayBack
 
+export const getFastLink = (state: RootState) =>
+  state.components.simpleBuy.fastLink
+
 export const getFiatCurrency = (state: RootState) =>
   state.components.simpleBuy.fiatCurrency
+
+export const getLinkedBankStatus = (state: RootState) =>
+  state.components.simpleBuy.bankStatus
 
 export const eligableFiatCurrency = currency =>
   currency === FiatTypeEnum.USD ||
@@ -60,6 +70,7 @@ export const getDefaultPaymentMethod = (state: RootState) => {
   const sbMethodsR = getSBPaymentMethods(state)
   const actionType = getOrderType(state)
   const sbBalancesR = getSBBalances(state)
+  const bankAccounts = getBankTransferAccounts(state).getOrElse([])
 
   const transform = (
     sbCards: ExtractSuccess<typeof sbCardsR>,
@@ -106,13 +117,17 @@ export const getDefaultPaymentMethod = (state: RootState) => {
         const methodsOfType = sbMethods.methods.filter(
           method => method.type === lastOrder.paymentType
         )
+        const method = head(methodsOfType)
 
         switch (lastOrder.paymentType) {
+          case 'USER_CARD':
           case 'PAYMENT_CARD':
-            const method = head(methodsOfType)
             if (!method) return
+            const active = SBCardStateEnum.ACTIVE
             const sbCard = sbCards.find(
-              value => value.id === lastOrder.paymentMethodId
+              value =>
+                value.id === lastOrder.paymentMethodId &&
+                value.state === SBCardStateEnum[active]
             )
             const card = sbCard?.card || undefined
 
@@ -125,13 +140,29 @@ export const getDefaultPaymentMethod = (state: RootState) => {
               card
             }
           case 'FUNDS':
-            return methodsOfType.find(
-              method =>
+            return methodsOfType.find(method => {
+              return (
                 method.currency === lastOrder.inputCurrency &&
-                method.currency === fiatCurrency
+                method.currency === fiatCurrency &&
+                sbBalances[method?.currency]?.available > 0
+              )
+            })
+          case 'LINK_BANK':
+          case 'BANK_TRANSFER':
+            if (!method) return
+            const bankAccount = bankAccounts.find(
+              acct => acct.id === lastOrder.paymentMethodId
             )
+            if (bankAccount && bankAccount.state === 'ACTIVE') {
+              return {
+                ...method,
+                ...bankAccount,
+                state: 'ACTIVE',
+                type: lastOrder.paymentType as SBPaymentTypes
+              }
+            }
+            return undefined
           case 'BANK_ACCOUNT':
-          case 'USER_CARD':
           case undefined:
             return undefined
           default:
@@ -141,6 +172,17 @@ export const getDefaultPaymentMethod = (state: RootState) => {
   }
 
   return lift(transform)(sbCardsR, sbMethodsR, sbBalancesR)
+}
+
+export const hasFiatBalances = (state: RootState) => {
+  const fiatBalances = Object.keys(
+    state.components.simpleBuy.balances.data
+  ).filter(
+    currency =>
+      currency in FiatTypeEnum &&
+      state.components.simpleBuy.balances.data[currency].available > 0
+  )
+  return fiatBalances.length > 0
 }
 
 export const getSBBalances = (state: RootState) =>
@@ -180,8 +222,7 @@ export const getSBLatestPendingOrder = (state: RootState) =>
   state.components.simpleBuy.orders.getOrElse([]).find(order => {
     return (
       order.state === 'PENDING_CONFIRMATION' ||
-      order.state === 'PENDING_DEPOSIT' ||
-      order.state === 'DEPOSIT_MATCHED'
+      order.state === 'PENDING_DEPOSIT'
     )
   })
 
@@ -247,7 +288,7 @@ export const getUserSddEligibleTier = (state: RootState) => {
   )(sddEligibleR)
 }
 
-export const getUserSddELimit = (state: RootState) => {
+export const getUserSddLimit = (state: RootState) => {
   const sbMethodsR = getSBPaymentMethods(state)
   return lift((sbMethods: ExtractSuccess<typeof sbMethodsR>) => {
     const paymentMethod = sbMethods.methods.find(

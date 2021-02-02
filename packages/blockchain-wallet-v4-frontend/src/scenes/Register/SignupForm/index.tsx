@@ -197,15 +197,15 @@ const SignupForm = ({
               />
             </Text>
             <Link
-              href='https://www.blockchain.com/legal/terms'
+              href='https://support.blockchain.com/hc/en-us/articles/209564506-Make-a-Wallet-Backup'
               target='_blank'
               size='12px'
               weight={500}
               data-e2e='blockchainTermsLink'
             >
               <FormattedMessage
-                id='scenes.securitysettings.basicsecurity.recoveryphrase.title'
-                defaultMessage='Backup Phrase'
+                id='scenes.securitysettings.basicsecurity.secretrecoveryphrase.title'
+                defaultMessage='Secret Private Key Recovery Phrase'
               />
             </Link>
             <Text color='grey800' size='12px' weight={500}>

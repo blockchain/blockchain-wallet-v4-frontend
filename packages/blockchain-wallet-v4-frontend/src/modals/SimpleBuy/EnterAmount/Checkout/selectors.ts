@@ -26,10 +26,13 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   const userSDDTierR = selectors.components.simpleBuy.getUserSddEligibleTier(
     state
   )
-  const sddLimitR = selectors.components.simpleBuy.getUserSddELimit(state)
+  const sddLimitR = selectors.components.simpleBuy.getUserSddLimit(state)
   const cardsR = selectors.components.simpleBuy.getSBCards(state) || []
-
+  const bankTransferAccounts = selectors.components.simpleBuy
+    .getBankTransferAccounts(state)
+    .getOrElse([])
   const sddLimitsR = selectors.components.simpleBuy.getSddLimits(state)
+  const hasFiatBalance = selectors.components.simpleBuy.hasFiatBalances(state)
 
   return lift(
     (
@@ -43,9 +46,13 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       supportedCoins: ExtractSuccess<typeof supportedCoinsR>,
       userSDDTier: ExtractSuccess<typeof userSDDTierR>
     ) => ({
+      bankTransferAccounts,
       cards,
       coinModel: supportedCoins[coin],
       formErrors,
+      hasFiatBalance,
+      hasPaymentAccount:
+        hasFiatBalance || cards.length > 0 || bankTransferAccounts.length > 0,
       isSddFlow: sddEligible.eligible || userSDDTier === 3,
       payment: paymentR.getOrElse(undefined),
       quote,

@@ -22,9 +22,20 @@ class OrderSummary extends PureComponent<Props> {
   componentDidMount () {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBCards()
-      this.props.sendActions.getLockRule('PAYMENT_CARD')
+      this.props.sendActions.getLockRule()
     }
     this.props.simpleBuyActions.fetchSBOrders()
+
+    if (
+      this.props.order.state === 'PENDING_DEPOSIT' &&
+      this.props.order.attributes?.everypay?.paymentState ===
+        'WAITING_FOR_3DS_RESPONSE'
+    ) {
+      this.props.simpleBuyActions.setStep({
+        step: '3DS_HANDLER',
+        order: this.props.order
+      })
+    }
   }
 
   handleRefresh = () => {

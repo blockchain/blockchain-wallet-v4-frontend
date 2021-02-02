@@ -10,13 +10,26 @@ import Success from './template.success'
 
 class LinkedBanks extends PureComponent<Props> {
   componentDidMount () {
-    this.props.custodialActions.fetchCustodialBeneficiaries()
+    this.props.simpleBuyActions.fetchBankTransferAccounts()
     this.props.simpleBuyActions.fetchSBPaymentMethods()
+  }
+
+  handleBankClick = () => {
+    this.props.simpleBuyActions.showModal('SettingsGeneral')
+    this.props.simpleBuyActions.setStep({
+      step: 'LINK_BANK'
+    })
   }
 
   render () {
     return this.props.data.cata({
-      Success: val => <Success {...this.props} {...val} />,
+      Success: val => (
+        <Success
+          {...this.props}
+          {...val}
+          handleBankClick={this.handleBankClick}
+        />
+      ),
       Loading: () => <Loading />,
       Failure: () => null,
       NotAsked: () => null

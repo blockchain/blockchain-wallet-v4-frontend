@@ -13,7 +13,7 @@ const { WITHDRAW_LOCK_DEFAULT_DAYS } = model.profile
 class LockTimeContainer extends React.PureComponent<Props> {
   componentDidMount () {
     const { sendActions } = this.props
-    sendActions.getLockRule('PAYMENT_CARD')
+    sendActions.getLockRule()
   }
 
   render () {
