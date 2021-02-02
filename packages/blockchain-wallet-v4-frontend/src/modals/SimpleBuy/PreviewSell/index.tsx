@@ -15,17 +15,20 @@ import {
 import { coinToString, formatFiat } from 'core/exchange/currency'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ErrorCartridge } from 'components/Cartridge'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { getFiatFromPair } from 'data/components/simpleBuy/model'
 import { getInputFromPair, getOutputFromPair } from 'data/components/swap/model'
 import {
   PaymentValue,
+  RatesType,
   SBOrderActionType,
   SBPairType,
   SupportedWalletCurrenciesType
 } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { SBCheckoutFormValuesType } from 'data/types'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 
 import { Border, FreeCartridge, TopText } from '../../Swap/components'
 import Loading from '../template.loading'
@@ -67,6 +70,18 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         const COUNTER = getOutputFromPair(val.quote.pair)
         const { account, coins, formValues } = this.props
         const counterCoinTicker = coins[COUNTER].coinTicker
+        const feeInFiat =
+          account.type === 'ACCOUNT' &&
+          this.props.rates &&
+          (Exchange.convertCoinToFiat(
+            convertBaseToStandard(
+              account.baseCoin,
+              this.networkFee(this.props.payment)
+            ),
+            BASE,
+            COUNTER,
+            this.props.rates
+          ) as Number)
         return (
           <>
             <FlyoutWrapper>
@@ -122,8 +137,11 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 {this.props.quoteR.cata({
                   Success: val => (
                     <>
-                      {formatFiat(convertBaseToStandard('FIAT', val.rate))}{' '}
-                      {counterCoinTicker}
+                      {
+                        Currencies[counterCoinTicker].units[counterCoinTicker]
+                          .symbol
+                      }
+                      {formatFiat(convertBaseToStandard('FIAT', val.rate))}
                     </>
                   ),
                   Failure: () => (
@@ -178,28 +196,17 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     </div>
                   </>
                 ) : (
-                  this.props.paymentR.cata({
-                    Success: value => (
-                      <>
-                        {coinToString({
-                          value: convertBaseToStandard(
-                            account.baseCoin,
-                            this.networkFee(value)
-                          ),
-                          unit: {
-                            symbol: coins[account.baseCoin].coinTicker
-                          }
-                        })}
-                      </>
-                    ),
-                    Failure: e => e,
-                    Loading: () => (
-                      <SkeletonRectangle height='18px' width='70px' />
-                    ),
-                    NotAsked: () => (
-                      <SkeletonRectangle height='18px' width='70px' />
-                    )
-                  })
+                  <>
+                    {coinToString({
+                      value: convertBaseToStandard(
+                        account.baseCoin,
+                        this.networkFee(this.props.payment)
+                      ),
+                      unit: {
+                        symbol: coins[account.baseCoin].coinTicker
+                      }
+                    })}
+                  </>
                 )}
               </Value>
             </Row>
@@ -211,7 +218,11 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 {this.props.incomingAmountR.cata({
                   Success: val => (
                     <>
-                      {formatFiat(val.amt)} {counterCoinTicker}
+                      {
+                        Currencies[counterCoinTicker].units[counterCoinTicker]
+                          .symbol
+                      }
+                      {formatFiat(Number(val.amt) + Number(feeInFiat))}
                     </>
                   ),
                   Failure: () => (
@@ -229,7 +240,6 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     <SkeletonRectangle height='18px' width='70px' />
                   )
                 })}{' '}
-                ({this.displayAmount(formValues, coins, account)})
               </Value>
             </Row>
             <Border />
@@ -319,19 +329,32 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
-  formValues: selectors.form.getFormValues('simpleBuyCheckout')(
-    state
-  ) as SBCheckoutFormValuesType,
-  account: selectors.components.simpleBuy.getSwapAccount(state),
-  coins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType),
-  pair: selectors.components.simpleBuy.getSBPair(state),
-  paymentR: selectors.components.simpleBuy.getPayment(state),
-  incomingAmountR: selectors.components.simpleBuy.getIncomingAmount(state),
-  quoteR: selectors.components.simpleBuy.getSellQuote(state)
-})
+const mapStateToProps = (state: RootState) => {
+  const coin = selectors.components.simpleBuy.getCryptoCurrency(state)
+  const payment = selectors.components.simpleBuy
+    .getPayment(state)
+    .getOrElse(undefined)
+  const rates =
+    coin &&
+    selectors.core.data.misc
+      .getRatesSelector(coin, state)
+      .getOrElse({} as RatesType)
+  return {
+    formValues: selectors.form.getFormValues('simpleBuyCheckout')(
+      state
+    ) as SBCheckoutFormValuesType,
+    account: selectors.components.simpleBuy.getSwapAccount(state),
+    coins: selectors.core.walletOptions
+      .getSupportedCoins(state)
+      .getOrElse({} as SupportedWalletCurrenciesType),
+    pair: selectors.components.simpleBuy.getSBPair(state),
+    incomingAmountR: selectors.components.simpleBuy.getIncomingAmount(state),
+    quoteR: selectors.components.simpleBuy.getSellQuote(state),
+    coin,
+    payment,
+    rates
+  }
+}
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
