@@ -394,9 +394,7 @@ export default ({
 
       const error = errorHandler(e)
       if (values?.orderType === 'SELL') {
-        return yield put(
-          actions.form.stopSubmit('previewSell', { _error: error })
-        )
+        yield put(actions.form.stopSubmit('previewSell', { _error: error }))
       }
       yield put(actions.form.stopSubmit('simpleBuyCheckout', { _error: error }))
     }
