@@ -39,9 +39,7 @@ class Checkout extends PureComponent<Props> {
       this.props.simpleBuyActions.fetchSDDEligible()
       this.props.simpleBuyActions.fetchSBCards()
       this.props.brokerageActions.fetchBankTransferAccounts()
-      this.props.simpleBuyActions.fetchSDDLimits(
-        this.props.fiatCurrency || 'USD'
-      )
+      this.props.simpleBuyActions.fetchLimits(this.props.fiatCurrency || 'USD')
     }
   }
 

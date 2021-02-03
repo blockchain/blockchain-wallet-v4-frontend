@@ -37,9 +37,9 @@ export type SBCoreActionTypes = SetNextSBTransactionsURL
 // TODO: remove once we have unified custodial transaction endpoints
 export type FiatSBAndSwapTransactionType = {
   amount: {
-    fiatSymbol?: FiatType,
-    inputMoney?: string,
-    symbol: CoinType,
+    fiatSymbol?: FiatType
+    inputMoney?: string
+    symbol: CoinType
     value: string
   }
   amountMinor: string

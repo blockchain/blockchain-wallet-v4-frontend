@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.47.22",
+  "version": "4.47.23",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
@@ -34,13 +34,13 @@
     }
   },
   "lint-staged": {
-    "packages/**/*.{js,ts,tsx}": [
+    "packages/*/src/**/*.{js,ts,tsx}": [
       "prettier --write",
       "eslint --fix",
       "yarn test --bail --findRelatedTests",
       "git add"
     ],
-    "packages/**/*.{js,tsx}": [
+    "packages/*/src/**/*.{js,tsx}": [
       "stylelint './packages/*/src/**/*.{js,tsx}'"
     ],
     "packages/**/*.json": [
