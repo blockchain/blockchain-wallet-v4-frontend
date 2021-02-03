@@ -5,8 +5,7 @@ import {
   ExtractSuccess,
   FiatTypeEnum,
   SBPaymentMethodType,
-  SBPaymentTypes,
-  SDDLimits
+  SBPaymentTypes
 } from 'blockchain-wallet-v4/src/types'
 import { FiatType } from 'core/types'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/validation'
@@ -19,9 +18,8 @@ import {
 } from '../exchange/services'
 import { getInputFromPair, getOutputFromPair } from '../swap/model'
 import { getRate } from '../swap/utils'
+import { LIMIT } from './model'
 import { SBCardStateEnum, SBCheckoutFormValuesType } from './types'
-
-const SDD_LIMIT = { min: '500', max: '10000' } as SDDLimits
 
 const hasEligibleFiatCurrency = currency =>
   currency === FiatTypeEnum.USD ||
@@ -288,13 +286,13 @@ export const getUserSddEligibleTier = (state: RootState) => {
   )(sddEligibleR)
 }
 
-export const getUserSddLimit = (state: RootState) => {
+export const getUserLimit = (state: RootState) => {
   const sbMethodsR = getSBPaymentMethods(state)
   return lift((sbMethods: ExtractSuccess<typeof sbMethodsR>) => {
     const paymentMethod = sbMethods.methods.find(
       method => method.type === 'PAYMENT_CARD'
     )
-    return paymentMethod?.limits || SDD_LIMIT
+    return paymentMethod?.limits || LIMIT
   })(sbMethodsR)
 }
 
@@ -308,8 +306,7 @@ export const isUserSddVerified = (state: RootState) => {
       sddVerified.taskComplete && sddVerified.verified
   )(sddVerifiedR)
 }
-export const getSddLimits = (state: RootState) =>
-  state.components.simpleBuy.sddLimits
+export const getLimits = (state: RootState) => state.components.simpleBuy.limits
 
 export const getSddTransactionFinished = (state: RootState) =>
   state.components.simpleBuy.sddTransactionFinished

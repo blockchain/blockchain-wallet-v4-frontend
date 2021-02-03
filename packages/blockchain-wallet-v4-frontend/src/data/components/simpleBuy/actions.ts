@@ -668,13 +668,13 @@ export const updatePaymentFailure = (error: string): SimpleBuyActionTypes => ({
   }
 })
 
-export const fetchSDDLimits = (currency: FiatType) => ({
-  type: AT.FETCH_SDD_LIMITS,
+export const fetchLimits = (currency: FiatType) => ({
+  type: AT.FETCH_LIMITS,
   currency
 })
 
-export const fetchSDDLimitsFailure = (error: string): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SDD_LIMITS_FAILURE,
+export const fetchLimitsFailure = (error: string): SimpleBuyActionTypes => ({
+  type: AT.FETCH_LIMITS_FAILURE,
   payload: {
     error
   }
@@ -690,16 +690,16 @@ export const updatePaymentSuccess = (
     payment
   }
 })
-export const fetchSDDLimitsLoading = (): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SDD_LIMITS_LOADING
+export const fetchLimitsLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_LIMITS_LOADING
 })
 
-export const fetchSDDLimitsSuccess = (
-  sddLimits: SwapUserLimitsType
+export const fetchLimitsSuccess = (
+  limits: SwapUserLimitsType
 ): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SDD_LIMITS_SUCCESS,
+  type: AT.FETCH_LIMITS_SUCCESS,
   payload: {
-    sddLimits
+    limits
   }
 })
 export const updateSddTransactionFinished = () => ({

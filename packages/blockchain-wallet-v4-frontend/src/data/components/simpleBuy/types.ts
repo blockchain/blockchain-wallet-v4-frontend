@@ -143,6 +143,7 @@ export type SimpleBuyState = {
   fastLink: RemoteDataType<string, FastLinkType>
   fiatCurrency: undefined | FiatType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
+  limits: RemoteDataType<string, undefined | SwapUserLimitsType>
   method: undefined | SBPaymentMethodType
   methods: RemoteDataType<string, SBPaymentMethodsType>
   order: undefined | SBOrderType
@@ -154,7 +155,6 @@ export type SimpleBuyState = {
   providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
   sddEligible: RemoteDataType<string, SDDEligibleType>
-  sddLimits: RemoteDataType<string, undefined | SwapUserLimitsType>
   sddTransactionFinished: boolean
   sddVerified: RemoteDataType<string, SDDVerifiedType>
   sellOrder: undefined | SwapOrderType
@@ -523,22 +523,22 @@ interface UpdatePaymentSuccessAction {
   type: typeof AT.UPDATE_PAYMENT_SUCCESS
 }
 
-interface FetchSDDLimitsFailure {
+interface FetchLimitsFailure {
   payload: {
     error: string
   }
-  type: typeof AT.FETCH_SDD_LIMITS_FAILURE
+  type: typeof AT.FETCH_LIMITS_FAILURE
 }
 
-interface FetchSDDLimitsLoading {
-  type: typeof AT.FETCH_SDD_LIMITS_LOADING
+interface FetchLimitsLoading {
+  type: typeof AT.FETCH_LIMITS_LOADING
 }
 
-interface FetchSDDLimitsSuccess {
+interface FetchLimitsSuccess {
   payload: {
-    sddLimits: SwapUserLimitsType
+    limits: SwapUserLimitsType
   }
-  type: typeof AT.FETCH_SDD_LIMITS_SUCCESS
+  type: typeof AT.FETCH_LIMITS_SUCCESS
 }
 interface UpdateSddTransactionFinished {
   type: typeof AT.UPDATE_SDD_TRANSACTION_FINISHED
@@ -592,9 +592,9 @@ export type SimpleBuyActionTypes =
   | FetchSellQuoteFailure
   | FetchSellQuoteLoading
   | FetchSellQuoteSuccess
-  | FetchSDDLimitsLoading
-  | FetchSDDLimitsFailure
-  | FetchSDDLimitsSuccess
+  | FetchLimitsLoading
+  | FetchLimitsFailure
+  | FetchLimitsSuccess
   | FetchFastLinkType
   | InitializeCheckout
   | SetFastLinkAction
