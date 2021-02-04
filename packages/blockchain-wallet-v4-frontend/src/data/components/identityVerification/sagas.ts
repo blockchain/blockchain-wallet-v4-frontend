@@ -418,7 +418,12 @@ export default ({ api, coreSagas, networks }) => {
             break
           }
           sddVerified = yield call(api.fetchSDDVerified)
-          if (sddVerified?.taskComplete) break
+          if (sddVerified?.taskComplete) {
+            yield put(
+              actions.components.simpleBuy.fetchSDDVerifiedSuccess(sddVerified)
+            )
+            break
+          }
           yield delay(POLL_SDD_DELAY)
         }
 

@@ -394,9 +394,7 @@ export default ({
 
       const error = errorHandler(e)
       if (values?.orderType === 'SELL') {
-        return yield put(
-          actions.form.stopSubmit('previewSell', { _error: error })
-        )
+        yield put(actions.form.stopSubmit('previewSell', { _error: error }))
       }
       yield put(actions.form.stopSubmit('simpleBuyCheckout', { _error: error }))
     }
@@ -753,9 +751,15 @@ export default ({
   }
   const fetchSDDVerified = function * () {
     try {
-      yield put(A.fetchSDDVerifiedLoading())
-      const sddEligible = yield call(api.fetchSDDVerified)
-      yield put(A.fetchSDDVerifiedSuccess(sddEligible))
+      const isSddVerified = S.getSddVerified(yield select()).getOrElse({
+        verified: false
+      })
+
+      if (!isSddVerified.verified) {
+        yield put(A.fetchSDDVerifiedLoading())
+        const sddEligible = yield call(api.fetchSDDVerified)
+        yield put(A.fetchSDDVerifiedSuccess(sddEligible))
+      }
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchSDDVerifiedFailure(error))
@@ -1386,19 +1390,19 @@ export default ({
     yield put(actions.form.focus('simpleBuyCheckout', 'amount'))
   }
 
-  const fetchSDDLimits = function * ({
+  const fetchLimits = function * ({
     currency
   }: ReturnType<typeof A.fetchSBFiatEligible>) {
     try {
-      yield put(A.fetchSDDLimitsLoading())
+      yield put(A.fetchLimitsLoading())
       const limits: ReturnType<typeof api.getSwapLimits> = yield call(
         api.getSwapLimits,
         currency
       )
-      yield put(A.fetchSDDLimitsSuccess(limits))
+      yield put(A.fetchLimitsSuccess(limits))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchSDDLimitsFailure(error))
+      yield put(A.fetchLimitsFailure(error))
     }
   }
 
@@ -1413,6 +1417,7 @@ export default ({
     deleteSBCard,
     fetchBankTransferAccounts,
     fetchBankTransferUpdate,
+    fetchLimits,
     fetchSBBalances,
     fetchSBCard,
     fetchSBCardSDD,
@@ -1420,7 +1425,6 @@ export default ({
     fetchSBFiatEligible,
     fetchSDDEligible,
     fetchSDDVerified,
-    fetchSDDLimits,
     fetchSBOrders,
     fetchSBPairs,
     fetchSBPaymentAccount,
