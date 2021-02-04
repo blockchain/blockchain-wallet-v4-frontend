@@ -751,9 +751,15 @@ export default ({
   }
   const fetchSDDVerified = function * () {
     try {
-      yield put(A.fetchSDDVerifiedLoading())
-      const sddEligible = yield call(api.fetchSDDVerified)
-      yield put(A.fetchSDDVerifiedSuccess(sddEligible))
+      const isSddVerified = S.getSddVerified(yield select()).getOrElse({
+        verified: false
+      })
+
+      if (!isSddVerified.verified) {
+        yield put(A.fetchSDDVerifiedLoading())
+        const sddEligible = yield call(api.fetchSDDVerified)
+        yield put(A.fetchSDDVerifiedSuccess(sddEligible))
+      }
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchSDDVerifiedFailure(error))
