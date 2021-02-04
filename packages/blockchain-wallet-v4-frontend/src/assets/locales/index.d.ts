@@ -1376,6 +1376,7 @@ type MessagesType = {
   'modals.simplebuy.setupaccount': "Next, we'll set up your account."
   'modals.simplebuy.success': 'Trade Complete'
   'modals.simplebuy.summary.ach_lock': 'Note: You will not be able to Send or Withdraw these funds from your Wallet for the next {days} days.'
+  'modals.simplebuy.summary.buy_started': '{amount} {coin} Buy Started'
   'modals.simplebuy.summary.cancelbuy': 'Cancel Buy'
   'modals.simplebuy.summary.cancelsell': 'Cancel Sell'
   'modals.simplebuy.summary.complete_card_payment': 'Complete Card Payment'
@@ -1404,6 +1405,7 @@ type MessagesType = {
   'modals.simplebuy.transactionlist.viewdetails': 'View Details'
   'modals.simplebuy.transferdetails': 'Transfer Details'
   'modals.simplebuy.transferdetails.accountType': 'Account Type'
+  'modals.simplebuy.transferdetails.ach_pending': 'We are completing your purchase now. Expect the funds to be withdrawn from your bank in 5 business days. Check the status of your order at anytime from Wallet’s Activity.'
   'modals.simplebuy.transferdetails.back': 'Back'
   'modals.simplebuy.transferdetails.available': 'Your {coin} is now available in your Trading Wallet.'
   'modals.simplebuy.transferdetails.pending': 'Your order is pending. Your funds will be available in your Trading Wallet once the order is complete.'
