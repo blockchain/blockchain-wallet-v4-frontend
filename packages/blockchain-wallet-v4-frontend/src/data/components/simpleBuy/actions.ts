@@ -544,9 +544,6 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
         fiatCurrency: payload.fiatCurrency,
         orderType: payload.orderType
       }
-    case 'LINK_BANK_STATUS': {
-      return { step: payload.step, bankStatus: payload.bankStatus }
-    }
     case 'BANK_WIRE_DETAILS':
       return {
         step: payload.step,
@@ -565,7 +562,6 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
       return { step: payload.step, order: payload.order }
     case 'SELL_ORDER_SUMMARY':
       return { step: payload.step, sellOrder: payload.sellOrder }
-    case 'LINK_BANK':
     default:
       return { step: payload.step }
   }

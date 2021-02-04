@@ -27,36 +27,37 @@ export type BankStatusType =
 
 export type BrokerageStepPayload =
   | {
-      account: BankTransferAccountType
-      step: BankStepType.SHOW_BANK
+      step: AddBankStepType.ADD_BANK | AddBankStepType.ADD_BANK_HANDLER
     }
   | {
-      account: BankTransferAccountType
-      redirectBackToStep?: BankStepType.SHOW_BANK
-      step: BankStepType.REMOVE_BANK
-    }
-  | {
-      step: BankStepType.LINK_BANK | BankStepType.DEFAULT
+      bankStatus: BankStatusType
+      step: AddBankStepType.ADD_BANK_STATUS
     }
 
-export enum BankStepType {
-  DEFAULT = 'DEFAULT',
-  LINK_BANK = 'LINK_BANK',
-  REMOVE_BANK = 'REMOVE_BANK',
-  SHOW_BANK = 'SHOW_BANK'
+export type BankDetailsPayload = {
+  account: BankTransferAccountType
+  redirectBackToStep?: boolean
+}
+
+export enum AddBankStepType {
+  ADD_BANK = 'ADD_BANK',
+  ADD_BANK_HANDLER = 'ADD_BANK_HANDLER',
+  ADD_BANK_STATUS = 'ADD_BANK_STATUS'
 }
 
 export enum BrokerageModalOriginType {
+  ADD_BANK = 'AddBankModal',
   BANK = 'BankDetailsModal'
 }
 
 // State
 export type BrokerageState = {
   account: BankTransferAccountType | undefined
+  bankStatus: RemoteDataType<string, BankStatusType>
   bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>
   fastLink: RemoteDataType<string, FastLinkType>
-  redirectBackToStep: BankStepType.SHOW_BANK | undefined
-  step: BankStepType
+  redirectBackToStep: boolean
+  step: AddBankStepType
 }
 
 interface FetchFastLinkType {
@@ -93,6 +94,10 @@ interface SetStepAction {
   payload: BrokerageStepPayload
   type: typeof AT.SET_STEP
 }
+interface SetBankAccountAction {
+  payload: BankDetailsPayload
+  type: typeof AT.SET_BANK_DETAILS
+}
 
 export type BrokerageActionTypes =
   | FetchBankTransferAccountsFailure
@@ -102,3 +107,4 @@ export type BrokerageActionTypes =
   | FetchFastLinkType
   | SetFastLinkAction
   | SetStepAction
+  | SetBankAccountAction

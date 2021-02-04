@@ -1,40 +1,46 @@
 import { actions, selectors } from 'data'
 import { BankTransferAccountType } from 'core/types'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 
-import { BankStepType } from 'data/types'
+import { ModalPropsType } from '../../../types'
 import { RootState } from 'data/rootReducer'
+import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import ModalEnhancer from 'providers/ModalEnhancer'
 import React, { PureComponent } from 'react'
 import Template from './template'
 
 export type OwnProps = {
   handleClose: () => void
-}
+} & ModalPropsType
+
 export type LinkDispatchPropsType = {
   brokerageActions: typeof actions.components.brokerage
 }
 type LinkStatePropsType = {
   account: BankTransferAccountType | undefined
-  redirectBackToStep: BankStepType.SHOW_BANK | undefined
+  redirectBackToStep: boolean
 }
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 class CancelOrder extends PureComponent<Props, {}> {
+  state: State = { show: false, direction: 'left' }
+
+  componentDidMount () {
+    /* eslint-disable */
+    this.setState({ show: true })
+    /* eslint-enable */
+  }
+
+  handleClose = () => {
+    this.setState({ show: false })
+    setTimeout(() => {
+      this.props.close()
+    }, duration)
+  }
+
   handleSubmit = () => {
     if (this.props.account) {
       this.props.brokerageActions.deleteSavedBank(this.props.account.id)
-    }
-  }
-
-  handleClickBack = () => {
-    if (this.props.redirectBackToStep && this.props.account) {
-      this.props.brokerageActions.setStep({
-        step: this.props.redirectBackToStep,
-        account: this.props.account
-      })
-    } else {
-      this.props.handleClose()
     }
   }
 
@@ -43,13 +49,23 @@ class CancelOrder extends PureComponent<Props, {}> {
       return null
     }
     return (
-      <Template
+      <Flyout
         {...this.props}
-        onSubmit={this.handleSubmit}
-        onClickBack={this.handleClickBack}
-        account={this.props.account}
-        redirectBack={this.props.redirectBackToStep}
-      />
+        onClose={this.handleClose}
+        in={this.state.show}
+        direction={this.state.direction}
+        data-e2e='bankRemoveModal'
+      >
+        <FlyoutChild>
+          <Template
+            {...this.props}
+            onSubmit={this.handleSubmit}
+            account={this.props.account}
+            redirectBack={this.props.redirectBackToStep}
+            handleClose={this.handleClose}
+          />
+        </FlyoutChild>
+      </Flyout>
     )
   }
 }
@@ -65,6 +81,17 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 
-const enhance = compose(connect(mapStateToProps, mapDispatchToProps))
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+const enhance = compose(
+  ModalEnhancer('REMOVE_BANK_MODAL', { transition: duration }),
+  connector
+)
+
+export type Props = OwnProps &
+  LinkStatePropsType &
+  ConnectedProps<typeof connector>
+
+type State = { direction: 'left' | 'right'; show: boolean }
 
 export default enhance(CancelOrder)

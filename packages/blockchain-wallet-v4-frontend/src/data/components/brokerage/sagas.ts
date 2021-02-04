@@ -1,10 +1,10 @@
 import { call, put, retry, select, take } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
+import { AddBankStepType, SBCheckoutFormValuesType } from 'data/types'
 import { APIType } from 'core/network/api'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { SBCheckoutFormValuesType } from 'data/types'
 
 import * as A from './actions'
 import * as AT from './actionTypes'
@@ -26,7 +26,8 @@ export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
       ])
       yield put(actions.form.stopSubmit('linkedBanks'))
       yield put(actions.alerts.displaySuccess('Bank removed.'))
-      yield put(actions.modals.closeModal('BANKS_MODAL'))
+      yield put(actions.modals.closeModal('BANK_PREVIEW_MODAL'))
+      yield put(actions.modals.closeModal('REMOVE_BANK_MODAL'))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('linkedBanks', { _error: error }))
@@ -67,8 +68,8 @@ export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
         // Shows bank status screen based on whether has blocked account or not
 
         yield put(
-          actions.components.simpleBuy.setStep({
-            step: 'LINK_BANK_STATUS',
+          actions.components.brokerage.setStep({
+            step: AddBankStepType.ADD_BANK_STATUS,
             bankStatus: bankData.state
           })
         )
@@ -108,8 +109,8 @@ export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
       }
     } catch (e) {
       yield put(
-        actions.components.simpleBuy.setStep({
-          step: 'LINK_BANK_STATUS',
+        actions.components.brokerage.setStep({
+          step: AddBankStepType.ADD_BANK_STATUS,
           bankStatus: 'DEFAULT_ERROR'
         })
       )
@@ -137,8 +138,8 @@ export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
   }
 
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
-    const { origin } = payload
-    yield put(actions.modals.showModal('BANKS_MODAL', { origin }))
+    const { origin, modalType } = payload
+    yield put(actions.modals.showModal(modalType, { origin }))
   }
 
   return {

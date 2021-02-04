@@ -5,6 +5,11 @@ import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
 import {
+  AddBankStepType,
+  BrokerageModalOriginType,
+  UserDataType
+} from 'data/types'
+import {
   ExtractSuccess,
   FiatTypeEnum,
   SBOrderType,
@@ -15,7 +20,6 @@ import {
 import { getFiatFromPair, getOrderType } from 'data/components/simpleBuy/model'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
-import { UserDataType } from 'data/types'
 import DataError from 'components/DataError'
 
 import { getData } from './selectors'
@@ -112,8 +116,12 @@ class CheckoutConfirm extends PureComponent<Props> {
             this.props.order
           )
         } else {
-          return this.props.simpleBuyActions.setStep({
-            step: 'LINK_BANK_HANDLER'
+          this.props.brokerageActions.showModal(
+            BrokerageModalOriginType.ADD_BANK,
+            'ADD_BANK_MODAL'
+          )
+          return this.props.brokerageActions.setStep({
+            step: AddBankStepType.ADD_BANK_HANDLER
           })
         }
       default:

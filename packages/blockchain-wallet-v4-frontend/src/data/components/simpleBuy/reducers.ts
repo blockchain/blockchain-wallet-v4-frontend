@@ -6,7 +6,6 @@ import Remote from 'blockchain-wallet-v4/src/remote/remote'
 const INITIAL_STATE: SimpleBuyState = {
   addBank: undefined,
   account: Remote.NotAsked,
-  bankStatus: Remote.NotAsked,
   balances: Remote.NotAsked,
   card: Remote.NotAsked,
   cardId: undefined,
@@ -392,17 +391,6 @@ export function simpleBuyReducer (
             fiatCurrency: action.payload.fiatCurrency,
             displayBack: action.payload.displayBack,
             addBank: action.payload.addBank
-          }
-        case 'LINK_BANK_STATUS':
-          return {
-            ...state,
-            step: action.payload.step,
-            bankStatus: Remote.Success(action.payload.bankStatus)
-          }
-        case 'LINK_BANK':
-          return {
-            ...state,
-            step: action.payload.step
           }
         case 'SELL_ORDER_SUMMARY':
           return {

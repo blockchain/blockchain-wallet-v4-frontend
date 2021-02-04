@@ -1,5 +1,5 @@
 import { actions, selectors } from 'data'
-import { BankStepType, BrokerageModalOriginType } from 'data/types'
+import { AddBankStepType, BrokerageModalOriginType } from 'data/types'
 import {
   BankTransferAccountType,
   ExtractSuccess,
@@ -21,24 +21,31 @@ class LinkedBanks extends PureComponent<Props> {
   }
 
   handleBankClick = () => {
-    this.props.simpleBuyActions.showModal('SettingsGeneral')
-    this.props.simpleBuyActions.setStep({
-      step: 'LINK_BANK'
+    this.props.brokerageActions.showModal(
+      BrokerageModalOriginType.ADD_BANK,
+      'ADD_BANK_MODAL'
+    )
+    this.props.brokerageActions.setStep({
+      step: AddBankStepType.ADD_BANK
     })
   }
 
   handleShowBankClick = (account: BankTransferAccountType) => {
-    this.props.brokerageActions.showModal(BrokerageModalOriginType.BANK)
-    this.props.brokerageActions.setStep({
-      step: BankStepType.SHOW_BANK,
+    this.props.brokerageActions.showModal(
+      BrokerageModalOriginType.BANK,
+      'BANK_PREVIEW_MODAL'
+    )
+    this.props.brokerageActions.setBankDetails({
       account
     })
   }
 
   handleDeleteBank = (account: BankTransferAccountType) => {
-    this.props.brokerageActions.showModal(BrokerageModalOriginType.BANK)
-    this.props.brokerageActions.setStep({
-      step: BankStepType.REMOVE_BANK,
+    this.props.brokerageActions.showModal(
+      BrokerageModalOriginType.BANK,
+      'REMOVE_BANK_MODAL'
+    )
+    this.props.brokerageActions.setBankDetails({
       account
     })
   }

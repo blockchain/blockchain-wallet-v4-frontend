@@ -11,6 +11,7 @@ import BigNumber from 'bignumber.js'
 import moment from 'moment'
 
 import { actions, selectors } from 'data'
+import { AddBankStepType, BrokerageModalOriginType } from 'data/types'
 import { APIType } from 'core/network/api'
 import {
   CoinTypeEnum,
@@ -993,9 +994,15 @@ export default ({
           })
         )
       case 'LINK_BANK':
+        yield put(
+          actions.components.brokerage.showModal(
+            BrokerageModalOriginType.ADD_BANK,
+            'ADD_BANK_MODAL'
+          )
+        )
         return yield put(
-          A.setStep({
-            step: 'LINK_BANK'
+          actions.components.brokerage.setStep({
+            step: AddBankStepType.ADD_BANK
           })
         )
 

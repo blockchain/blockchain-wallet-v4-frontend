@@ -3,7 +3,6 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 
-import { BankStepType } from 'data/types'
 import { BankTransferAccountType } from 'core/types'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { LinkDispatchPropsType, OwnProps } from '.'
@@ -42,8 +41,7 @@ const LeftTopCol = styled.div`
 type Props = OwnProps &
   LinkDispatchPropsType & {
     account: BankTransferAccountType
-    onClickBack: () => void
-    redirectBack: BankStepType.SHOW_BANK | undefined
+    redirectBack: boolean
   }
 
 const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
@@ -61,7 +59,7 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 color='grey600'
                 role='button'
                 style={{ marginRight: '8px' }}
-                onClick={props.onClickBack}
+                onClick={props.handleClose}
               />
               <Text color='grey800' size='24px' weight={600}>
                 <FormattedMessage id='buttons.back' defaultMessage='Back' />
@@ -135,7 +133,7 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             nature='light'
             data-e2e='cancelRemoveOfLinkedBank'
             disabled={props.submitting}
-            onClick={props.onClickBack}
+            onClick={props.handleClose}
             style={{ marginTop: '16px' }}
             type='button'
           >

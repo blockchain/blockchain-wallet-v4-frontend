@@ -11,3 +11,6 @@ export const getAccount = (state: RootState) =>
   state.components.brokerage.account
 export const getRedirectBackToStep = (state: RootState) =>
   state.components.brokerage.redirectBackToStep
+
+export const getAddBankStatus = (state: RootState) =>
+  state.components.brokerage.bankStatus

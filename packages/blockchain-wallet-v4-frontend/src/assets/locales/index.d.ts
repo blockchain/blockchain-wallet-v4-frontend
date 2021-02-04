@@ -583,6 +583,9 @@ type MessagesType = {
   'lockboxrequired.tooltip': 'Hardware device is required'
   'modals.brokerage.bank_preview.disclaimer': 'This account can be used for buys, sells & withdrawals.'
   'modals.brokerage.remove_bank.description': "You're about to remove your {bankAccount}"
+  'modals.brokerage.link_bank': 'Blockchain.com uses Yodlee to verify your bank credentials & securely link your accounts.'
+  'modals.brokerage.link_bank_yodlee_terms': "By hitting Continue, you Agree to Yodlee's"
+  'modals.brokerage.yodlee_description': 'Yodlee securely stores your credentials adhering to leading industry practices for data security, regulatory compliance, and privacy.'
   'modal.createaccountlearn.info1': 'Stellar requires that all Stellar accounts hold a minimum balance of lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to a new Stellar account, you must send enough XLM to meet the minimum balance requirement.'
   'modal.createaccountlearn.info2': 'The current minimum balance requirement is 1 XLM.'
   'modal.createaccountlearn.info3': "You can read more information about Stellar's minimum balance requirement at"
@@ -1308,10 +1311,7 @@ type MessagesType = {
   'modals.simplebuy.fiataccountineligible': 'your region.'
   'modals.simplebuy.fiatregion': 'your region'
   'modals.simplebuy.gatheringinfo': 'Gathering Some Info...'
-  'modals.simplebuy.link_bank': 'Blockchain.com uses Yodlee to verify your bank credentials & securely link your accounts.'
-  'modals.simplebuy.link_bank_yodlee_terms': "By hitting Continue, you Agree to Yodlee's"
   'modals.simplebuy.secure_connection': 'Secure Connection'
-  'modals.simplebuy.yodlee_description': 'Yodlee securely stores your credentials adhering to leading industry practices for data security, regulatory compliance, and privacy.'
   'modals.simplebuy.link_card_failed': 'Card failed to link. Please try again or contact support if you believe this occured in error.'
   'modals.simplebuy.linking_card': 'Securely Linking Your Card'
   'modals.simplebuy.linking_card.time': 'This could take up to 1 minute. Please do not close this window.'

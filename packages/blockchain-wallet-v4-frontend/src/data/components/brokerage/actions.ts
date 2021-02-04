@@ -2,12 +2,13 @@ import * as AT from './actionTypes'
 import { BankTransferAccountType, YodleeAccountType } from 'core/types'
 
 import {
-  BankStepType,
+  AddBankStepType,
+  BankDetailsPayload,
   BrokerageActionTypes,
   BrokerageStepPayload,
   FastLinkType
 } from './types'
-import { BrokerageModalOriginType } from 'data/types'
+import { BrokerageModalOriginType, ModalNamesType } from 'data/types'
 
 export const deleteSavedBank = (bankId: BankTransferAccountType['id']) => ({
   type: AT.DELETE_SAVED_BANK,
@@ -61,27 +62,32 @@ export const setStep = (
   payload: getPayloadObjectForStep(payload)
 })
 
+export const setBankDetails = (
+  payload: BankDetailsPayload
+): BrokerageActionTypes => ({
+  type: AT.SET_BANK_DETAILS,
+  payload: payload
+})
+
 const getPayloadObjectForStep = (payload: BrokerageStepPayload) => {
   switch (payload.step) {
-    case BankStepType.SHOW_BANK:
+    case AddBankStepType.ADD_BANK_STATUS:
       return {
         step: payload.step,
-        account: payload.account
-      }
-    case BankStepType.REMOVE_BANK:
-      return {
-        step: payload.step,
-        account: payload.account,
-        redirectBackToStep: payload.redirectBackToStep
+        bankStatus: payload.bankStatus
       }
     default:
       return { step: payload.step }
   }
 }
 
-export const showModal = (origin: BrokerageModalOriginType) => ({
+export const showModal = (
+  origin: BrokerageModalOriginType,
+  modalType: ModalNamesType
+) => ({
   type: AT.SHOW_MODAL,
   payload: {
-    origin
+    origin,
+    modalType
   }
 })

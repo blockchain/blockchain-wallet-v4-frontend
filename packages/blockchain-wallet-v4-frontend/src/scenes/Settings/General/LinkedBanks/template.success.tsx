@@ -126,7 +126,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <CustomSettingComponent>
           <Button
             nature='primary'
-            data-e2e='addCardFromSettings'
+            data-e2e='addBankFromSettings'
             onClick={() => props.handleBankClick()}
           >
             <FormattedMessage

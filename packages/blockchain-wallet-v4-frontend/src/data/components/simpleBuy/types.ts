@@ -24,7 +24,6 @@ import {
 } from 'core/types'
 
 import * as AT from './actionTypes'
-import { BankStatusType } from '../brokerage/types'
 import { CountryType } from './../identityVerification/types'
 import { SwapAccountType } from '../swap/types'
 
@@ -81,9 +80,6 @@ export enum SimpleBuyStepType {
   'TRANSFER_DETAILS',
   'UPGRADE_TO_GOLD',
   'VERIFY_EMAIL',
-  'LINK_BANK',
-  'LINK_BANK_HANDLER',
-  'LINK_BANK_STATUS',
   'BANK_WIRE_DETAILS'
 }
 export type SBShowModalOriginType =
@@ -113,7 +109,6 @@ export type SimpleBuyState = {
   account: RemoteDataType<string, SBAccountType>
   addBank: boolean | undefined
   balances: RemoteDataType<string, SBBalancesType>
-  bankStatus: RemoteDataType<string, BankStatusType>
   card: RemoteDataType<string, SBCardType>
   cardId: undefined | string
   cards: RemoteDataType<string, Array<SBCardType>>
@@ -410,10 +405,6 @@ export type StepActionsPayload =
       step: 'BANK_WIRE_DETAILS'
     }
   | {
-      bankStatus: BankStatusType
-      step: 'LINK_BANK_STATUS'
-    }
-  | {
       cryptoCurrency: CoinType
       fiatCurrency: FiatType
       order?: SBOrderType
@@ -438,8 +429,6 @@ export type StepActionsPayload =
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
-        | 'LINK_BANK_HANDLER'
-        | 'LINK_BANK'
     }
 
 interface SetStepAction {

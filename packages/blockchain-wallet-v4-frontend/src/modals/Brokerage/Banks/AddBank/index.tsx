@@ -3,13 +3,15 @@ import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 
-import { BankStepType } from 'data/types'
-import { ModalPropsType } from '../../types'
+import { AddBankStepType } from 'data/types'
+import { ModalPropsType } from '../../../types'
 import { selectors } from 'data'
-import BankDetails from './BankDetails'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
-import RemoveBank from './RemoveBank'
+
+import Add from './Add'
+import Handler from './Handler'
+import Status from './Status'
 
 class Banks extends PureComponent<Props> {
   state: State = { show: false, direction: 'left' }
@@ -22,7 +24,7 @@ class Banks extends PureComponent<Props> {
 
   componentDidUpdate (prevProps: Props) {
     if (this.props.step === prevProps.step) return
-    if (BankStepType[this.props.step] > BankStepType[prevProps.step]) {
+    if (AddBankStepType[this.props.step] > AddBankStepType[prevProps.step]) {
       /* eslint-disable */
       this.setState({ direction: 'left' })
     } else {
@@ -45,16 +47,21 @@ class Banks extends PureComponent<Props> {
         onClose={this.handleClose}
         in={this.state.show}
         direction={this.state.direction}
-        data-e2e='banksModal'
+        data-e2e='addBankModal'
       >
-        {this.props.step === BankStepType.REMOVE_BANK && (
+        {this.props.step === AddBankStepType.ADD_BANK && (
           <FlyoutChild>
-            <RemoveBank {...this.props} handleClose={this.handleClose} />
+            <Add {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
-        {this.props.step === BankStepType.SHOW_BANK && (
+        {this.props.step === AddBankStepType.ADD_BANK_HANDLER && (
           <FlyoutChild>
-            <BankDetails {...this.props} handleClose={this.handleClose} />
+            <Handler {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === AddBankStepType.ADD_BANK_STATUS && (
+          <FlyoutChild>
+            <Status {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
       </Flyout>
@@ -69,13 +76,13 @@ const mapStateToProps = (state: RootState) => ({
 const connector = connect(mapStateToProps)
 
 const enhance = compose(
-  ModalEnhancer('BANKS_MODAL', { transition: duration }),
+  ModalEnhancer('ADD_BANK_MODAL', { transition: duration }),
   connector
 )
 
 type OwnProps = ModalPropsType
 type LinkStatePropsType = {
-  step: BankStepType
+  step: AddBankStepType
 }
 
 export type Props = OwnProps &
