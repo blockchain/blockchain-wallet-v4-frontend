@@ -8,7 +8,7 @@ import { selectors } from 'data'
 
 export const getData = (state: RootState) => {
   // TODO: YODLEE get partner data from selectors
-  const fastLinkR = selectors.components.simpleBuy.getFastLink(state)
+  const fastLinkR = selectors.components.brokerage.getFastLink(state)
   const providerDetailsR = Remote.Success(fastLinkR)
   const domains = selectors.core.walletOptions.getDomains(state).getOrElse({
     walletHelper: 'https://wallet-helper.blockchain.com'

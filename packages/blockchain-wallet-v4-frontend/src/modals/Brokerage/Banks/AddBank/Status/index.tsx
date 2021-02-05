@@ -1,32 +1,24 @@
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import {
-  CoinType,
-  ExtractSuccess,
-  FiatType,
-  RemoteDataType,
-  SBOrderType
-} from 'core/types'
+import React, { PureComponent } from 'react'
+
 import { connect } from 'react-redux'
+import { ExtractSuccess, RemoteDataType } from 'core/types'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
 import BankLinkError from './template.error.general'
-import Loading from '../template.loading'
-import React, { PureComponent } from 'react'
+import Loading from './template.loading'
 import Success from './template.success'
 
 export type OwnProps = {
   handleClose: () => void
-  order: SBOrderType
 }
 type LinkDispatchPropsType = {
-  simpleBuyActions: typeof actions.components.simpleBuy
+  brokerageActions: typeof actions.components.brokerage
 }
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 type LinkStatePropsType = {
-  cryptoCurrency: CoinType
   data: RemoteDataType<string, SuccessStateType>
-  fiatCurrency: FiatType
 }
 export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 type State = {}
@@ -48,14 +40,11 @@ class LinkBankStatus extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  data: getData(state),
-  cryptoCurrency:
-    selectors.components.simpleBuy.getCryptoCurrency(state) || 'BTC',
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD'
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

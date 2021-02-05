@@ -4,6 +4,7 @@ import { isEmpty } from 'ramda'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
+import { AddBankStepType } from 'data/types'
 import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
@@ -27,10 +28,10 @@ class LinkBankHandler extends PureComponent<Props, State> {
 
     const { sites } = event.data
     if (!isEmpty(sites)) {
-      this.props.simpleBuyActions.fetchBankTransferUpdate(sites)
-      this.props.simpleBuyActions.fetchBTUpdateLoading()
+      this.props.brokerageActions.fetchBankTransferUpdate(sites)
+      this.props.brokerageActions.fetchBTUpdateLoading()
     } else {
-      this.props.simpleBuyActions.setStep({ step: 'LINK_BANK' })
+      this.props.brokerageActions.setStep({ step: AddBankStepType.ADD_BANK })
     }
   }
 
@@ -49,7 +50,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
