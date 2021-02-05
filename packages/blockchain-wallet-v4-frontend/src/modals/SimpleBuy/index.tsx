@@ -31,9 +31,6 @@ import CheckoutConfirm from './CheckoutConfirm'
 import CryptoSelection from './CryptoSelection'
 import EnterAmount from './EnterAmount'
 import KycRequired from './KycRequired'
-import LinkBank from './LinkBank'
-import LinkBankHandler from './LinkBankHandler'
-import LinkBankStatus from './LinkBankStatus'
 import LinkedPaymentAccounts from './LinkedPaymentAccounts'
 import OrderSummary from './OrderSummary'
 import PaymentMethods from './PaymentMethods'
@@ -156,27 +153,6 @@ class SimpleBuy extends PureComponent<Props, State> {
             {this.props.step === 'LINKED_PAYMENT_ACCOUNTS' && (
               <FlyoutChild>
                 <LinkedPaymentAccounts
-                  {...this.props}
-                  handleClose={this.handleClose}
-                />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'LINK_BANK' && (
-              <FlyoutChild>
-                <LinkBank {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'LINK_BANK_HANDLER' && (
-              <FlyoutChild>
-                <LinkBankHandler
-                  {...this.props}
-                  handleClose={this.handleClose}
-                />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'LINK_BANK_STATUS' && (
-              <FlyoutChild>
-                <LinkBankStatus
                   {...this.props}
                   handleClose={this.handleClose}
                 />
@@ -338,7 +314,6 @@ type LinkStatePropsType =
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
-        | 'LINK_BANK_HANDLER' // TODO: YODLEE probably need custom step type?
     }
   | {
       orderType: SBOrderActionType

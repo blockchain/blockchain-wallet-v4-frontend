@@ -4,7 +4,6 @@ import {
   delay,
   put,
   race,
-  retry,
   select,
   take
 } from 'redux-saga/effects'
@@ -12,6 +11,7 @@ import BigNumber from 'bignumber.js'
 import moment from 'moment'
 
 import { actions, selectors } from 'data'
+import { AddBankStepType, BrokerageModalOriginType } from 'data/types'
 import { APIType } from 'core/network/api'
 import {
   CoinTypeEnum,
@@ -60,6 +60,7 @@ import { FALLBACK_DELAY, getOutputFromPair } from '../swap/model'
 import { getDirection } from './utils'
 import { getRate, NO_QUOTE } from '../swap/utils'
 import { selectReceiveAddress } from '../utils/sagas'
+import brokerageSagas from '../brokerage/sagas'
 import profileSagas from '../../modules/profile/sagas'
 import sendSagas from '../send/sagas'
 import swapSagas from '../swap/sagas'
@@ -86,6 +87,11 @@ export default ({
     networks
   })
   const { calculateProvisionalPayment } = swapSagas({
+    api,
+    coreSagas,
+    networks
+  })
+  const { fetchBankTransferAccounts } = brokerageSagas({
     api,
     coreSagas,
     networks
@@ -188,6 +194,13 @@ export default ({
       )
       yield put(A.addCardDetailsFailure(error))
     }
+  }
+
+  const addCardFinished = function * () {
+    // This is primarily used in general settings to short circuit
+    // the SB flow when adding a new card but not buying crypto
+    yield take(AT.FETCH_SB_CARDS_SUCCESS)
+    yield put(actions.modals.closeAllModals())
   }
 
   const cancelSBOrder = function * ({
@@ -394,9 +407,7 @@ export default ({
 
       const error = errorHandler(e)
       if (values?.orderType === 'SELL') {
-        return yield put(
-          actions.form.stopSubmit('previewSell', { _error: error })
-        )
+        yield put(actions.form.stopSubmit('previewSell', { _error: error }))
       }
       yield put(actions.form.stopSubmit('simpleBuyCheckout', { _error: error }))
     }
@@ -469,27 +480,6 @@ export default ({
   }
 
   // TODO: move to BROKERAGE
-  const deleteSavedBank = function * ({
-    bankId
-  }: ReturnType<typeof A.deleteSavedBank>) {
-    try {
-      yield put(actions.form.startSubmit('linkedBanks'))
-      yield call(api.deleteSavedAccount, bankId, 'banktransfer')
-      yield put(A.fetchBankTransferAccounts())
-      yield take([
-        AT.FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS,
-        AT.FETCH_BANK_TRANSFER_UPDATE_ERROR
-      ])
-      yield put(actions.form.stopSubmit('linkedBanks'))
-      yield put(actions.alerts.displaySuccess('Bank removed.'))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(actions.form.stopSubmit('linkedBanks', { _error: error }))
-      yield put(actions.alerts.displayError('Error removing bank.'))
-    }
-  }
-
-  // TODO: move to BROKERAGE
   const deleteSBCard = function * ({
     cardId
   }: ReturnType<typeof A.deleteSBCard>) {
@@ -505,100 +495,6 @@ export default ({
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('linkedCards', { _error: error }))
       yield put(actions.alerts.displayError('Error removing card.'))
-    }
-  }
-
-  const transferAccountState = function * (id: string) {
-    const data = yield call(api.getBankTransferAccountDetails, id)
-    if (data.state === 'ACTIVE') {
-      return data
-    } else if (data.state === 'BLOCKED') {
-      return data.error
-    } else {
-      throw new Error('retry active account check')
-    }
-  }
-
-  const conditionalRetry = function * (id: string) {
-    const data = yield retry(60, 1000, transferAccountState, id)
-    return data
-  }
-  const fetchBankTransferUpdate = function * ({
-    accounts
-  }: ReturnType<typeof A.fetchBankTransferUpdate>) {
-    try {
-      const fastLink = yield select(selectors.components.simpleBuy.getFastLink)
-      for (let a of accounts) {
-        const status: ReturnType<typeof api.updateBankAccountLink> = yield call(
-          api.updateBankAccountLink,
-          a.providerAccountId,
-          fastLink.data.id,
-          a.accountId
-        )
-
-        // Polls the account details to check for Active state
-        const bankData = yield call(conditionalRetry, status.id)
-        // Shows bank status screen based on whether has blocked account or not
-        let bankStatus: T.BankStatusType = 'DEFAULT_ERROR'
-        switch (bankData.state) {
-          case 'ACTIVE':
-            bankStatus = bankData.state
-            break
-          case 'BLOCKED':
-            bankStatus = bankData.error
-            break
-        }
-
-        yield put(A.setStep({ step: 'LINK_BANK_STATUS', bankStatus }))
-
-        if (bankData.state === 'ACTIVE') {
-          const values: T.SBCheckoutFormValuesType = yield select(
-            selectors.form.getFormValues('simpleBuyCheckout')
-          )
-          if (values?.amount) {
-            yield put(A.createSBOrder('BANK_TRANSFER', status.id))
-          } else {
-            const sbMethodsR = S.getSBPaymentMethods(yield select())
-            const sbMethods = sbMethodsR.getOrElse(DEFAULT_SB_METHODS)
-            if (Remote.Success.is(sbMethodsR) && sbMethods.methods.length) {
-              const bankTransferMethod = sbMethods.methods.filter(
-                method => method.type === 'BANK_TRANSFER'
-              )[0]
-              yield put(
-                A.handleSBMethodChange({
-                  ...bankData,
-                  limits: bankTransferMethod.limits,
-                  type: 'BANK_TRANSFER'
-                })
-              )
-            }
-          }
-        }
-      }
-    } catch (e) {
-      yield put(
-        A.setStep({ step: 'LINK_BANK_STATUS', bankStatus: 'DEFAULT_ERROR' })
-      )
-    }
-  }
-
-  const fetchFastLink = function * () {
-    try {
-      const fastLink = yield call(api.createBankAccountLink, 'USD')
-      yield put(A.setFastLink(fastLink))
-    } catch (e) {
-      // eslint-disable-next-line
-      console.log(e)
-    }
-  }
-
-  const fetchBankTransferAccounts = function * () {
-    try {
-      const accounts = yield call(api.getBankTransferAccounts)
-      yield put(A.fetchBankTransferAccountsSuccess(accounts))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.fetchBankTransferAccountsError(error))
     }
   }
 
@@ -753,9 +649,15 @@ export default ({
   }
   const fetchSDDVerified = function * () {
     try {
-      yield put(A.fetchSDDVerifiedLoading())
-      const sddEligible = yield call(api.fetchSDDVerified)
-      yield put(A.fetchSDDVerifiedSuccess(sddEligible))
+      const isSddVerified = S.getSddVerified(yield select()).getOrElse({
+        verified: false
+      })
+
+      if (!isSddVerified.verified) {
+        yield put(A.fetchSDDVerifiedLoading())
+        const sddEligible = yield call(api.fetchSDDVerified)
+        yield put(A.fetchSDDVerifiedSuccess(sddEligible))
+      }
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchSDDVerifiedFailure(error))
@@ -1103,9 +1005,15 @@ export default ({
           })
         )
       case 'LINK_BANK':
+        yield put(
+          actions.components.brokerage.showModal(
+            BrokerageModalOriginType.ADD_BANK,
+            'ADD_BANK_MODAL'
+          )
+        )
         return yield put(
-          A.setStep({
-            step: 'LINK_BANK'
+          actions.components.brokerage.setStep({
+            step: AddBankStepType.ADD_BANK
           })
         )
 
@@ -1405,14 +1313,12 @@ export default ({
   return {
     activateSBCard,
     addCardDetails,
+    addCardFinished,
     cancelSBOrder,
     confirmSBCreditCardOrder,
     confirmSBFundsOrder,
     createSBOrder,
-    deleteSavedBank,
     deleteSBCard,
-    fetchBankTransferAccounts,
-    fetchBankTransferUpdate,
     fetchLimits,
     fetchSBBalances,
     fetchSBCard,
@@ -1428,7 +1334,6 @@ export default ({
     fetchSBQuote,
     fetchSellQuote,
     formChanged,
-    fetchFastLink,
     handleSBDepositFiatClick,
     handleSBSuggestedAmountClick,
     handleSBMethodChange,

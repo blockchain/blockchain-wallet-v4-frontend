@@ -7,15 +7,12 @@ const INITIAL_STATE: SimpleBuyState = {
   addBank: undefined,
   account: Remote.NotAsked,
   balances: Remote.NotAsked,
-  bankStatus: Remote.NotAsked,
-  bankTransferAccounts: Remote.NotAsked,
   card: Remote.NotAsked,
   cardId: undefined,
   cards: Remote.NotAsked,
   cryptoCurrency: undefined,
   displayBack: false,
   everypay3DS: Remote.NotAsked,
-  fastLink: Remote.NotAsked,
   fiatCurrency: undefined,
   fiatEligible: Remote.NotAsked,
   method: undefined,
@@ -85,25 +82,6 @@ export function simpleBuyReducer (
         quote: Remote.NotAsked,
         step: 'CRYPTO_SELECTION'
       }
-    case AT.FETCH_BANK_TRANSFER_ACCOUNTS_LOADING:
-      return {
-        ...state,
-        bankTransferAccounts: Remote.Loading
-      }
-    case AT.FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS:
-      const accounts = action.payload.accounts.filter(
-        a => a.state !== 'PENDING' && a.state !== 'BLOCKED'
-      )
-      return {
-        ...state,
-        bankTransferAccounts: Remote.Success(accounts)
-      }
-    case AT.FETCH_BANK_TRANSFER_ACCOUNTS_ERROR: {
-      return {
-        ...state,
-        bankTransferAccounts: Remote.Failure(action.payload.error)
-      }
-    }
     case AT.FETCH_SB_BALANCES_FAILURE: {
       return {
         ...state,
@@ -152,11 +130,6 @@ export function simpleBuyReducer (
       return {
         ...state,
         cards: Remote.Success(action.payload.cards)
-      }
-    case AT.FETCH_BANK_TRANSFER_UPDATE_LOADING:
-      return {
-        ...state,
-        fastLink: Remote.Loading
       }
     case AT.FETCH_SB_FIAT_ELIGIBLE_FAILURE: {
       return {
@@ -365,10 +338,10 @@ export function simpleBuyReducer (
         sddTransactionFinished: true
       }
     }
-    case AT.SET_FAST_LINK:
+    case AT.SET_FIAT_CURRENCY:
       return {
         ...state,
-        fastLink: Remote.Success(action.payload.fastLink)
+        fiatCurrency: action.payload.fiatCurrency
       }
     case AT.SET_STEP:
       switch (action.payload.step) {
@@ -423,17 +396,6 @@ export function simpleBuyReducer (
             fiatCurrency: action.payload.fiatCurrency,
             displayBack: action.payload.displayBack,
             addBank: action.payload.addBank
-          }
-        case 'LINK_BANK':
-          return {
-            ...state,
-            step: action.payload.step
-          }
-        case 'LINK_BANK_STATUS':
-          return {
-            ...state,
-            step: action.payload.step,
-            bankStatus: Remote.Success(action.payload.bankStatus)
           }
         case 'SELL_ORDER_SUMMARY':
           return {

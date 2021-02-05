@@ -5,7 +5,7 @@ import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 
 export const getData = (state: RootState) => {
-  const fastLinkR = selectors.components.simpleBuy.getFastLink(state)
+  const fastLinkR = selectors.components.brokerage.getFastLink(state)
   const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
     state
   )

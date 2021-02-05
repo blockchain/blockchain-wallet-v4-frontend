@@ -345,6 +345,7 @@ type MessagesType = {
   'copy.crypto_selection_empty.needtoown': "You'll need to own crypto first..."
   'copy.crypto_selection_empty.receive': 'Are you holding crypto on a different wallet? Does a friend want to send you some Bitcoin? Copy and paste or share your unique wallet addresses QR codes.'
   'copy.crypto_selection_empty.receivetitle': 'Receive from Another Wallet'
+  'copy.currency': 'Currency'
   'copy.date': 'Date'
   'copy.error.locked_withdraw_error': 'Your crypto will be available to be withdrawn within {days} days.'
   'copy.failed': 'Failed'
@@ -580,6 +581,11 @@ type MessagesType = {
   'lockbox.service.messages.storagespace': 'Insufficient storage space on device'
   'lockbox.service.messages.unknown': 'An unknown error has occurred.'
   'lockboxrequired.tooltip': 'Hardware device is required'
+  'modals.brokerage.bank_preview.disclaimer': 'This account can be used for buys, sells & withdrawals.'
+  'modals.brokerage.remove_bank.description': "You're about to remove your {bankAccount}"
+  'modals.brokerage.link_bank': 'Blockchain.com uses Yodlee to verify your bank credentials & securely link your accounts.'
+  'modals.brokerage.link_bank_yodlee_terms': "By hitting Continue, you Agree to Yodlee's"
+  'modals.brokerage.yodlee_description': 'Yodlee securely stores your credentials adhering to leading industry practices for data security, regulatory compliance, and privacy.'
   'modal.createaccountlearn.info1': 'Stellar requires that all Stellar accounts hold a minimum balance of lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to a new Stellar account, you must send enough XLM to meet the minimum balance requirement.'
   'modal.createaccountlearn.info2': 'The current minimum balance requirement is 1 XLM.'
   'modal.createaccountlearn.info3': "You can read more information about Stellar's minimum balance requirement at"
@@ -1305,10 +1311,7 @@ type MessagesType = {
   'modals.simplebuy.fiataccountineligible': 'your region.'
   'modals.simplebuy.fiatregion': 'your region'
   'modals.simplebuy.gatheringinfo': 'Gathering Some Info...'
-  'modals.simplebuy.link_bank': 'Blockchain.com uses Yodlee to verify your bank credentials & securely link your accounts.'
-  'modals.simplebuy.link_bank_yodlee_terms': "By hitting Continue, you Agree to Yodlee's"
   'modals.simplebuy.secure_connection': 'Secure Connection'
-  'modals.simplebuy.yodlee_description': 'Yodlee securely stores your credentials adhering to leading industry practices for data security, regulatory compliance, and privacy.'
   'modals.simplebuy.link_card_failed': 'Card failed to link. Please try again or contact support if you believe this occured in error.'
   'modals.simplebuy.linking_card': 'Securely Linking Your Card'
   'modals.simplebuy.linking_card.time': 'This could take up to 1 minute. Please do not close this window.'
@@ -1376,6 +1379,7 @@ type MessagesType = {
   'modals.simplebuy.setupaccount': "Next, we'll set up your account."
   'modals.simplebuy.success': 'Trade Complete'
   'modals.simplebuy.summary.ach_lock': 'Note: You will not be able to Send or Withdraw these funds from your Wallet for the next {days} days.'
+  'modals.simplebuy.summary.buy_started': '{amount} {coin} Buy Started'
   'modals.simplebuy.summary.cancelbuy': 'Cancel Buy'
   'modals.simplebuy.summary.cancelsell': 'Cancel Sell'
   'modals.simplebuy.summary.complete_card_payment': 'Complete Card Payment'
@@ -1404,6 +1408,7 @@ type MessagesType = {
   'modals.simplebuy.transactionlist.viewdetails': 'View Details'
   'modals.simplebuy.transferdetails': 'Transfer Details'
   'modals.simplebuy.transferdetails.accountType': 'Account Type'
+  'modals.simplebuy.transferdetails.ach_pending': 'We are completing your purchase now. Expect the funds to be withdrawn from your bank in 5 business days. Check the status of your order at anytime from Wallet’s Activity.'
   'modals.simplebuy.transferdetails.back': 'Back'
   'modals.simplebuy.transferdetails.available': 'Your {coin} is now available in your Trading Wallet.'
   'modals.simplebuy.transferdetails.pending': 'Your order is pending. Your funds will be available in your Trading Wallet once the order is complete.'

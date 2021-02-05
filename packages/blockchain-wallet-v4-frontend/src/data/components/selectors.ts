@@ -1,5 +1,6 @@
 import * as bchTransactions from './bchTransactions/selectors'
 import * as borrow from './borrow/selectors'
+import * as brokerage from './brokerage/selectors'
 import * as btcTransactions from './btcTransactions/selectors'
 import * as identityVerification from './identityVerification/selectors'
 import * as interest from './interest/selectors'
@@ -25,6 +26,7 @@ import * as withdraw from './withdraw/selectors'
 export {
   bchTransactions,
   borrow,
+  brokerage,
   btcTransactions,
   identityVerification,
   interest,
