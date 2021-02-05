@@ -1,5 +1,5 @@
-import { brokerageReducer } from './brokerage/reducers'
 import { borrowReducer } from './borrow/reducers'
+import { brokerageReducer } from './brokerage/reducers'
 import { combineReducers } from 'redux'
 import { identityVerificationReducer } from './identityVerification/reducers'
 import { interestReducer } from './interest/reducers'

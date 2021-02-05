@@ -510,6 +510,19 @@ export const pollSBOrder = (orderId: string) => ({
   }
 })
 
+export const setFiatCurrency = (
+  fiatCurrency: FiatType
+): SimpleBuyActionTypes => ({
+  type: AT.SET_FIAT_CURRENCY,
+  payload: {
+    fiatCurrency
+  }
+})
+
+export const addCardFinished = (): SimpleBuyActionTypes => ({
+  type: AT.ADD_CARD_FINISHED
+})
+
 export const setStep = (payload: StepActionsPayload): SimpleBuyActionTypes => ({
   type: AT.SET_STEP,
   payload: getPayloadObjectForStep(payload)

@@ -4,10 +4,9 @@ import { selectors } from 'data'
 
 export const getData = state => {
   const balancesR = selectors.components.simpleBuy.getSBBalances(state)
-  const bankTransferAccountsR =
-    selectors.components.brokerage.getBankTransferAccounts(
-      state
-    )
+  const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
+    state
+  )
   const cardsR = selectors.components.simpleBuy.getSBCards(state)
   const eligibilityR = selectors.components.simpleBuy.getSBFiatEligible(state)
   const pairsR = selectors.components.simpleBuy.getSBPairs(state)

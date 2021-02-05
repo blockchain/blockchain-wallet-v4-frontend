@@ -436,6 +436,15 @@ interface SetStepAction {
   type: typeof AT.SET_STEP
 }
 
+interface SetFiatCurrencyAction {
+  payload: { fiatCurrency: FiatType }
+  type: typeof AT.SET_FIAT_CURRENCY
+}
+
+interface AddCardFinishedAction {
+  type: typeof AT.ADD_CARD_FINISHED
+}
+
 interface ShowModalAction {
   payload: {
     cryptoCurrency?: CoinType
@@ -488,6 +497,7 @@ export type SimpleBuyActionTypes =
   | AddCardDetailsFailure
   | AddCardDetailsLoading
   | AddCardDetailsSuccess
+  | AddCardFinishedAction
   | DestroyCheckout
   | FetchSBBalancesFailure
   | FetchSBBalancesLoading
@@ -529,6 +539,7 @@ export type SimpleBuyActionTypes =
   | FetchLimitsFailure
   | FetchLimitsSuccess
   | InitializeCheckout
+  | SetFiatCurrencyAction
   | SetStepAction
   | ShowModalAction
   | UpdatePaymentFailureAction
