@@ -1,5 +1,4 @@
 import {
-  BankTransferAccountType,
   CoinType,
   Everypay3DSResponseType,
   FiatEligibleType,
@@ -81,9 +80,6 @@ export enum SimpleBuyStepType {
   'TRANSFER_DETAILS',
   'UPGRADE_TO_GOLD',
   'VERIFY_EMAIL',
-  'LINK_BANK',
-  'LINK_BANK_HANDLER',
-  'LINK_BANK_STATUS',
   'BANK_WIRE_DETAILS'
 }
 export type SBShowModalOriginType =
@@ -100,25 +96,6 @@ export type SBShowModalOriginType =
   | 'WelcomeModal'
   | 'WithdrawModal'
 
-export type FastLinkType = {
-  attributes: {
-    fastlinkParams: {
-      configName: 'Verification'
-    }
-    fastlinkUrl: string
-    token: string
-    tokenExpiresAt: string
-  }
-  id: string
-  partner: 'YODLEE'
-}
-export type BankStatusType =
-  | 'ACTIVE'
-  | 'BANK_TRANSFER_ACCOUNT_INFO_NOT_FOUND'
-  | 'BANK_TRANSFER_ACCOUNT_ALREADY_LINKED'
-  | 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH'
-  | 'DEFAULT_ERROR'
-
 export enum SBCardStateEnum {
   PENDING,
   CREATED,
@@ -132,17 +109,15 @@ export type SimpleBuyState = {
   account: RemoteDataType<string, SBAccountType>
   addBank: boolean | undefined
   balances: RemoteDataType<string, SBBalancesType>
-  bankStatus: RemoteDataType<string, BankStatusType>
-  bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>
   card: RemoteDataType<string, SBCardType>
   cardId: undefined | string
   cards: RemoteDataType<string, Array<SBCardType>>
   cryptoCurrency: undefined | CoinType
   displayBack: boolean
   everypay3DS: RemoteDataType<string, Everypay3DSResponseType>
-  fastLink: RemoteDataType<string, FastLinkType>
   fiatCurrency: undefined | FiatType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
+  limits: RemoteDataType<string, undefined | SwapUserLimitsType>
   method: undefined | SBPaymentMethodType
   methods: RemoteDataType<string, SBPaymentMethodsType>
   order: undefined | SBOrderType
@@ -154,7 +129,6 @@ export type SimpleBuyState = {
   providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
   sddEligible: RemoteDataType<string, SDDEligibleType>
-  sddLimits: RemoteDataType<string, undefined | SwapUserLimitsType>
   sddTransactionFinished: boolean
   sddVerified: RemoteDataType<string, SDDVerifiedType>
   sellOrder: undefined | SwapOrderType
@@ -199,22 +173,6 @@ interface ActivateSBCardSuccess {
 
 interface DestroyCheckout {
   type: typeof AT.DESTROY_CHECKOUT
-}
-interface FetchBankTransferAccountsFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_BANK_TRANSFER_ACCOUNTS_ERROR
-}
-interface FetchBankTransferAccountsLoading {
-  type: typeof AT.FETCH_BANK_TRANSFER_ACCOUNTS_LOADING
-}
-
-interface FetchBankTransferAccountsSuccess {
-  payload: {
-    accounts: BankTransferAccountType[]
-  }
-  type: typeof AT.FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS
 }
 interface FetchSBBalancesFailure {
   payload: {
@@ -265,11 +223,6 @@ interface FetchSBCardsSuccess {
   }
   type: typeof AT.FETCH_SB_CARDS_SUCCESS
 }
-
-interface FetchBTUpdateLoading {
-  type: typeof AT.FETCH_BANK_TRANSFER_UPDATE_LOADING
-}
-
 interface FetchSBFiatEligibleFailure {
   payload: {
     error: string
@@ -410,11 +363,6 @@ interface FetchSellQuoteSuccess {
   }
   type: typeof AT.FETCH_SELL_QUOTE_SUCCESS
 }
-
-interface FetchFastLinkType {
-  type: typeof AT.FETCH_FAST_LINK
-}
-
 interface InitializeCheckout {
   account?: SwapAccountType
   amount: string
@@ -457,10 +405,6 @@ export type StepActionsPayload =
       step: 'BANK_WIRE_DETAILS'
     }
   | {
-      bankStatus: BankStatusType
-      step: 'LINK_BANK_STATUS'
-    }
-  | {
       cryptoCurrency: CoinType
       fiatCurrency: FiatType
       order?: SBOrderType
@@ -485,18 +429,11 @@ export type StepActionsPayload =
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
-        | 'LINK_BANK_HANDLER'
-        | 'LINK_BANK'
     }
 
 interface SetStepAction {
   payload: StepActionsPayload
   type: typeof AT.SET_STEP
-}
-
-interface SetFastLinkAction {
-  payload: { fastLink: FastLinkType }
-  type: typeof AT.SET_FAST_LINK
 }
 
 interface ShowModalAction {
@@ -523,22 +460,22 @@ interface UpdatePaymentSuccessAction {
   type: typeof AT.UPDATE_PAYMENT_SUCCESS
 }
 
-interface FetchSDDLimitsFailure {
+interface FetchLimitsFailure {
   payload: {
     error: string
   }
-  type: typeof AT.FETCH_SDD_LIMITS_FAILURE
+  type: typeof AT.FETCH_LIMITS_FAILURE
 }
 
-interface FetchSDDLimitsLoading {
-  type: typeof AT.FETCH_SDD_LIMITS_LOADING
+interface FetchLimitsLoading {
+  type: typeof AT.FETCH_LIMITS_LOADING
 }
 
-interface FetchSDDLimitsSuccess {
+interface FetchLimitsSuccess {
   payload: {
-    sddLimits: SwapUserLimitsType
+    limits: SwapUserLimitsType
   }
-  type: typeof AT.FETCH_SDD_LIMITS_SUCCESS
+  type: typeof AT.FETCH_LIMITS_SUCCESS
 }
 interface UpdateSddTransactionFinished {
   type: typeof AT.UPDATE_SDD_TRANSACTION_FINISHED
@@ -552,10 +489,6 @@ export type SimpleBuyActionTypes =
   | AddCardDetailsLoading
   | AddCardDetailsSuccess
   | DestroyCheckout
-  | FetchBankTransferAccountsLoading
-  | FetchBankTransferAccountsSuccess
-  | FetchBankTransferAccountsFailure
-  | FetchBTUpdateLoading
   | FetchSBBalancesFailure
   | FetchSBBalancesLoading
   | FetchSBBalancesSuccess
@@ -592,12 +525,10 @@ export type SimpleBuyActionTypes =
   | FetchSellQuoteFailure
   | FetchSellQuoteLoading
   | FetchSellQuoteSuccess
-  | FetchSDDLimitsLoading
-  | FetchSDDLimitsFailure
-  | FetchSDDLimitsSuccess
-  | FetchFastLinkType
+  | FetchLimitsLoading
+  | FetchLimitsFailure
+  | FetchLimitsSuccess
   | InitializeCheckout
-  | SetFastLinkAction
   | SetStepAction
   | ShowModalAction
   | UpdatePaymentFailureAction

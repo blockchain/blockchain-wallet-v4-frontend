@@ -299,7 +299,7 @@ export type FiatEligibleType = {
   simpleBuyTradingEligible: boolean
 }
 
-export type SDDLimits = {
+export type Limits = {
   max: string
   min: string
 }

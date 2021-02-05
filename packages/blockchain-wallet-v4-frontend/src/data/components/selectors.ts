@@ -1,4 +1,5 @@
 import * as borrow from './borrow/selectors'
+import * as brokerage from './brokerage/selectors'
 import * as identityVerification from './identityVerification/selectors'
 import * as interest from './interest/selectors'
 import * as layoutWallet from './layoutWallet/selectors'
@@ -22,6 +23,7 @@ import * as withdraw from './withdraw/selectors'
 
 export {
   borrow,
+  brokerage,
   identityVerification,
   interest,
   layoutWallet,

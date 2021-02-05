@@ -1,4 +1,5 @@
 import { Props as _P, SuccessStateType } from '.'
+import { AddBankStepType } from 'data/types'
 import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
@@ -139,7 +140,9 @@ const BankLinkError: React.FC<Props> = props => {
           height='48px'
           size='16px'
           nature='primary'
-          onClick={() => props.simpleBuyActions.setStep({ step: 'LINK_BANK' })}
+          onClick={() =>
+            props.brokerageActions.setStep({ step: AddBankStepType.ADD_BANK })
+          }
           fullwidth
         >
           <FormattedMessage id='buttons.tryagain' defaultMessage='Try Again' />
@@ -150,12 +153,7 @@ const BankLinkError: React.FC<Props> = props => {
           size='16px'
           nature='light'
           style={{ marginTop: '16px' }}
-          onClick={() =>
-            props.simpleBuyActions.setStep({
-              step: 'CRYPTO_SELECTION',
-              fiatCurrency: props.fiatCurrency
-            })
-          }
+          onClick={props.handleClose}
           fullwidth
         >
           <FormattedMessage
