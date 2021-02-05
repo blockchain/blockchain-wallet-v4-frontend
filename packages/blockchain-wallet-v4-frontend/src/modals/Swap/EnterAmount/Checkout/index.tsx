@@ -122,6 +122,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     userData,
     walletCurrency
   } = props
+
   const [fontRatio, setRatio] = useState(1)
   const amtError = typeof formErrors.amount === 'string' && formErrors.amount
 
@@ -220,8 +221,8 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       }
     })
   }
-  const userMax = Number(payment ? payment.effectiveBalance : BASE.balance)
-  const balanceBelowMinimum = userMax < Number(min)
+
+  const balanceBelowMinimum = Number(max) < Number(min)
   const isQuoteFailed = Remote.Failure.is(props.quoteR)
   // if user is attempting to send NC ERC20, ensure they have sufficient
   // ETH balance else warn user and disable trade

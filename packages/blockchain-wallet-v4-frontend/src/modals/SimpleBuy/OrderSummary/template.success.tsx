@@ -79,6 +79,8 @@ const Success: React.FC<Props> = props => {
       : 3
 
   const isPendingDeposit = props.order.state === 'PENDING_DEPOSIT'
+  const isPendingAch =
+    isPendingDeposit && props.order.paymentType === 'BANK_TRANSFER'
   const isTransactionPending =
     isPendingDeposit &&
     props.order.attributes?.everypay?.paymentState ===
@@ -97,13 +99,20 @@ const Success: React.FC<Props> = props => {
               }
               size='64px'
             />
-            <IconBackground color='white'>
-              <Icon
-                name='checkmark-circle-filled'
-                size='24px'
-                color='green400'
-              />
-            </IconBackground>
+
+            {props.order.state === 'FINISHED' ? (
+              <IconBackground color='white'>
+                <Icon
+                  name='checkmark-circle-filled'
+                  size='24px'
+                  color='green400'
+                />
+              </IconBackground>
+            ) : (
+              <IconBackground color='grey600'>
+                <Icon name='pending' size='32px' color='white' />
+              </IconBackground>
+            )}
           </IconWrapper>
           <TitleWrapper>
             <Text
@@ -112,7 +121,16 @@ const Success: React.FC<Props> = props => {
               weight={600}
               color='grey800'
             >
-              {isPendingDeposit ? (
+              {isPendingAch ? (
+                <FormattedMessage
+                  id='modals.simplebuy.summary.buy_started'
+                  defaultMessage='{amount} {coin} Buy Started'
+                  values={{
+                    amount: baseAmount,
+                    coin: baseCurrency
+                  }}
+                />
+              ) : isPendingDeposit ? (
                 <FormattedMessage
                   id='modals.simplebuy.summary.pending_buy'
                   defaultMessage='Pending Buy'
@@ -151,6 +169,12 @@ const Success: React.FC<Props> = props => {
                     defaultMessage='Your order is pending. Your funds will be available in your Trading Wallet once the order is complete.'
                   />
                 ))}
+              {isPendingAch && (
+                <FormattedMessage
+                  id='modals.simplebuy.transferdetails.ach_pending'
+                  defaultMessage='We are completing your purchase now. Expect the funds to be withdrawn from your bank in 5 business days. Check the status of your order at anytime from Wallet’s Activity.'
+                />
+              )}
             </Text>
           </TitleWrapper>
           {isTransactionPending && (
@@ -211,29 +235,31 @@ const Success: React.FC<Props> = props => {
                 </Text>
               </BottomInfo>
             )}
-          {orderType === 'BUY' && props.order.paymentType === 'BANK_TRANSFER' && (
-            <BottomInfo>
-              <Text color='grey600' size='14px' weight={500}>
-                <FormattedHTMLMessage
-                  id='modals.simplebuy.summary.ach_lock'
-                  defaultMessage='Note: You will not be able to Send or Withdraw these funds from your Wallet for the next {days} days.'
-                  values={{ days: days }}
-                />{' '}
-                <span>
-                  <a
-                    href='https://support.blockchain.com/hc/en-us/articles/360048200392'
-                    rel='noopener noreferrer'
-                    target='_blank'
-                  >
-                    <FormattedMessage
-                      id='modals.simplebuy.summary.learn_more'
-                      defaultMessage='Learn more'
-                    />
-                  </a>
-                </span>
-              </Text>
-            </BottomInfo>
-          )}
+          {orderType === 'BUY' &&
+            props.order.paymentType === 'BANK_TRANSFER' &&
+            !isPendingAch && (
+              <BottomInfo>
+                <Text color='grey600' size='14px' weight={500}>
+                  <FormattedHTMLMessage
+                    id='modals.simplebuy.summary.ach_lock'
+                    defaultMessage='Note: You will not be able to Send or Withdraw these funds from your Wallet for the next {days} days.'
+                    values={{ days: days }}
+                  />{' '}
+                  <span>
+                    <a
+                      href='https://support.blockchain.com/hc/en-us/articles/360048200392'
+                      rel='noopener noreferrer'
+                      target='_blank'
+                    >
+                      <FormattedMessage
+                        id='modals.simplebuy.summary.learn_more'
+                        defaultMessage='Learn more'
+                      />
+                    </a>
+                  </span>
+                </Text>
+              </BottomInfo>
+            )}
         </Content>
       </ContentWrapper>
     </Wrapper>

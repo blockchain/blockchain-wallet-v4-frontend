@@ -10,8 +10,6 @@ import {
   CustomSettingHeader,
   RemoveButton
 } from '../styles'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { fiatToString } from 'core/exchange/currency'
 import { FiatType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps, reduxForm } from 'redux-form'
@@ -96,27 +94,16 @@ const Success: React.FC<InjectedFormProps<
                   </Text>
                   {ccPaymentMethod && (
                     <Text size='14px' color='grey600' weight={500}>
-                      {fiatToString({
-                        value: convertBaseToStandard(
-                          'FIAT',
-                          ccPaymentMethod.limits.max
-                        ),
-                        unit: props.fiatCurrency || 'USD'
-                      })}{' '}
-                      {props.fiatCurrency} Limit
+                      <FormattedMessage
+                        id='scenes.settings.card_ending_in'
+                        defaultMessage='Card Ending in {cardNumber}'
+                        values={{ cardNumber: card.card.number }}
+                      />
                     </Text>
                   )}
                 </CardDetails>
               </Child>
               <Child>
-                <CardDetails right>
-                  <Text size='16px' color='grey800' weight={600}>
-                    ····{card.card.number}
-                  </Text>
-                  <Text size='14px' color='grey600' weight={500}>
-                    Exp: {card.card.expireMonth}/{card.card.expireYear}
-                  </Text>
-                </CardDetails>
                 <RemoveButton
                   data-e2e='removeCard'
                   nature='light-red'

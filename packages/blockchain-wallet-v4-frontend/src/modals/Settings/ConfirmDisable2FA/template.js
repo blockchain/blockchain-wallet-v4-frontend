@@ -41,7 +41,6 @@ const ConfirmDisable2FA = props => {
   const {
     position,
     total,
-    close,
     handleContinue,
     extraCopy,
     authName,
@@ -51,7 +50,7 @@ const ConfirmDisable2FA = props => {
 
   return (
     <Modal size='large' position={position} total={total}>
-      <ModalHeader onClose={close}>
+      <ModalHeader onClose={closeAll}>
         <div style={flex('row align/center')}>
           <Icon name='lock' size='20px' style={spacing('pr-5')} />
           <FormattedMessage
