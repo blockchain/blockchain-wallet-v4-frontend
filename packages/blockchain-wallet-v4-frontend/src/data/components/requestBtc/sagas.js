@@ -23,7 +23,7 @@ export default ({ networks }) => {
           actions.core.wallet.setHdAddressLabel(
             accountIdx,
             addressIdx,
-            'segwitP2SH',
+            'bech32',
             message
           )
         )

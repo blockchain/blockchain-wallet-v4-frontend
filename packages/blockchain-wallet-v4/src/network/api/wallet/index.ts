@@ -48,7 +48,7 @@ export default ({ rootUrl, get, post }) => {
   // context => {
   //  addresses: [],
   //  legacy: [],
-  //  segwitP2SH: []
+  //  bech32: []
   // }
   // onlyShow is xpub or address to filter data with
   const fetchBlockchainData = (
@@ -59,12 +59,12 @@ export default ({ rootUrl, get, post }) => {
     const addressArray = Array.isArray(addresses) ? addresses : [addresses]
     // both addresses and legacy xpubs
     const active = concat(addressArray, propOr([], 'legacy', context)).join('|')
-    // segwitP2SH xpubs only
+    // bech32 xpubs only
     // @ts-ignore
-    const activeP2SH = propOr([], 'segwitP2SH', context).join('|')
+    const activeBech32 = propOr([], 'bech32', context).join('|')
     const data = {
       active,
-      activeP2SH,
+      activeBech32,
       format: 'json',
       offset: offset,
       no_compact: true,

@@ -498,7 +498,7 @@ export const derivePrivateKey = memoize(_derivePrivateKey)
 
 export const getHDPrivateKeyWIF = curry(
   (coin, secondPassword, network, wallet) => {
-    let type = coin.type() === 'P2PKH' ? 'legacy' : 'segwitP2SH'
+    let type = coin.type() === 'P2PKH' ? 'legacy' : 'bech32'
     let [accId, chain, index] = map(parseInt, split('/', coin.path))
     if (isNil(accId) || isNil(chain) || isNil(index)) {
       return Task.rejected('WRONG_PATH_KEY')

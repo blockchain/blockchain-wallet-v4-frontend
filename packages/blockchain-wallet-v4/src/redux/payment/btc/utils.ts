@@ -81,9 +81,9 @@ export const fromAccount = (network, state, index) => {
   let defaultDerivationXpub = HDAccount.selectXpub(account)
   let allXpubsGrouped = HDAccount.selectAllXpubsGrouped(account).toJS()
   let legacy = prop('xpub', allXpubsGrouped.find(propEq('type', 'legacy')))
-  let segwitP2SH = prop(
+  let bech32 = prop(
     'xpub',
-    allXpubsGrouped.find(propEq('type', 'segwitP2SH'))
+    allXpubsGrouped.find(propEq('type', 'bech32'))
   )
 
   let changeIndex = S.data.btc.getChangeIndex(defaultDerivationXpub, state)
@@ -94,7 +94,7 @@ export const fromAccount = (network, state, index) => {
   return {
     change: changeAddress,
     extras: {
-      segwitP2SH
+      bech32
     },
     from: [legacy],
     fromAccountIdx: index,
@@ -134,6 +134,7 @@ export const fromCustodial = origin => {
 export const fromPrivateKey = (network, wallet, key) => {
   let c = getWifAddress(key, true)
   let u = getWifAddress(key, false)
+  // TODO: SEGWIT i believe we can get rid of the watch only checks
   let isCompressedWatchOnly = Wallet.getAddress(c.address, wallet)
     .map(Address.isWatchOnly)
     .getOrElse(false)

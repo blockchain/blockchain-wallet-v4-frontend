@@ -14,7 +14,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       endPoint: '/unspent',
       data: {
         active: fromAddresses.join('|'),
-        activeP2SH: extras ? extras.segwitP2SH : null,
+        activeBech32: extras ? extras.bech32 : null,
         confirmations: Math.max(confirmations, -1),
         format: 'json'
       }

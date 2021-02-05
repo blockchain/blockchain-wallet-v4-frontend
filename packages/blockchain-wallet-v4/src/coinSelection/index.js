@@ -243,16 +243,19 @@ export const branchAndBound = memoize(bnb)
 // Usage:
 // getByteCount({'MULTISIG-P2SH:2-4':45},{'P2PKH':1}) Means "45 inputs of P2SH Multisig and 1 output of P2PKH"
 // getByteCount({'P2PKH':1,'MULTISIG-P2SH:2-3':2},{'P2PKH':2}) means "1 P2PKH input and 2 Multisig P2SH (2 of 3) inputs along with 2 P2PKH outputs"
+
+// assumes compressed pubkeys in all cases.
+// TODO: SEGWIT  we need to account for uncompressed pubkeys!
 export const IO_TYPES = {
   inputs: {
-    'MULTISIG-P2SH': 49 * 4,
-    'MULTISIG-P2WSH': 6 + 41 * 4,
-    'MULTISIG-P2SH-P2WSH': 6 + 76 * 4,
+    'MULTISIG-P2SH': 49 * 4, // "legacy"
+    'MULTISIG-P2WSH': 6 + (41 * 4), // native segwit
+    'MULTISIG-P2SH-P2WSH': 6 + (76 * 4), // wrapped segwit
     // P2PKH
     // modified to 147 (from 148 in source) to match test coverage
-    P2PKH: 147 * 4,
-    P2WPKH: 108 + 41 * 4,
-    'P2SH-P2WPKH': 108 + 64 * 4
+    P2PKH: 147 * 4, // legacy
+    P2WPKH: 108 + (41 * 4), // native segwit
+    'P2SH-P2WPKH': 108 + (64 * 4) // wrapped segwit
   },
   outputs: {
     P2SH: 32 * 4,

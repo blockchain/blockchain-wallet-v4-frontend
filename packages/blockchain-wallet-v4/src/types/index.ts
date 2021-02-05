@@ -109,7 +109,7 @@ export type BtcAccountType = {
   xpub: string
 }
 
-export type HDDerivationType = 'segwitP2SH' | 'legacy'
+export type HDDerivationType = 'bech32' | 'legacy'
 
 export type AccountTypes = BtcAccountType
 

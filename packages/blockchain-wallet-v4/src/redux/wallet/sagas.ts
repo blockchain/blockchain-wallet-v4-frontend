@@ -179,7 +179,7 @@ export default ({ api, networks }) => {
       api.fetchBlockchainData,
       {
         legacy: xpubs.map(head),
-        segwitP2SH: xpubs.map(last)
+        activeBech32: xpubs.map(last)
       },
       {
         n: 1,
@@ -211,10 +211,10 @@ export default ({ api, networks }) => {
     const seed = BIP39.mnemonicToSeed(mnemonic)
     const masterNode = Bitcoin.bip32.fromSeed(seed, networks.btc)
     const legacyNode = masterNode.deriveHardened(44).deriveHardened(0)
-    const segwitP2SHNode = masterNode.deriveHardened(49).deriveHardened(0)
+    const bech32Node = masterNode.deriveHardened(84).deriveHardened(0)
     const nAccounts = yield call(findUsedAccounts, {
       batch: 10,
-      nodes: [legacyNode, segwitP2SHNode]
+      nodes: [legacyNode, bech32Node]
     })
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(

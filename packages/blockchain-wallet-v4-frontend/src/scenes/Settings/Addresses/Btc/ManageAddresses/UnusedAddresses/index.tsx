@@ -167,16 +167,16 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
                       </ToggledLink>
                     </LinkContainer>
                   </TogglerItem>
-                  <TogglerItem selected={equals('segwitP2SH', derivation)}>
+                  <TogglerItem selected={equals('bech32', derivation)}>
                     <LinkContainer
-                      to={`/settings/addresses/btc/${walletIndex}/segwitP2SH`}
+                      to={`/settings/addresses/btc/${walletIndex}/bech32`}
                     >
                       <ToggledLink
                         weight={500}
                         size='13px'
                         data-e2e='btcManageSegwitWalletLink'
                       >
-                        SegwitP2SH
+                        Segwit
                       </ToggledLink>
                     </LinkContainer>
                   </TogglerItem>

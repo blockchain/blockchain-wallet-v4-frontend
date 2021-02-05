@@ -18,17 +18,13 @@ import Btc from '@ledgerhq/hw-app-btc'
 
 const getOutputScript = keyPair => {
   const pubKey = keyPair.publicKey
-  const payment = Bitcoin.payments.p2sh({
-    redeem: Bitcoin.payments.p2wpkh({ pubkey: pubKey })
-  })
+  const payment = Bitcoin.payments.p2wpkh({ pubkey: pubKey })
   return payment.output
 }
 
 const getRedeemScript = keyPair => {
   const pubKey = keyPair.publicKey
-  const payment = Bitcoin.payments.p2sh({
-    redeem: Bitcoin.payments.p2wpkh({ pubkey: pubKey })
-  })
+  const payment = Bitcoin.payments.p2wpkh({ pubkey: pubKey })
   return payment.redeem.output
 }
 
@@ -39,6 +35,7 @@ export const signSelection = curry((network, selection) => {
     tx.addOutput(defaultTo(coin.address, coin.script), coin.value)
   const addInput = coin => {
     switch (coin.type()) {
+      // TODO: SEGWIT do we need more cases other than just bech32 and legacy?
       case 'P2SH-P2WPKH':
         return tx.addInput(
           coin.txHash,
@@ -52,6 +49,7 @@ export const signSelection = curry((network, selection) => {
   }
   const sign = (coin, i) => {
     switch (coin.type()) {
+      // TODO: SEGWIT do we need more cases other than just bech32 and legacy?
       case 'P2SH-P2WPKH':
         return tx.sign(
           i,

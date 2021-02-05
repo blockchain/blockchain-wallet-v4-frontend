@@ -26,10 +26,8 @@ const _getAddress = (cache, chain, index, network, type) => {
       const childNode = node.derive(index)
       const publicKey = childNode.publicKey
 
-      if (equals('segwitP2SH', type)) {
-        const { address } = Bitcoin.payments.p2sh({
-          redeem: Bitcoin.payments.p2wpkh({ pubkey: publicKey })
-        })
+      if (equals('bech32', type)) {
+        const { address } = Bitcoin.payments.p2wpkh({ pubkey: publicKey })
         return address
       }
 

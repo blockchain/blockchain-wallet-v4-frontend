@@ -21,8 +21,8 @@ import { over, traversed, traverseOf, view } from 'ramda-lens'
 import Task from 'data.task'
 import Type from './Type'
 
-export const DEFAULT_DERIVATION_TYPE = 'segwitP2SH'
-export const DEFAULT_DERIVATION_PURPOSE = 49
+export const DEFAULT_DERIVATION_TYPE = 'bech32'
+export const DEFAULT_DERIVATION_PURPOSE = 84
 export const LEGACY_DERIVATION_TYPE = 'legacy'
 export const LEGACY_DERIVATION_PURPOSE = 44
 
@@ -68,7 +68,7 @@ export const isArchived = compose(Boolean, view(archived))
 export const isActive = compose(not, isArchived)
 
 export const isWatchOnly = account =>
-  compose(isNil, selectXpriv('segwitP2SH'))(account)
+  compose(isNil, selectXpriv('bech32'))(account)
 
 export const isXpub = curry((myxpub, account) =>
   compose(contains(myxpub), selectAllXpubs)(account)

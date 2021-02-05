@@ -123,7 +123,7 @@ const Success = ({
             </Link>
           ) : (
             <LinkContainer
-              to={`/settings/addresses/btc/${wallet.index}/segwitP2SH`}
+              to={`/settings/addresses/btc/${wallet.index}/bech32`}
             >
               <Link weight={500} size='13px' data-e2e='btcManageWalletLink'>
                 <FormattedMessage
