@@ -33,7 +33,7 @@ class LinkedBanks extends PureComponent<Props> {
   handleShowBankClick = (account: BankTransferAccountType) => {
     this.props.brokerageActions.showModal(
       BrokerageModalOriginType.BANK,
-      'BANK_PREVIEW_MODAL'
+      'BANK_DETAILS_MODAL'
     )
     this.props.brokerageActions.setBankDetails({
       account

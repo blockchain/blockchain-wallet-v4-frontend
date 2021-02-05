@@ -88,7 +88,7 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
-  ModalEnhancer('BANK_PREVIEW_MODAL', { transition: duration }),
+  ModalEnhancer('BANK_DETAILS_MODAL', { transition: duration }),
   connector
 )
 

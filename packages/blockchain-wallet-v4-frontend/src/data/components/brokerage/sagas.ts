@@ -26,7 +26,7 @@ export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
       ])
       yield put(actions.form.stopSubmit('linkedBanks'))
       yield put(actions.alerts.displaySuccess('Bank removed.'))
-      yield put(actions.modals.closeModal('BANK_PREVIEW_MODAL'))
+      yield put(actions.modals.closeModal('BANK_DETAILS_MODAL'))
       yield put(actions.modals.closeModal('REMOVE_BANK_MODAL'))
     } catch (e) {
       const error = errorHandler(e)
