@@ -441,6 +441,10 @@ interface SetFiatCurrencyAction {
   type: typeof AT.SET_FIAT_CURRENCY
 }
 
+interface AddCardFinishedAction {
+  type: typeof AT.ADD_CARD_FINISHED
+}
+
 interface ShowModalAction {
   payload: {
     cryptoCurrency?: CoinType
@@ -493,6 +497,7 @@ export type SimpleBuyActionTypes =
   | AddCardDetailsFailure
   | AddCardDetailsLoading
   | AddCardDetailsSuccess
+  | AddCardFinishedAction
   | DestroyCheckout
   | FetchSBBalancesFailure
   | FetchSBBalancesLoading

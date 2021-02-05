@@ -29,6 +29,7 @@ class LinkedCards extends PureComponent<Props> {
     this.props.simpleBuyActions.setStep({
       step: 'ADD_CARD'
     })
+    this.props.simpleBuyActions.addCardFinished()
   }
 
   render () {

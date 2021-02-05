@@ -519,6 +519,10 @@ export const setFiatCurrency = (
   }
 })
 
+export const addCardFinished = (): SimpleBuyActionTypes => ({
+  type: AT.ADD_CARD_FINISHED
+})
+
 export const setStep = (payload: StepActionsPayload): SimpleBuyActionTypes => ({
   type: AT.SET_STEP,
   payload: getPayloadObjectForStep(payload)
