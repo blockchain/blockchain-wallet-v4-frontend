@@ -121,6 +121,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 color='grey900'
                 weight={600}
                 style={{ margin: '40px 0 0 5px' }}
+                data-e2e='sbTotalAmount'
               >
                 {this.displayAmount(formValues, coins, account)}
               </Text>
