@@ -3,8 +3,10 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { ExtractSuccess, RemoteDataType } from 'core/types'
+import { RemoteDataType, SDDEligibleType } from 'core/types'
 import { RootState } from 'data/rootReducer'
+import { UserDataType } from 'data/modules/types'
+import { UserTierType } from 'data/types'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
@@ -85,7 +87,11 @@ type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
 }
 
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+export type SuccessStateType = {
+  sddEligible: SDDEligibleType
+  userData: UserDataType
+  userTiers: UserTierType
+}
 
 export type Props = OwnProps &
   LinkStatePropsType &

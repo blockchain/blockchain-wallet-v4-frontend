@@ -1,26 +1,31 @@
-import { ExtractSuccess } from 'core/types'
-import { lift } from 'ramda'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
+import { SDDEligibleType } from 'core/types'
+
 import { selectors } from 'data'
+import { UserDataType } from 'data/modules/types'
 import { UserTierType } from 'data/types'
 
 export const getData = (state: RootState) => {
-  const userDataR = selectors.modules.profile.getUserData(state)
+  const userData = selectors.modules.profile.getUserData(state).getOrElse({
+    tiers: { current: 0 }
+  } as UserDataType)
   // @ts-ignore
   const userTiers = selectors.modules.profile
     .getTiers(state)
     .getOrElse({} as UserTierType)
 
-  const sddEligibleR = selectors.components.simpleBuy.getSddEligible(state)
+  const sddEligible = selectors.components.simpleBuy
+    .getSddEligible(state)
+    .getOrElse({
+      eligible: false,
+      ineligibilityReason: 'KYC_TIER',
+      tier: 0
+    } as SDDEligibleType)
 
-  return lift(
-    (
-      userData: ExtractSuccess<typeof userDataR>,
-      sddEligible: ExtractSuccess<typeof sddEligibleR>
-    ) => ({
-      userData,
-      userTiers,
-      sddEligible
-    })
-  )(userDataR, sddEligibleR)
+  return Remote.Success({
+    userData,
+    userTiers,
+    sddEligible
+  })
 }

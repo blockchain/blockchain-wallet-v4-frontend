@@ -148,10 +148,14 @@ const Template: React.FC<Props> = props => {
   const goldTier = userTiers.find(
     userTier => userTier.index === TIER_TYPES.GOLD
   )
+
+  const userCurrentTier = path(['tiers', 'current'], userData) as number
   const currentTier: number | undefined =
-    sddEligible && sddEligible.tier === TIER_TYPES.SILVER_PLUS
+    userCurrentTier === TIER_TYPES.NONE
+      ? userCurrentTier
+      : sddEligible && sddEligible.tier === TIER_TYPES.SILVER_PLUS
       ? TIER_TYPES.SILVER_PLUS
-      : path(['tiers', 'current'], userData)
+      : userCurrentTier
   const isUserGold = currentTier === TIER_TYPES.GOLD
   const isUserVerifiedSilver = currentTier === TIER_TYPES.SILVER || isUserGold
 
