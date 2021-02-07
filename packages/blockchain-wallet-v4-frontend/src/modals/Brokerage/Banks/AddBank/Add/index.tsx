@@ -1,6 +1,6 @@
 import { actions, selectors } from 'data'
+import { AddBankStepType } from 'data/types'
 import { bindActionCreators, Dispatch } from 'redux'
-import { CoinType, SBPairType } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { Remote } from 'core'
@@ -10,25 +10,27 @@ import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
-class LinkBank extends PureComponent<Props> {
+class Add extends PureComponent<Props> {
   componentDidMount () {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
-      this.props.simpleBuyActions.fetchFastLink()
+      this.props.brokerageActions.fetchFastLink()
     }
   }
 
   handleSubmit = () => {
-    this.props.simpleBuyActions.setStep({ step: 'LINK_BANK_HANDLER' })
+    this.props.brokerageActions.setStep({
+      step: AddBankStepType.ADD_BANK_HANDLER
+    })
   }
 
   handleBack = () => {
-    this.props.simpleBuyActions.setStep({
-      step: 'PAYMENT_METHODS',
-      cryptoCurrency: this.props.cryptoCurrency,
-      fiatCurrency: this.props.fiatCurrency,
-      pair: this.props.pair
-    })
+    // this.props.simpleBuyActions.setStep({
+    //   step: 'PAYMENT_METHODS',
+    //   cryptoCurrency: this.props.cryptoCurrency,
+    //   fiatCurrency: this.props.fiatCurrency,
+    //   pair: this.props.pair
+    // })
   }
 
   render () {
@@ -59,20 +61,20 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
-  cryptoCurrency: CoinType
   handleClose: () => void
-  pair: SBPairType
 }
 type LinkDispatchPropsType = {
+  brokerageActions: typeof actions.components.brokerage
   simpleBuyActions: typeof actions.components.simpleBuy
 }
 export type SuccessStateType = ReturnType<typeof getData>['data']
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default connect(mapStateToProps, mapDispatchToProps)(LinkBank)
+export default connect(mapStateToProps, mapDispatchToProps)(Add)

@@ -11,7 +11,8 @@ import {
   PaymentValue,
   RemoteDataType,
   SBOrderType,
-  SBPaymentTypes
+  SBPaymentTypes,
+  WalletFiatType
 } from 'core/types'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { promptForSecondPassword } from 'services/sagas'
@@ -157,6 +158,17 @@ export default ({
       const payment: SBOrderType = yield select(
         selectors.components.simpleBuy.getSBOrder
       )
+
+      const fiatCurrency: WalletFiatType = yield select(
+        selectors.components.simpleBuy.getFiatCurrency
+      )
+      const state = yield select()
+      const settingsCurrency: WalletFiatType = selectors.core.settings
+        .getCurrency(state)
+        .getOrElse('USD')
+
+      const currency = fiatCurrency || settingsCurrency
+
       // Lock rule can only be called with BANK_TRANSFER and PAYMENT_CARD
       // Adding check here to only pass those too, else pass BANK_TRANSFER
       const withdrawalCheckPayment: SBPaymentTypes =
@@ -167,7 +179,8 @@ export default ({
 
       const withdrawalLockCheckResponse = yield call(
         api.checkWithdrawalLocks,
-        withdrawalCheckPayment
+        withdrawalCheckPayment,
+        currency
       )
       yield put(A.getLockRuleSuccess(withdrawalLockCheckResponse))
     } catch (e) {

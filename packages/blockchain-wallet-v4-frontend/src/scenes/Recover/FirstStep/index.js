@@ -58,8 +58,8 @@ const FirstStep = props => {
           <FormItem>
             <MnemonicLabel htmlFor='mnemonic'>
               <FormattedMessage
-                id='scenes.recover.firststep.mnemonic'
-                defaultMessage='Your Backup Phrase'
+                id='scenes.recover.firststep.mnemonic1'
+                defaultMessage='Your Secret Private Key Recovery Phrase'
               />
             </MnemonicLabel>
             <Text size='12px' weight={400}>

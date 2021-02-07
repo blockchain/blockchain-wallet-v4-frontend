@@ -31,10 +31,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
-  account?: SwapAccountType,
-  coin: CoinType,
-  fiat: FiatType,
-  onClick?: (string) => void,
+  account?: SwapAccountType
+  coin: CoinType
+  fiat: FiatType
+  onClick?: (string) => void
   orderType: SBOrderActionType
 }
 export type SuccessStateType = ReturnType<typeof getData>['data']

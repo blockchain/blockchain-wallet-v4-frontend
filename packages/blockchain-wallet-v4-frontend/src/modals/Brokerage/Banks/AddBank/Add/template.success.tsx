@@ -81,7 +81,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
         <FormGroup margin='24px'>
           <HeaderText color='grey900'>
             <FormattedMessage
-              id='modals.simplebuy.link_bank'
+              id='modals.brokerage.link_bank'
               defaultMessage='Blockchain.com uses Yodlee to verify your bank credentials & securely link your accounts.'
             />
           </HeaderText>
@@ -98,7 +98,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
               />
             </StyledHeading>
             <FormattedMessage
-              id='modals.simplebuy.yodlee_description'
+              id='modals.brokerage.yodlee_description'
               defaultMessage='Yodlee securely stores your credentials adhering to leading industry practices for data security, regulatory compliance, and privacy.'
             />{' '}
             <Link
@@ -127,7 +127,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
         </FormGroup>
         <TermsText color='grey600'>
           <FormattedMessage
-            id='modals.simplebuy.link_bank_yodlee_terms'
+            id='modals.brokerage.link_bank_yodlee_terms'
             defaultMessage="By hitting Continue, you Agree to Yodlee's"
           />{' '}
           <Link

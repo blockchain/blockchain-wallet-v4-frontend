@@ -114,7 +114,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       this.props.currency,
       'week'
     )
-    this.props.simpleBuyActions.fetchBankTransferAccounts()
+    this.props.brokerageActions.fetchBankTransferAccounts()
   }
 
   componentDidUpdate (prevProps) {
@@ -319,6 +319,10 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
       simpleBuyActions: bindActionCreators(
         actions.components.simpleBuy,
         dispatch
+      ),
+      brokerageActions: bindActionCreators(
+        actions.components.brokerage,
+        dispatch
       )
     }
   }
@@ -334,7 +338,14 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
         actions.components.simpleBuy,
         dispatch
       ),
-      withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
+      withdrawActions: bindActionCreators(
+        actions.components.withdraw,
+        dispatch
+      ),
+      brokerageActions: bindActionCreators(
+        actions.components.brokerage,
+        dispatch
+      )
     }
   }
   return {
@@ -348,7 +359,11 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
     miscActions: bindActionCreators(actions.core.data.misc, dispatch),
     setAddressArchived: address =>
       dispatch(actions.core.wallet.setAddressArchived(address, true)),
-    simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+    simpleBuyActions: bindActionCreators(
+      actions.components.simpleBuy,
+      dispatch
+    ),
+    brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
   }
 }
 

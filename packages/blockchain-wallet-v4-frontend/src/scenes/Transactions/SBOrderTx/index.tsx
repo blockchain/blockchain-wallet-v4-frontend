@@ -2,6 +2,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { Button, Text } from 'blockchain-info-components'
 import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { path } from 'ramda'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
@@ -73,8 +74,12 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
 
   render () {
     const { data, order, supportedCoins } = this.props
-    const bankAccounts = data.getOrElse([] as Array<BankTransferAccountType>)
+    const bankAccounts = data.getOrElse([]) as Array<BankTransferAccountType>
     const coin = getCoinFromPair(order.pair)
+    const coinDisplayName = path(
+      [this.props.order.outputCurrency, 'coinTicker'],
+      this.props.supportedCoins
+    )
     const orderType = getOrderType(order)
     const baseAmount = getBaseAmount(order)
     const baseCurrency = getBaseCurrency(order, supportedCoins)
@@ -112,7 +117,7 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
           <Col width='50%' data-e2e='orderToAndFrom'>
             <Addresses
               from={<>{getOrigin(this.props, bankAccounts)}</>}
-              to={<>{this.props.order.outputCurrency} Trading Wallet</>}
+              to={<>{coinDisplayName} Trading Wallet</>}
             />
           </Col>
           {order.state === 'PENDING_CONFIRMATION' ||

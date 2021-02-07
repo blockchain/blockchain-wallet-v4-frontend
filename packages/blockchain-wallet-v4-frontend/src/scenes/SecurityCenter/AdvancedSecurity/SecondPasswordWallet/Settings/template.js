@@ -133,8 +133,8 @@ const Settings = props => {
             <TextGroup inline style={{ 'margin-bottom': '10px' }}>
               <Text size='14px' weight={400} color='error'>
                 <FormattedMessage
-                  id='scenes.securitysettings.advanced.secondpasswordwallet.settings.warning'
-                  defaultMessage="We highly recommend you backup your wallet's recovery phrase before setting a second password."
+                  id='scenes.securitysettings.advanced.secondpasswordwallet.settings.phrase_warning'
+                  defaultMessage="We highly recommend you backup your wallet's Secret Private Key Recovery Phrase before setting a second password."
                 />
               </Text>
               <Text size='14px' weight={400} color='error'>

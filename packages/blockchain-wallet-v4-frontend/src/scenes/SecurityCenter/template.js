@@ -207,8 +207,8 @@ const SecurityCenter = props => {
                   weight={400}
                 >
                   <FormattedMessage
-                    id='scenes.securitycenter.steps.step3.save'
-                    defaultMessage='Save Backup Phrase'
+                    id='scenes.securitycenter.steps.step3.savephrase'
+                    defaultMessage='Save Secret Private Key Recovery Phrase'
                   />
                 </StepText>
               </StepSection>

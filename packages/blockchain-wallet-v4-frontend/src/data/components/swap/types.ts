@@ -12,8 +12,8 @@ import {
 export type MempoolFeeType = 'regular' | 'priority'
 
 export type SwapAccountType = {
-  accountIndex?: number,
-  address: number | string,
+  accountIndex?: number
+  address: number | string
   archived: boolean
   balance: number | string
   baseCoin: Exclude<CoinType, Erc20CoinType>
@@ -185,25 +185,25 @@ export type SwapStepPayload =
   // added these optional payloads for data science tracking
   | {
       options?: {
-        account?: 'ACCOUNT' | 'CUSTODIAL',
-        coin?: CoinType,
+        account?: 'ACCOUNT' | 'CUSTODIAL'
+        coin?: CoinType
         side?: 'BASE' | 'COUNTER'
       }
       step: 'ENTER_AMOUNT'
     }
   | {
       options?: {
-        account?: 'ACCOUNT' | 'CUSTODIAL',
-        coin?: CoinType,
+        account?: 'ACCOUNT' | 'CUSTODIAL'
+        coin?: CoinType
         side?: 'BASE' | 'COUNTER'
       }
       step: 'INIT_SWAP'
     }
   | {
       options?: {
-        baseAccountType?: 'ACCOUNT' | 'CUSTODIAL',
-        baseCoin?: CoinType,
-        counterAccountType?: 'ACCOUNT' | 'CUSTODIAL',
+        baseAccountType?: 'ACCOUNT' | 'CUSTODIAL'
+        baseCoin?: CoinType
+        counterAccountType?: 'ACCOUNT' | 'CUSTODIAL'
         counterCoin?: CoinType
       }
       step: 'PREVIEW_SWAP'

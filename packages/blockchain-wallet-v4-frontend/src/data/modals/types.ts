@@ -15,6 +15,9 @@ export type ModalNamesType =
   | 'AirdropSuccess'
   | 'BitPayInvoiceExpired'
   | 'BORROW_MODAL'
+  | 'ADD_BANK_MODAL'
+  | 'BANK_DETAILS_MODAL'
+  | 'REMOVE_BANK_MODAL'
   | 'Confirm'
   | 'CUSTODY_WITHDRAW_MODAL'
   | 'DeleteAddressLabel'
@@ -45,6 +48,8 @@ export type ModalNamesType =
 
 export type ModalOriginType =
   | 'AirdropClaimGoal'
+  | 'AddBankModal'
+  | 'BankDetailsModal'
   | 'BorrowHistorySection'
   | 'BorrowLandingPage'
   | 'EmptyFeed'
