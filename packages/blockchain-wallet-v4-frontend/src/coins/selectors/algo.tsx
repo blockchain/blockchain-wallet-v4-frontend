@@ -3,7 +3,7 @@ import { lift } from 'ramda'
 import React from 'react'
 
 import { createDeepEqualSelector } from 'services/misc'
-import { ExtractSuccess } from 'core/remote/types'
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
 import { generateCustodyAccount } from 'coins/utils'
 import { SBBalanceType } from 'core/network/api/simpleBuy/types'
 

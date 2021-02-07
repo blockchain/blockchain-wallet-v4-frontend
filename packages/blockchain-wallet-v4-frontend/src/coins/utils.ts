@@ -1,5 +1,5 @@
-import { ADDRESS_TYPES } from 'core/redux/payment/btc/utils'
-import { CoinType, Erc20CoinsEnum, SBBalanceType } from 'core/types'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { CoinType, Erc20CoinsEnum, SBBalanceType } from 'blockchain-wallet-v4/src/types'
 
 export const generateCustodyAccount = (coin: CoinType, sbBalance?: SBBalanceType) => {
   // hack to support PAX rebrand 🤬

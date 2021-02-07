@@ -1,12 +1,12 @@
-import { lift, path, prop, propEq } from 'ramda'
 import { FormattedMessage } from 'react-intl'
+import { lift, path, prop, propEq } from 'ramda'
 import React from 'react'
 
-import { ADDRESS_TYPES } from 'core/redux/payment/btc/utils'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { convertStandardToBase } from 'data/components/exchange/services'
-import { coreSelectors } from 'core'
+import { coreSelectors } from 'blockchain-wallet-v4/src'
 import { createDeepEqualSelector } from 'services/misc'
-import { ExtractSuccess } from 'core/remote/types'
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
 import { generateCustodyAccount } from 'coins/utils'
 import { SBBalanceType } from 'core/network/api/simpleBuy/types'
 

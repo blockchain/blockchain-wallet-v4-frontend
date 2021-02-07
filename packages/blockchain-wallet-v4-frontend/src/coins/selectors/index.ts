@@ -1,8 +1,8 @@
 import { any, curry, isEmpty, isNil, map, values } from 'ramda'
 
 import { CoinAccountSelectorType } from 'coins/types'
-import { CoinType, Erc20CoinsEnum, RemoteDataType } from 'core/types'
-import { Remote } from 'core'
+import { CoinType, Erc20CoinsEnum, RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 import { SUPPORTED_COINS } from 'coins/features/swap'
