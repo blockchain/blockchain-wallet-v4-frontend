@@ -15,7 +15,7 @@ import { actions, model, selectors } from 'data'
 import { APIType } from 'core/network/api'
 import { convertStandardToBase } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
+import { generateProvisionalPaymentAmount } from 'coins/utils'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 import * as A from './actions'
@@ -200,25 +200,11 @@ export default ({
           const paymentR = S.getPayment(yield select())
           if (paymentR) {
             let payment = paymentGetOrElse(coin, paymentR)
-            switch (payment.coin) {
-              case 'BCH':
-              case 'BTC':
-                payment = yield payment.amount(
-                  parseInt(convertStandardToBase(coin, value))
-                )
-                break
-              case 'ETH':
-              case 'PAX':
-              case 'USDT':
-              case 'WDGLD':
-              case 'XLM':
-                payment = yield payment.amount(
-                  convertStandardToBase(coin, value)
-                )
-                break
-              default:
-                throw new Error(INVALID_COIN_TYPE)
-            }
+            const paymentAmount = generateProvisionalPaymentAmount(
+              payment.coin,
+              value
+            )
+            payment = yield payment.amount(paymentAmount)
             yield put(A.setPaymentSuccess(payment.value()))
           }
           break

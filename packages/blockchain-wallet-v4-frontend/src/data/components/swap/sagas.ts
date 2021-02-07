@@ -14,8 +14,8 @@ import {
 import { convertStandardToBase } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Exchange } from 'blockchain-wallet-v4/src'
+import { generateProvisionalPaymentAmount } from 'coins/utils'
 import { getCoinAccounts } from 'coins/selectors'
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { SWAP_ACCOUNTS_SELECTOR } from 'coins/features/swap'
 
 import * as A from './actions'
@@ -127,24 +127,20 @@ export default ({
         .from(addressOrIndex, addressType)
         .done()
 
-      switch (payment.coin) {
-        case 'PAX':
-        case 'USDT':
-        case 'WDGLD':
-        case 'ETH':
-        case 'XLM':
-          payment = yield payment.amount(convertStandardToBase(coin, amount))
-          return payment.value()
-        default:
-          payment = yield payment.amount(
-            parseInt(convertStandardToBase(coin, amount))
-          )
-          return (yield payment
-            .chain()
-            .to(quote.sampleDepositAddress, 'ADDRESS')
-            .build()
-            .done()).value()
+      const paymentAmount = generateProvisionalPaymentAmount(
+        payment.coin,
+        amount
+      )
+      payment = yield payment.amount(paymentAmount)
+      if (payment.coin === 'BTC' || payment.coin === 'BCH') {
+        return (yield payment
+          .chain()
+          .to(quote.sampleDepositAddress, 'ADDRESS')
+          .build()
+          .done()).value()
       }
+
+      return payment.value()
     } catch (e) {
       // eslint-disable-next-line
       console.log(e)
@@ -390,27 +386,12 @@ export default ({
     // @ts-ignore
     let payment = paymentGetOrElse(BASE.coin, paymentR)
 
-    const value = Number(swapAmountValues?.cryptoAmount)
     try {
-      switch (payment.coin) {
-        case 'BCH':
-        case 'BTC':
-          payment = yield payment.amount(
-            parseInt(convertStandardToBase(BASE.coin, value))
-          )
-          break
-        case 'ETH':
-        case 'PAX':
-        case 'USDT':
-        case 'WDGLD':
-        case 'XLM':
-          payment = yield payment.amount(
-            convertStandardToBase(BASE.coin, value)
-          )
-          break
-        default:
-          throw new Error(INVALID_COIN_TYPE)
-      }
+      const paymentAmount = generateProvisionalPaymentAmount(
+        BASE.coin,
+        Number(swapAmountValues?.cryptoAmount)
+      )
+      payment = yield payment.amount(paymentAmount)
       yield put(A.updatePaymentSuccess(payment.value()))
     } catch (error) {
       yield put(A.updatePaymentFailure(error))

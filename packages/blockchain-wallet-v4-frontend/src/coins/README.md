@@ -7,11 +7,11 @@
 
 ### TODO List
 Focused only on frontend package for now and ignoring core package
-- App (layouts, menus, etc)
-- Borrow ❌
+- App Dashboard (layouts, menus, etc)
+- Borrow ✅
 - Buy/Sell
 - Interest
 - Transactions
-- Swap 
+- Swap ✅
 - Send 
 - Request ✅
