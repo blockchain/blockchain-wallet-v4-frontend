@@ -3,8 +3,8 @@ import * as AT from './actionTypes'
 import { takeEvery, takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
-export default ({ coreSagas }) => {
-  const settingsSagas = sagas({ coreSagas })
+export default ({ api, coreSagas }) => {
+  const settingsSagas = sagas({ api, coreSagas })
 
   return function * settingsSaga () {
     yield takeLatest(
@@ -14,6 +14,10 @@ export default ({ coreSagas }) => {
     yield takeEvery(
       actionTypes.form.CHANGE,
       settingsSagas.notificationsFormChanged
+    )
+    yield takeLatest(
+      AT.FETCH_PRODUCTS_ELIGIBILITY,
+      settingsSagas.fetchProductsEligibility
     )
   }
 }

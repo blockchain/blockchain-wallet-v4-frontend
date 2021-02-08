@@ -1,11 +1,13 @@
+import * as A from './actions'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import { call, put, select } from 'redux-saga/effects'
 import { equals, includes, path, prop } from 'ramda'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 export const logLocation = 'components/settings/sagas'
 
-export default ({ coreSagas }) => {
+export default ({ api, coreSagas }) => {
   const notificationsInitialized = function * () {
     try {
       const typesR = yield select(selectors.core.settings.getNotificationsType)
@@ -43,7 +45,26 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const fetchProductsEligibility = function * () {
+    try {
+      yield put(A.fetchProductsEligibilityLoading())
+      const userIdR = yield select(
+        selectors.core.kvStore.userCredentials.getUserId
+      )
+      const userId = userIdR.getOrElse(null)
+      if (userId) {
+        const data = yield call(api.getProductsEligiblity)
+        yield put(A.fetchProductsEligibilitySuccess(data))
+      } else {
+        yield put(A.fetchProductsEligibilitySuccess(Remote.Success([])))
+      }
+    } catch (e) {
+      yield put(A.fetchProductsEligibilityFailure(e))
+    }
+  }
+
   return {
+    fetchProductsEligibility,
     notificationsInitialized,
     notificationsFormChanged
   }

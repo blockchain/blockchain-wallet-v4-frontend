@@ -29,6 +29,7 @@ class TradingLimits extends PureComponent<Props, State> {
     this.setState({ show: true })
     /* eslint-enable */
     this.props.fetchUser()
+    this.props.fetchProductsEligibility()
   }
 
   handleClose = () => {
@@ -62,6 +63,8 @@ class TradingLimits extends PureComponent<Props, State> {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   fetchUser: () => dispatch(actions.modules.profile.fetchUser()),
+  fetchProductsEligibility: () =>
+    dispatch(actions.components.settings.fetchProductsEligibility()),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
