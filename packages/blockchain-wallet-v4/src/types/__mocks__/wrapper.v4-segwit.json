@@ -57,7 +57,7 @@
           {
             "label": "My Bitcoin Wallet",
             "archived": false,
-            "default_derivation": "segwitP2SH",
+            "default_derivation": "bech32",
             "derivations": [
               {
                 "type": "legacy",
@@ -76,14 +76,14 @@
                 }
               },
               {
-                "type": "segwitP2SH",
-                "purpose": 49,
-                "xpriv": "xprv9yNkZMLRzB3dt36BcHrrdThCCHmecLhxZfaog9J2dGKT9GUHEAjhrgcTSWGnDSjq8a4woGfqfABCNuEpiW5FosvcfMRxxW7f4FtXnJBB76w",
-                "xpub": "xpub6CN6xrsKpYbw6XAeiKPrzbdvkKc91oRovtWQUXheBbrS24oRmi3xQUvwHoihwJW4apQJHvRKie1rReFMvBejkTEnD7be8pzjeTAS2WuSyXv",
+                "type": "bech32",
+                "purpose": 84,
+                "xpriv": "xprv9xyd6QiiJ9PHLpoaGZ1J2ZAit27rMoZBsg7pGfZu18Y9KYyeVsbF7fqFoKYD1yVvALxSUeLCD3LGxfk5kPPNQhx1P57ukDfoKRDqjEFTvYT",
+                "xpub": "xpub6BxyVvFc8WwaZJt3NaYJPh7TS3xLmGH3Eu3R53yWZU58CMJo3QuVfU9jedpAuVA1idn7tJX6TrLVpeifbAySPewVEdH52tSQchLwSznnyCY",
                 "address_labels": [],
                 "cache": {
-                  "receiveAccount": "xpub6EnWh5X1dPtGd9xxydpaszkyCGVhYuSUb9CXvKN7eKn9VXAsp5XSH6DYNGexZjnty3kao266Y764i9FRzjqGqzZBBgyutkMpsqN4WdRJsro",
-                  "changeAccount": "xpub6EnWh5X1dPtGfMhL2WnGWstoyRq1Z5d2XGMEji5mmSRBXE694R9HQwU4pWix9HZMUWfdr6H53q8SKSLXT1qoFMymPp4drDU2sWosQofVXHw"
+                  "receiveAccount": "xpub6EMzXNjqSJ9cwWWPhVjN9EaRnjgaYXwg8WMRcXc9SgP5RpUCFFkDwbqJoAdzBkRCQZB5AA9qh3zk8uEpyzfUDGrXGE23GnCFGoPuYVMTN6C",
+                  "changeAccount": "xpub6EMzXNjqSJ9czvz8pyajFSziPmvSFvhukW8T48jvWs1Zxq9aTDqhfbNzz6DnzkdnvRSxXBBcw4APsbEcsFbFF9zqU8cznBasHhijkrUVnnK"
                 }
               }
             ]

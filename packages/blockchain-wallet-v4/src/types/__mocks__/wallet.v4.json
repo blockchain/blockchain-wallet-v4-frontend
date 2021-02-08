@@ -51,7 +51,7 @@
         {
           "label": "My Bitcoin Wallet",
           "archived": false,
-          "default_derivation": "segwitP2SH",
+          "default_derivation": "bech32",
           "derivations": [
             {
               "type": "legacy",
