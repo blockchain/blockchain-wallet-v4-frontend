@@ -3,10 +3,10 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import { ProductEligibility, UserTierType } from 'data/types'
 import { RemoteDataType, SDDEligibleType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/modules/types'
-import { UserTierType } from 'data/types'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
@@ -91,6 +91,7 @@ type LinkStatePropsType = {
 }
 
 export type SuccessStateType = {
+  productsEligibility: Array<ProductEligibility>
   sddEligible: SDDEligibleType
   userData: UserDataType
   userTiers: UserTierType

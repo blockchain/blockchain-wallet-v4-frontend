@@ -75,8 +75,12 @@ const ItemTitle = styled(Text)`
 
 type Props = OwnProps & SuccessStateType
 
-const getItemBadgeStatus = (tier: number | undefined, type: ITEMS) => {
-  return tier && TIERS[tier][type] ? (
+const getItemBadgeStatus = (
+  tier: number | undefined,
+  type: ITEMS,
+  isEligible: boolean = false
+) => {
+  return (tier && TIERS[tier][type]) || isEligible ? (
     <CartridgeWrapper>
       <SuccessCartridge fontSize='12px'>
         <FormattedMessage
@@ -158,6 +162,16 @@ const Template: React.FC<Props> = props => {
       : userCurrentTier
   const isUserGold = currentTier === TIER_TYPES.GOLD
   const isUserVerifiedSilver = currentTier === TIER_TYPES.SILVER || isUserGold
+
+  const swapProduct =
+    props.productsEligibility &&
+    props.productsEligibility.find(pE => pE.product === 'SWAP')
+  const simpleBuyProduct =
+    props.productsEligibility &&
+    props.productsEligibility.find(pE => pE.product === 'SIMPLEBUY')
+  const brokerageProduct =
+    props.productsEligibility &&
+    props.productsEligibility.find(pE => pE.product === 'BROKERAGE')
 
   return (
     <Wrapper>
@@ -324,7 +338,7 @@ const Template: React.FC<Props> = props => {
             defaultMessage='Swap Crypto'
           />
         </ItemTitle>
-        {getItemBadgeStatus(currentTier, ITEMS.SWAP)}
+        {getItemBadgeStatus(currentTier, ITEMS.SWAP, swapProduct?.eligible)}
       </ContentItem>
 
       <ContentItem>
@@ -345,7 +359,11 @@ const Template: React.FC<Props> = props => {
             defaultMessage='Buy with a Card'
           />
         </ItemTitle>
-        {getItemBadgeStatus(currentTier, ITEMS.BUY_WITH_A_CARD)}
+        {getItemBadgeStatus(
+          currentTier,
+          ITEMS.BUY_WITH_A_CARD,
+          simpleBuyProduct?.eligible
+        )}
       </ContentItem>
       <ContentItem>
         <Icon name='bank-filled' color='blue600' size='20px' />
@@ -355,7 +373,11 @@ const Template: React.FC<Props> = props => {
             defaultMessage='Deposits & Withdrawals'
           />
         </ItemTitle>
-        {getItemBadgeStatus(currentTier, ITEMS.DEPOSIT_AND_WITHDRAWAL)}
+        {getItemBadgeStatus(
+          currentTier,
+          ITEMS.DEPOSIT_AND_WITHDRAWAL,
+          brokerageProduct?.eligible
+        )}
       </ContentItem>
       <ContentItem>
         <Icon name='percentage' color='blue600' size='20px' />

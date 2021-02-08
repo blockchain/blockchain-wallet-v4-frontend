@@ -23,12 +23,14 @@ export const getData = (state: RootState) => {
       tier: 0
     } as SDDEligibleType)
 
-  // TODO - allow this and move logic here
-  // const productsEligibility = selectors.components.settings.getProductsEligibility(state).getOrElse([])
+  const productsEligibility = selectors.components.settings
+    .getProductsEligibility(state)
+    .getOrElse([])
 
   return Remote.Success({
     userData,
     userTiers,
-    sddEligible
+    sddEligible,
+    productsEligibility
   })
 }

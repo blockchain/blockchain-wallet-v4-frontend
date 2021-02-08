@@ -53,7 +53,9 @@ export default ({ api, coreSagas }) => {
       )
       const userId = userIdR.getOrElse(null)
       if (userId) {
-        const data = yield call(api.getProductsEligiblity)
+        const currencyR = yield select(selectors.core.settings.getCurrency)
+        const currency = currencyR.getOrElse('USD')
+        const data = yield call(api.getProductsEligiblity, currency)
         yield put(A.fetchProductsEligibilitySuccess(data))
       } else {
         yield put(A.fetchProductsEligibilitySuccess(Remote.Success([])))
