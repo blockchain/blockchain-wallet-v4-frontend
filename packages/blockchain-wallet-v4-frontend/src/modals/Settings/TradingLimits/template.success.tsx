@@ -390,7 +390,11 @@ const Template: React.FC<Props> = props => {
             defaultMessage='Earn Interest'
           />
         </ItemTitle>
-        {getItemBadgeStatus(currentTier, ITEMS.EARN_INTEREST, savingsProduct)}
+        {getItemBadgeStatus(
+          currentTier,
+          ITEMS.EARN_INTEREST,
+          savingsProduct?.eligible
+        )}
       </ContentItem>
 
       <FooterWrapper>
