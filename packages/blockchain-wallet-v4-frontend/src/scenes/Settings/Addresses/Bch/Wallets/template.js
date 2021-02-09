@@ -7,7 +7,6 @@ import {
   Banner,
   ComponentDropdown,
   Link,
-  Table,
   TableCell,
   TableHeader,
   TableRow,
@@ -17,13 +16,10 @@ import { SettingDescription, SettingHeader } from 'components/Setting'
 import media from 'services/ResponsiveService'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
+import { Table } from '../../components'
+
 const Wrapper = styled.section`
   box-sizing: border-box;
-`
-const TableStyled = styled(Table)`
-  > div:last-child {
-    border-bottom: none;
-  }
 `
 const TitleHeader = styled(SettingHeader)`
   font-weight: 500;
@@ -234,7 +230,7 @@ const WalletRow = props => {
           defaultMessage='Wallets allow you to organize your funds into categories, like spending or savings.'
         />
       </SubTitleHeader>
-      <TableStyled>
+      <Table>
         <TableHeader>
           <TableCell width='50%'>
             <Text color='grey900' size='14px' weight={500}>
@@ -277,7 +273,7 @@ const WalletRow = props => {
         ) : (
           walletTableRows
         )}
-      </TableStyled>
+      </Table>
     </Wrapper>
   )
 }

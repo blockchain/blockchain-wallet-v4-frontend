@@ -5,22 +5,17 @@ import styled from 'styled-components'
 
 import {
   Button,
-  Table,
   TableCell,
   TableHeader,
   Text
 } from 'blockchain-info-components'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 
+import { Table } from '../../components'
 import AddressRow from '../../components/AddressRow'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
-`
-const TableStyled = styled(Table)`
-  > div:last-child {
-    border-bottom: none;
-  }
 `
 const TitleHeader = styled(SettingHeader)`
   align-items: center;
@@ -102,7 +97,7 @@ const BchImportedAddresses = props => {
         )}
       </TitleHeader>
       {importedAddressesTableRows.length > 0 && (
-        <TableStyled dataE2e='bchImportedAddressesTable'>
+        <Table dataE2e='bchImportedAddressesTable'>
           <TableHeader>
             <TableCell width='50%'>
               <Text color='grey900' size='14px' weight={500}>
@@ -132,7 +127,7 @@ const BchImportedAddresses = props => {
             </TableCell>
           </TableHeader>
           {importedAddressesTableRows}
-        </TableStyled>
+        </Table>
       )}
     </Wrapper>
   )
