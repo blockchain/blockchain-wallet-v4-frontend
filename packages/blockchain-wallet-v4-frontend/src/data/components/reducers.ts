@@ -1,4 +1,5 @@
 import { borrowReducer } from './borrow/reducers'
+import { brokerageReducer } from './brokerage/reducers'
 import { combineReducers } from 'redux'
 import { identityVerificationReducer } from './identityVerification/reducers'
 import { interestReducer } from './interest/reducers'
@@ -9,6 +10,7 @@ import { sendBtcReducer } from './sendBtc/reducers'
 import { sendEthReducer } from './sendEth/reducers'
 import { sendReducer } from './send/reducers'
 import { sendXlmReducer } from './sendXlm/reducers'
+import { settingsReducer } from './settings/reducers'
 import { simpleBuyReducer } from './simpleBuy/reducers'
 import { swapReducer } from './swap/reducers'
 import { withdrawReducer } from './withdraw/reducers'
@@ -20,6 +22,7 @@ import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
 
 const componentReducer = combineReducers({
+  brokerage: brokerageReducer,
   borrow: borrowReducer,
   identityVerification: identityVerificationReducer,
   interest: interestReducer,
@@ -33,6 +36,7 @@ const componentReducer = combineReducers({
   sendBtc: sendBtcReducer,
   sendEth: sendEthReducer,
   sendXlm: sendXlmReducer,
+  settings: settingsReducer,
   signMessage,
   simpleBuy: simpleBuyReducer,
   swap: swapReducer,

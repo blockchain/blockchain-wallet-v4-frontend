@@ -38,10 +38,8 @@ class Checkout extends PureComponent<Props> {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSDDEligible()
       this.props.simpleBuyActions.fetchSBCards()
-      this.props.simpleBuyActions.fetchBankTransferAccounts()
-      this.props.simpleBuyActions.fetchSDDLimits(
-        this.props.fiatCurrency || 'USD'
-      )
+      this.props.brokerageActions.fetchBankTransferAccounts()
+      this.props.simpleBuyActions.fetchLimits(this.props.fiatCurrency || 'USD')
     }
   }
 
@@ -158,6 +156,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,

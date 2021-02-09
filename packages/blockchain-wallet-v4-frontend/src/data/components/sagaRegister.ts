@@ -2,6 +2,7 @@ import { fork } from 'redux-saga/effects'
 import algoTransactions from './algoTransactions/sagaRegister'
 import bchTransactions from './bchTransactions/sagaRegister'
 import borrow from './borrow/sagaRegister'
+import brokerage from './brokerage/sagaRegister'
 import btcTransactions from './btcTransactions/sagaRegister'
 import ethTransactions from './ethTransactions/sagaRegister'
 import fiatTransactions from './fiatTransactions/sagaRegister'
@@ -36,6 +37,7 @@ export default ({ api, coreSagas, networks }) =>
   function * componentsSaga () {
     yield fork(algoTransactions())
     yield fork(borrow({ api, coreSagas, networks }))
+    yield fork(brokerage({ api, coreSagas, networks }))
     yield fork(bchTransactions())
     yield fork(btcTransactions())
     yield fork(ethTransactions())
@@ -59,7 +61,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(sendBtc({ api, coreSagas, networks }))
     yield fork(sendEth({ api, coreSagas, networks }))
     yield fork(sendXlm({ api, coreSagas, networks }))
-    yield fork(settings({ coreSagas }))
+    yield fork(settings({ api, coreSagas }))
     yield fork(signMessage({ coreSagas }))
     yield fork(simpleBuy({ api, coreSagas, networks }))
     yield fork(swap({ api, coreSagas, networks }))

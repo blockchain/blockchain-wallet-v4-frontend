@@ -1,6 +1,7 @@
 import algoTransactions from './algoTransactions/sagas'
 import bchTransactions from './bchTransactions/sagas'
 import borrow from './borrow/sagas'
+import brokerage from './brokerage/sagas'
 import btcTransactions from './btcTransactions/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import fiatTransactions from './fiatTransactions/sagas'
@@ -34,6 +35,7 @@ export default ({ api, coreSagas, networks }) => ({
   algoTransactions: algoTransactions(),
   bchTransactions: bchTransactions(),
   borrow: borrow({ api, coreSagas, networks }),
+  brokerage: brokerage({ api, coreSagas, networks }),
   btcTransactions: btcTransactions(),
   ethTransactions: ethTransactions(),
   xlmTransactions: xlmTransactions(),
@@ -55,7 +57,7 @@ export default ({ api, coreSagas, networks }) => ({
   sendBtc: sendBtc({ api, coreSagas, networks }),
   sendEth: sendEth({ api, coreSagas, networks }),
   sendXlm: sendXlm({ api, coreSagas, networks }),
-  settings: settings({ coreSagas }),
+  settings: settings({ api, coreSagas }),
   signMessage: signMessage({ coreSagas }),
   simpleBuy: simpleBuy({ api, coreSagas, networks }),
   swap: swap({ api, coreSagas, networks }),
