@@ -1951,7 +1951,7 @@
   "scenes.settings.manage_addresses.edit_name": "Edit Name",
   "scenes.settings.manage_addresses.make_default": "Make Default",
   "scenes.settings.manage_addresses.show_xpub": "Show xPub",
-  "scenes.settings.menu.subtitle": "Manage your wallet names, addresses and private keys.",
+  "scenes.settings.menu.subtitle": "Manage your wallets, addresses and private keys.",
   "scenes.settings.menu.title": "Wallets & Addresses",
   "scenes.settings.no_credit_cards": "No Credit Cards",
   "scenes.settings.no_linked_banks": "No Linked Banks",

@@ -338,6 +338,11 @@ export function simpleBuyReducer (
         sddTransactionFinished: true
       }
     }
+    case AT.SET_FIAT_CURRENCY:
+      return {
+        ...state,
+        fiatCurrency: action.payload.fiatCurrency
+      }
     case AT.SET_STEP:
       switch (action.payload.step) {
         case 'ENTER_AMOUNT':

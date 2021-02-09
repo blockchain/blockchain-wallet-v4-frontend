@@ -31,14 +31,11 @@ const AddressCell = styled(Text)`
 
 const MoreOptions = () => (
   <Link
-    weight={400}
-    size='small'
+    weight={500}
+    size='13px'
     data-e2e='importedAddressesMoreOptionsDropdown'
   >
-    <FormattedMessage
-      id='scenes.settings.addresses.btc.addressrow.moreoptions'
-      defaultMessage='More Options'
-    />
+    <FormattedMessage id='buttons.manage' defaultMessage='Manage' />
   </Link>
 )
 
@@ -59,6 +56,7 @@ const AddressRow = ({
     <TableRow data-e2e={dataE2e}>
       <AddressTableCell width='50%'>
         <AddressCell
+          weight={500}
           size='13px'
           data-e2e={`${
             archived ? 'archived' : 'unarchived'
@@ -76,29 +74,34 @@ const AddressRow = ({
         )}
       </AddressTableCell>
       <TableCell width='20%'>
-        <Text size='13px' weight={300}>
-          {address.label ? address.label : ''}
-        </Text>
-      </TableCell>
-      <TableCell width='10%'>
         {!archived && (
-          <SwitchableDisplay size='13px' coin={coin || 'BTC'}>
+          <SwitchableDisplay size='13px' coin={coin || 'BTC'} weight={500}>
             {address.info && address.info.final_balance}
           </SwitchableDisplay>
         )}
       </TableCell>
+      <TableCell width='20%'>
+        <Text size='13px' weight={500}>
+          {address.label ? address.label : ''}
+        </Text>
+      </TableCell>
       <TableCell
-        width='20%'
+        width='10%'
         style={{ display: 'flex', justifyContent: 'flex-end' }}
       >
         {renderOptions && (
-          <ComponentDropdown
-            down
-            forceSelected
-            color={'grey700'}
-            selectedComponent={<MoreOptions />}
-            components={renderOptions()}
-          />
+          <div>
+            <ComponentDropdown
+              color='grey900'
+              components={renderOptions()}
+              down
+              forceSelected
+              margin='0 3px 0 0'
+              selectedComponent={<MoreOptions />}
+              textAlign='end'
+              width='100px'
+            />
+          </div>
         )}
       </TableCell>
     </TableRow>

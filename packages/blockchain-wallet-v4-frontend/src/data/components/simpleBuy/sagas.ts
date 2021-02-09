@@ -196,6 +196,13 @@ export default ({
     }
   }
 
+  const addCardFinished = function * () {
+    // This is primarily used in general settings to short circuit
+    // the SB flow when adding a new card but not buying crypto
+    yield take(AT.FETCH_SB_CARDS_SUCCESS)
+    yield put(actions.modals.closeAllModals())
+  }
+
   const cancelSBOrder = function * ({
     order
   }: ReturnType<typeof A.cancelSBOrder>) {
@@ -1306,6 +1313,7 @@ export default ({
   return {
     activateSBCard,
     addCardDetails,
+    addCardFinished,
     cancelSBOrder,
     confirmSBCreditCardOrder,
     confirmSBFundsOrder,

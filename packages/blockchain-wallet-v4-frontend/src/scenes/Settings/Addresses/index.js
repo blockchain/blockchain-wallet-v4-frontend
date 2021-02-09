@@ -1,11 +1,12 @@
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
+import React from 'react'
+import styled from 'styled-components'
+
 import Bch from './Bch'
 import Btc from './Btc'
 import BtcManage from './Btc/ManageAddresses'
 import Eth from './Eth'
 import Menu from './Menu'
-import React from 'react'
-import styled from 'styled-components'
 import Xlm from './Xlm'
 
 const Wrapper = styled.div`
