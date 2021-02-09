@@ -51,16 +51,21 @@ const Settings = (props: Props) => {
                 </Destination>
               </DropdownMenuItem>
             </LinkContainer>
-            <LinkContainer to='/settings/profile' activeClassName='active'>
-              <DropdownMenuItem data-e2e='settings_profileLink'>
-                <Destination>
-                  <FormattedMessage
-                    id='layouts.wallet.header.profile'
-                    defaultMessage='Profile'
-                  />
-                </Destination>
-              </DropdownMenuItem>
-            </LinkContainer>
+            <DropdownMenuItem
+              data-e2e='settings_profileLink'
+              onClick={() =>
+                props.modalActions.showModal('TRADING_LIMITS', {
+                  origin: 'TradingLimits'
+                })
+              }
+            >
+              <Destination>
+                <FormattedMessage
+                  id='layouts.wallet.header.tradinglimits'
+                  defaultMessage='Trading Limits'
+                />
+              </Destination>
+            </DropdownMenuItem>
             <LinkContainer to='/settings/preferences' activeClassName='active'>
               <DropdownMenuItem data-e2e='settings_preferencesLink'>
                 <Destination>
