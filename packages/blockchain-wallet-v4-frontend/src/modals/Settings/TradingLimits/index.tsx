@@ -1,19 +1,17 @@
-import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import ModalEnhancer from 'providers/ModalEnhancer'
-
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import React, { PureComponent } from 'react'
+
+import { actions } from 'data'
 import { ProductEligibility, UserTierType } from 'data/types'
 import { RemoteDataType, SDDEligibleType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/modules/types'
-import React, { PureComponent } from 'react'
-
-import { actions } from 'data'
-import { ModalPropsType } from './../../types'
+import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { getData } from './selectors'
-
+import { ModalPropsType } from './../../types'
 import Loading from './template.loading'
 import Success from './template.success'
 
