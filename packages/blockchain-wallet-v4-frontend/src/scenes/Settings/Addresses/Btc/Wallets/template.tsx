@@ -1,6 +1,12 @@
+import { filter, take } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import React from 'react'
+import styled from 'styled-components'
+
 import {
   Banner,
-  IconButton,
+  Button,
   Link,
   Table,
   TableCell,
@@ -8,20 +14,29 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import { filter, take } from 'ramda'
-import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import media from 'services/ResponsiveService'
-import React from 'react'
-import styled from 'styled-components'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
 `
-const BtcWalletsAddressesSettingHeader = styled(SettingHeader)`
+const TableStyled = styled(Table)`
+  > div:last-child {
+    border-bottom: none;
+  }
+`
+const HeaderWrapper = styled(SettingHeader)`
+  align-items: flex-start;
+  justify-content: space-between;
+`
+const TitleHeader = styled(SettingHeader)`
   justify-content: flex-start;
+  font-weight: 500;
+  font-size: 20px;
+`
+const SubTitleHeader = styled(SettingDescription)`
+  margin-bottom: 20px;
 `
 const WalletTableCell = styled(TableCell)`
   display: flex;
@@ -33,6 +48,13 @@ const WalletTableCell = styled(TableCell)`
     flex-direction: column;
     align-items: flex-start;
   `};
+`
+const ButtonsWrapper = styled.div`
+  display: flex;
+  margin-right: 0;
+  > button {
+    margin-left: 10px;
+  }
 `
 const NoSearchMatchCell = styled(WalletTableCell)`
   display: flex;
@@ -54,6 +76,7 @@ const ErrorMessageText = styled(Text)`
 const Success = ({
   wallets,
   onAddNewWallet,
+  onClickImport,
   onUnarchive,
   search,
   failure,
@@ -62,6 +85,7 @@ const Success = ({
   failure?: any
   message?: any
   onAddNewWallet: () => void
+  onClickImport: () => void
   onUnarchive: (i: any) => void
   search: any
   wallets: Array<any>
@@ -171,22 +195,52 @@ const Success = ({
           </Banner>
         </ErrorWrapper>
       )}
-      <BtcWalletsAddressesSettingHeader>
-        <FormattedMessage
-          id='scenes.settings.addresses.btc.wallets.bitcoinwallets'
-          defaultMessage='Bitcoin Wallets'
-        />
-      </BtcWalletsAddressesSettingHeader>
-      <SettingDescription>
-        <FormattedMessage
-          id='scenes.settings.addresses.btc.wallets.bitcoinwallets.description'
-          defaultMessage='Wallets allow you to organize your funds into categories, like spending or savings. To see all of the individual addresses that have been generated for each wallet, click on ‘Manage‘.'
-        />
-      </SettingDescription>
-      <Table>
+      <HeaderWrapper>
+        <div>
+          <TitleHeader>
+            <FormattedMessage
+              id='scenes.settings.addresses.btc.wallets.bitcoinwallets'
+              defaultMessage='Bitcoin Wallets'
+            />
+          </TitleHeader>
+          <SubTitleHeader>
+            <FormattedMessage
+              id='scenes.settings.addresses.btc.wallets.desc'
+              defaultMessage='Wallets allow you to organize your funds into categories, like spending or savings.'
+            />
+          </SubTitleHeader>
+        </div>
+        <ButtonsWrapper>
+          <Button
+            data-e2e='btcImportedAddressLink'
+            height='36px'
+            nature='empty-secondary'
+            onClick={onClickImport}
+            size='14px'
+          >
+            <FormattedMessage
+              id='scenes.settings.addresses.btc.wallets.import'
+              defaultMessage='Import Address'
+            />
+          </Button>
+          <Button
+            data-e2e='btcNewWalletButton'
+            height='36px'
+            nature='primary'
+            onClick={onAddNewWallet}
+            size='14px'
+          >
+            <FormattedMessage
+              id='scenes.settings.addresses.btc.wallets.newhdaccount'
+              defaultMessage='New Wallet'
+            />
+          </Button>
+        </ButtonsWrapper>
+      </HeaderWrapper>
+      <TableStyled>
         <TableHeader>
           <TableCell width='50%'>
-            <Text size='13px' weight={500}>
+            <Text color='grey900' size='14px' weight={500}>
               <FormattedMessage
                 id='scenes.settings.addresses.btc.wallets.walletname'
                 defaultMessage='Wallet Name'
@@ -194,7 +248,7 @@ const Success = ({
             </Text>
           </TableCell>
           <TableCell width='30%'>
-            <Text size='13px' weight={500}>
+            <Text color='grey900' size='14px' weight={500}>
               <FormattedMessage id='copy.balance' defaultMessage='Balance' />
             </Text>
           </TableCell>
@@ -202,7 +256,7 @@ const Success = ({
             width='20%'
             style={{ display: 'flex', justifyContent: 'flex-end' }}
           >
-            <Text size='13px' weight={500}>
+            <Text color='grey900' size='14px' weight={500}>
               <FormattedMessage
                 id='scenes.settings.addresses.btc.wallets.actions'
                 defaultMessage='Actions'
@@ -226,18 +280,7 @@ const Success = ({
         ) : (
           walletTableRows
         )}
-      </Table>
-      <IconButton
-        data-e2e='btcNewWalletButton'
-        style={{ marginTop: 10 }}
-        name='plus'
-        onClick={onAddNewWallet}
-      >
-        <FormattedMessage
-          id='scenes.settings.addresses.btc.wallets.newhdaccount'
-          defaultMessage='New Wallet'
-        />
-      </IconButton>
+      </TableStyled>
     </Wrapper>
   )
 }
