@@ -35,6 +35,7 @@ export type WalletFormType =
   | 'reminder'
   | 'repayLoanForm'
   | 'requestEth'
+  | 'settingsNotifications'
   | 'sbCheckoutConfirm'
   | 'sbCurrencySelection'
   | 'sbCryptoSelection'
