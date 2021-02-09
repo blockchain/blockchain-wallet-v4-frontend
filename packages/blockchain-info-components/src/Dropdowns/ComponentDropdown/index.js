@@ -1,3 +1,4 @@
+import onClickOutside from 'react-onclickoutside'
 import React from 'react'
 
 import Dropdown from './template'
@@ -58,4 +59,4 @@ ComponentDropdown.defaultProps = {
   down: false
 }
 
-export default ComponentDropdown
+export default onClickOutside(ComponentDropdown)
