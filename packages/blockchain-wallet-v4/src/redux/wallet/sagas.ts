@@ -1,5 +1,3 @@
-import * as A from '../actions'
-import * as S from './selectors'
 import { call, put, select } from 'redux-saga/effects'
 import {
   compose,
@@ -18,15 +16,18 @@ import {
   range,
   repeat
 } from 'ramda'
-import { fetchData } from '../data/btc/actions'
-import { generateMnemonic } from '../../walletCrypto'
-import { HDAccount, KVStoreEntry, Wallet, Wrapper } from '../../types'
 import { set } from 'ramda-lens'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
 import Task from 'data.task'
+
+import * as A from '../actions'
+import * as S from './selectors'
 import { callTask } from '../../utils/functional'
 import { derivationMap, WALLET_CREDENTIALS } from '../kvStore/config'
+import { fetchData } from '../data/btc/actions'
+import { generateMnemonic } from '../../walletCrypto'
+import { HDAccount, KVStoreEntry, Wallet, Wrapper } from '../../types'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -202,19 +203,26 @@ export default ({ api, networks }) => {
   }
 
   const restoreWalletFromMetadata = function * (creds, newPassword) {
-    if(!creds) {
+    if (!creds) {
       return false
     }
 
     try {
       // Let's update the password and upload the new encrypted payload
-      const wallet = yield call(api.fetchWalletWithSharedKey, creds.guid, creds.sharedKey, creds.password)
+      const wallet = yield call(
+        api.fetchWalletWithSharedKey,
+        creds.guid,
+        creds.sharedKey,
+        creds.password
+      )
       const wrapperT = set(Wrapper.password, newPassword, wallet)
+      // eslint-disable-next-line
       const response = yield call(api.saveWallet, wrapperT)
       // TODO check response
       return true
     } catch (e) {
-      console.info('Unable to restore wallet from metadata', e)
+      // eslint-disable-next-line
+      console.error('Unable to restore wallet from metadata', e)
       return false
     }
   }
@@ -232,8 +240,8 @@ export default ({ api, networks }) => {
       node: node,
       usedAccounts: []
     })
-    var [guid, sharedKey] = yield call(api.generateUUIDs, 2)
-    if(recovered) {
+    let [guid, sharedKey] = yield call(api.generateUUIDs, 2)
+    if (recovered) {
       guid = creds.guid
       sharedKey = creds.sharedKey
     }
@@ -246,7 +254,7 @@ export default ({ api, networks }) => {
       undefined,
       nAccounts
     )
-    if(!recovered) {
+    if (!recovered) {
       yield call(api.createWallet, email, wrapper)
     }
     yield put(A.wallet.refreshWrapper(wrapper))

@@ -1,4 +1,5 @@
-import { curry, find, findIndex, map, nth, path, prop, propEq } from 'ramda'
+import { path } from 'ramda'
+
 import { kvStorePath } from '../../paths'
 import { WALLET_CREDENTIALS } from '../config'
 

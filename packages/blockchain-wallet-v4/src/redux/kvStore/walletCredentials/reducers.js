@@ -1,7 +1,7 @@
 import * as AT from './actionTypes'
-import { __, assocPath, compose, merge } from 'ramda'
+import { __, compose, mergeRight } from 'ramda'
 import { KVStoreEntry } from '../../../types'
-import { mapped, over, set } from 'ramda-lens'
+import { mapped, over } from 'ramda-lens'
 import Remote from '../../../remote'
 
 // initial state should be a kvstore object
@@ -24,7 +24,7 @@ export default (state = INITIAL_STATE, action) => {
       const { guid, sharedKey, password } = payload
       return over(
         compose(mapped, KVStoreEntry.value),
-        merge(__, { guid, sharedKey, password }),
+        mergeRight(__, { guid, sharedKey, password }),
         state
       )
     }
