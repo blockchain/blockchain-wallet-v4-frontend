@@ -98,7 +98,7 @@ const Success = ({
     return (
       <TableRow key={wallet.index} data-e2e='btcWalletRow'>
         <WalletTableCell width='50%'>
-          <LabelCell size='13px' data-e2e='btcWalletName'>
+          <LabelCell size='13px' weight={500} data-e2e='btcWalletName'>
             {wallet.label}
           </LabelCell>
           {wallet.default && (
@@ -124,7 +124,7 @@ const Success = ({
         </WalletTableCell>
         <TableCell width='30%'>
           {!wallet.archived && (
-            <SwitchableDisplay size='13px' coin='BTC'>
+            <SwitchableDisplay size='13px' weight={500} coin='BTC'>
               {wallet.balance}
             </SwitchableDisplay>
           )}

@@ -15,6 +15,7 @@ import * as sendBch from './sendBch/selectors'
 import * as sendBtc from './sendBtc/selectors'
 import * as sendEth from './sendEth/selectors'
 import * as sendXlm from './sendXlm/selectors'
+import * as settings from './settings/selectors'
 import * as signMessage from './signMessage/selectors'
 import * as simpleBuy from './simpleBuy/selectors'
 import * as swap from './swap/selectors'
@@ -41,6 +42,7 @@ export {
   sendBtc,
   sendEth,
   sendXlm,
+  settings,
   signMessage,
   simpleBuy,
   swap,

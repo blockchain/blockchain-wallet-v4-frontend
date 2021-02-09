@@ -140,13 +140,15 @@ class ExchangePromo extends PureComponent<Props> {
         ) : (
           <LinkContainer
             data-e2e='goSettingsProfile'
-            to='/settings/profile'
-            onClick={() =>
+            onClick={() => {
               this.props.analyticsActions.logEvent([
                 ...EXCHANGE_EVENTS.PROMO,
                 'verify_account_promo_clicked'
               ])
-            }
+              this.props.modalActions.showModal('TRADING_LIMITS', {
+                origin: 'TradingLimits'
+              })
+            }}
           >
             <GetStartedContainer>
               <Text color='blue600' size='14px' weight={600}>
