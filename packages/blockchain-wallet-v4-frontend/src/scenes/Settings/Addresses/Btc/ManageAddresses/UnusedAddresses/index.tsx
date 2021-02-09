@@ -1,41 +1,64 @@
-import * as C from 'services/AlertService'
-import { actions, selectors } from 'data'
 import { any, equals, length, prop, propEq } from 'ramda'
-import {
-  Banner,
-  ComponentDropdown,
-  FlatLoader,
-  IconButton,
-  Link,
-  Text
-} from 'blockchain-info-components'
 import { bindActionCreators } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { formValueSelector } from 'redux-form'
-import { HDDerivationType } from 'core/types'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Toggler, TogglerItem } from '@blockchain-com/components'
-import { Types } from 'blockchain-wallet-v4/src'
 import React from 'react'
 import styled from 'styled-components'
+
+import * as C from 'services/AlertService'
+import { actions, selectors } from 'data'
+import {
+  Banner,
+  Button,
+  ComponentDropdown,
+  FlatLoader,
+  Link,
+  Text
+} from 'blockchain-info-components'
+import { HDDerivationType } from 'core/types'
+import { SettingDescription, SettingHeader } from 'components/Setting'
+import { Types } from 'blockchain-wallet-v4/src'
+
 import UnusedAddresses from './template'
 
-const WalletLabelCell = styled.div`
+const HeaderWrapper = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
+`
+const WalletHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  > :nth-child(2) {
+    margin: 0 16px;
+  }
+`
+const UnusedAddressesHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  > :first-child {
+    padding-right: 100px;
+  }
 `
 const ClickableText = styled(Text)`
   cursor: pointer;
 `
-const DerivationSwitchContainer = styled.div`
-  margin-left: 12px;
-`
-
 const ToggledLink = styled(Link)`
   &.active {
     color: ${({ theme }) => theme.grey000};
   }
+`
+const UnusedTitle = styled(SettingHeader)`
+  justify-content: flex-start;
+  font-weight: 500;
+  font-size: 16px;
 `
 
 class UnusedAddressesContainer extends React.PureComponent<Props> {
@@ -127,22 +150,47 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
     } = this.props
 
     return (
-      <React.Fragment>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between'
-          }}
-        >
-          <WalletLabelCell>
+      <>
+        <HeaderWrapper>
+          <WalletHeader>
             <Text
-              weight={500}
-              style={{ marginRight: 10 }}
+              color='grey900'
               data-e2e='btcWalletName'
+              size='20px'
+              weight={500}
             >
               {accountLabel}
             </Text>
+            {hasLegacyDerivation && (
+              <Toggler>
+                <TogglerItem selected={equals('legacy', derivation)}>
+                  <LinkContainer
+                    to={`/settings/addresses/btc/${walletIndex}/legacy`}
+                  >
+                    <ToggledLink
+                      weight={500}
+                      size='13px'
+                      data-e2e='btcManageLegacyWalletLink'
+                    >
+                      Legacy
+                    </ToggledLink>
+                  </LinkContainer>
+                </TogglerItem>
+                <TogglerItem selected={equals('bech32', derivation)}>
+                  <LinkContainer
+                    to={`/settings/addresses/btc/${walletIndex}/bech32`}
+                  >
+                    <ToggledLink
+                      weight={500}
+                      size='13px'
+                      data-e2e='btcManageSegwitWalletLink'
+                    >
+                      Segwit
+                    </ToggledLink>
+                  </LinkContainer>
+                </TogglerItem>
+              </Toggler>
+            )}
             {isDefault && (
               <Banner label data-e2e='btcDefaultWallet'>
                 <FormattedMessage
@@ -151,119 +199,106 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
                 />
               </Banner>
             )}
-            {hasLegacyDerivation && (
-              <DerivationSwitchContainer>
-                <Toggler>
-                  <TogglerItem selected={equals('legacy', derivation)}>
-                    <LinkContainer
-                      to={`/settings/addresses/btc/${walletIndex}/legacy`}
+          </WalletHeader>
+          <div>
+            <ComponentDropdown
+              color='grey900'
+              down
+              forceSelected
+              margin='0 3px 0 0'
+              width='100px'
+              textAlign='end'
+              selectedComponent={
+                <Link
+                  weight={500}
+                  size='13px'
+                  data-e2e='btcWalletMoreOptionsDropdown'
+                >
+                  <FormattedMessage
+                    id='buttons.manage'
+                    defaultMessage='Manage'
+                  />
+                </Link>
+              }
+              components={[
+                <ClickableText
+                  size='small'
+                  onClick={this.onEditBtcAccountLabel}
+                  data-e2e='btcEditWalletNameLink'
+                >
+                  <FormattedMessage
+                    id='scenes.settings.manage_addresses.edit_name'
+                    defaultMessage='Edit Name'
+                  />
+                </ClickableText>,
+                !isDefault && (
+                  <>
+                    <ClickableText
+                      size='small'
+                      onClick={this.onMakeDefault}
+                      data-e2e='btcMakeWalletDefaultLink'
                     >
-                      <ToggledLink
-                        weight={500}
-                        size='13px'
-                        data-e2e='btcManageLegacyWalletLink'
-                      >
-                        Legacy
-                      </ToggledLink>
-                    </LinkContainer>
-                  </TogglerItem>
-                  <TogglerItem selected={equals('bech32', derivation)}>
-                    <LinkContainer
-                      to={`/settings/addresses/btc/${walletIndex}/bech32`}
+                      <FormattedMessage
+                        id='scenes.settings.manage_addresses.make_default'
+                        defaultMessage='Make Default'
+                      />
+                    </ClickableText>
+                    <ClickableText
+                      size='small'
+                      onClick={this.onSetArchived}
+                      data-e2e='btcArchiveWalletLink'
                     >
-                      <ToggledLink
-                        weight={500}
-                        size='13px'
-                        data-e2e='btcManageSegwitWalletLink'
-                      >
-                        Segwit
-                      </ToggledLink>
-                    </LinkContainer>
-                  </TogglerItem>
-                </Toggler>
-              </DerivationSwitchContainer>
-            )}
-          </WalletLabelCell>
-          <ComponentDropdown
-            down
-            forceSelected
-            color={'grey700'}
-            selectedComponent={
-              <Link
-                weight={500}
-                size='13px'
-                data-e2e='btcWalletMoreOptionsDropdown'
-              >
-                <FormattedMessage
-                  id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.moreoptions'
-                  defaultMessage='More Options'
-                />
-              </Link>
-            }
-            components={[
-              <ClickableText
-                size='small'
-                onClick={this.onEditBtcAccountLabel}
-                data-e2e='btcEditWalletNameLink'
-              >
-                <FormattedMessage
-                  id='scenes.settings.manage_addresses.edit_name'
-                  defaultMessage='Edit Name'
-                />
-              </ClickableText>,
-              !isDefault && (
-                <React.Fragment>
-                  <ClickableText
-                    size='small'
-                    onClick={this.onMakeDefault}
-                    data-e2e='btcMakeWalletDefaultLink'
-                  >
-                    <FormattedMessage
-                      id='scenes.settings.manage_addresses.make_default'
-                      defaultMessage='Make Default'
-                    />
-                  </ClickableText>
-                  <ClickableText
-                    size='small'
-                    onClick={this.onSetArchived}
-                    data-e2e='btcArchiveWalletLink'
-                  >
-                    <FormattedMessage
-                      id='scenes.settings.manage_addresses.archive'
-                      defaultMessage='Archive'
-                    />
-                  </ClickableText>
-                </React.Fragment>
-              ),
-              <ClickableText
-                size='small'
-                onClick={this.onShowXPub}
-                data-e2e='btcShowWalletXpubLink'
-              >
-                <FormattedMessage
-                  id='scenes.settings.manage_addresses.show_xpub'
-                  defaultMessage='Show xPub'
-                />
-              </ClickableText>
-            ].filter(x => x)}
-          />
-        </div>
-        <Text weight={500} size='14px' style={{ marginTop: 25 }}>
-          <FormattedMessage
-            id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.title'
-            defaultMessage='Unused Addresses'
-          />
-        </Text>
-        <Text
-          weight={400}
-          size='small'
-          style={{ marginTop: 10, marginBottom: 15 }}
-        >
-          <FormattedMessage
-            id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.message'
-            defaultMessage='Your Blockchain Wallet contains an unlimited collection of bitcoin addresses that you can use to receive funds from anybody, globally. Your wallet will automatically manage your bitcoin addresses for you. The addresses below are the subset of addresses that are labeled.'
-          />
-        </Text>
+                      <FormattedMessage
+                        id='scenes.settings.manage_addresses.archive'
+                        defaultMessage='Archive'
+                      />
+                    </ClickableText>
+                  </>
+                ),
+                <ClickableText
+                  size='small'
+                  onClick={this.onShowXPub}
+                  data-e2e='btcShowWalletXpubLink'
+                >
+                  <FormattedMessage
+                    id='scenes.settings.manage_addresses.show_xpub'
+                    defaultMessage='Show xPub'
+                  />
+                </ClickableText>
+              ].filter(x => x)}
+            />
+          </div>
+        </HeaderWrapper>
+        <UnusedAddressesHeader>
+          <div>
+            <UnusedTitle>
+              <FormattedMessage
+                id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.title'
+                defaultMessage='Unused Addresses'
+              />
+            </UnusedTitle>
+            <SettingDescription>
+              <FormattedMessage
+                id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.desc'
+                defaultMessage='Wallets contain an unlimited number of addresses that you can use to receive funds. Your wallet will automatically manage your bitcoin addresses for you. The addresses below are only a subset that you have manually created and labeled.'
+              />
+            </SettingDescription>
+          </div>
+          <div>
+            <Button
+              data-e2e='btcAddNextAddressButton'
+              height='36px'
+              nature='primary'
+              onClick={this.onGenerateNextAddress}
+              size='14px'
+            >
+              <FormattedMessage
+                id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.addnext'
+                defaultMessage='Add Next Address'
+              />
+            </Button>
+          </div>
+        </UnusedAddressesHeader>
         {!unusedAddresses
           ? null
           : unusedAddresses.cata({
@@ -285,18 +320,7 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
               ),
               NotAsked: () => <div />
             })}
-        <IconButton
-          style={{ marginTop: 15 }}
-          name='plus'
-          onClick={this.onGenerateNextAddress}
-          data-e2e='btcAddNextAddressButton'
-        >
-          <FormattedMessage
-            id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.addnext'
-            defaultMessage='Add Next Address'
-          />
-        </IconButton>
-      </React.Fragment>
+      </>
     )
   }
 }
