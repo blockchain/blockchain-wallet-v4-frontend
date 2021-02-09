@@ -1,6 +1,6 @@
 import { Button, Image, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType, LinkStatePropsType, OwnProps } from '.'
+import { OwnProps } from '.'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -18,10 +18,7 @@ const Title = styled(Text)`
   margin: 40px 0px 24px 0px;
 `
 
-const Failure: React.FC<LinkDispatchPropsType & {
-  fiatCurrency: LinkStatePropsType['fiatCurrency']
-  pair: OwnProps['pair']
-}> = props => {
+const Failure: React.FC<OwnProps> = props => {
   return (
     <Wrapper>
       <div>
@@ -43,14 +40,7 @@ const Failure: React.FC<LinkDispatchPropsType & {
           data-e2e='sbTryCurrencySelectionAgain'
           nature='primary'
           size='16px'
-          onClick={() =>
-            props.simpleBuyActions.setStep({
-              step: 'ENTER_AMOUNT',
-              cryptoCurrency: 'BTC',
-              fiatCurrency: props.fiatCurrency || 'USD',
-              pair: props.pair
-            })
-          }
+          onClick={props.handleFailure}
         >
           <FormattedMessage id='buttons.tryagain' defaultMessage='Try Again' />
         </Button>

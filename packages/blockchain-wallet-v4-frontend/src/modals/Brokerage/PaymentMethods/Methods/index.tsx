@@ -6,10 +6,6 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { getBankLogoImageName } from 'services/ImagesService'
-import {
-  getCoinFromPair,
-  getFiatFromPair
-} from 'data/components/simpleBuy/model'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '../index'
 
@@ -166,7 +162,7 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 
   render () {
-    const { fiatCurrency, orderType } = this.props
+    const { fiatCurrency, orderType = 'BUY' } = this.props
     const availableCards = this.props.cards.filter(
       card => card.state === 'ACTIVE' && orderType === 'BUY'
     )
@@ -242,15 +238,7 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 color='grey600'
                 style={{ marginRight: '28px' }}
                 role='button'
-                onClick={() =>
-                  this.props.simpleBuyActions.setStep({
-                    step: 'ENTER_AMOUNT',
-                    pair: this.props.pair,
-                    orderType: this.props.orderType,
-                    cryptoCurrency: getCoinFromPair(this.props.pair.pair),
-                    fiatCurrency: getFiatFromPair(this.props.pair.pair)
-                  })
-                }
+                onClick={this.props.handleBack}
               />
               <div>
                 <FormattedMessage

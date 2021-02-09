@@ -127,6 +127,7 @@ const Withdraw = React.lazy(() => import('./Withdraw'))
 const BankDetails = React.lazy(() => import('./Brokerage/Banks/BankDetails'))
 const RemoveBank = React.lazy(() => import('./Brokerage/Banks/RemoveBank'))
 const AddBank = React.lazy(() => import('./Brokerage/Banks/AddBank'))
+const Deposit = React.lazy(() => import('./Brokerage/Banks/Deposit'))
 
 const Modals = () => (
   <Suspense fallback={null}>
@@ -143,6 +144,7 @@ const Modals = () => (
       <Confirm />
       <ConfirmDisable2FA />
       <DeleteAddressLabel />
+      <Deposit />
       <DownloadTransactions />
       <EditTxDescription />
       <IdentityVerification />

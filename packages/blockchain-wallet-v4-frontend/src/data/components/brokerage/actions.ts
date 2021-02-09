@@ -1,5 +1,9 @@
 import * as AT from './actionTypes'
-import { BankTransferAccountType, YodleeAccountType } from 'core/types'
+import {
+  BankTransferAccountType,
+  WalletFiatType,
+  YodleeAccountType
+} from 'core/types'
 
 import {
   AddBankStepType,
@@ -13,6 +17,13 @@ import { BrokerageModalOriginType, ModalNamesType } from 'data/types'
 export const deleteSavedBank = (bankId: BankTransferAccountType['id']) => ({
   type: AT.DELETE_SAVED_BANK,
   bankId
+})
+
+export const handleDepositFiatClick = (fiatCurrency: WalletFiatType) => ({
+  type: AT.HANDLE_DEPOSIT_FIAT_CLICK,
+  payload: {
+    fiatCurrency
+  }
 })
 
 export const setFastLink = (fastLink: FastLinkType): BrokerageActionTypes => ({

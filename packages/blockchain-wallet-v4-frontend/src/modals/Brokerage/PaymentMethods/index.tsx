@@ -2,20 +2,14 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
 
-import { actions, selectors } from 'data'
-import {
-  FiatType,
-  RemoteDataType,
-  SBOrderActionType,
-  SBOrderType,
-  SBPairType
-} from 'core/types'
+import { actions } from 'data'
+import { FiatType, RemoteDataType, SBOrderActionType } from 'core/types'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 
 import { getData } from './selectors'
 import Failure from './template.failure'
-import Loading from '../template.loading'
+import Loading from './template.loading'
 import Success from './template.success'
 
 class PaymentMethods extends PureComponent<Props> {
@@ -39,31 +33,30 @@ class PaymentMethods extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state)
+  data: getData(state)
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
-  handleClose: () => void
-  order: SBOrderType
-  orderType: SBOrderActionType
-  pair: SBPairType
+  fiatCurrency: FiatType,
+  handleBack: () => void
+  handleClose: () => void,
+  handleFailure: () => void,
+  orderType?: SBOrderActionType
 }
 
 export type SuccessStateType = ReturnType<typeof getData>['data']
 
 export type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
-  fiatCurrency: undefined | FiatType
 }
 export type LinkDispatchPropsType = ReturnType<typeof mapDispatchToProps>
 export type Props = OwnProps & ConnectedProps<typeof connector>

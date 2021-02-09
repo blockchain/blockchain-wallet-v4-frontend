@@ -1,7 +1,12 @@
 import { call, put, retry, select, take } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
-import { AddBankStepType, SBCheckoutFormValuesType } from 'data/types'
+import {
+  AddBankStepType,
+  BankDepositStepType,
+  BrokerageModalOriginType,
+  SBCheckoutFormValuesType
+} from 'data/types'
 import { APIType } from 'core/network/api'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -137,6 +142,20 @@ export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
     }
   }
 
+  const handleDepositFiatClick = function * () {
+    yield put(
+      actions.components.brokerage.showModal(
+        BrokerageModalOriginType.DEPOSIT_BUTTON,
+        'BANK_DEPOSIT_MODAL'
+      )
+    )
+    yield put(
+      actions.components.brokerage.setStep({
+        step: BankDepositStepType.DEPOSIT_METHODS
+      })
+    )
+  }
+
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
     const { origin, modalType } = payload
     yield put(actions.modals.showModal(modalType, { origin }))
@@ -147,6 +166,7 @@ export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
     fetchBankTransferAccounts,
     fetchBankTransferUpdate,
     fetchFastLink,
+    handleDepositFiatClick,
     showModal
   }
 }

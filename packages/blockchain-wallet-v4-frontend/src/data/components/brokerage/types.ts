@@ -25,9 +25,21 @@ export type BankStatusType =
   | 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH'
   | 'DEFAULT_ERROR'
 
+export enum BankDepositStepType {
+  ADD_BANK = 'ADD_BANK',
+  BANK_LIST = 'BANK_LIST',
+  CONFIRM = 'CONFIRM',
+  DEPOSIT_METHODS = 'DEPOSIT_METHODS',
+  DEPOSIT_STATUS = 'DEPOSIT_STATUS',
+  ENTER_AMOUNT = 'ENTER_AMOUNT'
+}
+
 export type BrokerageStepPayload =
   | {
-      step: AddBankStepType.ADD_BANK | AddBankStepType.ADD_BANK_HANDLER
+      step:
+        | AddBankStepType.ADD_BANK
+        | AddBankStepType.ADD_BANK_HANDLER
+        | BankDepositStepType.DEPOSIT_METHODS
     }
   | {
       bankStatus: BankStatusType
@@ -47,7 +59,8 @@ export enum AddBankStepType {
 
 export enum BrokerageModalOriginType {
   ADD_BANK = 'AddBankModal',
-  BANK = 'BankDetailsModal'
+  BANK = 'BankDetailsModal',
+  DEPOSIT_BUTTON = 'DepositButton'
 }
 
 // State
@@ -57,7 +70,7 @@ export type BrokerageState = {
   bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>
   fastLink: RemoteDataType<string, FastLinkType>
   redirectBackToStep: boolean
-  step: AddBankStepType
+  step: AddBankStepType | BankDepositStepType
 }
 
 interface FetchFastLinkType {
