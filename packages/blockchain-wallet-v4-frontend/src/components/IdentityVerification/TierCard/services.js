@@ -64,7 +64,7 @@ export const messages = {
     </Text>
   ),
   TIER1: (
-    <Text size='12px' color='grey400'>
+    <Text size='12px'>
       <FormattedMessage
         id='components.identityverification.tiercard.silverplus'
         defaultMessage='Silver Level +'
@@ -124,10 +124,7 @@ export const status = (tier, userTiers, time) => {
     case 'pending':
       return (
         <Text size='14px' color='btc'>
-          <FormattedMessage
-            id='components.identityverification.tiercard.pending'
-            defaultMessage='In Review'
-          />
+          <FormattedMessage id='copy.in_review' defaultMessage='In Review' />
         </Text>
       )
     case 'rejected':
@@ -141,7 +138,7 @@ export const status = (tier, userTiers, time) => {
           return (
             <Text size='14px' color='btc'>
               <FormattedMessage
-                id='components.identityverification.tiercard.pending'
+                id='copy.in_review'
                 defaultMessage='In Review'
               />
             </Text>

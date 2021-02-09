@@ -12,6 +12,7 @@ export const getData = state => {
   const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
     state
   )
+  const swapAccount = selectors.components.simpleBuy.getSwapAccount(state)
 
   return lift(
     (
@@ -25,6 +26,7 @@ export const getData = state => {
       eligibility,
       pairs,
       paymentMethods,
+      swapAccount,
       walletCurrency
     })
   )(defaultMethodR, eligibilityR, pairsR, paymentMethodsR, walletCurrencyR)

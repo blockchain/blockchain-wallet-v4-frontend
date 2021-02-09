@@ -9,11 +9,15 @@ import allowCamera from './img/allow-camera.png'
 import allowCamera2 from './img/allow-camera@2x.png'
 import allowCamera3 from './img/allow-camera@3x.png'
 import appleAppStoreBadge from './img/apple-app-store-badge.svg'
+import bank from './img/bank.svg'
+import bankError from './img/bank-error.svg'
+import bankSuccess from './img/bank-success.svg'
 import bgPattern from './img/bg-pattern.svg'
 import bitpayLogo from './img/bitpay-logo.svg'
 import blankCard from './img/blank-card.svg'
 import blockchainIcon from './img/bc-icon.svg'
 import blockchainLogo from './img/bc-logo.svg'
+import blockchainLogoCircle from './img/bc-logo-circle.svg'
 import buySellColor from './img/buy-sell-color.svg'
 import buySellGrey from './img/buy-sell-grey.svg'
 import buySellLearnMore from './img/buy-sell-learn-more.png'
@@ -75,15 +79,21 @@ import swapCarousel3 from './img/swap-carousel3.png'
 import swapCarousel4 from './img/swap-carousel4.png'
 import swapCarousel5 from './img/swap-carousel5.png'
 import swapModalBg from './img/swap-modal-bg.svg'
+import tierGold from './img/tier-gold.svg'
+import tierSilver from './img/tier-silver.svg'
 import twitterWhite from './img/twitter-white.svg'
 import usddIntro from './img/usdd-intro.svg'
 import visaLogo from './img/visa-logo.svg'
+import visaNewLogo from './img/visa-new-logo.svg'
 import wallet from './img/wallet.svg'
+import walletBlue from './img/wallet-blue.svg'
 import walletV3Backup from './img/wallet-v3-backup.jpg'
 import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
 import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
 import walletV3SecurityUpgrade from './img/wallet-v3-security-upgrade.jpg'
 import warningCircleFilled from './img/warning-circle-filled.png'
+import wdgld from './img/wdgld.svg'
+import yodleeConnect from './img/yodlee-connect.svg'
 import yubikey from './img/yubikey.svg'
 // Lockbox
 import deviceLockbox from './img/lockbox/device-lockbox.png'
@@ -113,11 +123,34 @@ import sendConnect3 from './img/lockbox/send-connect@3x.png'
 import sendReview from './img/lockbox/send-review.png'
 import sendReview2 from './img/lockbox/send-review@2x.png'
 import sendReview3 from './img/lockbox/send-review@3x.png'
+import usFlag from './img/us-flag.svg'
 import worldAlert from './img/world-alert.jpg'
 import worldAlert2 from './img/world-alert@2x.jpg'
 import worldAlert3 from './img/world-alert@3x.jpg'
 
+// Bank Icons
+import bankLogoAcorns from './img/bank-logo-acorns.svg'
+import bankLogoAlly from './img/bank-logo-ally.svg'
+import bankLogoBankOfAmerica from './img/bank-logo-bank-of-america.svg'
+import bankLogoBbt from './img/bank-logo-bbt.svg'
+import bankLogoCapitalOne from './img/bank-logo-capital-one.svg'
+import bankLogoChase from './img/bank-logo-chase.svg'
+import bankLogoCitiBank from './img/bank-logo-citi-bank.svg'
+import bankLogoCitizens from './img/bank-logo-citizens.svg'
+import bankLogoDagSite from './img/bank-logo-yodlee-test.svg'
+import bankLogoNavyFederal from './img/bank-logo-navy-federal.svg'
+import bankLogoPnc from './img/bank-logo-pnc.svg'
+import bankLogoRegions from './img/bank-logo-regions.svg'
+import bankLogoRobinhood from './img/bank-logo-robinhood.svg'
+import bankLogoSuntrust from './img/bank-logo-suntrust.svg'
+import bankLogoTd from './img/bank-logo-td.svg'
+import bankLogoUsaa from './img/bank-logo-usaa.svg'
+import bankLogoUsBank from './img/bank-logo-us-bank.svg'
+import bankLogoVenmo from './img/bank-logo-venmo.svg'
+import bankLogoWellsFargo from './img/bank-logo-wells-fargo.svg'
+
 const Images = {
+  'bank-logo-acorns': bankLogoAcorns,
   'ad-bitcoin-games': adBitcoinGames,
   'ad-bitcoin-games2': adBitcoinGames2,
   'airdrop-enrolled': airdropEnrolled,
@@ -128,22 +161,34 @@ const Images = {
   'allow-camera': allowCamera,
   'allow-camera2': allowCamera2,
   'allow-camera3': allowCamera3,
+  'bank-logo-ally': bankLogoAlly,
   'apple-app-store-badge': appleAppStoreBadge,
+  bank,
+  'bank-error': bankError,
+  'bank-logo-bank-of-america': bankLogoBankOfAmerica,
+  'bank-success': bankSuccess,
+  'bank-logo-bbt': bankLogoBbt,
   'bg-pattern': bgPattern,
   'bitpay-logo': bitpayLogo,
   'blank-card': blankCard,
   'blockchain-logo': blockchainLogo,
+  'blockchain-logo-circle': blockchainLogoCircle,
   'blockchain-icon': blockchainIcon,
   'buy-sell-color': buySellColor,
   'buy-sell-grey': buySellGrey,
   'buy-sell-learn-more': buySellLearnMore,
   'buy-sell-learn-more2': buySellLearnMore2,
   'buy-wallet': buyWallet,
+  'bank-logo-capital-one': bankLogoCapitalOne,
   'chart-placeholder': chartPlaceholder,
+  'bank-logo-chase': bankLogoChase,
   'checkmark-green': checkmarkGreen,
+  'bank-logo-citi-bank': bankLogoCitiBank,
+  'bank-logo-citizens': bankLogoCitizens,
   coins: coins,
   'coin-pax': coinPax,
   'close-error': closeError,
+  'bank-logo-dag-site': bankLogoDagSite,
   'email-error': emailError,
   'email-success': emailSuccess,
   'empty-search': emptySearch,
@@ -207,33 +252,50 @@ const Images = {
   'mastercard-logo': mastercardLogo,
   'micro-deposits-whole': microDepositsWhole,
   money: money,
+  'bank-logo-navy-federal': bankLogoNavyFederal,
+  'bank-logo-pnc': bankLogoPnc,
   printer: printer,
   'qr-code': qrCode,
   'recover-padlock': recoverPadlock,
   refresh,
+  'bank-logo-regions': bankLogoRegions,
+  'bank-logo-robinhood': bankLogoRobinhood,
   search: search,
   'select-arrow': selectArrow,
   'silver-approved': silverApproved,
   smartphone: smartphone,
   'starfield-banner-bg': starfieldBannerBg,
+  'bank-logo-suntrust': bankLogoSuntrust,
   'swap-carousel1': swapCarousel1,
   'swap-carousel2': swapCarousel2,
   'swap-carousel3': swapCarousel3,
   'swap-carousel4': swapCarousel4,
   'swap-carousel5': swapCarousel5,
   'swap-modal-bg': swapModalBg,
+  'bank-logo-td': bankLogoTd,
   'twitter-white': twitterWhite,
+  'tier-gold': tierGold,
+  'tier-silver': tierSilver,
+  'bank-logo-usaa': bankLogoUsaa,
+  'bank-logo-us-bank': bankLogoUsBank,
+  'us-flag': usFlag,
   'usdd-intro': usddIntro,
+  'bank-logo-venmo': bankLogoVenmo,
   'visa-logo': visaLogo,
+  'visa-new-logo': visaNewLogo,
   'wallet-v3-backup': walletV3Backup,
   'wallet-v3-fund-management': walletV3FundManagement,
   'wallet-v3-new-design': walletV3NewDesign,
   'wallet-v3-security-upgrade': walletV3SecurityUpgrade,
   'warning-circle-filled': warningCircleFilled,
   wallet,
+  'wallet-blue': walletBlue,
+  wdgld: wdgld,
+  'bank-logo-wells-fargo': bankLogoWellsFargo,
   'world-alert': worldAlert,
   'world-alert2': worldAlert2,
   'world-alert3': worldAlert3,
+  'yodlee-connect': yodleeConnect,
   yubikey: yubikey
 }
 

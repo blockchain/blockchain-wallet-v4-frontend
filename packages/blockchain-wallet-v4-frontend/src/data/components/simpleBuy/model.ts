@@ -1,15 +1,16 @@
 import {
   CoinType,
-  CoinTypeEnum,
   SBCardType,
   SBOrderActionType,
   SBOrderType,
   SBPairsType,
   SBPaymentTypes,
   SupportedWalletCurrenciesType,
+  SwapOrderType,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import { convertBaseToStandard } from '../exchange/services'
+import { Limits } from 'core/types'
 import { SBAddCardFormValuesType } from './types'
 import moment from 'moment'
 
@@ -24,13 +25,20 @@ export const DEFAULT_SB_METHODS = {
   methods: []
 }
 
-export const WITHDRAWAL_LOCK_TIME_DAYS = '7'
+export const LIMIT = { min: '500', max: '10000' } as Limits
+export const LIMIT_FACTOR = 100 // we get 10000 from API
+
+export const SDD_TIER = 3
 
 export const NO_CHECKOUT_VALS = 'No checkout values'
 export const NO_PAIR_SELECTED = 'NO_PAIR_SELECTED'
+export const NO_ACCOUNT = 'NO_ACCOUNT'
 export const NO_PAYMENT_TYPE = 'NO_PAYMENT_TYPE'
 export const NO_FIAT_CURRENCY = 'NO_FIAT_CURRENCY'
 export const NO_ORDER_EXISTS = 'NO_ORDER_EXISTS_TO_CONFIRM'
+
+export const SB_CHANGE_EMAIL_FORM = 'sbChangeEmail'
+export const SB_CRYPTO_SELECTION = 'sbCryptoSelection'
 
 export const splitPair = (
   pair: SBPairsType
@@ -43,7 +51,11 @@ export const splitPair = (
 }
 
 export const getOrderType = (order: SBOrderType): SBOrderActionType => {
-  return order.inputCurrency in CoinTypeEnum ? 'SELL' : 'BUY'
+  return order.side
+}
+
+export const getPaymentMethodId = (order: SBOrderType): string | undefined => {
+  return order.paymentMethodId
 }
 
 export const getCoinFromPair = (pair: SBPairsType): CoinType => {
@@ -102,6 +114,20 @@ export const getCounterCurrency = (
       orderType === 'BUY' ? order.inputCurrency : order.outputCurrency
     ]?.coinTicker || 'USD'
   )
+}
+// These methods are being used for just sell p3, since we're release sell first
+// Separately from Buy and the order types are different. Once buy is migrated
+// to new API, should use methods similar to this
+export const getSellBaseAmount = (sellOrder: SwapOrderType): string => {
+  const coinCurrency = getCoinFromPair(sellOrder.pair)
+  return convertBaseToStandard(
+    coinCurrency as CoinType,
+    sellOrder.priceFunnel.inputMoney
+  )
+}
+
+export const getSellCounterAmount = (sellOrder: SwapOrderType): string => {
+  return convertBaseToStandard('FIAT', sellOrder.priceFunnel.outputMoney)
 }
 
 export const getNextCardExists = (

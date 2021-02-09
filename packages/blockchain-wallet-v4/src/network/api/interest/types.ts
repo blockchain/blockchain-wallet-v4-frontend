@@ -21,6 +21,10 @@ export type InterestEligibleType = {
 
 export type InterestInstrumentsType = Array<CoinType>
 
+export type InterestFormErrorsType = {
+  depositAmount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean
+}
+
 export type InterestLimitsType = {
   [key in CoinType]: {
     currency: FiatType
@@ -46,11 +50,12 @@ export type InterestTransactionType = {
     value: string
   }
   extraAttributes: {
-    address: 'string'
-    confirmations: number
-    hash: string
-    id: string
-    txHash: string
+    address?: 'string'
+    confirmations?: number
+    hash?: string
+    id?: string
+    transferType?: string
+    txHash?: string
   }
   id: string
   insertedAt: string
@@ -80,3 +85,8 @@ export type InterestWithdrawalResponseType = {
 }
 
 export type WithdrawalMinimumType = Array<NabuMoneyFloatType>
+
+export type CustodialTransferResponseType = {
+  amount: string
+  coin: CoinType
+}

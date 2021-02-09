@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import React from 'react'
 
 import { actions, model } from 'data'
@@ -12,6 +12,20 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
+import Bowser from 'bowser'
+import styled from 'styled-components'
+
+const browser = Bowser.getParser(window.navigator.userAgent)
+const isSafari = browser.satisfies({
+  safari: '>8'
+})
+
+const TextWrapper = styled(Text)`
+  a {
+    color: ${props => props.theme.blue600};
+    text-decoration: none;
+  }
+`
 
 const { ENABLE_BTC_LINKS } = model.analytics.PREFERENCE_EVENTS.GENERAL
 class CryptoLinkHandlingContainer extends React.PureComponent {
@@ -66,6 +80,15 @@ class CryptoLinkHandlingContainer extends React.PureComponent {
                   defaultMessage="We can't detect whether or not handling of crypto links has been enabled. If it has already been enabled, nothing will happen."
                 />
               </Text>
+
+              {isSafari && (
+                <TextWrapper size='12px' weight={400} color='error'>
+                  <FormattedHTMLMessage
+                    id='scenes.settings.preferences.cryptolinkhandling.unknownstatus.safari'
+                    defaultMessage='This feature is not supported in Safari <a href="https://caniuse.com/?search=registerProtocolHandler" target="_blank" rel="noopener noreferrrer">more details</a>.'
+                  />
+                </TextWrapper>
+              )}
             </TextGroup>
           )}
         </SettingComponent>

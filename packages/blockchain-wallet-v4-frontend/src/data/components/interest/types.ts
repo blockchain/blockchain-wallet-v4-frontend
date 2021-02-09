@@ -2,6 +2,7 @@ import * as AT from './actionTypes'
 import {
   AccountTypes,
   CoinType,
+  FiatType,
   InterestAccountBalanceType,
   InterestAccountType,
   InterestEligibleType,
@@ -33,6 +34,7 @@ export type InterestMinMaxType = {
 }
 
 export type InterestWithdrawalFormType = {
+  interestWithdrawalAccount: AccountTypes
   withdrawalAmount: number
 }
 
@@ -64,7 +66,8 @@ export interface InterestState {
   interestLimits: RemoteDataType<string, InterestLimitsType>
   interestRate: RemoteDataType<string, InterestRateType['rates']>
   isCoinDisplayed: boolean
-  payment: RemoteDataType<string, PaymentValue>
+  // make this optional here. places where ts doesnt like it, check, custodial
+  payment?: RemoteDataType<string, PaymentValue | undefined>
   step: {
     data: InterestStepMetadata
     name: InterestStep
@@ -174,7 +177,7 @@ interface FetchInterestTransactionsFailure {
   type: typeof AT.FETCH_INTEREST_TRANSACTIONS_FAILURE
 }
 interface FetchInterestTransactionsLoading {
-  payload: { reset: boolean }
+  payload: { coin?: CoinType; reset: boolean }
   type: typeof AT.FETCH_INTEREST_TRANSACTIONS_LOADING
 }
 interface FetchInterestTransactionsSuccess {
@@ -196,7 +199,7 @@ interface InitializeDepositModalAction {
   type: typeof AT.INITIALIZE_DEPOSIT_MODAL
 }
 interface InitializeDepositFormAction {
-  payload: { coin: CoinType }
+  payload: { coin: CoinType; currency: FiatType }
   type: typeof AT.INITIALIZE_DEPOSIT_FORM
 }
 interface SetDepositLimitsAction {
@@ -208,7 +211,7 @@ interface SetDepositLimitsAction {
 
 // WITHDRAWAL
 interface InitializeWithdrawalFormAction {
-  payload: { coin: CoinType }
+  payload: { coin: CoinType; walletCurrency: FiatType }
   type: typeof AT.INITIALIZE_WITHDRAWAL_FORM
 }
 interface RequestWithdrawal {
@@ -228,7 +231,7 @@ interface SetPaymentLoadingAction {
 }
 interface SetPaymentSuccessAction {
   payload: {
-    payment: PaymentValue
+    payment: PaymentValue | undefined
   }
   type: typeof AT.SET_PAYMENT_SUCCESS
 }
@@ -255,6 +258,7 @@ interface SetCoinDisplay {
   }
   type: typeof AT.SET_COIN_DISPLAY
 }
+
 interface ShowInterestModal {
   payload: {
     step: InterestStep
@@ -286,6 +290,7 @@ export type InterestActionTypes =
   | FetchInterestTransactionsSuccess
   | InitializeDepositModalAction
   | InitializeDepositFormAction
+  | InitializeWithdrawalFormAction
   | RequestWithdrawal
   | RouteToTxHash
   | SetInterestStep

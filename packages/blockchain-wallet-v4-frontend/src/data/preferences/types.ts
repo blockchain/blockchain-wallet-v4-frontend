@@ -2,7 +2,6 @@ import * as AT from './actionTypes'
 
 import {
   CoinType,
-  FiatType,
   PriceChangeTimeRangeType,
   SBOrderActionType
 } from 'core/types'
@@ -24,7 +23,6 @@ export type PreferencesState = {
       fix: SBFixType
     }
   }
-  sbFiatCurrency: undefined | FiatType
   showAirdropClaimModal: boolean
   showBackupReminder: boolean
   showInterestInfoBox: boolean

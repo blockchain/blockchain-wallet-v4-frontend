@@ -1,3 +1,6 @@
+import { assoc, find, is, prop, propEq } from 'ramda'
+import { call, delay, fork, put, select, take } from 'redux-saga/effects'
+
 import * as C from 'services/AlertService'
 import * as CC from 'services/ConfirmService'
 import { actions, actionTypes, selectors } from 'data'
@@ -7,10 +10,10 @@ import {
   forceSyncWallet,
   promptForSecondPassword
 } from 'services/SagaService'
-import { assoc, is, prop } from 'ramda'
-import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 import { Remote } from 'blockchain-wallet-v4/src'
+
+import { guessCurrencyBasedOnCountry } from './helpers'
 
 export const logLocation = 'auth/sagas'
 
@@ -83,10 +86,7 @@ export default ({ api, coreSagas }) => {
       actionTypes.components.identityVerification
         .SET_SUPPORTED_COUNTRIES_FAILURE
     ])
-    const userFlowSupported = (yield select(
-      selectors.modules.profile.userFlowSupported
-    )).getOrElse(false)
-    if (userFlowSupported) yield put(actions.modules.profile.signIn())
+    yield put(actions.modules.profile.signIn())
   }
 
   const fetchBalances = function * () {
@@ -96,6 +96,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.core.data.xlm.fetchData())
     yield put(actions.core.data.eth.fetchErc20Data('pax'))
     yield put(actions.core.data.eth.fetchErc20Data('usdt'))
+    yield put(actions.core.data.eth.fetchErc20Data('wdgld'))
   }
 
   const loginRoutineSaga = function * (mobileLogin, firstLogin) {
@@ -120,11 +121,22 @@ export default ({ api, coreSagas }) => {
       )
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
-      // yield call(coreSagas.kvStore.whatsNew.fetchMetadataWhatsnew)
       yield call(coreSagas.settings.fetchSettings)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
-      yield put(actions.router.push('/home'))
+
+      if (firstLogin) {
+        const countryCode = navigator.language.slice(-2) || 'US'
+        const currency = guessCurrencyBasedOnCountry(countryCode)
+
+        yield put(actions.core.settings.setCurrency(currency))
+        // fetch settings again
+        yield call(coreSagas.settings.fetchSettings)
+        yield put(actions.router.push('/verify-email-step'))
+      } else {
+        yield put(actions.router.push('/home'))
+      }
+
       yield call(authNabu)
       yield call(fetchBalances)
       yield call(saveGoals, firstLogin)
@@ -144,7 +156,15 @@ export default ({ api, coreSagas }) => {
       yield put(actions.modules.settings.updateLanguage(language))
       yield put(actions.analytics.initUserSession())
       // simple buy tasks
-      yield put(actions.components.simpleBuy.fetchSBPaymentMethods())
+      // only run the fetch simplebuy if there's no simplebuygoal
+      const goals = selectors.goals.getGoals(yield select())
+      const simpleBuyGoal = find(propEq('name', 'simpleBuy'), goals)
+      if (!simpleBuyGoal) {
+        yield put(actions.components.simpleBuy.fetchSBPaymentMethods())
+      }
+      // swap tasks
+      yield put(actions.components.swap.fetchTrades())
+
       yield fork(checkExchangeUsage)
       yield fork(checkDataErrors)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
@@ -200,10 +220,11 @@ export default ({ api, coreSagas }) => {
       const defaultAccount = accounts.find(
         account => account.index === defaultIndex
       )
+      if (!defaultAccount) return
       yield call(api.checkExchangeUsage, defaultAccount.xpub)
     } catch (e) {
       // eslint-disable-next-line
-      console.log(e)
+      // console.log(e)
     }
   }
   const pollingSession = function * (session, n = 50) {
@@ -359,6 +380,7 @@ export default ({ api, coreSagas }) => {
   const register = function * (action) {
     try {
       yield put(actions.auth.registerLoading())
+      yield put(actions.auth.setRegisterEmail(action.payload.email))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
       yield call(loginRoutineSaga, false, true)
@@ -477,20 +499,15 @@ export default ({ api, coreSagas }) => {
     yield call(logout)
   }
   const logout = function * () {
-    const isEmailVerified = yield select(
+    const isEmailVerified = (yield select(
       selectors.core.settings.getEmailVerified
-    )
-    const userFlowSupported = (yield select(
-      selectors.modules.profile.userFlowSupported
-    )).getOrElse(false)
-    if (userFlowSupported) {
-      yield put(actions.modules.profile.clearSession())
-      yield put(actions.middleware.webSocket.rates.stopSocket())
-    }
+    )).getOrElse(0)
+    yield put(actions.modules.profile.clearSession())
+    yield put(actions.middleware.webSocket.rates.stopSocket())
     yield put(actions.middleware.webSocket.coins.stopSocket())
     yield put(actions.middleware.webSocket.xlm.stopStreams())
     // only show browser de-auth page to accounts with verified email
-    isEmailVerified.getOrElse(0)
+    isEmailVerified
       ? yield put(actions.router.push('/logout'))
       : yield logoutClearReduxStore()
     yield put(actions.analytics.stopSession())

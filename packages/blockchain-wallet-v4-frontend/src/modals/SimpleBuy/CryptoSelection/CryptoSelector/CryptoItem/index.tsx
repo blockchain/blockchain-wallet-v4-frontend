@@ -5,6 +5,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
 
+import { SwapAccountType } from 'data/types'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
@@ -30,6 +31,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
+  account?: SwapAccountType
   coin: CoinType
   fiat: FiatType
   onClick?: (string) => void

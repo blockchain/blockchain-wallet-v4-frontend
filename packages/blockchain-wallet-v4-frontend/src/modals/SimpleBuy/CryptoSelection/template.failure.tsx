@@ -1,6 +1,6 @@
 import { Button, Image, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType } from '.'
+import { LinkDispatchPropsType, Props } from '.'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -18,7 +18,7 @@ const Title = styled(Text)`
   margin: 40px 0px 24px 0px;
 `
 
-const Failure: React.FC<LinkDispatchPropsType> = props => {
+const Failure: React.FC<LinkDispatchPropsType & Props> = props => {
   return (
     <Wrapper>
       <div>
@@ -42,14 +42,12 @@ const Failure: React.FC<LinkDispatchPropsType> = props => {
           size='16px'
           onClick={() =>
             props.simpleBuyActions.setStep({
-              step: 'CURRENCY_SELECTION'
+              step: 'CRYPTO_SELECTION',
+              fiatCurrency: props.fiatCurrency
             })
           }
         >
-          <FormattedMessage
-            id='modals.simplebuy.eligible.tryagain'
-            defaultMessage='Try Again'
-          />
+          <FormattedMessage id='buttons.tryagain' defaultMessage='Try Again' />
         </Button>
       </div>
     </Wrapper>

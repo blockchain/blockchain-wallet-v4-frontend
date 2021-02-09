@@ -1,4 +1,9 @@
-import { BeneficiaryType, CoinType, RemoteDataType } from 'core/types'
+import {
+  BeneficiaryType,
+  CoinType,
+  RemoteDataType,
+  WithdrawalLockCheckResponseType
+} from 'core/types'
 
 export type SendState = {
   exchangePaymentsAccount: {
@@ -7,4 +12,5 @@ export type SendState = {
   tradingPaymentsAccount: {
     [key in CoinType]: RemoteDataType<any, BeneficiaryType>
   }
+  withdrawLockCheck: RemoteDataType<string, WithdrawalLockCheckResponseType>
 }

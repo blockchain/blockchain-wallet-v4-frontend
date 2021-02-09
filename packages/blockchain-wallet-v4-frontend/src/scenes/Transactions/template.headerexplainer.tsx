@@ -152,6 +152,24 @@ export const getHeaderExplainer = (coinModel: SupportedWalletCurrencyType) => {
         </ExplainerText>
       )
     }
+    case 'WDGLD': {
+      return (
+        <ExplainerText>
+          <FormattedMessage
+            id='scenes.transaction.headertext.explainer.wdgld'
+            defaultMessage='Wrapped Digital Gold (wDGLD) is an ERC-20, combining a gold-backed token with the power and flexibility of Ethereum.'
+          />
+          <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
+            <LearnMoreText size='15px'>
+              <FormattedMessage
+                id='buttons.learn_more'
+                defaultMessage='Learn More'
+              />
+            </LearnMoreText>
+          </LearnMoreLink>
+        </ExplainerText>
+      )
+    }
     case 'EUR':
     case 'GBP':
     case 'USD':

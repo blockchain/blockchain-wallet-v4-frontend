@@ -4,6 +4,7 @@ import * as Lockbox from 'services/LockboxService'
 import * as S from './selectors'
 import { actions, model, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { AddressTypesType, CustodialFromType, XlmPaymentType } from 'core/types'
 import { APIType } from 'core/network/api'
 import { call, delay, put, select } from 'redux-saga/effects'
 import {
@@ -14,22 +15,36 @@ import {
   stopSubmit,
   touch
 } from 'redux-form'
-import { CustodialFromType, FromType, XlmPaymentType } from 'core/types'
 import { equals, head, includes, last, path, pathOr, prop, propOr } from 'ramda'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
 import { ModalNamesType } from 'data/modals/types'
 import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
+import sendSagas from '../send/sagas'
 
 const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendXlm/sagas'
 export const INITIAL_MEMO_TYPE = 'text'
-export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
+export default ({
+  api,
+  coreSagas,
+  networks
+}: {
+  api: APIType
+  coreSagas: any
+  networks: any
+}) => {
+  const { showWithdrawalLockAlert } = sendSagas({
+    api,
+    coreSagas,
+    networks
+  })
+
   const initialized = function * (action) {
     try {
       const from = path<string | undefined>(['payload', 'from'], action)
-      const type = path<FromType>(['payload', 'type'], action)
+      const type = path<AddressTypesType>(['payload', 'type'], action)
       const to = path(['payload', 'to'], action)
       const memo = path(['payload', 'memo'], action)
       yield put(A.paymentUpdatedLoading())
@@ -105,10 +120,12 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
         case 'from':
           const source = prop('address', payload) || payload
           const fromType = prop('type', payload)
-          payment = yield call(setFrom, payment, source, fromType)
           if (fromType === 'CUSTODIAL') {
+            payment = yield call(setFrom, payment, payload, fromType)
             yield put(A.paymentUpdatedSuccess(payment.value()))
             yield put(change(FORM, 'to', null))
+          } else {
+            payment = yield call(setFrom, payment, source, fromType)
           }
           break
         case 'to':
@@ -326,7 +343,7 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
         )
         if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
           if (error === 'Pending withdrawal locks') {
-            yield put(actions.alerts.displayError(C.LOCKED_WITHDRAW_ERROR))
+            yield call(showWithdrawalLockAlert)
           } else {
             yield put(actions.alerts.displayError(error))
           }
@@ -365,7 +382,7 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
   const setFrom = function * (
     payment: XlmPaymentType,
     from?: string | CustodialFromType,
-    type?: FromType
+    type?: AddressTypesType
   ) {
     let updatedPayment
     try {
@@ -377,7 +394,7 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
             payment.from,
             fromCustodialT.label,
             type,
-            fromCustodialT.available
+            fromCustodialT.withdrawable
           )
           break
         default:

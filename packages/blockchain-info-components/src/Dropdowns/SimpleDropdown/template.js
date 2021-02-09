@@ -73,6 +73,10 @@ const DropdownItem = styled.li`
   text-align: left;
   text-size-adjust: 100%;
   white-space: nowrap;
+
+  &:hover {
+    color: ${props => props.theme.blue600};
+  }
 `
 
 const Dropdown = props => {

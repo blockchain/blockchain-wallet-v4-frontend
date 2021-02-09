@@ -8,7 +8,6 @@ import styled from 'styled-components'
 const PriceChangeText = styled(Text)`
   font-weight: 500;
   font-size: 14px;
-  line-height: 20px;
   white-space: nowrap;
   color: ${props => props.theme.grey600};
 `

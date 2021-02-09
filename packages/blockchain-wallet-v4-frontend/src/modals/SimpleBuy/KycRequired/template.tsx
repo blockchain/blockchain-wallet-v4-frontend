@@ -6,12 +6,10 @@ import React from 'react'
 import styled from 'styled-components'
 
 import {
-  DisplayTitle,
   NumberContainer,
   NumberDescription,
   NumberWrapper,
   RowNumber,
-  Subcontent,
   SubTitle
 } from '../template.rejected.styles'
 
@@ -21,35 +19,39 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
-
 const Title = styled(Text)`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 7px;
 `
-
 const ShortTitleContainer = styled.div`
   max-width: 154px;
   margin-top: 20px;
 `
-
-const SubcontentContainer = styled(FlyoutWrapper)`
+const ContentContainer = styled(FlyoutWrapper)`
   border-top: 1px solid ${props => props.theme.grey000};
+`
+const DisplayTitle = styled(Text)`
+  font-weight: 600;
+  font-size: 15px;
+  display: flex;
+  color: ${props => props.theme.textBlack};
+  width: 100%;
+`
+const IconsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 `
 
 const Template: React.FC<Props> = props => {
   return (
     <Wrapper>
       <FlyoutWrapper>
-        <Icon cursor name='cart' size='32px' color='blue600' />
-        <Title color='grey800' size='24px' weight={600}>
-          <ShortTitleContainer>
-            <FormattedMessage
-              id='modals.simplebuy.cryptoselect'
-              defaultMessage='Buy Crypto. Sell for Cash.'
-            />
-          </ShortTitleContainer>
+        <IconsContainer>
+          <Icon cursor name='cart' size='32px' color='blue600' />
           <Icon
             cursor
             data-e2e='sbCloseModalIcon'
@@ -59,17 +61,25 @@ const Template: React.FC<Props> = props => {
             role='button'
             onClick={props.handleClose}
           />
+        </IconsContainer>
+        <Title color='grey800' size='24px' weight={600}>
+          <ShortTitleContainer>
+            <FormattedMessage
+              id='modals.simplebuy.kycrequired.title'
+              defaultMessage='Buy Crypto'
+            />
+          </ShortTitleContainer>
         </Title>
         <Text color='grey600' weight={500}>
           <FormattedMessage
-            id='modals.simplebuy.kycrequired'
-            defaultMessage='We’ve made it just as easy to buy and sell Crypto straight from your Wallet. Every Buy & Sell happens in seconds or less.'
+            id='modals.simplebuy.kycrequired.subtitle'
+            defaultMessage='Verify your identity to complete your order.'
           />
         </Text>
       </FlyoutWrapper>
 
-      <SubcontentContainer>
-        <Subcontent color='grey600' weight={500}>
+      <ContentContainer>
+        <Text color='grey600' weight={500}>
           <RowNumber>
             <NumberWrapper>
               <NumberContainer>1</NumberContainer>
@@ -127,7 +137,7 @@ const Template: React.FC<Props> = props => {
               </SubTitle>
             </NumberDescription>
           </RowNumber>
-        </Subcontent>
+        </Text>
 
         <Button
           fullwidth
@@ -136,11 +146,7 @@ const Template: React.FC<Props> = props => {
           nature='primary'
           data-e2e='handleVerified'
           onClick={() => {
-            props.identityVerificationActions.verifyIdentity(
-              2,
-              false,
-              'KycRequiredStep'
-            )
+            props.identityVerificationActions.verifyIdentity(2, false)
             if (props.order) {
               props.simpleBuyActions.setStep({
                 step: 'CHECKOUT_CONFIRM',
@@ -156,7 +162,7 @@ const Template: React.FC<Props> = props => {
             defaultMessage='Verify My Identity'
           />
         </Button>
-      </SubcontentContainer>
+      </ContentContainer>
     </Wrapper>
   )
 }

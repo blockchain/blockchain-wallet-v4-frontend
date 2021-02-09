@@ -28,7 +28,7 @@ const About = () => {
       </SettingSummary>
       <SettingComponent>
         <Link href='https://www.blockchain.com/about' target='_blank'>
-          <Button data-e2e='aboutLink' nature='empty'>
+          <Button data-e2e='aboutLink' nature='empty-blue'>
             <Icon name='open-in-new-tab' size='20px' />
           </Button>
         </Link>

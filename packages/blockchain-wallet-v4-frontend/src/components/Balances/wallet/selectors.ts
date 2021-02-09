@@ -1,8 +1,7 @@
-import { add, curry, lift, pathOr, prop, reduce } from 'ramda'
+import { add, curry, lift, pathOr, reduce } from 'ramda'
 import {
   ExtractSuccess,
   InterestAccountBalanceType,
-  InvitationsType,
   RemoteDataType,
   SBBalancesType,
   SBBalanceType,
@@ -176,6 +175,22 @@ export const getUsdtBalance = createDeepEqualSelector(
   }
 )
 
+export const getWdgldBalance = createDeepEqualSelector(
+  [
+    getErc20NonCustodialBalance('wdgld'),
+    selectors.components.simpleBuy.getSBBalances
+  ],
+  (balanceR, sbBalancesR: RemoteDataType<string, SBBalancesType>) => {
+    const sbWdgldBalance = sbBalancesR.getOrElse({ WDGLD: DEFAULT_SB_BALANCE })
+      .WDGLD
+    const sbBalance = sbWdgldBalance ? sbWdgldBalance.available : '0'
+
+    return Remote.of(
+      new BigNumber(balanceR.getOrElse(0)).plus(new BigNumber(sbBalance))
+    )
+  }
+)
+
 export const getXlmBalance = createDeepEqualSelector(
   [
     getXlmNonCustodialBalance,
@@ -299,14 +314,9 @@ export const getPaxBalanceInfo = createDeepEqualSelector(
   [
     getPaxBalance,
     state => selectors.core.data.eth.getErc20Rates(state, 'pax'),
-    selectors.core.settings.getCurrency,
-    selectors.core.settings.getInvitations
+    selectors.core.settings.getCurrency
   ],
-  (paxBalanceR, erc20RatesR, currencyR, invitationsR) => {
-    const invitations = invitationsR.getOrElse({
-      PAX: false
-    } as InvitationsType)
-    const invited = prop('PAX', invitations)
+  (paxBalanceR, erc20RatesR, currencyR) => {
     const transform = (value, rates, toCurrency) => {
       return Exchange.convertPaxToFiat({
         value,
@@ -316,9 +326,7 @@ export const getPaxBalanceInfo = createDeepEqualSelector(
       }).value
     }
 
-    return invited
-      ? lift(transform)(paxBalanceR, erc20RatesR, currencyR)
-      : Remote.Success(0)
+    return lift(transform)(paxBalanceR, erc20RatesR, currencyR)
   }
 )
 
@@ -463,6 +471,8 @@ export const getBalanceSelector = (coin: WalletCurrencyType) => {
       return getXlmBalance
     case 'USDT':
       return getUsdtBalance
+    case 'WDGLD':
+      return getWdgldBalance
     case 'ALGO':
       return getAlgoBalance
     case 'EUR':

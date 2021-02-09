@@ -1,16 +1,21 @@
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { find, isEmpty, isNil, path, propEq, propOr } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import Bowser from 'bowser'
+import React from 'react'
+import styled from 'styled-components'
+
 import {
   Banner,
   Button,
   HeartbeatLoader,
-  Icon,
   Image,
   Link,
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { connect, ConnectedProps } from 'react-redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { find, path, propEq } from 'ramda'
+import { CoinType, WalletFiatType } from 'core/types'
 import {
   Form,
   FormError,
@@ -20,22 +25,14 @@ import {
   PasswordBox,
   TextBox
 } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
 import { required, validWalletId } from 'services/FormHelper'
-import { SuccessCartridge } from 'components/Cartridge'
 import { Wrapper } from 'components/Public'
-import Bowser from 'bowser'
 import media from 'services/ResponsiveService'
-import QRCodeWrapper from 'components/QRCodeWrapper'
-import React from 'react'
-import styled from 'styled-components'
 
-import { compose } from 'redux'
 import { Props as OwnProps } from '.'
-import { selectors } from 'data'
-import LinkAccount from '../Register/LinkExchangeAccount'
+import LinkExchangeAccount from '../Register/LinkExchangeAccount'
 import Modals from '../../modals'
+import SimpleBuyInfo from '../Register/SimpleBuyInfo'
 
 const browser = Bowser.getParser(window.navigator.userAgent)
 const isSupportedBrowser = browser.satisfies({
@@ -52,27 +49,6 @@ export const removeWhitespace = string => string.replace(/\s/g, ``)
 
 const OuterWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  width: 1028px;
-  ${media.tabletL`
-    width: 100%;
-    justify-content: center;
-  `};
-`
-const SideWrapper = styled.div`
-  width: 274px;
-  padding: 12px 0 12px 0;
-  display: flex;
-  flex-direction: column;
-  ${media.tabletL`
-    display: none;
-  `};
-`
-const CenterWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  max-width: 480px;
-  z-index: 1;
 `
 const LoginWrapper = styled.div`
   display: flex;
@@ -83,35 +59,29 @@ const PublicWrapper = styled(Wrapper)`
   position: relative;
   overflow: visible;
 `
-
-const PublicSideWrapper = styled(Wrapper)`
-  position: relative;
-  overflow: visible;
-  max-width: 274px;
-  border-radius: 0 8px 8px 0;
-  display: flex;
-  flex-direction: column;
-`
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`
+const Footer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 15px;
+
+  ${media.atLeastTablet`
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  `}
 `
 const LoginForm = styled(Form)`
   margin: 20px 0;
 `
 const LoginButton = styled(Button)`
   margin-top: 15px;
-`
-const DescriptionText = styled(Text)`
-  margin-right: 15px;
-`
-const DescriptionIcon = styled(Icon)`
-  &:before {
-    position: absolute;
-    margin-top: 1px;
-    margin-left: -16px;
-  }
 `
 const LoginTextGroup = styled(TextGroup)`
   line-height: 1;
@@ -131,37 +101,38 @@ const BrowserWarning = styled.div`
 const SubCard = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 1.25rem;
+  margin-top: 20px;
 `
 const SignUpText = styled(Text)`
-  display: flex;
-  flex-direction: row;
-  line-height: 24px;
-`
-const SignUpTextWithHover = styled(SignUpText)`
   &:hover {
-    text-decoration: underline;
+    color: ${props => props.theme.white};
+    font-weight: 600;
   }
-`
-const QRCodeContainer = styled.div`
-  margin-top: 8px;
-  display: flex;
-  justify-content: left;
-`
-const TitleWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `
 
-export const CartridgeContainer = styled.div`
-  width: auto;
-  > span {
-    text-transform: uppercase;
+const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+
+  span {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 135%;
+  }
+
+  img {
+    background-color: ${p => p.theme['marketing-primary']};
+    border-radius: 29px;
+    padding: 8px;
+    margin-right: 20px;
   }
 `
-export const CartridgeSentContainer = styled.div`
-  width: auto;
+
+const HeaderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 48px;
 `
 
 const LinkAccountTitle = () => (
@@ -174,6 +145,13 @@ const LinkAccountTitle = () => (
   </TitleWrapper>
 )
 
+type GoalDataType = {
+  amount: string
+  crypto: CoinType
+  email?: string
+  fiatCurrency: WalletFiatType
+}
+
 const Login = (props: InjectedFormProps<{}, Props> & Props) => {
   const {
     busy,
@@ -182,14 +160,11 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
     guid,
     invalid,
     isGuidEmailAddress,
-    qr_data,
     isGuidValid,
     loginError,
     password,
+    supportedCoins,
     submitting,
-    phonePubKey,
-    cacheActions,
-    middlewareActions,
     ...rest
   } = props
   const { handleSubmit, handleSmsResend, authType } = rest
@@ -208,430 +183,298 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
   const isGuidTouched = path(['guid', 'touched'], formMeta)
   const showGuidInvalidError = guid && !isGuidValid && isGuidTouched
   const isLinkAccountGoal = find(propEq('name', 'linkAccount'), goals)
+  const simpleBuyGoal = find(propEq('name', 'simpleBuy'), goals)
+  const goalData: GoalDataType = propOr({}, 'data', simpleBuyGoal)
 
   return (
     <OuterWrapper>
-      <SideWrapper />
-      <CenterWrapper>
-        {isLinkAccountGoal && <LinkAccount />}
-        <LoginWrapper>
-          <PublicWrapper>
-            <Modals />
-            <Header>
-              <Text size='20px' color='textBlack' weight={600} capitalize>
-                {isLinkAccountGoal ? (
-                  <LinkAccountTitle />
-                ) : (
-                  <FormattedMessage
-                    id='scenes.login.welcome'
-                    defaultMessage='Welcome back!'
-                  />
-                )}
-              </Text>
-            </Header>
-            <LoginForm onSubmit={handleSubmit}>
-              {!isSupportedBrowser && (
-                <BrowserWarning>
-                  <Banner type='warning'>
-                    <FormattedMessage
-                      id='scenes.login.browserwarning'
-                      defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.'
-                    />
-                  </Banner>
-                </BrowserWarning>
+      {isLinkAccountGoal && <LinkExchangeAccount />}
+      <LoginWrapper>
+        {!isNil(goalData) && !isEmpty(goalData) && (
+          <HeaderWrapper>
+            <Text color='white' size='32px' weight={600}>
+              <FormattedMessage
+                defaultMessage='Buy Crypto With Credit Card'
+                id='scenes.login.simplebuy.header'
+              />
+            </Text>
+          </HeaderWrapper>
+        )}
+        <PublicWrapper>
+          <Modals />
+          <Header>
+            <Text size='20px' color='textBlack' weight={600} capitalize>
+              {isLinkAccountGoal ? (
+                <LinkAccountTitle />
+              ) : (
+                <FormattedMessage
+                  id='scenes.login.welcome'
+                  defaultMessage='Welcome back!'
+                />
               )}
+            </Text>
+          </Header>
+          {!isNil(goalData) && !isEmpty(goalData) && (
+            <SimpleBuyInfo
+              goalData={goalData}
+              supportedCoins={supportedCoins}
+            />
+          )}
+          <LoginForm onSubmit={handleSubmit}>
+            {!isSupportedBrowser && (
+              <BrowserWarning>
+                <Banner type='warning'>
+                  <FormattedMessage
+                    id='scenes.login.browserwarning'
+                    defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.'
+                  />
+                </Banner>
+              </BrowserWarning>
+            )}
+            <FormGroup>
+              <FormItem>
+                <FormLabel htmlFor='guid'>
+                  <FormattedMessage
+                    id='scenes.login.guid'
+                    defaultMessage='Wallet ID'
+                  />
+                </FormLabel>
+                <Field
+                  component={TextBox}
+                  data-e2e='loginGuid'
+                  disabled={!isSupportedBrowser}
+                  disableSpellcheck
+                  name='guid'
+                  normalize={removeWhitespace}
+                  validate={[required, validWalletId]}
+                />
+              </FormItem>
+              {guidError && (
+                <GuidError inline>
+                  <Text
+                    size='12px'
+                    color='error'
+                    weight={400}
+                    data-e2e='walletIdError'
+                  >
+                    <FormattedMessage
+                      id='scenes.login.guiderror'
+                      defaultMessage='Unknown Wallet ID. If you need a reminder '
+                    />
+                  </Text>
+                  <LinkContainer to='/reminder'>
+                    <Link size='12px' weight={500}>
+                      <FormattedMessage
+                        id='scenes.login.clickhere'
+                        defaultMessage='click here.'
+                      />
+                    </Link>
+                  </LinkContainer>
+                </GuidError>
+              )}
+              {showGuidInvalidError ? (
+                <LoginTextGroup inline>
+                  <Text size='12px' color='grey800' weight={500}>
+                    {isGuidEmailAddress ? (
+                      <FormattedMessage
+                        id='scenes.login.isguidemailerror'
+                        defaultMessage='👋Hey! Make sure this is your Wallet ID and not an email address. If you need a reminder'
+                      />
+                    ) : (
+                      <FormattedMessage
+                        id='scenes.login.isguidinvalid'
+                        defaultMessage="👋Hey! This format doesn't look quite right. Wallet ID's look like this: ef7549a5-94ad-39...If you need a reminder"
+                      />
+                    )}
+                  </Text>
+                  <LinkContainer to='/reminder'>
+                    <Link size='12px' weight={600}>
+                      <FormattedMessage
+                        id='scenes.login.clickhere'
+                        defaultMessage='click here.'
+                      />
+                    </Link>
+                  </LinkContainer>
+                </LoginTextGroup>
+              ) : (
+                <LoginTextGroup inline>
+                  <Text size='12px' color='grey800' weight={500}>
+                    <FormattedMessage
+                      id='scenes.login.findyourguid'
+                      defaultMessage='Your Wallet ID can be found at the bottom of any email we’ve ever sent you. Need a reminder?'
+                    />
+                  </Text>
+                  <LinkContainer to='/reminder'>
+                    <Link size='12px' weight={500}>
+                      <FormattedMessage
+                        id='scenes.login.sendguid'
+                        defaultMessage='Send my Wallet ID'
+                      />
+                    </Link>
+                  </LinkContainer>
+                </LoginTextGroup>
+              )}
+            </FormGroup>
+            <FormGroup>
+              <FormItem>
+                <FormLabel htmlFor='password'>
+                  <FormattedMessage
+                    id='scenes.login.password'
+                    defaultMessage='Password'
+                  />
+                </FormLabel>
+                <Field
+                  name='password'
+                  validate={[required]}
+                  component={PasswordBox}
+                  disabled={!isSupportedBrowser}
+                  data-e2e='loginPassword'
+                />
+                {passwordError && (
+                  <FormError
+                    position={authType > 0 ? 'relative' : 'absolute'}
+                    data-e2e='passwordError'
+                  >
+                    <FormattedMessage
+                      id='scenes.login.wrong_password'
+                      defaultMessage='Error decrypting wallet. Wrong password'
+                    />
+                  </FormError>
+                )}
+                {accountLocked && (
+                  <FormError
+                    position={
+                      authType > 0 || passwordError ? 'relative' : 'absolute'
+                    }
+                  >
+                    {loginError}
+                  </FormError>
+                )}
+              </FormItem>
+            </FormGroup>
+            {authType > 0 && (
               <FormGroup>
                 <FormItem>
-                  <FormLabel htmlFor='guid'>
-                    <FormattedMessage
-                      id='scenes.login.guid'
-                      defaultMessage='Wallet ID'
-                    />
-                  </FormLabel>
-                  <Field
-                    component={TextBox}
-                    data-e2e='loginGuid'
-                    disabled={!isSupportedBrowser}
-                    disableSpellcheck
-                    name='guid'
-                    normalize={removeWhitespace}
-                    validate={[required, validWalletId]}
-                  />
-                </FormItem>
-                {guidError && (
-                  <GuidError inline>
-                    <Text
-                      size='12px'
-                      color='error'
-                      weight={400}
-                      data-e2e='walletIdError'
-                    >
+                  <FormLabel htmlFor='code'>
+                    {authType === 1 && (
                       <FormattedMessage
-                        id='scenes.login.guiderror'
-                        defaultMessage='Unknown Wallet ID. If you need a reminder '
+                        id='scenes.login.yubikey'
+                        defaultMessage='Yubikey'
                       />
-                    </Text>
-                    <LinkContainer to='/reminder'>
-                      <Link size='12px' weight={500}>
-                        <FormattedMessage
-                          id='scenes.login.clickhere'
-                          defaultMessage='click here.'
-                        />
-                      </Link>
-                    </LinkContainer>
-                  </GuidError>
-                )}
-                {showGuidInvalidError ? (
-                  <LoginTextGroup inline>
-                    <Text size='12px' color='grey800' weight={500}>
-                      {isGuidEmailAddress ? (
-                        <FormattedMessage
-                          id='scenes.login.isguidemailerror'
-                          defaultMessage='👋Hey! Make sure this is your Wallet ID and not an email address. If you need a reminder'
-                        />
-                      ) : (
-                        <FormattedMessage
-                          id='scenes.login.isguidinvalid'
-                          defaultMessage="👋Hey! This format doesn't look quite right. Wallet ID's look like this: ef7549a5-94ad-39...If you need a reminder"
-                        />
-                      )}
-                    </Text>
-                    <LinkContainer to='/reminder'>
-                      <Link size='12px' weight={600}>
-                        <FormattedMessage
-                          id='scenes.login.clickhere'
-                          defaultMessage='click here.'
-                        />
-                      </Link>
-                    </LinkContainer>
-                  </LoginTextGroup>
-                ) : (
-                  <LoginTextGroup inline style={{ textAlign: 'left' }}>
-                    <Text size='12px' color='grey400' weight={500}>
+                    )}
+                    {authType === 4 && (
                       <FormattedMessage
-                        id='scenes.login.findyourguid'
-                        defaultMessage='Your Wallet ID can be found at the bottom of any email we’ve ever sent you. Need a reminder?'
+                        id='scenes.login.google'
+                        defaultMessage='Authenticator App Code'
                       />
-                    </Text>
-                    <LinkContainer to='/reminder'>
-                      <Link size='12px' weight={500}>
-                        <FormattedMessage
-                          id='scenes.login.sendguid'
-                          defaultMessage='Send my Wallet ID'
-                        />
-                      </Link>
-                    </LinkContainer>
-                  </LoginTextGroup>
-                )}
-              </FormGroup>
-              <FormGroup>
-                <FormItem>
-                  <FormLabel htmlFor='password'>
-                    <FormattedMessage
-                      id='scenes.login.password'
-                      defaultMessage='Password'
-                    />
-                  </FormLabel>
-                  <Field
-                    name='password'
-                    validate={[required]}
-                    component={PasswordBox}
-                    disabled={!isSupportedBrowser}
-                    data-e2e='loginPassword'
-                  />
-                  {passwordError && (
-                    <FormError
-                      position={authType > 0 ? 'relative' : 'absolute'}
-                      data-e2e='passwordError'
-                    >
-                      <FormattedMessage
-                        id='scenes.login.wrong_password'
-                        defaultMessage='Error decrypting wallet. Wrong password'
-                      />
-                    </FormError>
-                  )}
-                  {accountLocked && (
-                    <FormError
-                      position={
-                        authType > 0 || passwordError ? 'relative' : 'absolute'
-                      }
-                    >
-                      {loginError}
-                    </FormError>
-                  )}
-                </FormItem>
-              </FormGroup>
-              {authType > 0 && (
-                <FormGroup>
-                  <FormItem>
-                    <FormLabel htmlFor='code'>
-                      {authType === 1 && (
-                        <FormattedMessage
-                          id='scenes.login.yubikey'
-                          defaultMessage='Yubikey'
-                        />
-                      )}
-                      {authType === 4 && (
-                        <FormattedMessage
-                          id='scenes.login.google'
-                          defaultMessage='Authenticator App Code'
-                        />
-                      )}
-                      {authType === 5 && (
-                        <FormattedMessage
-                          id='scenes.login.mobile'
-                          defaultMessage='SMS Code'
-                        />
-                      )}
-                    </FormLabel>
-                    <Field
-                      name='code'
-                      normalize={removeWhitespace}
-                      validate={[required]}
-                      component={authType === 1 ? PasswordBox : TextBox}
-                      noLastPass
-                      autoFocus
-                      data-e2e='loginTwoFactorCode'
-                    />
+                    )}
                     {authType === 5 && (
-                      <ResendSmsLink
-                        size='12px'
-                        weight={400}
-                        onClick={handleSmsResend}
-                      >
-                        <FormattedMessage
-                          id='scenes.login.resendsms'
-                          defaultMessage='Resend SMS'
-                        />
-                      </ResendSmsLink>
-                    )}
-                    {twoFactorError && (
-                      <FormError position={'absolute'}>{loginError}</FormError>
-                    )}
-                  </FormItem>
-                </FormGroup>
-              )}
-              <FormGroup>
-                <LoginButton
-                  type='submit'
-                  nature='primary'
-                  fullwidth
-                  height='48px'
-                  disabled={submitting || invalid || busy || !password}
-                  data-e2e='loginButton'
-                >
-                  {busy && !loginError ? (
-                    <HeartbeatLoader height='20px' width='20px' color='white' />
-                  ) : (
-                    <Text color='whiteFade900' size='16px' weight={600}>
                       <FormattedMessage
-                        id='scenes.login.login'
-                        defaultMessage='Log In'
+                        id='scenes.login.mobile'
+                        defaultMessage='SMS Code'
                       />
-                    </Text>
+                    )}
+                  </FormLabel>
+                  <Field
+                    name='code'
+                    normalize={removeWhitespace}
+                    validate={[required]}
+                    component={authType === 1 ? PasswordBox : TextBox}
+                    noLastPass
+                    autoFocus
+                    data-e2e='loginTwoFactorCode'
+                  />
+                  {authType === 5 && (
+                    <ResendSmsLink
+                      size='12px'
+                      weight={400}
+                      onClick={handleSmsResend}
+                    >
+                      <FormattedMessage
+                        id='scenes.login.resendsms'
+                        defaultMessage='Resend SMS'
+                      />
+                    </ResendSmsLink>
                   )}
-                </LoginButton>
+                  {twoFactorError && (
+                    <FormError position={'absolute'}>{loginError}</FormError>
+                  )}
+                </FormItem>
               </FormGroup>
-            </LoginForm>
-          </PublicWrapper>
-
-          <LinkContainer data-e2e='signupLink' to='/signup'>
-            <Link>
-              <SubCard>
-                <SignUpText size='16px' color='white' weight={500}>
-                  <FormattedMessage
-                    id='scenes.login.wallet.link'
-                    defaultMessage="Don't have a wallet?"
-                  />
-                </SignUpText>
-                &nbsp;
-                <SignUpTextWithHover size='16px' color='white' weight={600}>
-                  <FormattedMessage
-                    id='scenes.login.wallet.signup'
-                    defaultMessage='Sign up Now'
-                  />
-                </SignUpTextWithHover>
-                <Icon size='24px' color='white' name='arrow-right' />
-              </SubCard>
-            </Link>
-          </LinkContainer>
-        </LoginWrapper>
-      </CenterWrapper>
-      <SideWrapper>
-        <PublicSideWrapper>
-          {!phonePubKey && (
-            <>
-              <CartridgeContainer>
-                <SuccessCartridge>
-                  <FormattedMessage id='copy.new' defaultMessage='New' />
-                </SuccessCartridge>
-              </CartridgeContainer>
-
-              <Text
-                size='16px'
-                color='grey900'
-                weight={600}
-                style={{ marginTop: '8px' }}
+            )}
+            <FormGroup>
+              <LoginButton
+                type='submit'
+                nature='primary'
+                fullwidth
+                height='48px'
+                disabled={submitting || invalid || busy || !password}
+                data-e2e='loginButton'
               >
-                <FormattedMessage
-                  id='scenes.login.qrcodelogin'
-                  defaultMessage='QR Code Log In'
-                />
-              </Text>
-              <TextGroup
-                inline
-                style={{ marginTop: '8px', lineHeight: '18px' }}
-              >
-                <DescriptionText size='12px' color='grey900' weight={500}>
-                  <FormattedMessage
-                    id='scenes.login.qrcodelogin_description_1'
-                    defaultMessage='Open your mobile Blockchain App, tap the QR Code Scanner'
-                  />
-                </DescriptionText>
-                <DescriptionIcon color='grey900' name='qr-camera' size='16px' />
-                <Text size='12px' color='grey900' weight={500}>
-                  <FormattedMessage
-                    id='scenes.login.qrcodelogin_description_2'
-                    defaultMessage='in the top right & scan this code to log in.'
-                  />
-                </Text>
-              </TextGroup>
-
-              <QRCodeContainer>
-                {props.secureChannelLoginState.cata({
-                  Success: () => {
-                    return (
-                      <Text size='14px' weight={600}>
-                        Success! Logging in...
-                      </Text>
-                    )
-                  },
-                  Failure: e => (
-                    <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>
-                  ),
-                  Loading: () => {
-                    return (
-                      <Text size='14px' weight={600}>
-                        Please confirm the login on your mobile device...
-                      </Text>
-                    )
-                  },
-                  NotAsked: () => (
-                    <QRCodeWrapper
-                      value={qr_data}
-                      size={qr_data.length}
-                      showImage
+                {busy && !loginError ? (
+                  <HeartbeatLoader height='20px' width='20px' color='white' />
+                ) : (
+                  <Text color='whiteFade900' size='16px' weight={600}>
+                    <FormattedMessage
+                      id='scenes.login.login'
+                      defaultMessage='Log In'
                     />
-                  )
-                })}
-              </QRCodeContainer>
-            </>
-          )}
-
-          {phonePubKey && (
-            <>
-              <CartridgeSentContainer>
-                <SuccessCartridge>
+                  </Text>
+                )}
+              </LoginButton>
+            </FormGroup>
+          </LoginForm>
+          {isSupportedBrowser && (
+            <Footer>
+              <LinkContainer to='/mobile-login'>
+                <Link size='13px' weight={600} data-e2e='loginViaMobileLink'>
                   <FormattedMessage
-                    id='scenes.login.wallet.message.sent'
-                    defaultMessage='Message Sent'
-                  />
-                </SuccessCartridge>
-              </CartridgeSentContainer>
-
-              <Text
-                size='16px'
-                color='grey900'
-                weight={600}
-                style={{ marginTop: '8px' }}
-              >
-                <FormattedMessage
-                  id='scenes.login.wallet.connected.title'
-                  defaultMessage='Mobile Device Connected'
-                />
-              </Text>
-
-              <Text
-                size='12px'
-                color='grey900'
-                weight={500}
-                style={{ marginTop: '8px' }}
-              >
-                <FormattedMessage
-                  id='scenes.login.wallet.connected.description_1'
-                  defaultMessage='We sent your connected mobile device a notification. Open the app to auto-log in on the web.'
-                />
-              </Text>
-              <Text
-                size='12px'
-                color='grey900'
-                weight={500}
-                style={{ marginTop: '24px' }}
-              >
-                <FormattedMessage
-                  id='scenes.login.wallet.connected.description_2'
-                  defaultMessage='Didn’t get the notification? Make sure you have push notifications enabled.'
-                />
-              </Text>
-
-              <TextGroup
-                inline
-                style={{ marginTop: '8px', lineHeight: '18px' }}
-              >
-                <Link
-                  size='12px'
-                  weight={500}
-                  onClick={() =>
-                    middlewareActions.webSocket.coins.resendMessageSocket()
-                  }
-                >
-                  <FormattedMessage
-                    id='scenes.login.wallet.connected.send_it_again'
-                    defaultMessage='Send Again'
+                    id='scenes.login.loginmobile'
+                    defaultMessage='Login via Mobile'
                   />
                 </Link>
-
-                <Text size='12px' color='grey900' weight={500}>
+              </LinkContainer>
+              <LinkContainer to='/help'>
+                <Link size='13px' weight={600} data-e2e='loginGetHelp'>
                   <FormattedMessage
-                    id='modals.mobilenumberverify.getcode2'
-                    defaultMessage='or'
-                  />
-                </Text>
-
-                <Link
-                  size='12px'
-                  weight={500}
-                  onClick={() => cacheActions.disconnectChannelPhone()}
-                >
-                  <FormattedMessage
-                    id='scenes.login.wallet.connected.add_a_new_device'
-                    defaultMessage='Add a New Device'
+                    id='scenes.login.needhelp'
+                    defaultMessage='Need some help?'
                   />
                 </Link>
-              </TextGroup>
-            </>
+              </LinkContainer>
+            </Footer>
           )}
-        </PublicSideWrapper>
-      </SideWrapper>
+        </PublicWrapper>
+        <LinkContainer data-e2e='signupLink' to='/signup'>
+          <Link>
+            <SubCard>
+              <Text size='14px' color='whiteFade600' weight={500}>
+                <FormattedMessage
+                  id='scenes.login.wallet.link'
+                  defaultMessage="Don't have a wallet?"
+                />
+              </Text>
+              &nbsp;
+              <SignUpText size='14px' color='whiteFade900' weight={500}>
+                <FormattedMessage
+                  id='buttons.signup'
+                  defaultMessage='Sign Up'
+                />
+              </SignUpText>
+            </SubCard>
+          </Link>
+        </LinkContainer>
+      </LoginWrapper>
     </OuterWrapper>
   )
 }
-
-const mapStateToProps = state => ({
-  secureChannelLoginState: selectors.auth.getSecureChannelLogin(state)
-})
-
-const connector = connect(mapStateToProps)
-
-const enhance = compose(
-  reduxForm<{}, Props>({ form: 'login', destroyOnUnmount: false }),
-  connector
-)
 
 type Props = OwnProps & {
   busy: boolean
   handleSmsResend: () => void
   loginError?: string
-} & ConnectedProps<typeof connector>
+}
 
-export default enhance(Login) as React.FunctionComponent
+export default reduxForm<{}, Props>({ form: 'login', destroyOnUnmount: false })(
+  Login
+)

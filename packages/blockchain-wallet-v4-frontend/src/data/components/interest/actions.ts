@@ -101,17 +101,17 @@ export const fetchInterestLimitsSuccess = (
   payload: { interestLimits }
 })
 
-export const setWithdrawalMinimimumsFailure = (error: string) => ({
+export const setWithdrawalMinimumsFailure = (error: string) => ({
   type: AT.SET_WITHDRAWAL_MINIMUMS_FAILURE,
   payload: {
     error
   }
 })
 
-export const setWithdrawalMinimimumsLoading = () => ({
+export const setWithdrawalMinimumsLoading = () => ({
   type: AT.SET_WITHDRAWAL_MINIMUMS_LOADING
 })
-export const setWithdrawalMinimimumsSuccess = (
+export const setWithdrawalMinimumsSuccess = (
   withdrawalMinimums: WithdrawalMinimumType
 ) => ({
   type: AT.SET_WITHDRAWAL_MINIMUMS_SUCCESS,
@@ -160,8 +160,8 @@ export const fetchInterestRateSuccess = (
 })
 
 // TRANSACTIONS
-export const fetchInterestTransactions = (reset: boolean) => ({
-  payload: { reset },
+export const fetchInterestTransactions = (reset: boolean, coin?: CoinType) => ({
+  payload: { reset, coin },
   type: AT.FETCH_INTEREST_TRANSACTIONS
 })
 export const fetchInterestTransactionsFailure = (
@@ -209,8 +209,11 @@ export const submitDepositForm = (coin: CoinType) => ({
 })
 
 // WITHDRAWAL
-export const initializeWithdrawalForm = (coin: CoinType) => ({
-  payload: { coin },
+export const initializeWithdrawalForm = (
+  coin: CoinType,
+  walletCurrency: FiatType
+) => ({
+  payload: { coin, walletCurrency },
   type: AT.INITIALIZE_WITHDRAWAL_FORM
 })
 export const requestWithdrawal = (
@@ -232,7 +235,7 @@ export const setPaymentLoading = (): InterestActionTypes => ({
   type: AT.SET_PAYMENT_LOADING
 })
 export const setPaymentSuccess = (
-  payment: PaymentValue
+  payment?: PaymentValue
 ): InterestActionTypes => ({
   type: AT.SET_PAYMENT_SUCCESS,
   payload: {
@@ -241,7 +244,7 @@ export const setPaymentSuccess = (
 })
 
 // MISC
-export const routeToTxHash = (coin: CoinType, txHash: string) => ({
+export const routeToTxHash = (coin: CoinType, txHash?: string) => ({
   payload: { coin, txHash },
   type: AT.ROUTE_TO_TX_HASH
 })

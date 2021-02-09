@@ -16,7 +16,9 @@ import misc from './misc'
 import profile from './profile'
 import rates from './rates'
 import settings from './settings'
+import settingsComponent from './settingsComponent'
 import simpleBuy from './simpleBuy'
+import swap from './swap'
 import trades from './trades'
 import wallet from './wallet'
 import xlm from './xlm'
@@ -80,6 +82,11 @@ const api = ({
       ...http
     }),
     ...settings({ rootUrl, ...http }),
+    ...settingsComponent({
+      nabuUrl,
+      authorizedGet: authorizedHttp.get,
+      ...http
+    }),
     ...simpleBuy({
       everypayUrl,
       nabuUrl,
@@ -87,6 +94,12 @@ const api = ({
       authorizedPost: authorizedHttp.post,
       authorizedPut: authorizedHttp.put,
       authorizedDelete: authorizedHttp.deleteRequest,
+      ...http
+    }),
+    ...swap({
+      nabuUrl,
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
       ...http
     }),
     ...rates({ nabuUrl, ...authorizedHttp }),
@@ -106,8 +119,10 @@ export type APIType = ReturnType<typeof analytics> &
   ReturnType<typeof custodial> &
   ReturnType<typeof eth> &
   ReturnType<typeof interest> &
+  ReturnType<typeof kyc> &
   ReturnType<typeof misc> &
   ReturnType<typeof profile> &
   ReturnType<typeof simpleBuy> &
+  ReturnType<typeof swap> &
   ReturnType<typeof wallet> &
   ReturnType<typeof xlm>

@@ -9,7 +9,6 @@ import { formatFiat } from 'core/exchange/currency'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { TIERS } from './model'
-import { UserDataType, UserTiersType } from 'data/types'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
@@ -87,15 +86,6 @@ const Column = styled.div`
     }
   }
 `
-const Announcement = styled(Text)`
-  display: flex;
-  background: linear-gradient(180deg, #162241 0%, #324069 100%);
-  border-radius: 8px 8px 0 0;
-  justify-content: center;
-  align-items: center;
-  letter-spacing: 2px;
-  height: 50px;
-`
 const Content = styled.div`
   margin-top: 10px;
 `
@@ -108,13 +98,13 @@ const { TIERS_STATES } = model.profile
 export const TierCard = ({
   column,
   emailVerified,
-  goToSwap,
   mobileVerified,
   tier,
   userData,
   userTiers,
   identityVerificationActions,
-  simpleBuyActions
+  simpleBuyActions,
+  swapActions
 }: Props) => {
   const tierData = userTiers.find(userTier => userTier.index === tier)
   if (!tierData) return null
@@ -135,14 +125,6 @@ export const TierCard = ({
 
   return (
     <Wrapper className={className}>
-      {tier === 2 && (
-        <Announcement uppercase weight={500} size='18px' color='white'>
-          <FormattedMessage
-            id='components.identityverification.tiercard.getfreecrypto'
-            defaultMessage='Get Free Crypto'
-          />
-        </Announcement>
-      )}
       <Container>
         <Header color='marketing-primary' uppercase>
           {headers[path([tier, 'level'], TIERS)]}
@@ -199,11 +181,7 @@ export const TierCard = ({
             fullwidth
             nature='primary'
             onClick={() =>
-              identityVerificationActions.verifyIdentity(
-                tier,
-                false,
-                'SettingsProfile'
-              )
+              identityVerificationActions.verifyIdentity(tier, false)
             }
             data-e2e={`continueKycTier${tier}Btn`}
           >
@@ -224,7 +202,7 @@ export const TierCard = ({
               jumbo
               fullwidth
               nature='primary'
-              onClick={goToSwap}
+              onClick={() => swapActions.showModal('SettingsProfile')}
               data-e2e='swapNowBtn'
             >
               <FormattedMessage
@@ -257,7 +235,7 @@ const mapDispatchToProps = dispatch => ({
     actions.components.identityVerification,
     dispatch
   ),
-  goToSwap: () => dispatch(actions.router.push('/swap')),
+  swapActions: bindActionCreators(actions.components.swap, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
@@ -265,11 +243,9 @@ const connector = connect(getData, mapDispatchToProps)
 
 type OwnProps = {
   column: boolean
-  emailVerified: boolean
-  mobileVerified: boolean
+  emailVerified?: boolean
+  mobileVerified?: boolean
   tier: 1 | 2
-  userData: UserDataType
-  userTiers: UserTiersType
 }
 type Props = OwnProps & ConnectedProps<typeof connector>
 

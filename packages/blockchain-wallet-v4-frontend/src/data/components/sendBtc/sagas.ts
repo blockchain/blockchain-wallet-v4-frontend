@@ -16,13 +16,13 @@ import {
   prop
 } from 'ramda'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { APIType } from 'core/network/api'
 import {
+  AddressTypesType,
   BtcAccountFromType,
   BtcFromType,
-  BtcPaymentType,
-  FromType
+  BtcPaymentType
 } from 'core/types'
+import { APIType } from 'core/network/api'
 import { call, delay, put, race, select, take } from 'redux-saga/effects'
 import {
   change,
@@ -38,6 +38,7 @@ import { ModalNamesType } from 'data/modals/types'
 import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
 import BigNumber from 'bignumber.js'
 import bip21 from 'bip21'
+import sendSagas from '../send/sagas'
 
 const DUST = 546
 const DUST_BTC = '0.00000546'
@@ -53,6 +54,11 @@ export default ({
   coreSagas: any
   networks: any
 }) => {
+  const { showWithdrawalLockAlert } = sendSagas({
+    api,
+    coreSagas,
+    networks
+  })
   const initialized = function * (action) {
     try {
       const {
@@ -232,7 +238,7 @@ export default ({
           break
         case 'from':
           let payloadT = payload as BtcFromType
-          const fromType = payloadT.type as FromType
+          const fromType = payloadT.type as AddressTypesType
           if (typeof payloadT === 'string') {
             yield payment.from(payloadT, fromType)
             break
@@ -438,7 +444,10 @@ export default ({
       payment: p.getOrElse({}),
       network: networks.btc
     })
-    const fromType: FromType | undefined = path(['fromType'], payment.value())
+    const fromType: AddressTypesType | undefined = path(
+      ['fromType'],
+      payment.value()
+    )
     const { payPro } = yield select(selectors.form.getFormValues(FORM))
     try {
       // Sign payment
@@ -503,15 +512,19 @@ export default ({
           new BigNumber(value.amount[0]).toString()
         )
       } else {
+        const value = payment.value()
+        // notify backend of incoming non-custodial deposit
+        if (value.to && value.to[0].type === 'CUSTODIAL') {
+          yield put(
+            actions.components.send.notifyNonCustodialToCustodialTransfer(
+              value,
+              'SIMPLEBUY'
+            )
+          )
+        }
         payment = yield payment.publish()
       }
 
-      yield put(
-        actions.components.send.notifyNonCustodialToCustodialTransfer(
-          payment.value(),
-          'SIMPLEBUY'
-        )
-      )
       yield put(actions.core.data.btc.fetchData())
       yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
       // Set tx note
@@ -594,7 +607,7 @@ export default ({
         )
         if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
           if (error === 'Pending withdrawal locks') {
-            yield put(actions.alerts.displayError(C.LOCKED_WITHDRAW_ERROR))
+            yield call(showWithdrawalLockAlert)
           } else {
             yield put(actions.alerts.displayError(error))
           }

@@ -1,30 +1,41 @@
-import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import React, { PureComponent } from 'react'
+
+import { actions, selectors } from 'data'
 import {
-  FiatTypeEnum,
+  ExtractSuccess,
   RemoteDataType,
-  SBCardType,
   SBOrderType,
-  SupportedCoinType,
   SupportedWalletCurrenciesType
 } from 'core/types'
-import { getData } from './selectors'
 import { Remote } from 'core'
 import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
-import Loading from '../AddCard/template.loading'
-import React, { PureComponent } from 'react'
+
+import { getData } from './selectors'
+import Loading from '../template.loading'
 import Success from './template.success'
+import SuccessSdd from './template.sdd.success'
 
 class OrderSummary extends PureComponent<Props> {
-  state = {}
-
   componentDidMount () {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBCards()
+      this.props.sendActions.getLockRule()
     }
     this.props.simpleBuyActions.fetchSBOrders()
+
+    if (
+      this.props.order.state === 'PENDING_DEPOSIT' &&
+      this.props.order.attributes?.everypay?.paymentState ===
+        'WAITING_FOR_3DS_RESPONSE'
+    ) {
+      this.props.simpleBuyActions.setStep({
+        step: '3DS_HANDLER',
+        order: this.props.order
+      })
+    }
   }
 
   handleRefresh = () => {
@@ -33,7 +44,13 @@ class OrderSummary extends PureComponent<Props> {
 
   render () {
     return this.props.data.cata({
-      Success: val => <Success {...this.props} {...val} />,
+      Success: val => {
+        return val.userData?.tiers?.current !== 2 ? (
+          <SuccessSdd {...val} {...this.props} />
+        ) : (
+          <Success {...val} {...this.props} />
+        )
+      },
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -45,19 +62,12 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
-    .getOrElse({
-      ALGO: { colorCode: 'algo' } as SupportedCoinType,
-      BTC: { colorCode: 'btc' } as SupportedCoinType,
-      BCH: { colorCode: 'bch' } as SupportedCoinType,
-      ETH: { colorCode: 'eth' } as SupportedCoinType,
-      PAX: { colorCode: 'pax' } as SupportedCoinType,
-      USDT: { colorCode: 'usdt' } as SupportedCoinType,
-      XLM: { colorCode: 'xlm' } as SupportedCoinType
-    } as Omit<SupportedWalletCurrenciesType, keyof FiatTypeEnum>)
+    .getOrFail('Supported coins missing')
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  sendActions: bindActionCreators(actions.components.send, dispatch)
 })
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
@@ -65,9 +75,9 @@ export type OwnProps = {
   handleClose: () => void
   order: SBOrderType
 }
-export type SuccessStateType = {
-  cards: Array<SBCardType>
-}
+
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
   supportedCoins: SupportedWalletCurrenciesType

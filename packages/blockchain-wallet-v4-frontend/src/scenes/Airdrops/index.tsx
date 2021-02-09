@@ -1,7 +1,11 @@
-import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { lift } from 'ramda'
+import React from 'react'
+import styled from 'styled-components'
+
+import { actions, selectors } from 'data'
 import { Icon, Text } from 'blockchain-info-components'
 import {
   IconBackground,
@@ -9,15 +13,13 @@ import {
   SceneHeaderText,
   SceneSubHeaderText
 } from 'components/Layout'
-import { lift } from 'ramda'
 import { NabuApiErrorType, RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { UserCampaignsType, UserDataType } from 'data/types'
-import EmailRequired from 'components/EmailRequired'
+
+import EmailRequired from './components'
 import Loading from './template.loading'
 import PastAirdropsSuccess from './PastAirdrops/template.success'
-import React from 'react'
-import styled from 'styled-components'
 import Success from './template.success'
 
 const Wrapper = styled.div`

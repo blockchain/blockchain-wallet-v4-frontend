@@ -33,7 +33,6 @@ const TransferEth = React.lazy(() => import('./Eth/TransferEth'))
 // XLM
 const RequestXlm = React.lazy(() => import('./Xlm/RequestXlm'))
 const SendXlm = React.lazy(() => import('./Xlm/SendXlm'))
-const SunRiverWelcome = React.lazy(() => import('./Xlm/SunRiverWelcome'))
 const XlmCreateAccountLearn = React.lazy(() =>
   import('./Xlm/XlmCreateAccountLearn')
 )
@@ -57,23 +56,16 @@ const LinkFromExchangeAccount = React.lazy(() =>
 const LinkToExchangeAccount = React.lazy(() =>
   import('./Onboarding/LinkToExchangeAccount')
 )
+const IdentityVerification = React.lazy(() =>
+  import('./Onboarding/KycVerification')
+)
+const KycDocResubmit = React.lazy(() => import('./Onboarding/KycDocResubmit'))
+const KycTierUpgrade = React.lazy(() => import('./Onboarding/KycTierUpgrade'))
 const SwapGetStarted = React.lazy(() => import('./Onboarding/SwapGetStarted'))
 const UpgradeForAirdrop = React.lazy(() =>
   import('./Onboarding/UpgradeForAirdrop')
 )
 const Welcome = React.lazy(() => import('./Onboarding/Welcome'))
-
-// EXCHANGE
-const AirdropError = React.lazy(() => import('./Exchange/AirdropError'))
-const EthAirdrop = React.lazy(() => import('./Exchange/EthAirdrop'))
-const ExchangeConfirm = React.lazy(() => import('./Exchange/ExchangeConfirm'))
-const ExchangeResults = React.lazy(() => import('./Exchange/ExchangeResults'))
-const IdentityVerification = React.lazy(() =>
-  import('./Exchange/IdentityVerification')
-)
-const KycDocResubmit = React.lazy(() => import('./Exchange/KycDocResubmit'))
-const SwapUpgrade = React.lazy(() => import('./Exchange/SwapUpgrade'))
-const UserExists = React.lazy(() => import('./Exchange/UserExists'))
 
 // LOCKBOX
 const LockboxAppManager = React.lazy(() =>
@@ -103,6 +95,7 @@ const ConfirmDisable2FA = React.lazy(() =>
 )
 const RecoveryPhrase = React.lazy(() => import('./Settings/RecoveryPhrase'))
 const SecondPassword = React.lazy(() => import('./Settings/SecondPassword'))
+const TradingLimits = React.lazy(() => import('./Settings/TradingLimits'))
 const TwoStepGoogleAuthenticator = React.lazy(() =>
   import('./Settings/TwoStepGoogleAuthenticator')
 )
@@ -125,50 +118,54 @@ const UpgradeWallet = React.lazy(() => import('./Wallet/UpgradeWallet'))
 // SOLO
 const Borrow = React.lazy(() => import('./Borrow'))
 const Interest = React.lazy(() => import('./Interest'))
-const Onfido = React.lazy(() => import('./Onfido'))
 const QRCode = React.lazy(() => import('./QRCode'))
 const SignMessage = React.lazy(() => import('./SignMessage'))
 const SimpleBuy = React.lazy(() => import('./SimpleBuy'))
-const WhatsNew = React.lazy(() => import('./WhatsNew'))
+const Swap = React.lazy(() => import('./Swap'))
 const Withdraw = React.lazy(() => import('./Withdraw'))
+
+// BROKERAGE
+const BankDetails = React.lazy(() => import('./Brokerage/Banks/BankDetails'))
+const RemoveBank = React.lazy(() => import('./Brokerage/Banks/RemoveBank'))
+const AddBank = React.lazy(() => import('./Brokerage/Banks/AddBank'))
 
 const Modals = () => (
   <Suspense fallback={null}>
     <div>
+      <AddBank />
       <AddBtcWallet />
       <AirdropClaim />
       <AirdropSuccess />
-      <BitpayInvoiceExpired />
-      <BitpayInformational />
-      <Borrow />
       <AutoDisconnection />
+      <BitpayInformational />
+      <BitpayInvoiceExpired />
+      <Borrow />
+      <BankDetails />
       <Confirm />
       <ConfirmDisable2FA />
       <DeleteAddressLabel />
       <DownloadTransactions />
       <EditTxDescription />
-      <EthAirdrop />
-      <ExchangeConfirm />
-      <ExchangeResults />
-      <KycDocResubmit />
       <IdentityVerification />
       <ImportBtcAddress />
       <Interest />
+      <KycDocResubmit />
+      <KycTierUpgrade />
+      <LinkFromExchangeAccount disableOutsideClose />
+      <LinkToExchangeAccount disableOutsideClose />
       <LockboxAppManager disableOutsideClose />
       <LockboxConnectionPrompt disableOutsideClose />
       <LockboxFirmware disableOutsideClose />
       <LockboxSetup disableOutsideClose />
       <LockboxShowXPubs />
-      <LinkFromExchangeAccount disableOutsideClose />
-      <LinkToExchangeAccount disableOutsideClose />
       <MobileNumberChange />
       <MobileNumberVerify />
-      <Onfido />
       <PairingCode />
       <PaxWelcome />
       <PromptInput />
       <QRCode />
       <RecoveryPhrase />
+      <RemoveBank />
       <RequestBch />
       <RequestBtc />
       <RequestEth />
@@ -180,28 +177,25 @@ const Modals = () => (
       <SendXlm />
       <ShowBtcPrivateKey />
       <ShowUsedAddresses />
-      <SignMessage />
       <ShowXPub />
-      <AirdropError />
+      <SignMessage />
+      <SimpleBuy />
       <Support />
+      <Swap />
       <SwapGetStarted />
-      <SwapUpgrade />
       <TransferEth />
+      <TradingLimits />
       <TwoStepGoogleAuthenticator />
       <TwoStepSetup />
       <TwoStepYubico />
       <UpgradeAddressLabels />
       <UpgradeForAirdrop />
       <UpgradeWallet />
-      <UserExists />
-      <XlmCreateAccountLearn />
-      <XlmReserveLearn />
-      <SimpleBuy />
-      <SunRiverWelcome disableOutsideClose />
       <VerifyMessage />
       <Welcome />
       <Withdraw />
-      <WhatsNew />
+      <XlmCreateAccountLearn />
+      <XlmReserveLearn />
     </div>
   </Suspense>
 )

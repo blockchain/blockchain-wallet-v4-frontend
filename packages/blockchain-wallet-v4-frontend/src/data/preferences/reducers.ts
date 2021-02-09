@@ -20,7 +20,6 @@ const INITIAL_STATE: PreferencesState = {
       fix: 'CRYPTO'
     }
   },
-  sbFiatCurrency: undefined,
   showKycCompleted: true,
   showBackupReminder: true,
   showInterestInfoBox: true,
@@ -71,15 +70,6 @@ export function preferencesReducer (
             fix: action.payload.fix
           }
         }
-      }
-    }
-    // @ts-ignore
-    case AT.SET_SB_FIAT_CURRENCY: {
-      // @ts-ignore
-      const { currency } = action.payload
-      return {
-        ...state,
-        sbFiatCurrency: currency
       }
     }
     // @ts-ignore

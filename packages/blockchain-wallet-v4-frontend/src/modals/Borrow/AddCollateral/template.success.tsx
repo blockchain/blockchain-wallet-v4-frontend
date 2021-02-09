@@ -20,7 +20,7 @@ import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, State, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
 import { model, selectors } from 'data'
-import QRCodeWrapper from 'components/QRCodeWrapper'
+import QRCodeWrapper from 'components/QRCode/Wrapper'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -171,7 +171,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
           </Text>
         </CustomFormLabel>
-        <CoinBalanceDropdown {...props} name='collateral' />
+        <CoinBalanceDropdown
+          {...props}
+          includeCustodial={false}
+          name='collateral'
+        />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage

@@ -1,109 +1,177 @@
+import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { selectors } from 'data'
+import React, { useState } from 'react'
+
+import {
+  CoinTypeEnum,
+  FiatSBAndSwapTransactionType,
+  SupportedWalletCurrenciesType
+} from 'core/types'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { fiatToString } from 'core/exchange/currency'
 import { Text } from 'blockchain-info-components'
-import React from 'react'
-import styled from 'styled-components'
 
-import { CoinTypeEnum, SBTransactionType } from 'core/types'
-import { CustodialTransactionRow } from '../components'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import FiatDisplay from 'components/Display/FiatDisplay'
-
-import { Destination, IconTx, Origin, Timestamp } from './model'
+import {
+  Addresses,
+  Col,
+  DetailsColumn,
+  DetailsRow,
+  Row,
+  RowHeader,
+  RowValue,
+  StatusAndType,
+  StyledCoinDisplay,
+  StyledFiatDisplay,
+  TxRow,
+  TxRowContainer
+} from '../components'
+import {
+  Destination,
+  IconTx,
+  Origin,
+  Status,
+  Timestamp,
+  TransactionType
+} from './model'
 import { Props as OwnProps } from '../TransactionList'
-
-const StyledCustodialTransactionRow = styled(CustodialTransactionRow)`
-  cursor: initial;
-`
-const Col = styled.div<{ width: string }>`
-  width: ${props => props.width};
-`
-const Row = styled(Col)`
-  display: flex;
-  align-items: center;
-`
-const Status = styled.div`
-  margin-left: 16px;
-`
-const StyledCoinDisplay = styled(CoinDisplay)`
-  justify-content: flex-end;
-`
-const StyledFiatDisplay = styled(FiatDisplay)`
-  justify-content: flex-end;
-`
+import { RootState } from 'data/rootReducer'
 
 const CustodialTxListItem: React.FC<Props> = props => {
+  const [isToggled, setIsToggled] = useState(false)
+  const { tx } = props
   return (
-    <StyledCustodialTransactionRow>
-      <Row width='30%'>
-        <IconTx {...props} />
-        <Status data-e2e='orderStatusColumn'>
-          <Text size='16px' color='grey800' weight={600} data-e2e='txTypeText'>
-            {props.tx.type === 'DEPOSIT' ? (
-              <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />
-            ) : (
+    <TxRowContainer onClick={() => setIsToggled(!isToggled)}>
+      <TxRow>
+        <Row width='30%'>
+          <IconTx {...props} />
+          <StatusAndType data-e2e='orderStatusColumn'>
+            <Text
+              size='16px'
+              color='grey800'
+              weight={600}
+              data-e2e='txTypeText'
+            >
+              <TransactionType {...props} /> {tx.amount.symbol}
+            </Text>
+            <Timestamp {...props} />
+          </StatusAndType>
+        </Row>
+        <Col width='50%'>
+          <Addresses
+            from={
+              <>
+                <Origin {...props} />
+              </>
+            }
+            to={
+              <>
+                <Destination {...props} />
+              </>
+            }
+          />
+        </Col>
+        <Col
+          width='20%'
+          style={{ textAlign: 'right' }}
+          data-e2e='orderAmountColumn'
+        >
+          <StyledCoinDisplay coin={props.coin} data-e2e='orderCoinAmt'>
+            {tx.amount.symbol in CoinTypeEnum && tx.type !== 'SELL'
+              ? tx.amountMinor
+              : tx.amount.symbol in CoinTypeEnum && tx.type === 'SELL'
+              ? convertBaseToStandard('FIAT', tx.amountMinor)
+              : tx.amount.value}
+          </StyledCoinDisplay>
+          {props.coin !== props.currency && (
+            <StyledFiatDisplay
+              size='14px'
+              weight={500}
+              coin={props.coin}
+              color='grey600'
+              data-e2e='orderFiatAmt'
+            >
+              {tx.amount.symbol in CoinTypeEnum && tx.type !== 'SELL'
+                ? tx.amountMinor
+                : tx.amount.symbol in CoinTypeEnum && tx.type === 'SELL'
+                ? convertBaseToStandard('FIAT', tx.amountMinor)
+                : tx.amount.value}
+            </StyledFiatDisplay>
+          )}
+        </Col>
+      </TxRow>
+      {isToggled && (
+        <DetailsRow>
+          <DetailsColumn>
+            <RowHeader>
               <FormattedMessage
-                id='buttons.withdraw'
-                defaultMessage='Withdraw'
+                defaultMessage='Transaction ID'
+                id='modals.simplebuy.summary.txid'
               />
+            </RowHeader>
+            <RowValue>{tx.id}</RowValue>
+            {tx.type === 'SELL' && (
+              <>
+                <RowHeader>
+                  <FormattedMessage
+                    id='modals.simplebuy.summary.rate'
+                    defaultMessage='Exchange Rate'
+                  />
+                </RowHeader>
+                <RowValue data-e2e='sellRate'>
+                  {fiatToString({
+                    unit: tx.amount.fiatSymbol || 'USD',
+                    value: tx.extraAttributes?.indicativePrice || 0
+                  })}{' '}
+                  / {tx.amount.symbol}
+                </RowValue>
+              </>
             )}
-          </Text>
-          <Timestamp {...props} />
-        </Status>
-      </Row>
-      <Col width='50%'>
-        <Text size='16px' weight={600} color='grey800' data-e2e='txFrom'>
-          <FormattedMessage id='copy.from' defaultMessage='From' />
-          {': '}
-          {props.tx.amount.symbol} <Origin {...props} />
-        </Text>
-        <Text
-          size='14px'
-          weight={500}
-          color='grey600'
-          style={{ marginTop: '4px' }}
-          data-e2e='txTo'
-        >
-          <FormattedMessage id='copy.to' defaultMessage='To' />
-          {': '}
-          {props.tx.amount.symbol} <Destination {...props} />
-        </Text>
-      </Col>
-      <Col
-        width='20%'
-        style={{ textAlign: 'right' }}
-        data-e2e='orderAmountColumn'
-      >
-        <StyledCoinDisplay
-          coin={props.coin}
-          size='16px'
-          weight={600}
-          color='grey800'
-          data-e2e='orderFiatAmt'
-        >
-          {props.tx.amount.symbol in CoinTypeEnum
-            ? props.tx.amountMinor
-            : props.tx.amount.value}
-        </StyledCoinDisplay>
-        {props.coin !== props.currency && (
-          <StyledFiatDisplay
-            coin={props.coin}
-            size='14px'
-            weight={500}
-            color='grey600'
-            style={{ marginTop: '4px', alignSelf: 'flex-end' }}
-          >
-            {props.tx.amount.symbol in CoinTypeEnum
-              ? props.tx.amountMinor
-              : props.tx.amount.value}
-          </StyledFiatDisplay>
-        )}
-      </Col>
-    </StyledCustodialTransactionRow>
+          </DetailsColumn>
+          <DetailsColumn />
+          <DetailsColumn>
+            <RowHeader>
+              <FormattedMessage
+                defaultMessage='Status'
+                id='components.txlistitem.status'
+              />
+            </RowHeader>
+            <RowValue>
+              <Status {...props} />
+            </RowValue>
+            {tx.type === 'SELL' && (
+              <>
+                {' '}
+                <RowHeader>
+                  <FormattedMessage id='copy.amount' defaultMessage='Amount' />
+                </RowHeader>
+                <RowValue data-e2e='sbSelling'>
+                  {convertBaseToStandard(
+                    tx.amount.symbol,
+                    tx.amount.inputMoney
+                  )}{' '}
+                  of {tx.amount.symbol}
+                </RowValue>
+              </>
+            )}
+          </DetailsColumn>
+        </DetailsRow>
+      )}
+    </TxRowContainer>
   )
 }
 
-export type Props = OwnProps & {
-  tx: SBTransactionType
-}
+const mapStateToProps = (state: RootState) => ({
+  supportedCoins: selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrElse({} as SupportedWalletCurrenciesType)
+})
 
-export default CustodialTxListItem
+const connector = connect(mapStateToProps)
+
+export type Props = OwnProps &
+  ConnectedProps<typeof connector> & {
+    tx: FiatSBAndSwapTransactionType
+  }
+
+export default connector(CustodialTxListItem)

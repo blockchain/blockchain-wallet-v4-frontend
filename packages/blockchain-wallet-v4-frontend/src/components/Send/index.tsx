@@ -1,16 +1,14 @@
 import { Banner } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import BigNumber from 'bignumber.js'
+import React from 'react'
+
 import { BlueCartridge } from 'components/Cartridge'
 import { CoinType, CustodialFromType } from 'core/types'
-import {
-  convertBaseToStandard,
-  convertStandardToBase
-} from 'data/components/exchange/services'
-import { FormattedMessage } from 'react-intl'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { FormGroup, FormLabel } from 'components/Form'
-import { WITHDRAWAL_LOCK_TIME_DAYS } from 'data/components/simpleBuy/model'
-import BigNumber from 'bignumber.js'
+import LockTime from './LockTime'
 import media from 'services/ResponsiveService'
-import React from 'react'
 import styled, { css } from 'styled-components'
 
 export const Row = styled.div`
@@ -88,13 +86,12 @@ const customCartridge = css`
   align-items: center;
   font-size: 14px;
 `
-const CustomBlueCartridge = styled(BlueCartridge)`
+export const CustomBlueCartridge = styled(BlueCartridge)`
   ${customCartridge}
 `
 
 export const CustodyToAccountMessage = ({
   account,
-  amount,
   coin
 }: {
   account: CustodialFromType
@@ -105,44 +102,26 @@ export const CustodyToAccountMessage = ({
   }
   coin: CoinType
 }) => {
-  const baseAmt = amount ? convertStandardToBase(coin, amount.coin) : 0
   const isAvailableNone = new BigNumber(account.available).isLessThanOrEqualTo(
     '0'
   )
   const isWithdrawableNone = new BigNumber(
     account.withdrawable
   ).isLessThanOrEqualTo('0')
-  const isAmtGreaterThanWithdrawable = new BigNumber(baseAmt).isGreaterThan(
-    account.withdrawable
-  )
-
-  const lockTime = WITHDRAWAL_LOCK_TIME_DAYS
+  const isAvailableEqualToWithdrawable = new BigNumber(
+    account.available
+  ).isEqualTo(account.withdrawable)
 
   switch (true) {
     // all funds are 'locked'
     case isWithdrawableNone && !isAvailableNone:
+      return <LockTime coin={coin} />
+    case !isWithdrawableNone && !isAvailableEqualToWithdrawable:
       return (
-        <CustomBlueCartridge>
-          <FormattedMessage
-            id='modals.send.firststep.available_in_x_days'
-            defaultMessage='Your {coin} will be available to be withdrawn within {lockTime} days.'
-            values={{ coin, lockTime }}
-          />
-        </CustomBlueCartridge>
-      )
-    case isAmtGreaterThanWithdrawable && !isWithdrawableNone:
-      return (
-        <CustomBlueCartridge>
-          <FormattedMessage
-            id='modals.send.firststep.amt_greater_than_custody_withdraw'
-            defaultMessage='Your available balance is {withdrawable} {coin}. The remaining balance will be available to be withdrawn within {lockTime} days.'
-            values={{
-              coin,
-              lockTime,
-              withdrawable: convertBaseToStandard(coin, account.withdrawable)
-            }}
-          />
-        </CustomBlueCartridge>
+        <LockTime
+          coin={coin}
+          withdrawable={convertBaseToStandard(coin, account.withdrawable)}
+        />
       )
     default:
       return (

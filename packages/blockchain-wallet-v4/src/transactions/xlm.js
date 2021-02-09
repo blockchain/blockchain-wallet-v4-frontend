@@ -65,20 +65,21 @@ export const transformTx = curry((accounts, txNotes, tx, operation) => {
       : operationAmount
 
   return {
-    blockHeight: -1,
-    description: pathOr('', [hash], txNotes),
     amount,
+    belongsToWallet: belongsToCurrentWallet(accounts, from, to),
+    blockHeight: -1,
+    coin: 'XLM',
+    description: pathOr('', [hash], txNotes),
     fee: Remote.Success(fee),
     from: getLabel(accounts, from),
     hash,
+    insertedAt: Number(time) * 1000,
     memo,
     memoType,
-    time,
-    insertedAt: Number(time) * 1000,
-    to: getLabel(accounts, to),
-    type,
     pagingToken,
-    belongsToWallet: belongsToCurrentWallet(accounts, from, to)
+    time,
+    to: getLabel(accounts, to),
+    type
   }
 })
 

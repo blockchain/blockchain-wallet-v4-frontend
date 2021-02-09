@@ -5,16 +5,20 @@ import {
   IdentityVerificationActionTypes,
   StepsType
 } from './types'
-import { ModalOriginType } from 'data/modals/types'
-import { TIERS } from '../../modules/profile/model'
 
 export const verifyIdentity = (
-  tier = TIERS[2],
-  needMoreInfo = false,
-  origin: ModalOriginType
+  tier: number,
+  needMoreInfo?: boolean,
+  checkSddEligibility?: boolean,
+  onCompletionCallback?: () => void
 ): IdentityVerificationActionTypes => ({
   type: AT.VERIFY_IDENTITY,
-  payload: { tier, needMoreInfo, origin }
+  payload: {
+    checkSddEligibility,
+    needMoreInfo,
+    onCompletionCallback,
+    tier
+  }
 })
 
 export const initializeVerification = (tier, needMoreInfo) => ({
@@ -32,6 +36,9 @@ export const setVerificationStep = (
 ): IdentityVerificationActionTypes => ({
   type: AT.SET_VERIFICATION_STEP,
   payload: { step }
+})
+export const resetVerificationStep = () => ({
+  type: AT.RESET_VERIFICATION_STEP
 })
 
 export const fetchSupportedCountries = () => ({
@@ -87,8 +94,6 @@ export const setStatesFailure = (e): IdentityVerificationActionTypes => ({
   type: AT.SET_STATES_FAILURE,
   payload: { e }
 })
-
-export const savePersonalData = () => ({ type: AT.SAVE_PERSONAL_DATA })
 
 export const setSmsStep = (step): IdentityVerificationActionTypes => ({
   type: AT.SET_SMS_STEP,
@@ -175,4 +180,12 @@ export const sendEmailVerification = email => ({
 export const setEmailStep = (step): IdentityVerificationActionTypes => ({
   type: AT.SET_EMAIL_STEP,
   payload: { step }
+})
+
+export const saveInfoAndResidentialData = (
+  checkSddEligibility,
+  onCompletionCallback
+) => ({
+  type: AT.SAVE_INFO_AND_RESIDENTIAL_DATA,
+  payload: { checkSddEligibility, onCompletionCallback }
 })

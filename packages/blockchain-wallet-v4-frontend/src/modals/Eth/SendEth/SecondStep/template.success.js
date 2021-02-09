@@ -141,7 +141,9 @@ const Success = props => {
           <ExchangeAmounts>
             {coin === 'ETH' ? (
               <>
-                <SummaryExchangeAmount>{totalFiat}</SummaryExchangeAmount>
+                <SummaryExchangeAmount data-e2e={`${coin}SendTotal`}>
+                  {totalFiat}
+                </SummaryExchangeAmount>
                 <SummarySubExchangeAmount>
                   <CoinDisplay
                     coin={coin}

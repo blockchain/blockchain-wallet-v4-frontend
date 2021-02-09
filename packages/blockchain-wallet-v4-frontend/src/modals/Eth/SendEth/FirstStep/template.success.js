@@ -54,7 +54,7 @@ import MinFeeForRetryInvalid from './MinFeeForRetryInvalid'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import PriorityFeeLink from './PriorityFeeLink'
 import PropTypes from 'prop-types'
-import QRCodeCapture from 'components/QRCodeCapture'
+import QRCodeCapture from 'components/QRCode/Capture'
 import React from 'react'
 import RegularFeeLink from './RegularFeeLink'
 import styled from 'styled-components'
@@ -110,7 +110,6 @@ const FirstStep = props => {
     isRetryAttempt &&
     new BigNumber(fee).isLessThanOrEqualTo(minFeeRequiredForRetry)
   const disableCustodySend = isFromCustody && !isMnemonicVerified
-
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'15px'} style={{ zIndex: 3 }}>
@@ -262,6 +261,7 @@ const FirstStep = props => {
             placeholder="What's this transaction for? (optional)"
             data-e2e={`${coin}SendDescription`}
             fullwidth
+            maxLength={100}
           />
         </FormItem>
       </FormGroup>
@@ -341,7 +341,7 @@ const FirstStep = props => {
         </CustomFeeAlertBanner>
       ) : null}
       {disableRetryAttempt && <MinFeeForRetryInvalid />}
-      {disableDueToLowEth && <LowEthWarningForErc20 />}
+      {disableDueToLowEth && <LowEthWarningForErc20 coin={coin} />}
       {isFromCustody && !isMnemonicVerified ? (
         <MnemonicRequiredForCustodySend />
       ) : null}

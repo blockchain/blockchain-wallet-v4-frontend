@@ -12,7 +12,6 @@ import {
   SuccessStateType
 } from '.'
 import { Title, Value } from 'components/Flyout'
-import BalanceMovement from '../BalanceMovement'
 import PriceMovement from '../PriceMovement'
 
 const CheckoutDisplayContainer = styled(DisplayContainer)`
@@ -36,6 +35,7 @@ const DisplayTitle = styled(Title)`
   margin-top: 4px;
   display: flex;
   align-items: center;
+  font-weight: 600;
   color: ${props => props.theme.grey800};
 `
 const IconBackground = styled.div<{ color: string }>`
@@ -81,7 +81,6 @@ const Success: React.FC<Props> = props => {
               <PriceMovement {...props} />
             </>
           )}
-          {props.orderType === 'SELL' && <BalanceMovement coin={coin} />}
         </DisplayTitle>
       </Display>
       {props.onClick && (

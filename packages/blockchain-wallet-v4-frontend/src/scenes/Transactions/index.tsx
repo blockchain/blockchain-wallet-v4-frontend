@@ -12,6 +12,7 @@ import {
   WalletFiatType
 } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { getHeaderExplainer } from './template.headerexplainer'
 import { path, toLower } from 'ramda'
@@ -19,7 +20,7 @@ import { reduxForm } from 'redux-form'
 import { SceneWrapper } from 'components/Layout'
 import CoinIntroduction from './CoinIntroduction'
 import CoinPerformance from './CoinPerformance'
-import EmptyTx from 'components/EmptyTx'
+import EmptyResults from 'components/EmptyResults'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import media from 'services/ResponsiveService'
 import React from 'react'
@@ -95,6 +96,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       this.props.currency,
       'week'
     )
+    this.props.brokerageActions.fetchBankTransferAccounts()
   }
 
   componentDidUpdate (prevProps) {
@@ -128,7 +130,6 @@ class TransactionsContainer extends React.PureComponent<Props> {
       sourceType
     } = this.props
     const { colorCode, coinTicker, displayName, icons } = coinModel
-
     return (
       <SceneWrapper>
         <LazyLoadContainer onLazyLoad={loadMoreTxs}>
@@ -141,6 +142,42 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 </Text>
               </CoinTitle>
               <TitleActionContainer>
+                {coin in CoinTypeEnum && (
+                  <>
+                    <Button
+                      nature='primary'
+                      data-e2e='sellCrypto'
+                      width='100px'
+                      style={{ marginRight: '8px' }}
+                      onClick={() => {
+                        this.props.simpleBuyActions.showModal(
+                          'TransactionList',
+                          coin as CoinType,
+                          'SELL'
+                        )
+                      }}
+                    >
+                      <FormattedMessage
+                        id='buttons.sell'
+                        defaultMessage='Sell'
+                      />
+                    </Button>
+                    <Button
+                      nature='primary'
+                      data-e2e='buyCrypto'
+                      width='100px'
+                      onClick={() => {
+                        this.props.simpleBuyActions.showModal(
+                          'TransactionList',
+                          coin as CoinType,
+                          'BUY'
+                        )
+                      }}
+                    >
+                      <FormattedMessage id='buttons.buy' defaultMessage='Buy' />
+                    </Button>
+                  </>
+                )}
                 {coin in WalletFiatEnum && (
                   <>
                     {(coinModel as SupportedFiatType).availability.deposit && (
@@ -156,7 +193,10 @@ class TransactionsContainer extends React.PureComponent<Props> {
                           )
                         }}
                       >
-                        Deposit
+                        <FormattedMessage
+                          id='buttons.deposit'
+                          defaultMessage='Deposit'
+                        />
                       </Button>
                     )}
                     {(coinModel as SupportedFiatType).availability
@@ -172,7 +212,10 @@ class TransactionsContainer extends React.PureComponent<Props> {
                           )
                         }}
                       >
-                        Withdraw
+                        <FormattedMessage
+                          id='buttons.withdraw'
+                          defaultMessage='Withdraw'
+                        />
                       </Button>
                     )}
                   </>
@@ -197,7 +240,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
           {!hasTxResults ? (
             isSearchEntered ? (
               <SceneWrapper centerContent>
-                <EmptyTx />
+                <EmptyResults />
               </SceneWrapper>
             ) : (
               <SceneWrapper centerContent>
@@ -228,6 +271,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state, ownProps): LinkStatePropsType =>
+  // @ts-ignore
   getData(state, ownProps.coin, ownProps.isCoinErc20)
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
@@ -239,7 +283,15 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
         dispatch(actions.components.ethTransactions.initializedErc20(coin)),
       loadMoreTxs: () =>
         dispatch(actions.components.ethTransactions.loadMoreErc20(coin)),
-      miscActions: bindActionCreators(actions.core.data.misc, dispatch)
+      miscActions: bindActionCreators(actions.core.data.misc, dispatch),
+      simpleBuyActions: bindActionCreators(
+        actions.components.simpleBuy,
+        dispatch
+      ),
+      brokerageActions: bindActionCreators(
+        actions.components.brokerage,
+        dispatch
+      )
     }
   }
   if (coin in WalletFiatEnum) {
@@ -254,7 +306,14 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
         actions.components.simpleBuy,
         dispatch
       ),
-      withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
+      withdrawActions: bindActionCreators(
+        actions.components.withdraw,
+        dispatch
+      ),
+      brokerageActions: bindActionCreators(
+        actions.components.brokerage,
+        dispatch
+      )
     }
   }
   return {
@@ -267,7 +326,12 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
       dispatch(actions.components[`${toLower(coin)}Transactions`].loadMore()),
     miscActions: bindActionCreators(actions.core.data.misc, dispatch),
     setAddressArchived: address =>
-      dispatch(actions.core.wallet.setAddressArchived(address, true))
+      dispatch(actions.core.wallet.setAddressArchived(address, true)),
+    simpleBuyActions: bindActionCreators(
+      actions.components.simpleBuy,
+      dispatch
+    ),
+    brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
   }
 }
 

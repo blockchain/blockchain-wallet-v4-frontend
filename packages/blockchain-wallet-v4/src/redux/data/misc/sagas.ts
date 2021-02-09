@@ -85,8 +85,8 @@ export default ({ api }: { api: APIType }) => {
       yield put(
         A.fetchPriceChangeSuccess(
           base,
-          current.price,
           previous.price,
+          current.price,
           range,
           overallChange,
           positionChange

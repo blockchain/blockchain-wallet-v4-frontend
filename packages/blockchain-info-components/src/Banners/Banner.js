@@ -56,7 +56,7 @@ const selectStyle = type => {
 }
 
 const Banner = props => {
-  const { type, children, inline, label, width } = props
+  const { type, children, inline, label, size, width } = props
   const style = selectStyle(type)
   const { color, uppercase, icon } = style
 
@@ -71,7 +71,7 @@ const Banner = props => {
     >
       {icon && <Icon name={icon} size='18px' weight={400} color={color} />}
       <BannerContent
-        size='12px'
+        size={size || '12px'}
         weight={500}
         color={color}
         uppercase={uppercase}

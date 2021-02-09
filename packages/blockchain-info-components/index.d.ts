@@ -62,16 +62,19 @@ export const Carousel: FunctionComponent<{
   chips: boolean
 }>
 export const ComponentDropdown: ComponentClass<{
-  components: Array<JSX.Element | boolean>
+  callback?: () => void
   color?: string
-  toggleOnCallback?: boolean
-  opened?: boolean
-  uppercase?: boolean
+  components: Array<JSX.Element | boolean>
   down?: boolean
   forceSelected?: boolean
-  selectedComponent?: JSX.Element
+  opened?: boolean
   onClick?: () => void
-  callback?: () => void
+  margin?: string
+  selectedComponent?: JSX.Element
+  textAlign?: string
+  toggleOnCallback?: boolean
+  uppercase?: boolean
+  width?: string
 }>
 
 export function Color(
@@ -148,8 +151,10 @@ export const Image: FunctionComponent<{
   height?: string
   color?: string
   size?: string
+  style?: CSSProperties
 }>
 export const Link: FunctionComponent<{
+  altFont?: boolean
   weight?: number
   size?: string
   color?: keyof DefaultTheme
@@ -195,6 +200,7 @@ export const SkeletonRectangle: FunctionComponent<{
 export const SpinningLoader: FunctionComponent<{
   width?: string
   height?: string
+  borderWidth?: string
 }>
 export const TabMenu: FunctionComponent<{}>
 export const TabMenuItem: FunctionComponent<{
@@ -242,9 +248,17 @@ export const Toast: FunctionComponent<{
   persist?: boolean
   timeout?: number
 }>
+export const Tooltip: FunctionComponent<{ id: string; offset?: any }>
 export const TooltipHost: FunctionComponent<{ id: string }>
 export const TooltipIcon: FunctionComponent<{
   color?: keyof DefaultTheme
   name: keyof IcoMoonType
   size?: string
+}>
+export const CheckBoxInput: FunctionComponent<{
+  name: string
+  checked?: boolean
+  disabled?: boolean
+  onClick?: () => void
+  onChange?: () => void
 }>

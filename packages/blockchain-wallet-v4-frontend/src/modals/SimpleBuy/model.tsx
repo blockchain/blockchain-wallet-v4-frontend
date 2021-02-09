@@ -1,9 +1,11 @@
 import {
+  BankTransferAccountType,
   CoinType,
   FiatType,
   SBOrderActionType,
   SBOrderType,
-  SupportedWalletCurrenciesType
+  SupportedWalletCurrenciesType,
+  SupportedWalletCurrencyType
 } from 'core/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
@@ -16,6 +18,7 @@ import {
 import React from 'react'
 
 export const BuyOrSell = (props: {
+  coinModel: SupportedWalletCurrencyType
   crypto?: 'Crypto' | CoinType
   orderType: SBOrderActionType
 }) => {
@@ -24,13 +27,16 @@ export const BuyOrSell = (props: {
       <FormattedMessage
         id='buttons.buy_coin'
         defaultMessage='Buy {displayName}'
-        values={{ displayName: props.crypto }}
+        values={{
+          displayName:
+            props.crypto === 'Crypto' ? 'Crypto' : props.coinModel?.coinTicker
+        }}
       />
     ) : (
       <FormattedMessage
         id='buttons.sell_coin'
         defaultMessage='Sell {displayName}'
-        values={{ displayName: props.crypto }}
+        values={{ displayName: props.coinModel?.coinTicker }}
       />
     )
   }
@@ -54,7 +60,8 @@ export const getOrderDestination = (order: SBOrderType, supportedCoins) => {
 
 export const getPaymentMethod = (
   order: SBOrderType,
-  supportedCoins: SupportedWalletCurrenciesType
+  supportedCoins: SupportedWalletCurrenciesType,
+  bankAccount: BankTransferAccountType
 ) => {
   const baseCurrency = getBaseCurrency(order, supportedCoins)
   const counterCurrency = getCounterCurrency(order, supportedCoins)
@@ -80,6 +87,16 @@ export const getPaymentMethod = (
       ) : (
         `${baseCurrency} Trading Wallet`
       )
+    case 'BANK_TRANSFER':
+      const defaultBankInfo = {
+        bankName: 'Bank Transfer',
+        bankAccountType: '',
+        accountNumber: ''
+      }
+      const d = (bankAccount && bankAccount.details) || defaultBankInfo
+      return `${d.bankName} ${d.bankAccountType.toLowerCase()} ${
+        d.accountNumber
+      }`
     default:
       return (
         <FormattedMessage

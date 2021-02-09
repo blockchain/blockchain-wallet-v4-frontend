@@ -240,6 +240,9 @@ export default ({ api, socket }) => {
             yield put(
               actions.alerts.displayInfo(T.PAYMENT_RECEIVED_ETH_PENDING)
             )
+            yield put(
+              actions.components.simpleBuy.fetchSBBalances(undefined, true)
+            )
           } else if (ethReceivedConfirmed(message)) {
             yield put(actions.alerts.displaySuccess(T.PAYMENT_RECEIVED_ETH))
             yield put(actions.core.data.eth.fetchTransactions(null, true))
@@ -355,6 +358,7 @@ export default ({ api, socket }) => {
       throw new Error(
         `${coin} is not a valid coin. transactionsUpdate only accepts btc and bch types.`
       )
+    yield put(actions.components.simpleBuy.fetchSBBalances(undefined, true))
     const pathname = yield select(selectors.router.getPathname)
     if (equals(pathname, `/${coin}/transactions`)) {
       const formValues = yield select(

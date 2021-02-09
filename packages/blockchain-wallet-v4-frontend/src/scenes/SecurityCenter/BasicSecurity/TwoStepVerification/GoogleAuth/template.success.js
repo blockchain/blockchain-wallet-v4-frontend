@@ -1,15 +1,15 @@
 /* stylelint-disable */
-
-import { Button, Text } from 'blockchain-info-components'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
+
+import { Button, Text } from 'blockchain-info-components'
 import { required } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 import { TextBox } from 'components/Form'
-import PropTypes from 'prop-types'
-import QRCodeWrapper from 'components/QRCodeWrapper'
-import React from 'react'
-import styled from 'styled-components'
+import QRCodeWrapper from 'components/QRCode/Wrapper'
 
 const AuthenticatorSummary = styled.div`
   width: 100%;

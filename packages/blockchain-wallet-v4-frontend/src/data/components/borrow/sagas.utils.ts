@@ -34,6 +34,7 @@ export default ({
       switch (payment.coin) {
         case 'PAX':
         case 'USDT':
+        case 'WDGLD':
         case 'ETH':
         case 'XLM':
           payment = yield payment.amount(convertStandardToBase(coin, amount))
@@ -43,7 +44,7 @@ export default ({
             parseInt(convertStandardToBase(coin, amount))
           )
       }
-      payment = yield payment.to(destination, ADDRESS_TYPES.ADDRESS)
+      payment = yield payment.to(destination, 'ADDRESS')
       payment = yield payment.build()
       // ask for second password
       const password = yield call(promptForSecondPassword)

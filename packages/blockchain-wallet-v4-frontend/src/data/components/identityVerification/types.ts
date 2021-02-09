@@ -1,6 +1,6 @@
+import { NabuAddressType, RemoteDataType } from 'core/types'
+
 import * as AT from './actionTypes'
-import { ModalOriginType } from 'data/modals/types'
-import { RemoteDataType } from 'core/types'
 
 export type EmailSmsStepType = 'edit' | 'verify'
 
@@ -205,10 +205,15 @@ interface SetVerificationStepAction {
   type: typeof AT.SET_VERIFICATION_STEP
 }
 
+interface ResetVerificationStepAction {
+  type: typeof AT.RESET_VERIFICATION_STEP
+}
+
 interface VerifyIdentityAction {
   payload: {
+    checkSddEligibility?: boolean
     needMoreInfo?: boolean
-    origin: ModalOriginType
+    onCompletionCallback?: () => void
     tier: number
   }
   type: typeof AT.VERIFY_IDENTITY
@@ -237,4 +242,16 @@ export type IdentityVerificationActionTypes =
   | SetSupportedDocumentLoadingAction
   | SetSupportedDocumentSuccessAction
   | SetVerificationStepAction
+  | ResetVerificationStepAction
   | VerifyIdentityAction
+
+export type InfoAndResidentialFormValuesType = {
+  country: CountryType
+  dob: string
+  firstName: string
+  lastName: string
+} & NabuAddressType['country']
+
+export type VerifyEmailFormValuesType = {
+  email: string
+}

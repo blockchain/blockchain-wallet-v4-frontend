@@ -13,6 +13,7 @@ const INITIAL_STATE = {
   restoring: Remote.NotAsked,
   remindGuid: Remote.NotAsked,
   registering: Remote.NotAsked,
+  registerEmail: undefined,
   secureChannelLogin: Remote.NotAsked
 }
 
@@ -98,6 +99,13 @@ const auth = (state = INITIAL_STATE, action) => {
     case AT.SET_AUTH_TYPE: {
       const { authType } = payload
       return assoc('auth_type', authType, state)
+    }
+    case AT.SET_REGISTER_EMAIL: {
+      const { email } = payload
+      return {
+        ...state,
+        registerEmail: email
+      }
     }
     default:
       return state

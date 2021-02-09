@@ -103,7 +103,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const principalDisplayName =
     props.supportedCoins[props.loan.principal.amount[0].currency].displayName
   const isSufficientEthForErc20 =
-    (props.payment.coin === 'PAX' || props.payment.coin === 'USDT') &&
+    (props.payment.coin === 'PAX' ||
+      props.payment.coin === 'USDT' ||
+      props.payment.coin === 'WDGLD') &&
     props.payment.isSufficientEthForErc20
 
   return (
@@ -196,7 +198,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
           </Text>
         </CustomFormLabel>
-        <CoinBalanceDropdown {...props} coin='PAX' name='repay-principal' />
+        <CoinBalanceDropdown
+          {...props}
+          includeCustodial={false}
+          coin='PAX'
+          name='repay-principal'
+        />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage

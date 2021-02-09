@@ -107,10 +107,6 @@ export const getLastAttemptedTier = compose(
 
 export const isCountrySupported = (countryCode, supportedCountries) =>
   any(propEq('code', countryCode), supportedCountries)
-export const isInvitedToKyc = state =>
-  selectors.core.settings.getInvitations(state).map(prop('kyc'))
-
-export const userFlowSupported = isInvitedToKyc
 
 export const getApiToken = path(['profile', 'apiToken'])
 

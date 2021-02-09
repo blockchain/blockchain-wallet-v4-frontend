@@ -1,12 +1,13 @@
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { find, propEq } from 'ramda'
+import { find, propEq, propOr } from 'ramda'
 import { formValueSelector } from 'redux-form'
 import React from 'react'
 
 import { actions, selectors } from 'data'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
+import { SupportedWalletCurrenciesType } from 'core/types'
 
 import Register from './template'
 
@@ -36,11 +37,18 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
     const passwordLength = (password && password.length) || 0
     const showWalletFormQuery = search.includes('showWallet')
     const isLinkAccountGoal = !!find(propEq('name', 'linkAccount'), goals)
+    const isSimpleBuyGoal = !!find(propEq('name', 'simpleBuy'), goals)
+    const dataGoal = find(propEq('name', 'simpleBuy'), goals)
+    const goalData = propOr({}, 'data', dataGoal)
+    const email = propOr('', 'email', goalData)
+    const signupInitialValues = email ? { email } : {}
 
     return (
       <Register
         busy={busy}
         isLinkAccountGoal={isLinkAccountGoal}
+        isSimpleBuyGoal={isSimpleBuyGoal}
+        initialValues={signupInitialValues}
         onSubmit={this.onSubmit}
         password={password}
         passwordLength={passwordLength}
@@ -55,11 +63,14 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: selectors.auth.getRegistering(state),
   domainsR: selectors.core.walletOptions.getDomains(state),
-  language: selectors.preferences.getLanguage(state),
   email: formValueSelector('register')(state, 'email'),
   goals: selectors.goals.getGoals(state),
+  language: selectors.preferences.getLanguage(state),
   password: formValueSelector('register')(state, 'password') || '',
-  search: selectors.router.getSearch(state)
+  search: selectors.router.getSearch(state),
+  supportedCoins: selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrElse({} as SupportedWalletCurrenciesType)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -78,6 +89,7 @@ type LinkStatePropsType = {
   language: string
   password: string
   search: string
+  supportedCoins: SupportedWalletCurrenciesType
 }
 
 type StateType = {

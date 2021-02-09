@@ -54,7 +54,7 @@ import ExchangePromo from 'components/Send/ExchangePromo'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import PriorityFeeLink from './PriorityFeeLink'
 import PropTypes from 'prop-types'
-import QRCodeCapture from 'components/QRCodeCapture'
+import QRCodeCapture from 'components/QRCode/Capture'
 import React from 'react'
 import RegularFeeLink from './RegularFeeLink'
 import styled from 'styled-components'
@@ -276,6 +276,7 @@ const FirstStep = props => {
               placeholder="What's this transaction for? (optional)"
               rows={3}
               data-e2e='sendBtcDescription'
+              maxLength={100}
             />
           ) : (
             <>
@@ -285,6 +286,7 @@ const FirstStep = props => {
                 placeholder="What's this transaction for? (optional)"
                 rows={3}
                 data-e2e='sendBtcDescription'
+                maxLength={100}
               />
               <ImageInInputContainer>
                 <Image name='bitpay-logo' height='24px' />
