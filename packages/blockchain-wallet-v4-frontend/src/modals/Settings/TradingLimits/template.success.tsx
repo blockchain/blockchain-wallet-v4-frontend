@@ -172,6 +172,9 @@ const Template: React.FC<Props> = props => {
   const brokerageProduct =
     props.productsEligibility &&
     props.productsEligibility.find(pE => pE.product === 'BROKERAGE')
+  const savingsProduct =
+    props.productsEligibility &&
+    props.productsEligibility.find(pE => pE.product === 'SAVINGS')
 
   return (
     <Wrapper>
@@ -387,7 +390,7 @@ const Template: React.FC<Props> = props => {
             defaultMessage='Earn Interest'
           />
         </ItemTitle>
-        {getItemBadgeStatus(currentTier, ITEMS.EARN_INTEREST)}
+        {getItemBadgeStatus(currentTier, ITEMS.EARN_INTEREST, savingsProduct)}
       </ContentItem>
 
       <FooterWrapper>
