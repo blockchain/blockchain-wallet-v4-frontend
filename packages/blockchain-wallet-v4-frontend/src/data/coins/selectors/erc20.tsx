@@ -7,7 +7,7 @@ import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { coreSelectors } from 'blockchain-wallet-v4/src'
 import { createDeepEqualSelector } from 'services/misc'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
-import { generateCustodyAccount } from 'coins/utils'
+import { generateCustodyAccount } from 'data/coins/utils'
 import { SBBalanceType } from 'core/network/api/simpleBuy/types'
 
 import { getCustodialBalance } from './'

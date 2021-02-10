@@ -15,7 +15,7 @@ import { actions, model, selectors } from 'data'
 import { APIType } from 'core/network/api'
 import { convertStandardToBase } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { generateProvisionalPaymentAmount } from 'coins/utils'
+import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 import * as A from './actions'
@@ -53,16 +53,10 @@ export default ({
   })
 
   const getAccountIndexOrAccount = (coin: CoinType, account: AccountTypes) => {
-    switch (coin) {
-      case 'ETH':
-      case 'PAX':
-      case 'USDT':
-      case 'WDGLD':
-      case 'XLM':
-        return account.address
-      default:
-        return account.index
+    if (coin === 'BTC' || coin === 'BCH') {
+      return account.index
     }
+    return account.address
   }
 
   const fetchInterestBalance = function * () {

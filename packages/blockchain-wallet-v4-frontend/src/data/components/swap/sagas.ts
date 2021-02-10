@@ -14,9 +14,9 @@ import {
 import { convertStandardToBase } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { generateProvisionalPaymentAmount } from 'coins/utils'
-import { getCoinAccounts } from 'coins/selectors'
-import { SWAP_ACCOUNTS_SELECTOR } from 'coins/features/swap'
+import { generateProvisionalPaymentAmount } from 'data/coins/utils'
+import { getCoinAccounts } from 'data/coins/selectors'
+import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 
 import * as A from './actions'
 import * as AT from './actionTypes'

@@ -1,11 +1,11 @@
 import { uniq } from 'ramda'
 
 import { CoinType } from 'core/types'
-import { getCoinAccounts } from 'coins/selectors'
+import { getCoinAccounts } from 'data/coins/selectors'
 import { getInputFromPair, getOutputFromPair } from 'data/components/swap/model'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
-import { SWAP_ACCOUNTS_SELECTOR } from 'coins/features/swap'
+import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { SwapAccountType } from 'data/components/swap/types'
 
 import { OwnProps } from '.'

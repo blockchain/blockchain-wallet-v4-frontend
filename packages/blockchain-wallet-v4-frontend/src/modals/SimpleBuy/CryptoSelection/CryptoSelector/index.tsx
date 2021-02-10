@@ -19,7 +19,7 @@ import {
 } from 'blockchain-info-components'
 import { model } from 'data'
 import { SBPairType } from 'core/types'
-import { SUPPORTED_COINS } from 'coins/features/swap'
+import { SUPPORTED_COINS } from 'data/coins/model/swap'
 import { SwapAccountType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '../index'

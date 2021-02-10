@@ -1,13 +1,12 @@
 import { FormattedMessage } from 'react-intl'
-import { lift, path, prop, propEq } from 'ramda'
+import { lift, prop } from 'ramda'
 import React from 'react'
 
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { convertStandardToBase } from 'data/components/exchange/services'
 import { coreSelectors } from 'blockchain-wallet-v4/src'
 import { createDeepEqualSelector } from 'services/misc'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
-import { generateCustodyAccount } from 'coins/utils'
+import { generateCustodyAccount } from 'data/coins/utils'
 import { SBBalanceType } from 'core/network/api/simpleBuy/types'
 
 import { getCustodialBalance } from './'
@@ -15,24 +14,25 @@ import { getCustodialBalance } from './'
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = () => (
   <FormattedMessage
-    id='coins.xlm.intro'
-    defaultMessage='Stellar (XLM) connects banks, payments and you to the Stellar Payment network.'
+    id='coins.eth.intro'
+    defaultMessage='Ethereum (ETH) is a currency and platform for execution of decentralized smart contracts.'
   />
 )
 
-// main selector for all XLM account types
+// main selector for all ETH account types
 // accepts a CoinAccountSelectorType config object
-// NOT IMPLEMENTED FOR COIN: imported addresses/accounts
+// NOT IMPLEMENTED: imported addresses/accounts
 export const getAccounts = createDeepEqualSelector(
   [
-    coreSelectors.data.xlm.getAccounts, // non-custodial accounts
-    coreSelectors.kvStore.xlm.getAccounts, // non-custodial metadata
+    coreSelectors.data.eth.getAddresses, // non-custodial accounts
+    coreSelectors.kvStore.eth.getAccounts, // non-custodial metadata
     (state, { coin }) => getCustodialBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
-  (xlmData, xlmMetadataR, sbBalanceR, ownProps) => {
+  (ethDataR, ethMetadataR, sbBalanceR, ownProps) => {
     const transform = (
-      xlmMetadata,
+      ethData,
+      ethMetadata,
       sbBalance: ExtractSuccess<typeof sbBalanceR>
     ) => {
       const { coin } = ownProps
@@ -40,30 +40,20 @@ export const getAccounts = createDeepEqualSelector(
 
       // add non-custodial accounts if requested
       if (ownProps?.nonCustodialAccounts) {
-        accounts = accounts.concat(xlmMetadata
+        accounts = accounts.concat(ethMetadata
           .map(acc => {
-            const address = prop('publicKey', acc)
-            const account = prop(address, xlmData)
-            const noAccount = path(['error', 'message'], account) === 'Not Found'
-            const balance = convertStandardToBase(
-              coin,
-              account
-                // @ts-ignore
-                .map(coreSelectors.data.xlm.selectBalanceFromAccount)
-                .getOrElse(0)
-            )
+            const address = prop('addr', acc)
+            const data = prop(address, ethData)
+
             return {
-              archived: prop('archived', acc),
               baseCoin: coin,
               coin,
               label: prop('label', acc) || address,
               address,
-              balance,
-              noAccount,
+              balance: prop('balance', data),
               type: ADDRESS_TYPES.ACCOUNT
             }
-          })
-          .filter(propEq('archived', false)))
+          }))
       }
 
       // add custodial accounts if requested
@@ -75,6 +65,6 @@ export const getAccounts = createDeepEqualSelector(
       return accounts
     }
 
-    return lift(transform)(xlmMetadataR, sbBalanceR)
+    return lift(transform)(ethDataR, ethMetadataR, sbBalanceR)
   }
 )

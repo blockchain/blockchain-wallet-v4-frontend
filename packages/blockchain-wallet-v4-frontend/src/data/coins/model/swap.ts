@@ -1,4 +1,4 @@
-import { CoinAccountSelectorType } from 'coins/types'
+import { CoinAccountSelectorType } from 'data/coins/types'
 import { CoinType } from 'core/types'
 
 // master list of coins supported by Swap

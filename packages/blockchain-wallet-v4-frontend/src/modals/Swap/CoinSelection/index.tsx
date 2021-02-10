@@ -11,7 +11,7 @@ import {
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
-import { SUPPORTED_COINS } from 'coins/features/swap'
+import { SUPPORTED_COINS } from 'data/coins/model/swap'
 import { SwapAccountType } from 'data/types'
 
 import { Props as BaseProps, SuccessStateType } from '..'

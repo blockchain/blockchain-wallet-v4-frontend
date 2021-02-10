@@ -19,7 +19,7 @@ import {
   WalletFiatEnum,
   WalletFiatType
 } from 'core/types'
-import { getIntroductionText } from 'coins/selectors'
+import { getIntroductionText } from 'data/coins/selectors'
 import { media } from 'services/styles'
 import { SceneWrapper } from 'components/Layout'
 import EmptyResults from 'components/EmptyResults'

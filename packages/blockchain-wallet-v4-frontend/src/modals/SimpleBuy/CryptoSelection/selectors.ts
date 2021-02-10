@@ -3,8 +3,8 @@ import { lift } from 'ramda'
 import { ExtractSuccess, FiatType } from 'core/types'
 import { SBCheckoutFormValuesType } from 'data/types'
 import { selectors } from 'data'
-import { SWAP_ACCOUNTS_SELECTOR } from 'coins/features/swap'
-import { getCoinAccounts } from 'coins/selectors'
+import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
+import { getCoinAccounts } from 'data/coins/selectors'
 
 export const getData = state => {
   const coinsR = selectors.core.walletOptions.getSupportedCoins(state)

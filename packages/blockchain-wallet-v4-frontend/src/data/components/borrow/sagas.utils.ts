@@ -9,7 +9,7 @@ import {
   convertStandardToBase
 } from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { generateProvisionalPaymentAmount } from 'coins/utils'
+import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { NO_OFFER_EXISTS } from './model'
 import { promptForSecondPassword } from 'services/sagas'

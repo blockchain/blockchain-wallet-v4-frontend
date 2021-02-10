@@ -28,7 +28,7 @@ import {
   WalletOptionsType
 } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { generateProvisionalPaymentAmount } from 'coins/utils'
+import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/validation'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { UserDataType } from 'data/modules/types'
