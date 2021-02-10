@@ -116,6 +116,10 @@ class SimpleBuy extends PureComponent<Props, State> {
     }
   }
 
+  handlePaymentMethodSubmit = (method: SBPaymentMethodType) => {
+    this.props.simpleBuyActions.handleSBMethodChange(method)
+  }
+
   render () {
     return this.props.data.cata({
       Success: val => {
@@ -180,6 +184,7 @@ class SimpleBuy extends PureComponent<Props, State> {
                   handleClose={this.handleClose}
                   handleBack={this.handlePaymentMethodBack}
                   handleFailure={this.handlePaymentMethodFailure}
+                  handleSubmit={this.handlePaymentMethodSubmit}
                 />
               </FlyoutChild>
             )}

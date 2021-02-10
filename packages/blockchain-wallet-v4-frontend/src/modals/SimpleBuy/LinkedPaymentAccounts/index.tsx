@@ -8,7 +8,8 @@ import {
   RemoteDataType,
   SBOrderActionType,
   SBOrderType,
-  SBPairType
+  SBPairType,
+  SBPaymentMethodType
 } from 'core/types'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
@@ -28,6 +29,10 @@ class PaymentMethods extends PureComponent<Props> {
 
   handleBack = () => {}
   handleFailure = () => {}
+  handleSubmit = (method: SBPaymentMethodType) => {
+    // eslint-disable-next-line no-console
+    console.log(method)
+  }
 
   render () {
     return this.props.data.cata({
@@ -38,6 +43,7 @@ class PaymentMethods extends PureComponent<Props> {
             {...this.props}
             handleBack={this.handleBack}
             handleFailure={this.handleFailure}
+            handleSubmit={this.handleSubmit}
           />
         )
       },

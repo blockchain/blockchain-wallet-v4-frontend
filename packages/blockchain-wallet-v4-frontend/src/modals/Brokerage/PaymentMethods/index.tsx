@@ -3,7 +3,12 @@ import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
-import { FiatType, RemoteDataType, SBOrderActionType } from 'core/types'
+import {
+  FiatType,
+  RemoteDataType,
+  SBOrderActionType,
+  SBPaymentMethodType
+} from 'core/types'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 
@@ -46,10 +51,11 @@ export const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
-  fiatCurrency: FiatType,
+  fiatCurrency: FiatType
   handleBack: () => void
-  handleClose: () => void,
-  handleFailure: () => void,
+  handleClose: () => void
+  handleFailure: () => void
+  handleSubmit: (method: SBPaymentMethodType) => void
   orderType?: SBOrderActionType
 }
 

@@ -1,12 +1,13 @@
-import { compose } from 'redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 
-import { BankDepositStepType } from 'data/types'
-import { FiatType } from 'core/types'
+import { actions , selectors } from 'data'
+import { BankDepositStepType, BrokerageModalOriginType } from 'data/types'
+import { FiatType, SBPaymentMethodType } from 'core/types'
 import { ModalPropsType } from '../../../types'
-import { selectors } from 'data'
+
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
@@ -43,6 +44,22 @@ class Deposit extends PureComponent<Props> {
 
   handleBack = () => {}
   handleFailure = () => {}
+  handleSubmit = (method: SBPaymentMethodType) => {
+    switch (method.type) {
+      case 'LINK_BANK':
+        this.props.brokerageActions.showModal(
+          BrokerageModalOriginType.ADD_BANK,
+          'ADD_BANK_MODAL'
+        )
+        this.props.brokerageActions.setStep({
+          step: BankDepositStepType.ADD_BANK
+        })
+        break
+
+      default:
+        break
+    }
+  }
 
   render () {
     return (
@@ -60,6 +77,7 @@ class Deposit extends PureComponent<Props> {
               handleClose={this.handleClose}
               handleBack={this.handleBack}
               handleFailure={this.handleFailure}
+              handleSubmit={this.handleSubmit}
             />
           </FlyoutChild>
         )}
@@ -73,7 +91,11 @@ const mapStateToProps = (state: RootState) => ({
   fiatCurrency: 'USD' as FiatType
 })
 
-const connector = connect(mapStateToProps)
+export const mapDispatchToProps = (dispatch: Dispatch) => ({
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
   ModalEnhancer('BANK_DEPOSIT_MODAL', { transition: duration }),

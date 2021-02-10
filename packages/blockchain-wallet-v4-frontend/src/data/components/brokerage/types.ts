@@ -40,6 +40,7 @@ export type BrokerageStepPayload =
         | AddBankStepType.ADD_BANK
         | AddBankStepType.ADD_BANK_HANDLER
         | BankDepositStepType.DEPOSIT_METHODS
+        | BankDepositStepType.ADD_BANK
     }
   | {
       bankStatus: BankStatusType

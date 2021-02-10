@@ -1,26 +1,26 @@
+import { Form, InjectedFormProps, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import React, { PureComponent, ReactElement } from 'react'
+import styled from 'styled-components'
+
 import {
   CARD_TYPES,
   DEFAULT_CARD_SVG_LOGO
 } from 'components/Form/CreditCardBox/model'
 import { FlyoutWrapper } from 'components/Flyout'
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import { getBankLogoImageName } from 'services/ImagesService'
 import { Icon, Image, Text } from 'blockchain-info-components'
-import { Props as OwnProps, SuccessStateType } from '../index'
-
 import {
   SBPaymentMethodType,
   SupportedFiatType,
   WalletCurrencyType,
   WalletFiatEnum
 } from 'core/types'
-import PaymentCard from './PaymentCard'
-import React, { PureComponent, ReactElement } from 'react'
-import styled from 'styled-components'
 
+import { Props as OwnProps, SuccessStateType } from '../index'
 import BankWire from './BankWire'
 import LinkBank from './LinkBank'
+import PaymentCard from './PaymentCard'
 
 const Wrapper = styled.div`
   display: flex;
@@ -92,10 +92,6 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       case 'FUNDS':
         return ''
     }
-  }
-
-  handleSubmit = (method: SBPaymentMethodType) => {
-    this.props.simpleBuyActions.handleSBMethodChange(method)
   }
 
   getLinkedBankIcon = (bankName: string): ReactElement => (
@@ -268,7 +264,7 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               <PaymentCard
                 {...paymentCard}
                 icon={this.getIcon(paymentCard.value)}
-                onClick={() => this.handleSubmit(paymentCard.value)}
+                onClick={() => this.props.handleSubmit(paymentCard.value)}
               />
             )}
             {bankTransfer && (
@@ -277,7 +273,7 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 // @ts-ignore
                 icon={this.getIcon({ type: 'BANK_TRANSFER' })}
                 onClick={() =>
-                  this.handleSubmit({
+                  this.props.handleSubmit({
                     ...bankTransfer.value,
                     type: 'LINK_BANK'
                   })
@@ -289,7 +285,7 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 <BankWire
                   {...bankAccount}
                   icon={this.getIcon(bankAccount.value)}
-                  onClick={() => this.handleSubmit(bankAccount.value)}
+                  onClick={() => this.props.handleSubmit(bankAccount.value)}
                 />
               </>
             )}
