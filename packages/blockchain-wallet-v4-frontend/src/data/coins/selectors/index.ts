@@ -8,17 +8,17 @@ import { selectors } from 'data'
 import { SUPPORTED_COINS } from 'data/coins/model/swap'
 import { SwapAccountType } from 'data/components/swap/types'
 
-import * as ALGO from './algo'
-import * as BCH from './bch'
-import * as BTC from './btc'
-import * as ERC20 from './erc20'
-import * as ETH from './eth'
-import * as EUR from './eur'
-import * as GBP from './gbp'
-import * as USD from './usd'
-import * as XLM from './xlm'
+import * as ALGO from './coins/algo'
+import * as BCH from './coins/bch'
+import * as BTC from './coins/btc'
+import * as ERC20 from './coins/erc20'
+import * as ETH from './coins/eth'
+import * as EUR from './coins/eur'
+import * as GBP from './coins/gbp'
+import * as USD from './coins/usd'
+import * as XLM from './coins/xlm'
 
-// need to create a function map since selectors are created dynamically
+// create a function map of all coins
 const coinSelectors = {
   ALGO,
   BCH,
@@ -32,8 +32,10 @@ const coinSelectors = {
 }
 
 // retrieves introduction text for coin on its transaction page
-export const getIntroductionText = (coin) =>
-  coinSelectors[coin in Erc20CoinsEnum ? 'ERC20' : coin].getTransactionPageHeaderText(coin)
+export const getIntroductionText = (coin) => {
+  return coinSelectors[coin in Erc20CoinsEnum ? 'ERC20' : coin]?.getTransactionPageHeaderText(coin)
+}
+
 
 // retrieves custodial account balances
 export const getCustodialBalance = curry((coin: CoinType, state) => {
@@ -51,7 +53,7 @@ export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorT
       ? Remote.of({})
       : coinList.reduce((accounts, coin) => {
         // @ts-ignore
-        accounts[coin] = coinSelectors[coin in Erc20CoinsEnum ? 'ERC20' : coin].getAccounts(state, { coin, ...ownProps })
+        accounts[coin] = coinSelectors[coin in Erc20CoinsEnum ? 'ERC20' : coin]?.getAccounts(state, { coin, ...ownProps })
         return accounts
       }, {})
 

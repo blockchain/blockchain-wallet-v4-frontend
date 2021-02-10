@@ -10,7 +10,7 @@ import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
 import { generateCustodyAccount } from 'data/coins/utils'
 import { SBBalanceType } from 'core/network/api/simpleBuy/types'
 
-import { getCustodialBalance } from './'
+import { getCustodialBalance } from '../'
 
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = () => (

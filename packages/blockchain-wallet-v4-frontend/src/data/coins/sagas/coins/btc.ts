@@ -1,0 +1,55 @@
+import { nth } from 'ramda'
+import { select } from 'redux-saga/effects'
+
+import { selectors } from 'data'
+import { PaymentValue } from 'core/redux/payment/types'
+import { CoinType, CurrenciesType, RatesType } from 'core/types'
+import { Exchange } from 'core'
+
+// retrieves default account/address
+export const getDefaultAccount = function * () {
+  const btcAccountsR = yield select(
+    selectors.core.common.btc.getAccountsBalances
+  )
+  const btcDefaultIndex = yield select(
+    selectors.core.wallet.getDefaultAccountIndex
+  )
+  return btcAccountsR.map(nth(btcDefaultIndex))
+}
+
+// retrieves the next receive address
+export const getNextReceiveAddress = function * (coin, networks) {
+  const state = yield select()
+  const defaultAccountIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
+
+  return selectors.core.common.btc
+    .getNextAvailableReceiveAddress(
+      networks.btc,
+      defaultAccountIndex,
+      state
+    )
+    .getOrFail('Failed to get BTC receive address')
+}
+
+// gets or updates a provisional payment
+export const getOrUpdateProvisionalPayment = function * (coreSagas, networks, paymentR) {
+  return yield coreSagas.payment.btc.create({
+    payment: paymentR.getOrElse(<PaymentValue>{}),
+    network: networks.btc
+  })
+}
+
+// converts base unit (SAT) to fiat
+export const convertFromBaseUnitToFiat = function (
+  coin: CoinType,
+  baseUnitValue: number | string,
+  userCurrency: keyof CurrenciesType,
+  rates: RatesType
+): number {
+  return Exchange.convertBtcToFiat({
+    value: baseUnitValue,
+    fromUnit: 'SAT',
+    toCurrency: userCurrency,
+    rates
+  }).value
+}

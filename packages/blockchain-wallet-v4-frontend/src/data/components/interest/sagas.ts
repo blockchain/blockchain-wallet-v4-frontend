@@ -17,6 +17,7 @@ import { convertStandardToBase } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import { Remote } from 'blockchain-wallet-v4/src'
+import coinSagas from 'data/coins/sagas'
 
 import * as A from './actions'
 import * as AT from './actionTypes'
@@ -43,11 +44,17 @@ export default ({
   const {
     buildAndPublishPayment,
     createLimits,
-    createPayment,
-    getDefaultAccountForCoin,
-    getReceiveAddressForCoin,
-    paymentGetOrElse
+    createPayment
   } = utils({
+    coreSagas,
+    networks
+  })
+
+  const {
+    getDefaultAccountForCoin,
+    getNextReceiveAddressForCoin,
+    getOrUpdateProvisionalPaymentForCoin
+  } = coinSagas({
     coreSagas,
     networks
   })
@@ -193,7 +200,7 @@ export default ({
             : new BigNumber(action.payload).dividedBy(rate).toNumber()
           const paymentR = S.getPayment(yield select())
           if (paymentR) {
-            let payment = paymentGetOrElse(coin, paymentR)
+            let payment = getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
             const paymentAmount = generateProvisionalPaymentAmount(
               payment.coin,
               value
@@ -310,7 +317,7 @@ export default ({
         prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
       const coin = S.getCoinType(yield select())
       const paymentR = S.getPayment(yield select())
-      const payment = paymentGetOrElse(
+      const payment = getOrUpdateProvisionalPaymentForCoin(
         coin,
         paymentR as RemoteDataType<string, any>
       )
@@ -396,7 +403,7 @@ export default ({
           origin: 'SAVINGS'
         })
       } else {
-        const receiveAddress = yield call(getReceiveAddressForCoin, coin)
+        const receiveAddress = yield call(getNextReceiveAddressForCoin, coin)
         yield call(
           api.initiateInterestWithdrawal,
           withdrawalAmountBase,

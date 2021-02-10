@@ -14,10 +14,8 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-
 import { CheckBox, CoinBalanceDropdown, NumberBox } from 'components/Form'
 import { Exchange } from 'core'
-
 import {
   fiatToString,
   formatFiat
@@ -117,14 +115,14 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     formErrors.depositAmount &&
     typeof formErrors.depositAmount === 'string' &&
     formErrors.depositAmount
-  const isErc20 = coin === 'PAX' || coin === 'USDT' || coin === 'WDGLD'
+  const isErc20 = !!supportedCoins[coin].contractAddress
   const insufficientEth =
     payment &&
-    isErc20 &&
-    (payment.coin === 'PAX' ||
-      payment.coin === 'USDT' ||
-      payment.coin === 'WDGLD') &&
+    !!supportedCoins[coin].contractAddress &&
+    !!supportedCoins[payment.coin].contractAddress &&
+    // @ts-ignore
     !payment.isSufficientEthForErc20
+
   return submitting ? (
     <SendingWrapper>
       <SpinningLoader />
