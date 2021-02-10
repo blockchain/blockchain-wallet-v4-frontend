@@ -76,6 +76,11 @@ const Amounts = styled.div`
   display: flex;
   justify-content: center;
 `
+const ErrorAmountContainer = styled.div`
+  margin: 0;
+  display: flex;
+  justify-content: center;
+`
 const QuoteRow = styled.div`
   display: flex;
   align-items: center;
@@ -384,6 +389,23 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </Text>
           )}
         </AmountRow>
+
+        {props.isSddFlow &&
+          props.orderType === 'BUY' &&
+          amtError === 'BELOW_MIN' && (
+            <ErrorAmountContainer onClick={handleMinMaxClick}>
+              <CustomErrorCartridge role='button' data-e2e='sbEnterAmountMin'>
+                <FormattedMessage
+                  id='modals.simplebuy.checkout.belowmin'
+                  defaultMessage='{value} Minimum {orderType}'
+                  values={{
+                    value: getValue(min),
+                    orderType: 'Buy'
+                  }}
+                />
+              </CustomErrorCartridge>
+            </ErrorAmountContainer>
+          )}
 
         <QuoteRow>
           <div />
