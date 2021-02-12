@@ -3,15 +3,20 @@ import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 
-import { actions , selectors } from 'data'
-import { BankDepositStepType, BrokerageModalOriginType } from 'data/types'
+import { actions, selectors } from 'data'
+import {
+  AddBankStepType,
+  BankDepositStepType,
+  BrokerageModalOriginType
+} from 'data/types'
 import { FiatType, SBPaymentMethodType } from 'core/types'
 import { ModalPropsType } from '../../../types'
 
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
-import PaymentMethods from '../../PaymentMethods'
+import DepositMethods from './DepositMethods'
+import EnterAmount from './EnterAmount'
 
 class Deposit extends PureComponent<Props> {
   state: State = { show: false, direction: 'left' }
@@ -47,13 +52,13 @@ class Deposit extends PureComponent<Props> {
   handleSubmit = (method: SBPaymentMethodType) => {
     switch (method.type) {
       case 'LINK_BANK':
+        this.props.brokerageActions.setStep({
+          step: AddBankStepType.ADD_BANK
+        })
         this.props.brokerageActions.showModal(
           BrokerageModalOriginType.ADD_BANK,
           'ADD_BANK_MODAL'
         )
-        this.props.brokerageActions.setStep({
-          step: BankDepositStepType.ADD_BANK
-        })
         break
 
       default:
@@ -71,15 +76,45 @@ class Deposit extends PureComponent<Props> {
         data-e2e='bankDepositModal'
       >
         {this.props.step === BankDepositStepType.DEPOSIT_METHODS && (
+          /*
+           * loads deposit payment methods ui
+           * bank_transfer or loads wire transfer screen
+           */
           <FlyoutChild>
-            <PaymentMethods
-              {...this.props}
-              handleClose={this.handleClose}
-              handleBack={this.handleBack}
-              handleFailure={this.handleFailure}
-              handleSubmit={this.handleSubmit}
-            />
+            <DepositMethods {...this.props} />
           </FlyoutChild>
+        )}
+        {this.props.step === BankDepositStepType.ENTER_AMOUNT && (
+          /*
+           * The enter amount form shows the amount input, limits, and default
+           * or last used ach account. If user clicks on "Add a bank" or their
+           * last used bank, transition to add bank modal or linked banks list ui
+           */
+          <FlyoutChild>
+            <EnterAmount {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === BankDepositStepType.BANK_LIST && (
+          /*
+           * list a users saved bank accounts if they have more than one and
+           * add show an "add new" button which transitions them to a payment
+           * method selection screen
+           */
+          <FlyoutChild />
+        )}
+        {this.props.step === BankDepositStepType.CONFIRM && (
+          /*
+           * this step shows a confirmation screen for a created deposit with
+           * the option to confirm or cancel the order
+           */
+          <FlyoutChild />
+        )}
+        {this.props.step === BankDepositStepType.DEPOSIT_STATUS && (
+          /*
+           * depending on the servers response we'll display a successful
+           * or unsuccessful deposit screen9
+           */
+          <FlyoutChild />
         )}
       </Flyout>
     )
@@ -88,10 +123,10 @@ class Deposit extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   step: selectors.components.brokerage.getStep(state),
-  fiatCurrency: 'USD' as FiatType
+  fiatCurrency: 'USD' as FiatType // TODO: Unhardcode this
 })
 
-export const mapDispatchToProps = (dispatch: Dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 

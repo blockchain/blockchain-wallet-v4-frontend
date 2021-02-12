@@ -1,8 +1,11 @@
-import { Button, Image, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import { OwnProps } from '.'
 import React from 'react'
 import styled from 'styled-components'
+
+import { BankDepositStepType } from 'data/types'
+import { Button, Image, Text } from 'blockchain-info-components'
+
+import { LinkStatePropsType, Props as OwnProps } from '.'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -18,7 +21,7 @@ const Title = styled(Text)`
   margin: 40px 0px 24px 0px;
 `
 
-const Failure: React.FC<OwnProps> = props => {
+const Failure: React.FC<Props> = props => {
   return (
     <Wrapper>
       <div>
@@ -40,7 +43,11 @@ const Failure: React.FC<OwnProps> = props => {
           data-e2e='sbTryCurrencySelectionAgain'
           nature='primary'
           size='16px'
-          onClick={props.handleFailure}
+          onClick={() =>
+            props.brokerageActions.setStep({
+              step: BankDepositStepType.DEPOSIT_METHODS
+            })
+          }
         >
           <FormattedMessage id='buttons.tryagain' defaultMessage='Try Again' />
         </Button>
@@ -48,5 +55,7 @@ const Failure: React.FC<OwnProps> = props => {
     </Wrapper>
   )
 }
+
+type Props = OwnProps & LinkStatePropsType
 
 export default Failure

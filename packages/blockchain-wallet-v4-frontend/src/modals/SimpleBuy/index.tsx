@@ -14,10 +14,6 @@ import {
   SBPaymentMethodType,
   SwapOrderType
 } from 'core/types'
-import {
-  getCoinFromPair,
-  getFiatFromPair
-} from 'data/components/simpleBuy/model'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
@@ -37,7 +33,7 @@ import EnterAmount from './EnterAmount'
 import KycRequired from './KycRequired'
 import LinkedPaymentAccounts from './LinkedPaymentAccounts'
 import OrderSummary from './OrderSummary'
-import PaymentMethods from '../Brokerage/PaymentMethods'
+import PaymentMethods from './PaymentMethods'
 import PreviewSell from './PreviewSell'
 import SellOrderSummary from './SellOrderSummary'
 import ThreeDSHandler from './ThreeDSHandler'
@@ -87,37 +83,6 @@ class SimpleBuy extends PureComponent<Props, State> {
     setTimeout(() => {
       this.props.close()
     }, duration)
-  }
-
-  handlePaymentMethodBack = () => {
-    if (this.props.pair) {
-      this.props.simpleBuyActions.setStep({
-        step: 'ENTER_AMOUNT',
-        pair: this.props.pair,
-        orderType: this.props.orderType,
-        cryptoCurrency: getCoinFromPair(this.props.pair.pair),
-        fiatCurrency: getFiatFromPair(this.props.pair.pair)
-      })
-    } else {
-      // TODO: where should it go back if there's no pair?
-    }
-  }
-
-  handlePaymentMethodFailure = () => {
-    if (this.props.pair) {
-      this.props.simpleBuyActions.setStep({
-        step: 'ENTER_AMOUNT',
-        cryptoCurrency: 'BTC',
-        fiatCurrency: this.props.fiatCurrency || 'USD',
-        pair: this.props.pair
-      })
-    } else {
-      // TODO: where should it go back if there's no pair?
-    }
-  }
-
-  handlePaymentMethodSubmit = (method: SBPaymentMethodType) => {
-    this.props.simpleBuyActions.handleSBMethodChange(method)
   }
 
   render () {
@@ -182,9 +147,6 @@ class SimpleBuy extends PureComponent<Props, State> {
                 <PaymentMethods
                   {...this.props}
                   handleClose={this.handleClose}
-                  handleBack={this.handlePaymentMethodBack}
-                  handleFailure={this.handlePaymentMethodFailure}
-                  handleSubmit={this.handlePaymentMethodSubmit}
                 />
               </FlyoutChild>
             )}
@@ -313,7 +275,7 @@ const mapStateToProps = (state: RootState) => ({
   method: selectors.components.simpleBuy.getSBPaymentMethod(state),
   order: selectors.components.simpleBuy.getSBOrder(state),
   cryptoCurrency: selectors.components.simpleBuy.getCryptoCurrency(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD',
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
   displayBack: selectors.components.simpleBuy.getDisplayBack(state),
   orderType: selectors.components.simpleBuy.getOrderType(state),
   goals: selectors.goals.getGoals(state),
