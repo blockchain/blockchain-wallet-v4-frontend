@@ -653,7 +653,11 @@ export default ({
         verified: false
       })
 
-      if (!isSddVerified.verified) {
+      const userIdR = yield select(
+        selectors.core.kvStore.userCredentials.getUserId
+      )
+      const userId = userIdR.getOrElse(null)
+      if (!isSddVerified.verified && userId) {
         yield put(A.fetchSDDVerifiedLoading())
         const sddEligible = yield call(api.fetchSDDVerified)
         yield put(A.fetchSDDVerifiedSuccess(sddEligible))
