@@ -1,5 +1,5 @@
 import { FormattedMessage } from 'react-intl'
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import { AddBankStepType } from 'data/types'
@@ -44,15 +44,10 @@ const Subcontent = styled(Text)`
 `
 
 const BankLinkError: React.FC<Props> = ({
-  analyticsActions,
   bankStatus,
   brokerageActions,
   handleClose
 }) => {
-  useEffect(() => {
-    analyticsActions.logEvent(['BANK_LINK_FAILED', bankStatus])
-  })
-
   return (
     <Top>
       <CloseIcon

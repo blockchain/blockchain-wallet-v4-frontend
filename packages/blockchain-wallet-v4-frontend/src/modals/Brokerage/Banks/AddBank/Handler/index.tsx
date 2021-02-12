@@ -34,7 +34,8 @@ class LinkBankHandler extends PureComponent<Props, State> {
       this.props.analyticsActions.logEvent([
         'BANK_LINK_FAILED',
         error.additionalStatus,
-        error.providerName
+        error.providerName,
+        error.providerId
       ])
       this.props.brokerageActions.setStep({ step: AddBankStepType.ADD_BANK })
     } else {
