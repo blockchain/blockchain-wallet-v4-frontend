@@ -89,6 +89,9 @@ const mapStateToProps = state => ({
           .toString('hex')
       })
     : '',
+  showMobileAuth: selectors.core.walletOptions
+    .getMobileAuthFlag(state)
+    .getOrElse(false) as boolean,
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrElse({} as SupportedWalletCurrenciesType)
