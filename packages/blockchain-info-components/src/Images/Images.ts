@@ -80,6 +80,7 @@ import swapCarousel4 from './img/swap-carousel4.png'
 import swapCarousel5 from './img/swap-carousel5.png'
 import swapModalBg from './img/swap-modal-bg.svg'
 import tierGold from './img/tier-gold.svg'
+import tierSilver from './img/tier-silver.svg'
 import twitterWhite from './img/twitter-white.svg'
 import usddIntro from './img/usdd-intro.svg'
 import visaLogo from './img/visa-logo.svg'
@@ -274,6 +275,7 @@ const Images = {
   'bank-logo-td': bankLogoTd,
   'twitter-white': twitterWhite,
   'tier-gold': tierGold,
+  'tier-silver': tierSilver,
   'bank-logo-usaa': bankLogoUsaa,
   'bank-logo-us-bank': bankLogoUsBank,
   'us-flag': usFlag,

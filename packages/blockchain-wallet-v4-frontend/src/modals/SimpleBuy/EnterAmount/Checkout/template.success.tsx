@@ -76,6 +76,15 @@ const Amounts = styled.div`
   display: flex;
   justify-content: center;
 `
+
+const QuoteActionContainer = styled.div`
+  height: 32px;
+`
+const ErrorAmountContainer = styled.div`
+  margin: 0;
+  display: flex;
+  justify-content: center;
+`
 const QuoteRow = styled.div`
   display: flex;
   align-items: center;
@@ -385,35 +394,58 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           )}
         </AmountRow>
 
-        <QuoteRow>
-          <div />
-          <Text
-            color='grey600'
-            size='14px'
-            weight={500}
-            data-e2e='sbQuoteAmount'
-          >
-            {formatQuote(quoteAmt, props.pair.pair, fix, props.supportedCoins)}
-          </Text>
-          <Icon
-            color='blue600'
-            cursor
-            name='up-down-chevron'
-            onClick={() =>
-              props.simpleBuyActions.switchFix(
-                quoteAmt,
-                props.orderType,
-                props.preferences[props.orderType].fix === 'CRYPTO'
-                  ? 'FIAT'
-                  : 'CRYPTO'
-              )
-            }
-            role='button'
-            size='24px'
-            data-e2e='sbSwitchIcon'
-          />
-        </QuoteRow>
-
+        <QuoteActionContainer>
+          {props.isSddFlow &&
+          props.orderType === 'BUY' &&
+          amtError === 'BELOW_MIN' ? (
+            <ErrorAmountContainer onClick={handleMinMaxClick}>
+              <CustomErrorCartridge role='button' data-e2e='sbEnterAmountMin'>
+                <FormattedMessage
+                  id='modals.simplebuy.checkout.belowmin'
+                  defaultMessage='{value} Minimum {orderType}'
+                  values={{
+                    value: getValue(min),
+                    orderType: 'Buy'
+                  }}
+                />
+              </CustomErrorCartridge>
+            </ErrorAmountContainer>
+          ) : (
+            <QuoteRow>
+              <div />
+              <Text
+                color='grey600'
+                size='14px'
+                weight={500}
+                data-e2e='sbQuoteAmount'
+              >
+                {formatQuote(
+                  quoteAmt,
+                  props.pair.pair,
+                  fix,
+                  props.supportedCoins
+                )}
+              </Text>
+              <Icon
+                color='blue600'
+                cursor
+                name='up-down-chevron'
+                onClick={() =>
+                  props.simpleBuyActions.switchFix(
+                    quoteAmt,
+                    props.orderType,
+                    props.preferences[props.orderType].fix === 'CRYPTO'
+                      ? 'FIAT'
+                      : 'CRYPTO'
+                  )
+                }
+                role='button'
+                size='24px'
+                data-e2e='sbSwitchIcon'
+              />
+            </QuoteRow>
+          )}
+        </QuoteActionContainer>
         {(!props.isSddFlow || props.orderType === 'SELL') &&
           props.pair &&
           Number(min) <= Number(max) && (
