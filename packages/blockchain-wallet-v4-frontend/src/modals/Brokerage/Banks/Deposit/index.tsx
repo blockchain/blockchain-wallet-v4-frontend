@@ -42,9 +42,6 @@ class Deposit extends PureComponent<Props> {
 
   handleClose = () => {
     this.setState({ show: false })
-    setTimeout(() => {
-      this.props.close()
-    }, duration)
   }
 
   handleBack = () => {}
