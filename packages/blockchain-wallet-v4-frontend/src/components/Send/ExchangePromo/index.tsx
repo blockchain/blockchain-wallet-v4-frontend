@@ -2,7 +2,6 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { concat, equals, prop } from 'ramda'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
 import React, { PureComponent } from 'react'
 import styled, { css } from 'styled-components'
 
@@ -138,7 +137,7 @@ class ExchangePromo extends PureComponent<Props> {
             </ConnectContainer>
           )
         ) : (
-          <LinkContainer
+          <ConnectContainer
             data-e2e='goSettingsProfile'
             onClick={() => {
               this.props.analyticsActions.logEvent([
@@ -164,7 +163,7 @@ class ExchangePromo extends PureComponent<Props> {
                 weight={500}
               />
             </GetStartedContainer>
-          </LinkContainer>
+          </ConnectContainer>
         )}
       </Wrapper>
     )
