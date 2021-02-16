@@ -14,6 +14,7 @@ export type OwnProps = {
   handleClose: () => void
 }
 type LinkDispatchPropsType = {
+  analyticsActions: typeof actions.analytics
   brokerageActions: typeof actions.components.brokerage
 }
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
@@ -44,6 +45,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 
