@@ -1,6 +1,6 @@
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import React, { PureComponent } from 'react'
+import React, { useEffect } from 'react'
 
 import { actions, selectors } from 'data'
 import { ExtractSuccess, FiatType, RemoteDataType } from 'core/types'
@@ -11,27 +11,27 @@ import Failure from './template.failure'
 import Loading from '../DepositMethods/template.loading'
 import Success from './template.success'
 
-class EnterAmount extends PureComponent<Props> {
-  componentDidMount () {
-    if (this.props.fiatCurrency && !Remote.Success.is(this.props.data)) {
-      this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
-      this.props.brokerageActions.fetchBankTransferAccounts()
+const EnterAmount = props => {
+  useEffect(() => {
+    if (props.fiatCurrency && !Remote.Success.is(props.data)) {
+      props.simpleBuyActions.fetchSBPaymentMethods(props.fiatCurrency)
+      props.simpleBuyActions.fetchSBFiatEligible(props.fiatCurrency)
+      props.brokerageActions.fetchBankTransferAccounts()
+      props.simpleBuyActions.fetchSDDEligible()
     }
-  }
+  })
 
-  render () {
-    return this.props.data.cata({
-      Success: val => <Success {...val} {...this.props} />,
-      Failure: () => <Failure {...this.props} />,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
-    })
-  }
+  return props.data.cata({
+    Success: val => <Success {...val} {...props} />,
+    Failure: () => <Failure {...props} />,
+    Loading: () => <Loading />,
+    NotAsked: () => <Loading />
+  })
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state)
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD'
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -49,7 +49,7 @@ export type OwnProps = {
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
-  fiatCurrency: undefined | FiatType
+  fiatCurrency: FiatType
 }
 export type FailurePropsType = {
   fiatCurrency: FiatType

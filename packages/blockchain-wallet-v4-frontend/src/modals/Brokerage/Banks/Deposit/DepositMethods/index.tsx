@@ -1,8 +1,9 @@
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { actions, selectors } from 'data'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 
 import { getData } from './selectors'
@@ -11,6 +12,13 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 const DepositMethods = props => {
+  useEffect(() => {
+    if (props.fiatCurrency && !Remote.Success.is(props.data)) {
+      props.simpleBuyActions.fetchSBFiatEligible(props.fiatCurrency)
+      props.simpleBuyActions.fetchSBPaymentMethods(props.fiatCurrency)
+      props.brokerageActions.fetchBankTransferAccounts()
+    }
+  })
   return props.data.cata({
     Success: val => <Success {...val} {...props} />,
     Failure: () => <Failure {...props} />,
@@ -27,7 +35,8 @@ const mapStateToProps = (state: RootState) => ({
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DepositMethods)
