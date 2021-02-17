@@ -88,3 +88,15 @@ export const CustomBox = styled(Box)`
   flex-direction: column;
   justify-content: space-between;
 `
+export const CustomBoxRightOriented = styled.div`
+  position: relative;
+  padding: 24px;
+  border-radius: 8px;
+  border: 1px solid ${props => props.theme.grey000};
+  background-image: url('/img/bg-banner-pattern.svg');
+  background-repeat: repeat-y;
+  background-position: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`
