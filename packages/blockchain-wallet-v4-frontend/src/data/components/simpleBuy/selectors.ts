@@ -55,7 +55,6 @@ export const eligableFiatCurrency = currency =>
 export const getDefaultPaymentMethod = (state: RootState) => {
   const fiatCurrency = getFiatCurrency(state)
   const orders = getSBOrders(state).getOrElse([])
-  const sbCardsR = getSBCards(state)
   const sbMethodsR = getSBPaymentMethods(state)
   const actionType = getOrderType(state)
   const sbBalancesR = getSBBalances(state)
@@ -64,7 +63,6 @@ export const getDefaultPaymentMethod = (state: RootState) => {
     .getOrElse([])
 
   const transform = (
-    sbCards: ExtractSuccess<typeof sbCardsR>,
     sbMethods: ExtractSuccess<typeof sbMethodsR>,
     sbBalances: ExtractSuccess<typeof sbBalancesR>
   ): SBPaymentMethodType | undefined => {
@@ -115,6 +113,7 @@ export const getDefaultPaymentMethod = (state: RootState) => {
           case 'PAYMENT_CARD':
             if (!method) return
             const active = SBCardStateEnum.ACTIVE
+            const sbCards = getSBCards(state).getOrElse([])
             const sbCard = sbCards.find(
               value =>
                 value.id === lastOrder.paymentMethodId &&
@@ -162,7 +161,7 @@ export const getDefaultPaymentMethod = (state: RootState) => {
     }
   }
 
-  return lift(transform)(sbCardsR, sbMethodsR, sbBalancesR)
+  return lift(transform)(sbMethodsR, sbBalancesR)
 }
 
 export const hasFiatBalances = (state: RootState) => {
