@@ -54,6 +54,11 @@ const TierDescription = styled.div`
   flex-direction: column;
   padding: 0 10px;
 `
+const HeaderWrapper = styled(FlyoutWrapper)`
+  position: fixed;
+  max-width: 480px;
+  background-color: ${props => props.theme.white};
+`
 const FooterWrapper = styled(FlyoutWrapper)`
   flex: 1;
   justify-content: flex-end;
@@ -65,6 +70,14 @@ const CartridgeWrapper = styled.div`
   flex-direction: row;
   flex: 1;
   justify-content: flex-end;
+`
+const IconBareWrapper = styled.div`
+  span {
+    margin-right: -8px;
+  }
+`
+const MainContent = styled.div`
+  margin-top: 177px;
 `
 const ItemTitle = styled(Text)`
   color: ${props => props.theme.grey900};
@@ -134,9 +147,9 @@ const getTierStatus = (
   }
 
   return (
-    <div>
+    <IconBareWrapper>
       <Icon name='chevron-right' size='32px' color='grey400' />
-    </div>
+    </IconBareWrapper>
   )
 }
 
@@ -178,7 +191,7 @@ const Template: React.FC<Props> = props => {
 
   return (
     <Wrapper>
-      <FlyoutWrapper>
+      <HeaderWrapper>
         <IconsContainer>
           <Icon
             cursor
@@ -207,195 +220,198 @@ const Template: React.FC<Props> = props => {
             defaultMessage='Unlock features within your Blockchain.com Wallet. Some features may ask you to verify your identity.'
           />
         </Text>
-      </FlyoutWrapper>
+      </HeaderWrapper>
 
-      <ContentItem
-        onClick={() =>
-          isUserVerifiedSilver
-            ? null
-            : props.identityVerificationActions.verifyIdentity(
-                TIER_TYPES.SILVER,
-                false
-              )
-        }
-        isClickable={!isUserVerifiedSilver}
-        data-e2e={`continueKycTier${TIER_TYPES.SILVER}Btn`}
-      >
-        <div>
-          <Image name='tier-silver' size='32px' />
-        </div>
-        <TierDescription>
-          <Text color='grey900' size='16px' weight={600}>
-            <FormattedMessage
-              id='components.identityverification.tiercard.silver'
-              defaultMessage='Silver Level'
-            />
-          </Text>
-          <Text color='grey900' size='14px' weight={500}>
-            <FormattedMessage
-              id='modals.tradinglimits.silver_subheader'
-              defaultMessage='Trade up to {amount}/year.'
-              values={{
-                amount: fiatToString({
-                  value: silverTier.limits.annual,
-                  unit: (silverTier.limits.currency || 'USD') as WalletFiatType,
-                  digits: 0
-                })
-              }}
-            />
-          </Text>
+      <MainContent>
+        <ContentItem
+          onClick={() =>
+            isUserVerifiedSilver
+              ? null
+              : props.identityVerificationActions.verifyIdentity(
+                  TIER_TYPES.SILVER,
+                  false
+                )
+          }
+          isClickable={!isUserVerifiedSilver}
+          data-e2e={`continueKycTier${TIER_TYPES.SILVER}Btn`}
+        >
+          <div>
+            <Image name='tier-silver' size='32px' />
+          </div>
+          <TierDescription>
+            <Text color='grey900' size='16px' weight={600}>
+              <FormattedMessage
+                id='components.identityverification.tiercard.silver'
+                defaultMessage='Silver Level'
+              />
+            </Text>
+            <Text color='grey900' size='14px' weight={500}>
+              <FormattedMessage
+                id='modals.tradinglimits.silver_subheader'
+                defaultMessage='Trade up to {amount}/year.'
+                values={{
+                  amount: fiatToString({
+                    value: silverTier.limits.annual,
+                    unit: (silverTier.limits.currency ||
+                      'USD') as WalletFiatType,
+                    digits: 0
+                  })
+                }}
+              />
+            </Text>
 
-          <Text color='grey600' size='12px' weight={500}>
-            <FormattedMessage
-              id='modals.tradinglimits.gold_description'
-              defaultMessage='You’ll need to verify your identity by uploading an ID and a selfie. Requires Silver Tier Approval'
-            />
-          </Text>
-        </TierDescription>
+            <Text color='grey600' size='12px' weight={500}>
+              <FormattedMessage
+                id='modals.tradinglimits.silver_description'
+                defaultMessage='Please verify your email address, add your name, home address and date of birth.'
+              />
+            </Text>
+          </TierDescription>
 
-        {getTierStatus(currentTier, TIER_TYPES.SILVER, silverTier)}
-      </ContentItem>
+          {getTierStatus(currentTier, TIER_TYPES.SILVER, silverTier)}
+        </ContentItem>
 
-      <ContentItem
-        onClick={() =>
-          isUserGold
-            ? null
-            : props.identityVerificationActions.verifyIdentity(
-                TIER_TYPES.GOLD,
-                false
-              )
-        }
-        isClickable={!isUserGold}
-        data-e2e={`continueKycTier${TIER_TYPES.GOLD}Btn`}
-      >
-        <div>
-          <Image name='tier-gold' size='32px' />
-        </div>
-        <TierDescription>
-          <Text color='grey900' size='16px' weight={600}>
-            <FormattedMessage
-              id='components.identityverification.tiercard.gold'
-              defaultMessage='Gold Level'
-            />
-          </Text>
+        <ContentItem
+          onClick={() =>
+            isUserGold
+              ? null
+              : props.identityVerificationActions.verifyIdentity(
+                  TIER_TYPES.GOLD,
+                  false
+                )
+          }
+          isClickable={!isUserGold}
+          data-e2e={`continueKycTier${TIER_TYPES.GOLD}Btn`}
+        >
+          <div>
+            <Image name='tier-gold' size='32px' />
+          </div>
+          <TierDescription>
+            <Text color='grey900' size='16px' weight={600}>
+              <FormattedMessage
+                id='components.identityverification.tiercard.gold'
+                defaultMessage='Gold Level'
+              />
+            </Text>
 
-          <Text color='grey900' size='14px' weight={500}>
-            <FormattedMessage
-              id='modals.tradinglimits.gold_subheader'
-              defaultMessage='Earn Interest & trade up to {amount}/day.'
-              values={{
-                amount: fiatToString({
-                  value: goldTier.limits.daily,
-                  unit: (goldTier.limits.currency || 'USD') as WalletFiatType,
-                  digits: 0
-                })
-              }}
-            />
-          </Text>
+            <Text color='grey900' size='14px' weight={500}>
+              <FormattedMessage
+                id='modals.tradinglimits.gold_subheader'
+                defaultMessage='Earn Interest & trade up to {amount}/day.'
+                values={{
+                  amount: fiatToString({
+                    value: goldTier.limits.daily,
+                    unit: (goldTier.limits.currency || 'USD') as WalletFiatType,
+                    digits: 0
+                  })
+                }}
+              />
+            </Text>
 
-          <Text color='grey600' size='12px' weight={500}>
-            <FormattedMessage
-              id='modals.tradinglimits.silver_description'
-              defaultMessage='Please verify your email address, add your name, home address and date of birth.'
-            />
-          </Text>
-        </TierDescription>
+            <Text color='grey600' size='12px' weight={500}>
+              <FormattedMessage
+                id='modals.tradinglimits.gold_description'
+                defaultMessage='You’ll need to verify your identity by uploading an ID and a selfie. Requires Silver Tier Approval'
+              />
+            </Text>
+          </TierDescription>
 
-        {getTierStatus(
-          currentTier === TIER_TYPES.SILVER_PLUS
-            ? TIER_TYPES.SILVER
-            : currentTier,
-          TIER_TYPES.GOLD,
-          goldTier
-        )}
-      </ContentItem>
+          {getTierStatus(
+            currentTier === TIER_TYPES.SILVER_PLUS
+              ? TIER_TYPES.SILVER
+              : currentTier,
+            TIER_TYPES.GOLD,
+            goldTier
+          )}
+        </ContentItem>
 
-      <ContentItem>
-        <IconWrapper>
-          <Icon name='send' color='blue600' size='20px' />
+        <ContentItem>
+          <IconWrapper>
+            <Icon name='send' color='blue600' size='20px' />
+            <ItemTitle>
+              <FormattedMessage
+                id='modals.tradinglimits.send_crypto'
+                defaultMessage='Send Crypto'
+              />
+            </ItemTitle>
+          </IconWrapper>
+          {getItemBadgeStatus(currentTier, ITEMS.SEND)}
+        </ContentItem>
+
+        <ContentItem>
+          <Icon name='qr-code' color='blue600' size='20px' />
           <ItemTitle>
             <FormattedMessage
-              id='modals.tradinglimits.send_crypto'
-              defaultMessage='Send Crypto'
+              id='modals.tradinglimits.receive_crypto'
+              defaultMessage='Receive Crypto'
             />
           </ItemTitle>
-        </IconWrapper>
-        {getItemBadgeStatus(currentTier, ITEMS.SEND)}
-      </ContentItem>
+          {getItemBadgeStatus(currentTier, ITEMS.RECEIVE)}
+        </ContentItem>
+        <ContentItem>
+          <Icon name='arrow-switch-thick' color='blue600' size='20px' />
+          <ItemTitle>
+            <FormattedMessage
+              id='modals.tradinglimits.swap_crypto'
+              defaultMessage='Swap Crypto'
+            />
+          </ItemTitle>
+          {getItemBadgeStatus(currentTier, ITEMS.SWAP, swapProduct?.eligible)}
+        </ContentItem>
 
-      <ContentItem>
-        <Icon name='qr-code' color='blue600' size='20px' />
-        <ItemTitle>
-          <FormattedMessage
-            id='modals.tradinglimits.receive_crypto'
-            defaultMessage='Receive Crypto'
-          />
-        </ItemTitle>
-        {getItemBadgeStatus(currentTier, ITEMS.RECEIVE)}
-      </ContentItem>
-      <ContentItem>
-        <Icon name='arrow-switch-thick' color='blue600' size='20px' />
-        <ItemTitle>
-          <FormattedMessage
-            id='modals.tradinglimits.swap_crypto'
-            defaultMessage='Swap Crypto'
-          />
-        </ItemTitle>
-        {getItemBadgeStatus(currentTier, ITEMS.SWAP, swapProduct?.eligible)}
-      </ContentItem>
-
-      <ContentItem>
-        <Icon name='usd' color='blue600' size='20px' />
-        <ItemTitle>
-          <FormattedMessage
-            id='modals.tradinglimits.cash_accounts'
-            defaultMessage='Cash Accounts'
-          />
-        </ItemTitle>
-        {getItemBadgeStatus(currentTier, ITEMS.CASH_ACCOUNT)}
-      </ContentItem>
-      <ContentItem>
-        <Icon name='credit-card-sb' color='blue600' size='20px' />
-        <ItemTitle>
-          <FormattedMessage
-            id='modals.tradinglimits.buy_with_a_card'
-            defaultMessage='Buy with a Card'
-          />
-        </ItemTitle>
-        {getItemBadgeStatus(
-          currentTier,
-          ITEMS.BUY_WITH_A_CARD,
-          simpleBuyProduct?.eligible
-        )}
-      </ContentItem>
-      <ContentItem>
-        <Icon name='bank-filled' color='blue600' size='20px' />
-        <ItemTitle>
-          <FormattedMessage
-            id='modals.tradinglimits.deposits_and_withdrawals'
-            defaultMessage='Deposits & Withdrawals'
-          />
-        </ItemTitle>
-        {getItemBadgeStatus(
-          currentTier,
-          ITEMS.DEPOSIT_AND_WITHDRAWAL,
-          brokerageProduct?.eligible
-        )}
-      </ContentItem>
-      <ContentItem>
-        <Icon name='percentage' color='blue600' size='20px' />
-        <ItemTitle>
-          <FormattedMessage
-            id='modals.tradinglimits.earn_interest'
-            defaultMessage='Earn Interest'
-          />
-        </ItemTitle>
-        {getItemBadgeStatus(
-          currentTier,
-          ITEMS.EARN_INTEREST,
-          savingsProduct?.eligible
-        )}
-      </ContentItem>
+        <ContentItem>
+          <Icon name='usd' color='blue600' size='20px' />
+          <ItemTitle>
+            <FormattedMessage
+              id='modals.tradinglimits.cash_accounts'
+              defaultMessage='Cash Accounts'
+            />
+          </ItemTitle>
+          {getItemBadgeStatus(currentTier, ITEMS.CASH_ACCOUNT)}
+        </ContentItem>
+        <ContentItem>
+          <Icon name='credit-card-sb' color='blue600' size='20px' />
+          <ItemTitle>
+            <FormattedMessage
+              id='modals.tradinglimits.buy_with_a_card'
+              defaultMessage='Buy with a Card'
+            />
+          </ItemTitle>
+          {getItemBadgeStatus(
+            currentTier,
+            ITEMS.BUY_WITH_A_CARD,
+            simpleBuyProduct?.eligible
+          )}
+        </ContentItem>
+        <ContentItem>
+          <Icon name='bank-filled' color='blue600' size='20px' />
+          <ItemTitle>
+            <FormattedMessage
+              id='modals.tradinglimits.deposits_and_withdrawals'
+              defaultMessage='Deposits & Withdrawals'
+            />
+          </ItemTitle>
+          {getItemBadgeStatus(
+            currentTier,
+            ITEMS.DEPOSIT_AND_WITHDRAWAL,
+            brokerageProduct?.eligible
+          )}
+        </ContentItem>
+        <ContentItem>
+          <Icon name='percentage' color='blue600' size='20px' />
+          <ItemTitle>
+            <FormattedMessage
+              id='modals.tradinglimits.earn_interest'
+              defaultMessage='Earn Interest'
+            />
+          </ItemTitle>
+          {getItemBadgeStatus(
+            currentTier,
+            ITEMS.EARN_INTEREST,
+            savingsProduct?.eligible
+          )}
+        </ContentItem>
+      </MainContent>
 
       <FooterWrapper>
         {!isUserGold && (
