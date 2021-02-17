@@ -3,6 +3,7 @@ import React from 'react'
 
 import { Button, Text } from 'blockchain-info-components'
 import { CustomBoxRightOriented } from 'components/Layout'
+import { model } from 'data'
 
 import { Props as OwnProps, SuccessStateType } from './index'
 
@@ -12,7 +13,8 @@ const InterestBanner: React.FC<Props> = ({
   supportedCoins,
   interestRate,
   afterTransaction,
-  interestActions
+  interestActions,
+  analyticsActions
 }) => {
   const { amount, currency } = afterTransaction
   const { displayName } = supportedCoins[currency]
@@ -55,9 +57,10 @@ const InterestBanner: React.FC<Props> = ({
         style={{ marginTop: '16px', maxWidth: '144px' }}
         nature='light'
         data-e2e='earnInterestNow'
-        onClick={() =>
+        onClick={() => {
           interestActions.showInterestModal('ACCOUNT_SUMMARY', currency)
-        }
+          analyticsActions.logEvent(model.analytics.ONE_CLICK_INTEREST.CLICK)
+        }}
       >
         <FormattedMessage
           id='modals.simplebuy.interest_banner.earn_now'

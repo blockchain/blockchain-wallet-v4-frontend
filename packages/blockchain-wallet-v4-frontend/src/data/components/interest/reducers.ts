@@ -240,6 +240,11 @@ export function interestReducer (
         ...state,
         afterTransaction: Remote.Success(payload.afterTransaction)
       }
+    case AT.RESET_AFTER_TRANSACTION:
+      return {
+        ...state,
+        afterTransaction: Remote.NotAsked
+      }
     default:
       return state
   }

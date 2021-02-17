@@ -377,6 +377,20 @@ export default ({
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_SUCCESS)
       )
+
+      const afterTransactionR = yield select(
+        selectors.components.interest.getAfterTransaction
+      )
+      const afterTransaction = afterTransactionR.getOrElse({
+        show: false
+      } as InterestAfterTransactionType)
+      if (afterTransaction && afterTransaction.show) {
+        yield put(
+          actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_ONE_CLICK)
+        )
+        yield put(actions.components.interest.resetAfterTransaction())
+      }
+
       yield delay(3000)
       yield put(A.fetchInterestBalance())
     } catch (e) {

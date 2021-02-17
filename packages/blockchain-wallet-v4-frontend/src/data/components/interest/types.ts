@@ -280,11 +280,15 @@ interface FetchInterestAfterTransactionSuccess {
   payload: { afterTransaction: InterestAfterTransactionType }
   type: typeof AT.FETCH_AFTER_TRANSACTION_SUCCESS
 }
+interface ResetAfterTransaction {
+  type: typeof AT.RESET_AFTER_TRANSACTION
+}
 
 export type InterestActionTypes =
   | FetchInterestAfterTransactionFailure
   | FetchInterestAfterTransactionLoading
   | FetchInterestAfterTransactionSuccess
+  | ResetAfterTransaction
   | FetchInterestBalanceFailure
   | FetchInterestBalanceLoading
   | FetchInterestBalanceSuccess
