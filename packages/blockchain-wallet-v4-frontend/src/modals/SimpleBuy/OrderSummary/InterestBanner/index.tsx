@@ -2,7 +2,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import React, { useEffect } from 'react'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { RemoteDataType } from 'core/types'
 
 import { getData } from './selectors'
@@ -11,6 +11,7 @@ import Template from './template.success'
 const InterestBanner: React.FC<Props> = props => {
   useEffect(() => {
     props.interestActions.fetchInterestRate()
+    props.analyticsActions.logEvent(model.analytics.ONE_CLICK_INTEREST.SEEN)
   }, [])
 
   return (
@@ -30,7 +31,8 @@ const mapStateToProps = (state): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  interestActions: bindActionCreators(actions.components.interest, dispatch)
+  interestActions: bindActionCreators(actions.components.interest, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

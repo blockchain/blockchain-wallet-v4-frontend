@@ -286,3 +286,6 @@ export const fetchAfterTransactionSuccess = (
   type: AT.FETCH_AFTER_TRANSACTION_SUCCESS,
   payload: { afterTransaction }
 })
+export const resetAfterTransaction = (): InterestActionTypes => ({
+  type: AT.RESET_AFTER_TRANSACTION
+})
