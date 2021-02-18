@@ -40,7 +40,6 @@ const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
 // WALLET
 const Addresses = React.lazy(() => import('./Settings/Addresses'))
 const Airdrops = React.lazy(() => import('./Airdrops'))
-const Borrow = React.lazy(() => import('./Borrow'))
 const General = React.lazy(() => import('./Settings/General'))
 const Home = React.lazy(() => import('./Home'))
 const Interest = React.lazy(() => import('./Interest'))
@@ -102,7 +101,6 @@ class App extends React.PureComponent<Props> {
                         component={VerifyEmail}
                       />
                       <WalletLayout path='/airdrops' component={Airdrops} />
-                      <WalletLayout path='/borrow' component={Borrow} />
                       <WalletLayout path='/exchange' component={TheExchange} />
                       <WalletLayout path='/home' component={Home} />
                       <WalletLayout

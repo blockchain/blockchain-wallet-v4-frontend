@@ -1,4 +1,3 @@
-import { borrowReducer } from './borrow/reducers'
 import { brokerageReducer } from './brokerage/reducers'
 import { combineReducers } from 'redux'
 import { identityVerificationReducer } from './identityVerification/reducers'
@@ -23,7 +22,6 @@ import veriff from './veriff/reducers'
 
 const componentReducer = combineReducers({
   brokerage: brokerageReducer,
-  borrow: borrowReducer,
   identityVerification: identityVerificationReducer,
   interest: interestReducer,
   layoutWallet,

@@ -99,16 +99,6 @@ const FeaturesSmall = (
               </Destination>
             </DropdownMenuItem>
           </LinkContainer>
-          <LinkContainer to='/borrow' activeClassName='active'>
-            <DropdownMenuItem data-e2e='borrowLink'>
-              <Destination>
-                <FormattedMessage
-                  id='layouts.wallet.menuleft.navigation.borrow'
-                  defaultMessage='Borrow'
-                />
-              </Destination>
-            </DropdownMenuItem>
-          </LinkContainer>
         </DropdownMenu>
       )}
     </NavbarNavItemButton>

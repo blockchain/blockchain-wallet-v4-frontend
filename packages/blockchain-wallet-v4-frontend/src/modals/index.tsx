@@ -116,7 +116,6 @@ const ShowXPub = React.lazy(() => import('./Wallet/ShowXPub'))
 const UpgradeWallet = React.lazy(() => import('./Wallet/UpgradeWallet'))
 
 // SOLO
-const Borrow = React.lazy(() => import('./Borrow'))
 const Interest = React.lazy(() => import('./Interest'))
 const QRCode = React.lazy(() => import('./QRCode'))
 const SignMessage = React.lazy(() => import('./SignMessage'))
@@ -139,7 +138,6 @@ const Modals = () => (
       <AutoDisconnection />
       <BitpayInformational />
       <BitpayInvoiceExpired />
-      <Borrow />
       <BankDetails />
       <Confirm />
       <ConfirmDisable2FA />
