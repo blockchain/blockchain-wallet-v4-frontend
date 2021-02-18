@@ -384,7 +384,7 @@ export default ({
       const afterTransaction = afterTransactionR.getOrElse({
         show: false
       } as InterestAfterTransactionType)
-      if (afterTransaction && afterTransaction.show) {
+      if (afterTransaction?.show) {
         yield put(
           actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_ONE_CLICK)
         )

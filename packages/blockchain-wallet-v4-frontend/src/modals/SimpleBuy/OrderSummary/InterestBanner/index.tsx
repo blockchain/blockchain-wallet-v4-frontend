@@ -1,6 +1,6 @@
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import React, { PureComponent } from 'react'
+import React, { useEffect } from 'react'
 
 import { actions, model } from 'data'
 import { RemoteDataType } from 'core/types'
@@ -8,21 +8,22 @@ import { RemoteDataType } from 'core/types'
 import { getData } from './selectors'
 import Template from './template.success'
 
-class InterestBanner extends PureComponent<Props> {
-  componentDidMount () {
-    this.props.interestActions.fetchInterestRate()
-    this.props.analyticsActions.logEvent(
-      model.analytics.ONE_CLICK_INTEREST.SEEN
-    )
-  }
-  render () {
-    return this.props.data.cata({
-      Success: val => <Template {...this.props} {...val} />,
-      Failure: () => null,
-      Loading: () => null,
-      NotAsked: () => null
-    })
-  }
+const InterestBanner: React.FC<Props> = props => {
+  useEffect(() => {
+    props.interestActions.fetchInterestRate()
+    props.analyticsActions.logEvent(model.analytics.ONE_CLICK_INTEREST.SEEN)
+  }, [])
+
+  return (
+    <>
+      {props.data.cata({
+        Success: val => <Template {...props} {...val} />,
+        Failure: () => null,
+        Loading: () => null,
+        NotAsked: () => null
+      })}
+    </>
+  )
 }
 
 const mapStateToProps = (state): LinkStatePropsType => ({
