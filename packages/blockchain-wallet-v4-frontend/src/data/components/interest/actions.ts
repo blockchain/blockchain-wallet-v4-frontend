@@ -2,6 +2,7 @@ import { CoinType, FiatType, PaymentValue } from 'core/types'
 import {
   InterestAccountBalanceType,
   InterestAccountType,
+  InterestAfterTransactionType,
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
@@ -264,4 +265,24 @@ export const setCoinDisplay = (isCoinDisplayed: boolean) => ({
 export const showInterestModal = (step: InterestStep, coin: CoinType) => ({
   payload: { step, coin },
   type: AT.SHOW_INTEREST_MODAL
+})
+
+// INTEREST CTA AFTER TRANSACTION
+export const fetchAfterTransaction = () => ({
+  type: AT.FETCH_AFTER_TRANSACTION
+})
+export const fetchAfterTransactionFailure = (
+  error: string
+): InterestActionTypes => ({
+  type: AT.FETCH_AFTER_TRANSACTION_FAILURE,
+  payload: { error }
+})
+export const fetchAfterTransactionLoading = (): InterestActionTypes => ({
+  type: AT.FETCH_AFTER_TRANSACTION_LOADING
+})
+export const fetchAfterTransactionSuccess = (
+  afterTransaction: InterestAfterTransactionType
+): InterestActionTypes => ({
+  type: AT.FETCH_AFTER_TRANSACTION_SUCCESS,
+  payload: { afterTransaction }
 })

@@ -1,15 +1,18 @@
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import moment from 'moment'
+import React from 'react'
+import styled from 'styled-components'
+
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import {
   getBaseAmount,
   getBaseCurrency,
   getOrderType
 } from 'data/components/simpleBuy/model'
+
 import { Props as OwnProps, SuccessStateType } from '.'
-import moment from 'moment'
-import React from 'react'
-import styled from 'styled-components'
+import InterestBanner from './InterestBanner'
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,6 +25,12 @@ const Bottom = styled(FlyoutWrapper)`
   justify-content: flex-end;
   flex-direction: column;
   height: 100%;
+`
+const BottomInterest = styled(FlyoutWrapper)`
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  height: 180px;
 `
 const ContentWrapper = styled.div`
   display: flex;
@@ -85,6 +94,7 @@ const Success: React.FC<Props> = props => {
     isPendingDeposit &&
     props.order.attributes?.everypay?.paymentState ===
       'WAITING_FOR_3DS_RESPONSE'
+  const { show } = props.afterTransaction
 
   return (
     <Wrapper>
@@ -262,6 +272,16 @@ const Success: React.FC<Props> = props => {
             )}
         </Content>
       </ContentWrapper>
+      {orderType === 'BUY' &&
+        (props.order.paymentType === 'PAYMENT_CARD' ||
+          props.order.paymentType === 'USER_CARD' ||
+          props.order.paymentType === 'BANK_TRANSFER' ||
+          props.order.paymentType === 'FUNDS') &&
+        show && (
+          <BottomInterest>
+            <InterestBanner {...props} />
+          </BottomInterest>
+        )}
     </Wrapper>
   )
 }
