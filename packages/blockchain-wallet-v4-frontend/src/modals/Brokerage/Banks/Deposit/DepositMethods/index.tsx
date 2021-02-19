@@ -18,7 +18,8 @@ const DepositMethods = props => {
       props.simpleBuyActions.fetchSBPaymentMethods(props.fiatCurrency)
       props.brokerageActions.fetchBankTransferAccounts()
     }
-  })
+  }, [])
+
   return props.data.cata({
     Success: val => <Success {...val} {...props} />,
     Failure: () => <Failure {...props} />,

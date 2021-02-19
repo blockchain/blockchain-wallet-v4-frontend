@@ -16,6 +16,7 @@ import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import DepositMethods from './DepositMethods'
+import DepositStatus from './DepositStatus'
 import EnterAmount from './EnterAmount'
 
 class Deposit extends PureComponent<Props> {
@@ -42,6 +43,7 @@ class Deposit extends PureComponent<Props> {
 
   handleClose = () => {
     this.setState({ show: false })
+    setTimeout(this.props.close, duration)
   }
 
   handleBack = () => {}
@@ -111,7 +113,9 @@ class Deposit extends PureComponent<Props> {
            * depending on the servers response we'll display a successful
            * or unsuccessful deposit screen9
            */
-          <FlyoutChild />
+          <FlyoutChild>
+            <DepositStatus {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
         )}
       </Flyout>
     )
