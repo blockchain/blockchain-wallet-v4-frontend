@@ -7,7 +7,7 @@ import { FiatType } from 'core/types'
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
-import Failure from './template.failure'
+import Failure from '../template.failure'
 import Loading from '../DepositMethods/template.loading'
 import Success from './template.success'
 

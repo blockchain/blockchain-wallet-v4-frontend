@@ -142,6 +142,9 @@ type OwnProps = ModalPropsType
 type LinkStatePropsType = {
   step: BankDepositStepType
 }
+export type FailurePropsType = {
+  handleClose: () => void
+}
 
 export type Props = OwnProps &
   LinkStatePropsType &
