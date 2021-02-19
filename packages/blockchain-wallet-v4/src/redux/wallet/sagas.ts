@@ -1,5 +1,3 @@
-import * as A from '../actions'
-import * as S from './selectors'
 import { call, put, select } from 'redux-saga/effects'
 import {
   compose,
@@ -18,13 +16,18 @@ import {
   range,
   repeat
 } from 'ramda'
-import { fetchData } from '../data/btc/actions'
-import { generateMnemonic } from '../../walletCrypto'
-import { HDAccount, Wallet, Wrapper } from '../../types'
 import { set } from 'ramda-lens'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
 import Task from 'data.task'
+
+import * as A from '../actions'
+import * as S from './selectors'
+import { callTask } from '../../utils/functional'
+import { derivationMap, WALLET_CREDENTIALS } from '../kvStore/config'
+import { fetchData } from '../data/btc/actions'
+import { generateMnemonic } from '../../walletCrypto'
+import { HDAccount, KVStoreEntry, Wallet, Wrapper } from '../../types'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -181,7 +184,53 @@ export default ({ api, networks }) => {
     }
   }
 
+  const restoreWalletCredentials = function * (mnemonic) {
+    const seedHex = BIP39.mnemonicToEntropy(mnemonic)
+    const getMetadataNode = compose(
+      KVStoreEntry.deriveMetadataNode,
+      KVStoreEntry.getMasterHDNode(networks.btc)
+    )
+    // @ts-ignore
+    const metadataNode = getMetadataNode(seedHex)
+    // @ts-ignore
+    const mxpriv = metadataNode.toBase58()
+    const typeId = derivationMap[WALLET_CREDENTIALS]
+    const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
+    const newkv = yield callTask(api.fetchKVStore(kv))
+    return newkv.value
+  }
+
+  const restoreWalletFromMetadata = function * (creds, newPassword) {
+    if (!creds) {
+      return false
+    }
+
+    try {
+      // Let's update the password and upload the new encrypted payload
+      const wallet = yield call(
+        api.fetchWalletWithSharedKey,
+        creds.guid,
+        creds.sharedKey,
+        creds.password
+      )
+      const wrapperT = set(Wrapper.password, newPassword, wallet)
+      try {
+        yield call(api.saveWallet, wrapperT)
+      } catch (e) {
+        throw e
+      }
+    } catch (e) {
+      // eslint-disable-next-line
+      console.error('Unable to restore wallet from metadata', e)
+      return false
+    }
+  }
+
   const restoreWalletSaga = function * ({ mnemonic, email, password, language }) {
+    // TODO check wallet credentials after FirstStep in recovery flow to bypass the email field
+    const creds = yield call(restoreWalletCredentials, mnemonic)
+    const recovered = yield call(restoreWalletFromMetadata, creds, password)
+
     const seed = BIP39.mnemonicToSeed(mnemonic)
     const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, networks.btc)
     const node = masterNode.deriveHardened(44).deriveHardened(0)
@@ -190,7 +239,11 @@ export default ({ api, networks }) => {
       node: node,
       usedAccounts: []
     })
-    const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
+    let [guid, sharedKey] = yield call(api.generateUUIDs, 2)
+    if (recovered) {
+      guid = creds.guid
+      sharedKey = creds.sharedKey
+    }
     const wrapper = Wrapper.createNew(
       guid,
       password,
@@ -200,7 +253,9 @@ export default ({ api, networks }) => {
       undefined,
       nAccounts
     )
-    yield call(api.createWallet, email, wrapper)
+    if (!recovered) {
+      yield call(api.createWallet, email, wrapper)
+    }
     yield put(A.wallet.refreshWrapper(wrapper))
   }
 
