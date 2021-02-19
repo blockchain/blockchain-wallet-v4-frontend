@@ -26,10 +26,18 @@ class LinkBankHandler extends PureComponent<Props, State> {
     if (event.data.from !== 'yodlee') return
     if (event.data.to !== 'sb') return
 
-    const { sites } = event.data
+    const { sites, error } = event.data
     if (!isEmpty(sites)) {
       this.props.brokerageActions.fetchBankTransferUpdate(sites)
       this.props.brokerageActions.fetchBTUpdateLoading()
+    } else if (error) {
+      this.props.analyticsActions.logEvent([
+        'BANK_LINK_FAILED',
+        error.additionalStatus,
+        error.providerName,
+        error.providerId
+      ])
+      this.props.brokerageActions.setStep({ step: AddBankStepType.ADD_BANK })
     } else {
       this.props.brokerageActions.setStep({ step: AddBankStepType.ADD_BANK })
     }
@@ -50,7 +58,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
