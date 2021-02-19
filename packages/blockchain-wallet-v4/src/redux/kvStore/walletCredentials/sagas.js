@@ -2,15 +2,15 @@ import { call, put, select } from 'redux-saga/effects'
 import { set } from 'ramda-lens'
 
 import * as A from './actions'
+import * as selectors from '../../selectors'
 import { callTask } from '../../../utils/functional'
 import { derivationMap, WALLET_CREDENTIALS } from '../config'
-// import { getKeyPair } from '../../../utils/walletCredentials'
-import * as selectors from '../../selectors'
 import { getMetadataXpriv } from '../root/selectors'
 import { KVStoreEntry } from '../../../types'
 
 export default ({ api, networks } = {}) => {
-  const createWalletCredentials = function * (kv) {
+  // internal
+  const updateWalletCredentialsIfChangedOrMissing = function * (kv) {
     const guidT = yield select(selectors.wallet.getGuid)
     const passwordT = yield select(selectors.wallet.getMainPassword)
     const sharedKeyT = yield select(selectors.wallet.getSharedKey)
@@ -42,16 +42,13 @@ export default ({ api, networks } = {}) => {
       const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
       yield put(A.fetchMetadataWalletCredentialsLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
-      yield call(createWalletCredentials, newkv)
+      yield call(updateWalletCredentialsIfChangedOrMissing, newkv)
     } catch (e) {
-      // eslint-disable-next-line
-      console.error(e)
       yield put(A.fetchMetadataWalletCredentialsFailure(e.message))
     }
   }
 
   return {
-    createWalletCredentials,
     fetchMetadataWalletCredentials
   }
 }

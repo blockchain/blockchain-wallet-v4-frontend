@@ -190,8 +190,6 @@ export default ({ api, networks }) => {
       KVStoreEntry.deriveMetadataNode,
       KVStoreEntry.getMasterHDNode(networks.btc)
     )
-
-    // TODO why is TS complaining here?
     // @ts-ignore
     const metadataNode = getMetadataNode(seedHex)
     // @ts-ignore
@@ -216,10 +214,11 @@ export default ({ api, networks }) => {
         creds.password
       )
       const wrapperT = set(Wrapper.password, newPassword, wallet)
-      // eslint-disable-next-line
-      const response = yield call(api.saveWallet, wrapperT)
-      // TODO check response
-      return true
+      try {
+        yield call(api.saveWallet, wrapperT)
+      } catch (e) {
+        throw e
+      }
     } catch (e) {
       // eslint-disable-next-line
       console.error('Unable to restore wallet from metadata', e)
