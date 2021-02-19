@@ -36,17 +36,15 @@ export class Coin extends Type {
   isFromLegacy () {
     return !this.isFromAccount()
   }
-  // TODO: SEGWIT smarter way to do this? need to account for bc1
-  // https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki#segwit-address-format
   type () {
     try {
-      switch (this.address[0]) {
-        case '1':
+      switch (true) {
+        case this.address[0] === '1':
           return 'P2PKH'
-        case '3':
+        case this.address[0] === '3':
           return 'P2SH-P2WPKH'
-        case 'b':
-          return 'TODO'
+        case this.address.substring(0, 2) === 'bc':
+          return 'P2WPKH'
         default:
           return 'P2PKH'
       }
