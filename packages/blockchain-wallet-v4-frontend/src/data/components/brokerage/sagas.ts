@@ -110,6 +110,13 @@ export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
               )
             }
           }
+        } else {
+          actions.analytics.logEvent([
+            'BANK_LINK_FAILED',
+            bankData.state,
+            a.providerName,
+            a.providerId
+          ])
         }
       }
     } catch (e) {
