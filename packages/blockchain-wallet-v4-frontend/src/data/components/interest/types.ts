@@ -5,6 +5,7 @@ import {
   FiatType,
   InterestAccountBalanceType,
   InterestAccountType,
+  InterestAfterTransactionType,
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
@@ -59,6 +60,7 @@ export type InterestStep = keyof typeof InterestSteps
 export interface InterestState {
   account: RemoteDataType<string, InterestAccountType>
   accountBalance: RemoteDataType<string, InterestAccountBalanceType>
+  afterTransaction: RemoteDataType<string, InterestAfterTransactionType>
   coin: CoinType
   depositLimits: InterestMinMaxType
   instruments: RemoteDataType<string, InterestInstrumentsType>
@@ -266,7 +268,27 @@ interface ShowInterestModal {
   type: typeof AT.SHOW_INTEREST_MODAL
 }
 
+// INTEREST CTA AFTER TRANSACTION
+interface FetchInterestAfterTransactionFailure {
+  payload: { error: string }
+  type: typeof AT.FETCH_AFTER_TRANSACTION_FAILURE
+}
+interface FetchInterestAfterTransactionLoading {
+  type: typeof AT.FETCH_AFTER_TRANSACTION_LOADING
+}
+interface FetchInterestAfterTransactionSuccess {
+  payload: { afterTransaction: InterestAfterTransactionType }
+  type: typeof AT.FETCH_AFTER_TRANSACTION_SUCCESS
+}
+interface ResetAfterTransaction {
+  type: typeof AT.RESET_AFTER_TRANSACTION
+}
+
 export type InterestActionTypes =
+  | FetchInterestAfterTransactionFailure
+  | FetchInterestAfterTransactionLoading
+  | FetchInterestAfterTransactionSuccess
+  | ResetAfterTransaction
   | FetchInterestBalanceFailure
   | FetchInterestBalanceLoading
   | FetchInterestBalanceSuccess

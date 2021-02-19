@@ -1,10 +1,12 @@
-import { Props as _P, SuccessStateType } from '.'
-import { AddBankStepType } from 'data/types'
-import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
-import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
+
+import { AddBankStepType } from 'data/types'
+import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
+import { FlyoutWrapper } from 'components/Flyout'
+
+import { Props as _P, SuccessStateType } from '.'
 
 export type Props = _P & SuccessStateType
 
@@ -41,8 +43,11 @@ const Subcontent = styled(Text)`
   text-align: center;
 `
 
-const BankLinkError: React.FC<Props> = props => {
-  const { bankStatus } = props
+const BankLinkError: React.FC<Props> = ({
+  bankStatus,
+  brokerageActions,
+  handleClose
+}) => {
   return (
     <Top>
       <CloseIcon
@@ -51,7 +56,7 @@ const BankLinkError: React.FC<Props> = props => {
         size='20px'
         color='grey600'
         role='button'
-        onClick={() => props.handleClose}
+        onClick={() => handleClose}
       />
       <Container>
         <Image width='100px' name='bank-error' />
@@ -141,7 +146,7 @@ const BankLinkError: React.FC<Props> = props => {
           size='16px'
           nature='primary'
           onClick={() =>
-            props.brokerageActions.setStep({ step: AddBankStepType.ADD_BANK })
+            brokerageActions.setStep({ step: AddBankStepType.ADD_BANK })
           }
           fullwidth
         >
@@ -153,7 +158,7 @@ const BankLinkError: React.FC<Props> = props => {
           size='16px'
           nature='light'
           style={{ marginTop: '16px' }}
-          onClick={props.handleClose}
+          onClick={handleClose}
           fullwidth
         >
           <FormattedMessage

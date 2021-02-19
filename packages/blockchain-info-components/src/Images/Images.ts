@@ -12,6 +12,7 @@ import appleAppStoreBadge from './img/apple-app-store-badge.svg'
 import bank from './img/bank.svg'
 import bankError from './img/bank-error.svg'
 import bankSuccess from './img/bank-success.svg'
+import bgBannerPattern from './img/bg-banner-pattern.svg'
 import bgPattern from './img/bg-pattern.svg'
 import bitpayLogo from './img/bitpay-logo.svg'
 import blankCard from './img/blank-card.svg'
@@ -170,6 +171,7 @@ const Images = {
   'bank-success': bankSuccess,
   'bank-logo-bbt': bankLogoBbt,
   'bg-pattern': bgPattern,
+  'bg-banner-pattern': bgBannerPattern,
   'bitpay-logo': bitpayLogo,
   'blank-card': blankCard,
   'blockchain-logo': blockchainLogo,
