@@ -75,6 +75,19 @@ export default ({
       }
     })
 
+  const createFiatDeposit = (
+    amount: number,
+    bankId: string,
+    currency: FiatType,
+    product: 'SIMPLEBUY' = 'SIMPLEBUY'
+  ) =>
+    authorizedPost({
+      url: nabuUrl,
+      contentType: 'application/json',
+      endPoint: `/payments/banktransfer/${bankId}/payment`,
+      data: { amount, currency, product }
+    })
+
   const createSBOrder = (
     pair: SBPairsType,
     action: SBOrderActionType,
@@ -403,6 +416,7 @@ export default ({
 
   return {
     activateSBCard,
+    createFiatDeposit,
     cancelSBOrder,
     createSBCard,
     createSBOrder,

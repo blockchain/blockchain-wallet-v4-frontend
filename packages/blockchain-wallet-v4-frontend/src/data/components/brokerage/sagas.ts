@@ -143,6 +143,16 @@ export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
   }
 
   const handleDepositFiatClick = function * () {
+    const bankTransferAccounts = yield select(
+      selectors.components.brokerage.getBankTransferAccounts
+    )
+    if (bankTransferAccounts?.data?.length) {
+      yield put(
+        actions.components.brokerage.setBankDetails({
+          account: bankTransferAccounts.data[0]
+        })
+      )
+    }
     yield put(
       actions.components.brokerage.showModal(
         BrokerageModalOriginType.DEPOSIT_BUTTON,
@@ -161,8 +171,15 @@ export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
     yield put(actions.modals.showModal(modalType, { origin }))
   }
 
+  const createFiatDeposit = function * (action) {
+    const { amount, currency } = action.payload
+    const { id } = yield select(selectors.components.brokerage.getAccount)
+    yield call(api.createFiatDeposit, amount, id, currency)
+  }
+
   return {
     deleteSavedBank,
+    createFiatDeposit,
     fetchBankTransferAccounts,
     fetchBankTransferUpdate,
     fetchFastLink,

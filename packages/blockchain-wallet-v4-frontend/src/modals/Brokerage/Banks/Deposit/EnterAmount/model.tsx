@@ -3,6 +3,10 @@ import { Icon } from 'blockchain-info-components'
 import React from 'react'
 import styled, { css } from 'styled-components'
 
+import { BankTransferAccountType } from 'core/types'
+
+import { renderBank } from '../../../../SimpleBuy/EnterAmount/Checkout/Payment/model'
+
 const RightArrowIcon = styled(Icon)<{
   disabled?: boolean
 }>`
@@ -22,7 +26,20 @@ const getText = method => {
         defaultMessage='Add a Bank Account'
       />
     )
+  } else {
+    return renderBank(method)
   }
 }
 
-export { getText, RightArrowIcon }
+const getDefaultMethod = (
+  defaultMethod,
+  bankAccounts: BankTransferAccountType[]
+) => {
+  if (defaultMethod && defaultMethod.type === 'BANK_TRANSFER') {
+    return defaultMethod
+  } else if (bankAccounts.length === 1) {
+    return { ...bankAccounts[0], type: 'BANK_TRANSFER' }
+  }
+}
+
+export { getText, RightArrowIcon, getDefaultMethod }

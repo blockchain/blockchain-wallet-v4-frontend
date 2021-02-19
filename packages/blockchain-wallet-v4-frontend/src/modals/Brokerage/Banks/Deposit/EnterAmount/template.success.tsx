@@ -13,13 +13,13 @@ import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 
 import { Props as _P, LinkStatePropsType, SuccessStateType } from '.'
 import { DepositOrWithdrawal } from '../../model'
+import { getDefaultMethod, getText, RightArrowIcon } from './model'
 import {
   getIcon,
   PaymentArrowContainer,
   PaymentContainer,
   PaymentText
 } from '../../../../SimpleBuy/EnterAmount/Checkout/Payment/model'
-import { getText, RightArrowIcon } from './model'
 import { Row } from '../../../../Swap/EnterAmount/Checkout'
 
 const CustomForm = styled(Form)`
@@ -125,7 +125,14 @@ const Amount = ({ fiatCurrency }) => {
   )
 }
 
-const Account = ({ method, invalid, brokerageActions }) => {
+const Account = ({
+  defaultMethod,
+  bankTransferAccounts,
+  invalid,
+  brokerageActions
+}) => {
+  const dMethod = getDefaultMethod(defaultMethod, bankTransferAccounts)
+
   return (
     <PaymentContainer
       disabled={invalid}
@@ -138,12 +145,12 @@ const Account = ({ method, invalid, brokerageActions }) => {
             })
           : null
       }}
-      isMethod={!!method}
+      isMethod={!!dMethod}
     >
-      <DisplayPaymentIcon showBackground={!method}>
-        {getIcon(method, false, invalid)}
+      <DisplayPaymentIcon showBackground={!dMethod}>
+        {getIcon(dMethod, false, invalid)}
       </DisplayPaymentIcon>
-      <PaymentText isMethod={!!method}>{getText(null)}</PaymentText>
+      <PaymentText isMethod={!!dMethod}>{getText(dMethod)}</PaymentText>
       <PaymentArrowContainer>
         <RightArrowIcon
           cursor
@@ -192,7 +199,7 @@ const Success = (props: OwnProps) => {
           <Header {...props} />
           <LimitSection {...props} />
           <Amount {...props} />
-          <Account {...props} method={'DEPOSIT'} />
+          <Account {...props} />
           <NextButton {...props} />
           <ErrorMessage />
         </CustomForm>

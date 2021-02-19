@@ -7,6 +7,7 @@ import { ExtractSuccess, FiatType, RemoteDataType } from 'core/types'
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
+import { SBPaymentMethodType } from 'core/network/api/settingsComponent/types'
 import Failure from './template.failure'
 import Loading from '../DepositMethods/template.loading'
 import Success from './template.success'
@@ -21,8 +22,12 @@ const EnterAmount = props => {
     }
   })
 
+  const onSubmit = vals => {
+    props.brokerageActions.createFiatDeposit(vals.amount, props.fiatCurrency)
+  }
+
   return props.data.cata({
-    Success: val => <Success {...val} {...props} />,
+    Success: val => <Success {...val} {...props} onSubmit={onSubmit} />,
     Failure: () => <Failure {...props} />,
     Loading: () => <Loading />,
     NotAsked: () => <Loading />
@@ -45,6 +50,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   handleClose: () => void
+  method: SBPaymentMethodType
 }
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type LinkStatePropsType = {

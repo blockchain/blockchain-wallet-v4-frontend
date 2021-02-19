@@ -3,10 +3,12 @@ import { lift } from 'ramda'
 import { selectors } from 'data'
 
 export const getData = state => {
-  const walletCurrencyR = selectors.core.settings.getCurrency(state)
-  const defaultMethodR = selectors.components.simpleBuy.getDefaultPaymentMethod(
+  const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
     state
   )
+  const walletCurrencyR = selectors.core.settings.getCurrency(state)
+
+  const defaultMethodR = selectors.components.brokerage.getAccount(state)
   const eligibilityR = selectors.components.simpleBuy.getSBFiatEligible(state)
   const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
     state
@@ -14,15 +16,16 @@ export const getData = state => {
 
   return lift(
     (
-      defaultMethod: ExtractSuccess<typeof defaultMethodR>,
+      bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
       eligibility: ExtractSuccess<typeof eligibilityR>,
       paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
       walletCurrency: FiatType
     ) => ({
-      defaultMethod,
+      bankTransferAccounts,
+      defaultMethod: defaultMethodR,
       eligibility,
       paymentMethods,
       walletCurrency
     })
-  )(defaultMethodR, eligibilityR, paymentMethodsR, walletCurrencyR)
+  )(bankTransferAccountsR, eligibilityR, paymentMethodsR, walletCurrencyR)
 }
