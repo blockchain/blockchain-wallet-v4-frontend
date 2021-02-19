@@ -26,6 +26,7 @@ import {
 import { Moment } from 'moment'
 import { SwapOrderStateType, SwapOrderType } from '../swap/types'
 import { UserDataType } from 'data/types'
+import { v4 as uuidv4 } from 'uuid'
 import axios from 'axios'
 
 export default ({
@@ -85,7 +86,7 @@ export default ({
       url: nabuUrl,
       contentType: 'application/json',
       endPoint: `/payments/banktransfer/${bankId}/payment`,
-      data: { amount, currency, product }
+      data: { amount, currency, product, orderId: uuidv4() }
     })
 
   const createSBOrder = (
