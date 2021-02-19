@@ -9890,6 +9890,11 @@ fuse.js@^3.4.6:
   resolved "https://registry.yarnpkg.com/fuse.js/-/fuse.js-3.6.1.tgz#7de85fdd6e1b3377c23ce010892656385fd9b10c"
   integrity sha512-hT9yh/tiinkmirKrlv4KWOjztdoZo1mx9Qh4KvWqC7isoXwdUY3PNWUxceF4/qO9R6riA2C29jdTOeQOIROjgw==
 
+futoin-hkdf@1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/futoin-hkdf/-/futoin-hkdf-1.3.2.tgz#cd9a09153e3db7d166b9717f872991a4950430cd"
+  integrity sha512-3EVi3ETTyJg5PSXlxLCaUVVn0pSbDf62L3Gwxne7Uq+d8adOSNWQAad4gg7WToHkcgnCJb3Wlb1P8r4Evj4GPw==
+
 futurize@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/futurize/-/futurize-1.2.0.tgz#6ef93abb1b532ca45494bb96fa6c0900acabc43d"
@@ -16334,11 +16339,12 @@ qr.js@0.0.0:
   resolved "https://registry.yarnpkg.com/qr.js/-/qr.js-0.0.0.tgz#cace86386f59a0db8050fa90d9b6b0e88a1e364f"
   integrity sha1-ys6GOG9ZoNuAUPqQ2baw6IoeNk8=
 
-qrcode.react@0.9.3:
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/qrcode.react/-/qrcode.react-0.9.3.tgz#91de1287912bdc5ccfb3b091737b828d6ced60c5"
-  integrity sha512-gGd30Ez7cmrKxyN2M3nueaNLk/f9J7NDRgaD5fVgxGpPLsYGWMn9UQ+XnDpv95cfszTQTdaf4QGLNMf3xU0hmw==
+qrcode.react@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/qrcode.react/-/qrcode.react-1.0.0.tgz#7e8889db3b769e555e8eb463d4c6de221c36d5de"
+  integrity sha512-jBXleohRTwvGBe1ngV+62QvEZ/9IZqQivdwzo9pJM4LQMoCM2VnvNBnKdjvGnKyDZ/l0nCDgsPod19RzlPvm/Q==
   dependencies:
+    loose-envify "^1.4.0"
     prop-types "^15.6.0"
     qr.js "0.0.0"
 
