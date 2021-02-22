@@ -1,5 +1,5 @@
 import { bindActionCreators, Dispatch } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import React, { useEffect } from 'react'
 
 import { actions, selectors } from 'data'
@@ -40,4 +40,8 @@ export const mapDispatchToProps = (dispatch: Dispatch) => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(DepositMethods)
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+export type Props = ConnectedProps<typeof connector>
+
+export default connector(DepositMethods)

@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import React, { useEffect } from 'react'
 
 import { actions, selectors } from 'data'
+import { BankDepositStepType } from 'data/types'
 import { ExtractSuccess, FiatType, RemoteDataType } from 'core/types'
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -22,8 +23,11 @@ const EnterAmount = props => {
     }
   })
 
-  const onSubmit = vals => {
-    props.brokerageActions.createFiatDeposit(vals.amount, props.fiatCurrency)
+  const onSubmit = () => {
+    // props.brokerageActions.createFiatDeposit(vals.amount, props.fiatCurrency)
+    props.brokerageActions.setStep({
+      step: BankDepositStepType.CONFIRM
+    })
   }
 
   return props.data.cata({

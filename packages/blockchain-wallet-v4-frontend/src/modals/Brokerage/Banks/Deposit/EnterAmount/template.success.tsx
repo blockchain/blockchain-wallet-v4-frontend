@@ -164,7 +164,7 @@ const Account = ({
   )
 }
 
-const NextButton = ({ invalid, submitting }) => {
+const NextButton = ({ invalid, pristine, submitting }) => {
   return (
     <Button
       data-e2e='submitDepositAmount'
@@ -173,7 +173,7 @@ const NextButton = ({ invalid, submitting }) => {
       nature='primary'
       type='submit'
       fullwidth
-      disabled={invalid}
+      disabled={invalid || pristine || submitting}
     >
       {submitting ? (
         <HeartbeatLoader height='16px' width='16px' color='white' />

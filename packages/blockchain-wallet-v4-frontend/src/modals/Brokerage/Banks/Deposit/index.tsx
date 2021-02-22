@@ -15,6 +15,7 @@ import { ModalPropsType } from '../../../types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
+import Confirm from './Confirm'
 import DepositMethods from './DepositMethods'
 import DepositStatus from './DepositStatus'
 import EnterAmount from './EnterAmount'
@@ -106,7 +107,9 @@ class Deposit extends PureComponent<Props> {
            * this step shows a confirmation screen for a created deposit with
            * the option to confirm or cancel the order
            */
-          <FlyoutChild />
+          <FlyoutChild>
+            <Confirm {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
         )}
         {this.props.step === BankDepositStepType.DEPOSIT_STATUS && (
           /*
