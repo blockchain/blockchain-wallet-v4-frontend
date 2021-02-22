@@ -14,10 +14,24 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import { DEFAULT_METHODS } from './model'
+import profileSagas from '../../modules/profile/sagas'
 
 // import { FastLinkType } from './types'
 
-export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
+export default ({
+  api,
+  coreSagas,
+  networks
+}: {
+  api: APIType
+  coreSagas: any
+  networks: any
+}) => {
+  const { isTier2 } = profileSagas({
+    api,
+    coreSagas,
+    networks
+  })
   const deleteSavedBank = function * ({
     bankId
   }: ReturnType<typeof A.deleteSavedBank>) {
@@ -184,6 +198,49 @@ export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
     yield call(api.createFiatDeposit, amount, id, currency)
   }
 
+  const handleMethodChange = function * (action) {
+    // check tier 2
+    // if not kick to KYC flow
+    // if yes, kick to bank transfer or wire `action.method.type`
+
+    const { method } = action
+    const isUserTier2 = yield call(isTier2)
+    if (!isUserTier2) {
+      switch (method.type) {
+        case 'BANK_ACCOUNT':
+        case 'BANK_TRANSFER':
+          // identityVerificationActions.verifyIdentity(2, false)
+          // return yield put(actions)
+          // return yield put(
+          //   ShowModal KYC
+          //   A.setStep({
+          //     step: 'KYC_REQUIRED'
+          //   })
+          // )
+          break
+        default:
+          return
+      }
+    }
+
+    // User is Tier 2
+    switch (method.type) {
+      default:
+      case 'BANK_ACCOUNT':
+        return yield put(
+          actions.components.brokerage.setStep({
+            step: BankDepositStepType.WIRE_INSTRUCTIONS
+          })
+        )
+      case 'BANK_TRANSFER':
+        return yield put(
+          actions.components.brokerage.setStep({
+            step: BankDepositStepType.ENTER_AMOUNT
+          })
+        )
+    }
+  }
+
   return {
     deleteSavedBank,
     createFiatDeposit,
@@ -191,6 +248,7 @@ export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
     fetchBankTransferUpdate,
     fetchFastLink,
     handleDepositFiatClick,
+    handleMethodChange,
     showModal
   }
 }

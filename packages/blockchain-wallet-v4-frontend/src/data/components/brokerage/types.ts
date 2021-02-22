@@ -31,7 +31,8 @@ export enum BankDepositStepType {
   CONFIRM = 'CONFIRM',
   DEPOSIT_METHODS = 'DEPOSIT_METHODS',
   DEPOSIT_STATUS = 'DEPOSIT_STATUS',
-  ENTER_AMOUNT = 'ENTER_AMOUNT'
+  ENTER_AMOUNT = 'ENTER_AMOUNT',
+  WIRE_INSTRUCTIONS = 'WIRE_INSTRUCTIONS'
 }
 
 export type BrokerageStepPayload =
@@ -41,6 +42,7 @@ export type BrokerageStepPayload =
         | AddBankStepType.ADD_BANK_HANDLER
         | BankDepositStepType.DEPOSIT_METHODS
         | BankDepositStepType.ENTER_AMOUNT
+        | BankDepositStepType.WIRE_INSTRUCTIONS
     }
   | {
       bankStatus: BankStatusType

@@ -2,12 +2,16 @@ import { FormattedMessage } from 'react-intl'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
-import { BankDepositStepType } from 'data/types'
+import {
+  AddBankStepType,
+  BankDepositStepType,
+  BrokerageModalOriginType
+} from 'data/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { SBPaymentMethodsType, SBPaymentMethodType } from 'core/types'
 
-import { mapDispatchToProps } from '.'
+import { Props as _P, mapDispatchToProps } from '.'
 import BankWire from '../../../../SimpleBuy/PaymentMethods/Methods/BankWire'
 import LinkBank from '../../../../SimpleBuy/PaymentMethods/Methods/LinkBank'
 
@@ -78,6 +82,10 @@ const getType = (value: SBPaymentMethodType) => {
   }
 }
 
+const handleMethodSelect = (method: SBPaymentMethodType, brokerageActions) => {
+  brokerageActions.handleMethodChange(method)
+}
+
 const Success = (props: Props) => {
   return (
     <Wrapper>
@@ -105,16 +113,27 @@ const Success = (props: Props) => {
       <MethodList>
         {props.paymentMethods.methods.map((method: SBPaymentMethodType) => {
           const icon = getIcon(method)
-          const onClick = () => {}
           const text = getType(method)
           if (method.type === 'BANK_TRANSFER') {
             return (
               <LinkBank
                 icon={icon}
                 onClick={() => {
-                  props.brokerageActions.setStep({
-                    step: BankDepositStepType.ENTER_AMOUNT
-                  })
+                  // If user has no saved banks take them to add bank flow
+                  // else take them to enter amount form with default bank
+                  if (!props.data.data.bankTransferAccounts?.length) {
+                    props.brokerageActions.showModal(
+                      BrokerageModalOriginType.ADD_BANK,
+                      'ADD_BANK_MODAL'
+                    )
+                    props.brokerageActions.setStep({
+                      step: AddBankStepType.ADD_BANK
+                    })
+                  } else {
+                    props.brokerageActions.setStep({
+                      step: BankDepositStepType.ENTER_AMOUNT
+                    })
+                  }
                 }}
                 text={text}
                 value={method}
@@ -124,7 +143,9 @@ const Success = (props: Props) => {
             return (
               <BankWire
                 icon={icon}
-                onClick={onClick}
+                onClick={() =>
+                  handleMethodSelect(method, props.brokerageActions)
+                }
                 text={text}
                 value={method}
               />
@@ -139,6 +160,7 @@ const Success = (props: Props) => {
 type Props = {
   close: () => void
   paymentMethods: SBPaymentMethodsType
-} & ReturnType<typeof mapDispatchToProps>
+} & ReturnType<typeof mapDispatchToProps> &
+  _P
 
 export default Success
