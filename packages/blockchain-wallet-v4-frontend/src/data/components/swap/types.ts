@@ -38,6 +38,7 @@ export type SwapCoinType = CoinType
 export enum SwapStepType {
   'INIT_SWAP',
   'COIN_SELECTION',
+  'NO_HOLDINGS',
   'ENTER_AMOUNT',
   'UPGRADE_PROMPT',
   'PREVIEW_SWAP',
@@ -223,6 +224,10 @@ export type SwapStepPayload =
     }
   | { options: { side: 'BASE' | 'COUNTER' }; step: 'COIN_SELECTION' }
   | { options?: never; step: 'UPGRADE_PROMPT' }
+  | {
+      options?: never
+      step: 'NO_HOLDINGS'
+    }
 
 export type SwapActionTypes =
   | FetchCustodialEligibilityFailureActionType

@@ -77,6 +77,7 @@ class Swap extends PureComponent<Props, State> {
               />
             </FlyoutChild>
           )}
+          {this.props.step === 'NO_HOLDINGS' && <FlyoutChild>aaa</FlyoutChild>}
           {this.props.step === 'ENTER_AMOUNT' && (
             <FlyoutChild>
               <EnterAmount
@@ -157,6 +158,9 @@ const mapStateToProps = (
   | {
       order?: SwapOrderType
       step: 'SUCCESSFUL_SWAP'
+    }
+  | {
+      step: 'NO_HOLDINGS'
     }
 ) => ({
   order: selectors.components.swap.getOrder(state),

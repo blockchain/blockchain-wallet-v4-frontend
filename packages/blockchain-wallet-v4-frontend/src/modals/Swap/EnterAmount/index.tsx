@@ -21,6 +21,7 @@ import { InitSwapFormValuesType } from 'data/types'
 import { selectors } from 'data'
 
 import { getData } from './selectors'
+import checkAccountZeroBalance from 'services/CheckAccountZeroBalance'
 import Checkout from './Checkout'
 import Failure from './template.failure'
 import Loading from './template.loading'
@@ -57,8 +58,6 @@ const Toggler = styled.div`
 `
 
 class EnterAmount extends PureComponent<Props> {
-  state = {}
-
   componentDidMount () {
     this.props.swapActions.initAmountForm()
   }
@@ -128,14 +127,24 @@ class EnterAmount extends PureComponent<Props> {
                   <Option
                     role='button'
                     data-e2e='selectFromAcct'
-                    onClick={() =>
-                      this.props.swapActions.setStep({
-                        step: 'COIN_SELECTION',
-                        options: {
-                          side: 'BASE'
-                        }
-                      })
-                    }
+                    onClick={() => {
+                      const isAccountZeroBalance = checkAccountZeroBalance(
+                        val.accounts
+                      )
+
+                      if (isAccountZeroBalance) {
+                        this.props.swapActions.setStep({
+                          step: 'NO_HOLDINGS'
+                        })
+                      } else {
+                        this.props.swapActions.setStep({
+                          step: 'COIN_SELECTION',
+                          options: {
+                            side: 'BASE'
+                          }
+                        })
+                      }
+                    }}
                   >
                     <div>
                       <Text color='grey600' weight={500} size='14px'>

@@ -24,6 +24,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { getData } from './selectors'
 import { InitSwapFormValuesType } from 'data/components/swap/types'
 import { selectors } from 'data'
+import checkAccountZeroBalance from 'services/CheckAccountZeroBalance'
 import CoinBalance from '../components/CoinBalance'
 import VerifyIdentity from './VerifyIdentity'
 
@@ -97,14 +98,22 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               <Option
                 role='button'
                 data-e2e='selectFromAcct'
-                onClick={() =>
-                  this.props.swapActions.setStep({
-                    step: 'COIN_SELECTION',
-                    options: {
-                      side: 'BASE'
-                    }
-                  })
-                }
+                onClick={() => {
+                  const isAccountZeroBalance = checkAccountZeroBalance(accounts)
+
+                  if (isAccountZeroBalance) {
+                    this.props.swapActions.setStep({
+                      step: 'NO_HOLDINGS'
+                    })
+                  } else {
+                    this.props.swapActions.setStep({
+                      step: 'COIN_SELECTION',
+                      options: {
+                        side: 'BASE'
+                      }
+                    })
+                  }
+                }}
               >
                 {values?.BASE ? (
                   <>
