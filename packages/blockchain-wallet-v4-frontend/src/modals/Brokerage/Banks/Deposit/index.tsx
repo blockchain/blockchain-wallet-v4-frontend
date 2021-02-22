@@ -15,6 +15,7 @@ import { ModalPropsType } from '../../../types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
+import BankList from './BankList'
 import Confirm from './Confirm'
 import DepositMethods from './DepositMethods'
 import DepositStatus from './DepositStatus'
@@ -100,7 +101,9 @@ class Deposit extends PureComponent<Props> {
            * add show an "add new" button which transitions them to a payment
            * method selection screen
            */
-          <FlyoutChild />
+          <FlyoutChild>
+            <BankList />
+          </FlyoutChild>
         )}
         {this.props.step === BankDepositStepType.CONFIRM && (
           /*

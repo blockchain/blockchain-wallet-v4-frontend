@@ -35,8 +35,8 @@ const getDefaultMethod = (
   defaultMethod,
   bankAccounts: BankTransferAccountType[]
 ) => {
-  if (defaultMethod && defaultMethod.type === 'BANK_TRANSFER') {
-    return defaultMethod
+  if (defaultMethod) {
+    return { ...defaultMethod, type: 'BANK_TRANSFER' }
   } else if (bankAccounts.length === 1) {
     return { ...bankAccounts[0], type: 'BANK_TRANSFER' }
   }
