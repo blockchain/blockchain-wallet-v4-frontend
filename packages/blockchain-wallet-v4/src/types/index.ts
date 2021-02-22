@@ -5,6 +5,8 @@ import * as AddressLabel from './AddressLabel'
 import * as AddressLabelMap from './AddressLabelMap'
 import * as AddressMap from './AddressMap'
 import * as Cache from './Cache'
+import * as Derivation from './Derivation'
+import * as DerivationList from './DerivationList'
 import * as HDAccount from './HDAccount'
 import * as HDAccountList from './HDAccountList'
 import * as HDWallet from './HDWallet'
@@ -22,24 +24,26 @@ import {
 import serializer from './Serializer'
 
 export {
-  Wallet,
   Address,
-  AddressLabel,
-  HDWallet,
-  HDAccount,
-  Wrapper,
-  Cache,
-  serializer,
-  AddressMap,
-  AddressLabelMap,
-  HDWalletList,
-  HDAccountList,
-  AddressBookEntry,
   AddressBook,
-  TXNotes,
-  TXNames,
+  AddressBookEntry,
+  AddressLabel,
+  AddressLabelMap,
+  AddressMap,
+  Cache,
+  Derivation,
+  DerivationList,
+  HDAccount,
+  HDAccountList,
+  HDWallet,
+  HDWalletList,
+  KVStoreEntry,
   Options,
-  KVStoreEntry
+  serializer,
+  TXNames,
+  TXNotes,
+  Wallet,
+  Wrapper
 }
 
 export enum CoinTypeEnum {
@@ -104,6 +108,8 @@ export type BtcAccountType = {
   type: 'ACCOUNT' | 'CUSTODIAL'
   xpub: string
 }
+
+export type HDDerivationType = 'bech32' | 'legacy'
 
 export type AccountTypes = BtcAccountType
 

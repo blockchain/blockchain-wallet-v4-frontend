@@ -46,7 +46,6 @@ const RegisterForm = styled(Form)`
 
   > div * {
     max-height: 26rem;
-    opacity: 1;
     z-index: 1;
     transition: all 0.5s ease;
   }

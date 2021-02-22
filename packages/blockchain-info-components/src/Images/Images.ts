@@ -12,6 +12,7 @@ import appleAppStoreBadge from './img/apple-app-store-badge.svg'
 import bank from './img/bank.svg'
 import bankError from './img/bank-error.svg'
 import bankSuccess from './img/bank-success.svg'
+import bgBannerPattern from './img/bg-banner-pattern.svg'
 import bgPattern from './img/bg-pattern.svg'
 import bitpayLogo from './img/bitpay-logo.svg'
 import blankCard from './img/blank-card.svg'
@@ -69,6 +70,7 @@ import qrCode from './img/qr-code.png'
 import recoverPadlock from './img/recover-padlock.svg'
 import refresh from './img/refresh.svg'
 import search from './img/search.svg'
+import segwitLogo from './img/segwit-logo.png'
 import selectArrow from './img/select-arrow.png'
 import silverApproved from './img/silver-approved.svg'
 import smartphone from './img/smartphone.png'
@@ -80,6 +82,7 @@ import swapCarousel4 from './img/swap-carousel4.png'
 import swapCarousel5 from './img/swap-carousel5.png'
 import swapModalBg from './img/swap-modal-bg.svg'
 import tierGold from './img/tier-gold.svg'
+import tierSilver from './img/tier-silver.svg'
 import twitterWhite from './img/twitter-white.svg'
 import usddIntro from './img/usdd-intro.svg'
 import visaLogo from './img/visa-logo.svg'
@@ -168,6 +171,7 @@ const Images = {
   'bank-success': bankSuccess,
   'bank-logo-bbt': bankLogoBbt,
   'bg-pattern': bgPattern,
+  'bg-banner-pattern': bgBannerPattern,
   'bitpay-logo': bitpayLogo,
   'blank-card': blankCard,
   'blockchain-logo': blockchainLogo,
@@ -260,6 +264,7 @@ const Images = {
   'bank-logo-regions': bankLogoRegions,
   'bank-logo-robinhood': bankLogoRobinhood,
   search: search,
+  'segwit-logo': segwitLogo,
   'select-arrow': selectArrow,
   'silver-approved': silverApproved,
   smartphone: smartphone,
@@ -274,6 +279,7 @@ const Images = {
   'bank-logo-td': bankLogoTd,
   'twitter-white': twitterWhite,
   'tier-gold': tierGold,
+  'tier-silver': tierSilver,
   'bank-logo-usaa': bankLogoUsaa,
   'bank-logo-us-bank': bankLogoUsBank,
   'us-flag': usFlag,

@@ -9,7 +9,7 @@ export const addHDWalletWIFS = curry(
   (network, secondPassword, wrapper, selection) => {
     const wallet = Wrapper.selectWallet(wrapper)
     const deriveKey = coin =>
-      Wallet.getHDPrivateKeyWIF(coin.path, secondPassword, network, wallet)
+      Wallet.getHDPrivateKeyWIF(coin, secondPassword, network, wallet)
         // .map(wif => Bitcoin.ECPair.fromWIF(wif, network))
         .map(wif => set(Coin.priv, wif, coin))
     const selectionWithKeys = traverseOf(

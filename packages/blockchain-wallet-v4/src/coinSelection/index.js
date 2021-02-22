@@ -10,6 +10,7 @@ import {
   last,
   length,
   map,
+  reduce,
   sort,
   tail,
   unfold
@@ -29,10 +30,25 @@ export const isFromLegacy = selection =>
 
 export const dustThreshold = feeRate =>
   (Coin.inputBytes({}) + Coin.outputBytes({})) * feeRate
-export const transactionBytes = (inputs, outputs) =>
+
+export const transactionBytes = (inputs, outputs) => {
+  const coinTypeReducer = (acc, coin) => {
+    const type = coin.type ? coin.type() : 'P2PKH'
+    if (acc[type]) acc[type] += 1
+    else acc[type] = 1
+    return acc
+  }
+
+  const inputTypeCollection = reduce(coinTypeReducer, {}, inputs)
+  const outputTypeCollection = reduce(coinTypeReducer, {}, outputs)
+  return getByteCount(inputTypeCollection, outputTypeCollection)
+}
+
+export const DEPRECATED_transactionBytes = (inputs, outputs) =>
   Coin.TX_EMPTY_SIZE +
   inputs.reduce((a, c) => a + Coin.inputBytes(c), 0) +
   outputs.reduce((a, c) => a + Coin.outputBytes(c), 0)
+
 export const changeBytes = () => Coin.TX_OUTPUT_BASE + Coin.TX_OUTPUT_PUBKEYHASH
 
 export const effectiveBalance = curry((feePerByte, inputs, outputs = [{}]) =>
@@ -95,6 +111,7 @@ const ft = (targets, feePerByte, coins, changeAddress) => {
           outputs: [...targets, change]
         }
       } else {
+        // TODO: SEGWIT update burn logic?
         // burn change
         return { fee: fee + extra, inputs: selectedCoins, outputs: targets }
       }
@@ -219,4 +236,95 @@ const bnb = (targets, feePerByte, coins, changeAddress, seed) => {
     }
   }
 }
+
 export const branchAndBound = memoize(bnb)
+
+// getByteCount implementation
+// from https://gist.github.com/junderw/b43af3253ea5865ed52cb51c200ac19c
+// Usage:
+// getByteCount({'MULTISIG-P2SH:2-4':45},{'P2PKH':1}) Means "45 inputs of P2SH Multisig and 1 output of P2PKH"
+// getByteCount({'P2PKH':1,'MULTISIG-P2SH:2-3':2},{'P2PKH':2}) means "1 P2PKH input and 2 Multisig P2SH (2 of 3) inputs along with 2 P2PKH outputs"
+
+// assumes compressed pubkeys in all cases.
+// TODO: SEGWIT  we need to account for uncompressed pubkeys!
+export const IO_TYPES = {
+  inputs: {
+    'MULTISIG-P2SH': 49 * 4, // "legacy"
+    'MULTISIG-P2WSH': 6 + 41 * 4, // native segwit
+    'MULTISIG-P2SH-P2WSH': 6 + 76 * 4, // wrapped segwit
+    // P2PKH
+    // modified to 147 (from 148 in source) to match test coverage
+    P2PKH: 147 * 4, // legacy
+    P2WPKH: 108 + 41 * 4, // native segwit
+    'P2SH-P2WPKH': 108 + 64 * 4 // wrapped segwit
+  },
+  outputs: {
+    P2SH: 32 * 4,
+    // P2SH-P2WPKH
+    // this is a hack and technically this is just P2SH
+    'P2SH-P2WPKH': 32 * 4,
+    P2PKH: 34 * 4,
+    P2WPKH: 31 * 4,
+    P2WSH: 43 * 4
+  }
+}
+
+export const getByteCount = (inputs, outputs) => {
+  var totalWeight = 0
+  var hasWitness = false
+  var inputCount = 0
+  var outputCount = 0
+  // assumes compressed pubkeys in all cases.
+
+  function checkUInt53 (n) {
+    if (n < 0 || n > Number.MAX_SAFE_INTEGER || n % 1 !== 0)
+      throw new RangeError('value out of range')
+  }
+
+  function varIntLength (number) {
+    checkUInt53(number)
+
+    return number < 0xfd
+      ? 1
+      : number <= 0xffff
+      ? 3
+      : number <= 0xffffffff
+      ? 5
+      : 9
+  }
+
+  Object.keys(inputs).forEach(function (key) {
+    checkUInt53(inputs[key])
+    if (key.slice(0, 8) === 'MULTISIG') {
+      // ex. "MULTISIG-P2SH:2-3" would mean 2 of 3 P2SH MULTISIG
+      var keyParts = key.split(':')
+      if (keyParts.length !== 2) throw new Error('invalid input: ' + key)
+      var newKey = keyParts[0]
+      var mAndN = keyParts[1].split('-').map(function (item) {
+        return parseInt(item)
+      })
+
+      totalWeight += IO_TYPES.inputs[newKey] * inputs[key]
+      var multiplyer = newKey === 'MULTISIG-P2SH' ? 4 : 1
+      totalWeight += (73 * mAndN[0] + 34 * mAndN[1]) * multiplyer * inputs[key]
+    } else {
+      totalWeight += IO_TYPES.inputs[key] * inputs[key]
+    }
+    inputCount += inputs[key]
+    if (key.indexOf('W') >= 0) hasWitness = true
+  })
+
+  Object.keys(outputs).forEach(function (key) {
+    checkUInt53(outputs[key])
+    totalWeight += IO_TYPES.outputs[key] * outputs[key]
+    outputCount += outputs[key]
+  })
+
+  if (hasWitness) totalWeight += 2
+
+  totalWeight += 8 * 4
+  totalWeight += varIntLength(inputCount) * 4
+  totalWeight += varIntLength(outputCount) * 4
+
+  return Math.ceil(totalWeight / 4)
+}

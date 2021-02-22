@@ -28,7 +28,7 @@ const Wrapper = styled.div`
 const PromptTemplate = ({
   position,
   total,
-  close,
+  closeAll,
   submitting,
   invalid,
   title,
@@ -42,9 +42,7 @@ const PromptTemplate = ({
     <Modal size='large' position={position} total={total}>
       <Form onSubmit={handleSubmit}>
         <Wrapper>
-          <ModalHeader icon='pencil' onClose={close}>
-            {title}
-          </ModalHeader>
+          <ModalHeader onClose={closeAll}>{title}</ModalHeader>
           <ModalBody>
             <FormGroup>
               <FormItem data-e2e='inputModalInputField'>

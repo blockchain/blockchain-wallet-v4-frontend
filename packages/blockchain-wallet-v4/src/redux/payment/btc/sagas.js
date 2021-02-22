@@ -50,7 +50,7 @@ export default ({ api }) => {
   const __pushBtcTx = futurizeP(Task)(api.pushBtcTx)
   const __getWalletUnspent = (network, fromData) =>
     api
-      .getBtcUnspents(fromData.from, -1)
+      .getBtcUnspents(fromData.from, 0, fromData.extras)
       .then(prop('unspent_outputs'))
       .then(map(toCoin(network, fromData)))
 
@@ -212,7 +212,7 @@ export default ({ api }) => {
       const { outputs } = CoinSelection.selectAll(
         fee,
         coins,
-        'fake-target-address'
+        '16xq4AVL8shMiF3MYM7zm9Ac1G3QfUWjDi' // fake target address
       )
       return outputs[0].value
     } else {

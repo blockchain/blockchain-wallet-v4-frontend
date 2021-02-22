@@ -6,9 +6,18 @@ import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import { APIType } from 'core/network/api'
 import { call, put, select, take } from 'redux-saga/effects'
+import {
+  concat,
+  flatten,
+  indexBy,
+  length,
+  map,
+  path,
+  prop,
+  replace
+} from 'ramda'
 import { errorHandler, MISSING_WALLET } from '../../../utils'
 import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
-import { flatten, indexBy, length, map, path, prop, replace } from 'ramda'
 import { getAddressLabels } from '../../kvStore/btc/selectors'
 import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
 import { HDAccountList, Wallet } from '../../../types'
@@ -60,17 +69,18 @@ export default ({ api }: { api: APIType }) => {
   const fetchTransactions = function * (action) {
     try {
       const { payload } = action
-      const { address, reset } = payload
+      const { onlyShow, reset } = payload
       const pages = yield select(S.getTransactions)
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
       const transactionsAtBound = yield select(S.getTransactionsAtBound)
       if (transactionsAtBound && !reset) return
       yield put(A.fetchTransactionsLoading(reset))
-      const walletContext = yield select(selectors.wallet.getWalletContext)
       const context = yield select(S.getContext)
+      const walletContext = yield select(S.getWalletContext)
       const data = yield call(api.fetchBlockchainData, context, {
         n: TX_PER_PAGE,
-        onlyShow: address || walletContext,
+        onlyShow:
+          onlyShow || concat(walletContext.legacy, walletContext.bech32),
         offset
       })
       const atBounds = length(data.txs) < TX_PER_PAGE

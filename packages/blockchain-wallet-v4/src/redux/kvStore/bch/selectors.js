@@ -1,9 +1,11 @@
+import * as Types from '../../../types'
 import * as walletSelectors from '../../wallet/selectors'
 import { BCH } from '../config'
 import {
   concat,
   curry,
   filter,
+  flatten,
   lift,
   map,
   not,
@@ -39,7 +41,13 @@ export const getSpendableContext = createDeepEqualSelector(
         const metadataAccount = metadataAccounts[index]
         return not(prop('archived', metadataAccount))
       }, btcHDAccounts)
-      return map(prop('xpub'), activeAccounts)
+
+      return flatten(
+        map(
+          a => Types.HDAccount.selectAllXpubs(Types.HDAccount.fromJS(a)).toJS(),
+          activeAccounts
+        )
+      )
     }
     const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
     return concat(activeAccounts, spendableAddresses)

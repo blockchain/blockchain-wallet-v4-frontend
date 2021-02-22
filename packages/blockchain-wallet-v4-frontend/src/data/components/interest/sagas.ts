@@ -6,6 +6,7 @@ import BigNumber from 'bignumber.js'
 import {
   AccountTypes,
   CoinType,
+  InterestAfterTransactionType,
   PaymentValue,
   RatesType,
   RemoteDataType,
@@ -150,7 +151,6 @@ export default ({
       yield put(A.fetchInterestRateFailure(error))
     }
   }
-
   const fetchInterestTransactions = function * ({
     payload
   }: ReturnType<typeof A.fetchInterestTransactions>) {
@@ -364,6 +364,20 @@ export default ({
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_SUCCESS)
       )
+
+      const afterTransactionR = yield select(
+        selectors.components.interest.getAfterTransaction
+      )
+      const afterTransaction = afterTransactionR.getOrElse({
+        show: false
+      } as InterestAfterTransactionType)
+      if (afterTransaction?.show) {
+        yield put(
+          actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_ONE_CLICK)
+        )
+        yield put(actions.components.interest.resetAfterTransaction())
+      }
+
       yield delay(3000)
       yield put(A.fetchInterestBalance())
     } catch (e) {
@@ -445,7 +459,21 @@ export default ({
     )
   }
 
+  const fetchAfterTransaction = function * () {
+    try {
+      yield put(A.fetchAfterTransactionLoading())
+      const response: InterestAfterTransactionType = yield call(
+        api.getInterestCtaAfterTransaction
+      )
+      yield put(A.fetchAfterTransactionSuccess(response))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchAfterTransactionFailure(error))
+    }
+  }
+
   return {
+    fetchAfterTransaction,
     fetchInterestBalance,
     fetchInterestEligible,
     fetchInterestInstruments,

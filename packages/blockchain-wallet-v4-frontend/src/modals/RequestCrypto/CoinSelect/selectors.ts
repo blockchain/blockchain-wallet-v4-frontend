@@ -1,5 +1,5 @@
+import * as Bitcoin from 'bitcoinjs-lib'
 import { map } from 'ramda'
-import Bitcoin from 'bitcoinjs-lib'
 import BitcoinCash from 'bitcoinforksjs-lib'
 
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
@@ -38,9 +38,11 @@ export const getData = createDeepEqualSelector(
           if (selectedCoin === 'ALL' ? coinAvailabilities[acct.coin].request : acct.coin === selectedCoin) {
             // if HD account type and coin is BTC, derive next address
             if (acct.type === ADDRESS_TYPES.ACCOUNT && acct.coin === 'BTC') {
+              const defaultDerivation = selectors.core.common.btc.getAccountDefaultDerivation(acct.accountIndex, state)
               acct.nextReceiveAddress = selectors.core.common.btc.getNextAvailableReceiveAddress(
                 Bitcoin.networks[btcNetwork],
                 acct.accountIndex,
+                defaultDerivation,
                 state
               ).getOrFail()
             }

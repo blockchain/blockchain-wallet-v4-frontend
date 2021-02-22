@@ -15,11 +15,21 @@ class ManageAddressesContainer extends React.PureComponent<
 > {
   render () {
     // @ts-ignore
-    const walletIndex = this.props.match.params.index
+    const routeParams = this.props.match.params
     return (
       <Wrapper>
-        <UnusedAddresses walletIndex={walletIndex} />
-        <UsedAddresses walletIndex={walletIndex} />
+        <UnusedAddresses
+          // @ts-ignore
+          derivation={routeParams.derivation}
+          // @ts-ignore
+          walletIndex={routeParams.walletIndex}
+        />
+        <UsedAddresses
+          // @ts-ignore
+          derivation={routeParams.derivation}
+          // @ts-ignore
+          walletIndex={routeParams.walletIndex}
+        />
       </Wrapper>
     )
   }

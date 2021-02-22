@@ -8,6 +8,7 @@ import { InterestActionTypes, InterestState } from './types'
 const INITIAL_STATE: InterestState = {
   account: Remote.NotAsked,
   accountBalance: Remote.NotAsked,
+  afterTransaction: Remote.NotAsked,
   coin: 'BTC',
   depositLimits: {
     maxFiat: 0,
@@ -224,7 +225,26 @@ export function interestReducer (
         ...state,
         coin: payload.coin
       }
-
+    case AT.FETCH_AFTER_TRANSACTION_FAILURE:
+      return {
+        ...state,
+        afterTransaction: Remote.Failure(payload.error)
+      }
+    case AT.FETCH_AFTER_TRANSACTION_LOADING:
+      return {
+        ...state,
+        afterTransaction: Remote.Loading
+      }
+    case AT.FETCH_AFTER_TRANSACTION_SUCCESS:
+      return {
+        ...state,
+        afterTransaction: Remote.Success(payload.afterTransaction)
+      }
+    case AT.RESET_AFTER_TRANSACTION:
+      return {
+        ...state,
+        afterTransaction: Remote.NotAsked
+      }
     default:
       return state
   }

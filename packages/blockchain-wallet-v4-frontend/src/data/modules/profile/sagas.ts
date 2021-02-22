@@ -382,29 +382,31 @@ export default ({ api, coreSagas, networks }) => {
   const shareWalletAddressesWithExchange = function * () {
     try {
       yield put(A.shareWalletAddressesWithExchangeLoading())
-      const remainingCoins = S.getRemainingCoins(yield select())
+      const state = yield select()
+      const remainingCoins = S.getRemainingCoins(state)
       const walletAddresses = (yield select(S.getWalletAddresses)).getOrFail(
         'no_deposit_addresses'
       )
       // BTC
-      const defaultIdx = yield select(
+      const defaultAccountIndex = yield select(
         selectors.core.wallet.getDefaultAccountIndex
       )
+      const defaultDerivation = yield select(selectors.core.common.btc.getAccountDefaultDerivation(defaultAccountIndex, state))
       const BTC = selectors.core.common.btc.getNextAvailableReceiveAddress(
         networks.btc,
-        defaultIdx
+        defaultAccountIndex,
+        defaultDerivation
       )
       // BCH
       const BCH = selectors.core.common.bch.getNextAvailableReceiveAddressFormatted(
         networks.btc,
-        defaultIdx
+        defaultAccountIndex
       )
       // ETH
       const ETH = selectors.core.kvStore.eth.getContext
       // XLM
       const XLM = selectors.core.kvStore.xlm.getDefaultAccountId
       const addressSelectors = { BTC, BCH, ETH, XLM, PAX: ETH, USDT: ETH }
-      const state = yield select()
       const remainingAddresses = remainingCoins.reduce((res, coin) => {
         res[coin] = addressSelectors[coin](state).getOrElse(null)
         return res

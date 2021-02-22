@@ -76,9 +76,11 @@ export const setFirstLogin = firstLogin => ({
   payload: { firstLogin }
 })
 export const startLogoutTimer = () => ({ type: AT.START_LOGOUT_TIMER })
-export const upgradeWallet = () => ({ type: AT.UPGRADE_WALLET, payload: {} })
-
 export const setRegisterEmail = email => ({
   type: AT.SET_REGISTER_EMAIL,
   payload: { email }
+})
+export const upgradeWallet = version => ({
+  type: AT.UPGRADE_WALLET,
+  payload: { version }
 })

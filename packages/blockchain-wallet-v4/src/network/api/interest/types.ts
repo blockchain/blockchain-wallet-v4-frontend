@@ -19,6 +19,12 @@ export type InterestEligibleType = {
   }
 }
 
+export type InterestAfterTransactionType = {
+  amount: number
+  currency: CoinType
+  show: boolean
+}
+
 export type InterestInstrumentsType = Array<CoinType>
 
 export type InterestFormErrorsType = {

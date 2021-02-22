@@ -7,51 +7,58 @@ export default (state = {}, action) => {
 
   switch (type) {
     case AT.TOGGLE_USED_ADDRESSES: {
+      const { derivation, walletIndex } = payload
       return assocPath(
-        [payload.walletIndex, 'usedAddressesVisible'],
+        [walletIndex, derivation, 'usedAddressesVisible'],
         payload.visible,
         state
       )
     }
     case AT.FETCH_UNUSED_ADDRESSES_ERROR: {
+      const { derivation, walletIndex } = payload
       return assocPath(
-        [payload.walletIndex, 'unusedAddresses'],
+        [walletIndex, derivation, 'unusedAddresses'],
         Remote.Failure(payload.message),
         state
       )
     }
     case AT.FETCH_UNUSED_ADDRESSES_LOADING: {
+      const { derivation, walletIndex } = payload
       return assocPath(
-        [payload.walletIndex, 'unusedAddresses'],
+        [walletIndex, derivation, 'unusedAddresses'],
         Remote.Loading,
         state
       )
     }
     case AT.FETCH_UNUSED_ADDRESSES_SUCCESS: {
+      const { derivation, walletIndex, unusedAddresses } = payload
       return assocPath(
-        [payload.walletIndex, 'unusedAddresses'],
-        Remote.Success(payload.unusedAddresses),
+        [walletIndex, derivation, 'unusedAddresses'],
+        Remote.Success(unusedAddresses),
         state
       )
     }
     case AT.FETCH_USED_ADDRESSES_ERROR: {
+      const { derivation, message, walletIndex } = payload
       return assocPath(
-        [payload.walletIndex, 'usedAddresses'],
-        Remote.Failure(payload.message),
+        [walletIndex, derivation, 'usedAddresses'],
+        Remote.Failure(message),
         state
       )
     }
     case AT.FETCH_USED_ADDRESSES_LOADING: {
+      const { derivation, walletIndex } = payload
       return assocPath(
-        [payload.walletIndex, 'usedAddresses'],
+        [walletIndex, derivation, 'usedAddresses'],
         Remote.Loading,
         state
       )
     }
     case AT.FETCH_USED_ADDRESSES_SUCCESS: {
+      const { derivation, walletIndex, usedAddresses } = payload
       return assocPath(
-        [payload.walletIndex, 'usedAddresses'],
-        Remote.Success(payload.usedAddresses),
+        [walletIndex, derivation, 'usedAddresses'],
+        Remote.Success(usedAddresses),
         state
       )
     }

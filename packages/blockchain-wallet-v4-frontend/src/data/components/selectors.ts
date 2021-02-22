@@ -1,5 +1,7 @@
+import * as bchTransactions from './bchTransactions/selectors'
 import * as borrow from './borrow/selectors'
 import * as brokerage from './brokerage/selectors'
+import * as btcTransactions from './btcTransactions/selectors'
 import * as identityVerification from './identityVerification/selectors'
 import * as interest from './interest/selectors'
 import * as layoutWallet from './layoutWallet/selectors'
@@ -13,6 +15,7 @@ import * as sendBch from './sendBch/selectors'
 import * as sendBtc from './sendBtc/selectors'
 import * as sendEth from './sendEth/selectors'
 import * as sendXlm from './sendXlm/selectors'
+import * as settings from './settings/selectors'
 import * as signMessage from './signMessage/selectors'
 import * as simpleBuy from './simpleBuy/selectors'
 import * as swap from './swap/selectors'
@@ -22,8 +25,10 @@ import * as veriff from './veriff/selectors'
 import * as withdraw from './withdraw/selectors'
 
 export {
+  bchTransactions,
   borrow,
   brokerage,
+  btcTransactions,
   identityVerification,
   interest,
   layoutWallet,
@@ -37,6 +42,7 @@ export {
   sendBtc,
   sendEth,
   sendXlm,
+  settings,
   signMessage,
   simpleBuy,
   swap,

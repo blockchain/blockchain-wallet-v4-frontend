@@ -57,7 +57,7 @@ const MenuTop = () => (
       <Text size='14px' weight={500} color='grey700'>
         <FormattedMessage
           id='scenes.settings.menu.subtitle'
-          defaultMessage='Manage your wallet names, addresses and private keys.'
+          defaultMessage='Manage your wallets, addresses and private keys.'
         />
       </Text>
     </MenuHeader>
@@ -110,7 +110,12 @@ const MenuTop = () => (
           </LinkContainer>
         </TabMenu>
         <Search data-e2e='walletSettingsSearch'>
-          <Field name='search' height='40px' component={TextBox} />
+          <Field
+            name='search'
+            height='40px'
+            placeholder='Search'
+            component={TextBox}
+          />
           <SearchIcon name='magnifier' size='20px' />
         </Search>
       </Container>

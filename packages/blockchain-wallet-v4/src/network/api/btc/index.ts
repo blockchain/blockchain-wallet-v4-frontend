@@ -8,12 +8,13 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       data: { base: 'BTC' }
     })
 
-  const getBtcUnspents = (fromAddresses, confirmations = 0) =>
+  const getBtcUnspents = (fromAddresses, confirmations = 0, extras) =>
     post({
       url: rootUrl,
       endPoint: '/unspent',
       data: {
         active: fromAddresses.join('|'),
+        activeBech32: extras ? extras.bech32 : null,
         confirmations: Math.max(confirmations, -1),
         format: 'json'
       }

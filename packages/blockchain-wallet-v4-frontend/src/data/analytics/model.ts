@@ -98,6 +98,11 @@ export const SB_EVENTS = {
   CLICK_SUPPORT_ARTICLE: ['simple_buy', 'transfer_flyout', 'read_it_now']
 }
 
+export const ONE_CLICK_INTEREST = {
+  SEEN: ['one_click_interest', 'interest_banner', 'seen'],
+  CLICK: ['one_click_interest', 'interest_banner', 'click']
+}
+
 export const INTEREST_EVENTS = {
   HOME: {
     CLICK_SUPPORT_ARTICLE: ['interest', 'home', 'learn_more_click'],
@@ -105,6 +110,7 @@ export const INTEREST_EVENTS = {
   },
   DEPOSIT: {
     SEND_SUCCESS: ['interest', 'deposit', 'send_success'],
+    SEND_ONE_CLICK: ['interest', 'deposit', 'send_one_click_success'],
     SEND_FAILURE: ['interest', 'deposit', 'send_failure']
   },
   WITHDRAWAL: {

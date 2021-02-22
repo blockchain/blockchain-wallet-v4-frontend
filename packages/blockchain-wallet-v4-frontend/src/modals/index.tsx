@@ -93,6 +93,7 @@ const ConfirmDisable2FA = React.lazy(() =>
 )
 const RecoveryPhrase = React.lazy(() => import('./Settings/RecoveryPhrase'))
 const SecondPassword = React.lazy(() => import('./Settings/SecondPassword'))
+const TradingLimits = React.lazy(() => import('./Settings/TradingLimits'))
 const TwoStepGoogleAuthenticator = React.lazy(() =>
   import('./Settings/TwoStepGoogleAuthenticator')
 )
@@ -177,12 +178,13 @@ const Modals = () => (
       <Swap />
       <SwapGetStarted />
       <TransferEth />
+      <TradingLimits />
       <TwoStepGoogleAuthenticator />
       <TwoStepSetup />
       <TwoStepYubico />
       <UpgradeAddressLabels />
       <UpgradeForAirdrop />
-      <UpgradeWallet />
+      <UpgradeWallet disableOutsideClose />
       <VerifyMessage />
       <Welcome />
       <Withdraw />

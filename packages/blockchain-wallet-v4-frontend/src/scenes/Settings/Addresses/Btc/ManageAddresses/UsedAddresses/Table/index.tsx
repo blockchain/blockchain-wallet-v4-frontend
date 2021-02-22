@@ -5,11 +5,13 @@ import React from 'react'
 
 import { actions, selectors } from 'data'
 import { FlatLoader } from 'blockchain-info-components'
+import { HDDerivationType } from 'core/types'
 import UsedAddressesTable from './template'
 
 class UsedAddressesTableContainer extends React.PureComponent<Props> {
   componentDidMount () {
-    this.props.componentActions.fetchUsedAddresses(this.props.walletIndex)
+    const { derivation, walletIndex } = this.props
+    this.props.componentActions.fetchUsedAddresses(walletIndex, derivation)
   }
 
   render () {
@@ -38,7 +40,8 @@ const mapStateToProps = (state, ownProps) => ({
   search: formValueSelector('manageAddresses')(state, 'search'),
   usedAddresses: selectors.components.manageAddresses.getWalletUsedAddresses(
     state,
-    ownProps.walletIndex
+    ownProps.walletIndex,
+    ownProps.derivation
   )
 })
 
@@ -51,6 +54,9 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type Props = { walletIndex: number } & ConnectedProps<typeof connector>
+type Props = {
+  derivation: HDDerivationType,
+  walletIndex: number
+} & ConnectedProps<typeof connector>
 
 export default connector(UsedAddressesTableContainer)

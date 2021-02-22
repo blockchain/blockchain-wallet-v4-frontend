@@ -1,10 +1,10 @@
 import { nth } from 'ramda'
 import { select } from 'redux-saga/effects'
 
-import { selectors } from 'data'
-import { PaymentValue } from 'core/redux/payment/types'
 import { CoinType, CurrenciesType, RatesType } from 'core/types'
 import { Exchange } from 'core'
+import { PaymentValue } from 'core/redux/payment/types'
+import { selectors } from 'data'
 
 // retrieves default account/address
 export const getDefaultAccount = function * () {
@@ -21,11 +21,13 @@ export const getDefaultAccount = function * () {
 export const getNextReceiveAddress = function * (coin, networks) {
   const state = yield select()
   const defaultAccountIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
+  const defaultDerivation = yield select(selectors.core.common.btc.getAccountDefaultDerivation(defaultAccountIndex, state))
 
   return selectors.core.common.btc
     .getNextAvailableReceiveAddress(
       networks.btc,
       defaultAccountIndex,
+      defaultDerivation,
       state
     )
     .getOrFail('Failed to get BTC receive address')
