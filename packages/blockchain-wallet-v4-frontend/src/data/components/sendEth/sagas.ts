@@ -1,7 +1,7 @@
 import * as A from './actions'
 import * as AT from './actionTypes'
-import * as C from 'services/AlertService'
-import * as Lockbox from 'services/LockboxService'
+import * as C from 'services/alerts'
+import * as Lockbox from 'services/lockbox'
 import * as S from './selectors'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
@@ -36,7 +36,7 @@ import { EthAccountFromType } from 'core/redux/payment/eth/types'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
 import { ModalNamesType } from 'data/modals/types'
-import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
+import { promptForSecondPassword } from 'services/sagas'
 import {
   SendEthFormActionType,
   SendEthFormAmountActionType,
@@ -297,7 +297,7 @@ export default ({
           fromAddress
         )).getOrFail('missing_device')
         const deviceType = prop('device_type', device)
-        yield call(promptForLockbox, 'ETH', deviceType, [toAddress])
+        yield call(Lockbox.promptForLockbox, 'ETH', deviceType, [toAddress])
         let connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )

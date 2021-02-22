@@ -1,6 +1,6 @@
 import * as A from './actions'
 import * as AT from './actionTypes'
-import * as C from 'services/AlertService'
+import * as C from 'services/alerts'
 import * as S from './selectors'
 import { actions, actionTypes, model, selectors } from 'data'
 import {

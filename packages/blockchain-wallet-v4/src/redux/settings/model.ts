@@ -10,5 +10,5 @@ export const DEFAULT_INVITATIONS: InvitationsType = {
   XLM: true,
   USDT: true,
   WDGLD: true,
-  simpleSell2dot0: false
+  simpleSell2dot0: true
 }

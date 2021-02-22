@@ -2,9 +2,6 @@ import { call, delay, put, race, select, take } from 'redux-saga/effects'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
 
-import * as A from './actions'
-import * as AT from './actionTypes'
-import * as S from './selectors'
 import { actions, selectors } from 'data'
 import { APIType } from 'core/network/api'
 import {
@@ -17,6 +14,14 @@ import {
 import { convertStandardToBase } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Exchange } from 'blockchain-wallet-v4/src'
+import { generateProvisionalPaymentAmount } from 'data/coins/utils'
+import { getCoinAccounts } from 'data/coins/selectors'
+import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
+
+import * as A from './actions'
+import * as AT from './actionTypes'
+import * as S from './selectors'
+import { FALLBACK_DELAY } from './model'
 import { getDirection, getPair, getRate, NO_QUOTE } from './utils'
 import {
   InitSwapFormValuesType,
@@ -25,9 +30,6 @@ import {
   SwapAmountFormValues
 } from './types'
 import { selectReceiveAddress } from '../utils/sagas'
-
-import { FALLBACK_DELAY } from './model'
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import profileSagas from '../../../data/modules/profile/sagas'
 import sendSagas from '../send/sagas'
 
@@ -125,24 +127,20 @@ export default ({
         .from(addressOrIndex, addressType)
         .done()
 
-      switch (payment.coin) {
-        case 'PAX':
-        case 'USDT':
-        case 'WDGLD':
-        case 'ETH':
-        case 'XLM':
-          payment = yield payment.amount(convertStandardToBase(coin, amount))
-          return payment.value()
-        default:
-          payment = yield payment.amount(
-            parseInt(convertStandardToBase(coin, amount))
-          )
-          return (yield payment
-            .chain()
-            .to(quote.sampleDepositAddress, 'ADDRESS')
-            .build()
-            .done()).value()
+      const paymentAmount = generateProvisionalPaymentAmount(
+        payment.coin,
+        amount
+      )
+      payment = yield payment.amount(paymentAmount)
+      if (payment.coin === 'BTC' || payment.coin === 'BCH') {
+        return (yield payment
+          .chain()
+          .to(quote.sampleDepositAddress, 'ADDRESS')
+          .build()
+          .done()).value()
       }
+
+      return payment.value()
     } catch (e) {
       // eslint-disable-next-line
       console.log(e)
@@ -388,27 +386,12 @@ export default ({
     // @ts-ignore
     let payment = paymentGetOrElse(BASE.coin, paymentR)
 
-    const value = Number(swapAmountValues?.cryptoAmount)
     try {
-      switch (payment.coin) {
-        case 'BCH':
-        case 'BTC':
-          payment = yield payment.amount(
-            parseInt(convertStandardToBase(BASE.coin, value))
-          )
-          break
-        case 'ETH':
-        case 'PAX':
-        case 'USDT':
-        case 'WDGLD':
-        case 'XLM':
-          payment = yield payment.amount(
-            convertStandardToBase(BASE.coin, value)
-          )
-          break
-        default:
-          throw new Error(INVALID_COIN_TYPE)
-      }
+      const paymentAmount = generateProvisionalPaymentAmount(
+        BASE.coin,
+        Number(swapAmountValues?.cryptoAmount)
+      )
+      payment = yield payment.amount(paymentAmount)
       yield put(A.updatePaymentSuccess(payment.value()))
     } catch (error) {
       yield put(A.updatePaymentFailure(error))
@@ -460,7 +443,7 @@ export default ({
       return
     }
 
-    const accounts = S.getActiveAccounts(yield select())
+    const accounts = getCoinAccounts(yield select(), SWAP_ACCOUNTS_SELECTOR)
     const baseAccount = accounts[initSwapFormValues.BASE.coin].find(
       val => val.label === initSwapFormValues.BASE?.label
     )

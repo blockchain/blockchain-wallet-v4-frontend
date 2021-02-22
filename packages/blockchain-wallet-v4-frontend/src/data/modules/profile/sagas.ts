@@ -16,7 +16,7 @@ import {
 import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
 import { ExtractSuccess } from 'core/types'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
-import { promptForSecondPassword } from 'services/SagaService'
+import { promptForSecondPassword } from 'services/sagas'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { UserDataType } from './types'
 import moment from 'moment'
@@ -248,13 +248,9 @@ export default ({ api, coreSagas, networks }) => {
 
   const generateAuthCredentials = function * () {
     const retailToken = yield call(generateRetailToken)
-    const coinifyId = (yield select(
-      selectors.core.kvStore.buySell.getCoinifyUser
-    )).getOrElse(null)
     const { userId, token: lifetimeToken } = yield call(
       api.createUser,
-      retailToken,
-      coinifyId
+      retailToken
     )
     yield put(
       actions.core.kvStore.userCredentials.setUserCredentials(
@@ -386,29 +382,31 @@ export default ({ api, coreSagas, networks }) => {
   const shareWalletAddressesWithExchange = function * () {
     try {
       yield put(A.shareWalletAddressesWithExchangeLoading())
-      const remainingCoins = S.getRemainingCoins(yield select())
+      const state = yield select()
+      const remainingCoins = S.getRemainingCoins(state)
       const walletAddresses = (yield select(S.getWalletAddresses)).getOrFail(
         'no_deposit_addresses'
       )
       // BTC
-      const defaultIdx = yield select(
+      const defaultAccountIndex = yield select(
         selectors.core.wallet.getDefaultAccountIndex
       )
+      const defaultDerivation = yield select(selectors.core.common.btc.getAccountDefaultDerivation(defaultAccountIndex, state))
       const BTC = selectors.core.common.btc.getNextAvailableReceiveAddress(
         networks.btc,
-        defaultIdx
+        defaultAccountIndex,
+        defaultDerivation
       )
       // BCH
       const BCH = selectors.core.common.bch.getNextAvailableReceiveAddressFormatted(
         networks.btc,
-        defaultIdx
+        defaultAccountIndex
       )
       // ETH
       const ETH = selectors.core.kvStore.eth.getContext
       // XLM
       const XLM = selectors.core.kvStore.xlm.getDefaultAccountId
       const addressSelectors = { BTC, BCH, ETH, XLM, PAX: ETH, USDT: ETH }
-      const state = yield select()
       const remainingAddresses = remainingCoins.reduce((res, coin) => {
         res[coin] = addressSelectors[coin](state).getOrElse(null)
         return res

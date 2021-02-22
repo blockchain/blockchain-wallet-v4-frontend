@@ -2,6 +2,7 @@ import * as alerts from './alerts/selectors'
 import * as analytics from './analytics/selectors'
 import * as auth from './auth/selectors'
 import * as cache from './cache/selectors'
+import * as coins from './coins/selectors'
 import * as components from './components/selectors'
 import * as custodial from './custodial/selectors'
 import * as form from './form/selectors'
@@ -20,6 +21,7 @@ export {
   analytics,
   auth,
   cache,
+  coins,
   components,
   custodial,
   form,

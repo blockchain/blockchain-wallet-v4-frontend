@@ -11,7 +11,7 @@ import {
 } from 'core/types'
 
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { createDeepEqualSelector } from 'services/misc'
 import { DEFAULT_INTEREST_BALANCE } from 'data/components/interest/model'
 import { DEFAULT_SB_BALANCE } from 'data/components/simpleBuy/model'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
@@ -386,6 +386,7 @@ export const getFiatBalanceInfo = createDeepEqualSelector(
       const balances = keys.map((value: WalletFiatType) => {
         const standard = convertBaseToStandard(
           'FIAT',
+          // @ts-ignore
           sbBalances[value]?.available || '0'
         )
 

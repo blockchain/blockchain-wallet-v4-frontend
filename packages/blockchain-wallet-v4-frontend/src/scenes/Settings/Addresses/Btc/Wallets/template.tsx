@@ -14,8 +14,8 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
+import { media } from 'services/styles'
 import { SettingDescription, SettingHeader } from 'components/Setting'
-import media from 'services/ResponsiveService'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const Wrapper = styled.section`

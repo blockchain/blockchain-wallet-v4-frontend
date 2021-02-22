@@ -9,9 +9,10 @@ import {
   convertStandardToBase
 } from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
+import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { NO_OFFER_EXISTS } from './model'
-import { promptForSecondPassword } from 'services/SagaService'
+import { promptForSecondPassword } from 'services/sagas'
 import BigNumber from 'bignumber.js'
 
 export default ({
@@ -30,20 +31,9 @@ export default ({
     destination: string
   ): Generator<PaymentType | CallEffect, boolean, any> {
     let paymentError
+    const paymentAmount = generateProvisionalPaymentAmount(payment.coin, amount)
+    payment = yield payment.amount(paymentAmount)
     try {
-      switch (payment.coin) {
-        case 'PAX':
-        case 'USDT':
-        case 'WDGLD':
-        case 'ETH':
-        case 'XLM':
-          payment = yield payment.amount(convertStandardToBase(coin, amount))
-          break
-        default:
-          payment = yield payment.amount(
-            parseInt(convertStandardToBase(coin, amount))
-          )
-      }
       payment = yield payment.to(destination, 'ADDRESS')
       payment = yield payment.build()
       // ask for second password

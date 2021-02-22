@@ -1,12 +1,42 @@
-import { equals, lift, toLower } from 'ramda'
-import { erc20FromLabel, ethFromLabel } from 'services/PaymentHelper'
+import { curry, equals, lift, prop, toLower } from 'ramda'
+import BigNumber from 'bignumber.js'
+
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FiatType } from 'core/types'
 import { model, selectors } from 'data'
-import BigNumber from 'bignumber.js'
 
 const isSubmitting = selectors.form.isSubmitting(model.components.sendEth.FORM)
+
+const ethFromLabel = curry((payment, state) => {
+  const from = payment.from
+  switch (from.type) {
+    case ADDRESS_TYPES.ACCOUNT:
+      return selectors.core.kvStore.eth
+        .getAccountLabel(state, from.address)
+        .getOrElse(from.address)
+    case ADDRESS_TYPES.LOCKBOX:
+      return selectors.core.kvStore.lockbox
+        .getLockboxEthAccount(state, from.address)
+        .map(prop('label'))
+        .getOrElse(from.address)
+    default:
+      return from.address
+  }
+})
+
+const erc20FromLabel = curry((coin, payment, state) => {
+  const from = payment.from
+  switch (from.type) {
+    case ADDRESS_TYPES.ACCOUNT:
+      return selectors.core.kvStore.eth
+        .getErc20AccountLabel(state, toLower(coin))
+        .getOrElse(from.address)
+    default:
+      return from.address
+  }
+})
 
 export const getData = (state, coin) => {
   const isErc20 = !equals(coin, 'ETH')

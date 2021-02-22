@@ -7,7 +7,7 @@ import {
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { FormGroup, FormItem, FormLabel, PasswordBox } from 'components/Form'
-import { required, validPasswordConfirmation } from 'services/FormHelper'
+import { required, validPasswordConfirmation } from 'services/forms'
 import { SettingForm, SettingWrapper } from 'components/Setting'
 import PropTypes from 'prop-types'
 import React from 'react'

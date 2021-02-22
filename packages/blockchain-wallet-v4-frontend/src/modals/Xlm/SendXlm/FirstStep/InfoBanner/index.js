@@ -1,14 +1,20 @@
 import { BigNumber } from 'bignumber.js'
-import { currencySymbolMap } from 'services/CoinifyService'
 import { FormattedMessage } from 'react-intl'
-import { prop } from 'ramda'
+import { mapObjIndexed, prop } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
 
 import { Banner } from 'blockchain-info-components'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { model } from 'data'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+
 import ModalIcon from '../ModalIcon'
+
+const currencySymbolMap = mapObjIndexed(
+  (value, code) => value.units[code].symbol,
+  Currencies
+)
 
 const { RESERVE_LEARN_MODAL } = model.components.sendXlm
 

@@ -43,7 +43,7 @@ import {
 } from './validation'
 import { model } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { required, validEthAddress } from 'services/FormHelper'
+import { required, validEthAddress } from 'services/forms'
 import BigNumber from 'bignumber.js'
 import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'

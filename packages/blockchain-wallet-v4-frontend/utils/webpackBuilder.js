@@ -76,8 +76,8 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
     alias: {
-      core: path.resolve(__dirname, '../../blockchain-wallet-v4/src/'),
       components: path.resolve(__dirname, '../src/components/'),
+      core: path.resolve(__dirname, '../../blockchain-wallet-v4/src/'),
       data: path.resolve(__dirname, '../src/data/'),
       layouts: path.resolve(__dirname, '../src/layouts/'),
       providers: path.resolve(__dirname, '../src/providers/'),
@@ -310,8 +310,6 @@ const buildDevServerConfig = (
           envConfig.WALLET_HELPER_DOMAIN,
           envConfig.WEB_SOCKET_URL,
           'https://friendbot.stellar.org',
-          'https://api.sfox.com',
-          'https://quotes.sfox.com',
           'https://testnet5.blockchain.info',
           'https://api.testnet.blockchain.info',
           'https://shapeshift.io',

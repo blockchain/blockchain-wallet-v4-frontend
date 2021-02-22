@@ -1,4 +1,4 @@
-import * as T from 'services/AlertService'
+import * as T from 'services/alerts'
 import { actions, selectors } from 'data'
 import {
   btcTransaction,

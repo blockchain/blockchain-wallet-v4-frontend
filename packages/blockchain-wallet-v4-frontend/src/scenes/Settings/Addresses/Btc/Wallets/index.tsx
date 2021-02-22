@@ -6,7 +6,7 @@ import React from 'react'
 import { actions, model } from 'data'
 import { getData, getWalletsWithoutRemoteData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { requireUniqueWalletName } from 'services/FormHelper'
+import { requireUniqueWalletName } from 'services/forms'
 import Template from './template'
 
 const { WALLET_TX_SEARCH } = model.form

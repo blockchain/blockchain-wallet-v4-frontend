@@ -1,7 +1,7 @@
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
+import { media } from 'services/styles'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
-import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 

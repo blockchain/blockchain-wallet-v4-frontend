@@ -15,7 +15,7 @@ import {
   validCurrentPassword,
   validPasswordConfirmation,
   validStrongPassword
-} from 'services/FormHelper'
+} from 'services/forms'
 import { SettingWrapper } from 'components/Setting'
 import PropTypes from 'prop-types'
 import React from 'react'

@@ -15,7 +15,7 @@ import {
   CRYPTO_DECIMALS,
   FIAT_DECIMALS,
   formatTextAmount
-} from 'services/ValidationHelper'
+} from 'services/forms'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { Icon, Text } from 'blockchain-info-components'

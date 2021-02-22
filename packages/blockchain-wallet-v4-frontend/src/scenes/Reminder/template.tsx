@@ -16,7 +16,7 @@ import {
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { required, validEmail } from 'services/FormHelper'
+import { required, validEmail } from 'services/forms'
 import { Wrapper } from 'components/Public'
 import React from 'react'
 import styled from 'styled-components'

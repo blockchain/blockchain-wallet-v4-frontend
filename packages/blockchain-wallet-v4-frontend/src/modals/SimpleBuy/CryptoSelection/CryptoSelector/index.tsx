@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { coinOrder } from 'blockchain-wallet-v4-frontend/src/modals/Swap/CoinSelection/selectors'
+import { CoinAccountListOption } from 'components/Form'
 import { FlyoutWrapper } from 'components/Flyout'
 import {
   getCoinFromPair,
@@ -19,8 +19,8 @@ import {
 } from 'blockchain-info-components'
 import { model } from 'data'
 import { SBPairType } from 'core/types'
+import { SUPPORTED_COINS } from 'data/coins/model/swap'
 import { SwapAccountType } from 'data/types'
-import CryptoAccountOption from 'blockchain-wallet-v4-frontend/src/modals/Swap/CoinSelection/CryptoAccountOption'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
 import CryptoItem from './CryptoItem'
@@ -111,10 +111,8 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   const isInvitedShowNC = (swapAccount: SwapAccountType) => {
     if (swapAccount.type === 'CUSTODIAL') {
       return true
-    } else if (swapAccount.type === 'ACCOUNT' && !isInvited) {
-      return false
     } else {
-      return true
+      return !(swapAccount.type === 'ACCOUNT' && !isInvited)
     }
   }
   const handleSell = (swapAccount: SwapAccountType) => {
@@ -255,20 +253,21 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
         <Currencies>
           {orderType === 'SELL' ? (
             checkAccountsBalances ? (
-              coinOrder.map(coin => {
+              SUPPORTED_COINS.map(coin => {
                 const accounts = props.accounts[coin] as Array<SwapAccountType>
                 return accounts.map(
                   account =>
                     account.balance !== '0' &&
                     account.balance !== 0 &&
                     isInvitedShowNC(account) && (
-                      <CryptoAccountOption
+                      <CoinAccountListOption
                         key={account.index}
                         account={account}
-                        coins={props.coins}
+                        coinModel={props.coins[account.coin]}
                         isAccountSelected={false}
                         isSwap={false}
                         onClick={() => handleSell(account)}
+                        showLowFeeBadges
                         walletCurrency={props.walletCurrency}
                       />
                     )

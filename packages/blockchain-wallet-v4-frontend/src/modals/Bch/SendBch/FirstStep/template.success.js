@@ -28,7 +28,7 @@ import {
   shouldError
 } from './validation'
 import { model } from 'data'
-import { required, validBchAddress } from 'services/FormHelper'
+import { required, validBchAddress } from 'services/forms'
 import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import ExchangePromo from 'components/Send/ExchangePromo'

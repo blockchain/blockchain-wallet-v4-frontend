@@ -74,6 +74,7 @@ const SuccessfulSwap: React.FC<Props> = props => {
             id='copy.swap_in_wallet'
             defaultMessage='Your {coin} is now in your Wallet.'
             values={{
+              // @ts-ignore
               coin: props.coins[getOutput(props.order)].displayName
             }}
           />
@@ -89,6 +90,7 @@ const SuccessfulSwap: React.FC<Props> = props => {
             id='copy.swap_arrive_soon'
             defaultMessage='Your {coin} will arrive soon.'
             values={{
+              // @ts-ignore
               coin: props.coins[getOutput(props.order)].coinTicker
             }}
           />

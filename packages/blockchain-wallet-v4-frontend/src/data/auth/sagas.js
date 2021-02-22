@@ -1,16 +1,14 @@
 import { assoc, find, is, prop, propEq } from 'ramda'
-import { call, delay, fork, put, select, take } from 'redux-saga/effects'
+import { call, delay, fork, put, race, select, take } from 'redux-saga/effects'
 
-import * as C from 'services/AlertService'
-import * as CC from 'services/ConfirmService'
+import * as C from 'services/alerts'
 import { actions, actionTypes, selectors } from 'data'
 import {
   askSecondPasswordEnhancer,
   confirm,
-  forceSyncWallet,
   promptForSecondPassword
-} from 'services/SagaService'
-import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
+} from 'services/sagas'
+import { checkForVulnerableAddressError } from 'services/misc'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 import { guessCurrencyBasedOnCountry } from './helpers'
@@ -28,6 +26,17 @@ export const wrongCaptcha2faErrorMessage = 'Error: Captcha Code Incorrect'
 export const wrongAuthCodeErrorMessage = 'Authentication code is incorrect'
 
 export default ({ api, coreSagas }) => {
+  const forceSyncWallet = function * () {
+    yield put(actions.core.walletSync.forceSync())
+    const { error } = yield race({
+      success: take(actionTypes.core.walletSync.SYNC_SUCCESS),
+      error: take(actionTypes.core.walletSync.SYNC_ERROR)
+    })
+    if (error) {
+      throw new Error('Sync failed')
+    }
+  }
+
   const upgradeWallet = function * ({ payload }) {
     try {
       const { version } = payload
@@ -207,10 +216,10 @@ export default ({ api, coreSagas }) => {
     if (vulnerableAddress) {
       yield put(actions.modals.closeAllModals())
       const confirmed = yield call(confirm, {
-        title: CC.ARCHIVE_VULNERABLE_ADDRESS_TITLE,
-        message: CC.ARCHIVE_VULNERABLE_ADDRESS_MSG,
-        confirm: CC.ARCHIVE_VULNERABLE_ADDRESS_CONFIRM,
-        cancel: CC.ARCHIVE_VULNERABLE_ADDRESS_CANCEL,
+        title: C.ARCHIVE_VULNERABLE_ADDRESS_TITLE,
+        message: C.ARCHIVE_VULNERABLE_ADDRESS_MSG,
+        confirm: C.ARCHIVE_VULNERABLE_ADDRESS_CONFIRM,
+        cancel: C.ARCHIVE_VULNERABLE_ADDRESS_CANCEL,
         messageValues: { vulnerableAddress }
       })
       if (confirmed)

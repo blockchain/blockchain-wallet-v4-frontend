@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { Image, Link } from 'blockchain-info-components'
+import { media } from 'services/styles'
 import { Navbar, NavbarBrand } from 'components/Navbar'
 import Announcements from 'components/Announcements'
-import media from 'services/ResponsiveService'
 import styled from 'styled-components'
 
 const NavbarStyled = styled(Navbar)`

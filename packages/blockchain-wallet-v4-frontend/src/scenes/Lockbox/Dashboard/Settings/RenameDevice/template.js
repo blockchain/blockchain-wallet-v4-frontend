@@ -2,7 +2,7 @@ import { Button } from 'blockchain-info-components'
 import { Field, reduxForm } from 'redux-form'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
-import { required } from 'services/FormHelper'
+import { required } from 'services/forms'
 import {
   SettingComponent,
   SettingContainer,

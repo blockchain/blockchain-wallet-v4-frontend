@@ -15,7 +15,7 @@ import {
   NavbarNavItemIcon,
   NavbarNavItemTextHeader
 } from 'components/Navbar'
-import { useOnClickOutside } from 'services/HooksService'
+import { useOnClickOutside } from 'services/misc'
 
 import { Props } from '.'
 

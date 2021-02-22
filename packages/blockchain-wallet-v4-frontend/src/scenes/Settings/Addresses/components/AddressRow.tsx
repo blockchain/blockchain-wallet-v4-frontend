@@ -8,7 +8,7 @@ import {
 } from 'blockchain-info-components'
 import { CoinType, ImportedAddrType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 import React from 'react'
 import styled from 'styled-components'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'

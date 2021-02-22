@@ -2,10 +2,10 @@ import React from 'react'
 import ReactHighcharts from 'react-highcharts'
 import styled from 'styled-components'
 
+import { media, mediaHeight } from 'services/styles'
 import { SceneWrapper } from 'components/Layout'
 import Balances from './Balances'
 import Banners from './Banners'
-import media, { mediaHeight } from 'services/ResponsiveService'
 import PriceChart from './PriceChart'
 
 ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })

@@ -11,9 +11,9 @@ import {
   DisplaySubTitle,
   DisplayTitle
 } from 'components/SimpleBuy'
+import { media } from 'services/styles'
 import { SBPaymentMethodType } from 'core/types'
 import { SuccessCartridge } from 'components/Cartridge'
-import media from 'services/ResponsiveService'
 
 const DisplayIconPayment = styled(DisplayIcon)`
   min-height: 110px;

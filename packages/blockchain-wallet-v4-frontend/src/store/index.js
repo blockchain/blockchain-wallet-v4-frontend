@@ -2,7 +2,6 @@ import * as Bitcoin from 'bitcoinjs-lib'
 import { applyMiddleware, compose, createStore } from 'redux'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { createHashHistory } from 'history'
-import { head } from 'ramda'
 import { persistCombineReducers, persistStore } from 'redux-persist'
 import BitcoinCash from 'bitcoinforksjs-lib'
 import createSagaMiddleware from 'redux-saga'
@@ -16,6 +15,9 @@ import {
   HorizonStreamingService,
   Socket
 } from 'blockchain-wallet-v4/src/network/index.ts'
+import { coreMiddleware } from 'blockchain-wallet-v4/src'
+import { serializer } from 'blockchain-wallet-v4/src/types'
+
 import {
   autoDisconnection,
   matomoMiddleware,
@@ -23,8 +25,6 @@ import {
   webSocketCoins,
   webSocketRates
 } from '../middleware'
-import { coreMiddleware } from 'blockchain-wallet-v4/src'
-import { serializer } from 'blockchain-wallet-v4/src/types'
 
 const devToolsConfig = {
   maxAge: 1000,
@@ -58,8 +58,7 @@ const configureStore = async function () {
   const res = await fetch('/wallet-options-v4.json')
   const options = await res.json()
   const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
-  // TODO: deprecate when wallet-options-v4 is updated on prod
-  const socketUrl = head(options.domains.webSocket.split('/inv'))
+  const socketUrl = options.domains.webSocket
   const horizonUrl = options.domains.horizon
   const coinsSocket = new Socket({
     options,
@@ -67,7 +66,7 @@ const configureStore = async function () {
   })
   const ratesSocket = new ApiSocket({
     options,
-    url: `${socketUrl.split('/coins').join('')}/nabu-gateway/markets/quotes`,
+    url: `${socketUrl}/nabu-gateway/markets/quotes`,
     maxReconnects: 3
   })
   const xlmStreamingService = new HorizonStreamingService({

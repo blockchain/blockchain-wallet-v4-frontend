@@ -1,5 +1,5 @@
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
-import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { createDeepEqualSelector } from 'services/misc'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { lift, map, pathOr, sum } from 'ramda'
 import { selectors } from 'data'

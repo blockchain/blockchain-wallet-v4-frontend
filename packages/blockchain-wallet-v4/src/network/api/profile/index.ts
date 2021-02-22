@@ -17,16 +17,13 @@ export default ({
       }
     })
 
-  const createUser = (retailToken, coinifyId) => {
+  const createUser = (retailToken) => {
     return post({
       url: nabuUrl,
       endPoint: '/users',
       contentType: 'application/json',
       data: {
-        jwt: retailToken,
-        metadata: {
-          'coinify-trader-id': coinifyId
-        }
+        jwt: retailToken
       }
     })
   }

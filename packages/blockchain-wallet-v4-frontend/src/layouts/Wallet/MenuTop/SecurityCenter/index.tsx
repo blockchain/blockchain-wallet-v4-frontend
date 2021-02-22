@@ -3,13 +3,13 @@ import { LinkContainer } from 'react-router-bootstrap'
 import React from 'react'
 import styled from 'styled-components'
 
+import { media } from 'services/styles'
 import {
   NavbarNavItem,
   NavbarNavItemButton,
   NavbarNavItemIcon,
   NavbarNavItemTextHeader
 } from 'components/Navbar'
-import media from 'services/ResponsiveService'
 
 const StyledNavbarNavItemTextHeader = styled(NavbarNavItemTextHeader)`
   ${media.laptop`

@@ -16,8 +16,9 @@ import { actions, model, selectors } from 'data'
 import { APIType } from 'core/network/api'
 import { convertStandardToBase } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
+import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import { Remote } from 'blockchain-wallet-v4/src'
+import coinSagas from 'data/coins/sagas'
 
 import * as A from './actions'
 import * as AT from './actionTypes'
@@ -44,26 +45,26 @@ export default ({
   const {
     buildAndPublishPayment,
     createLimits,
-    createPayment,
-    getDefaultAccountForCoin,
-    getReceiveAddressForCoin,
-    paymentGetOrElse
+    createPayment
   } = utils({
     coreSagas,
     networks
   })
 
+  const {
+    getDefaultAccountForCoin,
+    getNextReceiveAddressForCoin,
+    getOrUpdateProvisionalPaymentForCoin
+  } = coinSagas({
+    coreSagas,
+    networks
+  })
+
   const getAccountIndexOrAccount = (coin: CoinType, account: AccountTypes) => {
-    switch (coin) {
-      case 'ETH':
-      case 'PAX':
-      case 'USDT':
-      case 'WDGLD':
-      case 'XLM':
-        return account.address
-      default:
-        return account.index
+    if (coin === 'BTC' || coin === 'BCH') {
+      return account.index
     }
+    return account.address
   }
 
   const fetchInterestBalance = function * () {
@@ -199,26 +200,12 @@ export default ({
             : new BigNumber(action.payload).dividedBy(rate).toNumber()
           const paymentR = S.getPayment(yield select())
           if (paymentR) {
-            let payment = paymentGetOrElse(coin, paymentR)
-            switch (payment.coin) {
-              case 'BCH':
-              case 'BTC':
-                payment = yield payment.amount(
-                  parseInt(convertStandardToBase(coin, value))
-                )
-                break
-              case 'ETH':
-              case 'PAX':
-              case 'USDT':
-              case 'WDGLD':
-              case 'XLM':
-                payment = yield payment.amount(
-                  convertStandardToBase(coin, value)
-                )
-                break
-              default:
-                throw new Error(INVALID_COIN_TYPE)
-            }
+            let payment = getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
+            const paymentAmount = generateProvisionalPaymentAmount(
+              payment.coin,
+              value
+            )
+            payment = yield payment.amount(paymentAmount)
             yield put(A.setPaymentSuccess(payment.value()))
           }
           break
@@ -330,7 +317,7 @@ export default ({
         prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
       const coin = S.getCoinType(yield select())
       const paymentR = S.getPayment(yield select())
-      const payment = paymentGetOrElse(
+      const payment = getOrUpdateProvisionalPaymentForCoin(
         coin,
         paymentR as RemoteDataType<string, any>
       )
@@ -430,7 +417,7 @@ export default ({
           origin: 'SAVINGS'
         })
       } else {
-        const receiveAddress = yield call(getReceiveAddressForCoin, coin)
+        const receiveAddress = yield call(getNextReceiveAddressForCoin, coin)
         yield call(
           api.initiateInterestWithdrawal,
           withdrawalAmountBase,

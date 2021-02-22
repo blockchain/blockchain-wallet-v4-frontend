@@ -1,6 +1,6 @@
 import { call, put } from 'redux-saga/effects'
 
-import * as C from 'services/AlertService'
+import * as C from 'services/alerts'
 import { actions } from 'data'
 
 export default ({ coreSagas }) => {

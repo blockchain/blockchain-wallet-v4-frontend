@@ -3,8 +3,8 @@ import { filter, findIndex, forEach, pluck, propEq, sort } from 'ramda'
 
 import * as A from './actions'
 import * as actions from '../../actions'
-import * as C from 'services/AlertService'
-import { promptForInput } from 'services/SagaService'
+import * as C from 'services/alerts'
+import { promptForInput } from 'services/sagas'
 import { selectors } from '../../index'
 import { Types } from 'blockchain-wallet-v4/src'
 

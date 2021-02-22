@@ -1,6 +1,13 @@
 import { BigNumber } from 'bignumber.js'
-import { currencySymbolMap } from 'services/CoinifyService'
+import { mapObjIndexed } from 'ramda'
+
 import { Exchange } from 'blockchain-wallet-v4/src'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+
+const currencySymbolMap = mapObjIndexed(
+  (value, code) => value.units[code].symbol,
+  Currencies
+)
 
 const convertXlmToFiat = (rates, currency) => amount =>
   Exchange.convertXlmToFiat({

@@ -1,4 +1,4 @@
-import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { createDeepEqualSelector } from 'services/misc'
 import { lift, map } from 'ramda'
 import { selectors } from 'data'
 

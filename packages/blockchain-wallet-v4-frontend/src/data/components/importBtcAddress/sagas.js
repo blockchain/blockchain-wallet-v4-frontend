@@ -1,8 +1,8 @@
-import * as C from 'services/AlertService'
+import * as C from 'services/alerts'
 import { actions, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { call, put, select } from 'redux-saga/effects'
-import { promptForInput, promptForSecondPassword } from 'services/SagaService'
+import { promptForInput, promptForSecondPassword } from 'services/sagas'
 import { prop } from 'ramda'
 import { utils } from 'blockchain-wallet-v4/src'
 

@@ -1,9 +1,11 @@
 import { bindActionCreators } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { includes, keys, toUpper } from 'ramda'
+import { includes, keys } from 'ramda'
 import React from 'react'
 
 import { actions } from 'data'
+import { CoinTypeEnum } from 'core/types'
+
 import { getData } from './selectors'
 import { ModalNamesType } from 'data/types'
 import Features from './template'
@@ -15,19 +17,25 @@ class FeaturesContainer extends React.PureComponent<Props> {
       erc20List,
       lockboxPath,
       lockboxDeviceId,
+      modalActions,
       supportedCoins
     } = this.props
+    if (type === 'REQUEST') {
+      return modalActions.showModal('REQUEST_CRYPTO_MODAL', {
+        coin: coin in CoinTypeEnum && coin,
+        origin: 'FeaturesTopNav'
+      })
+    }
+
+    // TODO: remove with send refactor 🙏
     if (includes(coin, erc20List)) {
-      return this.props.modalActions.showModal(
-        `@MODAL.${type}.ETH` as ModalNamesType,
-        {
-          coin: toUpper(coin),
-          origin: 'FeaturesTopNav'
-        }
-      )
+      return modalActions.showModal(`@MODAL.${type}.ETH` as ModalNamesType, {
+        coin,
+        origin: 'FeaturesTopNav'
+      })
     } else if (includes(coin, keys(supportedCoins))) {
       return this.props.modalActions.showModal(
-        `@MODAL.${type}.${coin}` as ModalNamesType,
+        `@MODAL.SEND.${coin}` as ModalNamesType,
         {
           lockboxIndex: lockboxPath ? lockboxDeviceId : null,
           origin: 'FeaturesTopNav'
@@ -35,7 +43,7 @@ class FeaturesContainer extends React.PureComponent<Props> {
       )
     }
     return this.props.modalActions.showModal(
-      `@MODAL.${type}.BTC` as ModalNamesType,
+      `@MODAL.SEND.BTC` as ModalNamesType,
       {
         lockboxIndex: lockboxPath ? lockboxDeviceId : null,
         origin: 'FeaturesTopNav'

@@ -25,9 +25,9 @@ import {
   PasswordBox,
   TextBox
 } from 'components/Form'
-import { required, validWalletId } from 'services/FormHelper'
+import { media } from 'services/styles'
+import { required, validWalletId } from 'services/forms'
 import { Wrapper } from 'components/Public'
-import media from 'services/ResponsiveService'
 
 import { Props as OwnProps } from '.'
 import LinkExchangeAccount from '../Register/LinkExchangeAccount'

@@ -4,7 +4,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { SettingDescription, SettingHeader } from 'components/Setting'
-import { spacing } from 'services/StyleService'
+import { spacing } from 'services/styles'
 import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
 
 import AddressRow from '../../components/AddressRow'

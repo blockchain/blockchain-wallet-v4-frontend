@@ -1,4 +1,4 @@
-import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { createDeepEqualSelector } from 'services/misc'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'

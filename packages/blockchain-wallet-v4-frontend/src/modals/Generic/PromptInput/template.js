@@ -14,7 +14,7 @@ import {
   TextBox
 } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
-import { required } from 'services/FormHelper'
+import { required } from 'services/forms'
 import React from 'react'
 import styled from 'styled-components'
 

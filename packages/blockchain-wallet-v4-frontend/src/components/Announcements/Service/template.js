@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Banner, Button, Icon, Link, Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 const Container = styled.div`
   display: flex;

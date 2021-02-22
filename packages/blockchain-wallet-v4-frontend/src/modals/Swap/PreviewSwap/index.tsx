@@ -48,6 +48,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     }
 
     const { BASE, COUNTER } = this.props.initSwapFormValues
+    // @ts-ignore
     const { coins, swapActions } = this.props
     const baseCoinTicker = coins[BASE.coin].coinTicker
     const counterCoinTicker = coins[COUNTER.coin].coinTicker

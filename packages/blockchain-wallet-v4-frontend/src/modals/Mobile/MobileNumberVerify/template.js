@@ -14,8 +14,8 @@ import {
   Text
 } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'
-import { required } from 'services/FormHelper'
-import { spacing } from 'services/StyleService'
+import { required } from 'services/forms'
+import { spacing } from 'services/styles'
 
 export const Code = styled.div`
   width: 60%;

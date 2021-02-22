@@ -1,4 +1,4 @@
-import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { createDeepEqualSelector } from 'services/misc'
 import { lift, prop, propOr } from 'ramda'
 import { model, selectors } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'

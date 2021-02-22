@@ -1,5 +1,5 @@
 import { AddressType } from './.'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 import QrCodeAddressInfo from '../QrCodeAddressInfo'
 import React from 'react'
 import styled from 'styled-components'

@@ -5,13 +5,13 @@ import { BuyOrSell } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/mo
 import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { getOrderType } from 'data/components/simpleBuy/model'
+import { media } from 'services/styles'
 import { RootState } from 'data/rootReducer'
 import {
   SBOrderType,
   SupportedWalletCurrenciesType,
   WalletCurrencyType
 } from 'core/types'
-import media from 'services/ResponsiveService'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 

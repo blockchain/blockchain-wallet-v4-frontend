@@ -28,8 +28,8 @@ import {
   WalletOptionsType
 } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/validation'
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { UserDataType } from 'data/modules/types'
 
@@ -57,6 +57,7 @@ import {
   SDD_TIER
 } from './model'
 import { FALLBACK_DELAY, getOutputFromPair } from '../swap/model'
+
 import { getDirection } from './utils'
 import { getRate, NO_QUOTE } from '../swap/utils'
 import { selectReceiveAddress } from '../utils/sagas'
@@ -887,27 +888,11 @@ export default ({
       if (account.type === 'CUSTODIAL') return
       // @ts-ignore
       let payment = paymentGetOrElse(account.coin, paymentR)
-
-      const value = Number(cryptoAmt)
-
-      switch (payment.coin) {
-        case 'BCH':
-        case 'BTC':
-          payment = yield payment.amount(
-            parseInt(convertStandardToBase(account.coin, value))
-          )
-          break
-        case 'ETH':
-        case 'PAX':
-        case 'USDT':
-        case 'XLM':
-          payment = yield payment.amount(
-            convertStandardToBase(account.coin, value)
-          )
-          break
-        default:
-          throw new Error(INVALID_COIN_TYPE)
-      }
+      const paymentAmount = generateProvisionalPaymentAmount(
+        payment.coin,
+        Number(cryptoAmt)
+      )
+      payment = yield payment.amount(paymentAmount)
       yield put(A.updatePaymentSuccess(payment.value()))
     } catch (e) {
       // eslint-disable-next-line

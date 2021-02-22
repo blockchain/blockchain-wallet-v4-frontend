@@ -8,7 +8,6 @@ export type BannerType =
   | 'resubmit'
   | 'sbOrder'
   | 'finishKyc'
-  | 'coinifyToSb'
   | 'newCurrency'
   | 'buyCrypto'
   | 'continueToGold'

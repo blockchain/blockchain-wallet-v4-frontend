@@ -3,7 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 

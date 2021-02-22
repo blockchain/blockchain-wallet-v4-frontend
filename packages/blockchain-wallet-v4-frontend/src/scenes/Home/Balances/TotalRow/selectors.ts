@@ -1,4 +1,4 @@
-import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { createDeepEqualSelector } from 'services/misc'
 import { getTotalBalance as lockboxBalance } from 'components/Balances/lockbox/selectors'
 import { RootState } from 'data/rootReducer'
 import { getTotalBalance as totalBalance } from 'components/Balances/total/selectors'

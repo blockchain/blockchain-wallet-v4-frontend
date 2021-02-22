@@ -1,11 +1,11 @@
 import * as actions from '../../actions'
-import * as C from 'services/AlertService'
+import * as C from 'services/alerts'
 import * as selectors from '../../selectors'
-import { addLanguageToUrl } from 'services/LocalesService'
+import { addLanguageToUrl } from 'services/locales'
 import {
   askSecondPasswordEnhancer,
   promptForSecondPassword
-} from 'services/SagaService'
+} from 'services/sagas'
 import { call, put, select } from 'redux-saga/effects'
 import { propEq } from 'ramda'
 import { Types, utils } from 'blockchain-wallet-v4/src'

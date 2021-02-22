@@ -1,10 +1,10 @@
 import * as A from './actions'
-import * as C from 'services/AlertService'
+import * as C from 'services/alerts'
 import * as S from './selectors'
 import { actions } from 'data'
 import { call, put, select } from 'redux-saga/effects'
 import { EthPaymentType } from 'core/types'
-import { promptForSecondPassword } from 'services/SagaService'
+import { promptForSecondPassword } from 'services/sagas'
 
 export const logLocation = 'modules/transferEth/sagas'
 

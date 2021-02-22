@@ -19,7 +19,7 @@ import {
   toUpper,
   unapply
 } from 'ramda'
-import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { createDeepEqualSelector } from 'services/misc'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 export const concatAll = unapply(reduce(concat, []))

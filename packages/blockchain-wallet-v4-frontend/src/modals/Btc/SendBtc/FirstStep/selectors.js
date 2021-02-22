@@ -1,9 +1,10 @@
-import * as Bitcoin from 'bitcoinjs-lib'
-import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { FormattedMessage } from 'react-intl'
 import { isEmpty, length, path, pathOr, prop } from 'ramda'
-import { model, selectors } from 'data'
+import * as Bitcoin from 'bitcoinjs-lib'
 import React from 'react'
+
+import { createDeepEqualSelector } from 'services/misc'
+import { model, selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
   [
