@@ -73,6 +73,7 @@ const CartridgeWrapper = styled.div`
 `
 const IconBareWrapper = styled.div`
   span {
+    margin-top: -8px;
     margin-right: -8px;
   }
 `
