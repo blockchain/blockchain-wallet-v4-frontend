@@ -95,6 +95,7 @@ export type SBShowModalOriginType =
   | 'TransactionList'
   | 'WelcomeModal'
   | 'WithdrawModal'
+  | 'SwapNoHoldings'
 
 export enum SBCardStateEnum {
   PENDING,

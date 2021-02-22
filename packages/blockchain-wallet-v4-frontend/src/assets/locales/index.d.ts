@@ -2,9 +2,6 @@
 // Update MessagesType w/ new messages
 // en.json is updated ✨automatically ✨when releases are built
 
-import { FormattedMessage } from 'react-intl'
-import React from 'react'
-
 type MessagesType = {
   'bitpaycta.nowsupporting': 'Your {coin} wallet now supports'
   'borrow.amount.tooltip.description': 'This amount does not include the required collateral network fee.'
@@ -368,6 +365,7 @@ type MessagesType = {
   'copy.max': 'Max'
   'copy.in_review': 'In Review'
   'copy.min': 'Min'
+  'copy.most_popular': 'Most Popular'
   'copy.negative_incoming_swap': 'Amount is below withdrawal fee.'
   'copy.new': 'New'
   'copy.new_swap': 'New Swap'
@@ -1371,7 +1369,6 @@ type MessagesType = {
   'modals.simplebuy.interest_banner.title': 'Earn {interestRate}% on this {displayName} Purchase'
   'modals.simplebuy.interest_banner.description': 'Send your {amount}{currency} to your {displayName} Interest Account.'
   'modals.simplebuy.interest_banner.earn_now': 'Earn Now ->'
-  'modals.simplebuy.most_popular': 'Most Popular'
   'modals.simplebuy.select_crypto': 'Easily buy and sell Crypto straight from your Wallet.'
   'modals.simplebuy.selectcrypto.sell_banner_title': 'Want to sell from your other Wallets?'
   'modals.simplebuy.selectcrypto.sell_banner_description': 'Send crypto from your Wallets to your <b>Trading Wallet</b>s. Once that send completes, sell that crypto for cash.'
@@ -2427,7 +2424,15 @@ type MessagesType = {
   'swap.carousel.title.page4': 'You Control Your Key'
   'swap.carousel.title.page5': 'Manage Risk Better'
   'swap.getstarted.readytoswap.body': 'Complete your profile and start exchanging cryptocurrencies today.'
-  'swap.getstarted.readytoswap.title': 'Ready to Swap? '
+  'swap.getstarted.readytoswap.title': 'Ready to Swap?'
+  'swap.no_holdings.get_started': 'You’re all set to Swap but we don’t see any crypto in this Wallet. Below are 3 ways to get started.'
+  'swap.no_holdings.own_some_first': 'But you’ll need to own some first...'
+  'swap.no_holdings.buy_with_card.title': 'Buy with a Card'
+  'swap.no_holdings.buy_with_card.description': 'Instantly buy crypto with any Visa or Mastercard. You will need to verify your identiy to link a card'
+  'swap.no_holdings.buy_with_bank.title': 'Buy with a Bank Deposit'
+  'swap.no_holdings.buy_with_bank.description': 'Send cash directly from your bank. Once received, we’ll use use that balance to buy the crypto of your choice.'
+  'swap.no_holdings.receive_another_wallet.title': 'Receive from Another Wallet'
+  'swap.no_holdings.receive_another_wallet.description': 'Are you holding crypto on a different wallet? Does a friend want to send you some Bitcoin? Copy & paste or share your unique wallet addresses QR codes.'
   'tooltip.comingsoon': 'Coming soon.'
   'tooltip.copied': 'Copied!'
   'tooltip.transaction.pending.eth': 'Your transaction is currently pending. You can attempt to resend it with a higher fee.'

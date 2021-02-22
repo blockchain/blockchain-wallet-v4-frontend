@@ -14,6 +14,7 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 import CoinSelection from './CoinSelection'
 import EnterAmount from './EnterAmount'
 import InitSwapForm from './InitSwapForm'
+import NoHoldings from './NoHoldings'
 import OrderDetails from './OrderDetails'
 import PreviewSwap from './PreviewSwap'
 import SuccessfulSwap from './SuccessfulSwap'
@@ -77,7 +78,15 @@ class Swap extends PureComponent<Props, State> {
               />
             </FlyoutChild>
           )}
-          {this.props.step === 'NO_HOLDINGS' && <FlyoutChild>aaa</FlyoutChild>}
+          {this.props.step === 'NO_HOLDINGS' && (
+            <FlyoutChild>
+              <NoHoldings
+                {...this.props}
+                handleClose={this.handleClose}
+                {...val}
+              />
+            </FlyoutChild>
+          )}
           {this.props.step === 'ENTER_AMOUNT' && (
             <FlyoutChild>
               <EnterAmount
