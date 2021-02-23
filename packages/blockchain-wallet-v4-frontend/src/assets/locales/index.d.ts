@@ -1505,6 +1505,7 @@ type MessagesType = {
   'modals.tradinglimits.buy_with_a_card': 'Buy with a Card'
   'modals.tradinglimits.deposits_and_withdrawals': 'Deposits & Withdrawals'
   'modals.tradinglimits.earn_interest': 'Earn Interest'
+  'modals.tradinglimits.unlock_gold_tier': 'Unock Gold Tier ->'
   'modals.twostepgoogleauthenticator.enable': 'Enable 2FA'
   'modals.twostepgoogleauthenticator.explain': 'Scan this QR code with your Google Authenticator app on your mobile phone (download for iOS or Android).'
   'modals.twostepgoogleauthenticator.explain2': 'Once scanned you will be presented with a random 6 digit number.'
