@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
+
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const CloseContainer = styled.div`
@@ -65,6 +66,7 @@ type Props = OwnProps & SuccessStateType
 
 const Success = (props: Props) => {
   const coin = props.fiatCurrency || 'USD'
+  const amount = 0
   return (
     <Wrapper>
       <CloseContainer>
@@ -106,7 +108,7 @@ const Success = (props: Props) => {
               defaultMessage='{currencySymbol}{amount} Deposited!'
               values={{
                 currencySymbol: props.supportedCoins[coin].symbol,
-                amount: props.amount
+                amount
               }}
             />
           </Text>
@@ -116,7 +118,7 @@ const Success = (props: Props) => {
               defaultMessage='While we wait for your bank to send the cash, here’s early access to {currencySymbol}{amount} in your {currency} Cash Account so you can buy crypto right away.'
               values={{
                 currencySymbol: props.supportedCoins[coin].symbol,
-                amount: props.amount,
+                amount,
                 currency: props.supportedCoins[coin].currency
               }}
             />

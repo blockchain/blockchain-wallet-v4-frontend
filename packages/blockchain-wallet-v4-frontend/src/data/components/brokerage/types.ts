@@ -1,7 +1,4 @@
-import {
-  BankTransferAccountType, // TODO: move to Brokerage core types
-  RemoteDataType
-} from 'core/types'
+import { BankTransferAccountType, RemoteDataType } from 'core/types'
 
 import * as AT from './actionTypes'
 
@@ -43,6 +40,7 @@ export type BrokerageStepPayload =
         | BankDepositStepType.DEPOSIT_METHODS
         | BankDepositStepType.ENTER_AMOUNT
         | BankDepositStepType.WIRE_INSTRUCTIONS
+        | BankDepositStepType.DEPOSIT_STATUS
     }
   | {
       bankStatus: BankStatusType

@@ -1,4 +1,5 @@
 import { call, put, retry, select, take } from 'redux-saga/effects'
+import { getFormValues } from 'redux-form'
 
 import { actions, selectors } from 'data'
 import {
@@ -192,10 +193,21 @@ export default ({
     yield put(actions.modals.showModal(modalType, { origin }))
   }
 
-  const createFiatDeposit = function * (action) {
-    const { amount, currency } = action.payload
+  const createFiatDeposit = function * () {
+    const { amount, currency } = yield select(getFormValues('brokerageTx'))
     const { id } = yield select(selectors.components.brokerage.getAccount)
-    yield call(api.createFiatDeposit, amount, id, currency)
+    try {
+      const data = yield call(api.createFiatDeposit, amount, id, currency)
+      if (data && data.paymentId) {
+        yield put(
+          actions.components.brokerage.setStep({
+            step: BankDepositStepType.DEPOSIT_STATUS
+          })
+        )
+      }
+    } catch (e) {
+      // TODO: implement error fallback
+    }
   }
 
   const handleMethodChange = function * (action) {

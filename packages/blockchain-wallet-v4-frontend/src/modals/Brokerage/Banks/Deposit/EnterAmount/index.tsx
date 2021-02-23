@@ -24,14 +24,20 @@ const EnterAmount = props => {
   })
 
   const onSubmit = () => {
-    // props.brokerageActions.createFiatDeposit(vals.amount, props.fiatCurrency)
     props.brokerageActions.setStep({
       step: BankDepositStepType.CONFIRM
     })
   }
 
   return props.data.cata({
-    Success: val => <Success {...val} {...props} onSubmit={onSubmit} />,
+    Success: val => (
+      <Success
+        {...val}
+        {...props}
+        onSubmit={onSubmit}
+        initialValues={{ currency: props.fiatCurrency }}
+      />
+    ),
     Failure: () => <Failure {...props} />,
     Loading: () => <Loading />,
     NotAsked: () => <Loading />

@@ -1,7 +1,6 @@
 import * as AT from './actionTypes'
 import {
   BankTransferAccountType,
-  FiatType,
   WalletFiatType,
   YodleeAccountType
 } from 'core/types'
@@ -34,9 +33,8 @@ export const setFastLink = (fastLink: FastLinkType): BrokerageActionTypes => ({
   }
 })
 
-export const createFiatDeposit = (amount: number, currency: FiatType) => ({
-  type: AT.CREATE_FIAT_DEPOSIT,
-  payload: { amount, currency }
+export const createFiatDeposit = () => ({
+  type: AT.CREATE_FIAT_DEPOSIT
 })
 
 export const fetchBankTransferUpdate = (accounts: YodleeAccountType[]) => ({
