@@ -6,7 +6,10 @@ import styled from 'styled-components'
 import { AmountTextBox } from 'components/Exchange'
 import { BankDepositStepType } from 'data/types'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
+import { fiatToString } from 'core/exchange/currency'
+import { FiatType } from 'core/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
@@ -27,28 +30,71 @@ const CustomForm = styled(Form)`
   display: flex;
   flex-direction: column;
 `
+
+const Wrapper = styled(FlyoutWrapper)`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`
+const HeaderWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  margin: 40px 40px 29px 40px;
+`
+
+const Limits = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 15px 40px;
+  border-top: 1px solid ${props => props.theme.grey000};
+  border-bottom: 1px solid ${props => props.theme.grey000};
+`
+
+const LimitWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`
+
 const TopText = styled(Text)`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 16px;
 `
-
 const LeftTopCol = styled.div`
   display: flex;
   align-items: center;
 `
-
+const FiatIconWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+`
 const AmountRow = styled(Row)`
   position: relative;
   padding: 24px;
   justify-content: center;
   border: 0;
 `
+const SubIconWrapper = styled.div`
+  align-items: center;
+  justify-content: center;
+  background-color: ${props => props.theme['fiat-light']};
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  position: absolute;
+  right: -20px;
+`
 
 const Header = ({ brokerageActions, fiatCurrency }) => {
   return (
-    <FlyoutWrapper style={{ paddingBottom: '0px', borderBottom: 'grey000' }}>
+    <HeaderWrapper>
       <TopText color='grey800' size='20px' weight={600}>
         <LeftTopCol>
           <Icon
@@ -56,7 +102,7 @@ const Header = ({ brokerageActions, fiatCurrency }) => {
             data-e2e='depositBackToDepositMethods'
             name='arrow-back'
             size='20px'
-            color='grey600'
+            color='grey400'
             role='button'
             style={{ marginRight: '8px' }}
             onClick={() =>
@@ -71,25 +117,47 @@ const Header = ({ brokerageActions, fiatCurrency }) => {
           />
         </LeftTopCol>
       </TopText>
-    </FlyoutWrapper>
+    </HeaderWrapper>
   )
 }
 
-const LimitSection = ({ paymentMethods }) => {
+const LimitSection = ({ paymentMethods, walletCurrency, supportedCoins }) => {
   const bankTranfser = paymentMethods.methods.find(
     method => method.type === 'BANK_TRANSFER'
   )
 
   if (bankTranfser.limits) {
     return (
-      <FlyoutWrapper>
-        <FormattedMessage
-          id='modals.brokerage.daily_limit'
-          defaultMessage='Daily Limit'
-        />
-        {bankTranfser.limits.daily.available}{' '}
-        <FormattedMessage id='copy.available' defaultMessage='Available' />
-      </FlyoutWrapper>
+      <Limits>
+        <LimitWrapper>
+          <Text color='grey600' size='14px' weight={500}>
+            <FormattedMessage
+              id='modals.brokerage.daily_limit'
+              defaultMessage='Daily Limit'
+            />
+          </Text>
+          <Text color='grey800' size='20px' weight={600}>
+            {fiatToString({
+              value: convertBaseToStandard(
+                'FIAT',
+                bankTranfser.limits.daily.available
+              ),
+              unit: walletCurrency as FiatType
+            })}{' '}
+            <FormattedMessage id='copy.available' defaultMessage='Available' />
+          </Text>
+        </LimitWrapper>
+        <FiatIconWrapper>
+          <Icon
+            color={supportedCoins[walletCurrency].colorCode}
+            name={supportedCoins[walletCurrency].icons.circleFilled}
+            size='32px'
+          />
+          <SubIconWrapper>
+            <Icon size='24px' color='fiat' name='arrow-down' />
+          </SubIconWrapper>
+        </FiatIconWrapper>
+      </Limits>
     )
   } else {
     // TODO: return something if no limits are available
@@ -184,9 +252,8 @@ const NextButton = ({ invalid, pristine, submitting }) => {
   )
 }
 
-const ErrorMessage = () => {
-  return <div>sup</div>
-}
+const ErrorMessage = ({ error }) => <div>{error}</div>
+
 const Success = (props: OwnProps) => {
   const isUserEligible =
     props.paymentMethods.methods.length &&
@@ -198,10 +265,12 @@ const Success = (props: OwnProps) => {
         <CustomForm onSubmit={props.handleSubmit}>
           <Header {...props} />
           <LimitSection {...props} />
-          <Amount {...props} />
-          <Account {...props} />
-          <NextButton {...props} />
-          <ErrorMessage />
+          <Wrapper>
+            <Amount {...props} />
+            <Account {...props} />
+            <NextButton {...props} />
+            {props.error && <ErrorMessage {...props} />}
+          </Wrapper>
         </CustomForm>
       )}
     </div>

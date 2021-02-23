@@ -1,4 +1,8 @@
-import { ExtractSuccess, FiatType } from 'core/types'
+import {
+  ExtractSuccess,
+  FiatType,
+  SupportedWalletCurrenciesType
+} from 'core/types'
 import { lift } from 'ramda'
 import { selectors } from 'data'
 
@@ -14,6 +18,11 @@ export const getData = state => {
     state
   )
 
+  const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
+  const supportedCoins = supportedCoinsR.getOrElse(
+    {} as SupportedWalletCurrenciesType
+  )
+
   return lift(
     (
       bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
@@ -25,7 +34,8 @@ export const getData = state => {
       defaultMethod: defaultMethodR,
       eligibility,
       paymentMethods,
-      walletCurrency
+      walletCurrency,
+      supportedCoins
     })
   )(bankTransferAccountsR, eligibilityR, paymentMethodsR, walletCurrencyR)
 }
