@@ -21,12 +21,8 @@ const DepositStatus = props => {
     }
   }, [])
 
-  const onSubmit = vals => {
-    props.brokerageActions.createFiatDeposit(vals.amount, props.fiatCurrency)
-  }
-
   return props.data.cata({
-    Success: val => <Success {...val} {...props} onSubmit={onSubmit} />,
+    Success: val => <Success {...val} {...props} />,
     Failure: () => <Failure {...props} />,
     Loading: () => <Loading />,
     NotAsked: () => <Loading />

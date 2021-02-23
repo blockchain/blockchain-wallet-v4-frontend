@@ -1,6 +1,6 @@
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Text } from 'blockchain-info-components'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import { BankDepositStepType } from 'data/types'
@@ -32,6 +32,8 @@ const Row = styled.div`
 `
 
 const Success = props => {
+  const [submitting, setSubmitting] = useState<boolean>(false)
+
   return (
     <Wrapper>
       <FlyoutWrapper>
@@ -77,6 +79,26 @@ const Success = props => {
               values={{ currency: props.defaultMethod.currency }}
             />
           </LineItemText>
+        </Row>
+        <Row>
+          <Button
+            data-e2e='submitDepositAmount'
+            height='48px'
+            size='16px'
+            nature='primary'
+            onClick={() => {
+              setSubmitting(true)
+              props.brokerageActions.createFiatDeposit()
+            }}
+            fullwidth
+            disabled={submitting}
+          >
+            {submitting ? (
+              <HeartbeatLoader height='16px' width='16px' color='white' />
+            ) : (
+              <FormattedMessage id='buttons.next' defaultMessage='Next' />
+            )}
+          </Button>
         </Row>
       </FlyoutBody>
     </Wrapper>
