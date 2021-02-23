@@ -17,7 +17,11 @@ import { Props as BaseProps, SuccessStateType as SuccessType } from '..'
 import { ExtractSuccess } from 'core/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { formatCoin } from 'core/exchange/currency'
-import { InitSwapFormValuesType } from 'data/types'
+import {
+  InitSwapFormValuesType,
+  SwapAccountType,
+  SwapCoinType
+} from 'data/types'
 import { selectors } from 'data'
 
 import { getData } from './selectors'
@@ -60,6 +64,25 @@ const Toggler = styled.div`
 class EnterAmount extends PureComponent<Props> {
   componentDidMount () {
     this.props.swapActions.initAmountForm()
+  }
+
+  handleStepCoinSelection = (
+    accounts: { [key in SwapCoinType]: Array<SwapAccountType> }
+  ) => {
+    const isAccountZeroBalance = checkAccountZeroBalance(accounts)
+
+    if (isAccountZeroBalance) {
+      this.props.swapActions.setStep({
+        step: 'NO_HOLDINGS'
+      })
+    } else {
+      this.props.swapActions.setStep({
+        step: 'COIN_SELECTION',
+        options: {
+          side: 'BASE'
+        }
+      })
+    }
   }
 
   render () {
@@ -127,24 +150,7 @@ class EnterAmount extends PureComponent<Props> {
                   <Option
                     role='button'
                     data-e2e='selectFromAcct'
-                    onClick={() => {
-                      const isAccountZeroBalance = checkAccountZeroBalance(
-                        val.accounts
-                      )
-
-                      if (isAccountZeroBalance) {
-                        this.props.swapActions.setStep({
-                          step: 'NO_HOLDINGS'
-                        })
-                      } else {
-                        this.props.swapActions.setStep({
-                          step: 'COIN_SELECTION',
-                          options: {
-                            side: 'BASE'
-                          }
-                        })
-                      }
-                    }}
+                    onClick={() => this.handleStepCoinSelection(val.accounts)}
                   >
                     <div>
                       <Text color='grey600' weight={500} size='14px'>

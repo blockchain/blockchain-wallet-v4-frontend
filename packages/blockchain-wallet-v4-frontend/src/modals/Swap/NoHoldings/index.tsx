@@ -1,16 +1,16 @@
-import { Props as BaseProps } from '../index'
-import { Border, IconBackground, TopText } from '../components'
+import { bindActionCreators, compose } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import React from 'react'
-
-import { bindActionCreators, compose } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
+import styled, { css } from 'styled-components'
 
 import { actions } from 'data'
 import { FlyoutWrapper } from 'components/Flyout'
 import { SuccessCartridge } from 'components/Cartridge'
-import styled, { css } from 'styled-components'
+
+import { Props as BaseProps } from '../index'
+import { Border, IconBackground, TopText } from '../components'
 
 const FlexTopRow = styled.div`
   display: flex;

@@ -22,7 +22,11 @@ import { compose } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { FlyoutWrapper } from 'components/Flyout'
 import { getData } from './selectors'
-import { InitSwapFormValuesType } from 'data/components/swap/types'
+import {
+  InitSwapFormValuesType,
+  SwapAccountType,
+  SwapCoinType
+} from 'data/components/swap/types'
 import { selectors } from 'data'
 import checkAccountZeroBalance from 'services/CheckAccountZeroBalance'
 import CoinBalance from '../components/CoinBalance'
@@ -49,6 +53,25 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 
   getCustodialWallet = (accounts, coin: CoinType) => {
     return accounts[coin].filter(account => account.type === 'CUSTODIAL')[0]
+  }
+
+  handleStepCoinSelection = (
+    accounts: { [key in SwapCoinType]: Array<SwapAccountType> }
+  ) => {
+    const isAccountZeroBalance = checkAccountZeroBalance(accounts)
+
+    if (isAccountZeroBalance) {
+      this.props.swapActions.setStep({
+        step: 'NO_HOLDINGS'
+      })
+    } else {
+      this.props.swapActions.setStep({
+        step: 'COIN_SELECTION',
+        options: {
+          side: 'BASE'
+        }
+      })
+    }
   }
 
   render () {
@@ -98,22 +121,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               <Option
                 role='button'
                 data-e2e='selectFromAcct'
-                onClick={() => {
-                  const isAccountZeroBalance = checkAccountZeroBalance(accounts)
-
-                  if (isAccountZeroBalance) {
-                    this.props.swapActions.setStep({
-                      step: 'NO_HOLDINGS'
-                    })
-                  } else {
-                    this.props.swapActions.setStep({
-                      step: 'COIN_SELECTION',
-                      options: {
-                        side: 'BASE'
-                      }
-                    })
-                  }
-                }}
+                onClick={() => this.handleStepCoinSelection(accounts)}
               >
                 {values?.BASE ? (
                   <>

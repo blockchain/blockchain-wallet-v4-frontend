@@ -1,4 +1,4 @@
-import { SwapAccountType, SwapCoinType } from '../../data/components/swap/types'
+import { SwapAccountType, SwapCoinType } from 'data/components/swap/types'
 
 const checkAccountZeroBalance = (
   accounts: { [key in SwapCoinType]: Array<SwapAccountType> }
