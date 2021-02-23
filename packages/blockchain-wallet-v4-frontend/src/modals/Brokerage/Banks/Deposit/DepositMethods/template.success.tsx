@@ -2,11 +2,7 @@ import { FormattedMessage } from 'react-intl'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
-import {
-  AddBankStepType,
-  BankDepositStepType,
-  BrokerageModalOriginType
-} from 'data/types'
+import { BankDepositStepType } from 'data/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { SBPaymentMethodsType, SBPaymentMethodType } from 'core/types'
@@ -119,21 +115,9 @@ const Success = (props: Props) => {
               <LinkBank
                 icon={icon}
                 onClick={() => {
-                  // If user has no saved banks take them to add bank flow
-                  // else take them to enter amount form with default bank
-                  if (!props.data.data.bankTransferAccounts?.length) {
-                    props.brokerageActions.showModal(
-                      BrokerageModalOriginType.ADD_BANK,
-                      'ADD_BANK_MODAL'
-                    )
-                    props.brokerageActions.setStep({
-                      step: AddBankStepType.ADD_BANK
-                    })
-                  } else {
-                    props.brokerageActions.setStep({
-                      step: BankDepositStepType.ENTER_AMOUNT
-                    })
-                  }
+                  props.brokerageActions.setStep({
+                    step: BankDepositStepType.ENTER_AMOUNT
+                  })
                 }}
                 text={text}
                 value={method}

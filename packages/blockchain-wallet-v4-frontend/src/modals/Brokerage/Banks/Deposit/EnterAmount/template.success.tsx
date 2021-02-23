@@ -3,8 +3,12 @@ import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
+import {
+  AddBankStepType,
+  BankDepositStepType,
+  BrokerageModalOriginType
+} from 'data/types'
 import { AmountTextBox } from 'components/Exchange'
-import { BankDepositStepType } from 'data/types'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
@@ -207,11 +211,21 @@ const Account = ({
       role='button'
       data-e2e='paymentMethodSelect'
       onClick={() => {
-        return !invalid
-          ? brokerageActions.setStep({
-              step: BankDepositStepType.BANK_LIST
-            })
-          : null
+        // If user has no saved banks take them to add bank flow
+        // else take them to enter amount form with default bank
+        if (!bankTransferAccounts.length) {
+          brokerageActions.showModal(
+            BrokerageModalOriginType.ADD_BANK,
+            'ADD_BANK_MODAL'
+          )
+          brokerageActions.setStep({
+            step: AddBankStepType.ADD_BANK
+          })
+        } else {
+          brokerageActions.setStep({
+            step: BankDepositStepType.BANK_LIST
+          })
+        }
       }}
       isMethod={!!dMethod}
     >
