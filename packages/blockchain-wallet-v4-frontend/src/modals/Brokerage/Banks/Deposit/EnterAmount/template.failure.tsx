@@ -2,7 +2,7 @@ import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
-import { BankDepositStepType } from 'data/types'
+import { BankDWStepType } from 'data/types'
 import { Button, Image, Text } from 'blockchain-info-components'
 
 import { LinkStatePropsType, Props as OwnProps } from '.'
@@ -44,8 +44,8 @@ const Failure: React.FC<Props> = props => {
           nature='primary'
           size='16px'
           onClick={() =>
-            props.brokerageActions.setStep({
-              step: BankDepositStepType.DEPOSIT_METHODS
+            props.brokerageActions.setDWStep({
+              dwStep: BankDWStepType.DEPOSIT_METHODS
             })
           }
         >

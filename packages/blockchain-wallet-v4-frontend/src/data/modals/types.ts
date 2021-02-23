@@ -54,6 +54,7 @@ export type ModalOriginType =
   | 'BorrowHistorySection'
   | 'BorrowLandingPage'
   | 'DepositButton'
+  | 'DepositWithdrawalModal'
   | 'EmptyFeed'
   | 'ExchangeForm'
   | 'FeaturesTopNav'

@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import React, { useEffect } from 'react'
 
 import { actions, selectors } from 'data'
-import { BankDepositStepType } from 'data/types'
+import { BankDWStepType } from 'data/types'
 import { ExtractSuccess, FiatType, RemoteDataType } from 'core/types'
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -24,8 +24,8 @@ const EnterAmount = props => {
   })
 
   const onSubmit = () => {
-    props.brokerageActions.setStep({
-      step: BankDepositStepType.CONFIRM
+    props.brokerageActions.setDWStep({
+      dwStep: BankDWStepType.CONFIRM
     })
   }
 

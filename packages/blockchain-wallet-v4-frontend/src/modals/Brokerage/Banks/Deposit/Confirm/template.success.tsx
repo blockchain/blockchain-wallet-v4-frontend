@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { BankDepositStepType } from 'data/types'
+import { BankDWStepType } from 'data/types'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType } from 'core/types'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -54,7 +54,7 @@ const Success = props => {
             color='grey600'
             onClick={() =>
               props.brokerageActions.setStep({
-                step: BankDepositStepType.ENTER_AMOUNT
+                step: BankDWStepType.ENTER_AMOUNT
               })
             }
           />

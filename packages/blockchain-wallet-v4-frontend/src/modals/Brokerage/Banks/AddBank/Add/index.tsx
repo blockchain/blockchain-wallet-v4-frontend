@@ -19,8 +19,8 @@ class Add extends PureComponent<Props> {
   }
 
   handleSubmit = () => {
-    this.props.brokerageActions.setStep({
-      step: AddBankStepType.ADD_BANK_HANDLER
+    this.props.brokerageActions.setAddBankStep({
+      addBankStep: AddBankStepType.ADD_BANK_HANDLER
     })
   }
 
@@ -57,7 +57,7 @@ class Add extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'EUR'
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD'
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({

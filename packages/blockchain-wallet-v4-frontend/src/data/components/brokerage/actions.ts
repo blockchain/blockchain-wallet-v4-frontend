@@ -9,7 +9,8 @@ import {
   AddBankStepType,
   BankDetailsPayload,
   BrokerageActionTypes,
-  BrokerageStepPayload,
+  BrokerageAddBankStepPayload,
+  BrokerageDWStepPayload,
   FastLinkType
 } from './types'
 import { BrokerageModalOriginType, ModalNamesType } from 'data/types'
@@ -70,11 +71,18 @@ export const fetchFastLink = (): BrokerageActionTypes => ({
   type: AT.FETCH_FAST_LINK
 })
 
-export const setStep = (
-  payload: BrokerageStepPayload
+export const setAddBankStep = (
+  payload: BrokerageAddBankStepPayload
 ): BrokerageActionTypes => ({
-  type: AT.SET_STEP,
-  payload: getPayloadObjectForStep(payload)
+  type: AT.SET_ADD_BANK_STEP,
+  payload: getPayloadObjectForAddBankStep(payload)
+})
+
+export const setDWStep = (
+  payload: BrokerageDWStepPayload
+): BrokerageActionTypes => ({
+  type: AT.SET_D_W_STEP,
+  payload: getPayloadObjectForDWStep(payload)
 })
 
 export const setBankDetails = (
@@ -84,15 +92,24 @@ export const setBankDetails = (
   payload: payload
 })
 
-const getPayloadObjectForStep = (payload: BrokerageStepPayload) => {
-  switch (payload.step) {
+const getPayloadObjectForAddBankStep = (
+  payload: BrokerageAddBankStepPayload
+) => {
+  switch (payload.addBankStep) {
     case AddBankStepType.ADD_BANK_STATUS:
       return {
-        step: payload.step,
+        addBankStep: payload.addBankStep,
         bankStatus: payload.bankStatus
       }
     default:
-      return { step: payload.step }
+      return { addBankStep: payload.addBankStep }
+  }
+}
+
+const getPayloadObjectForDWStep = (payload: BrokerageDWStepPayload) => {
+  switch (payload.dwStep) {
+    default:
+      return { dwStep: payload.dwStep }
   }
 }
 

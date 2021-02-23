@@ -22,7 +22,7 @@ export type BankStatusType =
   | 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH'
   | 'DEFAULT_ERROR'
 
-export enum BankDepositStepType {
+export enum BankDWStepType {
   ADD_BANK = 'ADD_BANK',
   BANK_LIST = 'BANK_LIST',
   CONFIRM = 'CONFIRM',
@@ -32,19 +32,21 @@ export enum BankDepositStepType {
   WIRE_INSTRUCTIONS = 'WIRE_INSTRUCTIONS'
 }
 
-export type BrokerageStepPayload =
+export type BrokerageDWStepPayload = {
+  dwStep:
+    | BankDWStepType.DEPOSIT_METHODS
+    | BankDWStepType.ENTER_AMOUNT
+    | BankDWStepType.WIRE_INSTRUCTIONS
+    | BankDWStepType.DEPOSIT_STATUS
+}
+
+export type BrokerageAddBankStepPayload =
   | {
-      step:
-        | AddBankStepType.ADD_BANK
-        | AddBankStepType.ADD_BANK_HANDLER
-        | BankDepositStepType.DEPOSIT_METHODS
-        | BankDepositStepType.ENTER_AMOUNT
-        | BankDepositStepType.WIRE_INSTRUCTIONS
-        | BankDepositStepType.DEPOSIT_STATUS
+      addBankStep: AddBankStepType.ADD_BANK | AddBankStepType.ADD_BANK_HANDLER
     }
   | {
+      addBankStep: AddBankStepType.ADD_BANK_STATUS,
       bankStatus: BankStatusType
-      step: AddBankStepType.ADD_BANK_STATUS
     }
 
 export type BankDetailsPayload = {
@@ -61,17 +63,19 @@ export enum AddBankStepType {
 export enum BrokerageModalOriginType {
   ADD_BANK = 'AddBankModal',
   BANK = 'BankDetailsModal',
-  DEPOSIT_BUTTON = 'DepositButton'
+  DEPOSIT_BUTTON = 'DepositButton',
+  DW = 'DepositWithdrawalModal'
 }
 
 // State
 export type BrokerageState = {
   account: BankTransferAccountType | undefined
-  bankStatus: RemoteDataType<string, BankStatusType>
-  bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>
-  fastLink: RemoteDataType<string, FastLinkType>
+  addBankStep: AddBankStepType,
+  bankStatus: RemoteDataType<string, BankStatusType>,
+  bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>,
+  dwStep: BankDWStepType,
+  fastLink: RemoteDataType<string, FastLinkType>,
   redirectBackToStep: boolean
-  step: AddBankStepType | BankDepositStepType
 }
 
 interface FetchFastLinkType {
@@ -104,9 +108,14 @@ interface SetFastLinkAction {
   type: typeof AT.SET_FAST_LINK
 }
 
-interface SetStepAction {
-  payload: BrokerageStepPayload
-  type: typeof AT.SET_STEP
+interface SetAddBankStepAction {
+  payload: BrokerageAddBankStepPayload
+  type: typeof AT.SET_ADD_BANK_STEP
+}
+
+interface SetDWStepAction {
+  payload: BrokerageDWStepPayload
+  type: typeof AT.SET_D_W_STEP
 }
 interface SetBankAccountAction {
   payload: BankDetailsPayload
@@ -120,5 +129,6 @@ export type BrokerageActionTypes =
   | FetchBTUpdateLoading
   | FetchFastLinkType
   | SetFastLinkAction
-  | SetStepAction
+  | SetAddBankStepAction
   | SetBankAccountAction
+  | SetDWStepAction

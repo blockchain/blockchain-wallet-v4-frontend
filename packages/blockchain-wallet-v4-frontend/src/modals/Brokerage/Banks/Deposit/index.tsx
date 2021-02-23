@@ -6,7 +6,7 @@ import React, { PureComponent } from 'react'
 import { actions, selectors } from 'data'
 import {
   AddBankStepType,
-  BankDepositStepType,
+  BankDWStepType,
   BrokerageModalOriginType
 } from 'data/types'
 import { FiatType, SBPaymentMethodType } from 'core/types'
@@ -32,9 +32,7 @@ class Deposit extends PureComponent<Props> {
 
   componentDidUpdate (prevProps: Props) {
     if (this.props.step === prevProps.step) return
-    if (
-      BankDepositStepType[this.props.step] > BankDepositStepType[prevProps.step]
-    ) {
+    if (BankDWStepType[this.props.step] > BankDWStepType[prevProps.step]) {
       /* eslint-disable */
       this.setState({ direction: 'left' })
     } else {
@@ -53,11 +51,11 @@ class Deposit extends PureComponent<Props> {
   handleSubmit = (method: SBPaymentMethodType) => {
     switch (method.type) {
       case 'LINK_BANK':
-        this.props.brokerageActions.setStep({
-          step: AddBankStepType.ADD_BANK
+        this.props.brokerageActions.setAddBankStep({
+          addBankStep: AddBankStepType.ADD_BANK
         })
         this.props.brokerageActions.showModal(
-          BrokerageModalOriginType.ADD_BANK,
+          BrokerageModalOriginType.DW,
           'ADD_BANK_MODAL'
         )
         break
@@ -76,7 +74,7 @@ class Deposit extends PureComponent<Props> {
         direction={this.state.direction}
         data-e2e='bankDepositModal'
       >
-        {this.props.step === BankDepositStepType.DEPOSIT_METHODS && (
+        {this.props.step === BankDWStepType.DEPOSIT_METHODS && (
           /*
            * loads deposit payment methods ui
            * bank_transfer or loads wire transfer screen
@@ -85,7 +83,7 @@ class Deposit extends PureComponent<Props> {
             <DepositMethods {...this.props} />
           </FlyoutChild>
         )}
-        {this.props.step === BankDepositStepType.ENTER_AMOUNT && (
+        {this.props.step === BankDWStepType.ENTER_AMOUNT && (
           /*
            * The enter amount form shows the amount input, limits, and default
            * or last used ach account. If user clicks on "Add a bank" or their
@@ -95,7 +93,7 @@ class Deposit extends PureComponent<Props> {
             <EnterAmount {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
-        {this.props.step === BankDepositStepType.BANK_LIST && (
+        {this.props.step === BankDWStepType.BANK_LIST && (
           /*
            * list a users saved bank accounts if they have more than one and
            * add show an "add new" button which transitions them to a payment
@@ -105,7 +103,7 @@ class Deposit extends PureComponent<Props> {
             <BankList />
           </FlyoutChild>
         )}
-        {this.props.step === BankDepositStepType.CONFIRM && (
+        {this.props.step === BankDWStepType.CONFIRM && (
           /*
            * this step shows a confirmation screen for a created deposit with
            * the option to confirm or cancel the order
@@ -114,7 +112,7 @@ class Deposit extends PureComponent<Props> {
             <Confirm {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
-        {this.props.step === BankDepositStepType.DEPOSIT_STATUS && (
+        {this.props.step === BankDWStepType.DEPOSIT_STATUS && (
           /*
            * depending on the servers response we'll display a successful
            * or unsuccessful deposit screen9
@@ -129,7 +127,7 @@ class Deposit extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  step: selectors.components.brokerage.getStep(state),
+  step: selectors.components.brokerage.getDWStep(state),
   fiatCurrency: 'USD' as FiatType // TODO: Unhardcode this
 })
 
@@ -146,7 +144,7 @@ const enhance = compose(
 
 type OwnProps = ModalPropsType
 type LinkStatePropsType = {
-  step: BankDepositStepType
+  step: BankDWStepType
 }
 export type FailurePropsType = {
   handleClose: () => void

@@ -2,7 +2,7 @@ import { FormattedMessage } from 'react-intl'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
-import { BankDepositStepType } from 'data/types'
+import { BankDWStepType } from 'data/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { SBPaymentMethodsType, SBPaymentMethodType } from 'core/types'
@@ -115,8 +115,8 @@ const Success = (props: Props) => {
               <LinkBank
                 icon={icon}
                 onClick={() => {
-                  props.brokerageActions.setStep({
-                    step: BankDepositStepType.ENTER_AMOUNT
+                  props.brokerageActions.setDWStep({
+                    dwStep: BankDWStepType.ENTER_AMOUNT
                   })
                 }}
                 text={text}

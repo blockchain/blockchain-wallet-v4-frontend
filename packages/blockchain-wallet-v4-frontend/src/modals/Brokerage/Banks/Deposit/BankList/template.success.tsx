@@ -1,7 +1,7 @@
 import { AddNewButton } from 'components/Brokerage'
 import React from 'react'
 
-import { BankDepositStepType } from 'data/types'
+import { BankDWStepType } from 'data/types'
 import { BankTransferAccountType } from 'core/types'
 import { FlyoutWrapper } from 'components/Flyout'
 
@@ -17,8 +17,8 @@ const BankList = (props: Props) => {
         <div
           onClick={() => {
             props.brokerageActions.setBankDetails({ account })
-            props.brokerageActions.setStep({
-              step: BankDepositStepType.ENTER_AMOUNT
+            props.brokerageActions.setDWStep({
+              dwStep: BankDWStepType.ENTER_AMOUNT
             })
           }}
         >

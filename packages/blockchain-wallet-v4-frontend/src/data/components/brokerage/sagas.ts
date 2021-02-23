@@ -4,7 +4,7 @@ import { getFormValues } from 'redux-form'
 import { actions, selectors } from 'data'
 import {
   AddBankStepType,
-  BankDepositStepType,
+  BankDWStepType,
   BrokerageModalOriginType,
   SBCheckoutFormValuesType
 } from 'data/types'
@@ -88,8 +88,8 @@ export default ({
         // Shows bank status screen based on whether has blocked account or not
 
         yield put(
-          actions.components.brokerage.setStep({
-            step: AddBankStepType.ADD_BANK_STATUS,
+          actions.components.brokerage.setAddBankStep({
+            addBankStep: AddBankStepType.ADD_BANK_STATUS,
             bankStatus: bankData.state
           })
         )
@@ -99,6 +99,14 @@ export default ({
         if (bankData.state === 'ACTIVE') {
           const values: SBCheckoutFormValuesType = yield select(
             selectors.form.getFormValues('simpleBuyCheckout')
+          )
+
+          // Set the brokerage defaultMethod to this new bank. Typically to
+          // auto-fill the bank account on the enter amount screen
+          yield put(
+            actions.components.brokerage.setBankDetails({
+              account: bankData
+            })
           )
           if (values?.amount) {
             yield put(
@@ -136,8 +144,8 @@ export default ({
       }
     } catch (e) {
       yield put(
-        actions.components.brokerage.setStep({
-          step: AddBankStepType.ADD_BANK_STATUS,
+        actions.components.brokerage.setAddBankStep({
+          addBankStep: AddBankStepType.ADD_BANK_STATUS,
           bankStatus: 'DEFAULT_ERROR'
         })
       )
@@ -182,8 +190,8 @@ export default ({
       )
     )
     yield put(
-      actions.components.brokerage.setStep({
-        step: BankDepositStepType.DEPOSIT_METHODS
+      actions.components.brokerage.setDWStep({
+        dwStep: BankDWStepType.DEPOSIT_METHODS
       })
     )
   }
@@ -200,8 +208,8 @@ export default ({
       const data = yield call(api.createFiatDeposit, amount, id, currency)
       if (data && data.paymentId) {
         yield put(
-          actions.components.brokerage.setStep({
-            step: BankDepositStepType.DEPOSIT_STATUS
+          actions.components.brokerage.setDWStep({
+            dwStep: BankDWStepType.DEPOSIT_STATUS
           })
         )
       }
@@ -240,14 +248,14 @@ export default ({
       default:
       case 'BANK_ACCOUNT':
         return yield put(
-          actions.components.brokerage.setStep({
-            step: BankDepositStepType.WIRE_INSTRUCTIONS
+          actions.components.brokerage.setDWStep({
+            dwStep: BankDWStepType.WIRE_INSTRUCTIONS
           })
         )
       case 'BANK_TRANSFER':
         return yield put(
-          actions.components.brokerage.setStep({
-            step: BankDepositStepType.ENTER_AMOUNT
+          actions.components.brokerage.setDWStep({
+            dwStep: BankDWStepType.ENTER_AMOUNT
           })
         )
     }

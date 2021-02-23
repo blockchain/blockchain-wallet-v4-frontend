@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import {
   AddBankStepType,
-  BankDepositStepType,
+  BankDWStepType,
   BrokerageModalOriginType
 } from 'data/types'
 import { AmountTextBox } from 'components/Exchange'
@@ -110,8 +110,8 @@ const Header = ({ brokerageActions, fiatCurrency }) => {
             role='button'
             style={{ marginRight: '8px' }}
             onClick={() =>
-              brokerageActions.setStep({
-                step: BankDepositStepType.DEPOSIT_METHODS
+              brokerageActions.setDWStep({
+                dwStep: BankDWStepType.DEPOSIT_METHODS
               })
             }
           />
@@ -130,7 +130,7 @@ const LimitSection = ({ paymentMethods, walletCurrency, supportedCoins }) => {
     method => method.type === 'BANK_TRANSFER'
   )
 
-  if (bankTranfser.limits) {
+  if (bankTranfser?.limits) {
     return (
       <Limits>
         <LimitWrapper>
@@ -174,7 +174,7 @@ const Amount = ({ fiatCurrency }) => {
     <FlyoutWrapper>
       <AmountRow id='amount-row'>
         <Text size={'56px'} color='textBlack' weight={500}>
-          {Currencies[fiatCurrency].units[fiatCurrency].symbol}
+          {Currencies[fiatCurrency]?.units[fiatCurrency].symbol}
         </Text>
         <Field
           data-e2e='depositAmountInput'
@@ -222,8 +222,8 @@ const Account = ({
             step: AddBankStepType.ADD_BANK
           })
         } else {
-          brokerageActions.setStep({
-            step: BankDepositStepType.BANK_LIST
+          brokerageActions.setDWStep({
+            dwStep: BankDWStepType.BANK_LIST
           })
         }
       }}
