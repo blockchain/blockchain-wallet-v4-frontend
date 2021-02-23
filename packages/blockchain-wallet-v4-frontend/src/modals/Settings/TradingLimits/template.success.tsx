@@ -95,7 +95,7 @@ const getItemBadgeStatus = (
   type: ITEMS,
   isEligible: boolean = false
 ) => {
-  return (tier && TIERS[tier][type]) || isEligible ? (
+  return (tier !== undefined && TIERS[tier][type]) || isEligible ? (
     <CartridgeWrapper>
       <SuccessCartridge fontSize='12px'>
         <FormattedMessage
