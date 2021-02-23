@@ -70,6 +70,7 @@ const CartridgeWrapper = styled.div`
   flex-direction: row;
   flex: 1;
   justify-content: flex-end;
+  min-width: 75px;
 `
 const IconBareWrapper = styled.div`
   span {
@@ -120,7 +121,7 @@ const getTierStatus = (
   tierType: TIER_TYPES,
   tierDetails: UserTierType
 ) => {
-  if (tierDetails.state === 'under_review') {
+  if (tierDetails.state === 'under_review' || tierDetails.state === 'pending') {
     return (
       <div>
         <CartridgeWrapper>
@@ -175,7 +176,10 @@ const Template: React.FC<Props> = props => {
       ? TIER_TYPES.SILVER_PLUS
       : userCurrentTier
   const isUserGold = currentTier === TIER_TYPES.GOLD
-  const isUserVerifiedSilver = currentTier === TIER_TYPES.SILVER || isUserGold
+  const isUserVerifiedSilver =
+    currentTier === TIER_TYPES.SILVER ||
+    isUserGold ||
+    currentTier === TIER_TYPES.SILVER_PLUS
 
   const swapProduct =
     props.productsEligibility &&
@@ -189,6 +193,9 @@ const Template: React.FC<Props> = props => {
   const savingsProduct =
     props.productsEligibility &&
     props.productsEligibility.find(pE => pE.product === 'SAVINGS')
+
+  const isGoldInreview =
+    goldTier.state === 'under_review' || goldTier.state === 'pending'
 
   return (
     <Wrapper>
@@ -274,7 +281,7 @@ const Template: React.FC<Props> = props => {
 
         <ContentItem
           onClick={() =>
-            isUserGold
+            isUserGold || isGoldInreview
               ? null
               : props.identityVerificationActions.verifyIdentity(
                   TIER_TYPES.GOLD,
@@ -415,7 +422,7 @@ const Template: React.FC<Props> = props => {
       </MainContent>
 
       <FooterWrapper>
-        {!isUserGold && (
+        {!isUserGold && !isGoldInreview && (
           <Button
             fullwidth
             size='16px'
@@ -427,10 +434,17 @@ const Template: React.FC<Props> = props => {
               props.identityVerificationActions.verifyIdentity(2, false)
             }
           >
-            <FormattedMessage
-              id='buttons.unlock_all'
-              defaultMessage='Unlock All  ->'
-            />
+            {isUserVerifiedSilver ? (
+              <FormattedMessage
+                id='modals.tradinglimits.unlock_gold_tier'
+                defaultMessage='Unock Gold Tier ->'
+              />
+            ) : (
+              <FormattedMessage
+                id='buttons.unlock_all'
+                defaultMessage='Unlock All  ->'
+              />
+            )}
           </Button>
         )}
       </FooterWrapper>
