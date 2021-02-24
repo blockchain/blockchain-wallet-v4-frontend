@@ -310,11 +310,8 @@ const buildDevServerConfig = (
           envConfig.WALLET_HELPER_DOMAIN,
           envConfig.WEB_SOCKET_URL,
           'https://friendbot.stellar.org',
-          'https://api.sfox.com',
-          'https://quotes.sfox.com',
           'https://testnet5.blockchain.info',
           'https://api.testnet.blockchain.info',
-          'https://shapeshift.io',
           'https://bitpay.com',
           'https://static.zdassets.com',
           'https://ekr.zdassets.com'
