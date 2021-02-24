@@ -6,6 +6,7 @@ import React, { PureComponent } from 'react'
 import { actions, selectors } from 'data'
 import { BeneficiaryType, ExtractSuccess, WalletFiatType } from 'core/types'
 import { getData } from './selectors'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
 import Failure from './template.failure'
 import Loading from './template.loading'
@@ -15,11 +16,14 @@ class EnterAmount extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {
-    this.props.custodialActions.fetchCustodialBeneficiaries(
-      this.props.fiatCurrency
-    )
-    this.props.withdrawActions.fetchWithdrawalFees()
-    this.props.withdrawActions.fetchWithdrawalLock()
+    if (!Remote.Success.is(this.props.data)) {
+      this.props.brokerageActions.fetchBankTransferAccounts()
+      this.props.custodialActions.fetchCustodialBeneficiaries(
+        this.props.fiatCurrency
+      )
+      this.props.withdrawActions.fetchWithdrawalFees()
+      this.props.withdrawActions.fetchWithdrawalLock()
+    }
   }
 
   handleSubmit = () => {
@@ -60,12 +64,12 @@ class EnterAmount extends PureComponent<Props> {
       }
     }
 
-    if (beneficiary) {
-      this.props.withdrawActions.setStep({
-        step: 'BANK_PICKER',
-        fiatCurrency: this.props.fiatCurrency
-      })
-    }
+    // if (beneficiary) {
+    this.props.withdrawActions.setStep({
+      step: 'BANK_PICKER',
+      fiatCurrency: this.props.fiatCurrency
+    })
+    // }
   }
 
   render () {
@@ -93,6 +97,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   custodialActions: bindActionCreators(actions.custodial, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),

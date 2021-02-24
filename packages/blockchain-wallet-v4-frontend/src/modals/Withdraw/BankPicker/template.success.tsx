@@ -48,10 +48,27 @@ const Success: React.FC<Props> = props => {
           </Text>
         </Top>
       </FlyoutWrapper>
+      {props.bankTransferAccounts.map(account => {
+        return (
+          <DisplayContainer
+            onClick={() => {
+              props.brokerageActions.setBankDetails({ account })
+              props.withdrawActions.setStep({
+                beneficiary: undefined,
+                fiatCurrency: props.fiatCurrency,
+                step: 'ENTER_AMOUNT'
+              })
+            }}
+          >
+            {account.details && account.details.bankName}
+          </DisplayContainer>
+        )
+      })}
       {props.beneficiaries.map(beneficiary => {
         return (
           <DisplayContainer
             onClick={() => {
+              props.brokerageActions.setBankDetails({ account: undefined })
               props.withdrawActions.setStep({
                 beneficiary,
                 fiatCurrency: props.fiatCurrency,

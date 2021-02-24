@@ -45,12 +45,12 @@ export type BrokerageAddBankStepPayload =
       addBankStep: AddBankStepType.ADD_BANK | AddBankStepType.ADD_BANK_HANDLER
     }
   | {
-      addBankStep: AddBankStepType.ADD_BANK_STATUS,
+      addBankStep: AddBankStepType.ADD_BANK_STATUS
       bankStatus: BankStatusType
     }
 
 export type BankDetailsPayload = {
-  account: BankTransferAccountType
+  account: BankTransferAccountType | undefined
   redirectBackToStep?: boolean
 }
 
@@ -70,11 +70,11 @@ export enum BrokerageModalOriginType {
 // State
 export type BrokerageState = {
   account: BankTransferAccountType | undefined
-  addBankStep: AddBankStepType,
-  bankStatus: RemoteDataType<string, BankStatusType>,
-  bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>,
-  dwStep: BankDWStepType,
-  fastLink: RemoteDataType<string, FastLinkType>,
+  addBankStep: AddBankStepType
+  bankStatus: RemoteDataType<string, BankStatusType>
+  bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>
+  dwStep: BankDWStepType
+  fastLink: RemoteDataType<string, FastLinkType>
   redirectBackToStep: boolean
 }
 

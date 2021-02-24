@@ -76,7 +76,9 @@ const Success: React.FC<InjectedFormProps<
   Props
 > &
   Props> = props => {
-  const beneficiary = props.beneficiary || props.defaultBeneficiary
+  const beneficiary =
+    (!props.defaultMethod && props.beneficiary) || props.defaultBeneficiary
+  const transferAccount = props.defaultMethod
 
   const amtError =
     typeof props.formErrors.amount === 'string' && props.formErrors.amount
@@ -277,7 +279,18 @@ const Success: React.FC<InjectedFormProps<
             <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />{' '}
             <FormattedMessage id='copy.to' defaultMessage='To' />
           </Text>
-          <Beneficary {...props} beneficiary={beneficiary} />
+          {!transferAccount && beneficiary && (
+            <Beneficary {...props} beneficiary={beneficiary} />
+          )}
+          {transferAccount && (
+            <div
+              onClick={() =>
+                props.handleBankSelection(props.userData, props.beneficiary)
+              }
+            >
+              {transferAccount.details.bankName}
+            </div>
+          )}
         </ToContainer>
         <ActionContainer>
           <Button

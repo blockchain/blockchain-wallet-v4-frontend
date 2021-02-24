@@ -1,4 +1,5 @@
 import {
+  BankTransferAccountType,
   BeneficiaryType,
   RemoteDataType,
   WalletFiatType,
@@ -23,9 +24,10 @@ export enum WithdrawStepEnum {
 
 export type WithdrawStepActionsPayload =
   | {
-      beneficiary?: BeneficiaryType
-      fiatCurrency: WalletFiatType
-      step: 'ENTER_AMOUNT'
+      beneficiary?: BeneficiaryType,
+      fiatCurrency: WalletFiatType,
+      step: 'ENTER_AMOUNT',
+      transferAccount?: BankTransferAccountType
     }
   | {
       fiatCurrency: WalletFiatType

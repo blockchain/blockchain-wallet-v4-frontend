@@ -19,6 +19,10 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
     ownProps.fiatCurrency,
     state
   )
+  const defaultMethodR = selectors.components.brokerage.getAccount(state)
+  const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
+    state
+  )
   const formErrors = selectors.form.getFormSyncErrors('custodyWithdrawForm')(
     state
   )
@@ -35,6 +39,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
 
   return lift(
     (
+      bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
       withdrawableBalance: ExtractSuccess<typeof withdrawableBalanceR>,
       availableBalance: ExtractSuccess<typeof availableBalanceR>,
       defaultBeneficiary: ExtractSuccess<typeof defaultBeneficiaryR>,
@@ -43,9 +48,11 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       fees: ExtractSuccess<typeof feesR>,
       locks: ExtractSuccess<typeof lockR>
     ) => ({
+      bankTransferAccounts,
       withdrawableBalance,
       availableBalance,
       defaultBeneficiary,
+      defaultMethod: defaultMethodR,
       formErrors,
       userData,
       minAmount,
@@ -53,6 +60,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       locks
     })
   )(
+    bankTransferAccountsR,
     withdrawableBalanceR,
     availableBalanceR,
     defaultBeneficiaryR,

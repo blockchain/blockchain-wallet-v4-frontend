@@ -166,6 +166,13 @@ export default ({
     try {
       const accounts = yield call(api.getBankTransferAccounts)
       yield put(A.fetchBankTransferAccountsSuccess(accounts))
+
+      // Set the default account whenever you fetch the entire saved accounts
+      // list. It's convenient.
+      if (accounts.length > 0) {
+        const account = accounts.find(a => a.state === 'ACTIVE')
+        yield put(A.setBankDetails({ account }))
+      }
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchBankTransferAccountsError(error))
