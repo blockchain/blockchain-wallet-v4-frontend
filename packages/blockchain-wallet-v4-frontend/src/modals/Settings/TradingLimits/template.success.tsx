@@ -42,14 +42,18 @@ const IconsContainer = styled.div`
   justify-content: flex-end;
   width: 100%;
 `
-const ContentItem = styled.div<{ isClickable?: boolean }>`
+
+const Item = styled.div<{ isClickable?: boolean }>`
   border-top: 1px solid ${props => props.theme.grey000};
   padding: 20px 40px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
   cursor: ${props => (props.isClickable ? 'pointer' : 'auto')};
+`
+
+const ContentItem = styled(Item)`
+  align-items: center;
 `
 const IconWrapper = styled.div`
   display: flex;
@@ -244,7 +248,7 @@ const Template: React.FC<Props> = props => {
       </HeaderWrapper>
 
       <MainContent>
-        <ContentItem
+        <Item
           onClick={() =>
             isUserVerifiedSilver
               ? null
@@ -290,9 +294,9 @@ const Template: React.FC<Props> = props => {
           </TierDescription>
 
           {getTierStatus(currentTier, TIER_TYPES.SILVER, silverTier)}
-        </ContentItem>
+        </Item>
 
-        <ContentItem
+        <Item
           onClick={() =>
             isUserGold || isGoldInreview
               ? null
@@ -352,7 +356,7 @@ const Template: React.FC<Props> = props => {
             TIER_TYPES.GOLD,
             goldTier
           )}
-        </ContentItem>
+        </Item>
 
         <ContentItem>
           <IconWrapper>
