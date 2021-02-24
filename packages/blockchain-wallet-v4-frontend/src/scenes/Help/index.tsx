@@ -94,8 +94,8 @@ const Help = () => {
           </Text>
           <Text size='12px' color='grey800' weight={400}>
             <FormattedMessage
-              id='scenes.help.password.explain'
-              defaultMessage='Use your 12 word recovery phrase to access your Wallet.'
+              id='scenes.help.password.explain_phrase'
+              defaultMessage='Use your 12 word Secret Private Key Recovery Phrase to access your Wallet.'
             />
           </Text>
         </Left>

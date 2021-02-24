@@ -1,8 +1,9 @@
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { Link, Text } from 'blockchain-info-components'
-import CoinDisplay from 'components/Display/CoinDisplay'
 import React from 'react'
 import styled from 'styled-components'
+
+import { Link, Text } from 'blockchain-info-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
 
 const TermsContainer = styled.div`
   & > * {
@@ -116,9 +117,14 @@ const Terms = props => {
       )
     default:
       return (
-        <TermsContainer style={{ paddingLeft: '4px', margin: '8px 0' }}>
+        <TermsContainer style={{ paddingLeft: '4px' }}>
           {recovery ? (
-            <Text color='grey800' size='12px' weight={500}>
+            <Text
+              color='grey800'
+              size='12px'
+              weight={500}
+              style={{ margin: '4px 0' }}
+            >
               <FormattedMessage
                 id='scenes.register.registerform.blockchain.read-recovery'
                 defaultMessage='By recovering an account, you agree to Blockchain’s'

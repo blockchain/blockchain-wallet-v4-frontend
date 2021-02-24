@@ -4,6 +4,7 @@ import { find, isEmpty, propEq, propOr } from 'ramda'
 import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
+import { BankStatusType, FastLinkType, SimpleBuyStepType } from 'data/types'
 import {
   CoinType,
   FiatType,
@@ -15,28 +16,31 @@ import {
 } from 'core/types'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
-import { SimpleBuyStepType } from 'data/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { getData } from './selectors'
 import { ModalPropsType } from '../types'
+
+// step templates
 import AddCard from './AddCard'
+import BankWireDetails from './BankWireDetails'
 import BillingAddress from './BillingAddress'
 import CancelOrder from './CancelOrder'
 import CheckoutConfirm from './CheckoutConfirm'
 import CryptoSelection from './CryptoSelection'
 import EnterAmount from './EnterAmount'
 import KycRequired from './KycRequired'
+import LinkedPaymentAccounts from './LinkedPaymentAccounts'
 import OrderSummary from './OrderSummary'
 import PaymentMethods from './PaymentMethods'
 import PreviewSell from './PreviewSell'
 import SellOrderSummary from './SellOrderSummary'
 import ThreeDSHandler from './ThreeDSHandler'
-import TransferDetails from './TransferDetails'
 import UpgradeToGold from './UpgradeToGold'
 import VerifyEmail from './VerifyEmail'
 
+// step wrappers
 import Loading from './template.loading'
 import Pending from './template.pending'
 import Rejected from './template.rejected'
@@ -146,6 +150,14 @@ class SimpleBuy extends PureComponent<Props, State> {
                 />
               </FlyoutChild>
             )}
+            {this.props.step === 'LINKED_PAYMENT_ACCOUNTS' && (
+              <FlyoutChild>
+                <LinkedPaymentAccounts
+                  {...this.props}
+                  handleClose={this.handleClose}
+                />
+              </FlyoutChild>
+            )}
             {this.props.step === 'ADD_CARD' && (
               <FlyoutChild>
                 <AddCard {...this.props} handleClose={this.handleClose} />
@@ -197,9 +209,9 @@ class SimpleBuy extends PureComponent<Props, State> {
                 />
               </FlyoutChild>
             )}
-            {this.props.step === 'TRANSFER_DETAILS' && (
+            {this.props.step === 'BANK_WIRE_DETAILS' && (
               <FlyoutChild>
-                <TransferDetails
+                <BankWireDetails
                   {...this.props}
                   handleClose={this.handleClose}
                 />
@@ -313,13 +325,24 @@ type LinkStatePropsType =
       displayBack?: boolean
       fiatCurrency: FiatType
       pair: SBPairType
-      step: 'TRANSFER_DETAILS'
+      step: 'BANK_WIRE_DETAILS'
     }
   | {
       order: SBOrderType
       step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'CANCEL_ORDER'
     }
   | { order: SwapOrderType; step: 'SELL_ORDER_SUMMARY' }
+  | {
+      cryptoCurrency: CoinType
+      fastLink: FastLinkType
+      pair: SBPairType
+      step: 'LINK_BANK'
+    }
+  | {
+      bankStatus: BankStatusType
+      order: SBOrderType
+      step: 'LINK_BANK_STATUS'
+    }
   | {
       cardId?: string
       cryptoCurrency?: CoinType
@@ -339,6 +362,12 @@ type LinkStatePropsType =
       orderType: SBOrderActionType
       pair: SBPairType
       step: 'PAYMENT_METHODS'
+    }
+  | {
+      order: SBOrderType
+      orderType: SBOrderActionType
+      pair: SBPairType
+      step: 'LINKED_PAYMENT_ACCOUNTS'
     }
 
 type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>

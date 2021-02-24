@@ -239,7 +239,7 @@ const buildDevServerConfig = (
       : '',
     port: 8080,
     before(app) {
-      app.get('/Resources/wallet-options-v4.json', function(req, res) {
+      app.get('/wallet-options-v4.json', function(req, res) {
         // combine wallet options base with custom environment config
         mockWalletOptions.domains = {
           api: envConfig.API_DOMAIN,
@@ -264,7 +264,7 @@ const buildDevServerConfig = (
         res.json(mockWalletOptions)
       })
 
-      app.get('/Resources/wallet-options.json', function(req, res) {
+      app.get('/wallet-options.json', function(req, res) {
         mockWalletOptions.domains = {
           comWalletApp: localhostUrl
         }
@@ -310,11 +310,8 @@ const buildDevServerConfig = (
           envConfig.WALLET_HELPER_DOMAIN,
           envConfig.WEB_SOCKET_URL,
           'https://friendbot.stellar.org',
-          'https://api.sfox.com',
-          'https://quotes.sfox.com',
           'https://testnet5.blockchain.info',
           'https://api.testnet.blockchain.info',
-          'https://shapeshift.io',
           'https://bitpay.com',
           'https://static.zdassets.com',
           'https://ekr.zdassets.com'

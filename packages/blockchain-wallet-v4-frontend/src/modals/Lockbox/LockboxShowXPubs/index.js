@@ -2,7 +2,7 @@ import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { keys } from 'ramda'
-import QRCodeWrapper from 'components/QRCodeWrapper'
+import QRCodeWrapper from 'components/QRCode/Wrapper'
 import React from 'react'
 import styled from 'styled-components'
 

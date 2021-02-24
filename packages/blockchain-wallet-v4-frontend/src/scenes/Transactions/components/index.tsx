@@ -172,6 +172,8 @@ export const IconTx = ({
             color={color}
           />
         )
+      default:
+        return <></>
     }
   }
 
@@ -197,13 +199,13 @@ export const Row = styled(Col)`
 `
 export const RowHeader = styled(Text)`
   font-weight: 500;
-  font-size: 14px;
+  font-size: 13px;
   margin-top: 12px;
   color: ${props => props.theme.grey600};
 `
 export const RowValue = styled(Text)`
   font-weight: 600;
-  font-size: 16px;
+  font-size: ${props => props.size || '14px'};
   margin-top: 4px;
   color: ${props => props.theme.grey800};
 `
@@ -218,13 +220,18 @@ export const StyledFiatDisplay = styled(FiatDisplay)`
   margin-top: 4px;
   justify-content: flex-end;
 `
+export const StyledBuyFiatDisplay = styled.div`
+  display: flex;
+  margin-top: 4px;
+  justify-content: flex-end;
+`
 export const StatusAndType = styled.div`
   margin-left: 16px;
 `
 export const Timestamp = ({ time }: { time: string | number }) => {
   return (
     <Text
-      size='14px'
+      size='13px'
       weight={500}
       color='grey600'
       style={{ marginTop: '4px' }}

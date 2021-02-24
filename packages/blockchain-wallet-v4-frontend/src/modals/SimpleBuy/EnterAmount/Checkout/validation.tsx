@@ -9,6 +9,7 @@ import {
   getCoinFromPair,
   getFiatFromPair
 } from 'data/components/simpleBuy/model'
+import { model } from 'data'
 import {
   PaymentValue,
   SBBalancesType,
@@ -16,9 +17,9 @@ import {
   SBPairType,
   SBPaymentMethodType,
   SBQuoteType,
-  SDDLimits,
   SupportedWalletCurrenciesType,
-  SwapQuoteType
+  SwapQuoteType,
+  SwapUserLimitsType
 } from 'core/types'
 import {
   SBCheckoutFormValuesType,
@@ -30,9 +31,7 @@ import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 
 import { Props } from './template.success'
 
-const SDD_LIMIT = { min: '500', max: '10000' }
-
-export const SDD_LIMIT_FACTOR = 100 // we get 10000 from API
+const { LIMIT } = model.components.simpleBuy
 
 export const getQuote = (
   pair: string,
@@ -87,7 +86,8 @@ export const getMaxMin = (
   method?: SBPaymentMethodType,
   account?: SwapAccountType,
   isSddFlow: boolean = false,
-  sddLimit: SDDLimits = SDD_LIMIT
+  sddLimit = LIMIT,
+  limits?: SwapUserLimitsType
 ): { CRYPTO: string; FIAT: string } => {
   let quote: SBQuoteType | { quote: SwapQuoteType; rate: number }
   switch (orderType) {
@@ -117,8 +117,25 @@ export const getMaxMin = (
             isSddFlow ? Number(sddLimit.max) : pair.buyMax
           ).toString()
 
-          if (method.type === 'FUNDS' && sbBalances)
-            max = sbBalances[method.currency]?.available || '0'
+          if (
+            method.type === 'FUNDS' &&
+            sbBalances &&
+            limits?.maxPossibleOrder
+          ) {
+            const { available } = sbBalances[method.currency]
+            switch (true) {
+              case !available:
+              default:
+                max = '0'
+                break
+              case Number(available) >= Number(limits.maxPossibleOrder):
+                max = limits.maxPossibleOrder
+                break
+              case Number(available) < Number(limits.maxPossibleOrder):
+                max = available
+                break
+            }
+          }
 
           const maxFiat = convertBaseToStandard('FIAT', max)
           const maxCrypto = getQuote(quote.pair, quote.rate, 'FIAT', maxFiat)
@@ -246,11 +263,19 @@ export const maximumAmount = (
     sbBalances,
     swapAccount,
     isSddFlow,
-    sddLimit
+    sddLimit,
+    limits
   } = restProps
 
   const method = selectedMethod || defaultMethod
   if (!allValues) return
+
+  if (
+    limits?.maxPossibleOrder &&
+    Number(limits.maxPossibleOrder) < Number(sddLimit.max)
+  ) {
+    sddLimit.max = limits.maxPossibleOrder
+  }
 
   return Number(value) >
     Number(
@@ -265,7 +290,8 @@ export const maximumAmount = (
         method,
         swapAccount,
         isSddFlow,
-        sddLimit
+        sddLimit,
+        limits
       )[allValues.fix]
     )
     ? 'ABOVE_MAX'

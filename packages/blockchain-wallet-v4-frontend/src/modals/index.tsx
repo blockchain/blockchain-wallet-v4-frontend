@@ -95,6 +95,7 @@ const ConfirmDisable2FA = React.lazy(() =>
 )
 const RecoveryPhrase = React.lazy(() => import('./Settings/RecoveryPhrase'))
 const SecondPassword = React.lazy(() => import('./Settings/SecondPassword'))
+const TradingLimits = React.lazy(() => import('./Settings/TradingLimits'))
 const TwoStepGoogleAuthenticator = React.lazy(() =>
   import('./Settings/TwoStepGoogleAuthenticator')
 )
@@ -123,9 +124,15 @@ const SimpleBuy = React.lazy(() => import('./SimpleBuy'))
 const Swap = React.lazy(() => import('./Swap'))
 const Withdraw = React.lazy(() => import('./Withdraw'))
 
+// BROKERAGE
+const BankDetails = React.lazy(() => import('./Brokerage/Banks/BankDetails'))
+const RemoveBank = React.lazy(() => import('./Brokerage/Banks/RemoveBank'))
+const AddBank = React.lazy(() => import('./Brokerage/Banks/AddBank'))
+
 const Modals = () => (
   <Suspense fallback={null}>
     <div>
+      <AddBank />
       <AddBtcWallet />
       <AirdropClaim />
       <AirdropSuccess />
@@ -133,6 +140,7 @@ const Modals = () => (
       <BitpayInformational />
       <BitpayInvoiceExpired />
       <Borrow />
+      <BankDetails />
       <Confirm />
       <ConfirmDisable2FA />
       <DeleteAddressLabel />
@@ -157,6 +165,7 @@ const Modals = () => (
       <PromptInput />
       <QRCode />
       <RecoveryPhrase />
+      <RemoveBank />
       <RequestBch />
       <RequestBtc />
       <RequestEth />
@@ -175,6 +184,7 @@ const Modals = () => (
       <Swap />
       <SwapGetStarted />
       <TransferEth />
+      <TradingLimits />
       <TwoStepGoogleAuthenticator />
       <TwoStepSetup />
       <TwoStepYubico />

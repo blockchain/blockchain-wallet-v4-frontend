@@ -20,7 +20,7 @@ import { reduxForm } from 'redux-form'
 import { SceneWrapper } from 'components/Layout'
 import CoinIntroduction from './CoinIntroduction'
 import CoinPerformance from './CoinPerformance'
-import EmptyTx from 'components/EmptyTx'
+import EmptyResults from 'components/EmptyResults'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import media from 'services/ResponsiveService'
 import React from 'react'
@@ -96,6 +96,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       this.props.currency,
       'week'
     )
+    this.props.brokerageActions.fetchBankTransferAccounts()
   }
 
   componentDidUpdate (prevProps) {
@@ -239,7 +240,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
           {!hasTxResults ? (
             isSearchEntered ? (
               <SceneWrapper centerContent>
-                <EmptyTx />
+                <EmptyResults />
               </SceneWrapper>
             ) : (
               <SceneWrapper centerContent>
@@ -270,6 +271,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state, ownProps): LinkStatePropsType =>
+  // @ts-ignore
   getData(state, ownProps.coin, ownProps.isCoinErc20)
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
@@ -284,6 +286,10 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
       miscActions: bindActionCreators(actions.core.data.misc, dispatch),
       simpleBuyActions: bindActionCreators(
         actions.components.simpleBuy,
+        dispatch
+      ),
+      brokerageActions: bindActionCreators(
+        actions.components.brokerage,
         dispatch
       )
     }
@@ -300,7 +306,14 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
         actions.components.simpleBuy,
         dispatch
       ),
-      withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
+      withdrawActions: bindActionCreators(
+        actions.components.withdraw,
+        dispatch
+      ),
+      brokerageActions: bindActionCreators(
+        actions.components.brokerage,
+        dispatch
+      )
     }
   }
   return {
@@ -314,7 +327,11 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
     miscActions: bindActionCreators(actions.core.data.misc, dispatch),
     setAddressArchived: address =>
       dispatch(actions.core.wallet.setAddressArchived(address, true)),
-    simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+    simpleBuyActions: bindActionCreators(
+      actions.components.simpleBuy,
+      dispatch
+    ),
+    brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
   }
 }
 

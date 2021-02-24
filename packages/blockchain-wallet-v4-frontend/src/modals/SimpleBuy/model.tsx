@@ -1,4 +1,5 @@
 import {
+  BankTransferAccountType,
   CoinType,
   FiatType,
   SBOrderActionType,
@@ -59,7 +60,8 @@ export const getOrderDestination = (order: SBOrderType, supportedCoins) => {
 
 export const getPaymentMethod = (
   order: SBOrderType,
-  supportedCoins: SupportedWalletCurrenciesType
+  supportedCoins: SupportedWalletCurrenciesType,
+  bankAccount: BankTransferAccountType
 ) => {
   const baseCurrency = getBaseCurrency(order, supportedCoins)
   const counterCurrency = getCounterCurrency(order, supportedCoins)
@@ -85,6 +87,16 @@ export const getPaymentMethod = (
       ) : (
         `${baseCurrency} Trading Wallet`
       )
+    case 'BANK_TRANSFER':
+      const defaultBankInfo = {
+        bankName: 'Bank Transfer',
+        bankAccountType: '',
+        accountNumber: ''
+      }
+      const d = (bankAccount && bankAccount.details) || defaultBankInfo
+      return `${d.bankName} ${d.bankAccountType.toLowerCase()} ${
+        d.accountNumber
+      }`
     default:
       return (
         <FormattedMessage

@@ -24,6 +24,7 @@ class PaymentMethods extends PureComponent<Props> {
       this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBCards()
+      this.props.brokerageActions.fetchBankTransferAccounts()
     }
   }
 
@@ -44,6 +45,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })

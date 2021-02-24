@@ -75,7 +75,7 @@ export type Props = OwnProps & SuccessStateType
 const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   Props> = props => {
   const [orderType, setOrderType] = useState(props.orderType)
-  const showWelcome = props.isFirstLogin
+  const showWelcome = props.isFirstLogin && !props.sddTransactionFinished
 
   const handleBuy = (pair: SBPairType) => {
     const currentTier = props.userData?.tiers?.current
@@ -154,7 +154,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
 
   return (
     <Wrapper>
-      <Form>
+      <Form onSubmit={() => {}}>
         <FlyoutWrapper>
           <CloseContainer>
             <Icon
@@ -263,6 +263,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
                     account.balance !== 0 &&
                     isInvitedShowNC(account) && (
                       <CryptoAccountOption
+                        key={account.index}
                         account={account}
                         coins={props.coins}
                         isAccountSelected={false}

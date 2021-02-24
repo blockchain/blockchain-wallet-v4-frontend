@@ -3,7 +3,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
-import { RotateSync } from 'components/RotateSync'
+
+import { RotateSync } from '../../components/RotateSync'
 
 const Title = styled.div`
   text-align: center;

@@ -122,6 +122,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     userData,
     walletCurrency
   } = props
+
   const [fontRatio, setRatio] = useState(1)
   const amtError = typeof formErrors.amount === 'string' && formErrors.amount
 
@@ -210,12 +211,28 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   const handleSubmit = e => {
     e.preventDefault()
-    props.swapActions.setStep({ step: 'PREVIEW_SWAP' })
+    props.swapActions.setStep({
+      step: 'PREVIEW_SWAP',
+      options: {
+        baseCoin: BASE.coin,
+        baseAccountType: BASE.type,
+        counterCoin: COUNTER.coin,
+        counterAccountType: COUNTER.type
+      }
+    })
   }
-  const userMax = Number(payment ? payment.effectiveBalance : BASE.balance)
-  const balanceBelowMinimum = userMax < Number(min)
 
+  const balanceBelowMinimum = Number(max) < Number(min)
   const isQuoteFailed = Remote.Failure.is(props.quoteR)
+  // if user is attempting to send NC ERC20, ensure they have sufficient
+  // ETH balance else warn user and disable trade
+  const isErc20 = coins[BASE.coin].contractAddress
+  const disableInsufficientEth =
+    props.payment &&
+    BASE.type === 'ACCOUNT' &&
+    isErc20 &&
+    // @ts-ignore
+    !props.payment.isSufficientEthForErc20
 
   return (
     <FlyoutWrapper style={{ paddingTop: '20px' }}>
@@ -447,7 +464,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           jumbo
           fullwidth
           style={{ marginTop: '24px' }}
-          disabled={props.invalid || isQuoteFailed}
+          disabled={props.invalid || isQuoteFailed || disableInsufficientEth}
         >
           <FormattedMessage
             id='buttons.preview_swap'
@@ -463,6 +480,17 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               Loading: () => null,
               NotAsked: () => null
             })}
+          </ErrorCartridge>
+        )}
+        {disableInsufficientEth && (
+          <ErrorCartridge style={{ marginTop: '16px' }}>
+            <FormattedMessage
+              id='copy.not_enough_eth'
+              defaultMessage='ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in "My Ether Wallet" for this transaction, not the Ether Trading Wallet.'
+              values={{
+                coin: coins[BASE.coin].coinTicker
+              }}
+            />
           </ErrorCartridge>
         )}
       </StyledForm>

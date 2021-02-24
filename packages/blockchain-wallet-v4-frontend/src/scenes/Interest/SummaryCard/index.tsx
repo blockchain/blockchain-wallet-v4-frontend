@@ -17,9 +17,7 @@ import SummaryCard from './template.success'
 const LoadingBox = styled(SkeletonRectangle)`
   margin-bottom: 24px;
 `
-const LoadingCard = () => (
-  <LoadingBox width='330px' height='275px' />
-)
+const LoadingCard = () => <LoadingBox width='330px' height='275px' />
 
 class SummaryCardContainer extends PureComponent<Props> {
   render () {
@@ -27,7 +25,7 @@ class SummaryCardContainer extends PureComponent<Props> {
       Success: val => <SummaryCard {...this.props} {...val} />,
       Failure: () => null,
       Loading: () => <LoadingCard />,
-      NotAsked: () => <LoadingCard />,
+      NotAsked: () => <LoadingCard />
     })
   }
 }

@@ -2,7 +2,7 @@ import { Button, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
 import { AutosizeTextBox } from '../Form'
-import { ResizeableFontInputHOC } from '../ResizeableFontInputHOC'
+import { ResizeableFontInput } from '../Form/ResizeableFontInput'
 
 export const Wrapper = styled.div`
   padding: 32px;
@@ -15,7 +15,7 @@ export const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
 `
-export const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))<{
+export const AmountTextBox = styled(ResizeableFontInput(AutosizeTextBox))<{
   fiatActive: boolean
 }>`
   height: 86px;

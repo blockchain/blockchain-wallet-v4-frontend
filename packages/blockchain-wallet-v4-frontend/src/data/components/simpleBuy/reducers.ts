@@ -27,10 +27,12 @@ const INITIAL_STATE: SimpleBuyState = {
   quote: Remote.NotAsked,
   sddEligible: Remote.NotAsked,
   sddVerified: Remote.NotAsked,
+  sddTransactionFinished: false,
   sellOrder: undefined,
   sellQuote: Remote.NotAsked,
   step: 'CRYPTO_SELECTION',
-  swapAccount: undefined
+  swapAccount: undefined,
+  limits: Remote.NotAsked
 }
 
 export function simpleBuyReducer (
@@ -275,6 +277,22 @@ export function simpleBuyReducer (
         sddVerified: Remote.Failure(action.payload.error)
       }
     }
+    case AT.FETCH_LIMITS_FAILURE: {
+      return {
+        ...state,
+        limits: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_LIMITS_LOADING:
+      return {
+        ...state,
+        limits: Remote.Loading
+      }
+    case AT.FETCH_LIMITS_SUCCESS:
+      return {
+        ...state,
+        limits: Remote.Success(action.payload.limits)
+      }
     case AT.FETCH_SDD_VERIFIED_LOADING:
       return {
         ...state,
@@ -314,6 +332,17 @@ export function simpleBuyReducer (
         payment: Remote.Success(action.payload.payment)
       }
     }
+    case AT.UPDATE_SDD_TRANSACTION_FINISHED: {
+      return {
+        ...state,
+        sddTransactionFinished: true
+      }
+    }
+    case AT.SET_FIAT_CURRENCY:
+      return {
+        ...state,
+        fiatCurrency: action.payload.fiatCurrency
+      }
     case AT.SET_STEP:
       switch (action.payload.step) {
         case 'ENTER_AMOUNT':
@@ -340,6 +369,7 @@ export function simpleBuyReducer (
             swapAccount: undefined,
             addBank: undefined
           }
+        case 'LINKED_PAYMENT_ACCOUNTS':
         case 'PAYMENT_METHODS':
           return {
             ...state,
@@ -359,7 +389,7 @@ export function simpleBuyReducer (
             step: action.payload.step,
             addBank: undefined
           }
-        case 'TRANSFER_DETAILS':
+        case 'BANK_WIRE_DETAILS':
           return {
             ...state,
             step: action.payload.step,

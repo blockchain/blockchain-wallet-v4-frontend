@@ -37,10 +37,9 @@ class TransactionFee extends React.PureComponent<Props> {
           Success: value => (
             <ComboDisplay
               coin={supportedCoins[coin].contractAddress ? 'ETH' : coin}
-              size='16px'
+              size='14px'
               weight={600}
               color='grey800'
-              style={{ marginTop: '4px' }}
             >
               {value}
             </ComboDisplay>

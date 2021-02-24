@@ -1,5 +1,6 @@
 import { FormattedMessage } from 'react-intl'
 import { getInput, getOutput } from 'data/components/swap/model'
+import { path } from 'ramda'
 import React from 'react'
 
 import { Props } from '.'
@@ -9,6 +10,12 @@ import {
 } from '../components'
 import { Text } from 'blockchain-info-components'
 
+const getOutputCoinDisplayName = (props: Props) => {
+  return path([getOutput(props.order), 'coinTicker'], props.supportedCoins)
+}
+const getInputCoinDisplayName = (props: Props) => {
+  return path([getInput(props.order), 'coinTicker'], props.supportedCoins)
+}
 export const IconTx = (props: Props) => {
   return <SharedIconTx type='SWAP' coin={props.coin} />
 }
@@ -17,10 +24,12 @@ export const getDestination = (props: Props) => {
   switch (props.order.kind.direction) {
     case 'TO_USERKEY':
     case 'ON_CHAIN':
-      return getOutput(props.order) + ' Wallet'
+      return `${getOutputCoinDisplayName(props)} Wallet`
     case 'FROM_USERKEY':
     case 'INTERNAL':
-      return getOutput(props.order) + ' Trading Wallet'
+      return `${getOutputCoinDisplayName(props)} Trading Wallet`
+    default:
+      return ''
   }
 }
 
@@ -28,10 +37,12 @@ export const getOrigin = (props: Props) => {
   switch (props.order.kind.direction) {
     case 'FROM_USERKEY':
     case 'ON_CHAIN':
-      return getInput(props.order) + ' Wallet'
+      return `${getInputCoinDisplayName(props)} Wallet`
     case 'TO_USERKEY':
     case 'INTERNAL':
-      return getInput(props.order) + ' Trading Wallet'
+      return `${getInputCoinDisplayName(props)} Trading Wallet`
+    default:
+      return ''
   }
 }
 
@@ -91,7 +102,7 @@ export const Timestamp = (props: Props) => {
 
   return (
     <Text
-      size='14px'
+      size='13px'
       weight={500}
       color='grey600'
       style={{ marginTop: '4px' }}

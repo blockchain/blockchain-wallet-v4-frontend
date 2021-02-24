@@ -25,6 +25,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeEvery(actionTypes.form.CHANGE, simpleBuySagas.formChanged)
     yield takeLatest(AT.ACTIVATE_SB_CARD, simpleBuySagas.activateSBCard)
     yield takeLatest(AT.ADD_CARD_DETAILS, simpleBuySagas.addCardDetails)
+    yield takeLatest(AT.ADD_CARD_FINISHED, simpleBuySagas.addCardFinished)
     yield takeLatest(AT.CANCEL_ORDER, simpleBuySagas.cancelSBOrder)
     yield takeLatest(AT.CREATE_ORDER, simpleBuySagas.createSBOrder)
     yield takeLatest(AT.CONFIRM_FUNDS_ORDER, simpleBuySagas.confirmSBFundsOrder)
@@ -42,6 +43,7 @@ export default ({ api, coreSagas, networks }) => {
     )
     yield takeLatest(AT.FETCH_SDD_ELIGIBILITY, simpleBuySagas.fetchSDDEligible)
     yield takeLatest(AT.FETCH_SDD_VERIFIED, simpleBuySagas.fetchSDDVerified)
+    yield takeLatest(AT.FETCH_LIMITS, simpleBuySagas.fetchLimits)
     yield takeLatest(AT.FETCH_SB_ORDERS, simpleBuySagas.fetchSBOrders)
     yield takeLatest(AT.FETCH_SB_PAIRS, simpleBuySagas.fetchSBPairs)
     yield takeLatest(

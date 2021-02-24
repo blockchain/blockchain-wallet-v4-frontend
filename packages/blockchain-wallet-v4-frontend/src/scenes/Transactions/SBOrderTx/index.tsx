@@ -2,25 +2,18 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { Button, Text } from 'blockchain-info-components'
 import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-import { SBOrderType, SupportedWalletCurrenciesType } from 'core/types'
+import { path } from 'ramda'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
 import { actions, selectors } from 'data'
 import {
-  Addresses,
-  Col,
-  DetailsColumn,
-  DetailsRow,
-  Row,
-  RowHeader,
-  RowValue,
-  StatusAndType,
-  StyledCoinDisplay,
-  StyledFiatDisplay,
-  TxRow,
-  TxRowContainer
-} from '../components'
+  BankTransferAccountType,
+  ExtractSuccess,
+  RemoteDataType,
+  SBOrderType,
+  SupportedWalletCurrenciesType
+} from 'core/types'
 import {
   BuyOrSell,
   displayFiat
@@ -35,8 +28,25 @@ import {
   getCounterCurrency,
   getOrderType
 } from 'data/components/simpleBuy/model'
-import { getOrigin, IconTx, Status, Timestamp } from './model'
 import { RootState } from 'data/rootReducer'
+
+import {
+  Addresses,
+  Col,
+  DetailsColumn,
+  DetailsRow,
+  Row,
+  RowHeader,
+  RowValue,
+  StatusAndType,
+  StyledBuyFiatDisplay,
+  StyledCoinDisplay,
+  StyledFiatDisplay,
+  TxRow,
+  TxRowContainer
+} from '../components'
+import { getData } from './selectors'
+import { getOrigin, IconTx, Status, Timestamp } from './model'
 
 const LastCol = styled(Col)`
   display: flex;
@@ -63,13 +73,22 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
   }
 
   render () {
-    const { order, supportedCoins } = this.props
+    const { data, order, supportedCoins } = this.props
+    const bankAccounts = data.getOrElse([]) as Array<BankTransferAccountType>
     const coin = getCoinFromPair(order.pair)
+    const coinDisplayName = path(
+      [this.props.order.outputCurrency, 'coinTicker'],
+      this.props.supportedCoins
+    )
     const orderType = getOrderType(order)
     const baseAmount = getBaseAmount(order)
     const baseCurrency = getBaseCurrency(order, supportedCoins)
     const counterAmount = getCounterAmount(order)
     const counterCurrency = getCounterCurrency(order, supportedCoins)
+    const totalTxAmount = fiatToString({
+      unit: counterCurrency,
+      value: counterAmount
+    })
 
     return (
       <TxRowContainer
@@ -97,8 +116,8 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
           </Row>
           <Col width='50%' data-e2e='orderToAndFrom'>
             <Addresses
-              from={<>{getOrigin(this.props)}</>}
-              to={<>{this.props.order.outputCurrency} Trading Wallet</>}
+              from={<>{getOrigin(this.props, bankAccounts)}</>}
+              to={<>{coinDisplayName} Trading Wallet</>}
             />
           </Col>
           {order.state === 'PENDING_CONFIRMATION' ||
@@ -133,17 +152,28 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
                   ? order.outputQuantity
                   : order.inputQuantity}
               </StyledCoinDisplay>
-              <StyledFiatDisplay
-                size='14px'
-                weight={500}
-                color='grey600'
-                coin={coin}
-                data-e2e='orderFiatAmt'
-              >
-                {orderType === 'BUY'
-                  ? order.outputQuantity
-                  : order.inputQuantity}
-              </StyledFiatDisplay>
+              {orderType === 'BUY' ? (
+                <StyledBuyFiatDisplay>
+                  <Text
+                    color='grey600'
+                    data-e2e='orderFiatAmt'
+                    size='14px'
+                    weight={500}
+                  >
+                    {totalTxAmount}
+                  </Text>
+                </StyledBuyFiatDisplay>
+              ) : (
+                <StyledFiatDisplay
+                  size='14px'
+                  weight={500}
+                  color='grey600'
+                  coin={coin}
+                  data-e2e='orderFiatAmt'
+                >
+                  {order.inputQuantity}
+                </StyledFiatDisplay>
+              )}
             </Col>
           )}
         </TxRow>
@@ -201,12 +231,7 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
               <RowHeader>
                 <FormattedMessage id='copy.total' defaultMessage='Total' />
               </RowHeader>
-              <RowValue data-e2e='sbSentTotal'>
-                {fiatToString({
-                  unit: counterCurrency,
-                  value: counterAmount
-                })}
-              </RowValue>
+              <RowValue data-e2e='sbSentTotal'>{totalTxAmount}</RowValue>
             </DetailsColumn>
           </DetailsRow>
         )}
@@ -220,7 +245,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+  data: getData(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrElse({} as SupportedWalletCurrenciesType)
@@ -230,6 +256,11 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
   order: SBOrderType
+}
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+type LinkStatePropsType = {
+  data: RemoteDataType<string, SuccessStateType>
+  supportedCoins: SupportedWalletCurrenciesType
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 type State = { isToggled: boolean }

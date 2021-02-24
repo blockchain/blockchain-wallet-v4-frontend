@@ -19,7 +19,8 @@ import {
   SDDEligibleType,
   SDDVerifiedType,
   SwapOrderType,
-  SwapQuoteType
+  SwapQuoteType,
+  SwapUserLimitsType
 } from 'core/types'
 
 import * as AT from './actionTypes'
@@ -71,13 +72,15 @@ export enum SimpleBuyStepType {
   'CRYPTO_SELECTION',
   'ENTER_AMOUNT',
   'KYC_REQUIRED',
+  'LINKED_PAYMENT_ACCOUNTS',
   'PAYMENT_METHODS',
   'PREVIEW_SELL',
   'ORDER_SUMMARY',
   'SELL_ORDER_SUMMARY',
   'TRANSFER_DETAILS',
   'UPGRADE_TO_GOLD',
-  'VERIFY_EMAIL'
+  'VERIFY_EMAIL',
+  'BANK_WIRE_DETAILS'
 }
 export type SBShowModalOriginType =
   | 'EmptyFeed'
@@ -92,6 +95,15 @@ export type SBShowModalOriginType =
   | 'TransactionList'
   | 'WelcomeModal'
   | 'WithdrawModal'
+  | 'SwapNoHoldings'
+
+export enum SBCardStateEnum {
+  PENDING,
+  CREATED,
+  ACTIVE,
+  BLOCKED,
+  FRAUD_REVIEW
+}
 
 // State
 export type SimpleBuyState = {
@@ -106,6 +118,7 @@ export type SimpleBuyState = {
   everypay3DS: RemoteDataType<string, Everypay3DSResponseType>
   fiatCurrency: undefined | FiatType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
+  limits: RemoteDataType<string, undefined | SwapUserLimitsType>
   method: undefined | SBPaymentMethodType
   methods: RemoteDataType<string, SBPaymentMethodsType>
   order: undefined | SBOrderType
@@ -117,6 +130,7 @@ export type SimpleBuyState = {
   providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
   sddEligible: RemoteDataType<string, SDDEligibleType>
+  sddTransactionFinished: boolean
   sddVerified: RemoteDataType<string, SDDVerifiedType>
   sellOrder: undefined | SwapOrderType
   sellQuote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>
@@ -210,7 +224,6 @@ interface FetchSBCardsSuccess {
   }
   type: typeof AT.FETCH_SB_CARDS_SUCCESS
 }
-
 interface FetchSBFiatEligibleFailure {
   payload: {
     error: string
@@ -351,7 +364,6 @@ interface FetchSellQuoteSuccess {
   }
   type: typeof AT.FETCH_SELL_QUOTE_SUCCESS
 }
-
 interface InitializeCheckout {
   account?: SwapAccountType
   amount: string
@@ -391,7 +403,7 @@ export type StepActionsPayload =
       addBank?: boolean
       displayBack: boolean
       fiatCurrency: FiatType
-      step: 'TRANSFER_DETAILS'
+      step: 'BANK_WIRE_DETAILS'
     }
   | {
       cryptoCurrency: CoinType
@@ -400,19 +412,38 @@ export type StepActionsPayload =
       pair: SBPairType
       step: 'PAYMENT_METHODS'
     }
+  | {
+      cryptoCurrency: CoinType
+      fiatCurrency: FiatType
+      order?: SBOrderType
+      pair: SBPairType
+      step: 'LINKED_PAYMENT_ACCOUNTS'
+    }
   | { order?: SBOrderType; step: '3DS_HANDLER' }
+  | {
+      sellOrderType?: 'ACCOUNT' | 'CUSTODIAL'
+      step: 'PREVIEW_SELL'
+    }
   | {
       step:
         | 'ADD_CARD'
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
-        | 'PREVIEW_SELL'
         | 'UPGRADE_TO_GOLD'
     }
 
 interface SetStepAction {
   payload: StepActionsPayload
   type: typeof AT.SET_STEP
+}
+
+interface SetFiatCurrencyAction {
+  payload: { fiatCurrency: FiatType }
+  type: typeof AT.SET_FIAT_CURRENCY
+}
+
+interface AddCardFinishedAction {
+  type: typeof AT.ADD_CARD_FINISHED
 }
 
 interface ShowModalAction {
@@ -423,7 +454,6 @@ interface ShowModalAction {
   }
   type: typeof AT.SHOW_MODAL
 }
-
 interface UpdatePaymentFailureAction {
   payload: {
     error: string
@@ -440,6 +470,27 @@ interface UpdatePaymentSuccessAction {
   type: typeof AT.UPDATE_PAYMENT_SUCCESS
 }
 
+interface FetchLimitsFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_LIMITS_FAILURE
+}
+
+interface FetchLimitsLoading {
+  type: typeof AT.FETCH_LIMITS_LOADING
+}
+
+interface FetchLimitsSuccess {
+  payload: {
+    limits: SwapUserLimitsType
+  }
+  type: typeof AT.FETCH_LIMITS_SUCCESS
+}
+interface UpdateSddTransactionFinished {
+  type: typeof AT.UPDATE_SDD_TRANSACTION_FINISHED
+}
+
 export type SimpleBuyActionTypes =
   | ActivateSBCardFailure
   | ActivateSBCardLoading
@@ -447,6 +498,7 @@ export type SimpleBuyActionTypes =
   | AddCardDetailsFailure
   | AddCardDetailsLoading
   | AddCardDetailsSuccess
+  | AddCardFinishedAction
   | DestroyCheckout
   | FetchSBBalancesFailure
   | FetchSBBalancesLoading
@@ -484,9 +536,14 @@ export type SimpleBuyActionTypes =
   | FetchSellQuoteFailure
   | FetchSellQuoteLoading
   | FetchSellQuoteSuccess
+  | FetchLimitsLoading
+  | FetchLimitsFailure
+  | FetchLimitsSuccess
   | InitializeCheckout
+  | SetFiatCurrencyAction
   | SetStepAction
   | ShowModalAction
   | UpdatePaymentFailureAction
   | UpdatePaymentLoadingAction
   | UpdatePaymentSuccessAction
+  | UpdateSddTransactionFinished

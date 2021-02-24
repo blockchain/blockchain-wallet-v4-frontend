@@ -20,7 +20,7 @@ import { FormattedMessage } from 'react-intl'
 import { removeWhitespace } from 'services/FormHelper/normalizers'
 import { required, validBtcPrivateKey } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
-import QRCodeCapture from 'components/QRCodeCapture'
+import QRCodeCapture from 'components/QRCode/Capture'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -30,22 +30,18 @@ const Wrapper = styled.div`
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `
-
 const Row = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
 `
-
 const LabelText = styled(Text)`
   margin-bottom: 9px;
 `
-
 const ImportFormItem = styled(FormItem)`
   margin-bottom: 32px;
 `
-
 const BorderRow = styled(Row)`
   input {
     border-radius: 8px 0 0 8px;
@@ -55,43 +51,39 @@ const BorderRow = styled(Row)`
     border-radius: 0 8px 8px 0;
   }
 `
-
 const Tooltip = styled(TooltipHost)`
   & > span {
     font-size: 12px;
   }
 `
-
 const Label = styled.label`
   display: flex;
 `
-
 const ImportHeader = styled(ModalHeader)`
   border-bottom: 0;
   padding-bottom: 8px;
 
   > div:first-child * {
-    font-weight: 600;
-    color: ${props => props.theme.grey900};
+    font-weight: 500;
+    color: ${props => props.theme.grey800};
   }
 `
-
 const ImportFooter = styled(ModalFooter)`
   border-top: 0;
 `
 
 const ImportBtcAddress = ({
-  position,
-  close,
-  submitting,
+  handleSubmit,
   invalid,
+  onClose,
+  position,
   priv,
-  handleSubmit
+  submitting
 }) => (
   <Modal size='large' position={position}>
     <Form onSubmit={handleSubmit}>
       <Wrapper>
-        <ImportHeader onClose={close}>
+        <ImportHeader onClose={onClose}>
           <FormattedMessage
             id='modals.importkey.import'
             defaultMessage='Import Private Key'

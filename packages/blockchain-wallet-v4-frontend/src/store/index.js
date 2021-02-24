@@ -55,7 +55,7 @@ const configureStore = async function () {
   const kvStorePath = 'wallet.kvstore'
   const isAuthenticated = selectors.auth.isAuthenticated
 
-  const res = await fetch('/Resources/wallet-options-v4.json')
+  const res = await fetch('/wallet-options-v4.json')
   const options = await res.json()
   const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
   // TODO: deprecate when wallet-options-v4 is updated on prod

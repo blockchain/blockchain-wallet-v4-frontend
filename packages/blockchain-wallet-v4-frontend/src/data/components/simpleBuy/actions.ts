@@ -1,5 +1,6 @@
 import * as AT from './actionTypes'
 import {
+  BankTransferAccountType,
   CoinType,
   Everypay3DSResponseType,
   FiatEligibleType,
@@ -19,6 +20,7 @@ import {
   SDDEligibleType,
   SDDVerifiedType,
   SwapQuoteType,
+  SwapUserLimitsType,
   WalletFiatType
 } from 'core/types'
 import { ModalOriginType } from 'data/modals/types'
@@ -83,7 +85,7 @@ export const createSBOrder = (
     SBPaymentMethodType['type'],
     'USER_CARD' | 'BANK_ACCOUNT'
   >,
-  paymentMethodId?: SBCardType['id']
+  paymentMethodId?: SBCardType['id'] | BankTransferAccountType['id']
 ) => ({
   type: AT.CREATE_ORDER,
   paymentMethodId,
@@ -508,6 +510,19 @@ export const pollSBOrder = (orderId: string) => ({
   }
 })
 
+export const setFiatCurrency = (
+  fiatCurrency: FiatType
+): SimpleBuyActionTypes => ({
+  type: AT.SET_FIAT_CURRENCY,
+  payload: {
+    fiatCurrency
+  }
+})
+
+export const addCardFinished = (): SimpleBuyActionTypes => ({
+  type: AT.ADD_CARD_FINISHED
+})
+
 export const setStep = (payload: StepActionsPayload): SimpleBuyActionTypes => ({
   type: AT.SET_STEP,
   payload: getPayloadObjectForStep(payload)
@@ -515,6 +530,7 @@ export const setStep = (payload: StepActionsPayload): SimpleBuyActionTypes => ({
 
 const getPayloadObjectForStep = (payload: StepActionsPayload) => {
   switch (payload.step) {
+    case 'LINKED_PAYMENT_ACCOUNTS':
     case 'PAYMENT_METHODS':
       return {
         step: payload.step,
@@ -541,13 +557,16 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
         fiatCurrency: payload.fiatCurrency,
         orderType: payload.orderType
       }
-    case 'TRANSFER_DETAILS':
+    case 'BANK_WIRE_DETAILS':
       return {
         step: payload.step,
         fiatCurrency: payload.fiatCurrency,
         displayBack: payload.displayBack,
         addBank: payload.addBank
       }
+    case 'PREVIEW_SELL': {
+      return { step: payload.step, sellOrderType: payload.sellOrderType }
+    }
     case 'CHECKOUT_CONFIRM':
     case 'ORDER_SUMMARY':
     case 'CANCEL_ORDER':
@@ -608,6 +627,18 @@ export const updatePaymentFailure = (error: string): SimpleBuyActionTypes => ({
     error
   }
 })
+
+export const fetchLimits = (currency: FiatType) => ({
+  type: AT.FETCH_LIMITS,
+  currency
+})
+
+export const fetchLimitsFailure = (error: string): SimpleBuyActionTypes => ({
+  type: AT.FETCH_LIMITS_FAILURE,
+  payload: {
+    error
+  }
+})
 export const updatePaymentLoading = (): SimpleBuyActionTypes => ({
   type: AT.UPDATE_PAYMENT_LOADING
 })
@@ -618,4 +649,19 @@ export const updatePaymentSuccess = (
   payload: {
     payment
   }
+})
+export const fetchLimitsLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_LIMITS_LOADING
+})
+
+export const fetchLimitsSuccess = (
+  limits: SwapUserLimitsType
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_LIMITS_SUCCESS,
+  payload: {
+    limits
+  }
+})
+export const updateSddTransactionFinished = () => ({
+  type: AT.UPDATE_SDD_TRANSACTION_FINISHED
 })

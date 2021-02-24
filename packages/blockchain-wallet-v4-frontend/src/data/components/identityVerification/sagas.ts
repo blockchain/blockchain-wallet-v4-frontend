@@ -418,7 +418,12 @@ export default ({ api, coreSagas, networks }) => {
             break
           }
           sddVerified = yield call(api.fetchSDDVerified)
-          if (sddVerified?.taskComplete) break
+          if (sddVerified?.taskComplete) {
+            yield put(
+              actions.components.simpleBuy.fetchSDDVerifiedSuccess(sddVerified)
+            )
+            break
+          }
           yield delay(POLL_SDD_DELAY)
         }
 
@@ -427,6 +432,12 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.modules.profile.fetchUser())
           // run callback to get back to SB flow
           payload.onCompletionCallback && payload.onCompletionCallback()
+
+          // wait for SB create to finish
+          yield take([
+            actionTypes.components.simpleBuy.FETCH_SB_ORDERS_SUCCESS,
+            actionTypes.components.simpleBuy.FETCH_SB_ORDERS_FAILURE
+          ])
           // close KYC modal
           yield put(actions.modals.closeModal(KYC_MODAL))
         } else {

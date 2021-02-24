@@ -5,17 +5,20 @@ import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 
 export const getData = (state: RootState) => {
-  const beneficiariesR = selectors.custodial.getBeneficiaries(state)
+  const bankAccountsR = selectors.components.brokerage.getBankTransferAccounts(
+    state
+  )
+
   const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
     state
   )
   return lift(
     (
-      beneficiaries: ExtractSuccess<typeof beneficiariesR>,
+      bankAccounts: ExtractSuccess<typeof bankAccountsR>,
       paymentMethods: ExtractSuccess<typeof paymentMethodsR>
     ) => ({
-      beneficiaries,
+      bankAccounts,
       paymentMethods
     })
-  )(beneficiariesR, paymentMethodsR)
+  )(bankAccountsR, paymentMethodsR)
 }

@@ -67,9 +67,27 @@ export default ({
     ) as InitSwapFormValuesType
 
     if (initSwapFormValues?.BASE && initSwapFormValues?.COUNTER) {
-      yield put(A.setStep({ step: 'ENTER_AMOUNT' }))
+      yield put(
+        A.setStep({
+          step: 'ENTER_AMOUNT',
+          options: {
+            coin: payload.account.coin,
+            account: payload.account.type,
+            side: payload.side
+          }
+        })
+      )
     } else {
-      yield put(A.setStep({ step: 'INIT_SWAP' }))
+      yield put(
+        A.setStep({
+          step: 'INIT_SWAP',
+          options: {
+            coin: payload.account.coin,
+            account: payload.account.type,
+            side: payload.side
+          }
+        })
+      )
     }
   }
 
@@ -204,6 +222,7 @@ export default ({
       }
       yield put(actions.form.stopSubmit('previewSwap'))
       yield put(actions.components.refresh.refreshClicked())
+      yield put(actions.form.destroy('swapAmount'))
       yield put(
         A.setStep({
           step: 'SUCCESSFUL_SWAP',
@@ -370,26 +389,30 @@ export default ({
     let payment = paymentGetOrElse(BASE.coin, paymentR)
 
     const value = Number(swapAmountValues?.cryptoAmount)
-
-    switch (payment.coin) {
-      case 'BCH':
-      case 'BTC':
-        payment = yield payment.amount(
-          parseInt(convertStandardToBase(BASE.coin, value))
-        )
-        break
-      case 'ETH':
-      case 'PAX':
-      case 'USDT':
-      case 'WDGLD':
-      case 'XLM':
-        payment = yield payment.amount(convertStandardToBase(BASE.coin, value))
-        break
-      default:
-        throw new Error(INVALID_COIN_TYPE)
+    try {
+      switch (payment.coin) {
+        case 'BCH':
+        case 'BTC':
+          payment = yield payment.amount(
+            parseInt(convertStandardToBase(BASE.coin, value))
+          )
+          break
+        case 'ETH':
+        case 'PAX':
+        case 'USDT':
+        case 'WDGLD':
+        case 'XLM':
+          payment = yield payment.amount(
+            convertStandardToBase(BASE.coin, value)
+          )
+          break
+        default:
+          throw new Error(INVALID_COIN_TYPE)
+      }
+      yield put(A.updatePaymentSuccess(payment.value()))
+    } catch (error) {
+      yield put(A.updatePaymentFailure(error))
     }
-
-    yield put(A.updatePaymentSuccess(payment.value()))
   }
 
   const initAmountForm = function * () {

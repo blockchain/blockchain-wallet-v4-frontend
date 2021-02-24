@@ -13,12 +13,6 @@ class ImportedAddressesContainer extends React.Component<Props> {
     return !Remote.Loading.is(nextProps.data)
   }
 
-  handleClickImport = () => {
-    this.props.modalActions.showModal('ImportBtcAddress', {
-      origin: 'SettingsPage'
-    })
-  }
-
   handleClickVerify = () => {
     this.props.modalActions.showModal('VerifyMessage', {
       origin: 'SettingsPage'
@@ -63,7 +57,6 @@ class ImportedAddressesContainer extends React.Component<Props> {
       Success: value => (
         <ImportedAddresses
           importedAddresses={value}
-          onClickImport={this.handleClickImport}
           onClickVerify={this.handleClickVerify}
           search={search && search.toLowerCase()}
           onToggleArchived={this.handleToggleArchived}
@@ -77,7 +70,6 @@ class ImportedAddressesContainer extends React.Component<Props> {
         <ImportedAddresses
           failure
           importedAddresses={values(addressesWithoutRemoteData)}
-          onClickImport={this.handleClickImport}
           onClickVerify={this.handleClickVerify}
           search={search && search.toLowerCase()}
           onShowPriv={this.handleShowPriv}

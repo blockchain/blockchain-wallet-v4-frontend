@@ -31,6 +31,7 @@ class EnterAmount extends PureComponent<Props> {
         this.props.fiatCurrency,
         this.props.cryptoCurrency
       )
+      this.props.brokerageActions.fetchBankTransferAccounts()
       this.props.simpleBuyActions.fetchSBCards()
       this.props.simpleBuyActions.fetchSDDEligible()
     }
@@ -65,7 +66,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

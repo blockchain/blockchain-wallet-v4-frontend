@@ -22,7 +22,6 @@ export const getData = (state, ownProps: OwnProps) => {
     case 'BTC':
       addressDataR = getBtcAddressData(state, {
         excludeLockbox: true,
-        excludeImported: true,
         includeCustodial: true,
         includeInterest: true,
         includeAll: false

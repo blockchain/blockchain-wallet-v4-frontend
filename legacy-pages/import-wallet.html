@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Blockchain.com - Import Wallet Backup</title>
+  <meta name="robots" content="noindex">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+  <base href="/legacy-pages/">
+  <link href="img/favicon.png" rel="icon"/>
+  <link href="css/overrides.min.css" nonce="**CSP_NONCE**" type="text/css" rel="stylesheet"/>
+  <link href="css/blockchain.css" nonce="**CSP_NONCE**" type="text/css" rel="stylesheet"/>
+  <script src="js/jquery.min.js" nonce="**CSP_NONCE**" type="text/javascript"></script>
+  <script src="js/bootstrap.min.js" nonce="**CSP_NONCE**" type="text/javascript"></script>
+  <script src="js/shared.js" nonce="**CSP_NONCE**" type="text/javascript"></script>
+  <script src='js/block-alert.js' nonce="**CSP_NONCE**" type="text/javascript"></script>
+  <script src="js/wallet-index.js" nonce="**CSP_NONCE**" type="text/javascript"></script>
+  <script src="js/import/bitcoinjs.min.js" nonce="**CSP_NONCE**" type="text/javascript"></script>
+  <script src="js/import/blockchainapi.min.js" nonce="**CSP_NONCE**" type="text/javascript"></script>
+  <script src="js/import/wallet.js" nonce="**CSP_NONCE**" type="text/javascript"></script>
+  <script src="js/import/import-export.js" nonce="**CSP_NONCE**" type="text/javascript"></script>
+  <script src="js/import/wallet-import.js" nonce="**CSP_NONCE**" type="text/javascript"></script>
+  <script nonce="**CSP_NONCE**">
+    window.NONCE = '**CSP_NONCE**'
+  </script>
+</head>
+<body data-war-checksum="1e64a0eb9697314b" class="opaque-nav" id="home-container">
+<nav role="navigation">
+  <ul class="igation">
+    <li>
+      <a href="https://www.blockchain.com/">
+        <img src="img/logotype-com.svg" height="32px" width="216px" />
+      </a>
+    </li>
+  </ul>
+</nav>
+<div class="container pt-100">
+  <h1 class="page-header">Import Wallet <br /><small>Create a new wallet by importing an existing wallet file.</small></h1>
+  <div id="holder" align="center">
+    <img src="img/loading_large.gif" style="display:none;padding-top:25px" class="loading-indicator">
+  </div>
+  <div class="well" align="center">
+    Drag the wallet file into the area above. Supports blockchain.info (wallet.aes.json) files.
+  </div>
+  <div id="new-password-modal" class="modal hide">
+    <div class="modal-dialog">
+      <div class="modal-header bg-white">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>Choose a New Password</h3>
+      </div>
+      <div class="modal-body bg-white">
+        <p>Private keys successfully imported, please enter a password for the new wallet. It must be at least 10 characters in length.</p>
+        <div class="form-horizontal">
+          <div class="control-group">
+            <label class="control-label"><b>Password:</b></label>
+            <div class="controls">
+              <input id="password" name="password" size="30" type="password" style="float:none" />
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label"><b>Confirm Password:</b></label>
+            <div class="controls">
+              <input id="password2" name="password2" size="30" style="float:none" type="password" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer bg-white">
+        <div class="btn-group">
+          <button class="btn btn-primary">Continue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="kaptcha-modal" class="modal hide">
+    <div class="modal-dialog">
+      <div class="modal-header bg-white">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>Verify You Are Human</h3>
+      </div>
+      <div class="modal-body bg-white">
+        <p>Please enter the captcha code below.</p>
+        <p align="center">
+          <img id="captcha"/>
+        </p>
+        <p align="center">
+          <input type="text" id="captcha-value" value="" size="10" style="float:none;width:200px;min-width:200px" />
+        </p>
+      </div>
+      <div class="modal-footer bg-white">
+        <div class="btn-group">
+          <button class="btn btn-primary">Continue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="main-notices-container" style="margin:0 auto; width:auto; min-width:280px;">
+    <span id="notices" style="max-width: 600px; width:100%;"></span>
+  </div>
+</body>
+<div id="import-second-password-modal" class="modal hide">
+  <div class="modal-dialog">
+    <div class="modal-header bg-white">
+      <h3>Wallet Second Password</h3>
+    </div>
+    <div class="modal-body bg-white">
+      <p>Please enter the second password for this wallet.</p>
+      <p align="center">
+        <b>Second password:</b> <input style="margin-left:10px" placeholder="password" name="password" type="password"/>
+      </p>
+    </div>
+    <div class="modal-footer bg-white">
+      <div class="btn-group">
+        <button class="btn btn-primary">Continue</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="import-password-modal" class="modal hide">
+  <div class="modal-dialog">
+    <div class="modal-header bg-white">
+      <h3>Wallet Password</h3>
+    </div>
+    <div class="modal-body bg-white">
+      <p>If this wallet is encrypted please enter the password below. Otherwise leave it blank.</p>
+      <p align="center">
+        <b>Wallet password:</b> <input style="margin-left:10px" placeholder="password" name="password" type="password"/>
+      </p>
+    </div>
+    <div class="modal-footer bg-white">
+      <div class="btn-group">
+        <button class="btn btn-primary">Continue</button>
+      </div>
+    </div>
+  </div>
+</div>
+</html>

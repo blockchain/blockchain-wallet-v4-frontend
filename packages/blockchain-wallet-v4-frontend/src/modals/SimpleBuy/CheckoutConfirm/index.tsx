@@ -5,6 +5,11 @@ import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
 import {
+  AddBankStepType,
+  BrokerageModalOriginType,
+  UserDataType
+} from 'data/types'
+import {
   ExtractSuccess,
   FiatTypeEnum,
   SBOrderType,
@@ -15,7 +20,6 @@ import {
 import { getFiatFromPair, getOrderType } from 'data/components/simpleBuy/model'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
-import { UserDataType } from 'data/types'
 import DataError from 'components/DataError'
 
 import { getData } from './selectors'
@@ -31,11 +35,12 @@ class CheckoutConfirm extends PureComponent<Props> {
       getOrderType(this.props.order),
       this.props.order.inputQuantity
     )
-    this.props.sendActions.getLockRule('PAYMENT_CARD')
+    this.props.sendActions.getLockRule()
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSDDEligible()
       this.props.simpleBuyActions.fetchSDDVerified()
       this.props.simpleBuyActions.fetchSBCards()
+      this.props.brokerageActions.fetchBankTransferAccounts()
     }
   }
 
@@ -67,11 +72,10 @@ class CheckoutConfirm extends PureComponent<Props> {
         return this.props.simpleBuyActions.setStep({
           step: 'ADD_CARD'
         })
-      } else {
-        return this.props.simpleBuyActions.setStep({
-          step: 'KYC_REQUIRED'
-        })
       }
+      return this.props.simpleBuyActions.setStep({
+        step: 'KYC_REQUIRED'
+      })
     }
 
     if (userTier < 2) {
@@ -91,7 +95,7 @@ class CheckoutConfirm extends PureComponent<Props> {
           return this.props.simpleBuyActions.confirmSBFundsOrder()
         } else {
           return this.props.simpleBuyActions.setStep({
-            step: 'TRANSFER_DETAILS',
+            step: 'BANK_WIRE_DETAILS',
             fiatCurrency: inputCurrency,
             displayBack: false
           })
@@ -104,6 +108,21 @@ class CheckoutConfirm extends PureComponent<Props> {
           )
         } else {
           return this.props.simpleBuyActions.setStep({ step: 'ADD_CARD' })
+        }
+      case 'BANK_TRANSFER':
+        if (this.props.order.paymentMethodId) {
+          return this.props.simpleBuyActions.confirmSBCreditCardOrder(
+            this.props.order.paymentMethodId,
+            this.props.order
+          )
+        } else {
+          this.props.brokerageActions.showModal(
+            BrokerageModalOriginType.ADD_BANK,
+            'ADD_BANK_MODAL'
+          )
+          return this.props.brokerageActions.setStep({
+            step: AddBankStepType.ADD_BANK_HANDLER
+          })
         }
       default:
         // Not a valid payment method type, go back to CRYPTO_SELECTION
@@ -148,7 +167,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch
   ),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
-  sendActions: bindActionCreators(actions.components.send, dispatch)
+  sendActions: bindActionCreators(actions.components.send, dispatch),
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

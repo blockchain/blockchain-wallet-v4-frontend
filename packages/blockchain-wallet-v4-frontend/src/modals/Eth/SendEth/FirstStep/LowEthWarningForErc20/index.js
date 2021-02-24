@@ -8,14 +8,23 @@ import {
 } from '../Components'
 import React from 'react'
 
-const LowEthWarningForErc20 = () => {
+const LowEthWarningForErc20 = props => {
+  const { coin } = props
+
+  const supportArticle =
+    coin === 'PAX'
+      ? 'https://support.blockchain.com/hc/en-us/articles/360027492092-Why-do-I-need-ETH-to-send-USD-Digital-previously-USD-PAX-'
+      : coin === 'USDT'
+      ? 'https://support.blockchain.com/hc/en-us/articles/360045724832-Why-do-I-need-ETH-to-send-USDT-'
+      : 'https://support.blockchain.com/hc/en-us/articles/360052984751-Why-do-I-need-ETH-to-send-wDGLD-'
+
   return (
     <WarningWrapper>
       <WarningLeftColumn>
         <WarningHeader size='14px' weight={500} color='orange600'>
           <FormattedMessage
-            id='modals.sendeth.lowethwarningforerc20.title1'
-            defaultMessage='Not Enough ETH'
+            id='modals.sendeth.lowethwarningforerc20.title'
+            defaultMessage='Not Enough ETH in My Ether Wallet'
           />
         </WarningHeader>
         <Text size='13px' weight={400}>
@@ -26,12 +35,7 @@ const LowEthWarningForErc20 = () => {
         </Text>
       </WarningLeftColumn>
       <WarningRightColumn>
-        <Link
-          size='13px'
-          weight={500}
-          href='https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Pax-FAQ'
-          target='_blank'
-        >
+        <Link size='13px' weight={500} href={supportArticle} target='_blank'>
           <FormattedMessage
             id='buttons.learn_more'
             defaultMessage='Learn More'

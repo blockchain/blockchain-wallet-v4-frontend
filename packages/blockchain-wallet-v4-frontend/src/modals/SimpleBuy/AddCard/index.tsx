@@ -15,8 +15,9 @@ import Success from './template.success'
 
 class AddCard extends PureComponent<Props> {
   componentDidMount () {
+    this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
+
     if (!Remote.Success.is(this.props.data)) {
-      this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
       this.props.identityVerificationActions.fetchSupportedCountries()
     }
   }

@@ -20,11 +20,11 @@ export type SwapOrderType = {
   }
   pair: string
   priceFunnel: {
-    indicativePrice?: string,
-    inputMoney: string,
-    networkFee: string,
-    outputMoney: string,
-    price: string,
+    indicativePrice?: string
+    inputMoney: string
+    networkFee: string
+    outputMoney: string
+    price: string
     staticFee: string
   }
   state: SwapOrderStateType

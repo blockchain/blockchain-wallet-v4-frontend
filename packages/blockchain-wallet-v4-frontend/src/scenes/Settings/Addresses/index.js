@@ -1,11 +1,12 @@
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
+import React from 'react'
+import styled from 'styled-components'
+
 import Bch from './Bch'
 import Btc from './Btc'
 import BtcManage from './Btc/ManageAddresses'
 import Eth from './Eth'
 import Menu from './Menu'
-import React from 'react'
-import styled from 'styled-components'
 import Xlm from './Xlm'
 
 const Wrapper = styled.div`
@@ -15,7 +16,6 @@ const Wrapper = styled.div`
 `
 const ContentWrapper = styled.section`
   width: 100%;
-  padding: 30px;
   box-sizing: border-box;
 `
 class AddressesContainer extends React.PureComponent {

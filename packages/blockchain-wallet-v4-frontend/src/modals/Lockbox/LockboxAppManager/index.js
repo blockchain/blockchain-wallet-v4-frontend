@@ -5,9 +5,10 @@ import PropTypes from 'prop-types'
 import React from 'react'
 
 import { actions } from 'data'
-import { AppManager } from 'components/Lockbox'
 import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
 import modalEnhancer from 'providers/ModalEnhancer'
+
+import AppManager from '../components/AppManager'
 
 class LockboxAppManagerModal extends React.PureComponent {
   onClose = () => {

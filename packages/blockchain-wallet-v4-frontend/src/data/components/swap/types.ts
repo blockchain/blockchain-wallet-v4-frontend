@@ -38,6 +38,7 @@ export type SwapCoinType = CoinType
 export enum SwapStepType {
   'INIT_SWAP',
   'COIN_SELECTION',
+  'NO_HOLDINGS',
   'ENTER_AMOUNT',
   'UPGRADE_PROMPT',
   'PREVIEW_SWAP',
@@ -183,15 +184,32 @@ interface SwitchFixActionType {
 }
 
 export type SwapStepPayload =
+  // added these optional payloads for data science tracking
   | {
-      options?: never
+      options?: {
+        account?: 'ACCOUNT' | 'CUSTODIAL'
+        coin?: CoinType
+        side?: 'BASE' | 'COUNTER'
+      }
       step: 'ENTER_AMOUNT'
     }
   | {
-      options?: never
+      options?: {
+        account?: 'ACCOUNT' | 'CUSTODIAL'
+        coin?: CoinType
+        side?: 'BASE' | 'COUNTER'
+      }
       step: 'INIT_SWAP'
     }
-  | { options?: never; step: 'PREVIEW_SWAP' }
+  | {
+      options?: {
+        baseAccountType?: 'ACCOUNT' | 'CUSTODIAL'
+        baseCoin?: CoinType
+        counterAccountType?: 'ACCOUNT' | 'CUSTODIAL'
+        counterCoin?: CoinType
+      }
+      step: 'PREVIEW_SWAP'
+    }
   | {
       options: {
         order: SwapOrderType
@@ -206,6 +224,10 @@ export type SwapStepPayload =
     }
   | { options: { side: 'BASE' | 'COUNTER' }; step: 'COIN_SELECTION' }
   | { options?: never; step: 'UPGRADE_PROMPT' }
+  | {
+      options?: never
+      step: 'NO_HOLDINGS'
+    }
 
 export type SwapActionTypes =
   | FetchCustodialEligibilityFailureActionType
