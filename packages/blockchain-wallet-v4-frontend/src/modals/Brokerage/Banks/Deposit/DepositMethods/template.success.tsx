@@ -8,8 +8,8 @@ import { Icon, Image, Text } from 'blockchain-info-components'
 import { SBPaymentMethodsType, SBPaymentMethodType } from 'core/types'
 
 import { Props as _P, mapDispatchToProps } from '.'
+import BankDeposit from './BankDeposit'
 import BankWire from '../../../../SimpleBuy/PaymentMethods/Methods/BankWire'
-import LinkBank from '../../../../SimpleBuy/PaymentMethods/Methods/LinkBank'
 
 const Wrapper = styled.section`
   display: flex;
@@ -83,6 +83,13 @@ const handleMethodSelect = (method: SBPaymentMethodType, brokerageActions) => {
 }
 
 const Success = (props: Props) => {
+  const bankTransfer = props.paymentMethods.methods.find(
+    method => method.type === 'BANK_TRANSFER'
+  )
+  const bankWire = props.paymentMethods.methods.find(
+    method => method.type === 'BANK_ACCOUNT'
+  )
+
   return (
     <Wrapper>
       <WrapperHeader>
@@ -107,35 +114,27 @@ const Success = (props: Props) => {
         </TopText>
       </WrapperHeader>
       <MethodList>
-        {props.paymentMethods.methods.map((method: SBPaymentMethodType) => {
-          const icon = getIcon(method)
-          const text = getType(method)
-          if (method.type === 'BANK_TRANSFER') {
-            return (
-              <LinkBank
-                icon={icon}
-                onClick={() => {
-                  props.brokerageActions.setDWStep({
-                    dwStep: BankDWStepType.ENTER_AMOUNT
-                  })
-                }}
-                text={text}
-                value={method}
-              />
-            )
-          } else if (method.type === 'BANK_ACCOUNT') {
-            return (
-              <BankWire
-                icon={icon}
-                onClick={() =>
-                  handleMethodSelect(method, props.brokerageActions)
-                }
-                text={text}
-                value={method}
-              />
-            )
-          }
-        })}
+        {bankTransfer && (
+          <BankDeposit
+            icon={getIcon(bankTransfer)}
+            onClick={() => {
+              props.brokerageActions.setDWStep({
+                dwStep: BankDWStepType.ENTER_AMOUNT
+              })
+            }}
+            text={getType(bankTransfer)}
+            value={bankTransfer}
+          />
+        )}
+
+        {bankWire && (
+          <BankWire
+            icon={getIcon(bankWire)}
+            onClick={() => handleMethodSelect(bankWire, props.brokerageActions)}
+            text={getType(bankWire)}
+            value={bankWire}
+          />
+        )}
       </MethodList>
     </Wrapper>
   )
