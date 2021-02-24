@@ -1,16 +1,7 @@
-import { Button, Icon, Image, Text } from 'blockchain-info-components'
-import { fiatToString } from 'core/exchange/currency'
-import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
-import { Props as OwnProps, SuccessStateType } from '.'
 import { path } from 'ramda'
-
-import { UserTierType } from 'data/types'
-import { WalletFiatType } from 'core/types'
 import React from 'react'
 import styled from 'styled-components'
-
-import { ITEMS, TIER_TYPES, TIERS } from './model'
 
 import {
   BlueCartridge,
@@ -18,6 +9,20 @@ import {
   OrangeCartridge,
   SuccessCartridge
 } from 'components/Cartridge'
+import {
+  Button,
+  Icon,
+  Image,
+  Text,
+  TextGroup
+} from 'blockchain-info-components'
+import { fiatToString } from 'core/exchange/currency'
+import { FlyoutWrapper } from 'components/Flyout'
+import { UserTierType } from 'data/types'
+import { WalletFiatType } from 'core/types'
+
+import { ITEMS, TIER_TYPES, TIERS } from './model'
+import { Props as OwnProps, SuccessStateType } from '.'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -43,6 +48,7 @@ const ContentItem = styled.div<{ isClickable?: boolean }>`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   cursor: ${props => (props.isClickable ? 'pointer' : 'auto')};
 `
 const IconWrapper = styled.div`
@@ -64,6 +70,7 @@ const FooterWrapper = styled(FlyoutWrapper)`
   justify-content: flex-end;
   display: flex;
   flex-direction: column;
+  margin-top: -16px;
 `
 const CartridgeWrapper = styled.div`
   display: flex;
@@ -86,6 +93,12 @@ const ItemTitle = styled(Text)`
   font-size: 16px;
   font-weight: 600;
   margin-left: 20px;
+`
+const ItemSubtitle = styled(Text)`
+  color: ${props => props.theme.grey900};
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 4px;
 `
 
 type Props = OwnProps & SuccessStateType
@@ -253,7 +266,7 @@ const Template: React.FC<Props> = props => {
                 defaultMessage='Silver Level'
               />
             </Text>
-            <Text color='grey900' size='14px' weight={500}>
+            <ItemSubtitle color='grey900' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.tradinglimits.silver_subheader'
                 defaultMessage='Trade up to {amount}/year.'
@@ -266,12 +279,12 @@ const Template: React.FC<Props> = props => {
                   })
                 }}
               />
-            </Text>
+            </ItemSubtitle>
 
-            <Text color='grey600' size='12px' weight={500}>
+            <Text color='grey600' lineHeight='1.5' size='12px' weight={500}>
               <FormattedMessage
-                id='modals.tradinglimits.silver_description'
-                defaultMessage='Please verify your email address, add your name, home address and date of birth.'
+                id='modals.tradinglimits.silver_desc'
+                defaultMessage='You’ll need to verify your email address, name, home address and date of birth.'
               />
             </Text>
           </TierDescription>
@@ -302,7 +315,7 @@ const Template: React.FC<Props> = props => {
               />
             </Text>
 
-            <Text color='grey900' size='14px' weight={500}>
+            <ItemSubtitle color='grey900' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.tradinglimits.gold_subheader'
                 defaultMessage='Earn Interest & trade up to {amount}/day.'
@@ -314,14 +327,22 @@ const Template: React.FC<Props> = props => {
                   })
                 }}
               />
-            </Text>
+            </ItemSubtitle>
 
-            <Text color='grey600' size='12px' weight={500}>
-              <FormattedMessage
-                id='modals.tradinglimits.gold_description'
-                defaultMessage='You’ll need to verify your identity by uploading an ID and a selfie. Requires Silver Tier Approval'
-              />
-            </Text>
+            <TextGroup inline>
+              <Text color='grey600' size='12px' weight={500}>
+                <FormattedMessage
+                  id='modals.tradinglimits.gold_desc1'
+                  defaultMessage='You’ll need to verify your identity by uploading an ID and a selfie.'
+                />
+              </Text>
+              <Text color='grey600' italic size='12px' weight={500}>
+                <FormattedMessage
+                  id='modals.tradinglimits.gold_desc2'
+                  defaultMessage='Requires Silver Tier approval.'
+                />
+              </Text>
+            </TextGroup>
           </TierDescription>
 
           {getTierStatus(
@@ -437,7 +458,7 @@ const Template: React.FC<Props> = props => {
             {isUserVerifiedSilver ? (
               <FormattedMessage
                 id='modals.tradinglimits.unlock_gold_tier'
-                defaultMessage='Unock Gold Tier ->'
+                defaultMessage='Unlock Gold Tier ->'
               />
             ) : (
               <FormattedMessage

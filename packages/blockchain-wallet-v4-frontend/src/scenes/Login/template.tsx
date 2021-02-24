@@ -297,18 +297,18 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                   </LinkContainer>
                 </LoginTextGroup>
               ) : (
-                <LoginTextGroup inline>
+                <LoginTextGroup>
                   <Text size='12px' color='grey800' weight={500}>
                     <FormattedMessage
-                      id='scenes.login.findyourguid'
-                      defaultMessage='Your Wallet ID can be found at the bottom of any email we’ve ever sent you. Need a reminder?'
+                      id='scenes.login.forgotid'
+                      defaultMessage='Forgot your Wallet ID? Request a reminder via email.'
                     />
                   </Text>
                   <LinkContainer to='/reminder'>
                     <Link size='12px' weight={500}>
                       <FormattedMessage
-                        id='scenes.login.sendguid'
-                        defaultMessage='Send my Wallet ID'
+                        id='scenes.login.requestid'
+                        defaultMessage='Request Wallet ID'
                       />
                     </Link>
                   </LinkContainer>
