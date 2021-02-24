@@ -4,12 +4,8 @@ import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
-import {
-  AddBankStepType,
-  BankDWStepType,
-  BrokerageModalOriginType
-} from 'data/types'
-import { FiatType, SBPaymentMethodType } from 'core/types'
+import { BankDWStepType } from 'data/types'
+import { FiatType } from 'core/types'
 import { ModalPropsType } from '../../../types'
 
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
@@ -44,25 +40,6 @@ class Deposit extends PureComponent<Props> {
   handleClose = () => {
     this.setState({ show: false })
     setTimeout(this.props.close, duration)
-  }
-
-  handleBack = () => {}
-  handleFailure = () => {}
-  handleSubmit = (method: SBPaymentMethodType) => {
-    switch (method.type) {
-      case 'LINK_BANK':
-        this.props.brokerageActions.setAddBankStep({
-          addBankStep: AddBankStepType.ADD_BANK
-        })
-        this.props.brokerageActions.showModal(
-          BrokerageModalOriginType.DW,
-          'ADD_BANK_MODAL'
-        )
-        break
-
-      default:
-        break
-    }
   }
 
   render () {

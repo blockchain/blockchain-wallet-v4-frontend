@@ -70,8 +70,11 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
   ): WithdrawalMinsAndFeesResponse =>
     authorizedGet({
       url: nabuUrl,
-      ignoreQueryParams: true,
-      endPoint: `/payments/withdrawals/fees?product=${product}`
+      data: {
+        paymentMethod: 'BANK_TRANSFER',
+        product
+      },
+      endPoint: `/payments/withdrawals/fees`
     })
 
   const checkWithdrawalLocks = (
