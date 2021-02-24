@@ -597,6 +597,7 @@ type MessagesType = {
   'modals.brokerage.confirm_deposit': 'Confirm Deposit'
   'modals.brokerage.bank_deposit': 'Bank Deposit'
   'modals.brokerage.bank_deposit_description': 'Securely link a bank and send cash to your Blockchain.com Wallet at anytime.'
+  'modals.brokerage.deposit_currency': 'Deposit {currency}'
   'modals.brokerage.deposit_success.title': '{currencySymbol}{amount} Deposited!'
   'modals.brokerage.deposit_success.wait_description': 'While we wait for your bank to send the cash, here’s early access to {currencySymbol}{amount} in your {currency} Cash Account so you can buy crypto right away.'
   'modals.brokerage.deposit_success.funds_available': 'Your funds will be available to withdraw once the bank transfer is complete on {date}.'

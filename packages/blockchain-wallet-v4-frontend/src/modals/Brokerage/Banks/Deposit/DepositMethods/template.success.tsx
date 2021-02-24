@@ -78,10 +78,6 @@ const getType = (value: SBPaymentMethodType) => {
   }
 }
 
-const handleMethodSelect = (method: SBPaymentMethodType, brokerageActions) => {
-  brokerageActions.handleMethodChange(method)
-}
-
 const Success = (props: Props) => {
   const bankTransfer = props.paymentMethods.methods.find(
     method => method.type === 'BANK_TRANSFER'
@@ -130,7 +126,11 @@ const Success = (props: Props) => {
         {bankWire && (
           <BankWire
             icon={getIcon(bankWire)}
-            onClick={() => handleMethodSelect(bankWire, props.brokerageActions)}
+            onClick={() =>
+              props.brokerageActions.setDWStep({
+                dwStep: BankDWStepType.WIRE_INSTRUCTIONS
+              })
+            }
             text={getType(bankWire)}
             value={bankWire}
           />

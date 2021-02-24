@@ -16,6 +16,7 @@ import Confirm from './Confirm'
 import DepositMethods from './DepositMethods'
 import DepositStatus from './DepositStatus'
 import EnterAmount from './EnterAmount'
+import WireInstructions from './WireInstructions'
 
 class Deposit extends PureComponent<Props> {
   state: State = { show: false, direction: 'left' }
@@ -96,6 +97,11 @@ class Deposit extends PureComponent<Props> {
            */
           <FlyoutChild>
             <DepositStatus {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === BankDWStepType.WIRE_INSTRUCTIONS && (
+          <FlyoutChild>
+            <WireInstructions {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
       </Flyout>
