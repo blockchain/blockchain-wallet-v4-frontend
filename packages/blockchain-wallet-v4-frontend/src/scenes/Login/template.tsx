@@ -172,7 +172,9 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
   const guidError =
     loginError && loginError.toLowerCase().includes('unknown wallet id')
   const passwordError =
-    loginError && loginError.toLowerCase().includes('wrong_wallet_password')
+    loginError &&
+    (loginError.toLowerCase().includes('wrong_wallet_password') ||
+      loginError.toLowerCase().includes('wrong_wrapper'))
   const twoFactorError =
     loginError && loginError.toLowerCase().includes('authentication code')
   const accountLocked =
