@@ -115,7 +115,7 @@ const Success = props => {
               values={{
                 amount: fiatToString({
                   value: props.formValues?.amount,
-                  unit: props.defaultMethod?.currency as FiatType,
+                  unit: props.defaultMethod?.currency || ('USD' as FiatType),
                   digits: 0
                 })
               }}

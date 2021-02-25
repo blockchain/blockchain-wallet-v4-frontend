@@ -3,6 +3,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
+import { fiatToString } from 'core/exchange/currency'
+import { FiatType } from 'core/types'
 import { FlyoutWrapper } from 'components/Flyout'
 
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -64,7 +66,7 @@ const DescriptionText = styled(Text)`
 
 type Props = OwnProps & SuccessStateType
 
-const Success = (props: Props) => {
+const Success = props => {
   const coin = props.fiatCurrency || 'USD'
   const amount = 0
   return (
@@ -105,10 +107,13 @@ const Success = (props: Props) => {
           <Text color='grey800' size='20px' weight={600}>
             <FormattedMessage
               id='modals.brokerage.deposit_success.title'
-              defaultMessage='{currencySymbol}{amount} Deposited!'
+              defaultMessage='{amount} Deposited!'
               values={{
-                currencySymbol: props.supportedCoins[coin].symbol,
-                amount
+                amount: fiatToString({
+                  value: props.formValues?.amount,
+                  unit: props.defaultMethod?.currency as FiatType,
+                  digits: 0
+                })
               }}
             />
           </Text>

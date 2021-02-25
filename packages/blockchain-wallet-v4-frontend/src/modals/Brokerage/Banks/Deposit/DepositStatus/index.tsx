@@ -1,5 +1,6 @@
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import { getFormValues } from 'redux-form'
 import React, { useEffect } from 'react'
 
 import { actions, selectors } from 'data'
@@ -31,7 +32,8 @@ const DepositStatus = props => {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD'
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD',
+  formValues: getFormValues('brokerageTx')(state)
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
