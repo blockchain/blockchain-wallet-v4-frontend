@@ -16,6 +16,7 @@ type MessagesType = {
   'borrow.validation.belowmin.safe': 'You must enter an amount greater than {minFiat}.'
   'buttons.add_card': 'Add Card'
   'buttons.add_bank': 'Add a Bank'
+  'buttons.add_new': '+ Add New'
   'buttons.back': 'Back'
   'buttons.buy_coin': 'Buy {displayName}'
   'buttons.buy_crypto': 'Buy Crypto'

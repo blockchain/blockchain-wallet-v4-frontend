@@ -340,7 +340,10 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 data-e2e='addNewPaymentMethod'
                 onClick={this.addNewPaymentMethod}
               >
-                + Add New
+                <FormattedMessage
+                  id='buttons.add_new'
+                  defaultMessage='+ Add New'
+                />
               </AddNewButton>
             )}
           </PaymentsWrapper>
