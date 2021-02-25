@@ -4,7 +4,11 @@ import React, { ReactChild } from 'react'
 import styled from 'styled-components'
 
 import { AmountFieldContainer, FlyoutWrapper } from 'components/Flyout'
-import { BeneficiaryType, NabuMoneyFloatType } from 'core/types'
+import {
+  BankTransferAccountType,
+  BeneficiaryType,
+  NabuMoneyFloatType
+} from 'core/types'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
@@ -283,13 +287,7 @@ const Success: React.FC<InjectedFormProps<
             <Beneficary {...props} beneficiary={beneficiary} />
           )}
           {transferAccount && (
-            <div
-              onClick={() =>
-                props.handleBankSelection(props.userData, props.beneficiary)
-              }
-            >
-              {transferAccount.details.bankName}
-            </div>
+            <Beneficary {...props} transferAccount={transferAccount} />
           )}
         </ToContainer>
         <ActionContainer>
@@ -314,7 +312,7 @@ export type Props = OwnProps &
   SuccessStateType & {
     handleBankSelection: (
       userData: UserDataType,
-      beneficiary?: BeneficiaryType
+      beneficiary?: BeneficiaryType | BankTransferAccountType
     ) => void
     minAmount: NabuMoneyFloatType
   }

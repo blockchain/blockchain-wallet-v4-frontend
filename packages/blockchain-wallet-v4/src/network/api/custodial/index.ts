@@ -1,4 +1,9 @@
-import { CoinType, SBPaymentTypes, WalletFiatType } from 'core/types'
+import {
+  BankTransferAccountType,
+  CoinType,
+  SBPaymentTypes,
+  WalletFiatType
+} from 'core/types'
 
 import {
   BeneficiariesType,
@@ -47,7 +52,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     })
 
   const withdrawFunds = (
-    beneficiary: BeneficiaryType,
+    beneficiary: BeneficiaryType | BankTransferAccountType,
     currency: WalletFiatType,
     baseAmount: string
   ): WithdrawResponseType =>

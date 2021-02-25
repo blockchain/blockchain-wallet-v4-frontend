@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { BankTransferAccountType, BeneficiaryType } from 'core/types'
 import { BeneficiaryIcon, BeneficiaryName } from './model'
-import { BeneficiaryType } from 'core/types'
 import { Col } from 'components/Flyout'
 import { Content, DisplayPaymentIcon } from 'components/SimpleBuy'
 import { Icon } from 'blockchain-info-components'
@@ -21,9 +21,10 @@ const Container = styled.div<{ onClick }>`
 const Beneficary: React.FC<Props> = props => {
   return (
     <Container
-      onClick={() =>
-        props.handleBankSelection(props.userData, props.beneficiary)
-      }
+      onClick={() => {
+        const selected = props.beneficiary || props.transferAccount
+        props.handleBankSelection(props.userData, selected)
+      }}
     >
       <Col>
         <DisplayPaymentIcon showBackground>
@@ -42,6 +43,7 @@ const Beneficary: React.FC<Props> = props => {
 
 export type Props = OwnProps & {
   beneficiary?: BeneficiaryType
+  transferAccount?: BankTransferAccountType
 }
 
 export default Beneficary

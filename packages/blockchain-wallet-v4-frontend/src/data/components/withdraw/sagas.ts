@@ -14,17 +14,19 @@ export default ({ api }: { api: APIType }) => {
   }: ReturnType<typeof A.handleCustodyWithdraw>) {
     try {
       yield put(actions.form.startSubmit('confirmCustodyWithdraw'))
-      const withdrawal: ReturnType<typeof api.withdrawFunds> = yield call(
-        api.withdrawFunds,
-        payload.beneficiary,
-        payload.fiatCurrency,
-        convertStandardToBase('FIAT', payload.amount)
-      )
-      yield put(actions.form.stopSubmit('confirmCustodyWithdraw'))
-      yield put(
-        actions.core.data.fiat.fetchTransactions(payload.fiatCurrency, true)
-      )
-      yield put(A.setStep({ step: 'WITHDRAWAL_DETAILS', withdrawal }))
+      if (payload.beneficiary) {
+        const withdrawal: ReturnType<typeof api.withdrawFunds> = yield call(
+          api.withdrawFunds,
+          payload.beneficiary,
+          payload.fiatCurrency,
+          convertStandardToBase('FIAT', payload.amount)
+        )
+        yield put(actions.form.stopSubmit('confirmCustodyWithdraw'))
+        yield put(
+          actions.core.data.fiat.fetchTransactions(payload.fiatCurrency, true)
+        )
+        yield put(A.setStep({ step: 'WITHDRAWAL_DETAILS', withdrawal }))
+      }
     } catch (e) {
       const error = errorHandler(e)
       yield put(

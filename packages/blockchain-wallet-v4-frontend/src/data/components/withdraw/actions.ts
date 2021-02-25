@@ -1,5 +1,6 @@
 import * as AT from './actionTypes'
 import {
+  BankTransferAccountType,
   BeneficiaryType,
   WalletFiatType,
   WithdrawalLockResponseType,
@@ -9,7 +10,7 @@ import { WithdrawActionTypes, WithdrawStepActionsPayload } from './types'
 
 export const handleCustodyWithdraw = (
   amount: string,
-  beneficiary: BeneficiaryType,
+  beneficiary: BeneficiaryType | BankTransferAccountType | null,
   fiatCurrency: WalletFiatType
 ) => ({
   type: AT.HANDLE_WITHDRAW_SUBMIT,

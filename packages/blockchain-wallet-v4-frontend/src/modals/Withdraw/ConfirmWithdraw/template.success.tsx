@@ -42,9 +42,10 @@ const Success: React.FC<InjectedFormProps<
     <Form
       onSubmit={e => {
         e.preventDefault()
+
         props.withdrawActions.handleCustodyWithdraw(
           props.formValues.amount,
-          props.beneficiary,
+          props.beneficiary || props.defaultMethod || null,
           props.fiatCurrency
         )
       }}
@@ -104,7 +105,9 @@ const Success: React.FC<InjectedFormProps<
         <Title>
           <FormattedMessage id='copy.to' defaultMessage='To' />
         </Title>
-        <Value>{props.beneficiary.name}</Value>
+        <Value>
+          {props.beneficiary?.name || props.defaultMethod?.details.bankName}
+        </Value>
       </Row>
       <Row>
         <Title>

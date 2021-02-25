@@ -24,9 +24,9 @@ export enum WithdrawStepEnum {
 
 export type WithdrawStepActionsPayload =
   | {
-      beneficiary?: BeneficiaryType,
-      fiatCurrency: WalletFiatType,
-      step: 'ENTER_AMOUNT',
+      beneficiary?: BeneficiaryType
+      fiatCurrency: WalletFiatType
+      step: 'ENTER_AMOUNT'
       transferAccount?: BankTransferAccountType
     }
   | {
@@ -35,7 +35,8 @@ export type WithdrawStepActionsPayload =
     }
   | {
       amount: string
-      beneficiary: BeneficiaryType
+      beneficiary?: BeneficiaryType
+      defaultMethod?: BankTransferAccountType
       step: 'CONFIRM_WITHDRAW'
     }
   | {

@@ -3,7 +3,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
-import { BeneficiaryType, ExtractSuccess, WalletFiatType } from 'core/types'
+import { BankTransferAccountType , BeneficiaryType, ExtractSuccess, WalletFiatType } from 'core/types'
+
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
@@ -44,7 +45,8 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   amount: string
-  beneficiary: BeneficiaryType
+  beneficiary?: BeneficiaryType
+  defaultMethod?: BankTransferAccountType
   fiatCurrency: WalletFiatType
   handleClose: () => void
 }
