@@ -5,6 +5,7 @@ import React, { useEffect } from 'react'
 import { actions, selectors } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
+import { WalletFiatType } from 'core/types'
 
 import { getData } from './selectors'
 // import Failure from './template.success'
@@ -23,8 +24,8 @@ const DepositMethods = props => {
   })
 }
 
-const mapStateToProps = (state: RootState) => ({
-  data: getData(state),
+const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
+  data: getData(state, ownProps),
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state)
 })
 
@@ -35,6 +36,7 @@ export const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type Props = ConnectedProps<typeof connector>
+export type OwnProps = { fiatCurrency?: WalletFiatType }
+export type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(DepositMethods)

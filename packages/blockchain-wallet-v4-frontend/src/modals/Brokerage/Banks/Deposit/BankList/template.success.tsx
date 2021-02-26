@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { AddNewButton } from 'components/Brokerage'
 import { BankDWStepType } from 'data/types'
-import { BankTransferAccountType } from 'core/types'
+import { BankTransferAccountType, BeneficiaryType } from 'core/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { getBankLogoImageName } from 'services/ImagesService'
 import { Icon, Image, Text } from 'blockchain-info-components'
@@ -13,7 +13,10 @@ import { Props as _P } from '.'
 
 import Bank from './Accounts/Bank'
 
-type OwnProps = { bankTransferAccounts: BankTransferAccountType[] }
+type OwnProps = {
+  bankTransferAccounts: BankTransferAccountType[]
+  beneficiaries: BeneficiaryType[]
+}
 type Props = _P & OwnProps
 
 const Wrapper = styled.div`
