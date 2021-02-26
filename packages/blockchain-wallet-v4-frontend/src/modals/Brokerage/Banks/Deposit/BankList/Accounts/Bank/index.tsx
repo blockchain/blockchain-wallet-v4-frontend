@@ -1,3 +1,5 @@
+import { FormattedMessage } from 'react-intl'
+import { Icon } from 'blockchain-info-components'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
@@ -7,6 +9,7 @@ import {
   DisplayIcon,
   MultiRowContainer
 } from 'components/SimpleBuy'
+import { SuccessCartridge } from 'components/Cartridge'
 import { Title, Value } from 'components/Flyout'
 
 const StyledTitle = styled(Title)`
@@ -22,14 +25,27 @@ const StyledValue = styled(Value)`
   font-size: 16px;
 `
 
+const CartridgeContainer = styled.div`
+  display: flex;
+  margin-top: 8px;
+  align-items: center;
+`
+
 type Props = {
   bankDetails: BankDetails
   icon: ReactElement
+  isActive: boolean
   onClick: () => void
   text: string
 }
 
-const Bank: React.FC<Props> = ({ icon, text, bankDetails, onClick }) => (
+const Bank: React.FC<Props> = ({
+  icon,
+  text,
+  bankDetails,
+  onClick,
+  isActive
+}) => (
   <DisplayContainer
     data-e2e={`sb${bankDetails.bankAccountType.toLowerCase()}Banks`}
     role='button'
@@ -43,7 +59,21 @@ const Bank: React.FC<Props> = ({ icon, text, bankDetails, onClick }) => (
           bankDetails.accountNumber
         }`}
       </StyledTitle>
+      <CartridgeContainer>
+        <SuccessCartridge>
+          <FormattedMessage id='modals.brokerage.free' defaultMessage='Free' />
+        </SuccessCartridge>
+      </CartridgeContainer>
     </MultiRowContainer>
+    {isActive && (
+      <Icon
+        name='checkmark-circle-filled'
+        size='24px'
+        color='green600'
+        role='button'
+        style={{ justifyContent: 'flex-start' }}
+      />
+    )}
   </DisplayContainer>
 )
 

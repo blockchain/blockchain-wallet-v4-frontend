@@ -587,6 +587,7 @@ type MessagesType = {
   'lockboxrequired.tooltip': 'Hardware device is required'
   'modals.brokerage.add_a_bank_account': 'Add a Bank Account'
   'modals.brokerage.bank_preview.disclaimer': 'This account can be used for buys, sells & withdrawals.'
+  'modals.brokerage.free': 'Free'
   'modals.brokerage.remove_bank.description': "You're about to remove your {bankAccount}"
   'modals.brokerage.link_bank': 'Blockchain.com uses Yodlee to verify your bank credentials & securely link your accounts.'
   'modals.brokerage.link_bank_yodlee_terms': "By hitting Continue, you Agree to Yodlee's"

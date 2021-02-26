@@ -14,6 +14,7 @@ import { Props as _P } from '.'
 import Bank from './Accounts/Bank'
 
 type OwnProps = {
+  account: BankTransferAccountType | undefined
   bankTransferAccounts: BankTransferAccountType[]
   beneficiaries: BeneficiaryType[]
 }
@@ -74,6 +75,7 @@ const BankList = (props: Props) => {
             key={account.id}
             bankDetails={account.details}
             text={account.details.bankName}
+            isActive={account.id === props.account?.id}
             icon={getLinkedBankIcon(account.details.bankName)}
             onClick={() => {
               props.brokerageActions.setBankDetails({ account })

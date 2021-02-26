@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
 import { BankDWStepType } from 'data/types'
-import { FiatType } from 'core/types'
+import { FiatType, WalletFiatType } from 'core/types'
 import { ModalPropsType } from '../../../types'
 
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
@@ -78,7 +78,10 @@ class Deposit extends PureComponent<Props> {
            * method selection screen
            */
           <FlyoutChild>
-            <BankList />
+            <BankList
+              fiatCurrency={this.props.fiatCurrency as WalletFiatType}
+              handleClose={this.handleClose}
+            />
           </FlyoutChild>
         )}
         {this.props.step === BankDWStepType.CONFIRM && (
