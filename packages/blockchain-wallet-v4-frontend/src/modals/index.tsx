@@ -122,7 +122,7 @@ const QRCode = React.lazy(() => import('./QRCode'))
 const SignMessage = React.lazy(() => import('./SignMessage'))
 const SimpleBuy = React.lazy(() => import('./SimpleBuy'))
 const Swap = React.lazy(() => import('./Swap'))
-const Withdraw = React.lazy(() => import('./Withdraw'))
+const Withdraw = React.lazy(() => import('./Brokerage/Banks/Withdraw'))
 
 // BROKERAGE
 const BankDetails = React.lazy(() => import('./Brokerage/Banks/BankDetails'))

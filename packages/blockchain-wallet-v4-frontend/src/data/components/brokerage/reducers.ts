@@ -14,7 +14,7 @@ const INITIAL_STATE: BrokerageState = {
   dwStep: BankDWStepType.DEPOSIT_METHODS,
   account: undefined,
   redirectBackToStep: false,
-  addNew: false, // Not the most ideal solution but is acceptable for now
+  addNew: false, // Put this stuff in redux-form
   bankStatus: Remote.NotAsked
 }
 

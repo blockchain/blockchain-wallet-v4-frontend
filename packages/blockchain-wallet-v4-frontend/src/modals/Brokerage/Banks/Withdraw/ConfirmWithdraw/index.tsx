@@ -3,7 +3,12 @@ import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
-import { BankTransferAccountType , BeneficiaryType, ExtractSuccess, WalletFiatType } from 'core/types'
+import {
+  BankTransferAccountType,
+  BeneficiaryType,
+  ExtractSuccess,
+  WalletFiatType
+} from 'core/types'
 
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'

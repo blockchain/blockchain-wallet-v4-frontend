@@ -10,7 +10,7 @@ import {
 } from 'core/types'
 import { selectors } from 'data'
 // import { getData } from './selectors'
-import { ModalPropsType } from '../types'
+import { ModalPropsType } from '../../../types'
 import { WithdrawStepEnum } from 'data/types'
 import BankPicker from './BankPicker'
 import ConfirmWithdraw from './ConfirmWithdraw'
