@@ -202,7 +202,7 @@ const Account = ({
   bankTransferAccounts,
   invalid,
   brokerageActions
-}) => {
+}: OwnProps) => {
   const dMethod = getDefaultMethod(defaultMethod, bankTransferAccounts)
 
   return (
@@ -218,8 +218,8 @@ const Account = ({
             BrokerageModalOriginType.ADD_BANK,
             'ADD_BANK_MODAL'
           )
-          brokerageActions.setStep({
-            step: AddBankStepType.ADD_BANK
+          brokerageActions.setAddBankStep({
+            addBankStep: AddBankStepType.ADD_BANK
           })
         } else {
           brokerageActions.setDWStep({

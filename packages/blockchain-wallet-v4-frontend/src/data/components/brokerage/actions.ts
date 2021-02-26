@@ -8,6 +8,7 @@ import {
 import {
   AddBankStepType,
   BankDetailsPayload,
+  BankDWStepType,
   BrokerageActionTypes,
   BrokerageAddBankStepPayload,
   BrokerageDWStepPayload,
@@ -108,6 +109,8 @@ const getPayloadObjectForAddBankStep = (
 
 const getPayloadObjectForDWStep = (payload: BrokerageDWStepPayload) => {
   switch (payload.dwStep) {
+    case BankDWStepType.DEPOSIT_METHODS:
+      return { dwStep: payload.dwStep, addNew: payload.addNew || false }
     default:
       return { dwStep: payload.dwStep }
   }

@@ -2,7 +2,11 @@ import { FormattedMessage } from 'react-intl'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
-import { BankDWStepType } from 'data/types'
+import {
+  AddBankStepType,
+  BankDWStepType,
+  BrokerageModalOriginType
+} from 'data/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { SBPaymentMethodsType, SBPaymentMethodType } from 'core/types'
@@ -78,11 +82,16 @@ const getType = (value: SBPaymentMethodType) => {
   }
 }
 
-const Success = (props: Props) => {
-  const bankTransfer = props.paymentMethods.methods.find(
+const Success = ({
+  addNew,
+  brokerageActions,
+  close,
+  paymentMethods
+}: Props) => {
+  const bankTransfer = paymentMethods.methods.find(
     method => method.type === 'BANK_TRANSFER'
   )
-  const bankWire = props.paymentMethods.methods.find(
+  const bankWire = paymentMethods.methods.find(
     method => method.type === 'BANK_ACCOUNT'
   )
 
@@ -104,7 +113,7 @@ const Success = (props: Props) => {
             color='grey600'
             role='button'
             onClick={() => {
-              props.close()
+              close()
             }}
           />
         </TopText>
@@ -114,9 +123,26 @@ const Success = (props: Props) => {
           <BankDeposit
             icon={getIcon(bankTransfer)}
             onClick={() => {
-              props.brokerageActions.setDWStep({
-                dwStep: BankDWStepType.ENTER_AMOUNT
-              })
+              /* If I'm on the deposit method screen and I came from the user
+                 clicking the "add new" button I want to show the add bank 
+                 modal else I want to go to the enter amount screen
+              */
+              if (addNew) {
+                brokerageActions.showModal(
+                  BrokerageModalOriginType.ADD_BANK,
+                  'ADD_BANK_MODAL'
+                )
+                brokerageActions.setAddBankStep({
+                  addBankStep: AddBankStepType.ADD_BANK
+                })
+                brokerageActions.setDWStep({
+                  dwStep: BankDWStepType.ENTER_AMOUNT
+                })
+              } else {
+                brokerageActions.setDWStep({
+                  dwStep: BankDWStepType.ENTER_AMOUNT
+                })
+              }
             }}
             text={getType(bankTransfer)}
             value={bankTransfer}
@@ -127,7 +153,7 @@ const Success = (props: Props) => {
           <BankWire
             icon={getIcon(bankWire)}
             onClick={() =>
-              props.brokerageActions.setDWStep({
+              brokerageActions.setDWStep({
                 dwStep: BankDWStepType.WIRE_INSTRUCTIONS
               })
             }

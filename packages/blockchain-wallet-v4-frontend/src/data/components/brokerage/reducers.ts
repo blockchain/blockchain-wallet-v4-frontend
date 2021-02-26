@@ -14,6 +14,7 @@ const INITIAL_STATE: BrokerageState = {
   dwStep: BankDWStepType.DEPOSIT_METHODS,
   account: undefined,
   redirectBackToStep: false,
+  addNew: false, // Not the most ideal solution but is acceptable for now
   bankStatus: Remote.NotAsked
 }
 
@@ -73,9 +74,18 @@ export function brokerageReducer (
         }
       }
     case AT.SET_D_W_STEP:
-      return {
-        ...state,
-        dwStep: action.payload.dwStep
+      switch (action.payload.dwStep) {
+        case BankDWStepType.DEPOSIT_METHODS:
+          return {
+            ...state,
+            dwStep: action.payload.dwStep,
+            addNew: action.payload.addNew || false
+          }
+        default:
+          return {
+            ...state,
+            dwStep: action.payload.dwStep
+          }
       }
     default:
       return state

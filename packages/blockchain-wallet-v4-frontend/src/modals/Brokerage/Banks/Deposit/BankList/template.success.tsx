@@ -72,10 +72,24 @@ const BankList = (props: Props) => {
             bankDetails={account.details}
             text={account.details.bankName}
             icon={getLinkedBankIcon(account.details.bankName)}
-            onClick={() => {}}
+            onClick={() => {
+              props.brokerageActions.setBankDetails({ account })
+              props.brokerageActions.setDWStep({
+                dwStep: BankDWStepType.ENTER_AMOUNT
+              })
+            }}
           />
         ))}
-        <AddNewButton data-e2e='DepositAddNewPaymentMethod' onClick={() => {}}>
+        <AddNewButton
+          data-e2e='DepositAddNewPaymentMethod'
+          onClick={() => {
+            // Setting addNew determines where the ach deposit method will link to
+            props.brokerageActions.setDWStep({
+              dwStep: BankDWStepType.DEPOSIT_METHODS,
+              addNew: true
+            })
+          }}
+        >
           <Text color='blue600' size='16px' weight={600}>
             <FormattedMessage id='buttons.add_new' defaultMessage='+ Add New' />
           </Text>

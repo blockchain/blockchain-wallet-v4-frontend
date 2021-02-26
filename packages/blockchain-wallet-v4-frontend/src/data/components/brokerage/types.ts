@@ -23,7 +23,6 @@ export type BankStatusType =
   | 'DEFAULT_ERROR'
 
 export enum BankDWStepType {
-  ADD_BANK = 'ADD_BANK',
   BANK_LIST = 'BANK_LIST',
   CONFIRM = 'CONFIRM',
   DEPOSIT_METHODS = 'DEPOSIT_METHODS',
@@ -32,13 +31,18 @@ export enum BankDWStepType {
   WIRE_INSTRUCTIONS = 'WIRE_INSTRUCTIONS'
 }
 
-export type BrokerageDWStepPayload = {
-  dwStep:
-    | BankDWStepType.DEPOSIT_METHODS
-    | BankDWStepType.ENTER_AMOUNT
-    | BankDWStepType.WIRE_INSTRUCTIONS
-    | BankDWStepType.DEPOSIT_STATUS
-}
+export type BrokerageDWStepPayload =
+  | {
+      dwStep:
+        | BankDWStepType.ENTER_AMOUNT
+        | BankDWStepType.WIRE_INSTRUCTIONS
+        | BankDWStepType.DEPOSIT_STATUS
+        | BankDWStepType.BANK_LIST
+    }
+  | {
+      addNew?: boolean,
+      dwStep: BankDWStepType.DEPOSIT_METHODS
+    }
 
 export type BrokerageAddBankStepPayload =
   | {
@@ -71,6 +75,7 @@ export enum BrokerageModalOriginType {
 export type BrokerageState = {
   account: BankTransferAccountType | undefined
   addBankStep: AddBankStepType
+  addNew: boolean
   bankStatus: RemoteDataType<string, BankStatusType>
   bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>
   dwStep: BankDWStepType
