@@ -1,5 +1,6 @@
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
+import moment from 'moment'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
@@ -89,6 +90,44 @@ const Success = props => {
               defaultMessage='My {currency} Wallet'
               values={{ currency: props.defaultMethod?.currency }}
             />
+          </LineItemText>
+        </Row>
+        <Row>
+          <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
+            <FormattedMessage
+              id='modals.brokerage.funds_will_arrive'
+              defaultMessage='Funds Will Arrive'
+            />
+          </Text>
+          <LineItemText>
+            {moment()
+              .add(3, 'days')
+              .format('dddd, MMM Do, YYYY')}
+          </LineItemText>
+        </Row>
+        <Row>
+          <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
+            <FormattedMessage id='copy.fee' defaultMessage='Fee' />
+          </Text>
+          <LineItemText>
+            {/* // TODO: get this from an endpoint */}
+            {fiatToString({
+              value: 0,
+              unit: props.defaultMethod?.currency || ('USD' as FiatType),
+              digits: 0
+            })}
+          </LineItemText>
+        </Row>
+        <Row>
+          <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
+            <FormattedMessage id='copy.total' defaultMessage='Total' />
+          </Text>
+          <LineItemText>
+            {fiatToString({
+              value: props.formValues?.amount,
+              unit: props.defaultMethod?.currency || ('USD' as FiatType),
+              digits: 0
+            })}
           </LineItemText>
         </Row>
       </FlyoutBody>

@@ -68,7 +68,9 @@ type Props = OwnProps & SuccessStateType
 
 const Success = props => {
   const coin = props.fiatCurrency || 'USD'
-  const amount = 0
+  const amount = props.formValues?.amount || 0
+  const unit = (props.defaultMethod?.currency as FiatType) || 'USD'
+
   return (
     <Wrapper>
       <CloseContainer>
@@ -110,8 +112,8 @@ const Success = props => {
               defaultMessage='{amount} Deposited!'
               values={{
                 amount: fiatToString({
-                  value: props.formValues?.amount,
-                  unit: props.defaultMethod?.currency as FiatType,
+                  value: amount,
+                  unit,
                   digits: 0
                 })
               }}
