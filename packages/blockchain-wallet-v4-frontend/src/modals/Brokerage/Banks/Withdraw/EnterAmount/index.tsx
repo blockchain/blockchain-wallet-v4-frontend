@@ -12,6 +12,7 @@ import {
 } from 'core/types'
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { SBPaymentTypes } from 'core/network/api/settingsComponent/types'
 import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
 import Failure from './template.failure'
 import Loading from './template.loading'
@@ -21,12 +22,19 @@ class EnterAmount extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {
+    let paymentMethod: SBPaymentTypes | 'ALL' = 'ALL'
+    if (this.props.defaultMethod) {
+      paymentMethod = 'BANK_TRANSFER'
+    }
+    // We need to make this call each time we load the enter amount component
+    // because the bank wires and ach have different min/max/fees
+    this.props.withdrawActions.fetchWithdrawalFees(paymentMethod)
+
     if (!Remote.Success.is(this.props.data)) {
       this.props.brokerageActions.fetchBankTransferAccounts()
       this.props.custodialActions.fetchCustodialBeneficiaries(
         this.props.fiatCurrency
       )
-      this.props.withdrawActions.fetchWithdrawalFees()
       this.props.withdrawActions.fetchWithdrawalLock()
     }
   }

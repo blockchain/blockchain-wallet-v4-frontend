@@ -47,12 +47,15 @@ export default ({ api }: { api: APIType }) => {
     yield put(A.setStep({ step: 'ENTER_AMOUNT', fiatCurrency }))
   }
 
-  const fetchFees = function * () {
+  const fetchFees = function * (
+    action: ReturnType<typeof A.fetchWithdrawalFees>
+  ) {
     yield put(A.fetchWithdrawalFeesLoading())
     try {
       const withdrawalFees: ReturnType<typeof api.getWithdrawalFees> = yield call(
         api.getWithdrawalFees,
-        SERVICE_NAME
+        SERVICE_NAME,
+        action.payload.paymentMethod
       )
 
       yield put(A.fetchWithdrawalFeesSuccess(withdrawalFees))

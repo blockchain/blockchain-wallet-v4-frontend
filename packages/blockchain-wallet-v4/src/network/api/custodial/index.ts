@@ -71,12 +71,13 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     })
 
   const getWithdrawalFees = (
-    product: WithdrawalFeesProductType
+    product: WithdrawalFeesProductType,
+    paymentMethod?: SBPaymentTypes | 'ALL'
   ): WithdrawalMinsAndFeesResponse =>
     authorizedGet({
       url: nabuUrl,
       data: {
-        paymentMethod: 'BANK_TRANSFER',
+        paymentMethod,
         product
       },
       endPoint: `/payments/withdrawals/fees`
