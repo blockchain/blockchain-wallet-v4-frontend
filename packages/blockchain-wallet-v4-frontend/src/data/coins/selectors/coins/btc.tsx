@@ -1,5 +1,5 @@
+import { add, lift, prop, propEq } from 'ramda'
 import { FormattedMessage } from 'react-intl'
-import { lift, prop, propEq } from 'ramda'
 import React from 'react'
 
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
@@ -37,42 +37,52 @@ export const getAccounts = createDeepEqualSelector(
     ) => {
       const { coin } = ownProps
       let accounts = []
-
       // add non-custodial accounts if requested
       if (ownProps?.nonCustodialAccounts) {
-        accounts = accounts.concat(btcAccounts
-          .map(acc => ({
-            accountIndex: prop('index', acc),
-            address: prop('index', acc),
-            archived: prop('archived', acc),
-            // @ts-ignore
-            balance: prop('final_balance', prop(prop('xpub', acc), btcData)),
-            baseCoin: coin,
-            coin,
-            label: prop('label', acc) || prop('xpub', acc),
-            type: ADDRESS_TYPES.ACCOUNT
-          }))
-          .filter(propEq('archived', false)))
+        // each account has a derivations object with legacy address and segwit address
+        // need to extract each xpub for balance
+        const xpubArray = acc =>
+          prop('derivations', acc).map(derr => prop('xpub', derr))
+        const xpubBalance = acc =>
+          // @ts-ignore
+          xpubArray(acc).map(xpub => prop('final_balance', prop(xpub, btcData)))
+        accounts = accounts.concat(
+          btcAccounts
+            .map(acc => ({
+              accountIndex: prop('index', acc),
+              address: prop('index', acc),
+              archived: prop('archived', acc),
+              balance: xpubBalance(acc).reduce(add, 0),
+              baseCoin: coin,
+              coin,
+              label: prop('label', acc) || prop('xpub', acc),
+              type: ADDRESS_TYPES.ACCOUNT
+            }))
+            .filter(propEq('archived', false))
+        )
       }
 
       // add imported addresses if requested
       if (ownProps?.importedAddresses) {
-        accounts = accounts.concat(importedAddresses.map(importedAcc =>({
-          address: importedAcc.addr,
-          balance: importedAcc.final_balance,
-          baseCoin: coin,
-          coin,
-          label: importedAcc.label,
-          type: ADDRESS_TYPES.LEGACY
-        })))
+        accounts = accounts.concat(
+          importedAddresses.map(importedAcc => ({
+            address: importedAcc.addr,
+            balance: importedAcc.final_balance,
+            baseCoin: coin,
+            coin,
+            label: importedAcc.label,
+            type: ADDRESS_TYPES.LEGACY
+          }))
+        )
       }
 
       // add custodial accounts if requested
       if (ownProps?.custodialAccounts) {
-        // @ts-ignore
-        accounts = accounts.concat(generateCustodyAccount(coin, sbBalance as SBBalanceType))
+        accounts = accounts.concat(
+          // @ts-ignore
+          generateCustodyAccount(coin, sbBalance as SBBalanceType)
+        )
       }
-
       return accounts
     }
 
