@@ -1,5 +1,3 @@
-import * as walletSelectors from '../../wallet/selectors'
-import { ADDRESS_TYPES } from '../../payment/btc/utils'
 import {
   assoc,
   compose,
@@ -22,6 +20,10 @@ import {
   sum,
   values
 } from 'ramda'
+import { set } from 'ramda-lens'
+
+import * as walletSelectors from '../../wallet/selectors'
+import { ADDRESS_TYPES } from '../../payment/btc/utils'
 import {
   getAddresses,
   getChangeIndex,
@@ -32,7 +34,6 @@ import {
   getLockboxBtcAccounts
 } from '../../kvStore/lockbox/selectors'
 import { HDAccount, HDAccountList, HDWallet } from '../../../types'
-import { set } from 'ramda-lens'
 import Remote from '../../../remote'
 
 const _getAccounts = selector => state => {
@@ -46,6 +47,15 @@ const _getAccounts = selector => state => {
   }
   return Remote.of(map(addInfo, selector(state)))
 }
+
+// default derivation type ('legacy' or 'bech32')
+export const getAccountDefaultDerivation = curry((accountIndex, state) => {
+  const account = compose(
+    HDWallet.selectAccount(accountIndex),
+    walletSelectors.getDefaultHDWallet
+  )(state)
+  return HDAccount.selectDefaultDerivation(account)
+})
 
 // getHDAccounts :: state -> Remote ([hdAccountsWithInfo])
 export const getHDAccounts = state => {
@@ -68,6 +78,7 @@ export const getActiveHDAccounts = state => {
   return _getAccounts(selector)(state)
 }
 
+// imported addresses
 // getActiveAddresses :: state -> Remote ([AddressesWithInfo])
 export const getActiveAddresses = state => {
   const balancesRD = getAddresses(state)
@@ -83,6 +94,7 @@ export const getActiveAddresses = state => {
   return sequence(Remote.of, objectOfRemotes)
 }
 
+// archived imported addresses
 export const getArchivedAddresses = state => {
   const archivedAddresses = compose(
     keys,
@@ -269,13 +281,4 @@ export const getAddressLockbox = curry((network, xpub, index, state) => {
   const account = getLockboxBtcAccount(state, xpub)
   const hdAccount = HDAccount.fromJS(account.getOrElse({}), 0)
   return HDAccount.getAddress(hdAccount, `M/0/${index}`, network)
-})
-
-export const getAccountDefaultDerivation = curry((accountIndex, state) => {
-  const account = compose(
-    HDWallet.selectAccount(accountIndex),
-    walletSelectors.getDefaultHDWallet
-  )(state)
-  let t = HDAccount.selectDefaultDerivation(account)
-  return t
 })
