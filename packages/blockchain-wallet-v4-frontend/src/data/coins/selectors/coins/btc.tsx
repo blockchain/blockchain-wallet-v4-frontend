@@ -39,7 +39,7 @@ export const getAccounts = createDeepEqualSelector(
       let accounts = []
       // add non-custodial accounts if requested
       if (ownProps?.nonCustodialAccounts) {
-        // each account has a derivations object with legacy address and segwit address
+        // each account has a derivations object with legacy xpub and segwit xpub
         // need to extract each xpub for balance
         const xpubArray = acc =>
           prop('derivations', acc).map(derr => prop('xpub', derr))
