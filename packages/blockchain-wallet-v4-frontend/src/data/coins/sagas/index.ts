@@ -6,7 +6,7 @@ import {
   PaymentValue,
   RatesType,
   RemoteDataType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
 
 // import * as ALGO from './coins/algo'
 import * as BCH from './coins/bch'
@@ -38,23 +38,36 @@ const coinSagas = {
 
 export default ({ coreSagas, networks }) => {
   // gets the default account/address for requested coin
-  const getDefaultAccountForCoin = function * (coin: CoinType): Generator<string> {
-    const defaultAccountR = yield coinSagas[coin in Erc20CoinsEnum ? 'ERC20' : coin]?.getDefaultAccount(coin)
+  const getDefaultAccountForCoin = function * (
+    coin: CoinType
+  ): Generator<string> {
+    const defaultAccountR = yield coinSagas[
+      coin in Erc20CoinsEnum ? 'ERC20' : coin
+    ]?.getDefaultAccount(coin)
     // @ts-ignore
     return defaultAccountR.getOrFail('Failed to find default account')
   }
 
   // gets the next receive address for requested coin
   // account based currencies will just return the account address
-  const getNextReceiveAddressForCoin = function * (coin: CoinType): Generator<string> {
-    return yield coinSagas[coin in Erc20CoinsEnum ? 'ERC20' : coin]?.getNextReceiveAddress(coin, networks)
+  const getNextReceiveAddressForCoin = function * (
+    coin: CoinType
+  ): Generator<string> {
+    return yield coinSagas[
+      coin in Erc20CoinsEnum ? 'ERC20' : coin
+    ]?.getNextReceiveAddress(coin, networks)
   }
 
   // gets or updates a provisional payment for a coin
   // provisional payments are mutable payment objects used to build a transaction
   // over an extended period of time (e.g. as user goes through interest/swap/sell flows)
-  const getOrUpdateProvisionalPaymentForCoin = function (coin: CoinType, paymentR: RemoteDataType<string | Error, PaymentValue | undefined>): PaymentType {
-    return coinSagas[coin in Erc20CoinsEnum ? 'ERC20' : coin]?.getOrUpdateProvisionalPayment(coreSagas, networks, paymentR)
+  const getOrUpdateProvisionalPaymentForCoin = function (
+    coin: CoinType,
+    paymentR: RemoteDataType<string | Error, PaymentValue | undefined>
+  ): PaymentType {
+    return coinSagas[
+      coin in Erc20CoinsEnum ? 'ERC20' : coin
+    ]?.getOrUpdateProvisionalPayment(coreSagas, networks, paymentR)
   }
 
   // convert from a coins base unit into fiat
@@ -64,12 +77,9 @@ export default ({ coreSagas, networks }) => {
     userCurrency: keyof CurrenciesType,
     rates: RatesType
   ): number => {
-    return coinSagas[coin in Erc20CoinsEnum ? 'ERC20' : coin]?.convertFromBaseUnitToFiat(
-      coin,
-      baseUnitValue,
-      userCurrency,
-      rates
-    )
+    return coinSagas[
+      coin in Erc20CoinsEnum ? 'ERC20' : coin
+    ]?.convertFromBaseUnitToFiat(coin, baseUnitValue, userCurrency, rates)
   }
 
   return {
