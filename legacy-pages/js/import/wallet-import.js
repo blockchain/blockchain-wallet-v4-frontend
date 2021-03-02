@@ -195,6 +195,8 @@
 
                             MyStore.put('guid', guid);
 
+                            window.confirm(`Your wallet has been recovered successfully! \n\nIMPORTANT: Copy your new Wallet ID below and use it, along with your new password, to login on the next page. \n\n${guid}`)
+
                             window.location = root + 'wallet/login/' + guid;
                         }, function() {
                             $("#captcha").attr("src", root + "kaptcha.jpg?timestamp=" + new Date().getTime());
