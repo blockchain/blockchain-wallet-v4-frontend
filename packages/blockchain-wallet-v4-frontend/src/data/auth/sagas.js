@@ -74,7 +74,7 @@ export default ({ api, coreSagas }) => {
   }
 
   const startSockets = function * () {
-    yield put(actions.middleware.webSocket.coins.startSocket())
+    yield put(actions.middleware.webSocket.coins.authSocket())
     yield put(actions.middleware.webSocket.xlm.startStreams())
   }
 
@@ -121,6 +121,9 @@ export default ({ api, coreSagas }) => {
       )
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
+      yield call(
+        coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials
+      )
       yield call(coreSagas.settings.fetchSettings)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
@@ -518,6 +521,7 @@ export default ({ api, coreSagas }) => {
       const sessionToken = yield select(selectors.session.getSession, guid)
       yield call(api.deauthorizeBrowser, sessionToken)
       yield put(actions.alerts.displaySuccess(C.DEAUTHORIZE_BROWSER_SUCCESS))
+      yield put(actions.cache.disconnectChannelPhone())
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'deauthorizeBrowser', e)

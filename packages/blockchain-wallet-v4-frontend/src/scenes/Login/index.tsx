@@ -4,11 +4,16 @@ import { connect, ConnectedProps } from 'react-redux'
 import { formValueSelector, getFormMeta } from 'redux-form'
 import { isEmail, isGuid } from '../../services/ValidationHelper'
 import { SupportedWalletCurrenciesType } from 'core/types'
+import { crypto as wCrypto } from 'blockchain-wallet-v4/src'
 import Login from './template'
 import React from 'react'
 
 class LoginContainer extends React.PureComponent<Props> {
   state = { useCode: true }
+
+  componentDidMount () {
+    this.props.middlewareActions.startSocket()
+  }
 
   componentWillUnmount () {
     this.props.formActions.reset('login')
@@ -51,6 +56,7 @@ class LoginContainer extends React.PureComponent<Props> {
     const guid = (isGuid(path) && path) || lastGuid
 
     return guid ? (
+      // @ts-ignore
       <Login {...this.props} {...loginProps} initialValues={{ guid }} />
     ) : (
       <Login {...this.props} {...loginProps} />
@@ -59,25 +65,44 @@ class LoginContainer extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = state => ({
-  code: formValueSelector('login')(state, 'code'),
-  guid: formValueSelector('login')(state, 'guid'),
-  password: formValueSelector('login')(state, 'password'),
-  formMeta: getFormMeta('login')(state),
   authType: selectors.auth.getAuthType(state),
-  lastGuid: selectors.cache.getLastGuid(state),
-  goals: selectors.goals.getGoals(state),
+  code: formValueSelector('login')(state, 'code'),
   data: selectors.auth.getLogin(state),
-  isGuidValid: isGuid(formValueSelector('login')(state, 'guid')),
+  formMeta: getFormMeta('login')(state),
+  goals: selectors.goals.getGoals(state),
+  guid: formValueSelector('login')(state, 'guid'),
   isGuidEmailAddress: isEmail(formValueSelector('login')(state, 'guid')),
+  isGuidValid: isGuid(formValueSelector('login')(state, 'guid')),
+  lastGuid: selectors.cache.getLastGuid(state),
+  password: formValueSelector('login')(state, 'password'),
+  phonePubKey: selectors.cache.getPhonePubkey(state),
+  // TODO where should we put this logic to build the QR code data?
+  // TODO the QR code should read some error if we aren't connected to WS
+  qrData: selectors.cache.getChannelPrivKey(state)
+    ? JSON.stringify({
+        type: 'login_wallet',
+        channelId: selectors.cache.getChannelChannelId(state),
+        pubkey: wCrypto
+          .derivePubFromPriv(
+            Buffer.from(selectors.cache.getChannelPrivKey(state), 'hex')
+          )
+          .toString('hex')
+      })
+    : '',
+  showMobileAuth: selectors.core.walletOptions
+    .getMobileAuthFlag(state)
+    .getOrElse(false) as boolean,
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrElse({} as SupportedWalletCurrenciesType)
 })
 
 const mapDispatchToProps = dispatch => ({
-  authActions: bindActionCreators(actions.auth, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch),
+  authActions: bindActionCreators(actions.auth, dispatch),
+  cacheActions: bindActionCreators(actions.cache, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
+  middlewareActions: bindActionCreators(actions.ws, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

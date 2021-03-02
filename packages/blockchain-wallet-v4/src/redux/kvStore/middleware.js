@@ -32,7 +32,8 @@ const kvStoreMiddleware = ({
         T.btc.FETCH_METADATA_BTC_SUCCESS,
         T.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS,
         T.userCredentials.FETCH_METADATA_USER_CREDENTIALS_SUCCESS,
-        T.xlm.FETCH_METADATA_XLM_SUCCESS
+        T.xlm.FETCH_METADATA_XLM_SUCCESS,
+        T.walletCredentials.FETCH_METADATA_WALLET_CREDENTIALS_SUCCESS
       ]) &&
       any(identity, values(changes)):
       const actionCreators = {
@@ -45,7 +46,9 @@ const kvStoreMiddleware = ({
         [C.LOCKBOX]: A.lockbox.fetchMetadataLockboxSuccess,
         [C.USER_CREDENTIALS]:
           A.userCredentials.fetchMetadataUserCredentialsSuccess,
-        [C.XLM]: A.xlm.fetchMetadataXlmSuccess
+        [C.XLM]: A.xlm.fetchMetadataXlmSuccess,
+        [C.WALLET_CREDENTIALS]:
+          A.walletCredentials.fetchMetadataWalletCredentialsSuccess
       }
 
       const saveTasks = (value, key) => {

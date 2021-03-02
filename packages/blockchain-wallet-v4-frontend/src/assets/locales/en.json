@@ -1625,7 +1625,6 @@
   "scenes.login.mobile": "SMS Code",
   "scenes.login.needhelp": "Need some help?",
   "scenes.login.password": "Password",
-  "scenes.login.requestid": "Request Wallet ID",
   "scenes.login.resendsms": "Resend SMS",
   "scenes.login.simplebuy.header": "Buy Crypto With Credit Card",
   "scenes.login.version": "Version {version}",
