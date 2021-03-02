@@ -21,12 +21,6 @@ const getOutputScript = keyPair => {
   const payment = Bitcoin.payments.p2wpkh({ pubkey: pubKey })
   return payment.output
 }
-// TODO SEGWIT: Can likely remove?
-// const getRedeemScript = keyPair => {
-//   const pubKey = keyPair.publicKey
-//   const payment = Bitcoin.payments.p2wpkh({ pubkey: pubKey })
-//   return payment.redeem.output
-// }
 
 export const signSelection = curry((network, selection) => {
   const tx = new Bitcoin.TransactionBuilder(network)
