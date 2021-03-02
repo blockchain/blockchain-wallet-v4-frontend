@@ -343,49 +343,6 @@
           "txListAppRoute": "/wdgld/transactions"
         }
       },
-      "sfox": {
-        "countries": ["US"],
-        "states": [
-          "AK",
-          "AZ",
-          "CA",
-          "CO",
-          "DE",
-          "ID",
-          "IL",
-          "IN",
-          "KY",
-          "LA",
-          "MA",
-          "MD",
-          "ME",
-          "MI",
-          "MO",
-          "MT",
-          "NE",
-          "NH",
-          "NJ",
-          "NV",
-          "OK",
-          "OH",
-          "PA",
-          "RI",
-          "TN",
-          "TX",
-          "UT",
-          "VA",
-          "WI",
-          "WV",
-          "WY"
-        ],
-        "config": {
-          "production": false,
-          "apiKey": "6CD61A0E965D48A7B1883A860490DC9E",
-          "plaid": "0b041cd9e9fbf1e7d93a0d5a39f5b9",
-          "plaidEnv": "sandbox",
-          "siftScience": "a19cc360a1"
-        }
-      },
       "sift": {
         "apiKey": "0ecd212038",
         "paymentKey": "4a0510ff14"
@@ -393,15 +350,11 @@
       "mobile_auth": {
         "enabled": true
       }
-    },
-    "ios": {},
-    "android": {}
+    }
   },
   "domains": {
     "api": "https://api.blockchain.info",
     "bitpay": "https://bitpay.com",
-    "coinify": "https://app-api.coinify.com",
-    "coinifyPaymentDomain": "https://pay.coinify.com",
     "comRoot": "https://www.blockchain.com",
     "comWalletApp": "https://login.blockchain.com",
     "everypay": "https://igw-demo.every-pay.com",
@@ -410,7 +363,6 @@
     "ledger": "https://manager.api.live.ledger.com",
     "ledgerSocket": "wss://api.ledgerwallet.com",
     "root": "https://blockchain.info",
-    "thePit": "https://pit.blockchain.com",
     "veriff": "https://magic.veriff.me",
     "walletHelper": "https://wallet-helper.blockchain.com",
     "webSocket": "wss://ws.blockchain.info"

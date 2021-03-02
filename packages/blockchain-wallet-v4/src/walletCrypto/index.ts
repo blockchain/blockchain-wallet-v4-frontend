@@ -218,9 +218,8 @@ export const encryptWallet = curry((data, password, iterations, version) =>
 // decryptWalletV1 :: String -> String -> Task Error Object
 export const decryptWalletV1 = (password, data) => {
   let decrypt = (i, o) =>
-    decryptDataWithPassword(data, password, i, o).chain(
-      safeParse,
-      'v1: wrong_wallet_password'
+    decryptDataWithPassword(data, password, i, o).chain(p =>
+      safeParse(p, 'v1: wrong_wallet_password')
     )
   // v1: CBC, ISO10126, 10 iterations
   return (
@@ -268,9 +267,11 @@ export const decryptWalletV2V3 = (password, data) => {
 }
 
 export const decryptWallet = curry((password, data) =>
-  decryptWalletV1(password, data).orElse(() =>
-    decryptWalletV2V3(password, data)
-  )
+  decryptWalletV1(password, data).orElse(result => {
+    return result === 'v1: wrong_wallet_password'
+      ? Task.rejected(result)
+      : decryptWalletV2V3(password, data)
+  })
 )
 
 export const derivePubFromPriv = priv => {

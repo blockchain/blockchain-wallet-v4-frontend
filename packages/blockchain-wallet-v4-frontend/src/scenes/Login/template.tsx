@@ -1,3 +1,13 @@
+import { compose } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { find, isEmpty, isNil, path, propEq, propOr } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import Bowser from 'bowser'
+import React from 'react'
+import styled from 'styled-components'
+
 import {
   Banner,
   Button,
@@ -8,9 +18,7 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { connect, ConnectedProps } from 'react-redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { find, path, propEq } from 'ramda'
+import { CoinType, WalletFiatType } from 'core/types'
 import {
   Form,
   FormError,
@@ -20,22 +28,17 @@ import {
   PasswordBox,
   TextBox
 } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
 import { required, validWalletId } from 'services/FormHelper'
+import { selectors } from 'data'
 import { SuccessCartridge } from 'components/Cartridge'
 import { Wrapper } from 'components/Public'
-import Bowser from 'bowser'
 import media from 'services/ResponsiveService'
 import QRCodeWrapper from 'components/QRCodeWrapper'
-import React from 'react'
-import styled from 'styled-components'
 
-import { compose } from 'redux'
 import { Props as OwnProps } from '.'
-import { selectors } from 'data'
-import LinkAccount from '../Register/LinkExchangeAccount'
+import LinkExchangeAccount from '../Register/LinkExchangeAccount'
 import Modals from '../../modals'
+import SimpleBuyInfo from '../Register/SimpleBuyInfo'
 
 const browser = Bowser.getParser(window.navigator.userAgent)
 const isSupportedBrowser = browser.satisfies({
@@ -98,7 +101,7 @@ const Header = styled.div`
   align-items: center;
 `
 const LoginForm = styled(Form)`
-  margin: 20px 0;
+  margin-top: 20px;
 `
 const LoginButton = styled(Button)`
   margin-top: 15px;
@@ -118,6 +121,12 @@ const LoginTextGroup = styled(TextGroup)`
   margin: 12px 0;
   text-align: center;
 `
+const LoginHelpText = styled(TextGroup)`
+  text-align: center;
+`
+const GetHelpLink = styled(Link)`
+  margin: 0;
+`
 const GuidError = styled(TextGroup)`
   display: inline;
   margin-top: 3px;
@@ -134,13 +143,9 @@ const SubCard = styled.div`
   margin-top: 1.25rem;
 `
 const SignUpText = styled(Text)`
-  display: flex;
-  flex-direction: row;
-  line-height: 24px;
-`
-const SignUpTextWithHover = styled(SignUpText)`
   &:hover {
-    text-decoration: underline;
+    color: ${props => props.theme.white};
+    font-weight: 600;
   }
 `
 const QRCodeContainer = styled.div`
@@ -164,6 +169,19 @@ export const CartridgeSentContainer = styled.div`
   width: auto;
 `
 
+const HeaderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 48px;
+`
+
+type GoalDataType = {
+  amount: string
+  crypto: CoinType
+  email?: string
+  fiatCurrency: WalletFiatType
+}
+
 const LinkAccountTitle = () => (
   <TitleWrapper>
     <Image name='wallet' height='2rem' />
@@ -177,20 +195,21 @@ const LinkAccountTitle = () => (
 const Login = (props: InjectedFormProps<{}, Props> & Props) => {
   const {
     busy,
+    cacheActions,
     formMeta,
     goals,
     guid,
     invalid,
     isGuidEmailAddress,
-    qr_data,
     isGuidValid,
     loginError,
+    middlewareActions,
     password,
+    phonePubKey,
+    qrData,
     showMobileAuth,
     submitting,
-    phonePubKey,
-    cacheActions,
-    middlewareActions,
+    supportedCoins,
     ...rest
   } = props
   const { handleSubmit, handleSmsResend, authType } = rest
@@ -209,13 +228,25 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
   const isGuidTouched = path(['guid', 'touched'], formMeta)
   const showGuidInvalidError = guid && !isGuidValid && isGuidTouched
   const isLinkAccountGoal = find(propEq('name', 'linkAccount'), goals)
+  const simpleBuyGoal = find(propEq('name', 'simpleBuy'), goals)
+  const goalData: GoalDataType = propOr({}, 'data', simpleBuyGoal)
 
   return (
     <OuterWrapper>
       <SideWrapper />
       <CenterWrapper>
-        {isLinkAccountGoal && <LinkAccount />}
+        {isLinkAccountGoal && <LinkExchangeAccount />}
         <LoginWrapper>
+          {!isNil(goalData) && !isEmpty(goalData) && (
+            <HeaderWrapper>
+              <Text color='white' size='32px' weight={600}>
+                <FormattedMessage
+                  defaultMessage='Buy Crypto With Credit Card'
+                  id='scenes.login.simplebuy.header'
+                />
+              </Text>
+            </HeaderWrapper>
+          )}
           <PublicWrapper>
             <Modals />
             <Header>
@@ -230,6 +261,12 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                 )}
               </Text>
             </Header>
+            {!isNil(goalData) && !isEmpty(goalData) && (
+              <SimpleBuyInfo
+                goalData={goalData}
+                supportedCoins={supportedCoins}
+              />
+            )}
             <LoginForm onSubmit={handleSubmit}>
               {!isSupportedBrowser && (
                 <BrowserWarning>
@@ -282,7 +319,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                     </LinkContainer>
                   </GuidError>
                 )}
-                {showGuidInvalidError ? (
+                {showGuidInvalidError && (
                   <LoginTextGroup inline>
                     <Text size='12px' color='grey800' weight={500}>
                       {isGuidEmailAddress ? (
@@ -302,23 +339,6 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                         <FormattedMessage
                           id='scenes.login.clickhere'
                           defaultMessage='click here.'
-                        />
-                      </Link>
-                    </LinkContainer>
-                  </LoginTextGroup>
-                ) : (
-                  <LoginTextGroup inline style={{ textAlign: 'left' }}>
-                    <Text size='12px' color='grey400' weight={500}>
-                      <FormattedMessage
-                        id='scenes.login.findyourguid'
-                        defaultMessage='Your Wallet ID can be found at the bottom of any email we’ve ever sent you. Need a reminder?'
-                      />
-                    </Text>
-                    <LinkContainer to='/reminder'>
-                      <Link size='12px' weight={500}>
-                        <FormattedMessage
-                          id='scenes.login.sendguid'
-                          defaultMessage='Send my Wallet ID'
                         />
                       </Link>
                     </LinkContainer>
@@ -433,26 +453,41 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                   )}
                 </LoginButton>
               </FormGroup>
+              <LoginHelpText>
+                <Text size='14px' color='grey600' weight={500}>
+                  <FormattedMessage
+                    id='scenes.login.needhelp'
+                    defaultMessage='Need additional help logging in?'
+                  />
+                </Text>
+                <LinkContainer to='/help'>
+                  <GetHelpLink size='13px' weight={600} data-e2e='loginGetHelp'>
+                    <FormattedMessage
+                      id='scenes.login.gethelp'
+                      defaultMessage='Get Help'
+                    />
+                  </GetHelpLink>
+                </LinkContainer>
+              </LoginHelpText>
             </LoginForm>
           </PublicWrapper>
 
           <LinkContainer data-e2e='signupLink' to='/signup'>
             <Link>
               <SubCard>
-                <SignUpText size='16px' color='white' weight={500}>
+                <Text size='16px' color='whiteFade600' weight={500}>
                   <FormattedMessage
                     id='scenes.login.wallet.link'
                     defaultMessage="Don't have a wallet?"
                   />
-                </SignUpText>
+                </Text>
                 &nbsp;
-                <SignUpTextWithHover size='16px' color='white' weight={600}>
+                <SignUpText size='16px' color='whiteFade900' weight={600}>
                   <FormattedMessage
-                    id='scenes.login.wallet.signup'
-                    defaultMessage='Sign up Now'
+                    id='buttons.signup'
+                    defaultMessage='Sign Up'
                   />
-                </SignUpTextWithHover>
-                <Icon size='24px' color='white' name='arrow-right' />
+                </SignUpText>
               </SubCard>
             </Link>
           </LinkContainer>
@@ -524,8 +559,8 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                     },
                     NotAsked: () => (
                       <QRCodeWrapper
-                        value={qr_data}
-                        size={qr_data.length}
+                        value={qrData}
+                        size={qrData.length}
                         showImage
                       />
                     )

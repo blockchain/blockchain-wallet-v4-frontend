@@ -1,16 +1,7 @@
-import { Button, Icon, Image, Text } from 'blockchain-info-components'
-import { fiatToString } from 'core/exchange/currency'
-import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
-import { Props as OwnProps, SuccessStateType } from '.'
 import { path } from 'ramda'
-
-import { UserTierType } from 'data/types'
-import { WalletFiatType } from 'core/types'
 import React from 'react'
 import styled from 'styled-components'
-
-import { ITEMS, TIER_TYPES, TIERS } from './model'
 
 import {
   BlueCartridge,
@@ -18,6 +9,20 @@ import {
   OrangeCartridge,
   SuccessCartridge
 } from 'components/Cartridge'
+import {
+  Button,
+  Icon,
+  Image,
+  Text,
+  TextGroup
+} from 'blockchain-info-components'
+import { fiatToString } from 'core/exchange/currency'
+import { FlyoutWrapper } from 'components/Flyout'
+import { UserTierType } from 'data/types'
+import { WalletFiatType } from 'core/types'
+
+import { ITEMS, TIER_TYPES, TIERS } from './model'
+import { Props as OwnProps, SuccessStateType } from '.'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -37,13 +42,18 @@ const IconsContainer = styled.div`
   justify-content: flex-end;
   width: 100%;
 `
-const ContentItem = styled.div<{ isClickable?: boolean }>`
+
+const Item = styled.div<{ isClickable?: boolean }>`
   border-top: 1px solid ${props => props.theme.grey000};
   padding: 20px 40px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   cursor: ${props => (props.isClickable ? 'pointer' : 'auto')};
+`
+
+const ContentItem = styled(Item)`
+  align-items: center;
 `
 const IconWrapper = styled.div`
   display: flex;
@@ -64,12 +74,14 @@ const FooterWrapper = styled(FlyoutWrapper)`
   justify-content: flex-end;
   display: flex;
   flex-direction: column;
+  margin-top: -16px;
 `
 const CartridgeWrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex: 1;
   justify-content: flex-end;
+  min-width: 75px;
 `
 const IconBareWrapper = styled.div`
   span {
@@ -86,6 +98,12 @@ const ItemTitle = styled(Text)`
   font-weight: 600;
   margin-left: 20px;
 `
+const ItemSubtitle = styled(Text)`
+  color: ${props => props.theme.grey900};
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 4px;
+`
 
 type Props = OwnProps & SuccessStateType
 
@@ -94,7 +112,7 @@ const getItemBadgeStatus = (
   type: ITEMS,
   isEligible: boolean = false
 ) => {
-  return (tier && TIERS[tier][type]) || isEligible ? (
+  return (tier !== undefined && TIERS[tier][type]) || isEligible ? (
     <CartridgeWrapper>
       <SuccessCartridge fontSize='12px'>
         <FormattedMessage
@@ -120,7 +138,7 @@ const getTierStatus = (
   tierType: TIER_TYPES,
   tierDetails: UserTierType
 ) => {
-  if (tierDetails.state === 'under_review') {
+  if (tierDetails.state === 'under_review' || tierDetails.state === 'pending') {
     return (
       <div>
         <CartridgeWrapper>
@@ -175,7 +193,10 @@ const Template: React.FC<Props> = props => {
       ? TIER_TYPES.SILVER_PLUS
       : userCurrentTier
   const isUserGold = currentTier === TIER_TYPES.GOLD
-  const isUserVerifiedSilver = currentTier === TIER_TYPES.SILVER || isUserGold
+  const isUserVerifiedSilver =
+    currentTier === TIER_TYPES.SILVER ||
+    isUserGold ||
+    currentTier === TIER_TYPES.SILVER_PLUS
 
   const swapProduct =
     props.productsEligibility &&
@@ -189,6 +210,9 @@ const Template: React.FC<Props> = props => {
   const savingsProduct =
     props.productsEligibility &&
     props.productsEligibility.find(pE => pE.product === 'SAVINGS')
+
+  const isGoldInreview =
+    goldTier.state === 'under_review' || goldTier.state === 'pending'
 
   return (
     <Wrapper>
@@ -224,7 +248,7 @@ const Template: React.FC<Props> = props => {
       </HeaderWrapper>
 
       <MainContent>
-        <ContentItem
+        <Item
           onClick={() =>
             isUserVerifiedSilver
               ? null
@@ -246,7 +270,7 @@ const Template: React.FC<Props> = props => {
                 defaultMessage='Silver Level'
               />
             </Text>
-            <Text color='grey900' size='14px' weight={500}>
+            <ItemSubtitle color='grey900' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.tradinglimits.silver_subheader'
                 defaultMessage='Trade up to {amount}/year.'
@@ -259,22 +283,22 @@ const Template: React.FC<Props> = props => {
                   })
                 }}
               />
-            </Text>
+            </ItemSubtitle>
 
-            <Text color='grey600' size='12px' weight={500}>
+            <Text color='grey600' lineHeight='1.5' size='12px' weight={500}>
               <FormattedMessage
-                id='modals.tradinglimits.silver_description'
-                defaultMessage='Please verify your email address, add your name, home address and date of birth.'
+                id='modals.tradinglimits.silver_desc'
+                defaultMessage='You’ll need to verify your email address, name, home address and date of birth.'
               />
             </Text>
           </TierDescription>
 
           {getTierStatus(currentTier, TIER_TYPES.SILVER, silverTier)}
-        </ContentItem>
+        </Item>
 
-        <ContentItem
+        <Item
           onClick={() =>
-            isUserGold
+            isUserGold || isGoldInreview
               ? null
               : props.identityVerificationActions.verifyIdentity(
                   TIER_TYPES.GOLD,
@@ -295,7 +319,7 @@ const Template: React.FC<Props> = props => {
               />
             </Text>
 
-            <Text color='grey900' size='14px' weight={500}>
+            <ItemSubtitle color='grey900' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.tradinglimits.gold_subheader'
                 defaultMessage='Earn Interest & trade up to {amount}/day.'
@@ -307,14 +331,22 @@ const Template: React.FC<Props> = props => {
                   })
                 }}
               />
-            </Text>
+            </ItemSubtitle>
 
-            <Text color='grey600' size='12px' weight={500}>
-              <FormattedMessage
-                id='modals.tradinglimits.gold_description'
-                defaultMessage='You’ll need to verify your identity by uploading an ID and a selfie. Requires Silver Tier Approval'
-              />
-            </Text>
+            <TextGroup inline>
+              <Text color='grey600' size='12px' weight={500}>
+                <FormattedMessage
+                  id='modals.tradinglimits.gold_desc1'
+                  defaultMessage='You’ll need to verify your identity by uploading an ID and a selfie.'
+                />
+              </Text>
+              <Text color='grey600' italic size='12px' weight={500}>
+                <FormattedMessage
+                  id='modals.tradinglimits.gold_desc2'
+                  defaultMessage='Requires Silver Tier approval.'
+                />
+              </Text>
+            </TextGroup>
           </TierDescription>
 
           {getTierStatus(
@@ -324,7 +356,7 @@ const Template: React.FC<Props> = props => {
             TIER_TYPES.GOLD,
             goldTier
           )}
-        </ContentItem>
+        </Item>
 
         <ContentItem>
           <IconWrapper>
@@ -415,7 +447,7 @@ const Template: React.FC<Props> = props => {
       </MainContent>
 
       <FooterWrapper>
-        {!isUserGold && (
+        {!isUserGold && !isGoldInreview && (
           <Button
             fullwidth
             size='16px'
@@ -427,10 +459,17 @@ const Template: React.FC<Props> = props => {
               props.identityVerificationActions.verifyIdentity(2, false)
             }
           >
-            <FormattedMessage
-              id='buttons.unlock_all'
-              defaultMessage='Unlock All  ->'
-            />
+            {isUserVerifiedSilver ? (
+              <FormattedMessage
+                id='modals.tradinglimits.unlock_gold_tier'
+                defaultMessage='Unlock Gold Tier ->'
+              />
+            ) : (
+              <FormattedMessage
+                id='buttons.unlock_all'
+                defaultMessage='Unlock All  ->'
+              />
+            )}
           </Button>
         )}
       </FooterWrapper>

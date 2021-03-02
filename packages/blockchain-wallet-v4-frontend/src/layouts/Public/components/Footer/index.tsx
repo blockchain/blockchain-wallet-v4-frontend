@@ -1,9 +1,8 @@
-import React from 'react'
-
 import { FormattedMessage } from 'react-intl'
-import { Link } from 'blockchain-info-components'
-import { LinkContainer } from 'react-router-bootstrap'
+import React from 'react'
 import styled from 'styled-components'
+
+import { Link } from 'blockchain-info-components'
 
 const VersionWrapper = styled.span`
   margin-top: 4px;
@@ -33,14 +32,6 @@ const Footer = () => (
         />
       </Link>
     </VersionWrapper>
-    <LinkContainer to='/help'>
-      <Link size='16px' weight={500} color='grey400' data-e2e='loginGetHelp'>
-        <FormattedMessage
-          id='scenes.login.needhelp'
-          defaultMessage='Need help?'
-        />
-      </Link>
-    </LinkContainer>
   </>
 )
 

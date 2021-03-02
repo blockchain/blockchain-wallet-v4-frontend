@@ -78,7 +78,7 @@ const mapStateToProps = state => ({
   phonePubKey: selectors.cache.getPhonePubkey(state),
   // TODO where should we put this logic to build the QR code data?
   // TODO the QR code should read some error if we aren't connected to WS
-  qr_data: selectors.cache.getChannelPrivKey(state)
+  qrData: selectors.cache.getChannelPrivKey(state)
     ? JSON.stringify({
         type: 'login_wallet',
         channelId: selectors.cache.getChannelChannelId(state),
