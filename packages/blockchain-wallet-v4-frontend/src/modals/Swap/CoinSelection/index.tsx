@@ -16,8 +16,6 @@ import { SwapAccountType } from 'data/types'
 import CryptoAccountOption from './CryptoAccountOption'
 
 class CoinSelection extends PureComponent<Props> {
-  state = {}
-
   componentDidMount () {
     this.props.swapActions.fetchPairs()
     this.props.swapActions.fetchCustodialEligibility()

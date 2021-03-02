@@ -1,5 +1,6 @@
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import { equals } from 'ramda'
 import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
@@ -36,6 +37,7 @@ class OrderSummary extends PureComponent<Props> {
         order: this.props.order
       })
     }
+    this.props.interestActions.fetchAfterTransaction()
   }
 
   handleRefresh = () => {
@@ -62,12 +64,14 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
-    .getOrFail('Supported coins missing')
+    .getOrFail('Supported coins missing'),
+  isGoldVerified: equals(selectors.modules.profile.getCurrentTier(state), 2)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
-  sendActions: bindActionCreators(actions.components.send, dispatch)
+  sendActions: bindActionCreators(actions.components.send, dispatch),
+  interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
@@ -80,6 +84,7 @@ export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
+  isGoldVerified: boolean
   supportedCoins: SupportedWalletCurrenciesType
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>

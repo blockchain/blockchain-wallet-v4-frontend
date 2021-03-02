@@ -6,6 +6,7 @@ import eth from './eth/sagas'
 import lockbox from './lockbox/sagas'
 import root from './root/sagas'
 import userCredentials from './userCredentials/sagas'
+import walletCredentials from './walletCredentials/sagas'
 import xlm from './xlm/sagas'
 
 export default ({ api, networks }) => ({
@@ -17,5 +18,6 @@ export default ({ api, networks }) => ({
   buySell: buySell({ api, networks }),
   contacts: contacts({ api, networks }),
   userCredentials: userCredentials({ api, networks }),
-  xlm: xlm({ api, networks })
+  xlm: xlm({ api, networks }),
+  walletCredentials: walletCredentials({ api, networks })
 })

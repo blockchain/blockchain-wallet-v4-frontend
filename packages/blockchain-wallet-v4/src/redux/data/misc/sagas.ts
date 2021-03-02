@@ -148,6 +148,22 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const sendSecureChannelMessage = function * (action) {
+    try {
+      // yield put(A.authorizeLoginLoading())
+      // const data =
+      yield call(api.sendSecureChannel, JSON.stringify(action.payload))
+      // if (data.success || data.device_change_reason) {
+      //   yield put(A.authorizeLoginSuccess(data))
+      // } else {
+      //   yield put(A.authorizeLoginFailure(data.error))
+      // }
+    } catch (e) {
+      // TODO Should this be a new loading state or can I import the other one?
+      // yield put(A.authorizeLoginFailure(e.message || e.error))
+    }
+  }
+
   const handle2FAReset = function * (action) {
     const { token } = action.payload
     try {
@@ -180,11 +196,12 @@ export default ({ api }: { api: APIType }) => {
 
   return {
     authorizeLogin,
+    encodePairingCode,
     fetchCaptcha,
     fetchPriceChange,
     fetchPriceIndexSeries,
-    encodePairingCode,
-    verifyEmailToken,
-    handle2FAReset
+    handle2FAReset,
+    sendSecureChannelMessage,
+    verifyEmailToken
   }
 }

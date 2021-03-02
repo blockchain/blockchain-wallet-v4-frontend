@@ -16,5 +16,9 @@ export default ({ api }) => {
     yield takeLatest(AT.ENCODE_PAIRING_CODE, dataMiscSagas.encodePairingCode)
     yield takeLatest(AT.VERIFY_EMAIL_TOKEN, dataMiscSagas.verifyEmailToken)
     yield takeLatest(AT.HANDLE_2FA_RESET, dataMiscSagas.handle2FAReset)
+    yield takeLatest(
+      AT.SECURE_CHANNEL_SEND,
+      dataMiscSagas.sendSecureChannelMessage
+    )
   }
 }
