@@ -1,7 +1,4 @@
 import * as Bitcoin from 'bitcoinjs-lib'
-import * as Coin from '../coinSelection/coin.js'
-import * as crypto from '../walletCrypto'
-import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
 import {
   addIndex,
   compose,
@@ -12,9 +9,13 @@ import {
   over
 } from 'ramda'
 import { mapped } from 'ramda-lens'
-import { privateKeyStringToKey } from '../utils/btc'
 import BitcoinMessage from 'bitcoinjs-message'
 import Btc from '@ledgerhq/hw-app-btc'
+
+import * as Coin from '../coinSelection/coin.js'
+import * as crypto from '../walletCrypto'
+import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
+import { privateKeyStringToKey } from '../utils/btc'
 
 const getOutputScript = keyPair => {
   const pubKey = keyPair.publicKey
@@ -22,11 +23,12 @@ const getOutputScript = keyPair => {
   return payment.output
 }
 
-const getRedeemScript = keyPair => {
-  const pubKey = keyPair.publicKey
-  const payment = Bitcoin.payments.p2wpkh({ pubkey: pubKey })
-  return payment.redeem.output
-}
+// not currently needed since we only query legacy and bech32 UTXOs
+// const getRedeemScript = keyPair => {
+//   const pubKey = keyPair.publicKey
+//   const payment = Bitcoin.payments.p2wpkh({ pubkey: pubKey })
+//   return payment.redeem.output
+// }
 
 export const signSelection = curry((network, selection) => {
   const tx = new Bitcoin.TransactionBuilder(network)
@@ -35,8 +37,7 @@ export const signSelection = curry((network, selection) => {
     tx.addOutput(defaultTo(coin.address, coin.script), coin.value)
   const addInput = coin => {
     switch (coin.type()) {
-      // TODO: SEGWIT do we need more cases other than just bech32 and legacy?
-      case 'P2SH-P2WPKH':
+      case 'P2WPKH':
         return tx.addInput(
           coin.txHash,
           coin.index,
@@ -49,15 +50,8 @@ export const signSelection = curry((network, selection) => {
   }
   const sign = (coin, i) => {
     switch (coin.type()) {
-      // TODO: SEGWIT do we need more cases other than just bech32 and legacy?
-      case 'P2SH-P2WPKH':
-        return tx.sign(
-          i,
-          coin.priv,
-          getRedeemScript(coin.priv),
-          null,
-          coin.value
-        )
+      case 'P2WPKH':
+        return tx.sign(i, coin.priv, null, null, coin.value)
       default:
         return tx.sign(i, coin.priv)
     }
