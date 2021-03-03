@@ -82,7 +82,6 @@
     "start:dev": "yarn workspace blockchain-wallet-v4-frontend start:dev",
     "start:prod": "yarn workspace blockchain-wallet-v4-frontend start:prod",
     "start:staging": "yarn workspace blockchain-wallet-v4-frontend start:staging",
-    "start:testnet": "yarn workspace blockchain-wallet-v4-frontend start:testnet",
     "storybook:build": "yarn workspace blockchain-info-components storybook:build",
     "storybook:serve": "yarn workspace blockchain-info-components storybook:serve",
     "storybook:deploy": "yarn workspace blockchain-info-components storybook:build && yarn workspace blockchain-info-components storybook:deploy",
