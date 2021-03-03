@@ -487,7 +487,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                 <LoginHelpText>
                   <Text size='14px' color='grey600' weight={500}>
                     <FormattedMessage
-                      id='scenes.login.needhelp'
+                      id='scenes.login.needhelpnew'
                       defaultMessage='Need additional help logging in?'
                     />
                   </Text>

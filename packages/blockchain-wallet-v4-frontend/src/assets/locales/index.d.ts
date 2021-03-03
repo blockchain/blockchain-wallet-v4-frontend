@@ -1927,6 +1927,7 @@ type MessagesType = {
   'scenes.login.clickhere': 'click here.'
   'scenes.login.findyourguid': 'Forgot your Wallet ID? Request a reminder via email.'
   'scenes.login.needhelp': 'Need additional help logging in?'
+  'scenes.login.needhelpnew': 'Need additional help logging in?'
   'scenes.login.google': 'Authenticator App Code'
   'scenes.login.guid': 'Wallet ID'
   'scenes.login.guiderror': 'Unknown Wallet ID. If you need a reminder '
