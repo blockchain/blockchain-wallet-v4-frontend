@@ -77,6 +77,19 @@ const CenterWrapper = styled.div`
   max-width: 480px;
   z-index: 1;
 `
+
+const Footer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 15px;
+  ${media.atLeastTablet`
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  `}
+`
 const LoginWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -319,7 +332,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                     </LinkContainer>
                   </GuidError>
                 )}
-                {showGuidInvalidError && (
+                {showGuidInvalidError ? (
                   <LoginTextGroup inline>
                     <Text size='12px' color='grey800' weight={500}>
                       {isGuidEmailAddress ? (
@@ -339,6 +352,23 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                         <FormattedMessage
                           id='scenes.login.clickhere'
                           defaultMessage='click here.'
+                        />
+                      </Link>
+                    </LinkContainer>
+                  </LoginTextGroup>
+                ) : (
+                  <LoginTextGroup>
+                    <Text size='12px' color='grey800' weight={500}>
+                      <FormattedMessage
+                        id='scenes.login.findyourguid'
+                        defaultMessage='Forgot your Wallet ID? Request a reminder via email.'
+                      />
+                    </Text>
+                    <LinkContainer to='/reminder'>
+                      <Link size='12px' weight={500}>
+                        <FormattedMessage
+                          id='scenes.login.sendguid'
+                          defaultMessage='Request Wallet ID'
                         />
                       </Link>
                     </LinkContainer>
@@ -453,22 +483,52 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                   )}
                 </LoginButton>
               </FormGroup>
-              <LoginHelpText>
-                <Text size='14px' color='grey600' weight={500}>
-                  <FormattedMessage
-                    id='scenes.login.needhelp'
-                    defaultMessage='Need additional help logging in?'
-                  />
-                </Text>
-                <LinkContainer to='/help'>
-                  <GetHelpLink size='13px' weight={600} data-e2e='loginGetHelp'>
+              {showMobileAuth && (
+                <LoginHelpText>
+                  <Text size='14px' color='grey600' weight={500}>
                     <FormattedMessage
-                      id='scenes.login.gethelp'
-                      defaultMessage='Get Help'
+                      id='scenes.login.needhelp'
+                      defaultMessage='Need additional help logging in?'
                     />
-                  </GetHelpLink>
-                </LinkContainer>
-              </LoginHelpText>
+                  </Text>
+                  <LinkContainer to='/help'>
+                    <GetHelpLink
+                      size='13px'
+                      weight={600}
+                      data-e2e='loginGetHelp'
+                    >
+                      <FormattedMessage
+                        id='scenes.login.gethelp'
+                        defaultMessage='Get Help'
+                      />
+                    </GetHelpLink>
+                  </LinkContainer>
+                </LoginHelpText>
+              )}
+              {isSupportedBrowser && !showMobileAuth && (
+                <Footer>
+                  <LinkContainer to='/mobile-login'>
+                    <Link
+                      size='13px'
+                      weight={600}
+                      data-e2e='loginViaMobileLink'
+                    >
+                      <FormattedMessage
+                        id='scenes.login.loginmobile'
+                        defaultMessage='Login via Mobile'
+                      />
+                    </Link>
+                  </LinkContainer>
+                  <LinkContainer to='/help'>
+                    <Link size='13px' weight={600} data-e2e='loginGetHelp'>
+                      <FormattedMessage
+                        id='scenes.login.needhelp'
+                        defaultMessage='Need some help?'
+                      />
+                    </Link>
+                  </LinkContainer>
+                </Footer>
+              )}
             </LoginForm>
           </PublicWrapper>
 

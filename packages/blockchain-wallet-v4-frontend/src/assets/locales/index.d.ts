@@ -1925,6 +1925,7 @@ type MessagesType = {
   'scenes.lockbox.welcome.trouble': 'Having trouble? View our'
   'scenes.login.browserwarning': 'Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.'
   'scenes.login.clickhere': 'click here.'
+  'scenes.login.findyourguid': 'Forgot your Wallet ID? Request a reminder via email.'
   'scenes.login.needhelp': 'Need additional help logging in?'
   'scenes.login.google': 'Authenticator App Code'
   'scenes.login.guid': 'Wallet ID'
@@ -1938,6 +1939,7 @@ type MessagesType = {
   'scenes.login.version': 'Version {version}'
   'scenes.login.password': 'Password'
   'scenes.login.resendsms': 'Resend SMS'
+  'scenes.login.sendguid': 'Request Wallet ID'
   'scenes.login.simplebuy.header': 'Buy Crypto With Credit Card'
   'scenes.login.wallet.link': "Don't have a wallet?"
   'scenes.login.wallet.message.sent': 'Message Sent'
