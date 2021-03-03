@@ -63,3 +63,6 @@ export const getWithdrawalMinimums = (state: RootState) =>
 
 export const getAfterTransaction = (state: RootState) =>
   state.components.interest.afterTransaction
+
+export const getIsFromSB = (state: RootState) =>
+  state.components.interest.isFromSB

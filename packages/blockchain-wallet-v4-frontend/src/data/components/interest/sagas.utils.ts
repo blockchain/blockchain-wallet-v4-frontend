@@ -1,4 +1,4 @@
-import { call, CallEffect, put, select } from 'redux-saga/effects'
+import { call, CallEffect, put, select, take } from 'redux-saga/effects'
 import { head, isNil, nth } from 'ramda'
 
 import {
@@ -11,13 +11,14 @@ import {
   RemoteDataType,
   SBBalancesType
 } from 'core/types'
+import { actions, actionTypes, selectors } from 'data'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import {
   INVALID_COIN_TYPE,
   NO_DEFAULT_ACCOUNT
 } from 'blockchain-wallet-v4/src/model'
 import { promptForSecondPassword } from 'services/SagaService'
-import { selectors } from 'data'
 
 import * as A from './actions'
 import * as S from './selectors'
@@ -306,10 +307,108 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     }
   }
 
+  const toCustodialDropdown = currencyDetails => {
+    // this object has to be equal to object we do expect in dropdown
+    const { coin, ...restDetails } = currencyDetails
+    return [
+      {
+        ...restDetails,
+        address: currencyDetails.address,
+        type: ADDRESS_TYPES.CUSTODIAL,
+        label: `${coin} Trading Wallet`
+      }
+    ]
+  }
+
+  const getCustodialAccountForCoin = function * (coin: CoinType) {
+    let defaultAccountR
+
+    yield put(actions.components.send.fetchPaymentsTradingAccount(coin))
+    yield take([
+      actionTypes.components.send.FETCH_PAYMENTS_TRADING_ACCOUNTS_SUCCESS,
+      actionTypes.components.send.FETCH_PAYMENTS_TRADING_ACCOUNTS_FAILURE
+    ])
+
+    const accountAddress = selectors.components.send.getPaymentsTradingAccountAddress(
+      coin,
+      yield select()
+    )
+    const state = yield select()
+
+    switch (coin) {
+      case 'BCH':
+        const bchAccount = selectors.components.simpleBuy
+          .getSBBalances(state)
+          .map(x => ({
+            ...x.BCH,
+            coin,
+            address: accountAddress ? accountAddress.data : null
+          }))
+          .map(toCustodialDropdown)
+        const bchDefaultIndex = yield select(
+          selectors.core.wallet.getDefaultAccountIndex
+        )
+        defaultAccountR = bchAccount.map(nth(bchDefaultIndex))
+        break
+      case 'BTC':
+        const btcAccounts = selectors.components.simpleBuy
+          .getSBBalances(state)
+          .map(x => ({
+            ...x.BTC,
+            address: accountAddress ? accountAddress.data : null
+          }))
+          .map(toCustodialDropdown)
+        const btcDefaultIndex = yield select(
+          selectors.core.wallet.getDefaultAccountIndex
+        )
+        defaultAccountR = btcAccounts.map(nth(btcDefaultIndex))
+        break
+      case 'ETH':
+        const ethAccount = selectors.components.simpleBuy
+          .getSBBalances(state)
+          .map(x => ({
+            ...x.ETH,
+            coin,
+            address: accountAddress ? accountAddress.data : null
+          }))
+          .map(toCustodialDropdown)
+        defaultAccountR = ethAccount.map(head)
+        break
+      case 'PAX':
+      case 'USDT':
+        const erc20Account = selectors.components.simpleBuy
+          .getSBBalances(state)
+          .map(x => ({
+            ...x[coin],
+            coin,
+            address: accountAddress ? accountAddress.data : null
+          }))
+          .map(toCustodialDropdown)
+        defaultAccountR = erc20Account.map(head)
+        break
+      case 'XLM':
+        const xlmAcccount = selectors.components.simpleBuy
+          .getSBBalances(state)
+          .map(x => ({
+            ...x.XLM,
+            coin,
+            address: accountAddress ? accountAddress.data : null
+          }))
+          .map(toCustodialDropdown)
+        defaultAccountR = xlmAcccount.map(head)
+        break
+      default:
+        throw new Error('Invalid Coin Type')
+    }
+
+    return defaultAccountR.getOrFail(NO_DEFAULT_ACCOUNT)
+  }
+
   return {
     buildAndPublishPayment,
     createLimits,
     createPayment,
+    getCustodialAccountForCoin,
     getDefaultAccountForCoin,
     getReceiveAddressForCoin,
     paymentGetOrElse

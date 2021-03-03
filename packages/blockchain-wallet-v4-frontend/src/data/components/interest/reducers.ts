@@ -21,6 +21,7 @@ const INITIAL_STATE: InterestState = {
   interestLimits: Remote.NotAsked,
   interestRate: Remote.NotAsked,
   isCoinDisplayed: false,
+  isFromSB: false,
   payment: Remote.NotAsked,
   step: {
     data: {},
@@ -223,7 +224,8 @@ export function interestReducer (
     case AT.SHOW_INTEREST_MODAL:
       return {
         ...state,
-        coin: payload.coin
+        coin: payload.coin,
+        isFromSB: payload.isFromSB
       }
     case AT.FETCH_AFTER_TRANSACTION_FAILURE:
       return {

@@ -54,10 +54,7 @@ const FiatContainer = styled.div`
   font-size: 12px;
   color: ${props => props.theme.grey400};
 `
-
 export class CoinBalanceDropdown extends PureComponent<Props> {
-  state = {}
-
   coinBalance = selectProps => {
     if (selectProps.value) {
       // Account balance
@@ -127,6 +124,7 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
       </DisplayContainer>
     )
   }
+
   render () {
     return this.props.data.cata({
       Success: values => {
