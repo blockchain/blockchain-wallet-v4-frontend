@@ -397,6 +397,7 @@ export default ({ api, coreSagas }) => {
   const restore = function * (action) {
     try {
       yield put(actions.auth.restoreLoading())
+      yield put(actions.auth.setRegisterEmail(action.payload.email))
       yield put(actions.alerts.displayInfo(C.RESTORE_WALLET_INFO))
       yield call(coreSagas.wallet.restoreWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
