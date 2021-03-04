@@ -321,6 +321,7 @@ type MessagesType = {
   'copy.available': 'Available'
   'copy.amount_sent': 'Amount Sent'
   'copy.balance': 'Balance'
+  'copy.bank_account': 'Bank Account'
   'copy.bank_linked_error': 'Please try linking your bank again. If this keeps happening, please'
   'copy.bank_linked_error_alreadylinked1': 'Log into your Exchange account and link your Wallet. This will connect your bank. If any of this doesn’t look right to you, please'
   'copy.bank_linked_error_alreadylinked2': 'immediately.'

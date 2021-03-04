@@ -19,7 +19,8 @@ export enum WithdrawStepEnum {
   'ENTER_AMOUNT',
   'BANK_PICKER',
   'CONFIRM_WITHDRAW',
-  'WITHDRAWAL_DETAILS'
+  'WITHDRAWAL_DETAILS',
+  'WITHDRAWAL_METHODS'
 }
 
 export type WithdrawStepActionsPayload =
@@ -42,6 +43,10 @@ export type WithdrawStepActionsPayload =
   | {
       step: 'WITHDRAWAL_DETAILS'
       withdrawal: WithdrawResponseType
+    }
+  | {
+      fiatCurrency: WalletFiatType
+      step: 'WITHDRAWAL_METHODS'
     }
 
 // state

@@ -26,6 +26,7 @@ import buySellLearnMore2 from './img/buy-sell-learn-more@2x.png'
 import buyWallet from './img/buy-wallet.svg'
 import chartPlaceholder from './img/chart-placeholder1.png'
 import checkmarkGreen from './img/checkmark-green.svg'
+import circleEmpty from './img/circle-empty.svg'
 import closeError from './img/close-error.svg'
 import coinPax from './img/coin-pax.svg'
 import coins from './img/coins.png'
@@ -185,6 +186,7 @@ const Images = {
   'chart-placeholder': chartPlaceholder,
   'bank-logo-chase': bankLogoChase,
   'checkmark-green': checkmarkGreen,
+  'circle-empty': circleEmpty,
   'bank-logo-citi-bank': bankLogoCitiBank,
   'bank-logo-citizens': bankLogoCitizens,
   coins: coins,

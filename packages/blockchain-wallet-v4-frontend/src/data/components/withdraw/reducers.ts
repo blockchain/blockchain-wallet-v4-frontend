@@ -26,6 +26,7 @@ export function withdrawReducer (
             fiatCurrency: action.payload.fiatCurrency,
             step: action.payload.step
           }
+        case 'WITHDRAWAL_METHODS':
         case 'BANK_PICKER':
           return {
             ...state,

@@ -18,6 +18,7 @@ import BankPicker from './BankPicker'
 import ConfirmWithdraw from './ConfirmWithdraw'
 import EnterAmount from './EnterAmount'
 import WithdrawalDetails from './WithdrawalDetails'
+import WithdrawalMethods from './WithdrawalMethods'
 
 class Withdraw extends PureComponent<Props> {
   state: State = { show: false, direction: 'left' }
@@ -58,6 +59,11 @@ class Withdraw extends PureComponent<Props> {
         {this.props.step === 'ENTER_AMOUNT' && (
           <FlyoutChild>
             <EnterAmount {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === 'WITHDRAWAL_METHODS' && (
+          <FlyoutChild>
+            <WithdrawalMethods {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {this.props.step === 'BANK_PICKER' && (
@@ -116,6 +122,10 @@ type LinkStatePropsType =
   | {
       step: 'WITHDRAWAL_DETAILS'
       withdrawal: WithdrawResponseType
+    }
+  | {
+      fiatCurrency: WalletFiatType
+      step: 'WITHDRAWAL_METHODS'
     }
 // export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type Props = OwnProps &

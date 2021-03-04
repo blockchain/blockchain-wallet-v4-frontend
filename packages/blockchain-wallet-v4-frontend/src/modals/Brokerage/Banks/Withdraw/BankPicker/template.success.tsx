@@ -1,24 +1,27 @@
-import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Icon, Image, Text } from 'blockchain-info-components'
+import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
+import { AddNewButton } from 'components/Brokerage'
 import { Col, FlyoutWrapper, Title, Value } from 'components/Flyout'
 import {
   Content,
   DisplayContainer,
   DisplayPaymentIcon
 } from 'components/SimpleBuy'
-import { FormattedMessage } from 'react-intl'
-import { Icon, Text } from 'blockchain-info-components'
+import { getBankLogoImageName } from 'services/ImagesService'
 import { Props as OwnProps, SuccessStateType } from '.'
+import Bank from '../../Deposit/BankList/Accounts/Bank'
 
 const Top = styled.div`
   display: flex;
   align-items: center;
 `
-const ColBetween = styled(Col)`
-  width: 100%;
-  justify-content: space-between;
-`
+
+const getLinkedBankIcon = (bankName: string): ReactElement => (
+  <Image name={getBankLogoImageName(bankName)} height='48px' />
+)
 
 const Success: React.FC<Props> = props => {
   return (
@@ -50,7 +53,12 @@ const Success: React.FC<Props> = props => {
       </FlyoutWrapper>
       {props.bankTransferAccounts.map(account => {
         return (
-          <DisplayContainer
+          <Bank
+            key={account.id}
+            bankDetails={account.details}
+            text={account.details.bankName}
+            isActive={account.id === props.defaultMethod?.id}
+            icon={getLinkedBankIcon(account.details.bankName)}
             onClick={() => {
               props.brokerageActions.setBankDetails({ account })
               props.withdrawActions.setStep({
@@ -59,9 +67,7 @@ const Success: React.FC<Props> = props => {
                 step: 'ENTER_AMOUNT'
               })
             }}
-          >
-            {account.details && account.details.bankName}
-          </DisplayContainer>
+          />
         )
       })}
       {props.beneficiaries.map(beneficiary => {
@@ -81,43 +87,44 @@ const Success: React.FC<Props> = props => {
                 <Icon name='bank-filled' color='blue600' size='16px' />
               </DisplayPaymentIcon>
             </Col>
-            <Col>
+            <Col style={{ width: '100%' }}>
               <Content>
                 <Value asTitle>{beneficiary.name}</Value>
                 <Title asValue>{beneficiary.agent.account}</Title>
               </Content>
             </Col>
+            {props.beneficiary?.id === beneficiary.id ? (
+              <Icon
+                name='checkmark-circle-filled'
+                size='24px'
+                color='green600'
+                role='button'
+                style={{ justifyContent: 'flex-start' }}
+              />
+            ) : (
+              <Image
+                name='circle-empty'
+                width='24px'
+                height='24px'
+                style={{ justifyContent: 'flex-start' }}
+              />
+            )}
           </DisplayContainer>
         )
       })}
-      <DisplayContainer
+      <AddNewButton
+        data-e2e='DepositAddNewPaymentMethod'
         onClick={() => {
-          props.simpleBuyActions.showModal('WithdrawModal')
-          props.simpleBuyActions.setStep({
-            step: 'BANK_WIRE_DETAILS',
+          props.withdrawActions.setStep({
             fiatCurrency: props.fiatCurrency,
-            displayBack: false,
-            addBank: true
+            step: 'WITHDRAWAL_METHODS'
           })
         }}
       >
-        <Col>
-          <DisplayPaymentIcon showBackground>
-            <Icon name='bank-filled' color='blue600' size='16px' />
-          </DisplayPaymentIcon>
-        </Col>
-        <ColBetween>
-          <Content>
-            <Value asTitle>
-              <FormattedMessage
-                id='buttons.add_bank'
-                defaultMessage='Add a Bank'
-              />
-            </Value>
-          </Content>
-          <Icon name='plus-in-circle-filled' color='fiat' size='20px' />
-        </ColBetween>
-      </DisplayContainer>
+        <Text color='blue600' size='16px' weight={600}>
+          <FormattedMessage id='buttons.add_new' defaultMessage='+ Add New' />
+        </Text>
+      </AddNewButton>
     </div>
   )
 }

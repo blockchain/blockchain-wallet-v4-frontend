@@ -1,5 +1,5 @@
 import { FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
+import { Icon, Image } from 'blockchain-info-components'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
@@ -65,12 +65,19 @@ const Bank: React.FC<Props> = ({
         </SuccessCartridge>
       </CartridgeContainer>
     </MultiRowContainer>
-    {isActive && (
+    {isActive ? (
       <Icon
         name='checkmark-circle-filled'
         size='24px'
         color='green600'
         role='button'
+        style={{ justifyContent: 'flex-start' }}
+      />
+    ) : (
+      <Image
+        name='circle-empty'
+        width='24px'
+        height='24px'
         style={{ justifyContent: 'flex-start' }}
       />
     )}

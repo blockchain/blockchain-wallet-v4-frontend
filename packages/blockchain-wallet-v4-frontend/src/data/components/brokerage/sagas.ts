@@ -187,18 +187,30 @@ export default ({
           account: bankTransferAccounts.data[0]
         })
       )
-    }
-    yield put(
-      actions.components.brokerage.showModal(
-        BrokerageModalOriginType.DEPOSIT_BUTTON,
-        'BANK_DEPOSIT_MODAL'
+      yield put(
+        actions.components.brokerage.showModal(
+          BrokerageModalOriginType.DEPOSIT_BUTTON,
+          'BANK_DEPOSIT_MODAL'
+        )
       )
-    )
-    yield put(
-      actions.components.brokerage.setDWStep({
-        dwStep: BankDWStepType.DEPOSIT_METHODS
-      })
-    )
+      yield put(
+        actions.components.brokerage.setDWStep({
+          dwStep: BankDWStepType.ENTER_AMOUNT
+        })
+      )
+    } else {
+      yield put(
+        actions.components.brokerage.showModal(
+          BrokerageModalOriginType.DEPOSIT_BUTTON,
+          'BANK_DEPOSIT_MODAL'
+        )
+      )
+      yield put(
+        actions.components.brokerage.setDWStep({
+          dwStep: BankDWStepType.DEPOSIT_METHODS
+        })
+      )
+    }
   }
 
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
