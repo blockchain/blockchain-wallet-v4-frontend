@@ -12,6 +12,7 @@ import { AmountTextBox } from 'components/Exchange'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
+import { ErrorCartridge } from 'components/Cartridge'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType } from 'core/types'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -267,8 +268,6 @@ const NextButton = ({ invalid, pristine, submitting }) => {
   )
 }
 
-const ErrorMessage = ({ error }) => <div>{error}</div>
-
 const Success = (props: OwnProps) => {
   const isUserEligible =
     props.paymentMethods.methods.length &&
@@ -284,7 +283,19 @@ const Success = (props: OwnProps) => {
             <Amount {...props} />
             <Account {...props} />
             <NextButton {...props} />
-            {props.error && <ErrorMessage {...props} />}
+            {props.error && (
+              <ErrorCartridge
+                style={{ marginTop: '16px' }}
+                data-e2e='checkoutError'
+              >
+                <Icon
+                  name='alert-filled'
+                  color='red600'
+                  style={{ marginRight: '4px' }}
+                />
+                Error: {props.error}
+              </ErrorCartridge>
+            )}
           </Wrapper>
         </CustomForm>
       )}
