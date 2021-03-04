@@ -135,13 +135,13 @@ const LimitSection = ({ paymentMethods, walletCurrency, supportedCoins }) => {
     return (
       <Limits>
         <LimitWrapper>
-          <Text color='grey600' size='14px' weight={500}>
+          <Text color='grey600' size='14px' lineHeight={'25px'} weight={500}>
             <FormattedMessage
               id='modals.brokerage.daily_limit'
               defaultMessage='Daily Limit'
             />
           </Text>
-          <Text color='grey800' size='20px' weight={600}>
+          <Text color='grey800' size='14px' lineHeight={'25px'} weight={600}>
             {fiatToString({
               value: convertBaseToStandard(
                 'FIAT',

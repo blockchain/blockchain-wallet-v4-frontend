@@ -4,7 +4,9 @@ import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
-import { ExtractSuccess, WalletFiatType } from 'core/types'
+import { BeneficiaryType, ExtractSuccess, WalletFiatType } from 'core/types'
+import { Remote } from 'blockchain-wallet-v4/src'
+
 import { getData } from './selectors'
 import Failure from './template.failure'
 import Loading from '../EnterAmount/template.loading'
@@ -12,10 +14,12 @@ import Success from './template.success'
 
 class BankPicker extends PureComponent<Props> {
   componentDidMount () {
-    this.props.custodialActions.fetchCustodialBeneficiaries(
-      this.props.fiatCurrency
-    )
-    this.props.brokerageActions.fetchBankTransferAccounts()
+    if (!Remote.Success.is(this.props.data)) {
+      this.props.custodialActions.fetchCustodialBeneficiaries(
+        this.props.fiatCurrency
+      )
+      this.props.brokerageActions.fetchBankTransferAccounts()
+    }
   }
 
   render () {
@@ -43,7 +47,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type OwnProps = { fiatCurrency: WalletFiatType; handleClose: () => void }
+export type OwnProps = {
+  beneficiary?: BeneficiaryType
+  fiatCurrency: WalletFiatType
+  handleClose: () => void
+}
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
