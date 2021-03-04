@@ -30,7 +30,14 @@ export const getAccounts = createDeepEqualSelector(
     (state, { coin }) => getCustodialBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
-  (bchAccounts, bchDataR, bchMetadataR, importedAddressesR, sbBalanceR, ownProps) => {
+  (
+    bchAccounts,
+    bchDataR,
+    bchMetadataR,
+    importedAddressesR,
+    sbBalanceR,
+    ownProps
+  ) => {
     const transform = (
       bchData,
       bchMetadata,
@@ -39,51 +46,65 @@ export const getAccounts = createDeepEqualSelector(
     ) => {
       const { coin } = ownProps
       let accounts = []
-
       // add non-custodial accounts if requested
       if (ownProps?.nonCustodialAccounts) {
-        accounts = accounts.concat(bchAccounts
-          .map(acc => {
-            const index = prop('index', acc)
-            const xpub = prop('xpub', acc)
-            const data = prop(xpub, bchData)
-            const metadata = bchMetadata[index]
-
-            return {
-              accountIndex: prop('index', acc),
-              address: index,
-              archived: prop('archived', metadata),
-              balance: prop('final_balance', data),
-              baseCoin: coin,
-              coin,
-              label: prop('label', metadata) || xpub,
-              type: ADDRESS_TYPES.ACCOUNT
-            }
-          })
-          .filter(propEq('archived', false)))
+        accounts = accounts.concat(
+          bchAccounts
+            .map(acc => {
+              const index = prop('index', acc)
+              // this is using hdAccount with new segwit structure
+              // need to get legacy xPub from derivations object similar to btc selector
+              const xpub = prop(
+                'xpub',
+                prop('derivations', acc).find(derr => derr.type === 'legacy')
+              )
+              const data = prop(xpub, bchData)
+              const metadata = bchMetadata[index]
+              return {
+                accountIndex: prop('index', acc),
+                address: index,
+                archived: prop('archived', metadata),
+                balance: prop('final_balance', data),
+                baseCoin: coin,
+                coin,
+                label: prop('label', metadata) || xpub,
+                type: ADDRESS_TYPES.ACCOUNT
+              }
+            })
+            .filter(propEq('archived', false))
+        )
       }
 
       // add imported addresses if requested
       if (ownProps?.importedAddresses) {
-        accounts = accounts.concat(importedAddresses.map(importedAcc =>({
-          address: importedAcc.addr,
-          balance: importedAcc.final_balance,
-          baseCoin: coin,
-          coin,
-          label: importedAcc.label,
-          type: ADDRESS_TYPES.LEGACY
-        })))
+        accounts = accounts.concat(
+          importedAddresses.map(importedAcc => ({
+            address: importedAcc.addr,
+            balance: importedAcc.final_balance,
+            baseCoin: coin,
+            coin,
+            label: importedAcc.label,
+            type: ADDRESS_TYPES.LEGACY
+          }))
+        )
       }
 
       // add custodial accounts if requested
       if (ownProps?.custodialAccounts) {
-        // @ts-ignore
-        accounts = accounts.concat(generateCustodyAccount(coin, sbBalance as SBBalanceType))
+        accounts = accounts.concat(
+          // @ts-ignore
+          generateCustodyAccount(coin, sbBalance as SBBalanceType)
+        )
       }
 
       return accounts
     }
 
-    return lift(transform)(bchDataR, bchMetadataR, importedAddressesR, sbBalanceR)
+    return lift(transform)(
+      bchDataR,
+      bchMetadataR,
+      importedAddressesR,
+      sbBalanceR
+    )
   }
 )
