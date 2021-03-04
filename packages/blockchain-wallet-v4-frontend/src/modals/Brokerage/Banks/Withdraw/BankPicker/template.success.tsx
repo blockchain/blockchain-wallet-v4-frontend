@@ -3,6 +3,7 @@ import { Icon, Image, Text } from 'blockchain-info-components'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
+import { ActiveToggle } from 'services/ActiveToggleService'
 import { AddNewButton } from 'components/Brokerage'
 import { Col, FlyoutWrapper, Title, Value } from 'components/Flyout'
 import {
@@ -93,22 +94,8 @@ const Success: React.FC<Props> = props => {
                 <Title asValue>{beneficiary.agent.account}</Title>
               </Content>
             </Col>
-            {props.beneficiary?.id === beneficiary.id ? (
-              <Icon
-                name='checkmark-circle-filled'
-                size='24px'
-                color='green600'
-                role='button'
-                style={{ justifyContent: 'flex-start' }}
-              />
-            ) : (
-              <Image
-                name='circle-empty'
-                width='24px'
-                height='24px'
-                style={{ justifyContent: 'flex-start' }}
-              />
-            )}
+
+            <ActiveToggle isActive={props.beneficiary?.id === beneficiary.id} />
           </DisplayContainer>
         )
       })}
