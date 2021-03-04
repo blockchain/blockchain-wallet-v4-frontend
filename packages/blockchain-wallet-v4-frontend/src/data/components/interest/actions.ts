@@ -265,9 +265,9 @@ export const setCoinDisplay = (isCoinDisplayed: boolean) => ({
 export const showInterestModal = (
   step: InterestStep,
   coin: CoinType,
-  isFromSB?: boolean
+  isFromBuySell?: boolean
 ) => ({
-  payload: { step, coin, isFromSB },
+  payload: { step, coin, isFromBuySell },
   type: AT.SHOW_INTEREST_MODAL
 })
 

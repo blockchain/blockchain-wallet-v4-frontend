@@ -33,7 +33,7 @@ export const getData = (state: RootState) => {
   const afterTransaction = selectors.components.interest
     .getAfterTransaction(state)
     .getOrElse({} as InterestAfterTransactionType)
-  const isFromSB = selectors.components.interest.getIsFromSB(state)
+  const isFromBuySell = selectors.components.interest.getIsFromBuySell(state)
 
   const prefillAmount = afterTransaction?.show
     ? afterTransaction.amount
@@ -81,7 +81,7 @@ export const getData = (state: RootState) => {
         supportedCoins,
         walletCurrency,
         prefillAmount,
-        isFromSB
+        isFromBuySell
       }
     }
   )(

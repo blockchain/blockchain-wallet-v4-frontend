@@ -335,70 +335,28 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     )
     const state = yield select()
 
-    switch (coin) {
-      case 'BCH':
-        const bchAccount = selectors.components.simpleBuy
-          .getSBBalances(state)
-          .map(x => ({
-            ...x.BCH,
-            coin,
-            address: accountAddress ? accountAddress.data : null
-          }))
-          .map(toCustodialDropdown)
-        const bchDefaultIndex = yield select(
-          selectors.core.wallet.getDefaultAccountIndex
-        )
-        defaultAccountR = bchAccount.map(nth(bchDefaultIndex))
-        break
-      case 'BTC':
-        const btcAccounts = selectors.components.simpleBuy
-          .getSBBalances(state)
-          .map(x => ({
-            ...x.BTC,
-            address: accountAddress ? accountAddress.data : null
-          }))
-          .map(toCustodialDropdown)
-        const btcDefaultIndex = yield select(
-          selectors.core.wallet.getDefaultAccountIndex
-        )
-        defaultAccountR = btcAccounts.map(nth(btcDefaultIndex))
-        break
-      case 'ETH':
-        const ethAccount = selectors.components.simpleBuy
-          .getSBBalances(state)
-          .map(x => ({
-            ...x.ETH,
-            coin,
-            address: accountAddress ? accountAddress.data : null
-          }))
-          .map(toCustodialDropdown)
-        defaultAccountR = ethAccount.map(head)
-        break
-      case 'PAX':
-      case 'USDT':
-        const erc20Account = selectors.components.simpleBuy
-          .getSBBalances(state)
-          .map(x => ({
-            ...x[coin],
-            coin,
-            address: accountAddress ? accountAddress.data : null
-          }))
-          .map(toCustodialDropdown)
-        defaultAccountR = erc20Account.map(head)
-        break
-      case 'XLM':
-        const xlmAcccount = selectors.components.simpleBuy
-          .getSBBalances(state)
-          .map(x => ({
-            ...x.XLM,
-            coin,
-            address: accountAddress ? accountAddress.data : null
-          }))
-          .map(toCustodialDropdown)
-        defaultAccountR = xlmAcccount.map(head)
-        break
-      default:
-        throw new Error('Invalid Coin Type')
+    const sellAndBuyAccount = selectors.components.simpleBuy
+      .getSBBalances(state)
+      .map(x => ({
+        ...x[coin],
+        coin,
+        address: accountAddress ? accountAddress.data : null
+      }))
+      .map(toCustodialDropdown)
+
+    if (coin === 'ALGO' || coin === 'WDGLD') {
+      throw new Error('Invalid Coin Type')
+    }
+
+    if (coin === 'BCH' || coin === 'BTC') {
+      const sellAndBuyAccountDefaultIndex = yield select(
+        selectors.core.wallet.getDefaultAccountIndex
+      )
+      defaultAccountR = sellAndBuyAccount.map(
+        nth(sellAndBuyAccountDefaultIndex)
+      )
+    } else {
+      defaultAccountR = sellAndBuyAccount.map(head)
     }
 
     return defaultAccountR.getOrFail(NO_DEFAULT_ACCOUNT)

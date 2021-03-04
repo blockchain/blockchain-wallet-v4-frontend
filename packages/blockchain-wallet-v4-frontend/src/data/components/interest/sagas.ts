@@ -267,9 +267,9 @@ export default ({
   }: ReturnType<typeof A.initializeDepositForm>) {
     const { coin, currency } = payload
 
-    const isFromSB = S.getIsFromSB(yield select())
-    if (isFromSB) {
-      // re-fetch the SB balances to have latest since SB flow did changed it
+    const isFromBuySell = S.getIsFromBuySell(yield select())
+    if (isFromBuySell) {
+      // re-fetch the custodial balances to ensure we have the latest for proper form initialization
       yield put(actions.components.simpleBuy.fetchSBBalances(undefined, true))
       // wait untill balances are loaded super important to have deep equal object on form
       yield take([
@@ -285,7 +285,7 @@ export default ({
       AT.FETCH_INTEREST_LIMITS_FAILURE
     ])
 
-    const defaultAccount = isFromSB
+    const defaultAccount = isFromBuySell
       ? yield call(getCustodialAccountForCoin, coin)
       : yield call(getDefaultAccountForCoin, coin)
 
@@ -294,7 +294,7 @@ export default ({
       address: getAccountIndexOrAccount(coin, defaultAccount)
     })
 
-    const custodialBalances = isFromSB
+    const custodialBalances = isFromBuySell
       ? (yield select(selectors.components.simpleBuy.getSBBalances)).getOrFail(
           'Failed to get balance'
         )
@@ -303,7 +303,7 @@ export default ({
     yield call(createLimits, payment, custodialBalances)
     yield put(A.setPaymentSuccess(payment))
     let additionalParameters = {}
-    if (isFromSB) {
+    if (isFromBuySell) {
       yield put(A.setCoinDisplay(true))
       const afterTransactionR = yield select(
         selectors.components.interest.getAfterTransaction
