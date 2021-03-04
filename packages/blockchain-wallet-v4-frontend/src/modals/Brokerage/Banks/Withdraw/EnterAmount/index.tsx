@@ -4,9 +4,17 @@ import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
-import { BeneficiaryType, ExtractSuccess, WalletFiatType } from 'core/types'
-import { getData } from './selectors'
+import {
+  BankTransferAccountType,
+  BeneficiaryType,
+  ExtractSuccess,
+  WalletFiatType
+} from 'core/types'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { SBPaymentTypes } from 'core/network/api/settingsComponent/types'
 import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
+
+import { getData } from './selectors'
 import Failure from './template.failure'
 import Loading from './template.loading'
 import Success from './template.success'
@@ -15,23 +23,39 @@ class EnterAmount extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {
-    this.props.custodialActions.fetchCustodialBeneficiaries(
-      this.props.fiatCurrency
-    )
-    this.props.withdrawActions.fetchWithdrawalFees()
-    this.props.withdrawActions.fetchWithdrawalLock()
+    let paymentMethod: SBPaymentTypes | 'ALL' = 'ALL'
+    if (this.props.defaultMethod) {
+      paymentMethod = 'BANK_TRANSFER'
+    }
+    // We need to make this call each time we load the enter amount component
+    // because the bank wires and ach have different min/max/fees
+    this.props.withdrawActions.fetchWithdrawalFees(paymentMethod)
+
+    if (!Remote.Success.is(this.props.data)) {
+      this.props.brokerageActions.fetchBankTransferAccounts()
+      this.props.custodialActions.fetchCustodialBeneficiaries(
+        this.props.fiatCurrency
+      )
+      this.props.withdrawActions.fetchWithdrawalLock()
+    }
   }
 
   handleSubmit = () => {
     const { defaultBeneficiary } = this.props.data.getOrElse(
       {} as SuccessStateType
     )
-
+    const { defaultMethod } = this.props
     const beneficiary = defaultBeneficiary || this.props.beneficiary
 
-    if (!beneficiary) return
+    if (!beneficiary && !defaultMethod) return
 
-    if (defaultBeneficiary || this.props.beneficiary) {
+    if (defaultMethod) {
+      this.props.withdrawActions.setStep({
+        step: 'CONFIRM_WITHDRAW',
+        amount: this.props.formValues.amount,
+        defaultMethod
+      })
+    } else if (defaultBeneficiary || this.props.beneficiary) {
       this.props.withdrawActions.setStep({
         step: 'CONFIRM_WITHDRAW',
         amount: this.props.formValues.amount,
@@ -42,30 +66,28 @@ class EnterAmount extends PureComponent<Props> {
 
   handleBankSelection = (
     userData: UserDataType,
-    beneficiary?: BeneficiaryType
+    beneficiary?: BeneficiaryType | BankTransferAccountType
   ) => {
     if (!beneficiary) {
       this.props.simpleBuyActions.showModal('WithdrawModal')
       if (userData.tiers.current === 2) {
-        this.props.simpleBuyActions.setStep({
+        return this.props.simpleBuyActions.setStep({
           step: 'BANK_WIRE_DETAILS',
           fiatCurrency: this.props.fiatCurrency,
           displayBack: false,
           addBank: true
         })
       } else {
-        this.props.simpleBuyActions.setStep({
+        return this.props.simpleBuyActions.setStep({
           step: 'KYC_REQUIRED'
         })
       }
     }
 
-    if (beneficiary) {
-      this.props.withdrawActions.setStep({
-        step: 'BANK_PICKER',
-        fiatCurrency: this.props.fiatCurrency
-      })
-    }
+    this.props.withdrawActions.setStep({
+      step: 'BANK_PICKER',
+      fiatCurrency: this.props.fiatCurrency
+    })
   }
 
   render () {
@@ -89,10 +111,12 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   data: getData(state, ownProps),
   formValues: selectors.form.getFormValues('custodyWithdrawForm')(
     state
-  ) as WithdrawCheckoutFormValuesType
+  ) as WithdrawCheckoutFormValuesType,
+  defaultMethod: selectors.components.brokerage.getAccount(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   custodialActions: bindActionCreators(actions.custodial, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
@@ -103,6 +127,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   beneficiary?: BeneficiaryType
+  defaultMethod?: BankTransferAccountType
   fiatCurrency: WalletFiatType
   handleClose: () => void
 }

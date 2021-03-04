@@ -3,12 +3,17 @@ import React, { ReactElement } from 'react'
 import styled, { css } from 'styled-components'
 
 import {
+  BankTransferAccountType,
+  FiatType,
+  SBBalancesType,
+  SBPaymentMethodType
+} from 'core/types'
+import {
   CARD_TYPES,
   DEFAULT_CARD_SVG_LOGO
 } from 'components/Form/CreditCardBox/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
-import { FiatType, SBBalancesType, SBPaymentMethodType } from 'core/types'
 import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { Title, Value } from 'components/Flyout'
@@ -92,7 +97,9 @@ export const DisplayValue = styled(Value)`
   margin-top: 0;
 `
 
-export const renderBankText = (value: SBPaymentMethodType): string => {
+export const renderBankText = (
+  value: SBPaymentMethodType | BankTransferAccountType
+): string => {
   return value.details
     ? value.details.bankName
       ? value.details.bankName
@@ -100,7 +107,9 @@ export const renderBankText = (value: SBPaymentMethodType): string => {
     : 'Bank Account'
 }
 
-export const renderBank = (value: SBPaymentMethodType) => (
+export const renderBank = (
+  value: SBPaymentMethodType | BankTransferAccountType
+) => (
   <>
     <DisplayValue>{renderBankText(value)}</DisplayValue>
     <DisplayTitle>

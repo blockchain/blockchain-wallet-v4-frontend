@@ -70,7 +70,7 @@ class Banks extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  step: selectors.components.brokerage.getStep(state)
+  step: selectors.components.brokerage.getAddBankStep(state)
 })
 
 const connector = connect(mapStateToProps)

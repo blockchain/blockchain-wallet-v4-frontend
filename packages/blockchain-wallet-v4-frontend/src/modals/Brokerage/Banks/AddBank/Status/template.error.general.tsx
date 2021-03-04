@@ -146,7 +146,9 @@ const BankLinkError: React.FC<Props> = ({
           size='16px'
           nature='primary'
           onClick={() =>
-            brokerageActions.setStep({ step: AddBankStepType.ADD_BANK })
+            brokerageActions.setAddBankStep({
+              addBankStep: AddBankStepType.ADD_BANK
+            })
           }
           fullwidth
         >

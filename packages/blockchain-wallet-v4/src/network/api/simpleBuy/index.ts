@@ -26,6 +26,7 @@ import {
 import { Moment } from 'moment'
 import { SwapOrderStateType, SwapOrderType } from '../swap/types'
 import { UserDataType } from 'data/types'
+import { v4 as uuidv4 } from 'uuid'
 import axios from 'axios'
 
 export default ({
@@ -73,6 +74,19 @@ export default ({
         address,
         email
       }
+    })
+
+  const createFiatDeposit = (
+    amount: number,
+    bankId: string,
+    currency: FiatType,
+    product: 'SIMPLEBUY' = 'SIMPLEBUY'
+  ) =>
+    authorizedPost({
+      url: nabuUrl,
+      contentType: 'application/json',
+      endPoint: `/payments/banktransfer/${bankId}/payment`,
+      data: { amount, currency, product, orderId: uuidv4() }
     })
 
   const createSBOrder = (
@@ -403,6 +417,7 @@ export default ({
 
   return {
     activateSBCard,
+    createFiatDeposit,
     cancelSBOrder,
     createSBCard,
     createSBOrder,

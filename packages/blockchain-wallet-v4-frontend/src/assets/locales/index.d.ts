@@ -13,6 +13,7 @@ type MessagesType = {
   'borrow.validation.belowmin.safe': 'You must enter an amount greater than {minFiat}.'
   'buttons.add_card': 'Add Card'
   'buttons.add_bank': 'Add a Bank'
+  'buttons.add_new': '+ Add New'
   'buttons.back': 'Back'
   'buttons.buy_coin': 'Buy {displayName}'
   'buttons.buy_crypto': 'Buy Crypto'
@@ -583,11 +584,26 @@ type MessagesType = {
   'lockbox.service.messages.storagespace': 'Insufficient storage space on device'
   'lockbox.service.messages.unknown': 'An unknown error has occurred.'
   'lockboxrequired.tooltip': 'Hardware device is required'
+  'modals.brokerage.add_a_bank_account': 'Add a Bank Account'
   'modals.brokerage.bank_preview.disclaimer': 'This account can be used for buys, sells & withdrawals.'
+  'modals.brokerage.free': 'Free'
   'modals.brokerage.remove_bank.description': "You're about to remove your {bankAccount}"
   'modals.brokerage.link_bank': 'Blockchain.com uses Yodlee to verify your bank credentials & securely link your accounts.'
   'modals.brokerage.link_bank_yodlee_terms': "By hitting Continue, you Agree to Yodlee's"
   'modals.brokerage.yodlee_description': 'Yodlee securely stores your credentials adhering to leading industry practices for data security, regulatory compliance, and privacy.'
+  'modals.brokerage.daily_limit': 'Daily Limit'
+  'modals.brokerage.deposit_methods': 'Select a Deposit Method'
+  'modals.brokerage.deposit_fiat': 'Deposit {fiat}'
+  'modals.brokerage.withdraw_fiat': 'Withdraw {fiat}'
+  'modals.brokerage.confirm_deposit': 'Confirm Deposit'
+  'modals.brokerage.bank_deposit': 'Bank Deposit'
+  'modals.brokerage.bank_deposit_description': 'Securely link a bank and send cash to your Blockchain.com Wallet at anytime.'
+  'modals.brokerage.deposit_currency': 'Deposit {currency}'
+  'modals.brokerage.deposit_success.title': '{amount} Deposited!'
+  'modals.brokerage.deposit_success.wait_description': 'While we wait for your bank to send the cash, here’s early access to {currencySymbol}{amount} in your {currency} Cash Account so you can buy crypto right away.'
+  'modals.brokerage.deposit_success.funds_available': 'Your funds will be available to withdraw once the bank transfer is complete in 3-5 business days.'
+  'modals.brokerage.funds_will_arrive': 'Funds Will Arrive'
+  'modals.brokerage.my_currency_wallet': 'My {currency} Wallet'
   'modal.createaccountlearn.info1': 'Stellar requires that all Stellar accounts hold a minimum balance of lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to a new Stellar account, you must send enough XLM to meet the minimum balance requirement.'
   'modal.createaccountlearn.info2': 'The current minimum balance requirement is 1 XLM.'
   'modal.createaccountlearn.info3': "You can read more information about Stellar's minimum balance requirement at"
@@ -1293,6 +1309,7 @@ type MessagesType = {
   'modals.simplebuy.confirm.rate': 'Exchange Rate'
   'modals.simplebuy.confirm.coin_price': '{coin} Price'
   'modals.simplebuy.processing': 'Processing…'
+  'modals.simplebuy.deposit.deposit_button': 'Deposit {amount}'
   'modals.simplebuy.deposit.bank_transfer': 'Bank Transfer'
   'modals.simplebuy.deposit.bank_transfer_only': 'Bank Transfers Only'
   'modals.simplebuy.deposit.bank_transfer_only_description': 'Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected.'
@@ -1447,7 +1464,7 @@ type MessagesType = {
   'modals.simplebuy.transferdetails.bank_link_info': 'To link your bank, send {symbol}1 or more to your {currency} wallet.'
   'modals.simplebuy.underreview': 'ID Verification Pending'
   'modals.simplebuy.unknown': 'Unknown Status'
-  'modals.simplebuy.unsupported-subcontent': "Currently, we don't support buying crypto with"
+  'modals.simplebuy.unsupported-subcontent': "Currently we don't support buying crypto with"
   'modals.simplebuy.unsupported-subcontent-1': "Well this is awkward. We don't support buying crypto yet for"
   'modals.simplebuy.unsupported-subcontent-2': "We'll send you an update when we do."
   'modals.simplebuy.unsupported-title': 'Buy Crypto Coming Soon for'

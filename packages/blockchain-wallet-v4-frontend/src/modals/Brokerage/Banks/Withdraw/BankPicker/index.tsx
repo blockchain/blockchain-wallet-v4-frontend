@@ -15,6 +15,7 @@ class BankPicker extends PureComponent<Props> {
     this.props.custodialActions.fetchCustodialBeneficiaries(
       this.props.fiatCurrency
     )
+    this.props.brokerageActions.fetchBankTransferAccounts()
   }
 
   render () {
@@ -34,6 +35,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   custodialActions: bindActionCreators(actions.custodial, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)

@@ -1,13 +1,20 @@
 import * as AT from './actionTypes'
-import { AddBankStepType, BrokerageActionTypes, BrokerageState } from './types'
+import {
+  AddBankStepType,
+  BankDWStepType,
+  BrokerageActionTypes,
+  BrokerageState
+} from './types'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: BrokerageState = {
   bankTransferAccounts: Remote.NotAsked,
   fastLink: Remote.NotAsked,
-  step: AddBankStepType.ADD_BANK,
+  addBankStep: AddBankStepType.ADD_BANK,
+  dwStep: BankDWStepType.DEPOSIT_METHODS,
   account: undefined,
   redirectBackToStep: false,
+  addNew: false, // TODO: Put this stuff in redux-form
   bankStatus: Remote.NotAsked
 }
 
@@ -51,20 +58,34 @@ export function brokerageReducer (
         account: action.payload.account,
         redirectBackToStep: action.payload.redirectBackToStep || false
       }
-    case AT.SET_STEP:
-      switch (action.payload.step) {
+    case AT.SET_ADD_BANK_STEP:
+      switch (action.payload.addBankStep) {
         case AddBankStepType.ADD_BANK_STATUS:
           return {
             ...state,
             bankStatus: Remote.Success(action.payload.bankStatus),
-            step: action.payload.step
+            addBankStep: action.payload.addBankStep
           }
         default: {
           return {
             ...state,
-            step: action.payload.step
+            addBankStep: action.payload.addBankStep
           }
         }
+      }
+    case AT.SET_D_W_STEP:
+      switch (action.payload.dwStep) {
+        case BankDWStepType.DEPOSIT_METHODS:
+          return {
+            ...state,
+            dwStep: action.payload.dwStep,
+            addNew: action.payload.addNew || false
+          }
+        default:
+          return {
+            ...state,
+            dwStep: action.payload.dwStep
+          }
       }
     default:
       return state

@@ -1,4 +1,4 @@
-import { Button, Icon, Image, Text } from 'blockchain-info-components'
+import { AddNewButton } from 'components/Brokerage'
 import {
   CARD_TYPES,
   DEFAULT_CARD_SVG_LOGO
@@ -11,6 +11,7 @@ import {
   getCoinFromPair,
   getFiatFromPair
 } from 'data/components/simpleBuy/model'
+import { Icon, Image, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '../index'
 
 import {
@@ -41,15 +42,6 @@ const PaymentsWrapper = styled.div`
 `
 const NoMethods = styled(FlyoutWrapper)`
   text-align: center;
-`
-const AddNewButton = styled(Button)`
-  padding: 8px 16px;
-  margin: 0 auto;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  width: 83%;
-  color: ${props => props.theme.blue600};
-  border-color: ${props => props.theme.grey100};
 `
 const IconContainer = styled.div`
   width: 32px;
@@ -348,7 +340,10 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 data-e2e='addNewPaymentMethod'
                 onClick={this.addNewPaymentMethod}
               >
-                + Add New
+                <FormattedMessage
+                  id='buttons.add_new'
+                  defaultMessage='+ Add New'
+                />
               </AddNewButton>
             )}
           </PaymentsWrapper>
