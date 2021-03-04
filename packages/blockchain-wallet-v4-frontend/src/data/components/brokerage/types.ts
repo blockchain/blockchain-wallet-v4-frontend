@@ -40,7 +40,7 @@ export type BrokerageDWStepPayload =
         | BankDWStepType.BANK_LIST
     }
   | {
-      addNew?: boolean,
+      addNew?: boolean
       dwStep: BankDWStepType.DEPOSIT_METHODS
     }
 
@@ -67,7 +67,7 @@ export enum AddBankStepType {
 export enum BrokerageModalOriginType {
   ADD_BANK = 'AddBankModal',
   BANK = 'BankDetailsModal',
-  DEPOSIT_BUTTON = 'DepositButton',
+  DEPOSIT_BUTTON = 'BankDeposit',
   DW = 'DepositWithdrawalModal'
 }
 

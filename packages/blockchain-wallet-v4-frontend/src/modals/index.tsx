@@ -122,13 +122,13 @@ const QRCode = React.lazy(() => import('./QRCode'))
 const SignMessage = React.lazy(() => import('./SignMessage'))
 const SimpleBuy = React.lazy(() => import('./SimpleBuy'))
 const Swap = React.lazy(() => import('./Swap'))
-const Withdraw = React.lazy(() => import('./Brokerage/Banks/Withdraw'))
 
 // BROKERAGE
 const BankDetails = React.lazy(() => import('./Brokerage/Banks/BankDetails'))
 const RemoveBank = React.lazy(() => import('./Brokerage/Banks/RemoveBank'))
 const AddBank = React.lazy(() => import('./Brokerage/Banks/AddBank'))
 const Deposit = React.lazy(() => import('./Brokerage/Banks/Deposit'))
+const Withdraw = React.lazy(() => import('./Brokerage/Banks/Withdraw'))
 
 const Modals = () => (
   <Suspense fallback={null}>

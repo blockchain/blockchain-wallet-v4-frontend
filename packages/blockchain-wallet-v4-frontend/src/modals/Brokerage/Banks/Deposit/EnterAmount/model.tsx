@@ -5,6 +5,7 @@ import styled, { css } from 'styled-components'
 
 import { BankTransferAccountType } from 'core/types'
 
+// TODO: move this somewhere more generic
 import { renderBank } from '../../../../SimpleBuy/EnterAmount/Checkout/Payment/model'
 
 const RightArrowIcon = styled(Icon)<{

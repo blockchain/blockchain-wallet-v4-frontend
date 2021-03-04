@@ -11,13 +11,11 @@ export const getData = state => {
     state
   )
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
-
   const defaultMethodR = selectors.components.brokerage.getAccount(state)
   const eligibilityR = selectors.components.simpleBuy.getSBFiatEligible(state)
   const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
     state
   )
-
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const supportedCoins = supportedCoinsR.getOrElse(
     {} as SupportedWalletCurrenciesType

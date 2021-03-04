@@ -10,18 +10,16 @@ import { LinkStatePropsType, Props as OwnProps, SuccessStateType } from '.'
 export type Props = OwnProps & SuccessStateType & LinkStatePropsType
 
 const Top = styled(FlyoutWrapper)`
-  padding-bottom: 0px;
+  padding-bottom: 0;
   position: relative;
   height: 100%;
 `
-
 const CloseIcon = styled(Icon)`
   position: absolute;
   padding: inherit;
-  left: 0px;
-  top: 0px;
+  left: 0;
+  top: 0;
 `
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -30,12 +28,10 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
 `
-
 const Title = styled(Text)`
   margin: 56px 0 16px 0;
   text-align: center;
 `
-
 const Subcontent = styled(Text)`
   margin-bottom: 56px;
   text-align: center;
@@ -81,7 +77,7 @@ export const Unsupported = ({
           <>
             <FormattedMessage
               id='modals.simplebuy.unsupported-subcontent'
-              defaultMessage="Currently, we don't support buying crypto with"
+              defaultMessage="Currently we don't support buying crypto with"
             />{' '}
             {fiatCurrency}
             {'. '}

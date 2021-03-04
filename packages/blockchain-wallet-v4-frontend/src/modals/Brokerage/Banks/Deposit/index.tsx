@@ -6,11 +6,10 @@ import React, { PureComponent } from 'react'
 import { actions, selectors } from 'data'
 import { BankDWStepType } from 'data/types'
 import { FiatType, WalletFiatType } from 'core/types'
-import { ModalPropsType } from '../../../types'
-
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
+import { ModalPropsType } from '../../../types'
 import BankList from './BankList'
 import Confirm from './Confirm'
 import DepositMethods from './DepositMethods'

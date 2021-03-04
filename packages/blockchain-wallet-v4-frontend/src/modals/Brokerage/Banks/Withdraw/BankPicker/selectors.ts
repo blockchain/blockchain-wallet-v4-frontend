@@ -1,9 +1,10 @@
 import { ExtractSuccess } from 'core/types'
 import { lift } from 'ramda'
+
 import { RootState } from 'data/rootReducer'
+import { selectors } from 'data'
 
 import { OwnProps } from '.'
-import { selectors } from 'data'
 
 export const getData = (state: RootState, ownProps: OwnProps) => {
   const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(

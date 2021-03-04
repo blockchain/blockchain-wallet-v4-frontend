@@ -13,6 +13,7 @@ import { SBPaymentMethodsType, SBPaymentMethodType } from 'core/types'
 
 import { Props as _P, mapDispatchToProps } from '.'
 import BankDeposit from './BankDeposit'
+// TODO: move to somewhere more generic
 import BankWire from '../../../../SimpleBuy/PaymentMethods/Methods/BankWire'
 
 const Wrapper = styled.section`

@@ -1,5 +1,6 @@
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { isEmpty } from 'ramda'
 import React, { ReactChild } from 'react'
 import styled from 'styled-components'
 
@@ -10,19 +11,19 @@ import {
   NabuMoneyFloatType
 } from 'core/types'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { Form, NumberBox } from 'components/Form'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { formatTextAmount } from 'services/ValidationHelper'
-import { isEmpty } from 'ramda'
-import { maximumAmount, minimumAmount } from './validation'
-
-import { Props as OwnProps, SuccessStateType } from '.'
+import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
-import Beneficary from './Beneficiary'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import Currencies from 'core/exchange/currencies'
+
+import { maximumAmount, minimumAmount } from './validation'
+import { Props as OwnProps, SuccessStateType } from '.'
+import Beneficiary from './Beneficiary'
+
 import LockTimeTooltip from './LockTimeTooltip'
 
 const Top = styled.div`
@@ -284,10 +285,10 @@ const Success: React.FC<InjectedFormProps<
             <FormattedMessage id='copy.to' defaultMessage='To' />
           </Text>
           {!transferAccount && beneficiary && (
-            <Beneficary {...props} beneficiary={beneficiary} />
+            <Beneficiary {...props} beneficiary={beneficiary} />
           )}
           {transferAccount && (
-            <Beneficary {...props} transferAccount={transferAccount} />
+            <Beneficiary {...props} transferAccount={transferAccount} />
           )}
         </ToContainer>
         <ActionContainer>

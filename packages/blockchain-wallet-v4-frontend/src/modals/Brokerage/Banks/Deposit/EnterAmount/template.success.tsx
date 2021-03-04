@@ -21,6 +21,7 @@ import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { Props as _P, LinkStatePropsType, SuccessStateType } from '.'
 import { DepositOrWithdrawal } from '../../model'
 import { getDefaultMethod, getText, RightArrowIcon } from './model'
+// TODO: move this to somewhere more generic
 import {
   getIcon,
   PaymentArrowContainer,

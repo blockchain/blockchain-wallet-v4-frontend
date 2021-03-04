@@ -11,7 +11,6 @@ import { Props as OwnProps, SuccessStateType } from '.'
 
 const CloseContainer = styled.div`
   display: flex;
-  align-items: right;
   justify-content: flex-end;
 `
 const Wrapper = styled(FlyoutWrapper)`
@@ -20,7 +19,6 @@ const Wrapper = styled(FlyoutWrapper)`
   display: flex;
   flex-direction: column;
 `
-
 const CenterWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -59,7 +57,6 @@ const CheckIcon = styled.div`
   border-radius: 50%;
   background: ${props => props.theme.white};
 `
-
 const DescriptionText = styled(Text)`
   text-align: center;
 `
@@ -138,10 +135,7 @@ const Success = props => {
           >
             <FormattedMessage
               id='modals.brokerage.deposit_success.funds_available'
-              defaultMessage='Your funds will be available to withdraw once the bank transfer is complete on {date}.'
-              values={{
-                date: props.completeDate
-              }}
+              defaultMessage='Your funds will be available to withdraw once the bank transfer is complete in 3-5 business days.'
             />
           </DescriptionText>
         </MainContentWrapper>

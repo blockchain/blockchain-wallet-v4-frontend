@@ -10,10 +10,11 @@ import {
   ExtractSuccess,
   WalletFiatType
 } from 'core/types'
-import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { SBPaymentTypes } from 'core/network/api/settingsComponent/types'
 import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
+
+import { getData } from './selectors'
 import Failure from './template.failure'
 import Loading from './template.loading'
 import Success from './template.success'

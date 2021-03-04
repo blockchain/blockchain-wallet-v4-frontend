@@ -17,8 +17,6 @@ import * as AT from './actionTypes'
 import { DEFAULT_METHODS } from './model'
 import profileSagas from '../../modules/profile/sagas'
 
-// import { FastLinkType } from './types'
-
 export default ({
   api,
   coreSagas,
@@ -226,12 +224,11 @@ export default ({
   }
 
   const handleMethodChange = function * (action) {
-    // check tier 2
-    // if not kick to KYC flow
-    // if yes, kick to bank transfer or wire `action.method.type`
-
     const { method } = action
     const isUserTier2 = yield call(isTier2)
+
+    // check if user is tier 2
+    // if not, kick to KYC flow
     if (!isUserTier2) {
       switch (method.type) {
         case 'BANK_ACCOUNT':
@@ -250,7 +247,7 @@ export default ({
       }
     }
 
-    // User is Tier 2
+    // if yes, kick to bank transfer or wire `action.method.type`
     switch (method.type) {
       default:
       case 'BANK_ACCOUNT':

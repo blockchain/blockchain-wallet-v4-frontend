@@ -1,6 +1,5 @@
 import { compose } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 
 import {
@@ -8,15 +7,16 @@ import {
   WalletFiatType,
   WithdrawResponseType
 } from 'core/types'
+import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
-// import { getData } from './selectors'
-import { ModalPropsType } from '../../../types'
 import { WithdrawStepEnum } from 'data/types'
+import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import ModalEnhancer from 'providers/ModalEnhancer'
+
+import { ModalPropsType } from '../../../types'
 import BankPicker from './BankPicker'
 import ConfirmWithdraw from './ConfirmWithdraw'
 import EnterAmount from './EnterAmount'
-import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import ModalEnhancer from 'providers/ModalEnhancer'
 import WithdrawalDetails from './WithdrawalDetails'
 
 class Withdraw extends PureComponent<Props> {

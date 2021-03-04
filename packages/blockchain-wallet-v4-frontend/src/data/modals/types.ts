@@ -53,7 +53,7 @@ export type ModalOriginType =
   | 'BankDetailsModal'
   | 'BorrowHistorySection'
   | 'BorrowLandingPage'
-  | 'DepositButton'
+  | 'BankDeposit'
   | 'DepositWithdrawalModal'
   | 'EmptyFeed'
   | 'ExchangeForm'

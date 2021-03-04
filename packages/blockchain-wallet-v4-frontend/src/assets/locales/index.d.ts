@@ -602,7 +602,7 @@ type MessagesType = {
   'modals.brokerage.deposit_currency': 'Deposit {currency}'
   'modals.brokerage.deposit_success.title': '{amount} Deposited!'
   'modals.brokerage.deposit_success.wait_description': 'While we wait for your bank to send the cash, here’s early access to {currencySymbol}{amount} in your {currency} Cash Account so you can buy crypto right away.'
-  'modals.brokerage.deposit_success.funds_available': 'Your funds will be available to withdraw once the bank transfer is complete on {date}.'
+  'modals.brokerage.deposit_success.funds_available': 'Your funds will be available to withdraw once the bank transfer is complete in 3-5 business days.'
   'modals.brokerage.funds_will_arrive': 'Funds Will Arrive'
   'modals.brokerage.my_currency_wallet': 'My {currency} Wallet'
   'modal.createaccountlearn.info1': 'Stellar requires that all Stellar accounts hold a minimum balance of lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to a new Stellar account, you must send enough XLM to meet the minimum balance requirement.'
@@ -1466,7 +1466,7 @@ type MessagesType = {
   'modals.simplebuy.transferdetails.bank_link_info': 'To link your bank, send {symbol}1 or more to your {currency} wallet.'
   'modals.simplebuy.underreview': 'ID Verification Pending'
   'modals.simplebuy.unknown': 'Unknown Status'
-  'modals.simplebuy.unsupported-subcontent': "Currently, we don't support buying crypto with"
+  'modals.simplebuy.unsupported-subcontent': "Currently we don't support buying crypto with"
   'modals.simplebuy.unsupported-subcontent-1': "Well this is awkward. We don't support buying crypto yet for"
   'modals.simplebuy.unsupported-subcontent-2': "We'll send you an update when we do."
   'modals.simplebuy.unsupported-title': 'Buy Crypto Coming Soon for'

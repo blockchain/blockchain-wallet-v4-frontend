@@ -1,8 +1,9 @@
 import { Button, Image, Text } from 'blockchain-info-components'
-import { FailurePropsType } from '.'
 import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
+
+import { FailurePropsType } from '.'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -15,7 +16,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `
 const Title = styled(Text)`
-  margin: 40px 0px 24px 0px;
+  margin: 40px 0 24px;
 `
 
 const Failure = (props: FailurePropsType) => {
