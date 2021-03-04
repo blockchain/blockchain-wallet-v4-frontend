@@ -35,10 +35,22 @@ export const selectReceiveAddress = function * (source, networks) {
   if (equals('BTC', coin)) {
     let btcReceiveAddress
     if (type === ADDRESS_TYPES.LOCKBOX) {
-      btcReceiveAddress = yield select(selectors.core.common.btc.getNextAvailableReceiveAddressLockbox(networks.btc, address, appState))
+      btcReceiveAddress = selectors.core.common.btc.getNextAvailableReceiveAddressLockbox(
+        networks.btc,
+        address,
+        appState
+      )
     } else {
-      const defaultDerivation = yield select(selectors.core.common.btc.getAccountDefaultDerivation(address, appState))
-      btcReceiveAddress = yield select(selectors.core.common.btc.getNextAvailableReceiveAddress(networks.btc, address, defaultDerivation, appState))
+      const defaultDerivation = selectors.core.common.btc.getAccountDefaultDerivation(
+        address,
+        appState
+      )
+      btcReceiveAddress = selectors.core.common.btc.getNextAvailableReceiveAddress(
+        networks.btc,
+        address,
+        defaultDerivation,
+        appState
+      )
     }
     if (isEmpty(btcReceiveAddress.getOrElse(''))) {
       throw new Error('Could not generate return bitcoin receive address')
