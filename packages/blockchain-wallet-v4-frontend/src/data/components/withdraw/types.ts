@@ -1,4 +1,5 @@
 import {
+  BankTransferAccountType,
   BeneficiaryType,
   RemoteDataType,
   WalletFiatType,
@@ -26,6 +27,7 @@ export type WithdrawStepActionsPayload =
       beneficiary?: BeneficiaryType
       fiatCurrency: WalletFiatType
       step: 'ENTER_AMOUNT'
+      transferAccount?: BankTransferAccountType
     }
   | {
       fiatCurrency: WalletFiatType
@@ -33,7 +35,8 @@ export type WithdrawStepActionsPayload =
     }
   | {
       amount: string
-      beneficiary: BeneficiaryType
+      beneficiary?: BeneficiaryType
+      defaultMethod?: BankTransferAccountType
       step: 'CONFIRM_WITHDRAW'
     }
   | {

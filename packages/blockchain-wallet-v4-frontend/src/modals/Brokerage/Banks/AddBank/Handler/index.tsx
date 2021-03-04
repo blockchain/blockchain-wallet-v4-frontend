@@ -37,9 +37,13 @@ class LinkBankHandler extends PureComponent<Props, State> {
         error.providerName,
         error.providerId
       ])
-      this.props.brokerageActions.setStep({ step: AddBankStepType.ADD_BANK })
+      this.props.brokerageActions.setAddBankStep({
+        addBankStep: AddBankStepType.ADD_BANK
+      })
     } else {
-      this.props.brokerageActions.setStep({ step: AddBankStepType.ADD_BANK })
+      this.props.brokerageActions.setAddBankStep({
+        addBankStep: AddBankStepType.ADD_BANK
+      })
     }
   }
 

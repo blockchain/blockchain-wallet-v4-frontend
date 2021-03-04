@@ -1,6 +1,8 @@
 import * as AT from './actionTypes'
 import {
+  BankTransferAccountType,
   BeneficiaryType,
+  SBPaymentTypes,
   WalletFiatType,
   WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse
@@ -9,7 +11,7 @@ import { WithdrawActionTypes, WithdrawStepActionsPayload } from './types'
 
 export const handleCustodyWithdraw = (
   amount: string,
-  beneficiary: BeneficiaryType,
+  beneficiary: BeneficiaryType | BankTransferAccountType | null,
   fiatCurrency: WalletFiatType
 ) => ({
   type: AT.HANDLE_WITHDRAW_SUBMIT,
@@ -32,9 +34,11 @@ export const showModal = (fiatCurrency: WalletFiatType) => ({
   }
 })
 
-export const fetchWithdrawalFees = (currency?: WalletFiatType) => ({
+export const fetchWithdrawalFees = (
+  paymentMethod?: SBPaymentTypes | 'ALL'
+) => ({
   type: AT.FETCH_WITHDRAWAL_FEES,
-  currency
+  payload: { paymentMethod }
 })
 
 export const fetchWithdrawalFeesFailure = (

@@ -97,3 +97,7 @@ export const getSiftKey = state =>
 export const getSiftPaymentKey = (state: RootState) => {
   return getWebOptions(state).map(options => options.sift.paymentKey)
 }
+
+// mobile auth flag
+export const getMobileAuthFlag = state =>
+  getWebOptions(state).map(path(['mobile_auth', 'enabled']))

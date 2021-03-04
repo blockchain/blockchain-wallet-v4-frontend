@@ -174,7 +174,9 @@ export const isValidSecondPwd = curry((password, wallet) => {
     if (!is(String, password)) {
       return false
     }
-    let iter = selectIterations(wallet)
+    // 5000 is fallback for v1 wallets that are missing
+    // Pbkdf2 Iterations in the inner wrapper of JSON
+    let iter = selectIterations(wallet) || 5000
     let sk = view(sharedKey, wallet)
     let storedHash = view(dpasswordhash, wallet)
     let computedHash = crypto

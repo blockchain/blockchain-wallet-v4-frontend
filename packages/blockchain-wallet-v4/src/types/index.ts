@@ -100,7 +100,7 @@ export type BtcAccountType = {
   coin: 'BTC'
   index: number
   label: string
-  network: 'mainnet' | 'testnet'
+  network: 'mainnet'
   type: 'ACCOUNT' | 'CUSTODIAL'
   xpub: string
 }

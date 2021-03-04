@@ -47,7 +47,7 @@ const DisplayContainer = styled.div<{ coinType: any; isItem?: boolean }>`
   > span {
     color: ${props => props.theme[props.coinType.colorCode]} !important;
   }
-  background-color: none;
+  background-color: transparent;
 `
 const AccountContainer = styled.div<{ isItem?: boolean }>`
   position: relative;
@@ -119,7 +119,7 @@ const CoinSelect = styled(SelectBox)`
   }
 `
 
-export class WalletBalanceDropdown extends Component<Props> {
+class WalletBalanceDropdown extends Component<Props> {
   state = {}
 
   isBtcTypeCoin = () => {

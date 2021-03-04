@@ -186,11 +186,14 @@ class TransactionsContainer extends React.PureComponent<Props> {
                         data-e2e='depositFiat'
                         style={{ minWidth: 'auto' }}
                         onClick={() => {
-                          if (!this.props.simpleBuyActions) return
-                          this.props.simpleBuyActions.handleSBDepositFiatClick(
-                            coin as WalletFiatType,
-                            'TransactionList'
+                          if (!this.props.brokerageActions) return
+                          this.props.brokerageActions.handleDepositFiatClick(
+                            coin as WalletFiatType
                           )
+                          // this.props.simpleBuyActions.handleSBDepositFiatClick(
+                          //   coin as WalletFiatType,
+                          //   'TransactionList'
+                          // )
                         }}
                       >
                         <FormattedMessage
