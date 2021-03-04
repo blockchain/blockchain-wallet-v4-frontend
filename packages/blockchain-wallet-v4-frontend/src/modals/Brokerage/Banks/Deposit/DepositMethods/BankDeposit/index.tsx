@@ -77,7 +77,7 @@ const BankDeposit = ({ value, onClick, icon }: Props) => (
       <CartridgeContainer>
         <SuccessCartridge>
           <FormattedMessage
-            id='modals.simplebuy.most_popular'
+            id='copy.most_popular'
             defaultMessage='Most Popular'
           />
         </SuccessCartridge>
