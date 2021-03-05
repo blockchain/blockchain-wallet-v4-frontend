@@ -28,6 +28,8 @@ export enum BankDWStepType {
   DEPOSIT_METHODS = 'DEPOSIT_METHODS',
   DEPOSIT_STATUS = 'DEPOSIT_STATUS',
   ENTER_AMOUNT = 'ENTER_AMOUNT',
+  INELIGIBLE = 'INELIGIBLE',
+  LOADING = 'LOADING',
   WIRE_INSTRUCTIONS = 'WIRE_INSTRUCTIONS'
 }
 
@@ -38,6 +40,8 @@ export type BrokerageDWStepPayload =
         | BankDWStepType.WIRE_INSTRUCTIONS
         | BankDWStepType.DEPOSIT_STATUS
         | BankDWStepType.BANK_LIST
+        | BankDWStepType.INELIGIBLE
+        | BankDWStepType.LOADING
     }
   | {
       addNew?: boolean

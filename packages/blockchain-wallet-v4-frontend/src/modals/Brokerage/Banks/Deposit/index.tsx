@@ -5,7 +5,9 @@ import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
 import { BankDWStepType } from 'data/types'
+import { BROKERAGE_INELIGIBLE } from 'components/Brokerage'
 import { FiatType, WalletFiatType } from 'core/types'
+import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
@@ -15,8 +17,8 @@ import Confirm from './Confirm'
 import DepositMethods from './DepositMethods'
 import DepositStatus from './DepositStatus'
 import EnterAmount from './EnterAmount'
+import Loading from './DepositMethods/template.loading'
 import WireInstructions from './WireInstructions'
-
 class Deposit extends PureComponent<Props> {
   state: State = { show: false, direction: 'left' }
 
@@ -51,6 +53,15 @@ class Deposit extends PureComponent<Props> {
         direction={this.state.direction}
         data-e2e='bankDepositModal'
       >
+        {this.props.step === BankDWStepType.LOADING && (
+          /*
+           * loads deposit payment methods ui
+           * bank_transfer or loads wire transfer screen
+           */
+          <FlyoutChild>
+            <Loading {...this.props} />
+          </FlyoutChild>
+        )}
         {this.props.step === BankDWStepType.DEPOSIT_METHODS && (
           /*
            * loads deposit payment methods ui
@@ -104,6 +115,11 @@ class Deposit extends PureComponent<Props> {
         {this.props.step === BankDWStepType.WIRE_INSTRUCTIONS && (
           <FlyoutChild>
             <WireInstructions {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === BankDWStepType.INELIGIBLE && (
+          <FlyoutChild>
+            <DataError message={{ message: BROKERAGE_INELIGIBLE }} />
           </FlyoutChild>
         )}
       </Flyout>

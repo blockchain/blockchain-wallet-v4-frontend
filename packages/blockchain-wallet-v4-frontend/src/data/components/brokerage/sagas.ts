@@ -177,7 +177,31 @@ export default ({
     }
   }
 
-  const handleDepositFiatClick = function * () {
+  const handleDepositFiatClick = function * ({
+    payload
+  }: ReturnType<typeof A.handleDepositFiatClick>) {
+    yield put(
+      actions.components.brokerage.showModal(
+        BrokerageModalOriginType.DEPOSIT_BUTTON,
+        'BANK_DEPOSIT_MODAL'
+      )
+    )
+    yield put(
+      actions.components.brokerage.setDWStep({
+        dwStep: BankDWStepType.LOADING
+      })
+    )
+    try {
+      // If user is not eligible for the requested fiat the route will 400
+      // and this code will throw so no need to check the response body
+      yield call(api.getSBPaymentAccount, payload.fiatCurrency)
+    } catch (e) {
+      return yield put(
+        actions.components.brokerage.setDWStep({
+          dwStep: BankDWStepType.INELIGIBLE
+        })
+      )
+    }
     const bankTransferAccounts = yield select(
       selectors.components.brokerage.getBankTransferAccounts
     )

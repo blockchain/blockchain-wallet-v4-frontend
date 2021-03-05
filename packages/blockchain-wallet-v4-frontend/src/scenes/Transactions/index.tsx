@@ -190,10 +190,6 @@ class TransactionsContainer extends React.PureComponent<Props> {
                           this.props.brokerageActions.handleDepositFiatClick(
                             coin as WalletFiatType
                           )
-                          // this.props.simpleBuyActions.handleSBDepositFiatClick(
-                          //   coin as WalletFiatType,
-                          //   'TransactionList'
-                          // )
                         }}
                       >
                         <FormattedMessage

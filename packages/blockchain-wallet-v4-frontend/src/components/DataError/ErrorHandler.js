@@ -1,3 +1,7 @@
+import {
+  BROKERAGE_INELIGIBLE,
+  IneligibleErrorMessage
+} from 'components/Brokerage'
 import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 import { FETCH_FEES_FAILURE } from 'blockchain-wallet-v4/src/redux/payment/model'
@@ -33,6 +37,8 @@ const ErrorHandler = props => {
         </Button>
       </React.Fragment>
     )
+  } else if (errorMessage === BROKERAGE_INELIGIBLE) {
+    return <IneligibleErrorMessage />
   } else if (errorMessage === FETCH_FEES_FAILURE) {
     return (
       <Text size='16px' weight={400}>
