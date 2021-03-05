@@ -4,7 +4,7 @@ import { isEmpty } from 'ramda'
 import React, { ReactChild } from 'react'
 import styled from 'styled-components'
 
-import { AmountFieldContainer, FlyoutWrapper } from 'components/Flyout'
+import { AmountTextBox } from 'components/Exchange'
 import {
   BankTransferAccountType,
   BeneficiaryType,
@@ -12,10 +12,13 @@ import {
 } from 'core/types'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { Button, Icon, Text } from 'blockchain-info-components'
+import { DepositOrWithdrawal } from '../../model'
 import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
-import { Form, NumberBox } from 'components/Form'
+import { FlyoutWrapper } from 'components/Flyout'
 import { formatTextAmount } from 'services/ValidationHelper'
-import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
+
+import { Form } from 'components/Form'
+
 import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import Currencies from 'core/exchange/currencies'
@@ -24,8 +27,14 @@ import { maximumAmount, minimumAmount } from './validation'
 import { Props as OwnProps, SuccessStateType } from '.'
 import Beneficiary from './Beneficiary'
 
+import { Row } from '../../components'
 import LockTimeTooltip from './LockTimeTooltip'
 
+const CustomForm = styled(Form)`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`
 const Top = styled.div`
   display: flex;
   align-items: center;
@@ -42,16 +51,11 @@ const MinMaxContainer = styled.div`
   margin: 24px 0 40px;
   min-height: 30px;
   display: flex;
+  justify-content: center;
 `
 const CoinContainer = styled.div`
   display: flex;
   flex-direction: row;
-`
-const CustomBlueCartridge = styled(BlueCartridge)`
-  cursor: pointer;
-`
-const CustomErrorCartridge = styled(ErrorCartridge)`
-  cursor: pointer;
 `
 const PendingText = styled(Text)`
   a {
@@ -59,6 +63,48 @@ const PendingText = styled(Text)`
     text-decoration: none;
   }
 `
+const CustomBlueCartridge = styled(BlueCartridge)`
+  cursor: pointer;
+`
+const CustomErrorCartridge = styled(ErrorCartridge)`
+  cursor: pointer;
+`
+const Limits = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 15px 40px;
+  border-top: 1px solid ${props => props.theme.grey000};
+  border-bottom: 1px solid ${props => props.theme.grey000};
+`
+
+const LimitWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`
+const FiatIconWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+`
+const AmountRow = styled(Row)`
+  position: relative;
+  padding: 24px;
+  justify-content: center;
+  border: 0;
+`
+const SubIconWrapper = styled.div`
+  align-items: center;
+  justify-content: center;
+  background-color: ${props => props.theme['fiat-light']};
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  position: absolute;
+  right: -20px;
+`
+
 const BlueRedCartridge = ({
   error,
   children
@@ -75,7 +121,6 @@ const normalizeAmount = (value, prevValue) => {
   if (isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
   return formatTextAmount(value, true)
 }
-
 const Success: React.FC<InjectedFormProps<
   WithdrawCheckoutFormValuesType,
   Props
@@ -90,7 +135,7 @@ const Success: React.FC<InjectedFormProps<
 
   const userCanWithdraw =
     Number(props.withdrawableBalance) > Number(props.fees.value)
-  const showFee = Number(props.fees.value) > 0
+  const showFee = Number(props.fees.value) > 0 && !transferAccount
 
   const maxAmount = userCanWithdraw
     ? Number(props.withdrawableBalance) - Number(props.fees.value)
@@ -107,97 +152,108 @@ const Success: React.FC<InjectedFormProps<
     Number(props.withdrawableBalance) < Number(props.availableBalance)
 
   return (
-    <FlyoutWrapper>
-      <Top>
-        <Icon
-          name={props.fiatCurrency.toLowerCase() as keyof IcoMoonType}
-          color='fiat'
-          size='32px'
-        />
-        <Icon
-          cursor
-          data-e2e='withdrawCloseModal'
-          name='close'
-          size='20px'
-          color='grey600'
-          role='button'
-          onClick={() => props.handleClose()}
-        />
-      </Top>
-      <Text size='24px' color='black' weight={600}>
-        <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />{' '}
-        {props.fiatCurrency}
-      </Text>
-
-      <CoinContainer style={{ marginTop: '4px', height: '16px' }}>
-        <Text size='14px' color='grey900' weight={500}>
-          <FormattedMessage
-            id='modals.withdraw.available_for_withdrawal'
-            defaultMessage='Available to Withdraw'
+    <CustomForm onSubmit={props.handleSubmit}>
+      <FlyoutWrapper>
+        <Top>
+          <Text color='grey800' size='20px' weight={600}>
+            <DepositOrWithdrawal
+              fiatCurrency={props.fiatCurrency}
+              orderType={'WITHDRAWAL'}
+            />
+          </Text>
+          <Icon
+            cursor
+            data-e2e='withdrawCloseModal'
+            name='close'
+            size='20px'
+            color='grey600'
+            role='button'
+            onClick={() => props.handleClose()}
           />
-        </Text>{' '}
-        <CoinDisplay
-          size='14px'
-          color='grey600'
-          weight={500}
-          coin={props.fiatCurrency}
-          style={{ marginLeft: '4px' }}
-        >
-          {props.withdrawableBalance}
-        </CoinDisplay>
-        {showInfoTooltip && <LockTimeTooltip />}
-      </CoinContainer>
-      {showPendingTransactions && (
-        <CoinContainer style={{ marginTop: '4px', height: '16px' }}>
-          <PendingText size='14px' color='grey900' weight={500}>
-            <FormattedHTMLMessage
-              id='modals.withdraw.lock_description'
-              defaultMessage="You have {locks} pending transactions. We’ll email you when these funds become available for withdrawal. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392-Why-can-t-I-withdraw-my-crypto-' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
-              values={{
-                locks: props.locks.length
-              }}
-            />
-          </PendingText>
-        </CoinContainer>
-      )}
-      {showFee && (
-        <CoinContainer style={{ marginTop: '4px', height: '16px' }}>
-          <Text size='14px' color='grey900' weight={500}>
+        </Top>
+      </FlyoutWrapper>
+      <Limits>
+        <LimitWrapper>
+          <Text color='grey600' size='14px' lineHeight={'25px'} weight={500}>
             <FormattedMessage
-              id='modals.withdraw.fee'
-              defaultMessage='Withdraw Fee'
+              id='modals.brokerage.my_currency_wallet'
+              defaultMessage='My {currency} Wallet'
+              values={{ currency: props.fiatCurrency }}
             />
-          </Text>{' '}
+          </Text>
           <CoinDisplay
             size='14px'
-            color='grey600'
-            weight={500}
-            coin={props.fees.symbol}
-            style={{ marginLeft: '4px' }}
+            color='grey900'
+            weight={600}
+            coin={props.fiatCurrency}
           >
-            {props.fees.value}
+            {props.withdrawableBalance}
           </CoinDisplay>
-        </CoinContainer>
-      )}
-      <Form onSubmit={props.handleSubmit}>
-        <AmountFieldContainer>
-          <Text size='56px' color='grey400' weight={500}>
+          {showInfoTooltip && <LockTimeTooltip />}
+          {showFee && (
+            <CoinContainer style={{ marginTop: '4px', height: '16px' }}>
+              <Text size='14px' color='grey900' weight={500}>
+                <FormattedMessage
+                  id='modals.withdraw.fee'
+                  defaultMessage='Withdraw Fee'
+                />
+              </Text>{' '}
+              <CoinDisplay
+                size='14px'
+                color='grey600'
+                weight={500}
+                coin={props.fees.symbol}
+                style={{ marginLeft: '4px' }}
+              >
+                {props.fees.value}
+              </CoinDisplay>
+            </CoinContainer>
+          )}
+        </LimitWrapper>
+        <FiatIconWrapper>
+          <Icon
+            color={props.supportedCoins[props.fiatCurrency].colorCode}
+            name={props.supportedCoins[props.fiatCurrency].icons.circleFilled}
+            size='32px'
+          />
+          <SubIconWrapper>
+            <Icon size='24px' color='fiat' name='arrow-up' />
+          </SubIconWrapper>
+        </FiatIconWrapper>
+      </Limits>
+
+      <FlyoutWrapper>
+        <CoinContainer style={{ marginTop: '4px', height: '16px' }} />
+        {showPendingTransactions && (
+          <CoinContainer style={{ marginTop: '4px', height: '16px' }}>
+            <PendingText size='14px' color='grey900' weight={500}>
+              <FormattedHTMLMessage
+                id='modals.withdraw.lock_description'
+                defaultMessage="You have {locks} pending transactions. We’ll email you when these funds become available for withdrawal. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392-Why-can-t-I-withdraw-my-crypto-' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
+                values={{
+                  locks: props.locks.length
+                }}
+              />
+            </PendingText>
+          </CoinContainer>
+        )}
+        <AmountRow id='amount-row'>
+          <Text size='56px' color='textBlack' weight={500}>
             {Currencies[props.fiatCurrency].units[props.fiatCurrency].symbol}
           </Text>
           <Field
-            data-e2e='sbAmountInput'
+            data-e2e='withdrawAmountInput'
             name='amount'
-            component={NumberBox}
+            component={AmountTextBox}
             normalize={normalizeAmount}
             validate={[minimumAmount, maximumAmount]}
             placeholder='0'
             {...{
               autoFocus: true,
-              errorBottom: true,
-              errorLeft: true
+              hideError: true
             }}
           />
-        </AmountFieldContainer>
+        </AmountRow>
         <MinMaxContainer>
           <div
             style={{ marginRight: '4px' }}
@@ -275,21 +331,11 @@ const Success: React.FC<InjectedFormProps<
         )}
 
         <ToContainer>
-          <Text
-            size='14px'
-            weight={500}
-            color='grey600'
-            style={{ marginBottom: '4px' }}
-          >
-            <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />{' '}
-            <FormattedMessage id='copy.to' defaultMessage='To' />
-          </Text>
-          {!transferAccount && beneficiary && (
-            <Beneficiary {...props} beneficiary={beneficiary} />
-          )}
-          {transferAccount && (
-            <Beneficiary {...props} transferAccount={transferAccount} />
-          )}
+          <Beneficiary
+            {...props}
+            transferAccount={transferAccount}
+            beneficiary={beneficiary}
+          />
         </ToContainer>
         <ActionContainer>
           <Button
@@ -304,8 +350,8 @@ const Success: React.FC<InjectedFormProps<
             <FormattedMessage id='buttons.next' defaultMessage='Next' />
           </Button>
         </ActionContainer>
-      </Form>
-    </FlyoutWrapper>
+      </FlyoutWrapper>
+    </CustomForm>
   )
 }
 

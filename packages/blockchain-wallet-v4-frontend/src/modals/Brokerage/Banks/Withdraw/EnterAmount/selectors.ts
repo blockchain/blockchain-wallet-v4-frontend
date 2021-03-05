@@ -1,4 +1,4 @@
-import { ExtractSuccess } from 'core/types'
+import { ExtractSuccess, SupportedWalletCurrenciesType } from 'core/types'
 import { lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 
@@ -37,6 +37,11 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   )
   const lockR = selectors.components.withdraw.getWithdrawalLocks(state)
 
+  const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
+  const supportedCoins = supportedCoinsR.getOrElse(
+    {} as SupportedWalletCurrenciesType
+  )
+
   return lift(
     (
       bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
@@ -57,7 +62,8 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       userData,
       minAmount,
       fees,
-      locks
+      locks,
+      supportedCoins
     })
   )(
     bankTransferAccountsR,
