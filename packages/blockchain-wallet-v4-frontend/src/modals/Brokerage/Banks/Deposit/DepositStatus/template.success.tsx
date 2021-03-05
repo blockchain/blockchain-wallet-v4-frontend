@@ -119,11 +119,14 @@ const Success = props => {
           <DescriptionText color='grey600' size='14px' weight={600}>
             <FormattedMessage
               id='modals.brokerage.deposit_success.wait_description'
-              defaultMessage='While we wait for your bank to send the cash, here’s early access to {currencySymbol}{amount} in your {currency} Cash Account so you can buy crypto right away.'
+              defaultMessage='While we wait for your bank to send the cash, here’s early access to {amount} in your {currency} Cash Account so you can buy crypto right away.'
               values={{
-                currencySymbol: props.supportedCoins[coin].symbol,
-                amount,
-                currency: props.supportedCoins[coin].currency
+                amount: fiatToString({
+                  value: amount,
+                  unit,
+                  digits: 0
+                }),
+                currency: props.supportedCoins[coin].coinCode
               }}
             />
           </DescriptionText>
