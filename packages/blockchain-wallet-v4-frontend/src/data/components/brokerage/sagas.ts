@@ -193,6 +193,7 @@ export default ({
           'BANK_DEPOSIT_MODAL'
         )
       )
+      yield put(actions.form.destroy('brokerageTx'))
       yield put(
         actions.components.brokerage.setDWStep({
           dwStep: BankDWStepType.ENTER_AMOUNT
