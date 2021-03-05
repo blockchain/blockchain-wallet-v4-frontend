@@ -28,14 +28,13 @@ import {
   PaymentContainer,
   PaymentText
 } from '../../../../SimpleBuy/EnterAmount/Checkout/Payment/model'
-import { Row } from '../../../../Swap/EnterAmount/Checkout'
+import { Row } from '../../components'
 
 const CustomForm = styled(Form)`
   height: 100%;
   display: flex;
   flex-direction: column;
 `
-
 const Wrapper = styled(FlyoutWrapper)`
   width: 100%;
   height: 100%;
@@ -49,7 +48,6 @@ const HeaderWrapper = styled.div`
   flex-direction: row;
   margin: 40px 40px 29px 40px;
 `
-
 const Limits = styled.div`
   display: flex;
   flex-direction: row;
@@ -57,13 +55,11 @@ const Limits = styled.div`
   border-top: 1px solid ${props => props.theme.grey000};
   border-bottom: 1px solid ${props => props.theme.grey000};
 `
-
 const LimitWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
 `
-
 const TopText = styled(Text)`
   display: flex;
   align-items: center;
@@ -87,8 +83,6 @@ const AmountRow = styled(Row)`
   border: 0;
 `
 const SubIconWrapper = styled.div`
-  align-items: center;
-  justify-content: center;
   background-color: ${props => props.theme['fiat-light']};
   width: 24px;
   height: 24px;
@@ -127,11 +121,11 @@ const Header = ({ brokerageActions, fiatCurrency }) => {
 }
 
 const LimitSection = ({ paymentMethods, walletCurrency, supportedCoins }) => {
-  const bankTranfser = paymentMethods.methods.find(
+  const bankTransfer = paymentMethods.methods.find(
     method => method.type === 'BANK_TRANSFER'
   )
 
-  if (bankTranfser?.limits) {
+  if (bankTransfer?.limits) {
     return (
       <Limits>
         <LimitWrapper>
@@ -145,7 +139,7 @@ const LimitSection = ({ paymentMethods, walletCurrency, supportedCoins }) => {
             {fiatToString({
               value: convertBaseToStandard(
                 'FIAT',
-                bankTranfser.limits.daily.available
+                bankTransfer.limits.daily.available
               ),
               unit: walletCurrency as FiatType
             })}{' '}

@@ -27,7 +27,7 @@ import { maximumAmount, minimumAmount } from './validation'
 import { Props as OwnProps, SuccessStateType } from '.'
 import Beneficiary from './Beneficiary'
 
-import { Row } from '../../../../Swap/EnterAmount/Checkout'
+import { Row } from '../../components'
 import LockTimeTooltip from './LockTimeTooltip'
 
 const CustomForm = styled(Form)`
@@ -35,7 +35,6 @@ const CustomForm = styled(Form)`
   display: flex;
   flex-direction: column;
 `
-
 const Top = styled.div`
   display: flex;
   align-items: center;
@@ -58,7 +57,6 @@ const CoinContainer = styled.div`
   display: flex;
   flex-direction: row;
 `
-
 const PendingText = styled(Text)`
   a {
     color: ${props => props.theme.blue600};
@@ -71,7 +69,6 @@ const CustomBlueCartridge = styled(BlueCartridge)`
 const CustomErrorCartridge = styled(ErrorCartridge)`
   cursor: pointer;
 `
-
 const Limits = styled.div`
   display: flex;
   flex-direction: row;
@@ -138,7 +135,7 @@ const Success: React.FC<InjectedFormProps<
 
   const userCanWithdraw =
     Number(props.withdrawableBalance) > Number(props.fees.value)
-  const showFee = Number(props.fees.value) > 0 && transferAccount === undefined
+  const showFee = Number(props.fees.value) > 0 && !transferAccount
 
   const maxAmount = userCanWithdraw
     ? Number(props.withdrawableBalance) - Number(props.fees.value)
