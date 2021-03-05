@@ -8,6 +8,8 @@ import { CustomCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 
+export const FORM_NAME = 'interestDepositForm'
+
 export const SendingWrapper = styled.div`
   width: 100%;
   height: 100%;

@@ -14,6 +14,7 @@ import {
 } from './types'
 
 export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
+  // TODO - consider removing parameters since we never pass anything here
   const getInterestAccountBalance = (
     ccy?: CoinType,
     din?: FiatType
