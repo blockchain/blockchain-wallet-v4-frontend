@@ -13,14 +13,18 @@ const AddNewButton = styled(Button)`
   border-color: ${props => props.theme.grey100};
 `
 
+const StyledText = styled(Text)`
+  width: 300px;
+`
+
 const BROKERAGE_INELIGIBLE = 'BROKERAGE_INELIGIBLE'
 const IneligibleErrorMessage = () => (
-  <Text size='16px' weight={400}>
+  <StyledText size='16px' weight={400}>
     <FormattedMessage
       id='modals.brokerage.ineligible_error'
       defaultMessage='You are not eligible to make deposits and withdrawals with this currency.'
     />
-  </Text>
+  </StyledText>
 )
 
 export { AddNewButton, BROKERAGE_INELIGIBLE, IneligibleErrorMessage }
