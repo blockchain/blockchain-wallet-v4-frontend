@@ -13,6 +13,7 @@ import {
 } from 'components/SimpleBuy'
 import { getBankLogoImageName } from 'services/ImagesService'
 import { Props as OwnProps, SuccessStateType } from '.'
+import { WithdrawStepEnum } from 'data/types'
 import Bank from '../../Deposit/BankList/Accounts/Bank'
 
 const Top = styled.div`
@@ -39,7 +40,7 @@ const Success: React.FC<Props> = props => {
             style={{ marginRight: '8px' }}
             onClick={() =>
               props.withdrawActions.setStep({
-                step: 'ENTER_AMOUNT',
+                step: WithdrawStepEnum.ENTER_AMOUNT,
                 fiatCurrency: props.fiatCurrency
               })
             }
@@ -65,7 +66,7 @@ const Success: React.FC<Props> = props => {
               props.withdrawActions.setStep({
                 beneficiary: undefined,
                 fiatCurrency: props.fiatCurrency,
-                step: 'ENTER_AMOUNT'
+                step: WithdrawStepEnum.ENTER_AMOUNT
               })
             }}
           />
@@ -79,7 +80,7 @@ const Success: React.FC<Props> = props => {
               props.withdrawActions.setStep({
                 beneficiary,
                 fiatCurrency: props.fiatCurrency,
-                step: 'ENTER_AMOUNT'
+                step: WithdrawStepEnum.ENTER_AMOUNT
               })
             }}
           >
@@ -104,7 +105,7 @@ const Success: React.FC<Props> = props => {
         onClick={() => {
           props.withdrawActions.setStep({
             fiatCurrency: props.fiatCurrency,
-            step: 'WITHDRAWAL_METHODS'
+            step: WithdrawStepEnum.WITHDRAWAL_METHODS
           })
         }}
       >

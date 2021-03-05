@@ -54,10 +54,6 @@ class Deposit extends PureComponent<Props> {
         data-e2e='bankDepositModal'
       >
         {this.props.step === BankDWStepType.LOADING && (
-          /*
-           * loads deposit payment methods ui
-           * bank_transfer or loads wire transfer screen
-           */
           <FlyoutChild>
             <Loading {...this.props} />
           </FlyoutChild>

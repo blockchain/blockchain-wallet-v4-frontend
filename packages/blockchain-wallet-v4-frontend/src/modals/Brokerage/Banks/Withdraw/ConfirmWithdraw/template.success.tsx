@@ -11,7 +11,7 @@ import { Form } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
-import { WithdrawCheckoutFormValuesType } from 'data/types'
+import { WithdrawCheckoutFormValuesType, WithdrawStepEnum } from 'data/types'
 
 import CoinDisplay from 'components/Display/CoinDisplay'
 
@@ -61,7 +61,7 @@ const Success: React.FC<InjectedFormProps<
               props.withdrawActions.setStep({
                 beneficiary: props.beneficiary,
                 fiatCurrency: props.fiatCurrency,
-                step: 'ENTER_AMOUNT'
+                step: WithdrawStepEnum.ENTER_AMOUNT
               })
             }
           />
@@ -155,7 +155,7 @@ const Success: React.FC<InjectedFormProps<
             props.withdrawActions.setStep({
               beneficiary: props.beneficiary,
               fiatCurrency: props.fiatCurrency,
-              step: 'ENTER_AMOUNT'
+              step: WithdrawStepEnum.ENTER_AMOUNT
             })
           }
           data-e2e='cancelWithdrawCustody'

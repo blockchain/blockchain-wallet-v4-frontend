@@ -4,6 +4,8 @@ import { Props } from '.'
 import React from 'react'
 import styled from 'styled-components'
 
+import { WithdrawStepEnum } from 'data/types'
+
 const Wrapper = styled.div`
   height: 100%;
   width: 100%;
@@ -42,7 +44,7 @@ const Failure: React.FC<Props> = props => {
           size='16px'
           onClick={() =>
             props.withdrawActions.setStep({
-              step: 'ENTER_AMOUNT',
+              step: WithdrawStepEnum.ENTER_AMOUNT,
               fiatCurrency: props.fiatCurrency,
               beneficiary: props.beneficiary
             })

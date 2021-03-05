@@ -5,6 +5,7 @@ import { actions } from 'data'
 import { APIType } from 'core/network/api'
 import { convertStandardToBase } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { WithdrawStepEnum } from 'data/types'
 
 const SERVICE_NAME = 'simplebuy'
 
@@ -27,7 +28,12 @@ export default ({ api }: { api: APIType }) => {
         yield put(
           actions.core.data.fiat.fetchTransactions(payload.fiatCurrency, true)
         )
-        yield put(A.setStep({ step: 'WITHDRAWAL_DETAILS', withdrawal }))
+        yield put(
+          A.setStep({
+            step: WithdrawStepEnum.WITHDRAWAL_DETAILS,
+            withdrawal
+          })
+        )
       }
     } catch (e) {
       const error = errorHandler(e)
@@ -46,7 +52,17 @@ export default ({ api }: { api: APIType }) => {
       })
     )
 
-    yield put(A.setStep({ step: 'ENTER_AMOUNT', fiatCurrency }))
+    yield put(A.setStep({ step: WithdrawStepEnum.LOADING }))
+
+    try {
+      // If user is not eligible for the requested fiat the route will 400
+      // and this code will throw so no need to check the response body
+      yield call(api.getSBPaymentAccount, fiatCurrency)
+    } catch (e) {
+      return yield put(A.setStep({ step: WithdrawStepEnum.INELIGIBLE }))
+    }
+
+    yield put(A.setStep({ step: WithdrawStepEnum.ENTER_AMOUNT, fiatCurrency }))
   }
 
   const fetchFees = function * (
