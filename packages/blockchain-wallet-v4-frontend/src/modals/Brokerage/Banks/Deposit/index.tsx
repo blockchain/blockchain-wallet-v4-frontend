@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
 import { BankDWStepType } from 'data/types'
-import { BROKERAGE_INELIGIBLE } from 'components/Brokerage'
+import { BROKERAGE_INELIGIBLE } from '../../components'
 import { FiatType, WalletFiatType } from 'core/types'
 import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'

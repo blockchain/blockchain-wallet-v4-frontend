@@ -7,7 +7,7 @@ import {
   WalletFiatType,
   WithdrawResponseType
 } from 'core/types'
-import { BROKERAGE_INELIGIBLE } from 'components/Brokerage'
+import { BROKERAGE_INELIGIBLE } from '../../components'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 import { WithdrawStepEnum } from 'data/types'
