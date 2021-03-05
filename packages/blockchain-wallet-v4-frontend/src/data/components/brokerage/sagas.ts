@@ -193,6 +193,7 @@ export default ({
           'BANK_DEPOSIT_MODAL'
         )
       )
+      yield put(actions.form.destroy('brokerageTx'))
       yield put(
         actions.components.brokerage.setDWStep({
           dwStep: BankDWStepType.ENTER_AMOUNT
@@ -231,7 +232,13 @@ export default ({
         )
       }
     } catch (e) {
-      // TODO: implement error fallback
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit('brokerageTx', { _error: error }))
+      yield put(
+        actions.components.brokerage.setDWStep({
+          dwStep: BankDWStepType.ENTER_AMOUNT
+        })
+      )
     }
   }
 
