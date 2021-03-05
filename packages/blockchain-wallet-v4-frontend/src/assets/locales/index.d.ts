@@ -595,6 +595,7 @@ type MessagesType = {
   'modals.brokerage.daily_limit': 'Daily Limit'
   'modals.brokerage.deposit_methods': 'Select a Deposit Method'
   'modals.brokerage.deposit_fiat': 'Deposit {fiat}'
+  'modals.brokerage.ineligible_error': 'You are not eligible to make deposits and withdrawals with this currency.'
   'modals.brokerage.withdraw_fiat': 'Withdraw {fiat}'
   'modals.brokerage.confirm_deposit': 'Confirm Deposit'
   'modals.brokerage.bank_deposit': 'Bank Deposit'

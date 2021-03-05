@@ -7,9 +7,11 @@ import {
   WalletFiatType,
   WithdrawResponseType
 } from 'core/types'
+import { BROKERAGE_INELIGIBLE } from '../../components'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 import { WithdrawStepEnum } from 'data/types'
+import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
@@ -17,6 +19,7 @@ import { ModalPropsType } from '../../../types'
 import BankPicker from './BankPicker'
 import ConfirmWithdraw from './ConfirmWithdraw'
 import EnterAmount from './EnterAmount'
+import Loading from './ConfirmWithdraw/template.loading'
 import WithdrawalDetails from './WithdrawalDetails'
 import WithdrawalMethods from './WithdrawalMethods'
 
@@ -56,29 +59,39 @@ class Withdraw extends PureComponent<Props> {
         direction={this.state.direction}
         data-e2e='custodyWithdrawModal'
       >
-        {this.props.step === 'ENTER_AMOUNT' && (
+        {this.props.step === WithdrawStepEnum.LOADING && (
+          <FlyoutChild>
+            <Loading {...this.props} />
+          </FlyoutChild>
+        )}
+        {this.props.step === WithdrawStepEnum.ENTER_AMOUNT && (
           <FlyoutChild>
             <EnterAmount {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
-        {this.props.step === 'WITHDRAWAL_METHODS' && (
+        {this.props.step === WithdrawStepEnum.WITHDRAWAL_METHODS && (
           <FlyoutChild>
             <WithdrawalMethods {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
-        {this.props.step === 'BANK_PICKER' && (
+        {this.props.step === WithdrawStepEnum.BANK_PICKER && (
           <FlyoutChild>
             <BankPicker {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
-        {this.props.step === 'CONFIRM_WITHDRAW' && (
+        {this.props.step === WithdrawStepEnum.CONFIRM_WITHDRAW && (
           <FlyoutChild>
             <ConfirmWithdraw {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
-        {this.props.step === 'WITHDRAWAL_DETAILS' && (
+        {this.props.step === WithdrawStepEnum.WITHDRAWAL_DETAILS && (
           <FlyoutChild>
             <WithdrawalDetails {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === WithdrawStepEnum.INELIGIBLE && (
+          <FlyoutChild>
+            <DataError message={{ message: BROKERAGE_INELIGIBLE }} />
           </FlyoutChild>
         )}
       </Flyout>
@@ -105,27 +118,30 @@ const enhance = compose(
 type OwnProps = ModalPropsType
 type LinkStatePropsType =
   | {
+      step: WithdrawStepEnum.LOADING | WithdrawStepEnum.INELIGIBLE
+    }
+  | {
       beneficiary?: BeneficiaryType
       fiatCurrency: WalletFiatType
-      step: 'ENTER_AMOUNT'
+      step: WithdrawStepEnum.ENTER_AMOUNT
     }
   | {
       fiatCurrency: WalletFiatType
-      step: 'BANK_PICKER'
+      step: WithdrawStepEnum.BANK_PICKER
     }
   | {
       amount: string
       beneficiary: BeneficiaryType
       fiatCurrency: WalletFiatType
-      step: 'CONFIRM_WITHDRAW'
+      step: WithdrawStepEnum.CONFIRM_WITHDRAW
     }
   | {
-      step: 'WITHDRAWAL_DETAILS'
+      step: WithdrawStepEnum.WITHDRAWAL_DETAILS
       withdrawal: WithdrawResponseType
     }
   | {
       fiatCurrency: WalletFiatType
-      step: 'WITHDRAWAL_METHODS'
+      step: WithdrawStepEnum.WITHDRAWAL_METHODS
     }
 // export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type Props = OwnProps &

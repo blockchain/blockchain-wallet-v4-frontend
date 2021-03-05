@@ -12,7 +12,11 @@ import {
 } from 'core/types'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { SBPaymentTypes } from 'core/network/api/settingsComponent/types'
-import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
+import {
+  UserDataType,
+  WithdrawCheckoutFormValuesType,
+  WithdrawStepEnum
+} from 'data/types'
 
 import { getData } from './selectors'
 import Failure from './template.failure'
@@ -51,13 +55,13 @@ class EnterAmount extends PureComponent<Props> {
 
     if (defaultMethod) {
       this.props.withdrawActions.setStep({
-        step: 'CONFIRM_WITHDRAW',
+        step: WithdrawStepEnum.CONFIRM_WITHDRAW,
         amount: this.props.formValues.amount,
         defaultMethod
       })
     } else if (defaultBeneficiary || this.props.beneficiary) {
       this.props.withdrawActions.setStep({
-        step: 'CONFIRM_WITHDRAW',
+        step: WithdrawStepEnum.CONFIRM_WITHDRAW,
         amount: this.props.formValues.amount,
         beneficiary
       })
@@ -85,7 +89,7 @@ class EnterAmount extends PureComponent<Props> {
     }
 
     this.props.withdrawActions.setStep({
-      step: 'BANK_PICKER',
+      step: WithdrawStepEnum.BANK_PICKER,
       fiatCurrency: this.props.fiatCurrency
     })
   }

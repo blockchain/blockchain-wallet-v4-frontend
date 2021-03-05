@@ -5,7 +5,8 @@ import styled from 'styled-components'
 import {
   AddBankStepType,
   BankDWStepType,
-  BrokerageModalOriginType
+  BrokerageModalOriginType,
+  WithdrawStepEnum
 } from 'data/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Icon, Image, Text } from 'blockchain-info-components'
@@ -138,7 +139,7 @@ const Success = ({
               })
               withdrawActions.setStep({
                 fiatCurrency,
-                step: 'ENTER_AMOUNT'
+                step: WithdrawStepEnum.ENTER_AMOUNT
               })
             }}
             text={getType(bankTransfer)}
