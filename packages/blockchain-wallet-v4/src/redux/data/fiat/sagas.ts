@@ -78,7 +78,6 @@ export default ({ api }: { api: APIType }) => {
           fromValue: reset ? undefined : nextSbTxTimestamp,
           limit: PAGE_SIZE
         })
-
         // fetch swap transactions
         const rawSwapTransactions = yield call(
           api.getUnifiedSwapTrades,

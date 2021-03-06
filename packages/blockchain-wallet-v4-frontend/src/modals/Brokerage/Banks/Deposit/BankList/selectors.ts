@@ -13,18 +13,25 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   const account = selectors.components.brokerage.getAccount(state)
   const beneficiariesR = selectors.custodial.getBeneficiaries(state)
 
+  const minAmountR = selectors.components.withdraw.getMinAmountForCurrency(
+    state,
+    ownProps.fiatCurrency
+  )
+
   return lift(
     (
       balances: ExtractSuccess<typeof balancesR>,
       bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
-      beneficiaries: ExtractSuccess<typeof beneficiariesR>
+      beneficiaries: ExtractSuccess<typeof beneficiariesR>,
+      minAmount: ExtractSuccess<typeof minAmountR>
     ) => ({
       balances,
       bankTransferAccounts,
       beneficiaries: beneficiaries.filter(
         value => value.currency === ownProps.fiatCurrency
       ),
+      minAmount,
       account
     })
-  )(balancesR, bankTransferAccountsR, beneficiariesR)
+  )(balancesR, bankTransferAccountsR, beneficiariesR, minAmountR)
 }
