@@ -254,6 +254,8 @@ export default ({
             dwStep: BankDWStepType.DEPOSIT_STATUS
           })
         )
+        // refresh the fiat list so the newest tx shows up right away
+        yield put(actions.core.data.fiat.fetchTransactions(currency, true))
       }
     } catch (e) {
       const error = errorHandler(e)

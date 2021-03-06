@@ -1,23 +1,10 @@
 import { FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
 import React from 'react'
-import styled, { css } from 'styled-components'
 
 import { BankTransferAccountType } from 'core/types'
 
 // TODO: move this somewhere more generic
 import { renderBank } from '../../../../SimpleBuy/EnterAmount/Checkout/Payment/model'
-
-const RightArrowIcon = styled(Icon)<{
-  disabled?: boolean
-}>`
-  transform: rotate(180deg);
-  ${props =>
-    props.disabled &&
-    css`
-      cursor: not-allowed;
-    `}
-`
 
 const getText = method => {
   if (!method) {
@@ -43,4 +30,4 @@ const getDefaultMethod = (
   }
 }
 
-export { getText, RightArrowIcon, getDefaultMethod }
+export { getText, getDefaultMethod }

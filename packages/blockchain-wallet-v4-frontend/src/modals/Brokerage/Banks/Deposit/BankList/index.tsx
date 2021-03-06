@@ -16,6 +16,7 @@ const BankList = (props: Props) => {
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
       props.brokerageActions.fetchBankTransferAccounts()
+      props.withdrawActions.fetchWithdrawalFees('ALL')
     }
     props.custodialActions.fetchCustodialBeneficiaries(props.fiatCurrency)
   }, [])
@@ -35,13 +36,14 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   custodialActions: bindActionCreators(actions.custodial, dispatch),
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+  withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
-  fiatCurrency?: WalletFiatType
+  fiatCurrency: WalletFiatType
   handleClose: () => void
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>

@@ -20,8 +20,8 @@ import { Form } from 'components/Form'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 
 import { Props as _P, LinkStatePropsType, SuccessStateType } from '.'
-import { DepositOrWithdrawal } from '../../model'
-import { getDefaultMethod, getText, RightArrowIcon } from './model'
+import { DepositOrWithdrawal, RightArrowIcon } from '../../model'
+import { getDefaultMethod, getText } from './model'
 // TODO: move this to somewhere more generic
 import {
   getIcon,
@@ -242,7 +242,7 @@ const Account = ({
   )
 }
 
-const NextButton = ({ invalid, pristine, submitting }) => {
+const NextButton = ({ invalid, pristine, submitting, defaultMethod }) => {
   return (
     <Button
       data-e2e='submitDepositAmount'
@@ -251,7 +251,7 @@ const NextButton = ({ invalid, pristine, submitting }) => {
       nature='primary'
       type='submit'
       fullwidth
-      disabled={invalid || pristine || submitting}
+      disabled={invalid || pristine || submitting || !defaultMethod}
     >
       {submitting ? (
         <HeartbeatLoader height='16px' width='16px' color='white' />

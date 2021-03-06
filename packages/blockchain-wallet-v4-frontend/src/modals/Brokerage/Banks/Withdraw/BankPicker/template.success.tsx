@@ -3,18 +3,12 @@ import { Icon, Image, Text } from 'blockchain-info-components'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
-import { ActiveToggle } from 'services/ActiveToggleService'
 import { AddNewButton } from 'components/Brokerage'
-import { Col, FlyoutWrapper, Title, Value } from 'components/Flyout'
-import {
-  Content,
-  DisplayContainer,
-  DisplayPaymentIcon
-} from 'components/SimpleBuy'
+import { Bank, BankWire } from '../../model'
+import { FlyoutWrapper } from 'components/Flyout'
 import { getBankLogoImageName } from 'services/ImagesService'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { WithdrawStepEnum } from 'data/types'
-import Bank from '../../Deposit/BankList/Accounts/Bank'
 
 const Top = styled.div`
   display: flex;
@@ -74,7 +68,9 @@ const Success: React.FC<Props> = props => {
       })}
       {props.beneficiaries.map(beneficiary => {
         return (
-          <DisplayContainer
+          <BankWire
+            beneficiary={beneficiary}
+            isActive={props.beneficiary?.id === beneficiary.id}
             onClick={() => {
               props.brokerageActions.setBankDetails({ account: undefined })
               props.withdrawActions.setStep({
@@ -83,21 +79,8 @@ const Success: React.FC<Props> = props => {
                 step: WithdrawStepEnum.ENTER_AMOUNT
               })
             }}
-          >
-            <Col>
-              <DisplayPaymentIcon showBackground>
-                <Icon name='bank-filled' color='blue600' size='16px' />
-              </DisplayPaymentIcon>
-            </Col>
-            <Col style={{ width: '100%' }}>
-              <Content>
-                <Value asTitle>{beneficiary.name}</Value>
-                <Title asValue>{beneficiary.agent.account}</Title>
-              </Content>
-            </Col>
-
-            <ActiveToggle isActive={props.beneficiary?.id === beneficiary.id} />
-          </DisplayContainer>
+            type={'WITHDRAWAL'}
+          />
         )
       })}
       <AddNewButton

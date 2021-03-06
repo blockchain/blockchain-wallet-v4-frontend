@@ -4,19 +4,24 @@ import styled from 'styled-components'
 
 import { AddNewButton } from 'components/Brokerage'
 import { BankDWStepType } from 'data/types'
-import { BankTransferAccountType, BeneficiaryType } from 'core/types'
+import {
+  BankTransferAccountType,
+  BeneficiaryType,
+  NabuMoneyFloatType
+} from 'core/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { getBankLogoImageName } from 'services/ImagesService'
 import { Icon, Image, Text } from 'blockchain-info-components'
 
 import { Props as _P } from '.'
 
-import Bank from './Accounts/Bank'
+import { Bank, BankWire } from '../../model'
 
 type OwnProps = {
   account: BankTransferAccountType | undefined
   bankTransferAccounts: BankTransferAccountType[]
   beneficiaries: BeneficiaryType[]
+  minAmount: NabuMoneyFloatType
 }
 type Props = _P & OwnProps
 
@@ -83,6 +88,18 @@ const BankList = (props: Props) => {
                 dwStep: BankDWStepType.ENTER_AMOUNT
               })
             }}
+          />
+        ))}
+        {props.beneficiaries.map(beneficiary => (
+          <BankWire
+            beneficiary={beneficiary}
+            minAmount={props.minAmount}
+            onClick={() => {
+              props.brokerageActions.setDWStep({
+                dwStep: BankDWStepType.WIRE_INSTRUCTIONS
+              })
+            }}
+            type={'DEPOSIT'}
           />
         ))}
         <AddNewButton
