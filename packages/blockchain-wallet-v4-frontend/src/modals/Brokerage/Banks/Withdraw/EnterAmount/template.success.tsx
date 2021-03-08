@@ -223,9 +223,9 @@ const Success: React.FC<InjectedFormProps<
       </Limits>
 
       <FlyoutWrapper>
-        <CoinContainer style={{ marginTop: '4px', height: '16px' }} />
+        <CoinContainer style={{ marginTop: '4px' }} />
         {showPendingTransactions && (
-          <CoinContainer style={{ marginTop: '4px', height: '16px' }}>
+          <CoinContainer style={{ marginTop: '4px' }}>
             <PendingText size='14px' color='grey900' weight={500}>
               <FormattedHTMLMessage
                 id='modals.withdraw.lock_description'
