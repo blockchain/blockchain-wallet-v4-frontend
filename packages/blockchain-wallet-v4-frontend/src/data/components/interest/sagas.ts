@@ -339,6 +339,7 @@ export default ({
         }
         yield put(A.setPaymentSuccess(payment.value()))
       }
+      yield put(actions.modals.closeModal('SIMPLE_BUY_MODAL'))
     }
     yield put(
       initialize(DEPOSIT_FORM, {
