@@ -352,6 +352,8 @@ type MessagesType = {
   'copy.error.locked_withdraw_error': 'Your crypto will be available to be withdrawn within {days} days.'
   'copy.failed': 'Failed'
   'copy.fee': 'Fee'
+  'copy.forms.amount_max': 'The maximum amount is {amount}'
+  'copy.forms.amount_min': 'The minimum amount is {amount}'
   'copy.free': 'FREE'
   'copy.from': 'From'
   'copy.from:': 'From: '

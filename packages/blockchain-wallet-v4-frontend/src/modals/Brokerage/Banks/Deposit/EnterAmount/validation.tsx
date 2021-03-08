@@ -1,3 +1,6 @@
+import { FormattedMessage } from 'react-intl'
+import React from 'react'
+
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType } from 'core/types'
@@ -10,9 +13,17 @@ export const maximumAmount = (value: string, allValues, restProps: Props) => {
     value: max,
     unit: allValues.currency || ('USD' as FiatType)
   })
-  return Number(value) > Number(max)
-    ? `Your Maximum Amount is ${formattedMax}`
-    : undefined
+  return Number(value) > Number(max) ? (
+    <FormattedMessage
+      id='copy.forms.amount_max'
+      defaultMessage='The maximum amount is {amount}'
+      values={{
+        amount: formattedMax
+      }}
+    />
+  ) : (
+    undefined
+  )
 }
 
 export const minimumAmount = (value: string, allValues, restProps: Props) => {
@@ -21,7 +32,15 @@ export const minimumAmount = (value: string, allValues, restProps: Props) => {
     value: min,
     unit: allValues.currency || ('USD' as FiatType)
   })
-  return Number(value) < Number(min)
-    ? `Your Minimum Amount is ${formattedMin}`
-    : undefined
+  return Number(value) < Number(min) ? (
+    <FormattedMessage
+      id='copy.forms.amount_min'
+      defaultMessage='The minimum amount is {amount}'
+      values={{
+        amount: formattedMin
+      }}
+    />
+  ) : (
+    undefined
+  )
 }
