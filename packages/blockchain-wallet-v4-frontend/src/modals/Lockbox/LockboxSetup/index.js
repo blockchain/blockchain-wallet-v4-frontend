@@ -19,7 +19,7 @@ import SetupTypeStep from './SetupTypeStep'
 import SoftwareDownloadStep from './SoftwareDownloadStep'
 
 class LockboxSetupContainer extends React.PureComponent {
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     this.props.lockboxActions.resetNewDeviceSetup()
   }
 
