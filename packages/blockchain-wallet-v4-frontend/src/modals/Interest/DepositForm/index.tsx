@@ -3,20 +3,19 @@ import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
-import { CoinType, FiatType } from 'core/types'
+import { CoinType, ExtractSuccess, FiatType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
 
 import { getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
-
 class DepositForm extends PureComponent<Props> {
   componentDidMount () {
     this.handleInitializeDepositForm()
   }
 
-  handleDisplayToggle = isCoin => {
+  handleDisplayToggle = (isCoin: boolean) => {
     const { data, formActions, interestActions } = this.props
     const { displayCoin } = data.getOrElse({
       displayCoin: false
@@ -56,8 +55,8 @@ class DepositForm extends PureComponent<Props> {
     return data.cata({
       Success: val => (
         <Success
-          {...val}
           {...this.props}
+          {...val}
           onSubmit={this.handleSubmit}
           handleDisplayToggle={this.handleDisplayToggle}
         />
@@ -86,11 +85,12 @@ export type LinkDispatchPropsType = {
   formActions: typeof actions.form
   interestActions: typeof actions.components.interest
 }
-export type SuccessStateType = ReturnType<typeof getData>['data']
+
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 
 export type OwnProps = {
   coin: CoinType
 }
-type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(DepositForm)

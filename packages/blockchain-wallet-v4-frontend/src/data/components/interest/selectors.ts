@@ -60,3 +60,9 @@ export const getWalletCurrency = (
 
 export const getWithdrawalMinimums = (state: RootState) =>
   state.components.interest.withdrawalMinimums
+
+export const getAfterTransaction = (state: RootState) =>
+  state.components.interest.afterTransaction
+
+export const getIsFromBuySell = (state: RootState) =>
+  state.components.interest.isFromBuySell

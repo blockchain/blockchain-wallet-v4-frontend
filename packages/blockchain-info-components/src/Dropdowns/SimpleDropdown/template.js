@@ -73,6 +73,10 @@ const DropdownItem = styled.li`
   text-align: left;
   text-size-adjust: 100%;
   white-space: nowrap;
+
+  &:hover {
+    color: ${props => props.theme.blue600};
+  }
 `
 
 const Dropdown = props => {
@@ -84,7 +88,8 @@ const Dropdown = props => {
     selectedItem,
     items,
     handleClick,
-    handleCallback
+    handleCallback,
+    size
   } = props
 
   return (
@@ -98,7 +103,7 @@ const Dropdown = props => {
           )
         })}
       </DropdownList>
-      <ButtonContainer color={color} onClick={handleClick}>
+      <ButtonContainer size={size} color={color} onClick={handleClick}>
         <Button>{selectedItem.text}</Button>
         <DropdownIcon name='chevron-down-large' size='12px' />
       </ButtonContainer>

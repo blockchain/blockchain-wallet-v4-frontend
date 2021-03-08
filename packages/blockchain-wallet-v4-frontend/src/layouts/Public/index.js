@@ -52,9 +52,8 @@ const ContentContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0 32px;
   z-index: 1;
-  max-width: 100%;
+  width: 100%;
   ${media.mobile`
     padding: 0 15px;
   `}

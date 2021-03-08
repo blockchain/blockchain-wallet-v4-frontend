@@ -1,4 +1,5 @@
 import {
+  BankTransferAccountType,
   BeneficiaryType,
   RemoteDataType,
   WalletFiatType,
@@ -15,30 +16,40 @@ export type WithdrawCheckoutFormValuesType = {
 }
 
 export enum WithdrawStepEnum {
-  'ENTER_AMOUNT',
-  'BANK_PICKER',
-  'CONFIRM_WITHDRAW',
-  'WITHDRAWAL_DETAILS'
+  BANK_PICKER = 'BANK_PICKER',
+  CONFIRM_WITHDRAW = 'CONFIRM_WITHDRAW',
+  ENTER_AMOUNT = 'ENTER_AMOUNT',
+  INELIGIBLE = 'INELIGIBLE',
+  LOADING = 'LOADING',
+  WITHDRAWAL_DETAILS = 'WITHDRAWAL_DETAILS',
+  WITHDRAWAL_METHODS = 'WITHDRAWAL_METHODS'
 }
 
 export type WithdrawStepActionsPayload =
+  | { step: WithdrawStepEnum.LOADING | WithdrawStepEnum.INELIGIBLE }
   | {
       beneficiary?: BeneficiaryType
       fiatCurrency: WalletFiatType
-      step: 'ENTER_AMOUNT'
+      step: WithdrawStepEnum.ENTER_AMOUNT
+      transferAccount?: BankTransferAccountType
     }
   | {
       fiatCurrency: WalletFiatType
-      step: 'BANK_PICKER'
+      step: WithdrawStepEnum.BANK_PICKER
     }
   | {
       amount: string
-      beneficiary: BeneficiaryType
-      step: 'CONFIRM_WITHDRAW'
+      beneficiary?: BeneficiaryType
+      defaultMethod?: BankTransferAccountType
+      step: WithdrawStepEnum.CONFIRM_WITHDRAW
     }
   | {
-      step: 'WITHDRAWAL_DETAILS'
+      step: WithdrawStepEnum.WITHDRAWAL_DETAILS
       withdrawal: WithdrawResponseType
+    }
+  | {
+      fiatCurrency: WalletFiatType
+      step: WithdrawStepEnum.WITHDRAWAL_METHODS
     }
 
 // state
@@ -47,7 +58,7 @@ export type WithdrawState = {
   beneficiary?: BeneficiaryType
   feesAndMinAmount: RemoteDataType<string, WithdrawalMinsAndFeesResponse>
   fiatCurrency: WalletFiatType
-  step: keyof typeof WithdrawStepEnum
+  step: WithdrawStepEnum
   withdrawLocks: RemoteDataType<string, WithdrawalLockResponseType>
   withdrawal?: WithdrawResponseType
 }

@@ -79,20 +79,15 @@ export const scriptToAddress = (script, network) => {
 }
 
 export const detectPrivateKeyFormat = key => {
-  let isTestnet = false
-  // 51 characters base58, always starts with 5 (or 9, for testnet)
-  const sipaRegex = isTestnet
-    ? /^[9][1-9A-HJ-Za-km-z]{50}$/
-    : /^[5][1-9A-HJ-Za-km-z]{50}$/
+  // 51 characters base58, always starts with 5
+  const sipaRegex = /^[5][1-9A-HJ-Za-km-z]{50}$/
 
   if (sipaRegex.test(key)) {
     return 'sipa'
   }
 
-  // 52 character compressed starts with L or K (or c, for testnet)
-  const compsipaRegex = isTestnet
-    ? /^[c][1-9A-HJ-Za-km-z]{51}$/
-    : /^[LK][1-9A-HJ-Za-km-z]{51}$/
+  // 52 character compressed starts with L or K
+  const compsipaRegex = /^[LK][1-9A-HJ-Za-km-z]{51}$/
 
   if (compsipaRegex.test(key)) {
     return 'compsipa'

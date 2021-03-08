@@ -1,5 +1,5 @@
-import { call, CallEffect, put, select } from 'redux-saga/effects'
-import { isNil } from 'ramda'
+import { call, CallEffect, put, select, take } from 'redux-saga/effects'
+import { head, isNil, nth } from 'ramda'
 
 import {
   AccountTypes,
@@ -10,9 +10,11 @@ import {
   RatesType,
   SBBalancesType
 } from 'core/types'
+import { actions, actionTypes, selectors } from 'data'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { Exchange } from 'blockchain-wallet-v4/src'
+import { NO_DEFAULT_ACCOUNT } from 'blockchain-wallet-v4/src/model'
 import { promptForSecondPassword } from 'services/sagas'
-import { selectors } from 'data'
 import coinSagas from 'data/coins/sagas'
 
 import * as A from './actions'
@@ -131,9 +133,65 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     return payment
   }
 
+  const toCustodialDropdown = currencyDetails => {
+    // this object has to be equal to object we do expect in dropdown
+    const { coin, ...restDetails } = currencyDetails
+    return [
+      {
+        ...restDetails,
+        address: currencyDetails.address,
+        type: ADDRESS_TYPES.CUSTODIAL,
+        label: `${coin} Trading Wallet`
+      }
+    ]
+  }
+
+  const getCustodialAccountForCoin = function * (coin: CoinType) {
+    let defaultAccountR
+
+    yield put(actions.components.send.fetchPaymentsTradingAccount(coin))
+    yield take([
+      actionTypes.components.send.FETCH_PAYMENTS_TRADING_ACCOUNTS_SUCCESS,
+      actionTypes.components.send.FETCH_PAYMENTS_TRADING_ACCOUNTS_FAILURE
+    ])
+
+    const accountAddress = selectors.components.send.getPaymentsTradingAccountAddress(
+      coin,
+      yield select()
+    )
+    const state = yield select()
+
+    const sellAndBuyAccount = selectors.components.simpleBuy
+      .getSBBalances(state)
+      .map(x => ({
+        ...x[coin],
+        coin,
+        address: accountAddress ? accountAddress.data : null
+      }))
+      .map(toCustodialDropdown)
+
+    if (coin === 'ALGO' || coin === 'WDGLD') {
+      throw new Error('Invalid Coin Type')
+    }
+
+    if (coin === 'BCH' || coin === 'BTC') {
+      const sellAndBuyAccountDefaultIndex = yield select(
+        selectors.core.wallet.getDefaultAccountIndex
+      )
+      defaultAccountR = sellAndBuyAccount.map(
+        nth(sellAndBuyAccountDefaultIndex)
+      )
+    } else {
+      defaultAccountR = sellAndBuyAccount.map(head)
+    }
+
+    return defaultAccountR.getOrFail(NO_DEFAULT_ACCOUNT)
+  }
+
   return {
     buildAndPublishPayment,
     createLimits,
-    createPayment
+    createPayment,
+    getCustodialAccountForCoin
   }
 }

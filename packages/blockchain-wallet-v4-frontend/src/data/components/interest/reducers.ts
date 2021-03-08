@@ -8,6 +8,7 @@ import { InterestActionTypes, InterestState } from './types'
 const INITIAL_STATE: InterestState = {
   account: Remote.NotAsked,
   accountBalance: Remote.NotAsked,
+  afterTransaction: Remote.NotAsked,
   coin: 'BTC',
   depositLimits: {
     maxFiat: 0,
@@ -20,6 +21,7 @@ const INITIAL_STATE: InterestState = {
   interestLimits: Remote.NotAsked,
   interestRate: Remote.NotAsked,
   isCoinDisplayed: false,
+  isFromBuySell: false,
   payment: Remote.NotAsked,
   step: {
     data: {},
@@ -222,9 +224,29 @@ export function interestReducer (
     case AT.SHOW_INTEREST_MODAL:
       return {
         ...state,
-        coin: payload.coin
+        coin: payload.coin,
+        isFromBuySell: payload.isFromBuySell
       }
-
+    case AT.FETCH_AFTER_TRANSACTION_FAILURE:
+      return {
+        ...state,
+        afterTransaction: Remote.Failure(payload.error)
+      }
+    case AT.FETCH_AFTER_TRANSACTION_LOADING:
+      return {
+        ...state,
+        afterTransaction: Remote.Loading
+      }
+    case AT.FETCH_AFTER_TRANSACTION_SUCCESS:
+      return {
+        ...state,
+        afterTransaction: Remote.Success(payload.afterTransaction)
+      }
+    case AT.RESET_AFTER_TRANSACTION:
+      return {
+        ...state,
+        afterTransaction: Remote.NotAsked
+      }
     default:
       return state
   }

@@ -29,6 +29,12 @@ class BtcWalletsContainer extends React.Component<Props> {
     this.props.coreActions.setAccountArchived(i, false)
   }
 
+  onClickImport = () => {
+    this.props.modalActions.showModal('ImportBtcAddress', {
+      origin: 'SettingsPage'
+    })
+  }
+
   render () {
     const { search, data, walletsWithoutRemoteData, ...rest } = this.props
 
@@ -38,6 +44,7 @@ class BtcWalletsContainer extends React.Component<Props> {
           wallets={value}
           search={search && search.toLowerCase()}
           onUnarchive={this.onUnarchive}
+          onClickImport={this.onClickImport}
           onAddNewWallet={() => {
             this.onAddNewWallet(value)
           }}
@@ -51,6 +58,7 @@ class BtcWalletsContainer extends React.Component<Props> {
           wallets={walletsWithoutRemoteData}
           search={search && search.toLowerCase()}
           onUnarchive={this.onUnarchive}
+          onClickImport={this.onClickImport}
           onAddNewWallet={() => {
             this.onAddNewWallet(walletsWithoutRemoteData)
           }}

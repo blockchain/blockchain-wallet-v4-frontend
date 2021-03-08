@@ -19,8 +19,6 @@ import { getData } from './selectors'
 import { TopText } from '../components'
 
 class CoinSelection extends PureComponent<Props> {
-  state = {}
-
   componentDidMount () {
     this.props.swapActions.fetchPairs()
     this.props.swapActions.fetchCustodialEligibility()

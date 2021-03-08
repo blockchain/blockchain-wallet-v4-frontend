@@ -10,11 +10,13 @@ const runBundleAnalyzer = process.env.ANALYZE
 
 let extraPluginsList = [
   new CopyWebpackPlugin({
-    patterns: [{
-      force: true,
-      from: CONFIG_PATH.legacyPages,
-      to: CONFIG_PATH.ciBuild + '/legacy-pages'
-    }]
+    patterns: [
+      {
+        force: true,
+        from: CONFIG_PATH.legacyPages,
+        to: CONFIG_PATH.ciBuild + '/legacy-pages'
+      }
+    ]
   })
 ]
 if (runBundleAnalyzer) {

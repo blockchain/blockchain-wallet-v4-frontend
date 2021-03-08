@@ -69,7 +69,7 @@ const PaymentCard: React.FC<Props> = ({ value, onClick, icon, text }) => (
       <CartridgeContainer>
         <SuccessCartridge>
           <FormattedMessage
-            id='modals.simplebuy.most_popular'
+            id='copy.most_popular'
             defaultMessage='Most Popular'
           />
         </SuccessCartridge>

@@ -79,6 +79,7 @@ export default ({ coreSagas }) => {
     const { password } = action.payload
     yield put(actions.core.wallet.setMainPassword(password))
     yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
+    yield call(coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials)
   }
 
   return {

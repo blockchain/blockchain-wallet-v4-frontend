@@ -14,6 +14,8 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import { RootState } from 'data/rootReducer'
+
 import { CheckBox, CoinBalanceDropdown, NumberBox } from 'components/Form'
 import { Exchange } from 'core'
 import {
@@ -39,6 +41,7 @@ import {
   CustomFormLabel,
   ErrorText,
   FiatMaxContainer,
+  FORM_NAME,
   GreyBlueCartridge,
   InfoText,
   InterestTermContainer,
@@ -58,11 +61,10 @@ import {
   calcCompoundInterest,
   maxFiat
 } from '../conversions'
+
 import { maxDepositAmount, minDepositAmount } from './validation'
 import { OwnProps as ParentOwnProps, SuccessStateType } from '.'
 import TabMenuTimeFrame from './TabMenuTimeFrame'
-
-const FORM_NAME = 'interestDepositForm'
 
 const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
@@ -87,10 +89,44 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     values
   } = props
   const { coinTicker, displayName } = supportedCoins[coin]
+
+  if (submitting) {
+    return (
+      <SendingWrapper>
+        <SpinningLoader />
+        <Text
+          weight={600}
+          color='grey800'
+          size='20px'
+          style={{ marginTop: '24px' }}
+        >
+          <FormattedMessage
+            id='modals.interest.deposit.sendingtitle'
+            defaultMessage='In Progress...'
+          />
+        </Text>
+        <Text
+          weight={600}
+          color='grey600'
+          size='16px'
+          style={{ marginTop: '24px' }}
+        >
+          <FormattedMessage
+            id='modals.interest.deposit.sendingsubtitle'
+            defaultMessage='Sending {displayName} to your Interest Account'
+            values={{ displayName }}
+          />
+        </Text>
+      </SendingWrapper>
+    )
+  }
+
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const depositAmount = (values && values.depositAmount) || '0'
   const isCustodial =
-    values && values.interestDepositAccount.type === 'CUSTODIAL'
+    values &&
+    values?.interestDepositAccount &&
+    values.interestDepositAccount.type === 'CUSTODIAL'
 
   const depositAmountFiat = amountToFiat(
     displayCoin,
@@ -108,7 +144,9 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   )
 
   const loanTimeFrame = values && values.loanTimeFrame
-  const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
+
+  const lockUpDuration = interestLimits[coin]?.lockUpDuration || 7200
+  const lockupPeriod = lockUpDuration / 86400
   const maxDepositFiat = maxFiat(depositLimits.maxFiat, walletCurrency)
 
   const depositAmountError =
@@ -123,34 +161,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     // @ts-ignore
     !payment.isSufficientEthForErc20
 
-  return submitting ? (
-    <SendingWrapper>
-      <SpinningLoader />
-      <Text
-        weight={600}
-        color='grey800'
-        size='20px'
-        style={{ marginTop: '24px' }}
-      >
-        <FormattedMessage
-          id='modals.interest.deposit.sendingtitle'
-          defaultMessage='In Progress...'
-        />
-      </Text>
-      <Text
-        weight={600}
-        color='grey600'
-        size='16px'
-        style={{ marginTop: '24px' }}
-      >
-        <FormattedMessage
-          id='modals.interest.deposit.sendingsubtitle'
-          defaultMessage='Sending {displayName} to your Interest Account'
-          values={{ displayName }}
-        />
-      </Text>
-    </SendingWrapper>
-  ) : (
+  return (
     <CustomForm onSubmit={handleSubmit}>
       <Top>
         <TopText color='grey800' size='20px' weight={600}>
@@ -272,6 +283,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </ToggleCoinText>
           </ToggleCoinFiat>
         </CustomFormLabel>
+
         <AmountFieldContainer>
           <CustomField
             coin={coin}
@@ -620,7 +632,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   )
 }
 
-const mapStateToProps = (state): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   values: selectors.form.getFormValues(FORM_NAME)(
     state
   ) as InterestDepositFormType

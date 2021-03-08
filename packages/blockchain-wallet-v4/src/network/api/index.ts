@@ -16,6 +16,7 @@ import misc from './misc'
 import profile from './profile'
 import rates from './rates'
 import settings from './settings'
+import settingsComponent from './settingsComponent'
 import simpleBuy from './simpleBuy'
 import swap from './swap'
 import trades from './trades'
@@ -80,6 +81,11 @@ const api = ({
       ...http
     }),
     ...settings({ rootUrl, ...http }),
+    ...settingsComponent({
+      nabuUrl,
+      authorizedGet: authorizedHttp.get,
+      ...http
+    }),
     ...simpleBuy({
       everypayUrl,
       nabuUrl,

@@ -12,6 +12,7 @@ import appleAppStoreBadge from './img/apple-app-store-badge.svg'
 import bank from './img/bank.svg'
 import bankError from './img/bank-error.svg'
 import bankSuccess from './img/bank-success.svg'
+import bgBannerPattern from './img/bg-banner-pattern.svg'
 import bgPattern from './img/bg-pattern.svg'
 import bitpayLogo from './img/bitpay-logo.svg'
 import blankCard from './img/blank-card.svg'
@@ -25,6 +26,7 @@ import buySellLearnMore2 from './img/buy-sell-learn-more@2x.png'
 import buyWallet from './img/buy-wallet.svg'
 import chartPlaceholder from './img/chart-placeholder1.png'
 import checkmarkGreen from './img/checkmark-green.svg'
+import circleEmpty from './img/circle-empty.svg'
 import closeError from './img/close-error.svg'
 import coinPax from './img/coin-pax.svg'
 import coins from './img/coins.png'
@@ -80,6 +82,7 @@ import swapCarousel4 from './img/swap-carousel4.png'
 import swapCarousel5 from './img/swap-carousel5.png'
 import swapModalBg from './img/swap-modal-bg.svg'
 import tierGold from './img/tier-gold.svg'
+import tierSilver from './img/tier-silver.svg'
 import twitterWhite from './img/twitter-white.svg'
 import usddIntro from './img/usdd-intro.svg'
 import visaLogo from './img/visa-logo.svg'
@@ -168,6 +171,7 @@ const Images = {
   'bank-success': bankSuccess,
   'bank-logo-bbt': bankLogoBbt,
   'bg-pattern': bgPattern,
+  'bg-banner-pattern': bgBannerPattern,
   'bitpay-logo': bitpayLogo,
   'blank-card': blankCard,
   'blockchain-logo': blockchainLogo,
@@ -182,6 +186,7 @@ const Images = {
   'chart-placeholder': chartPlaceholder,
   'bank-logo-chase': bankLogoChase,
   'checkmark-green': checkmarkGreen,
+  'circle-empty': circleEmpty,
   'bank-logo-citi-bank': bankLogoCitiBank,
   'bank-logo-citizens': bankLogoCitizens,
   coins: coins,
@@ -274,6 +279,7 @@ const Images = {
   'bank-logo-td': bankLogoTd,
   'twitter-white': twitterWhite,
   'tier-gold': tierGold,
+  'tier-silver': tierSilver,
   'bank-logo-usaa': bankLogoUsaa,
   'bank-logo-us-bank': bankLogoUsBank,
   'us-flag': usFlag,

@@ -25,8 +25,8 @@ class LinkedBanks extends PureComponent<Props> {
       BrokerageModalOriginType.ADD_BANK,
       'ADD_BANK_MODAL'
     )
-    this.props.brokerageActions.setStep({
-      step: AddBankStepType.ADD_BANK
+    this.props.brokerageActions.setAddBankStep({
+      addBankStep: AddBankStepType.ADD_BANK
     })
   }
 

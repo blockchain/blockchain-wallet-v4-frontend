@@ -1,3 +1,12 @@
+import { bindActionCreators, Dispatch } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
+import { Field } from 'redux-form'
+import { flatten } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import BigNumber from 'bignumber.js'
+import React, { Component } from 'react'
+import styled from 'styled-components'
+
 import { actions } from 'data'
 import {
   AddressTypesType,
@@ -9,23 +18,16 @@ import {
   SupportedCoinType,
   WalletFiatType
 } from 'core/types'
-import { bindActionCreators, Dispatch } from 'redux'
 import { coinToString, fiatToString } from 'core/exchange/currency'
-import { connect, ConnectedProps } from 'react-redux'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { Field } from 'redux-form'
-import { flatten } from 'ramda'
-import { FormattedMessage } from 'react-intl'
-import { getData } from './selectors'
 import { Icon, Text } from 'blockchain-info-components'
 import { ModalNamesType } from 'data/types'
-import BigNumber from 'bignumber.js'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import Loading from './template.loading'
-import React, { Component } from 'react'
 import SelectBox from 'components/Form/SelectBox'
-import styled from 'styled-components'
+
+import { getData } from './selectors'
+import Loading from './template.loading'
 import UserPortfolioPositionChange from './UserPortfolioPositionChange'
 
 const Wrapper = styled.div`
@@ -45,7 +47,7 @@ const DisplayContainer = styled.div<{ coinType: any; isItem?: boolean }>`
   > span {
     color: ${props => props.theme[props.coinType.colorCode]} !important;
   }
-  background-color: none;
+  background-color: transparent;
 `
 const AccountContainer = styled.div<{ isItem?: boolean }>`
   position: relative;
@@ -117,7 +119,7 @@ const CoinSelect = styled(SelectBox)`
   }
 `
 
-export class WalletBalanceDropdown extends Component<Props> {
+class WalletBalanceDropdown extends Component<Props> {
   state = {}
 
   isBtcTypeCoin = () => {

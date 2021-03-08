@@ -9,8 +9,13 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import { CoinAccountListBalance } from 'components/Form'
 import { CoinType } from 'core/types'
 import { FlyoutWrapper } from 'components/Flyout'
-import { InitSwapFormValuesType } from 'data/components/swap/types'
+import {
+  InitSwapFormValuesType,
+  SwapAccountType,
+  SwapCoinType
+} from 'data/components/swap/types'
 import { selectors } from 'data'
+import checkAccountZeroBalance from 'services/CheckAccountZeroBalance'
 
 import {
   BalanceRow,
@@ -49,6 +54,25 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 
   getCustodialWallet = (accounts, coin: CoinType) => {
     return accounts[coin].filter(account => account.type === 'CUSTODIAL')[0]
+  }
+
+  handleStepCoinSelection = (
+    accounts: { [key in SwapCoinType]: Array<SwapAccountType> }
+  ) => {
+    const isAccountZeroBalance = checkAccountZeroBalance(accounts)
+
+    if (isAccountZeroBalance) {
+      this.props.swapActions.setStep({
+        step: 'NO_HOLDINGS'
+      })
+    } else {
+      this.props.swapActions.setStep({
+        step: 'COIN_SELECTION',
+        options: {
+          side: 'BASE'
+        }
+      })
+    }
   }
 
   render () {
@@ -98,14 +122,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               <Option
                 role='button'
                 data-e2e='selectFromAcct'
-                onClick={() =>
-                  this.props.swapActions.setStep({
-                    step: 'COIN_SELECTION',
-                    options: {
-                      side: 'BASE'
-                    }
-                  })
-                }
+                onClick={() => this.handleStepCoinSelection(accounts)}
               >
                 {values?.BASE ? (
                   <>

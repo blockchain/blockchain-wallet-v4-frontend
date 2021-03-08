@@ -93,6 +93,7 @@ const ConfirmDisable2FA = React.lazy(() =>
 )
 const RecoveryPhrase = React.lazy(() => import('./Settings/RecoveryPhrase'))
 const SecondPassword = React.lazy(() => import('./Settings/SecondPassword'))
+const TradingLimits = React.lazy(() => import('./Settings/TradingLimits'))
 const TwoStepGoogleAuthenticator = React.lazy(() =>
   import('./Settings/TwoStepGoogleAuthenticator')
 )
@@ -119,12 +120,13 @@ const QRCode = React.lazy(() => import('./QRCode'))
 const SignMessage = React.lazy(() => import('./SignMessage'))
 const SimpleBuy = React.lazy(() => import('./SimpleBuy'))
 const Swap = React.lazy(() => import('./Swap'))
-const Withdraw = React.lazy(() => import('./Withdraw'))
 
 // BROKERAGE
 const BankDetails = React.lazy(() => import('./Brokerage/Banks/BankDetails'))
 const RemoveBank = React.lazy(() => import('./Brokerage/Banks/RemoveBank'))
 const AddBank = React.lazy(() => import('./Brokerage/Banks/AddBank'))
+const Deposit = React.lazy(() => import('./Brokerage/Banks/Deposit'))
+const Withdraw = React.lazy(() => import('./Brokerage/Banks/Withdraw'))
 
 const Modals = () => (
   <Suspense fallback={null}>
@@ -141,6 +143,7 @@ const Modals = () => (
       <Confirm />
       <ConfirmDisable2FA />
       <DeleteAddressLabel />
+      <Deposit />
       <DownloadTransactions />
       <EditTxDescription />
       <IdentityVerification />
@@ -177,6 +180,7 @@ const Modals = () => (
       <Swap />
       <SwapGetStarted />
       <TransferEth />
+      <TradingLimits />
       <TwoStepGoogleAuthenticator />
       <TwoStepSetup />
       <TwoStepYubico />

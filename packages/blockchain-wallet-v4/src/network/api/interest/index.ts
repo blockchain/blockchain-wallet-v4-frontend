@@ -3,6 +3,7 @@ import {
   CustodialTransferResponseType,
   InterestAccountBalanceType,
   InterestAccountType,
+  InterestAfterTransactionType,
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
@@ -13,6 +14,7 @@ import {
 } from './types'
 
 export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
+  // TODO - consider removing parameters since we never pass anything here
   const getInterestAccountBalance = (
     ccy?: CoinType,
     din?: FiatType
@@ -117,8 +119,15 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
       }
     })
 
+  const getInterestCtaAfterTransaction = (): InterestAfterTransactionType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/savings/cta/after-transaction'
+    })
+
   return {
     getInterestAccountBalance,
+    getInterestCtaAfterTransaction,
     getInterestEligible,
     getInterestInstruments,
     getInterestLimits,

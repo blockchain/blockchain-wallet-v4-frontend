@@ -654,7 +654,11 @@ export default ({
         verified: false
       })
 
-      if (!isSddVerified.verified) {
+      const userIdR = yield select(
+        selectors.core.kvStore.userCredentials.getUserId
+      )
+      const userId = userIdR.getOrElse(null)
+      if (!isSddVerified.verified && userId) {
         yield put(A.fetchSDDVerifiedLoading())
         const sddEligible = yield call(api.fetchSDDVerified)
         yield put(A.fetchSDDVerifiedSuccess(sddEligible))
@@ -997,8 +1001,8 @@ export default ({
           )
         )
         return yield put(
-          actions.components.brokerage.setStep({
-            step: AddBankStepType.ADD_BANK
+          actions.components.brokerage.setAddBankStep({
+            addBankStep: AddBankStepType.ADD_BANK
           })
         )
 
