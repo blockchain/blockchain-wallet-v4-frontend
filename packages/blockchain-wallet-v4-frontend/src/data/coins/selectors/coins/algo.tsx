@@ -1,12 +1,11 @@
-import { FormattedMessage } from 'react-intl'
-import { lift } from 'ramda'
 import React from 'react'
-
-import { createDeepEqualSelector } from 'services/misc'
+import { FormattedMessage } from 'react-intl'
+import { SBBalanceType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
-import { generateCustodyAccount } from 'data/coins/utils'
-import { SBBalanceType } from 'core/network/api/simpleBuy/types'
+import { lift } from 'ramda'
 
+import { generateCustodyAccount } from 'data/coins/utils'
+import { createDeepEqualSelector } from 'services/misc'
 import { getCustodialBalance } from '../'
 
 // retrieves introduction text for coin on its transaction page
@@ -33,7 +32,9 @@ export const getAccounts = createDeepEqualSelector(
       // add custodial accounts if requested
       if (ownProps?.custodialAccounts) {
         // @ts-ignore
-        accounts = accounts.concat(generateCustodyAccount(coin, sbBalance as SBBalanceType))
+        accounts = accounts.concat(
+          generateCustodyAccount(coin, sbBalance as SBBalanceType)
+        )
       }
 
       return accounts

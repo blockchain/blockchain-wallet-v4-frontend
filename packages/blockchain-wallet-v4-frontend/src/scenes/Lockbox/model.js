@@ -1,6 +1,6 @@
-import { Button, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Button, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
 const TooltipBody = styled.div`
@@ -37,14 +37,14 @@ const StepTitle = styled(Text)`
   margin-bottom: 16px;
 `
 export const TourTooltip = ({
+  backProps,
+  closeProps,
   continuous,
   index,
   isLastStep,
-  step,
-  backProps,
-  closeProps,
   primaryProps,
   skipProps,
+  step,
   tooltipProps
 }) => {
   return (

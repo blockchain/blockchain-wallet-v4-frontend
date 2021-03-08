@@ -1,5 +1,6 @@
-import * as wCrypto from './'
 import { repeat } from 'ramda'
+
+import * as wCrypto from './'
 import data from './wallet-data.json'
 
 describe('WalletCrypto', () => {

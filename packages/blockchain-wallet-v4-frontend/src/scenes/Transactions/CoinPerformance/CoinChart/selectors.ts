@@ -1,7 +1,7 @@
-import { createDeepEqualSelector } from 'services/misc'
 import { lift, map } from 'ramda'
-import { selectors } from 'data'
 
+import { selectors } from 'data'
+import { createDeepEqualSelector } from 'services/misc'
 import { OwnProps } from '.'
 
 export const getData = createDeepEqualSelector(

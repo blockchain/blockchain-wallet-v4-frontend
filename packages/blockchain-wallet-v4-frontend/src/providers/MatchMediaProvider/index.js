@@ -1,9 +1,10 @@
-import 'matchmedia-polyfill'
-import 'matchmedia-polyfill/matchMedia.addListener'
-import { assoc, forEachObjIndexed, map } from 'ramda'
 import React from 'react'
+import { assoc, forEachObjIndexed, map } from 'ramda'
 
 import { sizes } from 'services/styles'
+
+import 'matchmedia-polyfill'
+import 'matchmedia-polyfill/matchMedia.addListener'
 
 const mediaMatchers = map(
   size => window.matchMedia(`(max-width: ${size}px)`),

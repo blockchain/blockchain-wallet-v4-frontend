@@ -1,7 +1,8 @@
+import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+
 import { getData } from './selectors'
 import BalancesTable from './template'
-import React from 'react'
 
 class BalancesTableContainer extends React.PureComponent<Props> {
   render () {

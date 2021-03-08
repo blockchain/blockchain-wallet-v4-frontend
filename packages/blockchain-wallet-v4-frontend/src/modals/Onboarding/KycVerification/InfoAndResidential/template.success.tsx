@@ -1,17 +1,5 @@
-import { defaultTo, map, replace } from 'ramda'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
-import styled from 'styled-components'
-
-import {
-  ageOverEighteen,
-  countryUsesPostalcode,
-  countryUsesZipcode,
-  required,
-  requiredDOB,
-  requiredZipCode
-} from 'services/forms'
+import { FormattedMessage } from 'react-intl'
 import {
   BlockchainLoader,
   Button,
@@ -19,7 +7,11 @@ import {
   Icon,
   Text
 } from 'blockchain-info-components'
-import { CountryType } from 'data/components/identityVerification/types'
+import { defaultTo, map, replace } from 'ramda'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
+import { FlyoutWrapper } from 'components/Flyout'
 import {
   DateInputBox,
   Form,
@@ -30,10 +22,17 @@ import {
   SelectBoxUSState,
   TextBox
 } from 'components/Form'
-import { FlyoutWrapper } from 'components/Flyout'
-import { getStateNameFromAbbreviation } from 'services/locales'
 import { model } from 'data'
-
+import { CountryType } from 'data/components/identityVerification/types'
+import {
+  ageOverEighteen,
+  countryUsesPostalcode,
+  countryUsesZipcode,
+  required,
+  requiredDOB,
+  requiredZipCode
+} from 'services/forms'
+import { getStateNameFromAbbreviation } from 'services/locales'
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const { INFO_AND_RESIDENTIAL_FORM } = model.components.identityVerification

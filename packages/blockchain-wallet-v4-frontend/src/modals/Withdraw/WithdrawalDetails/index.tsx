@@ -1,11 +1,13 @@
-import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import React, { PureComponent } from 'react'
-import styled from 'styled-components'
-
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { fiatToString } from 'core/exchange/currency'
 import { FormattedMessage } from 'react-intl'
-import { WalletFiatType, WithdrawResponseType } from 'core/types'
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import {
+  WalletFiatType,
+  WithdrawResponseType
+} from 'blockchain-wallet-v4/src/types'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   height: 100%;

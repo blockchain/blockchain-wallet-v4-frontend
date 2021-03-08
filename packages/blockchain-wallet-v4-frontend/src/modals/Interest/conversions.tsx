@@ -1,4 +1,4 @@
-import { Exchange } from 'core'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import {
   fiatToString,
   formatFiat

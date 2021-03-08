@@ -1,6 +1,6 @@
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { isEmpty, isNil, prop } from 'ramda'
-import React, { Component } from 'react'
 
 import { actions } from 'data'
 import { getData } from './selectors'

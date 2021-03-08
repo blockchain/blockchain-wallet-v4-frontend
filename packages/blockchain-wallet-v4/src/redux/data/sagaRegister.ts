@@ -1,4 +1,5 @@
 import { fork } from 'redux-saga/effects'
+
 import algo from './algo/sagaRegister'
 import bch from './bch/sagaRegister'
 import btc from './btc/sagaRegister'

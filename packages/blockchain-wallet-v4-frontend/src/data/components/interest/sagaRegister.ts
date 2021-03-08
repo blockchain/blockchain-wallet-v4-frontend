@@ -1,9 +1,8 @@
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { actionTypes as formActionTypes } from 'redux-form'
 import { takeEvery, takeLatest, takeLeading } from 'redux-saga/effects'
 
 import { actionTypes } from 'data'
-import { APIType } from 'core/network/api'
-
 import * as AT from './actionTypes'
 import sagas from './sagas'
 

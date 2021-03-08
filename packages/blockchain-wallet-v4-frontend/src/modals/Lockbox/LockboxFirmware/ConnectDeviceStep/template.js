@@ -1,8 +1,7 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
-import styled from 'styled-components'
-
+import { FormattedMessage } from 'react-intl'
 import { Button, Image, Text } from 'blockchain-info-components'
+import styled from 'styled-components'
 
 import { RotateSync } from '../../components/RotateSync'
 

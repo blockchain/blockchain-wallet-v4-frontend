@@ -1,15 +1,14 @@
-import * as moment from 'moment'
-import { compose, Dispatch } from 'redux'
-import { connect } from 'react-redux'
-import { prop, toLower } from 'ramda'
-import locale from 'browser-locale'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { CoinType, SupportedCoinType } from 'blockchain-wallet-v4/src/types'
+import locale from 'browser-locale'
+import * as moment from 'moment'
+import { prop, toLower } from 'ramda'
+import { compose, Dispatch } from 'redux'
 
 import { actions, selectors } from 'data'
-import { CoinType, SupportedCoinType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import modalEnhancer from 'providers/ModalEnhancer'
-
 import { getData } from './selectors'
 import DownloadTransactions from './template'
 
@@ -79,7 +78,7 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
   }
 
   render () {
-    const { props, onFetchHistory, state } = this
+    const { onFetchHistory, props, state } = this
     const { filename, generating } = state
     const { closeAll, coin, csvData, position, total } = props
 

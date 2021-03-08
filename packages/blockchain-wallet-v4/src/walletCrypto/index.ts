@@ -1,13 +1,14 @@
-import * as crypto from 'crypto'
-import * as U from './utils'
-// @ts-ignore
-import { compose, curry, has, is, isNil, propSatisfies, sequence } from 'ramda'
-import { pbkdf2 } from 'pbkdf2'
 import assert from 'assert'
 import BIP39 from 'bip39'
-import createRng from './rng'
+import * as crypto from 'crypto'
 import Either from 'data.either'
 import Task from 'data.task'
+import { pbkdf2 } from 'pbkdf2'
+// @ts-ignore
+import { compose, curry, has, is, isNil, propSatisfies, sequence } from 'ramda'
+
+import createRng from './rng'
+import * as U from './utils'
 
 const SUPPORTED_ENCRYPTION_VERSION = 3
 

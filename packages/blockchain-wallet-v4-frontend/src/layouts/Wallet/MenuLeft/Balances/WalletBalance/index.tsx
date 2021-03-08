@@ -1,15 +1,14 @@
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { prop } from 'ramda'
-import React from 'react'
+import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
-
 import Template from './template'
 
 class WalletBalanceContainer extends React.PureComponent<Props> {
   render () {
-    const { preferencesActions, totalBalancesDropdown, coins } = this.props
+    const { coins, preferencesActions, totalBalancesDropdown } = this.props
     // @ts-ignore
     const isActive = prop('wallet', totalBalancesDropdown)
     return (

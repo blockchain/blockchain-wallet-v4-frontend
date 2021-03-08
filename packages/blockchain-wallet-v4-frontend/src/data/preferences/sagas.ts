@@ -1,7 +1,8 @@
-import * as C from 'services/alerts'
-import { actions } from 'data'
-import { addLanguageToUrl } from 'services/locales'
 import { put } from 'redux-saga/effects'
+
+import { actions } from 'data'
+import * as C from 'services/alerts'
+import { addLanguageToUrl } from 'services/locales'
 
 export default () => {
   const logLocation = 'preferences/sagas'

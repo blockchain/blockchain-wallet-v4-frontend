@@ -1,16 +1,5 @@
-import * as S from '../../selectors'
-import { ADDRESS_TYPES } from '../btc/utils'
-import { AddressTypesType } from '../types'
-import {
-  calculateEffectiveBalance,
-  calculateFee,
-  convertGweiToWei,
-  isValidAddress
-} from '../../../utils/eth'
-import { call, select } from 'redux-saga/effects'
-import { eth } from '../../../signer'
-import { EthRawTxType } from 'core/types'
-import { FETCH_FEES_FAILURE } from '../model'
+import BigNumber from 'bignumber.js'
+import EthUtil from 'ethereumjs-util'
 import {
   identity,
   indexOf,
@@ -20,11 +9,23 @@ import {
   prop,
   toLower
 } from 'ramda'
-import { isPositiveInteger, isString } from '../../../utils/checks'
-import { isValidIndex } from './utils'
-import BigNumber from 'bignumber.js'
-import EthUtil from 'ethereumjs-util'
+import { call, select } from 'redux-saga/effects'
+
+import { EthRawTxType } from 'core/types'
 import settingsSagaFactory from '../../../redux/settings/sagas'
+import { eth } from '../../../signer'
+import { isPositiveInteger, isString } from '../../../utils/checks'
+import {
+  calculateEffectiveBalance,
+  calculateFee,
+  convertGweiToWei,
+  isValidAddress
+} from '../../../utils/eth'
+import * as S from '../../selectors'
+import { ADDRESS_TYPES } from '../btc/utils'
+import { FETCH_FEES_FAILURE } from '../model'
+import { AddressTypesType } from '../types'
+import { isValidIndex } from './utils'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -130,7 +131,7 @@ export default ({ api }) => {
         return p
       },
 
-      * init ({ isErc20, coin }) {
+      * init ({ coin, isErc20 }) {
         let fees
         try {
           fees = yield call(api.getEthFees)

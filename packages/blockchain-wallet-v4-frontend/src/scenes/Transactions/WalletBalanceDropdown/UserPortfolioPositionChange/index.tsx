@@ -1,16 +1,20 @@
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import BigNumber from 'bignumber.js'
+import { SkeletonRectangle } from 'blockchain-info-components'
+import {
+  CoinType,
+  ExtractSuccess,
+  FiatType
+} from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators, Dispatch } from 'redux'
 
 import { actions } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
-import { CoinType, ExtractSuccess, FiatType } from 'core/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { getData } from './selectors'
+import { RootState } from 'data/rootReducer'
 import { PriceChange } from '../../model'
-import { SkeletonRectangle } from 'blockchain-info-components'
-import BigNumber from 'bignumber.js'
+import { getData } from './selectors'
 
 class UserPortfolioPositionChange extends PureComponent<Props> {
   state = {}

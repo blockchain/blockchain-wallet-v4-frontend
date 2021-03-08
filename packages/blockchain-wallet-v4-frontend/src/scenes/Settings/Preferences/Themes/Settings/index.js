@@ -1,9 +1,10 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
 import { equals, isNil } from 'ramda'
+import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import React from 'react'
+
+import { actions, selectors } from 'data'
 import Settings from './template'
 
 class SettingsContainer extends React.PureComponent {
@@ -14,7 +15,7 @@ class SettingsContainer extends React.PureComponent {
   }
 
   componentDidUpdate (prevProps) {
-    const { theme, newTheme } = this.props
+    const { newTheme, theme } = this.props
     if (
       !isNil(newTheme) &&
       !equals(theme, newTheme) &&

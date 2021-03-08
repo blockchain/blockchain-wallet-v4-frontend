@@ -1,9 +1,10 @@
+import React, { PureComponent } from 'react'
+
 import {
   LinkDispatchPropsType,
   LinkStatePropsType,
   OwnPropsType
 } from '../index'
-import React, { PureComponent } from 'react'
 import WordsList from './template'
 
 type Props = OwnPropsType & LinkDispatchPropsType & LinkStatePropsType

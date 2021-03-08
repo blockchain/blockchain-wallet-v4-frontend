@@ -1,11 +1,12 @@
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
 import { contains, map, prop } from 'ramda'
+import { bindActionCreators } from 'redux'
+
+import { actions } from 'data'
 import { getCoinContexts, getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
-import React from 'react'
 import Success from './template.success'
 
 const createOption = label => ({
@@ -31,7 +32,7 @@ class CurrencyListContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, deviceInfo, formValues, coinContexts } = this.props
+    const { coinContexts, data, deviceInfo, formValues } = this.props
 
     return deviceInfo
       ? data.cata({

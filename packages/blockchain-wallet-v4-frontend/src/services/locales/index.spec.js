@@ -1,5 +1,6 @@
-import * as LocalesService from './index'
 import Maybe from 'data.maybe'
+
+import * as LocalesService from './index'
 
 describe('LocalesService getLanguageName', () => {
   let testCases = [

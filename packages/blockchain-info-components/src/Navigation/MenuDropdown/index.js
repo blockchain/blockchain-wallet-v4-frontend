@@ -1,5 +1,5 @@
-import onClickOutside from 'react-onclickoutside'
 import React, { PureComponent } from 'react'
+import onClickOutside from 'react-onclickoutside'
 import styled from 'styled-components'
 
 import ButtonGroup from '../ButtonGroup'
@@ -128,7 +128,7 @@ class MenuDropdown extends PureComponent {
     return (
       <li key={kind}>
         <DropdownLink
-          callback={({ left, top, height }) => {
+          callback={({ height, left, top }) => {
             this.setState({ [kind]: { left, top, height } })
           }}
           onClick={this.toggleDropdown(kind)}

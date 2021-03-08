@@ -1,11 +1,11 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { Button, Modal, Text } from 'blockchain-info-components'
+import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
 
 import { actions } from 'data'
-import { Button, Modal, Text } from 'blockchain-info-components'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 const Header = styled.div`
@@ -65,7 +65,7 @@ class SwapGetStarted extends React.PureComponent {
   }
 
   render () {
-    const { position, total, close, actions } = this.props
+    const { actions, close, position, total } = this.props
     return (
       <Modal
         size='small'

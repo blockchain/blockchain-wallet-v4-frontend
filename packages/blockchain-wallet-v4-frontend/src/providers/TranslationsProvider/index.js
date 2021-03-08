@@ -1,10 +1,10 @@
-import { any, includes, propOr } from 'ramda'
-import { connect } from 'react-redux'
-import { IntlProvider } from 'react-intl'
 import React from 'react'
+import { IntlProvider } from 'react-intl'
+import { connect } from 'react-redux'
+import { any, includes, propOr } from 'ramda'
 
-import { languages, loadLocaleData } from 'services/locales'
 import { selectors } from 'data'
+import { languages, loadLocaleData } from 'services/locales'
 
 class TranslationsProvider extends React.Component {
   state = {

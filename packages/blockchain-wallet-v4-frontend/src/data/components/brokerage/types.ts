@@ -1,7 +1,7 @@
 import {
   BankTransferAccountType, // TODO: move to Brokerage core types
   RemoteDataType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
 
 import * as AT from './actionTypes'
 

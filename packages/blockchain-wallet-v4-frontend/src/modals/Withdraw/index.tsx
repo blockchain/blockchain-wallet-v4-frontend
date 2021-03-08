@@ -1,22 +1,22 @@
-import { compose } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
-
+import { connect, ConnectedProps } from 'react-redux'
 import {
   BeneficiaryType,
   WalletFiatType,
   WithdrawResponseType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+import { compose } from 'redux'
+
+import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import { WithdrawStepEnum } from 'data/types'
+import ModalEnhancer from 'providers/ModalEnhancer'
 // import { getData } from './selectors'
 import { ModalPropsType } from '../types'
-import { WithdrawStepEnum } from 'data/types'
 import BankPicker from './BankPicker'
 import ConfirmWithdraw from './ConfirmWithdraw'
 import EnterAmount from './EnterAmount'
-import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import ModalEnhancer from 'providers/ModalEnhancer'
 import WithdrawalDetails from './WithdrawalDetails'
 
 class Withdraw extends PureComponent<Props> {

@@ -1,17 +1,18 @@
-import { actions, selectors } from 'data'
-import { AddBankStepType, BrokerageModalOriginType } from 'data/types'
+import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
 import {
   BankTransferAccountType,
   ExtractSuccess,
   RemoteDataType,
   WalletFiatType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
+
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { AddBankStepType, BrokerageModalOriginType } from 'data/types'
+import { getData } from './selectors'
 import Loading from './template.loading'
-import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class LinkedBanks extends PureComponent<Props> {

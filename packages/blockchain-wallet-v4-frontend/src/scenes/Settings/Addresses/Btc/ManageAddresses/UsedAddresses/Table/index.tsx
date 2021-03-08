@@ -1,10 +1,10 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { formValueSelector } from 'redux-form'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { FlatLoader } from 'blockchain-info-components'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
 import { actions, selectors } from 'data'
-import { FlatLoader } from 'blockchain-info-components'
 import UsedAddressesTable from './template'
 
 class UsedAddressesTableContainer extends React.PureComponent<Props> {
@@ -13,7 +13,7 @@ class UsedAddressesTableContainer extends React.PureComponent<Props> {
   }
 
   render () {
-    const { usedAddresses, search } = this.props
+    const { search, usedAddresses } = this.props
 
     return !usedAddresses
       ? null

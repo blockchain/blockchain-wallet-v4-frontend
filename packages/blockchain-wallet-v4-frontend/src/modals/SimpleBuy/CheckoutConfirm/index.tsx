@@ -1,14 +1,7 @@
-import { bindActionCreators, Dispatch } from 'redux'
+import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import BigNumber from 'bignumber.js'
-import React, { PureComponent } from 'react'
-
-import { actions, selectors } from 'data'
-import {
-  AddBankStepType,
-  BrokerageModalOriginType,
-  UserDataType
-} from 'data/types'
+import { Remote } from 'blockchain-wallet-v4/src'
 import {
   ExtractSuccess,
   FiatTypeEnum,
@@ -16,14 +9,20 @@ import {
   SupportedCoinType,
   SupportedWalletCurrenciesType,
   WalletFiatType
-} from 'core/types'
-import { getFiatFromPair, getOrderType } from 'data/components/simpleBuy/model'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { RootState } from 'data/rootReducer'
-import DataError from 'components/DataError'
+} from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators, Dispatch } from 'redux'
 
-import { getData } from './selectors'
+import DataError from 'components/DataError'
+import { actions, selectors } from 'data'
+import { getFiatFromPair, getOrderType } from 'data/components/simpleBuy/model'
+import { RootState } from 'data/rootReducer'
+import {
+  AddBankStepType,
+  BrokerageModalOriginType,
+  UserDataType
+} from 'data/types'
 import Loading from '../template.loading'
+import { getData } from './selectors'
 import Success from './template.success'
 
 class CheckoutConfirm extends PureComponent<Props> {
@@ -46,11 +45,11 @@ class CheckoutConfirm extends PureComponent<Props> {
 
   handleSubmit = () => {
     const {
-      userData,
-      sbBalances,
+      cards,
       isSddFlow,
       isUserSddVerified,
-      cards
+      sbBalances,
+      userData
     } = this.props.data.getOrElse({
       userData: { tiers: { current: 0 } } as UserDataType,
       isSddFlow: false

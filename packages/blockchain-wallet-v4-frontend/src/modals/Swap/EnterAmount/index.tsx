@@ -1,10 +1,16 @@
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
-import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { formatCoin } from 'blockchain-wallet-v4/src/exchange/currency'
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import styled from 'styled-components'
 
+import { FlyoutWrapper } from 'components/Flyout'
+import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import { InitSwapFormValuesType } from 'data/types'
+import { Props as BaseProps, SuccessStateType as SuccessType } from '..'
 import {
   BalanceRow,
   Border,
@@ -13,15 +19,8 @@ import {
   OptionValue,
   TopText
 } from '../components'
-import { Props as BaseProps, SuccessStateType as SuccessType } from '..'
-import { ExtractSuccess } from 'core/types'
-import { FlyoutWrapper } from 'components/Flyout'
-import { formatCoin } from 'core/exchange/currency'
-import { InitSwapFormValuesType } from 'data/types'
-import { selectors } from 'data'
-
-import { getData } from './selectors'
 import Checkout from './Checkout'
+import { getData } from './selectors'
 import Failure from './template.failure'
 import Loading from './template.loading'
 import Upgrade from './template.upgrade'

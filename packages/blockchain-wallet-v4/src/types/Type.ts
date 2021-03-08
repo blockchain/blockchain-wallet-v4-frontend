@@ -1,7 +1,8 @@
 import * as eImmutable from 'extendable-immutable'
 import { compose } from 'ramda'
-import { iLensProp, typeGuard, typeLens } from './util'
 import { view } from 'ramda-lens'
+
+import { iLensProp, typeGuard, typeLens } from './util'
 
 export default class Type extends eImmutable.Map<{}, {}> {
   static get guard () {

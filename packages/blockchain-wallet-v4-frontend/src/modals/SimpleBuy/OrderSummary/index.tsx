@@ -1,22 +1,21 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
-
-import { actions, selectors } from 'data'
+import { connect, ConnectedProps } from 'react-redux'
+import { Remote } from 'blockchain-wallet-v4/src'
 import {
   ExtractSuccess,
   RemoteDataType,
   SBOrderType,
   SupportedWalletCurrenciesType
-} from 'core/types'
-import { Remote } from 'core'
-import { RootState } from 'data/rootReducer'
-import DataError from 'components/DataError'
+} from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators, Dispatch } from 'redux'
 
-import { getData } from './selectors'
+import DataError from 'components/DataError'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 import Loading from '../template.loading'
-import Success from './template.success'
+import { getData } from './selectors'
 import SuccessSdd from './template.sdd.success'
+import Success from './template.success'
 
 class OrderSummary extends PureComponent<Props> {
   componentDidMount () {

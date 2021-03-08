@@ -1,10 +1,11 @@
-import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
-import { checkForVulnerableAddressError } from 'services/misc'
-import { FETCH_FEES_FAILURE } from 'blockchain-wallet-v4/src/redux/payment/model'
-import { FormattedMessage } from 'react-intl'
-import { prop } from 'ramda'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
+import { FETCH_FEES_FAILURE } from 'blockchain-wallet-v4/src/redux/payment/model'
+import { prop } from 'ramda'
 import styled from 'styled-components'
+
+import { checkForVulnerableAddressError } from 'services/misc'
 
 const MessageText = styled(Text)`
   width: 80%;

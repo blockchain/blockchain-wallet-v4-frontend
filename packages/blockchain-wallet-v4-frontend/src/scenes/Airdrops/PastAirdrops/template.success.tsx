@@ -1,8 +1,6 @@
-import { BigNumber } from 'bignumber.js'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Props } from '../template.success'
-import { Status, To, Type } from './model'
+import { BigNumber } from 'bignumber.js'
 import {
   Table,
   TableCell,
@@ -10,7 +8,10 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import React from 'react'
+import { Exchange } from 'blockchain-wallet-v4/src'
+
+import { Props } from '../template.success'
+import { Status, To, Type } from './model'
 
 const getQuantity = (amt, currency) => {
   switch (currency) {

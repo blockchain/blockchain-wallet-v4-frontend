@@ -1,8 +1,9 @@
-import { Carousel, Text } from 'blockchain-info-components'
-import { CustomBox } from 'components/Layout'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Carousel, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { CustomBox } from 'components/Layout'
 
 const Slide = styled.div`
   width: 100%;

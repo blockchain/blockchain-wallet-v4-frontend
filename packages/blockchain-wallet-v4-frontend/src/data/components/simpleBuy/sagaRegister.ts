@@ -1,6 +1,4 @@
-import * as A from './actions'
-import * as AT from './actionTypes'
-import { actions, actionTypes } from 'data'
+import { Task } from 'redux-saga'
 import {
   call,
   cancel,
@@ -10,10 +8,12 @@ import {
   takeEvery,
   takeLatest
 } from 'redux-saga/effects'
-import sagas from './sagas'
 
-import { Task } from 'redux-saga'
+import { actions, actionTypes } from 'data'
 import profileSagas from '../../modules/profile/sagas'
+import * as A from './actions'
+import * as AT from './actionTypes'
+import sagas from './sagas'
 
 let pollTask: Task
 

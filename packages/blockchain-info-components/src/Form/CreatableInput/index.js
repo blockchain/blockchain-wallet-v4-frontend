@@ -1,6 +1,7 @@
-import { difference, equals, head, isNil, pathOr } from 'ramda'
-import CreatableInput from './template'
 import React from 'react'
+import { difference, equals, head, isNil, pathOr } from 'ramda'
+
+import CreatableInput from './template'
 
 const components = {
   DropdownIndicator: null

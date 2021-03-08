@@ -1,12 +1,13 @@
+import BigRational from 'big-rational'
 import { BigNumber } from 'bignumber.js'
+import Maybe from 'data.maybe'
 // @ts-ignore
 import { compose, curry, flip, is, prop, sequence } from 'ramda'
-import { FiatType } from 'core/types'
 import { view } from 'ramda-lens'
-import BigRational from 'big-rational'
-import Currencies, { CurrenciesType } from '../currencies'
-import Maybe from 'data.maybe'
+
+import { FiatType } from 'core/types'
 import Type from '../../types/Type'
+import Currencies, { CurrenciesType } from '../currencies'
 
 export class Currency extends Type {
   'value': typeof BigRational
@@ -91,7 +92,7 @@ export const toUnit = curry((unit, currencyObject) =>
   currencyObject.toUnit(unit)
 )
 
-export const fromUnit = ({ value, unit }) => {
+export const fromUnit = ({ unit, value }) => {
   const unitM = Maybe.fromNullable(unit)
   const currencyM = unitM.map(prop('currency')).map(flip(prop)(Currencies))
 
@@ -104,9 +105,9 @@ export const fromUnit = ({ value, unit }) => {
 }
 
 export const unsafe_deprecated_fiatToString = ({
-  value,
+  digits = 2,
   unit,
-  digits = 2
+  value
 }: {
   digits: number
   unit: {
@@ -119,9 +120,9 @@ export const unsafe_deprecated_fiatToString = ({
 }) => `${unit.symbol}${formatFiat(value, digits)}`
 
 export const fiatToString = ({
-  value,
+  digits = 2,
   unit,
-  digits = 2
+  value
 }: {
   digits?: number
   unit: FiatType
@@ -131,10 +132,10 @@ export const fiatToString = ({
 }
 
 export const coinToString = ({
-  value,
-  unit,
+  maxDigits = 8,
   minDigits = 0,
-  maxDigits = 8
+  unit,
+  value
 }: {
   maxDigits?: number
   minDigits?: number

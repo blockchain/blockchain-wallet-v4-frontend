@@ -1,11 +1,12 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { formValueSelector } from 'redux-form'
-import { isEmpty } from 'ramda'
-import IPWhitelist from './template'
-import PropTypes from 'prop-types'
 import React from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { isEmpty } from 'ramda'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
+
+import { actions, selectors } from 'data'
+import IPWhitelist from './template'
 
 class IPWhitelistContainer extends React.PureComponent {
   state = { updateToggled: false }

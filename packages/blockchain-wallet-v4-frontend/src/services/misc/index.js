@@ -1,9 +1,8 @@
-import { createSelectorCreator, defaultMemoize } from 'reselect'
-import { head, is, isEmpty, match } from 'ramda'
 import { useEffect } from 'react'
-import deepEqual from 'fast-deep-equal'
-
 import { utils } from 'blockchain-wallet-v4/src'
+import deepEqual from 'fast-deep-equal'
+import { head, is, isEmpty, match } from 'ramda'
+import { createSelectorCreator, defaultMemoize } from 'reselect'
 
 const checkForVulnerableAddressError = message => {
   if (!message || !is(String, message)) return

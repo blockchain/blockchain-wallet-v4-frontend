@@ -1,5 +1,5 @@
-import * as crypto from 'crypto'
 import assert from 'assert'
+import * as crypto from 'crypto'
 
 export const SUPPORTED_ENCRYPTION_VERSION = 3
 export const SALT_BYTES = 16

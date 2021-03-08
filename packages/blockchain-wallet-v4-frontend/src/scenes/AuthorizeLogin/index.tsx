@@ -1,11 +1,10 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { actions, model } from 'data'
 import { Wrapper } from 'components/Public'
-
+import { actions, model } from 'data'
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'

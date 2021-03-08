@@ -1,8 +1,10 @@
-import { actions } from 'data'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import { Badge, Button, Text } from 'blockchain-info-components'
 import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import {
   SettingComponent,
   SettingContainer,
@@ -10,8 +12,7 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
-import React from 'react'
-import styled from 'styled-components'
+import { actions } from 'data'
 
 const BadgesContainer = styled.div`
   display: block;

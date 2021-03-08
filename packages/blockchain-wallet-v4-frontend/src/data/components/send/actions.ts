@@ -1,10 +1,11 @@
-import * as AT from './actionTypes'
 import {
   BeneficiaryType,
   CoinType,
   PaymentValue,
   WithdrawalLockCheckResponseType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+
+import * as AT from './actionTypes'
 
 export const fetchPaymentsAccountExchange = currency => ({
   type: AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE,

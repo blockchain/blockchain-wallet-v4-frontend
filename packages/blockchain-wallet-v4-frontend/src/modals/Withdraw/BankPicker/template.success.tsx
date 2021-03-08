@@ -1,4 +1,6 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Icon, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
 import { Col, FlyoutWrapper, Title, Value } from 'components/Flyout'
@@ -7,8 +9,6 @@ import {
   DisplayContainer,
   DisplayPaymentIcon
 } from 'components/SimpleBuy'
-import { FormattedMessage } from 'react-intl'
-import { Icon, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const Top = styled.div`

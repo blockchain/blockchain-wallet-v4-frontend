@@ -1,11 +1,11 @@
-import { bindActionCreators, compose } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import React from 'react'
+import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
-import AutoDisconnection from './template.js'
 import modalEnhancer from 'providers/ModalEnhancer'
+import AutoDisconnection from './template.js'
 
 class AutoDisconnectionContainer extends React.PureComponent {
   constructor (props) {

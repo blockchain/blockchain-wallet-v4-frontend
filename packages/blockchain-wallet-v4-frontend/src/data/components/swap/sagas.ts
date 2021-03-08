@@ -1,9 +1,6 @@
-import { call, delay, put, race, select, take } from 'redux-saga/effects'
 import BigNumber from 'bignumber.js'
-import moment from 'moment'
-
-import { actions, selectors } from 'data'
-import { APIType } from 'core/network/api'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import {
   CoinType,
   Erc20CoinsEnum,
@@ -11,27 +8,29 @@ import {
   PaymentValue,
   SwapQuoteType
 } from 'blockchain-wallet-v4/src/types'
-import { convertStandardToBase } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { generateProvisionalPaymentAmount } from 'data/coins/utils'
-import { getCoinAccounts } from 'data/coins/selectors'
-import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
+import moment from 'moment'
+import { call, delay, put, race, select, take } from 'redux-saga/effects'
 
+import { actions, selectors } from 'data'
+import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
+import { getCoinAccounts } from 'data/coins/selectors'
+import { generateProvisionalPaymentAmount } from 'data/coins/utils'
+import profileSagas from '../../../data/modules/profile/sagas'
+import { convertStandardToBase } from '../exchange/services'
+import sendSagas from '../send/sagas'
+import { selectReceiveAddress } from '../utils/sagas'
 import * as A from './actions'
 import * as AT from './actionTypes'
-import * as S from './selectors'
 import { FALLBACK_DELAY } from './model'
-import { getDirection, getPair, getRate, NO_QUOTE } from './utils'
+import * as S from './selectors'
 import {
   InitSwapFormValuesType,
   MempoolFeeType,
   SwapAccountType,
   SwapAmountFormValues
 } from './types'
-import { selectReceiveAddress } from '../utils/sagas'
-import profileSagas from '../../../data/modules/profile/sagas'
-import sendSagas from '../send/sagas'
+import { getDirection, getPair, getRate, NO_QUOTE } from './utils'
 
 export default ({
   api,
@@ -456,7 +455,7 @@ export default ({
   }
 
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
-    const { origin, baseCurrency, counterCurrency } = payload
+    const { baseCurrency, counterCurrency, origin } = payload
     yield put(
       actions.modals.showModal('SWAP_MODAL', {
         origin,

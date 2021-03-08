@@ -1,8 +1,9 @@
-import { Banner, Button, Icon, Image, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
-import { media } from 'services/styles'
 import React, { useEffect } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Banner, Button, Icon, Image, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { media } from 'services/styles'
 
 const Fragment = React.Fragment
 

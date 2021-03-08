@@ -1,9 +1,10 @@
-import { FormattedMessage } from 'react-intl'
-import { LoanTransactionsType, LoanType } from 'core/types'
-import { Text, TooltipHost } from 'blockchain-info-components'
-import CoinDisplay from 'components/Display/CoinDisplay'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Text, TooltipHost } from 'blockchain-info-components'
+import { LoanTransactionsType, LoanType } from 'blockchain-wallet-v4/src/types'
 import styled from 'styled-components'
+
+import CoinDisplay from 'components/Display/CoinDisplay'
 
 // same style for all children
 export const Value = styled(Text)<{ size?: string }>`

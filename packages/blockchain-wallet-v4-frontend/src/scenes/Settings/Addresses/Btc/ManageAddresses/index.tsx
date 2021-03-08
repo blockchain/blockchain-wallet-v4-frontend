@@ -1,5 +1,5 @@
-import { InjectedFormProps, reduxForm } from 'redux-form'
 import React from 'react'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { model } from 'data'

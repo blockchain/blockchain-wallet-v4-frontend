@@ -1,12 +1,16 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import {
+  BeneficiaryType,
+  ExtractSuccess,
+  WalletFiatType
+} from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators, Dispatch } from 'redux'
 
 import { actions, selectors } from 'data'
-import { BeneficiaryType, ExtractSuccess, WalletFiatType } from 'core/types'
-import { getData } from './selectors'
+import { RootState } from 'data/rootReducer'
 import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
+import { getData } from './selectors'
 import Failure from './template.failure'
 import Loading from './template.loading'
 import Success from './template.success'

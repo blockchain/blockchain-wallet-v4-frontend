@@ -1,7 +1,7 @@
 import { addLocaleData } from 'react-intl'
-import { find, findIndex, isNil, prop, propEq, sortBy, toUpper } from 'ramda'
 import Maybe from 'data.maybe'
 import moment from 'moment'
+import { find, findIndex, isNil, prop, propEq, sortBy, toUpper } from 'ramda'
 
 export const languages = [
   { cultureCode: 'de-DE', language: 'de', name: 'German' },

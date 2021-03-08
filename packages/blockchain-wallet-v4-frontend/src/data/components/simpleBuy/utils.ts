@@ -1,5 +1,6 @@
+import { SwapOrderDirectionType } from 'blockchain-wallet-v4/src/types'
+
 import { SwapAccountType } from '../swap/types'
-import { SwapOrderDirectionType } from 'core/types'
 
 export const getDirection = (
   from: SwapAccountType

@@ -1,11 +1,11 @@
-import { bindActionCreators, compose } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import React from 'react'
+import { bindActionCreators, compose } from 'redux'
 
 import { actions, model, selectors } from 'data'
-import FirstStep from './FirstStep'
 import modalEnhancer from 'providers/ModalEnhancer'
+import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 import SendXlm from './template'
 
@@ -20,7 +20,7 @@ class SendXlmContainer extends React.PureComponent {
   }
 
   render () {
-    const { step, position, total, closeAll } = this.props
+    const { closeAll, position, step, total } = this.props
     return (
       <SendXlm position={position} total={total} closeAll={closeAll}>
         {step === 1 && <FirstStep />}

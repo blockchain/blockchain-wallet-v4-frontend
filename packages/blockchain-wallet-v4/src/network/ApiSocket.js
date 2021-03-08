@@ -1,4 +1,5 @@
 import { compose, either, identity, prop, whereEq } from 'ramda'
+
 import { noop } from '../utils/functional'
 
 const isHeartbeatMsg = either(

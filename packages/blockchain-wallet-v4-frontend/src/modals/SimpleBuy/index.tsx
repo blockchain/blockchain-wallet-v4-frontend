@@ -1,10 +1,5 @@
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { find, isEmpty, propEq, propOr } from 'ramda'
 import React, { PureComponent } from 'react'
-
-import { actions, selectors } from 'data'
-import { BankStatusType, FastLinkType, SimpleBuyStepType } from 'data/types'
+import { connect, ConnectedProps } from 'react-redux'
 import {
   CoinType,
   FiatType,
@@ -13,15 +8,17 @@ import {
   SBPairType,
   SBPaymentMethodType,
   SwapOrderType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+import { find, isEmpty, propEq, propOr } from 'ramda'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+
+import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { actions, selectors } from 'data'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
-import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { BankStatusType, FastLinkType, SimpleBuyStepType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
-
-import { getData } from './selectors'
 import { ModalPropsType } from '../types'
-
 // step templates
 import AddCard from './AddCard'
 import BankWireDetails from './BankWireDetails'
@@ -35,15 +32,15 @@ import LinkedPaymentAccounts from './LinkedPaymentAccounts'
 import OrderSummary from './OrderSummary'
 import PaymentMethods from './PaymentMethods'
 import PreviewSell from './PreviewSell'
+import { getData } from './selectors'
 import SellOrderSummary from './SellOrderSummary'
-import ThreeDSHandler from './ThreeDSHandler'
-import UpgradeToGold from './UpgradeToGold'
-import VerifyEmail from './VerifyEmail'
-
 // step wrappers
 import Loading from './template.loading'
 import Pending from './template.pending'
 import Rejected from './template.rejected'
+import ThreeDSHandler from './ThreeDSHandler'
+import UpgradeToGold from './UpgradeToGold'
+import VerifyEmail from './VerifyEmail'
 
 class SimpleBuy extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }

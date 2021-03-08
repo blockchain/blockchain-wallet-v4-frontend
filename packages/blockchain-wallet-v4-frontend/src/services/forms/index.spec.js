@@ -1,6 +1,6 @@
-import { networks } from 'bitcoinjs-lib'
-import bip39 from 'bip39'
 import React from 'react'
+import bip39 from 'bip39'
+import { networks } from 'bitcoinjs-lib'
 
 import * as FormHelper from './index.js'
 import * as M from './validationMessages'

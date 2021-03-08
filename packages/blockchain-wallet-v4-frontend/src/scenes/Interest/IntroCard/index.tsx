@@ -1,13 +1,12 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { actions, model, selectors } from 'data'
 import { Box } from 'components/Box'
-import { Button, Icon, Link, Text } from 'blockchain-info-components'
-
+import { actions, model, selectors } from 'data'
 import {
   Props as OwnProps,
   StateType as ParentStateType,
@@ -47,8 +46,8 @@ class IntroCard extends PureComponent<
     const {
       analyticsActions,
       idvActions,
-      isGoldTier,
       interestRateArray,
+      isGoldTier,
       preferencesActions,
       showInterestInfoBox,
       userData

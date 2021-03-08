@@ -1,5 +1,5 @@
-import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
 
 import { getData } from './selectors'
 import Error from './template.error'

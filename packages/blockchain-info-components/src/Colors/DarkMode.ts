@@ -1,5 +1,5 @@
-import { DefaultTheme } from 'styled-components'
 import { lighten } from 'polished'
+import { DefaultTheme } from 'styled-components'
 
 const DarkTheme: DefaultTheme = {
   // USE THESE \\

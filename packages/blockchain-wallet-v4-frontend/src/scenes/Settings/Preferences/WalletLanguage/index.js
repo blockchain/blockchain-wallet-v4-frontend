@@ -1,6 +1,7 @@
-import { connect } from 'react-redux'
-import { getData } from './selectors'
 import React from 'react'
+import { connect } from 'react-redux'
+
+import { getData } from './selectors'
 import Template from './template'
 
 class WalletLanguageContainer extends React.PureComponent {

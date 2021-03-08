@@ -1,5 +1,6 @@
-import FirstStep from './template'
 import React from 'react'
+
+import FirstStep from './template'
 
 class FirstStepContainer extends React.PureComponent {
   constructor (props) {

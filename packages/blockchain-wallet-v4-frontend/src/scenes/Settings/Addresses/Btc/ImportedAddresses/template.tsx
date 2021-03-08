@@ -1,3 +1,5 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import {
   Button,
   Icon,
@@ -8,12 +10,11 @@ import {
   Text
 } from 'blockchain-info-components'
 import { filter } from 'ramda'
-import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import { spacing } from 'services/styles'
 import AddressRow from '../AddressRow'
-import React from 'react'
-import styled from 'styled-components'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -41,16 +42,16 @@ const ClickableText = styled(Text)`
 `
 
 const Success = ({
+  failure,
   importedAddresses,
   onClickImport,
   onClickVerify,
-  onToggleArchived,
-  onTransferAll,
+  onEditLabel,
   onShowPriv,
   onShowSignMessage,
-  onEditLabel,
-  search,
-  failure
+  onToggleArchived,
+  onTransferAll,
+  search
 }: {
   failure?: any
   importedAddresses: any

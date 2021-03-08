@@ -1,11 +1,6 @@
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { find, isEmpty, isNil, path, propEq, propOr } from 'ramda'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import Bowser from 'bowser'
-import React from 'react'
-import styled from 'styled-components'
-
 import {
   Banner,
   Button,
@@ -15,7 +10,12 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { CoinType, WalletFiatType } from 'core/types'
+import { CoinType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import Bowser from 'bowser'
+import { find, isEmpty, isNil, path, propEq, propOr } from 'ramda'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Form,
   FormError,
@@ -25,14 +25,13 @@ import {
   PasswordBox,
   TextBox
 } from 'components/Form'
-import { media } from 'services/styles'
-import { required, validWalletId } from 'services/forms'
 import { Wrapper } from 'components/Public'
-
-import { Props as OwnProps } from '.'
-import LinkExchangeAccount from '../Register/LinkExchangeAccount'
+import { required, validWalletId } from 'services/forms'
+import { media } from 'services/styles'
 import Modals from '../../modals'
+import LinkExchangeAccount from '../Register/LinkExchangeAccount'
 import SimpleBuyInfo from '../Register/SimpleBuyInfo'
+import { Props as OwnProps } from '.'
 
 const browser = Bowser.getParser(window.navigator.userAgent)
 const isSupportedBrowser = browser.satisfies({
@@ -163,11 +162,11 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
     isGuidValid,
     loginError,
     password,
-    supportedCoins,
     submitting,
+    supportedCoins,
     ...rest
   } = props
-  const { handleSubmit, handleSmsResend, authType } = rest
+  const { authType, handleSmsResend, handleSubmit } = rest
 
   const guidError =
     loginError && loginError.toLowerCase().includes('unknown wallet id')

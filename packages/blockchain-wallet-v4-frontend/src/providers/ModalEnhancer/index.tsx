@@ -1,10 +1,11 @@
-import { actions, selectors } from 'data'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { equals } from 'ramda'
-import { ModalNamesType, ModalType } from 'data/types'
 import React, { PureComponent } from 'react'
 import ReactDOM from 'react-dom'
+import { connect } from 'react-redux'
+import { equals } from 'ramda'
+import { compose } from 'redux'
+
+import { actions, selectors } from 'data'
+import { ModalNamesType, ModalType } from 'data/types'
 
 const mapDispatchToProps = (dispatch): LinkDispatchPropsType => ({
   close: compose(dispatch, actions.modals.closeModal),

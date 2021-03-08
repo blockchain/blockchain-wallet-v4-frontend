@@ -1,9 +1,9 @@
-import { Icon } from 'blockchain-info-components'
 import React from 'react'
-
 import { FormattedMessage } from 'react-intl'
-import { Props } from '.'
+import { Icon } from 'blockchain-info-components'
+
 import { Title, Value } from 'components/Flyout'
+import { Props } from '.'
 
 export const BeneficiaryIcon = (props: Props) => {
   switch (true) {

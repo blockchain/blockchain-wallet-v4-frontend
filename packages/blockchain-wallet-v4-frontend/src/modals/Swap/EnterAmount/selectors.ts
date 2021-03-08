@@ -1,9 +1,9 @@
-import { ExtractSuccess, FiatType } from 'core/types'
+import { ExtractSuccess, FiatType } from 'blockchain-wallet-v4/src/types'
 import { lift } from 'ramda'
-import { RootState } from 'data/rootReducer'
 
-import { InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
 import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import { InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
 
 export const getData = (state: RootState) => {
   const formErrors = selectors.form.getFormSyncErrors('swapAmount')(state)

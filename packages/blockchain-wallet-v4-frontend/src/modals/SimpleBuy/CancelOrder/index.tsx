@@ -1,8 +1,9 @@
-import { actions } from 'data'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect } from 'react-redux'
-import { SBOrderType } from 'core/types'
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+import { SBOrderType } from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+
+import { actions } from 'data'
 import Template from './template'
 
 export type OwnProps = {

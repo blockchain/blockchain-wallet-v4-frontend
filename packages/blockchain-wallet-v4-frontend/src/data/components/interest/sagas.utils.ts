@@ -1,6 +1,4 @@
-import { call, CallEffect, put, select } from 'redux-saga/effects'
-import { isNil } from 'ramda'
-
+import { Exchange } from 'blockchain-wallet-v4/src'
 import {
   AccountTypes,
   CoinType,
@@ -9,16 +7,17 @@ import {
   PaymentValue,
   RatesType,
   SBBalancesType
-} from 'core/types'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { promptForSecondPassword } from 'services/sagas'
+} from 'blockchain-wallet-v4/src/types'
+import { isNil } from 'ramda'
+import { call, CallEffect, put, select } from 'redux-saga/effects'
+
 import { selectors } from 'data'
 import coinSagas from 'data/coins/sagas'
-
+import { promptForSecondPassword } from 'services/sagas'
+import exchangeSagaUtils from '../exchange/sagas.utils'
+import { convertBaseToStandard } from '../exchange/services'
 import * as A from './actions'
 import * as S from './selectors'
-import { convertBaseToStandard } from '../exchange/services'
-import exchangeSagaUtils from '../exchange/sagas.utils'
 
 export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   const { calculateProvisionalPayment } = exchangeSagaUtils({

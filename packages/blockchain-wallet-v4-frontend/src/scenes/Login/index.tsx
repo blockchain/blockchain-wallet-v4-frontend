@@ -1,12 +1,11 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { formValueSelector, getFormMeta } from 'redux-form'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators } from 'redux'
+import { formValueSelector, getFormMeta } from 'redux-form'
 
 import { actions, selectors } from 'data'
 import { isEmail, isGuid } from 'services/forms'
-import { SupportedWalletCurrenciesType } from 'core/types'
-
 import Login from './template'
 
 class LoginContainer extends React.PureComponent<Props> {
@@ -17,7 +16,7 @@ class LoginContainer extends React.PureComponent<Props> {
   }
 
   onSubmit = () => {
-    const { guid, password, code } = this.props
+    const { code, guid, password } = this.props
     let auth = code
     // only uppercase if authType is not Yubikey
     if (auth && this.props.authType !== 1) {

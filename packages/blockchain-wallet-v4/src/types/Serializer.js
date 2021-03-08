@@ -1,3 +1,4 @@
+import Remote from '../remote'
 import * as Address from './Address'
 import * as AddressBook from './AddressBook'
 import * as AddressBookEntry from './AddressBookEntry'
@@ -15,7 +16,6 @@ import * as TXNames from './TXNames'
 import * as TXNotes from './TXNotes'
 import * as Wallet from './Wallet'
 import * as Wrapper from './Wrapper'
-import Remote from '../remote'
 
 const serializer = {
   replacer: function (key, value) {

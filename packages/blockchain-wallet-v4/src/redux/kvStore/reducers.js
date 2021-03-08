@@ -1,7 +1,8 @@
-import * as C from './config'
 import { combineReducers } from 'redux'
+
 import bch from './bch/reducers'
 import btc from './btc/reducers'
+import * as C from './config'
 import eth from './eth/reducers'
 import lockbox from './lockbox/reducers'
 import root from './root/reducers'

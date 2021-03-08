@@ -1,10 +1,11 @@
-import { countries } from 'components/Form/SelectBoxCountry'
-import { Field } from 'redux-form'
-import { Props } from '../template.success'
-import { SelectBox } from 'components/Form'
-import { Text } from 'blockchain-info-components'
 import React from 'react'
+import { Text } from 'blockchain-info-components'
+import { Field } from 'redux-form'
 import styled from 'styled-components'
+
+import { SelectBox } from 'components/Form'
+import { countries } from 'components/Form/SelectBoxCountry'
+import { Props } from '../template.success'
 
 const SelectBoxCountry = styled(SelectBox)`
   margin-bottom: 24px;

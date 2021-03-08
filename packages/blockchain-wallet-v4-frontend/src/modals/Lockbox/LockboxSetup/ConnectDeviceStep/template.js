@@ -1,7 +1,5 @@
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import React from 'react'
-import styled from 'styled-components'
-
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import {
   Button,
   Icon,
@@ -10,6 +8,7 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -50,9 +49,9 @@ const ConnectDeviceStep = props => {
   const {
     connectTimeout,
     deviceType,
+    handleStepChange,
     isConnected,
     isNewSetup,
-    handleStepChange,
     onNewDeviceContinue,
     onTimeoutAccept,
     supportLink

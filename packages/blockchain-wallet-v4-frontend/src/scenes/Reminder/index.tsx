@@ -1,9 +1,10 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { formValueSelector } from 'redux-form'
-import { RemoteDataType } from 'core/types'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
+
+import { actions, selectors } from 'data'
 import Reminder from './template'
 
 class ReminderContainer extends React.PureComponent<Props> {
@@ -12,7 +13,7 @@ class ReminderContainer extends React.PureComponent<Props> {
   }
 
   onSubmit = () => {
-    const { email, code, captcha, authActions } = this.props
+    const { authActions, captcha, code, email } = this.props
     const { sessionToken } = captcha.getOrElse({ sessionToken: null })
 
     authActions.remindGuid(email, code, sessionToken)
@@ -20,7 +21,7 @@ class ReminderContainer extends React.PureComponent<Props> {
 
   render () {
     const { remindGuid } = this.props
-    const { success, loading } = remindGuid.cata({
+    const { loading, success } = remindGuid.cata({
       Success: () => ({ success: true }),
       Loading: () => ({ loading: true }),
       Failure: () => ({}),

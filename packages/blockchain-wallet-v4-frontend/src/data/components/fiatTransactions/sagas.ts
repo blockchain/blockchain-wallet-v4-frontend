@@ -1,6 +1,6 @@
-import { actions } from 'data'
 import { put } from 'redux-saga/effects'
 
+import { actions } from 'data'
 import * as A from './actions'
 
 export const logLocation = 'components/fiatTransactions/sagas'

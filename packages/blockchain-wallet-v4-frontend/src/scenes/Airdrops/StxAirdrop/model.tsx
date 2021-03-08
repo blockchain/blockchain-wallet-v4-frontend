@@ -1,4 +1,9 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { BigNumber } from 'bignumber.js'
+import { Button, Link, Text } from 'blockchain-info-components'
+import styled from 'styled-components'
+
 import {
   BlueCartridge,
   CustomCartridge,
@@ -6,13 +11,9 @@ import {
   GreyCartridge,
   SuccessCartridge
 } from 'components/Cartridge'
-import { Button, Link, Text } from 'blockchain-info-components'
-import { CampaignInfoType } from 'data/types'
-import { FormattedMessage } from 'react-intl'
 import { model } from 'data'
+import { CampaignInfoType } from 'data/types'
 import { Props } from '../template.success'
-import React from 'react'
-import styled from 'styled-components'
 
 const { KYC_STATES } = model.profile
 
@@ -175,9 +176,9 @@ export const StxDateOrAmount = ({
 }
 
 export const StxStatus = ({
-  userCampaignsInfoResponseList,
+  identityVerificationActions,
   kycState,
-  identityVerificationActions
+  userCampaignsInfoResponseList
 }: Props) => {
   const stxCampaign = userCampaignsInfoResponseList.find(
     (campaign: CampaignInfoType) => campaign.campaignName === 'BLOCKSTACK'
@@ -290,8 +291,8 @@ export const StxStatus = ({
 }
 
 export const StxFooterCta = ({
-  tags,
   kycState,
+  tags,
   userCampaignsInfoResponseList
 }: Props) => {
   const stxCampaign = userCampaignsInfoResponseList.find(

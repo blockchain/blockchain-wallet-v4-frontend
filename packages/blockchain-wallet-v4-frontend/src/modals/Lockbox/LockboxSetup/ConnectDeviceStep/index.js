@@ -1,7 +1,7 @@
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import React from 'react'
+import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
 import { SETUP_TIMEOUT } from './../model'
@@ -40,7 +40,7 @@ class ConnectDeviceStepContainer extends React.PureComponent {
   }
 
   render () {
-    const { deviceType, connection, setupType, supportLink } = this.props
+    const { connection, deviceType, setupType, supportLink } = this.props
 
     return (
       <Template

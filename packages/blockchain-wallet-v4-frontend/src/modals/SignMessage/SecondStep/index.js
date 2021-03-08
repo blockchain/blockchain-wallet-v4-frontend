@@ -1,7 +1,7 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { formValueSelector } from 'redux-form'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
 import { actions, selectors } from 'data'
 import SecondStep from './template'
@@ -10,10 +10,10 @@ class SecondStepContainer extends React.PureComponent {
   render () {
     const {
       address,
-      signedMessage,
       closeAll,
       message,
-      signMessageActions
+      signMessageActions,
+      signedMessage
     } = this.props
 
     return (

@@ -1,6 +1,6 @@
+import React from 'react'
 import { DateInput, Text } from 'blockchain-info-components'
 import locale from 'browser-locale'
-import React from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`

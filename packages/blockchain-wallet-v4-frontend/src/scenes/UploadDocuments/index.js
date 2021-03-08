@@ -1,8 +1,8 @@
-import { bindActionCreators } from 'redux'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Base64 from 'base-64'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
 import UploadDocuments from './template'
@@ -33,7 +33,7 @@ class UploadDocumentsContainer extends Component {
 
   onSubmit = () => {
     let filesLoaded = []
-    const { token, redirectUrl } = this.state
+    const { redirectUrl, token } = this.state
     this.state.files.forEach(file => {
       const fileReader = new FileReader()
       // One single upload for the array of all byte arrays

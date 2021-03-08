@@ -1,8 +1,9 @@
-import { actions, model, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { duration } from 'components/Flyout'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { duration } from 'components/Flyout'
+import { actions, model, selectors } from 'data'
 import VerifyEmail from './template'
 
 const { DISMISS_VERIFICATION, EMAIL_VERIFIED } = model.analytics.AB_TEST_EVENTS
@@ -23,7 +24,7 @@ class VerifyEmailContainer extends React.PureComponent<PropsType, {}> {
   }
 
   onResendEmail = () => {
-    const { securityCenterActions, email } = this.props
+    const { email, securityCenterActions } = this.props
     securityCenterActions.resendVerifyEmail(email)
   }
 

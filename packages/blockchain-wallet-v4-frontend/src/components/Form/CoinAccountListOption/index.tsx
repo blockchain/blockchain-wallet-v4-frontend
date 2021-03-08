@@ -1,12 +1,11 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Icon, Text } from 'blockchain-info-components'
+import { FiatType, SupportedCoinType } from 'blockchain-wallet-v4/src/types'
 import styled, { css, DefaultTheme } from 'styled-components'
 
-import { FiatType, SupportedCoinType } from 'core/types'
-import { Icon, Text } from 'blockchain-info-components'
 import { SuccessCartridge } from 'components/Cartridge'
 import { SwapAccountType } from 'data/types'
-
 import CoinAccountListBalance from '../CoinAccountListBalance'
 
 const Option = styled.div<{ displayOnly?: boolean }>`

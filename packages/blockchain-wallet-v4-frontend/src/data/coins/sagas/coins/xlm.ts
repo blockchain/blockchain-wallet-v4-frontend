@@ -1,16 +1,18 @@
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { PaymentValue } from 'blockchain-wallet-v4/src/redux/payment/types'
+import {
+  CoinType,
+  CurrenciesType,
+  RatesType
+} from 'blockchain-wallet-v4/src/types'
 import { head } from 'ramda'
 import { select } from 'redux-saga/effects'
 
 import { selectors } from 'data'
-import { PaymentValue } from 'core/redux/payment/types'
-import { CoinType, CurrenciesType, RatesType } from 'core/types'
-import { Exchange } from 'core'
 
 // retrieves default account/address
 export const getDefaultAccount = function * () {
-  return (yield select(
-    selectors.core.common.xlm.getAccountBalances
-  )).map(head)
+  return (yield select(selectors.core.common.xlm.getAccountBalances)).map(head)
 }
 
 // retrieves the next receive address
@@ -21,7 +23,11 @@ export const getNextReceiveAddress = function * () {
 }
 
 // gets or updates a provisional payment
-export const getOrUpdateProvisionalPayment = function * (coreSagas, networks, paymentR) {
+export const getOrUpdateProvisionalPayment = function * (
+  coreSagas,
+  networks,
+  paymentR
+) {
   return yield coreSagas.payment.xlm.create({
     payment: paymentR.getOrElse(<PaymentValue>{})
   })
@@ -35,9 +41,9 @@ export const convertFromBaseUnitToFiat = function (
   rates: RatesType
 ): number {
   return Exchange.convertXlmToFiat({
-      value: baseUnitValue,
-      fromUnit: 'STROOP',
-      toCurrency: userCurrency,
-      rates
-    }).value
+    value: baseUnitValue,
+    fromUnit: 'STROOP',
+    toCurrency: userCurrency,
+    rates
+  }).value
 }

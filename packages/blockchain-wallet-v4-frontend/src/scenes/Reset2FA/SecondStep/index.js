@@ -1,8 +1,9 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { formValueSelector } from 'redux-form'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
+
+import { actions, selectors } from 'data'
 import SecondStep from './template'
 
 class SecondStepContainer extends React.PureComponent {
@@ -13,13 +14,13 @@ class SecondStepContainer extends React.PureComponent {
 
   onSubmit () {
     const {
-      guid,
-      email,
-      newEmail,
-      secretPhrase,
-      message,
+      captcha,
       code,
-      captcha
+      email,
+      guid,
+      message,
+      newEmail,
+      secretPhrase
     } = this.props
     const { sessionToken } = captcha.getOrElse({})
 

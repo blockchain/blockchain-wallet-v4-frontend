@@ -1,14 +1,13 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { ExtractSuccess, RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators, Dispatch } from 'redux'
 
-import { actions } from 'data'
-import { ExtractSuccess, RemoteDataType } from 'core/types'
-import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
-
-import { getData } from './selectors'
+import { actions } from 'data'
+import { RootState } from 'data/rootReducer'
 import Loading from '../template.loading'
+import { getData } from './selectors'
 import Success from './template.success'
 
 // This is a new order summary created for sell p3. Order type looks like what is currently a swap order type rather than an SB order type

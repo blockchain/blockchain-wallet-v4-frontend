@@ -1,10 +1,11 @@
-import { ComponentDropdown, Text } from 'blockchain-info-components'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { ComponentDropdown, Text } from 'blockchain-info-components'
+import styled from 'styled-components'
+
 import { media, useMedia } from 'services/styles'
 import CurrencySwitch from './CurrencySwitch'
 import LockboxBalance from './LockboxBalance'
-import React from 'react'
-import styled from 'styled-components'
 import TotalBalance from './TotalBalance'
 import WalletBalance from './WalletBalance'
 

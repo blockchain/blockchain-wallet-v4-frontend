@@ -4,6 +4,7 @@ import {
   Erc20CoinsEnum,
   SBBalanceType
 } from 'blockchain-wallet-v4/src/types'
+
 import { convertStandardToBase } from 'data/components/exchange/services'
 
 export const generateCustodyAccount = (

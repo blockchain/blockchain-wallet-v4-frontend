@@ -1,3 +1,5 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import {
   Banner,
   ComponentDropdown,
@@ -9,12 +11,11 @@ import {
   Text
 } from 'blockchain-info-components'
 import { filter, path, take } from 'ramda'
-import { FormattedMessage } from 'react-intl'
-import { media } from 'services/styles'
-import { SettingDescription, SettingHeader } from 'components/Setting'
-import React from 'react'
 import styled from 'styled-components'
+
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
+import { SettingDescription, SettingHeader } from 'components/Setting'
+import { media } from 'services/styles'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -48,12 +49,12 @@ const LabelCell = styled(Text)`
 `
 
 const Success = props => {
-  const { bchAccounts, wallets, defaultIndex } = props.data
+  const { bchAccounts, defaultIndex, wallets } = props.data
   const {
     onEditBchAccountLabel,
-    onShowChangeAddrs,
     onMakeDefault,
     onSetArchived,
+    onShowChangeAddrs,
     onShowXPub,
     search
   } = props

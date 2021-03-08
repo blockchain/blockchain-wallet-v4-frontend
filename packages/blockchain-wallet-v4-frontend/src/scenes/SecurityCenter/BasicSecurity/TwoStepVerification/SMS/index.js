@@ -1,10 +1,9 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { formValueSelector } from 'redux-form'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
 import { actions } from 'data'
-
 import { getData } from './selectors'
 import Sms from './template'
 
@@ -23,7 +22,7 @@ class SmsAuthContainer extends React.PureComponent {
   }
 
   componentDidMount () {
-    const { smsVerified, smsNumber } = this.props.data.getOrElse({})
+    const { smsNumber, smsVerified } = this.props.data.getOrElse({})
     if (smsNumber && smsNumber.length && !smsVerified) {
       this.props.securityCenterActions.sendMobileVerificationCode(smsNumber)
       this.handleMount()
@@ -70,7 +69,7 @@ class SmsAuthContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, verificationCode, goBack } = this.props
+    const { data, goBack, verificationCode } = this.props
 
     return data.cata({
       Success: value => (

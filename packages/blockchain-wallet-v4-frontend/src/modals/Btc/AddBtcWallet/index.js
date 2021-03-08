@@ -1,10 +1,11 @@
-import { actions } from 'data'
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
-import { formValueSelector } from 'redux-form'
-import AddBtcWallet from './template.js'
-import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
+
+import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+import AddBtcWallet from './template.js'
 
 class AddBtcWalletContainer extends React.PureComponent {
   constructor (props) {

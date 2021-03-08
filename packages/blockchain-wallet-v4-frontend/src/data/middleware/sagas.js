@@ -1,6 +1,6 @@
 import webSocket from './webSocket/sagas'
 
-export default ({ api, ratesSocket, coinsSocket }) => ({
+export default ({ api, coinsSocket, ratesSocket }) => ({
   webSocket: webSocket({
     api,
     ratesSocket,

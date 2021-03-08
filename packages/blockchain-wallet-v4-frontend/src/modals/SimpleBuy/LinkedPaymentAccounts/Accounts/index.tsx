@@ -1,26 +1,25 @@
-import { Button, Icon, Image, Text } from 'blockchain-info-components'
-import {
-  CARD_TYPES,
-  DEFAULT_CARD_SVG_LOGO
-} from 'components/Form/CreditCardBox/model'
-import { FlyoutWrapper } from 'components/Flyout'
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
+import React, { PureComponent, ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { getBankLogoImageName } from 'services/images'
-import {
-  getCoinFromPair,
-  getFiatFromPair
-} from 'data/components/simpleBuy/model'
-import { Props as OwnProps, SuccessStateType } from '../index'
-
+import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import {
   SBPaymentMethodType,
   WalletCurrencyType,
   WalletFiatEnum
-} from 'core/types'
-import React, { PureComponent, ReactElement } from 'react'
+} from 'blockchain-wallet-v4/src/types'
+import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { FlyoutWrapper } from 'components/Flyout'
+import {
+  CARD_TYPES,
+  DEFAULT_CARD_SVG_LOGO
+} from 'components/Form/CreditCardBox/model'
+import {
+  getCoinFromPair,
+  getFiatFromPair
+} from 'data/components/simpleBuy/model'
+import { getBankLogoImageName } from 'services/images'
+import { Props as OwnProps, SuccessStateType } from '../index'
 import Bank from './Bank'
 import Card from './Card'
 import Fund from './Fund'

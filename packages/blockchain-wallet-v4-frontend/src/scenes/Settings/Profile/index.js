@@ -1,16 +1,15 @@
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { BlockchainLoader, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
-import { actions } from 'data'
-import { BlockchainLoader, Text } from 'blockchain-info-components'
-import { media } from 'services/styles'
 import DataError from 'components/DataError'
-
-import { getData } from './selectors'
+import { actions } from 'data'
+import { media } from 'services/styles'
 import IdentityVerification from './IdentityVerification'
 import Menu from './Menu'
+import { getData } from './selectors'
 
 const Wrapper = styled.section`
   width: 100%;

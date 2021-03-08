@@ -1,8 +1,7 @@
 import React from 'react'
-
 import { FormattedMessage } from 'react-intl'
-import { Link } from 'blockchain-info-components'
 import { LinkContainer } from 'react-router-bootstrap'
+import { Link } from 'blockchain-info-components'
 import styled from 'styled-components'
 
 const VersionWrapper = styled.span`

@@ -1,15 +1,14 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators, Dispatch } from 'redux'
 
 import { actions, selectors } from 'data'
-import { ExtractSuccess } from 'core/types'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
-
+import Loading from '../template.loading'
 import { getData } from './selectors'
 import Failure from './template.failure'
-import Loading from '../template.loading'
 import Success from './template.success'
 
 class CryptoSelection extends PureComponent<Props> {

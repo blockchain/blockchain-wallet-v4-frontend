@@ -1,7 +1,8 @@
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
+
 import * as AT from './actionTypes'
 import { getCoinFromPair, getFiatFromPair } from './model'
 import { SimpleBuyActionTypes, SimpleBuyState } from './types'
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: SimpleBuyState = {
   addBank: undefined,

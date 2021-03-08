@@ -1,7 +1,7 @@
 import { formValueSelector } from 'redux-form'
 
-import { createDeepEqualSelector } from 'services/misc'
 import { selectors } from 'data'
+import { createDeepEqualSelector } from 'services/misc'
 
 const formSelector = formValueSelector('mobileNumberChange')
 

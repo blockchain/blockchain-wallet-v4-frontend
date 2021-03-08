@@ -1,15 +1,14 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
-
-import { BankTransferAccountType } from 'core/network/api/simpleBuy/types'
-import { getCoinFromPair, getOrderType } from 'data/components/simpleBuy/model'
+import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
+import { BankTransferAccountType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
 
-import { Props } from '.'
+import { getCoinFromPair, getOrderType } from 'data/components/simpleBuy/model'
 import {
   IconTx as SharedIconTx,
   Timestamp as SharedTimestamp
 } from '../components'
+import { Props } from '.'
 
 export const IconTx = (props: Props) => {
   const orderType = getOrderType(props.order)

@@ -1,17 +1,20 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { includes } from 'ramda'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import {
+  CoinType,
+  FiatType,
+  RemoteDataType
+} from 'blockchain-wallet-v4/src/types'
+import { includes } from 'ramda'
+import { bindActionCreators, Dispatch } from 'redux'
 
-import { actions } from 'data'
-import { CoinType, FiatType, RemoteDataType } from 'core/types'
-import { InterestStepMetadata } from 'data/types'
 import DataError from 'components/DataError'
-
+import { actions } from 'data'
+import { InterestStepMetadata } from 'data/types'
 import { getData } from './selectors'
-import AccountSummary from './template.success'
-import Currencies from 'core/exchange/currencies'
 import Loading from './template.loading'
+import AccountSummary from './template.success'
 import Unsupported from './template.unsupported'
 
 class AccountSummaryContainer extends PureComponent<Props> {

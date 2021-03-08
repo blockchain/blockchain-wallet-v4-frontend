@@ -1,11 +1,10 @@
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
 import { pathOr } from 'ramda'
-import React from 'react'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { actions, selectors } from 'data'
-
 import EmailAddress from './EmailAddress'
 import TwoStepVerification from './TwoStepVerification'
 import WalletRecoveryPhrase from './WalletRecoveryPhrase'

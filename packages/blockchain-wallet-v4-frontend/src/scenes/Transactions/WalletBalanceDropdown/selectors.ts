@@ -1,6 +1,8 @@
-import * as balanceSelectors from 'components/Balances/wallet/selectors'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { ExtractSuccess, FiatType } from 'core/types'
+import { ExtractSuccess, FiatType } from 'blockchain-wallet-v4/src/types'
+import { lift } from 'ramda'
+
+import * as balanceSelectors from 'components/Balances/wallet/selectors'
 import { getData as getAlgoAddressData } from 'components/Form/SelectBoxAlgoAddresses/selectors'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
@@ -9,9 +11,8 @@ import {
   getEthData as getEthAddressData
 } from 'components/Form/SelectBoxEthAddresses/selectors'
 import { getData as getXlmAddressData } from 'components/Form/SelectBoxXlmAddresses/selectors'
-import { lift } from 'ramda'
-import { OwnProps } from '.'
 import { selectors } from 'data'
+import { OwnProps } from '.'
 
 export const getData = (state, ownProps: OwnProps) => {
   const { coin } = ownProps

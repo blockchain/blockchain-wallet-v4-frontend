@@ -1,15 +1,15 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { path } from 'ramda'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+
+import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { actions, selectors } from 'data'
 import { RecoveryPhraseStepType } from 'data/components/recoveryPhrase/types'
 import { RootState } from 'data/rootReducer'
+import modalEnhancer from 'providers/ModalEnhancer'
 import ConfirmWords from './ConfirmWords'
 import ConfirmWordsSuccess from './ConfirmWordsSuccess'
-import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import modalEnhancer from 'providers/ModalEnhancer'
-import React, { PureComponent } from 'react'
 import RecoveryPhraseIntro from './RecoveryPhraseIntro'
 import ShowRecoveryWords from './ShowRecoveryWords'
 

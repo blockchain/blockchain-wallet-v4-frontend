@@ -1,9 +1,14 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { Container } from 'components/Box'
+import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from 'blockchain-info-components'
+import {
+  NabuApiErrorType,
+  RemoteDataType
+} from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators, Dispatch } from 'redux'
+
+import { Container } from 'components/Box'
 import {
   IconBackground,
   SceneHeader,
@@ -11,13 +16,12 @@ import {
   SceneSubHeaderText,
   SceneWrapper
 } from 'components/Layout'
-import { NabuApiErrorType, RemoteDataType } from 'core/types'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 import BorrowHistory from './BorrowHistory'
 import BorrowPax from './BorrowPax'
 import InitBorrowForm from './InitBorrowForm'
-import React, { PureComponent } from 'react'
 
 class Borrow extends PureComponent<Props, State> {
   state: State = { isDisabled: true }

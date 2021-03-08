@@ -1,11 +1,12 @@
-import { actions } from '../../data'
-import { bindActionCreators } from 'redux'
-import { compose } from 'ramda'
-import { connect } from 'react-redux'
-import FirstStep from './FirstStep'
 import React from 'react'
-import SecondStep from './SecondStep'
+import { connect } from 'react-redux'
+import { compose } from 'ramda'
+import { bindActionCreators } from 'redux'
+
 import wizardProvider from 'providers/WizardProvider'
+import { actions } from '../../data'
+import FirstStep from './FirstStep'
+import SecondStep from './SecondStep'
 
 class RecoverContainer extends React.PureComponent {
   componentDidMount () {
@@ -17,7 +18,7 @@ class RecoverContainer extends React.PureComponent {
   }
 
   render () {
-    const { step, nextStep, previousStep, ...rest } = this.props
+    const { nextStep, previousStep, step, ...rest } = this.props
 
     switch (step) {
       case 1:

@@ -1,5 +1,6 @@
-import * as AT from './actionTypes'
 import { fork, takeEvery, takeLatest } from 'redux-saga/effects'
+
+import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default ({ api }) => {

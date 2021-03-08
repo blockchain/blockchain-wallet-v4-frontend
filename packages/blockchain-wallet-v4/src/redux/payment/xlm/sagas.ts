@@ -1,26 +1,26 @@
-import * as StellarSdk from 'stellar-sdk'
-import { call, select } from 'redux-saga/effects'
 import { contains, merge, path, prop, values } from 'ramda'
+import { call, select } from 'redux-saga/effects'
+import * as StellarSdk from 'stellar-sdk'
 
-import * as S from '../../selectors'
-import { ADDRESS_TYPES } from '../btc/utils'
-import { AddressTypesType } from '../types'
-import {
-  calculateEffectiveBalance,
-  calculateReserve,
-  isValidAddress,
-  overflowsEffectiveBalance,
-  overflowsFullBalance,
-  calculateFee as utilsCalculateFee
-} from '../../../utils/xlm'
 import { convertXlmToXlm } from '../../../exchange'
+import settingsSagaFactory from '../../../redux/settings/sagas'
+import { xlm as xlmSigner } from '../../../signer'
 import {
   isPositiveInteger,
   isPositiveNumber,
   isString
 } from '../../../utils/checks'
-import { xlm as xlmSigner } from '../../../signer'
-import settingsSagaFactory from '../../../redux/settings/sagas'
+import {
+  calculateEffectiveBalance,
+  calculateFee as utilsCalculateFee,
+  calculateReserve,
+  isValidAddress,
+  overflowsEffectiveBalance,
+  overflowsFullBalance
+} from '../../../utils/xlm'
+import * as S from '../../selectors'
+import { ADDRESS_TYPES } from '../btc/utils'
+import { AddressTypesType } from '../types'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))

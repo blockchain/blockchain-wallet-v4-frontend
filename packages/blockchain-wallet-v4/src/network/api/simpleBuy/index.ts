@@ -1,3 +1,14 @@
+import axios from 'axios'
+import { Moment } from 'moment'
+
+import { UserDataType } from 'data/types'
+import {
+  CoinType,
+  CurrenciesType,
+  FiatType,
+  WalletCurrencyType
+} from '../../../types'
+import { SwapOrderStateType, SwapOrderType } from '../swap/types'
 import {
   BankTransferAccountType,
   FiatEligibleType,
@@ -17,16 +28,6 @@ import {
   SBTransactionStateType,
   SBTransactionsType
 } from './types'
-import {
-  CoinType,
-  CurrenciesType,
-  FiatType,
-  WalletCurrencyType
-} from '../../../types'
-import { Moment } from 'moment'
-import { SwapOrderStateType, SwapOrderType } from '../swap/types'
-import { UserDataType } from 'data/types'
-import axios from 'axios'
 
 export default ({
   authorizedDelete,
@@ -211,9 +212,9 @@ export default ({
     })
 
   const getSBOrders = ({
-    pendingOnly = false,
+    after,
     before,
-    after
+    pendingOnly = false
   }: {
     after?: string
     before?: string

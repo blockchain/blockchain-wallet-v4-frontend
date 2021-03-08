@@ -1,16 +1,16 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
-import { equals } from 'ramda'
-import { withRouter } from 'react-router-dom'
-import Menu from './Menu'
 import React from 'react'
-import Settings from './Settings'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import { equals } from 'ramda'
+import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
+
+import { actions, selectors } from 'data'
+import { media } from 'services/styles'
+import Menu from './Menu'
+import Settings from './Settings'
 import Transactions from './Transactions'
 import UpdateRequiredNotice from './UpdateRequiredNotice'
-
-import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   height: 100%;

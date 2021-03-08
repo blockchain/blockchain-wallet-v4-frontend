@@ -1,14 +1,13 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { find, propEq, propOr } from 'ramda'
-import { formValueSelector } from 'redux-form'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
+import { find, propEq, propOr } from 'ramda'
+import { bindActionCreators, Dispatch } from 'redux'
+import { formValueSelector } from 'redux-form'
 
 import { actions, selectors } from 'data'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
-import { SupportedWalletCurrenciesType } from 'core/types'
-
 import Register from './template'
 
 class RegisterContainer extends React.PureComponent<PropsType, StateType> {
@@ -17,7 +16,7 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
   }
 
   onSubmit = () => {
-    const { authActions, email, password, language } = this.props
+    const { authActions, email, language, password } = this.props
     authActions.register(email, password, language)
   }
 

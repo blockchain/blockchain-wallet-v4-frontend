@@ -1,11 +1,10 @@
+import { Remote } from 'blockchain-wallet-v4/src'
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { call, put, retry, select, take } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
 import { AddBankStepType, SBCheckoutFormValuesType } from 'data/types'
-import { APIType } from 'core/network/api'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { Remote } from 'blockchain-wallet-v4/src'
-
 import * as A from './actions'
 import * as AT from './actionTypes'
 import { DEFAULT_METHODS } from './model'
@@ -138,7 +137,7 @@ export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
   }
 
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
-    const { origin, modalType } = payload
+    const { modalType, origin } = payload
     yield put(actions.modals.showModal(modalType, { origin }))
   }
 

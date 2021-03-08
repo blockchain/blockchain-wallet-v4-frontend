@@ -1,12 +1,13 @@
-import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
-import { Field, reduxForm } from 'redux-form'
-import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { required, validMnemonic } from 'services/forms'
-import { Wrapper } from 'components/Public'
-import React from 'react'
+import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
+
+import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
+import { Wrapper } from 'components/Public'
+import { required, validMnemonic } from 'services/forms'
 
 const Header = styled.div`
   display: flex;
@@ -33,7 +34,7 @@ const GoBackLink = styled(LinkContainer)`
 `
 
 const FirstStep = props => {
-  const { submitting, invalid, handleSubmit } = props
+  const { handleSubmit, invalid, submitting } = props
 
   return (
     <Wrapper>

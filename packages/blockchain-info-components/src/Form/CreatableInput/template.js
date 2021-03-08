@@ -1,10 +1,11 @@
-import { components, NonceProvider } from 'react-select'
-import { Control, sharedSelect } from '../SelectInput/template'
-import { flatten, length, prop } from 'ramda'
-import { selectBorderColor, selectFocusBorderColor } from '../helper'
-import CreatableSelect from 'react-select/creatable'
 import React from 'react'
+import { components, NonceProvider } from 'react-select'
+import CreatableSelect from 'react-select/creatable'
+import { flatten, length, prop } from 'ramda'
 import styled from 'styled-components'
+
+import { selectBorderColor, selectFocusBorderColor } from '../helper'
+import { Control, sharedSelect } from '../SelectInput/template'
 
 const StyledCreatableSelect = styled(CreatableSelect)`
   ${sharedSelect}

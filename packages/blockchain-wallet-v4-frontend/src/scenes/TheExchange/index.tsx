@@ -1,9 +1,10 @@
-import { actions, model, selectors } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { WalletOptionsType } from 'core/types'
-import Exchange from './template'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { WalletOptionsType } from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators, Dispatch } from 'redux'
+
+import { actions, model, selectors } from 'data'
+import Exchange from './template'
 
 const { EXCHANGE_EVENTS } = model.analytics
 

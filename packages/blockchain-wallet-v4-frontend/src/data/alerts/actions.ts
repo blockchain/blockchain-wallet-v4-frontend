@@ -1,6 +1,7 @@
-import { AlertNatureType } from './types'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
+
 import { ALERTS_CLEAR, ALERTS_DISMISS, ALERTS_SHOW } from './actionTypes'
-import { CoinType } from 'core/types'
+import { AlertNatureType } from './types'
 
 const generateId = () =>
   Math.random()

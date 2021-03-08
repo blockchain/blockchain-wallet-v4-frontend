@@ -1,21 +1,20 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { find, isEmpty, pathOr, propEq, propOr } from 'ramda'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { find, isEmpty, pathOr, propEq, propOr } from 'ramda'
+import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/simpleBuy/model'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import { SBCheckoutFormValuesType, UserDataType } from 'data/types'
-
+import Loading from '../../template.loading'
 import {
   OwnProps as EnterAmountOwnProps,
   SuccessStateType as EnterAmountSuccessStateType
 } from '../index'
-import { getData } from './selectors'
 import Failure from '../template.failure'
-import Loading from '../../template.loading'
+import { getData } from './selectors'
 import Success from './template.success'
 
 class Checkout extends PureComponent<Props> {

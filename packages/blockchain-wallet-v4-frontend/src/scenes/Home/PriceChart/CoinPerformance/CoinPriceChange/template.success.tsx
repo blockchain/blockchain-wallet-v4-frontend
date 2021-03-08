@@ -1,10 +1,10 @@
 import React from 'react'
+import { PriceChangeType } from 'blockchain-wallet-v4/src/redux/data/misc/types'
+import { PriceChange } from 'blockchain-wallet-v4-frontend/src/scenes/Transactions/model'
 import styled from 'styled-components'
 
-import { getPriceChartTime } from './services'
 import { Props as OwnProps, SuccessStateType } from '.'
-import { PriceChange } from 'blockchain-wallet-v4-frontend/src/scenes/Transactions/model'
-import { PriceChangeType } from 'core/redux/data/misc/types'
+import { getPriceChartTime } from './services'
 
 const Wrapper = styled.div`
   z-index: 1;

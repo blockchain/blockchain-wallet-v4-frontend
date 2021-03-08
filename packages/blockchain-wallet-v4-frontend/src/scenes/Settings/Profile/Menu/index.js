@@ -1,10 +1,11 @@
-import { all, propEq } from 'ramda'
-import { connect } from 'react-redux'
-import { FormattedHTMLMessage } from 'react-intl'
-import { getData } from './selectors'
-import { Image, TabMenu, Text } from 'blockchain-info-components'
-import { StickyHeader } from 'components/Layout'
 import React from 'react'
+import { FormattedHTMLMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { Image, TabMenu, Text } from 'blockchain-info-components'
+import { all, propEq } from 'ramda'
+
+import { StickyHeader } from 'components/Layout'
+import { getData } from './selectors'
 
 export const Menu = ({ userTiers }) => {
   const isRejected = all(propEq('state', 'rejected'), userTiers)

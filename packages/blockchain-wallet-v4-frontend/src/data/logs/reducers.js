@@ -1,5 +1,6 @@
-import * as AT from './actionTypes'
 import { assoc, insert } from 'ramda'
+
+import * as AT from './actionTypes'
 import { LOG_LEVELS } from './model'
 
 const INITIAL_STATE = {
@@ -8,7 +9,7 @@ const INITIAL_STATE = {
 }
 
 const logger = (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
 
   const createLog = (msgType, payload) => {
     return {

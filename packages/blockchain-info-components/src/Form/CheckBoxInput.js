@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -65,7 +65,7 @@ const Label = styled.label`
 `
 
 const CheckBoxInput = props => {
-  const { name, children, checked, disabled, ...rest } = props
+  const { checked, children, disabled, name, ...rest } = props
 
   return (
     <Wrapper>

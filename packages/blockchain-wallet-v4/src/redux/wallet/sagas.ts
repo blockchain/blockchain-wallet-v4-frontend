@@ -1,6 +1,6 @@
-import * as A from '../actions'
-import * as S from './selectors'
-import { call, put, select } from 'redux-saga/effects'
+import BIP39 from 'bip39'
+import Bitcoin from 'bitcoinjs-lib'
+import Task from 'data.task'
 import {
   compose,
   concat,
@@ -18,13 +18,14 @@ import {
   range,
   repeat
 } from 'ramda'
-import { fetchData } from '../data/btc/actions'
-import { generateMnemonic } from '../../walletCrypto'
-import { HDAccount, Wallet, Wrapper } from '../../types'
 import { set } from 'ramda-lens'
-import BIP39 from 'bip39'
-import Bitcoin from 'bitcoinjs-lib'
-import Task from 'data.task'
+import { call, put, select } from 'redux-saga/effects'
+
+import { HDAccount, Wallet, Wrapper } from '../../types'
+import { generateMnemonic } from '../../walletCrypto'
+import * as A from '../actions'
+import { fetchData } from '../data/btc/actions'
+import * as S from './selectors'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -56,11 +57,11 @@ export default ({ api, networks }) => {
   }
 
   const importLegacyAddress = function * ({
-    key,
-    network,
-    password,
     bipPass,
-    label
+    key,
+    label,
+    network,
+    password
   }) {
     const wallet = yield select(S.getWallet)
     const wrapper = yield select(S.getWrapper)
@@ -88,7 +89,7 @@ export default ({ api, networks }) => {
     yield refetchContextData()
   }
 
-  const createWalletSaga = function * ({ password, email, language }) {
+  const createWalletSaga = function * ({ email, language, password }) {
     const mnemonic = yield call(generateMnemonic, api)
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(
@@ -106,11 +107,11 @@ export default ({ api, networks }) => {
   }
 
   const fetchWalletSaga = function * ({
+    code,
     guid,
-    sharedKey,
-    session,
     password,
-    code
+    session,
+    sharedKey
   }) {
     const wrapper = yield call(
       api.fetchWallet,
@@ -181,7 +182,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const restoreWalletSaga = function * ({ mnemonic, email, password, language }) {
+  const restoreWalletSaga = function * ({ email, language, mnemonic, password }) {
     const seed = BIP39.mnemonicToSeed(mnemonic)
     const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, networks.btc)
     const node = masterNode.deriveHardened(44).deriveHardened(0)
@@ -223,17 +224,17 @@ export default ({ api, networks }) => {
     }
   }
 
-  const remindWalletGuidSaga = function * ({ email, code, sessionToken }) {
+  const remindWalletGuidSaga = function * ({ code, email, sessionToken }) {
     yield call(api.remindGuid, email, code, sessionToken)
   }
 
   const resetWallet2fa = function * ({
-    guid,
+    code,
     email,
+    guid,
+    message,
     newEmail,
     secretPhrase,
-    message,
-    code,
     sessionToken
   }) {
     return yield call(

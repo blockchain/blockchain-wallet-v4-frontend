@@ -1,9 +1,6 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { equals } from 'ramda'
 import React, { PureComponent } from 'react'
-
-import { actions, selectors } from 'data'
+import { connect, ConnectedProps } from 'react-redux'
+import { Remote } from 'blockchain-wallet-v4/src'
 import {
   CoinType,
   ExtractSuccess,
@@ -13,13 +10,16 @@ import {
   SBOrderType,
   SBPairType,
   SBPaymentMethodType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+import { equals } from 'ramda'
+import { bindActionCreators, Dispatch } from 'redux'
+
+import { actions, selectors } from 'data'
 import { DEFAULT_SB_METHODS } from 'data/components/simpleBuy/model'
-import { getData } from './selectors'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
-import Failure from './template.failure'
 import Loading from '../template.loading'
+import { getData } from './selectors'
+import Failure from './template.failure'
 import Success from './template.success'
 
 class EnterAmount extends PureComponent<Props> {

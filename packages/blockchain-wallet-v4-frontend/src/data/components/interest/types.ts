@@ -1,4 +1,3 @@
-import * as AT from './actionTypes'
 import {
   AccountTypes,
   CoinType,
@@ -13,7 +12,9 @@ import {
   PaymentValue,
   RemoteDataType,
   WithdrawalMinimumType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+
+import * as AT from './actionTypes'
 
 //
 // Types

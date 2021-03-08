@@ -1,11 +1,12 @@
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
-import { Remote } from 'blockchain-wallet-v4/src'
-import Failure from './template.failure'
-import Loading from '../Verify/template.loading'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { bindActionCreators } from 'redux'
+
+import { actions } from 'data'
+import Loading from '../Verify/template.loading'
+import { getData } from './selectors'
+import Failure from './template.failure'
 import Success from './template.success'
 
 class Veriff extends React.PureComponent<Props> {

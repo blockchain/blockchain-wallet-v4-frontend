@@ -1,5 +1,6 @@
-import * as AT from './actionTypes'
 import { insert, merge, remove, update } from 'ramda'
+
+import * as AT from './actionTypes'
 import { ModalActionTypes, ModalsState } from './types'
 
 const INITIAL_STATE: ModalsState = []

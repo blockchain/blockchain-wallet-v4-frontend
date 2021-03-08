@@ -1,14 +1,14 @@
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { pathOr, propEq } from 'ramda'
 import React from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { Image, Text } from 'blockchain-info-components'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { pathOr, propEq } from 'ramda'
 import styled from 'styled-components'
 
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { Image, Text } from 'blockchain-info-components'
+import TierCard from 'components/IdentityVerification/TierCard'
 import { KYC_STATES } from 'data/modules/profile/model'
 import { media } from 'services/styles'
-import TierCard from 'components/IdentityVerification/TierCard'
 
 const Wrapper = styled.div`
   display: flex;

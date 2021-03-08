@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { media, useMedia } from 'services/styles'
-
 import { Props as OwnProps, SuccessStateType } from '.'
 import Balances from './Balances'
 import Navigation from './Navigation'

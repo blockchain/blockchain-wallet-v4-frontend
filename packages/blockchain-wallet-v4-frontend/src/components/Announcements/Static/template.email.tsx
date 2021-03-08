@@ -1,8 +1,8 @@
-import { FormattedMessage } from 'react-intl'
-import { Icon, Text } from 'blockchain-info-components'
-import { LinkContainer } from 'react-router-bootstrap'
-import PropTypes from 'prop-types'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import { Icon, Text } from 'blockchain-info-components'
+import PropTypes from 'prop-types'
 import styled, { css, keyframes } from 'styled-components'
 
 import { media } from 'services/styles'
@@ -43,7 +43,7 @@ const EmailSentNotification = styled(Text)<{ className?: string }>`
 `
 
 const EmailReminder = props => {
-  const { onEmailResend, emailReminded, email } = props
+  const { email, emailReminded, onEmailResend } = props
 
   return (
     <>

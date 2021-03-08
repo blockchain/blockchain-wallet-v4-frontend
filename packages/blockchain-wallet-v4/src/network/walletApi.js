@@ -1,4 +1,7 @@
-import * as Coin from '../coinSelection/coin.js'
+import Either from 'data.either'
+import Task from 'data.task'
+import Promise from 'es6-promise'
+import { futurizeP } from 'futurize'
 import {
   assoc,
   compose,
@@ -12,16 +15,14 @@ import {
   prop,
   propSatisfies
 } from 'ramda'
-import { futurizeP } from 'futurize'
-import { HDAccount, HDWallet, HDWalletList, Wallet, Wrapper } from '../types'
 import { mapped } from 'ramda-lens'
+
+import * as Coin from '../coinSelection/coin.js'
+import { HDAccount, HDWallet, HDWalletList, Wallet, Wrapper } from '../types'
 import createApi from './api'
-import Either from 'data.either'
-import Promise from 'es6-promise'
-import Task from 'data.task'
 
 const createWalletApi = (
-  { options, apiKey, getAuthCredentials, reauthenticate, networks } = {},
+  { apiKey, getAuthCredentials, networks, options, reauthenticate } = {},
   returnType
 ) => {
   // ////////////////////////////////////////////////////////////////

@@ -1,7 +1,7 @@
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import React from 'react'
+import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
 import { selectors } from '../../data'

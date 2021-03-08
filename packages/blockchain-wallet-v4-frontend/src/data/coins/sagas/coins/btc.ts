@@ -1,10 +1,14 @@
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { PaymentValue } from 'blockchain-wallet-v4/src/redux/payment/types'
+import {
+  CoinType,
+  CurrenciesType,
+  RatesType
+} from 'blockchain-wallet-v4/src/types'
 import { nth } from 'ramda'
 import { select } from 'redux-saga/effects'
 
 import { selectors } from 'data'
-import { PaymentValue } from 'core/redux/payment/types'
-import { CoinType, CurrenciesType, RatesType } from 'core/types'
-import { Exchange } from 'core'
 
 // retrieves default account/address
 export const getDefaultAccount = function * () {
@@ -20,19 +24,21 @@ export const getDefaultAccount = function * () {
 // retrieves the next receive address
 export const getNextReceiveAddress = function * (coin, networks) {
   const state = yield select()
-  const defaultAccountIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
+  const defaultAccountIndex = yield select(
+    selectors.core.wallet.getDefaultAccountIndex
+  )
 
   return selectors.core.common.btc
-    .getNextAvailableReceiveAddress(
-      networks.btc,
-      defaultAccountIndex,
-      state
-    )
+    .getNextAvailableReceiveAddress(networks.btc, defaultAccountIndex, state)
     .getOrFail('Failed to get BTC receive address')
 }
 
 // gets or updates a provisional payment
-export const getOrUpdateProvisionalPayment = function * (coreSagas, networks, paymentR) {
+export const getOrUpdateProvisionalPayment = function * (
+  coreSagas,
+  networks,
+  paymentR
+) {
   return yield coreSagas.payment.btc.create({
     payment: paymentR.getOrElse(<PaymentValue>{}),
     network: networks.btc

@@ -1,9 +1,10 @@
-import * as AT from './actionTypes'
-import { assocPath } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { assocPath } from 'ramda'
+
+import * as AT from './actionTypes'
 
 export default (state = {}, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
 
   switch (type) {
     case AT.TOGGLE_USED_ADDRESSES: {

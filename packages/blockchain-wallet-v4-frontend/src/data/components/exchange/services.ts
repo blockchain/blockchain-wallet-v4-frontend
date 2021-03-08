@@ -1,6 +1,5 @@
 import { Exchange } from 'blockchain-wallet-v4/src'
-
-import { CoinType } from 'core/types'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 
 export const convertBaseToStandard = (
   coin: CoinType | 'FIAT',

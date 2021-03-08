@@ -1,6 +1,6 @@
-import { css } from 'styled-components'
-import { mergeAll } from 'ramda'
 import { useEffect, useState } from 'react'
+import { mergeAll } from 'ramda'
+import { css } from 'styled-components'
 
 const types = {
   m: 'margin',

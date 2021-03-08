@@ -1,5 +1,6 @@
-import constants from './constants'
 import qs from 'qs'
+
+import constants from './constants'
 import utils from './utils'
 
 // gets firmware information about device

@@ -1,5 +1,6 @@
-import { actions } from 'data'
-import { bindActionCreators, compose } from 'redux'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 import {
   Button,
   Icon,
@@ -10,11 +11,11 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import modalEnhancer from 'providers/ModalEnhancer'
-import React from 'react'
+import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
+
+import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 const AbsoluteModalHeader = styled(ModalHeader)`
   position: absolute;
@@ -105,7 +106,7 @@ class UpgradeForAirdrop extends React.PureComponent {
   }
 
   render () {
-    const { campaign, position, total, close, actions } = this.props
+    const { actions, campaign, close, position, total } = this.props
     return (
       <Modal
         size='small'

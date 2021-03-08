@@ -1,14 +1,4 @@
 import {
-  call,
-  cancelled,
-  delay,
-  put,
-  select,
-  take,
-  takeEvery
-} from 'redux-saga/effects'
-import { END, eventChannel } from 'redux-saga'
-import {
   filter,
   find,
   head,
@@ -18,12 +8,21 @@ import {
   propEq,
   values
 } from 'ramda'
+import { END, eventChannel } from 'redux-saga'
+import {
+  call,
+  cancelled,
+  delay,
+  put,
+  select,
+  take,
+  takeEvery
+} from 'redux-saga/effects'
 
+import { actions, actionTypes, selectors } from 'data'
 import * as C from 'services/alerts'
 import * as Lockbox from 'services/lockbox'
-import { actions, actionTypes, selectors } from 'data'
 import { confirm } from 'services/sagas'
-
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
@@ -200,7 +199,7 @@ export default ({ api }) => {
   // saves xPubs/addresses for requested coin to kvStore
   const saveCoinMD = function * (action) {
     try {
-      const { deviceIndex, coin } = action.payload
+      const { coin, deviceIndex } = action.payload
       const deviceR = yield select(
         selectors.core.kvStore.lockbox.getDevice,
         deviceIndex

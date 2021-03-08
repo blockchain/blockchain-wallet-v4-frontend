@@ -1,7 +1,7 @@
-import { CommonFieldProps, WrappedFieldMetaProps } from 'redux-form'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
-import React from 'react'
+import { CommonFieldProps, WrappedFieldMetaProps } from 'redux-form'
 
 import { TextBox } from 'components/Form'
 

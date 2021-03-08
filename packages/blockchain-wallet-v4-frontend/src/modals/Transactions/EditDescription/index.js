@@ -1,10 +1,11 @@
-import { actions, model } from 'data'
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
-import { formValueSelector } from 'redux-form'
-import EditTxDescription from './template'
-import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
+
+import { actions, model } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+import EditTxDescription from './template'
 
 const { TRANSACTION_EVENTS } = model.analytics
 class EditTxDescriptionContainer extends React.PureComponent {

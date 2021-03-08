@@ -1,8 +1,7 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
-import styled from 'styled-components'
-
+import { FormattedMessage } from 'react-intl'
 import { Icon, Image, Link, Text } from 'blockchain-info-components'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -64,7 +63,7 @@ const LearnHowText = styled(Text)`
 `
 
 const DeviceSelectStep = props => {
-  const { handleStepChange, handleRestoreClick } = props
+  const { handleRestoreClick, handleStepChange } = props
   return (
     <Wrapper>
       <IntroTextWrapper>

@@ -1,13 +1,6 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { formValueSelector } from 'redux-form'
-import { length } from 'ramda'
 import React from 'react'
-import styled from 'styled-components'
-
-import * as C from 'services/alerts'
-import { actions, selectors } from 'data'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import {
   Banner,
   ComponentDropdown,
@@ -17,6 +10,13 @@ import {
   Text
 } from 'blockchain-info-components'
 import { Types } from 'blockchain-wallet-v4/src'
+import { length } from 'ramda'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
+import styled from 'styled-components'
+
+import { actions, selectors } from 'data'
+import * as C from 'services/alerts'
 import UnusedAddresses from './template'
 
 const WalletLabelCell = styled.div`

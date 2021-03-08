@@ -1,5 +1,6 @@
-import { actions } from 'data'
-import { bindActionCreators, compose } from 'redux'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 import {
   Button,
   Modal,
@@ -8,15 +9,14 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import React from 'react'
+import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
 
+import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
-import modalEnhancer from 'providers/ModalEnhancer'
 import Success from './template.success'
 
 const QRCodeContainer = styled.div`
@@ -58,7 +58,7 @@ class PairingCodeContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, position, total, closeAll } = this.props
+    const { closeAll, data, position, total } = this.props
 
     let PairingCode = data.cata({
       Success: val => <Success val={val} />,

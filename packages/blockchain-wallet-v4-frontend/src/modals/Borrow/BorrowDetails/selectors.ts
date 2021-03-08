@@ -1,7 +1,11 @@
-import { ExtractSuccess, SupportedWalletCurrenciesType } from 'core/types'
+import {
+  ExtractSuccess,
+  SupportedWalletCurrenciesType
+} from 'blockchain-wallet-v4/src/types'
 import { lift } from 'ramda'
-import { RootState } from 'data/rootReducer'
+
 import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 
 export const getData = (state: RootState) => {
   const loanTransactionsR = selectors.components.borrow.getLoanTransactions(

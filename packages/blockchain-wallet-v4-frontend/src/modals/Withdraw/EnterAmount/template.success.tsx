@@ -1,25 +1,27 @@
+import React, { ReactChild } from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
-import React, { ReactChild } from 'react'
+import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import {
+  BeneficiaryType,
+  NabuMoneyFloatType
+} from 'blockchain-wallet-v4/src/types'
+import { isEmpty } from 'ramda'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { AmountFieldContainer, FlyoutWrapper } from 'components/Flyout'
-import { BeneficiaryType, NabuMoneyFloatType } from 'core/types'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
-import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { Form, NumberBox } from 'components/Form'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { formatTextAmount } from 'services/forms'
-import { isEmpty } from 'ramda'
-import { maximumAmount, minimumAmount } from './validation'
-
-import { Props as OwnProps, SuccessStateType } from '.'
-import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
-import Beneficary from './Beneficiary'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import Currencies from 'core/exchange/currencies'
+import { AmountFieldContainer, FlyoutWrapper } from 'components/Flyout'
+import { Form, NumberBox } from 'components/Form'
+import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
+import { formatTextAmount } from 'services/forms'
+import { Props as OwnProps, SuccessStateType } from '.'
+import Beneficary from './Beneficiary'
 import LockTimeTooltip from './LockTimeTooltip'
+import { maximumAmount, minimumAmount } from './validation'
 
 const Top = styled.div`
   display: flex;
@@ -55,8 +57,8 @@ const PendingText = styled(Text)`
   }
 `
 const BlueRedCartridge = ({
-  error,
-  children
+  children,
+  error
 }: {
   children: ReactChild
   error: boolean
