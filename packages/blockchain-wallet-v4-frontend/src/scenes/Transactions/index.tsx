@@ -1,12 +1,6 @@
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { path, toLower } from 'ramda'
-import { reduxForm } from 'redux-form'
 import React from 'react'
-import styled from 'styled-components'
-
-import { actions, model } from 'data'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import {
   CoinType,
@@ -18,19 +12,24 @@ import {
   WalletCurrencyType,
   WalletFiatEnum,
   WalletFiatType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+import { path, toLower } from 'ramda'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+import { reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
+import EmptyResults from 'components/EmptyResults'
+import { SceneWrapper } from 'components/Layout'
+import LazyLoadContainer from 'components/LazyLoadContainer'
+import { actions, model } from 'data'
 import { getIntroductionText } from 'data/coins/selectors'
 import { media } from 'services/styles'
-import { SceneWrapper } from 'components/Layout'
-import EmptyResults from 'components/EmptyResults'
-import LazyLoadContainer from 'components/LazyLoadContainer'
-
-import { getData } from './selectors'
 import CoinIntroduction from './CoinIntroduction'
 import CoinPerformance from './CoinPerformance'
-import InterestTransactions from './TransactionList/template.interest'
+import { getData } from './selectors'
 import TransactionFilters from './TransactionFilters'
 import TransactionList from './TransactionList'
+import InterestTransactions from './TransactionList/template.interest'
 import WalletBalanceDropdown from './WalletBalanceDropdown'
 
 const PageTitle = styled.div`
@@ -107,7 +106,7 @@ const LearnMoreText = styled(Text)`
 `
 
 class TransactionsContainer extends React.PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.props.initTxs()
     this.props.miscActions.fetchPriceChange(
       this.props.coin as CoinType,
@@ -117,7 +116,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
     this.props.brokerageActions.fetchBankTransferAccounts()
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (
       path(['location', 'pathname'], prevProps) !==
       path(['location', 'pathname'], this.props)
@@ -135,7 +134,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
     this.props.setAddressArchived && this.props.setAddressArchived(address)
   }
 
-  render () {
+  render() {
     const {
       coin,
       coinModel,
@@ -147,7 +146,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       pages,
       sourceType
     } = this.props
-    const { colorCode, coinTicker, displayName, icons } = coinModel
+    const { coinTicker, colorCode, displayName, icons } = coinModel
     return (
       <SceneWrapper>
         <LazyLoadContainer onLazyLoad={loadMoreTxs}>

@@ -1,13 +1,14 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
 import { getOrderType } from 'data/components/simpleBuy/model'
-import { InjectedFormProps, reduxForm } from 'redux-form'
 import { LinkDispatchPropsType, OwnProps } from '.'
-import React from 'react'
-import styled from 'styled-components'
 
 const Wrapper = styled.div`
   width: 100%;

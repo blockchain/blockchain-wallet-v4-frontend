@@ -1,13 +1,12 @@
-import { actions } from 'data'
-
-import { bindActionCreators } from 'redux'
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { FlyoutWrapper } from 'components/Flyout'
+import { actions } from 'data'
 
 export const IconBackground = styled.div`
   margin-right: 16px;

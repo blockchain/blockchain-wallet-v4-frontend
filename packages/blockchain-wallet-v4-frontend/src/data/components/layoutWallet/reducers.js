@@ -1,5 +1,6 @@
-import * as AT from './actionTypes'
 import { assoc, merge, path } from 'ramda'
+
+import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   balancesTable: 'total',
@@ -9,7 +10,7 @@ const INITIAL_STATE = {
 }
 
 export default (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
 
   switch (type) {
     case AT.SET_BALANCES_CHART_TAB: {

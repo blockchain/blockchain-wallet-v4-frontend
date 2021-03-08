@@ -1,3 +1,5 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import {
   Button,
   Icon,
@@ -5,15 +7,14 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { CoinType } from 'core/types'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { FormattedMessage } from 'react-intl'
-import { InterestStepMetadata } from 'data/types'
-import { pathOr } from 'ramda'
-import FiatDisplay from 'components/Display/FiatDisplay'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import moment from 'moment'
-import React from 'react'
+import { pathOr } from 'ramda'
 
+import FiatDisplay from 'components/Display/FiatDisplay'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { InterestStepMetadata } from 'data/types'
+import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import {
   Bottom,
   ButtonContainer,
@@ -30,8 +31,6 @@ import {
   Wrapper
 } from './model'
 
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
-
 const AccountSummary: React.FC<Props> = props => {
   const {
     accountBalances,
@@ -45,7 +44,7 @@ const AccountSummary: React.FC<Props> = props => {
     stepMetadata,
     supportedCoins
   } = props
-  const { colorCode, coinTicker, displayName, icons } = supportedCoins[coin]
+  const { coinTicker, colorCode, displayName, icons } = supportedCoins[coin]
   const account = accountBalances && accountBalances[coin]
 
   const lockupPeriod =

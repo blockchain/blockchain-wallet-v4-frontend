@@ -1,10 +1,11 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { media } from 'services/styles'
 import { Text } from 'blockchain-info-components'
+import styled from 'styled-components'
+
 import CoinDisplay from 'components/Display/CoinDisplay'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
-import React from 'react'
-import styled from 'styled-components'
+import { media } from 'services/styles'
 
 const KeyWrapper = styled.div`
   display: flex;

@@ -1,16 +1,16 @@
-import { call, put, select } from 'redux-saga/effects'
 import { set } from 'ramda-lens'
+import { call, put, select } from 'redux-saga/effects'
 
-import * as A from './actions'
-import * as selectors from '../../selectors'
+import { KVStoreEntry } from '../../../types'
 import { callTask } from '../../../utils/functional'
+import * as selectors from '../../selectors'
 import { derivationMap, WALLET_CREDENTIALS } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
-import { KVStoreEntry } from '../../../types'
+import * as A from './actions'
 
 export default ({ api, networks } = {}) => {
   // internal
-  const updateWalletCredentialsIfChangedOrMissing = function * (kv) {
+  const updateWalletCredentialsIfChangedOrMissing = function*(kv) {
     const guidT = yield select(selectors.wallet.getGuid)
     const passwordT = yield select(selectors.wallet.getMainPassword)
     const sharedKeyT = yield select(selectors.wallet.getSharedKey)
@@ -35,7 +35,7 @@ export default ({ api, networks } = {}) => {
     }
   }
 
-  const fetchMetadataWalletCredentials = function * () {
+  const fetchMetadataWalletCredentials = function*() {
     try {
       const typeId = derivationMap[WALLET_CREDENTIALS]
       const mxpriv = yield select(getMetadataXpriv)

@@ -1,23 +1,24 @@
-import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { compose } from 'redux'
+import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
+import { FlyoutWrapper } from 'components/Flyout'
 import {
   CoinBalanceDropdown,
   Form,
   FormLabel,
   NumberBox
 } from 'components/Form'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
+import { selectors } from 'data'
+import { RepayLoanFormType } from 'data/components/borrow/types'
 import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
 import { Props as OwnProps, SuccessStateType } from '.'
-import { RepayLoanFormType } from 'data/components/borrow/types'
-import { selectors } from 'data'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import FiatDisplay from 'components/Display/FiatDisplay'
-import React from 'react'
-import styled from 'styled-components'
 import TabMenuPaymentMethod from './TabMenuPaymentMethod'
 import TabMenuPaymentType from './TabMenuPaymentType'
 

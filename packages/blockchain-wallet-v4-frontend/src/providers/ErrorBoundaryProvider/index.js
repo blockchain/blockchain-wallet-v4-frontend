@@ -1,7 +1,7 @@
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import React from 'react'
+import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
 import { selectors } from '../../data'
@@ -13,7 +13,7 @@ class ErrorBoundary extends React.Component {
     errorInfo: null
   }
 
-  componentDidCatch (error, info) {
+  componentDidCatch(error, info) {
     this.setState({
       error: error,
       errorInfo: info
@@ -30,7 +30,7 @@ class ErrorBoundary extends React.Component {
     }
   }
 
-  render () {
+  render() {
     if (this.state.error) {
       return (
         <ErrorModal

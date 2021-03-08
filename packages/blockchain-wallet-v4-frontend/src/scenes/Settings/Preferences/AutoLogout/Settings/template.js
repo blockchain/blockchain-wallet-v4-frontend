@@ -1,13 +1,14 @@
-import { Button, Text } from 'blockchain-info-components'
-import { Field, reduxForm } from 'redux-form'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Button, Text } from 'blockchain-info-components'
+import PropTypes from 'prop-types'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { FormGroup, FormItem, NumberBox } from 'components/Form'
-import { isValidAutoLogoutTime } from './validation'
 import { SettingForm, SettingWrapper } from 'components/Setting'
 import { spacing } from 'services/styles'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
+import { isValidAutoLogoutTime } from './validation'
 
 const Wrapper = styled.div`
   display: flex;
@@ -25,7 +26,7 @@ const ButtonWrapper = styled.div`
 `
 
 const Settings = props => {
-  const { handleToggle, handleSubmit, submitting, invalid } = props
+  const { handleSubmit, handleToggle, invalid, submitting } = props
 
   return (
     <SettingWrapper>

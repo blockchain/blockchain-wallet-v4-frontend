@@ -1,5 +1,7 @@
 // Verify the signature of a message signed with a Bitcoin address.
 
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import {
   Banner,
   Button,
@@ -10,14 +12,12 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-
-import * as services from './services'
-import { FormattedMessage } from 'react-intl'
-import { FormItem, FormLabel, TextArea, TextBox } from 'components/Form'
-import { validBtcAddress } from 'services/forms'
-import modalEnhancer from 'providers/ModalEnhancer'
-import React from 'react'
 import styled from 'styled-components'
+
+import { FormItem, FormLabel, TextArea, TextBox } from 'components/Form'
+import modalEnhancer from 'providers/ModalEnhancer'
+import { validBtcAddress } from 'services/forms'
+import * as services from './services'
 
 const Item = styled(FormItem)`
   margin-bottom: 15px;

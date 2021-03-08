@@ -1,10 +1,9 @@
-import * as StellarSdk from 'stellar-sdk'
-import { BigNumber } from 'bignumber.js'
-import { mapObjIndexed, path, prop } from 'ramda'
 import React from 'react'
-
+import { BigNumber } from 'bignumber.js'
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import { mapObjIndexed, path, prop } from 'ramda'
+import * as StellarSdk from 'stellar-sdk'
 
 import {
   InsufficientFundsMessage,
@@ -110,11 +109,11 @@ export const balanceReserveAmount = (errors, allValues, props) => {
 }
 
 export const shouldError = ({
-  values,
+  initialRender,
   nextProps,
   props,
-  initialRender,
-  structure
+  structure,
+  values
 }) => {
   if (initialRender) {
     return true
@@ -127,11 +126,11 @@ export const shouldError = ({
 }
 
 export const shouldWarn = ({
-  values,
+  initialRender,
   nextProps,
   props,
-  initialRender,
-  structure
+  structure,
+  values
 }) => {
   if (initialRender) {
     return true

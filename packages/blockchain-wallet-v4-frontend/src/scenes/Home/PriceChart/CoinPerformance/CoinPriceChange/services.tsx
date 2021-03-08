@@ -1,6 +1,7 @@
-import { FormattedMessage } from 'react-intl'
-import { PriceChartPreferenceType } from 'data/preferences/types'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+
+import { PriceChartPreferenceType } from 'data/preferences/types'
 
 export const getPriceChartTime = (
   priceChartTime: PriceChartPreferenceType['time']

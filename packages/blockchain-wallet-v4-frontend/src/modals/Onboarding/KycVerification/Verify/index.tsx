@@ -1,23 +1,22 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
-import { checkHasWebcam } from 'utils/helpers'
-import { getData, getPreIdvData } from './selectors'
 import DataError from 'components/DataError'
 import SiftScience from 'components/SiftScience'
-
-import { ExtractSuccess } from 'core/types'
-import Loading from './template.loading'
+import { actions } from 'data'
+import { checkHasWebcam } from 'utils/helpers'
 import Veriff from '../Veriff'
+import { getData, getPreIdvData } from './selectors'
+import Loading from './template.loading'
 
 class VerifyContainer extends React.PureComponent<Props> {
   state = {
     hasWebcam: false
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { actions } = this.props
     actions.fetchSupportedDocuments()
     actions.checkKycFlow()
@@ -26,8 +25,8 @@ class VerifyContainer extends React.PureComponent<Props> {
     })
   }
 
-  render () {
-    const { actions, data, preIdvData, onClose } = this.props
+  render() {
+    const { actions, data, onClose, preIdvData } = this.props
 
     const VerificationFlow = data.cata({
       Success: () => {

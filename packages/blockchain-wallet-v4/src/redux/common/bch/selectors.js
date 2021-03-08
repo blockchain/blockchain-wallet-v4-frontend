@@ -1,5 +1,3 @@
-import * as walletSelectors from '../../wallet/selectors'
-import { ADDRESS_TYPES } from '../../payment/btc/utils'
 import {
   assoc,
   compose,
@@ -13,19 +11,22 @@ import {
   split,
   values
 } from 'ramda'
-import { getAccountsList } from '../../kvStore/bch/selectors'
+
+import Remote from '../../../remote'
+import { HDAccount, HDAccountList, HDWallet } from '../../../types'
+import { toCashAddr } from '../../../utils/bch'
 import {
   getAddresses,
   getChangeIndex,
   getReceiveIndex
 } from '../../data/bch/selectors'
+import { getAccountsList } from '../../kvStore/bch/selectors'
 import {
   getLockboxBchAccount,
   getLockboxBchAccounts
 } from '../../kvStore/lockbox/selectors'
-import { HDAccount, HDAccountList, HDWallet } from '../../../types'
-import { toCashAddr } from '../../../utils/bch'
-import Remote from '../../../remote'
+import { ADDRESS_TYPES } from '../../payment/btc/utils'
+import * as walletSelectors from '../../wallet/selectors'
 
 export const getLockboxBchBalances = state => {
   const digest = (addresses, account) => ({

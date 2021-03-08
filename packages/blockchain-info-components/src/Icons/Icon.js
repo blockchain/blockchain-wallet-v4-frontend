@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { Image } from '../..'
@@ -23,7 +23,7 @@ const BaseIcon = styled.span`
 `
 
 const Icon = props => {
-  const { name, cursor, ...rest } = props
+  const { cursor, name, ...rest } = props
   const code = Icomoon[name]
 
   // TODO: move off fonts for icons as they can only be one color. WDGLD needs multiple colors and thus this hack

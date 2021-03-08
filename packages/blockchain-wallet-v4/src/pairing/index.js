@@ -1,6 +1,7 @@
-import * as crypto from '../walletCrypto'
-import { compose, isNil, not, propEq, propSatisfies } from 'ramda'
 import Task from 'data.task'
+import { compose, isNil, not, propEq, propSatisfies } from 'ramda'
+
+import * as crypto from '../walletCrypto'
 
 const isNotNil = compose(not, isNil)
 
@@ -53,4 +54,4 @@ const encode = (guid, sharedKey, password, pairingPassword) => {
     .map(encrypted => `${VERSION}|${guid}|${encrypted}`)
 }
 
-export { parseQRcode, decode, encode }
+export { decode, encode, parseQRcode }

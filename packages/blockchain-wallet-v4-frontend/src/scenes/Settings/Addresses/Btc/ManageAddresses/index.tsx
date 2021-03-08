@@ -1,5 +1,5 @@
-import { InjectedFormProps, reduxForm } from 'redux-form'
 import React from 'react'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { model } from 'data'
@@ -13,7 +13,7 @@ const Wrapper = styled.section`
 class ManageAddressesContainer extends React.PureComponent<
   InjectedFormProps<{}, {}>
 > {
-  render () {
+  render() {
     // @ts-ignore
     const walletIndex = this.props.match.params.index
     return (

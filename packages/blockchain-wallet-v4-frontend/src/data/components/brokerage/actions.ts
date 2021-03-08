@@ -1,10 +1,11 @@
-import * as AT from './actionTypes'
 import {
   BankTransferAccountType,
   WalletFiatType,
   YodleeAccountType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
 
+import { BrokerageModalOriginType, ModalNamesType } from 'data/types'
+import * as AT from './actionTypes'
 import {
   AddBankStepType,
   BankDetailsPayload,
@@ -14,7 +15,6 @@ import {
   BrokerageDWStepPayload,
   FastLinkType
 } from './types'
-import { BrokerageModalOriginType, ModalNamesType } from 'data/types'
 
 export const deleteSavedBank = (bankId: BankTransferAccountType['id']) => ({
   type: AT.DELETE_SAVED_BANK,

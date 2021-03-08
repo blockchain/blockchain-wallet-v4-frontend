@@ -1,12 +1,12 @@
+import Remote from '../../remote'
 import * as AT from './actionTypes'
 import { WalletOptionsState } from './types'
-import Remote from '../../remote'
 
 // TODO: once getWalletOptions is working implement default object for failure
 const INITIAL_STATE: WalletOptionsState = Remote.NotAsked
 
-export function walletOptionsReducer (state = INITIAL_STATE, action) {
-  const { type, payload } = action
+export function walletOptionsReducer(state = INITIAL_STATE, action) {
+  const { payload, type } = action
 
   switch (type) {
     case AT.FETCH_OPTIONS_LOADING: {

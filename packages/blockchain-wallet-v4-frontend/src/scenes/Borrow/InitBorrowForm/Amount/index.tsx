@@ -1,13 +1,14 @@
-import { CoinType } from 'core/types'
+import React, { Component } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { convertBaseToStandard } from 'data/components/exchange/services'
+import { Text } from 'blockchain-info-components'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import { getBalance } from './selectors'
-import { RootState } from 'data/rootReducer'
-import { Text } from 'blockchain-info-components'
-import React, { Component } from 'react'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import styled from 'styled-components'
+
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { RootState } from 'data/rootReducer'
+import { getBalance } from './selectors'
 
 const Wrapper = styled.div`
   margin-top: 8px;
@@ -22,7 +23,7 @@ const Content = styled(Text)`
 export class Amount extends Component<Props> {
   state = {}
 
-  render () {
+  render() {
     return (
       <Wrapper>
         {this.props.data.cata({

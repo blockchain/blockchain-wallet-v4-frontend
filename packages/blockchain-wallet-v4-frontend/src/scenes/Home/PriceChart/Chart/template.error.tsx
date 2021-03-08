@@ -1,5 +1,5 @@
-import { Text } from 'blockchain-info-components'
 import React from 'react'
+import { Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`

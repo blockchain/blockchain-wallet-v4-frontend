@@ -1,7 +1,8 @@
-import { shallow } from 'enzyme'
 import React from 'react'
-import TextGroup from './TextGroup'
+import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
+
+import TextGroup from './TextGroup'
 
 describe('TextGroup component', () => {
   it('default renders correctly', () => {

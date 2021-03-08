@@ -1,10 +1,9 @@
-import { FormattedMessage } from 'react-intl'
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Button, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
-import { Button, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-
 import { Props } from '../index'
 
 const Wrapper = styled.div`
@@ -47,7 +46,7 @@ class RecoveryPhraseIntro extends PureComponent<Props> {
   handleBackupNow = () => {
     this.props.recoveryPhraseActions.setStep('FIRST_SET_WORDS')
   }
-  render () {
+  render() {
     return (
       <Wrapper>
         <FlyoutWrapper>

@@ -1,10 +1,10 @@
+import { CardNameType } from 'components/Form/CreditCardBox/model'
 import {
   BeneficiaryType,
   CoinType,
   FiatType,
   WalletCurrencyType
 } from 'core/types'
-import { CardNameType } from 'components/Form/CreditCardBox/model'
 
 export type Everypay3DSResponseType = {
   payment_state: null | 'waiting_for_3DS_response'

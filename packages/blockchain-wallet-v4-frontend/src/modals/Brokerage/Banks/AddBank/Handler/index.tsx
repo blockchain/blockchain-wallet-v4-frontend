@@ -1,14 +1,13 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { isEmpty } from 'ramda'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { isEmpty } from 'ramda'
+import { bindActionCreators, Dispatch } from 'redux'
 
-import { actions } from 'data'
-import { AddBankStepType } from 'data/types'
-import { RemoteDataType } from 'core/types'
-import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
-
+import { actions } from 'data'
+import { RootState } from 'data/rootReducer'
+import { AddBankStepType } from 'data/types'
 import { getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
@@ -26,7 +25,7 @@ class LinkBankHandler extends PureComponent<Props, State> {
     if (event.data.from !== 'yodlee') return
     if (event.data.to !== 'sb') return
 
-    const { sites, error } = event.data
+    const { error, sites } = event.data
     if (!isEmpty(sites)) {
       this.props.brokerageActions.fetchBankTransferUpdate(sites)
       this.props.brokerageActions.fetchBTUpdateLoading()

@@ -1,10 +1,10 @@
-import { Button, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
-import { media } from 'services/styles'
-import { NavLink } from 'react-router-dom'
 import React from 'react'
-
+import { FormattedMessage } from 'react-intl'
+import { NavLink } from 'react-router-dom'
+import { Button, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { media } from 'services/styles'
 
 const Container = styled.div`
   display: flex;

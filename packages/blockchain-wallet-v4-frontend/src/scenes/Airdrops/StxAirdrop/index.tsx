@@ -1,6 +1,9 @@
+import React from 'react'
+import { Icon, Text } from 'blockchain-info-components'
+import styled from 'styled-components'
+
 import { Box } from 'components/Box'
 import { CampaignInfoType } from 'data/types'
-import { Icon, Text } from 'blockchain-info-components'
 import { Props } from '../template.success'
 import {
   StxDateOrAmount,
@@ -9,8 +12,6 @@ import {
   StxInfo,
   StxStatus
 } from './model'
-import React from 'react'
-import styled from 'styled-components'
 
 const Header = styled.div`
   display: flex;

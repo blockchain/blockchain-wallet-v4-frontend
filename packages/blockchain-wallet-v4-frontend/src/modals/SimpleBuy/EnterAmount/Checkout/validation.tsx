@@ -1,15 +1,10 @@
 import BigNumber from 'bignumber.js'
-
+import { UnitType } from 'blockchain-wallet-v4/src/exchange'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import {
   coinToString,
   fiatToString
 } from 'blockchain-wallet-v4/src/exchange/currency'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import {
-  getCoinFromPair,
-  getFiatFromPair
-} from 'data/components/simpleBuy/model'
-import { model } from 'data'
 import {
   PaymentValue,
   SBBalancesType,
@@ -20,15 +15,19 @@ import {
   SupportedWalletCurrenciesType,
   SwapQuoteType,
   SwapUserLimitsType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+
+import { model } from 'data'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import {
+  getCoinFromPair,
+  getFiatFromPair
+} from 'data/components/simpleBuy/model'
 import {
   SBCheckoutFormValuesType,
   SBFixType,
   SwapAccountType
 } from 'data/types'
-import { UnitType } from 'core/exchange'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-
 import { Props } from './template.success'
 
 const { LIMIT } = model.components.simpleBuy
@@ -254,16 +253,16 @@ export const maximumAmount = (
 
   const {
     defaultMethod,
+    isSddFlow,
+    limits,
     method: selectedMethod,
     orderType,
     pair,
     payment,
     quote,
     sbBalances,
-    swapAccount,
-    isSddFlow,
     sddLimit,
-    limits
+    swapAccount
   } = restProps
 
   const method = selectedMethod || defaultMethod
@@ -306,15 +305,15 @@ export const minimumAmount = (
 
   const {
     defaultMethod,
+    isSddFlow,
     method: selectedMethod,
     orderType,
     pair,
     payment,
     quote,
     sbBalances,
-    swapAccount,
-    isSddFlow,
-    sddLimit
+    sddLimit,
+    swapAccount
   } = restProps
   const method = selectedMethod || defaultMethod
   if (!allValues) return

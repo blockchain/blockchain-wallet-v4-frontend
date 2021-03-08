@@ -1,30 +1,29 @@
-import {
-  CARD_TYPES,
-  DEFAULT_CARD_SVG_LOGO
-} from 'components/Form/CreditCardBox/model'
-import { FlyoutWrapper } from 'components/Flyout'
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
+import React, { PureComponent, ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { getBankLogoImageName } from 'services/images'
-import {
-  getCoinFromPair,
-  getFiatFromPair
-} from 'data/components/simpleBuy/model'
 import { Icon, Image, Text } from 'blockchain-info-components'
-import { Props as OwnProps, SuccessStateType } from '../index'
-
 import {
   SBPaymentMethodType,
   SupportedFiatType,
   WalletCurrencyType,
   WalletFiatEnum
-} from 'core/types'
-import PaymentCard from './PaymentCard'
-import React, { PureComponent, ReactElement } from 'react'
+} from 'blockchain-wallet-v4/src/types'
+import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { FlyoutWrapper } from 'components/Flyout'
+import {
+  CARD_TYPES,
+  DEFAULT_CARD_SVG_LOGO
+} from 'components/Form/CreditCardBox/model'
+import {
+  getCoinFromPair,
+  getFiatFromPair
+} from 'data/components/simpleBuy/model'
+import { getBankLogoImageName } from 'services/images'
+import { Props as OwnProps, SuccessStateType } from '../index'
 import BankWire from './BankWire'
 import LinkBank from './LinkBank'
+import PaymentCard from './PaymentCard'
 
 const Wrapper = styled.div`
   display: flex;
@@ -165,7 +164,7 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       : 'Credit or Debit Card'
   }
 
-  render () {
+  render() {
     const { fiatCurrency, orderType } = this.props
     const availableCards = this.props.cards.filter(
       card => card.state === 'ACTIVE' && orderType === 'BUY'

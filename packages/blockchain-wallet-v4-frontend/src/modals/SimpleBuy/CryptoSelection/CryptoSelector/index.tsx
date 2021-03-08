@@ -1,15 +1,5 @@
-import { any, map, values } from 'ramda'
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import React, { useState } from 'react'
-import styled from 'styled-components'
-
-import { CoinAccountListOption } from 'components/Form'
-import { FlyoutWrapper } from 'components/Flyout'
-import {
-  getCoinFromPair,
-  getFiatFromPair
-} from 'data/components/simpleBuy/model'
+import { FormattedMessage } from 'react-intl'
 import {
   Icon,
   Image,
@@ -17,11 +7,20 @@ import {
   TabMenuItem,
   Text
 } from 'blockchain-info-components'
-import { model } from 'data'
-import { SBPairType } from 'core/types'
-import { SUPPORTED_COINS } from 'data/coins/model/swap'
-import { SwapAccountType } from 'data/types'
+import { SBPairType } from 'blockchain-wallet-v4/src/types'
+import { any, map, values } from 'ramda'
+import { Form, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
 
+import { FlyoutWrapper } from 'components/Flyout'
+import { CoinAccountListOption } from 'components/Form'
+import { model } from 'data'
+import { SUPPORTED_COINS } from 'data/coins/model/swap'
+import {
+  getCoinFromPair,
+  getFiatFromPair
+} from 'data/components/simpleBuy/model'
+import { SwapAccountType } from 'data/types'
 import { Props as OwnProps, SuccessStateType } from '../index'
 import CryptoItem from './CryptoItem'
 import SellEmptyState from './SellEmptyState'

@@ -1,5 +1,5 @@
-import { Form } from 'redux-form'
 import { Text } from 'blockchain-info-components'
+import { Form } from 'redux-form'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { SuccessCartridge } from 'components/Cartridge'

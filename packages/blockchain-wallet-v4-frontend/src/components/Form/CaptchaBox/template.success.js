@@ -1,8 +1,7 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
-import styled from 'styled-components'
-
+import { FormattedMessage } from 'react-intl'
 import { Icon, Link, Text, TextInput } from 'blockchain-info-components'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   position: relative;

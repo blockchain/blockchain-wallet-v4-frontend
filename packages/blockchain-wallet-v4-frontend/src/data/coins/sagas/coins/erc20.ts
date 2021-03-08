@@ -1,13 +1,21 @@
+import { Exchange } from 'blockchain-wallet-v4/src'
+import {
+  CoinType,
+  CurrenciesType,
+  PaymentValue,
+  RatesType
+} from 'blockchain-wallet-v4/src/types'
 import { head } from 'ramda'
 import { select } from 'redux-saga/effects'
 
-import { CoinType, CurrenciesType, PaymentValue, RatesType } from 'core/types'
 import { selectors } from 'data'
-import { Exchange } from 'core'
 
 // retrieves default account/address
 export const getDefaultAccount = function * (coin: CoinType) {
-  const erc20AccountR = yield select(selectors.core.common.eth.getErc20AccountBalances, coin)
+  const erc20AccountR = yield select(
+    selectors.core.common.eth.getErc20AccountBalances,
+    coin
+  )
   return erc20AccountR.map(head)
 }
 
@@ -19,7 +27,11 @@ export const getNextReceiveAddress = function * (coin: CoinType) {
 }
 
 // gets or updates a provisional payment
-export const getOrUpdateProvisionalPayment = function * (coreSagas, networks, paymentR) {
+export const getOrUpdateProvisionalPayment = function * (
+  coreSagas,
+  networks,
+  paymentR
+) {
   return yield coreSagas.payment.eth.create({
     payment: paymentR.getOrElse(<PaymentValue>{}),
     network: networks.eth

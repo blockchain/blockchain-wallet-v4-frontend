@@ -1,19 +1,15 @@
-import { lift } from 'ramda'
 import BigNumber from 'bignumber.js'
-
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
-import { RootState } from 'data/rootReducer'
-import { selectors } from 'data'
+import { lift } from 'ramda'
 
+import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 import {
   convertBaseToStandard,
   convertStandardToBase
 } from '../exchange/services'
+import { InitSwapFormValuesType, SwapAmountFormValues } from './types'
 import { getRate } from './utils'
-import {
-  InitSwapFormValuesType,
-  SwapAmountFormValues
-} from './types'
 
 export const getCustodialEligibility = (state: RootState) =>
   state.components.swap.custodialEligibility

@@ -1,9 +1,8 @@
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { prop } from 'ramda'
-import Bowser from 'bowser'
 import React from 'react'
-import styled from 'styled-components'
-
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import linuxUpdater from 'assets/lockbox/lockbox-updater-1.0.0.AppImage'
+import macUpdater from 'assets/lockbox/lockbox-updater-1.0.0.dmg'
+import windowsUpdater from 'assets/lockbox/lockbox-updater-1.0.0.exe'
 import {
   BlockchainLoader,
   Button,
@@ -11,10 +10,9 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
-
-import linuxUpdater from 'assets/lockbox/lockbox-updater-1.0.0.AppImage'
-import macUpdater from 'assets/lockbox/lockbox-updater-1.0.0.dmg'
-import windowsUpdater from 'assets/lockbox/lockbox-updater-1.0.0.exe'
+import Bowser from 'bowser'
+import { prop } from 'ramda'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -67,9 +65,9 @@ const SoftwareDownloadStep = props => {
   const {
     hasDownloaded,
     onGoBackToDownload,
+    onSkipDownload,
     onStartDownload,
-    onStepChange,
-    onSkipDownload
+    onStepChange
   } = props
   return hasDownloaded ? (
     <Wrapper>

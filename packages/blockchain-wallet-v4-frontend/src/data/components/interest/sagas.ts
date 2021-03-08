@@ -1,8 +1,6 @@
-import { call, delay, put, select, take } from 'redux-saga/effects'
-import { FormAction, initialize } from 'redux-form'
-import { last, prop } from 'ramda'
 import BigNumber from 'bignumber.js'
-
+import { Remote } from 'blockchain-wallet-v4/src'
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import {
   AccountTypes,
   CoinType,
@@ -11,22 +9,23 @@ import {
   RatesType,
   RemoteDataType,
   SBBalancesType
-} from 'core/types'
-import { actions, actionTypes, model, selectors } from 'data'
-import { APIType } from 'core/network/api'
-import { convertStandardToBase } from '../exchange/services'
+} from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { generateProvisionalPaymentAmount } from 'data/coins/utils'
-import { Remote } from 'blockchain-wallet-v4/src'
-import coinSagas from 'data/coins/sagas'
+import { last, prop } from 'ramda'
+import { FormAction, initialize } from 'redux-form'
+import { call, delay, put, select, take } from 'redux-saga/effects'
 
+import { actions, actionTypes, model, selectors } from 'data'
+import coinSagas from 'data/coins/sagas'
+import { generateProvisionalPaymentAmount } from 'data/coins/utils'
+import profileSagas from '../../modules/profile/sagas'
+import { convertStandardToBase } from '../exchange/services'
 import * as A from './actions'
 import * as AT from './actionTypes'
-import * as S from './selectors'
 import { DEFAULT_INTEREST_BALANCES } from './model'
-import { InterestDepositFormType, InterestWithdrawalFormType } from './types'
-import profileSagas from '../../modules/profile/sagas'
 import utils from './sagas.utils'
+import * as S from './selectors'
+import { InterestDepositFormType, InterestWithdrawalFormType } from './types'
 
 const { INTEREST_EVENTS } = model.analytics
 const DEPOSIT_FORM = 'interestDepositForm'
@@ -160,7 +159,7 @@ export default ({
   const fetchInterestTransactions = function * ({
     payload
   }: ReturnType<typeof A.fetchInterestTransactions>) {
-    const { reset, coin } = payload
+    const { coin, reset } = payload
 
     try {
       const nextPage = !reset
@@ -206,7 +205,10 @@ export default ({
             : new BigNumber(action.payload).dividedBy(rate).toNumber()
           const paymentR = S.getPayment(yield select())
           if (paymentR) {
-            let payment = yield getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
+            let payment = yield getOrUpdateProvisionalPaymentForCoin(
+              coin,
+              paymentR
+            )
             const paymentAmount = generateProvisionalPaymentAmount(
               payment.coin,
               value
@@ -504,7 +506,7 @@ export default ({
   const showInterestModal = function * ({
     payload
   }: ReturnType<typeof A.showInterestModal>) {
-    const { step, coin } = payload
+    const { coin, step } = payload
     yield put(A.setInterestStep(step))
     yield put(
       actions.modals.showModal('INTEREST_MODAL', {

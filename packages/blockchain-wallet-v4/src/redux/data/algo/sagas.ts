@@ -1,23 +1,22 @@
-import { call, put, select, take } from 'redux-saga/effects'
+import moment from 'moment'
 import { flatten, last, length } from 'ramda'
+import { call, put, select, take } from 'redux-saga/effects'
 
 import { APIType } from 'core/network/api'
+import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
 import Remote from '../../../remote'
-
+import * as selectors from '../../selectors'
+import custodialSagas from '../custodial/sagas'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import * as selectors from '../../selectors'
-import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
-import custodialSagas from '../custodial/sagas'
-import moment from 'moment'
 
 const TX_PER_PAGE = 10
 
 export default ({ api }: { api: APIType }) => {
   const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
 
-  const fetchRates = function * () {
+  const fetchRates = function*() {
     try {
       yield put(A.fetchRatesLoading())
       const data = yield call(api.getCoinTicker, 'ALGO')
@@ -27,14 +26,14 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const watchTransactions = function * () {
+  const watchTransactions = function*() {
     while (true) {
       const action = yield take(AT.FETCH_ALGO_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
 
-  const fetchTransactions = function * (
+  const fetchTransactions = function*(
     action: ReturnType<typeof A.fetchTransactions>
   ) {
     try {

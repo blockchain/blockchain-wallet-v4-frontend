@@ -15,12 +15,12 @@ const IconContainer = styled.div`
 `
 
 export {
+  IconContainer,
   SecurityComponent,
   SecurityContainer,
   SecurityDescription,
   SecurityHeader,
   SecurityIcon,
   SecuritySummary,
-  SecurityTip,
-  IconContainer
+  SecurityTip
 }

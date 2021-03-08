@@ -1,7 +1,8 @@
+import { Remote } from 'blockchain-wallet-v4/src'
+import { put, select } from 'redux-saga/effects'
+
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
-import { put, select } from 'redux-saga/effects'
-import { Remote } from 'blockchain-wallet-v4/src'
 
 export default ({ coreSagas }) => {
   const initialized = function * (action) {

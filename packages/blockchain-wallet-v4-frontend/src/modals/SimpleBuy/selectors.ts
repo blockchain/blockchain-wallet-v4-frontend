@@ -1,8 +1,8 @@
-import { ExtractSuccess } from 'core/types'
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { lift } from 'ramda'
 
-import { createDeepEqualSelector } from 'services/misc'
 import { selectors } from 'data'
+import { createDeepEqualSelector } from 'services/misc'
 
 export const getData = createDeepEqualSelector(
   [selectors.modules.profile.getUserData],

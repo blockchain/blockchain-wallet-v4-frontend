@@ -1,17 +1,5 @@
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import React, { useState } from 'react'
-import styled from 'styled-components'
-
-import { AgentType } from 'core/types'
-import { BankDWStepType } from 'data/types'
-import {
-  DisplayIcon,
-  DisplaySubTitle,
-  DisplayTitle
-} from 'components/SimpleBuy'
-import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
-
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import {
   Icon,
   Link,
@@ -20,10 +8,20 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import { AgentType } from 'blockchain-wallet-v4/src/types'
+import styled from 'styled-components'
+
+import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
+import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
+import {
+  DisplayIcon,
+  DisplaySubTitle,
+  DisplayTitle
+} from 'components/SimpleBuy'
+import { BankDWStepType } from 'data/types'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { TransferType } from './types'
-
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 
 const Wrapper = styled.div`
   display: flex;
@@ -248,7 +246,8 @@ const Success: React.FC<Props> = props => {
                 </Value>
               </div>
               <Copy>
-                <CopyClipboardButton textToCopy={props.account.agent.accountType}
+                <CopyClipboardButton
+                  textToCopy={props.account.agent.accountType}
                 />
               </Copy>
             </RowCopy>
@@ -336,7 +335,8 @@ const Success: React.FC<Props> = props => {
               </Value>
             </div>
             <Copy>
-              <CopyClipboardButton textToCopy={(props.account.agent as AgentType).routingNumber}
+              <CopyClipboardButton
+                textToCopy={(props.account.agent as AgentType).routingNumber}
               />
             </Copy>
           </RowCopy>
@@ -356,7 +356,9 @@ const Success: React.FC<Props> = props => {
                 </Value>
               </div>
               <Copy>
-                <CopyClipboardButton textToCopy={props.account.agent.swiftCode} />
+                <CopyClipboardButton
+                  textToCopy={props.account.agent.swiftCode}
+                />
               </Copy>
             </RowCopy>
           )}

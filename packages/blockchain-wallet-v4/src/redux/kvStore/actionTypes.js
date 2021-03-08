@@ -7,13 +7,4 @@ import * as userCredentials from './userCredentials/actionTypes'
 import * as walletCredentials from './walletCredentials/actionTypes'
 import * as xlm from './xlm/actionTypes'
 
-export {
-  root,
-  eth,
-  bch,
-  btc,
-  lockbox,
-  userCredentials,
-  walletCredentials,
-  xlm
-}
+export { bch, btc, eth, lockbox, root, userCredentials, walletCredentials, xlm }

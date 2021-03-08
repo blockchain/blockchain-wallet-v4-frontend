@@ -1,7 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
-
 import { CheckBoxInput, Text } from 'blockchain-info-components'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   position: relative;

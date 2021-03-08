@@ -1,5 +1,7 @@
-import { FormattedMessage } from 'react-intl'
 import React, { ReactElement } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Icon } from 'blockchain-info-components'
+import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
 import styled from 'styled-components'
 
 import {
@@ -10,8 +12,6 @@ import {
   DisplaySubTitle,
   DisplayTitle
 } from 'components/SimpleBuy'
-import { Icon } from 'blockchain-info-components'
-import { SBPaymentMethodType } from 'core/types'
 
 const DisplayTitleBank = styled(DisplayTitle)`
   margin-bottom: 2px;
@@ -27,7 +27,7 @@ type Props = {
   value: SBPaymentMethodType
 }
 
-const BankWire: React.FC<Props> = ({ value, onClick, icon, text }) => (
+const BankWire: React.FC<Props> = ({ icon, onClick, text, value }) => (
   <DisplayContainer
     data-e2e={`sb${value.type.toLowerCase()}BankWire`}
     role='button'

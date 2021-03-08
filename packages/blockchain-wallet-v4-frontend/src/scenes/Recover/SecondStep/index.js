@@ -1,22 +1,23 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { formValueSelector } from 'redux-form'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
+
+import { actions, selectors } from 'data'
 import Recover from './template.js'
 
 class RecoverContainer extends React.PureComponent {
-  constructor () {
+  constructor() {
     super()
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit () {
-    const { mnemonic, email, password, language } = this.props
+  onSubmit() {
+    const { email, language, mnemonic, password } = this.props
     this.props.authActions.restore(mnemonic, email, password, language)
   }
 
-  render () {
+  render() {
     const { data, password, previousStep } = this.props
     const busy = data.cata({
       Success: () => false,

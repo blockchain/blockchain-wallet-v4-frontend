@@ -1,11 +1,12 @@
-import { actions } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { media } from 'services/styles'
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
+
+import { actions } from 'data'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -69,7 +70,7 @@ const BannerButton = styled(Button)`
 `
 
 class FinishKyc extends PureComponent<Props> {
-  render () {
+  render() {
     return (
       <Wrapper>
         <Row>

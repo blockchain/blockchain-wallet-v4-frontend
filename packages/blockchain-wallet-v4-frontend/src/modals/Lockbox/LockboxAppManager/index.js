@@ -1,13 +1,12 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import PropTypes from 'prop-types'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
+import PropTypes from 'prop-types'
+import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
-import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
 import modalEnhancer from 'providers/ModalEnhancer'
-
 import AppManager from '../components/AppManager'
 
 class LockboxAppManagerModal extends React.PureComponent {

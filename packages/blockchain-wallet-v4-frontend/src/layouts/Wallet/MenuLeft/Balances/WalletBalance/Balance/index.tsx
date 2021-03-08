@@ -1,12 +1,13 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { CoinType, ExtractSuccess } from 'core/types'
-import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
-import { includes, toLower } from 'ramda'
-import { LoadingBalance } from '../../model'
-import Error from './template.error'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { CoinType, ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { includes, toLower } from 'ramda'
+import { bindActionCreators } from 'redux'
+
+import { actions, selectors } from 'data'
+import { LoadingBalance } from '../../model'
+import { getData } from './selectors'
+import Error from './template.error'
 import Success from './template.success'
 
 class Balance extends React.PureComponent<Props> {

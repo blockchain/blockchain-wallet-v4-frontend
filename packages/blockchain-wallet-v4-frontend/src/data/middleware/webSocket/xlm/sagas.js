@@ -1,4 +1,4 @@
-import * as T from 'services/alerts'
+import { transactions } from 'blockchain-wallet-v4/src'
 import {
   append,
   compose,
@@ -12,7 +12,7 @@ import {
 import { call, put, select } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
-import { transactions } from 'blockchain-wallet-v4/src'
+import * as T from 'services/alerts'
 
 const { decodeOperations, getDestination } = transactions.xlm
 

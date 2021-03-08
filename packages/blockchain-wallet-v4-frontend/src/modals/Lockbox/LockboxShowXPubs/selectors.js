@@ -1,7 +1,7 @@
-import { createDeepEqualSelector } from 'services/misc'
-
 import { Remote } from 'blockchain-wallet-v4/src'
+
 import { selectors } from 'data'
+import { createDeepEqualSelector } from 'services/misc'
 
 export const getData = createDeepEqualSelector(
   [

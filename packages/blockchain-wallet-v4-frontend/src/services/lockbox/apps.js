@@ -1,6 +1,7 @@
-import { find, propEq } from 'ramda'
-import constants from './constants'
 import qs from 'qs'
+import { find, propEq } from 'ramda'
+
+import constants from './constants'
 import utils from './utils'
 
 // gets version of btc application

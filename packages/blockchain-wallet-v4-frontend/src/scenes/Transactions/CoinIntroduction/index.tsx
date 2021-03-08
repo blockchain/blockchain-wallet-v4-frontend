@@ -1,15 +1,17 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import {
+  CoinType,
+  SupportedWalletCurrenciesType
+} from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
-
-import { CoinType, SupportedWalletCurrenciesType } from 'core/types'
 import { ModalNamesType } from 'data/types'
 import Welcome from './template'
 
 class CoinIntroductionContainer extends React.PureComponent<Props> {
-  render () {
+  render() {
     const { coin, modalActions, supportedCoins } = this.props
     return (
       <Welcome

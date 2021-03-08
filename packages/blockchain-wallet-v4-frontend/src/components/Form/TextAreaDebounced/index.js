@@ -1,8 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
-
-import { equals } from 'ramda'
 import { Text, TextAreaInput } from 'blockchain-info-components'
+import { equals } from 'ramda'
+import styled from 'styled-components'
 
 const Container = styled.div`
   position: relative;
@@ -73,7 +72,7 @@ class TextAreaDebounced extends React.Component {
   }
 
   render () {
-    const { meta, disabled, placeholder, rows, ...rest } = this.props
+    const { disabled, meta, placeholder, rows, ...rest } = this.props
     const errorState = getErrorState(meta)
 
     return (

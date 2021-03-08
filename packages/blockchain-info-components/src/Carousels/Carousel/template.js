@@ -1,7 +1,7 @@
-import { FormattedMessage } from 'react-intl'
-import { range } from 'ramda'
-import PropTypes from 'prop-types'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import { range } from 'ramda'
 import styled from 'styled-components'
 
 import { Button } from '../../Buttons'
@@ -91,16 +91,16 @@ const FooterWrapper = styled.div`
 
 const Carousel = props => {
   const {
-    index,
-    total,
-    height,
     arrows,
-    chips,
     children,
+    chips,
     handleClick,
-    handlePrevious,
     handleNext,
-    nextButton
+    handlePrevious,
+    height,
+    index,
+    nextButton,
+    total
   } = props
 
   return (

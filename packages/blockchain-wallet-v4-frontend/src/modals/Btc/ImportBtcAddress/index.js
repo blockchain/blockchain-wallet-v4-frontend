@@ -1,12 +1,12 @@
-import { actions } from 'data'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
-
-import { getData } from './selectors'
+import { connect } from 'react-redux'
 import { utils } from 'blockchain-wallet-v4/src'
-import ImportBtcAddress from './template.js'
+import { compose } from 'redux'
+
+import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+import { getData } from './selectors'
+import ImportBtcAddress from './template.js'
 
 class ImportBtcAddressContainer extends React.PureComponent {
   handleSubmit = () => {

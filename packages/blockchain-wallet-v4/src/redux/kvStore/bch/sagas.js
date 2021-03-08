@@ -1,9 +1,3 @@
-import * as A from './actions'
-import * as bchActions from '../../data/bch/actions'
-import { Address, KVStoreEntry } from '../../../types'
-import { BCH, derivationMap } from '../config'
-import { call, put, select } from 'redux-saga/effects'
-import { callTask } from '../../../utils/functional'
 import {
   concat,
   gt,
@@ -15,12 +9,19 @@ import {
   propOr,
   range
 } from 'ramda'
-import { getHDAccounts } from '../../wallet/selectors'
-import { getMetadataXpriv } from '../root/selectors'
 import { set } from 'ramda-lens'
+import { call, put, select } from 'redux-saga/effects'
+
+import { Address, KVStoreEntry } from '../../../types'
+import { callTask } from '../../../utils/functional'
+import * as bchActions from '../../data/bch/actions'
+import { getHDAccounts } from '../../wallet/selectors'
+import { BCH, derivationMap } from '../config'
+import { getMetadataXpriv } from '../root/selectors'
+import * as A from './actions'
 
 export default ({ api, networks }) => {
-  const createBch = function * (kv, hdAccounts, bchAccounts) {
+  const createBch = function*(kv, hdAccounts, bchAccounts) {
     const createAccountEntry = x => ({
       label: `My Bitcoin Cash Wallet${x > 0 ? ` ${x + 1}` : ''}`,
       archived: pathOr(false, [x, 'archived'], hdAccounts)
@@ -40,7 +41,7 @@ export default ({ api, networks }) => {
     yield put(bchActions.fetchData())
   }
 
-  const createBchAddresses = function * (kv) {
+  const createBchAddresses = function*(kv) {
     const newBchEntry = {
       ...kv.value,
       addresses: {}
@@ -49,7 +50,7 @@ export default ({ api, networks }) => {
     yield put(A.createMetadataBch(newkv))
   }
 
-  const importLegacyAddress = function * (action) {
+  const importLegacyAddress = function*(action) {
     const { payload } = action
     const { key, label } = payload
     const addr = Address.importAddress(
@@ -61,7 +62,7 @@ export default ({ api, networks }) => {
     yield put(A.setLegacyAddress(addr))
   }
 
-  const fetchMetadataBch = function * () {
+  const fetchMetadataBch = function*() {
     try {
       const typeId = derivationMap[BCH]
       const mxpriv = yield select(getMetadataXpriv)

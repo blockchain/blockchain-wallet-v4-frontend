@@ -1,9 +1,10 @@
+import React, { PureComponent } from 'react'
+
 import {
   LinkDispatchPropsType,
   LinkStatePropsType,
   OwnPropsType
 } from '../index'
-import React, { PureComponent } from 'react'
 import WordsList from './template'
 
 type Props = OwnPropsType & LinkDispatchPropsType & LinkStatePropsType
@@ -15,7 +16,7 @@ class ShowRecoveryWords extends PureComponent<Props> {
       : this.props.recoveryPhraseActions.setStep('CONFIRM_WORDS')
   }
 
-  render () {
+  render() {
     const { handleBackArrow, recoveryPhrase, step } = this.props
     return (
       <WordsList

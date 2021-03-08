@@ -1,7 +1,7 @@
-import { bindActionCreators, compose } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import React from 'react'
+import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
 import CompleteStep from './template'

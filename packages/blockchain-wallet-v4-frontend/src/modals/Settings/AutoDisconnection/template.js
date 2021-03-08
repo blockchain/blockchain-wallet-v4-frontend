@@ -1,9 +1,5 @@
-import { FormattedMessage } from 'react-intl'
-import { reduxForm } from 'redux-form'
-import PropTypes from 'prop-types'
 import React from 'react'
-import styled from 'styled-components'
-
+import { FormattedMessage } from 'react-intl'
 import {
   Button,
   Icon,
@@ -12,6 +8,9 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
+import PropTypes from 'prop-types'
+import { reduxForm } from 'redux-form'
+import styled from 'styled-components'
 
 const AbsoluteModalHeader = styled(ModalHeader)`
   position: absolute;

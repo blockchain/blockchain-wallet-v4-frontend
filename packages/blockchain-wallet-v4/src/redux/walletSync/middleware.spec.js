@@ -1,13 +1,14 @@
+import { networks } from 'bitcoinjs-lib'
+import { map, range } from 'ramda'
+
+import Remote from '../../remote'
+import { getReceiveAddress } from '../../types/HDAccount'
+import { getReceiveIndex } from '../data/btc/selectors'
+import { getAccountXpub } from '../wallet/selectors'
 import {
   addressLookaheadCount,
   getHDAccountAddressPromises
 } from './middleware'
-import { getAccountXpub } from '../wallet/selectors'
-import { getReceiveAddress } from '../../types/HDAccount'
-import { getReceiveIndex } from '../data/btc/selectors'
-import { map, range } from 'ramda'
-import { networks } from 'bitcoinjs-lib'
-import Remote from '../../remote'
 
 jest.mock('../wallet/selectors')
 jest.mock('../data/btc/selectors')

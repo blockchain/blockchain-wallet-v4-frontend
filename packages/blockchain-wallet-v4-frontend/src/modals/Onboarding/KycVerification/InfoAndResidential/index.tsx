@@ -1,22 +1,21 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators } from 'redux'
 
+import DataError from 'components/DataError'
 import { actions, model, selectors } from 'data'
 import { CountryType } from 'data/components/identityVerification/types'
-import { ExtractSuccess } from 'core/types'
-import { InfoAndResidentialFormValuesType } from 'data/types'
 import { RootState } from 'data/rootReducer'
-import DataError from 'components/DataError'
-
-import { getData } from './selectors'
+import { InfoAndResidentialFormValuesType } from 'data/types'
 import Loading from '../template.loading'
+import { getData } from './selectors'
 import Success from './template.success'
 
 const { INFO_AND_RESIDENTIAL_FORM } = model.components.identityVerification
 
 class InfoAndResidential extends PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.fetchData()
 
     this.props.analyticsActions.logEvent([
@@ -66,7 +65,7 @@ class InfoAndResidential extends PureComponent<Props> {
     )
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => (
         <Success

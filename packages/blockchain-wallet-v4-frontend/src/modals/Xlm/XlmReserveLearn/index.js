@@ -1,14 +1,6 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import PropTypes from 'prop-types'
 import React from 'react'
-import styled from 'styled-components'
-
-import { actions, model } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
-
-import { getData } from './selectors'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 import {
   Icon,
   Link,
@@ -17,6 +9,13 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
+import PropTypes from 'prop-types'
+import { bindActionCreators, compose } from 'redux'
+import styled from 'styled-components'
+
+import { actions, model } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+import { getData } from './selectors'
 
 const Header = styled.div`
   cursor: pointer;
@@ -60,17 +59,17 @@ class XlmReserveLearn extends React.PureComponent {
     })
   }
 
-  render () {
+  render() {
     const {
-      position,
-      total,
       currencySymbol,
       effectiveBalanceMinusFeeFiat,
       effectiveBalanceMinusFeeXlm,
       feeFiat,
       feeXlm,
+      position,
       reserveFiat,
       reserveXlm,
+      total,
       totalAmountFiat,
       totalAmountXlm
     } = this.props

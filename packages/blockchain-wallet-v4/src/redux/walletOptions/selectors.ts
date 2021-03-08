@@ -1,4 +1,3 @@
-import { createDeepEqualSelector } from '../../utils'
 import {
   curry,
   filter,
@@ -12,9 +11,11 @@ import {
   set,
   toUpper
 } from 'ramda'
-import { getInvitations } from '../settings/selectors'
+
 import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
+import { createDeepEqualSelector } from '../../utils'
+import { getInvitations } from '../settings/selectors'
 import {
   SupportedCoinType,
   SupportedWalletCurrenciesType,

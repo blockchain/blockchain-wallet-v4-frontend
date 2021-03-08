@@ -1,10 +1,11 @@
-import * as AT from './actionTypes'
 import { lensPath, set } from 'ramda'
+
+import * as AT from './actionTypes'
 
 const INITIAL_STATE = {}
 
 const wizard = (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
 
   switch (type) {
     case AT.SET_STEP: {

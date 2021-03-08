@@ -1,6 +1,6 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { Box } from 'components/Box'
+import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import {
   Button,
   Icon,
@@ -15,17 +15,18 @@ import {
   NabuApiErrorType,
   OfferType,
   RemoteDataType
-} from 'core/types'
-import { connect, ConnectedProps } from 'react-redux'
+} from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import { FormGroup, FormLabel } from 'components/Form'
-import { RootState } from 'data/rootReducer'
-import { USER_BLOCKED } from 'data/components/borrow/model'
-import Amount from './Amount'
-import React, { PureComponent } from 'react'
-import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 import styled from 'styled-components'
+
+import { Box } from 'components/Box'
+import { FormGroup, FormLabel } from 'components/Form'
+import SelectBoxCoin from 'components/Form/SelectBoxCoin'
+import { actions, selectors } from 'data'
+import { USER_BLOCKED } from 'data/components/borrow/model'
+import { RootState } from 'data/rootReducer'
+import Amount from './Amount'
 
 const CustomBox = styled(Box)`
   display: flex;
@@ -90,7 +91,7 @@ class InitBorrowForm extends PureComponent<Props> {
     })
   }
 
-  render () {
+  render() {
     return (
       <CustomBox>
         <div>

@@ -1,6 +1,7 @@
-import { createDeepEqualSelector } from 'services/misc'
 import { lift } from 'ramda'
+
 import { selectors } from 'data'
+import { createDeepEqualSelector } from 'services/misc'
 
 export const getData = createDeepEqualSelector(
   [selectors.core.settings.getEmail, selectors.core.settings.getEmailVerified],

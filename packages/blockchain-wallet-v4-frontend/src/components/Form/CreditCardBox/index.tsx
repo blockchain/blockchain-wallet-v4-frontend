@@ -1,14 +1,15 @@
-import { Props as AddCardProps } from '../../../modals/SimpleBuy/AddCard/template.success'
+import React, { useEffect, useState } from 'react'
+import { FormattedMessage } from 'react-intl'
 import { CommonFieldProps, WrappedFieldMetaProps } from 'redux-form'
+import styled from 'styled-components'
+
+import { TextBox } from 'components/Form'
+import { Props as AddCardProps } from '../../../modals/SimpleBuy/AddCard/template.success'
 import {
   DEFAULT_CARD_FORMAT,
   DEFAULT_CARD_SVG_LOGO,
   getCardTypeByValue
 } from './model'
-import { FormattedMessage } from 'react-intl'
-import { TextBox } from 'components/Form'
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
 
 const duration = 250
 

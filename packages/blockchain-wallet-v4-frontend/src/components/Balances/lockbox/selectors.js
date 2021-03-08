@@ -1,8 +1,9 @@
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
-import { createDeepEqualSelector } from 'services/misc'
 import { Exchange } from 'blockchain-wallet-v4/src'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { lift, map, pathOr, sum } from 'ramda'
+
 import { selectors } from 'data'
+import { createDeepEqualSelector } from 'services/misc'
 
 export const getLockboxBtcBalance = createDeepEqualSelector(
   [

@@ -1,9 +1,6 @@
-import { bindActionCreators, Dispatch } from 'redux'
+import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import BigNumber from 'bignumber.js'
-import React, { PureComponent } from 'react'
-
-import { actions } from 'data'
 import {
   CoinType,
   FiatType,
@@ -13,9 +10,11 @@ import {
   RemoteDataType,
   SupportedWalletCurrenciesType,
   WithdrawalMinimumType
-} from 'core/types'
-import DataError from 'components/DataError'
+} from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators, Dispatch } from 'redux'
 
+import DataError from 'components/DataError'
+import { actions } from 'data'
 import { getData } from './selectors'
 import Loading from './template.loading'
 import WithdrawalForm from './template.success'

@@ -1,8 +1,7 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
-import styled from 'styled-components'
-
+import { FormattedMessage } from 'react-intl'
 import { Button, Image, Text, TextGroup } from 'blockchain-info-components'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -28,7 +27,7 @@ const ExistingButton = styled(Button)`
 `
 
 const SetupTypeStep = props => {
-  const { handleStepChange, deviceType } = props
+  const { deviceType, handleStepChange } = props
   return (
     <Wrapper>
       {deviceType === 'Lockbox' ? (

@@ -1,7 +1,7 @@
 import React from 'react'
+import { SkeletonRectangle } from 'blockchain-info-components'
 import styled from 'styled-components'
 
-import { SkeletonRectangle } from 'blockchain-info-components'
 import { spacing } from 'services/styles'
 
 const Wrapper = styled.div`

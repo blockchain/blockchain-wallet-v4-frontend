@@ -1,3 +1,5 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import {
   Button,
   Modal,
@@ -9,6 +11,8 @@ import {
   TooltipIcon
 } from 'blockchain-info-components'
 import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Form,
   FormGroup,
@@ -16,13 +20,10 @@ import {
   SelectBoxBtcAddresses,
   TextBox
 } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
-import { removeWhitespace } from 'services/forms/normalizers'
-import { required, validBtcPrivateKey } from 'services/forms'
-import { spacing } from 'services/styles'
 import QRCodeCapture from 'components/QRCode/Capture'
-import React from 'react'
-import styled from 'styled-components'
+import { required, validBtcPrivateKey } from 'services/forms'
+import { removeWhitespace } from 'services/forms/normalizers'
+import { spacing } from 'services/styles'
 
 const Wrapper = styled.div`
   font-weight: 400;

@@ -1,8 +1,9 @@
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { InterestAccountBalanceType } from 'blockchain-wallet-v4/src/types'
 // @ts-ignore
 import { concat, curry, filter, has, map, reduce, sequence } from 'ramda'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { InterestAccountBalanceType } from 'core/types'
+
 import { selectors } from 'data'
 
 export const getData = (

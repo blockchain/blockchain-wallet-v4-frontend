@@ -1,11 +1,11 @@
 export default ({
-  rootUrl,
-  nabuUrl,
-  get,
-  post,
+  authorizedGet,
   authorizedPost,
   authorizedPut,
-  authorizedGet
+  get,
+  nabuUrl,
+  post,
+  rootUrl
 }) => {
   const generateRetailToken = (guid, sharedKey) =>
     get({
@@ -17,7 +17,7 @@ export default ({
       }
     })
 
-  const createUser = (retailToken) => {
+  const createUser = retailToken => {
     return post({
       url: nabuUrl,
       endPoint: '/users',

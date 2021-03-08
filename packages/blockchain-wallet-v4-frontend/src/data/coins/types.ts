@@ -1,4 +1,4 @@
-import { WalletCurrencyType } from 'core/types'
+import { WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 
 export type CoinAccountSelectorType = {
   coins?: Array<WalletCurrencyType>

@@ -1,8 +1,7 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
-import styled from 'styled-components'
-
+import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
+import styled from 'styled-components'
 
 import About from './About'
 import LinkedBanks from './LinkedBanks'

@@ -1,13 +1,13 @@
-import * as AT from './actionTypes'
-
 import {
   CoinType,
   PaymentValue,
   SwapOrderType,
   SwapQuoteType,
   SwapUserLimitsType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+
 import { ModalOriginType } from 'data/modals/types'
+import * as AT from './actionTypes'
 import {
   SwapAccountType,
   SwapActionTypes,
@@ -169,7 +169,7 @@ export const setCheckoutFix = (fix: SwapCheckoutFixType) => ({
   }
 })
 
-export const setStep = ({ step, options }: SwapStepPayload) => ({
+export const setStep = ({ options, step }: SwapStepPayload) => ({
   type: AT.SET_STEP,
   payload: {
     step,

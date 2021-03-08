@@ -1,10 +1,13 @@
-import { lift } from 'ramda'
-import qs from 'qs'
-
-import { ExtractSuccess, WalletOptionsType } from 'core/types'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { RootState } from 'data/rootReducer'
+import {
+  ExtractSuccess,
+  WalletOptionsType
+} from 'blockchain-wallet-v4/src/types'
+import qs from 'qs'
+import { lift } from 'ramda'
+
 import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 
 export const getData = (state: RootState) => {
   // TODO: YODLEE get partner data from selectors
