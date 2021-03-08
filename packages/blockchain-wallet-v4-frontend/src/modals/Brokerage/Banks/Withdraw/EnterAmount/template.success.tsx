@@ -12,10 +12,9 @@ import {
 } from 'core/types'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { DepositOrWithdrawal } from '../../model'
+import { DepositOrWithdrawal, normalizeAmount } from '../../model'
 import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
 import { FlyoutWrapper } from 'components/Flyout'
-import { formatTextAmount } from 'services/ValidationHelper'
 
 import { Form } from 'components/Form'
 
@@ -117,10 +116,6 @@ const BlueRedCartridge = ({
   return <CustomBlueCartridge role='button'>{children}</CustomBlueCartridge>
 }
 
-const normalizeAmount = (value, prevValue) => {
-  if (isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
-  return formatTextAmount(value, true)
-}
 const Success: React.FC<InjectedFormProps<
   WithdrawCheckoutFormValuesType,
   Props
