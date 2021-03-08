@@ -53,8 +53,8 @@ export default ({ coreSagas, networks }) => {
   // gets or updates a provisional payment for a coin
   // provisional payments are mutable payment objects used to build a transaction
   // over an extended period of time (e.g. as user goes through interest/swap/sell flows)
-  const getOrUpdateProvisionalPaymentForCoin = function (coin: CoinType, paymentR: RemoteDataType<string | Error, PaymentValue | undefined>): PaymentType {
-    return coinSagas[coin in Erc20CoinsEnum ? 'ERC20' : coin]?.getOrUpdateProvisionalPayment(coreSagas, networks, paymentR)
+  const getOrUpdateProvisionalPaymentForCoin = function * (coin: CoinType, paymentR: RemoteDataType<string | Error, PaymentValue | undefined>): Generator<PaymentType> {
+    return yield coinSagas[coin in Erc20CoinsEnum ? 'ERC20' : coin]?.getOrUpdateProvisionalPayment(coreSagas, networks, paymentR) as PaymentType
   }
 
   // convert from a coins base unit into fiat

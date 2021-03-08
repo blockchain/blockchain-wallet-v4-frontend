@@ -206,7 +206,7 @@ export default ({
             : new BigNumber(action.payload).dividedBy(rate).toNumber()
           const paymentR = S.getPayment(yield select())
           if (paymentR) {
-            let payment = getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
+            let payment = yield getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
             const paymentAmount = generateProvisionalPaymentAmount(
               payment.coin,
               value
@@ -258,7 +258,7 @@ export default ({
     if (isFromBuySell) {
       // re-fetch the custodial balances to ensure we have the latest for proper form initialization
       yield put(actions.components.simpleBuy.fetchSBBalances(undefined, true))
-      // wait untill balances are loaded super important to have deep equal object on form
+      // wait until balances are loaded super important to have deep equal object on form
       yield take([
         actionTypes.components.simpleBuy.FETCH_SB_BALANCES_SUCCESS,
         actionTypes.components.simpleBuy.FETCH_SB_BALANCES_FAILURE
@@ -306,7 +306,7 @@ export default ({
       const value = new BigNumber(afterTransaction.amount).toNumber()
       const paymentR = S.getPayment(yield select())
       if (paymentR) {
-        let payment = getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
+        let payment = yield getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
         const paymentAmount = generateProvisionalPaymentAmount(
           payment.coin,
           value
@@ -371,7 +371,7 @@ export default ({
         prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
       const coin = S.getCoinType(yield select())
       const paymentR = S.getPayment(yield select())
-      const payment = getOrUpdateProvisionalPaymentForCoin(
+      const payment = yield getOrUpdateProvisionalPaymentForCoin(
         coin,
         paymentR as RemoteDataType<string, any>
       )
