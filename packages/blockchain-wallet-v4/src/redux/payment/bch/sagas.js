@@ -3,7 +3,6 @@ import * as CoinSelection from '../../../coinSelection'
 import * as S from '../../selectors'
 import {
   ADDRESS_TYPES,
-  fromAccount,
   fromCustodial,
   fromLegacy,
   fromLegacyList,
@@ -19,6 +18,7 @@ import {
   detectPrivateKeyFormat,
   privateKeyStringToKey
 } from '../../../utils/btc'
+import { fromAccount } from './utils'
 import { fromCashAddr, isCashAddr } from '../../../utils/bch'
 import { futurizeP } from 'futurize'
 import { identity, isEmpty, isNil, map, merge, prop, zip } from 'ramda'
@@ -59,7 +59,6 @@ export default ({ api }) => {
   const calculateTo = function * (destinations, type, network) {
     const appState = yield select(identity)
     const wallet = S.wallet.getWallet(appState)
-
     // if address or account index
     if (isValidAddressOrIndex(destinations)) {
       return [toOutput('BCH', network, appState, destinations, type)]
