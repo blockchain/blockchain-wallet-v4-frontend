@@ -26,13 +26,16 @@ export const getData = createDeepEqualSelector(
   ],
   (accounts, coinAvailabilitiesR, btcNetworkR, { ownProps, state }) => {
     const { selectedCoin } = ownProps?.formValues || {}
-    const coinAvailabilities = coinAvailabilitiesR.getOrFail()
+    const coinAvailabilities = coinAvailabilitiesR.getOrFail(
+      'No available coins.'
+    )
     const btcNetwork = btcNetworkR.getOrElse('bitcoin')
     const prunedAccounts = [] as Array<SwapAccountType>
 
+    // @ts-ignore
     map(
       coin =>
-        map(acct => {
+        map((acct: any) => {
           // remove account if any if either of following are true
           // - coin receive feature is currently disabled
           // - form has a selected coin and it doesnt match accounts coin type

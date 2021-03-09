@@ -12,7 +12,7 @@ import {
   toUpper
 } from 'ramda'
 
-import { RemoteDataType } from 'core/types'
+import { CoinType, RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { createDeepEqualSelector } from '../../utils'
 import { getInvitations } from '../settings/selectors'
@@ -80,8 +80,19 @@ export const getStxCampaign = state =>
 export const getCoinAvailability = curry((state, coin) =>
   getSupportedCoins(state).map(path([toUpper(coin), 'availability']))
 )
-export const getAllCoinAvailabilities = state =>
-  map(map(prop('availability')), getSupportedCoins(state))
+export const getAllCoinAvailabilities = state => {
+  return map(
+    map(prop('availability')),
+    getSupportedCoins(state)
+  ) as RemoteDataType<
+    any,
+    {
+      [key in CoinType]: {
+        [key in keyof SupportedCoinType['availability']]: boolean
+      }
+    }
+  >
+}
 
 export const getErc20CoinList = state =>
   getSupportedCoins(state).map(x =>
