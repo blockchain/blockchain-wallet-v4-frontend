@@ -1,47 +1,67 @@
-import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 import React from 'react'
-import Recover from './template.js'
+
+import { actions, selectors } from 'data'
+import { SpinningLoader } from 'blockchain-info-components'
+
+import Recover from './template'
+
+// orient abstract wife rookie mandate wing knock essence bicycle describe wealth patch
 
 class RecoverContainer extends React.PureComponent {
-  constructor () {
-    super()
-    this.onSubmit = this.onSubmit.bind(this)
+  componentDidMount () {
+    const { authActions, mnemonic } = this.props
+    authActions.restoreFromMetadata(mnemonic)
   }
 
-  onSubmit () {
-    const { mnemonic, email, password, language } = this.props
-    this.props.authActions.restore(mnemonic, email, password, language)
+  onSubmit = () => {
+    const { authActions, mnemonic, email, password, language } = this.props
+    authActions.restore(mnemonic, email, password, language)
   }
 
   render () {
-    const { data, password, previousStep } = this.props
-    const busy = data.cata({
+    const { metadataRestore, password, previousStep, registering } = this.props
+
+    const isRegistering = registering.cata({
       Success: () => false,
       Failure: () => false,
       Loading: () => true,
       NotAsked: () => false
     })
 
-    return (
-      <Recover
-        previousStep={previousStep}
-        onSubmit={this.onSubmit}
-        busy={busy}
-        password={password}
-      />
-    )
+    return metadataRestore.cata({
+      Success: val => (
+        <Recover
+          previousStep={previousStep}
+          onSubmit={this.onSubmit}
+          isRegistering={isRegistering}
+          isRestoringFromMetadata={val && !!val.sharedKey}
+          password={password}
+        />
+      ),
+      Failure: () => (
+        <Recover
+          previousStep={previousStep}
+          onSubmit={this.onSubmit}
+          isRegistering={isRegistering}
+          password={password}
+        />
+      ),
+      Loading: () => <SpinningLoader width='36px' height='36px' />,
+      NotAsked: () => <SpinningLoader width='36px' height='36px' />
+    })
   }
 }
 
 const mapStateToProps = state => ({
-  data: selectors.auth.getRegistering(state),
   email: formValueSelector('recover')(state, 'email'),
+  registering: selectors.auth.getRegistering(state),
+  metadataRestore: selectors.auth.getMetadataRestore(state),
+  language: selectors.preferences.getLanguage(state),
   mnemonic: formValueSelector('recover')(state, 'mnemonic'),
-  password: formValueSelector('recover')(state, 'password') || '',
-  language: selectors.preferences.getLanguage(state)
+  password: formValueSelector('recover')(state, 'password') || ''
 })
 
 const mapDispatchToProps = dispatch => ({

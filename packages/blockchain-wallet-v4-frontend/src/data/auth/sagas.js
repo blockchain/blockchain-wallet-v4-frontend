@@ -40,10 +40,12 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
     }
   }
+
   const upgradeWalletSaga = function * () {
     yield put(actions.modals.showModal('UpgradeWallet'))
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
   }
+
   const upgradeAddressLabelsSaga = function * () {
     const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
     if (addressLabelSize > 100) {
@@ -179,6 +181,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
     }
   }
+
   const checkAndHandleVulnerableAddress = function * (data) {
     const err = prop('error', data)
     const vulnerableAddress = checkForVulnerableAddressError(err)
@@ -197,6 +200,7 @@ export default ({ api, coreSagas }) => {
         )
     }
   }
+
   const checkDataErrors = function * () {
     const btcDataR = yield select(selectors.core.data.btc.getInfo)
 
@@ -211,6 +215,7 @@ export default ({ api, coreSagas }) => {
       yield call(checkAndHandleVulnerableAddress, btcDataR)
     }
   }
+
   const checkExchangeUsage = function * () {
     try {
       const accountsR = yield select(
@@ -230,6 +235,7 @@ export default ({ api, coreSagas }) => {
       // console.log(e)
     }
   }
+
   const pollingSession = function * (session, n = 50) {
     if (n === 0) {
       return false
@@ -245,6 +251,7 @@ export default ({ api, coreSagas }) => {
     }
     return yield call(pollingSession, session, n - 1)
   }
+
   const login = function * (action) {
     let { guid, sharedKey, password, code, mobileLogin } = action.payload
     let session = yield select(selectors.session.getSession, guid)
@@ -352,6 +359,7 @@ export default ({ api, coreSagas }) => {
       }
     }
   }
+
   const mobileLogin = function * (action) {
     try {
       yield put(actions.auth.mobileLoginStarted())
@@ -380,6 +388,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.auth.mobileLoginFinish())
     }
   }
+
   const register = function * (action) {
     try {
       yield put(actions.auth.registerLoading())
@@ -394,12 +403,37 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.REGISTER_ERROR))
     }
   }
+
+  const restoreFromMetadata = function * (action) {
+    const { mnemonic } = action.payload
+    try {
+      yield put(actions.auth.restoreFromMetadataLoading())
+      // try and pull recovery credentials from metadata
+      const metadataInfo = yield call(
+        coreSagas.wallet.restoreWalletCredentialsFromMetadata,
+        mnemonic
+      )
+      yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
+    } catch (e) {
+      yield put(actions.auth.restoreFromMetadataFailure())
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'restoreFromMetadata', e)
+      )
+    }
+  }
+
   const restore = function * (action) {
     try {
       yield put(actions.auth.restoreLoading())
       yield put(actions.auth.setRegisterEmail(action.payload.email))
       yield put(actions.alerts.displayInfo(C.RESTORE_WALLET_INFO))
-      yield call(coreSagas.wallet.restoreWalletSaga, action.payload)
+      const kvCredentials = (yield select(
+        selectors.auth.getMetadataRestore
+      )).getOrElse({})
+      yield call(coreSagas.wallet.restoreWalletSaga, {
+        ...action.payload,
+        kvCredentials
+      })
       yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
       yield call(loginRoutineSaga, false, true)
       yield put(actions.auth.restoreSuccess())
@@ -409,6 +443,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.RESTORE_ERROR))
     }
   }
+
   const remindGuid = function * (action) {
     try {
       yield put(actions.auth.remindGuidLoading())
@@ -427,6 +462,7 @@ export default ({ api, coreSagas }) => {
       }
     }
   }
+
   const reset2fa = function * (action) {
     try {
       yield put(actions.auth.reset2faLoading())
@@ -471,11 +507,13 @@ export default ({ api, coreSagas }) => {
       }
     }
   }
+
   const setLogoutEventListener = function () {
     return new Promise(resolve => {
       window.addEventListener('wallet.core.logout', resolve)
     })
   }
+
   const resendSmsLoginCode = function * (action) {
     try {
       const { guid } = action.payload
@@ -499,9 +537,11 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.SMS_RESEND_ERROR))
     }
   }
+
   const logoutRoutine = function * () {
     yield call(logout)
   }
+
   const logout = function * () {
     const isEmailVerified = (yield select(
       selectors.core.settings.getEmailVerified
@@ -516,6 +556,7 @@ export default ({ api, coreSagas }) => {
       : yield logoutClearReduxStore()
     yield put(actions.analytics.stopSession())
   }
+
   const deauthorizeBrowser = function * () {
     try {
       const guid = yield select(selectors.core.wallet.getGuid)
@@ -532,6 +573,7 @@ export default ({ api, coreSagas }) => {
       yield logoutClearReduxStore()
     }
   }
+
   const logoutClearReduxStore = function * () {
     // router will fallback to /login route
     yield window.history.pushState('', '', '#')
@@ -555,6 +597,7 @@ export default ({ api, coreSagas }) => {
     reset2fa,
     resendSmsLoginCode,
     restore,
+    restoreFromMetadata,
     saveGoals,
     setLogoutEventListener,
     startSockets,
