@@ -8,8 +8,6 @@ import { SpinningLoader } from 'blockchain-info-components'
 
 import Recover from './template'
 
-// orient abstract wife rookie mandate wing knock essence bicycle describe wealth patch
-
 class RecoverContainer extends React.PureComponent {
   componentDidMount () {
     const { authActions, mnemonic } = this.props
