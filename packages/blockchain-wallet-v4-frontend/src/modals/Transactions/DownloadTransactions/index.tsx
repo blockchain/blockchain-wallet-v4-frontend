@@ -12,7 +12,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import { getData } from './selectors'
 import DownloadTransactions from './template'
 
-const momentHelper = moment.locale(locale())
+moment.locale(locale())
 
 export type StateProps = {
   filename: string
@@ -52,11 +52,11 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
     initForm({
       from: 'all',
       // @ts-ignore
-      start: momentHelper()
+      start: moment()
         .startOf('day')
         .subtract(7, 'day'),
       // @ts-ignore
-      end: momentHelper().endOf('day')
+      end: moment().endOf('day')
     })
   }
 

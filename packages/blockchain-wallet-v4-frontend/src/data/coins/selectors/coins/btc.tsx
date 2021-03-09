@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { coreSelectors } from 'blockchain-wallet-v4/src'
-import { SBBalanceType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
@@ -9,8 +8,11 @@ import { lift, prop, propEq } from 'ramda'
 
 import { CoinType } from 'core/types'
 import { CoinAccountSelectorType } from 'data/coins/types'
-import { generateCustodyAccount } from 'data/coins/utils'
-import { getCustodialBalance } from '../'
+import {
+  generateInterestAccount,
+  generateTradingAccount
+} from 'data/coins/utils'
+import { getInterestBalance, getTradingBalance } from '../'
 
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = () => (
@@ -27,14 +29,23 @@ export const getAccounts = createDeepEqualSelector(
     coreSelectors.wallet.getHDAccounts, // non-custodial accounts
     coreSelectors.data.btc.getAddresses, // non-custodial xpub info
     coreSelectors.common.btc.getActiveAddresses, // imported addresses
-    (state, { coin }) => getCustodialBalance(coin, state), // custodial accounts
+    (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
+    (state, { coin }) => getInterestBalance(coin, state), // custodial accounts
     (state, ownProps): CoinAccountSelectorType & { coin: CoinType } => ownProps // selector config
   ],
-  (btcAccounts, btcDataR, importedAddressesR, sbBalanceR, ownProps) => {
+  (
+    btcAccounts,
+    btcDataR,
+    importedAddressesR,
+    sbBalanceR,
+    interestBalanceR,
+    ownProps
+  ) => {
     const transform = (
       btcData,
       importedAddresses,
-      sbBalance: ExtractSuccess<typeof sbBalanceR>
+      sbBalance: ExtractSuccess<typeof sbBalanceR>,
+      interestBalance: ExtractSuccess<typeof interestBalanceR>
     ) => {
       const { coin } = ownProps
       let accounts = []
@@ -76,7 +87,7 @@ export const getAccounts = createDeepEqualSelector(
       if (ownProps?.tradingAccounts) {
         accounts = accounts.concat(
           // @ts-ignore
-          generateCustodyAccount(coin, sbBalance as SBBalanceType)
+          generateTradingAccount(coin, sbBalance)
         )
       }
 
@@ -84,13 +95,18 @@ export const getAccounts = createDeepEqualSelector(
       if (ownProps?.interestAccounts) {
         accounts = accounts.concat(
           // @ts-ignore
-          generateCustodyAccount(coin, sbBalance as SBBalanceType)
+          generateInterestAccount(coin, interestBalance)
         )
       }
 
       return accounts
     }
 
-    return lift(transform)(btcDataR, importedAddressesR, sbBalanceR)
+    return lift(transform)(
+      btcDataR,
+      importedAddressesR,
+      sbBalanceR,
+      interestBalanceR
+    )
   }
 )

@@ -8,8 +8,8 @@ import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { lift, prop, toLower } from 'ramda'
 
-import { generateCustodyAccount } from 'data/coins/utils'
-import { getCustodialBalance } from '../'
+import { generateTradingAccount } from 'data/coins/utils'
+import { getTradingBalance } from '../'
 
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = coin => {
@@ -55,7 +55,7 @@ export const getAccounts = createDeepEqualSelector(
       ), // non-custodial accounts
     (state, { coin }) =>
       coreSelectors.data.eth.getErc20Balance(state, toLower(coin) as CoinType), // non-custodial metadata
-    (state, { coin }) => getCustodialBalance(coin, state), // custodial accounts
+    (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
   (ethAddressR, erc20AccountR, erc20BalanceR, sbBalanceR, ownProps) => {
@@ -87,7 +87,7 @@ export const getAccounts = createDeepEqualSelector(
       if (ownProps?.tradingAccounts) {
         accounts = accounts.concat(
           // @ts-ignore
-          generateCustodyAccount(coin, sbBalance as SBBalanceType)
+          generateTradingAccount(coin, sbBalance as SBBalanceType)
         )
       }
       return accounts

@@ -42,8 +42,15 @@ export const getIntroductionText = coin => {
 }
 
 // retrieves custodial account balances
-export const getCustodialBalance = (coin: CoinType, state) => {
+export const getTradingBalance = (coin: CoinType, state) => {
   return selectors.components.simpleBuy.getSBBalances(state).map(x => x[coin])
+}
+
+// retrieves custodial account balances
+export const getInterestBalance = (coin: CoinType, state) => {
+  return selectors.components.interest
+    .getInterestAccountBalance(state)
+    .map(x => x[coin])
 }
 
 // generic selector that should be used by all features to request their desired

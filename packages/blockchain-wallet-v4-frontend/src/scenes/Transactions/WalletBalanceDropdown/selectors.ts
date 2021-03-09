@@ -1,5 +1,9 @@
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { ExtractSuccess, FiatType } from 'blockchain-wallet-v4/src/types'
+import {
+  // CoinType,
+  ExtractSuccess,
+  FiatType
+} from 'blockchain-wallet-v4/src/types'
 import { lift } from 'ramda'
 
 import * as balanceSelectors from 'components/Balances/wallet/selectors'
@@ -25,8 +29,7 @@ export const getData = (state, ownProps: OwnProps) => {
   // const accounts = getCoinAccounts(state, {
   //   coins: [coin],
   //   ...ALL_ACCOUNTS_SELECTOR
-  // } as CoinAccountSelectorType)
-  // console.log(accounts)
+  // } as CoinAccountSelectorType)[coin as CoinType]
 
   switch (coin) {
     case 'BTC':

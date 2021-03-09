@@ -7,8 +7,8 @@ import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { lift, prop } from 'ramda'
 
-import { generateCustodyAccount } from 'data/coins/utils'
-import { getCustodialBalance } from '../'
+import { generateTradingAccount } from 'data/coins/utils'
+import { getTradingBalance } from '../'
 
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = () => (
@@ -25,7 +25,7 @@ export const getAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.eth.getAddresses, // non-custodial accounts
     coreSelectors.kvStore.eth.getAccounts, // non-custodial metadata
-    (state, { coin }) => getCustodialBalance(coin, state), // custodial accounts
+    (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
   (ethDataR, ethMetadataR, sbBalanceR, ownProps) => {
@@ -60,7 +60,7 @@ export const getAccounts = createDeepEqualSelector(
       if (ownProps?.tradingAccounts) {
         accounts = accounts.concat(
           // @ts-ignore
-          generateCustodyAccount(coin, sbBalance as SBBalanceType)
+          generateTradingAccount(coin, sbBalance as SBBalanceType)
         )
       }
 
