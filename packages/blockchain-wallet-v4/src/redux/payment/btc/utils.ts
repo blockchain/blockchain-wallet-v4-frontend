@@ -81,10 +81,7 @@ export const fromAccount = (network, state, index) => {
   let defaultDerivationXpub = HDAccount.selectXpub(account)
   let allXpubsGrouped = HDAccount.selectAllXpubsGrouped(account).toJS()
   let legacy = prop('xpub', allXpubsGrouped.find(propEq('type', 'legacy')))
-  let bech32 = prop(
-    'xpub',
-    allXpubsGrouped.find(propEq('type', 'bech32'))
-  )
+  let bech32 = prop('xpub', allXpubsGrouped.find(propEq('type', 'bech32')))
 
   let changeIndex = S.data.btc.getChangeIndex(defaultDerivationXpub, state)
   let changeAddress = changeIndex
@@ -158,7 +155,10 @@ export const fromPrivateKey = (network, wallet, key) => {
 export const toOutputAccount = (coin, network, state, accountIndex) => {
   const wallet = S.wallet.getWallet(state)
   const account = Wallet.getAccount(accountIndex, wallet).get() // throw if nothing
-  let xpub = HDAccount.selectXpub(account)
+  let xpub =
+    coin === 'BTC'
+      ? HDAccount.selectXpub(account)
+      : HDAccount.selectXpub(account, 'legacy')
   const receiveIndexR =
     coin === 'BTC'
       ? S.data.btc.getReceiveIndex(xpub, state)
@@ -166,7 +166,10 @@ export const toOutputAccount = (coin, network, state, accountIndex) => {
   const receiveIndex = receiveIndexR.getOrFail(
     new Error('missing_receive_address')
   )
-  const address = HDAccount.getReceiveAddress(account, receiveIndex, network)
+  const address =
+    coin === 'BTC'
+      ? HDAccount.getReceiveAddress(account, receiveIndex, network)
+      : HDAccount.getReceiveAddress(account, receiveIndex, network, 'legacy')
   return {
     type: ADDRESS_TYPES.ACCOUNT,
     address,
