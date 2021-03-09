@@ -569,7 +569,6 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
     }
     case 'CHECKOUT_CONFIRM':
     case 'ORDER_SUMMARY':
-    case 'CANCEL_ORDER':
       return { step: payload.step, order: payload.order }
     case '3DS_HANDLER':
       return { step: payload.step, order: payload.order }
