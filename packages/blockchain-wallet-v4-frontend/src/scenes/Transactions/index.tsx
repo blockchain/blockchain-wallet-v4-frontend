@@ -187,9 +187,19 @@ class TransactionsContainer extends React.PureComponent<Props> {
                         style={{ minWidth: 'auto' }}
                         onClick={() => {
                           if (!this.props.brokerageActions) return
-                          this.props.brokerageActions.handleDepositFiatClick(
-                            coin as WalletFiatType
-                          )
+                          if (!this.props.simpleBuyActions) return
+                          // ACH Deposits/Withdrawals is only for USD right now
+                          // soo keeping the existing functionality for EUR/GBP
+                          if (coin === 'USD') {
+                            this.props.brokerageActions.handleDepositFiatClick(
+                              coin as WalletFiatType
+                            )
+                          } else {
+                            this.props.simpleBuyActions.handleSBDepositFiatClick(
+                              coin as WalletFiatType,
+                              'TransactionList'
+                            )
+                          }
                         }}
                       >
                         <FormattedMessage
