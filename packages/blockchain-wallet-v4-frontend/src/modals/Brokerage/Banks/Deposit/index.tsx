@@ -6,7 +6,7 @@ import React, { PureComponent } from 'react'
 import { actions, selectors } from 'data'
 import { BankDWStepType } from 'data/types'
 import { BROKERAGE_INELIGIBLE } from '../../components'
-import { FiatType, WalletFiatType } from 'core/types'
+import { WalletFiatType } from 'core/types'
 import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
@@ -125,7 +125,7 @@ class Deposit extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   step: selectors.components.brokerage.getDWStep(state),
-  fiatCurrency: 'USD' as FiatType // TODO: Unhardcode this
+  fiatCurrency: selectors.components.brokerage.getFiatCurrency(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
