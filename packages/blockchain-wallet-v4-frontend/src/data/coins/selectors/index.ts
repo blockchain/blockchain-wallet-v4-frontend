@@ -85,8 +85,8 @@ export const getCoinAccounts = (
     { [key in CoinType]: Array<SwapAccountType> }
   > = getCoinAccountsR(state)
 
-  // @ts-ignore
   const accounts = accountsR.getOrElse(
+    // @ts-ignore
     SUPPORTED_COINS.reduce((result, item) => {
       result[item] = []
       return result
