@@ -94,7 +94,7 @@
     "react/self-closing-comp": 2,
     "react/sort-comp": 2,
     "require-yield": 2,
-    "space-before-function-paren": 2,
+    // "space-before-function-paren": 2,
     "simple-import-sort/exports": "error",
     "simple-import-sort/imports": [
       "error",
