@@ -18,6 +18,7 @@ import {
   DisplayPaymentIcon,
   MultiRowContainer
 } from 'components/SimpleBuy'
+import { formatTextAmount } from 'services/ValidationHelper'
 import {
   GreyCartridge,
   OrangeCartridge,
@@ -184,4 +185,9 @@ const DepositOrWithdrawal = (props: {
   )
 }
 
-export { Bank, BankWire, DepositOrWithdrawal, RightArrowIcon }
+const normalizeAmount = (value, prevValue) => {
+  if (isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
+  return formatTextAmount(value, true)
+}
+
+export { Bank, BankWire, DepositOrWithdrawal, normalizeAmount, RightArrowIcon }
