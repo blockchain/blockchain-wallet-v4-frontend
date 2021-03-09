@@ -1,12 +1,13 @@
-import { actions } from 'data'
-import { bindActionCreators, compose } from 'redux'
-import { Button, Icon, Image, Text } from 'blockchain-info-components'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import Flyout, { duration, FlyoutWrapper } from 'components/Flyout'
-import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { Button, Icon, Image, Text } from 'blockchain-info-components'
+import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
+
+import Flyout, { duration, FlyoutWrapper } from 'components/Flyout'
+import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 type OwnPropsType = {
   close: () => void
@@ -82,7 +83,7 @@ const ButtonWrapper = styled.div`
 class WelcomeContainer extends React.PureComponent<Props> {
   state = { show: false }
 
-  componentDidMount () {
+  componentDidMount() {
     this.setState({ show: true }) //eslint-disable-line
   }
 
@@ -101,7 +102,7 @@ class WelcomeContainer extends React.PureComponent<Props> {
     }, duration / 2)
   }
 
-  render () {
+  render() {
     const { show } = this.state
     const { ...rest } = this.props
     return (

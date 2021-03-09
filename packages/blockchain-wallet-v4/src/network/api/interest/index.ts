@@ -13,7 +13,7 @@ import {
   WithdrawalMinimumType
 } from './types'
 
-export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
+export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
   // TODO - consider removing parameters since we never pass anything here
   const getInterestAccountBalance = (
     ccy?: CoinType,

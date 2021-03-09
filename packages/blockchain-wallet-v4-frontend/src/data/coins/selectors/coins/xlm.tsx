@@ -1,15 +1,14 @@
-import { FormattedMessage } from 'react-intl'
-import { lift, path, prop, propEq } from 'ramda'
 import React from 'react'
-
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { convertStandardToBase } from 'data/components/exchange/services'
+import { FormattedMessage } from 'react-intl'
 import { coreSelectors } from 'blockchain-wallet-v4/src'
-import { createDeepEqualSelector } from 'services/misc'
+import { SBBalanceType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
-import { generateCustodyAccount } from 'data/coins/utils'
-import { SBBalanceType } from 'core/network/api/simpleBuy/types'
+import { lift, path, prop, propEq } from 'ramda'
 
+import { generateCustodyAccount } from 'data/coins/utils'
+import { convertStandardToBase } from 'data/components/exchange/services'
+import { createDeepEqualSelector } from 'services/misc'
 import { getCustodialBalance } from '../'
 
 // retrieves introduction text for coin on its transaction page
@@ -40,36 +39,41 @@ export const getAccounts = createDeepEqualSelector(
 
       // add non-custodial accounts if requested
       if (ownProps?.nonCustodialAccounts) {
-        accounts = accounts.concat(xlmMetadata
-          .map(acc => {
-            const address = prop('publicKey', acc)
-            const account = prop(address, xlmData)
-            const noAccount = path(['error', 'message'], account) === 'Not Found'
-            const balance = convertStandardToBase(
-              coin,
-              account
-                // @ts-ignore
-                .map(coreSelectors.data.xlm.selectBalanceFromAccount)
-                .getOrElse(0)
-            )
-            return {
-              archived: prop('archived', acc),
-              baseCoin: coin,
-              coin,
-              label: prop('label', acc) || address,
-              address,
-              balance,
-              noAccount,
-              type: ADDRESS_TYPES.ACCOUNT
-            }
-          })
-          .filter(propEq('archived', false)))
+        accounts = accounts.concat(
+          xlmMetadata
+            .map(acc => {
+              const address = prop('publicKey', acc)
+              const account = prop(address, xlmData)
+              const noAccount =
+                path(['error', 'message'], account) === 'Not Found'
+              const balance = convertStandardToBase(
+                coin,
+                account
+                  // @ts-ignore
+                  .map(coreSelectors.data.xlm.selectBalanceFromAccount)
+                  .getOrElse(0)
+              )
+              return {
+                archived: prop('archived', acc),
+                baseCoin: coin,
+                coin,
+                label: prop('label', acc) || address,
+                address,
+                balance,
+                noAccount,
+                type: ADDRESS_TYPES.ACCOUNT
+              }
+            })
+            .filter(propEq('archived', false))
+        )
       }
 
       // add custodial accounts if requested
       if (ownProps?.custodialAccounts) {
         // @ts-ignore
-        accounts = accounts.concat(generateCustodyAccount(coin, sbBalance as SBBalanceType))
+        accounts = accounts.concat(
+          generateCustodyAccount(coin, sbBalance as SBBalanceType)
+        )
       }
 
       return accounts

@@ -1,5 +1,6 @@
-import { Image } from 'blockchain-info-components'
+import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { Image } from 'blockchain-info-components'
 import styled from 'styled-components'
 
 import {
@@ -11,7 +12,6 @@ import {
   NavbarNav
 } from 'components/Navbar'
 import Features from './Features'
-import React from 'react'
 import Refresh from './Refresh'
 import SecurityCenter from './SecurityCenter'
 import Settings from './Settings'

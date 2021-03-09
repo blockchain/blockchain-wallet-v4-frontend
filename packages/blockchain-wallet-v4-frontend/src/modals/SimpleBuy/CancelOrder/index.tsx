@@ -1,8 +1,9 @@
-import { actions } from 'data'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect } from 'react-redux'
-import { SBOrderType } from 'core/types'
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+import { SBOrderType } from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+
+import { actions } from 'data'
 import Template from './template'
 
 export type OwnProps = {
@@ -23,7 +24,7 @@ class CancelOrder extends PureComponent<Props, State> {
     this.props.simpleBuyActions.cancelSBOrder(this.props.order)
   }
 
-  render () {
+  render() {
     return <Template {...this.props} onSubmit={this.handleSubmit} />
   }
 }

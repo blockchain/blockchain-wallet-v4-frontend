@@ -1,21 +1,20 @@
+import React, { useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { Destination } from 'components/MenuLeft'
-import {
-  DropdownMenu,
-  DropdownMenuArrow,
-  DropdownMenuItem
-} from 'components/Navbar/NavbarDropdown'
 import {
   NavbarNavItem,
   NavbarNavItemButton,
   NavbarNavItemIcon
 } from 'components/Navbar'
+import {
+  DropdownMenu,
+  DropdownMenuArrow,
+  DropdownMenuItem
+} from 'components/Navbar/NavbarDropdown'
 import { useOnClickOutside } from 'services/misc'
-
 import { Props } from '.'
 
 const DropdownSeparator = styled.div`

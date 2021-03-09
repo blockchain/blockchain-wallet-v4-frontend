@@ -1,8 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
-
-import { equals, isNil } from 'ramda'
 import { NumberInput, Text } from 'blockchain-info-components'
+import { equals, isNil } from 'ramda'
+import styled from 'styled-components'
 
 const Container = styled.div`
   position: relative;
@@ -96,10 +95,10 @@ class NumberBoxDebounced extends React.Component {
       disabled,
       errorBottom,
       errorLeft,
+      height,
       meta,
       placeholder,
       unit,
-      height,
       ...rest
     } = this.props
     const errorState = getErrorState(meta)

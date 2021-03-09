@@ -1,14 +1,13 @@
-import { FormattedMessage } from 'react-intl'
-import { lift, prop, propEq } from 'ramda'
 import React from 'react'
-
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { FormattedMessage } from 'react-intl'
 import { coreSelectors } from 'blockchain-wallet-v4/src'
-import { createDeepEqualSelector } from 'services/misc'
+import { SBBalanceType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
-import { generateCustodyAccount } from 'data/coins/utils'
-import { SBBalanceType } from 'core/network/api/simpleBuy/types'
+import { lift, prop, propEq } from 'ramda'
 
+import { generateCustodyAccount } from 'data/coins/utils'
+import { createDeepEqualSelector } from 'services/misc'
 import { getCustodialBalance } from '../'
 
 // retrieves introduction text for coin on its transaction page
@@ -30,7 +29,14 @@ export const getAccounts = createDeepEqualSelector(
     (state, { coin }) => getCustodialBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
-  (bchAccounts, bchDataR, bchMetadataR, importedAddressesR, sbBalanceR, ownProps) => {
+  (
+    bchAccounts,
+    bchDataR,
+    bchMetadataR,
+    importedAddressesR,
+    sbBalanceR,
+    ownProps
+  ) => {
     const transform = (
       bchData,
       bchMetadata,
@@ -42,48 +48,59 @@ export const getAccounts = createDeepEqualSelector(
 
       // add non-custodial accounts if requested
       if (ownProps?.nonCustodialAccounts) {
-        accounts = accounts.concat(bchAccounts
-          .map(acc => {
-            const index = prop('index', acc)
-            const xpub = prop('xpub', acc)
-            const data = prop(xpub, bchData)
-            const metadata = bchMetadata[index]
+        accounts = accounts.concat(
+          bchAccounts
+            .map(acc => {
+              const index = prop('index', acc)
+              const xpub = prop('xpub', acc)
+              const data = prop(xpub, bchData)
+              const metadata = bchMetadata[index]
 
-            return {
-              accountIndex: prop('index', acc),
-              address: index,
-              archived: prop('archived', metadata),
-              balance: prop('final_balance', data),
-              baseCoin: coin,
-              coin,
-              label: prop('label', metadata) || xpub,
-              type: ADDRESS_TYPES.ACCOUNT
-            }
-          })
-          .filter(propEq('archived', false)))
+              return {
+                accountIndex: prop('index', acc),
+                address: index,
+                archived: prop('archived', metadata),
+                balance: prop('final_balance', data),
+                baseCoin: coin,
+                coin,
+                label: prop('label', metadata) || xpub,
+                type: ADDRESS_TYPES.ACCOUNT
+              }
+            })
+            .filter(propEq('archived', false))
+        )
       }
 
       // add imported addresses if requested
       if (ownProps?.importedAddresses) {
-        accounts = accounts.concat(importedAddresses.map(importedAcc =>({
-          address: importedAcc.addr,
-          balance: importedAcc.final_balance,
-          baseCoin: coin,
-          coin,
-          label: importedAcc.label,
-          type: ADDRESS_TYPES.LEGACY
-        })))
+        accounts = accounts.concat(
+          importedAddresses.map(importedAcc => ({
+            address: importedAcc.addr,
+            balance: importedAcc.final_balance,
+            baseCoin: coin,
+            coin,
+            label: importedAcc.label,
+            type: ADDRESS_TYPES.LEGACY
+          }))
+        )
       }
 
       // add custodial accounts if requested
       if (ownProps?.custodialAccounts) {
         // @ts-ignore
-        accounts = accounts.concat(generateCustodyAccount(coin, sbBalance as SBBalanceType))
+        accounts = accounts.concat(
+          generateCustodyAccount(coin, sbBalance as SBBalanceType)
+        )
       }
 
       return accounts
     }
 
-    return lift(transform)(bchDataR, bchMetadataR, importedAddressesR, sbBalanceR)
+    return lift(transform)(
+      bchDataR,
+      bchMetadataR,
+      importedAddressesR,
+      sbBalanceR
+    )
   }
 )

@@ -1,16 +1,15 @@
+import { Remote } from 'blockchain-wallet-v4/src'
 import { assoc, find, is, prop, propEq } from 'ramda'
 import { call, delay, fork, put, race, select, take } from 'redux-saga/effects'
 
-import * as C from 'services/alerts'
 import { actions, actionTypes, selectors } from 'data'
+import * as C from 'services/alerts'
+import { checkForVulnerableAddressError } from 'services/misc'
 import {
   askSecondPasswordEnhancer,
   confirm,
   promptForSecondPassword
 } from 'services/sagas'
-import { checkForVulnerableAddressError } from 'services/misc'
-import { Remote } from 'blockchain-wallet-v4/src'
-
 import { guessCurrencyBasedOnCountry } from './helpers'
 
 export const logLocation = 'auth/sagas'
@@ -254,7 +253,7 @@ export default ({ api, coreSagas }) => {
     return yield call(pollingSession, session, n - 1)
   }
   const login = function * (action) {
-    let { guid, sharedKey, password, code, mobileLogin } = action.payload
+    let { code, guid, mobileLogin, password, sharedKey } = action.payload
     let session = yield select(selectors.session.getSession, guid)
     try {
       if (!session) {
@@ -363,7 +362,7 @@ export default ({ api, coreSagas }) => {
   const mobileLogin = function * (action) {
     try {
       yield put(actions.auth.mobileLoginStarted())
-      const { guid, sharedKey, password } = yield call(
+      const { guid, password, sharedKey } = yield call(
         coreSagas.settings.decodePairingCode,
         action.payload
       )

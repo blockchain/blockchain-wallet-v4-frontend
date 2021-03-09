@@ -1,6 +1,6 @@
-import * as Coin from '../coinSelection/coin.js'
-import * as crypto from '../walletCrypto'
-import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
+import Btc from '@ledgerhq/hw-app-btc'
+import Bitcoin from 'bitcoinjs-lib'
+import BitcoinMessage from 'bitcoinjs-message'
 import {
   addIndex,
   compose,
@@ -11,10 +11,11 @@ import {
   over
 } from 'ramda'
 import { mapped } from 'ramda-lens'
+
+import * as Coin from '../coinSelection/coin.js'
 import { privateKeyStringToKey } from '../utils/btc'
-import Bitcoin from 'bitcoinjs-lib'
-import BitcoinMessage from 'bitcoinjs-message'
-import Btc from '@ledgerhq/hw-app-btc'
+import * as crypto from '../walletCrypto'
+import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
 
 export const signSelection = curry((network, selection) => {
   const tx = new Bitcoin.TransactionBuilder(network)
@@ -75,7 +76,7 @@ export const signMessage = (priv, addr, message) => {
   )
 }
 
-export const signWithLockbox = function * (
+export const signWithLockbox = function*(
   selection,
   transport,
   scrambleKey,

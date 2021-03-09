@@ -1,12 +1,6 @@
 import { SDDEligibleType, SDDVerifiedType } from './types'
 
-export default ({
-  nabuUrl,
-  get,
-  post,
-  authorizedGet,
-  authorizedPost
-}) => {
+export default ({ authorizedGet, authorizedPost, get, nabuUrl, post }) => {
   const getSupportedCountries = () =>
     get({
       url: nabuUrl,

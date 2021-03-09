@@ -1,9 +1,9 @@
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { lift } from 'ramda'
 
-import { ExtractSuccess } from 'core/types'
-import { OwnProps } from '.'
-import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import { OwnProps } from '.'
 
 export const getData = (state: RootState, ownProps: OwnProps) => {
   const balancesR = selectors.components.simpleBuy.getSBBalances(state)

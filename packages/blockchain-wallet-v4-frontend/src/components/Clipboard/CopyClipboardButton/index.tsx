@@ -1,10 +1,9 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import * as C from 'services/alerts'
 import { actions } from 'data'
-
+import * as C from 'services/alerts'
 import CopyClipboard from './template'
 
 export interface OwnProps {

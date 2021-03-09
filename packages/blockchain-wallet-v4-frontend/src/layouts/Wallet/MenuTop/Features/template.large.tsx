@@ -1,6 +1,6 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import React from 'react'
 
 import {
   NavbarDivider,
@@ -9,7 +9,6 @@ import {
   NavbarNavItemIcon,
   NavbarNavItemTextHeader
 } from 'components/Navbar'
-
 import { Props } from '.'
 
 const FeaturesLarge = (

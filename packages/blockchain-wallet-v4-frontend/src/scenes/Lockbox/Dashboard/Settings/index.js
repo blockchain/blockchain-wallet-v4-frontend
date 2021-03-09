@@ -1,15 +1,16 @@
-import { Banner, Text } from 'blockchain-info-components'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Banner, Text } from 'blockchain-info-components'
+import Bowser from 'bowser'
+import styled from 'styled-components'
+
 import { model } from 'data'
 import AddDevice from './AddDevice'
-import Bowser from 'bowser'
 import DownloadUpdater from './DownloadUpdater'
-import React from 'react'
 import RemoveDevice from './RemoveDevice'
 import RenameDevice from './RenameDevice'
 import RestoreDevice from './RestoreDevice'
 import ShowXPubs from './ShowXPubs'
-import styled from 'styled-components'
 import TakeTour from './TakeTour'
 
 const SettingsContainer = styled.div`
@@ -24,7 +25,7 @@ const isBrowserSupported = browser.satisfies(
 )
 
 export default class LockboxSettings extends React.PureComponent {
-  render () {
+  render() {
     const { deviceIndex } = this.props
     return (
       <SettingsContainer>

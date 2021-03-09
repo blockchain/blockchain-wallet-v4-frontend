@@ -1,8 +1,9 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
-import { Props } from '../template.success'
-import React from 'react'
 import styled from 'styled-components'
+
+import { Props } from '../template.success'
 
 const TopText = styled(Text)`
   display: flex;

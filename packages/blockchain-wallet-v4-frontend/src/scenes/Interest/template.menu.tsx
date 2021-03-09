@@ -1,7 +1,7 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { TabMenu, TabMenuItem } from 'blockchain-info-components'
-import React from 'react'
 import styled from 'styled-components'
 
 const TabRow = styled.div`

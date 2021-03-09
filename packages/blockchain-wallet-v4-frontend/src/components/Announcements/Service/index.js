@@ -1,11 +1,11 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import React from 'react'
+import { connect } from 'react-redux'
+import { Remote } from 'blockchain-wallet-v4/src'
+import PropTypes from 'prop-types'
+import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
 import { getData } from './selectors'
-import { Remote } from 'blockchain-wallet-v4/src'
 import Announcement from './template.js'
 
 class ServiceAnnouncement extends React.PureComponent {

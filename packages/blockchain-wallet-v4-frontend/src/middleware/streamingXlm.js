@@ -1,4 +1,3 @@
-import { actions, actionTypes } from 'data'
 import {
   compose,
   head,
@@ -10,6 +9,8 @@ import {
   reject,
   unnest
 } from 'ramda'
+
+import { actions, actionTypes } from 'data'
 
 const logLocation = 'middleware/streamingXlm'
 
@@ -41,7 +42,7 @@ const streamingMiddleware = (streamingService, api) => {
         )
       )
   return store => next => action => {
-    const { type, payload } = action
+    const { payload, type } = action
 
     if (type === actionTypes.middleware.webSocket.xlm.START_STREAMS) {
       streamingService.open(

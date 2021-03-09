@@ -1,12 +1,18 @@
-import { actions } from 'data'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect } from 'react-redux'
-import { getData } from './selectors'
-import { OfferType, PaymentValue, RatesType, RemoteDataType } from 'core/types'
-import { RootState } from 'data/rootReducer'
-import DataError from 'components/DataError'
-import Loading from './template.loading'
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+import {
+  OfferType,
+  PaymentValue,
+  RatesType,
+  RemoteDataType
+} from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+
+import DataError from 'components/DataError'
+import { actions } from 'data'
+import { RootState } from 'data/rootReducer'
+import { getData } from './selectors'
+import Loading from './template.loading'
 import Success from './template.success'
 
 class ConfirmBorrow extends PureComponent<Props> {

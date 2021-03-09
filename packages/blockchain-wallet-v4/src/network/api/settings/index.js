@@ -1,4 +1,4 @@
-export default ({ rootUrl, post }) => {
+export default ({ post, rootUrl }) => {
   const getSettings = (guid, sharedKey) =>
     post({
       url: rootUrl,

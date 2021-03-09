@@ -7,4 +7,4 @@ import * as fiat from './fiat/selectors'
 import * as misc from './misc/selectors'
 import * as xlm from './xlm/selectors'
 
-export { algo, bch, btc, custodial, eth, fiat, xlm, misc }
+export { algo, bch, btc, custodial, eth, fiat, misc, xlm }

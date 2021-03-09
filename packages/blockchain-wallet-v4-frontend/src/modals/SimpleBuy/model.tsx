@@ -1,3 +1,6 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   BankTransferAccountType,
   CoinType,
@@ -6,16 +9,14 @@ import {
   SBOrderType,
   SupportedWalletCurrenciesType,
   SupportedWalletCurrencyType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { fiatToString } from 'core/exchange/currency'
-import { FormattedMessage } from 'react-intl'
 import {
   getBaseCurrency,
   getCounterCurrency,
   getOrderType
 } from 'data/components/simpleBuy/model'
-import React from 'react'
 
 export const BuyOrSell = (props: {
   coinModel: SupportedWalletCurrencyType

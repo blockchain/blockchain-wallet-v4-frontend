@@ -1,18 +1,18 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { prop } from 'ramda'
-import Bowser from 'bowser'
 import React from 'react'
-import styled from 'styled-components'
-
-import * as C from 'services/alerts'
-import { actions, selectors } from 'data'
-import { Button, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
-import { media } from 'services/styles'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 import linuxUpdater from 'assets/lockbox/lockbox-updater-1.0.0.AppImage'
 import macUpdater from 'assets/lockbox/lockbox-updater-1.0.0.dmg'
 import windowsUpdater from 'assets/lockbox/lockbox-updater-1.0.0.exe'
+import { Button, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
+import Bowser from 'bowser'
+import { prop } from 'ramda'
+import { bindActionCreators } from 'redux'
+import styled from 'styled-components'
+
+import { actions, selectors } from 'data'
+import * as C from 'services/alerts'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -103,7 +103,7 @@ class UpdateRequiredNotice extends React.PureComponent {
     this.props.preferencesActions.hideLockboxSoftwareDownload()
   }
 
-  render () {
+  render() {
     const { preferencesActions, showLockboxDownload } = this.props
 
     return (

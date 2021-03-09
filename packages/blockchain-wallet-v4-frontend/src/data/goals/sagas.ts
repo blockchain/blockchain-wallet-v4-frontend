@@ -1,13 +1,8 @@
-import {
-  all,
-  call,
-  delay,
-  join,
-  put,
-  select,
-  spawn,
-  take
-} from 'redux-saga/effects'
+import base64 from 'base-64'
+import BigNumber from 'bignumber.js'
+import bip21 from 'bip21'
+import { Exchange, utils } from 'blockchain-wallet-v4/src'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import {
   anyPass,
   equals,
@@ -20,14 +15,18 @@ import {
   sum,
   values
 } from 'ramda'
-import base64 from 'base-64'
-import BigNumber from 'bignumber.js'
-import bip21 from 'bip21'
+import {
+  all,
+  call,
+  delay,
+  join,
+  put,
+  select,
+  spawn,
+  take
+} from 'redux-saga/effects'
 
-import * as C from 'services/alerts'
 import { actions, model, selectors } from 'data'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import {
   getBchBalance,
   getBtcBalance,
@@ -36,15 +35,15 @@ import {
 } from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import profileSagas from 'data/modules/profile/sagas'
-
+import * as C from 'services/alerts'
 import { GoalsType } from './types'
 
 const { TRANSACTION_EVENTS } = model.analytics
 
 export default ({ api, coreSagas, networks }) => {
-  const { TIERS, KYC_STATES, DOC_RESUBMISSION_REASONS } = model.profile
+  const { DOC_RESUBMISSION_REASONS, KYC_STATES, TIERS } = model.profile
   const { NONE } = KYC_STATES
-  const { GENERAL, EXPIRED } = DOC_RESUBMISSION_REASONS
+  const { EXPIRED, GENERAL } = DOC_RESUBMISSION_REASONS
 
   const { waitForUserData } = profileSagas({
     api,
@@ -165,7 +164,7 @@ export default ({ api, coreSagas, networks }) => {
       // Other scenarios with actions encoded in base64
       const decoded = JSON.parse(base64.decode(pathname + search))
       if (!prop('name', decoded) || !prop('data', decoded)) return
-      const { name, data } = decoded
+      const { data, name } = decoded
       yield put(actions.goals.saveGoal(name, data))
       yield put(actions.router.push('/wallet'))
     } catch (e) {
@@ -228,7 +227,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const runKycGoal = function * (goal) {
     try {
-      const { id, data } = goal
+      const { data, id } = goal
       const { tier = TIERS[2] } = data
       yield put(actions.goals.deleteGoal(id))
       yield call(waitForUserData)
@@ -261,7 +260,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const runLinkAccountGoal = function * (goal) {
-    const { id, data } = goal
+    const { data, id } = goal
     yield put(actions.goals.deleteGoal(id))
     yield put(
       actions.goals.addInitialModal(
@@ -279,7 +278,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const runPaymentProtocolGoal = function * (goal) {
-    const { id, data } = goal
+    const { data, id } = goal
     const { coin, r } = data
     let coinRate, paymentCryptoAmount, paymentFiatAmount
 
@@ -401,12 +400,12 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const runSendBtcGoal = function * (goal) {
-    const { id, data } = goal
+    const { data, id } = goal
     yield put(actions.goals.deleteGoal(id))
 
     yield call(getBtcBalance)
 
-    const { amount, address, description } = data
+    const { address, amount, description } = data
     const currency = yield select(selectors.core.settings.getCurrency)
     const btcRates = yield select(selectors.core.data.btc.getRates)
     const fiat = Exchange.convertBtcToFiat({
@@ -426,12 +425,12 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const runSendXlmGoal = function * (goal) {
-    const { id, data } = goal
+    const { data, id } = goal
     yield put(actions.goals.deleteGoal(id))
 
     yield call(getXlmBalance)
 
-    const { amount, address, memo } = data
+    const { address, amount, memo } = data
     const currency = yield select(selectors.core.settings.getCurrency)
     const xlmRates = yield select(selectors.core.data.xlm.getRates)
     const fiat = Exchange.convertXlmToFiat({
@@ -561,7 +560,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const runWelcomeModal = function * (goal) {
-    const { id, data } = goal
+    const { data, id } = goal
     const { firstLogin } = data
     yield put(actions.goals.deleteGoal(id))
 
@@ -615,9 +614,9 @@ export default ({ api, coreSagas, networks }) => {
       simpleBuyModal,
       swapGetStarted,
       swapUpgrade,
+      transferEth,
       upgradeForAirdrop,
       welcomeModal,
-      transferEth,
       xlmPayment
     } = initialModals
 

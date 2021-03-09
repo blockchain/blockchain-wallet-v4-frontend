@@ -1,3 +1,5 @@
+import React, { useState } from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import {
   Button,
   HeartbeatLoader,
@@ -5,16 +7,14 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
-import { model } from 'data'
-
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import styled, { DefaultTheme } from 'styled-components'
+
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { Props as OwnProps } from '.'
+import { model } from 'data'
 import { required, validEmail } from 'services/forms'
-import React, { useState } from 'react'
-import styled, { DefaultTheme } from 'styled-components'
+import { Props as OwnProps } from '.'
 
 const { VERIFY_EMAIL_FORM } = model.components.identityVerification
 

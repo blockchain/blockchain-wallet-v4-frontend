@@ -38,15 +38,14 @@ export {
   brokerage,
   btcTransactions,
   ethTransactions,
-  xlmTransactions,
   fiatTransactions,
   identityVerification,
   importBtcAddress,
   interest,
-  manageAddresses,
-  onboarding,
   layoutWallet,
   lockbox,
+  manageAddresses,
+  onboarding,
   priceChart,
   priceTicker,
   recoveryPhrase,
@@ -62,6 +61,7 @@ export {
   stxTransactions,
   swap,
   uploadDocuments,
+  veriff,
   withdraw,
-  veriff
+  xlmTransactions
 }

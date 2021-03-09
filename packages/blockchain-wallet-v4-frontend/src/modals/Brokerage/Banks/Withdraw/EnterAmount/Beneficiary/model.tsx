@@ -1,11 +1,11 @@
-import { Icon, Image } from 'blockchain-info-components'
 import React from 'react'
-
-import { Props as _P } from '.'
-import { BankTransferAccountType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
-import { getBankLogoImageName } from 'services/images'
+import { Icon, Image } from 'blockchain-info-components'
+import { BankTransferAccountType } from 'blockchain-wallet-v4/src/types'
+
 import { Title, Value } from 'components/Flyout'
+import { getBankLogoImageName } from 'services/images'
+import { Props as _P } from '.'
 
 type Props = _P & {
   transferAccount?: BankTransferAccountType
@@ -40,9 +40,9 @@ export const BeneficiaryName = (props: Props) => {
     )
   } else if (props.transferAccount) {
     const {
-      bankName,
+      accountNumber,
       bankAccountType,
-      accountNumber
+      bankName
     } = props.transferAccount?.details
 
     return (

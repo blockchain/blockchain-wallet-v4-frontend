@@ -1,6 +1,6 @@
-import { contains, equals, prop, toUpper } from 'ramda'
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
+import { contains, equals, prop, toUpper } from 'ramda'
 
 import SelectInput from './template.js'
 
@@ -48,7 +48,7 @@ class SelectInputContainer extends React.PureComponent {
   onBlur = () => this.props.onBlur()
 
   render () {
-    const { elements, label, disabled, grouped, ...rest } = this.props
+    const { disabled, elements, grouped, label, ...rest } = this.props
     const { search } = this.state
     const items = grouped ? elements : this.transform(elements, search)
 

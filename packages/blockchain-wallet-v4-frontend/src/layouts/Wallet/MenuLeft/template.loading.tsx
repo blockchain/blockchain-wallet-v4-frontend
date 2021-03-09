@@ -1,12 +1,13 @@
+import React from 'react'
 import {
   BlockchainLoader,
   SkeletonCircle,
   SkeletonRectangle
 } from 'blockchain-info-components'
-import { Container } from './template.success'
-import { MenuItem, Wrapper } from 'components/MenuLeft'
-import React from 'react'
 import styled from 'styled-components'
+
+import { MenuItem, Wrapper } from 'components/MenuLeft'
+import { Container } from './template.success'
 
 const SkeletonMenuItem = styled(MenuItem)`
   margin-top: 12px;

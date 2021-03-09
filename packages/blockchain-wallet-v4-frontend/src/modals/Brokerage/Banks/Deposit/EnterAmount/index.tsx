@@ -1,16 +1,20 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { useEffect } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/network/api/settingsComponent/types'
+import {
+  ExtractSuccess,
+  FiatType,
+  RemoteDataType
+} from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators, Dispatch } from 'redux'
 
 import { actions, selectors } from 'data'
-import { BankDWStepType } from 'data/types'
-import { ExtractSuccess, FiatType, RemoteDataType } from 'core/types'
-import { getData } from './selectors'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
-import { SBPaymentMethodType } from 'core/network/api/settingsComponent/types'
-import Failure from './template.failure'
+import { BankDWStepType } from 'data/types'
 import Loading from '../DepositMethods/template.loading'
+import { getData } from './selectors'
+import Failure from './template.failure'
 import Success from './template.success'
 
 const EnterAmount = props => {

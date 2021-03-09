@@ -1,14 +1,15 @@
-import * as AT from './actionTypes'
 import { assocPath, compose } from 'ramda'
-import { KVStoreEntry } from '../../../types'
 import { mapped, over } from 'ramda-lens'
+
 import Remote from '../../../remote'
+import { KVStoreEntry } from '../../../types'
+import * as AT from './actionTypes'
 
 // initial state should be a kvstore object
 const INITIAL_STATE = Remote.NotAsked
 
 export default (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
 
   switch (type) {
     case AT.FETCH_METADATA_BTC_LOADING: {

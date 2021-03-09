@@ -1,9 +1,10 @@
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { getData } from './selectors'
-import { prop } from 'ramda'
 import React from 'react'
+import { connect } from 'react-redux'
+import { prop } from 'ramda'
+import { bindActionCreators } from 'redux'
+
+import { actions } from 'data'
+import { getData } from './selectors'
 import Template from './template'
 const key = 'lockbox'
 

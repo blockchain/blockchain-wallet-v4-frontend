@@ -1,6 +1,6 @@
-import { css } from 'styled-components'
-import { mergeAll } from 'ramda'
 import { useEffect, useState } from 'react'
+import { mergeAll } from 'ramda'
+import { css } from 'styled-components'
 
 const types = {
   m: 'margin',
@@ -126,7 +126,7 @@ export const media = Object.keys(sizes).reduce((acc, label) => {
   return acc
 }, {}) as MediaServiceType
 
-export function useMedia (size: Sizes): boolean {
+export function useMedia(size: Sizes): boolean {
   const getSize = () => {
     if (window.innerWidth <= sizes[size]) {
       return true

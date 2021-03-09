@@ -1,11 +1,6 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import PropTypes from 'prop-types'
 import React from 'react'
-import styled from 'styled-components'
-
-import { actions, model } from 'data'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 import {
   Icon,
   Link,
@@ -14,6 +9,11 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
+import PropTypes from 'prop-types'
+import { bindActionCreators, compose } from 'redux'
+import styled from 'styled-components'
+
+import { actions, model } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 const Header = styled.div`
@@ -50,7 +50,7 @@ class XlmCreateAccountLearn extends React.PureComponent {
     })
   }
 
-  render () {
+  render() {
     const { position, total } = this.props
     return (
       <Modal

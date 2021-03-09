@@ -1,5 +1,6 @@
-import * as LocalesService from './index'
 import Maybe from 'data.maybe'
+
+import * as LocalesService from './index'
 
 describe('LocalesService getLanguageName', () => {
   let testCases = [
@@ -10,7 +11,7 @@ describe('LocalesService getLanguageName', () => {
     { cultureCode: null, value: Maybe.Nothing() }
   ]
 
-  testCases.forEach(function (testCase) {
+  testCases.forEach(function(testCase) {
     it(
       'Get correct language name from culture code: ' + testCase.cultureCode,
       () => {
@@ -31,7 +32,7 @@ describe('LocalesService convertLanguageToCultureCode', () => {
     { language: null, value: Maybe.Nothing() }
   ]
 
-  testCases.forEach(function (testCase) {
+  testCases.forEach(function(testCase) {
     it('Convert culture code to language name: ' + testCase.language, () => {
       expect(
         LocalesService.convertLanguageToCultureCode(testCase.language)
@@ -49,7 +50,7 @@ describe('LocalesService convertCultureCodeToLanguage', () => {
     { cultureCode: null, value: Maybe.Nothing() }
   ]
 
-  testCases.forEach(function (testCase) {
+  testCases.forEach(function(testCase) {
     test('Convert language to culture code: ' + testCase.cultureCode, () => {
       expect(
         LocalesService.convertCultureCodeToLanguage(testCase.cultureCode)

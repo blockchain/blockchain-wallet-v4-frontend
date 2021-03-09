@@ -1,5 +1,6 @@
-import { CoinType, ExtractSuccess } from 'core/types'
+import { CoinType, ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { curry, lift } from 'ramda'
+
 import { RootState } from 'data/rootReducer'
 
 export const getPaymentsAccountExchange = curry(

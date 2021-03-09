@@ -1,10 +1,10 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Icon } from 'blockchain-info-components'
 import styled, { css } from 'styled-components'
 
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
-import { Icon } from 'blockchain-info-components'
-
+import { Props } from '../template.success'
 import {
   getIcon,
   getText,
@@ -13,7 +13,6 @@ import {
   PaymentText,
   SectionTitle
 } from './model'
-import { Props } from '../template.success'
 
 const RightArrowIcon = styled(Icon)<{
   disabled?: boolean

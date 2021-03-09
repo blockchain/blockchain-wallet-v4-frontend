@@ -1,10 +1,10 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { RootState } from 'data/rootReducer'
-import moment from 'moment'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import moment from 'moment'
+import { bindActionCreators } from 'redux'
 
 import { actions, model } from 'data'
+import { RootState } from 'data/rootReducer'
 import { getData } from './selectors'
 import LockTime from './template'
 

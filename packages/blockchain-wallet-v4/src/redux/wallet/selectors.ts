@@ -1,3 +1,5 @@
+import { always, compose, curry, ifElse, isNil, map, prop } from 'ramda'
+
 import {
   Address,
   AddressMap,
@@ -8,7 +10,6 @@ import {
   Wallet,
   Wrapper
 } from '../../types'
-import { always, compose, curry, ifElse, isNil, map, prop } from 'ramda'
 import { walletPath } from '../paths'
 
 const ImtoJS = i => i.toJS()

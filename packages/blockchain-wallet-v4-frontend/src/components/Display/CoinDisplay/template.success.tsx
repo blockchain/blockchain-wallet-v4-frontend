@@ -1,5 +1,5 @@
-import { Text } from 'blockchain-info-components'
 import React from 'react'
+import { Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
 import { media } from 'services/styles'
@@ -21,14 +21,14 @@ const CoinText = styled(Text)<{ mobileSize: string }>`
 
 const CoinDisplay = props => {
   const {
-    coin,
     children,
-    italic,
-    size,
-    weight,
+    coin,
     color,
     cursor,
+    italic,
     mobileSize,
+    size,
+    weight,
     ...rest
   } = props
   return (

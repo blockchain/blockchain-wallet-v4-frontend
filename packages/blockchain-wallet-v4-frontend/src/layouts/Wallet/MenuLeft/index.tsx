@@ -1,9 +1,9 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
-import { ExtractSuccess } from 'core/types'
 import { getData } from './selectors'
 import Failure from './template.failure'
 import Loading from './template.loading'

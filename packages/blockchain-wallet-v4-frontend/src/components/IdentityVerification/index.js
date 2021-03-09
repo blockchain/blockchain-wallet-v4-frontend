@@ -1,6 +1,6 @@
+import { Button, Image } from 'blockchain-info-components'
 import styled from 'styled-components'
 
-import { Button, Image } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
 export const Form = styled.form`

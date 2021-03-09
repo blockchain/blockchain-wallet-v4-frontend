@@ -1,25 +1,24 @@
-import { compose } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
-
+import { connect, ConnectedProps } from 'react-redux'
 import {
   BeneficiaryType,
   WalletFiatType,
   WithdrawResponseType
-} from 'core/types'
-import { BROKERAGE_INELIGIBLE } from '../../components'
-import { RootState } from 'data/rootReducer'
-import { selectors } from 'data'
-import { WithdrawStepEnum } from 'data/types'
+} from 'blockchain-wallet-v4/src/types'
+import { compose } from 'redux'
+
 import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import { WithdrawStepEnum } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
-
 import { ModalPropsType } from '../../../types'
+import { BROKERAGE_INELIGIBLE } from '../../components'
 import BankPicker from './BankPicker'
 import ConfirmWithdraw from './ConfirmWithdraw'
-import EnterAmount from './EnterAmount'
 import Loading from './ConfirmWithdraw/template.loading'
+import EnterAmount from './EnterAmount'
 import WithdrawalDetails from './WithdrawalDetails'
 import WithdrawalMethods from './WithdrawalMethods'
 

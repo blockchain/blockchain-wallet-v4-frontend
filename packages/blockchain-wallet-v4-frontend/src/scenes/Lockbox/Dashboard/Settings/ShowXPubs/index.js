@@ -1,8 +1,8 @@
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
+import { actions } from 'data'
 import ShowXpubs from './template'
 
 class ShowXPubsContainer extends React.PureComponent {
@@ -12,7 +12,7 @@ class ShowXPubsContainer extends React.PureComponent {
     })
   }
 
-  render () {
+  render() {
     return <ShowXpubs onShowXPubs={this.onShowXPubs} />
   }
 }

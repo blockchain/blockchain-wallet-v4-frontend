@@ -1,22 +1,24 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { replace } from 'ramda'
 import React, { PureComponent } from 'react'
-import styled from 'styled-components'
-
-import { actions, selectors } from 'data'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
-import { coinToString, fiatToString } from 'core/exchange/currency'
+import {
+  coinToString,
+  fiatToString
+} from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   CoinType,
   ProcessedSwapOrderType,
   SupportedWalletCurrenciesType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+import { replace } from 'ramda'
+import { bindActionCreators, Dispatch } from 'redux'
+import styled from 'styled-components'
+
+import { actions, selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getInput, getOutput } from 'data/components/swap/model'
 import { RootState } from 'data/rootReducer'
-
 import {
   Addresses,
   Col,
@@ -65,8 +67,8 @@ class SwapOrderTx extends PureComponent<Props, State> {
     })
   }
 
-  render () {
-    const { order, coin, supportedCoins } = this.props
+  render() {
+    const { coin, order, supportedCoins } = this.props
     const base = getInput(order)
     const counter = getOutput(order)
     const { outputMoney } = this.props.order.priceFunnel

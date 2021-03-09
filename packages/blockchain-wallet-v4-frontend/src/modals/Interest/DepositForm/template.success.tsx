@@ -1,10 +1,6 @@
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
-
-import { actions, selectors } from 'data'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import {
   Button,
   Icon,
@@ -14,17 +10,26 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { RootState } from 'data/rootReducer'
-
-import { CheckBox, CoinBalanceDropdown, NumberBox } from 'components/Form'
-import { Exchange } from 'core'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import {
   fiatToString,
   formatFiat
 } from 'blockchain-wallet-v4/src/exchange/currency'
-import { InterestDepositFormType } from 'data/components/interest/types'
-import { required } from 'services/forms'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 
+import { CheckBox, CoinBalanceDropdown, NumberBox } from 'components/Form'
+import { actions, selectors } from 'data'
+import { InterestDepositFormType } from 'data/components/interest/types'
+import { RootState } from 'data/rootReducer'
+import { required } from 'services/forms'
+import {
+  amountToCrypto,
+  amountToFiat,
+  calcCompoundInterest,
+  maxFiat
+} from '../conversions'
+import { OwnProps as ParentOwnProps, SuccessStateType } from '.'
 import {
   AgreementContainer,
   AmountError,
@@ -55,24 +60,16 @@ import {
   Top,
   TopText
 } from './model'
-import {
-  amountToCrypto,
-  amountToFiat,
-  calcCompoundInterest,
-  maxFiat
-} from '../conversions'
-
-import { maxDepositAmount, minDepositAmount } from './validation'
-import { OwnProps as ParentOwnProps, SuccessStateType } from '.'
 import TabMenuTimeFrame from './TabMenuTimeFrame'
+import { maxDepositAmount, minDepositAmount } from './validation'
 
 const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
     coin,
-    feeCrypto,
-    feeFiat,
     depositLimits,
     displayCoin,
+    feeCrypto,
+    feeFiat,
     formActions,
     formErrors,
     handleDisplayToggle,
@@ -85,8 +82,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     rates,
     submitting,
     supportedCoins,
-    walletCurrency,
-    values
+    values,
+    walletCurrency
   } = props
   const { coinTicker, displayName } = supportedCoins[coin]
 

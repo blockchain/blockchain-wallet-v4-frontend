@@ -1,4 +1,5 @@
 import { lift, not } from 'ramda'
+
 import { selectors } from 'data'
 
 export const getData = state => {

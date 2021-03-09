@@ -1,5 +1,4 @@
-import * as A from './actions'
-import * as eth from '../../../utils/eth'
+import { Map } from 'immutable-ext'
 import {
   assoc,
   filter,
@@ -14,21 +13,23 @@ import {
   prop,
   toLower
 } from 'ramda'
+import { set } from 'ramda-lens'
 import { call, put, select } from 'redux-saga/effects'
+
+import { KVStoreEntry } from '../../../types'
+import * as eth from '../../../utils/eth'
 import { callTask } from '../../../utils/functional'
-import { derivationMap, ETH } from '../config'
+import { getMnemonic } from '../../wallet/selectors'
 import {
   getErc20CoinList,
   getSupportedCoins
 } from '../../walletOptions/selectors'
+import { derivationMap, ETH } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
-import { getMnemonic } from '../../wallet/selectors'
-import { KVStoreEntry } from '../../../types'
-import { Map } from 'immutable-ext'
-import { set } from 'ramda-lens'
+import * as A from './actions'
 
 export default ({ api, networks } = {}) => {
-  const deriveAccount = function * (password) {
+  const deriveAccount = function*(password) {
     try {
       const obtainMnemonic = state => getMnemonic(state, password)
       const mnemonicT = yield select(obtainMnemonic)
@@ -51,7 +52,7 @@ export default ({ api, networks } = {}) => {
     tx_notes: {}
   })
 
-  const createNewErc20Entry = function * () {
+  const createNewErc20Entry = function*() {
     const entries = {}
     const erc20List = (yield select(getErc20CoinList)).getOrFail()
     const coinModels = (yield select(getSupportedCoins)).getOrFail()
@@ -61,8 +62,8 @@ export default ({ api, networks } = {}) => {
     return entries
   }
 
-  const createEth = function * ({ kv, password }) {
-    const { defaultIndex, addr } = yield call(deriveAccount, password)
+  const createEth = function*({ kv, password }) {
+    const { addr, defaultIndex } = yield call(deriveAccount, password)
     const erc20Entry = yield call(createNewErc20Entry)
     const ethereum = {
       has_seen: true,
@@ -85,7 +86,7 @@ export default ({ api, networks } = {}) => {
     yield put(A.createMetadataEth(newkv))
   }
 
-  const createErc20 = function * ({ newkv }) {
+  const createErc20 = function*({ newkv }) {
     const erc20List = (yield select(getErc20CoinList)).getOrFail()
     const coinModels = (yield select(getSupportedCoins)).getOrFail()
     const erc20 = pathOr({}, ['value', 'ethereum', 'erc20'], newkv)
@@ -98,8 +99,8 @@ export default ({ api, networks } = {}) => {
     yield put(A.fetchMetadataEthSuccess(newkvErc20))
   }
 
-  const transitionFromLegacy = function * ({ newkv, password }) {
-    const { defaultIndex, addr } = yield call(deriveAccount, password)
+  const transitionFromLegacy = function*({ newkv, password }) {
+    const { addr, defaultIndex } = yield call(deriveAccount, password)
     const erc20Entry = yield call(createNewErc20Entry)
     const defaultAccount = Map(newkv.value.ethereum.accounts[defaultIndex])
     newkv.value.ethereum.legacy_account = defaultAccount.toJS()
@@ -110,7 +111,7 @@ export default ({ api, networks } = {}) => {
   }
 
   // Fixing wrong display names for USDT and PAX 🤦‍♀️
-  const updatePaxLabelToUSDDigital = function * ({ newkv }) {
+  const updatePaxLabelToUSDDigital = function*({ newkv }) {
     const coinModels = (yield select(getSupportedCoins)).getOrFail()
 
     newkv.value.ethereum.erc20.pax.label = `My ${coinModels['PAX'].displayName} Wallet`
@@ -118,14 +119,14 @@ export default ({ api, networks } = {}) => {
   }
 
   // Fixing wrong display names for USDT and PAX 🤦‍♀️
-  const updateUSDTetherLabel = function * ({ newkv }) {
+  const updateUSDTetherLabel = function*({ newkv }) {
     const coinModels = (yield select(getSupportedCoins)).getOrFail()
 
     newkv.value.ethereum.erc20.usdt.label = `My ${coinModels['USDT'].displayName} Wallet`
     yield put(A.fetchMetadataEthSuccess(newkv))
   }
 
-  const fetchMetadataEth = function * (secondPasswordSagaEnhancer) {
+  const fetchMetadataEth = function*(secondPasswordSagaEnhancer) {
     try {
       const typeId = derivationMap[ETH]
       const mxpriv = yield select(getMetadataXpriv)

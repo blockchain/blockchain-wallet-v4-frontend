@@ -1,8 +1,9 @@
-import { createSelector } from 'reselect'
-import { curry } from 'ramda'
-import { fiatToString } from 'core/exchange/currency'
-import { FiatType } from 'core/types'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { FiatType } from 'blockchain-wallet-v4/src/types'
+import { curry } from 'ramda'
+import { createSelector } from 'reselect'
+
 import { selectors } from 'data'
 
 export const getData = curry((hash, currency: FiatType, state) => {

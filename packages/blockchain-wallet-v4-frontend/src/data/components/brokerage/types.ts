@@ -1,4 +1,7 @@
-import { BankTransferAccountType, RemoteDataType } from 'core/types'
+import {
+  BankTransferAccountType,
+  RemoteDataType
+} from 'blockchain-wallet-v4/src/types'
 
 import * as AT from './actionTypes'
 

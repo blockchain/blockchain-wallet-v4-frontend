@@ -1,9 +1,9 @@
-import { assoc, curry, keys, map, reduce } from 'ramda'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { assoc, curry, keys, map, reduce } from 'ramda'
 
-import { languagesSortedByName } from 'services/locales'
 import { selectors } from 'data'
+import { languagesSortedByName } from 'services/locales'
 import SelectBox from '../SelectBox'
 
 const renameKeys = curry((keysMap, obj) =>

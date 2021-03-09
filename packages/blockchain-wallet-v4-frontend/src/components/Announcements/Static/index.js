@@ -1,10 +1,9 @@
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import { actions } from 'data'
 import { media } from 'services/styles'
-
 import { getData } from './selectors'
 import EmailReminder from './template.email'
 

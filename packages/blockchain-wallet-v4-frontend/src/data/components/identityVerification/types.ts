@@ -1,4 +1,4 @@
-import { NabuAddressType, RemoteDataType } from 'core/types'
+import { NabuAddressType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 
 import * as AT from './actionTypes'
 

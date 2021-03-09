@@ -1,4 +1,5 @@
 import { includes, toLower } from 'ramda'
+
 import { selectors } from 'data'
 
 export const getBlockHeight = (state, coin) => {

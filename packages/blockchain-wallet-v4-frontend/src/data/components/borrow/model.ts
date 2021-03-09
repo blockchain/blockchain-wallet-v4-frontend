@@ -4,7 +4,8 @@ import {
   LoanTransactionsType,
   LoanType,
   OfferType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+
 import { convertBaseToStandard } from '../exchange/services'
 
 export const NO_OFFER_EXISTS = 'NO_OFFER_EXISTS'

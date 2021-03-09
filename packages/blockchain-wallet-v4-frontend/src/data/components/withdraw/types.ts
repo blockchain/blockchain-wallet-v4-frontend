@@ -6,7 +6,7 @@ import {
   WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse,
   WithdrawResponseType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
 
 import * as AT from './actionTypes'
 

@@ -1,6 +1,7 @@
-import { actions, model, selectors } from 'data'
 import { equals, path, prop } from 'ramda'
 import { put, select } from 'redux-saga/effects'
+
+import { actions, model, selectors } from 'data'
 export const logLocation = 'components/bchTransactions/sagas'
 
 export default () => {

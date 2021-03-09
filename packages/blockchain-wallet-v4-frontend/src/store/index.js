@@ -1,23 +1,22 @@
-import { applyMiddleware, compose, createStore } from 'redux'
-import { connectRouter, routerMiddleware } from 'connected-react-router'
-import { createHashHistory } from 'history'
-import { persistCombineReducers, persistStore } from 'redux-persist'
-import Bitcoin from 'bitcoinjs-lib'
 import BitcoinCash from 'bitcoinforksjs-lib'
-import createSagaMiddleware from 'redux-saga'
-import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4'
-import storage from 'redux-persist/lib/storage'
-
-import { actions, rootReducer, rootSaga, selectors } from 'data'
+import Bitcoin from 'bitcoinjs-lib'
+import { coreMiddleware } from 'blockchain-wallet-v4/src'
 import {
   ApiSocket,
   createWalletApi,
   HorizonStreamingService,
   Socket
 } from 'blockchain-wallet-v4/src/network/index.ts'
-import { coreMiddleware } from 'blockchain-wallet-v4/src'
 import { serializer } from 'blockchain-wallet-v4/src/types'
+import { connectRouter, routerMiddleware } from 'connected-react-router'
+import { createHashHistory } from 'history'
+import { applyMiddleware, compose, createStore } from 'redux'
+import { persistCombineReducers, persistStore } from 'redux-persist'
+import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4'
+import storage from 'redux-persist/lib/storage'
+import createSagaMiddleware from 'redux-saga'
 
+import { actions, rootReducer, rootSaga, selectors } from 'data'
 import {
   autoDisconnection,
   matomoMiddleware,
@@ -45,7 +44,7 @@ const devToolsConfig = {
   ]
 }
 
-const configureStore = async function () {
+const configureStore = async function() {
   const history = createHashHistory()
   const sagaMiddleware = createSagaMiddleware()
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__

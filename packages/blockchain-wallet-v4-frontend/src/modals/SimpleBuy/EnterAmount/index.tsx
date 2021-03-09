@@ -1,9 +1,6 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { equals } from 'ramda'
 import React, { PureComponent } from 'react'
-
-import { actions, selectors } from 'data'
+import { connect, ConnectedProps } from 'react-redux'
+import { Remote } from 'blockchain-wallet-v4/src'
 import {
   CoinType,
   ExtractSuccess,
@@ -13,17 +10,20 @@ import {
   SBOrderType,
   SBPairType,
   SBPaymentMethodType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+import { equals } from 'ramda'
+import { bindActionCreators, Dispatch } from 'redux'
+
+import { actions, selectors } from 'data'
 import { DEFAULT_SB_METHODS } from 'data/components/simpleBuy/model'
-import { getData } from './selectors'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
-import Failure from './template.failure'
 import Loading from '../template.loading'
+import { getData } from './selectors'
+import Failure from './template.failure'
 import Success from './template.success'
 
 class EnterAmount extends PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     if (this.props.fiatCurrency && !Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
@@ -46,7 +46,7 @@ class EnterAmount extends PureComponent<Props> {
     }
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} />,
       Failure: () => <Failure {...this.props} />,

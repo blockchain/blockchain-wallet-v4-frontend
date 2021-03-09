@@ -1,11 +1,12 @@
-import { connect } from 'react-redux'
-import { createDeepEqualSelector } from 'services/misc'
-import { merge } from 'ramda'
-import { Palette } from 'blockchain-info-components'
-import { selectors } from 'data'
-import { theme } from '@blockchain-com/components'
-import { ThemeProvider } from 'styled-components'
 import React from 'react'
+import { connect } from 'react-redux'
+import { theme } from '@blockchain-com/components'
+import { Palette } from 'blockchain-info-components'
+import { merge } from 'ramda'
+import { ThemeProvider } from 'styled-components'
+
+import { selectors } from 'data'
+import { createDeepEqualSelector } from 'services/misc'
 
 const mapStateToProps = createDeepEqualSelector(
   [selectors.preferences.getTheme],

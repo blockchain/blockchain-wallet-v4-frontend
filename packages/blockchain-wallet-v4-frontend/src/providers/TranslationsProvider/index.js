@@ -1,10 +1,10 @@
-import { any, includes, propOr } from 'ramda'
-import { connect } from 'react-redux'
-import { IntlProvider } from 'react-intl'
 import React from 'react'
+import { IntlProvider } from 'react-intl'
+import { connect } from 'react-redux'
+import { any, includes, propOr } from 'ramda'
 
-import { languages, loadLocaleData } from 'services/locales'
 import { selectors } from 'data'
+import { languages, loadLocaleData } from 'services/locales'
 
 class TranslationsProvider extends React.Component {
   state = {
@@ -19,7 +19,7 @@ class TranslationsProvider extends React.Component {
   // the links.  Users are then unable to log into their wallets. This is a hack
   // to prevent the language update to cause a re-render on these pages. The downside
   // is that these pages will never be translated.
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const urlHash = window.location.hash
     if (
       this.props.locale !== prevProps.locale &&
@@ -39,7 +39,7 @@ class TranslationsProvider extends React.Component {
     })
   }
 
-  render () {
+  render() {
     const { locale, messages } = this.state
     return (
       <IntlProvider locale={locale} key={locale} messages={messages}>

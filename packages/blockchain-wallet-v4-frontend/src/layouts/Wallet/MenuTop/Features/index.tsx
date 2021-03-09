@@ -1,13 +1,12 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { includes, keys } from 'ramda'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { CoinTypeEnum } from 'blockchain-wallet-v4/src/types'
+import { includes, keys } from 'ramda'
+import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
-import { CoinTypeEnum } from 'core/types'
-
-import { getData } from './selectors'
 import { ModalNamesType } from 'data/types'
+import { getData } from './selectors'
 import Features from './template'
 
 class FeaturesContainer extends React.PureComponent<Props> {
@@ -15,8 +14,8 @@ class FeaturesContainer extends React.PureComponent<Props> {
     const {
       coin,
       erc20List,
-      lockboxPath,
       lockboxDeviceId,
+      lockboxPath,
       modalActions,
       supportedCoins
     } = this.props

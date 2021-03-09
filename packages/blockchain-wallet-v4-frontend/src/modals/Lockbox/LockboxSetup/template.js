@@ -1,8 +1,7 @@
-import PropTypes from 'prop-types'
 import React from 'react'
-import styled from 'styled-components'
-
 import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 const ModalWrapper = styled(Modal)`
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
@@ -15,7 +14,7 @@ const Header = styled(ModalHeader)`
 `
 
 const LockboxSetup = props => {
-  const { children, position, total, onClose, title } = props
+  const { children, onClose, position, title, total } = props
 
   return (
     <ModalWrapper size='small' position={position} total={total}>

@@ -1,14 +1,15 @@
-import * as A from './actions'
+import { isEmpty, isNil } from 'ramda'
+import { set } from 'ramda-lens'
 import { call, put, select } from 'redux-saga/effects'
+
+import { KVStoreEntry } from '../../../types'
 import { callTask } from '../../../utils/functional'
 import { derivationMap, LOCKBOX } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
-import { isEmpty, isNil } from 'ramda'
-import { KVStoreEntry } from '../../../types'
-import { set } from 'ramda-lens'
+import * as A from './actions'
 
 export default ({ api, networks }) => {
-  const createLockbox = function * (kv) {
+  const createLockbox = function*(kv) {
     const newLockboxEntry = {
       devices: []
     }
@@ -16,7 +17,7 @@ export default ({ api, networks }) => {
     yield put(A.createMetadataLockbox(newkv))
   }
 
-  const fetchMetadataLockbox = function * () {
+  const fetchMetadataLockbox = function*() {
     try {
       const typeId = derivationMap[LOCKBOX]
       const mxpriv = yield select(getMetadataXpriv)

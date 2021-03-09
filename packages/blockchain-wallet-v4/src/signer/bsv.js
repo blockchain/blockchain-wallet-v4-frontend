@@ -1,9 +1,10 @@
-import * as Coin from '../coinSelection/coin'
-import { addHDWalletWIFS, addLegacyWIFS } from './wifs'
-import { addIndex, compose, curry, forEach, lensProp, over } from 'ramda'
-import { fromCashAddr, isCashAddr } from '../utils/bch'
-import { mapped } from 'ramda-lens'
 import BitcoinCash from 'bitcoinforksjs-lib'
+import { addIndex, compose, curry, forEach, lensProp, over } from 'ramda'
+import { mapped } from 'ramda-lens'
+
+import * as Coin from '../coinSelection/coin'
+import { fromCashAddr, isCashAddr } from '../utils/bch'
+import { addHDWalletWIFS, addLegacyWIFS } from './wifs'
 
 export const signSelection = curry((network, coinDust, selection) => {
   const hashType =

@@ -1,8 +1,7 @@
-import CopyToClipBoard from 'react-copy-to-clipboard'
 import React from 'react'
-import styled from 'styled-components'
-
+import CopyToClipBoard from 'react-copy-to-clipboard'
 import { IconButton } from 'blockchain-info-components'
+import styled from 'styled-components'
 
 import { OwnProps, State } from '.'
 

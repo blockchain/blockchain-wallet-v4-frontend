@@ -1,23 +1,22 @@
-import { FormattedMessage } from 'react-intl'
 import React, { ReactElement } from 'react'
-import styled, { css } from 'styled-components'
-
+import { FormattedMessage } from 'react-intl'
+import { Icon, Image, Text } from 'blockchain-info-components'
+import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   BankTransferAccountType,
   FiatType,
   SBBalancesType,
   SBPaymentMethodType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+import styled, { css } from 'styled-components'
+
+import { Title, Value } from 'components/Flyout'
 import {
   CARD_TYPES,
   DEFAULT_CARD_SVG_LOGO
 } from 'components/Form/CreditCardBox/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { fiatToString } from 'core/exchange/currency'
-import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
-import { Icon, Image, Text } from 'blockchain-info-components'
-import { Title, Value } from 'components/Flyout'
-
 import { getBankLogoImageName } from 'services/images'
 
 type PaymentContainerProps = {

@@ -1,3 +1,5 @@
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
+
 import * as AT from './actionTypes'
 import {
   AddBankStepType,
@@ -5,7 +7,6 @@ import {
   BrokerageActionTypes,
   BrokerageState
 } from './types'
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: BrokerageState = {
   bankTransferAccounts: Remote.NotAsked,

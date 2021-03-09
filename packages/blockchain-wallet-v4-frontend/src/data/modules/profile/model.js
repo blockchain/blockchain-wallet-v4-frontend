@@ -1,5 +1,5 @@
-import { complement, findLast, propEq } from 'ramda'
 import PropTypes from 'prop-types'
+import { complement, findLast, propEq } from 'ramda'
 
 export const USER_ACTIVATION_STATES = {
   NONE: 'NONE',

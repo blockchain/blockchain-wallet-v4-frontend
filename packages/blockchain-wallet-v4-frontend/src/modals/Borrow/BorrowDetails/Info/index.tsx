@@ -1,3 +1,4 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import {
   Icon,
@@ -5,15 +6,15 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { model } from 'data'
-import { OfferType } from 'core/types'
-import { Props } from '../template.success'
+import { OfferType } from 'blockchain-wallet-v4/src/types'
+import styled, { DefaultTheme } from 'styled-components'
+
 import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
+import { model } from 'data'
 import CollateralizationBar from '../CollateralizationBar'
 import CollateralWarning from '../CollateralWarning'
-import FiatDisplay from 'components/Display/FiatDisplay'
-import React from 'react'
-import styled, { DefaultTheme } from 'styled-components'
+import { Props } from '../template.success'
 
 const { isLastTxStatus } = model.components.borrow
 

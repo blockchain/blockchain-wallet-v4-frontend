@@ -1,12 +1,12 @@
-import { actions, actionTypes } from 'data'
 import { put, race, take } from 'redux-saga/effects'
 
+import { actions, actionTypes } from 'data'
 import apps from './apps'
 import constants from './constants'
 import firmware from './firmware'
 import utils from './utils'
 
-const promptForLockbox = function * (
+const promptForLockbox = function*(
   coin,
   deviceType,
   marquees = [],

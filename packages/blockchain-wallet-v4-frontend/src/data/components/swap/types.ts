@@ -1,4 +1,3 @@
-import * as AT from './actionTypes'
 import {
   CoinType,
   Erc20CoinType,
@@ -7,7 +6,9 @@ import {
   SwapOrderType,
   SwapQuoteType,
   SwapUserLimitsType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+
+import * as AT from './actionTypes'
 
 export type MempoolFeeType = 'regular' | 'priority'
 

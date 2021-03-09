@@ -1,11 +1,12 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators, compose } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { propOr } from 'ramda'
-import { SelectBoxCoinPriceChart } from 'components/Form'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { propOr } from 'ramda'
+import { bindActionCreators, compose } from 'redux'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
+
+import { SelectBoxCoinPriceChart } from 'components/Form'
+import { actions, selectors } from 'data'
 
 const Wrapper = styled.div`
   z-index: 3;
@@ -15,7 +16,7 @@ const Wrapper = styled.div`
 class CoinSelectBox extends React.PureComponent<
   InjectedFormProps<{}, Props> & Props
 > {
-  componentDidMount () {
+  componentDidMount() {
     const { priceChart } = this.props
     this.props.initialize({ coin: propOr('BTC', 'coin', priceChart) })
   }
@@ -24,7 +25,7 @@ class CoinSelectBox extends React.PureComponent<
     this.props.actions.coinClicked(val)
   }
 
-  render () {
+  render() {
     return (
       <Wrapper>
         <Field

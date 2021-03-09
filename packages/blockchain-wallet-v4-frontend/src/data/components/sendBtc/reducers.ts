@@ -1,6 +1,7 @@
-import * as AT from './actionTypes'
-import { assoc } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { assoc } from 'ramda'
+
+import * as AT from './actionTypes'
 import { SendBtcState } from './types'
 
 const INITIAL_STATE: SendBtcState = {

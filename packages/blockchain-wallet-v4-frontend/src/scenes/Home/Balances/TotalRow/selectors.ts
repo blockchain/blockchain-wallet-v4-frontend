@@ -1,8 +1,8 @@
-import { createDeepEqualSelector } from 'services/misc'
 import { getTotalBalance as lockboxBalance } from 'components/Balances/lockbox/selectors'
-import { RootState } from 'data/rootReducer'
 import { getTotalBalance as totalBalance } from 'components/Balances/total/selectors'
 import { getTotalBalance as walletBalance } from 'components/Balances/wallet/selectors'
+import { RootState } from 'data/rootReducer'
+import { createDeepEqualSelector } from 'services/misc'
 
 export const getData = createDeepEqualSelector(
   [

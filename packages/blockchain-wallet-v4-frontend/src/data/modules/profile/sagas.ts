@@ -1,7 +1,7 @@
-import * as A from './actions'
-import * as AT from './actionTypes'
-import * as S from './selectors'
-import { actions, actionTypes, selectors } from 'data'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import moment from 'moment'
+import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
 import {
   call,
   cancel,
@@ -13,13 +13,14 @@ import {
   spawn,
   take
 } from 'redux-saga/effects'
-import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
-import { ExtractSuccess } from 'core/types'
-import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
+
+import { actions, actionTypes, selectors } from 'data'
 import { promptForSecondPassword } from 'services/sagas'
-import { Remote } from 'blockchain-wallet-v4/src'
+import * as A from './actions'
+import * as AT from './actionTypes'
+import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
+import * as S from './selectors'
 import { UserDataType } from './types'
-import moment from 'moment'
 
 export const logLocation = 'modules/profile/sagas'
 export const userRequiresRestoreError = 'User restored'
@@ -169,7 +170,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const setSession = function * (userId, lifetimeToken, email, guid) {
     try {
-      const { token: apiToken, expiresAt } = yield call(
+      const { expiresAt, token: apiToken } = yield call(
         api.generateSession,
         userId,
         lifetimeToken,
@@ -248,7 +249,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const generateAuthCredentials = function * () {
     const retailToken = yield call(generateRetailToken)
-    const { userId, token: lifetimeToken } = yield call(
+    const { token: lifetimeToken, userId } = yield call(
       api.createUser,
       retailToken
     )
@@ -292,9 +293,9 @@ export default ({ api, coreSagas, networks }) => {
     const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
     const guid = yield select(selectors.core.wallet.getGuid)
 
-    const { userId, lifetimeToken } = yield authCredentialsR
+    const { lifetimeToken, userId } = yield authCredentialsR
       .map(authCredentials => {
-        const { userId, lifetimeToken } = authCredentials
+        const { lifetimeToken, userId } = authCredentials
         if (!userId || !lifetimeToken) return call(generateAuthCredentials)
         return authCredentials
       })
@@ -421,7 +422,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const linkFromExchangeAccount = function * ({ payload }) {
     try {
-      const { linkId, email, address } = payload
+      const { address, email, linkId } = payload
       yield put(A.linkFromExchangeAccountLoading())
       // ensure email is verified else wait
       const isEmailVerified = (yield select(

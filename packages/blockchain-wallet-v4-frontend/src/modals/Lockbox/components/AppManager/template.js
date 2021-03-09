@@ -1,3 +1,5 @@
+import React from 'react'
+import { FormattedHTMLMessage } from 'react-intl'
 import {
   Banner,
   Button,
@@ -6,8 +8,6 @@ import {
   Text
 } from 'blockchain-info-components'
 import { equals, prop } from 'ramda'
-import { FormattedHTMLMessage } from 'react-intl'
-import React from 'react'
 import styled from 'styled-components'
 
 const Row = styled.div`

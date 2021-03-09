@@ -1,28 +1,27 @@
-import { call, put, select, take } from 'redux-saga/effects'
-import { filter, last, take as takeR } from 'ramda'
-import moment from 'moment'
-
-import { APIType } from 'core/network/api'
 import { CoinType, FiatType } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import moment from 'moment'
+import { filter, last, take as takeR } from 'ramda'
+import { call, put, select, take } from 'redux-saga/effects'
 
+import { APIType } from 'core/network/api'
+import Remote from '../../../remote'
+import { FiatSBAndSwapTransactionType } from '../custodial/types'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import { FiatSBAndSwapTransactionType } from '../custodial/types'
-import Remote from '../../../remote'
 
 const PAGE_SIZE = 20
 
 export default ({ api }: { api: APIType }) => {
-  const watchTransactions = function * () {
+  const watchTransactions = function*() {
     while (true) {
       const action = yield take(AT.FETCH_FIAT_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
 
-  const fetchTransactions = function * (
+  const fetchTransactions = function*(
     action: ReturnType<typeof A.fetchTransactions>
   ) {
     try {

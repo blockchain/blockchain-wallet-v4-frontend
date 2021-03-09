@@ -1,8 +1,10 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
-import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
 import {
   ExchangeAmount,
   ExchangeAmounts,
@@ -10,8 +12,6 @@ import {
   SubExchangeAmount,
   Wrapper
 } from 'components/Exchange'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import FiatDisplay from 'components/Display/FiatDisplay'
 
 const ConfirmWrapper = styled(Wrapper)`
   padding: 0px;

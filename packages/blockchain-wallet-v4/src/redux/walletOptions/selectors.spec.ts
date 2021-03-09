@@ -1,7 +1,7 @@
-import * as selectors from './selectors'
-import { getInvitations } from '../settings/selectors'
 import MockWalletOptions from '../../../../../config/mocks/wallet-options-v4.json'
 import Remote from '../../remote'
+import { getInvitations } from '../settings/selectors'
+import * as selectors from './selectors'
 
 jest.mock('../settings/selectors')
 // @ts-ignore

@@ -1,6 +1,6 @@
-import { _transformTx } from './bch'
 import { bchTx, createMockWalletState, walletV3 } from '../../data'
 import { Types } from '../../src'
+import { _transformTx } from './bch'
 
 describe('transformTx', () => {
   const mockState = createMockWalletState(walletV3)

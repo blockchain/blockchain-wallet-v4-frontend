@@ -1,6 +1,6 @@
+import React from 'react'
 import { transparentize } from 'polished'
 import PropTypes from 'prop-types'
-import React from 'react'
 import styled from 'styled-components'
 
 import { Icon } from '../Icons'
@@ -56,9 +56,9 @@ const selectStyle = type => {
 }
 
 const Banner = props => {
-  const { type, children, inline, label, size, width } = props
+  const { children, inline, label, size, type, width } = props
   const style = selectStyle(type)
-  const { color, uppercase, icon } = style
+  const { color, icon, uppercase } = style
 
   return (
     <Container

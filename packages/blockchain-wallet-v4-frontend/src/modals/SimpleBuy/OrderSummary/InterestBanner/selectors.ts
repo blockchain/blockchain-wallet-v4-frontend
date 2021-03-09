@@ -1,8 +1,11 @@
+import {
+  ExtractSuccess,
+  SupportedWalletCurrenciesType
+} from 'blockchain-wallet-v4/src/types'
 import { lift } from 'ramda'
 
-import { ExtractSuccess, SupportedWalletCurrenciesType } from 'core/types'
-import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 
 export const getData = (state: RootState) => {
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
