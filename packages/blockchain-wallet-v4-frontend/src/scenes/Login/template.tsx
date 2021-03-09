@@ -188,6 +188,10 @@ const HeaderWrapper = styled.div`
   margin-bottom: 48px;
 `
 
+const InfoOutage = styled(Text)`
+  text-align: center;
+`
+
 type GoalDataType = {
   amount: string
   crypto: CoinType
@@ -248,6 +252,10 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
     <OuterWrapper>
       <SideWrapper />
       <CenterWrapper>
+        <InfoOutage size='20px' color='white' weight={600} capitalize>
+          📣 We have experienced an outage affecting some of our users and we
+          are currently working to resolve this ASAP 🛠
+        </InfoOutage>
         {isLinkAccountGoal && <LinkExchangeAccount />}
         <LoginWrapper>
           {!isNil(goalData) && !isEmpty(goalData) && (
