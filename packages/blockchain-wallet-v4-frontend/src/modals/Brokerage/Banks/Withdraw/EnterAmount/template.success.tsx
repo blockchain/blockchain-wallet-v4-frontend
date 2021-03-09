@@ -328,8 +328,10 @@ const Success: React.FC<InjectedFormProps<
         <ToContainer>
           <Beneficiary
             {...props}
-            transferAccount={transferAccount}
-            beneficiary={beneficiary}
+            transferAccount={transferAccount || undefined}
+            beneficiary={
+              !transferAccount && beneficiary ? beneficiary : undefined
+            }
           />
         </ToContainer>
         <ActionContainer>
