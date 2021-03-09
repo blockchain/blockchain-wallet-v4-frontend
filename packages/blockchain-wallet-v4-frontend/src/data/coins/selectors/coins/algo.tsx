@@ -31,8 +31,8 @@ export const getAccounts = createDeepEqualSelector(
 
       // add custodial accounts if requested
       if (ownProps?.custodialAccounts) {
-        // @ts-ignore
         accounts = accounts.concat(
+          // @ts-ignore
           generateCustodyAccount(coin, sbBalance as SBBalanceType)
         )
       }
