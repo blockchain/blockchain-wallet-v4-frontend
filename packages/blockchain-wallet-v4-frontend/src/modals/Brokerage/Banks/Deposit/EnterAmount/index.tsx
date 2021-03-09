@@ -66,7 +66,9 @@ export type OwnProps = {
   handleClose: () => void
   method: SBPaymentMethodType
 }
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>> & {
+  formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | false }
+}
 export type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
   fiatCurrency: FiatType

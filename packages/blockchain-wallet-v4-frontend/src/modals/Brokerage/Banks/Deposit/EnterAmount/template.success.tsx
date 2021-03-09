@@ -26,9 +26,14 @@ import {
   PaymentText
 } from '../../../../SimpleBuy/EnterAmount/Checkout/Payment/model'
 import { Row } from '../../components'
-import { DepositOrWithdrawal, RightArrowIcon } from '../../model'
+import {
+  DepositOrWithdrawal,
+  normalizeAmount,
+  RightArrowIcon
+} from '../../model'
 import { LinkStatePropsType, Props as _P, SuccessStateType } from '.'
 import { getDefaultMethod, getText } from './model'
+import { maximumAmount, minimumAmount } from './validation'
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -175,9 +180,8 @@ const Amount = ({ fiatCurrency }) => {
           data-e2e='depositAmountInput'
           name='amount'
           component={AmountTextBox}
-          // validate={[maximumAmount, minimumAmount]}
-          // normalize={normalizeAmount}
-          // onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
+          validate={[maximumAmount, minimumAmount]}
+          normalize={normalizeAmount}
           maxFontSize='56px'
           placeholder='0'
           // leave fiatActive always to avoid 50% width in HOC?
@@ -262,6 +266,7 @@ const NextButton = ({ defaultMethod, invalid, pristine, submitting }) => {
 }
 
 const Success = (props: OwnProps) => {
+  const amtError = props.formErrors.amount
   const isUserEligible =
     props.paymentMethods.methods.length &&
     props.paymentMethods.methods.find(method => method.limits.max !== '0')
@@ -276,7 +281,7 @@ const Success = (props: OwnProps) => {
             <Amount {...props} />
             <Account {...props} />
             <NextButton {...props} />
-            {props.error && (
+            {amtError && (
               <ErrorCartridge
                 style={{ marginTop: '16px' }}
                 data-e2e='checkoutError'
@@ -286,7 +291,7 @@ const Success = (props: OwnProps) => {
                   color='red600'
                   style={{ marginRight: '4px' }}
                 />
-                Error: {props.error}
+                Error: {amtError}
               </ErrorCartridge>
             )}
           </Wrapper>

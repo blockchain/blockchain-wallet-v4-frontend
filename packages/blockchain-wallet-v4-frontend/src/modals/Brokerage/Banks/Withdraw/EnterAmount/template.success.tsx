@@ -18,9 +18,8 @@ import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
-import { formatTextAmount } from 'services/forms'
 import { Row } from '../../components'
-import { DepositOrWithdrawal } from '../../model'
+import { DepositOrWithdrawal, normalizeAmount } from '../../model'
 import { Props as OwnProps, SuccessStateType } from '.'
 import Beneficiary from './Beneficiary'
 import LockTimeTooltip from './LockTimeTooltip'
@@ -113,10 +112,6 @@ const BlueRedCartridge = ({
   return <CustomBlueCartridge role='button'>{children}</CustomBlueCartridge>
 }
 
-const normalizeAmount = (value, prevValue) => {
-  if (isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
-  return formatTextAmount(value, true)
-}
 const Success: React.FC<InjectedFormProps<
   WithdrawCheckoutFormValuesType,
   Props

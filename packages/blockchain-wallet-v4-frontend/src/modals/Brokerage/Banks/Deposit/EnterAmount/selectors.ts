@@ -17,24 +17,37 @@ export const getData = state => {
   const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
     state
   )
+  const depositLimitsR = selectors.components.simpleBuy.getUserLimit(
+    state,
+    'BANK_TRANSFER'
+  )
+  const formErrors = selectors.form.getFormSyncErrors('brokerageTx')(state)
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const supportedCoins = supportedCoinsR.getOrElse(
     {} as SupportedWalletCurrenciesType
   )
-
   return lift(
     (
       bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
+      depositLimits: ExtractSuccess<typeof depositLimitsR>,
       eligibility: ExtractSuccess<typeof eligibilityR>,
       paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
       walletCurrency: FiatType
     ) => ({
       bankTransferAccounts,
+      depositLimits,
       defaultMethod: defaultMethodR,
       eligibility,
       paymentMethods,
       walletCurrency,
-      supportedCoins
+      supportedCoins,
+      formErrors
     })
-  )(bankTransferAccountsR, eligibilityR, paymentMethodsR, walletCurrencyR)
+  )(
+    bankTransferAccountsR,
+    depositLimitsR,
+    eligibilityR,
+    paymentMethodsR,
+    walletCurrencyR
+  )
 }

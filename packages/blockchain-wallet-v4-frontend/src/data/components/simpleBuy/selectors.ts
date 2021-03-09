@@ -272,12 +272,10 @@ export const getUserSddEligibleTier = (state: RootState) => {
   )(sddEligibleR)
 }
 
-export const getUserLimit = (state: RootState) => {
+export const getUserLimit = (state: RootState, type: SBPaymentTypes) => {
   const sbMethodsR = getSBPaymentMethods(state)
   return lift((sbMethods: ExtractSuccess<typeof sbMethodsR>) => {
-    const paymentMethod = sbMethods.methods.find(
-      method => method.type === 'PAYMENT_CARD'
-    )
+    const paymentMethod = sbMethods.methods.find(method => method.type === type)
     return paymentMethod?.limits || LIMIT
   })(sbMethodsR)
 }
