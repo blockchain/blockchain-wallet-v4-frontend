@@ -2,10 +2,10 @@ import BigNumber from 'bignumber.js'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { CoinType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { add, lift, pathOr, reduce, toLower } from 'ramda'
 
 import { selectors } from 'data'
-import { createDeepEqualSelector } from 'services/misc'
 
 // only hd accounts, no imported addresses
 export const getBtcBalance = createDeepEqualSelector(

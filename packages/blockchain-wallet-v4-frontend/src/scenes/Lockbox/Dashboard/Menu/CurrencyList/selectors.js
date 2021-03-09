@@ -1,3 +1,4 @@
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { length, lift } from 'ramda'
 
 import {
@@ -7,7 +8,6 @@ import {
   getLockboxXlmBalance
 } from 'components/Balances/lockbox/selectors'
 import { selectors } from 'data'
-import { createDeepEqualSelector } from 'services/misc'
 
 export const getData = createDeepEqualSelector(
   [

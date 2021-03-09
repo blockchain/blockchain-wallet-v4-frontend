@@ -4,7 +4,7 @@ import {
   Erc20CoinsEnum,
   RemoteDataType
 } from 'blockchain-wallet-v4/src/types'
-import { any, curry, isEmpty, isNil, map, values } from 'ramda'
+import { any, isEmpty, isNil, map, values } from 'ramda'
 
 import { selectors } from 'data'
 import { SUPPORTED_COINS } from 'data/coins/model/swap'
@@ -42,9 +42,9 @@ export const getIntroductionText = coin => {
 }
 
 // retrieves custodial account balances
-export const getCustodialBalance = curry((coin: CoinType, state) => {
+export const getCustodialBalance = (coin: CoinType, state) => {
   return selectors.components.simpleBuy.getSBBalances(state).map(x => x[coin])
-})
+}
 
 // generic selector that should be used by all features to request their desired
 // account types for their coins

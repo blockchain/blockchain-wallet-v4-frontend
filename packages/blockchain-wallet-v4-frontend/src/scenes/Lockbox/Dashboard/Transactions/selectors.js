@@ -22,7 +22,7 @@ import {
 } from 'ramda'
 
 import { selectors } from 'data'
-import { createDeepEqualSelector } from 'services/misc'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 export const concatAll = unapply(reduce(concat, []))
 
 const assocCoin = (txs, coin) => txs.map(assoc('coin', coin))

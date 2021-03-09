@@ -3,7 +3,7 @@ import { lift } from 'ramda'
 
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { createDeepEqualSelector } from 'services/misc'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { OwnProps } from '.'
 
 export const getData = createDeepEqualSelector(

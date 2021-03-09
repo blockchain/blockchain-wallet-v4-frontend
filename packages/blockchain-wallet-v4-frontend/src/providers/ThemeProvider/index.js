@@ -6,7 +6,7 @@ import { merge } from 'ramda'
 import { ThemeProvider } from 'styled-components'
 
 import { selectors } from 'data'
-import { createDeepEqualSelector } from 'services/misc'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 
 const mapStateToProps = createDeepEqualSelector(
   [selectors.preferences.getTheme],

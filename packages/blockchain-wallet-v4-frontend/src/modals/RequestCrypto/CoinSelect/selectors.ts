@@ -2,6 +2,7 @@ import BitcoinCash from 'bitcoinforksjs-lib'
 import Bitcoin from 'bitcoinjs-lib'
 import { utils } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { map } from 'ramda'
 
 import { selectors } from 'data'
@@ -9,7 +10,6 @@ import { REQUEST_ACCOUNTS_SELECTOR } from 'data/coins/model/request'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { CoinAccountSelectorType } from 'data/coins/types'
 import { SwapAccountType } from 'data/components/swap/types'
-import { createDeepEqualSelector } from 'services/misc'
 
 const { isCashAddr, toCashAddr } = utils.bch
 

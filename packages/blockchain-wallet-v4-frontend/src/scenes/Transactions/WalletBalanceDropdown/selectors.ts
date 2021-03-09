@@ -12,12 +12,21 @@ import {
 } from 'components/Form/SelectBoxEthAddresses/selectors'
 import { getData as getXlmAddressData } from 'components/Form/SelectBoxXlmAddresses/selectors'
 import { selectors } from 'data'
+// import { ALL_ACCOUNTS_SELECTOR } from 'data/coins/model/all'
+// import { getCoinAccounts } from 'data/coins/selectors/index'
+// import { CoinAccountSelectorType } from 'data/coins/types'
 import { OwnProps } from '.'
 
 export const getData = (state, ownProps: OwnProps) => {
   const { coin } = ownProps
   let addressDataR
   let balanceDataR
+
+  // const accounts = getCoinAccounts(state, {
+  //   coins: [coin],
+  //   ...ALL_ACCOUNTS_SELECTOR
+  // } as CoinAccountSelectorType)
+  // console.log(accounts)
 
   switch (coin) {
     case 'BTC':

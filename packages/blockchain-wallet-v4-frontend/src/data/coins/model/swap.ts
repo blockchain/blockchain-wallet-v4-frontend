@@ -18,6 +18,6 @@ export const SUPPORTED_COINS: Array<CoinType> = [
 // used in the coin/account selector in Swap
 export const SWAP_ACCOUNTS_SELECTOR: CoinAccountSelectorType = {
   coins: SUPPORTED_COINS,
-  custodialAccounts: true,
+  tradingAccounts: true,
   nonCustodialAccounts: true
 }

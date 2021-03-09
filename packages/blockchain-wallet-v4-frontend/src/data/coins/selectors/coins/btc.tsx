@@ -4,10 +4,12 @@ import { coreSelectors } from 'blockchain-wallet-v4/src'
 import { SBBalanceType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { lift, prop, propEq } from 'ramda'
 
+import { CoinType } from 'core/types'
+import { CoinAccountSelectorType } from 'data/coins/types'
 import { generateCustodyAccount } from 'data/coins/utils'
-import { createDeepEqualSelector } from 'services/misc'
 import { getCustodialBalance } from '../'
 
 // retrieves introduction text for coin on its transaction page
@@ -26,7 +28,7 @@ export const getAccounts = createDeepEqualSelector(
     coreSelectors.data.btc.getAddresses, // non-custodial xpub info
     coreSelectors.common.btc.getActiveAddresses, // imported addresses
     (state, { coin }) => getCustodialBalance(coin, state), // custodial accounts
-    (state, ownProps) => ownProps // selector config
+    (state, ownProps): CoinAccountSelectorType & { coin: CoinType } => ownProps // selector config
   ],
   (btcAccounts, btcDataR, importedAddressesR, sbBalanceR, ownProps) => {
     const transform = (
@@ -70,8 +72,16 @@ export const getAccounts = createDeepEqualSelector(
         )
       }
 
-      // add custodial accounts if requested
-      if (ownProps?.custodialAccounts) {
+      // add trading accounts if requested
+      if (ownProps?.tradingAccounts) {
+        accounts = accounts.concat(
+          // @ts-ignore
+          generateCustodyAccount(coin, sbBalance as SBBalanceType)
+        )
+      }
+
+      // add interest accounts if requested
+      if (ownProps?.interestAccounts) {
         accounts = accounts.concat(
           // @ts-ignore
           generateCustodyAccount(coin, sbBalance as SBBalanceType)

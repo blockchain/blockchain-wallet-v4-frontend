@@ -2,10 +2,10 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { SBBalanceType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { lift } from 'ramda'
 
 import { generateCustodyAccount } from 'data/coins/utils'
-import { createDeepEqualSelector } from 'services/misc'
 import { getCustodialBalance } from '../'
 
 // retrieves introduction text for coin on its transaction page
@@ -29,8 +29,8 @@ export const getAccounts = createDeepEqualSelector(
       const { coin } = ownProps
       let accounts = []
 
-      // add custodial accounts if requested
-      if (ownProps?.custodialAccounts) {
+      // add trading accounts if requested
+      if (ownProps?.tradingAccounts) {
         accounts = accounts.concat(
           // @ts-ignore
           generateCustodyAccount(coin, sbBalance as SBBalanceType)

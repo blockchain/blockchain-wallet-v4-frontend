@@ -5,10 +5,10 @@ import { SBBalanceType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/ty
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
 import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { lift, prop, toLower } from 'ramda'
 
 import { generateCustodyAccount } from 'data/coins/utils'
-import { createDeepEqualSelector } from 'services/misc'
 import { getCustodialBalance } from '../'
 
 // retrieves introduction text for coin on its transaction page
@@ -83,8 +83,8 @@ export const getAccounts = createDeepEqualSelector(
         ])
       }
 
-      // add custodial accounts if requested
-      if (ownProps?.custodialAccounts) {
+      // add trading accounts if requested
+      if (ownProps?.tradingAccounts) {
         accounts = accounts.concat(
           // @ts-ignore
           generateCustodyAccount(coin, sbBalance as SBBalanceType)
