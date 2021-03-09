@@ -19,3 +19,6 @@ export const getRedirectBackToStep = (state: RootState) =>
 
 export const getAddBankStatus = (state: RootState) =>
   state.components.brokerage.bankStatus
+
+export const getFiatCurrency = (state: RootState) =>
+  state.components.brokerage.fiatCurrency
