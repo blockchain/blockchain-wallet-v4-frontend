@@ -332,7 +332,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                     </LinkContainer>
                   </GuidError>
                 )}
-                {showGuidInvalidError ? (
+                {showGuidInvalidError && (
                   <LoginTextGroup inline>
                     <Text size='12px' color='grey800' weight={500}>
                       {isGuidEmailAddress ? (
@@ -352,23 +352,6 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                         <FormattedMessage
                           id='scenes.login.clickhere'
                           defaultMessage='click here.'
-                        />
-                      </Link>
-                    </LinkContainer>
-                  </LoginTextGroup>
-                ) : (
-                  <LoginTextGroup>
-                    <Text size='12px' color='grey800' weight={500}>
-                      <FormattedMessage
-                        id='scenes.login.findyourguid'
-                        defaultMessage='Forgot your Wallet ID? Request a reminder via email.'
-                      />
-                    </Text>
-                    <LinkContainer to='/reminder'>
-                      <Link size='12px' weight={500}>
-                        <FormattedMessage
-                          id='scenes.login.sendguid'
-                          defaultMessage='Request Wallet ID'
                         />
                       </Link>
                     </LinkContainer>
