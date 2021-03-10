@@ -115,11 +115,15 @@ const Success: React.FC<Props> = props => {
               color='grey600'
               style={{ marginRight: '28px' }}
               role='button'
-              onClick={() =>
-                props.brokerageActions.setDWStep({
-                  dwStep: BankDWStepType.DEPOSIT_METHODS
-                })
-              }
+              onClick={() => {
+                if (!props.isInvited) {
+                  props.handleClose()
+                } else {
+                  props.brokerageActions.setDWStep({
+                    dwStep: BankDWStepType.DEPOSIT_METHODS
+                  })
+                }
+              }}
             />
             <div>
               <FormattedMessage

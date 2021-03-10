@@ -13,14 +13,10 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   )
   let defaultMethodR = selectors.components.brokerage.getAccount(state)
   // TODO: Remove this when ach deposits withdrawals gets rolled out hundo P
-  const brokerageDepositsWithdrawalsR = selectors.core.walletOptions.getBrokerageDepositsWithdrawals(
-    state
-  )
-  const brokerageDepositsWithdrawals = brokerageDepositsWithdrawalsR.getOrElse(
-    false
-  )
+  const invitationsR = selectors.core.settings.getInvitations(state)
+  const isInvited = invitationsR.data.achDepositWithdrawal
 
-  if (!brokerageDepositsWithdrawals) {
+  if (!isInvited) {
     defaultMethodR = undefined
     bankTransferAccountsR = Remote.Success([])
   }

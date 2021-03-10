@@ -7,18 +7,14 @@ export const getData = state => {
   const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
     state
   )
-  // TODO: Move payment methods reducer to brokerage
   const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
     state
   )
   // TODO: Remove this when ach deposits withdrawals gets rolled out hundo P
-  const brokerageDepositsWithdrawalsR = selectors.core.walletOptions.getBrokerageDepositsWithdrawals(
-    state
-  )
-  const brokerageDepositsWithdrawals = brokerageDepositsWithdrawalsR.getOrElse(
-    false
-  )
+  const invitationsR = selectors.core.settings.getInvitations(state)
+  const isInvited = invitationsR.data.achDepositWithdrawal
 
+  const userDataR = selectors.modules.profile.getUserData(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
   return lift(
@@ -26,17 +22,25 @@ export const getData = state => {
       balances: ExtractSuccess<typeof balancesR>,
       bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
       paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
+      userData: ExtractSuccess<typeof userDataR>,
       walletCurrency: FiatType
     ) => ({
       balances,
       bankTransferAccounts,
       paymentMethods:
-        (!brokerageDepositsWithdrawals && {
+        (!isInvited && {
           ...paymentMethods,
           methods: paymentMethods.methods.filter(m => m.type === 'BANK_ACCOUNT')
         }) ||
         paymentMethods,
+      userData,
       walletCurrency
     })
-  )(balancesR, bankTransferAccountsR, paymentMethodsR, walletCurrencyR)
+  )(
+    balancesR,
+    bankTransferAccountsR,
+    paymentMethodsR,
+    userDataR,
+    walletCurrencyR
+  )
 }

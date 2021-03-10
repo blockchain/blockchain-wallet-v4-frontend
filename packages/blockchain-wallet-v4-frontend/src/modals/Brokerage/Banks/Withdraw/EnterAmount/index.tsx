@@ -115,8 +115,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   data: getData(state, ownProps),
   formValues: selectors.form.getFormValues('custodyWithdrawForm')(
     state
-  ) as WithdrawCheckoutFormValuesType,
-  defaultMethod: selectors.components.brokerage.getAccount(state)
+  ) as WithdrawCheckoutFormValuesType
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

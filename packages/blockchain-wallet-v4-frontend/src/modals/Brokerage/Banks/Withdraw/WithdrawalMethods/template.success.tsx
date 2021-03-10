@@ -4,8 +4,8 @@ import styled from 'styled-components'
 
 import {
   AddBankStepType,
-  BankDWStepType,
   BrokerageModalOriginType,
+  UserDataType,
   WithdrawStepEnum
 } from 'data/types'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -93,6 +93,8 @@ const Success = ({
   close,
   fiatCurrency,
   paymentMethods,
+  simpleBuyActions,
+  userData,
   withdrawActions
 }: Props) => {
   const bankTransfer = paymentMethods.methods.find(
@@ -150,11 +152,26 @@ const Success = ({
         {bankWire && (
           <BankWire
             icon={getIcon(bankWire)}
-            onClick={() =>
-              brokerageActions.setDWStep({
-                dwStep: BankDWStepType.WIRE_INSTRUCTIONS
+            onClick={() => {
+              simpleBuyActions.showModal('WithdrawModal')
+              if (userData.tiers.current === 2) {
+                simpleBuyActions.setStep({
+                  step: 'BANK_WIRE_DETAILS',
+                  fiatCurrency: fiatCurrency,
+                  displayBack: false,
+                  addBank: true
+                })
+              } else {
+                simpleBuyActions.setStep({
+                  step: 'KYC_REQUIRED'
+                })
+              }
+
+              withdrawActions.setStep({
+                fiatCurrency,
+                step: WithdrawStepEnum.ENTER_AMOUNT
               })
-            }
+            }}
             text={getType(bankWire)}
             value={bankWire}
           />
@@ -166,8 +183,9 @@ const Success = ({
 
 type Props = {
   close: () => void
-  fiatCurrency: WalletFiatType,
+  fiatCurrency: WalletFiatType
   paymentMethods: SBPaymentMethodsType
+  userData: UserDataType
 } & ReturnType<typeof mapDispatchToProps> &
   _P
 
