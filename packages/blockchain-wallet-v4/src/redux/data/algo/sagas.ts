@@ -1,16 +1,16 @@
-import { call, put, select, take } from 'redux-saga/effects'
+import moment from 'moment'
 import { flatten, last, length } from 'ramda'
+import { call, put, select, take } from 'redux-saga/effects'
 
 import { APIType } from 'core/network/api'
-import Remote from '../../../remote'
+import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
 
+import Remote from '../../../remote'
+import * as selectors from '../../selectors'
+import custodialSagas from '../custodial/sagas'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import * as selectors from '../../selectors'
-import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
-import custodialSagas from '../custodial/sagas'
-import moment from 'moment'
 
 const TX_PER_PAGE = 10
 

@@ -1,10 +1,10 @@
-import { createDeepEqualSelector } from 'services/ReselectHelper'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { gt, head, includes, isEmpty, path, prop, propOr } from 'ramda'
-import { model, selectors } from 'data'
-import React from 'react'
 
 import { Remote } from 'blockchain-wallet-v4/src'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
+import { model, selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
   [

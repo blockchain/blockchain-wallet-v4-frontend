@@ -21,11 +21,11 @@ import {
   SwapOrderType,
   SwapQuoteType,
   SwapUserLimitsType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
 
-import * as AT from './actionTypes'
-import { CountryType } from './../identityVerification/types'
 import { SwapAccountType } from '../swap/types'
+import { CountryType } from './../identityVerification/types'
+import * as AT from './actionTypes'
 
 // Types
 export type SBAddCardFormValuesType = {
@@ -66,7 +66,6 @@ export type SBFixType = 'CRYPTO' | 'FIAT'
 export enum SimpleBuyStepType {
   '3DS_HANDLER',
   'ADD_CARD',
-  'CANCEL_ORDER',
   'CC_BILLING_ADDRESS',
   'CHECKOUT_CONFIRM',
   'CRYPTO_SELECTION',
@@ -377,7 +376,7 @@ interface InitializeCheckout {
 export type StepActionsPayload =
   | {
       order: SBOrderType
-      step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'CANCEL_ORDER'
+      step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY'
     }
   | {
       sellOrder: SwapOrderType

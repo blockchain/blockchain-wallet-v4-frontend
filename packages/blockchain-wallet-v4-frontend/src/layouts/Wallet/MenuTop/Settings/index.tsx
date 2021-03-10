@@ -1,7 +1,9 @@
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { actions } from 'data'
+
 import Settings from './template'
 
 const SettingsContainer = (props: Props) => <Settings {...props} />

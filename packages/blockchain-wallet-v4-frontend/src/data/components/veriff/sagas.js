@@ -1,8 +1,10 @@
+import { call, put, select } from 'redux-saga/effects'
+
+import { actions, model } from 'data'
+import profileSagas from 'data/modules/profile/sagas.ts'
+
 import * as A from './actions'
 import * as S from './selectors'
-import { actions, model } from 'data'
-import { call, put, select } from 'redux-saga/effects'
-import profileSagas from 'data/modules/profile/sagas.ts'
 
 export const logLocation = 'components/veriff/sagas'
 
@@ -15,8 +17,8 @@ export default ({ api, coreSagas }) => {
     try {
       yield put(A.fetchVeriffUrlLoading())
       const {
-        data: { url },
-        applicantId
+        applicantId,
+        data: { url }
       } = yield call(api.fetchVeriffUrl)
       yield put(A.setApplicantId(applicantId))
       yield put(A.fetchVeriffUrlSuccess(url))

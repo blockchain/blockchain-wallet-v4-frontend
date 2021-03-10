@@ -1,10 +1,11 @@
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { TabMenu, TabMenuItem } from 'blockchain-info-components'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
+
+import { TabMenu, TabMenuItem } from 'blockchain-info-components'
+import { actions } from 'data'
 
 const CustomTabMenu = styled(TabMenu)`
   margin-bottom: 24px;
@@ -15,7 +16,7 @@ class TabsContainer extends React.PureComponent<Props> {
     this.props.layoutActions.setBalancesTableTab(tab)
   }
 
-  render () {
+  render() {
     const { currentTab } = this.props
     return (
       <CustomTabMenu>

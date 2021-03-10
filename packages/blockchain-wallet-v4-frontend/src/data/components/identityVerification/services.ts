@@ -1,7 +1,8 @@
 import { both, compose, filter, flip, gte, lte, prop, values } from 'ramda'
 
-import { KycStateType, Tiers } from 'data/modules/types'
 import { model } from 'data'
+import { KycStateType, Tiers } from 'data/modules/types'
+
 import { STEP_TIERS, STEPS } from './model'
 
 export const computeSteps = ({

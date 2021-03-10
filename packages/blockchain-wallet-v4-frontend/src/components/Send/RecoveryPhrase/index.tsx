@@ -1,12 +1,12 @@
-import { actions } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-
-import { BlueCartridge } from 'components/Cartridge'
-import { FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 import styled, { css } from 'styled-components'
+
+import { Icon } from 'blockchain-info-components'
+import { BlueCartridge } from 'components/Cartridge'
+import { actions } from 'data'
 
 const customCartridge = css`
   display: flex;
@@ -31,7 +31,7 @@ class MnemonicRequiredForCustodySend extends React.PureComponent<Props> {
       origin: 'Send'
     })
   }
-  render () {
+  render() {
     return (
       <CustomBlueCartridge>
         <Icon

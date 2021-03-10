@@ -1,17 +1,19 @@
-import { actions, model } from 'data'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import { all, path, propEq } from 'ramda'
 import { bindActionCreators } from 'redux'
-import { Button, Icon, Text, TextGroup } from 'blockchain-info-components'
-import { connect, ConnectedProps } from 'react-redux'
-import { ctas, headers, limits, messages, status } from './services'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { formatFiat } from 'core/exchange/currency'
-import { FormattedMessage } from 'react-intl'
-import { getData } from './selectors'
-import { TIERS } from './model'
-import media from 'services/ResponsiveService'
-import React from 'react'
 import styled from 'styled-components'
+
+import { Button, Icon, Text, TextGroup } from 'blockchain-info-components'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
+import { actions, model } from 'data'
+import { media } from 'services/styles'
+
+import { TIERS } from './model'
+import { getData } from './selectors'
+import { ctas, headers, limits, messages, status } from './services'
 
 const Wrapper = styled.div`
   display: flex;
@@ -98,13 +100,13 @@ const { TIERS_STATES } = model.profile
 export const TierCard = ({
   column,
   emailVerified,
+  identityVerificationActions,
   mobileVerified,
+  simpleBuyActions,
+  swapActions,
   tier,
   userData,
-  userTiers,
-  identityVerificationActions,
-  simpleBuyActions,
-  swapActions
+  userTiers
 }: Props) => {
   const tierData = userTiers.find(userTier => userTier.index === tier)
   if (!tierData) return null

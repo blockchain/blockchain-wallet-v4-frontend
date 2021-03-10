@@ -1,11 +1,11 @@
-import { any, equals, isEmpty, prop, toLower } from 'ramda'
-import { CurrencyItem } from 'components/Balances'
-import { model } from 'data'
-import Bowser from 'bowser'
 import React from 'react'
+import Bowser from 'bowser'
+import { any, equals, isEmpty, prop, toLower } from 'ramda'
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
+import { CurrencyItem } from 'components/Balances'
+import { model } from 'data'
+import { media } from 'services/styles'
 
 const CurrencyList = styled.div`
   display: flex;

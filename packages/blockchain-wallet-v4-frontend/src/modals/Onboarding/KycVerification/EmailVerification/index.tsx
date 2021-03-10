@@ -1,19 +1,19 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 
 import { actions, model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { VerifyEmailFormValuesType } from 'data/types'
 
-import { getData } from './selectors'
 import Loading from '../template.loading'
+import { getData } from './selectors'
 import Success from './template.success'
 
 const { VERIFY_EMAIL_FORM } = model.components.identityVerification
 
 class VerifyEmail extends PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     const { isEmailVerified, settingsActions } = this.props
     if (!isEmailVerified) {
       settingsActions.fetchSettings()
@@ -22,10 +22,10 @@ class VerifyEmail extends PureComponent<Props> {
 
   handleSubmit = () => {
     const {
-      securityCenterActions,
-      settingsActions,
+      formValues,
       identityVerificationActions,
-      formValues
+      securityCenterActions,
+      settingsActions
     } = this.props
     if (formValues) {
       identityVerificationActions.updateEmail(formValues.email)
@@ -39,7 +39,7 @@ class VerifyEmail extends PureComponent<Props> {
     securityCenterActions.resendVerifyEmail(email)
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => (
         <Success

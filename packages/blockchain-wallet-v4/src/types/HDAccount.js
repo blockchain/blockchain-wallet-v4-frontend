@@ -1,3 +1,7 @@
+import Bitcoin from 'bitcoinjs-lib'
+import Task from 'data.task'
+// eslint-disable-next-line
+import { fromJS as iFromJS } from 'immutable-ext'
 import {
   assoc,
   compose,
@@ -13,13 +17,11 @@ import {
   values
 } from 'ramda'
 import { over, traverseOf, view } from 'ramda-lens'
-import Bitcoin from 'bitcoinjs-lib'
-import Task from 'data.task'
+
+import * as crypto from '../walletCrypto'
 /* eslint-disable */
 import * as AddressLabelMap from './AddressLabelMap' // if we delete this import, wallet tests will fail -  ¯\_(ツ)_/¯
 import * as Cache from './Cache'
-import * as crypto from '../walletCrypto'
-import { fromJS as iFromJS } from 'immutable-ext'
 import Type from './Type'
 /* eslint-enable */
 

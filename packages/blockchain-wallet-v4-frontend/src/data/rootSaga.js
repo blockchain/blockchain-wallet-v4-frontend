@@ -1,7 +1,9 @@
-import * as actions from './actions'
 import { all, call, delay, fork, put } from 'redux-saga/effects'
+
 import { coreRootSagaFactory, coreSagasFactory } from 'blockchain-wallet-v4/src'
-import { tryParseLanguageFromUrl } from 'services/LocalesService'
+import { tryParseLanguageFromUrl } from 'services/locales'
+
+import * as actions from './actions'
 import alerts from './alerts/sagaRegister'
 import analytics from './analytics/sagaRegister'
 import auth from './auth/sagaRegister'
@@ -53,12 +55,12 @@ const languageInitSaga = function * () {
   }
 }
 
-export default function * rootSaga ({
+export default function * rootSaga({
   api,
-  ratesSocket,
+  coinsSocket,
   networks,
   options,
-  coinsSocket
+  ratesSocket
 }) {
   const coreSagas = coreSagasFactory({ api, networks, options })
   yield all([

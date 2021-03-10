@@ -1,6 +1,7 @@
+import { map } from 'ramda'
+
 import * as Coin from './coin.js'
 import * as cs from './index'
-import { map } from 'ramda'
 
 describe('Coin Selection', () => {
   describe('byte sizes', () => {

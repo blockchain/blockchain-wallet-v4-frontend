@@ -1,17 +1,26 @@
-import * as AT from './actionTypes'
-import { AddBankStepType, BrokerageActionTypes, BrokerageState } from './types'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
+
+import * as AT from './actionTypes'
+import {
+  AddBankStepType,
+  BankDWStepType,
+  BrokerageActionTypes,
+  BrokerageState
+} from './types'
 
 const INITIAL_STATE: BrokerageState = {
   bankTransferAccounts: Remote.NotAsked,
   fastLink: Remote.NotAsked,
-  step: AddBankStepType.ADD_BANK,
+  addBankStep: AddBankStepType.ADD_BANK,
+  dwStep: BankDWStepType.DEPOSIT_METHODS,
   account: undefined,
   redirectBackToStep: false,
-  bankStatus: Remote.NotAsked
+  addNew: false, // TODO: Put this stuff in redux-form
+  bankStatus: Remote.NotAsked,
+  fiatCurrency: undefined
 }
 
-export function brokerageReducer (
+export function brokerageReducer(
   state = INITIAL_STATE,
   action: BrokerageActionTypes
 ): BrokerageState {
@@ -51,20 +60,39 @@ export function brokerageReducer (
         account: action.payload.account,
         redirectBackToStep: action.payload.redirectBackToStep || false
       }
-    case AT.SET_STEP:
-      switch (action.payload.step) {
+    case AT.HANDLE_DEPOSIT_FIAT_CLICK:
+      return {
+        ...state,
+        fiatCurrency: action.payload.fiatCurrency
+      }
+    case AT.SET_ADD_BANK_STEP:
+      switch (action.payload.addBankStep) {
         case AddBankStepType.ADD_BANK_STATUS:
           return {
             ...state,
             bankStatus: Remote.Success(action.payload.bankStatus),
-            step: action.payload.step
+            addBankStep: action.payload.addBankStep
           }
         default: {
           return {
             ...state,
-            step: action.payload.step
+            addBankStep: action.payload.addBankStep
           }
         }
+      }
+    case AT.SET_D_W_STEP:
+      switch (action.payload.dwStep) {
+        case BankDWStepType.DEPOSIT_METHODS:
+          return {
+            ...state,
+            dwStep: action.payload.dwStep,
+            addNew: action.payload.addNew || false
+          }
+        default:
+          return {
+            ...state,
+            dwStep: action.payload.dwStep
+          }
       }
     default:
       return state

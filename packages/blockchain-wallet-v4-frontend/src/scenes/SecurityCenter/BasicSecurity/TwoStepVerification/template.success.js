@@ -1,14 +1,13 @@
 /* stylelint-disable */
-import { FormattedMessage } from 'react-intl'
-import { pulse } from 'react-animations'
-import { reduxForm } from 'redux-form'
-import PropTypes from 'prop-types'
 import React, { Fragment } from 'react'
+import { pulse } from 'react-animations'
+import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import { reduxForm } from 'redux-form'
 import styled, { css, keyframes } from 'styled-components'
 
 import { Button, Link, Text } from 'blockchain-info-components'
-import { spacing } from 'services/StyleService'
-import media from 'services/ResponsiveService'
+import { media, spacing } from 'services/styles'
 
 import {
   IconContainer,
@@ -111,15 +110,15 @@ const TipText = styled(Text)`
 
 const TwoStepVerification = props => {
   const {
-    uiState,
-    twoStepChoice,
     data,
     editing,
-    handleGoBack,
     handleClick,
+    handleGoBack,
+    twoStepChoice,
+    uiState,
     ...rest
   } = props
-  const { smsVerified, authType, smsNumber } = data
+  const { authType, smsNumber, smsVerified } = data
   const twoFAEnabled = authType > 0
 
   const renderVerificationChoice = () => {

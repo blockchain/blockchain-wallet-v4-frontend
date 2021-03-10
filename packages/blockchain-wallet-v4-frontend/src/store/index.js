@@ -1,21 +1,23 @@
-import { applyMiddleware, compose, createStore } from 'redux'
+import BitcoinCash from 'bitcoinforksjs-lib'
+import Bitcoin from 'bitcoinjs-lib'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { createHashHistory } from 'history'
-import { head } from 'ramda'
+import { applyMiddleware, compose, createStore } from 'redux'
 import { persistCombineReducers, persistStore } from 'redux-persist'
-import Bitcoin from 'bitcoinjs-lib'
-import BitcoinCash from 'bitcoinforksjs-lib'
-import createSagaMiddleware from 'redux-saga'
 import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4'
 import storage from 'redux-persist/lib/storage'
+import createSagaMiddleware from 'redux-saga'
 
-import { actions, rootReducer, rootSaga, selectors } from 'data'
+import { coreMiddleware } from 'blockchain-wallet-v4/src'
 import {
   ApiSocket,
   createWalletApi,
   HorizonStreamingService,
   Socket
 } from 'blockchain-wallet-v4/src/network/index.ts'
+import { serializer } from 'blockchain-wallet-v4/src/types'
+import { actions, rootReducer, rootSaga, selectors } from 'data'
+
 import {
   autoDisconnection,
   matomoMiddleware,
@@ -23,8 +25,6 @@ import {
   webSocketCoins,
   webSocketRates
 } from '../middleware'
-import { coreMiddleware } from 'blockchain-wallet-v4/src'
-import { serializer } from 'blockchain-wallet-v4/src/types'
 
 const devToolsConfig = {
   maxAge: 1000,
@@ -45,7 +45,7 @@ const devToolsConfig = {
   ]
 }
 
-const configureStore = async function () {
+const configureStore = async function() {
   const history = createHashHistory()
   const sagaMiddleware = createSagaMiddleware()
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -58,8 +58,7 @@ const configureStore = async function () {
   const res = await fetch('/wallet-options-v4.json')
   const options = await res.json()
   const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
-  // TODO: deprecate when wallet-options-v4 is updated on prod
-  const socketUrl = head(options.domains.webSocket.split('/inv'))
+  const socketUrl = options.domains.webSocket
   const horizonUrl = options.domains.horizon
   const coinsSocket = new Socket({
     options,
@@ -67,7 +66,7 @@ const configureStore = async function () {
   })
   const ratesSocket = new ApiSocket({
     options,
-    url: `${socketUrl.split('/coins').join('')}/nabu-gateway/markets/quotes`,
+    url: `${socketUrl}/nabu-gateway/markets/quotes`,
     maxReconnects: 3
   })
   const xlmStreamingService = new HorizonStreamingService({

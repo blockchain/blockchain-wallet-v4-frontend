@@ -1,21 +1,22 @@
-import { compose } from 'redux'
-import { forEach, keysIn, map, prop, range, sortBy, split, take } from 'ramda'
+import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { forEach, keysIn, map, prop, range, sortBy, split, take } from 'ramda'
+import { compose } from 'redux'
+import { SubmissionError } from 'redux-form'
+
 import {
   LinkDispatchPropsType,
   LinkStatePropsType,
   OwnPropsType
 } from '../index'
-import { SubmissionError } from 'redux-form'
 import ConfirmWordsForm from './template'
-import React, { PureComponent } from 'react'
 
 export type Props = OwnPropsType & LinkDispatchPropsType & LinkStatePropsType
 
 class ConfirmWords extends PureComponent<Props> {
   state = { indexes: [] }
 
-  componentDidMount () {
+  componentDidMount() {
     // @ts-ignore
     const randomize = sortBy(prop(0))
     const pair = map(x => [Math.random(), x])
@@ -56,7 +57,7 @@ class ConfirmWords extends PureComponent<Props> {
     }
   }
 
-  render () {
+  render() {
     const { ...rest } = this.props
     return (
       <ConfirmWordsForm

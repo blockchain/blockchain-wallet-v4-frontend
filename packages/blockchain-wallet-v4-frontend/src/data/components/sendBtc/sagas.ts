@@ -1,9 +1,5 @@
-import * as A from './actions'
-import * as C from 'services/AlertService'
-import * as CC from 'services/ConfirmService'
-import * as Lockbox from 'services/LockboxService'
-import * as S from './selectors'
-import { actions, actionTypes, model, selectors } from 'data'
+import BigNumber from 'bignumber.js'
+import bip21 from 'bip21'
 import {
   add,
   equals,
@@ -15,15 +11,6 @@ import {
   pathOr,
   prop
 } from 'ramda'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import {
-  AddressTypesType,
-  BtcAccountFromType,
-  BtcFromType,
-  BtcPaymentType
-} from 'core/types'
-import { APIType } from 'core/network/api'
-import { call, delay, put, race, select, take } from 'redux-saga/effects'
 import {
   change,
   destroy,
@@ -31,14 +18,28 @@ import {
   startSubmit,
   stopSubmit
 } from 'redux-form'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { call, delay, put, race, select, take } from 'redux-saga/effects'
+
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { FORM } from './model'
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import {
+  AddressTypesType,
+  BtcAccountFromType,
+  BtcFromType,
+  BtcPaymentType
+} from 'blockchain-wallet-v4/src/types'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { actions, actionTypes, model, selectors } from 'data'
 import { ModalNamesType } from 'data/modals/types'
-import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
-import BigNumber from 'bignumber.js'
-import bip21 from 'bip21'
+import * as C from 'services/alerts'
+import * as Lockbox from 'services/lockbox'
+import { promptForSecondPassword } from 'services/sagas'
+
 import sendSagas from '../send/sagas'
+import * as A from './actions'
+import { FORM } from './model'
+import * as S from './selectors'
 
 const DUST = 546
 const DUST_BTC = '0.00000546'
@@ -62,13 +63,13 @@ export default ({
   const initialized = function * (action) {
     try {
       const {
-        from,
-        to,
         amount,
-        feeType,
         description,
+        feeType,
+        from,
         lockboxIndex,
-        payPro
+        payPro,
+        to
       } = action.payload
       yield put(A.sendBtcPaymentUpdatedLoading())
 
@@ -158,8 +159,8 @@ export default ({
     yield put(
       actions.modals.showModal('Confirm', {
         origin: 'SendBtc',
-        title: CC.BITPAY_CONFIRM_TITLE,
-        message: CC.BITPAY_CONFIRM_MSG
+        title: C.BITPAY_CONFIRM_TITLE,
+        message: C.BITPAY_CONFIRM_MSG
       })
     )
     let { canceled } = yield race({
@@ -470,7 +471,7 @@ export default ({
         const outputs = selection.outputs
           .filter(o => !o.change)
           .map(prop('address'))
-        yield call(promptForLockbox, 'BTC', deviceType, outputs)
+        yield call(Lockbox.promptForLockbox, 'BTC', deviceType, outputs)
         let connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )

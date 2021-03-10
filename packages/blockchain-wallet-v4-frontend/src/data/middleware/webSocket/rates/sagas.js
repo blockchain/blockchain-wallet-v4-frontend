@@ -1,4 +1,4 @@
-import { all, call, delay, put, select } from 'redux-saga/effects'
+import moment from 'moment'
 import {
   both,
   complement,
@@ -14,10 +14,11 @@ import {
   values,
   whereEq
 } from 'ramda'
-import moment from 'moment'
+import { all, call, delay, put, select } from 'redux-saga/effects'
+
+import { actions, model, selectors } from 'data'
 
 import * as A from './actions'
-import { actions, model, selectors } from 'data'
 
 export const socketAuthRetryDelay = 5000
 const openChannels = {
@@ -71,7 +72,7 @@ export default ({ api, ratesSocket }) => {
     yield call(reopenChannels)
   }
 
-  const reopenChannels = function () {
+  const reopenChannels = function() {
     map(ratesSocket.send.bind(ratesSocket), values(openChannels.rates))
     map(ratesSocket.send.bind(ratesSocket), values(openChannels.advice))
   }
@@ -128,8 +129,8 @@ export default ({ api, ratesSocket }) => {
   }
 
   const fetchAdvice = function * ({
-    pair,
-    config: { volume, fix, fiatCurrency }
+    config: { fiatCurrency, fix, volume },
+    pair
   }) {
     try {
       const { error, ratio } = yield call(
@@ -183,7 +184,7 @@ export default ({ api, ratesSocket }) => {
     yield call(fetchRates, pairs)
   }
 
-  const closeRatesChannel = function ({ payload }) {
+  const closeRatesChannel = function({ payload }) {
     openChannels.rates = {}
 
     if (ratesSocket.isReady()) {
@@ -192,7 +193,7 @@ export default ({ api, ratesSocket }) => {
   }
 
   const openAdviceChannel = function * ({ payload }) {
-    const { pair, volume, fix, fiatCurrency } = payload
+    const { fiatCurrency, fix, pair, volume } = payload
     if (isNil(volume) || !fix || !fiatCurrency) return
     if (ratesSocket.isReady()) {
       const message = model.rates.getAdviceSubscribeMessage(
@@ -207,7 +208,7 @@ export default ({ api, ratesSocket }) => {
     yield call(fetchAdvice, { pair, config: { volume, fix, fiatCurrency } })
   }
 
-  const closeAdviceChannel = function ({ payload }) {
+  const closeAdviceChannel = function({ payload }) {
     const { pair } = payload
     delete openChannels.advice[pair]
     if (ratesSocket.isReady())

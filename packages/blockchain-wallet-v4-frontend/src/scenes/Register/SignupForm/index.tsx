@@ -1,3 +1,9 @@
+import React from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import Bowser from 'bowser'
+import { Field } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Banner,
   Button,
@@ -6,19 +12,6 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { Field } from 'redux-form'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import {
-  required,
-  validEmail,
-  validPasswordConfirmation,
-  validStrongPassword
-} from 'services/FormHelper'
-
-import Bowser from 'bowser'
-import React from 'react'
-import styled from 'styled-components'
-
 import {
   CheckBox,
   Form,
@@ -29,6 +22,12 @@ import {
   TextBox
 } from 'components/Form'
 import Terms from 'components/Terms'
+import {
+  required,
+  validEmail,
+  validPasswordConfirmation,
+  validStrongPassword
+} from 'services/forms'
 
 const browser = Bowser.getParser(window.navigator.userAgent)
 const isSupportedBrowser = browser.satisfies({

@@ -1,22 +1,23 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import UpgradeWallet from './template.js'
 
 class UpgradeWizardContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleContinue = this.handleContinue.bind(this)
   }
 
-  handleContinue () {
+  handleContinue() {
     this.props.authActions.upgradeWallet()
   }
 
-  render () {
+  render() {
     return (
       <UpgradeWallet {...this.props} handleContinue={this.handleContinue} />
     )

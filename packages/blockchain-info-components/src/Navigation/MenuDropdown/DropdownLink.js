@@ -3,19 +3,19 @@ import React, { PureComponent } from 'react'
 import throttle from '../throttle.js'
 
 class DropdownLink extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.ref = React.createRef()
   }
 
-  componentDidMount () {
+  componentDidMount() {
     if (window) {
       window.addEventListener('resize', this.resized)
     }
     this.resized()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (window) {
       window.removeEventListener('resize', this.resized)
     }
@@ -33,7 +33,7 @@ class DropdownLink extends PureComponent {
     this.props.onMouseOver(e)
   }, 200)
 
-  render () {
+  render() {
     const { onClick } = this.props
     return (
       <a ref={this.ref} onClick={onClick} onMouseOver={this.mouseOver}>

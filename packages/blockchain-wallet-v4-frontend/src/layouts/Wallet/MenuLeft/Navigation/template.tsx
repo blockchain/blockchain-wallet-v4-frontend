@@ -1,4 +1,12 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import { Cartridge } from '@blockchain-com/components'
+import { mapObjIndexed, toLower, values } from 'ramda'
+import styled from 'styled-components'
+
+import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import { SupportedWalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import {
   CoinIcon,
   Destination,
@@ -7,14 +15,8 @@ import {
   Separator,
   Wrapper
 } from 'components/MenuLeft'
-import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
-import { mapObjIndexed, toLower, values } from 'ramda'
+
 import { Props } from '.'
-import { SupportedWalletCurrencyType } from 'core/types'
-import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
-import React from 'react'
-import styled from 'styled-components'
 
 const HelperTipContainer = styled.div`
   position: relative;
@@ -116,6 +118,7 @@ const Navigation = (props: OwnProps & Props) => {
                 </MenuItem>
               </LinkContainer>
             ),
+          // @ts-ignore
           props.coins
         )
       )}
@@ -145,7 +148,7 @@ const Navigation = (props: OwnProps & Props) => {
           <ExchangeNavItem {...props} />
         </MenuItem>
       </LinkContainer>
-      {props.lockboxDevices.length > 0 ? (
+      {props.lockboxDevices?.length > 0 ? (
         <LinkContainer to='/lockbox' activeClassName='active'>
           <MenuItem data-e2e='lockboxLink'>
             <MenuIcon

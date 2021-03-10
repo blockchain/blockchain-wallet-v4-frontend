@@ -1,14 +1,14 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 
-import { actions } from 'data'
-import { ExtractSuccess, RemoteDataType } from 'core/types'
-import { RootState } from 'data/rootReducer'
+import { ExtractSuccess, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
+import { actions } from 'data'
+import { RootState } from 'data/rootReducer'
 
-import { getData } from './selectors'
 import Loading from '../template.loading'
+import { getData } from './selectors'
 import Success from './template.success'
 
 // This is a new order summary created for sell p3. Order type looks like what is currently a swap order type rather than an SB order type
@@ -18,7 +18,7 @@ import Success from './template.success'
 class SellOrderSummary extends PureComponent<Props> {
   state = {}
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.simpleBuyActions.fetchSBOrders()
   }
 
@@ -26,7 +26,7 @@ class SellOrderSummary extends PureComponent<Props> {
     this.props.simpleBuyActions.fetchSBCards()
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => <Success {...this.props} {...val} />,
       Failure: () => <DataError onClick={this.handleRefresh} />,

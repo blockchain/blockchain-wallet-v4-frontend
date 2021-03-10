@@ -1,5 +1,7 @@
-import { Button } from 'blockchain-info-components'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+
+import { Button } from 'blockchain-info-components'
 import {
   SettingComponent,
   SettingContainer,
@@ -9,7 +11,6 @@ import {
   SettingSummary,
   SettingWrapper
 } from 'components/Setting'
-import React from 'react'
 
 const WalletAccessTor = props => {
   const { blockingTor, handleClick } = props

@@ -1,12 +1,13 @@
-import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
-import { Field, reduxForm } from 'redux-form'
-import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { required, validMnemonic } from 'services/FormHelper'
-import { Wrapper } from 'components/Public'
-import React from 'react'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
+
+import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
+import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
+import { Wrapper } from 'components/Public'
+import { required, validMnemonic } from 'services/forms'
 
 const Header = styled.div`
   display: flex;
@@ -16,7 +17,7 @@ const Header = styled.div`
 `
 const MnemonicLabel = styled(FormLabel)`
   > div {
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
   + div {
     margin-bottom: 10px;
@@ -33,7 +34,7 @@ const GoBackLink = styled(LinkContainer)`
 `
 
 const FirstStep = props => {
-  const { submitting, invalid, handleSubmit } = props
+  const { handleSubmit, invalid, submitting } = props
 
   return (
     <Wrapper>
@@ -86,9 +87,10 @@ const FirstStep = props => {
             </Link>
           </GoBackLink>
           <Button
-            type='submit'
-            nature='primary'
+            data-e2e='recoverContinue'
             disabled={submitting || invalid}
+            nature='primary'
+            type='submit'
           >
             <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
           </Button>

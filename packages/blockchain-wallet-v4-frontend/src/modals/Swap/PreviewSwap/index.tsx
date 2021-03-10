@@ -1,12 +1,9 @@
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
-import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 
-import { actions, selectors } from 'data'
-import { Props as BaseProps, SuccessStateType } from '..'
-import { Border, FreeCartridge, TopText } from '../components'
 import {
   Button,
   HeartbeatLoader,
@@ -14,13 +11,20 @@ import {
   SkeletonRectangle,
   Text
 } from 'blockchain-info-components'
-import { coinToString, formatCoin } from 'core/exchange/currency'
-import { convertBaseToStandard } from 'data/components/exchange/services'
+import {
+  coinToString,
+  formatCoin
+} from 'blockchain-wallet-v4/src/exchange/currency'
+import { PaymentValue } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
+import { actions, selectors } from 'data'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { RootState } from 'data/rootReducer'
 import { InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
-import { PaymentValue } from 'core/types'
+
+import { Props as BaseProps, SuccessStateType } from '..'
+import { Border, FreeCartridge, TopText } from '../components'
 
 class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   state = {}
@@ -38,7 +42,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       : 0
   }
 
-  render () {
+  render() {
     if (
       !this.props.initSwapFormValues?.BASE ||
       !this.props.initSwapFormValues?.COUNTER
@@ -48,6 +52,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     }
 
     const { BASE, COUNTER } = this.props.initSwapFormValues
+    // @ts-ignore
     const { coins, swapActions } = this.props
     const baseCoinTicker = coins[BASE.coin].coinTicker
     const counterCoinTicker = coins[COUNTER.coin].coinTicker

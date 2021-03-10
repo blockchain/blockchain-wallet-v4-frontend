@@ -1,12 +1,12 @@
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { actions, selectors } from 'data'
-import { CoinType } from 'core/types'
-import { InterestStep, InterestStepMetadata, InterestSteps } from 'data/types'
-import { RootState } from 'data/rootReducer'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import { InterestStep, InterestStepMetadata, InterestSteps } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
@@ -17,11 +17,11 @@ import WithdrawalForm from './WithdrawalForm'
 class Interest extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
 
-  componentDidMount () {
+  componentDidMount() {
     this.setState({ show: true }) //eslint-disable-line
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     const { step } = this.props
     if (step === prevProps.step) return
     if (InterestSteps[step.name] > InterestSteps[prevProps.step.name]) {
@@ -48,8 +48,8 @@ class Interest extends PureComponent<Props, State> {
     }, duration / 2)
   }
 
-  render () {
-    const { coin, step, position, total } = this.props
+  render() {
+    const { coin, position, step, total } = this.props
     return (
       <Flyout
         position={position}

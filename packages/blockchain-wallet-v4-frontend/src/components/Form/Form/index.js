@@ -1,5 +1,5 @@
-import { Form as ReduxForm } from 'redux-form'
 import React from 'react'
+import { Form as ReduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 const BaseForm = styled(ReduxForm)`
@@ -7,7 +7,7 @@ const BaseForm = styled(ReduxForm)`
 `
 
 const Form = props => {
-  const { children, onSubmit, className } = props
+  const { children, className, onSubmit } = props
 
   return (
     <BaseForm className={className} onSubmit={onSubmit}>

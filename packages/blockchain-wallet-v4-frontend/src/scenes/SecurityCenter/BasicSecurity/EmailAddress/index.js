@@ -1,15 +1,17 @@
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
+
+import { actions } from 'data'
+
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
-import React from 'react'
 import Success from './template.success'
 
 class EmailAddressContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       updateToggled: false,
@@ -25,14 +27,14 @@ class EmailAddressContainer extends React.PureComponent {
     this.handleEmailChangeSubmit = this.handleEmailChangeSubmit.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     if (this.props.changeEmail) {
       this.handleChangeEmailView()
     }
   }
 
   /* eslint-disable react/no-did-update-set-state */
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const next = this.props.data.getOrElse({})
     const prev = prevProps.data.getOrElse({})
     if (next.verified && !prev.verified) {
@@ -44,16 +46,16 @@ class EmailAddressContainer extends React.PureComponent {
   }
   /* eslint-enable react/no-did-update-set-state */
 
-  handleVerifyClick () {
+  handleVerifyClick() {
     this.handleResend()
   }
 
-  handleResend () {
+  handleResend() {
     const { email } = this.props.data.getOrElse({})
     this.props.securityCenterActions.resendVerifyEmail(email)
   }
 
-  handleChangeEmailView () {
+  handleChangeEmailView() {
     const { email } = this.props.data.getOrElse({})
     this.setState({
       isEditing: !this.state.isEditing
@@ -61,20 +63,20 @@ class EmailAddressContainer extends React.PureComponent {
     this.props.formActions.change('securityEmailAddress', 'changeEmail', email)
   }
 
-  handleEmailChangeCancel () {
+  handleEmailChangeCancel() {
     this.setState({
       isEditing: !this.state.isEditing
     })
   }
 
-  handleEmailChangeSubmit () {
+  handleEmailChangeSubmit() {
     this.props.securityCenterActions.updateEmail(this.props.updatedEmail)
     this.setState({
       isEditing: !this.state.isEditing
     })
   }
 
-  render () {
+  render() {
     const { data, ...rest } = this.props
 
     return data.cata({

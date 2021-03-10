@@ -1,32 +1,33 @@
 import * as eImmutable from 'extendable-immutable'
 import { compose } from 'ramda'
-import { iLensProp, typeGuard, typeLens } from './util'
 import { view } from 'ramda-lens'
 
+import { iLensProp, typeGuard, typeLens } from './util'
+
 export default class List extends eImmutable.List {
-  static get guard () {
+  static get guard() {
     return typeGuard(this)
   }
 
-  static get lens () {
+  static get lens() {
     return typeLens(this)
   }
 
-  get empty () {
+  get empty() {
     return new this.constructor([])
   }
 
-  toJSON () {
+  toJSON() {
     return { data: this.toArray(), __serializedType__: this.constructor.name }
   }
 
-  static define (prop) {
+  static define(prop) {
     let defineProp = prop => compose(this.lens, iLensProp(prop))
     let propLens = defineProp(prop)
     Object.defineProperty(this.prototype, prop, {
       configurable: false,
       enumerable: true,
-      get () {
+      get() {
         return view(propLens, this)
       }
     })

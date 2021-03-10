@@ -54,7 +54,6 @@ const sanitizeEvent = (
       switch (sbAction.step) {
         case 'ORDER_SUMMARY':
         case 'CHECKOUT_CONFIRM':
-        case 'CANCEL_ORDER':
           return [
             nextCategory,
             formatEvent({

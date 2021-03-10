@@ -1,9 +1,16 @@
-import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
-import { Icon, Image, Text } from 'blockchain-info-components'
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+
+import { Icon, Image, Text } from 'blockchain-info-components'
+import { FlyoutWrapper } from 'components/Flyout'
+
+import {
+  CurrencySuccessStateType,
+  DataSuccessStateType,
+  LinkDispatchPropsType,
+  OwnProps
+} from '.'
 
 const Top = styled(FlyoutWrapper)`
   padding-bottom: 0px;
@@ -75,6 +82,9 @@ const Unsupported: React.FC<Props> = props => {
   )
 }
 
-type Props = OwnProps & SuccessStateType & LinkDispatchPropsType
+type Props = OwnProps &
+  DataSuccessStateType &
+  CurrencySuccessStateType &
+  LinkDispatchPropsType
 
 export default Unsupported

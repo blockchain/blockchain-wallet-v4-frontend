@@ -1,11 +1,12 @@
-import * as crypto from '../walletCrypto'
-import { assoc, compose, curry, is, isNil, prop } from 'ramda'
-import { view } from 'ramda-lens'
 import BigInteger from 'bigi'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
 import BitcoinMessage from 'bitcoinjs-message'
 import Either from 'data.either'
+import { assoc, compose, curry, is, isNil, prop } from 'ramda'
+import { view } from 'ramda-lens'
+
+import * as crypto from '../walletCrypto'
 import Type from './Type'
 // import { shift, shiftIProp } from './util'
 

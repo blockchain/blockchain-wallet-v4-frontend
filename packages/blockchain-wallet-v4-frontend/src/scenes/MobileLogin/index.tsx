@@ -1,10 +1,12 @@
-import * as C from 'services/AlertService'
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { isEmpty, isNil } from 'ramda'
+import { bindActionCreators } from 'redux'
+
+import { actions, selectors } from 'data'
+import * as C from 'services/alerts'
+
 import MobileLogin from './template'
-import React from 'react'
 
 const MobileLoginContainer = (props: Props) => {
   const handleScan = result => {

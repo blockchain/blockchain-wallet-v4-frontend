@@ -1,6 +1,7 @@
-import * as AT from './actionTypes'
+import { SBOrderActionType } from 'blockchain-wallet-v4/src/types'
 import { SBFixType } from 'data/components/types'
-import { SBOrderActionType } from 'core/types'
+
+import * as AT from './actionTypes'
 
 export const setCulture = culture => ({
   type: AT.SET_CULTURE,

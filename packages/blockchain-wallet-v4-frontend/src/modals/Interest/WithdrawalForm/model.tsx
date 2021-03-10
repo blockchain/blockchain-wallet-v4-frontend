@@ -1,9 +1,8 @@
 import { BaseFieldProps, Field } from 'redux-form'
-import { CoinType } from 'core/types'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
-
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 

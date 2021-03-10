@@ -1,5 +1,5 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import {
@@ -12,7 +12,7 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import { spacing } from 'services/StyleService'
+import { spacing } from 'services/styles'
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -28,7 +28,7 @@ const CancelBtn = styled(Text)`
 `
 
 const ShowUsedAddresses = props => {
-  const { busy, position, total, close, ...rest } = props
+  const { busy, close, position, total, ...rest } = props
   const { handleContinue } = rest
 
   return (

@@ -19,10 +19,12 @@ import {
   prop,
   propEq
 } from 'ramda'
-import { KYC_STATES, TIERS_STATES, USER_ACTIVATION_STATES } from './model'
-import { RemoteDataType } from 'core/types'
-import { RootState } from 'data/rootReducer'
+
+import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+
+import { KYC_STATES, TIERS_STATES, USER_ACTIVATION_STATES } from './model'
 import { UserDataType } from './types'
 
 export const getUserData = (state: RootState) => state.profile.userData

@@ -1,6 +1,9 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess, WalletCurrencyType } from 'core/types'
+import {
+  ExtractSuccess,
+  WalletCurrencyType
+} from 'blockchain-wallet-v4/src/types'
 import { RootState } from 'data/rootReducer'
 
 export const getBeneficiaries = (state: RootState) =>

@@ -1,6 +1,6 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import React from 'react'
 import styled from 'styled-components'
 
 import {
@@ -9,7 +9,7 @@ import {
   NavbarNavItemIcon,
   NavbarNavItemTextHeader
 } from 'components/Navbar'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 const StyledNavbarNavItemTextHeader = styled(NavbarNavItemTextHeader)`
   ${media.laptop`

@@ -1,9 +1,10 @@
-import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Wrapper } from 'components/Public'
-import React from 'react'
 import styled from 'styled-components'
+
+import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
+import { Wrapper } from 'components/Public'
 
 const Row = styled.div`
   display: flex;

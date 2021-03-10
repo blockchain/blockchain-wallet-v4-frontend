@@ -1,5 +1,6 @@
-import { Button, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { Button, Text } from 'blockchain-info-components'
 
 import { AutosizeTextBox } from '../Form'
 import { ResizeableFontInput } from '../Form/ResizeableFontInput'

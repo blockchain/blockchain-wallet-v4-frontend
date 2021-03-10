@@ -1,13 +1,10 @@
-import { Button, Icon, Text } from 'blockchain-info-components'
-import {
-  countryUsesPostalcode,
-  countryUsesZipcode,
-  required,
-  requiredZipCode
-} from 'services/FormHelper'
-import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
-import { FlyoutWrapper } from 'components/Flyout'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { FlyoutWrapper } from 'components/Flyout'
 import {
   FormGroup,
   FormItem,
@@ -15,10 +12,15 @@ import {
   SelectBoxUSState,
   TextBox
 } from 'components/Form'
+import {
+  countryUsesPostalcode,
+  countryUsesZipcode,
+  required,
+  requiredZipCode
+} from 'services/forms'
+
 import { Props as OwnProps, SuccessStateType } from '.'
 import CountrySelect from './CountrySelect'
-import React from 'react'
-import styled from 'styled-components'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
   border-bottom: 1px solid ${props => props.theme.grey000};

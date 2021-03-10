@@ -1,10 +1,9 @@
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 
-import { actions, selectors } from 'data'
 import {
   Button,
   HeartbeatLoader,
@@ -12,23 +11,27 @@ import {
   SkeletonRectangle,
   Text
 } from 'blockchain-info-components'
-import { coinToString, formatFiat } from 'core/exchange/currency'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { ErrorCartridge } from 'components/Cartridge'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
-import { getFiatFromPair } from 'data/components/simpleBuy/model'
-import { getInputFromPair, getOutputFromPair } from 'data/components/swap/model'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import {
+  coinToString,
+  formatFiat
+} from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   PaymentValue,
   RatesType,
   SBOrderActionType,
   SBPairType,
   SupportedWalletCurrenciesType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+import { ErrorCartridge } from 'components/Cartridge'
+import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
+import { actions, selectors } from 'data'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { getFiatFromPair } from 'data/components/simpleBuy/model'
+import { getInputFromPair, getOutputFromPair } from 'data/components/swap/model'
 import { RootState } from 'data/rootReducer'
 import { SBCheckoutFormValuesType } from 'data/types'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 
 import { Border, FreeCartridge, TopText } from '../../Swap/components'
 import Loading from '../template.loading'
@@ -58,7 +61,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     })
   }
 
-  render () {
+  render() {
     return this.props.quoteR.cata({
       Failure: () => null,
       NotAsked: () => null,

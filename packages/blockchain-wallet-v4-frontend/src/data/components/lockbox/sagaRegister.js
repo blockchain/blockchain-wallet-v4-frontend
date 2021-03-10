@@ -1,11 +1,12 @@
-import * as AT from './actionTypes'
 import { call, race, take, takeLatest } from 'redux-saga/effects'
+
+import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default ({ api, coreSagas }) => {
   const lockboxSagas = sagas({ api, coreSagas })
 
-  return function * lockboxSaga () {
+  return function * lockboxSaga() {
     yield takeLatest(AT.INITIALIZE_NEW_DEVICE_SETUP, function * (...args) {
       yield race({
         task: call(lockboxSagas.initializeNewDeviceSetup, ...args),

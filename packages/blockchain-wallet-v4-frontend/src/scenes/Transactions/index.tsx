@@ -1,34 +1,36 @@
-import { actions, model } from 'data'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { path, toLower } from 'ramda'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import {
   CoinType,
   CoinTypeEnum,
   FiatType,
+  FiatTypeEnum,
   SupportedFiatType,
   SupportedWalletCurrencyType,
   WalletCurrencyType,
   WalletFiatEnum,
   WalletFiatType
-} from 'core/types'
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { getData } from './selectors'
-import { getHeaderExplainer } from './template.headerexplainer'
-import { path, toLower } from 'ramda'
-import { reduxForm } from 'redux-form'
+} from 'blockchain-wallet-v4/src/types'
+import EmptyResults from 'components/EmptyResults'
 import { SceneWrapper } from 'components/Layout'
+import LazyLoadContainer from 'components/LazyLoadContainer'
+import { actions, model } from 'data'
+import { getIntroductionText } from 'data/coins/selectors'
+import { media } from 'services/styles'
+
 import CoinIntroduction from './CoinIntroduction'
 import CoinPerformance from './CoinPerformance'
-import EmptyResults from 'components/EmptyResults'
-import LazyLoadContainer from 'components/LazyLoadContainer'
-import media from 'services/ResponsiveService'
-import React from 'react'
-import styled from 'styled-components'
-
-import InterestTransactions from './TransactionList/template.interest'
+import { getData } from './selectors'
 import TransactionFilters from './TransactionFilters'
 import TransactionList from './TransactionList'
+import InterestTransactions from './TransactionList/template.interest'
 import WalletBalanceDropdown from './WalletBalanceDropdown'
 
 const PageTitle = styled.div`
@@ -87,9 +89,25 @@ const StatsContainer = styled.div`
     }
   `}
 `
+const ExplainerText = styled(Text)`
+  margin-top: 15px;
+  font-size: 16px;
+  font-weight: 500;
+  color: ${props => props.theme.grey600};
+`
+const LearnMoreLink = styled(Link)`
+  display: inline-flex;
+  margin-left: 6px;
+`
+const LearnMoreText = styled(Text)`
+  margin-left: 3px;
+  size: 16px;
+  font-weight: 500;
+  color: ${props => props.theme.blue600};
+`
 
 class TransactionsContainer extends React.PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.props.initTxs()
     this.props.miscActions.fetchPriceChange(
       this.props.coin as CoinType,
@@ -99,7 +117,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
     this.props.brokerageActions.fetchBankTransferAccounts()
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (
       path(['location', 'pathname'], prevProps) !==
       path(['location', 'pathname'], this.props)
@@ -117,8 +135,9 @@ class TransactionsContainer extends React.PureComponent<Props> {
     this.props.setAddressArchived && this.props.setAddressArchived(address)
   }
 
-  render () {
+  render() {
     const {
+      brokerageDepositsWithdrawals,
       coin,
       coinModel,
       currency,
@@ -129,7 +148,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       pages,
       sourceType
     } = this.props
-    const { colorCode, coinTicker, displayName, icons } = coinModel
+    const { coinTicker, colorCode, displayName, icons } = coinModel
     return (
       <SceneWrapper>
         <LazyLoadContainer onLazyLoad={loadMoreTxs}>
@@ -186,11 +205,20 @@ class TransactionsContainer extends React.PureComponent<Props> {
                         data-e2e='depositFiat'
                         style={{ minWidth: 'auto' }}
                         onClick={() => {
+                          if (!this.props.brokerageActions) return
                           if (!this.props.simpleBuyActions) return
-                          this.props.simpleBuyActions.handleSBDepositFiatClick(
-                            coin as WalletFiatType,
-                            'TransactionList'
-                          )
+                          // ACH Deposits/Withdrawals is only for USD right now
+                          // so keeping the existing functionality for EUR
+                          if (coin === 'USD' && brokerageDepositsWithdrawals) {
+                            this.props.brokerageActions.handleDepositFiatClick(
+                              coin as WalletFiatType
+                            )
+                          } else {
+                            this.props.simpleBuyActions.handleSBDepositFiatClick(
+                              coin as WalletFiatType,
+                              'TransactionList'
+                            )
+                          }
                         }}
                       >
                         <FormattedMessage
@@ -222,7 +250,21 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 )}
               </TitleActionContainer>
             </PageTitle>
-            <ExplainerWrapper>{getHeaderExplainer(coinModel)}</ExplainerWrapper>
+            <ExplainerWrapper>
+              <ExplainerText>
+                {getIntroductionText(coin)}
+                {!(coin in FiatTypeEnum) && (
+                  <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
+                    <LearnMoreText size='16px'>
+                      <FormattedMessage
+                        id='buttons.learn_more'
+                        defaultMessage='Learn More'
+                      />
+                    </LearnMoreText>
+                  </LearnMoreLink>
+                )}
+              </ExplainerText>
+            </ExplainerWrapper>
             <StatsContainer>
               <WalletBalanceDropdown
                 coin={coin}
@@ -343,6 +385,7 @@ export type OwnProps = {
 }
 
 export type SuccessStateType = {
+  brokerageDepositsWithdrawals: boolean
   coinModel: SupportedWalletCurrencyType
   currency: FiatType
   hasTxResults: boolean

@@ -1,8 +1,9 @@
-import { Icon } from '../Icons'
-import { propOr } from 'ramda'
-import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { propOr } from 'ramda'
 import styled from 'styled-components'
+
+import { Icon } from '../Icons'
 
 const duration = 200
 
@@ -62,7 +63,7 @@ const selectColor = (type, coin) => {
 }
 
 const Toast = props => {
-  const { children, nature, coin, onClose, persist, timeout } = props
+  const { children, coin, nature, onClose, persist, timeout } = props
   const color = selectColor(nature, coin)
 
   useEffect(() => {

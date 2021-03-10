@@ -1,10 +1,10 @@
 import React from 'react'
+import styled from 'styled-components'
 
 import { Image, Link } from 'blockchain-info-components'
-import { Navbar, NavbarBrand } from 'components/Navbar'
 import Announcements from 'components/Announcements'
-import media from 'services/ResponsiveService'
-import styled from 'styled-components'
+import { Navbar, NavbarBrand } from 'components/Navbar'
+import { media } from 'services/styles'
 
 const NavbarStyled = styled(Navbar)`
   padding: 0 16px;

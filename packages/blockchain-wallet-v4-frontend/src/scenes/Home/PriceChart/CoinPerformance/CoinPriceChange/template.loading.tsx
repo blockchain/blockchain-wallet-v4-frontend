@@ -1,6 +1,7 @@
-import { SkeletonRectangle } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
+
+import { SkeletonRectangle } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   margin-top: 12px;

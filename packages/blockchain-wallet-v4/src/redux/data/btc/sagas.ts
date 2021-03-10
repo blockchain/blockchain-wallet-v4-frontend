@@ -1,21 +1,23 @@
+import moment from 'moment'
+import { flatten, indexBy, length, map, path, prop, replace } from 'ramda'
+import { call, put, select, take } from 'redux-saga/effects'
+
+import { APIType } from 'core/network/api'
+import { ProcessedTxType } from 'core/transactions/types'
+import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
+
+import Remote from '../../../remote'
+import * as transactions from '../../../transactions'
+import { HDAccountList, Wallet } from '../../../types'
+import { errorHandler, MISSING_WALLET } from '../../../utils'
+import { getAddressLabels } from '../../kvStore/btc/selectors'
+import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
+import * as selectors from '../../selectors'
+import * as walletSelectors from '../../wallet/selectors'
+import custodialSagas from '../custodial/sagas'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import * as selectors from '../../selectors'
-import * as transactions from '../../../transactions'
-import * as walletSelectors from '../../wallet/selectors'
-import { APIType } from 'core/network/api'
-import { call, put, select, take } from 'redux-saga/effects'
-import { errorHandler, MISSING_WALLET } from '../../../utils'
-import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
-import { flatten, indexBy, length, map, path, prop, replace } from 'ramda'
-import { getAddressLabels } from '../../kvStore/btc/selectors'
-import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
-import { HDAccountList, Wallet } from '../../../types'
-import { ProcessedTxType } from 'core/transactions/types'
-import custodialSagas from '../custodial/sagas'
-import moment from 'moment'
-import Remote from '../../../remote'
 
 const transformTx = transactions.btc.transformTx
 const TX_PER_PAGE = 10
@@ -98,7 +100,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const fetchTransactionHistory = function * ({ payload }) {
-    const { address, start, end } = payload
+    const { address, end, start } = payload
     const startDate = moment(start).format('DD/MM/YYYY')
     const endDate = moment(end).format('DD/MM/YYYY')
     try {
@@ -162,7 +164,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const fetchFiatAtTime = function * (action) {
-    const { hash, amount, time, currency } = action.payload
+    const { amount, currency, hash, time } = action.payload
     try {
       yield put(A.fetchFiatAtTimeLoading(hash, currency))
       const data = yield call(api.getBtcFiatAtTime, amount, currency, time)

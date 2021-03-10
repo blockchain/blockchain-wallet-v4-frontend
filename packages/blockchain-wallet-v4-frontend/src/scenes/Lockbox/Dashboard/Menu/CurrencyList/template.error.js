@@ -1,7 +1,8 @@
-import { FormattedHTMLMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
 import React from 'react'
+import { FormattedHTMLMessage } from 'react-intl'
 import styled from 'styled-components'
+
+import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;

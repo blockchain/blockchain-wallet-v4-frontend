@@ -1,12 +1,13 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+
+import { SwapOrderType } from 'blockchain-wallet-v4/src/types'
 import {
   ErrorCartridge,
   GreyCartridge,
   OrangeCartridge,
   SuccessCartridge
 } from 'components/Cartridge'
-import { FormattedMessage } from 'react-intl'
-import { SwapOrderType } from 'core/types'
-import React from 'react'
 
 export const Status = ({
   sellOrder

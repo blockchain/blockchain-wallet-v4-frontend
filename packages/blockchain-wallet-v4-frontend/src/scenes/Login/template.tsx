@@ -1,11 +1,11 @@
-import { compose } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { find, isEmpty, isNil, path, propEq, propOr } from 'ramda'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import Bowser from 'bowser'
-import React from 'react'
+import { find, isEmpty, isNil, path, propEq, propOr } from 'ramda'
+import { compose } from 'redux'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import {
@@ -18,7 +18,8 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { CoinType, WalletFiatType } from 'core/types'
+import { CoinType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { SuccessCartridge } from 'components/Cartridge'
 import {
   Form,
   FormError,
@@ -28,17 +29,16 @@ import {
   PasswordBox,
   TextBox
 } from 'components/Form'
-import { required, validWalletId } from 'services/FormHelper'
-import { selectors } from 'data'
-import { SuccessCartridge } from 'components/Cartridge'
 import { Wrapper } from 'components/Public'
-import media from 'services/ResponsiveService'
 import QRCodeWrapper from 'components/QRCodeWrapper'
+import { selectors } from 'data'
+import { required, validWalletId } from 'services/forms'
+import { media } from 'services/styles'
 
-import { Props as OwnProps } from '.'
-import LinkExchangeAccount from '../Register/LinkExchangeAccount'
 import Modals from '../../modals'
+import LinkExchangeAccount from '../Register/LinkExchangeAccount'
 import SimpleBuyInfo from '../Register/SimpleBuyInfo'
+import { Props as OwnProps } from '.'
 
 const browser = Bowser.getParser(window.navigator.userAgent)
 const isSupportedBrowser = browser.satisfies({
@@ -76,6 +76,19 @@ const CenterWrapper = styled.div`
   flex-direction: column;
   max-width: 480px;
   z-index: 1;
+`
+
+const Footer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 15px;
+  ${media.atLeastTablet`
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  `}
 `
 const LoginWrapper = styled.div`
   display: flex;
@@ -212,7 +225,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
     supportedCoins,
     ...rest
   } = props
-  const { handleSubmit, handleSmsResend, authType } = rest
+  const { authType, handleSmsResend, handleSubmit } = rest
 
   const guidError =
     loginError && loginError.toLowerCase().includes('unknown wallet id')
@@ -453,22 +466,52 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                   )}
                 </LoginButton>
               </FormGroup>
-              <LoginHelpText>
-                <Text size='14px' color='grey600' weight={500}>
-                  <FormattedMessage
-                    id='scenes.login.needhelp'
-                    defaultMessage='Need additional help logging in?'
-                  />
-                </Text>
-                <LinkContainer to='/help'>
-                  <GetHelpLink size='13px' weight={600} data-e2e='loginGetHelp'>
+              {showMobileAuth && (
+                <LoginHelpText>
+                  <Text size='14px' color='grey600' weight={500}>
                     <FormattedMessage
-                      id='scenes.login.gethelp'
-                      defaultMessage='Get Help'
+                      id='scenes.login.needhelpnew'
+                      defaultMessage='Need additional help logging in?'
                     />
-                  </GetHelpLink>
-                </LinkContainer>
-              </LoginHelpText>
+                  </Text>
+                  <LinkContainer to='/help'>
+                    <GetHelpLink
+                      size='13px'
+                      weight={600}
+                      data-e2e='loginGetHelp'
+                    >
+                      <FormattedMessage
+                        id='scenes.login.gethelp'
+                        defaultMessage='Get Help'
+                      />
+                    </GetHelpLink>
+                  </LinkContainer>
+                </LoginHelpText>
+              )}
+              {isSupportedBrowser && !showMobileAuth && (
+                <Footer>
+                  <LinkContainer to='/mobile-login'>
+                    <Link
+                      size='13px'
+                      weight={600}
+                      data-e2e='loginViaMobileLink'
+                    >
+                      <FormattedMessage
+                        id='scenes.login.loginmobile'
+                        defaultMessage='Login via Mobile'
+                      />
+                    </Link>
+                  </LinkContainer>
+                  <LinkContainer to='/help'>
+                    <Link size='13px' weight={600} data-e2e='loginGetHelp'>
+                      <FormattedMessage
+                        id='scenes.login.needhelp'
+                        defaultMessage='Need some help?'
+                      />
+                    </Link>
+                  </LinkContainer>
+                </Footer>
+              )}
             </LoginForm>
           </PublicWrapper>
 
@@ -621,9 +664,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                   <Link
                     size='12px'
                     weight={500}
-                    onClick={() =>
-                      middlewareActions.webSocket.coins.resendMessageSocket()
-                    }
+                    onClick={() => middlewareActions.resendMessageSocket()}
                   >
                     <FormattedMessage
                       id='scenes.login.wallet.connected.send_it_again'

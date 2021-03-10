@@ -1,20 +1,21 @@
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
 import { equals, isNil } from 'ramda'
+import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import React from 'react'
 
 import { actions } from 'data'
+
 import Settings from './template'
 
 class SettingsContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.formActions.initialize('settingLanguage', {
       language: this.props.language
     })
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const { language, newLanguage } = this.props
     if (
       !isNil(newLanguage) &&
@@ -26,7 +27,7 @@ class SettingsContainer extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     return <Settings />
   }
 }

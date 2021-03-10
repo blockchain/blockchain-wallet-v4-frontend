@@ -1,9 +1,9 @@
-import { Toast } from 'blockchain-info-components'
 import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
+import { Toast } from 'blockchain-info-components'
+import { media } from 'services/styles'
 
 import { getAlertContent } from './messages'
 
@@ -55,7 +55,7 @@ const Alerts = props => {
         transitionLeaveTimeout={duration}
       >
         {alerts.map(alert => {
-          const { id, nature, message, data, coin, persist, timeout } = alert
+          const { coin, data, id, message, nature, persist, timeout } = alert
           const dismissTimer = timeout || 7000
           return (
             <Toast

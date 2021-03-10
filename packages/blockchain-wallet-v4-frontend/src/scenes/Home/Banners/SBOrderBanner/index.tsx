@@ -1,19 +1,20 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { BuyOrSell } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
-import { connect, ConnectedProps } from 'react-redux'
+import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { getOrderType } from 'data/components/simpleBuy/model'
-import { RootState } from 'data/rootReducer'
+import { connect, ConnectedProps } from 'react-redux'
+import { BuyOrSell } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
+import { bindActionCreators, Dispatch } from 'redux'
+import styled from 'styled-components'
+
+import { Button, Icon, Text } from 'blockchain-info-components'
 import {
   SBOrderType,
   SupportedWalletCurrenciesType,
   WalletCurrencyType
-} from 'core/types'
-import media from 'services/ResponsiveService'
-import React, { PureComponent } from 'react'
-import styled from 'styled-components'
+} from 'blockchain-wallet-v4/src/types'
+import { actions, selectors } from 'data'
+import { getOrderType } from 'data/components/simpleBuy/model'
+import { RootState } from 'data/rootReducer'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -80,7 +81,7 @@ class SBOrderBanner extends PureComponent<Props> {
     this.props.simpleBuyActions.showModal('PendingOrder')
   }
 
-  render () {
+  render() {
     const { latestPendingOrder } = this.props
 
     if (!latestPendingOrder) return null

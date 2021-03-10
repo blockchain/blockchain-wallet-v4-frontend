@@ -1,9 +1,8 @@
-import { call, CallEffect, put, select } from 'redux-saga/effects'
 import moment from 'moment'
+import { call, CallEffect, put, select } from 'redux-saga/effects'
 
-import * as C from 'services/AlertService'
-import { actions, model, selectors } from 'data'
-import { APIType } from 'core/network/api'
+import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import {
   BeneficiaryType,
   CoinType,
@@ -13,12 +12,13 @@ import {
   SBOrderType,
   SBPaymentTypes,
   WalletFiatType
-} from 'core/types'
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
-import { promptForSecondPassword } from 'services/SagaService'
+} from 'blockchain-wallet-v4/src/types'
+import { actions, model, selectors } from 'data'
+import * as C from 'services/alerts'
+import { promptForSecondPassword } from 'services/sagas'
 
-import * as A from './actions'
 import profileSagas from '../../modules/profile/sagas'
+import * as A from './actions'
 
 const { BAD_2FA } = model.profile.ERROR_TYPES
 const { WITHDRAW_LOCK_DEFAULT_DAYS } = model.profile

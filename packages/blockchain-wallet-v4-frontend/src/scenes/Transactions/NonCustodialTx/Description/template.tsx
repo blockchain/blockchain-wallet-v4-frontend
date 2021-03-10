@@ -1,8 +1,9 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon } from 'blockchain-info-components'
+
 import { RowValue } from '../../components'
 
 const Wrapper = styled.div`

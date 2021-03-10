@@ -1,8 +1,9 @@
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { isEmpty, isNil, prop } from 'ramda'
-import React, { Component } from 'react'
 
 import { actions } from 'data'
+
 import { getData } from './selectors'
 import EthAddresses from './template'
 
@@ -45,13 +46,13 @@ class EthContainer extends Component<PropsType, StateType> {
     showQrCode: false
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.isLegacy
       ? this.props.fetchLegacyBalance()
       : this.props.showEthPrivateKey(this.props.isLegacy)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.clearShownEthPrivateKey()
     this.props.clearShownEthLegacyPrivateKey()
   }
@@ -77,7 +78,7 @@ class EthContainer extends Component<PropsType, StateType> {
       : isValid(prop('priv', legacyAddressInfo)) ||
         isValid(prop('priv', addressInfo))
 
-  render () {
+  render() {
     const { addressInfo, coin, isLegacy, legacyAddressInfo } = this.props
     const checkQrCode = this.checkQrCode(this.props)
 

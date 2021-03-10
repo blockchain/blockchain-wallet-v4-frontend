@@ -1,11 +1,11 @@
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 
 import SelectBox from '../SelectBox'
 
 class SelectBoxBankAccountType extends React.PureComponent {
-  render () {
+  render() {
     const { accountTypes, ...rest } = this.props
     const elements = [{ group: '', items: accountTypes }]
     return <SelectBox elements={elements} {...rest} />

@@ -1,5 +1,5 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 
 import {
   Link,
@@ -85,7 +85,7 @@ const UsedTableEntry = ({ address, search }) => {
   )
 }
 
-const UsedAddressesTable = ({ usedAddresses, search }) => (
+const UsedAddressesTable = ({ search, usedAddresses }) => (
   <React.Fragment>
     <Text weight={400} size='small' style={{ marginTop: 10, marginBottom: 15 }}>
       <FormattedMessage

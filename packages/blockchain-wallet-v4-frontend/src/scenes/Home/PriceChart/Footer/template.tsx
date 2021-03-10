@@ -1,7 +1,8 @@
-import { Button } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+
+import { Button } from 'blockchain-info-components'
 
 import { Props } from '.'
 
@@ -27,8 +28,8 @@ const BuyTradeButton = styled(Button)`
 `
 
 const Footer = ({
-  cryptoCurrency,
   coinName,
+  cryptoCurrency,
   simpleBuyActions,
   swapActions
 }: Props) => {

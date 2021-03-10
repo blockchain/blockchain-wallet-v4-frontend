@@ -1,8 +1,23 @@
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { compose } from 'redux'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { FlyoutWrapper } from 'components/Flyout'
+import { CoinAccountListBalance } from 'components/Form'
+import { selectors } from 'data'
+import {
+  InitSwapFormValuesType,
+  SwapAccountType,
+  SwapCoinType
+} from 'data/components/swap/types'
+import checkAccountZeroBalance from 'services/CheckAccountZeroBalance'
+
+import { Props as BaseProps, SuccessStateType } from '..'
 import {
   BalanceRow,
   CustomOption,
@@ -15,21 +30,7 @@ import {
   TopText,
   TrendingIconRow
 } from '../components'
-import { Props as BaseProps, SuccessStateType } from '..'
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { CoinType } from 'core/types'
-import { compose } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { FlyoutWrapper } from 'components/Flyout'
 import { getData } from './selectors'
-import {
-  InitSwapFormValuesType,
-  SwapAccountType,
-  SwapCoinType
-} from 'data/components/swap/types'
-import { selectors } from 'data'
-import checkAccountZeroBalance from 'services/CheckAccountZeroBalance'
-import CoinBalance from '../components/CoinBalance'
 import VerifyIdentity from './VerifyIdentity'
 
 const SuggestedTextCustomBorder = styled.span`
@@ -42,7 +43,7 @@ const SuggestedTextCustomBorder = styled.span`
 class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   state = {}
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.swapActions.refreshAccounts()
   }
 
@@ -74,7 +75,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     }
   }
 
-  render () {
+  render() {
     const { accounts, coins, userData, values } = this.props
     return userData.tiers && userData.tiers.current !== 0 ? (
       <>
@@ -137,7 +138,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       </OptionTitle>
                       <OptionValue>
                         <BalanceRow>
-                          <CoinBalance
+                          <CoinAccountListBalance
                             account={values.BASE}
                             walletCurrency={this.props.walletCurrency}
                           />
@@ -204,7 +205,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       </OptionTitle>
                       <OptionValue>
                         <BalanceRow>
-                          <CoinBalance
+                          <CoinAccountListBalance
                             account={values.COUNTER}
                             walletCurrency={this.props.walletCurrency}
                           />
@@ -413,6 +414,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         </StyledForm>
       </>
     ) : (
+      // @ts-ignore
       <VerifyIdentity {...this.props} />
     )
   }

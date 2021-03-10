@@ -1,26 +1,26 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 
-import { actions } from 'data'
-import { CoinType, FiatType } from 'core/types'
-import { RootState } from 'data/rootReducer'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
+import { actions } from 'data'
+import { RootState } from 'data/rootReducer'
 
-import { getData } from './selectors'
+import { getCurrency, getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class DepositForm extends PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.handleInitializeDepositForm()
   }
 
-  handleDisplayToggle = isCoin => {
+  handleDisplayToggle = (isCoin: boolean) => {
     const { data, formActions, interestActions } = this.props
     const { displayCoin } = data.getOrElse({
       displayCoin: false
-    } as SuccessStateType)
+    } as DataSuccessStateType)
 
     if (isCoin === displayCoin) return
 
@@ -39,10 +39,10 @@ class DepositForm extends PureComponent<Props> {
   }
 
   handleInitializeDepositForm = () => {
-    const { coin, data, interestActions } = this.props
-    const { walletCurrency } = data.getOrElse({
-      walletCurrency: 'GBP' as FiatType
-    } as SuccessStateType)
+    const { coin, currency, interestActions } = this.props
+
+    const walletCurrency = currency.getOrElse('GBP' as CurrencySuccessStateType)
+
     interestActions.initializeDepositForm(coin, walletCurrency)
   }
 
@@ -51,13 +51,17 @@ class DepositForm extends PureComponent<Props> {
     interestActions.submitDepositForm(coin)
   }
 
-  render () {
-    const { data } = this.props
+  render() {
+    const { currency, data } = this.props
+
+    const walletCurrency = currency.getOrElse('GBP' as CurrencySuccessStateType)
+
     return data.cata({
       Success: val => (
         <Success
-          {...val}
           {...this.props}
+          {...val}
+          walletCurrency={walletCurrency}
           onSubmit={this.handleSubmit}
           handleDisplayToggle={this.handleDisplayToggle}
         />
@@ -70,7 +74,8 @@ class DepositForm extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  data: getData(state)
+  data: getData(state),
+  currency: getCurrency(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
@@ -86,11 +91,14 @@ export type LinkDispatchPropsType = {
   formActions: typeof actions.form
   interestActions: typeof actions.components.interest
 }
-export type SuccessStateType = ReturnType<typeof getData>['data']
+
+export type DataSuccessStateType = ReturnType<typeof getData>['data']
+
+export type CurrencySuccessStateType = ReturnType<typeof getCurrency>['data']
 
 export type OwnProps = {
   coin: CoinType
 }
-type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(DepositForm)

@@ -1,5 +1,3 @@
-import * as walletSelectors from '../../wallet/selectors'
-import { ADDRESS_TYPES } from '../../payment/btc/utils'
 import {
   assoc,
   compose,
@@ -14,6 +12,9 @@ import {
   split,
   values
 } from 'ramda'
+
+import Remote from '../../../remote'
+import { HDAccount, HDAccountList, HDWallet } from '../../../types'
 import {
   getAddresses,
   getChangeIndex,
@@ -23,8 +24,8 @@ import {
   getLockboxBtcAccount,
   getLockboxBtcAccounts
 } from '../../kvStore/lockbox/selectors'
-import { HDAccount, HDAccountList, HDWallet } from '../../../types'
-import Remote from '../../../remote'
+import { ADDRESS_TYPES } from '../../payment/btc/utils'
+import * as walletSelectors from '../../wallet/selectors'
 
 const _getAccounts = selector => state => {
   const balancesR = getAddresses(state)

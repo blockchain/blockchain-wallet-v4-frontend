@@ -1,12 +1,14 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { Button, Text } from 'blockchain-info-components'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { formValueSelector } from 'redux-form'
-import { SettingWrapper } from 'components/Setting'
-import AutoLogoutForm from './template'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
+
+import { Button, Text } from 'blockchain-info-components'
+import { SettingWrapper } from 'components/Setting'
+import { actions, selectors } from 'data'
+
+import AutoLogoutForm from './template'
 
 class SettingContainer extends React.PureComponent {
   state = { updateToggled: false }
@@ -26,7 +28,7 @@ class SettingContainer extends React.PureComponent {
     })
   }
 
-  render () {
+  render() {
     const { logoutTime } = this.props
 
     return this.state.updateToggled ? (

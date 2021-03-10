@@ -20,7 +20,7 @@ const INITIAL_STATE: SBCoreStateType = {
   WDGLD: DEFAULT_COIN_SB_STATE
 }
 
-export function custodialReducer (
+export function custodialReducer(
   state = INITIAL_STATE,
   action: SBCoreActionTypes
 ) {

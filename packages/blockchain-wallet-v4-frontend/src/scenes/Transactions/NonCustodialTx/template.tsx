@@ -1,6 +1,6 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { prop } from 'ramda'
-import React from 'react'
 import styled from 'styled-components'
 
 import {
@@ -9,12 +9,7 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import Confirmations from './Confirmations'
-import Description from './Description'
-import FiatAtTime from './FiatAtTime'
-import media from 'services/ResponsiveService'
-import Status from './Status'
-import TransactionFee from './TransactionFee'
+import { media } from 'services/styles'
 
 import {
   Addresses,
@@ -32,6 +27,11 @@ import {
   TxRowContainer
 } from '../components'
 import { Props } from '.'
+import Confirmations from './Confirmations'
+import Description from './Description'
+import FiatAtTime from './FiatAtTime'
+import Status from './Status'
+import TransactionFee from './TransactionFee'
 
 const BannerWrapper = styled.div`
   margin-left: 6px;
@@ -66,12 +66,12 @@ const NonCustodialTx = ({
   coin,
   coinTicker,
   currency,
-  isToggled,
-  transaction,
-  handleToggle,
   handleEditDescription,
   handleRetrySendEth,
-  onViewTxDetails
+  handleToggle,
+  isToggled,
+  onViewTxDetails,
+  transaction
 }: Props & ParentClassProps) => (
   <TxRowContainer
     className={isToggled ? 'active' : ''}

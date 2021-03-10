@@ -1,12 +1,13 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
+
 import InstallFirmware from './template'
 
 class InstallFirmwareContainer extends React.PureComponent {
-  render () {
+  render() {
     return <InstallFirmware {...this.props} />
   }
 }

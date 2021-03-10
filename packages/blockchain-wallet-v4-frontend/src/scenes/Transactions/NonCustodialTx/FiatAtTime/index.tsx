@@ -1,20 +1,22 @@
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { FiatType } from 'core/types'
+import { bindActionCreators } from 'redux'
+
+import { FiatType } from 'blockchain-wallet-v4/src/types'
+import { actions } from 'data'
+
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
-import React from 'react'
 import Success from './template.success'
 
 class FiatAtTime extends React.PureComponent<Props> {
-  componentDidMount () {
-    const { amount, hash, time, currency } = this.props
+  componentDidMount() {
+    const { amount, currency, hash, time } = this.props
     this.props.actions.fetchFiatAtTime(hash, amount, time * 1000, currency)
   }
 
-  render () {
+  render() {
     const { data } = this.props
 
     return data.cata({

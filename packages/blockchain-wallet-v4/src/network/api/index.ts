@@ -23,11 +23,11 @@ import wallet from './wallet'
 import xlm from './xlm'
 
 const api = ({
-  options,
   apiKey,
   getAuthCredentials,
-  reauthenticate,
-  networks
+  networks,
+  options,
+  reauthenticate
 }: any = {}) => {
   const http = httpService({ apiKey })
   const authorizedHttp = apiAuthorize(http, getAuthCredentials, reauthenticate)
@@ -57,7 +57,6 @@ const api = ({
       nabuUrl,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
-      authorizedPut: authorizedHttp.put,
       ...http
     }),
     ...interest({

@@ -1,8 +1,9 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Link, Text } from 'blockchain-info-components'
+
 import UsedAddressesTable from './Table'
 
 const Wrapper = styled.div`

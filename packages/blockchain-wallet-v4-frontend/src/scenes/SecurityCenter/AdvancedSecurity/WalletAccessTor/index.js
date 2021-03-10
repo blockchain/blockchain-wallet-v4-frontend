@@ -1,7 +1,8 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { actions, selectors } from 'data'
 
 import WalletAccessTor from './template'
 
@@ -12,7 +13,7 @@ class WalletAccessTorContainer extends React.PureComponent {
     )
   }
 
-  render () {
+  render() {
     const blockingTor = this.props.blockTorIps
 
     return (

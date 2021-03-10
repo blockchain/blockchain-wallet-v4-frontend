@@ -1,6 +1,4 @@
-import * as A from './actions'
-import * as AT from './actionTypes'
-import { actions, actionTypes } from 'data'
+import { Task } from 'redux-saga'
 import {
   call,
   cancel,
@@ -10,10 +8,13 @@ import {
   takeEvery,
   takeLatest
 } from 'redux-saga/effects'
-import sagas from './sagas'
 
-import { Task } from 'redux-saga'
+import { actions, actionTypes } from 'data'
+
 import profileSagas from '../../modules/profile/sagas'
+import * as A from './actions'
+import * as AT from './actionTypes'
+import sagas from './sagas'
 
 let pollTask: Task
 
@@ -21,7 +22,7 @@ export default ({ api, coreSagas, networks }) => {
   const simpleBuySagas = sagas({ api, coreSagas, networks })
   const { waitForUserData } = profileSagas({ api, coreSagas, networks })
 
-  return function * simpleBuySaga () {
+  return function * simpleBuySaga() {
     yield takeEvery(actionTypes.form.CHANGE, simpleBuySagas.formChanged)
     yield takeLatest(AT.ACTIVATE_SB_CARD, simpleBuySagas.activateSBCard)
     yield takeLatest(AT.ADD_CARD_DETAILS, simpleBuySagas.addCardDetails)

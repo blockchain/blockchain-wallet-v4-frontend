@@ -1,13 +1,15 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
-import { includes, toLower } from 'ramda'
-import { SkeletonRectangle } from 'blockchain-info-components'
-import { Props as TableProps } from '../Table'
-import { WalletCurrencyType } from 'core/types'
-import Error from './template.error'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { includes, toLower } from 'ramda'
+import { bindActionCreators } from 'redux'
+
+import { SkeletonRectangle } from 'blockchain-info-components'
+import { WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
+import { actions, selectors } from 'data'
+
+import { Props as TableProps } from '../Table'
+import { getData } from './selectors'
+import Error from './template.error'
 import Success from './template.success'
 
 class CoinBalance extends React.PureComponent<Props> {
@@ -24,7 +26,7 @@ class CoinBalance extends React.PureComponent<Props> {
     }
   }
 
-  render () {
+  render() {
     const { coin, data } = this.props
 
     return data.cata({

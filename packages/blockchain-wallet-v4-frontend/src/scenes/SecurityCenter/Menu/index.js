@@ -1,12 +1,13 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { TabMenu, TabMenuItem } from 'blockchain-info-components'
 import { withRouter } from 'react-router-dom'
+
+import { TabMenu, TabMenuItem } from 'blockchain-info-components'
 import HorizontalMenu from 'components/HorizontalMenu'
-import React from 'react'
 
 class MenuContainer extends React.PureComponent {
-  render () {
+  render() {
     return (
       <HorizontalMenu>
         <TabMenu>

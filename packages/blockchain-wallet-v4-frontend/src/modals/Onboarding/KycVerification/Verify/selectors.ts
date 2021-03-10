@@ -1,8 +1,8 @@
 import { anyPass, equals, lift } from 'ramda'
 
-import { ExtractSuccess, RemoteDataType } from 'core/types'
+import { ExtractSuccess, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { model, selectors } from 'data'
-const { GENERAL, EXPIRED } = model.profile.DOC_RESUBMISSION_REASONS
+const { EXPIRED, GENERAL } = model.profile.DOC_RESUBMISSION_REASONS
 const { getEmail } = selectors.core.settings
 const {
   getKycFlowConfig,

@@ -1,11 +1,11 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon, Image, Text } from 'blockchain-info-components'
+import { FlyoutWrapper } from 'components/Flyout'
 
 import { Props as _P, SuccessStateType } from '.'
-import { FlyoutWrapper } from 'components/Flyout'
 
 type Props = _P & SuccessStateType
 

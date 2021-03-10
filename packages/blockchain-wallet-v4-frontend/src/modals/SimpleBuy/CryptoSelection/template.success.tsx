@@ -1,6 +1,7 @@
+import React, { useEffect } from 'react'
+
 import { Props as OwnProps, SuccessStateType } from '.'
 import CryptoSelector from './CryptoSelector'
-import React, { useEffect } from 'react'
 import Unsupported from './template.unsupported'
 
 const Success: React.FC<Props> = props => {

@@ -1,5 +1,6 @@
-import { testPropTypes } from 'utils/test.utils'
 import React from 'react'
+
+import { testPropTypes } from 'utils/test.utils'
 
 describe('Test.Utils', () => {
   describe('testPropTypes()', () => {

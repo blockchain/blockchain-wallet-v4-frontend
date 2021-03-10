@@ -1,7 +1,8 @@
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 // @ts-ignore
 import { concat, curry, reduce, sequence } from 'ramda'
+
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { selectors } from 'data'
 
 export const getData = (
@@ -13,8 +14,8 @@ export const getData = (
   }
 ) => {
   const {
-    /* exclude = [], */ includeExchangeAddress,
-    includeCustodial
+    /* exclude = [], */ includeCustodial,
+    includeExchangeAddress
   } = ownProps
 
   const buildCustodialDisplay = x => {

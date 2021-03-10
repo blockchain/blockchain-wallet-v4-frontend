@@ -9,8 +9,8 @@ import * as simpleBuy from './simpleBuy/model'
 export {
   identityVerification,
   lockbox,
-  sendBtc,
   sendBch,
+  sendBtc,
   sendEth,
   sendXlm,
   simpleBuy

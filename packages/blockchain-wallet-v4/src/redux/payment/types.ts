@@ -1,7 +1,8 @@
-import { ADDRESS_TYPES } from './btc/utils'
 import { CoinType, Erc20CoinType } from 'core/types'
-import { EthAccountFromType, EthAddressFromType } from './eth/types'
+
 import { UTXOType } from './btc/types'
+import { ADDRESS_TYPES } from './btc/utils'
+import { EthAccountFromType, EthAddressFromType } from './eth/types'
 import { XlmAccountFromType, XlmAddressFromType } from './xlm/types'
 
 export type AddressTypesType = keyof typeof ADDRESS_TYPES
@@ -86,7 +87,7 @@ type IPaymentType = {
 }
 
 export type BchPaymentType = IPaymentType & {
-  amount: (n: number) => BchPaymentType
+  amount: (n: number | string) => BchPaymentType
   coin: 'BCH'
   description: (arg: string) => BtcPaymentType
   fee: (arg: number) => BtcPaymentType
@@ -94,7 +95,7 @@ export type BchPaymentType = IPaymentType & {
 }
 
 export type BtcPaymentType = IPaymentType & {
-  amount: (n: number) => BtcPaymentType
+  amount: (n: number | string) => BtcPaymentType
   coin: 'BTC'
   description: (arg: string) => BtcPaymentType
   fee: (arg: number) => BtcPaymentType
@@ -102,7 +103,7 @@ export type BtcPaymentType = IPaymentType & {
 }
 
 export type EthPaymentType = IPaymentType & {
-  amount: (n: string) => EthPaymentType
+  amount: (n: number | string) => EthPaymentType
   coin: 'ETH' | 'PAX' | 'USDT' | 'WDGLD'
   description: (arg: string) => EthPaymentType
   fee: (arg: number, account: string) => EthPaymentType
@@ -120,7 +121,7 @@ export type EthPaymentType = IPaymentType & {
 }
 
 export type XlmPaymentType = IPaymentType & {
-  amount: (n: string) => XlmPaymentType
+  amount: (n: number | string) => XlmPaymentType
   coin: 'XLM'
   description: (arg: string) => XlmPaymentType
   memo: (arg: string) => XlmPaymentType

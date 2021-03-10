@@ -1,13 +1,10 @@
-import {
-  accountCreationAmount,
-  balanceReserveAmount,
-  insufficientFunds,
-  invalidAmount,
-  shouldError,
-  shouldWarn,
-  validateMemo,
-  validateMemoType
-} from './validation'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import Bowser from 'bowser'
+import PropTypes from 'prop-types'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Banner,
   Button,
@@ -16,9 +13,8 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { CustodyToAccountMessage, Row } from 'components/Send'
-import { ErrorBanner } from './ErrorBanner'
-import { Field, reduxForm } from 'redux-form'
+import { Remote } from 'blockchain-wallet-v4/src'
+import ComboDisplay from 'components/Display/ComboDisplay'
 import {
   Form,
   FormGroup,
@@ -29,22 +25,28 @@ import {
   TextAreaDebounced,
   TextBox
 } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
-import { InfoBanner } from './InfoBanner'
-import { model } from 'data'
-import { NoAccountTemplate } from './NoAccountTemplate'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { required, validXlmAddress } from 'services/FormHelper'
-import { SelectBoxMemo } from './SelectBoxMemo'
-import { XlmFiatConverter } from './XlmFiatConverter'
-import Bowser from 'bowser'
-import ComboDisplay from 'components/Display/ComboDisplay'
+import QRCodeCapture from 'components/QRCode/Capture'
+import { CustodyToAccountMessage, Row } from 'components/Send'
 import ExchangePromo from 'components/Send/ExchangePromo'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
-import PropTypes from 'prop-types'
-import QRCodeCapture from 'components/QRCode/Capture'
-import React from 'react'
-import styled from 'styled-components'
+import { model } from 'data'
+import { required, validXlmAddress } from 'services/forms'
+
+import { ErrorBanner } from './ErrorBanner'
+import { InfoBanner } from './InfoBanner'
+import { NoAccountTemplate } from './NoAccountTemplate'
+import { SelectBoxMemo } from './SelectBoxMemo'
+import {
+  accountCreationAmount,
+  balanceReserveAmount,
+  insufficientFunds,
+  invalidAmount,
+  shouldError,
+  shouldWarn,
+  validateMemo,
+  validateMemoType
+} from './validation'
+import { XlmFiatConverter } from './XlmFiatConverter'
 
 const SubmitFormGroup = styled(FormGroup)`
   margin-top: 16px;

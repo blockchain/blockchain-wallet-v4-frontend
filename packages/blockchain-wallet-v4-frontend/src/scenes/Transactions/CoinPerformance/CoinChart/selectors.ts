@@ -1,5 +1,6 @@
-import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { lift, map } from 'ramda'
+
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { selectors } from 'data'
 
 import { OwnProps } from '.'

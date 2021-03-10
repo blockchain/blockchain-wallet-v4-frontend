@@ -1,9 +1,10 @@
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-import { actions } from 'data'
+import { Button } from 'blockchain-info-components'
+import { FooterShadowWrapper } from 'components/Form'
 import {
   BackButton,
   Footer,
@@ -13,9 +14,8 @@ import {
   IdentityVerificationSubHeader,
   InputWrapper
 } from 'components/IdentityVerification'
-import { Button } from 'blockchain-info-components'
-import { FooterShadowWrapper } from 'components/Form'
-import media from 'services/ResponsiveService'
+import { actions } from 'data'
+import { media } from 'services/styles'
 
 const MoreInfoWrapper = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ const MoreInfoWrapper = styled.div`
   `};
 `
 
-const MoreInfo = ({ goToNextStep, closeAllModals }) => (
+const MoreInfo = ({ closeAllModals, goToNextStep }) => (
   <IdentityVerificationForm>
     <FooterShadowWrapper
       fields={

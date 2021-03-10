@@ -1,22 +1,19 @@
 import { assoc, find, is, prop, propEq } from 'ramda'
-import { call, delay, fork, put, select, take } from 'redux-saga/effects'
+import { call, delay, fork, put, race, select, take } from 'redux-saga/effects'
 
-import * as C from 'services/AlertService'
-import * as CC from 'services/ConfirmService'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, actionTypes, selectors } from 'data'
+import * as C from 'services/alerts'
+import { checkForVulnerableAddressError } from 'services/misc'
 import {
   askSecondPasswordEnhancer,
   confirm,
-  forceSyncWallet,
   promptForSecondPassword
-} from 'services/SagaService'
-import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
-import { Remote } from 'blockchain-wallet-v4/src'
+} from 'services/sagas'
 
 import { guessCurrencyBasedOnCountry } from './helpers'
 
 export const logLocation = 'auth/sagas'
-
 export const defaultLoginErrorMessage = 'Error logging into your wallet'
 // TODO: make this a global error constant
 export const wrongWalletPassErrorMessage = 'wrong_wallet_password'
@@ -29,6 +26,17 @@ export const wrongCaptcha2faErrorMessage = 'Error: Captcha Code Incorrect'
 export const wrongAuthCodeErrorMessage = 'Authentication code is incorrect'
 
 export default ({ api, coreSagas }) => {
+  const forceSyncWallet = function * () {
+    yield put(actions.core.walletSync.forceSync())
+    const { error } = yield race({
+      success: take(actionTypes.core.walletSync.SYNC_SUCCESS),
+      error: take(actionTypes.core.walletSync.SYNC_ERROR)
+    })
+    if (error) {
+      throw new Error('Sync failed')
+    }
+  }
+
   const upgradeWallet = function * () {
     try {
       let password = yield call(promptForSecondPassword)
@@ -40,10 +48,12 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
     }
   }
+
   const upgradeWalletSaga = function * () {
     yield put(actions.modals.showModal('UpgradeWallet'))
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
   }
+
   const upgradeAddressLabelsSaga = function * () {
     const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
     if (addressLabelSize > 100) {
@@ -179,16 +189,17 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
     }
   }
+
   const checkAndHandleVulnerableAddress = function * (data) {
     const err = prop('error', data)
     const vulnerableAddress = checkForVulnerableAddressError(err)
     if (vulnerableAddress) {
       yield put(actions.modals.closeAllModals())
       const confirmed = yield call(confirm, {
-        title: CC.ARCHIVE_VULNERABLE_ADDRESS_TITLE,
-        message: CC.ARCHIVE_VULNERABLE_ADDRESS_MSG,
-        confirm: CC.ARCHIVE_VULNERABLE_ADDRESS_CONFIRM,
-        cancel: CC.ARCHIVE_VULNERABLE_ADDRESS_CANCEL,
+        title: C.ARCHIVE_VULNERABLE_ADDRESS_TITLE,
+        message: C.ARCHIVE_VULNERABLE_ADDRESS_MSG,
+        confirm: C.ARCHIVE_VULNERABLE_ADDRESS_CONFIRM,
+        cancel: C.ARCHIVE_VULNERABLE_ADDRESS_CANCEL,
         messageValues: { vulnerableAddress }
       })
       if (confirmed)
@@ -197,6 +208,7 @@ export default ({ api, coreSagas }) => {
         )
     }
   }
+
   const checkDataErrors = function * () {
     const btcDataR = yield select(selectors.core.data.btc.getInfo)
 
@@ -211,6 +223,7 @@ export default ({ api, coreSagas }) => {
       yield call(checkAndHandleVulnerableAddress, btcDataR)
     }
   }
+
   const checkExchangeUsage = function * () {
     try {
       const accountsR = yield select(
@@ -230,6 +243,7 @@ export default ({ api, coreSagas }) => {
       // console.log(e)
     }
   }
+
   const pollingSession = function * (session, n = 50) {
     if (n === 0) {
       return false
@@ -245,8 +259,9 @@ export default ({ api, coreSagas }) => {
     }
     return yield call(pollingSession, session, n - 1)
   }
+
   const login = function * (action) {
-    let { guid, sharedKey, password, code, mobileLogin } = action.payload
+    let { code, guid, mobileLogin, password, sharedKey } = action.payload
     let session = yield select(selectors.session.getSession, guid)
     try {
       if (!session) {
@@ -352,10 +367,11 @@ export default ({ api, coreSagas }) => {
       }
     }
   }
+
   const mobileLogin = function * (action) {
     try {
       yield put(actions.auth.mobileLoginStarted())
-      const { guid, sharedKey, password } = yield call(
+      const { guid, password, sharedKey } = yield call(
         coreSagas.settings.decodePairingCode,
         action.payload
       )
@@ -380,6 +396,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.auth.mobileLoginFinish())
     }
   }
+
   const register = function * (action) {
     try {
       yield put(actions.auth.registerLoading())
@@ -394,11 +411,37 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.REGISTER_ERROR))
     }
   }
+
+  const restoreFromMetadata = function * (action) {
+    const { mnemonic } = action.payload
+    try {
+      yield put(actions.auth.restoreFromMetadataLoading())
+      // try and pull recovery credentials from metadata
+      const metadataInfo = yield call(
+        coreSagas.wallet.restoreWalletCredentialsFromMetadata,
+        mnemonic
+      )
+      yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
+    } catch (e) {
+      yield put(actions.auth.restoreFromMetadataFailure())
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'restoreFromMetadata', e)
+      )
+    }
+  }
+
   const restore = function * (action) {
     try {
       yield put(actions.auth.restoreLoading())
+      yield put(actions.auth.setRegisterEmail(action.payload.email))
       yield put(actions.alerts.displayInfo(C.RESTORE_WALLET_INFO))
-      yield call(coreSagas.wallet.restoreWalletSaga, action.payload)
+      const kvCredentials = (yield select(
+        selectors.auth.getMetadataRestore
+      )).getOrElse({})
+      yield call(coreSagas.wallet.restoreWalletSaga, {
+        ...action.payload,
+        kvCredentials
+      })
       yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
       yield call(loginRoutineSaga, false, true)
       yield put(actions.auth.restoreSuccess())
@@ -408,6 +451,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.RESTORE_ERROR))
     }
   }
+
   const remindGuid = function * (action) {
     try {
       yield put(actions.auth.remindGuidLoading())
@@ -426,6 +470,7 @@ export default ({ api, coreSagas }) => {
       }
     }
   }
+
   const reset2fa = function * (action) {
     try {
       yield put(actions.auth.reset2faLoading())
@@ -470,11 +515,13 @@ export default ({ api, coreSagas }) => {
       }
     }
   }
-  const setLogoutEventListener = function () {
+
+  const setLogoutEventListener = function() {
     return new Promise(resolve => {
       window.addEventListener('wallet.core.logout', resolve)
     })
   }
+
   const resendSmsLoginCode = function * (action) {
     try {
       const { guid } = action.payload
@@ -498,9 +545,11 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.SMS_RESEND_ERROR))
     }
   }
+
   const logoutRoutine = function * () {
     yield call(logout)
   }
+
   const logout = function * () {
     const isEmailVerified = (yield select(
       selectors.core.settings.getEmailVerified
@@ -515,6 +564,7 @@ export default ({ api, coreSagas }) => {
       : yield logoutClearReduxStore()
     yield put(actions.analytics.stopSession())
   }
+
   const deauthorizeBrowser = function * () {
     try {
       const guid = yield select(selectors.core.wallet.getGuid)
@@ -531,6 +581,7 @@ export default ({ api, coreSagas }) => {
       yield logoutClearReduxStore()
     }
   }
+
   const logoutClearReduxStore = function * () {
     // router will fallback to /login route
     yield window.history.pushState('', '', '#')
@@ -554,6 +605,7 @@ export default ({ api, coreSagas }) => {
     reset2fa,
     resendSmsLoginCode,
     restore,
+    restoreFromMetadata,
     saveGoals,
     setLogoutEventListener,
     startSockets,

@@ -1,6 +1,6 @@
 import Remote from './remote'
 
-const cata = function<E, A> (
+const cata = function<E, A>(
   this: RemoteDataType<E, A>,
   obj: {
     Failure: (error: E) => E | React.ReactNode
@@ -25,14 +25,14 @@ const cata = function<E, A> (
   }
 }
 
-const getOrElse = function<A, DV> (
+const getOrElse = function<A, DV>(
   this: RemoteDataType<any, A>,
   defaultValue: DV extends A ? DV : A
 ): DV | A {
   return this.data || defaultValue
 }
 
-const getOrFail = function<A, EV> (
+const getOrFail = function<A, EV>(
   this: RemoteDataType<any, A>,
   errorValue: EV
 ): A {
@@ -43,7 +43,7 @@ const getOrFail = function<A, EV> (
   }
 }
 
-const map = function<E, A, T> (
+const map = function<E, A, T>(
   this: RemoteDataType<E, A>,
   f: (x: A) => T
 ): RemoteSuccess<ReturnType<typeof f>> {

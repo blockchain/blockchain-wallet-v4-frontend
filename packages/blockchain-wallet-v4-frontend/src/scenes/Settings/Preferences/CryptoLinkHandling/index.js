@@ -1,9 +1,10 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import Bowser from 'bowser'
+import { bindActionCreators } from 'redux'
+import styled from 'styled-components'
 
-import { actions, model } from 'data'
 import { Button, Text, TextGroup } from 'blockchain-info-components'
 import {
   SettingComponent,
@@ -12,8 +13,7 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
-import Bowser from 'bowser'
-import styled from 'styled-components'
+import { actions, model } from 'data'
 
 const browser = Bowser.getParser(window.navigator.userAgent)
 const isSafari = browser.satisfies({
@@ -48,7 +48,7 @@ class CryptoLinkHandlingContainer extends React.PureComponent {
     this.props.analyticsActions.logEvent(ENABLE_BTC_LINKS)
   }
 
-  render () {
+  render() {
     return (
       <SettingContainer>
         <SettingSummary>

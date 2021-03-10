@@ -1,12 +1,15 @@
-import * as AT from './actionTypes'
 import { assoc } from 'ramda'
+
 import { Remote } from 'blockchain-wallet-v4/src'
+
+import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   auth_type: 0,
   isLoggingIn: false,
   isAuthenticated: false,
   firstLogin: false,
+  metadataRestore: Remote.NotAsked,
   mobileLoginStarted: false,
   login: Remote.NotAsked,
   reset_2fa: Remote.NotAsked,
@@ -18,7 +21,7 @@ const INITIAL_STATE = {
 }
 
 const auth = (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
 
   switch (type) {
     case AT.LOGIN: {
@@ -106,6 +109,15 @@ const auth = (state = INITIAL_STATE, action) => {
         ...state,
         registerEmail: email
       }
+    }
+    case AT.RESTORE_FROM_METADATA_LOADING: {
+      return assoc('metadataRestore', Remote.Loading, state)
+    }
+    case AT.RESTORE_FROM_METADATA_SUCCESS: {
+      return assoc('metadataRestore', Remote.Success(payload), state)
+    }
+    case AT.RESTORE_FROM_METADATA_FAILURE: {
+      return assoc('metadataRestore', Remote.Failure(payload), state)
     }
     default:
       return state

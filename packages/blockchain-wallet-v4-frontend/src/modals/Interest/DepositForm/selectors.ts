@@ -1,15 +1,21 @@
-import { convertBaseToStandard } from 'data/components/exchange/services'
+import { lift, pathOr, propOr } from 'ramda'
+
+import { Exchange } from 'blockchain-wallet-v4/src'
 import {
   Erc20CoinsEnum,
   ExtractSuccess,
   FiatType,
+  InterestAfterTransactionType,
   InterestFormErrorsType,
   RemoteDataType
-} from 'core/types'
-import { Exchange } from 'core'
-import { lift, pathOr, propOr } from 'ramda'
-import { RootState } from 'data/rootReducer'
+} from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { RootState } from 'data/rootReducer'
+
+export const getCurrency = state => {
+  return selectors.core.settings.getCurrency(state)
+}
 
 export const getData = (state: RootState) => {
   const coin = selectors.components.interest.getCoinType(state)
@@ -27,6 +33,15 @@ export const getData = (state: RootState) => {
   const walletCurrencyR = selectors.core.settings.getCurrency(
     state
   ) as RemoteDataType<string, FiatType>
+
+  const afterTransaction = selectors.components.interest
+    .getAfterTransaction(state)
+    .getOrElse({} as InterestAfterTransactionType)
+  const isFromBuySell = selectors.components.interest.getIsFromBuySell(state)
+
+  const prefillAmount = afterTransaction?.show
+    ? afterTransaction.amount
+    : undefined
 
   return lift(
     (
@@ -68,7 +83,8 @@ export const getData = (state: RootState) => {
         payment,
         rates,
         supportedCoins,
-        walletCurrency
+        prefillAmount,
+        isFromBuySell
       }
     }
   )(

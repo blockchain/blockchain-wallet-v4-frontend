@@ -1,6 +1,6 @@
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import {
@@ -13,8 +13,8 @@ import {
   Text
 } from 'blockchain-info-components'
 import { Form, PhoneNumberBox } from 'components/Form'
-import { required, validMobileNumber } from 'services/FormHelper'
-import { spacing } from 'services/StyleService'
+import { required, validMobileNumber } from 'services/forms'
+import { spacing } from 'services/styles'
 
 const MobileNumber = styled.div`
   display: flex;
@@ -29,15 +29,15 @@ const MobileNumber = styled.div`
 
 const MobileNumberChange = props => {
   const {
-    position,
-    total,
     close,
     closeAll,
-    submitting,
+    handleSubmit,
     invalid,
+    position,
     pristine,
     smsNumber,
-    handleSubmit
+    submitting,
+    total
   } = props
 
   return (

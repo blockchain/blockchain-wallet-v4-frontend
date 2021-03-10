@@ -1,7 +1,9 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { actions, selectors } from 'data'
+
 import Settings from './template'
 
 class SettingsContainer extends React.PureComponent {
@@ -11,7 +13,7 @@ class SettingsContainer extends React.PureComponent {
     )
   }
 
-  render () {
+  render() {
     return <Settings {...this.props} handleClick={this.handleClick} />
   }
 }

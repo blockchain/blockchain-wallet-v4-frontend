@@ -1,5 +1,9 @@
+import {
+  BeneficiariesType,
+  WalletFiatType
+} from 'blockchain-wallet-v4/src/types'
+
 import * as AT from './actionTypes'
-import { BeneficiariesType, WalletFiatType } from 'core/types'
 import { CustodialActionTypes } from './types'
 
 export const fetchCustodialBeneficiaries = (currency?: WalletFiatType) => ({

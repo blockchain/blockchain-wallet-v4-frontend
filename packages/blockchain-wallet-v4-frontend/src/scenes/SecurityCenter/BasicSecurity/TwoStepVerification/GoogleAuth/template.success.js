@@ -1,15 +1,15 @@
 /* stylelint-disable */
-import { Field, reduxForm } from 'redux-form'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
-import React from 'react'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-import { required } from 'services/FormHelper'
-import { spacing } from 'services/StyleService'
 import { TextBox } from 'components/Form'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
+import { required } from 'services/forms'
+import { spacing } from 'services/styles'
 
 const AuthenticatorSummary = styled.div`
   width: 100%;
@@ -47,7 +47,7 @@ const QRInputWrapper = styled.div`
 `
 
 const Google = props => {
-  const { data, invalid, handleSubmit, uiState } = props
+  const { data, handleSubmit, invalid, uiState } = props
 
   return (
     <form onSubmit={handleSubmit}>

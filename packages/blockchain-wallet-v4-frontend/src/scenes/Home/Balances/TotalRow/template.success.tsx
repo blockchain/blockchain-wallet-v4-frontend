@@ -1,8 +1,10 @@
-import { FormattedHTMLMessage } from 'react-intl'
-import { OwnProps, SuccessStateType } from '.'
-import { Text } from 'blockchain-info-components'
 import React from 'react'
+import { FormattedHTMLMessage } from 'react-intl'
 import styled from 'styled-components'
+
+import { Text } from 'blockchain-info-components'
+
+import { OwnProps, SuccessStateType } from '.'
 
 type Props = OwnProps & SuccessStateType
 

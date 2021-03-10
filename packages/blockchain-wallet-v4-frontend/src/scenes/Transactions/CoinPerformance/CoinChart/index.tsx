@@ -1,13 +1,15 @@
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
-import { CoinType } from 'core/types'
-import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
-import { Image, Text } from 'blockchain-info-components'
-import { toUpper } from 'ramda'
-import Chart from './template'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { toUpper } from 'ramda'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
+
+import { Image, Text } from 'blockchain-info-components'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { actions } from 'data'
+
+import { getData } from './selectors'
+import Chart from './template'
 
 const ErrorWrapper = styled.div`
   display: flex;
@@ -28,17 +30,17 @@ const Loading = () => (
 )
 
 export class CoinPerformanceContainer extends React.PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.props.priceChartActions.initialized(toUpper(this.props.coin), 'week')
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.coin !== prevProps.coin) {
       this.props.priceChartActions.initialized(toUpper(this.props.coin), 'week')
     }
   }
 
-  render () {
+  render() {
     const { currency } = this.props
 
     return this.props.data.cata({

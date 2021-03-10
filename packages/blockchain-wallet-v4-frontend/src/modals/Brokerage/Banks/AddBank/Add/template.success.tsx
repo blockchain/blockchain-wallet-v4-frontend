@@ -1,6 +1,6 @@
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
@@ -56,9 +56,9 @@ const TermsText = styled(Text)`
 `
 
 const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
+  handleBack,
   handleSubmit,
-  submitting,
-  handleBack
+  submitting
 }) => {
   return (
     <CustomFlyoutWrapper>

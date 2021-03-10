@@ -1,9 +1,11 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
+
 import { Props as OwnProps, SuccessStateType } from '.'
-import React from 'react'
-import styled from 'styled-components'
 
 export type Props = OwnProps & SuccessStateType
 
@@ -77,7 +79,7 @@ const Unsupported: React.FC<Props> = props => {
             <>
               <FormattedMessage
                 id='modals.simplebuy.unsupported-subcontent'
-                defaultMessage="Currently, we don't support buying crypto with"
+                defaultMessage="Currently we don't support buying crypto with"
               />{' '}
               {props.fiatCurrency}
               {'. '}

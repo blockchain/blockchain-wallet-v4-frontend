@@ -1,4 +1,3 @@
-import * as AT from './actionTypes'
 import {
   AccountTypes,
   CoinType,
@@ -14,7 +13,9 @@ import {
   PaymentValue,
   RemoteDataType,
   WithdrawalMinimumType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+
+import * as AT from './actionTypes'
 
 //
 // Types
@@ -68,6 +69,7 @@ export interface InterestState {
   interestLimits: RemoteDataType<string, InterestLimitsType>
   interestRate: RemoteDataType<string, InterestRateType['rates']>
   isCoinDisplayed: boolean
+  isFromBuySell: boolean
   // make this optional here. places where ts doesnt like it, check, custodial
   payment?: RemoteDataType<string, PaymentValue | undefined>
   step: {

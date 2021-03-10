@@ -1,8 +1,11 @@
-import { Button } from 'blockchain-info-components'
-import { Field, reduxForm } from 'redux-form'
-import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { required } from 'services/FormHelper'
+import PropTypes from 'prop-types'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
+import { Button } from 'blockchain-info-components'
+import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
 import {
   SettingComponent,
   SettingContainer,
@@ -10,9 +13,7 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
+import { required } from 'services/forms'
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -28,8 +29,8 @@ const RenameDevice = props => {
   const {
     deviceName,
     handleCancel,
-    handleToggle,
     handleSubmit,
+    handleToggle,
     invalid,
     updateToggled
   } = props

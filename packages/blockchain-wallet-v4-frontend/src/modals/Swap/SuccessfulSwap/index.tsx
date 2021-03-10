@@ -1,12 +1,13 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Props as BaseProps, SuccessStateType } from '..'
 import { Button, Icon, Text } from 'blockchain-info-components'
+import { SwapOrderType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { getOutput } from 'data/components/swap/model'
-import { SwapOrderType } from 'core/types'
+
+import { Props as BaseProps, SuccessStateType } from '..'
 
 const Wrapper = styled(FlyoutWrapper)`
   width: 100%;
@@ -74,6 +75,7 @@ const SuccessfulSwap: React.FC<Props> = props => {
             id='copy.swap_in_wallet'
             defaultMessage='Your {coin} is now in your Wallet.'
             values={{
+              // @ts-ignore
               coin: props.coins[getOutput(props.order)].displayName
             }}
           />
@@ -89,6 +91,7 @@ const SuccessfulSwap: React.FC<Props> = props => {
             id='copy.swap_arrive_soon'
             defaultMessage='Your {coin} will arrive soon.'
             values={{
+              // @ts-ignore
               coin: props.coins[getOutput(props.order)].coinTicker
             }}
           />

@@ -1,7 +1,5 @@
-import * as A from './actions'
-import * as Exchange from '../../../exchange'
-import * as S from './selectors'
-import * as selectors from '../../selectors'
+import BigNumber from 'bignumber.js'
+import moment from 'moment'
 import {
   addIndex,
   compose,
@@ -23,18 +21,22 @@ import {
   values
 } from 'ramda'
 import { all, call, put, select } from 'redux-saga/effects'
-import { APIType } from 'core/network/api'
-import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
-import { getAccounts, getXlmTxNotes } from '../../kvStore/xlm/selectors'
-import { getLockboxXlmAccounts } from '../../kvStore/lockbox/selectors'
-import { xlm } from '../../../transactions'
-import { XlmTxType } from 'core/transactions/types'
-import BigNumber from 'bignumber.js'
-import moment from 'moment'
-import Remote from '../../../remote'
-import simpleBuySagas from '../custodial/sagas'
 
-const { transformTx, decodeOperations, isLumenOperation } = xlm
+import { APIType } from 'core/network/api'
+import { XlmTxType } from 'core/transactions/types'
+import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
+
+import * as Exchange from '../../../exchange'
+import Remote from '../../../remote'
+import { xlm } from '../../../transactions'
+import { getLockboxXlmAccounts } from '../../kvStore/lockbox/selectors'
+import { getAccounts, getXlmTxNotes } from '../../kvStore/xlm/selectors'
+import * as selectors from '../../selectors'
+import simpleBuySagas from '../custodial/sagas'
+import * as A from './actions'
+import * as S from './selectors'
+
+const { decodeOperations, isLumenOperation, transformTx } = xlm
 
 export const ACCOUNT_NOT_FOUND = 'Not Found'
 export const TX_PER_PAGE = 10
@@ -163,7 +165,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
   }
 
   const fetchTransactionHistory = function * ({ payload }) {
-    const { address, start, end } = payload
+    const { address, end, start } = payload
     let pagingToken
 
     try {

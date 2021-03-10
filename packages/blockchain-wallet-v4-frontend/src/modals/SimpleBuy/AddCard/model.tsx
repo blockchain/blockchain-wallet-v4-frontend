@@ -1,6 +1,6 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps } from 'redux-form'
-import React from 'react'
 
 import { ErrorType, Props as OwnProps } from './template.success'
 

@@ -1,8 +1,10 @@
-import { call, delay, put, select, take } from 'redux-saga/effects'
-import { FormAction, initialize } from 'redux-form'
-import { last, prop } from 'ramda'
 import BigNumber from 'bignumber.js'
+import { last, prop } from 'ramda'
+import { FormAction, initialize } from 'redux-form'
+import { call, delay, put, select, take } from 'redux-saga/effects'
 
+import { Remote } from 'blockchain-wallet-v4/src'
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import {
   AccountTypes,
   CoinType,
@@ -11,21 +13,20 @@ import {
   RatesType,
   RemoteDataType,
   SBBalancesType
-} from 'core/types'
-import { actions, model, selectors } from 'data'
-import { APIType } from 'core/network/api'
-import { convertStandardToBase } from '../exchange/services'
+} from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
-import { Remote } from 'blockchain-wallet-v4/src'
+import { actions, actionTypes, model, selectors } from 'data'
+import coinSagas from 'data/coins/sagas'
+import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 
+import profileSagas from '../../modules/profile/sagas'
+import { convertStandardToBase } from '../exchange/services'
 import * as A from './actions'
 import * as AT from './actionTypes'
-import * as S from './selectors'
 import { DEFAULT_INTEREST_BALANCES } from './model'
-import { InterestDepositFormType, InterestWithdrawalFormType } from './types'
-import profileSagas from '../../modules/profile/sagas'
 import utils from './sagas.utils'
+import * as S from './selectors'
+import { InterestDepositFormType, InterestWithdrawalFormType } from './types'
 
 const { INTEREST_EVENTS } = model.analytics
 const DEPOSIT_FORM = 'interestDepositForm'
@@ -45,25 +46,26 @@ export default ({
     buildAndPublishPayment,
     createLimits,
     createPayment,
-    getDefaultAccountForCoin,
-    getReceiveAddressForCoin,
-    paymentGetOrElse
+    getCustodialAccountForCoin
   } = utils({
     coreSagas,
     networks
   })
 
+  const {
+    getDefaultAccountForCoin,
+    getNextReceiveAddressForCoin,
+    getOrUpdateProvisionalPaymentForCoin
+  } = coinSagas({
+    coreSagas,
+    networks
+  })
+
   const getAccountIndexOrAccount = (coin: CoinType, account: AccountTypes) => {
-    switch (coin) {
-      case 'ETH':
-      case 'PAX':
-      case 'USDT':
-      case 'WDGLD':
-      case 'XLM':
-        return account.address
-      default:
-        return account.index
+    if (coin === 'BTC' || coin === 'BCH') {
+      return account.index
     }
+    return account.address
   }
 
   const fetchInterestBalance = function * () {
@@ -127,10 +129,15 @@ export default ({
     }
   }
 
-  const fetchInterestAccount = function * (coin) {
+  const fetchInterestAccount = function * ({
+    coin
+  }: ReturnType<typeof A.fetchInterestAccount>) {
     try {
       yield put(A.fetchInterestAccountLoading())
-      const paymentAccount = yield call(api.getInterestAccount, coin)
+      const paymentAccount: ReturnType<typeof api.getInterestAccount> = yield call(
+        api.getInterestAccount,
+        coin as CoinType
+      )
       yield put(A.fetchInterestAccountSuccess(paymentAccount))
     } catch (e) {
       const error = errorHandler(e)
@@ -153,7 +160,7 @@ export default ({
   const fetchInterestTransactions = function * ({
     payload
   }: ReturnType<typeof A.fetchInterestTransactions>) {
-    const { reset, coin } = payload
+    const { coin, reset } = payload
 
     try {
       const nextPage = !reset
@@ -199,26 +206,15 @@ export default ({
             : new BigNumber(action.payload).dividedBy(rate).toNumber()
           const paymentR = S.getPayment(yield select())
           if (paymentR) {
-            let payment = paymentGetOrElse(coin, paymentR)
-            switch (payment.coin) {
-              case 'BCH':
-              case 'BTC':
-                payment = yield payment.amount(
-                  parseInt(convertStandardToBase(coin, value))
-                )
-                break
-              case 'ETH':
-              case 'PAX':
-              case 'USDT':
-              case 'WDGLD':
-              case 'XLM':
-                payment = yield payment.amount(
-                  convertStandardToBase(coin, value)
-                )
-                break
-              default:
-                throw new Error(INVALID_COIN_TYPE)
-            }
+            let payment = yield getOrUpdateProvisionalPaymentForCoin(
+              coin,
+              paymentR
+            )
+            const paymentAmount = generateProvisionalPaymentAmount(
+              payment.coin,
+              value
+            )
+            payment = yield payment.amount(paymentAmount)
             yield put(A.setPaymentSuccess(payment.value()))
           }
           break
@@ -261,6 +257,17 @@ export default ({
   }: ReturnType<typeof A.initializeDepositForm>) {
     const { coin, currency } = payload
 
+    const isFromBuySell = S.getIsFromBuySell(yield select())
+    if (isFromBuySell) {
+      // re-fetch the custodial balances to ensure we have the latest for proper form initialization
+      yield put(actions.components.simpleBuy.fetchSBBalances(undefined, true))
+      // wait until balances are loaded super important to have deep equal object on form
+      yield take([
+        actionTypes.components.simpleBuy.FETCH_SB_BALANCES_SUCCESS,
+        actionTypes.components.simpleBuy.FETCH_SB_BALANCES_FAILURE
+      ])
+    }
+
     yield put(A.setPaymentLoading())
     yield put(A.fetchInterestLimits(coin, currency))
     yield take([
@@ -268,19 +275,56 @@ export default ({
       AT.FETCH_INTEREST_LIMITS_FAILURE
     ])
 
-    const defaultAccount = yield call(getDefaultAccountForCoin, coin)
+    const defaultAccount = isFromBuySell
+      ? yield call(getCustodialAccountForCoin, coin)
+      : yield call(getDefaultAccountForCoin, coin)
+
     const payment: PaymentValue = yield call(createPayment, {
       ...defaultAccount,
       address: getAccountIndexOrAccount(coin, defaultAccount)
     })
 
-    yield call(createLimits, payment)
+    const custodialBalances = isFromBuySell
+      ? (yield select(selectors.components.simpleBuy.getSBBalances)).getOrFail(
+          'Failed to get balance'
+        )
+      : null
+
+    yield call(createLimits, payment, custodialBalances)
     yield put(A.setPaymentSuccess(payment))
+    let additionalParameters = {}
+    if (isFromBuySell) {
+      yield put(A.setCoinDisplay(true))
+      const afterTransactionR = yield select(
+        selectors.components.interest.getAfterTransaction
+      )
+      const afterTransaction = afterTransactionR.getOrElse({
+        show: false
+      } as InterestAfterTransactionType)
+      additionalParameters = {
+        depositAmount: afterTransaction.amount || 0
+      }
+
+      // update payment since initial one was with 0
+      const value = new BigNumber(afterTransaction.amount).toNumber()
+      const paymentR = S.getPayment(yield select())
+      if (paymentR) {
+        let payment = yield getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
+        const paymentAmount = generateProvisionalPaymentAmount(
+          payment.coin,
+          value
+        )
+        payment = yield payment.amount(paymentAmount)
+        yield put(A.setPaymentSuccess(payment.value()))
+      }
+      yield put(actions.modals.closeModal('SIMPLE_BUY_MODAL'))
+    }
     yield put(
       initialize(DEPOSIT_FORM, {
         interestDepositAccount: defaultAccount,
         coin,
-        currency
+        currency,
+        ...additionalParameters
       })
     )
   }
@@ -330,7 +374,7 @@ export default ({
         prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
       const coin = S.getCoinType(yield select())
       const paymentR = S.getPayment(yield select())
-      const payment = paymentGetOrElse(
+      const payment = yield getOrUpdateProvisionalPaymentForCoin(
         coin,
         paymentR as RemoteDataType<string, any>
       )
@@ -343,6 +387,7 @@ export default ({
         // BTC/BCH amounts from payments are returned as objects
         const amountString =
           typeof amount === 'object' ? amount[0].toString() : amount.toString()
+
         // custodial deposit
         yield call(api.initiateCustodialTransfer, {
           amount: amountString as string,
@@ -352,7 +397,7 @@ export default ({
         })
       } else {
         // non-custodial deposit
-        yield call(fetchInterestAccount, coin)
+        yield put(A.fetchInterestAccount(coin))
         const depositAddress = yield select(S.getDepositAddress)
 
         // build and publish payment to network
@@ -430,7 +475,7 @@ export default ({
           origin: 'SAVINGS'
         })
       } else {
-        const receiveAddress = yield call(getReceiveAddressForCoin, coin)
+        const receiveAddress = yield call(getNextReceiveAddressForCoin, coin)
         yield call(
           api.initiateInterestWithdrawal,
           withdrawalAmountBase,
@@ -462,7 +507,7 @@ export default ({
   const showInterestModal = function * ({
     payload
   }: ReturnType<typeof A.showInterestModal>) {
-    const { step, coin } = payload
+    const { coin, step } = payload
     yield put(A.setInterestStep(step))
     yield put(
       actions.modals.showModal('INTEREST_MODAL', {

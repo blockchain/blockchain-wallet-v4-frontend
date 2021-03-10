@@ -1,11 +1,12 @@
-import { actions } from 'data'
-import { Button, Image, Text } from 'blockchain-info-components'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { Dispatch } from 'redux'
-import { FormattedMessage } from 'react-intl'
-import media from 'services/ResponsiveService'
-import React from 'react'
 import styled from 'styled-components'
+
+import { Button, Image, Text } from 'blockchain-info-components'
+import { actions } from 'data'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   display: flex;

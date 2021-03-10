@@ -2,11 +2,12 @@ import { BaseFieldProps, Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
-
-import { CoinType } from 'core/types'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { CustomCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
+
+export const FORM_NAME = 'interestDepositForm'
 
 export const SendingWrapper = styled.div`
   width: 100%;

@@ -46,12 +46,12 @@ const AndroidAppBanner = () => {
     <div>
       <Button
         capitalize
-        data-e2e="installAndroidAppBtn"
+        data-e2e='installAndroidAppBtn'
         fullwidth
-        height="48px"
-        nature="secondary"
+        height='48px'
+        nature='secondary'
         onClick={handleInstallClick}
-        size="16px"
+        size='16px'
       >
         Install Android App
       </Button>

@@ -1,10 +1,16 @@
-import { calculateInterval } from 'services/ChartService'
-import { calculateStart } from 'blockchain-wallet-v4/src/redux/data/misc/model'
-import { CoinType, FiatType, PriceChangeTimeRangeType } from 'core/types'
-import { getConfig, renderMinMax } from './services'
 import React from 'react'
 import ReactHighcharts from 'react-highcharts'
 import styled from 'styled-components'
+
+import { calculateStart } from 'blockchain-wallet-v4/src/redux/data/misc/model'
+import {
+  CoinType,
+  FiatType,
+  PriceChangeTimeRangeType
+} from 'blockchain-wallet-v4/src/types'
+import { calculateInterval } from 'services/charts'
+
+import { getConfig, renderMinMax } from './services'
 
 const Wrapper = styled.div<{ coin: CoinType }>`
   position: absolute;
@@ -47,7 +53,7 @@ const Wrapper = styled.div<{ coin: CoinType }>`
 `
 
 const Chart = (props: OwnProps) => {
-  const { coin, time, data, currency } = props
+  const { coin, currency, data, time } = props
   const decimals = coin === 'XLM' ? 4 : 2
   const start = calculateStart(coin, time)
   const interval = calculateInterval(coin, time)

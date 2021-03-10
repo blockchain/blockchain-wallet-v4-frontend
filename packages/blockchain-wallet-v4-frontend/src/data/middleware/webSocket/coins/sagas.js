@@ -1,5 +1,12 @@
-import * as T from 'services/AlertService'
+import crypto from 'crypto'
+import { concat, equals, prop } from 'ramda'
+import { call, put, select } from 'redux-saga/effects'
+
+import { crypto as wCrypto, Remote } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
+import * as T from 'services/alerts'
+
+import { WALLET_TX_SEARCH } from '../../../form/model'
 import {
   btcTransaction,
   ethReceivedConfirmed,
@@ -7,14 +14,8 @@ import {
   ethSentConfirmed,
   header
 } from './messageTypes'
-import { call, put, select } from 'redux-saga/effects'
-import { concat, equals, prop } from 'ramda'
-import { Remote, crypto as wCrypto } from 'blockchain-wallet-v4/src'
-import { WALLET_TX_SEARCH } from '../../../form/model'
 
-import crypto from 'crypto'
-
-function uuidv4 () {
+function uuidv4() {
   return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
     (c ^ (crypto.randomBytes(1)[0] & (15 >> (c / 4)))).toString(16)
   )

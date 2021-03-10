@@ -1,10 +1,10 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
-import React from 'react'
 import styled, { DefaultTheme } from 'styled-components'
 
-import { CoinType } from 'core/types'
 import { Icon, Text, TextGroup } from 'blockchain-info-components'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
@@ -15,7 +15,7 @@ const AddressesWrapper = styled.div`
   align-items: flex-start;
 `
 
-export const Addresses = ({ to, from }) => {
+export const Addresses = ({ from, to }) => {
   return (
     <AddressesWrapper>
       <TextGroup inline style={{ marginBottom: '5px' }}>

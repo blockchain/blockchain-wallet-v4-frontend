@@ -1,9 +1,10 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
+
 import TextBox from '../TextBox'
 
 const Container = styled.div``
@@ -27,7 +28,7 @@ const InputRow = styled(Row)`
   }
 `
 
-export const LoadingButton = ({ loading, children, ...rest }) => (
+export const LoadingButton = ({ children, loading, ...rest }) => (
   <Button height='48px' disabled={loading} {...rest}>
     {loading ? (
       <HeartbeatLoader height='20px' width='20px' color='white' />
@@ -63,7 +64,7 @@ const SuccessLabel = styled(Text)`
   }
 `
 
-const Verified = ({ email, className }) => (
+const Verified = ({ className, email }) => (
   <Container className={className}>
     <SuccessLabel color='success'>
       <FormattedMessage
@@ -77,11 +78,11 @@ const Verified = ({ email, className }) => (
 )
 
 const EmailSent = ({
-  email,
-  className,
-  sendVerification,
   changeEmail,
-  loading
+  className,
+  email,
+  loading,
+  sendVerification
 }) => (
   <Container className={className}>
     <Text weight='300'>
@@ -113,13 +114,13 @@ const EmailSent = ({
 )
 
 const EmailInput = ({
-  input,
-  meta,
-  updateEmail,
   className,
   errorBottom,
+  input,
   label,
-  loading
+  loading,
+  meta,
+  updateEmail
 }) => (
   <Container className={className}>
     {label && (
@@ -160,17 +161,17 @@ export default class EmailVerification extends React.PureComponent {
     this.props.onEdit()
   }
 
-  render () {
-    const { sendVerification, updateEmail, changeEmail } = this
+  render() {
+    const { changeEmail, sendVerification, updateEmail } = this
     const {
-      input,
-      meta,
-      errorBottom,
       className,
-      verificationSent,
-      verified,
+      errorBottom,
+      input,
       label,
-      loading
+      loading,
+      meta,
+      verificationSent,
+      verified
     } = this.props
     const email = input.value
 

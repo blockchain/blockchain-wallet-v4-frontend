@@ -1,4 +1,3 @@
-import * as AT from './actionTypes'
 import {
   BankTransferAccountType,
   CoinType,
@@ -22,15 +21,17 @@ import {
   SwapQuoteType,
   SwapUserLimitsType,
   WalletFiatType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
 import { ModalOriginType } from 'data/modals/types'
+
+import { SwapAccountType } from '../swap/types'
+import * as AT from './actionTypes'
 import {
   SBFixType,
   SBShowModalOriginType,
   SimpleBuyActionTypes,
   StepActionsPayload
 } from './types'
-import { SwapAccountType } from '../swap/types'
 
 export const activateSBCard = (card: SBCardType) => ({
   type: AT.ACTIVATE_SB_CARD,
@@ -569,7 +570,6 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
     }
     case 'CHECKOUT_CONFIRM':
     case 'ORDER_SUMMARY':
-    case 'CANCEL_ORDER':
       return { step: payload.step, order: payload.order }
     case '3DS_HANDLER':
       return { step: payload.step, order: payload.order }

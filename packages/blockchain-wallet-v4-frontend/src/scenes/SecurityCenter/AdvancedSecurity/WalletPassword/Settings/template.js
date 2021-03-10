@@ -1,5 +1,11 @@
-import { Button } from 'blockchain-info-components'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import { has } from 'ramda'
 import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
+import { Button } from 'blockchain-info-components'
 import {
   Form,
   FormGroup,
@@ -7,19 +13,14 @@ import {
   FormLabel,
   PasswordBox
 } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
-import { has } from 'ramda'
+import { SettingWrapper } from 'components/Setting'
 import {
   isNotCurrentPassword,
   required,
   validCurrentPassword,
   validPasswordConfirmation,
   validStrongPassword
-} from 'services/FormHelper'
-import { SettingWrapper } from 'components/Setting'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
+} from 'services/forms'
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -39,13 +40,13 @@ const validatePasswordConfirmation = validPasswordConfirmation('newPassword')
 
 const Settings = props => {
   const {
-    updateToggled,
-    handleToggle,
-    handleSubmit,
-    submitting,
-    invalid,
     handleCancel,
-    newWalletPasswordValue
+    handleSubmit,
+    handleToggle,
+    invalid,
+    newWalletPasswordValue,
+    submitting,
+    updateToggled
   } = props
 
   return (

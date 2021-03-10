@@ -1,5 +1,6 @@
-import { actions, actionTypes } from 'data'
 import { compose } from 'ramda'
+
+import { actions, actionTypes } from 'data'
 
 const socket = socket => store => {
   return next => action => {

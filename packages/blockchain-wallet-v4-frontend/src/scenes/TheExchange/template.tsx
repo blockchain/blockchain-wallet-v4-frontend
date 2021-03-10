@@ -1,5 +1,9 @@
-import { Container } from 'components/Box'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
+import { Icon } from 'blockchain-info-components'
+import { Container } from 'components/Box'
 import {
   HeaderTextWrapper,
   IconBackground,
@@ -7,12 +11,10 @@ import {
   SceneHeaderText,
   SceneSubHeaderText
 } from 'components/Layout'
-import { Icon } from 'blockchain-info-components'
+
 import { Props as IProps } from '.'
 import ExchangeConnect from './template.connect'
 import ExchangeInfo from './template.info'
-import React from 'react'
-import styled from 'styled-components'
 
 const Wrapper = styled.div`
   width: 100%;

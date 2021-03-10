@@ -1,28 +1,29 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from 'data'
+import { FlatLoader, Text } from 'blockchain-info-components'
+import { Remote } from 'blockchain-wallet-v4/src'
 import {
   CoinType,
   RemoteDataType,
   SupportedWalletCurrenciesType
-} from 'core/types'
-import { FlatLoader, Text } from 'blockchain-info-components'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { RowHeader } from '../../components'
+} from 'blockchain-wallet-v4/src/types'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import { actions, selectors } from 'data'
+
+import { RowHeader } from '../../components'
 
 class TransactionFee extends React.PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     const { coin, feeR, hash, supportedCoins } = this.props
     if (Remote.NotAsked.is(feeR) && supportedCoins[coin].contractAddress) {
       this.props.ethActions.fetchErc20TxFee(hash, coin)
     }
   }
 
-  render () {
+  render() {
     const { coin, feeR, supportedCoins } = this.props
 
     return (

@@ -1,7 +1,7 @@
-import { createVeriffFrame } from '@veriff/incontext-sdk'
 import { useEffect, useState } from 'react'
+import { createVeriffFrame } from '@veriff/incontext-sdk'
 
-function Success ({ handleVeriffMessage, url }) {
+function Success({ handleVeriffMessage, url }) {
   const [isActive, setIsActive] = useState(false)
   useEffect(() => {
     if (!isActive && !document.getElementById('veriffFrame')) {

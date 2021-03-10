@@ -1,7 +1,10 @@
-import {
-  BankTransferAccountType,
-  SupportedWalletCurrenciesType
-} from 'core/types'
+import React, { useEffect, useState } from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import moment from 'moment'
+import { defaultTo, filter, path } from 'ramda'
+import { InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Button,
   CheckBoxInput,
@@ -9,11 +12,14 @@ import {
   Icon,
   Text
 } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import {
+  BankTransferAccountType,
+  SupportedWalletCurrenciesType
+} from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
-import { fiatToString } from 'core/exchange/currency'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { Form } from 'components/Form'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import {
   getBaseAmount,
   getBaseCurrency,
@@ -22,14 +28,9 @@ import {
   getOrderType,
   getPaymentMethodId
 } from 'data/components/simpleBuy/model'
-import { InjectedFormProps, reduxForm } from 'redux-form'
-import { Props as OwnProps, SuccessStateType } from '.'
 
-import { defaultTo, filter, path } from 'ramda'
 import { displayFiat, getPaymentMethod } from '../model'
-import moment from 'moment'
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
+import { Props as OwnProps, SuccessStateType } from '.'
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -99,6 +100,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     }
   }, [])
 
+  const handleCancel = () => {
+    props.simpleBuyActions.cancelSBOrder(props.order)
+  }
+
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper>
@@ -110,12 +115,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             color='grey600'
             style={{ marginRight: '24px' }}
             role='button'
-            onClick={() =>
-              props.simpleBuyActions.setStep({
-                order: props.order,
-                step: 'CANCEL_ORDER'
-              })
-            }
+            onClick={handleCancel}
           />
           <FormattedMessage
             id='modals.simplebuy.checkoutconfirm'
@@ -285,12 +285,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           size='16px'
           height='48px'
           nature='light-red'
-          onClick={() =>
-            props.simpleBuyActions.setStep({
-              step: 'CANCEL_ORDER',
-              order: props.order
-            })
-          }
+          onClick={handleCancel}
           style={{ marginTop: '16px' }}
         >
           <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />

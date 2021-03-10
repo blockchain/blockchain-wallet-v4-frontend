@@ -1,6 +1,7 @@
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
+
 import * as AT from './actionTypes'
 import { SendState } from './types'
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: SendState = {
   exchangePaymentsAccount: {
@@ -26,8 +27,8 @@ const INITIAL_STATE: SendState = {
   withdrawLockCheck: Remote.NotAsked
 }
 
-export function sendReducer (state = INITIAL_STATE, action) {
-  const { type, payload } = action
+export function sendReducer(state = INITIAL_STATE, action) {
+  const { payload, type } = action
 
   switch (type) {
     case AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE_SUCCESS: {

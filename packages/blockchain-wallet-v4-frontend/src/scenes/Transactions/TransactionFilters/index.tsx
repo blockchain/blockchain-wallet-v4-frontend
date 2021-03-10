@@ -1,9 +1,9 @@
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { CoinType } from 'core/types'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { actions } from 'data'
 
 import Menu from './template'
 
@@ -16,7 +16,7 @@ class TransactionFiltersContainer extends React.PureComponent<Props> {
     })
   }
 
-  render () {
+  render() {
     return <Menu handleClickReporting={this.handleClickReporting} />
   }
 }

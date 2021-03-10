@@ -1,13 +1,14 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
+import { Icon, Text } from 'blockchain-info-components'
 import {
   BlueCartridge,
   GreyCartridge,
   SuccessCartridge
 } from 'components/Cartridge'
 import { CampaignInfoType } from 'data/types'
-import { FormattedMessage } from 'react-intl'
-import { Icon, Text } from 'blockchain-info-components'
-import React from 'react'
-import styled from 'styled-components'
 
 const TypeWrapper = styled.div`
   display: flex;

@@ -1,12 +1,7 @@
-import { AgentType } from 'core/types'
-import {
-  DisplayIcon,
-  DisplaySubTitle,
-  DisplayTitle
-} from 'components/SimpleBuy'
-import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
+import React, { useState } from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
+import styled from 'styled-components'
+
 import {
   Icon,
   Link,
@@ -15,12 +10,19 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
+import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import { AgentType } from 'blockchain-wallet-v4/src/types'
+import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
+import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
+import {
+  DisplayIcon,
+  DisplaySubTitle,
+  DisplayTitle
+} from 'components/SimpleBuy'
+
 import { Props as OwnProps, SuccessStateType } from '.'
 import { TransferType } from './types'
-import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import React, { useState } from 'react'
-import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -239,7 +241,7 @@ const Success: React.FC<Props> = props => {
               <Value data-e2e='sbReferenceId'>{props.account.address}</Value>
             </div>
             <Copy>
-              <CopyClipboardButton address={props.account.address} />
+              <CopyClipboardButton textToCopy={props.account.address} />
             </Copy>
           </RowCopy>
         )}
@@ -254,7 +256,7 @@ const Success: React.FC<Props> = props => {
             <Value data-e2e='sbRecipientName'>{recipientName}</Value>
           </div>
           <Copy>
-            <CopyClipboardButton address={recipientName} />
+            <CopyClipboardButton textToCopy={recipientName} />
           </Copy>
         </RowCopy>
         {(props.account.currency === 'USD' ||
@@ -270,7 +272,7 @@ const Success: React.FC<Props> = props => {
               <Value data-e2e='sbBankName'>{props.account.agent.name}</Value>
             </div>
             <Copy>
-              <CopyClipboardButton address={props.account.agent.name} />
+              <CopyClipboardButton textToCopy={props.account.agent.name} />
             </Copy>
           </RowCopy>
         )}
@@ -291,7 +293,7 @@ const Success: React.FC<Props> = props => {
               </div>
               <Copy>
                 <CopyClipboardButton
-                  address={props.account.agent.accountType}
+                  textToCopy={props.account.agent.accountType}
                 />
               </Copy>
             </RowCopy>
@@ -309,7 +311,7 @@ const Success: React.FC<Props> = props => {
               <Value data-e2e='sbIbanAddress'>{props.account.address}</Value>
             </div>
             <Copy>
-              <CopyClipboardButton address={props.account.address} />
+              <CopyClipboardButton textToCopy={props.account.address} />
             </Copy>
           </RowCopy>
         )}
@@ -329,7 +331,7 @@ const Success: React.FC<Props> = props => {
                 </Value>
               </div>
               <Copy>
-                <CopyClipboardButton address={props.account.agent.account} />
+                <CopyClipboardButton textToCopy={props.account.agent.account} />
               </Copy>
             </RowCopy>
           )}
@@ -345,7 +347,7 @@ const Success: React.FC<Props> = props => {
               <Value data-e2e='sbSortCode'>{props.account.agent.code}</Value>
             </div>
             <Copy>
-              <CopyClipboardButton address={props.account.agent.code} />
+              <CopyClipboardButton textToCopy={props.account.agent.code} />
             </Copy>
           </RowCopy>
         )}
@@ -361,7 +363,7 @@ const Success: React.FC<Props> = props => {
               <Value data-e2e='sbBankCode'>{props.account.agent.code}</Value>
             </div>
             <Copy>
-              <CopyClipboardButton address={props.account.agent.code} />
+              <CopyClipboardButton textToCopy={props.account.agent.code} />
             </Copy>
           </RowCopy>
         )}
@@ -380,7 +382,7 @@ const Success: React.FC<Props> = props => {
             </div>
             <Copy>
               <CopyClipboardButton
-                address={(props.account.agent as AgentType).routingNumber}
+                textToCopy={(props.account.agent as AgentType).routingNumber}
               />
             </Copy>
           </RowCopy>
@@ -400,7 +402,9 @@ const Success: React.FC<Props> = props => {
                 </Value>
               </div>
               <Copy>
-                <CopyClipboardButton address={props.account.agent.swiftCode} />
+                <CopyClipboardButton
+                  textToCopy={props.account.agent.swiftCode}
+                />
               </Copy>
             </RowCopy>
           )}
@@ -418,7 +422,7 @@ const Success: React.FC<Props> = props => {
               </Value>
             </div>
             <Copy>
-              <CopyClipboardButton address={props.account.agent.address} />
+              <CopyClipboardButton textToCopy={props.account.agent.address} />
             </Copy>
           </RowCopy>
         )}
@@ -438,7 +442,7 @@ const Success: React.FC<Props> = props => {
               </div>
               <Copy>
                 <CopyClipboardButton
-                  address={props.account.agent.recipientAddress}
+                  textToCopy={props.account.agent.recipientAddress}
                 />
               </Copy>
             </RowCopy>
