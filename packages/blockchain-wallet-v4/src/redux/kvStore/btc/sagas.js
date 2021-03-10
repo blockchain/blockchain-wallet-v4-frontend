@@ -10,7 +10,7 @@ import { getMetadataXpriv } from '../root/selectors'
 import * as A from './actions'
 
 export default ({ api, networks }) => {
-  const createMetadataBtc = function*() {
+  const createMetadataBtc = function * () {
     yield delay(1000)
     const addressLabels = {}
 
@@ -37,7 +37,7 @@ export default ({ api, networks }) => {
     yield put(A.createMetadataBtc(newkv))
   }
 
-  const getAddressLabelSize = function*() {
+  const getAddressLabelSize = function * () {
     const wallet = yield select(getWallet)
     const accounts = Wallet.selectHDAccounts(wallet)
 
@@ -51,7 +51,7 @@ export default ({ api, networks }) => {
     return labelSize
   }
 
-  const fetchMetadataBtc = function*() {
+  const fetchMetadataBtc = function * () {
     try {
       const typeId = derivationMap[BTC]
       const mxpriv = yield select(getMetadataXpriv)

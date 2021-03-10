@@ -12,6 +12,7 @@ import {
   WalletFiatEnum,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { add, curry, lift, pathOr, reduce } from 'ramda'
 
 import { selectors } from 'data'
@@ -19,7 +20,6 @@ import { convertBaseToStandard } from 'data/components/exchange/services'
 import { DEFAULT_INTEREST_BALANCE } from 'data/components/interest/model'
 import { DEFAULT_SB_BALANCE } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
-import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import {
   getErc20Balance as getErc20NonCustodialBalance,
   getEthBalance as getEthNonCustodialBalance,

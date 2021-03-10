@@ -1,4 +1,5 @@
 import { Remote } from 'blockchain-wallet-v4/src'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import {
   any,
   anyPass,
@@ -22,7 +23,6 @@ import {
 } from 'ramda'
 
 import { selectors } from 'data'
-import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 export const concatAll = unapply(reduce(concat, []))
 
 const assocCoin = (txs, coin) => txs.map(assoc('coin', coin))

@@ -5,7 +5,7 @@ import { call, put, race, select, take } from 'redux-saga/effects'
 import { actions, actionTypes, selectors } from 'data'
 
 export const askSecondPasswordEnhancer = coreSaga =>
-  function*(args) {
+  function * (args) {
     let enhancedArgs = args
     const wallet = yield select(selectors.core.wallet.getWallet)
     if (Types.Wallet.isDoubleEncrypted(wallet)) {
@@ -17,7 +17,7 @@ export const askSecondPasswordEnhancer = coreSaga =>
     return yield call(coreSaga, enhancedArgs)
   }
 
-export const promptForSecondPassword = function*(purposes) {
+export const promptForSecondPassword = function * (purposes) {
   const wallet = yield select(selectors.core.wallet.getWallet)
   if (Types.Wallet.isDoubleEncrypted(wallet)) {
     yield put(actions.modals.showModal('SecondPassword', { purposes }))
@@ -33,7 +33,7 @@ export const promptForSecondPassword = function*(purposes) {
   }
 }
 
-export const promptForInput = function*({
+export const promptForInput = function * ({
   title,
   secret = false,
   initial = '',
@@ -61,7 +61,7 @@ export const promptForInput = function*({
   }
 }
 
-export const confirm = function*({
+export const confirm = function * ({
   cancel,
   confirm,
   image,

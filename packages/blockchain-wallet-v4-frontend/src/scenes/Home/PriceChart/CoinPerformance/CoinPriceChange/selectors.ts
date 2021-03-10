@@ -1,9 +1,9 @@
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { lift } from 'ramda'
 
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { OwnProps } from '.'
 
 export const getData = createDeepEqualSelector(

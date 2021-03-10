@@ -16,7 +16,7 @@ const TX_PER_PAGE = 10
 export default ({ api }: { api: APIType }) => {
   const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
 
-  const fetchRates = function*() {
+  const fetchRates = function * () {
     try {
       yield put(A.fetchRatesLoading())
       const data = yield call(api.getCoinTicker, 'ALGO')
@@ -26,14 +26,14 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const watchTransactions = function*() {
+  const watchTransactions = function * () {
     while (true) {
       const action = yield take(AT.FETCH_ALGO_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
 
-  const fetchTransactions = function*(
+  const fetchTransactions = function * (
     action: ReturnType<typeof A.fetchTransactions>
   ) {
     try {

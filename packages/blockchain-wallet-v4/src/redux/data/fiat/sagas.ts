@@ -14,14 +14,14 @@ import * as S from './selectors'
 const PAGE_SIZE = 20
 
 export default ({ api }: { api: APIType }) => {
-  const watchTransactions = function*() {
+  const watchTransactions = function * () {
     while (true) {
       const action = yield take(AT.FETCH_FIAT_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
 
-  const fetchTransactions = function*(
+  const fetchTransactions = function * (
     action: ReturnType<typeof A.fetchTransactions>
   ) {
     try {

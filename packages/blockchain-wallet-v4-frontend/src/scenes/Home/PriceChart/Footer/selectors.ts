@@ -2,9 +2,9 @@ import {
   CoinType,
   SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 
 import { selectors } from 'data'
-import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 
 export const getData = createDeepEqualSelector(
   [

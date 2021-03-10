@@ -55,7 +55,7 @@ export default ({ api }) => {
       .then(prop('unspent_outputs'))
       .then(map(toCoin(network, fromData)))
 
-  const __calculateTo = function*(destinations, type, network) {
+  const __calculateTo = function * (destinations, type, network) {
     const appState = yield select(identity)
     const wallet = S.wallet.getWallet(appState)
 
@@ -92,7 +92,7 @@ export default ({ api }) => {
     throw new Error('no_amount_set')
   }
 
-  const __calculateFrom = function*(origin, type, network) {
+  const __calculateFrom = function * (origin, type, network) {
     const appState = yield select(identity)
     const wallet = S.wallet.getWallet(appState)
 
@@ -221,7 +221,7 @@ export default ({ api }) => {
     }
   }
 
-  const __calculateSignature = function*(
+  const __calculateSignature = function * (
     network,
     password,
     transport,
@@ -260,7 +260,7 @@ export default ({ api }) => {
     }
   }
 
-  const __calculatePublish = function*(txHex) {
+  const __calculatePublish = function * (txHex) {
     if (!txHex) {
       throw new Error('missing_signed_tx')
     }
@@ -275,7 +275,7 @@ export default ({ api }) => {
         return p
       },
 
-      *init() {
+      * init() {
         try {
           let fees = yield call(api.getBtcFees)
           return makePayment(merge(p, { fees, coin: 'BTC' }))
@@ -284,17 +284,17 @@ export default ({ api }) => {
         }
       },
 
-      *to(destinations, type) {
+      * to(destinations, type) {
         let to = yield call(__calculateTo, destinations, type, network)
         return makePayment(merge(p, { to }))
       },
 
-      *amount(amounts) {
+      * amount(amounts) {
         let amount = yield call(__calculateAmount, amounts)
         return makePayment(merge(p, { amount }))
       },
 
-      *from(origins, type, defaultEffectiveBalance) {
+      * from(origins, type, defaultEffectiveBalance) {
         let fromData = yield call(__calculateFrom, origins, type, network)
         try {
           let coins = yield call(__getWalletUnspent, network, fromData)
@@ -314,7 +314,7 @@ export default ({ api }) => {
         }
       },
 
-      *fee(value) {
+      * fee(value) {
         let fee = yield call(__calculateFee, value, prop('fees', p))
         let effectiveBalance = yield call(__calculateEffectiveBalance, {
           coins: prop('coins', p),
@@ -323,18 +323,18 @@ export default ({ api }) => {
         return makePayment(merge(p, { fee, effectiveBalance }))
       },
 
-      *build() {
+      * build() {
         if (p.fromType === 'CUSTODIAL') return makePayment(p)
         let selection = yield call(__calculateSelection, p)
         return makePayment(merge(p, { selection }))
       },
 
-      *buildSweep() {
+      * buildSweep() {
         let selection = yield call(__calculateSweepSelection, p)
         return makePayment(merge(p, { selection }))
       },
 
-      *sign(password, transport, scrambleKey) {
+      * sign(password, transport, scrambleKey) {
         let signed = yield call(
           __calculateSignature,
           network,
@@ -349,7 +349,7 @@ export default ({ api }) => {
         return makePayment(merge(p, { ...signed }))
       },
 
-      *publish() {
+      * publish() {
         let result = yield call(__calculatePublish, prop('txHex', p))
         yield call(settingsSagas.setLastTxTime)
         return makePayment(merge(p, { result }))
@@ -363,7 +363,7 @@ export default ({ api }) => {
 
       chain() {
         const chain = (gen, f) =>
-          makeChain(function*() {
+          makeChain(function * () {
             return yield f(yield gen())
           })
 
@@ -381,12 +381,12 @@ export default ({ api }) => {
           publish: () => chain(gen, payment => payment.publish()),
           description: message =>
             chain(gen, payment => payment.description(message)),
-          *done() {
+          * done() {
             return yield gen()
           }
         })
 
-        return makeChain(function*() {
+        return makeChain(function * () {
           return yield call(makePayment, p)
         })
       }

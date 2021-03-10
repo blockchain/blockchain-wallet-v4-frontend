@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default ({ api }) => {
   const dataMiscSagas = sagas({ api })
 
-  return function* coreDataMiscSaga() {
+  return function * coreDataMiscSaga() {
     yield takeLatest(AT.AUTHORIZE_LOGIN, dataMiscSagas.authorizeLogin)
     yield takeLatest(AT.FETCH_CAPTCHA, dataMiscSagas.fetchCaptcha)
     yield takeEvery(AT.FETCH_PRICE_CHANGE, dataMiscSagas.fetchPriceChange)

@@ -2,11 +2,11 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { theme } from '@blockchain-com/components'
 import { Palette } from 'blockchain-info-components'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { merge } from 'ramda'
 import { ThemeProvider } from 'styled-components'
 
 import { selectors } from 'data'
-import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 
 const mapStateToProps = createDeepEqualSelector(
   [selectors.preferences.getTheme],

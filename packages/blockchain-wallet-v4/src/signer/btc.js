@@ -76,7 +76,7 @@ export const signMessage = (priv, addr, message) => {
   )
 }
 
-export const signWithLockbox = function*(
+export const signWithLockbox = function * (
   selection,
   transport,
   scrambleKey,

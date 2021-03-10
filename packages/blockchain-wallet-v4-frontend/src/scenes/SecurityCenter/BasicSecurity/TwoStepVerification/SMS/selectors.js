@@ -1,7 +1,7 @@
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { lift } from 'ramda'
 
 import { selectors } from 'data'
-import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 
 export const getData = createDeepEqualSelector(
   [

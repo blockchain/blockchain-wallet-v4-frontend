@@ -10,7 +10,7 @@ import * as A from './actions'
 
 export default ({ api, networks } = {}) => {
   // internal
-  const updateWalletCredentialsIfChangedOrMissing = function*(kv) {
+  const updateWalletCredentialsIfChangedOrMissing = function * (kv) {
     const guidT = yield select(selectors.wallet.getGuid)
     const passwordT = yield select(selectors.wallet.getMainPassword)
     const sharedKeyT = yield select(selectors.wallet.getSharedKey)
@@ -35,7 +35,7 @@ export default ({ api, networks } = {}) => {
     }
   }
 
-  const fetchMetadataWalletCredentials = function*() {
+  const fetchMetadataWalletCredentials = function * () {
     try {
       const typeId = derivationMap[WALLET_CREDENTIALS]
       const mxpriv = yield select(getMetadataXpriv)

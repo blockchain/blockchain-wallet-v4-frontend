@@ -15,7 +15,7 @@ import * as S from './selectors'
 import { FetchCustodialOrdersAndTransactionsReturnType } from './types'
 
 export default ({ api }: { api: APIType }) => {
-  const fetchCustodialOrdersAndTransactions = function*(
+  const fetchCustodialOrdersAndTransactions = function * (
     page: Array<ProcessedTxType>,
     offset: number,
     transactionsAtBound: boolean,

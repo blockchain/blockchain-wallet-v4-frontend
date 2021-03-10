@@ -6,7 +6,7 @@ import constants from './constants'
 import firmware from './firmware'
 import utils from './utils'
 
-const promptForLockbox = function*(
+const promptForLockbox = function * (
   coin,
   deviceType,
   marquees = [],

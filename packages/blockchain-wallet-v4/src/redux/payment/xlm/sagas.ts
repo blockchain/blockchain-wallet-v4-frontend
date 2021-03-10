@@ -65,7 +65,7 @@ export default ({ api }) => {
     return destination
   }
 
-  const calculateSignature = function*(
+  const calculateSignature = function * (
     password,
     transaction,
     transport,
@@ -88,7 +88,7 @@ export default ({ api }) => {
     }
   }
 
-  const calculateFee = function*(fee, fees) {
+  const calculateFee = function * (fee, fees) {
     if (isPositiveNumber(fee)) {
       return yield call(utilsCalculateFee, fee, NUMBER_OF_OPERATIONS)
     }
@@ -119,7 +119,7 @@ export default ({ api }) => {
     })
   }
 
-  const getReserve = function*(accountId) {
+  const getReserve = function * (accountId) {
     const baseReserve = (yield select(S.data.xlm.getBaseReserve)).getOrFail(
       new Error(NO_LEDGER_ERROR)
     )
@@ -129,7 +129,7 @@ export default ({ api }) => {
     return yield call(calculateReserve, baseReserve, entriesNumber)
   }
 
-  const getEffectiveBalance = function*(accountId, fee, reserve) {
+  const getEffectiveBalance = function * (accountId, fee, reserve) {
     const balance = (yield select(S.data.xlm.getBalance))(accountId).getOrFail(
       new Error(NO_ACCOUNT_ERROR)
     )
@@ -138,7 +138,7 @@ export default ({ api }) => {
   }
 
   // Required when *build is called more than once on a payment
-  const getAccountAndSequenceNumber = function*(account) {
+  const getAccountAndSequenceNumber = function * (account) {
     try {
       const { id } = account
       const data = yield call(api.getXlmAccount, id)
@@ -159,14 +159,14 @@ export default ({ api }) => {
         return p
       },
 
-      *init() {
+      * init() {
         const fees = yield call(api.getXlmFees)
         const baseFee = prop('regular', fees)
         const fee = yield call(calculateFee, baseFee, fees)
         return makePayment(merge(p, { fee, fees, coin: 'XLM' }))
       },
 
-      *from(origin, type: AddressTypesType, effectiveBalance?: string) {
+      * from(origin, type: AddressTypesType, effectiveBalance?: string) {
         let from
 
         if (type === 'CUSTODIAL') {
@@ -229,12 +229,12 @@ export default ({ api }) => {
         return makePayment(merge(p, { amount }))
       },
 
-      *fee(value) {
+      * fee(value) {
         const fee = yield call(calculateFee, value, prop('fees', p))
         return makePayment(merge(p, { fee }))
       },
 
-      *build() {
+      * build() {
         const fromData = prop('from', p)
         const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
@@ -271,7 +271,7 @@ export default ({ api }) => {
         return makePayment(merge(p, { transaction }))
       },
 
-      *sign(password, transport, scrambleKey) {
+      * sign(password, transport, scrambleKey) {
         try {
           const transaction = prop('transaction', p)
           const signed = yield call(
@@ -288,7 +288,7 @@ export default ({ api }) => {
         }
       },
 
-      *publish() {
+      * publish() {
         const signed = prop('signed', p)
         if (!signed) throw new Error(NO_SIGNED_ERROR)
         const tx = yield call(api.pushXlmTx, signed)
@@ -320,7 +320,7 @@ export default ({ api }) => {
 
       chain() {
         const chain = (gen, f) =>
-          makeChain(function*() {
+          makeChain(function * () {
             return yield f(yield gen())
           })
 
@@ -341,12 +341,12 @@ export default ({ api }) => {
             chain(gen, payment => payment.memoType(memoType)),
           setDestinationAccountExists: value =>
             chain(gen, payment => payment.setDestinationAccountExists(value)),
-          *done() {
+          * done() {
             return yield gen()
           }
         })
 
-        return makeChain(function*() {
+        return makeChain(function * () {
           return yield call(makePayment, p)
         })
       }
