@@ -33,6 +33,9 @@ const OptionTitle = styled(Text)`
   color: ${props => props.theme.grey800};
   font-weight: 600;
   max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 const OptionValue = styled(Text)<{
   color?: keyof DefaultTheme
