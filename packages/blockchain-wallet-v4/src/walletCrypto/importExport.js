@@ -127,9 +127,7 @@ export const parseBIP38toECPair = function(
       passfactor = hash256(prefactorB)
     }
 
-    var kp = Bitcoin.ECPair.fromPrivateKey(passfactor)
-
-    var passpoint = kp.getPublicKeyBuffer()
+    var passpoint = Bitcoin.ECPair.fromPrivateKey(passfactor).publicKey
 
     var encryptedpart2 = Buffer.from(hex.slice(23, 23 + 16), 'hex')
 
