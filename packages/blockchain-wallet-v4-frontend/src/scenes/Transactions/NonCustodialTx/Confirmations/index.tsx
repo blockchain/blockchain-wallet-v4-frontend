@@ -1,16 +1,17 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { toString } from 'ramda'
+import styled from 'styled-components'
+
 import { Icon, Link, Tooltip, TooltipHost } from 'blockchain-info-components'
 import {
   CoinType,
   SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
-import { toString } from 'ramda'
-import styled from 'styled-components'
-
 import { selectors } from 'data'
 import { media } from 'services/styles'
+
 import { RowValue } from '../../components'
 import { getBlockHeight } from './selectors'
 

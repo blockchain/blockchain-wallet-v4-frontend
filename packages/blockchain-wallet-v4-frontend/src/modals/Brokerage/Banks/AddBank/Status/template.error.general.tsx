@@ -1,10 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { AddBankStepType } from 'data/types'
+
 import { Props as _P, SuccessStateType } from '.'
 
 export type Props = _P & SuccessStateType

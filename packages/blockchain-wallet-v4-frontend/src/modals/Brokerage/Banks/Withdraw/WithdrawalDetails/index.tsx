@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
@@ -7,7 +9,6 @@ import {
   WalletFiatType,
   WithdrawResponseType
 } from 'blockchain-wallet-v4/src/types'
-import styled from 'styled-components'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -44,7 +45,7 @@ const SuccessIcon = styled(Icon)`
 class WithdrawalDetails extends PureComponent<Props> {
   state = {}
 
-  render () {
+  render() {
     return (
       <Wrapper>
         <div>

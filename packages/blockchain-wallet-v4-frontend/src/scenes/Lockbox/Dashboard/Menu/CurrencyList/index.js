@@ -4,6 +4,7 @@ import { contains, map, prop } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+
 import { getCoinContexts, getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'

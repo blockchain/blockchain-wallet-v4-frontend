@@ -1,11 +1,12 @@
 import BigNumber from 'bignumber.js'
-import { FiatTypeEnum, PriceDiffType } from 'blockchain-wallet-v4/src/types'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import moment from 'moment'
 import readBlob from 'read-blob'
 import { call, put, select } from 'redux-saga/effects'
 
+import { FiatTypeEnum, PriceDiffType } from 'blockchain-wallet-v4/src/types'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { APIType } from 'core/network/api'
+
 import * as pairing from '../../../pairing'
 import * as wS from '../../wallet/selectors'
 import * as A from './actions'

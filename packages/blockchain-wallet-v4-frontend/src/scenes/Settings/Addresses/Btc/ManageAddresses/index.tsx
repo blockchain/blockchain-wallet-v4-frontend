@@ -3,6 +3,7 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { model } from 'data'
+
 import UnusedAddresses from './UnusedAddresses'
 import UsedAddresses from './UsedAddresses'
 const { WALLET_TX_SEARCH } = model.form

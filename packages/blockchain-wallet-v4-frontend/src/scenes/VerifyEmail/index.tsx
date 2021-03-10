@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import { duration } from 'components/Flyout'
 import { actions, model, selectors } from 'data'
+
 import VerifyEmail from './template'
 
 const { DISMISS_VERIFICATION, EMAIL_VERIFIED } = model.analytics.AB_TEST_EVENTS

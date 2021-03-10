@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
-import { utils } from 'blockchain-wallet-v4/src'
 import { head, is, isEmpty, match } from 'ramda'
+
+import { utils } from 'blockchain-wallet-v4/src'
 
 const checkForVulnerableAddressError = message => {
   if (!message || !is(String, message)) return
@@ -39,7 +40,4 @@ const useOnClickOutside = (ref, handler) => {
   }, [ref, handler])
 }
 
-export {
-  checkForVulnerableAddressError,
-  useOnClickOutside
-}
+export { checkForVulnerableAddressError, useOnClickOutside }

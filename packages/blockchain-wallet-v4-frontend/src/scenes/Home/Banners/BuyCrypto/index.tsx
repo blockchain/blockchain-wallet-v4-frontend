@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { media } from 'services/styles'

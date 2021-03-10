@@ -1,5 +1,6 @@
-import { Remote } from 'blockchain-wallet-v4/src'
 import { assocPath } from 'ramda'
+
+import { Remote } from 'blockchain-wallet-v4/src'
 
 import * as AT from './actionTypes'
 

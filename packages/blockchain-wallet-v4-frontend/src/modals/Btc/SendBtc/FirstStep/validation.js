@@ -1,6 +1,7 @@
 import React from 'react'
-import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import { path, prop } from 'ramda'
+
+import { Exchange, utils } from 'blockchain-wallet-v4/src'
 
 import {
   AddressMatchesPriv,

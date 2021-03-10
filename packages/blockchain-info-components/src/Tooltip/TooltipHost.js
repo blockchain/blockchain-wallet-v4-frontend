@@ -8,11 +8,11 @@ const Wrapper = styled.div`
 `
 
 class TooltipHost extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     ReactTooltip.rebuild()
   }
 
-  render () {
+  render() {
     const { children, id, tip } = this.props
     const dataTip = tip || []
 

@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Modal, ModalBody, Text } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
 import { reduxForm } from 'redux-form'
 
+import { Modal, ModalBody, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 
 const UpgradeAddressLabels = props => {

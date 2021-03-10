@@ -1,4 +1,5 @@
 import { CoinType, FiatType } from 'core/types'
+
 import {
   CustodialTransferResponseType,
   InterestAccountBalanceType,

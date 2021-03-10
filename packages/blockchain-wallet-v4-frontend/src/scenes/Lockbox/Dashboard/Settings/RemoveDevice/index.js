@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
+
 import DeviceStatus from './template'
 
 class RemoveDeviceContainer extends React.PureComponent {

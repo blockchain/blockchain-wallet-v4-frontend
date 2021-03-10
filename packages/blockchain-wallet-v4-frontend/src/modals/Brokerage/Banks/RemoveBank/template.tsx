@@ -1,12 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import { BankTransferAccountType } from 'blockchain-wallet-v4/src/types'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { BankTransferAccountType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
+
 import { LinkDispatchPropsType, OwnProps } from '.'
 
 const Wrapper = styled.div`

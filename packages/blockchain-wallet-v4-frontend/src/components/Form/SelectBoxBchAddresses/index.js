@@ -6,7 +6,7 @@ import { getData } from './selectors'
 import SelectBoxBCH from './template'
 
 class SelectBoxBchAddresses extends React.PureComponent {
-  render () {
+  render() {
     const { data, ...rest } = this.props
 
     return data.cata({

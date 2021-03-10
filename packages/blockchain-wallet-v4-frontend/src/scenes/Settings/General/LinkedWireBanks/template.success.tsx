@@ -1,5 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { Icon, Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
@@ -7,11 +10,9 @@ import {
   WalletFiatEnum,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
-import { InjectedFormProps, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import { SettingContainer, SettingSummary } from 'components/Setting'
 import { convertBaseToStandard } from 'data/components/exchange/services'
+
 import { CardDetails, CardWrapper, Child } from '../styles'
 import { Props as OwnProps, SuccessStateType } from '.'
 

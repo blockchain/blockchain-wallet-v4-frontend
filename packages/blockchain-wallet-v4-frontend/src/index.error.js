@@ -1,6 +1,7 @@
 import React from 'react'
-import { Text, TextGroup } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { Text, TextGroup } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   position: relative;

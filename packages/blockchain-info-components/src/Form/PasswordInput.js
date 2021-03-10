@@ -55,7 +55,7 @@ const BasePasswordInput = styled.input.attrs(props => ({
 `
 
 class PasswordInput extends React.Component {
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.active && !prevProps.active && this.input) {
       this.input.focus()
     }
@@ -65,7 +65,7 @@ class PasswordInput extends React.Component {
     this.input = input
   }
 
-  render () {
+  render() {
     const { active, errorState, noLastPass, value, ...rest } = this.props
 
     return (

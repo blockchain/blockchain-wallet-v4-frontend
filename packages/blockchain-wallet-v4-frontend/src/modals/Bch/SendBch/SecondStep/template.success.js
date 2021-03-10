@@ -1,5 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import {
   Banner,
   Button,
@@ -7,8 +9,6 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
-import styled from 'styled-components'
-
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import {

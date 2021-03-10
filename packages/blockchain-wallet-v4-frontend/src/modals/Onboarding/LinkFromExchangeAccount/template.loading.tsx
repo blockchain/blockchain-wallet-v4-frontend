@@ -1,5 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import {
   BlockchainLoader,
   Button,
@@ -7,9 +9,8 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import styled from 'styled-components'
-
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
+
 import { Props } from '.'
 import { ActionsWrapper, Content, MainContent, Status } from './styles'
 

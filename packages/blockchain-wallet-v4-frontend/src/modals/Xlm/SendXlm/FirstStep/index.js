@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'

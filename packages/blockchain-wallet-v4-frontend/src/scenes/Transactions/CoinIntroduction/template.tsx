@@ -1,10 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button, Text } from 'blockchain-info-components'
-import { WalletFiatEnum, WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import styled from 'styled-components'
 
+import { Button, Text } from 'blockchain-info-components'
+import { WalletFiatEnum, WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import { media } from 'services/styles'
+
 import { Props as OwnProps } from '.'
 
 const Container = styled.div`

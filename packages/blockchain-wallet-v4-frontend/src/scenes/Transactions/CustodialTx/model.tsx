@@ -1,13 +1,14 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { path } from 'ramda'
+import styled from 'styled-components'
+
 import { Icon as BCIcon, Text } from 'blockchain-info-components'
 import {
   CoinType,
   CoinTypeEnum,
   WalletFiatEnum
 } from 'blockchain-wallet-v4/src/types'
-import { path } from 'ramda'
-import styled from 'styled-components'
 
 import {
   IconTx as SharedIconTx,

@@ -1,12 +1,13 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { crypto as wCrypto } from 'blockchain-wallet-v4/src'
-import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators } from 'redux'
 import { formValueSelector, getFormMeta } from 'redux-form'
 
+import { crypto as wCrypto } from 'blockchain-wallet-v4/src'
+import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { isEmail, isGuid } from 'services/forms'
+
 import Login from './template'
 
 class LoginContainer extends React.PureComponent<Props> {

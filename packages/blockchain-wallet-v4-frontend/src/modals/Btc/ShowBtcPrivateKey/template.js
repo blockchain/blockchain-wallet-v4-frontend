@@ -1,5 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import {
   Button,
   Modal,
@@ -10,8 +12,6 @@ import {
   Text
 } from 'blockchain-info-components'
 import { utils } from 'blockchain-wallet-v4/src'
-import styled from 'styled-components'
-
 import CoinDisplay from 'components/Display/CoinDisplay'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { flex, spacing } from 'services/styles'

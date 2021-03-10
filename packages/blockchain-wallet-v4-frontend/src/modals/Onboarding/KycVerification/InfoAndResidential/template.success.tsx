@@ -1,5 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { defaultTo, map, replace } from 'ramda'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   BlockchainLoader,
   Button,
@@ -7,10 +11,6 @@ import {
   Icon,
   Text
 } from 'blockchain-info-components'
-import { defaultTo, map, replace } from 'ramda'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import { FlyoutWrapper } from 'components/Flyout'
 import {
   DateInputBox,
@@ -33,6 +33,7 @@ import {
   requiredZipCode
 } from 'services/forms'
 import { getStateNameFromAbbreviation } from 'services/locales'
+
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const { INFO_AND_RESIDENTIAL_FORM } = model.components.identityVerification

@@ -2,11 +2,11 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Cartridge } from '@blockchain-com/components'
-import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
-import { SupportedWalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import { mapObjIndexed, toLower, values } from 'ramda'
 import styled from 'styled-components'
 
+import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import { SupportedWalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import {
   CoinIcon,
   Destination,
@@ -15,6 +15,7 @@ import {
   Separator,
   Wrapper
 } from 'components/MenuLeft'
+
 import { Props } from '.'
 
 const HelperTipContainer = styled.div`

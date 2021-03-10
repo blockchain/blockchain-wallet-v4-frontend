@@ -3,14 +3,15 @@ import { FormattedMessage } from 'react-intl'
 import Btc from '@ledgerhq/hw-app-btc'
 import Str from '@ledgerhq/hw-app-str'
 import TransportU2F from '@ledgerhq/hw-transport-u2f'
+import { prop } from 'ramda'
+import { Observable } from 'rxjs'
+
 import { Types } from 'blockchain-wallet-v4/src'
 import {
   createXpubFromChildAndParent,
   getParentPath
 } from 'blockchain-wallet-v4/src/utils/btc'
 import { deriveAddressFromXpub } from 'blockchain-wallet-v4/src/utils/eth'
-import { prop } from 'ramda'
-import { Observable } from 'rxjs'
 
 import { LOG_LEVELS } from '../../data/logs/model'
 import constants from './constants'

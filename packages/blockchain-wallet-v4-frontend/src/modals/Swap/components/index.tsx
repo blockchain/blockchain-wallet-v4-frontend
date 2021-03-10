@@ -1,7 +1,7 @@
-import { Text } from 'blockchain-info-components'
 import { Form } from 'redux-form'
 import styled, { DefaultTheme } from 'styled-components'
 
+import { Text } from 'blockchain-info-components'
 import { SuccessCartridge } from 'components/Cartridge'
 
 export const Border = styled.div`

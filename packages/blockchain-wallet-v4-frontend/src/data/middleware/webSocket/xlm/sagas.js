@@ -1,4 +1,3 @@
-import { transactions } from 'blockchain-wallet-v4/src'
 import {
   append,
   compose,
@@ -11,6 +10,7 @@ import {
 } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
+import { transactions } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 import * as T from 'services/alerts'
 

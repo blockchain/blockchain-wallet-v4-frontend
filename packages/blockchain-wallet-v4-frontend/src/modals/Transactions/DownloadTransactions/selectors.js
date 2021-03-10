@@ -1,8 +1,9 @@
-import { TXNotes, Wallet } from 'blockchain-wallet-v4/src/types'
 import { assoc, curry, map, prop } from 'ramda'
 import { createSelector } from 'reselect'
 
+import { TXNotes, Wallet } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
+
 import { formatTxData, reportHeaders } from './model'
 
 export const getData = (state, coin) => {

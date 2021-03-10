@@ -1,6 +1,6 @@
-import { TableCell, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { TableCell, Text } from 'blockchain-info-components'
 import { ErrorCartridge, GreyCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'

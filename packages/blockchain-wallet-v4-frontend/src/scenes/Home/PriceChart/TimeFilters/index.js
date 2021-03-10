@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+
 import { getData } from './selectors'
 import TimeFilters from './template'
 

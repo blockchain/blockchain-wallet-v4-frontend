@@ -1,13 +1,14 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Redirect, Route } from 'react-router-dom'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
 
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
+
 import WalletLayout from './template'
 
 class WalletLayoutContainer extends React.PureComponent<Props> {
-  render () {
+  render() {
     const {
       component: Component,
       computedMatch,

@@ -1,5 +1,6 @@
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
 import { append, assoc, compose, dropLast, lensProp, over } from 'ramda'
+
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 import * as AT from './actionTypes'
 import { InterestActionTypes, InterestState } from './types'
@@ -31,7 +32,7 @@ const INITIAL_STATE: InterestState = {
   withdrawalMinimums: Remote.NotAsked
 }
 
-export function interestReducer (
+export function interestReducer(
   state = INITIAL_STATE,
   action: InterestActionTypes
 ): InterestState {

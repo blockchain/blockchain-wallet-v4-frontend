@@ -3,6 +3,7 @@ import { Moment } from 'moment'
 import { v4 as uuidv4 } from 'uuid'
 
 import { UserDataType } from 'data/types'
+
 import {
   CoinType,
   CurrenciesType,

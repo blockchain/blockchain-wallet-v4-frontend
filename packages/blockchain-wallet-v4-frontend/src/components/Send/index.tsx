@@ -1,14 +1,15 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
-import { Banner } from 'blockchain-info-components'
-import { CoinType, CustodialFromType } from 'blockchain-wallet-v4/src/types'
 import styled, { css } from 'styled-components'
 
+import { Banner } from 'blockchain-info-components'
+import { CoinType, CustodialFromType } from 'blockchain-wallet-v4/src/types'
 import { BlueCartridge } from 'components/Cartridge'
 import { FormGroup, FormLabel } from 'components/Form'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { media } from 'services/styles'
+
 import LockTime from './LockTime'
 
 export const Row = styled.div`

@@ -1,14 +1,15 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { includes } from 'ramda'
+import { bindActionCreators } from 'redux'
+
 import {
   CoinType,
   FiatType,
   ProcessedTxType
 } from 'blockchain-wallet-v4/src/types'
-import { includes } from 'ramda'
-import { bindActionCreators } from 'redux'
-
 import { actions, model, selectors } from 'data'
+
 import NonCustodialTx from './template'
 
 const { TRANSACTION_EVENTS } = model.analytics

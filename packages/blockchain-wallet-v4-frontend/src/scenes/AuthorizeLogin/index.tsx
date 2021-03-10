@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 import { Wrapper } from 'components/Public'
 import { actions, model } from 'data'
+
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'

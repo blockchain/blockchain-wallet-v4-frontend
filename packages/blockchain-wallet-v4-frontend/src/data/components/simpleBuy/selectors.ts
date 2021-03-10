@@ -1,4 +1,7 @@
 import BigNumber from 'bignumber.js'
+import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/validation'
+import { head, isEmpty, lift } from 'ramda'
+
 import {
   ExtractSuccess,
   FiatType,
@@ -6,11 +9,9 @@ import {
   SBPaymentMethodType,
   SBPaymentTypes
 } from 'blockchain-wallet-v4/src/types'
-import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/validation'
-import { head, isEmpty, lift } from 'ramda'
-
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+
 import {
   convertBaseToStandard,
   convertStandardToBase

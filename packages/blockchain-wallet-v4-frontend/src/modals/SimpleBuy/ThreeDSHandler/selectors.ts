@@ -1,7 +1,7 @@
-import { Remote } from 'blockchain-wallet-v4/src'
-import { WalletOptionsType } from 'blockchain-wallet-v4/src/types'
 import { lift } from 'ramda'
 
+import { Remote } from 'blockchain-wallet-v4/src'
+import { WalletOptionsType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

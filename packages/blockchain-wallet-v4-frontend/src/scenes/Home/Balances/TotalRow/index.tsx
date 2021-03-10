@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+
 import { Text } from 'blockchain-info-components'
 import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
-
 import { RootState } from 'data/rootReducer'
+
 import { getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'

@@ -1,16 +1,17 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+
 import {
   BankTransferAccountType,
   ExtractSuccess,
   RemoteDataType,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
-import { bindActionCreators, Dispatch } from 'redux'
-
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { AddBankStepType, BrokerageModalOriginType } from 'data/types'
+
 import { getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'

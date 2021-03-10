@@ -1,6 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { find, isEmpty, isNil, propEq, propOr } from 'ramda'
+import { InjectedFormProps, reduxForm } from 'redux-form'
+import styled, { DefaultTheme } from 'styled-components'
+
 import {
   Badge,
   Button,
@@ -15,12 +19,9 @@ import {
   SupportedWalletCurrenciesType,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
-import { find, isEmpty, isNil, propEq, propOr } from 'ramda'
-import { InjectedFormProps, reduxForm } from 'redux-form'
-import styled, { DefaultTheme } from 'styled-components'
-
 import { GoalsType } from 'data/goals/types'
 import { media } from 'services/styles'
+
 import Header from './Header'
 import LinkExchangeAccount from './LinkExchangeAccount'
 import SignupForm from './SignupForm'

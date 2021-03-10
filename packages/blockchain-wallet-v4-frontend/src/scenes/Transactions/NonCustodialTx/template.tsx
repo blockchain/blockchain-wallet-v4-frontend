@@ -1,15 +1,16 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { prop } from 'ramda'
+import styled from 'styled-components'
+
 import {
   Banner,
   Text,
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { prop } from 'ramda'
-import styled from 'styled-components'
-
 import { media } from 'services/styles'
+
 import {
   Addresses,
   DetailsColumn,

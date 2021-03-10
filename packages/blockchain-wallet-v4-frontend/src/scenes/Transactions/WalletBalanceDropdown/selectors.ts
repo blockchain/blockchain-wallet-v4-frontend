@@ -1,11 +1,11 @@
+import { lift } from 'ramda'
+
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import {
   // CoinType,
   ExtractSuccess,
   FiatType
 } from 'blockchain-wallet-v4/src/types'
-import { lift } from 'ramda'
-
 import * as balanceSelectors from 'components/Balances/wallet/selectors'
 import { getData as getAlgoAddressData } from 'components/Form/SelectBoxAlgoAddresses/selectors'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
@@ -16,6 +16,7 @@ import {
 } from 'components/Form/SelectBoxEthAddresses/selectors'
 import { getData as getXlmAddressData } from 'components/Form/SelectBoxXlmAddresses/selectors'
 import { selectors } from 'data'
+
 // import { ALL_ACCOUNTS_SELECTOR } from 'data/coins/model/all'
 // import { getCoinAccounts } from 'data/coins/selectors/index'
 // import { CoinAccountSelectorType } from 'data/coins/types'

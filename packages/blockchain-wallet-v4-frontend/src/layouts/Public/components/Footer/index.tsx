@@ -1,7 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Link } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { Link } from 'blockchain-info-components'
 
 const VersionWrapper = styled.span`
   margin-top: 4px;

@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Badge, Button, Text } from 'blockchain-info-components'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import { Badge, Button, Text } from 'blockchain-info-components'
 import {
   SettingComponent,
   SettingContainer,

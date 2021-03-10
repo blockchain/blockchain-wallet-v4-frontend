@@ -1,7 +1,7 @@
 import React from 'react'
-import { WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import PropTypes from 'prop-types'
 
+import { WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 

@@ -1,6 +1,7 @@
 import React from 'react'
-import { Exchange } from 'blockchain-wallet-v4/src'
 import { prop } from 'ramda'
+
+import { Exchange } from 'blockchain-wallet-v4/src'
 
 import {
   InsufficientFundsMessage,

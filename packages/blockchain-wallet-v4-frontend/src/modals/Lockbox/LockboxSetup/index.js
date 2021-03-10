@@ -6,6 +6,7 @@ import { bindActionCreators, compose } from 'redux'
 
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import AppManagerStep from './AppManagerStep'
 import ConnectDeviceStep from './ConnectDeviceStep'
 import CustomizeStep from './CustomizeStep'

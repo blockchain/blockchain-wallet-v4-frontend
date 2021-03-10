@@ -1,4 +1,3 @@
-import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import {
   any,
   complement,
@@ -21,8 +20,10 @@ import {
   propEq
 } from 'ramda'
 
+import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+
 import { KYC_STATES, TIERS_STATES, USER_ACTIVATION_STATES } from './model'
 import { UserDataType } from './types'
 

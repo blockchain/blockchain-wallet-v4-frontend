@@ -1,11 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
 import { filter } from 'ramda'
 import styled from 'styled-components'
 
+import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import { spacing } from 'services/styles'
+
 import AddressRow from '../../components/AddressRow'
 
 const Wrapper = styled.section`

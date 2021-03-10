@@ -15,7 +15,7 @@ class SelectBoxCountry extends React.PureComponent {
     blackList: null
   }
 
-  render () {
+  render() {
     const { blackList, whiteList, ...rest } = this.props
     const elements = [
       { group: '', items: applyWhiteBlackList(whiteList, blackList)(countries) }

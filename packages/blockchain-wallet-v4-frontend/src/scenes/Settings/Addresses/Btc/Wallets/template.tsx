@@ -1,6 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { filter, take } from 'ramda'
+import styled from 'styled-components'
+
 import {
   Banner,
   Button,
@@ -11,9 +14,6 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import { filter, take } from 'ramda'
-import styled from 'styled-components'
-
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import { media } from 'services/styles'

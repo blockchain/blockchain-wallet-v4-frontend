@@ -1,4 +1,6 @@
 import React from 'react'
+import styled from 'styled-components'
+
 import { Text } from 'blockchain-info-components'
 import {
   LoanType,
@@ -6,8 +8,6 @@ import {
   RatesType,
   SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
-import styled from 'styled-components'
-
 import { model } from 'data'
 
 const Bar = styled.div`

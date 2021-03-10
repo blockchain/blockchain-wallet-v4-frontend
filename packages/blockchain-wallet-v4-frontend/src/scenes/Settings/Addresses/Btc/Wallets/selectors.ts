@@ -1,6 +1,6 @@
-import { Types } from 'blockchain-wallet-v4/src'
 import { map, pathOr } from 'ramda'
 
+import { Types } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
 const getDefaultIdx = state =>

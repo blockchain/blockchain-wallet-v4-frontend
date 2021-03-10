@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+
 import ShowXpubs from './template'
 
 class ShowXPubsContainer extends React.PureComponent {

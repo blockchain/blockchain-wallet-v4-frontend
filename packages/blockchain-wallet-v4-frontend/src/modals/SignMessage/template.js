@@ -1,5 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+
 import {
   Modal,
   ModalBody,
@@ -7,7 +9,6 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import PropTypes from 'prop-types'
 
 const SignMessage = props => (
   <Modal size='medium' position={props.position} total={props.total}>

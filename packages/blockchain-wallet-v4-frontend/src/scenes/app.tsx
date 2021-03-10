@@ -14,6 +14,7 @@ import AnalyticsTracker from 'providers/AnalyticsTracker'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
+
 import PublicLoading from './loading.public'
 import WalletLoading from './loading.wallet'
 

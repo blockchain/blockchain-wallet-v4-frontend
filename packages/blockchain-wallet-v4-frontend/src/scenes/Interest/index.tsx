@@ -2,6 +2,9 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
+import { bindActionCreators, Dispatch } from 'redux'
+import styled from 'styled-components'
+
 import {
   SkeletonRectangle,
   TabMenu,
@@ -15,13 +18,11 @@ import {
   RemoteDataType,
   SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
-import { bindActionCreators, Dispatch } from 'redux'
-import styled from 'styled-components'
-
 import { Container } from 'components/Box'
 import { SceneWrapper } from 'components/Layout'
 import { actions } from 'data'
 import { UserDataType } from 'data/types'
+
 import IneligibilityCard from './IneligibilityCard'
 import IntroCard from './IntroCard'
 import { getData } from './selectors'

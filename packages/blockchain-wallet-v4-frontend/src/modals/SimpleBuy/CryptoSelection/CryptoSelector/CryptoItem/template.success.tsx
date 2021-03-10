@@ -1,11 +1,12 @@
 import React from 'react'
-import { Icon } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import styled from 'styled-components'
 
+import { Icon } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { Title, Value } from 'components/Flyout'
 import { DisplayContainer } from 'components/SimpleBuy'
 import { media } from 'services/styles'
+
 import PriceMovement from '../PriceMovement'
 import {
   OwnProps as ParentOwnProps,

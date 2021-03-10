@@ -1,7 +1,7 @@
 import React from 'react'
-import { Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Text } from 'blockchain-info-components'
 import { CreatableInputField, SelectBox } from 'components/Form'
 
 const ItemWrapper = styled.div`

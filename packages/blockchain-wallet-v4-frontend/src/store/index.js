@@ -1,13 +1,5 @@
 import BitcoinCash from 'bitcoinforksjs-lib'
 import Bitcoin from 'bitcoinjs-lib'
-import { coreMiddleware } from 'blockchain-wallet-v4/src'
-import {
-  ApiSocket,
-  createWalletApi,
-  HorizonStreamingService,
-  Socket
-} from 'blockchain-wallet-v4/src/network/index.ts'
-import { serializer } from 'blockchain-wallet-v4/src/types'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { createHashHistory } from 'history'
 import { applyMiddleware, compose, createStore } from 'redux'
@@ -16,7 +8,16 @@ import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStat
 import storage from 'redux-persist/lib/storage'
 import createSagaMiddleware from 'redux-saga'
 
+import { coreMiddleware } from 'blockchain-wallet-v4/src'
+import {
+  ApiSocket,
+  createWalletApi,
+  HorizonStreamingService,
+  Socket
+} from 'blockchain-wallet-v4/src/network/index.ts'
+import { serializer } from 'blockchain-wallet-v4/src/types'
 import { actions, rootReducer, rootSaga, selectors } from 'data'
+
 import {
   autoDisconnection,
   matomoMiddleware,

@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Icon, Text } from 'blockchain-info-components'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import { Icon, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { media } from 'services/styles'
 

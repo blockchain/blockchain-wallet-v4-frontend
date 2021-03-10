@@ -1,5 +1,7 @@
 import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled, { css } from 'styled-components'
+
 import { Icon } from 'blockchain-info-components'
 import {
   BankDetails,
@@ -7,8 +9,6 @@ import {
   FiatType,
   NabuMoneyFloatType
 } from 'blockchain-wallet-v4/src/types'
-import styled, { css } from 'styled-components'
-
 import {
   GreyCartridge,
   OrangeCartridge,

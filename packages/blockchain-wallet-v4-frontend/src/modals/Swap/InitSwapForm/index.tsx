@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { compose } from 'redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListBalance } from 'components/Form'
 import { selectors } from 'data'
@@ -16,6 +16,7 @@ import {
   SwapCoinType
 } from 'data/components/swap/types'
 import checkAccountZeroBalance from 'services/CheckAccountZeroBalance'
+
 import { Props as BaseProps, SuccessStateType } from '..'
 import {
   BalanceRow,

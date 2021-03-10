@@ -14,6 +14,7 @@ import {
 
 import { CoinType, RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
+
 import { createDeepEqualSelector } from '../../utils'
 import { getInvitations } from '../settings/selectors'
 import {

@@ -1,4 +1,5 @@
 import { CoinType, SBCoreActionTypes } from 'core/types'
+
 import * as AT from './actionTypes'
 
 export const setSBCoreCoinData = (

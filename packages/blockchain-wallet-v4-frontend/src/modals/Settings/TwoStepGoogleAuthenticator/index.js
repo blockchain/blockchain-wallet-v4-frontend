@@ -5,6 +5,7 @@ import { formValueSelector } from 'redux-form'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import TwoStepGoogleAuthenticator from './template.js'
 
 class TwoStepGoogleAuthenticatorContainer extends React.PureComponent {

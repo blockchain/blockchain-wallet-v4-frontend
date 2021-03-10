@@ -4,6 +4,7 @@ import {
   SBPaymentTypes,
   WalletFiatType
 } from 'core/types'
+
 import {
   BeneficiariesType,
   BeneficiaryType,

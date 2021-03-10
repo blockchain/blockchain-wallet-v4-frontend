@@ -1,17 +1,18 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { InjectedFormProps, reduxForm } from 'redux-form'
+
 import {
   CoinType,
   FiatType,
   SupportedWalletCurrenciesType,
   WalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
-import { bindActionCreators, compose } from 'redux'
-import { InjectedFormProps, reduxForm } from 'redux-form'
-
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import { ModalPropsType } from '../types'
 import RequestBuildLink from './BuildLink'
 import RequestCoinSelect from './CoinSelect'

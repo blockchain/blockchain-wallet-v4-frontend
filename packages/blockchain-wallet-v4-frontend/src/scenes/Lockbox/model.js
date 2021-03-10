@@ -1,7 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { Button, Text } from 'blockchain-info-components'
 
 const TooltipBody = styled.div`
   position: relative;

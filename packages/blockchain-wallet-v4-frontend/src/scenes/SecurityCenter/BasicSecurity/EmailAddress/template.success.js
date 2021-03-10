@@ -1,11 +1,12 @@
 /* stylelint-disable */
 import React from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { Button, Text } from 'blockchain-info-components'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { Button, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
+
 import {
   IconContainer,
   SecurityComponent,

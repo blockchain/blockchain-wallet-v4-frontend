@@ -1,6 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { path, toLower } from 'ramda'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+import { reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import {
   CoinType,
@@ -13,17 +18,13 @@ import {
   WalletFiatEnum,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
-import { path, toLower } from 'ramda'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import EmptyResults from 'components/EmptyResults'
 import { SceneWrapper } from 'components/Layout'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { actions, model } from 'data'
 import { getIntroductionText } from 'data/coins/selectors'
 import { media } from 'services/styles'
+
 import CoinIntroduction from './CoinIntroduction'
 import CoinPerformance from './CoinPerformance'
 import { getData } from './selectors'

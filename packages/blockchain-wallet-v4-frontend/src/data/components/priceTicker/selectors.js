@@ -1,5 +1,6 @@
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { includes, lift, toLower } from 'ramda'
+
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
 import * as selectors from '../../selectors'
 

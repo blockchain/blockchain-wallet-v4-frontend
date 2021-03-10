@@ -1,11 +1,11 @@
 import React from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { Button, Text, TextGroup } from 'blockchain-info-components'
 import Bowser from 'bowser'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import { Button, Text, TextGroup } from 'blockchain-info-components'
 import {
   SettingComponent,
   SettingContainer,

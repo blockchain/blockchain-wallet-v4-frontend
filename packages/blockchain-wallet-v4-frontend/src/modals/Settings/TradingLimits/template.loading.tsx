@@ -1,7 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { BlockchainLoader, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { BlockchainLoader, Text } from 'blockchain-info-components'
 
 interface Props {}
 

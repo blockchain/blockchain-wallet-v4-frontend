@@ -1,9 +1,9 @@
 /* stylelint-disable */
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Image, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Icon, Image, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
 const Choice = styled.div`

@@ -1,11 +1,12 @@
 import React from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FiatType } from 'blockchain-wallet-v4/src/types'
-import styled from 'styled-components'
-
 import { model } from 'data'
+
 import { percentageFormatter } from '../CollateralizationBar'
 import { Props } from '../template.success'
 

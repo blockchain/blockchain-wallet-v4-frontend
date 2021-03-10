@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import styled from 'styled-components'
+
 import { Text } from 'blockchain-info-components'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { CoinType } from 'blockchain-wallet-v4/src/types'
-import styled from 'styled-components'
-
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'
+
 import { getBalance } from './selectors'
 
 const Wrapper = styled.div`

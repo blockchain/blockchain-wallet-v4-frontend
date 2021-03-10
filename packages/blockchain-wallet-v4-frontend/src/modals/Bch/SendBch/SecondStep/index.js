@@ -3,13 +3,14 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class SecondStepContainer extends React.PureComponent {
-  render () {
+  render() {
     const { actions, data } = this.props
     return data.cata({
       Success: value => (

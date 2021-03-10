@@ -1,6 +1,7 @@
 import { prop } from 'ramda'
 
 import { RemoteDataType } from 'core/types'
+
 import { settingsPath } from '../paths'
 import { InvitationsType } from '.'
 

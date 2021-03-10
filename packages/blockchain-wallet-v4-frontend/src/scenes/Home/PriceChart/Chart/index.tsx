@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { PriceChangeTimeRangeType } from 'blockchain-wallet-v4/src/types'
 import { pathOr, toUpper } from 'ramda'
 import { bindActionCreators } from 'redux'
 
+import { PriceChangeTimeRangeType } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
+
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'

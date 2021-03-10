@@ -7,6 +7,7 @@ import {
   WalletCurrencyType,
   WalletFiatType
 } from 'core/types'
+
 import Currencies, { CurrenciesType } from './currencies'
 import * as Currency from './currency'
 import * as Pairs from './pairs'

@@ -1,10 +1,11 @@
-import { Types } from 'blockchain-wallet-v4/src'
-import * as signer from 'blockchain-wallet-v4/src/signer'
 import { call, put, select } from 'redux-saga/effects'
 
+import { Types } from 'blockchain-wallet-v4/src'
+import * as signer from 'blockchain-wallet-v4/src/signer'
 import { actions, selectors } from 'data'
 import * as C from 'services/alerts'
 import { promptForSecondPassword } from 'services/sagas'
+
 import * as A from './actions.js'
 
 const taskToPromise = t =>

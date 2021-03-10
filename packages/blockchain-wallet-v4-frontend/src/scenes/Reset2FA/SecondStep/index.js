@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import { actions, selectors } from 'data'
+
 import SecondStep from './template'
 
 class SecondStepContainer extends React.PureComponent {

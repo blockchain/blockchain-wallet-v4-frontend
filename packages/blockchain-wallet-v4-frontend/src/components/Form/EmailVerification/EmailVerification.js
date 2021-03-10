@@ -1,9 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
+
 import TextBox from '../TextBox'
 
 const Container = styled.div``
@@ -160,7 +161,7 @@ export default class EmailVerification extends React.PureComponent {
     this.props.onEdit()
   }
 
-  render () {
+  render() {
     const { changeEmail, sendVerification, updateEmail } = this
     const {
       className,

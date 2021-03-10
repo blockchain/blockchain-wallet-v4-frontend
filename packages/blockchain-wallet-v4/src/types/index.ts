@@ -2,6 +2,7 @@ import {
   Erc20CurrenciesType,
   FiatCurrenciesType
 } from 'core/exchange/currencies'
+
 import * as Address from './Address'
 import * as AddressBook from './AddressBook'
 import * as AddressBookEntry from './AddressBookEntry'

@@ -1,10 +1,10 @@
+import { mapObjIndexed } from 'ramda'
+
 import { DEFAULT_INVITATIONS } from 'blockchain-wallet-v4/src/model'
 import {
   SupportedWalletCurrenciesType,
   WalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
-import { mapObjIndexed } from 'ramda'
-
 import { selectors } from 'data'
 
 export const getData = state => {

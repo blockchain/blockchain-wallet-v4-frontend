@@ -1,12 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormGroup } from 'components/Form'
 import { SBAddCardErrorType } from 'data/types'
+
 import { Props as _P, SuccessStateType } from '.'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`

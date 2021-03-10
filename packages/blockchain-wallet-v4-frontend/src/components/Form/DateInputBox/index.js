@@ -1,11 +1,12 @@
 import React from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { Text } from 'blockchain-info-components'
 import moment from 'moment'
 import { replace } from 'ramda'
 import styled from 'styled-components'
 
+import { Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
+
 import NumberBox from '../NumberBox'
 import SelectBox from '../SelectBox'
 
@@ -180,7 +181,7 @@ class DateInputBox extends React.PureComponent {
       date: formatDate(e.target.value)
     })
 
-  render () {
+  render() {
     const {
       className,
       countryIsUS,

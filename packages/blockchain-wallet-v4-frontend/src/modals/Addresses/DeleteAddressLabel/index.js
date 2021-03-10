@@ -4,6 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import DeleteAddressLabel from './template'
 
 class DeleteAddressLabelContainer extends React.PureComponent {
@@ -18,7 +19,7 @@ class DeleteAddressLabelContainer extends React.PureComponent {
     this.props.close()
   }
 
-  render () {
+  render() {
     return (
       <DeleteAddressLabel
         {...this.props}

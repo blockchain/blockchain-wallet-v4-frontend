@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+
 import Logout from './template'
 
 class LogoutContainer extends React.PureComponent<Props, State> {

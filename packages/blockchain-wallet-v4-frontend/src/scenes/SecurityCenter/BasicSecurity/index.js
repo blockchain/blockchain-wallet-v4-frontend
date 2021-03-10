@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { actions, selectors } from 'data'
+
 import EmailAddress from './EmailAddress'
 import TwoStepVerification from './TwoStepVerification'
 import WalletRecoveryPhrase from './WalletRecoveryPhrase'

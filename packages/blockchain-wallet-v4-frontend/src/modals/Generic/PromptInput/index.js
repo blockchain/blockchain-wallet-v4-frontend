@@ -5,6 +5,7 @@ import { formValueSelector } from 'redux-form'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import PromptTemplate from './template.js'
 
 class PromptContainer extends React.PureComponent {
@@ -12,7 +13,7 @@ class PromptContainer extends React.PureComponent {
     this.props.actions.submitPromptInput(this.props.value)
   }
 
-  render () {
+  render() {
     return (
       <PromptTemplate
         {...this.props}

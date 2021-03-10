@@ -1,11 +1,12 @@
+import * as Redux from 'redux'
+import { persistStore } from 'redux-persist'
+
 import {
   ApiSocket,
   createWalletApi,
   Socket
 } from 'blockchain-wallet-v4/src/network'
 import * as coreMiddleware from 'blockchain-wallet-v4/src/redux/middleware'
-import * as Redux from 'redux'
-import { persistStore } from 'redux-persist'
 
 import * as Middleware from '../middleware'
 import configureStore from './index'

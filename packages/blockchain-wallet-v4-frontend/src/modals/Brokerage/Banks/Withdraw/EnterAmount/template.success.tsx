@@ -1,5 +1,9 @@
 import React, { ReactChild } from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { isEmpty } from 'ramda'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
@@ -8,16 +12,13 @@ import {
   BeneficiaryType,
   NabuMoneyFloatType
 } from 'blockchain-wallet-v4/src/types'
-import { isEmpty } from 'ramda'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
+
 import { Row } from '../../components'
 import { DepositOrWithdrawal, normalizeAmount } from '../../model'
 import { Props as OwnProps, SuccessStateType } from '.'

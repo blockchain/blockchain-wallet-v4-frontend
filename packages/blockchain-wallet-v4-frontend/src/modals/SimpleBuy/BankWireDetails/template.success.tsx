@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import {
   Icon,
   Link,
@@ -11,8 +13,6 @@ import {
 import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { AgentType } from 'blockchain-wallet-v4/src/types'
-import styled from 'styled-components'
-
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import {
@@ -20,6 +20,7 @@ import {
   DisplaySubTitle,
   DisplayTitle
 } from 'components/SimpleBuy'
+
 import { Props as OwnProps, SuccessStateType } from '.'
 import { TransferType } from './types'
 

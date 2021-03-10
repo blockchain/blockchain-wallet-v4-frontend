@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import ReactHighcharts from 'react-highcharts'
-import { calculateStart } from 'blockchain-wallet-v4/src/redux/data/misc/model'
 import styled from 'styled-components'
 
+import { calculateStart } from 'blockchain-wallet-v4/src/redux/data/misc/model'
 import { calculateInterval } from 'services/charts'
 import { media } from 'services/styles'
+
 import { getConfig } from './model'
 
 const Wrapper = styled.div`

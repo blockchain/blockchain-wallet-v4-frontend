@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import moment from 'moment'
 import styled from 'styled-components'
 
+import { Icon, Text } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import {
   getCoinFromPair,
@@ -12,6 +12,7 @@ import {
   getSellBaseAmount,
   getSellCounterAmount
 } from 'data/components/simpleBuy/model'
+
 import { BuyOrSell } from '../model'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { Status } from './model'

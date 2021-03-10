@@ -1,15 +1,16 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import styled from 'styled-components'
+
 import { Icon, Link, Text } from 'blockchain-info-components'
 import {
   InterestEligibleType,
   RemoteDataType
 } from 'blockchain-wallet-v4/src/types'
-import { bindActionCreators } from 'redux'
-import styled from 'styled-components'
-
 import { actions, selectors } from 'data'
+
 import { SuccessStateType } from '..'
 
 const AbsoluteWarning = styled(Text)`

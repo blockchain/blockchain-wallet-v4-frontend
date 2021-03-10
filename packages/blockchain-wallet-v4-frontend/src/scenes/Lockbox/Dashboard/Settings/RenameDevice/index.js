@@ -5,6 +5,7 @@ import { formValueSelector, SubmissionError } from 'redux-form'
 
 import { actions, selectors } from 'data'
 import { requireUniqueDeviceName } from 'services/forms'
+
 import RenameDevice from './template'
 
 class RenameDeviceContainer extends React.PureComponent {

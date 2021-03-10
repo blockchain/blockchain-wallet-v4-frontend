@@ -1,15 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { APIType } from 'blockchain-wallet-v4/src/network/api'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { EthAccountFromType } from 'blockchain-wallet-v4/src/redux/payment/eth/types'
-import {
-  Erc20CoinType,
-  Erc20ListEnum,
-  EthPaymentType
-} from 'blockchain-wallet-v4/src/types'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
 import EthereumAbi from 'ethereumjs-abi'
 import EthUtil from 'ethereumjs-util'
 import {
@@ -32,11 +21,23 @@ import {
 } from 'redux-form'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { EthAccountFromType } from 'blockchain-wallet-v4/src/redux/payment/eth/types'
+import {
+  Erc20CoinType,
+  Erc20ListEnum,
+  EthPaymentType
+} from 'blockchain-wallet-v4/src/types'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ModalNamesType } from 'data/modals/types'
 import * as C from 'services/alerts'
 import * as Lockbox from 'services/lockbox'
 import { promptForSecondPassword } from 'services/sagas'
+
 import sendSagas from '../send/sagas'
 import * as A from './actions'
 import * as AT from './actionTypes'

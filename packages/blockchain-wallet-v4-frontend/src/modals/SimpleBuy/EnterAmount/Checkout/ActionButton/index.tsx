@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 
 import { Props as OwnProps, SuccessStateType } from '..'

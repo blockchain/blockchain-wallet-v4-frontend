@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Text } from 'blockchain-info-components'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

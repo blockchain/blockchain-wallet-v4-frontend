@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { CoinType, ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { includes, toLower } from 'ramda'
 import { bindActionCreators } from 'redux'
 
+import { CoinType, ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
+
 import { LoadingBalance } from '../../model'
 import { getData } from './selectors'
 import Error from './template.error'
@@ -21,7 +22,7 @@ class Balance extends React.PureComponent<Props> {
     }
   }
 
-  render () {
+  render() {
     const { coin, coinTicker, data, large } = this.props
 
     return data.cata({

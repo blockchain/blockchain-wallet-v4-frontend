@@ -1,8 +1,8 @@
-import { DEFAULT_INVITATIONS } from 'blockchain-wallet-v4/src/model'
-import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
 import { path, propOr, toUpper } from 'ramda'
 import { createSelector } from 'reselect'
 
+import { DEFAULT_INVITATIONS } from 'blockchain-wallet-v4/src/model'
+import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
 export const getData = createSelector(

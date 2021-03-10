@@ -1,11 +1,12 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { CoinTypeEnum } from 'blockchain-wallet-v4/src/types'
 import { includes, keys } from 'ramda'
 import { bindActionCreators } from 'redux'
 
+import { CoinTypeEnum } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
 import { ModalNamesType } from 'data/types'
+
 import { getData } from './selectors'
 import Features from './template'
 
@@ -50,7 +51,7 @@ class FeaturesContainer extends React.PureComponent<Props> {
     )
   }
 
-  render () {
+  render() {
     return <Features showModal={this.showModal} {...this.props} />
   }
 }

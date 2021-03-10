@@ -1,5 +1,6 @@
-import { CoinType, CoinTypeEnum } from 'blockchain-wallet-v4/src/types'
 import { nth, path, split, toUpper } from 'ramda'
+
+import { CoinType, CoinTypeEnum } from 'blockchain-wallet-v4/src/types'
 
 export const getPathname = path(['router', 'location', 'pathname'])
 export const getSearch = path(['router', 'location', 'search'])

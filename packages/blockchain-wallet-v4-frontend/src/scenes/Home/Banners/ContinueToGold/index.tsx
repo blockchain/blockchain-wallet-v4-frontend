@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Button, Image, Text } from 'blockchain-info-components'
 import { Dispatch } from 'redux'
 import styled from 'styled-components'
 
+import { Button, Image, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { media } from 'services/styles'
 

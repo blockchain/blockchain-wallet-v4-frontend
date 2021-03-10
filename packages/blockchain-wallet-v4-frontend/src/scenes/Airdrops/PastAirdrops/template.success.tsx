@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { BigNumber } from 'bignumber.js'
+
 import {
   Table,
   TableCell,

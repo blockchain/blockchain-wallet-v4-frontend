@@ -1,6 +1,6 @@
-import { Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 
 export const Wrapper = styled.div`

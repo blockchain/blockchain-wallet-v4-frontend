@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import BigNumber from 'bignumber.js'
+import { bindActionCreators, Dispatch } from 'redux'
+
 import { Remote } from 'blockchain-wallet-v4/src'
 import {
   ExtractSuccess,
@@ -10,8 +12,6 @@ import {
   SupportedWalletCurrenciesType,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
-import { bindActionCreators, Dispatch } from 'redux'
-
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { getFiatFromPair, getOrderType } from 'data/components/simpleBuy/model'
@@ -21,6 +21,7 @@ import {
   BrokerageModalOriginType,
   UserDataType
 } from 'data/types'
+
 import Loading from '../template.loading'
 import { getData } from './selectors'
 import Success from './template.success'

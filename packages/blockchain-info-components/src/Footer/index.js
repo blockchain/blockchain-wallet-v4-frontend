@@ -214,7 +214,7 @@ let langItems = Object.keys(supportedLanguages).map(langKey => {
 })
 
 class Footer extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.cookies = new Cookies()
 
@@ -229,7 +229,7 @@ class Footer extends PureComponent {
     this.handleDropdown = this.handleDropdown.bind(this)
   }
 
-  handleDropdown (value) {
+  handleDropdown(value) {
     if (value === 'en') {
       this.cookies.remove('clang', { path: '/' })
     } else {
@@ -253,7 +253,7 @@ class Footer extends PureComponent {
     }, 1)
   }
 
-  render () {
+  render() {
     return (
       <IntlProvider>
         <GlobalFooter>

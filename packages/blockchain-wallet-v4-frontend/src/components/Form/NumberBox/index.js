@@ -1,6 +1,7 @@
 import React from 'react'
-import { Icon, NumberInput, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { Icon, NumberInput, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;

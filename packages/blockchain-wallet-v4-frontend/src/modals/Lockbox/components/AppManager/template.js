@@ -1,5 +1,8 @@
 import React from 'react'
 import { FormattedHTMLMessage } from 'react-intl'
+import { equals, prop } from 'ramda'
+import styled from 'styled-components'
+
 import {
   Banner,
   Button,
@@ -7,8 +10,6 @@ import {
   Icon,
   Text
 } from 'blockchain-info-components'
-import { equals, prop } from 'ramda'
-import styled from 'styled-components'
 
 const Row = styled.div`
   width: 100%;
@@ -84,7 +85,7 @@ const NameContainer = styled.div`
 `
 
 class CoinActions extends React.PureComponent {
-  render () {
+  render() {
     const { coinState, disableUpdates, installApp, uninstallApp } = this.props
     switch (prop('status', coinState)) {
       case 'Updating':

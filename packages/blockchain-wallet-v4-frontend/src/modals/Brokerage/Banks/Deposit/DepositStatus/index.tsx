@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators, Dispatch } from 'redux'
 import { getFormValues } from 'redux-form'
 
+import { Remote } from 'blockchain-wallet-v4/src'
+import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+
 import Loading from '../DepositMethods/template.loading'
 import Failure from '../template.failure'
 import { getData } from './selectors'

@@ -4,10 +4,11 @@ import { withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+
 import Header from './template'
 
 class HeaderContainer extends React.PureComponent<Props> {
-  render () {
+  render() {
     return (
       <Header
         handleToggle={() => this.props.actions.layoutWalletMenuToggleClicked()}

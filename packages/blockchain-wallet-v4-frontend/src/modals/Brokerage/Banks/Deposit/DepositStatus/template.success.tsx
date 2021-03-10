@@ -1,11 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FiatType } from 'blockchain-wallet-v4/src/types'
-import styled from 'styled-components'
-
 import { FlyoutWrapper } from 'components/Flyout'
+
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const CloseContainer = styled.div`

@@ -1,5 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import Bowser from 'bowser'
+import styled from 'styled-components'
+
 import {
   Banner,
   Button,
@@ -8,9 +11,6 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
-import Bowser from 'bowser'
-import styled from 'styled-components'
-
 import { model } from 'data'
 import { media } from 'services/styles'
 

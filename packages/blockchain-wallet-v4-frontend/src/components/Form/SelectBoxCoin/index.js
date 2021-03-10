@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Icon, Text } from 'blockchain-info-components'
 import { pathOr } from 'ramda'
 import styled from 'styled-components'
 
+import { Icon, Text } from 'blockchain-info-components'
 import { selectors } from 'data'
+
 import SelectBox from '../SelectBox'
 import { getCoins } from './selectors'
 
@@ -64,7 +65,7 @@ class SelectBoxCoin extends React.PureComponent {
       </HeaderWrapper>
     )
   }
-  render () {
+  render() {
     const {
       additionalOptions = [],
       coins,

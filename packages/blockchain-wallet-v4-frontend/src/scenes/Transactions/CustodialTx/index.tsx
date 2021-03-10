@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+
 import { Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
@@ -8,10 +9,10 @@ import {
   FiatSBAndSwapTransactionType,
   SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
-
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'
+
 import {
   Addresses,
   Col,

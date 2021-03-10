@@ -1,5 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import Bowser from 'bowser'
+import PropTypes from 'prop-types'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Banner,
   Button,
@@ -9,11 +14,6 @@ import {
   TooltipIcon
 } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
-import Bowser from 'bowser'
-import PropTypes from 'prop-types'
-import { Field, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import ComboDisplay from 'components/Display/ComboDisplay'
 import {
   Form,
@@ -31,6 +31,7 @@ import ExchangePromo from 'components/Send/ExchangePromo'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import { model } from 'data'
 import { required, validXlmAddress } from 'services/forms'
+
 import { ErrorBanner } from './ErrorBanner'
 import { InfoBanner } from './InfoBanner'
 import { NoAccountTemplate } from './NoAccountTemplate'

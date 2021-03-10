@@ -1,5 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled, { DefaultTheme } from 'styled-components'
+
 import {
   Icon,
   Text,
@@ -7,11 +9,10 @@ import {
   TooltipIcon
 } from 'blockchain-info-components'
 import { OfferType } from 'blockchain-wallet-v4/src/types'
-import styled, { DefaultTheme } from 'styled-components'
-
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { model } from 'data'
+
 import CollateralizationBar from '../CollateralizationBar'
 import CollateralWarning from '../CollateralWarning'
 import { Props } from '../template.success'

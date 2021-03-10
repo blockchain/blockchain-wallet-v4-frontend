@@ -5,6 +5,7 @@ import {
   PriceChangeTimeRangeType,
   PriceMovementDirType
 } from 'core/types'
+
 import * as AT from './actionTypes'
 
 // FETCH_CAPTCHA

@@ -1,7 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button, Icon, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { Button, Icon, Text } from 'blockchain-info-components'
 
 const ContentWrapper = styled.div`
   height: 19.5rem;

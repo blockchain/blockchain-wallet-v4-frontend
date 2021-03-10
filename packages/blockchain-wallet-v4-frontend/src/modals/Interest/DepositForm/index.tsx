@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators, Dispatch } from 'redux'
 
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -12,7 +12,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class DepositForm extends PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.handleInitializeDepositForm()
   }
 
@@ -51,7 +51,7 @@ class DepositForm extends PureComponent<Props> {
     interestActions.submitDepositForm(coin)
   }
 
-  render () {
+  render() {
     const { currency, data } = this.props
 
     const walletCurrency = currency.getOrElse('GBP' as CurrencySuccessStateType)

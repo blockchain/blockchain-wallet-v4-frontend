@@ -1,5 +1,6 @@
-import { Remote } from 'blockchain-wallet-v4/src'
 import { assoc } from 'ramda'
+
+import { Remote } from 'blockchain-wallet-v4/src'
 
 import * as AT from './actionTypes'
 import { SendEthState } from './types'
@@ -11,7 +12,7 @@ const INITIAL_STATE: SendEthState = {
   feeToggled: false
 }
 
-export function sendEthReducer (state = INITIAL_STATE, action) {
+export function sendEthReducer(state = INITIAL_STATE, action) {
   const { payload, type } = action
 
   switch (type) {

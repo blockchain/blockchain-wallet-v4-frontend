@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { actions } from 'data'
+
 import Template from './template'
 
 export type LinkDispatchPropsType = {

@@ -1,5 +1,6 @@
-import { Text } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { Text } from 'blockchain-info-components'
 
 export const REQUEST_FORM = 'requestCrypto'
 

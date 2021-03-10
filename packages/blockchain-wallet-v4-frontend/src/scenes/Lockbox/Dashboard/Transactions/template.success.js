@@ -1,12 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { HeartbeatLoader, Text } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
 import { compose, length, prop, reverse, sortBy } from 'ramda'
 import styled from 'styled-components'
 
+import { HeartbeatLoader, Text } from 'blockchain-info-components'
 import EmptyResults from 'components/EmptyResults'
 import LazyLoadContainer from 'components/LazyLoadContainer'
+
 import NonCustodialTxItem from '../../../Transactions/NonCustodialTx'
 
 const LazyLoadWrapper = styled(LazyLoadContainer)`

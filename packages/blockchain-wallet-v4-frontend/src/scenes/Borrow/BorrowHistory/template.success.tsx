@@ -1,5 +1,9 @@
 import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
+import CollateralizationBar from 'blockchain-wallet-v4-frontend/src/modals/Borrow/BorrowDetails/CollateralizationBar'
+import moment from 'moment'
+import styled from 'styled-components'
+
 import {
   Link,
   Table,
@@ -9,11 +13,8 @@ import {
   Text
 } from 'blockchain-info-components'
 import { LoanType, OfferType } from 'blockchain-wallet-v4/src/types'
-import CollateralizationBar from 'blockchain-wallet-v4-frontend/src/modals/Borrow/BorrowDetails/CollateralizationBar'
-import moment from 'moment'
-import styled from 'styled-components'
-
 import CoinDisplay from 'components/Display/CoinDisplay'
+
 import { SuccessStateType } from '.'
 import { CollateralAmt, Status, Value } from './model'
 

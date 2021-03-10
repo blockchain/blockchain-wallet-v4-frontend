@@ -6,6 +6,7 @@ import { bindActionCreators, compose } from 'redux'
 
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import CheckVersionsStep from './CheckVersionsStep'
 import CompleteStep from './CompleteStep'
 import ConnectDeviceStep from './ConnectDeviceStep'
@@ -14,11 +15,11 @@ import FirmwareContainer from './template'
 import UninstallAppsStep from './UninstallAppsStep'
 
 class LockboxFirmwareContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.lockboxActions.updateDeviceFirmware(this.props.deviceIndex)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.lockboxActions.resetConnectionStatus()
     this.props.lockboxActions.changeFirmwareUpdateStep({
       step: 'connect-device'
@@ -30,7 +31,7 @@ class LockboxFirmwareContainer extends React.PureComponent {
     this.props.closeAll()
   }
 
-  render () {
+  render() {
     const { currentStep, deviceIndex, position, total } = this.props
     const steps = {
       'connect-device': 1,

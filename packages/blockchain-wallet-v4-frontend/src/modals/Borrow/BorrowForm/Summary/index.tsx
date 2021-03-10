@@ -1,5 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import {
   coinToString,
@@ -7,9 +9,8 @@ import {
   formatFiat
 } from 'blockchain-wallet-v4/src/exchange/currency'
 import { OfferType, RatesType } from 'blockchain-wallet-v4/src/types'
-import styled from 'styled-components'
-
 import { BorrowFormValuesType } from 'data/types'
+
 import { TableRow, Title, Value } from '../../components'
 
 type Props = {

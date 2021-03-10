@@ -1,5 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { filter, path, take } from 'ramda'
+import styled from 'styled-components'
+
 import {
   Banner,
   ComponentDropdown,
@@ -9,12 +12,10 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import { filter, path, take } from 'ramda'
-import styled from 'styled-components'
-
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import { media } from 'services/styles'
+
 import { Table } from '../../components'
 
 const Wrapper = styled.section`

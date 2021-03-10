@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { SwapOrderType } from 'blockchain-wallet-v4/src/types'
 
+import { SwapOrderType } from 'blockchain-wallet-v4/src/types'
 import {
   ErrorCartridge,
   GreyCartridge,

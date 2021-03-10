@@ -1,6 +1,6 @@
-import { SBOrderType } from 'blockchain-wallet-v4/src/types'
 import { anyPass, equals } from 'ramda'
 
+import { SBOrderType } from 'blockchain-wallet-v4/src/types'
 import { model, selectors } from 'data'
 import { UserDataType } from 'data/types'
 

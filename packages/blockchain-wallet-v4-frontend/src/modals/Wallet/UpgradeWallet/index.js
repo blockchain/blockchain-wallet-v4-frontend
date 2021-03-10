@@ -4,6 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import UpgradeWallet from './template.js'
 
 class UpgradeWizardContainer extends React.PureComponent {

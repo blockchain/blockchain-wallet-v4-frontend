@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { BigNumber } from 'bignumber.js'
-import { Button, Link, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Button, Link, Text } from 'blockchain-info-components'
 import {
   BlueCartridge,
   CustomCartridge,
@@ -13,6 +13,7 @@ import {
 } from 'components/Cartridge'
 import { model } from 'data'
 import { CampaignInfoType } from 'data/types'
+
 import { Props } from '../template.success'
 
 const { KYC_STATES } = model.profile

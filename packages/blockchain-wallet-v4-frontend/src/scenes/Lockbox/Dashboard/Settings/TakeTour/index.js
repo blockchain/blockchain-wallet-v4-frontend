@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { Button } from 'blockchain-info-components'
 import { bindActionCreators } from 'redux'
 
+import { Button } from 'blockchain-info-components'
 import {
   SettingComponent,
   SettingContainer,

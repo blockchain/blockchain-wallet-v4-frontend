@@ -1,5 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import moment from 'moment'
+import { pathOr } from 'ramda'
+
 import {
   Button,
   Icon,
@@ -8,13 +11,11 @@ import {
   TooltipIcon
 } from 'blockchain-info-components'
 import { CoinType } from 'blockchain-wallet-v4/src/types'
-import moment from 'moment'
-import { pathOr } from 'ramda'
-
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { InterestStepMetadata } from 'data/types'
-import { DataSuccessStateType,LinkDispatchPropsType, OwnProps } from '.'
+
+import { DataSuccessStateType, LinkDispatchPropsType, OwnProps } from '.'
 import {
   Bottom,
   ButtonContainer,

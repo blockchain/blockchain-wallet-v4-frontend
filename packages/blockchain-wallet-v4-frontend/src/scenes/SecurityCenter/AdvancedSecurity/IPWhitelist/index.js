@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import { actions, selectors } from 'data'
+
 import IPWhitelist from './template'
 
 class IPWhitelistContainer extends React.PureComponent {

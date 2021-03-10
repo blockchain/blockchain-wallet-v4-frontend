@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { media } from 'services/styles'
+
 import QrCodeAddressInfo from '../QrCodeAddressInfo'
 import ViewKeys from '../ViewKeys'
 import { AddressType } from './.'

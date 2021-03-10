@@ -5,6 +5,7 @@ import { formValueSelector } from 'redux-form'
 
 import { actions, model } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import EditTxDescription from './template'
 
 const { TRANSACTION_EVENTS } = model.analytics

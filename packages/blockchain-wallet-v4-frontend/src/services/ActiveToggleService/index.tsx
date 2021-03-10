@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react'
+
 import { Icon, Image } from 'blockchain-info-components'
 
 type Props = { isActive: boolean }

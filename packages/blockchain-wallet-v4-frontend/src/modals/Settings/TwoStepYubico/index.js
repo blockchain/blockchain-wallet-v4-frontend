@@ -5,6 +5,7 @@ import { formValueSelector } from 'redux-form'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import TwoStepYubico from './template.js'
 
 class TwoStepYubicoContainer extends React.PureComponent {

@@ -1,9 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { ComponentDropdown, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { ComponentDropdown, Text } from 'blockchain-info-components'
 import { media, useMedia } from 'services/styles'
+
 import CurrencySwitch from './CurrencySwitch'
 import LockboxBalance from './LockboxBalance'
 import TotalBalance from './TotalBalance'

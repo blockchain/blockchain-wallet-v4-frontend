@@ -4,6 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import LinkToExchangeAccountError from './template.error'
 import LinkToExchangeAccountLoading from './template.loading'
 import LinkToExchangeAccountNotAsked from './template.notasked'

@@ -1,10 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Banner, Text } from 'blockchain-info-components'
 import Bowser from 'bowser'
 import styled from 'styled-components'
 
+import { Banner, Text } from 'blockchain-info-components'
 import { model } from 'data'
+
 import AddDevice from './AddDevice'
 import DownloadUpdater from './DownloadUpdater'
 import RemoveDevice from './RemoveDevice'

@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import moment from 'moment'
+import { defaultTo, filter, path } from 'ramda'
+import { InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Button,
   CheckBoxInput,
@@ -12,11 +17,6 @@ import {
   BankTransferAccountType,
   SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
-import moment from 'moment'
-import { defaultTo, filter, path } from 'ramda'
-import { InjectedFormProps, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { Form } from 'components/Form'
@@ -28,6 +28,7 @@ import {
   getOrderType,
   getPaymentMethodId
 } from 'data/components/simpleBuy/model'
+
 import { displayFiat, getPaymentMethod } from '../model'
 import { Props as OwnProps, SuccessStateType } from '.'
 

@@ -1,14 +1,15 @@
 import React from 'react'
 import ReactHighcharts from 'react-highcharts'
+import styled from 'styled-components'
+
 import { calculateStart } from 'blockchain-wallet-v4/src/redux/data/misc/model'
 import {
   CoinType,
   FiatType,
   PriceChangeTimeRangeType
 } from 'blockchain-wallet-v4/src/types'
-import styled from 'styled-components'
-
 import { calculateInterval } from 'services/charts'
+
 import { getConfig, renderMinMax } from './services'
 
 const Wrapper = styled.div<{ coin: CoinType }>`

@@ -5,7 +5,7 @@ import { AlertsState } from './types'
 
 const INITIAL_STATE: AlertsState = []
 
-export function alertsReducer (state = INITIAL_STATE, action) {
+export function alertsReducer(state = INITIAL_STATE, action) {
   const { payload, type } = action
 
   switch (type) {

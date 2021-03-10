@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { SpinningLoader } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { SpinningLoader } from 'blockchain-info-components'
 import {
   SettingContainer,
   SettingHeader,

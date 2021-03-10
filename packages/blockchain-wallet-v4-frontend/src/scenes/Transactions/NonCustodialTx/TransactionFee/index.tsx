@@ -1,6 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
 import { FlatLoader, Text } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
 import {
@@ -8,10 +10,9 @@ import {
   RemoteDataType,
   SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
-import { bindActionCreators } from 'redux'
-
 import ComboDisplay from 'components/Display/ComboDisplay'
 import { actions, selectors } from 'data'
+
 import { RowHeader } from '../../components'
 
 class TransactionFee extends React.PureComponent<Props> {

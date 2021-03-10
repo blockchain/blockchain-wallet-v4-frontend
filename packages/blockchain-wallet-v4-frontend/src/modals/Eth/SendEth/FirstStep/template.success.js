@@ -1,6 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
+import Bowser from 'bowser'
+import PropTypes from 'prop-types'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Banner,
   Button,
@@ -10,11 +15,6 @@ import {
   TooltipIcon
 } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
-import Bowser from 'bowser'
-import PropTypes from 'prop-types'
-import { Field, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import ComboDisplay from 'components/Display/ComboDisplay'
 import {
   FiatConverter,
@@ -45,6 +45,7 @@ import ExchangePromo from 'components/Send/ExchangePromo'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import { model } from 'data'
 import { required, validEthAddress } from 'services/forms'
+
 import LowBalanceWarning from './LowBalanceWarning'
 import LowEthWarningForErc20 from './LowEthWarningForErc20'
 import MinFeeForRetryInvalid from './MinFeeForRetryInvalid'

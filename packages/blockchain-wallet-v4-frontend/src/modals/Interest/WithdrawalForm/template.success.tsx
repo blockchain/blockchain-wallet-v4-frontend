@@ -1,6 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
+import { InjectedFormProps, reduxForm } from 'redux-form'
+
 import { Button, SpinningLoader, Text } from 'blockchain-info-components'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { convertCoinToFiat } from 'blockchain-wallet-v4/src/exchange'
@@ -8,15 +11,13 @@ import {
   fiatToString,
   formatFiat
 } from 'blockchain-wallet-v4/src/exchange/currency'
-import { compose } from 'redux'
-import { InjectedFormProps, reduxForm } from 'redux-form'
-
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { CoinBalanceDropdown, NumberBox } from 'components/Form'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { InterestWithdrawalFormType } from 'data/components/interest/types'
 import { required } from 'services/forms'
+
 import { amountToCrypto, amountToFiat } from '../conversions'
 import { LinkDispatchPropsType, SuccessStateType } from '.'
 import {

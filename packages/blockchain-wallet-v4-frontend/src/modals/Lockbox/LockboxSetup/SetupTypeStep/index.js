@@ -4,6 +4,7 @@ import { equals } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
+
 import SetupTypeStep from './template'
 
 class SetupTypeStepContainer extends React.PureComponent {
@@ -16,7 +17,7 @@ class SetupTypeStepContainer extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     return (
       <SetupTypeStep
         handleStepChange={this.onChangeStep}

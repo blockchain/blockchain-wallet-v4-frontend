@@ -9,6 +9,7 @@ import {
 
 import { TextBox } from 'components/Form'
 import { SBAddCardFormValuesType } from 'data/types'
+
 import { DEFAULT_CVC_LENGTH, getCardTypeByValue } from '../CreditCardBox/model'
 
 export const normalizeCreditCardCVC: Normalizer = (

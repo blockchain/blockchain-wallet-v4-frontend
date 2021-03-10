@@ -1,15 +1,16 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { filter } from 'ramda'
+import styled from 'styled-components'
+
 import {
   Button,
   TableCell,
   TableHeader,
   Text
 } from 'blockchain-info-components'
-import { filter } from 'ramda'
-import styled from 'styled-components'
-
 import { SettingDescription, SettingHeader } from 'components/Setting'
+
 import { Table } from '../../components'
 import AddressRow from '../../components/AddressRow'
 

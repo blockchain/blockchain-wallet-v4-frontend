@@ -5,7 +5,6 @@ import {
   InterestBalanceType,
   SBBalanceType
 } from 'blockchain-wallet-v4/src/types'
-
 import { convertStandardToBase } from 'data/components/exchange/services'
 
 export const generateTradingAccount = (

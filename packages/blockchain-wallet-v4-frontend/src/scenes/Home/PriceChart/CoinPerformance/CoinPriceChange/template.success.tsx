@@ -1,7 +1,8 @@
 import React from 'react'
-import { PriceChangeType } from 'blockchain-wallet-v4/src/redux/data/misc/types'
 import { PriceChange } from 'blockchain-wallet-v4-frontend/src/scenes/Transactions/model'
 import styled from 'styled-components'
+
+import { PriceChangeType } from 'blockchain-wallet-v4/src/redux/data/misc/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import { getPriceChartTime } from './services'

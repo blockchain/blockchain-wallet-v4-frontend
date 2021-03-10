@@ -1,7 +1,8 @@
 import React from 'react'
-import { HeartbeatLoader, Image } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
+import { HeartbeatLoader, Image } from 'blockchain-info-components'
 
 import QRReader from '../Reader'
 

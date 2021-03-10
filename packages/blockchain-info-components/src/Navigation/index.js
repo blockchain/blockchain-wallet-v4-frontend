@@ -484,7 +484,7 @@ class Header extends PureComponent {
     searchURL: SEARCH_URL
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.previousScroll = 100
   }
@@ -496,21 +496,21 @@ class Header extends PureComponent {
     searchText: ''
   }
 
-  componentDidMount () {
+  componentDidMount() {
     if (window) {
       window.addEventListener('scroll', this.handleScroll, true)
       window.addEventListener('resize', this.handleResize, true)
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (window) {
       window.removeEventListener('scroll', this.handleScroll)
       window.removeEventListener('resize', this.handleResize)
     }
   }
 
-  getScrollTop () {
+  getScrollTop() {
     if (window && document) {
       let supportScrollY = window.scrollY !== undefined
       let supportPageOffset = window.pageYOffset !== undefined
@@ -594,7 +594,7 @@ class Header extends PureComponent {
     document.location = this.props.searchURL + encodeURIComponent(text)
   }
 
-  render () {
+  render() {
     let themeObj = this.props.theme === 'light' ? darkTheme : lightTheme
     let searchActive = this.state.search ? 'search-active' : ''
     let navVisibility = this.state.showNav ? 'visible' : 'hidden'

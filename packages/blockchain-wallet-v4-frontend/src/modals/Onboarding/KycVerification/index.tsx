@@ -1,14 +1,15 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { includes, pickBy } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
 
+import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, model } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import AdditionalInfo from './AdditionalInfo'
 import EmailVerification from './EmailVerification'
 import InfoAndResidential from './InfoAndResidential'

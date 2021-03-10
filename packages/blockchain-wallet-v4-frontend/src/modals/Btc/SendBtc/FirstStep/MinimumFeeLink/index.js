@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { Link } from 'blockchain-info-components'
 import { bindActionCreators } from 'redux'
 
+import { Link } from 'blockchain-info-components'
 import { actions } from 'data'
 
 const MinimumFeeLink = props => (

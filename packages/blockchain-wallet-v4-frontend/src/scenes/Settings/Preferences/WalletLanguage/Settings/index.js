@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import { actions } from 'data'
+
 import Settings from './template'
 
 class SettingsContainer extends React.PureComponent {

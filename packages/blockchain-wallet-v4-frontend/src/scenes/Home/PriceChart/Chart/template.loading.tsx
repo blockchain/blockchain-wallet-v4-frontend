@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { Image } from 'blockchain-info-components'
 
 export default () => {

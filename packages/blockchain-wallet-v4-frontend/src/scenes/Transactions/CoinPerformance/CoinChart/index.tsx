@@ -1,12 +1,13 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Image, Text } from 'blockchain-info-components'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { toUpper } from 'ramda'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import { Image, Text } from 'blockchain-info-components'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
+
 import { getData } from './selectors'
 import Chart from './template'
 

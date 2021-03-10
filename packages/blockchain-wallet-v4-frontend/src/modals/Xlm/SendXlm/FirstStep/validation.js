@@ -1,9 +1,10 @@
 import React from 'react'
 import { BigNumber } from 'bignumber.js'
-import { Exchange, utils } from 'blockchain-wallet-v4/src'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { mapObjIndexed, path, prop } from 'ramda'
 import * as StellarSdk from 'stellar-sdk'
+
+import { Exchange, utils } from 'blockchain-wallet-v4/src'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 
 import {
   InsufficientFundsMessage,

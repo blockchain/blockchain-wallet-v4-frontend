@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { Box } from 'components/Box'
 import { actions, model, selectors } from 'data'
+
 import {
   Props as OwnProps,
   StateType as ParentStateType,

@@ -1,12 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { Link, Text } from 'blockchain-info-components'
-import { Exchange } from 'blockchain-wallet-v4/src'
 import { lt, propOr } from 'ramda'
 import { formValueSelector } from 'redux-form'
 
+import { Link, Text } from 'blockchain-info-components'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { model, selectors } from 'data'
+
 import {
   WarningLeftColumn,
   WarningRightColumn,

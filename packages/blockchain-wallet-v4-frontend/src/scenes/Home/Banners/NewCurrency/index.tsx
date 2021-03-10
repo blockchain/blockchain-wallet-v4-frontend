@@ -1,12 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { CoinType, WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { CoinType, WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
+
 import { Wrapper } from '../styles'
 
 const StyledWrapper = styled(Wrapper)`

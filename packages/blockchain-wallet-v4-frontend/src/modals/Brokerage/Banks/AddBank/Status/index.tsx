@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { ExtractSuccess, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators, Dispatch } from 'redux'
 
+import { ExtractSuccess, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
+
 import { getData } from './selectors'
 import BankLinkError from './template.error.general'
 import Loading from './template.loading'
@@ -25,7 +26,7 @@ export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 type State = {}
 
 class LinkBankStatus extends PureComponent<Props, State> {
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val =>
         val.bankStatus === 'ACTIVE' ? (

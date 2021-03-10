@@ -7,7 +7,7 @@ const INITIAL_STATE: CustodialState = {
   beneficiaries: Remote.NotAsked
 }
 
-export function custodialReducer (
+export function custodialReducer(
   state = INITIAL_STATE,
   action: CustodialActionTypes
 ): CustodialState {

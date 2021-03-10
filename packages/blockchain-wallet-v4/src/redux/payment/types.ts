@@ -1,4 +1,5 @@
 import { CoinType, Erc20CoinType } from 'core/types'
+
 import { UTXOType } from './btc/types'
 import { ADDRESS_TYPES } from './btc/utils'
 import { EthAccountFromType, EthAddressFromType } from './eth/types'

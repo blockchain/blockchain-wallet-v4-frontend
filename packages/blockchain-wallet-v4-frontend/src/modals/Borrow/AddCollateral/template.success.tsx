@@ -1,6 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
+import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Button,
   HeartbeatLoader,
@@ -8,10 +12,6 @@ import {
   Text,
   TooltipHost
 } from 'blockchain-info-components'
-import { compose } from 'redux'
-import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import { FlyoutWrapper } from 'components/Flyout'
 import {
   CoinBalanceDropdown,
@@ -22,6 +22,7 @@ import {
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { model, selectors } from 'data'
 import { BorrowFormValuesType } from 'data/components/borrow/types'
+
 import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
 import { LinkDispatchPropsType, OwnProps, State, SuccessStateType } from '.'
 

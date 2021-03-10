@@ -1,15 +1,16 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/redux/walletOptions/types'
 import styled from 'styled-components'
 
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/redux/walletOptions/types'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { selectors } from 'data'
+
 import { Props as OwnProps } from '../index'
 import { ClipboardWrapper, StepHeader } from '../model'
 import { RequestSteps } from '../types'

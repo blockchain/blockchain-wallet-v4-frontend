@@ -1,5 +1,7 @@
 import React from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import {
   Button,
   Image,
@@ -7,7 +9,6 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import styled from 'styled-components'
 
 const Body = styled.div`
   display: flex;

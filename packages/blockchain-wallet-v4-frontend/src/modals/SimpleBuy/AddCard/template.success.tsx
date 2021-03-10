@@ -1,11 +1,11 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
-import { SBBuyOrderType, SBSellOrderType } from 'blockchain-wallet-v4/src/types'
 import { map } from 'ramda'
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
+import { SBBuyOrderType, SBSellOrderType } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import {
@@ -44,6 +44,7 @@ import {
   required,
   requiredZipCode
 } from 'services/forms'
+
 import { Props as OwnProps, SuccessStateType } from '.'
 import { Error } from './model'
 

@@ -100,13 +100,12 @@
       "error",
       {
         "groups": [
-          // Packages. `react` related packages come first.
-          // Things that start with a letter (or digit or underscore), or `@` followed by a letter.
+          // external imports and things that start with a letter (or digit or underscore), or `@` followed by a letter.
           ["^react", "^@?\\w"],
-          // Absolute imports and Relative imports.
-          ["^(core|components|data|layouts|providers|services|utils)(/.*|$)", "^\\."],
-          // for scss imports.
-          ["^[^.]"]
+          // aliased imports
+          ["^(blockchain-wallet-v4|blockchain-info-components|components|coins|core|data|layouts|providers|services|utils)(/.*|$)"],
+          // relative imports
+          ["^\\.", "^[^.]"]
         ]
       }
     ],

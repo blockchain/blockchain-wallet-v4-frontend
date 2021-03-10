@@ -1,6 +1,10 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Button,
   Icon,
@@ -16,16 +20,13 @@ import {
   OfferType,
   RemoteDataType
 } from 'blockchain-wallet-v4/src/types'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { Field, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import { Box } from 'components/Box'
 import { FormGroup, FormLabel } from 'components/Form'
 import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 import { actions, selectors } from 'data'
 import { USER_BLOCKED } from 'data/components/borrow/model'
 import { RootState } from 'data/rootReducer'
+
 import Amount from './Amount'
 
 const CustomBox = styled(Box)`

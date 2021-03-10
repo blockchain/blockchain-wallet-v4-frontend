@@ -1,11 +1,11 @@
 /* stylelint-disable */
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button, Text } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { Button, Text } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { required } from 'services/forms'

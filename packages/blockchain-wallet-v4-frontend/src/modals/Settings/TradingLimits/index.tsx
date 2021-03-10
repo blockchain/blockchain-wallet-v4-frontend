@@ -1,14 +1,15 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { RemoteDataType, SDDEligibleType } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
+import { RemoteDataType, SDDEligibleType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions } from 'data'
 import { UserDataType } from 'data/modules/types'
 import { RootState } from 'data/rootReducer'
 import { ProductEligibility, UserTierType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
+
 import { ModalPropsType } from './../../types'
 import { getData } from './selectors'
 import Loading from './template.loading'

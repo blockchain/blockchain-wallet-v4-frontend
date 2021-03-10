@@ -3,10 +3,11 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
+
 import UninstallApps from './template'
 
 class UninstallAppsContainer extends React.PureComponent {
-  render () {
+  render() {
     return <UninstallApps {...this.props} />
   }
 }

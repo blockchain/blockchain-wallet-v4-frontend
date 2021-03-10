@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { actions } from 'data'
+
 import AppManager from '../../components/AppManager'
 
 const Wrapper = styled.div`
@@ -20,7 +21,7 @@ class AppManagerStepContainer extends React.PureComponent {
     this.props.lockboxActions.finalizeNewDeviceSetup()
   }
 
-  render () {
+  render() {
     return (
       <Wrapper>
         <AppManager

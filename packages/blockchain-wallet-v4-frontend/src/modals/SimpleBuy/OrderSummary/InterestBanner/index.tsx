@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators, Dispatch } from 'redux'
 
+import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { actions, model } from 'data'
+
 import { getData } from './selectors'
 import Template from './template.success'
 

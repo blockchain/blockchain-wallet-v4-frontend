@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Icon } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Icon } from 'blockchain-info-components'
 import { actions } from 'data'
 
 const ModalIcon = styled(Icon)`

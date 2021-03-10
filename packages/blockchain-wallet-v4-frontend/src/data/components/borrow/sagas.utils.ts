@@ -1,4 +1,6 @@
 import BigNumber from 'bignumber.js'
+import { call, CallEffect, put, select } from 'redux-saga/effects'
+
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
@@ -9,10 +11,9 @@ import {
   PaymentValue,
   RemoteDataType
 } from 'blockchain-wallet-v4/src/types'
-import { call, CallEffect, put, select } from 'redux-saga/effects'
-
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import { promptForSecondPassword } from 'services/sagas'
+
 import {
   convertBaseToStandard,
   convertStandardToBase

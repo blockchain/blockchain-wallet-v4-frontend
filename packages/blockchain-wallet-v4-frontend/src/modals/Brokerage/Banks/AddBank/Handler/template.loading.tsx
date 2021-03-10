@@ -1,7 +1,7 @@
 import React from 'react'
-import { Image, SpinningLoader, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Image, SpinningLoader, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 
 const Wrapper = styled(FlyoutWrapper)`

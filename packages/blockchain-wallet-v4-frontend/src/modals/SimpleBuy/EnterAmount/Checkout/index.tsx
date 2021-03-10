@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { find, isEmpty, pathOr, propEq, propOr } from 'ramda'
 import { bindActionCreators } from 'redux'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
 import { SBCheckoutFormValuesType, UserDataType } from 'data/types'
+
 import Loading from '../../template.loading'
 import {
   OwnProps as EnterAmountOwnProps,

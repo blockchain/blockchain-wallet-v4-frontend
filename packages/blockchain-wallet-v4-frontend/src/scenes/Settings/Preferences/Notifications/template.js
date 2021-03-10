@@ -8,6 +8,7 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
+
 import Settings from './Settings'
 
 const Notifications = () => {

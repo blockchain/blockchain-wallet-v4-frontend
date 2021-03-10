@@ -1,16 +1,17 @@
+import { lift } from 'ramda'
+
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 import {
   ExtractSuccess,
   SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
-import { lift } from 'ramda'
-
 import {
   getFiatBalance,
   getWithdrawableFiatBalance
 } from 'components/Balances/wallet/selectors'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+
 import { OwnProps } from '.'
 
 export const getData = (state: RootState, ownProps: OwnProps) => {

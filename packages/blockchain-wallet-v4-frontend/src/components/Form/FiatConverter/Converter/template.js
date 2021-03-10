@@ -1,8 +1,9 @@
 import React from 'react'
-import { Text, TextInput } from 'blockchain-info-components'
-import { Exchange } from 'blockchain-wallet-v4/src'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
+import { Text, TextInput } from 'blockchain-info-components'
+import { Exchange } from 'blockchain-wallet-v4/src'
 
 const Wrapper = styled.div`
   width: 100%;

@@ -1,17 +1,18 @@
 import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import { Icon, Image, Text } from 'blockchain-info-components'
 import {
   BankTransferAccountType,
   BeneficiaryType,
   NabuMoneyFloatType
 } from 'blockchain-wallet-v4/src/types'
-import styled from 'styled-components'
-
 import { AddNewButton } from 'components/Brokerage'
 import { FlyoutWrapper } from 'components/Flyout'
 import { BankDWStepType } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
+
 import { Bank, BankWire } from '../../model'
 import { Props as _P } from '.'
 

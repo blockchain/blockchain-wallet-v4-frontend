@@ -1,4 +1,3 @@
-import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
 import moment from 'moment'
 import {
   any,
@@ -14,7 +13,9 @@ import {
   toLower
 } from 'ramda'
 
+import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
 import { EthRawTxType } from 'core/network/api/eth/types'
+
 import {
   getDefaultAddress,
   getDefaultLabel,

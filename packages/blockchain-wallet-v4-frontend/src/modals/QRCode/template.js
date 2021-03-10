@@ -1,5 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+
 import {
   Link,
   Modal,
@@ -10,9 +13,6 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-
 import CopyClipboard from 'components/Clipboard/CopyClipboard'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 

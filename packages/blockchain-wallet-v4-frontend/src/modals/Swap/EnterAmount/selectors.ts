@@ -1,6 +1,6 @@
-import { ExtractSuccess, FiatType } from 'blockchain-wallet-v4/src/types'
 import { lift } from 'ramda'
 
+import { ExtractSuccess, FiatType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'

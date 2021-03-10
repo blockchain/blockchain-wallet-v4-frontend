@@ -1,18 +1,19 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { compose } from 'redux'
+
 import {
   BeneficiaryType,
   WalletFiatType,
   WithdrawResponseType
 } from 'blockchain-wallet-v4/src/types'
-import { compose } from 'redux'
-
 import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { WithdrawStepEnum } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
+
 import { ModalPropsType } from '../../../types'
 import { BROKERAGE_INELIGIBLE } from '../../components'
 import BankPicker from './BankPicker'
@@ -25,13 +26,13 @@ import WithdrawalMethods from './WithdrawalMethods'
 class Withdraw extends PureComponent<Props> {
   state: State = { show: false, direction: 'left' }
 
-  componentDidMount () {
+  componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.step === prevProps.step) return
     if (WithdrawStepEnum[this.props.step] > WithdrawStepEnum[prevProps.step]) {
       /* eslint-disable */
@@ -49,7 +50,7 @@ class Withdraw extends PureComponent<Props> {
     }, duration)
   }
 
-  render () {
+  render() {
     return (
       <Flyout
         {...this.props}

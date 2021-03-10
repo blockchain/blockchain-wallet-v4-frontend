@@ -1,8 +1,9 @@
-import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { actionTypes as formActionTypes } from 'redux-form'
 import { takeEvery, takeLatest, takeLeading } from 'redux-saga/effects'
 
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { actionTypes } from 'data'
+
 import * as AT from './actionTypes'
 import sagas from './sagas'
 
@@ -17,7 +18,7 @@ export default ({
 }) => {
   const interestSagas = sagas({ api, coreSagas, networks })
 
-  return function * interestSaga () {
+  return function * interestSaga() {
     yield takeLatest(
       AT.FETCH_INTEREST_BALANCE,
       interestSagas.fetchInterestBalance

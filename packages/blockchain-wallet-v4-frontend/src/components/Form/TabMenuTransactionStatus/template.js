@@ -1,7 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { TabMenu, TabMenuItem } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
+
+import { TabMenu, TabMenuItem } from 'blockchain-info-components'
 
 const TabMenuTransactionStatus = props => {
   const { handleClick, statuses, value } = props

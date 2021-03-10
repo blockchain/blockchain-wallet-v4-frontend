@@ -19,7 +19,7 @@ class SelectBoxRegion extends React.PureComponent {
     countryCode: null
   }
 
-  render () {
+  render() {
     const { countryCode } = this.props
     const regions = pipe(
       find(propEq('countryShortCode', countryCode)),

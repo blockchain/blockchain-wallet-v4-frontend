@@ -4,11 +4,12 @@ import { concat, prop } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
+
 import { Props as OwnProps } from '../template.success'
 import Navigation from './template'
 
 class NavigationContainer extends React.PureComponent<Props> {
-  render () {
+  render() {
     const { domains } = this.props
 
     return (

@@ -8,6 +8,7 @@ import Tooltips from 'components/Tooltips'
 import ZendeskWidget from 'components/ZendeskWidget'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
+
 import Modals from '../../modals'
 import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'

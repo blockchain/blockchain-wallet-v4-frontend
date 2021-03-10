@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
 import wizardProvider from 'providers/WizardProvider'
+
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 

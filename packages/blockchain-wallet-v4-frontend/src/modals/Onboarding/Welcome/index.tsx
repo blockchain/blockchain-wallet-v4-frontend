@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
 
+import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import Flyout, { duration, FlyoutWrapper } from 'components/Flyout'
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'

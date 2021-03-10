@@ -1,13 +1,13 @@
 import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import { Icon, Image, Text } from 'blockchain-info-components'
 import {
   SBPaymentMethodsType,
   SBPaymentMethodType,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
-import styled from 'styled-components'
-
 import { FlyoutWrapper } from 'components/Flyout'
 import {
   AddBankStepType,
@@ -15,6 +15,7 @@ import {
   BrokerageModalOriginType,
   WithdrawStepEnum
 } from 'data/types'
+
 // TODO: move to somewhere more generic
 import BankWire from '../../../../SimpleBuy/PaymentMethods/Methods/BankWire'
 import { mapDispatchToProps, Props as _P } from '.'

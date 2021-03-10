@@ -4,6 +4,7 @@ import { CommonFieldProps, WrappedFieldMetaProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { TextBox } from 'components/Form'
+
 import { Props as AddCardProps } from '../../../modals/SimpleBuy/AddCard/template.success'
 import {
   DEFAULT_CARD_FORMAT,

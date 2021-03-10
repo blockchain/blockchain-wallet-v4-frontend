@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { media } from 'services/styles'

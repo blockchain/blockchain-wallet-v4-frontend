@@ -5,8 +5,8 @@ import {
   SwapQuoteType,
   SwapUserLimitsType
 } from 'blockchain-wallet-v4/src/types'
-
 import { ModalOriginType } from 'data/modals/types'
+
 import * as AT from './actionTypes'
 import {
   SwapAccountType,

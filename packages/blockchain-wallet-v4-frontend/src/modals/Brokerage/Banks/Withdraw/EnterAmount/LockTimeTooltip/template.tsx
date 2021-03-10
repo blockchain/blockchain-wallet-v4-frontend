@@ -1,7 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Tooltip, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { Tooltip, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 
 import { OwnProps as Props } from '.'
 

@@ -1,12 +1,3 @@
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { APIType } from 'blockchain-wallet-v4/src/network/api'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import {
-  AddressTypesType,
-  CustodialFromType,
-  XlmPaymentType
-} from 'blockchain-wallet-v4/src/types'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { equals, head, includes, last, path, pathOr, prop, propOr } from 'ramda'
 import {
   change,
@@ -18,11 +9,21 @@ import {
 } from 'redux-form'
 import { call, delay, put, select } from 'redux-saga/effects'
 
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import {
+  AddressTypesType,
+  CustodialFromType,
+  XlmPaymentType
+} from 'blockchain-wallet-v4/src/types'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { actions, model, selectors } from 'data'
 import { ModalNamesType } from 'data/modals/types'
 import * as C from 'services/alerts'
 import * as Lockbox from 'services/lockbox'
 import { promptForSecondPassword } from 'services/sagas'
+
 import sendSagas from '../send/sagas'
 import * as A from './actions'
 import { FORM } from './model'

@@ -1,4 +1,5 @@
 import { CoinType } from 'core/types'
+
 import { LoanTransactionsType, LoanType, MoneyType, OfferType } from './types'
 
 export default ({ authorizedGet, authorizedPost, nabuUrl }) => {

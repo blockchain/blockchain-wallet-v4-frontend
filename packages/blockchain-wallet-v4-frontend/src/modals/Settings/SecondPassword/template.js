@@ -1,5 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import { reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Button,
   Link,
@@ -10,10 +14,6 @@ import {
   PasswordInput,
   Text
 } from 'blockchain-info-components'
-import PropTypes from 'prop-types'
-import { reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import { Form, FormLabel } from 'components/Form'
 
 const SecPasswordHeader = styled(ModalHeader)`

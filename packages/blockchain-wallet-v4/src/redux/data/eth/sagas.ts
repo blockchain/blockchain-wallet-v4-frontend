@@ -1,6 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
 import moment from 'moment'
 import {
   addIndex,
@@ -27,12 +25,15 @@ import {
 } from 'ramda'
 import { call, put, select, take } from 'redux-saga/effects'
 
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
 import { EthRawTxType } from 'core/network/api/eth/types'
 import { EthProcessedTxType } from 'core/transactions/types'
 import {
   Erc20CoinType,
   FetchCustodialOrdersAndTransactionsReturnType
 } from 'core/types'
+
 import * as Exchange from '../../../exchange'
 import * as transactions from '../../../transactions'
 import * as kvStoreSelectors from '../../kvStore/eth/selectors'

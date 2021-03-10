@@ -1,6 +1,7 @@
 import React from 'react'
-import { Text } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { Text } from 'blockchain-info-components'
 
 const Error = styled(Text)`
   position: ${props => props.position || 'relative'};

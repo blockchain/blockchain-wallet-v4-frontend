@@ -1,9 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
 import { path } from 'ramda'
 
+import { Text } from 'blockchain-info-components'
 import { getInput, getOutput } from 'data/components/swap/model'
+
 import {
   IconTx as SharedIconTx,
   Timestamp as SharedTimestamp

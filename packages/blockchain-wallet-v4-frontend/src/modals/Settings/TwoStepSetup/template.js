@@ -1,5 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import {
   Button,
   Image,
@@ -11,8 +13,6 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import styled from 'styled-components'
-
 import { media } from 'services/styles'
 
 const Wrapper = styled.div`

@@ -1,5 +1,7 @@
 import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled, { css } from 'styled-components'
+
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
@@ -9,8 +11,6 @@ import {
   SBBalancesType,
   SBPaymentMethodType
 } from 'blockchain-wallet-v4/src/types'
-import styled, { css } from 'styled-components'
-
 import { Title, Value } from 'components/Flyout'
 import {
   CARD_TYPES,

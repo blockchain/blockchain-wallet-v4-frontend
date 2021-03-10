@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react'
+import styled from 'styled-components'
+
 import {
   CoinType,
   FiatSBAndSwapTransactionType,
@@ -9,9 +11,8 @@ import {
   SBTransactionType,
   WalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
-import styled from 'styled-components'
-
 import DataError from 'components/DataError'
+
 import CustodialTxListItem from '../CustodialTx'
 import NonCustodialTxListItem from '../NonCustodialTx'
 import SimpleBuyListItem from '../SBOrderTx'

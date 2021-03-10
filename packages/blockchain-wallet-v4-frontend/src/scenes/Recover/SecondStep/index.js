@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { SpinningLoader } from 'blockchain-info-components'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
+import { SpinningLoader } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
+
 import Recover from './template'
 
 class RecoverContainer extends React.PureComponent {

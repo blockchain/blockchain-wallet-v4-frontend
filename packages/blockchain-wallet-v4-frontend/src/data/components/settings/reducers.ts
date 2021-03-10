@@ -7,7 +7,7 @@ const INITIAL_STATE: SettingsState = {
   productsEligibility: Remote.NotAsked
 }
 
-export function settingsReducer (
+export function settingsReducer(
   state = INITIAL_STATE,
   action: SettingsActionTypes
 ): SettingsState {

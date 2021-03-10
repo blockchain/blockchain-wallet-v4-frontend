@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+
 import { Icon } from 'blockchain-info-components'
 import {
   NabuApiErrorType,
   RemoteDataType
 } from 'blockchain-wallet-v4/src/types'
-import { bindActionCreators, Dispatch } from 'redux'
-
 import { Container } from 'components/Box'
 import {
   IconBackground,
@@ -19,6 +19,7 @@ import {
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
+
 import BorrowHistory from './BorrowHistory'
 import BorrowPax from './BorrowPax'
 import InitBorrowForm from './InitBorrowForm'

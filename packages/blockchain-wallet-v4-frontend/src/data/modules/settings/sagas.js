@@ -1,7 +1,7 @@
-import { Types, utils } from 'blockchain-wallet-v4/src'
 import { propEq } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
+import { Types, utils } from 'blockchain-wallet-v4/src'
 import profileSagas from 'data/modules/profile/sagas.ts'
 import * as C from 'services/alerts'
 import { addLanguageToUrl } from 'services/locales'
@@ -9,6 +9,7 @@ import {
   askSecondPasswordEnhancer,
   promptForSecondPassword
 } from 'services/sagas'
+
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 

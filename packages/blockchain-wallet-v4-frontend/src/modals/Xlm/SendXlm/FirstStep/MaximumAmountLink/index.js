@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'blockchain-info-components'
 import { bindActionCreators } from 'redux'
 
+import { Link } from 'blockchain-info-components'
 import { actions } from 'data'
+
 import { getData } from './selectors'
 
 const MaximumAmountLink = props => (

@@ -1,6 +1,10 @@
 import React from 'react'
 import { FormattedHTMLMessage } from 'react-intl'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { bindActionCreators } from 'redux'
+import styled from 'styled-components'
+
 import {
   BlockchainLoader,
   Button,
@@ -8,12 +12,9 @@ import {
   Text
 } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
-import PropTypes from 'prop-types'
-import { bindActionCreators } from 'redux'
-import styled from 'styled-components'
-
 import { actions, selectors } from 'data'
 import * as Lockbox from 'services/lockbox'
+
 import { FAIL_STATUS_TIMEOUT, SUCCESS_STATUS_TIMEOUT } from './model'
 import LockboxAppManager from './template'
 
@@ -58,11 +59,11 @@ const getKeyByValue = value => {
 class LockboxAppManagerContainer extends React.PureComponent {
   state = {}
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.lockboxActions.initializeAppManager(this.props.deviceIndex)
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.appChangeStatus !== prevProps.appChangeStatus) {
       this.props.appChangeStatus.cata({
         Success: val => {
@@ -97,7 +98,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.lockboxActions.resetAppChangeStatus()
   }
 
@@ -123,7 +124,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
     this.props.lockboxActions.uninstallApplication(appName)
   }
 
-  render () {
+  render() {
     const { appChangeStatus, appVersionInfos, connection } = this.props
     const disableButtons = !Remote.NotAsked.is(appChangeStatus)
     const appListView = appVersionInfos.cata({

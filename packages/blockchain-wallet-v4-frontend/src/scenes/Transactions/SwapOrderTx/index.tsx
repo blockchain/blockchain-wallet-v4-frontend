@@ -1,6 +1,10 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { replace } from 'ramda'
+import { bindActionCreators, Dispatch } from 'redux'
+import styled from 'styled-components'
+
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import {
   coinToString,
@@ -11,14 +15,11 @@ import {
   ProcessedSwapOrderType,
   SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
-import { replace } from 'ramda'
-import { bindActionCreators, Dispatch } from 'redux'
-import styled from 'styled-components'
-
 import { actions, selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getInput, getOutput } from 'data/components/swap/model'
 import { RootState } from 'data/rootReducer'
+
 import {
   Addresses,
   Col,

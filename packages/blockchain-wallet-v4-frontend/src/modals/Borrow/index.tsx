@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { LoanType, OfferType } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
+import { LoanType, OfferType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { BorrowSteps } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import { ModalPropsType } from '../types'
 import AddCollateral from './AddCollateral'
 import BorrowDetails from './BorrowDetails'
@@ -38,13 +39,13 @@ type State = { direction: 'left' | 'right'; show: boolean }
 class Borrow extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
 
-  componentDidMount () {
+  componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.step === prevProps.step) return
     if (BorrowSteps[this.props.step] > BorrowSteps[prevProps.step]) {
       /* eslint-disable */
@@ -60,7 +61,7 @@ class Borrow extends PureComponent<Props, State> {
     setTimeout(this.props.close, duration)
   }
 
-  render () {
+  render() {
     const { position, total } = this.props
     return (
       <Flyout

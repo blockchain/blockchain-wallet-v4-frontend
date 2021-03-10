@@ -1,7 +1,8 @@
 import React from 'react'
-import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
+import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
 
 const ModalWrapper = styled(Modal)`
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);

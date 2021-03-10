@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Types } from 'blockchain-wallet-v4/src'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
 
+import { Types } from 'blockchain-wallet-v4/src'
 import { actions, model, selectors } from 'data'
+
 import ArchivedAddresses from './template'
 const { WALLET_TX_SEARCH } = model.form
 

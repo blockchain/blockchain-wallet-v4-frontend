@@ -1,8 +1,9 @@
 import React from 'react'
-import { DateInput, Text } from 'blockchain-info-components'
 import locale from 'browser-locale'
 import { equals } from 'ramda'
 import styled from 'styled-components'
+
+import { DateInput, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
@@ -24,7 +25,7 @@ const getErrorState = meta => {
 }
 
 class DateBoxDebounced extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { value: props.input.value, open: props.open }
     this.timeout = undefined
@@ -33,18 +34,18 @@ class DateBoxDebounced extends React.Component {
     this.handleFocus = this.handleFocus.bind(this)
   }
 
-  static getDerivedStateFromProps (nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     if (!equals(nextProps.input.value, prevState.value)) {
       return { value: nextProps.input.value }
     }
     return null
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearTimeout(this.timeout)
   }
 
-  handleChange (value) {
+  handleChange(value) {
     if (this.timeout) clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
       this.props.input.onChange(value)
@@ -52,17 +53,17 @@ class DateBoxDebounced extends React.Component {
     }, 500)
   }
 
-  handleBlur () {
+  handleBlur() {
     this.setState({ open: false })
     this.props.input.onBlur(this.state.value)
   }
 
-  handleFocus () {
+  handleFocus() {
     this.setState({ open: true })
     this.props.input.onFocus(this.state.value)
   }
 
-  render () {
+  render() {
     const { input, meta, ...rest } = this.props
     const { open, value } = this.state
     const errorState = getErrorState(meta)

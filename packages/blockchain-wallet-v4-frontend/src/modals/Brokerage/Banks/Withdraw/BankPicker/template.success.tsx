@@ -1,12 +1,13 @@
 import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Image, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Icon, Image, Text } from 'blockchain-info-components'
 import { AddNewButton } from 'components/Brokerage'
 import { FlyoutWrapper } from 'components/Flyout'
 import { WithdrawStepEnum } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
+
 import { Bank, BankWire } from '../../model'
 import { Props as OwnProps, SuccessStateType } from '.'
 

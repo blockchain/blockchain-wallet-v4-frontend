@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+
 import Settings from './template'
 
 const SettingsContainer = (props: Props) => <Settings {...props} />

@@ -1,12 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
+import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { UserTiersType } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import { ModalPropsType } from '../../types'
 import Failure from './template.failure'
 import Loading from './template.loading'

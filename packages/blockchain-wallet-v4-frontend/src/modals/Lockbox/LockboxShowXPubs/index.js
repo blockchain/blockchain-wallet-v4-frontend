@@ -1,6 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
+import { keys } from 'ramda'
+import { bindActionCreators, compose } from 'redux'
+import styled from 'styled-components'
+
 import {
   Banner,
   Button,
@@ -11,14 +15,11 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import { keys } from 'ramda'
-import { bindActionCreators, compose } from 'redux'
-import styled from 'styled-components'
-
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { media } from 'services/styles'
+
 import { getData } from './selectors'
 
 const Content = styled.div`
@@ -96,7 +97,7 @@ export class LockboxShowXPubs extends React.PureComponent {
     this.setState({ activeTab: tab })
   }
 
-  render () {
+  render() {
     const { closeAll, position, total } = this.props
     const { activeTab } = this.state
 

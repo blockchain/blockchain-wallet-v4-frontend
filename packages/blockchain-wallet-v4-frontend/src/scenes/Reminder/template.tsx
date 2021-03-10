@@ -1,6 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Button,
   HeartbeatLoader,
@@ -8,9 +11,6 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import {
   CaptchaBox,
   Form,

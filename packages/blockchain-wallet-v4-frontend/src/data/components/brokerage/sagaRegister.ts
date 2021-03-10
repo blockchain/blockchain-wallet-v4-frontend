@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default ({ api, coreSagas, networks }) => {
   const brokerageSagas = sagas({ api, coreSagas, networks })
 
-  return function * brokerageSaga () {
+  return function * brokerageSaga() {
     yield takeLatest(
       AT.FETCH_BANK_TRANSFER_ACCOUNTS,
       brokerageSagas.fetchBankTransferAccounts

@@ -1,9 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Button } from 'blockchain-info-components'
 import { model } from 'data'
+
 import { Props } from '../template.success'
 
 const ButtonContainer = styled.div`

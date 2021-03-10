@@ -1,9 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button, Image, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Button, Image, Text } from 'blockchain-info-components'
 import { WithdrawStepEnum } from 'data/types'
+
 import { Props } from '.'
 
 const Wrapper = styled.div`

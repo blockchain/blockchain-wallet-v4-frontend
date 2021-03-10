@@ -1,13 +1,14 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon, Text } from 'blockchain-info-components'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
+import { Icon, Text } from 'blockchain-info-components'
 import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption, SelectBoxCoin } from 'components/Form'
 import { SwapAccountType } from 'data/components/swap/types'
+
 import { Props as OwnProps } from '..'
 import { REQUEST_FORM, StepHeader } from '../model'
 import { RequestSteps } from '../types'

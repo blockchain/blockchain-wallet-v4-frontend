@@ -1,5 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { path } from 'ramda'
+import styled from 'styled-components'
+
 import {
   Button,
   Icon,
@@ -9,9 +12,6 @@ import {
 } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
-import { path } from 'ramda'
-import styled from 'styled-components'
-
 import {
   BlueCartridge,
   ErrorCartridge,
@@ -20,6 +20,7 @@ import {
 } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { UserTierType } from 'data/types'
+
 import { Props as OwnProps, SuccessStateType } from '.'
 import { ITEMS, TIER_TYPES, TIERS } from './model'
 

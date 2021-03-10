@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import {
   Banner,
   Button,
@@ -9,8 +11,6 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import styled from 'styled-components'
-
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import modalEnhancer from 'providers/ModalEnhancer'
 

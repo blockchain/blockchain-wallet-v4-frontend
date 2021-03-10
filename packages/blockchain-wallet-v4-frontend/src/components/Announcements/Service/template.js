@@ -1,8 +1,8 @@
 import React from 'react'
-import { Banner, Button, Icon, Link, Text } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+import { Banner, Button, Icon, Link, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
 const Container = styled.div`

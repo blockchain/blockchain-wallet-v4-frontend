@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Text, TextGroup } from 'blockchain-info-components'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
 import moment from 'moment'
 import styled, { DefaultTheme } from 'styled-components'
 
+import { Icon, Text, TextGroup } from 'blockchain-info-components'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 

@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { Button, Icon, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { Button, Icon, Text } from 'blockchain-info-components'
 
 import { Props } from '.'
 import { ButtonWrapper, MainWrapper } from './styles'

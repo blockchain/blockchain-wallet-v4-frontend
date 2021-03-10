@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Link } from 'blockchain-info-components'
 
+import { Link } from 'blockchain-info-components'
 import {
   SettingContainer,
   SettingDescription,

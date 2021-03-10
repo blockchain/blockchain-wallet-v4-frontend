@@ -1,4 +1,6 @@
 import React from 'react'
+import styled from 'styled-components'
+
 import { Text } from 'blockchain-info-components'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
@@ -7,7 +9,6 @@ import {
   PriceChangeType,
   PriceDiffType
 } from 'blockchain-wallet-v4/src/types'
-import styled from 'styled-components'
 
 const PriceChangeText = styled(Text)`
   font-weight: 500;

@@ -13,7 +13,7 @@ const INITIAL_STATE: WithdrawState = {
   withdrawLocks: Remote.NotAsked
 }
 
-export function withdrawReducer (
+export function withdrawReducer(
   state = INITIAL_STATE,
   action: WithdrawActionTypes
 ): WithdrawState {

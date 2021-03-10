@@ -2,6 +2,7 @@ import { call, put, select } from 'redux-saga/effects'
 
 import { actions, model } from 'data'
 import profileSagas from 'data/modules/profile/sagas.ts'
+
 import * as A from './actions'
 import * as S from './selectors'
 

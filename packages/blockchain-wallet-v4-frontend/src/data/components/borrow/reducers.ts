@@ -18,7 +18,7 @@ const INITIAL_STATE: BorrowState = {
   step: 'CHECKOUT'
 }
 
-export function borrowReducer (
+export function borrowReducer(
   state = INITIAL_STATE,
   action: BorrowActionTypes
 ): BorrowState {

@@ -1,6 +1,6 @@
-import { Button } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Button } from 'blockchain-info-components'
 import { SettingHeader } from 'components/Setting'
 import { media } from 'services/styles'
 

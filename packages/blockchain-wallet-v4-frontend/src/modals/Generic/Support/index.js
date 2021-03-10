@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { Button, Image, Link, Modal, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Button, Image, Link, Modal, Text } from 'blockchain-info-components'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 const Body = styled.div`

@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { FlatLoader2 } from 'blockchain-info-components'
 
 const PairingCode = () => {

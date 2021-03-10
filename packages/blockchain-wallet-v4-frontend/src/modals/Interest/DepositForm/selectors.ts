@@ -1,3 +1,5 @@
+import { lift, pathOr, propOr } from 'ramda'
+
 import { Exchange } from 'blockchain-wallet-v4/src'
 import {
   Erc20CoinsEnum,
@@ -7,8 +9,6 @@ import {
   InterestFormErrorsType,
   RemoteDataType
 } from 'blockchain-wallet-v4/src/types'
-import { lift, pathOr, propOr } from 'ramda'
-
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'

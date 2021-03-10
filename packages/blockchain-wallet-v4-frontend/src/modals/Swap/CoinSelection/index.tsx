@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon, Text } from 'blockchain-info-components'
 
+import { Icon, Text } from 'blockchain-info-components'
 import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
 import { selectors } from 'data'
@@ -13,6 +13,7 @@ import {
 } from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
 import { SwapAccountType } from 'data/types'
+
 import { Props as BaseProps, SuccessStateType } from '..'
 import { TopText } from '../components'
 import { getData } from './selectors'

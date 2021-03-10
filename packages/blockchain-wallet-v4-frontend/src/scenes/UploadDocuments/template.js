@@ -2,6 +2,10 @@ import React, { Fragment } from 'react'
 import Dropzone from 'react-dropzone'
 import { FormattedMessage } from 'react-intl'
 import { FasIdBadge, FasIdCard, FasPassport } from '@blockchain-com/components'
+import PropTypes from 'prop-types'
+import { prop } from 'ramda'
+import styled from 'styled-components'
+
 import {
   Button,
   HeartbeatLoader,
@@ -9,10 +13,6 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import PropTypes from 'prop-types'
-import { prop } from 'ramda'
-import styled from 'styled-components'
-
 import { media } from 'services/styles'
 
 const FileContainer = styled.div`

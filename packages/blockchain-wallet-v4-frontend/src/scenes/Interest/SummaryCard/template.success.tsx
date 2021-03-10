@@ -1,5 +1,7 @@
 import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import {
   Button,
   Icon,
@@ -7,11 +9,10 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import styled from 'styled-components'
-
 import { Box } from 'components/Box'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { convertBaseToStandard } from 'data/components/exchange/services'
+
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const DepositBox = styled(Box)`

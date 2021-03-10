@@ -1,13 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import {
   BlockchainLoader,
   Button,
   Icon,
   Text
 } from 'blockchain-info-components'
-import styled from 'styled-components'
-
 import { FlyoutWrapper } from 'components/Flyout'
 
 const Top = styled(FlyoutWrapper)`

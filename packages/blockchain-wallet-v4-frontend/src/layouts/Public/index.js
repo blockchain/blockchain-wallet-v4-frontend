@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import Alerts from 'components/Alerts'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
+
 // import AndroidAppBanner from './components/AndroidAppBanner'
 import DropdownLanguage from './components/DropdownLanguage'
 import Footer from './components/Footer'

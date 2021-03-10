@@ -4,10 +4,11 @@ import { prop } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
+
 import Template from './template'
 
 class WalletBalanceContainer extends React.PureComponent<Props> {
-  render () {
+  render() {
     const { coins, preferencesActions, totalBalancesDropdown } = this.props
     // @ts-ignore
     const isActive = prop('wallet', totalBalancesDropdown)

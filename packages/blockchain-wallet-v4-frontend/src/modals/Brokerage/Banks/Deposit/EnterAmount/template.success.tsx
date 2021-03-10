@@ -1,12 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FiatType } from 'blockchain-wallet-v4/src/types'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import { ErrorCartridge } from 'components/Cartridge'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -18,6 +18,7 @@ import {
   BankDWStepType,
   BrokerageModalOriginType
 } from 'data/types'
+
 // TODO: move this to somewhere more generic
 import {
   getIcon,

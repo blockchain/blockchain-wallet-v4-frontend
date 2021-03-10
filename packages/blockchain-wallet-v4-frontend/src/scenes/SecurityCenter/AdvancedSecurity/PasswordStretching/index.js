@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import { actions, selectors } from 'data'
+
 import PasswordStretching from './template'
 
 class PasswordStretchingContainer extends React.PureComponent {

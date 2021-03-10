@@ -1,8 +1,6 @@
 import base64 from 'base-64'
 import BigNumber from 'bignumber.js'
 import bip21 from 'bip21'
-import { Exchange, utils } from 'blockchain-wallet-v4/src'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import {
   anyPass,
   equals,
@@ -26,6 +24,8 @@ import {
   take
 } from 'redux-saga/effects'
 
+import { Exchange, utils } from 'blockchain-wallet-v4/src'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { actions, model, selectors } from 'data'
 import {
   getBchBalance,
@@ -36,6 +36,7 @@ import {
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import profileSagas from 'data/modules/profile/sagas'
 import * as C from 'services/alerts'
+
 import { GoalsType } from './types'
 
 const { TRANSACTION_EVENTS } = model.analytics

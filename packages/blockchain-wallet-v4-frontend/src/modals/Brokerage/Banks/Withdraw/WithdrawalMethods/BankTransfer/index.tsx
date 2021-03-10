@@ -1,9 +1,9 @@
 import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
-import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
 import styled from 'styled-components'
 
+import { Icon } from 'blockchain-info-components'
+import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
 import { SuccessCartridge } from 'components/Cartridge'
 import {
   Content,

@@ -1,5 +1,6 @@
-import { coreActions as core } from 'blockchain-wallet-v4/src'
 import { routerActions as router } from 'connected-react-router'
+
+import { coreActions as core } from 'blockchain-wallet-v4/src'
 
 import * as alerts from './alerts/actions'
 import * as analytics from './analytics/actions'

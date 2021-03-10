@@ -3,8 +3,8 @@ import {
   WalletFiatType,
   YodleeAccountType
 } from 'blockchain-wallet-v4/src/types'
-
 import { BrokerageModalOriginType, ModalNamesType } from 'data/types'
+
 import * as AT from './actionTypes'
 import {
   AddBankStepType,

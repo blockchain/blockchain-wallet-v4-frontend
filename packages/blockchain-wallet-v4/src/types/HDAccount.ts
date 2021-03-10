@@ -50,7 +50,7 @@ export const isArchived = compose(Boolean, view(archived))
 export const isActive = compose(not, isArchived)
 export const isWatchOnly = compose(isNil, view(xpriv))
 export const isXpub = curry((myxpub, account) =>
-// @ts-ignore
+  // @ts-ignore
   compose(equals(myxpub), view(xpub))(account)
 )
 

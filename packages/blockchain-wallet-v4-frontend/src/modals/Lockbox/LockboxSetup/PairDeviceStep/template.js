@@ -1,5 +1,8 @@
 import React from 'react'
 import { FormattedHTMLMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Button,
   Image,
@@ -9,9 +12,6 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { Field, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import { CheckBox, Form, FormGroup, FormItem } from 'components/Form'
 import { required } from 'services/forms'
 

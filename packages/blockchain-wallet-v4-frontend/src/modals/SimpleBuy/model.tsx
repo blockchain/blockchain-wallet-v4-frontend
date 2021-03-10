@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   BankTransferAccountType,
@@ -10,7 +11,6 @@ import {
   SupportedWalletCurrenciesType,
   SupportedWalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
-
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   getBaseCurrency,

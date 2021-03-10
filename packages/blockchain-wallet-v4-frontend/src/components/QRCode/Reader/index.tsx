@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import QrReader from 'react-qr-reader'
-import { Banner, BlockchainLoader } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Banner, BlockchainLoader } from 'blockchain-info-components'
 import { checkHasWebcam } from 'utils/helpers'
 
 const Container = styled.div`

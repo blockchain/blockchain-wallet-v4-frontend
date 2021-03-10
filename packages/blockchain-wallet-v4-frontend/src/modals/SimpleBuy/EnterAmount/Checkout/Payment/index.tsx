@@ -1,9 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
 import styled, { css } from 'styled-components'
 
+import { Icon } from 'blockchain-info-components'
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
+
 import { Props } from '../template.success'
 import {
   getIcon,

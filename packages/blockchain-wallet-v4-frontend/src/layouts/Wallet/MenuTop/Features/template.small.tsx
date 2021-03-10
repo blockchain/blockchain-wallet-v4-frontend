@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Icon } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Icon } from 'blockchain-info-components'
 import { Destination } from 'components/MenuLeft'
 import {
   NavbarNavItemButton,
@@ -16,6 +16,7 @@ import {
   DropdownMenuItem
 } from 'components/Navbar/NavbarDropdown'
 import { useOnClickOutside } from 'services/misc'
+
 import { Props } from '.'
 
 const TransactIcon = styled(NavbarNavItemIcon)`

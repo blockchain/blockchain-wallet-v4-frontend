@@ -1,5 +1,9 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
@@ -7,10 +11,6 @@ import {
   coinToString,
   fiatToString
 } from 'blockchain-wallet-v4/src/exchange/currency'
-import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -19,6 +19,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { SwapAccountType } from 'data/types'
 import { formatTextAmount } from 'services/forms'
 import { media } from 'services/styles'
+
 import { StyledForm } from '../../components'
 import { Props as OwnProps, SuccessStateType } from '..'
 import {

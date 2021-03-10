@@ -1,14 +1,11 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import { getCurrency } from 'blockchain-wallet-v4/src/redux/settings/selectors'
-import {
-  CoinType,
-  RemoteDataType
-} from 'blockchain-wallet-v4/src/types'
 import { includes } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import { getCurrency } from 'blockchain-wallet-v4/src/redux/settings/selectors'
+import { CoinType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { InterestStepMetadata } from 'data/types'
@@ -19,7 +16,7 @@ import AccountSummary from './template.success'
 import Unsupported from './template.unsupported'
 
 class AccountSummaryContainer extends PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.handleFetchInterestLimits()
   }
 
@@ -40,8 +37,8 @@ class AccountSummaryContainer extends PureComponent<Props> {
     interestActions.showInterestModal('ACCOUNT_SUMMARY', coin)
   }
 
-  render () {
-    const { data, currency } = this.props
+  render() {
+    const { currency, data } = this.props
     const walletCurrency = currency.getOrElse('GBP' as CurrencySuccessStateType)
 
     const unsupportedCurrencies = [Currencies.TWD.code, Currencies.CLP.code]
@@ -96,7 +93,7 @@ export type DataSuccessStateType = ReturnType<typeof getData>['data']
 export type CurrencySuccessStateType = ReturnType<typeof getCurrency>['data']
 
 type LinkStatePropsType = {
-  currency: RemoteDataType<string | Error, CurrencySuccessStateType>,
+  currency: RemoteDataType<string | Error, CurrencySuccessStateType>
   data: RemoteDataType<string | Error, DataSuccessStateType>
 }
 

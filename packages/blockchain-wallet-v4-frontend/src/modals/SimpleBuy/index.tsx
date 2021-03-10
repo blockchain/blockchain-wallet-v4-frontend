@@ -1,5 +1,8 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { find, isEmpty, propEq, propOr } from 'ramda'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+
 import {
   CoinType,
   FiatType,
@@ -9,15 +12,13 @@ import {
   SBPaymentMethodType,
   SwapOrderType
 } from 'blockchain-wallet-v4/src/types'
-import { find, isEmpty, propEq, propOr } from 'ramda'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
 import { BankStatusType, FastLinkType, SimpleBuyStepType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
+
 import { ModalPropsType } from '../types'
 // step templates
 import AddCard from './AddCard'

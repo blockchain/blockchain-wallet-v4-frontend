@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+
 import { Remote } from 'blockchain-wallet-v4/src'
 import { SBPaymentTypes } from 'blockchain-wallet-v4/src/network/api/settingsComponent/types'
 import {
@@ -8,8 +10,6 @@ import {
   ExtractSuccess,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
-import { bindActionCreators, Dispatch } from 'redux'
-
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
@@ -17,6 +17,7 @@ import {
   WithdrawCheckoutFormValuesType,
   WithdrawStepEnum
 } from 'data/types'
+
 import { getData } from './selectors'
 import Failure from './template.failure'
 import Loading from './template.loading'
@@ -25,7 +26,7 @@ import Success from './template.success'
 class EnterAmount extends PureComponent<Props> {
   state = {}
 
-  componentDidMount () {
+  componentDidMount() {
     let paymentMethod: SBPaymentTypes | 'ALL' = 'ALL'
     if (this.props.defaultMethod) {
       paymentMethod = 'BANK_TRANSFER'
@@ -93,7 +94,7 @@ class EnterAmount extends PureComponent<Props> {
     })
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => (
         <Success

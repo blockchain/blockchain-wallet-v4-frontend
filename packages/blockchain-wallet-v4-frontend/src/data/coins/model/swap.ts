@@ -1,5 +1,4 @@
 import { CoinType } from 'blockchain-wallet-v4/src/types'
-
 import { CoinAccountSelectorType } from 'data/coins/types'
 
 // master list of coins supported by Swap

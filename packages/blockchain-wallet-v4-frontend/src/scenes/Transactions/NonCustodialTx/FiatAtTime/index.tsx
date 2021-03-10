@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators } from 'redux'
 
+import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
+
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'

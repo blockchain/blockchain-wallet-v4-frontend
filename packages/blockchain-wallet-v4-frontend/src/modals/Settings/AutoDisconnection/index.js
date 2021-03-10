@@ -5,6 +5,7 @@ import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import AutoDisconnection from './template.js'
 
 class AutoDisconnectionContainer extends React.PureComponent {

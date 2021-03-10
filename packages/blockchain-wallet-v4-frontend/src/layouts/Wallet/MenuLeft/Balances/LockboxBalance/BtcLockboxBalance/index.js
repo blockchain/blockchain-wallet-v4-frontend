@@ -3,22 +3,23 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+
 import { LoadingBalance } from '../../model'
 import { getData } from './selectors'
 import Error from './template.error'
 import Success from './template.success'
 
 class BtcLockboxBalance extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleRefresh = this.handleRefresh.bind(this)
   }
 
-  handleRefresh () {
+  handleRefresh() {
     this.props.actions.fetchData()
   }
 
-  render () {
+  render() {
     const { data } = this.props
 
     return data.cata({

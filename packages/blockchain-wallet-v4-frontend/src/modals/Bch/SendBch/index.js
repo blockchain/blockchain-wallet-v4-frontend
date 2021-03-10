@@ -5,12 +5,13 @@ import { bindActionCreators, compose } from 'redux'
 
 import { actions, model, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 import SendBch from './template'
 
 class SendBchContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     const { actions, amount, description, from, payPro, to } = this.props
     actions.initialized({
       from,
@@ -21,11 +22,11 @@ class SendBchContainer extends React.PureComponent {
     })
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.actions.destroyed()
   }
 
-  render () {
+  render() {
     const {
       amount,
       closeAll,

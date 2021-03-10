@@ -1,12 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { Button, Text } from 'blockchain-info-components'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
+import { Button, Text } from 'blockchain-info-components'
 import { SettingWrapper } from 'components/Setting'
 import { actions, selectors } from 'data'
+
 import AutoLogoutForm from './template'
 
 class SettingContainer extends React.PureComponent {

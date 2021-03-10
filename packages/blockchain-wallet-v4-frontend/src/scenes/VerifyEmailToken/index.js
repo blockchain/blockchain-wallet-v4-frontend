@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
+
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'

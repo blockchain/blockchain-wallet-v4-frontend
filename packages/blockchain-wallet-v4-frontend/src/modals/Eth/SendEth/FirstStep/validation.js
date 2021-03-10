@@ -1,7 +1,8 @@
 import React from 'react'
 import BigNumber from 'bignumber.js'
-import { Exchange } from 'blockchain-wallet-v4/src'
 import { prop } from 'ramda'
+
+import { Exchange } from 'blockchain-wallet-v4/src'
 
 import {
   InsufficientFundsMessage,

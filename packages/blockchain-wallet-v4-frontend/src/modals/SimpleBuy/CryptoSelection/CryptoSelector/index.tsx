@@ -1,5 +1,9 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { any, map, values } from 'ramda'
+import { Form, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Icon,
   Image,
@@ -8,10 +12,6 @@ import {
   Text
 } from 'blockchain-info-components'
 import { SBPairType } from 'blockchain-wallet-v4/src/types'
-import { any, map, values } from 'ramda'
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
 import { model } from 'data'
@@ -21,6 +21,7 @@ import {
   getFiatFromPair
 } from 'data/components/simpleBuy/model'
 import { SwapAccountType } from 'data/types'
+
 import { Props as OwnProps, SuccessStateType } from '../index'
 import CryptoItem from './CryptoItem'
 import SellEmptyState from './SellEmptyState'

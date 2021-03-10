@@ -10,6 +10,7 @@ import {
 } from 'redux-saga/effects'
 
 import { actions, actionTypes } from 'data'
+
 import profileSagas from '../../modules/profile/sagas'
 import * as A from './actions'
 import * as AT from './actionTypes'
@@ -21,7 +22,7 @@ export default ({ api, coreSagas, networks }) => {
   const simpleBuySagas = sagas({ api, coreSagas, networks })
   const { waitForUserData } = profileSagas({ api, coreSagas, networks })
 
-  return function * simpleBuySaga () {
+  return function * simpleBuySaga() {
     yield takeEvery(actionTypes.form.CHANGE, simpleBuySagas.formChanged)
     yield takeLatest(AT.ACTIVATE_SB_CARD, simpleBuySagas.activateSBCard)
     yield takeLatest(AT.ADD_CARD_DETAILS, simpleBuySagas.addCardDetails)

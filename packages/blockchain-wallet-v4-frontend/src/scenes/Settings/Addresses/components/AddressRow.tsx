@@ -1,5 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import {
   Banner,
   ComponentDropdown,
@@ -9,8 +11,6 @@ import {
   Text
 } from 'blockchain-info-components'
 import { CoinType, ImportedAddrType } from 'blockchain-wallet-v4/src/types'
-import styled from 'styled-components'
-
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { media } from 'services/styles'
 

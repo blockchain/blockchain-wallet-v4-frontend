@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+import { Form, InjectedFormProps, reduxForm } from 'redux-form'
+
 import {
   Button,
   HeartbeatLoader,
@@ -21,9 +24,6 @@ import {
   SBPairType,
   SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
-
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { actions, selectors } from 'data'
@@ -32,6 +32,7 @@ import { getFiatFromPair } from 'data/components/simpleBuy/model'
 import { getInputFromPair, getOutputFromPair } from 'data/components/swap/model'
 import { RootState } from 'data/rootReducer'
 import { SBCheckoutFormValuesType } from 'data/types'
+
 import { Border, FreeCartridge, TopText } from '../../Swap/components'
 import Loading from '../template.loading'
 

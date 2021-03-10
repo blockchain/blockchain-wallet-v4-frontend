@@ -1,9 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+
 import { Button, Text } from 'blockchain-info-components'
 
 class ErrorStepContainer extends React.PureComponent {
-  render () {
+  render() {
     return (
       <React.Fragment>
         <Text size='16px' weight={500}>

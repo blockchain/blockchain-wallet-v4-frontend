@@ -1,7 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
+
+import { Button } from 'blockchain-info-components'
 
 const Settings = props => {
   const { authTypeNeverSave, handleClick } = props

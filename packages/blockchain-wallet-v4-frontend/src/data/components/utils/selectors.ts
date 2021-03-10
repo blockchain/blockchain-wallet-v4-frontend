@@ -1,10 +1,10 @@
+import { isNil, lift, mapObjIndexed, reject, values } from 'ramda'
+
 import {
   CoinTypeEnum,
   ExtractSuccess,
   SupportedWalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
-import { isNil, lift, mapObjIndexed, reject, values } from 'ramda'
-
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

@@ -1,5 +1,8 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { equals } from 'ramda'
+import { bindActionCreators, Dispatch } from 'redux'
+
 import { Remote } from 'blockchain-wallet-v4/src'
 import {
   CoinType,
@@ -11,12 +14,10 @@ import {
   SBPairType,
   SBPaymentMethodType
 } from 'blockchain-wallet-v4/src/types'
-import { equals } from 'ramda'
-import { bindActionCreators, Dispatch } from 'redux'
-
 import { actions, selectors } from 'data'
 import { DEFAULT_SB_METHODS } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
+
 import Loading from '../template.loading'
 import { getData } from './selectors'
 import Failure from './template.failure'

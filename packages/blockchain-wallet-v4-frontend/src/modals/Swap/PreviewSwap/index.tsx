@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+import { Form, InjectedFormProps, reduxForm } from 'redux-form'
+
 import {
   Button,
   HeartbeatLoader,
@@ -13,15 +16,13 @@ import {
   formatCoin
 } from 'blockchain-wallet-v4/src/exchange/currency'
 import { PaymentValue } from 'blockchain-wallet-v4/src/types'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
-
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'
 import { InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
+
 import { Props as BaseProps, SuccessStateType } from '..'
 import { Border, FreeCartridge, TopText } from '../components'
 

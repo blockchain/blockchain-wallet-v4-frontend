@@ -1,5 +1,6 @@
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
 import { merge } from 'ramda'
+
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 import * as AT from './actionTypes'
 import { INITIAL_TIERS } from './model'
@@ -19,7 +20,7 @@ const INITIAL_STATE: ProfileState = {
   userTiers: Remote.Success(INITIAL_TIERS)
 }
 
-export function profileReducer (
+export function profileReducer(
   state = INITIAL_STATE,
   action: ProfileActionTypes
 ): ProfileState {

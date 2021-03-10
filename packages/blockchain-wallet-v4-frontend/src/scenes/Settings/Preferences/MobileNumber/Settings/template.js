@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button, Text } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
 
+import { Button, Text } from 'blockchain-info-components'
 import { SettingWrapper } from 'components/Setting'
 
 const Setting = props => {

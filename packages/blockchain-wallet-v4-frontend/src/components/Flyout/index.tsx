@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import Transition from 'react-transition-group/Transition'
-import { Modal, Text } from 'blockchain-info-components'
 import { ModalPropsType } from 'blockchain-wallet-v4-frontend/src/modals/types'
 import styled from 'styled-components'
 
+import { Modal, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 // TODO: use only ReactCSSTransitionGroup
 
@@ -166,7 +166,7 @@ class Flyout extends React.PureComponent<
     onClose: () => void
   }
 > {
-  render () {
+  render() {
     const { children, ...rest } = this.props
 
     return (

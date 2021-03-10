@@ -1,11 +1,12 @@
 import { AxiosError } from 'axios'
+
 import {
   NabuAddressType,
   NabuApiErrorType,
   RemoteDataType
 } from 'blockchain-wallet-v4/src/types'
-
 import { CampaignsType } from 'data/types'
+
 import * as AT from './actionTypes'
 
 // Types

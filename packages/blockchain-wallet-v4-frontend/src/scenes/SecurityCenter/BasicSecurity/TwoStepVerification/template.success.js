@@ -2,12 +2,13 @@
 import React, { Fragment } from 'react'
 import { pulse } from 'react-animations'
 import { FormattedMessage } from 'react-intl'
-import { Button, Link, Text } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
 import { reduxForm } from 'redux-form'
 import styled, { css, keyframes } from 'styled-components'
 
+import { Button, Link, Text } from 'blockchain-info-components'
 import { media, spacing } from 'services/styles'
+
 import {
   IconContainer,
   SecurityComponent,

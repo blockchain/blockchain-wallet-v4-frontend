@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { Button, Image, Text } from 'blockchain-info-components'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import { Button, Image, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 
 const Wrapper = styled.div`
@@ -26,7 +26,7 @@ class CustomizeStepContainer extends React.PureComponent {
     this.props.lockboxActions.changeDeviceSetupStep('app-manager-step')
   }
 
-  render () {
+  render() {
     return (
       <Wrapper>
         <Image

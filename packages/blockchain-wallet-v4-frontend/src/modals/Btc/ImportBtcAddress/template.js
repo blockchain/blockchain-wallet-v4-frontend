@@ -1,5 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Button,
   Modal,
@@ -10,9 +13,6 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { Field, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import {
   Form,
   FormGroup,

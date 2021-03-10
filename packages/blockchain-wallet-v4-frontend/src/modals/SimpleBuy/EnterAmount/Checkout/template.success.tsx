@@ -1,5 +1,8 @@
 import React, { ReactChild, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { Icon, Text } from 'blockchain-info-components'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import {
@@ -7,9 +10,6 @@ import {
   fiatToString
 } from 'blockchain-wallet-v4/src/exchange/currency'
 import { CoinType, SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -22,6 +22,7 @@ import {
   FIAT_DECIMALS,
   formatTextAmount
 } from 'services/forms'
+
 import { Row } from '../../../Swap/EnterAmount/Checkout'
 import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
 import { BuyOrSell } from '../../model'

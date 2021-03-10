@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+
 import { Remote } from 'blockchain-wallet-v4/src'
 import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/network/api/settingsComponent/types'
 import {
@@ -7,11 +9,10 @@ import {
   FiatType,
   RemoteDataType
 } from 'blockchain-wallet-v4/src/types'
-import { bindActionCreators, Dispatch } from 'redux'
-
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { BankDWStepType } from 'data/types'
+
 import Loading from '../DepositMethods/template.loading'
 import { getData } from './selectors'
 import Failure from './template.failure'

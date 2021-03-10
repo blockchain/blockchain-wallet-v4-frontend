@@ -1,6 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import styled from 'styled-components'
+
 import {
   Icon,
   Link,
@@ -9,9 +12,6 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import { bindActionCreators, compose } from 'redux'
-import styled from 'styled-components'
-
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 
@@ -41,7 +41,7 @@ const ExampleInvoice = styled.div`
   margin-top: 1px;
 `
 
-function BitPayInformational ({ close }) {
+function BitPayInformational({ close }) {
   return (
     <Modal>
       <ModalHeader closeButton={false}>

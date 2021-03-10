@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { SceneWrapper } from 'components/Layout'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { actions } from 'data'
+
 import InterestHeader from '../Interest/template.header'
 import InterestMenu from '../Interest/template.menu'
 import CoinFilter from './CoinFilter'

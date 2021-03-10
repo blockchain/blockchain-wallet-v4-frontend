@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Link, Text } from 'blockchain-info-components'
 import Bowser from 'bowser'
 import styled from 'styled-components'
 
+import { Icon, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { model } from 'data'

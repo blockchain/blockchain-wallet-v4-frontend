@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+
 import { Link } from 'blockchain-info-components'
 
 export const AgeOverEighteenMessage = () => (

@@ -4,10 +4,11 @@ import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import InvoiceExpired from './template'
 
 class BitPayInvoiceExpired extends React.PureComponent {
-  render () {
+  render() {
     return <InvoiceExpired {...this.props} />
   }
 }

@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import styled from 'styled-components'
+
 import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { formatCoin } from 'blockchain-wallet-v4/src/exchange/currency'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
-import styled from 'styled-components'
-
 import { FlyoutWrapper } from 'components/Flyout'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -15,6 +15,7 @@ import {
   SwapCoinType
 } from 'data/types'
 import checkAccountZeroBalance from 'services/CheckAccountZeroBalance'
+
 import { Props as BaseProps, SuccessStateType as SuccessType } from '..'
 import {
   BalanceRow,

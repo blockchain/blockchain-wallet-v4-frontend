@@ -1,4 +1,7 @@
 import React from 'react'
+import { reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Button,
   Image,
@@ -8,10 +11,8 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import { reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import { Form } from 'components/Form'
+
 import {
   selectCancel,
   selectConfirm,

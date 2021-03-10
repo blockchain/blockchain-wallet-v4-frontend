@@ -1,9 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Icon, Text } from 'blockchain-info-components'
 import { Header, Wrapper } from 'components/Balances'
+
 import { BalancesWrapper } from '../model'
 import BchLockboxBalance from './BchLockboxBalance'
 import BtcLockboxBalance from './BtcLockboxBalance'

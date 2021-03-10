@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Icon } from 'blockchain-info-components'
 import { Container } from 'components/Box'
 import {
   HeaderTextWrapper,
@@ -11,6 +11,7 @@ import {
   SceneHeaderText,
   SceneSubHeaderText
 } from 'components/Layout'
+
 import { Props as IProps } from '.'
 import ExchangeConnect from './template.connect'
 import ExchangeInfo from './template.info'

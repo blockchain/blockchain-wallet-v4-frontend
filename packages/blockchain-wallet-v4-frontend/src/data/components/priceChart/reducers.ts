@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   time: 'all'
 }
 
-export function priceChartReducer (state = INITIAL_STATE, action) {
+export function priceChartReducer(state = INITIAL_STATE, action) {
   const { payload, type } = action
 
   switch (type) {

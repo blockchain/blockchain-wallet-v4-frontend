@@ -1,4 +1,5 @@
 import { WalletFiatType } from 'core/types'
+
 import * as AT from './actionTypes'
 import { FiatActionTypes, FiatTransactionPageResponseType } from './types'
 

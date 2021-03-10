@@ -1,9 +1,10 @@
 import React from 'react'
-import { Icon, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Icon, Text } from 'blockchain-info-components'
 import { Box } from 'components/Box'
 import { CampaignInfoType } from 'data/types'
+
 import { Props } from '../template.success'
 import {
   StxDateOrAmount,

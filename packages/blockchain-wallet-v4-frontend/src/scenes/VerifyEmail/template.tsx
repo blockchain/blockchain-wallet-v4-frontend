@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import styled, { DefaultTheme } from 'styled-components'
 
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { media } from 'services/styles'
 

@@ -1,11 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Image, Text } from 'blockchain-info-components'
-import { SupportedWalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import { mapObjIndexed, values } from 'ramda'
 import styled from 'styled-components'
 
+import { Icon, Image, Text } from 'blockchain-info-components'
+import { SupportedWalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import { Header, Wrapper } from 'components/Balances'
+
 import { BalancesWrapper } from '../model'
 import Balance from './Balance'
 import PendingSBTransactions from './PendingSBTransactions'

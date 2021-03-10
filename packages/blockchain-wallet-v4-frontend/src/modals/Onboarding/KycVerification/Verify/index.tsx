@@ -1,12 +1,13 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators } from 'redux'
 
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import SiftScience from 'components/SiftScience'
 import { actions } from 'data'
 import { checkHasWebcam } from 'utils/helpers'
+
 import Veriff from '../Veriff'
 import { getData, getPreIdvData } from './selectors'
 import Loading from './template.loading'

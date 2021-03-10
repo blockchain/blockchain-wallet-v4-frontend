@@ -1,12 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Text } from 'blockchain-info-components'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { propOr } from 'ramda'
 import styled from 'styled-components'
 
+import { Text } from 'blockchain-info-components'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
+
 import CoinTicker from './CoinTicker'
 
 const Wrapper = styled.div`

@@ -1,9 +1,10 @@
 import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import { Toast } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Toast } from 'blockchain-info-components'
 import { media } from 'services/styles'
+
 import { getAlertContent } from './messages'
 
 const duration = 200

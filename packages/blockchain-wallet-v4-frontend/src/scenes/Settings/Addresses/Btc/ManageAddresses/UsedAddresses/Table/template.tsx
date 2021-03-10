@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+
 import {
   Link,
   Table,
@@ -10,7 +11,6 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-
 import CoinDisplay from 'components/Display/CoinDisplay'
 
 const UsedTable = ({ children }) => (

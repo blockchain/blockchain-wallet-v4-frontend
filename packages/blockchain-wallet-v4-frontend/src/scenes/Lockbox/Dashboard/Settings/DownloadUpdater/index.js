@@ -4,11 +4,11 @@ import { connect } from 'react-redux'
 import linuxUpdater from 'assets/lockbox/lockbox-updater-1.0.0.AppImage'
 import macUpdater from 'assets/lockbox/lockbox-updater-1.0.0.dmg'
 import windowsUpdater from 'assets/lockbox/lockbox-updater-1.0.0.exe'
-import { Button, Link } from 'blockchain-info-components'
 import Bowser from 'bowser'
 import { prop } from 'ramda'
 import { bindActionCreators } from 'redux'
 
+import { Button, Link } from 'blockchain-info-components'
 import {
   SettingComponent,
   SettingContainer,

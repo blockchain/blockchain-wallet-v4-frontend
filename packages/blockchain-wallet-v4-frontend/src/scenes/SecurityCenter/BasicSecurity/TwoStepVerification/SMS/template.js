@@ -2,11 +2,11 @@
 
 import React, { Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button, Link, Text } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { Button, Link, Text } from 'blockchain-info-components'
 import { Form, PhoneNumberBox, TextBox } from 'components/Form'
 import { required, validMobileNumber } from 'services/forms'
 

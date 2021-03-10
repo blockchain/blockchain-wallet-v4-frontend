@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { LoanType, OfferType } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
+import { LoanType, OfferType } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
+
 import { getData } from './selectors'
 import Success from './template.success'
 

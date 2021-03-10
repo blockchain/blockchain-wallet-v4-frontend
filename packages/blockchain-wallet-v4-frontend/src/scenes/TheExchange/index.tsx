@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { WalletOptionsType } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators, Dispatch } from 'redux'
 
+import { WalletOptionsType } from 'blockchain-wallet-v4/src/types'
 import { actions, model, selectors } from 'data'
+
 import Exchange from './template'
 
 const { EXCHANGE_EVENTS } = model.analytics

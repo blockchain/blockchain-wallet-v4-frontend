@@ -1,3 +1,6 @@
+import { nth } from 'ramda'
+import { select } from 'redux-saga/effects'
+
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import { PaymentValue } from 'blockchain-wallet-v4/src/redux/payment/types'
 import {
@@ -5,9 +8,6 @@ import {
   CurrenciesType,
   RatesType
 } from 'blockchain-wallet-v4/src/types'
-import { nth } from 'ramda'
-import { select } from 'redux-saga/effects'
-
 import { selectors } from 'data'
 
 const { isCashAddr, toCashAddr } = utils.bch
@@ -49,7 +49,7 @@ export const getOrUpdateProvisionalPayment = function * (
 }
 
 // converts base unit (SAT) to fiat
-export const convertFromBaseUnitToFiat = function (
+export const convertFromBaseUnitToFiat = function(
   coin: CoinType,
   baseUnitValue: number | string,
   userCurrency: keyof CurrenciesType,

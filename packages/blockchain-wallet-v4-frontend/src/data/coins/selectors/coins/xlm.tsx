@@ -1,14 +1,15 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { lift, path, prop, propEq } from 'ramda'
+
 import { coreSelectors } from 'blockchain-wallet-v4/src'
 import { SBBalanceType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
-import { lift, path, prop, propEq } from 'ramda'
-
 import { generateTradingAccount } from 'data/coins/utils'
 import { convertStandardToBase } from 'data/components/exchange/services'
+
 import { getTradingBalance } from '../'
 
 // retrieves introduction text for coin on its transaction page

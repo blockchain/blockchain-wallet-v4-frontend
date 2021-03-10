@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react'
-import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
 import styled from 'styled-components'
 
+import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
 import { Title, Value } from 'components/Flyout'
 import {
   DisplayContainer,

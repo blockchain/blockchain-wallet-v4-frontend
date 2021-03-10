@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+
 import AddDevice from './template'
 
 class AddDeviceContainer extends React.PureComponent {

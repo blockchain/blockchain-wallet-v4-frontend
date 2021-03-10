@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
+
 import Alerts from './template'
 
 const AlertsContainer = ({ alertActions, alerts }: Props) => {

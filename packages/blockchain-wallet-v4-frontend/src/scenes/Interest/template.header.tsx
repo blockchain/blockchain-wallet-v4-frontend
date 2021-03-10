@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Link, Text, TooltipHost } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Icon, Link, Text, TooltipHost } from 'blockchain-info-components'
 import {
   IconBackground,
   SceneHeader,

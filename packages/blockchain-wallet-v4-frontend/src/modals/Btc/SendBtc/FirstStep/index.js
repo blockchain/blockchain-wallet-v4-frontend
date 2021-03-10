@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import DataError from 'components/DataError'
 import { actions } from 'data'
+
 import { getBtcData, getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
@@ -21,7 +22,7 @@ class FirstStep extends React.Component {
     })
   }
 
-  render () {
+  render() {
     const { actions, amount, data, excludeHDWallets, payPro, to } = this.props
     return data.cata({
       Success: value => (

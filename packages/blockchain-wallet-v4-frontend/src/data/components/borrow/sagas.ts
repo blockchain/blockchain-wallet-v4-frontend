@@ -1,4 +1,10 @@
 import BigNumber from 'bignumber.js'
+import EthUtil from 'ethereumjs-util'
+import moment from 'moment'
+import { head, nth } from 'ramda'
+import { FormAction, initialize, touch } from 'redux-form'
+import { all, call, put, select } from 'redux-saga/effects'
+
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import {
@@ -9,13 +15,8 @@ import {
   RatesType
 } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import EthUtil from 'ethereumjs-util'
-import moment from 'moment'
-import { head, nth } from 'ramda'
-import { FormAction, initialize, touch } from 'redux-form'
-import { all, call, put, select } from 'redux-saga/effects'
-
 import { actions, selectors } from 'data'
+
 import profileSagas from '../../../data/modules/profile/sagas'
 import exchangeSagaUtils from '../exchange/sagas.utils'
 import {

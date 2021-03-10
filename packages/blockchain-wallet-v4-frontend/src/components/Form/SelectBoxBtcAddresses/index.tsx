@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+
 import { SkeletonRectangle } from 'blockchain-info-components'
 import {
   AccountTypes,
@@ -11,7 +12,7 @@ import { getData } from './selectors'
 import SelectBoxBtc from './template'
 
 class SelectBoxBtcAddresses extends React.PureComponent<Props> {
-  render () {
+  render() {
     const { data, ...rest } = this.props
     return data.cata({
       Success: value => {

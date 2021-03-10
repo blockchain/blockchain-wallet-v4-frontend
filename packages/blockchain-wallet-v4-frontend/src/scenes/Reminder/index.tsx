@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
+import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
+
 import Reminder from './template'
 
 class ReminderContainer extends React.PureComponent<Props> {

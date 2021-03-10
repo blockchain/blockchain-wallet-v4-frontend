@@ -1,14 +1,15 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
+import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { BankDWStepType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
+
 import { ModalPropsType } from '../../../types'
 import { BROKERAGE_INELIGIBLE } from '../../components'
 import BankList from './BankList'

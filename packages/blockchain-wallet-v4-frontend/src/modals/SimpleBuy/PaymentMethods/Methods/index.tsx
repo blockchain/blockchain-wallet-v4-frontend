@@ -1,5 +1,8 @@
 import React, { PureComponent, ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Form, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { Icon, Image, Text } from 'blockchain-info-components'
 import {
   SBPaymentMethodType,
@@ -7,9 +10,6 @@ import {
   WalletCurrencyType,
   WalletFiatEnum
 } from 'blockchain-wallet-v4/src/types'
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import { FlyoutWrapper } from 'components/Flyout'
 import {
   CARD_TYPES,
@@ -20,6 +20,7 @@ import {
   getFiatFromPair
 } from 'data/components/simpleBuy/model'
 import { getBankLogoImageName } from 'services/images'
+
 import { Props as OwnProps, SuccessStateType } from '../index'
 import BankWire from './BankWire'
 import LinkBank from './LinkBank'

@@ -1,15 +1,16 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+import styled from 'styled-components'
+
 import { SkeletonRectangle } from 'blockchain-info-components'
 import {
   CoinType,
   InterestRateType,
   RemoteDataType
 } from 'blockchain-wallet-v4/src/types'
-import { bindActionCreators, Dispatch } from 'redux'
-import styled from 'styled-components'
-
 import { actions } from 'data'
+
 import {
   StateType as ParentStateType,
   SuccessStateType as ParentSuccessStateType

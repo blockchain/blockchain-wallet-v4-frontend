@@ -1,5 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Button,
   Link,
@@ -9,9 +12,6 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import { Field, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import { Form, PhoneNumberBox } from 'components/Form'
 import { required, validMobileNumber } from 'services/forms'
 import { spacing } from 'services/styles'

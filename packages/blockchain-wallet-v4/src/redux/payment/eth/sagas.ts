@@ -12,6 +12,7 @@ import {
 import { call, select } from 'redux-saga/effects'
 
 import { EthRawTxType } from 'core/types'
+
 import settingsSagaFactory from '../../../redux/settings/sagas'
 import { eth } from '../../../signer'
 import { isPositiveInteger, isString } from '../../../utils/checks'

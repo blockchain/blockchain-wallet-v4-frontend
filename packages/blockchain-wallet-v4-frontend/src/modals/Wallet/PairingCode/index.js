@@ -1,6 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import styled from 'styled-components'
+
 import {
   Button,
   Modal,
@@ -9,11 +12,9 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import { bindActionCreators, compose } from 'redux'
-import styled from 'styled-components'
-
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'

@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+
 import {
   CoinType,
   LoanType,
@@ -9,11 +11,10 @@ import {
   RemoteDataType,
   SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { BorrowMinMaxType } from 'data/types'
+
 import { getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
@@ -45,11 +46,11 @@ export type State = { isAddrCopied: boolean; showQrCode: boolean }
 class BorrowForm extends PureComponent<Props, State> {
   state = { isAddrCopied: false, showQrCode: false }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.borrowActions.initializeBorrow('BTC')
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.borrowActions.destroy()
   }
 
@@ -83,7 +84,7 @@ class BorrowForm extends PureComponent<Props, State> {
     this.setState({ showQrCode: !this.state.showQrCode })
   }
 
-  render () {
+  render() {
     const { data } = this.props
 
     return data.cata({

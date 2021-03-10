@@ -1,4 +1,16 @@
 import BigNumber from 'bignumber.js'
+import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/validation'
+import moment from 'moment'
+import {
+  call,
+  cancel,
+  delay,
+  put,
+  race,
+  select,
+  take
+} from 'redux-saga/effects'
+
 import { Remote } from 'blockchain-wallet-v4/src'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import {
@@ -16,22 +28,11 @@ import {
   WalletOptionsType
 } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/validation'
-import moment from 'moment'
-import {
-  call,
-  cancel,
-  delay,
-  put,
-  race,
-  select,
-  take
-} from 'redux-saga/effects'
-
 import { actions, selectors } from 'data'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import { UserDataType } from 'data/modules/types'
 import { AddBankStepType, BrokerageModalOriginType } from 'data/types'
+
 import profileSagas from '../../modules/profile/sagas'
 import brokerageSagas from '../brokerage/sagas'
 import {

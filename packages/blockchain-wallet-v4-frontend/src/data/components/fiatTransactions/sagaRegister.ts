@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default () => {
   const fiatTransactionsSagas = sagas()
 
-  return function * fiatTransactionsSaga () {
+  return function * fiatTransactionsSaga() {
     yield takeEvery(
       AT.FIAT_TRANSACTIONS_INITIALIZED,
       fiatTransactionsSagas.initialized

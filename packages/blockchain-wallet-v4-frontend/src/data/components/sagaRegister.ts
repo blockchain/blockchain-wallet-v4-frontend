@@ -31,7 +31,7 @@ import withdraw from './withdraw/sagaRegister'
 import xlmTransactions from './xlmTransactions/sagaRegister'
 
 export default ({ api, coreSagas, networks }) =>
-  function * componentsSaga () {
+  function * componentsSaga() {
     yield fork(algoTransactions())
     yield fork(borrow({ api, coreSagas, networks }))
     yield fork(brokerage({ api, coreSagas, networks }))

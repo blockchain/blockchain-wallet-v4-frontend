@@ -19,7 +19,7 @@ const INITIAL_STATE: SwapState = {
   }
 }
 
-export function swapReducer (
+export function swapReducer(
   state = INITIAL_STATE,
   action: SwapActionTypes
 ): SwapState {

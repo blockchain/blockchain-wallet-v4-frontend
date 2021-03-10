@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { IconButton, TooltipHost } from 'blockchain-info-components'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
+import { IconButton, TooltipHost } from 'blockchain-info-components'
 import { TabMenuTransactionStatus, TextBox } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
 import { StickyHeader } from 'components/Layout'

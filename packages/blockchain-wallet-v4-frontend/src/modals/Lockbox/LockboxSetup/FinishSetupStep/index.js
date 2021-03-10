@@ -4,10 +4,11 @@ import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+
 import FinishSetupStep from './template'
 
 class FinishSetupStepContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.lockboxActions.saveNewDeviceKvStore()
   }
 
@@ -16,7 +17,7 @@ class FinishSetupStepContainer extends React.PureComponent {
     this.props.onClose()
   }
 
-  render () {
+  render() {
     return <FinishSetupStep onFinishSetup={this.onFinishSetup} />
   }
 }

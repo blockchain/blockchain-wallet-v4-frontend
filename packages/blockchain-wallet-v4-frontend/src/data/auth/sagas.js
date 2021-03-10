@@ -1,7 +1,7 @@
-import { Remote } from 'blockchain-wallet-v4/src'
 import { assoc, find, is, prop, propEq } from 'ramda'
 import { call, delay, fork, put, race, select, take } from 'redux-saga/effects'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, actionTypes, selectors } from 'data'
 import * as C from 'services/alerts'
 import { checkForVulnerableAddressError } from 'services/misc'
@@ -10,6 +10,7 @@ import {
   confirm,
   promptForSecondPassword
 } from 'services/sagas'
+
 import { guessCurrencyBasedOnCountry } from './helpers'
 
 export const logLocation = 'auth/sagas'

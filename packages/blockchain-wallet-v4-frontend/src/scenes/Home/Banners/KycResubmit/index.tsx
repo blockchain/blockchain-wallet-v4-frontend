@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { Button, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Button, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { media } from 'services/styles'
 

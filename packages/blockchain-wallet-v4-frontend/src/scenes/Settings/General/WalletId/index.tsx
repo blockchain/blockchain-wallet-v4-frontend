@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Text } from 'blockchain-info-components'
 
+import { Text } from 'blockchain-info-components'
 import {
   SettingComponent,
   SettingContainer,

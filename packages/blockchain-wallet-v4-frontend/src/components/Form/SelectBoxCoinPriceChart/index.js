@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Icon, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { Icon, Text } from 'blockchain-info-components'
 
 import SelectBox from '../SelectBox'
 import { getCoins } from './selectors'
@@ -87,7 +88,7 @@ const renderDisplay = (props, children) => {
 }
 
 class SelectBoxCoinPriceChart extends React.PureComponent {
-  render () {
+  render() {
     const { coins, ...rest } = this.props
     const elements = [{ group: '', items: coins }]
     return (

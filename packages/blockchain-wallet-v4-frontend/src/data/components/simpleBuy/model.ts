@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 import {
   CoinType,
   Limits,
@@ -10,7 +12,6 @@ import {
   SwapOrderType,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
-import moment from 'moment'
 
 import { convertBaseToStandard } from '../exchange/services'
 import { SBAddCardFormValuesType } from './types'

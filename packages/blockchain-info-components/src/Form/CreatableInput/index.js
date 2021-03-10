@@ -18,7 +18,7 @@ class CreatableInputContainer extends React.PureComponent {
     value: []
   }
 
-  componentDidMount () {
+  componentDidMount() {
     if (!isNil(this.props.defaultValue)) {
       // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({ value: this.props.defaultValue })
@@ -29,7 +29,7 @@ class CreatableInputContainer extends React.PureComponent {
     }
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const prevValue = pathOr([], ['value', 'value'], prevProps)
     const newValue = pathOr([], ['value', 'value'], this.props)
     const diff = head(difference(newValue, prevValue))
@@ -91,7 +91,7 @@ class CreatableInputContainer extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     const { inputValue, value } = this.state
     return (
       <CreatableInput

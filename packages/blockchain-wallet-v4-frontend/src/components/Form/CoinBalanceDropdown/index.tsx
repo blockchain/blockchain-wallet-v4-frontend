@@ -1,5 +1,8 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { Field } from 'redux-form'
+import styled from 'styled-components'
+
 import { Icon, Text } from 'blockchain-info-components'
 import {
   CoinType,
@@ -7,12 +10,10 @@ import {
   SupportedCoinType,
   SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
-import { Field } from 'redux-form'
-import styled from 'styled-components'
-
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import SelectBox from 'components/Form/SelectBox'
+
 import { getData } from './selectors'
 
 const DisplayContainer = styled.div<{
@@ -125,7 +126,7 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
     )
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: values => {
         const { addressData } = values

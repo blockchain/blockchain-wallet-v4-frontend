@@ -10,7 +10,7 @@ let pollTask: Task
 export default ({ api, coreSagas, networks }) => {
   const swapSagas = sagas({ api, coreSagas, networks })
 
-  return function * swapSaga () {
+  return function * swapSaga() {
     yield takeLatest(AT.CANCEL_ORDER, swapSagas.cancelOrder)
     yield takeLatest(AT.CHANGE_PAIR, swapSagas.changePair)
     yield takeLatest(AT.CHANGE_SWAP_TRENDING_PAIR, swapSagas.changeTrendingPair)

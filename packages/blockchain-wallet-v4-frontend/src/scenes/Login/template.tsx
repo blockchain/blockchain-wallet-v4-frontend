@@ -2,6 +2,12 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
+import Bowser from 'bowser'
+import { find, isEmpty, isNil, path, propEq, propOr } from 'ramda'
+import { compose } from 'redux'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Banner,
   Button,
@@ -13,12 +19,6 @@ import {
   TextGroup
 } from 'blockchain-info-components'
 import { CoinType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
-import Bowser from 'bowser'
-import { find, isEmpty, isNil, path, propEq, propOr } from 'ramda'
-import { compose } from 'redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import { SuccessCartridge } from 'components/Cartridge'
 import {
   Form,
@@ -34,6 +34,7 @@ import QRCodeWrapper from 'components/QRCodeWrapper'
 import { selectors } from 'data'
 import { required, validWalletId } from 'services/forms'
 import { media } from 'services/styles'
+
 import Modals from '../../modals'
 import LinkExchangeAccount from '../Register/LinkExchangeAccount'
 import SimpleBuyInfo from '../Register/SimpleBuyInfo'

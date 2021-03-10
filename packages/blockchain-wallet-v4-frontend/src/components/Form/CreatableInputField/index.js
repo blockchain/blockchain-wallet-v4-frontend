@@ -1,6 +1,7 @@
 import React from 'react'
-import { CreatableInput } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { CreatableInput } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;

@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+
 import { UnitType } from 'blockchain-wallet-v4/src/exchange'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import {
@@ -16,7 +17,6 @@ import {
   SwapQuoteType,
   SwapUserLimitsType
 } from 'blockchain-wallet-v4/src/types'
-
 import { model } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
@@ -28,6 +28,7 @@ import {
   SBFixType,
   SwapAccountType
 } from 'data/types'
+
 import { Props } from './template.success'
 
 const { LIMIT } = model.components.simpleBuy

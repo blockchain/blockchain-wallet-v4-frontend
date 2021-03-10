@@ -5,6 +5,7 @@ import { bindActionCreators, compose } from 'redux'
 
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 import SignMessage from './template'

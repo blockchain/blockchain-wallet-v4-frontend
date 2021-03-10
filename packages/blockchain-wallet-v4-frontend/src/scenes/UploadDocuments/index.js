@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
+
 import UploadDocuments from './template'
 
 class UploadDocumentsContainer extends Component {

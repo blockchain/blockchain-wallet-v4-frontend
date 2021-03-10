@@ -1,10 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { model } from 'data'
 import { BorrowFormValuesType, BorrowSteps } from 'data/types'
+
 import { Props as AddCollateralProps } from '../AddCollateral/template.success'
 import { Props as CheckoutProps } from './template.success'
 

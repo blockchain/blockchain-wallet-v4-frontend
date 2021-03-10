@@ -1,11 +1,11 @@
 import React from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { bindActionCreators, compose } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { actions, model } from 'data'

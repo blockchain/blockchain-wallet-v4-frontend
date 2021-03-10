@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { actions, selectors } from 'data'
+
 import LockboxDashboard from './Dashboard'
 import { TOUR_STEPS, TourTooltip } from './model'
 import LockboxOnboard from './Onboard'

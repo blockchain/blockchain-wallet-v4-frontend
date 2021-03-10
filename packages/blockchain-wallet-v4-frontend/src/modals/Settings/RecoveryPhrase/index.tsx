@@ -8,6 +8,7 @@ import { actions, selectors } from 'data'
 import { RecoveryPhraseStepType } from 'data/components/recoveryPhrase/types'
 import { RootState } from 'data/rootReducer'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import ConfirmWords from './ConfirmWords'
 import ConfirmWordsSuccess from './ConfirmWordsSuccess'
 import RecoveryPhraseIntro from './RecoveryPhraseIntro'

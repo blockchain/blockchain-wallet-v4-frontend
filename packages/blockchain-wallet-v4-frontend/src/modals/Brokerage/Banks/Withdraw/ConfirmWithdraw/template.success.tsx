@@ -1,17 +1,18 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { NabuMoneyFloatType } from 'blockchain-wallet-v4/src/types'
-import { InjectedFormProps, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import { ErrorCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { WithdrawCheckoutFormValuesType, WithdrawStepEnum } from 'data/types'
+
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const Top = styled(Text)`

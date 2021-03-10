@@ -6,6 +6,7 @@ import { compose, curry, flip, is, prop, sequence } from 'ramda'
 import { view } from 'ramda-lens'
 
 import { FiatType } from 'core/types'
+
 import Type from '../../types/Type'
 import Currencies, { CurrenciesType } from '../currencies'
 

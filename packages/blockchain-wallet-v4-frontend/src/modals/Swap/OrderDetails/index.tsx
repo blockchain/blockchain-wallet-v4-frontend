@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Form, InjectedFormProps, reduxForm } from 'redux-form'
+
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { coinToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { SwapOrderType } from 'blockchain-wallet-v4/src/types'
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
-
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getInput, getOutput } from 'data/components/swap/model'
+
 import { Props as BaseProps, SuccessStateType } from '..'
 import { TopText } from '../components'
 

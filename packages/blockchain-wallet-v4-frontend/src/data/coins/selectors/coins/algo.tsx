@@ -1,11 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { lift } from 'ramda'
+
 import { SBBalanceType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
-import { lift } from 'ramda'
-
 import { generateTradingAccount } from 'data/coins/utils'
+
 import { getTradingBalance } from '../'
 
 // retrieves introduction text for coin on its transaction page

@@ -9,6 +9,7 @@ import {
   NavbarNavItemIcon,
   NavbarNavItemTextHeader
 } from 'components/Navbar'
+
 import { Props } from '.'
 
 const FeaturesLarge = (

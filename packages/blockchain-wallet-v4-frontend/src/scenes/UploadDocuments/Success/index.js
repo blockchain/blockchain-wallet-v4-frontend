@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { selectors } from 'data'
+
 import UploadDocumentsSuccess from './template'
 
 class UploadDocumentsSuccessContainer extends Component {

@@ -1,9 +1,10 @@
-import { APIType } from 'blockchain-wallet-v4/src/network/api'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { call, put } from 'redux-saga/effects'
 
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { actions } from 'data'
 import { WithdrawStepEnum } from 'data/types'
+
 import { convertStandardToBase } from '../exchange/services'
 import * as A from './actions'
 

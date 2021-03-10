@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { media } from 'services/styles'
+
 import Table from './Table'
 import Tabs from './Tabs'
 import TotalRow from './TotalRow'

@@ -1,4 +1,5 @@
 import { RemoteDataType, WalletFiatType } from 'core/types'
+
 import { FiatSBAndSwapTransactionType } from '../custodial/types'
 import * as AT from './actionTypes'
 

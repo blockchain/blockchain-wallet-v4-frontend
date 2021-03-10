@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 import Announcements from 'components/Announcements'
 import { actions } from 'data'
+
 import LockboxHeader from '../template.header'
 import Setup from './template'
 

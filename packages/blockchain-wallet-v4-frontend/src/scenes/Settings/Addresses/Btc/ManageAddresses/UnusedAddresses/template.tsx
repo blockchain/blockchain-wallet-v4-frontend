@@ -1,5 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { filter } from 'ramda'
+
 import {
   Icon,
   Link,
@@ -9,7 +11,6 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import { filter } from 'ramda'
 
 const UnusedAddressesTemplate = ({
   onDeleteLabel,

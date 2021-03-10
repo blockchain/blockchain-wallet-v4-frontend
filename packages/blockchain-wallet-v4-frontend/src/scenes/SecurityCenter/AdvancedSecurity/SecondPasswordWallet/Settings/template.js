@@ -1,5 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Button,
   ButtonGroup,
@@ -7,10 +11,6 @@ import {
   TextGroup
 } from 'blockchain-info-components'
 import { Types } from 'blockchain-wallet-v4/src'
-import PropTypes from 'prop-types'
-import { Field, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import { FormGroup, FormItem, FormLabel, PasswordBox } from 'components/Form'
 import { SettingForm, SettingWrapper } from 'components/Setting'
 import { required, validPasswordConfirmation } from 'services/forms'

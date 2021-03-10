@@ -1,9 +1,10 @@
 import ReactHighcharts from 'react-highcharts'
+import { head, last, map, sort } from 'ramda'
+import { DefaultTheme } from 'styled-components'
+
 import { Color } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { CoinType, FiatType } from 'blockchain-wallet-v4/src/types'
-import { head, last, map, sort } from 'ramda'
-import { DefaultTheme } from 'styled-components'
 
 export const getConfig = (
   coin: CoinType,

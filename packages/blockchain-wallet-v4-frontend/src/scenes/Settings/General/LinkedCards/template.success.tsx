@@ -1,10 +1,10 @@
 import React, { SyntheticEvent } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button, Text } from 'blockchain-info-components'
-import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { Button, Text } from 'blockchain-info-components'
+import { FiatType } from 'blockchain-wallet-v4/src/types'
 import {
   CARD_TYPES,
   DEFAULT_CARD_SVG_LOGO
@@ -15,6 +15,7 @@ import {
   SettingSummary
 } from 'components/Setting'
 import { media } from 'services/styles'
+
 import {
   CardDetails,
   CardWrapper,

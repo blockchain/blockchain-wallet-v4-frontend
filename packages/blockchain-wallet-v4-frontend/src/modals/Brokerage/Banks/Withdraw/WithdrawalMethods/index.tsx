@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { bindActionCreators, Dispatch } from 'redux'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
+
 import { getData } from './selectors'
 import Failure from './template.failure'
 import Loading from './template.loading'

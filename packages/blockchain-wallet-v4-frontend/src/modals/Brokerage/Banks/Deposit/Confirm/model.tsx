@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { Text } from 'blockchain-info-components'
 
 const LineItemText = props => {

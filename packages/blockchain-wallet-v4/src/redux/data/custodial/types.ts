@@ -7,6 +7,7 @@ import {
   SBTransactionType,
   WalletCurrencyType
 } from 'core/types'
+
 import * as AT from './actionTypes'
 
 export type FetchCustodialOrdersAndTransactionsReturnType = {

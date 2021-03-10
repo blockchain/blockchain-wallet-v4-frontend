@@ -1,6 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+
 import {
   Button,
   Icon,
@@ -15,9 +18,6 @@ import {
   fiatToString,
   formatFiat
 } from 'blockchain-wallet-v4/src/exchange/currency'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-
 import { CheckBox, CoinBalanceDropdown, NumberBox } from 'components/Form'
 import { actions, selectors } from 'data'
 import { InterestDepositFormType } from 'data/components/interest/types'
@@ -30,7 +30,11 @@ import {
   calcCompoundInterest,
   maxFiat
 } from '../conversions'
-import { OwnProps as ParentOwnProps, CurrencySuccessStateType, DataSuccessStateType } from '.'
+import {
+  CurrencySuccessStateType,
+  DataSuccessStateType,
+  OwnProps as ParentOwnProps
+} from '.'
 import {
   AgreementContainer,
   AmountError,

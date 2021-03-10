@@ -1,18 +1,19 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { CoinType, FiatTypeEnum } from 'blockchain-wallet-v4/src/types'
 import { includes, toLower } from 'ramda'
 import { bindActionCreators } from 'redux'
 
+import { Remote } from 'blockchain-wallet-v4/src'
+import { CoinType, FiatTypeEnum } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
+
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class FiatDisplayContainer extends React.PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     if (Remote.NotAsked.is(this.props.data)) {
       const { coin, erc20List } = this.props
       if (coin in FiatTypeEnum) {
@@ -25,7 +26,7 @@ class FiatDisplayContainer extends React.PureComponent<Props> {
     }
   }
 
-  render () {
+  render() {
     const { data, ...rest } = this.props
     return data.cata({
       Success: value => <Success {...rest}>{value}</Success>,

@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { Button } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
 import {
   SettingComponent,

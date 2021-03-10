@@ -5,6 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { actions, model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { VerifyEmailFormValuesType } from 'data/types'
+
 import Loading from '../template.loading'
 import { getData } from './selectors'
 import Success from './template.success'

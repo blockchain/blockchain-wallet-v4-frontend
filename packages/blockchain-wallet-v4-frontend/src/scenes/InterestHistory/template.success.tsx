@@ -1,5 +1,9 @@
 import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
+import moment from 'moment'
+import { flatten, head, last, map } from 'ramda'
+import styled from 'styled-components'
+
 import {
   HeartbeatLoader,
   Icon,
@@ -11,9 +15,6 @@ import {
 } from 'blockchain-info-components'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { InterestTransactionType } from 'blockchain-wallet-v4/src/types'
-import moment from 'moment'
-import { flatten, head, last, map } from 'ramda'
-import styled from 'styled-components'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import Empty from './Empty'

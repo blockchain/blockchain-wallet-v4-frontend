@@ -1,4 +1,8 @@
 import BigNumber from 'bignumber.js'
+import { last, prop } from 'ramda'
+import { FormAction, initialize } from 'redux-form'
+import { call, delay, put, select, take } from 'redux-saga/effects'
+
 import { Remote } from 'blockchain-wallet-v4/src'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import {
@@ -11,13 +15,10 @@ import {
   SBBalancesType
 } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { last, prop } from 'ramda'
-import { FormAction, initialize } from 'redux-form'
-import { call, delay, put, select, take } from 'redux-saga/effects'
-
 import { actions, actionTypes, model, selectors } from 'data'
 import coinSagas from 'data/coins/sagas'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
+
 import profileSagas from '../../modules/profile/sagas'
 import { convertStandardToBase } from '../exchange/services'
 import * as A from './actions'

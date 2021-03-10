@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { has } from 'ramda'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import {
   Form,
   FormGroup,

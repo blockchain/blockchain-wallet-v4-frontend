@@ -1,5 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import {
   Button,
   HeartbeatLoader,
@@ -10,8 +12,6 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import styled from 'styled-components'
-
 import { spacing } from 'services/styles'
 
 const HeaderWrapper = styled.div`

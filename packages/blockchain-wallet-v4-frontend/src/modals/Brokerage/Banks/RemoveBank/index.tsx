@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { BankTransferAccountType } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
+import { BankTransferAccountType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import ModalEnhancer from 'providers/ModalEnhancer'
+
 import { ModalPropsType } from '../../../types'
 import Template from './template'
 
@@ -25,7 +26,7 @@ type LinkStatePropsType = {
 class CancelOrder extends PureComponent<Props, {}> {
   state: State = { show: false, direction: 'left' }
 
-  componentDidMount () {
+  componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
@@ -44,7 +45,7 @@ class CancelOrder extends PureComponent<Props, {}> {
     }
   }
 
-  render () {
+  render() {
     if (!this.props.account) {
       return null
     }

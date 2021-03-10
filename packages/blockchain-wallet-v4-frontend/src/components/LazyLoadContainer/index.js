@@ -28,7 +28,7 @@ class LazyLoadContainer extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     const { children, className } = this.props
     return (
       <Wrapper

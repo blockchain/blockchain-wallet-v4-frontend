@@ -1,5 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import { prop } from 'ramda'
+import styled from 'styled-components'
+
 import {
   Image,
   Modal,
@@ -7,9 +11,6 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import PropTypes from 'prop-types'
-import { prop } from 'ramda'
-import styled from 'styled-components'
 
 import ModalStepper from '../components'
 import { CONFIRM_STEPS } from './model'

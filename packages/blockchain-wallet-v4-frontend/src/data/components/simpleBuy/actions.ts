@@ -22,8 +22,8 @@ import {
   SwapUserLimitsType,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
-
 import { ModalOriginType } from 'data/modals/types'
+
 import { SwapAccountType } from '../swap/types'
 import * as AT from './actionTypes'
 import {

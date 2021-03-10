@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators } from 'redux'
 
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
+
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'

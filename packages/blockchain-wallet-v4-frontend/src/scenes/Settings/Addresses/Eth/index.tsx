@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { isEmpty, isNil, prop } from 'ramda'
 
 import { actions } from 'data'
+
 import { getData } from './selectors'
 import EthAddresses from './template'
 

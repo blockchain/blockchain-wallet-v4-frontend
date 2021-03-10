@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Text, TooltipHost } from 'blockchain-info-components'
-import { LoanTransactionsType, LoanType } from 'blockchain-wallet-v4/src/types'
 import styled from 'styled-components'
 
+import { Text, TooltipHost } from 'blockchain-info-components'
+import { LoanTransactionsType, LoanType } from 'blockchain-wallet-v4/src/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
 
 // same style for all children

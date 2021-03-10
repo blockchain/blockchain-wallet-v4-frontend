@@ -27,7 +27,7 @@ const INITIAL_STATE: SendState = {
   withdrawLockCheck: Remote.NotAsked
 }
 
-export function sendReducer (state = INITIAL_STATE, action) {
+export function sendReducer(state = INITIAL_STATE, action) {
   const { payload, type } = action
 
   switch (type) {

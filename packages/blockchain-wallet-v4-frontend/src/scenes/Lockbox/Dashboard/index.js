@@ -7,6 +7,7 @@ import styled from 'styled-components'
 
 import { actions, selectors } from 'data'
 import { media } from 'services/styles'
+
 import Menu from './Menu'
 import Settings from './Settings'
 import Transactions from './Transactions'

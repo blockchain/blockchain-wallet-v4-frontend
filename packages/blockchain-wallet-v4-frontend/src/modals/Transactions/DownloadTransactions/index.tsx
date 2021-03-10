@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { CoinType, SupportedCoinType } from 'blockchain-wallet-v4/src/types'
 import locale from 'browser-locale'
 import * as moment from 'moment'
 import { prop, toLower } from 'ramda'
 import { compose, Dispatch } from 'redux'
 
+import { CoinType, SupportedCoinType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import { getData } from './selectors'
 import DownloadTransactions from './template'
 

@@ -1,5 +1,6 @@
-import { coreReducers, paths } from 'blockchain-wallet-v4/src'
 import { combineReducers } from 'redux'
+
+import { coreReducers, paths } from 'blockchain-wallet-v4/src'
 
 import { alertsReducer } from './alerts/reducers'
 import { analyticsReducer } from './analytics/reducers'

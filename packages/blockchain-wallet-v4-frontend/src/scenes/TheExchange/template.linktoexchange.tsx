@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+
 import { Button, Link } from 'blockchain-info-components'
 
 import { Props } from './template'

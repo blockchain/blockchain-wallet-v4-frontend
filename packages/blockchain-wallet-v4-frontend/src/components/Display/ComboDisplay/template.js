@@ -1,8 +1,8 @@
 import React from 'react'
-import { Text } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+import { Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 

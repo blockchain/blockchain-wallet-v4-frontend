@@ -15,6 +15,7 @@ import {
   DropdownMenuItem
 } from 'components/Navbar/NavbarDropdown'
 import { useOnClickOutside } from 'services/misc'
+
 import { Props } from '.'
 
 const DropdownSeparator = styled.div`

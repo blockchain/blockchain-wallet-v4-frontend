@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { required, validMnemonic } from 'services/forms'

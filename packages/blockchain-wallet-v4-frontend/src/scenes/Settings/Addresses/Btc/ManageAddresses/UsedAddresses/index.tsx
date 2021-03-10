@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
+
 import UsedAddressesShowTemplate from './template'
 
 class UsedAddressesContainer extends React.PureComponent<Props> {

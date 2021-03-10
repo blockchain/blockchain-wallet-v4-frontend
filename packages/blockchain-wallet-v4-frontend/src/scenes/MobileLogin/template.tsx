@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Button, SpinningLoader, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Button, SpinningLoader, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import QRReader from 'components/QRCode/Reader'
 

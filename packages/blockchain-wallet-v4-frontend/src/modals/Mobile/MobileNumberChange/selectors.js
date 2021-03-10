@@ -1,6 +1,6 @@
-import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { formValueSelector } from 'redux-form'
 
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { selectors } from 'data'
 
 const formSelector = formValueSelector('mobileNumberChange')

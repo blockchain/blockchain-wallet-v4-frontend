@@ -1,10 +1,10 @@
+import { includes, lift, toLower } from 'ramda'
+
 import { Remote } from 'blockchain-wallet-v4/src'
 import {
   CoinType,
   SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
-import { includes, lift, toLower } from 'ramda'
-
 import { selectors } from 'data'
 
 export const getData = (state, ownProps) => {

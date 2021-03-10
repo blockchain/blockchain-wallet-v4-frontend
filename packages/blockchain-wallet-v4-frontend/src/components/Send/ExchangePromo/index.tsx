@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { Icon, Link, Text } from 'blockchain-info-components'
-import { WalletOptionsType } from 'blockchain-wallet-v4/src/types'
 import { concat, equals, prop } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled, { css } from 'styled-components'
 
+import { Icon, Link, Text } from 'blockchain-info-components'
+import { WalletOptionsType } from 'blockchain-wallet-v4/src/types'
 import { actions, model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -69,7 +69,7 @@ class ExchangePromo extends PureComponent<Props> {
     ])
   }
 
-  render () {
+  render() {
     const { domains, isExchangeLinked, isGoldVerified } = this.props
     const exchangeUrl = concat(prop('exchange', domains), '/trade')
 

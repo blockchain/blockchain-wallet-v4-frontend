@@ -2,6 +2,8 @@
 
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import {
   Banner,
   Button,
@@ -12,11 +14,10 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import styled from 'styled-components'
-
 import { FormItem, FormLabel, TextArea, TextBox } from 'components/Form'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { validBtcAddress } from 'services/forms'
+
 import * as services from './services'
 
 const Item = styled(FormItem)`
@@ -107,7 +108,7 @@ class VerifyMessage extends React.PureComponent {
     this.setState({ [name]: value })
   }
 
-  render () {
+  render() {
     const { close, network } = this.props
 
     return (

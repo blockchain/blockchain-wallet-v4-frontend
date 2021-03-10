@@ -1,6 +1,3 @@
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { InterestAccountBalanceType } from 'blockchain-wallet-v4/src/types'
 import {
   compose,
   concat,
@@ -22,6 +19,9 @@ import {
   sort
 } from 'ramda'
 
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { InterestAccountBalanceType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { collapse } from 'utils/helpers'
 

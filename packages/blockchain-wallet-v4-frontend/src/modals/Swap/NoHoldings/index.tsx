@@ -1,13 +1,14 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon, Text } from 'blockchain-info-components'
 import { bindActionCreators, compose } from 'redux'
 import styled, { css } from 'styled-components'
 
+import { Icon, Text } from 'blockchain-info-components'
 import { SuccessCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { actions } from 'data'
+
 import { Border, IconBackground, TopText } from '../components'
 import { Props as BaseProps } from '../index'
 

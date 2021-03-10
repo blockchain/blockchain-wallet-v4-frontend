@@ -1,9 +1,10 @@
-import { Types } from 'blockchain-wallet-v4/src'
 import { filter, findIndex, forEach, pluck, propEq, sort } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
+import { Types } from 'blockchain-wallet-v4/src'
 import * as C from 'services/alerts'
 import { promptForInput } from 'services/sagas'
+
 import * as actions from '../../actions'
 import { selectors } from '../../index'
 import * as A from './actions'
@@ -15,7 +16,7 @@ export default ({ api, networks }) => {
     yield put(actions.modals.closeAllModals())
   }
 
-  const deriveAddresses = function (account, receiveIndex) {
+  const deriveAddresses = function(account, receiveIndex) {
     let i = 0
     let addrs = []
 

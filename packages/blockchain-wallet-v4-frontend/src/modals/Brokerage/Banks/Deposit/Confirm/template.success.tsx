@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import { FiatType } from 'blockchain-wallet-v4/src/types'
 import moment from 'moment'
 import styled from 'styled-components'
 
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { BankDWStepType } from 'data/types'
+
 import { FormattedBank, LineItemText } from './model'
 
 const Wrapper = styled.div`

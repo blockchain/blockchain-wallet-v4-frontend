@@ -4,6 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { actions } from 'data'
+
 import BuyCrypto from './BuyCrypto'
 import ContinueToGold from './ContinueToGold'
 import FinishKyc from './FinishKyc'

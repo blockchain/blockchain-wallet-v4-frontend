@@ -1,6 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { bindActionCreators, compose } from 'redux'
+import styled from 'styled-components'
+
 import {
   Icon,
   Link,
@@ -9,12 +13,9 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import PropTypes from 'prop-types'
-import { bindActionCreators, compose } from 'redux'
-import styled from 'styled-components'
-
 import { actions, model } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import { getData } from './selectors'
 
 const Header = styled.div`

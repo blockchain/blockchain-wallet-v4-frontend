@@ -1,12 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { compose } from 'redux'
 import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FlyoutWrapper } from 'components/Flyout'
 import {
   CoinBalanceDropdown,
@@ -16,6 +16,7 @@ import {
 } from 'components/Form'
 import { selectors } from 'data'
 import { BorrowFormValuesType } from 'data/components/borrow/types'
+
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import Summary from './Summary'
 import { maximumAmount, minimumAmount } from './validation'

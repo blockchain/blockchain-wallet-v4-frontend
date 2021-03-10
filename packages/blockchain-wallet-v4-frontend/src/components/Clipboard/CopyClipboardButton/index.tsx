@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
 import * as C from 'services/alerts'
+
 import CopyClipboard from './template'
 
 export interface OwnProps {
@@ -18,19 +19,19 @@ export interface State {
 }
 
 class CopyToClipboardContainer extends React.PureComponent<Props, State> {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.timeout = undefined
     this.state = { active: false }
     this.handleClick = this.handleClick.bind(this)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearTimeout(this.timeout)
   }
   timeout: number | undefined
 
-  handleClick () {
+  handleClick() {
     const { alertActions } = this.props
     this.setState({ active: true })
     // @ts-ignore
@@ -40,7 +41,7 @@ class CopyToClipboardContainer extends React.PureComponent<Props, State> {
     alertActions.displaySuccess(C.COPY_LINK_CLIPBOARD_SUCCESS)
   }
 
-  render () {
+  render() {
     return (
       <CopyClipboard
         active={this.state.active}

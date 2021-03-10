@@ -1,13 +1,4 @@
 import {
-  AddressTypesType,
-  ProcessedTxType,
-  RemoteDataType,
-  SBOrderType,
-  SBTransactionType,
-  SupportedWalletCurrenciesType,
-  WalletCurrencyType
-} from 'blockchain-wallet-v4/src/types'
-import {
   all,
   allPass,
   anyPass,
@@ -26,8 +17,18 @@ import {
 } from 'ramda'
 import { createSelector } from 'reselect'
 
+import {
+  AddressTypesType,
+  ProcessedTxType,
+  RemoteDataType,
+  SBOrderType,
+  SBTransactionType,
+  SupportedWalletCurrenciesType,
+  WalletCurrencyType
+} from 'blockchain-wallet-v4/src/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+
 import { TransferType, TxType } from './types'
 
 const { WALLET_TX_SEARCH } = model.form

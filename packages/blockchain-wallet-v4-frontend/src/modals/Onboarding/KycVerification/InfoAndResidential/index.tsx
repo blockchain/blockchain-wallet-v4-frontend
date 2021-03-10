@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators } from 'redux'
 
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import { actions, model, selectors } from 'data'
 import { CountryType } from 'data/components/identityVerification/types'
 import { RootState } from 'data/rootReducer'
 import { InfoAndResidentialFormValuesType } from 'data/types'
+
 import Loading from '../template.loading'
 import { getData } from './selectors'
 import Success from './template.success'

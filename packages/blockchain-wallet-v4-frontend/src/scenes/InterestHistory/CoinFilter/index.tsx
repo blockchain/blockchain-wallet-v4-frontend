@@ -7,6 +7,7 @@ import styled from 'styled-components'
 
 import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 import { actions } from 'data'
+
 import { Props as OwnProps, SuccessStateType } from '..'
 import { Value } from '../model'
 

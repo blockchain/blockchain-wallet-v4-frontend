@@ -10,6 +10,7 @@ import {
   SettingStatus,
   SettingSummary
 } from 'components/Setting'
+
 import Settings from './Settings'
 
 const TwoStepVerificationRemember = props => {

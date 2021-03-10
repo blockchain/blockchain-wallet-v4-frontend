@@ -1,12 +1,13 @@
 import React from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { SkeletonRectangle, Text } from 'blockchain-info-components'
 import { toLower } from 'ramda'
 import styled from 'styled-components'
 
+import { SkeletonRectangle, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
+
 import { Props as OwnProps } from './WalletBalance/Balance/template.success'
 
 export const CoinBalanceMain = styled.div`

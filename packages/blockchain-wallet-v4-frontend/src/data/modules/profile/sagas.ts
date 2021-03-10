@@ -1,5 +1,3 @@
-import { Remote } from 'blockchain-wallet-v4/src'
-import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import moment from 'moment'
 import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
 import {
@@ -14,8 +12,11 @@ import {
   take
 } from 'redux-saga/effects'
 
+import { Remote } from 'blockchain-wallet-v4/src'
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { actions, actionTypes, selectors } from 'data'
 import { promptForSecondPassword } from 'services/sagas'
+
 import * as A from './actions'
 import * as AT from './actionTypes'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'

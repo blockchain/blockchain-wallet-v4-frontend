@@ -1,5 +1,8 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { equals } from 'ramda'
+import { bindActionCreators, Dispatch } from 'redux'
+
 import { Remote } from 'blockchain-wallet-v4/src'
 import {
   ExtractSuccess,
@@ -7,12 +10,10 @@ import {
   SBOrderType,
   SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
-import { equals } from 'ramda'
-import { bindActionCreators, Dispatch } from 'redux'
-
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+
 import Loading from '../template.loading'
 import { getData } from './selectors'
 import SuccessSdd from './template.sdd.success'

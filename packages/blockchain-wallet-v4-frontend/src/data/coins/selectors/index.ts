@@ -1,16 +1,17 @@
+import { any, isEmpty, isNil, map, values } from 'ramda'
+
 import { Remote } from 'blockchain-wallet-v4/src'
 import {
   CoinType,
   Erc20CoinsEnum,
   RemoteDataType
 } from 'blockchain-wallet-v4/src/types'
-import { any, isEmpty, isNil, map, values } from 'ramda'
-
 import { selectors } from 'data'
 import { SUPPORTED_COINS } from 'data/coins/model/swap'
 import { CoinAccountSelectorType } from 'data/coins/types'
 import { SwapAccountType } from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
+
 import * as ALGO from './coins/algo'
 import * as BCH from './coins/bch'
 import * as BTC from './coins/btc'

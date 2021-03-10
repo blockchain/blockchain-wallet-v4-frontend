@@ -1,18 +1,19 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { bindActionCreators, Dispatch } from 'redux'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { AddBankStepType } from 'data/types'
+
 import { getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class Add extends PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
       this.props.brokerageActions.fetchFastLink()
@@ -34,7 +35,7 @@ class Add extends PureComponent<Props> {
     // })
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => (
         <Success

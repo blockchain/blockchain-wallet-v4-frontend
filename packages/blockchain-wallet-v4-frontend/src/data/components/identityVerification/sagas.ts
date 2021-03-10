@@ -1,11 +1,12 @@
-import { Types } from 'blockchain-wallet-v4/src'
-import { RemoteDataType, SDDVerifiedType } from 'blockchain-wallet-v4/src/types'
 import { isEmpty, prop, toUpper } from 'ramda'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
+import { Types } from 'blockchain-wallet-v4/src'
+import { RemoteDataType, SDDVerifiedType } from 'blockchain-wallet-v4/src/types'
 import { actions, actionTypes, model, selectors } from 'data'
 import { KycStateType } from 'data/modules/types'
 import * as C from 'services/alerts'
+
 import profileSagas from '../../modules/profile/sagas'
 import * as A from './actions'
 import * as AT from './actionTypes'

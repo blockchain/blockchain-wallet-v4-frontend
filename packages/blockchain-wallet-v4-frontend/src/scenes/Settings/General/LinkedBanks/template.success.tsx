@@ -1,15 +1,15 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { any } from 'ramda'
+import { InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { Button, Image, Text } from 'blockchain-info-components'
 import {
   BankTransferAccountType,
   SBPaymentMethodType,
   WalletFiatEnum
 } from 'blockchain-wallet-v4/src/types'
-import { any } from 'ramda'
-import { InjectedFormProps, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import {
   SettingComponent,
   SettingContainer,
@@ -17,6 +17,7 @@ import {
 } from 'components/Setting'
 import { getBankLogoImageName } from 'services/images'
 import { media } from 'services/styles'
+
 import {
   CardDetails,
   CardWrapper,

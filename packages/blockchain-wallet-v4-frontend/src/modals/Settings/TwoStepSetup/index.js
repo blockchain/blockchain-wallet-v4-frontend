@@ -4,6 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import TwoStepSetup from './template.js'
 
 class TwoStepSetupContainer extends React.PureComponent {

@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+
 import {
   CoinType,
   FiatType,
@@ -8,12 +10,11 @@ import {
   SBOrderType,
   SBPairType
 } from 'blockchain-wallet-v4/src/types'
-import { bindActionCreators, Dispatch } from 'redux'
-
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
+
 import Loading from '../template.loading'
 import { getData } from './selectors'
 import Success from './template.success'

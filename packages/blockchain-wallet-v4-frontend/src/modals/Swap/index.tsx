@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { ExtractSuccess, SwapOrderType } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
+import { ExtractSuccess, SwapOrderType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { SwapStepType } from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
 import ModalEnhancer from 'providers/ModalEnhancer'
+
 import { ModalPropsType } from '../types'
 import CoinSelection from './CoinSelection'
 import EnterAmount from './EnterAmount'

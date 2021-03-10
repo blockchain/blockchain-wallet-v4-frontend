@@ -1,7 +1,8 @@
 import React from 'react'
+import styled from 'styled-components'
+
 import { Icon, Text } from 'blockchain-info-components'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import styled from 'styled-components'
 
 const SimpleBuyItemWrapper = styled.div`
   display: flex;

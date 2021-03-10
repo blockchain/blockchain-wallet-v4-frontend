@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+
 import CheckVersionsStep from './template'
 
 class CheckVersionsContainer extends React.PureComponent {
@@ -11,7 +12,7 @@ class CheckVersionsContainer extends React.PureComponent {
       step: 'uninstall-apps'
     })
   }
-  render () {
+  render() {
     const { status } = this.props
     return (
       <CheckVersionsStep status={status} onStartInstall={this.onStartInstall} />

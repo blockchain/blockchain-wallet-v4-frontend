@@ -1,4 +1,7 @@
 import BigNumber from 'bignumber.js'
+import moment from 'moment'
+import { call, delay, put, race, select, take } from 'redux-saga/effects'
+
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import {
@@ -9,13 +12,11 @@ import {
   SwapQuoteType
 } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import moment from 'moment'
-import { call, delay, put, race, select, take } from 'redux-saga/effects'
-
 import { actions, selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
+
 import profileSagas from '../../../data/modules/profile/sagas'
 import { convertStandardToBase } from '../exchange/services'
 import sendSagas from '../send/sagas'

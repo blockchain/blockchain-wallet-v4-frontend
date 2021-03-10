@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { Button } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Button } from 'blockchain-info-components'
 import { FooterShadowWrapper } from 'components/Form'
 import {
   BackButton,

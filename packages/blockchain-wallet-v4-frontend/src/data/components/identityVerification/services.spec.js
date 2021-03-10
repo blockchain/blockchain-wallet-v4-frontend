@@ -1,6 +1,7 @@
 import { assocPath } from 'ramda'
 
 import { model } from 'data'
+
 import { computeSteps } from './services'
 
 const { TIERS } = model.profile

@@ -1,16 +1,16 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { BuyOrSell } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
+import { bindActionCreators, Dispatch } from 'redux'
+import styled from 'styled-components'
+
 import { Button, Icon, Text } from 'blockchain-info-components'
 import {
   SBOrderType,
   SupportedWalletCurrenciesType,
   WalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
-import { BuyOrSell } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
-import { bindActionCreators, Dispatch } from 'redux'
-import styled from 'styled-components'
-
 import { actions, selectors } from 'data'
 import { getOrderType } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'

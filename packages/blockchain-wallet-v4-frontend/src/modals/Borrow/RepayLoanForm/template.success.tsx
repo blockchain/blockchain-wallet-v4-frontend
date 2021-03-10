@@ -1,11 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -17,6 +17,7 @@ import {
 } from 'components/Form'
 import { selectors } from 'data'
 import { RepayLoanFormType } from 'data/components/borrow/types'
+
 import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
 import { Props as OwnProps, SuccessStateType } from '.'
 import TabMenuPaymentMethod from './TabMenuPaymentMethod'

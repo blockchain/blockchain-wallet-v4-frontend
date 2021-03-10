@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Icon, Text } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
 import styled, { css, keyframes } from 'styled-components'
 
+import { Icon, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
 const revealFrames = keyframes`

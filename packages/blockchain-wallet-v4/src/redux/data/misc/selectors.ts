@@ -1,6 +1,5 @@
 import { Remote } from 'blockchain-wallet-v4/src'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
-
 import {
   CoinType,
   PriceChangeTimeRangeType,
@@ -9,6 +8,7 @@ import {
   WalletCurrencyType
 } from 'core/types'
 import { RootState } from 'data/rootReducer'
+
 import * as selectors from '../../selectors'
 
 export const getCaptcha = (state: RootState) => state.dataPath.misc.captcha

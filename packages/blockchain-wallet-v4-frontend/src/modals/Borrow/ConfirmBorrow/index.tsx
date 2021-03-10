@@ -1,16 +1,17 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+
 import {
   OfferType,
   PaymentValue,
   RatesType,
   RemoteDataType
 } from 'blockchain-wallet-v4/src/types'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
+
 import { getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
@@ -22,7 +23,7 @@ class ConfirmBorrow extends PureComponent<Props> {
     this.props.borrowActions.createBorrow()
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => (
         <Success {...val} {...this.props} onSubmit={this.handleSubmit} />

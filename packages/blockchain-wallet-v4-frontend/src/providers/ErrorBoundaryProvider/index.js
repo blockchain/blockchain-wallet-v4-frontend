@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+
 import { selectors } from '../../data'
 import ErrorModal from './template'
 

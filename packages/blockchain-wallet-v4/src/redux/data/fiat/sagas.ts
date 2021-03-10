@@ -1,10 +1,11 @@
-import { CoinType, FiatType } from 'blockchain-wallet-v4/src/types'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import moment from 'moment'
 import { filter, last, take as takeR } from 'ramda'
 import { call, put, select, take } from 'redux-saga/effects'
 
+import { CoinType, FiatType } from 'blockchain-wallet-v4/src/types'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { APIType } from 'core/network/api'
+
 import Remote from '../../../remote'
 import { FiatSBAndSwapTransactionType } from '../custodial/types'
 import * as A from './actions'

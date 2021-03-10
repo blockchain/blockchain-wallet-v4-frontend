@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { utils } from 'blockchain-wallet-v4/src'
 import { compose } from 'redux'
 
+import { utils } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import { getData } from './selectors'
 import ImportBtcAddress from './template.js'
 
@@ -13,7 +14,7 @@ class ImportBtcAddressContainer extends React.PureComponent {
     this.props.importBtcAddress()
   }
 
-  render () {
+  render() {
     const {
       closeAll,
       invalid,

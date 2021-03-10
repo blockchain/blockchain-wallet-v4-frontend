@@ -1,7 +1,8 @@
 import React from 'react'
-import blockChainLogo from 'blockchain-info-components/src/Images/img/qr-logo.svg'
 import QRCodeReact from 'qrcode.react'
 import styled from 'styled-components'
+
+import blockChainLogo from 'blockchain-info-components/src/Images/img/qr-logo.svg'
 
 const Wrapper = styled.div`
   canvas {

@@ -4,6 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+
 import Template from './template'
 
 export type LinkDispatchPropsType = {

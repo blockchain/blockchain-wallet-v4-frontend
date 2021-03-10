@@ -1,6 +1,6 @@
-import { CoinType, ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { lift } from 'ramda'
 
+import { CoinType, ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { getBalanceSelector } from 'components/Balances/nonCustodial/selectors'
 import { selectors } from 'data'
 

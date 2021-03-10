@@ -1,11 +1,12 @@
 import React from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Icon, Text } from 'blockchain-info-components'
-import { SupportedWalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import { mapObjIndexed, toLower, values } from 'ramda'
 import styled from 'styled-components'
 
+import { Icon, Text } from 'blockchain-info-components'
+import { SupportedWalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import { HomeBalanceRow, HomeBalanceTable } from 'components/Balances'
+
 import CoinBalance from '../CoinBalance'
 import { Props, SuccessStateType } from '.'
 

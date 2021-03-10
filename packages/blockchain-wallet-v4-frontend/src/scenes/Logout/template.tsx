@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Button, Link, Separator, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Button, Link, Separator, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 
 const Header = styled.div`

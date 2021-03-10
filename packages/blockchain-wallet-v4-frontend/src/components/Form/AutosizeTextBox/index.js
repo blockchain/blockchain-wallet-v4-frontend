@@ -1,6 +1,7 @@
 import React from 'react'
-import { AutosizeTextInput, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { AutosizeTextInput, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
@@ -22,7 +23,7 @@ const getErrorState = ({ invalid, touched }) => {
 }
 
 class AutosizeTextBox extends React.Component {
-  render () {
+  render() {
     const {
       autoComplete,
       autoFocus,

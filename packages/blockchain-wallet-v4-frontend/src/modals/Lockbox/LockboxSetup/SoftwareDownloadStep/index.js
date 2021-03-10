@@ -4,6 +4,7 @@ import { equals } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
+
 import SoftwareDownloadStep from './template'
 
 class SoftwareDownloadContainer extends React.PureComponent {
@@ -26,7 +27,7 @@ class SoftwareDownloadContainer extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     return (
       <SoftwareDownloadStep
         hasDownloaded={this.state.hasDownloaded}

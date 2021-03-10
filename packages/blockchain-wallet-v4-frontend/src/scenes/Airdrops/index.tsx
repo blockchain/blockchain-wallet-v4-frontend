@@ -1,15 +1,15 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { lift } from 'ramda'
+import { bindActionCreators } from 'redux'
+import styled from 'styled-components'
+
 import { Icon, Text } from 'blockchain-info-components'
 import {
   NabuApiErrorType,
   RemoteDataType
 } from 'blockchain-wallet-v4/src/types'
-import { lift } from 'ramda'
-import { bindActionCreators } from 'redux'
-import styled from 'styled-components'
-
 import {
   IconBackground,
   SceneHeader,
@@ -19,6 +19,7 @@ import {
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserCampaignsType, UserDataType } from 'data/types'
+
 import EmailRequired from './components'
 import PastAirdropsSuccess from './PastAirdrops/template.success'
 import Loading from './template.loading'

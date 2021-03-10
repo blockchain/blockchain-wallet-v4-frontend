@@ -1,11 +1,12 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, model } from 'data'
 import { requireUniqueWalletName } from 'services/forms'
+
 import { getData, getWalletsWithoutRemoteData } from './selectors'
 import Template from './template'
 

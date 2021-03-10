@@ -1,5 +1,9 @@
 import React from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import Bowser from 'bowser'
+import { Field } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Banner,
   Button,
@@ -8,10 +12,6 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import Bowser from 'bowser'
-import { Field } from 'redux-form'
-import styled from 'styled-components'
-
 import {
   CheckBox,
   Form,

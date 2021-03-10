@@ -2,17 +2,18 @@ import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import BigNumber from 'bignumber.js'
+import { bindActionCreators, Dispatch } from 'redux'
+
 import { SkeletonRectangle } from 'blockchain-info-components'
 import {
   CoinType,
   ExtractSuccess,
   FiatType
 } from 'blockchain-wallet-v4/src/types'
-import { bindActionCreators, Dispatch } from 'redux'
-
 import { actions } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'
+
 import { PriceChange } from '../../model'
 import { getData } from './selectors'
 

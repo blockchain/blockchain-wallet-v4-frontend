@@ -1,7 +1,8 @@
 import React from 'react'
-import { Exchange } from 'blockchain-wallet-v4/src'
 import PropTypes from 'prop-types'
 import { equals } from 'ramda'
+
+import { Exchange } from 'blockchain-wallet-v4/src'
 
 import Converter from './template'
 
@@ -20,7 +21,7 @@ const convertCoinToFiat = (value, unit, currency, rates) => ({
 class ConverterContainer extends React.PureComponent {
   state = { coin: '', fiat: '' }
 
-  static getDerivedStateFromProps (nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     if (!equals(nextProps.value, prevState)) {
       return nextProps.value
     }
@@ -53,7 +54,7 @@ class ConverterContainer extends React.PureComponent {
     this.props.onFocus(this.state)
   }
 
-  render () {
+  render() {
     const { coin, fiat } = this.state
     const {
       className,

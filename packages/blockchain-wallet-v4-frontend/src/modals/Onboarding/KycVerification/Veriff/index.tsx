@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { bindActionCreators } from 'redux'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
+
 import Loading from '../Verify/template.loading'
 import { getData } from './selectors'
 import Failure from './template.failure'
