@@ -1,11 +1,11 @@
-import { actions } from 'data'
-import { bindActionCreators, compose } from 'redux'
-import { concat, prop } from 'ramda'
-import { connect, ConnectedProps } from 'react-redux'
-import Navigation from './template'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { concat, prop } from 'ramda'
+import { bindActionCreators, compose } from 'redux'
 
+import { actions } from 'data'
 import { Props as OwnProps } from '../template.success'
+import Navigation from './template'
 
 class NavigationContainer extends React.PureComponent<Props> {
   render () {
@@ -32,6 +32,7 @@ const connector = connect(null, mapDispatchToProps)
 
 const enhance = compose(connector)
 
-export type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = OwnProps &
+  ConnectedProps<typeof connector> & { lockboxDevices?: Array<any> }
 
 export default enhance(NavigationContainer)

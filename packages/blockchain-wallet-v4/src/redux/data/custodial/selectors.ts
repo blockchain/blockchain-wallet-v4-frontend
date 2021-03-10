@@ -1,5 +1,5 @@
-import { RootState } from 'data/rootReducer'
 import { WalletCurrencyType } from 'core/types'
+import { RootState } from 'data/rootReducer'
 
 export const getNextSBTransactionsURL = (
   state: RootState,

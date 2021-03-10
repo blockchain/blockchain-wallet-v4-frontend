@@ -1,26 +1,26 @@
-import * as StellarSdk from 'stellar-sdk'
-import { call, select } from 'redux-saga/effects'
 import { contains, merge, path, prop, values } from 'ramda'
+import { call, select } from 'redux-saga/effects'
+import * as StellarSdk from 'stellar-sdk'
 
-import * as S from '../../selectors'
-import { ADDRESS_TYPES } from '../btc/utils'
-import { AddressTypesType } from '../types'
-import {
-  calculateEffectiveBalance,
-  calculateReserve,
-  isValidAddress,
-  overflowsEffectiveBalance,
-  overflowsFullBalance,
-  calculateFee as utilsCalculateFee
-} from '../../../utils/xlm'
 import { convertXlmToXlm } from '../../../exchange'
+import settingsSagaFactory from '../../../redux/settings/sagas'
+import { xlm as xlmSigner } from '../../../signer'
 import {
   isPositiveInteger,
   isPositiveNumber,
   isString
 } from '../../../utils/checks'
-import { xlm as xlmSigner } from '../../../signer'
-import settingsSagaFactory from '../../../redux/settings/sagas'
+import {
+  calculateEffectiveBalance,
+  calculateFee as utilsCalculateFee,
+  calculateReserve,
+  isValidAddress,
+  overflowsEffectiveBalance,
+  overflowsFullBalance
+} from '../../../utils/xlm'
+import * as S from '../../selectors'
+import { ADDRESS_TYPES } from '../btc/utils'
+import { AddressTypesType } from '../types'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -151,22 +151,22 @@ export default ({ api }) => {
 
   // ///////////////////////////////////////////////////////////////////////////
 
-  function create ({ payment } = { payment: {} }) {
+  function create({ payment } = { payment: {} }) {
     const makePayment = p => ({
       coin: 'XLM',
 
-      value () {
+      value() {
         return p
       },
 
-      * init () {
+      * init() {
         const fees = yield call(api.getXlmFees)
         const baseFee = prop('regular', fees)
         const fee = yield call(calculateFee, baseFee, fees)
         return makePayment(merge(p, { fee, fees, coin: 'XLM' }))
       },
 
-      * from (origin, type: AddressTypesType, effectiveBalance?: string) {
+      * from(origin, type: AddressTypesType, effectiveBalance?: string) {
         let from
 
         if (type === 'CUSTODIAL') {
@@ -206,7 +206,7 @@ export default ({ api }) => {
         return makePayment(merge(p, { from, effectiveBalance, reserve }))
       },
 
-      to (destination) {
+      to(destination) {
         if (!destination) throw new Error(NO_DESTINATION_ERROR)
 
         const to = calculateTo(destination)
@@ -218,7 +218,7 @@ export default ({ api }) => {
         return makePayment(merge(p, { to }))
       },
 
-      amount (amount) {
+      amount(amount) {
         if (!isPositiveInteger(Number(amount)))
           throw new Error(INVALID_AMOUNT_ERROR)
         if (overflowsFullBalance(amount, p.effectiveBalance, p.reserve))
@@ -229,12 +229,12 @@ export default ({ api }) => {
         return makePayment(merge(p, { amount }))
       },
 
-      * fee (value) {
+      * fee(value) {
         const fee = yield call(calculateFee, value, prop('fees', p))
         return makePayment(merge(p, { fee }))
       },
 
-      * build () {
+      * build() {
         const fromData = prop('from', p)
         const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
@@ -271,7 +271,7 @@ export default ({ api }) => {
         return makePayment(merge(p, { transaction }))
       },
 
-      * sign (password, transport, scrambleKey) {
+      * sign(password, transport, scrambleKey) {
         try {
           const transaction = prop('transaction', p)
           const signed = yield call(
@@ -288,7 +288,7 @@ export default ({ api }) => {
         }
       },
 
-      * publish () {
+      * publish() {
         const signed = prop('signed', p)
         if (!signed) throw new Error(NO_SIGNED_ERROR)
         const tx = yield call(api.pushXlmTx, signed)
@@ -296,29 +296,29 @@ export default ({ api }) => {
         return makePayment(merge(p, { txId: tx.hash }))
       },
 
-      description (message) {
+      description(message) {
         return isString(message)
           ? makePayment(merge(p, { description: message }))
           : makePayment(p)
       },
 
-      memo (memo) {
+      memo(memo) {
         if (!isString(memo)) throw new Error(WRONG_MEMO_FORMAT)
 
         return makePayment(merge(p, { memo }))
       },
 
-      memoType (memoType) {
+      memoType(memoType) {
         if (!contains(memoType, MEMO_TYPES)) throw new Error(WRONG_MEMO_FORMAT)
 
         return makePayment(merge(p, { memoType }))
       },
 
-      setDestinationAccountExists (destinationAccountExists) {
+      setDestinationAccountExists(destinationAccountExists) {
         return makePayment(merge(p, { destinationAccountExists }))
       },
 
-      chain () {
+      chain() {
         const chain = (gen, f) =>
           makeChain(function * () {
             return yield f(yield gen())
@@ -341,7 +341,7 @@ export default ({ api }) => {
             chain(gen, payment => payment.memoType(memoType)),
           setDestinationAccountExists: value =>
             chain(gen, payment => payment.setDestinationAccountExists(value)),
-          * done () {
+          * done() {
             return yield gen()
           }
         })

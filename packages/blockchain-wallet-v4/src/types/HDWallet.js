@@ -1,13 +1,14 @@
-import * as crypto from '../walletCrypto'
-import * as HDAccount from './HDAccount'
-import * as HDAccountList from './HDAccountList'
-import { compose, curry, is, map, pipe, range } from 'ramda'
-import { over, traversed, traverseOf, view } from 'ramda-lens'
-import { shift, shiftIProp } from './util'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
 import Task from 'data.task'
+import { compose, curry, is, map, pipe, range } from 'ramda'
+import { over, traversed, traverseOf, view } from 'ramda-lens'
+
+import * as crypto from '../walletCrypto'
+import * as HDAccount from './HDAccount'
+import * as HDAccountList from './HDAccountList'
 import Type from './Type'
+import { shift, shiftIProp } from './util'
 
 /* HDWallet :: {
   seed_hex :: String

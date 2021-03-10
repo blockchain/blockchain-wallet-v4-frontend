@@ -1,23 +1,22 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
-
-import { actions, selectors } from 'data'
+import { connect, ConnectedProps } from 'react-redux'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { SBPaymentTypes } from 'blockchain-wallet-v4/src/network/api/settingsComponent/types'
 import {
   BankTransferAccountType,
   BeneficiaryType,
   ExtractSuccess,
   WalletFiatType
-} from 'core/types'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { SBPaymentTypes } from 'core/network/api/settingsComponent/types'
+} from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators, Dispatch } from 'redux'
+
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 import {
   UserDataType,
   WithdrawCheckoutFormValuesType,
   WithdrawStepEnum
 } from 'data/types'
-
 import { getData } from './selectors'
 import Failure from './template.failure'
 import Loading from './template.loading'

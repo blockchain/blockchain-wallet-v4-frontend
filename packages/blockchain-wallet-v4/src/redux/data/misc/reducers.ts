@@ -1,8 +1,9 @@
-import * as AT from './actionTypes'
 import { assoc } from 'ramda'
+
+import Remote from '../../../remote'
+import * as AT from './actionTypes'
 import { initialPriceChange } from './model'
 import { MiscActionTypes, MiscStateType } from './types'
-import Remote from '../../../remote'
 
 const INITIAL_STATE: MiscStateType = {
   logs: Remote.NotAsked,

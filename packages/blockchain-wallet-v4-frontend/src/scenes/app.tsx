@@ -1,21 +1,20 @@
+import React, { Suspense } from 'react'
 import { connect, ConnectedProps, Provider } from 'react-redux'
+import { Redirect, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { has, map, values } from 'ramda'
 import { PersistGate } from 'redux-persist/integration/react'
-import { Redirect, Switch } from 'react-router-dom'
-import React, { Suspense } from 'react'
 
-import { MediaContextProvider } from 'providers/MatchMediaProvider'
+import SiftScience from 'components/SiftScience'
 import { selectors } from 'data'
-import AnalyticsTracker from 'providers/AnalyticsTracker'
-import ThemeProvider from 'providers/ThemeProvider'
-import TranslationsProvider from 'providers/TranslationsProvider'
-
 import { UserDataType } from 'data/types'
 import PublicLayout from 'layouts/Public'
-import PublicLoading from './loading.public'
-import SiftScience from 'components/SiftScience'
 import WalletLayout from 'layouts/Wallet'
+import AnalyticsTracker from 'providers/AnalyticsTracker'
+import { MediaContextProvider } from 'providers/MatchMediaProvider'
+import ThemeProvider from 'providers/ThemeProvider'
+import TranslationsProvider from 'providers/TranslationsProvider'
+import PublicLoading from './loading.public'
 import WalletLoading from './loading.wallet'
 
 // PUBLIC
@@ -52,8 +51,8 @@ const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
 
 class App extends React.PureComponent<Props> {
-  render () {
-    const { store, history, persistor, isAuthenticated } = this.props
+  render() {
+    const { history, isAuthenticated, persistor, store } = this.props
     const Loading = isAuthenticated ? WalletLoading : PublicLoading
     return (
       <Provider store={store}>

@@ -1,19 +1,19 @@
-import {
-  convertBaseToStandard,
-  convertStandardToBase
-} from 'data/components/exchange/services'
-import { CRYPTO_DECIMALS } from 'services/ValidationHelper'
+import BigNumber from 'bignumber.js'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import {
   PaymentValue,
   RateType,
   SwapQuoteType,
   SwapUserLimitsType
-} from 'core/types'
-import BigNumber from 'bignumber.js'
+} from 'blockchain-wallet-v4/src/types'
 
-import { Props } from '.'
+import {
+  convertBaseToStandard,
+  convertStandardToBase
+} from 'data/components/exchange/services'
 import { SwapAccountType, SwapAmountFormValues } from 'data/types'
+import { CRYPTO_DECIMALS } from 'services/forms'
+import { Props } from '.'
 
 export const getMaxMin = (
   minOrMax: 'min' | 'max',
@@ -82,7 +82,8 @@ export const maximumAmount = (
   if (!value) return true
   if (!allValues) return
 
-  const { fix, limits, baseRates, payment, quote, walletCurrency } = restProps
+  // @ts-ignore
+  const { baseRates, fix, limits, payment, quote, walletCurrency } = restProps
 
   const cryptoMax = Number(
     getMaxMin(
@@ -114,7 +115,8 @@ export const minimumAmount = (
   if (!value) return true
   if (!allValues) return
 
-  const { fix, limits, baseRates, payment, quote, walletCurrency } = restProps
+  // @ts-ignore
+  const { baseRates, fix, limits, payment, quote, walletCurrency } = restProps
 
   const cryptoMin = Number(
     getMaxMin(
@@ -143,6 +145,7 @@ export const maximumAmountSilver = (
   restProps: Props,
   amtError: string | boolean
 ) => {
+  // @ts-ignore
   const { limits, userData } = restProps
   if (userData.tiers.current === 2) return
   if (

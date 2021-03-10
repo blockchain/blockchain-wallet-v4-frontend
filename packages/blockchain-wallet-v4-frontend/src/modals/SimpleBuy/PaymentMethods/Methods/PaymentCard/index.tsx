@@ -1,8 +1,10 @@
+import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Image } from 'blockchain-info-components'
-import React, { ReactElement } from 'react'
+import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
 import styled from 'styled-components'
 
+import { SuccessCartridge } from 'components/Cartridge'
 import {
   Content,
   Description,
@@ -11,9 +13,7 @@ import {
   DisplaySubTitle,
   DisplayTitle
 } from 'components/SimpleBuy'
-import { SBPaymentMethodType } from 'core/types'
-import { SuccessCartridge } from 'components/Cartridge'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 const DisplayIconPayment = styled(DisplayIcon)`
   min-height: 110px;
@@ -45,7 +45,7 @@ type Props = {
   value: SBPaymentMethodType
 }
 
-const PaymentCard: React.FC<Props> = ({ value, onClick, icon, text }) => (
+const PaymentCard: React.FC<Props> = ({ icon, onClick, text, value }) => (
   <DisplayContainer
     data-e2e={`sb${value.type.toLowerCase()}PaymentCard`}
     role='button'

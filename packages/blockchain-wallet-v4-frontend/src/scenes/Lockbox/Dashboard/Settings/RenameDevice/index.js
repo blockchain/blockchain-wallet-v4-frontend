@@ -1,9 +1,10 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { formValueSelector, SubmissionError } from 'redux-form'
-import { requireUniqueDeviceName } from 'services/FormHelper'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector, SubmissionError } from 'redux-form'
+
+import { actions, selectors } from 'data'
+import { requireUniqueDeviceName } from 'services/forms'
 import RenameDevice from './template'
 
 class RenameDeviceContainer extends React.PureComponent {
@@ -39,7 +40,7 @@ class RenameDeviceContainer extends React.PureComponent {
     this.handleToggle()
   }
 
-  render () {
+  render() {
     return (
       <RenameDevice
         {...this.props}

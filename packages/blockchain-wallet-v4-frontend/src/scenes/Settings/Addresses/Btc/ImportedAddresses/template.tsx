@@ -1,16 +1,15 @@
-import { filter } from 'ramda'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
-import styled from 'styled-components'
-
+import { FormattedMessage } from 'react-intl'
 import {
   Button,
   TableCell,
   TableHeader,
   Text
 } from 'blockchain-info-components'
-import { SettingDescription, SettingHeader } from 'components/Setting'
+import { filter } from 'ramda'
+import styled from 'styled-components'
 
+import { SettingDescription, SettingHeader } from 'components/Setting'
 import { Table } from '../../components'
 import AddressRow from '../../components/AddressRow'
 
@@ -43,15 +42,15 @@ const ClickableText = styled(Text)`
 `
 
 const Success = ({
+  failure,
   importedAddresses,
   onClickVerify,
-  onToggleArchived,
-  onTransferAll,
+  onEditLabel,
   onShowPriv,
   onShowSignMessage,
-  onEditLabel,
-  search,
-  failure
+  onToggleArchived,
+  onTransferAll,
+  search
 }: {
   failure?: any
   importedAddresses: any

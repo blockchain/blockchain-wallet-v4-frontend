@@ -1,7 +1,5 @@
-import { filter } from 'ramda'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
-
+import { FormattedMessage } from 'react-intl'
 import {
   Icon,
   Link,
@@ -11,12 +9,13 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
+import { filter } from 'ramda'
 
 const UnusedAddressesTemplate = ({
-  unusedAddresses,
-  onEditLabel,
   onDeleteLabel,
-  search
+  onEditLabel,
+  search,
+  unusedAddresses
 }) => {
   const isMatch = addr =>
     !search ||

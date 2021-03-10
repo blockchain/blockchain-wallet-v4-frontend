@@ -1,14 +1,14 @@
+import { Remote } from 'blockchain-wallet-v4/src'
+import webSocketRates, { fallbackInterval } from 'middleware/webSocketRates'
 import { compose, groupBy, head, map, path, prop } from 'ramda'
 
 import { actions, model, selectors } from 'data'
-import { createTestStore, getDispatchSpyReducer } from 'utils/testbed'
-import { Remote } from 'blockchain-wallet-v4/src'
+import ratesSocketSagas from 'data/middleware/webSocket/rates/sagaRegister'
 import { socketAuthRetryDelay } from 'data/middleware/webSocket/rates/sagas'
 import profileReducer from 'data/modules/profile/reducers'
+import { createTestStore, getDispatchSpyReducer } from 'utils/testbed'
 import ratesReducer from './reducers'
 import ratesSagas from './sagaRegister'
-import ratesSocketSagas from 'data/middleware/webSocket/rates/sagaRegister'
-import webSocketRates, { fallbackInterval } from 'middleware/webSocketRates'
 
 jest.useFakeTimers()
 

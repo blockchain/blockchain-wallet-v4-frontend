@@ -1,7 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
-
 import { FlatLoader } from 'blockchain-info-components'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;

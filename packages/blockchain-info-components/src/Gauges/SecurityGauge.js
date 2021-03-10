@@ -1,8 +1,9 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+
 import { Color } from '../Colors/index.ts'
 import { Icon } from '../Icons'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
 
 const Empty = styled.div`
   height: 13px;

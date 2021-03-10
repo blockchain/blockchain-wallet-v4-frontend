@@ -1,34 +1,35 @@
-import { actions, model } from 'data'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { Button, Icon, Text } from 'blockchain-info-components'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import {
   CoinType,
   CoinTypeEnum,
   FiatType,
+  FiatTypeEnum,
   SupportedFiatType,
   SupportedWalletCurrencyType,
   WalletCurrencyType,
   WalletFiatEnum,
   WalletFiatType
-} from 'core/types'
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { getData } from './selectors'
-import { getHeaderExplainer } from './template.headerexplainer'
+} from 'blockchain-wallet-v4/src/types'
 import { path, toLower } from 'ramda'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 import { reduxForm } from 'redux-form'
-import { SceneWrapper } from 'components/Layout'
-import CoinIntroduction from './CoinIntroduction'
-import CoinPerformance from './CoinPerformance'
-import EmptyResults from 'components/EmptyResults'
-import LazyLoadContainer from 'components/LazyLoadContainer'
-import media from 'services/ResponsiveService'
-import React from 'react'
 import styled from 'styled-components'
 
-import InterestTransactions from './TransactionList/template.interest'
+import EmptyResults from 'components/EmptyResults'
+import { SceneWrapper } from 'components/Layout'
+import LazyLoadContainer from 'components/LazyLoadContainer'
+import { actions, model } from 'data'
+import { getIntroductionText } from 'data/coins/selectors'
+import { media } from 'services/styles'
+import CoinIntroduction from './CoinIntroduction'
+import CoinPerformance from './CoinPerformance'
+import { getData } from './selectors'
 import TransactionFilters from './TransactionFilters'
 import TransactionList from './TransactionList'
+import InterestTransactions from './TransactionList/template.interest'
 import WalletBalanceDropdown from './WalletBalanceDropdown'
 
 const PageTitle = styled.div`
@@ -87,9 +88,25 @@ const StatsContainer = styled.div`
     }
   `}
 `
+const ExplainerText = styled(Text)`
+  margin-top: 15px;
+  font-size: 16px;
+  font-weight: 500;
+  color: ${props => props.theme.grey600};
+`
+const LearnMoreLink = styled(Link)`
+  display: inline-flex;
+  margin-left: 6px;
+`
+const LearnMoreText = styled(Text)`
+  margin-left: 3px;
+  size: 16px;
+  font-weight: 500;
+  color: ${props => props.theme.blue600};
+`
 
 class TransactionsContainer extends React.PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.props.initTxs()
     this.props.miscActions.fetchPriceChange(
       this.props.coin as CoinType,
@@ -99,7 +116,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
     this.props.brokerageActions.fetchBankTransferAccounts()
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (
       path(['location', 'pathname'], prevProps) !==
       path(['location', 'pathname'], this.props)
@@ -117,7 +134,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
     this.props.setAddressArchived && this.props.setAddressArchived(address)
   }
 
-  render () {
+  render() {
     const {
       brokerageDepositsWithdrawals,
       coin,
@@ -130,7 +147,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       pages,
       sourceType
     } = this.props
-    const { colorCode, coinTicker, displayName, icons } = coinModel
+    const { coinTicker, colorCode, displayName, icons } = coinModel
     return (
       <SceneWrapper>
         <LazyLoadContainer onLazyLoad={loadMoreTxs}>
@@ -232,7 +249,21 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 )}
               </TitleActionContainer>
             </PageTitle>
-            <ExplainerWrapper>{getHeaderExplainer(coinModel)}</ExplainerWrapper>
+            <ExplainerWrapper>
+              <ExplainerText>
+                {getIntroductionText(coin)}
+                {!(coin in FiatTypeEnum) && (
+                  <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
+                    <LearnMoreText size='16px'>
+                      <FormattedMessage
+                        id='buttons.learn_more'
+                        defaultMessage='Learn More'
+                      />
+                    </LearnMoreText>
+                  </LearnMoreLink>
+                )}
+              </ExplainerText>
+            </ExplainerWrapper>
             <StatsContainer>
               <WalletBalanceDropdown
                 coin={coin}

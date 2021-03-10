@@ -1,8 +1,9 @@
-import { CommonFieldProps, WrappedFieldMetaProps } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import { TextBox } from 'components/Form'
-import moment from 'moment'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import moment from 'moment'
+import { CommonFieldProps, WrappedFieldMetaProps } from 'redux-form'
+
+import { TextBox } from 'components/Form'
 
 export const normalizeCreditCardExpiry = (value, previousValue) => {
   if (!value) return value

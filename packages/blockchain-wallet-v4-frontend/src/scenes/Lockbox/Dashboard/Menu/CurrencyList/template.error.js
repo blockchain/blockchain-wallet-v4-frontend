@@ -1,6 +1,6 @@
+import React from 'react'
 import { FormattedHTMLMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
-import React from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`

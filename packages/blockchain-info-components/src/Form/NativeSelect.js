@@ -1,6 +1,7 @@
 import React from 'react'
-import selectArrow from '../Images/img/select-arrow.png'
 import styled from 'styled-components'
+
+import selectArrow from '../Images/img/select-arrow.png'
 
 const BaseSelectInput = styled.select`
   height: 30px;
@@ -41,7 +42,7 @@ const selectBorderColor = state => {
 }
 
 const SelectInput = props => {
-  const { errorState, disabled, input, ...rest } = props
+  const { disabled, errorState, input, ...rest } = props
   const borderColor = selectBorderColor(errorState)
 
   return (

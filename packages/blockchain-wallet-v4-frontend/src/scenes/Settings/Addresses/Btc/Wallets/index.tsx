@@ -1,18 +1,18 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { formValueSelector } from 'redux-form'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
 import { actions, model } from 'data'
+import { requireUniqueWalletName } from 'services/forms'
 import { getData, getWalletsWithoutRemoteData } from './selectors'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { requireUniqueWalletName } from 'services/FormHelper'
 import Template from './template'
 
 const { WALLET_TX_SEARCH } = model.form
 
 class BtcWalletsContainer extends React.Component<Props> {
-  shouldComponentUpdate (nextProps) {
+  shouldComponentUpdate(nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
 
@@ -35,8 +35,8 @@ class BtcWalletsContainer extends React.Component<Props> {
     })
   }
 
-  render () {
-    const { search, data, walletsWithoutRemoteData, ...rest } = this.props
+  render() {
+    const { data, search, walletsWithoutRemoteData, ...rest } = this.props
 
     return data.cata({
       Success: value => (

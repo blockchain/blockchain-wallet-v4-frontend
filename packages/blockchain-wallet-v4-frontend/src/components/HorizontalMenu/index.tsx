@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div<{ border: boolean; marginBottom: string }>`
   box-sizing: border-box;
@@ -31,8 +31,8 @@ const Container = styled.div`
 
 const HorizontalMenu = ({
   border = true,
-  marginBottom = '12px',
-  children
+  children,
+  marginBottom = '12px'
 }: {
   border?: boolean
   children: any

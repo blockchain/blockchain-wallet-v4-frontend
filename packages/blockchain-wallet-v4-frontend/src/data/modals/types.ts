@@ -32,6 +32,7 @@ export type ModalNamesType =
   | 'LinkToExchangeAccount'
   | 'PairingCode'
   | 'RECOVERY_PHRASE_MODAL'
+  | 'REQUEST_CRYPTO_MODAL'
   | 'ShowBtcPrivateKey'
   | 'ShowUsedAddresses'
   | 'ShowXPub'

@@ -1,3 +1,6 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import {
   Button,
   HeartbeatLoader,
@@ -5,6 +8,9 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   CaptchaBox,
   Form,
@@ -13,13 +19,8 @@ import {
   FormLabel,
   TextBox
 } from 'components/Form'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
-import { required, validEmail } from 'services/FormHelper'
 import { Wrapper } from 'components/Public'
-import React from 'react'
-import styled from 'styled-components'
+import { required, validEmail } from 'services/forms'
 
 const Header = styled.div`
   display: flex;
@@ -41,7 +42,7 @@ const SuccessMessages = styled(TextGroup)`
 `
 
 const Reminder = (props: InjectedFormProps<{}, Props> & Props) => {
-  const { handleSubmit, submitting, invalid, success, loading } = props
+  const { handleSubmit, invalid, loading, submitting, success } = props
 
   const renderForm = () => {
     return (

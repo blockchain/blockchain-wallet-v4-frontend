@@ -1,7 +1,7 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'blockchain-info-components'
-import { WalletCurrencyType } from 'core/types'
-import React from 'react'
+import { WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`

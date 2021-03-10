@@ -1,8 +1,9 @@
-import { Button, Image, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType, LinkStatePropsType, OwnProps } from '.'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Button, Image, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { LinkDispatchPropsType, LinkStatePropsType, OwnProps } from '.'
 
 const Wrapper = styled.div`
   height: 100%;

@@ -1,13 +1,14 @@
+import React, { ReactElement } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
+import styled from 'styled-components'
+
+import { Title, Value } from 'components/Flyout'
 import {
   DisplayContainer,
   DisplayIcon,
   MultiRowContainer
 } from 'components/SimpleBuy'
-import { FormattedMessage } from 'react-intl'
-import { SBPaymentMethodType } from 'core/types'
-import { Title, Value } from 'components/Flyout'
-import React, { ReactElement } from 'react'
-import styled from 'styled-components'
 
 const StyledValue = styled(Value)`
   text-transform: capitalize;
@@ -26,7 +27,7 @@ type Props = {
   value: SBPaymentMethodType
 }
 
-const Card: React.FC<Props> = ({ value, onClick, icon, text }) => (
+const Card: React.FC<Props> = ({ icon, onClick, text, value }) => (
   <DisplayContainer
     data-e2e={`sb${value.type.toLowerCase()}Cards`}
     role='button'

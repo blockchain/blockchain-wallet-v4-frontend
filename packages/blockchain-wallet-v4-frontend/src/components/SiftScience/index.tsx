@@ -1,6 +1,6 @@
-import { connect, ConnectedProps } from 'react-redux'
-import { WalletOptionsType } from 'core/types'
 import React, { Component } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { WalletOptionsType } from 'blockchain-wallet-v4/src/types'
 import styled from 'styled-components'
 
 import { RootState } from 'data/rootReducer'
@@ -32,7 +32,7 @@ class SiftScience extends Component<Props> {
   }
 
   render () {
-    const { userId, sessionId = '' } = this.props
+    const { sessionId = '', userId } = this.props
 
     if (!userId) {
       return null

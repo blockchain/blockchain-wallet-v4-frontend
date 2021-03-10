@@ -1,5 +1,6 @@
-import { changeChain, fromJS, getAddress, receiveChain } from './Cache'
 import { HDNode } from 'bitcoinjs-lib'
+
+import { changeChain, fromJS, getAddress, receiveChain } from './Cache'
 
 jest.mock('bitcoinjs-lib', () => ({
   HDNode: {

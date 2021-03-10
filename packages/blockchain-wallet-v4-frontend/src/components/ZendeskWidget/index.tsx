@@ -1,11 +1,11 @@
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { WalletOptionsType } from 'blockchain-wallet-v4/src/types'
 import styled from 'styled-components'
 
-import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
-import { WalletOptionsType } from 'core/types'
 
 const Wrapper = styled.div`
   position: absolute;

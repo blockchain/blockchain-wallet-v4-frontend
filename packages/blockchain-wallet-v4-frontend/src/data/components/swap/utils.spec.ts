@@ -1,5 +1,6 @@
-import { interpolatePrice } from './utils'
 import BigNumber from 'bignumber.js'
+
+import { interpolatePrice } from './utils'
 
 // https://github.com/blockchain/service-trading-backend/blob/master/client-quote/src/test/kotlin/info/blockchain/albert/client/interpolate/LinearInterpolationTest.kt
 

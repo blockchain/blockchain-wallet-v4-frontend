@@ -1,10 +1,9 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
-import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-
 import { LinkStatePropsType, Props as OwnProps, SuccessStateType } from '.'
 
 export type Props = OwnProps & SuccessStateType & LinkStatePropsType

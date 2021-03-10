@@ -1,15 +1,15 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { InjectedFormProps, reduxForm } from 'redux-form'
 import React from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { bindActionCreators, compose } from 'redux'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { actions, model } from 'data'
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import { CampaignsType } from 'data/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
+import { actions, model } from 'data'
+import { CampaignsType } from 'data/types'
 
 const { ID_VERIFICATION_SUBMITTED_FORM } = model.components.identityVerification
 
@@ -37,14 +37,14 @@ const CloseButton = styled(Button)`
 class Submitted extends React.PureComponent<
   InjectedFormProps<{}, Props> & Props
 > {
-  componentDidMount () {
-    const { identityVerificationActions, campaign } = this.props
+  componentDidMount() {
+    const { campaign, identityVerificationActions } = this.props
     if (campaign) {
       identityVerificationActions.claimCampaignClicked(campaign)
     }
   }
 
-  render () {
+  render() {
     const { onClose, submitting } = this.props
 
     return (

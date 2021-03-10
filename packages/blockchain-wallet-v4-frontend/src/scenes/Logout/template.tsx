@@ -1,8 +1,9 @@
-import { Button, Link, Separator, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
-import { Wrapper } from 'components/Public'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Button, Link, Separator, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { Wrapper } from 'components/Public'
 
 const Header = styled.div`
   display: flex;

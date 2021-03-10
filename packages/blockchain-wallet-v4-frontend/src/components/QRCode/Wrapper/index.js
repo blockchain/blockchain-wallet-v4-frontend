@@ -1,6 +1,6 @@
+import React from 'react'
 import PropTypes from 'prop-types'
 import QRCodeReact from 'qrcode.react'
-import React from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 `
 
 const QRCodeWrapper = props => {
-  const { value, size } = props
+  const { size, value } = props
 
   return (
     <Wrapper>

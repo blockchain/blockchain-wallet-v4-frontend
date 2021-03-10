@@ -1,4 +1,10 @@
+import React from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
+import styled from 'styled-components'
+
+import { DisplayPaymentIcon } from 'components/SimpleBuy'
+import { Props } from '.'
 import {
   ButtonWrapper,
   ItemIcon,
@@ -6,11 +12,6 @@ import {
   MainWrapper,
   TitleWrapper
 } from './styles'
-import { DisplayPaymentIcon } from 'components/SimpleBuy'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { Props } from '.'
-import React from 'react'
-import styled from 'styled-components'
 
 const shouldRenderInfo = (tier: number) => {
   switch (tier) {

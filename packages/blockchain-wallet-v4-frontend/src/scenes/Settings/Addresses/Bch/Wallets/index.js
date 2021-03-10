@@ -1,19 +1,20 @@
-import { actions, model } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { formValueSelector } from 'redux-form'
-import { getData } from './selectors'
-import { Remote } from 'blockchain-wallet-v4/src'
 import React from 'react'
+import { connect } from 'react-redux'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
+
+import { actions, model } from 'data'
+import { getData } from './selectors'
 import Wallets from './template'
 const { WALLET_TX_SEARCH } = model.form
 
 class BchWalletsContainer extends React.Component {
-  shouldComponentUpdate (nextProps) {
+  shouldComponentUpdate(nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
 
-  render () {
+  render() {
     const {
       addressesBchActions,
       data,

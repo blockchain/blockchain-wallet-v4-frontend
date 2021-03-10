@@ -1,11 +1,10 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { actions } from 'data'
-
 import AppManager from '../../components/AppManager'
 
 const Wrapper = styled.div`

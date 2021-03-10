@@ -1,5 +1,5 @@
-import { SpinningLoader, Text } from 'blockchain-info-components'
 import React from 'react'
+import { SpinningLoader, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
 interface Props {}

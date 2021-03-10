@@ -1,4 +1,5 @@
 import { fork } from 'redux-saga/effects'
+
 import algoTransactions from './algoTransactions/sagaRegister'
 import bchTransactions from './bchTransactions/sagaRegister'
 import borrow from './borrow/sagaRegister'
@@ -15,10 +16,6 @@ import onboarding from './onboarding/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
 import priceTicker from './priceTicker/sagaRegister'
 import refresh from './refresh/sagaRegister'
-import requestBch from './requestBch/sagaRegister'
-import requestBtc from './requestBtc/sagaRegister'
-import requestEth from './requestEth/sagaRegister'
-import requestXlm from './requestXlm/sagaRegister'
 import send from './send/sagaRegister'
 import sendBch from './sendBch/sagaRegister'
 import sendBtc from './sendBtc/sagaRegister'
@@ -52,10 +49,6 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(priceChart())
     yield fork(priceTicker({ coreSagas }))
     yield fork(refresh())
-    yield fork(requestBtc({ networks }))
-    yield fork(requestBch({ networks }))
-    yield fork(requestEth({ networks }))
-    yield fork(requestXlm())
     yield fork(send({ api, coreSagas, networks }))
     yield fork(sendBch({ api, coreSagas, networks }))
     yield fork(sendBtc({ api, coreSagas, networks }))

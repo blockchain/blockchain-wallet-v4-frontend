@@ -1,12 +1,13 @@
-import { compose, length, prop, reverse, sortBy } from 'ramda'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { HeartbeatLoader, Text } from 'blockchain-info-components'
+import PropTypes from 'prop-types'
+import { compose, length, prop, reverse, sortBy } from 'ramda'
+import styled from 'styled-components'
+
 import EmptyResults from 'components/EmptyResults'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import NonCustodialTxItem from '../../../Transactions/NonCustodialTx'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
 
 const LazyLoadWrapper = styled(LazyLoadContainer)`
   display: flex;
@@ -26,7 +27,7 @@ const Row = styled.div`
 const sortByTime = compose(reverse, sortBy(prop('time')))
 
 const LockboxTransactions = props => {
-  const { transactions, transactionsAtBounds, isLoading, loadMore } = props
+  const { isLoading, loadMore, transactions, transactionsAtBounds } = props
   return (
     <LazyLoadWrapper onLazyLoad={loadMore}>
       {sortByTime(transactions).map(transaction => (

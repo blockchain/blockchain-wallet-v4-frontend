@@ -1,14 +1,13 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { includes, isEmpty, isNil, prop, replace, toUpper } from 'ramda'
-import bip21 from 'bip21'
-import PropTypes from 'prop-types'
 import React from 'react'
-
-import * as C from 'services/AlertService'
-import { actions, model, selectors } from 'data'
+import { connect } from 'react-redux'
+import bip21 from 'bip21'
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
+import PropTypes from 'prop-types'
+import { includes, isEmpty, isNil, prop, replace, toUpper } from 'ramda'
+import { bindActionCreators } from 'redux'
 
+import { actions, model, selectors } from 'data'
+import * as C from 'services/alerts'
 import QRCodeCapture from './template'
 
 const { FORM: BTC_FORM } = model.components.sendBtc
@@ -64,7 +63,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     let coinInfo
     try {
       coinInfo = this.getAddressOrBitPayInvoice('bitcoin', data)
-      const { currency, btcRates } = this.props
+      const { btcRates, currency } = this.props
       const { amount, message } = coinInfo.options
       const fiat = Exchange.convertBtcToFiat({
         value: amount,

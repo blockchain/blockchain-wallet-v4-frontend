@@ -1,9 +1,9 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
-import { ExtractSuccess } from 'core/types'
 import { getData } from './selectors'
 import Failure from './template.failure'
 import Loading from './template.loading'
@@ -33,8 +33,13 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>> & {
+  lockboxDevices: Array<any>
+}
 
-export type Props = ConnectedProps<typeof connector>
+export type Props = ConnectedProps<typeof connector> & {
+  domains?: any
+  menuOpened?: boolean
+}
 
 export default connector(MenuLeftContainer)

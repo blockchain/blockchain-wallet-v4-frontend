@@ -1,9 +1,9 @@
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import React from 'react'
+import { bindActionCreators } from 'redux'
 
+import { actions } from 'data'
 import FinishSetupStep from './template'
 
 class FinishSetupStepContainer extends React.PureComponent {

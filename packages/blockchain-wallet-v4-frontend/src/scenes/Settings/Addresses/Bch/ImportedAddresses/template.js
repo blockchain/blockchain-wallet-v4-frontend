@@ -1,16 +1,15 @@
-import { filter } from 'ramda'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
-import styled from 'styled-components'
-
+import { FormattedMessage } from 'react-intl'
 import {
   Button,
   TableCell,
   TableHeader,
   Text
 } from 'blockchain-info-components'
-import { SettingDescription, SettingHeader } from 'components/Setting'
+import { filter } from 'ramda'
+import styled from 'styled-components'
 
+import { SettingDescription, SettingHeader } from 'components/Setting'
 import { Table } from '../../components'
 import AddressRow from '../../components/AddressRow'
 
@@ -33,7 +32,7 @@ const ClickableText = styled(Text)`
 `
 
 const BchImportedAddresses = props => {
-  const { importedAddresses, onTransferAll, search, onEditLabel } = props
+  const { importedAddresses, onEditLabel, onTransferAll, search } = props
 
   const isMatch = address =>
     !search || address.addr.toLowerCase().indexOf(search) > -1

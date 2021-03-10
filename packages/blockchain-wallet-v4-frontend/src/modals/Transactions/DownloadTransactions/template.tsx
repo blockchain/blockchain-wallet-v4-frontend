@@ -1,10 +1,6 @@
-import { CSVLink } from 'react-csv'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import { OwnProps, StateProps } from '.'
 import React from 'react'
-import styled from 'styled-components'
-
+import { CSVLink } from 'react-csv'
+import { FormattedMessage } from 'react-intl'
 import {
   Button,
   HeartbeatLoader,
@@ -13,6 +9,9 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   DateBoxDebounced,
   Form,
@@ -21,7 +20,8 @@ import {
   SelectBoxEthAddresses,
   SelectBoxXlmAddresses
 } from 'components/Form'
-import { required } from 'services/FormHelper'
+import { required } from 'services/forms'
+import { OwnProps, StateProps } from '.'
 
 const Container = styled.div`
   display: flex;

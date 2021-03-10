@@ -1,12 +1,12 @@
-import { actions } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { Icon } from 'blockchain-info-components'
+import { bindActionCreators, Dispatch } from 'redux'
+import styled, { css } from 'styled-components'
 
 import { BlueCartridge } from 'components/Cartridge'
-import { FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
-import React from 'react'
-import styled, { css } from 'styled-components'
+import { actions } from 'data'
 
 const customCartridge = css`
   display: flex;

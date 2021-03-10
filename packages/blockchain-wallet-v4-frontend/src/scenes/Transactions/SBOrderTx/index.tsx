@@ -1,25 +1,25 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { Button, Text } from 'blockchain-info-components'
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { path } from 'ramda'
 import React, { PureComponent } from 'react'
-import styled from 'styled-components'
-
-import { actions, selectors } from 'data'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { Button, Text } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   BankTransferAccountType,
   ExtractSuccess,
   RemoteDataType,
   SBOrderType,
   SupportedWalletCurrenciesType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
 import {
   BuyOrSell,
   displayFiat
 } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
+import { path } from 'ramda'
+import { bindActionCreators, Dispatch } from 'redux'
+import styled from 'styled-components'
+
+import { actions, selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { fiatToString } from 'core/exchange/currency'
 import {
   getBaseAmount,
   getBaseCurrency,
@@ -29,7 +29,6 @@ import {
   getOrderType
 } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
-
 import {
   Addresses,
   Col,
@@ -45,8 +44,8 @@ import {
   TxRow,
   TxRowContainer
 } from '../components'
-import { getData } from './selectors'
 import { getOrigin, IconTx, Status, Timestamp } from './model'
+import { getData } from './selectors'
 
 const LastCol = styled(Col)`
   display: flex;
@@ -72,7 +71,7 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
     })
   }
 
-  render () {
+  render() {
     const { data, order, supportedCoins } = this.props
     const bankAccounts = data.getOrElse([]) as Array<BankTransferAccountType>
     const coin = getCoinFromPair(order.pair)

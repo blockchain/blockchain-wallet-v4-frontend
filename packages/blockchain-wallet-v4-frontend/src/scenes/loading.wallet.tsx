@@ -1,10 +1,10 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { SpinningLoader, Text } from 'blockchain-info-components'
-import React from 'react'
 import styled from 'styled-components'
 
 import Header from 'layouts/Wallet/MenuTop'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 interface Props {}
 

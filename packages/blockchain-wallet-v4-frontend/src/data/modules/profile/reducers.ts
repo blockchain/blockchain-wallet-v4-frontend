@@ -1,7 +1,7 @@
-import * as AT from './actionTypes'
-import { merge } from 'ramda'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
+import { merge } from 'ramda'
 
+import * as AT from './actionTypes'
 import { INITIAL_TIERS } from './model'
 import { ProfileActionTypes, ProfileState } from './types'
 

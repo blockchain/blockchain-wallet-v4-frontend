@@ -1,12 +1,12 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
-import { propOr } from 'ramda'
-import PropTypes from 'prop-types'
 import React from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { propOr } from 'ramda'
+import { bindActionCreators, compose } from 'redux'
 
 import { actions, model, selectors } from 'data'
-import FirstStep from './FirstStep'
 import modalEnhancer from 'providers/ModalEnhancer'
+import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 import SendEth from './template'
 
@@ -26,7 +26,7 @@ class SendEthContainer extends React.PureComponent {
   }
 
   render () {
-    const { step, position, total, closeAll, supportedCoins } = this.props
+    const { closeAll, position, step, supportedCoins, total } = this.props
     const coin = supportedCoins[propOr('ETH', 'coin', this.props)]
     return (
       <SendEth

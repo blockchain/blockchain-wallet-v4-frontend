@@ -1,6 +1,7 @@
-import * as HDWallet from './HDWallet'
 import { is, map, pipe } from 'ramda'
 import { view } from 'ramda-lens'
+
+import * as HDWallet from './HDWallet'
 import List from './List'
 
 export class HDWalletList extends List {}

@@ -1,3 +1,5 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import {
   Button,
   Modal,
@@ -6,11 +8,10 @@ import {
   ModalHeader
 } from 'blockchain-info-components'
 import { Field, reduxForm } from 'redux-form'
-import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
-import { required } from 'services/FormHelper'
-import React from 'react'
 import styled from 'styled-components'
+
+import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
+import { required } from 'services/forms'
 
 const Wrapper = styled.div`
   font-weight: 400;

@@ -1,5 +1,6 @@
-import * as AT from './actionTypes'
 import { toLower } from 'ramda'
+
+import * as AT from './actionTypes'
 
 //
 // ETH

@@ -1,5 +1,6 @@
-import * as AT from './actionTypes'
 import { takeEvery } from 'redux-saga/effects'
+
+import * as AT from './actionTypes'
 import sagasFactory from './sagas'
 
 export default ({ api, ratesSocket }) => {

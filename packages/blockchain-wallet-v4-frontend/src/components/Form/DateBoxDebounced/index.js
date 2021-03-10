@@ -1,9 +1,8 @@
-import locale from 'browser-locale'
 import React from 'react'
-import styled from 'styled-components'
-
 import { DateInput, Text } from 'blockchain-info-components'
+import locale from 'browser-locale'
 import { equals } from 'ramda'
+import styled from 'styled-components'
 
 const Container = styled.div`
   position: relative;
@@ -64,8 +63,8 @@ class DateBoxDebounced extends React.Component {
   }
 
   render () {
-    const { meta, input, ...rest } = this.props
-    const { value, open } = this.state
+    const { input, meta, ...rest } = this.props
+    const { open, value } = this.state
     const errorState = getErrorState(meta)
 
     return (

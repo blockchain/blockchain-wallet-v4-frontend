@@ -1,13 +1,12 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { Field } from 'redux-form'
-import { flatten } from 'ramda'
-import { FormattedMessage } from 'react-intl'
-import BigNumber from 'bignumber.js'
 import React, { Component } from 'react'
-import styled from 'styled-components'
-
-import { actions } from 'data'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import BigNumber from 'bignumber.js'
+import { Icon, Text } from 'blockchain-info-components'
+import {
+  coinToString,
+  fiatToString
+} from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   AddressTypesType,
   CoinType,
@@ -17,15 +16,18 @@ import {
   FiatTypeEnum,
   SupportedCoinType,
   WalletFiatType
-} from 'core/types'
-import { coinToString, fiatToString } from 'core/exchange/currency'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { Icon, Text } from 'blockchain-info-components'
-import { ModalNamesType } from 'data/types'
+} from 'blockchain-wallet-v4/src/types'
+import { flatten } from 'ramda'
+import { bindActionCreators, Dispatch } from 'redux'
+import { Field } from 'redux-form'
+import styled from 'styled-components'
+
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import SelectBox from 'components/Form/SelectBox'
-
+import { actions } from 'data'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { ModalNamesType } from 'data/types'
 import { getData } from './selectors'
 import Loading from './template.loading'
 import UserPortfolioPositionChange from './UserPortfolioPositionChange'
@@ -375,7 +377,7 @@ class WalletBalanceDropdown extends Component<Props> {
     )
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: values => {
         const { addressData } = values

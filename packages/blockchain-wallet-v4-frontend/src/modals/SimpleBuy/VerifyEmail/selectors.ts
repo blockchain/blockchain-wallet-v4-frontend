@@ -1,5 +1,6 @@
-import { ExtractSuccess } from 'core/types'
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { lift } from 'ramda'
+
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
