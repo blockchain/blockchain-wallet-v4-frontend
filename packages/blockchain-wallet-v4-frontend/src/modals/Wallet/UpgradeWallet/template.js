@@ -1,5 +1,5 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 
 import {
   Button,
@@ -8,7 +8,6 @@ import {
   ModalFooter,
   Text
 } from 'blockchain-info-components'
-
 import { Form } from 'components/Form'
 
 const UpgradeWallet = props => {

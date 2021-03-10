@@ -1,3 +1,6 @@
+import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+
 import {
   Button,
   Icon,
@@ -6,12 +9,11 @@ import {
   Text
 } from 'blockchain-info-components'
 import { CustomBox } from 'components/Layout'
-import { FormattedMessage } from 'react-intl'
+
 import { Props, State } from '..'
-import React, { PureComponent } from 'react'
 
 class BorrowPax extends PureComponent<Props & State> {
-  render () {
+  render() {
     return (
       <CustomBox>
         <div>

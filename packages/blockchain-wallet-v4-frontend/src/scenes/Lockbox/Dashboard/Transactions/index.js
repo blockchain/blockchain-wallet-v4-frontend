@@ -1,9 +1,11 @@
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { actions } from 'data'
+
 import { getData } from './selectors'
 import Loading from './template.loading'
-import React from 'react'
 import Success from './template.success'
 
 class TransactionsContainer extends React.PureComponent {
@@ -11,7 +13,7 @@ class TransactionsContainer extends React.PureComponent {
     this.props.lockboxActions.updateTransactionList(this.props.deviceIndex)
   }
 
-  render () {
+  render() {
     const { data } = this.props
     return data.cata({
       Success: val => (

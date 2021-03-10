@@ -1,5 +1,6 @@
-import { media } from 'services/styles'
 import styled from 'styled-components'
+
+import { media } from 'services/styles'
 
 export const Wrapper = styled.div`
   padding: 32px;

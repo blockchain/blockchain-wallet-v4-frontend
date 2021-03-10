@@ -1,5 +1,8 @@
+import moment from 'moment'
+
 import {
   CoinType,
+  Limits,
   SBCardType,
   SBOrderActionType,
   SBOrderType,
@@ -9,10 +12,9 @@ import {
   SwapOrderType,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
+
 import { convertBaseToStandard } from '../exchange/services'
-import { Limits } from 'core/types'
 import { SBAddCardFormValuesType } from './types'
-import moment from 'moment'
 
 export const DEFAULT_SB_BALANCE = {
   pending: '0',

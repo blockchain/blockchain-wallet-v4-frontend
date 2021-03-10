@@ -1,11 +1,12 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { CaptchaBox, Form, FormGroup } from 'components/Form'
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import { required } from 'services/forms'
 import { Wrapper } from 'components/Public'
-import React from 'react'
-import styled from 'styled-components'
+import { required } from 'services/forms'
 
 const Header = styled.div`
   display: flex;
@@ -34,7 +35,7 @@ const Footer = styled(FormGroup)`
 `
 
 const SecondStep = props => {
-  const { busy, previousStep, handleSubmit, invalid } = props
+  const { busy, handleSubmit, invalid, previousStep } = props
 
   return (
     <Wrapper>

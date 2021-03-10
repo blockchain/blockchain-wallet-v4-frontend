@@ -48,6 +48,6 @@ export {
   swap,
   uploadDocuments,
   utils,
-  withdraw,
-  veriff
+  veriff,
+  withdraw
 }

@@ -1,3 +1,10 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import Bowser from 'bowser'
+import PropTypes from 'prop-types'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Banner,
   Button,
@@ -6,6 +13,7 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import ComboDisplay from 'components/Display/ComboDisplay'
 import {
   CountdownTimer,
   FiatConverter,
@@ -18,25 +26,19 @@ import {
   TextAreaDebounced,
   TextBox
 } from 'components/Form'
+import QRCodeCapture from 'components/QRCode/Capture'
 import { CustodyToAccountMessage, Row } from 'components/Send'
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
+import ExchangePromo from 'components/Send/ExchangePromo'
+import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
+import { model } from 'data'
+import { required, validBchAddress } from 'services/forms'
+
 import {
   insufficientFunds,
   invalidAmount,
   maximumAmount,
   shouldError
 } from './validation'
-import { model } from 'data'
-import { required, validBchAddress } from 'services/forms'
-import Bowser from 'bowser'
-import ComboDisplay from 'components/Display/ComboDisplay'
-import ExchangePromo from 'components/Send/ExchangePromo'
-import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
-import PropTypes from 'prop-types'
-import QRCodeCapture from 'components/QRCode/Capture'
-import React from 'react'
-import styled from 'styled-components'
 
 const WarningBanners = styled(Banner)`
   margin: -6px 0 12px;
@@ -69,8 +71,8 @@ const FirstStep = props => {
     from,
     handleBitPayInvoiceExpiration,
     handleSubmit,
-    isMnemonicVerified,
     invalid,
+    isMnemonicVerified,
     payPro,
     pristine,
     submitting,

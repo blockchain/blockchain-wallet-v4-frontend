@@ -1,7 +1,8 @@
-import * as AT from './actionTypes'
 import { compose } from 'ramda'
-import { HDWallet, HDWalletList, Options, Wallet, Wrapper } from '../../types'
 import { over, set } from 'ramda-lens'
+
+import { HDWallet, HDWalletList, Options, Wallet, Wrapper } from '../../types'
+import * as AT from './actionTypes'
 
 export const WRAPPER_INITIAL_STATE = Wrapper.fromJS(
   Wrapper.createNewReadOnly('', '')

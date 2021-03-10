@@ -1,20 +1,20 @@
-import { FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
-import { LinkContainer } from 'react-router-bootstrap'
 import React, { useRef, useState } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
+import { Icon } from 'blockchain-info-components'
 import { Destination } from 'components/MenuLeft'
-import {
-  DropdownMenu,
-  DropdownMenuArrow,
-  DropdownMenuItem
-} from 'components/Navbar/NavbarDropdown'
 import {
   NavbarNavItemButton,
   NavbarNavItemIcon,
   NavbarNavItemTextHeader
 } from 'components/Navbar'
+import {
+  DropdownMenu,
+  DropdownMenuArrow,
+  DropdownMenuItem
+} from 'components/Navbar/NavbarDropdown'
 import { useOnClickOutside } from 'services/misc'
 
 import { Props } from '.'

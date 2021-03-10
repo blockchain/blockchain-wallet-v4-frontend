@@ -1,10 +1,10 @@
-import { Route } from 'react-router-dom'
 import React from 'react'
+import { Route } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { media } from 'services/styles'
 import Alerts from 'components/Alerts'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
+import { media } from 'services/styles'
 
 // import AndroidAppBanner from './components/AndroidAppBanner'
 import DropdownLanguage from './components/DropdownLanguage'
@@ -52,9 +52,8 @@ const ContentContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0 32px;
   z-index: 1;
-  max-width: 100%;
+  width: 100%;
   ${media.mobile`
     padding: 0 15px;
   `}

@@ -1,6 +1,6 @@
 import { toUpper } from 'ramda'
 
-export default ({ rootUrl, apiUrl, get, post }) => {
+export default ({ apiUrl, get, post, rootUrl }) => {
   const getBtcTicker = () =>
     get({
       url: apiUrl,

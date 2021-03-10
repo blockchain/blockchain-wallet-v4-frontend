@@ -1,6 +1,6 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 
 import { actions } from 'data'
 
@@ -13,7 +13,7 @@ export type LinkDispatchPropsType = {
 }
 
 class UpgradeToGold extends PureComponent<Props> {
-  render () {
+  render() {
     return <Template {...this.props} />
   }
 }

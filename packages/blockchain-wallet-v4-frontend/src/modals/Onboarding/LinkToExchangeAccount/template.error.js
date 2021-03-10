@@ -1,3 +1,7 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import {
   Button,
   Icon,
@@ -6,9 +10,6 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
-import React from 'react'
-import styled from 'styled-components'
 
 const ModalStyled = styled(Modal)`
   background: ${props =>

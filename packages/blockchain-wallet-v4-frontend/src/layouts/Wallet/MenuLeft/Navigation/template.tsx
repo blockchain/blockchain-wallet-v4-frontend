@@ -1,10 +1,12 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { Cartridge } from '@blockchain-com/components'
 import { mapObjIndexed, toLower, values } from 'ramda'
-import React from 'react'
 import styled from 'styled-components'
 
-import { Cartridge } from '@blockchain-com/components'
+import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import { SupportedWalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import {
   CoinIcon,
   Destination,
@@ -13,8 +15,6 @@ import {
   Separator,
   Wrapper
 } from 'components/MenuLeft'
-import { SupportedWalletCurrencyType } from 'core/types'
-import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 
 import { Props } from '.'
 

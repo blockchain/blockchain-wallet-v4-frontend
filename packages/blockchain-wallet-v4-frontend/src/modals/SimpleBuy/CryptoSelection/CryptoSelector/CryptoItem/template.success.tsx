@@ -1,18 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { Icon } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { Title, Value } from 'components/Flyout'
+import { DisplayContainer } from 'components/SimpleBuy'
 import { media } from 'services/styles'
 
-import { DisplayContainer } from 'components/SimpleBuy'
-import { fiatToString } from 'core/exchange/currency'
-import { Icon } from 'blockchain-info-components'
+import PriceMovement from '../PriceMovement'
 import {
-  Props as OwnProps,
   OwnProps as ParentOwnProps,
+  Props as OwnProps,
   SuccessStateType
 } from '.'
-import { Title, Value } from 'components/Flyout'
-import PriceMovement from '../PriceMovement'
 
 const CheckoutDisplayContainer = styled(DisplayContainer)`
   ${media.tablet`

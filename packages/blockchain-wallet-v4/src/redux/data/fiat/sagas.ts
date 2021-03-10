@@ -1,16 +1,16 @@
-import { call, put, select, take } from 'redux-saga/effects'
-import { filter, last, take as takeR } from 'ramda'
 import moment from 'moment'
+import { filter, last, take as takeR } from 'ramda'
+import { call, put, select, take } from 'redux-saga/effects'
 
-import { APIType } from 'core/network/api'
 import { CoinType, FiatType } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { APIType } from 'core/network/api'
 
+import Remote from '../../../remote'
+import { FiatSBAndSwapTransactionType } from '../custodial/types'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import { FiatSBAndSwapTransactionType } from '../custodial/types'
-import Remote from '../../../remote'
 
 const PAGE_SIZE = 20
 
@@ -78,7 +78,6 @@ export default ({ api }: { api: APIType }) => {
           fromValue: reset ? undefined : nextSbTxTimestamp,
           limit: PAGE_SIZE
         })
-
         // fetch swap transactions
         const rawSwapTransactions = yield call(
           api.getUnifiedSwapTrades,

@@ -1,9 +1,10 @@
-import { CoinType, FiatType } from 'core/types'
-import { Color } from 'blockchain-info-components'
-import { DefaultTheme } from 'styled-components'
-import { fiatToString } from 'core/exchange/currency'
-import { head, last, map, sort } from 'ramda'
 import ReactHighcharts from 'react-highcharts'
+import { head, last, map, sort } from 'ramda'
+import { DefaultTheme } from 'styled-components'
+
+import { Color } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { CoinType, FiatType } from 'blockchain-wallet-v4/src/types'
 
 export const getConfig = (
   coin: CoinType,
@@ -102,7 +103,7 @@ export const getConfig = (
     },
     xDateFormat: '%b %d, %Y',
     useHTML: true,
-    pointFormatter: function () {
+    pointFormatter: function() {
       // @ts-ignore
       return fiatToString({ value: this.y, decimals, unit: currency })
     }

@@ -1,11 +1,12 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+
+import { SBOrderType } from 'blockchain-wallet-v4/src/types'
 import {
   ErrorCartridge,
   GreyCartridge,
   SuccessCartridge
 } from 'components/Cartridge'
-import { FormattedMessage } from 'react-intl'
-import { SBOrderType } from 'core/types'
-import React from 'react'
 
 export const Status = ({ order }: { order: SBOrderType }) => {
   switch (order.state) {

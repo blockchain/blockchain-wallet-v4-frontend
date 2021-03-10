@@ -1,7 +1,6 @@
-import * as Cache from './Cache'
-import * as crypto from '../walletCrypto'
-import * as Derivation from './Derivation'
-import * as DerivationList from './DerivationList'
+import Task from 'data.task'
+// eslint-disable-next-line
+import { fromJS as iFromJS } from 'immutable-ext' // if we delete this import, wallet tests will fail -  ¯\_(ツ)_/¯
 import {
   assoc,
   compose,
@@ -14,11 +13,12 @@ import {
   pipe,
   split
 } from 'ramda'
-/* eslint-disable */
-import { fromJS as iFromJS } from 'immutable-ext' // if we delete this import, wallet tests will fail -  ¯\_(ツ)_/¯
-/* eslint-disable */
 import { over, traversed, traverseOf, view } from 'ramda-lens'
-import Task from 'data.task'
+
+import * as crypto from '../walletCrypto'
+import * as Cache from './Cache'
+import * as Derivation from './Derivation'
+import * as DerivationList from './DerivationList'
 import Type from './Type'
 
 export const DEFAULT_DERIVATION_TYPE = 'bech32'

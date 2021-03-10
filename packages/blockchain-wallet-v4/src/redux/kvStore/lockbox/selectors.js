@@ -14,6 +14,7 @@ import {
   propOr,
   set
 } from 'ramda'
+
 import { kvStorePath } from '../../paths'
 import { LOCKBOX } from '../config'
 

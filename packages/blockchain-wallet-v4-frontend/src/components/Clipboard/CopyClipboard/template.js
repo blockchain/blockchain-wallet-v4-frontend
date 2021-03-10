@@ -1,8 +1,9 @@
-import { IconButton } from 'blockchain-info-components'
+import React from 'react'
 import CopyToClipBoard from 'react-copy-to-clipboard'
 import PropTypes from 'prop-types'
-import React from 'react'
 import styled from 'styled-components'
+
+import { IconButton } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   position: relative;

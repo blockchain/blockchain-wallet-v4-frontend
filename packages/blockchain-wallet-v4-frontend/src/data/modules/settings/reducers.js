@@ -1,10 +1,11 @@
-import * as AT from './actionTypes'
 import { assoc, dissoc } from 'ramda'
+
+import * as AT from './actionTypes'
 
 const INITIAL_STATE = {}
 
 const settings = (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
 
   switch (type) {
     case AT.ADD_MNEMONIC: {

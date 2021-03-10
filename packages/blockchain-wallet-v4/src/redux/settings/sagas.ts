@@ -1,10 +1,11 @@
-import * as actions from './actions'
+import { contains, prop, sum, toLower } from 'ramda'
+import { call, put, select } from 'redux-saga/effects'
+
 import * as pairing from '../../pairing'
 import * as selectors from '../selectors'
 import * as walletActions from '../wallet/actions'
 import * as wS from '../wallet/selectors'
-import { call, put, select } from 'redux-saga/effects'
-import { contains, prop, sum, toLower } from 'ramda'
+import * as actions from './actions'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -23,11 +24,11 @@ export default ({ api }) => {
   }
   // Utilities
   const decodePairingCode = function * ({ data }) {
-    const { guid, encrypted } = yield call(() =>
+    const { encrypted, guid } = yield call(() =>
       taskToPromise(pairing.parseQRcode(data))
     )
     const passphrase = yield call(api.getPairingPassword, guid)
-    const { sharedKey, password } = yield call(() =>
+    const { password, sharedKey } = yield call(() =>
       taskToPromise(pairing.decode(encrypted, passphrase))
     )
     return { guid, sharedKey, password }

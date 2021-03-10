@@ -1,11 +1,12 @@
-import * as AT from './actionTypes'
 import { takeLatest } from 'redux-saga/effects'
+
+import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default ({ api }) => {
   const ratesSagas = sagas({ api })
 
-  return function * ratesSaga () {
+  return function * ratesSaga() {
     yield takeLatest(AT.SUBSCRIBE_TO_ADVICE, ratesSagas.subscribeToAdvice)
     yield takeLatest(
       AT.UNSUBSCRIBE_FROM_ADVICE,

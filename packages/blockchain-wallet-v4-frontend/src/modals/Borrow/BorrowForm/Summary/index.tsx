@@ -1,15 +1,15 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { BorrowFormValuesType } from 'data/types'
+import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import {
   coinToString,
   fiatToString,
   formatFiat
 } from 'blockchain-wallet-v4/src/exchange/currency'
-import { OfferType, RatesType } from 'core/types'
-import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import { OfferType, RatesType } from 'blockchain-wallet-v4/src/types'
+import { BorrowFormValuesType } from 'data/types'
 
 import { TableRow, Title, Value } from '../../components'
 

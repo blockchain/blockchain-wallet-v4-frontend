@@ -1,6 +1,12 @@
-import * as balanceSelectors from 'components/Balances/wallet/selectors'
+import { lift } from 'ramda'
+
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { ExtractSuccess, FiatType } from 'core/types'
+import {
+  // CoinType,
+  ExtractSuccess,
+  FiatType
+} from 'blockchain-wallet-v4/src/types'
+import * as balanceSelectors from 'components/Balances/wallet/selectors'
 import { getData as getAlgoAddressData } from 'components/Form/SelectBoxAlgoAddresses/selectors'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
@@ -9,14 +15,22 @@ import {
   getEthData as getEthAddressData
 } from 'components/Form/SelectBoxEthAddresses/selectors'
 import { getData as getXlmAddressData } from 'components/Form/SelectBoxXlmAddresses/selectors'
-import { lift } from 'ramda'
-import { OwnProps } from '.'
 import { selectors } from 'data'
+
+// import { ALL_ACCOUNTS_SELECTOR } from 'data/coins/model/all'
+// import { getCoinAccounts } from 'data/coins/selectors/index'
+// import { CoinAccountSelectorType } from 'data/coins/types'
+import { OwnProps } from '.'
 
 export const getData = (state, ownProps: OwnProps) => {
   const { coin } = ownProps
   let addressDataR
   let balanceDataR
+
+  // const accounts = getCoinAccounts(state, {
+  //   coins: [coin],
+  //   ...ALL_ACCOUNTS_SELECTOR
+  // } as CoinAccountSelectorType)[coin as CoinType]
 
   switch (coin) {
     case 'BTC':

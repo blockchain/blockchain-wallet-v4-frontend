@@ -1,12 +1,12 @@
 import { RemoteDataType } from 'core/types'
 
+import Remote from '../../../remote'
 import * as AT from './actionTypes'
 import {
   FiatActionTypes,
   FiatStateType,
   FiatTransactionPageResponseType
 } from './types'
-import Remote from '../../../remote'
 
 const DEFAULT_STATE = {
   page: [],

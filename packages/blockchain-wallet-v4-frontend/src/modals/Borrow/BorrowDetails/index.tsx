@@ -1,22 +1,24 @@
-import { actions } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
-import { LoanType, OfferType } from 'core/types'
-import { RootState } from 'data/rootReducer'
-import Loading from './template.loading'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+
+import { LoanType, OfferType } from 'blockchain-wallet-v4/src/types'
+import { actions } from 'data'
+import { RootState } from 'data/rootReducer'
+
+import { getData } from './selectors'
+import Loading from './template.loading'
 import Success from './template.success'
 
 class BorrowDetails extends PureComponent<Props> {
   state = {}
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.borrowActions.setCoin(this.props.offer.terms.collateralCcy)
     this.props.borrowActions.fetchLoanTransactions(this.props.loan.loanId)
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} />,
       Failure: e => (typeof e === 'object' ? e.message : e),

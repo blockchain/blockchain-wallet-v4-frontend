@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { Icon } from '../Icons'
@@ -75,7 +75,7 @@ class TextInput extends React.Component {
     minHeight: '48px'
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.active && !prevProps.active && this.input) {
       this.input.focus()
     }
@@ -93,18 +93,18 @@ class TextInput extends React.Component {
     }
   }
 
-  render () {
+  render() {
     const {
+      active,
+      borderColor,
+      borderRightNone,
       disabled,
       errorState,
+      focusedBorderColor,
       icon,
       iconSize,
-      value,
-      borderColor,
-      focusedBorderColor,
-      borderRightNone,
       minHeight,
-      active,
+      value,
       ...rest
     } = this.props
 

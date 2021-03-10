@@ -1,9 +1,11 @@
-import { ExtractSuccess, FiatType } from 'core/types'
 import { lift } from 'ramda'
-import { RootState } from 'data/rootReducer'
 
-import { InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
+import { ExtractSuccess, FiatType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
+import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
+import { getCoinAccounts } from 'data/coins/selectors'
+import { RootState } from 'data/rootReducer'
+import { InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
 
 export const getData = (state: RootState) => {
   const formErrors = selectors.form.getFormSyncErrors('swapAmount')(state)
@@ -22,6 +24,7 @@ export const getData = (state: RootState) => {
     state
   )
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
+  const accounts = getCoinAccounts(state, SWAP_ACCOUNTS_SELECTOR)
   return lift(
     (
       incomingAmount: ExtractSuccess<typeof incomingAmountR>,
@@ -37,7 +40,8 @@ export const getData = (state: RootState) => {
       payment: paymentR.getOrElse(undefined),
       quote,
       baseRates,
-      walletCurrency
+      walletCurrency,
+      accounts
     })
   )(incomingAmountR, limitsR, quoteR, baseRatesR, walletCurrencyR)
 }

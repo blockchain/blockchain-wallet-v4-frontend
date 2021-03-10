@@ -1,6 +1,6 @@
-import { Field, reduxForm } from 'redux-form'
-import { FormattedHTMLMessage } from 'react-intl'
 import React from 'react'
+import { FormattedHTMLMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import {
@@ -68,8 +68,8 @@ const PairDeviceStep = props => {
     btcOpenTimeout,
     deviceType,
     invalid,
-    onTimeoutAccept,
     onGoToAppManager,
+    onTimeoutAccept,
     showBtcWarning,
     supportLink
   } = props

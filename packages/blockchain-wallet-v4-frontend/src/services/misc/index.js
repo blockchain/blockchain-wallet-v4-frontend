@@ -1,7 +1,5 @@
-import { createSelectorCreator, defaultMemoize } from 'reselect'
-import { head, is, isEmpty, match } from 'ramda'
 import { useEffect } from 'react'
-import deepEqual from 'fast-deep-equal'
+import { head, is, isEmpty, match } from 'ramda'
 
 import { utils } from 'blockchain-wallet-v4/src'
 
@@ -42,10 +40,4 @@ const useOnClickOutside = (ref, handler) => {
   }, [ref, handler])
 }
 
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, deepEqual)
-
-export {
-  checkForVulnerableAddressError,
-  createDeepEqualSelector,
-  useOnClickOutside
-}
+export { checkForVulnerableAddressError, useOnClickOutside }

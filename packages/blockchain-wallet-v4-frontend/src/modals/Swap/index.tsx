@@ -1,34 +1,35 @@
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { actions, selectors } from 'data'
-import { ExtractSuccess, SwapOrderType } from 'core/types'
-import { getData } from './selectors'
-import { ModalPropsType } from '../types'
-import { SwapStepType } from 'data/components/swap/types'
+import { ExtractSuccess, SwapOrderType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { actions, selectors } from 'data'
+import { SwapStepType } from 'data/components/swap/types'
+import { RootState } from 'data/rootReducer'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
+import { ModalPropsType } from '../types'
 import CoinSelection from './CoinSelection'
 import EnterAmount from './EnterAmount'
 import InitSwapForm from './InitSwapForm'
+import NoHoldings from './NoHoldings'
 import OrderDetails from './OrderDetails'
 import PreviewSwap from './PreviewSwap'
+import { getData } from './selectors'
 import SuccessfulSwap from './SuccessfulSwap'
 import UpgradePrompt from './UpgradePrompt'
 
 class Swap extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
 
-  componentDidMount () {
+  componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.step === prevProps.step) return
     if (SwapStepType[this.props.step] > SwapStepType[prevProps.step]) {
       /* eslint-disable */
@@ -39,7 +40,7 @@ class Swap extends PureComponent<Props, State> {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.swapActions.stopPollQuote()
   }
 
@@ -50,7 +51,7 @@ class Swap extends PureComponent<Props, State> {
     }, duration)
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => (
         <Flyout
@@ -71,6 +72,15 @@ class Swap extends PureComponent<Props, State> {
           {this.props.step === 'COIN_SELECTION' && (
             <FlyoutChild>
               <CoinSelection
+                {...this.props}
+                handleClose={this.handleClose}
+                {...val}
+              />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'NO_HOLDINGS' && (
+            <FlyoutChild>
+              <NoHoldings
                 {...this.props}
                 handleClose={this.handleClose}
                 {...val}
@@ -157,6 +167,9 @@ const mapStateToProps = (
   | {
       order?: SwapOrderType
       step: 'SUCCESSFUL_SWAP'
+    }
+  | {
+      step: 'NO_HOLDINGS'
     }
 ) => ({
   order: selectors.components.swap.getOrder(state),

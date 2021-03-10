@@ -1,15 +1,17 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { formValueSelector } from 'redux-form'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
+
+import { actions, selectors } from 'data'
+
 import Settings from './template'
 
 class SettingsContainer extends React.PureComponent {
   state = { updateToggled: false }
 
   onSubmit = () => {
-    const { secondPasswordValue, secondPasswordEnabled } = this.props
+    const { secondPasswordEnabled, secondPasswordValue } = this.props
     this.props.walletActions.toggleSecondPassword(
       secondPasswordValue,
       secondPasswordEnabled
@@ -24,7 +26,7 @@ class SettingsContainer extends React.PureComponent {
     })
   }
 
-  render () {
+  render() {
     const { ...rest } = this.props
 
     return (

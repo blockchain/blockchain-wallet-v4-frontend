@@ -1,15 +1,17 @@
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
-import { getData } from './selectors'
+import { bindActionCreators } from 'redux'
+
 import { Wrapper } from 'components/Public'
+import { actions } from 'data'
+
+import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
-import React from 'react'
 import Success from './template.success'
 
 class Reset2FAToken extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       token: decodeURIComponent(
@@ -18,11 +20,11 @@ class Reset2FAToken extends React.PureComponent {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.miscActions.handle2FAReset(this.state.token)
   }
 
-  render () {
+  render() {
     const { data } = this.props
 
     let Reset2FARequest = data.cata({

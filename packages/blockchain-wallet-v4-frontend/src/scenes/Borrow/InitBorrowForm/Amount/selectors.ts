@@ -1,6 +1,7 @@
-import { CoinType, ExtractSuccess } from 'core/types'
-import { getBalanceSelector } from 'components/Balances/nonCustodial/selectors'
 import { lift } from 'ramda'
+
+import { CoinType, ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { getBalanceSelector } from 'components/Balances/nonCustodial/selectors'
 import { selectors } from 'data'
 
 export const getBalance = state => {

@@ -1,4 +1,3 @@
-import * as selectors from './selectors'
 import {
   createMockWalletState,
   walletV1,
@@ -6,6 +5,7 @@ import {
   walletV4,
   walletV4WithLegacy
 } from '../../../data'
+import * as selectors from './selectors'
 
 describe('selectors.core.wallet', () => {
   describe('isHdWallet', () => {

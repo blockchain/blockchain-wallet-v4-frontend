@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled, { DefaultTheme } from 'styled-components'
 
 import {
@@ -8,13 +10,12 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { model } from 'data'
-import { Props as OwnProps } from '.'
 import { required, validEmail } from 'services/forms'
+
+import { Props as OwnProps } from '.'
 
 const { SB_CHANGE_EMAIL_FORM } = model.components.simpleBuy
 

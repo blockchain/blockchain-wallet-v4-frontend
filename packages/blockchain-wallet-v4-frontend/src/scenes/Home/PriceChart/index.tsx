@@ -1,10 +1,11 @@
+import React from 'react'
+import styled from 'styled-components'
+
 import Chart from './Chart'
 import CoinCurrentPrice from './CoinCurrentPrice'
 import CoinPerformance from './CoinPerformance'
 import CoinSelectBox from './CoinSelectBox'
 import Footer from './Footer'
-import React from 'react'
-import styled from 'styled-components'
 import TimeFilters from './TimeFilters'
 
 const Wrapper = styled.div`

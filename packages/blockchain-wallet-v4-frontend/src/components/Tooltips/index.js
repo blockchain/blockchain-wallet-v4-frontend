@@ -1,7 +1,8 @@
-import { FormattedMessage } from 'react-intl'
-import { Link, Text, TextGroup, Tooltip } from 'blockchain-info-components'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+
+import { Link, Text, TextGroup, Tooltip } from 'blockchain-info-components'
 
 // TODO: remove this
 // Hide tooltips on IE Edge because of a CSP issue
@@ -11,7 +12,7 @@ const TooltipWrapper = styled.div`
   }
 `
 class Tooltips extends React.PureComponent {
-  render () {
+  render() {
     return (
       <TooltipWrapper>
         <Tooltip id='copied'>

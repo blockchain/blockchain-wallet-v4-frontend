@@ -1,5 +1,7 @@
-import { actions } from 'data'
 import { connect, ConnectedProps } from 'react-redux'
+
+import { actions } from 'data'
+
 import AdditionalInfo from './template'
 
 const mapDispatchToProps = dispatch => ({

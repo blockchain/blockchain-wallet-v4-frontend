@@ -1,9 +1,9 @@
-import { FormattedMessage } from 'react-intl'
-import { isEmpty, length, path, pathOr, prop } from 'ramda'
-import * as Bitcoin from 'bitcoinjs-lib'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import * as Bitcoin from 'bitcoinjs-lib'
+import { isEmpty, length, path, pathOr, prop } from 'ramda'
 
-import { createDeepEqualSelector } from 'services/misc'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { model, selectors } from 'data'
 
 export const getData = createDeepEqualSelector(

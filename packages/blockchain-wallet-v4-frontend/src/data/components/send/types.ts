@@ -3,7 +3,7 @@ import {
   CoinType,
   RemoteDataType,
   WithdrawalLockCheckResponseType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
 
 export type SendState = {
   exchangePaymentsAccount: {

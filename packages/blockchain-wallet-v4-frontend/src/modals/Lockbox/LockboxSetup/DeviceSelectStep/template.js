@@ -1,5 +1,5 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon, Image, Link, Text } from 'blockchain-info-components'
@@ -64,7 +64,7 @@ const LearnHowText = styled(Text)`
 `
 
 const DeviceSelectStep = props => {
-  const { handleStepChange, handleRestoreClick } = props
+  const { handleRestoreClick, handleStepChange } = props
   return (
     <Wrapper>
       <IntroTextWrapper>

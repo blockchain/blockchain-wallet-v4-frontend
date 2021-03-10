@@ -1,9 +1,10 @@
-import { addressToScript, scriptToAddress } from '../utils/btc'
-import { clamp, curry, is, length, sort, split } from 'ramda'
 import { inputComparator, sortOutputs } from 'bip69'
-import { IO_TYPES } from './'
+import { clamp, curry, is, length, sort, split } from 'ramda'
 import { over, view } from 'ramda-lens'
+
 import Type from '../types/Type'
+import { addressToScript, scriptToAddress } from '../utils/btc'
+import { IO_TYPES } from './'
 
 export const TX_EMPTY_SIZE = 4 + 1 + 1 + 4
 export const TX_INPUT_BASE = 32 + 4 + 1 + 4
@@ -12,31 +13,31 @@ export const TX_OUTPUT_BASE = 8 + 1
 export const TX_OUTPUT_PUBKEYHASH = 25
 
 export class Coin extends Type {
-  toString () {
+  toString() {
     return `Coin(${this.value})`
   }
-  concat (coin) {
+  concat(coin) {
     return new Coin({ value: this.value + coin.value })
   }
-  equals (coin) {
+  equals(coin) {
     return this.value === coin.value
   }
-  lte (coin) {
+  lte(coin) {
     return this.value <= coin.value
   }
-  ge (coin) {
+  ge(coin) {
     return this.value >= coin.value
   }
-  overValue (f) {
+  overValue(f) {
     return over(value, f, this)
   }
-  isFromAccount () {
+  isFromAccount() {
     return length(split('/', this.priv)) > 1
   }
-  isFromLegacy () {
+  isFromLegacy() {
     return !this.isFromAccount()
   }
-  type () {
+  type() {
     try {
       switch (true) {
         case this.address[0] === '1':

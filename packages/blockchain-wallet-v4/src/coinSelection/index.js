@@ -1,4 +1,6 @@
-import * as Coin from './coin.js'
+import memoize from 'fast-memoize'
+import shuffle from 'fisher-yates'
+import { List } from 'immutable-ext'
 import {
   clamp,
   curry,
@@ -15,10 +17,9 @@ import {
   tail,
   unfold
 } from 'ramda'
-import { List } from 'immutable-ext'
-import memoize from 'fast-memoize'
 import seedrandom from 'seedrandom'
-import shuffle from 'fisher-yates'
+
+import * as Coin from './coin.js'
 
 // isFromAccount :: selection -> boolean
 export const isFromAccount = selection =>
@@ -276,12 +277,12 @@ export const getByteCount = (inputs, outputs) => {
   var outputCount = 0
   // assumes compressed pubkeys in all cases.
 
-  function checkUInt53 (n) {
+  function checkUInt53(n) {
     if (n < 0 || n > Number.MAX_SAFE_INTEGER || n % 1 !== 0)
       throw new RangeError('value out of range')
   }
 
-  function varIntLength (number) {
+  function varIntLength(number) {
     checkUInt53(number)
 
     return number < 0xfd
@@ -293,14 +294,14 @@ export const getByteCount = (inputs, outputs) => {
       : 9
   }
 
-  Object.keys(inputs).forEach(function (key) {
+  Object.keys(inputs).forEach(function(key) {
     checkUInt53(inputs[key])
     if (key.slice(0, 8) === 'MULTISIG') {
       // ex. "MULTISIG-P2SH:2-3" would mean 2 of 3 P2SH MULTISIG
       var keyParts = key.split(':')
       if (keyParts.length !== 2) throw new Error('invalid input: ' + key)
       var newKey = keyParts[0]
-      var mAndN = keyParts[1].split('-').map(function (item) {
+      var mAndN = keyParts[1].split('-').map(function(item) {
         return parseInt(item)
       })
 
@@ -314,7 +315,7 @@ export const getByteCount = (inputs, outputs) => {
     if (key.indexOf('W') >= 0) hasWitness = true
   })
 
-  Object.keys(outputs).forEach(function (key) {
+  Object.keys(outputs).forEach(function(key) {
     checkUInt53(outputs[key])
     totalWeight += IO_TYPES.outputs[key] * outputs[key]
     outputCount += outputs[key]

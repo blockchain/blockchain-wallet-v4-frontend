@@ -22,8 +22,8 @@ import {
 } from 'ramda'
 import { set } from 'ramda-lens'
 
-import * as walletSelectors from '../../wallet/selectors'
-import { ADDRESS_TYPES } from '../../payment/btc/utils'
+import Remote from '../../../remote'
+import { HDAccount, HDAccountList, HDWallet } from '../../../types'
 import {
   getAddresses,
   getChangeIndex,
@@ -33,8 +33,8 @@ import {
   getLockboxBtcAccount,
   getLockboxBtcAccounts
 } from '../../kvStore/lockbox/selectors'
-import { HDAccount, HDAccountList, HDWallet } from '../../../types'
-import Remote from '../../../remote'
+import { ADDRESS_TYPES } from '../../payment/btc/utils'
+import * as walletSelectors from '../../wallet/selectors'
 
 const _getAccounts = selector => state => {
   const balances = Remote.of(getAddresses(state).getOrElse({}))

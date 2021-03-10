@@ -1,4 +1,9 @@
+import BigNumber from 'bignumber.js'
 import { add, curry, flatten, lift, pathOr, reduce } from 'ramda'
+
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
+import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import {
   ExtractSuccess,
   InterestAccountBalanceType,
@@ -8,23 +13,19 @@ import {
   WalletCurrencyType,
   WalletFiatEnum,
   WalletFiatType
-} from 'core/types'
-
+} from 'blockchain-wallet-v4/src/types'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
+import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { createDeepEqualSelector } from 'services/misc'
 import { DEFAULT_INTEREST_BALANCE } from 'data/components/interest/model'
 import { DEFAULT_SB_BALANCE } from 'data/components/simpleBuy/model'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { formatFiat } from 'core/exchange/currency'
+import { RootState } from 'data/rootReducer'
+
 import {
   getErc20Balance as getErc20NonCustodialBalance,
   getEthBalance as getEthNonCustodialBalance,
   getXlmBalance as getXlmNonCustodialBalance
 } from '../nonCustodial/selectors'
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
-import { RootState } from 'data/rootReducer'
-import { selectors } from 'data'
-import BigNumber from 'bignumber.js'
 
 export const getBtcBalance = createDeepEqualSelector(
   [

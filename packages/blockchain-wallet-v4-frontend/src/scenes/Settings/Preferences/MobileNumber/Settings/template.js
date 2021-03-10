@@ -1,18 +1,18 @@
-import { Button, Text } from 'blockchain-info-components'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
-import React from 'react'
 
+import { Button, Text } from 'blockchain-info-components'
 import { SettingWrapper } from 'components/Setting'
 
 const Setting = props => {
   const {
     handleClick,
-    smsNumber,
-    smsVerified,
     modalActions,
+    resetWarning,
     showWarning,
-    resetWarning
+    smsNumber,
+    smsVerified
   } = props
 
   return (

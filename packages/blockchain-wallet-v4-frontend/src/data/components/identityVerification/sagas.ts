@@ -1,8 +1,15 @@
+import { isEmpty, prop, toUpper } from 'ramda'
+import { call, delay, put, select, take } from 'redux-saga/effects'
+
+import { Types } from 'blockchain-wallet-v4/src'
+import { RemoteDataType, SDDVerifiedType } from 'blockchain-wallet-v4/src/types'
+import { actions, actionTypes, model, selectors } from 'data'
+import { KycStateType } from 'data/modules/types'
+import * as C from 'services/alerts'
+
+import profileSagas from '../../modules/profile/sagas'
 import * as A from './actions'
 import * as AT from './actionTypes'
-import * as C from 'services/alerts'
-import * as S from './selectors'
-import { actions, actionTypes, model, selectors } from 'data'
 import {
   BAD_CODE_ERROR,
   EMAIL_STEPS,
@@ -16,14 +23,9 @@ import {
   SMS_STEPS,
   UPDATE_FAILURE
 } from './model'
-import { call, delay, put, select, take } from 'redux-saga/effects'
+import * as S from './selectors'
 import { computeSteps } from './services'
-import { isEmpty, prop, toUpper } from 'ramda'
-import { KycStateType } from 'data/modules/types'
-import { RemoteDataType, SDDVerifiedType } from 'core/types'
 import { StateType, StepsType } from './types'
-import { Types } from 'blockchain-wallet-v4/src'
-import profileSagas from '../../modules/profile/sagas'
 
 export const logLocation = 'components/identityVerification/sagas'
 export const invalidNumberError = 'Failed to update mobile number'
@@ -36,12 +38,12 @@ export const noCampaignDataError = 'User did not come from campaign'
 export default ({ api, coreSagas, networks }) => {
   const { TIERS } = model.profile
   const {
-    getCampaignData,
-    fetchUser,
     createUser,
+    fetchUser,
+    getCampaignData,
+    syncUserWithWallet,
     updateUser,
-    updateUserAddress,
-    syncUserWithWallet
+    updateUserAddress
   } = profileSagas({
     api,
     coreSagas,
@@ -380,15 +382,15 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.form.startSubmit(INFO_AND_RESIDENTIAL_FORM))
       yield call(syncUserWithWallet)
       const {
-        firstName,
-        lastName,
-        dob,
-        line1,
-        line2,
         city,
         country,
-        state,
-        postCode
+        dob,
+        firstName,
+        lastName,
+        line1,
+        line2,
+        postCode,
+        state
       } = yield select(selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM))
       const personalData = { firstName, lastName, dob }
       const address = {

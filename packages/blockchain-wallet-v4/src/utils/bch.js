@@ -16,7 +16,7 @@ export const toCashAddr = (address, displayOnly) => {
   const cashAddrPrefix = 'bitcoincash'
 
   try {
-    const { version, hash } = Bitcoin.address.fromBase58Check(address)
+    const { hash, version } = Bitcoin.address.fromBase58Check(address)
 
     switch (version) {
       case pubKeyHash:

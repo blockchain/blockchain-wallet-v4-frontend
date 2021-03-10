@@ -1,4 +1,5 @@
 import { equals, prop } from 'ramda'
+
 import { model, selectors } from 'data'
 const { WALLET_TX_SEARCH } = model.form
 
@@ -9,6 +10,9 @@ export const selectOnlyShow = (state, s) => {
   return equals(source, 'all')
     ? ''
     : source.derivations
-    ? prop('xpub', source.derivations.find(d => d.type === 'legacy'))
+    ? prop(
+        'xpub',
+        source.derivations.find(d => d.type === 'legacy')
+      )
     : source.address
 }

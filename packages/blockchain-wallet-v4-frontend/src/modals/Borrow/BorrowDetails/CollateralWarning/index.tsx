@@ -1,16 +1,18 @@
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { fiatToString } from 'core/exchange/currency'
-import { FiatType } from 'core/types'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { model } from 'data'
-import { percentageFormatter } from '../CollateralizationBar'
-import { Props } from '../template.success'
 import React from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { FiatType } from 'blockchain-wallet-v4/src/types'
+import { model } from 'data'
+
+import { percentageFormatter } from '../CollateralizationBar'
+import { Props } from '../template.success'
+
 const {
-  getCollateralizationDisplayName,
   getCollateralAmtRequired,
+  getCollateralizationDisplayName,
   isLastTxStatus
 } = model.components.borrow
 

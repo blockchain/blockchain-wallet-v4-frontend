@@ -1,11 +1,11 @@
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
 import styled from 'styled-components'
 
-import { actions } from 'data'
 import { Button, Image, Modal, Text } from 'blockchain-info-components'
+import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 const Header = styled.div`
@@ -56,7 +56,7 @@ class KycDocResubmit extends React.PureComponent {
     this.props.verifyIdentity()
   }
 
-  render () {
+  render() {
     const { position, total } = this.props
 
     return (

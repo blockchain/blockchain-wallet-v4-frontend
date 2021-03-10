@@ -1,8 +1,9 @@
-import { WalletCurrencyType } from 'core/types'
+import React from 'react'
+import PropTypes from 'prop-types'
+
+import { WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import PropTypes from 'prop-types'
-import React from 'react'
 
 const Success = (props: {
   balance: number | string

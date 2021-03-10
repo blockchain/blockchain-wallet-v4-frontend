@@ -1,10 +1,10 @@
-import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
 import ReactDOM from 'react-dom'
-
-import { FontGlobalStyles, IconGlobalStyles } from 'blockchain-info-components'
+import { BrowserRouter } from 'react-router-dom'
 import App from 'scenes/app.tsx'
 import configureStore from 'store'
+
+import { FontGlobalStyles, IconGlobalStyles } from 'blockchain-info-components'
 
 import Error from './index.error'
 

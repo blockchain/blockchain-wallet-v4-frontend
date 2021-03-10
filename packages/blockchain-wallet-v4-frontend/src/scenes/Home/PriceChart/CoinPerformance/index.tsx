@@ -1,12 +1,13 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
+
 import CoinPriceChange from './CoinPriceChange'
 
 class CoinPerformance extends React.PureComponent<Props> {
-  render () {
+  render() {
     return <CoinPriceChange {...this.props} />
   }
 }

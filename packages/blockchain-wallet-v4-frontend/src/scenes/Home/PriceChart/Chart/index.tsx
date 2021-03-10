@@ -1,17 +1,18 @@
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { pathOr, toUpper } from 'ramda'
-import React from 'react'
+import { bindActionCreators } from 'redux'
 
+import { PriceChangeTimeRangeType } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
+
 import { getData } from './selectors'
-import { PriceChangeTimeRangeType } from 'core/types'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
 export class ChartContainer extends React.PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     const coin = pathOr('BTC', ['cache', 'coin'], this.props)
     const time = pathOr(
       'month',
@@ -21,7 +22,7 @@ export class ChartContainer extends React.PureComponent<Props> {
     this.props.priceChartActions.initialized(toUpper(coin), time)
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: value => (
         <Success

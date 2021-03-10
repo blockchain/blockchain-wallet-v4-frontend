@@ -1,9 +1,11 @@
-import * as AT from './actionTypes'
 import { assocPath } from 'ramda'
+
 import { Remote } from 'blockchain-wallet-v4/src'
 
+import * as AT from './actionTypes'
+
 export default (state = {}, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
 
   switch (type) {
     case AT.TOGGLE_USED_ADDRESSES: {
@@ -31,7 +33,7 @@ export default (state = {}, action) => {
       )
     }
     case AT.FETCH_UNUSED_ADDRESSES_SUCCESS: {
-      const { derivation, walletIndex, unusedAddresses } = payload
+      const { derivation, unusedAddresses, walletIndex } = payload
       return assocPath(
         [walletIndex, derivation, 'unusedAddresses'],
         Remote.Success(unusedAddresses),
@@ -55,7 +57,7 @@ export default (state = {}, action) => {
       )
     }
     case AT.FETCH_USED_ADDRESSES_SUCCESS: {
-      const { derivation, walletIndex, usedAddresses } = payload
+      const { derivation, usedAddresses, walletIndex } = payload
       return assocPath(
         [walletIndex, derivation, 'usedAddresses'],
         Remote.Success(usedAddresses),

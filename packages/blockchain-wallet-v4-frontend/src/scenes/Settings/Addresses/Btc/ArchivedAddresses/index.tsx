@@ -1,10 +1,12 @@
-import { actions, model, selectors } from 'data'
-import { bindActionCreators, compose } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { formValueSelector } from 'redux-form'
-import { Types } from 'blockchain-wallet-v4/src'
-import ArchivedAddresses from './template'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
+
+import { Types } from 'blockchain-wallet-v4/src'
+import { actions, model, selectors } from 'data'
+
+import ArchivedAddresses from './template'
 const { WALLET_TX_SEARCH } = model.form
 
 class ArchivedAddressesContainer extends React.PureComponent<Props> {
@@ -17,7 +19,7 @@ class ArchivedAddressesContainer extends React.PureComponent<Props> {
     this.props.coreActions.deleteLegacyAddress(address.addr)
   }
 
-  render () {
+  render() {
     const { archivedAddresses, search } = this.props
     return (
       <ArchivedAddresses

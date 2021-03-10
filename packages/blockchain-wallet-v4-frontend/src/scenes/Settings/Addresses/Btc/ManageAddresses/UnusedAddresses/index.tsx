@@ -1,15 +1,13 @@
-import { any, equals, length, prop, propEq } from 'ramda'
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { formValueSelector } from 'redux-form'
+import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Toggler, TogglerItem } from '@blockchain-com/components'
-import React from 'react'
+import { any, equals, length, prop, propEq } from 'ramda'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 import styled from 'styled-components'
 
-import * as C from 'services/alerts'
-import { actions, selectors } from 'data'
 import {
   Banner,
   Button,
@@ -18,9 +16,11 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
-import { HDDerivationType } from 'core/types'
-import { SettingDescription, SettingHeader } from 'components/Setting'
 import { Types } from 'blockchain-wallet-v4/src'
+import { SettingDescription, SettingHeader } from 'components/Setting'
+import { HDDerivationType } from 'core/types'
+import { actions, selectors } from 'data'
+import * as C from 'services/alerts'
 
 import UnusedAddresses from './template'
 
@@ -62,12 +62,12 @@ const UnusedTitle = styled(SettingHeader)`
 `
 
 class UnusedAddressesContainer extends React.PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     const { componentActions, derivation, walletIndex } = this.props
     componentActions.fetchUnusedAddresses(walletIndex, derivation)
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.derivation !== prevProps.derivation) {
       this.props.componentActions.fetchUnusedAddresses(
         this.props.walletIndex,
@@ -138,15 +138,15 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
     routerActions.push('/settings/addresses/btc')
   }
 
-  render () {
+  render() {
     const {
       accountLabel,
       derivation,
       hasLegacyDerivation,
       isDefault,
       search,
-      walletIndex,
-      unusedAddresses
+      unusedAddresses,
+      walletIndex
     } = this.props
 
     return (

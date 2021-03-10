@@ -1,8 +1,9 @@
-import { Banner, Button, Icon, Image, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
-import { media } from 'services/styles'
 import React, { useEffect } from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+
+import { Banner, Button, Icon, Image, Text } from 'blockchain-info-components'
+import { media } from 'services/styles'
 
 const Fragment = React.Fragment
 
@@ -162,27 +163,27 @@ const Success = props => {
                     {approver_device_description ===
                     requester_device_description ? (
                       <Icon
-                        name="checkmark-in-circle-filled"
-                        color="success"
-                        size="15px"
+                        name='checkmark-in-circle-filled'
+                        color='success'
+                        size='15px'
                       />
                     ) : (
-                      <Icon name="close" color="error" size="22px" />
+                      <Icon name='close' color='error' size='22px' />
                     )}
                     &nbsp;
-                    <Text size="14px" style={{ paddingLeft: '6px' }}>
+                    <Text size='14px' style={{ paddingLeft: '6px' }}>
                       <FormattedMessage
-                        id="scenes.authorizelogin.browser"
-                        defaultMessage="Browser: "
+                        id='scenes.authorizelogin.browser'
+                        defaultMessage='Browser: '
                       />
                     </Text>
                   </DeviceInfoTitleRow>
-                  <Banner type="success" inline>
+                  <Banner type='success' inline>
                     {approver_device_description}
                   </Banner>
                   {approver_device_description !==
                     requester_device_description && (
-                    <Banner type="warning" inline>
+                    <Banner type='warning' inline>
                       {requester_device_description}
                     </Banner>
                   )}
@@ -193,26 +194,26 @@ const Success = props => {
                     {/* eslint-disable */}
                     {approver_ip === requester_ip ? (
                       <Icon
-                        name="checkmark-in-circle-filled"
-                        color="success"
-                        size="13px"
+                        name='checkmark-in-circle-filled'
+                        color='success'
+                        size='13px'
                       />
                     ) : (
-                      <Icon name="close" color="error" size="22px" />
+                      <Icon name='close' color='error' size='22px' />
                     )}
                     &nbsp;
-                    <Text size="14px">
+                    <Text size='14px'>
                       <FormattedMessage
-                        id="scenes.authorizelogin.ipaddress"
-                        defaultMessage="IP Address: "
+                        id='scenes.authorizelogin.ipaddress'
+                        defaultMessage='IP Address: '
                       />
                     </Text>
                   </DeviceInfoTitleRow>
-                  <Banner type="success" inline>
+                  <Banner type='success' inline>
                     {approver_ip}
                   </Banner>
                   {approver_ip !== requester_ip && (
-                    <Banner type="warning" inline>
+                    <Banner type='warning' inline>
                       {requester_ip}
                     </Banner>
                   )}
@@ -223,26 +224,26 @@ const Success = props => {
                     {/* eslint-disable */}
                     {approver_country === requester_country ? (
                       <Icon
-                        name="checkmark-in-circle-filled"
-                        color="success"
-                        size="13px"
+                        name='checkmark-in-circle-filled'
+                        color='success'
+                        size='13px'
                       />
                     ) : (
-                      <Icon name="close" color="error" size="22px" />
+                      <Icon name='close' color='error' size='22px' />
                     )}
                     &nbsp;
-                    <Text size="14px">
+                    <Text size='14px'>
                       <FormattedMessage
-                        id="scenes.authorizelogin.country"
-                        defaultMessage="Country of Origin: "
+                        id='scenes.authorizelogin.country'
+                        defaultMessage='Country of Origin: '
                       />
                     </Text>
                   </DeviceInfoTitleRow>
-                  <Banner type="success" inline>
+                  <Banner type='success' inline>
                     {approver_country}
                   </Banner>
                   {approver_country !== requester_country && (
-                    <Banner type="warning" inline>
+                    <Banner type='warning' inline>
                       {requester_country}
                     </Banner>
                   )}

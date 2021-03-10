@@ -1,5 +1,6 @@
-import { actions, actionTypes } from 'data'
 import { put, race, take } from 'redux-saga/effects'
+
+import { actions, actionTypes } from 'data'
 
 import apps from './apps'
 import constants from './constants'

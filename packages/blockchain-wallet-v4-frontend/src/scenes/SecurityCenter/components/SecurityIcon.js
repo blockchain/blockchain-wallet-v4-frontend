@@ -1,7 +1,7 @@
-import { Icon } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
+import { Icon } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
 const Circle = styled.div`

@@ -77,7 +77,6 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
     extensions: ['.ts', '.tsx', '.js', '.json'],
     alias: {
       components: path.resolve(__dirname, '../src/components/'),
-      core: path.resolve(__dirname, '../../blockchain-wallet-v4/src/'),
       data: path.resolve(__dirname, '../src/data/'),
       layouts: path.resolve(__dirname, '../src/layouts/'),
       providers: path.resolve(__dirname, '../src/providers/'),
@@ -257,10 +256,6 @@ const buildDevServerConfig = (
           webSocket: envConfig.WEB_SOCKET_URL
         }
 
-        if (process.env.NODE_ENV === 'testnet') {
-          mockWalletOptions.platforms.web.coins.BTC.config.network = 'testnet'
-        }
-
         res.json(mockWalletOptions)
       })
 
@@ -299,7 +294,6 @@ const buildDevServerConfig = (
           'ws://localhost:8080',
           'wss://localhost:8080',
           'wss://api.ledgerwallet.com',
-          'wss://ws.testnet.blockchain.info/inv',
           envConfig.API_DOMAIN,
           envConfig.EVERYPAY_URL,
           envConfig.HORIZON_URL,
@@ -310,9 +304,6 @@ const buildDevServerConfig = (
           envConfig.WALLET_HELPER_DOMAIN,
           envConfig.WEB_SOCKET_URL,
           'https://friendbot.stellar.org',
-          'https://testnet5.blockchain.info',
-          'https://api.testnet.blockchain.info',
-          'https://shapeshift.io',
           'https://bitpay.com',
           'https://static.zdassets.com',
           'https://ekr.zdassets.com'

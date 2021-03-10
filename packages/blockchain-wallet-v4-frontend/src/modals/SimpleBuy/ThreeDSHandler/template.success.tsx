@@ -1,9 +1,11 @@
-import { FlyoutWrapper } from 'components/Flyout'
-import { Icon } from 'blockchain-info-components'
-import { Props as OwnProps, State, SuccessStateType } from '.'
-import Loading from './template.loading'
 import React from 'react'
 import styled from 'styled-components'
+
+import { Icon } from 'blockchain-info-components'
+import { FlyoutWrapper } from 'components/Flyout'
+
+import { Props as OwnProps, State, SuccessStateType } from '.'
+import Loading from './template.loading'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
   height: 100%;

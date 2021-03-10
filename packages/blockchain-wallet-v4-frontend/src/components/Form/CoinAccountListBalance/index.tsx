@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { FiatType } from 'core/types'
-import { SwapAccountType } from 'data/types'
 import { Text } from 'blockchain-info-components'
+import { FiatType } from 'blockchain-wallet-v4/src/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import { SwapAccountType } from 'data/types'
 
 const CoinAccountListBalance: React.FC<Props> = props => {
   return (

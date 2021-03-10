@@ -1,6 +1,7 @@
-import * as Coin from './coin.js'
 import { List } from 'immutable-ext'
 import { map } from 'ramda'
+
+import * as Coin from './coin.js'
 
 describe('Coin Selection', () => {
   describe('Coin Type', () => {

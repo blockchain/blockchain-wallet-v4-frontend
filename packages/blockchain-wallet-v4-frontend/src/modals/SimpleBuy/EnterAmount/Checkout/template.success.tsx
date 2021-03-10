@@ -1,29 +1,36 @@
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import React, { ReactChild, useState } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { AmountTextBox } from 'components/Exchange'
-import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
+import { Icon, Text } from 'blockchain-info-components'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import {
   coinToString,
   fiatToString
 } from 'blockchain-wallet-v4/src/exchange/currency'
-import { CoinType, SBPaymentMethodType } from 'core/types'
+import { CoinType, SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
+import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
+import { AmountTextBox } from 'components/Exchange'
+import { FlyoutWrapper } from 'components/Flyout'
+import { Form } from 'components/Form'
+import { model } from 'data'
 import { convertStandardToBase } from 'data/components/exchange/services'
+import { SBCheckoutFormValuesType } from 'data/types'
 import {
   CRYPTO_DECIMALS,
   FIAT_DECIMALS,
   formatTextAmount
 } from 'services/forms'
-import { FlyoutWrapper } from 'components/Flyout'
-import { Form } from 'components/Form'
-import { Icon, Text } from 'blockchain-info-components'
-import { model } from 'data'
-import { SBCheckoutFormValuesType } from 'data/types'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 
+import { Row } from '../../../Swap/EnterAmount/Checkout'
+import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
 import { BuyOrSell } from '../../model'
+import Failure from '../template.failure'
+import { Props as OwnProps, SuccessStateType } from '.'
+import ActionButton from './ActionButton'
+import IncreaseLimits from './IncreaseLimits'
+import Payment from './Payment'
 import {
   formatQuote,
   getMaxMin,
@@ -31,13 +38,6 @@ import {
   maximumAmount,
   minimumAmount
 } from './validation'
-import { Props as OwnProps, SuccessStateType } from '.'
-import { Row } from '../../../Swap/EnterAmount/Checkout'
-import ActionButton from './ActionButton'
-import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
-import Failure from '../template.failure'
-import IncreaseLimits from './IncreaseLimits'
-import Payment from './Payment'
 
 const { LIMIT, LIMIT_FACTOR } = model.components.simpleBuy
 
@@ -132,8 +132,8 @@ const ErrorText = styled(Text)`
 `
 
 const BlueRedCartridge = ({
-  error,
-  children
+  children,
+  error
 }: {
   children: ReactChild
   error: boolean
@@ -162,12 +162,12 @@ const normalizeAmount = (
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
-    orderType,
+    cards,
     cryptoCurrency,
+    defaultMethod,
     fiatCurrency,
     method: selectedMethod,
-    defaultMethod,
-    cards
+    orderType
   } = props
   const [fontRatio, setRatio] = useState(1)
 

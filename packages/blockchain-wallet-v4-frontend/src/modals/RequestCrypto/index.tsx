@@ -1,27 +1,26 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { InjectedFormProps, reduxForm } from 'redux-form'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 
-import { actions, selectors } from 'data'
 import {
   CoinType,
   FiatType,
   SupportedWalletCurrenciesType,
   WalletCurrencyType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 
-import { getData } from './selectors'
 import { ModalPropsType } from '../types'
-import { REQUEST_FORM } from './model'
-import { RequestFormType, RequestSteps } from './types'
-
 import RequestBuildLink from './BuildLink'
 import RequestCoinSelect from './CoinSelect'
+import { REQUEST_FORM } from './model'
+import { getData } from './selectors'
 import RequestShareLink from './ShareLink'
 import RequestShowAddress from './ShowAddress'
+import { RequestFormType, RequestSteps } from './types'
 
 class RequestCrypto extends PureComponent<Props, State> {
   state: State = {
@@ -29,12 +28,12 @@ class RequestCrypto extends PureComponent<Props, State> {
     show: false
   }
 
-  componentDidMount () {
+  componentDidMount() {
     // eslint-disable-next-line
     this.setState({ show: true })
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     const newStep = this.props.formValues?.step
     const previousStep = prevProps.formValues?.step
 
@@ -48,7 +47,7 @@ class RequestCrypto extends PureComponent<Props, State> {
     /* eslint-enable */
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.setStep(RequestSteps.COIN_SELECT)
   }
 
@@ -63,8 +62,8 @@ class RequestCrypto extends PureComponent<Props, State> {
     }, duration)
   }
 
-  render () {
-    const { formValues, position, userClickedOutside, total } = this.props
+  render() {
+    const { formValues, position, total, userClickedOutside } = this.props
     const { step } = formValues || {}
     const { direction, show } = this.state
 

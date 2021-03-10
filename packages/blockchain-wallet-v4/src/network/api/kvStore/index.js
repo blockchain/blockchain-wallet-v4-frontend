@@ -1,6 +1,7 @@
-import * as KV from '../../../types/KVStoreEntry'
-import { compose, curry, dissoc, prop, set } from 'ramda'
 import Task from 'data.task'
+import { compose, curry, dissoc, prop, set } from 'ramda'
+
+import * as KV from '../../../types/KVStoreEntry'
 
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
 
@@ -12,7 +13,7 @@ const parseError = error => {
 const toTask = promise =>
   new Task((reject, resolve) => promise.then(resolve, reject))
 
-export default ({ apiUrl, networks, get, put }) => {
+export default ({ apiUrl, get, networks, put }) => {
   const updateKVStore = kv => {
     let createEncPayloadBuffer = kv.encKeyBuffer
       ? compose(KV.B64ToBuffer, KV.encrypt(kv.encKeyBuffer), JSON.stringify)

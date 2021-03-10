@@ -1,12 +1,13 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Props as BaseProps, SuccessStateType } from '..'
 import { Button, Icon, Text } from 'blockchain-info-components'
+import { SwapOrderType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { getOutput } from 'data/components/swap/model'
-import { SwapOrderType } from 'core/types'
+
+import { Props as BaseProps, SuccessStateType } from '..'
 
 const Wrapper = styled(FlyoutWrapper)`
   width: 100%;

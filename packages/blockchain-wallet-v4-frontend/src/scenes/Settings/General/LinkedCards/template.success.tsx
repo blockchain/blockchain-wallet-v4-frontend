@@ -1,8 +1,21 @@
+import React, { SyntheticEvent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { Button, Text } from 'blockchain-info-components'
+import { FiatType } from 'blockchain-wallet-v4/src/types'
 import {
   CARD_TYPES,
   DEFAULT_CARD_SVG_LOGO
 } from 'components/Form/CreditCardBox/model'
+import {
+  SettingComponent,
+  SettingContainer,
+  SettingSummary
+} from 'components/Setting'
+import { media } from 'services/styles'
+
 import {
   CardDetails,
   CardWrapper,
@@ -10,18 +23,7 @@ import {
   CustomSettingHeader,
   RemoveButton
 } from '../styles'
-import { FiatType } from 'core/types'
-import { FormattedMessage } from 'react-intl'
-import { InjectedFormProps, reduxForm } from 'redux-form'
-import { media } from 'services/styles'
 import { Props as OwnProps, SuccessStateType } from '.'
-import {
-  SettingComponent,
-  SettingContainer,
-  SettingSummary
-} from 'components/Setting'
-import React, { SyntheticEvent } from 'react'
-import styled from 'styled-components'
 
 const CustomSettingContainer = styled(SettingContainer)`
   ${media.atLeastLaptopL`

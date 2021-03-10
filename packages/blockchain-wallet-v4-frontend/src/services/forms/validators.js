@@ -1,16 +1,15 @@
-import { all, any, equals, gt, path, prop, propOr } from 'ramda'
+import React from 'react'
+import bip39 from 'bip39'
 import { isValidBIC, isValidIBAN } from 'ibantools'
+import isObject from 'isobject'
 import { isValidNumber } from 'libphonenumber-js'
 import { validate } from 'postal-codes-js'
-import bip39 from 'bip39'
-import isObject from 'isobject'
 import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
-import React from 'react'
+import { all, any, equals, gt, path, prop, propOr } from 'ramda'
 
-import { model } from 'data'
 import { utils } from 'blockchain-wallet-v4/src'
+import { model } from 'data'
 
-import * as M from './validationMessages'
 import {
   isAlphaNumeric,
   isDOB,
@@ -22,6 +21,7 @@ import {
   isSSN,
   isUsZipcode
 } from './utils'
+import * as M from './validationMessages'
 
 const { BAD_2FA } = model.profile.ERROR_TYPES
 

@@ -1,7 +1,7 @@
-import { Field, reduxForm } from 'redux-form'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
-import React from 'react'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
@@ -30,7 +30,7 @@ const ClickableText = styled(Text)`
 `
 
 const FirstStep = props => {
-  const { address, closeAll, submitting, invalid, handleSubmit } = props
+  const { address, closeAll, handleSubmit, invalid, submitting } = props
   return (
     <Form onSubmit={handleSubmit}>
       <DetailRow>

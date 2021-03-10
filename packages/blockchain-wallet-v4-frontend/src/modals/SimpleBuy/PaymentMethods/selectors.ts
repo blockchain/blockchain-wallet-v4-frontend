@@ -1,5 +1,6 @@
-import { ExtractSuccess, FiatType } from 'core/types'
 import { lift } from 'ramda'
+
+import { ExtractSuccess, FiatType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
 export const getData = state => {

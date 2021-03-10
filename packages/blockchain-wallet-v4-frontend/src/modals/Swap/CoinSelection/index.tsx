@@ -1,27 +1,25 @@
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 
-import { CoinAccountListOption } from 'components/Form'
 import { Icon, Text } from 'blockchain-info-components'
+import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
+import { CoinAccountListOption } from 'components/Form'
+import { selectors } from 'data'
+import { SUPPORTED_COINS } from 'data/coins/model/swap'
 import {
   InitSwapFormValuesType,
   SwapSideType
 } from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
-import { selectors } from 'data'
-import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
-import { SUPPORTED_COINS } from 'data/coins/model/swap'
 import { SwapAccountType } from 'data/types'
 
 import { Props as BaseProps, SuccessStateType } from '..'
-import { getData } from './selectors'
 import { TopText } from '../components'
+import { getData } from './selectors'
 
 class CoinSelection extends PureComponent<Props> {
-  state = {}
-
-  componentDidMount () {
+  componentDidMount() {
     this.props.swapActions.fetchPairs()
     this.props.swapActions.fetchCustodialEligibility()
   }
@@ -92,7 +90,7 @@ class CoinSelection extends PureComponent<Props> {
     }
   }
 
-  render () {
+  render() {
     // @ts-ignore
     const { coins, custodialEligibility, values, walletCurrency } = this.props
     return (

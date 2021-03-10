@@ -1,11 +1,11 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { actions, selectors } from 'data'
 import { Button, Text } from 'blockchain-info-components'
+import { actions, selectors } from 'data'
 
 const Wrapper = styled.div`
   display: flex;
@@ -33,8 +33,8 @@ const ButtonText = styled(Text)`
 `
 
 class CurrencySwitchContainer extends React.PureComponent {
-  render () {
-    const { settings, coinDisplayed, preferencesActions } = this.props
+  render() {
+    const { coinDisplayed, preferencesActions, settings } = this.props
     const { currency } = settings.getOrElse({})
 
     return (

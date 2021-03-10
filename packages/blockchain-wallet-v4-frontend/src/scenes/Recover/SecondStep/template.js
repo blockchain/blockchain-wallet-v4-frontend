@@ -1,5 +1,10 @@
-import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { has } from 'ramda'
 import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import {
   Form,
   FormGroup,
@@ -7,18 +12,14 @@ import {
   PasswordBox,
   TextBox
 } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
-import { has } from 'ramda'
+import { Wrapper } from 'components/Public'
+import Terms from 'components/Terms'
 import {
   required,
   validEmail,
   validPasswordConfirmation,
   validStrongPassword
 } from 'services/forms'
-import { Wrapper } from 'components/Public'
-import React from 'react'
-import styled from 'styled-components'
-import Terms from 'components/Terms'
 
 const Header = styled.div`
   display: flex;
@@ -39,7 +40,14 @@ const GoBackLink = styled(Link)`
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
 const SecondStep = props => {
-  const { busy, invalid, handleSubmit, password, previousStep } = props
+  const {
+    handleSubmit,
+    invalid,
+    isRegistering,
+    isRestoringFromMetadata,
+    password,
+    previousStep
+  } = props
 
   return (
     <Wrapper>
@@ -52,20 +60,22 @@ const SecondStep = props => {
         </Text>
       </Header>
       <Form onSubmit={handleSubmit}>
-        <FormGroup>
-          <FormLabel htmlFor='email'>
-            <FormattedMessage
-              id='scenes.recover.secondstep.email'
-              defaultMessage='New Email'
+        {!isRestoringFromMetadata && (
+          <FormGroup>
+            <FormLabel htmlFor='email'>
+              <FormattedMessage
+                id='scenes.recover.secondstep.email'
+                defaultMessage='New Email'
+              />
+            </FormLabel>
+            <Field
+              bgColor='grey000'
+              name='email'
+              validate={[required, validEmail]}
+              component={TextBox}
             />
-          </FormLabel>
-          <Field
-            bgColor='grey000'
-            name='email'
-            validate={[required, validEmail]}
-            component={TextBox}
-          />
-        </FormGroup>
+          </FormGroup>
+        )}
         <FormGroup>
           <FormLabel htmlFor='password'>
             <FormattedMessage
@@ -105,8 +115,13 @@ const SecondStep = props => {
           <GoBackLink onClick={previousStep} size='13px' weight={400}>
             <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
           </GoBackLink>
-          <Button type='submit' nature='primary' disabled={busy || invalid}>
-            {busy ? (
+          <Button
+            data-e2e='recoverSubmit'
+            disabled={isRegistering || invalid}
+            nature='primary'
+            type='submit'
+          >
+            {isRegistering ? (
               <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
               <FormattedMessage

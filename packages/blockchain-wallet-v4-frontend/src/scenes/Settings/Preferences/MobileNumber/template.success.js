@@ -1,4 +1,6 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+
 import {
   SettingComponent,
   SettingContainer,
@@ -7,13 +9,12 @@ import {
   SettingStatus,
   SettingSummary
 } from 'components/Setting'
-import React from 'react'
 
 import Settings from './Settings'
 
 const MobileNumber = props => {
   const { data } = props
-  const { smsNumber, smsVerified, authType } = data
+  const { authType, smsNumber, smsVerified } = data
   const isVerified = smsVerified === 1
 
   return (

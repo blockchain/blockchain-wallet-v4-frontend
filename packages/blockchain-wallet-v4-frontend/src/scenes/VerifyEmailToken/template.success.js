@@ -1,8 +1,8 @@
-import { Button, Image, Link, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { Button, Image, Link, Text } from 'blockchain-info-components'
 import { isMobile } from 'services/styles'
 
 const Wrapper = styled.div`

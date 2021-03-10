@@ -9,6 +9,7 @@ export const SHAPESHIFT = 'shapeshift' // Deprecated
 export const WHATSNEW = 'whatsNew' // Deprecated
 export const USER_CREDENTIALS = 'userCredentials'
 export const XLM = 'xlm'
+export const WALLET_CREDENTIALS = 'walletCredentials'
 
 export const derivationMap = {
   [ROOT]: -1,
@@ -21,5 +22,6 @@ export const derivationMap = {
   [BTC]: 8,
   [LOCKBOX]: 9,
   [USER_CREDENTIALS]: 10,
-  [XLM]: 11
+  [XLM]: 11,
+  [WALLET_CREDENTIALS]: 12
 }

@@ -1,14 +1,14 @@
-import { Props as BaseProps } from '../../index'
-import { Border, FlexStartRow, IconBackground, TopText } from '../../components'
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
-
-import { bindActionCreators, compose, Dispatch } from 'redux'
+import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { actions } from 'data'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
+import { actions } from 'data'
+
+import { Border, FlexStartRow, IconBackground, TopText } from '../../components'
+import { Props as BaseProps } from '../../index'
 
 const VerifyIdentity: React.FC<Props> = props => {
   return (

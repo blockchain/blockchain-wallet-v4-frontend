@@ -1,8 +1,9 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+
 import Refresh from './template'
 
 class RefreshContainer extends React.PureComponent<Props> {
@@ -17,7 +18,7 @@ class RefreshContainer extends React.PureComponent<Props> {
     }, 0.5 * 1000)
   }
 
-  render () {
+  render() {
     return (
       <Refresh
         handleRefresh={() => {

@@ -1,8 +1,13 @@
 import { head } from 'ramda'
 import { select } from 'redux-saga/effects'
 
-import { CoinType, CurrenciesType, PaymentValue, RatesType } from 'core/types'
 import { Exchange } from 'blockchain-wallet-v4/src'
+import {
+  CoinType,
+  CurrenciesType,
+  PaymentValue,
+  RatesType
+} from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
 // retrieves default account/address
@@ -35,7 +40,7 @@ export const getOrUpdateProvisionalPayment = function * (
 
 // converts base unit (WEI) to fiat
 // TODO: need to refactor further to avoid explicit switch cases
-export const convertFromBaseUnitToFiat = function (
+export const convertFromBaseUnitToFiat = function(
   coin: CoinType,
   baseUnitValue: number | string,
   userCurrency: keyof CurrenciesType,

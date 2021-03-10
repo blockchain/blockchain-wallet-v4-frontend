@@ -1,3 +1,16 @@
+import axios from 'axios'
+import { Moment } from 'moment'
+import { v4 as uuidv4 } from 'uuid'
+
+import { UserDataType } from 'data/types'
+
+import {
+  CoinType,
+  CurrenciesType,
+  FiatType,
+  WalletCurrencyType
+} from '../../../types'
+import { SwapOrderStateType, SwapOrderType } from '../swap/types'
 import {
   BankTransferAccountType,
   FiatEligibleType,
@@ -17,16 +30,6 @@ import {
   SBTransactionStateType,
   SBTransactionsType
 } from './types'
-import {
-  CoinType,
-  CurrenciesType,
-  FiatType,
-  WalletCurrencyType
-} from '../../../types'
-import { Moment } from 'moment'
-import { SwapOrderStateType, SwapOrderType } from '../swap/types'
-import { UserDataType } from 'data/types'
-import axios from 'axios'
 
 export default ({
   authorizedDelete,
@@ -73,6 +76,19 @@ export default ({
         address,
         email
       }
+    })
+
+  const createFiatDeposit = (
+    amount: number,
+    bankId: string,
+    currency: FiatType,
+    product: 'SIMPLEBUY' = 'SIMPLEBUY'
+  ) =>
+    authorizedPost({
+      url: nabuUrl,
+      contentType: 'application/json',
+      endPoint: `/payments/banktransfer/${bankId}/payment`,
+      data: { amount, currency, product, orderId: uuidv4() }
     })
 
   const createSBOrder = (
@@ -211,9 +227,9 @@ export default ({
     })
 
   const getSBOrders = ({
-    pendingOnly = false,
+    after,
     before,
-    after
+    pendingOnly = false
   }: {
     after?: string
     before?: string
@@ -403,6 +419,7 @@ export default ({
 
   return {
     activateSBCard,
+    createFiatDeposit,
     cancelSBOrder,
     createSBCard,
     createSBOrder,

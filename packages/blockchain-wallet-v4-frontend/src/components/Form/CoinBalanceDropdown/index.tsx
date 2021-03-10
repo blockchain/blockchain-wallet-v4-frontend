@@ -1,19 +1,20 @@
+import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { Field } from 'redux-form'
+import styled from 'styled-components'
+
+import { Icon, Text } from 'blockchain-info-components'
 import {
   CoinType,
   RatesType,
   SupportedCoinType,
   SupportedWalletCurrenciesType
-} from 'core/types'
-import { connect, ConnectedProps } from 'react-redux'
-import { Field } from 'redux-form'
-import { getData } from './selectors'
-import { Icon, Text } from 'blockchain-info-components'
-
+} from 'blockchain-wallet-v4/src/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import React, { PureComponent } from 'react'
 import SelectBox from 'components/Form/SelectBox'
-import styled from 'styled-components'
+
+import { getData } from './selectors'
 
 const DisplayContainer = styled.div<{
   coinType: SupportedCoinType
@@ -54,10 +55,7 @@ const FiatContainer = styled.div`
   font-size: 12px;
   color: ${props => props.theme.grey400};
 `
-
 export class CoinBalanceDropdown extends PureComponent<Props> {
-  state = {}
-
   coinBalance = selectProps => {
     if (selectProps.value) {
       // Account balance
@@ -127,7 +125,8 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
       </DisplayContainer>
     )
   }
-  render () {
+
+  render() {
     return this.props.data.cata({
       Success: values => {
         const { addressData } = values

@@ -1,24 +1,26 @@
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
-import { Remote } from 'blockchain-wallet-v4/src'
-import Failure from './template.failure'
-import Loading from '../Verify/template.loading'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { Remote } from 'blockchain-wallet-v4/src'
+import { actions } from 'data'
+
+import Loading from '../Verify/template.loading'
+import { getData } from './selectors'
+import Failure from './template.failure'
 import Success from './template.success'
 
 class Veriff extends React.PureComponent<Props> {
   state = { loading: false }
 
-  componentDidMount () {
+  componentDidMount() {
     const { data } = this.props
     if (!Remote.Success.is(data)) {
       this.props.actions.fetchVeriffUrl()
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.setState({ loading: false })
   }
 
@@ -33,7 +35,7 @@ class Veriff extends React.PureComponent<Props> {
     }
   }
 
-  render () {
+  render() {
     const { onClose } = this.props
 
     if (this.state.loading) return <Loading />

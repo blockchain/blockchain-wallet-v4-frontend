@@ -1,9 +1,9 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled, { css, DefaultTheme } from 'styled-components'
 
-import { FiatType, SupportedCoinType } from 'core/types'
 import { Icon, Text } from 'blockchain-info-components'
+import { FiatType, SupportedCoinType } from 'blockchain-wallet-v4/src/types'
 import { SuccessCartridge } from 'components/Cartridge'
 import { SwapAccountType } from 'data/types'
 

@@ -1,4 +1,3 @@
-import { createDeepEqualSelector } from '../../utils'
 import {
   curry,
   filter,
@@ -12,9 +11,12 @@ import {
   set,
   toUpper
 } from 'ramda'
-import { getInvitations } from '../settings/selectors'
-import { RemoteDataType } from 'core/types'
+
+import { CoinType, RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
+
+import { createDeepEqualSelector } from '../../utils'
+import { getInvitations } from '../settings/selectors'
 import {
   SupportedCoinType,
   SupportedWalletCurrenciesType,
@@ -79,8 +81,19 @@ export const getStxCampaign = state =>
 export const getCoinAvailability = curry((state, coin) =>
   getSupportedCoins(state).map(path([toUpper(coin), 'availability']))
 )
-export const getAllCoinAvailabilities = state =>
-  map(map(prop('availability')), getSupportedCoins(state))
+export const getAllCoinAvailabilities = state => {
+  return map(
+    map(prop('availability')),
+    getSupportedCoins(state)
+  ) as RemoteDataType<
+    any,
+    {
+      [key in CoinType]: {
+        [key in keyof SupportedCoinType['availability']]: boolean
+      }
+    }
+  >
+}
 
 export const getErc20CoinList = state =>
   getSupportedCoins(state).map(x =>
@@ -103,3 +116,11 @@ export const getSiftKey = state =>
 export const getSiftPaymentKey = (state: RootState) => {
   return getWebOptions(state).map(options => options.sift.paymentKey)
 }
+
+// mobile auth flag
+export const getMobileAuthFlag = state =>
+  getWebOptions(state).map(path(['mobile_auth', 'enabled']))
+
+// brokerage deposits withdrawals flag
+export const getBrokerageDepositsWithdrawals = state =>
+  getWebOptions(state).map(path(['brokerage_deposits_withdrawals', 'enabled']))

@@ -1,6 +1,6 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
-import React from 'react'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
@@ -89,6 +89,10 @@ const Success: React.FC<Props> = props => {
     props.order.state === 'PENDING_DEPOSIT' &&
     props.order.attributes?.everypay?.paymentState ===
       'WAITING_FOR_3DS_RESPONSE'
+
+  const handleCancel = () => {
+    props.simpleBuyActions.cancelSBOrder(props.order)
+  }
 
   return (
     <Wrapper>
@@ -192,12 +196,7 @@ const Success: React.FC<Props> = props => {
                     size='16px'
                     height='48px'
                     nature='light-red'
-                    onClick={() =>
-                      props.simpleBuyActions.setStep({
-                        step: 'CANCEL_ORDER',
-                        order: props.order
-                      })
-                    }
+                    onClick={handleCancel}
                     style={{ marginBottom: '16px' }}
                   >
                     <FormattedMessage

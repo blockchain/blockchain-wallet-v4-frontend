@@ -1,6 +1,7 @@
+import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
+
 import * as AT from './actionTypes'
 import { AB_TESTS } from './model'
-import { RemoteDataType } from 'core/types'
 
 // types
 export type ABTestNameType = AB_TESTS

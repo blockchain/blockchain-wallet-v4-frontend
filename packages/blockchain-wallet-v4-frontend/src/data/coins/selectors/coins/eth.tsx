@@ -1,15 +1,15 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { lift, prop } from 'ramda'
-import React from 'react'
 
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { coreSelectors } from 'blockchain-wallet-v4/src'
-import { createDeepEqualSelector } from 'services/misc'
+import { SBBalanceType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
-import { generateCustodyAccount } from 'data/coins/utils'
-import { SBBalanceType } from 'core/network/api/simpleBuy/types'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
+import { generateTradingAccount } from 'data/coins/utils'
 
-import { getCustodialBalance } from '../'
+import { getTradingBalance } from '../'
 
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = () => (
@@ -26,7 +26,7 @@ export const getAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.eth.getAddresses, // non-custodial accounts
     coreSelectors.kvStore.eth.getAccounts, // non-custodial metadata
-    (state, { coin }) => getCustodialBalance(coin, state), // custodial accounts
+    (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
   (ethDataR, ethMetadataR, sbBalanceR, ownProps) => {
@@ -40,8 +40,8 @@ export const getAccounts = createDeepEqualSelector(
 
       // add non-custodial accounts if requested
       if (ownProps?.nonCustodialAccounts) {
-        accounts = accounts.concat(ethMetadata
-          .map(acc => {
+        accounts = accounts.concat(
+          ethMetadata.map(acc => {
             const address = prop('addr', acc)
             const data = prop(address, ethData)
 
@@ -53,13 +53,16 @@ export const getAccounts = createDeepEqualSelector(
               balance: prop('balance', data),
               type: ADDRESS_TYPES.ACCOUNT
             }
-          }))
+          })
+        )
       }
 
-      // add custodial accounts if requested
-      if (ownProps?.custodialAccounts) {
-        // @ts-ignore
-        accounts = accounts.concat(generateCustodyAccount(coin, sbBalance as SBBalanceType))
+      // add trading accounts if requested
+      if (ownProps?.tradingAccounts) {
+        accounts = accounts.concat(
+          // @ts-ignore
+          generateTradingAccount(coin, sbBalance as SBBalanceType)
+        )
       }
 
       return accounts

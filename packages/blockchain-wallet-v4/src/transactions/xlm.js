@@ -1,4 +1,5 @@
-import * as StellarSdk from 'stellar-sdk'
+import BigNumber from 'bignumber.js'
+import moment from 'moment'
 import {
   compose,
   curry,
@@ -12,8 +13,8 @@ import {
   prop,
   propEq
 } from 'ramda'
-import BigNumber from 'bignumber.js'
-import moment from 'moment'
+import * as StellarSdk from 'stellar-sdk'
+
 import Remote from '../remote'
 
 const getType = (tx, addresses) => {

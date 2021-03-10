@@ -1,18 +1,18 @@
-import { BaseFieldProps, Field, Form } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { BaseFieldProps, Field, Form } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { CoinAccountListOption, NumberBox, TextBox } from 'components/Form'
-import { Exchange } from 'core'
-import { FlyoutWrapper } from 'components/Flyout'
-import { required } from 'services/forms'
-import { WalletCurrencyType } from 'core/types'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
+import { FlyoutWrapper } from 'components/Flyout'
+import { CoinAccountListOption, NumberBox, TextBox } from 'components/Form'
+import { required } from 'services/forms'
 
-import { ClipboardWrapper, REQUEST_FORM, StepHeader } from '../model'
 import { Props as OwnProps } from '..'
+import { ClipboardWrapper, REQUEST_FORM, StepHeader } from '../model'
 import { RequestSteps } from '../types'
 
 const Wrapper = styled.div`
@@ -103,7 +103,7 @@ class BuildLink extends React.PureComponent<Props> {
     this.props.formActions.change(REQUEST_FORM, 'currencyDisplay', currency)
   }
 
-  render () {
+  render() {
     const {
       formValues,
       invalid,

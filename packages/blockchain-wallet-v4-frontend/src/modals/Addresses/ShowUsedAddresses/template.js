@@ -1,5 +1,5 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import {
@@ -28,7 +28,7 @@ const CancelBtn = styled(Text)`
 `
 
 const ShowUsedAddresses = props => {
-  const { busy, position, total, closeAll, ...rest } = props
+  const { busy, closeAll, position, total, ...rest } = props
   const { handleContinue } = rest
 
   return (

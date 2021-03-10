@@ -18,7 +18,7 @@ const convertXlmToFiat = (rates, currency) => amount =>
   }).value
 
 export const getData = (state, props) => {
-  const { reserveXlm, rates, effectiveBalanceXlm, currency, fee } = props
+  const { currency, effectiveBalanceXlm, fee, rates, reserveXlm } = props
   const convertToFiat = convertXlmToFiat(rates, currency)
   const totalAmountXlm = new BigNumber.sum(
     effectiveBalanceXlm,

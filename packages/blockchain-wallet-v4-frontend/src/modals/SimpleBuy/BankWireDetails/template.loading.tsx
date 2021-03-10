@@ -1,7 +1,8 @@
-import { FormattedMessage } from 'react-intl'
-import { SpinningLoader, Text } from 'blockchain-info-components'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+
+import { SpinningLoader, Text } from 'blockchain-info-components'
 
 interface Props {}
 

@@ -1,11 +1,12 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
-import { reduxForm } from 'redux-form'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { reduxForm } from 'redux-form'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import UpgradeWallet from './template.js'
+
+import UpgradeWallet from './template'
 
 class UpgradeContainer extends React.PureComponent {
   handleSubmit = e => {
@@ -14,7 +15,7 @@ class UpgradeContainer extends React.PureComponent {
     this.props.authActions.upgradeWallet(this.props.version)
   }
 
-  render () {
+  render() {
     return <UpgradeWallet {...this.props} handleSubmit={this.handleSubmit} />
   }
 }

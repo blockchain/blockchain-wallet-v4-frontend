@@ -1,6 +1,6 @@
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import {
@@ -29,15 +29,15 @@ const MobileNumber = styled.div`
 
 const MobileNumberChange = props => {
   const {
-    position,
-    total,
     close,
     closeAll,
-    submitting,
+    handleSubmit,
     invalid,
+    position,
     pristine,
     smsNumber,
-    handleSubmit
+    submitting,
+    total
   } = props
 
   return (

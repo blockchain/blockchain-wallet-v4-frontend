@@ -1,3 +1,11 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import BigNumber from 'bignumber.js'
+import Bowser from 'bowser'
+import PropTypes from 'prop-types'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Banner,
   Button,
@@ -6,18 +14,8 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import {
-  ColLeft,
-  ColRight,
-  CustodyToAccountMessage,
-  CustomFeeAlertBanner,
-  FeeFormContainer,
-  FeeFormGroup,
-  FeeFormLabel,
-  FeeOptionsContainer,
-  FeePerByteContainer,
-  Row
-} from 'components/Send'
+import { Remote } from 'blockchain-wallet-v4/src'
+import ComboDisplay from 'components/Display/ComboDisplay'
 import {
   FiatConverter,
   Form,
@@ -30,8 +28,29 @@ import {
   SelectBoxEthAddresses,
   TextAreaDebounced
 } from 'components/Form'
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
+import QRCodeCapture from 'components/QRCode/Capture'
+import {
+  ColLeft,
+  ColRight,
+  CustodyToAccountMessage,
+  CustomFeeAlertBanner,
+  FeeFormContainer,
+  FeeFormGroup,
+  FeeFormLabel,
+  FeeOptionsContainer,
+  FeePerByteContainer,
+  Row
+} from 'components/Send'
+import ExchangePromo from 'components/Send/ExchangePromo'
+import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
+import { model } from 'data'
+import { required, validEthAddress } from 'services/forms'
+
+import LowBalanceWarning from './LowBalanceWarning'
+import LowEthWarningForErc20 from './LowEthWarningForErc20'
+import MinFeeForRetryInvalid from './MinFeeForRetryInvalid'
+import PriorityFeeLink from './PriorityFeeLink'
+import RegularFeeLink from './RegularFeeLink'
 import {
   insufficientFunds,
   invalidAmount,
@@ -41,23 +60,6 @@ import {
   shouldError,
   shouldWarn
 } from './validation'
-import { model } from 'data'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { required, validEthAddress } from 'services/forms'
-import BigNumber from 'bignumber.js'
-import Bowser from 'bowser'
-import ComboDisplay from 'components/Display/ComboDisplay'
-import ExchangePromo from 'components/Send/ExchangePromo'
-import LowBalanceWarning from './LowBalanceWarning'
-import LowEthWarningForErc20 from './LowEthWarningForErc20'
-import MinFeeForRetryInvalid from './MinFeeForRetryInvalid'
-import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
-import PriorityFeeLink from './PriorityFeeLink'
-import PropTypes from 'prop-types'
-import QRCodeCapture from 'components/QRCode/Capture'
-import React from 'react'
-import RegularFeeLink from './RegularFeeLink'
-import styled from 'styled-components'
 
 const WarningBanners = styled(Banner)`
   margin: -6px 0 12px;

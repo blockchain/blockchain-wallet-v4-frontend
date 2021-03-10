@@ -1,8 +1,9 @@
-import * as C from 'services/alerts'
-import { actions, selectors } from 'data'
-import { askSecondPasswordEnhancer, promptForInput } from 'services/sagas'
 import { call, put, select } from 'redux-saga/effects'
+
+import { actions, selectors } from 'data'
+import * as C from 'services/alerts'
 import { requireUniqueWalletName } from 'services/forms'
+import { askSecondPasswordEnhancer, promptForInput } from 'services/sagas'
 
 export default ({ coreSagas }) => {
   const logLocation = 'wallet/sagas'
@@ -79,6 +80,9 @@ export default ({ coreSagas }) => {
     const { password } = action.payload
     yield put(actions.core.wallet.setMainPassword(password))
     yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
+    yield call(
+      coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials
+    )
   }
 
   return {

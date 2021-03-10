@@ -1,3 +1,6 @@
+import React, { PureComponent } from 'react'
+import styled from 'styled-components'
+
 import {
   CoinType,
   FiatSBAndSwapTransactionType,
@@ -7,16 +10,14 @@ import {
   SBOrderType,
   SBTransactionType,
   WalletCurrencyType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
-import React, { PureComponent } from 'react'
-import styled from 'styled-components'
 
 import CustodialTxListItem from '../CustodialTx'
-import Loading from './template.loading'
 import NonCustodialTxListItem from '../NonCustodialTx'
 import SimpleBuyListItem from '../SBOrderTx'
 import SwapOrderTx from '../SwapOrderTx'
+import Loading from './template.loading'
 
 // width: 99%; to prevent scrolling weirdness
 const TransactionsWrapper = styled.div`
@@ -30,7 +31,7 @@ const TransactionsWrapper = styled.div`
 `
 
 class TransactionList extends PureComponent<Props> {
-  render () {
+  render() {
     const { coin, coinTicker, currency, data } = this.props
 
     return data.cata({

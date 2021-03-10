@@ -13,7 +13,6 @@
     "build:dev": "cross-env-shell NODE_ENV=development webpack-cli --config webpack.config.dev.js --progress --colors",
     "build:prod": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.dev.js --progress --colors",
     "build:staging": "cross-env-shell NODE_ENV=staging webpack-cli --config webpack.config.dev.js --progress --colors",
-    "build:testnet": "cross-env-shell NODE_ENV=testnet webpack-cli --config webpack.config.dev.js --progress --colors",
     "ci:test:frontend": "yarn test --runInBand",
     "ci:compile": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.ci.js --display-error-details",
     "clean": "cross-env rimraf node_modules && rimraf build",
@@ -27,7 +26,6 @@
     "start:dev": "cross-env-shell NODE_ENV=development webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "start:prod": "cross-env-shell DISABLE_SSL=true NODE_ENV=production webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "start:staging": "cross-env-shell NODE_ENV=staging webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
-    "start:testnet": "cross-env-shell NODE_ENV=testnet webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "test": "cross-env npx jest",
     "test:build": "echo 'No precomplilation required for tests to execute.'",
     "test:debug": "cross-env npx --inspect-brk jest --runInBand",
@@ -102,7 +100,7 @@
     "moment": "2.27.0",
     "postal-codes-js": "2.5.0",
     "prop-types": "15.7.2",
-    "qrcode.react": "0.9.3",
+    "qrcode.react": "1.0.0",
     "qs": "6.7.0",
     "ramda": "0.26.1",
     "react": "16.13.1",
@@ -135,6 +133,7 @@
     "sanitize-html": "1.25.0",
     "slick-carousel": "1.8.1",
     "styled-components": "4.4.1",
+    "uuid": "^8.3.2",
     "zxcvbn": "4.4.2"
   }
 }

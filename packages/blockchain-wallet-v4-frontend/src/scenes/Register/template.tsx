@@ -1,8 +1,8 @@
-import { find, isEmpty, isNil, propEq, propOr } from 'ramda'
-import { FormattedMessage } from 'react-intl'
-import { InjectedFormProps, reduxForm } from 'redux-form'
-import { LinkContainer } from 'react-router-bootstrap'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import { find, isEmpty, isNil, propEq, propOr } from 'ramda'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled, { DefaultTheme } from 'styled-components'
 
 import {
@@ -18,7 +18,7 @@ import {
   CoinType,
   SupportedWalletCurrenciesType,
   WalletFiatType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
 import { GoalsType } from 'data/goals/types'
 import { media } from 'services/styles'
 
@@ -363,7 +363,7 @@ export type GoalDataType = {
 }
 
 const Register = (props: InjectedFormProps<{}, Props> & Props) => {
-  const { isLinkAccountGoal, isSimpleBuyGoal, goals } = props
+  const { goals, isLinkAccountGoal, isSimpleBuyGoal } = props
   const dataGoal = find(propEq('name', 'simpleBuy'), goals)
   const goalData: GoalDataType = propOr({}, 'data', dataGoal)
 

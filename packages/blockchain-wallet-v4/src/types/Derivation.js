@@ -1,9 +1,10 @@
-import * as AddressLabelMap from './AddressLabelMap'
-import * as Cache from './Cache'
-import * as crypto from '../walletCrypto'
+import Task from 'data.task'
 import { compose, curry, dissoc, is, over, pipe } from 'ramda'
 import { traverseOf, view } from 'ramda-lens'
-import Task from 'data.task'
+
+import * as crypto from '../walletCrypto'
+import * as AddressLabelMap from './AddressLabelMap'
+import * as Cache from './Cache'
 import Type from './Type'
 
 export class Derivation extends Type {}
@@ -37,16 +38,13 @@ export const fromJS = derivation => {
   }
 }
 
-export const toJS = pipe(
-  Derivation.guard,
-  derivation => {
-    const derivationDecons = compose(
-      over(addressLabels, AddressLabelMap.toJS),
-      over(cache, Cache.toJS)
-    )
-    return dissoc('index', derivationDecons(derivation).toJS())
-  }
-)
+export const toJS = pipe(Derivation.guard, derivation => {
+  const derivationDecons = compose(
+    over(addressLabels, AddressLabelMap.toJS),
+    over(cache, Cache.toJS)
+  )
+  return dissoc('index', derivationDecons(derivation).toJS())
+})
 
 export const js = (type, purpose, node, xpub) => ({
   type,

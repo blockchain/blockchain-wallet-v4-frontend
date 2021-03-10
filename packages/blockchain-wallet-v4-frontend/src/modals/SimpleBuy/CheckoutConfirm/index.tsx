@@ -1,14 +1,9 @@
-import { bindActionCreators, Dispatch } from 'redux'
+import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import BigNumber from 'bignumber.js'
-import React, { PureComponent } from 'react'
+import { bindActionCreators, Dispatch } from 'redux'
 
-import { actions, selectors } from 'data'
-import {
-  AddBankStepType,
-  BrokerageModalOriginType,
-  UserDataType
-} from 'data/types'
+import { Remote } from 'blockchain-wallet-v4/src'
 import {
   ExtractSuccess,
   FiatTypeEnum,
@@ -16,20 +11,25 @@ import {
   SupportedCoinType,
   SupportedWalletCurrenciesType,
   WalletFiatType
-} from 'core/types'
-import { getFiatFromPair, getOrderType } from 'data/components/simpleBuy/model'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { RootState } from 'data/rootReducer'
+} from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
+import { actions, selectors } from 'data'
+import { getFiatFromPair, getOrderType } from 'data/components/simpleBuy/model'
+import { RootState } from 'data/rootReducer'
+import {
+  AddBankStepType,
+  BrokerageModalOriginType,
+  UserDataType
+} from 'data/types'
 
-import { getData } from './selectors'
 import Loading from '../template.loading'
+import { getData } from './selectors'
 import Success from './template.success'
 
 class CheckoutConfirm extends PureComponent<Props> {
   state = {}
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.simpleBuyActions.fetchSBQuote(
       this.props.order.pair,
       getOrderType(this.props.order),
@@ -46,11 +46,11 @@ class CheckoutConfirm extends PureComponent<Props> {
 
   handleSubmit = () => {
     const {
-      userData,
-      sbBalances,
+      cards,
       isSddFlow,
       isUserSddVerified,
-      cards
+      sbBalances,
+      userData
     } = this.props.data.getOrElse({
       userData: { tiers: { current: 0 } } as UserDataType,
       isSddFlow: false
@@ -120,8 +120,8 @@ class CheckoutConfirm extends PureComponent<Props> {
             BrokerageModalOriginType.ADD_BANK,
             'ADD_BANK_MODAL'
           )
-          return this.props.brokerageActions.setStep({
-            step: AddBankStepType.ADD_BANK_HANDLER
+          return this.props.brokerageActions.setAddBankStep({
+            addBankStep: AddBankStepType.ADD_BANK_HANDLER
           })
         }
       default:
@@ -133,7 +133,7 @@ class CheckoutConfirm extends PureComponent<Props> {
     }
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => (
         <Success {...this.props} {...val} onSubmit={this.handleSubmit} />

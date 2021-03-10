@@ -1,17 +1,18 @@
-import { connect, ConnectedProps } from 'react-redux'
-import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
 
-import { ExtractSuccess, FiatType } from 'core/types'
-import { getData } from './selectors'
+import { ExtractSuccess, FiatType } from 'blockchain-wallet-v4/src/types'
 import { PriceChartPreferenceType } from 'data/preferences/types'
+import { RootState } from 'data/rootReducer'
+
+import { getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class CoinPriceChange extends PureComponent<Props> {
   state = {}
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} />,
       NotAsked: () => <Loading />,

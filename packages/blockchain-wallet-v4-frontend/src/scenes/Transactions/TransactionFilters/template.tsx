@@ -1,12 +1,13 @@
-import { Field } from 'redux-form'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Field } from 'redux-form'
+import styled from 'styled-components'
+
 import { IconButton, TooltipHost } from 'blockchain-info-components'
-import { media } from 'services/styles'
-import { StickyHeader } from 'components/Layout'
 import { TabMenuTransactionStatus, TextBox } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
-import React from 'react'
-import styled from 'styled-components'
+import { StickyHeader } from 'components/Layout'
+import { media } from 'services/styles'
 
 const StyledIconButton = styled(IconButton)`
   border: 1px solid ${props => props.theme['grey100']};

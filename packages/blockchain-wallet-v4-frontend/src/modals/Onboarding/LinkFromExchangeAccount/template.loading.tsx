@@ -1,4 +1,7 @@
-import { ActionsWrapper, Content, MainContent, Status } from './styles'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import {
   BlockchainLoader,
   Button,
@@ -7,10 +10,9 @@ import {
   TextGroup
 } from 'blockchain-info-components'
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
-import { FormattedMessage } from 'react-intl'
+
 import { Props } from '.'
-import React from 'react'
-import styled from 'styled-components'
+import { ActionsWrapper, Content, MainContent, Status } from './styles'
 
 const DisplayIcon = styled(DisplayPaymentIcon)`
   margin-bottom: 30px;

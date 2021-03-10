@@ -1,10 +1,10 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
+import { SimpleDropdown } from 'blockchain-info-components/src/Dropdowns'
 import { actions, selectors } from 'data'
 import { languagesSortedByName } from 'services/locales'
-import { SimpleDropdown } from 'blockchain-info-components/src/Dropdowns'
 
 class DropdownLanguageContainer extends React.PureComponent {
   handleClick = selectedLanguage => {
@@ -12,8 +12,8 @@ class DropdownLanguageContainer extends React.PureComponent {
     this.props.preferencesActions.setLanguage(selectedLanguage.language, true)
   }
 
-  render () {
-    const { currentLanguage, languages, color, size } = this.props
+  render() {
+    const { color, currentLanguage, languages, size } = this.props
     const languageList = languages.map(lang => {
       return {
         text: lang.name,

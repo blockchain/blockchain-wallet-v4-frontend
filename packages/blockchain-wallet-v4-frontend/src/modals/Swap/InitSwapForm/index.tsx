@@ -1,17 +1,23 @@
-import { compose } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { compose } from 'redux'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { CoinAccountListBalance } from 'components/Form'
-import { CoinType } from 'core/types'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
-import { InitSwapFormValuesType } from 'data/components/swap/types'
+import { CoinAccountListBalance } from 'components/Form'
 import { selectors } from 'data'
+import {
+  InitSwapFormValuesType,
+  SwapAccountType,
+  SwapCoinType
+} from 'data/components/swap/types'
+import checkAccountZeroBalance from 'services/CheckAccountZeroBalance'
 
+import { Props as BaseProps, SuccessStateType } from '..'
 import {
   BalanceRow,
   CustomOption,
@@ -24,7 +30,6 @@ import {
   TopText,
   TrendingIconRow
 } from '../components'
-import { Props as BaseProps, SuccessStateType } from '..'
 import { getData } from './selectors'
 import VerifyIdentity from './VerifyIdentity'
 
@@ -38,7 +43,7 @@ const SuggestedTextCustomBorder = styled.span`
 class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   state = {}
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.swapActions.refreshAccounts()
   }
 
@@ -51,7 +56,26 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     return accounts[coin].filter(account => account.type === 'CUSTODIAL')[0]
   }
 
-  render () {
+  handleStepCoinSelection = (
+    accounts: { [key in SwapCoinType]: Array<SwapAccountType> }
+  ) => {
+    const isAccountZeroBalance = checkAccountZeroBalance(accounts)
+
+    if (isAccountZeroBalance) {
+      this.props.swapActions.setStep({
+        step: 'NO_HOLDINGS'
+      })
+    } else {
+      this.props.swapActions.setStep({
+        step: 'COIN_SELECTION',
+        options: {
+          side: 'BASE'
+        }
+      })
+    }
+  }
+
+  render() {
     const { accounts, coins, userData, values } = this.props
     return userData.tiers && userData.tiers.current !== 0 ? (
       <>
@@ -98,14 +122,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               <Option
                 role='button'
                 data-e2e='selectFromAcct'
-                onClick={() =>
-                  this.props.swapActions.setStep({
-                    step: 'COIN_SELECTION',
-                    options: {
-                      side: 'BASE'
-                    }
-                  })
-                }
+                onClick={() => this.handleStepCoinSelection(accounts)}
               >
                 {values?.BASE ? (
                   <>

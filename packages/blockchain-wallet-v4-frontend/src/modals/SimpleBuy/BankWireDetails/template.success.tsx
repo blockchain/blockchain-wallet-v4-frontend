@@ -1,12 +1,7 @@
-import { AgentType } from 'core/types'
-import {
-  DisplayIcon,
-  DisplaySubTitle,
-  DisplayTitle
-} from 'components/SimpleBuy'
-import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
+import React, { useState } from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
+import styled from 'styled-components'
+
 import {
   Icon,
   Link,
@@ -15,12 +10,19 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
+import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import { AgentType } from 'blockchain-wallet-v4/src/types'
+import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
+import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
+import {
+  DisplayIcon,
+  DisplaySubTitle,
+  DisplayTitle
+} from 'components/SimpleBuy'
+
 import { Props as OwnProps, SuccessStateType } from '.'
 import { TransferType } from './types'
-import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import React, { useState } from 'react'
-import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;

@@ -1,14 +1,16 @@
-import { connect } from 'react-redux'
-import { getData } from './selectors'
-import { RemoteDataType } from 'core/types'
-import { RootState } from 'data/rootReducer'
-import { Text } from 'blockchain-info-components'
-import Loading from './template.loading'
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+
+import { Text } from 'blockchain-info-components'
+import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { RootState } from 'data/rootReducer'
+
+import { getData } from './selectors'
+import Loading from './template.loading'
 import Success from './template.success'
 
 class TotalRow extends PureComponent<Props> {
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} />,
       Failure: () => (

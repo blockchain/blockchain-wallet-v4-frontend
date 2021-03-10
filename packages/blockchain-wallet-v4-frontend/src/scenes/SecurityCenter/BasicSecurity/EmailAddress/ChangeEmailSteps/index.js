@@ -1,6 +1,6 @@
-import { Field } from 'redux-form'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
@@ -27,7 +27,7 @@ const ButtonContainer = styled.div`
   }
 `
 
-function ChangeEmailSteps (props) {
+function ChangeEmailSteps(props) {
   return (
     <SecuritySummary>
       <ChangeEmailWrapper>

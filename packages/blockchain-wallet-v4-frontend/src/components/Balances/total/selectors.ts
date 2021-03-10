@@ -1,11 +1,11 @@
 import { add, lift, map, reduce } from 'ramda'
 
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
-import { createDeepEqualSelector } from 'services/misc'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
+import { WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { selectors } from 'data'
-import { WalletCurrencyType } from 'core/types'
 
 import {
   getAlgoBalance as getAlgoWalletBalance,

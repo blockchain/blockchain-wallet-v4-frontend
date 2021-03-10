@@ -1,17 +1,17 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import { Icon, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
-import { LinkContainer } from 'react-router-bootstrap'
-import { model } from 'data'
-import { withRouter } from 'react-router-dom'
-import React from 'react'
 import styled from 'styled-components'
 
-import { media } from 'services/styles'
-import { StickyHeader } from 'components/Layout'
+import { Icon, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
+import { StickyHeader } from 'components/Layout'
+import { model } from 'data'
+import { media } from 'services/styles'
 
 const { WALLET_TX_SEARCH } = model.form
 

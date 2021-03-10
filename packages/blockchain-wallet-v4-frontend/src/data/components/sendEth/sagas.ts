@@ -1,20 +1,6 @@
-import * as A from './actions'
-import * as AT from './actionTypes'
-import * as C from 'services/alerts'
-import * as Lockbox from 'services/lockbox'
-import * as S from './selectors'
-import { actions, actionTypes, model, selectors } from 'data'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { APIType } from 'core/network/api'
-import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
-import { call, delay, put, select, take } from 'redux-saga/effects'
-import {
-  change,
-  destroy,
-  initialize,
-  startSubmit,
-  stopSubmit
-} from 'redux-form'
+import BigNumber from 'bignumber.js'
+import EthereumAbi from 'ethereumjs-abi'
+import EthUtil from 'ethereumjs-util'
 import {
   equals,
   head,
@@ -27,16 +13,36 @@ import {
   toLower
 } from 'ramda'
 import {
+  change,
+  destroy,
+  initialize,
+  startSubmit,
+  stopSubmit
+} from 'redux-form'
+import { call, delay, put, select, take } from 'redux-saga/effects'
+
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { EthAccountFromType } from 'blockchain-wallet-v4/src/redux/payment/eth/types'
+import {
   Erc20CoinType,
   Erc20ListEnum,
   EthPaymentType
 } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { EthAccountFromType } from 'core/redux/payment/eth/types'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { FORM } from './model'
+import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
+import { actions, actionTypes, model, selectors } from 'data'
 import { ModalNamesType } from 'data/modals/types'
+import * as C from 'services/alerts'
+import * as Lockbox from 'services/lockbox'
 import { promptForSecondPassword } from 'services/sagas'
+
+import sendSagas from '../send/sagas'
+import * as A from './actions'
+import * as AT from './actionTypes'
+import { FORM } from './model'
+import * as S from './selectors'
 import {
   SendEthFormActionType,
   SendEthFormAmountActionType,
@@ -45,10 +51,6 @@ import {
   SendEthFormFromActionType,
   SendEthFormToActionType
 } from './types'
-import BigNumber from 'bignumber.js'
-import EthereumAbi from 'ethereumjs-abi'
-import EthUtil from 'ethereumjs-util'
-import sendSagas from '../send/sagas'
 
 const { TRANSACTION_EVENTS } = model.analytics
 
@@ -478,7 +480,7 @@ export default ({
         api.checkContract,
         typeof payload === 'string' ? payload : payload.address
       )
-      const { fee, account } = yield select(selectors.form.getFormValues(FORM))
+      const { account, fee } = yield select(selectors.form.getFormValues(FORM))
       payment = yield payment.setIsContract(contract)
       payment = yield payment.fee(fee, account)
       yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
@@ -581,7 +583,7 @@ export default ({
   const retrySendEth = function * ({
     payload
   }: ReturnType<typeof A.retrySendEth>) {
-    const { txHash, isErc20 } = payload
+    const { isErc20, txHash } = payload
     try {
       const tx: ReturnType<typeof api.getEthTransactionV2> = yield call(
         api.getEthTransactionV2,

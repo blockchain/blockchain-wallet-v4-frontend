@@ -1,7 +1,8 @@
-import * as Derivation from './Derivation'
 import { addIndex, is, lens, map, pipe } from 'ramda'
-import { iLensProp } from './util'
+
+import * as Derivation from './Derivation'
 import List from './List'
+import { iLensProp } from './util'
 
 export class DerivationList extends List {}
 
@@ -44,12 +45,9 @@ export const fromJS = derivations => {
   }
 }
 
-export const toJS = pipe(
-  DerivationList.guard,
-  derivations => {
-    return map(Derivation.toJS, derivations).toArray()
-  }
-)
+export const toJS = pipe(DerivationList.guard, derivations => {
+  return map(Derivation.toJS, derivations).toArray()
+})
 
 export const reviver = jsObject => {
   return new DerivationList(jsObject)

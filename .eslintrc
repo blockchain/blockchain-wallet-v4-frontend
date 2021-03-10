@@ -9,12 +9,14 @@
     }
   },
   "plugins": [
+    "@typescript-eslint",
     "babel",
-    "react",
     "jest",
     "json",
-    "sort-imports-es6-autofix",
-    "@typescript-eslint"
+    "react",
+    "simple-import-sort",
+    "sort-destructure-keys",
+    "typescript-sort-keys"
   ],
   "overrides": [
     {
@@ -23,10 +25,7 @@
       "parserOptions": {
         "project": "./tsconfig.json"
       },
-      "plugins": ["typescript-sort-keys"],
       "rules": {
-        "typescript-sort-keys/interface": 2,
-        "typescript-sort-keys/string-enum": 2,
         "@typescript-eslint/no-unused-vars": 2,
         "@typescript-eslint/switch-exhaustiveness-check": 2
       }
@@ -95,13 +94,24 @@
     "react/self-closing-comp": 2,
     "react/sort-comp": 2,
     "require-yield": 2,
-    "space-before-function-paren": 2,
-    "sort-imports-es6-autofix/sort-imports-es6": [
+    // "space-before-function-paren": 2,
+    "simple-import-sort/exports": "error",
+    "simple-import-sort/imports": [
       "error",
       {
-        "ignoreCase": true
+        "groups": [
+          // external imports and things that start with a letter (or digit or underscore), or `@` followed by a letter.
+          ["^react", "^@?\\w"],
+          // aliased imports
+          ["^(blockchain-wallet-v4|blockchain-info-components|components|coins|core|data|layouts|providers|services|utils)(/.*|$)"],
+          // relative imports
+          ["^\\.", "^[^.]"]
+        ]
       }
     ],
+    "sort-destructure-keys/sort-destructure-keys": "error",
+    "typescript-sort-keys/interface": "error",
+    "typescript-sort-keys/string-enum": "error",
     "strict": 0
   }
 }

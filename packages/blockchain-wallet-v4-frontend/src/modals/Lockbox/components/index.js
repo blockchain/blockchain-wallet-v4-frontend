@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
@@ -72,7 +72,7 @@ const CheckIcon = styled(Icon)`
 `
 
 class ModalStepper extends React.PureComponent {
-  render () {
+  render() {
     // currentStep & totalSteps do not follow zero-based numbering
     const { currentStep, totalSteps } = this.props
 

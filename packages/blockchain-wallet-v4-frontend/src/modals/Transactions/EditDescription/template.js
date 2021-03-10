@@ -1,3 +1,8 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Button,
   Modal,
@@ -5,11 +10,7 @@ import {
   ModalFooter,
   ModalHeader
 } from 'blockchain-info-components'
-import { Field, reduxForm } from 'redux-form'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
-import React from 'react'
-import styled from 'styled-components'
 
 const Wrapper = styled.div`
   font-weight: 400;
@@ -24,7 +25,7 @@ const Label = styled.label`
 `
 
 const EditTxDescription = props => {
-  const { position, close, submitting, handleSubmit, invalid } = props
+  const { close, handleSubmit, invalid, position, submitting } = props
 
   return (
     <Modal size='large' position={position}>

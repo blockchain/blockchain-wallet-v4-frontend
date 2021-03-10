@@ -1,5 +1,5 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import {
@@ -99,7 +99,7 @@ const UsedTableEntry = ({ address, search }) => {
   )
 }
 
-const UsedAddressesTable = ({ usedAddresses, search }) => (
+const UsedAddressesTable = ({ search, usedAddresses }) => (
   <>
     {usedAddresses.length ? (
       <UsedTable>

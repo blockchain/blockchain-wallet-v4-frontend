@@ -1,22 +1,22 @@
-import { any } from 'ramda'
-import { Button, Image, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
-import { InjectedFormProps, reduxForm } from 'redux-form'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { any } from 'ramda'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { Button, Image, Text } from 'blockchain-info-components'
 import {
   BankTransferAccountType,
   SBPaymentMethodType,
   WalletFiatEnum
-} from 'core/types'
-import { getBankLogoImageName } from 'services/images'
-import { media } from 'services/styles'
+} from 'blockchain-wallet-v4/src/types'
 import {
   SettingComponent,
   SettingContainer,
   SettingSummary
 } from 'components/Setting'
+import { getBankLogoImageName } from 'services/images'
+import { media } from 'services/styles'
 
 import {
   CardDetails,

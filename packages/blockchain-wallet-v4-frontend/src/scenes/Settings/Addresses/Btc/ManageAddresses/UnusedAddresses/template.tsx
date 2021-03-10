@@ -1,6 +1,6 @@
-import { filter } from 'ramda'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { filter } from 'ramda'
 import styled from 'styled-components'
 
 import {
@@ -21,8 +21,8 @@ const TableStyled = styled(Table)`
 `
 
 const UnusedAddressesTemplate = ({
-  onEditLabel,
   onDeleteLabel,
+  onEditLabel,
   search,
   unusedAddresses
 }) => {

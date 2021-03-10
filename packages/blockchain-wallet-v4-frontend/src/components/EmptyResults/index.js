@@ -1,7 +1,8 @@
-import { FormattedMessage } from 'react-intl'
-import { Image, Link, Text, TextGroup } from 'blockchain-info-components'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+
+import { Image, Link, Text, TextGroup } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,7 +16,7 @@ const Header = styled(Text)`
 `
 
 class EmptyResultsContainer extends React.PureComponent {
-  render () {
+  render() {
     return (
       <Wrapper data-e2e='noTransactionsFound'>
         <Image name='empty-tx' width='250px' />

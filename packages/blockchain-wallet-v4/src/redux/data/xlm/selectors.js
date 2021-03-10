@@ -1,5 +1,3 @@
-import * as Exchange from '../../../exchange'
-import * as kvStoreSelectors from '../../kvStore/xlm/selectors'
 import {
   compose,
   curry,
@@ -13,10 +11,13 @@ import {
   sum,
   uniq
 } from 'ramda'
-import { createDeepEqualSelector } from '../../../utils'
-import { dataPath } from '../../paths'
-import { getLockboxXlmContext } from '../../kvStore/lockbox/selectors'
+
+import * as Exchange from '../../../exchange'
 import Remote from '../../../remote'
+import { createDeepEqualSelector } from '../../../utils'
+import { getLockboxXlmContext } from '../../kvStore/lockbox/selectors'
+import * as kvStoreSelectors from '../../kvStore/xlm/selectors'
+import { dataPath } from '../../paths'
 
 const getLedgerDetails = path([dataPath, 'xlm', 'ledgerDetails'])
 

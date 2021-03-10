@@ -1,15 +1,4 @@
-import {
-  Address,
-  AddressBook,
-  AddressBookEntry,
-  AddressMap,
-  HDAccount,
-  HDAccountList,
-  HDWallet,
-  HDWalletList,
-  TXNotes,
-  Wallet
-} from '../types'
+import moment from 'moment'
 import {
   allPass,
   always,
@@ -32,8 +21,20 @@ import {
   toLower,
   view
 } from 'ramda'
-import moment from 'moment'
+
 import Remote from '../remote'
+import {
+  Address,
+  AddressBook,
+  AddressBookEntry,
+  AddressMap,
+  HDAccount,
+  HDAccountList,
+  HDWallet,
+  HDWalletList,
+  TXNotes,
+  Wallet
+} from '../types'
 
 const unpackInput = prop('prev_out')
 const isLegacy = (wallet, coin) =>

@@ -1,12 +1,13 @@
-import { call, put, select } from 'redux-saga/effects'
 import { filter, findIndex, forEach, pluck, propEq, sort } from 'ramda'
+import { call, put, select } from 'redux-saga/effects'
 
-import * as A from './actions'
-import * as actions from '../../actions'
+import { Types } from 'blockchain-wallet-v4/src'
 import * as C from 'services/alerts'
 import { promptForInput } from 'services/sagas'
+
+import * as actions from '../../actions'
 import { selectors } from '../../index'
-import { Types } from 'blockchain-wallet-v4/src'
+import * as A from './actions'
 
 export default ({ api, networks }) => {
   const logLocation = 'components/manageAddresses/sagas'
@@ -15,7 +16,7 @@ export default ({ api, networks }) => {
     yield put(actions.modals.closeAllModals())
   }
 
-  const deriveAddresses = function (account, receiveIndex, derivation) {
+  const deriveAddresses = function(account, receiveIndex, derivation) {
     let i = 0
     let addrs = []
 
@@ -192,9 +193,9 @@ export default ({ api, networks }) => {
   const editAddressLabel = function * (action) {
     const {
       accountIndex,
+      addressIndex,
       derivation,
-      walletIndex,
-      addressIndex
+      walletIndex
     } = action.payload
     try {
       yield put(A.editAddressLabelLoading(accountIndex, derivation))

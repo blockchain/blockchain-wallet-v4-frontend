@@ -1,18 +1,10 @@
-import * as Address from './Address'
-import * as AddressBook from './AddressBook'
-import * as AddressLabelMap from './AddressLabelMap'
-import * as AddressMap from './AddressMap'
+import BIP39 from 'bip39'
 import * as Bitcoin from 'bitcoinjs-lib'
-import * as crypto from '../walletCrypto'
-import * as Derivation from './Derivation'
-import * as DerivationList from './DerivationList'
-import * as HDAccount from './HDAccount'
-import * as HDAccountList from './HDAccountList'
-import * as HDWallet from './HDWallet'
-import * as HDWalletList from './HDWalletList'
-import * as Options from './Options'
-import * as TXNames from './TXNames'
-import * as TXNotes from './TXNotes'
+import Base58 from 'bs58'
+import Either from 'data.either'
+import Maybe from 'data.maybe'
+import Task from 'data.task'
+import memoize from 'fast-memoize'
 import {
   __,
   compose,
@@ -25,16 +17,25 @@ import {
   pipe,
   split
 } from 'ramda'
-import { keyPairToAddress } from '../utils/btc'
 import { over, set, traversed, traverseOf, view } from 'ramda-lens'
-import { shift, shiftIProp } from './util'
-import Base58 from 'bs58'
-import BIP39 from 'bip39'
-import Either from 'data.either'
-import Maybe from 'data.maybe'
-import memoize from 'fast-memoize'
-import Task from 'data.task'
+
+import { keyPairToAddress } from '../utils/btc'
+import * as crypto from '../walletCrypto'
+import * as Address from './Address'
+import * as AddressBook from './AddressBook'
+import * as AddressLabelMap from './AddressLabelMap'
+import * as AddressMap from './AddressMap'
+import * as Derivation from './Derivation'
+import * as DerivationList from './DerivationList'
+import * as HDAccount from './HDAccount'
+import * as HDAccountList from './HDAccountList'
+import * as HDWallet from './HDWallet'
+import * as HDWalletList from './HDWalletList'
+import * as Options from './Options'
+import * as TXNames from './TXNames'
+import * as TXNotes from './TXNotes'
 import Type from './Type'
+import { shift, shiftIProp } from './util'
 
 /* Wallet :: {
   guid :: String
@@ -185,7 +186,9 @@ export const isValidSecondPwd = curry((password, wallet) => {
     if (!is(String, password)) {
       return false
     }
-    let iter = selectIterations(wallet)
+    // 5000 is fallback for v1 wallets that are missing
+    // Pbkdf2 Iterations in the inner wrapper of JSON
+    let iter = selectIterations(wallet) || 5000
     let sk = view(sharedKey, wallet)
     let storedHash = view(dpasswordhash, wallet)
     let computedHash = crypto
@@ -229,7 +232,7 @@ const applyCipher = curry((wallet, password, f, value) => {
 
 // importLegacyAddress :: Wallet -> String -> Number -> String? -> { Network, Api } -> Task Error Wallet
 export const importLegacyAddress = curry(
-  (wallet, key, createdTime, password, bipPass, label, { network, api }) => {
+  (wallet, key, createdTime, password, bipPass, label, { api, network }) => {
     let checkIfExists = address =>
       getAddress(address.addr, wallet)
         .map(existing =>
@@ -283,11 +286,7 @@ export const upgradeToV4 = curry((seedHex, password, network, wallet) => {
     return encryptDerivation(derivation).map(addDerivationToAccount)
   }
 
-  const traverseAllAccounts = compose(
-    hdwallet,
-    HDWallet.accounts,
-    traversed
-  )
+  const traverseAllAccounts = compose(hdwallet, HDWallet.accounts, traversed)
 
   return traverseOf(traverseAllAccounts, Task.of, upgradeAccount, wallet)
 })
@@ -424,11 +423,7 @@ export const traverseKeyValues = curry((of, f, wallet) => {
     f
   )
   const trXpriv = traverseOf(
-    compose(
-      hdWallets,
-      traversed,
-      HDWallet.secretsLens
-    ),
+    compose(hdWallets, traversed, HDWallet.secretsLens),
     of,
     f
   )

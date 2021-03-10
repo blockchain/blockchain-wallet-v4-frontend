@@ -1,6 +1,6 @@
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import {
@@ -32,13 +32,13 @@ const Code = styled.div`
 
 const TwoStepYubico = props => {
   const {
-    position,
-    total,
-    closeAll,
     close,
-    submitting,
+    closeAll,
+    handleSubmit,
     invalid,
-    handleSubmit
+    position,
+    submitting,
+    total
   } = props
 
   return (

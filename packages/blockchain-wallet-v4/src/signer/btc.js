@@ -1,4 +1,6 @@
+import Btc from '@ledgerhq/hw-app-btc'
 import * as Bitcoin from 'bitcoinjs-lib'
+import BitcoinMessage from 'bitcoinjs-message'
 import {
   addIndex,
   compose,
@@ -9,13 +11,11 @@ import {
   over
 } from 'ramda'
 import { mapped } from 'ramda-lens'
-import BitcoinMessage from 'bitcoinjs-message'
-import Btc from '@ledgerhq/hw-app-btc'
 
 import * as Coin from '../coinSelection/coin.js'
+import { privateKeyStringToKey } from '../utils/btc'
 import * as crypto from '../walletCrypto'
 import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
-import { privateKeyStringToKey } from '../utils/btc'
 
 const getOutputScript = keyPair => {
   const pubKey = keyPair.publicKey

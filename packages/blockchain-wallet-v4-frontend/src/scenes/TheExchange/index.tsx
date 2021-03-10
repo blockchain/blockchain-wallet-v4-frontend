@@ -1,9 +1,11 @@
-import { actions, model, selectors } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { WalletOptionsType } from 'core/types'
-import Exchange from './template'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+
+import { WalletOptionsType } from 'blockchain-wallet-v4/src/types'
+import { actions, model, selectors } from 'data'
+
+import Exchange from './template'
 
 const { EXCHANGE_EVENTS } = model.analytics
 
@@ -19,7 +21,7 @@ class ExchangeContainer extends React.PureComponent<Props> {
     this.props.analyticsActions.logEvent(EXCHANGE_EVENTS.LEARN_MORE)
   }
 
-  render () {
+  render() {
     return <Exchange onSignup={this.onSignup} {...this.props} />
   }
 }

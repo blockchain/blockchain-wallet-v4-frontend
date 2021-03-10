@@ -1,7 +1,8 @@
-import { actions, actionTypes, selectors } from 'data'
 import { assoc } from 'ramda'
 import { call, put, race, select, take } from 'redux-saga/effects'
+
 import { Types } from 'blockchain-wallet-v4/src'
+import { actions, actionTypes, selectors } from 'data'
 
 export const askSecondPasswordEnhancer = coreSaga =>
   function * (args) {
@@ -20,7 +21,7 @@ export const promptForSecondPassword = function * (purposes) {
   const wallet = yield select(selectors.core.wallet.getWallet)
   if (Types.Wallet.isDoubleEncrypted(wallet)) {
     yield put(actions.modals.showModal('SecondPassword', { purposes }))
-    let { response, canceled } = yield race({
+    let { canceled, response } = yield race({
       response: take(actionTypes.wallet.SUBMIT_SECOND_PASSWORD),
       canceled: take(actionTypes.modals.CLOSE_MODAL)
     })
@@ -48,7 +49,7 @@ export const promptForInput = function * ({
       validations
     })
   )
-  let { response, canceled } = yield race({
+  let { canceled, response } = yield race({
     response: take(actionTypes.wallet.SUBMIT_PROMPT_INPUT),
     canceled: take(actionTypes.modals.CLOSE_MODAL)
   })
@@ -61,13 +62,13 @@ export const promptForInput = function * ({
 }
 
 export const confirm = function * ({
-  title,
-  message,
-  image,
-  confirm,
-  nature,
   cancel,
-  messageValues
+  confirm,
+  image,
+  message,
+  messageValues,
+  nature,
+  title
 }) {
   yield put(
     actions.modals.showModal('Confirm', {
@@ -80,7 +81,7 @@ export const confirm = function * ({
       messageValues
     })
   )
-  let { response, canceled } = yield race({
+  let { canceled, response } = yield race({
     response: take(actionTypes.wallet.SUBMIT_CONFIRMATION),
     canceled: take(actionTypes.modals.CLOSE_MODAL)
   })

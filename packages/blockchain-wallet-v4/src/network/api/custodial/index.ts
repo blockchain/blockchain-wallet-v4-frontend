@@ -1,4 +1,9 @@
-import { CoinType, SBPaymentTypes, WalletFiatType } from 'core/types'
+import {
+  BankTransferAccountType,
+  CoinType,
+  SBPaymentTypes,
+  WalletFiatType
+} from 'core/types'
 
 import {
   BeneficiariesType,
@@ -47,7 +52,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     })
 
   const withdrawFunds = (
-    beneficiary: BeneficiaryType,
+    beneficiary: BeneficiaryType | BankTransferAccountType,
     currency: WalletFiatType,
     baseAmount: string
   ): WithdrawResponseType =>
@@ -66,12 +71,16 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     })
 
   const getWithdrawalFees = (
-    product: WithdrawalFeesProductType
+    product: WithdrawalFeesProductType,
+    paymentMethod?: SBPaymentTypes | 'ALL'
   ): WithdrawalMinsAndFeesResponse =>
     authorizedGet({
       url: nabuUrl,
-      ignoreQueryParams: true,
-      endPoint: `/payments/withdrawals/fees?product=${product}`
+      data: {
+        paymentMethod,
+        product
+      },
+      endPoint: `/payments/withdrawals/fees`
     })
 
   const checkWithdrawalLocks = (

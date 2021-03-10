@@ -1,6 +1,6 @@
 import { concat, mergeRight, prop, propOr } from 'ramda'
 
-export default ({ rootUrl, get, post }) => {
+export default ({ get, post, rootUrl }) => {
   const fetchPayloadWithSharedKey = (guid, sharedKey) =>
     post({
       url: rootUrl,
@@ -197,6 +197,17 @@ export default ({ rootUrl, get, post }) => {
       }
     })
 
+  const sendSecureChannel = message =>
+    post({
+      url: rootUrl,
+      endPoint: '/wallet',
+      data: {
+        payload: message,
+        length: message.length,
+        method: 'send-secure-channel-browser'
+      }
+    })
+
   const handle2faReset = token =>
     post({
       url: rootUrl,
@@ -232,6 +243,7 @@ export default ({ rootUrl, get, post }) => {
     handle2faReset,
     obtainSessionToken,
     pollForSessionGUID,
+    sendSecureChannel,
     remindGuid,
     resendSmsLoginCode,
     reset2fa,

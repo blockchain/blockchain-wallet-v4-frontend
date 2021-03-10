@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js'
+import bip21 from 'bip21'
 import {
   add,
   equals,
@@ -10,7 +12,6 @@ import {
   pathOr,
   prop
 } from 'ramda'
-import { call, delay, put, race, select, take } from 'redux-saga/effects'
 import {
   change,
   destroy,
@@ -18,23 +19,26 @@ import {
   startSubmit,
   stopSubmit
 } from 'redux-form'
-import BigNumber from 'bignumber.js'
-import bip21 from 'bip21'
+import { call, delay, put, race, select, take } from 'redux-saga/effects'
 
+import { Exchange, utils } from 'blockchain-wallet-v4/src'
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import {
+  BtcAccountFromType,
+  BtcFromType,
+  BtcPaymentType
+} from 'blockchain-wallet-v4/src/types'
+import { actions, actionTypes, model, selectors } from 'data'
+import { ModalNamesType } from 'data/modals/types'
 import * as C from 'services/alerts'
 import * as Lockbox from 'services/lockbox'
-import { actions, actionTypes, model, selectors } from 'data'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { APIType } from 'core/network/api'
-import { BtcAccountFromType, BtcFromType, BtcPaymentType } from 'core/types'
-import { Exchange, utils } from 'blockchain-wallet-v4/src'
-import { ModalNamesType } from 'data/modals/types'
 import { promptForSecondPassword } from 'services/sagas'
 
-import * as A from './actions'
-import * as S from './selectors'
-import { FORM } from './model'
 import sendSagas from '../send/sagas'
+import * as A from './actions'
+import { FORM } from './model'
+import * as S from './selectors'
 
 const { TRANSACTION_EVENTS } = model.analytics
 

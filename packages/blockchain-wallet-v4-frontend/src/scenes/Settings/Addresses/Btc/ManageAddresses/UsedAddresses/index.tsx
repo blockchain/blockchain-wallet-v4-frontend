@@ -1,9 +1,10 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from 'data'
 import { HDDerivationType } from 'core/types'
+import { actions, selectors } from 'data'
+
 import UsedAddressesShowTemplate from './template'
 
 class UsedAddressesContainer extends React.PureComponent<Props> {
@@ -26,7 +27,7 @@ class UsedAddressesContainer extends React.PureComponent<Props> {
     }
   }
 
-  render () {
+  render() {
     const { derivation, usedAddressesVisible, walletIndex } = this.props
 
     return (
@@ -59,7 +60,7 @@ const mapDispatchToProps = dispatch => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = {
-  derivation: HDDerivationType,
+  derivation: HDDerivationType
   walletIndex: number
 } & ConnectedProps<typeof connector>
 

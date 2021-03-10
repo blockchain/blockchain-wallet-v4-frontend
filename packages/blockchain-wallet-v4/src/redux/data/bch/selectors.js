@@ -1,5 +1,3 @@
-import * as Types from '../../../types'
-import * as walletSelectors from '../../wallet/selectors'
 import {
   concat,
   curry,
@@ -12,10 +10,13 @@ import {
   pathOr,
   prop
 } from 'ramda'
+
+import * as Types from '../../../types'
 import { createDeepEqualSelector } from '../../../utils'
-import { dataPath } from '../../paths'
 import { getAccounts } from '../../kvStore/bch/selectors'
 import { getLockboxBchContext } from '../../kvStore/lockbox/selectors'
+import { dataPath } from '../../paths'
+import * as walletSelectors from '../../wallet/selectors'
 
 export const getWalletContext = createDeepEqualSelector(
   [

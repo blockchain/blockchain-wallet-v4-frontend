@@ -1,6 +1,8 @@
-import * as AT from './actionTypes'
 import { assoc } from 'ramda'
+
 import { Remote } from 'blockchain-wallet-v4/src'
+
+import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   step: 1,
@@ -11,8 +13,8 @@ const INITIAL_STATE = {
   showNoAccountForm: false
 }
 
-export function sendXlmReducer (state = INITIAL_STATE, action) {
-  const { type, payload } = action
+export function sendXlmReducer(state = INITIAL_STATE, action) {
+  const { payload, type } = action
 
   switch (type) {
     case AT.INITIALIZED:

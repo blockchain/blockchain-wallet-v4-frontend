@@ -14,6 +14,7 @@ export type WalletFormType =
   | 'addCCForm'
   | 'airdropClaim'
   | 'borrowForm'
+  | 'brokerageTx'
   | 'cancelSBOrderForm'
   | 'ccBillingAddress'
   | 'confirmCustodyWithdraw'

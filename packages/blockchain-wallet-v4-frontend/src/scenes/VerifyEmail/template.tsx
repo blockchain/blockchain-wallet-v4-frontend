@@ -1,9 +1,10 @@
-import { Button, Icon, Link, Text } from 'blockchain-info-components'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { media } from 'services/styles'
-import { Wrapper } from 'components/Public'
 import React from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import styled, { DefaultTheme } from 'styled-components'
+
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import { Wrapper } from 'components/Public'
+import { media } from 'services/styles'
 
 const ContentWrapper = styled.div`
   display: flex;

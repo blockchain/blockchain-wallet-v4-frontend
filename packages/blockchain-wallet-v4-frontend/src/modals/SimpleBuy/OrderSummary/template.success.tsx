@@ -1,6 +1,6 @@
+import React from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import moment from 'moment'
-import React from 'react'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'

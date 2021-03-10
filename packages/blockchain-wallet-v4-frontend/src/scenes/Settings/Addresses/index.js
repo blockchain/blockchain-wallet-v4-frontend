@@ -1,5 +1,5 @@
-import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
 import React from 'react'
+import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 
 import Bch from './Bch'
@@ -19,7 +19,7 @@ const ContentWrapper = styled.section`
   box-sizing: border-box;
 `
 class AddressesContainer extends React.PureComponent {
-  render () {
+  render() {
     return (
       <Wrapper>
         <Menu />

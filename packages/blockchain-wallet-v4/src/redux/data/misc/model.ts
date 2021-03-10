@@ -1,9 +1,10 @@
-import { prop } from 'ramda'
 import moment from 'moment'
+import { prop } from 'ramda'
 
-import { CoinType } from 'core/types'
-import { PriceChangeTimeRangeType, PriceChangeType } from './types'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
+import { CoinType } from 'core/types'
+
+import { PriceChangeTimeRangeType, PriceChangeType } from './types'
 
 export const DEFAULT_PRICE_CHANGE: PriceChangeType = {
   currentPrice: 1,

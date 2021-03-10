@@ -3,6 +3,7 @@ import { call, delay, put, select } from 'redux-saga/effects'
 
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
 import { actions, selectors } from 'data'
+
 import { CUSTOM_VARIABLES } from './model'
 
 export const logLocation = 'analytics/sagas'
@@ -150,14 +151,10 @@ export default () => {
   const logPageView = function * (action) {
     try {
       const { route } = action.payload
-      const isAuthenticated = yield select(selectors.auth.isAuthenticated)
-      // only log authenticated page views
-      if (isAuthenticated) {
-        yield call(postMessage, {
-          method: 'logPageView',
-          messageData: { route }
-        })
-      }
+      yield call(postMessage, {
+        method: 'logPageView',
+        messageData: { route }
+      })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'logPageView', e))
     }

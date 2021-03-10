@@ -1,19 +1,20 @@
-import {
-  convertBaseToStandard,
-  convertStandardToBase
-} from 'data/components/exchange/services'
-import { CRYPTO_DECIMALS } from 'services/forms'
+import BigNumber from 'bignumber.js'
+
 import { Exchange } from 'blockchain-wallet-v4/src'
 import {
   PaymentValue,
   RateType,
   SwapQuoteType,
   SwapUserLimitsType
-} from 'core/types'
-import BigNumber from 'bignumber.js'
+} from 'blockchain-wallet-v4/src/types'
+import {
+  convertBaseToStandard,
+  convertStandardToBase
+} from 'data/components/exchange/services'
+import { SwapAccountType, SwapAmountFormValues } from 'data/types'
+import { CRYPTO_DECIMALS } from 'services/forms'
 
 import { Props } from '.'
-import { SwapAccountType, SwapAmountFormValues } from 'data/types'
 
 export const getMaxMin = (
   minOrMax: 'min' | 'max',
@@ -83,7 +84,7 @@ export const maximumAmount = (
   if (!allValues) return
 
   // @ts-ignore
-  const { fix, limits, baseRates, payment, quote, walletCurrency } = restProps
+  const { baseRates, fix, limits, payment, quote, walletCurrency } = restProps
 
   const cryptoMax = Number(
     getMaxMin(
@@ -116,7 +117,7 @@ export const minimumAmount = (
   if (!allValues) return
 
   // @ts-ignore
-  const { fix, limits, baseRates, payment, quote, walletCurrency } = restProps
+  const { baseRates, fix, limits, payment, quote, walletCurrency } = restProps
 
   const cryptoMin = Number(
     getMaxMin(

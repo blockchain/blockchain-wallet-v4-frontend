@@ -1,5 +1,5 @@
-import { FormattedHTMLMessage } from 'react-intl'
 import React from 'react'
+import { FormattedHTMLMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'

@@ -1,6 +1,6 @@
-import * as StellarSdk from 'stellar-sdk'
-import { call } from 'redux-saga/effects'
 import Str from '@ledgerhq/hw-app-str'
+import { call } from 'redux-saga/effects'
+import * as StellarSdk from 'stellar-sdk'
 
 import { getKeyPair } from '../utils/xlm'
 

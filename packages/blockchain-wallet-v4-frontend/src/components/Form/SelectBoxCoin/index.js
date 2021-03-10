@@ -1,12 +1,13 @@
+import React from 'react'
 import { connect } from 'react-redux'
 import { pathOr } from 'ramda'
-import React from 'react'
 import styled from 'styled-components'
 
-import { getCoins } from './selectors'
 import { Icon, Text } from 'blockchain-info-components'
 import { selectors } from 'data'
+
 import SelectBox from '../SelectBox'
+import { getCoins } from './selectors'
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -31,7 +32,7 @@ const ItemIcon = styled(Icon)`
 class SelectBoxCoin extends React.PureComponent {
   renderItem = props => {
     const { supportedCoins } = this.props
-    const { value, text, ...rest } = props
+    const { text, value, ...rest } = props
     return (
       <HeaderWrapper {...rest}>
         <ItemIcon
@@ -64,7 +65,7 @@ class SelectBoxCoin extends React.PureComponent {
       </HeaderWrapper>
     )
   }
-  render () {
+  render() {
     const {
       additionalOptions = [],
       coins,

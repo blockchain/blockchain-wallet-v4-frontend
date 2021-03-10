@@ -1,9 +1,10 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import ShowUsedAddresses from './template'
 
 class ShowUsedAddressesContainer extends React.PureComponent {
@@ -18,7 +19,7 @@ class ShowUsedAddressesContainer extends React.PureComponent {
     }, 0)
   }
 
-  render () {
+  render() {
     return (
       <ShowUsedAddresses
         {...this.props}

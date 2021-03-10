@@ -1,19 +1,19 @@
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import bip21 from 'bip21'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import bip21 from 'bip21'
 import styled from 'styled-components'
 
 import { Button, Icon, Text, TextGroup } from 'blockchain-info-components'
-import { CoinAccountListOption } from 'components/Form'
-import { Exchange } from 'core'
-import { FlyoutWrapper } from 'components/Flyout'
-import { selectors } from 'data'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
+import { FlyoutWrapper } from 'components/Flyout'
+import { CoinAccountListOption } from 'components/Form'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
+import { selectors } from 'data'
 
-import { ClipboardWrapper, StepHeader } from '../model'
 import { Props as OwnProps } from '../index'
+import { ClipboardWrapper, StepHeader } from '../model'
 import { RequestSteps } from '../types'
 
 const Wrapper = styled.div`
@@ -57,7 +57,7 @@ const ButtonsWrapper = styled.div`
 `
 
 class ShareLink extends React.PureComponent<Props> {
-  render () {
+  render() {
     const {
       formValues,
       handleClose,

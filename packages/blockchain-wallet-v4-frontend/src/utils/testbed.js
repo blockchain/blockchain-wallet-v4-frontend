@@ -1,15 +1,16 @@
-import { all, fork } from 'redux-saga/effects'
-import { applyMiddleware, combineReducers, createStore } from 'redux'
-import { IntlProvider } from 'react-intl'
-import { map } from 'ramda'
-import { MediaContextProvider } from 'providers/MatchMediaProvider'
-import { MemoryRouter } from 'react-router'
-import { preferencesReducer } from 'data/preferences/reducers'
-import { Provider } from 'react-redux'
-import createSagaMiddleware from 'redux-saga'
-import formReducer from 'data/form/reducers'
-import PropTypes from 'prop-types'
 import React from 'react'
+import { IntlProvider } from 'react-intl'
+import { Provider } from 'react-redux'
+import { MemoryRouter } from 'react-router'
+import PropTypes from 'prop-types'
+import { map } from 'ramda'
+import { applyMiddleware, combineReducers, createStore } from 'redux'
+import createSagaMiddleware from 'redux-saga'
+import { all, fork } from 'redux-saga/effects'
+
+import formReducer from 'data/form/reducers'
+import { preferencesReducer } from 'data/preferences/reducers'
+import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 
 export const createTestStore = (
@@ -35,7 +36,7 @@ export const createTestStore = (
   return testStore
 }
 
-export const TestBed = ({ store, withRouter, initialRoutes, children }) => (
+export const TestBed = ({ children, initialRoutes, store, withRouter }) => (
   <Provider store={store}>
     <IntlProvider locale='en' messages={{}}>
       <ThemeProvider>

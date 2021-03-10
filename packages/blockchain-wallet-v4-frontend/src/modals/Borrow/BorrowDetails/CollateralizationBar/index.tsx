@@ -1,13 +1,14 @@
+import React from 'react'
+import styled from 'styled-components'
+
+import { Text } from 'blockchain-info-components'
 import {
   LoanType,
   OfferType,
   RatesType,
   SupportedWalletCurrenciesType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
 import { model } from 'data'
-import { Text } from 'blockchain-info-components'
-import React from 'react'
-import styled from 'styled-components'
 
 const Bar = styled.div`
   position: relative;

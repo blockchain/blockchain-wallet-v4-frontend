@@ -1,19 +1,21 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import Btc from '@ledgerhq/hw-app-btc'
+import Str from '@ledgerhq/hw-app-str'
+import TransportU2F from '@ledgerhq/hw-transport-u2f'
+import { prop } from 'ramda'
+import { Observable } from 'rxjs'
+
+import { Types } from 'blockchain-wallet-v4/src'
 import {
   createXpubFromChildAndParent,
   getParentPath
 } from 'blockchain-wallet-v4/src/utils/btc'
 import { deriveAddressFromXpub } from 'blockchain-wallet-v4/src/utils/eth'
-import { FormattedMessage } from 'react-intl'
+
 import { LOG_LEVELS } from '../../data/logs/model'
-import { Observable } from 'rxjs'
-import { prop } from 'ramda'
-import { Types } from 'blockchain-wallet-v4/src'
-import Btc from '@ledgerhq/hw-app-btc'
 import constants from './constants'
 import firmware from './firmware'
-import React from 'react'
-import Str from '@ledgerhq/hw-app-str'
-import TransportU2F from '@ledgerhq/hw-transport-u2f'
 
 const ethAccount = (xpub, label) => ({
   label: label,
@@ -206,7 +208,7 @@ const getDeviceInfo = transport => {
     firmware.getDeviceFirmwareInfo(transport).then(
       res => {
         const { seVersion } = res
-        const { targetId, mcuVersion, flags } = res
+        const { flags, mcuVersion, targetId } = res
         const parsedVersion =
           seVersion.match(
             /([0-9]+.[0-9])+(.[0-9]+)?((?!-osu)-([a-z]+)([0-9]+))?(-osu)?/
@@ -364,7 +366,7 @@ const generateAccountsMDEntry = (newDevice, deviceName) => {
   const deviceType = prop('type', newDevice)
 
   try {
-    const { btc, bch, eth } = prop('info', newDevice)
+    const { bch, btc, eth } = prop('info', newDevice)
 
     return {
       device_type: deviceType,

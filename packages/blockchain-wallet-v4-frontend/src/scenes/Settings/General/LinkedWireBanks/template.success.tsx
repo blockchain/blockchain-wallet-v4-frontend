@@ -1,14 +1,20 @@
-import { CardDetails, CardWrapper, Child } from '../styles'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { fiatToString } from 'core/exchange/currency'
-import { FormattedMessage } from 'react-intl'
-import { Icon, Text } from 'blockchain-info-components'
-import { InjectedFormProps, reduxForm } from 'redux-form'
-import { Props as OwnProps, SuccessStateType } from '.'
-import { SBPaymentMethodType, WalletFiatEnum, WalletFiatType } from 'core/types'
-import { SettingContainer, SettingSummary } from 'components/Setting'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
+
+import { Icon, Text } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import {
+  SBPaymentMethodType,
+  WalletFiatEnum,
+  WalletFiatType
+} from 'blockchain-wallet-v4/src/types'
+import { SettingContainer, SettingSummary } from 'components/Setting'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+
+import { CardDetails, CardWrapper, Child } from '../styles'
+import { Props as OwnProps, SuccessStateType } from '.'
 
 const BankIconWrapper = styled.div`
   margin-right: 14px;

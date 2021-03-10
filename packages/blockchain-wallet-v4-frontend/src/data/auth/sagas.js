@@ -1,15 +1,15 @@
 import { assoc, find, is, prop, propEq } from 'ramda'
 import { call, delay, fork, put, race, select, take } from 'redux-saga/effects'
 
-import * as C from 'services/alerts'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, actionTypes, selectors } from 'data'
+import * as C from 'services/alerts'
+import { checkForVulnerableAddressError } from 'services/misc'
 import {
   askSecondPasswordEnhancer,
   confirm,
   promptForSecondPassword
 } from 'services/sagas'
-import { checkForVulnerableAddressError } from 'services/misc'
-import { Remote } from 'blockchain-wallet-v4/src'
 
 import { guessCurrencyBasedOnCountry } from './helpers'
 
@@ -96,7 +96,7 @@ export default ({ api, coreSagas }) => {
   }
 
   const startSockets = function * () {
-    yield put(actions.middleware.webSocket.coins.startSocket())
+    yield put(actions.middleware.webSocket.coins.authSocket())
     yield put(actions.middleware.webSocket.xlm.startStreams())
   }
 
@@ -154,6 +154,9 @@ export default ({ api, coreSagas }) => {
       )
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
+      yield call(
+        coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials
+      )
       yield call(coreSagas.settings.fetchSettings)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
@@ -243,6 +246,7 @@ export default ({ api, coreSagas }) => {
       yield call(checkAndHandleVulnerableAddress, btcDataR)
     }
   }
+
   const checkExchangeUsage = function * () {
     try {
       const accountsR = yield select(
@@ -262,6 +266,7 @@ export default ({ api, coreSagas }) => {
       // console.log(e)
     }
   }
+
   const pollingSession = function * (session, n = 50) {
     if (n === 0) {
       return false
@@ -279,7 +284,7 @@ export default ({ api, coreSagas }) => {
   }
 
   const login = function * (action) {
-    let { guid, sharedKey, password, code, mobileLogin } = action.payload
+    let { code, guid, mobileLogin, password, sharedKey } = action.payload
     let session = yield select(selectors.session.getSession, guid)
     try {
       if (!session) {
@@ -389,7 +394,7 @@ export default ({ api, coreSagas }) => {
   const mobileLogin = function * (action) {
     try {
       yield put(actions.auth.mobileLoginStarted())
-      const { guid, sharedKey, password } = yield call(
+      const { guid, password, sharedKey } = yield call(
         coreSagas.settings.decodePairingCode,
         action.payload
       )
@@ -430,11 +435,36 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const restoreFromMetadata = function * (action) {
+    const { mnemonic } = action.payload
+    try {
+      yield put(actions.auth.restoreFromMetadataLoading())
+      // try and pull recovery credentials from metadata
+      const metadataInfo = yield call(
+        coreSagas.wallet.restoreWalletCredentialsFromMetadata,
+        mnemonic
+      )
+      yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
+    } catch (e) {
+      yield put(actions.auth.restoreFromMetadataFailure())
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'restoreFromMetadata', e)
+      )
+    }
+  }
+
   const restore = function * (action) {
     try {
       yield put(actions.auth.restoreLoading())
+      yield put(actions.auth.setRegisterEmail(action.payload.email))
       yield put(actions.alerts.displayInfo(C.RESTORE_WALLET_INFO))
-      yield call(coreSagas.wallet.restoreWalletSaga, action.payload)
+      const kvCredentials = (yield select(
+        selectors.auth.getMetadataRestore
+      )).getOrElse({})
+      yield call(coreSagas.wallet.restoreWalletSaga, {
+        ...action.payload,
+        kvCredentials
+      })
       yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
       yield call(loginRoutineSaga, false, true)
       yield put(actions.auth.restoreSuccess())
@@ -509,7 +539,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const setLogoutEventListener = function () {
+  const setLogoutEventListener = function() {
     return new Promise(resolve => {
       window.addEventListener('wallet.core.logout', resolve)
     })
@@ -564,6 +594,7 @@ export default ({ api, coreSagas }) => {
       const sessionToken = yield select(selectors.session.getSession, guid)
       yield call(api.deauthorizeBrowser, sessionToken)
       yield put(actions.alerts.displaySuccess(C.DEAUTHORIZE_BROWSER_SUCCESS))
+      yield put(actions.cache.disconnectChannelPhone())
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'deauthorizeBrowser', e)
@@ -597,6 +628,7 @@ export default ({ api, coreSagas }) => {
     reset2fa,
     resendSmsLoginCode,
     restore,
+    restoreFromMetadata,
     saveGoals,
     setLogoutEventListener,
     startSockets,

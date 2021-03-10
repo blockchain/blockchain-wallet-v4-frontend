@@ -1,6 +1,6 @@
-import { filter } from 'ramda'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { filter } from 'ramda'
 import styled from 'styled-components'
 
 import {
@@ -43,15 +43,15 @@ const ClickableText = styled(Text)`
 `
 
 const Success = ({
+  failure,
   importedAddresses,
   onClickVerify,
-  onToggleArchived,
-  onTransferAll,
+  onEditLabel,
   onShowPriv,
   onShowSignMessage,
-  onEditLabel,
-  search,
-  failure
+  onToggleArchived,
+  onTransferAll,
+  search
 }: {
   failure?: any
   importedAddresses: any

@@ -1,5 +1,6 @@
 import { path } from 'ramda'
-import { PriceChangeTimeRangeType } from 'core/types'
+
+import { PriceChangeTimeRangeType } from 'blockchain-wallet-v4/src/types'
 import { RootState } from 'data/rootReducer'
 
 export const getCoinDisplayed = (state: RootState) =>

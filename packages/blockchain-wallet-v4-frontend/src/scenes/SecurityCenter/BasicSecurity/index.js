@@ -1,7 +1,7 @@
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
 import { pathOr } from 'ramda'
-import React from 'react'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { actions, selectors } from 'data'
@@ -25,7 +25,7 @@ class BasicSecurityContainer extends React.PureComponent {
     changeEmail: pathOr(false, ['location', 'state', 'changeEmail'], this.props)
   }
 
-  render () {
+  render() {
     return (
       <Wrapper>
         <EmailAddress changeEmail={this.state.changeEmail} />

@@ -1,3 +1,8 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Button,
   HeartbeatLoader,
@@ -7,12 +12,8 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { Form } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
-import { InjectedFormProps, reduxForm } from 'redux-form'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import React from 'react'
-import styled from 'styled-components'
+import { Form } from 'components/Form'
 
 const Container = styled.div`
   display: flex;

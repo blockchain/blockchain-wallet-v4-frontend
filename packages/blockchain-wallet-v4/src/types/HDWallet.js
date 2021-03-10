@@ -1,14 +1,15 @@
+import BIP39 from 'bip39'
 import * as Bitcoin from 'bitcoinjs-lib'
+import Task from 'data.task'
+import { compose, curry, is, map, pipe, range } from 'ramda'
+import { over, traversed, traverseOf, view } from 'ramda-lens'
+
 import * as crypto from '../walletCrypto'
 import * as Derivation from './Derivation'
 import * as HDAccount from './HDAccount'
 import * as HDAccountList from './HDAccountList'
-import { compose, curry, is, map, pipe, range } from 'ramda'
-import { over, traversed, traverseOf, view } from 'ramda-lens'
-import { shift, shiftIProp } from './util'
-import BIP39 from 'bip39'
-import Task from 'data.task'
 import Type from './Type'
+import { shift, shiftIProp } from './util'
 
 /* HDWallet :: {
   seed_hex :: String
@@ -82,7 +83,7 @@ const deriveAccountNodeAtIndex = (seedHex, purpose, index, network) => {
 }
 
 export const generateDerivations = (seedHex, index, network) => {
-  return HDAccount.DERIVATION_LIST.map(({ type, purpose }) => {
+  return HDAccount.DERIVATION_LIST.map(({ purpose, type }) => {
     const node = deriveAccountNodeAtIndex(seedHex, purpose, index, network)
     return Derivation.js(type, purpose, node, null)
   })

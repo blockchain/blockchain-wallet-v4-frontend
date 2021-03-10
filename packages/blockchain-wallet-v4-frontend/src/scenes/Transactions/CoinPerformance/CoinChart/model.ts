@@ -1,5 +1,5 @@
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { Color } from 'blockchain-info-components'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
 export const getConfig = (coin, currency, data, decimals) => ({
   chart: {
@@ -39,7 +39,7 @@ export const getConfig = (coin, currency, data, decimals) => ({
     },
     xDateFormat: '%b %d, %Y',
     useHTML: true,
-    pointFormatter: function () {
+    pointFormatter: function() {
       return Currency.fiatToString({
         // @ts-ignore
         value: this.y,

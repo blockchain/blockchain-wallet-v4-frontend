@@ -1,12 +1,14 @@
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { actions } from 'data'
+
 import { getData } from './selectors'
 import Footer from './template'
-import React from 'react'
 
 class FooterContainer extends React.PureComponent<Props> {
-  render () {
+  render() {
     return <Footer {...this.props} />
   }
 }

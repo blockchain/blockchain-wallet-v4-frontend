@@ -1,5 +1,5 @@
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import {
@@ -50,9 +50,9 @@ const ConnectDeviceStep = props => {
   const {
     connectTimeout,
     deviceType,
+    handleStepChange,
     isConnected,
     isNewSetup,
-    handleStepChange,
     onNewDeviceContinue,
     onTimeoutAccept,
     supportLink

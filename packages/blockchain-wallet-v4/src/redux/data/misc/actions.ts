@@ -1,4 +1,3 @@
-import * as AT from './actionTypes'
 import {
   CoinType,
   FiatType,
@@ -6,6 +5,8 @@ import {
   PriceChangeTimeRangeType,
   PriceMovementDirType
 } from 'core/types'
+
+import * as AT from './actionTypes'
 
 // FETCH_CAPTCHA
 export const fetchCaptcha = () => ({ type: AT.FETCH_CAPTCHA })
@@ -154,5 +155,10 @@ export const verifyEmailTokenSuccess = data => ({
 })
 export const verifyEmailTokenFailure = data => ({
   type: AT.VERIFY_EMAIL_TOKEN_FAILURE,
+  payload: data
+})
+
+export const sendSecureChannelMessage = data => ({
+  type: AT.SECURE_CHANNEL_SEND,
   payload: data
 })

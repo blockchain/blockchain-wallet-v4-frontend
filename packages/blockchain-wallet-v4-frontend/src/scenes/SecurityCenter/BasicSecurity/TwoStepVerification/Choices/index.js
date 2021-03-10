@@ -1,6 +1,6 @@
 /* stylelint-disable */
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon, Image, Text } from 'blockchain-info-components'
@@ -59,7 +59,7 @@ const SecurityIcon = styled(Icon)`
   `};
 `
 
-function Choices (props) {
+function Choices(props) {
   const { authType, editing } = props
 
   return (

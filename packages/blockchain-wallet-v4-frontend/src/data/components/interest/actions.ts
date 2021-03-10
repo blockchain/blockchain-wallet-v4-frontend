@@ -1,4 +1,3 @@
-import { CoinType, FiatType, PaymentValue } from 'core/types'
 import {
   InterestAccountBalanceType,
   InterestAccountType,
@@ -9,7 +8,12 @@ import {
   InterestRateType,
   InterestTransactionType,
   WithdrawalMinimumType
-} from 'core/network/api/interest/types'
+} from 'blockchain-wallet-v4/src/network/api/interest/types'
+import {
+  CoinType,
+  FiatType,
+  PaymentValue
+} from 'blockchain-wallet-v4/src/types'
 
 import * as AT from './actionTypes'
 import {
@@ -262,8 +266,12 @@ export const setCoinDisplay = (isCoinDisplayed: boolean) => ({
   type: AT.SET_COIN_DISPLAY
 })
 
-export const showInterestModal = (step: InterestStep, coin: CoinType) => ({
-  payload: { step, coin },
+export const showInterestModal = (
+  step: InterestStep,
+  coin: CoinType,
+  isFromBuySell?: boolean
+) => ({
+  payload: { step, coin, isFromBuySell },
   type: AT.SHOW_INTEREST_MODAL
 })
 

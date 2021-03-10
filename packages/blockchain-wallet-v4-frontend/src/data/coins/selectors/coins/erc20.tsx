@@ -1,19 +1,19 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { lift, prop, toLower } from 'ramda'
-import React from 'react'
 
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { coreSelectors } from 'blockchain-wallet-v4/src'
-import { createDeepEqualSelector } from 'services/misc'
+import { SBBalanceType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
-import { generateCustodyAccount } from 'data/coins/utils'
-import { SBBalanceType } from 'core/network/api/simpleBuy/types'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
+import { generateTradingAccount } from 'data/coins/utils'
 
-import { getCustodialBalance } from '../'
+import { getTradingBalance } from '../'
 
 // retrieves introduction text for coin on its transaction page
-export const getTransactionPageHeaderText = (coin) => {
+export const getTransactionPageHeaderText = coin => {
   switch (coin) {
     case 'PAX':
     case 'USDD':
@@ -43,16 +43,20 @@ export const getTransactionPageHeaderText = (coin) => {
   }
 }
 
-
 // main selector for all ERC20 account types
 // accepts a CoinAccountSelectorType config object
 // NOT IMPLEMENTED: imported addresses/accounts
 export const getAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.eth.getDefaultAddress,
-    (state, { coin }) => coreSelectors.kvStore.eth.getErc20Account(state, toLower(coin) as CoinType), // non-custodial accounts
-    (state, { coin }) => coreSelectors.data.eth.getErc20Balance(state, toLower(coin) as CoinType), // non-custodial metadata
-    (state, { coin }) => getCustodialBalance(coin, state), // custodial accounts
+    (state, { coin }) =>
+      coreSelectors.kvStore.eth.getErc20Account(
+        state,
+        toLower(coin) as CoinType
+      ), // non-custodial accounts
+    (state, { coin }) =>
+      coreSelectors.data.eth.getErc20Balance(state, toLower(coin) as CoinType), // non-custodial metadata
+    (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
   (ethAddressR, erc20AccountR, erc20BalanceR, sbBalanceR, ownProps) => {
@@ -68,20 +72,24 @@ export const getAccounts = createDeepEqualSelector(
       // add non-custodial accounts if requested
       if (ownProps?.nonCustodialAccounts) {
         // @ts-ignore
-        accounts = accounts.concat([{
-          baseCoin: 'ETH',
-          coin,
-          label: prop('label', erc20Account),
-          address: ethAddress,
-          balance: erc20Balance,
-          type: ADDRESS_TYPES.ACCOUNT
-        }])
+        accounts = accounts.concat([
+          {
+            baseCoin: 'ETH',
+            coin,
+            label: prop('label', erc20Account),
+            address: ethAddress,
+            balance: erc20Balance,
+            type: ADDRESS_TYPES.ACCOUNT
+          }
+        ])
       }
 
-      // add custodial accounts if requested
-      if (ownProps?.custodialAccounts) {
-        // @ts-ignore
-        accounts = accounts.concat(generateCustodyAccount(coin, sbBalance as SBBalanceType))
+      // add trading accounts if requested
+      if (ownProps?.tradingAccounts) {
+        accounts = accounts.concat(
+          // @ts-ignore
+          generateTradingAccount(coin, sbBalance as SBBalanceType)
+        )
       }
       return accounts
     }

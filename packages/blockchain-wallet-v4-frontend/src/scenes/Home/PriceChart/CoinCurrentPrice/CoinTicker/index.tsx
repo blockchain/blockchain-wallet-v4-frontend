@@ -1,18 +1,20 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { CoinType } from 'core/types'
+import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { actions, selectors } from 'data'
+
 import Error from './template.error'
 import Loading from './template.loading'
-import React from 'react'
 import Success from './template.success'
 
 export class CoinTickerContainer extends React.PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.props.actions.initialized()
   }
 
-  render () {
+  render() {
     const { data } = this.props
 
     return data.cata({

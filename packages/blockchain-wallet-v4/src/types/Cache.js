@@ -1,9 +1,10 @@
 import * as Bitcoin from 'bitcoinjs-lib'
-import { equals, ifElse, is, pipe } from 'ramda'
-import { iToJS } from './util'
-import { view } from 'ramda-lens'
 import memoize from 'fast-memoize'
+import { equals, ifElse, is, pipe } from 'ramda'
+import { view } from 'ramda-lens'
+
 import Type from './Type'
+import { iToJS } from './util'
 
 /* AddressLabel :: {
   index :: Number

@@ -1,12 +1,13 @@
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { formValueSelector } from 'redux-form'
-import { lt, propOr } from 'ramda'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { lt, propOr } from 'ramda'
+import { formValueSelector } from 'redux-form'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
 import { Link, Text } from 'blockchain-info-components'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { model, selectors } from 'data'
+
 import {
   WarningLeftColumn,
   WarningRightColumn,
@@ -14,7 +15,7 @@ import {
 } from '../Components'
 
 const LowBalanceWarning = props => {
-  const { totalBalance, ethRates, amount } = props
+  const { amount, ethRates, totalBalance } = props
   const totalEthValue = Exchange.convertEthToFiat({
     value: totalBalance,
     toCurrency: 'USD',

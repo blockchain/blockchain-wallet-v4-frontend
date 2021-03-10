@@ -1,12 +1,13 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { prop } from 'ramda'
-import Bowser from 'bowser'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import linuxUpdater from 'assets/lockbox/lockbox-updater-1.0.0.AppImage'
+import macUpdater from 'assets/lockbox/lockbox-updater-1.0.0.dmg'
+import windowsUpdater from 'assets/lockbox/lockbox-updater-1.0.0.exe'
+import Bowser from 'bowser'
+import { prop } from 'ramda'
+import { bindActionCreators } from 'redux'
 
-import * as C from 'services/alerts'
-import { actions } from 'data'
 import { Button, Link } from 'blockchain-info-components'
 import {
   SettingComponent,
@@ -15,9 +16,8 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
-import linuxUpdater from 'assets/lockbox/lockbox-updater-1.0.0.AppImage'
-import macUpdater from 'assets/lockbox/lockbox-updater-1.0.0.dmg'
-import windowsUpdater from 'assets/lockbox/lockbox-updater-1.0.0.exe'
+import { actions } from 'data'
+import * as C from 'services/alerts'
 
 class DownloadUpdaterContainer extends React.PureComponent {
   getOsSpecificUpdater = () => {
@@ -50,7 +50,7 @@ class DownloadUpdaterContainer extends React.PureComponent {
     this.props.preferencesActions.hideLockboxSoftwareDownload()
   }
 
-  render () {
+  render() {
     return (
       <SettingContainer>
         <SettingSummary>

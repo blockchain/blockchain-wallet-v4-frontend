@@ -1,6 +1,6 @@
 import isObject from 'isobject'
 
-export default ({ nabuUrl, post, put, get }) => {
+export default ({ get, nabuUrl, post, put }) => {
   const executeTrade = (quote, refundAddress, destinationAddress) =>
     post({
       url: nabuUrl,

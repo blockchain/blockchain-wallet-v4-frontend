@@ -1,12 +1,13 @@
-import * as Bitcoin from 'bitcoinjs-lib'
-import * as crypto from '../walletCrypto'
-import * as U from '../walletCrypto/utils'
-import { assoc, compose, curry, is, isNil, prop } from 'ramda'
-import { keyPairToAddress } from '../utils/btc'
-import { view } from 'ramda-lens'
 import BIP39 from 'bip39'
+import * as Bitcoin from 'bitcoinjs-lib'
 import BitcoinMessage from 'bitcoinjs-message'
 import Either from 'data.either'
+import { assoc, compose, curry, is, isNil, prop } from 'ramda'
+import { view } from 'ramda-lens'
+
+import { keyPairToAddress } from '../utils/btc'
+import * as crypto from '../walletCrypto'
+import * as U from '../walletCrypto/utils'
 import Type from './Type'
 
 /*
