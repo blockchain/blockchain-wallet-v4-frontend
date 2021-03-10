@@ -349,6 +349,9 @@
       }, 
       "mobile_auth": {
         "enabled": true
+      },
+      "brokerage_deposits_withdrawals": {
+        "enabled": false
       }
     }
   },
