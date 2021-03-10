@@ -107,14 +107,12 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
       pair
     })
   }
-  const isInvited = props.invitations.simpleSell2dot0
+
   const isInvitedShowNC = (swapAccount: SwapAccountType) => {
     if (swapAccount.type === 'CUSTODIAL') {
       return true
-    } else if (swapAccount.type === 'ACCOUNT' && !isInvited) {
-      return false
     } else {
-      return true
+      return swapAccount.type !== 'ACCOUNT'
     }
   }
   const handleSell = (swapAccount: SwapAccountType) => {
