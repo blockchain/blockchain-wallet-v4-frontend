@@ -681,9 +681,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                   <Link
                     size='12px'
                     weight={500}
-                    onClick={() =>
-                      middlewareActions.webSocket.coins.resendMessageSocket()
-                    }
+                    onClick={() => middlewareActions.resendMessageSocket()}
                   >
                     <FormattedMessage
                       id='scenes.login.wallet.connected.send_it_again'
