@@ -1,5 +1,5 @@
-import * as AT from './actionTypes'
 import { CoinType, FiatType, RemoteDataType, WalletFiatType } from 'core/types'
+import * as AT from './actionTypes'
 
 // types
 export type RateType = {

@@ -1,10 +1,10 @@
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import React from 'react'
+import { bindActionCreators } from 'redux'
 
-import * as C from 'services/AlertService'
 import { actions, selectors } from 'data'
+import * as C from 'services/alerts'
 import CopyClipboard from './template'
 
 class CopyClipboardContainer extends React.PureComponent {

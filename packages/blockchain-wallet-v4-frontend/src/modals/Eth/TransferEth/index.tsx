@@ -1,10 +1,11 @@
-import { actions } from 'data'
-import { bindActionCreators, compose } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
-import { Remote } from 'blockchain-wallet-v4/src'
-import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { bindActionCreators, compose } from 'redux'
+
+import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+import { getData } from './selectors'
 import TransferEth from './template'
 
 const DEFAULTS = {
@@ -23,7 +24,7 @@ class TransferEthContainer extends React.PureComponent<Props> {
 
   componentDidUpdate () {
     if (Remote.Success.is(this.props.data)) {
-      const { txFee, ethBalance } = this.props.data.getOrElse(DEFAULTS)
+      const { ethBalance, txFee } = this.props.data.getOrElse(DEFAULTS)
       if (parseFloat(txFee) > parseFloat(ethBalance)) {
         this.props.modalActions.closeAllModals()
       }

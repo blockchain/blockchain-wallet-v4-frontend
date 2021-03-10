@@ -1,6 +1,6 @@
+import React from 'react'
 import { SelectInput } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
-import React from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -44,15 +44,15 @@ class SelectBox extends React.PureComponent {
 
   render () {
     const {
+      className,
+      errorBottom,
+      hideErrors,
       input,
       meta,
-      hideErrors,
-      errorBottom,
-      className,
       zIndex,
       ...rest
     } = this.props
-    const { touched, invalid, error, pristine } = meta
+    const { error, invalid, pristine, touched } = meta
     const errorState = touched && invalid ? 'invalid' : 'initial'
 
     return (

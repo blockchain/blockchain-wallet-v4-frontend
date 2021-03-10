@@ -1,8 +1,5 @@
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
-import styled from 'styled-components'
-
+import { FormattedMessage } from 'react-intl'
 import {
   Button,
   Link,
@@ -12,8 +9,11 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { Form, TextBox } from 'components/Form'
-import { required } from 'services/FormHelper'
+import { required } from 'services/forms'
 
 const Code = styled.div`
   display: flex;
@@ -32,13 +32,13 @@ const Code = styled.div`
 
 const TwoStepYubico = props => {
   const {
-    position,
-    total,
-    closeAll,
     close,
-    submitting,
+    closeAll,
+    handleSubmit,
     invalid,
-    handleSubmit
+    position,
+    submitting,
+    total
   } = props
 
   return (

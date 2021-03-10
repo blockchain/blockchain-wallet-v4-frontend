@@ -1,14 +1,14 @@
-import { FormattedMessage } from 'react-intl'
-import { getInput, getOutput } from 'data/components/swap/model'
-import { path } from 'ramda'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Text } from 'blockchain-info-components'
+import { path } from 'ramda'
 
-import { Props } from '.'
+import { getInput, getOutput } from 'data/components/swap/model'
 import {
   IconTx as SharedIconTx,
   Timestamp as SharedTimestamp
 } from '../components'
-import { Text } from 'blockchain-info-components'
+import { Props } from '.'
 
 const getOutputCoinDisplayName = (props: Props) => {
   return path([getOutput(props.order), 'coinTicker'], props.supportedCoins)

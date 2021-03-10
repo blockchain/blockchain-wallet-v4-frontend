@@ -1,12 +1,13 @@
+import BigNumber from 'bignumber.js'
 import {
   CoinType,
   SwapOrderDirectionType,
   SwapQuoteType
 } from 'blockchain-wallet-v4/src/types'
-import { convertBaseToStandard } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+
+import { convertBaseToStandard } from '../exchange/services'
 import { SwapAccountType } from './types'
-import BigNumber from 'bignumber.js'
 
 export const NO_QUOTE = 'No quote found.'
 

@@ -1,9 +1,6 @@
-import { filter, take } from 'ramda'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import React from 'react'
-import styled from 'styled-components'
-
 import {
   Banner,
   Button,
@@ -14,9 +11,12 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import { SettingDescription, SettingHeader } from 'components/Setting'
-import media from 'services/ResponsiveService'
+import { filter, take } from 'ramda'
+import styled from 'styled-components'
+
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
+import { SettingDescription, SettingHeader } from 'components/Setting'
+import { media } from 'services/styles'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -74,13 +74,13 @@ const ErrorMessageText = styled(Text)`
 `
 
 const Success = ({
-  wallets,
+  failure,
+  message,
   onAddNewWallet,
   onClickImport,
   onUnarchive,
   search,
-  failure,
-  message
+  wallets
 }: {
   failure?: any
   message?: any

@@ -1,6 +1,3 @@
-import * as Coin from '../../../coinSelection/coin'
-import * as S from '../../selectors'
-import { Address, HDAccount, Wallet } from '../../../types'
 import {
   always,
   assoc,
@@ -12,7 +9,11 @@ import {
   or,
   set
 } from 'ramda'
+
+import * as Coin from '../../../coinSelection/coin'
+import { Address, HDAccount, Wallet } from '../../../types'
 import { getWifAddress, isValidBtcAddress } from '../../../utils/btc'
+import * as S from '../../selectors'
 
 // /////////////////////////////////////////////////////////////////////////////
 // Validations
@@ -36,7 +37,7 @@ export const ADDRESS_TYPES = {
   CUSTODIAL: 'CUSTODIAL',
   EXTERNAL: 'EXTERNAL',
   INTEREST: 'INTEREST',
-  LEGACY: 'LEGACY',
+  LEGACY: 'LEGACY', // Imported Addresses
   LOCKBOX: 'LOCKBOX',
   SCRIPT: 'SCRIPT',
   WATCH_ONLY: 'WATCH_ONLY'

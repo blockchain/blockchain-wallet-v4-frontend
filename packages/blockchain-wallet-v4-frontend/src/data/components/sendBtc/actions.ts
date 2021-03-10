@@ -1,5 +1,6 @@
+import { PaymentValue } from 'blockchain-wallet-v4/src/types'
+
 import * as AT from './actionTypes'
-import { PaymentValue } from 'core/types'
 
 export const initialized = payload => ({
   type: AT.SEND_BTC_INITIALIZED,

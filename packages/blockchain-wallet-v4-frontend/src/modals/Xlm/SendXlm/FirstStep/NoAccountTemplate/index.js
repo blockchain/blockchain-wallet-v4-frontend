@@ -1,7 +1,7 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
-
+import { FormattedMessage } from 'react-intl'
 import { Banner, Button, Text } from 'blockchain-info-components'
+
 import { FormGroup } from 'components/Form'
 import { model } from 'data'
 import ModalIcon from '../ModalIcon'

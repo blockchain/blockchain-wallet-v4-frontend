@@ -1,10 +1,5 @@
-import { flatten, head, last, map } from 'ramda'
-import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
 import React, { ReactElement } from 'react'
-import styled from 'styled-components'
-
-import { Exchange, Remote } from 'core'
+import { FormattedMessage } from 'react-intl'
 import {
   HeartbeatLoader,
   Icon,
@@ -14,8 +9,14 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import { InterestTransactionType } from 'core/types'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { InterestTransactionType } from 'blockchain-wallet-v4/src/types'
+import moment from 'moment'
+import { flatten, head, last, map } from 'ramda'
+import styled from 'styled-components'
 
+import { Props as OwnProps, SuccessStateType } from '.'
+import Empty from './Empty'
 import {
   AmountTableCell,
   CoinAmountWrapper,
@@ -27,8 +28,6 @@ import {
   Value,
   ViewTransaction
 } from './model'
-import { Props as OwnProps, SuccessStateType } from '.'
-import Empty from './Empty'
 import Loading from './template.loading'
 
 const LoadingWrapper = styled.div`
@@ -42,8 +41,8 @@ const Container = styled.div`
   padding-bottom: 45px;
 `
 
-function TransactionList (props: Props): ReactElement | null {
-  const { interestActions, txPages, supportedCoins, walletCurrency } = props
+function TransactionList(props: Props): ReactElement | null {
+  const { interestActions, supportedCoins, txPages, walletCurrency } = props
   const txList = flatten(
     txPages &&
       // @ts-ignore

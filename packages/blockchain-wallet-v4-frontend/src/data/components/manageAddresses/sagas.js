@@ -1,12 +1,12 @@
-import { call, put, select } from 'redux-saga/effects'
-import { filter, findIndex, forEach, pluck, propEq, sort } from 'ramda'
-
-import * as A from './actions'
-import * as actions from '../../actions'
-import * as C from 'services/AlertService'
-import { promptForInput } from 'services/SagaService'
-import { selectors } from '../../index'
 import { Types } from 'blockchain-wallet-v4/src'
+import { filter, findIndex, forEach, pluck, propEq, sort } from 'ramda'
+import { call, put, select } from 'redux-saga/effects'
+
+import * as C from 'services/alerts'
+import { promptForInput } from 'services/sagas'
+import * as actions from '../../actions'
+import { selectors } from '../../index'
+import * as A from './actions'
 
 export default ({ api, networks }) => {
   const logLocation = 'components/manageAddresses/sagas'
@@ -182,7 +182,7 @@ export default ({ api, networks }) => {
   }
 
   const editAddressLabel = function * (action) {
-    const { accountIndex, walletIndex, addressIndex } = action.payload
+    const { accountIndex, addressIndex, walletIndex } = action.payload
     try {
       yield put(A.editAddressLabelLoading(accountIndex))
       let newLabel = yield call(promptForInput, {
@@ -237,7 +237,7 @@ export default ({ api, networks }) => {
   }
 
   const deleteAddressLabel = function * (action) {
-    const { accountIdx, walletIdx, addressIdx } = action.payload
+    const { accountIdx, addressIdx, walletIdx } = action.payload
 
     try {
       yield put(A.deleteAddressLabelLoading(accountIdx))

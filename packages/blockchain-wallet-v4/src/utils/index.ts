@@ -1,14 +1,15 @@
+import deepEqual from 'fast-deep-equal'
+import { createSelectorCreator, defaultMemoize } from 'reselect'
+
 import * as bch from './bch'
 import * as btc from './btc'
 import * as checks from './checks'
 import * as eth from './eth'
 import * as xlm from './xlm'
-import { createSelectorCreator, defaultMemoize } from 'reselect'
-import { equals } from 'ramda'
 
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, equals)
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, deepEqual)
 
-export { bch, btc, eth, xlm, checks, createDeepEqualSelector }
+export { bch, btc, checks, createDeepEqualSelector, eth, xlm }
 
 export const MISSING_WALLET = 'missing_wallet'
 

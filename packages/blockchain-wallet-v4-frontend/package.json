@@ -33,7 +33,6 @@
     "test:watch": "cross-env npx jest --watchAll"
   },
   "jest": {
-    "automock": false,
     "collectCoverageFrom": [
       "src/scenes/Exchange/ExchangeForm/**/*.{js,ts}",
       "src/store/*.{js,ts}",

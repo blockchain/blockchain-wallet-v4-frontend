@@ -1,6 +1,6 @@
-import { Icon, Image } from 'blockchain-info-components'
-import { NavLink } from 'react-router-dom'
 import React from 'react'
+import { NavLink } from 'react-router-dom'
+import { Icon, Image } from 'blockchain-info-components'
 import styled from 'styled-components'
 
 import {
@@ -11,8 +11,8 @@ import {
   NavbarNav,
   NavbarNavItem
 } from 'components/Navbar'
-import { Props as OwnProps } from '.'
 import Balances from '../MenuLeft/Balances'
+import { Props as OwnProps } from '.'
 import Features from './Features'
 import Refresh from './Refresh'
 import SecurityCenter from './SecurityCenter'

@@ -1,14 +1,13 @@
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { actions, selectors } from 'data'
-import { CoinType } from 'core/types'
-import { InterestStep, InterestStepMetadata, InterestSteps } from 'data/types'
-import { RootState } from 'data/rootReducer'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import { InterestStep, InterestStepMetadata, InterestSteps } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
-
 import { ModalPropsType } from '../types'
 import AccountSummary from './AccountSummary'
 import DepositForm from './DepositForm'
@@ -49,7 +48,7 @@ class Interest extends PureComponent<Props, State> {
   }
 
   render () {
-    const { coin, step, position, total } = this.props
+    const { coin, position, step, total } = this.props
     return (
       <Flyout
         position={position}

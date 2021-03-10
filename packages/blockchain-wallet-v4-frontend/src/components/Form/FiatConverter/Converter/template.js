@@ -1,9 +1,8 @@
-import PropTypes from 'prop-types'
 import React from 'react'
-import styled from 'styled-components'
-
-import { Exchange } from 'blockchain-wallet-v4/src'
 import { Text, TextInput } from 'blockchain-info-components'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -58,19 +57,19 @@ const getErrorState = meta => {
 
 const Converter = props => {
   const {
+    className,
     coin,
     coinTicker,
-    disabled,
-    fiat,
     currency,
-    meta,
+    disabled,
     errorBottom,
+    fiat,
+    handleBlur,
     handleCoinChange,
     handleFiatChange,
-    handleBlur,
     handleFocus,
-    className,
-    marginTop
+    marginTop,
+    meta
   } = props
   const errorState = getErrorState(meta)
 

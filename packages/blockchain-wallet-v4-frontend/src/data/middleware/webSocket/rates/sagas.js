@@ -1,4 +1,4 @@
-import { all, call, delay, put, select } from 'redux-saga/effects'
+import moment from 'moment'
 import {
   both,
   complement,
@@ -14,10 +14,10 @@ import {
   values,
   whereEq
 } from 'ramda'
-import moment from 'moment'
+import { all, call, delay, put, select } from 'redux-saga/effects'
 
-import * as A from './actions'
 import { actions, model, selectors } from 'data'
+import * as A from './actions'
 
 export const socketAuthRetryDelay = 5000
 const openChannels = {
@@ -128,8 +128,8 @@ export default ({ api, ratesSocket }) => {
   }
 
   const fetchAdvice = function * ({
-    pair,
-    config: { volume, fix, fiatCurrency }
+    config: { fiatCurrency, fix, volume },
+    pair
   }) {
     try {
       const { error, ratio } = yield call(
@@ -192,7 +192,7 @@ export default ({ api, ratesSocket }) => {
   }
 
   const openAdviceChannel = function * ({ payload }) {
-    const { pair, volume, fix, fiatCurrency } = payload
+    const { fiatCurrency, fix, pair, volume } = payload
     if (isNil(volume) || !fix || !fiatCurrency) return
     if (ratesSocket.isReady()) {
       const message = model.rates.getAdviceSubscribeMessage(

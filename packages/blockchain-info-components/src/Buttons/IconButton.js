@@ -36,7 +36,7 @@ const selectColor = (nature, disabled) => {
 }
 
 const IconButton = props => {
-  const { name, children, nature, ...rest } = props
+  const { children, name, nature, ...rest } = props
   const color = selectColor(nature)
 
   return (

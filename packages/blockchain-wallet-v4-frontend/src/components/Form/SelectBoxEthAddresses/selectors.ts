@@ -1,14 +1,12 @@
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-// @ts-ignore
-import { concat, curry, filter, has, map, reduce, sequence } from 'ramda'
-
 import {
   Erc20CoinType,
   InterestAccountBalanceType,
   SupportedWalletCurrenciesType
-} from 'core/types'
-
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+} from 'blockchain-wallet-v4/src/types'
+// @ts-ignore
+import { concat, curry, filter, has, map, reduce, sequence } from 'ramda'
 
 import { selectors } from 'data'
 

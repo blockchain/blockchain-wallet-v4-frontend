@@ -1,9 +1,9 @@
-import { FormattedMessage } from 'react-intl'
-import PropTypes from 'prop-types'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Button, Text } from 'blockchain-info-components'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Button, Text } from 'blockchain-info-components'
 import CopyClipboard from 'components/Clipboard/CopyClipboard'
 
 const Wrapper = styled.div`

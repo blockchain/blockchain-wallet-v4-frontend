@@ -1,27 +1,28 @@
-import * as A from './actions'
-import * as AT from './actionTypes'
-import * as S from './selectors'
-import * as selectors from '../../selectors'
-import * as transactions from '../../../transactions'
-import * as walletSelectors from '../../wallet/selectors'
-import { addFromToAccountNames } from '../../../utils/accounts'
+import moment from 'moment'
+import { flatten, indexBy, length, map, path, prop } from 'ramda'
+import { call, put, select, take } from 'redux-saga/effects'
+
 import { APIType } from 'core/network/api'
+import { BchTxType } from 'core/transactions/types'
+import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
+import Remote from '../../../remote'
+import * as transactions from '../../../transactions'
+import { HDAccountList } from '../../../types'
+import { errorHandler, MISSING_WALLET } from '../../../utils'
+import { addFromToAccountNames } from '../../../utils/accounts'
 import {
   BCH_FORK_TIME,
   convertFromCashAddrIfCashAddr,
   TX_PER_PAGE
 } from '../../../utils/bch'
-import { BchTxType } from 'core/transactions/types'
-import { call, put, select, take } from 'redux-saga/effects'
-import { errorHandler, MISSING_WALLET } from '../../../utils'
-import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
-import { flatten, indexBy, length, map, path, prop } from 'ramda'
 import { getAccountsList, getBchTxNotes } from '../../kvStore/bch/selectors'
 import { getLockboxBchAccounts } from '../../kvStore/lockbox/selectors'
-import { HDAccountList } from '../../../types'
+import * as selectors from '../../selectors'
+import * as walletSelectors from '../../wallet/selectors'
 import custodialSagas from '../custodial/sagas'
-import moment from 'moment'
-import Remote from '../../../remote'
+import * as A from './actions'
+import * as AT from './actionTypes'
+import * as S from './selectors'
 
 const transformTx = transactions.bch.transformTx
 
@@ -132,7 +133,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const fetchTransactionHistory = function * ({ payload }) {
-    const { address, start, end } = payload
+    const { address, end, start } = payload
     const startDate = moment(start).format('DD/MM/YYYY')
     const endDate = moment(end).format('DD/MM/YYYY')
     try {

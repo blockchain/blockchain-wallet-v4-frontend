@@ -1,12 +1,12 @@
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import PropTypes from 'prop-types'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Text } from 'blockchain-info-components'
+import PropTypes from 'prop-types'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { CheckBox } from 'components/Form'
-import { Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   display: flex;

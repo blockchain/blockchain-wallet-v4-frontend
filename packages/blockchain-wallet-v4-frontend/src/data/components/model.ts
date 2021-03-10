@@ -11,8 +11,8 @@ export {
   borrow,
   identityVerification,
   lockbox,
-  sendBtc,
   sendBch,
+  sendBtc,
   sendEth,
   sendXlm,
   simpleBuy

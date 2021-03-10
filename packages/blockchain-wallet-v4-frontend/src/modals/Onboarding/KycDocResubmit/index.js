@@ -1,11 +1,11 @@
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { Button, Image, Modal, Text } from 'blockchain-info-components'
+import { compose } from 'redux'
 import styled from 'styled-components'
 
 import { actions } from 'data'
-import { Button, Image, Modal, Text } from 'blockchain-info-components'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 const Header = styled.div`

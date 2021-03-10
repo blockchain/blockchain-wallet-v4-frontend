@@ -1,6 +1,6 @@
+import { ModalNamesType } from 'data/modals/types'
 import * as AT from './actionTypes'
 import { GoalsType } from './types'
-import { ModalNamesType } from 'data/modals/types'
 
 const generateId = () =>
   Math.random()

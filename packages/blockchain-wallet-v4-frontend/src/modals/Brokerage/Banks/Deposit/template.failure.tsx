@@ -1,6 +1,6 @@
-import { Button, Image, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Button, Image, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
 import { FailurePropsType } from '.'

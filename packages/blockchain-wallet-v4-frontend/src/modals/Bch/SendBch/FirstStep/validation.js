@@ -1,11 +1,12 @@
+import React from 'react'
 import { Exchange } from 'blockchain-wallet-v4/src'
+import { prop } from 'ramda'
+
 import {
   InsufficientFundsMessage,
   InvalidAmountMessage,
   MaximumAmountMessage
 } from './validationMessages'
-import { prop } from 'ramda'
-import React from 'react'
 
 const getEffectiveBalance = props => {
   return Number(props.effectiveBalance)
@@ -44,11 +45,11 @@ export const maximumAmount = (value, allValues, props) => {
 }
 
 export const shouldError = ({
-  values,
+  initialRender,
   nextProps,
   props,
-  initialRender,
-  structure
+  structure,
+  values
 }) => {
   if (initialRender) {
     return true

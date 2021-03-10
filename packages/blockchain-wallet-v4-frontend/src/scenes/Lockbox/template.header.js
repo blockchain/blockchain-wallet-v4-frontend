@@ -1,13 +1,14 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Icon } from 'blockchain-info-components'
+import styled from 'styled-components'
+
 import {
   IconBackground,
   SceneHeader,
   SceneHeaderText,
   SceneSubHeaderText
 } from 'components/Layout'
-import React from 'react'
-import styled from 'styled-components'
 
 const HeaderWrapper = styled.div`
   width: 100%;

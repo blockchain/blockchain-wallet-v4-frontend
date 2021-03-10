@@ -1,7 +1,8 @@
-import CountdownTimer from './template'
+import React from 'react'
 import moment from 'moment'
 import PropTypes from 'prop-types'
-import React from 'react'
+
+import CountdownTimer from './template'
 
 class CountdownTimerContainer extends React.PureComponent {
   constructor (props) {

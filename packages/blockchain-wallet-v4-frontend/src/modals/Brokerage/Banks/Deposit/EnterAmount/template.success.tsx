@@ -1,32 +1,23 @@
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { FiatType } from 'blockchain-wallet-v4/src/types'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { ErrorCartridge } from 'components/Cartridge'
+import { AmountTextBox } from 'components/Exchange'
+import { FlyoutWrapper } from 'components/Flyout'
+import { Form } from 'components/Form'
+import { DisplayPaymentIcon } from 'components/SimpleBuy'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   AddBankStepType,
   BankDWStepType,
   BrokerageModalOriginType
 } from 'data/types'
-import { AmountTextBox } from 'components/Exchange'
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { DisplayPaymentIcon } from 'components/SimpleBuy'
-import { ErrorCartridge } from 'components/Cartridge'
-import { fiatToString } from 'core/exchange/currency'
-import { FiatType } from 'core/types'
-import { FlyoutWrapper } from 'components/Flyout'
-import { Form } from 'components/Form'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-
-import { Props as _P, LinkStatePropsType, SuccessStateType } from '.'
-import {
-  DepositOrWithdrawal,
-  normalizeAmount,
-  RightArrowIcon
-} from '../../model'
-import { getDefaultMethod, getText } from './model'
-import { maximumAmount, minimumAmount } from './validation'
 // TODO: move this to somewhere more generic
 import {
   getIcon,
@@ -35,6 +26,14 @@ import {
   PaymentText
 } from '../../../../SimpleBuy/EnterAmount/Checkout/Payment/model'
 import { Row } from '../../components'
+import {
+  DepositOrWithdrawal,
+  normalizeAmount,
+  RightArrowIcon
+} from '../../model'
+import { LinkStatePropsType, Props as _P, SuccessStateType } from '.'
+import { getDefaultMethod, getText } from './model'
+import { maximumAmount, minimumAmount } from './validation'
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -126,7 +125,7 @@ const Header = ({ brokerageActions, fiatCurrency }) => {
   )
 }
 
-const LimitSection = ({ paymentMethods, walletCurrency, supportedCoins }) => {
+const LimitSection = ({ paymentMethods, supportedCoins, walletCurrency }) => {
   const bankTransfer = paymentMethods.methods.find(
     method => method.type === 'BANK_TRANSFER'
   )
@@ -198,10 +197,10 @@ const Amount = ({ fiatCurrency }) => {
 }
 
 const Account = ({
-  defaultMethod,
   bankTransferAccounts,
-  invalid,
-  brokerageActions
+  brokerageActions,
+  defaultMethod,
+  invalid
 }: OwnProps) => {
   const dMethod = getDefaultMethod(defaultMethod, bankTransferAccounts)
 
@@ -246,7 +245,7 @@ const Account = ({
   )
 }
 
-const NextButton = ({ invalid, pristine, submitting, defaultMethod }) => {
+const NextButton = ({ defaultMethod, invalid, pristine, submitting }) => {
   return (
     <Button
       data-e2e='submitDepositAmount'

@@ -1,33 +1,29 @@
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { isEmpty } from 'ramda'
 import React, { ReactChild } from 'react'
-import styled from 'styled-components'
-
-import { AmountTextBox } from 'components/Exchange'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import {
   BankTransferAccountType,
   BeneficiaryType,
   NabuMoneyFloatType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+import { isEmpty } from 'ramda'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { DepositOrWithdrawal, normalizeAmount } from '../../model'
-import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
-import { FlyoutWrapper } from 'components/Flyout'
-
-import { Form } from 'components/Form'
-
-import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import Currencies from 'core/exchange/currencies'
-
-import { maximumAmount, minimumAmount } from './validation'
+import { AmountTextBox } from 'components/Exchange'
+import { FlyoutWrapper } from 'components/Flyout'
+import { Form } from 'components/Form'
+import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
+import { Row } from '../../components'
+import { DepositOrWithdrawal, normalizeAmount } from '../../model'
 import { Props as OwnProps, SuccessStateType } from '.'
 import Beneficiary from './Beneficiary'
-
-import { Row } from '../../components'
 import LockTimeTooltip from './LockTimeTooltip'
+import { maximumAmount, minimumAmount } from './validation'
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -105,8 +101,8 @@ const SubIconWrapper = styled.div`
 `
 
 const BlueRedCartridge = ({
-  error,
-  children
+  children,
+  error
 }: {
   children: ReactChild
   error: boolean
@@ -334,7 +330,7 @@ const Success: React.FC<InjectedFormProps<
             }
           />
         </ToContainer>
-        
+
         <ActionContainer>
           <Button
             disabled={

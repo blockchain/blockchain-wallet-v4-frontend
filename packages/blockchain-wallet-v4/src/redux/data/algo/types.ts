@@ -1,5 +1,4 @@
 import { RatesType, RemoteDataType } from 'core/types'
-
 import * as AT from './actionTypes'
 
 // state

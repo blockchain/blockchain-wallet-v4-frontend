@@ -1,21 +1,25 @@
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import BigNumber from 'bignumber.js'
+import { SkeletonRectangle } from 'blockchain-info-components'
+import {
+  CoinType,
+  ExtractSuccess,
+  FiatType
+} from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators, Dispatch } from 'redux'
 
 import { actions } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
-import { CoinType, ExtractSuccess, FiatType } from 'core/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { getData } from './selectors'
+import { RootState } from 'data/rootReducer'
 import { PriceChange } from '../../model'
-import { SkeletonRectangle } from 'blockchain-info-components'
-import BigNumber from 'bignumber.js'
+import { getData } from './selectors'
 
 class UserPortfolioPositionChange extends PureComponent<Props> {
   state = {}
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.miscActions.fetchPriceChange(
       this.props.coin,
       this.props.currency,
@@ -24,7 +28,7 @@ class UserPortfolioPositionChange extends PureComponent<Props> {
     )
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (!prevProps.coinBalance.isEqualTo(this.props.coinBalance)) {
       this.props.miscActions.fetchPriceChange(
         this.props.coin,
@@ -35,7 +39,7 @@ class UserPortfolioPositionChange extends PureComponent<Props> {
     }
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => (
         <PriceChange

@@ -1,11 +1,12 @@
-import { actions } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
-import { LoanType, OfferType } from 'core/types'
-import { RootState } from 'data/rootReducer'
-import Loading from './template.loading'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { LoanType, OfferType } from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators, Dispatch } from 'redux'
+
+import { actions } from 'data'
+import { RootState } from 'data/rootReducer'
+import { getData } from './selectors'
+import Loading from './template.loading'
 import Success from './template.success'
 
 class BorrowDetails extends PureComponent<Props> {

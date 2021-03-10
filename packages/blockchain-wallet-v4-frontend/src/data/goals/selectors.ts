@@ -1,4 +1,5 @@
 import { path } from 'ramda'
+
 import { RootState } from 'data/rootReducer'
 
 export const getGoals = (state: RootState) => state.goals.goals

@@ -1,3 +1,5 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import {
   Banner,
   Button,
@@ -7,18 +9,12 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import {
-  ColLeft,
-  ColRight,
-  CustodyToAccountMessage,
-  CustomFeeAlertBanner,
-  FeeFormContainer,
-  FeeFormGroup,
-  FeeFormLabel,
-  FeeOptionsContainer,
-  FeePerByteContainer,
-  Row
-} from 'components/Send'
+import Bowser from 'bowser'
+import PropTypes from 'prop-types'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
+import ComboDisplay from 'components/Display/ComboDisplay'
 import {
   CountdownTimer,
   FiatConverter,
@@ -33,8 +29,25 @@ import {
   TextAreaDebounced,
   TextBox
 } from 'components/Form'
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
+import QRCodeCapture from 'components/QRCode/Capture'
+import {
+  ColLeft,
+  ColRight,
+  CustodyToAccountMessage,
+  CustomFeeAlertBanner,
+  FeeFormContainer,
+  FeeFormGroup,
+  FeeFormLabel,
+  FeeOptionsContainer,
+  FeePerByteContainer,
+  Row
+} from 'components/Send'
+import ExchangePromo from 'components/Send/ExchangePromo'
+import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
+import { model } from 'data'
+import { required, validBtcAddress } from 'services/forms'
+import PriorityFeeLink from './PriorityFeeLink'
+import RegularFeeLink from './RegularFeeLink'
 import {
   insufficientFunds,
   invalidAmount,
@@ -46,18 +59,6 @@ import {
   shouldError,
   shouldWarn
 } from './validation'
-import { model } from 'data'
-import { required, validBtcAddress } from 'services/FormHelper'
-import Bowser from 'bowser'
-import ComboDisplay from 'components/Display/ComboDisplay'
-import ExchangePromo from 'components/Send/ExchangePromo'
-import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
-import PriorityFeeLink from './PriorityFeeLink'
-import PropTypes from 'prop-types'
-import QRCodeCapture from 'components/QRCode/Capture'
-import React from 'react'
-import RegularFeeLink from './RegularFeeLink'
-import styled from 'styled-components'
 
 const WarningBanners = styled(Banner)`
   margin: -6px 0 12px;
@@ -84,12 +85,12 @@ const ImageInInputContainer = styled.div`
 
 const FirstStep = props => {
   const {
-    invalid,
-    submitting,
-    pristine,
+    handleBitPayInvoiceExpiration,
     handleFeePerByteToggle,
     handleSubmit,
-    handleBitPayInvoiceExpiration,
+    invalid,
+    pristine,
+    submitting,
     ...rest
   } = props
 

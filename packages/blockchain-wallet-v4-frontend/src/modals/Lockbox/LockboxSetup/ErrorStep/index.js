@@ -1,6 +1,5 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
-
+import { FormattedMessage } from 'react-intl'
 import { Button, Text } from 'blockchain-info-components'
 
 class ErrorStepContainer extends React.PureComponent {

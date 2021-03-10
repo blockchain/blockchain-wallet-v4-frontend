@@ -1,5 +1,5 @@
-import { Icon, Text } from 'blockchain-info-components'
 import React from 'react'
+import { Icon, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -31,7 +31,7 @@ const FaqIcon = styled(Icon)`
   margin-bottom: 16px;
 `
 
-const FaqMessage = ({ title, text, icon, ...rest }) => (
+const FaqMessage = ({ icon, text, title, ...rest }) => (
   <Container {...rest}>
     <FaqIcon name={icon} />
     <Title>{title}</Title>

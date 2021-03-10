@@ -1,7 +1,5 @@
-import {
-  BankTransferAccountType,
-  SupportedWalletCurrenciesType
-} from 'core/types'
+import React, { useEffect, useState } from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import {
   Button,
   CheckBoxInput,
@@ -9,11 +7,19 @@ import {
   Icon,
   Text
 } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import {
+  BankTransferAccountType,
+  SupportedWalletCurrenciesType
+} from 'blockchain-wallet-v4/src/types'
+import moment from 'moment'
+import { defaultTo, filter, path } from 'ramda'
+import { InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { ErrorCartridge } from 'components/Cartridge'
-import { fiatToString } from 'core/exchange/currency'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { Form } from 'components/Form'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import {
   getBaseAmount,
   getBaseCurrency,
@@ -22,14 +28,8 @@ import {
   getOrderType,
   getPaymentMethodId
 } from 'data/components/simpleBuy/model'
-import { InjectedFormProps, reduxForm } from 'redux-form'
-import { Props as OwnProps, SuccessStateType } from '.'
-
-import { defaultTo, filter, path } from 'ramda'
 import { displayFiat, getPaymentMethod } from '../model'
-import moment from 'moment'
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
+import { Props as OwnProps, SuccessStateType } from '.'
 
 const CustomForm = styled(Form)`
   height: 100%;

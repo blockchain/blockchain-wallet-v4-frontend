@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import ReactHighcharts from 'react-highcharts'
+import { calculateStart } from 'blockchain-wallet-v4/src/redux/data/misc/model'
 import styled from 'styled-components'
 
-import { calculateInterval } from 'services/ChartService'
-import { calculateStart } from 'blockchain-wallet-v4/src/redux/data/misc/model'
+import { calculateInterval } from 'services/charts'
+import { media } from 'services/styles'
 import { getConfig } from './model'
-import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -42,7 +42,7 @@ const Wrapper = styled.div`
 `
 
 const Chart = props => {
-  const { coin, time, data, currency } = props
+  const { coin, currency, data, time } = props
   const decimals = coin === 'XLM' ? 4 : 2
   const start = calculateStart(coin, time)
   const interval = calculateInterval(coin, time)

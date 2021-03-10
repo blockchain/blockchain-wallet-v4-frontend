@@ -1,5 +1,5 @@
-import { Text } from 'blockchain-info-components'
 import React from 'react'
+import { Text } from 'blockchain-info-components'
 
 const LineItemText = props => {
   return (
@@ -11,7 +11,7 @@ const LineItemText = props => {
 
 const FormattedBank = bank => {
   if (!bank || !bank.details) return 'Bank Transfer'
-  const { bankName, bankAccountType, accountNumber } = bank.details
+  const { accountNumber, bankAccountType, bankName } = bank.details
 
   return (
     <LineItemText>

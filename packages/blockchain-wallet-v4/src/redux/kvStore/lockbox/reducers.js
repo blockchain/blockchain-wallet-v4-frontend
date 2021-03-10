@@ -1,4 +1,3 @@
-import * as AT from './actionTypes'
 import {
   append,
   assoc,
@@ -9,14 +8,16 @@ import {
   lensProp,
   remove
 } from 'ramda'
-import { KVStoreEntry } from '../../../types'
 import { mapped, over, set } from 'ramda-lens'
+
 import Remote from '../../../remote'
+import { KVStoreEntry } from '../../../types'
+import * as AT from './actionTypes'
 
 const INITIAL_STATE = Remote.NotAsked
 
 export default (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
 
   switch (type) {
     // CREATE
@@ -70,7 +71,7 @@ export default (state = INITIAL_STATE, action) => {
       return over(valueLens, setDeviceName, state)
     }
     case AT.ADD_COIN_ENTRY: {
-      const { coin, account, deviceIndex } = payload
+      const { account, coin, deviceIndex } = payload
       let valueLens = compose(
         mapped,
         KVStoreEntry.value,

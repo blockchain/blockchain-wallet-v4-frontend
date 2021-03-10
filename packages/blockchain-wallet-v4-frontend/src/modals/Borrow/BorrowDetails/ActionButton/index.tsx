@@ -1,9 +1,10 @@
-import { Button } from 'blockchain-info-components'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Button } from 'blockchain-info-components'
+import styled from 'styled-components'
+
 import { model } from 'data'
 import { Props } from '../template.success'
-import React from 'react'
-import styled from 'styled-components'
 
 const ButtonContainer = styled.div`
   display: flex;

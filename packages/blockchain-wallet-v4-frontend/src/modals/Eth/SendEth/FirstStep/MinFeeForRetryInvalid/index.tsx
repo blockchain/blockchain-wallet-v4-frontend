@@ -1,6 +1,7 @@
-import { ErrorCartridge } from 'components/Cartridge'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+
+import { ErrorCartridge } from 'components/Cartridge'
 
 const MinFeeForRetryInvalid: React.FC = () => {
   return (

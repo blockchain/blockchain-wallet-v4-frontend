@@ -1,12 +1,13 @@
+import React from 'react'
+import { connect } from 'react-redux'
+import { SkeletonRectangle } from 'blockchain-info-components'
 import {
   AccountTypes,
   RemoteDataType,
   SupportedWalletCurrenciesType
-} from 'core/types'
-import { connect } from 'react-redux'
+} from 'blockchain-wallet-v4/src/types'
+
 import { getData } from './selectors'
-import { SkeletonRectangle } from 'blockchain-info-components'
-import React from 'react'
 import SelectBoxBtc from './template'
 
 class SelectBoxBtcAddresses extends React.PureComponent<Props> {

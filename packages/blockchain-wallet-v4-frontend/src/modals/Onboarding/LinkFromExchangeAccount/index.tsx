@@ -1,15 +1,16 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect } from 'react-redux'
-import { ModalPropsType } from '../../types'
-import { RemoteDataType } from 'core/types'
-import { UserTiersType } from 'data/types'
-import Failure from './template.failure'
-import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import Loading from './template.loading'
-import modalEnhancer from 'providers/ModalEnhancer'
-import NotAsked from './template.notasked'
 import React from 'react'
+import { connect } from 'react-redux'
+import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+
+import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { actions, selectors } from 'data'
+import { UserTiersType } from 'data/types'
+import modalEnhancer from 'providers/ModalEnhancer'
+import { ModalPropsType } from '../../types'
+import Failure from './template.failure'
+import Loading from './template.loading'
+import NotAsked from './template.notasked'
 import Success from './template.success'
 
 type OwnPropsType = {
@@ -40,7 +41,7 @@ class LinkFromExchangeAccountContainer extends React.PureComponent<
   State
 > {
   state: State = { show: true, direction: 'left' }
-  componentDidMount () {
+  componentDidMount() {
     const { linkId } = this.props
     this.props.actions.linkFromExchangeAccount(linkId)
   }
@@ -52,7 +53,7 @@ class LinkFromExchangeAccountContainer extends React.PureComponent<
     }, duration)
   }
 
-  render () {
+  render() {
     return this.props.linkFromExchangeAccountStatus.cata({
       Success: val => (
         <Flyout

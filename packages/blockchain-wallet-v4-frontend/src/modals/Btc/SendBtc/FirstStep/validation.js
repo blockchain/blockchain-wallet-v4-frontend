@@ -1,3 +1,7 @@
+import React from 'react'
+import { Exchange, utils } from 'blockchain-wallet-v4/src'
+import { path, prop } from 'ramda'
+
 import {
   AddressMatchesPriv,
   InsufficientFundsMessage,
@@ -8,9 +12,6 @@ import {
   MinimumFeeMessage,
   MinimumOneSatoshiMessage
 } from './validationMessages'
-import { Exchange, utils } from 'blockchain-wallet-v4/src'
-import { path, prop } from 'ramda'
-import React from 'react'
 
 const DUST = 546
 
@@ -76,11 +77,11 @@ export const maximumFeePerByte = (value, allValues, props) =>
   )
 
 export const shouldError = ({
-  values,
+  initialRender,
   nextProps,
   props,
-  initialRender,
-  structure
+  structure,
+  values
 }) => {
   if (initialRender) {
     return true
@@ -93,11 +94,11 @@ export const shouldError = ({
 }
 
 export const shouldWarn = ({
-  values,
+  initialRender,
   nextProps,
   props,
-  initialRender,
-  structure
+  structure,
+  values
 }) => {
   if (initialRender) {
     return true

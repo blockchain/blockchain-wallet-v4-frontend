@@ -1,16 +1,17 @@
+import { decode, fromWords } from 'bech32'
+import BigInteger from 'bigi'
+import BigNumber from 'bignumber.js'
+import { fromPublicKey } from 'bip32'
 import * as bippath from 'bip32-path'
-import * as Exchange from '../exchange'
 import * as OP from 'bitcoin-ops'
 import { address, crypto, ECPair, networks } from 'bitcoinjs-lib'
 import { compile } from 'bitcoinjs-lib/src/script'
-import { compose, dropLast, equals, head, last, or, propOr } from 'ramda'
-import { decode, fromWords } from 'bech32'
-import { fromPublicKey } from 'bip32'
-import { selectAll } from '../coinSelection'
 import Base58 from 'bs58'
-import BigInteger from 'bigi'
-import BigNumber from 'bignumber.js'
 import Either from 'data.either'
+import { compose, dropLast, equals, head, last, or, propOr } from 'ramda'
+
+import { selectAll } from '../coinSelection'
+import * as Exchange from '../exchange'
 
 export const isValidBtcAddress = (value, network) => {
   try {
@@ -129,7 +130,7 @@ export const detectPrivateKeyFormat = key => {
   return null
 }
 
-const parseMiniKey = function (miniKey) {
+const parseMiniKey = function(miniKey) {
   const check = crypto.sha256(miniKey + '?')
   if (check[0] !== 0x00) {
     throw new Error('Invalid mini key')
@@ -137,7 +138,7 @@ const parseMiniKey = function (miniKey) {
   return crypto.sha256(miniKey)
 }
 
-export const privateKeyStringToKey = function (
+export const privateKeyStringToKey = function(
   value,
   format,
   network = networks.bitcoin,
@@ -205,13 +206,13 @@ export const isValidBtcPrivateKey = (value, network) => {
 }
 
 export const calculateBalanceSatoshi = (coins, feePerByte) => {
-  const { outputs, fee } = selectAll(feePerByte, coins)
+  const { fee, outputs } = selectAll(feePerByte, coins)
   const effectiveBalance = propOr(0, 'value', head(outputs))
   const balance = new BigNumber.sum(effectiveBalance, new BigNumber(fee))
   return { balance, fee, effectiveBalance }
 }
 
-export const isKey = function (btcKey) {
+export const isKey = function(btcKey) {
   return btcKey instanceof ECPair
 }
 

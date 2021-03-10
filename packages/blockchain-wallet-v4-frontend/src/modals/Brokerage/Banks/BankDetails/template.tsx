@@ -1,3 +1,5 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import {
   Button,
   HeartbeatLoader,
@@ -5,16 +7,14 @@ import {
   Image,
   Text
 } from 'blockchain-info-components'
+import { BankTransferAccountType } from 'blockchain-wallet-v4/src/types'
+import { InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
-
-import { BankTransferAccountType } from 'core/types'
-import { getBankLogoImageName } from 'services/ImagesService'
-import { InjectedFormProps, reduxForm } from 'redux-form'
+import { getBankLogoImageName } from 'services/images'
 import { LinkDispatchPropsType, OwnProps } from '.'
-import React from 'react'
-import styled from 'styled-components'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -33,7 +33,6 @@ const DisclaimerWrapper = styled(FlyoutWrapper)`
   justify-content: center;
   display: flex;
 `
-
 const CloseContainer = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -46,7 +45,6 @@ const CurrencyContainer = styled.div`
   border-top: 1px solid ${props => props.theme.grey000};
   border-bottom: 1px solid ${props => props.theme.grey000};
 `
-
 const BankIconWrapper = styled.div`
   justify-content: left;
   flex-direction: row;

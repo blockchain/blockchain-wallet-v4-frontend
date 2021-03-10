@@ -1,10 +1,11 @@
-import { connect } from 'react-redux'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { getTotalBalance } from 'components/Balances/total/selectors'
+import { connect } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { SkeletonRectangle, Text } from 'blockchain-info-components'
-import React from 'react'
 import styled from 'styled-components'
+
+import { getTotalBalance } from 'components/Balances/total/selectors'
 
 const ErrorWrapper = styled.div`
   display: flex;

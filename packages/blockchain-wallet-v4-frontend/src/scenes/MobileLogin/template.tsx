@@ -1,7 +1,7 @@
-import { Button, SpinningLoader, Text } from 'blockchain-info-components'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import React from 'react'
+import { Button, SpinningLoader, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
 import { Wrapper } from 'components/Public'
@@ -50,7 +50,7 @@ const Instruction = styled(Text)`
 
 const MobileLogin = props => {
   const { close, ...rest } = props
-  const { handleScan, handleError, isScanning } = rest
+  const { handleError, handleScan, isScanning } = rest
 
   return (
     <Wrapper>

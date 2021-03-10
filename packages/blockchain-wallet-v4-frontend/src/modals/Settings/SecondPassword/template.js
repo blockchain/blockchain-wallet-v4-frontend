@@ -1,3 +1,5 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import {
   Button,
   Link,
@@ -8,12 +10,11 @@ import {
   PasswordInput,
   Text
 } from 'blockchain-info-components'
-import { Form, FormLabel } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
-import { reduxForm } from 'redux-form'
 import PropTypes from 'prop-types'
-import React from 'react'
+import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
+
+import { Form, FormLabel } from 'components/Form'
 
 const SecPasswordHeader = styled(ModalHeader)`
   border-bottom: 0;
@@ -36,7 +37,7 @@ const PURPOSES = {
 }
 
 const SecondPassword = props => {
-  const { position, total, close, ...rest } = props
+  const { close, position, total, ...rest } = props
   const { handleSubmit, handleChange, purposes = [], value } = rest
 
   return (

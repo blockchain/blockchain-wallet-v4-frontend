@@ -1,13 +1,6 @@
 import { SDDEligibleType, SDDVerifiedType } from './types'
 
-export default ({
-  nabuUrl,
-  get,
-  post,
-  authorizedGet,
-  authorizedPost,
-  authorizedPut
-}) => {
+export default ({ authorizedGet, authorizedPost, get, nabuUrl, post }) => {
   const getSupportedCountries = () =>
     get({
       url: nabuUrl,
@@ -110,14 +103,6 @@ export default ({
       endPoint: '/kyc/verifications/mobile-email'
     })
 
-  const sendCoinifyKyc = coinifyTraderId =>
-    authorizedPut({
-      url: nabuUrl,
-      endPoint: `/kyc/update-coinify-id`,
-      contentType: `application/json`,
-      data: { coinifyTraderId }
-    })
-
   const fetchSDDVerified = (): SDDVerifiedType =>
     authorizedGet({
       url: nabuUrl,
@@ -138,7 +123,6 @@ export default ({
     getSupportedCountries,
     getSupportedDocuments,
     selectTier,
-    sendCoinifyKyc,
     sendDeeplink,
     syncVeriff,
     fetchSDDVerified,

@@ -1,7 +1,5 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
-import styled from 'styled-components'
-
+import { FormattedMessage } from 'react-intl'
 import {
   Banner,
   Button,
@@ -9,7 +7,10 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
-import { CountdownTimer } from 'components/Form'
+import styled from 'styled-components'
+
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
 import {
   ExchangeAmount,
   ExchangeAmounts,
@@ -17,8 +18,7 @@ import {
   SubExchangeAmount,
   Wrapper
 } from 'components/Exchange'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import FiatDisplay from 'components/Display/FiatDisplay'
+import { CountdownTimer } from 'components/Form'
 
 const ConfirmWrapper = styled(Wrapper)`
   padding: 0px;
@@ -57,9 +57,9 @@ const Success = props => {
     description,
     fee,
     fromAddress,
+    handleBack,
     handleBitPayInvoiceExpiration,
     handleSubmit,
-    handleBack,
     isLegacy,
     payPro,
     submitting,

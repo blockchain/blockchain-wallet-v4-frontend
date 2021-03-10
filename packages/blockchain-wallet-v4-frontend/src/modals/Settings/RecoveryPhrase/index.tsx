@@ -1,15 +1,15 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { path } from 'ramda'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+
+import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { actions, selectors } from 'data'
 import { RecoveryPhraseStepType } from 'data/components/recoveryPhrase/types'
 import { RootState } from 'data/rootReducer'
+import modalEnhancer from 'providers/ModalEnhancer'
 import ConfirmWords from './ConfirmWords'
 import ConfirmWordsSuccess from './ConfirmWordsSuccess'
-import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import modalEnhancer from 'providers/ModalEnhancer'
-import React, { PureComponent } from 'react'
 import RecoveryPhraseIntro from './RecoveryPhraseIntro'
 import ShowRecoveryWords from './ShowRecoveryWords'
 
@@ -49,14 +49,14 @@ class RecoveryPhraseFlyout extends PureComponent<Props, State> {
     direction: 'left'
   }
 
-  componentDidMount () {
+  componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
     this.getWords()
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.step === prevProps.step) return
     if (
       RecoveryPhraseStepType[this.props.step] >
@@ -70,7 +70,7 @@ class RecoveryPhraseFlyout extends PureComponent<Props, State> {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.recoveryPhraseActions.setStep('RECOVERY_PHRASE_INTRO')
   }
 
@@ -93,7 +93,7 @@ class RecoveryPhraseFlyout extends PureComponent<Props, State> {
       : this.props.recoveryPhraseActions.setStep('SECOND_SET_WORDS')
   }
 
-  render () {
+  render() {
     return (
       <Flyout
         {...this.props}

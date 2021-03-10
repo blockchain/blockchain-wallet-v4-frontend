@@ -1,6 +1,6 @@
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { isEmpty, isNil, prop } from 'ramda'
-import React, { Component } from 'react'
 
 import { actions } from 'data'
 import { getData } from './selectors'
@@ -43,7 +43,7 @@ class XlmContainer extends Component<PropsType, StateType> {
     showQrCode: false
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.clearShownXlmPrivateKey()
   }
 
@@ -61,7 +61,7 @@ class XlmContainer extends Component<PropsType, StateType> {
     }
   }
 
-  render () {
+  render() {
     const { addressInfo, coin } = this.props
     const checkQrCode = isValid(prop('priv', addressInfo))
 

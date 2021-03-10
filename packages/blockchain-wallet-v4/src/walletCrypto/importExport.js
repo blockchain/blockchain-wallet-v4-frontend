@@ -1,13 +1,14 @@
-import * as WalletCrypto from './utils'
-import Base58 from 'bs58'
 import BigInteger from 'bigi'
 import Bitcoin from 'bitcoinjs-lib'
+import Base58 from 'bs58'
 import scrypt from 'scrypt-js'
 import Unorm from 'unorm'
 
+import * as WalletCrypto from './utils'
+
 const hash256 = Bitcoin.crypto.hash256
 
-export const parseBIP38toECPair = function (
+export const parseBIP38toECPair = function(
   base58Encrypted,
   passphrase,
   network
@@ -66,7 +67,7 @@ export const parseBIP38toECPair = function (
   var decrypted
   var AESopts = { mode: WalletCrypto.AES.ECB, padding: WalletCrypto.NoPadding }
 
-  var verifyHashAndReturn = function () {
+  var verifyHashAndReturn = function() {
     var tmpkey = new Bitcoin.ECPair(decrypted, null, {
       compressed: isCompPoint,
       network: network

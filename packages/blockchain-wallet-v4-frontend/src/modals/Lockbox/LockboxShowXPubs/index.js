@@ -1,15 +1,6 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { keys } from 'ramda'
-import QRCodeWrapper from 'components/QRCode/Wrapper'
 import React from 'react'
-import styled from 'styled-components'
-
-import { actions } from 'data'
-import media from 'services/ResponsiveService'
-import modalEnhancer from 'providers/ModalEnhancer'
-
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 import {
   Banner,
   Button,
@@ -20,6 +11,14 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
+import { keys } from 'ramda'
+import { bindActionCreators, compose } from 'redux'
+import styled from 'styled-components'
+
+import QRCodeWrapper from 'components/QRCode/Wrapper'
+import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+import { media } from 'services/styles'
 import { getData } from './selectors'
 
 const Content = styled.div`

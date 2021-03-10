@@ -1,14 +1,14 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { concat, equals, prop } from 'ramda'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { Icon, Link, Text } from 'blockchain-info-components'
+import { WalletOptionsType } from 'blockchain-wallet-v4/src/types'
+import { concat, equals, prop } from 'ramda'
+import { bindActionCreators, Dispatch } from 'redux'
 import styled, { css } from 'styled-components'
 
 import { actions, model, selectors } from 'data'
-import { Icon, Link, Text } from 'blockchain-info-components'
 import { RootState } from 'data/rootReducer'
-import { WalletOptionsType } from 'core/types'
 
 const Wrapper = styled.div`
   display: flex;

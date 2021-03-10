@@ -1,6 +1,7 @@
-import * as AT from './actionTypes'
-import { assoc, assocPath } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { assoc, assocPath } from 'ramda'
+
+import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   connection: {},
@@ -21,7 +22,7 @@ const INITIAL_STATE = {
 }
 
 export default (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
 
   switch (type) {
     case AT.RESET_CONNECTION_STATUS: {

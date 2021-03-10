@@ -1,4 +1,3 @@
-import * as AT from './actionTypes'
 import {
   CoinType,
   FiatType,
@@ -8,6 +7,7 @@ import {
   SBTransactionType,
   WalletCurrencyType
 } from 'core/types'
+import * as AT from './actionTypes'
 
 export type FetchCustodialOrdersAndTransactionsReturnType = {
   orders: Array<SBOrderType | SBTransactionType | ProcessedSwapOrderType>

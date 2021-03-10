@@ -1,3 +1,5 @@
+import React from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import {
   Button,
   Image,
@@ -5,8 +7,6 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import React from 'react'
 import styled from 'styled-components'
 
 const Body = styled.div`
@@ -44,7 +44,7 @@ const FooterButton = styled(Button)`
   padding: 16px 0;
 `
 
-export const BitPayInvoiceExpired = ({ position, total, close }) => (
+export const BitPayInvoiceExpired = ({ close, position, total }) => (
   <Modal size='small' position={position} total={total}>
     <ModalHeader onClose={close} />
     <Body data-e2e='bitpayInvoiceExpired'>

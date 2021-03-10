@@ -1,10 +1,11 @@
-import * as C from 'services/AlertService'
-import { actions, selectors } from 'data'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { call, put, select } from 'redux-saga/effects'
-import { promptForInput, promptForSecondPassword } from 'services/SagaService'
-import { prop } from 'ramda'
 import { utils } from 'blockchain-wallet-v4/src'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { prop } from 'ramda'
+import { call, put, select } from 'redux-saga/effects'
+
+import { actions, selectors } from 'data'
+import * as C from 'services/alerts'
+import { promptForInput, promptForSecondPassword } from 'services/sagas'
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'components/importBtcAddress/sagas'

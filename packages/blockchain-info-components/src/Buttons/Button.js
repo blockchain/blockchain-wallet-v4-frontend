@@ -1,5 +1,5 @@
-import { darken } from 'polished'
 import React from 'react'
+import { darken } from 'polished'
 import styled from 'styled-components'
 
 const BaseButton = styled.button.attrs(props => ({
@@ -196,8 +196,8 @@ const selectColor = (nature, small) => {
 }
 
 const Button = props => {
-  const { children, nature, disabled, small, ...rest } = props
-  const { color, backgroundColor, borderColor, hoverBorderColor } = selectColor(
+  const { children, disabled, nature, small, ...rest } = props
+  const { backgroundColor, borderColor, color, hoverBorderColor } = selectColor(
     nature,
     small
   )
