@@ -1,12 +1,13 @@
-import * as AT from './actionTypes'
-import { BorrowActionTypes, BorrowMinMaxType } from './types'
 import {
   CoinType,
   LoanTransactionsType,
   LoanType,
   OfferType,
   PaymentValue
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+
+import * as AT from './actionTypes'
+import { BorrowActionTypes, BorrowMinMaxType } from './types'
 
 export const addCollateral = () => ({
   type: AT.ADD_COLLATERAL

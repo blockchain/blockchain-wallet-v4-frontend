@@ -1,7 +1,10 @@
-import { FormattedMessage } from 'react-intl'
 import React, { ReactElement } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Icon } from 'blockchain-info-components'
+import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
 import styled from 'styled-components'
 
+import { SuccessCartridge } from 'components/Cartridge'
 import {
   Content,
   Description,
@@ -10,9 +13,6 @@ import {
   DisplaySubTitle,
   DisplayTitle
 } from 'components/SimpleBuy'
-import { Icon } from 'blockchain-info-components'
-import { SBPaymentMethodType } from 'core/types'
-import { SuccessCartridge } from 'components/Cartridge'
 
 const DisplayTitleBank = styled(DisplayTitle)`
   margin-bottom: 2px;
@@ -43,7 +43,7 @@ type Props = {
   value: SBPaymentMethodType
 }
 
-const BankTransfer = ({ value, onClick, icon }: Props) => (
+const BankTransfer = ({ icon, onClick, value }: Props) => (
   <DisplayContainer
     data-e2e={`sb${value.type.toLowerCase()}LinkBank`}
     role='button'

@@ -1,6 +1,6 @@
 import { actionTypes } from 'redux-form'
-import { cancel, fork, take, takeEvery, takeLatest } from 'redux-saga/effects'
 import { Task } from 'redux-saga'
+import { cancel, fork, take, takeEvery, takeLatest } from 'redux-saga/effects'
 
 import * as AT from './actionTypes'
 import sagas from './sagas'

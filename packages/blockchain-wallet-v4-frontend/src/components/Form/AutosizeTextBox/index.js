@@ -1,7 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
-
 import { AutosizeTextInput, Text } from 'blockchain-info-components'
+import styled from 'styled-components'
 
 const Container = styled.div`
   position: relative;
@@ -18,7 +17,7 @@ const Error = styled(Text)`
   top: ${props => (props.errorBottom ? '40px' : '-20px')};
   right: 0;
 `
-const getErrorState = ({ touched, invalid }) => {
+const getErrorState = ({ invalid, touched }) => {
   return touched && invalid ? 'invalid' : 'initial'
 }
 
@@ -39,7 +38,7 @@ class AutosizeTextBox extends React.Component {
       noLastPass,
       placeholder
     } = this.props
-    const { initial, active, touched, error, warning } = meta
+    const { active, error, initial, touched, warning } = meta
     const errorState = getErrorState(meta)
 
     return (

@@ -1,19 +1,19 @@
+import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { Icon, Text } from 'blockchain-info-components'
 import {
   CoinType,
   RatesType,
   SupportedCoinType,
   SupportedWalletCurrenciesType
-} from 'core/types'
-import { connect, ConnectedProps } from 'react-redux'
+} from 'blockchain-wallet-v4/src/types'
 import { Field } from 'redux-form'
-import { getData } from './selectors'
-import { Icon, Text } from 'blockchain-info-components'
+import styled from 'styled-components'
 
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import React, { PureComponent } from 'react'
 import SelectBox from 'components/Form/SelectBox'
-import styled from 'styled-components'
+import { getData } from './selectors'
 
 const DisplayContainer = styled.div<{
   coinType: SupportedCoinType

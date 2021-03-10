@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 const SettingComponent = styled.div`
   display: flex;

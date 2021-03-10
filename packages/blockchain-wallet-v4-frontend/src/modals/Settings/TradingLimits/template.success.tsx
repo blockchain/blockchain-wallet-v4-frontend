@@ -1,6 +1,15 @@
-import { FormattedMessage } from 'react-intl'
-import { path } from 'ramda'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import {
+  Button,
+  Icon,
+  Image,
+  Text,
+  TextGroup
+} from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { path } from 'ramda'
 import styled from 'styled-components'
 
 import {
@@ -9,20 +18,10 @@ import {
   OrangeCartridge,
   SuccessCartridge
 } from 'components/Cartridge'
-import {
-  Button,
-  Icon,
-  Image,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
-import { fiatToString } from 'core/exchange/currency'
 import { FlyoutWrapper } from 'components/Flyout'
 import { UserTierType } from 'data/types'
-import { WalletFiatType } from 'core/types'
-
-import { ITEMS, TIER_TYPES, TIERS } from './model'
 import { Props as OwnProps, SuccessStateType } from '.'
+import { ITEMS, TIER_TYPES, TIERS } from './model'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -173,7 +172,7 @@ const getTierStatus = (
 }
 
 const Template: React.FC<Props> = props => {
-  const { userTiers, userData, sddEligible } = props
+  const { sddEligible, userData, userTiers } = props
 
   if (!Array.isArray(userTiers)) {
     return null

@@ -1,20 +1,20 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedHTMLMessage } from 'react-intl'
-import PropTypes from 'prop-types'
 import React from 'react'
-import styled from 'styled-components'
-
-import * as Lockbox from 'services/LockboxService'
-import { actions, selectors } from 'data'
+import { FormattedHTMLMessage } from 'react-intl'
+import { connect } from 'react-redux'
 import {
   BlockchainLoader,
   Button,
   Image,
   Text
 } from 'blockchain-info-components'
-import { FAIL_STATUS_TIMEOUT, SUCCESS_STATUS_TIMEOUT } from './model'
 import { Remote } from 'blockchain-wallet-v4/src'
+import PropTypes from 'prop-types'
+import { bindActionCreators } from 'redux'
+import styled from 'styled-components'
+
+import { actions, selectors } from 'data'
+import * as Lockbox from 'services/lockbox'
+import { FAIL_STATUS_TIMEOUT, SUCCESS_STATUS_TIMEOUT } from './model'
 import LockboxAppManager from './template'
 
 const Wrapper = styled.div`

@@ -1,23 +1,24 @@
-import { actions } from '../../data'
-import { bindActionCreators } from 'redux'
-import { compose } from 'ramda'
-import { connect } from 'react-redux'
-import FirstStep from './FirstStep'
 import React from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'ramda'
+import { bindActionCreators } from 'redux'
+
+import wizardProvider from 'providers/WizardProvider'
+import { actions } from '../../data'
+import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 import ThirdStep from './ThirdStep'
-import wizardProvider from 'providers/WizardProvider'
 
 class Reset2FAContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.resetStep()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.formActions.destroy('reset2FA')
   }
 
-  render () {
+  render() {
     const { step, ...rest } = this.props
 
     switch (step) {

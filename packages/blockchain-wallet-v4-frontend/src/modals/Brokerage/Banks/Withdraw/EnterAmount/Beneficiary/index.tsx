@@ -1,12 +1,15 @@
 import React from 'react'
+import { Icon } from 'blockchain-info-components'
+import {
+  BankTransferAccountType,
+  BeneficiaryType
+} from 'blockchain-wallet-v4/src/types'
 import styled from 'styled-components'
 
-import { BankTransferAccountType, BeneficiaryType } from 'core/types'
-import { BeneficiaryIcon, BeneficiaryName } from './model'
 import { Col } from 'components/Flyout'
 import { Content, DisplayPaymentIcon } from 'components/SimpleBuy'
-import { Icon } from 'blockchain-info-components'
 import { Props as OwnProps } from '../template.success'
+import { BeneficiaryIcon, BeneficiaryName } from './model'
 
 const Container = styled.div<{ onClick }>`
   border: 1px solid ${props => props.theme['grey100']};

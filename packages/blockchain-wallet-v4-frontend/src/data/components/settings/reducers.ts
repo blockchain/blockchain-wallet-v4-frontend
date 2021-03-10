@@ -1,6 +1,7 @@
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
+
 import * as AT from './actionTypes'
 import { SettingsActionTypes, SettingsState } from './types'
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: SettingsState = {
   productsEligibility: Remote.NotAsked

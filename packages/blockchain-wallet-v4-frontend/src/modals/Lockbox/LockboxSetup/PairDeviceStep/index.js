@@ -1,9 +1,9 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { equals } from 'ramda'
-import PropTypes from 'prop-types'
 import React from 'react'
+import { connect } from 'react-redux'
 import ReactTooltip from 'react-tooltip'
+import PropTypes from 'prop-types'
+import { equals } from 'ramda'
+import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
 import { OPEN_BTC_TIMEOUT } from './../model'

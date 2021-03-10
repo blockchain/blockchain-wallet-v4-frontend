@@ -1,6 +1,5 @@
-import * as AT from './actionTypes'
 import * as priceChartActionTypes from '../components/priceChart/actionTypes'
-
+import * as AT from './actionTypes'
 import { PreferencesActionTypes, PreferencesState } from './types'
 
 const INITIAL_STATE: PreferencesState = {

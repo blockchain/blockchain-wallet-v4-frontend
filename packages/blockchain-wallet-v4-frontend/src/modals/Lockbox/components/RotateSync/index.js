@@ -1,5 +1,5 @@
-import { Icon } from 'blockchain-info-components'
 import React from 'react'
+import { Icon } from 'blockchain-info-components'
 import styled, { css, keyframes } from 'styled-components'
 
 const rotateFrames = keyframes`

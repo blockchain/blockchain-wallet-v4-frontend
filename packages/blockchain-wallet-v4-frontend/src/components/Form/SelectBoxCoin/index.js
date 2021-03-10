@@ -1,12 +1,12 @@
-import { connect } from 'react-redux'
-import { pathOr } from 'ramda'
 import React from 'react'
+import { connect } from 'react-redux'
+import { Icon, Text } from 'blockchain-info-components'
+import { pathOr } from 'ramda'
 import styled from 'styled-components'
 
-import { getCoins } from './selectors'
-import { Icon, Text } from 'blockchain-info-components'
 import { selectors } from 'data'
 import SelectBox from '../SelectBox'
+import { getCoins } from './selectors'
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -31,7 +31,7 @@ const ItemIcon = styled(Icon)`
 class SelectBoxCoin extends React.PureComponent {
   renderItem = props => {
     const { supportedCoins } = this.props
-    const { value, text, ...rest } = props
+    const { text, value, ...rest } = props
     return (
       <HeaderWrapper {...rest}>
         <ItemIcon
@@ -65,17 +65,22 @@ class SelectBoxCoin extends React.PureComponent {
     )
   }
   render () {
-    const { additionalOptions, coins, supportedCoins, ...rest } = this.props
-    const elements = [
-      {
-        group: '',
-        items: additionalOptions ? [...additionalOptions, ...coins] : coins
-      }
-    ]
+    const {
+      additionalOptions = [],
+      coins,
+      limitTo = [],
+      supportedCoins,
+      ...rest
+    } = this.props
+    const items =
+      limitTo.length > 0
+        ? [...additionalOptions, ...limitTo]
+        : [...additionalOptions, ...coins]
+
     return (
       <SelectBox
         supportedCoins={supportedCoins}
-        elements={elements}
+        elements={[{ group: '', items }]}
         templateDisplay={this.renderDisplay}
         templateItem={this.renderItem}
         zIndex={3}

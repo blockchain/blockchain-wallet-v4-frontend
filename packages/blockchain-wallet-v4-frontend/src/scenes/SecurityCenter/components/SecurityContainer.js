@@ -1,5 +1,6 @@
-import media from 'services/ResponsiveService'
 import styled from 'styled-components'
+
+import { media } from 'services/styles'
 
 const SecurityContainer = styled.div`
   display: grid;

@@ -1,8 +1,7 @@
-import PropTypes from 'prop-types'
 import React from 'react'
-import styled from 'styled-components'
-
 import { HeartbeatLoader, Image } from 'blockchain-info-components'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 import QRReader from '../Reader'
 
@@ -75,7 +74,7 @@ const TooltipBox = styled.div`
 `
 
 const QRCodeCapture = props => {
-  const { border, toggled, handleToggle, handleScan, handleError } = props
+  const { border, handleError, handleScan, handleToggle, toggled } = props
 
   return (
     <Wrapper border={border} onClick={handleToggle}>

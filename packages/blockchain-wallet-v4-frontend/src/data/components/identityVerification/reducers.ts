@@ -1,10 +1,11 @@
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
+
 import * as AT from './actionTypes'
 import { EMAIL_STEPS } from './model'
 import {
   IdentityVerificationActionTypes,
   IdentityVerificationState
 } from './types'
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: IdentityVerificationState = {
   addressRefetchVisible: false,

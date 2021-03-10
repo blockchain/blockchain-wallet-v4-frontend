@@ -1,4 +1,4 @@
-import { RemoteDataType } from 'core/types'
+import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 
 import * as AT from './actionTypes'
 

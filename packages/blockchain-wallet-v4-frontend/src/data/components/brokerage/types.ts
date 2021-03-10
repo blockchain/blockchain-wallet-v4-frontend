@@ -3,7 +3,6 @@ import {
   RemoteDataType,
   WalletFiatType
 } from 'core/types'
-
 import * as AT from './actionTypes'
 
 export type FastLinkType = {

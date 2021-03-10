@@ -1,26 +1,25 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { equals } from 'ramda'
 import React, { PureComponent } from 'react'
-
-import { actions, selectors } from 'data'
+import { connect, ConnectedProps } from 'react-redux'
+import { Remote } from 'blockchain-wallet-v4/src'
 import {
   ExtractSuccess,
   RemoteDataType,
   SBOrderType,
   SupportedWalletCurrenciesType
-} from 'core/types'
-import { Remote } from 'core'
-import { RootState } from 'data/rootReducer'
-import DataError from 'components/DataError'
+} from 'blockchain-wallet-v4/src/types'
+import { equals } from 'ramda'
+import { bindActionCreators, Dispatch } from 'redux'
 
-import { getData } from './selectors'
+import DataError from 'components/DataError'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 import Loading from '../template.loading'
-import Success from './template.success'
+import { getData } from './selectors'
 import SuccessSdd from './template.sdd.success'
+import Success from './template.success'
 
 class OrderSummary extends PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBCards()
       this.props.sendActions.getLockRule()
@@ -44,7 +43,7 @@ class OrderSummary extends PureComponent<Props> {
     this.props.simpleBuyActions.fetchSBCards()
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => {
         return val.userData?.tiers?.current !== 2 ? (

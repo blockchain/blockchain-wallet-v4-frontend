@@ -1,8 +1,8 @@
-import { Icon } from 'blockchain-info-components'
 import React from 'react'
+import { Icon } from 'blockchain-info-components'
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 const Circle = styled.div`
   display: none;

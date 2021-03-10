@@ -1,7 +1,6 @@
-import { actions } from 'data'
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 import {
   Icon,
   Link,
@@ -10,9 +9,11 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import modalEnhancer from 'providers/ModalEnhancer'
-import React from 'react'
+import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
+
+import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 const Group = styled.div`
   margin-bottom: 20px;

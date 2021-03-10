@@ -1,25 +1,24 @@
-import { FormattedMessage } from 'react-intl'
 import React, { ReactElement } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Icon, Image, Text } from 'blockchain-info-components'
+import {
+  SBPaymentMethodsType,
+  SBPaymentMethodType,
+  WalletFiatType
+} from 'blockchain-wallet-v4/src/types'
 import styled from 'styled-components'
 
+import { FlyoutWrapper } from 'components/Flyout'
 import {
   AddBankStepType,
   BankDWStepType,
   BrokerageModalOriginType,
   WithdrawStepEnum
 } from 'data/types'
-import { FlyoutWrapper } from 'components/Flyout'
-import { Icon, Image, Text } from 'blockchain-info-components'
-import {
-  SBPaymentMethodsType,
-  SBPaymentMethodType,
-  WalletFiatType
-} from 'core/types'
-
-import { Props as _P, mapDispatchToProps } from '.'
-import BankTransfer from './BankTransfer'
 // TODO: move to somewhere more generic
 import BankWire from '../../../../SimpleBuy/PaymentMethods/Methods/BankWire'
+import { mapDispatchToProps, Props as _P } from '.'
+import BankTransfer from './BankTransfer'
 
 const Wrapper = styled.section`
   display: flex;
@@ -166,7 +165,7 @@ const Success = ({
 
 type Props = {
   close: () => void
-  fiatCurrency: WalletFiatType,
+  fiatCurrency: WalletFiatType
   paymentMethods: SBPaymentMethodsType
 } & ReturnType<typeof mapDispatchToProps> &
   _P

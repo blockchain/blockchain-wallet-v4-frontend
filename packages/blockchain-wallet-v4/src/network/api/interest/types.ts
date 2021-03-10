@@ -1,15 +1,17 @@
 import { CoinType, FiatType, NabuMoneyFloatType } from 'core/types'
 
+export type InterestBalanceType = {
+  balance: string
+  fiatAmount: string | null
+  locked: string
+  pendingDeposit: string
+  pendingInterest: string
+  pendingWithdrawal: string
+  totalInterest: string
+}
+
 export type InterestAccountBalanceType = {
-  [key in CoinType]?: {
-    balance: string
-    fiatAmount: string | null
-    locked: string
-    pendingDeposit: string
-    pendingInterest: string
-    pendingWithdrawal: string
-    totalInterest: string
-  }
+  [key in CoinType]?: InterestBalanceType
 }
 
 export type InterestEligibleType = {

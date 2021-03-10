@@ -1,13 +1,13 @@
-import { IntlProvider } from 'react-intl'
-import Cookies from 'universal-cookie'
 import React, { PureComponent } from 'react'
+import { IntlProvider } from 'react-intl'
 import styled, { createGlobalStyle } from 'styled-components'
+import Cookies from 'universal-cookie'
 
 import { Color } from '../Colors/index.ts'
 import { Image } from '../Images'
-import { Select } from './Select'
 import Link from '../Navigation/Link'
 import Normalize8 from '../Normalize.js'
+import { Select } from './Select'
 
 const GlobalStyles = createGlobalStyle`
   :root {

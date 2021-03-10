@@ -1,9 +1,9 @@
-import { ExtractSuccess } from 'core/types'
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { lift } from 'ramda'
-import { RootState } from 'data/rootReducer'
 
-import { OwnProps } from '.'
 import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import { OwnProps } from '.'
 
 export const getData = (state: RootState, ownProps: OwnProps) => {
   const priceChangeR = selectors.core.data.misc.getPriceChange(

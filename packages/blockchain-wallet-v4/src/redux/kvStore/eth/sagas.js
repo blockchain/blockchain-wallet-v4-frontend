@@ -1,5 +1,4 @@
-import * as A from './actions'
-import * as eth from '../../../utils/eth'
+import { Map } from 'immutable-ext'
 import {
   assoc,
   filter,
@@ -14,18 +13,20 @@ import {
   prop,
   toLower
 } from 'ramda'
+import { set } from 'ramda-lens'
 import { call, put, select } from 'redux-saga/effects'
+
+import { KVStoreEntry } from '../../../types'
+import * as eth from '../../../utils/eth'
 import { callTask } from '../../../utils/functional'
-import { derivationMap, ETH } from '../config'
+import { getMnemonic } from '../../wallet/selectors'
 import {
   getErc20CoinList,
   getSupportedCoins
 } from '../../walletOptions/selectors'
+import { derivationMap, ETH } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
-import { getMnemonic } from '../../wallet/selectors'
-import { KVStoreEntry } from '../../../types'
-import { Map } from 'immutable-ext'
-import { set } from 'ramda-lens'
+import * as A from './actions'
 
 export default ({ api, networks } = {}) => {
   const deriveAccount = function * (password) {
@@ -62,7 +63,7 @@ export default ({ api, networks } = {}) => {
   }
 
   const createEth = function * ({ kv, password }) {
-    const { defaultIndex, addr } = yield call(deriveAccount, password)
+    const { addr, defaultIndex } = yield call(deriveAccount, password)
     const erc20Entry = yield call(createNewErc20Entry)
     const ethereum = {
       has_seen: true,
@@ -99,7 +100,7 @@ export default ({ api, networks } = {}) => {
   }
 
   const transitionFromLegacy = function * ({ newkv, password }) {
-    const { defaultIndex, addr } = yield call(deriveAccount, password)
+    const { addr, defaultIndex } = yield call(deriveAccount, password)
     const erc20Entry = yield call(createNewErc20Entry)
     const defaultAccount = Map(newkv.value.ethereum.accounts[defaultIndex])
     newkv.value.ethereum.legacy_account = defaultAccount.toJS()

@@ -1,13 +1,13 @@
-import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
 
-import { getData } from './selectors'
 import ArchivedAddresses from './ArchivedAddresses'
 import ImportedAddresses from './ImportedAddresses'
+import { getData } from './selectors'
 import Wallets from './Wallets'
 
 class BtcAddressesContainer extends React.PureComponent<Props> {
-  render () {
+  render() {
     return (
       <React.Fragment>
         <Wallets context={this.props.data} />

@@ -1,7 +1,6 @@
-import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
 import ReactDOM from 'react-dom'
-
+import { BrowserRouter } from 'react-router-dom'
 import { FontGlobalStyles, IconGlobalStyles } from 'blockchain-info-components'
 import App from 'scenes/app.tsx'
 import configureStore from 'store'

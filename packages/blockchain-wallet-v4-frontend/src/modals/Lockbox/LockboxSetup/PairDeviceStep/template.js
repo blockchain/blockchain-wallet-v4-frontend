@@ -1,8 +1,5 @@
-import { Field, reduxForm } from 'redux-form'
-import { FormattedHTMLMessage } from 'react-intl'
 import React from 'react'
-import styled from 'styled-components'
-
+import { FormattedHTMLMessage } from 'react-intl'
 import {
   Button,
   Image,
@@ -12,8 +9,11 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { CheckBox, Form, FormGroup, FormItem } from 'components/Form'
-import { required } from 'services/FormHelper'
+import { required } from 'services/forms'
 
 const Wrapper = styled.div`
   display: flex;
@@ -68,8 +68,8 @@ const PairDeviceStep = props => {
     btcOpenTimeout,
     deviceType,
     invalid,
-    onTimeoutAccept,
     onGoToAppManager,
+    onTimeoutAccept,
     showBtcWarning,
     supportLink
   } = props

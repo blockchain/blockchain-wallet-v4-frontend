@@ -1,21 +1,16 @@
-import { Form } from 'redux-form'
 import { Text } from 'blockchain-info-components'
+import { Form } from 'redux-form'
 import styled, { DefaultTheme } from 'styled-components'
 
-import { FlyoutWrapper } from 'components/Flyout'
 import { SuccessCartridge } from 'components/Cartridge'
 
 export const Border = styled.div`
   border-top: 1px solid ${props => props.theme.grey000};
 `
+
 export const FreeCartridge = styled(SuccessCartridge)`
   font-size: 12px;
   margin-top: 8px;
-`
-export const StickyTopFlyoutWrapper = styled(FlyoutWrapper)`
-  background-color: ${props => props.theme.white};
-  position: sticky;
-  top: 0;
 `
 
 export const TopText = styled(Text)<{
@@ -28,9 +23,11 @@ export const TopText = styled(Text)<{
     props.spaceBetween ? 'space-between' : 'initial'};
   margin-bottom: ${props => (props.marginBottom ? '16px' : '0px')};
 `
+
 export const StyledForm = styled(Form)<{ marginTop?: boolean }>`
   margin-top: ${props => (props.marginTop ? '36px' : '0px')};
 `
+
 export const Option = styled.div`
   display: flex;
   align-items: center;
@@ -45,6 +42,7 @@ export const Option = styled.div`
     border-top: 0;
   }
 `
+
 // probably dont want to reuse
 export const CustomOption = styled(Option)`
   border-top: 0px;
@@ -64,6 +62,7 @@ export const OptionTitle = styled(Text)`
   font-weight: 600;
   max-width: 200px;
 `
+
 export const OptionValue = styled(Text)<{
   color?: keyof DefaultTheme
   weight?: number
@@ -73,10 +72,12 @@ export const OptionValue = styled(Text)<{
   font-weight: ${props => (props.weight ? props.weight : 600)};
   font-size: 14px;
 `
+
 export const BalanceRow = styled.div`
   display: flex;
   align-items: center;
 `
+
 export const IconBackground = styled.div<{ position?: string; size: string }>`
   position: ${props => props.position};
   left: 67px;
@@ -101,16 +102,4 @@ export const FlexStartRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-`
-
-export const CircleBorder = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 24px;
-  height: 24px;
-  background-color: white;
-  border: 1px solid ${props => props.theme.grey300};
-  border-radius: 24px;
-  margin-left: 18px;
 `

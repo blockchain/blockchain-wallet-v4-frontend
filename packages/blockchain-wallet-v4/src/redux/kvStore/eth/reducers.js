@@ -1,14 +1,15 @@
-import * as AT from './actionTypes'
 import { assocPath, compose, toLower } from 'ramda'
-import { KVStoreEntry } from '../../../types'
 import { mapped, over, set } from 'ramda-lens'
+
 import Remote from '../../../remote'
+import { KVStoreEntry } from '../../../types'
+import * as AT from './actionTypes'
 
 // initial state should be a kvstore object
 const INITIAL_STATE = Remote.NotAsked
 
 export default (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
   switch (type) {
     case AT.UPDATE_METADATA_ETH: {
       return set(compose(mapped, KVStoreEntry.value), payload, state)

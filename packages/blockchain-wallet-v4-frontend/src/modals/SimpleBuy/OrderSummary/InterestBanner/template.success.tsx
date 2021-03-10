@@ -1,20 +1,19 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
-
+import { FormattedMessage } from 'react-intl'
 import { Button, Text } from 'blockchain-info-components'
+
 import { CustomBoxRightOriented } from 'components/Layout'
 import { model } from 'data'
-
 import { Props as OwnProps, SuccessStateType } from './index'
 
 type Props = OwnProps & SuccessStateType
 
 const InterestBanner: React.FC<Props> = ({
-  supportedCoins,
-  interestRate,
   afterTransaction,
+  analyticsActions,
   interestActions,
-  analyticsActions
+  interestRate,
+  supportedCoins
 }) => {
   const { amount, currency } = afterTransaction
   const { displayName } = supportedCoins[currency]

@@ -1,8 +1,9 @@
-import { actions } from 'data'
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
-import modalEnhancer from 'providers/ModalEnhancer'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+
+import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
 import ShowBtcPrivateKeyTemplate from './template'
 
 const formats = [

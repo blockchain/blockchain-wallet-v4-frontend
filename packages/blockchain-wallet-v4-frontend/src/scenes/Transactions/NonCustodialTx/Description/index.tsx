@@ -1,6 +1,6 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
 import EditDescription from './template'
@@ -22,7 +22,7 @@ class EditDescriptionContainer extends React.PureComponent<Props> {
     })
   }
 
-  render () {
+  render() {
     const { newDescription } = this.state
 
     return (

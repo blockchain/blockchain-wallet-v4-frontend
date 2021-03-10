@@ -1,11 +1,14 @@
-import { IconButton } from 'blockchain-info-components'
-import { OwnProps, State } from '.'
-import CopyToClipBoard from 'react-copy-to-clipboard'
 import React from 'react'
+import CopyToClipBoard from 'react-copy-to-clipboard'
+import { IconButton } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { OwnProps, State } from '.'
 
 interface CopyButtonProps {
   active: boolean
+  color?: string
+  size?: string
 }
 
 const CopyButton = styled(IconButton)<CopyButtonProps>`
@@ -21,9 +24,13 @@ const CopyButton = styled(IconButton)<CopyButtonProps>`
   > span {
     margin-top: ${props => (props.active ? '-2px' : '-5px;')};
     margin-right: 0 !important;
-    font-size: ${props => (props.active ? '18px' : '20px')};
+    font-size: ${props => (props.active ? '18px' : props.size || '20px')};
     color: ${props =>
-      props.active ? props.theme['success'] : props.theme.grey400};
+      props.active
+        ? props.theme['success']
+        : props.color
+        ? props.theme[props.color]
+        : props.theme.grey400};
   }
 `
 
@@ -33,15 +40,16 @@ type CopyClipboardProps = OwnProps['alertActions'] &
   }
 
 const CopyClipboard = (props: CopyClipboardProps) => {
-  const { active, address, handleClick } = props
+  const { active, color, handleClick, size, textToCopy } = props
 
   return (
-    <CopyToClipBoard text={address} onCopy={handleClick}>
+    <CopyToClipBoard text={textToCopy} onCopy={handleClick}>
       <CopyButton
         active={active}
-        name={active ? 'check' : 'copy-clipboard'}
-        color='grey100'
+        color={color}
         data-e2e='copyClipboardCopyButton'
+        name={active ? 'check' : 'copy-clipboard'}
+        size={size}
       />
     </CopyToClipBoard>
   )

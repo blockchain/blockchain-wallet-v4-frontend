@@ -1,7 +1,7 @@
-import { IconButton } from 'blockchain-info-components'
-import CopyToClipBoard from 'react-copy-to-clipboard'
-import PropTypes from 'prop-types'
 import React from 'react'
+import CopyToClipBoard from 'react-copy-to-clipboard'
+import { IconButton } from 'blockchain-info-components'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`

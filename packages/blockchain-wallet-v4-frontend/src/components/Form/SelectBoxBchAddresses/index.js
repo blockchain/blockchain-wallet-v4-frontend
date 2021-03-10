@@ -1,7 +1,8 @@
-import { connect } from 'react-redux'
-import { getData } from './selectors'
-import PropTypes from 'prop-types'
 import React from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+
+import { getData } from './selectors'
 import SelectBoxBCH from './template'
 
 class SelectBoxBchAddresses extends React.PureComponent {

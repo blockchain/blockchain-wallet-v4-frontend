@@ -1,22 +1,18 @@
+import { Remote } from 'blockchain-wallet-v4/src'
 import { assoc, find, is, prop, propEq } from 'ramda'
-import { call, delay, fork, put, select, take } from 'redux-saga/effects'
+import { call, delay, fork, put, race, select, take } from 'redux-saga/effects'
 
-import * as C from 'services/AlertService'
-import * as CC from 'services/ConfirmService'
 import { actions, actionTypes, selectors } from 'data'
+import * as C from 'services/alerts'
+import { checkForVulnerableAddressError } from 'services/misc'
 import {
   askSecondPasswordEnhancer,
   confirm,
-  forceSyncWallet,
   promptForSecondPassword
-} from 'services/SagaService'
-import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
-import { Remote } from 'blockchain-wallet-v4/src'
-
+} from 'services/sagas'
 import { guessCurrencyBasedOnCountry } from './helpers'
 
 export const logLocation = 'auth/sagas'
-
 export const defaultLoginErrorMessage = 'Error logging into your wallet'
 // TODO: make this a global error constant
 export const wrongWalletPassErrorMessage = 'wrong_wallet_password'
@@ -29,6 +25,17 @@ export const wrongCaptcha2faErrorMessage = 'Error: Captcha Code Incorrect'
 export const wrongAuthCodeErrorMessage = 'Authentication code is incorrect'
 
 export default ({ api, coreSagas }) => {
+  const forceSyncWallet = function * () {
+    yield put(actions.core.walletSync.forceSync())
+    const { error } = yield race({
+      success: take(actionTypes.core.walletSync.SYNC_SUCCESS),
+      error: take(actionTypes.core.walletSync.SYNC_ERROR)
+    })
+    if (error) {
+      throw new Error('Sync failed')
+    }
+  }
+
   const upgradeWallet = function * () {
     try {
       let password = yield call(promptForSecondPassword)
@@ -188,10 +195,10 @@ export default ({ api, coreSagas }) => {
     if (vulnerableAddress) {
       yield put(actions.modals.closeAllModals())
       const confirmed = yield call(confirm, {
-        title: CC.ARCHIVE_VULNERABLE_ADDRESS_TITLE,
-        message: CC.ARCHIVE_VULNERABLE_ADDRESS_MSG,
-        confirm: CC.ARCHIVE_VULNERABLE_ADDRESS_CONFIRM,
-        cancel: CC.ARCHIVE_VULNERABLE_ADDRESS_CANCEL,
+        title: C.ARCHIVE_VULNERABLE_ADDRESS_TITLE,
+        message: C.ARCHIVE_VULNERABLE_ADDRESS_MSG,
+        confirm: C.ARCHIVE_VULNERABLE_ADDRESS_CONFIRM,
+        cancel: C.ARCHIVE_VULNERABLE_ADDRESS_CANCEL,
         messageValues: { vulnerableAddress }
       })
       if (confirmed)
@@ -253,7 +260,7 @@ export default ({ api, coreSagas }) => {
   }
 
   const login = function * (action) {
-    let { guid, sharedKey, password, code, mobileLogin } = action.payload
+    let { code, guid, mobileLogin, password, sharedKey } = action.payload
     let session = yield select(selectors.session.getSession, guid)
     try {
       if (!session) {
@@ -363,7 +370,7 @@ export default ({ api, coreSagas }) => {
   const mobileLogin = function * (action) {
     try {
       yield put(actions.auth.mobileLoginStarted())
-      const { guid, sharedKey, password } = yield call(
+      const { guid, password, sharedKey } = yield call(
         coreSagas.settings.decodePairingCode,
         action.payload
       )
@@ -508,7 +515,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const setLogoutEventListener = function () {
+  const setLogoutEventListener = function() {
     return new Promise(resolve => {
       window.addEventListener('wallet.core.logout', resolve)
     })

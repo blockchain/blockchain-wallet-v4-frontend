@@ -1,8 +1,8 @@
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { Link, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
-import { Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 
 const TermsContainer = styled.div`

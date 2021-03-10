@@ -1,6 +1,5 @@
-import { actions } from 'data'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { BorrowMinMaxType } from 'data/types'
+import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import {
   CoinType,
   LoanType,
@@ -9,12 +8,14 @@ import {
   RatesType,
   RemoteDataType,
   SupportedWalletCurrenciesType
-} from 'core/types'
-import { connect } from 'react-redux'
-import { getData } from './selectors'
+} from 'blockchain-wallet-v4/src/types'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+
 import DataError from 'components/DataError'
+import { actions } from 'data'
+import { BorrowMinMaxType } from 'data/types'
+import { getData } from './selectors'
 import Loading from './template.loading'
-import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 export type OwnProps = {

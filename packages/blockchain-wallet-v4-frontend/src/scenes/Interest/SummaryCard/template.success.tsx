@@ -1,8 +1,5 @@
-import { FormattedMessage } from 'react-intl'
 import React, { ReactElement } from 'react'
-import styled from 'styled-components'
-
-import { Box } from 'components/Box'
+import { FormattedMessage } from 'react-intl'
 import {
   Button,
   Icon,
@@ -10,9 +7,11 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import FiatDisplay from 'components/Display/FiatDisplay'
+import styled from 'styled-components'
 
+import { Box } from 'components/Box'
+import FiatDisplay from 'components/Display/FiatDisplay'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const DepositBox = styled(Box)`
@@ -44,7 +43,7 @@ const Separator = styled.div`
   border: solid 1px ${props => props.theme.grey000};
 `
 
-function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
+function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
   const {
     coin,
     interestAccountBalance,

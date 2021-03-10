@@ -1,6 +1,6 @@
+import React from 'react'
 import blockChainLogo from 'blockchain-info-components/src/Images/img/qr-logo.svg'
 import QRCodeReact from 'qrcode.react'
-import React from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -22,7 +22,7 @@ const imageSettings = {
 }
 
 const QRCodeWrapper = (props: Props) => {
-  const { value, size, showImage } = props
+  const { showImage, size, value } = props
 
   return (
     <Wrapper>

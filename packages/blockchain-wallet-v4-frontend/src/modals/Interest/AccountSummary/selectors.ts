@@ -1,6 +1,10 @@
+import {
+  ExtractSuccess,
+  FiatType,
+  SupportedWalletCurrenciesType
+} from 'blockchain-wallet-v4/src/types'
 import { lift } from 'ramda'
 
-import { ExtractSuccess, SupportedWalletCurrenciesType } from 'core/types'
 import { selectors } from 'data'
 
 export const getCurrency = state => {

@@ -1,9 +1,10 @@
-import { AirdropInfoButton, AirdropInfoCopy, AirdropInfoHeader } from './model'
-import { Box } from 'components/Box'
-import { Icon } from 'blockchain-info-components'
-import { Props } from '../template.success'
 import React from 'react'
+import { Icon } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { Box } from 'components/Box'
+import { Props } from '../template.success'
+import { AirdropInfoButton, AirdropInfoCopy, AirdropInfoHeader } from './model'
 
 const Footer = styled.div`
   margin-top: 16px;

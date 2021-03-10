@@ -1,7 +1,7 @@
 import { Button, Icon, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 import Navbar from './Navbar'
 import NavbarBrand from './NavbarBrand'
 import NavbarHeader from './NavbarHeader'

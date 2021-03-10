@@ -1,4 +1,6 @@
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { InterestAccountBalanceType } from 'blockchain-wallet-v4/src/types'
 import {
   assoc,
   assocPath,
@@ -24,10 +26,9 @@ import {
   set,
   sort
 } from 'ramda'
-import { collapse } from 'utils/helpers'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { InterestAccountBalanceType } from 'core/types'
+
 import { selectors } from 'data'
+import { collapse } from 'utils/helpers'
 
 const allWallets = {
   label: 'All',

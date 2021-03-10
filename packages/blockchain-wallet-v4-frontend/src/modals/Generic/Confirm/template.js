@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   Button,
   Image,
@@ -7,16 +8,16 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import { Form } from 'components/Form'
 import { reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
+import { Form } from 'components/Form'
 import {
   selectCancel,
   selectConfirm,
   selectMessage,
   selectTitle
 } from './helpers'
-import React from 'react'
-import styled from 'styled-components'
 
 const Wrapper = styled.div`
   font-weight: 400;
@@ -35,18 +36,18 @@ const ModalImage = styled(Image)`
 `
 
 const ConfirmTemplate = ({
-  position,
-  total,
+  cancel,
   close,
   confirm,
-  cancel,
-  title,
-  image,
+  handleSubmit,
   hideCancel,
-  nature,
+  image,
   message,
   messageValues,
-  handleSubmit
+  nature,
+  position,
+  title,
+  total
 }) => (
   <Modal size='medium' position={position} total={total}>
     <Form onSubmit={handleSubmit}>

@@ -1,14 +1,14 @@
+import { SBOrderType } from 'blockchain-wallet-v4/src/types'
 import { anyPass, equals } from 'ramda'
+
 import { model, selectors } from 'data'
-import { SBOrderType } from 'core/types'
 import { UserDataType } from 'data/types'
 
-const { GENERAL, EXPIRED } = model.profile.DOC_RESUBMISSION_REASONS
+const { EXPIRED, GENERAL } = model.profile.DOC_RESUBMISSION_REASONS
 export type BannerType =
   | 'resubmit'
   | 'sbOrder'
   | 'finishKyc'
-  | 'coinifyToSb'
   | 'newCurrency'
   | 'buyCrypto'
   | 'continueToGold'

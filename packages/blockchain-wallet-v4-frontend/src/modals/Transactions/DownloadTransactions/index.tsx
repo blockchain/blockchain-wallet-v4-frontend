@@ -1,17 +1,18 @@
-import { compose, Dispatch } from 'redux'
-import { connect } from 'react-redux'
 import React, { Component } from 'react'
-
+import { connect } from 'react-redux'
+import { CoinType, SupportedCoinType } from 'blockchain-wallet-v4/src/types'
+import locale from 'browser-locale'
 import * as moment from 'moment'
-import { actions, selectors } from 'data'
 import { prop, toLower } from 'ramda'
-import modalEnhancer from 'providers/ModalEnhancer'
-import momentHelper from 'services/MomentHelper'
+import { compose, Dispatch } from 'redux'
 
-import { CoinType, SupportedCoinType } from 'core/types'
-import { getData } from './selectors'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import modalEnhancer from 'providers/ModalEnhancer'
+import { getData } from './selectors'
 import DownloadTransactions from './template'
+
+moment.locale(locale())
 
 export type StateProps = {
   filename: string
@@ -46,18 +47,20 @@ type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 class DownloadTransactionsModal extends Component<Props, StateProps> {
   state: StateProps = { filename: '', generating: false }
 
-  componentDidMount () {
+  componentDidMount() {
     const { initForm } = this.props
     initForm({
       from: 'all',
-      start: momentHelper()
+      // @ts-ignore
+      start: moment()
         .startOf('day')
         .subtract(7, 'day'),
-      end: momentHelper().endOf('day')
+      // @ts-ignore
+      end: moment().endOf('day')
     })
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.clearTransactions()
   }
 
@@ -74,8 +77,8 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
     fetchTransactions(address, startDate, endDate)
   }
 
-  render () {
-    const { props, onFetchHistory, state } = this
+  render() {
+    const { onFetchHistory, props, state } = this
     const { filename, generating } = state
     const { closeAll, coin, csvData, position, total } = props
 

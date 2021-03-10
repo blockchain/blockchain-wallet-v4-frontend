@@ -1,4 +1,5 @@
 import { fork } from 'redux-saga/effects'
+
 import addressesBch from './addressesBch/sagaRegister'
 import profile from './profile/sagaRegister'
 import rates from './rates/sagaRegister'

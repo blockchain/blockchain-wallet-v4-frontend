@@ -1,25 +1,24 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { formValueSelector } from 'redux-form'
 import React from 'react'
+import { connect } from 'react-redux'
+import { SpinningLoader } from 'blockchain-info-components'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
 import { actions, selectors } from 'data'
-import { SpinningLoader } from 'blockchain-info-components'
-
 import Recover from './template'
 
 class RecoverContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     const { authActions, mnemonic } = this.props
     authActions.restoreFromMetadata(mnemonic)
   }
 
   onSubmit = () => {
-    const { authActions, mnemonic, email, password, language } = this.props
+    const { authActions, email, language, mnemonic, password } = this.props
     authActions.restore(mnemonic, email, password, language)
   }
 
-  render () {
+  render() {
     const { metadataRestore, password, previousStep, registering } = this.props
 
     const isRegistering = registering.cata({

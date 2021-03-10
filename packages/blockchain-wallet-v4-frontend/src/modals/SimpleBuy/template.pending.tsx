@@ -1,14 +1,14 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import {
   BlockchainLoader,
   Button,
   Icon,
   Text
 } from 'blockchain-info-components'
-import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
-
-import React from 'react'
 import styled from 'styled-components'
+
+import { FlyoutWrapper } from 'components/Flyout'
 
 const Top = styled(FlyoutWrapper)`
   padding-bottom: 0px;

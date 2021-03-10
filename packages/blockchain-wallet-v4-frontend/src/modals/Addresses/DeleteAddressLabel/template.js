@@ -1,7 +1,5 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
-import styled from 'styled-components'
-
+import { FormattedMessage } from 'react-intl'
 import {
   Button,
   Icon,
@@ -13,6 +11,7 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
+import styled from 'styled-components'
 
 const TitleGroup = styled(TextGroup)`
   display: flex;
@@ -22,7 +21,7 @@ const TitleGroup = styled(TextGroup)`
 `
 
 const DeleteAdresssLabel = props => {
-  const { onDeleteConfirm, close } = props
+  const { close, onDeleteConfirm } = props
 
   return (
     <Modal size='large'>

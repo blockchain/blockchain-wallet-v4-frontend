@@ -1,15 +1,15 @@
-import { connect } from 'react-redux'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { path } from 'ramda'
 import React from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { Button, Image, Modal, Text } from 'blockchain-info-components'
+import { path } from 'ramda'
 import styled from 'styled-components'
 
-import { actions } from 'data'
-import { Button, Image, Modal, Text } from 'blockchain-info-components'
-import { getData } from './selectors'
-import { headers } from 'components/IdentityVerification/TierCard/services'
 import { TIERS } from 'components/IdentityVerification/TierCard/model'
+import { headers } from 'components/IdentityVerification/TierCard/services'
+import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+import { getData } from './selectors'
 
 const Body = styled.div`
   display: flex;
@@ -55,11 +55,11 @@ class KycTierUpgrade extends React.PureComponent {
 
   render () {
     const {
-      position,
-      total,
       amountLeft,
       nextTier,
       nextTierAmount,
+      position,
+      total,
       upgrade
     } = this.props
 

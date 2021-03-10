@@ -1,10 +1,9 @@
-import { ExtractSuccess } from 'core/types'
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { lift } from 'ramda'
 
-import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
-
+import { RootState } from 'data/rootReducer'
 import { OwnProps } from '.'
 
 export const getData = (state: RootState, ownProps: OwnProps) => {

@@ -1,8 +1,9 @@
-import * as wallet from '../../wallet/selectors'
 import { concat, curry, path } from 'ramda'
+
 import { createDeepEqualSelector } from '../../../utils'
-import { dataPath } from '../../paths'
 import { getLockboxBtcContext } from '../../kvStore/lockbox/selectors'
+import { dataPath } from '../../paths'
+import * as wallet from '../../wallet/selectors'
 
 export const getContext = createDeepEqualSelector(
   [wallet.getContext, getLockboxBtcContext],

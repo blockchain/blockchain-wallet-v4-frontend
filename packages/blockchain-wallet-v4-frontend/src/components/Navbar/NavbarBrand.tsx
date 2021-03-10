@@ -1,6 +1,7 @@
-import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
+
+import { media } from 'services/styles'
 
 const BaseBrand = styled.div`
   display: flex;

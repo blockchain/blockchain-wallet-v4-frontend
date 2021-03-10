@@ -1,3 +1,5 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import {
   Button,
   Modal,
@@ -6,6 +8,8 @@ import {
   ModalHeader
 } from 'blockchain-info-components'
 import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Form,
   FormGroup,
@@ -13,10 +17,7 @@ import {
   PasswordBox,
   TextBox
 } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
-import { required } from 'services/FormHelper'
-import React from 'react'
-import styled from 'styled-components'
+import { required } from 'services/forms'
 
 const Wrapper = styled.div`
   font-weight: 400;
@@ -26,17 +27,17 @@ const Wrapper = styled.div`
 `
 
 const PromptTemplate = ({
-  position,
-  total,
   closeAll,
-  submitting,
-  invalid,
-  title,
-  secret,
   handleSubmit,
+  invalid,
   maxLength,
-  validations,
-  pristine
+  position,
+  pristine,
+  secret,
+  submitting,
+  title,
+  total,
+  validations
 }) => {
   return (
     <Modal size='large' position={position} total={total}>

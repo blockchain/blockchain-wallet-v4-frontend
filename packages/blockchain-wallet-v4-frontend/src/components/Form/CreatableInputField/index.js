@@ -1,5 +1,5 @@
-import { CreatableInput } from 'blockchain-info-components'
 import React from 'react'
+import { CreatableInput } from 'blockchain-info-components'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -22,8 +22,8 @@ const Error = styled.label`
 `
 
 const CreatableInputField = props => {
-  const { input, meta, hideErrors, errorBottom, ...rest } = props
-  const { touched, invalid, error, pristine } = meta
+  const { errorBottom, hideErrors, input, meta, ...rest } = props
+  const { error, invalid, pristine, touched } = meta
   const errorState = touched && invalid ? 'invalid' : 'initial'
 
   return (

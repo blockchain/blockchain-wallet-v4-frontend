@@ -1,9 +1,9 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from 'data'
 import { Wrapper } from 'components/Public'
+import { actions, selectors } from 'data'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
@@ -22,7 +22,7 @@ class VerifyEmailToken extends React.PureComponent {
     context: new URLSearchParams(this.props.location.search).get('context')
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.miscActions.verifyEmailToken(this.state.token)
   }
 
@@ -52,7 +52,7 @@ class VerifyEmailToken extends React.PureComponent {
     return `${link}?${params}`
   }
 
-  render () {
+  render() {
     const { data } = this.props
 
     let VerifyEmailStatus = data.cata({

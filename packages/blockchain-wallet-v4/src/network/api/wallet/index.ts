@@ -1,6 +1,6 @@
 import { merge } from 'ramda'
 
-export default ({ rootUrl, get, post }) => {
+export default ({ get, post, rootUrl }) => {
   const fetchPayloadWithSharedKey = (guid, sharedKey) =>
     post({
       url: rootUrl,

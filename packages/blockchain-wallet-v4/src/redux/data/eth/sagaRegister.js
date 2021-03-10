@@ -1,11 +1,12 @@
-import * as AT from './actionTypes'
 import { fork, takeEvery, takeLatest } from 'redux-saga/effects'
+
+import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default ({ api }) => {
   const dataEthSagas = sagas({ api })
 
-  return function * coreDataEthSaga () {
+  return function * coreDataEthSaga() {
     yield fork(dataEthSagas.watchTransactions)
     yield fork(dataEthSagas.watchErc20Transactions)
     yield takeLatest(AT.FETCH_ETH_DATA, dataEthSagas.fetchData)
