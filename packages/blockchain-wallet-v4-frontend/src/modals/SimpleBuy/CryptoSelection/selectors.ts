@@ -12,7 +12,6 @@ export const getData = state => {
   const formValues = selectors.form.getFormValues('simpleBuyCheckout')(
     state
   ) as SBCheckoutFormValuesType
-  const invitationsR = selectors.core.settings.getInvitations(state)
   const emailVerifiedR = selectors.core.settings.getEmailVerified(state)
   const sbOrdersR = selectors.components.simpleBuy.getSBOrders(state)
   const sddEligibleR = selectors.components.simpleBuy.getSddEligible(state)
@@ -30,7 +29,6 @@ export const getData = state => {
       coins: ExtractSuccess<typeof coinsR>,
       eligibility: ExtractSuccess<typeof eligibilityR>,
       emailVerified: ExtractSuccess<typeof emailVerifiedR>,
-      invitations: ExtractSuccess<typeof invitationsR>,
       pairs: ExtractSuccess<typeof pairsR>,
       userData: ExtractSuccess<typeof userDataR>,
       sbOrders: ExtractSuccess<typeof sbOrdersR>,
@@ -44,7 +42,6 @@ export const getData = state => {
       coins,
       eligibility,
       emailVerified,
-      invitations,
       pairs,
       userData,
       sbOrders,
@@ -55,7 +52,6 @@ export const getData = state => {
     coinsR,
     eligibilityR,
     emailVerifiedR,
-    invitationsR,
     pairsR,
     userDataR,
     sbOrdersR,
