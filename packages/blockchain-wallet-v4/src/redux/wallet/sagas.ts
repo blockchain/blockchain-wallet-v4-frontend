@@ -184,7 +184,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const restoreWalletCredentials = function * (mnemonic) {
+  const restoreWalletCredentialsFromMetadata = function * (mnemonic) {
     const seedHex = BIP39.mnemonicToEntropy(mnemonic)
     const getMetadataNode = compose(
       KVStoreEntry.deriveMetadataNode,
@@ -200,22 +200,19 @@ export default ({ api, networks }) => {
     return newkv.value
   }
 
-  const restoreWalletFromMetadata = function * (creds, newPassword) {
-    if (!creds) {
-      return false
-    }
-
+  const restoreWalletFromMetadata = function * (kvCredentials, newPassword) {
     try {
       // Let's update the password and upload the new encrypted payload
       const wallet = yield call(
         api.fetchWalletWithSharedKey,
-        creds.guid,
-        creds.sharedKey,
-        creds.password
+        kvCredentials.guid,
+        kvCredentials.sharedKey,
+        kvCredentials.password
       )
       const wrapperT = set(Wrapper.password, newPassword, wallet)
       try {
         yield call(api.saveWallet, wrapperT)
+        return true
       } catch (e) {
         throw e
       }
@@ -226,10 +223,23 @@ export default ({ api, networks }) => {
     }
   }
 
-  const restoreWalletSaga = function * ({ mnemonic, email, password, language }) {
-    // TODO check wallet credentials after FirstStep in recovery flow to bypass the email field
-    const creds = yield call(restoreWalletCredentials, mnemonic)
-    const recovered = yield call(restoreWalletFromMetadata, creds, password)
+  const restoreWalletSaga = function * ({
+    email,
+    kvCredentials,
+    language,
+    mnemonic,
+    password
+  }) {
+    let recoveredFromMetadata
+
+    // if we have retrieved credentials from metadata, use them to restore wallet
+    if (kvCredentials) {
+      recoveredFromMetadata = yield call(
+        restoreWalletFromMetadata,
+        kvCredentials,
+        password
+      )
+    }
 
     const seed = BIP39.mnemonicToSeed(mnemonic)
     const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, networks.btc)
@@ -239,11 +249,17 @@ export default ({ api, networks }) => {
       node: node,
       usedAccounts: []
     })
+
+    // generate new guid
     let [guid, sharedKey] = yield call(api.generateUUIDs, 2)
-    if (recovered) {
-      guid = creds.guid
-      sharedKey = creds.sharedKey
+
+    // use previously recovered guid and sharedKey from metadata for new wrapper if available
+    if (recoveredFromMetadata) {
+      guid = kvCredentials.guid
+      sharedKey = kvCredentials.sharedKey
     }
+
+    // create new wallet wrapper
     const wrapper = Wrapper.createNew(
       guid,
       password,
@@ -253,7 +269,9 @@ export default ({ api, networks }) => {
       undefined,
       nAccounts
     )
-    if (!recovered) {
+
+    // create new wallet if it wasn't recovered from metadata
+    if (!recoveredFromMetadata) {
       yield call(api.createWallet, email, wrapper)
     }
     yield put(A.wallet.refreshWrapper(wrapper))
@@ -323,18 +341,19 @@ export default ({ api, networks }) => {
   }
 
   return {
-    toggleSecondPassword,
     createWalletSaga,
-    restoreWalletSaga,
+    fetchWalletSaga,
     importLegacyAddress,
     newHDAccount,
-    updatePbkdf2Iterations,
-    remindWalletGuidSaga,
-    fetchWalletSaga,
-    upgradeToHd,
-    resetWallet2fa,
     refetchContextData,
+    remindWalletGuidSaga,
+    resetWallet2fa,
     resendSmsLoginCode,
-    setHDAddressLabel
+    restoreWalletCredentialsFromMetadata,
+    restoreWalletSaga,
+    setHDAddressLabel,
+    toggleSecondPassword,
+    updatePbkdf2Iterations,
+    upgradeToHd
   }
 }
