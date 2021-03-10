@@ -8,6 +8,7 @@ const INITIAL_STATE = {
   isLoggingIn: false,
   isAuthenticated: false,
   firstLogin: false,
+  metadataRestore: Remote.NotAsked,
   mobileLoginStarted: false,
   login: Remote.NotAsked,
   reset_2fa: Remote.NotAsked,
@@ -107,6 +108,15 @@ const auth = (state = INITIAL_STATE, action) => {
         ...state,
         registerEmail: email
       }
+    }
+    case AT.RESTORE_FROM_METADATA_LOADING: {
+      return assoc('metadataRestore', Remote.Loading, state)
+    }
+    case AT.RESTORE_FROM_METADATA_SUCCESS: {
+      return assoc('metadataRestore', Remote.Success(payload), state)
+    }
+    case AT.RESTORE_FROM_METADATA_FAILURE: {
+      return assoc('metadataRestore', Remote.Failure(payload), state)
     }
     default:
       return state

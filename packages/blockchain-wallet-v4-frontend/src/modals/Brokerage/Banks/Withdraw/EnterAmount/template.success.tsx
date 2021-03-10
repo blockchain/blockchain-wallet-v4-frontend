@@ -324,13 +324,20 @@ const Success: React.FC<InjectedFormProps<
         <ToContainer>
           <Beneficiary
             {...props}
-            transferAccount={transferAccount}
-            beneficiary={beneficiary}
+            transferAccount={transferAccount || undefined}
+            beneficiary={
+              !transferAccount && beneficiary ? beneficiary : undefined
+            }
           />
         </ToContainer>
+
         <ActionContainer>
           <Button
-            disabled={props.invalid || !beneficiary || !userCanWithdraw}
+            disabled={
+              props.invalid ||
+              !userCanWithdraw ||
+              (!beneficiary && !transferAccount)
+            }
             data-e2e='withdrawNext'
             type='submit'
             nature='primary'

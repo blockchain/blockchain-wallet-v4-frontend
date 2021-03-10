@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { compose } from 'ramda'
 import { bindActionCreators } from 'redux'
 
+import { actions } from 'data'
 import wizardProvider from 'providers/WizardProvider'
-import { actions } from '../../data'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 

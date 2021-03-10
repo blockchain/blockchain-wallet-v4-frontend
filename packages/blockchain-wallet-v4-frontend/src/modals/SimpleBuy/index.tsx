@@ -23,7 +23,6 @@ import { ModalPropsType } from '../types'
 import AddCard from './AddCard'
 import BankWireDetails from './BankWireDetails'
 import BillingAddress from './BillingAddress'
-import CancelOrder from './CancelOrder'
 import CheckoutConfirm from './CheckoutConfirm'
 import CryptoSelection from './CryptoSelection'
 import EnterAmount from './EnterAmount'
@@ -214,11 +213,6 @@ class SimpleBuy extends PureComponent<Props, State> {
                 />
               </FlyoutChild>
             )}
-            {this.props.step === 'CANCEL_ORDER' && (
-              <FlyoutChild>
-                <CancelOrder {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
             {this.props.step === 'KYC_REQUIRED' && (
               <FlyoutChild>
                 <KycRequired {...this.props} handleClose={this.handleClose} />
@@ -326,7 +320,7 @@ type LinkStatePropsType =
     }
   | {
       order: SBOrderType
-      step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'CANCEL_ORDER'
+      step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY'
     }
   | { order: SwapOrderType; step: 'SELL_ORDER_SUMMARY' }
   | {

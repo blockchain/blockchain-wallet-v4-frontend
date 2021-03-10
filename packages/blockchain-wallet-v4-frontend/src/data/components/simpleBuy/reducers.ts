@@ -36,7 +36,7 @@ const INITIAL_STATE: SimpleBuyState = {
   limits: Remote.NotAsked
 }
 
-export function simpleBuyReducer (
+export function simpleBuyReducer(
   state = INITIAL_STATE,
   action: SimpleBuyActionTypes
 ): SimpleBuyState {
@@ -383,7 +383,6 @@ export function simpleBuyReducer (
         case '3DS_HANDLER':
         case 'CHECKOUT_CONFIRM':
         case 'ORDER_SUMMARY':
-        case 'CANCEL_ORDER':
           return {
             ...state,
             order: action.payload.order,

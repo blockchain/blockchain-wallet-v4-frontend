@@ -17,7 +17,7 @@ const Header = styled.div`
 `
 const MnemonicLabel = styled(FormLabel)`
   > div {
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
   + div {
     margin-bottom: 10px;
@@ -87,9 +87,10 @@ const FirstStep = props => {
             </Link>
           </GoBackLink>
           <Button
-            type='submit'
-            nature='primary'
+            data-e2e='recoverContinue'
             disabled={submitting || invalid}
+            nature='primary'
+            type='submit'
           >
             <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
           </Button>

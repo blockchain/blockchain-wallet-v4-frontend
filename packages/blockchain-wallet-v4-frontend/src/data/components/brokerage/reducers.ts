@@ -16,10 +16,11 @@ const INITIAL_STATE: BrokerageState = {
   account: undefined,
   redirectBackToStep: false,
   addNew: false, // TODO: Put this stuff in redux-form
-  bankStatus: Remote.NotAsked
+  bankStatus: Remote.NotAsked,
+  fiatCurrency: undefined
 }
 
-export function brokerageReducer (
+export function brokerageReducer(
   state = INITIAL_STATE,
   action: BrokerageActionTypes
 ): BrokerageState {
@@ -58,6 +59,11 @@ export function brokerageReducer (
         ...state,
         account: action.payload.account,
         redirectBackToStep: action.payload.redirectBackToStep || false
+      }
+    case AT.HANDLE_DEPOSIT_FIAT_CLICK:
+      return {
+        ...state,
+        fiatCurrency: action.payload.fiatCurrency
       }
     case AT.SET_ADD_BANK_STEP:
       switch (action.payload.addBankStep) {

@@ -1,8 +1,8 @@
 import {
   BankTransferAccountType,
-  RemoteDataType
-} from 'blockchain-wallet-v4/src/types'
-
+  RemoteDataType,
+  WalletFiatType
+} from 'core/types'
 import * as AT from './actionTypes'
 
 export type FastLinkType = {
@@ -88,6 +88,7 @@ export type BrokerageState = {
   bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>
   dwStep: BankDWStepType
   fastLink: RemoteDataType<string, FastLinkType>
+  fiatCurrency: WalletFiatType | undefined
   redirectBackToStep: boolean
 }
 
@@ -134,6 +135,10 @@ interface SetBankAccountAction {
   payload: BankDetailsPayload
   type: typeof AT.SET_BANK_DETAILS
 }
+interface HandeDepositFiatClickAction {
+  payload: { fiatCurrency: WalletFiatType }
+  type: typeof AT.HANDLE_DEPOSIT_FIAT_CLICK
+}
 
 export type BrokerageActionTypes =
   | FetchBankTransferAccountsFailure
@@ -145,3 +150,4 @@ export type BrokerageActionTypes =
   | SetAddBankStepAction
   | SetBankAccountAction
   | SetDWStepAction
+  | HandeDepositFiatClickAction

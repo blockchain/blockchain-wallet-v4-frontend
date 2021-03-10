@@ -12,6 +12,14 @@ export const getData = state => {
   const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
     state
   )
+  // TODO: Remove this when ach deposits withdrawals gets rolled out hundo P
+  const brokerageDepositsWithdrawalsR = selectors.core.walletOptions.getBrokerageDepositsWithdrawals(
+    state
+  )
+  const brokerageDepositsWithdrawals = brokerageDepositsWithdrawalsR.getOrElse(
+    false
+  )
+
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
   return lift(
@@ -23,7 +31,12 @@ export const getData = state => {
     ) => ({
       balances,
       bankTransferAccounts,
-      paymentMethods,
+      paymentMethods:
+        (!brokerageDepositsWithdrawals && {
+          ...paymentMethods,
+          methods: paymentMethods.methods.filter(m => m.type === 'BANK_ACCOUNT')
+        }) ||
+        paymentMethods,
       walletCurrency
     })
   )(balancesR, bankTransferAccountsR, paymentMethodsR, walletCurrencyR)

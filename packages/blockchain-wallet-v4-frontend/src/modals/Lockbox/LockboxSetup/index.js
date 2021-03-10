@@ -19,11 +19,11 @@ import SoftwareDownloadStep from './SoftwareDownloadStep'
 import LockboxSetup from './template'
 
 class LockboxSetupContainer extends React.PureComponent {
-  componentWillMount () {
+  UNSAFE_componentWillMount() {
     this.props.lockboxActions.resetNewDeviceSetup()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.lockboxActions.resetConnectionStatus()
     this.props.lockboxActions.changeDeviceSetupStep('device-select')
   }
@@ -37,7 +37,7 @@ class LockboxSetupContainer extends React.PureComponent {
     closeAll()
   }
 
-  render () {
+  render() {
     const { currentStep, position, total } = this.props
     const steps = {
       'device-select': {

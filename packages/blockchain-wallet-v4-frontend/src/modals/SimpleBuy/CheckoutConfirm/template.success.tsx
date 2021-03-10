@@ -99,6 +99,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     }
   }, [])
 
+  const handleCancel = () => {
+    props.simpleBuyActions.cancelSBOrder(props.order)
+  }
+
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper>
@@ -110,12 +114,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             color='grey600'
             style={{ marginRight: '24px' }}
             role='button'
-            onClick={() =>
-              props.simpleBuyActions.setStep({
-                order: props.order,
-                step: 'CANCEL_ORDER'
-              })
-            }
+            onClick={handleCancel}
           />
           <FormattedMessage
             id='modals.simplebuy.checkoutconfirm'
@@ -285,12 +284,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           size='16px'
           height='48px'
           nature='light-red'
-          onClick={() =>
-            props.simpleBuyActions.setStep({
-              step: 'CANCEL_ORDER',
-              order: props.order
-            })
-          }
+          onClick={handleCancel}
           style={{ marginTop: '16px' }}
         >
           <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />

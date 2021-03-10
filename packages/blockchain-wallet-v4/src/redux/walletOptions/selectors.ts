@@ -119,3 +119,7 @@ export const getSiftPaymentKey = (state: RootState) => {
 // mobile auth flag
 export const getMobileAuthFlag = state =>
   getWebOptions(state).map(path(['mobile_auth', 'enabled']))
+
+// brokerage deposits withdrawals flag
+export const getBrokerageDepositsWithdrawals = state =>
+  getWebOptions(state).map(path(['brokerage_deposits_withdrawals', 'enabled']))

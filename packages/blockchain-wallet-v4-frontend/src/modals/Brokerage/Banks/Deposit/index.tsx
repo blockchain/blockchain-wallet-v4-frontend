@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { FiatType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
 import DataError from 'components/DataError'
@@ -21,13 +21,13 @@ import WireInstructions from './WireInstructions'
 class Deposit extends PureComponent<Props> {
   state: State = { show: false, direction: 'left' }
 
-  componentDidMount () {
+  componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.step === prevProps.step) return
     if (BankDWStepType[this.props.step] > BankDWStepType[prevProps.step]) {
       /* eslint-disable */
@@ -43,7 +43,7 @@ class Deposit extends PureComponent<Props> {
     setTimeout(this.props.close, duration)
   }
 
-  render () {
+  render() {
     return (
       <Flyout
         {...this.props}
@@ -124,7 +124,7 @@ class Deposit extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   step: selectors.components.brokerage.getDWStep(state),
-  fiatCurrency: 'USD' as FiatType // TODO: Unhardcode this
+  fiatCurrency: selectors.components.brokerage.getFiatCurrency(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
