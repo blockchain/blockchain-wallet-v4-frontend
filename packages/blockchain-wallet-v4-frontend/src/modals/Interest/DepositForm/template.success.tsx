@@ -23,13 +23,14 @@ import { actions, selectors } from 'data'
 import { InterestDepositFormType } from 'data/components/interest/types'
 import { RootState } from 'data/rootReducer'
 import { required } from 'services/forms'
+
 import {
   amountToCrypto,
   amountToFiat,
   calcCompoundInterest,
   maxFiat
 } from '../conversions'
-import { OwnProps as ParentOwnProps, SuccessStateType } from '.'
+import { OwnProps as ParentOwnProps, CurrencySuccessStateType, DataSuccessStateType } from '.'
 import {
   AgreementContainer,
   AmountError,
@@ -646,7 +647,8 @@ type LinkStatePropsType = {
   values?: InterestDepositFormType
 }
 
-export type Props = SuccessStateType &
+export type Props = DataSuccessStateType &
+  CurrencySuccessStateType &
   ConnectedProps<typeof connector> &
   ParentOwnProps &
   FormProps

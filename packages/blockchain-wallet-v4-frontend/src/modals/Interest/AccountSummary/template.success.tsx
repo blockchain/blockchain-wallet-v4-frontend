@@ -14,7 +14,7 @@ import { pathOr } from 'ramda'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { InterestStepMetadata } from 'data/types'
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
+import { DataSuccessStateType,LinkDispatchPropsType, OwnProps } from '.'
 import {
   Bottom,
   ButtonContainer,
@@ -438,6 +438,6 @@ type ParentProps = {
 
 export type Props = OwnProps &
   LinkDispatchPropsType &
-  SuccessStateType &
+  DataSuccessStateType &
   ParentProps
 export default AccountSummary
