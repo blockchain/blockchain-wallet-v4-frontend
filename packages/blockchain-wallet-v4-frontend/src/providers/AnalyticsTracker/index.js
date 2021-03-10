@@ -18,10 +18,18 @@ class AnalyticsTracker extends React.PureComponent {
   render() {
     const { domains, siteId } = this.props
     return (
-      <Iframe
-        id='matomo-iframe'
-        src={domains.walletHelper + '/wallet-helper/matomo/#/?siteId=' + siteId}
-      />
+      <>
+        <Iframe
+          id='matomo-iframe'
+          src={
+            domains.walletHelper + '/wallet-helper/matomo/#/?siteId=' + siteId
+          }
+        />
+        <Iframe
+          id='segment-iframe'
+          src={domains.walletHelper + '/wallet-helper/segment'}
+        />
+      </>
     )
   }
 }

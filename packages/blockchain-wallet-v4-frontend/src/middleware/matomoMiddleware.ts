@@ -175,19 +175,41 @@ const matomoMiddleware = () => () => next => action => {
       !equals(nextEvent, lastEvent) &&
       !includes(nextAction, EVENT_ACTION_BLACKLIST)
     ) {
+      // eslint-disable-next-line no-console
       // console.info('EVENT', nextEvent) // uncomment to assist with debugging
-      const frame = document.getElementById('matomo-iframe')
-      frame &&
+      const matomo = document.getElementById('matomo-iframe')
+
+      // @ts-ignore
+      if (matomo && matomo.contentWindow) {
         // @ts-ignore
-        frame.contentWindow &&
-        // @ts-ignore
-        frame.contentWindow.postMessage(
+        matomo.contentWindow.postMessage(
           {
             method: 'trackEvent',
             messageData: nextEvent
           },
           '*'
         )
+      }
+
+      const segment = document.getElementById('segment-iframe')
+      // @ts-ignore
+      if (segment && segment.contentWindow) {
+        const segmentData = {
+          name: window.location.hash.substring(1),
+          properties: {
+            path: window.location.pathname,
+            referrer: window.document.referrer,
+            search: window.location.search,
+            title: window.document.title,
+            url: window.location.href
+          }
+        }
+
+        // console.log('SEGMENT EVENT', segmentData)
+
+        // @ts-ignore
+        segment.contentWindow.postMessage(segmentData, '*')
+      }
 
       // @ts-ignore
       lastEvent = nextEvent
