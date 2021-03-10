@@ -3,14 +3,27 @@ import { lift } from 'ramda'
 
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 import { OwnProps } from '.'
 
 export const getData = (state: RootState, ownProps: OwnProps) => {
-  const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
+  let bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
     state
   )
-  const defaultMethodR = selectors.components.brokerage.getAccount(state)
+  let defaultMethodR = selectors.components.brokerage.getAccount(state)
+  // TODO: Remove this when ach deposits withdrawals gets rolled out hundo P
+  const brokerageDepositsWithdrawalsR = selectors.core.walletOptions.getBrokerageDepositsWithdrawals(
+    state
+  )
+  const brokerageDepositsWithdrawals = brokerageDepositsWithdrawalsR.getOrElse(
+    false
+  )
+
+  if (!brokerageDepositsWithdrawals) {
+    defaultMethodR = undefined
+    bankTransferAccountsR = Remote.Success([])
+  }
   const beneficiariesR = selectors.custodial.getBeneficiaries(state)
   const defaultBeneficiaryR = selectors.custodial.getDefaultBeneficiary(
     ownProps.fiatCurrency,
