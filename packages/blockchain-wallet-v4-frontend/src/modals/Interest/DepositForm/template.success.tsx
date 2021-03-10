@@ -63,8 +63,12 @@ import {
   maxFiat
 } from '../conversions'
 
+import {
+  CurrencySuccessStateType,
+  DataSuccessStateType,
+  OwnProps as ParentOwnProps
+} from '.'
 import { maxDepositAmount, minDepositAmount } from './validation'
-import { OwnProps as ParentOwnProps, SuccessStateType } from '.'
 import TabMenuTimeFrame from './TabMenuTimeFrame'
 
 const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
@@ -651,7 +655,8 @@ type LinkStatePropsType = {
   values?: InterestDepositFormType
 }
 
-export type Props = SuccessStateType &
+export type Props = DataSuccessStateType &
+  CurrencySuccessStateType &
   ConnectedProps<typeof connector> &
   ParentOwnProps &
   FormProps

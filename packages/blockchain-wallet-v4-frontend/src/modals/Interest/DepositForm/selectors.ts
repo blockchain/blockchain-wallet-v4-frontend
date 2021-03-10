@@ -13,6 +13,10 @@ import { lift, pathOr, propOr } from 'ramda'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 
+export const getCurrency = state => {
+  return selectors.core.settings.getCurrency(state)
+}
+
 export const getData = (state: RootState) => {
   const coin = selectors.components.interest.getCoinType(state)
   const ratesR = selectors.components.interest.getRates(state)
@@ -79,7 +83,6 @@ export const getData = (state: RootState) => {
         payment,
         rates,
         supportedCoins,
-        walletCurrency,
         prefillAmount,
         isFromBuySell
       }

@@ -3,11 +3,11 @@ import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
-import { CoinType, ExtractSuccess, FiatType } from 'core/types'
+import { CoinType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
 
-import { getData } from './selectors'
+import { getCurrency, getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 class DepositForm extends PureComponent<Props> {
@@ -19,7 +19,7 @@ class DepositForm extends PureComponent<Props> {
     const { data, formActions, interestActions } = this.props
     const { displayCoin } = data.getOrElse({
       displayCoin: false
-    } as SuccessStateType)
+    } as DataSuccessStateType)
 
     if (isCoin === displayCoin) return
 
@@ -38,10 +38,10 @@ class DepositForm extends PureComponent<Props> {
   }
 
   handleInitializeDepositForm = () => {
-    const { coin, data, interestActions } = this.props
-    const { walletCurrency } = data.getOrElse({
-      walletCurrency: 'GBP' as FiatType
-    } as SuccessStateType)
+    const { coin, currency, interestActions } = this.props
+
+    const walletCurrency = currency.getOrElse('GBP' as CurrencySuccessStateType)
+
     interestActions.initializeDepositForm(coin, walletCurrency)
   }
 
@@ -51,12 +51,16 @@ class DepositForm extends PureComponent<Props> {
   }
 
   render () {
-    const { data } = this.props
+    const { data, currency } = this.props
+
+    const walletCurrency = currency.getOrElse('GBP' as CurrencySuccessStateType)
+
     return data.cata({
       Success: val => (
         <Success
           {...this.props}
           {...val}
+          walletCurrency={walletCurrency}
           onSubmit={this.handleSubmit}
           handleDisplayToggle={this.handleDisplayToggle}
         />
@@ -69,7 +73,8 @@ class DepositForm extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  data: getData(state)
+  data: getData(state),
+  currency: getCurrency(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
@@ -86,7 +91,9 @@ export type LinkDispatchPropsType = {
   interestActions: typeof actions.components.interest
 }
 
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+export type DataSuccessStateType = ReturnType<typeof getData>['data']
+
+export type CurrencySuccessStateType = ReturnType<typeof getCurrency>['data']
 
 export type OwnProps = {
   coin: CoinType

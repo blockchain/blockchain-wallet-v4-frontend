@@ -30,7 +30,7 @@ import {
   Wrapper
 } from './model'
 
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
+import { DataSuccessStateType, LinkDispatchPropsType, OwnProps } from '.'
 
 const AccountSummary: React.FC<Props> = props => {
   const {
@@ -439,6 +439,6 @@ type ParentProps = {
 
 export type Props = OwnProps &
   LinkDispatchPropsType &
-  SuccessStateType &
+  DataSuccessStateType &
   ParentProps
 export default AccountSummary
