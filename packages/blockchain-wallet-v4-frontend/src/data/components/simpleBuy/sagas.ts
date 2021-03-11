@@ -1016,8 +1016,8 @@ export default ({
           )
         )
         return yield put(
-          actions.components.brokerage.setStep({
-            step: AddBankStepType.ADD_BANK
+          actions.components.brokerage.setAddBankStep({
+            addBankStep: AddBankStepType.ADD_BANK
           })
         )
 

@@ -26,7 +26,10 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   const userSDDTierR = selectors.components.simpleBuy.getUserSddEligibleTier(
     state
   )
-  const sddLimitR = selectors.components.simpleBuy.getUserLimit(state)
+  const sddLimitR = selectors.components.simpleBuy.getUserLimit(
+    state,
+    'PAYMENT_CARD'
+  )
   const cardsR = selectors.components.simpleBuy.getSBCards(state) || []
   const bankTransferAccounts = selectors.components.brokerage
     .getBankTransferAccounts(state)

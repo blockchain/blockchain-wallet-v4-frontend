@@ -136,7 +136,6 @@ export const getMaxMin = (
                 break
             }
           }
-
           const maxFiat = convertBaseToStandard('FIAT', max)
           const maxCrypto = getQuote(quote.pair, quote.rate, 'FIAT', maxFiat)
 

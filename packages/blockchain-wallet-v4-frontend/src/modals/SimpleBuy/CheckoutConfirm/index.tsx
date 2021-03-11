@@ -120,8 +120,8 @@ class CheckoutConfirm extends PureComponent<Props> {
             BrokerageModalOriginType.ADD_BANK,
             'ADD_BANK_MODAL'
           )
-          return this.props.brokerageActions.setStep({
-            step: AddBankStepType.ADD_BANK_HANDLER
+          return this.props.brokerageActions.setAddBankStep({
+            addBankStep: AddBankStepType.ADD_BANK_HANDLER
           })
         }
       default:

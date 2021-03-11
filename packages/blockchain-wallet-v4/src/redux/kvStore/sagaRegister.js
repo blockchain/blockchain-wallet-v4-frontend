@@ -6,6 +6,7 @@ import contacts from './contacts/sagaRegister'
 import eth from './eth/sagaRegister'
 import lockbox from './lockbox/sagaRegister'
 import userCredentials from './userCredentials/sagaRegister'
+import walletCredentials from './walletCredentials/sagaRegister'
 import xlm from './xlm/sagaRegister'
 
 export default ({ api, networks }) =>
@@ -18,4 +19,5 @@ export default ({ api, networks }) =>
     yield fork(contacts({ api, networks }))
     yield fork(lockbox({ api, networks }))
     yield fork(userCredentials({ api, networks }))
+    yield fork(walletCredentials({ api, networks }))
   }

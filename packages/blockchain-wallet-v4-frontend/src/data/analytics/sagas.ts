@@ -7,20 +7,19 @@ import { CUSTOM_VARIABLES } from './model'
 
 export const logLocation = 'analytics/sagas'
 export default () => {
-  const postMessage = function * (message) {
+  const postMessage = function * (message, isFromRetry?) {
     try {
       const frame = document.getElementById('matomo-iframe')
       if (frame) {
         // @ts-ignore
         frame.contentWindow.postMessage(message, '*')
       } else {
-        yield put(
-          actions.logs.logErrorMessage(
-            logLocation,
-            'postMessage',
-            'matomo iframe missing'
-          )
-        )
+        // ensures we only retry a request once
+        if (!isFromRetry) {
+          // wait 4 seconds for iframe to fully load
+          yield delay(4000)
+          yield call(postMessage, message, true)
+        }
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'postMessage', e))
@@ -150,14 +149,10 @@ export default () => {
   const logPageView = function * (action) {
     try {
       const { route } = action.payload
-      const isAuthenticated = yield select(selectors.auth.isAuthenticated)
-      // only log authenticated page views
-      if (isAuthenticated) {
-        yield call(postMessage, {
-          method: 'logPageView',
-          messageData: { route }
-        })
-      }
+      yield call(postMessage, {
+        method: 'logPageView',
+        messageData: { route }
+      })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'logPageView', e))
     }

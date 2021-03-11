@@ -1,5 +1,3 @@
-import * as A from '../actions'
-import * as S from './selectors'
 import { call, put, select } from 'redux-saga/effects'
 import {
   compose,
@@ -18,13 +16,18 @@ import {
   range,
   repeat
 } from 'ramda'
-import { fetchData } from '../data/btc/actions'
-import { generateMnemonic } from '../../walletCrypto'
-import { HDAccount, Wallet, Wrapper } from '../../types'
 import { set } from 'ramda-lens'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
 import Task from 'data.task'
+
+import * as A from '../actions'
+import * as S from './selectors'
+import { callTask } from '../../utils/functional'
+import { derivationMap, WALLET_CREDENTIALS } from '../kvStore/config'
+import { fetchData } from '../data/btc/actions'
+import { generateMnemonic } from '../../walletCrypto'
+import { HDAccount, KVStoreEntry, Wallet, Wrapper } from '../../types'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -181,7 +184,63 @@ export default ({ api, networks }) => {
     }
   }
 
-  const restoreWalletSaga = function * ({ mnemonic, email, password, language }) {
+  const restoreWalletCredentialsFromMetadata = function * (mnemonic) {
+    const seedHex = BIP39.mnemonicToEntropy(mnemonic)
+    const getMetadataNode = compose(
+      KVStoreEntry.deriveMetadataNode,
+      KVStoreEntry.getMasterHDNode(networks.btc)
+    )
+    // @ts-ignore
+    const metadataNode = getMetadataNode(seedHex)
+    // @ts-ignore
+    const mxpriv = metadataNode.toBase58()
+    const typeId = derivationMap[WALLET_CREDENTIALS]
+    const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
+    const newkv = yield callTask(api.fetchKVStore(kv))
+    return newkv.value
+  }
+
+  const restoreWalletFromMetadata = function * (kvCredentials, newPassword) {
+    try {
+      // Let's update the password and upload the new encrypted payload
+      const wallet = yield call(
+        api.fetchWalletWithSharedKey,
+        kvCredentials.guid,
+        kvCredentials.sharedKey,
+        kvCredentials.password
+      )
+      const wrapperT = set(Wrapper.password, newPassword, wallet)
+      try {
+        yield call(api.saveWallet, wrapperT)
+        return true
+      } catch (e) {
+        throw e
+      }
+    } catch (e) {
+      // eslint-disable-next-line
+      console.error('Unable to restore wallet from metadata', e)
+      return false
+    }
+  }
+
+  const restoreWalletSaga = function * ({
+    email,
+    kvCredentials,
+    language,
+    mnemonic,
+    password
+  }) {
+    let recoveredFromMetadata
+
+    // if we have retrieved credentials from metadata, use them to restore wallet
+    if (kvCredentials) {
+      recoveredFromMetadata = yield call(
+        restoreWalletFromMetadata,
+        kvCredentials,
+        password
+      )
+    }
+
     const seed = BIP39.mnemonicToSeed(mnemonic)
     const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, networks.btc)
     const node = masterNode.deriveHardened(44).deriveHardened(0)
@@ -190,7 +249,17 @@ export default ({ api, networks }) => {
       node: node,
       usedAccounts: []
     })
-    const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
+
+    // generate new guid
+    let [guid, sharedKey] = yield call(api.generateUUIDs, 2)
+
+    // use previously recovered guid and sharedKey from metadata for new wrapper if available
+    if (recoveredFromMetadata) {
+      guid = kvCredentials.guid
+      sharedKey = kvCredentials.sharedKey
+    }
+
+    // create new wallet wrapper
     const wrapper = Wrapper.createNew(
       guid,
       password,
@@ -200,7 +269,11 @@ export default ({ api, networks }) => {
       undefined,
       nAccounts
     )
-    yield call(api.createWallet, email, wrapper)
+
+    // create new wallet if it wasn't recovered from metadata
+    if (!recoveredFromMetadata) {
+      yield call(api.createWallet, email, wrapper)
+    }
     yield put(A.wallet.refreshWrapper(wrapper))
   }
 
@@ -268,18 +341,19 @@ export default ({ api, networks }) => {
   }
 
   return {
-    toggleSecondPassword,
     createWalletSaga,
-    restoreWalletSaga,
+    fetchWalletSaga,
     importLegacyAddress,
     newHDAccount,
-    updatePbkdf2Iterations,
-    remindWalletGuidSaga,
-    fetchWalletSaga,
-    upgradeToHd,
-    resetWallet2fa,
     refetchContextData,
+    remindWalletGuidSaga,
+    resetWallet2fa,
     resendSmsLoginCode,
-    setHDAddressLabel
+    restoreWalletCredentialsFromMetadata,
+    restoreWalletSaga,
+    setHDAddressLabel,
+    toggleSecondPassword,
+    updatePbkdf2Iterations,
+    upgradeToHd
   }
 }

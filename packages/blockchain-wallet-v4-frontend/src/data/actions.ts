@@ -14,6 +14,7 @@ import * as preferences from './preferences/actions'
 import * as session from './session/actions'
 import * as wallet from './wallet/actions'
 import * as wizard from './wizard/actions'
+import * as ws from './middleware/webSocket/coins/actions'
 import { coreActions as core } from 'blockchain-wallet-v4/src'
 import { routerActions as router } from 'connected-react-router'
 
@@ -29,6 +30,7 @@ export {
   logs,
   form,
   middleware,
+  ws, // TODO
   modals,
   modules,
   preferences,

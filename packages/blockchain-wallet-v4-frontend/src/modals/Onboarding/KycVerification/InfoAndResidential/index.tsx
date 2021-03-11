@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react'
 
 import { actions, model, selectors } from 'data'
 import { CountryType } from 'data/components/identityVerification/types'
-import { ExtractSuccess, RemoteDataType } from 'core/types'
+import { ExtractSuccess } from 'core/types'
 import { InfoAndResidentialFormValuesType } from 'data/types'
 import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
@@ -113,10 +113,6 @@ export type OwnProps = {
 }
 
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-
-export type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-}
 
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

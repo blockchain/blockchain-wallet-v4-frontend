@@ -106,13 +106,21 @@ const coinSelectorMap = (
 export const getData = (state, coin, isCoinErc20) =>
   createSelector(
     [
+      () => selectors.core.settings.getInvitations(state),
       selectors.form.getFormValues(WALLET_TX_SEARCH),
       coinSelectorMap(state, coin, isCoinErc20),
       selectors.core.settings.getCurrency,
       () => selectors.core.walletOptions.getCoinModel(state, coin),
       () => selectors.core.walletOptions.getSupportedCoins(state)
     ],
-    (userSearch, pagesR, currencyR, coinModelR, supportedCoinsR) => {
+    (
+      invitationsR,
+      userSearch,
+      pagesR,
+      currencyR,
+      coinModelR,
+      supportedCoinsR
+    ) => {
       const empty = page => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status: TransferType = propOr('', 'status', userSearch)
@@ -142,7 +150,8 @@ export const getData = (state, coin, isCoinErc20) =>
         // @ts-ignore
         isSearchEntered: search.length > 0 || status !== '',
         pages: filteredPages,
-        sourceType
+        sourceType,
+        isInvited: invitationsR.data.achDepositWithdrawal
       }
     }
   )(state)
