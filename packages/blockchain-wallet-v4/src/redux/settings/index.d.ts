@@ -8,4 +8,5 @@ export type InvitationsType = {
   USDT: boolean
   WDGLD: boolean
   XLM: boolean
+  achDepositWithdrawal: boolean
 }

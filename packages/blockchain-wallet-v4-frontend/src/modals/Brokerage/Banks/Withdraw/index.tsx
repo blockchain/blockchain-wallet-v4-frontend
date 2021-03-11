@@ -102,7 +102,6 @@ class Withdraw extends PureComponent<Props> {
 const mapStateToProps = (state: RootState) => ({
   amount: selectors.components.withdraw.getAmount(state),
   beneficiary: selectors.components.withdraw.getBeneficiary(state),
-  defaultMethod: selectors.components.brokerage.getAccount(state),
   fiatCurrency: selectors.components.withdraw.getFiatCurrency(state),
   step: selectors.components.withdraw.getStep(state),
   withdrawal: selectors.components.withdraw.getWithdrawal(state)

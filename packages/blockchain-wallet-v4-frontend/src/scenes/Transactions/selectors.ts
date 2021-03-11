@@ -106,7 +106,7 @@ const coinSelectorMap = (
 export const getData = (state, coin, isCoinErc20) =>
   createSelector(
     [
-      () => selectors.core.walletOptions.getBrokerageDepositsWithdrawals(state),
+      () => selectors.core.settings.getInvitations(state),
       selectors.form.getFormValues(WALLET_TX_SEARCH),
       coinSelectorMap(state, coin, isCoinErc20),
       selectors.core.settings.getCurrency,
@@ -114,7 +114,7 @@ export const getData = (state, coin, isCoinErc20) =>
       () => selectors.core.walletOptions.getSupportedCoins(state)
     ],
     (
-      brokerageDepositsWithdrawalsR,
+      invitationsR,
       userSearch,
       pagesR,
       currencyR,
@@ -151,9 +151,7 @@ export const getData = (state, coin, isCoinErc20) =>
         isSearchEntered: search.length > 0 || status !== '',
         pages: filteredPages,
         sourceType,
-        brokerageDepositsWithdrawals: brokerageDepositsWithdrawalsR.getOrElse(
-          false
-        ) as boolean
+        isInvited: invitationsR.data.achDepositWithdrawal
       }
     }
   )(state)

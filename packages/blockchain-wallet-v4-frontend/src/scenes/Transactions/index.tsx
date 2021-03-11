@@ -137,7 +137,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
 
   render() {
     const {
-      brokerageDepositsWithdrawals,
+      isInvited,
       coin,
       coinModel,
       currency,
@@ -209,7 +209,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                           if (!this.props.simpleBuyActions) return
                           // ACH Deposits/Withdrawals is only for USD right now
                           // so keeping the existing functionality for EUR
-                          if (coin === 'USD' && brokerageDepositsWithdrawals) {
+                          if (coin === 'USD' && isInvited) {
                             this.props.brokerageActions.handleDepositFiatClick(
                               coin as WalletFiatType
                             )
@@ -385,10 +385,10 @@ export type OwnProps = {
 }
 
 export type SuccessStateType = {
-  brokerageDepositsWithdrawals: boolean
   coinModel: SupportedWalletCurrencyType
   currency: FiatType
   hasTxResults: boolean
+  isInvited: boolean
   isSearchEntered: boolean
   pages: Array<any>
   sourceType: string
