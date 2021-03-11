@@ -10,7 +10,20 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
     ownProps.fiatCurrency
   )
 
-  return lift((fees: ExtractSuccess<typeof feesR>) => ({
-    fees
-  }))(feesR)
+  const defaultBeneficiaryR = selectors.custodial.getDefaultBeneficiary(
+    ownProps.fiatCurrency,
+    state
+  )
+  let defaultMethodR = selectors.components.brokerage.getAccount(state)
+
+  return lift(
+    (
+      defaultBeneficiary: ExtractSuccess<typeof defaultBeneficiaryR>,
+      fees: ExtractSuccess<typeof feesR>
+    ) => ({
+      defaultBeneficiary,
+      fees,
+      defaultMethod: defaultMethodR
+    })
+  )(defaultBeneficiaryR, feesR)
 }
