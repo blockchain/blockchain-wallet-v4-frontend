@@ -137,12 +137,12 @@ class TransactionsContainer extends React.PureComponent<Props> {
 
   render() {
     const {
-      isInvited,
       coin,
       coinModel,
       currency,
       hasTxResults,
       isCoinErc20,
+      isInvited,
       isSearchEntered,
       loadMoreTxs,
       pages,

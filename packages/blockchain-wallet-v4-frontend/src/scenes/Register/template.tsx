@@ -392,19 +392,25 @@ const Register = (props: InjectedFormProps<{}, Props> & Props) => {
               </Text>
             </CardHeader>
 
-            {!isNil(goalData) && !isEmpty(goalData) && (
-              <SimpleBuyInfo
-                goalData={goalData}
-                supportedCoins={props.supportedCoins}
-              />
-            )}
+            {!isNil(goalData) &&
+              !isEmpty(goalData) &&
+              !!goalData.fiatCurrency &&
+              !!goalData.crypto &&
+              !!goalData.amount && (
+                <>
+                  <SimpleBuyInfo
+                    goalData={goalData}
+                    supportedCoins={props.supportedCoins}
+                  />
 
-            <Text size='14px' color='grey600' weight={500}>
-              <FormattedMessage
-                id='scenes.register.simplebuy.change'
-                defaultMessage='You will be able to change your amount later.'
-              />
-            </Text>
+                  <Text size='14px' color='grey600' weight={500}>
+                    <FormattedMessage
+                      id='scenes.register.simplebuy.change'
+                      defaultMessage='You will be able to change your amount later.'
+                    />
+                  </Text>
+                </>
+              )}
 
             <SignupForm
               busy={props.busy}
