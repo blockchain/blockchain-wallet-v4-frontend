@@ -108,6 +108,13 @@ const Default = {
   'usdt-light': 'rgba(38, 161, 123, 0.15)',
   wdgld: '#353F52',
   'wdgld-light': 'rgba(255, 231, 56, 0.15)',
+  // TODO
+  dot: '#353F52',
+  'dot-light': 'rgba(255, 231, 56, 0.15)',
+  aave: '#353F52',
+  'aave-light': 'rgba(255, 231, 56, 0.15)',
+  yfi: '#353F52',
+  'yfi-light': 'rgba(255, 231, 56, 0.15)',
   // OLD - AVOID USE \\
   // Brand
   'brand-yellow': '#FFB266',

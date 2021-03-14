@@ -2,6 +2,7 @@ import { head } from 'ramda'
 import { select } from 'redux-saga/effects'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
+import { UnitType } from 'blockchain-wallet-v4/src/exchange'
 import {
   CoinType,
   CurrenciesType,
@@ -46,28 +47,24 @@ export const convertFromBaseUnitToFiat = function(
   userCurrency: keyof CurrenciesType,
   rates: RatesType
 ): number {
+  const convertRequest = {
+    value: baseUnitValue as string,
+    fromUnit: 'WEI' as UnitType,
+    toCurrency: userCurrency as keyof CurrenciesType,
+    rates: rates as RatesType
+  }
+
   switch (coin) {
+    case 'AAVE':
+      return Exchange.convertAaveToFiat(convertRequest).value
     case 'PAX':
-      return Exchange.convertPaxToFiat({
-        value: baseUnitValue,
-        fromUnit: 'WEI',
-        toCurrency: userCurrency,
-        rates
-      }).value
+      return Exchange.convertPaxToFiat(convertRequest).value
     case 'USDT':
-      return Exchange.convertUsdtToFiat({
-        value: baseUnitValue,
-        fromUnit: 'WEI',
-        toCurrency: userCurrency,
-        rates
-      }).value
+      return Exchange.convertUsdtToFiat(convertRequest).value
     case 'WDGLD':
-      return Exchange.convertWdgldToFiat({
-        value: baseUnitValue,
-        fromUnit: 'WEI',
-        toCurrency: userCurrency,
-        rates
-      }).value
+      return Exchange.convertWdgldToFiat(convertRequest).value
+    case 'YFI':
+      return Exchange.convertYfiToFiat(convertRequest).value
     default:
       // eslint-disable-next-line
       console.error('Unknown ERC20 to convert')

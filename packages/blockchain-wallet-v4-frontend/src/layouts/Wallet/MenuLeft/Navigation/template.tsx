@@ -88,7 +88,7 @@ const Navigation = (props: OwnProps & Props) => {
         mapObjIndexed(
           (coin: SupportedWalletCurrencyType, i) =>
             coin &&
-            coin.invited &&
+            // coin.invited && // TODO: update invite list
             coin.method &&
             coin.txListAppRoute && (
               <LinkContainer

@@ -26,13 +26,13 @@ const Icon = props => {
   const { cursor, name, ...rest } = props
   const code = Icomoon[name]
 
-  // TODO: move off fonts for icons as they can only be one color. WDGLD needs multiple colors and thus this hack
-  if (name === 'wdgld') {
+  // TODO: move off fonts for icons as they can only be one color.
+  if (name === 'aave' || name === 'dot' || name === 'wdgld' || name === 'yfi') {
     return (
       <BaseIcon {...props}>
         <Image
           height={props.height || props.size || '32px'}
-          name='wdgld'
+          name={name}
           width={props.width || props.size || '32px'}
         />
       </BaseIcon>

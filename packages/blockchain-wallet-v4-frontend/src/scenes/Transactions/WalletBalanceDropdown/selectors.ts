@@ -6,7 +6,7 @@ import {
   ExtractSuccess,
   FiatType
 } from 'blockchain-wallet-v4/src/types'
-import * as balanceSelectors from 'components/Balances/wallet/selectors'
+import * as balanceSelectors from 'components/Balances/selectors'
 import { getData as getAlgoAddressData } from 'components/Form/SelectBoxAlgoAddresses/selectors'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'

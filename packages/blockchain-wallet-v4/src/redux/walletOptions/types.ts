@@ -18,15 +18,18 @@ export type SupportedCoinType = {
   coinTicker: CoinType
   // TODO: create this dynamically
   colorCode:
+    | 'aave'
     | 'algo'
     | 'btc'
     | 'bch'
+    | 'dot'
     | 'eth'
     | 'xlm'
     | 'pax'
     | 'stx'
     | 'usdt'
     | 'wdgld'
+    | 'yfi'
   config: {
     network: string
   }

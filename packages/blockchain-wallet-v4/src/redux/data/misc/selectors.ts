@@ -60,6 +60,13 @@ export const getRatesSelector = (
       return selectors.data.eth.getErc20Rates(state, 'wdgld')
     case 'PAX':
       return selectors.data.eth.getErc20Rates(state, 'pax')
+    case 'AAVE':
+      return selectors.data.eth.getErc20Rates(state, 'aave')
+    case 'YFI':
+      return selectors.data.eth.getErc20Rates(state, 'yfi')
+    // TODO: call to get dot rates
+    case 'DOT':
+      return Remote.Success(0)
     default:
       return Remote.Failure(INVALID_COIN_TYPE)
   }

@@ -1,16 +1,15 @@
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as lockboxBalanceSelectors from 'components/Balances/lockbox/selectors'
-import * as totalBalanceSelectors from 'components/Balances/total/selectors'
-import * as walletBalanceSelectors from 'components/Balances/wallet/selectors'
+import * as balanceSelectors from 'components/Balances/selectors'
 
 import { OwnProps } from '.'
 
 export const getData = (state, ownProps: OwnProps) => {
   switch (ownProps.viewType) {
     case 'Wallet':
-      return walletBalanceSelectors.getBalanceSelector(ownProps.coin)(state)
+      return balanceSelectors.getBalanceSelector(ownProps.coin)(state)
     case 'Total':
-      return totalBalanceSelectors.getBalanceSelector(ownProps.coin)(state)
+      return balanceSelectors.getBalanceSelector(ownProps.coin)(state)
     case 'Hardware':
       switch (ownProps.coin) {
         case 'BTC':

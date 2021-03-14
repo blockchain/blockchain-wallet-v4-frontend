@@ -341,6 +341,80 @@
           "minConfirmations": 12,
           "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
           "txListAppRoute": "/wdgld/transactions"
+        },
+        "AAVE": {
+          "availability": {
+            "send": true,
+            "request": true,
+            "lockbox": false,
+            "exchangeTo": true,
+            "exchangeFrom": true,
+            "syncToPit": true
+          },
+          "coinCode": "AAVE",
+          "coinTicker": "AAVE",
+          "colorCode": "aave",
+          "contractAddress": "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
+          "displayName": "Aave",
+          "hasLockboxSupport": false,
+          "icons": {
+            "default": "aave",
+            "circle": "aave",
+            "circleFilled": "aave"
+          },
+          "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360044952032",
+          "minConfirmations": 12,
+          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
+          "txListAppRoute": "/aave/transactions"
+        },
+        "YFI": {
+          "availability": {
+            "send": true,
+            "request": true,
+            "lockbox": false,
+            "exchangeTo": true,
+            "exchangeFrom": true,
+            "syncToPit": true
+          },
+          "coinCode": "YFI",
+          "coinTicker": "YFI",
+          "colorCode": "yfi",
+          "contractAddress": "0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e",
+          "displayName": "Yearn.Finance",
+          "hasLockboxSupport": false,
+          "icons": {
+            "default": "yfi",
+            "circle": "yfi",
+            "circleFilled": "yfi"
+          },
+          "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360044952032",
+          "minConfirmations": 12,
+          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
+          "txListAppRoute": "/yfi/transactions"
+        },
+        "DOT": {
+          "availability": {
+            "send": false,
+            "request": false,
+            "lockbox": false,
+            "exchangeTo": true,
+            "exchangeFrom": true,
+            "syncToPit": false
+          },
+          "coinCode": "DOT",
+          "coinTicker": "DOT",
+          "colorCode": "dot",
+          "displayName": "Polkadot",
+          "hasLockboxSupport": false,
+          "icons": {
+            "default": "dot",
+            "circle": "dot",
+            "circleFilled": "dot"
+          },
+          "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360044952032",
+          "minConfirmations": 20,
+          "txExplorerBaseUrl": "https://polkascan.io/polkadot",
+          "txListAppRoute": "/dot/transactions"
         }
       },
       "sift": {

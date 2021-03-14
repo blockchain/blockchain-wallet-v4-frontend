@@ -109,6 +109,14 @@ const DarkTheme: DefaultTheme = {
   'usdt-light': 'rgba(38, 161, 123, 0.15)',
   wdgld: '#ffe738',
   'wdgld-light': 'rgba(255, 231, 56, 0.15)',
+  // TODO
+  dot: '#ffe738',
+  'dot-light': 'rgba(255, 231, 56, 0.15)',
+  aave: '#ffe738',
+  'aave-light': 'rgba(255, 231, 56, 0.15)',
+  yfi: '#ffe738',
+  'yfi-light': 'rgba(255, 231, 56, 0.15)',
+
   // OLD - AVOID USE \\
   // Brand
   'brand-yellow': '#665227',

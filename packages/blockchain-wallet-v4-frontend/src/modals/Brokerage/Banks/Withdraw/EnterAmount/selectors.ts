@@ -8,7 +8,7 @@ import {
 import {
   getFiatBalance,
   getWithdrawableFiatBalance
-} from 'components/Balances/wallet/selectors'
+} from 'components/Balances/selectors'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
