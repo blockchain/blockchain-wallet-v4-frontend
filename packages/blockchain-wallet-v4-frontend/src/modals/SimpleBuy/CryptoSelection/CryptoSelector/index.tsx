@@ -108,13 +108,6 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
     })
   }
 
-  const isInvitedShowNC = (swapAccount: SwapAccountType) => {
-    if (swapAccount.type === 'CUSTODIAL') {
-      return true
-    } else {
-      return swapAccount.type !== 'ACCOUNT'
-    }
-  }
   const handleSell = (swapAccount: SwapAccountType) => {
     const pair = props.pairs.find(
       value => getCoinFromPair(value.pair) === swapAccount.coin
@@ -258,8 +251,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
                 return accounts.map(
                   account =>
                     account.balance !== '0' &&
-                    account.balance !== 0 &&
-                    isInvitedShowNC(account) && (
+                    account.balance !== 0 && (
                       <CryptoAccountOption
                         key={account.index}
                         account={account}
