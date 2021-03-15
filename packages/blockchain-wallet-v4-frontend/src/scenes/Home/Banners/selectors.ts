@@ -1,7 +1,9 @@
+import { TIER_TYPES } from 'blockchain-wallet-v4-frontend/src/modals/Settings/TradingLimits/model'
 import { anyPass, equals } from 'ramda'
 
-import { SBOrderType } from 'blockchain-wallet-v4/src/types'
+import { SBOrderType, SwapUserLimitsType } from 'blockchain-wallet-v4/src/types'
 import { model, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 
 const { EXPIRED, GENERAL } = model.profile.DOC_RESUBMISSION_REASONS
@@ -12,8 +14,9 @@ export type BannerType =
   | 'newCurrency'
   | 'buyCrypto'
   | 'continueToGold'
+  | null
 
-export const getData = (state): { bannerToShow: BannerType } => {
+export const getData = (state: RootState): { bannerToShow: BannerType } => {
   // @ts-ignore
   const showDocResubmitBanner = selectors.modules.profile
     .getKycDocResubmissionStatus(state)
@@ -40,25 +43,28 @@ export const getData = (state): { bannerToShow: BannerType } => {
     tiers: { current: 0 }
   } as UserDataType)
 
-  const sddEligibleTier = selectors.components.simpleBuy
-    .getUserSddEligibleTier(state)
-    .getOrElse(1)
+  const limits = selectors.components.simpleBuy.getLimits(state).getOrElse({
+    annual: {
+      available: '0'
+    }
+  } as SwapUserLimitsType)
 
-  const isTier3SDD = sddEligibleTier === 3
-
-  let bannerToShow
-  if (showDocResubmitBanner && !isTier3SDD) {
+  let bannerToShow: BannerType = null
+  if (showDocResubmitBanner) {
     bannerToShow = 'resubmit'
-  } else if (isSimpleBuyOrderPending && !isTier3SDD) {
+  } else if (isSimpleBuyOrderPending) {
     bannerToShow = 'sbOrder'
-  } else if (isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD) {
+  } else if (isKycStateNone && isUserActive && !isFirstLogin) {
     bannerToShow = 'finishKyc'
   } else if (isFirstLogin && (userData?.tiers?.current < 2 || isKycStateNone)) {
     bannerToShow = 'buyCrypto'
-  } else if (isTier3SDD) {
+  } else if (
+    (userData?.tiers?.current === TIER_TYPES.SILVER ||
+      userData?.tiers?.current === TIER_TYPES.SILVER_PLUS) &&
+    limits?.annual.available &&
+    Number(limits?.annual.available) > 0
+  ) {
     bannerToShow = 'continueToGold'
-  } else {
-    bannerToShow = null
   }
 
   return {
