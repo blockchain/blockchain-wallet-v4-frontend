@@ -9,5 +9,6 @@ export const DEFAULT_INVITATIONS: InvitationsType = {
   STX: true,
   XLM: true,
   USDT: true,
-  WDGLD: true
+  WDGLD: true,
+  segwit: false
 }

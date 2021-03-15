@@ -6,7 +6,8 @@ import { over, set, traverseOf, view } from 'ramda-lens'
 import * as crypto from '../walletCrypto'
 import * as Options from './Options'
 import Type from './Type'
-import * as Wallet from './Wallet'
+import * as Wallet from './Wallet_DEPRECATED_V3'
+// import * as Wallet_DEPRECATED from './Wallet_DEPRECATED_V3'
 
 const PAYLOAD_VERSION = crypto.SUPPORTED_ENCRYPTION_VERSION
 

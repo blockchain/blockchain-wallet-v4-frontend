@@ -20,6 +20,7 @@ import * as crypto from '../walletCrypto'
 import * as Cache from './Cache'
 import * as Derivation from './Derivation'
 import * as DerivationList from './DerivationList'
+import * as HDAccountDeprecatedV3 from './HDAccount_DEPRECATED_V3'
 import Type from './Type'
 
 export const DEFAULT_DERIVATION_TYPE = 'bech32'
@@ -82,6 +83,9 @@ export const selectAllXpubsGrouped = account => {
 }
 
 export const selectAllXpubs = account => {
+  // TODO: SEGWIT rollout
+  // @ts-ignore
+  if (!account.derivations) return HDAccountDeprecatedV3.selectAllXpubs(account)
   const derivations = selectDerivations(account)
   return DerivationList.getXpubsFromDerivations(derivations)
 }
@@ -187,6 +191,9 @@ export const fromJS = (account, index) => {
 }
 
 export const toJSwithIndex = pipe(HDAccount.guard, acc => {
+  // TODO: SEGWIT rollout
+  // @ts-ignore
+  if (!acc.derivations) return HDAccountDeprecatedV3.toJSwithIndex(acc)
   const accountDecons = compose(over(derivations, DerivationList.toJS))
   // @ts-ignore
   return accountDecons(acc).toJS()
