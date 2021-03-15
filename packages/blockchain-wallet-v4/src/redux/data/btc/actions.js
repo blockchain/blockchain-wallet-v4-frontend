@@ -50,9 +50,9 @@ export const fetchRatesFailure = error => ({
 })
 
 // FETCH_BTC_TRANSACTIONS
-export const fetchTransactions = (address, reset) => ({
+export const fetchTransactions = (address, reset, filter) => ({
   type: AT.FETCH_BTC_TRANSACTIONS,
-  payload: { address, reset }
+  payload: { address, reset, filter }
 })
 export const fetchTransactionsLoading = reset => ({
   type: AT.FETCH_BTC_TRANSACTIONS_LOADING,
