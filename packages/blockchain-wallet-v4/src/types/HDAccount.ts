@@ -78,6 +78,9 @@ export const isXpub = curry((myxpub, account) =>
 )
 
 export const selectAllXpubsGrouped = account => {
+  // TODO: SEGWIT rollout
+  // @ts-ignore
+  if (!account.derivations) return HDAccountDeprecatedV3.selectAllXpubsGrouped(account)
   const derivations = selectDerivations(account)
   return DerivationList.getXpubsAndTypesFromDerivations(derivations)
 }
@@ -91,6 +94,9 @@ export const selectAllXpubs = account => {
 }
 
 export const selectXpub = (account, type?) => {
+  // TODO: SEGWIT rollout
+  // @ts-ignore
+  if (!account.derivations) return HDAccountDeprecatedV3.selectXpub(account)
   const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
   const derivation = DerivationList.getDerivationFromType(
@@ -101,6 +107,9 @@ export const selectXpub = (account, type?) => {
 }
 
 export const selectXpriv = curry((type, account) => {
+  // TODO: SEGWIT rollout
+  // @ts-ignore
+  if (!account.derivations) return HDAccountDeprecatedV3.selectXpriv(account)
   const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
   const derivation = DerivationList.getDerivationFromType(
@@ -111,6 +120,9 @@ export const selectXpriv = curry((type, account) => {
 })
 
 export const selectAddressLabels = (account, type) => {
+  // TODO: SEGWIT rollout
+  // @ts-ignore
+  if (!account.derivations) return HDAccountDeprecatedV3.selectAddressLabels(account)
   const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
   const derivation = DerivationList.getDerivationFromType(
@@ -121,6 +133,9 @@ export const selectAddressLabels = (account, type) => {
 }
 
 export const getAddress = (account, path, network, type?) => {
+  // TODO: SEGWIT rollout
+  // @ts-ignore
+  if (!account.derivations) return HDAccountDeprecatedV3.getAddress(account)
   const [, chain, index] = split('/', path)
   const i = parseInt(index)
   const c = parseInt(chain)
@@ -131,6 +146,9 @@ export const getAddress = (account, path, network, type?) => {
 }
 
 export const getReceiveAddress = (account, receiveIndex, network, type?) => {
+  // TODO: SEGWIT rollout
+  // @ts-ignore
+  if (!account.derivations) return HDAccountDeprecatedV3.getReceiveAddress(account)
   HDAccount.guard(account)
   const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
@@ -139,6 +157,9 @@ export const getReceiveAddress = (account, receiveIndex, network, type?) => {
 }
 
 export const getChangeAddress = (account, changeIndex, network, type?) => {
+  // TODO: SEGWIT rollout
+  // @ts-ignore
+  if (!account.derivations) return HDAccountDeprecatedV3.getChangeAddress(account)
   HDAccount.guard(account)
   const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)

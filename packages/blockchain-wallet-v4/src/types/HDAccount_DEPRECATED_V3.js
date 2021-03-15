@@ -74,13 +74,13 @@ export const selectAllXpubsGrouped = account => {
   return [
     {
       type: 'legacy',
-      xpub: selectXpub()
+      xpub: selectXpub(account)
     }
   ]
 }
 
 export const selectAllXpubs = account => {
-  return [selectXpub()]
+  return [selectXpub(account)]
 }
 
 export const fromJS = (x, i) => {
