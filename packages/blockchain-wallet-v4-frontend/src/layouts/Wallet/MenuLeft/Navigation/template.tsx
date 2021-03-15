@@ -6,7 +6,7 @@ import { mapObjIndexed, toLower, values } from 'ramda'
 import styled from 'styled-components'
 
 import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
-import { SupportedWalletCurrencyType } from 'blockchain-wallet-v4/src/types'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import {
   CoinIcon,
   Destination,
@@ -14,7 +14,7 @@ import {
   MenuItem,
   Separator,
   Wrapper
-} from 'components/MenuLeft'
+} from 'layouts/Wallet/components'
 
 import { Props } from '.'
 
@@ -38,6 +38,21 @@ export const NewCartridge = styled(Cartridge)`
   padding: 4px 4px;
   border: 1px solid ${props => props.theme.grey000};
   border-radius: 4px;
+`
+
+const PortfolioSeparator = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 8px;
+  margin-bottom: 4px;
+  width: 100%;
+  box-sizing: content-box;
+
+  & > :last-child {
+    margin-top: 12px;
+    margin-left: 16px;
+  }
 `
 
 type OwnProps = {
@@ -73,54 +88,64 @@ const Navigation = (props: OwnProps & Props) => {
 
   return (
     <Wrapper {...rest}>
+      <Separator />
       <LinkContainer to='/home' activeClassName='active'>
         <MenuItem data-e2e='dashboardLink'>
           <MenuIcon className='icon' name='home' size='24px' />
           <Destination>
-            <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.dashboard'
-              defaultMessage='Dashboard'
-            />
+            <FormattedMessage id='copy.dashboard' defaultMessage='Dashboard' />
+          </Destination>
+        </MenuItem>
+      </LinkContainer>
+      <LinkContainer to='/prices' activeClassName='active'>
+        <MenuItem data-e2e='pricesLink'>
+          <MenuIcon className='icon' name='compass' size='24px' />
+          <Destination>
+            <FormattedMessage id='copy.prices' defaultMessage='Prices' />
+          </Destination>
+        </MenuItem>
+      </LinkContainer>
+      <PortfolioSeparator>
+        <Text color='grey600' lineHeight='20px' weight={600} size='14px'>
+          <FormattedMessage id='copy.portfolio' defaultMessage='Portfolio' />
+        </Text>
+        <Separator />
+      </PortfolioSeparator>
+      <LinkContainer to='/usd/transactions' activeClassName='active'>
+        <MenuItem colorCode='fiat' data-e2e='cashLink' className='coin'>
+          <CoinIcon className='coin-icon' color='fiat' name='usd' size='24px' />
+          <Destination>
+            <FormattedMessage id='copy.cash' defaultMessage='Cash' />
           </Destination>
         </MenuItem>
       </LinkContainer>
       {values(
-        mapObjIndexed(
-          (coin: SupportedWalletCurrencyType, i) =>
-            coin &&
-            // coin.invited && // TODO: update invite list
-            coin.method &&
-            coin.txListAppRoute && (
+        mapObjIndexed((coin: CoinType, i) => {
+          const coinModel = props.coins.find(x => coin === x.coinCode)
+          return (
+            coinModel && (
               <LinkContainer
                 key={i}
-                to={coin.txListAppRoute}
+                to={coinModel.txListAppRoute}
                 activeClassName='active'
               >
                 <MenuItem
-                  data-e2e={`${toLower(coin.coinCode)}Link`}
-                  colorCode={coin.colorCode}
+                  data-e2e={`${toLower(coinModel.coinCode)}Link`}
+                  colorCode={coinModel.colorCode}
                   className='coin'
                 >
                   <CoinIcon
                     className='coin-icon'
-                    color={coin.colorCode}
-                    name={coin.icons.circleFilled}
+                    color={coinModel.colorCode}
+                    name={coinModel.icons.circleFilled}
                     size='24px'
                   />
-                  <Destination>{coin.displayName}</Destination>
-                  {coin.showNewTagSidenav && (
-                    <NewCartridge>
-                      <Text color='blue600' size='12' weight={700} uppercase>
-                        <FormattedMessage id='copy.new' defaultMessage='New' />
-                      </Text>
-                    </NewCartridge>
-                  )}
+                  <Destination>{coinModel.displayName}</Destination>
                 </MenuItem>
               </LinkContainer>
-            ),
-          // @ts-ignore
-          props.coins
-        )
+            )
+          )
+        }, props.coinsWithBalanceList)
       )}
       <Separator />
       <LinkContainer to='/airdrops' activeClassName='active'>

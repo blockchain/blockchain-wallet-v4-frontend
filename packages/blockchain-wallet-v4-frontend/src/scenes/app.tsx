@@ -47,6 +47,7 @@ const Interest = React.lazy(() => import('./Interest'))
 const InterestHistory = React.lazy(() => import('./InterestHistory'))
 const Lockbox = React.lazy(() => import('./Lockbox'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
+const Prices = React.lazy(() => import('./Prices'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
@@ -131,6 +132,7 @@ class App extends React.PureComponent<Props> {
                         path='/settings/preferences'
                         component={Preferences}
                       />
+                      <WalletLayout path='/prices' component={Prices} />
                       {values(
                         map(
                           coin =>

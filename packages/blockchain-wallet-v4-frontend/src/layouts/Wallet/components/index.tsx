@@ -17,13 +17,14 @@ export const MenuItem = styled.button<{ colorCode?: keyof DefaultTheme }>`
   justify-content: flex-start;
   align-items: center;
   height: 48px;
-  padding: 0px 16px;
+  padding: 0 16px;
   margin-bottom: 8px;
   box-sizing: border-box;
-  border-width: 0px;
+  border-width: 0;
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
+  line-height: 20px;
   font-weight: 600;
   width: 100%;
   transition: background 0.3s;
@@ -148,7 +149,8 @@ export const SubMenuItem = styled.li`
   }
 `
 export const Separator = styled.div`
-  margin-bottom: 8px;
+  margin-top: 4px;
+  margin-bottom: 12px;
   padding-left: 16px;
   width: 100%;
   height: 1px;

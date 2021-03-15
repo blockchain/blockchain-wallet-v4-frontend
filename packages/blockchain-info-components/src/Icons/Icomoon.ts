@@ -45,6 +45,7 @@ const IcoMoon = {
   'chevron-up': '\\e937',
   'chevron-up-large': '\\e938',
   'cog-filled': '\\e994',
+  compass: '\\e95f',
   copy: '\\e91a',
   'copy-clipboard': '\\e913',
   close: '\\e90d',

@@ -6,6 +6,7 @@ import { bindActionCreators, compose } from 'redux'
 import { actions } from 'data'
 
 import { Props as OwnProps } from '../template.success'
+import { getData } from './selectors'
 import Navigation from './template'
 
 class NavigationContainer extends React.PureComponent<Props> {
@@ -29,7 +30,11 @@ const mapDispatchToProps = dispatch => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const connector = connect(null, mapDispatchToProps)
+const mapStateToProps = state => ({
+  coinsWithBalanceList: getData(state)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(connector)
 

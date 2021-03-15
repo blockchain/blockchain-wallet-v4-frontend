@@ -648,6 +648,22 @@ export const getBalanceSelector = (coin: WalletCurrencyType) => {
   }
 }
 
+export const getAllCoinsBalancesSelector = state => {
+  return {
+    AAVE: getAaveBalance(state).getOrElse(new BigNumber(0)),
+    ALGO: getAlgoBalance(state).getOrElse(new BigNumber(0)),
+    BCH: new BigNumber(getBchBalance(state).getOrElse(0)),
+    BTC: new BigNumber(getBtcBalance(state).getOrElse(0)),
+    DOT: getDotBalance(state).getOrElse(new BigNumber(0)),
+    ETH: getEthBalance(state).getOrElse(new BigNumber(0)),
+    PAX: getPaxBalance(state).getOrElse(new BigNumber(0)),
+    XLM: getXlmBalance(state).getOrElse(new BigNumber(0)),
+    USDT: getUsdtBalance(state).getOrElse(new BigNumber(0)),
+    WDGLD: getWdgldBalance(state).getOrElse(new BigNumber(0)),
+    YFI: getYfiBalance(state).getOrElse(new BigNumber(0))
+  }
+}
+
 export const getErc20BalancesInfo = createDeepEqualSelector(
   [
     getAaveBalanceInfo,
