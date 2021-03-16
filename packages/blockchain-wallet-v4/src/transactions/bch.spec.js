@@ -2,7 +2,7 @@
 // import { Types } from '../../src'
 // import { _transformTx } from './bch'
 
-// TODO: SEGWIT fix test
+// TODO: SEGWIT remove w/ DEPRECATED_V3 fix test
 // describe.skip('transformTx', () => {
 //   const mockState = createMockWalletState(walletV4)
 //   const tx = _transformTx(

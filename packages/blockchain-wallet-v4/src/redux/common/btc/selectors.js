@@ -45,9 +45,27 @@ const _getAccounts = selector => state => {
     )
     return set(lensProp('derivations'), derivationsInfo, account)
   }
+
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
+  if (
+    selector(state) &&
+    selector(state)[0] &&
+    !selector(state)[0].derivations
+  ) {
+    return _getAccounts_DEPRECATED_V3(selector)(state)
+  }
   return Remote.of(map(addInfo, selector(state)))
 }
 
+const _getAccounts_DEPRECATED_V3 = selector => state => {
+  const balancesR = getAddresses(state)
+  const addInfo = account =>
+    balancesR
+      .map(prop(prop('xpub', account)))
+      .map(x => assoc('info', x, account))
+  const accountsR = map(addInfo, selector(state))
+  return sequence(Remote.of, accountsR)
+}
 // default derivation type ('legacy' or 'bech32')
 export const getAccountDefaultDerivation = curry((accountIndex, state) => {
   const account = compose(
@@ -103,26 +121,43 @@ export const getArchivedAddresses = state => {
   return Remote.of(archivedAddresses)
 }
 
-const flattenAccount = acc => ({
-  coin: 'BTC',
-  balance: pipe(
-    prop('derivations'),
-    pluck('info'),
-    pluck('final_balance'),
-    reject(isNil),
-    sum
-  )(acc),
-  derivations: prop('derivations', acc),
-  label: prop('label', acc) ? prop('label', acc) : prop('xpub', acc),
-  index: prop('index', acc),
-  network: prop('network', acc),
-  type: ADDRESS_TYPES.ACCOUNT,
-  xpub: prop(
-    'xpub',
-    acc.derivations.find(
-      propEq('type', HDAccount.selectDefaultDerivation(HDAccount.fromJS(acc)))
+const flattenAccount = acc => {
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
+  if (!acc.derivations) {
+    return flattenAccount_DEPRECATED_V3(acc)
+  }
+  
+  return {
+    coin: 'BTC',
+    balance: pipe(
+      prop('derivations'),
+      pluck('info'),
+      pluck('final_balance'),
+      reject(isNil),
+      sum
+    )(acc),
+    derivations: prop('derivations', acc),
+    label: prop('label', acc) ? prop('label', acc) : prop('xpub', acc),
+    index: prop('index', acc),
+    network: prop('network', acc),
+    type: ADDRESS_TYPES.ACCOUNT,
+    xpub: prop(
+      'xpub',
+      acc.derivations.find(
+        propEq('type', HDAccount.selectDefaultDerivation(HDAccount.fromJS(acc)))
+      )
     )
-  )
+  }
+}
+
+const flattenAccount_DEPRECATED_V3 = acc => ({
+  coin: 'BTC',
+  label: prop('label', acc) ? prop('label', acc) : prop('xpub', acc),
+  balance: path(['info', 'final_balance'], acc),
+  xpub: prop('xpub', acc),
+  index: prop('index', acc),
+  type: ADDRESS_TYPES.ACCOUNT,
+  network: prop('network', acc)
 })
 
 // getAccountsBalances :: state => Remote([])

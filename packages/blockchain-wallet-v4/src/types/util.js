@@ -43,7 +43,7 @@ export const typeError = (T, val) =>
 
 export const typeGuard = curry(
   (Type, x) =>
-    // TODO: SEGWIT rollout, undo change
+    // TODO: SEGWIT remove w/ DEPRECATED_V3, undo change
     // is(Type, x) ? x : error(typeError(Type, x))
     x
 )

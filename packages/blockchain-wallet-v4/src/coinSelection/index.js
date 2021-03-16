@@ -112,7 +112,7 @@ const ft = (targets, feePerByte, coins, changeAddress) => {
           outputs: [...targets, change]
         }
       } else {
-        // TODO: SEGWIT update burn logic?
+        // TODO: SEGWIT remove w/ DEPRECATED_V3 update burn logic?
         // burn change
         return { fee: fee + extra, inputs: selectedCoins, outputs: targets }
       }
@@ -247,7 +247,7 @@ export const branchAndBound = memoize(bnb)
 // getByteCount({'P2PKH':1,'MULTISIG-P2SH:2-3':2},{'P2PKH':2}) means "1 P2PKH input and 2 Multisig P2SH (2 of 3) inputs along with 2 P2PKH outputs"
 
 // assumes compressed pubkeys in all cases.
-// TODO: SEGWIT  we need to account for uncompressed pubkeys!
+// TODO: SEGWIT remove w/ DEPRECATED_V3  we need to account for uncompressed pubkeys!
 export const IO_TYPES = {
   inputs: {
     'MULTISIG-P2SH': 49 * 4, // "legacy"
