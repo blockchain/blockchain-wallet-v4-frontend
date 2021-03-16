@@ -135,6 +135,7 @@ export default ({ api, coreSagas }) => {
       const isLatestVersion = yield select(
         selectors.core.wallet.isWrapperLatestVersion
       )
+      yield call(coreSagas.settings.fetchSettings)
       const invitations = selectors.core.settings
         .getInvitations(yield select())
         .getOrElse(DEFAULT_INVITATIONS)
@@ -162,7 +163,6 @@ export default ({ api, coreSagas }) => {
       yield call(
         coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials
       )
-      yield call(coreSagas.settings.fetchSettings)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
 

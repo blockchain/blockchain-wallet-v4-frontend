@@ -269,16 +269,17 @@ export const upgradeToV3 = curry(
 export const upgradeToV4 = curry((seedHex, password, network, wallet) => {
   const encryptDerivation = applyCipher(wallet, password, Derivation.encrypt)
   const upgradeAccount = account => {
+    const migratedAccount = HDAccount.fromJS(HDAccount.toJS(account), account.index)
     const addDerivationToAccount = derivation =>
       over(
         HDAccount.derivations,
         derivations => derivations.push(derivation),
-        account
+        migratedAccount
       )
     const derivation = HDWallet.generateDerivation(
       HDAccount.DEFAULT_DERIVATION_TYPE,
       HDAccount.DEFAULT_DERIVATION_PURPOSE,
-      account.index,
+      migratedAccount.index,
       network,
       seedHex
     )

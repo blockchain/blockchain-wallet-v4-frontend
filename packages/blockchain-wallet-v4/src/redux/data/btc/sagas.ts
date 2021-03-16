@@ -84,7 +84,8 @@ export default ({ api }: { api: APIType }) => {
       const data = yield call(api.fetchBlockchainData, context, {
         n: TX_PER_PAGE,
         onlyShow:
-          onlyShow || concat(walletContext.legacy, walletContext.bech32),
+          // TODO: SEGWIT remove w/ DEPRECATED_V3
+          onlyShow || concat(walletContext.legacy, walletContext.bech32 || []),
         offset
       })
       const atBounds = length(data.txs) < TX_PER_PAGE

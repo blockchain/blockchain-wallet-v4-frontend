@@ -80,6 +80,7 @@ export const fromAccount = (network, state, index) => {
   const wallet = S.wallet.getWallet(state)
   let account = Wallet.getAccount(index, wallet).get()
   let defaultDerivationXpub = HDAccount.selectXpub(account)
+  // TODO: SEGWIT rollout
   let allXpubsGrouped = HDAccount.selectAllXpubsGrouped(account).toJS()
   let legacy = prop('xpub', allXpubsGrouped.find(propEq('type', 'legacy')))
   let bech32 = prop('xpub', allXpubsGrouped.find(propEq('type', 'bech32')))

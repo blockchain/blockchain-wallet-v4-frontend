@@ -16,7 +16,7 @@ import * as KVStoreEntry from './KVStoreEntry'
 import * as Options from './Options'
 import * as TXNames from './TXNames'
 import * as TXNotes from './TXNotes'
-import * as Wallet from './Wallet_DEPRECATED_V3'
+import * as Wallet from './Wallet'
 import * as Wrapper from './Wrapper'
 
 const serializer = {
