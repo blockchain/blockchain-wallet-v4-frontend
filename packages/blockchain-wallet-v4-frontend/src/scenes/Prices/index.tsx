@@ -1,10 +1,18 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useSortBy, useTable } from 'react-table'
+import { connect } from 'react-redux'
+import { useGlobalFilter, useSortBy, useTable } from 'react-table'
+import { map, not, reject, values } from 'ramda'
+import { compose } from 'redux'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { CoinTypeEnum } from 'blockchain-wallet-v4/src/types'
+import FiatDisplay from 'components/Display/FiatDisplay'
+import { TextBox } from 'components/Form'
 import { SceneWrapper } from 'components/Layout'
+import { selectors } from 'data'
 
 const Header = styled.div`
   width: 100%;
@@ -12,7 +20,9 @@ const Header = styled.div`
 `
 const PageTitle = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
   width: 100%;
 `
 const Title = styled.div`
@@ -46,86 +56,210 @@ const TableWrapper = styled.div`
     /* make sure the inner table is always as wide as needed */
     width: 100%;
     border-spacing: 0;
-    border: 1px solid black;
+    border: 1px solid ${props => props.theme.grey100};
+    border-radius: 8px;
 
-    tr {
-      :last-child {
-        td {
-          border-bottom: 0;
-        }
-      }
+    td {
+      border-top: 1px solid ${props => props.theme.grey100};
     }
 
     th,
     td {
       margin: 0;
-      padding: 0.5rem;
-      border-bottom: 1px solid black;
+      padding: 12px 8px;
       text-align: left;
       /* make sure each cell grows equally */
       width: 1%;
-
-      :last-child {
-        border-right: 0;
-      }
     }
   }
 `
+const CellHeaderText = styled(Text)`
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: ${props => props.theme.grey400};
+`
+const CellText = styled(Text)`
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: ${props => (props.color ? props.color : props.theme.grey900)};
+`
+const HeaderText = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
-const PricesContainer = () => {
+  > :last-child {
+    margin-left: 8px;
+    margin-top: -2px;
+  }
+`
+
+const PricesContainer = ({ coinRates, supportedCoins, walletCurrency }) => {
   const data = React.useMemo(
-    () => [
-      {
-        name: 'Bitcoin',
-        price: '56498.65',
-        priceChange: '2.4%',
-        balance: '0.438054',
-        actions: ''
-      },
-      {
-        name: 'Ethereum',
-        price: '1421.20',
-        priceChange: '5.4%',
-        balance: '4.5422',
-        actions: ''
-      },
-      {
-        name: 'Aave',
-        price: '32.94',
-        priceChange: '-0.4%',
-        balance: '54.9853',
-        actions: ''
-      }
-    ],
+    () =>
+      reject(
+        not,
+        values(
+          map(coin => {
+            return (
+              coin.coinCode in CoinTypeEnum && {
+                coinModel: coin,
+                name: `${coin.displayName} (${coin.coinTicker})`,
+                price: coinRates[coin.coinCode],
+                priceChange: '2.4',
+                balance: '0.438054'
+              }
+            )
+          }, supportedCoins)
+        )
+      ),
     []
   )
 
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Name',
+        Header: () => (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+              paddingLeft: '8px'
+            }}
+          >
+            <CellHeaderText>
+              <FormattedMessage id='copy.name' defaultMessage='Name' />
+            </CellHeaderText>
+          </div>
+        ),
         accessor: 'name',
-        sortType: 'alphanumeric'
+        sortType: 'alphanumeric',
+        Cell: ({ row: { original: values } }) => {
+          return (
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+                paddingLeft: '8px',
+                alignItems: 'center'
+              }}
+            >
+              <Icon
+                name={values.coinModel?.icons.circleFilled}
+                size='32px'
+                color={values.coinModel?.colorCode}
+              />
+              <CellText style={{ marginLeft: '16px' }}>{values.name}</CellText>
+            </div>
+          )
+        }
       },
       {
-        Header: 'Price',
+        Header: () => (
+          <CellHeaderText>
+            <FormattedMessage id='copy.price' defaultMessage='Price' />
+          </CellHeaderText>
+        ),
         accessor: 'price',
-        sortType: 'basic'
+        disableGlobalFilter: true,
+        sortType: 'basic',
+        Cell: ({ row: { original: values } }) => {
+          return (
+            <CellText>
+              <FiatDisplay
+                color='grey900'
+                coin={walletCurrency}
+                currency={walletCurrency}
+                loadingHeight='24px'
+                size='16px'
+                style={{ lineHeight: '24px' }}
+                weight={500}
+              >
+                {values.price[walletCurrency]?.last}
+              </FiatDisplay>
+            </CellText>
+          )
+        }
       },
       {
-        Header: 'Price Change',
+        Header: () => (
+          <CellHeaderText>
+            <FormattedMessage
+              id='copy.price_change'
+              defaultMessage='Price Change'
+            />
+          </CellHeaderText>
+        ),
         accessor: 'priceChange',
-        sortType: 'basic'
+        disableGlobalFilter: true,
+        sortType: 'basic',
+        Cell: ({ cell: { value } }) => (
+          <CellText color={Number(value) >= 0 ? 'green600' : 'red600'}>
+            {value}%
+          </CellText>
+        )
       },
       {
-        Header: 'Your Balance',
+        Header: () => (
+          <CellHeaderText>
+            <FormattedMessage id='copy.balance' defaultMessage='Balance' />
+          </CellHeaderText>
+        ),
         accessor: 'balance',
-        sortType: 'basic'
+        disableGlobalFilter: true,
+        sortType: 'basic',
+        Cell: ({ cell: { value } }) => <CellText>{value}</CellText>
       },
       {
-        Header: 'Actions',
+        Header: () => (
+          <CellHeaderText>
+            <FormattedMessage id='copy.actions' defaultMessage='Actions' />
+          </CellHeaderText>
+        ),
         accessor: 'actions',
-        disableSortBy: true
+        disableGlobalFilter: true,
+        disableSortBy: true,
+        Cell: () => (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+              paddingRight: '8px'
+            }}
+          >
+            <Button
+              data-e2e='TODO'
+              height='32px'
+              nature='primary'
+              width='96px'
+              style={{ marginRight: '12px' }}
+            >
+              <Text size='14px' color='white' weight={600}>
+                <FormattedMessage
+                  id='buttons.buy_sell'
+                  defaultMessage='Buy & Sell'
+                />
+              </Text>
+            </Button>
+            <Button
+              data-e2e='TODO'
+              height='32px'
+              nature='empty-blue'
+              width='68px'
+            >
+              <Text size='14px' color='blue600' weight={600}>
+                <FormattedMessage id='buttons.swap' defaultMessage='Swap' />
+              </Text>
+            </Button>
+          </div>
+        )
       }
     ],
     []
@@ -145,27 +279,44 @@ const PricesContainer = () => {
     getTableProps,
     headerGroups,
     prepareRow,
-    rows
-  } = useTable({ columns, data, initialState, ...options }, useSortBy)
+    rows,
+    setGlobalFilter
+  } = useTable(
+    { columns, data, initialState, ...options },
+    useGlobalFilter,
+    useSortBy
+  )
 
   return (
     <SceneWrapper>
       <Header>
         <PageTitle>
-          <Title>
-            <Icon size='36px' color='blue600' name='compass' />
-            <Text color='grey800' size='32px' weight={600}>
-              <FormattedMessage id='copy.prices' defaultMessage='Prices' />
-            </Text>
-          </Title>
-          <SubTitle>
-            <Text color='grey600' size='16px' weight={500}>
-              <FormattedMessage
-                id='scenes.prices.subtitle'
-                defaultMessage='Explore, Buy, Sell and Swap all of assets offered by our wallet.'
-              />
-            </Text>
-          </SubTitle>
+          <div>
+            <Title>
+              <Icon size='36px' color='blue600' name='compass' />
+              <Text color='grey800' size='32px' weight={600}>
+                <FormattedMessage id='copy.prices' defaultMessage='Prices' />
+              </Text>
+            </Title>
+            <SubTitle>
+              <Text color='grey600' size='16px' weight={500}>
+                <FormattedMessage
+                  id='scenes.prices.subtitle'
+                  defaultMessage='Explore, Buy, Sell and Swap all of assets offered by our wallet.'
+                />
+              </Text>
+            </SubTitle>
+          </div>
+          <div>
+            <Field
+              component={TextBox}
+              height='42px'
+              data-e2e='pricesTextFilter'
+              name='textFilter'
+              onChange={(e, val) => setGlobalFilter(val)}
+              placeholder='Filter by asset name'
+            />
+          </div>
         </PageTitle>
       </Header>
       <TableWrapper>
@@ -175,14 +326,20 @@ const PricesContainer = () => {
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map(column => (
                   <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                    {column.render('Header')}
-                    <span>
-                      {column.isSorted
-                        ? column.isSortedDesc
-                          ? ' 🔽'
-                          : ' 🔼'
-                        : ''}
-                    </span>
+                    <HeaderText>
+                      {column.render('Header')}
+                      <div>
+                        {column.isSorted ? (
+                          column.isSortedDesc ? (
+                            <span>▾</span>
+                          ) : (
+                            <span>▴</span>
+                          )
+                        ) : (
+                          ''
+                        )}
+                      </div>
+                    </HeaderText>
                   </th>
                 ))}
               </tr>
@@ -208,4 +365,16 @@ const PricesContainer = () => {
   )
 }
 
-export default PricesContainer
+const mapStateToProps = state => ({
+  coinRates: selectors.core.data.misc.getAllCoinRatesSelector(state),
+  supportedCoins: selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrFail('Failed to fetch'),
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
+})
+
+const connector = connect(mapStateToProps, null)
+
+const enhance = compose<any>(reduxForm({ form: 'prices' }), connector)
+
+export default enhance(PricesContainer)
