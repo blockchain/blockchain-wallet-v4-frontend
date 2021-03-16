@@ -134,20 +134,24 @@ class App extends React.PureComponent<Props> {
                       />
                       <WalletLayout path='/prices' component={Prices} />
                       {values(
-                        map(
-                          coin =>
-                            coin.txListAppRoute &&
-                            coin.invited && (
+                        map(coinModel => {
+                          const coin = coinModel.coinCode
+                          const isFiat =
+                            coin === 'USD' || coin === 'EUR' || coin === 'GBP'
+                          return (
+                            coinModel.txListAppRoute &&
+                            coinModel.invited && (
                               <WalletLayout
-                                path={coin.txListAppRoute}
+                                path={coinModel.txListAppRoute}
                                 component={Transactions}
-                                coin={coin.coinCode}
-                                isCoinErc20={has('contractAddress', coin)}
-                                key={coin.coinCode}
+                                coin={coin}
+                                isCoinErc20={has('contractAddress', coinModel)}
+                                isFiat={isFiat}
+                                key={coin}
                               />
-                            ),
-                          this.props.supportedCoins
-                        )
+                            )
+                          )
+                        }, this.props.supportedCoins)
                       )}
                       {isAuthenticated ? (
                         <Redirect to='/home' />

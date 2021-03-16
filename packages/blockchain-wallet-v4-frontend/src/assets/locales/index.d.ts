@@ -2045,6 +2045,7 @@ type MessagesType = {
   'scenes.preferences.loading.email.description2': 'to remind you of your wallet login ID,'
   'scenes.preferences.loading.email.description3': 'and to send bitcoin payment alerts when you receive funds.'
   'scenes.preferences.loading.email.title': 'Email address'
+  'scenes.prices.subtitle': 'Explore, Buy, Sell and Swap all of assets offered by our wallet.'
   'scenes.priceindexseries.timefilters.all': 'All'
   'scenes.priceindexseries.timefilters.day': 'Day'
   'scenes.priceindexseries.timefilters.month': 'Month'

@@ -137,12 +137,12 @@ class TransactionsContainer extends React.PureComponent<Props> {
 
   render() {
     const {
-      isInvited,
       coin,
       coinModel,
       currency,
       hasTxResults,
       isCoinErc20,
+      isInvited,
       isSearchEntered,
       loadMoreTxs,
       pages,
@@ -314,7 +314,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
 
 const mapStateToProps = (state, ownProps): LinkStatePropsType =>
   // @ts-ignore
-  getData(state, ownProps.coin, ownProps.isCoinErc20)
+  getData(state, ownProps.coin, ownProps.isCoinErc20, ownProps.isFiat)
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
   const { coin, isCoinErc20 } = ownProps
@@ -382,6 +382,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 export type OwnProps = {
   coin: WalletCurrencyType
   isCoinErc20: boolean
+  isFiat: boolean
 }
 
 export type SuccessStateType = {
