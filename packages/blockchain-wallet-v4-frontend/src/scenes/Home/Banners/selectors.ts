@@ -43,20 +43,26 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     tiers: { current: 0 }
   } as UserDataType)
 
+  const sddEligibleTier = selectors.components.simpleBuy
+    .getUserSddEligibleTier(state)
+    .getOrElse(1)
+
   const limits = selectors.components.simpleBuy.getLimits(state).getOrElse({
     annual: {
       available: '0'
     }
   } as SwapUserLimitsType)
 
+  const isTier3SDD = sddEligibleTier === 3
+
   let bannerToShow: BannerType = null
   if (showDocResubmitBanner) {
     bannerToShow = 'resubmit'
-  } else if (isSimpleBuyOrderPending) {
+  } else if (isSimpleBuyOrderPending && !isTier3SDD) {
     bannerToShow = 'sbOrder'
-  } else if (isKycStateNone && isUserActive && !isFirstLogin) {
+  } else if (isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD) {
     bannerToShow = 'finishKyc'
-  } else if (isFirstLogin && (userData?.tiers?.current < 2 || isKycStateNone)) {
+  } else if (userData?.tiers?.current < 2 || isKycStateNone) {
     bannerToShow = 'buyCrypto'
   } else if (
     (userData?.tiers?.current === TIER_TYPES.SILVER ||
