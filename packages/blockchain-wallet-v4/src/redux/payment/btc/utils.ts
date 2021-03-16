@@ -79,25 +79,39 @@ export const fromExternal = (addrComp, addrUncomp, wifComp, wifUncomp) => ({
 export const fromAccount = (network, state, index) => {
   const wallet = S.wallet.getWallet(state)
   let account = Wallet.getAccount(index, wallet).get()
-  let defaultDerivationXpub = HDAccount.selectXpub(account)
-  // TODO: SEGWIT rollout
-  let allXpubsGrouped = HDAccount.selectAllXpubsGrouped(account).toJS()
-  let legacy = prop('xpub', allXpubsGrouped.find(propEq('type', 'legacy')))
-  let bech32 = prop('xpub', allXpubsGrouped.find(propEq('type', 'bech32')))
+  if (account.derivations) {
+    let defaultDerivationXpub = HDAccount.selectXpub(account)
+    let allXpubsGrouped = HDAccount.selectAllXpubsGrouped(account).toJS()
+    let legacy = prop('xpub', allXpubsGrouped.find(propEq('type', 'legacy')))
+    let bech32 = prop('xpub', allXpubsGrouped.find(propEq('type', 'bech32')))
 
-  let changeIndex = S.data.btc.getChangeIndex(defaultDerivationXpub, state)
-  let changeAddress = changeIndex
-    .map(index => HDAccount.getChangeAddress(account, index, network))
-    .getOrFail('missing_change_address')
+    let changeIndex = S.data.btc.getChangeIndex(defaultDerivationXpub, state)
+    let changeAddress = changeIndex
+      .map(index => HDAccount.getChangeAddress(account, index, network))
+      .getOrFail('missing_change_address')
 
-  return {
-    change: changeAddress,
-    extras: {
-      bech32
-    },
-    from: [legacy],
-    fromAccountIdx: index,
-    fromType: ADDRESS_TYPES.ACCOUNT
+    return {
+      change: changeAddress,
+      extras: {
+        bech32
+      },
+      from: [legacy],
+      fromAccountIdx: index,
+      fromType: ADDRESS_TYPES.ACCOUNT
+    }
+    // TODO: SEGWIT remove w/ DEPRECATED_V3
+  } else {
+    let changeIndex = S.data.btc.getChangeIndex(account.xpub, state)
+    let changeAddress = changeIndex
+      .map(index => HDAccount.getChangeAddress(account, index, network))
+      .getOrFail('missing_change_address')
+
+    return {
+      fromType: ADDRESS_TYPES.ACCOUNT,
+      from: [account.xpub],
+      change: changeAddress,
+      fromAccountIdx: index
+    }
   }
 }
 
