@@ -33,7 +33,7 @@ import WDGLD from './WDGLD'
 import XLM from './XLM'
 import YFI from './YFI'
 
-const FiatCurrencies = {
+export const FiatCurrencies = {
   EUR,
   USD,
   AUD,

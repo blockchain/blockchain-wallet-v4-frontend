@@ -111,7 +111,7 @@
           "coinCode": "ETH",
           "coinTicker": "ETH",
           "colorCode": "eth",
-          "displayName": "Ether",
+          "displayName": "Ethereum",
           "config": {
             "network": 1
           },
