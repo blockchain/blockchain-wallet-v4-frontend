@@ -149,11 +149,7 @@ export const SubMenuItem = styled.li`
   }
 `
 export const Separator = styled.div`
-  margin-top: 4px;
-  margin-bottom: 12px;
-  padding-left: 16px;
   width: 100%;
   height: 1px;
-  box-sizing: border-box;
   background-color: ${props => props.theme.grey000};
 `

@@ -39,25 +39,30 @@ export const NewCartridge = styled(Cartridge)`
   border: 1px solid ${props => props.theme.grey000};
   border-radius: 4px;
 `
-
 const PortfolioSeparator = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-left: 8px;
+  margin-left: 16px;
   margin-bottom: 4px;
-  width: 100%;
+  width: calc(100% - 16px);
   box-sizing: content-box;
-
-  & > :last-child {
-    margin-top: 12px;
-    margin-left: 16px;
-  }
+`
+const SeparatorWrapper = styled.div<{ margin?: string }>`
+  width: calc(100% - 32px);
+  margin: ${props => (props.margin ? props.margin : '8px 16px')};
+  box-sizing: border-box;
 `
 
 type OwnProps = {
   exchangeUrl: string
 }
+
+const Divider = (props: { margin?: string }) => (
+  <SeparatorWrapper {...props}>
+    <Separator />
+  </SeparatorWrapper>
+)
 
 const ExchangeNavItem = props => (
   <>
@@ -88,7 +93,7 @@ const Navigation = (props: OwnProps & Props) => {
 
   return (
     <Wrapper {...rest}>
-      <Separator />
+      <Divider />
       <LinkContainer to='/home' activeClassName='active'>
         <MenuItem data-e2e='dashboardLink'>
           <MenuIcon className='icon' name='home' size='24px' />
@@ -109,7 +114,7 @@ const Navigation = (props: OwnProps & Props) => {
         <Text color='grey600' lineHeight='20px' weight={600} size='14px'>
           <FormattedMessage id='copy.portfolio' defaultMessage='Portfolio' />
         </Text>
-        <Separator />
+        <Divider />
       </PortfolioSeparator>
       <LinkContainer to='/usd/transactions' activeClassName='active'>
         <MenuItem colorCode='fiat' data-e2e='cashLink' className='coin'>
@@ -147,7 +152,7 @@ const Navigation = (props: OwnProps & Props) => {
           )
         }, props.coinsWithBalanceList)
       )}
-      <Separator />
+      <Divider margin='0 16px 8px 16px' />
       <LinkContainer to='/airdrops' activeClassName='active'>
         <MenuItem data-e2e='airdropLink' className='airdrop'>
           <MenuIcon className='icon' name='parachute' size='24px' />
