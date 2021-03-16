@@ -49,6 +49,7 @@ class SimpleBuy extends PureComponent<Props, State> {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
+    // for first time login users we need to run goal since this is a first page we show them
     if (this.props.isFirstLogin) {
       this.props.runGoals()
     }
