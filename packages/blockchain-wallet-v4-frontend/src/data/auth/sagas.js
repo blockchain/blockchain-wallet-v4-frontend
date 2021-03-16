@@ -139,7 +139,7 @@ export default ({ api, coreSagas }) => {
       const invitations = selectors.core.settings
         .getInvitations(yield select())
         .getOrElse(DEFAULT_INVITATIONS)
-      const isSegwitEnabled = false /* invitations.segwit */
+      const isSegwitEnabled = invitations.segwit
       if (!isLatestVersion && isSegwitEnabled) {
         yield call(upgradeWalletSaga, isDoubleEncrypted, 4)
       }
