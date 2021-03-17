@@ -14,7 +14,7 @@ export default ({ api, networks }) => {
     yield delay(1000)
     const addressLabels = {}
 
-    // TODO: SEGWIT remove w/ DEPRECATED_V3 derive correct addresses!
+    // TODO: SEGWIT derive correct addresses!
     // const wallet = yield select(getWallet)
     // const accounts = Wallet.selectHDAccounts(wallet)
     // accounts.map(account => {

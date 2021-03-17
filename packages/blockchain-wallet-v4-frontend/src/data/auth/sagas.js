@@ -52,7 +52,7 @@ export default ({ api, coreSagas }) => {
       }
       yield call(forceSyncWallet)
     } catch (e) {
-      // TODO: SEGWIT remove w/ DEPRECATED_V3 (modals are mounted twice)
+      // TODO: SEGWIT (modals are mounted twice)
       if (e.message === 'Already a v4 wallet') return
       yield put(actions.logs.logErrorMessage(logLocation, 'upgradeWallet', e))
       yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))

@@ -147,7 +147,7 @@ export const fromCustodial = origin => {
 export const fromPrivateKey = (network, wallet, key) => {
   let c = getWifAddress(key, true)
   let u = getWifAddress(key, false)
-  // TODO: SEGWIT remove w/ DEPRECATED_V3 i believe we can get rid of the watch only checks
+  // TODO: SEGWIT i believe we can get rid of the watch only checks
   let isCompressedWatchOnly = Wallet.getAddress(c.address, wallet)
     .map(Address.isWatchOnly)
     .getOrElse(false)
