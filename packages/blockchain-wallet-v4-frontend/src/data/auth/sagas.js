@@ -215,8 +215,6 @@ export default ({ api, coreSagas }) => {
       )
       // Redirect to error page instead of notification
       yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
-      // eslint-disable-next-line
-      console.log(e)
     }
   }
 

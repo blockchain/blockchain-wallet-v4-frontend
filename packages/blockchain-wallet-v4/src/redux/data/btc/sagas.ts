@@ -47,8 +47,6 @@ export default ({ api }: { api: APIType }) => {
       }
       yield put(A.fetchDataSuccess(btcData))
     } catch (e) {
-      // eslint-disable-next-line
-      console.log(e)
       yield put(A.fetchDataFailure(errorHandler(e)))
     }
   }
