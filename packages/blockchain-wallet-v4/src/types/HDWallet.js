@@ -8,6 +8,7 @@ import * as crypto from '../walletCrypto'
 import * as Derivation from './Derivation'
 import * as HDAccount from './HDAccount'
 import * as HDAccountList from './HDAccountList'
+import * as HDWallet_DEPRECATED_V3 from './HDWallet_DEPRECATED_V3'
 import Type from './Type'
 import { shift, shiftIProp } from './util'
 
@@ -89,15 +90,25 @@ export const generateDerivations = (seedHex, index, network) => {
   })
 }
 
-export const generateAccount = curry((index, label, network, seedHex) => {
-  const derivations = generateDerivations(seedHex, index, network)
-  return HDAccount.fromJS(HDAccount.js(label, derivations))
-})
-
 export const generateDerivation = curry(
   (type, purpose, index, network, seedHex) => {
     let node = deriveAccountNodeAtIndex(seedHex, purpose, index, network)
     return Derivation.fromJS(Derivation.js(type, purpose, node, null))
+  }
+)
+
+export const generateAccount = curry(
+  (index, label, network, payloadV, seedHex) => {
+    // TODO: SEGWIT remove (version) w/ DEPRECATED_V3
+    if (payloadV < 4)
+      return HDWallet_DEPRECATED_V3.generateAccount(
+        index,
+        label,
+        network,
+        seedHex
+      )
+    const derivations = generateDerivations(seedHex, index, network)
+    return HDAccount.fromJS(HDAccount.js(label, derivations))
   }
 )
 

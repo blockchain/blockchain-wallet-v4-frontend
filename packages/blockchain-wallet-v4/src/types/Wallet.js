@@ -260,7 +260,7 @@ export const importLegacyAddress = curry(
 export const upgradeToV3 = curry(
   (mnemonic, firstLabel, password, network, wallet) => {
     return newHDWallet(mnemonic, password, wallet).chain(
-      newHDAccount(firstLabel, password, network)
+      newHDAccount(firstLabel, password, network, 3)
     )
   }
 )
@@ -269,7 +269,10 @@ export const upgradeToV3 = curry(
 export const upgradeToV4 = curry((seedHex, password, network, wallet) => {
   const encryptDerivation = applyCipher(wallet, password, Derivation.encrypt)
   const upgradeAccount = account => {
-    const migratedAccount = HDAccount.fromJS(HDAccount.toJS(account), account.index)
+    const migratedAccount = HDAccount.fromJS(
+      HDAccount.toJS(account),
+      account.index
+    )
     const addDerivationToAccount = derivation =>
       over(
         HDAccount.derivations,
@@ -304,28 +307,30 @@ export const newHDWallet = curry((mnemonic, password, wallet) => {
 })
 
 // newHDAccount :: String -> String? -> Wallet -> Task Error Wallet
-export const newHDAccount = curry((label, password, network, wallet) => {
-  let hdWallet = HDWalletList.selectHDWallet(selectHdWallets(wallet))
-  let index = hdWallet.accounts.size
-  let appendAccount = curry((w, account) => {
-    let accountsLens = compose(
-      hdWallets,
-      HDWalletList.hdwallet,
-      HDWallet.accounts
+export const newHDAccount = curry(
+  (label, password, network, payloadV, wallet) => {
+    let hdWallet = HDWalletList.selectHDWallet(selectHdWallets(wallet))
+    let index = hdWallet.accounts.size
+    let appendAccount = curry((w, account) => {
+      let accountsLens = compose(
+        hdWallets,
+        HDWalletList.hdwallet,
+        HDWallet.accounts
+      )
+      let accountWithIndex = set(HDAccount.index, index, account)
+      return over(accountsLens, accounts => accounts.push(accountWithIndex), w)
+    })
+    return applyCipher(
+      wallet,
+      password,
+      flip(crypto.decryptSecPass),
+      hdWallet.seedHex
     )
-    let accountWithIndex = set(HDAccount.index, index, account)
-    return over(accountsLens, accounts => accounts.push(accountWithIndex), w)
-  })
-  return applyCipher(
-    wallet,
-    password,
-    flip(crypto.decryptSecPass),
-    hdWallet.seedHex
-  )
-    .map(HDWallet.generateAccount(index, label, network))
-    .chain(applyCipher(wallet, password, HDAccount.encrypt))
-    .map(appendAccount(wallet))
-})
+      .map(HDWallet.generateAccount(index, label, network, payloadV))
+      .chain(applyCipher(wallet, password, HDAccount.encrypt))
+      .map(appendAccount(wallet))
+  }
+)
 
 // setLegacyAddressLabel :: String -> String -> Wallet -> Wallet
 export const setLegacyAddressLabel = curry((address, label, wallet) => {
