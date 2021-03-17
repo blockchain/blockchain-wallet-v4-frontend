@@ -34,6 +34,7 @@ export default ({ api, networks }) => {
     const { derivation, walletIndex } = action.payload
     try {
       yield put(A.generateNextReceiveAddressLoading(walletIndex, derivation))
+      const wrapper = yield select(selectors.core.wallet.getWrapper)
       const wallet = yield select(selectors.core.wallet.getWallet)
       const account = Types.Wallet.selectHDAccounts(wallet).get(walletIndex)
       const nextReceiveIndex = yield select(
@@ -48,7 +49,9 @@ export default ({ api, networks }) => {
           account.index,
           nextReceiveIndex.getOrElse(0),
           derivation,
-          'New Address'
+          'New Address',
+          // TODO: SEGWIT remove w/ DEPRECATED_V3
+          wrapper.version
         )
       )
       yield put(A.fetchUnusedAddresses(walletIndex, derivation))

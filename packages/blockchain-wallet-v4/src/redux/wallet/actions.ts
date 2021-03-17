@@ -30,10 +30,13 @@ export const setHdAddressLabel = (
   accountIdx,
   addressIdx,
   derivationType,
-  label
+  label,
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
+  payloadV
 ) => ({
   type: T.SET_HD_ADDRESS_LABEL,
-  payload: { accountIdx, addressIdx, derivationType, label }
+  // TODO: SEGWIT remove w/ DEPRECATED_V3, payloadV
+  payload: { accountIdx, addressIdx, derivationType, label, payloadV }
 })
 export const createLegacyAddress = address => ({
   type: T.CREATE_LEGACY_ADDRESS,

@@ -55,10 +55,23 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
       return set(Wrapper.password, password, state)
     }
     case AT.SET_HD_ADDRESS_LABEL: {
-      let { accountIdx, addressIdx, derivationType, label } = action.payload
+      let {
+        accountIdx,
+        addressIdx,
+        derivationType,
+        label,
+        payloadV
+      } = action.payload
       return over(
         Wrapper.wallet,
-        Wallet.setHdAddressLabel(accountIdx, addressIdx, derivationType, label),
+        // TODO: SEGWIT remove w/ DEPRECATED_V3: payloadV
+        Wallet.setHdAddressLabel(
+          accountIdx,
+          addressIdx,
+          derivationType,
+          label,
+          payloadV
+        ),
         state
       )
     }

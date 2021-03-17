@@ -36,6 +36,7 @@ import * as TXNames from './TXNames'
 import * as TXNotes from './TXNotes'
 import Type from './Type'
 import { shift, shiftIProp } from './util'
+import * as Wallet_DEPRECATED_V3 from './Wallet_DEPRECATED_V3'
 
 /* Wallet :: {
   guid :: String
@@ -379,7 +380,16 @@ export const deleteHdAddressLabel = curry(
 
 // setHdAddressLabel :: Number -> Number -> String -> Wallet -> Wallet
 export const setHdAddressLabel = curry(
-  (accountIdx, addressIdx, derivationType, label, wallet) => {
+  // TODO: SEGWIT remove w/ DEPRECATED_V3: payloadV
+  (accountIdx, addressIdx, derivationType, label, payloadV, wallet) => {
+    if (payloadV < 4) {
+      return Wallet_DEPRECATED_V3.setHdAddressLabel(
+        accountIdx,
+        addressIdx,
+        label,
+        wallet
+      )
+    }
     const lens = compose(
       hdWallets,
       HDWalletList.hdwallet,
