@@ -60,7 +60,7 @@ export default () => {
               case 'transferred':
                 return 3
               default:
-                
+                break
             }
           }
           yield put(

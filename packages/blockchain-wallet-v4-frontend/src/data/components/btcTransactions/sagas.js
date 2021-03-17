@@ -60,11 +60,11 @@ export default () => {
               case 'transferred':
                 return 3
               default:
-                
+                break
             }
           }
           yield put(
-            actions.core.data.bch.fetchTransactions(
+            actions.core.data.btc.fetchTransactions(
               onlyShow,
               true,
               filter(payload)
