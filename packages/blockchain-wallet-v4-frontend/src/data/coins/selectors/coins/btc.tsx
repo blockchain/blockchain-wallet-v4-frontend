@@ -65,7 +65,11 @@ export const getAccounts = createDeepEqualSelector(
               accountIndex: prop('index', acc),
               address: prop('index', acc),
               archived: prop('archived', acc),
-              balance: xpubBalance(acc).reduce(add, 0),
+              // TODO: SEGWIT remove w/ DEPRECATED_V3
+              balance: acc.derivations
+                ? xpubBalance(acc).reduce(add, 0)
+                // @ts-ignore
+                : prop('final_balance', prop(prop('xpub', acc), btcData)),
               baseCoin: coin,
               coin,
               label: prop('label', acc) || prop('xpub', acc),

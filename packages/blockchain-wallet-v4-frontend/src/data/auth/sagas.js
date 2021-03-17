@@ -2,6 +2,7 @@ import { assoc, find, is, prop, propEq } from 'ramda'
 import { call, delay, fork, put, race, select, take } from 'redux-saga/effects'
 
 import { Remote } from 'blockchain-wallet-v4/src'
+import { DEFAULT_INVITATIONS } from 'blockchain-wallet-v4/src/model'
 import { actions, actionTypes, selectors } from 'data'
 import * as C from 'services/alerts'
 import { checkForVulnerableAddressError } from 'services/misc'
@@ -134,7 +135,12 @@ export default ({ api, coreSagas }) => {
       const isLatestVersion = yield select(
         selectors.core.wallet.isWrapperLatestVersion
       )
-      if (!isLatestVersion) {
+      yield call(coreSagas.settings.fetchSettings)
+      const invitations = selectors.core.settings
+        .getInvitations(yield select())
+        .getOrElse(DEFAULT_INVITATIONS)
+      const isSegwitEnabled = invitations.segwit
+      if (!isLatestVersion && isSegwitEnabled) {
         yield call(upgradeWalletSaga, isDoubleEncrypted, 4)
       }
       // Finish upgrades
@@ -157,7 +163,6 @@ export default ({ api, coreSagas }) => {
       yield call(
         coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials
       )
-      yield call(coreSagas.settings.fetchSettings)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
 

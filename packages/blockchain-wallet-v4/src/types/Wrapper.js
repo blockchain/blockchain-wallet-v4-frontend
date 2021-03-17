@@ -7,6 +7,7 @@ import * as crypto from '../walletCrypto'
 import * as Options from './Options'
 import Type from './Type'
 import * as Wallet from './Wallet'
+import * as Wallet_DEPRECATED_V3 from './Wallet_DEPRECATED_V3'
 
 const PAYLOAD_VERSION = crypto.SUPPORTED_ENCRYPTION_VERSION
 
@@ -60,13 +61,21 @@ export const fromJS = wrapper => {
   if (isWrapper(wrapper)) {
     return wrapper
   }
-  const wrapperCons = over(wallet, Wallet.fromJS)
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
+  const wrapperCons = over(
+    wallet,
+    (wrapper.version === 4 ? Wallet : Wallet_DEPRECATED_V3).fromJS
+  )
   return wrapperCons(new Wrapper(wrapper))
 }
 
 // toJS :: wrapper -> JSON
 export const toJS = pipe(Wrapper.guard, wrapper => {
-  const wrapperDecons = over(wallet, Wallet.toJS)
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
+  const wrapperDecons = over(
+    wallet,
+    (wrapper.version === 4 ? Wallet : Wallet_DEPRECATED_V3).toJS
+  )
   return wrapperDecons(wrapper).toJS()
 })
 
@@ -134,10 +143,20 @@ export const fromEncJSON = curry((password, json) => {
       .map(payload => assoc('version', payload.version, wrapper))
       .getOrElse(wrapper)
 
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
+  let v
+  try {
+    v = JSON.parse(json.payload).version
+  } catch (e) {
+    // eslint-disable-next-line
+    v = 3
+  }
+
   return traverseOf(
     payloadL,
     Task.of,
-    Wallet.fromEncryptedPayload(password),
+    // TODO: SEGWIT remove w/ DEPRECATED_V3
+    (v === 4 ? Wallet : Wallet_DEPRECATED_V3).fromEncryptedPayload(password),
     json
   )
     .map(assocVersion)
@@ -164,10 +183,14 @@ export const fromEncPayload = curry((password, payload) => {
     pbkdf2Iterations,
     version
   }
+
   return traverseOf(
     lensProp('payload'),
     Task.of,
-    Wallet.fromEncryptedPayload(password),
+    // TODO: SEGWIT remove w/ DEPRECATED_V3
+    (version === 4 ? Wallet : Wallet_DEPRECATED_V3).fromEncryptedPayload(
+      password
+    ),
     wrapper
   )
     .map(o => assoc('wallet', o.payload, o))

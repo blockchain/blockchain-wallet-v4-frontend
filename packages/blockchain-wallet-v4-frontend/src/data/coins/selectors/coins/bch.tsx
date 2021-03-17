@@ -54,10 +54,15 @@ export const getAccounts = createDeepEqualSelector(
               const index = prop('index', acc)
               // this is using hdAccount with new segwit structure
               // need to get legacy xPub from derivations object similar to btc selector
-              const xpub = prop(
-                'xpub',
-                prop('derivations', acc).find(derr => derr.type === 'legacy')
-              )
+              // TODO: SEGWIT remove w/ DEPRECATED_V3
+              const xpub = acc.derivations
+                ? prop(
+                    'xpub',
+                    prop('derivations', acc).find(
+                      derr => derr.type === 'legacy'
+                    )
+                  )
+                : acc.xpub
               const data = prop(xpub, bchData)
               const metadata = bchMetadata[index]
               return {

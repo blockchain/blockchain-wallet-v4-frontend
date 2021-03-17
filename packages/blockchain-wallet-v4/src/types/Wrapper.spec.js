@@ -32,7 +32,9 @@ describe('Wrapper', () => {
         wrapperV3
       )
       const upgraded = await taskToPromise(upgradeTask)
-      expect(upgraded).toEqual(wrapperV4Segwit)
+      const stringifiedUpgraded = JSON.stringify(upgraded.toJSON())
+      const stringifiedSegwitWrapper = JSON.stringify(wrapperV4Segwit.toJSON())
+      expect(stringifiedUpgraded).toEqual(stringifiedSegwitWrapper)
     })
   })
 })

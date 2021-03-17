@@ -58,7 +58,10 @@ export const getActiveHDAccounts = state => {
         prop(
           prop(
             'xpub',
-            account.derivations.find(d => d.type === 'legacy')
+            // TODO: SEGWIT remove w/ DEPRECATED_V3
+            account.derivations
+              ? account.derivations.find(d => d.type === 'legacy')
+              : account
           )
         )
       )
@@ -115,7 +118,8 @@ const digestAddress = acc => ({
 const digestAccount = acc => {
   const xpub = prop(
     'xpub',
-    acc.derivations.find(d => d.type === 'legacy')
+    // TODO: SEGWIT remove w/ DEPRECATED_V3
+    acc.derivations ? acc.derivations.find(d => d.type === 'legacy') : acc
   )
 
   return {
