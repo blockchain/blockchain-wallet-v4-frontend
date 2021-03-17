@@ -11,4 +11,5 @@ export const DEFAULT_INVITATIONS: InvitationsType = {
   USDT: true,
   WDGLD: true,
   segwit: false
+  achDepositWithdrawal: false
 }

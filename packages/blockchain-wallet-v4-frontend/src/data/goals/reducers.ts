@@ -6,6 +6,7 @@ import { GoalsState } from './types'
 const INITIAL_STATE: GoalsState = {
   goals: [],
   initialModals: {},
+  initialRedirect: '',
   initialModalDisplayed: false
 }
 
@@ -29,6 +30,12 @@ export function goalsReducer(state = INITIAL_STATE, action): GoalsState {
           ...state.initialModals,
           [action.payload.key]: action.payload
         }
+      }
+    }
+    case AT.ADD_INITIAL_REDIRECT: {
+      return {
+        ...state,
+        initialRedirect: action.payload.path
       }
     }
     case AT.INITIAL_MODAL_DISPLAYED: {

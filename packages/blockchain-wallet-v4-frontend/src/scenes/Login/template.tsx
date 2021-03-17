@@ -274,12 +274,16 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                 )}
               </Text>
             </Header>
-            {!isNil(goalData) && !isEmpty(goalData) && (
-              <SimpleBuyInfo
-                goalData={goalData}
-                supportedCoins={supportedCoins}
-              />
-            )}
+            {!isNil(goalData) &&
+              !isEmpty(goalData) &&
+              !!goalData.fiatCurrency &&
+              !!goalData.crypto &&
+              !!goalData.amount && (
+                <SimpleBuyInfo
+                  goalData={goalData}
+                  supportedCoins={supportedCoins}
+                />
+              )}
             <LoginForm onSubmit={handleSubmit}>
               {!isSupportedBrowser && (
                 <BrowserWarning>

@@ -88,7 +88,7 @@ export const getAccounts = createDeepEqualSelector(
             balance: importedAcc.final_balance,
             baseCoin: coin,
             coin,
-            label: importedAcc.label,
+            label: importedAcc.label || importedAcc.addr,
             type: ADDRESS_TYPES.LEGACY
           }))
         )

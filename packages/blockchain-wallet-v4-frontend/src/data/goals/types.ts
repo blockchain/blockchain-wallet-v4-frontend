@@ -10,6 +10,7 @@ export type GoalsType =
   | 'paymentProtocol'
   | 'referral'
   | 'simpleBuy'
+  | 'swap'
   | 'swapGetStarted'
   | 'swapUpgrade'
   | 'syncPit'
@@ -17,6 +18,7 @@ export type GoalsType =
   | 'upgradeForAirdrop'
   | 'welcomeModal'
   | 'xlmPayment'
+  | 'interest'
 
 export type GoalsState = {
   goals: Array<{ data: any; id: string; name: GoalsType }>
@@ -26,4 +28,17 @@ export type GoalsState = {
         [key in GoalsType]: { data: any; key: key; name: ModalNamesType }
       }
     | {}
+  initialRedirect: string
+}
+
+export enum DeepLinkGoal {
+  BITCOIN = 'bitcoin',
+  INTEREST = 'interest',
+  KYC = 'kyc',
+  LINK_ACCOUNT = 'link-account',
+  LOG_LEVEL = 'log-level',
+  REFERRAL = 'referral',
+  SIMPLE_BUY = 'simple-buy',
+  SWAP = 'swap',
+  XLM = 'xlm'
 }
