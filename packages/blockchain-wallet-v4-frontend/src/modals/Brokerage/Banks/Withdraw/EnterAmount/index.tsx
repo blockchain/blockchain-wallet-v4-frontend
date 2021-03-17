@@ -28,7 +28,7 @@ class EnterAmount extends PureComponent<Props> {
 
   componentDidMount() {
     let paymentMethod: SBPaymentTypes | 'ALL' = 'ALL'
-    if (this.props.defaultMethod) {
+    if (this.props.isInvited && this.props.defaultMethod) {
       paymentMethod = 'BANK_TRANSFER'
     }
     // We need to make this call each time we load the enter amount component
@@ -116,7 +116,8 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   formValues: selectors.form.getFormValues('custodyWithdrawForm')(
     state
   ) as WithdrawCheckoutFormValuesType,
-  defaultMethod: selectors.components.brokerage.getAccount(state)
+  defaultMethod: selectors.components.brokerage.getAccount(state),
+  isInvited: selectors.core.settings.getInvitations(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

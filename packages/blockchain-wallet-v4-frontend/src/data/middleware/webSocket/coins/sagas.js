@@ -2,7 +2,7 @@ import crypto from 'crypto'
 import { concat, equals, prop } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
-import { crypto as wCrypto, Remote } from 'blockchain-wallet-v4/src'
+import { crypto as wCrypto } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 import * as T from 'services/alerts'
 
@@ -24,26 +24,22 @@ function uuidv4() {
 export default ({ api, socket }) => {
   const send = socket.send.bind(socket)
 
-  const pingPhone = function * (channelId, secretHex, phonePubkey, guid) {
-    let currentState = yield select(selectors.auth.getSecureChannelLogin)
-    if (currentState !== Remote.NotAsked) {
-      return
-    }
-    let msg = {
+  const pingPhone = function * (channelId, secretHex, phonePubKey, guid) {
+    const msg = {
       type: 'login_wallet',
       channelId: channelId,
       timestamp: Date.now()
     }
 
-    let sharedSecret = wCrypto.deriveSharedSecret(
+    const sharedSecret = wCrypto.deriveSharedSecret(
       Buffer.from(secretHex, 'hex'),
-      Buffer.from(phonePubkey, 'hex')
+      Buffer.from(phonePubKey, 'hex')
     )
-    let encrypted = wCrypto.encryptAESGCM(
+    const encrypted = wCrypto.encryptAESGCM(
       sharedSecret,
       Buffer.from(JSON.stringify(msg), 'utf8')
     )
-    let payload = {
+    const payload = {
       guid: guid,
       pubkeyhash: wCrypto
         .sha256(wCrypto.derivePubFromPriv(Buffer.from(secretHex, 'hex')))
@@ -77,10 +73,10 @@ export default ({ api, socket }) => {
     )
 
     // Also, if we already know a phone, let's ping it to give us it's secrets
-    let phonePubkey = yield select(selectors.cache.getPhonePubkey)
-    let guid = yield select(selectors.cache.getLastGuid)
-    if (phonePubkey && guid) {
-      yield pingPhone(channelId, secretHex, phonePubkey, guid)
+    const phonePubKey = yield select(selectors.cache.getPhonePubkey)
+    const guid = yield select(selectors.cache.getLastGuid)
+    if (phonePubKey && guid) {
+      yield pingPhone(channelId, secretHex, phonePubKey, guid)
     }
   }
 
@@ -386,9 +382,9 @@ export default ({ api, socket }) => {
   const resendMessageSocket = function * () {
     const secretHex = yield select(selectors.cache.getChannelPrivKey)
     const channelId = yield select(selectors.cache.getChannelChannelId)
-    const phonePubkey = yield select(selectors.cache.getPhonePubkey)
+    const phonePubKey = yield select(selectors.cache.getPhonePubkey)
     const guid = yield select(selectors.cache.getLastGuid)
-    yield pingPhone(channelId, secretHex, phonePubkey, guid)
+    yield pingPhone(channelId, secretHex, phonePubKey, guid)
   }
 
   return {

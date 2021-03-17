@@ -51,6 +51,7 @@ export type OwnProps = {
 
 export type SuccessStateType = {
   account: SBAccountType
+  isInvited: boolean
   userData: UserDataType
 }
 type LinkStatePropsType = {

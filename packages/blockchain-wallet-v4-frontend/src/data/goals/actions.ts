@@ -24,6 +24,10 @@ export const addInitialModal = (
   type: AT.ADD_INITIAL_MODAL,
   payload: { key, name, data }
 })
+export const addInitialRedirect = (path: string) => ({
+  type: AT.ADD_INITIAL_REDIRECT,
+  payload: { path }
+})
 export const initialModalDisplayed = {
   type: AT.INITIAL_MODAL_DISPLAYED
 }

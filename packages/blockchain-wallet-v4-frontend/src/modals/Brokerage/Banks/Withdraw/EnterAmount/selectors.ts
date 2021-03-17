@@ -29,14 +29,9 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
     state
   )
   // TODO: Remove this when ach deposits withdrawals gets rolled out hundo P
-  const brokerageDepositsWithdrawalsR = selectors.core.walletOptions.getBrokerageDepositsWithdrawals(
-    state
-  )
-  const brokerageDepositsWithdrawals = brokerageDepositsWithdrawalsR.getOrElse(
-    false
-  )
-
-  if (!brokerageDepositsWithdrawals) {
+  const invitationsR = selectors.core.settings.getInvitations(state)
+  const isInvited = invitationsR.data.achDepositWithdrawal
+  if (!isInvited) {
     defaultMethodR = undefined
     bankTransferAccountsR = Remote.Success([])
   }
@@ -49,6 +44,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
     state,
     ownProps.fiatCurrency
   )
+
   const feesR = selectors.components.withdraw.getFeeForCurrency(
     state,
     ownProps.fiatCurrency
@@ -80,8 +76,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       minAmount,
       fees,
       locks,
-      supportedCoins,
-      brokerageDepositsWithdrawals
+      supportedCoins
     })
   )(
     bankTransferAccountsR,
