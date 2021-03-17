@@ -73,7 +73,7 @@ const tagCoin = curry((wallet, accountList, coin) => {
         change: isAccountChange(coin),
         coinType: accountPath(index, coin),
         label: HDAccount.selectLabel(account),
-        // TODO: SEGWIT remove w/ DEPRECATED_V3, is this needed?
+        // TODO: SEGWIT, is this needed?
         // isWatchOnly: HDAccount.isWatchOnly(account),
         receiveIndex: receiveIndex(coin) // only if change?
       }
