@@ -201,6 +201,7 @@ export default ({ api, networks }) => {
       walletIndex
     } = action.payload
     try {
+      const wrapper = yield select(selectors.core.wallet.getWrapper)
       yield put(A.editAddressLabelLoading(accountIndex, derivation))
       let newLabel = yield call(promptForInput, {
         title: 'Rename Address Label',
@@ -211,7 +212,9 @@ export default ({ api, networks }) => {
           accountIndex,
           addressIndex,
           derivation,
-          newLabel
+          newLabel,
+          // TODO: SEGWIT remove w/ DEPRECATED_V3
+          wrapper.version
         )
       )
       yield put(A.fetchUnusedAddresses(walletIndex, derivation))
@@ -258,6 +261,7 @@ export default ({ api, networks }) => {
     const { accountIdx, addressIdx, derivation, walletIdx } = action.payload
 
     try {
+      const wrapper = yield select(selectors.core.wallet.getWrapper)
       yield put(A.deleteAddressLabelLoading(accountIdx, derivation))
       yield call(
         function * () {
@@ -265,7 +269,9 @@ export default ({ api, networks }) => {
             actions.core.wallet.deleteHdAddressLabel(
               accountIdx,
               addressIdx,
-              derivation
+              derivation,
+              // TODO: SEGWIT remove w/ DEPRECATED_V3
+              wrapper.version
             )
           )
         },

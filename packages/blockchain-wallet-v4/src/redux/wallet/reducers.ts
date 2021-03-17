@@ -76,10 +76,20 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
       )
     }
     case AT.DELETE_HD_ADDRESS_LABEL: {
-      const { accountIdx, addressIdx, derivationType } = action.payload
+      const {
+        accountIdx,
+        addressIdx,
+        derivationType,
+        payloadV
+      } = action.payload
       return over(
         Wrapper.wallet,
-        Wallet.deleteHdAddressLabel(accountIdx, addressIdx, derivationType),
+        Wallet.deleteHdAddressLabel(
+          accountIdx,
+          addressIdx,
+          derivationType,
+          payloadV
+        ),
         state
       )
     }

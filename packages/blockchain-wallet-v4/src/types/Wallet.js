@@ -361,7 +361,14 @@ export const deleteLegacyAddress = curry((address, wallet) => {
 
 // deleteHdAddressLabel :: Number -> Number -> String -> Wallet -> Wallet
 export const deleteHdAddressLabel = curry(
-  (accountIdx, addressIdx, derivationType, wallet) => {
+  (accountIdx, addressIdx, derivationType, payloadV, wallet) => {
+    if (payloadV < 4) {
+      return Wallet_DEPRECATED_V3.deleteHdAddressLabel(
+        accountIdx,
+        addressIdx,
+        wallet
+      )
+    }
     const lens = compose(
       hdWallets,
       HDWalletList.hdwallet,
