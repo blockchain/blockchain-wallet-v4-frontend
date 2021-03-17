@@ -344,10 +344,10 @@ const mapStateToProps = (state, ownProps) => {
   return {
     accountIndex: prop('index', account),
     accountLabel: prop('label', account),
-    hasLegacyDerivation: any(
-      propEq('type', 'legacy'),
-      prop('derivations', account.toJS())
-    ),
+    // TODO: SEGWIT remove w/ DEPRECATED_V3
+    hasLegacyDerivation:
+      account.derivations &&
+      any(propEq('type', 'legacy'), prop('derivations', account.toJS())),
     isDefault,
     unusedAddresses,
     search: formValueSelector('manageAddresses')(state, 'search'),

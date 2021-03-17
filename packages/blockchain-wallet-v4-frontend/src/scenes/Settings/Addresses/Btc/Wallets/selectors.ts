@@ -1,4 +1,4 @@
-import { isNil, map, pipe, pluck, prop, reject, sum } from 'ramda'
+import { isNil, map, pathOr, pipe, pluck, prop, reject, sum } from 'ramda'
 
 import { Types } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
@@ -9,14 +9,16 @@ const getDefaultIdx = state =>
   )
 const prepareWallet = (wallet, idx) => ({
   archived: wallet.archived,
-  balance: pipe(
-    prop('derivations'),
-    // @ts-ignore
-    pluck('info'),
-    pluck('final_balance'),
-    reject(isNil),
-    sum
-  )(wallet),
+  balance: wallet.derivations
+    ? pipe(
+        prop('derivations'),
+        // @ts-ignore
+        pluck('info'),
+        pluck('final_balance'),
+        reject(isNil),
+        sum
+      )(wallet)
+    : pathOr(0, ['info', 'final_balance'], wallet),
   default: idx === wallet.index,
   label: wallet.label,
   index: wallet.index,
