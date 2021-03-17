@@ -462,7 +462,7 @@ export const getDotBalanceInfo = createDeepEqualSelector(
     const transform = (value, rates, toCurrency) => {
       return Exchange.convertDotToFiat({
         value,
-        fromUnit: 'WEI',
+        fromUnit: 'PLANCK',
         toCurrency,
         rates
       }).value

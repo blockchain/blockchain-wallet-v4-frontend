@@ -51,6 +51,8 @@ export const getRatesSelector = (
       return selectors.data.btc.getRates(state)
     case 'BCH':
       return selectors.data.bch.getRates(state)
+    case 'DOT':
+      return selectors.data.dot.getRates(state)
     case 'ETH':
       return selectors.data.eth.getRates(state)
     case 'XLM':
@@ -67,9 +69,6 @@ export const getRatesSelector = (
       return selectors.data.eth.getErc20Rates(state, 'aave')
     case 'YFI':
       return selectors.data.eth.getErc20Rates(state, 'yfi')
-    // TODO: call to get dot rates
-    case 'DOT':
-      return Remote.Success(0)
     default:
       return Remote.Failure(INVALID_COIN_TYPE)
   }
