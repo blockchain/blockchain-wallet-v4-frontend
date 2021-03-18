@@ -68,8 +68,11 @@ export const fetchBankTransferAccountsSuccess = (
   payload: { accounts }
 })
 
-export const fetchFastLink = (): BrokerageActionTypes => ({
-  type: AT.FETCH_FAST_LINK
+export const fetchBankLinkCredentials = (
+  fiatCurrency: WalletFiatType
+): BrokerageActionTypes => ({
+  type: AT.FETCH_BANK_LINK_CREDENTIALS,
+  payload: { fiatCurrency }
 })
 
 export const setAddBankStep = (
