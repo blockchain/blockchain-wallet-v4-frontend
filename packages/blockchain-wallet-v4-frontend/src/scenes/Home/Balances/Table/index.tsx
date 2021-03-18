@@ -29,10 +29,7 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type OwnProps = {
-  viewType: 'Total' | 'Wallet' | 'Hardware'
-}
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-export type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = ConnectedProps<typeof connector>
 
 export default connector(Table)

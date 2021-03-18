@@ -43,16 +43,12 @@ const Amount = styled.div`
 `
 
 const Success = (props: Props & SuccessStateType) => {
-  const { coins, viewType } = props
+  const { coins } = props
 
   return (
     <HomeBalanceTable>
       {values(
         mapObjIndexed((coin: SupportedWalletCurrencyType, i) => {
-          // @ts-ignore
-          if (viewType === 'Hardware' && !coin.hasLockboxSupport) return
-          const link =
-            viewType === 'Hardware' ? '/lockbox' : coin.txListAppRoute
           return (
             coin.method &&
             coin.invited && (
@@ -60,7 +56,7 @@ const Success = (props: Props & SuccessStateType) => {
                 key={i}
                 data-e2e={`${toLower(coin.coinCode)}BalanceTable`}
               >
-                <TxLink to={link}>
+                <TxLink to={coin.txListAppRoute}>
                   <div>
                     <Wrapper>
                       <Coin>

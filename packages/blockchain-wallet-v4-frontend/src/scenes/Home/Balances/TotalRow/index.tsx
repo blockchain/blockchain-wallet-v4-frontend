@@ -29,21 +29,18 @@ class TotalRow extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: RootState, ownProps): LinkStatePropsType => ({
-  data: getData(state, ownProps)
+const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+  data: getData(state)
 })
 
 const connector = connect(mapStateToProps)
 
-export type OwnProps = {
-  currentTab: 'wallet' | 'hardware' | 'total'
-}
 export type SuccessStateType = {
   totalBalance: string
 }
 type LinkStatePropsType = {
   data: RemoteDataType<string | Error, SuccessStateType>
 }
-type Props = OwnProps & LinkStatePropsType
+type Props = LinkStatePropsType
 
 export default connector(TotalRow)

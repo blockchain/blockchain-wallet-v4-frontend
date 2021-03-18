@@ -1,23 +1,11 @@
 import React from 'react'
-import { connect, ConnectedProps } from 'react-redux'
 
-import { getData } from './selectors'
 import BalancesTable from './template'
 
-class BalancesTableContainer extends React.PureComponent<Props> {
+class BalancesTableContainer extends React.PureComponent {
   render() {
-    const { currentTab } = this.props
-    return <BalancesTable currentTab={currentTab} />
+    return <BalancesTable />
   }
 }
 
-const mapStateToProps = (state): LinkStatePropsType => getData(state)
-
-const connector = connect(mapStateToProps)
-
-type LinkStatePropsType = {
-  currentTab: 'total' | 'wallet' | 'lockbox'
-}
-type Props = ConnectedProps<typeof connector>
-
-export default connector(BalancesTableContainer)
+export default BalancesTableContainer

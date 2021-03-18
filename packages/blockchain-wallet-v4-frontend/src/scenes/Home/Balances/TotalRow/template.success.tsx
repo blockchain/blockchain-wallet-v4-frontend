@@ -4,9 +4,9 @@ import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 
-import { OwnProps, SuccessStateType } from '.'
+import { SuccessStateType } from '.'
 
-type Props = OwnProps & SuccessStateType
+type Props = SuccessStateType
 
 const TotalRow = styled.div`
   display: flex;
@@ -15,7 +15,6 @@ const TotalRow = styled.div`
   justify-content: space-between;
   margin-bottom: 24px;
 `
-
 const HomeBalanceAmount = styled(Text)`
   position: relative;
   font-size: 24px;
@@ -30,7 +29,7 @@ const Success: React.FC<Props> = props => {
         <FormattedHTMLMessage
           id='components.balances.home.total'
           defaultMessage='{viewType} Balance'
-          values={{ viewType: props.currentTab }}
+          values={{ viewType: 'Total' }}
         />
       </Text>
       <HomeBalanceAmount data-e2e='homeBalanceAmt'>

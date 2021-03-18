@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { media } from 'services/styles'
 
 import Table from './Table'
-import Tabs from './Tabs'
 import TotalRow from './TotalRow'
 
 const Wrapper = styled.div`
@@ -14,7 +13,6 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   border-radius: 8px;
   padding: 24px;
-  padding-bottom: 0px;
   border: 1px solid ${props => props.theme.grey000};
 
   ${media.mobile`
@@ -23,14 +21,10 @@ const Wrapper = styled.div`
 `
 
 const BalancesTable = props => {
-  const { currentTab } = props
   return (
     <Wrapper>
       <TotalRow {...props} />
-      <Tabs {...props} />
-      {currentTab === 'total' && <Table viewType='Total' {...props} />}
-      {currentTab === 'wallet' && <Table viewType='Wallet' {...props} />}
-      {currentTab === 'lockbox' && <Table viewType='Hardware' {...props} />}
+      <Table viewType='Total' {...props} />
     </Wrapper>
   )
 }
