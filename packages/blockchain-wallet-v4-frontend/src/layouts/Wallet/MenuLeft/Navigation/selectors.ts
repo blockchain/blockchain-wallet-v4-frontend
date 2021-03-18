@@ -10,6 +10,6 @@ export const getData = state => {
   // @ts-ignore
   return reject(
     not,
-    map(x => !last(x).isZero() && head(x), toPairs(balances))
+    map(x => last(x) !== '0' && head(x), toPairs(balances))
   )
 }
