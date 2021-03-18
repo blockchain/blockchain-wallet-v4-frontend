@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
@@ -51,3 +52,12 @@ export type SuccessStateType = ReturnType<typeof getData>['data']
 export type Props = ConnectedProps<typeof connector> & OwnProps
 
 export default connector(Connect)
+=======
+import React from 'react'
+
+const Connect = () => {
+  return <></>
+}
+
+export default Connect
+>>>>>>> feat(open banking): functioning modal with proper steps files and making a request to create a bank and receive list of bank options
