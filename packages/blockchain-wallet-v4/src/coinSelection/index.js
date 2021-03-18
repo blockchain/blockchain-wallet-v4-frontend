@@ -10,7 +10,6 @@ import {
   isEmpty,
   isNil,
   last,
-  length,
   map,
   reduce,
   sort,
@@ -165,81 +164,6 @@ export const ascentDraw = (targets, feePerByte, coins, changeAddress) =>
     changeAddress
   )
 
-// branchAndBound implementation of the coin selection algorithm
-// from http://murch.one/wp-content/uploads/2016/11/erhardt2016coinselection.pdf
-// presented by Mark Erhardt
-// branchAndBound :: [Coin(x), ..., Coin(y)] -> Number -> [Coin(a), ..., Coin(b)] -> String -> Selection
-const bnb = (targets, feePerByte, coins, changeAddress, seed) => {
-  const rng = is(String, seed) ? seedrandom(seed) : undefined
-  const sortedCoins = filter(
-    c => Coin.effectiveValue(feePerByte, c) > 0,
-    sort((a, b) => a.lte(b), coins)
-  )
-  let bnbTries = 1000000
-  const target = List(targets).fold(Coin.empty).value
-  const targetForMatch = target + transactionBytes([], targets) * feePerByte
-  const matchRange = dustThreshold(feePerByte)
-
-  const _branchAndBound = (depth, currentSelection, effValue) => {
-    bnbTries = bnbTries - 1
-    if (effValue > targetForMatch + matchRange) {
-      // cut branch
-      return []
-    } else if (effValue >= targetForMatch) {
-      // match
-      return currentSelection
-    } else if (bnbTries < 1) {
-      // max tries reached
-      return []
-    } else if (depth >= length(sortedCoins)) {
-      // end of branch
-      return []
-    } else if ((rng && rng()) || Math.random() > 0.5) {
-      // explore include or exclude randomly
-      const include = _branchAndBound(
-        depth + 1,
-        currentSelection.concat(sortedCoins[depth]),
-        effValue + Coin.effectiveValue(feePerByte, sortedCoins[depth])
-      )
-      if (!isEmpty(include)) {
-        return include
-      } else {
-        return _branchAndBound(depth + 1, currentSelection, effValue)
-      }
-    } else {
-      const exclude = _branchAndBound(depth + 1, currentSelection, effValue)
-      if (!isEmpty(exclude)) {
-        return exclude
-      } else {
-        return _branchAndBound(
-          depth + 1,
-          currentSelection.concat(sortedCoins[depth]),
-          effValue + Coin.effectiveValue(feePerByte, sortedCoins[depth])
-        )
-      }
-    }
-  }
-
-  const bnbSelection = _branchAndBound(0, [], 0)
-  if (isEmpty(bnbSelection)) {
-    return singleRandomDraw(
-      targets,
-      feePerByte,
-      sortedCoins,
-      changeAddress,
-      seed
-    )
-  } else {
-    return {
-      fee: List(bnbSelection).fold(Coin.empty).value - target,
-      inputs: bnbSelection,
-      outputs: targets
-    }
-  }
-}
-
-export const branchAndBound = memoize(bnb)
-
 // getByteCount implementation
 // from https://gist.github.com/junderw/b43af3253ea5865ed52cb51c200ac19c
 // Usage:
@@ -255,7 +179,7 @@ export const IO_TYPES = {
     'MULTISIG-P2SH-P2WSH': 6 + 76 * 4, // wrapped segwit
     // P2PKH
     // modified to 147 (from 148 in source) to match test coverage
-    P2PKH: 147 * 4, // legacy
+    P2PKH: 148 * 4, // legacy
     P2WPKH: 108 + 41 * 4, // native segwit
     'P2SH-P2WPKH': 108 + 64 * 4 // wrapped segwit
   },

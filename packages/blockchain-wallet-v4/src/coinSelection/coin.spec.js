@@ -54,7 +54,7 @@ describe('Coin Selection', () => {
   })
   describe('coin byte sizes', () => {
     it('should return the right input size', () => {
-      expect(Coin.inputBytes({})).toEqual(147)
+      expect(Coin.inputBytes({})).toEqual(148)
     })
     it('should return the right output size', () => {
       expect(Coin.outputBytes({})).toEqual(34)
@@ -63,7 +63,9 @@ describe('Coin Selection', () => {
   describe('effective values', () => {
     it('should return the right coin value', () => {
       expect(Coin.effectiveValue(55, Coin.fromJS({ value: 15000 }))).toEqual(
-        6915
+        // value - feePerByte * P2PKH input size
+        // 15000 - 55 * 148
+        6860
       )
     })
     it('should return zero coin value', () => {
