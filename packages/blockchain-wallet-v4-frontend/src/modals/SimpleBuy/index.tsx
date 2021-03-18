@@ -49,6 +49,10 @@ class SimpleBuy extends PureComponent<Props, State> {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
+    // for first time login users we need to run goal since this is a first page we show them
+    if (this.props.isFirstLogin) {
+      this.props.runGoals()
+    }
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -272,11 +276,13 @@ const mapStateToProps = (state: RootState) => ({
   orderType: selectors.components.simpleBuy.getOrderType(state),
   goals: selectors.goals.getGoals(state),
   localCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
-  data: getData(state)
+  data: getData(state),
+  isFirstLogin: selectors.auth.getFirstLogin(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),
+  runGoals: () => dispatch(actions.goals.runGoals()),
   formActions: bindActionCreators(actions.form, dispatch),
   preferenceActions: bindActionCreators(actions.preferences, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
