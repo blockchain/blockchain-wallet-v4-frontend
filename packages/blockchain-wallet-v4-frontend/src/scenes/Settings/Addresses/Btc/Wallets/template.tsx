@@ -145,7 +145,8 @@ const Success = ({
                 defaultMessage='Unarchive'
               />
             </Link>
-          ) : wallet.type === 'v3' ? (
+          ) : //   // TODO: SEGWIT remove w/ DEPRECATED_V3
+          wallet.type === 'v3' ? (
             <LinkContainer
               to={`/settings/addresses/btc/${wallet.index}/legacy`}
             >
