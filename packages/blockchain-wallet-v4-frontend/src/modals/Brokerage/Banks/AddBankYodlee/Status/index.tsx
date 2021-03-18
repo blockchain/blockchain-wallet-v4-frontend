@@ -6,9 +6,9 @@ import { ExtractSuccess, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 
+import { Loading, LoadingTextEnum } from '../../../components'
 import { getData } from './selectors'
 import BankLinkError from './template.error.general'
-import Loading from './template.loading'
 import Success from './template.success'
 
 export type OwnProps = {
@@ -35,8 +35,8 @@ class LinkBankStatus extends PureComponent<Props, State> {
           <BankLinkError {...val} {...this.props} />
         ),
       Failure: () => null,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      Loading: () => <Loading text={LoadingTextEnum.PROCESSING} />,
+      NotAsked: () => <Loading text={LoadingTextEnum.PROCESSING} />
     })
   }
 }

@@ -115,7 +115,7 @@ class CheckoutConfirm extends PureComponent<Props> {
         } else {
           this.props.brokerageActions.showModal(
             BrokerageModalOriginType.ADD_BANK,
-            'ADD_BANK_MODAL'
+            'ADD_BANK_YODLEE_MODAL'
           )
           return this.props.brokerageActions.setAddBankStep({
             addBankStep: AddBankStepType.ADD_BANK_HANDLER

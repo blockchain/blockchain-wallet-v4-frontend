@@ -150,10 +150,16 @@ export default ({
     }
   }
 
-  const fetchFastLink = function * () {
+  const fetchBankLinkCredentials = function * (action) {
     try {
-      const fastLink = yield call(api.createBankAccountLink, 'USD')
-      yield put(A.setFastLink(fastLink))
+      const { fiatCurrency } = action.payload
+      const credentials = yield call(api.createBankAccountLink, fiatCurrency)
+      if (credentials.partner === 'YODLEE') {
+        yield put(A.setFastLink(credentials))
+      } else if (credentials.partner === 'YAPILY') {
+        // eslint-disable-next-line
+        console.log('creds', credentials)
+      }
     } catch (e) {
       // eslint-disable-next-line
       console.log(e)
@@ -315,7 +321,7 @@ export default ({
     createFiatDeposit,
     fetchBankTransferAccounts,
     fetchBankTransferUpdate,
-    fetchFastLink,
+    fetchBankLinkCredentials,
     handleDepositFiatClick,
     handleMethodChange,
     showModal

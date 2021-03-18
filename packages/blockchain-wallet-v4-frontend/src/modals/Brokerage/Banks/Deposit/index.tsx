@@ -11,11 +11,14 @@ import { BankDWStepType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../../types'
-import { BROKERAGE_INELIGIBLE } from '../../components'
+import {
+  BROKERAGE_INELIGIBLE,
+  Loading,
+  LoadingTextEnum
+} from '../../components'
 import BankList from './BankList'
 import Confirm from './Confirm'
 import DepositMethods from './DepositMethods'
-import Loading from './DepositMethods/template.loading'
 import DepositStatus from './DepositStatus'
 import EnterAmount from './EnterAmount'
 import WireInstructions from './WireInstructions'
@@ -55,7 +58,7 @@ class Deposit extends PureComponent<Props> {
       >
         {this.props.step === BankDWStepType.LOADING && (
           <FlyoutChild>
-            <Loading {...this.props} />
+            <Loading {...this.props} text={LoadingTextEnum.LOADING} />
           </FlyoutChild>
         )}
         {this.props.step === BankDWStepType.DEPOSIT_METHODS && (
