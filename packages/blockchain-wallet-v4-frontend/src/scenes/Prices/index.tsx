@@ -66,7 +66,7 @@ const TableWrapper = styled.div`
     th,
     td {
       margin: 0;
-      padding: 12px 8px;
+      padding: 16px 8px;
       text-align: left;
       /* make sure each cell grows equally */
       width: 1%;
@@ -168,7 +168,13 @@ const PricesContainer = ({ coinRates, supportedCoins, walletCurrency }) => {
         ),
         accessor: 'price',
         disableGlobalFilter: true,
-        sortType: 'basic',
+        sortType: (rowA, rowB, id) => {
+          const a = rowA.original[id][walletCurrency].last
+          const b = rowB.original[id][walletCurrency].last
+          if (a > b) return 1
+          if (b > a) return -1
+          return 0
+        },
         Cell: ({ row: { original: values } }) => {
           return (
             <CellText>
@@ -199,11 +205,13 @@ const PricesContainer = ({ coinRates, supportedCoins, walletCurrency }) => {
         accessor: 'priceChange',
         disableGlobalFilter: true,
         sortType: 'basic',
-        Cell: ({ cell: { value } }) => (
-          <CellText color={Number(value) >= 0 ? 'green600' : 'red600'}>
-            {value}%
-          </CellText>
-        )
+        Cell: ({ cell: { value } }) => {
+          return (
+            <CellText color={Number(value) >= 0 ? 'green600' : 'red600'}>
+              {value}%
+            </CellText>
+          )
+        }
       },
       {
         Header: () => (
