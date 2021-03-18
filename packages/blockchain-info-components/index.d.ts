@@ -185,6 +185,9 @@ export const ModalHeader: FunctionComponent<{
   onClose?: () => void
   icon?: keyof IcoMoonType
 }>
+export const ModalFooter: FunctionComponent<{
+  align: 'left' | 'right' | 'center' | 'spaced'
+}>
 export function Palette(theme: string): DefaultTheme
 export const Separator: FunctionComponent<{}>
 export const SkeletonCircle: FunctionComponent<{
