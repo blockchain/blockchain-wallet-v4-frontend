@@ -1452,7 +1452,7 @@ const displayDotToDot = ({
   value: number | string
 }) => {
   return transformDotToDot({ value, fromUnit, toUnit })
-    .map(Currency.coinToString)
+    .map(x => Currency.coinToString({ ...x, minDigits: 2 }))
     .getOrElse(DefaultDisplay)
 }
 
@@ -1716,7 +1716,7 @@ const displayAlgoToAlgo = ({
   value: number | string
 }) => {
   return transformAlgoToAlgo({ value, fromUnit, toUnit })
-    .map(Currency.coinToString)
+    .map(x => Currency.coinToString({ ...x, minDigits: 2 }))
     .getOrElse(DefaultDisplay)
 }
 
