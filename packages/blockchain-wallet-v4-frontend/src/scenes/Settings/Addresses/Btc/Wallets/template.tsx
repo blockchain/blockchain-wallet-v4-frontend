@@ -145,6 +145,17 @@ const Success = ({
                 defaultMessage='Unarchive'
               />
             </Link>
+          ) : wallet.type === 'v3' ? (
+            <LinkContainer
+              to={`/settings/addresses/btc/${wallet.index}/legacy`}
+            >
+              <Link weight={500} size='13px' data-e2e='btcManageWalletLink'>
+                <FormattedMessage
+                  id='scenes.settings.addresses.btc.wallets.manage'
+                  defaultMessage='Manage'
+                />
+              </Link>
+            </LinkContainer>
           ) : (
             <LinkContainer
               to={`/settings/addresses/btc/${wallet.index}/bech32`}

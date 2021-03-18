@@ -22,6 +22,8 @@ const prepareWallet = (wallet, idx) => ({
   default: idx === wallet.index,
   label: wallet.label,
   index: wallet.index,
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
+  type: wallet.derivations ? 'v4' : 'v3',
   xpub: wallet.xpub
 })
 

@@ -148,7 +148,6 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
       unusedAddresses,
       walletIndex
     } = this.props
-
     return (
       <>
         <HeaderWrapper>
@@ -163,19 +162,6 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
             </Text>
             {hasLegacyDerivation && (
               <Toggler>
-                <TogglerItem selected={equals('legacy', derivation)}>
-                  <LinkContainer
-                    to={`/settings/addresses/btc/${walletIndex}/legacy`}
-                  >
-                    <ToggledLink
-                      weight={500}
-                      size='13px'
-                      data-e2e='btcManageLegacyWalletLink'
-                    >
-                      Legacy
-                    </ToggledLink>
-                  </LinkContainer>
-                </TogglerItem>
                 <TogglerItem selected={equals('bech32', derivation)}>
                   <LinkContainer
                     to={`/settings/addresses/btc/${walletIndex}/bech32`}
@@ -186,6 +172,19 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
                       data-e2e='btcManageSegwitWalletLink'
                     >
                       Segwit
+                    </ToggledLink>
+                  </LinkContainer>
+                </TogglerItem>
+                <TogglerItem selected={equals('legacy', derivation)}>
+                  <LinkContainer
+                    to={`/settings/addresses/btc/${walletIndex}/legacy`}
+                  >
+                    <ToggledLink
+                      weight={500}
+                      size='13px'
+                      data-e2e='btcManageLegacyWalletLink'
+                    >
+                      Legacy
                     </ToggledLink>
                   </LinkContainer>
                 </TogglerItem>
