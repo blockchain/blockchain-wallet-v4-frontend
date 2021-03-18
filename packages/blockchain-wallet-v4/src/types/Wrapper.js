@@ -219,6 +219,7 @@ export const toEncJSON = wrapper => {
     .map(r => assoc('checksum', hash(view(plens, r)), r))
 }
 
+// new wallets
 export const js = (
   password,
   guid,
@@ -232,9 +233,19 @@ export const js = (
   sync_pubkeys: false,
   payload_checksum: '',
   storage_token: '',
-  version: PAYLOAD_VERSION,
+  // version: PAYLOAD_VERSION,
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
+  version: 3,
   language: language,
-  wallet: Wallet.js(guid, sharedKey, label, mnemonic, nAccounts, network),
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
+  wallet: Wallet_DEPRECATED_V3.js(
+    guid,
+    sharedKey,
+    label,
+    mnemonic,
+    nAccounts,
+    network
+  ),
   war_checksum: '',
   password: password,
   pbkdf2_iterations: 5000
