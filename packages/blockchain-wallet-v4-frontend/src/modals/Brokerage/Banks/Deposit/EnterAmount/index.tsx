@@ -13,7 +13,7 @@ import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { BankDWStepType } from 'data/types'
 
-import Loading from '../DepositMethods/template.loading'
+import { Loading, LoadingTextEnum } from '../../../components'
 import { getData } from './selectors'
 import Failure from './template.failure'
 import Success from './template.success'
@@ -44,8 +44,8 @@ const EnterAmount = props => {
       />
     ),
     Failure: () => <Failure {...props} />,
-    Loading: () => <Loading />,
-    NotAsked: () => <Loading />
+    Loading: () => <Loading text={LoadingTextEnum.LOADING} />,
+    NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />
   })
 }
 

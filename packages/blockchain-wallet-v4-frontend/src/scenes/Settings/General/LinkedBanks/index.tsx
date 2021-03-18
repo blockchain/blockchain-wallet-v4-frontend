@@ -19,13 +19,15 @@ import Success from './template.success'
 class LinkedBanks extends PureComponent<Props> {
   componentDidMount() {
     this.props.brokerageActions.fetchBankTransferAccounts()
-    this.props.simpleBuyActions.fetchSBPaymentMethods()
+    this.props.simpleBuyActions.fetchSBPaymentMethods('GBP')
   }
 
   handleBankClick = () => {
     this.props.brokerageActions.showModal(
       BrokerageModalOriginType.ADD_BANK,
-      'ADD_BANK_MODAL'
+      this.props.fiatCurrency === 'USD'
+        ? 'ADD_BANK_YODLEE_MODAL'
+        : 'ADD_BANK_YAPILY_MODAL'
     )
     this.props.brokerageActions.setAddBankStep({
       addBankStep: AddBankStepType.ADD_BANK

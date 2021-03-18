@@ -9,8 +9,9 @@ import { AddBankStepType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../../types'
-import Add from './Add'
-import Handler from './Handler'
+import Authorize from './Authorize'
+import Connect from './Connect'
+import SelectBank from './SelectBank'
 import Status from './Status'
 
 class Banks extends PureComponent<Props> {
@@ -51,17 +52,22 @@ class Banks extends PureComponent<Props> {
       >
         {this.props.step === AddBankStepType.ADD_BANK && (
           <FlyoutChild>
-            <Add {...this.props} handleClose={this.handleClose} />
+            <SelectBank />
           </FlyoutChild>
         )}
-        {this.props.step === AddBankStepType.ADD_BANK_HANDLER && (
+        {this.props.step === AddBankStepType.ADD_BANK_CONNECT && (
           <FlyoutChild>
-            <Handler {...this.props} handleClose={this.handleClose} />
+            <Connect />
+          </FlyoutChild>
+        )}
+        {this.props.step === AddBankStepType.ADD_BANK_AUTHORIZE && (
+          <FlyoutChild>
+            <Authorize />
           </FlyoutChild>
         )}
         {this.props.step === AddBankStepType.ADD_BANK_STATUS && (
           <FlyoutChild>
-            <Status {...this.props} handleClose={this.handleClose} />
+            <Status />
           </FlyoutChild>
         )}
       </Flyout>
@@ -76,7 +82,7 @@ const mapStateToProps = (state: RootState) => ({
 const connector = connect(mapStateToProps)
 
 const enhance = compose(
-  ModalEnhancer('ADD_BANK_MODAL', { transition: duration }),
+  ModalEnhancer('ADD_BANK_YAPILY_MODAL', { transition: duration }),
   connector
 )
 

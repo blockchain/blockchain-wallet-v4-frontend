@@ -2,10 +2,19 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Text } from 'blockchain-info-components'
+import { SpinningLoader, Text } from 'blockchain-info-components'
 
 const StyledText = styled(Text)`
   width: 300px;
+`
+
+const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
 `
 
 const BROKERAGE_INELIGIBLE = 'BROKERAGE_INELIGIBLE'
@@ -19,4 +28,38 @@ const IneligibleErrorMessage = () => (
   </StyledText>
 )
 
-export { BROKERAGE_INELIGIBLE, IneligibleErrorMessage }
+// getting ready, processing, loading
+export enum LoadingTextEnum {
+  GETTING_READY = 'Getting Ready...',
+  LOADING = 'Loading...',
+  PROCESSING = 'Processing...'
+}
+interface Props {
+  text: LoadingTextEnum
+}
+const Loading = ({ text }: Props) => {
+  return (
+    <Wrapper>
+      <SpinningLoader />
+      <Text weight={600} color='grey600' style={{ marginTop: '24px' }}>
+        {text === LoadingTextEnum.LOADING && (
+          <FormattedMessage id='copy.loading' defaultMessage='Loading...' />
+        )}
+        {text === LoadingTextEnum.GETTING_READY && (
+          <FormattedMessage
+            id='loader.message.gettingready'
+            defaultMessage='Getting Ready...'
+          />
+        )}
+        {text === LoadingTextEnum.PROCESSING && (
+          <FormattedMessage
+            id='modals.simplebuy.processing'
+            defaultMessage='Processing…'
+          />
+        )}
+      </Text>
+    </Wrapper>
+  )
+}
+
+export { BROKERAGE_INELIGIBLE, IneligibleErrorMessage, Loading }

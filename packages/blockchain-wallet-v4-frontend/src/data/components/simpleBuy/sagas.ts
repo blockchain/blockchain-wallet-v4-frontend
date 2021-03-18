@@ -753,7 +753,7 @@ export default ({
       // If no currency fallback to sb fiat currency or wallet
       const fallbackFiatCurrency =
         S.getFiatCurrency(yield select()) ||
-        (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
+        (yield select(selectors.core.settings.getCurrency)).getOrElse('GBP')
 
       const userSDDTierR = S.getUserSddEligibleTier(yield select())
       if (!Remote.Success.is(userSDDTierR)) {
@@ -784,7 +784,6 @@ export default ({
           method => method.type !== 'BANK_TRANSFER'
         )
       }
-
       yield put(
         A.fetchSBPaymentMethodsSuccess({
           currency: currency || fallbackFiatCurrency,
@@ -995,7 +994,7 @@ export default ({
         yield put(
           actions.components.brokerage.showModal(
             BrokerageModalOriginType.ADD_BANK,
-            'ADD_BANK_MODAL'
+            'ADD_BANK_YODLEE_MODAL'
           )
         )
         return yield put(

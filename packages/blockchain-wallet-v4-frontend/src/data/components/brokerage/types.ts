@@ -68,6 +68,8 @@ export type BankDetailsPayload = {
 
 export enum AddBankStepType {
   ADD_BANK = 'ADD_BANK',
+  ADD_BANK_AUTHORIZE = 'ADD_BANK_AUTHORIZE',
+  ADD_BANK_CONNECT = 'ADD_BANK_CONNECT',
   ADD_BANK_HANDLER = 'ADD_BANK_HANDLER',
   ADD_BANK_STATUS = 'ADD_BANK_STATUS'
 }
@@ -93,8 +95,9 @@ export type BrokerageState = {
   redirectBackToStep: boolean
 }
 
-interface FetchFastLinkType {
-  type: typeof AT.FETCH_FAST_LINK
+interface FetchBankLinkCredentialsType {
+  payload: { fiatCurrency: WalletFiatType }
+  type: typeof AT.FETCH_BANK_LINK_CREDENTIALS
 }
 
 interface FetchBankTransferAccountsFailure {
@@ -146,7 +149,7 @@ export type BrokerageActionTypes =
   | FetchBankTransferAccountsLoading
   | FetchBankTransferAccountsSuccess
   | FetchBTUpdateLoading
-  | FetchFastLinkType
+  | FetchBankLinkCredentialsType
   | SetFastLinkAction
   | SetAddBankStepAction
   | SetBankAccountAction
