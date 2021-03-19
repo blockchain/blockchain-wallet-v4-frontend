@@ -10,14 +10,14 @@ describe('Coin Selection', () => {
 
       // TODO
       // const p2wpkhInputs = [{ type: () => 'P2WPKH' }]
-      // expect(cs.transactionBytes(p2wpkhInputs, [])).toEqual(10)
+      // expect(cs.transactionBytes(p2wpkhInputs, [])).toEqual(10.5)
     })
     it('should return the right transaction size (1 in 2 out tx)', () => {
       expect(cs.transactionBytes([{}], [{}, {}])).toEqual(226)
 
       // TODO
       // const p2wpkhInputs = [{ type: () => 'P2WPKH' }]
-      // expect(cs.transactionBytes(p2wpkhInputs, [{}, {}])).toEqual(226)
+      // expect(cs.transactionBytes(p2wpkhInputs, [{}, {}])).toEqual(140.5)
     })
   })
   describe('effective Balances', () => {
