@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import queryString from 'query-string'
 import { merge, mergeRight, path, pathOr, prop } from 'ramda'
+import { v4 as uuidv4 } from 'uuid'
 
 axios.defaults.withCredentials = false
 axios.defaults.timeout = Infinity
@@ -50,6 +51,8 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
       'Content-Type': contentType
     }
     if (sessionToken) headers['Authorization'] = `Bearer ${sessionToken}`
+
+    headers['X-Request-ID'] = uuidv4()
 
     return headers
   }
