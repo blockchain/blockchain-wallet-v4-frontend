@@ -177,8 +177,6 @@ export const IO_TYPES = {
     'MULTISIG-P2SH': 49 * 4, // "legacy"
     'MULTISIG-P2WSH': 6 + 41 * 4, // native segwit
     'MULTISIG-P2SH-P2WSH': 6 + 76 * 4, // wrapped segwit
-    // P2PKH
-    // modified to 147 (from 148 in source) to match test coverage
     P2PKH: 148 * 4, // legacy
     P2WPKH: 108 + 41 * 4, // native segwit
     'P2SH-P2WPKH': 108 + 64 * 4 // wrapped segwit

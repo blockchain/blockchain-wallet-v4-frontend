@@ -7,9 +7,17 @@ describe('Coin Selection', () => {
   describe('byte sizes', () => {
     it('should return the right transaction size (empty tx)', () => {
       expect(cs.transactionBytes([], [])).toEqual(10)
+
+      // TODO
+      // const p2wpkhInputs = [{ type: () => 'P2WPKH' }]
+      // expect(cs.transactionBytes(p2wpkhInputs, [])).toEqual(10)
     })
     it('should return the right transaction size (1 in 2 out tx)', () => {
       expect(cs.transactionBytes([{}], [{}, {}])).toEqual(226)
+
+      // TODO
+      // const p2wpkhInputs = [{ type: () => 'P2WPKH' }]
+      // expect(cs.transactionBytes(p2wpkhInputs, [{}, {}])).toEqual(226)
     })
   })
   describe('effective Balances', () => {
