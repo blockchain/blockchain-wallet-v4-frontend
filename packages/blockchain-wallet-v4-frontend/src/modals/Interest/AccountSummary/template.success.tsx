@@ -45,7 +45,7 @@ const AccountSummary: React.FC<Props> = props => {
     stepMetadata,
     supportedCoins
   } = props
-  const { coinTicker, colorCode, displayName, icons } = supportedCoins[coin]
+  const { coinCode, coinTicker, colorCode, displayName } = supportedCoins[coin]
   const account = accountBalances && accountBalances[coin]
 
   const lockupPeriod =
@@ -72,7 +72,7 @@ const AccountSummary: React.FC<Props> = props => {
         <TopText color='grey800' size='20px' weight={600}>
           <Row>
             <Icon
-              name={icons.circleFilled}
+              name={coinCode}
               color={colorCode}
               size='24px'
               style={{ marginRight: '16px' }}

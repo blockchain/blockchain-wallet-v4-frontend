@@ -155,7 +155,7 @@ const LimitSection = ({ paymentMethods, supportedCoins, walletCurrency }) => {
         <FiatIconWrapper>
           <Icon
             color={supportedCoins[walletCurrency].colorCode}
-            name={supportedCoins[walletCurrency].icons.circleFilled}
+            name={supportedCoins[walletCurrency].coinCode}
             size='32px'
           />
           <SubIconWrapper>

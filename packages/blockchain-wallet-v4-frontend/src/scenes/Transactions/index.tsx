@@ -148,14 +148,14 @@ class TransactionsContainer extends React.PureComponent<Props> {
       pages,
       sourceType
     } = this.props
-    const { coinTicker, colorCode, displayName, icons } = coinModel
+    const { coinCode, coinTicker, colorCode, displayName } = coinModel
     return (
       <SceneWrapper>
         <LazyLoadContainer onLazyLoad={loadMoreTxs}>
           <Header>
             <PageTitle>
               <CoinTitle>
-                <Icon size='36px' color={colorCode} name={icons.circleFilled} />
+                <Icon size='36px' color={colorCode} name={coinCode} />
                 <Text color='grey800' size='32px' weight={600}>
                   {displayName}
                 </Text>

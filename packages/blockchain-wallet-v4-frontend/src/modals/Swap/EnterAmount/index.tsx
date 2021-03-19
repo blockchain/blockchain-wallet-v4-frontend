@@ -172,7 +172,7 @@ class EnterAmount extends PureComponent<Props> {
                       </OptionValue>
                     </div>
                     <Icon
-                      name={coins[BASE.coin].icons.circleFilled}
+                      name={coins[BASE.coin].coinCode}
                       color={coins[BASE.coin].colorCode}
                       size='32px'
                     />
@@ -215,7 +215,7 @@ class EnterAmount extends PureComponent<Props> {
                       </OptionValue>
                     </div>
                     <Icon
-                      name={coins[COUNTER.coin].icons.circleFilled}
+                      name={coins[COUNTER.coin].coinCode}
                       color={coins[COUNTER.coin].colorCode}
                       size='32px'
                     />

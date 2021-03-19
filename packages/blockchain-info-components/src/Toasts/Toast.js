@@ -79,9 +79,7 @@ const Toast = props => {
     <Wrapper>
       <Container color={color}>
         <Content>
-          {coin && (
-            <CustomIcon name={coin.icons.circleFilled} color={coin.colorCode} />
-          )}
+          {coin && <CustomIcon name={coin.coinCode} color={coin.colorCode} />}
           {children}
         </Content>
         <CloseIcon

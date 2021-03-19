@@ -39,7 +39,7 @@ export const getNameColumn = routerActions => ({
         onClick={() => routerActions.push(values.coinModel.txListAppRoute)}
       >
         <CoinIcon
-          name={values.coinModel?.icons.circleFilled}
+          name={values.coinModel?.coinCode}
           size='32px'
           color={values.coinModel?.colorCode}
         />

@@ -141,7 +141,7 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           <Icon
             size='32px'
             color='fiat'
-            name={value.currency.toLowerCase() as 'eur' | 'gbp'}
+            name={value.currency as WalletCurrencyType}
           />
         )
       default:

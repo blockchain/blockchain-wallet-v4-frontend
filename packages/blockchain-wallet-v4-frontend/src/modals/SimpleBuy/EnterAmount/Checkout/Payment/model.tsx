@@ -3,13 +3,13 @@ import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
 import { Icon, Image, Text } from 'blockchain-info-components'
-import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   BankTransferAccountType,
   FiatType,
   SBBalancesType,
-  SBPaymentMethodType
+  SBPaymentMethodType,
+  WalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
 import { Title, Value } from 'components/Flyout'
 import {
@@ -212,7 +212,7 @@ export const getIcon = (
         <Icon
           size='32px'
           color='fiat'
-          name={method.currency.toLowerCase() as keyof IcoMoonType}
+          name={method.currency as WalletCurrencyType}
         />
       )
     case 'BANK_TRANSFER':

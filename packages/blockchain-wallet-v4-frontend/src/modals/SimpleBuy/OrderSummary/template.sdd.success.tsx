@@ -124,10 +124,7 @@ const Success: React.FC<Props> = props => {
                 color={
                   props.supportedCoins[props.order.outputCurrency].colorCode
                 }
-                name={
-                  props.supportedCoins[props.order.outputCurrency].icons
-                    .circleFilled
-                }
+                name={props.supportedCoins[props.order.outputCurrency].coinCode}
                 size='64px'
               />
               <IconBackground color='white'>

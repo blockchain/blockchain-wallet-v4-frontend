@@ -336,11 +336,7 @@ class WalletBalanceDropdown extends Component<Props> {
 
     return (
       <DisplayContainer coinType={coinType} isItem>
-        <Icon
-          color={coinType.colorCode}
-          name={coinType.icons.circleFilled}
-          size='32px'
-        />
+        <Icon color={coinType.colorCode} name={coinType.coinCode} size='32px' />
         <AccountContainer isItem>
           <Text weight={500} color='grey400' size='14px'>
             {account}{' '}

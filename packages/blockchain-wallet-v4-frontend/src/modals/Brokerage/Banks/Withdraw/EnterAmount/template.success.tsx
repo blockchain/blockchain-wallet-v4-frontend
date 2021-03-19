@@ -205,7 +205,7 @@ const Success: React.FC<InjectedFormProps<
         <FiatIconWrapper>
           <Icon
             color={props.supportedCoins[props.fiatCurrency].colorCode}
-            name={props.supportedCoins[props.fiatCurrency].icons.circleFilled}
+            name={props.supportedCoins[props.fiatCurrency].coinCode}
             size='32px'
           />
           <SubIconWrapper>

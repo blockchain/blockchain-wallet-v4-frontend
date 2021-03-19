@@ -118,7 +118,7 @@ const Navigation = (props: OwnProps & Props) => {
       </PortfolioSeparator>
       <LinkContainer to='/usd/transactions' activeClassName='active'>
         <MenuItem colorCode='fiat' data-e2e='cashLink' className='coin'>
-          <CoinIcon className='coin-icon' color='fiat' name='usd' size='24px' />
+          <CoinIcon className='coin-icon' color='fiat' name='USD' size='24px' />
           <Destination>
             <FormattedMessage id='copy.cash' defaultMessage='Cash' />
           </Destination>
@@ -142,7 +142,7 @@ const Navigation = (props: OwnProps & Props) => {
                   <CoinIcon
                     className='coin-icon'
                     color={coinModel.colorCode}
-                    name={coinModel.icons.circleFilled}
+                    name={coinModel.coinCode}
                     size='24px'
                   />
                   <Destination>{coinModel.displayName}</Destination>

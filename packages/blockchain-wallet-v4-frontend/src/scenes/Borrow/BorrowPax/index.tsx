@@ -17,7 +17,7 @@ class BorrowPax extends PureComponent<Props & State> {
     return (
       <CustomBox>
         <div>
-          <Icon name='usd-d' color='usd-d' size='32px' />
+          <Icon name='PAX' color='usd-d' size='32px' />
           <Text
             size='20px'
             color='grey800'

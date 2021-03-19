@@ -47,7 +47,7 @@ const StxAirdrop = (props: Props) => {
     <Box>
       <div>
         <Header>
-          <Icon name='stx' color='stx' size='32px' />
+          <Icon name='STX' color='stx' size='32px' />
           <Text
             size='20px'
             color='grey800'

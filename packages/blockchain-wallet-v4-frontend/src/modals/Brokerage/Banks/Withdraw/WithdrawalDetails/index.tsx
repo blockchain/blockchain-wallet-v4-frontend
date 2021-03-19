@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   WalletFiatType,
@@ -50,11 +49,7 @@ class WithdrawalDetails extends PureComponent<Props> {
       <Wrapper>
         <div>
           <IconContainer>
-            <Icon
-              size='72px'
-              color='fiat'
-              name={this.props.fiatCurrency.toLowerCase() as keyof IcoMoonType}
-            />
+            <Icon size='72px' color='fiat' name={this.props.fiatCurrency} />
             <SuccessIcon
               name='checkmark-circle-filled'
               color='fiat'

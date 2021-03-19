@@ -1,5 +1,3 @@
-import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
-
 import * as WalletOptions from '../../../../../config/mocks/wallet-options-v4.json'
 import { CoinType, RemoteDataType, WalletFiatType } from '../../types'
 
@@ -36,11 +34,6 @@ export type SupportedCoinType = {
   contractAddress?: string
   displayName: string
   hasLockboxSupport: boolean
-  icons: {
-    circle: keyof IcoMoonType
-    circleFilled: keyof IcoMoonType
-    default: keyof IcoMoonType
-  }
   invited?: boolean
   learnMoreLink: string
   method?: boolean
@@ -60,11 +53,6 @@ export type SupportedFiatType = {
   coinTicker: WalletFiatType
   colorCode: 'fiat'
   displayName: 'Euros' | 'Pounds'
-  icons: {
-    circle: 'eur' | 'gbp'
-    circleFilled: 'eur' | 'gbp'
-    default: 'eur' | 'gbp'
-  }
   invited?: boolean
   learnMoreLink: ''
   method?: boolean

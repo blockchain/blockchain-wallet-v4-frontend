@@ -48,11 +48,8 @@ import checkmarkGreen from './img/checkmark-green.svg'
 import circleEmpty from './img/circle-empty.svg'
 import closeError from './img/close-error.svg'
 import coinPax from './img/coin-pax.svg'
-import coins from './img/coins.png'
-import aave from './img/coins/aave.png'
-import dot from './img/coins/dot.png'
-import wdgld from './img/coins/wdgld.svg'
-import yfi from './img/coins/yfi.png'
+// coin logos
+import coins from './img/coins'
 import emailError from './img/email-error.svg'
 import emailSuccess from './img/email-success.svg'
 import emptySearch from './img/empty-search.svg'
@@ -152,7 +149,7 @@ import yodleeConnect from './img/yodlee-connect.svg'
 import yubikey from './img/yubikey.svg'
 
 const Images = {
-  aave,
+  ...coins,
   'bank-logo-acorns': bankLogoAcorns,
   'ad-bitcoin-games': adBitcoinGames,
   'ad-bitcoin-games2': adBitcoinGames2,
@@ -203,7 +200,6 @@ const Images = {
   coins: coins,
   'coin-pax': coinPax,
   'close-error': closeError,
-  dot,
   'email-error': emailError,
   'email-success': emailSuccess,
   'empty-search': emptySearch,
@@ -296,12 +292,10 @@ const Images = {
   'warning-circle-filled': warningCircleFilled,
   wallet,
   'wallet-blue': walletBlue,
-  wdgld: wdgld,
   'bank-logo-wells-fargo': bankLogoWellsFargo,
   'world-alert': worldAlert,
   'world-alert2': worldAlert2,
   'world-alert3': worldAlert3,
-  yfi,
   'yodlee-connect': yodleeConnect,
   yubikey: yubikey
 }
