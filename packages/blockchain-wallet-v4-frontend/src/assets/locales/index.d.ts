@@ -2051,6 +2051,7 @@ type MessagesType = {
   'scenes.preferences.loading.email.description3': 'and to send bitcoin payment alerts when you receive funds.'
   'scenes.preferences.loading.email.title': 'Email address'
   'scenes.prices.failure': 'Failed to load asset prices.'
+  'scenes.prices.noresults': 'No assets match {filterValue}'
   'scenes.prices.subtitle': 'Explore, Buy, Sell and Swap all of assets offered by our wallet.'
   'scenes.priceindexseries.timefilters.all': 'All'
   'scenes.priceindexseries.timefilters.day': 'Day'
@@ -2064,7 +2065,6 @@ type MessagesType = {
   'scenes.profile.identityverification.swaplimit.learnmoreread': "Read the article we've put together on Trading Limits <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>here</a>."
   'scenes.profile.identityverification.swaplimit.wanttolearnmore': 'Want to learn more?'
   'scenes.profile.identityverification.tradingtitle': 'Trading Limits'
-  'scenes.profile.idv.swaplimit.airdropdisclaimer1': "Gold verification is currently under review. Once verified you'll be able to use Swap (trading up to {tier2Limit}) and also be eligible for future crypto airdrops!"
   'scenes.public.register.createExchange': 'Create an Exchange Account'
   'scenes.public.register.createWallet': 'Create Wallet'
   'scenes.recover.firststep.funds': 'Recover Funds'

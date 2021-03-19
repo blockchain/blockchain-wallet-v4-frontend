@@ -1,7 +1,16 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { useGlobalFilter, useSortBy, useTable } from 'react-table'
+import styled from 'styled-components'
 
-import { getTableColumns, HeaderText, TableWrapper } from './Table'
+import { CellText, getTableColumns, HeaderText, TableWrapper } from './Table'
+
+const NoResultsWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 120px;
+`
 
 const options = {
   disableMultiSort: true,
@@ -25,7 +34,9 @@ const PricesTable = props => {
     getTableProps,
     headerGroups,
     prepareRow,
-    rows
+    rows,
+    setGlobalFilter,
+    state
   } = useTable(
     {
       columns,
@@ -37,46 +48,65 @@ const PricesTable = props => {
     useSortBy
   )
 
+  // if the table's filter state and redux form textFilter input dont match
+  // update so they do, allowing text filtering to work
+  if (state.globalFilter !== props.textFilter) {
+    setGlobalFilter(props.textFilter)
+  }
+
   return (
     <TableWrapper>
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  <HeaderText>
-                    {column.render('Header')}
-                    <div>
-                      {column.isSorted ? (
-                        column.isSortedDesc ? (
-                          <span>▾</span>
+      {state.globalFilter?.length && !rows.length ? (
+        <NoResultsWrapper>
+          <CellText color='grey900' size='18px'>
+            🕵️‍♀️&nbsp;&nbsp;&nbsp;
+            <FormattedMessage
+              id='scenes.prices.noresults'
+              defaultMessage='No assets match {filterValue}'
+              values={{ filterValue: `"${state.globalFilter}"` }}
+            />
+          </CellText>
+        </NoResultsWrapper>
+      ) : (
+        <table {...getTableProps()}>
+          <thead>
+            {headerGroups.map(headerGroup => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map(column => (
+                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                    <HeaderText>
+                      {column.render('Header')}
+                      <div>
+                        {column.isSorted ? (
+                          column.isSortedDesc ? (
+                            <span>▾</span>
+                          ) : (
+                            <span>▴</span>
+                          )
                         ) : (
-                          <span>▴</span>
-                        )
-                      ) : (
-                        ''
-                      )}
-                    </div>
-                  </HeaderText>
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows?.map(row => {
-            prepareRow(row)
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => (
-                  <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                          ''
+                        )}
+                      </div>
+                    </HeaderText>
+                  </th>
                 ))}
               </tr>
-            )
-          })}
-        </tbody>
-      </table>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {rows.map(row => {
+              prepareRow(row)
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map(cell => (
+                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  ))}
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      )}
     </TableWrapper>
   )
 }
