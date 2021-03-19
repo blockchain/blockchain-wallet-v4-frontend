@@ -14,20 +14,6 @@ export type SupportedCoinType = {
   }
   coinCode: CoinType
   coinTicker: CoinType
-  // TODO: create this dynamically
-  colorCode:
-    | 'aave'
-    | 'algo'
-    | 'btc'
-    | 'bch'
-    | 'dot'
-    | 'eth'
-    | 'xlm'
-    | 'pax'
-    | 'stx'
-    | 'usdt'
-    | 'wdgld'
-    | 'yfi'
   config: {
     network: string
   }
@@ -51,7 +37,6 @@ export type SupportedFiatType = {
   }
   coinCode: WalletFiatType
   coinTicker: WalletFiatType
-  colorCode: 'fiat'
   displayName: 'Euros' | 'Pounds'
   invited?: boolean
   learnMoreLink: ''

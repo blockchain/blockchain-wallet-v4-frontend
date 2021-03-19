@@ -102,7 +102,7 @@ const Success: React.FC<Props> = props => {
         <Content>
           <IconWrapper>
             <Icon
-              color={props.supportedCoins[props.order.outputCurrency].colorCode}
+              color={props.supportedCoins[props.order.outputCurrency].coinCode}
               name={props.supportedCoins[props.order.outputCurrency].coinCode}
               size='64px'
             />

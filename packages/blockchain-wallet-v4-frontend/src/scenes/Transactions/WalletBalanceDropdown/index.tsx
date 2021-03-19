@@ -48,7 +48,7 @@ const DisplayContainer = styled.div<{ coinType: any; isItem?: boolean }>`
   height: ${props => (props.isItem ? 'auto' : '100%')};
   padding: ${props => (props.isItem ? '0px 0px' : '15px 4px')};
   > span {
-    color: ${props => props.theme[props.coinType.colorCode]} !important;
+    color: ${props => props.theme[props.coinType.coinCode]} !important;
   }
   background-color: transparent;
 `
@@ -336,7 +336,7 @@ class WalletBalanceDropdown extends Component<Props> {
 
     return (
       <DisplayContainer coinType={coinType} isItem>
-        <Icon color={coinType.colorCode} name={coinType.coinCode} size='32px' />
+        <Icon color={coinType.coinCode} name={coinType.coinCode} size='32px' />
         <AccountContainer isItem>
           <Text weight={500} color='grey400' size='14px'>
             {account}{' '}

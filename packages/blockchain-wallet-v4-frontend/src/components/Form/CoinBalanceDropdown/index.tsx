@@ -26,7 +26,7 @@ const DisplayContainer = styled.div<{
   box-sizing: border-box;
   padding: ${props => (props.isItem ? '0px 6px' : '16px 12px')};
   > span {
-    color: ${props => props.theme[props.coinType.colorCode]} !important;
+    color: ${props => props.theme[props.coinType.coinCode]} !important;
   }
 `
 const AccountContainer = styled.div`
@@ -84,7 +84,7 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
     children
   ) => {
     const coinType = this.props.supportedCoins[this.props.coin]
-    const color = coinType.colorCode
+    const color = coinType.coinCode
     const balance = this.coinBalance(props)
     const account = this.accountLabel(props)
     const isItem = !children

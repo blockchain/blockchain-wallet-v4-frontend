@@ -41,7 +41,7 @@ const Wrapper = styled.div<{ coin: CoinType }>`
     padding: 4px 6px;
     border-radius: 4px;
     color: ${props => props.theme.white};
-    background: ${props => props.theme[props.coin.toLowerCase()]};
+    background: ${props => props.theme[props.coin]};
     transition: opacity 0.3s;
   }
   &:hover {

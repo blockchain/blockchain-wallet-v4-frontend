@@ -22,7 +22,7 @@ export const Type = ({ campaignName }: CampaignInfoType) => {
         <TypeWrapper>
           <Icon
             name='XLM'
-            color='xlm'
+            color='XLM'
             size='24px'
             style={{ marginRight: '8px' }}
           />
@@ -45,7 +45,7 @@ export const Type = ({ campaignName }: CampaignInfoType) => {
         <TypeWrapper>
           <Icon
             name='STX'
-            color='stx'
+            color='STX'
             size='24px'
             style={{ marginRight: '8px' }}
           />

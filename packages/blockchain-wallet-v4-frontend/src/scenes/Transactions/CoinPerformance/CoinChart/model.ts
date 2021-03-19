@@ -17,7 +17,7 @@ export const getConfig = (coin, currency, data, decimals) => ({
   },
   plotOptions: {
     line: {
-      color: Color(coin.toLowerCase()),
+      color: Color(coin),
       lineWidth: 3
     }
   },
@@ -31,7 +31,7 @@ export const getConfig = (coin, currency, data, decimals) => ({
     borderWidth: 0,
     borderRadius: 4,
     valueDecimals: 2,
-    backgroundColor: Color(coin.toLowerCase()),
+    backgroundColor: Color(coin),
     shadow: false,
     padding: 4,
     style: {

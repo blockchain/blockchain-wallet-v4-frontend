@@ -45,7 +45,7 @@ const AccountSummary: React.FC<Props> = props => {
     stepMetadata,
     supportedCoins
   } = props
-  const { coinCode, coinTicker, colorCode, displayName } = supportedCoins[coin]
+  const { coinCode, coinTicker, displayName } = supportedCoins[coin]
   const account = accountBalances && accountBalances[coin]
 
   const lockupPeriod =
@@ -73,7 +73,7 @@ const AccountSummary: React.FC<Props> = props => {
           <Row>
             <Icon
               name={coinCode}
-              color={colorCode}
+              color={coinCode}
               size='24px'
               style={{ marginRight: '16px' }}
             />
@@ -165,8 +165,8 @@ const AccountSummary: React.FC<Props> = props => {
         {stepMetadata && stepMetadata.depositSuccess && (
           <>
             <StatusWrapper>
-              <StatusIconWrapper color={`${colorCode}-light`}>
-                <Icon color={colorCode} name='timer' size='24px' />
+              <StatusIconWrapper color={coinCode}>
+                <Icon color={coinCode} name='timer' size='24px' />
               </StatusIconWrapper>
               <Text
                 data-e2e='waitingConfirmation'
@@ -195,8 +195,8 @@ const AccountSummary: React.FC<Props> = props => {
         )}
         {stepMetadata && stepMetadata.withdrawSuccess && (
           <StatusWrapper>
-            <StatusIconWrapper color={`${colorCode}-light`}>
-              <Icon color={colorCode} name='timer' size='24px' />
+            <StatusIconWrapper color={coinCode}>
+              <Icon color={coinCode} name='timer' size='24px' />
             </StatusIconWrapper>
             <Text color='grey600' size='14px' weight={500}>
               <FormattedMessage

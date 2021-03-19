@@ -71,7 +71,7 @@ const Success: React.FC<Props> = props => {
             <Text
               size='32px'
               weight={600}
-              color={supportedCoins[sellBaseCurrency].colorCode}
+              color={supportedCoins[sellBaseCurrency].coinCode}
             >
               {supportedCoins[sellBaseCurrency].coinTicker}
             </Text>

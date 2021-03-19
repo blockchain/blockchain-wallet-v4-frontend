@@ -133,7 +133,7 @@ const Success: React.FC<Props> = props => {
             </BackContainer>
           )}
 
-          <Icon size='32px' color='fiat' name={props.account.currency} />
+          <Icon size='32px' color='USD' name={props.account.currency} />
           <InfoContainer>
             <TopText color='grey800' size='24px' weight={600}>
               {props.account.currency === 'USD' || props.addBank ? (

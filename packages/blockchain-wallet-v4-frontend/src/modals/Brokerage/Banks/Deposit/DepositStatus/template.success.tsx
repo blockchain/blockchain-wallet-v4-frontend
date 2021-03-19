@@ -87,7 +87,7 @@ const Success = props => {
           <IconContainer>
             <FiatIcon>
               <Icon
-                color={props.supportedCoins[coin].colorCode}
+                color={props.supportedCoins[coin].coinCode}
                 name={props.supportedCoins[coin].coinCode}
                 size='64px'
               />

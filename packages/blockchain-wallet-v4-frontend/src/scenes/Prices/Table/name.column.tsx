@@ -41,7 +41,7 @@ export const getNameColumn = routerActions => ({
         <CoinIcon
           name={values.coinModel?.coinCode}
           size='32px'
-          color={values.coinModel?.colorCode}
+          color={values.coinModel?.coinCode}
         />
         <CellText>{values.name}</CellText>
       </CellWrapper>

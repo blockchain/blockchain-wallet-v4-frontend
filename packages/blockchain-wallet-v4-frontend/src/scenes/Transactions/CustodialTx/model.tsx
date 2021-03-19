@@ -33,17 +33,17 @@ export const IconTx = (props: Props) => {
   switch (props.tx.state) {
     case 'FINISHED':
       return (
-        <IconWrapper color='fiat-light'>
-          <Icon size='20px' color='fiat' name='plus' />
+        <IconWrapper color='USD'>
+          <Icon size='20px' color='USD' name='plus' />
         </IconWrapper>
       )
     case 'REFUNDED':
     case 'COMPLETE':
       return props.coin in WalletFiatEnum ? (
-        <IconWrapper color='fiat-light'>
+        <IconWrapper color='USD'>
           <Icon
             size='20px'
-            color='fiat'
+            color='USD'
             name={props.tx.type === 'DEPOSIT' ? 'arrow-down' : 'arrow-up'}
           />
         </IconWrapper>

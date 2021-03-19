@@ -211,7 +211,7 @@ export const getIcon = (
       return (
         <Icon
           size='32px'
-          color='fiat'
+          color='USD'
           name={method.currency as WalletCurrencyType}
         />
       )

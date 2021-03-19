@@ -154,12 +154,12 @@ const LimitSection = ({ paymentMethods, supportedCoins, walletCurrency }) => {
         </LimitWrapper>
         <FiatIconWrapper>
           <Icon
-            color={supportedCoins[walletCurrency].colorCode}
+            color={supportedCoins[walletCurrency].coinCode}
             name={supportedCoins[walletCurrency].coinCode}
             size='32px'
           />
           <SubIconWrapper>
-            <Icon size='24px' color='fiat' name='arrow-down' />
+            <Icon size='24px' color='USD' name='arrow-down' />
           </SubIconWrapper>
         </FiatIconWrapper>
       </Limits>

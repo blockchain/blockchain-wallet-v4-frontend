@@ -173,7 +173,7 @@ class EnterAmount extends PureComponent<Props> {
                     </div>
                     <Icon
                       name={coins[BASE.coin].coinCode}
-                      color={coins[BASE.coin].colorCode}
+                      color={coins[BASE.coin].coinCode}
                       size='32px'
                     />
                   </Option>
@@ -216,7 +216,7 @@ class EnterAmount extends PureComponent<Props> {
                     </div>
                     <Icon
                       name={coins[COUNTER.coin].coinCode}
-                      color={coins[COUNTER.coin].colorCode}
+                      color={coins[COUNTER.coin].coinCode}
                       size='32px'
                     />
                   </Option>

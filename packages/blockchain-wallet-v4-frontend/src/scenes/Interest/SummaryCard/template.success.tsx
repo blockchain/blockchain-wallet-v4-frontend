@@ -55,7 +55,7 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
     supportedCoins,
     walletCurrency
   } = props
-  const { coinCode, coinTicker, colorCode, displayName } = supportedCoins[coin]
+  const { coinCode, coinTicker, displayName } = supportedCoins[coin]
   const account = interestAccountBalance && interestAccountBalance[coin]
   const accountBalanceBase = account ? account.balance : 0
   const interestBalanceBase = account && account.totalInterest
@@ -69,7 +69,7 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
   return (
     <DepositBox>
       <Row>
-        <Icon name={coinCode} color={colorCode} size='32px' />
+        <Icon name={coinCode} color={coinCode} size='32px' />
         <Text
           size='20px'
           color='grey800'

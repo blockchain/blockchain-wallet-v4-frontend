@@ -67,7 +67,7 @@ const Success: React.FC<Props> = props => {
       onClick={props.onClick}
     >
       {props.onClick && (
-        <Icon size='32px' color={coinType.colorCode} name={coinType.coinCode} />
+        <Icon size='32px' color={coinType.coinCode} name={coinType.coinCode} />
       )}
       <Display canClick={!!props.onClick}>
         <Value style={{ marginTop: '0px' }}>{displayName}</Value>
@@ -90,16 +90,16 @@ const Success: React.FC<Props> = props => {
         <>
           <Icon
             size='32px'
-            color={coinType.colorCode}
+            color={coinType.coinCode}
             name={coinType.coinCode}
             style={{ position: 'relative', left: '5px' }}
           />
           <PlusMinusIconWrapper>
-            <IconBackground color={`${coinType.colorCode}-light`}>
+            <IconBackground color={coinType.coinCode}>
               <Icon
                 name={props.orderType === 'BUY' ? 'plus' : 'minus'}
                 size='24px'
-                color={coinType.colorCode}
+                color={coinType.coinCode}
               />
             </IconBackground>
           </PlusMinusIconWrapper>

@@ -55,17 +55,13 @@ export const getConfig = (
         stops: [
           [
             0,
-            ReactHighcharts.Highcharts.Color(
-              Color(coin.toLowerCase() as keyof DefaultTheme)
-            )
+            ReactHighcharts.Highcharts.Color(Color(coin as keyof DefaultTheme))
               .setOpacity(0.7)
               .get('rgba')
           ],
           [
             1,
-            ReactHighcharts.Highcharts.Color(
-              Color(coin.toLowerCase() as keyof DefaultTheme)
-            )
+            ReactHighcharts.Highcharts.Color(Color(coin as keyof DefaultTheme))
               .setOpacity(0.1)
               .get('rgba')
           ]
@@ -75,7 +71,7 @@ export const getConfig = (
         radius: 0
       },
       lineWidth: 2,
-      color: Color(coin.toLowerCase() as keyof DefaultTheme),
+      color: Color(coin as keyof DefaultTheme),
       states: {
         hover: {
           lineWidth: 2
@@ -95,7 +91,7 @@ export const getConfig = (
     borderWidth: 0,
     borderRadius: 4,
     valueDecimals: 2,
-    backgroundColor: Color(coin.toLowerCase() as keyof DefaultTheme),
+    backgroundColor: Color(coin as keyof DefaultTheme),
     shadow: false,
     padding: 4,
     style: {

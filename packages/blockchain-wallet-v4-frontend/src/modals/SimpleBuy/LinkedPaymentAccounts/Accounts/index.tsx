@@ -152,7 +152,7 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         return (
           <Icon
             size='32px'
-            color='fiat'
+            color='USD'
             name={value.currency as WalletCurrencyType}
           />
         )

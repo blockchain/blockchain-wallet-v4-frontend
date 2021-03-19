@@ -61,7 +61,7 @@ const Success = (props: Props & SuccessStateType) => {
                     <Wrapper>
                       <Coin>
                         <CoinIcon
-                          color={coin.colorCode}
+                          color={coin.coinCode}
                           name={coin.coinCode}
                           size={'32px'}
                         />

@@ -117,8 +117,8 @@ const Navigation = (props: OwnProps & Props) => {
         <Divider />
       </PortfolioSeparator>
       <LinkContainer to='/usd/transactions' activeClassName='active'>
-        <MenuItem colorCode='fiat' data-e2e='cashLink' className='coin'>
-          <CoinIcon className='coin-icon' color='fiat' name='USD' size='24px' />
+        <MenuItem colorCode='USD' data-e2e='cashLink' className='coin'>
+          <CoinIcon className='coin-icon' color='USD' name='USD' size='24px' />
           <Destination>
             <FormattedMessage id='copy.cash' defaultMessage='Cash' />
           </Destination>
@@ -136,12 +136,12 @@ const Navigation = (props: OwnProps & Props) => {
               >
                 <MenuItem
                   data-e2e={`${toLower(coinModel.coinCode)}Link`}
-                  colorCode={coinModel.colorCode}
+                  colorCode={coinModel.coinCode}
                   className='coin'
                 >
                   <CoinIcon
                     className='coin-icon'
-                    color={coinModel.colorCode}
+                    color={coinModel.coinCode}
                     name={coinModel.coinCode}
                     size='24px'
                   />

@@ -147,7 +147,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     </div>
                     <Icon
                       name={coins[values.BASE.coin].coinCode}
-                      color={coins[values.BASE.coin].colorCode}
+                      color={coins[values.BASE.coin].coinCode}
                       size='32px'
                     />
                   </>
@@ -214,7 +214,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     </div>
                     <Icon
                       name={coins[values.COUNTER.coin].coinCode}
-                      color={coins[values.COUNTER.coin].colorCode}
+                      color={coins[values.COUNTER.coin].coinCode}
                       size='32px'
                     />
                   </>
@@ -309,7 +309,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   <FlexStartRow>
                     <TrendingIconRow>
                       <Icon
-                        color='btc'
+                        color='BTC'
                         name='BTC'
                         size='32px'
                         style={{ marginRight: '16px' }}
@@ -321,7 +321,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                           color='blue600'
                         />
                       </IconBackground>
-                      <Icon color='eth' name='ETH' size='32px' />
+                      <Icon color='ETH' name='ETH' size='32px' />
                     </TrendingIconRow>
                     <div>
                       <OptionTitle>Swap Bitcoin</OptionTitle>
@@ -348,7 +348,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   <FlexStartRow>
                     <TrendingIconRow>
                       <Icon
-                        color='eth'
+                        color='ETH'
                         name='ETH'
                         size='32px'
                         style={{ marginRight: '16px' }}
@@ -360,7 +360,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                           color='blue600'
                         />
                       </IconBackground>
-                      <Icon color='btc' name='BTC' size='32px' />
+                      <Icon color='BTC' name='BTC' size='32px' />
                     </TrendingIconRow>
                     <div>
                       <OptionTitle>Swap Ethereum</OptionTitle>
@@ -387,7 +387,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   <FlexStartRow>
                     <TrendingIconRow>
                       <Icon
-                        color='btc'
+                        color='BTC'
                         name='BTC'
                         size='32px'
                         style={{ marginRight: '16px' }}
@@ -399,7 +399,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                           color='blue600'
                         />
                       </IconBackground>
-                      <Icon color='usd-d' name='PAX' size='32px' />
+                      <Icon color='PAX' name='PAX' size='32px' />
                     </TrendingIconRow>
                     <div>
                       <OptionTitle>Swap BTC</OptionTitle>

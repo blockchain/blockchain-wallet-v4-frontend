@@ -108,7 +108,7 @@ export const IconTx = ({
     | 'received'
     | 'transferred'
 }) => {
-  const color = coin ? (coin.toLowerCase() as keyof DefaultTheme) : 'grey600'
+  const color = coin ? (coin as keyof DefaultTheme) : 'grey600'
 
   const getIcon = () => {
     switch (type) {
@@ -132,7 +132,7 @@ export const IconTx = ({
           <Icon
             size='20px'
             weight={600}
-            color='fiat'
+            color='USD'
             name={type === 'DEPOSIT' ? 'arrow-down' : 'arrow-up'}
           />
         )
