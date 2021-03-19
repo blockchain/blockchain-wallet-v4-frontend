@@ -31,8 +31,8 @@ export type FastLinkType = {
 }
 
 export type OBType = {
-  attributes: OBAttributesType,
-  id: string,
+  attributes: OBAttributesType
+  id: string
   partner: BankPartners.YAPILY
 }
 
@@ -45,7 +45,7 @@ interface OBMediaType {
   source: string
   type: 'string'
 }
-interface OBInstitution {
+export interface OBInstitution {
   countries: OBCountryType[]
   credentialsType: string
   environmentType: string
@@ -56,7 +56,7 @@ interface OBInstitution {
   name: string
 }
 interface OBAttributesType {
-  entity: OBEntityType,
+  entity: OBEntityType
   institutions: OBInstitution[]
 }
 
