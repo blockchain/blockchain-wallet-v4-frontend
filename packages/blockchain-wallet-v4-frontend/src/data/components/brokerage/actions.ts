@@ -13,7 +13,8 @@ import {
   BrokerageActionTypes,
   BrokerageAddBankStepPayload,
   BrokerageDWStepPayload,
-  FastLinkType
+  FastLinkType,
+  OBType
 } from './types'
 
 export const deleteSavedBank = (bankId: BankTransferAccountType['id']) => ({
@@ -32,6 +33,15 @@ export const setFastLink = (fastLink: FastLinkType): BrokerageActionTypes => ({
   type: AT.SET_FAST_LINK,
   payload: {
     fastLink
+  }
+})
+
+export const setBankCredentials = (
+  credentials: OBType
+): BrokerageActionTypes => ({
+  type: AT.FETCH_BANK_CREDENTIALS_SUCCESS,
+  payload: {
+    credentials
   }
 })
 
