@@ -5,18 +5,20 @@ import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 export const getData = (state: RootState) => {
-  const fastLinkR = selectors.components.brokerage.getFastLink(state)
+  const bankCredentialsR = selectors.components.brokerage.getBankCredentials(
+    state
+  )
   const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
     state
   )
 
   return lift(
     (
-      fastLink: ExtractSuccess<typeof fastLinkR>,
+      bankCredentials: ExtractSuccess<typeof bankCredentialsR>,
       paymentMethods: ExtractSuccess<typeof paymentMethodsR>
     ) => ({
-      fastLink,
+      bankCredentials,
       paymentMethods
     })
-  )(fastLinkR, paymentMethodsR)
+  )(bankCredentialsR, paymentMethodsR)
 }

@@ -2,19 +2,30 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
+import DataError from 'components/DataError'
 import { WalletFiatType } from 'core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
+import { Loading, LoadingTextEnum } from '../../../components'
 import { getData } from './selectors'
+import Success from './template.success'
 
-const SelectBank = props => {
+const SelectBank = (props: Props) => {
   useEffect(() => {
     props.brokerageActions.fetchBankLinkCredentials(
       props.fiatCurrency as WalletFiatType
     )
   }, [])
-  return <>sup</>
+
+  const { data } = props
+
+  return data.cata({
+    Success: val => <Success {...val} {...props} />,
+    Failure: () => <DataError onClick={() => {}} />,
+    Loading: () => <Loading text={LoadingTextEnum.GETTING_READY} />,
+    NotAsked: () => <Loading text={LoadingTextEnum.GETTING_READY} />
+  })
 }
 
 const mapStateToProps = (state: RootState) => ({
@@ -30,7 +41,7 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
-  handleClose: () => void
+  // handleClose: () => void
 }
 type LinkDispatchPropsType = {
   brokerageActions: typeof actions.components.brokerage
