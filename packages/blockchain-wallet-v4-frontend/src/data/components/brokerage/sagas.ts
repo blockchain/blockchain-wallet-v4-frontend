@@ -159,6 +159,7 @@ export default ({
       } else if (credentials.partner === 'YAPILY') {
         // eslint-disable-next-line
         console.log('creds', credentials)
+        yield put(A.setBankCredentials(credentials))
       }
     } catch (e) {
       // eslint-disable-next-line

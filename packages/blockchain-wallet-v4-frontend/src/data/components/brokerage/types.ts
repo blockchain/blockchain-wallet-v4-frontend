@@ -6,6 +6,17 @@ import {
 
 import * as AT from './actionTypes'
 
+enum BankPartners {
+  YAPILY = 'YAPILY',
+  YODLEE = 'YODLEE'
+}
+
+enum OBEntityType {
+  FINTECTURE = 'Fintecture (EU)',
+  SAFE_CONNECT_AUB = 'Safeconnect AUB',
+  SAFE_CONNECT_UK = 'Safeconnect(UK)'
+}
+
 export type FastLinkType = {
   attributes: {
     fastlinkParams: {
@@ -16,7 +27,37 @@ export type FastLinkType = {
     tokenExpiresAt: string
   }
   id: string
-  partner: 'YODLEE'
+  partner: BankPartners.YODLEE
+}
+
+export type OBType = {
+  attributes: OBAttributesType,
+  id: string,
+  partner: BankPartners.YAPILY
+}
+
+interface OBCountryType {
+  countryCode2: string
+  displayName: string
+}
+
+interface OBMediaType {
+  source: string
+  type: 'string'
+}
+interface OBInstitution {
+  countries: OBCountryType[]
+  credentialsType: string
+  environmentType: string
+  features: [string]
+  fullName: string
+  id: string
+  media: OBMediaType
+  name: string
+}
+interface OBAttributesType {
+  entity: OBEntityType,
+  institutions: OBInstitution[]
 }
 
 export type BankStatusType =
@@ -87,6 +128,7 @@ export type BrokerageState = {
   account: BankTransferAccountType | undefined
   addBankStep: AddBankStepType
   addNew: boolean
+  bankCredentials: RemoteDataType<string, OBType>
   bankStatus: RemoteDataType<string, BankStatusType>
   bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>
   dwStep: BankDWStepType
@@ -144,7 +186,24 @@ interface HandeDepositFiatClickAction {
   type: typeof AT.HANDLE_DEPOSIT_FIAT_CLICK
 }
 
+interface FetchBankCredentialsSuccessAction {
+  payload: { credentials: OBType }
+  type: typeof AT.FETCH_BANK_CREDENTIALS_SUCCESS
+}
+
+interface FetchBankCredentialsLoadingAction {
+  type: typeof AT.FETCH_BANK_CREDENTIALS_LOADING
+}
+
+interface FetchBankCredentialsErrorAction {
+  payload: { error: string }
+  type: typeof AT.FETCH_BANK_CREDENTIALS_ERROR
+}
+
 export type BrokerageActionTypes =
+  | FetchBankCredentialsErrorAction
+  | FetchBankCredentialsLoadingAction
+  | FetchBankCredentialsSuccessAction
   | FetchBankTransferAccountsFailure
   | FetchBankTransferAccountsLoading
   | FetchBankTransferAccountsSuccess
