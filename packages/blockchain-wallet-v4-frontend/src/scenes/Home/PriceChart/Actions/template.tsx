@@ -1,35 +1,26 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
-
 import { Button } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
 
 import { Props } from '.'
 
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
-  z-index: 2;
-  margin-bottom: 24px;
-  width: 100%;
+  margin-right: 24px;
+  margin-top: 24px;
 `
 
 const BuyTradeButton = styled(Button)`
-  max-width: 200px;
-  width: 100%;
-
   &:first-child {
-    margin: 0 12px;
-  }
-
-  &:last-child {
-    margin: 0 12px;
+    margin-right: 12px;
   }
 `
 
-const Footer = ({
-  coinName,
+const Actions = ({
   cryptoCurrency,
+  coinName,
   simpleBuyActions,
   swapActions
 }: Props) => {
@@ -52,7 +43,7 @@ const Footer = ({
       <BuyTradeButton
         data-e2e='swapButton'
         height='48px'
-        nature='primary'
+        nature='empty'
         onClick={() => swapActions.showModal('PriceChart')}
       >
         <FormattedMessage
@@ -65,4 +56,4 @@ const Footer = ({
   )
 }
 
-export default Footer
+export default Actions

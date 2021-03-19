@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
@@ -12,10 +12,12 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `
 
-export default props => (
+const Error = (props: { children: ReactNode }) => (
   <Wrapper>
     <Text size='12px' weight={400} color='red600'>
       {props.children}
     </Text>
   </Wrapper>
 )
+
+export default Error

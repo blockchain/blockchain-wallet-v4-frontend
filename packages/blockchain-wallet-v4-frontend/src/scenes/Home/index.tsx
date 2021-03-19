@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactHighcharts from 'react-highcharts'
 import styled from 'styled-components'
 
 import { SceneWrapper } from 'components/Layout'
@@ -8,8 +7,6 @@ import { media, mediaHeight } from 'services/styles'
 import Balances from './Balances'
 import Banners from './Banners'
 import PriceChart from './PriceChart'
-
-ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 
 const ColumnWrapper = styled.section`
   display: flex;
@@ -27,7 +24,6 @@ const Column = styled.div`
   height: 100%;
   width: 100%;
   display: flex;
-  max-width: 600px;
   box-sizing: border-box;
   padding-bottom: 25px;
   ${mediaHeight.big`
@@ -43,6 +39,7 @@ const ColumnLeft = styled(Column)`
   ${media.atLeastTabletL`
     padding-right: 30px;
   `}
+  max-width: 600px;
 `
 const ColumnRight = styled(Column)`
   & > :not(:first-child) {
