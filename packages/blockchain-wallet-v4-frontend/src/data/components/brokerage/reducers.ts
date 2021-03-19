@@ -9,15 +9,16 @@ import {
 } from './types'
 
 const INITIAL_STATE: BrokerageState = {
-  bankTransferAccounts: Remote.NotAsked,
-  fastLink: Remote.NotAsked,
-  addBankStep: AddBankStepType.ADD_BANK,
-  dwStep: BankDWStepType.DEPOSIT_METHODS,
   account: undefined,
-  redirectBackToStep: false,
+  addBankStep: AddBankStepType.ADD_BANK,
   addNew: false, // TODO: Put this stuff in redux-form
+  bankCredentials: Remote.NotAsked,
   bankStatus: Remote.NotAsked,
-  fiatCurrency: undefined
+  bankTransferAccounts: Remote.NotAsked,
+  dwStep: BankDWStepType.DEPOSIT_METHODS,
+  fastLink: Remote.NotAsked,
+  fiatCurrency: undefined,
+  redirectBackToStep: false
 }
 
 export function brokerageReducer(
@@ -25,6 +26,22 @@ export function brokerageReducer(
   action: BrokerageActionTypes
 ): BrokerageState {
   switch (action.type) {
+    case AT.FETCH_BANK_CREDENTIALS_LOADING:
+      return {
+        ...state,
+        bankCredentials: Remote.Loading
+      }
+    case AT.FETCH_BANK_CREDENTIALS_ERROR:
+      return {
+        ...state,
+        bankCredentials: Remote.Failure(action.payload.error)
+      }
+    case AT.FETCH_BANK_CREDENTIALS_SUCCESS:
+      return {
+        ...state,
+        bankCredentials: Remote.Success(action.payload.credentials)
+      }
+
     case AT.FETCH_BANK_TRANSFER_ACCOUNTS_LOADING:
       return {
         ...state,
