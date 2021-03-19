@@ -6,6 +6,7 @@ import { CoinAccountSelectorType } from 'data/coins/types'
 export const SUPPORTED_COINS: Array<CoinType> = [
   'BTC',
   'ETH',
+  'BCH',
   'AAVE',
   'YFI',
   'DOT',
@@ -13,7 +14,6 @@ export const SUPPORTED_COINS: Array<CoinType> = [
   'PAX',
   'USDT',
   'WDGLD',
-  'BCH',
   'ALGO'
 ]
 

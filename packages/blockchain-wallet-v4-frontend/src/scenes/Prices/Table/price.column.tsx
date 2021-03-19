@@ -13,11 +13,9 @@ export const getPriceColumn = walletCurrency => ({
   ),
   accessor: 'price',
   disableGlobalFilter: true,
-  sortType: (rowA, rowB, id) => {
-    const a = rowA.original[id][walletCurrency].last
-    const b = rowB.original[id][walletCurrency].last
-    if (a > b) return 1
-    if (b > a) return -1
+  sortType: (a, b, id) => {
+    if (a.original[id] > b.original[id]) return 1
+    if (b.original[id] > a.original[id]) return -1
     return 0
   },
   Cell: ({ row: { original: values } }) => {
@@ -32,7 +30,7 @@ export const getPriceColumn = walletCurrency => ({
           style={{ lineHeight: '24px' }}
           weight={500}
         >
-          {values.price[walletCurrency]?.last}
+          {values.price}
         </FiatDisplay>
       </CellText>
     )

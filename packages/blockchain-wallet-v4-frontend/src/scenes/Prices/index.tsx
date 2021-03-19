@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { useGlobalFilter, useSortBy, useTable } from 'react-table'
 import { bindActionCreators, compose } from 'redux'
-import { Field, reduxForm } from 'redux-form'
+import { Field, formValueSelector, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
@@ -12,7 +11,9 @@ import { SceneWrapper } from 'components/Layout'
 import { actions, selectors } from 'data'
 
 import { getData } from './selectors'
-import { getTableColumns, HeaderText, TableWrapper } from './Table'
+import Failure from './template.failure'
+import Loading from './template.loading'
+import PricesTable from './template.success'
 
 const Header = styled.div`
   width: 100%;
@@ -40,126 +41,82 @@ const SubTitle = styled.div`
   margin-top: 16px;
 `
 
-const options = {
-  disableMultiSort: true,
-  disableSortRemove: true
-}
+const Scene = ({ children }) => (
+  <SceneWrapper>
+    <Header>
+      <PageTitle>
+        <div>
+          <Title>
+            <Icon size='36px' color='blue600' name='compass' />
+            <Text color='grey800' size='32px' weight={600}>
+              <FormattedMessage id='copy.prices' defaultMessage='Prices' />
+            </Text>
+          </Title>
+          <SubTitle>
+            <Text color='grey600' size='16px' weight={500}>
+              <FormattedMessage
+                id='scenes.prices.subtitle'
+                defaultMessage='Explore, Buy, Sell and Swap all of assets offered by our wallet.'
+              />
+            </Text>
+          </SubTitle>
+        </div>
+        <div>
+          <Field
+            component={TextBox}
+            height='42px'
+            data-e2e='pricesTextFilter'
+            name='textFilter'
+            placeholder='Filter by asset name'
+          />
+        </div>
+      </PageTitle>
+    </Header>
+    {children}
+  </SceneWrapper>
+)
 
-const initialState = {
-  sortBy: [{ id: 'price', desc: true }]
-}
+const PricesContainer = props => {
+  const { priceActions, rowDataR } = props
 
-const PricesContainer = ({
-  modalActions,
-  routerActions,
-  rowData: { data },
-  walletCurrency
-}) => {
-  const columns = React.useMemo(
-    getTableColumns({ modalActions, routerActions, walletCurrency }),
-    []
-  )
+  useEffect(() => {
+    priceActions.fetchCoinPrices()
+    priceActions.fetchCoinPricesPreviousDay()
+  }, [])
 
-  const {
-    getTableBodyProps,
-    getTableProps,
-    headerGroups,
-    prepareRow,
-    rows,
-    setGlobalFilter
-  } = useTable(
-    { columns, data, initialState, ...options },
-    useGlobalFilter,
-    useSortBy
-  )
-
-  return (
-    <SceneWrapper>
-      <Header>
-        <PageTitle>
-          <div>
-            <Title>
-              <Icon size='36px' color='blue600' name='compass' />
-              <Text color='grey800' size='32px' weight={600}>
-                <FormattedMessage id='copy.prices' defaultMessage='Prices' />
-              </Text>
-            </Title>
-            <SubTitle>
-              <Text color='grey600' size='16px' weight={500}>
-                <FormattedMessage
-                  id='scenes.prices.subtitle'
-                  defaultMessage='Explore, Buy, Sell and Swap all of assets offered by our wallet.'
-                />
-              </Text>
-            </SubTitle>
-          </div>
-          <div>
-            <Field
-              component={TextBox}
-              height='42px'
-              data-e2e='pricesTextFilter'
-              name='textFilter'
-              onChange={(e, val) => setGlobalFilter(val)}
-              placeholder='Filter by asset name'
-            />
-          </div>
-        </PageTitle>
-      </Header>
-      <TableWrapper>
-        <table {...getTableProps()}>
-          <thead>
-            {headerGroups.map(headerGroup => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map(column => (
-                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                    <HeaderText>
-                      {column.render('Header')}
-                      <div>
-                        {column.isSorted ? (
-                          column.isSortedDesc ? (
-                            <span>▾</span>
-                          ) : (
-                            <span>▴</span>
-                          )
-                        ) : (
-                          ''
-                        )}
-                      </div>
-                    </HeaderText>
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {rows.map(row => {
-              prepareRow(row)
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map(cell => (
-                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                  ))}
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </TableWrapper>
-    </SceneWrapper>
-  )
+  return rowDataR.cata({
+    Success: val => (
+      <Scene>
+        <PricesTable data={val} {...props} />
+      </Scene>
+    ),
+    Loading: () => (
+      <Scene>
+        <Loading />
+      </Scene>
+    ),
+    NotAsked: () => (
+      <Scene>
+        <Loading />
+      </Scene>
+    ),
+    Failure: () => (
+      <Scene>
+        <Failure />
+      </Scene>
+    )
+  })
 }
 
 const mapStateToProps = state => ({
-  rowData: getData(state),
-  coinRates: selectors.core.data.misc.getAllCoinRatesSelector(state),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrFail('Failed to fetch'),
+  rowDataR: getData(state),
+  textFilter: formValueSelector('prices')(state, 'textFilter'),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
+  priceActions: bindActionCreators(actions.prices, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
