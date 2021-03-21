@@ -62,6 +62,7 @@ import facebookWhite from './img/facebook-white.svg'
 import failedKyc from './img/failed-kyc.png'
 import failedKyc2 from './img/failed-kyc@2x.png'
 import failedKyc3 from './img/failed-kyc@3x.png'
+import fintecture from './img/fintecture.svg'
 import goldApproved from './img/gold-approved.svg'
 import goldNotice from './img/gold-notice.png'
 import goldVerified from './img/gold-verified.svg'
@@ -117,6 +118,7 @@ import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
 import recoverPadlock from './img/recover-padlock.svg'
 import refresh from './img/refresh.svg'
+import safeConnect from './img/safe-connect.svg'
 import search from './img/search.svg'
 import selectArrow from './img/select-arrow.png'
 import silverApproved from './img/silver-approved.svg'
@@ -212,6 +214,7 @@ const Images = {
   'failed-kyc': failedKyc,
   'failed-kyc2': failedKyc2,
   'failed-kyc3': failedKyc3,
+  fintecture: fintecture,
   'firmware-connect': firmwareConnect,
   'firmware-connect2': firmwareConnect2,
   'firmware-connect3': firmwareConnect3,
@@ -267,6 +270,7 @@ const Images = {
   'qr-code': qrCode,
   'recover-padlock': recoverPadlock,
   refresh,
+  'safe-connect': safeConnect,
   search: search,
   'select-arrow': selectArrow,
   'silver-approved': silverApproved,

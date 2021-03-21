@@ -5,6 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { WalletFiatType } from 'core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { AddBankStepType } from 'data/types'
 
 import { getData } from './selectors'
 
@@ -14,7 +15,20 @@ const SelectBank = props => {
       props.fiatCurrency as WalletFiatType
     )
   }, [])
-  return <>sup</>
+  return (
+    <>
+      sup
+      <button
+        onClick={() =>
+          props.brokerageActions.setAddBankStep({
+            addBankStep: AddBankStepType.ADD_BANK_AUTHORIZE
+          })
+        }
+      >
+        Go to next step
+      </button>
+    </>
+  )
 }
 
 const mapStateToProps = (state: RootState) => ({
