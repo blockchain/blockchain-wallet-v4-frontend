@@ -24,13 +24,15 @@ const mapStateToProps = (state: RootState) => ({
   data: getData(state)
 })
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkDispatchPropsType = {
-  brokerageActions: typeof actions.components.brokerage
+  brokerageActions: typeof actions.components.brokerage,
+  simpleBuyActions: typeof actions.components.simpleBuy
 }
 type OwnProps = {
   entity: OBEntityType

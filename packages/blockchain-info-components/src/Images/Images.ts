@@ -270,6 +270,8 @@ const Images = {
   'qr-code': qrCode,
   'recover-padlock': recoverPadlock,
   refresh,
+  'bank-logo-regions': bankLogoRegions,
+  'bank-logo-robinhood': bankLogoRobinhood,
   'safe-connect': safeConnect,
   search: search,
   'select-arrow': selectArrow,
