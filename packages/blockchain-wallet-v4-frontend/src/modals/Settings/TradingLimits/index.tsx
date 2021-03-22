@@ -66,7 +66,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
-  )
+  ),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  isEddQualified: true
 })
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
