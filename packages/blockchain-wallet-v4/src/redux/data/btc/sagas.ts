@@ -71,7 +71,7 @@ export default ({ api }: { api: APIType }) => {
   const fetchTransactions = function * (action) {
     try {
       const { payload } = action
-      const { onlyShow, reset } = payload
+      const { address, reset, filter } = payload
       const pages = yield select(S.getTransactions)
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
       const transactionsAtBound = yield select(S.getTransactionsAtBound)
@@ -83,9 +83,10 @@ export default ({ api }: { api: APIType }) => {
         n: TX_PER_PAGE,
         onlyShow:
           // TODO: SEGWIT remove w/ DEPRECATED_V3
-          onlyShow || concat(walletContext.legacy, walletContext.bech32 || []),
+          address || concat(walletContext.legacy, walletContext.bech32 || []),
         offset
-      })
+      },
+      filter)
       const atBounds = length(data.txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
       const txPage: Array<ProcessedTxType> = yield call(__processTxs, data.txs)

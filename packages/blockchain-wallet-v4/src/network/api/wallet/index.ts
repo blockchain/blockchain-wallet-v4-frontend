@@ -53,7 +53,8 @@ export default ({ get, post, rootUrl }) => {
   // onlyShow is xpub or address to filter data with
   const fetchBlockchainData = (
     context,
-    { n = 50, offset = 0, onlyShow = false } = {}
+    { n = 50, offset = 0, onlyShow = false } = {},
+    filter?: Number
   ) => {
     const addresses = prop('addresses', context)
     const addressArray = Array.isArray(addresses) ? addresses : [addresses]
@@ -71,7 +72,8 @@ export default ({ get, post, rootUrl }) => {
       ct: new Date().getTime(),
       n: n,
       language: 'en',
-      no_buttons: true
+      no_buttons: true,
+      filter: filter
     }
     return post({
       url: rootUrl,

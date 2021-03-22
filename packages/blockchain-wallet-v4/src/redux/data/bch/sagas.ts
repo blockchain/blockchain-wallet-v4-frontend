@@ -67,7 +67,7 @@ export default ({ api }: { api: APIType }) => {
   const fetchTransactions = function * (action) {
     try {
       const { payload } = action
-      const { onlyShow, reset } = payload
+      const { address, reset, filter } = payload
       const pages = yield select(S.getTransactions)
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
       const transactionsAtBound = yield select(S.getTransactionsAtBound)
@@ -75,12 +75,17 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchTransactionsLoading(reset))
       const walletContext = yield select(S.getWalletContext)
       const context = yield select(S.getContext)
-      const convertedAddress = convertFromCashAddrIfCashAddr(onlyShow)
-      const data = yield call(api.fetchBchData, context, {
-        n: TX_PER_PAGE,
-        onlyShow: convertedAddress || onlyShow || walletContext.join('|'),
-        offset
-      })
+      const convertedAddress = convertFromCashAddrIfCashAddr(address)
+      const data = yield call(
+        api.fetchBchData,
+        context,
+        {
+          n: TX_PER_PAGE,
+          onlyShow: convertedAddress || walletContext.join('|'),
+          offset
+        },
+        filter
+      )
       const filteredTxs = data.txs.filter(tx => tx.time > BCH_FORK_TIME)
       const atBounds = length(filteredTxs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
