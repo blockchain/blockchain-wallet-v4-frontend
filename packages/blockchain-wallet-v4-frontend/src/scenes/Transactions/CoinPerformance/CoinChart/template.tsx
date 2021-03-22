@@ -45,7 +45,7 @@ const Chart = ({
   currency: FiatType
   data: Data[]
 }) => {
-  const color = Color(coin.toLowerCase() as keyof DefaultTheme)
+  const color = Color(coin as keyof DefaultTheme)
 
   const {
     hideTooltip,
