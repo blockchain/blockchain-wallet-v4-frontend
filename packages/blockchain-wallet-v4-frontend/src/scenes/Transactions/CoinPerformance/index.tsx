@@ -1,5 +1,4 @@
 import React from 'react'
-import { ParentSize } from '@visx/responsive'
 import styled from 'styled-components'
 
 import { media } from 'services/styles'
@@ -38,11 +37,7 @@ const CoinPerformanceContainer = ({ coin, coinModel }) => (
       <CoinPrices coinModel={coinModel} />
     </ColumnLeft>
     <ColumnRight>
-      <ParentSize>
-        {({ height, width }) => (
-          <CoinChart width={width} height={height} coin={coin} />
-        )}
-      </ParentSize>
+      <CoinChart coin={coin} />
     </ColumnRight>
   </Wrapper>
 )

@@ -23,9 +23,7 @@ const CoinPerformanceContainer = ({
   coin,
   currency,
   data,
-  height,
-  priceChartActions,
-  width
+  priceChartActions
 }: Props) => {
   useEffect(() => {
     priceChartActions.initialized(coin, TimeRange.WEEK)
@@ -33,13 +31,7 @@ const CoinPerformanceContainer = ({
 
   return data.cata({
     Success: value => (
-      <Chart
-        width={width}
-        height={height}
-        currency={currency}
-        coin={value.coin}
-        data={value.data}
-      />
+      <Chart currency={currency} coin={value.coin} data={value.data} />
     ),
     Failure: error => (
       <ErrorWrapper>
@@ -61,7 +53,7 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type OwnProps = { coin: CoinType, height: number; width: number; }
+export type OwnProps = { coin: CoinType }
 
 type Props = OwnProps & ConnectedProps<typeof connector>
 

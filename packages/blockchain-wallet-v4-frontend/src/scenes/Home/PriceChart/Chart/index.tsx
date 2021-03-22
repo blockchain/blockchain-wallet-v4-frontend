@@ -20,13 +20,7 @@ const ChartContainer = (props: Props) => {
 
   return props.data.cata({
     Success: value => (
-      <Success
-        width={props.width}
-        height={props.height}
-        currency={props.currency}
-        coin={value.coin}
-        data={value.data}
-      />
+      <Success currency={props.currency} coin={value.coin} data={value.data} />
     ),
     Failure: message => <Error>{message}</Error>,
     Loading: () => <Loading />,
@@ -42,10 +36,7 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type OwnProps = {
-  height: number,
-  width: number
-}
+type OwnProps = {}
 
 type Props = OwnProps & ConnectedProps<typeof connector>
 
