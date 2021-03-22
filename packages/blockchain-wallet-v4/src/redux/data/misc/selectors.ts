@@ -2,9 +2,9 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import {
   CoinType,
-  PriceChangeTimeRangeType,
   RatesType,
   RemoteDataType,
+  TimeRange,
   WalletCurrencyType
 } from 'core/types'
 import { RootState } from 'data/rootReducer'
@@ -32,7 +32,7 @@ export const verifyEmailToken = (state: RootState) =>
 
 export const getPriceChange = (
   coin: CoinType,
-  range: PriceChangeTimeRangeType,
+  range: TimeRange,
   state: RootState
 ) => state.dataPath.misc.price_change[range][coin]
 

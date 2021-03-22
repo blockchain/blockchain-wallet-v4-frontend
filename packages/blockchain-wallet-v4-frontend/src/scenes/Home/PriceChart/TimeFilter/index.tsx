@@ -1,16 +1,19 @@
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
 import React, { useEffect } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { TimeRange } from 'blockchain-wallet-v4/src/types'
+import { actions } from 'data'
+
+import { getData } from './selectors'
 import Tabs from './Tabs'
 
 const TimeFilter = ({ actions, time }: Props) => {
   useEffect(() => {
-    actions.timeClicked('day')
+    actions.timeClicked(TimeRange.DAY)
   }, [])
 
-  const handleClick = (time: string) => {
+  const handleClick = (time: TimeRange) => {
     actions.timeClicked(time)
   }
 

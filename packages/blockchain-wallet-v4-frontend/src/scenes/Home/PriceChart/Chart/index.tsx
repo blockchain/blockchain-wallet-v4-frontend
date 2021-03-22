@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { pathOr, toUpper } from 'ramda'
+import { pathOr } from 'ramda'
 import { bindActionCreators } from 'redux'
 
-import { PriceChangeTimeRangeType } from 'blockchain-wallet-v4/src/types'
+import { TimeRange } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
 
 import { getData } from './selectors'
@@ -14,12 +14,8 @@ import Success from './template.success'
 const ChartContainer = (props: Props) => {
   useEffect(() => {
     const coin = pathOr('BTC', ['cache', 'coin'], props)
-    const time = pathOr(
-      'month',
-      ['cache', 'time'],
-      props
-    ) as PriceChangeTimeRangeType
-    props.priceChartActions.initialized(toUpper(coin), time)
+    const time = pathOr(TimeRange.MONTH, ['cache', 'time'], props) as TimeRange
+    props.priceChartActions.initialized(coin, time)
   }, [props.cache.coin, props.cache.time])
 
   return props.data.cata({

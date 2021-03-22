@@ -1,11 +1,10 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { toUpper } from 'ramda'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Image, Text } from 'blockchain-info-components'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { CoinType , TimeRange } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
 
 import { getData } from './selectors'
@@ -31,12 +30,12 @@ const Loading = () => (
 
 export class CoinPerformanceContainer extends React.PureComponent<Props> {
   componentDidMount() {
-    this.props.priceChartActions.initialized(toUpper(this.props.coin), 'week')
+    this.props.priceChartActions.initialized(this.props.coin, TimeRange.WEEK)
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.coin !== prevProps.coin) {
-      this.props.priceChartActions.initialized(toUpper(this.props.coin), 'week')
+      this.props.priceChartActions.initialized(this.props.coin, TimeRange.WEEK)
     }
   }
 
