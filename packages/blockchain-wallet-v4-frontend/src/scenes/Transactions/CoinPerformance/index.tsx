@@ -14,8 +14,9 @@ const Wrapper = styled.div`
   border: 1px solid ${props => props.theme.grey100};
   box-sizing: border-box;
   border-radius: 8px;
-  padding: 14px 15px;
+  padding: 16px;
   width: 100%;
+  height: 100%;
 
   ${media.tablet`
     align-items: initial;
@@ -25,6 +26,7 @@ const Wrapper = styled.div`
 
 const ColumnLeft = styled.div`
   margin-right: 16px;
+  height: 100%;
 `
 
 const ColumnRight = styled.div`

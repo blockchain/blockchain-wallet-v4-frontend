@@ -32,7 +32,7 @@ const tooltipBorderRadius = 4
 
 const Wrapper = styled.div`
   position: relative;
-  height: 100px;
+  height: 80px;
   width: 100%;
 `
 
