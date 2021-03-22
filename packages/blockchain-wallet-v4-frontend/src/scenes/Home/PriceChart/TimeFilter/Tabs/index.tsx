@@ -26,10 +26,7 @@ const TabsContainer = ({ currentTab, handleClick }: OwnProps) => {
         selected={currentTab === TimeRange.DAY}
         onClick={() => handleClick(TimeRange.DAY)}
       >
-        <FormattedMessage
-          id='scenes.priceindexseries.timefilters.day'
-          defaultMessage='1D'
-        />
+        <FormattedMessage id='copy.day' defaultMessage='1D' />
       </TabMenuItem>
       <TabMenuItem
         width='20%'
@@ -37,10 +34,7 @@ const TabsContainer = ({ currentTab, handleClick }: OwnProps) => {
         selected={currentTab === TimeRange.WEEK}
         onClick={() => handleClick(TimeRange.WEEK)}
       >
-        <FormattedMessage
-          id='scenes.priceindexseries.timefilters.week'
-          defaultMessage='1W'
-        />
+        <FormattedMessage id='copy.week' defaultMessage='1W' />
       </TabMenuItem>
       <TabMenuItem
         width='20%'
@@ -48,10 +42,7 @@ const TabsContainer = ({ currentTab, handleClick }: OwnProps) => {
         selected={currentTab === TimeRange.MONTH}
         onClick={() => handleClick(TimeRange.MONTH)}
       >
-        <FormattedMessage
-          id='scenes.priceindexseries.timefilters.month'
-          defaultMessage='1M'
-        />
+        <FormattedMessage id='copy.month' defaultMessage='1M' />
       </TabMenuItem>
       <TabMenuItem
         width='20%'
@@ -59,10 +50,7 @@ const TabsContainer = ({ currentTab, handleClick }: OwnProps) => {
         selected={currentTab === TimeRange.YEAR}
         onClick={() => handleClick(TimeRange.YEAR)}
       >
-        <FormattedMessage
-          id='scenes.priceindexseries.timefilters.year'
-          defaultMessage='1Y'
-        />
+        <FormattedMessage id='copy.year' defaultMessage='1Y' />
       </TabMenuItem>
       <TabMenuItem
         width='20%'
@@ -70,10 +58,7 @@ const TabsContainer = ({ currentTab, handleClick }: OwnProps) => {
         selected={currentTab === TimeRange.ALL}
         onClick={() => handleClick(TimeRange.ALL)}
       >
-        <FormattedMessage
-          id='scenes.priceindexseries.timefilters.all'
-          defaultMessage='All'
-        />
+        <FormattedMessage id='copy.all' defaultMessage='All' />
       </TabMenuItem>
     </CustomTabMenu>
   )

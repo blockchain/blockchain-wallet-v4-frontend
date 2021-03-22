@@ -24,11 +24,12 @@ const Wrapper = styled.div`
 `
 
 const ColumnLeft = styled.div`
-  margin-right: 8px;
+  margin-right: 16px;
 `
 
 const ColumnRight = styled.div`
   width: 100%;
+  margin: 16px 0;
 `
 
 const CoinPerformanceContainer = ({ coin, coinModel }) => (
