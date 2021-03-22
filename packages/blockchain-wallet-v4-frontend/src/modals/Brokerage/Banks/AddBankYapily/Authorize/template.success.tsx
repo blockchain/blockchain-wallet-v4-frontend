@@ -28,6 +28,12 @@ const DropdownTitleRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  /* caret icon rotation */
+  > span:last-child {
+    &.active {
+      transform: rotate(90deg);
+    }
+  }
 `
 
 const InfoDropdown = styled.div<{ isToggled: boolean }>`
@@ -83,6 +89,7 @@ const Success: React.FC<Props> = props => {
             onClick={() =>
               handleToggle({ ...isToggled, sectionOne: !isToggled.sectionOne })
             }
+            className={isToggled.sectionOne ? 'active' : ''}
           />
         </DropdownTitleRow>
         <InfoDropdown isToggled={isToggled.sectionOne}>
@@ -110,6 +117,7 @@ const Success: React.FC<Props> = props => {
             onClick={() =>
               handleToggle({ ...isToggled, sectionTwo: !isToggled.sectionTwo })
             }
+            className={isToggled.sectionTwo ? 'active' : ''}
           />
         </DropdownTitleRow>
         <InfoDropdown isToggled={isToggled.sectionTwo}>
@@ -139,6 +147,7 @@ const Success: React.FC<Props> = props => {
                 sectionThree: !isToggled.sectionThree
               })
             }
+            className={isToggled.sectionThree ? 'active' : ''}
           />
         </DropdownTitleRow>
         <InfoDropdown isToggled={isToggled.sectionThree}>
@@ -192,6 +201,7 @@ const Success: React.FC<Props> = props => {
                 sectionFour: !isToggled.sectionFour
               })
             }
+            className={isToggled.sectionFour ? 'active' : ''}
           />
         </DropdownTitleRow>
         <InfoDropdown isToggled={isToggled.sectionFour}>
