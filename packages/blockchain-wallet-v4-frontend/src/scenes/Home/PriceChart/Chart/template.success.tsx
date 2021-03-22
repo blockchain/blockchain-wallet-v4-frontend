@@ -1,6 +1,6 @@
 import React, { MouseEvent, TouchEvent, useCallback, useMemo } from 'react'
+import useMeasure from 'react-use-measure'
 import { localPoint } from '@visx/event'
-import { ParentSize } from '@visx/responsive'
 import { scaleLinear, scaleTime } from '@visx/scale'
 import { Bar, LinePath } from '@visx/shape'
 import { defaultStyles, TooltipWithBounds, useTooltip } from '@visx/tooltip'
@@ -37,6 +37,8 @@ const Wrapper = styled.div`
 `
 
 const Chart = ({ coin, currency, data }: OwnProps) => {
+  const [ref, { height, width }] = useMeasure()
+
   const color = Color(coin.toLowerCase() as keyof DefaultTheme)
 
   const {
@@ -59,120 +61,114 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
     [color]
   )
 
+  const xScale = useMemo(
+    () =>
+      scaleTime({
+        range: [0, width],
+        domain: extent(data, getYValue) as [Date, Date]
+      }),
+    [width, data]
+  )
+
+  const yScale = useMemo(
+    () =>
+      scaleLinear({
+        range: [height, 0],
+        domain: [min(data, getXValue), max(data, getXValue) || 0],
+        nice: true
+      }),
+    [height, data]
+  )
+
+  const handleTooltip = useCallback(
+    (event: TouchEvent<SVGRectElement> | MouseEvent<SVGRectElement>) => {
+      let { x } = localPoint(event) || { x: 0 }
+      const x0 = xScale.invert(x)
+      const index = bisectDate(data, x0, 1)
+      const d0 = data[index - 1]
+      const d1 = data[index]
+      let d = d0
+      if (d1 && getYValue(d1)) {
+        d =
+          x0.valueOf() - getYValue(d0).valueOf() >
+          getYValue(d1).valueOf() - x0.valueOf()
+            ? d1
+            : d0
+      }
+      showTooltip({
+        tooltipData: d,
+        tooltipLeft: x,
+        tooltipTop: yScale(getXValue(d))
+      })
+    },
+    [showTooltip, yScale, xScale, data]
+  )
+
   return (
-    <ParentSize>
-      {({ height, width }) => {
-        const xScale = useMemo(
-          () =>
-            scaleTime({
-              range: [0, width],
-              domain: extent(data, getYValue) as [Date, Date]
-            }),
-          [width, data]
-        )
+    <Wrapper ref={ref}>
+      <svg width={width} height={height}>
+        <LinePath<Data>
+          data={data}
+          x={d => xScale(getYValue(d)) ?? 0}
+          y={d => yScale(getXValue(d)) ?? 0}
+          strokeWidth={strokeWidth}
+          stroke={color}
+        />
+        <Bar
+          x={0}
+          y={0}
+          width={width}
+          height={height}
+          fill='transparent'
+          onTouchStart={handleTooltip}
+          onTouchMove={handleTooltip}
+          onMouseMove={handleTooltip}
+          onMouseLeave={() => hideTooltip()}
+        />
 
-        const yScale = useMemo(
-          () =>
-            scaleLinear({
-              range: [height, 0],
-              domain: [min(data, getXValue), max(data, getXValue) || 0],
-              nice: true
-            }),
-          [height, data]
-        )
+        {tooltipData ? (
+          <g>
+            <circle
+              cx={tooltipLeft}
+              cy={tooltipTop + 1}
+              r={circleSize}
+              fill={color}
+              fillOpacity={0.1}
+              stroke={color}
+              strokeOpacity={0.1}
+              strokeWidth={strokeWidth}
+              pointerEvents='none'
+            />
+            <circle
+              cx={tooltipLeft}
+              cy={tooltipTop}
+              r={circleSize}
+              fill={color}
+              stroke='white'
+              strokeWidth={strokeWidth}
+              pointerEvents='none'
+            />
+          </g>
+        ) : null}
+      </svg>
 
-        const handleTooltip = useCallback(
-          (event: TouchEvent<SVGRectElement> | MouseEvent<SVGRectElement>) => {
-            let { x } = localPoint(event) || { x: 0 }
-            const x0 = xScale.invert(x)
-            const index = bisectDate(data, x0, 1)
-            const d0 = data[index - 1]
-            const d1 = data[index]
-            let d = d0
-            if (d1 && getYValue(d1)) {
-              d =
-                x0.valueOf() - getYValue(d0).valueOf() >
-                getYValue(d1).valueOf() - x0.valueOf()
-                  ? d1
-                  : d0
-            }
-            showTooltip({
-              tooltipData: d,
-              tooltipLeft: x,
-              tooltipTop: yScale(getXValue(d))
-            })
-          },
-          [showTooltip, yScale, xScale, data]
-        )
-
-        return (
-          <Wrapper>
-            <svg width={width} height={height}>
-              <LinePath<Data>
-                data={data}
-                x={d => xScale(getYValue(d)) ?? 0}
-                y={d => yScale(getXValue(d)) ?? 0}
-                strokeWidth={strokeWidth}
-                stroke={color}
-              />
-              <Bar
-                x={0}
-                y={0}
-                width={width}
-                height={height}
-                fill='transparent'
-                onTouchStart={handleTooltip}
-                onTouchMove={handleTooltip}
-                onMouseMove={handleTooltip}
-                onMouseLeave={() => hideTooltip()}
-              />
-
-              {tooltipData ? (
-                <g>
-                  <circle
-                    cx={tooltipLeft}
-                    cy={tooltipTop + 1}
-                    r={circleSize}
-                    fill={color}
-                    fillOpacity={0.1}
-                    stroke={color}
-                    strokeOpacity={0.1}
-                    strokeWidth={strokeWidth}
-                    pointerEvents='none'
-                  />
-                  <circle
-                    cx={tooltipLeft}
-                    cy={tooltipTop}
-                    r={circleSize}
-                    fill={color}
-                    stroke='white'
-                    strokeWidth={strokeWidth}
-                    pointerEvents='none'
-                  />
-                </g>
-              ) : null}
-            </svg>
-
-            {tooltipData ? (
-              <TooltipWithBounds
-                key={Math.random()}
-                top={tooltipTop}
-                left={tooltipLeft}
-                style={tooltipStyles}
-              >
-                {formatDate(getYValue(tooltipData))}
-                <br />
-                <br />
-                {fiatToString({
-                  value: getXValue(tooltipData),
-                  unit: currency
-                })}
-              </TooltipWithBounds>
-            ) : null}
-          </Wrapper>
-        )
-      }}
-    </ParentSize>
+      {tooltipData ? (
+        <TooltipWithBounds
+          key={Math.random()}
+          top={tooltipTop}
+          left={tooltipLeft}
+          style={tooltipStyles}
+        >
+          {formatDate(getYValue(tooltipData))}
+          <br />
+          <br />
+          {fiatToString({
+            value: getXValue(tooltipData),
+            unit: currency
+          })}
+        </TooltipWithBounds>
+      ) : null}
+    </Wrapper>
   )
 }
 
