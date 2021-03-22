@@ -35,6 +35,7 @@ type LinkDispatchPropsType = {
 }
 type OwnProps = {
   entity: 'Safeconnect(UK)' | 'Fintecture(EU)'
+  handleClose: () => void
 }
 export type SuccessStateType = ReturnType<typeof getData>['data']
 export type Props = OwnProps & ConnectedProps<typeof connector>
