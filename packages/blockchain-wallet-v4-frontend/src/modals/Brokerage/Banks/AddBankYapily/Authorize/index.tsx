@@ -6,14 +6,16 @@ import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import { getData } from './selectors'
+import Failure from './template.error'
+import Loading from './template.loading'
 import Success from './template.success'
 
 const Authorize = props => {
   return props.data.cata({
     Success: val => <Success {...props} {...val} />,
-    Failure: () => null,
-    Loading: () => null,
-    NotAsked: () => null
+    Failure: () => <Failure {...props} />,
+    Loading: () => <Loading />,
+    NotAsked: () => <Loading />
   })
 }
 
@@ -32,7 +34,7 @@ type LinkDispatchPropsType = {
   simpleBuyActions: typeof actions.components.simpleBuy
 }
 type OwnProps = {
-  entity: 'SafeConnect(UK)' | 'Fintecture(EU)'
+  entity: 'Safeconnect(UK)' | 'Fintecture(EU)'
 }
 export type SuccessStateType = ReturnType<typeof getData>['data']
 export type Props = OwnProps & ConnectedProps<typeof connector>
