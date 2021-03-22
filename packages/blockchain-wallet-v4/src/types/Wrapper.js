@@ -88,25 +88,23 @@ export const isLatestVersion = wrapper => {
   return selectVersion(wrapper) === PAYLOAD_VERSION
 }
 
-export const upgradeToV3AndV4 = curry(
-  (mnemonic, password, network, wrapper) => {
-    let upgradeWallet = Wallet.upgradeToV3(
-      mnemonic,
-      'My Bitcoin Wallet',
-      password,
-      network
-    )
+export const upgradeToV3 = curry((mnemonic, password, network, wrapper) => {
+  let upgradeWallet = Wallet.upgradeToV3(
+    mnemonic,
+    'My Bitcoin Wallet',
+    password,
+    network
+  )
 
-    const upgradeWrapper = compose(
-      traverseWallet(Task.of, upgradeWallet),
-      // TODO: SEGWIT remove w/ DEPRECATED_V3
-      set(version, 3)
-      // set(version, PAYLOAD_VERSION)
-    )
+  const upgradeWrapper = compose(
+    traverseWallet(Task.of, upgradeWallet),
+    // TODO: SEGWIT remove w/ DEPRECATED_V3
+    set(version, 3)
+    // set(version, PAYLOAD_VERSION)
+  )
 
-    return upgradeWrapper(wrapper)
-  }
-)
+  return upgradeWrapper(wrapper)
+})
 
 // upgradeToV4 :: String -> String -> Network -> Wrapper -> Task Error Wrapper
 export const upgradeToV4 = curry((seedHex, password, network, wrapper) => {
