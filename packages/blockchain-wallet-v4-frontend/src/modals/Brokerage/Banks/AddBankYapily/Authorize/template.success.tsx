@@ -85,7 +85,6 @@ const Success: React.FC<Props> = props => {
     sectionThree: false,
     sectionFour: false
   })
-
   const { entity } = props
   const entityName = entity === 'Safeconnect(UK)' ? 'SafeConnect' : 'Fintecture'
 
