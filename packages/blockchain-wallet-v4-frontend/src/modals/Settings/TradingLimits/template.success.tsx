@@ -7,6 +7,7 @@ import {
   Button,
   Icon,
   Image,
+  Link,
   Text,
   TextGroup
 } from 'blockchain-info-components'
@@ -19,10 +20,13 @@ import {
   SuccessCartridge
 } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
+import { model } from 'data'
 import { UserTierType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import { ITEMS, TIER_TYPES, TIERS } from './model'
+
+const { INTEREST_EVENTS } = model.analytics
 
 const Wrapper = styled.div`
   width: 100%;
@@ -42,7 +46,6 @@ const IconsContainer = styled.div`
   justify-content: flex-end;
   width: 100%;
 `
-
 const Item = styled.div<{ isClickable?: boolean }>`
   border-top: 1px solid ${props => props.theme.grey000};
   padding: 20px 40px;
@@ -51,9 +54,9 @@ const Item = styled.div<{ isClickable?: boolean }>`
   justify-content: space-between;
   cursor: ${props => (props.isClickable ? 'pointer' : 'auto')};
 `
-
 const ContentItem = styled(Item)`
   align-items: center;
+  position: relative;
 `
 const IconWrapper = styled.div`
   display: flex;
@@ -69,12 +72,24 @@ const HeaderWrapper = styled(FlyoutWrapper)`
   max-width: 480px;
   background-color: ${props => props.theme.white};
 `
+const LinkWrapper = styled.div`
+  padding: 0 40px 35px 40px;
+`
 const FooterWrapper = styled(FlyoutWrapper)`
   flex: 1;
   justify-content: flex-end;
   display: flex;
   flex-direction: column;
   margin-top: -16px;
+`
+const StatusCartridge = styled.div`
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  right: 40px;
+  > span {
+    padding: 3px 8px;
+  }
 `
 const CartridgeWrapper = styled.div`
   display: flex;
@@ -88,6 +103,12 @@ const IconBareWrapper = styled.div`
     margin-top: -8px;
     margin-right: -8px;
   }
+`
+const TierTitle = styled(Text)`
+  color: ${props => props.theme.grey900};
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 150%;
 `
 const MainContent = styled.div`
   margin-top: 177px;
@@ -136,31 +157,43 @@ const getItemBadgeStatus = (
 const getTierStatus = (
   tier: number | undefined,
   tierType: TIER_TYPES,
-  tierDetails: UserTierType
+  tierDetails: UserTierType,
+  isEddQualified: boolean
 ) => {
   if (tierDetails.state === 'under_review' || tierDetails.state === 'pending') {
     return (
-      <div>
-        <CartridgeWrapper>
-          <OrangeCartridge fontSize='12px'>
-            <FormattedMessage id='copy.in_review' defaultMessage='In Review' />
-          </OrangeCartridge>
-        </CartridgeWrapper>
-      </div>
+      <StatusCartridge>
+        <OrangeCartridge fontSize='12px'>
+          <FormattedMessage id='copy.in_review' defaultMessage='In Review' />
+        </OrangeCartridge>
+      </StatusCartridge>
+    )
+  }
+
+  if (isEddQualified) {
+    return (
+      <StatusCartridge>
+        <OrangeCartridge fontSize='12px'>
+          <FormattedMessage
+            id='modals.tradinglimits.more_info_needed'
+            defaultMessage='More Info Needed'
+          />
+        </OrangeCartridge>
+      </StatusCartridge>
     )
   }
 
   if (tier && tier >= tierType) {
     return (
       <div>
-        <CartridgeWrapper>
+        <StatusCartridge>
           <BlueCartridge fontSize='12px'>
             <FormattedMessage
               id='modals.tradinglimits.approved'
               defaultMessage='Approved'
             />
           </BlueCartridge>
-        </CartridgeWrapper>
+        </StatusCartridge>
       </div>
     )
   }
@@ -173,7 +206,13 @@ const getTierStatus = (
 }
 
 const Template: React.FC<Props> = props => {
-  const { sddEligible, userData, userTiers } = props
+  const {
+    analyticsActions,
+    isEddQualified,
+    sddEligible,
+    userData,
+    userTiers
+  } = props
 
   if (!Array.isArray(userTiers)) {
     return null
@@ -264,12 +303,12 @@ const Template: React.FC<Props> = props => {
             <Image name='tier-silver' size='32px' />
           </div>
           <TierDescription>
-            <Text color='grey900' size='16px' weight={600}>
+            <TierTitle>
               <FormattedMessage
                 id='components.identityverification.tiercard.silver'
                 defaultMessage='Silver Level'
               />
-            </Text>
+            </TierTitle>
             <ItemSubtitle color='grey900' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.tradinglimits.silver_subheader'
@@ -293,7 +332,7 @@ const Template: React.FC<Props> = props => {
             </Text>
           </TierDescription>
 
-          {getTierStatus(currentTier, TIER_TYPES.SILVER, silverTier)}
+          {getTierStatus(currentTier, TIER_TYPES.SILVER, silverTier, false)}
         </Item>
 
         <Item
@@ -312,12 +351,12 @@ const Template: React.FC<Props> = props => {
             <Image name='tier-gold' size='32px' />
           </div>
           <TierDescription>
-            <Text color='grey900' size='16px' weight={600}>
+            <TierTitle>
               <FormattedMessage
                 id='components.identityverification.tiercard.gold'
                 defaultMessage='Gold Level'
               />
-            </Text>
+            </TierTitle>
 
             <ItemSubtitle color='grey900' size='14px' weight={500}>
               <FormattedMessage
@@ -354,9 +393,36 @@ const Template: React.FC<Props> = props => {
               ? TIER_TYPES.SILVER
               : currentTier,
             TIER_TYPES.GOLD,
-            goldTier
+            goldTier,
+            isEddQualified
           )}
         </Item>
+
+        {isEddQualified && (
+          <LinkWrapper>
+            <Link
+              href='https://share.hsforms.com/1DS4i94fURdutr8OXYOxfrg2qt44'
+              style={{ width: '100%' }}
+              target='_blank'
+            >
+              <Button
+                data-e2e='earnInterestSupplyInformation'
+                fullwidth
+                nature='primary'
+                onClick={() =>
+                  analyticsActions.logEvent(
+                    INTEREST_EVENTS.SETTINGS.SUPPLY_INFORMATION
+                  )
+                }
+              >
+                <FormattedMessage
+                  id='scenes.interest.supply_information'
+                  defaultMessage='Supply Information'
+                />
+              </Button>
+            </Link>
+          </LinkWrapper>
+        )}
 
         <ContentItem>
           <IconWrapper>

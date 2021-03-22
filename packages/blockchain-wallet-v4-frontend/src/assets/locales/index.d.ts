@@ -1602,6 +1602,7 @@ type MessagesType = {
   'modals.transfereth.txfee': 'Transaction Fee:'
   'modals.tradinglimits.approved': 'Approved'
   'modals.tradinglimits.description': 'Unlock features within your Blockchain.com Wallet. Some features may ask you to verify your identity.'
+  'modals.tradinglimits.more_info_needed': 'More Info Needed'
   'modals.tradinglimits.locked': 'Locked'
   'modals.tradinglimits.silver_desc': 'You’ll need to verify your email address, name, home address and date of birth.'
   'modals.tradinglimits.gold_desc1': 'You’ll need to verify your identity by uploading an ID and a selfie.'
