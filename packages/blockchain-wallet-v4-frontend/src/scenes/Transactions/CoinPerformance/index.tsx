@@ -1,4 +1,5 @@
 import React from 'react'
+import { ParentSize } from '@visx/responsive'
 import styled from 'styled-components'
 
 import { media } from 'services/styles'
@@ -23,10 +24,26 @@ const Wrapper = styled.div`
   `}
 `
 
+const ColumnLeft = styled.div`
+  margin-right: 8px;
+`
+
+const ColumnRight = styled.div`
+  width: 100%;
+`
+
 const CoinPerformanceContainer = ({ coin, coinModel }) => (
   <Wrapper>
-    <CoinPrices coinModel={coinModel} />
-    <CoinChart coin={coin} />
+    <ColumnLeft>
+      <CoinPrices coinModel={coinModel} />
+    </ColumnLeft>
+    <ColumnRight>
+      <ParentSize>
+        {({ height, width }) => (
+          <CoinChart width={width} height={height} coin={coin} />
+        )}
+      </ParentSize>
+    </ColumnRight>
   </Wrapper>
 )
 

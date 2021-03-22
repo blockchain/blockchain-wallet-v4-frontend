@@ -39,7 +39,6 @@ const ColumnLeft = styled(Column)`
   ${media.atLeastTabletL`
     padding-right: 30px;
   `}
-  max-width: 600px;
 `
 const ColumnRight = styled(Column)`
   & > :not(:first-child) {

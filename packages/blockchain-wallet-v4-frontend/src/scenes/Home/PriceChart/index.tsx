@@ -1,4 +1,5 @@
 import React from 'react'
+import { ParentSize } from '@visx/responsive'
 import styled from 'styled-components'
 
 import { media } from 'services/styles'
@@ -77,7 +78,9 @@ const PriceChart = () => {
         </Column>
       </Header>
       <Main>
-        <Chart />
+        <ParentSize>
+          {({ height, width }) => <Chart width={width} height={height} />}
+        </ParentSize>
       </Main>
       <Footer>
         <TimeFilter />

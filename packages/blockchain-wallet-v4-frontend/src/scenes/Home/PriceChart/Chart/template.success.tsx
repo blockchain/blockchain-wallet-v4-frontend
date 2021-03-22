@@ -1,8 +1,7 @@
 import React, { MouseEvent, TouchEvent, useCallback, useMemo } from 'react'
-import useMeasure from 'react-use-measure'
 import { localPoint } from '@visx/event'
 import { scaleLinear, scaleTime } from '@visx/scale'
-import { Bar, Line, LinePath } from '@visx/shape'
+import { Bar, LinePath } from '@visx/shape'
 import { defaultStyles, TooltipWithBounds, useTooltip } from '@visx/tooltip'
 import { bisector, extent, max, min } from 'd3-array'
 import { timeFormat } from 'd3-time-format'
@@ -36,9 +35,7 @@ const Wrapper = styled.div`
   width: 100%;
 `
 
-const Chart = ({ coin, currency, data }: OwnProps) => {
-  const [ref, { height, width }] = useMeasure()
-
+const Chart = ({ coin, currency, data, height, width }: OwnProps) => {
   const color = Color(coin.toLowerCase() as keyof DefaultTheme)
 
   const {
@@ -105,7 +102,7 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
   )
 
   return (
-    <Wrapper ref={ref}>
+    <Wrapper>
       <svg width={width} height={height}>
         <LinePath<Data>
           data={data}
@@ -128,14 +125,6 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
 
         {tooltipData ? (
           <g>
-            <Line
-              from={{ x: tooltipLeft, y: 0 }}
-              to={{ x: tooltipLeft, y: height + 0 }}
-              stroke={color}
-              strokeWidth={strokeWidth}
-              pointerEvents='none'
-              strokeDasharray='5,2'
-            />
             <circle
               cx={tooltipLeft}
               cy={tooltipTop + 1}
@@ -181,9 +170,11 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
 }
 
 type OwnProps = {
-  coin: CoinType
-  currency: FiatType
-  data: Data[]
+  coin: CoinType,
+  currency: FiatType,
+  data: Data[],
+  height: number,
+  width: number
 }
 
 export default Chart

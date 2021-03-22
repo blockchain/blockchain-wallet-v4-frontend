@@ -22,10 +22,12 @@ export const getData = createDeepEqualSelector(
     const currency = currencyR.getOrElse('USD')
 
     const transform = (priceIndexSeriesData, priceChange) => ({
-      data: map(d => [d.timestamp * 1000, d.price], priceIndexSeriesData),
+      data: map(
+        d => [d.timestamp * 1000, d.price],
+        priceIndexSeriesData
+      ) as any,
       priceChange,
-      coin,
-      time: TimeRange.WEEK
+      coin
     })
     return {
       data: lift(transform)(priceIndexSeriesDataR, priceChangeR),
