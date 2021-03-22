@@ -94,7 +94,7 @@ export const HeartbeatLoader: FunctionComponent<{
 }>
 export const Icon: FunctionComponent<{
   className?: string
-  name: keyof IcoMoonType | WalletCurrencyType | 'STX'
+  name: keyof IcoMoonType | WalletCurrencyType | 'BSV' | 'STX'
   weight?: number
   size?: string
   cursor?: boolean
@@ -132,7 +132,7 @@ export const IconButton: FunctionComponent<{
   height?: string
   jumbo?: boolean
   margin?: string
-  name: keyof IcoMoonType | WalletCurrencyType | 'STX'
+  name: keyof IcoMoonType | WalletCurrencyType | 'BSV' | 'STX'
   onClick?: () => void
   padding?: string
   rounded?: boolean
@@ -183,7 +183,7 @@ export const ModalBody: FunctionComponent<{
 export const ModalHeader: FunctionComponent<{
   closeButton?: boolean
   onClose?: () => void
-  icon?: keyof IcoMoonType | WalletCurrencyType | 'STX'
+  icon?: keyof IcoMoonType | WalletCurrencyType | 'BSV' | 'STX'
 }>
 export function Palette(theme: string): DefaultTheme
 export const Separator: FunctionComponent<{}>
@@ -252,7 +252,7 @@ export const Tooltip: FunctionComponent<{ id: string; offset?: any }>
 export const TooltipHost: FunctionComponent<{ id: string }>
 export const TooltipIcon: FunctionComponent<{
   color?: keyof DefaultTheme
-  name: keyof IcoMoonType | WalletCurrencyType | 'STX'
+  name: keyof IcoMoonType | WalletCurrencyType | 'BSV' | 'STX'
   size?: string
 }>
 export const CheckBoxInput: FunctionComponent<{

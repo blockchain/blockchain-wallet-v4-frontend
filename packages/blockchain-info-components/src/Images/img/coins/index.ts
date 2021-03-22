@@ -1,6 +1,7 @@
 import aave from './aave.png'
 import algo from './algo.png'
 import bch from './bch.png'
+import bsv from './bsv.png'
 import btc from './btc.png'
 import dot from './dot.png'
 import enj from './enj.png'
@@ -27,6 +28,7 @@ export default {
   aave,
   algo,
   bch,
+  bsv,
   btc,
   dot,
   enj,

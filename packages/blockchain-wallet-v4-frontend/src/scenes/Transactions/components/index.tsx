@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
+import { lighten } from 'polished'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { Icon, Text, TextGroup } from 'blockchain-info-components'
@@ -113,9 +114,7 @@ export const IconTx = ({
   const getIcon = () => {
     switch (type) {
       case 'PENDING':
-        return (
-          <Icon size='20px' weight={600} name={'timer'} color={'grey700'} />
-        )
+        return <Icon size='20px' weight={600} name='timer' color='grey700' />
       case 'BUY':
       case 'SELL':
         return (
@@ -177,10 +176,7 @@ export const IconTx = ({
     }
   }
 
-  const bgColor =
-    type === 'PENDING' || !coin
-      ? 'grey000'
-      : ((color + '-light') as keyof DefaultTheme)
+  const bgColor = type === 'PENDING' || !coin ? 'grey000' : color
 
   return <IconWrapper color={bgColor}>{getIcon()}</IconWrapper>
 }
@@ -191,7 +187,7 @@ export const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
   height: 32px;
   width: 32px;
   border-radius: 16px;
-  background: ${props => props.theme[props.color]};
+  background: ${props => lighten(0.4, props.theme[props.color])};
 `
 export const Row = styled(Col)`
   display: flex;

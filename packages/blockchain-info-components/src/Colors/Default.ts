@@ -91,6 +91,7 @@ const Default = {
   AAVE: '#2EBAC6',
   ALGO: '#000000',
   BCH: '#8DC351',
+  BSV: '#EAB300',
   BTC: '#FF9B22',
   DOT: '#000000',
   ETH: '#473BCB',
@@ -103,7 +104,7 @@ const Default = {
   USD: '#00B26B',
   USDT: '#26A17B',
   'USD-D': '#00522C',
-  WDGLD: '#353F52',
+  WDGLD: '#A39424',
   XLM: '#000000',
   YFI: '#0074FA',
   // OLD - AVOID USE \\
