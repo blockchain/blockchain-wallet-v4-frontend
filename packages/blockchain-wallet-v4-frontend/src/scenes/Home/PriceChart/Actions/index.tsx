@@ -5,12 +5,10 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 
 import { getData } from './selectors'
-import Footer from './template'
+import Actions from './template'
 
-class FooterContainer extends React.PureComponent<Props> {
-  render() {
-    return <Footer {...this.props} />
-  }
+const ActionsContainer = (props: Props) => {
+  return <Actions {...props} />
 }
 
 const mapStateToProps = state => getData(state)
@@ -24,4 +22,4 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type Props = ConnectedProps<typeof connector>
 
-export default connector(FooterContainer)
+export default connector(ActionsContainer)

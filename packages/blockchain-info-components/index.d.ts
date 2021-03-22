@@ -7,7 +7,7 @@ import {
 import { DefaultTheme } from 'styled-components'
 import { IcoMoonType } from './src/Icons/Icomoon'
 import { ImageType } from './src/Images/Images'
-import { WalletCurrencyType } from 'core/types'
+import { CoinType, WalletCurrencyType } from 'core/types'
 
 export const Badge: FunctionComponent<any>
 export const Banner: FunctionComponent<any>

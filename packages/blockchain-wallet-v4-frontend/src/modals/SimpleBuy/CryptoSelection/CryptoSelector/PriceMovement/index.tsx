@@ -8,7 +8,8 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import {
   CoinType,
   FiatType,
-  PriceMovementDirType
+  PriceMovementDirType,
+  TimeRange
 } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -52,7 +53,7 @@ class PriceMovement extends PureComponent<Props, State> {
       this.props.miscActions.fetchPriceChange(
         coin,
         this.props.fiat || 'EUR',
-        'day'
+        TimeRange.DAY
       )
     }
   }

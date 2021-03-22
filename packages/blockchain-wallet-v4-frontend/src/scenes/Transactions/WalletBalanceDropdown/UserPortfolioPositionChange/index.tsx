@@ -8,7 +8,8 @@ import { SkeletonRectangle } from 'blockchain-info-components'
 import {
   CoinType,
   ExtractSuccess,
-  FiatType
+  FiatType,
+  TimeRange
 } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
@@ -24,7 +25,7 @@ class UserPortfolioPositionChange extends PureComponent<Props> {
     this.props.miscActions.fetchPriceChange(
       this.props.coin,
       this.props.currency,
-      'day',
+      TimeRange.DAY,
       convertBaseToStandard(this.props.coin, this.props.coinBalance)
     )
   }
@@ -34,7 +35,7 @@ class UserPortfolioPositionChange extends PureComponent<Props> {
       this.props.miscActions.fetchPriceChange(
         this.props.coin,
         this.props.currency,
-        'day',
+        TimeRange.DAY,
         convertBaseToStandard(this.props.coin, this.props.coinBalance)
       )
     }

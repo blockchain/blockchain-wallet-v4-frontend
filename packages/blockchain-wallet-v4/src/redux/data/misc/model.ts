@@ -4,7 +4,7 @@ import { prop } from 'ramda'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 import { CoinType } from 'core/types'
 
-import { PriceChangeTimeRangeType, PriceChangeType } from './types'
+import { PriceChangeType, TimeRange } from './types'
 
 export const DEFAULT_PRICE_CHANGE: PriceChangeType = {
   currentPrice: 1,
@@ -52,10 +52,7 @@ export const start: { [key in CoinType]: number } = {
   YFI: 0
 }
 
-export const calculateStart = (
-  coin: CoinType,
-  time: PriceChangeTimeRangeType
-) => {
+export const calculateStart = (coin: CoinType, time: TimeRange) => {
   const coinStart = prop(coin, start)
   const dayStart = moment()
     .subtract(1, 'day')

@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { propOr } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -9,34 +8,34 @@ import { SelectBoxCoinPriceChart } from 'components/Form'
 import { actions, selectors } from 'data'
 
 const Wrapper = styled.div`
-  z-index: 3;
-  margin-top: 16px;
+  padding-top: 16px;
+  padding-left: 16px;
+  width: fit-content;
 `
 
-class CoinSelectBox extends React.PureComponent<
-  InjectedFormProps<{}, Props> & Props
-> {
-  componentDidMount() {
-    const { priceChart } = this.props
-    this.props.initialize({ coin: propOr('BTC', 'coin', priceChart) })
+const CoinSelector = ({
+  actions: { coinClicked },
+  initialize,
+  priceChart: { coin = 'BTC' }
+}: InjectedFormProps<{}, Props> & Props) => {
+  useEffect(() => {
+    initialize({ coin })
+  }, [coin])
+
+  const onChange = (_, val) => {
+    coinClicked(val)
   }
 
-  onChange = (e, val) => {
-    this.props.actions.coinClicked(val)
-  }
-
-  render() {
-    return (
-      <Wrapper>
-        <Field
-          name='coin'
-          searchEnabled={false}
-          onChange={this.onChange}
-          component={SelectBoxCoinPriceChart}
-        />
-      </Wrapper>
-    )
-  }
+  return (
+    <Wrapper>
+      <Field
+        name='coin'
+        searchEnabled={false}
+        onChange={onChange}
+        component={SelectBoxCoinPriceChart}
+      />
+    </Wrapper>
+  )
 }
 
 const mapStateToProps = state => {
@@ -55,4 +54,4 @@ const enhance = compose<any>(reduxForm({ form: 'priceChartCoin' }), connector)
 
 type Props = ConnectedProps<typeof connector>
 
-export default enhance(CoinSelectBox)
+export default enhance(CoinSelector)

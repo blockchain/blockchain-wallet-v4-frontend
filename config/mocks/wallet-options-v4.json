@@ -86,7 +86,7 @@
           },
           "coinCode": "ETH",
           "coinTicker": "ETH",
-          "displayName": "Ethereum",
+          "displayName": "Ether",
           "config": {
             "network": 1
           },
