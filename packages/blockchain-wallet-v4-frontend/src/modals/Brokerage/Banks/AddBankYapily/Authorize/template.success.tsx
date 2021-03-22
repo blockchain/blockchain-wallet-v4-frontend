@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Icon, Image, Text } from 'blockchain-info-components'
+import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import {
   FlyoutWrapper,
   Row,
   Title,
   Value as DropdownTitle
 } from 'components/Flyout'
+import { AddBankStepType } from 'data/types'
 
 import { Props as _P } from '.'
 
@@ -47,7 +48,11 @@ const InfoText = styled(Title)`
   color: ${props => props.theme.grey600};
   line-height: 1.5;
 `
-
+const Bottom = styled(FlyoutWrapper)`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`
 const Success: React.FC<Props> = props => {
   const [isToggled, handleToggle] = useState({
     sectionOne: false,
@@ -205,13 +210,43 @@ const Success: React.FC<Props> = props => {
           />
         </DropdownTitleRow>
         <InfoDropdown isToggled={isToggled.sectionFour}>
-          <FormattedMessage
-            id='modals.brokerage.authorize.about_access'
-            defaultMessage='{entityName} will then use these details with Blockchain solely for the purposes of buying cryptocurrencies. This access is valid until 24th of January 2021, you can cancel consent at any time via the Blockchain settings or via your bank. This request is not a one-off, you will continue to receive consent requests as older versions expire.'
-            values={{ entityName }}
-          />
+          <InfoText>
+            <FormattedMessage
+              id='modals.brokerage.authorize.about_access'
+              defaultMessage='{entityName} will then use these details with Blockchain solely for the purposes of buying cryptocurrencies. This access is valid until 24th of January 2021, you can cancel consent at any time via the Blockchain settings or via your bank. This request is not a one-off, you will continue to receive consent requests as older versions expire.'
+              values={{ entityName }}
+            />
+          </InfoText>
         </InfoDropdown>
       </Row>
+      <Bottom>
+        <Button
+          nature='primary'
+          data-e2e='obApprove'
+          type='submit'
+          fullwidth
+          height='48px'
+          onClick={() =>
+            props.brokerageActions.setAddBankStep({
+              addBankStep: AddBankStepType.ADD_BANK_HANDLER
+            })
+          }
+        >
+          <FormattedMessage id='copy.approve' defaultMessage='Approve' />
+        </Button>
+        <Button
+          nature='light-red'
+          data-e2e='obDeny'
+          type='button'
+          fullwidth
+          height='48px'
+          color='red400'
+          style={{ marginTop: '16px' }}
+          onClick={() => props.handleClose()}
+        >
+          <FormattedMessage id='copy.deny' defaultMessage='Deny' />
+        </Button>
+      </Bottom>
     </Wrapper>
   )
 }
