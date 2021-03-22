@@ -14,7 +14,6 @@ import { Props as _P } from '.'
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
   height: 100%;
 `
@@ -25,11 +24,12 @@ const BackContainer = styled(Text)`
   font-weight: 600;
   font-size: 20px;
 `
-const RowCopy = styled(Row)`
+const DropdownTitleRow = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 `
+
 const InfoDropdown = styled.div<{ isToggled: boolean }>`
   max-height: ${props => (props.isToggled ? 'auto' : '0')};
   overflow: hidden;
@@ -68,8 +68,8 @@ const Success: React.FC<Props> = props => {
           />
         </BackContainer>
       </FlyoutWrapper>
-      <RowCopy>
-        <div>
+      <Row>
+        <DropdownTitleRow>
           <DropdownTitle>
             <FormattedMessage
               id='modals.brokerage.authorize.data_sharing'
@@ -84,32 +84,34 @@ const Success: React.FC<Props> = props => {
               handleToggle({ ...isToggled, sectionOne: !isToggled.sectionOne })
             }
           />
-          <InfoDropdown isToggled={isToggled.sectionOne}>
-            <InfoText>
-              <FormattedMessage
-                id='modals.brokertitleage.authorize.data_sharing'
-                defaultMessage='{entityName} will retrieve your bank data based on your request and provide this information to Blockchain.'
-                values={{ entityName }}
-              />
-            </InfoText>
-          </InfoDropdown>
-        </div>
-      </RowCopy>
-      <RowCopy>
-        <DropdownTitle>
-          <FormattedMessage
-            id='modals.brokerage.authorize.secure_connection.title'
-            defaultMessage='Secure Connection'
+        </DropdownTitleRow>
+        <InfoDropdown isToggled={isToggled.sectionOne}>
+          <InfoText>
+            <FormattedMessage
+              id='modals.brokertitleage.authorize.data_sharing'
+              defaultMessage='{entityName} will retrieve your bank data based on your request and provide this information to Blockchain.'
+              values={{ entityName }}
+            />
+          </InfoText>
+        </InfoDropdown>
+      </Row>
+      <Row>
+        <DropdownTitleRow>
+          <DropdownTitle>
+            <FormattedMessage
+              id='modals.brokerage.authorize.secure_connection.title'
+              defaultMessage='Secure Connection'
+            />
+          </DropdownTitle>
+          <Icon
+            color='grey600'
+            name='caret'
+            size='10px'
+            onClick={() =>
+              handleToggle({ ...isToggled, sectionTwo: !isToggled.sectionTwo })
+            }
           />
-        </DropdownTitle>
-        <Icon
-          color='grey600'
-          name='caret'
-          size='10px'
-          onClick={() =>
-            handleToggle({ ...isToggled, sectionTwo: !isToggled.sectionTwo })
-          }
-        />
+        </DropdownTitleRow>
         <InfoDropdown isToggled={isToggled.sectionTwo}>
           <InfoText>
             <FormattedMessage
@@ -118,25 +120,27 @@ const Success: React.FC<Props> = props => {
             />
           </InfoText>
         </InfoDropdown>
-      </RowCopy>
-      <RowCopy>
-        <DropdownTitle>
-          <FormattedMessage
-            id='modals.brokerage.authorize.fca.title'
-            defaultMessage='FCA Authorisation'
+      </Row>
+      <Row>
+        <DropdownTitleRow>
+          <DropdownTitle>
+            <FormattedMessage
+              id='modals.brokerage.authorize.fca.title'
+              defaultMessage='FCA Authorisation'
+            />
+          </DropdownTitle>
+          <Icon
+            color='grey600'
+            name='caret'
+            size='10px'
+            onClick={() =>
+              handleToggle({
+                ...isToggled,
+                sectionThree: !isToggled.sectionThree
+              })
+            }
           />
-        </DropdownTitle>
-        <Icon
-          color='grey600'
-          name='caret'
-          size='10px'
-          onClick={() =>
-            handleToggle({
-              ...isToggled,
-              sectionThree: !isToggled.sectionThree
-            })
-          }
-        />
+        </DropdownTitleRow>
         <InfoDropdown isToggled={isToggled.sectionThree}>
           <InfoText>
             <FormattedMessage
@@ -146,47 +150,50 @@ const Success: React.FC<Props> = props => {
             />
           </InfoText>
         </InfoDropdown>
-      </RowCopy>
-      <RowCopy>
-        <div>
-          <InfoText>
-            <FormattedMessage
-              id='modals.brokerage.authorize.data'
-              defaultMessage='In order to share your {bankName} data with Blockchain, you will now be securely redirected to your bank to confirm your consent for {entityName} to read the following information:'
-              values={{ bankName: 'Get this from data?', entityName }}
-            />
-          </InfoText>
-          <InfoText>
-            {'•'}{' '}
-            <FormattedMessage
-              id='modals.brokerage.authorize.identification_details'
-              defaultMessage='Identification details'
-            />
-          </InfoText>
-          <InfoText>
-            {'•'}{' '}
-            <FormattedMessage
-              id='modals.brokerage.authorize.account_details'
-              defaultMessage='Account(s) details'
-            />
-          </InfoText>
-        </div>
-      </RowCopy>
-      <RowCopy>
-        <DropdownTitle>
+      </Row>
+      <Row>
+        <InfoText>
           <FormattedMessage
-            id='modals.brokerage.authorize.about_access.title'
-            defaultMessage='About the Access'
+            id='modals.brokerage.authorize.data'
+            defaultMessage='In order to share your {bankName} data with Blockchain, you will now be securely redirected to your bank to confirm your consent for {entityName} to read the following information:'
+            values={{ bankName: 'Get this from data?', entityName }}
           />
-        </DropdownTitle>
-        <Icon
-          color='grey600'
-          name='caret'
-          size='10px'
-          onClick={() =>
-            handleToggle({ ...isToggled, sectionFour: !isToggled.sectionFour })
-          }
-        />
+        </InfoText>
+        <InfoText>
+          {'•'}{' '}
+          <FormattedMessage
+            id='modals.brokerage.authorize.identification_details'
+            defaultMessage='Identification details'
+          />
+        </InfoText>
+        <InfoText>
+          {'•'}{' '}
+          <FormattedMessage
+            id='modals.brokerage.authorize.account_details'
+            defaultMessage='Account(s) details'
+          />
+        </InfoText>
+      </Row>
+      <Row>
+        <DropdownTitleRow>
+          <DropdownTitle>
+            <FormattedMessage
+              id='modals.brokerage.authorize.about_access.title'
+              defaultMessage='About the Access'
+            />
+          </DropdownTitle>
+          <Icon
+            color='grey600'
+            name='caret'
+            size='10px'
+            onClick={() =>
+              handleToggle({
+                ...isToggled,
+                sectionFour: !isToggled.sectionFour
+              })
+            }
+          />
+        </DropdownTitleRow>
         <InfoDropdown isToggled={isToggled.sectionFour}>
           <FormattedMessage
             id='modals.brokerage.authorize.about_access'
@@ -194,7 +201,7 @@ const Success: React.FC<Props> = props => {
             values={{ entityName }}
           />
         </InfoDropdown>
-      </RowCopy>
+      </Row>
     </Wrapper>
   )
 }
