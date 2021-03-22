@@ -99,7 +99,9 @@ export const upgradeToV3AndV4 = curry(
 
     const upgradeWrapper = compose(
       traverseWallet(Task.of, upgradeWallet),
-      set(version, PAYLOAD_VERSION)
+      // TODO: SEGWIT remove w/ DEPRECATED_V3
+      set(version, 3)
+      // set(version, PAYLOAD_VERSION)
     )
 
     return upgradeWrapper(wrapper)
