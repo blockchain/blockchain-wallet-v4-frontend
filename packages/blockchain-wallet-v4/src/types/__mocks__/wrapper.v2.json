@@ -13,7 +13,7 @@
     "guid": "03e433df-f87b-4d45-be8f-e1b9564fa0b1",
     "tx_names": [],
     "double_encryption": false,
-    "address_book": {},
+    "address_book": [],
     "hd_wallets": [],
     "sharedKey": "c6a9d95e-6a1c-40c5-bfaa-01143fb51dc5",
     "options": {

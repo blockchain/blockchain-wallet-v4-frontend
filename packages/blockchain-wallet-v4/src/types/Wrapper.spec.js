@@ -5,7 +5,7 @@ import { serializer, Wrapper } from './index'
 const wrapperFixture = require('./__mocks__/wrapper.v4')
 const wrapperFixtureV4Segwit = require('./__mocks__/wrapper.v4-segwit')
 const wrapperFixtureV3 = require('./__mocks__/wrapper.v3')
-// const wrapperFixtureV2 = require('./__mocks__/wrapper.v2')
+const wrapperFixtureV2 = require('./__mocks__/wrapper.v2')
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -14,7 +14,7 @@ describe('Wrapper', () => {
   const wrapper = Wrapper.fromJS(wrapperFixture)
   const wrapperV4Segwit = Wrapper.fromJS(wrapperFixtureV4Segwit)
   const wrapperV3 = Wrapper.fromJS(wrapperFixtureV3)
-  // const wrapperV2 = Wrapper.fromJS(wrapperFixtureV2)
+  const wrapperV2 = Wrapper.fromJS(wrapperFixtureV2)
 
   describe('serializer', () => {
     it('compose(replacer, reviver) should be identity', () => {
@@ -25,20 +25,22 @@ describe('Wrapper', () => {
     })
   })
 
-  // describe('upgradeToV3', () => {
-  //   it('should upgrade to a v3 wallet without derivations', async () => {
-  //     const upgradeTask = Wrapper.upgradeToV3(
-  //       'setup execute steel canal unable build farm purchase history erode gain vapor',
-  //       null,
-  //       Bitcoin.networks.bitcoin,
-  //       wrapperV2
-  //     )
-  //     const upgraded = await taskToPromise(upgradeTask)
-  //     const stringifiedUpgraded = JSON.stringify(upgraded.toJSON())
-  //     const stringifiedSegwitWrapper = JSON.stringify(wrapperV4Segwit.toJSON())
-  //     expect(stringifiedUpgraded).toEqual(stringifiedSegwitWrapper)
-  //   })
-  // })
+  describe('upgradeToV3', () => {
+    it('should upgrade to a v3 wallet without derivations', async () => {
+      const upgradeTask = Wrapper.upgradeToV3(
+        'setup execute steel canal unable build farm purchase history erode gain vapor',
+        null,
+        Bitcoin.networks.bitcoin,
+        wrapperV2
+      )
+      const upgraded = await taskToPromise(upgradeTask)
+      const jsWrapper = Wrapper.toJS(upgraded)
+      expect(jsWrapper.version).toBe(3)
+      const hd = jsWrapper.wallet.hd_wallets[0]
+      const account = hd.accounts[0]
+      expect(account.derivations).toBe(undefined)
+    })
+  })
 
   describe('upgradeToV4', () => {
     it('should upgrade to a v4 wallet with segwit', async () => {
