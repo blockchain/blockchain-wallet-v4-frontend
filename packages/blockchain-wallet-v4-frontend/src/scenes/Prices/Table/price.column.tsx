@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import FiatDisplay from 'components/Display/FiatDisplay'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 
 import { CellHeaderText, CellText } from '.'
 
@@ -21,17 +21,7 @@ export const getPriceColumn = walletCurrency => ({
   Cell: ({ row: { original: values } }) => {
     return (
       <CellText>
-        <FiatDisplay
-          color='grey900'
-          coin={walletCurrency}
-          currency={walletCurrency}
-          loadingHeight='24px'
-          size='16px'
-          style={{ lineHeight: '24px' }}
-          weight={500}
-        >
-          {values.price}
-        </FiatDisplay>
+        {fiatToString({ value: values.price, unit: walletCurrency })}
       </CellText>
     )
   }

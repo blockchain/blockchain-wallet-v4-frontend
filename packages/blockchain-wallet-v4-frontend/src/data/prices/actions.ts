@@ -1,9 +1,10 @@
 import * as AT from './actionTypes'
+import { CoinPricesRequestType } from './types'
 
 // FETCH_COIN_PRICES
-export const fetchCoinPrices = (coins, fiatCurrency, timestamp) => ({
+export const fetchCoinPrices = (request?: CoinPricesRequestType) => ({
   type: AT.FETCH_COIN_PRICES,
-  payload: { coins, fiatCurrency, timestamp }
+  payload: request || {}
 })
 export const fetchCoinPricesLoading = () => ({
   type: AT.FETCH_COIN_PRICES_LOADING
@@ -18,9 +19,11 @@ export const fetchCoinPricesFailure = data => ({
 })
 
 // FETCH_COIN_PRICES_PREVIOUS_DAY
-export const fetchCoinPricesPreviousDay = (coins, fiatCurrency, timestamp) => ({
+export const fetchCoinPricesPreviousDay = (
+  request?: CoinPricesRequestType
+) => ({
   type: AT.FETCH_COIN_PRICES_PREVIOUS_DAY,
-  payload: { coins, fiatCurrency, timestamp }
+  payload: request || {}
 })
 export const fetchCoinPricesPreviousDayLoading = () => ({
   type: AT.FETCH_COIN_PRICES_PREVIOUS_DAY_LOADING

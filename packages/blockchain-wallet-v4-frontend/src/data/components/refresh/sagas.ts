@@ -21,7 +21,10 @@ export default () => {
       yield put(actions.components.interest.fetchInterestBalance())
       yield put(actions.components.simpleBuy.fetchSBBalances())
       yield put(actions.components.simpleBuy.fetchSBOrders())
+      // Prices (new approach)
+      yield put(actions.prices.fetchCoinPrices())
       // Rates
+      // TODO: remove all of this
       yield put(actions.core.data.bch.fetchRates())
       yield put(actions.core.data.btc.fetchRates())
       yield put(actions.core.data.eth.fetchRates())
