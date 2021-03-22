@@ -46,7 +46,7 @@ const DisplayContainer = styled.div<{ coinType: any; isItem?: boolean }>`
   align-items: center;
   box-sizing: border-box;
   height: ${props => (props.isItem ? 'auto' : '100%')};
-  padding: ${props => (props.isItem ? '0px 0px' : '15px 4px')};
+  padding: ${props => (props.isItem ? '0px' : '16px')};
   > span {
     color: ${props => props.theme[props.coinType.colorCode]} !important;
   }
@@ -57,9 +57,9 @@ const AccountContainer = styled.div<{ isItem?: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-left: ${props => (props.isItem ? '16px' : '12px')};
+  margin-left: ${props => (props.isItem ? '16px' : '0')};
   height: ${props => (props.isItem ? 'auto' : '100%')};
-  padding: 12px 0;
+  padding: ${props => (props.isItem ? '12px 0' : '0')};
   width: 100%;
   cursor: pointer;
   .bc__single-value {
@@ -93,6 +93,8 @@ const CoinSelect = styled(SelectBox)`
     height: 100%;
     background-color: ${({ theme }) => theme.white};
     border: 1px solid ${({ theme }) => theme.grey100};
+    box-sizing: border-box;
+
     & .bc__control--is-focused {
       border: 1px solid ${({ theme }) => theme.blue600};
     }
@@ -109,6 +111,7 @@ const CoinSelect = styled(SelectBox)`
     &:not(:last-child) {
       ${AccountContainer} {
         border-bottom: 1px solid ${props => props.theme.grey000};
+        box-sizing: border-box;
       }
     }
   }
@@ -260,7 +263,6 @@ class WalletBalanceDropdown extends Component<Props> {
               weight={500}
               color='blue600'
               onClick={this.handleRequest}
-              lineHeight='18px'
             >
               <FormattedMessage
                 id='scenes.transactions.performance.request'

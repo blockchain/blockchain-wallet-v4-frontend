@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -9,23 +9,17 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-export class CoinTickerContainer extends React.PureComponent<Props> {
-  componentDidMount() {
-    this.props.actions.initialized()
-  }
+const CoinTickerContainer = ({ actions: { initialized }, data }: Props) => {
+  useEffect(() => {
+    initialized()
+  }, [initialized])
 
-  render() {
-    const { data } = this.props
-
-    return data.cata({
-      Success: value => (
-        <Success {...value} data-e2e={this.props['data-e2e']} />
-      ),
-      Failure: message => <Error>{message}</Error>,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
-    })
-  }
+  return data.cata({
+    Success: value => <Success {...value} />,
+    Failure: message => <Error>{message}</Error>,
+    Loading: () => <Loading />,
+    NotAsked: () => <Loading />
+  })
 }
 
 const mapStateToProps = (state, ownProps: OwnProps) => ({

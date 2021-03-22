@@ -1,3 +1,5 @@
+import { TimeRange } from 'blockchain-wallet-v4/src/types'
+
 import * as priceChartActionTypes from '../components/priceChart/actionTypes'
 import * as AT from './actionTypes'
 import { PreferencesActionTypes, PreferencesState } from './types'
@@ -9,7 +11,7 @@ const INITIAL_STATE: PreferencesState = {
   coinDisplayed: true,
   priceChart: {
     coin: 'BTC',
-    time: 'month'
+    time: TimeRange.MONTH
   },
   sbCheckout: {
     BUY: {
