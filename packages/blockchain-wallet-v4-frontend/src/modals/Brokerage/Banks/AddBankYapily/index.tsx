@@ -62,7 +62,7 @@ class Banks extends PureComponent<Props> {
         )}
         {this.props.step === AddBankStepType.ADD_BANK_AUTHORIZE && (
           <FlyoutChild>
-            <Authorize />
+            <Authorize handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {this.props.step === AddBankStepType.ADD_BANK_STATUS && (
@@ -86,7 +86,9 @@ const enhance = compose(
   connector
 )
 
-type OwnProps = ModalPropsType
+type OwnProps = ModalPropsType & {
+  handleClose: () => void
+}
 type LinkStatePropsType = {
   step: AddBankStepType
 }
