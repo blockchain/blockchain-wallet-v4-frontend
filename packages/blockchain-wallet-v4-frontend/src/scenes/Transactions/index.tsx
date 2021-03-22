@@ -14,6 +14,7 @@ import {
   FiatTypeEnum,
   SupportedFiatType,
   SupportedWalletCurrencyType,
+  TimeRange,
   WalletCurrencyType,
   WalletFiatEnum,
   WalletFiatType
@@ -112,7 +113,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
     this.props.miscActions.fetchPriceChange(
       this.props.coin as CoinType,
       this.props.currency,
-      'week'
+      TimeRange.WEEK
     )
     this.props.brokerageActions.fetchBankTransferAccounts()
   }
