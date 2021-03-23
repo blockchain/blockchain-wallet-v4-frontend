@@ -20,6 +20,7 @@ const Wrapper = styled.div`
   border-radius: 8px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme.grey000};
+  margin-bottom: 36px;
 `
 
 const Row = styled.div`
@@ -36,17 +37,19 @@ const Row = styled.div`
 const Column = styled.div`
   margin-bottom: 16px;
 
-  width: 100%;
-
   ${media.atLeastTabletL`
     margin: 0;
-    width: fit-content;
   `}
 `
 
 const InlineContainer = styled.div`
   display: flex;
   align-items: baseline;
+  justify-content: center;
+
+  ${media.atLeastTabletL`
+    justify-content: flex-start;
+  `}
 `
 
 const Header = styled(Row)`
@@ -66,7 +69,9 @@ const PriceChart = () => {
     <Wrapper>
       <Header>
         <Column>
-          <CoinSelector />
+          <InlineContainer>
+            <CoinSelector />
+          </InlineContainer>
           <InlineContainer>
             <CoinCurrentPrice />
             <CoinPerformance />
