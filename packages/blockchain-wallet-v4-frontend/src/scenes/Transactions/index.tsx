@@ -211,6 +211,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                           if (!this.props.simpleBuyActions) return
                           // ACH Deposits/Withdrawals is only for USD right now
                           // so keeping the existing functionality for EUR
+                          // TODO: update coinIntroduction login as well!
                           coin === 'USD'
                             ? this.props.brokerageActions.handleDepositFiatClick(
                                 coin as WalletFiatType
