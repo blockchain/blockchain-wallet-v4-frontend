@@ -17,7 +17,6 @@ import {
 } from 'ramda'
 import { createSelector } from 'reselect'
 
-import { InvitationsType } from 'blockchain-wallet-v4/src//redux/settings'
 import {
   AddressTypesType,
   ProcessedTxType,
@@ -107,21 +106,13 @@ const coinSelectorMap = (
 export const getData = (state, coin, isCoinErc20) =>
   createSelector(
     [
-      () => selectors.core.settings.getInvitations(state),
       selectors.form.getFormValues(WALLET_TX_SEARCH),
       coinSelectorMap(state, coin, isCoinErc20),
       selectors.core.settings.getCurrency,
       () => selectors.core.walletOptions.getCoinModel(state, coin),
       () => selectors.core.walletOptions.getSupportedCoins(state)
     ],
-    (
-      invitationsR,
-      userSearch,
-      pagesR,
-      currencyR,
-      coinModelR,
-      supportedCoinsR
-    ) => {
+    (userSearch, pagesR, currencyR, coinModelR, supportedCoinsR) => {
       const empty = page => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status: TransferType = propOr('', 'status', userSearch)
@@ -137,18 +128,11 @@ export const getData = (state, coin, isCoinErc20) =>
             )
           : []
 
-      const invitations = invitationsR.getOrElse({
-        achDepositWithdrawal: false
-      } as InvitationsType)
-
       return {
         coinModel: coinModelR.getOrElse(
           {} as <P extends WalletCurrencyType>(
             p: P
           ) => SupportedWalletCurrenciesType[P]
-        ),
-        supportedCoins: supportedCoinsR.getOrElse(
-          {} as SupportedWalletCurrenciesType
         ),
         currency: currencyR.getOrElse(''),
         hasTxResults: !all(empty)(filteredPages),
@@ -156,7 +140,9 @@ export const getData = (state, coin, isCoinErc20) =>
         isSearchEntered: search.length > 0 || status !== '',
         pages: filteredPages,
         sourceType,
-        isInvited: invitations.achDepositWithdrawal
+        supportedCoins: supportedCoinsR.getOrElse(
+          {} as SupportedWalletCurrenciesType
+        )
       }
     }
   )(state)

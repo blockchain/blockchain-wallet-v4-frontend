@@ -380,6 +380,7 @@ type MessagesType = {
   'copy.from': 'From'
   'copy.from:': 'From: '
   'copy.here': 'here'
+  'copy.holdings': 'Holdings'
   'copy.in_review': 'In Review'
   'copy.incoming_fee': 'Incoming Fee'
   'copy.instantly_available': 'Instantly Available'

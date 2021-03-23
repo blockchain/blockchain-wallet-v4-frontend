@@ -133,6 +133,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
   }
 
   handleArchive = address => {
+    // @ts-ignore
     this.props.setAddressArchived && this.props.setAddressArchived(address)
   }
 
@@ -143,13 +144,13 @@ class TransactionsContainer extends React.PureComponent<Props> {
       currency,
       hasTxResults,
       isCoinErc20,
-      isInvited,
       isSearchEntered,
       loadMoreTxs,
       pages,
       sourceType
     } = this.props
     const { coinCode, coinTicker, displayName } = coinModel
+
     return (
       <SceneWrapper>
         <LazyLoadContainer onLazyLoad={loadMoreTxs}>
@@ -210,16 +211,14 @@ class TransactionsContainer extends React.PureComponent<Props> {
                           if (!this.props.simpleBuyActions) return
                           // ACH Deposits/Withdrawals is only for USD right now
                           // so keeping the existing functionality for EUR
-                          if (coin === 'USD' && isInvited) {
-                            this.props.brokerageActions.handleDepositFiatClick(
-                              coin as WalletFiatType
-                            )
-                          } else {
-                            this.props.simpleBuyActions.handleSBDepositFiatClick(
-                              coin as WalletFiatType,
-                              'TransactionList'
-                            )
-                          }
+                          coin === 'USD'
+                            ? this.props.brokerageActions.handleDepositFiatClick(
+                                coin as WalletFiatType
+                              )
+                            : this.props.simpleBuyActions.handleSBDepositFiatClick(
+                                coin as WalletFiatType,
+                                'TransactionList'
+                              )
                         }}
                       >
                         <FormattedMessage
@@ -280,19 +279,21 @@ class TransactionsContainer extends React.PureComponent<Props> {
           {(hasTxResults || isSearchEntered) && coin in CoinTypeEnum && (
             <TransactionFilters coin={coin as CoinType} />
           )}
-          {!hasTxResults ? (
-            isSearchEntered ? (
-              <SceneWrapper centerContent>
-                <EmptyResults />
-              </SceneWrapper>
-            ) : (
-              <SceneWrapper centerContent>
-                <CoinIntroduction coin={coin as CoinType} />
-              </SceneWrapper>
-            )
-          ) : sourceType && sourceType === 'INTEREST' ? (
+          {!hasTxResults && isSearchEntered && (
+            <SceneWrapper centerContent>
+              <EmptyResults />
+            </SceneWrapper>
+          )}
+          {!hasTxResults && !isSearchEntered && (
+            <SceneWrapper centerContent>
+              <CoinIntroduction coin={coin as CoinType} />
+            </SceneWrapper>
+          )}
+          {hasTxResults && sourceType && sourceType === 'INTEREST' && (
             <InterestTransactions />
-          ) : (
+          )}
+          {hasTxResults &&
+            (!sourceType || sourceType !== 'INTEREST') &&
             pages.map((value, index) => (
               <TransactionList
                 coin={coin}
@@ -305,8 +306,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 onRefresh={this.handleRefresh}
                 sourceType={sourceType}
               />
-            ))
-          )}
+            ))}
         </LazyLoadContainer>
       </SceneWrapper>
     )
@@ -319,47 +319,40 @@ const mapStateToProps = (state, ownProps): LinkStatePropsType =>
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
   const { coin, isCoinErc20 } = ownProps
+  const baseActions = {
+    brokerageActions: bindActionCreators(
+      actions.components.brokerage,
+      dispatch
+    ),
+    miscActions: bindActionCreators(actions.core.data.misc, dispatch),
+    simpleBuyActions: bindActionCreators(
+      actions.components.simpleBuy,
+      dispatch
+    ),
+    withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
+  }
   if (isCoinErc20) {
     return {
+      ...baseActions,
       fetchData: () => dispatch(actions.core.data.eth.fetchErc20Data(coin)),
       initTxs: () =>
         dispatch(actions.components.ethTransactions.initializedErc20(coin)),
       loadMoreTxs: () =>
-        dispatch(actions.components.ethTransactions.loadMoreErc20(coin)),
-      miscActions: bindActionCreators(actions.core.data.misc, dispatch),
-      simpleBuyActions: bindActionCreators(
-        actions.components.simpleBuy,
-        dispatch
-      ),
-      brokerageActions: bindActionCreators(
-        actions.components.brokerage,
-        dispatch
-      )
+        dispatch(actions.components.ethTransactions.loadMoreErc20(coin))
     }
   }
   if (coin in WalletFiatEnum) {
     return {
+      ...baseActions,
       fetchData: () => {},
       loadMoreTxs: () =>
         dispatch(actions.components.fiatTransactions.loadMore(coin)),
       initTxs: () =>
-        dispatch(actions.components.fiatTransactions.initialized(coin)),
-      miscActions: bindActionCreators(actions.core.data.misc, dispatch),
-      simpleBuyActions: bindActionCreators(
-        actions.components.simpleBuy,
-        dispatch
-      ),
-      withdrawActions: bindActionCreators(
-        actions.components.withdraw,
-        dispatch
-      ),
-      brokerageActions: bindActionCreators(
-        actions.components.brokerage,
-        dispatch
-      )
+        dispatch(actions.components.fiatTransactions.initialized(coin))
     }
   }
   return {
+    ...baseActions,
     fetchData: () => dispatch(actions.core.data[toLower(coin)].fetchData()),
     initTxs: () =>
       dispatch(
@@ -367,14 +360,8 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
       ),
     loadMoreTxs: () =>
       dispatch(actions.components[`${toLower(coin)}Transactions`].loadMore()),
-    miscActions: bindActionCreators(actions.core.data.misc, dispatch),
     setAddressArchived: address =>
-      dispatch(actions.core.wallet.setAddressArchived(address, true)),
-    simpleBuyActions: bindActionCreators(
-      actions.components.simpleBuy,
-      dispatch
-    ),
-    brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
+      dispatch(actions.core.wallet.setAddressArchived(address, true))
   }
 }
 

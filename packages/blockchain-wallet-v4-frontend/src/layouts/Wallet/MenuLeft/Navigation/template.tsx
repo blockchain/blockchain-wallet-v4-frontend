@@ -2,11 +2,11 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Cartridge } from '@blockchain-com/components'
-import { mapObjIndexed, toLower, values } from 'ramda'
+import { map, toLower } from 'ramda'
 import styled from 'styled-components'
 
 import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { SupportedCoinType } from 'blockchain-wallet-v4/src/types'
 import {
   CoinIcon,
   Destination,
@@ -89,7 +89,7 @@ const ExchangeNavItem = props => (
 )
 
 const Navigation = (props: OwnProps & Props) => {
-  const { ...rest } = props
+  const { coinList, lockboxDevices, ...rest } = props
 
   return (
     <Wrapper {...rest}>
@@ -110,48 +110,54 @@ const Navigation = (props: OwnProps & Props) => {
           </Destination>
         </MenuItem>
       </LinkContainer>
-      <PortfolioSeparator>
-        <Text color='grey600' lineHeight='20px' weight={600} size='14px'>
-          <FormattedMessage id='copy.portfolio' defaultMessage='Portfolio' />
-        </Text>
-        <Divider />
-      </PortfolioSeparator>
-      <LinkContainer to='/usd/transactions' activeClassName='active'>
-        <MenuItem colorCode='USD' data-e2e='cashLink' className='coin'>
-          <CoinIcon className='coin-icon' color='USD' name='USD' size='24px' />
-          <Destination>
-            <FormattedMessage id='copy.cash' defaultMessage='Cash' />
-          </Destination>
-        </MenuItem>
-      </LinkContainer>
-      {values(
-        mapObjIndexed((coin: CoinType, i) => {
-          const coinModel = props.coins.find(x => coin === x.coinCode)
-          return (
-            coinModel && (
-              <LinkContainer
-                key={i}
-                to={coinModel.txListAppRoute}
-                activeClassName='active'
-              >
-                <MenuItem
-                  data-e2e={`${toLower(coinModel.coinCode)}Link`}
-                  colorCode={coinModel.coinCode}
-                  className='coin'
+      {coinList.cata({
+        Success: coinList =>
+          coinList.length ? (
+            <>
+              <PortfolioSeparator>
+                <Text
+                  color='grey600'
+                  lineHeight='20px'
+                  weight={600}
+                  size='14px'
                 >
-                  <CoinIcon
-                    className='coin-icon'
-                    color={coinModel.coinCode}
-                    name={coinModel.coinCode}
-                    size='24px'
+                  <FormattedMessage
+                    id='copy.portfolio'
+                    defaultMessage='Portfolio'
                   />
-                  <Destination>{coinModel.displayName}</Destination>
-                </MenuItem>
-              </LinkContainer>
-            )
-          )
-        }, props.coinsWithBalanceList)
-      )}
+                </Text>
+                <Divider />
+              </PortfolioSeparator>
+              {map(
+                (coin: SupportedCoinType) => (
+                  <LinkContainer
+                    to={coin.txListAppRoute}
+                    activeClassName='active'
+                    key={coin.coinCode}
+                  >
+                    <MenuItem
+                      data-e2e={`${toLower(coin.coinCode)}Link`}
+                      colorCode={coin.coinCode}
+                      className='coin'
+                    >
+                      <CoinIcon
+                        className='coin-icon'
+                        color={coin.coinCode}
+                        name={coin.coinCode}
+                        size='24px'
+                      />
+                      <Destination>{coin.displayName}</Destination>
+                    </MenuItem>
+                  </LinkContainer>
+                ),
+                coinList
+              )}
+            </>
+          ) : null,
+        Loading: () => null,
+        NotAsked: () => null,
+        Failure: () => null
+      })}
       <Divider margin='0 16px 8px 16px' />
       <LinkContainer to='/airdrops' activeClassName='active'>
         <MenuItem data-e2e='airdropLink' className='airdrop'>
@@ -178,7 +184,7 @@ const Navigation = (props: OwnProps & Props) => {
           <ExchangeNavItem {...props} />
         </MenuItem>
       </LinkContainer>
-      {props.lockboxDevices?.length > 0 ? (
+      {lockboxDevices?.length > 0 ? (
         <LinkContainer to='/lockbox' activeClassName='active'>
           <MenuItem data-e2e='lockboxLink'>
             <MenuIcon

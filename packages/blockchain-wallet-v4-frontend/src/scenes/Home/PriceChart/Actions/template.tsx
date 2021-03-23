@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 
 import { Props } from '.'
 
@@ -29,29 +29,33 @@ const Actions = ({
     <Wrapper>
       <BuyTradeButton
         data-e2e='buyButton'
-        height='48px'
+        height='42px'
         nature='primary'
         onClick={() =>
           simpleBuyActions.showModal('PriceChart', cryptoCurrency, 'BUY')
         }
       >
-        <FormattedMessage
-          id='price.chart.buy.coin'
-          defaultMessage='Buy {coinName}'
-          values={{ coinName }}
-        />
+        <Text color='white' size='16px' lineHeight='24px' weight={600}>
+          <FormattedMessage
+            id='price.chart.buy.coin'
+            defaultMessage='Buy {coinName}'
+            values={{ coinName }}
+          />
+        </Text>
       </BuyTradeButton>
       <BuyTradeButton
         data-e2e='swapButton'
-        height='48px'
+        height='42px'
         nature='empty-secondary'
         onClick={() => swapActions.showModal('PriceChart')}
       >
-        <FormattedMessage
-          id='price.chart.swap.coin'
-          defaultMessage='Swap {coinName}'
-          values={{ coinName }}
-        />
+        <Text color='blue600' size='16px' lineHeight='24px' weight={600}>
+          <FormattedMessage
+            id='price.chart.swap.coin'
+            defaultMessage='Swap {coinName}'
+            values={{ coinName }}
+          />
+        </Text>
       </BuyTradeButton>
     </Wrapper>
   )

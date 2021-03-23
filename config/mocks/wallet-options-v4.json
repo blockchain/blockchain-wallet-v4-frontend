@@ -49,7 +49,7 @@
           },
           "coinCode": "USD",
           "coinTicker": "USD",
-          "displayName": "U.S Dollars",
+          "displayName": "U.S. Dollars",
           "learnMoreLink": "",
           "minConfirmations": 0,
           "txListAppRoute": "/usd/transactions"

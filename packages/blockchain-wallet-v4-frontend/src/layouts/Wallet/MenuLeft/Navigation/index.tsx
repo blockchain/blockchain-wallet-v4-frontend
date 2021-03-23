@@ -31,7 +31,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const mapStateToProps = state => ({
-  coinsWithBalanceList: getData(state)
+  coinList: getData(state)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -41,4 +41,5 @@ const enhance = compose(connector)
 export type Props = OwnProps &
   ConnectedProps<typeof connector> & { lockboxDevices?: Array<any> }
 
+// @ts-ignore
 export default enhance(NavigationContainer)
