@@ -17,6 +17,7 @@ import {
 } from 'ramda'
 import { createSelector } from 'reselect'
 
+import { InvitationsType } from 'blockchain-wallet-v4/src//redux/settings'
 import {
   AddressTypesType,
   ProcessedTxType,
@@ -136,6 +137,10 @@ export const getData = (state, coin, isCoinErc20) =>
             )
           : []
 
+      const invitations = invitationsR.getOrElse({
+        achDepositWithdrawal: false
+      } as InvitationsType)
+
       return {
         coinModel: coinModelR.getOrElse(
           {} as <P extends WalletCurrencyType>(
@@ -151,7 +156,7 @@ export const getData = (state, coin, isCoinErc20) =>
         isSearchEntered: search.length > 0 || status !== '',
         pages: filteredPages,
         sourceType,
-        isInvited: invitationsR.data.achDepositWithdrawal
+        isInvited: invitations.achDepositWithdrawal
       }
     }
   )(state)
