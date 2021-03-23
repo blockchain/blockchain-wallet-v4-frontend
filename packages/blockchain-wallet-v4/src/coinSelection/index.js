@@ -167,10 +167,10 @@ export const ascentDraw = (targets, feePerByte, coins, changeAddress) =>
   )
 
 // getByteCount implementation
-// from https://gist.github.com/junderw/b43af3253ea5865ed52cb51c200ac19c
+// based on https://gist.github.com/junderw/b43af3253ea5865ed52cb51c200ac19c
 // Usage:
-// getByteCount({'MULTISIG-P2SH:2-4':45},{'P2PKH':1}) Means "45 inputs of P2SH Multisig and 1 output of P2PKH"
-// getByteCount({'P2PKH':1,'MULTISIG-P2SH:2-3':2},{'P2PKH':2}) means "1 P2PKH input and 2 Multisig P2SH (2 of 3) inputs along with 2 P2PKH outputs"
+// - getByteCount({'P2WPKH':45},{'P2PKH':1}) Means "45 inputs of P2WPKH and 1 output of P2PKH"
+// - getByteCount({'P2PKH':1,'P2WPKH':2},{'P2PKH':2}) means "1 P2PKH input and 2 P2WPKH inputs along with 2 P2PKH outputs"
 
 // assumes compressed pubkeys in all cases.
 // TODO: SEGWIT  we need to account for uncompressed pubkeys!
@@ -178,17 +178,14 @@ export const IO_TYPES = {
   inputs: {
     P2PKH: 148, // legacy
     P2WPKH: 67.75, // native segwit
-    'P2SH-P2WPKH': 91, // wrapped segwit
-    'MULTISIG-P2SH': 49, // "legacy"
-    'MULTISIG-P2WSH': 42.5, // native segwit
-    'MULTISIG-P2SH-P2WSH': 77.5 // wrapped segwit
+    'P2SH-P2WPKH': 91 // wrapped segwit
   },
   outputs: {
     P2PKH: 34,
+    P2SH: 32,
     P2WPKH: 31,
     P2WSH: 43,
-    P2SH: 32,
-    'P2SH-P2WPKH': 32 // this is a hack and technically this is just P2SH
+    'P2SH-P2WPKH': 32
   }
 }
 
@@ -218,21 +215,7 @@ export const getByteCount = (inputs, outputs) => {
 
   Object.keys(inputs).forEach(function(key) {
     checkUInt53(inputs[key])
-    if (key.slice(0, 8) === 'MULTISIG') {
-      // ex. "MULTISIG-P2SH:2-3" would mean 2 of 3 P2SH MULTISIG
-      var keyParts = key.split(':')
-      if (keyParts.length !== 2) throw new Error('invalid input: ' + key)
-      var newKey = keyParts[0]
-      var mAndN = keyParts[1].split('-').map(function(item) {
-        return parseInt(item)
-      })
-
-      vBytesTotal += IO_TYPES.inputs[newKey] * inputs[key]
-      var multiplier = newKey === 'MULTISIG-P2SH' ? 4 : 1
-      vBytesTotal += (73 * mAndN[0] + 34 * mAndN[1]) * multiplier * inputs[key]
-    } else {
-      vBytesTotal += IO_TYPES.inputs[key] * inputs[key]
-    }
+    vBytesTotal += IO_TYPES.inputs[key] * inputs[key]
     inputCount += inputs[key]
     if (key.indexOf('W') >= 0) hasWitness = true
   })
