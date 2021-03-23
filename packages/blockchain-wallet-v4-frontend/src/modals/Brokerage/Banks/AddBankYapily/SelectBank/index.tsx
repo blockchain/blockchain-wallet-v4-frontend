@@ -6,6 +6,7 @@ import DataError from 'components/DataError'
 import { WalletFiatType } from 'core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { AddBankStepType } from 'data/types'
 
 import { Loading, LoadingTextEnum } from '../../../components'
 import { getData } from './selectors'
