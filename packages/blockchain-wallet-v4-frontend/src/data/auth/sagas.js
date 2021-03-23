@@ -124,7 +124,11 @@ export default ({ api, coreSagas }) => {
     yield put(actions.core.data.eth.fetchErc20Data('yfi'))
   }
 
-  const loginRoutineSaga = function * (mobileLogin, firstLogin) {
+  const loginRoutineSaga = function * (
+    mobileLogin,
+    firstLogin,
+    isRecovering = false
+  ) {
     try {
       const isDoubleEncrypted = yield select(
         selectors.core.wallet.isSecondPasswordOn
@@ -142,11 +146,10 @@ export default ({ api, coreSagas }) => {
         .getInvitations(yield select())
         .getOrElse(DEFAULT_INVITATIONS)
       const isSegwitEnabled = invitations.segwit
-      if (!isLatestVersion && isSegwitEnabled) {
+      if (!isLatestVersion && !isRecovering && isSegwitEnabled) {
         yield call(upgradeWalletSaga, isDoubleEncrypted, 4)
       }
       // Finish upgrades
-
       yield put(actions.auth.authenticate())
       yield put(actions.auth.setFirstLogin(firstLogin))
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
@@ -474,7 +477,7 @@ export default ({ api, coreSagas }) => {
         kvCredentials
       })
       yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
-      yield call(loginRoutineSaga, false, true)
+      yield call(loginRoutineSaga, false, true, true)
       yield put(actions.auth.restoreSuccess())
     } catch (e) {
       yield put(actions.auth.restoreFailure())
