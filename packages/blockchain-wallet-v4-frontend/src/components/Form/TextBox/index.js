@@ -21,7 +21,6 @@ const Error = styled(Text)`
   right: 0;
   height: 15px;
 `
-
 const WarningIcon = styled(Icon)`
   position: absolute;
   margin: auto 0;
