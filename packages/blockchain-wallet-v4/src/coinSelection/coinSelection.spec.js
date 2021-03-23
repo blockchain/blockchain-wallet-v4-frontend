@@ -291,7 +291,7 @@ describe('Coin Selection', () => {
       expect(selection.inputs.map(x => x.value)).toEqual([20000, 300000])
 
       // overhead + inputs + outputs
-      // 55 * (10 + 147 * 2 + 34 * 2) = 55 * 374 = 20570
+      // 55 * (10 + 148 * 2 + 34 * 2) = 20570
       expect(selection.fee).toEqual(20570)
 
       // change = inputs - outputs - fee
@@ -316,7 +316,7 @@ describe('Coin Selection', () => {
       expect(selection.inputs.map(x => x.value)).toEqual([20000, 300000])
 
       // overhead + inputs + outputs
-      // 55 * (10 + 147 * 2 + 34 * 2) = 55 * 374 = 20570
+      // 55 * (10 + 148 * 2 + 34 * 2) = 20570
       expect(selection.fee).toEqual(20570)
 
       // change = inputs - outputs - fee
