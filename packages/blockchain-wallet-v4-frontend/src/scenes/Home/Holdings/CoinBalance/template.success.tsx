@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -38,10 +37,6 @@ const Success = (props: {
       </CoinDisplay>
     </>
   )
-}
-
-Success.propTypes = {
-  balance: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired
 }
 
 export default Success

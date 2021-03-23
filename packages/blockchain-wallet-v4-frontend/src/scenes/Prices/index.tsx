@@ -38,7 +38,10 @@ const Title = styled.div`
 const SubTitle = styled.div`
   display: flex;
   justify-content: flex-start;
-  margin-top: 16px;
+  margin: 16px 8px 0 0;
+`
+const TextFilterWrapper = styled.div`
+  width: 300px;
 `
 
 const Scene = ({ children }) => (
@@ -56,12 +59,12 @@ const Scene = ({ children }) => (
             <Text color='grey600' size='16px' weight={500}>
               <FormattedMessage
                 id='scenes.prices.subtitle'
-                defaultMessage='Explore, Buy, Sell and Swap all of assets offered by our wallet.'
+                defaultMessage='Buy, Sell and Swap all of the assets offered by our wallet.'
               />
             </Text>
           </SubTitle>
         </div>
-        <div>
+        <TextFilterWrapper>
           <Field
             component={TextBox}
             height='42px'
@@ -69,7 +72,7 @@ const Scene = ({ children }) => (
             name='textFilter'
             placeholder='Filter by asset name'
           />
-        </div>
+        </TextFilterWrapper>
       </PageTitle>
     </Header>
     {children}
