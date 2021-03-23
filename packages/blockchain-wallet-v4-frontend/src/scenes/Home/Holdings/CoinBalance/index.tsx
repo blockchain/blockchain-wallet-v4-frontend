@@ -7,7 +7,7 @@ import { SkeletonRectangle } from 'blockchain-info-components'
 import { WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 
-import { Props as TableProps } from '../Table'
+import { Props as TableProps } from '..'
 import { getData } from './selectors'
 import Error from './template.error'
 import Success from './template.success'

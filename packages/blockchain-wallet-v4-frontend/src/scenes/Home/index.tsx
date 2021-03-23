@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import { SceneWrapper } from 'components/Layout'
 import { media, mediaHeight } from 'services/styles'
 
-import Balances from './Balances'
 import Banners from './Banners'
+import Holdings from './Holdings'
 import PriceChart from './PriceChart'
 
 const ColumnWrapper = styled.section`
@@ -21,7 +21,7 @@ const Column = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  max-height: 570px;
+  height: 100%;
   width: 100%;
   display: flex;
   box-sizing: border-box;
@@ -52,7 +52,7 @@ const Home = () => {
       <Banners />
       <ColumnWrapper>
         <ColumnLeft>
-          <Balances />
+          <Holdings />
         </ColumnLeft>
         <ColumnRight>
           <PriceChart />

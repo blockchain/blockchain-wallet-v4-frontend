@@ -17,7 +17,6 @@ const Wrapper = styled.div`
   position: relative;
   align-items: center;
   width: 100%;
-  min-height: 545px;
   border-radius: 8px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme.grey000};
