@@ -1,5 +1,8 @@
 import { RootState } from 'data/rootReducer'
 
+export const getBankCredentials = (state: RootState) =>
+  state.components.brokerage.bankCredentials
+
 export const getBankTransferAccounts = (state: RootState) =>
   state.components.brokerage.bankTransferAccounts
 

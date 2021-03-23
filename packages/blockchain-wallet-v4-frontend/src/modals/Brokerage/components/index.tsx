@@ -2,10 +2,19 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { SpinningLoader, Text } from 'blockchain-info-components'
+import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { FlyoutWrapper } from 'components/Flyout'
+import { OBInstitution } from 'data/types'
 
 const StyledText = styled(Text)`
   width: 300px;
+`
+
+const NavText = styled(Text)`
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-left: 40px;
 `
 
 const Wrapper = styled.div`
@@ -62,4 +71,94 @@ const Loading = ({ text }: Props) => {
   )
 }
 
-export { BROKERAGE_INELIGIBLE, IneligibleErrorMessage, Loading }
+interface BankIconProps {
+  url: string
+}
+
+const BankWrapper = styled(FlyoutWrapper)`
+  padding: 40px 0;
+`
+
+const BankRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border: 0px solid ${p => p.theme.grey000};
+  border-bottom-width: 1px;
+  padding: 28px 40px;
+
+  & > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+`
+
+const BankIcon = styled.div<BankIconProps>`
+  height: 30px;
+  width: 30px;
+  background: url("${p => p.url}") 0 0 no-repeat;
+  background-size: 30px;
+`
+
+const BankSearchInput = styled.input`
+  border: 1px solid ${p => p.theme.grey000};
+  width: 100%;
+  border-width: 1px 0;
+  padding: 20px 0 20px 40px;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
+`
+
+const SimpleBankRow = (props: { institution: OBInstitution }) => {
+  return (
+    <BankRow>
+      <div>
+        <BankIcon url={props.institution.media[0].source} />
+        <Text>{props.institution.name}</Text>
+      </div>
+      <Icon
+        cursor
+        name='arrow-back'
+        size='20px'
+        color='grey600'
+        role='button'
+        style={{ marginRight: '24px', transform: 'rotate(0.5turn)' }}
+        onClick={() => {}}
+      />
+    </BankRow>
+  )
+}
+
+const ModalNavWithBackArrow = props => {
+  return (
+    <NavText color='grey800' size='20px' weight={600}>
+      <Icon
+        cursor
+        name='arrow-back'
+        size='20px'
+        color='grey600'
+        role='button'
+        style={{ marginRight: '24px' }}
+        onClick={() => {}}
+      />
+      {props.children}
+    </NavText>
+  )
+}
+
+export {
+  BankSearchInput,
+  BankWrapper,
+  BROKERAGE_INELIGIBLE,
+  IneligibleErrorMessage,
+  Loading,
+  ModalNavWithBackArrow,
+  NavText,
+  SimpleBankRow
+}
