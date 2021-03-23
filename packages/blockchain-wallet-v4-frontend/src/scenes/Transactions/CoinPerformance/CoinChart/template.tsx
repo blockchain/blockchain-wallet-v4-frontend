@@ -102,9 +102,10 @@ const Chart = ({
             ? d1
             : d0
       }
+
       showTooltip({
         tooltipData: d,
-        tooltipLeft: x,
+        tooltipLeft: xScale(getYValue(d)),
         tooltipTop: yScale(getXValue(d))
       })
     },

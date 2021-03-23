@@ -3,14 +3,18 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
+import { media } from 'services/styles'
 
 import { Props } from '.'
 
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin-right: 24px;
-  margin-top: 24px;
+
+  ${media.atLeastTabletL`
+    margin-top: 24px;
+    margin-right: 24px;
+  `}
 `
 
 const BuyTradeButton = styled(Button)`

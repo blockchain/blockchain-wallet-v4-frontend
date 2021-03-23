@@ -6,11 +6,18 @@ import styled from 'styled-components'
 
 import { SelectBoxCoinPriceChart } from 'components/Form'
 import { actions, selectors } from 'data'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   padding-top: 16px;
   padding-left: 16px;
   width: fit-content;
+  display: flex;
+  justify-content: center;
+
+  ${media.atLeastTabletL`
+    justify-content: flex-start;
+  `}
 `
 
 const CoinSelector = ({

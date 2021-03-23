@@ -14,10 +14,6 @@ const { SB_CHANGE_EMAIL_FORM } = model.components.simpleBuy
 
 class VerifyEmail extends PureComponent<Props> {
   componentDidMount() {
-    const { isEmailVerified, settingsActions } = this.props
-    if (!isEmailVerified) {
-      settingsActions.fetchSettings()
-    }
     this.props.simpleBuyActions.fetchSDDEligible()
   }
 
