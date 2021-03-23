@@ -13,10 +13,7 @@ export const getData = (
     includeExchangeAddress?: boolean
   }
 ) => {
-  const {
-    /* exclude = [], */ includeCustodial,
-    includeExchangeAddress
-  } = ownProps
+  const { includeCustodial, includeExchangeAddress } = ownProps
 
   const buildCustodialDisplay = x => {
     return (
@@ -28,8 +25,7 @@ export const getData = (
       })})`
     )
   }
-  // @ts-ignore
-  // const excluded = filter(SelectBoxDotAddresses => !exclude.includes(SelectBoxDotAddresses.label))
+
   const toGroup = curry((label, options) => [{ label, options }])
   const toExchange = x => [{ label: `Exchange DOT Address`, value: x }]
   const toCustodialDropdown = currencyDetails => [
