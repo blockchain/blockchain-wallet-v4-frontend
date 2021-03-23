@@ -1,21 +1,29 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators, compose } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { SelectBoxCoinPriceChart } from 'components/Form'
 import React, { useEffect } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
+
+import { SelectBoxCoinPriceChart } from 'components/Form'
+import { actions, selectors } from 'data'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   padding-top: 16px;
   padding-left: 16px;
   width: fit-content;
+  display: flex;
+  justify-content: center;
+
+  ${media.atLeastTabletL`
+    justify-content: flex-start;
+  `}
 `
 
 const CoinSelector = ({
-  priceChart: { coin = 'BTC' },
+  actions: { coinClicked },
   initialize,
-  actions: { coinClicked }
+  priceChart: { coin = 'BTC' }
 }: InjectedFormProps<{}, Props> & Props) => {
   useEffect(() => {
     initialize({ coin })

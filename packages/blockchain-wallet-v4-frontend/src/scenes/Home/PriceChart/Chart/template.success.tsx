@@ -97,7 +97,7 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
       }
       showTooltip({
         tooltipData: d,
-        tooltipLeft: x,
+        tooltipLeft: xScale(getYValue(d)),
         tooltipTop: yScale(getXValue(d))
       })
     },

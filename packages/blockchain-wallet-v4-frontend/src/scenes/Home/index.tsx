@@ -13,7 +13,7 @@ const ColumnWrapper = styled.section`
   flex-direction: column;
   justify-content: flex-start;
   width: 100%;
-  ${media.atLeastTabletL`
+  ${media.atLeastLaptopL`
     flex-direction: row;
   `}
 `
@@ -36,7 +36,7 @@ const Column = styled.div`
   `}
 `
 const ColumnLeft = styled(Column)`
-  ${media.atLeastTabletL`
+  ${media.atLeastLaptopL`
     padding-right: 30px;
   `}
 `

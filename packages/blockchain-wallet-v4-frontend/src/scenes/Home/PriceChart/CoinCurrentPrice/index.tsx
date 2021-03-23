@@ -3,11 +3,14 @@ import { connect, ConnectedProps } from 'react-redux'
 import styled from 'styled-components'
 
 import { selectors } from 'data'
+import { media } from 'services/styles'
 
 import CoinTicker from './CoinTicker'
 
 const Wrapper = styled.div`
-  padding-left: 24px;
+  ${media.atLeastTabletL`
+    padding-left: 24px;
+  `}
 `
 
 const CoinCurrentPrice = ({ priceChart: { coin = 'BTC' } }: Props) => {
