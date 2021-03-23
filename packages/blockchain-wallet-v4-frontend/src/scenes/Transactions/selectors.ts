@@ -17,7 +17,7 @@ import {
 } from 'ramda'
 import { createSelector } from 'reselect'
 
-import { InvitationsType } from 'blockchain-wallet-v4/src//redux/settings'
+import { InvitationsType } from 'blockchain-wallet-v4/src/redux/settings'
 import {
   AddressTypesType,
   ProcessedTxType,
