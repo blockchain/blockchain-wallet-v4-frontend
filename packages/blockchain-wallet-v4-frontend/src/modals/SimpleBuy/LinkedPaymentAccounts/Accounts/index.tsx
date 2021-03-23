@@ -152,8 +152,8 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         return (
           <Icon
             size='32px'
-            color='fiat'
-            name={value.currency.toLowerCase() as 'eur' | 'gbp'}
+            color='USD'
+            name={value.currency as WalletCurrencyType}
           />
         )
       default:

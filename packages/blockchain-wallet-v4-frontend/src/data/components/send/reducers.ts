@@ -5,24 +5,30 @@ import { SendState } from './types'
 
 const INITIAL_STATE: SendState = {
   exchangePaymentsAccount: {
-    BTC: Remote.NotAsked,
+    AAVE: Remote.NotAsked,
+    ALGO: Remote.NotAsked,
     BCH: Remote.NotAsked,
+    BTC: Remote.NotAsked,
+    DOT: Remote.NotAsked,
     ETH: Remote.NotAsked,
     PAX: Remote.NotAsked,
-    XLM: Remote.NotAsked,
     USDT: Remote.NotAsked,
     WDGLD: Remote.NotAsked,
-    ALGO: Remote.NotAsked
+    XLM: Remote.NotAsked,
+    YFI: Remote.NotAsked
   },
   tradingPaymentsAccount: {
-    BTC: Remote.NotAsked,
+    AAVE: Remote.NotAsked,
+    ALGO: Remote.NotAsked,
     BCH: Remote.NotAsked,
+    BTC: Remote.NotAsked,
+    DOT: Remote.NotAsked,
     ETH: Remote.NotAsked,
     PAX: Remote.NotAsked,
-    XLM: Remote.NotAsked,
     USDT: Remote.NotAsked,
     WDGLD: Remote.NotAsked,
-    ALGO: Remote.NotAsked
+    XLM: Remote.NotAsked,
+    YFI: Remote.NotAsked
   },
   withdrawLockCheck: Remote.NotAsked
 }

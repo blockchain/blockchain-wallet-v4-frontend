@@ -11,6 +11,7 @@ import {
 // import * as ALGO from './coins/algo'
 import * as BCH from './coins/bch'
 import * as BTC from './coins/btc'
+// import * as DOT from './coins/dot'
 import * as ERC20 from './coins/erc20'
 import * as ETH from './coins/eth'
 // import * as EUR from './coins/eur'

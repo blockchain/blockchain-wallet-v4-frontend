@@ -3,6 +3,7 @@ import { fork } from 'redux-saga/effects'
 import algo from './algo/sagaRegister'
 import bch from './bch/sagaRegister'
 import btc from './btc/sagaRegister'
+import dot from './dot/sagaRegister'
 import eth from './eth/sagaRegister'
 import fiat from './fiat/sagaRegister'
 import misc from './misc/sagaRegister'
@@ -14,6 +15,7 @@ export default ({ api, networks }) =>
     yield fork(algo({ api }))
     yield fork(bch({ api }))
     yield fork(btc({ api }))
+    yield fork(dot({ api }))
     yield fork(eth({ api }))
     yield fork(fiat({ api }))
     yield fork(misc({ api }))

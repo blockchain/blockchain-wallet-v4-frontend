@@ -13,11 +13,11 @@ import { goalsReducer } from './goals/reducers'
 import logsReducer from './logs/reducers'
 import { modalsReducer } from './modals/reducers'
 import profileReducer from './modules/profile/reducers'
-import qaReducer from './modules/qa/reducers'
 import ratesReducer from './modules/rates/reducers'
 import settingsReducer from './modules/settings/reducers'
 import { transferEthReducer } from './modules/transferEth/reducers'
 import { preferencesReducer } from './preferences/reducers'
+import pricesReducer from './prices/reducers'
 import sessionReducer from './session/reducers'
 import wizardReducer from './wizard/reducers'
 
@@ -32,6 +32,7 @@ const rootReducer = {
   modals: modalsReducer,
   logs: logsReducer,
   preferences: preferencesReducer,
+  prices: pricesReducer,
   profile: profileReducer,
   rates: ratesReducer,
   cache: cacheReducer,
@@ -39,7 +40,6 @@ const rootReducer = {
   wizard: wizardReducer,
   securityCenter: settingsReducer,
   transferEth: transferEthReducer,
-  qa: qaReducer,
   [paths.dataPath]: coreReducers.data,
   [paths.walletPath]: coreReducers.wallet,
   [paths.settingsPath]: coreReducers.settings,

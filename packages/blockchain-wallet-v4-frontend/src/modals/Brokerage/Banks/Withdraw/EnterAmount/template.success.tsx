@@ -204,12 +204,12 @@ const Success: React.FC<InjectedFormProps<
         </LimitWrapper>
         <FiatIconWrapper>
           <Icon
-            color={props.supportedCoins[props.fiatCurrency].colorCode}
-            name={props.supportedCoins[props.fiatCurrency].icons.circleFilled}
+            color={props.supportedCoins[props.fiatCurrency].coinCode}
+            name={props.supportedCoins[props.fiatCurrency].coinCode}
             size='32px'
           />
           <SubIconWrapper>
-            <Icon size='24px' color='fiat' name='arrow-up' />
+            <Icon size='24px' color='USD' name='arrow-up' />
           </SubIconWrapper>
         </FiatIconWrapper>
       </Limits>

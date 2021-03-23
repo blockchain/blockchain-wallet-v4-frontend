@@ -6,10 +6,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { Remote } from 'blockchain-wallet-v4/src'
 import {
   ExtractSuccess,
-  FiatTypeEnum,
   SBOrderType,
-  SupportedCoinType,
-  SupportedWalletCurrenciesType,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
@@ -149,16 +146,7 @@ const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
-    .getOrElse({
-      ALGO: { colorCode: 'algo' } as SupportedCoinType,
-      BTC: { colorCode: 'btc' } as SupportedCoinType,
-      BCH: { colorCode: 'bch' } as SupportedCoinType,
-      ETH: { colorCode: 'eth' } as SupportedCoinType,
-      PAX: { colorCode: 'pax' } as SupportedCoinType,
-      USDT: { colorCode: 'usdt' } as SupportedCoinType,
-      WDGLD: { colorCode: 'wdgld' } as SupportedCoinType,
-      XLM: { colorCode: 'xlm' } as SupportedCoinType
-    } as Omit<SupportedWalletCurrenciesType, keyof FiatTypeEnum>)
+    .getOrFail('Failed to load coin models')
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

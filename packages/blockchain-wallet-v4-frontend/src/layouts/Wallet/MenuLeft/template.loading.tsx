@@ -6,7 +6,7 @@ import {
   SkeletonCircle,
   SkeletonRectangle
 } from 'blockchain-info-components'
-import { MenuItem, Wrapper } from 'components/MenuLeft'
+import { MenuItem, Wrapper } from 'layouts/Wallet/components'
 
 import { Container } from './template.success'
 

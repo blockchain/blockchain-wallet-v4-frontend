@@ -1,8 +1,10 @@
+import { TimeRange } from 'blockchain-wallet-v4/src/types'
+
 import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   coin: 'BTC',
-  time: 'all'
+  time: TimeRange.ALL
 }
 
 export function priceChartReducer(state = INITIAL_STATE, action) {

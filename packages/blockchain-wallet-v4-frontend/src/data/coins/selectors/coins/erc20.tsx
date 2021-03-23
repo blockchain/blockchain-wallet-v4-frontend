@@ -15,6 +15,13 @@ import { getTradingBalance } from '../'
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = coin => {
   switch (coin) {
+    case 'AAVE':
+      return (
+        <FormattedMessage
+          id='coins.aave.intro'
+          defaultMessage='Aave is a decentralized finance protocol that allows people to lend and borrow crypto.'
+        />
+      )
     case 'PAX':
     case 'USDD':
     case 'USD-D':
@@ -36,6 +43,13 @@ export const getTransactionPageHeaderText = coin => {
         <FormattedMessage
           id='coins.wdgld.intro'
           defaultMessage='Wrapped Digital Gold (wDGLD) is a gold-backed token built with the power and flexibility of Ethereum.'
+        />
+      )
+    case 'YFI':
+      return (
+        <FormattedMessage
+          id='coins.yfi.intro'
+          defaultMessage='Yearn.Finance (YFI) is a portal to DeFi and yield-generating products in the Ethereum ecosystem.'
         />
       )
     default:

@@ -16,6 +16,7 @@ import * as ws from './middleware/webSocket/coins/actions'
 import * as modals from './modals/actions'
 import * as modules from './modules/actions'
 import * as preferences from './preferences/actions'
+import * as prices from './prices/actions'
 import * as session from './session/actions'
 import * as wallet from './wallet/actions'
 import * as wizard from './wizard/actions'
@@ -35,6 +36,7 @@ export {
   modals,
   modules,
   preferences,
+  prices,
   router,
   session,
   wallet,

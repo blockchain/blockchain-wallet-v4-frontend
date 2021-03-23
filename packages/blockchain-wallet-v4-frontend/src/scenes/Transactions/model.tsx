@@ -23,9 +23,9 @@ const PriceChangeColoredText = styled.span<{
   font-weight: 600;
   color: ${props =>
     props.change.movement === 'down'
-      ? props.theme.red500
+      ? props.theme.red600
       : props.change.movement === 'up'
-      ? props.theme.green400
+      ? props.theme.green600
       : props.theme.grey600};
 `
 

@@ -95,7 +95,7 @@ function TransactionList(props: Props): ReactElement | null {
         </TableHeader>
         {txList.map((tx: InterestTransactionType) => {
           const { amount, extraAttributes, id, insertedAt, state, type } = tx
-          const { coinTicker, colorCode, displayName } = supportedCoins[
+          const { coinCode, coinTicker, displayName } = supportedCoins[
             amount.symbol
           ]
           const isCustodial =
@@ -105,10 +105,10 @@ function TransactionList(props: Props): ReactElement | null {
               <InterestTableCell width='20%'>
                 {type === 'WITHDRAWAL' ? (
                   <>
-                    <IconBackground color={`${colorCode}-light`}>
+                    <IconBackground color={coinCode}>
                       <Icon
                         name='arrow-up'
-                        color={colorCode}
+                        color={coinCode}
                         size='20px'
                         weight={600}
                         data-e2e={id}
@@ -142,10 +142,10 @@ function TransactionList(props: Props): ReactElement | null {
                   </>
                 ) : type === 'DEPOSIT' ? (
                   <>
-                    <IconBackground color={`${colorCode}-light`}>
+                    <IconBackground color={coinCode}>
                       <Icon
                         name='arrow-down'
-                        color={colorCode}
+                        color={coinCode}
                         size='20px'
                         weight={600}
                       />
@@ -179,7 +179,7 @@ function TransactionList(props: Props): ReactElement | null {
                   </>
                 ) : (
                   <>
-                    <Icon name='percentage' color={colorCode} size='32px' />
+                    <Icon name='percentage' color={coinCode} size='32px' />
                     <Value data-e2e='interestEarnedTx'>
                       {coinTicker} Interest Earned
                     </Value>

@@ -1,10 +1,13 @@
+import { keys, map } from 'ramda'
+
 import { Remote } from 'blockchain-wallet-v4/src'
+import { FiatCurrencies } from 'blockchain-wallet-v4/src/exchange/currencies'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import {
   CoinType,
-  PriceChangeTimeRangeType,
   RatesType,
   RemoteDataType,
+  TimeRange,
   WalletCurrencyType
 } from 'core/types'
 import { RootState } from 'data/rootReducer'
@@ -32,7 +35,7 @@ export const verifyEmailToken = (state: RootState) =>
 
 export const getPriceChange = (
   coin: CoinType,
-  range: PriceChangeTimeRangeType,
+  range: TimeRange,
   state: RootState
 ) => state.dataPath.misc.price_change[range][coin]
 
@@ -48,6 +51,8 @@ export const getRatesSelector = (
       return selectors.data.btc.getRates(state)
     case 'BCH':
       return selectors.data.bch.getRates(state)
+    case 'DOT':
+      return selectors.data.dot.getRates(state)
     case 'ETH':
       return selectors.data.eth.getRates(state)
     case 'XLM':
@@ -60,7 +65,51 @@ export const getRatesSelector = (
       return selectors.data.eth.getErc20Rates(state, 'wdgld')
     case 'PAX':
       return selectors.data.eth.getErc20Rates(state, 'pax')
+    case 'AAVE':
+      return selectors.data.eth.getErc20Rates(state, 'aave')
+    case 'YFI':
+      return selectors.data.eth.getErc20Rates(state, 'yfi')
     default:
       return Remote.Failure(INVALID_COIN_TYPE)
+  }
+}
+
+// @ts-ignore
+const missingRatesFallback = map(
+  fiat => ({
+    [fiat]: {
+      '15m': 0,
+      buy: 0,
+      last: 0,
+      sell: 0,
+      symbol: fiat
+    }
+  }),
+  keys(FiatCurrencies)
+) as RatesType
+
+export const getAllCoinRatesSelector = (state): any => {
+  return {
+    AAVE: selectors.data.eth
+      .getErc20Rates(state, 'aave')
+      .getOrElse(missingRatesFallback),
+    ALGO: selectors.data.algo.getRates(state).getOrElse(missingRatesFallback),
+    BCH: selectors.data.bch.getRates(state).getOrElse(missingRatesFallback),
+    BTC: selectors.data.btc.getRates(state).getOrElse(missingRatesFallback),
+    DOT: selectors.data.dot.getRates(state).getOrElse(missingRatesFallback),
+    ETH: selectors.data.eth.getRates(state).getOrElse(missingRatesFallback),
+    PAX: selectors.data.eth
+      .getErc20Rates(state, 'pax')
+      .getOrElse(missingRatesFallback),
+    USDT: selectors.data.eth
+      .getErc20Rates(state, 'usdt')
+      .getOrElse(missingRatesFallback),
+    XLM: selectors.data.xlm.getRates(state).getOrElse(missingRatesFallback),
+    WDGLD: selectors.data.eth
+      .getErc20Rates(state, 'wdgld')
+      .getOrElse(missingRatesFallback),
+    YFI: selectors.data.eth
+      .getErc20Rates(state, 'yfi')
+      .getOrElse(missingRatesFallback)
   }
 }

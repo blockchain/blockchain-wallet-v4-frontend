@@ -47,6 +47,7 @@ const Interest = React.lazy(() => import('./Interest'))
 const InterestHistory = React.lazy(() => import('./InterestHistory'))
 const Lockbox = React.lazy(() => import('./Lockbox'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
+const Prices = React.lazy(() => import('./Prices'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
@@ -131,21 +132,26 @@ class App extends React.PureComponent<Props> {
                         path='/settings/preferences'
                         component={Preferences}
                       />
+                      <WalletLayout path='/prices' component={Prices} />
                       {values(
-                        map(
-                          coin =>
-                            coin.txListAppRoute &&
-                            coin.invited && (
+                        map(coinModel => {
+                          const coin = coinModel.coinCode
+                          const isFiat =
+                            coin === 'USD' || coin === 'EUR' || coin === 'GBP'
+                          return (
+                            coinModel.txListAppRoute &&
+                            coinModel.invited && (
                               <WalletLayout
-                                path={coin.txListAppRoute}
+                                path={coinModel.txListAppRoute}
                                 component={Transactions}
-                                coin={coin.coinCode}
-                                isCoinErc20={has('contractAddress', coin)}
-                                key={coin.coinCode}
+                                coin={coin}
+                                isCoinErc20={has('contractAddress', coinModel)}
+                                isFiat={isFiat}
+                                key={coin}
                               />
-                            ),
-                          this.props.supportedCoins
-                        )
+                            )
+                          )
+                        }, this.props.supportedCoins)
                       )}
                       {isAuthenticated ? (
                         <Redirect to='/home' />

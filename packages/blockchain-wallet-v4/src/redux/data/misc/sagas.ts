@@ -3,7 +3,11 @@ import moment from 'moment'
 import readBlob from 'read-blob'
 import { call, put, select } from 'redux-saga/effects'
 
-import { FiatTypeEnum, PriceDiffType } from 'blockchain-wallet-v4/src/types'
+import {
+  FiatTypeEnum,
+  PriceDiffType,
+  TimeRange
+} from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { APIType } from 'core/network/api'
 
@@ -57,7 +61,9 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchPriceChangeLoading(base, range))
 
       const time =
-        range === 'all' ? moment.unix(start[base]) : moment().subtract(1, range)
+        range === TimeRange.ALL
+          ? moment.unix(start[base])
+          : moment().subtract(1, range)
 
       const previous: ReturnType<typeof api.getPriceIndex> = yield call(
         api.getPriceIndex,

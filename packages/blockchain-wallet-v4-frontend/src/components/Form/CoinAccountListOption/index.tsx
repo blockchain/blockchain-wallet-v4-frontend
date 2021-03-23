@@ -94,8 +94,8 @@ const CoinAccountListOption: React.FC<Props> = props => {
     >
       <FlexStartRow>
         <Icon
-          name={coinModel.icons.circleFilled}
-          color={coinModel.colorCode}
+          name={coinModel.coinCode}
+          color={coinModel.coinCode}
           size='32px'
           style={{ marginRight: '12px' }}
         />

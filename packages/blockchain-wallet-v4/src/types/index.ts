@@ -48,14 +48,17 @@ export {
 }
 
 export enum CoinTypeEnum {
-  BTC,
-  ETH,
-  BCH,
-  XLM,
+  AAVE,
   ALGO,
+  BCH,
+  BTC,
+  DOT,
+  ETH,
   PAX,
   USDT,
-  WDGLD
+  WDGLD,
+  XLM,
+  YFI
 }
 export enum FiatTypeEnum {
   EUR,
@@ -86,16 +89,21 @@ export enum WalletFiatEnum {
   GBP,
   USD
 }
+
 export const WalletCurrencyEnum = {
   ...CoinTypeEnum,
   ...WalletFiatEnum
 }
 export type CoinType = keyof typeof CoinTypeEnum
+
 export type Erc20CoinType = keyof Erc20CurrenciesType
+
 // All Fiats
 export type FiatType = keyof FiatCurrenciesType
+
 // Custodial Fiats
 export type WalletFiatType = keyof typeof WalletFiatEnum
+
 // Supported for transactions/balances
 export type WalletCurrencyType = CoinType | WalletFiatType
 

@@ -120,6 +120,8 @@ export default ({ api, coreSagas }) => {
     yield put(actions.core.data.eth.fetchErc20Data('pax'))
     yield put(actions.core.data.eth.fetchErc20Data('usdt'))
     yield put(actions.core.data.eth.fetchErc20Data('wdgld'))
+    yield put(actions.core.data.eth.fetchErc20Data('aave'))
+    yield put(actions.core.data.eth.fetchErc20Data('yfi'))
   }
 
   const loginRoutineSaga = function * (mobileLogin, firstLogin) {

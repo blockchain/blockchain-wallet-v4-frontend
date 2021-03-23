@@ -5,6 +5,7 @@ import { SkeletonRectangle } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   margin-top: 12px;
+  padding-left: 24px;
 `
 
 const Loading = () => {
