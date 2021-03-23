@@ -176,21 +176,19 @@ export const ascentDraw = (targets, feePerByte, coins, changeAddress) =>
 // TODO: SEGWIT  we need to account for uncompressed pubkeys!
 export const IO_TYPES = {
   inputs: {
-    'MULTISIG-P2SH': 49, // "legacy"
-    'MULTISIG-P2WSH': 42.5, // native segwit
-    'MULTISIG-P2SH-P2WSH': 47.5, // wrapped segwit
     P2PKH: 148, // legacy
     P2WPKH: 67.75, // native segwit
-    'P2SH-P2WPKH': 91 // wrapped segwit
+    'P2SH-P2WPKH': 91, // wrapped segwit
+    'MULTISIG-P2SH': 49, // "legacy"
+    'MULTISIG-P2WSH': 42.5, // native segwit
+    'MULTISIG-P2SH-P2WSH': 77.5 // wrapped segwit
   },
   outputs: {
-    P2SH: 32,
-    // P2SH-P2WPKH
-    // this is a hack and technically this is just P2SH
-    'P2SH-P2WPKH': 32,
     P2PKH: 34,
     P2WPKH: 31,
-    P2WSH: 43
+    P2WSH: 43,
+    P2SH: 32,
+    'P2SH-P2WPKH': 32 // this is a hack and technically this is just P2SH
   }
 }
 
@@ -230,8 +228,8 @@ export const getByteCount = (inputs, outputs) => {
       })
 
       vBytesTotal += IO_TYPES.inputs[newKey] * inputs[key]
-      var multiplyer = newKey === 'MULTISIG-P2SH' ? 4 : 1
-      vBytesTotal += (73 * mAndN[0] + 34 * mAndN[1]) * multiplyer * inputs[key]
+      var multiplier = newKey === 'MULTISIG-P2SH' ? 4 : 1
+      vBytesTotal += (73 * mAndN[0] + 34 * mAndN[1]) * multiplier * inputs[key]
     } else {
       vBytesTotal += IO_TYPES.inputs[key] * inputs[key]
     }

@@ -86,6 +86,12 @@ describe('Coin Selection', () => {
           337
         )
       })
+      it('should return the right transaction size (1 P2PKH + P2WPKH, 1 P2PKH)', () => {
+        // 10.75 + 67.75 + 148 + 34 = 260.5
+        expect(cs.transactionBytes([p2pkhIn, p2wpkhIn], [p2pkhOut])).toEqual(
+          260.5
+        )
+      })
       it('should return the right transaction size (2 P2WPKH, 1 P2PKH)', () => {
         // 10.75 + 67.75*2 + 34 = 180.25
         expect(cs.transactionBytes([p2wpkhIn, p2wpkhIn], [p2pkhOut])).toEqual(
@@ -96,6 +102,12 @@ describe('Coin Selection', () => {
         // 10.75 + 67.75*2 + 31 = 177.25
         expect(cs.transactionBytes([p2wpkhIn, p2wpkhIn], [p2wpkhOut])).toEqual(
           177.25
+        )
+      })
+      it('should return the right transaction size (1 P2PKH + 1 P2WPKH, 1 P2WPKH)', () => {
+        // 10.75 + 67.75 + 148 + 31 = 177.25
+        expect(cs.transactionBytes([p2pkhIn, p2wpkhIn], [p2wpkhOut])).toEqual(
+          257.5
         )
       })
     })
@@ -113,11 +125,23 @@ describe('Coin Selection', () => {
           cs.transactionBytes([p2pkhIn, p2pkhIn], [p2wpkhOut, p2wpkhOut])
         ).toEqual(368)
       })
+      it('should return the right transaction size (1 P2PKH + 1 P2WPKH, 2 P2PKH)', () => {
+        // 10.75 + 148 + 67.75 + 34*2 = 294.5
+        expect(
+          cs.transactionBytes([p2pkhIn, p2wpkhIn], [p2pkhOut, p2pkhOut])
+        ).toEqual(294.5)
+      })
       it('should return the right transaction size (2 P2PKH, 1 P2PKH + 1 P2WPKH)', () => {
         // 10 + 148*2 + 31 + 34 = 371
         expect(
           cs.transactionBytes([p2pkhIn, p2pkhIn], [p2pkhOut, p2wpkhOut])
         ).toEqual(371)
+      })
+      it('should return the right transaction size (1 P2PKH + 1 P2PWKH, 1 P2PKH + 1 P2WPKH)', () => {
+        // 10.75 + 67.75 + 148 + 31 + 34 = 371
+        expect(
+          cs.transactionBytes([p2pkhIn, p2wpkhIn], [p2pkhOut, p2wpkhOut])
+        ).toEqual(291.5)
       })
       it('should return the right transaction size (2 P2WPKH, 2 P2PKH)', () => {
         // 10.75 + 67.75*2 + 34*2 = 214.25
@@ -137,8 +161,15 @@ describe('Coin Selection', () => {
           cs.transactionBytes([p2wpkhIn, p2wpkhIn], [p2pkhOut, p2wpkhOut])
         ).toEqual(211.25)
       })
+      it('should return the right transaction size (1 P2PKH + 1 P2WPKH, 2 P2WPKH)', () => {
+        // 10.75 + 67.75 + 148 + 31*2 = 288.5
+        expect(
+          cs.transactionBytes([p2pkhIn, p2wpkhIn], [p2wpkhOut, p2wpkhOut])
+        ).toEqual(288.5)
+      })
     })
   })
+
   describe('effective Balances', () => {
     it('should return the right effective max balance with no value and empty valued outputs', () => {
       const inputs = map(Coin.fromJS, [
@@ -212,6 +243,7 @@ describe('Coin Selection', () => {
       ])
     })
   })
+
   describe('selectAll', () => {
     it('should return the right selection with inputs', () => {
       const inputs = map(Coin.fromJS, [
@@ -241,6 +273,7 @@ describe('Coin Selection', () => {
       expect(selection.outputs.map(x => x.value)).toEqual([0])
     })
   })
+
   describe('descentDraw', () => {
     it('should return the right selection', () => {
       const inputs = map(Coin.fromJS, [
@@ -266,6 +299,7 @@ describe('Coin Selection', () => {
       expect(selection.outputs.map(x => x.value)).toEqual([100000, 199430])
     })
   })
+
   describe('ascentDraw', () => {
     it('should return the right selection', () => {
       const inputs = map(Coin.fromJS, [
@@ -290,6 +324,7 @@ describe('Coin Selection', () => {
       expect(selection.outputs.map(x => x.value)).toEqual([100000, 199430])
     })
   })
+
   describe('singleRandomDraw', () => {
     it('should return the right selection', () => {
       const seed = 'test-seed'
