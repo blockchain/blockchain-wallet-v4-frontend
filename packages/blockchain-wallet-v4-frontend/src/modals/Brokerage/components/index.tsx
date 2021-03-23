@@ -115,9 +115,12 @@ const BankSearchInput = styled.input`
   }
 `
 
-const SimpleBankRow = (props: { institution: OBInstitution }) => {
+const SimpleBankRow = (props: {
+  institution: OBInstitution,
+  onClick: () => void
+}) => {
   return (
-    <BankRow>
+    <BankRow onClick={props.onClick}>
       <div>
         <BankIcon url={props.institution.media[0].source} />
         <Text>{props.institution.name}</Text>
@@ -129,7 +132,7 @@ const SimpleBankRow = (props: { institution: OBInstitution }) => {
         color='grey600'
         role='button'
         style={{ marginRight: '24px', transform: 'rotate(0.5turn)' }}
-        onClick={() => {}}
+        onClick={props.onClick}
       />
     </BankRow>
   )

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { OBInstitution } from 'data/types'
+import { AddBankStepType, OBInstitution } from 'data/types'
 
 import {
   BankSearchInput,
@@ -9,9 +9,9 @@ import {
   ModalNavWithBackArrow,
   SimpleBankRow
 } from '../../../components'
-import { SuccessStateType as _SS } from '.'
+import { LinkDispatchPropsType as _LD,SuccessStateType as _SS } from '.'
 
-type OwnProps = _SS
+type OwnProps = _SS & _LD
 
 const Success = (props: OwnProps) => {
   const [banks, setBanks] = useState<OBInstitution[]>(
@@ -40,7 +40,17 @@ const Success = (props: OwnProps) => {
         type='text'
       />
       {banks.map(bank => {
-        return <SimpleBankRow key={bank.id} institution={bank} />
+        return (
+          <SimpleBankRow
+            key={bank.id}
+            institution={bank}
+            onClick={() =>
+              props.brokerageActions.setAddBankStep({
+                addBankStep: AddBankStepType.ADD_BANK_AUTHORIZE
+              })
+            }
+          />
+        )
       })}
     </BankWrapper>
   )

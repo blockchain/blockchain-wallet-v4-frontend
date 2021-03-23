@@ -95,7 +95,10 @@ export type BrokerageDWStepPayload =
 
 export type BrokerageAddBankStepPayload =
   | {
-      addBankStep: AddBankStepType.ADD_BANK | AddBankStepType.ADD_BANK_HANDLER
+      addBankStep:
+        | AddBankStepType.ADD_BANK
+        | AddBankStepType.ADD_BANK_HANDLER
+        | AddBankStepType.ADD_BANK_AUTHORIZE
     }
   | {
       addBankStep: AddBankStepType.ADD_BANK_STATUS
