@@ -91,15 +91,15 @@ export const fromJS = (o, network) => {
 export const empty = new Coin({ value: 0 })
 
 export const inputBytes = input => {
-  return Math.ceil(IO_TYPES.inputs[input.type ? input.type() : 'P2PKH'] / 4)
+  return IO_TYPES.inputs[input.type ? input.type() : 'P2PKH']
 }
 
 export const outputBytes = output => {
-  return Math.ceil(IO_TYPES.outputs[output.type ? output.type() : 'P2PKH'] / 4)
+  return IO_TYPES.outputs[output.type ? output.type() : 'P2PKH']
 }
 
 export const effectiveValue = curry((feePerByte, coin) =>
-  clamp(0, Infinity, coin.value - feePerByte * inputBytes(coin))
+  clamp(0, Infinity, Math.ceil(coin.value - feePerByte * inputBytes(coin)))
 )
 
 export const bip69SortInputs = sort((inputA, inputB) =>

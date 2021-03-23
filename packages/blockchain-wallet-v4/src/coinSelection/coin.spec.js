@@ -53,18 +53,26 @@ describe('Coin Selection', () => {
     })
   })
   describe('coin byte sizes', () => {
-    it('should return the right input size', () => {
-      expect(Coin.inputBytes({})).toEqual(147)
-    })
-    it('should return the right output size', () => {
+    it('should return the right IO sizes for P2PKH', () => {
+      expect(Coin.inputBytes({})).toEqual(148)
       expect(Coin.outputBytes({})).toEqual(34)
+    })
+    it('should return the right IO sizes for P2WPKH', () => {
+      expect(Coin.inputBytes({ type: () => 'P2WPKH' })).toEqual(67.75)
+      expect(Coin.outputBytes({ type: () => 'P2WPKH' })).toEqual(31)
     })
   })
   describe('effective values', () => {
+    // value - feePerByte * input size
     it('should return the right coin value', () => {
-      expect(Coin.effectiveValue(55, Coin.fromJS({ value: 15000 }))).toEqual(
-        6915
-      )
+      const A = Coin.fromJS({ value: 15000 })
+      expect(Coin.effectiveValue(55, A)).toEqual(6860) // 15000 - 55 * 148 = 6860
+
+      const B = Coin.fromJS({
+        value: 15000,
+        address: 'bc1qxddx2wmn97swgznpkthv940ktg8ycxg0ygxxp9'
+      })
+      expect(Coin.effectiveValue(55, B)).toEqual(11274) // 15000 - 55 * 67.75 = 11273.75
     })
     it('should return zero coin value', () => {
       expect(Coin.effectiveValue(55000, Coin.fromJS({ value: 15000 }))).toEqual(
