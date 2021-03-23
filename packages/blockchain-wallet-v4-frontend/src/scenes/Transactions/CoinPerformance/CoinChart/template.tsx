@@ -1,8 +1,10 @@
-import React, { MouseEvent, TouchEvent, useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import useMeasure from 'react-use-measure'
 import { localPoint } from '@visx/event'
+import { EventType } from '@visx/event/lib/types'
+import { LinearGradient } from '@visx/gradient'
 import { scaleLinear, scaleTime } from '@visx/scale'
-import { Bar, LinePath } from '@visx/shape'
+import { AreaClosed, Bar, Line,LinePath } from '@visx/shape'
 import { defaultStyles, TooltipWithBounds, useTooltip } from '@visx/tooltip'
 import { bisector, extent, max, min } from 'd3-array'
 import { timeFormat } from 'd3-time-format'
@@ -46,7 +48,7 @@ const Chart = ({
   data: Data[]
 }) => {
   const [ref, { height, width }] = useMeasure()
-  const color = Color(coin.toLowerCase() as keyof DefaultTheme)
+  const color = Color(coin as keyof DefaultTheme)
 
   const {
     hideTooltip,
@@ -60,7 +62,7 @@ const Chart = ({
     () => ({
       ...defaultStyles,
       borderRadius: tooltipBorderRadius,
-      background: color,
+      background: Color('grey900'),
       color: 'white',
       fontFamily:
         '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif '
@@ -88,7 +90,7 @@ const Chart = ({
   )
 
   const handleTooltip = useCallback(
-    (event: TouchEvent<SVGRectElement> | MouseEvent<SVGRectElement>) => {
+    (event: EventType) => {
       let { x } = localPoint(event) || { x: 0 }
       const x0 = xScale.invert(x)
       const index = bisectDate(data, x0, 1)
@@ -115,6 +117,23 @@ const Chart = ({
   return (
     <Wrapper ref={ref}>
       <svg width={width} height={height}>
+        <LinearGradient
+          id={color}
+          fromOpacity={0.5}
+          toOpacity={0}
+          from={color}
+          to='white'
+        />
+
+        <AreaClosed<Data>
+          data={data}
+          fill={`url(#${color})`}
+          yScale={yScale}
+          x={d => xScale(getYValue(d)) ?? 0}
+          y={d => yScale(getXValue(d)) ?? 0}
+          strokeWidth={0}
+        />
+
         <LinePath<Data>
           data={data}
           x={d => xScale(getYValue(d)) ?? 0}
@@ -122,6 +141,7 @@ const Chart = ({
           strokeWidth={strokeWidth}
           stroke={color}
         />
+
         <Bar
           x={0}
           y={0}
@@ -136,6 +156,15 @@ const Chart = ({
 
         {tooltipData ? (
           <g>
+            <Line
+              from={{ x: tooltipLeft, y: 0 }}
+              to={{ x: tooltipLeft, y: innerHeight }}
+              stroke={color}
+              opacity={0.2}
+              strokeWidth={strokeWidth}
+              pointerEvents='none'
+              strokeDasharray='7,5'
+            />
             <circle
               cx={tooltipLeft}
               cy={tooltipTop + 1}

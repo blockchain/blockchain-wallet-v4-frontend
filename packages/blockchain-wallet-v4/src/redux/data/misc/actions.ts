@@ -3,7 +3,8 @@ import {
   FiatType,
   MiscActionTypes,
   PriceMovementDirType,
-  TimeRange} from 'core/types'
+  TimeRange
+} from 'core/types'
 
 import * as AT from './actionTypes'
 

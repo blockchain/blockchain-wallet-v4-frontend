@@ -1,8 +1,10 @@
-import React, { MouseEvent, TouchEvent, useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import useMeasure from 'react-use-measure'
 import { localPoint } from '@visx/event'
+import { EventType } from '@visx/event/lib/types'
+import { LinearGradient } from '@visx/gradient'
 import { scaleLinear, scaleTime } from '@visx/scale'
-import { Bar, LinePath } from '@visx/shape'
+import { AreaClosed,Bar, Line, LinePath } from '@visx/shape'
 import { defaultStyles, TooltipWithBounds, useTooltip } from '@visx/tooltip'
 import { bisector, extent, max, min } from 'd3-array'
 import { timeFormat } from 'd3-time-format'
@@ -28,6 +30,8 @@ type TooltipData = Data
 
 const circleSize = 4
 
+const circleStroke = 2
+
 const tooltipBorderRadius = 4
 
 const Wrapper = styled.div`
@@ -38,9 +42,7 @@ const Wrapper = styled.div`
 
 const Chart = ({ coin, currency, data }: OwnProps) => {
   const [ref, { height, width }] = useMeasure()
-
-  const color = Color(coin.toLowerCase() as keyof DefaultTheme)
-
+  const color = Color(coin as keyof DefaultTheme)
   const {
     hideTooltip,
     showTooltip,
@@ -53,7 +55,7 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
     () => ({
       ...defaultStyles,
       borderRadius: tooltipBorderRadius,
-      background: color,
+      background: Color('grey900'),
       color: 'white',
       fontFamily:
         '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif '
@@ -74,14 +76,13 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
     () =>
       scaleLinear({
         range: [height, 0],
-        domain: [min(data, getXValue), max(data, getXValue) || 0],
-        nice: true
+        domain: [min(data, getXValue), max(data, getXValue) || 0]
       }),
     [height, data]
   )
 
   const handleTooltip = useCallback(
-    (event: TouchEvent<SVGRectElement> | MouseEvent<SVGRectElement>) => {
+    (event: EventType) => {
       let { x } = localPoint(event) || { x: 0 }
       const x0 = xScale.invert(x)
       const index = bisectDate(data, x0, 1)
@@ -107,6 +108,23 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
   return (
     <Wrapper ref={ref}>
       <svg width={width} height={height}>
+        <LinearGradient
+          id={color}
+          fromOpacity={0.5}
+          toOpacity={0}
+          from={color}
+          to='white'
+        />
+
+        <AreaClosed<Data>
+          data={data}
+          fill={`url(#${color})`}
+          yScale={yScale}
+          x={d => xScale(getYValue(d)) ?? 0}
+          y={d => yScale(getXValue(d)) ?? 0}
+          strokeWidth={0}
+        />
+
         <LinePath<Data>
           data={data}
           x={d => xScale(getYValue(d)) ?? 0}
@@ -114,6 +132,7 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
           strokeWidth={strokeWidth}
           stroke={color}
         />
+
         <Bar
           x={0}
           y={0}
@@ -128,13 +147,22 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
 
         {tooltipData ? (
           <g>
+            <Line
+              from={{ x: tooltipLeft, y: 0 }}
+              to={{ x: tooltipLeft, y: innerHeight }}
+              stroke={color}
+              opacity={0.2}
+              strokeWidth={strokeWidth}
+              pointerEvents='none'
+              strokeDasharray='7,5'
+            />
             <circle
               cx={tooltipLeft}
               cy={tooltipTop + 1}
               r={circleSize}
-              fill={color}
+              fill='black'
               fillOpacity={0.1}
-              stroke={color}
+              stroke='black'
               strokeOpacity={0.1}
               strokeWidth={strokeWidth}
               pointerEvents='none'
@@ -145,7 +173,7 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
               r={circleSize}
               fill={color}
               stroke='white'
-              strokeWidth={strokeWidth}
+              strokeWidth={circleStroke}
               pointerEvents='none'
             />
           </g>

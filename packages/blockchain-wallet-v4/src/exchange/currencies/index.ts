@@ -1,3 +1,4 @@
+import AAVE from './AAVE'
 import ALGO from './ALGO'
 import AUD from './AUD'
 import BCH from './BCH'
@@ -8,6 +9,7 @@ import CHF from './CHF'
 import CLP from './CLP'
 import CNY from './CNY'
 import DKK from './DKK'
+import DOT from './DOT'
 import ETH from './ETH'
 import EUR from './EUR'
 import GBP from './GBP'
@@ -29,8 +31,9 @@ import USD from './USD'
 import USDT from './USDT'
 import WDGLD from './WDGLD'
 import XLM from './XLM'
+import YFI from './YFI'
 
-const FiatCurrencies = {
+export const FiatCurrencies = {
   EUR,
   USD,
   AUD,
@@ -57,20 +60,25 @@ const FiatCurrencies = {
 }
 
 const CryptoCurrencies = {
+  AAVE,
   ALGO,
   BCH,
   BTC,
+  DOT,
   ETH,
   PAX,
-  XLM,
   USDT,
-  WDGLD
+  WDGLD,
+  XLM,
+  YFI
 }
 
 const ERC20Currencies = {
+  AAVE,
   PAX,
   USDT,
-  WDGLD
+  WDGLD,
+  YFI
 }
 
 const Currencies = {

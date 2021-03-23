@@ -21,13 +21,7 @@
           },
           "coinCode": "EUR",
           "coinTicker": "EUR",
-          "colorCode": "fiat",
           "displayName": "Euros",
-          "icons": {
-            "default": "eur",
-            "circle": "eur",
-            "circleFilled": "eur"
-          },
           "learnMoreLink": "",
           "minConfirmations": 0,
           "txListAppRoute": "/eur/transactions"
@@ -41,13 +35,7 @@
           },
           "coinCode": "GBP",
           "coinTicker": "GBP",
-          "colorCode": "fiat",
           "displayName": "Pounds",
-          "icons": {
-            "default": "gbp",
-            "circle": "gbp",
-            "circleFilled": "gbp"
-          },
           "learnMoreLink": "",
           "minConfirmations": 0,
           "txListAppRoute": "/gbp/transactions"
@@ -61,13 +49,7 @@
           },
           "coinCode": "USD",
           "coinTicker": "USD",
-          "colorCode": "fiat",
-          "displayName": "U.S Dollars",
-          "icons": {
-            "default": "usd",
-            "circle": "usd",
-            "circleFilled": "usd"
-          },
+          "displayName": "U.S. Dollars",
           "learnMoreLink": "",
           "minConfirmations": 0,
           "txListAppRoute": "/usd/transactions"
@@ -83,17 +65,11 @@
           },
           "coinCode": "BTC",
           "coinTicker": "BTC",
-          "colorCode": "btc",
           "displayName": "Bitcoin",
           "config": {
             "network": "bitcoin"
           },
           "hasLockboxSupport": true,
-          "icons": {
-            "default": "btc",
-            "circle": "btc-circle",
-            "circleFilled": "btc-circle-filled"
-          },
           "learnMoreLink": "https://www.blockchain.com/learning-portal/bitcoin-faq",
           "minConfirmations": 3,
           "txExplorerBaseUrl": "https://blockchain.com/btc/tx",
@@ -110,17 +86,11 @@
           },
           "coinCode": "ETH",
           "coinTicker": "ETH",
-          "colorCode": "eth",
           "displayName": "Ether",
           "config": {
             "network": 1
           },
           "hasLockboxSupport": true,
-          "icons": {
-            "default": "eth",
-            "circle": "eth-circle",
-            "circleFilled": "eth-circle-filled"
-          },
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/sections/360000003163-Ethereum-FAQ",
           "lastTxFuse": 600,
           "minConfirmations": 12,
@@ -138,15 +108,9 @@
           },
           "coinCode": "BCH",
           "coinTicker": "BCH",
-          "colorCode": "bch",
           "displayName": "Bitcoin Cash",
           "config": {},
           "hasLockboxSupport": true,
-          "icons": {
-            "default": "bch",
-            "circle": "bch-circle",
-            "circleFilled": "bch-circle-filled"
-          },
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/sections/115001633403-Bitcoin-Cash-FAQ",
           "minConfirmations": 3,
           "txExplorerBaseUrl": "https://blockchain.com/bch/tx",
@@ -163,13 +127,9 @@
           },
           "coinCode": "BSV",
           "coinTicker": "BSV",
-          "colorCode": "bsv",
           "displayName": "Bitcoin SV",
           "config": {},
           "hasLockboxSupport": false,
-          "icons": {
-            "default": "bsv"
-          },
           "minConfirmations": 3,
           "txExplorerBaseUrl": "https://blockchair.com/bitcoin-sv/transaction"
         },
@@ -189,7 +149,6 @@
           "campaign": "sunriver",
           "coinCode": "XLM",
           "coinTicker": "XLM",
-          "colorCode": "xlm",
           "config": {
             "network": "public",
             "sendTimeOutSeconds": 600
@@ -233,11 +192,6 @@
             "GBQ6RTEHEHXFPKSWCIM4KSVQXBANLFMVV6FJIZDLTF3ZOGFHTBDZUYDD"
           ],
           "hasLockboxSupport": true,
-          "icons": {
-            "default": "xlm-circle-filled",
-            "circle": "xlm-circle-filled",
-            "circleFilled": "xlm-circle-filled"
-          },
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360019105171-What-is-Stellar-",
           "minConfirmations": 1,
           "txExplorerBaseUrl": "https://stellarchain.io/tx",
@@ -254,14 +208,8 @@
           },
           "coinCode": "ALGO",
           "coinTicker": "ALGO",
-          "colorCode": "algo",
           "displayName": "Algorand",
           "hasLockboxSupport": false,
-          "icons": {
-            "default": "algo",
-            "circle": "algo",
-            "circleFilled": "algo"
-          },
           "learnMoreLink": "",
           "minConfirmations": 3,
           "txExplorerBaseUrl": "",
@@ -278,15 +226,9 @@
           },
           "coinCode": "PAX",
           "coinTicker": "USD-D",
-          "colorCode": "usd-d",
           "contractAddress": "0x8e870d67f660d95d5be530380d0ec0bd388289e1",
           "displayName": "USD Digital",
           "hasLockboxSupport": false,
-          "icons": {
-            "default": "usd-d",
-            "circle": "usd-d",
-            "circleFilled": "usd-d"
-          },
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Digital-previously-USD-PAX-FAQ",
           "minConfirmations": 12,
           "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
@@ -303,15 +245,9 @@
           },
           "coinCode": "USDT",
           "coinTicker": "USDT",
-          "colorCode": "usdt",
           "contractAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
           "displayName": "Tether",
           "hasLockboxSupport": false,
-          "icons": {
-            "default": "usdt",
-            "circle": "usdt",
-            "circleFilled": "usdt"
-          },
           "learnMoreLink": " https://support.blockchain.com/hc/en-us/articles/360044952032",
           "minConfirmations": 12,
           "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
@@ -328,19 +264,69 @@
           },
           "coinCode": "WDGLD",
           "coinTicker": "WDGLD",
-          "colorCode": "wdgld",
           "contractAddress": "0x123151402076fc819B7564510989e475c9cD93CA",
           "displayName": "Wrapped-DGLD",
           "hasLockboxSupport": false,
-          "icons": {
-            "default": "wdgld",
-            "circle": "wdgld",
-            "circleFilled": "wdgld"
-          },
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360052952171",
           "minConfirmations": 12,
           "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
           "txListAppRoute": "/wdgld/transactions"
+        },
+        "AAVE": {
+          "availability": {
+            "send": true,
+            "request": true,
+            "lockbox": false,
+            "exchangeTo": true,
+            "exchangeFrom": true,
+            "syncToPit": true
+          },
+          "coinCode": "AAVE",
+          "coinTicker": "AAVE",
+          "contractAddress": "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
+          "displayName": "Aave",
+          "hasLockboxSupport": false,
+          "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360044952032",
+          "minConfirmations": 12,
+          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
+          "txListAppRoute": "/aave/transactions"
+        },
+        "YFI": {
+          "availability": {
+            "send": true,
+            "request": true,
+            "lockbox": false,
+            "exchangeTo": true,
+            "exchangeFrom": true,
+            "syncToPit": true
+          },
+          "coinCode": "YFI",
+          "coinTicker": "YFI",
+          "contractAddress": "0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e",
+          "displayName": "Yearn Finance",
+          "hasLockboxSupport": false,
+          "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360044952032",
+          "minConfirmations": 12,
+          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
+          "txListAppRoute": "/yfi/transactions"
+        },
+        "DOT": {
+          "availability": {
+            "send": false,
+            "request": false,
+            "lockbox": false,
+            "exchangeTo": true,
+            "exchangeFrom": true,
+            "syncToPit": false
+          },
+          "coinCode": "DOT",
+          "coinTicker": "DOT",
+          "displayName": "Polkadot",
+          "hasLockboxSupport": false,
+          "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360044952032",
+          "minConfirmations": 20,
+          "txExplorerBaseUrl": "https://polkascan.io/polkadot",
+          "txListAppRoute": "/dot/transactions"
         }
       },
       "sift": {

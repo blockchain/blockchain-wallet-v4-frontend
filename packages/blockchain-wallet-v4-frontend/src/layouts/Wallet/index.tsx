@@ -44,6 +44,7 @@ type Props = ConnectedProps<typeof connector> & {
   computedMatch?: any
   exact?: boolean
   isCoinErc20?: boolean
+  isFiat?: boolean
   path: string
 }
 

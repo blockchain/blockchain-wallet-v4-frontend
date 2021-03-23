@@ -87,9 +87,11 @@ export const getBalanceSelector = (coin: CoinType) => {
       return getEthBalance
     case 'XLM':
       return getXlmBalance
+    case 'AAVE':
     case 'PAX':
     case 'USDT':
     case 'WDGLD':
+    case 'YFI':
       return getErc20Balance(toLower(coin))
     default:
       return Remote.Failure(INVALID_COIN_TYPE)

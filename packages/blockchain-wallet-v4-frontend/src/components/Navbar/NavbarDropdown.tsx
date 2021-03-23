@@ -1,7 +1,7 @@
 import { triangle } from 'polished'
 import styled from 'styled-components'
 
-import { MenuItem } from 'components/MenuLeft'
+import { MenuItem } from 'layouts/Wallet/components'
 import { media } from 'services/styles'
 
 export const DropdownMenu = styled.div`

@@ -58,7 +58,7 @@ const selectColor = (type, coin) => {
     case 'warn':
       return 'orange'
     default:
-      return propOr('blue600', 'colorCode', coin)
+      return propOr('blue600', 'coinCode', coin)
   }
 }
 
@@ -79,9 +79,7 @@ const Toast = props => {
     <Wrapper>
       <Container color={color}>
         <Content>
-          {coin && (
-            <CustomIcon name={coin.icons.circleFilled} color={coin.colorCode} />
-          )}
+          {coin && <CustomIcon name={coin.coinCode} color={coin.coinCode} />}
           {children}
         </Content>
         <CloseIcon

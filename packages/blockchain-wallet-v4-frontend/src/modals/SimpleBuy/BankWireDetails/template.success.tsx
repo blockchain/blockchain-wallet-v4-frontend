@@ -10,7 +10,6 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { AgentType } from 'blockchain-wallet-v4/src/types'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
@@ -134,11 +133,7 @@ const Success: React.FC<Props> = props => {
             </BackContainer>
           )}
 
-          <Icon
-            size='32px'
-            color='fiat'
-            name={props.account.currency.toLowerCase() as keyof IcoMoonType}
-          />
+          <Icon size='32px' color='USD' name={props.account.currency} />
           <InfoContainer>
             <TopText color='grey800' size='24px' weight={600}>
               {props.account.currency === 'USD' || props.addBank ? (

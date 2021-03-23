@@ -59,8 +59,6 @@ const Success: React.FC<Props> = props => {
   const fiat = props.fiat
   const coinType = props.supportedCoins[coin]
   const displayName = coinType.displayName
-  const icon = coinType.icons.circleFilled
-  const color = coinType.colorCode
 
   return (
     <CheckoutDisplayContainer
@@ -68,7 +66,9 @@ const Success: React.FC<Props> = props => {
       role='button'
       onClick={props.onClick}
     >
-      {props.onClick && <Icon size='32px' color={color} name={icon} />}
+      {props.onClick && (
+        <Icon size='32px' color={coinType.coinCode} name={coinType.coinCode} />
+      )}
       <Display canClick={!!props.onClick}>
         <Value style={{ marginTop: '0px' }}>{displayName}</Value>
         <DisplayTitle>
@@ -90,16 +90,16 @@ const Success: React.FC<Props> = props => {
         <>
           <Icon
             size='32px'
-            color={color}
-            name={icon}
+            color={coinType.coinCode}
+            name={coinType.coinCode}
             style={{ position: 'relative', left: '5px' }}
           />
           <PlusMinusIconWrapper>
-            <IconBackground color={`${color}-light`}>
+            <IconBackground color={coinType.coinCode}>
               <Icon
                 name={props.orderType === 'BUY' ? 'plus' : 'minus'}
                 size='24px'
-                color={color}
+                color={coinType.coinCode}
               />
             </IconBackground>
           </PlusMinusIconWrapper>

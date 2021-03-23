@@ -28,7 +28,10 @@ export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
       supportedCoins.WDGLD,
       supportedCoins.ALGO,
       supportedCoins.PAX,
-      supportedCoins.USDT
+      supportedCoins.USDT,
+      supportedCoins.AAVE,
+      supportedCoins.DOT,
+      supportedCoins.YFI
     ])
 
     return values(
