@@ -5,19 +5,138 @@ import * as cs from './index'
 
 describe('Coin Selection', () => {
   describe('byte sizes', () => {
-    it('should return the right transaction size (empty tx)', () => {
-      expect(cs.transactionBytes([], [])).toEqual(10)
+    const p2pkhIn = { type: () => 'P2PKH' }
+    const p2pkhOut = { type: () => 'P2PKH' }
+    const p2wpkhIn = { type: () => 'P2WPKH' }
+    const p2wpkhOut = { type: () => 'P2WPKH' }
 
-      // TODO
-      // const p2wpkhInputs = [{ type: () => 'P2WPKH' }]
-      // expect(cs.transactionBytes(p2wpkhInputs, [])).toEqual(10.5)
+    describe('0x0 transactions', () => {
+      it('should return the right transaction size (empty tx)', () => {
+        // No witness => 10 vbytes
+        expect(cs.transactionBytes([], [])).toEqual(10)
+      })
     })
-    it('should return the right transaction size (1 in 2 out tx)', () => {
-      expect(cs.transactionBytes([{}], [{}, {}])).toEqual(226)
 
-      // TODO
-      // const p2wpkhInputs = [{ type: () => 'P2WPKH' }]
-      // expect(cs.transactionBytes(p2wpkhInputs, [{}, {}])).toEqual(140.5)
+    describe('1x1 transactions', () => {
+      it('should return the right transaction size (1 P2PKH, 1 P2PKH)', () => {
+        // 10 + 148 + 34 = 192
+        expect(cs.transactionBytes([p2pkhIn], [p2pkhOut])).toEqual(192)
+      })
+      it('should return the right transaction size (1 P2PKH, 1 P2WPKH)', () => {
+        // 10 + 148 + 31 = 189
+        expect(cs.transactionBytes([p2pkhIn], [p2wpkhOut])).toEqual(189)
+      })
+      it('should return the right transaction size (1 P2WPKH, 1 P2PKH)', () => {
+        // 10.75 + 67.75 + 34 = 189
+        expect(cs.transactionBytes([p2wpkhIn], [p2pkhOut])).toEqual(112.5)
+      })
+      it('should return the right transaction size (1 P2WPKH, 1 P2WPKH)', () => {
+        // 10.75 + 67.75 + 31 = 109.5
+        expect(cs.transactionBytes([p2wpkhIn], [p2wpkhOut])).toEqual(109.5)
+      })
+    })
+
+    describe('1x2 transactions', () => {
+      it('should return the right transaction size (1 P2PKH, 2 P2PKH)', () => {
+        // 10 + 148 + 34*2 = 226
+        expect(cs.transactionBytes([p2pkhIn], [p2pkhOut, p2pkhOut])).toEqual(
+          226
+        )
+      })
+      it('should return the right transaction size (1 P2PKH, 2 P2WPKH)', () => {
+        // 10 + 148 + 31*2 = 220
+        expect(cs.transactionBytes([p2pkhIn], [p2wpkhOut, p2wpkhOut])).toEqual(
+          220
+        )
+      })
+      it('should return the right transaction size (1 P2PKH, 1 P2PKH + 1 P2WPKH)', () => {
+        // 10 + 148 + 31 + 34 = 223
+        expect(cs.transactionBytes([p2pkhIn], [p2pkhOut, p2wpkhOut])).toEqual(
+          223
+        )
+      })
+      it('should return the right transaction size (1 P2WPKH, 2 P2PKH)', () => {
+        // 10.75 + 67.75 + 31*2 = 146.5
+        expect(cs.transactionBytes([p2wpkhIn], [p2pkhOut, p2pkhOut])).toEqual(
+          146.5
+        )
+      })
+      it('should return the right transaction size (1 P2WPKH, 2 P2WPKH)', () => {
+        // 10.75 + 67.75 + 31*2 = 140.5
+        expect(cs.transactionBytes([p2wpkhIn], [p2wpkhOut, p2wpkhOut])).toEqual(
+          140.5
+        )
+      })
+      it('should return the right transaction size (1 P2WPKH, 1 P2PKH + 1 P2WPKH)', () => {
+        // 10.75 + 67.75 + 31 + 34 = 143.5
+        expect(cs.transactionBytes([p2wpkhIn], [p2pkhOut, p2wpkhOut])).toEqual(
+          143.5
+        )
+      })
+    })
+
+    describe('2x1 transactions', () => {
+      it('should return the right transaction size (2 P2PKH, 1 P2PKH)', () => {
+        // 10 + 148*2 + 34 = 340
+        expect(cs.transactionBytes([p2pkhIn, p2pkhIn], [p2pkhOut])).toEqual(340)
+      })
+      it('should return the right transaction size (2 P2PKH, 1 P2WPKH)', () => {
+        // 10 + 148*2 + 31 = 220
+        expect(cs.transactionBytes([p2pkhIn, p2pkhIn], [p2wpkhOut])).toEqual(
+          337
+        )
+      })
+      it('should return the right transaction size (2 P2WPKH, 1 P2PKH)', () => {
+        // 10.75 + 67.75*2 + 34 = 180.25
+        expect(cs.transactionBytes([p2wpkhIn, p2wpkhIn], [p2pkhOut])).toEqual(
+          180.25
+        )
+      })
+      it('should return the right transaction size (2 P2WPKH, 1 P2WPKH)', () => {
+        // 10.75 + 67.75*2 + 31 = 177.25
+        expect(cs.transactionBytes([p2wpkhIn, p2wpkhIn], [p2wpkhOut])).toEqual(
+          177.25
+        )
+      })
+    })
+
+    describe('2x2 transactions', () => {
+      it('should return the right transaction size (2 P2PKH, 2 P2PKH)', () => {
+        // 10 + 148*2 + 34*2 = 374
+        expect(
+          cs.transactionBytes([p2pkhIn, p2pkhIn], [p2pkhOut, p2pkhOut])
+        ).toEqual(374)
+      })
+      it('should return the right transaction size (2 P2PKH, 2 P2WPKH)', () => {
+        // 10 + 148*2 + 31*2 = 220
+        expect(
+          cs.transactionBytes([p2pkhIn, p2pkhIn], [p2wpkhOut, p2wpkhOut])
+        ).toEqual(368)
+      })
+      it('should return the right transaction size (2 P2PKH, 1 P2PKH + 1 P2WPKH)', () => {
+        // 10 + 148*2 + 31 + 34 = 371
+        expect(
+          cs.transactionBytes([p2pkhIn, p2pkhIn], [p2pkhOut, p2wpkhOut])
+        ).toEqual(371)
+      })
+      it('should return the right transaction size (2 P2WPKH, 2 P2PKH)', () => {
+        // 10.75 + 67.75*2 + 34*2 = 214.25
+        expect(
+          cs.transactionBytes([p2wpkhIn, p2wpkhIn], [p2pkhOut, p2pkhOut])
+        ).toEqual(214.25)
+      })
+      it('should return the right transaction size (2 P2WPKH, 2 P2WPKH)', () => {
+        // 10.75 + 67.75*2 + 31*2 = 208.25
+        expect(
+          cs.transactionBytes([p2wpkhIn, p2wpkhIn], [p2wpkhOut, p2wpkhOut])
+        ).toEqual(208.25)
+      })
+      it('should return the right transaction size (2 P2WPKH, 1 P2PKH + 1 P2WPKH)', () => {
+        // 10.75 + 67.75*2 + 31 + 34 = 208.25
+        expect(
+          cs.transactionBytes([p2wpkhIn, p2wpkhIn], [p2pkhOut, p2wpkhOut])
+        ).toEqual(211.25)
+      })
     })
   })
   describe('effective Balances', () => {

@@ -58,8 +58,7 @@ describe('Coin Selection', () => {
       expect(Coin.outputBytes({})).toEqual(34)
     })
     it('should return the right IO sizes for P2WPKH', () => {
-      // TODO: Wrap in bignum
-      // expect(Coin.inputBytes({ type: () => 'P2WPKH' })).toEqual(67.75)
+      expect(Coin.inputBytes({ type: () => 'P2WPKH' })).toEqual(67.75)
       expect(Coin.outputBytes({ type: () => 'P2WPKH' })).toEqual(31)
     })
   })
@@ -73,7 +72,7 @@ describe('Coin Selection', () => {
         value: 15000,
         address: 'bc1qxddx2wmn97swgznpkthv940ktg8ycxg0ygxxp9'
       })
-      expect(Coin.effectiveValue(55, B)).toEqual(11260) // 15000 - 55 * 68 = 11260
+      expect(Coin.effectiveValue(55, B)).toEqual(11274) // 15000 - 55 * 67.75 = 11273.75
     })
     it('should return zero coin value', () => {
       expect(Coin.effectiveValue(55000, Coin.fromJS({ value: 15000 }))).toEqual(

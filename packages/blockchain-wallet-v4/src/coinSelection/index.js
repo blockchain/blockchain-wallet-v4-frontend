@@ -20,6 +20,8 @@ import seedrandom from 'seedrandom'
 
 import * as Coin from './coin.js'
 
+const VBYTES_PER_WEIGHT_UNIT = 4
+
 // isFromAccount :: selection -> boolean
 export const isFromAccount = selection =>
   selection.inputs[0] ? selection.inputs[0].isFromAccount() : false
@@ -174,26 +176,26 @@ export const ascentDraw = (targets, feePerByte, coins, changeAddress) =>
 // TODO: SEGWIT  we need to account for uncompressed pubkeys!
 export const IO_TYPES = {
   inputs: {
-    'MULTISIG-P2SH': 49 * 4, // "legacy"
-    'MULTISIG-P2WSH': 6 + 41 * 4, // native segwit
-    'MULTISIG-P2SH-P2WSH': 6 + 76 * 4, // wrapped segwit
-    P2PKH: 148 * 4, // legacy
-    P2WPKH: 108 + 41 * 4, // native segwit
-    'P2SH-P2WPKH': 108 + 64 * 4 // wrapped segwit
+    'MULTISIG-P2SH': 49, // "legacy"
+    'MULTISIG-P2WSH': 42.5, // native segwit
+    'MULTISIG-P2SH-P2WSH': 47.5, // wrapped segwit
+    P2PKH: 148, // legacy
+    P2WPKH: 67.75, // native segwit
+    'P2SH-P2WPKH': 91 // wrapped segwit
   },
   outputs: {
-    P2SH: 32 * 4,
+    P2SH: 32,
     // P2SH-P2WPKH
     // this is a hack and technically this is just P2SH
-    'P2SH-P2WPKH': 32 * 4,
-    P2PKH: 34 * 4,
-    P2WPKH: 31 * 4,
-    P2WSH: 43 * 4
+    'P2SH-P2WPKH': 32,
+    P2PKH: 34,
+    P2WPKH: 31,
+    P2WSH: 43
   }
 }
 
 export const getByteCount = (inputs, outputs) => {
-  var totalWeight = 0
+  var vBytesTotal = 0
   var hasWitness = false
   var inputCount = 0
   var outputCount = 0
@@ -227,11 +229,11 @@ export const getByteCount = (inputs, outputs) => {
         return parseInt(item)
       })
 
-      totalWeight += IO_TYPES.inputs[newKey] * inputs[key]
+      vBytesTotal += IO_TYPES.inputs[newKey] * inputs[key]
       var multiplyer = newKey === 'MULTISIG-P2SH' ? 4 : 1
-      totalWeight += (73 * mAndN[0] + 34 * mAndN[1]) * multiplyer * inputs[key]
+      vBytesTotal += (73 * mAndN[0] + 34 * mAndN[1]) * multiplyer * inputs[key]
     } else {
-      totalWeight += IO_TYPES.inputs[key] * inputs[key]
+      vBytesTotal += IO_TYPES.inputs[key] * inputs[key]
     }
     inputCount += inputs[key]
     if (key.indexOf('W') >= 0) hasWitness = true
@@ -239,15 +241,20 @@ export const getByteCount = (inputs, outputs) => {
 
   Object.keys(outputs).forEach(function(key) {
     checkUInt53(outputs[key])
-    totalWeight += IO_TYPES.outputs[key] * outputs[key]
+    vBytesTotal += IO_TYPES.outputs[key] * outputs[key]
     outputCount += outputs[key]
   })
 
-  if (hasWitness) totalWeight += 2
+  // segwit marker + segwit flag + witness element count
+  var overhead = hasWitness
+    ? 0.25 + 0.25 + varIntLength(inputCount) / VBYTES_PER_WEIGHT_UNIT
+    : 0
 
-  totalWeight += 8 * 4
-  totalWeight += varIntLength(inputCount) * 4
-  totalWeight += varIntLength(outputCount) * 4
+  overhead += 4 // nVersion
+  overhead += varIntLength(inputCount)
+  overhead += varIntLength(outputCount)
+  overhead += 4 // nLockTime
 
-  return Math.ceil(totalWeight / 4)
+  vBytesTotal += overhead
+  return vBytesTotal
 }
