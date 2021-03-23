@@ -3600,6 +3600,14 @@
     "@types/react" "*"
     "@visx/point" "1.7.0"
 
+"@visx/gradient@1.7.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@visx/gradient/-/gradient-1.7.0.tgz#0578d27ef01204f36ce73db208141976d218adc4"
+  integrity sha512-KtlzpgY+1tEIxEhFwyGp7nVwDjaPs9bcLO5Wkm3uw5ehQtRMYQBC3O2N+GEKdQM2yNZVApvtSMiXQDxGTFK67g==
+  dependencies:
+    "@types/react" "*"
+    prop-types "^15.5.7"
+
 "@visx/group@1.7.0":
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/@visx/group/-/group-1.7.0.tgz#e0ef2efbe00ef05326215d65b3d8a2b114df4f35"

@@ -77,6 +77,7 @@
     "@ledgerhq/hw-transport-u2f": "4.32.0",
     "@veriff/incontext-sdk": "0.3.0",
     "@visx/event": "1.7.0",
+    "@visx/gradient": "1.7.0",
     "@visx/scale": "1.7.0",
     "@visx/shape": "1.7.0",
     "@visx/tooltip": "1.7.2",
