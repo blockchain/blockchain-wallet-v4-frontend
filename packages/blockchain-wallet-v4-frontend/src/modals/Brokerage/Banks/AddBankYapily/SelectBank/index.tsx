@@ -43,7 +43,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 type OwnProps = {
   // handleClose: () => void
 }
-type LinkDispatchPropsType = {
+export type LinkDispatchPropsType = {
   brokerageActions: typeof actions.components.brokerage
   simpleBuyActions: typeof actions.components.simpleBuy
 }
