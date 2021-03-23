@@ -21,7 +21,7 @@ const Column = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: 100%;
+  max-height: 570px;
   width: 100%;
   display: flex;
   box-sizing: border-box;

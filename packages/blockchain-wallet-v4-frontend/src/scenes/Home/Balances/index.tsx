@@ -13,8 +13,9 @@ const Wrapper = styled.div`
   flex-direction: column;
   box-sizing: border-box;
   border-radius: 8px;
-  padding: 24px;
+  padding: 24px 24px 0 24px;
   border: 1px solid ${props => props.theme.grey000};
+  overflow-y: scroll;
 
   ${media.mobile`
     padding: 12px;
