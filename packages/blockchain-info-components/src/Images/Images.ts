@@ -139,10 +139,6 @@ import visaLogo from './img/visa-logo.svg'
 import visaNewLogo from './img/visa-new-logo.svg'
 import wallet from './img/wallet.svg'
 import walletBlue from './img/wallet-blue.svg'
-import walletV3Backup from './img/wallet-v3-backup.jpg'
-import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
-import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
-import walletV3SecurityUpgrade from './img/wallet-v3-security-upgrade.jpg'
 import warningCircleFilled from './img/warning-circle-filled.png'
 import wdgld from './img/wdgld.svg'
 import worldAlert from './img/world-alert.jpg'
@@ -288,10 +284,6 @@ const Images = {
   'bank-logo-venmo': bankLogoVenmo,
   'visa-logo': visaLogo,
   'visa-new-logo': visaNewLogo,
-  'wallet-v3-backup': walletV3Backup,
-  'wallet-v3-fund-management': walletV3FundManagement,
-  'wallet-v3-new-design': walletV3NewDesign,
-  'wallet-v3-security-upgrade': walletV3SecurityUpgrade,
   'warning-circle-filled': warningCircleFilled,
   wallet,
   'wallet-blue': walletBlue,

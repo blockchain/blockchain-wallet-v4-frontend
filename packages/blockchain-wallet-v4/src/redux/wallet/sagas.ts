@@ -139,7 +139,7 @@ export default ({ api, networks }) => {
 
     if (isEmpty(hdwallets)) {
       let mnemonic = yield call(generateMnemonic, api)
-      let upgradeTask = Wrapper.upgradeToV3AndV4(
+      let upgradeTask = Wrapper.upgradeToV3(
         mnemonic,
         password,
         networks.btc,

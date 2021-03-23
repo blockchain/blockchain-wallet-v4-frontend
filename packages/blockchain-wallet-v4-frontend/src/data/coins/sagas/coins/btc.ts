@@ -27,11 +27,9 @@ export const getNextReceiveAddress = function * (coin, networks) {
   const defaultAccountIndex = yield select(
     selectors.core.wallet.getDefaultAccountIndex
   )
-  const defaultDerivation = yield select(
-    selectors.core.common.btc.getAccountDefaultDerivation(
-      defaultAccountIndex,
-      state
-    )
+  const defaultDerivation = selectors.core.common.btc.getAccountDefaultDerivation(
+    defaultAccountIndex,
+    state
   )
 
   return selectors.core.common.btc
