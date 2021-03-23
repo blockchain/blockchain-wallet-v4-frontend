@@ -1,6 +1,4 @@
-import { lift } from 'ramda'
-
-import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -25,11 +23,11 @@ export const getData = (state: RootState) => {
       ? emailFromSettings
       : emailAuth
 
-  return lift(
-    (isUserSddEligible: ExtractSuccess<typeof isUserSddEligibleR>) => ({
-      isUserSddEligible,
-      formErrors,
-      email
-    })
-  )(isUserSddEligibleR)
+  const isUserSddEligible = isUserSddEligibleR.getOrElse(false)
+
+  return Remote.Success({
+    isUserSddEligible,
+    formErrors,
+    email
+  })
 }
