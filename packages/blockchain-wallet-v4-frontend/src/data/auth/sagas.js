@@ -466,7 +466,8 @@ export default ({ api, coreSagas }) => {
       const kvCredentials = (yield select(
         selectors.auth.getMetadataRestore
       )).getOrElse({})
-      yield call(coreSagas.wallet.restoreWalletSaga, {
+      // TODO: SEGWIT remove w/ DEPRECATED_V3
+      yield call(coreSagas.wallet.restoreWalletSaga_DEPRECATED_V3, {
         ...action.payload,
         kvCredentials
       })
