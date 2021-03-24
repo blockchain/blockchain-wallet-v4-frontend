@@ -79,12 +79,6 @@ const DropdownItem = ({ bodyText, titleText }) => {
 }
 
 const Success: React.FC<Props> = props => {
-  const [isToggled, handleToggle] = useState({
-    sectionOne: false,
-    sectionTwo: false,
-    sectionThree: false,
-    sectionFour: false
-  })
   const { entity } = props
   const entityName = entity === 'Safeconnect(UK)' ? 'SafeConnect' : 'Fintecture'
 
