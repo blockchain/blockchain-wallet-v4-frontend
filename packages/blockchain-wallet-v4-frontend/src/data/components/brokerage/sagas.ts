@@ -16,6 +16,11 @@ import profileSagas from '../../modules/profile/sagas'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import { DEFAULT_METHODS } from './model'
+import * as S from './selectors'
+import {
+  // AccountsForProccess,
+  OBType
+} from './types'
 
 export default ({
   api,
@@ -68,79 +73,95 @@ export default ({
     const data = yield retry(60, 1000, transferAccountState, id)
     return data
   }
+
+  // TODO move OB stuff to separate saga
   const fetchBankTransferUpdate = function * ({
     accounts
   }: ReturnType<typeof A.fetchBankTransferUpdate>) {
     try {
+      // TODO we can type it like this ideally
+      // let accountToBeProcessed: AccountsForProccess = accounts
+      let accountToBeProcessed
+      const bankCredentials = S.getBankCredentials(yield select()).getOrElse(
+        {} as OBType
+      )
+
+      if (!accounts && bankCredentials?.attributes) {
+        accountToBeProcessed = bankCredentials?.attributes.institutions
+      } else {
+        accountToBeProcessed = accounts
+      }
       // TODO: To account for Yapily we need to check for `bankCredentials` in
       // redux and use the `bankCredentials.id` and
       // `bankCredentials.attributes.institutions[whichever one user selected].id
       // as the params for `api.updateBankAccountLink`
       const fastLink = yield select(selectors.components.brokerage.getFastLink)
-      for (let a of accounts) {
-        const status: ReturnType<typeof api.updateBankAccountLink> = yield call(
-          api.updateBankAccountLink,
-          fastLink.data.id,
-          { providerAccountId: a.providerAccountId, accountId: a.accountId }
-        )
-
-        // Polls the account details to check for Active state
-        const bankData = yield call(conditionalRetry, status.id)
-        // Shows bank status screen based on whether has blocked account or not
-
-        yield put(
-          actions.components.brokerage.setAddBankStep({
-            addBankStep: AddBankStepType.ADD_BANK_STATUS,
-            bankStatus: bankData.state
-          })
-        )
-
-        yield put(actions.components.brokerage.fetchBankTransferAccounts())
-
-        if (bankData.state === 'ACTIVE') {
-          const values: SBCheckoutFormValuesType = yield select(
-            selectors.form.getFormValues('simpleBuyCheckout')
+      if (accountToBeProcessed) {
+        for (let a of accountToBeProcessed) {
+          const status: ReturnType<typeof api.updateBankAccountLink> = yield call(
+            api.updateBankAccountLink,
+            fastLink.data.id,
+            { providerAccountId: a.providerAccountId, accountId: a.accountId }
           )
 
-          // Set the brokerage defaultMethod to this new bank. Typically to
-          // auto-fill the bank account on the enter amount screen
+          // Polls the account details to check for Active state
+          const bankData = yield call(conditionalRetry, status.id)
+          // Shows bank status screen based on whether has blocked account or not
+
           yield put(
-            actions.components.brokerage.setBankDetails({
-              account: bankData
+            actions.components.brokerage.setAddBankStep({
+              addBankStep: AddBankStepType.ADD_BANK_STATUS,
+              bankStatus: bankData.state
             })
           )
-          if (values?.amount) {
+
+          yield put(actions.components.brokerage.fetchBankTransferAccounts())
+
+          if (bankData.state === 'ACTIVE') {
+            const values: SBCheckoutFormValuesType = yield select(
+              selectors.form.getFormValues('simpleBuyCheckout')
+            )
+
+            // Set the brokerage defaultMethod to this new bank. Typically to
+            // auto-fill the bank account on the enter amount screen
             yield put(
-              actions.components.simpleBuy.createSBOrder(
-                'BANK_TRANSFER',
-                status.id
-              )
+              actions.components.brokerage.setBankDetails({
+                account: bankData
+              })
             )
-          } else {
-            const sbMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
-              yield select()
-            )
-            const sbMethods = sbMethodsR.getOrElse(DEFAULT_METHODS)
-            if (Remote.Success.is(sbMethodsR) && sbMethods.methods.length) {
-              const bankTransferMethod = sbMethods.methods.filter(
-                method => method.type === 'BANK_TRANSFER'
-              )[0]
+            if (values?.amount) {
               yield put(
-                actions.components.simpleBuy.handleSBMethodChange({
-                  ...bankData,
-                  limits: bankTransferMethod.limits,
-                  type: 'BANK_TRANSFER'
-                })
+                actions.components.simpleBuy.createSBOrder(
+                  'BANK_TRANSFER',
+                  status.id
+                )
               )
+            } else {
+              const sbMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
+                yield select()
+              )
+              const sbMethods = sbMethodsR.getOrElse(DEFAULT_METHODS)
+              if (Remote.Success.is(sbMethodsR) && sbMethods.methods.length) {
+                const bankTransferMethod = sbMethods.methods.filter(
+                  method => method.type === 'BANK_TRANSFER'
+                )[0]
+                yield put(
+                  actions.components.simpleBuy.handleSBMethodChange({
+                    ...bankData,
+                    limits: bankTransferMethod.limits,
+                    type: 'BANK_TRANSFER'
+                  })
+                )
+              }
             }
+          } else {
+            actions.analytics.logEvent([
+              'BANK_LINK_FAILED',
+              bankData.state,
+              a.providerName,
+              a.providerId
+            ])
           }
-        } else {
-          actions.analytics.logEvent([
-            'BANK_LINK_FAILED',
-            bankData.state,
-            a.providerName,
-            a.providerId
-          ])
         }
       }
     } catch (e) {
