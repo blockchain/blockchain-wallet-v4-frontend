@@ -60,7 +60,6 @@ const InfoText = styled(Title)`
 const Bottom = styled(FlyoutWrapper)`
   display: flex;
   flex-direction: column;
-<<<<<<< HEAD
   justify-content: flex-end;
   height: 100%;
 `
@@ -79,10 +78,6 @@ const DropdownItem = ({ bodyText, titleText }) => {
   )
 }
 
-=======
-  height: 100%;
-`
->>>>>>> feat(ob-authorization): approve deny butotns
 const Success: React.FC<Props> = props => {
   const [isToggled, handleToggle] = useState({
     sectionOne: false,
@@ -176,7 +171,6 @@ const Success: React.FC<Props> = props => {
           />
         </InfoText>
       </Row>
-<<<<<<< HEAD
       <DropdownItem
         bodyText={
           <FormattedMessage
@@ -193,39 +187,6 @@ const Success: React.FC<Props> = props => {
         }
       />
       <Row />
-=======
-      <Row>
-        <DropdownTitleRow>
-          <DropdownTitle>
-            <FormattedMessage
-              id='modals.brokerage.authorize.about_access.title'
-              defaultMessage='About the Access'
-            />
-          </DropdownTitle>
-          <Icon
-            color='grey600'
-            name='caret'
-            size='10px'
-            onClick={() =>
-              handleToggle({
-                ...isToggled,
-                sectionFour: !isToggled.sectionFour
-              })
-            }
-            className={isToggled.sectionFour ? 'active' : ''}
-          />
-        </DropdownTitleRow>
-        <InfoDropdown isToggled={isToggled.sectionFour}>
-          <InfoText>
-            <FormattedMessage
-              id='modals.brokerage.authorize.about_access'
-              defaultMessage='{entityName} will then use these details with Blockchain solely for the purposes of buying cryptocurrencies. This access is valid until 24th of January 2021, you can cancel consent at any time via the Blockchain settings or via your bank. This request is not a one-off, you will continue to receive consent requests as older versions expire.'
-              values={{ entityName }}
-            />
-          </InfoText>
-        </InfoDropdown>
-      </Row>
->>>>>>> feat(ob-authorization): approve deny butotns
       <Bottom>
         <Button
           nature='primary'
@@ -235,11 +196,7 @@ const Success: React.FC<Props> = props => {
           height='48px'
           onClick={() =>
             props.brokerageActions.setAddBankStep({
-<<<<<<< HEAD
               addBankStep: AddBankStepType.ADD_BANK_CONNECT
-=======
-              addBankStep: AddBankStepType.ADD_BANK_HANDLER
->>>>>>> feat(ob-authorization): approve deny butotns
             })
           }
         >
