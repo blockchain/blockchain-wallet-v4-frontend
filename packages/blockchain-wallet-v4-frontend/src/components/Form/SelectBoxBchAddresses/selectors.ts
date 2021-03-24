@@ -93,7 +93,7 @@ export const getData = (
 
   const buildCustodialDisplay = x => {
     return (
-      `BCH Trading Wallet` +
+      `BCH Trading Account` +
       ` (${Exchange.displayBchToBch({
         value: x ? x.available : 0,
         fromUnit: 'SAT',
@@ -104,7 +104,7 @@ export const getData = (
 
   const buildInterestDisplay = (x: InterestAccountBalanceType['BCH']) => {
     return (
-      `BCH Interest Wallet` +
+      `BCH Interest Account` +
       ` (${Exchange.displayBchToBch({
         value: x ? x.balance : 0,
         fromUnit: 'SAT',
@@ -134,7 +134,7 @@ export const getData = (
       value: {
         ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: 'BCH Trading Wallet'
+        label: 'BCH Trading Account'
       }
     }
   ]
@@ -145,7 +145,7 @@ export const getData = (
       value: {
         ...x,
         type: ADDRESS_TYPES.INTEREST,
-        label: 'BTC Interest Wallet'
+        label: 'BTC Interest Account'
       }
     }
   ]
@@ -226,7 +226,7 @@ export const getData = (
             .getInterestAccountBalance(state)
             .map(x => x.BCH)
             .map(toInterestDropdown)
-            .map(toGroup('Interest Wallet'))
+            .map(toGroup('Interest Account'))
         : Remote.of([]),
       excludeImported
         ? Remote.of([])

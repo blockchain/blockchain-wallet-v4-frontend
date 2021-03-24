@@ -172,7 +172,7 @@ export const Origin = (props: Props) => {
       return props.tx.extraAttributes?.direction === 'FROM_USERKEY' ? (
         <> {getSymbolDisplayName(props)} Wallet</>
       ) : (
-        <>{getSymbolDisplayName(props)} Trading Wallet</>
+        <>{getSymbolDisplayName(props)} Trading Account</>
       )
     case 'WITHDRAWAL':
       return (

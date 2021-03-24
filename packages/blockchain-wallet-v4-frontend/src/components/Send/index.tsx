@@ -129,7 +129,7 @@ export const CustodyToAccountMessage = ({
         <CustomBlueCartridge>
           <FormattedMessage
             id='modals.send.firststep.fromcustody1'
-            defaultMessage='At this time, Blockchain.com only allows sending from your {coin} Trading Wallet to your {coin} Wallet.'
+            defaultMessage='At this time, Blockchain.com only allows sending from your {coin} Trading Account to your {coin} Wallet.'
             values={{ coin }}
           />
         </CustomBlueCartridge>

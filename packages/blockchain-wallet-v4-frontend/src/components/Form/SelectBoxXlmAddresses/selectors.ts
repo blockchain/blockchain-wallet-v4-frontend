@@ -39,7 +39,7 @@ export const getData = (
   }
   const buildCustodialDisplay = x => {
     return (
-      `XLM Trading Wallet` +
+      `XLM Trading Account` +
       ` (${Exchange.displayXlmToXlm({
         value: x ? x.available : 0,
         fromUnit: 'STROOP',
@@ -49,7 +49,7 @@ export const getData = (
   }
   const buildInterestDisplay = (x: InterestAccountBalanceType['XLM']) => {
     return (
-      `XLM Interest Wallet` +
+      `XLM Interest Account` +
       ` (${Exchange.displayXlmToXlm({
         value: x ? x.balance : 0,
         fromUnit: 'STROOP',
@@ -68,7 +68,7 @@ export const getData = (
       value: {
         ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: 'XLM Trading Wallet'
+        label: 'XLM Trading Account'
       }
     }
   ]
@@ -78,7 +78,7 @@ export const getData = (
       value: {
         ...x,
         type: ADDRESS_TYPES.INTEREST,
-        label: 'XLM Interest Wallet'
+        label: 'XLM Interest Account'
       }
     }
   ]
@@ -129,7 +129,7 @@ export const getData = (
           .getInterestAccountBalance(state)
           .map(x => x.XLM)
           .map(toInterestDropdown)
-          .map(toGroup('Interest Wallet'))
+          .map(toGroup('Interest Account'))
       : Remote.of([])
   ]).map(([b1, b2, b3, b4]) => {
     const orderArray = forceCustodialFirst ? [b2, b1, b3, b4] : [b1, b2, b3, b4]

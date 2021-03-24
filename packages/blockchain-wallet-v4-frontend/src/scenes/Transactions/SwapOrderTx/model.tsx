@@ -28,7 +28,7 @@ export const getDestination = (props: Props) => {
       return `${getOutputCoinDisplayName(props)} Wallet`
     case 'FROM_USERKEY':
     case 'INTERNAL':
-      return `${getOutputCoinDisplayName(props)} Trading Wallet`
+      return `${getOutputCoinDisplayName(props)} Trading Account`
     default:
       return ''
   }
@@ -41,7 +41,7 @@ export const getOrigin = (props: Props) => {
       return `${getInputCoinDisplayName(props)} Wallet`
     case 'TO_USERKEY':
     case 'INTERNAL':
-      return `${getInputCoinDisplayName(props)} Trading Wallet`
+      return `${getInputCoinDisplayName(props)} Trading Account`
     default:
       return ''
   }

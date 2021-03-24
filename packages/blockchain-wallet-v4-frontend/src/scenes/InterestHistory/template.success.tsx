@@ -198,7 +198,7 @@ function TransactionList(props: Props): ReactElement | null {
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionFrom'>
                       {isCustodial ? (
-                        <span>{displayName} Trading Wallet</span>
+                        <span>{displayName} Trading Account</span>
                       ) : (
                         <span>My {displayName} Wallet</span>
                       )}
@@ -220,7 +220,7 @@ function TransactionList(props: Props): ReactElement | null {
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionTo'>
                       {isCustodial ? (
-                        <span>{displayName} Trading Wallet</span>
+                        <span>{displayName} Trading Account</span>
                       ) : (
                         <span>My {displayName} Wallet</span>
                       )}

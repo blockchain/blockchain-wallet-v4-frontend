@@ -337,7 +337,7 @@
   "copy.new": "Новая",
   "copy.new_swap": "Новый обмен \"SWAP\"",
   "copy.no_payment_methods": "Нет доступных способов оплаты.",
-  "copy.not_enough_eth": "ETH требуется для отправки {coin} . У вас недостаточно ETH в вашем кошельке Ether Wallet для выполнения транзакции. Обратите внимание, что для этой транзакции ETH должен храниться в «My Ether Wallet», а не в Ether Trading Wallet.",
+  "copy.not_enough_eth": "ETH требуется для отправки {coin} . У вас недостаточно ETH в вашем кошельке Ether Wallet для выполнения транзакции. Обратите внимание, что для этой транзакции ETH должен храниться в «My Ether Wallet», а не в Ether Trading Account.",
   "copy.not_now": "Не сейчас",
   "copy.now": "Сейчас же",
   "copy.number_of_business_days": "{first} до {second} рабочих дней",
