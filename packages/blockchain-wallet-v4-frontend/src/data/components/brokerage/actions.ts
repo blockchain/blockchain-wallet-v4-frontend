@@ -49,7 +49,7 @@ export const createFiatDeposit = () => ({
   type: AT.CREATE_FIAT_DEPOSIT
 })
 
-export const fetchBankTransferUpdate = (accounts: YodleeAccountType[]) => ({
+export const fetchBankTransferUpdate = (accounts?: YodleeAccountType[]) => ({
   type: AT.FETCH_BANK_TRANSFER_UPDATE,
   accounts
 })

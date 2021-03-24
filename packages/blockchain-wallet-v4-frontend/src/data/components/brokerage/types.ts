@@ -1,7 +1,8 @@
 import {
   BankTransferAccountType,
   RemoteDataType,
-  WalletFiatType
+  WalletFiatType,
+  YodleeAccountType
 } from 'core/types'
 
 import * as AT from './actionTypes'
@@ -60,6 +61,11 @@ interface OBAttributesType {
   institutions: OBInstitution[]
 }
 
+export type AccountsForProccess =
+  | OBInstitution[]
+  | undefined
+  | YodleeAccountType[]
+
 export type BankStatusType =
   | 'ACTIVE'
   | 'BANK_TRANSFER_ACCOUNT_INFO_NOT_FOUND'
@@ -99,6 +105,7 @@ export type BrokerageAddBankStepPayload =
         | AddBankStepType.ADD_BANK
         | AddBankStepType.ADD_BANK_HANDLER
         | AddBankStepType.ADD_BANK_AUTHORIZE
+        | AddBankStepType.ADD_BANK_CONNECT
     }
   | {
       addBankStep: AddBankStepType.ADD_BANK_STATUS

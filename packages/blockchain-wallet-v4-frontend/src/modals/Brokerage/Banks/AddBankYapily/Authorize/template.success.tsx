@@ -228,7 +228,7 @@ const Success: React.FC<Props> = props => {
           height='48px'
           onClick={() =>
             props.brokerageActions.setAddBankStep({
-              addBankStep: AddBankStepType.ADD_BANK_HANDLER
+              addBankStep: AddBankStepType.ADD_BANK_CONNECT
             })
           }
         >

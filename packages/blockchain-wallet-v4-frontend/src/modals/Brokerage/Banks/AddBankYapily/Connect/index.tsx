@@ -18,9 +18,8 @@ const Connect = (props: Props) => {
       props.brokerageActions.fetchBankLinkCredentials(
         props.fiatCurrency as WalletFiatType
       )
-
-      // props.brokerageActions.fetchBankTransferUpdate()
     }
+    props.brokerageActions.fetchBankTransferUpdate()
   }, [])
   return props.data.cata({
     Success: val => <Success {...props} {...val} />,
