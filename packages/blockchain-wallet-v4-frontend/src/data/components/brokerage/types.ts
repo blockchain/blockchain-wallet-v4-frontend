@@ -11,7 +11,7 @@ enum BankPartners {
   YODLEE = 'YODLEE'
 }
 
-enum OBEntityType {
+export enum OBEntityType {
   FINTECTURE = 'Fintecture (EU)',
   SAFE_CONNECT_AUB = 'Safeconnect AUB',
   SAFE_CONNECT_UK = 'Safeconnect(UK)'
