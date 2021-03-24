@@ -42,7 +42,7 @@ const InfoTitle = styled(Title)`
 
 const InfoDropdown = styled.div<{ isToggled: boolean }>`
   max-height: ${props => (props.isToggled ? 'auto' : '0')};
-  margin-top: ${props => (props.isToggled ? '10px' : '0')};
+  margin-top: ${props => (props.isToggled ? '12px' : '0')};
   overflow: hidden;
   transition: max-height 0.3s;
 `
@@ -70,7 +70,7 @@ const Success: React.FC<Props> = props => {
 
   return (
     <Wrapper>
-      <FlyoutWrapper style={{ paddingBottom: '25px' }}>
+      <FlyoutWrapper style={{ paddingBottom: '24px' }}>
         <BackContainer>
           <Image
             name={entityName === 'Fintecture' ? 'fintecture' : 'safe-connect'}
