@@ -72,13 +72,16 @@ export default ({
     accounts
   }: ReturnType<typeof A.fetchBankTransferUpdate>) {
     try {
+      // TODO: To account for Yapily we need to check for `bankCredentials` in
+      // redux and use the `bankCredentials.id` and
+      // `bankCredentials.attributes.institutions[whichever one user selected].id
+      // as the params for `api.updateBankAccountLink`
       const fastLink = yield select(selectors.components.brokerage.getFastLink)
       for (let a of accounts) {
         const status: ReturnType<typeof api.updateBankAccountLink> = yield call(
           api.updateBankAccountLink,
-          a.providerAccountId,
           fastLink.data.id,
-          a.accountId
+          { providerAccountId: a.providerAccountId, accountId: a.accountId }
         )
 
         // Polls the account details to check for Active state

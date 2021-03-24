@@ -9,11 +9,11 @@ import {
   ModalNavWithBackArrow,
   SimpleBankRow
 } from '../../../components'
-import { LinkDispatchPropsType as _LD,SuccessStateType as _SS } from '.'
+import { LinkDispatchPropsType as _LD, SuccessStateType as _SS } from '.'
 
-type OwnProps = _SS & _LD
+type Props = _SS & _LD
 
-const Success = (props: OwnProps) => {
+const Success = (props: Props) => {
   const [banks, setBanks] = useState<OBInstitution[]>(
     props.bankCredentials.attributes.institutions
   )
