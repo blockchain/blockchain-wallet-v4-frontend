@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -94,6 +94,18 @@ const BankRow = styled.div`
     justify-content: flex-start;
     align-items: center;
   }
+
+  ${props =>
+    props.onClick &&
+    css`
+      cursor: pointer;
+      * {
+        cursor: pointer;
+      }
+      &:hover {
+        background-color: ${props => props.theme.blue000};
+      }
+    `}
 `
 
 const BankIcon = styled.div<BankIconProps>`
@@ -101,10 +113,13 @@ const BankIcon = styled.div<BankIconProps>`
   width: 30px;
   background: url("${p => p.url}") 0 0 no-repeat;
   background-size: 30px;
+  background-position: center;
 `
 
 const BankSearchInput = styled.input`
   border: 1px solid ${p => p.theme.grey000};
+  font-size: 16px;
+  font-weight: 600;
   width: 100%;
   border-width: 1px 0;
   padding: 20px 0 20px 40px;
@@ -116,23 +131,24 @@ const BankSearchInput = styled.input`
 `
 
 const SimpleBankRow = (props: {
-  institution: OBInstitution,
+  institution: OBInstitution
   onClick: () => void
 }) => {
   return (
     <BankRow onClick={props.onClick}>
       <div>
         <BankIcon url={props.institution.media[0].source} />
-        <Text>{props.institution.name}</Text>
+        <Text color='grey900' style={{ marginLeft: '20px' }} weight={600}>
+          {props.institution.name}
+        </Text>
       </div>
       <Icon
         cursor
-        name='arrow-back'
+        name='chevron-right'
         size='20px'
         color='grey600'
         role='button'
-        style={{ marginRight: '24px', transform: 'rotate(0.5turn)' }}
-        onClick={props.onClick}
+        style={{ marginRight: '24px' }}
       />
     </BankRow>
   )
@@ -148,7 +164,7 @@ const ModalNavWithBackArrow = props => {
         color='grey600'
         role='button'
         style={{ marginRight: '24px' }}
-        onClick={() => {}}
+        onClick={() => props.handleClose()}
       />
       {props.children}
     </NavText>
