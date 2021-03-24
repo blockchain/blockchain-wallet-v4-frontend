@@ -3,12 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
-import {
-  FlyoutWrapper,
-  Row,
-  Title,
-  Value as DropdownTitle
-} from 'components/Flyout'
+import { FlyoutWrapper, Row, Title } from 'components/Flyout'
 import { AddBankStepType } from 'data/types'
 
 import { Props as _P } from '.'
@@ -29,16 +24,25 @@ const DropdownTitleRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* caret icon rotation */
+  /* chevorn icon rotation */
   > span:last-child {
+    cursor: pointer;
+    size: 10px;
+    color: ${props => props.theme.grey600};
     &.active {
-      transform: rotate(90deg);
+      transform: rotate(180deg);
     }
   }
+`
+const InfoTitle = styled(Title)`
+  font-weight: 600px;
+  line-height: 1.5;
+  color: ${props => props.theme.grey900};
 `
 
 const InfoDropdown = styled.div<{ isToggled: boolean }>`
   max-height: ${props => (props.isToggled ? 'auto' : '0')};
+  margin-top: ${props => (props.isToggled ? '10px' : '0')};
   overflow: hidden;
   transition: max-height 0.3s;
 `
@@ -51,6 +55,7 @@ const InfoText = styled(Title)`
 const Bottom = styled(FlyoutWrapper)`
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   height: 100%;
 `
 const Success: React.FC<Props> = props => {
@@ -61,14 +66,14 @@ const Success: React.FC<Props> = props => {
     sectionFour: false
   })
   const { entity } = props
-  const entityName = entity === 'Safeconnect(UK)' ? 'SafeConnect' : 'Fintecture'
+  const entityName = entity === 'Fintecture (EU)' ? 'Fintecture' : 'SafeConnect'
 
   return (
     <Wrapper>
-      <FlyoutWrapper>
+      <FlyoutWrapper style={{ paddingBottom: '25px' }}>
         <BackContainer>
           <Image
-            name='safe-connect'
+            name={entityName === 'Fintecture' ? 'fintecture' : 'safe-connect'}
             size='20px'
             style={{ marginRight: '28px' }}
           />
@@ -81,16 +86,14 @@ const Success: React.FC<Props> = props => {
       </FlyoutWrapper>
       <Row>
         <DropdownTitleRow>
-          <DropdownTitle>
+          <InfoTitle>
             <FormattedMessage
               id='modals.brokerage.authorize.data_sharing'
               defaultMessage='Data Sharing'
             />
-          </DropdownTitle>
+          </InfoTitle>
           <Icon
-            color='grey600'
-            name='caret'
-            size='10px'
+            name='chevron-down'
             onClick={() =>
               handleToggle({ ...isToggled, sectionOne: !isToggled.sectionOne })
             }
@@ -109,16 +112,14 @@ const Success: React.FC<Props> = props => {
       </Row>
       <Row>
         <DropdownTitleRow>
-          <DropdownTitle>
+          <InfoTitle>
             <FormattedMessage
               id='modals.brokerage.authorize.secure_connection.title'
               defaultMessage='Secure Connection'
             />
-          </DropdownTitle>
+          </InfoTitle>
           <Icon
-            color='grey600'
-            name='caret'
-            size='10px'
+            name='chevron-down'
             onClick={() =>
               handleToggle({ ...isToggled, sectionTwo: !isToggled.sectionTwo })
             }
@@ -136,16 +137,14 @@ const Success: React.FC<Props> = props => {
       </Row>
       <Row>
         <DropdownTitleRow>
-          <DropdownTitle>
+          <InfoTitle>
             <FormattedMessage
               id='modals.brokerage.authorize.fca.title'
               defaultMessage='FCA Authorisation'
             />
-          </DropdownTitle>
+          </InfoTitle>
           <Icon
-            color='grey600'
-            name='caret'
-            size='10px'
+            name='chevron-down'
             onClick={() =>
               handleToggle({
                 ...isToggled,
@@ -173,7 +172,7 @@ const Success: React.FC<Props> = props => {
             values={{ bankName: 'Get this from data?', entityName }}
           />
         </InfoText>
-        <InfoText>
+        <InfoText style={{ margin: '15px 0' }}>
           {'•'}{' '}
           <FormattedMessage
             id='modals.brokerage.authorize.identification_details'
@@ -190,16 +189,14 @@ const Success: React.FC<Props> = props => {
       </Row>
       <Row>
         <DropdownTitleRow>
-          <DropdownTitle>
+          <InfoTitle>
             <FormattedMessage
               id='modals.brokerage.authorize.about_access.title'
               defaultMessage='About the Access'
             />
-          </DropdownTitle>
+          </InfoTitle>
           <Icon
-            color='grey600'
-            name='caret'
-            size='10px'
+            name='chevron-down'
             onClick={() =>
               handleToggle({
                 ...isToggled,
@@ -219,6 +216,7 @@ const Success: React.FC<Props> = props => {
           </InfoText>
         </InfoDropdown>
       </Row>
+      <Row />
       <Bottom>
         <Button
           nature='primary'
