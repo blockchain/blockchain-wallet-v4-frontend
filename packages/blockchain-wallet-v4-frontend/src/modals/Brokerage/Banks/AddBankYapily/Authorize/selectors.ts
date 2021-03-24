@@ -8,17 +8,8 @@ export const getData = (state: RootState) => {
   const bankCredentialsR = selectors.components.brokerage.getBankCredentials(
     state
   )
-  const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
-    state
-  )
-
-  return lift(
-    (
-      bankCredentials: ExtractSuccess<typeof bankCredentialsR>,
-      paymentMethods: ExtractSuccess<typeof paymentMethodsR>
-    ) => ({
-      entity: path(['attributes', 'entity'], bankCredentials),
-      paymentMethods
-    })
-  )(bankCredentialsR, paymentMethodsR)
+  return lift((bankCredentials: ExtractSuccess<typeof bankCredentialsR>) => ({
+    bankCredentials,
+    entity: path(['attributes', 'entity'], bankCredentials)
+  }))(bankCredentialsR)
 }
