@@ -9,9 +9,9 @@ import {
   ModalNavWithBackArrow,
   SimpleBankRow
 } from '../../../components'
-import { SuccessStateType as _SS } from '.'
+import { Props, SuccessStateType as _SS } from '.'
 
-type OwnProps = _SS
+type OwnProps = _SS & Props
 
 const Success = (props: OwnProps) => {
   const [banks, setBanks] = useState<OBInstitution[]>(
