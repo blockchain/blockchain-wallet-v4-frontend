@@ -24,10 +24,11 @@ const DropdownTitleRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
   /* chevorn icon rotation */
   > span:last-child {
-    cursor: pointer;
     size: 10px;
+    transition: transform 0.2s;
     color: ${props => props.theme.grey600};
     &.active {
       transform: rotate(180deg);
@@ -40,11 +41,15 @@ const InfoTitle = styled(Title)`
   color: ${props => props.theme.grey900};
 `
 
-const InfoDropdown = styled.div<{ isToggled: boolean }>`
-  max-height: ${props => (props.isToggled ? 'auto' : '0')};
-  margin-top: ${props => (props.isToggled ? '12px' : '0')};
+const InfoDropdown = styled.div`
+  max-height: 0;
+  margin-top: 0;
   overflow: hidden;
-  transition: max-height 0.3s;
+  transition: max-height, margin-top 0.3s;
+  &.isToggled {
+    max-height: 100%;
+    margin-top: 12px;
+  }
 `
 const InfoText = styled(Title)`
   font-size: 14px;
@@ -58,13 +63,22 @@ const Bottom = styled(FlyoutWrapper)`
   justify-content: flex-end;
   height: 100%;
 `
+const DropdownItem = ({ bodyText, titleText }) => {
+  const [isToggled, handleToggle] = useState(false)
+  return (
+    <Row>
+      <DropdownTitleRow onClick={() => handleToggle(!isToggled)}>
+        <InfoTitle>{titleText}</InfoTitle>
+        <Icon name='chevron-down' className={isToggled ? 'active' : ''} />
+      </DropdownTitleRow>
+      <InfoDropdown className={isToggled ? 'isToggled' : ''}>
+        <InfoText>{bodyText}</InfoText>
+      </InfoDropdown>
+    </Row>
+  )
+}
+
 const Success: React.FC<Props> = props => {
-  const [isToggled, handleToggle] = useState({
-    sectionOne: false,
-    sectionTwo: false,
-    sectionThree: false,
-    sectionFour: false
-  })
   const { entity } = props
   const entityName = entity === 'Fintecture (EU)' ? 'Fintecture' : 'SafeConnect'
 
@@ -84,92 +98,56 @@ const Success: React.FC<Props> = props => {
           />
         </BackContainer>
       </FlyoutWrapper>
-      <Row>
-        <DropdownTitleRow>
-          <InfoTitle>
-            <FormattedMessage
-              id='modals.brokerage.authorize.data_sharing'
-              defaultMessage='Data Sharing'
-            />
-          </InfoTitle>
-          <Icon
-            name='chevron-down'
-            onClick={() =>
-              handleToggle({ ...isToggled, sectionOne: !isToggled.sectionOne })
-            }
-            className={isToggled.sectionOne ? 'active' : ''}
+      <DropdownItem
+        bodyText={
+          <FormattedMessage
+            id='modals.brokertitleage.authorize.data_sharing'
+            defaultMessage='{entityName} will retrieve your bank data based on your request and provide this information to Blockchain.'
+            values={{ entityName }}
           />
-        </DropdownTitleRow>
-        <InfoDropdown isToggled={isToggled.sectionOne}>
-          <InfoText>
-            <FormattedMessage
-              id='modals.brokertitleage.authorize.data_sharing'
-              defaultMessage='{entityName} will retrieve your bank data based on your request and provide this information to Blockchain.'
-              values={{ entityName }}
-            />
-          </InfoText>
-        </InfoDropdown>
-      </Row>
-      <Row>
-        <DropdownTitleRow>
-          <InfoTitle>
-            <FormattedMessage
-              id='modals.brokerage.authorize.secure_connection.title'
-              defaultMessage='Secure Connection'
-            />
-          </InfoTitle>
-          <Icon
-            name='chevron-down'
-            onClick={() =>
-              handleToggle({ ...isToggled, sectionTwo: !isToggled.sectionTwo })
-            }
-            className={isToggled.sectionTwo ? 'active' : ''}
+        }
+        titleText={
+          <FormattedMessage
+            id='modals.brokerage.authorize.data_sharing'
+            defaultMessage='Data Sharing'
           />
-        </DropdownTitleRow>
-        <InfoDropdown isToggled={isToggled.sectionTwo}>
-          <InfoText>
-            <FormattedMessage
-              id='modals.brokerage.authorize.secure_connection'
-              defaultMessage='Data is securely retrieved in read-only format and only for the duration agreed with you. You have the right to withdraw your consent at any time.'
-            />
-          </InfoText>
-        </InfoDropdown>
-      </Row>
-      <Row>
-        <DropdownTitleRow>
-          <InfoTitle>
-            <FormattedMessage
-              id='modals.brokerage.authorize.fca.title'
-              defaultMessage='FCA Authorisation'
-            />
-          </InfoTitle>
-          <Icon
-            name='chevron-down'
-            onClick={() =>
-              handleToggle({
-                ...isToggled,
-                sectionThree: !isToggled.sectionThree
-              })
-            }
-            className={isToggled.sectionThree ? 'active' : ''}
+        }
+      />
+      <DropdownItem
+        bodyText={
+          <FormattedMessage
+            id='modals.brokerage.authorize.secure_connection'
+            defaultMessage='Data is securely retrieved in read-only format and only for the duration agreed with you. You have the right to withdraw your consent at any time.'
           />
-        </DropdownTitleRow>
-        <InfoDropdown isToggled={isToggled.sectionThree}>
-          <InfoText>
-            <FormattedMessage
-              id='modals.brokerage.authorize.fca'
-              defaultMessage='Blockchain is an agent of {entityName} Ltd. {entityName} Ltd is authorised and regulated by the Financial Conduct Authority under the Payment Service Regulations 2017 [827001] for the provision of Account Information and Payment Initiation services.'
-              values={{ entityName }}
-            />
-          </InfoText>
-        </InfoDropdown>
-      </Row>
+        }
+        titleText={
+          <FormattedMessage
+            id='modals.brokerage.authorize.secure_connection.title'
+            defaultMessage='Secure Connection'
+          />
+        }
+      />
+      <DropdownItem
+        bodyText={
+          <FormattedMessage
+            id='modals.brokerage.authorize.fca'
+            defaultMessage='Blockchain is an agent of {entityName} Ltd. {entityName} Ltd is authorised and regulated by the Financial Conduct Authority under the Payment Service Regulations 2017 [827001] for the provision of Account Information and Payment Initiation services.'
+            values={{ entityName }}
+          />
+        }
+        titleText={
+          <FormattedMessage
+            id='modals.brokerage.authorize.fca.title'
+            defaultMessage='FCA Authorisation'
+          />
+        }
+      />
       <Row>
         <InfoText>
           <FormattedMessage
             id='modals.brokerage.authorize.data'
-            defaultMessage='In order to share your {bankName} data with Blockchain, you will now be securely redirected to your bank to confirm your consent for {entityName} to read the following information:'
-            values={{ bankName: 'Get this from data?', entityName }}
+            defaultMessage='In order to share your bank account data with Blockchain, you will now be securely redirected to your bank to confirm your consent for {entityName} to read the following information:'
+            values={{ entityName }}
           />
         </InfoText>
         <InfoText style={{ margin: '15px 0' }}>
@@ -187,35 +165,21 @@ const Success: React.FC<Props> = props => {
           />
         </InfoText>
       </Row>
-      <Row>
-        <DropdownTitleRow>
-          <InfoTitle>
-            <FormattedMessage
-              id='modals.brokerage.authorize.about_access.title'
-              defaultMessage='About the Access'
-            />
-          </InfoTitle>
-          <Icon
-            name='chevron-down'
-            onClick={() =>
-              handleToggle({
-                ...isToggled,
-                sectionFour: !isToggled.sectionFour
-              })
-            }
-            className={isToggled.sectionFour ? 'active' : ''}
+      <DropdownItem
+        bodyText={
+          <FormattedMessage
+            id='modals.brokerage.authorize.about_access'
+            defaultMessage='{entityName} will then use these details with Blockchain solely for the purposes of buying cryptocurrencies. This access is valid until 24th of January 2021, you can cancel consent at any time via the Blockchain settings or via your bank. This request is not a one-off, you will continue to receive consent requests as older versions expire.'
+            values={{ entityName }}
           />
-        </DropdownTitleRow>
-        <InfoDropdown isToggled={isToggled.sectionFour}>
-          <InfoText>
-            <FormattedMessage
-              id='modals.brokerage.authorize.about_access'
-              defaultMessage='{entityName} will then use these details with Blockchain solely for the purposes of buying cryptocurrencies. This access is valid until 24th of January 2021, you can cancel consent at any time via the Blockchain settings or via your bank. This request is not a one-off, you will continue to receive consent requests as older versions expire.'
-              values={{ entityName }}
-            />
-          </InfoText>
-        </InfoDropdown>
-      </Row>
+        }
+        titleText={
+          <FormattedMessage
+            id='modals.brokerage.authorize.about_access.title'
+            defaultMessage='About the Access'
+          />
+        }
+      />
       <Row />
       <Bottom>
         <Button
