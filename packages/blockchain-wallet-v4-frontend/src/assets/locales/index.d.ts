@@ -2058,7 +2058,7 @@ type MessagesType = {
   'scenes.preferences.loading.email.title': 'Email address'
   'scenes.prices.failure': 'Failed to load asset prices.'
   'scenes.prices.noresults': 'No assets match {filterValue}'
-  'scenes.prices.subtitle': 'Explore, Buy, Sell and Swap all of assets offered by our wallet.'
+  'scenes.prices.subtitle': 'Buy, Sell and Swap all of the assets offered by our wallet.'
   'scenes.profile.identityverification.swaplimit.airdrops.learnmore': 'Learn more.'
   'scenes.profile.identityverification.swaplimit.goldcompleteairdropeligible-1': 'By completing the Gold Level requirements you are automatically eligible for our airdrop programs extended to your region.'
   'scenes.profile.identityverification.swaplimit.learnmorelimits': "We’ve put together an article on Trading Limits. <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>Learn more.</a>"

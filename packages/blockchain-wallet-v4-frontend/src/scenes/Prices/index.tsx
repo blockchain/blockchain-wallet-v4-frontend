@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { Field, formValueSelector, reduxForm } from 'redux-form'
+import { BaseFieldProps, Field, formValueSelector, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
@@ -38,7 +38,24 @@ const Title = styled.div`
 const SubTitle = styled.div`
   display: flex;
   justify-content: flex-start;
-  margin-top: 16px;
+  margin: 16px 8px 0 0;
+`
+const TextFilterWrapper = styled.div`
+  display: flex;
+  position: relative;
+  width: 300px;
+`
+const IconField = styled(Field)<
+  BaseFieldProps & { height: string; placeholder: string }
+>`
+  div > input {
+    padding-left: 40px;
+  }
+`
+const SearchIconWrapper = styled.div`
+  position: absolute;
+  top: 12px;
+  left: 10px;
 `
 
 const Scene = ({ children }) => (
@@ -56,20 +73,23 @@ const Scene = ({ children }) => (
             <Text color='grey600' size='16px' weight={500}>
               <FormattedMessage
                 id='scenes.prices.subtitle'
-                defaultMessage='Explore, Buy, Sell and Swap all of assets offered by our wallet.'
+                defaultMessage='Buy, Sell and Swap all of the assets offered by our wallet.'
               />
             </Text>
           </SubTitle>
         </div>
-        <div>
-          <Field
+        <TextFilterWrapper>
+          <IconField
             component={TextBox}
             height='42px'
             data-e2e='pricesTextFilter'
             name='textFilter'
-            placeholder='Filter by asset name'
+            placeholder='Search'
           />
-        </div>
+          <SearchIconWrapper>
+            <Icon name='magnifier' size='20px' color='grey400' />
+          </SearchIconWrapper>
+        </TextFilterWrapper>
       </PageTitle>
     </Header>
     {children}

@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { Exchange } from 'blockchain-wallet-v4/src'
 import CoinDisplay from 'components/Display/CoinDisplay'
 
 import { CellHeaderText } from '.'
@@ -22,7 +23,25 @@ export const getBalanceColumn = () => ({
   ),
   accessor: 'balance',
   disableGlobalFilter: true,
-  sortType: 'basic',
+  sortType: (a, b) => {
+    const aBalance = Number(
+      Exchange.convertCoinToCoin({
+        value: a.original.balance,
+        coin: a.original.coin,
+        baseToStandard: true
+      }).value
+    )
+    const bBalance = Number(
+      Exchange.convertCoinToCoin({
+        value: b.original.balance,
+        coin: b.original.coin,
+        baseToStandard: true
+      }).value
+    )
+    if (aBalance > bBalance) return 1
+    if (bBalance > aBalance) return -1
+    return 0
+  },
   Cell: ({ row: { original: values } }) => {
     const { balance, coin } = values
     return (
