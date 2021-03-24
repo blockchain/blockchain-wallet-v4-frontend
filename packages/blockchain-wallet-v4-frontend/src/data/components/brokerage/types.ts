@@ -56,6 +56,11 @@ interface OBAttributesType {
   institutions: OBInstitution[]
 }
 
+export type AccountsForProccess =
+  | OBInstitution[]
+  | undefined
+  | YodleeAccountType[]
+
 export type BankStatusType =
   | 'ACTIVE'
   | 'BANK_TRANSFER_ACCOUNT_INFO_NOT_FOUND'
