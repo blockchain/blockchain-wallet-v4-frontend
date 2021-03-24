@@ -2,6 +2,7 @@ import * as algoTransactions from './algoTransactions/actionTypes'
 import * as bchTransactions from './bchTransactions/actionTypes'
 import * as brokerage from './brokerage/actionTypes'
 import * as btcTransactions from './btcTransactions/actionTypes'
+import * as dotTransactions from './dotTransactions/actionTypes'
 import * as ethTransactions from './ethTransactions/actionTypes'
 import * as fiatTransactions from './fiatTransactions/actionTypes'
 import * as identityVerification from './identityVerification/actionTypes'
@@ -35,6 +36,7 @@ export {
   bchTransactions,
   brokerage,
   btcTransactions,
+  dotTransactions,
   ethTransactions,
   fiatTransactions,
   identityVerification,

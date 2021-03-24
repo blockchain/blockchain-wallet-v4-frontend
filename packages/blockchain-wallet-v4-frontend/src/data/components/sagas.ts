@@ -2,6 +2,7 @@ import algoTransactions from './algoTransactions/sagas'
 import bchTransactions from './bchTransactions/sagas'
 import brokerage from './brokerage/sagas'
 import btcTransactions from './btcTransactions/sagas'
+import dotTransactions from './dotTransactions/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import fiatTransactions from './fiatTransactions/sagas'
 import identityVerification from './identityVerification/sagas'
@@ -31,6 +32,7 @@ export default ({ api, coreSagas, networks }) => ({
   bchTransactions: bchTransactions(),
   brokerage: brokerage({ api, coreSagas, networks }),
   btcTransactions: btcTransactions(),
+  dotTransactions: dotTransactions(),
   ethTransactions: ethTransactions(),
   xlmTransactions: xlmTransactions(),
   fiatTransactions: fiatTransactions(),

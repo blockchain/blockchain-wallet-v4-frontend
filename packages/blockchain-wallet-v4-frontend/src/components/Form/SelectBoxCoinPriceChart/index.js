@@ -45,15 +45,10 @@ const SelectBoxCoin = styled(SelectBox)`
 
 const renderItem = props => {
   const { text, value, ...rest } = props
-  const coinValue = value ? value.toLowerCase() : 'btc'
+  const coinValue = value || 'BTC'
   return (
     <HeaderWrapper {...rest}>
-      <ItemIcon
-        name={coinValue + '-circle-filled'}
-        color={coinValue}
-        size='22px'
-        weight={400}
-      />
+      <ItemIcon name={coinValue} color={coinValue} size='22px' weight={400} />
       <Text size='14px' weight={400} cursor='pointer' data-e2e=''>
         {text}
       </Text>
@@ -63,17 +58,12 @@ const renderItem = props => {
 
 const renderDisplay = (props, children) => {
   const { value } = props
-  const coinValue = value ? value.toLowerCase() : 'btc'
+  const coinValue = value || 'BTC'
   const e2eTag = coinValue + 'CurrencyOption'
 
   return (
     <HeaderWrapper>
-      <Icon
-        name={coinValue + '-circle-filled'}
-        color={coinValue}
-        size='22px'
-        weight={400}
-      />
+      <Icon name={coinValue} color={coinValue} size='22px' weight={400} />
       <CoinText
         size='18px'
         weight={500}

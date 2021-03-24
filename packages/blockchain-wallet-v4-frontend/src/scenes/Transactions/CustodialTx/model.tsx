@@ -33,17 +33,17 @@ export const IconTx = (props: Props) => {
   switch (props.tx.state) {
     case 'FINISHED':
       return (
-        <IconWrapper color='fiat-light'>
-          <Icon size='20px' color='fiat' name='plus' />
+        <IconWrapper color='green400'>
+          <Icon size='20px' color='USD' name='plus' />
         </IconWrapper>
       )
     case 'REFUNDED':
     case 'COMPLETE':
       return props.coin in WalletFiatEnum ? (
-        <IconWrapper color='fiat-light'>
+        <IconWrapper color='green400'>
           <Icon
             size='20px'
-            color='fiat'
+            color='USD'
             name={props.tx.type === 'DEPOSIT' ? 'arrow-down' : 'arrow-up'}
           />
         </IconWrapper>
@@ -66,7 +66,7 @@ export const IconTx = (props: Props) => {
     case 'REJECTED':
     case 'UNIDENTIFIED':
       return props.coin in WalletFiatEnum ? (
-        <IconWrapper color='red000'>
+        <IconWrapper color='red500'>
           <Icon
             color='red600'
             size='20px'
@@ -81,7 +81,7 @@ export const IconTx = (props: Props) => {
       )
     default:
       return (
-        <IconWrapper color='grey000'>
+        <IconWrapper color='grey500'>
           <Icon size='20px' weight={500} color='grey600' name={'timer'} />
         </IconWrapper>
       )

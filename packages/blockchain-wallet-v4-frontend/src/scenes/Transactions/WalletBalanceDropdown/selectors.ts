@@ -6,10 +6,11 @@ import {
   ExtractSuccess,
   FiatType
 } from 'blockchain-wallet-v4/src/types'
-import * as balanceSelectors from 'components/Balances/wallet/selectors'
+import * as balanceSelectors from 'components/Balances/selectors'
 import { getData as getAlgoAddressData } from 'components/Form/SelectBoxAlgoAddresses/selectors'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
+import { getData as getDotAddressData } from 'components/Form/SelectBoxDotAddresses/selectors'
 import {
   getErc20Data as getErc20AddressData,
   getEthData as getEthAddressData
@@ -95,6 +96,12 @@ export const getData = (state, ownProps: OwnProps) => {
         includeCustodial: true
       })
       balanceDataR = balanceSelectors.getAlgoBalance(state)
+      break
+    case 'DOT':
+      addressDataR = getDotAddressData(state, {
+        includeCustodial: true
+      })
+      balanceDataR = balanceSelectors.getDotBalance(state)
       break
     case 'EUR':
     case 'GBP':

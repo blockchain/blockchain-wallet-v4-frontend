@@ -13,6 +13,7 @@ import goals from './goals/sagaRegister'
 import middleware from './middleware/sagaRegister'
 import modules from './modules/sagaRegister'
 import preferences from './preferences/sagaRegister'
+import prices from './prices/sagaRegister'
 import router from './router/sagaRegister'
 import wallet from './wallet/sagaRegister'
 
@@ -72,6 +73,7 @@ export default function * rootSaga({
     fork(custodial({ api })),
     fork(modules({ api, coreSagas, networks })),
     fork(preferences()),
+    fork(prices({ api })),
     fork(goals({ api, coreSagas, networks })),
     fork(wallet({ coreSagas })),
     fork(middleware({ api, ratesSocket, coinsSocket })),

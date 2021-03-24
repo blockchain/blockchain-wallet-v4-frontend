@@ -29,6 +29,7 @@ export type WalletFormType =
   | 'login'
   | 'previewSwap'
   | 'previewSell'
+  | 'prices'
   | 'priceChartCoin'
   | 'register'
   | 'reminder'

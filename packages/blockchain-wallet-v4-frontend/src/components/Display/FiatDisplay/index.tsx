@@ -49,11 +49,12 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  algoActions: bindActionCreators(actions.core.data.algo, dispatch),
   bchActions: bindActionCreators(actions.core.data.bch, dispatch),
   btcActions: bindActionCreators(actions.core.data.btc, dispatch),
+  dotActions: bindActionCreators(actions.core.data.dot, dispatch),
   ethActions: bindActionCreators(actions.core.data.eth, dispatch),
-  xlmActions: bindActionCreators(actions.core.data.xlm, dispatch),
-  algoActions: bindActionCreators(actions.core.data.algo, dispatch)
+  xlmActions: bindActionCreators(actions.core.data.xlm, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

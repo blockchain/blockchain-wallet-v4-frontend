@@ -2,10 +2,6 @@ import * as AT from './actionTypes'
 
 export type ModalNamesType =
   | '@KYC.IdentityVerification'
-  | '@MODAL.REQUEST.BCH'
-  | '@MODAL.REQUEST.BTC'
-  | '@MODAL.REQUEST.ETH'
-  | '@MODAL.REQUEST.XLM'
   | '@MODAL.SEND.BCH'
   | '@MODAL.SEND.BTC'
   | '@MODAL.SEND.ETH'
@@ -22,7 +18,6 @@ export type ModalNamesType =
   | 'CUSTODY_WITHDRAW_MODAL'
   | 'DeleteAddressLabel'
   | 'EditTxDescription'
-  | 'FAQ_MODAL'
   | 'ImportBtcAddress'
   | 'INTEREST_MODAL'
   | 'KycDocResubmit'

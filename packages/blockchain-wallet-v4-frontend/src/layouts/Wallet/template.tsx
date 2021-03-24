@@ -39,7 +39,7 @@ const Content = styled.div`
   width: calc(100% - 250px);
   max-width: calc(100% - 250px);
   background-color: ${props => props.theme.white};
-  padding: 16px 30px;
+  padding: 32px 28px 16px 36px;
   ${media.tablet`
     padding: 8px 16px;
     width: 100%;
