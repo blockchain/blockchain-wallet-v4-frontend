@@ -28,7 +28,7 @@ const Success = (props: Props) => {
 
   return (
     <BankWrapper>
-      <ModalNavWithBackArrow>
+      <ModalNavWithBackArrow {...props}>
         <FormattedMessage
           id='copy.find_your_bank'
           defaultMessage='Find Your Bank'

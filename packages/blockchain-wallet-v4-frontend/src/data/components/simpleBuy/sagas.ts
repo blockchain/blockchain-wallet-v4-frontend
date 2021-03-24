@@ -994,7 +994,9 @@ export default ({
         yield put(
           actions.components.brokerage.showModal(
             BrokerageModalOriginType.ADD_BANK,
-            'ADD_BANK_YODLEE_MODAL'
+            fiatCurrency === 'USD'
+              ? 'ADD_BANK_YODLEE_MODAL'
+              : 'ADD_BANK_YAPILY_MODAL'
           )
         )
         return yield put(
