@@ -10,7 +10,6 @@ import {
   BankWrapper,
   ModalNavWithBackArrow,
   SimpleBankRow
-<<<<<<< HEAD
 } from '../../../../components'
 import {
   LinkDispatchPropsType as _LD,
@@ -18,12 +17,6 @@ import {
   SuccessStateType as _SS} from '.'
 
 type Props = _SS & _LD & _O
-=======
-} from '../../../components'
-import { LinkDispatchPropsType as _LD,SuccessStateType as _SS } from '.'
-
-type OwnProps = _SS & _LD
->>>>>>> feat(open banking): merge in dev, fix conflicts, merge in authorize screen, connect them
 
 const Success = (props: Props) => {
   const [banks, setBanks] = useState<OBInstitution[]>(
