@@ -632,7 +632,7 @@ type MessagesType = {
   'modals.brokerage.authorize.secure_connection': 'Data is securely retrieved in read-only format and only for the duration agreed with you. You have the right to withdraw your consent at any time.'
   'modals.brokerage.authorize.fca.title': 'FCA Authorisation'
   'modals.brokerage.authorize.fca': 'Blockchain is an agent of {entityName} Ltd. {entityName} Ltd is authorised and regulated by the Financial Conduct Authority under the Payment Service Regulations 2017 [827001] for the provision of Account Information and Payment Initiation services.'
-  'modals.brokerage.authorize.data': 'In order to share your {bankName} data with Blockchain, you will now be securely redirected to your bank to confirm your consent for {entityName} to read the following information:'
+  'modals.brokerage.authorize.data': 'In order to share your bank account data with Blockchain, you will now be securely redirected to your bank to confirm your consent for {entityName} to read the following information:'
   'modals.brokerage.authorize.identification_details': 'Identification details'
   'modals.brokerage.authorize.account_details': 'Account(s) details'
   'modals.brokerage.authorize.about_access.title': 'About the Access'
