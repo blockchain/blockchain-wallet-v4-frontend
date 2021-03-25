@@ -76,6 +76,14 @@ export const getData = (state, ownProps: OwnProps) => {
       })
       balanceDataR = balanceSelectors.getUsdtBalance(state)
       break
+    case 'AAVE':
+      addressDataR = getErc20AddressData(state, {
+        coin: 'AAVE',
+        includeCustodial: true,
+        includeInterest: true
+      })
+      balanceDataR = balanceSelectors.getAaveBalance(state)
+      break
     case 'WDGLD':
       addressDataR = getErc20AddressData(state, {
         coin: 'WDGLD',
