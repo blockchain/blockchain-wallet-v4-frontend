@@ -2,11 +2,14 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { BankTransferAccountType } from 'blockchain-wallet-v4/src/types'
+import {
+  BankTransferAccountType,
+  WalletCurrencyType
+} from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { BrokerageModalOriginType } from 'data/types'
+import { BrokerageModalOriginType, OBInstitution } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../../types'
@@ -19,8 +22,9 @@ export type OwnProps = {
 export type LinkDispatchPropsType = {
   brokerageActions: typeof actions.components.brokerage
 }
-type LinkStatePropsType = {
-  account: BankTransferAccountType | undefined
+export type LinkStatePropsType = {
+  account: BankTransferAccountType | OBInstitution | undefined
+  walletCurrency: WalletCurrencyType
 }
 // export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
@@ -69,7 +73,6 @@ class BankDetails extends PureComponent<Props, {}> {
           <Template
             {...this.props}
             onSubmit={this.handleSubmit}
-            account={this.props.account}
             handleClose={this.handleClose}
           />
         </FlyoutChild>
@@ -79,7 +82,8 @@ class BankDetails extends PureComponent<Props, {}> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  account: selectors.components.brokerage.getAccount(state)
+  account: selectors.components.brokerage.getAccount(state),
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({

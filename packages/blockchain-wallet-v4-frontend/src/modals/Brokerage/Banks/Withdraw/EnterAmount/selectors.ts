@@ -9,7 +9,7 @@ import {
   getFiatBalance,
   getWithdrawableFiatBalance
 } from 'components/Balances/selectors'
-import { InvitationsType } from 'core/types'
+import { BankTransferAccountType, InvitationsType } from 'core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -25,7 +25,9 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
     ownProps.fiatCurrency,
     state
   )
-  let defaultMethodR = selectors.components.brokerage.getAccount(state)
+  let defaultMethodR = selectors.components.brokerage.getAccount(state) as
+    | BankTransferAccountType
+    | undefined
   let bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
     state
   )

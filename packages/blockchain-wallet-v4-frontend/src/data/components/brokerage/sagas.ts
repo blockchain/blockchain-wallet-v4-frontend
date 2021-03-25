@@ -9,6 +9,8 @@ import {
   AddBankStepType,
   BankDWStepType,
   BrokerageModalOriginType,
+  FastLinkType,
+  OBInstitution,
   SBCheckoutFormValuesType
 } from 'data/types'
 
@@ -75,93 +77,105 @@ export default ({
   }
 
   // TODO move OB stuff to separate saga
-  const fetchBankTransferUpdate = function * ({
-    accounts
-  }: ReturnType<typeof A.fetchBankTransferUpdate>) {
+  const fetchBankTransferUpdate = function * (
+    action: ReturnType<typeof A.fetchBankTransferUpdate>
+  ) {
     try {
+      const YodleeAccount =
+        action.payload.accounts && action.payload.accounts[0]
       // TODO we can type it like this ideally
       // let accountToBeProcessed: AccountsForProccess = accounts
       let accountToBeProcessed
+      let bankId
+      let attributes
       const bankCredentials = S.getBankCredentials(yield select()).getOrElse(
         {} as OBType
       )
+      const OBAccount = S.getAccount(yield select()) as OBInstitution
+      const fastLink = S.getFastLink(yield select()).getOrElse(
+        {} as FastLinkType
+      )
 
-      if (!accounts && bankCredentials?.attributes) {
-        accountToBeProcessed = bankCredentials?.attributes.institutions
-      } else {
-        accountToBeProcessed = accounts
+      if (!YodleeAccount && OBAccount && bankCredentials) {
+        accountToBeProcessed = OBAccount
+        bankId = bankCredentials.id
+        attributes = { institutionId: OBAccount.id }
+      } else if (YodleeAccount) {
+        // Yodlee
+        accountToBeProcessed = YodleeAccount
+        bankId = fastLink.id
+        attributes = {
+          providerAccountId: YodleeAccount.providerAccountId,
+          accountId: YodleeAccount.accountId
+        }
       }
       // TODO: To account for Yapily we need to check for `bankCredentials` in
       // redux and use the `bankCredentials.id` and
       // `bankCredentials.attributes.institutions[whichever one user selected].id
       // as the params for `api.updateBankAccountLink`
-      const fastLink = yield select(selectors.components.brokerage.getFastLink)
       if (accountToBeProcessed) {
-        for (let a of accountToBeProcessed) {
-          const status: ReturnType<typeof api.updateBankAccountLink> = yield call(
-            api.updateBankAccountLink,
-            fastLink.data.id,
-            { providerAccountId: a.providerAccountId, accountId: a.accountId }
+        const status: ReturnType<typeof api.updateBankAccountLink> = yield call(
+          api.updateBankAccountLink,
+          bankId,
+          attributes
+        )
+
+        // Polls the account details to check for Active state
+        const bankData = yield call(conditionalRetry, status.id)
+        // Shows bank status screen based on whether has blocked account or not
+
+        yield put(
+          actions.components.brokerage.setAddBankStep({
+            addBankStep: AddBankStepType.ADD_BANK_STATUS,
+            bankStatus: bankData.state
+          })
+        )
+
+        yield put(actions.components.brokerage.fetchBankTransferAccounts())
+
+        if (bankData.state === 'ACTIVE') {
+          const values: SBCheckoutFormValuesType = yield select(
+            selectors.form.getFormValues('simpleBuyCheckout')
           )
 
-          // Polls the account details to check for Active state
-          const bankData = yield call(conditionalRetry, status.id)
-          // Shows bank status screen based on whether has blocked account or not
-
+          // Set the brokerage defaultMethod to this new bank. Typically to
+          // auto-fill the bank account on the enter amount screen
           yield put(
-            actions.components.brokerage.setAddBankStep({
-              addBankStep: AddBankStepType.ADD_BANK_STATUS,
-              bankStatus: bankData.state
+            actions.components.brokerage.setBankDetails({
+              account: bankData
             })
           )
-
-          yield put(actions.components.brokerage.fetchBankTransferAccounts())
-
-          if (bankData.state === 'ACTIVE') {
-            const values: SBCheckoutFormValuesType = yield select(
-              selectors.form.getFormValues('simpleBuyCheckout')
-            )
-
-            // Set the brokerage defaultMethod to this new bank. Typically to
-            // auto-fill the bank account on the enter amount screen
+          if (values?.amount) {
             yield put(
-              actions.components.brokerage.setBankDetails({
-                account: bankData
-              })
+              actions.components.simpleBuy.createSBOrder(
+                'BANK_TRANSFER',
+                status.id
+              )
             )
-            if (values?.amount) {
-              yield put(
-                actions.components.simpleBuy.createSBOrder(
-                  'BANK_TRANSFER',
-                  status.id
-                )
-              )
-            } else {
-              const sbMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
-                yield select()
-              )
-              const sbMethods = sbMethodsR.getOrElse(DEFAULT_METHODS)
-              if (Remote.Success.is(sbMethodsR) && sbMethods.methods.length) {
-                const bankTransferMethod = sbMethods.methods.filter(
-                  method => method.type === 'BANK_TRANSFER'
-                )[0]
-                yield put(
-                  actions.components.simpleBuy.handleSBMethodChange({
-                    ...bankData,
-                    limits: bankTransferMethod.limits,
-                    type: 'BANK_TRANSFER'
-                  })
-                )
-              }
-            }
           } else {
-            actions.analytics.logEvent([
-              'BANK_LINK_FAILED',
-              bankData.state,
-              a.providerName,
-              a.providerId
-            ])
+            const sbMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
+              yield select()
+            )
+            const sbMethods = sbMethodsR.getOrElse(DEFAULT_METHODS)
+            if (Remote.Success.is(sbMethodsR) && sbMethods.methods.length) {
+              const bankTransferMethod = sbMethods.methods.filter(
+                method => method.type === 'BANK_TRANSFER'
+              )[0]
+              yield put(
+                actions.components.simpleBuy.handleSBMethodChange({
+                  ...bankData,
+                  limits: bankTransferMethod.limits,
+                  type: 'BANK_TRANSFER'
+                })
+              )
+            }
           }
+        } else {
+          actions.analytics.logEvent([
+            'BANK_LINK_FAILED',
+            bankData.state,
+            ...attributes
+          ])
         }
       }
     } catch (e) {
@@ -176,6 +190,7 @@ export default ({
 
   const fetchBankLinkCredentials = function * (action) {
     try {
+      yield put(A.fetchBankLinkCredentialsLoading())
       const { fiatCurrency } = action.payload
       const credentials = yield call(api.createBankAccountLink, fiatCurrency)
       if (credentials.partner === 'YODLEE') {
@@ -184,8 +199,7 @@ export default ({
         yield put(A.setBankCredentials(credentials))
       }
     } catch (e) {
-      // eslint-disable-next-line
-      console.log(e)
+      yield put(A.fetchBankLinkCredentialsError(e.description))
     }
   }
 
