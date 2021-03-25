@@ -1,6 +1,7 @@
 import { lift } from 'ramda'
 
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { BankTransferAccountType } from 'core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { BankTransferAccountType } from 'data/types'

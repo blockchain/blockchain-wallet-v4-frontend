@@ -108,7 +108,7 @@ export type BrokerageAddBankStepPayload =
     }
 
 export type BankDetailsPayload = {
-  account: BankTransferAccountType | undefined
+  account: BankTransferAccountType | OBInstitution | undefined
   redirectBackToStep?: boolean
 }
 
@@ -165,7 +165,7 @@ export enum BrokerageModalOriginType {
 
 // State
 export type BrokerageState = {
-  account: BankTransferAccountType | undefined
+  account: BankTransferAccountType | OBInstitution | undefined
   addBankStep: AddBankStepType
   addNew: boolean
   bankCredentials: RemoteDataType<string, OBType>

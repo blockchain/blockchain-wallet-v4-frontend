@@ -162,6 +162,12 @@ export default ({
               })
             )
           }
+        } else {
+          actions.analytics.logEvent([
+            'BANK_LINK_FAILED',
+            bankData.state,
+            ...attributes
+          ])
         }
       } else {
         actions.analytics.logEvent([
