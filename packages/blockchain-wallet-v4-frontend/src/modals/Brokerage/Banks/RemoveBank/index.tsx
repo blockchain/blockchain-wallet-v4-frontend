@@ -6,6 +6,7 @@ import { BankTransferAccountType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { OBInstitution } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../../types'
@@ -18,8 +19,9 @@ export type OwnProps = {
 export type LinkDispatchPropsType = {
   brokerageActions: typeof actions.components.brokerage
 }
-type LinkStatePropsType = {
-  account: BankTransferAccountType | undefined
+
+export type LinkStatePropsType = {
+  account: BankTransferAccountType | OBInstitution | undefined
   redirectBackToStep: boolean
 }
 
@@ -61,8 +63,6 @@ class CancelOrder extends PureComponent<Props, {}> {
           <Template
             {...this.props}
             onSubmit={this.handleSubmit}
-            account={this.props.account}
-            redirectBack={this.props.redirectBackToStep}
             handleClose={this.handleClose}
           />
         </FlyoutChild>

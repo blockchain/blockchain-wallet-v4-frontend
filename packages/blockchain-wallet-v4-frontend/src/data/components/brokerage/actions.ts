@@ -51,7 +51,7 @@ export const createFiatDeposit = () => ({
 
 export const fetchBankTransferUpdate = (accounts?: YodleeAccountType[]) => ({
   type: AT.FETCH_BANK_TRANSFER_UPDATE,
-  accounts
+  payload: { accounts }
 })
 
 export const fetchBTUpdateLoading = (): BrokerageActionTypes => ({
@@ -83,6 +83,15 @@ export const fetchBankLinkCredentials = (
 ): BrokerageActionTypes => ({
   type: AT.FETCH_BANK_LINK_CREDENTIALS,
   payload: { fiatCurrency }
+})
+
+export const fetchBankLinkCredentialsError = (error: string) => ({
+  type: AT.FETCH_BANK_CREDENTIALS_ERROR,
+  payload: { error }
+})
+
+export const fetchBankLinkCredentialsLoading = () => ({
+  type: AT.FETCH_BANK_CREDENTIALS_LOADING
 })
 
 export const setAddBankStep = (

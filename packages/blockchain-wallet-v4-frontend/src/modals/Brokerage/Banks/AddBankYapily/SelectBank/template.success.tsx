@@ -49,11 +49,14 @@ const Success = (props: Props) => {
           <SimpleBankRow
             key={bank.id}
             institution={bank}
-            onClick={() =>
+            onClick={() => {
               props.brokerageActions.setAddBankStep({
                 addBankStep: AddBankStepType.ADD_BANK_AUTHORIZE
               })
-            }
+              props.brokerageActions.setBankDetails({
+                account: bank
+              })
+            }}
           />
         )
       })}

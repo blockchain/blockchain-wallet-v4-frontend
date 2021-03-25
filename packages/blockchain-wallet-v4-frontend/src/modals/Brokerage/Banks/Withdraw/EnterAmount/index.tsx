@@ -57,7 +57,7 @@ class EnterAmount extends PureComponent<Props> {
       this.props.withdrawActions.setStep({
         step: WithdrawStepEnum.CONFIRM_WITHDRAW,
         amount: this.props.formValues.amount,
-        defaultMethod
+        defaultMethod: defaultMethod as BankTransferAccountType
       })
     } else if (defaultBeneficiary || this.props.beneficiary) {
       this.props.withdrawActions.setStep({
@@ -131,7 +131,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   beneficiary?: BeneficiaryType
-  defaultMethod?: BankTransferAccountType
   fiatCurrency: WalletFiatType
   handleClose: () => void
 }
