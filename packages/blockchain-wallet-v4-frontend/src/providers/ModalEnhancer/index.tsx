@@ -61,6 +61,7 @@ export default (type: ModalNamesType, options: OptionsType = {}) => Component =>
         if (
           modalContainer &&
           !this.props.disableOutsideClose &&
+          // @ts-ignore
           equals(modalContainer.children[0], e.target)
         ) {
           this.handleClose()

@@ -127,11 +127,7 @@ export class LockboxShowXPubs extends React.PureComponent {
                     className={activeTab === coin ? 'active' : ''}
                     onClick={() => this.setActive(coin)}
                   >
-                    <TabIcon
-                      name={coin + '-circle-filled'}
-                      size='28px'
-                      color={coin}
-                    />
+                    <TabIcon name={coin} size='28px' color={coin} />
                     <TabHeader>
                       <span>{coin.toUpperCase()}</span>
                     </TabHeader>

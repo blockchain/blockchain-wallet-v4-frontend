@@ -1,6 +1,8 @@
+import { CoinType, TimeRange } from 'core/types'
+
 import * as AT from './actionTypes'
 
-export const initialized = (coin, time) => ({
+export const initialized = (coin: CoinType, time: TimeRange) => ({
   type: AT.PRICE_CHART_INITIALIZED,
   payload: { coin, time }
 })

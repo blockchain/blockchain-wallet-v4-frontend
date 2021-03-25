@@ -1,4 +1,4 @@
-import { getEthBalance } from 'components/Balances/wallet/selectors'
+import { getEthBalance } from 'components/Balances/selectors'
 import { selectors } from 'data'
 
 export const getData = (state, props) => {

@@ -39,7 +39,6 @@ const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
 
 const CloseContainer = styled.div`
   display: flex;
-  align-items: right;
   justify-content: flex-end;
 `
 const ContentWrapper = styled.div`
@@ -61,7 +60,7 @@ const Content = styled.div`
   width: 100%;
 `
 
-const ResendContiner = styled.span`
+const ResendContainer = styled.span`
   display: inline;
   padding: 40px;
   text-align: center;
@@ -196,7 +195,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </Content>
       </ContentWrapper>
       {!changeEmail && (
-        <ResendContiner>
+        <ResendContainer>
           <Text
             color='grey900'
             style={{ marginRight: '2px', display: 'inline-block' }}
@@ -222,7 +221,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               defaultMessage='Resend'
             />
           </Link>
-        </ResendContiner>
+        </ResendContainer>
       )}
     </Wrapper>
   )
