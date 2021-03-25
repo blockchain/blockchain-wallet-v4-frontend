@@ -4,7 +4,9 @@ import { FormattedMessage } from 'react-intl'
 import { AddBankStepType, OBInstitution } from 'data/types'
 
 import {
+  BankSearchIcon,
   BankSearchInput,
+  BankSearchWrapper,
   BankWrapper,
   ModalNavWithBackArrow,
   SimpleBankRow
@@ -34,11 +36,14 @@ const Success = (props: Props) => {
           defaultMessage='Find Your Bank'
         />
       </ModalNavWithBackArrow>
-      <BankSearchInput
-        onChange={simpleSearch}
-        placeholder='Search'
-        type='text'
-      />
+      <BankSearchWrapper>
+        <BankSearchInput
+          onChange={simpleSearch}
+          placeholder='Search'
+          type='text'
+        />
+        <BankSearchIcon />
+      </BankSearchWrapper>
       {banks.map(bank => {
         return (
           <SimpleBankRow

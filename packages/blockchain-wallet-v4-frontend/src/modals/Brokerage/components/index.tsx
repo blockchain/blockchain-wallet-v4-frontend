@@ -116,10 +116,12 @@ const BankIcon = styled.div<BankIconProps>`
   background-position: center;
 `
 
+const BankSearchWrapper = styled.div`
+  position: relative;
+`
 const BankSearchInput = styled.input`
   border: 1px solid ${p => p.theme.grey000};
   font-size: 16px;
-  font-weight: 600;
   width: 100%;
   border-width: 1px 0;
   padding: 20px 0 20px 40px;
@@ -129,6 +131,15 @@ const BankSearchInput = styled.input`
     outline: none;
   }
 `
+
+const BankSearchIcon = () => (
+  <Icon
+    size='20px'
+    color='grey600'
+    name='magnifier'
+    style={{ position: 'absolute', right: '60px', top: '20px' }}
+  />
+)
 
 const SimpleBankRow = (props: {
   institution: OBInstitution
@@ -172,7 +183,9 @@ const ModalNavWithBackArrow = props => {
 }
 
 export {
+  BankSearchIcon,
   BankSearchInput,
+  BankSearchWrapper,
   BankWrapper,
   BROKERAGE_INELIGIBLE,
   IneligibleErrorMessage,
