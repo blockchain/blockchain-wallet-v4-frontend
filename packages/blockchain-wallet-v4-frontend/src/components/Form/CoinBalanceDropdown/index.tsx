@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { CoinAccountIcon, Text } from 'blockchain-info-components'
 import {
   CoinType,
   RatesType,
@@ -84,14 +84,16 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
     children
   ) => {
     const coinType = this.props.supportedCoins[this.props.coin]
-    const color = coinType.coinCode
     const balance = this.coinBalance(props)
     const account = this.accountLabel(props)
     const isItem = !children
 
     return (
       <DisplayContainer coinType={coinType} isItem={isItem}>
-        <Icon color={color} name={coinType.coinCode} size='32px' />
+        <CoinAccountIcon
+          accountType={props.value.type}
+          coin={coinType.coinCode}
+        />
         <AccountContainer>
           <Text weight={500} color='grey400' size='14px'>
             {account}{' '}

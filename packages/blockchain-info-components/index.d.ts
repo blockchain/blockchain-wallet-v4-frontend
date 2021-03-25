@@ -103,6 +103,11 @@ export const Icon: FunctionComponent<{
   onClick?: () => void
   role?: 'button'
 }>
+export const CoinAccountIcon: FunctionComponent<{
+  accountType: 'ACCOUNT' | 'CUSTODIAL' | 'EXCHANGE' | 'INTEREST'
+  coin: keyof IcoMoonType | WalletCurrencyType | 'BSV' | 'STX'
+  style?: CSSProperties
+}>
 export const IconButton: FunctionComponent<{
   'data-e2e': string
   nature?:

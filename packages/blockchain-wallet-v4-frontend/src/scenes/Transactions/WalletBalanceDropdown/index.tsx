@@ -7,7 +7,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { CoinAccountIcon, Text } from 'blockchain-info-components'
 import {
   coinToString,
   fiatToString
@@ -323,7 +323,10 @@ class WalletBalanceDropdown extends Component<Props> {
 
     return (
       <DisplayContainer coinType={coinType} isItem>
-        <Icon color={coinType.coinCode} name={coinType.coinCode} size='32px' />
+        <CoinAccountIcon
+          accountType={props.value.type}
+          coin={coinType.coinCode}
+        />
         <AccountContainer isItem>
           <Text weight={500} color='grey400' size='14px'>
             {account}{' '}
