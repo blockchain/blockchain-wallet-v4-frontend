@@ -6,10 +6,8 @@ import { actions, selectors } from 'data'
 
 import CoinPriceChange from './CoinPriceChange'
 
-class CoinPerformance extends React.PureComponent<Props> {
-  render() {
-    return <CoinPriceChange {...this.props} />
-  }
+const CoinPerformance = (props: Props) => {
+  return <CoinPriceChange {...props} />
 }
 
 const mapStateToProps = state => ({

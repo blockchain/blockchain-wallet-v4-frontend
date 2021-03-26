@@ -17,7 +17,6 @@ import { getData } from './selectors'
 
 const BannerWrapper = styled.div`
   margin-bottom: 25px;
-  max-width: 1200px;
 `
 
 class Banners extends React.PureComponent<Props> {

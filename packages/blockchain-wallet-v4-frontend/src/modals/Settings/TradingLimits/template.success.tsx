@@ -393,7 +393,7 @@ const Template: React.FC<Props> = props => {
         </ContentItem>
 
         <ContentItem>
-          <Icon name='usd' color='blue600' size='20px' />
+          <Icon name='USD' color='blue600' size='20px' />
           <ItemTitle>
             <FormattedMessage
               id='modals.tradinglimits.cash_accounts'

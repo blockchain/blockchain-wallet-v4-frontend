@@ -64,8 +64,8 @@ const SimpleBuyInfo = ({
 
     <CryptoWrapper>
       <Icon
-        color={supportedCoins[crypto].colorCode}
-        name={supportedCoins[crypto].icons.circleFilled}
+        color={supportedCoins[crypto].coinCode}
+        name={supportedCoins[crypto].coinCode}
         size='24px'
         weight={400}
       />

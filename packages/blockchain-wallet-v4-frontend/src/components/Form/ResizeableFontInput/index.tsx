@@ -61,9 +61,11 @@ export const ResizeableFontInput = Component =>
       const ref = this.componentRef.current
       if (!ref) return
 
+      // @ts-ignore
       const node = findDOMNode(ref)
       if (!node) return
 
+      // @ts-ignore
       return node.querySelector('input')
     }
 

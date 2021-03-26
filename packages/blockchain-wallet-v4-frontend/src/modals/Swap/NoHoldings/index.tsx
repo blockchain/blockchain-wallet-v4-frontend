@@ -170,8 +170,7 @@ const NoHoldings: React.FC<Props> = ({
 
       <DisplayContainer
         onClick={() => {
-          modalActions.showModal('@MODAL.REQUEST.BTC', {
-            lockboxIndex: null,
+          modalActions.showModal('REQUEST_CRYPTO_MODAL', {
             origin: 'SwapNoHoldings'
           })
         }}

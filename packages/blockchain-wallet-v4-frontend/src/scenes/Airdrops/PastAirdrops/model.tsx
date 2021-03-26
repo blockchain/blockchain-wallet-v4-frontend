@@ -21,8 +21,8 @@ export const Type = ({ campaignName }: CampaignInfoType) => {
       return (
         <TypeWrapper>
           <Icon
-            name='xlm-circle-filled'
-            color='xlm'
+            name='XLM'
+            color='XLM'
             size='24px'
             style={{ marginRight: '8px' }}
           />
@@ -34,7 +34,7 @@ export const Type = ({ campaignName }: CampaignInfoType) => {
     case 'POWER_PAX':
       return (
         <TypeWrapper>
-          <Icon name='pax' size='24px' style={{ marginRight: '8px' }} />
+          <Icon name='PAX' size='24px' style={{ marginRight: '8px' }} />
           <Text size='14px' weight={500}>
             USD Digital
           </Text>
@@ -44,8 +44,8 @@ export const Type = ({ campaignName }: CampaignInfoType) => {
       return (
         <TypeWrapper>
           <Icon
-            name='stx'
-            color='stx'
+            name='STX'
+            color='STX'
             size='24px'
             style={{ marginRight: '8px' }}
           />

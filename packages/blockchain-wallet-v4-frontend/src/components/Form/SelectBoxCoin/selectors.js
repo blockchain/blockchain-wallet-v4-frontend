@@ -6,7 +6,18 @@ export const getCoins = (state, { type }) => {
   const supportedCoins = selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrFail()
-  const coinOrder = ['BTC', 'ETH', 'BCH', 'XLM', 'WDGLD', 'PAX', 'USDT']
+  const coinOrder = [
+    'BTC',
+    'ETH',
+    'BCH',
+    'AAVE',
+    'YFI',
+    'DOT',
+    'XLM',
+    'WDGLD',
+    'PAX',
+    'USDT'
+  ]
   return values(
     map(
       x => ({ text: x.displayName, value: x.coinCode }),
