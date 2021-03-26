@@ -19,7 +19,7 @@ export default {
     AAVE: {
       rate: '1000000000000000000',
       symbol: 'AAVE',
-      decimal_digits: 2,
+      decimal_digits: 8,
       currency: 'AAVE'
     }
   }
