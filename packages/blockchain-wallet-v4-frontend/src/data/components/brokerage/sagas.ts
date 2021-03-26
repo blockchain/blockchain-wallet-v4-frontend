@@ -68,7 +68,7 @@ export default ({
   }
 
   const conditionalRetry = function * (id: string) {
-    const data = yield retry(60, 1000, transferAccountState, id)
+    const data = yield retry(100, 1000, transferAccountState, id)
     return data
   }
 
@@ -105,6 +105,12 @@ export default ({
         api.updateBankAccountLink,
         bankId,
         attributes
+      )
+
+      yield put(
+        actions.components.brokerage.setBankDetails({
+          account: status
+        })
       )
 
       // Polls the account details to check for Active state

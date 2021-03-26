@@ -6,7 +6,7 @@ import { ExtractSuccess, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import { Loading, LoadingTextEnum } from '../../../components'
+import { Loading, LoadingTextEnum } from '../../components'
 import { getData } from './selectors'
 import BankLinkError from './template.error.general'
 import Success from './template.success'

@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, Text } from 'blockchain-info-components'
+import { Button, SpinningLoader,Text } from 'blockchain-info-components'
 
 import { BankWrapper, ModalNavWithCloseIcon } from '../../../components'
 import { OwnProps as _O, Props as _P, SuccessStateType as _SS } from '.'
@@ -31,12 +31,37 @@ const Hr = styled.hr`
   }
 `
 
-const Qr = styled.img`
-  width: 200px;
-  margin-top: 40px;
+const QrContainer = styled.div`
+  width: 150px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px auto 40px;
   padding: 15px;
   border: 2px solid ${p => p.theme.blue600};
   border-radius: 4px;
+
+  & img {
+    width: 150px;
+  }
+`
+
+const WaitingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+  margin-bottom: 15px;
+
+  & > div:first-child {
+    margin-right: 10px;
+  }
+
+  &.active {
+    opacity: 1;
+  }
 `
 
 const StyledButton = styled(Button)`
@@ -67,7 +92,25 @@ const Success = (props: Props) => {
             defaultMessage='Use your phone’s camera to scan the QR code.'
           />
         </Text>
-        <Qr src={props.account?.attributes.qrcodeUrl} />
+        <QrContainer>
+          {props.account?.attributes.qrcodeUrl ? (
+            <img src={props.account?.attributes.qrcodeUrl} />
+          ) : (
+            <SpinningLoader width='30px' height='30px' />
+          )}
+        </QrContainer>
+
+        <WaitingContainer
+          className={props.account?.attributes.qrcodeUrl ? 'active' : ''}
+        >
+          <SpinningLoader width='10px' height='10px' borderWidth='3px' />
+          <Text size='14px' weight={500}>
+            <FormattedMessage
+              id='modals.brokerage.waiting_to_hear'
+              defaultMessage='Waiting to hear from your bank'
+            />
+          </Text>
+        </WaitingContainer>
       </Section>
       <Text weight={600} size='16px' color='grey900'>
         <Hr />
