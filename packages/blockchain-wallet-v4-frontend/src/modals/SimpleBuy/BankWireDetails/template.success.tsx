@@ -180,7 +180,7 @@ const Success: React.FC<Props> = props => {
             {props.addBank && (
               <Text size='16px' weight={500} color='grey600'>
                 <FormattedMessage
-                  id='modals.simplebuy.transferdetails.bank_link_info'
+                  id='modals.simplebuy.transferdetails.bank_link_info1'
                   defaultMessage='To link your bank, send {symbol}1 or more to your {currency} Account.'
                   values={{
                     currency: props.account.currency,
@@ -492,19 +492,19 @@ const Success: React.FC<Props> = props => {
               <DisplaySubTitle>
                 {props.account.currency === 'GBP' && (
                   <FormattedMessage
-                    id='modals.simplebuy.deposit.processing_time.info.gbp'
+                    id='modals.simplebuy.deposit.processing_time.info.gbp1'
                     defaultMessage='Funds will be credited to your GBP Account as soon as we receive them. In the UK Faster Payments Network, this can take a couple of hours.'
                   />
                 )}
                 {props.account.currency === 'EUR' && (
                   <FormattedMessage
-                    id='modals.simplebuy.deposit.processing_time.info.eur'
+                    id='modals.simplebuy.deposit.processing_time.info.eur1'
                     defaultMessage='Funds will be credited to your EUR Account as soon as we receive them. SEPA transfers usually take around 1 business day to reach us.'
                   />
                 )}
                 {props.account.currency === 'USD' && (
                   <FormattedMessage
-                    id='modals.simplebuy.deposit.processing_time.info.usd'
+                    id='modals.simplebuy.deposit.processing_time.info.usd1'
                     defaultMessage='Funds will be credited to your USD Account as soon as we receive them. Funds are generally available within one business day.'
                   />
                 )}

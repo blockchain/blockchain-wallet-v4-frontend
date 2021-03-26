@@ -972,7 +972,7 @@
   "modals.send.firststep.amt_greater_than_custody_withdraw": "Your available balance is {withdrawable} {coin}. The remaining balance will be available to be withdrawn within {lockTime} days.",
   "modals.send.firststep.available_in_x_days": "Your {coin} will be available to be withdrawn within {lockTime} days.",
   "modals.send.firststep.backupnow": "Backup now.",
-  "modals.send.firststep.fromcustody1": "At this time, Blockchain.com only allows sending from your {coin} Trading Account to your {coin} Wallet.",
+  "modals.send.firststep.fromcustody11": "At this time, Blockchain.com only allows sending from your {coin} Trading Account to your {coin} Wallet.",
   "modals.send.firststep.fromcustody2": "Please backup your Wallet before before sending crypto to it.",
   "modals.sendbch.amountnotzeromessage": "Invalid amount",
   "modals.sendbch.coin": "Currency:",

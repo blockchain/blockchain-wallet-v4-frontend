@@ -578,7 +578,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <Text lineHeight='1.4' size='14px' weight={500}>
               {isCustodial ? (
                 <FormattedMessage
-                  id='modals.interest.deposit.agreement.custodial'
+                  id='modals.interest.deposit.agreement.custodial1'
                   defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) from your {displayName} Trading Account to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
                   values={{
                     lockupPeriod,
