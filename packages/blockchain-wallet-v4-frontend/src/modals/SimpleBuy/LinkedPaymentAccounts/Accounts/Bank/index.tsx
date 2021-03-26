@@ -39,7 +39,7 @@ const Bank: React.FC<Props> = ({ icon, onClick, text, value }) => (
     <MultiRowContainer>
       <StyledValue asTitle>{text}</StyledValue>
       <StyledTitle asValue>
-        {`${value.details?.bankAccountType.toLowerCase()} account ${
+        {`${value.details?.bankAccountType?.toLowerCase()} account ${
           value.details?.accountNumber
         }`}
       </StyledTitle>

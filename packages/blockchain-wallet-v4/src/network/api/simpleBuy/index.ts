@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Moment } from 'moment'
 import { v4 as uuidv4 } from 'uuid'
 
-import { BankTransferAccountType,UserDataType  } from 'data/types'
+import { BankTransferAccountType, UserDataType } from 'data/types'
 
 import {
   CoinType,

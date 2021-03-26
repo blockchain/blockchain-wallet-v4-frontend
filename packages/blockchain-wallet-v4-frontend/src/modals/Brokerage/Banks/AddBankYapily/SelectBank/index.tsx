@@ -44,7 +44,7 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
-  // handleClose: () => void
+  handleClose: () => void
   setYapilyBankId: (string) => void
 }
 export type LinkDispatchPropsType = {

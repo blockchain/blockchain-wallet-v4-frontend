@@ -133,8 +133,8 @@ export type SBPaymentMethodType = {
   address?: null | NabuAddressType
   attributes?: {}
   card?: SBCard
-  currency: FiatType,
-  details?: BankDetails,
+  currency: FiatType
+  details?: BankDetails
   eligible?: boolean
   id?: string
   ineligibleReason?: string
