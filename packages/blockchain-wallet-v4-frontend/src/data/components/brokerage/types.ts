@@ -56,11 +56,6 @@ interface OBAttributesType {
   institutions: OBInstitution[]
 }
 
-export type AccountsForProccess =
-  | OBInstitution[]
-  | undefined
-  | YodleeAccountType[]
-
 export type BankStatusType =
   | 'ACTIVE'
   | 'BANK_TRANSFER_ACCOUNT_INFO_NOT_FOUND'
@@ -108,7 +103,7 @@ export type BrokerageAddBankStepPayload =
     }
 
 export type BankDetailsPayload = {
-  account: BankTransferAccountType | OBInstitution | undefined
+  account: BankTransferAccountType | undefined
   redirectBackToStep?: boolean
 }
 
@@ -165,7 +160,7 @@ export enum BrokerageModalOriginType {
 
 // State
 export type BrokerageState = {
-  account: BankTransferAccountType | OBInstitution | undefined
+  account: BankTransferAccountType | undefined
   addBankStep: AddBankStepType
   addNew: boolean
   bankCredentials: RemoteDataType<string, OBType>
