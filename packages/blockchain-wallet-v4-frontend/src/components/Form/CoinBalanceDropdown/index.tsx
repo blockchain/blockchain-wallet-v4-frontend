@@ -91,7 +91,7 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
     return (
       <DisplayContainer coinType={coinType} isItem={isItem}>
         <CoinAccountIcon
-          accountType={props.value.type}
+          accountType={props.value?.type}
           coin={coinType.coinCode}
         />
         <AccountContainer>

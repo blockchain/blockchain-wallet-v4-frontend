@@ -643,7 +643,7 @@ type MessagesType = {
   'modals.brokerage.deposit_success.funds_available': 'Your funds will be available to withdraw once the bank transfer is complete in 3-5 business days.'
   'modals.brokerage.funds_will_arrive': 'Funds Will Arrive'
   'modals.brokerage.min_withdrawal': 'Min Withdrawal'
-  'modals.brokerage.my_currency_wallet': 'My {currency} Wallet'
+  'modals.brokerage.fiat_account': '{currency} Account'
   'modal.createaccountlearn.info1': 'Stellar requires that all Stellar accounts hold a minimum balance of lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to a new Stellar account, you must send enough XLM to meet the minimum balance requirement.'
   'modal.createaccountlearn.info2': 'The current minimum balance requirement is 1 XLM.'
   'modal.createaccountlearn.info3': "You can read more information about Stellar's minimum balance requirement at"
@@ -1242,7 +1242,7 @@ type MessagesType = {
   'modals.sendeth.insufficientfundsmessage': 'Insufficient funds'
   'modals.sendeth.lowbalancewarning.title': 'Running low!'
   'modals.sendeth.lowethwarningforerc20.explain1': "You'll need ETH to send your ERC20 Tokens."
-  'modals.sendeth.lowethwarningforerc20.title': 'Not Enough ETH in My Ether Wallet'
+  'modals.sendeth.lowethwarningforerc20.title1': 'Not Enough ETH in Private Key Wallet'
   'modals.sendeth.maximumamountlink.maximum': 'maximum'
   'modals.sendeth.maximumamountmessage': 'Not enough funds. Use'
   'modals.sendeth.maximumfeelink.userecupperlimit': 'Use our recommended upper limit.'
@@ -1656,7 +1656,6 @@ type MessagesType = {
   'scenes.airdrop.stx.reward_pending': 'Reward Pending'
   'scenes.airdrop.stx.share': 'Share'
   'scenes.airdrop.stx.stxinfo1': 'Own your digital identity and data with hundreds of decentralized apps built with Blockstack.'
-  'scenes.airdrop.stx.wallet': 'My Blockstack Wallet'
   'scenes.airdrop.stx.wallet.balance': 'Please note the balance is currently non-transferable. Learn more about this and future wallet support for STX'
   'scenes.airdrops.blockchain.safest': 'The safest and easiest way to try and discover new crypto.'
   'scenes.airdrops.header': 'Airdrops'
@@ -1664,7 +1663,6 @@ type MessagesType = {
   'scenes.airdrops.stx': 'Blockstack'
   'scenes.airdrops.stx.wallet.a1': 'Your Stacks (STX) are saved in your Blockchain Wallet.'
   'scenes.airdrops.stx.wallet.q1': 'Where are my Stacks?'
-  'scenes.airdrops.stx.wallet.title': 'My Blockstack Wallet'
   'scenes.airdrops.success.airdropprogram': 'Airdrop Program'
   'scenes.airdrops.success.getfreecrypto': 'Get Free Crypto'
   'scenes.airdrops.success.goldfailed': 'You are not enrolled in the Blockchain Airdrop program. There was an issue with your identity verification.'

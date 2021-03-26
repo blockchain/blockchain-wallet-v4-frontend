@@ -369,6 +369,7 @@ class WalletBalanceDropdown extends Component<Props> {
       Success: values => {
         const { addressData } = values
         const options = addressData.data
+
         return (
           <Wrapper>
             <Field

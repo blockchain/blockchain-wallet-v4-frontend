@@ -29,7 +29,7 @@ const allWallets = {
   label: 'All',
   options: [
     {
-      label: 'All Bitcoin Wallets',
+      label: 'All BTC Private Key Wallets',
       value: 'all'
     }
   ]
@@ -39,7 +39,7 @@ const allImportedAddresses = {
   label: 'Imported Addresses',
   options: [
     {
-      label: 'All Imported Bitcoin Addresses',
+      label: 'All Imported BTC Addresses',
       value: 'allImportedAddresses'
     }
   ]

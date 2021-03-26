@@ -200,7 +200,7 @@ function TransactionList(props: Props): ReactElement | null {
                       {isCustodial ? (
                         <span>{displayName} Trading Account</span>
                       ) : (
-                        <span>My {displayName} Wallet</span>
+                        <span>{displayName} Private Key Wallet</span>
                       )}
                     </Value>
                   </TableCell>
@@ -222,7 +222,7 @@ function TransactionList(props: Props): ReactElement | null {
                       {isCustodial ? (
                         <span>{displayName} Trading Account</span>
                       ) : (
-                        <span>My {displayName} Wallet</span>
+                        <span>{displayName} Private Key Wallet</span>
                       )}
                     </Value>
                   </TableCell>

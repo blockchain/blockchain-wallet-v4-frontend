@@ -53,12 +53,7 @@ export const StxHeader = ({
   switch (stxCampaign.userCampaignState) {
     case 'TASK_FINISHED':
     case 'REWARD_RECEIVED':
-      return (
-        <FormattedMessage
-          id='scenes.airdrops.stx.wallet.title'
-          defaultMessage='My Blockstack Wallet'
-        />
-      )
+      return <span>STX Private Key Wallet</span>
     default:
       return (
         <FormattedMessage
@@ -149,10 +144,7 @@ export const StxDateOrAmount = ({
             {calcStxAmount(stxCampaign)}
           </Text>
           <Text size='12px' color='grey600' weight={500}>
-            <FormattedMessage
-              id='scenes.airdrop.stx.wallet'
-              defaultMessage='My Blockstack Wallet'
-            />
+            STX Private Key Wallet
           </Text>
         </DateOrAmount>
       )

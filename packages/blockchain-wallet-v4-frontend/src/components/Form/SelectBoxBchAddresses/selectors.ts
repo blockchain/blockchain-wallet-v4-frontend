@@ -34,7 +34,7 @@ const allWallets = {
   label: 'All',
   options: [
     {
-      label: 'All Bitcoin Cash Wallets',
+      label: 'All BCH Private Key Wallets',
       value: 'all'
     }
   ]
@@ -44,7 +44,7 @@ const allImportedAddresses = {
   label: 'Imported Addresses',
   options: [
     {
-      label: 'All Imported Bitcoin Cash Addresses',
+      label: 'All Imported BCH Addresses',
       value: 'allImportedAddresses'
     }
   ]
@@ -145,7 +145,7 @@ export const getData = (
       value: {
         ...x,
         type: ADDRESS_TYPES.INTEREST,
-        label: 'BTC Interest Account'
+        label: 'BCH Interest Account'
       }
     }
   ]
