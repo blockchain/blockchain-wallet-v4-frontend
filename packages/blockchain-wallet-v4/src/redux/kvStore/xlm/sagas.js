@@ -10,6 +10,8 @@ import { derivationMap, XLM } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
 import * as A from './actions'
 
+const XLM_ACCT_NAME = 'XLM Private Key Wallet'
+
 export default ({ api, networks } = {}) => {
   const createXlm = function * ({ kv, password }) {
     try {
@@ -21,7 +23,7 @@ export default ({ api, networks } = {}) => {
         accounts: [
           {
             publicKey: keypair.publicKey(),
-            label: 'My Stellar Wallet',
+            label: XLM_ACCT_NAME,
             archived: false
           }
         ],
@@ -46,6 +48,8 @@ export default ({ api, networks } = {}) => {
       if (isNil(newkv.value) || isEmpty(newkv.value)) {
         yield call(secondPasswordSagaEnhancer(createXlm), { kv })
       } else {
+        // manually update XLM account name
+        newkv.value.accounts[0].label = XLM_ACCT_NAME
         yield put(A.fetchMetadataXlmSuccess(newkv))
       }
     } catch (e) {

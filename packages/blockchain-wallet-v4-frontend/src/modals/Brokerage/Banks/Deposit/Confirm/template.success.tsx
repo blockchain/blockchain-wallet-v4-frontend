@@ -86,8 +86,8 @@ const Success = props => {
           </Text>
           <LineItemText>
             <FormattedMessage
-              id='modals.brokerage.my_currency_wallet'
-              defaultMessage='My {currency} Wallet'
+              id='modals.brokerage.fiat_account'
+              defaultMessage='{currency} Account'
               values={{ currency: props.defaultMethod?.currency }}
             />
           </LineItemText>

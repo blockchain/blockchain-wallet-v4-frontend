@@ -17,7 +17,7 @@ export const generateTradingAccount = (
     {
       baseCoin: coin in Erc20CoinsEnum ? 'ETH' : coin,
       coin,
-      label: `${ticker} Trading Wallet`,
+      label: `${ticker} Trading Account`,
       type: ADDRESS_TYPES.CUSTODIAL,
       balance: sbBalance?.available || '0'
     }
@@ -34,7 +34,7 @@ export const generateInterestAccount = (
     {
       baseCoin: coin in Erc20CoinsEnum ? 'ETH' : coin,
       coin,
-      label: `${ticker} Interest Wallet`,
+      label: `${ticker} Interest Account`,
       type: ADDRESS_TYPES.INTEREST,
       balance: interestBalance?.balance
     }

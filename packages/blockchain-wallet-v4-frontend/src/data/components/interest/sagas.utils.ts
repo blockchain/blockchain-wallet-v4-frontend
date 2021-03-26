@@ -141,7 +141,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
         ...restDetails,
         address: currencyDetails.address,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: `${coin} Trading Wallet`
+        label: `${coin} Trading Account`
       }
     ]
   }
