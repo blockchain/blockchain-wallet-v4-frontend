@@ -54,6 +54,12 @@ const PricesTable = props => {
     setGlobalFilter(props.textFilter)
   }
 
+  // limit no match found length to something reasonable
+  const filterMatchText =
+    (state.globalFilter?.length > 20 &&
+      state.globalFilter.substring(0, 20) + '…') ||
+    state.globalFilter
+
   return (
     <TableWrapper>
       {state.globalFilter?.length && !rows.length ? (
@@ -63,7 +69,7 @@ const PricesTable = props => {
             <FormattedMessage
               id='scenes.prices.noresults'
               defaultMessage='No assets match {filterValue}'
-              values={{ filterValue: `"${state.globalFilter}"` }}
+              values={{ filterValue: `"${filterMatchText}"` }}
             />
           </CellText>
         </NoResultsWrapper>

@@ -347,19 +347,23 @@ export default ({ api, networks }) => {
   }
 
   const checkAndUpdateWalletNames = function * () {
-    const accountLabels = (yield select(SS.common.btc.getHDAccounts))
-      .getOrFail()
-      .map(wallet => wallet.label)
-    const legacyWalletName = 'My Bitcoin Wallet'
+    try {
+      const accountLabels = (yield select(SS.common.btc.getHDAccounts))
+        .getOrFail()
+        .map(wallet => wallet.label)
+      const legacyWalletName = 'My Bitcoin Wallet'
 
-    // loop over accounts and update labels if user hasnt customized
-    for (let [i, acctLabel] of accountLabels.entries()) {
-      if (startsWith(legacyWalletName, acctLabel)) {
-        // pluck label suffix e.g. " 2"
-        const labelSuffix = last(splitAt(17, acctLabel))
-        const newLabel = `${BTC_ACCT_NAME}${labelSuffix}`
-        yield put(A.wallet.setAccountLabel(i, newLabel))
+      // loop over accounts and update labels if user hasnt customized
+      for (let [i, acctLabel] of accountLabels.entries()) {
+        if (startsWith(legacyWalletName, acctLabel)) {
+          // pluck label suffix e.g. " 2"
+          const labelSuffix = last(splitAt(17, acctLabel))
+          const newLabel = `${BTC_ACCT_NAME}${labelSuffix}`
+          yield put(A.wallet.setAccountLabel(i, newLabel))
+        }
       }
+    } catch (e) {
+      // oh well
     }
   }
 
