@@ -12,17 +12,20 @@ import { getData } from './selectors'
 import Success from './template.success'
 
 const SelectBank = (props: Props) => {
-  useEffect(() => {
+  const fetchBank = () => {
     props.brokerageActions.fetchBankLinkCredentials(
-      props.fiatCurrency as WalletFiatType
+      props.walletCurrency as WalletFiatType
     )
+  }
+  useEffect(() => {
+    fetchBank()
   }, [])
 
   const { data } = props
 
   return data.cata({
     Success: val => <Success {...val} {...props} />,
-    Failure: () => <DataError onClick={() => {}} />,
+    Failure: () => <DataError onClick={fetchBank} />,
     Loading: () => <Loading text={LoadingTextEnum.GETTING_READY} />,
     NotAsked: () => <Loading text={LoadingTextEnum.GETTING_READY} />
   })
@@ -30,7 +33,7 @@ const SelectBank = (props: Props) => {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'GBP'
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
@@ -40,8 +43,9 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type OwnProps = {
+export type OwnProps = {
   handleClose: () => void
+  setYapilyBankId: (string) => void
 }
 export type LinkDispatchPropsType = {
   brokerageActions: typeof actions.components.brokerage

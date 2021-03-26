@@ -13,17 +13,20 @@ import { getData } from './selectors'
 import Success from './template.success'
 
 const Connect = (props: Props) => {
-  useEffect(() => {
-    if (props.fiatCurrency && !Remote.Success.is(props.data)) {
+  const fetchBank = () => {
+    if (props.walletCurrency && !Remote.Success.is(props.data)) {
       props.brokerageActions.fetchBankLinkCredentials(
-        props.fiatCurrency as WalletFiatType
+        props.walletCurrency as WalletFiatType
       )
     }
-    props.brokerageActions.fetchBankTransferUpdate()
-  }, [])
+    props.brokerageActions.fetchBankTransferUpdate(props.yapilyBankId)
+  }
+
+  useEffect(fetchBank, [props.walletCurrency])
+
   return props.data.cata({
     Success: val => <Success {...props} {...val} />,
-    Failure: () => <DataError onClick={() => {}} />,
+    Failure: () => <DataError onClick={fetchBank} />,
     Loading: () => <Loading text={LoadingTextEnum.LOADING} />,
     NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />
   })
@@ -31,7 +34,8 @@ const Connect = (props: Props) => {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'GBP'
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
+  account: selectors.components.brokerage.getAccount(state)
 })
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
@@ -39,7 +43,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
+export type OwnProps = { yapilyBankId: string }
 export type SuccessStateType = ReturnType<typeof getData>['data']
-export type Props = ConnectedProps<typeof connector>
+export type Props = ConnectedProps<typeof connector> & OwnProps
 
 export default connector(Connect)

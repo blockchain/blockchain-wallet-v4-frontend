@@ -3,6 +3,7 @@ import { lift } from 'ramda'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { BankTransferAccountType } from 'data/types'
 
 import { OwnProps } from '.'
 
@@ -16,7 +17,9 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
     ownProps.fiatCurrency,
     state
   )
-  let defaultMethodR = selectors.components.brokerage.getAccount(state)
+  let defaultMethodR = selectors.components.brokerage.getAccount(
+    state
+  ) as BankTransferAccountType
 
   return lift(
     (

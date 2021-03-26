@@ -15,7 +15,7 @@ import SelectBank from './SelectBank'
 import Status from './Status'
 
 class Banks extends PureComponent<Props> {
-  state: State = { show: false, direction: 'left' }
+  state: State = { show: false, direction: 'left', yapilyBankId: '' }
 
   componentDidMount() {
     /* eslint-disable */
@@ -41,6 +41,10 @@ class Banks extends PureComponent<Props> {
     }, duration)
   }
 
+  setYapilyBankId = (yapilyBankId: string) => {
+    this.setState({ yapilyBankId })
+  }
+
   render() {
     return (
       <Flyout
@@ -52,12 +56,15 @@ class Banks extends PureComponent<Props> {
       >
         {this.props.step === AddBankStepType.ADD_BANK && (
           <FlyoutChild>
-            <SelectBank handleClose={this.handleClose} />
+            <SelectBank
+              handleClose={this.handleClose}
+              setYapilyBankId={this.setYapilyBankId}
+            />
           </FlyoutChild>
         )}
         {this.props.step === AddBankStepType.ADD_BANK_CONNECT && (
           <FlyoutChild>
-            <Connect />
+            <Connect yapilyBankId={this.state.yapilyBankId} />
           </FlyoutChild>
         )}
         {this.props.step === AddBankStepType.ADD_BANK_AUTHORIZE && (
@@ -97,6 +104,10 @@ export type Props = OwnProps &
   LinkStatePropsType &
   ConnectedProps<typeof connector>
 
-type State = { direction: 'left' | 'right'; show: boolean }
+type State = {
+  direction: 'left' | 'right'
+  show: boolean
+  yapilyBankId: string
+}
 
 export default enhance(Banks)

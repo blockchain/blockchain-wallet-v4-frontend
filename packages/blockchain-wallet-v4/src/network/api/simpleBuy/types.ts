@@ -5,6 +5,7 @@ import {
   FiatType,
   WalletCurrencyType
 } from 'core/types'
+import { BankDetails } from 'data/types'
 
 export type Everypay3DSResponseType = {
   payment_state: null | 'waiting_for_3DS_response'
@@ -302,32 +303,4 @@ export type FiatEligibleType = {
 export type Limits = {
   max: string
   min: string
-}
-
-export type YodleeAccountType = {
-  accountId: string
-  additionalStatus: string
-  providerAccountId: number
-  providerId: number
-  providerName: string
-  requestId: string
-  status: string
-}
-
-export type BankDetails = {
-  accountName: string
-  accountNumber: string
-  bankAccountType: string
-  bankName: string
-  routingNumber: string
-}
-
-export type BankTransferAccountType = {
-  addedAt: string
-  attributes: {}
-  currency: FiatType
-  details: BankDetails
-  id: string
-  partner: string
-  state: string
 }

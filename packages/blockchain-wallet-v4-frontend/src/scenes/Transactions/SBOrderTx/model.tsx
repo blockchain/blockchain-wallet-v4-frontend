@@ -2,8 +2,8 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Text } from 'blockchain-info-components'
-import { BankTransferAccountType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
 import { getCoinFromPair, getOrderType } from 'data/components/simpleBuy/model'
+import { BankTransferAccountType } from 'data/types'
 
 import {
   IconTx as SharedIconTx,

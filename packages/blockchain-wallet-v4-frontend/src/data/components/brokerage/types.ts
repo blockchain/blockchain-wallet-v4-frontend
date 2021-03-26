@@ -1,9 +1,4 @@
-import {
-  BankTransferAccountType,
-  RemoteDataType,
-  WalletFiatType,
-  YodleeAccountType
-} from 'core/types'
+import { FiatType, RemoteDataType, WalletFiatType } from 'core/types'
 
 import * as AT from './actionTypes'
 
@@ -61,11 +56,6 @@ interface OBAttributesType {
   institutions: OBInstitution[]
 }
 
-export type AccountsForProccess =
-  | OBInstitution[]
-  | undefined
-  | YodleeAccountType[]
-
 export type BankStatusType =
   | 'ACTIVE'
   | 'BANK_TRANSFER_ACCOUNT_INFO_NOT_FOUND'
@@ -115,6 +105,41 @@ export type BrokerageAddBankStepPayload =
 export type BankDetailsPayload = {
   account: BankTransferAccountType | undefined
   redirectBackToStep?: boolean
+}
+
+export type BankDetails = {
+  accountName: string
+  accountNumber: string
+  bankAccountType: string
+  bankName: string
+  routingNumber: string
+}
+
+interface BankTransferAccountAttrs {
+  authorisationUrl: string
+  entity: OBEntityType
+  media: OBMediaType
+  qrcodeUrl: string
+}
+
+export type BankTransferAccountType = {
+  addedAt: string
+  attributes: BankTransferAccountAttrs
+  currency: FiatType
+  details: BankDetails
+  id: string
+  partner: string
+  state: string
+}
+
+export type YodleeAccountType = {
+  accountId: string
+  additionalStatus: string
+  providerAccountId: number
+  providerId: number
+  providerName: string
+  requestId: string
+  status: string
 }
 
 export enum AddBankStepType {
