@@ -5,7 +5,6 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { SBPaymentTypes } from 'blockchain-wallet-v4/src/network/api/settingsComponent/types'
 import {
-  BankTransferAccountType,
   BeneficiaryType,
   ExtractSuccess,
   WalletFiatType
@@ -13,6 +12,7 @@ import {
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
+  BankTransferAccountType,
   UserDataType,
   WithdrawCheckoutFormValuesType,
   WithdrawStepEnum

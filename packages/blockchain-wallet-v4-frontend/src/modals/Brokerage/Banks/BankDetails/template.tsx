@@ -63,9 +63,8 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const bankAccountName =
     account && 'details' in account
       ? `${account.details?.bankName} ${account.details?.accountNumber}`
-      : account && 'name' in account
-      ? `${account.name}`
       : `bank account`
+
   const achDetails = account && 'details' in account && account.details
   return (
     <Wrapper>

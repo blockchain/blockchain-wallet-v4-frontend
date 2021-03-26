@@ -44,8 +44,6 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const bankAccountName =
     props.account && 'details' in props.account
       ? `${props.account.details?.bankName} ${props.account.details?.accountNumber}`
-      : props.account && 'name' in props.account
-      ? `${props.account.name}`
       : `bank account`
 
   // `${props.account.details?.bankName} ${props.account.details?.accountNumber}`

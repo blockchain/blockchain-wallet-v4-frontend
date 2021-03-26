@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Moment } from 'moment'
 import { v4 as uuidv4 } from 'uuid'
 
-import { UserDataType } from 'data/types'
+import { BankTransferAccountType,UserDataType  } from 'data/types'
 
 import {
   CoinType,
@@ -12,7 +12,6 @@ import {
 } from '../../../types'
 import { SwapOrderStateType, SwapOrderType } from '../swap/types'
 import {
-  BankTransferAccountType,
   FiatEligibleType,
   NabuAddressType,
   SBAccountType,

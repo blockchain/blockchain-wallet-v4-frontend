@@ -9,9 +9,12 @@ import {
   ModalNavWithBackArrow,
   SimpleBankRow
 } from '../../../components'
-import { LinkDispatchPropsType as _LD, SuccessStateType as _SS } from '.'
+import {
+  LinkDispatchPropsType as _LD,
+  OwnProps as _O,
+  SuccessStateType as _SS} from '.'
 
-type Props = _SS & _LD
+type Props = _SS & _LD & _O
 
 const Success = (props: Props) => {
   const [banks, setBanks] = useState<OBInstitution[]>(
@@ -45,11 +48,9 @@ const Success = (props: Props) => {
             key={bank.id}
             institution={bank}
             onClick={() => {
+              props.setYapilyBankId(bank.id)
               props.brokerageActions.setAddBankStep({
                 addBankStep: AddBankStepType.ADD_BANK_AUTHORIZE
-              })
-              props.brokerageActions.setBankDetails({
-                account: bank
               })
             }}
           />

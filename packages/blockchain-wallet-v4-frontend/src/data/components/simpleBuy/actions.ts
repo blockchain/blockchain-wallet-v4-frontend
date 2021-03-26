@@ -1,5 +1,4 @@
 import {
-  BankTransferAccountType,
   CoinType,
   Everypay3DSResponseType,
   FiatEligibleType,
@@ -23,6 +22,7 @@ import {
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import { ModalOriginType } from 'data/modals/types'
+import { BankTransferAccountType } from 'data/types'
 
 import { SwapAccountType } from '../swap/types'
 import * as AT from './actionTypes'

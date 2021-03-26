@@ -358,6 +358,7 @@ type MessagesType = {
   'copy.coin_network_fee': '{coin} Network Fee'
   'copy.confirm_withdrawal': 'Confirm Withdrawal'
   'copy.confirm_swap': 'Confirm Swap'
+  'copy.connect_to_your_bank': 'Connect to your bank'
   'copy.contact_us': 'contact us'
   'copy.complete': 'Complete'
   'copy.crypto_selection_empty.buybank': "Send cash directly from your bank. Once received, we'll use that balance to buy the crypto of your choice"
@@ -638,10 +639,14 @@ type MessagesType = {
   'modals.brokerage.authorize.about_access.title': 'About the Access'
   'modals.brokerage.authorize.about_access': '{entityName} will then use these details with Blockchain solely for the purposes of buying cryptocurrencies. This access is valid until 24th of January 2021, you can cancel consent at any time via the Blockchain settings or via your bank. This request is not a one-off, you will continue to receive consent requests as older versions expire.'
   'modals.brokerage.bank_preview.disclaimer': 'This account can be used for buys, sells & withdrawals.'
+  'modals.brokerage.continue_in_browser': 'Continue in browser'
   'modals.brokerage.free': 'Free'
   'modals.brokerage.remove_bank.description': "You're about to remove your {bankAccount}"
   'modals.brokerage.link_bank': 'Blockchain.com uses Yodlee to verify your bank credentials & securely link your accounts.'
   'modals.brokerage.link_bank_yodlee_terms': "By hitting Continue, you Agree to Yodlee's"
+  'modals.brokerage.link_via_desktop': 'Link via desktop'
+  'modals.brokerage.link_via_mobile': 'Link via mobile'
+  'modals.brokerage.use_phone_camera': 'Use your phone’s camera to scan the QR code.'
   'modals.brokerage.yodlee_description': 'Yodlee securely stores your credentials adhering to leading industry practices for data security, regulatory compliance, and privacy.'
   'modals.brokerage.daily_limit': 'Daily Limit'
   'modals.brokerage.deposit_methods': 'Select a Deposit Method'

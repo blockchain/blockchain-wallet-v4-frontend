@@ -116,7 +116,7 @@ const BankSearchInput = styled.input`
 `
 
 const SimpleBankRow = (props: {
-  institution: OBInstitution,
+  institution: OBInstitution
   onClick: () => void
 }) => {
   return (
@@ -155,6 +155,28 @@ const ModalNavWithBackArrow = props => {
   )
 }
 
+const ModalNavWithCloseIcon = props => {
+  return (
+    <NavText
+      color='grey800'
+      size='20px'
+      weight={600}
+      style={{ justifyContent: 'space-between' }}
+    >
+      {props.children}
+      <Icon
+        cursor
+        name='close'
+        size='20px'
+        color='grey600'
+        role='button'
+        style={{ marginRight: '24px' }}
+        onClick={() => {}}
+      />
+    </NavText>
+  )
+}
+
 export {
   BankSearchInput,
   BankWrapper,
@@ -162,6 +184,7 @@ export {
   IneligibleErrorMessage,
   Loading,
   ModalNavWithBackArrow,
+  ModalNavWithCloseIcon,
   NavText,
   SimpleBankRow
 }
