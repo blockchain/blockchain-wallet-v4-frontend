@@ -2,14 +2,11 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import {
-  BankTransferAccountType,
-  WalletCurrencyType
-} from 'blockchain-wallet-v4/src/types'
+import { WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { BrokerageModalOriginType, OBInstitution } from 'data/types'
+import { BankTransferAccountType, BrokerageModalOriginType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../../types'
@@ -23,7 +20,7 @@ export type LinkDispatchPropsType = {
   brokerageActions: typeof actions.components.brokerage
 }
 export type LinkStatePropsType = {
-  account: BankTransferAccountType | OBInstitution | undefined
+  account: BankTransferAccountType | undefined
   walletCurrency: WalletCurrencyType
 }
 // export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType

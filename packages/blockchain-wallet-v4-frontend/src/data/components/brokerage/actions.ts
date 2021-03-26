@@ -1,9 +1,10 @@
+import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import {
   BankTransferAccountType,
-  WalletFiatType,
+  BrokerageModalOriginType,
+  ModalNamesType,
   YodleeAccountType
-} from 'blockchain-wallet-v4/src/types'
-import { BrokerageModalOriginType, ModalNamesType } from 'data/types'
+} from 'data/types'
 
 import * as AT from './actionTypes'
 import {
@@ -49,9 +50,11 @@ export const createFiatDeposit = () => ({
   type: AT.CREATE_FIAT_DEPOSIT
 })
 
-export const fetchBankTransferUpdate = (accounts?: YodleeAccountType[]) => ({
+export const fetchBankTransferUpdate = (
+  account: YodleeAccountType | string
+) => ({
   type: AT.FETCH_BANK_TRANSFER_UPDATE,
-  payload: { accounts }
+  payload: { account }
 })
 
 export const fetchBTUpdateLoading = (): BrokerageActionTypes => ({

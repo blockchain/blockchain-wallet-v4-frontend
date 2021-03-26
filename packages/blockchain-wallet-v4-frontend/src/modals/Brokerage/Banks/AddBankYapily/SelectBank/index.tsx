@@ -43,8 +43,9 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type OwnProps = {
+export type OwnProps = {
   handleClose: () => void
+  setYapilyBankId: (string) => void
 }
 type LinkDispatchPropsType = {
   brokerageActions: typeof actions.components.brokerage

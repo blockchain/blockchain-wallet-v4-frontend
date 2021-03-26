@@ -6,7 +6,6 @@ import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 import {
-  BankTransferAccountType,
   SBPaymentMethodType,
   WalletFiatEnum
 } from 'blockchain-wallet-v4/src/types'
@@ -15,6 +14,7 @@ import {
   SettingContainer,
   SettingSummary
 } from 'components/Setting'
+import { BankTransferAccountType } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 import { media } from 'services/styles'
 

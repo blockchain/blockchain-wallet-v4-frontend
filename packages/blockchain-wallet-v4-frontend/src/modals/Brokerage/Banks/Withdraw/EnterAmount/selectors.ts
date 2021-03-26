@@ -9,9 +9,10 @@ import {
   getFiatBalance,
   getWithdrawableFiatBalance
 } from 'components/Balances/selectors'
-import { BankTransferAccountType, InvitationsType } from 'core/types'
+import { InvitationsType } from 'core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { BankTransferAccountType } from 'data/types'
 
 import { OwnProps } from '.'
 
