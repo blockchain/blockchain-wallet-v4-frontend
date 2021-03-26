@@ -25,7 +25,10 @@ import {
 } from 'redux-saga/effects'
 
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
-import { InterestAfterTransactionType } from 'blockchain-wallet-v4/src/types'
+import {
+  InterestAfterTransactionType,
+  WalletFiatType
+} from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { actions, actionTypes, model, selectors } from 'data'
 import {
@@ -669,7 +672,14 @@ export default ({ api, coreSagas, networks }) => {
 
     // we show this only for tier 2 users
     if (current === TIERS[2]) {
-      yield put(actions.components.interest.fetchAfterTransaction())
+      const currency = (yield select(
+        selectors.core.settings.getCurrency
+      )).getOrElse('USD')
+      yield put(
+        actions.components.interest.fetchAfterTransaction(
+          currency as WalletFiatType
+        )
+      )
       // make sure that fetch is done
       yield take([
         actionTypes.components.interest.FETCH_AFTER_TRANSACTION_SUCCESS,
@@ -682,8 +692,6 @@ export default ({ api, coreSagas, networks }) => {
         show: false
       } as InterestAfterTransactionType)
       if (afterTransaction?.show) {
-        const currencyR = yield select(selectors.core.settings.getCurrency)
-        const currency = currencyR.getOrElse('USD')
         // yield put(actions.components.interest.fetchPairs())
         yield put(
           actions.components.simpleBuy.fetchSBPairs(

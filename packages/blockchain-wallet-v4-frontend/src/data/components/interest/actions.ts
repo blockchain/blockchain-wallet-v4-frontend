@@ -12,7 +12,8 @@ import {
 import {
   CoinType,
   FiatType,
-  PaymentValue
+  PaymentValue,
+  WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 
 import * as AT from './actionTypes'
@@ -276,8 +277,9 @@ export const showInterestModal = (
 })
 
 // INTEREST CTA AFTER TRANSACTION
-export const fetchAfterTransaction = () => ({
-  type: AT.FETCH_AFTER_TRANSACTION
+export const fetchAfterTransaction = (currency?: WalletFiatType) => ({
+  type: AT.FETCH_AFTER_TRANSACTION,
+  payload: { currency }
 })
 export const fetchAfterTransactionFailure = (
   error: string

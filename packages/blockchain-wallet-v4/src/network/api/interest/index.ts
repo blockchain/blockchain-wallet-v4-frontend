@@ -1,4 +1,4 @@
-import { CoinType, FiatType } from 'core/types'
+import { CoinType, FiatType, WalletFiatType } from 'core/types'
 
 import {
   CustodialTransferResponseType,
@@ -120,10 +120,15 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       }
     })
 
-  const getInterestCtaAfterTransaction = (): InterestAfterTransactionType =>
+  const getInterestCtaAfterTransaction = (
+    currency?: WalletFiatType
+  ): InterestAfterTransactionType =>
     authorizedGet({
       url: nabuUrl,
-      endPoint: '/savings/cta/after-transaction'
+      endPoint: '/savings/cta/after-transaction',
+      data: {
+        currency
+      }
     })
 
   return {

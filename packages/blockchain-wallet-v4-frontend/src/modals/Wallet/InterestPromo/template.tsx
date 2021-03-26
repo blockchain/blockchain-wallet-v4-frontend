@@ -46,12 +46,15 @@ const Success: React.FC<Props> = ({
   total,
   walletCurrency
 }) => {
-  const { amount, currency } = afterTransaction
+  const { currency, fiatAmount, fiatCurrency } = afterTransaction
+  const purchaseAmount = fiatAmount || 0
   const worthAmount = calcCompoundInterest(
-    amount || 0,
+    purchaseAmount,
     interestRate[currency || 'BTC'],
     1
   )
+  const fullInterestAmount = purchaseAmount + worthAmount
+  const worthCurrency = fiatCurrency || (walletCurrency as WalletFiatType)
   return (
     <Modal size='medium' position={position} total={total}>
       <ModalHeaderBorderless onClose={closeAll}>
@@ -89,11 +92,14 @@ const Success: React.FC<Props> = ({
             defaultMessage='Your recent {amount} purchase of {coin} could be worth <b>{worthAmount}*</b> in the next 12 months.'
             values={{
               amount: fiatToString({
-                value: convertBaseToStandard('FIAT', amount || 0),
-                unit: walletCurrency as WalletFiatType
+                value: convertBaseToStandard('FIAT', purchaseAmount),
+                unit: worthCurrency
               }),
               coin: currency,
-              worthAmount: worthAmount
+              worthAmount: fiatToString({
+                value: convertBaseToStandard('FIAT', fullInterestAmount),
+                unit: worthCurrency
+              })
             }}
           />
         </Text>

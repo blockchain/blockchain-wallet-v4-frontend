@@ -517,11 +517,14 @@ export default ({
     )
   }
 
-  const fetchAfterTransaction = function * () {
+  const fetchAfterTransaction = function * ({
+    payload
+  }: ReturnType<typeof A.fetchAfterTransaction>) {
     try {
       yield put(A.fetchAfterTransactionLoading())
       const response: InterestAfterTransactionType = yield call(
-        api.getInterestCtaAfterTransaction
+        api.getInterestCtaAfterTransaction,
+        payload.currency
       )
       yield put(A.fetchAfterTransactionSuccess(response))
     } catch (e) {
