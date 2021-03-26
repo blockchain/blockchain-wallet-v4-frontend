@@ -14,7 +14,7 @@ import {
   WithdrawalMinimumType
 } from './types'
 
-export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
+export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
   // TODO - consider removing parameters since we never pass anything here
   const getInterestAccountBalance = (
     ccy?: CoinType,
@@ -131,6 +131,17 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       }
     })
 
+  const stopInterestCtaAfterTransaction = (
+    enabled: boolean
+  ): InterestAfterTransactionType =>
+    authorizedPut({
+      url: nabuUrl,
+      endPoint: '/savings/cta/after-transaction/enabled',
+      data: {
+        enabled
+      }
+    })
+
   return {
     getInterestAccountBalance,
     getInterestCtaAfterTransaction,
@@ -142,6 +153,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     getInterestTransactions,
     getWithdrawalMinsAndFees,
     initiateInterestWithdrawal,
-    transferFromCustodial
+    transferFromCustodial,
+    stopInterestCtaAfterTransaction
   }
 }

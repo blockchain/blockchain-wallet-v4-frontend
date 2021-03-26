@@ -881,6 +881,7 @@ type MessagesType = {
   'modals.interest.withdrawal.totalinterest': 'Total Interest Earned'
   'modals.interest.withdrawal.warning': 'In the last month you have earned {pendingInterestCrypto} in interest. Once you withdraw {withdrawalAmount} ({withdrawalAmountCrypto}), you will continue to earn interest on the remaining balance.'
   'modals.interestpromo.button': 'Start Earning Now'
+  'modals.interestpromo.dont_show_again': 'Don’t show again'
   'modals.interestpromo.title': 'Earn {interestRate}% Interest on your {coin}'
   'modals.interestpromo.body': 'Your recent {amount} purchase of {coin} could be worth <b>{worthAmount}*</b> in the next 12 months.'
   'modals.interestpromo.disclaimer': '*Averaged periodic estimations based on current rate and price'

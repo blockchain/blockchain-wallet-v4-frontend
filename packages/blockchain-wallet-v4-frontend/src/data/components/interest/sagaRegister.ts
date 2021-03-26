@@ -69,5 +69,9 @@ export default ({
       AT.FETCH_AFTER_TRANSACTION,
       interestSagas.fetchAfterTransaction
     )
+    yield takeLatest(
+      AT.STOP_SHOWING_INTEREST_MODAL,
+      interestSagas.stopShowingInterestModal
+    )
   }
 }

@@ -32,6 +32,8 @@ const { INTEREST_EVENTS } = model.analytics
 const DEPOSIT_FORM = 'interestDepositForm'
 const WITHDRAWAL_FORM = 'interestWithdrawalForm'
 
+export const logLocation = 'components/interest/sagas'
+
 export default ({
   api,
   coreSagas,
@@ -533,6 +535,15 @@ export default ({
     }
   }
 
+  const stopShowingInterestModal = function * () {
+    try {
+      yield call(api.stopInterestCtaAfterTransaction, false)
+      yield put(actions.modals.closeModal('InterestPromo'))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'InterestPromo', e))
+    }
+  }
+
   return {
     fetchAfterTransaction,
     fetchInterestBalance,
@@ -548,6 +559,7 @@ export default ({
     requestWithdrawal,
     routeToTxHash,
     sendDeposit,
-    showInterestModal
+    showInterestModal,
+    stopShowingInterestModal
   }
 }

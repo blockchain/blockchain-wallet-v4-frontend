@@ -276,6 +276,10 @@ export const showInterestModal = (
   type: AT.SHOW_INTEREST_MODAL
 })
 
+export const stopShowingInterestModal = () => ({
+  type: AT.STOP_SHOWING_INTEREST_MODAL
+})
+
 // INTEREST CTA AFTER TRANSACTION
 export const fetchAfterTransaction = (currency?: WalletFiatType) => ({
   type: AT.FETCH_AFTER_TRANSACTION,

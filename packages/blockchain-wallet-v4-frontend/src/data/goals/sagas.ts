@@ -692,7 +692,6 @@ export default ({ api, coreSagas, networks }) => {
         show: false
       } as InterestAfterTransactionType)
       if (afterTransaction?.show) {
-        // yield put(actions.components.interest.fetchPairs())
         yield put(
           actions.components.simpleBuy.fetchSBPairs(
             currency,

@@ -5,25 +5,32 @@ import styled from 'styled-components'
 
 import {
   Button,
+  Link,
   Modal,
   ModalBody,
-  ModalFooter,
   ModalHeader,
   Text
 } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { BlueCartridge } from 'components/Cartridge'
 import { WalletFiatType } from 'core/types'
+import { model } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 
 import { Props as OwnProps, SuccessStateType } from './index'
+
+const { INTEREST_EVENTS } = model.analytics
 
 const ModalHeaderBorderless = styled(ModalHeader)`
   border-bottom: none;
   padding: 28px 38px 0 32px;
 `
-const ModalFooterBorderless = styled(ModalFooter)`
+const ModalFooterBorderless = styled.div`
   border-top: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 32px 32px;
 `
 const ModalBodyStyled = styled(ModalBody)`
   padding: 28px 32px;
@@ -39,6 +46,7 @@ type Props = OwnProps & SuccessStateType
 
 const Success: React.FC<Props> = ({
   afterTransaction,
+  analyticsActions,
   closeAll,
   interestActions,
   interestRate,
@@ -115,14 +123,15 @@ const Success: React.FC<Props> = ({
           />
         </Text>
       </ModalBodyStyled>
-      <ModalFooterBorderless align='center'>
+      <ModalFooterBorderless>
         <Button
           style={{ marginTop: '16px', maxWidth: '376px' }}
           nature='primary'
-          data-e2e='earnInterestNow'
+          data-e2e='startEarningInterestNow'
           fullwidth
           onClick={() => {
             interestActions.showInterestModal('DEPOSIT', currency, true)
+            analyticsActions.logEvent(INTEREST_EVENTS.MODAL.START_EARNING)
           }}
         >
           <FormattedMessage
@@ -130,6 +139,24 @@ const Success: React.FC<Props> = ({
             defaultMessage='Start Earning Now'
           />
         </Button>
+        <Link
+          size='16px'
+          weight={600}
+          style={{
+            textAlign: 'center',
+            width: '100%',
+            marginTop: '16px'
+          }}
+          onClick={() => {
+            interestActions.stopShowingInterestModal()
+            analyticsActions.logEvent(INTEREST_EVENTS.MODAL.DONT_SHOW_AGAIN)
+          }}
+        >
+          <FormattedMessage
+            id='modals.interestpromo.dont_show_again'
+            defaultMessage='Don’t show again'
+          />
+        </Link>
       </ModalFooterBorderless>
     </Modal>
   )
