@@ -9,9 +9,9 @@ import { AddBankStepType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../../types'
+import AddBankStatus from '../AddBankStatus'
 import Add from './Add'
 import Handler from './Handler'
-import Status from './Status'
 
 class Banks extends PureComponent<Props> {
   state: State = { show: false, direction: 'left' }
@@ -61,7 +61,7 @@ class Banks extends PureComponent<Props> {
         )}
         {this.props.step === AddBankStepType.ADD_BANK_STATUS && (
           <FlyoutChild>
-            <Status {...this.props} handleClose={this.handleClose} />
+            <AddBankStatus {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
       </Flyout>

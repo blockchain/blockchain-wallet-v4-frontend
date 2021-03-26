@@ -647,6 +647,7 @@ type MessagesType = {
   'modals.brokerage.link_via_desktop': 'Link via desktop'
   'modals.brokerage.link_via_mobile': 'Link via mobile'
   'modals.brokerage.use_phone_camera': 'Use your phone’s camera to scan the QR code.'
+  'modals.brokerage.waiting_to_hear': 'Waiting to hear from your bank'
   'modals.brokerage.yodlee_description': 'Yodlee securely stores your credentials adhering to leading industry practices for data security, regulatory compliance, and privacy.'
   'modals.brokerage.daily_limit': 'Daily Limit'
   'modals.brokerage.deposit_methods': 'Select a Deposit Method'

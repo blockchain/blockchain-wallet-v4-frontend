@@ -42,7 +42,7 @@ const Subcontent = styled(Text)`
   margin-bottom: 56px;
   text-align: center;
 `
-
+// This component is shared by Yapily and Yodlee add bank modals
 const BankLinkError: React.FC<Props> = ({
   bankStatus,
   brokerageActions,
