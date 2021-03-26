@@ -211,6 +211,9 @@ export default ({ api, coreSagas }) => {
       // swap tasks
       yield put(actions.components.swap.fetchTrades())
 
+      // check/update btc account names
+      yield call(coreSagas.wallet.checkAndUpdateWalletNames)
+
       yield fork(checkExchangeUsage)
       yield fork(checkDataErrors)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))

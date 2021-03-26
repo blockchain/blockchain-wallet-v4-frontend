@@ -374,7 +374,7 @@ export const getPaxBalanceInfo = createDeepEqualSelector(
 
 export const getAaveBalanceInfo = createDeepEqualSelector(
   [
-    getPaxBalance,
+    getAaveBalance,
     state => selectors.core.data.eth.getErc20Rates(state, 'aave'),
     selectors.core.settings.getCurrency
   ],

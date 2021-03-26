@@ -55,7 +55,7 @@
         "default_account_idx": 0,
         "accounts": [
           {
-            "label": "My Bitcoin Wallet",
+            "label": "BTC Private Key Wallet",
             "archived": false,
             "default_derivation": "bech32",
             "derivations": [

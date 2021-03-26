@@ -87,3 +87,8 @@ export const setAutoLogout = time => ({
 
 // mnemonic verified
 export const verifyMnemonic = () => ({ type: T.VERIFY_MNEMONIC })
+
+// check/update account labels
+export const checkAndUpdateAccountLabels = () => ({
+  type: T.CHECK_UPDATE_ACCT_LABELS
+})

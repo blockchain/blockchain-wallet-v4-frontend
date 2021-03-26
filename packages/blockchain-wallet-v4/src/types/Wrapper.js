@@ -91,7 +91,7 @@ export const isLatestVersion = wrapper => {
 export const upgradeToV3 = curry((mnemonic, password, network, wrapper) => {
   let upgradeWallet = Wallet.upgradeToV3(
     mnemonic,
-    'My Bitcoin Wallet',
+    'BTC Private Key Wallet',
     password,
     network
   )
@@ -264,7 +264,7 @@ export const createNew = (
   sharedKey,
   mnemonic,
   language,
-  firstAccountName = 'My Bitcoin Wallet',
+  firstAccountName = 'BTC Private Key Wallet',
   nAccounts = 1,
   network
 ) =>

@@ -37,7 +37,14 @@ export const getActionsColumn = modalActions => ({
         style={{ marginRight: '12px' }}
       >
         <Text size='14px' color='white' weight={600}>
-          <FormattedMessage id='buttons.buy_sell' defaultMessage='Buy & Sell' />
+          {Number(values.balance) > 0 ? (
+            <FormattedMessage
+              id='buttons.buy_sell'
+              defaultMessage='Buy & Sell'
+            />
+          ) : (
+            <FormattedMessage id='buttons.buy' defaultMessage='Buy' />
+          )}
         </Text>
       </Button>
       <Button

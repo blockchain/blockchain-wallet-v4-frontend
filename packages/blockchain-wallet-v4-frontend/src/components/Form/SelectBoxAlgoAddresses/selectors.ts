@@ -20,7 +20,7 @@ export const getData = (
 
   const buildCustodialDisplay = x => {
     return (
-      `ALGO Trading Wallet` +
+      `ALGO Trading Account` +
       ` (${Exchange.displayAlgoToAlgo({
         value: x ? x.available : 0,
         fromUnit: 'mALGO',
@@ -38,7 +38,7 @@ export const getData = (
       value: {
         ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: 'ALGO Trading Wallet'
+        label: 'ALGO Trading Account'
       }
     }
   ]

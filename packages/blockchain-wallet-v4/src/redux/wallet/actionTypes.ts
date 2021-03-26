@@ -23,3 +23,6 @@ export const SET_AUTOLOGOUT = '@CORE.SET_AUTOLOGOUT'
 
 // mnemonic verified
 export const VERIFY_MNEMONIC = '@CORE.VERIFY_MNEMONIC'
+
+// check/update account labels
+export const CHECK_UPDATE_ACCT_LABELS = '@CORE.CHECK_UPDATE_ACCT_LABELS'

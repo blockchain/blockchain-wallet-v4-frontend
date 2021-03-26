@@ -1590,7 +1590,7 @@ const displayAaveToAave = ({
   value: number | string
 }) => {
   return transformAaveToAave({ value, fromUnit, toUnit })
-    .map(x => Currency.coinToString({ ...x, minDigits: 2, maxDigits: 2 }))
+    .map(x => Currency.coinToString({ ...x, minDigits: 2, maxDigits: 8 }))
     .getOrElse(DefaultDisplay)
 }
 
@@ -1604,7 +1604,7 @@ const displayYfiToYfi = ({
   value: number | string
 }) => {
   return transformYfiToYfi({ value, fromUnit, toUnit })
-    .map(x => Currency.coinToString({ ...x, minDigits: 2, maxDigits: 2 }))
+    .map(x => Currency.coinToString({ ...x, minDigits: 2, maxDigits: 8 }))
     .getOrElse(DefaultDisplay)
 }
 
