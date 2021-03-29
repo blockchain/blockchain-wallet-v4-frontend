@@ -73,7 +73,7 @@ export const getEthData = (
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options, value: '' }])
-  const toExchange = x => [{ label: `Exchange ETH Address`, value: x }]
+  const toExchange = x => [{ label: `ETH Exchange Account`, value: x }]
   const toCustodialDropdown = currencyDetails => [
     {
       label: buildCustodialDisplay(currencyDetails),
@@ -260,8 +260,8 @@ export const getErc20Data = (
     {
       label:
         coin === 'PAX'
-          ? 'Exhange USD Digital Address'
-          : `Exchange ${coin} Address`,
+          ? 'USD-D Exchange Account'
+          : `${coin} Exchange Account`,
       value: x
     }
   ]

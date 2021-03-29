@@ -124,7 +124,7 @@ export const getData = (
   const toGroup = curry((label, options) => [{ label, options }])
   const toExchange = x => [
     {
-      label: `Exchange BCH Address`,
+      label: `BCH Exchange Account`,
       value: x
     }
   ]
