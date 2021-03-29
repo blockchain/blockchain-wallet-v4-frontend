@@ -27,7 +27,7 @@ describe('Coin Selection', () => {
         expect(cs.transactionBytes([p2pkhIn], [p2wpkhOut])).toEqual(189)
       })
       it('should return the right transaction size (1 P2WPKH, 1 P2PKH)', () => {
-        // 10.75 + 67.75 + 34 = 189
+        // 10.75 + 67.75 + 34 = 112.5
         expect(cs.transactionBytes([p2wpkhIn], [p2pkhOut])).toEqual(112.5)
       })
       it('should return the right transaction size (1 P2WPKH, 1 P2WPKH)', () => {
