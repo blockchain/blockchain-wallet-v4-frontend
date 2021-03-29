@@ -112,9 +112,8 @@ export const renderBank = (
   <>
     <DisplayValue>{renderBankText(value)}</DisplayValue>
     <DisplayTitle>
-      {`${value.details?.bankAccountType.toLowerCase()} account ${
-        value.details?.accountNumber
-      }`}
+      {`${value.details?.bankAccountType?.toLowerCase() || ''} account ${value
+        .details?.accountNumber || ''}`}
     </DisplayTitle>
   </>
 )
