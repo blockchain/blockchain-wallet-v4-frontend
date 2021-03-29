@@ -209,6 +209,22 @@ export const getErc20Data = (
         toUnit: 'WDGLD'
       })
     }
+    if (coin === 'AAVE') {
+      const aaveAmount = Exchange.convertAaveToAave(data)
+      return Exchange.displayAaveToAave({
+        value: Number(aaveAmount.value).toFixed(8),
+        fromUnit: 'AAVE',
+        toUnit: 'AAVE'
+      })
+    }
+    if (coin === 'YFI') {
+      const yfiAmount = Exchange.convertYfiToYfi(data)
+      return Exchange.displayYfiToYfi({
+        value: Number(yfiAmount.value).toFixed(8),
+        fromUnit: 'YFI',
+        toUnit: 'YFI'
+      })
+    }
     return {}
   }
   const buildCustodialDisplay = (
