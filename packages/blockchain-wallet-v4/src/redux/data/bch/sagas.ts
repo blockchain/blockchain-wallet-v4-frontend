@@ -152,6 +152,8 @@ export default ({ api }: { api: APIType }) => {
           api.getTransactionHistory,
           'BCH',
           convertedAddress,
+          // bch doens't have an active bech32 address
+          undefined,
           currency.getOrElse('USD'),
           startDate,
           endDate
@@ -164,6 +166,8 @@ export default ({ api }: { api: APIType }) => {
           api.getTransactionHistory,
           'BCH',
           active,
+          // bch doens't have an active bech32 address
+          undefined,
           currency.getOrElse('USD'),
           startDate,
           endDate

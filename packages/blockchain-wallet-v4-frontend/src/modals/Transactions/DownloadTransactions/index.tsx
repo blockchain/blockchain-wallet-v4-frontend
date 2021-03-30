@@ -70,7 +70,14 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
     const from = prop('from', formValues)
     const startDate = prop('start', formValues)
     const endDate = prop('end', formValues)
-    const address = from && (from.xpub || from.address || from)
+    const addressDerivations =
+      from &&
+      from.xpub &&
+      from.derivations.map(derivation => ({
+        address: derivation.xpub,
+        type: derivation.type
+      }))
+    const address = from && (addressDerivations || from.address || from)
     const filename =
       `${coinModel.coinTicker}_${startDate.format('MM-DD-YYYY')}` +
       `_${endDate.format('MM-DD-YYYY')}.csv`

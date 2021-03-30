@@ -15,13 +15,20 @@ export default ({ apiUrl, get, post, rootUrl }) => {
       sessionToken
     })
 
-  const getTransactionHistory = (coin, active, currency, start, end) => {
+  const getTransactionHistory = (
+    coin,
+    active,
+    activeBech32,
+    currency,
+    start,
+    end
+  ) => {
     const isBCH = equals(coin, 'BCH')
     const endpoint = '/v2/export-history'
     return post({
       url: isBCH ? apiUrl : rootUrl,
       endPoint: isBCH ? '/bch' + endpoint : endpoint,
-      data: { active, currency: toUpper(currency), start, end }
+      data: { active, activeBech32, currency: toUpper(currency), start, end }
     })
   }
 

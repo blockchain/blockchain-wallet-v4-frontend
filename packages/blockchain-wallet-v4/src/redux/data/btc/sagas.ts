@@ -79,14 +79,18 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchTransactionsLoading(reset))
       const context = yield select(S.getContext)
       const walletContext = yield select(S.getWalletContext)
-      const data = yield call(api.fetchBlockchainData, context, {
-        n: TX_PER_PAGE,
-        onlyShow:
-          // TODO: SEGWIT remove w/ DEPRECATED_V3
-          address || concat(walletContext.legacy, walletContext.bech32 || []),
-        offset
-      },
-      filter)
+      const data = yield call(
+        api.fetchBlockchainData,
+        context,
+        {
+          n: TX_PER_PAGE,
+          onlyShow:
+            // TODO: SEGWIT remove w/ DEPRECATED_V3
+            address || concat(walletContext.legacy, walletContext.bech32 || []),
+          offset
+        },
+        filter
+      )
       const atBounds = length(data.txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
       const txPage: Array<ProcessedTxType> = yield call(__processTxs, data.txs)
@@ -113,6 +117,8 @@ export default ({ api }: { api: APIType }) => {
 
   const fetchTransactionHistory = function * ({ payload }) {
     const { address, end, start } = payload
+    const bech32Address = address.find(add => prop('type', add) === 'bech32')
+    const legacyAddress = address.find(add => prop('type', add) === 'legacy')
     const startDate = moment(start).format('DD/MM/YYYY')
     const endDate = moment(end).format('DD/MM/YYYY')
     try {
@@ -122,7 +128,8 @@ export default ({ api }: { api: APIType }) => {
         const data = yield call(
           api.getTransactionHistory,
           'BTC',
-          address,
+          prop('address', legacyAddress),
+          prop('address', bech32Address),
           currency.getOrElse('USD'),
           startDate,
           endDate
@@ -135,6 +142,7 @@ export default ({ api }: { api: APIType }) => {
           api.getTransactionHistory,
           'BTC',
           active,
+          undefined,
           currency.getOrElse('USD'),
           startDate,
           end
