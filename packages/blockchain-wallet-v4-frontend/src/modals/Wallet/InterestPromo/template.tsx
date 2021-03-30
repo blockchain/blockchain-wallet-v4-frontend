@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { calcCompoundInterest } from 'blockchain-wallet-v4-frontend/src/modals/Interest/conversions'
+import { calcBasicInterest } from 'blockchain-wallet-v4-frontend/src/modals/Interest/conversions'
 import styled from 'styled-components'
 
 import {
@@ -15,7 +15,6 @@ import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { BlueCartridge } from 'components/Cartridge'
 import { WalletFiatType } from 'core/types'
 import { model } from 'data'
-import { convertBaseToStandard } from 'data/components/exchange/services'
 
 import { Props as OwnProps, SuccessStateType } from './index'
 
@@ -56,12 +55,10 @@ const Success: React.FC<Props> = ({
 }) => {
   const { currency, fiatAmount, fiatCurrency } = afterTransaction
   const purchaseAmount = fiatAmount || 0
-  const worthAmount = calcCompoundInterest(
+  const interestAmount = calcBasicInterest(
     purchaseAmount,
-    interestRate[currency || 'BTC'],
-    1
+    interestRate[currency || 'BTC']
   )
-  const fullInterestAmount = purchaseAmount + worthAmount
   const worthCurrency = fiatCurrency || (walletCurrency as WalletFiatType)
   return (
     <Modal size='medium' position={position} total={total}>
@@ -100,12 +97,12 @@ const Success: React.FC<Props> = ({
             defaultMessage='Your recent {amount} purchase of {coin} could be worth <b>{worthAmount}*</b> in the next 12 months.'
             values={{
               amount: fiatToString({
-                value: convertBaseToStandard('FIAT', purchaseAmount),
+                value: purchaseAmount,
                 unit: worthCurrency
               }),
               coin: currency,
               worthAmount: fiatToString({
-                value: convertBaseToStandard('FIAT', fullInterestAmount),
+                value: interestAmount,
                 unit: worthCurrency
               })
             }}
