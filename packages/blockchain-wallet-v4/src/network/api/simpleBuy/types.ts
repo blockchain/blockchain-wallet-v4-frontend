@@ -176,11 +176,15 @@ export type SBMoneyType = {
 
 export type ISBBuyOrderType = {
   attributes?: {
+    authorisationUrl?: string,
+    consentId?: string,
     everypay: {
       paymentLink: string
       paymentState: 'WAITING_FOR_3DS_RESPONSE' | null
-    }
-    paymentId: string
+    },
+    expiresAt?: string,
+    paymentId: string,
+    qrcodeUrl?: string
   }
   expiresAt: string
   fee?: string

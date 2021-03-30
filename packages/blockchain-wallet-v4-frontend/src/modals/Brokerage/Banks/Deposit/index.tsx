@@ -10,12 +10,12 @@ import { RootState } from 'data/rootReducer'
 import { BankDWStepType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
-import { ModalPropsType } from '../../../types'
 import {
   BROKERAGE_INELIGIBLE,
   Loading,
   LoadingTextEnum
-} from '../../components'
+} from '../../../components'
+import { ModalPropsType } from '../../../types'
 import BankList from './BankList'
 import Confirm from './Confirm'
 import DepositMethods from './DepositMethods'

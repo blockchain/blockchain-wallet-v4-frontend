@@ -95,7 +95,7 @@ export const getPaymentMethod = (
         accountNumber: ''
       }
       const d = (bankAccount && bankAccount.details) || defaultBankInfo
-      return `${d.bankName} ${d.bankAccountType.toLowerCase()} ${
+      return `${d.bankName} ${d.bankAccountType?.toLowerCase()} ${
         d.accountNumber
       }`
     default:

@@ -13,7 +13,7 @@ import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { BankDWStepType } from 'data/types'
 
-import { Loading, LoadingTextEnum } from '../../../components'
+import { Loading, LoadingTextEnum } from '../../../../components'
 import { getData } from './selectors'
 import Failure from './template.failure'
 import Success from './template.success'

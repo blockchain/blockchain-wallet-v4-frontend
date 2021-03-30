@@ -2,19 +2,128 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
-import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { OBInstitution } from 'data/types'
 
-const StyledText = styled(Text)`
-  width: 300px;
+const BankWrapper = styled(FlyoutWrapper)`
+  padding: 40px 0;
 `
-
 const NavText = styled(Text)`
   display: flex;
   align-items: center;
   margin-bottom: 24px;
   padding-left: 40px;
+`
+
+const Section = styled.div`
+  padding: 20px;
+  text-align: center;
+`
+const QrContainer = styled.div`
+  width: 150px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px auto 40px;
+  padding: 15px;
+  border: 2px solid ${p => p.theme.blue600};
+  border-radius: 4px;
+
+  & img {
+    width: 150px;
+  }
+`
+const WaitingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+  margin-bottom: 15px;
+
+  & > div:first-child {
+    margin-right: 10px;
+  }
+
+  &.active {
+    opacity: 1;
+  }
+`
+interface ScanWithPhoneType {
+  readonly logo?: string
+  readonly qrCode?: string
+}
+const ScanWithPhone = ({ logo, qrCode }: ScanWithPhoneType) => {
+  return (
+    <Section>
+      {logo && <img width='32' src={logo} />}
+      <Text weight={600} size='20px' color='grey900'>
+        <FormattedMessage
+          id='modals.brokerage.link_via_mobile'
+          defaultMessage='Link via mobile'
+        />
+      </Text>
+      <Text weight={500} size='14px' color='grey600'>
+        <FormattedMessage
+          id='modals.brokerage.use_phone_camera'
+          defaultMessage='Use your phone’s camera to scan the QR code.'
+        />
+      </Text>
+      <QrContainer>
+        {qrCode ? (
+          <img src={qrCode} />
+        ) : (
+          <SpinningLoader width='30px' height='30px' />
+        )}
+      </QrContainer>
+
+      <WaitingContainer className={qrCode ? 'active' : ''}>
+        <SpinningLoader width='10px' height='10px' borderWidth='3px' />
+        <Text size='14px' weight={500}>
+          <FormattedMessage
+            id='modals.brokerage.waiting_to_hear'
+            defaultMessage='Waiting to hear from your bank'
+          />
+        </Text>
+      </WaitingContainer>
+    </Section>
+  )
+}
+
+const StyledButton = styled(Button)`
+  margin: 20px 0 0;
+  display: unset;
+`
+const LinkViaDesktop = ({ authUrl }: { authUrl?: string }) => {
+  if (!authUrl) return null
+  return (
+    <Section>
+      <Text weight={600} size='20px' color='grey900'>
+        <FormattedMessage
+          id='modals.brokerage.link_via_desktop'
+          defaultMessage='Link via desktop'
+        />
+      </Text>
+      <StyledButton
+        data-e2e='yapilyBankLink'
+        nature='empty-blue'
+        onClick={() => {
+          window.open(authUrl, '_blank')
+        }}
+      >
+        <FormattedMessage
+          id='modals.brokerage.continue_in_browser'
+          defaultMessage='Continue in browser'
+        />
+      </StyledButton>
+    </Section>
+  )
+}
+
+const StyledText = styled(Text)`
+  width: 300px;
 `
 
 const Wrapper = styled.div`
@@ -74,10 +183,6 @@ const Loading = ({ text }: Props) => {
 interface BankIconProps {
   url: string
 }
-
-const BankWrapper = styled(FlyoutWrapper)`
-  padding: 40px 0;
-`
 
 const BankRow = styled.div`
   display: flex;
@@ -204,16 +309,35 @@ const ModalNavWithCloseIcon = props => {
   )
 }
 
+const Hr = styled.hr`
+  border: none;
+  border-top: 1px solid ${p => p.theme.grey100};
+  text-align: center;
+  overflow: visible;
+  color: #333;
+  height: 5px;
+
+  &:after {
+    content: 'OR';
+    padding: 0 4px;
+    position: relative;
+    top: -10px;
+    background: ${p => p.theme.alwaysWhite};
+  }
+`
 export {
   BankSearchIcon,
   BankSearchInput,
   BankSearchWrapper,
   BankWrapper,
   BROKERAGE_INELIGIBLE,
+  Hr,
   IneligibleErrorMessage,
+  LinkViaDesktop,
   Loading,
   ModalNavWithBackArrow,
   ModalNavWithCloseIcon,
   NavText,
+  ScanWithPhone,
   SimpleBankRow
 }
