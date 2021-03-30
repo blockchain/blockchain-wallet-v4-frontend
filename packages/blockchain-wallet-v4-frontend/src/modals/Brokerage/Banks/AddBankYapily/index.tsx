@@ -64,7 +64,10 @@ class Banks extends PureComponent<Props> {
         )}
         {this.props.step === AddBankStepType.ADD_BANK_CONNECT && (
           <FlyoutChild>
-            <Connect yapilyBankId={this.state.yapilyBankId} />
+            <Connect
+              handleClose={this.handleClose}
+              yapilyBankId={this.state.yapilyBankId}
+            />
           </FlyoutChild>
         )}
         {this.props.step === AddBankStepType.ADD_BANK_AUTHORIZE && (

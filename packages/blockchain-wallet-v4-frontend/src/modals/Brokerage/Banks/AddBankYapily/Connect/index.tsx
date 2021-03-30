@@ -43,7 +43,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type OwnProps = { yapilyBankId: string }
+export type OwnProps = {
+  handleClose: () => void
+  yapilyBankId: string
+}
 export type SuccessStateType = ReturnType<typeof getData>['data']
 export type Props = ConnectedProps<typeof connector> & OwnProps
 
