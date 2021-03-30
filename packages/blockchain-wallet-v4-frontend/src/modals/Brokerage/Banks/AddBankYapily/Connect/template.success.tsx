@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, SpinningLoader,Text } from 'blockchain-info-components'
+import { Button, SpinningLoader, Text } from 'blockchain-info-components'
 
 import { BankWrapper, ModalNavWithCloseIcon } from '../../../components'
 import { OwnProps as _O, Props as _P, SuccessStateType as _SS } from '.'
@@ -72,7 +72,7 @@ const StyledButton = styled(Button)`
 const Success = (props: Props) => {
   return (
     <BankWrapper>
-      <ModalNavWithCloseIcon>
+      <ModalNavWithCloseIcon {...props}>
         <FormattedMessage
           id='copy.connect_to_your_bank'
           defaultMessage='Connect to your bank'

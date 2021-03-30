@@ -198,7 +198,7 @@ const ModalNavWithCloseIcon = props => {
         color='grey600'
         role='button'
         style={{ marginRight: '24px' }}
-        onClick={() => {}}
+        onClick={() => props.handleClose()}
       />
     </NavText>
   )
