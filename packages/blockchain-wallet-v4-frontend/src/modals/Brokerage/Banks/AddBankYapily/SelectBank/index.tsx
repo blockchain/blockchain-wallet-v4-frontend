@@ -7,7 +7,7 @@ import { WalletFiatType } from 'core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import { Loading, LoadingTextEnum } from '../../../components'
+import { Loading, LoadingTextEnum } from '../../../../components'
 import { getData } from './selectors'
 import Success from './template.success'
 

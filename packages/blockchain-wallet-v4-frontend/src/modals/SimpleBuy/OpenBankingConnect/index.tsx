@@ -4,11 +4,11 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import DataError from 'components/DataError'
-import { WalletFiatType } from 'core/types'
+import { SBOrderType, WalletFiatType } from 'core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import { Loading, LoadingTextEnum } from '../../../../components'
+import { Loading, LoadingTextEnum } from '../../components'
 import { getData } from './selectors'
 import Success from './template.success'
 
@@ -45,6 +45,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   handleClose: () => void
+  order: SBOrderType
   yapilyBankId: string
 }
 export type SuccessStateType = ReturnType<typeof getData>['data']

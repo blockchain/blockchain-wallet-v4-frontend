@@ -6,7 +6,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import { Loading, LoadingTextEnum } from '../../../components'
+import { Loading, LoadingTextEnum } from '../../../../components'
 import { getData } from './selectors'
 import Failure from './template.failure'
 import Success from './template.success'

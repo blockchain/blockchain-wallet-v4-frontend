@@ -8,7 +8,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { FormGroup } from 'components/Form'
 import { SBAddCardErrorType } from 'data/types'
 
-import { NavText } from '../../../components'
+import { NavText } from '../../../../components'
 import { Props as _P, SuccessStateType } from '.'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`

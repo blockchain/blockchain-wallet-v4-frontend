@@ -66,20 +66,21 @@ export type SBFixType = 'CRYPTO' | 'FIAT'
 export enum SimpleBuyStepType {
   '3DS_HANDLER',
   'ADD_CARD',
+  'BANK_WIRE_DETAILS',
   'CC_BILLING_ADDRESS',
   'CHECKOUT_CONFIRM',
   'CRYPTO_SELECTION',
   'ENTER_AMOUNT',
   'KYC_REQUIRED',
   'LINKED_PAYMENT_ACCOUNTS',
+  'OPEN_BANKING_CONNECT',
   'PAYMENT_METHODS',
   'PREVIEW_SELL',
   'ORDER_SUMMARY',
   'SELL_ORDER_SUMMARY',
   'TRANSFER_DETAILS',
   'UPGRADE_TO_GOLD',
-  'VERIFY_EMAIL',
-  'BANK_WIRE_DETAILS'
+  'VERIFY_EMAIL'
 }
 export type SBShowModalOriginType =
   | 'EmptyFeed'
@@ -376,7 +377,7 @@ interface InitializeCheckout {
 export type StepActionsPayload =
   | {
       order: SBOrderType
-      step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY'
+      step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'OPEN_BANKING_CONNECT'
     }
   | {
       sellOrder: SwapOrderType

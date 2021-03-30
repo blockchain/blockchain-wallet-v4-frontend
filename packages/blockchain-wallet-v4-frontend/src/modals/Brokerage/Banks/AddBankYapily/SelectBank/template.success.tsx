@@ -10,7 +10,7 @@ import {
   BankWrapper,
   ModalNavWithBackArrow,
   SimpleBankRow
-} from '../../../components'
+} from '../../../../components'
 import {
   LinkDispatchPropsType as _LD,
   OwnProps as _O,

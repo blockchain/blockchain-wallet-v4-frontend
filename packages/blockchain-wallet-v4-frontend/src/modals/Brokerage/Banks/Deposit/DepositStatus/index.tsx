@@ -8,7 +8,7 @@ import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import { Loading, LoadingTextEnum } from '../../../components'
+import { Loading, LoadingTextEnum } from '../../../../components'
 import Failure from '../template.failure'
 import { getData } from './selectors'
 import Success from './template.success'

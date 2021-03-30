@@ -570,6 +570,7 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
     }
     case 'CHECKOUT_CONFIRM':
     case 'ORDER_SUMMARY':
+    case 'OPEN_BANKING_CONNECT':
       return { step: payload.step, order: payload.order }
     case '3DS_HANDLER':
       return { step: payload.step, order: payload.order }
