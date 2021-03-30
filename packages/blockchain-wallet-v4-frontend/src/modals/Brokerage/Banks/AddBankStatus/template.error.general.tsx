@@ -59,7 +59,16 @@ const BankLinkError: React.FC<Props> = ({
         onClick={() => handleClose}
       />
       <Container>
-        <Image width='100px' name='bank-error' />
+        <Image
+          width='100px'
+          name={
+            bankStatus === 'BANK_TRANSFER_ACCOUNT_EXPIRED'
+              ? 'bank-expired'
+              : bankStatus === 'BANK_TRANSFER_ACCOUNT_REJECTED'
+              ? 'bank-rejected'
+              : 'bank-error'
+          }
+        />
         <Title color='grey800' size='20px' weight={600}>
           {bankStatus === 'BANK_TRANSFER_ACCOUNT_ALREADY_LINKED' ? (
             <FormattedMessage
@@ -70,6 +79,21 @@ const BankLinkError: React.FC<Props> = ({
             <FormattedMessage
               id='copy.bank_linked_error_title_yourbank'
               defaultMessage='Is this your bank?'
+            />
+          ) : bankStatus === 'BANK_TRANSFER_ACCOUNT_EXPIRED' ? (
+            <FormattedMessage
+              id='copy.bank_linked_error_title_expiredaccount'
+              defaultMessage='Expired Account Access'
+            />
+          ) : bankStatus === 'BANK_TRANSFER_ACCOUNT_REJECTED' ? (
+            <FormattedMessage
+              id='copy.bank_linked_error_title_connectionrejected'
+              defaultMessage='Connection Rejected'
+            />
+          ) : bankStatus === 'BANK_TRANSFER_ACCOUNT_FAILED' ? (
+            <FormattedMessage
+              id='copy.bank_linked_error_title_failedconnection'
+              defaultMessage='Failed Connection Request'
             />
           ) : (
             <FormattedMessage
