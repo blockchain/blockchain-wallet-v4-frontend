@@ -1,24 +1,12 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import styled from 'styled-components'
 
 import { selectors } from 'data'
-import { media } from 'services/styles'
 
 import CoinTicker from './CoinTicker'
 
-const Wrapper = styled.div`
-  ${media.atLeastTabletL`
-    padding-left: 24px;
-  `}
-`
-
 const CoinCurrentPrice = ({ priceChart: { coin = 'BTC' } }: Props) => {
-  return (
-    <Wrapper>
-      <CoinTicker coin={coin} data-e2e={`coinTicker${coin}`} />
-    </Wrapper>
-  )
+  return <CoinTicker coin={coin} data-e2e={`coinTicker${coin}`} />
 }
 
 const mapStateToProps = state => ({
