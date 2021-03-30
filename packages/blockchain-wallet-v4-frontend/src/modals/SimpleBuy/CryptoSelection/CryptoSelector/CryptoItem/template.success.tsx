@@ -99,7 +99,7 @@ const Success: React.FC<Props> = props => {
               <Icon
                 name={props.orderType === 'BUY' ? 'plus' : 'minus'}
                 size='24px'
-                color={coinType.coinCode}
+                color='white'
               />
             </IconBackground>
           </PlusMinusIconWrapper>

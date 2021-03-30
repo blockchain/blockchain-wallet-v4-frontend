@@ -5,7 +5,7 @@ import { compose } from 'redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, CoinAccountIcon, Icon, Text } from 'blockchain-info-components'
 import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListBalance } from 'components/Form'
@@ -145,10 +145,9 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         </BalanceRow>
                       </OptionValue>
                     </div>
-                    <Icon
-                      name={coins[values.BASE.coin].coinCode}
-                      color={coins[values.BASE.coin].coinCode}
-                      size='32px'
+                    <CoinAccountIcon
+                      accountType={values.BASE.type}
+                      coin={coins[values.BASE.coin].coinCode}
                     />
                   </>
                 ) : (
@@ -212,10 +211,9 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         </BalanceRow>
                       </OptionValue>
                     </div>
-                    <Icon
-                      name={coins[values.COUNTER.coin].coinCode}
-                      color={coins[values.COUNTER.coin].coinCode}
-                      size='32px'
+                    <CoinAccountIcon
+                      accountType={values.COUNTER.type}
+                      coin={coins[values.COUNTER.coin].coinCode}
                     />
                   </>
                 ) : (

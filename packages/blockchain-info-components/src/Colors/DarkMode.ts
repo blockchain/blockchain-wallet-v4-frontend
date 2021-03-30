@@ -94,7 +94,7 @@ const DarkTheme: DefaultTheme = {
   BCH: '#8DC351',
   BSV: '#EAB300',
   BTC: '#FF9B22',
-  DOT: '#000000',
+  DOT: '#E6007A',
   ETH: '#473BCB',
   EUR: '#00B26B',
   GBP: '#00B26B',

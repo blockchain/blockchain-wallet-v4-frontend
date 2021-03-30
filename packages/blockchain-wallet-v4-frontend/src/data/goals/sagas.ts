@@ -210,6 +210,7 @@ export default ({ api, coreSagas, networks }) => {
       return yield call(defineReferralGoal, search)
     }
 
+    // /#/open/kyc?tier={0 | 1 | 2 | ...} tier is optional
     if (startsWith(DeepLinkGoal.KYC, pathname)) {
       return yield call(defineKycGoal, search)
     }
@@ -224,14 +225,17 @@ export default ({ api, coreSagas, networks }) => {
       return yield call(defineLogLevel, search)
     }
 
+    // /#/open/simple-buy
     if (startsWith(DeepLinkGoal.SIMPLE_BUY, pathname)) {
       return yield call(defineSimpleBuyGoal, search)
     }
 
+    // /#/open/swap
     if (startsWith(DeepLinkGoal.SWAP, pathname)) {
       return yield call(defineSwapGoal)
     }
 
+    // /#/open/interest
     if (startsWith(DeepLinkGoal.INTEREST, pathname)) {
       return yield call(defineInterestGoal)
     }

@@ -9,6 +9,7 @@ import {
   find,
   is,
   isEmpty,
+  last,
   length,
   map,
   not,
@@ -16,7 +17,9 @@ import {
   propEq,
   propSatisfies,
   range,
-  repeat
+  repeat,
+  splitAt,
+  startsWith
 } from 'ramda'
 import { set } from 'ramda-lens'
 import { call, put, select } from 'redux-saga/effects'
@@ -27,7 +30,10 @@ import { generateMnemonic } from '../../walletCrypto'
 import * as A from '../actions'
 import { fetchData } from '../data/btc/actions'
 import { derivationMap, WALLET_CREDENTIALS } from '../kvStore/config'
+import * as SS from '../selectors'
 import * as S from './selectors'
+
+const BTC_ACCT_NAME = 'BTC Private Key Wallet'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -140,7 +146,7 @@ export default ({ api, networks }) => {
       let mnemonic = yield call(generateMnemonic, api)
       let upgradeWallet = Wallet.upgradeToHd(
         mnemonic,
-        'My Bitcoin Wallet',
+        BTC_ACCT_NAME,
         password,
         networks.btc
       )
@@ -340,7 +346,29 @@ export default ({ api, networks }) => {
     yield put(A.kvStore.btc.addAddressLabel(receiveAddress, payload.label))
   }
 
+  const checkAndUpdateWalletNames = function * () {
+    try {
+      const accountLabels = (yield select(SS.common.btc.getHDAccounts))
+        .getOrFail()
+        .map(wallet => wallet.label)
+      const legacyWalletName = 'My Bitcoin Wallet'
+
+      // loop over accounts and update labels if user hasnt customized
+      for (let [i, acctLabel] of accountLabels.entries()) {
+        if (startsWith(legacyWalletName, acctLabel)) {
+          // pluck label suffix e.g. " 2"
+          const labelSuffix = last(splitAt(17, acctLabel))
+          const newLabel = `${BTC_ACCT_NAME}${labelSuffix}`
+          yield put(A.wallet.setAccountLabel(i, newLabel))
+        }
+      }
+    } catch (e) {
+      // oh well
+    }
+  }
+
   return {
+    checkAndUpdateWalletNames,
     createWalletSaga,
     fetchWalletSaga,
     importLegacyAddress,
