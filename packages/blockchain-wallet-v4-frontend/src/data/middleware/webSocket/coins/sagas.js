@@ -99,15 +99,10 @@ export default ({ api, socket }) => {
       // 2. subscribe to btc xpubs
       const btcWalletContext = yield select(selectors.core.data.btc.getContext)
       // context has separate bech32 ,legacy, and imported address arrays
-      //  TODO: SEGWIT remove w/ DEPRECATED_V3 -> don't need bech32 check after deprecations
-      const btcWalletXPubs = prop('bech32', btcWalletContext)
-        ? prop('bech32', btcWalletContext).concat(
-            prop('legacy', btcWalletContext),
-            prop('addresses', btcWalletContext)
-          )
-        : prop('legacy', btcWalletContext).concat(
-            prop('addresses', btcWalletContext)
-          )
+      const btcWalletXPubs = prop('legacy', btcWalletContext).concat(
+        prop('addresses', btcWalletContext),
+        prop('bech32', btcWalletContext)
+      )
 
       const btcLockboxContext = (yield select(
         selectors.core.kvStore.lockbox.getLockboxBtcContext
