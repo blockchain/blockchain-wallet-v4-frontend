@@ -14,8 +14,7 @@ import {
 import {
   LinkDispatchPropsType as _LD,
   OwnProps as _O,
-  SuccessStateType as _SS
-} from '.'
+  SuccessStateType as _SS} from '.'
 
 type Props = _SS & _LD & _O
 

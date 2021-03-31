@@ -51,7 +51,7 @@ export const getEthData = (
   }
   const buildCustodialDisplay = x => {
     return (
-      `ETH Trading Wallet` +
+      `ETH Trading Account` +
       ` (${Exchange.displayEtherToEther({
         value: x ? x.available : 0,
         fromUnit: 'WEI',
@@ -61,7 +61,7 @@ export const getEthData = (
   }
   const buildInterestDisplay = (x: InterestAccountBalanceType['ETH']) => {
     return (
-      `ETH Interest Wallet` +
+      `ETH Interest Account` +
       ` (${Exchange.displayEtherToEther({
         value: x ? x.balance : 0,
         fromUnit: 'WEI',
@@ -73,14 +73,14 @@ export const getEthData = (
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options, value: '' }])
-  const toExchange = x => [{ label: `Exchange ETH Address`, value: x }]
+  const toExchange = x => [{ label: `ETH Exchange Account`, value: x }]
   const toCustodialDropdown = currencyDetails => [
     {
       label: buildCustodialDisplay(currencyDetails),
       value: {
         ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: 'ETH Trading Wallet'
+        label: 'ETH Trading Account'
       }
     }
   ]
@@ -91,7 +91,7 @@ export const getEthData = (
       value: {
         ...x,
         type: ADDRESS_TYPES.INTEREST,
-        label: 'ETH Interest Wallet'
+        label: 'ETH Interest Account'
       }
     }
   ]
@@ -137,7 +137,7 @@ export const getEthData = (
             .getInterestAccountBalance(state)
             .map(x => x.ETH)
             .map(toInterestDropdown)
-            .map(toGroup('Interest Wallet'))
+            .map(toGroup('Interest Account'))
         : Remote.of([]),
       excludeLockbox
         ? Remote.of([])
@@ -209,6 +209,22 @@ export const getErc20Data = (
         toUnit: 'WDGLD'
       })
     }
+    if (coin === 'AAVE') {
+      const aaveAmount = Exchange.convertAaveToAave(data)
+      return Exchange.displayAaveToAave({
+        value: Number(aaveAmount.value).toFixed(8),
+        fromUnit: 'AAVE',
+        toUnit: 'AAVE'
+      })
+    }
+    if (coin === 'YFI') {
+      const yfiAmount = Exchange.convertYfiToYfi(data)
+      return Exchange.displayYfiToYfi({
+        value: Number(yfiAmount.value).toFixed(8),
+        fromUnit: 'YFI',
+        toUnit: 'YFI'
+      })
+    }
     return {}
   }
   const buildCustodialDisplay = (
@@ -217,7 +233,7 @@ export const getErc20Data = (
     displayName: string
   ) => {
     return (
-      `${displayName} Trading Wallet` +
+      `${displayName} Trading Account` +
       ` (${displayErc20Fixed({
         value: x ? x.available : 0,
         fromUnit: 'WEI',
@@ -232,7 +248,7 @@ export const getErc20Data = (
     x
   ) => {
     return (
-      `${displayName} Interest Wallet` +
+      `${displayName} Interest Account` +
       ` (${Exchange.displayEtherToEther({
         value: x ? x.balance : 0,
         fromUnit: 'WEI',
@@ -260,8 +276,8 @@ export const getErc20Data = (
     {
       label:
         coin === 'PAX'
-          ? 'Exhange USD Digital Address'
-          : `Exchange ${coin} Address`,
+          ? 'USD-D Exchange Account'
+          : `${coin} Exchange Account`,
       value: x
     }
   ]
@@ -275,7 +291,7 @@ export const getErc20Data = (
       value: {
         ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: `${supportedCoins[coin].coinTicker} Trading Wallet`
+        label: `${supportedCoins[coin].coinTicker} Trading Account`
       }
     }
   ]
@@ -286,7 +302,7 @@ export const getErc20Data = (
       value: {
         ...x,
         type: ADDRESS_TYPES.INTEREST,
-        label: `${supportedCoins[coin].coinTicker} Interest Wallet`
+        label: `${supportedCoins[coin].coinTicker} Interest Account`
       }
     }
   ]
@@ -332,7 +348,7 @@ export const getErc20Data = (
             .getInterestAccountBalance(state)
             .map(x => x[coin])
             .map(toInterestDropdown)
-            .map(toGroup('Interest Wallet'))
+            .map(toGroup('Interest Account'))
         : Remote.of([])
     ]).map(([b1, b2, b3, b4]) => {
       const orderArray = forceCustodialFirst

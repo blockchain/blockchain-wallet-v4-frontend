@@ -171,8 +171,8 @@ const Success: React.FC<InjectedFormProps<
         <LimitWrapper>
           <Text color='grey600' size='14px' lineHeight={'25px'} weight={500}>
             <FormattedMessage
-              id='modals.brokerage.my_currency_wallet'
-              defaultMessage='My {currency} Wallet'
+              id='modals.brokerage.fiat_account'
+              defaultMessage='{currency} Account'
               values={{ currency: props.fiatCurrency }}
             />
           </Text>

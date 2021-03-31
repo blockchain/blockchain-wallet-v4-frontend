@@ -157,6 +157,7 @@ export const StickyHeaderFlyoutWrapper = styled(FlyoutWrapper)`
   background-color: ${props => props.theme.white};
   position: sticky;
   top: 0;
+  z-index: 99;
 `
 
 class Flyout extends React.PureComponent<

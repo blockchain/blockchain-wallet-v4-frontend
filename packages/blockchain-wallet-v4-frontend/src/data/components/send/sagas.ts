@@ -233,6 +233,8 @@ export default ({
       case 'PAX':
       case 'USDT':
       case 'WDGLD':
+      case 'AAVE':
+      case 'YFI':
         return coreSagas.payment.eth.create({
           payment: paymentR.getOrElse(<PaymentValue>{}),
           network: networks.eth
@@ -242,6 +244,7 @@ export default ({
           payment: paymentR.getOrElse(<PaymentValue>{})
         })
       case 'ALGO':
+      case 'DOT':
         // @ts-ignore
         return {}
       default:

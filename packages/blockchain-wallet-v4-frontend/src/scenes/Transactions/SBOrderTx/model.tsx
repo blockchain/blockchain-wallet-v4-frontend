@@ -23,7 +23,7 @@ export const getOrigin = (
 ) => {
   switch (props.order.paymentType) {
     case 'FUNDS':
-      return props.order.inputCurrency + ' Wallet'
+      return props.order.inputCurrency + ' Account'
     case 'PAYMENT_CARD':
     case 'USER_CARD':
       return 'Credit/Debit Card'

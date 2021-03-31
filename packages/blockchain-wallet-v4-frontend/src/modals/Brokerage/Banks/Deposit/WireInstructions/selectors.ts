@@ -1,6 +1,5 @@
 import { lift } from 'ramda'
 
-import { InvitationsType } from 'core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -18,7 +17,6 @@ export const getData = (state: RootState) => {
 
   return lift((account, userData, isInvited) => ({
     account,
-    userData,
-    isInvited
-  }))(accountR, userDataR, invitationsR)
+    userData
+  }))(accountR, userDataR)
 }

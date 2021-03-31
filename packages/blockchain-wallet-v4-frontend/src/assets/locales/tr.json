@@ -634,7 +634,7 @@
   "modals.importkey.label.privatekey": "Özel anahtarınızı girin",
   "modals.importkey.label.transferfunds": "Parayı mevcut bir cüzdana transfer et (isteğe bağlı)",
   "modals.interest.balance": "{coin} Bakiyeniz",
-  "modals.interest.deposit.agreement.custodial": "Bunu kabul ederek, {displayName} Trading Wallet ticaret cüzdanınızdan Faiz Hesabınıza {depositAmountFiat} ( {depositAmountCrypto} ) transfer etmeyi kabul edersiniz. {lockupPeriod} günlük bir ilk bekleme süresi uygulanacaktır.",
+  "modals.interest.deposit.agreement.custodial": "Bunu kabul ederek, {displayName} Trading Account ticaret cüzdanınızdan Faiz Hesabınıza {depositAmountFiat} ( {depositAmountCrypto} ) transfer etmeyi kabul edersiniz. {lockupPeriod} günlük bir ilk bekleme süresi uygulanacaktır.",
   "modals.interest.deposit.agreement2": "Bunu kabul ederek, {depositAmountFiat} ( {depositAmountCrypto} ) artı ~ {depositFeeFiat} ( {depositFeeCrypto} ) ağ ücretini {displayName} Cüzdanınızdan Faiz Hesabınıza transfer etmeyi kabul edersiniz. {lockupPeriod} günlük bir ilk bekleme süresi uygulanacaktır.",
   "modals.interest.deposit.calc": "Faiz Hesaplayıcı",
   "modals.interest.deposit.calcdesc": "Faiz Hesabınızdaki {depositAmountFiat}{currencySymbol} ile şunları kazanabilirsiniz:",

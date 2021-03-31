@@ -116,9 +116,9 @@ export type BankDetails = {
 }
 
 interface BankTransferAccountAttrs {
-  authorisationUrl: string
-  entity: OBEntityType
-  media: OBMediaType
+  authorisationUrl: string,
+  entity: OBEntityType,
+  media: OBMediaType,
   qrcodeUrl: string
 }
 

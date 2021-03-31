@@ -337,7 +337,7 @@
   "copy.new": "Novo",
   "copy.new_swap": "Nova Troca",
   "copy.no_payment_methods": "Nenhum método de pagamento disponível.",
-  "copy.not_enough_eth": "ETH é necessário para enviar {coin} . Você não tem ETH suficiente em sua Ether Wallet para realizar uma transação. Observe que o ETH deve ser mantido em \"My Ether Wallet\" para esta transação, não na Ether Trading Wallet.",
+  "copy.not_enough_eth": "ETH é necessário para enviar {coin} . Você não tem ETH suficiente em sua Ether Wallet para realizar uma transação. Observe que o ETH deve ser mantido em \"My Ether Wallet\" para esta transação, não na Ether Trading Account.",
   "copy.not_now": "Agora não",
   "copy.now": "Agora",
   "copy.number_of_business_days": "{first} a {second} dias úteis",

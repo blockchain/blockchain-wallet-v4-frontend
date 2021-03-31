@@ -34,6 +34,14 @@ export const getData = (state, ownProps: OwnProps) => {
   // } as CoinAccountSelectorType)[coin as CoinType]
 
   switch (coin) {
+    case 'AAVE':
+      addressDataR = getErc20AddressData(state, {
+        coin: 'AAVE',
+        includeCustodial: true,
+        includeInterest: true
+      })
+      balanceDataR = balanceSelectors.getAaveBalance(state)
+      break
     case 'BTC':
       addressDataR = getBtcAddressData(state, {
         excludeLockbox: true,
@@ -90,6 +98,14 @@ export const getData = (state, ownProps: OwnProps) => {
         includeInterest: true
       })
       balanceDataR = balanceSelectors.getXlmBalance(state)
+      break
+    case 'YFI':
+      addressDataR = getErc20AddressData(state, {
+        coin: 'YFI',
+        includeCustodial: true,
+        includeInterest: true
+      })
+      balanceDataR = balanceSelectors.getYfiBalance(state)
       break
     case 'ALGO':
       addressDataR = getAlgoAddressData(state, {

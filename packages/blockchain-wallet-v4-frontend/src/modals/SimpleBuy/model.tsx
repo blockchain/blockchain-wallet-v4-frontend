@@ -55,8 +55,8 @@ export const getOrderDestination = (order: SBOrderType, supportedCoins) => {
   const counterCurrency = getCounterCurrency(order, supportedCoins)
 
   return orderType === 'BUY'
-    ? `${baseCurrency} Trading Wallet`
-    : `${counterCurrency} Wallet`
+    ? `${baseCurrency} Trading Account`
+    : `${counterCurrency} Account`
 }
 
 export const getPaymentMethod = (
@@ -86,7 +86,7 @@ export const getPaymentMethod = (
           }}
         />
       ) : (
-        `${baseCurrency} Trading Wallet`
+        `${baseCurrency} Trading Account`
       )
     case 'BANK_TRANSFER':
       const defaultBankInfo = {
