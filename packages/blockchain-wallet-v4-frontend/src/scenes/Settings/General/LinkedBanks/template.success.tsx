@@ -90,7 +90,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       {account.details?.bankName}
                     </Text>
                     <Text size='14px' color='grey600' weight={500} capitalize>
-                      {account.details?.bankAccountType?.toLowerCase()}{' '}
+                      {account.details?.bankAccountType?.toLowerCase() || ''}{' '}
                       <FormattedMessage
                         id='scenes.settings.general.account'
                         defaultMessage='account'

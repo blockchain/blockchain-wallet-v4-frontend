@@ -13,17 +13,17 @@ const ColumnWrapper = styled.section`
   flex-direction: column;
   justify-content: flex-start;
   width: 100%;
-  ${media.atLeastLaptopL`
+  ${media.atLeastLaptopM`
     flex-direction: row;
   `}
 `
 const Column = styled.div`
+  display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   height: 100%;
   width: 100%;
-  display: flex;
   box-sizing: border-box;
   padding-bottom: 25px;
   ${mediaHeight.big`
@@ -36,7 +36,7 @@ const Column = styled.div`
   `}
 `
 const ColumnLeft = styled(Column)`
-  ${media.atLeastLaptopL`
+  ${media.atLeastLaptopM`
     padding-right: 30px;
   `}
 `

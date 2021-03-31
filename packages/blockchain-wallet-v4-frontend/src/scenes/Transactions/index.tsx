@@ -378,7 +378,6 @@ export type SuccessStateType = {
   coinModel: SupportedWalletCurrencyType
   currency: FiatType
   hasTxResults: boolean
-  isInvited: boolean
   isSearchEntered: boolean
   pages: Array<any>
   sourceType: string

@@ -40,7 +40,6 @@ class DepositForm extends PureComponent<Props> {
 
   handleInitializeDepositForm = () => {
     const { coin, currency, interestActions } = this.props
-
     const walletCurrency = currency.getOrElse('GBP' as CurrencySuccessStateType)
 
     interestActions.initializeDepositForm(coin, walletCurrency)
@@ -53,7 +52,6 @@ class DepositForm extends PureComponent<Props> {
 
   render() {
     const { currency, data } = this.props
-
     const walletCurrency = currency.getOrElse('GBP' as CurrencySuccessStateType)
 
     return data.cata({

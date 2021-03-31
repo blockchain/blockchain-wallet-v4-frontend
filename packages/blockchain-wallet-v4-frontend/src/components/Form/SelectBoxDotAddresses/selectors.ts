@@ -17,7 +17,7 @@ export const getData = (
 
   const buildCustodialDisplay = x => {
     return (
-      `DOT Trading Wallet` +
+      `DOT Trading Account` +
       ` (${Exchange.displayDotToDot({
         value: x ? x.available : 0,
         fromUnit: 'PLANCK',
@@ -34,7 +34,7 @@ export const getData = (
       value: {
         ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: 'DOT Trading Wallet'
+        label: 'DOT Trading Account'
       }
     }
   ]

@@ -19,7 +19,7 @@ export default {
     YFI: {
       rate: '1000000000000000000',
       symbol: 'YFI',
-      decimal_digits: 2,
+      decimal_digits: 8,
       currency: 'YFI'
     }
   }
