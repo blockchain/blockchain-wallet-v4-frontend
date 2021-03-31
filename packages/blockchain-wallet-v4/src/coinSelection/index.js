@@ -177,15 +177,13 @@ export const ascentDraw = (targets, feePerByte, coins, changeAddress) =>
 export const IO_TYPES = {
   inputs: {
     P2PKH: 148, // legacy
-    P2WPKH: 67.75, // native segwit
-    'P2SH-P2WPKH': 91 // wrapped segwit
+    P2WPKH: 67.75 // native segwit
   },
   outputs: {
     P2PKH: 34,
     P2SH: 32,
     P2WPKH: 31,
-    P2WSH: 43,
-    'P2SH-P2WPKH': 32
+    P2WSH: 43
   }
 }
 
