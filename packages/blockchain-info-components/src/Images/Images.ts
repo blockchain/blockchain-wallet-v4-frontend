@@ -11,6 +11,8 @@ import allowCamera3 from './img/allow-camera@3x.png'
 import appleAppStoreBadge from './img/apple-app-store-badge.svg'
 import bank from './img/bank.svg'
 import bankError from './img/bank-error.svg'
+import bankExpired from './img/bank-expired.svg'
+import bankRejected from './img/bank-rejected.svg'
 import bankSuccess from './img/bank-success.svg'
 import bankLogoAcorns from './img/banks/bank-logo-acorns.svg'
 import bankLogoAlly from './img/banks/bank-logo-ally.svg'
@@ -166,6 +168,8 @@ const Images = {
   'apple-app-store-badge': appleAppStoreBadge,
   bank,
   'bank-error': bankError,
+  'bank-expired': bankExpired,
+  'bank-rejected': bankRejected,
   'bank-logo-ally': bankLogoAlly,
   'bank-logo-bank-of-america': bankLogoBankOfAmerica,
   'bank-success': bankSuccess,
