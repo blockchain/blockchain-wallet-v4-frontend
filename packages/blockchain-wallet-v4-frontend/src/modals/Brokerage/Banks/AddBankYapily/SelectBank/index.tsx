@@ -47,7 +47,7 @@ export type OwnProps = {
   handleClose: () => void
   setYapilyBankId: (string) => void
 }
-type LinkDispatchPropsType = {
+export type LinkDispatchPropsType = {
   brokerageActions: typeof actions.components.brokerage
   simpleBuyActions: typeof actions.components.simpleBuy
 }
