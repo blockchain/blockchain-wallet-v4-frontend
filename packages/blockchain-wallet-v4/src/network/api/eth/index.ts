@@ -10,11 +10,16 @@ export default ({ apiUrl, get, post }) => {
       endPoint: `/eth/account/${address}/isContract`
     })
 
-  const getEthFees = () =>
-    get({
+  const getEthFees = contractAddress => {
+    const baseUrl = '/mempool/fees/eth'
+    return get({
       url: apiUrl,
-      endPoint: '/mempool/fees/eth'
+      endPoint: contractAddress
+        ? `${baseUrl}?contractAddress=${contractAddress}`
+        : baseUrl,
+      ignoreQueryParams: true
     })
+  }
 
   const getEthTicker = () =>
     get({
