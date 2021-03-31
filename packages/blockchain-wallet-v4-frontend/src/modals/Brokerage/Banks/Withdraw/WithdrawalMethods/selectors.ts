@@ -16,8 +16,7 @@ export const getData = state => {
   const invitations: InvitationsType = selectors.core.settings
     .getInvitations(state)
     .getOrElse({
-      achDepositWithdrawal: false,
-      openBanking: false
+      achDepositWithdrawal: false
     } as InvitationsType)
 
   const userDataR = selectors.modules.profile.getUserData(state)
@@ -34,7 +33,7 @@ export const getData = state => {
       balances,
       bankTransferAccounts,
       paymentMethods:
-        ((!invitations.achDepositWithdrawal || !invitations.openBanking) && {
+        (!invitations.achDepositWithdrawal && {
           ...paymentMethods,
           methods: paymentMethods.methods.filter(m => m.type === 'BANK_ACCOUNT')
         }) ||
