@@ -117,8 +117,14 @@ export default ({ api }: { api: APIType }) => {
 
   const fetchTransactionHistory = function * ({ payload }) {
     const { address, end, start } = payload
-    const bech32Address = address.find(add => prop('type', add) === 'bech32')
-    const legacyAddress = address.find(add => prop('type', add) === 'legacy')
+    // TODO: SEGWIT remove w/ DEPRECATED_V3
+    // Remove address.length check
+    const bech32Address =
+      address.length === 2 &&
+      address.find(add => prop('type', add) === 'bech32')
+    const legacyAddress =
+      address.length === 2 &&
+      address.find(add => prop('type', add) === 'legacy')
     const startDate = moment(start).format('DD/MM/YYYY')
     const endDate = moment(end).format('DD/MM/YYYY')
     try {
@@ -126,10 +132,11 @@ export default ({ api }: { api: APIType }) => {
       const currency = yield select(selectors.settings.getCurrency)
       if (address) {
         const data = yield call(
-          api.getTransactionHistory,
-          'BTC',
-          prop('address', legacyAddress),
-          prop('address', bech32Address),
+          api.getBtcTransactionHistory,
+          // TODO: SEGWIT remove w/ DEPRECATED_V3
+          // remove || fallback
+          prop('address', legacyAddress) || address,
+          prop('address', bech32Address) || undefined,
           currency.getOrElse('USD'),
           startDate,
           endDate
@@ -139,8 +146,7 @@ export default ({ api }: { api: APIType }) => {
         const context = yield select(S.getContext)
         const active = context.join('|')
         const data = yield call(
-          api.getTransactionHistory,
-          'BTC',
+          api.getBtcTransactionHistory,
           active,
           undefined,
           currency.getOrElse('USD'),

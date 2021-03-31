@@ -149,11 +149,8 @@ export default ({ api }: { api: APIType }) => {
       if (address) {
         const convertedAddress = convertFromCashAddrIfCashAddr(address)
         const data = yield call(
-          api.getTransactionHistory,
-          'BCH',
+          api.getBchTransactionHistory,
           convertedAddress,
-          // bch doens't have an active bech32 address
-          undefined,
           currency.getOrElse('USD'),
           startDate,
           endDate
@@ -163,11 +160,8 @@ export default ({ api }: { api: APIType }) => {
         const context = yield select(S.getContext)
         const active = context.join('|')
         const data = yield call(
-          api.getTransactionHistory,
-          'BCH',
+          api.getBchTransactionHistory,
           active,
-          // bch doens't have an active bech32 address
-          undefined,
           currency.getOrElse('USD'),
           startDate,
           endDate
