@@ -34,10 +34,15 @@ const circleStroke = 2
 
 const tooltipBorderRadius = 4
 
+const margin = 8
+
 const Wrapper = styled.div`
   position: relative;
   height: 300px;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 const Chart = ({ coin, currency, data }: OwnProps) => {
@@ -107,7 +112,7 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
 
   return (
     <Wrapper ref={ref}>
-      <svg width={width} height={height}>
+      <svg width={width - margin} height={height}>
         <LinearGradient
           id={color}
           fromOpacity={0.5}
