@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { AddBankStepType } from 'data/types'
+import { AddBankStepType, BankStatusType } from 'data/types'
 
 import { Props as _P, SuccessStateType } from '.'
 
@@ -62,35 +62,37 @@ const BankLinkError: React.FC<Props> = ({
         <Image
           width='100px'
           name={
-            bankStatus === 'BANK_TRANSFER_ACCOUNT_EXPIRED'
+            bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_EXPIRED
               ? 'bank-expired'
-              : bankStatus === 'BANK_TRANSFER_ACCOUNT_REJECTED'
+              : bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_REJECTED
               ? 'bank-rejected'
               : 'bank-error'
           }
         />
         <Title color='grey800' size='20px' weight={600}>
-          {bankStatus === 'BANK_TRANSFER_ACCOUNT_ALREADY_LINKED' ? (
+          {bankStatus ===
+          BankStatusType.BANK_TRANSFER_ACCOUNT_ALREADY_LINKED ? (
             <FormattedMessage
               id='copy.bank_linked_error_title_already_linked'
               defaultMessage='This bank has already been linked to your account.'
             />
-          ) : bankStatus === 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH' ? (
+          ) : bankStatus ===
+            BankStatusType.BANK_TRANSFER_ACCOUNT_NAME_MISMATCH ? (
             <FormattedMessage
               id='copy.bank_linked_error_title_yourbank'
               defaultMessage='Is this your bank?'
             />
-          ) : bankStatus === 'BANK_TRANSFER_ACCOUNT_EXPIRED' ? (
+          ) : bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_EXPIRED ? (
             <FormattedMessage
               id='copy.bank_linked_error_title_expiredaccount'
               defaultMessage='Expired Account Access'
             />
-          ) : bankStatus === 'BANK_TRANSFER_ACCOUNT_REJECTED' ? (
+          ) : bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_REJECTED ? (
             <FormattedMessage
               id='copy.bank_linked_error_title_connectionrejected'
               defaultMessage='Connection Rejected'
             />
-          ) : bankStatus === 'BANK_TRANSFER_ACCOUNT_FAILED' ? (
+          ) : bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_FAILED ? (
             <FormattedMessage
               id='copy.bank_linked_error_title_failedconnection'
               defaultMessage='Failed Connection Request'
@@ -103,7 +105,8 @@ const BankLinkError: React.FC<Props> = ({
           )}
         </Title>
         <Subcontent color='grey600' weight={500}>
-          {bankStatus === 'BANK_TRANSFER_ACCOUNT_ALREADY_LINKED' ? (
+          {bankStatus ===
+          BankStatusType.BANK_TRANSFER_ACCOUNT_ALREADY_LINKED ? (
             <>
               <FormattedMessage
                 id='copy.bank_linked_error_alreadylinked1'
@@ -125,7 +128,8 @@ const BankLinkError: React.FC<Props> = ({
                 defaultMessage='immediately.'
               />
             </>
-          ) : bankStatus === 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH' ? (
+          ) : bankStatus ===
+            BankStatusType.BANK_TRANSFER_ACCOUNT_NAME_MISMATCH ? (
             <>
               <FormattedMessage
                 id='copy.bank_linked_error_yourbank'

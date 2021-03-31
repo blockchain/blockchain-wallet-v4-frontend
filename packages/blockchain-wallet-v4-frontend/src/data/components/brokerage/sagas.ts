@@ -8,6 +8,7 @@ import { actions, selectors } from 'data'
 import {
   AddBankStepType,
   BankDWStepType,
+  BankStatusType,
   BrokerageModalOriginType,
   FastLinkType,
   SBCheckoutFormValuesType
@@ -174,7 +175,7 @@ export default ({
       yield put(
         actions.components.brokerage.setAddBankStep({
           addBankStep: AddBankStepType.ADD_BANK_STATUS,
-          bankStatus: 'DEFAULT_ERROR'
+          bankStatus: BankStatusType.DEFAULT_ERROR
         })
       )
     }
