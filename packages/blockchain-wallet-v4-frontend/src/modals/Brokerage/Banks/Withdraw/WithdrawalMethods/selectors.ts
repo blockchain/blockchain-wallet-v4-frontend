@@ -13,7 +13,7 @@ export const getData = state => {
     state
   )
   // TODO: Remove this when ach deposits withdrawals gets rolled out hundo P
-  const invitationsR: InvitationsType = selectors.core.settings
+  const invitations: InvitationsType = selectors.core.settings
     .getInvitations(state)
     .getOrElse({
       achDepositWithdrawal: false
@@ -33,7 +33,7 @@ export const getData = state => {
       balances,
       bankTransferAccounts,
       paymentMethods:
-        (!invitationsR.achDepositWithdrawal && {
+        (!invitations.achDepositWithdrawal && {
           ...paymentMethods,
           methods: paymentMethods.methods.filter(m => m.type === 'BANK_ACCOUNT')
         }) ||
