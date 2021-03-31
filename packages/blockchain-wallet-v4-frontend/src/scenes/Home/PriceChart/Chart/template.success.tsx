@@ -4,7 +4,7 @@ import { localPoint } from '@visx/event'
 import { EventType } from '@visx/event/lib/types'
 import { LinearGradient } from '@visx/gradient'
 import { scaleLinear, scaleTime } from '@visx/scale'
-import { AreaClosed,Bar, Line, LinePath } from '@visx/shape'
+import { AreaClosed, Bar, Line, LinePath } from '@visx/shape'
 import { defaultStyles, TooltipWithBounds, useTooltip } from '@visx/tooltip'
 import { bisector, extent, max, min } from 'd3-array'
 import { timeFormat } from 'd3-time-format'
@@ -34,10 +34,15 @@ const circleStroke = 2
 
 const tooltipBorderRadius = 4
 
+const margin = 8
+
 const Wrapper = styled.div`
   position: relative;
   height: 300px;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 const Chart = ({ coin, currency, data }: OwnProps) => {
@@ -107,7 +112,7 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
 
   return (
     <Wrapper ref={ref}>
-      <svg width={width} height={height}>
+      <svg width={width - margin} height={height}>
         <LinearGradient
           id={color}
           fromOpacity={0.5}
