@@ -2,48 +2,40 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { SceneWrapper } from 'components/Layout'
-import { media, mediaHeight } from 'services/styles'
+import { media } from 'services/styles'
 
 import Banners from './Banners'
 import Holdings from './Holdings'
 import PriceChart from './PriceChart'
 
 const ColumnWrapper = styled.section`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  width: 100%;
-  ${media.atLeastLaptopM`
+
+  ${media.atLeastLaptopL`
     flex-direction: row;
   `}
 `
 const Column = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  height: 100%;
   width: 100%;
   box-sizing: border-box;
-  padding-bottom: 25px;
-  ${mediaHeight.big`
-    height: auto;
-    display: block;
-  `}
-  ${media.tablet`
-    height: auto;
-    display: block;
-  `}
+  margin-bottom: 24px;
 `
 const ColumnLeft = styled(Column)`
-  ${media.atLeastLaptopM`
-    padding-right: 30px;
+  flex: 2;
+  ${media.atLeastLaptopL`
+    margin-right: 24px;
   `}
 `
+
 const ColumnRight = styled(Column)`
-  & > :not(:first-child) {
-    margin-top: 20px;
-  }
+  flex: 3;
+  margin-top: 24px;
+
+  ${media.atLeastLaptopL`
+    margin-top: 0;
+  `}
 `
 
 const Home = () => {

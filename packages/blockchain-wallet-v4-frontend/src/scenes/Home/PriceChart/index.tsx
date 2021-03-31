@@ -36,24 +36,18 @@ const Row = styled.div`
 
 const Column = styled.div`
   margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   ${media.atLeastTabletL`
     margin: 0;
-  `}
-`
-
-const InlineContainer = styled.div`
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-
-  ${media.atLeastTabletL`
-    justify-content: flex-start;
+    align-items: flex-start;
   `}
 `
 
 const Header = styled(Row)`
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 `
 
 const Main = styled(Row)`
@@ -69,13 +63,9 @@ const PriceChart = () => {
     <Wrapper>
       <Header>
         <Column>
-          <InlineContainer>
-            <CoinSelector />
-          </InlineContainer>
-          <InlineContainer>
-            <CoinCurrentPrice />
-            <CoinPerformance />
-          </InlineContainer>
+          <CoinSelector />
+          <CoinCurrentPrice />
+          <CoinPerformance />
         </Column>
         <Column>
           <Actions />
