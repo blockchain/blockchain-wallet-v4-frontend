@@ -9,7 +9,7 @@ import { actions } from 'data'
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
-import Success from './template.success'
+import Chart from './template.success'
 
 const ChartContainer = (props: Props) => {
   useEffect(() => {
@@ -20,7 +20,7 @@ const ChartContainer = (props: Props) => {
 
   return props.data.cata({
     Success: value => (
-      <Success currency={props.currency} coin={value.coin} data={value.data} />
+      <Chart currency={props.currency} coin={value.coin} data={value.data} />
     ),
     Failure: message => <Error>{message}</Error>,
     Loading: () => <Loading />,

@@ -3,11 +3,17 @@ import { PriceChange } from 'blockchain-wallet-v4-frontend/src/scenes/Transactio
 import styled from 'styled-components'
 
 import { PriceChangeType } from 'blockchain-wallet-v4/src/redux/data/misc/types'
+import { media } from 'services/styles'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const Wrapper = styled.div`
-  padding-left: 8px;
+  margin-top: 8px;
+  margin-left: 0;
+
+  ${media.atLeastTabletL`
+    margin-left: 24px;
+  `}
 `
 
 const Success = ({ currency, priceChange }: Props) => {
