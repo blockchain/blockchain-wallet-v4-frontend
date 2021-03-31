@@ -51,7 +51,7 @@ export const BeneficiaryName = (props: Props) => {
         {' '}
         <Value asTitle>{bankName}</Value>
         <Title asValue capitalize>
-          {`${bankAccountType} Account ${accountNumber}`}
+          {`${bankAccountType || ''} Account ${accountNumber}`}
         </Title>
       </>
     )

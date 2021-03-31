@@ -33,13 +33,14 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
     state
   )
   // TODO: Remove this when ach deposits withdrawals gets rolled out hundo P
-  const invitationsR: InvitationsType = selectors.core.settings
+  const invitations: InvitationsType = selectors.core.settings
     .getInvitations(state)
     .getOrElse({
-      achDepositWithdrawal: false
+      achDepositWithdrawal: false,
+      openBanking: false
     } as InvitationsType)
 
-  if (!invitationsR.achDepositWithdrawal) {
+  if (!invitations.achDepositWithdrawal || !invitations.openBanking) {
     defaultMethodR = undefined
     bankTransferAccountsR = Remote.Success([])
   }

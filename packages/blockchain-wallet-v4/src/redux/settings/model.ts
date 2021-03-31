@@ -13,5 +13,6 @@ export const DEFAULT_INVITATIONS: InvitationsType = {
   WDGLD: true,
   XLM: true,
   YFI: true,
-  achDepositWithdrawal: false
+  achDepositWithdrawal: false,
+  openBanking: false
 }
