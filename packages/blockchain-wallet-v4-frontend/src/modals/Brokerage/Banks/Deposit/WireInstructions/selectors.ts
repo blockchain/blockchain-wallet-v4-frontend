@@ -12,7 +12,8 @@ export const getData = (state: RootState) => {
   const invitationsR: InvitationsType = selectors.core.settings
     .getInvitations(state)
     .getOrElse({
-      achDepositWithdrawal: false
+      achDepositWithdrawal: false,
+      openBanking: false
     } as InvitationsType)
 
   return lift((account, userData, isInvited) => ({
