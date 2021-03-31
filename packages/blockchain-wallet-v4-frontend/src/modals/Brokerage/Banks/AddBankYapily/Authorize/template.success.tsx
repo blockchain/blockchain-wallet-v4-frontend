@@ -80,14 +80,14 @@ const DropdownItem = ({ bodyText, titleText }) => {
 
 const Success: React.FC<Props> = props => {
   const { entity } = props
-  const entityName = entity === 'Safeconnect(UK)' ? 'SafeConnect' : 'Fintecture'
+  const entityName = entity === 'Fintecture (EU)' ? 'Fintecture' : 'SafeConnect'
 
   return (
     <Wrapper>
       <FlyoutWrapper style={{ paddingBottom: '24px' }}>
         <BackContainer>
           <Image
-            name={entityName === 'SafeConnect' ? 'safe-connect' : 'fintecture'}
+            name={entityName === 'Fintecture' ? 'fintecture' : 'safe-connect'}
             size='20px'
             style={{ marginRight: '28px' }}
           />
