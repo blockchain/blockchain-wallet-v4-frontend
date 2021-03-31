@@ -1,4 +1,5 @@
 import { inputComparator, sortOutputs } from 'bip69'
+import * as Bitcoin from 'bitcoinjs-lib'
 import { clamp, curry, is, length, sort, split } from 'ramda'
 import { over, view } from 'ramda-lens'
 
@@ -38,20 +39,31 @@ export class Coin extends Type {
     return !this.isFromAccount()
   }
   type() {
+    let type = 'P2PKH'
     try {
-      switch (true) {
-        case this.address[0] === '1':
-          return 'P2PKH'
-        case this.address[0] === '3':
-          return 'P2SH-P2WPKH'
-        case this.address.substring(0, 2) === 'bc':
-          return 'P2WPKH'
-        default:
-          return 'P2PKH'
-      }
-    } catch (e) {
-      return 'P2PKH'
-    }
+      const output = Bitcoin.address.toOutputScript(this.address)
+      // eslint-disable-next-line
+      let addr = null
+
+      try {
+        addr = Bitcoin.payments.p2pkh({ output }).address
+        type = 'P2PKH'
+      } catch (e) {}
+      try {
+        addr = Bitcoin.payments.p2sh({ output }).address
+        type = 'P2SH'
+      } catch (e) {}
+      try {
+        addr = Bitcoin.payments.p2wpkh({ output }).address
+        type = 'P2WPKH'
+      } catch (e) {}
+      try {
+        addr = Bitcoin.payments.p2wsh({ output }).address
+        type = 'P2WSH'
+      } catch (e) {}
+    } catch (e) {}
+
+    return type
   }
 }
 
