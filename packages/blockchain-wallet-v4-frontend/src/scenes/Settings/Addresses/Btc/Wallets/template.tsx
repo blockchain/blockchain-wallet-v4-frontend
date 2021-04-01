@@ -76,7 +76,7 @@ const ErrorMessageText = styled(Text)`
 const Success = ({
   failure,
   message,
-  onAddNewWallet,
+  // onAddNewWallet,
   onClickImport,
   onUnarchive,
   search,
@@ -84,7 +84,7 @@ const Success = ({
 }: {
   failure?: any
   message?: any
-  onAddNewWallet: () => void
+  // onAddNewWallet: () => void
   onClickImport: () => void
   onUnarchive: (i: any) => void
   search: any
@@ -237,7 +237,8 @@ const Success = ({
               defaultMessage='Import Address'
             />
           </Button>
-          <Button
+          {/* // (MAYBE REMOVE FOREVER) TODO: SEGWIT remove w/ DEPRECATED_V3 */}
+          {/* <Button
             data-e2e='btcNewWalletButton'
             height='36px'
             nature='primary'
@@ -248,7 +249,7 @@ const Success = ({
               id='scenes.settings.addresses.btc.wallets.newhdaccount'
               defaultMessage='New Wallet'
             />
-          </Button>
+          </Button> */}
         </ButtonsWrapper>
       </HeaderWrapper>
       <TableStyled>
