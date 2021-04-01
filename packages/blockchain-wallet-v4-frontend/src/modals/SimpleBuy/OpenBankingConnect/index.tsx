@@ -19,7 +19,6 @@ const Connect = (props: Props) => {
         props.walletCurrency as WalletFiatType
       )
     }
-    props.brokerageActions.fetchBankTransferUpdate(props.yapilyBankId)
   }
 
   useEffect(fetchBank, [props.walletCurrency])
@@ -46,7 +45,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 export type OwnProps = {
   handleClose: () => void
   order: SBOrderType
-  yapilyBankId: string
 }
 export type SuccessStateType = ReturnType<typeof getData>['data']
 export type Props = ConnectedProps<typeof connector> & OwnProps

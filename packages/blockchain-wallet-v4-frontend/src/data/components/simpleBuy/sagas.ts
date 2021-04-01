@@ -342,9 +342,11 @@ export default ({
       if (!paymentType) throw new Error(NO_PAYMENT_TYPE)
 
       if (orderType === 'BUY' && fix === 'CRYPTO') {
+        // @ts-ignore
         delete input.amount
       }
       if (orderType === 'BUY' && fix === 'FIAT') {
+        // @ts-ignore
         delete output.amount
       }
 

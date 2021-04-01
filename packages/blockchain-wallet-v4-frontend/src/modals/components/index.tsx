@@ -7,7 +7,11 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { OBInstitution } from 'data/types'
 
 const BankWrapper = styled(FlyoutWrapper)`
-  padding: 40px 0;
+  padding: 37px 0 34px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 `
 const NavText = styled(Text)`
   display: flex;
@@ -17,8 +21,11 @@ const NavText = styled(Text)`
 `
 
 const Section = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  align-items: center;
   padding: 20px;
-  text-align: center;
 `
 const QrContainer = styled.div`
   width: 150px;
@@ -26,7 +33,7 @@ const QrContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 40px auto 40px;
+  margin: 40px auto 0;
   padding: 15px;
   border: 2px solid ${p => p.theme.blue600};
   border-radius: 4px;
@@ -50,6 +57,13 @@ const WaitingContainer = styled.div`
   &.active {
     opacity: 1;
   }
+`
+const LinkOptionsWrapper = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 `
 interface ScanWithPhoneType {
   readonly logo?: string
@@ -78,17 +92,21 @@ const ScanWithPhone = ({ logo, qrCode }: ScanWithPhoneType) => {
           <SpinningLoader width='30px' height='30px' />
         )}
       </QrContainer>
-
-      <WaitingContainer className={qrCode ? 'active' : ''}>
-        <SpinningLoader width='10px' height='10px' borderWidth='3px' />
-        <Text size='14px' weight={500}>
-          <FormattedMessage
-            id='modals.brokerage.waiting_to_hear'
-            defaultMessage='Waiting to hear from your bank'
-          />
-        </Text>
-      </WaitingContainer>
     </Section>
+  )
+}
+
+const BankWaitIndicator = ({ qrCode }: { readonly qrCode?: string }) => {
+  return (
+    <WaitingContainer className={qrCode ? 'active' : ''}>
+      <SpinningLoader width='10px' height='10px' borderWidth='3px' />
+      <Text size='14px' weight={500}>
+        <FormattedMessage
+          id='modals.brokerage.waiting_to_hear'
+          defaultMessage='Waiting to hear from your bank'
+        />
+      </Text>
+    </WaitingContainer>
   )
 }
 
@@ -309,13 +327,14 @@ const ModalNavWithCloseIcon = props => {
   )
 }
 
-const Hr = styled.hr`
+const HrEl = styled.hr`
   border: none;
   border-top: 1px solid ${p => p.theme.grey100};
   text-align: center;
   overflow: visible;
   color: #333;
   height: 5px;
+  width: 100%;
 
   &:after {
     content: 'OR';
@@ -325,19 +344,32 @@ const Hr = styled.hr`
     background: ${p => p.theme.alwaysWhite};
   }
 `
+
+const Hr = () => {
+  return (
+    <div style={{ width: '100%' }}>
+      <Text weight={600} size='16px' color='grey900'>
+        <HrEl />
+      </Text>
+    </div>
+  )
+}
 export {
   BankSearchIcon,
   BankSearchInput,
   BankSearchWrapper,
+  BankWaitIndicator,
   BankWrapper,
   BROKERAGE_INELIGIBLE,
   Hr,
   IneligibleErrorMessage,
+  LinkOptionsWrapper,
   LinkViaDesktop,
   Loading,
   ModalNavWithBackArrow,
   ModalNavWithCloseIcon,
   NavText,
   ScanWithPhone,
+  Section,
   SimpleBankRow
 }

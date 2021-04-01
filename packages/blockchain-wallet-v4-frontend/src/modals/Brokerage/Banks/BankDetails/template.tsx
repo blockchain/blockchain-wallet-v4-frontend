@@ -65,7 +65,7 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       ? `${account.details?.bankName} ${account.details?.accountNumber}`
       : `bank account`
 
-  const achDetails = account && 'details' in account && account.details
+  const accountDetails = account && 'details' in account && account.details
   return (
     <Wrapper>
       <FlyoutWrapper>
@@ -82,8 +82,8 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </CloseContainer>
 
         <BankIconWrapper>
-          {achDetails && (
-            <Image name={getBankLogoImageName(achDetails.bankName)} />
+          {accountDetails && (
+            <Image name={getBankLogoImageName(accountDetails.bankName)} />
           )}
         </BankIconWrapper>
         <BankDetails>
@@ -91,7 +91,8 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             {bankAccountName}
           </Text>
           <Text size='24px' color='grey600' weight={500}>
-            {(achDetails && account?.details?.bankAccountType?.toLowerCase()) ||
+            {(accountDetails &&
+              accountDetails.bankAccountType?.toLowerCase()) ||
               ''}{' '}
             <FormattedMessage
               id='scenes.settings.general.account'

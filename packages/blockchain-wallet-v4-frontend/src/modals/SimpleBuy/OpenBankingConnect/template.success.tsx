@@ -1,14 +1,15 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
-
 import {
+  BankWaitIndicator,
   BankWrapper,
   Hr,
+  LinkOptionsWrapper,
   LinkViaDesktop,
   ModalNavWithCloseIcon,
-  ScanWithPhone
+  ScanWithPhone,
+  Section
 } from '../../components'
 import { Props as _P, SuccessStateType as _SS } from '.'
 
@@ -23,13 +24,18 @@ const Success = (props: Props) => {
           defaultMessage='Connect to your bank'
         />
       </ModalNavWithCloseIcon>
-      <ScanWithPhone qrCode={props.order?.attributes?.qrcodeUrl as string} />
-      <Text weight={600} size='16px' color='grey900'>
+      <LinkOptionsWrapper>
+        <ScanWithPhone qrCode={props.order?.attributes?.qrcodeUrl as string} />
         <Hr />
-      </Text>
-      <LinkViaDesktop
-        authUrl={props.order?.attributes?.authorisationUrl as string}
-      />
+        <Section>
+          <LinkViaDesktop
+            authUrl={props.order?.attributes?.authorisationUrl as string}
+          />
+          <BankWaitIndicator
+            qrCode={props.order?.attributes?.qrcodeUrl as string}
+          />
+        </Section>
+      </LinkOptionsWrapper>
     </BankWrapper>
   )
 }

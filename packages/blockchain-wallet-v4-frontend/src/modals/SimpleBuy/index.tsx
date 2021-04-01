@@ -223,7 +223,6 @@ class SimpleBuy extends PureComponent<Props, State> {
               <FlyoutChild>
                 <OpenBankingConnect
                   {...this.props}
-                  yapilyBankId={'foooo'}
                   handleClose={this.handleClose}
                 />
               </FlyoutChild>
