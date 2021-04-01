@@ -1,5 +1,5 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React, { useEffect } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { Wrapper } from 'components/Public'
@@ -15,36 +15,37 @@ const PARAM_ISI = '493253309'
 const PARAM_IBI = 'com.rainydayapps.Blockchain'
 const PARAM_APN = 'piuk.blockchain.android'
 
-class VerifyEmailToken extends React.PureComponent {
-  state = {
-    token: decodeURIComponent(
-      this.props.location.pathname.split('/verify-email/')[1]
-    ),
-    context: new URLSearchParams(this.props.location.search).get('context')
-  }
+const VerifyEmailToken = ({ appEnv, data, location, miscActions }: Props) => {
+  const token = decodeURIComponent(location.pathname.split('/verify-email/')[1])
 
-  componentDidMount() {
-    this.props.miscActions.verifyEmailToken(this.state.token)
-  }
+  const urlParamContext = new URLSearchParams(location.search).get('context')
 
-  getMobileLinkOut = () => {
-    const { context } = this.state
-    const isProdEnv = this.props.appEnv === 'prod'
+  useEffect(() => {
+    miscActions.verifyEmailToken(token)
+  }, [])
+
+  const getMobileLinkOut = () => {
+    const isProdEnv = appEnv === 'prod'
 
     const link = isProdEnv
       ? 'https://blockchain.page.link/'
       : 'https://blockchainwalletstaging.page.link/'
 
     const deepLinkParams = new URLSearchParams()
+
     deepLinkParams.set('deep_link_path', PARAM_DEEP_LINK_PATH)
 
-    if (context != null && VALID_CONTEXTS.indexOf(context.toUpperCase()) > -1) {
-      deepLinkParams.set('context', context)
+    if (
+      urlParamContext != null &&
+      VALID_CONTEXTS.indexOf(urlParamContext.toUpperCase()) > -1
+    ) {
+      deepLinkParams.set('context', urlParamContext)
     }
 
     const deepLink = `${window.location.origin}/login?${deepLinkParams}`
 
     const params = new URLSearchParams()
+
     params.set('link', deepLink)
     params.set('isi', PARAM_ISI)
     params.set('ibi', PARAM_IBI)
@@ -53,18 +54,16 @@ class VerifyEmailToken extends React.PureComponent {
     return `${link}?${params}`
   }
 
-  render() {
-    const { data } = this.props
-
-    let VerifyEmailStatus = data.cata({
-      Success: () => <Success mobileLinkOut={this.getMobileLinkOut()} />,
-      Failure: error => <Error error={error} />,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
-    })
-
-    return <Wrapper>{VerifyEmailStatus}</Wrapper>
-  }
+  return (
+    <Wrapper>
+      {data.cata({
+        Success: () => <Success mobileLinkOut={getMobileLinkOut()} />,
+        Failure: error => <Error error={error} />,
+        Loading: () => <Loading />,
+        NotAsked: () => <Loading />
+      })}
+    </Wrapper>
+  )
 }
 
 const mapStateToProps = state => ({
@@ -76,4 +75,10 @@ const mapDispatchToProps = dispatch => ({
   miscActions: bindActionCreators(actions.core.data.misc, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(VerifyEmailToken)
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type Props = ConnectedProps<typeof connector> & {
+  location: { pathname: string; search: string }
+}
+
+export default connector(VerifyEmailToken)

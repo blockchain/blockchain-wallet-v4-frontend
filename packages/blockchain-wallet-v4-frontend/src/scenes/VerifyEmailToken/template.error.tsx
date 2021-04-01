@@ -15,9 +15,7 @@ const LogoWrapper = styled.div`
   align-items: center;
 `
 
-const Error = props => {
-  const { error } = props
-
+const Error = ({ error }: Props) => {
   return (
     <Wrapper>
       {error && error.includes('already been verified') ? (
@@ -29,7 +27,7 @@ const Error = props => {
             size='18px'
             weight={500}
             color='marketing-primary'
-            style={{ 'margin-top': '10px' }}
+            style={{ marginTop: '10px' }}
           >
             <FormattedMessage
               id='scenes.verifyemailtoken.error.alreadyverified.title'
@@ -52,7 +50,7 @@ const Error = props => {
             size='18px'
             weight={500}
             color='marketing-primary'
-            style={{ 'margin-top': '10px' }}
+            style={{ marginTop: '10px' }}
           >
             <FormattedMessage
               id='scenes.verifyemailtoken.error'
@@ -73,6 +71,7 @@ const Error = props => {
           fullwidth
           style={{ marginTop: '20px' }}
           height='50px'
+          data-e2e=''
         >
           <FormattedMessage
             id='buttons.contact_support'
@@ -83,5 +82,7 @@ const Error = props => {
     </Wrapper>
   )
 }
+
+type Props = { error: string }
 
 export default Error

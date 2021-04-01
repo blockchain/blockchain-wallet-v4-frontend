@@ -16,9 +16,7 @@ const LogoWrapper = styled.div`
   align-items: center;
 `
 
-const Success = props => {
-  const { mobileLinkOut } = props
-
+const Success = ({ mobileLinkOut }: Props) => {
   return (
     <Wrapper>
       <LogoWrapper>
@@ -28,7 +26,7 @@ const Success = props => {
         size='18px'
         weight={500}
         color='marketing-primary'
-        style={{ 'margin-top': '15px' }}
+        style={{ marginTop: '15px' }}
       >
         <FormattedMessage
           id='scenes.verifyemailtoken.verified'
@@ -42,6 +40,7 @@ const Success = props => {
             fullwidth
             style={{ marginTop: '20px' }}
             height='50px'
+            data-e2e=''
           >
             <FormattedMessage
               id='scenes.verifyemailtoken.mobile.openwallet'
@@ -59,6 +58,10 @@ const Success = props => {
       )}
     </Wrapper>
   )
+}
+
+type Props = {
+  mobileLinkOut: string
 }
 
 export default Success
