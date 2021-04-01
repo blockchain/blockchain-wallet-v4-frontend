@@ -774,7 +774,6 @@ export default ({
         .getOrElse({
           state: 'NONE'
         } as UserDataType)
-
       // 🚨DO NOT create the user if no currency is passed
       if (userData.state === 'NONE' && !currency) {
         return yield put(A.fetchSBPaymentMethodsSuccess(DEFAULT_SB_METHODS))

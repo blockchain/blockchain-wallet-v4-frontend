@@ -51,7 +51,7 @@ const EnterAmount = props => {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD'
+  fiatCurrency: selectors.core.settings.getCurrency(state).getOrFail()
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
