@@ -324,7 +324,11 @@ export default ({ api }) => {
           )
           return makePayment(mergeRight(p, { signed }))
         } catch (e) {
-          throw new Error('missing_mnemonic')
+          if (e && e instanceof Error) {
+            throw e
+          } else {
+            throw new Error('missing_mnemonic')
+          }
         }
       },
 
