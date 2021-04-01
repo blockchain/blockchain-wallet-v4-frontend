@@ -31,7 +31,7 @@ const DepositMethods = props => {
 const mapStateToProps = (state: RootState) => ({
   addNew: state.components.brokerage.addNew,
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state)
+  fiatCurrency: selectors.core.settings.getCurrency(state)
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
