@@ -25,7 +25,7 @@ import { derivationMap, ETH } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
 import * as A from './actions'
 
-const ETH_ACCT_NAME = 'ETH Private Key Wallet'
+const ACCT_NAME = 'Private Key Wallet'
 
 export default ({ api, networks } = {}) => {
   const deriveAccount = function * (password) {
@@ -45,7 +45,7 @@ export default ({ api, networks } = {}) => {
   }
 
   const buildErc20Entry = (token, coinModels, existingNotes) => ({
-    label: `${coinModels[token].coinTicker} Private Key Wallet`,
+    label: ACCT_NAME,
     contract: path([token, 'contractAddress'], coinModels),
     has_seen: false,
     tx_notes: existingNotes || {}
@@ -69,7 +69,7 @@ export default ({ api, networks } = {}) => {
       default_account_idx: defaultIndex,
       accounts: [
         {
-          label: ETH_ACCT_NAME,
+          label: ACCT_NAME,
           archived: false,
           correct: true,
           addr: addr
@@ -114,7 +114,7 @@ export default ({ api, networks } = {}) => {
         const erc20List = (yield select(getErc20CoinList)).getOrFail()
         const coinModels = (yield select(getSupportedCoins)).getOrFail()
         // use new ETH account label
-        newkv.value.ethereum.accounts[0].label = ETH_ACCT_NAME
+        newkv.value.ethereum.accounts[0].label = ACCT_NAME
         // create fake metadata entries for erc20 assets
         const erc20 = pathOr({}, ['value', 'ethereum', 'erc20'], newkv)
         forEach(token => {
