@@ -1083,10 +1083,11 @@ export default ({
           failure: take(AT.FETCH_SELL_QUOTE_FAILURE)
         })
         const quote = S.getSellQuote(yield select()).getOrFail(NO_QUOTE)
-        const formValues = selectors.form.getFormValues('simpleBuyCheckout')(
-          yield select()
-        ) as T.SBCheckoutFormValuesType
+
         if (account.type === 'ACCOUNT') {
+          const formValues = selectors.form.getFormValues('simpleBuyCheckout')(
+            yield select()
+          ) as T.SBCheckoutFormValuesType
           let payment = yield call(
             calculateProvisionalPayment,
             account,
