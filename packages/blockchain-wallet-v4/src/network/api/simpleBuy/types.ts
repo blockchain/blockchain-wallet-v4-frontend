@@ -133,8 +133,8 @@ export type SBPaymentMethodType = {
   address?: null | NabuAddressType
   attributes?: {}
   card?: SBCard
-  currency: FiatType,
-  details?: BankDetails,
+  currency: FiatType
+  details?: BankDetails
   eligible?: boolean
   id?: string
   ineligibleReason?: string
@@ -176,14 +176,14 @@ export type SBMoneyType = {
 
 export type ISBBuyOrderType = {
   attributes?: {
-    authorisationUrl?: string,
-    consentId?: string,
+    authorisationUrl?: string
+    consentId?: string
     everypay: {
       paymentLink: string
       paymentState: 'WAITING_FOR_3DS_RESPONSE' | null
-    },
-    expiresAt?: string,
-    paymentId: string,
+    }
+    expiresAt?: string
+    paymentId: string
     qrcodeUrl?: string
   }
   expiresAt: string
@@ -242,11 +242,13 @@ export type SBTransactionType = {
         amount: {
           [key in WalletCurrencyType]: number
         }
+        authorisationUrl?: string
         confirmations: number
         dsr: number
         hash: string
         id: string
-        status: 'UNCONFIRMED' | 'CONFIRMED'
+        qrcodeUrl?: string
+        status: 'UNCONFIRMED' | 'CONFIRMED' | 'COMPLETED' | 'CLEARED'
         txHash: string
       }
       type: 'DEPOSIT' | 'REFUNDED' | 'SELL'

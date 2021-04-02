@@ -70,6 +70,7 @@ export enum BankStatusType {
 export enum BankDWStepType {
   BANK_LIST = 'BANK_LIST',
   CONFIRM = 'CONFIRM',
+  DEPOSIT_CONNECT = 'DEPOSIT_CONNECT',
   DEPOSIT_METHODS = 'DEPOSIT_METHODS',
   DEPOSIT_STATUS = 'DEPOSIT_STATUS',
   ENTER_AMOUNT = 'ENTER_AMOUNT',
@@ -83,6 +84,7 @@ export type BrokerageDWStepPayload =
       dwStep:
         | BankDWStepType.ENTER_AMOUNT
         | BankDWStepType.WIRE_INSTRUCTIONS
+        | BankDWStepType.DEPOSIT_CONNECT
         | BankDWStepType.DEPOSIT_STATUS
         | BankDWStepType.BANK_LIST
         | BankDWStepType.INELIGIBLE
@@ -120,9 +122,9 @@ export type BankDetails = {
 }
 
 interface BankTransferAccountAttrs {
-  authorisationUrl: string,
-  entity: OBEntityType,
-  media: OBMediaType,
+  authorisationUrl: string
+  entity: OBEntityType
+  media: OBMediaType
   qrcodeUrl: string
 }
 

@@ -27,7 +27,8 @@ import {
   SBProviderAttributesType,
   SBQuoteType,
   SBTransactionStateType,
-  SBTransactionsType
+  SBTransactionsType,
+  SBTransactionType
 } from './types'
 
 export default ({
@@ -163,6 +164,12 @@ export default ({
         attributes,
         paymentMethodId
       }
+    })
+
+  const getPaymentById = (pId: string): SBTransactionType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/payments/payment/${pId}`
     })
 
   // TODO: move this BROKERAGE component
@@ -418,6 +425,7 @@ export default ({
     deleteSavedAccount,
     getBankTransferAccounts,
     getBankTransferAccountDetails,
+    getPaymentById,
     getSBBalances,
     getSBCard,
     getSBCards,

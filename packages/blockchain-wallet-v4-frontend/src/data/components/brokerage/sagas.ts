@@ -4,6 +4,7 @@ import { call, put, retry, select, take } from 'redux-saga/effects'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { SBTransactionType } from 'core/types'
 import { actions, selectors } from 'data'
 import {
   AddBankStepType,
@@ -280,20 +281,57 @@ export default ({
     yield put(actions.modals.showModal(modalType, { origin }))
   }
 
+  const ClearedStatusCheck = function * (orderId) {
+    let order: SBTransactionType = yield call(api.getPaymentById, orderId)
+
+    if (order.state === 'CLEARED' || order.state === 'COMPLETE') {
+      return order
+    } else {
+      throw new Error('retrying to fetch for cleared status')
+    }
+  }
+
+  const AuthUrlCheck = function * (orderId) {
+    let order: SBTransactionType = yield call(api.getPaymentById, orderId)
+
+    if (
+      order.extraAttributes &&
+      'authorisationUrl' in order.extraAttributes &&
+      order.extraAttributes.authorisationUrl
+    ) {
+      return order
+    } else {
+      throw new Error('retrying to fetch for AuthUrl')
+    }
+  }
+
   const createFiatDeposit = function * () {
     const { amount, currency } = yield select(getFormValues('brokerageTx'))
     const { id } = yield select(selectors.components.brokerage.getAccount)
     try {
       const data = yield call(api.createFiatDeposit, amount, id, currency)
-      if (data && data.paymentId) {
+      const order = yield retry(100, 10000, AuthUrlCheck, data.paymentId)
+      if (
+        order.extraAttributes &&
+        'authorisationUrl' in order.extraAttributes &&
+        order.extraAttributes.authorisationUrl
+      ) {
+        yield put(actions.form.change('brokerageTx', 'order', order))
         yield put(
           actions.components.brokerage.setDWStep({
-            dwStep: BankDWStepType.DEPOSIT_STATUS
+            dwStep: BankDWStepType.DEPOSIT_CONNECT
           })
         )
-        // refresh the fiat list so the newest tx shows up right away
-        yield put(actions.core.data.fiat.fetchTransactions(currency, true))
+
+        yield retry(100, 10000, ClearedStatusCheck, data.paymentId)
       }
+      yield put(
+        actions.components.brokerage.setDWStep({
+          dwStep: BankDWStepType.DEPOSIT_STATUS
+        })
+      )
+      // refresh the fiat list so the newest tx shows up right away
+      yield put(actions.core.data.fiat.fetchTransactions(currency, true))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('brokerageTx', { _error: error }))
