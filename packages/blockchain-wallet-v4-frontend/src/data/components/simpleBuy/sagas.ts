@@ -1083,12 +1083,16 @@ export default ({
           failure: take(AT.FETCH_SELL_QUOTE_FAILURE)
         })
         const quote = S.getSellQuote(yield select()).getOrFail(NO_QUOTE)
+
         if (account.type === 'ACCOUNT') {
+          const formValues = selectors.form.getFormValues('simpleBuyCheckout')(
+            yield select()
+          ) as T.SBCheckoutFormValuesType
           let payment = yield call(
             calculateProvisionalPayment,
             account,
             quote.quote,
-            0
+            formValues ? formValues.cryptoAmount : 0
           )
           yield put(A.updatePaymentSuccess(payment))
         } else {
