@@ -19,8 +19,7 @@ export const signErc20 = curry(
     const privateKey = eth.getPrivateKey(mnemonic, index)
     const transferMethodHex = '0xa9059cbb'
 
-    // sometimes ERC20 transfers/sends are being created with 0 amount,
-    // for now just detect and throw error. ideally, we find root cause of this
+    // block ERC20 transfers/sends that are being created with 0 amount
     if (new BigNumber(amount).isZero()) {
       return Task.rejected(new Error('erc20_amount_cannot_be_zero'))
     }
