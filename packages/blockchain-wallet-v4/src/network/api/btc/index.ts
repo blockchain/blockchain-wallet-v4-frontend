@@ -46,6 +46,21 @@ export default ({ apiUrl, get, post, rootUrl }) => {
       }
     })
 
+  const getBtcTransactionHistory = (
+    active,
+    activeBech32,
+    currency,
+    start,
+    end
+  ) => {
+    const endpoint = '/v2/export-history'
+    return post({
+      url: rootUrl,
+      endPoint: endpoint,
+      data: { active, activeBech32, currency: toUpper(currency), start, end }
+    })
+  }
+
   const getLatestBlock = () =>
     get({
       url: rootUrl,
@@ -76,6 +91,7 @@ export default ({ apiUrl, get, post, rootUrl }) => {
     getBtcTicker,
     getBtcUnspents,
     getBtcFees,
+    getBtcTransactionHistory,
     pushBtcTx,
     getBtcFiatAtTime,
     getLatestBlock,

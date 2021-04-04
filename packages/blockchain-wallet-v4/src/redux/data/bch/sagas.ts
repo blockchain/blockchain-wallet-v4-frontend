@@ -149,8 +149,7 @@ export default ({ api }: { api: APIType }) => {
       if (address) {
         const convertedAddress = convertFromCashAddrIfCashAddr(address)
         const data = yield call(
-          api.getTransactionHistory,
-          'BCH',
+          api.getBchTransactionHistory,
           convertedAddress,
           currency.getOrElse('USD'),
           startDate,
@@ -161,8 +160,7 @@ export default ({ api }: { api: APIType }) => {
         const context = yield select(S.getContext)
         const active = context.join('|')
         const data = yield call(
-          api.getTransactionHistory,
-          'BCH',
+          api.getBchTransactionHistory,
           active,
           currency.getOrElse('USD'),
           startDate,

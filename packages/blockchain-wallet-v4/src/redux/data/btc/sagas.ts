@@ -79,14 +79,18 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchTransactionsLoading(reset))
       const context = yield select(S.getContext)
       const walletContext = yield select(S.getWalletContext)
-      const data = yield call(api.fetchBlockchainData, context, {
-        n: TX_PER_PAGE,
-        onlyShow:
-          // TODO: SEGWIT remove w/ DEPRECATED_V3
-          address || concat(walletContext.legacy, walletContext.bech32 || []),
-        offset
-      },
-      filter)
+      const data = yield call(
+        api.fetchBlockchainData,
+        context,
+        {
+          n: TX_PER_PAGE,
+          onlyShow:
+            // TODO: SEGWIT remove w/ DEPRECATED_V3
+            address || concat(walletContext.legacy, walletContext.bech32 || []),
+          offset
+        },
+        filter
+      )
       const atBounds = length(data.txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
       const txPage: Array<ProcessedTxType> = yield call(__processTxs, data.txs)
@@ -113,6 +117,14 @@ export default ({ api }: { api: APIType }) => {
 
   const fetchTransactionHistory = function * ({ payload }) {
     const { address, end, start } = payload
+    // TODO: SEGWIT remove w/ DEPRECATED_V3
+    // Remove address.length check
+    const bech32Address =
+      address.length === 2 &&
+      address.find(add => prop('type', add) === 'bech32')
+    const legacyAddress =
+      address.length === 2 &&
+      address.find(add => prop('type', add) === 'legacy')
     const startDate = moment(start).format('DD/MM/YYYY')
     const endDate = moment(end).format('DD/MM/YYYY')
     try {
@@ -120,9 +132,11 @@ export default ({ api }: { api: APIType }) => {
       const currency = yield select(selectors.settings.getCurrency)
       if (address) {
         const data = yield call(
-          api.getTransactionHistory,
-          'BTC',
-          address,
+          api.getBtcTransactionHistory,
+          // TODO: SEGWIT remove w/ DEPRECATED_V3
+          // remove || fallback
+          prop('address', legacyAddress) || address,
+          prop('address', bech32Address) || undefined,
           currency.getOrElse('USD'),
           startDate,
           endDate
@@ -132,9 +146,9 @@ export default ({ api }: { api: APIType }) => {
         const context = yield select(S.getContext)
         const active = context.join('|')
         const data = yield call(
-          api.getTransactionHistory,
-          'BTC',
+          api.getBtcTransactionHistory,
           active,
+          undefined,
           currency.getOrElse('USD'),
           startDate,
           end
