@@ -24,6 +24,7 @@ import { walletPath } from '../paths'
 const intoJS = i => i.toJS()
 export const getWrapper = prop(walletPath)
 export const getWallet = compose(Wrapper.selectWallet, getWrapper)
+export const getVersion = compose(Wrapper.selectVersion, getWrapper)
 export const getDefaultHDWallet = compose(
   HDWalletList.selectHDWallet,
   Wallet.selectHdWallets,

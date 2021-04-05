@@ -6,6 +6,7 @@ import Alerts from 'components/Alerts'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 
+import Modals from '../../modals'
 // import AndroidAppBanner from './components/AndroidAppBanner'
 import DropdownLanguage from './components/DropdownLanguage'
 import Footer from './components/Footer'
@@ -71,6 +72,7 @@ const PublicLayoutContainer = ({ component: Component, ...rest }) => (
           <HeaderContainer>
             <Header />
           </HeaderContainer>
+          <Modals />
           <ContentContainer>
             <Component {...matchProps} />
           </ContentContainer>

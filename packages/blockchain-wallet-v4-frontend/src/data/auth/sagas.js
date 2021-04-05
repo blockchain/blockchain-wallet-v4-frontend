@@ -60,13 +60,6 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const upgradeWalletSaga = function * (isDoubleEncrypted, version) {
-    yield put(
-      actions.modals.showModal('UpgradeWallet', { isDoubleEncrypted, version })
-    )
-    yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
-  }
-
   const upgradeAddressLabelsSaga = function * () {
     const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
     if (addressLabelSize > 100) {
@@ -130,13 +123,11 @@ export default ({ api, coreSagas }) => {
     isRecovering = false
   ) {
     try {
-      const isDoubleEncrypted = yield select(
-        selectors.core.wallet.isSecondPasswordOn
-      )
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
       if (!isHdWallet) {
-        yield call(upgradeWalletSaga, isDoubleEncrypted, 3)
+        yield put(actions.auth.upgradeWallet(3))
+        yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
       }
       const isLatestVersion = yield select(
         selectors.core.wallet.isWrapperLatestVersion
@@ -146,8 +137,9 @@ export default ({ api, coreSagas }) => {
         .getInvitations(yield select())
         .getOrElse(DEFAULT_INVITATIONS)
       const isSegwitEnabled = invitations.segwit
-      if (!isLatestVersion && !isRecovering && !firstLogin && isSegwitEnabled) {
-        yield call(upgradeWalletSaga, isDoubleEncrypted, 4)
+      if (!isLatestVersion && isSegwitEnabled) {
+        yield put(actions.auth.upgradeWallet(4))
+        yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
       }
       // Finish upgrades
       yield put(actions.auth.authenticate())
@@ -647,7 +639,6 @@ export default ({ api, coreSagas }) => {
     setLogoutEventListener,
     startSockets,
     upgradeWallet,
-    upgradeWalletSaga,
     upgradeAddressLabelsSaga
   }
 }
