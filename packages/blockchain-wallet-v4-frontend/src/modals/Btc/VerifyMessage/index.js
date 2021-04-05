@@ -109,11 +109,11 @@ class VerifyMessage extends React.PureComponent {
   }
 
   render() {
-    const { close, network } = this.props
+    const { closeAll, network } = this.props
 
     return (
       <Modal>
-        <ModalHeader onClose={close}>
+        <ModalHeader onClose={closeAll}>
           <FormattedMessage
             id='modals.verifyMessage.title'
             defaultMessage='Verify Message'

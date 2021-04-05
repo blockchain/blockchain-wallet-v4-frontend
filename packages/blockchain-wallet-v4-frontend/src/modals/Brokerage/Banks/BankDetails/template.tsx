@@ -84,7 +84,7 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             {account.details?.bankName}
           </Text>
           <Text size='24px' color='grey600' weight={500}>
-            {account.details?.bankAccountType.toLowerCase()}{' '}
+            {account.details?.bankAccountType?.toLowerCase() || ''}{' '}
             <FormattedMessage
               id='scenes.settings.general.account'
               defaultMessage='account'

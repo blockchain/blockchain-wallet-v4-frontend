@@ -85,7 +85,7 @@ export const getData = (
   }
   const buildCustodialDisplay = x => {
     return (
-      `BTC Trading Account` +
+      `Trading Account` +
       ` (${Exchange.displayBtcToBtc({
         value: x ? x.available : 0,
         fromUnit: 'SAT',
@@ -95,7 +95,7 @@ export const getData = (
   }
   const buildInterestDisplay = (x: InterestAccountBalanceType['BTC']) => {
     return (
-      `BTC Interest Account` +
+      `Interest Account` +
       ` (${Exchange.displayBtcToBtc({
         value: x ? x.balance : 0,
         fromUnit: 'SAT',
@@ -107,14 +107,14 @@ export const getData = (
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
-  const toExchange = x => [{ label: `Exchange BTC Address`, value: x }]
+  const toExchange = x => [{ label: `Exchange Account`, value: x }]
   const toCustodialDropdown = currencyDetails => [
     {
       label: buildCustodialDisplay(currencyDetails),
       value: {
         ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: 'BTC Trading Account'
+        label: 'Trading Account'
       }
     }
   ]
@@ -124,7 +124,7 @@ export const getData = (
       value: {
         ...x,
         type: ADDRESS_TYPES.INTEREST,
-        label: 'BTC Interest Account'
+        label: 'Interest Account'
       }
     }
   ]

@@ -21,7 +21,7 @@ const SubIconWrapper = styled.div`
 const SubIcon = styled.span`
   display: flex;
   font-size: 12px;
-  margin: 0.05rem;
+  margin: 1px;
   color: ${props => props.theme[props.color] || props.color};
   cursor: ${props => (props.cursorEnabled ? 'pointer' : 'inherit')};
   -webkit-font-smoothing: antialiased;

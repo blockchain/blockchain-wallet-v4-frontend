@@ -75,7 +75,7 @@ type BankProps = {
 
 const Bank = ({ bankDetails, icon, isActive, onClick, text }: BankProps) => (
   <DisplayContainer
-    data-e2e={`sb${bankDetails.bankAccountType.toLowerCase()}Banks`}
+    data-e2e={`sb${bankDetails?.bankAccountType?.toLowerCase()}Banks`}
     role='button'
     onClick={onClick}
   >
@@ -83,9 +83,8 @@ const Bank = ({ bankDetails, icon, isActive, onClick, text }: BankProps) => (
     <MultiRowContainer>
       <StyledValue asTitle>{text}</StyledValue>
       <StyledTitle asValue>
-        {`${bankDetails.bankAccountType.toLowerCase()} account ${
-          bankDetails.accountNumber
-        }`}
+        {`${bankDetails?.bankAccountType?.toLowerCase() ||
+          ''} account ${bankDetails?.accountNumber || ''}`}
       </StyledTitle>
       <CartridgeContainer>
         <SuccessCartridge>

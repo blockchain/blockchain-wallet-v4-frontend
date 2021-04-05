@@ -264,7 +264,7 @@ export const createNew = (
   sharedKey,
   mnemonic,
   language,
-  firstAccountName = 'BTC Private Key Wallet',
+  firstAccountName = 'Private Key Wallet',
   nAccounts = 1,
   network
 ) =>

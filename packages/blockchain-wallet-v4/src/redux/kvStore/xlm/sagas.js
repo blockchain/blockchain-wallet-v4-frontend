@@ -10,7 +10,7 @@ import { derivationMap, XLM } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
 import * as A from './actions'
 
-const XLM_ACCT_NAME = 'XLM Private Key Wallet'
+const XLM_ACCT_NAME = 'Private Key Wallet'
 
 export default ({ api, networks } = {}) => {
   const createXlm = function * ({ kv, password }) {

@@ -20,7 +20,7 @@ export const getData = (
 
   const buildCustodialDisplay = x => {
     return (
-      `ALGO Trading Account` +
+      `Trading Account` +
       ` (${Exchange.displayAlgoToAlgo({
         value: x ? x.available : 0,
         fromUnit: 'mALGO',
@@ -31,14 +31,14 @@ export const getData = (
   // @ts-ignore
   // const excluded = filter(x => !exclude.includes(x.label))
   const toGroup = curry((label, options) => [{ label, options }])
-  const toExchange = x => [{ label: `Exchange ALGO Address`, value: x }]
+  const toExchange = x => [{ label: `Exchange Account`, value: x }]
   const toCustodialDropdown = currencyDetails => [
     {
       label: buildCustodialDisplay(currencyDetails),
       value: {
         ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: 'ALGO Trading Account'
+        label: 'Trading Account'
       }
     }
   ]

@@ -106,13 +106,9 @@ const Success: React.FC<Props> = props => {
               style={{ marginRight: '28px' }}
               role='button'
               onClick={() => {
-                if (!props.isInvited) {
-                  props.handleClose()
-                } else {
-                  props.brokerageActions.setDWStep({
-                    dwStep: BankDWStepType.DEPOSIT_METHODS
-                  })
-                }
+                props.brokerageActions.setDWStep({
+                  dwStep: BankDWStepType.DEPOSIT_METHODS
+                })
               }}
             />
             <div>

@@ -38,7 +38,7 @@ import { derivationMap, WALLET_CREDENTIALS } from '../kvStore/config'
 import * as SS from '../selectors'
 import * as S from './selectors'
 
-const BTC_ACCT_NAME = 'BTC Private Key Wallet'
+const BTC_ACCT_NAME = 'Private Key Wallet'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))

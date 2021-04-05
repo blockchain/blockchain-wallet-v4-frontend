@@ -133,9 +133,15 @@ export default ({ api }) => {
       },
 
       * init({ coin, isErc20 }) {
-        let fees
+        let contractAddress, fees
         try {
-          fees = yield call(api.getEthFees)
+          if (isErc20) {
+            contractAddress = (yield select(
+              S.kvStore.eth.getErc20ContractAddr,
+              toLower(coin)
+            )).getOrFail('missing_contract_addr')
+          }
+          fees = yield call(api.getEthFees, contractAddress)
         } catch (e) {
           throw new Error(FETCH_FEES_FAILURE)
         }
@@ -318,7 +324,11 @@ export default ({ api }) => {
           )
           return makePayment(mergeRight(p, { signed }))
         } catch (e) {
-          throw new Error('missing_mnemonic')
+          if (e && e instanceof Error) {
+            throw e
+          } else {
+            throw new Error('missing_mnemonic')
+          }
         }
       },
 
