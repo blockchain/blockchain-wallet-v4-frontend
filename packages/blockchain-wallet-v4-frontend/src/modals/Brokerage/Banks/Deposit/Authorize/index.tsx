@@ -7,22 +7,13 @@ import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import Failure from '../template.failure'
-import Loading from '../template.loading'
-import { getData } from './selectors'
 import Success from './template.success'
 
 const Authorize = (props: Props) => {
-  return props.data.cata({
-    Success: val => <Success {...val} {...props} />,
-    Failure: () => <Failure {...props} handleClose={props.handleClose} />,
-    Loading: () => <Loading />,
-    NotAsked: () => <Loading />
-  })
+  return <Success {...props} />
 }
 
 const mapStateToProps = (state: RootState) => ({
-  data: getData(state),
   defaultMethod: selectors.components.brokerage.getAccount(state),
   fiatCurrency: selectors.core.settings.getCurrency(state),
   supportedCoins: selectors.core.walletOptions

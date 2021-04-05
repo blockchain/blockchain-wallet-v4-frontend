@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { path } from 'ramda'
 import styled from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-// import { AddBankStepType } from 'data/types'
 import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
+import { BankDWStepType } from 'data/types'
 
 import { Props as _P } from '.'
 
@@ -22,11 +23,12 @@ const BackContainer = styled(Text)`
   font-weight: 600;
   font-size: 20px;
 `
-const DropdownTitleRow = styled.div`
+const DropdownTitleRow = styled.div<{ isPaymentInformation?: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  padding: ${props => (props.isPaymentInformation ? '0 40px' : 'auto')};
   /* chevorn icon rotation */
   > span:last-child {
     size: 10px;
@@ -38,7 +40,7 @@ const DropdownTitleRow = styled.div`
   }
 `
 const InfoTitle = styled(Title)`
-  font-weight: 600px;
+  font-weight: 600;
   line-height: 1.5;
   color: ${props => props.theme.grey900};
 `
@@ -65,25 +67,34 @@ const Bottom = styled(FlyoutWrapper)`
   justify-content: flex-end;
   height: 100%;
 `
-const DropdownItem = ({ bodyText, titleText }) => {
+const DropdownRow = styled(Row)<{ isPaymentInformation?: boolean }>`
+  padding: ${props => (props.isPaymentInformation ? '16px 0' : 'auto')};
+`
+
+const DropdownItem = ({ bodyText, isPaymentInformation, titleText }) => {
   const [isToggled, handleToggle] = useState(false)
   return (
-    <Row>
-      <DropdownTitleRow onClick={() => handleToggle(!isToggled)}>
+    <DropdownRow isPaymentInformation={isPaymentInformation}>
+      <DropdownTitleRow
+        isPaymentInformation={isPaymentInformation}
+        onClick={() => handleToggle(!isToggled)}
+      >
         <InfoTitle>{titleText}</InfoTitle>
         <Icon name='chevron-down' className={isToggled ? 'active' : ''} />
       </DropdownTitleRow>
       <InfoDropdown className={isToggled ? 'isToggled' : ''}>
         <InfoText>{bodyText}</InfoText>
       </InfoDropdown>
-    </Row>
+    </DropdownRow>
   )
 }
 
 const Success = props => {
-  //   const { entity } = props
   const { defaultMethod, formValues } = props
-  const entityName = 'Fintecture'
+  const entity = path(['attributes', 'entity'], defaultMethod)
+  const entityName = `${entity}`.includes('Safeconnect')
+    ? 'SafeConnect'
+    : 'Fintecture'
 
   return (
     <Wrapper>
@@ -123,8 +134,69 @@ const Success = props => {
           })}
         </Value>
       </Row>
-      <DropdownItem titleText='Payment Information' bodyText='test' />
       <DropdownItem
+        isPaymentInformation={true}
+        titleText='Payment Information'
+        bodyText={
+          <>
+            <Row>
+              <InfoText>
+                <FormattedMessage
+                  id='modals.brokerage.authorize.payer'
+                  defaultMessage='Payer Name'
+                />
+              </InfoText>
+              <InfoTitle>
+                {path(['details', 'accountName'], defaultMethod)}
+              </InfoTitle>
+            </Row>
+            <Row>
+              <InfoText>
+                <FormattedMessage
+                  id='modals.brokerage.authorize.sort_code'
+                  defaultMessage='Sort Code'
+                />
+              </InfoText>
+              <InfoTitle>
+                {path(['details', 'sortCode'], defaultMethod)}
+              </InfoTitle>
+            </Row>
+            <Row>
+              <InfoText>
+                <FormattedMessage
+                  id='modals.brokerage.account_number'
+                  defaultMessage='Account Number'
+                />
+              </InfoText>
+              <InfoTitle>
+                {path(['details', 'accountNumber'], defaultMethod)}
+              </InfoTitle>
+            </Row>
+            <Row>
+              <InfoText>
+                <FormattedMessage
+                  id='modals.brokerage.authorize.payment_reference'
+                  defaultMessage='Payment Reference'
+                />
+              </InfoText>
+              <InfoTitle>BLOCKCHAIN</InfoTitle>
+            </Row>
+            <Row>
+              <InfoText>
+                <FormattedMessage
+                  id='modals.brokerage.authorize.bank_name'
+                  defaultMessage='Bank Name'
+                />
+              </InfoText>
+              <InfoTitle>
+                {path(['details', 'bankName'], defaultMethod)}
+              </InfoTitle>
+            </Row>
+          </>
+        }
+      />
+      <DropdownItem
+        isPaymentInformation={false}
         bodyText={
           <FormattedMessage
             id='modals.brokertitleage.authorize.data_sharing'
@@ -140,6 +212,7 @@ const Success = props => {
         }
       />
       <DropdownItem
+        isPaymentInformation={false}
         bodyText={
           <FormattedMessage
             id='modals.brokerage.authorize.secure_connection'
@@ -154,6 +227,7 @@ const Success = props => {
         }
       />
       <DropdownItem
+        isPaymentInformation={false}
         bodyText={
           <FormattedMessage
             id='modals.brokerage.authorize.fca'
@@ -171,27 +245,21 @@ const Success = props => {
       <Row>
         <InfoText>
           <FormattedMessage
-            id='modals.brokerage.authorize.data'
-            defaultMessage='In order to share your bank account data with Blockchain, you will now be securely redirected to your bank to confirm your consent for {entityName} to read the following information:'
+            id='modals.brokerage.authorize.deposit_data.first'
+            defaultMessage='To easily set up payments from your bank to Blockchain, we are about to securely re-direct you to your bank where you will be asked to confirm the payment via {entityName}, an FCA regulated payment initiation provider for Blockchain.'
             values={{ entityName }}
           />
         </InfoText>
         <InfoText style={{ margin: '15px 0' }}>
-          {'•'}{' '}
           <FormattedMessage
-            id='modals.brokerage.authorize.identification_details'
-            defaultMessage='Identification details'
-          />
-        </InfoText>
-        <InfoText>
-          {'•'}{' '}
-          <FormattedMessage
-            id='modals.brokerage.authorize.account_details'
-            defaultMessage='Account(s) details'
+            id='modals.brokerage.authorize.deposit_data.second'
+            defaultMessage='{entityName} will share these details with your bank, where you will then be asked to confirm the following payment setup.'
+            values={{ entityName }}
           />
         </InfoText>
       </Row>
       <DropdownItem
+        isPaymentInformation={false}
         bodyText={
           <FormattedMessage
             id='modals.brokerage.authorize.about_access'
@@ -214,6 +282,11 @@ const Success = props => {
           type='submit'
           fullwidth
           height='48px'
+          onClick={() =>
+            props.brokerageActions.setDWStep({
+              dwStep: BankDWStepType.CONFIRM
+            })
+          }
         >
           <FormattedMessage id='copy.approve' defaultMessage='Approve' />
         </Button>
@@ -225,7 +298,7 @@ const Success = props => {
           height='48px'
           color='red400'
           style={{ marginTop: '16px' }}
-          //   onClick={() => props.handleClose()}
+          onClick={() => props.handleClose()}
         >
           <FormattedMessage id='copy.deny' defaultMessage='Deny' />
         </Button>
