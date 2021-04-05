@@ -3,31 +3,40 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import { getFormValues } from 'redux-form'
 
+import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
+import Failure from '../template.failure'
+import Loading from '../template.loading'
+import { getData } from './selectors'
 import Success from './template.success'
 
-const Authorize = props => {
-  return <Success {...props} />
+const Authorize = (props: Props) => {
+  return props.data.cata({
+    Success: val => <Success {...val} {...props} />,
+    Failure: () => <Failure {...props} handleClose={props.handleClose} />,
+    Loading: () => <Loading />,
+    NotAsked: () => <Loading />
+  })
 }
 
 const mapStateToProps = (state: RootState) => ({
+  data: getData(state),
   defaultMethod: selectors.components.brokerage.getAccount(state),
   fiatCurrency: selectors.core.settings.getCurrency(state),
+  supportedCoins: selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrElse({} as SupportedWalletCurrenciesType),
   formValues: getFormValues('brokerageTx')(state)
 })
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+
+export const mapDispatchToProps = (dispatch: Dispatch) => ({
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type LinkDispatchPropsType = {
-  brokerageActions: typeof actions.components.brokerage
-  simpleBuyActions: typeof actions.components.simpleBuy
-}
 type OwnProps = {
   handleClose: () => void
 }

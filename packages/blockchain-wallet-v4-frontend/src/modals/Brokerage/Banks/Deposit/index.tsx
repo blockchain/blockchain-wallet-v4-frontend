@@ -84,9 +84,9 @@ class Deposit extends PureComponent<Props> {
         )}
         {this.props.step === BankDWStepType.AUTHORIZE && (
           /*
-           * The enter amount form shows the amount input, limits, and default
-           * or last used ach account. If user clicks on "Add a bank" or their
-           * last used bank, transition to add bank modal or linked banks list ui
+           * After user already has a bank linked and then enters amount to deposit,
+           * they need to authorize each individual payment. User is then taken to the
+           * confirm step
            */
           <FlyoutChild>
             <Authorize {...this.props} handleClose={this.handleClose} />

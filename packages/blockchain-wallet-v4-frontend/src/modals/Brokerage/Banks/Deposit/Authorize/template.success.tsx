@@ -80,12 +80,11 @@ const DropdownItem = ({ bodyText, titleText }) => {
   )
 }
 
-const Success: React.FC<Props> = (props: Props) => {
+const Success = props => {
   //   const { entity } = props
-  const { formValues } = props
+  const { defaultMethod, formValues } = props
   const entityName = 'Fintecture'
 
-  // console.log(props, 'props')
   return (
     <Wrapper>
       <FlyoutWrapper style={{ paddingBottom: '10px' }}>
@@ -119,9 +118,8 @@ const Success: React.FC<Props> = (props: Props) => {
         </Title>
         <Value>
           {fiatToString({
-            // ts-ignore
-            value: 98,
-            unit: formValues as FiatType
+            value: formValues?.amount,
+            unit: defaultMethod.currency as FiatType
           })}
         </Value>
       </Row>
