@@ -1,11 +1,12 @@
-import * as AT from './actionTypes'
 import {
   CoinType,
   FiatType,
   MiscActionTypes,
-  PriceChangeTimeRangeType,
-  PriceMovementDirType
+  PriceMovementDirType,
+  TimeRange
 } from 'core/types'
+
+import * as AT from './actionTypes'
 
 // FETCH_CAPTCHA
 export const fetchCaptcha = () => ({ type: AT.FETCH_CAPTCHA })
@@ -23,7 +24,7 @@ export const fetchCaptchaFailure = error => ({
 export const fetchPriceChange = (
   base: CoinType,
   quote: FiatType,
-  range: PriceChangeTimeRangeType,
+  range: TimeRange,
   positionAmt?: string
 ) => ({
   type: AT.FETCH_PRICE_CHANGE,
@@ -31,7 +32,7 @@ export const fetchPriceChange = (
 })
 export const fetchPriceChangeLoading = (
   base: CoinType,
-  range: PriceChangeTimeRangeType
+  range: TimeRange
 ): MiscActionTypes => ({
   type: AT.FETCH_PRICE_CHANGE_LOADING,
   payload: { base, range }
@@ -40,7 +41,7 @@ export const fetchPriceChangeSuccess = (
   base: CoinType,
   previousPrice: number,
   currentPrice: number,
-  range: PriceChangeTimeRangeType,
+  range: TimeRange,
   overallChange: {
     diff: string
     movement: PriceMovementDirType
@@ -65,7 +66,7 @@ export const fetchPriceChangeSuccess = (
 export const fetchPriceChangeFailure = (
   base,
   error,
-  range: PriceChangeTimeRangeType
+  range: TimeRange
 ): MiscActionTypes => ({
   type: AT.FETCH_PRICE_CHANGE_FAILURE,
   payload: {

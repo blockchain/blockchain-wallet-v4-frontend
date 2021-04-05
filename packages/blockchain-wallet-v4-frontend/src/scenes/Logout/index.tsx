@@ -1,12 +1,13 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+
 import Logout from './template'
 
 class LogoutContainer extends React.PureComponent<Props, State> {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { secondsRemaining: 10 }
     this.onDeauthorizeBrowser = this.onDeauthorizeBrowser.bind(this)
@@ -14,17 +15,17 @@ class LogoutContainer extends React.PureComponent<Props, State> {
     this.tick = this.tick.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     // @ts-ignore
     this.interval = setInterval(this.tick, 1000)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     // @ts-ignore
     clearInterval(this.interval)
   }
 
-  tick () {
+  tick() {
     this.setState({
       secondsRemaining: this.state.secondsRemaining - 1
     })
@@ -33,15 +34,15 @@ class LogoutContainer extends React.PureComponent<Props, State> {
     }
   }
 
-  onGoToLogin () {
+  onGoToLogin() {
     this.props.authActions.logoutClearReduxStore()
   }
 
-  onDeauthorizeBrowser () {
+  onDeauthorizeBrowser() {
     this.props.authActions.deauthorizeBrowser()
   }
 
-  render () {
+  render() {
     return (
       <Logout
         onDeauthorizeBrowser={this.onDeauthorizeBrowser}

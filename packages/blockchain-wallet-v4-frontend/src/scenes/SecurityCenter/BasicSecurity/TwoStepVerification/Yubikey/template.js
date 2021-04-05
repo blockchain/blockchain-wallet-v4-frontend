@@ -1,12 +1,13 @@
 /* stylelint-disable */
 
-import { Button, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
-import { reduxForm } from 'redux-form'
-import { spacing } from 'services/StyleService'
-import PropTypes from 'prop-types'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
+
+import { Button, Text } from 'blockchain-info-components'
+import { spacing } from 'services/styles'
 
 const AuthenticatorSummary = styled.div`
   width: 100%;
@@ -60,7 +61,7 @@ const YubikeyInput = styled.input`
 `
 
 const Yubikey = props => {
-  const { uiState, handleSubmit, handleInput, value } = props
+  const { handleInput, handleSubmit, uiState, value } = props
 
   return (
     <form onSubmit={handleSubmit}>

@@ -1,3 +1,4 @@
+import moment from 'moment'
 import {
   any,
   curry,
@@ -11,8 +12,10 @@ import {
   prop,
   toLower
 } from 'ramda'
+
 import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
 import { EthRawTxType } from 'core/network/api/eth/types'
+
 import {
   getDefaultAddress,
   getDefaultLabel,
@@ -21,7 +24,6 @@ import {
   getEthTxNote
 } from '../redux/kvStore/eth/selectors'
 import { getLockboxEthAccounts } from '../redux/kvStore/lockbox/selectors'
-import moment from 'moment'
 import Remote from '../remote'
 
 //

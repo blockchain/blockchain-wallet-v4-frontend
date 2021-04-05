@@ -1,19 +1,20 @@
+import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { Field } from 'redux-form'
+import styled from 'styled-components'
+
+import { CoinAccountIcon, Text } from 'blockchain-info-components'
 import {
   CoinType,
   RatesType,
   SupportedCoinType,
   SupportedWalletCurrenciesType
-} from 'core/types'
-import { connect, ConnectedProps } from 'react-redux'
-import { Field } from 'redux-form'
-import { getData } from './selectors'
-import { Icon, Text } from 'blockchain-info-components'
-
+} from 'blockchain-wallet-v4/src/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import React, { PureComponent } from 'react'
 import SelectBox from 'components/Form/SelectBox'
-import styled from 'styled-components'
+
+import { getData } from './selectors'
 
 const DisplayContainer = styled.div<{
   coinType: SupportedCoinType
@@ -25,7 +26,7 @@ const DisplayContainer = styled.div<{
   box-sizing: border-box;
   padding: ${props => (props.isItem ? '0px 6px' : '16px 12px')};
   > span {
-    color: ${props => props.theme[props.coinType.colorCode]} !important;
+    color: ${props => props.theme[props.coinType.coinCode]} !important;
   }
 `
 const AccountContainer = styled.div`
@@ -83,14 +84,16 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
     children
   ) => {
     const coinType = this.props.supportedCoins[this.props.coin]
-    const color = coinType.colorCode
     const balance = this.coinBalance(props)
     const account = this.accountLabel(props)
     const isItem = !children
 
     return (
       <DisplayContainer coinType={coinType} isItem={isItem}>
-        <Icon color={color} name={coinType.icons.circleFilled} size='32px' />
+        <CoinAccountIcon
+          accountType={props.value?.type}
+          coin={coinType.coinCode}
+        />
         <AccountContainer>
           <Text weight={500} color='grey400' size='14px'>
             {account}{' '}
@@ -125,7 +128,7 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
     )
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: values => {
         const { addressData } = values

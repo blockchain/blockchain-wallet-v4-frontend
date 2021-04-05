@@ -1,11 +1,12 @@
 import { call, put } from 'redux-saga/effects'
 
-import * as A from './actions'
-import { actions } from 'data'
-import { APIType } from 'core/network/api'
-import { convertStandardToBase } from '../exchange/services'
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { actions } from 'data'
 import { WithdrawStepEnum } from 'data/types'
+
+import { convertStandardToBase } from '../exchange/services'
+import * as A from './actions'
 
 const SERVICE_NAME = 'simplebuy'
 

@@ -1,15 +1,15 @@
-import * as AT from './actionTypes'
-
 import {
   CoinType,
-  PriceChangeTimeRangeType,
-  SBOrderActionType
-} from 'core/types'
+  SBOrderActionType,
+  TimeRange
+} from 'blockchain-wallet-v4/src/types'
 import { SBFixType } from 'data/components/types'
+
+import * as AT from './actionTypes'
 
 export type PriceChartPreferenceType = {
   coin?: CoinType
-  time?: PriceChangeTimeRangeType
+  time?: TimeRange
 }
 
 // State

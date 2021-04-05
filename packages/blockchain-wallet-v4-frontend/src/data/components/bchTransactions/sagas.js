@@ -1,6 +1,7 @@
-import { actions, model, selectors } from 'data'
 import { equals, path, prop } from 'ramda'
 import { put, select } from 'redux-saga/effects'
+
+import { actions, model, selectors } from 'data'
 export const logLocation = 'components/bchTransactions/sagas'
 
 export default () => {
@@ -49,6 +50,28 @@ export default () => {
             ? ''
             : payload.xpub || payload.address
           yield put(actions.core.data.bch.fetchTransactions(onlyShow, true))
+          break
+        case 'status':
+          const filter = payload => {
+            switch (payload) {
+              case 'sent':
+                return 1
+              case 'received':
+                return 2
+              case 'transferred':
+                return 3
+              default:
+                break
+            }
+          }
+          yield put(
+            actions.core.data.bch.fetchTransactions(
+              onlyShow,
+              true,
+              filter(payload)
+            )
+          )
+          break
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))

@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactTooltip from 'react-tooltip'
-
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -9,12 +8,12 @@ const Wrapper = styled.div`
 `
 
 class TooltipHost extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     ReactTooltip.rebuild()
   }
 
-  render () {
-    const { tip, children, id } = this.props
+  render() {
+    const { children, id, tip } = this.props
     const dataTip = tip || []
 
     return (

@@ -1,38 +1,38 @@
-import { compose } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { compose } from 'redux'
 
 import {
   BeneficiaryType,
   WalletFiatType,
   WithdrawResponseType
-} from 'core/types'
-import { BROKERAGE_INELIGIBLE } from '../../components'
-import { RootState } from 'data/rootReducer'
-import { selectors } from 'data'
-import { WithdrawStepEnum } from 'data/types'
+} from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import { WithdrawStepEnum } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../../types'
+import { BROKERAGE_INELIGIBLE } from '../../components'
 import BankPicker from './BankPicker'
 import ConfirmWithdraw from './ConfirmWithdraw'
-import EnterAmount from './EnterAmount'
 import Loading from './ConfirmWithdraw/template.loading'
+import EnterAmount from './EnterAmount'
 import WithdrawalDetails from './WithdrawalDetails'
 import WithdrawalMethods from './WithdrawalMethods'
 
 class Withdraw extends PureComponent<Props> {
   state: State = { show: false, direction: 'left' }
 
-  componentDidMount () {
+  componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.step === prevProps.step) return
     if (WithdrawStepEnum[this.props.step] > WithdrawStepEnum[prevProps.step]) {
       /* eslint-disable */
@@ -50,7 +50,7 @@ class Withdraw extends PureComponent<Props> {
     }, duration)
   }
 
-  render () {
+  render() {
     return (
       <Flyout
         {...this.props}

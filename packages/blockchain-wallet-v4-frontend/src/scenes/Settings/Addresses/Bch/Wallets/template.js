@@ -1,6 +1,6 @@
-import { filter, path, take } from 'ramda'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { filter, path, take } from 'ramda'
 import styled from 'styled-components'
 
 import {
@@ -12,9 +12,9 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import { SettingDescription, SettingHeader } from 'components/Setting'
-import media from 'services/ResponsiveService'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
+import { SettingDescription, SettingHeader } from 'components/Setting'
+import { media } from 'services/styles'
 
 import { Table } from '../../components'
 
@@ -56,12 +56,12 @@ const LabelCell = styled(Text)`
 `
 
 const WalletRow = props => {
-  const { bchAccounts, wallets, defaultIndex } = props.data
+  const { bchAccounts, defaultIndex, wallets } = props.data
   const {
     onEditBchAccountLabel,
-    onShowChangeAddrs,
     onMakeDefault,
     onSetArchived,
+    onShowChangeAddrs,
     onShowXPub,
     search
   } = props

@@ -1,7 +1,8 @@
-import { MenuItem } from 'components/MenuLeft'
 import { triangle } from 'polished'
-import media from 'services/ResponsiveService'
 import styled from 'styled-components'
+
+import { MenuItem } from 'layouts/Wallet/components'
+import { media } from 'services/styles'
 
 export const DropdownMenu = styled.div`
   display: flex;

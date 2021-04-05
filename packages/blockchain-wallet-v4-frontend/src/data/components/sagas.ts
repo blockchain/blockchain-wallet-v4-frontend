@@ -3,6 +3,7 @@ import bchTransactions from './bchTransactions/sagas'
 import borrow from './borrow/sagas'
 import brokerage from './brokerage/sagas'
 import btcTransactions from './btcTransactions/sagas'
+import dotTransactions from './dotTransactions/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import fiatTransactions from './fiatTransactions/sagas'
 import identityVerification from './identityVerification/sagas'
@@ -13,10 +14,6 @@ import onboarding from './onboarding/sagas'
 import priceChart from './priceChart/sagas'
 import priceTicker from './priceTicker/sagas'
 import refresh from './refresh/sagas'
-import requestBch from './requestBch/sagas'
-import requestBtc from './requestBtc/sagas'
-import requestEth from './requestEth/sagas'
-import requestXlm from './requestXlm/sagas'
 import send from './send/sagas'
 import sendBch from './sendBch/sagas'
 import sendBtc from './sendBtc/sagas'
@@ -37,6 +34,7 @@ export default ({ api, coreSagas, networks }) => ({
   borrow: borrow({ api, coreSagas, networks }),
   brokerage: brokerage({ api, coreSagas, networks }),
   btcTransactions: btcTransactions(),
+  dotTransactions: dotTransactions(),
   ethTransactions: ethTransactions(),
   xlmTransactions: xlmTransactions(),
   fiatTransactions: fiatTransactions(),
@@ -48,10 +46,6 @@ export default ({ api, coreSagas, networks }) => ({
   priceChart: priceChart(),
   priceTicker: priceTicker({ coreSagas }),
   refresh: refresh(),
-  requestBtc: requestBtc(),
-  requestBch: requestBch(),
-  requestEth: requestEth(),
-  requestXlm: requestXlm(),
   send: send({ api, coreSagas, networks }),
   sendBch: sendBch({ api, coreSagas, networks }),
   sendBtc: sendBtc({ api, coreSagas, networks }),

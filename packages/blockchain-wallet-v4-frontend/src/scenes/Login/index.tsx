@@ -1,26 +1,28 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { formValueSelector, getFormMeta } from 'redux-form'
-import { isEmail, isGuid } from '../../services/ValidationHelper'
-import { SupportedWalletCurrenciesType } from 'core/types'
-import { crypto as wCrypto } from 'blockchain-wallet-v4/src'
-import Login from './template'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector, getFormMeta } from 'redux-form'
+
+import { crypto as wCrypto } from 'blockchain-wallet-v4/src'
+import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
+import { actions, selectors } from 'data'
+import { isEmail, isGuid } from 'services/forms'
+
+import Login from './template'
 
 class LoginContainer extends React.PureComponent<Props> {
   state = { useCode: true }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.middlewareActions.startSocket()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.formActions.reset('login')
   }
 
   onSubmit = () => {
-    const { guid, password, code } = this.props
+    const { code, guid, password } = this.props
     let auth = code
     // only uppercase if authType is not Yubikey
     if (auth && this.props.authType !== 1) {
@@ -33,7 +35,7 @@ class LoginContainer extends React.PureComponent<Props> {
     this.props.authActions.resendSmsCode(this.props.guid)
   }
 
-  render () {
+  render() {
     const { authType, data, lastGuid } = this.props
 
     const { busy, error } = data.cata({

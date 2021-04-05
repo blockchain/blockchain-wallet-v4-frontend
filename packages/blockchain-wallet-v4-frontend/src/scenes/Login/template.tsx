@@ -1,11 +1,11 @@
-import { compose } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { find, isEmpty, isNil, path, propEq, propOr } from 'ramda'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import Bowser from 'bowser'
-import React from 'react'
+import { find, isEmpty, isNil, path, propEq, propOr } from 'ramda'
+import { compose } from 'redux'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import {
@@ -18,7 +18,8 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { CoinType, WalletFiatType } from 'core/types'
+import { CoinType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { SuccessCartridge } from 'components/Cartridge'
 import {
   Form,
   FormError,
@@ -28,17 +29,16 @@ import {
   PasswordBox,
   TextBox
 } from 'components/Form'
-import { required, validWalletId } from 'services/FormHelper'
-import { selectors } from 'data'
-import { SuccessCartridge } from 'components/Cartridge'
 import { Wrapper } from 'components/Public'
-import media from 'services/ResponsiveService'
 import QRCodeWrapper from 'components/QRCodeWrapper'
+import { selectors } from 'data'
+import { required, validWalletId } from 'services/forms'
+import { media } from 'services/styles'
 
-import { Props as OwnProps } from '.'
-import LinkExchangeAccount from '../Register/LinkExchangeAccount'
 import Modals from '../../modals'
+import LinkExchangeAccount from '../Register/LinkExchangeAccount'
 import SimpleBuyInfo from '../Register/SimpleBuyInfo'
+import { Props as OwnProps } from '.'
 
 const browser = Bowser.getParser(window.navigator.userAgent)
 const isSupportedBrowser = browser.satisfies({
@@ -225,7 +225,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
     supportedCoins,
     ...rest
   } = props
-  const { handleSubmit, handleSmsResend, authType } = rest
+  const { authType, handleSmsResend, handleSubmit } = rest
 
   const guidError =
     loginError && loginError.toLowerCase().includes('unknown wallet id')
@@ -274,12 +274,16 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                 )}
               </Text>
             </Header>
-            {!isNil(goalData) && !isEmpty(goalData) && (
-              <SimpleBuyInfo
-                goalData={goalData}
-                supportedCoins={supportedCoins}
-              />
-            )}
+            {!isNil(goalData) &&
+              !isEmpty(goalData) &&
+              !!goalData.fiatCurrency &&
+              !!goalData.crypto &&
+              !!goalData.amount && (
+                <SimpleBuyInfo
+                  goalData={goalData}
+                  supportedCoins={supportedCoins}
+                />
+              )}
             <LoginForm onSubmit={handleSubmit}>
               {!isSupportedBrowser && (
                 <BrowserWarning>

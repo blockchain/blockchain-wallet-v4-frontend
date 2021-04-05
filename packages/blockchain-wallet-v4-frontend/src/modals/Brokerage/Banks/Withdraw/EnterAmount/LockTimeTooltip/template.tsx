@@ -1,9 +1,10 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { OwnProps as Props } from '.'
 import { Tooltip, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+
+import { OwnProps as Props } from '.'
 
 const TooltipWrapper = styled.div`
   padding-top: 1px;

@@ -1,11 +1,12 @@
+import { isNil, lift, mapObjIndexed, reject, values } from 'ramda'
+
 import {
   CoinTypeEnum,
   ExtractSuccess,
   SupportedWalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
-import { isNil, lift, mapObjIndexed, reject, values } from 'ramda'
-import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 
 export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
   const sbMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(state)
@@ -27,7 +28,10 @@ export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
       supportedCoins.WDGLD,
       supportedCoins.ALGO,
       supportedCoins.PAX,
-      supportedCoins.USDT
+      supportedCoins.USDT,
+      supportedCoins.AAVE,
+      supportedCoins.DOT,
+      supportedCoins.YFI
     ])
 
     return values(

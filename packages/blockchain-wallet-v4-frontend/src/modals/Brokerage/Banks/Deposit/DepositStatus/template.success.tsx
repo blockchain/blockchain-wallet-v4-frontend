@@ -1,10 +1,10 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { fiatToString } from 'core/exchange/currency'
-import { FiatType } from 'core/types'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -87,8 +87,8 @@ const Success = props => {
           <IconContainer>
             <FiatIcon>
               <Icon
-                color={props.supportedCoins[coin].colorCode}
-                name={props.supportedCoins[coin].icons.circleFilled}
+                color={props.supportedCoins[coin].coinCode}
+                name={props.supportedCoins[coin].coinCode}
                 size='64px'
               />
             </FiatIcon>

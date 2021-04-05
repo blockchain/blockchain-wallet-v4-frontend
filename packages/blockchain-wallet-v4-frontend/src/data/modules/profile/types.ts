@@ -1,7 +1,13 @@
-import * as AT from './actionTypes'
 import { AxiosError } from 'axios'
+
+import {
+  NabuAddressType,
+  NabuApiErrorType,
+  RemoteDataType
+} from 'blockchain-wallet-v4/src/types'
 import { CampaignsType } from 'data/types'
-import { NabuAddressType, NabuApiErrorType, RemoteDataType } from 'core/types'
+
+import * as AT from './actionTypes'
 
 // Types
 

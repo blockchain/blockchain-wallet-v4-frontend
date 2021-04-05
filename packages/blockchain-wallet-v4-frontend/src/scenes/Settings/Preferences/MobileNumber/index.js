@@ -1,12 +1,13 @@
+import React from 'react'
 import { connect } from 'react-redux'
+
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
-import React from 'react'
 import Success from './template.success'
 
 class MobileNumberContainer extends React.PureComponent {
-  render () {
+  render() {
     const { data } = this.props
 
     return data.cata({

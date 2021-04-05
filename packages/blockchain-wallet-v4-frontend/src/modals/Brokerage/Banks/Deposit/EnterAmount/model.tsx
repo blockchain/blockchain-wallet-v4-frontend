@@ -1,7 +1,7 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 
-import { BankTransferAccountType } from 'core/types'
+import { BankTransferAccountType } from 'blockchain-wallet-v4/src/types'
 
 // TODO: move this somewhere more generic
 import { renderBank } from '../../../../SimpleBuy/EnterAmount/Checkout/Payment/model'
@@ -30,4 +30,4 @@ const getDefaultMethod = (
   }
 }
 
-export { getText, getDefaultMethod }
+export { getDefaultMethod, getText }

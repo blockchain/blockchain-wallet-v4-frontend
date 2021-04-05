@@ -1,23 +1,22 @@
-import { bindActionCreators, Dispatch } from 'redux'
+import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { includes } from 'ramda'
-import React, { PureComponent } from 'react'
+import { bindActionCreators, Dispatch } from 'redux'
 
-import { actions } from 'data'
-import { CoinType, FiatType, RemoteDataType } from 'core/types'
-import { InterestStepMetadata } from 'data/types'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import { getCurrency } from 'blockchain-wallet-v4/src/redux/settings/selectors'
+import { CoinType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
+import { actions } from 'data'
+import { InterestStepMetadata } from 'data/types'
 
 import { getData } from './selectors'
-import AccountSummary from './template.success'
-import Currencies from 'core/exchange/currencies'
 import Loading from './template.loading'
+import AccountSummary from './template.success'
 import Unsupported from './template.unsupported'
 
 class AccountSummaryContainer extends PureComponent<Props> {
-  state = {}
-
-  componentDidMount () {
+  componentDidMount() {
     this.handleFetchInterestLimits()
   }
 
@@ -27,10 +26,9 @@ class AccountSummaryContainer extends PureComponent<Props> {
   }
 
   handleFetchInterestLimits = () => {
-    const { coin, data, interestActions } = this.props
-    const { walletCurrency } = data.getOrElse({
-      walletCurrency: 'GBP' as FiatType
-    } as SuccessStateType)
+    const { coin, currency, interestActions } = this.props
+    const walletCurrency = currency.getOrElse('GBP' as CurrencySuccessStateType)
+
     interestActions.fetchInterestLimits(coin, walletCurrency)
   }
 
@@ -39,13 +37,19 @@ class AccountSummaryContainer extends PureComponent<Props> {
     interestActions.showInterestModal('ACCOUNT_SUMMARY', coin)
   }
 
-  render () {
-    const { data } = this.props
+  render() {
+    const { currency, data } = this.props
+    const walletCurrency = currency.getOrElse('GBP' as CurrencySuccessStateType)
+
     const unsupportedCurrencies = [Currencies.TWD.code, Currencies.CLP.code]
     return data.cata({
       Success: val =>
-        includes(val.walletCurrency, unsupportedCurrencies) ? (
-          <Unsupported {...val} {...this.props} />
+        includes(walletCurrency, unsupportedCurrencies) ? (
+          <Unsupported
+            {...val}
+            {...this.props}
+            walletCurrency={walletCurrency}
+          />
         ) : (
           <AccountSummary
             {...val}
@@ -61,7 +65,8 @@ class AccountSummaryContainer extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state): LinkStatePropsType => ({
-  data: getData(state)
+  data: getData(state),
+  currency: getCurrency(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
@@ -83,10 +88,13 @@ export type LinkDispatchPropsType = {
   simpleBuyActions: typeof actions.components.simpleBuy
 }
 
-export type SuccessStateType = ReturnType<typeof getData>['data']
+export type DataSuccessStateType = ReturnType<typeof getData>['data']
+
+export type CurrencySuccessStateType = ReturnType<typeof getCurrency>['data']
 
 type LinkStatePropsType = {
-  data: RemoteDataType<string | Error, SuccessStateType>
+  currency: RemoteDataType<string | Error, CurrencySuccessStateType>
+  data: RemoteDataType<string | Error, DataSuccessStateType>
 }
 
 type Props = OwnProps & ConnectedProps<typeof connector>

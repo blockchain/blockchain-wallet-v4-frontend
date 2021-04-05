@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { media } from 'services/styles'
+
 import CoinChart from './CoinChart'
 import CoinPrices from './CoinPrices'
-import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,8 +14,9 @@ const Wrapper = styled.div`
   border: 1px solid ${props => props.theme.grey100};
   box-sizing: border-box;
   border-radius: 8px;
-  padding: 14px 15px;
+  padding: 16px;
   width: 100%;
+  height: 100%;
 
   ${media.tablet`
     align-items: initial;
@@ -22,10 +24,24 @@ const Wrapper = styled.div`
   `}
 `
 
+const ColumnLeft = styled.div`
+  margin-right: 16px;
+  height: 100%;
+`
+
+const ColumnRight = styled.div`
+  width: 100%;
+  margin: 16px 0;
+`
+
 const CoinPerformanceContainer = ({ coin, coinModel }) => (
   <Wrapper>
-    <CoinPrices coinModel={coinModel} />
-    <CoinChart coin={coin} />
+    <ColumnLeft>
+      <CoinPrices coinModel={coinModel} />
+    </ColumnLeft>
+    <ColumnRight>
+      <CoinChart coin={coin} />
+    </ColumnRight>
   </Wrapper>
 )
 

@@ -1,7 +1,8 @@
 import { call, put } from 'redux-saga/effects'
 
-import * as A from './actions'
 import { actions } from 'data'
+
+import * as A from './actions'
 export const logLocation = 'components/identityVerification/sagas'
 
 export default ({ api }) => {
@@ -17,7 +18,7 @@ export default ({ api }) => {
 
   const upload = function * ({ payload }) {
     try {
-      const { files, token, redirectUrl } = payload
+      const { files, redirectUrl, token } = payload
       yield put(A.setUploadedLoading())
       const response = yield call(api.uploadDocuments, token, files)
       yield put(A.setUploadedSuccess(response))

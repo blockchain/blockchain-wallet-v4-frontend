@@ -1,31 +1,31 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 
-import { actions, selectors } from 'data'
+import { Remote } from 'blockchain-wallet-v4/src'
 import {
   BankTransferAccountType,
   BeneficiaryType,
   ExtractSuccess,
   WalletFiatType
-} from 'core/types'
-
-import { getData } from './selectors'
-import { Remote } from 'blockchain-wallet-v4/src'
+} from 'blockchain-wallet-v4/src/types'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { WithdrawCheckoutFormValuesType } from 'data/types'
+
+import { getData } from './selectors'
 import Failure from './template.failure'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class ConfirmWithdraw extends PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     if (!Remote.Success.is(this.props.data)) {
       this.props.withdrawActions.fetchWithdrawalFees()
     }
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} />,
       Failure: () => <Failure {...this.props} />,

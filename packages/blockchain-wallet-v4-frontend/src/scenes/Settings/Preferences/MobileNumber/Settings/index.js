@@ -1,14 +1,16 @@
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { actions } from 'data'
+
 import Settings from './template.js'
 
 class SettingContainer extends Component {
   state = { show2FAWarning: false }
 
   handleClick = () => {
-    const { smsNumber, smsVerified, authType, modalActions } = this.props
+    const { authType, modalActions, smsNumber, smsVerified } = this.props
 
     if (!smsVerified && smsNumber) {
       modalActions.showModal('MobileNumberVerify', { mobileNumber: smsNumber })
@@ -19,7 +21,7 @@ class SettingContainer extends Component {
     }
   }
 
-  render () {
+  render() {
     const { modalActions, smsNumber, smsVerified } = this.props
 
     return (

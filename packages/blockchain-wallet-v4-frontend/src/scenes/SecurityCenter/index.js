@@ -1,14 +1,16 @@
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
-import { getData } from './selectors'
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
+import { bindActionCreators } from 'redux'
+import styled from 'styled-components'
+
+import { actions } from 'data'
+
 import AdvancedSecurity from './AdvancedSecurity'
 import BasicSecurity from './BasicSecurity'
 import Menu from './Menu'
-import React from 'react'
+import { getData } from './selectors'
 import SecurityCenter from './template'
-import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -18,11 +20,11 @@ const Wrapper = styled.div`
 `
 
 class SecurityCenterContainer extends React.PureComponent {
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.settingsActions.removeRecoveryPhrase()
   }
 
-  render () {
+  render() {
     return (
       <Wrapper>
         <Menu location={this.props.location} />

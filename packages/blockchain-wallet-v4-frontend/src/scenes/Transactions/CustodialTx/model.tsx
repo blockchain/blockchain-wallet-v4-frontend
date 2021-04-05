@@ -1,44 +1,50 @@
-import { Icon as BCIcon, Text } from 'blockchain-info-components'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { path } from 'ramda'
-import React from 'react'
 import styled from 'styled-components'
 
-import { CoinType, CoinTypeEnum, WalletFiatEnum } from 'core/types'
+import { Icon as BCIcon, Text } from 'blockchain-info-components'
 import {
-  IconWrapper,
+  CoinType,
+  CoinTypeEnum,
+  WalletFiatEnum
+} from 'blockchain-wallet-v4/src/types'
+
+import {
   IconTx as SharedIconTx,
+  IconWrapper,
   Timestamp as SharedTimestamp
 } from '../components'
-import { Props } from '.'
 import Confirmations from '../NonCustodialTx/Confirmations'
+import { Props } from '.'
 
 const Icon = styled(BCIcon)`
   size: 18px;
   font-weight: 600;
 `
 const getSymbolDisplayName = (props: Props) => {
-  return path([props.tx.amount.symbol, 'displayName'], props.supportedCoins)
+  return path([props.tx.amount.symbol, 'coinTicker'], props.supportedCoins)
 }
 
 const getCoinDisplayName = (props: Props) => {
-  return path([props.coin, 'displayName'], props.supportedCoins)
+  return path([props.coin, 'coinTicker'], props.supportedCoins)
 }
+
 export const IconTx = (props: Props) => {
   switch (props.tx.state) {
     case 'FINISHED':
       return (
-        <IconWrapper color='fiat-light'>
-          <Icon size='20px' color='fiat' name='plus' />
+        <IconWrapper color='green400'>
+          <Icon size='20px' color='USD' name='plus' />
         </IconWrapper>
       )
     case 'REFUNDED':
     case 'COMPLETE':
       return props.coin in WalletFiatEnum ? (
-        <IconWrapper color='fiat-light'>
+        <IconWrapper color='green400'>
           <Icon
             size='20px'
-            color='fiat'
+            color='USD'
             name={props.tx.type === 'DEPOSIT' ? 'arrow-down' : 'arrow-up'}
           />
         </IconWrapper>
@@ -61,7 +67,7 @@ export const IconTx = (props: Props) => {
     case 'REJECTED':
     case 'UNIDENTIFIED':
       return props.coin in WalletFiatEnum ? (
-        <IconWrapper color='red000'>
+        <IconWrapper color='red500'>
           <Icon
             color='red600'
             size='20px'
@@ -76,7 +82,7 @@ export const IconTx = (props: Props) => {
       )
     default:
       return (
-        <IconWrapper color='grey000'>
+        <IconWrapper color='grey500'>
           <Icon size='20px' weight={500} color='grey600' name={'timer'} />
         </IconWrapper>
       )
@@ -159,20 +165,18 @@ export const Origin = (props: Props) => {
     case 'REFUNDED':
     case 'DEPOSIT':
       return props.tx.amount.symbol in CoinTypeEnum ? (
-        <>{getCoinDisplayName(props)} Wallet</>
+        <>{getCoinDisplayName(props)} Account</>
       ) : (
         <>Bank Account</>
       )
     case 'SELL':
       return props.tx.extraAttributes?.direction === 'FROM_USERKEY' ? (
-        <> {getSymbolDisplayName(props)} Wallet</>
+        <> {getSymbolDisplayName(props)} Account</>
       ) : (
-        <>{getSymbolDisplayName(props)} Trading Wallet</>
+        <>{getSymbolDisplayName(props)} Trading Account</>
       )
     case 'WITHDRAWAL':
-      return (
-        <>{path([props.coin, 'displayName'], props.supportedCoins)} Wallet</>
-      )
+      return <>{getSymbolDisplayName(props)} Account</>
     default:
       return <></>
   }
@@ -182,12 +186,11 @@ export const Destination = (props: Props) => {
   switch (props.tx.type) {
     case 'REFUNDED':
     case 'DEPOSIT':
-      return <>{getCoinDisplayName(props)} Wallet</>
     case 'SELL':
-      return <>{getCoinDisplayName(props)} Wallet</>
+      return <>{getCoinDisplayName(props)} Account</>
     case 'WITHDRAWAL':
       return props.tx.amount.symbol in CoinTypeEnum ? (
-        <>{getSymbolDisplayName(props)} Wallet</>
+        <>{getSymbolDisplayName(props)} Account</>
       ) : (
         <>Bank Account</>
       )

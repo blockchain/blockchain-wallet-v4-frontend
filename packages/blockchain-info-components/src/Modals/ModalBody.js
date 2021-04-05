@@ -1,7 +1,8 @@
-import { BlockchainLoader } from '../Loaders'
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
+import { BlockchainLoader } from '../Loaders'
 
 const BaseModalBody = styled.div`
   position: relative;

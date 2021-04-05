@@ -1,9 +1,11 @@
-import { CoinType, FiatType } from 'core/types'
-import { equals, toUpper } from 'ramda'
 import { Moment } from 'moment'
+import { equals, toUpper } from 'ramda'
+
+import { CoinType, FiatType } from 'core/types'
+
 import { PriceIndexResponseType } from './types'
 
-export default ({ rootUrl, apiUrl, get, post }) => {
+export default ({ apiUrl, get, post, rootUrl }) => {
   const getCaptchaImage = (timestamp, sessionToken) =>
     get({
       url: rootUrl,

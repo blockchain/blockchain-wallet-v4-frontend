@@ -1,4 +1,6 @@
-import * as Coin from './coin.js'
+import memoize from 'fast-memoize'
+import shuffle from 'fisher-yates'
+import { List } from 'immutable-ext'
 import {
   clamp,
   curry,
@@ -14,10 +16,9 @@ import {
   tail,
   unfold
 } from 'ramda'
-import { List } from 'immutable-ext'
-import memoize from 'fast-memoize'
 import seedrandom from 'seedrandom'
-import shuffle from 'fisher-yates'
+
+import * as Coin from './coin.js'
 
 // isFromAccount :: selection -> boolean
 export const isFromAccount = selection =>

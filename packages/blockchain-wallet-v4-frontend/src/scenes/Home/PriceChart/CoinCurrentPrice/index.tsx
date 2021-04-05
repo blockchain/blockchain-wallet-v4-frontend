@@ -1,43 +1,12 @@
-import { CoinType } from 'core/types'
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { propOr } from 'ramda'
-import { selectors } from 'data'
-import { Text } from 'blockchain-info-components'
-import CoinTicker from './CoinTicker'
 import React from 'react'
-import styled from 'styled-components'
+import { connect, ConnectedProps } from 'react-redux'
 
-const Wrapper = styled.div`
-  display: flex;
-  text-align: center;
-  flex-direction: column;
-  margin-top: 8px;
-  z-index: 1;
-`
-const Header = styled(Text).attrs({
-  size: '12px'
-})`
-  margin-bottom: 8px;
-`
+import { selectors } from 'data'
 
-class CoinCurrentPrice extends React.PureComponent<Props> {
-  render () {
-    const { priceChart } = this.props
-    const coin = propOr('BTC', 'coin', priceChart) as CoinType
+import CoinTicker from './CoinTicker'
 
-    return (
-      <Wrapper>
-        <Header>
-          <FormattedMessage
-            id='scenes.home.pricechart.coincurrentprice.currentprice'
-            defaultMessage='Current Price'
-          />
-        </Header>
-        <CoinTicker coin={coin} data-e2e={`coinTicker${coin}`} />
-      </Wrapper>
-    )
-  }
+const CoinCurrentPrice = ({ priceChart: { coin = 'BTC' } }: Props) => {
+  return <CoinTicker coin={coin} data-e2e={`coinTicker${coin}`} />
 }
 
 const mapStateToProps = state => ({

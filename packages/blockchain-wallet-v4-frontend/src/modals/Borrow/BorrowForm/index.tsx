@@ -1,6 +1,7 @@
-import { actions } from 'data'
+import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { BorrowMinMaxType } from 'data/types'
+
 import {
   CoinType,
   OfferType,
@@ -8,18 +9,19 @@ import {
   RatesType,
   RemoteDataType,
   SupportedWalletCurrenciesType
-} from 'core/types'
-import { connect } from 'react-redux'
-import { getData } from './selectors'
+} from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
+import { actions } from 'data'
+import { BorrowMinMaxType } from 'data/types'
+
+import { getData } from './selectors'
 import Loading from './template.loading'
-import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class BorrowForm extends PureComponent<Props> {
   state = {}
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.borrowActions.initializeBorrow('BTC')
   }
 
@@ -34,7 +36,7 @@ class BorrowForm extends PureComponent<Props> {
     })
   }
 
-  render () {
+  render() {
     const { data } = this.props
     return data.cata({
       Success: val => (

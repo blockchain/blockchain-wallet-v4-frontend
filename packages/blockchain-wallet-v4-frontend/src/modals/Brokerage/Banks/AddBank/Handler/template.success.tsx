@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { FlyoutWrapper } from 'components/Flyout'
+
 import { Props as OwnProps, State, SuccessStateType } from '.'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`

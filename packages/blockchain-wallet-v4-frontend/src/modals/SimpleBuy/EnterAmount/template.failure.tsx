@@ -1,8 +1,10 @@
-import { Button, Image, Text } from 'blockchain-info-components'
-import { FailurePropsType } from '.'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+
+import { Button, Image, Text } from 'blockchain-info-components'
+
+import { FailurePropsType } from '.'
 
 const Wrapper = styled.div`
   height: 100%;

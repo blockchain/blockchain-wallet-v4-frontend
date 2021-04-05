@@ -1,6 +1,7 @@
-import { injectIntl } from 'react-intl'
-import { LinkEvent } from '../Events'
 import React from 'react'
+import { injectIntl } from 'react-intl'
+
+import { LinkEvent } from '../Events'
 
 const Link = props => {
   let { children, href, locale, ...rest } = props

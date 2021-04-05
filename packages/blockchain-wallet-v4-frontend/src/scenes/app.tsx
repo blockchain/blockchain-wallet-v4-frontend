@@ -1,21 +1,21 @@
+import React, { Suspense } from 'react'
 import { connect, ConnectedProps, Provider } from 'react-redux'
+import { Redirect, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { has, map, values } from 'ramda'
 import { PersistGate } from 'redux-persist/integration/react'
-import { Redirect, Switch } from 'react-router-dom'
-import React, { Suspense } from 'react'
 
-import { MediaContextProvider } from 'providers/MatchMediaProvider'
+import SiftScience from 'components/SiftScience'
 import { selectors } from 'data'
+import { UserDataType } from 'data/types'
+import PublicLayout from 'layouts/Public'
+import WalletLayout from 'layouts/Wallet'
 import AnalyticsTracker from 'providers/AnalyticsTracker'
+import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
 
-import { UserDataType } from 'data/types'
-import PublicLayout from 'layouts/Public'
 import PublicLoading from './loading.public'
-import SiftScience from 'components/SiftScience'
-import WalletLayout from 'layouts/Wallet'
 import WalletLoading from './loading.wallet'
 
 // PUBLIC
@@ -47,13 +47,14 @@ const Interest = React.lazy(() => import('./Interest'))
 const InterestHistory = React.lazy(() => import('./InterestHistory'))
 const Lockbox = React.lazy(() => import('./Lockbox'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
+const Prices = React.lazy(() => import('./Prices'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
 
 class App extends React.PureComponent<Props> {
-  render () {
-    const { store, history, persistor, isAuthenticated } = this.props
+  render() {
+    const { history, isAuthenticated, persistor, store } = this.props
     const Loading = isAuthenticated ? WalletLoading : PublicLoading
     return (
       <Provider store={store}>
@@ -131,21 +132,26 @@ class App extends React.PureComponent<Props> {
                         path='/settings/preferences'
                         component={Preferences}
                       />
+                      <WalletLayout path='/prices' component={Prices} />
                       {values(
-                        map(
-                          coin =>
-                            coin.txListAppRoute &&
-                            coin.invited && (
+                        map(coinModel => {
+                          const coin = coinModel.coinCode
+                          const isFiat =
+                            coin === 'USD' || coin === 'EUR' || coin === 'GBP'
+                          return (
+                            coinModel.txListAppRoute &&
+                            coinModel.invited && (
                               <WalletLayout
-                                path={coin.txListAppRoute}
+                                path={coinModel.txListAppRoute}
                                 component={Transactions}
-                                coin={coin.coinCode}
-                                isCoinErc20={has('contractAddress', coin)}
-                                key={coin.coinCode}
+                                coin={coin}
+                                isCoinErc20={has('contractAddress', coinModel)}
+                                isFiat={isFiat}
+                                key={coin}
                               />
-                            ),
-                          this.props.supportedCoins
-                        )
+                            )
+                          )
+                        }, this.props.supportedCoins)
                       )}
                       {isAuthenticated ? (
                         <Redirect to='/home' />

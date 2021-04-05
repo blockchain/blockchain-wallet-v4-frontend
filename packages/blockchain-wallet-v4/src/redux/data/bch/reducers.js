@@ -1,4 +1,3 @@
-import * as AT from './actionTypes'
 import {
   append,
   assoc,
@@ -9,7 +8,9 @@ import {
   merge,
   over
 } from 'ramda'
+
 import Remote from '../../../remote'
+import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   addresses: Remote.NotAsked,
@@ -23,7 +24,7 @@ const INITIAL_STATE = {
 }
 
 const bchReducer = (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
 
   switch (type) {
     case AT.SET_BCH_LATEST_BLOCK: {

@@ -1,9 +1,10 @@
-import * as C from 'services/AlertService'
-import { actions, selectors } from 'data'
 import { call, put, select } from 'redux-saga/effects'
-import { promptForInput } from 'services/SagaService'
-import { requireUniqueWalletName } from 'services/FormHelper'
+
 import { utils } from 'blockchain-wallet-v4/src'
+import { actions, selectors } from 'data'
+import * as C from 'services/alerts'
+import { requireUniqueWalletName } from 'services/forms'
+import { promptForInput } from 'services/sagas'
 const { toCashAddr } = utils.bch
 const GAP_LIMIT = 20
 

@@ -1,15 +1,20 @@
-import { FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
 import React, { ReactElement } from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
-import { ActiveToggle } from 'services/ActiveToggleService'
+import { Icon } from 'blockchain-info-components'
 import {
   BankDetails,
   BeneficiaryType,
   FiatType,
   NabuMoneyFloatType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+import {
+  GreyCartridge,
+  OrangeCartridge,
+  SuccessCartridge
+} from 'components/Cartridge'
+import CoinDisplay from 'components/Display/CoinDisplay'
 import { Col, Title, Value } from 'components/Flyout'
 import {
   Content,
@@ -18,13 +23,8 @@ import {
   DisplayPaymentIcon,
   MultiRowContainer
 } from 'components/SimpleBuy'
-import { formatTextAmount } from 'services/ValidationHelper'
-import {
-  GreyCartridge,
-  OrangeCartridge,
-  SuccessCartridge
-} from 'components/Cartridge'
-import CoinDisplay from 'components/Display/CoinDisplay'
+import { ActiveToggle } from 'services/ActiveToggleService'
+import { formatTextAmount } from 'services/forms'
 
 const RightArrowIcon = styled(Icon)<{
   disabled?: boolean
@@ -73,9 +73,9 @@ type BankProps = {
   text: string
 }
 
-const Bank = ({ icon, text, bankDetails, onClick, isActive }: BankProps) => (
+const Bank = ({ bankDetails, icon, isActive, onClick, text }: BankProps) => (
   <DisplayContainer
-    data-e2e={`sb${bankDetails.bankAccountType.toLowerCase()}Banks`}
+    data-e2e={`sb${bankDetails?.bankAccountType?.toLowerCase()}Banks`}
     role='button'
     onClick={onClick}
   >
@@ -83,9 +83,8 @@ const Bank = ({ icon, text, bankDetails, onClick, isActive }: BankProps) => (
     <MultiRowContainer>
       <StyledValue asTitle>{text}</StyledValue>
       <StyledTitle asValue>
-        {`${bankDetails.bankAccountType.toLowerCase()} account ${
-          bankDetails.accountNumber
-        }`}
+        {`${bankDetails?.bankAccountType?.toLowerCase() ||
+          ''} account ${bankDetails?.accountNumber || ''}`}
       </StyledTitle>
       <CartridgeContainer>
         <SuccessCartridge>

@@ -1,9 +1,11 @@
-import { connect } from 'react-redux'
-import { getCoins } from './selectors'
-import { Icon, Text } from 'blockchain-info-components'
 import React from 'react'
-import SelectBox from '../SelectBox'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
+
+import { Icon, Text } from 'blockchain-info-components'
+
+import SelectBox from '../SelectBox'
+import { getCoins } from './selectors'
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -42,16 +44,11 @@ const SelectBoxCoin = styled(SelectBox)`
 `
 
 const renderItem = props => {
-  const { value, text, ...rest } = props
-  const coinValue = value ? value.toLowerCase() : 'btc'
+  const { text, value, ...rest } = props
+  const coinValue = value || 'BTC'
   return (
     <HeaderWrapper {...rest}>
-      <ItemIcon
-        name={coinValue + '-circle-filled'}
-        color={coinValue}
-        size='22px'
-        weight={400}
-      />
+      <ItemIcon name={coinValue} color={coinValue} size='22px' weight={400} />
       <Text size='14px' weight={400} cursor='pointer' data-e2e=''>
         {text}
       </Text>
@@ -61,17 +58,12 @@ const renderItem = props => {
 
 const renderDisplay = (props, children) => {
   const { value } = props
-  const coinValue = value ? value.toLowerCase() : 'btc'
+  const coinValue = value || 'BTC'
   const e2eTag = coinValue + 'CurrencyOption'
 
   return (
     <HeaderWrapper>
-      <Icon
-        name={coinValue + '-circle-filled'}
-        color={coinValue}
-        size='22px'
-        weight={400}
-      />
+      <Icon name={coinValue} color={coinValue} size='22px' weight={400} />
       <CoinText
         size='18px'
         weight={500}
@@ -86,7 +78,7 @@ const renderDisplay = (props, children) => {
 }
 
 class SelectBoxCoinPriceChart extends React.PureComponent {
-  render () {
+  render() {
     const { coins, ...rest } = this.props
     const elements = [{ group: '', items: coins }]
     return (

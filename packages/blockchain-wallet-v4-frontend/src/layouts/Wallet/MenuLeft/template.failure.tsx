@@ -1,8 +1,10 @@
-import { BlockchainLoader, Text } from 'blockchain-info-components'
-import { Container } from './template.success'
-import { FormattedMessage } from 'react-intl'
-import { MenuItem, Wrapper } from 'components/MenuLeft'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+
+import { BlockchainLoader, Text } from 'blockchain-info-components'
+import { MenuItem, Wrapper } from 'layouts/Wallet/components'
+
+import { Container } from './template.success'
 
 const Failure = () => {
   return (

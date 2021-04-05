@@ -1,15 +1,17 @@
-import * as actions from '../../actions'
-import * as C from 'services/AlertService'
-import * as selectors from '../../selectors'
-import { addLanguageToUrl } from 'services/LocalesService'
+import { propEq } from 'ramda'
+import { call, put, select } from 'redux-saga/effects'
+
+import { Types, utils } from 'blockchain-wallet-v4/src'
+import profileSagas from 'data/modules/profile/sagas.ts'
+import * as C from 'services/alerts'
+import { addLanguageToUrl } from 'services/locales'
 import {
   askSecondPasswordEnhancer,
   promptForSecondPassword
-} from 'services/SagaService'
-import { call, put, select } from 'redux-saga/effects'
-import { propEq } from 'ramda'
-import { Types, utils } from 'blockchain-wallet-v4/src'
-import profileSagas from 'data/modules/profile/sagas.ts'
+} from 'services/sagas'
+
+import * as actions from '../../actions'
+import * as selectors from '../../selectors'
 
 export const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -138,6 +140,9 @@ export default ({ api, coreSagas }) => {
       if (!action.payload.hideAlert) {
         yield put(actions.alerts.displaySuccess(C.CURRENCY_UPDATE_SUCCESS))
       }
+      // update prices based on new currency
+      yield put(actions.prices.fetchCoinPrices())
+      yield put(actions.prices.fetchCoinPricesPreviousDay())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateCurrency', e))
       yield put(actions.alerts.displayError(C.CURRENCY_UPDATE_ERROR))

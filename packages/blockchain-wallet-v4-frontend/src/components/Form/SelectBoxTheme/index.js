@@ -1,12 +1,13 @@
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 
 import { selectors } from 'data'
+
 import SelectBox from '../SelectBox'
 
 class SelectBoxTheme extends React.PureComponent {
-  render () {
+  render() {
     const { themes, ...rest } = this.props
     const elements = [{ group: '', items: themes }]
 

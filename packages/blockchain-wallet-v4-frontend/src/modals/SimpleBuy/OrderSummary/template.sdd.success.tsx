@@ -1,6 +1,6 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
-import React from 'react'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
@@ -122,12 +122,9 @@ const Success: React.FC<Props> = props => {
             <IconWrapper>
               <Icon
                 color={
-                  props.supportedCoins[props.order.outputCurrency].colorCode
+                  props.supportedCoins[props.order.outputCurrency].coinCode
                 }
-                name={
-                  props.supportedCoins[props.order.outputCurrency].icons
-                    .circleFilled
-                }
+                name={props.supportedCoins[props.order.outputCurrency].coinCode}
                 size='64px'
               />
               <IconBackground color='white'>
@@ -172,8 +169,8 @@ const Success: React.FC<Props> = props => {
             >
               {isTransactionPending ? (
                 <FormattedMessage
-                  id='modals.simplebuy.transferdetails.available'
-                  defaultMessage='Your {coin} is now available in your Trading Wallet.'
+                  id='modals.simplebuy.transferdetails.available1'
+                  defaultMessage='Your {coin} is now available in your Trading Account.'
                   values={{
                     coin: baseCurrency
                   }}

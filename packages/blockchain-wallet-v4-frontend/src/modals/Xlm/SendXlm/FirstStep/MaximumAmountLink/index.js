@@ -1,10 +1,11 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
-import { getData } from './selectors'
 import { Link } from 'blockchain-info-components'
+import { actions } from 'data'
+
+import { getData } from './selectors'
 
 const MaximumAmountLink = props => (
   <Link

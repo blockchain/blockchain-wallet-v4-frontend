@@ -1,15 +1,17 @@
-import { actions, model, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { formValueSelector } from 'redux-form'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { values } from 'ramda'
-import ImportedAddresses from './template'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { values } from 'ramda'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
+
+import { Remote } from 'blockchain-wallet-v4/src'
+import { actions, model, selectors } from 'data'
+
+import ImportedAddresses from './template'
 const { WALLET_TX_SEARCH } = model.form
 
 class ImportedAddressesContainer extends React.Component<Props> {
-  shouldComponentUpdate (nextProps) {
+  shouldComponentUpdate(nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
 
@@ -51,8 +53,8 @@ class ImportedAddressesContainer extends React.Component<Props> {
     })
   }
 
-  render () {
-    const { search, addressesWithoutRemoteData } = this.props
+  render() {
+    const { addressesWithoutRemoteData, search } = this.props
     return this.props.activeAddresses.cata({
       Success: value => (
         <ImportedAddresses

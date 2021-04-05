@@ -1,11 +1,12 @@
-import * as AT from './actionTypes'
 import { takeLatest } from 'redux-saga/effects'
+
+import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default ({ api, coreSagas, networks }) => {
   const brokerageSagas = sagas({ api, coreSagas, networks })
 
-  return function * brokerageSaga () {
+  return function * brokerageSaga() {
     yield takeLatest(
       AT.FETCH_BANK_TRANSFER_ACCOUNTS,
       brokerageSagas.fetchBankTransferAccounts

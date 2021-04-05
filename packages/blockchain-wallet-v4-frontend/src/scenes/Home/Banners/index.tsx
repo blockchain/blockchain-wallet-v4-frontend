@@ -1,31 +1,35 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { memo } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import { UserDataType } from 'data/types'
 
-import { getData } from './selectors'
 import BuyCrypto from './BuyCrypto'
 import ContinueToGold from './ContinueToGold'
 import FinishKyc from './FinishKyc'
 import KycResubmit from './KycResubmit'
 import NewCurrency from './NewCurrency'
 import SBOrderBanner from './SBOrderBanner'
+import { getData } from './selectors'
 
 const BannerWrapper = styled.div`
   margin-bottom: 25px;
-  max-width: 1200px;
 `
 
 class Banners extends React.PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.props.simpleBuyActions.fetchSBOrders()
     this.props.simpleBuyActions.fetchSDDEligible()
+    if (this.props.userData.tiers?.current > 0) {
+      this.props.simpleBuyActions.fetchLimits(this.props.fiatCurrency)
+    }
   }
 
-  render () {
-    const { bannerToShow } = this.props
+  render() {
+    const { bannerToShow } = this.props.data
 
     switch (bannerToShow) {
       case 'resubmit':
@@ -70,7 +74,13 @@ class Banners extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => getData(state)
+const mapStateToProps = (state: RootState) => ({
+  fiatCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
+  userData: selectors.modules.profile.getUserData(state).getOrElse({
+    tiers: { current: 0 }
+  } as UserDataType),
+  data: getData(state)
+})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)

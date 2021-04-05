@@ -1,17 +1,17 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 
-import { actions, selectors } from 'data'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { SBPaymentTypes } from 'blockchain-wallet-v4/src/network/api/settingsComponent/types'
 import {
   BankTransferAccountType,
   BeneficiaryType,
   ExtractSuccess,
   WalletFiatType
-} from 'core/types'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { SBPaymentTypes } from 'core/network/api/settingsComponent/types'
+} from 'blockchain-wallet-v4/src/types'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 import {
   UserDataType,
   WithdrawCheckoutFormValuesType,
@@ -26,9 +26,9 @@ import Success from './template.success'
 class EnterAmount extends PureComponent<Props> {
   state = {}
 
-  componentDidMount () {
+  componentDidMount() {
     let paymentMethod: SBPaymentTypes | 'ALL' = 'ALL'
-    if (this.props.isInvited && this.props.defaultMethod) {
+    if (this.props.defaultMethod) {
       paymentMethod = 'BANK_TRANSFER'
     }
     // We need to make this call each time we load the enter amount component
@@ -94,7 +94,7 @@ class EnterAmount extends PureComponent<Props> {
     })
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => (
         <Success
@@ -116,8 +116,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   formValues: selectors.form.getFormValues('custodyWithdrawForm')(
     state
   ) as WithdrawCheckoutFormValuesType,
-  defaultMethod: selectors.components.brokerage.getAccount(state),
-  isInvited: selectors.core.settings.getInvitations(state)
+  defaultMethod: selectors.components.brokerage.getAccount(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

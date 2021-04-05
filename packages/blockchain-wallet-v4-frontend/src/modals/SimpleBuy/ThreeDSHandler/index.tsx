@@ -1,18 +1,20 @@
-import { actions } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
+import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+
 import {
   Everypay3DSResponseType,
   RemoteDataType,
   SBCardType,
   SBOrderType,
   SBProviderDetailsType
-} from 'core/types'
-import { getData } from './selectors'
-import { RootState } from 'data/rootReducer'
+} from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
+import { actions } from 'data'
+import { RootState } from 'data/rootReducer'
+
+import { getData } from './selectors'
 import Loading from './template.loading'
-import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class ThreeDSHandler extends PureComponent<Props, State> {
@@ -20,11 +22,11 @@ class ThreeDSHandler extends PureComponent<Props, State> {
     threeDSCallbackReceived: false
   }
 
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('message', this.handlePostMessage, false)
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (
       !prevProps.data.getOrElse({ order: {} } as SuccessStateType).order &&
       this.props.data.getOrElse({ order: {} } as SuccessStateType).order
@@ -34,7 +36,7 @@ class ThreeDSHandler extends PureComponent<Props, State> {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.removeEventListener('message', this.handlePostMessage, false)
   }
 
@@ -62,7 +64,7 @@ class ThreeDSHandler extends PureComponent<Props, State> {
     }
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} {...this.state} />,
       Failure: e => <DataError message={{ message: e }} />,

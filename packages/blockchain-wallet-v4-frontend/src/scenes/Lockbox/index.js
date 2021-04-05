@@ -1,13 +1,15 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
+import React from 'react'
+import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride'
 import { connect } from 'react-redux'
 import { Route, Switch, withRouter } from 'react-router-dom'
-import { TOUR_STEPS, TourTooltip } from './model'
-import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride'
-import LockboxDashboard from './Dashboard'
-import LockboxOnboard from './Onboard'
-import React from 'react'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
+
+import { actions, selectors } from 'data'
+
+import LockboxDashboard from './Dashboard'
+import { TOUR_STEPS, TourTooltip } from './model'
+import LockboxOnboard from './Onboard'
 
 const Wrapper = styled.div`
   display: flex;
@@ -18,11 +20,11 @@ const Wrapper = styled.div`
 class LockboxContainer extends React.PureComponent {
   state = { run: false, steps: TOUR_STEPS }
 
-  componentDidMount () {
+  componentDidMount() {
     this.checkForcedRouting()
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props !== prevProps) {
       if (this.props.showProductTour) {
         this.onStartTour()
@@ -55,8 +57,8 @@ class LockboxContainer extends React.PureComponent {
     }
   }
 
-  render () {
-    const { steps, run } = this.state
+  render() {
+    const { run, steps } = this.state
 
     return (
       <Wrapper>

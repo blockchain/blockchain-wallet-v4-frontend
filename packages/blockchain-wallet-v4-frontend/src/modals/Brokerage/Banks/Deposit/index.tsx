@@ -1,34 +1,34 @@
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { actions, selectors } from 'data'
-import { BankDWStepType } from 'data/types'
-import { BROKERAGE_INELIGIBLE } from '../../components'
-import { WalletFiatType } from 'core/types'
+import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import { BankDWStepType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../../types'
+import { BROKERAGE_INELIGIBLE } from '../../components'
 import BankList from './BankList'
 import Confirm from './Confirm'
 import DepositMethods from './DepositMethods'
+import Loading from './DepositMethods/template.loading'
 import DepositStatus from './DepositStatus'
 import EnterAmount from './EnterAmount'
-import Loading from './DepositMethods/template.loading'
 import WireInstructions from './WireInstructions'
 class Deposit extends PureComponent<Props> {
   state: State = { show: false, direction: 'left' }
 
-  componentDidMount () {
+  componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.step === prevProps.step) return
     if (BankDWStepType[this.props.step] > BankDWStepType[prevProps.step]) {
       /* eslint-disable */
@@ -44,7 +44,7 @@ class Deposit extends PureComponent<Props> {
     setTimeout(this.props.close, duration)
   }
 
-  render () {
+  render() {
     return (
       <Flyout
         {...this.props}

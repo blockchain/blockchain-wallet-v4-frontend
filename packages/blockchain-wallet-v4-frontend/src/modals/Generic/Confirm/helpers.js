@@ -1,8 +1,9 @@
-import * as C from 'services/ConfirmService'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { Link, Text } from 'blockchain-info-components'
-import { prop } from 'ramda'
 import React, { Fragment } from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { prop } from 'ramda'
+
+import { Link, Text } from 'blockchain-info-components'
+import * as C from 'services/alerts'
 
 export const selectTitle = title => {
   switch (title) {

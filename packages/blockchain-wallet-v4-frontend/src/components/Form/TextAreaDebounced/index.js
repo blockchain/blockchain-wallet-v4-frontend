@@ -1,7 +1,7 @@
 import React from 'react'
+import { equals } from 'ramda'
 import styled from 'styled-components'
 
-import { equals } from 'ramda'
 import { Text, TextAreaInput } from 'blockchain-info-components'
 
 const Container = styled.div`
@@ -24,7 +24,7 @@ const getErrorState = meta => {
 }
 
 class TextAreaDebounced extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { value: props.input.value, updatedValue: props.input.value }
     this.timeout = undefined
@@ -33,7 +33,7 @@ class TextAreaDebounced extends React.Component {
     this.handleFocus = this.handleFocus.bind(this)
   }
 
-  static getDerivedStateFromProps (nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     if (!equals(prevState.updatedValue, prevState.value)) {
       return {
         updatedValue: prevState.updatedValue,
@@ -49,11 +49,11 @@ class TextAreaDebounced extends React.Component {
     return null
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearTimeout(this.timeout)
   }
 
-  handleChange (e) {
+  handleChange(e) {
     e.preventDefault()
     const value = e.target.value
     this.setState({ updatedValue: value })
@@ -64,16 +64,16 @@ class TextAreaDebounced extends React.Component {
     }, 500)
   }
 
-  handleBlur () {
+  handleBlur() {
     this.props.input.onBlur(this.state.value)
   }
 
-  handleFocus () {
+  handleFocus() {
     this.props.input.onFocus(this.state.value)
   }
 
-  render () {
-    const { meta, disabled, placeholder, rows, ...rest } = this.props
+  render() {
+    const { disabled, meta, placeholder, rows, ...rest } = this.props
     const errorState = getErrorState(meta)
 
     return (

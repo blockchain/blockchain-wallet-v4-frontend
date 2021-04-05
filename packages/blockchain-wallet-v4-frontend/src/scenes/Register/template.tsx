@@ -1,8 +1,8 @@
-import { find, isEmpty, isNil, propEq, propOr } from 'ramda'
-import { FormattedMessage } from 'react-intl'
-import { InjectedFormProps, reduxForm } from 'redux-form'
-import { LinkContainer } from 'react-router-bootstrap'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import { find, isEmpty, isNil, propEq, propOr } from 'ramda'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled, { DefaultTheme } from 'styled-components'
 
 import {
@@ -18,9 +18,9 @@ import {
   CoinType,
   SupportedWalletCurrenciesType,
   WalletFiatType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
 import { GoalsType } from 'data/goals/types'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 import Header from './Header'
 import LinkExchangeAccount from './LinkExchangeAccount'
@@ -363,7 +363,7 @@ export type GoalDataType = {
 }
 
 const Register = (props: InjectedFormProps<{}, Props> & Props) => {
-  const { isLinkAccountGoal, isSimpleBuyGoal, goals } = props
+  const { goals, isLinkAccountGoal, isSimpleBuyGoal } = props
   const dataGoal = find(propEq('name', 'simpleBuy'), goals)
   const goalData: GoalDataType = propOr({}, 'data', dataGoal)
 
@@ -392,19 +392,25 @@ const Register = (props: InjectedFormProps<{}, Props> & Props) => {
               </Text>
             </CardHeader>
 
-            {!isNil(goalData) && !isEmpty(goalData) && (
-              <SimpleBuyInfo
-                goalData={goalData}
-                supportedCoins={props.supportedCoins}
-              />
-            )}
+            {!isNil(goalData) &&
+              !isEmpty(goalData) &&
+              !!goalData.fiatCurrency &&
+              !!goalData.crypto &&
+              !!goalData.amount && (
+                <>
+                  <SimpleBuyInfo
+                    goalData={goalData}
+                    supportedCoins={props.supportedCoins}
+                  />
 
-            <Text size='14px' color='grey600' weight={500}>
-              <FormattedMessage
-                id='scenes.register.simplebuy.change'
-                defaultMessage='You will be able to change your amount later.'
-              />
-            </Text>
+                  <Text size='14px' color='grey600' weight={500}>
+                    <FormattedMessage
+                      id='scenes.register.simplebuy.change'
+                      defaultMessage='You will be able to change your amount later.'
+                    />
+                  </Text>
+                </>
+              )}
 
             <SignupForm
               busy={props.busy}

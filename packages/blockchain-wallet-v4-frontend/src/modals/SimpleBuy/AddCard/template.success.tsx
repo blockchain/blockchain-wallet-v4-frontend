@@ -1,4 +1,13 @@
+import React, { FunctionComponent, useEffect, useState } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { map } from 'ramda'
+import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
+import { SBBuyOrderType, SBSellOrderType } from 'blockchain-wallet-v4/src/types'
+import { ErrorCartridge } from 'components/Cartridge'
+import { FlyoutWrapper } from 'components/Flyout'
 import {
   CheckBox,
   CreditCardBox,
@@ -11,27 +20,14 @@ import {
   SelectBoxUSState,
   TextBox
 } from 'components/Form'
-import { CountryType } from 'data/components/identityVerification/types'
-import {
-  countryUsesPostalcode,
-  countryUsesZipcode,
-  required,
-  requiredZipCode
-} from 'services/FormHelper'
-import {
-  DEFAULT_SECURITY_CODE_NAME,
-  getCardTypeByValue
-} from 'components/Form/CreditCardBox/model'
-import { Error } from './model'
-import { ErrorCartridge } from 'components/Cartridge'
-import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
-import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
-import { map } from 'ramda'
 import {
   normalizeCreditCard,
   validateCreditCard
 } from 'components/Form/CreditCardBox'
+import {
+  DEFAULT_SECURITY_CODE_NAME,
+  getCardTypeByValue
+} from 'components/Form/CreditCardBox/model'
 import {
   normalizeCreditCardCVC,
   validateCreditCardCVC
@@ -40,12 +36,17 @@ import {
   normalizeCreditCardExpiry,
   validateCreditCardExpiry
 } from 'components/Form/CreditCardExpiryBox'
-import { Props as OwnProps, SuccessStateType } from '.'
-
+import { CountryType } from 'data/components/identityVerification/types'
 import { SBAddCardErrorType } from 'data/types'
-import { SBBuyOrderType, SBSellOrderType } from 'core/types'
-import React, { FunctionComponent, useEffect, useState } from 'react'
-import styled from 'styled-components'
+import {
+  countryUsesPostalcode,
+  countryUsesZipcode,
+  required,
+  requiredZipCode
+} from 'services/forms'
+
+import { Props as OwnProps, SuccessStateType } from '.'
+import { Error } from './model'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
   height: 100%;

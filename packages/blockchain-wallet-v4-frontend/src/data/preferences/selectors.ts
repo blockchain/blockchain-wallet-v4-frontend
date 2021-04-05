@@ -1,5 +1,6 @@
 import { path } from 'ramda'
-import { PriceChangeTimeRangeType } from 'core/types'
+
+import { TimeRange } from 'blockchain-wallet-v4/src/types'
 import { RootState } from 'data/rootReducer'
 
 export const getCoinDisplayed = (state: RootState) =>
@@ -18,9 +19,7 @@ export const getPriceChart = (state: RootState) => {
   ) {
     return {
       ...state.preferences.priceChart,
-      time: state.preferences.priceChart.time.split(
-        '1'
-      )[1] as PriceChangeTimeRangeType
+      time: state.preferences.priceChart.time.split('1')[1] as TimeRange
     }
   }
   return state.preferences.priceChart

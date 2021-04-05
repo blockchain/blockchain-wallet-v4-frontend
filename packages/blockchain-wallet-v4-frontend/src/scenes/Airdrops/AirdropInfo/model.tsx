@@ -1,13 +1,14 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
+import { Text } from 'blockchain-info-components'
 import {
   ErrorCartridge,
   GreyCartridge,
   SuccessCartridge
 } from 'components/Cartridge'
-import { FormattedMessage } from 'react-intl'
 import { model } from 'data'
-import { Text } from 'blockchain-info-components'
-import React from 'react'
-import styled from 'styled-components'
 
 const { KYC_STATES } = model.profile
 

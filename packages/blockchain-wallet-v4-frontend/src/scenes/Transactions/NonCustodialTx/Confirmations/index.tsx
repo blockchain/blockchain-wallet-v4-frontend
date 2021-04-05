@@ -1,15 +1,19 @@
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { toString } from 'ramda'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { toString } from 'ramda'
 import styled from 'styled-components'
 
-import { CoinType, SupportedWalletCurrenciesType } from 'core/types'
-import { getBlockHeight } from './selectors'
 import { Icon, Link, Tooltip, TooltipHost } from 'blockchain-info-components'
-import { RowValue } from '../../components'
+import {
+  CoinType,
+  SupportedWalletCurrenciesType
+} from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
+
+import { RowValue } from '../../components'
+import { getBlockHeight } from './selectors'
 
 const Wrapper = styled.div`
   display: flex;
@@ -45,9 +49,9 @@ const Confirmations = (props: Props) => {
     blockHeight,
     coin,
     isConfirmed,
+    onViewTxDetails,
     supportedCoins,
-    txBlockHeight = 0,
-    onViewTxDetails
+    txBlockHeight = 0
   } = props
   const conf = blockHeight - txBlockHeight + 1
   const confirmations = conf > 0 && txBlockHeight ? conf : 0

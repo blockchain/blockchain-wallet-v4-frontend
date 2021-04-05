@@ -1,5 +1,6 @@
-import * as AT from './actionTypes'
 import { CoinType, FiatType, RemoteDataType, WalletFiatType } from 'core/types'
+
+import * as AT from './actionTypes'
 
 // types
 export type RateType = {
@@ -28,7 +29,13 @@ export type PriceChangeType = {
   previousPrice: number
 }
 
-export type PriceChangeTimeRangeType = 'day' | 'week' | 'month' | 'year' | 'all'
+export enum TimeRange {
+  ALL = 'all',
+  DAY = 'day',
+  MONTH = 'month',
+  WEEK = 'week',
+  YEAR = 'year'
+}
 
 // state
 export type MiscStateType = {
@@ -38,7 +45,7 @@ export type MiscStateType = {
   logs: RemoteDataType<any, any>
   pairing_code: RemoteDataType<any, any>
   price_change: {
-    [key in PriceChangeTimeRangeType]: {
+    [key in TimeRange]: {
       [key in CoinType | WalletFiatType]: RemoteDataType<
         string,
         PriceChangeType
@@ -94,21 +101,21 @@ interface FetchPriceChangeFailureActionType {
   payload: {
     base: CoinType
     error: string
-    range: PriceChangeTimeRangeType
+    range: TimeRange
   }
   type: typeof AT.FETCH_PRICE_CHANGE_FAILURE
 }
 interface FetchPriceChangeLoadingActionType {
   payload: {
     base: CoinType
-    range: PriceChangeTimeRangeType
+    range: TimeRange
   }
   type: typeof AT.FETCH_PRICE_CHANGE_LOADING
 }
 interface FetchPriceChangeSuccessActionType {
   payload: {
     base: CoinType
-    range: PriceChangeTimeRangeType
+    range: TimeRange
   } & PriceChangeType
   type: typeof AT.FETCH_PRICE_CHANGE_SUCCESS
 }

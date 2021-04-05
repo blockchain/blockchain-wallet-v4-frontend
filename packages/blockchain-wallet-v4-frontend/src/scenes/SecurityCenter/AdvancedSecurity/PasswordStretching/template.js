@@ -1,6 +1,10 @@
-import { Button, Text } from 'blockchain-info-components'
-import { Field, reduxForm } from 'redux-form'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
+import { Button, Text } from 'blockchain-info-components'
 import { NumberBox } from 'components/Form'
 import {
   SettingComponent,
@@ -11,10 +15,7 @@ import {
   SettingSummary,
   SettingWrapper
 } from 'components/Setting'
-import { validPasswordStretchingNumber } from 'services/FormHelper'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
+import { validPasswordStretchingNumber } from 'services/forms'
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -29,12 +30,12 @@ const CurrentText = styled(Text)`
 `
 const PasswordStretching = props => {
   const {
-    updateToggled,
-    handleToggle,
+    currentStretch,
     handleSubmit,
-    submitting,
+    handleToggle,
     invalid,
-    currentStretch
+    submitting,
+    updateToggled
   } = props
 
   return (

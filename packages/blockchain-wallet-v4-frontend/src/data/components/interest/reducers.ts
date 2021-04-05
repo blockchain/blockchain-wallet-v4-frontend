@@ -32,7 +32,7 @@ const INITIAL_STATE: InterestState = {
   withdrawalMinimums: Remote.NotAsked
 }
 
-export function interestReducer (
+export function interestReducer(
   state = INITIAL_STATE,
   action: InterestActionTypes
 ): InterestState {

@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { CoinBalanceWrapper } from '../../model'
-
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const Success = (props: Props) => {

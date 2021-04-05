@@ -1,16 +1,21 @@
-import { convertBaseToStandard } from 'data/components/exchange/services'
+import React, { ReactElement } from 'react'
+import styled from 'styled-components'
+
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import {
+  FiatType,
+  SBBalanceType,
+  SBPaymentMethodType
+} from 'blockchain-wallet-v4/src/types'
+import FiatDisplay from 'components/Display/FiatDisplay'
+import { Title, Value } from 'components/Flyout'
 import {
   DisplayContainer,
   DisplayIcon,
   MultiRowContainer
 } from 'components/SimpleBuy'
-import { fiatToString } from 'core/exchange/currency'
-import { FiatType, SBBalanceType, SBPaymentMethodType } from 'core/types'
-import { Title, Value } from 'components/Flyout'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import FiatDisplay from 'components/Display/FiatDisplay'
-import React, { ReactElement } from 'react'
-import styled from 'styled-components'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 
 const DisplayMoney = styled.div`
   text-align: right;

@@ -1,16 +1,17 @@
 import { lift } from 'ramda'
 
-import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { ExtractSuccess } from 'core/types'
-import { OwnProps } from '.'
+import { ExtractSuccess, TimeRange } from 'blockchain-wallet-v4/src/types'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { selectors } from 'data'
+
+import { OwnProps } from '.'
 
 export const getData = createDeepEqualSelector(
   [
     (state, ownProps: OwnProps) =>
       selectors.core.data.misc.getPriceChange(
         ownProps.coinModel.coinCode,
-        'week',
+        TimeRange.WEEK,
         state
       ),
     selectors.core.settings.getCurrency

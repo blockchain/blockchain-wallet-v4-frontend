@@ -1,8 +1,7 @@
-import { FormattedMessage } from 'react-intl'
 import React, { ReactElement } from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Box } from 'components/Box'
 import {
   Button,
   Icon,
@@ -10,8 +9,9 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { convertBaseToStandard } from 'data/components/exchange/services'
+import { Box } from 'components/Box'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 
@@ -44,7 +44,7 @@ const Separator = styled.div`
   border: solid 1px ${props => props.theme.grey000};
 `
 
-function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
+function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
   const {
     coin,
     interestAccountBalance,
@@ -55,7 +55,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
     supportedCoins,
     walletCurrency
   } = props
-  const { coinTicker, colorCode, displayName, icons } = supportedCoins[coin]
+  const { coinCode, coinTicker, displayName } = supportedCoins[coin]
   const account = interestAccountBalance && interestAccountBalance[coin]
   const accountBalanceBase = account ? account.balance : 0
   const interestBalanceBase = account && account.totalInterest
@@ -69,7 +69,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
   return (
     <DepositBox>
       <Row>
-        <Icon name={icons.circleFilled} color={colorCode} size='32px' />
+        <Icon name={coinCode} color={coinCode} size='32px' />
         <Text
           size='20px'
           color='grey800'

@@ -1,7 +1,8 @@
-import { Icon, Text } from 'blockchain-info-components'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import React from 'react'
 import styled from 'styled-components'
+
+import { Icon, Text } from 'blockchain-info-components'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 
 const SimpleBuyItemWrapper = styled.div`
   display: flex;
@@ -46,8 +47,8 @@ const Amount = styled(Text)`
 `
 
 const SimpleBuyInfo = ({
-  supportedCoins,
-  goalData: { amount, crypto, fiatCurrency }
+  goalData: { amount, crypto, fiatCurrency },
+  supportedCoins
 }) => (
   <SimpleBuyItemWrapper>
     <AmountWrapper>
@@ -63,8 +64,8 @@ const SimpleBuyInfo = ({
 
     <CryptoWrapper>
       <Icon
-        color={supportedCoins[crypto].colorCode}
-        name={supportedCoins[crypto].icons.circleFilled}
+        color={supportedCoins[crypto].coinCode}
+        name={supportedCoins[crypto].coinCode}
         size='24px'
         weight={400}
       />

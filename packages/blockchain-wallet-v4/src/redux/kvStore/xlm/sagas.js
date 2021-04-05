@@ -1,13 +1,16 @@
-import * as A from './actions'
-import { call, put, select } from 'redux-saga/effects'
-import { callTask } from '../../../utils/functional'
-import { derivationMap, XLM } from '../config'
-import { getKeyPair } from '../../../utils/xlm'
-import { getMetadataXpriv } from '../root/selectors'
-import { getMnemonic } from '../../wallet/selectors'
 import { isEmpty, isNil } from 'ramda'
-import { KVStoreEntry } from '../../../types'
 import { set } from 'ramda-lens'
+import { call, put, select } from 'redux-saga/effects'
+
+import { KVStoreEntry } from '../../../types'
+import { callTask } from '../../../utils/functional'
+import { getKeyPair } from '../../../utils/xlm'
+import { getMnemonic } from '../../wallet/selectors'
+import { derivationMap, XLM } from '../config'
+import { getMetadataXpriv } from '../root/selectors'
+import * as A from './actions'
+
+const XLM_ACCT_NAME = 'Private Key Wallet'
 
 export default ({ api, networks } = {}) => {
   const createXlm = function * ({ kv, password }) {
@@ -20,7 +23,7 @@ export default ({ api, networks } = {}) => {
         accounts: [
           {
             publicKey: keypair.publicKey(),
-            label: 'My Stellar Wallet',
+            label: XLM_ACCT_NAME,
             archived: false
           }
         ],
@@ -45,6 +48,8 @@ export default ({ api, networks } = {}) => {
       if (isNil(newkv.value) || isEmpty(newkv.value)) {
         yield call(secondPasswordSagaEnhancer(createXlm), { kv })
       } else {
+        // manually update XLM account name
+        newkv.value.accounts[0].label = XLM_ACCT_NAME
         yield put(A.fetchMetadataXlmSuccess(newkv))
       }
     } catch (e) {

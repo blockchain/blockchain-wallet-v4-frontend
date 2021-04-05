@@ -1,17 +1,17 @@
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { actions } from 'data'
-import { ProductEligibility, UserTierType } from 'data/types'
-import { RemoteDataType, SDDEligibleType } from 'core/types'
-import { RootState } from 'data/rootReducer'
-import { UserDataType } from 'data/modules/types'
+import { RemoteDataType, SDDEligibleType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { actions } from 'data'
+import { UserDataType } from 'data/modules/types'
+import { RootState } from 'data/rootReducer'
+import { ProductEligibility, UserTierType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
-import { getData } from './selectors'
 import { ModalPropsType } from './../../types'
+import { getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 
@@ -22,7 +22,7 @@ export type OwnProps = {
 class TradingLimits extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
 
-  componentDidMount () {
+  componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
@@ -37,7 +37,7 @@ class TradingLimits extends PureComponent<Props, State> {
     }, duration)
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => (
         <Flyout

@@ -1,9 +1,10 @@
-import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { lift } from 'ramda'
-import { RootState } from 'data/rootReducer'
-import { selectors } from 'data'
 
-import { ExtractSuccess } from 'core/types'
+import { ExtractSuccess, TimeRange } from 'blockchain-wallet-v4/src/types'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
+import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+
 import { OwnProps } from '.'
 
 export const getData = createDeepEqualSelector(
@@ -11,7 +12,7 @@ export const getData = createDeepEqualSelector(
     (state: RootState, ownProps: OwnProps) =>
       selectors.core.data.misc.getPriceChange(
         ownProps.priceChart.coin || 'BTC',
-        ownProps.priceChart.time || 'month',
+        ownProps.priceChart.time || TimeRange.MONTH,
         state
       )
   ],

@@ -1,11 +1,11 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { getFormValues } from 'redux-form'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+import { getFormValues } from 'redux-form'
 
+import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { SupportedWalletCurrenciesType } from 'core/types'
 
 import Success from './template.success'
 

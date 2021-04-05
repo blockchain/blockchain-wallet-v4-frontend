@@ -1,5 +1,10 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { BorrowFormValuesType } from 'data/components/borrow/types'
+import styled from 'styled-components'
+
 import {
   Button,
   HeartbeatLoader,
@@ -7,22 +12,19 @@ import {
   Text,
   TooltipHost
 } from 'blockchain-info-components'
+import { FlyoutWrapper } from 'components/Flyout'
 import {
   CoinBalanceDropdown,
   Form,
   FormLabel,
   NumberBox
 } from 'components/Form'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType, OwnProps, State, SuccessStateType } from '.'
-import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
-import { model, selectors } from 'data'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
-import React from 'react'
-import styled from 'styled-components'
+import { model, selectors } from 'data'
+import { BorrowFormValuesType } from 'data/components/borrow/types'
+
+import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
+import { LinkDispatchPropsType, OwnProps, State, SuccessStateType } from '.'
 
 const { getCollateralAmtRequired } = model.components.borrow
 

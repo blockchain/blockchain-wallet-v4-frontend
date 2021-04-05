@@ -1,6 +1,6 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
 
@@ -11,7 +11,7 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
     this.props.modalActions.showModal('RECOVERY_PHRASE_MODAL')
   }
 
-  render () {
+  render() {
     const { isMnemonicVerified } = this.props
     return (
       <WalletRecoveryPhrase

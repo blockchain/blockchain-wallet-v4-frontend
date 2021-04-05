@@ -1,13 +1,13 @@
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
-import { includes, isEmpty, isNil, prop, replace, toUpper } from 'ramda'
 import bip21 from 'bip21'
 import PropTypes from 'prop-types'
-import React from 'react'
+import { includes, isEmpty, isNil, prop, replace, toUpper } from 'ramda'
+import { bindActionCreators } from 'redux'
 
-import * as C from 'services/AlertService'
-import { actions, model, selectors } from 'data'
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
+import { actions, model, selectors } from 'data'
+import * as C from 'services/alerts'
 
 import QRCodeCapture from './template'
 
@@ -37,7 +37,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  getAddressOrBitPayInvoice (coin, data) {
+  getAddressOrBitPayInvoice(coin, data) {
     const isBitPay = includes(`${coin}:?r=https://bitpay.com/`, data)
     let address, options
 
@@ -60,11 +60,11 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleScanBtcAddress (data) {
+  handleScanBtcAddress(data) {
     let coinInfo
     try {
       coinInfo = this.getAddressOrBitPayInvoice('bitcoin', data)
-      const { currency, btcRates } = this.props
+      const { btcRates, currency } = this.props
       const { amount, message } = coinInfo.options
       const fiat = Exchange.convertBtcToFiat({
         value: amount,
@@ -104,7 +104,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleScanBchAddress (data) {
+  handleScanBchAddress(data) {
     let coinInfo
     try {
       coinInfo = this.getAddressOrBitPayInvoice('bitcoincash', data)
@@ -147,7 +147,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleScanEthAddress (inputAddress) {
+  handleScanEthAddress(inputAddress) {
     const data = utils.eth.sanitazeEth(inputAddress)
     if (utils.eth.isValidAddress(data)) {
       this.props.formActions.change(ETH_FORM, 'to', this.createNewValue(data))
@@ -156,7 +156,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleScanXlmAddress (data) {
+  handleScanXlmAddress(data) {
     const { address } = utils.xlm.decodeXlmURI(data)
     if (utils.xlm.isValidAddress(address)) {
       this.props.formActions.change(
@@ -169,7 +169,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleScanBtcPriv (data) {
+  handleScanBtcPriv(data) {
     if (utils.btc.isValidBtcPrivateKey(data, this.props.network)) {
       this.props.formActions.change(this.props.form || BTC_FORM, 'priv', data)
       this.props.formActions.touch(this.props.form || BTC_FORM, 'priv')
@@ -178,7 +178,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleScanBtcPrivOrAddress (data) {
+  handleScanBtcPrivOrAddress(data) {
     try {
       const { address } = bip21.decode(data)
       if (utils.btc.isValidBtcAddress(address, this.props.network)) {
@@ -236,7 +236,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     const { border } = this.props
     const toggled = this.state.toggled
 

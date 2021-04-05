@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { Banner, Button, Icon, Link, Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 const Container = styled.div`
   display: flex;
@@ -94,8 +94,8 @@ const selectStyle = type => {
 }
 
 const Announcement = props => {
-  const { announcement, collapsed, lang, handleDismiss, toggleCollapse } = props
-  const { action, header, hideType, id, icon, sections, type } = announcement
+  const { announcement, collapsed, handleDismiss, lang, toggleCollapse } = props
+  const { action, header, hideType, icon, id, sections, type } = announcement
   const { backgroundColor, textColor, uppercase } = selectStyle(type)
 
   return (

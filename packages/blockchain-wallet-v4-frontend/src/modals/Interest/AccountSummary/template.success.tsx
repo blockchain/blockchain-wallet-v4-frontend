@@ -1,3 +1,8 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import moment from 'moment'
+import { pathOr } from 'ramda'
+
 import {
   Button,
   Icon,
@@ -5,15 +10,12 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { CoinType } from 'core/types'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { FormattedMessage } from 'react-intl'
-import { InterestStepMetadata } from 'data/types'
-import { pathOr } from 'ramda'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import moment from 'moment'
-import React from 'react'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { InterestStepMetadata } from 'data/types'
 
+import { DataSuccessStateType, LinkDispatchPropsType, OwnProps } from '.'
 import {
   Bottom,
   ButtonContainer,
@@ -30,8 +32,6 @@ import {
   Wrapper
 } from './model'
 
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
-
 const AccountSummary: React.FC<Props> = props => {
   const {
     accountBalances,
@@ -45,7 +45,7 @@ const AccountSummary: React.FC<Props> = props => {
     stepMetadata,
     supportedCoins
   } = props
-  const { colorCode, coinTicker, displayName, icons } = supportedCoins[coin]
+  const { coinCode, coinTicker, displayName } = supportedCoins[coin]
   const account = accountBalances && accountBalances[coin]
 
   const lockupPeriod =
@@ -72,8 +72,8 @@ const AccountSummary: React.FC<Props> = props => {
         <TopText color='grey800' size='20px' weight={600}>
           <Row>
             <Icon
-              name={icons.circleFilled}
-              color={colorCode}
+              name={coinCode}
+              color={coinCode}
               size='24px'
               style={{ marginRight: '16px' }}
             />
@@ -165,8 +165,8 @@ const AccountSummary: React.FC<Props> = props => {
         {stepMetadata && stepMetadata.depositSuccess && (
           <>
             <StatusWrapper>
-              <StatusIconWrapper color={`${colorCode}-light`}>
-                <Icon color={colorCode} name='timer' size='24px' />
+              <StatusIconWrapper color={coinCode}>
+                <Icon color={coinCode} name='timer' size='24px' />
               </StatusIconWrapper>
               <Text
                 data-e2e='waitingConfirmation'
@@ -195,8 +195,8 @@ const AccountSummary: React.FC<Props> = props => {
         )}
         {stepMetadata && stepMetadata.withdrawSuccess && (
           <StatusWrapper>
-            <StatusIconWrapper color={`${colorCode}-light`}>
-              <Icon color={colorCode} name='timer' size='24px' />
+            <StatusIconWrapper color={coinCode}>
+              <Icon color={coinCode} name='timer' size='24px' />
             </StatusIconWrapper>
             <Text color='grey600' size='14px' weight={500}>
               <FormattedMessage
@@ -439,6 +439,6 @@ type ParentProps = {
 
 export type Props = OwnProps &
   LinkDispatchPropsType &
-  SuccessStateType &
+  DataSuccessStateType &
   ParentProps
 export default AccountSummary

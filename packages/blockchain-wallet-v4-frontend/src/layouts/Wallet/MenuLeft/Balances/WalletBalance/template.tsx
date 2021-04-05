@@ -1,49 +1,18 @@
-import { FormattedMessage } from 'react-intl'
-import { mapObjIndexed, values } from 'ramda'
 import React from 'react'
-import styled from 'styled-components'
+import { mapObjIndexed, values } from 'ramda'
 
-import { Header, Wrapper } from 'components/Balances'
-import { Icon, Image, Text } from 'blockchain-info-components'
+import { SupportedWalletCurrencyType } from 'blockchain-wallet-v4/src/types'
+import { Wrapper } from 'components/Balances'
 
 import { BalancesWrapper } from '../model'
-import { SupportedWalletCurrencyType } from 'core/types'
 import Balance from './Balance'
 import PendingSBTransactions from './PendingSBTransactions'
-
-const Title = styled(Text)`
-  display: flex;
-  flex-direction: row;
-  color: ${props => props.theme.grey800};
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 150%;
-`
 
 const Template = props => {
   const { coins } = props
 
   return (
     <Wrapper>
-      <Header onClick={props.handleToggle} data-e2e='balanceDropdown-wallet'>
-        <Title>
-          <Image
-            name='wallet-blue'
-            size='22px'
-            style={{ marginRight: '14px' }}
-          />
-          <FormattedMessage
-            id='layouts.wallet.menutop.balance.walletbalance.wallet'
-            defaultMessage='Wallet'
-          />
-        </Title>
-        <Icon
-          color='grey600'
-          name='caret'
-          size='10px'
-          className={props.isActive ? 'active' : ''}
-        />
-      </Header>
       <PendingSBTransactions />
       <BalancesWrapper className={props.isActive ? 'active' : ''}>
         {values(

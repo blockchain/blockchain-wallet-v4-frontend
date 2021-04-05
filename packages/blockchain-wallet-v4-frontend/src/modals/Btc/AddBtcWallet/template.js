@@ -1,3 +1,8 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Button,
   Modal,
@@ -5,12 +10,8 @@ import {
   ModalFooter,
   ModalHeader
 } from 'blockchain-info-components'
-import { Field, reduxForm } from 'redux-form'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
-import { required } from 'services/FormHelper'
-import React from 'react'
-import styled from 'styled-components'
+import { required } from 'services/forms'
 
 const Wrapper = styled.div`
   font-weight: 400;
@@ -37,7 +38,7 @@ const AddBtcWallet = ({
     <Modal size='large' position={position} total={total}>
       <Form onSubmit={handleSubmit}>
         <Wrapper>
-          <ModalHeader icon='arrow-up-circle' onClose={close}>
+          <ModalHeader icon='arrow-up-circle' onClose={() => close()}>
             <FormattedMessage
               id='modals.addbitcoinwallet.title'
               defaultMessage='Add New Bitcoin Wallet'

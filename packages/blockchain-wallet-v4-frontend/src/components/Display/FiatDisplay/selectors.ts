@@ -1,7 +1,8 @@
-import { CoinTypeEnum, FiatTypeEnum } from 'blockchain-wallet-v4/src/types'
+import { lift, prop } from 'ramda'
+
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import { lift, prop } from 'ramda'
+import { CoinTypeEnum, FiatTypeEnum } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
 export const getData = (

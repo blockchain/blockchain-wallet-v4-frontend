@@ -1,6 +1,6 @@
 import { merge } from 'ramda'
 
-export default ({ rootUrl, get, post }) => {
+export default ({ get, post, rootUrl }) => {
   const fetchPayloadWithSharedKey = (guid, sharedKey) =>
     post({
       url: rootUrl,
@@ -48,7 +48,8 @@ export default ({ rootUrl, get, post }) => {
   // onlyShow is xpub or address to filter data with
   const fetchBlockchainData = (
     context,
-    { n = 50, offset = 0, onlyShow = false } = {}
+    { n = 50, offset = 0, onlyShow = false } = {},
+    filter?: Number
   ) => {
     const data = {
       active: (Array.isArray(context) ? context : [context]).join('|'),
@@ -58,7 +59,8 @@ export default ({ rootUrl, get, post }) => {
       ct: new Date().getTime(),
       n: n,
       language: 'en',
-      no_buttons: true
+      no_buttons: true,
+      filter: filter
     }
     return post({
       url: rootUrl,

@@ -1,8 +1,9 @@
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 // @ts-ignore
 import { concat, curry, filter, has, map, reduce, sequence } from 'ramda'
+
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { InterestAccountBalanceType } from 'core/types'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { InterestAccountBalanceType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
 export const getData = (
@@ -38,7 +39,7 @@ export const getData = (
   }
   const buildCustodialDisplay = x => {
     return (
-      `XLM Trading Wallet` +
+      `Trading Account` +
       ` (${Exchange.displayXlmToXlm({
         value: x ? x.available : 0,
         fromUnit: 'STROOP',
@@ -48,7 +49,7 @@ export const getData = (
   }
   const buildInterestDisplay = (x: InterestAccountBalanceType['XLM']) => {
     return (
-      `XLM Interest Wallet` +
+      `Interest Account` +
       ` (${Exchange.displayXlmToXlm({
         value: x ? x.balance : 0,
         fromUnit: 'STROOP',
@@ -60,14 +61,14 @@ export const getData = (
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
-  const toExchange = x => [{ label: `Exchange XLM Address`, value: x }]
+  const toExchange = x => [{ label: `XLM Exchange Account`, value: x }]
   const toCustodialDropdown = currencyDetails => [
     {
       label: buildCustodialDisplay(currencyDetails),
       value: {
         ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: 'XLM Trading Wallet'
+        label: 'Trading Account'
       }
     }
   ]
@@ -77,7 +78,7 @@ export const getData = (
       value: {
         ...x,
         type: ADDRESS_TYPES.INTEREST,
-        label: 'XLM Interest Wallet'
+        label: 'Interest Account'
       }
     }
   ]
@@ -128,7 +129,7 @@ export const getData = (
           .getInterestAccountBalance(state)
           .map(x => x.XLM)
           .map(toInterestDropdown)
-          .map(toGroup('Interest Wallet'))
+          .map(toGroup('Interest Account'))
       : Remote.of([])
   ]).map(([b1, b2, b3, b4]) => {
     const orderArray = forceCustodialFirst ? [b2, b1, b3, b4] : [b1, b2, b3, b4]

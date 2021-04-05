@@ -1,4 +1,4 @@
-export default ({ ledgerUrl, get, post }) => {
+export default ({ get, ledgerUrl, post }) => {
   const getApplications = req =>
     post({
       url: ledgerUrl,

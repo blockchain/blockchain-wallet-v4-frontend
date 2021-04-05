@@ -1,4 +1,9 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { BigNumber } from 'bignumber.js'
+import styled from 'styled-components'
+
+import { Button, Link, Text } from 'blockchain-info-components'
 import {
   BlueCartridge,
   CustomCartridge,
@@ -6,13 +11,10 @@ import {
   GreyCartridge,
   SuccessCartridge
 } from 'components/Cartridge'
-import { Button, Link, Text } from 'blockchain-info-components'
-import { CampaignInfoType } from 'data/types'
-import { FormattedMessage } from 'react-intl'
 import { model } from 'data'
+import { CampaignInfoType } from 'data/types'
+
 import { Props } from '../template.success'
-import React from 'react'
-import styled from 'styled-components'
 
 const { KYC_STATES } = model.profile
 
@@ -51,12 +53,7 @@ export const StxHeader = ({
   switch (stxCampaign.userCampaignState) {
     case 'TASK_FINISHED':
     case 'REWARD_RECEIVED':
-      return (
-        <FormattedMessage
-          id='scenes.airdrops.stx.wallet.title'
-          defaultMessage='My Blockstack Wallet'
-        />
-      )
+      return <span>STX Private Key Wallet</span>
     default:
       return (
         <FormattedMessage
@@ -147,10 +144,7 @@ export const StxDateOrAmount = ({
             {calcStxAmount(stxCampaign)}
           </Text>
           <Text size='12px' color='grey600' weight={500}>
-            <FormattedMessage
-              id='scenes.airdrop.stx.wallet'
-              defaultMessage='My Blockstack Wallet'
-            />
+            STX Private Key Wallet
           </Text>
         </DateOrAmount>
       )
@@ -175,9 +169,9 @@ export const StxDateOrAmount = ({
 }
 
 export const StxStatus = ({
-  userCampaignsInfoResponseList,
+  identityVerificationActions,
   kycState,
-  identityVerificationActions
+  userCampaignsInfoResponseList
 }: Props) => {
   const stxCampaign = userCampaignsInfoResponseList.find(
     (campaign: CampaignInfoType) => campaign.campaignName === 'BLOCKSTACK'
@@ -290,8 +284,8 @@ export const StxStatus = ({
 }
 
 export const StxFooterCta = ({
-  tags,
   kycState,
+  tags,
   userCampaignsInfoResponseList
 }: Props) => {
   const stxCampaign = userCampaignsInfoResponseList.find(

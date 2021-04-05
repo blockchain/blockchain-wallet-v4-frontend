@@ -1,22 +1,23 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { RootState } from 'data/rootReducer'
-import moment from 'moment'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import moment from 'moment'
+import { bindActionCreators } from 'redux'
 
 import { actions, model } from 'data'
+import { RootState } from 'data/rootReducer'
+
 import { getData } from './selectors'
 import LockTime from './template'
 
 const { WITHDRAW_LOCK_DEFAULT_DAYS } = model.profile
 
 class LockTimeContainer extends React.PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     const { sendActions } = this.props
     sendActions.getLockRule()
   }
 
-  render () {
+  render() {
     const { data, ...rest } = this.props
 
     return data.cata({

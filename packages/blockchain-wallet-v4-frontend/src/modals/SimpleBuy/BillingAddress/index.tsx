@@ -1,18 +1,18 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 
-import { actions } from 'data'
-import { RemoteDataType } from 'core/types'
-import { RootState } from 'data/rootReducer'
+import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
+import { actions } from 'data'
+import { RootState } from 'data/rootReducer'
 
-import { getData } from './selectors'
 import Loading from '../template.loading'
+import { getData } from './selectors'
 import Success from './template.success'
 
 class BillingAddress extends PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.props.simpleBuyActions.initializeBillingAddress()
   }
 
@@ -20,7 +20,7 @@ class BillingAddress extends PureComponent<Props> {
     this.props.simpleBuyActions.setStep({ step: 'ADD_CARD' })
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => (
         <Success {...val} {...this.props} onSubmit={this.handleSubmit} />

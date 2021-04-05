@@ -1,3 +1,6 @@
+import BigNumber from 'bignumber.js'
+import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/validation'
+import moment from 'moment'
 import {
   call,
   cancel,
@@ -7,12 +10,9 @@ import {
   select,
   take
 } from 'redux-saga/effects'
-import BigNumber from 'bignumber.js'
-import moment from 'moment'
 
-import { actions, selectors } from 'data'
-import { AddBankStepType, BrokerageModalOriginType } from 'data/types'
-import { APIType } from 'core/network/api'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import {
   CoinTypeEnum,
   Everypay3DSResponseType,
@@ -28,20 +28,24 @@ import {
   WalletOptionsType
 } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/validation'
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
-import { Remote } from 'blockchain-wallet-v4/src'
+import { actions, selectors } from 'data'
+import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import { UserDataType } from 'data/modules/types'
+import { AddBankStepType, BrokerageModalOriginType } from 'data/types'
 
-import * as A from './actions'
-import * as AT from './actionTypes'
-import * as S from './selectors'
-import * as T from './types'
-
+import profileSagas from '../../modules/profile/sagas'
+import brokerageSagas from '../brokerage/sagas'
 import {
   convertBaseToStandard,
   convertStandardToBase
 } from '../exchange/services'
+import sendSagas from '../send/sagas'
+import { FALLBACK_DELAY, getOutputFromPair } from '../swap/model'
+import swapSagas from '../swap/sagas'
+import { getRate, NO_QUOTE } from '../swap/utils'
+import { selectReceiveAddress } from '../utils/sagas'
+import * as A from './actions'
+import * as AT from './actionTypes'
 import {
   DEFAULT_SB_BALANCES,
   DEFAULT_SB_METHODS,
@@ -56,14 +60,9 @@ import {
   NO_PAYMENT_TYPE,
   SDD_TIER
 } from './model'
-import { FALLBACK_DELAY, getOutputFromPair } from '../swap/model'
+import * as S from './selectors'
+import * as T from './types'
 import { getDirection } from './utils'
-import { getRate, NO_QUOTE } from '../swap/utils'
-import { selectReceiveAddress } from '../utils/sagas'
-import brokerageSagas from '../brokerage/sagas'
-import profileSagas from '../../modules/profile/sagas'
-import sendSagas from '../send/sagas'
-import swapSagas from '../swap/sagas'
 
 export const logLocation = 'components/simpleBuy/sagas'
 
@@ -685,8 +684,8 @@ export default ({
   }
 
   const fetchSBPairs = function * ({
-    currency,
-    coin
+    coin,
+    currency
   }: ReturnType<typeof A.fetchSBPairs>) {
     try {
       yield put(A.fetchSBPairsLoading())
@@ -800,7 +799,7 @@ export default ({
 
   const fetchSBQuote = function * (payload: ReturnType<typeof A.fetchSBQuote>) {
     try {
-      const { pair, orderType, amount } = payload
+      const { amount, orderType, pair } = payload
       yield put(A.fetchSBQuoteLoading())
       const quote: SBQuoteType = yield call(
         api.getSBQuote,
@@ -887,27 +886,11 @@ export default ({
       if (account.type === 'CUSTODIAL') return
       // @ts-ignore
       let payment = paymentGetOrElse(account.coin, paymentR)
-
-      const value = Number(cryptoAmt)
-
-      switch (payment.coin) {
-        case 'BCH':
-        case 'BTC':
-          payment = yield payment.amount(
-            parseInt(convertStandardToBase(account.coin, value))
-          )
-          break
-        case 'ETH':
-        case 'PAX':
-        case 'USDT':
-        case 'XLM':
-          payment = yield payment.amount(
-            convertStandardToBase(account.coin, value)
-          )
-          break
-        default:
-          throw new Error(INVALID_COIN_TYPE)
-      }
+      const paymentAmount = generateProvisionalPaymentAmount(
+        payment.coin,
+        Number(cryptoAmt)
+      )
+      payment = yield payment.amount(paymentAmount)
       yield put(A.updatePaymentSuccess(payment.value()))
     } catch (e) {
       // eslint-disable-next-line
@@ -1073,11 +1056,11 @@ export default ({
   }
 
   const initializeCheckout = function * ({
-    fix,
-    orderType,
-    amount,
     account,
-    cryptoAmount
+    amount,
+    cryptoAmount,
+    fix,
+    orderType
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
       yield call(waitForUserData)
@@ -1100,12 +1083,16 @@ export default ({
           failure: take(AT.FETCH_SELL_QUOTE_FAILURE)
         })
         const quote = S.getSellQuote(yield select()).getOrFail(NO_QUOTE)
+
         if (account.type === 'ACCOUNT') {
+          const formValues = selectors.form.getFormValues('simpleBuyCheckout')(
+            yield select()
+          ) as T.SBCheckoutFormValuesType
           let payment = yield call(
             calculateProvisionalPayment,
             account,
             quote.quote,
-            0
+            formValues ? formValues.cryptoAmount : 0
           )
           yield put(A.updatePaymentSuccess(payment))
         } else {
@@ -1233,7 +1220,7 @@ export default ({
   }
 
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
-    const { origin, cryptoCurrency, orderType } = payload
+    const { cryptoCurrency, orderType, origin } = payload
     yield put(
       actions.modals.showModal('SIMPLE_BUY_MODAL', { origin, cryptoCurrency })
     )

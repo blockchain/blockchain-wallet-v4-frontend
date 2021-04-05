@@ -1,7 +1,7 @@
-import { Field, reduxForm } from 'redux-form'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { has } from 'ramda'
-import React from 'react'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
@@ -12,14 +12,14 @@ import {
   PasswordBox,
   TextBox
 } from 'components/Form'
+import { Wrapper } from 'components/Public'
+import Terms from 'components/Terms'
 import {
   required,
   validEmail,
   validPasswordConfirmation,
   validStrongPassword
-} from 'services/FormHelper'
-import { Wrapper } from 'components/Public'
-import Terms from 'components/Terms'
+} from 'services/forms'
 
 const Header = styled.div`
   display: flex;

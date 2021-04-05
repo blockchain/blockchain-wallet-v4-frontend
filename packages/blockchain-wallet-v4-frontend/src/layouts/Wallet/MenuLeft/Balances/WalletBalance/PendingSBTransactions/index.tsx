@@ -1,11 +1,11 @@
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import styled from 'styled-components'
 
-import { RootState } from 'data/rootReducer'
+import { Text } from 'blockchain-info-components'
 import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 
 const Wrapper = styled.div`
   margin-bottom: 16px;

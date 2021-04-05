@@ -1,10 +1,11 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
+
 import { Props as OwnProps } from '.'
 
 const Wrapper = styled.div`

@@ -1,22 +1,24 @@
+import { combineReducers } from 'redux'
+
+import { coreReducers, paths } from 'blockchain-wallet-v4/src'
+
 import { alertsReducer } from './alerts/reducers'
 import { analyticsReducer } from './analytics/reducers'
-import { combineReducers } from 'redux'
-import { coreReducers, paths } from 'blockchain-wallet-v4/src'
-import { custodialReducer } from './custodial/reducers'
-import { goalsReducer } from './goals/reducers'
-import { modalsReducer } from './modals/reducers'
-import { preferencesReducer } from './preferences/reducers'
-import { transferEthReducer } from './modules/transferEth/reducers'
 import authReducer from './auth/reducers'
 import cacheReducer from './cache/reducers'
 import componentsReducer from './components/reducers'
+import { custodialReducer } from './custodial/reducers'
 import formReducer from './form/reducers'
+import { goalsReducer } from './goals/reducers'
 import logsReducer from './logs/reducers'
+import { modalsReducer } from './modals/reducers'
 import profileReducer from './modules/profile/reducers'
-import qaReducer from './modules/qa/reducers'
 import ratesReducer from './modules/rates/reducers'
-import sessionReducer from './session/reducers'
 import settingsReducer from './modules/settings/reducers'
+import { transferEthReducer } from './modules/transferEth/reducers'
+import { preferencesReducer } from './preferences/reducers'
+import pricesReducer from './prices/reducers'
+import sessionReducer from './session/reducers'
 import wizardReducer from './wizard/reducers'
 
 const rootReducer = {
@@ -30,6 +32,7 @@ const rootReducer = {
   modals: modalsReducer,
   logs: logsReducer,
   preferences: preferencesReducer,
+  prices: pricesReducer,
   profile: profileReducer,
   rates: ratesReducer,
   cache: cacheReducer,
@@ -37,7 +40,6 @@ const rootReducer = {
   wizard: wizardReducer,
   securityCenter: settingsReducer,
   transferEth: transferEthReducer,
-  qa: qaReducer,
   [paths.dataPath]: coreReducers.data,
   [paths.walletPath]: coreReducers.wallet,
   [paths.settingsPath]: coreReducers.settings,

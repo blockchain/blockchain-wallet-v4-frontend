@@ -1,5 +1,7 @@
-import { ExtractSuccess, FiatType } from 'core/types'
 import { lift } from 'ramda'
+
+import { ExtractSuccess, FiatType } from 'blockchain-wallet-v4/src/types'
+import { InvitationsType } from 'core/types'
 import { selectors } from 'data'
 
 export const getData = state => {
@@ -11,8 +13,11 @@ export const getData = state => {
     state
   )
   // TODO: Remove this when ach deposits withdrawals gets rolled out hundo P
-  const invitationsR = selectors.core.settings.getInvitations(state)
-  const isInvited = invitationsR.data.achDepositWithdrawal
+  const invitationsR: InvitationsType = selectors.core.settings
+    .getInvitations(state)
+    .getOrElse({
+      achDepositWithdrawal: false
+    } as InvitationsType)
 
   const userDataR = selectors.modules.profile.getUserData(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
@@ -28,7 +33,7 @@ export const getData = state => {
       balances,
       bankTransferAccounts,
       paymentMethods:
-        (!isInvited && {
+        (!invitationsR.achDepositWithdrawal && {
           ...paymentMethods,
           methods: paymentMethods.methods.filter(m => m.type === 'BANK_ACCOUNT')
         }) ||

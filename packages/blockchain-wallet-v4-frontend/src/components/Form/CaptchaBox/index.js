@@ -1,28 +1,29 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class CaptchaBoxContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.fetchNewCaptcha = this.fetchNewCaptcha.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.actions.fetchCaptcha()
   }
 
-  fetchNewCaptcha () {
+  fetchNewCaptcha() {
     this.props.actions.fetchCaptcha()
   }
 
-  render () {
+  render() {
     const { data } = this.props
 
     return data.cata({

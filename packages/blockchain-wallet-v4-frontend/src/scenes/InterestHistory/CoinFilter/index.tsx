@@ -1,14 +1,15 @@
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 import { actions } from 'data'
+
 import { Props as OwnProps, SuccessStateType } from '..'
 import { Value } from '../model'
-import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 
 const FilterText = styled(Value)`
   margin-right: 8px;
@@ -29,7 +30,7 @@ class CoinFilter extends React.PureComponent<InjectedFormProps & Props> {
     )
   }
 
-  render () {
+  render() {
     const { txPages } = this.props
     return txPages ? (
       <SelectCoinWrapper>

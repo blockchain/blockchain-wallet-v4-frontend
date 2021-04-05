@@ -1,6 +1,6 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
-import React from 'react'
 
 import {
   SettingComponent,
@@ -10,6 +10,7 @@ import {
   SettingStatus,
   SettingSummary
 } from 'components/Setting'
+
 import Settings from './Settings'
 
 const TwoStepVerificationRemember = props => {

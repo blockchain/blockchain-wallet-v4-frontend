@@ -1,20 +1,23 @@
-import { FormattedMessage } from 'react-intl'
 import React, { ReactElement } from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { Icon, Image, Text } from 'blockchain-info-components'
+import {
+  SBPaymentMethodsType,
+  SBPaymentMethodType
+} from 'blockchain-wallet-v4/src/types'
+import { FlyoutWrapper } from 'components/Flyout'
 import {
   AddBankStepType,
   BankDWStepType,
   BrokerageModalOriginType
 } from 'data/types'
-import { FlyoutWrapper } from 'components/Flyout'
-import { Icon, Image, Text } from 'blockchain-info-components'
-import { SBPaymentMethodsType, SBPaymentMethodType } from 'core/types'
 
-import { Props as _P, mapDispatchToProps } from '.'
-import BankDeposit from './BankDeposit'
 // TODO: move to somewhere more generic
 import BankWire from '../../../../SimpleBuy/PaymentMethods/Methods/BankWire'
+import { mapDispatchToProps, Props as _P } from '.'
+import BankDeposit from './BankDeposit'
 
 const Wrapper = styled.section`
   display: flex;

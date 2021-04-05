@@ -1,6 +1,7 @@
-import { Container } from 'components/Box'
-import { SkeletonRectangle } from 'blockchain-info-components'
 import React from 'react'
+
+import { SkeletonRectangle } from 'blockchain-info-components'
+import { Container } from 'components/Box'
 
 const Loading = () => {
   return (

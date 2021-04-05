@@ -1,19 +1,20 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import ShowUsedAddresses from './template'
 
 class ShowUsedAddressesContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { busy: false }
     this.handleContinue = this.handleContinue.bind(this)
   }
 
-  handleContinue () {
+  handleContinue() {
     this.setState({ busy: true })
     // ensure busy is set before address derivation begins
     setTimeout(() => {
@@ -21,7 +22,7 @@ class ShowUsedAddressesContainer extends React.PureComponent {
     }, 0)
   }
 
-  render () {
+  render() {
     return (
       <ShowUsedAddresses
         {...this.props}

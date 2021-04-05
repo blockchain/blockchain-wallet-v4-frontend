@@ -1,25 +1,25 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { includes, pickBy } from 'ramda'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { includes, pickBy } from 'ramda'
+import { bindActionCreators, compose } from 'redux'
 
-import { actions, model } from 'data'
-import { RemoteDataType } from 'core/types'
+import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { actions, model } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
 
-import { getData } from './selectors'
 import AdditionalInfo from './AdditionalInfo'
 import EmailVerification from './EmailVerification'
 import InfoAndResidential from './InfoAndResidential'
-import Loading from './template.loading'
-import modalEnhancer from 'providers/ModalEnhancer'
 import MoreInfo from './MoreInfo'
+import { getData } from './selectors'
 import Submitted from './Submitted'
+import Loading from './template.loading'
 import Verify from './Verify'
 
-const { STEPS, KYC_MODAL } = model.components.identityVerification
+const { KYC_MODAL, STEPS } = model.components.identityVerification
 
 const stepMap = {
   [STEPS.infoAndResidential]: (
@@ -77,7 +77,7 @@ type State = { direction: 'left' | 'right'; show: boolean }
 class IdentityVerification extends React.PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
 
-  componentDidMount () {
+  componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
@@ -92,7 +92,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
   }
 
   initializeVerification = () => {
-    const { tier, needMoreInfo } = this.props
+    const { needMoreInfo, tier } = this.props
     this.props.actions.initializeVerification(tier, needMoreInfo)
   }
 
@@ -124,9 +124,9 @@ class IdentityVerification extends React.PureComponent<Props, State> {
     }
   }
 
-  render () {
+  render() {
     const { show } = this.state
-    const { step, steps, emailVerified } = this.props
+    const { emailVerified, step, steps } = this.props
 
     return steps.cata({
       Success: () => (

@@ -1,15 +1,15 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 
-import { BankTransferAccountType } from 'core/network/api/simpleBuy/types'
-import { getCoinFromPair, getOrderType } from 'data/components/simpleBuy/model'
 import { Text } from 'blockchain-info-components'
+import { BankTransferAccountType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
+import { getCoinFromPair, getOrderType } from 'data/components/simpleBuy/model'
 
-import { Props } from '.'
 import {
   IconTx as SharedIconTx,
   Timestamp as SharedTimestamp
 } from '../components'
+import { Props } from '.'
 
 export const IconTx = (props: Props) => {
   const orderType = getOrderType(props.order)
@@ -23,7 +23,7 @@ export const getOrigin = (
 ) => {
   switch (props.order.paymentType) {
     case 'FUNDS':
-      return props.order.inputCurrency + ' Wallet'
+      return props.order.inputCurrency + ' Account'
     case 'PAYMENT_CARD':
     case 'USER_CARD':
       return 'Credit/Debit Card'

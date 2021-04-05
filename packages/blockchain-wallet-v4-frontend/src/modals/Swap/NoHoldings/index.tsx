@@ -1,16 +1,16 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { Icon, Text } from 'blockchain-info-components'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
 import styled, { css } from 'styled-components'
 
-import { actions } from 'data'
-import { FlyoutWrapper } from 'components/Flyout'
+import { Icon, Text } from 'blockchain-info-components'
 import { SuccessCartridge } from 'components/Cartridge'
+import { FlyoutWrapper } from 'components/Flyout'
+import { actions } from 'data'
 
-import { Props as BaseProps } from '../index'
 import { Border, IconBackground, TopText } from '../components'
+import { Props as BaseProps } from '../index'
 
 const FlexTopRow = styled.div`
   display: flex;
@@ -47,8 +47,8 @@ const DisplayContainer = styled(FlyoutWrapper)`
 
 const NoHoldings: React.FC<Props> = ({
   handleClose,
-  simpleBuyActions,
-  modalActions
+  modalActions,
+  simpleBuyActions
 }) => {
   return (
     <>
@@ -170,8 +170,7 @@ const NoHoldings: React.FC<Props> = ({
 
       <DisplayContainer
         onClick={() => {
-          modalActions.showModal('@MODAL.REQUEST.BTC', {
-            lockboxIndex: null,
+          modalActions.showModal('REQUEST_CRYPTO_MODAL', {
             origin: 'SwapNoHoldings'
           })
         }}

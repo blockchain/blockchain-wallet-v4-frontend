@@ -1,10 +1,11 @@
-import { Button, Image, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
-import { Props } from '.'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { Button, Image, Text } from 'blockchain-info-components'
 import { WithdrawStepEnum } from 'data/types'
+
+import { Props } from '.'
 
 const Wrapper = styled.div`
   height: 100%;

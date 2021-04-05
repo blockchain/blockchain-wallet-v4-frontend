@@ -1,27 +1,23 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 
 import { actions, model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { SBVerifyEmailFormValuesType } from 'data/types'
 
-import { getData } from './selectors'
 import Loading from '../template.loading'
+import { getData } from './selectors'
 import Success from './template.success'
 
 const { SB_CHANGE_EMAIL_FORM } = model.components.simpleBuy
 
 class VerifyEmail extends PureComponent<Props> {
-  componentDidMount () {
-    const { isEmailVerified, settingsActions } = this.props
-    if (!isEmailVerified) {
-      settingsActions.fetchSettings()
-    }
+  componentDidMount() {
     this.props.simpleBuyActions.fetchSDDEligible()
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (
       prevProps.isEmailVerified !== this.props.isEmailVerified &&
       this.props.isEmailVerified &&
@@ -41,10 +37,10 @@ class VerifyEmail extends PureComponent<Props> {
 
   handleSubmit = () => {
     const {
-      securityCenterActions,
-      settingsActions,
+      formValues,
       identityVerificationActions,
-      formValues
+      securityCenterActions,
+      settingsActions
     } = this.props
     if (formValues) {
       identityVerificationActions.updateEmail(formValues.email)
@@ -58,7 +54,7 @@ class VerifyEmail extends PureComponent<Props> {
     securityCenterActions.resendVerifyEmail(email)
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => (
         <Success

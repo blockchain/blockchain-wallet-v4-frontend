@@ -1,13 +1,14 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { RootState } from 'data/rootReducer'
-import { WalletFiatType } from 'core/types'
-import media from 'services/ResponsiveService'
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
+
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -79,7 +80,7 @@ class BuyCrypto extends PureComponent<Props> {
     })
   }
 
-  render () {
+  render() {
     return (
       <Wrapper>
         <Row>

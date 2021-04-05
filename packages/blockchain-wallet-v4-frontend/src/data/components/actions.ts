@@ -3,6 +3,7 @@ import * as bchTransactions from './bchTransactions/actions'
 import * as borrow from './borrow/actions'
 import * as brokerage from './brokerage/actions'
 import * as btcTransactions from './btcTransactions/actions'
+import * as dotTransactions from './dotTransactions/actions'
 import * as ethTransactions from './ethTransactions/actions'
 import * as fiatTransactions from './fiatTransactions/actions'
 import * as identityVerification from './identityVerification/actions'
@@ -16,10 +17,6 @@ import * as priceChart from './priceChart/actions'
 import * as priceTicker from './priceTicker/actions'
 import * as recoveryPhrase from './recoveryPhrase/actions'
 import * as refresh from './refresh/actions'
-import * as requestBch from './requestBch/actions'
-import * as requestBtc from './requestBtc/actions'
-import * as requestEth from './requestEth/actions'
-import * as requestXlm from './requestXlm/actions'
 import * as send from './send/actions'
 import * as sendBch from './sendBch/actions'
 import * as sendBtc from './sendBtc/actions'
@@ -41,24 +38,20 @@ export {
   borrow,
   brokerage,
   btcTransactions,
+  dotTransactions,
   ethTransactions,
-  xlmTransactions,
   fiatTransactions,
   identityVerification,
   importBtcAddress,
   interest,
-  manageAddresses,
-  onboarding,
   layoutWallet,
   lockbox,
+  manageAddresses,
+  onboarding,
   priceChart,
   priceTicker,
   recoveryPhrase,
   refresh,
-  requestBtc,
-  requestBch,
-  requestEth,
-  requestXlm,
   send,
   sendBch,
   sendBtc,
@@ -70,6 +63,7 @@ export {
   stxTransactions,
   swap,
   uploadDocuments,
+  veriff,
   withdraw,
-  veriff
+  xlmTransactions
 }

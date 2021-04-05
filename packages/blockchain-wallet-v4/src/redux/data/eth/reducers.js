@@ -1,4 +1,3 @@
-import * as AT from './actionTypes'
 import {
   append,
   assoc,
@@ -15,14 +14,16 @@ import {
   toLower
 } from 'ramda'
 import { mapped } from 'ramda-lens'
+
 import Remote from '../../../remote'
+import * as AT from './actionTypes'
 
 // TODO: figure out how to pull ERC20 from walletOptions state
 const buildStateWithTokens = defaultValue =>
   compose(
     reduce((acc, curr) => assoc(curr, defaultValue, acc), {}),
     prepend('eth')
-  )(['pax', 'usdt', 'wdgld'])
+  )(['aave', 'pax', 'usdt', 'wdgld', 'yfi'])
 
 const INITIAL_STATE = {
   addresses: Remote.NotAsked,
@@ -39,7 +40,7 @@ const INITIAL_STATE = {
 }
 
 export default (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
   switch (type) {
     // ETH
     case AT.FETCH_ETH_DATA_LOADING: {
@@ -137,7 +138,7 @@ export default (state = INITIAL_STATE, action) => {
         : over(lensPath(['transactions', 'eth']), append(Remote.Loading), state)
     }
     case AT.FETCH_ETH_TRANSACTIONS_SUCCESS: {
-      const { transactions, reset } = payload
+      const { reset, transactions } = payload
       return reset
         ? assocPath(
             ['transactions', 'eth'],
@@ -189,11 +190,11 @@ export default (state = INITIAL_STATE, action) => {
       return assocPath(['info', token], Remote.Loading, state)
     }
     case AT.FETCH_ERC20_TOKEN_DATA_SUCCESS: {
-      const { token, data } = payload
+      const { data, token } = payload
       return assocPath(['info', token], Remote.Success(data), state)
     }
     case AT.FETCH_ERC20_TOKEN_DATA_FAILURE: {
-      const { token, error } = payload
+      const { error, token } = payload
       return assocPath(['info', token], Remote.Failure(error), state)
     }
     case AT.FETCH_ERC20_RATES_LOADING: {
@@ -201,11 +202,11 @@ export default (state = INITIAL_STATE, action) => {
       return assocPath(['rates', token], Remote.Loading, state)
     }
     case AT.FETCH_ERC20_RATES_SUCCESS: {
-      const { token, data } = payload
+      const { data, token } = payload
       return assocPath(['rates', token], Remote.Success(data), state)
     }
     case AT.FETCH_ERC20_RATES_FAILURE: {
-      const { token, error } = payload
+      const { error, token } = payload
       return assocPath(['rates', token], Remote.Failure(error), state)
     }
     case AT.FETCH_ERC20_TOKEN_BALANCE_LOADING: {
@@ -213,7 +214,7 @@ export default (state = INITIAL_STATE, action) => {
       return assocPath(['current_balance', token], Remote.Loading, state)
     }
     case AT.FETCH_ERC20_TOKEN_BALANCE_SUCCESS: {
-      const { token, balance } = payload
+      const { balance, token } = payload
       return assocPath(
         ['current_balance', token],
         Remote.Success(balance),
@@ -221,17 +222,17 @@ export default (state = INITIAL_STATE, action) => {
       )
     }
     case AT.FETCH_ERC20_TOKEN_BALANCE_FAILURE: {
-      const { token, error } = payload
+      const { error, token } = payload
       return assocPath(['current_balance', token], Remote.Failure(error), state)
     }
     case AT.FETCH_ERC20_TOKEN_TRANSACTIONS_LOADING: {
-      const { token, reset } = payload
+      const { reset, token } = payload
       return reset
         ? assocPath(['transactions', token], [Remote.Loading], state)
         : over(lensPath(['transactions', token]), append(Remote.Loading), state)
     }
     case AT.FETCH_ERC20_TOKEN_TRANSACTIONS_SUCCESS: {
-      const { token, transactions, reset } = payload
+      const { reset, token, transactions } = payload
       return reset
         ? assocPath(
             ['transactions', token],
@@ -245,7 +246,7 @@ export default (state = INITIAL_STATE, action) => {
           )
     }
     case AT.FETCH_ERC20_TOKEN_TRANSACTIONS_FAILURE: {
-      const { token, error } = payload
+      const { error, token } = payload
       return assocPath(['transactions', token], [Remote.Failure(error)], state)
     }
     case AT.FETCH_ERC20_TX_FEE_LOADING: {
@@ -265,7 +266,7 @@ export default (state = INITIAL_STATE, action) => {
       return over(compose(txListLens, mapped, mapped), setData(hash), state)
     }
     case AT.FETCH_ERC20_TX_FEE_FAILURE: {
-      const { hash, token, error } = payload
+      const { error, hash, token } = payload
       const txListLens = lensPath(['transactions', toLower(token), 0])
       const setData = target => tx =>
         tx.hash === target ? { ...tx, fee: Remote.Failure(error) } : tx
@@ -273,7 +274,7 @@ export default (state = INITIAL_STATE, action) => {
       return over(compose(txListLens, mapped, mapped), setData(hash), state)
     }
     case AT.ERC20_TOKEN_TX_AT_BOUND: {
-      const { token, isAtBound } = payload
+      const { isAtBound, token } = payload
       return assocPath(['transactions_at_bound', token], isAtBound, state)
     }
     case AT.FETCH_ERC20_TRANSACTION_HISTORY_LOADING: {
@@ -289,7 +290,7 @@ export default (state = INITIAL_STATE, action) => {
       )
     }
     case AT.FETCH_ERC20_TRANSACTION_HISTORY_FAILURE: {
-      const { token, error } = payload
+      const { error, token } = payload
       return assocPath(
         ['transaction_history', token],
         Remote.Failure(error),

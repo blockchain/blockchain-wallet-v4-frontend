@@ -1,15 +1,17 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import DeviceStatus from './template'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { actions, selectors } from 'data'
+
+import DeviceStatus from './template'
 
 class RemoveDeviceContainer extends React.PureComponent {
   deleteDevice = () => {
     this.props.lockboxActions.deleteDevice(this.props.deviceIndex)
   }
 
-  render () {
+  render() {
     const { deviceName } = this.props
     return (
       <DeviceStatus deleteDevice={this.deleteDevice} deviceName={deviceName} />

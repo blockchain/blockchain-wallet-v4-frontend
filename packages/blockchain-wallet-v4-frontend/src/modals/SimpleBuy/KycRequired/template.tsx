@@ -1,9 +1,9 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
-import { Props } from '.'
-import React from 'react'
-import styled from 'styled-components'
 
 import {
   NumberContainer,
@@ -12,6 +12,7 @@ import {
   RowNumber,
   SubTitle
 } from '../template.rejected.styles'
+import { Props } from '.'
 
 const Wrapper = styled.div`
   width: 100%;

@@ -1,6 +1,10 @@
-import { FiatType, RatesType, RemoteDataType } from 'core/types'
-import { RootState } from 'data/rootReducer'
+import {
+  FiatType,
+  RatesType,
+  RemoteDataType
+} from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 
 export const getInterestAccountBalance = (state: RootState) =>
   state.components.interest.accountBalance

@@ -1,7 +1,9 @@
-import { Box } from '../Box'
-import { Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
 import styled from 'styled-components'
+
+import { Text } from 'blockchain-info-components'
+import { media } from 'services/styles'
+
+import { Box } from '../Box'
 
 export const StickyHeader = styled.div`
   background-color: ${props => props.theme.white};

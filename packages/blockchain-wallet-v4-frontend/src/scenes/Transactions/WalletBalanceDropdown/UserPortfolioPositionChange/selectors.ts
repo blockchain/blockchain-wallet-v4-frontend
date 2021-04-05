@@ -1,14 +1,15 @@
-import { ExtractSuccess } from 'core/types'
 import { lift } from 'ramda'
+
+import { ExtractSuccess, TimeRange } from 'blockchain-wallet-v4/src/types'
+import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import { OwnProps } from '.'
-import { selectors } from 'data'
 
 export const getData = (state: RootState, ownProps: OwnProps) => {
   const priceChangeR = selectors.core.data.misc.getPriceChange(
     ownProps.coin,
-    'day',
+    TimeRange.DAY,
     state
   )
 

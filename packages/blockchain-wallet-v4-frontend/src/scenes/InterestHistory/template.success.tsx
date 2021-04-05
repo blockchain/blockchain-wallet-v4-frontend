@@ -1,10 +1,9 @@
-import { flatten, head, last, map } from 'ramda'
+import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
-import React, { ReactElement } from 'react'
+import { flatten, head, last, map } from 'ramda'
 import styled from 'styled-components'
 
-import { Exchange, Remote } from 'core'
 import {
   HeartbeatLoader,
   Icon,
@@ -14,8 +13,11 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import { InterestTransactionType } from 'core/types'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { InterestTransactionType } from 'blockchain-wallet-v4/src/types'
 
+import { Props as OwnProps, SuccessStateType } from '.'
+import Empty from './Empty'
 import {
   AmountTableCell,
   CoinAmountWrapper,
@@ -27,8 +29,6 @@ import {
   Value,
   ViewTransaction
 } from './model'
-import { Props as OwnProps, SuccessStateType } from '.'
-import Empty from './Empty'
 import Loading from './template.loading'
 
 const LoadingWrapper = styled.div`
@@ -42,8 +42,8 @@ const Container = styled.div`
   padding-bottom: 45px;
 `
 
-function TransactionList (props: Props): ReactElement | null {
-  const { interestActions, txPages, supportedCoins, walletCurrency } = props
+function TransactionList(props: Props): ReactElement | null {
+  const { interestActions, supportedCoins, txPages, walletCurrency } = props
   const txList = flatten(
     txPages &&
       // @ts-ignore
@@ -95,7 +95,7 @@ function TransactionList (props: Props): ReactElement | null {
         </TableHeader>
         {txList.map((tx: InterestTransactionType) => {
           const { amount, extraAttributes, id, insertedAt, state, type } = tx
-          const { coinTicker, colorCode, displayName } = supportedCoins[
+          const { coinCode, coinTicker, displayName } = supportedCoins[
             amount.symbol
           ]
           const isCustodial =
@@ -105,10 +105,10 @@ function TransactionList (props: Props): ReactElement | null {
               <InterestTableCell width='20%'>
                 {type === 'WITHDRAWAL' ? (
                   <>
-                    <IconBackground color={`${colorCode}-light`}>
+                    <IconBackground color={coinCode}>
                       <Icon
                         name='arrow-up'
-                        color={colorCode}
+                        color={coinCode}
                         size='20px'
                         weight={600}
                         data-e2e={id}
@@ -142,10 +142,10 @@ function TransactionList (props: Props): ReactElement | null {
                   </>
                 ) : type === 'DEPOSIT' ? (
                   <>
-                    <IconBackground color={`${colorCode}-light`}>
+                    <IconBackground color={coinCode}>
                       <Icon
                         name='arrow-down'
-                        color={colorCode}
+                        color={coinCode}
                         size='20px'
                         weight={600}
                       />
@@ -179,7 +179,7 @@ function TransactionList (props: Props): ReactElement | null {
                   </>
                 ) : (
                   <>
-                    <Icon name='percentage' color={colorCode} size='32px' />
+                    <Icon name='percentage' color={coinCode} size='32px' />
                     <Value data-e2e='interestEarnedTx'>
                       {coinTicker} Interest Earned
                     </Value>
@@ -198,9 +198,9 @@ function TransactionList (props: Props): ReactElement | null {
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionFrom'>
                       {isCustodial ? (
-                        <span>{displayName} Trading Wallet</span>
+                        <span>{displayName} Trading Account</span>
                       ) : (
-                        <span>My {displayName} Wallet</span>
+                        <span>{displayName} Private Key Wallet</span>
                       )}
                     </Value>
                   </TableCell>
@@ -220,9 +220,9 @@ function TransactionList (props: Props): ReactElement | null {
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionTo'>
                       {isCustodial ? (
-                        <span>{displayName} Trading Wallet</span>
+                        <span>{displayName} Trading Account</span>
                       ) : (
-                        <span>My {displayName} Wallet</span>
+                        <span>{displayName} Private Key Wallet</span>
                       )}
                     </Value>
                   </TableCell>

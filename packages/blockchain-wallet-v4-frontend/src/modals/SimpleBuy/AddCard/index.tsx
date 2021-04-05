@@ -1,20 +1,20 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 
-import { actions, selectors } from 'data'
-import { CoinType, SBPairType } from 'core/types'
-import { CountryType } from 'data/components/identityVerification/types'
-import { Remote } from 'core'
-import { RootState } from 'data/rootReducer'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { CoinType, SBPairType } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
+import { actions, selectors } from 'data'
+import { CountryType } from 'data/components/identityVerification/types'
+import { RootState } from 'data/rootReducer'
 
-import { getData } from './selectors'
 import Loading from '../template.loading'
+import { getData } from './selectors'
 import Success from './template.success'
 
 class AddCard extends PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
 
     if (!Remote.Success.is(this.props.data)) {
@@ -45,7 +45,7 @@ class AddCard extends PureComponent<Props> {
     this.setDefaultCountry(value)
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => (
         <Success

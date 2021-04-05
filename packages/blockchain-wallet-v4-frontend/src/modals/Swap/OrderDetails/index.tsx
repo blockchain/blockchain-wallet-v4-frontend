@@ -1,24 +1,26 @@
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Form, InjectedFormProps, reduxForm } from 'redux-form'
+
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { coinToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { SwapOrderType } from 'blockchain-wallet-v4/src/types'
+import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { getInput, getOutput } from 'data/components/swap/model'
 
 import { Props as BaseProps, SuccessStateType } from '..'
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { coinToString } from 'core/exchange/currency'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import { getInput, getOutput } from 'data/components/swap/model'
-import { SwapOrderType } from 'core/types'
 import { TopText } from '../components'
 
 class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   state = {}
 
-  render () {
+  render() {
     if (!this.props.order) return null
 
     const baseCoin = getInput(this.props.order)
     const counterCoin = getOutput(this.props.order)
+    // @ts-ignore
     const { coins, handleClose, order } = this.props
     return (
       <>

@@ -1,11 +1,12 @@
-import * as crypto from '../walletCrypto'
-import * as Options from './Options'
-import * as Wallet from './Wallet'
-import { assoc, compose, curry, dissoc, is, lensProp, pipe, prop } from 'ramda'
-import { over, set, traverseOf, view } from 'ramda-lens'
 import Either from 'data.either'
 import Task from 'data.task'
+import { assoc, compose, curry, dissoc, is, lensProp, pipe, prop } from 'ramda'
+import { over, set, traverseOf, view } from 'ramda-lens'
+
+import * as crypto from '../walletCrypto'
+import * as Options from './Options'
 import Type from './Type'
+import * as Wallet from './Wallet'
 
 /* Wrapper :: {
   wallet             :: Wallet
@@ -192,7 +193,7 @@ export const createNew = (
   sharedKey,
   mnemonic,
   language,
-  firstAccountName = 'My Bitcoin Wallet',
+  firstAccountName = 'Private Key Wallet',
   nAccounts = 1,
   network
 ) =>

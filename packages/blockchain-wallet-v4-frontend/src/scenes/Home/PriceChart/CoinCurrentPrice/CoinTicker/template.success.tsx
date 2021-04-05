@@ -1,29 +1,25 @@
-import { Text } from 'blockchain-info-components'
-import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
-const Wrapper = styled.div``
+import { Text } from 'blockchain-info-components'
+import { media } from 'services/styles'
 
-const Success = props => {
-  const { fiat } = props
+const Wrapper = styled.div`
+  margin-left: 0;
 
+  ${media.atLeastTabletL`
+    margin-left: 24px;
+  `}
+`
+
+const Success = ({ fiat, ...props }: { fiat: string }) => {
   return (
     <Wrapper>
-      <Text
-        size='36px'
-        weight={400}
-        color='blue900'
-        data-e2e={props['data-e2e']}
-      >
+      <Text size='24px' weight={600} color='black' data-e2e={props['data-e2e']}>
         {fiat}
       </Text>
     </Wrapper>
   )
-}
-
-Success.propTypes = {
-  fiat: PropTypes.string.isRequired
 }
 
 export default Success

@@ -1,10 +1,9 @@
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 
-import { actions, selectors } from 'data'
 import {
   Button,
   Icon,
@@ -14,18 +13,28 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { RootState } from 'data/rootReducer'
-
-import { CheckBox, CoinBalanceDropdown, NumberBox } from 'components/Form'
-import { Exchange } from 'core'
-
+import { Exchange } from 'blockchain-wallet-v4/src'
 import {
   fiatToString,
   formatFiat
 } from 'blockchain-wallet-v4/src/exchange/currency'
+import { CheckBox, CoinBalanceDropdown, NumberBox } from 'components/Form'
+import { actions, selectors } from 'data'
 import { InterestDepositFormType } from 'data/components/interest/types'
-import { required } from 'services/FormHelper'
+import { RootState } from 'data/rootReducer'
+import { required } from 'services/forms'
 
+import {
+  amountToCrypto,
+  amountToFiat,
+  calcCompoundInterest,
+  maxFiat
+} from '../conversions'
+import {
+  CurrencySuccessStateType,
+  DataSuccessStateType,
+  OwnProps as ParentOwnProps
+} from '.'
 import {
   AgreementContainer,
   AmountError,
@@ -56,24 +65,16 @@ import {
   Top,
   TopText
 } from './model'
-import {
-  amountToCrypto,
-  amountToFiat,
-  calcCompoundInterest,
-  maxFiat
-} from '../conversions'
-
-import { maxDepositAmount, minDepositAmount } from './validation'
-import { OwnProps as ParentOwnProps, SuccessStateType } from '.'
 import TabMenuTimeFrame from './TabMenuTimeFrame'
+import { maxDepositAmount, minDepositAmount } from './validation'
 
 const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
     coin,
-    feeCrypto,
-    feeFiat,
     depositLimits,
     displayCoin,
+    feeCrypto,
+    feeFiat,
     formActions,
     formErrors,
     handleDisplayToggle,
@@ -86,8 +87,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     rates,
     submitting,
     supportedCoins,
-    walletCurrency,
-    values
+    values,
+    walletCurrency
   } = props
   const { coinTicker, displayName } = supportedCoins[coin]
 
@@ -154,13 +155,12 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     formErrors.depositAmount &&
     typeof formErrors.depositAmount === 'string' &&
     formErrors.depositAmount
-  const isErc20 = coin === 'PAX' || coin === 'USDT' || coin === 'WDGLD'
+  const isErc20 = !!supportedCoins[coin].contractAddress
   const insufficientEth =
     payment &&
-    isErc20 &&
-    (payment.coin === 'PAX' ||
-      payment.coin === 'USDT' ||
-      payment.coin === 'WDGLD') &&
+    !!supportedCoins[coin].contractAddress &&
+    !!supportedCoins[payment.coin].contractAddress &&
+    // @ts-ignore
     !payment.isSufficientEthForErc20
 
   return (
@@ -578,8 +578,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <Text lineHeight='1.4' size='14px' weight={500}>
               {isCustodial ? (
                 <FormattedMessage
-                  id='modals.interest.deposit.agreement.custodial'
-                  defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) from your {displayName} Trading Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
+                  id='modals.interest.deposit.agreement.custodial1'
+                  defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) from your {displayName} Trading Account to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
                   values={{
                     lockupPeriod,
                     depositAmountFiat: `${currencySymbol}${formatFiat(
@@ -651,7 +651,8 @@ type LinkStatePropsType = {
   values?: InterestDepositFormType
 }
 
-export type Props = SuccessStateType &
+export type Props = DataSuccessStateType &
+  CurrencySuccessStateType &
   ConnectedProps<typeof connector> &
   ParentOwnProps &
   FormProps

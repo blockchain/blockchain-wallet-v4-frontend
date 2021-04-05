@@ -1,12 +1,4 @@
-import * as A from './actions'
-import * as C from 'services/AlertService'
-import * as Lockbox from 'services/LockboxService'
-import * as S from './selectors'
-import { actions, model, selectors } from 'data'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { AddressTypesType, CustodialFromType, XlmPaymentType } from 'core/types'
-import { APIType } from 'core/network/api'
-import { call, delay, put, select } from 'redux-saga/effects'
+import { equals, head, includes, last, path, pathOr, prop, propOr } from 'ramda'
 import {
   change,
   destroy,
@@ -15,13 +7,27 @@ import {
   stopSubmit,
   touch
 } from 'redux-form'
-import { equals, head, includes, last, path, pathOr, prop, propOr } from 'ramda'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { call, delay, put, select } from 'redux-saga/effects'
+
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { FORM } from './model'
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import {
+  AddressTypesType,
+  CustodialFromType,
+  XlmPaymentType
+} from 'blockchain-wallet-v4/src/types'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { actions, model, selectors } from 'data'
 import { ModalNamesType } from 'data/modals/types'
-import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
+import * as C from 'services/alerts'
+import * as Lockbox from 'services/lockbox'
+import { promptForSecondPassword } from 'services/sagas'
+
 import sendSagas from '../send/sagas'
+import * as A from './actions'
+import { FORM } from './model'
+import * as S from './selectors'
 
 const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendXlm/sagas'
@@ -265,7 +271,7 @@ export default ({
           fromAddress
         )).getOrFail('missing_device')
         const deviceType = prop('device_type', device)
-        yield call(promptForLockbox, 'XLM', deviceType, [toAddress])
+        yield call(Lockbox.promptForLockbox, 'XLM', deviceType, [toAddress])
         let connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )

@@ -1,10 +1,12 @@
+import React from 'react'
+import styled from 'styled-components'
+
 import { FlyoutWrapper } from 'components/Flyout'
+
 import { Props as OwnProps, SuccessStateType } from '.'
 import ActionButton from './ActionButton'
 import Header from './Header'
 import Info from './Info'
-import React from 'react'
-import styled from 'styled-components'
 import Summary from './Summary'
 
 const Wrapper = styled.div`

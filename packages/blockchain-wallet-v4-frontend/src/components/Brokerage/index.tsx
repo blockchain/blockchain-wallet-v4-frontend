@@ -1,5 +1,6 @@
-import { Button } from 'blockchain-info-components'
 import styled from 'styled-components'
+
+import { Button } from 'blockchain-info-components'
 
 const AddNewButton = styled(Button)`
   padding: 8px 16px;

@@ -1,33 +1,40 @@
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
+
 import * as AT from './actionTypes'
 import { SendState } from './types'
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: SendState = {
   exchangePaymentsAccount: {
-    BTC: Remote.NotAsked,
+    AAVE: Remote.NotAsked,
+    ALGO: Remote.NotAsked,
     BCH: Remote.NotAsked,
+    BTC: Remote.NotAsked,
+    DOT: Remote.NotAsked,
     ETH: Remote.NotAsked,
     PAX: Remote.NotAsked,
-    XLM: Remote.NotAsked,
     USDT: Remote.NotAsked,
     WDGLD: Remote.NotAsked,
-    ALGO: Remote.NotAsked
+    XLM: Remote.NotAsked,
+    YFI: Remote.NotAsked
   },
   tradingPaymentsAccount: {
-    BTC: Remote.NotAsked,
+    AAVE: Remote.NotAsked,
+    ALGO: Remote.NotAsked,
     BCH: Remote.NotAsked,
+    BTC: Remote.NotAsked,
+    DOT: Remote.NotAsked,
     ETH: Remote.NotAsked,
     PAX: Remote.NotAsked,
-    XLM: Remote.NotAsked,
     USDT: Remote.NotAsked,
     WDGLD: Remote.NotAsked,
-    ALGO: Remote.NotAsked
+    XLM: Remote.NotAsked,
+    YFI: Remote.NotAsked
   },
   withdrawLockCheck: Remote.NotAsked
 }
 
-export function sendReducer (state = INITIAL_STATE, action) {
-  const { type, payload } = action
+export function sendReducer(state = INITIAL_STATE, action) {
+  const { payload, type } = action
 
   switch (type) {
     case AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE_SUCCESS: {

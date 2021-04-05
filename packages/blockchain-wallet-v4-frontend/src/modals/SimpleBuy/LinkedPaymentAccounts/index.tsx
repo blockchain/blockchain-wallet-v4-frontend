@@ -1,32 +1,32 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 
-import { actions, selectors } from 'data'
+import { Remote } from 'blockchain-wallet-v4/src'
 import {
   FiatType,
   RemoteDataType,
   SBOrderActionType,
   SBOrderType,
   SBPairType
-} from 'core/types'
-import { Remote } from 'blockchain-wallet-v4/src'
+} from 'blockchain-wallet-v4/src/types'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import { getData } from './selectors'
 import Failure from '../PaymentMethods/template.failure'
 import Loading from '../template.loading'
+import { getData } from './selectors'
 import Success from './template.success'
 
 class PaymentMethods extends PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBCards()
       this.props.brokerageActions.fetchBankTransferAccounts()
     }
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} />,
       Failure: () => <Failure {...this.props} />,

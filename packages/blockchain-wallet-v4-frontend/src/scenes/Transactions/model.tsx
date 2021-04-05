@@ -1,9 +1,14 @@
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { FiatType, PriceChangeType, PriceDiffType } from 'core/types'
-import { formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
-import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
+
+import { Text } from 'blockchain-info-components'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
+import {
+  FiatType,
+  PriceChangeType,
+  PriceDiffType
+} from 'blockchain-wallet-v4/src/types'
 
 const PriceChangeText = styled(Text)`
   font-weight: 500;
@@ -18,17 +23,17 @@ const PriceChangeColoredText = styled.span<{
   font-weight: 600;
   color: ${props =>
     props.change.movement === 'down'
-      ? props.theme.red500
+      ? props.theme.red600
       : props.change.movement === 'up'
-      ? props.theme.green400
+      ? props.theme.green600
       : props.theme.grey600};
 `
 
 export const PriceChange = ({
+  children,
   currency,
-  priceChange,
   isPortfolioPosition,
-  children
+  priceChange
 }: {
   children: any
   currency: FiatType

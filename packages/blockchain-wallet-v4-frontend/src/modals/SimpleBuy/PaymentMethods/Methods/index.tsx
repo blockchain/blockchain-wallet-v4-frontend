@@ -1,30 +1,30 @@
-import {
-  CARD_TYPES,
-  DEFAULT_CARD_SVG_LOGO
-} from 'components/Form/CreditCardBox/model'
-import { FlyoutWrapper } from 'components/Flyout'
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
+import React, { PureComponent, ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { getBankLogoImageName } from 'services/ImagesService'
-import {
-  getCoinFromPair,
-  getFiatFromPair
-} from 'data/components/simpleBuy/model'
-import { Icon, Image, Text } from 'blockchain-info-components'
-import { Props as OwnProps, SuccessStateType } from '../index'
+import { Form, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
 
+import { Icon, Image, Text } from 'blockchain-info-components'
 import {
   SBPaymentMethodType,
   SupportedFiatType,
   WalletCurrencyType,
   WalletFiatEnum
-} from 'core/types'
-import PaymentCard from './PaymentCard'
-import React, { PureComponent, ReactElement } from 'react'
-import styled from 'styled-components'
+} from 'blockchain-wallet-v4/src/types'
+import { FlyoutWrapper } from 'components/Flyout'
+import {
+  CARD_TYPES,
+  DEFAULT_CARD_SVG_LOGO
+} from 'components/Form/CreditCardBox/model'
+import {
+  getCoinFromPair,
+  getFiatFromPair
+} from 'data/components/simpleBuy/model'
+import { getBankLogoImageName } from 'services/images'
 
+import { Props as OwnProps, SuccessStateType } from '../index'
 import BankWire from './BankWire'
 import LinkBank from './LinkBank'
+import PaymentCard from './PaymentCard'
 
 const Wrapper = styled.div`
   display: flex;
@@ -140,8 +140,8 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         return (
           <Icon
             size='32px'
-            color='fiat'
-            name={value.currency.toLowerCase() as 'eur' | 'gbp'}
+            color='USD'
+            name={value.currency as WalletCurrencyType}
           />
         )
       default:
@@ -165,7 +165,7 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       : 'Credit or Debit Card'
   }
 
-  render () {
+  render() {
     const { fiatCurrency, orderType } = this.props
     const availableCards = this.props.cards.filter(
       card => card.state === 'ACTIVE' && orderType === 'BUY'

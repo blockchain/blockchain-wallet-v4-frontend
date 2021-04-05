@@ -1,5 +1,5 @@
-import { prop } from 'ramda'
 import BigNumber from 'bignumber.js'
+import { prop } from 'ramda'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
 

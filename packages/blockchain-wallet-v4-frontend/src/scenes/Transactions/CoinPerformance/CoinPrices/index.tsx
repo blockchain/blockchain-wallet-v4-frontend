@@ -1,14 +1,15 @@
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import styled from 'styled-components'
 
-import { fiatToString } from 'core/exchange/currency'
-import { getData } from './selectors'
+import { Text } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { SupportedCoinType } from 'blockchain-wallet-v4/src/types'
+
 import { PriceChange } from '../../model'
 import { Skeletons } from '../../WalletBalanceDropdown/template.loading'
-import { SupportedCoinType } from 'core/types'
-import { Text } from 'blockchain-info-components'
+import { getData } from './selectors'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -30,7 +31,7 @@ const PriceText = styled(Text)`
 `
 
 class CoinPricesContainer extends React.PureComponent<Props> {
-  render () {
+  render() {
     const { data } = this.props
 
     return data.cata({

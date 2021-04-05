@@ -1,22 +1,25 @@
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 
-import { Props as BaseProps, SuccessStateType } from '..'
-import { coinOrder, getData } from './selectors'
 import { Icon, Text } from 'blockchain-info-components'
+import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
+import { CoinAccountListOption } from 'components/Form'
+import { selectors } from 'data'
+import { SUPPORTED_COINS } from 'data/coins/model/swap'
 import {
   InitSwapFormValuesType,
   SwapSideType
 } from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
-import { selectors } from 'data'
-import { StickyTopFlyoutWrapper, TopText } from '../components'
 import { SwapAccountType } from 'data/types'
-import CryptoAccountOption from './CryptoAccountOption'
+
+import { Props as BaseProps, SuccessStateType } from '..'
+import { TopText } from '../components'
+import { getData } from './selectors'
 
 class CoinSelection extends PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.props.swapActions.fetchPairs()
     this.props.swapActions.fetchCustodialEligibility()
   }
@@ -87,11 +90,12 @@ class CoinSelection extends PureComponent<Props> {
     }
   }
 
-  render () {
-    const { coins, custodialEligbility, values, walletCurrency } = this.props
+  render() {
+    // @ts-ignore
+    const { coins, custodialEligibility, values, walletCurrency } = this.props
     return (
       <>
-        <StickyTopFlyoutWrapper>
+        <StickyHeaderFlyoutWrapper>
           <TopText spaceBetween={false} marginBottom>
             <Icon
               role='button'
@@ -143,8 +147,8 @@ class CoinSelection extends PureComponent<Props> {
               />
             )}
           </Text>
-        </StickyTopFlyoutWrapper>
-        {coinOrder.map(coin => {
+        </StickyHeaderFlyoutWrapper>
+        {SUPPORTED_COINS.map(coin => {
           const accounts =
             (this.props.accounts[coin] as Array<SwapAccountType>) || []
           return accounts.map(account => {
@@ -168,8 +172,8 @@ class CoinSelection extends PureComponent<Props> {
               this.props.side,
               account
             )
-            const isCutodialEligibile = this.checkCustodialEligibility(
-              custodialEligbility,
+            const isCustodialEligible = this.checkCustodialEligibility(
+              custodialEligibility,
               account
             )
 
@@ -177,16 +181,17 @@ class CoinSelection extends PureComponent<Props> {
               !isBaseAccountZero &&
               !isCoinSelected &&
               !hideCustodialToAccount &&
-              isCutodialEligibile && (
-                <CryptoAccountOption
+              isCustodialEligible && (
+                <CoinAccountListOption
                   account={account}
-                  coins={coins}
-                  isAccountSelected={isAccountSelected}
-                  isSwap={true}
-                  walletCurrency={walletCurrency}
+                  coinModel={coins[account.coin]}
                   onClick={() =>
                     this.props.swapActions.changePair(this.props.side, account)
                   }
+                  isAccountSelected={isAccountSelected}
+                  isSwap={true}
+                  showLowFeeBadges
+                  walletCurrency={walletCurrency}
                 />
               )
             )
@@ -201,7 +206,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   values: selectors.form.getFormValues('initSwap')(
     state
   ) as InitSwapFormValuesType,
-  custodialEligbility: selectors.components.swap
+  custodialEligibility: selectors.components.swap
     .getCustodialEligibility(state)
     .getOrElse(false),
   ...getData(state, ownProps)

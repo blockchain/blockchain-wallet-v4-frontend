@@ -1,11 +1,11 @@
 /* stylelint-disable */
+import React from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import React from 'react'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 import {
   IconContainer,
@@ -81,7 +81,7 @@ const EmailSecuritySummary = styled(SecuritySummary)`
   `};
 `
 const EmailAddress = props => {
-  const { data, uiState, invalid } = props
+  const { data, invalid, uiState } = props
   const { email, verified } = data
   const isVerified = verified === 1
 

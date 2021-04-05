@@ -1,9 +1,10 @@
-import { ExtractSuccess } from 'core/types'
 import { lift } from 'ramda'
 
-import { RootState } from 'data/rootReducer'
-import { selectors } from 'data'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { InvitationsType } from 'core/types'
+import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 
 import { OwnProps } from '.'
 
@@ -13,10 +14,13 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   )
   let defaultMethodR = selectors.components.brokerage.getAccount(state)
   // TODO: Remove this when ach deposits withdrawals gets rolled out hundo P
-  const invitationsR = selectors.core.settings.getInvitations(state)
-  const isInvited = invitationsR.data.achDepositWithdrawal
+  const invitationsR: InvitationsType = selectors.core.settings
+    .getInvitations(state)
+    .getOrElse({
+      achDepositWithdrawal: false
+    } as InvitationsType)
 
-  if (!isInvited) {
+  if (!invitationsR.achDepositWithdrawal) {
     defaultMethodR = undefined
     bankTransferAccountsR = Remote.Success([])
   }

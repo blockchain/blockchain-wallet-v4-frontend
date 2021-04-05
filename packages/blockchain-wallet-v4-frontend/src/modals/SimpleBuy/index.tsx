@@ -1,10 +1,8 @@
-import { bindActionCreators, compose, Dispatch } from 'redux'
+import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { find, isEmpty, propEq, propOr } from 'ramda'
-import React, { PureComponent } from 'react'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { actions, selectors } from 'data'
-import { BankStatusType, FastLinkType, SimpleBuyStepType } from 'data/types'
 import {
   CoinType,
   FiatType,
@@ -13,15 +11,15 @@ import {
   SBPairType,
   SBPaymentMethodType,
   SwapOrderType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { actions, selectors } from 'data'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
-import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { BankStatusType, FastLinkType, SimpleBuyStepType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
-import { getData } from './selectors'
 import { ModalPropsType } from '../types'
-
 // step templates
 import AddCard from './AddCard'
 import BankWireDetails from './BankWireDetails'
@@ -34,26 +32,30 @@ import LinkedPaymentAccounts from './LinkedPaymentAccounts'
 import OrderSummary from './OrderSummary'
 import PaymentMethods from './PaymentMethods'
 import PreviewSell from './PreviewSell'
+import { getData } from './selectors'
 import SellOrderSummary from './SellOrderSummary'
-import ThreeDSHandler from './ThreeDSHandler'
-import UpgradeToGold from './UpgradeToGold'
-import VerifyEmail from './VerifyEmail'
-
 // step wrappers
 import Loading from './template.loading'
 import Pending from './template.pending'
 import Rejected from './template.rejected'
+import ThreeDSHandler from './ThreeDSHandler'
+import UpgradeToGold from './UpgradeToGold'
+import VerifyEmail from './VerifyEmail'
 
 class SimpleBuy extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
 
-  componentDidMount () {
+  componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
+    // for first time login users we need to run goal since this is a first page we show them
+    if (this.props.isFirstLogin) {
+      this.props.runGoals()
+    }
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.step === prevProps.step) return
     if (
       SimpleBuyStepType[this.props.step] > SimpleBuyStepType[prevProps.step]
@@ -66,7 +68,7 @@ class SimpleBuy extends PureComponent<Props, State> {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.simpleBuyActions.pollSBBalances()
     this.props.simpleBuyActions.destroyCheckout()
     this.props.formActions.destroy('simpleBuyCheckout')
@@ -84,7 +86,7 @@ class SimpleBuy extends PureComponent<Props, State> {
     }, duration)
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => {
         const { userData } = val
@@ -274,11 +276,13 @@ const mapStateToProps = (state: RootState) => ({
   orderType: selectors.components.simpleBuy.getOrderType(state),
   goals: selectors.goals.getGoals(state),
   localCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
-  data: getData(state)
+  data: getData(state),
+  isFirstLogin: selectors.auth.getFirstLogin(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),
+  runGoals: () => dispatch(actions.goals.runGoals()),
   formActions: bindActionCreators(actions.form, dispatch),
   preferenceActions: bindActionCreators(actions.preferences, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),

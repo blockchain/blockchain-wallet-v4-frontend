@@ -1,8 +1,10 @@
-import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { selectors } from 'data'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
+import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
+import { getCoinAccounts } from 'data/coins/selectors'
+import { RootState } from 'data/rootReducer'
 
 export const getData = createDeepEqualSelector(
-  [selectors.components.swap.getActiveAccounts],
+  [(state: RootState) => getCoinAccounts(state, SWAP_ACCOUNTS_SELECTOR)],
   accounts => {
     return { accounts }
   }

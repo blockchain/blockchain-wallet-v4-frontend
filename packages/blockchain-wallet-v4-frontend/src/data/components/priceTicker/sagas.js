@@ -1,7 +1,9 @@
+import { put, select } from 'redux-saga/effects'
+
+import { Remote } from 'blockchain-wallet-v4/src'
+
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
-import { put, select } from 'redux-saga/effects'
-import { Remote } from 'blockchain-wallet-v4/src'
 
 export default ({ coreSagas }) => {
   const initialized = function * (action) {
@@ -10,7 +12,6 @@ export default ({ coreSagas }) => {
       const btcRates = yield select(selectors.core.data.bch.getRates)
       const ethRates = yield select(selectors.core.data.eth.getRates)
       const xlmRates = yield select(selectors.core.data.xlm.getRates)
-      const algoRates = yield select(selectors.core.data.algo.getRates)
       if (Remote.NotAsked.is(bchRates)) {
         yield put(actions.core.data.bch.fetchRates())
       }
@@ -22,9 +23,6 @@ export default ({ coreSagas }) => {
       }
       if (Remote.NotAsked.is(xlmRates)) {
         yield put(actions.core.data.xlm.fetchRates())
-      }
-      if (Remote.NotAsked.is(algoRates)) {
-        yield put(actions.core.data.algo.fetchRates())
       }
     } catch (e) {
       yield put(

@@ -1,10 +1,23 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { any } from 'ramda'
+import { InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
+import { Button, Image, Text } from 'blockchain-info-components'
 import {
   BankTransferAccountType,
   SBPaymentMethodType,
   WalletFiatEnum
-} from 'core/types'
-import { Button, Image, Text } from 'blockchain-info-components'
+} from 'blockchain-wallet-v4/src/types'
+import {
+  SettingComponent,
+  SettingContainer,
+  SettingSummary
+} from 'components/Setting'
+import { getBankLogoImageName } from 'services/images'
+import { media } from 'services/styles'
+
 import {
   CardDetails,
   CardWrapper,
@@ -12,20 +25,7 @@ import {
   CustomSettingHeader,
   RemoveButton
 } from '../styles'
-import { FormattedMessage } from 'react-intl'
-import { getBankLogoImageName } from 'services/ImagesService'
-import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
-
-import {
-  SettingComponent,
-  SettingContainer,
-  SettingSummary
-} from 'components/Setting'
-import media from 'services/ResponsiveService'
-
-import React from 'react'
-import styled from 'styled-components'
 
 const BankIconWrapper = styled.div`
   margin-right: 14px;
@@ -90,7 +90,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       {account.details?.bankName}
                     </Text>
                     <Text size='14px' color='grey600' weight={500} capitalize>
-                      {account.details?.bankAccountType.toLowerCase()}{' '}
+                      {account.details?.bankAccountType?.toLowerCase() || ''}{' '}
                       <FormattedMessage
                         id='scenes.settings.general.account'
                         defaultMessage='account'

@@ -1,33 +1,30 @@
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import React, { ReactChild } from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { isEmpty } from 'ramda'
-import React, { ReactChild } from 'react'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { AmountTextBox } from 'components/Exchange'
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import {
   BankTransferAccountType,
   BeneficiaryType,
   NabuMoneyFloatType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { DepositOrWithdrawal, normalizeAmount } from '../../model'
-import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
-import { FlyoutWrapper } from 'components/Flyout'
-
-import { Form } from 'components/Form'
-
-import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import Currencies from 'core/exchange/currencies'
-
-import { maximumAmount, minimumAmount } from './validation'
-import { Props as OwnProps, SuccessStateType } from '.'
-import Beneficiary from './Beneficiary'
+import { AmountTextBox } from 'components/Exchange'
+import { FlyoutWrapper } from 'components/Flyout'
+import { Form } from 'components/Form'
+import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
 
 import { Row } from '../../components'
+import { DepositOrWithdrawal, normalizeAmount } from '../../model'
+import { Props as OwnProps, SuccessStateType } from '.'
+import Beneficiary from './Beneficiary'
 import LockTimeTooltip from './LockTimeTooltip'
+import { maximumAmount, minimumAmount } from './validation'
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -105,8 +102,8 @@ const SubIconWrapper = styled.div`
 `
 
 const BlueRedCartridge = ({
-  error,
-  children
+  children,
+  error
 }: {
   children: ReactChild
   error: boolean
@@ -171,8 +168,8 @@ const Success: React.FC<InjectedFormProps<
         <LimitWrapper>
           <Text color='grey600' size='14px' lineHeight={'25px'} weight={500}>
             <FormattedMessage
-              id='modals.brokerage.my_currency_wallet'
-              defaultMessage='My {currency} Wallet'
+              id='modals.brokerage.fiat_account'
+              defaultMessage='{currency} Account'
               values={{ currency: props.fiatCurrency }}
             />
           </Text>
@@ -207,12 +204,12 @@ const Success: React.FC<InjectedFormProps<
         </LimitWrapper>
         <FiatIconWrapper>
           <Icon
-            color={props.supportedCoins[props.fiatCurrency].colorCode}
-            name={props.supportedCoins[props.fiatCurrency].icons.circleFilled}
+            color={props.supportedCoins[props.fiatCurrency].coinCode}
+            name={props.supportedCoins[props.fiatCurrency].coinCode}
             size='32px'
           />
           <SubIconWrapper>
-            <Icon size='24px' color='fiat' name='arrow-up' />
+            <Icon size='24px' color='USD' name='arrow-up' />
           </SubIconWrapper>
         </FiatIconWrapper>
       </Limits>
@@ -334,7 +331,7 @@ const Success: React.FC<InjectedFormProps<
             }
           />
         </ToContainer>
-        
+
         <ActionContainer>
           <Button
             disabled={

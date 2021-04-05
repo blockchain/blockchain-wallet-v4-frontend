@@ -1,16 +1,6 @@
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import React, { useState } from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-
-import { AgentType } from 'core/types'
-import { BankDWStepType } from 'data/types'
-import {
-  DisplayIcon,
-  DisplaySubTitle,
-  DisplayTitle
-} from 'components/SimpleBuy'
-import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 
 import {
   Icon,
@@ -20,10 +10,19 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import { AgentType } from 'blockchain-wallet-v4/src/types'
+import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
+import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
+import {
+  DisplayIcon,
+  DisplaySubTitle,
+  DisplayTitle
+} from 'components/SimpleBuy'
+import { BankDWStepType } from 'data/types'
+
 import { Props as OwnProps, SuccessStateType } from '.'
 import { TransferType } from './types'
-
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 
 const Wrapper = styled.div`
   display: flex;
@@ -36,7 +35,6 @@ const TopText = styled(Text)`
   justify-content: space-between;
   flex-direction: row;
 `
-
 const BackContainer = styled(Text)`
   display: flex;
   align-items: center;
@@ -45,39 +43,33 @@ const BackContainer = styled(Text)`
   font-weight: 600;
   font-size: 20px;
 `
-
 const Bottom = styled(FlyoutWrapper)`
   display: flex;
   padding-top: 24px;
   flex-direction: column;
   height: 100%;
 `
-
 const InfoContainer = styled.div`
   margin-top: 16px;
 `
 const LegalWrapper = styled(TextGroup)`
   margin-top: 20px;
 `
-
 const RowCopy = styled(Row)`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 `
-
 const BottomInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 41px;
 `
-
 const BottomRow = styled.div`
   display: flex;
   flex-direction: row;
   margin-bottom: 16px;
 `
-
 const BottomMultiRowContainer = styled.div`
   position: relative;
   display: flex;
@@ -85,11 +77,9 @@ const BottomMultiRowContainer = styled.div`
   color: ${props => props.theme.grey800};
   margin-left: 16px;
 `
-
 const Copy = styled.div`
   display: flex;
 `
-
 const TabsContainer = styled.div`
   margin-top: 40px;
   display: inline-block;
@@ -116,13 +106,9 @@ const Success: React.FC<Props> = props => {
               style={{ marginRight: '28px' }}
               role='button'
               onClick={() => {
-                if (!props.isInvited) {
-                  props.handleClose()
-                } else {
-                  props.brokerageActions.setDWStep({
-                    dwStep: BankDWStepType.DEPOSIT_METHODS
-                  })
-                }
+                props.brokerageActions.setDWStep({
+                  dwStep: BankDWStepType.DEPOSIT_METHODS
+                })
               }}
             />
             <div>
@@ -210,7 +196,7 @@ const Success: React.FC<Props> = props => {
               <Value data-e2e='sbReferenceId'>{props.account.address}</Value>
             </div>
             <Copy>
-              <CopyClipboardButton address={props.account.address} />
+              <CopyClipboardButton textToCopy={props.account.address} />
             </Copy>
           </RowCopy>
         )}
@@ -225,7 +211,7 @@ const Success: React.FC<Props> = props => {
             <Value data-e2e='sbRecipientName'>{recipientName}</Value>
           </div>
           <Copy>
-            <CopyClipboardButton address={recipientName} />
+            <CopyClipboardButton textToCopy={recipientName} />
           </Copy>
         </RowCopy>
         {(props.account.currency === 'USD' ||
@@ -241,7 +227,7 @@ const Success: React.FC<Props> = props => {
               <Value data-e2e='sbBankName'>{props.account.agent.name}</Value>
             </div>
             <Copy>
-              <CopyClipboardButton address={props.account.agent.name} />
+              <CopyClipboardButton textToCopy={props.account.agent.name} />
             </Copy>
           </RowCopy>
         )}
@@ -262,7 +248,7 @@ const Success: React.FC<Props> = props => {
               </div>
               <Copy>
                 <CopyClipboardButton
-                  address={props.account.agent.accountType}
+                  textToCopy={props.account.agent.accountType}
                 />
               </Copy>
             </RowCopy>
@@ -280,7 +266,7 @@ const Success: React.FC<Props> = props => {
               <Value data-e2e='sbIbanAddress'>{props.account.address}</Value>
             </div>
             <Copy>
-              <CopyClipboardButton address={props.account.address} />
+              <CopyClipboardButton textToCopy={props.account.address} />
             </Copy>
           </RowCopy>
         )}
@@ -300,7 +286,7 @@ const Success: React.FC<Props> = props => {
                 </Value>
               </div>
               <Copy>
-                <CopyClipboardButton address={props.account.agent.account} />
+                <CopyClipboardButton textToCopy={props.account.agent.account} />
               </Copy>
             </RowCopy>
           )}
@@ -316,7 +302,7 @@ const Success: React.FC<Props> = props => {
               <Value data-e2e='sbSortCode'>{props.account.agent.code}</Value>
             </div>
             <Copy>
-              <CopyClipboardButton address={props.account.agent.code} />
+              <CopyClipboardButton textToCopy={props.account.agent.code} />
             </Copy>
           </RowCopy>
         )}
@@ -332,7 +318,7 @@ const Success: React.FC<Props> = props => {
               <Value data-e2e='sbBankCode'>{props.account.agent.code}</Value>
             </div>
             <Copy>
-              <CopyClipboardButton address={props.account.agent.code} />
+              <CopyClipboardButton textToCopy={props.account.agent.code} />
             </Copy>
           </RowCopy>
         )}
@@ -351,7 +337,7 @@ const Success: React.FC<Props> = props => {
             </div>
             <Copy>
               <CopyClipboardButton
-                address={(props.account.agent as AgentType).routingNumber}
+                textToCopy={(props.account.agent as AgentType).routingNumber}
               />
             </Copy>
           </RowCopy>
@@ -371,7 +357,9 @@ const Success: React.FC<Props> = props => {
                 </Value>
               </div>
               <Copy>
-                <CopyClipboardButton address={props.account.agent.swiftCode} />
+                <CopyClipboardButton
+                  textToCopy={props.account.agent.swiftCode}
+                />
               </Copy>
             </RowCopy>
           )}
@@ -389,7 +377,7 @@ const Success: React.FC<Props> = props => {
               </Value>
             </div>
             <Copy>
-              <CopyClipboardButton address={props.account.agent.address} />
+              <CopyClipboardButton textToCopy={props.account.agent.address} />
             </Copy>
           </RowCopy>
         )}
@@ -409,7 +397,7 @@ const Success: React.FC<Props> = props => {
               </div>
               <Copy>
                 <CopyClipboardButton
-                  address={props.account.agent.recipientAddress}
+                  textToCopy={props.account.agent.recipientAddress}
                 />
               </Copy>
             </RowCopy>
@@ -464,20 +452,20 @@ const Success: React.FC<Props> = props => {
               <DisplaySubTitle>
                 {props.account.currency === 'GBP' && (
                   <FormattedMessage
-                    id='modals.simplebuy.deposit.processing_time.info.gbp'
-                    defaultMessage='Funds will be credited to your GBP wallet as soon as we receive them. In the UK Faster Payments Network, this can take a couple of hours.'
+                    id='modals.simplebuy.deposit.processing_time.info.gbp1'
+                    defaultMessage='Funds will be credited to your GBP Account as soon as we receive them. In the UK Faster Payments Network, this can take a couple of hours.'
                   />
                 )}
                 {props.account.currency === 'EUR' && (
                   <FormattedMessage
-                    id='modals.simplebuy.deposit.processing_time.info.eur'
-                    defaultMessage='Funds will be credited to your EUR wallet as soon as we receive them. SEPA transfers usually take around 1 business day to reach us.'
+                    id='modals.simplebuy.deposit.processing_time.info.eur1'
+                    defaultMessage='Funds will be credited to your EUR Account as soon as we receive them. SEPA transfers usually take around 1 business day to reach us.'
                   />
                 )}
                 {props.account.currency === 'USD' && (
                   <FormattedMessage
-                    id='modals.simplebuy.deposit.processing_time.info.usd'
-                    defaultMessage='Funds will be credited to your USD wallet as soon as we receive them. Funds are generally available within one business day.'
+                    id='modals.simplebuy.deposit.processing_time.info.usd1'
+                    defaultMessage='Funds will be credited to your USD Account as soon as we receive them. Funds are generally available within one business day.'
                   />
                 )}
               </DisplaySubTitle>

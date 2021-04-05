@@ -1,10 +1,27 @@
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
-import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import styled from 'styled-components'
 
+import {
+  CoinAccountIcon,
+  Icon,
+  SpinningLoader,
+  Text
+} from 'blockchain-info-components'
+import { formatCoin } from 'blockchain-wallet-v4/src/exchange/currency'
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { FlyoutWrapper } from 'components/Flyout'
+import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import {
+  InitSwapFormValuesType,
+  SwapAccountType,
+  SwapCoinType
+} from 'data/types'
+import checkAccountZeroBalance from 'services/CheckAccountZeroBalance'
+
+import { Props as BaseProps, SuccessStateType as SuccessType } from '..'
 import {
   BalanceRow,
   Border,
@@ -13,20 +30,8 @@ import {
   OptionValue,
   TopText
 } from '../components'
-import { Props as BaseProps, SuccessStateType as SuccessType } from '..'
-import { ExtractSuccess } from 'core/types'
-import { FlyoutWrapper } from 'components/Flyout'
-import { formatCoin } from 'core/exchange/currency'
-import {
-  InitSwapFormValuesType,
-  SwapAccountType,
-  SwapCoinType
-} from 'data/types'
-import { selectors } from 'data'
-
-import { getData } from './selectors'
-import checkAccountZeroBalance from 'services/CheckAccountZeroBalance'
 import Checkout from './Checkout'
+import { getData } from './selectors'
 import Failure from './template.failure'
 import Loading from './template.loading'
 import Upgrade from './template.upgrade'
@@ -62,7 +67,7 @@ const Toggler = styled.div`
 `
 
 class EnterAmount extends PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.props.swapActions.initAmountForm()
   }
 
@@ -85,7 +90,7 @@ class EnterAmount extends PureComponent<Props> {
     }
   }
 
-  render () {
+  render() {
     if (
       !this.props.initSwapFormValues?.BASE ||
       !this.props.initSwapFormValues?.COUNTER
@@ -94,6 +99,7 @@ class EnterAmount extends PureComponent<Props> {
     }
 
     const { BASE, COUNTER } = this.props.initSwapFormValues
+    // @ts-ignore
     const { coins, userData } = this.props
 
     return (
@@ -170,10 +176,9 @@ class EnterAmount extends PureComponent<Props> {
                         </BalanceRow>
                       </OptionValue>
                     </div>
-                    <Icon
-                      name={coins[BASE.coin].icons.circleFilled}
-                      color={coins[BASE.coin].colorCode}
-                      size='32px'
+                    <CoinAccountIcon
+                      accountType={BASE.type}
+                      coin={coins[BASE.coin].coinCode}
                     />
                   </Option>
                   <Toggler
@@ -213,10 +218,9 @@ class EnterAmount extends PureComponent<Props> {
                         </BalanceRow>
                       </OptionValue>
                     </div>
-                    <Icon
-                      name={coins[COUNTER.coin].icons.circleFilled}
-                      color={coins[COUNTER.coin].colorCode}
-                      size='32px'
+                    <CoinAccountIcon
+                      accountType={COUNTER.type}
+                      coin={coins[COUNTER.coin].coinCode}
                     />
                   </Option>
                   <Border />

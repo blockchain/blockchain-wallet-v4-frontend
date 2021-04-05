@@ -1,27 +1,27 @@
-import { AddNewButton } from 'components/Brokerage'
-import {
-  CARD_TYPES,
-  DEFAULT_CARD_SVG_LOGO
-} from 'components/Form/CreditCardBox/model'
-import { FlyoutWrapper } from 'components/Flyout'
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
+import React, { PureComponent, ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { getBankLogoImageName } from 'services/ImagesService'
-import {
-  getCoinFromPair,
-  getFiatFromPair
-} from 'data/components/simpleBuy/model'
-import { Icon, Image, Text } from 'blockchain-info-components'
-import { Props as OwnProps, SuccessStateType } from '../index'
+import { Form, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
 
+import { Icon, Image, Text } from 'blockchain-info-components'
 import {
   SBPaymentMethodType,
   WalletCurrencyType,
   WalletFiatEnum
-} from 'core/types'
-import React, { PureComponent, ReactElement } from 'react'
-import styled from 'styled-components'
+} from 'blockchain-wallet-v4/src/types'
+import { AddNewButton } from 'components/Brokerage'
+import { FlyoutWrapper } from 'components/Flyout'
+import {
+  CARD_TYPES,
+  DEFAULT_CARD_SVG_LOGO
+} from 'components/Form/CreditCardBox/model'
+import {
+  getCoinFromPair,
+  getFiatFromPair
+} from 'data/components/simpleBuy/model'
+import { getBankLogoImageName } from 'services/images'
 
+import { Props as OwnProps, SuccessStateType } from '../index'
 import Bank from './Bank'
 import Card from './Card'
 import Fund from './Fund'
@@ -152,8 +152,8 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         return (
           <Icon
             size='32px'
-            color='fiat'
-            name={value.currency.toLowerCase() as 'eur' | 'gbp'}
+            color='USD'
+            name={value.currency as WalletCurrencyType}
           />
         )
       default:
@@ -177,7 +177,7 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       : 'Credit or Debit Card'
   }
 
-  render () {
+  render() {
     const { orderType } = this.props
     const availableBankAccounts = this.props.bankTransferAccounts.filter(
       account => account.state === 'ACTIVE' && orderType === 'BUY'

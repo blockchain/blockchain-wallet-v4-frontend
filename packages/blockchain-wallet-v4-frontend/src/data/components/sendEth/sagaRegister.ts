@@ -1,12 +1,13 @@
-import * as AT from './actionTypes'
 import { actionTypes } from 'redux-form'
 import { takeLatest } from 'redux-saga/effects'
+
+import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default ({ api, coreSagas, networks }) => {
   const sendEthSagas = sagas({ api, coreSagas, networks })
 
-  return function * sendEthSaga () {
+  return function * sendEthSaga() {
     yield takeLatest(AT.RETRY_SEND_ETH, sendEthSagas.retrySendEth)
     yield takeLatest(AT.SEND_ETH_INITIALIZED, sendEthSagas.initialized)
     yield takeLatest(AT.SEND_ETH_DESTROYED, sendEthSagas.destroyed)

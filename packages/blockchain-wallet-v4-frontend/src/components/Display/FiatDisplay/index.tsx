@@ -1,18 +1,19 @@
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { includes, toLower } from 'ramda'
-import React from 'react'
+import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from 'data'
-import { CoinType, FiatTypeEnum } from 'blockchain-wallet-v4/src/types'
-import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { CoinType, FiatTypeEnum } from 'blockchain-wallet-v4/src/types'
+import { actions, selectors } from 'data'
+
+import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class FiatDisplayContainer extends React.PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     if (Remote.NotAsked.is(this.props.data)) {
       const { coin, erc20List } = this.props
       if (coin in FiatTypeEnum) {
@@ -25,7 +26,7 @@ class FiatDisplayContainer extends React.PureComponent<Props> {
     }
   }
 
-  render () {
+  render() {
     const { data, ...rest } = this.props
     return data.cata({
       Success: value => <Success {...rest}>{value}</Success>,
@@ -48,11 +49,12 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  algoActions: bindActionCreators(actions.core.data.algo, dispatch),
   bchActions: bindActionCreators(actions.core.data.bch, dispatch),
   btcActions: bindActionCreators(actions.core.data.btc, dispatch),
+  dotActions: bindActionCreators(actions.core.data.dot, dispatch),
   ethActions: bindActionCreators(actions.core.data.eth, dispatch),
-  xlmActions: bindActionCreators(actions.core.data.xlm, dispatch),
-  algoActions: bindActionCreators(actions.core.data.algo, dispatch)
+  xlmActions: bindActionCreators(actions.core.data.xlm, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

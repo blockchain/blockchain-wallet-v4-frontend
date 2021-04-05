@@ -1,21 +1,23 @@
-import { actions, selectors } from 'data'
-import { AddBankStepType, BrokerageModalOriginType } from 'data/types'
+import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+
 import {
   BankTransferAccountType,
   ExtractSuccess,
   RemoteDataType,
   WalletFiatType
-} from 'core/types'
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
+} from 'blockchain-wallet-v4/src/types'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { AddBankStepType, BrokerageModalOriginType } from 'data/types'
+
+import { getData } from './selectors'
 import Loading from './template.loading'
-import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class LinkedBanks extends PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.props.brokerageActions.fetchBankTransferAccounts()
     this.props.simpleBuyActions.fetchSBPaymentMethods()
   }
@@ -50,7 +52,7 @@ class LinkedBanks extends PureComponent<Props> {
     })
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => (
         <Success

@@ -1,4 +1,6 @@
-import { convertBaseToStandard } from 'data/components/exchange/services'
+import { lift, pathOr, propOr } from 'ramda'
+
+import { Exchange } from 'blockchain-wallet-v4/src'
 import {
   Erc20CoinsEnum,
   ExtractSuccess,
@@ -6,12 +8,14 @@ import {
   InterestAfterTransactionType,
   InterestFormErrorsType,
   RemoteDataType
-} from 'core/types'
-
-import { Exchange } from 'core'
-import { lift, pathOr, propOr } from 'ramda'
-import { RootState } from 'data/rootReducer'
+} from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { RootState } from 'data/rootReducer'
+
+export const getCurrency = state => {
+  return selectors.core.settings.getCurrency(state)
+}
 
 export const getData = (state: RootState) => {
   const coin = selectors.components.interest.getCoinType(state)
@@ -79,7 +83,6 @@ export const getData = (state: RootState) => {
         payment,
         rates,
         supportedCoins,
-        walletCurrency,
         prefillAmount,
         isFromBuySell
       }

@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import {
@@ -38,21 +38,21 @@ const WarningIcon = styled(Icon)`
   top: 14px;
 `
 
-const getErrorState = ({ touched, invalid }) => {
+const getErrorState = ({ invalid, touched }) => {
   return touched && invalid ? 'invalid' : 'initial'
 }
 
 const PasswordBox = field => {
   const {
-    meta,
-    input,
-    showPasswordScore,
-    disabled,
     borderColor,
+    disabled,
+    input,
+    meta,
     noLastPass,
-    passwordScore
+    passwordScore,
+    showPasswordScore
   } = field
-  const { touched, error, active } = meta
+  const { active, error, touched } = meta
   const errorState = getErrorState(meta)
   const scoreVisible = showPasswordScore ? input.value.length > 0 : false
 

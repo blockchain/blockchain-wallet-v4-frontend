@@ -1,15 +1,15 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { useEffect } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 
-import { actions } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
-import { WalletFiatType } from 'core/types'
 
-import { getData } from './selectors'
 import Failure from '../template.failure'
 import Loading from '../template.loading'
+import { getData } from './selectors'
 import Success from './template.success'
 
 const BankList = (props: Props) => {

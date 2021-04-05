@@ -1,13 +1,14 @@
 /* stylelint-disable */
 
-import { Button, Link, Text } from 'blockchain-info-components'
-import { Field, reduxForm } from 'redux-form'
-import { Form, PhoneNumberBox, TextBox } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
-import { required, validMobileNumber } from 'services/FormHelper'
-import PropTypes from 'prop-types'
 import React, { Fragment } from 'react'
+import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
+
+import { Button, Link, Text } from 'blockchain-info-components'
+import { Form, PhoneNumberBox, TextBox } from 'components/Form'
+import { required, validMobileNumber } from 'services/forms'
 
 const AuthenticatorSummary = styled.div`
   width: 100%;
@@ -40,14 +41,14 @@ const QRInputWrapper = styled.div`
 
 const SmsAuth = props => {
   const {
-    data,
-    uiState,
-    handleSubmit,
     changeMobileNumber,
+    code,
+    data,
+    handleSubmit,
     invalid,
-    code
+    uiState
   } = props
-  const { smsVerified, smsNumber, countryCode } = data
+  const { countryCode, smsNumber, smsVerified } = data
 
   return (
     <Form onSubmit={handleSubmit}>

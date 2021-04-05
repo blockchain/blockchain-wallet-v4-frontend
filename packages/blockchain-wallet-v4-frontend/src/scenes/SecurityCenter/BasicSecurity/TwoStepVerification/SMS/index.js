@@ -1,7 +1,7 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { formValueSelector } from 'redux-form'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
 import { actions } from 'data'
 
@@ -9,7 +9,7 @@ import { getData } from './selectors'
 import Sms from './template'
 
 class SmsAuthContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       changeNumberToggled: false,
@@ -22,15 +22,15 @@ class SmsAuthContainer extends React.PureComponent {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentDidMount () {
-    const { smsVerified, smsNumber } = this.props.data.getOrElse({})
+  componentDidMount() {
+    const { smsNumber, smsVerified } = this.props.data.getOrElse({})
     if (smsNumber && smsNumber.length && !smsVerified) {
       this.props.securityCenterActions.sendMobileVerificationCode(smsNumber)
       this.handleMount()
     }
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const next = this.props.data.getOrElse({})
     const prev = prevProps.data.getOrElse({})
     if (next.authType !== prev.authType) {
@@ -39,22 +39,22 @@ class SmsAuthContainer extends React.PureComponent {
       this.props.goBackOnSuccess()
     }
   }
-  handleMount () {
+  handleMount() {
     this.setState({
       changeNumberToggled: !this.state.changeNumberToggled
     })
   }
-  handleUpdate () {
+  handleUpdate() {
     this.setState({
       successToggled: !this.state.successToggled
     })
   }
 
-  handleClick () {
+  handleClick() {
     this.props.modalActions.showModal('TwoStepSetup')
   }
 
-  onSubmit () {
+  onSubmit() {
     const { smsNumber, smsVerified } = this.props.data.getOrElse({})
 
     if (this.state.changeNumberToggled || (!smsNumber && !smsVerified)) {
@@ -69,8 +69,8 @@ class SmsAuthContainer extends React.PureComponent {
     }
   }
 
-  render () {
-    const { data, verificationCode, goBack } = this.props
+  render() {
+    const { data, goBack, verificationCode } = this.props
 
     return data.cata({
       Success: value => (

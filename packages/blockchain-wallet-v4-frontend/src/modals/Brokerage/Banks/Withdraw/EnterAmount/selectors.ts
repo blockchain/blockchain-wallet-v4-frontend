@@ -1,14 +1,19 @@
-import { ExtractSuccess, SupportedWalletCurrenciesType } from 'core/types'
 import { lift } from 'ramda'
-import { RootState } from 'data/rootReducer'
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
+import {
+  ExtractSuccess,
+  SupportedWalletCurrenciesType
+} from 'blockchain-wallet-v4/src/types'
 import {
   getFiatBalance,
   getWithdrawableFiatBalance
-} from 'components/Balances/wallet/selectors'
-import { OwnProps } from '.'
+} from 'components/Balances/selectors'
+import { InvitationsType } from 'core/types'
 import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+
+import { OwnProps } from '.'
 
 export const getData = (state: RootState, ownProps: OwnProps) => {
   const withdrawableBalanceR = getWithdrawableFiatBalance(
@@ -25,9 +30,13 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
     state
   )
   // TODO: Remove this when ach deposits withdrawals gets rolled out hundo P
-  const invitationsR = selectors.core.settings.getInvitations(state)
-  const isInvited = invitationsR.data.achDepositWithdrawal
-  if (!isInvited) {
+  const invitationsR: InvitationsType = selectors.core.settings
+    .getInvitations(state)
+    .getOrElse({
+      achDepositWithdrawal: false
+    } as InvitationsType)
+
+  if (!invitationsR.achDepositWithdrawal) {
     defaultMethodR = undefined
     bankTransferAccountsR = Remote.Success([])
   }

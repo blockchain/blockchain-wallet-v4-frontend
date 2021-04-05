@@ -1,11 +1,11 @@
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-import { RootState } from 'data/rootReducer'
+import { WalletOptionsType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
-import { WalletOptionsType } from 'core/types'
 
 const Wrapper = styled.div`
   position: absolute;
@@ -25,7 +25,7 @@ class ZendeskWidget extends React.PureComponent<Props, State> {
     widgetOpen: false
   }
 
-  componentDidMount () {
+  componentDidMount() {
     // listen for messages about widget open/close state
     window.addEventListener('message', this.updateWidgetState, false)
   }
@@ -60,7 +60,7 @@ class ZendeskWidget extends React.PureComponent<Props, State> {
     }, 3000)
   }
 
-  render () {
+  render() {
     const { domains, userData } = this.props
 
     if (!userData) return null

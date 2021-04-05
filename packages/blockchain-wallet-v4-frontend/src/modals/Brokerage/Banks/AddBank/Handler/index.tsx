@@ -1,24 +1,24 @@
-import { bindActionCreators, Dispatch } from 'redux'
+import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { isEmpty } from 'ramda'
-import React, { PureComponent } from 'react'
+import { bindActionCreators, Dispatch } from 'redux'
 
-import { actions } from 'data'
-import { AddBankStepType } from 'data/types'
-import { RemoteDataType } from 'core/types'
-import { RootState } from 'data/rootReducer'
+import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
+import { actions } from 'data'
+import { RootState } from 'data/rootReducer'
+import { AddBankStepType } from 'data/types'
 
 import { getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class LinkBankHandler extends PureComponent<Props, State> {
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('message', this.handlePostMessage, false)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.removeEventListener('message', this.handlePostMessage, false)
   }
 
@@ -26,7 +26,7 @@ class LinkBankHandler extends PureComponent<Props, State> {
     if (event.data.from !== 'yodlee') return
     if (event.data.to !== 'sb') return
 
-    const { sites, error } = event.data
+    const { error, sites } = event.data
     if (!isEmpty(sites)) {
       this.props.brokerageActions.fetchBankTransferUpdate(sites)
       this.props.brokerageActions.fetchBTUpdateLoading()
@@ -47,7 +47,7 @@ class LinkBankHandler extends PureComponent<Props, State> {
     }
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} {...this.state} />,
       Failure: e => <DataError message={{ message: e }} />,

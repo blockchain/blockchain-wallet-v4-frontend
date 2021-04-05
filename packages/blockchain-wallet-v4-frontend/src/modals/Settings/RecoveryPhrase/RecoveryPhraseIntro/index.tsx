@@ -1,9 +1,11 @@
+import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import { Button, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
+
 import { Props } from '../index'
-import React, { PureComponent } from 'react'
-import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,7 +13,6 @@ const Wrapper = styled.div`
   flex-direction: column;
   height: 100%;
 `
-
 const Header = styled.div`
   display: flex;
   align-items: center;
@@ -46,7 +47,7 @@ class RecoveryPhraseIntro extends PureComponent<Props> {
   handleBackupNow = () => {
     this.props.recoveryPhraseActions.setStep('FIRST_SET_WORDS')
   }
-  render () {
+  render() {
     return (
       <Wrapper>
         <FlyoutWrapper>

@@ -1,14 +1,14 @@
-import { compose } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { compose } from 'redux'
 
-import { AddBankStepType } from 'data/types'
-import { ModalPropsType } from '../../../types'
-import { selectors } from 'data'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import { AddBankStepType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
+import { ModalPropsType } from '../../../types'
 import Add from './Add'
 import Handler from './Handler'
 import Status from './Status'
@@ -16,13 +16,13 @@ import Status from './Status'
 class Banks extends PureComponent<Props> {
   state: State = { show: false, direction: 'left' }
 
-  componentDidMount () {
+  componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.step === prevProps.step) return
     if (AddBankStepType[this.props.step] > AddBankStepType[prevProps.step]) {
       /* eslint-disable */
@@ -40,7 +40,7 @@ class Banks extends PureComponent<Props> {
     }, duration)
   }
 
-  render () {
+  render() {
     return (
       <Flyout
         {...this.props}

@@ -1,13 +1,13 @@
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
-import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { BankDWStepType } from 'data/types'
-import { fiatToString } from 'core/exchange/currency'
-import { FiatType } from 'core/types'
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
+import { BankDWStepType } from 'data/types'
 
 import { FormattedBank, LineItemText } from './model'
 
@@ -86,8 +86,8 @@ const Success = props => {
           </Text>
           <LineItemText>
             <FormattedMessage
-              id='modals.brokerage.my_currency_wallet'
-              defaultMessage='My {currency} Wallet'
+              id='modals.brokerage.fiat_account'
+              defaultMessage='{currency} Account'
               values={{ currency: props.defaultMethod?.currency }}
             />
           </LineItemText>

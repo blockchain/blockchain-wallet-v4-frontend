@@ -1,15 +1,15 @@
-import { replace } from 'ramda'
 import React from 'react'
+import { replace } from 'ramda'
 import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
 import Announcements from 'components/Announcements'
-import ErrorBoundary from 'providers/ErrorBoundaryProvider'
-import media from 'services/ResponsiveService'
-import Modals from '../../modals'
 import Tooltips from 'components/Tooltips'
 import ZendeskWidget from 'components/ZendeskWidget'
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
+import { media } from 'services/styles'
 
+import Modals from '../../modals'
 import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
 import Page from './Page'
@@ -39,7 +39,7 @@ const Content = styled.div`
   width: calc(100% - 250px);
   max-width: calc(100% - 250px);
   background-color: ${props => props.theme.white};
-  padding: 16px 30px;
+  padding: 32px 28px 16px 36px;
   ${media.tablet`
     padding: 8px 16px;
     width: 100%;

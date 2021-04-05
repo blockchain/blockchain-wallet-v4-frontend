@@ -1,11 +1,13 @@
-import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { fiatToString } from 'core/exchange/currency'
-import { FormattedMessage } from 'react-intl'
-import { WalletFiatType, WithdrawResponseType } from 'core/types'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import {
+  WalletFiatType,
+  WithdrawResponseType
+} from 'blockchain-wallet-v4/src/types'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -42,19 +44,15 @@ const SuccessIcon = styled(Icon)`
 class WithdrawalDetails extends PureComponent<Props> {
   state = {}
 
-  render () {
+  render() {
     return (
       <Wrapper>
         <div>
           <IconContainer>
-            <Icon
-              size='72px'
-              color='fiat'
-              name={this.props.fiatCurrency.toLowerCase() as keyof IcoMoonType}
-            />
+            <Icon size='72px' color='USD' name={this.props.fiatCurrency} />
             <SuccessIcon
               name='checkmark-circle-filled'
-              color='fiat'
+              color='USD'
               size='28px'
             />
           </IconContainer>

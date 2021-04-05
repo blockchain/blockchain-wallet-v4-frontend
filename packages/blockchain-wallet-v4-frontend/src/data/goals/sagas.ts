@@ -1,13 +1,6 @@
-import {
-  all,
-  call,
-  delay,
-  join,
-  put,
-  select,
-  spawn,
-  take
-} from 'redux-saga/effects'
+import base64 from 'base-64'
+import BigNumber from 'bignumber.js'
+import bip21 from 'bip21'
 import {
   anyPass,
   equals,
@@ -20,14 +13,20 @@ import {
   sum,
   values
 } from 'ramda'
-import base64 from 'base-64'
-import BigNumber from 'bignumber.js'
-import bip21 from 'bip21'
+import {
+  all,
+  call,
+  delay,
+  join,
+  put,
+  select,
+  spawn,
+  take
+} from 'redux-saga/effects'
 
-import * as C from 'services/AlertService'
-import { actions, model, selectors } from 'data'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { actions, model, selectors } from 'data'
 import {
   getBchBalance,
   getBtcBalance,
@@ -36,15 +35,16 @@ import {
 } from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import profileSagas from 'data/modules/profile/sagas'
+import * as C from 'services/alerts'
 
-import { GoalsType } from './types'
+import { DeepLinkGoal, GoalsType } from './types'
 
 const { TRANSACTION_EVENTS } = model.analytics
 
 export default ({ api, coreSagas, networks }) => {
-  const { TIERS, KYC_STATES, DOC_RESUBMISSION_REASONS } = model.profile
+  const { DOC_RESUBMISSION_REASONS, KYC_STATES, TIERS } = model.profile
   const { NONE } = KYC_STATES
-  const { GENERAL, EXPIRED } = DOC_RESUBMISSION_REASONS
+  const { EXPIRED, GENERAL } = DOC_RESUBMISSION_REASONS
 
   const { waitForUserData } = profileSagas({
     api,
@@ -85,9 +85,20 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const defineKycGoal = function * (search) {
+    // /#/open/kyc?tier={1, 2, ...}
     const params = new URLSearchParams(search)
-    yield put(actions.goals.saveGoal('kyc', { tier: params.get('tier') }))
-    yield put(actions.router.push('/login'))
+
+    const tier = params.get('tier') || TIERS[2]
+
+    yield put(actions.goals.saveGoal('kyc', { tier }))
+  }
+
+  const defineSwapGoal = function * () {
+    yield put(actions.goals.saveGoal('swap', {}))
+  }
+
+  const defineInterestGoal = function * () {
+    yield put(actions.goals.saveGoal('interest', {}))
   }
 
   const defineSendXlmGoal = function * (pathname, search) {
@@ -103,7 +114,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const defineSimpleBuyGoal = function * (search) {
-    // /#/open/simple-buy?crypto={crypto}&amount={amount}&email={email}
+    // /#/open/simple-buy?crypto={BTC | ETH | ...}&amount={1 | 99 | 200 | ...}&email={test@blockchain.com | ...}&fiatCurrency={USD | GBP | ...}
     const params = new URLSearchParams(search)
     const amount = params.get('amount')
     const crypto = params.get('crypto')
@@ -119,7 +130,9 @@ export default ({ api, coreSagas, networks }) => {
       })
     )
 
-    yield put(actions.router.push('/signup'))
+    if (amount && crypto && email && fiatCurrency) {
+      yield put(actions.router.push('/signup'))
+    }
   }
 
   const defineSendCryptoGoal = function * (pathname, search) {
@@ -165,7 +178,7 @@ export default ({ api, coreSagas, networks }) => {
       // Other scenarios with actions encoded in base64
       const decoded = JSON.parse(base64.decode(pathname + search))
       if (!prop('name', decoded) || !prop('data', decoded)) return
-      const { name, data } = decoded
+      const { data, name } = decoded
       yield put(actions.goals.saveGoal(name, data))
       yield put(actions.router.push('/wallet'))
     } catch (e) {
@@ -180,21 +193,48 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const defineDeepLinkGoals = function * (pathname, search) {
-    if (startsWith('xlm', pathname))
+    if (startsWith(DeepLinkGoal.XLM, pathname)) {
       return yield call(defineSendXlmGoal, pathname, search)
-    if (startsWith('link-account', pathname))
+    }
+
+    if (startsWith(DeepLinkGoal.LINK_ACCOUNT, pathname)) {
       return yield call(defineLinkAccountGoal, search)
-    if (startsWith('referral', pathname))
+    }
+
+    if (startsWith(DeepLinkGoal.REFERRAL, pathname)) {
       return yield call(defineReferralGoal, search)
-    if (startsWith('kyc', pathname)) return yield call(defineKycGoal, search)
+    }
+
+    // /#/open/kyc?tier={0 | 1 | 2 | ...} tier is optional
+    if (startsWith(DeepLinkGoal.KYC, pathname)) {
+      return yield call(defineKycGoal, search)
+    }
+
+    // TODO check why it uses includes
     // crypto send / bitpay links
-    if (includes('bitcoin', pathname))
+    if (includes(DeepLinkGoal.BITCOIN, pathname)) {
       return yield call(defineSendCryptoGoal, pathname, search)
-    if (startsWith('log-level', pathname))
+    }
+
+    if (startsWith(DeepLinkGoal.LOG_LEVEL, pathname)) {
       return yield call(defineLogLevel, search)
-    // simple-buy widget
-    if (startsWith('simple-buy', pathname))
+    }
+
+    // /#/open/simple-buy
+    if (startsWith(DeepLinkGoal.SIMPLE_BUY, pathname)) {
       return yield call(defineSimpleBuyGoal, search)
+    }
+
+    // /#/open/swap
+    if (startsWith(DeepLinkGoal.SWAP, pathname)) {
+      return yield call(defineSwapGoal)
+    }
+
+    // /#/open/interest
+    if (startsWith(DeepLinkGoal.INTEREST, pathname)) {
+      return yield call(defineInterestGoal)
+    }
+
     yield call(defineActionGoal, pathname, search)
   }
 
@@ -228,7 +268,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const runKycGoal = function * (goal) {
     try {
-      const { id, data } = goal
+      const { data, id } = goal
       const { tier = TIERS[2] } = data
       yield put(actions.goals.deleteGoal(id))
       yield call(waitForUserData)
@@ -248,8 +288,9 @@ export default ({ api, coreSagas, networks }) => {
 
   const runSimpleBuyGoal = function * (goal) {
     const {
-      data: { amount, crypto, fiatCurrency }
+      data: { amount, crypto, fiatCurrency, id }
     } = goal
+    yield put(actions.goals.deleteGoal(id))
 
     yield put(
       actions.goals.addInitialModal('simpleBuyModal', 'SIMPLE_BUY_MODAL', {
@@ -261,7 +302,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const runLinkAccountGoal = function * (goal) {
-    const { id, data } = goal
+    const { data, id } = goal
     yield put(actions.goals.deleteGoal(id))
     yield put(
       actions.goals.addInitialModal(
@@ -279,7 +320,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const runPaymentProtocolGoal = function * (goal) {
-    const { id, data } = goal
+    const { data, id } = goal
     const { coin, r } = data
     let coinRate, paymentCryptoAmount, paymentFiatAmount
 
@@ -401,12 +442,12 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const runSendBtcGoal = function * (goal) {
-    const { id, data } = goal
+    const { data, id } = goal
     yield put(actions.goals.deleteGoal(id))
 
     yield call(getBtcBalance)
 
-    const { amount, address, description } = data
+    const { address, amount, description } = data
     const currency = yield select(selectors.core.settings.getCurrency)
     const btcRates = yield select(selectors.core.data.btc.getRates)
     const fiat = Exchange.convertBtcToFiat({
@@ -426,12 +467,12 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const runSendXlmGoal = function * (goal) {
-    const { id, data } = goal
+    const { data, id } = goal
     yield put(actions.goals.deleteGoal(id))
 
     yield call(getXlmBalance)
 
-    const { amount, address, memo } = data
+    const { address, amount, memo } = data
     const currency = yield select(selectors.core.settings.getCurrency)
     const xlmRates = yield select(selectors.core.data.xlm.getRates)
     const fiat = Exchange.convertXlmToFiat({
@@ -478,6 +519,13 @@ export default ({ api, coreSagas, networks }) => {
         )
       )
     }
+  }
+
+  const runSwapModal = function * (goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    yield put(actions.goals.addInitialModal('swap', 'SWAP_MODAL'))
   }
 
   const runSwapUpgradeGoal = function * (goal) {
@@ -561,7 +609,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const runWelcomeModal = function * (goal) {
-    const { id, data } = goal
+    const { data, id } = goal
     const { firstLogin } = data
     yield put(actions.goals.deleteGoal(id))
 
@@ -605,6 +653,21 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const runInterestRedirect = function * (goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    yield put(actions.goals.addInitialRedirect('interest'))
+  }
+
+  const runInitialRedirect = function * () {
+    const initialRedirect = yield select(selectors.goals.getInitialRedirect)
+
+    if (initialRedirect === 'interest') {
+      return yield put(actions.router.push(`/${initialRedirect}`))
+    }
+  }
+
   const showInitialModal = function * () {
     const initialModals = yield select(selectors.goals.getInitialModals)
     const {
@@ -613,11 +676,12 @@ export default ({ api, coreSagas, networks }) => {
       linkAccount,
       payment,
       simpleBuyModal,
+      swap,
       swapGetStarted,
       swapUpgrade,
+      transferEth,
       upgradeForAirdrop,
       welcomeModal,
-      transferEth,
       xlmPayment
     } = initialModals
 
@@ -651,6 +715,9 @@ export default ({ api, coreSagas, networks }) => {
       return yield put(
         actions.modals.showModal(upgradeForAirdrop.name, upgradeForAirdrop.data)
       )
+    }
+    if (swap) {
+      return yield put(actions.modals.showModal(swap.name, swap.data))
     }
     if (swapGetStarted) {
       return yield put(
@@ -711,6 +778,9 @@ export default ({ api, coreSagas, networks }) => {
         case 'simpleBuy':
           yield call(runSimpleBuyGoal, goal)
           break
+        case 'swap':
+          yield call(runSwapModal, goal)
+          break
         case 'swapGetStarted':
           yield call(runSwapGetStartedGoal, goal)
           break
@@ -732,6 +802,9 @@ export default ({ api, coreSagas, networks }) => {
         case 'welcomeModal':
           yield call(runWelcomeModal, goal)
           break
+        case 'interest':
+          yield call(runInterestRedirect, goal)
+          break
       }
       yield put(actions.goals.initialModalDisplayed)
     } catch (error) {
@@ -743,6 +816,7 @@ export default ({ api, coreSagas, networks }) => {
     const goals = yield select(selectors.goals.getGoals)
     const goalTasks = yield all(map(goal => spawn(runGoal, goal), goals))
     yield all(map(join, goalTasks))
+    yield call(runInitialRedirect)
     yield call(showInitialModal)
   }
 

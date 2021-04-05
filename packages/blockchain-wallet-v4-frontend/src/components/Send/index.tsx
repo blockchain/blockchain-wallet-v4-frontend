@@ -1,15 +1,16 @@
-import { Banner } from 'blockchain-info-components'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
-import React from 'react'
-
-import { BlueCartridge } from 'components/Cartridge'
-import { CoinType, CustodialFromType } from 'core/types'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { FormGroup, FormLabel } from 'components/Form'
-import LockTime from './LockTime'
-import media from 'services/ResponsiveService'
 import styled, { css } from 'styled-components'
+
+import { Banner } from 'blockchain-info-components'
+import { CoinType, CustodialFromType } from 'blockchain-wallet-v4/src/types'
+import { BlueCartridge } from 'components/Cartridge'
+import { FormGroup, FormLabel } from 'components/Form'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { media } from 'services/styles'
+
+import LockTime from './LockTime'
 
 export const Row = styled.div`
   display: flex;
@@ -127,8 +128,8 @@ export const CustodyToAccountMessage = ({
       return (
         <CustomBlueCartridge>
           <FormattedMessage
-            id='modals.send.firststep.fromcustody1'
-            defaultMessage='At this time, Blockchain.com only allows sending from your {coin} Trading Wallet to your {coin} Wallet.'
+            id='modals.send.firststep.fromcustody11'
+            defaultMessage='At this time, Blockchain.com only allows sending from your {coin} Trading Account to your {coin} Wallet.'
             values={{ coin }}
           />
         </CustomBlueCartridge>

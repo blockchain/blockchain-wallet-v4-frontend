@@ -1,15 +1,19 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { useEffect } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 
+import {
+  FiatType,
+  RemoteDataType,
+  SBAccountType
+} from 'blockchain-wallet-v4/src/types'
+import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
-import { FiatType, RemoteDataType, SBAccountType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
-import DataError from 'components/DataError'
 
-import { getData } from './selectors'
 import Loading from '../template.loading'
+import { getData } from './selectors'
 import Success from './template.success'
 
 const WireInstructions = props => {
@@ -47,7 +51,6 @@ export type OwnProps = {
 
 export type SuccessStateType = {
   account: SBAccountType
-  isInvited: boolean
   userData: UserDataType
 }
 type LinkStatePropsType = {

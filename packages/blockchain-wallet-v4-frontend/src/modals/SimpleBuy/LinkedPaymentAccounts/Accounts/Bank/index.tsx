@@ -1,13 +1,13 @@
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
+import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
+import { Title, Value } from 'components/Flyout'
 import {
   DisplayContainer,
   DisplayIcon,
   MultiRowContainer
 } from 'components/SimpleBuy'
-import { SBPaymentMethodType } from 'core/types'
-import { Title, Value } from 'components/Flyout'
 
 const StyledTitle = styled(Title)`
   text-transform: capitalize;
@@ -29,7 +29,7 @@ type Props = {
   value: SBPaymentMethodType
 }
 
-const Bank: React.FC<Props> = ({ icon, text, value, onClick }) => (
+const Bank = ({ icon, onClick, text, value }: Props) => (
   <DisplayContainer
     data-e2e={`sb${value.type.toLowerCase()}Banks`}
     role='button'
@@ -39,9 +39,8 @@ const Bank: React.FC<Props> = ({ icon, text, value, onClick }) => (
     <MultiRowContainer>
       <StyledValue asTitle>{text}</StyledValue>
       <StyledTitle asValue>
-        {`${value.details?.bankAccountType.toLowerCase()} account ${
-          value.details?.accountNumber
-        }`}
+        {`${value.details?.bankAccountType?.toLowerCase() || ''} account ${value
+          .details?.accountNumber || ''}`}
       </StyledTitle>
     </MultiRowContainer>
   </DisplayContainer>

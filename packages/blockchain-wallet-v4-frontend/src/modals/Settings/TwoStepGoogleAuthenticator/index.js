@@ -1,23 +1,24 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
-import { formValueSelector } from 'redux-form'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import TwoStepGoogleAuthenticator from './template.js'
 
 class TwoStepGoogleAuthenticatorContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit () {
+  onSubmit() {
     this.props.settingsActions.enableTwoStepGoogleAuthenticator(this.props.code)
   }
 
-  render () {
+  render() {
     return (
       <TwoStepGoogleAuthenticator {...this.props} onSubmit={this.onSubmit} />
     )

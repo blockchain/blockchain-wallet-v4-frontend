@@ -1,18 +1,26 @@
-import * as A from './actions'
-import * as S from './selectors'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { APIType } from 'core/network/api'
+import BigNumber from 'bignumber.js'
 import { call, CallEffect, put, select } from 'redux-saga/effects'
-import { CoinType, PaymentType, PaymentValue, RemoteDataType } from 'core/types'
+
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import {
+  CoinType,
+  PaymentType,
+  PaymentValue,
+  RemoteDataType
+} from 'blockchain-wallet-v4/src/types'
+import { generateProvisionalPaymentAmount } from 'data/coins/utils'
+import { promptForSecondPassword } from 'services/sagas'
+
 import {
   convertBaseToStandard,
   convertStandardToBase
 } from '../exchange/services'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
+import * as A from './actions'
 import { NO_OFFER_EXISTS } from './model'
-import { promptForSecondPassword } from 'services/SagaService'
-import BigNumber from 'bignumber.js'
+import * as S from './selectors'
 
 export default ({
   api,
@@ -30,20 +38,9 @@ export default ({
     destination: string
   ): Generator<PaymentType | CallEffect, boolean, any> {
     let paymentError
+    const paymentAmount = generateProvisionalPaymentAmount(payment.coin, amount)
+    payment = yield payment.amount(paymentAmount)
     try {
-      switch (payment.coin) {
-        case 'PAX':
-        case 'USDT':
-        case 'WDGLD':
-        case 'ETH':
-        case 'XLM':
-          payment = yield payment.amount(convertStandardToBase(coin, amount))
-          break
-        default:
-          payment = yield payment.amount(
-            parseInt(convertStandardToBase(coin, amount))
-          )
-      }
       payment = yield payment.to(destination, 'ADDRESS')
       payment = yield payment.build()
       // ask for second password

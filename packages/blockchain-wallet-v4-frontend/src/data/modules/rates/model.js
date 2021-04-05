@@ -116,7 +116,7 @@ export const FIX_TYPES = {
   COUNTER_IN_FIAT: 'counterInFiat'
 }
 
-const { BASE, COUNTER, BASE_IN_FIAT, COUNTER_IN_FIAT } = FIX_TYPES
+const { BASE, BASE_IN_FIAT, COUNTER, COUNTER_IN_FIAT } = FIX_TYPES
 
 export const getComplementaryField = flip(prop)({
   sourceAmount: 'sourceFiat',

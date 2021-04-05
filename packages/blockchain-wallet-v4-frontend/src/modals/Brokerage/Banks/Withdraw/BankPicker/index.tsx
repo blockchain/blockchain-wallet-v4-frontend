@@ -1,19 +1,23 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 
-import { actions } from 'data'
-import { BeneficiaryType, ExtractSuccess, WalletFiatType } from 'core/types'
 import { Remote } from 'blockchain-wallet-v4/src'
+import {
+  BeneficiaryType,
+  ExtractSuccess,
+  WalletFiatType
+} from 'blockchain-wallet-v4/src/types'
+import { actions } from 'data'
+import { RootState } from 'data/rootReducer'
 
+import Loading from '../EnterAmount/template.loading'
 import { getData } from './selectors'
 import Failure from './template.failure'
-import Loading from '../EnterAmount/template.loading'
 import Success from './template.success'
 
 class BankPicker extends PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     if (!Remote.Success.is(this.props.data)) {
       this.props.custodialActions.fetchCustodialBeneficiaries(
         this.props.fiatCurrency
@@ -22,7 +26,7 @@ class BankPicker extends PureComponent<Props> {
     }
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => <Success {...this.props} {...val} />,
       Failure: () => (

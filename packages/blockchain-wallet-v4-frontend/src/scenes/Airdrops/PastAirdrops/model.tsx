@@ -1,13 +1,14 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
+import { Icon, Text } from 'blockchain-info-components'
 import {
   BlueCartridge,
   GreyCartridge,
   SuccessCartridge
 } from 'components/Cartridge'
 import { CampaignInfoType } from 'data/types'
-import { FormattedMessage } from 'react-intl'
-import { Icon, Text } from 'blockchain-info-components'
-import React from 'react'
-import styled from 'styled-components'
 
 const TypeWrapper = styled.div`
   display: flex;
@@ -20,8 +21,8 @@ export const Type = ({ campaignName }: CampaignInfoType) => {
       return (
         <TypeWrapper>
           <Icon
-            name='xlm-circle-filled'
-            color='xlm'
+            name='XLM'
+            color='XLM'
             size='24px'
             style={{ marginRight: '8px' }}
           />
@@ -33,7 +34,7 @@ export const Type = ({ campaignName }: CampaignInfoType) => {
     case 'POWER_PAX':
       return (
         <TypeWrapper>
-          <Icon name='pax' size='24px' style={{ marginRight: '8px' }} />
+          <Icon name='PAX' size='24px' style={{ marginRight: '8px' }} />
           <Text size='14px' weight={500}>
             USD Digital
           </Text>
@@ -43,8 +44,8 @@ export const Type = ({ campaignName }: CampaignInfoType) => {
       return (
         <TypeWrapper>
           <Icon
-            name='stx'
-            color='stx'
+            name='STX'
+            color='STX'
             size='24px'
             style={{ marginRight: '8px' }}
           />
@@ -113,7 +114,7 @@ export const To = ({ campaignName, userCampaignState }: CampaignInfoType) => {
     case 'SUNRIVER':
       return userCampaignState === 'REWARD_RECEIVED' ? (
         <Text size='14px' weight={500}>
-          My Stellar Wallet
+          XLM Private Key Wallet
         </Text>
       ) : (
         <Text>-</Text>
@@ -121,7 +122,7 @@ export const To = ({ campaignName, userCampaignState }: CampaignInfoType) => {
     case 'BLOCKSTACK':
       return userCampaignState === 'REWARD_RECEIVED' ? (
         <Text size='14px' weight={500}>
-          My Blockstack Wallet
+          STX Private Key Wallet
         </Text>
       ) : (
         <Text>-</Text>

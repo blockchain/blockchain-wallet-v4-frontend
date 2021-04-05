@@ -1,14 +1,20 @@
-import * as A from './actions'
-import * as pairing from '../../../pairing'
-import * as wS from '../../wallet/selectors'
-import { APIType } from 'core/network/api'
-import { call, put, select } from 'redux-saga/effects'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { FiatTypeEnum, PriceDiffType } from 'blockchain-wallet-v4/src/types'
-import { start } from './model'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
 import readBlob from 'read-blob'
+import { call, put, select } from 'redux-saga/effects'
+
+import {
+  FiatTypeEnum,
+  PriceDiffType,
+  TimeRange
+} from 'blockchain-wallet-v4/src/types'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { APIType } from 'core/network/api'
+
+import * as pairing from '../../../pairing'
+import * as wS from '../../wallet/selectors'
+import * as A from './actions'
+import { start } from './model'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -49,13 +55,15 @@ export default ({ api }: { api: APIType }) => {
   const fetchPriceChange = function * (
     action: ReturnType<typeof A.fetchPriceChange>
   ) {
-    const { base, quote, range, positionAmt = 0 } = action.payload
+    const { base, positionAmt = 0, quote, range } = action.payload
     try {
       if (base in FiatTypeEnum) return
       yield put(A.fetchPriceChangeLoading(base, range))
 
       const time =
-        range === 'all' ? moment.unix(start[base]) : moment().subtract(1, range)
+        range === TimeRange.ALL
+          ? moment.unix(start[base])
+          : moment().subtract(1, range)
 
       const previous: ReturnType<typeof api.getPriceIndex> = yield call(
         api.getPriceIndex,
@@ -100,7 +108,7 @@ export default ({ api }: { api: APIType }) => {
 
   const fetchPriceIndexSeries = function * (action) {
     try {
-      const { coin, currency, start, scale } = action.payload
+      const { coin, currency, scale, start } = action.payload
       yield put(A.fetchPriceIndexSeriesLoading())
       const data = yield call(
         api.getPriceIndexSeries,
@@ -134,7 +142,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const authorizeLogin = function * (action) {
-    const { token, confirm } = action.payload
+    const { confirm, token } = action.payload
     try {
       yield put(A.authorizeLoginLoading())
       const data = yield call(api.authorizeLogin, token, confirm)

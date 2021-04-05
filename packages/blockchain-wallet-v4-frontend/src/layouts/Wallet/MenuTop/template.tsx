@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { useMedia } from 'services/ResponsiveService'
+import { useMedia } from 'services/styles'
+
 import Large from './template.large'
 import Medium from './template.medium'
 import Small from './template.small'

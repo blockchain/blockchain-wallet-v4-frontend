@@ -1,11 +1,13 @@
-import { algoReducer } from './algo/reducers'
 import { combineReducers } from 'redux'
-import { custodialReducer } from './custodial/reducers'
-import { fiatReducer } from './fiat/reducers'
-import { miscReducer } from './misc/reducers'
+
+import { algoReducer } from './algo/reducers'
 import bch from './bch/reducers'
 import btc from './btc/reducers'
+import { custodialReducer } from './custodial/reducers'
+import dot from './dot/reducers'
 import eth from './eth/reducers'
+import { fiatReducer } from './fiat/reducers'
+import { miscReducer } from './misc/reducers'
 import xlm from './xlm/reducers'
 
 const dataReducer = combineReducers({
@@ -13,6 +15,7 @@ const dataReducer = combineReducers({
   bch,
   btc,
   custodial: custodialReducer,
+  dot,
   eth,
   fiat: fiatReducer,
   misc: miscReducer,

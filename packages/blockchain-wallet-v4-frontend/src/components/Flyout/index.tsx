@@ -1,10 +1,11 @@
-import { Modal, Text } from 'blockchain-info-components'
-import { ModalPropsType } from 'blockchain-wallet-v4-frontend/src/modals/types'
-import media from 'services/ResponsiveService'
 import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import styled from 'styled-components'
 import Transition from 'react-transition-group/Transition'
+import { ModalPropsType } from 'blockchain-wallet-v4-frontend/src/modals/types'
+import styled from 'styled-components'
+
+import { Modal, Text } from 'blockchain-info-components'
+import { media } from 'services/styles'
 // TODO: use only ReactCSSTransitionGroup
 
 export const duration = 500
@@ -152,6 +153,13 @@ export const AmountFieldContainer = styled.div<{ isCrypto?: boolean }>`
   }
 `
 
+export const StickyHeaderFlyoutWrapper = styled(FlyoutWrapper)`
+  background-color: ${props => props.theme.white};
+  position: sticky;
+  top: 0;
+  z-index: 99;
+`
+
 class Flyout extends React.PureComponent<
   Omit<ModalPropsType, 'close'> & {
     direction: 'right' | 'left'
@@ -159,7 +167,7 @@ class Flyout extends React.PureComponent<
     onClose: () => void
   }
 > {
-  render () {
+  render() {
     const { children, ...rest } = this.props
 
     return (

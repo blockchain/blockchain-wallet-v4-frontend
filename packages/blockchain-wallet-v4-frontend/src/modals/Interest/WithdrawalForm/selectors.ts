@@ -1,6 +1,7 @@
-import { lift } from 'ramda'
-import { selectors } from 'data'
 import BigNumber from 'bignumber.js'
+import { lift } from 'ramda'
+
+import { selectors } from 'data'
 
 export const getData = state => {
   const coin = selectors.components.interest.getCoinType(state)

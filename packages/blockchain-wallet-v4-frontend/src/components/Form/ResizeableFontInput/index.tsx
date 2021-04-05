@@ -1,5 +1,5 @@
-import { findDOMNode } from 'react-dom'
 import React from 'react'
+import { findDOMNode } from 'react-dom'
 
 const fontSizeToNumber = fontSize => Number(fontSize.replace(/px/, ''))
 
@@ -41,7 +41,7 @@ export const ResizeableFontInput = Component =>
       fontRatio: 1
     }
 
-    componentDidMount () {
+    componentDidMount() {
       window.addEventListener('resize', this.resizeInputFont)
       requestAnimationFrame(() => {
         this.updateValueLength()
@@ -49,21 +49,23 @@ export const ResizeableFontInput = Component =>
       })
     }
 
-    componentDidUpdate () {
+    componentDidUpdate() {
       requestAnimationFrame(this.updateValueLength)
     }
 
-    componentWillUnmount () {
+    componentWillUnmount() {
       window.removeEventListener('resizes', this.resizeInputFont)
     }
 
-    selectInput () {
+    selectInput() {
       const ref = this.componentRef.current
       if (!ref) return
 
+      // @ts-ignore
       const node = findDOMNode(ref)
       if (!node) return
 
+      // @ts-ignore
       return node.querySelector('input')
     }
 
@@ -113,7 +115,7 @@ export const ResizeableFontInput = Component =>
       requestAnimationFrame(this.updateValueLength)
     }
 
-    render () {
+    render() {
       return (
         <Component
           {...this.props}

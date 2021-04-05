@@ -1,7 +1,9 @@
-import { Button, Link } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
-import { Props } from './template'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+
+import { Button, Link } from 'blockchain-info-components'
+
+import { Props } from './template'
 
 const LinkToExchange: React.FC<Props> = props => {
   const exchangeUrl = props.domains.exchange + '/trade'

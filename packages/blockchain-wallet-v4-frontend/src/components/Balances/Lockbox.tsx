@@ -1,14 +1,13 @@
-import { FormattedMessage } from 'react-intl'
-import { Icon, Link, Text } from 'blockchain-info-components'
-import Bowser from 'bowser'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import Bowser from 'bowser'
 import styled from 'styled-components'
 
-import { model } from 'data'
-import media from 'services/ResponsiveService'
-
+import { Icon, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import { model } from 'data'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div<{
   disableClick?: boolean

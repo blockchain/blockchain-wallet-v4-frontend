@@ -1,6 +1,7 @@
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
+
 import * as AT from './actionTypes'
 import { WithdrawActionTypes, WithdrawState, WithdrawStepEnum } from './types'
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: WithdrawState = {
   amount: undefined,
@@ -12,7 +13,7 @@ const INITIAL_STATE: WithdrawState = {
   withdrawLocks: Remote.NotAsked
 }
 
-export function withdrawReducer (
+export function withdrawReducer(
   state = INITIAL_STATE,
   action: WithdrawActionTypes
 ): WithdrawState {

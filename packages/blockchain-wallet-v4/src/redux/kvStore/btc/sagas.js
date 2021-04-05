@@ -1,12 +1,13 @@
-import * as A from './actions'
-import { BTC, derivationMap } from '../config'
-import { call, delay, put, select } from 'redux-saga/effects'
-import { callTask } from '../../../utils/functional'
-import { getMetadataXpriv } from '../root/selectors'
-import { getWallet } from '../../wallet/selectors'
-import { HDAccount, KVStoreEntry, Wallet } from '../../../types'
 import { isEmpty, isNil } from 'ramda'
 import { set } from 'ramda-lens'
+import { call, delay, put, select } from 'redux-saga/effects'
+
+import { HDAccount, KVStoreEntry, Wallet } from '../../../types'
+import { callTask } from '../../../utils/functional'
+import { getWallet } from '../../wallet/selectors'
+import { BTC, derivationMap } from '../config'
+import { getMetadataXpriv } from '../root/selectors'
+import * as A from './actions'
 
 export default ({ api, networks }) => {
   const createMetadataBtc = function * () {

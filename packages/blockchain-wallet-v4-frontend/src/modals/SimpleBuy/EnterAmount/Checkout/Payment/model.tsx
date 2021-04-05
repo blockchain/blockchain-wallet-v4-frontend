@@ -1,24 +1,23 @@
-import { FormattedMessage } from 'react-intl'
 import React, { ReactElement } from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
+import { Icon, Image, Text } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   BankTransferAccountType,
   FiatType,
   SBBalancesType,
-  SBPaymentMethodType
-} from 'core/types'
+  SBPaymentMethodType,
+  WalletCurrencyType
+} from 'blockchain-wallet-v4/src/types'
+import { Title, Value } from 'components/Flyout'
 import {
   CARD_TYPES,
   DEFAULT_CARD_SVG_LOGO
 } from 'components/Form/CreditCardBox/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { fiatToString } from 'core/exchange/currency'
-import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
-import { Icon, Image, Text } from 'blockchain-info-components'
-import { Title, Value } from 'components/Flyout'
-
-import { getBankLogoImageName } from 'services/ImagesService'
+import { getBankLogoImageName } from 'services/images'
 
 type PaymentContainerProps = {
   disabled?: boolean
@@ -113,9 +112,8 @@ export const renderBank = (
   <>
     <DisplayValue>{renderBankText(value)}</DisplayValue>
     <DisplayTitle>
-      {`${value.details?.bankAccountType.toLowerCase()} account ${
-        value.details?.accountNumber
-      }`}
+      {`${value.details?.bankAccountType?.toLowerCase() || ''} account ${value
+        .details?.accountNumber || ''}`}
     </DisplayTitle>
   </>
 )
@@ -212,8 +210,8 @@ export const getIcon = (
       return (
         <Icon
           size='32px'
-          color='fiat'
-          name={method.currency.toLowerCase() as keyof IcoMoonType}
+          color='USD'
+          name={method.currency as WalletCurrencyType}
         />
       )
     case 'BANK_TRANSFER':

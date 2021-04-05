@@ -1,12 +1,12 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
 
-import { actions, selectors } from 'data'
 import { Types } from 'blockchain-wallet-v4/src'
-
-import * as C from 'services/AlertService'
+import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+import * as C from 'services/alerts'
+
 import SecondPassword from './template.js'
 
 class SecondPasswordContainer extends React.PureComponent {
@@ -32,7 +32,7 @@ class SecondPasswordContainer extends React.PureComponent {
     this.setState({ secondPassword: event.target.value })
   }
 
-  render () {
+  render() {
     return (
       <SecondPassword
         {...this.props}

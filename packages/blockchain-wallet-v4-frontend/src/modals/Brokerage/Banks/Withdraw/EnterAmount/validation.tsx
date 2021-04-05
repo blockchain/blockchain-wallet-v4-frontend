@@ -1,10 +1,11 @@
-import { Props } from './template.success'
 import { selectors } from 'data'
+
+import { Props } from './template.success'
 
 export const maximumAmount = (value: string, allValues, restProps: Props) => {
   if (!value) return true
 
-  const { withdrawableBalance, fees } = restProps
+  const { fees, withdrawableBalance } = restProps
 
   if (!withdrawableBalance) return true
 

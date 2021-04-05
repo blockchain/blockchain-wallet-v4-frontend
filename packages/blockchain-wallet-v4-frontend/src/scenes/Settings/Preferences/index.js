@@ -1,9 +1,9 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 import AutoLogout from './AutoLogout'
 import CryptoLinkHandling from './CryptoLinkHandling'

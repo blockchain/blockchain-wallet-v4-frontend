@@ -1,3 +1,7 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import {
   Button,
   Image,
@@ -9,11 +13,7 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
-import React from 'react'
-import styled from 'styled-components'
-
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -54,13 +54,13 @@ const Container = styled.div`
 `
 
 const TwoStepSetup = props => {
-  const { position, total, close, closeAll, ...rest } = props
+  const { close, closeAll, position, total, ...rest } = props
   const {
+    authType,
+    handleDisable,
     handleGoogleAuthenticator,
     handleMobile,
-    handleYubico,
-    handleDisable,
-    authType
+    handleYubico
   } = rest
 
   return authType !== 0 ? (

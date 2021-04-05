@@ -1,9 +1,11 @@
 import { fork } from 'redux-saga/effects'
+
 import algoTransactions from './algoTransactions/sagaRegister'
 import bchTransactions from './bchTransactions/sagaRegister'
 import borrow from './borrow/sagaRegister'
 import brokerage from './brokerage/sagaRegister'
 import btcTransactions from './btcTransactions/sagaRegister'
+import dotTransactions from './dotTransactions/sagaRegister'
 import ethTransactions from './ethTransactions/sagaRegister'
 import fiatTransactions from './fiatTransactions/sagaRegister'
 import identityVerification from './identityVerification/sagaRegister'
@@ -15,10 +17,6 @@ import onboarding from './onboarding/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
 import priceTicker from './priceTicker/sagaRegister'
 import refresh from './refresh/sagaRegister'
-import requestBch from './requestBch/sagaRegister'
-import requestBtc from './requestBtc/sagaRegister'
-import requestEth from './requestEth/sagaRegister'
-import requestXlm from './requestXlm/sagaRegister'
 import send from './send/sagaRegister'
 import sendBch from './sendBch/sagaRegister'
 import sendBtc from './sendBtc/sagaRegister'
@@ -34,12 +32,13 @@ import withdraw from './withdraw/sagaRegister'
 import xlmTransactions from './xlmTransactions/sagaRegister'
 
 export default ({ api, coreSagas, networks }) =>
-  function * componentsSaga () {
+  function * componentsSaga() {
     yield fork(algoTransactions())
     yield fork(borrow({ api, coreSagas, networks }))
     yield fork(brokerage({ api, coreSagas, networks }))
     yield fork(bchTransactions())
     yield fork(btcTransactions())
+    yield fork(dotTransactions())
     yield fork(ethTransactions())
     yield fork(xlmTransactions())
     yield fork(fiatTransactions())
@@ -52,10 +51,6 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(priceChart())
     yield fork(priceTicker({ coreSagas }))
     yield fork(refresh())
-    yield fork(requestBtc({ networks }))
-    yield fork(requestBch({ networks }))
-    yield fork(requestEth({ networks }))
-    yield fork(requestXlm())
     yield fork(send({ api, coreSagas, networks }))
     yield fork(sendBch({ api, coreSagas, networks }))
     yield fork(sendBtc({ api, coreSagas, networks }))

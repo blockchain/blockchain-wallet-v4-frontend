@@ -1,3 +1,8 @@
+import React, { useState } from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import styled, { DefaultTheme } from 'styled-components'
+
 import {
   Button,
   HeartbeatLoader,
@@ -5,16 +10,12 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
-import { model } from 'data'
-
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { model } from 'data'
+import { required, validEmail } from 'services/forms'
+
 import { Props as OwnProps } from '.'
-import { required, validEmail } from 'services/FormHelper'
-import React, { useState } from 'react'
-import styled, { DefaultTheme } from 'styled-components'
 
 const { VERIFY_EMAIL_FORM } = model.components.identityVerification
 
@@ -38,7 +39,6 @@ const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
 
 const CloseContainer = styled.div`
   display: flex;
-  align-items: right;
   justify-content: flex-end;
 `
 const ContentWrapper = styled.div`
@@ -60,7 +60,7 @@ const Content = styled.div`
   width: 100%;
 `
 
-const ResendContiner = styled.span`
+const ResendContainer = styled.span`
   display: inline;
   padding: 40px;
   text-align: center;
@@ -195,7 +195,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </Content>
       </ContentWrapper>
       {!changeEmail && (
-        <ResendContiner>
+        <ResendContainer>
           <Text
             color='grey900'
             style={{ marginRight: '2px', display: 'inline-block' }}
@@ -221,7 +221,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               defaultMessage='Resend'
             />
           </Link>
-        </ResendContiner>
+        </ResendContainer>
       )}
     </Wrapper>
   )

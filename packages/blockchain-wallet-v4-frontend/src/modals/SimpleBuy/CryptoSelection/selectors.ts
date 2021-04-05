@@ -1,8 +1,10 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess, FiatType } from 'core/types'
-import { SBCheckoutFormValuesType } from 'data/types'
+import { ExtractSuccess, FiatType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
+import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
+import { getCoinAccounts } from 'data/coins/selectors'
+import { SBCheckoutFormValuesType } from 'data/types'
 
 export const getData = state => {
   const coinsR = selectors.core.walletOptions.getSupportedCoins(state)
@@ -20,7 +22,7 @@ export const getData = state => {
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
   // for sell, get 'swap' accounts
-  const accounts = selectors.components.swap.getActiveAccounts(state)
+  const accounts = getCoinAccounts(state, SWAP_ACCOUNTS_SELECTOR)
 
   return lift(
     (
