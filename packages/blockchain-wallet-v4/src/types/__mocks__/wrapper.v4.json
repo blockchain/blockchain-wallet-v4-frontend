@@ -55,7 +55,7 @@
         "default_account_idx": 0,
         "accounts": [
           {
-            "label": "BTC Private Key Wallet",
+            "label": "Private Key Wallet",
             "archived": false,
             "default_derivation": "segwitP2SH",
             "derivations": [
