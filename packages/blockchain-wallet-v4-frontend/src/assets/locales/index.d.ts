@@ -629,6 +629,8 @@ type MessagesType = {
   'lockbox.service.messages.unknown': 'An unknown error has occurred.'
   'lockboxrequired.tooltip': 'Hardware device is required'
   'modals.brokerage.add_a_bank_account': 'Add a Bank Account'
+  'modals.brokerage.authrorize.approve': 'Approve Your Payment'
+  'modals.brokerage.authorize.payment_total': 'Payment Total'
   'modals.brokerage.authorize.title': '{entityName}'
   'modals.brokerage.authorize.data_sharing': 'Data Sharing'
   'modals.brokertitleage.authorize.data_sharing': '{entityName} will retrieve your bank data based on your request and provide this information to Blockchain.'

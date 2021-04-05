@@ -68,6 +68,7 @@ export enum BankStatusType {
 }
 
 export enum BankDWStepType {
+  AUTHORIZE = 'AUTHORIZE',
   BANK_LIST = 'BANK_LIST',
   CONFIRM = 'CONFIRM',
   DEPOSIT_CONNECT = 'DEPOSIT_CONNECT',
@@ -83,6 +84,7 @@ export type BrokerageDWStepPayload =
   | {
       dwStep:
         | BankDWStepType.ENTER_AMOUNT
+        | BankDWStepType.AUTHORIZE
         | BankDWStepType.WIRE_INSTRUCTIONS
         | BankDWStepType.DEPOSIT_CONNECT
         | BankDWStepType.DEPOSIT_STATUS

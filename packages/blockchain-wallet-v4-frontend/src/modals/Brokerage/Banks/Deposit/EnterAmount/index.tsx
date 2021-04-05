@@ -30,7 +30,7 @@ const EnterAmount = props => {
 
   const onSubmit = () => {
     props.brokerageActions.setDWStep({
-      dwStep: BankDWStepType.CONFIRM
+      dwStep: BankDWStepType.AUTHORIZE
     })
   }
 

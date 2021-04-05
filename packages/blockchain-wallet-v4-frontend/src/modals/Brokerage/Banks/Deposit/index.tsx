@@ -16,6 +16,7 @@ import {
   LoadingTextEnum
 } from '../../../components'
 import { ModalPropsType } from '../../../types'
+import Authorize from './Authorize'
 import BankList from './BankList'
 import Confirm from './Confirm'
 import DepositMethods from './DepositMethods'
@@ -79,6 +80,16 @@ class Deposit extends PureComponent<Props> {
            */
           <FlyoutChild>
             <EnterAmount {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === BankDWStepType.AUTHORIZE && (
+          /*
+           * The enter amount form shows the amount input, limits, and default
+           * or last used ach account. If user clicks on "Add a bank" or their
+           * last used bank, transition to add bank modal or linked banks list ui
+           */
+          <FlyoutChild>
+            <Authorize {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {this.props.step === BankDWStepType.BANK_LIST && (
