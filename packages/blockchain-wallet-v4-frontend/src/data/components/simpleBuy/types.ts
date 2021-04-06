@@ -66,6 +66,7 @@ export type SBFixType = 'CRYPTO' | 'FIAT'
 export enum SimpleBuyStepType {
   '3DS_HANDLER',
   'ADD_CARD',
+  'AUTHORIZE_PAYMENT',
   'BANK_WIRE_DETAILS',
   'CC_BILLING_ADDRESS',
   'CHECKOUT_CONFIRM',
@@ -377,7 +378,11 @@ interface InitializeCheckout {
 export type StepActionsPayload =
   | {
       order: SBOrderType
-      step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'OPEN_BANKING_CONNECT'
+      step:
+        | 'CHECKOUT_CONFIRM'
+        | 'ORDER_SUMMARY'
+        | 'OPEN_BANKING_CONNECT'
+        | 'AUTHORIZE_PAYMENT'
     }
   | {
       sellOrder: SwapOrderType
