@@ -4,15 +4,23 @@ import {
   formatFiat
 } from 'blockchain-wallet-v4/src/exchange/currency'
 
+const PERCENTAGE_100 = 100
+
 export const calcCompoundInterest = (principal, rate, term) => {
   const COMPOUNDS_PER_YEAR = 365
   const principalInt = parseFloat(principal)
   if (!principalInt) return '0.00'
   const totalAmount =
     principalInt *
-    Math.pow(1 + rate / (COMPOUNDS_PER_YEAR * 100), COMPOUNDS_PER_YEAR * term)
+    Math.pow(
+      1 + rate / (COMPOUNDS_PER_YEAR * PERCENTAGE_100),
+      COMPOUNDS_PER_YEAR * term
+    )
   return formatFiat(totalAmount - principalInt)
 }
+
+export const calcBasicInterest = (principal: number, rate: number): number =>
+  principal * (1 + rate / PERCENTAGE_100)
 
 export const amountConverter = (amount, coin) => {
   return Exchange.convertCoinToCoin({

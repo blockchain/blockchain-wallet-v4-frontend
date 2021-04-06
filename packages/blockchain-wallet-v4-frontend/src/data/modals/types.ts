@@ -20,6 +20,7 @@ export type ModalNamesType =
   | 'DeleteAddressLabel'
   | 'EditTxDescription'
   | 'ImportBtcAddress'
+  | 'InterestPromo'
   | 'INTEREST_MODAL'
   | 'KycDocResubmit'
   | 'KycTierUpgrade'

@@ -227,22 +227,22 @@ export function interestReducer(
         coin: payload.coin,
         isFromBuySell: payload.isFromBuySell
       }
-    case AT.FETCH_AFTER_TRANSACTION_FAILURE:
+    case AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_FAILURE:
       return {
         ...state,
         afterTransaction: Remote.Failure(payload.error)
       }
-    case AT.FETCH_AFTER_TRANSACTION_LOADING:
+    case AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_LOADING:
       return {
         ...state,
         afterTransaction: Remote.Loading
       }
-    case AT.FETCH_AFTER_TRANSACTION_SUCCESS:
+    case AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_SUCCESS:
       return {
         ...state,
         afterTransaction: Remote.Success(payload.afterTransaction)
       }
-    case AT.RESET_AFTER_TRANSACTION:
+    case AT.RESET_SHOW_INTEREST_CARD_AFTER_TRANSACTION:
       return {
         ...state,
         afterTransaction: Remote.NotAsked

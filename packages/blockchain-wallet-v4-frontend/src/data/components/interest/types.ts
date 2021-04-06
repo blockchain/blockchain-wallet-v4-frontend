@@ -273,17 +273,17 @@ interface ShowInterestModal {
 // INTEREST CTA AFTER TRANSACTION
 interface FetchInterestAfterTransactionFailure {
   payload: { error: string }
-  type: typeof AT.FETCH_AFTER_TRANSACTION_FAILURE
+  type: typeof AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_FAILURE
 }
 interface FetchInterestAfterTransactionLoading {
-  type: typeof AT.FETCH_AFTER_TRANSACTION_LOADING
+  type: typeof AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_LOADING
 }
 interface FetchInterestAfterTransactionSuccess {
   payload: { afterTransaction: InterestAfterTransactionType }
-  type: typeof AT.FETCH_AFTER_TRANSACTION_SUCCESS
+  type: typeof AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_SUCCESS
 }
 interface ResetAfterTransaction {
-  type: typeof AT.RESET_AFTER_TRANSACTION
+  type: typeof AT.RESET_SHOW_INTEREST_CARD_AFTER_TRANSACTION
 }
 
 export type InterestActionTypes =

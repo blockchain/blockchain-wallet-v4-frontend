@@ -25,8 +25,12 @@ import {
 } from 'redux-saga/effects'
 
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
+import {
+  InterestAfterTransactionType,
+  WalletFiatType
+} from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { actions, model, selectors } from 'data'
+import { actions, actionTypes, model, selectors } from 'data'
 import {
   getBchBalance,
   getBtcBalance,
@@ -37,7 +41,8 @@ import { parsePaymentRequest } from 'data/bitpay/sagas'
 import profileSagas from 'data/modules/profile/sagas'
 import * as C from 'services/alerts'
 
-import { DeepLinkGoal, GoalsType } from './types'
+import { WAIT_FOR_INTEREST_PROMO_MODAL } from './model'
+import { DeepLinkGoal, GoalType } from './types'
 
 const { TRANSACTION_EVENTS } = model.analytics
 
@@ -246,7 +251,7 @@ export default ({ api, coreSagas, networks }) => {
     if (deepLink) yield call(defineDeepLinkGoals, deepLink, search)
   }
 
-  const runAirdropClaimGoal = function * (goal) {
+  const runAirdropClaimGoal = function * (goal: GoalType) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
     const showAirdropClaimModal = yield select(
@@ -266,7 +271,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runKycGoal = function * (goal) {
+  const runKycGoal = function * (goal: GoalType) {
     try {
       const { data, id } = goal
       const { tier = TIERS[2] } = data
@@ -286,7 +291,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runSimpleBuyGoal = function * (goal) {
+  const runSimpleBuyGoal = function * (goal: GoalType) {
     const {
       data: { amount, crypto, fiatCurrency, id }
     } = goal
@@ -301,7 +306,7 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
-  const runLinkAccountGoal = function * (goal) {
+  const runLinkAccountGoal = function * (goal: GoalType) {
     const { data, id } = goal
     yield put(actions.goals.deleteGoal(id))
     yield put(
@@ -441,7 +446,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runSendBtcGoal = function * (goal) {
+  const runSendBtcGoal = function * (goal: GoalType) {
     const { data, id } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -466,7 +471,7 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
-  const runSendXlmGoal = function * (goal) {
+  const runSendXlmGoal = function * (goal: GoalType) {
     const { data, id } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -495,7 +500,7 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
-  const runUpgradeForAirdropGoal = function * (goal) {
+  const runUpgradeForAirdropGoal = function * (goal: GoalType) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
     const showUpgradeForAirdropModal = yield select(
@@ -521,14 +526,14 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runSwapModal = function * (goal) {
+  const runSwapModal = function * (goal: GoalType) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
     yield put(actions.goals.addInitialModal('swap', 'SWAP_MODAL'))
   }
 
-  const runSwapUpgradeGoal = function * (goal) {
+  const runSwapUpgradeGoal = function * (goal: GoalType) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -549,7 +554,7 @@ export default ({ api, coreSagas, networks }) => {
       )
   }
 
-  const runKycDocResubmitGoal = function * (goal) {
+  const runKycDocResubmitGoal = function * (goal: GoalType) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
     yield call(waitForUserData)
@@ -567,7 +572,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runSwapGetStartedGoal = function * (goal) {
+  const runSwapGetStartedGoal = function * (goal: GoalType) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -588,7 +593,7 @@ export default ({ api, coreSagas, networks }) => {
       )
   }
 
-  const runSyncPitGoal = function * (goal) {
+  const runSyncPitGoal = function * (goal: GoalType) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -608,7 +613,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runWelcomeModal = function * (goal) {
+  const runWelcomeModal = function * (goal: GoalType) {
     const { data, id } = goal
     const { firstLogin } = data
     yield put(actions.goals.deleteGoal(id))
@@ -618,7 +623,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runTransferEthGoal = function * (goal) {
+  const runTransferEthGoal = function * (goal: GoalType) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
     const legacyAccountR = yield select(
@@ -653,11 +658,57 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runInterestRedirect = function * (goal) {
+  const runInterestRedirect = function * (goal: GoalType) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
     yield put(actions.goals.addInitialRedirect('interest'))
+  }
+  const runInterestPromo = function * (goal: GoalType) {
+    // do not show imediately modal, wait 5 seconds
+    yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
+    yield call(waitForUserData)
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+    const { current } = (yield select(
+      selectors.modules.profile.getUserTiers
+    )).getOrElse({ current: 0 }) || { current: 0 }
+
+    // we show this only for tier 2 users
+    if (current === TIERS[2]) {
+      const currency = (yield select(
+        selectors.core.settings.getCurrency
+      )).getOrElse('USD')
+      yield put(
+        actions.components.interest.fetchShowInterestCardAfterTransaction(
+          currency as WalletFiatType
+        )
+      )
+      // make sure that fetch is done
+      yield take([
+        actionTypes.components.interest
+          .FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_SUCCESS,
+        actionTypes.components.interest
+          .FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_FAILURE
+      ])
+      const afterTransactionR = yield select(
+        selectors.components.interest.getAfterTransaction
+      )
+      const afterTransaction = afterTransactionR.getOrElse({
+        show: false
+      } as InterestAfterTransactionType)
+      if (afterTransaction?.show) {
+        yield put(
+          actions.components.simpleBuy.fetchSBPairs(
+            currency,
+            afterTransaction.currency
+          )
+        )
+        yield put(
+          actions.goals.addInitialModal('interestPromo', 'InterestPromo')
+        )
+      }
+    }
   }
 
   const runInitialRedirect = function * () {
@@ -672,6 +723,7 @@ export default ({ api, coreSagas, networks }) => {
     const initialModals = yield select(selectors.goals.getInitialModals)
     const {
       airdropClaim,
+      interestPromo,
       kycDocResubmit,
       linkAccount,
       payment,
@@ -744,6 +796,11 @@ export default ({ api, coreSagas, networks }) => {
         )
       )
     }
+    if (interestPromo) {
+      yield put(
+        actions.modals.showModal(interestPromo.name, interestPromo.data)
+      )
+    }
     if (welcomeModal) {
       const sddEligible = yield call(api.fetchSDDEligible)
       // show SDD flow for eligible country
@@ -756,7 +813,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runGoal = function * (goal: { data: any; id: string; name: GoalsType }) {
+  const runGoal = function * (goal: GoalType) {
     try {
       // Ordering doesn't matter here
       // Try to keep in alphabetical ⬆️
@@ -811,6 +868,9 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'interest':
           yield call(runInterestRedirect, goal)
+          break
+        case 'interestPromo':
+          yield call(runInterestPromo, goal)
           break
       }
       yield put(actions.goals.initialModalDisplayed)
