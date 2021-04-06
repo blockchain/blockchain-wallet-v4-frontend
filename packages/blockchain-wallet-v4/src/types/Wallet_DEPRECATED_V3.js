@@ -497,7 +497,7 @@ export const getHDPrivateKeyWIF = curry(
 
 // TODO :: find a proper place for that
 const fromBase58toKey = (string, address, network) => {
-  var key = Bitcoin.ECPair(Base58.decode(string))
+  var key = Bitcoin.ECPair.fromPrivateKey(Base58.decode(string))
   if (key.getAddress() === address) return key
   key.compressed = !key.compressed
   return key
@@ -573,14 +573,7 @@ export const getMnemonic = curry((secondPassword, wallet) => {
   return seedHex.chain(entropyToMnemonic)
 })
 
-export const js = (
-  guid,
-  sharedKey,
-  label,
-  mnemonic,
-  nAccounts,
-  network
-) => ({
+export const js = (guid, sharedKey, label, mnemonic, nAccounts, network) => ({
   guid: guid,
   sharedKey: sharedKey,
   tx_names: [],
