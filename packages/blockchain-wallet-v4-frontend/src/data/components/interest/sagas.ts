@@ -32,6 +32,8 @@ const { INTEREST_EVENTS } = model.analytics
 const DEPOSIT_FORM = 'interestDepositForm'
 const WITHDRAWAL_FORM = 'interestWithdrawalForm'
 
+export const logLocation = 'components/interest/sagas'
+
 export default ({
   api,
   coreSagas,
@@ -433,7 +435,9 @@ export default ({
         yield put(
           actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_ONE_CLICK)
         )
-        yield put(actions.components.interest.resetAfterTransaction())
+        yield put(
+          actions.components.interest.resetShowInterestCardAfterTransaction()
+        )
       }
 
       yield delay(3000)
@@ -517,21 +521,33 @@ export default ({
     )
   }
 
-  const fetchAfterTransaction = function * () {
+  const fetchShowInterestCardAfterTransaction = function * ({
+    payload
+  }: ReturnType<typeof A.fetchShowInterestCardAfterTransaction>) {
     try {
-      yield put(A.fetchAfterTransactionLoading())
+      yield put(A.fetchShowInterestCardAfterTransactionLoading())
       const response: InterestAfterTransactionType = yield call(
-        api.getInterestCtaAfterTransaction
+        api.getInterestCtaAfterTransaction,
+        payload.currency
       )
-      yield put(A.fetchAfterTransactionSuccess(response))
+      yield put(A.fetchShowInterestCardAfterTransactionSuccess(response))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchAfterTransactionFailure(error))
+      yield put(A.fetchShowInterestCardAfterTransactionFailure(error))
+    }
+  }
+
+  const stopShowingInterestModal = function * () {
+    try {
+      yield call(api.stopInterestCtaAfterTransaction, false)
+      yield put(actions.modals.closeModal('InterestPromo'))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'InterestPromo', e))
     }
   }
 
   return {
-    fetchAfterTransaction,
+    fetchShowInterestCardAfterTransaction,
     fetchInterestBalance,
     fetchInterestEligible,
     fetchInterestInstruments,
@@ -545,6 +561,7 @@ export default ({
     requestWithdrawal,
     routeToTxHash,
     sendDeposit,
-    showInterestModal
+    showInterestModal,
+    stopShowingInterestModal
   }
 }

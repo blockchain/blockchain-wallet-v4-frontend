@@ -135,13 +135,13 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
 
   const toCustodialDropdown = currencyDetails => {
     // this object has to be equal to object we do expect in dropdown
-    const { coin, ...restDetails } = currencyDetails
+    const { ...restDetails } = currencyDetails
     return [
       {
         ...restDetails,
         address: currencyDetails.address,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: `${coin} Trading Account`
+        label: 'Trading Account'
       }
     ]
   }

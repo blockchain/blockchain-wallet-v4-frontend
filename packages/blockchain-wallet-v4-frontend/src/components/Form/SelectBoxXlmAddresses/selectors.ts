@@ -39,7 +39,7 @@ export const getData = (
   }
   const buildCustodialDisplay = x => {
     return (
-      `XLM Trading Account` +
+      `Trading Account` +
       ` (${Exchange.displayXlmToXlm({
         value: x ? x.available : 0,
         fromUnit: 'STROOP',
@@ -49,7 +49,7 @@ export const getData = (
   }
   const buildInterestDisplay = (x: InterestAccountBalanceType['XLM']) => {
     return (
-      `XLM Interest Account` +
+      `Interest Account` +
       ` (${Exchange.displayXlmToXlm({
         value: x ? x.balance : 0,
         fromUnit: 'STROOP',
@@ -68,7 +68,7 @@ export const getData = (
       value: {
         ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: 'XLM Trading Account'
+        label: 'Trading Account'
       }
     }
   ]
@@ -78,7 +78,7 @@ export const getData = (
       value: {
         ...x,
         type: ADDRESS_TYPES.INTEREST,
-        label: 'XLM Interest Account'
+        label: 'Interest Account'
       }
     }
   ]

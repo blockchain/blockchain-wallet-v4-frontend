@@ -2,10 +2,15 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { SkeletonRectangle } from 'blockchain-info-components'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
-  margin-top: 12px;
-  padding-left: 24px;
+  margin-top: 8px;
+  margin-left: 0;
+
+  ${media.atLeastTabletL`
+    margin-left: 24px;
+  `}
 `
 
 const Loading = () => {

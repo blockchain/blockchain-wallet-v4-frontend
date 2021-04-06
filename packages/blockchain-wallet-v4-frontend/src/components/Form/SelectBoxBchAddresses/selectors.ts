@@ -93,7 +93,7 @@ export const getData = (
 
   const buildCustodialDisplay = x => {
     return (
-      `BCH Trading Account` +
+      `Trading Account` +
       ` (${Exchange.displayBchToBch({
         value: x ? x.available : 0,
         fromUnit: 'SAT',
@@ -104,7 +104,7 @@ export const getData = (
 
   const buildInterestDisplay = (x: InterestAccountBalanceType['BCH']) => {
     return (
-      `BCH Interest Account` +
+      `Interest Account` +
       ` (${Exchange.displayBchToBch({
         value: x ? x.balance : 0,
         fromUnit: 'SAT',
@@ -124,7 +124,7 @@ export const getData = (
   const toGroup = curry((label, options) => [{ label, options }])
   const toExchange = x => [
     {
-      label: `BCH Exchange Account`,
+      label: `Exchange Account`,
       value: x
     }
   ]
@@ -134,7 +134,7 @@ export const getData = (
       value: {
         ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: 'BCH Trading Account'
+        label: 'Trading Account'
       }
     }
   ]
@@ -145,7 +145,7 @@ export const getData = (
       value: {
         ...x,
         type: ADDRESS_TYPES.INTEREST,
-        label: 'BCH Interest Account'
+        label: 'Interest Account'
       }
     }
   ]

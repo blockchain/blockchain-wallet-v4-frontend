@@ -104,7 +104,7 @@ export type BtcPaymentType = IPaymentType & {
 
 export type EthPaymentType = IPaymentType & {
   amount: (n: number | string) => EthPaymentType
-  coin: 'ETH' | 'PAX' | 'USDT' | 'WDGLD'
+  coin: 'ETH' | 'PAX' | 'USDT' | 'WDGLD' | 'YFI' | 'AAVE'
   description: (arg: string) => EthPaymentType
   fee: (arg: number, account: string) => EthPaymentType
   init: (arg: {

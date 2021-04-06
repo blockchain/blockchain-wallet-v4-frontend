@@ -12,7 +12,8 @@ import {
 import {
   CoinType,
   FiatType,
-  PaymentValue
+  PaymentValue,
+  WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 
 import * as AT from './actionTypes'
@@ -275,25 +276,32 @@ export const showInterestModal = (
   type: AT.SHOW_INTEREST_MODAL
 })
 
-// INTEREST CTA AFTER TRANSACTION
-export const fetchAfterTransaction = () => ({
-  type: AT.FETCH_AFTER_TRANSACTION
+export const stopShowingInterestModal = () => ({
+  type: AT.STOP_SHOWING_INTEREST_MODAL
 })
-export const fetchAfterTransactionFailure = (
+
+// INTEREST CTA/Card AFTER TRANSACTION
+export const fetchShowInterestCardAfterTransaction = (
+  currency?: WalletFiatType
+) => ({
+  type: AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION,
+  payload: { currency }
+})
+export const fetchShowInterestCardAfterTransactionFailure = (
   error: string
 ): InterestActionTypes => ({
-  type: AT.FETCH_AFTER_TRANSACTION_FAILURE,
+  type: AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_FAILURE,
   payload: { error }
 })
-export const fetchAfterTransactionLoading = (): InterestActionTypes => ({
-  type: AT.FETCH_AFTER_TRANSACTION_LOADING
+export const fetchShowInterestCardAfterTransactionLoading = (): InterestActionTypes => ({
+  type: AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_LOADING
 })
-export const fetchAfterTransactionSuccess = (
+export const fetchShowInterestCardAfterTransactionSuccess = (
   afterTransaction: InterestAfterTransactionType
 ): InterestActionTypes => ({
-  type: AT.FETCH_AFTER_TRANSACTION_SUCCESS,
+  type: AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_SUCCESS,
   payload: { afterTransaction }
 })
-export const resetAfterTransaction = (): InterestActionTypes => ({
-  type: AT.RESET_AFTER_TRANSACTION
+export const resetShowInterestCardAfterTransaction = (): InterestActionTypes => ({
+  type: AT.RESET_SHOW_INTEREST_CARD_AFTER_TRANSACTION
 })
