@@ -54,10 +54,12 @@ const VerifyEmailToken = ({ appEnv, data, location, miscActions }: Props) => {
     return `${link}?${params}`
   }
 
+  const mobileLinkOut = getMobileLinkOut()
+
   return (
     <Wrapper>
       {data.cata({
-        Success: () => <Success mobileLinkOut={getMobileLinkOut()} />,
+        Success: () => <Success mobileLinkOut={mobileLinkOut} />,
         Failure: error => <Error error={error} />,
         Loading: () => <Loading />,
         NotAsked: () => <Loading />

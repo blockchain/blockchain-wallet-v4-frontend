@@ -21,7 +21,7 @@ const Loading = () => {
   return (
     <Wrapper>
       <LoadingWrapper>
-        <SpinningLoader width='60px' height='60px' />
+        <SpinningLoader width='40px' height='40px' />
       </LoadingWrapper>
       <Text style={{ marginTop: '24px' }} size='14px' weight={400}>
         <FormattedMessage
