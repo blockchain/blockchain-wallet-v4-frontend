@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import styled, { css, keyframes } from 'styled-components'
+import styled from 'styled-components'
 
-import { Text } from 'blockchain-info-components'
+import { SpinningLoader, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,32 +11,17 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-const rotateFrames = keyframes`
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-`
-const rotateAnimation = css`
-  animation: ${rotateFrames} 1s infinite linear;
-`
 const LoadingWrapper = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
-`
-const LoadingIcon = styled.div`
-  height: 60px;
-  width: 60px;
-  border-top: 3px solid rgba(0, 0, 0, 0.5);
-  border-right: 3px solid transparent;
-  border-radius: 50%;
-  ${rotateAnimation};
 `
 
 const Loading = () => {
   return (
     <Wrapper>
       <LoadingWrapper>
-        <LoadingIcon />
+        <SpinningLoader width='40px' height='40px' />
       </LoadingWrapper>
       <Text style={{ marginTop: '24px' }} size='14px' weight={400}>
         <FormattedMessage
