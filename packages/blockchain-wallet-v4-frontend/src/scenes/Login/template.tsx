@@ -76,6 +76,7 @@ const CenterWrapper = styled.div`
   flex-direction: column;
   max-width: 480px;
   z-index: 1;
+  width: 100%;
 `
 
 const Footer = styled.div`
@@ -342,12 +343,12 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                       {isGuidEmailAddress ? (
                         <FormattedMessage
                           id='scenes.login.isguidemailerror'
-                          defaultMessage='👋Hey! Make sure this is your Wallet ID and not an email address. If you need a reminder'
+                          defaultMessage='👋 Hey! Make sure this is your Wallet ID and not an email address. If you need a reminder'
                         />
                       ) : (
                         <FormattedMessage
                           id='scenes.login.isguidinvalid'
-                          defaultMessage="👋Hey! This format doesn't look quite right. Wallet ID's look like this: ef7549a5-94ad-39...If you need a reminder"
+                          defaultMessage="👋 Hey! This format doesn't look quite right. Wallet ID's look like this: ef7549a5-94ad-39...If you need a reminder"
                         />
                       )}
                     </Text>
@@ -518,7 +519,6 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
               )}
             </LoginForm>
           </PublicWrapper>
-
           <LinkContainer data-e2e='signupLink' to='/signup'>
             <Link>
               <SubCard>
