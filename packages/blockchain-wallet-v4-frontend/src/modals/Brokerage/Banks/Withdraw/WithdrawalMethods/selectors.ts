@@ -12,11 +12,11 @@ export const getData = state => {
   const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
     state
   )
-  // TODO: Remove this when ach deposits withdrawals gets rolled out hundo P
+  // TODO: Remove this when Open Banking gets rolled out 100%
   const invitations: InvitationsType = selectors.core.settings
     .getInvitations(state)
     .getOrElse({
-      achDepositWithdrawal: false
+      openBanking: false
     } as InvitationsType)
 
   const userDataR = selectors.modules.profile.getUserData(state)
@@ -33,7 +33,7 @@ export const getData = state => {
       balances,
       bankTransferAccounts,
       paymentMethods:
-        (!invitations.achDepositWithdrawal && {
+        (!invitations.openBanking && {
           ...paymentMethods,
           methods: paymentMethods.methods.filter(m => m.type === 'BANK_ACCOUNT')
         }) ||

@@ -53,7 +53,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const isEligible = any(
     (method: SBPaymentMethodType) => method.type === 'BANK_TRANSFER'
   )(props.paymentMethods.methods)
-
   return (
     <StyledSettingsContainer>
       <SettingSummary>
@@ -127,7 +126,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <Button
             nature='primary'
             data-e2e='addBankFromSettings'
-            onClick={() => props.handleBankClick()}
+            onClick={props.handleBankClick}
           >
             <FormattedMessage
               id='buttons.add_bank'

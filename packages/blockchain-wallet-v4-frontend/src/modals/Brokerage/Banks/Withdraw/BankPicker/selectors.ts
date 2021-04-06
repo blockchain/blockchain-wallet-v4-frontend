@@ -17,10 +17,10 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   const invitations: InvitationsType = selectors.core.settings
     .getInvitations(state)
     .getOrElse({
-      achDepositWithdrawal: false
+      openBanking: false
     } as InvitationsType)
 
-  if (!invitations.achDepositWithdrawal) {
+  if (!invitations.openBanking) {
     defaultMethodR = undefined
     bankTransferAccountsR = Remote.Success([])
   }

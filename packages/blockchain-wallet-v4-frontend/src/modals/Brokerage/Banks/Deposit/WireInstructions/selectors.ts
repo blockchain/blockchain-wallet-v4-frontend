@@ -8,11 +8,10 @@ export const getData = (state: RootState) => {
   const accountR = selectors.components.simpleBuy.getSBAccount(state)
   const userDataR = selectors.modules.profile.getUserData(state)
 
-  // TODO: Remove this when ach deposits withdrawals gets rolled out hundo P
+  // TODO: Remove this when Open Banking gets rolled out 100%
   const invitationsR: InvitationsType = selectors.core.settings
     .getInvitations(state)
     .getOrElse({
-      achDepositWithdrawal: false,
       openBanking: false
     } as InvitationsType)
 

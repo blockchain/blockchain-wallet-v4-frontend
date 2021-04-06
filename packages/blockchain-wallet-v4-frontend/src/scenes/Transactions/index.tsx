@@ -144,6 +144,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       currency,
       hasTxResults,
       isCoinErc20,
+      isInvited,
       isSearchEntered,
       loadMoreTxs,
       pages,
@@ -209,9 +210,16 @@ class TransactionsContainer extends React.PureComponent<Props> {
                         onClick={() => {
                           if (!this.props.brokerageActions) return
                           if (!this.props.simpleBuyActions) return
-                          this.props.brokerageActions.handleDepositFiatClick(
-                            coin as WalletFiatType
-                          )
+                          if (isInvited) {
+                            this.props.brokerageActions.handleDepositFiatClick(
+                              coin as WalletFiatType
+                            )
+                          } else {
+                            this.props.simpleBuyActions.handleSBDepositFiatClick(
+                              coin as WalletFiatType,
+                              'TransactionList'
+                            )
+                          }
                         }}
                       >
                         <FormattedMessage
@@ -370,8 +378,9 @@ export type SuccessStateType = {
   coinModel: SupportedWalletCurrencyType
   currency: FiatType
   hasTxResults: boolean
-  isSearchEntered: boolean
-  pages: Array<any>
+  isInvited: boolean,
+  isSearchEntered: boolean,
+  pages: Array<any>,
   sourceType: string
 }
 
