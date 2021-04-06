@@ -179,45 +179,26 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </Value>
       </Row>
       <Bottom>
-        {requiresTerms ? (
-          <Info style={{ marginBottom: '12px' }}>
-            <Icon
-              name='market-up'
-              color='grey900'
-              size='16px'
-              style={{ marginRight: '8px' }}
-            />
+        <Info style={{ marginBottom: '12px' }}>
+          {requiresTerms ? (
             <Text size='12px' weight={500} color='grey900'>
               <FormattedHTMLMessage
-                id='modals.simplebuy.confirm.activity_card1'
-                defaultMessage='Your final amount might change due to market activity.'
+                id='modals.simplebuy.confirm.activity_card11'
+                defaultMessage='Your final amount might change due to market activity. For your security, buy orders with a bank account are subject up to a 14 day holding period. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
               />
             </Text>
-          </Info>
-        ) : (
-          <Info style={{ marginBottom: '12px' }}>
-            <Icon
-              name='info'
-              color='grey900'
-              size='16px'
-              style={{ marginRight: '8px' }}
-            />
+          ) : (
             <Text size='12px' weight={500} color='grey900'>
               <FormattedMessage
                 id='modals.simplebuy.confirm.activity'
                 defaultMessage='Your final amount may change due to market activity.'
               />
             </Text>
-          </Info>
-        )}
+          )}
+        </Info>
+
         {showLock && props.order.paymentType === 'USER_CARD' && (
           <Info>
-            <Icon
-              name='info'
-              color='grey900'
-              size='16px'
-              style={{ marginRight: '8px' }}
-            />
             <Text size='12px' weight={500} color='grey900'>
               <FormattedHTMLMessage
                 id='modals.simplebuy.confirm.activity_card2'
