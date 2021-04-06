@@ -435,7 +435,9 @@ export default ({
         yield put(
           actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_ONE_CLICK)
         )
-        yield put(actions.components.interest.resetAfterTransaction())
+        yield put(
+          actions.components.interest.resetShowInterestCardAfterTransaction()
+        )
       }
 
       yield delay(3000)
@@ -519,19 +521,19 @@ export default ({
     )
   }
 
-  const fetchAfterTransaction = function * ({
+  const fetchShowInterestCardAfterTransaction = function * ({
     payload
-  }: ReturnType<typeof A.fetchAfterTransaction>) {
+  }: ReturnType<typeof A.fetchShowInterestCardAfterTransaction>) {
     try {
-      yield put(A.fetchAfterTransactionLoading())
+      yield put(A.fetchShowInterestCardAfterTransactionLoading())
       const response: InterestAfterTransactionType = yield call(
         api.getInterestCtaAfterTransaction,
         payload.currency
       )
-      yield put(A.fetchAfterTransactionSuccess(response))
+      yield put(A.fetchShowInterestCardAfterTransactionSuccess(response))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchAfterTransactionFailure(error))
+      yield put(A.fetchShowInterestCardAfterTransactionFailure(error))
     }
   }
 
@@ -545,7 +547,7 @@ export default ({
   }
 
   return {
-    fetchAfterTransaction,
+    fetchShowInterestCardAfterTransaction,
     fetchInterestBalance,
     fetchInterestEligible,
     fetchInterestInstruments,

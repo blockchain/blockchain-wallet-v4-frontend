@@ -680,14 +680,16 @@ export default ({ api, coreSagas, networks }) => {
         selectors.core.settings.getCurrency
       )).getOrElse('USD')
       yield put(
-        actions.components.interest.fetchAfterTransaction(
+        actions.components.interest.fetchShowInterestCardAfterTransaction(
           currency as WalletFiatType
         )
       )
       // make sure that fetch is done
       yield take([
-        actionTypes.components.interest.FETCH_AFTER_TRANSACTION_SUCCESS,
-        actionTypes.components.interest.FETCH_AFTER_TRANSACTION_FAILURE
+        actionTypes.components.interest
+          .FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_SUCCESS,
+        actionTypes.components.interest
+          .FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_FAILURE
       ])
       const afterTransactionR = yield select(
         selectors.components.interest.getAfterTransaction
