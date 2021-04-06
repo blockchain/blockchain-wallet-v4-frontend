@@ -105,3 +105,8 @@ export type CustodialTransferResponseType = {
   amount: string
   coin: CoinType
 }
+
+export type InterestEDDStatus = {
+  edd_needed: boolean
+  edd_passed: boolean
+}

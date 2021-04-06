@@ -142,6 +142,12 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       }
     })
 
+  const getSavingsEDDStatus = (): InterestAfterTransactionType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/savings/edd/status'
+    })
+
   return {
     getInterestAccountBalance,
     getInterestCtaAfterTransaction,
@@ -151,6 +157,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     getInterestAccount,
     getInterestSavingsRate,
     getInterestTransactions,
+    getSavingsEDDStatus,
     getWithdrawalMinsAndFees,
     initiateInterestWithdrawal,
     transferFromCustodial,
