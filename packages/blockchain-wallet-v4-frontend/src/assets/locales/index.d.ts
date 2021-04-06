@@ -1349,7 +1349,7 @@ type MessagesType = {
   'modals.simplebuy.checkoutconfirm': 'Checkout'
   'modals.simplebuy.confirm.ach': 'For your security, buy orders with a bank account are subject up to a 14 day holding period. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
   'modals.simplebuy.confirm.activity': 'Your final amount may change due to market activity.'
-  'modals.simplebuy.confirm.activity_card1': 'Your final amount might change due to market activity.'
+  'modals.simplebuy.confirm.activity_card1': 'Your final amount might change due to market activity. For your security, buy orders with a bank account are subject up to a 14 day holding period. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
   'modals.simplebuy.confirm.activity_card2': 'Your crypto will be available to be withdrawn within <b>{days} days</b>.'
   'modals.simplebuy.confirm.activity_accept_terms': "I agree to Blockchain’s <a href='https://www.blockchain.com/legal/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a> and its return, refund and cancellation policy."
   'modals.simplebuy.confirm.funds_wallet': '{coin} Wallet'
