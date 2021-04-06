@@ -745,7 +745,14 @@ export default ({ api, coreSagas, networks }) => {
       )
     }
     if (welcomeModal) {
-      yield put(actions.modals.showModal(welcomeModal.name, welcomeModal.data))
+      const sddEligible = yield call(api.fetchSDDEligible)
+      // show SDD flow for eligible country
+      if (sddEligible.eligible) {
+        return yield put(actions.components.simpleBuy.showModal('WelcomeModal'))
+      }
+      return yield put(
+        actions.modals.showModal(welcomeModal.name, welcomeModal.data)
+      )
     }
   }
 
