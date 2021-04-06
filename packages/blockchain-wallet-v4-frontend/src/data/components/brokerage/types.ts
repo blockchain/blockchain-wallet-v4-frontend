@@ -85,6 +85,7 @@ export type BrokerageDWStepPayload =
       dwStep:
         | BankDWStepType.ENTER_AMOUNT
         | BankDWStepType.AUTHORIZE
+        | BankDWStepType.CONFIRM
         | BankDWStepType.WIRE_INSTRUCTIONS
         | BankDWStepType.DEPOSIT_CONNECT
         | BankDWStepType.DEPOSIT_STATUS
@@ -165,6 +166,13 @@ export enum BrokerageModalOriginType {
   DW = 'DepositWithdrawalModal',
   WITHDRAWAL = 'WithdrawModal'
 }
+
+export type BrokerageTxFormValuesType =
+  | {
+      amount?: number
+      currency?: FiatType
+    }
+  | undefined
 
 // State
 export type BrokerageState = {
