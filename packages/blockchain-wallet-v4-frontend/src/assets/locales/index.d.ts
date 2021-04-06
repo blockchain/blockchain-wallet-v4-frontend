@@ -1721,7 +1721,7 @@ type MessagesType = {
   'scenes.authorizelogin.loading.approved.title': 'Login Approved!'
   'scenes.authorizelogin.loading.rejected.content': 'Please contact our support team if you have any questions or concerns.'
   'scenes.authorizelogin.loading.rejected.title': 'Login Attempt Rejected!'
-  'scenes.authorizelogin.or': 'Or'
+  'scenes.authorizelogin.or': 'or'
   'scenes.authorizelogin.reject': 'Reject'
   'scenes.authorizelogin.requestingdevice': 'Requesting Device'
   'scenes.authorizelogin.verifying': "We're verifying your authorization attempt. Please wait..."

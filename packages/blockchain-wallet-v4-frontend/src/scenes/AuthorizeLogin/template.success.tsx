@@ -94,28 +94,32 @@ const Success = props => {
   /* eslint-disable */
   const {
     approver_device_description,
-    requester_device_description
+    requester_device_description,
+    approver_country,
+    requester_country,
+    approver_ip,
+    requester_ip,
+    device_change_reason
   } = props.value
-  const { approver_country, requester_country } = props.value
-  const { approver_ip, requester_ip } = props.value
+
   const requestDenied = props.value['request-denied']
   /* eslint-enable */
 
   useEffect(() => {
-    if (!props.value.device_change_reason) props.handleSuccessContainer()
+    if (!device_change_reason) props.handleSuccessContainer()
   })
 
   return (
     <Wrapper>
-      {props.value.device_change_reason ? (
+      {device_change_reason ? (
         <Fragment>
-          <Image name='blockchain-icon' width='50px' height='50px' />
+          <Image name='blockchain-icon' width='40px' height='40px' />
           <InfoWrapper>
             <Text
-              size='24px'
-              weight={500}
-              color='grey700'
-              style={{ marginTop: '24px' }}
+              size='20px'
+              weight={600}
+              color='black'
+              style={{ marginTop: '8px' }}
             >
               <FormattedMessage
                 id='scenes.authorizelogin.attemptfrombrowser'
@@ -123,10 +127,10 @@ const Success = props => {
               />
             </Text>
             <Text
-              size='13px'
-              weight={400}
               color='grey700'
-              style={{ marginTop: '10px' }}
+              style={{ marginTop: '8px' }}
+              size='14px'
+              weight={500}
             >
               <FormattedMessage
                 id='scenes.authorizelogin.attemptfrombrowsermsg'
@@ -165,13 +169,13 @@ const Success = props => {
                       <Icon
                         name='checkmark-in-circle-filled'
                         color='success'
-                        size='15px'
+                        size='16px'
                       />
                     ) : (
-                      <Icon name='close' color='error' size='22px' />
+                      <Icon name='close' color='error' size='16px' />
                     )}
                     &nbsp;
-                    <Text size='14px' style={{ paddingLeft: '6px' }}>
+                    <Text size='14px' style={{ paddingLeft: '8px' }}>
                       <FormattedMessage
                         id='scenes.authorizelogin.browser'
                         defaultMessage='Browser: '
@@ -196,13 +200,13 @@ const Success = props => {
                       <Icon
                         name='checkmark-in-circle-filled'
                         color='success'
-                        size='13px'
+                        size='16px'
                       />
                     ) : (
-                      <Icon name='close' color='error' size='22px' />
+                      <Icon name='close' color='error' size='16px' />
                     )}
                     &nbsp;
-                    <Text size='14px'>
+                    <Text size='14px' style={{ paddingLeft: '8px' }}>
                       <FormattedMessage
                         id='scenes.authorizelogin.ipaddress'
                         defaultMessage='IP Address: '
@@ -226,13 +230,13 @@ const Success = props => {
                       <Icon
                         name='checkmark-in-circle-filled'
                         color='success'
-                        size='13px'
+                        size='16px'
                       />
                     ) : (
-                      <Icon name='close' color='error' size='22px' />
+                      <Icon name='close' color='error' size='16px' />
                     )}
                     &nbsp;
-                    <Text size='14px'>
+                    <Text size='14px' style={{ paddingLeft: '8px' }}>
                       <FormattedMessage
                         id='scenes.authorizelogin.country'
                         defaultMessage='Country of Origin: '
@@ -265,7 +269,7 @@ const Success = props => {
               <OrText size='12px' weight={400}>
                 <FormattedMessage
                   id='scenes.authorizelogin.or'
-                  defaultMessage='Or'
+                  defaultMessage='or'
                 />
               </OrText>
               <ApproveRejectButtons
