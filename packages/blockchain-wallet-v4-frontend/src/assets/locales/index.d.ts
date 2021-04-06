@@ -649,6 +649,8 @@ type MessagesType = {
   'modals.brokerage.link_bank_yodlee_terms': "By hitting Continue, you Agree to Yodlee's"
   'modals.brokerage.link_via_desktop': 'Link via desktop'
   'modals.brokerage.link_via_mobile': 'Link via mobile'
+  'modals.brokerage.updating_your_wallet': 'Updating Your Wallet...'
+  'modals.brokerage.this_could_take': 'This could take up to 30 secconds. Please do not go back or close the app.'
   'modals.brokerage.use_phone_camera': 'Use your phone’s camera to scan the QR code.'
   'modals.brokerage.waiting_to_hear': 'Waiting to hear from your bank'
   'modals.brokerage.yodlee_description': 'Yodlee securely stores your credentials adhering to leading industry practices for data security, regulatory compliance, and privacy.'

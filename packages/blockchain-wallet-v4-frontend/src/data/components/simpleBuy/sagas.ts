@@ -791,7 +791,7 @@ export default ({
       // If no currency fallback to sb fiat currency or wallet
       const fallbackFiatCurrency =
         S.getFiatCurrency(yield select()) ||
-        (yield select(selectors.core.settings.getCurrency)).getOrElse('GBP')
+        (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
 
       const userSDDTierR = S.getUserSddEligibleTier(yield select())
       if (!Remote.Success.is(userSDDTierR)) {

@@ -2,7 +2,13 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
-import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import {
+  Button,
+  Icon,
+  Image,
+  SpinningLoader,
+  Text
+} from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { OBInstitution } from 'data/types'
 
@@ -151,6 +157,7 @@ const Wrapper = styled.div`
   justify-content: center;
   display: flex;
   flex-direction: column;
+  text-align: center;
 `
 
 const BROKERAGE_INELIGIBLE = 'BROKERAGE_INELIGIBLE'
@@ -194,6 +201,45 @@ const Loading = ({ text }: Props) => {
           />
         )}
       </Text>
+    </Wrapper>
+  )
+}
+
+const SpinnerContainer = styled.div`
+  transform: translate(47px, 35px);
+  border: 5px solid white;
+  border-radius: 50%;
+  background-color: white;
+`
+const HeadingText = styled(Text)`
+  font-weight: 600;
+  font-size: 20px;
+  margin-top: 22px;
+`
+const BodyText = styled(Text)`
+  font-size: 14px;
+  font-weight: 500;
+  margin: 5px 30px;
+`
+const LoadingUpdating = () => {
+  return (
+    <Wrapper>
+      <SpinnerContainer>
+        <SpinningLoader borderWidth='7px' height='32px' width='32px' />
+      </SpinnerContainer>
+      <Image name='blockchain-logo-circle' width='106px' />
+      <HeadingText color='grey900'>
+        <FormattedMessage
+          defaultMessage='Updating Your Wallet...'
+          id='modals.brokerage.updating_your_wallet'
+        />
+      </HeadingText>
+      <BodyText color='grey600'>
+        <FormattedMessage
+          defaultMessage='This could take up to 30 secconds. Please do not go back or close the app.'
+          id='modals.brokerage.this_could_take'
+        />
+      </BodyText>
     </Wrapper>
   )
 }
@@ -366,6 +412,7 @@ export {
   LinkOptionsWrapper,
   LinkViaDesktop,
   Loading,
+  LoadingUpdating,
   ModalNavWithBackArrow,
   ModalNavWithCloseIcon,
   NavText,

@@ -6,9 +6,9 @@ import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import { OBEntityType } from 'data/types'
 
+import { LoadingUpdating as Loading } from '../../../../components'
 import { getData } from './selectors'
 import Failure from './template.error'
-import Loading from './template.loading'
 import Success from './template.success'
 
 const Authorize = props => {
@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkDispatchPropsType = {
-  brokerageActions: typeof actions.components.brokerage,
+  brokerageActions: typeof actions.components.brokerage
   simpleBuyActions: typeof actions.components.simpleBuy
 }
 type OwnProps = {
