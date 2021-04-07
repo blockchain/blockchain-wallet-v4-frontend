@@ -282,10 +282,7 @@ const Success = props => {
                 />
               </ApproveRejectButtons>
               <OrText size='12px' weight={400}>
-                <FormattedMessage
-                  id='scenes.authorizelogin.or'
-                  defaultMessage='or'
-                />
+                <FormattedMessage id='copy.or' defaultMessage='or' />
               </OrText>
               <ApproveRejectButtons
                 data-e2e='rejectLogin'

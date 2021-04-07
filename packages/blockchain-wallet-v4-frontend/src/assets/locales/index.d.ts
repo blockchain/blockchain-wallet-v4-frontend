@@ -469,6 +469,7 @@ type MessagesType = {
   'copy.month': '1M'
   'copy.week': '1W'
   'copy.year': '1Y'
+  'copy.or': 'or'
   'dentityverification.verify.resubmit.reason.missing': 'The required photos are missing'
   'exchange-side-nav-tooltip-connected': 'connected'
   'exchangepromo.pairs': 'Access 20+ trading pairs on the Exchange.'
@@ -1721,7 +1722,6 @@ type MessagesType = {
   'scenes.authorizelogin.loading.approved.title': 'Login Approved!'
   'scenes.authorizelogin.loading.rejected.content': 'Please contact our support team if you have any questions or concerns.'
   'scenes.authorizelogin.loading.rejected.title': 'Login Attempt Rejected!'
-  'scenes.authorizelogin.or': 'or'
   'scenes.authorizelogin.reject': 'Reject'
   'scenes.authorizelogin.requestingdevice': 'Requesting Device'
   'scenes.authorizelogin.verifying': "We're verifying your authorization attempt. Please wait..."
