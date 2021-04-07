@@ -2,7 +2,7 @@ import { FiatType, RemoteDataType, WalletFiatType } from 'core/types'
 
 import * as AT from './actionTypes'
 
-enum BankPartners {
+export enum BankPartners {
   YAPILY = 'YAPILY',
   YODLEE = 'YODLEE'
 }
