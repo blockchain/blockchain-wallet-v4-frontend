@@ -8,7 +8,7 @@ import VerifyEmail from './template'
 
 const { DISMISS_VERIFICATION, EMAIL_VERIFIED } = model.analytics.AB_TEST_EVENTS
 
-class VerifyEmailContainer extends React.PureComponent<PropsType, {}> {
+class VerifyEmailContainer extends React.PureComponent<Props, {}> {
   state = {}
 
   static getDerivedStateFromProps(nextProps) {
@@ -68,6 +68,6 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type PropsType = ConnectedProps<typeof connector>
+export type Props = ConnectedProps<typeof connector>
 
 export default connector(VerifyEmailContainer)
