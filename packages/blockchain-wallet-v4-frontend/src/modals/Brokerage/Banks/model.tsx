@@ -4,7 +4,6 @@ import styled, { css } from 'styled-components'
 
 import { Icon } from 'blockchain-info-components'
 import {
-  BankDetails,
   BeneficiaryType,
   FiatType,
   NabuMoneyFloatType
@@ -23,6 +22,7 @@ import {
   DisplayPaymentIcon,
   MultiRowContainer
 } from 'components/SimpleBuy'
+import { BankDetails } from 'data/types'
 import { ActiveToggle } from 'services/ActiveToggleService'
 import { formatTextAmount } from 'services/forms'
 

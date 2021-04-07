@@ -1,5 +1,4 @@
 import {
-  BankTransferAccountType,
   CoinType,
   Everypay3DSResponseType,
   FiatEligibleType,
@@ -23,6 +22,7 @@ import {
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import { ModalOriginType } from 'data/modals/types'
+import { BankTransferAccountType } from 'data/types'
 
 import { SwapAccountType } from '../swap/types'
 import * as AT from './actionTypes'
@@ -568,8 +568,10 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
     case 'PREVIEW_SELL': {
       return { step: payload.step, sellOrderType: payload.sellOrderType }
     }
+    case 'AUTHORIZE_PAYMENT':
     case 'CHECKOUT_CONFIRM':
     case 'ORDER_SUMMARY':
+    case 'OPEN_BANKING_CONNECT':
       return { step: payload.step, order: payload.order }
     case '3DS_HANDLER':
       return { step: payload.step, order: payload.order }

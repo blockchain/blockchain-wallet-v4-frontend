@@ -8,7 +8,7 @@ import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import Loading from '../DepositMethods/template.loading'
+import { Loading, LoadingTextEnum } from '../../../../components'
 import Failure from '../template.failure'
 import { getData } from './selectors'
 import Success from './template.success'
@@ -26,8 +26,8 @@ const DepositStatus = props => {
   return props.data.cata({
     Success: val => <Success {...val} {...props} />,
     Failure: () => <Failure {...props} />,
-    Loading: () => <Loading />,
-    NotAsked: () => <Loading />
+    Loading: () => <Loading text={LoadingTextEnum.LOADING} />,
+    NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />
   })
 }
 

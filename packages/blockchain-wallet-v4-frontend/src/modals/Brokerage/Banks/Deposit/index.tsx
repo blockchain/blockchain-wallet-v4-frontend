@@ -10,14 +10,19 @@ import { RootState } from 'data/rootReducer'
 import { BankDWStepType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
+import {
+  BROKERAGE_INELIGIBLE,
+  Loading,
+  LoadingTextEnum
+} from '../../../components'
 import { ModalPropsType } from '../../../types'
-import { BROKERAGE_INELIGIBLE } from '../../components'
+import Authorize from './Authorize'
 import BankList from './BankList'
 import Confirm from './Confirm'
 import DepositMethods from './DepositMethods'
-import Loading from './DepositMethods/template.loading'
 import DepositStatus from './DepositStatus'
 import EnterAmount from './EnterAmount'
+import OpenBankingConnect from './OpenBankingConnect'
 import WireInstructions from './WireInstructions'
 class Deposit extends PureComponent<Props> {
   state: State = { show: false, direction: 'left' }
@@ -55,7 +60,7 @@ class Deposit extends PureComponent<Props> {
       >
         {this.props.step === BankDWStepType.LOADING && (
           <FlyoutChild>
-            <Loading {...this.props} />
+            <Loading {...this.props} text={LoadingTextEnum.LOADING} />
           </FlyoutChild>
         )}
         {this.props.step === BankDWStepType.DEPOSIT_METHODS && (
@@ -75,6 +80,16 @@ class Deposit extends PureComponent<Props> {
            */
           <FlyoutChild>
             <EnterAmount {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === BankDWStepType.AUTHORIZE && (
+          /*
+           * After user already has a bank linked and then enters amount to deposit,
+           * they need to authorize each individual payment. User is then taken to the
+           * confirm step
+           */
+          <FlyoutChild>
+            <Authorize {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {this.props.step === BankDWStepType.BANK_LIST && (
@@ -111,6 +126,14 @@ class Deposit extends PureComponent<Props> {
         {this.props.step === BankDWStepType.WIRE_INSTRUCTIONS && (
           <FlyoutChild>
             <WireInstructions {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === BankDWStepType.DEPOSIT_CONNECT && (
+          <FlyoutChild>
+            <OpenBankingConnect
+              {...this.props}
+              handleClose={this.handleClose}
+            />
           </FlyoutChild>
         )}
         {this.props.step === BankDWStepType.INELIGIBLE && (

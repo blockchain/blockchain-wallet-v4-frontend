@@ -10,12 +10,11 @@ import {
   Image,
   Text
 } from 'blockchain-info-components'
-import { BankTransferAccountType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { getBankLogoImageName } from 'services/images'
 
-import { LinkDispatchPropsType, OwnProps } from '.'
+import { LinkDispatchPropsType, LinkStatePropsType, OwnProps } from '.'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -56,11 +55,17 @@ export const BankDetails = styled.div`
   margin-top: 24px;
 `
 
-type Props = OwnProps &
-  LinkDispatchPropsType & { account: BankTransferAccountType }
+type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  const { account } = props
+  const { account, walletCurrency } = props
+
+  const bankAccountName =
+    account && 'details' in account
+      ? `${account.details?.bankName} ${account.details?.accountNumber}`
+      : `bank account`
+
+  const accountDetails = account && 'details' in account && account.details
   return (
     <Wrapper>
       <FlyoutWrapper>
@@ -77,19 +82,23 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </CloseContainer>
 
         <BankIconWrapper>
-          <Image name={getBankLogoImageName(account.details?.bankName)} />
+          {accountDetails && (
+            <Image name={getBankLogoImageName(accountDetails.bankName)} />
+          )}
         </BankIconWrapper>
         <BankDetails>
           <Text size='24px' color='grey900' weight={600}>
-            {account.details?.bankName}
+            {bankAccountName}
           </Text>
           <Text size='24px' color='grey600' weight={500}>
-            {account.details?.bankAccountType?.toLowerCase() || ''}{' '}
+            {(accountDetails &&
+              accountDetails.bankAccountType?.toLowerCase()) ||
+              ''}{' '}
             <FormattedMessage
               id='scenes.settings.general.account'
               defaultMessage='account'
             />{' '}
-            {account.details?.accountNumber}
+            {account && 'details' in account && account.details.accountNumber}
           </Text>
         </BankDetails>
       </FlyoutWrapper>
@@ -98,7 +107,7 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <FormattedMessage id='copy.currency' defaultMessage='Currency' />
         </Text>
         <Text color='grey800' size='16px' weight={600}>
-          {account.currency}
+          {walletCurrency}
         </Text>
       </CurrencyContainer>
       <DisclaimerWrapper>

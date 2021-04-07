@@ -8,6 +8,7 @@ import { AreaClosed, Bar, Line, LinePath } from '@visx/shape'
 import { defaultStyles, TooltipWithBounds, useTooltip } from '@visx/tooltip'
 import { bisector, extent, max, min } from 'd3-array'
 import { timeFormat } from 'd3-time-format'
+import ResizeObserver from 'resize-observer-polyfill'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { Color } from 'blockchain-info-components'
@@ -46,7 +47,7 @@ const Wrapper = styled.div`
 `
 
 const Chart = ({ coin, currency, data }: OwnProps) => {
-  const [ref, { height, width }] = useMeasure()
+  const [ref, { height, width }] = useMeasure({ polyfill: ResizeObserver })
   const color = Color(coin as keyof DefaultTheme)
   const {
     hideTooltip,

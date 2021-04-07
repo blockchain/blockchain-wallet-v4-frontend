@@ -13,4 +13,5 @@ export type InvitationsType = {
   YFI: boolean
   segwit: boolean
   achDepositWithdrawal: boolean
+  openBanking: boolean
 }
