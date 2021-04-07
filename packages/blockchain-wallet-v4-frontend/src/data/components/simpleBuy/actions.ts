@@ -568,6 +568,7 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
     case 'PREVIEW_SELL': {
       return { step: payload.step, sellOrderType: payload.sellOrderType }
     }
+    case 'AUTHORIZE_PAYMENT':
     case 'CHECKOUT_CONFIRM':
     case 'ORDER_SUMMARY':
     case 'OPEN_BANKING_CONNECT':

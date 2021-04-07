@@ -22,6 +22,7 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 import { ModalPropsType } from '../types'
 // step templates
 import AddCard from './AddCard'
+import Authorize from './Authorize'
 import BankWireDetails from './BankWireDetails'
 import BillingAddress from './BillingAddress'
 import CheckoutConfirm from './CheckoutConfirm'
@@ -175,6 +176,11 @@ class SimpleBuy extends PureComponent<Props, State> {
                   {...this.props}
                   handleClose={this.handleClose}
                 />
+              </FlyoutChild>
+            )}
+            {this.props.step === 'AUTHORIZE_PAYMENT' && (
+              <FlyoutChild>
+                <Authorize {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
             {this.props.step === 'CHECKOUT_CONFIRM' && (
@@ -331,7 +337,11 @@ type LinkStatePropsType =
     }
   | {
       order: SBOrderType
-      step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'OPEN_BANKING_CONNECT'
+      step:
+        | 'CHECKOUT_CONFIRM'
+        | 'ORDER_SUMMARY'
+        | 'OPEN_BANKING_CONNECT'
+        | 'AUTHORIZE_PAYMENT'
     }
   | { order: SwapOrderType; step: 'SELL_ORDER_SUMMARY' }
   | {

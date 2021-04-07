@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { prop } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -11,7 +12,7 @@ import {
 } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { BankDWStepType } from 'data/types'
+import { BankDWStepType, BankTransferAccountType } from 'data/types'
 
 import { Loading, LoadingTextEnum } from '../../../../components'
 import { getData } from './selectors'
@@ -29,9 +30,13 @@ const EnterAmount = props => {
   })
 
   const onSubmit = () => {
-    props.brokerageActions.setDWStep({
-      dwStep: BankDWStepType.CONFIRM
-    })
+    prop('partner', props.defaultMethod) === 'YAPILY'
+      ? props.brokerageActions.setDWStep({
+          dwStep: BankDWStepType.AUTHORIZE
+        })
+      : props.brokerageActions.setDWStep({
+          dwStep: BankDWStepType.CONFIRM
+        })
   }
 
   return props.data.cata({
@@ -51,6 +56,7 @@ const EnterAmount = props => {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
+  defaultMethod: selectors.components.brokerage.getAccount(state),
   fiatCurrency: selectors.core.settings.getCurrency(state).getOrFail()
 })
 
@@ -72,6 +78,7 @@ export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>> & {
 }
 export type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
+  defaultMethod: BankTransferAccountType | undefined
   fiatCurrency: FiatType
 }
 export type FailurePropsType = {

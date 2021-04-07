@@ -16,6 +16,7 @@ import {
   LoadingTextEnum
 } from '../../../components'
 import { ModalPropsType } from '../../../types'
+import Authorize from './Authorize'
 import BankList from './BankList'
 import Confirm from './Confirm'
 import DepositMethods from './DepositMethods'
@@ -79,6 +80,16 @@ class Deposit extends PureComponent<Props> {
            */
           <FlyoutChild>
             <EnterAmount {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === BankDWStepType.AUTHORIZE && (
+          /*
+           * After user already has a bank linked and then enters amount to deposit,
+           * they need to authorize each individual payment. User is then taken to the
+           * confirm step
+           */
+          <FlyoutChild>
+            <Authorize {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {this.props.step === BankDWStepType.BANK_LIST && (
