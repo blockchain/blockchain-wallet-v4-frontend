@@ -119,7 +119,7 @@ const Success = props => {
               size='20px'
               weight={600}
               color='black'
-              style={{ marginTop: '8px' }}
+              style={{ marginTop: '24px' }}
             >
               <FormattedMessage
                 id='scenes.authorizelogin.attemptfrombrowser'
