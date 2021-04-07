@@ -14,8 +14,9 @@ const Wrapper = styled.div`
 const Error = props => {
   return (
     <Wrapper>
-      <Icon name='alert-filled' color='red600' size='40px' />
-      <Text size='16px' weight={400} style={{ marginTop: '24px' }}>
+      <Icon color='error' name='close-circle' size='40px' />
+
+      <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }}>
         <FormattedHTMLMessage
           id='scenes.authorizelogin.error.uhoh'
           defaultMessage='Uh Oh. Something went wrong.'
@@ -23,10 +24,10 @@ const Error = props => {
         />
       </Text>
       <Text
-        style={{ marginTop: '10px' }}
+        style={{ marginTop: '8px' }}
         size='16px'
         color='red600'
-        weight={400}
+        weight={500}
       >
         <FormattedHTMLMessage
           id='scenes.authorizelogin.error.msg'

@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { BankTransferAccountType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { BankTransferAccountType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../../types'
@@ -18,7 +18,8 @@ export type OwnProps = {
 export type LinkDispatchPropsType = {
   brokerageActions: typeof actions.components.brokerage
 }
-type LinkStatePropsType = {
+
+export type LinkStatePropsType = {
   account: BankTransferAccountType | undefined
   redirectBackToStep: boolean
 }
@@ -61,8 +62,6 @@ class CancelOrder extends PureComponent<Props, {}> {
           <Template
             {...this.props}
             onSubmit={this.handleSubmit}
-            account={this.props.account}
-            redirectBack={this.props.redirectBackToStep}
             handleClose={this.handleClose}
           />
         </FlyoutChild>

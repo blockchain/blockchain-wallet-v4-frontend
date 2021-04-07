@@ -54,10 +54,9 @@ const ContentContainer = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 1;
-  width: 100%;
-  ${media.mobile`
-    padding: 0 15px;
-  `}
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0 16px;
 `
 
 const PublicLayoutContainer = ({ component: Component, ...rest }) => (

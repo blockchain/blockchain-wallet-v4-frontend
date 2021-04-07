@@ -15,4 +15,5 @@ export const DEFAULT_INVITATIONS: InvitationsType = {
   YFI: true,
   segwit: false,
   achDepositWithdrawal: false
+  openBanking: false
 }

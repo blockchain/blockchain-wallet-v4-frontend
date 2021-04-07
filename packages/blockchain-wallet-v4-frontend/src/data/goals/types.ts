@@ -19,9 +19,11 @@ export type GoalsType =
   | 'welcomeModal'
   | 'xlmPayment'
   | 'interest'
+  | 'interestPromo'
 
+export type GoalType = { data: any; id: string; name: GoalsType }
 export type GoalsState = {
-  goals: Array<{ data: any; id: string; name: GoalsType }>
+  goals: Array<GoalType>
   initialModalDisplayed: boolean
   initialModals:
     | {

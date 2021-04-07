@@ -382,6 +382,7 @@ export function simpleBuyReducer(
           }
         case '3DS_HANDLER':
         case 'CHECKOUT_CONFIRM':
+        case 'OPEN_BANKING_CONNECT':
         case 'ORDER_SUMMARY':
           return {
             ...state,
