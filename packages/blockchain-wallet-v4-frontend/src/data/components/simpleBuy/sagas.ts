@@ -7,6 +7,7 @@ import {
   delay,
   put,
   race,
+  retry,
   select,
   take
 } from 'redux-saga/effects'
@@ -341,9 +342,11 @@ export default ({
       if (!paymentType) throw new Error(NO_PAYMENT_TYPE)
 
       if (orderType === 'BUY' && fix === 'CRYPTO') {
+        // @ts-ignore
         delete input.amount
       }
       if (orderType === 'BUY' && fix === 'FIAT') {
+        // @ts-ignore
         delete output.amount
       }
 
@@ -412,6 +415,31 @@ export default ({
     }
   }
 
+  const AuthUrlCheck = function * (orderId) {
+    let order: ReturnType<typeof api.getSBOrder> = yield call(
+      api.getSBOrder,
+      orderId
+    )
+
+    if (order.attributes?.authorisationUrl) {
+      return order
+    } else {
+      throw new Error('retrying to fetch for AuthUrl')
+    }
+  }
+
+  const OrderConfirmCheck = function * (orderId) {
+    let order: ReturnType<typeof api.getSBOrder> = yield call(
+      api.getSBOrder,
+      orderId
+    )
+
+    if (order.state === 'FINISHED') {
+      return order
+    } else {
+      throw new Error('retrying to fetch for FINISHED order')
+    }
+  }
   const confirmSBCreditCardOrder = function * (
     payload: ReturnType<typeof A.confirmSBCreditCardOrder>
   ) {
@@ -435,16 +463,27 @@ export default ({
             }
           : undefined
 
-      // if (order.paymentType === 'BANK_TRANSFER') {
-      // } else {
-      // }
-
-      const confirmedOrder: SBOrderType = yield call(
+      let confirmedOrder: SBOrderType = yield call(
         api.confirmSBOrder,
         order,
         attributes,
         paymentMethodId
       )
+
+      if (confirmedOrder.state === 'PENDING_DEPOSIT') {
+        // for OB the authorisationUrl isn't in the initial response to confirm
+        // order. We need to poll the order for it.
+        const order = yield retry(100, 10000, AuthUrlCheck, confirmedOrder.id)
+        yield put(A.setStep({ step: 'OPEN_BANKING_CONNECT', order }))
+        // Now we need to poll for the order success
+        confirmedOrder = yield retry(
+          100,
+          10000,
+          OrderConfirmCheck,
+          confirmedOrder.id
+        )
+      }
+
       yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
       if (order.paymentType === 'BANK_TRANSFER') {
         yield put(A.setStep({ step: 'ORDER_SUMMARY', order: confirmedOrder }))
@@ -735,7 +774,6 @@ export default ({
         .getOrElse({
           state: 'NONE'
         } as UserDataType)
-
       // 🚨DO NOT create the user if no currency is passed
       if (userData.state === 'NONE' && !currency) {
         return yield put(A.fetchSBPaymentMethodsSuccess(DEFAULT_SB_METHODS))
@@ -784,7 +822,6 @@ export default ({
           method => method.type !== 'BANK_TRANSFER'
         )
       }
-
       yield put(
         A.fetchSBPaymentMethodsSuccess({
           currency: currency || fallbackFiatCurrency,
@@ -995,7 +1032,9 @@ export default ({
         yield put(
           actions.components.brokerage.showModal(
             BrokerageModalOriginType.ADD_BANK,
-            'ADD_BANK_MODAL'
+            fiatCurrency === 'USD'
+              ? 'ADD_BANK_YODLEE_MODAL'
+              : 'ADD_BANK_YAPILY_MODAL'
           )
         )
         return yield put(

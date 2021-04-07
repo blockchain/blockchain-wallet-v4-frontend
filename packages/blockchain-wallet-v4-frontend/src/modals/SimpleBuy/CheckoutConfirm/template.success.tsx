@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import moment from 'moment'
-import { defaultTo, filter, path } from 'ramda'
+import { defaultTo, filter, path, prop } from 'ramda'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -13,10 +13,7 @@ import {
   Text
 } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import {
-  BankTransferAccountType,
-  SupportedWalletCurrenciesType
-} from 'blockchain-wallet-v4/src/types'
+import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { Form } from 'components/Form'
@@ -28,6 +25,7 @@ import {
   getOrderType,
   getPaymentMethodId
 } from 'data/components/simpleBuy/model'
+import { BankTransferAccountType } from 'data/types'
 
 import { displayFiat, getPaymentMethod } from '../model'
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -86,6 +84,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       b.state === 'ACTIVE' && b.id === paymentMethodId,
     defaultTo([])(path(['bankAccounts'], props))
   )
+  const paymentPartner = prop('partner', bankAccount)
+
   const showLock = props.withdrawLockCheck && props.withdrawLockCheck.lockTime
   const isBankLink = props.order.paymentType === 'BANK_TRANSFER'
 
@@ -241,25 +241,45 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </Text>
           </Info>
         )}
+        {paymentPartner === 'YAPILY' ? (
+          <Button
+            fullwidth
+            nature='primary'
+            data-e2e='approveSBOrder'
+            size='16px'
+            height='48px'
+            style={{ marginTop: '28px' }}
+            disabled={!acceptTerms}
+            onClick={() =>
+              props.simpleBuyActions.setStep({
+                step: 'AUTHORIZE_PAYMENT',
+                order: props.order
+              })
+            }
+          >
+            <FormattedMessage id='copy.approve' defaultMessage='Approve' />
+          </Button>
+        ) : (
+          <Button
+            fullwidth
+            nature='primary'
+            data-e2e='confirmSBOrder'
+            size='16px'
+            height='48px'
+            type='submit'
+            style={{ marginTop: '28px' }}
+            disabled={props.submitting || !acceptTerms}
+          >
+            {props.submitting ? (
+              <HeartbeatLoader height='16px' width='16px' color='white' />
+            ) : (
+              `${
+                orderType === 'BUY' ? 'Buy' : 'Sell'
+              } ${baseAmount} ${baseCurrency}`
+            )}
+          </Button>
+        )}
 
-        <Button
-          fullwidth
-          nature='primary'
-          data-e2e='confirmSBOrder'
-          size='16px'
-          height='48px'
-          type='submit'
-          style={{ marginTop: '28px' }}
-          disabled={props.submitting || !acceptTerms}
-        >
-          {props.submitting ? (
-            <HeartbeatLoader height='16px' width='16px' color='white' />
-          ) : (
-            `${
-              orderType === 'BUY' ? 'Buy' : 'Sell'
-            } ${baseAmount} ${baseCurrency}`
-          )}
-        </Button>
         <Button
           data-e2e='sbCancelCheckout'
           disabled={props.submitting}

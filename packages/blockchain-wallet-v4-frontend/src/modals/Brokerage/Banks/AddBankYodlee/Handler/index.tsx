@@ -9,8 +9,8 @@ import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import { AddBankStepType } from 'data/types'
 
+import { LoadingUpdating as Loading } from '../../../../components'
 import { getData } from './selectors'
-import Loading from './template.loading'
 import Success from './template.success'
 
 class LinkBankHandler extends PureComponent<Props, State> {
@@ -28,7 +28,7 @@ class LinkBankHandler extends PureComponent<Props, State> {
 
     const { error, sites } = event.data
     if (!isEmpty(sites)) {
-      this.props.brokerageActions.fetchBankTransferUpdate(sites)
+      this.props.brokerageActions.fetchBankTransferUpdate(sites[0])
       this.props.brokerageActions.fetchBTUpdateLoading()
     } else if (error) {
       this.props.analyticsActions.logEvent([

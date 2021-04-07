@@ -4,19 +4,22 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import DataError from 'components/DataError'
+import { WalletFiatType } from 'core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { AddBankStepType } from 'data/types'
 
+import { Loading, LoadingTextEnum } from '../../../../components'
 import { getData } from './selectors'
-import Loading from './template.loading'
 import Success from './template.success'
 
 class Add extends PureComponent<Props> {
   componentDidMount() {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
-      this.props.brokerageActions.fetchFastLink()
+      this.props.brokerageActions.fetchBankLinkCredentials(
+        this.props.fiatCurrency as WalletFiatType
+      )
     }
   }
 
@@ -51,8 +54,8 @@ class Add extends PureComponent<Props> {
           onClick={this.props.simpleBuyActions.fetchSBPaymentMethods}
         />
       ),
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      Loading: () => <Loading text={LoadingTextEnum.GETTING_READY} />,
+      NotAsked: () => <Loading text={LoadingTextEnum.GETTING_READY} />
     })
   }
 }

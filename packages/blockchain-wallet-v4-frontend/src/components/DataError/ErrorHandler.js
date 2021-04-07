@@ -10,7 +10,7 @@ import { checkForVulnerableAddressError } from 'services/misc'
 import {
   BROKERAGE_INELIGIBLE,
   IneligibleErrorMessage
-} from '../../modals/Brokerage/components'
+} from '../../modals/components'
 
 const MessageText = styled(Text)`
   width: 80%;

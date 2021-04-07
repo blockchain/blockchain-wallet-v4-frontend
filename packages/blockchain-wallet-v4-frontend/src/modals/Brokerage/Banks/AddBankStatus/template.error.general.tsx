@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { AddBankStepType } from 'data/types'
+import { AddBankStepType, BankStatusType } from 'data/types'
 
 import { Props as _P, SuccessStateType } from '.'
 
@@ -42,7 +42,7 @@ const Subcontent = styled(Text)`
   margin-bottom: 56px;
   text-align: center;
 `
-
+// This component is shared by Yapily and Yodlee add bank modals
 const BankLinkError: React.FC<Props> = ({
   bankStatus,
   brokerageActions,
@@ -59,17 +59,43 @@ const BankLinkError: React.FC<Props> = ({
         onClick={() => handleClose}
       />
       <Container>
-        <Image width='100px' name='bank-error' />
+        <Image
+          width='100px'
+          name={
+            bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_EXPIRED
+              ? 'bank-expired'
+              : bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_REJECTED
+              ? 'bank-rejected'
+              : 'bank-error'
+          }
+        />
         <Title color='grey800' size='20px' weight={600}>
-          {bankStatus === 'BANK_TRANSFER_ACCOUNT_ALREADY_LINKED' ? (
+          {bankStatus ===
+          BankStatusType.BANK_TRANSFER_ACCOUNT_ALREADY_LINKED ? (
             <FormattedMessage
               id='copy.bank_linked_error_title_already_linked'
               defaultMessage='This bank has already been linked to your account.'
             />
-          ) : bankStatus === 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH' ? (
+          ) : bankStatus ===
+            BankStatusType.BANK_TRANSFER_ACCOUNT_NAME_MISMATCH ? (
             <FormattedMessage
               id='copy.bank_linked_error_title_yourbank'
               defaultMessage='Is this your bank?'
+            />
+          ) : bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_EXPIRED ? (
+            <FormattedMessage
+              id='copy.bank_linked_error_title_expiredaccount'
+              defaultMessage='Expired Account Access'
+            />
+          ) : bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_REJECTED ? (
+            <FormattedMessage
+              id='copy.bank_linked_error_title_connectionrejected'
+              defaultMessage='Connection Rejected'
+            />
+          ) : bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_FAILED ? (
+            <FormattedMessage
+              id='copy.bank_linked_error_title_failedconnection'
+              defaultMessage='Failed Connection Request'
             />
           ) : (
             <FormattedMessage
@@ -79,7 +105,8 @@ const BankLinkError: React.FC<Props> = ({
           )}
         </Title>
         <Subcontent color='grey600' weight={500}>
-          {bankStatus === 'BANK_TRANSFER_ACCOUNT_ALREADY_LINKED' ? (
+          {bankStatus ===
+          BankStatusType.BANK_TRANSFER_ACCOUNT_ALREADY_LINKED ? (
             <>
               <FormattedMessage
                 id='copy.bank_linked_error_alreadylinked1'
@@ -101,7 +128,8 @@ const BankLinkError: React.FC<Props> = ({
                 defaultMessage='immediately.'
               />
             </>
-          ) : bankStatus === 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH' ? (
+          ) : bankStatus ===
+            BankStatusType.BANK_TRANSFER_ACCOUNT_NAME_MISMATCH ? (
             <>
               <FormattedMessage
                 id='copy.bank_linked_error_yourbank'

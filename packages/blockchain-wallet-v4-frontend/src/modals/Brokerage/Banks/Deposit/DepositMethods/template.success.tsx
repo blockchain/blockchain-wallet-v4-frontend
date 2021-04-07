@@ -90,6 +90,7 @@ const Success = ({
   addNew,
   brokerageActions,
   close,
+  fiatCurrency,
   paymentMethods
 }: Props) => {
   const bankTransfer = paymentMethods.methods.find(
@@ -134,7 +135,9 @@ const Success = ({
               if (addNew) {
                 brokerageActions.showModal(
                   BrokerageModalOriginType.ADD_BANK,
-                  'ADD_BANK_MODAL'
+                  fiatCurrency === 'USD'
+                    ? 'ADD_BANK_YODLEE_MODAL'
+                    : 'ADD_BANK_YAPILY_MODAL'
                 )
                 brokerageActions.setAddBankStep({
                   addBankStep: AddBankStepType.ADD_BANK

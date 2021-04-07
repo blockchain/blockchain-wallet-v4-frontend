@@ -22,6 +22,7 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 import { ModalPropsType } from '../types'
 // step templates
 import AddCard from './AddCard'
+import Authorize from './Authorize'
 import BankWireDetails from './BankWireDetails'
 import BillingAddress from './BillingAddress'
 import CheckoutConfirm from './CheckoutConfirm'
@@ -29,6 +30,7 @@ import CryptoSelection from './CryptoSelection'
 import EnterAmount from './EnterAmount'
 import KycRequired from './KycRequired'
 import LinkedPaymentAccounts from './LinkedPaymentAccounts'
+import OpenBankingConnect from './OpenBankingConnect'
 import OrderSummary from './OrderSummary'
 import PaymentMethods from './PaymentMethods'
 import PreviewSell from './PreviewSell'
@@ -176,6 +178,11 @@ class SimpleBuy extends PureComponent<Props, State> {
                 />
               </FlyoutChild>
             )}
+            {this.props.step === 'AUTHORIZE_PAYMENT' && (
+              <FlyoutChild>
+                <Authorize {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
             {this.props.step === 'CHECKOUT_CONFIRM' && (
               <FlyoutChild>
                 <CheckoutConfirm
@@ -209,6 +216,14 @@ class SimpleBuy extends PureComponent<Props, State> {
             {this.props.step === 'BANK_WIRE_DETAILS' && (
               <FlyoutChild>
                 <BankWireDetails
+                  {...this.props}
+                  handleClose={this.handleClose}
+                />
+              </FlyoutChild>
+            )}
+            {this.props.step === 'OPEN_BANKING_CONNECT' && (
+              <FlyoutChild>
+                <OpenBankingConnect
                   {...this.props}
                   handleClose={this.handleClose}
                 />
@@ -322,7 +337,11 @@ type LinkStatePropsType =
     }
   | {
       order: SBOrderType
-      step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY'
+      step:
+        | 'CHECKOUT_CONFIRM'
+        | 'ORDER_SUMMARY'
+        | 'OPEN_BANKING_CONNECT'
+        | 'AUTHORIZE_PAYMENT'
     }
   | { order: SwapOrderType; step: 'SELL_ORDER_SUMMARY' }
   | {
