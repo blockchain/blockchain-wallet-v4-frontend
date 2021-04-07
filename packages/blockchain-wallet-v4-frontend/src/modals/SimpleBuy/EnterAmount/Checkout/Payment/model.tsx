@@ -98,12 +98,16 @@ export const DisplayValue = styled(Value)`
 
 export const renderBankText = (
   value: SBPaymentMethodType | BankTransferAccountType
-): string => {
-  return value.details
-    ? value.details.bankName
-      ? value.details.bankName
-      : value.details.accountNumber
-    : 'Bank Account'
+): string | ReactElement => {
+  return value.details ? (
+    value.details.bankName ? (
+      value.details.bankName
+    ) : (
+      value.details.accountNumber
+    )
+  ) : (
+    <FormattedMessage id='copy.bank_account' defaultMessage='Bank Account' />
+  )
 }
 
 export const renderBank = (

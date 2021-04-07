@@ -11,9 +11,9 @@ import {
   ScanWithPhone,
   Section
 } from '../../../../components'
-import { OwnProps as _O, Props as _P, SuccessStateType as _SS } from '.'
+import { OwnProps, Props as _P, SuccessStateType } from '.'
 
-type Props = _O & _SS & _P
+type Props = OwnProps & SuccessStateType & _P
 
 const Success = (props: Props) => {
   return (

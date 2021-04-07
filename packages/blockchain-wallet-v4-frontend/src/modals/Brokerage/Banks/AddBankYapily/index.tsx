@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { ModalPropsType } from 'blockchain-wallet-v4-frontend/src/modals/types'
 import { compose } from 'redux'
 
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
@@ -8,7 +9,6 @@ import { RootState } from 'data/rootReducer'
 import { AddBankStepType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
-import { ModalPropsType } from '../../../types'
 import AddBankStatus from '../AddBankStatus'
 import Authorize from './Authorize'
 import Connect from './Connect'
@@ -56,7 +56,10 @@ class Banks extends PureComponent<Props> {
       >
         {this.props.step === AddBankStepType.ADD_BANK && (
           <FlyoutChild>
-            <SelectBank setYapilyBankId={this.setYapilyBankId} handleClose={this.handleClose}/>
+            <SelectBank
+              setYapilyBankId={this.setYapilyBankId}
+              handleClose={this.handleClose}
+            />
           </FlyoutChild>
         )}
         {this.props.step === AddBankStepType.ADD_BANK_CONNECT && (

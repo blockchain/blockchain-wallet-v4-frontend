@@ -161,12 +161,16 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     }
   }
 
-  renderBankText = (value: SBPaymentMethodType): string => {
-    return value.details
-      ? value.details.bankName
-        ? value.details.bankName
-        : value.details.accountNumber
-      : 'Bank Account'
+  renderBankText = (value: SBPaymentMethodType): string | ReactElement => {
+    return value.details ? (
+      value.details.bankName ? (
+        value.details.bankName
+      ) : (
+        value.details.accountNumber
+      )
+    ) : (
+      <FormattedMessage id='copy.bank_account' defaultMessage='Bank Account' />
+    )
   }
 
   renderCardText = (value: SBPaymentMethodType): string => {
@@ -230,11 +234,18 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     }))
 
     const bankMethods = availableBankAccounts.map(account => ({
-      text: account.details
-        ? account.details.accountName
-          ? account.details.accountName
-          : account.details.accountNumber
-        : 'Bank Account',
+      text: account.details ? (
+        account.details.accountName ? (
+          account.details.accountName
+        ) : (
+          account.details.accountNumber
+        )
+      ) : (
+        <FormattedMessage
+          id='copy.bank_account'
+          defaultMessage='Bank Account'
+        />
+      ),
       value: {
         ...account,
         type: 'BANK_TRANSFER',
