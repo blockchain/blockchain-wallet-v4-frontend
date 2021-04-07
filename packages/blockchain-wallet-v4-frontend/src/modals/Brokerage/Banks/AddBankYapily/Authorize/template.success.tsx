@@ -78,7 +78,7 @@ const DropdownItem = ({ bodyText, titleText }) => {
   )
 }
 
-const Success: React.FC<Props> = props => {
+const Success = (props: Props) => {
   const { entity } = props
   const entityName = entity === 'Fintecture (EU)' ? 'Fintecture' : 'SafeConnect'
 

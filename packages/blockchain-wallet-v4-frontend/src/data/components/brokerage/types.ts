@@ -45,7 +45,7 @@ export interface OBInstitution {
   countries: OBCountryType[]
   credentialsType: string
   environmentType: string
-  features: [string]
+  features: string[]
   fullName: string
   id: string
   media: OBMediaType

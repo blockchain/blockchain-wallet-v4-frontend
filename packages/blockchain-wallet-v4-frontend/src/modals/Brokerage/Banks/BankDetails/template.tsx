@@ -61,9 +61,11 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const { account, walletCurrency } = props
 
   const bankAccountName =
-    account && 'details' in account
-      ? `${account.details?.bankName} ${account.details?.accountNumber}`
-      : `bank account`
+    account && 'details' in account ? (
+      `${account.details?.bankName} ${account.details?.accountNumber}`
+    ) : (
+      <FormattedMessage id='copy.bank_account' defaultMessage='Bank Account' />
+    )
 
   const accountDetails = account && 'details' in account && account.details
   return (
