@@ -210,7 +210,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                         onClick={() => {
                           if (!this.props.brokerageActions) return
                           if (!this.props.simpleBuyActions) return
-                          if (isInvited) {
+                          if (isInvited || coin === 'USD') {
                             this.props.brokerageActions.handleDepositFiatClick(
                               coin as WalletFiatType
                             )
@@ -378,9 +378,9 @@ export type SuccessStateType = {
   coinModel: SupportedWalletCurrencyType
   currency: FiatType
   hasTxResults: boolean
-  isInvited: boolean,
-  isSearchEntered: boolean,
-  pages: Array<any>,
+  isInvited: boolean
+  isSearchEntered: boolean
+  pages: Array<any>
   sourceType: string
 }
 
