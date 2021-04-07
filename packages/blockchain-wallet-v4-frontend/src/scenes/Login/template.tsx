@@ -677,10 +677,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                   </Link>
 
                   <Text size='12px' color='grey900' weight={500}>
-                    <FormattedMessage
-                      id='modals.mobilenumberverify.getcode2'
-                      defaultMessage='or'
-                    />
+                    <FormattedMessage id='copy.or' defaultMessage='or' />
                   </Text>
 
                   <Link
