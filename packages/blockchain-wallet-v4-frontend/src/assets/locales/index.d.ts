@@ -1958,7 +1958,7 @@ type MessagesType = {
   'scenes.interest.tab.history': 'Transaction History'
   'scenes.interest.verifyid': 'Upgrade Now'
   'scenes.interest.kycunderreview': 'Gold Verification In Review'
-  'scenes.interest.subheader_store': 'Deposit crypto and watch it grow. Interest is paid by the end of the day on the 1st of each month.'
+  'scenes.interest.subheader': 'Deposit crypto and watch it grow. Interest is paid by the end of the day on the 1st of each month.'
   'scenes.linkaccount.able_to': 'The Exchange will be able to:'
   'scenes.linkaccount.able_to1': 'Access your profile information'
   'scenes.linkaccount.able_to2': 'Send & receive currency between apps'

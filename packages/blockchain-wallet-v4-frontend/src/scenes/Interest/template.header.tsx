@@ -44,7 +44,7 @@ const InterestHeader = () => {
       </SceneHeader>
       <SceneSubHeaderText>
         <FormattedMessage
-          id='scenes.interest.subheader_store'
+          id='scenes.interest.subheader'
           defaultMessage='Deposit crypto and watch it grow. Interest is paid by the end of the day on the 1st of each month.'
         />
         <LearnMoreLink
