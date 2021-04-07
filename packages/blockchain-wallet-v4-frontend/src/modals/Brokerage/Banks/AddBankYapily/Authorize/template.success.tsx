@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FormattedMessage } from 'react-intl'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
@@ -56,6 +56,11 @@ const InfoText = styled(Title)`
   font-weight: 500;
   color: ${props => props.theme.grey600};
   line-height: 1.5;
+  a {
+    color: ${props => props.theme.blue600};
+    cursor: pointer;
+    text-decoration: none;
+  }
 `
 const Bottom = styled(FlyoutWrapper)`
   display: flex;
@@ -80,14 +85,15 @@ const DropdownItem = ({ bodyText, titleText }) => {
 
 const Success: React.FC<Props> = props => {
   const { entity } = props
-  const entityName = entity === 'Fintecture (EU)' ? 'Fintecture' : 'SafeConnect'
+  const entityName =
+    entity === 'Safeconnect(UK)' ? 'SafeConnect' : 'SafeConnect (UAB)'
 
   return (
     <Wrapper>
       <FlyoutWrapper style={{ paddingBottom: '24px' }}>
         <BackContainer>
           <Image
-            name={entityName === 'Fintecture' ? 'fintecture' : 'safe-connect'}
+            name='safe-connect'
             size='20px'
             style={{ marginRight: '28px' }}
           />
@@ -129,17 +135,31 @@ const Success: React.FC<Props> = props => {
       />
       <DropdownItem
         bodyText={
-          <FormattedMessage
-            id='modals.brokerage.authorize.fca'
-            defaultMessage='Blockchain is an agent of {entityName} Ltd. {entityName} Ltd is authorised and regulated by the Financial Conduct Authority under the Payment Service Regulations 2017 [827001] for the provision of Account Information and Payment Initiation services.'
-            values={{ entityName }}
-          />
+          entityName === 'SafeConnect' ? (
+            <FormattedMessage
+              id='modals.brokerage.authorize.fca'
+              defaultMessage='Blockchain is an agent of {entityName} Ltd. {entityName} Ltd is authorised and regulated by the Financial Conduct Authority under the Payment Service Regulations 2017 [827001] for the provision of Account Information and Payment Initiation services.'
+              values={{ entityName }}
+            />
+          ) : (
+            <FormattedMessage
+              id='modals.brokerage.authorize.bol'
+              defaultMessage='SafeConnect UAB is authorised and regulated by the Bank of Lithuania under Payments Law (LB002045) for the provision of Account Information and Payment Initiation services.'
+            />
+          )
         }
         titleText={
-          <FormattedMessage
-            id='modals.brokerage.authorize.fca.title'
-            defaultMessage='FCA Authorisation'
-          />
+          entityName === 'SafeConnect' ? (
+            <FormattedMessage
+              id='modals.brokerage.authorize.fca.title'
+              defaultMessage='FCA Authorisation'
+            />
+          ) : (
+            <FormattedMessage
+              id='modals.brokerage.authorize.fca.title'
+              defaultMessage='Bank of Lithuania Authorisation'
+            />
+          )
         }
       />
       <Row>
@@ -167,11 +187,19 @@ const Success: React.FC<Props> = props => {
       </Row>
       <DropdownItem
         bodyText={
-          <FormattedMessage
-            id='modals.brokerage.authorize.about_access'
-            defaultMessage='{entityName} will then use these details with Blockchain solely for the purposes of buying cryptocurrencies. This access is valid until 24th of January 2021, you can cancel consent at any time via the Blockchain settings or via your bank. This request is not a one-off, you will continue to receive consent requests as older versions expire.'
-            values={{ entityName }}
-          />
+          <>
+            <FormattedMessage
+              id='modals.brokerage.authorize.about_access'
+              defaultMessage='{entityName} will then use these details with Blockchain solely for the purposes of buying cryptocurrencies. This access is valid until 24th of January 2021, you can cancel consent at any time via the Blockchain settings or via your bank. This request is not a one-off, you will continue to receive consent requests as older versions expire.'
+              values={{ entityName }}
+            />
+            {entityName !== 'SafeConnect' && (
+              <FormattedHTMLMessage
+                id='modals.brokerage.authorize.bol.terms'
+                defaultMessage="View SafeConnect UAB <a href='https://yapi.ly/GDNT' rel='noopener noreferrer' target='_blank'>Terms and Conditions</a> for more information."
+              />
+            )}
+          </>
         }
         titleText={
           <FormattedMessage

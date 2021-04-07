@@ -8,8 +8,7 @@ export enum BankPartners {
 }
 
 export enum OBEntityType {
-  FINTECTURE = 'Fintecture (EU)',
-  SAFE_CONNECT_AUB = 'Safeconnect AUB',
+  SAFE_CONNECT_AUB = 'Safeconnect UAB',
   SAFE_CONNECT_UK = 'Safeconnect(UK)'
 }
 
