@@ -159,7 +159,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const insufficientEth =
     payment &&
     !!supportedCoins[coin].contractAddress &&
-    !!supportedCoins[payment.coin].contractAddress &&
+    !!supportedCoins[payment.coin]?.contractAddress &&
     // @ts-ignore
     !payment.isSufficientEthForErc20
 
