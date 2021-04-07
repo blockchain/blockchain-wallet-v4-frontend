@@ -167,15 +167,20 @@ const Success = props => {
                     {approver_device_description ===
                     requester_device_description ? (
                       <Icon
-                        name='checkmark-in-circle-filled'
+                        name='checkmark-circle-filled'
                         color='success'
                         size='16px'
                       />
                     ) : (
-                      <Icon name='close' color='error' size='16px' />
+                      <Icon
+                        name='close-circle'
+                        color='error'
+                        size='20px'
+                        style={{ marginLeft: '-2px', marginRight: '-2px' }}
+                      />
                     )}
                     &nbsp;
-                    <Text size='14px' style={{ paddingLeft: '8px' }}>
+                    <Text size='14px' style={{ paddingLeft: '6px' }}>
                       <FormattedMessage
                         id='scenes.authorizelogin.browser'
                         defaultMessage='Browser: '
@@ -198,15 +203,20 @@ const Success = props => {
                     {/* eslint-disable */}
                     {approver_ip === requester_ip ? (
                       <Icon
-                        name='checkmark-in-circle-filled'
+                        name='checkmark-circle-filled'
                         color='success'
                         size='16px'
                       />
                     ) : (
-                      <Icon name='close' color='error' size='16px' />
+                      <Icon
+                        name='close-circle'
+                        color='error'
+                        size='20px'
+                        style={{ marginLeft: '-2px', marginRight: '-2px' }}
+                      />
                     )}
                     &nbsp;
-                    <Text size='14px' style={{ paddingLeft: '8px' }}>
+                    <Text size='14px' style={{ paddingLeft: '6px' }}>
                       <FormattedMessage
                         id='scenes.authorizelogin.ipaddress'
                         defaultMessage='IP Address: '
@@ -228,15 +238,20 @@ const Success = props => {
                     {/* eslint-disable */}
                     {approver_country === requester_country ? (
                       <Icon
-                        name='checkmark-in-circle-filled'
+                        name='checkmark-circle-filled'
                         color='success'
                         size='16px'
                       />
                     ) : (
-                      <Icon name='close' color='error' size='16px' />
+                      <Icon
+                        name='close-circle'
+                        color='error'
+                        size='20px'
+                        style={{ marginLeft: '-2px', marginRight: '-2px' }}
+                      />
                     )}
                     &nbsp;
-                    <Text size='14px' style={{ paddingLeft: '8px' }}>
+                    <Text size='14px' style={{ paddingLeft: '6px' }}>
                       <FormattedMessage
                         id='scenes.authorizelogin.country'
                         defaultMessage='Country of Origin: '
