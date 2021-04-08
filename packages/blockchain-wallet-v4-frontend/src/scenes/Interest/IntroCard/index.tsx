@@ -47,8 +47,7 @@ class IntroCard extends PureComponent<
   ParentStateType & Props & SuccessStateType
 > {
   renderAdditionalInfo = () => {
-    const { analyticsActions, interestRateArray } = this.props
-    const highestRate = interestRateArray.reduce((a, b) => Math.max(a, b))
+    const { analyticsActions } = this.props
     return (
       <BoxStyledAdditional>
         <ContentWrapper>
@@ -74,8 +73,7 @@ class IntroCard extends PureComponent<
           >
             <FormattedMessage
               id='scenes.interest.additional_info_required_description'
-              defaultMessage='Please supply the additional information required to avoid delays on withdrawal.'
-              values={{ highestRate }}
+              defaultMessage='Please supply the additional information required to avoid delays on withdrawals.'
             />
           </Text>
           <Link
