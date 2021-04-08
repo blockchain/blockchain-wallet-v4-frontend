@@ -12,12 +12,7 @@ import {
   Text
 } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
-import {
-  CoinType,
-  InterestRateType,
-  RemoteDataType,
-  SupportedWalletCurrenciesType
-} from 'blockchain-wallet-v4/src/types'
+import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { Container } from 'components/Box'
 import { SceneWrapper } from 'components/Layout'
 import { actions } from 'data'
@@ -48,6 +43,7 @@ class Interest extends React.PureComponent<Props, StateType> {
     this.props.interestActions.fetchInterestInstruments()
     this.props.interestActions.fetchInterestRate()
     this.props.interestActions.fetchInterestBalance()
+    this.props.interestActions.fetchEDDStatus()
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -100,7 +96,9 @@ class Interest extends React.PureComponent<Props, StateType> {
           Success: val => (
             <>
               <ContainerStyled>
-                <IntroCard {...val} {...this.props} isGoldTier={isGoldTier} />
+                {val.interestEDDStatus?.eddNeeded && (
+                  <IntroCard {...val} {...this.props} isGoldTier={isGoldTier} />
+                )}
                 {isGoldTier &&
                   val.instruments.map(instrument => {
                     return (
@@ -119,7 +117,10 @@ class Interest extends React.PureComponent<Props, StateType> {
           ),
           Failure: () => (
             <Text size='16px' weight={500}>
-              Oops. Something went wrong. Please refresh and try again.
+              <FormattedMessage
+                id='scenes.interest.tab.error'
+                defaultMessage='Oops. Something went wrong. Please refresh and try again.'
+              />
             </Text>
           ),
           Loading: () => <SkeletonRectangle width='275px' height='275px' />,
@@ -147,13 +148,8 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 export type StateType = {
   isGoldTier: boolean
 }
-export type SuccessStateType = {
-  instruments: Array<CoinType>
-  interestRate: InterestRateType
-  interestRateArray: Array<number>
-  supportedCoins: SupportedWalletCurrenciesType
-  userData: UserDataType
-}
+
+export type SuccessStateType = ReturnType<typeof getData>['data']
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
 }
