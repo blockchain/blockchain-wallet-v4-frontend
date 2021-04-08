@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
@@ -79,17 +79,6 @@ const ApproveRejectButtons = styled(Button)`
 `}
 `
 
-const Title = styled(Text)`
-  margin: 40px 0 14px 0;
-  line-height: 22px;
-  width: 252px;
-`
-
-const Content = styled(Text)`
-  line-height: 22px;
-  width: 252px;
-`
-
 const Success = props => {
   /* eslint-disable */
   const {
@@ -104,10 +93,6 @@ const Success = props => {
 
   const requestDenied = props.value['request-denied']
   /* eslint-enable */
-
-  useEffect(() => {
-    if (!device_change_reason) props.handleSuccessContainer()
-  })
 
   return (
     <Wrapper>
@@ -300,11 +285,16 @@ const Success = props => {
       ) : (
         <Fragment>
           {requestDenied ? (
-            <Icon name='close' color='error' size='52px' />
+            <Icon color='error' name='close-circle' size='40px' />
           ) : (
-            <Image name='checkmark-green' width='56px' height='56px' />
+            <Icon color='success' name='checkmark-circle-filled' size='40px' />
           )}
-          <Title size='20px' weight={600} color='blue900'>
+          <Text
+            size='20px'
+            weight={600}
+            color='black'
+            style={{ marginTop: '8px' }}
+          >
             {requestDenied ? (
               <FormattedMessage
                 id='scenes.authorizelogin.loading.rejected.title'
@@ -316,8 +306,13 @@ const Success = props => {
                 defaultMessage='Login Approved!'
               />
             )}
-          </Title>
-          <Content size='16px' weight={500} color='grey700'>
+          </Text>
+          <Text
+            color='grey900'
+            style={{ marginTop: '8px' }}
+            size='16px'
+            weight={500}
+          >
             {requestDenied ? (
               <FormattedMessage
                 id='scenes.authorizelogin.loading.rejected.content'
@@ -329,7 +324,7 @@ const Success = props => {
                 defaultMessage='Please return to your previous tab to view your wallet.'
               />
             )}
-          </Content>
+          </Text>
         </Fragment>
       )}
     </Wrapper>
