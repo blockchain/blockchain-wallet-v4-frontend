@@ -166,7 +166,7 @@ const AccountSummary: React.FC<Props> = props => {
           <>
             <StatusWrapper>
               <StatusIconWrapper color={coinCode}>
-                <Icon color={coinCode} name='timer' size='24px' />
+                <Icon color='white' name='timer' size='24px' />
               </StatusIconWrapper>
               <Text
                 data-e2e='waitingConfirmation'
