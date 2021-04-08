@@ -108,7 +108,7 @@ function TransactionList(props: Props): ReactElement | null {
                     <IconBackground color={coinCode}>
                       <Icon
                         name='arrow-up'
-                        color={coinCode}
+                        color='white'
                         size='20px'
                         weight={600}
                         data-e2e={id}
@@ -145,7 +145,7 @@ function TransactionList(props: Props): ReactElement | null {
                     <IconBackground color={coinCode}>
                       <Icon
                         name='arrow-down'
-                        color={coinCode}
+                        color='white'
                         size='20px'
                         weight={600}
                       />
