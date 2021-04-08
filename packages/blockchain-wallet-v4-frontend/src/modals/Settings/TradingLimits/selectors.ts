@@ -32,13 +32,6 @@ export const getData = (state: RootState) => {
     state
   )
 
-  // return Remote.Success({
-  //   userData,
-  //   userTiers,
-  //   sddEligible,
-  //   productsEligibility
-  // })
-
   return lift(
     (interestEDDStatus: ExtractSuccess<typeof interestEDDStatusR>) => ({
       userData,
