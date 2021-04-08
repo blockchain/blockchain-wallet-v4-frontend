@@ -241,44 +241,27 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </Text>
           </Info>
         )}
-        {paymentPartner === 'YAPILY' ? (
-          <Button
-            fullwidth
-            nature='primary'
-            data-e2e='approveSBOrder'
-            size='16px'
-            height='48px'
-            style={{ marginTop: '28px' }}
-            disabled={!acceptTerms}
-            onClick={() =>
-              props.simpleBuyActions.setStep({
-                step: 'AUTHORIZE_PAYMENT',
-                order: props.order
-              })
-            }
-          >
+
+        <Button
+          fullwidth
+          nature='primary'
+          data-e2e='confirmSBOrder'
+          size='16px'
+          height='48px'
+          type='submit'
+          style={{ marginTop: '28px' }}
+          disabled={props.submitting || !acceptTerms}
+        >
+          {props.submitting ? (
+            <HeartbeatLoader height='16px' width='16px' color='white' />
+          ) : paymentPartner === 'YAPILY' ? (
             <FormattedMessage id='copy.approve' defaultMessage='Approve' />
-          </Button>
-        ) : (
-          <Button
-            fullwidth
-            nature='primary'
-            data-e2e='confirmSBOrder'
-            size='16px'
-            height='48px'
-            type='submit'
-            style={{ marginTop: '28px' }}
-            disabled={props.submitting || !acceptTerms}
-          >
-            {props.submitting ? (
-              <HeartbeatLoader height='16px' width='16px' color='white' />
-            ) : (
-              `${
-                orderType === 'BUY' ? 'Buy' : 'Sell'
-              } ${baseAmount} ${baseCurrency}`
-            )}
-          </Button>
-        )}
+          ) : (
+            `${
+              orderType === 'BUY' ? 'Buy' : 'Sell'
+            } ${baseAmount} ${baseCurrency}`
+          )}
+        </Button>
 
         <Button
           data-e2e='sbCancelCheckout'

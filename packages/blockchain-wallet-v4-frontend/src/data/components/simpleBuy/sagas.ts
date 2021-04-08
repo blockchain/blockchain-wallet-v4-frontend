@@ -440,8 +440,8 @@ export default ({
       throw new Error('retrying to fetch for FINISHED order')
     }
   }
-  const confirmSBCreditCardOrder = function * (
-    payload: ReturnType<typeof A.confirmSBCreditCardOrder>
+  const confirmSBOrder = function * (
+    payload: ReturnType<typeof A.confirmSBOrder>
   ) {
     const { order, paymentMethodId } = payload
     try {
@@ -1214,7 +1214,7 @@ export default ({
         yield put(A.fetchSBCards(skipLoading))
         // If the order was already created
         if (order && order.state === 'PENDING_CONFIRMATION') {
-          return yield put(A.confirmSBCreditCardOrder(card.id, order))
+          return yield put(A.confirmSBOrder(card.id, order))
         } else {
           return yield put(A.createSBOrder('PAYMENT_CARD', card.id))
         }
@@ -1345,7 +1345,7 @@ export default ({
     addCardDetails,
     addCardFinished,
     cancelSBOrder,
-    confirmSBCreditCardOrder,
+    confirmSBOrder,
     confirmSBFundsOrder,
     createSBOrder,
     deleteSBCard,
