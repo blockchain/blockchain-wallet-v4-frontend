@@ -2,14 +2,13 @@ import { FiatType, RemoteDataType, WalletFiatType } from 'core/types'
 
 import * as AT from './actionTypes'
 
-enum BankPartners {
+export enum BankPartners {
   YAPILY = 'YAPILY',
   YODLEE = 'YODLEE'
 }
 
 export enum OBEntityType {
-  FINTECTURE = 'Fintecture (EU)',
-  SAFE_CONNECT_AUB = 'Safeconnect AUB',
+  SAFE_CONNECT_AUB = 'Safeconnect UAB',
   SAFE_CONNECT_UK = 'Safeconnect(UK)'
 }
 

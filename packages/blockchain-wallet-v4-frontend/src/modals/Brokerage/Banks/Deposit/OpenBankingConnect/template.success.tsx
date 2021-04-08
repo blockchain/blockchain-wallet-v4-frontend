@@ -30,7 +30,7 @@ const Success = (props: Props) => {
 
   return (
     <BankWrapper>
-      <ModalNavWithCloseIcon>
+      <ModalNavWithCloseIcon handleClose={props.handleClose}>
         <FormattedMessage
           id='copy.connect_to_your_bank'
           defaultMessage='Connect to your bank'

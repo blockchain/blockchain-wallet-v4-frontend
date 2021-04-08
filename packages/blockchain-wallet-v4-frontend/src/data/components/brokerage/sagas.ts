@@ -307,23 +307,26 @@ export default ({
 
   const createFiatDeposit = function * () {
     const { amount, currency } = yield select(getFormValues('brokerageTx'))
-    const { id } = yield select(selectors.components.brokerage.getAccount)
+    const { id, partner } = yield select(
+      selectors.components.brokerage.getAccount
+    )
     try {
       const data = yield call(api.createFiatDeposit, amount, id, currency)
-      const order = yield retry(100, 10000, AuthUrlCheck, data.paymentId)
-      if (
-        order.extraAttributes &&
-        'authorisationUrl' in order.extraAttributes &&
-        order.extraAttributes.authorisationUrl
-      ) {
-        yield put(actions.form.change('brokerageTx', 'order', order))
-        yield put(
-          actions.components.brokerage.setDWStep({
-            dwStep: BankDWStepType.DEPOSIT_CONNECT
-          })
-        )
-
-        yield retry(100, 10000, ClearedStatusCheck, data.paymentId)
+      if (partner === 'YAPILY') {
+        const order = yield retry(100, 10000, AuthUrlCheck, data.paymentId)
+        if (
+          order.extraAttributes &&
+          'authorisationUrl' in order.extraAttributes &&
+          order.extraAttributes.authorisationUrl
+        ) {
+          yield put(actions.form.change('brokerageTx', 'order', order))
+          yield put(
+            actions.components.brokerage.setDWStep({
+              dwStep: BankDWStepType.DEPOSIT_CONNECT
+            })
+          )
+          yield retry(100, 10000, ClearedStatusCheck, data.paymentId)
+        }
       }
       yield put(
         actions.components.brokerage.setDWStep({
