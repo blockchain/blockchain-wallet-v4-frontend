@@ -73,5 +73,6 @@ export default ({
       AT.STOP_SHOWING_INTEREST_MODAL,
       interestSagas.stopShowingInterestModal
     )
+    yield takeLatest(AT.FETCH_EDD_STATUS, interestSagas.fetchEDDStatus)
   }
 }

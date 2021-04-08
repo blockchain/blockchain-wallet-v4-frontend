@@ -71,9 +71,10 @@ const HeaderWrapper = styled(FlyoutWrapper)`
   position: fixed;
   max-width: 480px;
   background-color: ${props => props.theme.white};
+  z-index: 9999;
 `
 const LinkWrapper = styled.div`
-  padding: 0 40px 35px 40px;
+  padding: 0 40px 35px;
 `
 const FooterWrapper = styled(FlyoutWrapper)`
   flex: 1;
@@ -208,7 +209,7 @@ const getTierStatus = (
 const Template: React.FC<Props> = props => {
   const {
     analyticsActions,
-    isEddQualified,
+    interestEDDStatus,
     sddEligible,
     userData,
     userTiers
@@ -372,20 +373,43 @@ const Template: React.FC<Props> = props => {
               />
             </ItemSubtitle>
 
-            <TextGroup inline>
-              <Text color='grey600' size='12px' weight={500}>
-                <FormattedMessage
-                  id='modals.tradinglimits.gold_desc1'
-                  defaultMessage='You’ll need to verify your identity by uploading an ID and a selfie.'
-                />
-              </Text>
-              <Text color='grey600' italic size='12px' weight={500}>
-                <FormattedMessage
-                  id='modals.tradinglimits.gold_desc2'
-                  defaultMessage='Requires Silver Tier approval.'
-                />
-              </Text>
-            </TextGroup>
+            {interestEDDStatus?.eddNeeded ? (
+              <TextGroup inline>
+                <Text color='grey600' size='12px' weight={500}>
+                  <FormattedMessage
+                    id='modals.tradinglimits.gold_desc_edd'
+                    defaultMessage='We need more  information before we can approve your Gold Level application.'
+                  />
+                </Text>
+                <Link
+                  size='12px'
+                  weight={500}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  href='https://support.blockchain.com/hc/en-us/articles/360018080172-Identity-Verification-Overview'
+                >
+                  <FormattedMessage
+                    id='buttons.learn_more'
+                    defaultMessage='Learn More'
+                  />
+                </Link>
+              </TextGroup>
+            ) : (
+              <TextGroup inline>
+                <Text color='grey600' size='12px' weight={500}>
+                  <FormattedMessage
+                    id='modals.tradinglimits.gold_desc1'
+                    defaultMessage='You’ll need to verify your identity by uploading an ID and a selfie.'
+                  />
+                </Text>
+                <Text color='grey600' italic size='12px' weight={500}>
+                  <FormattedMessage
+                    id='modals.tradinglimits.gold_desc2'
+                    defaultMessage='Requires Silver Tier approval.'
+                  />
+                </Text>
+              </TextGroup>
+            )}
           </TierDescription>
 
           {getTierStatus(
@@ -394,11 +418,11 @@ const Template: React.FC<Props> = props => {
               : currentTier,
             TIER_TYPES.GOLD,
             goldTier,
-            isEddQualified
+            interestEDDStatus?.eddNeeded
           )}
         </Item>
 
-        {isEddQualified && (
+        {interestEDDStatus?.eddNeeded && (
           <LinkWrapper>
             <Link
               href='https://share.hsforms.com/1DS4i94fURdutr8OXYOxfrg2qt44'

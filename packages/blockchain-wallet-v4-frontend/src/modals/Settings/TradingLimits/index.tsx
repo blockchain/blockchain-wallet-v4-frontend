@@ -2,12 +2,9 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { RemoteDataType, SDDEligibleType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions } from 'data'
-import { UserDataType } from 'data/modules/types'
 import { RootState } from 'data/rootReducer'
-import { ProductEligibility, UserTierType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from './../../types'
@@ -28,6 +25,7 @@ class TradingLimits extends PureComponent<Props, State> {
     /* eslint-enable */
     this.props.fetchUser()
     this.props.fetchProductsEligibility()
+    this.props.fetchInterestEDDStatus()
   }
 
   handleClose = () => {
@@ -51,8 +49,32 @@ class TradingLimits extends PureComponent<Props, State> {
           </FlyoutChild>
         </Flyout>
       ),
-      NotAsked: () => <Loading />,
-      Loading: () => <Loading />,
+      NotAsked: () => (
+        <Flyout
+          {...this.props}
+          onClose={this.handleClose}
+          in={this.state.show}
+          direction={this.state.direction}
+          data-e2e='tradingLimitsModal'
+        >
+          <FlyoutChild>
+            <Loading />
+          </FlyoutChild>
+        </Flyout>
+      ),
+      Loading: () => (
+        <Flyout
+          {...this.props}
+          onClose={this.handleClose}
+          in={this.state.show}
+          direction={this.state.direction}
+          data-e2e='tradingLimitsModal'
+        >
+          <FlyoutChild>
+            <Loading />
+          </FlyoutChild>
+        </Flyout>
+      ),
       Failure: () => null
     })
   }
@@ -60,17 +82,18 @@ class TradingLimits extends PureComponent<Props, State> {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   fetchUser: () => dispatch(actions.modules.profile.fetchUser()),
+  fetchInterestEDDStatus: () =>
+    dispatch(actions.components.interest.fetchEDDStatus()),
   fetchProductsEligibility: () =>
     dispatch(actions.components.settings.fetchProductsEligibility()),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
   ),
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  isEddQualified: true
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
 })
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState) => ({
   data: getData(state)
 })
 
@@ -81,24 +104,9 @@ const enhance = compose(
   connector
 )
 
-export type LinkDispatchPropsType = {
-  identityVerificationActions: typeof actions.components.identityVerification
-}
+export type SuccessStateType = ReturnType<typeof getData>['data']
 
-type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-}
-
-export type SuccessStateType = {
-  productsEligibility: Array<ProductEligibility>
-  sddEligible: SDDEligibleType
-  userData: UserDataType
-  userTiers: UserTierType
-}
-
-export type Props = OwnProps &
-  LinkStatePropsType &
-  ConnectedProps<typeof connector>
-type State = { show: boolean }
+export type Props = OwnProps & ConnectedProps<typeof connector>
+type State = { direction: 'left' | 'right'; show: boolean }
 
 export default enhance(TradingLimits)
