@@ -298,12 +298,16 @@ const Authorize = (props: Props) => {
           type='submit'
           fullwidth
           height='48px'
-          onClick={() =>
+          onClick={() => {
+            simpleBuyActions.confirmSBOrder(
+              order.paymentMethodId as string,
+              order
+            )
             simpleBuyActions.setStep({
               step: 'OPEN_BANKING_CONNECT',
               order: order
             })
-          }
+          }}
         >
           <FormattedMessage id='copy.approve' defaultMessage='Approve' />
         </Button>

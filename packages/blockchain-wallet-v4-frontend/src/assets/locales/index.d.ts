@@ -663,6 +663,7 @@ type MessagesType = {
   'modals.brokerage.this_could_take': 'This could take up to 30 secconds. Please do not go back or close the app.'
   'modals.brokerage.use_phone_camera': 'Use your phone’s camera to scan the QR code.'
   'modals.brokerage.waiting_to_hear': 'Waiting to hear from your bank'
+  'modals.brokerage.this_can_take_a_while': 'This can take a while, hold tight!'
   'modals.brokerage.yodlee_description': 'Yodlee securely stores your credentials adhering to leading industry practices for data security, regulatory compliance, and privacy.'
   'modals.brokerage.daily_limit': 'Daily Limit'
   'modals.brokerage.deposit_methods': 'Select a Deposit Method'
