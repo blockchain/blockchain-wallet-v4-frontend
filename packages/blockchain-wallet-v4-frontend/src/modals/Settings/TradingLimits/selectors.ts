@@ -1,5 +1,7 @@
-import { Remote } from 'blockchain-wallet-v4/src'
-import { SDDEligibleType } from 'blockchain-wallet-v4/src/types'
+import { lift } from 'ramda'
+
+// import { Remote } from 'blockchain-wallet-v4/src'
+import { ExtractSuccess, SDDEligibleType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { UserDataType } from 'data/modules/types'
 import { RootState } from 'data/rootReducer'
@@ -26,10 +28,24 @@ export const getData = (state: RootState) => {
     .getProductsEligibility(state)
     .getOrElse([])
 
-  return Remote.Success({
-    userData,
-    userTiers,
-    sddEligible,
-    productsEligibility
-  })
+  const interestEDDStatusR = selectors.components.interest.getInterestEDDStatus(
+    state
+  )
+
+  // return Remote.Success({
+  //   userData,
+  //   userTiers,
+  //   sddEligible,
+  //   productsEligibility
+  // })
+
+  return lift(
+    (interestEDDStatus: ExtractSuccess<typeof interestEDDStatusR>) => ({
+      userData,
+      userTiers,
+      sddEligible,
+      productsEligibility,
+      interestEDDStatus
+    })
+  )(interestEDDStatusR)
 }

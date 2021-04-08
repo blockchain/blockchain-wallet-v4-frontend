@@ -130,6 +130,21 @@ export function interestReducer(
         ...state,
         interestRate: Remote.Success(payload.interestRate.rates)
       }
+    case AT.FETCH_EDD_STATUS_FAILURE:
+      return {
+        ...state,
+        interestEDDStatus: Remote.Failure(payload.error)
+      }
+    case AT.FETCH_EDD_STATUS_LOADING:
+      return {
+        ...state,
+        interestEDDStatus: Remote.Loading
+      }
+    case AT.FETCH_EDD_STATUS_SUCCESS:
+      return {
+        ...state,
+        interestEDDStatus: Remote.Success(payload.eddStatus)
+      }
     case AT.FETCH_INTEREST_TRANSACTIONS_LOADING: {
       const { reset } = payload
       return reset
