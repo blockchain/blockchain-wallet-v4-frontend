@@ -1968,7 +1968,7 @@ type MessagesType = {
   'scenes.interest.subheader': 'Deposit crypto and watch it grow. Interest is paid by the end of the day on the 1st of each month.'
   'scenes.interest.subheader_store': 'Store crypto and watch it grow.'
   'scenes.interest.additional_info_required': 'Additional Info Required'
-  'scenes.interest.additional_info_required_description': 'Please supply the additional information required to avoid delays on withdrawal.'
+  'scenes.interest.additional_info_required_description': 'Please supply the additional information required to avoid delays on withdrawals.'
   'scenes.interest.supply_information': 'Supply Information'
   'scenes.linkaccount.able_to': 'The Exchange will be able to:'
   'scenes.linkaccount.able_to1': 'Access your profile information'
