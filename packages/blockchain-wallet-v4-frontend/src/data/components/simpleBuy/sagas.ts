@@ -452,16 +452,20 @@ export default ({
         walletHelper: 'https://wallet-helper.blockchain.com'
       } as WalletOptionsType['domains'])
 
-      // TODO: Maybe we can't send any attributes for ACH, but I didn't want
-      //       to put an if statement in so need to test ACH works with attributes
-      let attributes =
-        order.paymentMethodId || paymentMethodId
-          ? {
-              everypay: {
-                customerUrl: `${domains.walletHelper}/wallet-helper/everypay/#/response-handler`
+      let attributes
+      if (
+        order.paymentType === 'PAYMENT_CARD' ||
+        order.paymentType === 'USER_CARD'
+      ) {
+        attributes =
+          order.paymentMethodId || paymentMethodId
+            ? {
+                everypay: {
+                  customerUrl: `${domains.walletHelper}/wallet-helper/everypay/#/response-handler`
+                }
               }
-            }
-          : undefined
+            : undefined
+      }
 
       let confirmedOrder: SBOrderType = yield call(
         api.confirmSBOrder,
