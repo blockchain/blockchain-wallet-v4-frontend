@@ -41,10 +41,15 @@ export const generateInterestAccount = (
 
 export const generateProvisionalPaymentAmount = (
   coin: CoinType,
-  amount: number
+  amount: number,
+  orgCoin?: CoinType
 ): string | number => {
   if (coin === 'BTC' || coin === 'BCH') {
     return parseInt(convertStandardToBase(coin, amount))
+  }
+
+  if (coin === 'ETH' && orgCoin && orgCoin === 'USDT') {
+    return parseInt(convertStandardToBase(orgCoin, amount))
   }
 
   return convertStandardToBase(coin, amount)
