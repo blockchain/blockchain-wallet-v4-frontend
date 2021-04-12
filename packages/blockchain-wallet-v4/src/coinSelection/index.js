@@ -31,7 +31,7 @@ export const isFromLegacy = selection =>
   selection.inputs[0] ? selection.inputs[0].isFromLegacy() : false
 
 export const dustThreshold = feeRate =>
-  (Coin.inputBytes({}) + Coin.outputBytes({})) * feeRate
+  Math.ceil((Coin.inputBytes({}) + Coin.outputBytes({})) * feeRate)
 
 export const transactionBytes = (inputs, outputs) => {
   const coinTypeReducer = (acc, coin) => {
@@ -57,7 +57,11 @@ export const effectiveBalance = curry((feePerByte, inputs, outputs = [{}]) =>
   List(inputs)
     .fold(Coin.empty)
     .overValue(v =>
-      clamp(0, Infinity, v - transactionBytes(inputs, outputs) * feePerByte)
+      clamp(
+        0,
+        Infinity,
+        v - Math.ceil(transactionBytes(inputs, outputs) * feePerByte)
+      )
     )
 )
 
@@ -80,7 +84,7 @@ const ft = (targets, feePerByte, coins, changeAddress) => {
           [nextAcc, partialFee, restCoins]
         ]
   }
-  const partialFee = transactionBytes([], targets) * feePerByte
+  const partialFee = Math.ceil(transactionBytes([], targets) * feePerByte)
   const effectiveCoins = filter(
     c => Coin.effectiveValue(feePerByte, c) > 0,
     coins
