@@ -200,19 +200,28 @@ export const fromEncPayload = curry((password, payload) => {
 
 // toEncJSON :: Wrapper -> Either Error JSON
 export const toEncJSON = wrapper => {
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
+  const W = wrapper.version === 4 ? Wallet : Wallet_DEPRECATED_V3
   const plens = lensProp('payload')
   const response = {
-    guid: compose(Wallet.selectGuid, selectWallet)(wrapper),
-    sharedKey: compose(Wallet.selectSharedKey, selectWallet)(wrapper),
+    guid: compose(W.selectGuid, selectWallet)(wrapper),
+    sharedKey: compose(W.selectSharedKey, selectWallet)(wrapper),
     payload: selectWallet(wrapper),
     old_checksum: selectPayloadChecksum(wrapper),
     language: selectLanguage(wrapper)
   }
-  const encrypt = Wallet.toEncryptedPayload(
-    selectPassword(wrapper),
-    selectPbkdf2Iterations(wrapper) || 5000,
-    selectVersion(wrapper)
-  )
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
+  const encrypt =
+    wrapper.version === 4
+      ? W.toEncryptedPayload(
+          selectPassword(wrapper),
+          selectPbkdf2Iterations(wrapper) || 5000,
+          selectVersion(wrapper)
+        )
+      : W.toEncryptedPayload(
+          selectPassword(wrapper),
+          selectPbkdf2Iterations(wrapper) || 5000
+        )
   const hash = x => crypto.sha256(x).toString('hex')
   return traverseOf(plens, Task.of, encrypt, response)
     .map(r => assoc('length', view(plens, r).length, r))

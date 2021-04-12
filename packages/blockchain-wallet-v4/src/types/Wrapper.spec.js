@@ -12,6 +12,8 @@ import { serializer, Wrapper } from './index'
 import * as Wallet from './Wallet'
 import * as Wallet_DEPRECATED_V3 from './Wallet_DEPRECATED_V3'
 
+const encryptedPayloadV3 = require('./__mocks__/encrypted-payload.v3.json')
+const encryptedPayloadV4 = require('./__mocks__/encrypted-payload.v4.json')
 const wrapperFixture = require('./__mocks__/wrapper.v4')
 const wrapperFixtureV4Segwit = require('./__mocks__/wrapper.v4-segwit')
 const wrapperFixtureV3 = require('./__mocks__/wrapper.v3')
@@ -67,39 +69,34 @@ describe('Wrapper', () => {
     })
   })
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('fromJS', () => {
-    afterEach(() => {
-      jest.clearAllMocks()
-    })
+    /* eslint-disable */
+    // V3
+    const deprecatedWalletSpy = jest.spyOn(Wallet_DEPRECATED_V3, 'fromJS')
+    const HDAccountDeprecatedSpy = jest.spyOn(HDAccount_DEPRECATED_V3, 'fromJS')
+    const HDAccountListDeprecatedSpy = jest.spyOn(
+      HDAccountList_DEPRECATED_V3,
+      'fromJS'
+    )
+    const HDWalletDeprecatedSpy = jest.spyOn(HDWallet_DEPRECATED_V3, 'fromJS')
+    const HDWalletListDeprecatedSpy = jest.spyOn(
+      HDWalletList_DEPRECATED_V3,
+      'fromJS'
+    )
+    // V4
+    const walletSpy = jest.spyOn(Wallet, 'fromJS')
+    const HDAccountSpy = jest.spyOn(HDAccount, 'fromJS')
+    const HDAccountListSpy = jest.spyOn(HDAccountList, 'fromJS')
+    const HDWalletSpy = jest.spyOn(HDWallet, 'fromJS')
+    const HDWalletListSpy = jest.spyOn(HDWalletList, 'fromJS')
+    /* eslint-enable */
 
     describe('v3', () => {
       it('follows v3 path', () => {
-        /* eslint-disable */
-        // V3
-        const deprecatedWalletSpy = jest.spyOn(Wallet_DEPRECATED_V3, 'fromJS')
-        const HDAccountDeprecatedSpy = jest.spyOn(
-          HDAccount_DEPRECATED_V3,
-          'fromJS'
-        )
-        const HDAccountListDeprecatedSpy = jest.spyOn(
-          HDAccountList_DEPRECATED_V3,
-          'fromJS'
-        )
-        const HDWalletDeprecatedSpy = jest.spyOn(
-          HDWallet_DEPRECATED_V3,
-          'fromJS'
-        )
-        const HDWalletListDeprecatedSpy = jest.spyOn(
-          HDWalletList_DEPRECATED_V3,
-          'fromJS'
-        )
-        // V4
-        const walletSpy = jest.spyOn(Wallet, 'fromJS')
-        const HDAccountSpy = jest.spyOn(HDAccount, 'fromJS')
-        const HDAccountListSpy = jest.spyOn(HDAccountList, 'fromJS')
-        const HDWalletSpy = jest.spyOn(HDWallet, 'fromJS')
-        const HDWalletListSpy = jest.spyOn(HDWalletList, 'fromJS')
-        /* eslint-enable */
         Wrapper.fromJS(wrapperFixtureV3)
         // V3
         expect(deprecatedWalletSpy).toHaveBeenCalled()
@@ -115,52 +112,81 @@ describe('Wrapper', () => {
         expect(HDWalletListSpy).not.toHaveBeenCalled()
       })
     })
-  })
-
-  describe('v4', () => {
-    it('follows v4 path', () => {
-      /* eslint-disable */
-      // V3
-      const deprecatedWalletSpy = jest.spyOn(Wallet_DEPRECATED_V3, 'fromJS')
-      const HDAccountDeprecatedSpy = jest.spyOn(
-        HDAccount_DEPRECATED_V3,
-        'fromJS'
-      )
-      const HDAccountListDeprecatedSpy = jest.spyOn(
-        HDAccountList_DEPRECATED_V3,
-        'fromJS'
-      )
-      const HDWalletDeprecatedSpy = jest.spyOn(HDWallet_DEPRECATED_V3, 'fromJS')
-      const HDWalletListDeprecatedSpy = jest.spyOn(
-        HDWalletList_DEPRECATED_V3,
-        'fromJS'
-      )
-      // V4
-      const walletSpy = jest.spyOn(Wallet, 'fromJS')
-      const HDAccountSpy = jest.spyOn(HDAccount, 'fromJS')
-      const HDAccountListSpy = jest.spyOn(HDAccountList, 'fromJS')
-      const HDWalletSpy = jest.spyOn(HDWallet, 'fromJS')
-      const HDWalletListSpy = jest.spyOn(HDWalletList, 'fromJS')
-      /* eslint-enable */
-      Wrapper.fromJS(wrapperFixtureV4Segwit)
-      // V3
-      expect(deprecatedWalletSpy).not.toHaveBeenCalled()
-      expect(HDAccountDeprecatedSpy).not.toHaveBeenCalled()
-      expect(HDAccountListDeprecatedSpy).not.toHaveBeenCalled()
-      expect(HDWalletDeprecatedSpy).not.toHaveBeenCalled()
-      expect(HDWalletListDeprecatedSpy).not.toHaveBeenCalled()
-      // V4
-      expect(walletSpy).toHaveBeenCalled()
-      expect(HDAccountSpy).toHaveBeenCalled()
-      expect(HDAccountListSpy).toHaveBeenCalled()
-      expect(HDWalletSpy).toHaveBeenCalled()
-      expect(HDWalletListSpy).toHaveBeenCalled()
+    describe('v4', () => {
+      it('follows v4 path', () => {
+        Wrapper.fromJS(wrapperFixtureV4Segwit)
+        // V3
+        expect(deprecatedWalletSpy).not.toHaveBeenCalled()
+        expect(HDAccountDeprecatedSpy).not.toHaveBeenCalled()
+        expect(HDAccountListDeprecatedSpy).not.toHaveBeenCalled()
+        expect(HDWalletDeprecatedSpy).not.toHaveBeenCalled()
+        expect(HDWalletListDeprecatedSpy).not.toHaveBeenCalled()
+        // V4
+        expect(walletSpy).toHaveBeenCalled()
+        expect(HDAccountSpy).toHaveBeenCalled()
+        expect(HDAccountListSpy).toHaveBeenCalled()
+        expect(HDWalletSpy).toHaveBeenCalled()
+        expect(HDWalletListSpy).toHaveBeenCalled()
+      })
     })
   })
 
-  // describe('toEncJson', () => {
-  //   it('should go v3 path if wrapper is v3', async () => {
+  describe('fromEncPayload', () => {
+    /* eslint-disable */
+    // V3
+    const deprecatedWalletSpy = jest.spyOn(
+      Wallet_DEPRECATED_V3,
+      'fromEncryptedPayload'
+    )
+    // V4
+    const walletSpy = jest.spyOn(Wallet, 'fromEncryptedPayload')
+    /* eslint-enable */
 
-  //   })
-  // })
+    describe('v3', () => {
+      it('follows v3 path', () => {
+        Wrapper.fromEncPayload('blockchain', encryptedPayloadV3)
+        // V3
+        expect(deprecatedWalletSpy).toHaveBeenCalled()
+        // V4
+        expect(walletSpy).not.toHaveBeenCalled()
+      })
+    })
+    describe('v4', () => {
+      it('follows v4 path', () => {
+        Wrapper.fromEncPayload('blockchain', encryptedPayloadV4)
+        // V3
+        expect(deprecatedWalletSpy).not.toHaveBeenCalled()
+        // V4
+        expect(walletSpy).toHaveBeenCalled()
+      })
+    })
+  })
+
+  describe('toEncJSON', () => {
+    /* eslint-disable */
+    // V3
+    const deprecatedSpy = jest.spyOn(Wallet_DEPRECATED_V3, 'toEncryptedPayload')
+    // V4
+    const toEncryptedPayloadSpy = jest.spyOn(Wallet, 'toEncryptedPayload')
+    /* eslint-enable */
+
+    describe('v3', () => {
+      it('follows v3 path', () => {
+        Wrapper.toEncJSON(wrapperV3)
+        // V3
+        expect(deprecatedSpy).toHaveBeenCalled()
+        // V4
+        expect(toEncryptedPayloadSpy).not.toHaveBeenCalled()
+      })
+    })
+    describe('v4', () => {
+      it('follows v4 path', () => {
+        Wrapper.toEncJSON(wrapperV4Segwit)
+        // V3
+        expect(deprecatedSpy).not.toHaveBeenCalled()
+        // V4
+        expect(toEncryptedPayloadSpy).toHaveBeenCalled()
+      })
+    })
+  })
 })
