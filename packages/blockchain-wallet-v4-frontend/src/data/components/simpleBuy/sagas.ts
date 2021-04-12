@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/validation'
 import moment from 'moment'
+import { defaultTo, filter, prop } from 'ramda'
 import {
   call,
   cancel,
@@ -32,9 +33,14 @@ import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { actions, selectors } from 'data'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import { UserDataType } from 'data/modules/types'
-import { AddBankStepType, BrokerageModalOriginType } from 'data/types'
+import {
+  AddBankStepType,
+  BankTransferAccountType,
+  BrokerageModalOriginType
+} from 'data/types'
 
 import profileSagas from '../../modules/profile/sagas'
+import { FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS } from '../brokerage/actionTypes'
 import brokerageSagas from '../brokerage/sagas'
 import {
   convertBaseToStandard,
@@ -719,6 +725,7 @@ export default ({
       if (!skipLoading) yield put(A.fetchSBOrdersLoading())
       const orders = yield call(api.getSBOrders, {})
       yield put(A.fetchSBOrdersSuccess(orders))
+      yield put(actions.components.brokerage.fetchBankTransferAccounts())
     } catch (e) {
       const error = errorHandler(e)
       if (!(yield call(isTier2))) return yield put(A.fetchSBOrdersSuccess([]))
@@ -1263,20 +1270,44 @@ export default ({
     }
   }
 
+  // Util function to help match payment method ID
+  // to more details about the bank
+  const getBankInformation = function * (order: SBOrderType) {
+    yield put(actions.components.brokerage.fetchBankTransferAccounts())
+    yield take(FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS)
+    const bankAccountsR = selectors.components.brokerage.getBankTransferAccounts(
+      yield select()
+    )
+    const bankAccounts = bankAccountsR.getOrElse([])
+    const [bankAccount] = filter(
+      (b: BankTransferAccountType) =>
+        // @ts-ignore
+        b.id === prop('paymentMethodId', order),
+      defaultTo([])(bankAccounts)
+    )
+
+    return bankAccount
+  }
+
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
     const { cryptoCurrency, orderType, origin } = payload
+    const latestPendingOrder = S.getSBLatestPendingOrder(yield select())
+    const bankAccount = yield call(
+      getBankInformation,
+      latestPendingOrder as SBOrderType
+    )
     yield put(
       actions.modals.showModal('SIMPLE_BUY_MODAL', { origin, cryptoCurrency })
     )
     const fiatCurrencyR = selectors.core.settings.getCurrency(yield select())
     const fiatCurrency = fiatCurrencyR.getOrElse('USD')
 
-    const latestPendingOrder = S.getSBLatestPendingOrder(yield select())
-
     if (latestPendingOrder) {
       const step =
         latestPendingOrder.state === 'PENDING_CONFIRMATION'
-          ? 'CHECKOUT_CONFIRM'
+          ? prop('partner', bankAccount) === 'YAPILY'
+            ? 'OPEN_BANKING_CONNECT'
+            : 'CHECKOUT_CONFIRM'
           : 'ORDER_SUMMARY'
       yield put(
         A.setStep({
