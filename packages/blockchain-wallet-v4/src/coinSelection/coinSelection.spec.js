@@ -27,7 +27,7 @@ describe('Coin Selection', () => {
         expect(cs.transactionBytes([legacyInput], [segwitOutput])).toEqual(189)
       })
       it('should return the right transaction size (1 P2WPKH, 1 P2PKH)', () => {
-        // 10.75 + 67.75 + 34 = ~112.5
+        // 10.75 + 67.75 + 34 = 112.5
         expect(cs.transactionBytes([segwitInput], [legacyOutput])).toEqual(
           112.5
         )
