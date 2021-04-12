@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
-import SiftScience from 'components/SiftScience'
+// import SiftScience from 'components/SiftScience'
 import { actions } from 'data'
 import { checkHasWebcam } from 'utils/helpers'
 
@@ -20,14 +20,14 @@ class VerifyContainer extends React.PureComponent<Props> {
   componentDidMount() {
     const { actions } = this.props
     actions.fetchSupportedDocuments()
-    actions.checkKycFlow()
+    // actions.checkKycFlow()
     checkHasWebcam().then(res => {
       this.setState({ hasWebcam: res })
     })
   }
 
   render() {
-    const { actions, data, onClose, preIdvData } = this.props
+    const { /* actions, */ data, onClose, preIdvData } = this.props
 
     const VerificationFlow = data.cata({
       Success: () => {
@@ -39,9 +39,7 @@ class VerifyContainer extends React.PureComponent<Props> {
     })
 
     const PreIdvCheck = preIdvData.cata({
-      Success: val => (
-        <SiftScience {...val} onDone={actions.preIdvCheckFinished} />
-      ),
+      Success: () => null, // <SiftScience {...val} onDone={actions.preIdvCheckFinished} />
       Loading: () => null,
       NotAsked: () => null,
       Failure: () => null

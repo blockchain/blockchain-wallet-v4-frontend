@@ -5,7 +5,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import { has, map, values } from 'ramda'
 import { PersistGate } from 'redux-persist/integration/react'
 
-import SiftScience from 'components/SiftScience'
+// import SiftScience from 'components/SiftScience'
 import { selectors } from 'data'
 import { UserDataType } from 'data/types'
 import PublicLayout from 'layouts/Public'
@@ -161,7 +161,7 @@ class App extends React.PureComponent<Props> {
                     </Switch>
                   </Suspense>
                 </ConnectedRouter>
-                <SiftScience userId={this.props.userData.id} />
+                {/* <SiftScience userId={this.props.userData.id} /> */}
                 <AnalyticsTracker />
               </MediaContextProvider>
             </PersistGate>
