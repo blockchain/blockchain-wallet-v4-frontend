@@ -1,6 +1,16 @@
 import * as Bitcoin from 'bitcoinjs-lib'
 
+import * as HDAccount from './HDAccount'
+import * as HDAccount_DEPRECATED_V3 from './HDAccount_DEPRECATED_V3'
+import * as HDAccountList from './HDAccountList'
+import * as HDAccountList_DEPRECATED_V3 from './HDAccountList_DEPRECATED_V3'
+import * as HDWallet from './HDWallet'
+import * as HDWallet_DEPRECATED_V3 from './HDWallet_DEPRECATED_V3'
+import * as HDWalletList from './HDWalletList'
+import * as HDWalletList_DEPRECATED_V3 from './HDWalletList_DEPRECATED_V3'
 import { serializer, Wrapper } from './index'
+import * as Wallet from './Wallet'
+import * as Wallet_DEPRECATED_V3 from './Wallet_DEPRECATED_V3'
 
 const wrapperFixture = require('./__mocks__/wrapper.v4')
 const wrapperFixtureV4Segwit = require('./__mocks__/wrapper.v4-segwit')
@@ -56,4 +66,101 @@ describe('Wrapper', () => {
       expect(stringifiedUpgraded).toEqual(stringifiedSegwitWrapper)
     })
   })
+
+  describe('fromJS', () => {
+    afterEach(() => {
+      jest.clearAllMocks()
+    })
+
+    describe('v3', () => {
+      it('follows v3 path', () => {
+        /* eslint-disable */
+        // V3
+        const deprecatedWalletSpy = jest.spyOn(Wallet_DEPRECATED_V3, 'fromJS')
+        const HDAccountDeprecatedSpy = jest.spyOn(
+          HDAccount_DEPRECATED_V3,
+          'fromJS'
+        )
+        const HDAccountListDeprecatedSpy = jest.spyOn(
+          HDAccountList_DEPRECATED_V3,
+          'fromJS'
+        )
+        const HDWalletDeprecatedSpy = jest.spyOn(
+          HDWallet_DEPRECATED_V3,
+          'fromJS'
+        )
+        const HDWalletListDeprecatedSpy = jest.spyOn(
+          HDWalletList_DEPRECATED_V3,
+          'fromJS'
+        )
+        // V4
+        const walletSpy = jest.spyOn(Wallet, 'fromJS')
+        const HDAccountSpy = jest.spyOn(HDAccount, 'fromJS')
+        const HDAccountListSpy = jest.spyOn(HDAccountList, 'fromJS')
+        const HDWalletSpy = jest.spyOn(HDWallet, 'fromJS')
+        const HDWalletListSpy = jest.spyOn(HDWalletList, 'fromJS')
+        /* eslint-enable */
+        Wrapper.fromJS(wrapperFixtureV3)
+        // V3
+        expect(deprecatedWalletSpy).toHaveBeenCalled()
+        expect(HDAccountDeprecatedSpy).toHaveBeenCalled()
+        expect(HDAccountListDeprecatedSpy).toHaveBeenCalled()
+        expect(HDWalletDeprecatedSpy).toHaveBeenCalled()
+        expect(HDWalletListDeprecatedSpy).toHaveBeenCalled()
+        // V4
+        expect(walletSpy).not.toHaveBeenCalled()
+        expect(HDAccountSpy).not.toHaveBeenCalled()
+        expect(HDAccountListSpy).not.toHaveBeenCalled()
+        expect(HDWalletSpy).not.toHaveBeenCalled()
+        expect(HDWalletListSpy).not.toHaveBeenCalled()
+      })
+    })
+  })
+
+  describe('v4', () => {
+    it('follows v4 path', () => {
+      /* eslint-disable */
+      // V3
+      const deprecatedWalletSpy = jest.spyOn(Wallet_DEPRECATED_V3, 'fromJS')
+      const HDAccountDeprecatedSpy = jest.spyOn(
+        HDAccount_DEPRECATED_V3,
+        'fromJS'
+      )
+      const HDAccountListDeprecatedSpy = jest.spyOn(
+        HDAccountList_DEPRECATED_V3,
+        'fromJS'
+      )
+      const HDWalletDeprecatedSpy = jest.spyOn(HDWallet_DEPRECATED_V3, 'fromJS')
+      const HDWalletListDeprecatedSpy = jest.spyOn(
+        HDWalletList_DEPRECATED_V3,
+        'fromJS'
+      )
+      // V4
+      const walletSpy = jest.spyOn(Wallet, 'fromJS')
+      const HDAccountSpy = jest.spyOn(HDAccount, 'fromJS')
+      const HDAccountListSpy = jest.spyOn(HDAccountList, 'fromJS')
+      const HDWalletSpy = jest.spyOn(HDWallet, 'fromJS')
+      const HDWalletListSpy = jest.spyOn(HDWalletList, 'fromJS')
+      /* eslint-enable */
+      Wrapper.fromJS(wrapperFixtureV4Segwit)
+      // V3
+      expect(deprecatedWalletSpy).not.toHaveBeenCalled()
+      expect(HDAccountDeprecatedSpy).not.toHaveBeenCalled()
+      expect(HDAccountListDeprecatedSpy).not.toHaveBeenCalled()
+      expect(HDWalletDeprecatedSpy).not.toHaveBeenCalled()
+      expect(HDWalletListDeprecatedSpy).not.toHaveBeenCalled()
+      // V4
+      expect(walletSpy).toHaveBeenCalled()
+      expect(HDAccountSpy).toHaveBeenCalled()
+      expect(HDAccountListSpy).toHaveBeenCalled()
+      expect(HDWalletSpy).toHaveBeenCalled()
+      expect(HDWalletListSpy).toHaveBeenCalled()
+    })
+  })
+
+  // describe('toEncJson', () => {
+  //   it('should go v3 path if wrapper is v3', async () => {
+
+  //   })
+  // })
 })
