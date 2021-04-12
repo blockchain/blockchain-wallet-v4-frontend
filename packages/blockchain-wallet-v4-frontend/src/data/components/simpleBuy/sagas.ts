@@ -929,7 +929,8 @@ export default ({
       let payment = paymentGetOrElse(account.coin, paymentR)
       const paymentAmount = generateProvisionalPaymentAmount(
         payment.coin,
-        Number(cryptoAmt)
+        Number(cryptoAmt),
+        account.coin
       )
       payment = yield payment.amount(paymentAmount)
       yield put(A.updatePaymentSuccess(payment.value()))

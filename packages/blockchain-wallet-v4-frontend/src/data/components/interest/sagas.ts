@@ -214,7 +214,8 @@ export default ({
             )
             const paymentAmount = generateProvisionalPaymentAmount(
               payment.coin,
-              value
+              value,
+              coin
             )
             payment = yield payment.amount(paymentAmount)
             yield put(A.setPaymentSuccess(payment.value()))
@@ -314,7 +315,8 @@ export default ({
         let payment = yield getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
         const paymentAmount = generateProvisionalPaymentAmount(
           payment.coin,
-          value
+          value,
+          coin
         )
         payment = yield payment.amount(paymentAmount)
         yield put(A.setPaymentSuccess(payment.value()))

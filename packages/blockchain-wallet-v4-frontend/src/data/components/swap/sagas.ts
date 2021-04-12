@@ -129,7 +129,8 @@ export default ({
 
       const paymentAmount = generateProvisionalPaymentAmount(
         payment.coin,
-        amount
+        amount,
+        coin
       )
       payment = yield payment.amount(paymentAmount)
       if (payment.coin === 'BTC' || payment.coin === 'BCH') {
