@@ -92,7 +92,9 @@ export const fromJS = (x, i) => {
     const node =
       isEmpty(xpub) || isNil(xpub) ? null : Bitcoin.bip32.fromBase58(xpub)
     const cacheCons = c =>
-      c || isNil(node) ? Cache.fromJS(c) : Cache.fromJS(Cache.js(node))
+      !isEmpty(c) || isNil(node)
+        ? Cache.fromJS(c)
+        : Cache.fromJS(Cache.js(node))
     return compose(
       over(addressLabels, AddressLabelMap.fromJS),
       over(cache, cacheCons)
