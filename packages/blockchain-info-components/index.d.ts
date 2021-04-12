@@ -2,7 +2,8 @@ import {
   ButtonHTMLAttributes,
   ComponentClass,
   CSSProperties,
-  FunctionComponent
+  FunctionComponent,
+  ReactNode
 } from 'react'
 import { DefaultTheme } from 'styled-components'
 import { IcoMoonType } from './src/Icons/Icomoon'
@@ -175,6 +176,7 @@ export const Link: FunctionComponent<{
   onClick?: (e?: KeyboardEvent) => void
 }>
 export const Modal: FunctionComponent<{
+  children: ReactNode
   size?: '' | 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
   type?: 'tray' | 'flyout'
   position?: number

@@ -56,7 +56,7 @@ class Swap extends PureComponent<Props, State> {
       Success: val => (
         <Flyout
           {...this.props}
-          in={this.state.show}
+          isOpen={this.state.show}
           direction={this.state.direction}
           onClose={this.handleClose}
         >

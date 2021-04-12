@@ -70,7 +70,7 @@ class RequestCrypto extends PureComponent<Props, State> {
     return (
       <Flyout
         position={position}
-        in={show}
+        isOpen={show}
         direction={direction}
         userClickedOutside={userClickedOutside}
         onClose={this.handleClose}

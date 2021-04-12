@@ -98,7 +98,7 @@ class RecoveryPhraseFlyout extends PureComponent<Props, State> {
     return (
       <Flyout
         {...this.props}
-        in={this.state.show}
+        isOpen={this.state.show}
         onClose={this.handleClose}
         direction={this.state.direction}
         data-e2e='recoveryPhraseModal'

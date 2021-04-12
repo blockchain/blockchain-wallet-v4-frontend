@@ -66,7 +66,7 @@ class Borrow extends PureComponent<Props, State> {
     return (
       <Flyout
         position={position}
-        in={this.state.show}
+        isOpen={this.state.show}
         direction={this.state.direction}
         userClickedOutside={this.props.userClickedOutside}
         onClose={this.handleClose}

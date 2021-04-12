@@ -55,7 +55,7 @@ class Withdraw extends PureComponent<Props> {
       <Flyout
         {...this.props}
         onClose={this.handleClose}
-        in={this.state.show}
+        isOpen={this.state.show}
         direction={this.state.direction}
         data-e2e='custodyWithdrawModal'
       >
