@@ -27,7 +27,7 @@ describe('Coin Selection', () => {
         expect(cs.transactionBytes([legacyInput], [segwitOutput])).toEqual(189)
       })
       it('should return the right transaction size (1 P2WPKH, 1 P2PKH)', () => {
-        // 10.75 + 67.75 + 34 = 112.5
+        // 10.75 + 67.75 + 34 = ~112.5
         expect(cs.transactionBytes([segwitInput], [legacyOutput])).toEqual(
           112.5
         )
@@ -225,8 +225,21 @@ describe('Coin Selection', () => {
       const outputs = map(Coin.fromJS, [{ value: 0 }, { value: 0 }])
 
       // sum of inputs - transactionBytes * feePerByte
-      // 45000 - 55 * (10 + 3*148 + 2*34) = 45000 - 28710 = 16290
+      // 45000 - 55 * (10 + 3*148 + 2*34) = 45000 - ceil(28710) = 16290
       expect(cs.effectiveBalance(55, inputs, outputs).value).toEqual(16290)
+    })
+    it('should return the right effective max balance with value and empty valued outputs (segwit)', () => {
+      const inputs = map(Coin.fromJS, [
+        { value: 15000, address: 'bc1qxddx2wmn97swgznpkthv940ktg8ycxg0ygxxp9' },
+        { value: 10000, address: 'bc1qxddx2wmn97swgznpkthv940ktg8ycxg0ygxxp9' },
+        { value: 20000 }
+      ])
+
+      const outputs = map(Coin.fromJS, [{ value: 0 }, { value: 0 }])
+
+      // sum of inputs - transactionBytes * feePerByte
+      // 45000 - 55 * (10.75 + 2*67.75 + 148 + 2*34) = 45000 - ceil(19923.75) = 25076
+      expect(cs.effectiveBalance(55, inputs, outputs).value).toEqual(25076)
     })
     it('should return the right effective max balance w/ no inputs or outputs', () => {
       expect(cs.effectiveBalance(55, [], []).value).toEqual(0)
