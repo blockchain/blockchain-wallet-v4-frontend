@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { last, prop } from 'ramda'
+import { isEmpty, isNil, last, prop } from 'ramda'
 import { FormAction, initialize } from 'redux-form'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
@@ -399,8 +399,18 @@ export default ({
         })
       } else {
         // non-custodial deposit
+        // fetch deposit address
         yield put(A.fetchInterestAccount(coin))
+        yield take([
+          AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS,
+          AT.FETCH_INTEREST_PAYMENT_ACCOUNT_FAILURE
+        ])
         const depositAddress = yield select(S.getDepositAddress)
+
+        // abort if deposit address missing
+        if (isEmpty(depositAddress) || isNil(depositAddress)) {
+          throw new Error('Missing deposit address')
+        }
 
         // build and publish payment to network
         const transaction = yield call(

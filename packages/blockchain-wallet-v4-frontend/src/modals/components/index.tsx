@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
@@ -103,14 +103,30 @@ const ScanWithPhone = ({ logo, qrCode }: ScanWithPhoneType) => {
 }
 
 const BankWaitIndicator = ({ qrCode }: { readonly qrCode?: string }) => {
+  const [waitCount, setWaitCount] = useState(0)
+
+  if (qrCode) {
+    setTimeout(() => {
+      setWaitCount(waitCount + 1)
+    }, 3e4)
+  }
+
   return (
     <WaitingContainer className={qrCode ? 'active' : ''}>
       <SpinningLoader width='10px' height='10px' borderWidth='3px' />
       <Text size='14px' weight={500}>
-        <FormattedMessage
-          id='modals.brokerage.waiting_to_hear'
-          defaultMessage='Waiting to hear from your bank'
-        />
+        {waitCount === 0 && (
+          <FormattedMessage
+            id='modals.brokerage.waiting_to_hear'
+            defaultMessage='Waiting to hear from your bank'
+          />
+        )}
+        {waitCount > 0 && (
+          <FormattedMessage
+            id='modals.brokerage.this_can_take_a_while'
+            defaultMessage='This can take a while, hold tight!'
+          />
+        )}
       </Text>
     </WaitingContainer>
   )

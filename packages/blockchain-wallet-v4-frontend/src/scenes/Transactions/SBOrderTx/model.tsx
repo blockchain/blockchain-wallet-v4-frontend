@@ -39,7 +39,12 @@ export const getOrigin = (
         return `${details.bankName} ${details.bankAccountType?.toLowerCase() ||
           ''} ${details.accountNumber}`
       }
-      return 'Bank Account'
+      return (
+        <FormattedMessage
+          id='copy.bank_account'
+          defaultMessage='Bank Account'
+        />
+      )
     case undefined:
       return 'Unknown Payment Type'
     default:

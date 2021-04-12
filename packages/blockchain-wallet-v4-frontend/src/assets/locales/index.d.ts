@@ -643,7 +643,10 @@ type MessagesType = {
   'modals.brokerage.authorize.secure_connection.title': 'Secure Connection'
   'modals.brokerage.authorize.secure_connection': 'Data is securely retrieved in read-only format and only for the duration agreed with you. You have the right to withdraw your consent at any time.'
   'modals.brokerage.authorize.fca.title': 'FCA Authorisation'
+  'modals.brokerage.authorize.bol.title': 'Bank of Lithuania Authorisation'
   'modals.brokerage.authorize.fca': 'Blockchain is an agent of {entityName} Ltd. {entityName} Ltd is authorised and regulated by the Financial Conduct Authority under the Payment Service Regulations 2017 [827001] for the provision of Account Information and Payment Initiation services.'
+  'modals.brokerage.authorize.bol': 'SafeConnect UAB is authorised and regulated by the Bank of Lithuania under Payments Law (LB002045) for the provision of Account Information and Payment Initiation services.'
+  'modals.brokerage.authorize.bol.terms': "View SafeConnect UAB <a href='https://yapi.ly/GDNT' rel='noopener noreferrer' target='_blank'>Terms and Conditions</a> for more information."
   'modals.brokerage.authorize.data': 'In order to share your bank account data with Blockchain, you will now be securely redirected to your bank to confirm your consent for {entityName} to read the following information:'
   'modals.brokerage.authorize.deposit_data.first': 'To easily set up payments from your bank to Blockchain, we are about to securely re-direct you to your bank where you will be asked to confirm the payment via {entityName}, an FCA regulated payment initiation provider for Blockchain.'
   'modals.brokerage.authorize.deposit_data.second': '{entityName} will share these details with your bank, where you will then be asked to confirm the following payment setup.'
@@ -663,6 +666,7 @@ type MessagesType = {
   'modals.brokerage.this_could_take': 'This could take up to 30 secconds. Please do not go back or close the app.'
   'modals.brokerage.use_phone_camera': 'Use your phone’s camera to scan the QR code.'
   'modals.brokerage.waiting_to_hear': 'Waiting to hear from your bank'
+  'modals.brokerage.this_can_take_a_while': 'This can take a while, hold tight!'
   'modals.brokerage.yodlee_description': 'Yodlee securely stores your credentials adhering to leading industry practices for data security, regulatory compliance, and privacy.'
   'modals.brokerage.daily_limit': 'Daily Limit'
   'modals.brokerage.deposit_methods': 'Select a Deposit Method'

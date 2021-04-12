@@ -93,7 +93,7 @@ export const createSBOrder = (
   paymentType
 })
 
-export const confirmSBCreditCardOrder = (
+export const confirmSBOrder = (
   paymentMethodId: SBCardType['id'],
   order: SBOrderType
 ) => ({
