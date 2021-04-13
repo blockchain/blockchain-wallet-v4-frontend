@@ -1292,10 +1292,7 @@ export default ({
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
     const { cryptoCurrency, orderType, origin } = payload
     const latestPendingOrder = S.getSBLatestPendingOrder(yield select())
-    const bankAccount = yield call(
-      getBankInformation,
-      latestPendingOrder as SBOrderType
-    )
+
     yield put(
       actions.modals.showModal('SIMPLE_BUY_MODAL', { origin, cryptoCurrency })
     )
@@ -1303,6 +1300,10 @@ export default ({
     const fiatCurrency = fiatCurrencyR.getOrElse('USD')
 
     if (latestPendingOrder) {
+      const bankAccount = yield call(
+        getBankInformation,
+        latestPendingOrder as SBOrderType
+      )
       const step =
         latestPendingOrder.state === 'PENDING_CONFIRMATION'
           ? prop('partner', bankAccount) === 'YAPILY'
