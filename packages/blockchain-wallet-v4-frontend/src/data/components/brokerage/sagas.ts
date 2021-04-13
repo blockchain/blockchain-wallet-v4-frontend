@@ -18,7 +18,7 @@ import {
 import profileSagas from '../../modules/profile/sagas'
 import * as A from './actions'
 import * as AT from './actionTypes'
-import { DEFAULT_METHODS } from './model'
+import { DEFAULT_METHODS, POLLING } from './model'
 import * as S from './selectors'
 import { OBType } from './types'
 
@@ -70,11 +70,16 @@ export default ({
   }
 
   const conditionalRetry = function * (id: string) {
-    const data = yield retry(100, 1000, transferAccountState, id)
+    const { RETRY_AMOUNT, SECONDS } = POLLING
+    const data = yield retry(
+      RETRY_AMOUNT,
+      SECONDS * 1000,
+      transferAccountState,
+      id
+    )
     return data
   }
 
-  // TODO move OB stuff to separate saga
   const fetchBankTransferUpdate = function * (
     action: ReturnType<typeof A.fetchBankTransferUpdate>
   ) {
@@ -284,7 +289,11 @@ export default ({
   const ClearedStatusCheck = function * (orderId) {
     let order: SBTransactionType = yield call(api.getPaymentById, orderId)
 
-    if (order.state === 'CLEARED' || order.state === 'COMPLETE') {
+    if (
+      order.state === 'CLEARED' ||
+      order.state === 'COMPLETE' ||
+      order.state === 'FAILED'
+    ) {
       return order
     } else {
       throw new Error('retrying to fetch for cleared status')
@@ -312,8 +321,14 @@ export default ({
     )
     try {
       const data = yield call(api.createFiatDeposit, amount, id, currency)
+      const { RETRY_AMOUNT, SECONDS } = POLLING
       if (partner === 'YAPILY') {
-        const order = yield retry(100, 10000, AuthUrlCheck, data.paymentId)
+        const order = yield retry(
+          RETRY_AMOUNT,
+          SECONDS * 1000,
+          AuthUrlCheck,
+          data.paymentId
+        )
         if (
           order.extraAttributes &&
           'authorisationUrl' in order.extraAttributes &&
@@ -325,7 +340,17 @@ export default ({
               dwStep: BankDWStepType.DEPOSIT_CONNECT
             })
           )
-          yield retry(100, 10000, ClearedStatusCheck, data.paymentId)
+          try {
+            const updatedOrder: SBTransactionType = yield retry(
+              RETRY_AMOUNT,
+              SECONDS * 1000,
+              ClearedStatusCheck,
+              data.paymentId
+            )
+            yield put(actions.form.change('brokerageTx', 'order', updatedOrder))
+          } catch (error) {
+            yield put(actions.form.change('brokerageTx', 'retryTimeout', true))
+          }
         }
       }
       yield put(

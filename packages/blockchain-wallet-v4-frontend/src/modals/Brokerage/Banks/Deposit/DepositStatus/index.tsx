@@ -12,6 +12,7 @@ import { Loading, LoadingTextEnum } from '../../../../components'
 import Failure from '../template.failure'
 import { getData } from './selectors'
 import Success from './template.success'
+import TimedOut from './template.timedOut'
 
 const DepositStatus = props => {
   useEffect(() => {
@@ -24,7 +25,15 @@ const DepositStatus = props => {
   }, [])
 
   return props.data.cata({
-    Success: val => <Success {...val} {...props} />,
+    Success: val =>
+      props.formValues?.order?.state === 'CLEARED' ||
+      props.formValues?.order?.state === 'COMPLETED' ? (
+        <Success {...val} {...props} />
+      ) : props.formValues?.retryTimeout ? (
+        <TimedOut {...props} />
+      ) : (
+        <Failure {...props} />
+      ),
     Failure: () => <Failure {...props} />,
     Loading: () => <Loading text={LoadingTextEnum.LOADING} />,
     NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />

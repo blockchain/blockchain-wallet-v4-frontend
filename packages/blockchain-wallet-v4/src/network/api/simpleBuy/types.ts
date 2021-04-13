@@ -248,7 +248,7 @@ export type SBTransactionType = {
         hash: string
         id: string
         qrcodeUrl?: string
-        status: 'UNCONFIRMED' | 'CONFIRMED' | 'COMPLETED' | 'CLEARED'
+        status: 'UNCONFIRMED' | 'CONFIRMED' | 'COMPLETED' | 'CLEARED' | 'FAILED'
         txHash: string
       }
       type: 'DEPOSIT' | 'REFUNDED' | 'SELL'

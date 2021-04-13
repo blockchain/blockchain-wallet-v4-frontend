@@ -252,7 +252,7 @@ const LoadingUpdating = () => {
       </HeadingText>
       <BodyText color='grey600'>
         <FormattedMessage
-          defaultMessage='This could take up to 30 secconds. Please do not go back or close the app.'
+          defaultMessage='This could take up to 30 seconds. Please do not go back or close the app.'
           id='modals.brokerage.this_could_take'
         />
       </BodyText>
