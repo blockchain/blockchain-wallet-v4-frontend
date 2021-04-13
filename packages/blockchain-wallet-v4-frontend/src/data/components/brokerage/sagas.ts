@@ -18,7 +18,7 @@ import {
 import profileSagas from '../../modules/profile/sagas'
 import * as A from './actions'
 import * as AT from './actionTypes'
-import { DEFAULT_METHODS } from './model'
+import { DEFAULT_METHODS, POLLING } from './model'
 import * as S from './selectors'
 import { OBType } from './types'
 
@@ -70,7 +70,13 @@ export default ({
   }
 
   const conditionalRetry = function * (id: string) {
-    const data = yield retry(100, 1000, transferAccountState, id)
+    const { RETRY_AMOUNT, SECONDS } = POLLING
+    const data = yield retry(
+      RETRY_AMOUNT,
+      SECONDS * 1000,
+      transferAccountState,
+      id
+    )
     return data
   }
 
@@ -315,8 +321,14 @@ export default ({
     )
     try {
       const data = yield call(api.createFiatDeposit, amount, id, currency)
+      const { RETRY_AMOUNT, SECONDS } = POLLING
       if (partner === 'YAPILY') {
-        const order = yield retry(30, 10000, AuthUrlCheck, data.paymentId)
+        const order = yield retry(
+          RETRY_AMOUNT,
+          SECONDS * 1000,
+          AuthUrlCheck,
+          data.paymentId
+        )
         if (
           order.extraAttributes &&
           'authorisationUrl' in order.extraAttributes &&
@@ -330,8 +342,8 @@ export default ({
           )
           try {
             const updatedOrder: SBTransactionType = yield retry(
-              30,
-              10000,
+              RETRY_AMOUNT,
+              SECONDS * 1000,
               ClearedStatusCheck,
               data.paymentId
             )
