@@ -107,19 +107,6 @@ const Success = props => {
         </Row>
         <Row>
           <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
-            <FormattedMessage id='copy.fee' defaultMessage='Fee' />
-          </Text>
-          <LineItemText>
-            {/* // TODO: get this from an endpoint */}
-            {fiatToString({
-              value: 0,
-              unit: props.defaultMethod?.currency || ('USD' as FiatType),
-              digits: 0
-            })}
-          </LineItemText>
-        </Row>
-        <Row>
-          <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
             <FormattedMessage id='copy.total' defaultMessage='Total' />
           </Text>
           <LineItemText>
