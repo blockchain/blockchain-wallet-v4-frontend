@@ -14,6 +14,7 @@ import onboarding from './onboarding/sagas'
 import priceChart from './priceChart/sagas'
 import priceTicker from './priceTicker/sagas'
 import refresh from './refresh/sagas'
+import request from './request/sagas'
 import send from './send/sagas'
 import sendBch from './sendBch/sagas'
 import sendBtc from './sendBtc/sagas'
@@ -46,6 +47,7 @@ export default ({ api, coreSagas, networks }) => ({
   priceChart: priceChart(),
   priceTicker: priceTicker({ coreSagas }),
   refresh: refresh(),
+  request: request({ api, coreSagas, networks }),
   send: send({ api, coreSagas, networks }),
   sendBch: sendBch({ api, coreSagas, networks }),
   sendBtc: sendBtc({ api, coreSagas, networks }),

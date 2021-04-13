@@ -1,15 +1,21 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
+import {
+  Button,
+  Icon,
+  SkeletonRectangle,
+  Text
+} from 'blockchain-info-components'
 import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/redux/walletOptions/types'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 
 import { Props as OwnProps } from '../index'
 import { ClipboardWrapper, StepHeader } from '../model'
@@ -59,6 +65,12 @@ const ButtonsWrapper = styled.div`
 `
 
 class RequestShowAddress extends React.PureComponent<Props> {
+  componentDidMount() {
+    this.props.requestActions.getNextAddress(
+      this.props.formValues.selectedAccount
+    )
+  }
+
   render() {
     const {
       formValues,
@@ -68,10 +80,6 @@ class RequestShowAddress extends React.PureComponent<Props> {
       walletCurrency
     } = this.props
     const { selectedAccount } = formValues
-
-    const receiveAddress =
-      // @ts-ignore
-      selectedAccount.nextReceiveAddress || selectedAccount.address
 
     return (
       <Wrapper>
@@ -106,23 +114,46 @@ class RequestShowAddress extends React.PureComponent<Props> {
               <FormattedMessage id='copy.address' defaultMessage='Address' />
             </Text>
             <Text color='grey800' size='16px' weight={600} lineHeight='24px'>
-              {receiveAddress}
+              {this.props.addressR.cata({
+                Success: val => val,
+                Failure: () => <>err</>,
+                Loading: () => (
+                  <SkeletonRectangle width='280px' height='24px' />
+                ),
+                NotAsked: () => (
+                  <SkeletonRectangle width='280px' height='24px' />
+                )
+              })}
             </Text>
           </AddressDisplay>
           <ClipboardWrapper>
-            <CopyClipboardButton
-              textToCopy={receiveAddress}
-              color='blue600'
-              size='24px'
-            />
+            {this.props.addressR.cata({
+              Success: val => (
+                <CopyClipboardButton
+                  textToCopy={val}
+                  color='blue600'
+                  size='24px'
+                />
+              ),
+              Failure: () => <></>,
+              Loading: () => <></>,
+              NotAsked: () => <></>
+            })}
           </ClipboardWrapper>
         </AddressWrapper>
         <QRCodeContainer>
-          <QRCodeWrapper
-            data-e2e='requestAddressQrCode'
-            size={280}
-            value={receiveAddress}
-          />
+          {this.props.addressR.cata({
+            Success: val => (
+              <QRCodeWrapper
+                data-e2e='requestAddressQrCode'
+                size={280}
+                value={val}
+              />
+            ),
+            Failure: () => <>err</>,
+            Loading: () => <SkeletonRectangle width='306px' height='306px' />,
+            NotAsked: () => <SkeletonRectangle width='306px' height='306px' />
+          })}
         </QRCodeContainer>
         <ButtonsWrapper>
           {selectedAccount.coin === 'BTC' && (
@@ -158,13 +189,21 @@ class RequestShowAddress extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps: OwnProps) => ({
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType)
+    .getOrElse({} as SupportedWalletCurrenciesType),
+  addressR: selectors.components.request.getNextAddress(
+    state,
+    ownProps.formValues.selectedAccount
+  )
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = dispatch => ({
+  requestActions: bindActionCreators(actions.components.request, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 type Props = ConnectedProps<typeof connector> &
   OwnProps & {
     handleClose: () => void
