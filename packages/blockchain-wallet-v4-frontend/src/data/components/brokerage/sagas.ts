@@ -74,7 +74,6 @@ export default ({
     return data
   }
 
-  // TODO move OB stuff to separate saga
   const fetchBankTransferUpdate = function * (
     action: ReturnType<typeof A.fetchBankTransferUpdate>
   ) {
@@ -284,7 +283,11 @@ export default ({
   const ClearedStatusCheck = function * (orderId) {
     let order: SBTransactionType = yield call(api.getPaymentById, orderId)
 
-    if (order.state === 'CLEARED' || order.state === 'COMPLETE') {
+    if (
+      order.state === 'CLEARED' ||
+      order.state === 'COMPLETE' ||
+      order.state === 'FAILED'
+    ) {
       return order
     } else {
       throw new Error('retrying to fetch for cleared status')
@@ -313,7 +316,7 @@ export default ({
     try {
       const data = yield call(api.createFiatDeposit, amount, id, currency)
       if (partner === 'YAPILY') {
-        const order = yield retry(100, 10000, AuthUrlCheck, data.paymentId)
+        const order = yield retry(30, 10000, AuthUrlCheck, data.paymentId)
         if (
           order.extraAttributes &&
           'authorisationUrl' in order.extraAttributes &&
@@ -325,7 +328,17 @@ export default ({
               dwStep: BankDWStepType.DEPOSIT_CONNECT
             })
           )
-          yield retry(100, 10000, ClearedStatusCheck, data.paymentId)
+          try {
+            const updatedOrder: SBTransactionType = yield retry(
+              30,
+              10000,
+              ClearedStatusCheck,
+              data.paymentId
+            )
+            yield put(actions.form.change('brokerageTx', 'order', updatedOrder))
+          } catch (error) {
+            yield put(actions.form.change('brokerageTx', 'retryTimeout', true))
+          }
         }
       }
       yield put(
