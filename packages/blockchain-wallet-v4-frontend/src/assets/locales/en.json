@@ -1750,7 +1750,7 @@
   "scenes.reset2fa.firststep.firststepform.walletid": "Wallet ID",
   "scenes.reset2fa.firststep.look": "look it up here.",
   "scenes.reset2fa.firststep.newEmail": "New Email (Optional)",
-  "scenes.reset2fa.firststep.newEmailExplain": "Enter your updated email if you've lost access to your previously verified email. If your 2FA reset request if approved, this will automatically be set as your wallet's new email address.",
+  "scenes.reset2fa.firststep.newEmailExplain": "Enter your updated email if you've lost access to your previously verified email. If your 2FA reset request is approved, this will automatically be set as your wallet's new email address.",
   "scenes.reset2fa.firststep.reset": "Reset 2FA",
   "scenes.reset2fa.secondstep.captcha": "Captcha",
   "scenes.reset2fa.secondstep.reset": "Reset",
