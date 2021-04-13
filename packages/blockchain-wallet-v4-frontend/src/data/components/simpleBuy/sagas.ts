@@ -65,6 +65,7 @@ import {
   NO_ORDER_EXISTS,
   NO_PAIR_SELECTED,
   NO_PAYMENT_TYPE,
+  POLLING,
   SDD_TIER
 } from './model'
 import * as S from './selectors'
@@ -479,16 +480,22 @@ export default ({
         attributes,
         paymentMethodId
       )
-
-      if (confirmedOrder.state === 'PENDING_DEPOSIT') {
+      const { RETRY_AMOUNT, SECONDS } = POLLING
+      const account = selectors.components.brokerage.getAccount(yield select())
+      if (account?.partner === 'YAPILY') {
         // for OB the authorisationUrl isn't in the initial response to confirm
         // order. We need to poll the order for it.
-        const order = yield retry(100, 10000, AuthUrlCheck, confirmedOrder.id)
+        const order = yield retry(
+          RETRY_AMOUNT,
+          SECONDS * 1000,
+          AuthUrlCheck,
+          confirmedOrder.id
+        )
         yield put(A.setStep({ step: 'OPEN_BANKING_CONNECT', order }))
         // Now we need to poll for the order success
         confirmedOrder = yield retry(
-          100,
-          10000,
+          RETRY_AMOUNT,
+          SECONDS * 1000,
           OrderConfirmCheck,
           confirmedOrder.id
         )

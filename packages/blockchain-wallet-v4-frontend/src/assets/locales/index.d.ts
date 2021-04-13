@@ -668,7 +668,7 @@ type MessagesType = {
   'modals.brokerage.timed_out_sub': 'This happens from time to time. Wait a few minutes and then check the status of your deposit in the transaction list.'
   'modals.brokerage.use_phone_camera': 'Use your phone’s camera to scan the QR code.'
   'modals.brokerage.waiting_to_hear': 'Waiting to hear from your bank'
-  'modals.brokerage.this_can_take_a_while': 'This can take a while, hold tight!'
+  'modals.brokerage.this_can_take_a_while': 'This can take several minutes, hold tight!'
   'modals.brokerage.yodlee_description': 'Yodlee securely stores your credentials adhering to leading industry practices for data security, regulatory compliance, and privacy.'
   'modals.brokerage.daily_limit': 'Daily Limit'
   'modals.brokerage.deposit_methods': 'Select a Deposit Method'

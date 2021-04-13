@@ -124,7 +124,7 @@ const BankWaitIndicator = ({ qrCode }: { readonly qrCode?: string }) => {
         {waitCount > 0 && (
           <FormattedMessage
             id='modals.brokerage.this_can_take_a_while'
-            defaultMessage='This can take a while, hold tight!'
+            defaultMessage='This can take several minutes, hold tight!'
           />
         )}
       </Text>
