@@ -1,5 +1,5 @@
 import { getFormValues } from 'redux-form'
-import { call, put, retry, select, take } from 'redux-saga/effects'
+import { call, delay, put, retry, select, take } from 'redux-saga/effects'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
@@ -322,6 +322,8 @@ export default ({
     try {
       const data = yield call(api.createFiatDeposit, amount, id, currency)
       const { RETRY_AMOUNT, SECONDS } = POLLING
+      // If yapily we need to transition to another screen and poll for auth
+      // details before polling for order status
       if (partner === 'YAPILY') {
         const order = yield retry(
           RETRY_AMOUNT,
@@ -340,25 +342,28 @@ export default ({
               dwStep: BankDWStepType.DEPOSIT_CONNECT
             })
           )
-          try {
-            const updatedOrder: SBTransactionType = yield retry(
-              RETRY_AMOUNT,
-              SECONDS * 1000,
-              ClearedStatusCheck,
-              data.paymentId
-            )
-            yield put(actions.form.change('brokerageTx', 'order', updatedOrder))
-          } catch (error) {
-            yield put(actions.form.change('brokerageTx', 'retryTimeout', true))
-          }
         }
       }
+      // Poll for order status in order to show success, timed out or failed
+      try {
+        const updatedOrder: SBTransactionType = yield retry(
+          RETRY_AMOUNT,
+          SECONDS * 1000,
+          ClearedStatusCheck,
+          data.paymentId
+        )
+        yield put(actions.form.change('brokerageTx', 'order', updatedOrder))
+      } catch (error) {
+        yield put(actions.form.change('brokerageTx', 'retryTimeout', true))
+      }
+
       yield put(
         actions.components.brokerage.setDWStep({
           dwStep: BankDWStepType.DEPOSIT_STATUS
         })
       )
-      // refresh the fiat list so the newest tx shows up right away
+      // refresh the tx list after small delay so the newest tx shows up right away
+      yield delay(1000)
       yield put(actions.core.data.fiat.fetchTransactions(currency, true))
     } catch (e) {
       const error = errorHandler(e)
