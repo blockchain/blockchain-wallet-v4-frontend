@@ -12,7 +12,7 @@ export const getNextAddressLoading = (key: string): RequestActionTypes => ({
 })
 export const getNextAddressFailure = (
   key: string,
-  error
+  error: string
 ): RequestActionTypes => ({
   type: AT.GET_NEXT_ADDRESS_FAILURE,
   payload: { key, error }

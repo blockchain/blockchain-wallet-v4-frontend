@@ -1,6 +1,7 @@
 import { call, CallEffect, put, PutEffect } from 'redux-saga/effects'
 
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 
 import coinSagas from '../../coins/sagas'
 import profileSagas from '../../modules/profile/sagas'
@@ -46,7 +47,8 @@ export default ({
 
       yield put(A.getNextAddressSuccess(key, address))
     } catch (e) {
-      yield put(A.getNextAddressFailure(key, e))
+      const error = errorHandler(e)
+      yield put(A.getNextAddressFailure(key, error))
     }
   }
 

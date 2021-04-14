@@ -63,6 +63,14 @@ const ButtonsWrapper = styled.div`
     margin-top: 16px;
   }
 `
+const AlertWrapper = styled.div`
+  flex-direction: column;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+`
 
 class RequestShowAddress extends React.PureComponent<Props> {
   componentDidMount() {
@@ -116,7 +124,14 @@ class RequestShowAddress extends React.PureComponent<Props> {
             <Text color='grey800' size='16px' weight={600} lineHeight='24px'>
               {this.props.addressR.cata({
                 Success: val => val,
-                Failure: () => <>err</>,
+                Failure: err => (
+                  <FormattedMessage
+                    id='components.alerts.unknown_error'
+                    defaultMessage='An error has occurred.'
+                  >
+                    {err}
+                  </FormattedMessage>
+                ),
                 Loading: () => (
                   <SkeletonRectangle width='280px' height='24px' />
                 ),
@@ -150,7 +165,16 @@ class RequestShowAddress extends React.PureComponent<Props> {
                 value={val}
               />
             ),
-            Failure: () => <>err</>,
+            Failure: err => (
+              <SkeletonRectangle width='306px' height='306px'>
+                <AlertWrapper>
+                  <Icon name='alert-filled' size='40px' color='red600' />
+                  <Text size='16px' weight={500} color='red600'>
+                    {err}
+                  </Text>
+                </AlertWrapper>
+              </SkeletonRectangle>
+            ),
             Loading: () => <SkeletonRectangle width='306px' height='306px' />,
             NotAsked: () => <SkeletonRectangle width='306px' height='306px' />
           })}
