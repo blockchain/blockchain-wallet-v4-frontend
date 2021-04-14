@@ -127,11 +127,7 @@ export default ({
         .from(addressOrIndex, addressType)
         .done()
 
-      const paymentAmount = generateProvisionalPaymentAmount(
-        payment.coin,
-        amount,
-        coin
-      )
+      const paymentAmount = generateProvisionalPaymentAmount(coin, amount)
       payment = yield payment.amount(paymentAmount)
       if (payment.coin === 'BTC' || payment.coin === 'BCH') {
         return (yield payment
