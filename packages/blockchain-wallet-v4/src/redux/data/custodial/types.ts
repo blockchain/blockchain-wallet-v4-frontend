@@ -61,5 +61,5 @@ export type FiatSBAndSwapTransactionType = {
   id: string
   insertedAt: string
   state: SBTransactionStateType | 'FINISHED'
-  type: 'DEPOSIT' | 'WITHDRAWAL' | 'REFUNDED' | 'SELL'
+  type: 'DEPOSIT' | 'WITHDRAWAL' | 'REFUNDED' | 'SELL' | 'CHARGE'
 }
