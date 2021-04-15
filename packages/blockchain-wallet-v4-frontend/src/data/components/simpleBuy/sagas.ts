@@ -940,6 +940,7 @@ export default ({
         account.coin
       )
       payment = yield payment.amount(paymentAmount)
+      payment = yield payment.build()
       yield put(A.updatePaymentSuccess(payment.value()))
     } catch (e) {
       // eslint-disable-next-line

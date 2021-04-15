@@ -393,6 +393,7 @@ export default ({
         Number(swapAmountValues?.cryptoAmount)
       )
       payment = yield payment.amount(paymentAmount)
+      payment = yield payment.build()
       yield put(A.updatePaymentSuccess(payment.value()))
     } catch (error) {
       yield put(A.updatePaymentFailure(error))
