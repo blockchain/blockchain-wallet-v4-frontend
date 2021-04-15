@@ -98,8 +98,10 @@ export default ({
       if (typeof account === 'string' && bankCredentials) {
         // Yapily
         const domainsR = yield select(selectors.core.walletOptions.getDomains)
-        const { yapilyCallbackUrl } = domainsR.getOrElse({})
-        const callback = yapilyCallbackUrl || undefined
+        const { yapilyCallbackUrl } = domainsR.getOrElse({
+          yapilyCallbackUrl: 'https://www.blockchain.com/brokerage-link-success'
+        })
+        const callback = yapilyCallbackUrl
         bankId = bankCredentials.id
         attributes = { institutionId: account, callback }
       } else if (typeof account === 'object' && fastLink) {
@@ -323,7 +325,9 @@ export default ({
       selectors.components.brokerage.getAccount
     )
     const domainsR = yield select(selectors.core.walletOptions.getDomains)
-    const { yapilyCallbackUrl } = domainsR.getOrElse({})
+    const { yapilyCallbackUrl } = domainsR.getOrElse({
+      yapilyCallbackUrl: 'https://www.blockchain.com/brokerage-link-success'
+    })
     const callback = partner === 'YAPILY' ? yapilyCallbackUrl : undefined
     try {
       const data = yield call(

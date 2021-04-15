@@ -457,7 +457,8 @@ export default ({
       const account = selectors.components.brokerage.getAccount(yield select())
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
       const domains = domainsR.getOrElse({
-        walletHelper: 'https://wallet-helper.blockchain.com'
+        walletHelper: 'https://wallet-helper.blockchain.com',
+        yapilyCallbackUrl: 'https://www.blockchain.com/brokerage-link-success'
       } as WalletOptionsType['domains'])
 
       let attributes
@@ -474,7 +475,7 @@ export default ({
               }
             : undefined
       } else if (account?.partner === 'YAPILY') {
-        attributes = { callback: domains.yapilyCallbackUrl || undefined }
+        attributes = { callback: domains.yapilyCallbackUrl }
       }
 
       let confirmedOrder: SBOrderType = yield call(
