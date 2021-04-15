@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { ModalPropsType } from 'blockchain-wallet-v4-frontend/src/modals/types'
-import { AnimatePresence,motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import styled from 'styled-components'
 
 import { Modal, Text } from 'blockchain-info-components'
@@ -29,52 +28,8 @@ const FlyoutModal = styled(AnimatedModal)`
   `};
 `
 
-const FlyoutChildren = styled.div<{ direction: 'left' | 'right' }>`
+const FlyoutChildren = styled.div`
   height: 100%;
-
-  .flyout-children-enter {
-    top: 0;
-    ${props =>
-      props.direction === 'left' &&
-      `
-      left: 99%;
-    `}
-    ${props =>
-      props.direction === 'right' &&
-      `
-      left: -99%;
-    `}
-    opacity: 0.01;
-    position: absolute;
-  }
-
-  .flyout-children-enter.flyout-children-enter-active {
-    opacity: 1;
-    left: 0;
-    transition: left ${slide}ms, opacity ${slide}ms;
-  }
-
-  .flyout-children-leave {
-    position: absolute;
-    opacity: 1;
-    left: 0;
-    top: 0;
-  }
-
-  .flyout-children-leave.flyout-children-leave-active {
-    ${props =>
-      props.direction === 'left' &&
-      `
-      left: -99%;
-    `}
-    ${props =>
-      props.direction === 'right' &&
-      `
-      left: 99%;
-    `}
-    opacity: 0.01;
-    transition: left ${slide}ms, opacity ${slide}ms;
-  }
 `
 
 export const FlyoutWrapper = styled.div`
@@ -86,10 +41,18 @@ export const FlyoutWrapper = styled.div`
   `}
 `
 
-export const FlyoutChild = styled.div`
+export const FlyoutChild = styled(props => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    {...props}
+  />
+))`
   height: 100%;
   width: 100%;
 `
+
 export const Row = styled.div`
   padding: 16px 40px;
   box-sizing: border-box;
@@ -167,15 +130,9 @@ const Flyout = ({ children, isOpen, ...props }: Props) => {
           exit={{ x: width }}
           {...props}
         >
-          <FlyoutChildren direction={props.direction || 'left'}>
-            <ReactCSSTransitionGroup
-              transitionName='flyout-children'
-              transitionEnterTimeout={slide}
-              transitionLeaveTimeout={slide}
-            >
-              {/* Each child must be wrapped in FlyoutChild for transitioning to work */}
-              {children}
-            </ReactCSSTransitionGroup>
+          <FlyoutChildren>
+            {/* Each child must be wrapped in FlyoutChild for transitioning to work */}
+            {children}
           </FlyoutChildren>
         </FlyoutModal>
       ) : null}
@@ -185,7 +142,6 @@ const Flyout = ({ children, isOpen, ...props }: Props) => {
 
 type Props = Omit<ModalPropsType, 'close'> & {
   children: ReactNode
-  direction: 'right' | 'left'
   isOpen: boolean
   onClose: () => void
 }

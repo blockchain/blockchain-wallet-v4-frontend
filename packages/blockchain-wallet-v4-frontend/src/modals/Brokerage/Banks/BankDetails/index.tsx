@@ -26,7 +26,7 @@ export type LinkStatePropsType = {
 // export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 class BankDetails extends PureComponent<Props, {}> {
-  state: State = { show: false, direction: 'left' }
+  state: State = { show: false }
 
   componentDidMount() {
     /* eslint-disable */
@@ -63,7 +63,6 @@ class BankDetails extends PureComponent<Props, {}> {
         {...this.props}
         onClose={this.handleClose}
         isOpen={this.state.show}
-        direction={this.state.direction}
         data-e2e='bankDetailsModal'
       >
         <FlyoutChild>
@@ -98,6 +97,6 @@ export type Props = OwnProps &
   LinkStatePropsType &
   ConnectedProps<typeof connector>
 
-type State = { direction: 'left' | 'right'; show: boolean }
+type State = { show: boolean }
 
 export default enhance(BankDetails)

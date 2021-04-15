@@ -102,7 +102,6 @@ class WelcomeContainer extends React.PureComponent<Props> {
         onClose={this.props.close}
         isOpen={show}
         data-e2e='welcomeModal'
-        direction='left'
       >
         <CustomFlyoutWrapper>
           <Header>

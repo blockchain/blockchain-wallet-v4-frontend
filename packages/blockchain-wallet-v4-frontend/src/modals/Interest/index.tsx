@@ -6,7 +6,7 @@ import { CoinType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { InterestStep, InterestStepMetadata, InterestSteps } from 'data/types'
+import { InterestStep, InterestStepMetadata } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
@@ -15,22 +15,12 @@ import DepositForm from './DepositForm'
 import WithdrawalForm from './WithdrawalForm'
 
 class Interest extends PureComponent<Props, State> {
-  state: State = { show: false, direction: 'left' }
+  state: State = { show: false }
 
   componentDidMount() {
-    this.setState({ show: true }) //eslint-disable-line
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    const { step } = this.props
-    if (step === prevProps.step) return
-    if (InterestSteps[step.name] > InterestSteps[prevProps.step.name]) {
-      /* eslint-disable */
-      this.setState({ direction: 'left' })
-    } else {
-      this.setState({ direction: 'right' })
-      /* eslint-enable */
-    }
+    /* eslint-disable */
+    this.setState({ show: true })
+    /* eslint-enable */
   }
 
   handleClose = () => {
@@ -54,7 +44,6 @@ class Interest extends PureComponent<Props, State> {
       <Flyout
         position={position}
         isOpen={this.state.show}
-        direction={this.state.direction}
         userClickedOutside={this.props.userClickedOutside}
         onClose={this.handleClose}
         data-e2e='interestModal'
@@ -106,7 +95,7 @@ type LinkStatePropsType = {
   }
 }
 
-type State = { direction: 'left' | 'right'; show: boolean }
+type State = { show: boolean }
 type Props = OwnProps & ConnectedProps<typeof connector>
 
 const enhance = compose<any>(
