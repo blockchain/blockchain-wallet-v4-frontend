@@ -23,7 +23,10 @@ export function requestReducer(
     case AT.GET_NEXT_ADDRESS_SUCCESS:
       return {
         ...state,
-        [action.payload.key]: Remote.Success(action.payload.address)
+        [action.payload.key]: Remote.Success({
+          address: action.payload.address,
+          extras: action.payload.extras
+        })
       }
     default:
       return state

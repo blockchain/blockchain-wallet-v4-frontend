@@ -6,7 +6,6 @@ import { REQUEST_ACCOUNTS_SELECTOR } from 'data/coins/model/request'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { CoinAccountSelectorType } from 'data/coins/types'
 import { SwapAccountType } from 'data/components/swap/types'
-import { UserDataType } from 'data/types'
 
 export const getData = createDeepEqualSelector(
   [
@@ -16,19 +15,16 @@ export const getData = createDeepEqualSelector(
         ...REQUEST_ACCOUNTS_SELECTOR
       } as CoinAccountSelectorType),
     selectors.core.walletOptions.getAllCoinAvailabilities,
-    selectors.modules.profile.getUserData,
+    selectors.modules.profile.isSilverOrAbove,
     (state, ownProps) => ({ ownProps, state })
   ],
-  (accounts, coinAvailabilitiesR, userDataR, { ownProps }) => {
+  (accounts, coinAvailabilitiesR, isSilverOrAbove, { ownProps }) => {
     const { selectedCoin } = ownProps?.formValues || {}
     const coinAvailabilities = coinAvailabilitiesR.getOrFail(
       'No available coins.'
     )
     const prunedAccounts = [] as Array<SwapAccountType>
-    const userData = userDataR.getOrElse({
-      tiers: { current: 0, next: 0, selected: 0 }
-    } as UserDataType)
-    const isAtLeastTier1 = userData.tiers.current >= 1
+    const isAtLeastTier1 = isSilverOrAbove
 
     // @ts-ignore
     map(

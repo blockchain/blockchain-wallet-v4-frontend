@@ -123,7 +123,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
             </Text>
             <Text color='grey800' size='16px' weight={600} lineHeight='24px'>
               {this.props.addressR.cata({
-                Success: val => val,
+                Success: val => val.address,
                 Failure: err => (
                   <FormattedMessage
                     id='components.alerts.unknown_error'
@@ -145,7 +145,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
             {this.props.addressR.cata({
               Success: val => (
                 <CopyClipboardButton
-                  textToCopy={val}
+                  textToCopy={val.address}
                   color='blue600'
                   size='24px'
                 />
@@ -156,13 +156,43 @@ class RequestShowAddress extends React.PureComponent<Props> {
             })}
           </ClipboardWrapper>
         </AddressWrapper>
+        {this.props.addressR.cata({
+          Success: val =>
+            val.extras
+              ? Object.keys(val.extras).map(extra => (
+                  <AddressWrapper>
+                    <AddressDisplay>
+                      <Text
+                        color='grey600'
+                        size='14px'
+                        lineHeight='21px'
+                        weight={500}
+                      >
+                        {extra}
+                      </Text>
+                      <Text
+                        color='grey800'
+                        size='16px'
+                        weight={600}
+                        lineHeight='24px'
+                      >
+                        {val.extras[extra as string]}
+                      </Text>
+                    </AddressDisplay>
+                  </AddressWrapper>
+                ))
+              : null,
+          Failure: () => null,
+          Loading: () => null,
+          NotAsked: () => null
+        })}
         <QRCodeContainer>
           {this.props.addressR.cata({
             Success: val => (
               <QRCodeWrapper
                 data-e2e='requestAddressQrCode'
                 size={280}
-                value={val}
+                value={val.address}
               />
             ),
             Failure: err => (

@@ -9,8 +9,13 @@ export type RequestState = {
         'BTC Private Key Wallet': Remote.Success<"18sikQNP236uPKRtUMrUF8H2vwv9CKbKfP">
     }
   */
-  [key in string]: RemoteDataType<any, string>
+  [key in string]: RemoteDataType<
+    string,
+    { address: string; extras: RequestExtrasType }
+  >
 }
+
+export type RequestExtrasType = { [key in string]: string }
 
 interface GetNextAddressFailureActionType {
   payload: {
@@ -28,6 +33,7 @@ interface GetNextAddressLoadingActionType {
 interface GetNextAddressSuccessActionType {
   payload: {
     address: string
+    extras: RequestExtrasType
     key: string
   }
   type: typeof AT.GET_NEXT_ADDRESS_SUCCESS

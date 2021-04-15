@@ -1,6 +1,6 @@
 import { SwapAccountType } from '../swap/types'
 import * as AT from './actionTypes'
-import { RequestActionTypes } from './types'
+import { RequestActionTypes, RequestExtrasType } from './types'
 
 export const getNextAddress = (account: SwapAccountType) => ({
   type: AT.GET_NEXT_ADDRESS,
@@ -19,8 +19,9 @@ export const getNextAddressFailure = (
 })
 export const getNextAddressSuccess = (
   key: string,
-  address: string
+  address: string,
+  extras: RequestExtrasType
 ): RequestActionTypes => ({
   type: AT.GET_NEXT_ADDRESS_SUCCESS,
-  payload: { key, address }
+  payload: { key, address, extras }
 })
