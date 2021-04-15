@@ -552,10 +552,10 @@ export default ({
   const stopShowingInterestModal = function * () {
     try {
       yield call(api.stopInterestCtaAfterTransaction, false)
-      yield put(actions.modals.closeModal('InterestPromo'))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'InterestPromo', e))
     }
+    yield put(actions.modals.closeModal('InterestPromo'))
   }
 
   return {

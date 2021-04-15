@@ -97,8 +97,11 @@ export default ({
 
       if (typeof account === 'string' && bankCredentials) {
         // Yapily
+        const domainsR = yield select(selectors.core.walletOptions.getDomains)
+        const { yapilyCallbackUrl } = domainsR.getOrElse({})
+        const callback = yapilyCallbackUrl || undefined
         bankId = bankCredentials.id
-        attributes = { institutionId: account }
+        attributes = { institutionId: account, callback }
       } else if (typeof account === 'object' && fastLink) {
         // Yodlee
         bankId = fastLink.id
@@ -319,8 +322,17 @@ export default ({
     const { id, partner } = yield select(
       selectors.components.brokerage.getAccount
     )
+    const domainsR = yield select(selectors.core.walletOptions.getDomains)
+    const { yapilyCallbackUrl } = domainsR.getOrElse({})
+    const callback = partner === 'YAPILY' ? yapilyCallbackUrl : undefined
     try {
-      const data = yield call(api.createFiatDeposit, amount, id, currency)
+      const data = yield call(
+        api.createFiatDeposit,
+        amount,
+        id,
+        currency,
+        callback
+      )
       const { RETRY_AMOUNT, SECONDS } = POLLING
       // If yapily we need to transition to another screen and poll for auth
       // details before polling for order status
