@@ -1,31 +1,24 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import Transition from 'react-transition-group/Transition'
 import { ModalPropsType } from 'blockchain-wallet-v4-frontend/src/modals/types'
+import { AnimatePresence,motion } from 'framer-motion'
 import styled from 'styled-components'
 
 import { Modal, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
-// TODO: use only ReactCSSTransitionGroup
 
 export const duration = 500
 export const slide = 500
 export const width = 480
 
-const defaultStyle = {
-  transition: `right ${duration}ms`,
-  right: `-${width}px`
-}
+const AnimatedModal = motion(Modal)
 
-const transitionStyles = {
-  entering: { right: `-${width}px` },
-  entered: { right: '0px' }
-}
-
-const FlyoutModal = styled(Modal)`
+const FlyoutModal = styled(AnimatedModal)`
   border-radius: 0px;
   overflow: auto;
   position: absolute;
+  top: 0;
+  right: 0;
   width: ${width}px;
   height: 100vh;
   color: ${props => props.theme.grey700};
@@ -160,42 +153,41 @@ export const StickyHeaderFlyoutWrapper = styled(FlyoutWrapper)`
   z-index: 99;
 `
 
-class Flyout extends React.PureComponent<
-  Omit<ModalPropsType, 'close'> & {
-    direction: 'right' | 'left'
-    in: boolean
-    onClose: () => void
-  }
-> {
-  render() {
-    const { children, ...rest } = this.props
+const Flyout = ({ children, isOpen, ...props }: Props) => {
+  return (
+    <AnimatePresence>
+      {isOpen && !props.userClickedOutside ? (
+        <FlyoutModal
+          transition={{
+            type: 'spring',
+            bounce: 0
+          }}
+          initial={{ x: width }}
+          animate={{ x: 0 }}
+          exit={{ x: width }}
+          {...props}
+        >
+          <FlyoutChildren direction={props.direction || 'left'}>
+            <ReactCSSTransitionGroup
+              transitionName='flyout-children'
+              transitionEnterTimeout={slide}
+              transitionLeaveTimeout={slide}
+            >
+              {/* Each child must be wrapped in FlyoutChild for transitioning to work */}
+              {children}
+            </ReactCSSTransitionGroup>
+          </FlyoutChildren>
+        </FlyoutModal>
+      ) : null}
+    </AnimatePresence>
+  )
+}
 
-    return (
-      <Transition
-        in={this.props.in && !this.props.userClickedOutside}
-        timeout={0}
-      >
-        {status => (
-          <FlyoutModal
-            {...rest}
-            type={'flyout'}
-            style={{ ...defaultStyle, ...transitionStyles[status] }}
-          >
-            <FlyoutChildren direction={this.props.direction || 'left'}>
-              <ReactCSSTransitionGroup
-                transitionName='flyout-children'
-                transitionEnterTimeout={slide}
-                transitionLeaveTimeout={slide}
-              >
-                {/* Each child must be wrapped in FlyoutChild for transitioning to work */}
-                {children}
-              </ReactCSSTransitionGroup>
-            </FlyoutChildren>
-          </FlyoutModal>
-        )}
-      </Transition>
-    )
-  }
+type Props = Omit<ModalPropsType, 'close'> & {
+  children: ReactNode
+  direction: 'right' | 'left'
+  isOpen: boolean
+  onClose: () => void
 }
 
 export default Flyout

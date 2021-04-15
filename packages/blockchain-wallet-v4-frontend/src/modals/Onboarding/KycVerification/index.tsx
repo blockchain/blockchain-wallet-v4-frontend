@@ -132,7 +132,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
       Success: () => (
         <Flyout
           {...this.props}
-          in={show}
+          isOpen={show}
           onClose={this.handleClose}
           direction={this.state.direction}
           data-e2e='identityVerificationModal'
@@ -146,7 +146,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
         <Flyout
           {...this.props}
           onClose={this.handleClose}
-          in={this.state.show}
+          isOpen={this.state.show}
           direction={this.state.direction}
           data-e2e='identityVerificationModal'
         >
@@ -159,7 +159,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
         <Flyout
           {...this.props}
           onClose={this.handleClose}
-          in={this.state.show}
+          isOpen={this.state.show}
           direction={this.state.direction}
           data-e2e='identityVerificationModal'
         >
@@ -170,7 +170,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
         <Flyout
           {...this.props}
           onClose={this.handleClose}
-          in={this.state.show}
+          isOpen={this.state.show}
           direction={this.state.direction}
           data-e2e='identityVerificationModal'
         >
