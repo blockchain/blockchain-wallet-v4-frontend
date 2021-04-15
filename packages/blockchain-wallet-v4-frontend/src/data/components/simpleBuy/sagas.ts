@@ -454,6 +454,7 @@ export default ({
     try {
       if (!order) throw new Error(NO_ORDER_EXISTS)
       yield put(actions.form.startSubmit('sbCheckoutConfirm'))
+      const account = selectors.components.brokerage.getAccount(yield select())
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
       const domains = domainsR.getOrElse({
         walletHelper: 'https://wallet-helper.blockchain.com'
@@ -472,6 +473,8 @@ export default ({
                 }
               }
             : undefined
+      } else if (account?.partner === 'YAPILY') {
+        attributes = { callback: domains.yapilyCallbackUrl || undefined }
       }
 
       let confirmedOrder: SBOrderType = yield call(
@@ -481,7 +484,6 @@ export default ({
         paymentMethodId
       )
       const { RETRY_AMOUNT, SECONDS } = POLLING
-      const account = selectors.components.brokerage.getAccount(yield select())
       if (account?.partner === 'YAPILY') {
         // for OB the authorisationUrl isn't in the initial response to confirm
         // order. We need to poll the order for it.

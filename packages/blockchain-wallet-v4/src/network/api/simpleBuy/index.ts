@@ -82,13 +82,19 @@ export default ({
     amount: number,
     bankId: string,
     currency: FiatType,
-    product: 'SIMPLEBUY' = 'SIMPLEBUY'
+    callback: string | undefined
   ) =>
     authorizedPost({
       url: nabuUrl,
       contentType: 'application/json',
       endPoint: `/payments/banktransfer/${bankId}/payment`,
-      data: { amount, currency, product, orderId: uuidv4() }
+      data: {
+        amount,
+        currency,
+        product: 'SIMPLEBUY',
+        orderId: uuidv4(),
+        callback
+      }
     })
 
   const createSBOrder = (
