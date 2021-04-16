@@ -428,9 +428,7 @@ export default ({
       orderId
     )
 
-    if (order.attributes?.authorisationUrl) {
-      return order
-    } else if (order.state === 'FAILED') {
+    if (order.attributes?.authorisationUrl || order.state === 'FAILED') {
       return order
     } else {
       throw new Error('retrying to fetch for AuthUrl')
@@ -442,9 +440,12 @@ export default ({
       api.getSBOrder,
       orderId
     )
-    if (order.state === 'FINISHED') {
-      return order
-    } else if (order.state === 'FAILED') {
+
+    if (
+      order.state === 'FINISHED' ||
+      order.state === 'FAILED' ||
+      order.state === 'CANCELED'
+    ) {
       return order
     } else {
       throw new Error('retrying to fetch for FINISHED order')
@@ -461,7 +462,8 @@ export default ({
       const account = selectors.components.brokerage.getAccount(yield select())
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
       const domains = domainsR.getOrElse({
-        walletHelper: 'https://wallet-helper.blockchain.com'
+        walletHelper: 'https://wallet-helper.blockchain.com',
+        yapilyCallbackUrl: 'https://www.blockchain.com/brokerage-link-success'
       } as WalletOptionsType['domains'])
 
       let attributes
@@ -478,7 +480,7 @@ export default ({
               }
             : undefined
       } else if (account?.partner === 'YAPILY') {
-        attributes = { callback: domains.yapilyCallbackUrl || undefined }
+        attributes = { callback: domains.yapilyCallbackUrl }
       }
 
       let confirmedOrder: SBOrderType = yield call(
@@ -491,6 +493,7 @@ export default ({
       if (account?.partner === 'YAPILY') {
         // for OB the authorisationUrl isn't in the initial response to confirm
         // order. We need to poll the order for it.
+        yield put(A.setStep({ step: 'LOADING' }))
         const order = yield retry(
           RETRY_AMOUNT,
           SECONDS * 1000,

@@ -3,7 +3,7 @@ import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import styled from 'styled-components'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import {
   getBaseAmount,
@@ -115,6 +115,10 @@ const Success: React.FC<Props> = props => {
                   color='green400'
                 />
               </IconBackground>
+            ) : props.order.state === 'FAILED' ? (
+              <IconBackground color='white'>
+                <Icon name='close-circle' size='32px' color='orange500' />
+              </IconBackground>
             ) : (
               <IconBackground color='grey600'>
                 <Icon name='pending' size='32px' color='white' />
@@ -142,6 +146,11 @@ const Success: React.FC<Props> = props => {
                   id='modals.simplebuy.summary.pending_buy'
                   defaultMessage='Pending Buy'
                 />
+              ) : props.order.state === 'FAILED' ? (
+                <FormattedMessage
+                  id='copy.bank_linked_error_title_connectionrejected'
+                  defaultMessage='Connection Rejected'
+                />
               ) : (
                 <FormattedMessage
                   id='modals.simplebuy.summary.purchased'
@@ -168,6 +177,26 @@ const Success: React.FC<Props> = props => {
                     coin: baseCurrency
                   }}
                 />
+              )}
+              {props.order.state === 'FAILED' && (
+                <>
+                  <FormattedMessage
+                    id='copy.bank_linked_error'
+                    defaultMessage='Please try linking your bank again. If this keeps happening, please'
+                  />{' '}
+                  <Link
+                    size='14px'
+                    weight={500}
+                    target='_blank'
+                    href='https://support.blockchain.com/hc/en-us/'
+                  >
+                    <FormattedMessage
+                      id='buttons.contact_support'
+                      defaultMessage='Contact Support'
+                    />
+                  </Link>
+                  {'.'}
+                </>
               )}
               {props.order.state === 'PENDING_DEPOSIT' ||
                 (props.order.state === 'PENDING_CONFIRMATION' && (
@@ -244,6 +273,7 @@ const Success: React.FC<Props> = props => {
             )}
           {orderType === 'BUY' &&
             props.order.paymentType === 'BANK_TRANSFER' &&
+            props.order.state !== 'FAILED' &&
             !isPendingAch && (
               <BottomInfo>
                 <Text color='grey600' size='14px' weight={500}>
@@ -270,6 +300,7 @@ const Success: React.FC<Props> = props => {
         </Content>
       </ContentWrapper>
       {orderType === 'BUY' &&
+        props.order.state !== 'FAILED' &&
         (props.order.paymentType === 'PAYMENT_CARD' ||
           props.order.paymentType === 'USER_CARD' ||
           props.order.paymentType === 'BANK_TRANSFER' ||
