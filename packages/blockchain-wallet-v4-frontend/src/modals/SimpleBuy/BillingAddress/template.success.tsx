@@ -13,7 +13,7 @@ import {
   TextBox
 } from 'components/Form'
 import {
-  countryUsesPostalcode,
+  countryUsesPostalCode,
   countryUsesZipcode,
   required,
   requiredZipCode
@@ -40,7 +40,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const countryCode = props.formValues.country
   const countryIsUS = countryCode === 'US'
   const countryUsesZipOrPostcode =
-    countryUsesZipcode(countryCode) || countryUsesPostalcode(countryCode)
+    countryUsesZipcode(countryCode) || countryUsesPostalCode(countryCode)
 
   return (
     <>

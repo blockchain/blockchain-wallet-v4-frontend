@@ -241,8 +241,8 @@ export default ({
       yield put(A.fetchCustodialEligibilityLoading())
       const {
         eligible
-      }: ReturnType<typeof api.checkCustodialEligiblity> = yield call(
-        api.checkCustodialEligiblity
+      }: ReturnType<typeof api.checkCustodialSwapEligibility> = yield call(
+        api.checkCustodialSwapEligibility
       )
       yield put(A.fetchCustodialEligibilitySuccess(eligible))
     } catch (e) {
