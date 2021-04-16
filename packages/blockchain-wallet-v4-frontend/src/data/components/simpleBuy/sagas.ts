@@ -488,6 +488,7 @@ export default ({
       if (account?.partner === 'YAPILY') {
         // for OB the authorisationUrl isn't in the initial response to confirm
         // order. We need to poll the order for it.
+        yield put(A.setStep({ step: 'LOADING' }))
         const order = yield retry(
           RETRY_AMOUNT,
           SECONDS * 1000,

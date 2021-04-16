@@ -19,6 +19,7 @@ import { RootState } from 'data/rootReducer'
 import { BankStatusType, FastLinkType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
+import { Loading as StdLoading, LoadingTextEnum } from '../components'
 import { ModalPropsType } from '../types'
 // step templates
 import AddCard from './AddCard'
@@ -228,6 +229,11 @@ class SimpleBuy extends PureComponent<Props, State> {
                 <UpgradeToGold {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
+            {this.props.step === 'LOADING' && (
+              <FlyoutChild>
+                <StdLoading text={LoadingTextEnum.GETTING_READY} />
+              </FlyoutChild>
+            )}
           </Flyout>
         )
       },
@@ -304,6 +310,7 @@ type LinkStatePropsType =
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
+        | 'LOADING'
     }
   | {
       orderType: SBOrderActionType

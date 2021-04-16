@@ -255,7 +255,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           {props.submitting ? (
             <HeartbeatLoader height='16px' width='16px' color='white' />
           ) : paymentPartner === 'YAPILY' ? (
-            <FormattedMessage id='copy.approve' defaultMessage='Approve' />
+            <FormattedMessage id='copy.next' defaultMessage='Next' />
           ) : (
             `${
               orderType === 'BUY' ? 'Buy' : 'Sell'
