@@ -19,6 +19,8 @@ import {
   CoinTypeEnum,
   Everypay3DSResponseType,
   FiatEligibleType,
+  OrderType,
+  ProductTypes,
   SBAccountType,
   SBCardStateType,
   SBCardType,
@@ -229,7 +231,7 @@ export default ({
             A.setStep({
               step: 'ENTER_AMOUNT',
               cryptoCurrency,
-              orderType: order.side || 'BUY',
+              orderType: order.side || OrderType.BUY,
               fiatCurrency,
               pair,
               method
@@ -267,7 +269,7 @@ export default ({
 
       // since two screens use this order creation saga and they have different
       // forms, detect the order type and set correct form to submitting
-      if (orderType === 'SELL') {
+      if (orderType === OrderType.SELL) {
         yield put(actions.form.startSubmit('previewSell'))
       } else {
         yield put(actions.form.startSubmit('simpleBuyCheckout'))
@@ -279,14 +281,14 @@ export default ({
         fix === 'FIAT'
           ? convertStandardToBase('FIAT', values.amount)
           : convertStandardToBase(coin, values.amount)
-      const inputCurrency = orderType === 'BUY' ? fiat : coin
-      const outputCurrency = orderType === 'BUY' ? coin : fiat
+      const inputCurrency = orderType === OrderType.BUY ? fiat : coin
+      const outputCurrency = orderType === OrderType.BUY ? coin : fiat
       const input = { amount, symbol: inputCurrency }
       const output = { amount, symbol: outputCurrency }
 
       // used for sell only now, eventually buy as well
       // TODO: use swap2 quote for buy AND sell
-      if (orderType === 'SELL') {
+      if (orderType === OrderType.SELL) {
         const from = S.getSwapAccount(yield select())
         const quote = S.getSellQuote(yield select()).getOrFail(NO_QUOTE)
         if (!from) throw new Error(NO_ACCOUNT)
@@ -348,11 +350,11 @@ export default ({
 
       if (!paymentType) throw new Error(NO_PAYMENT_TYPE)
 
-      if (orderType === 'BUY' && fix === 'CRYPTO') {
+      if (orderType === OrderType.BUY && fix === 'CRYPTO') {
         // @ts-ignore
         delete input.amount
       }
-      if (orderType === 'BUY' && fix === 'FIAT') {
+      if (orderType === OrderType.BUY && fix === 'FIAT') {
         // @ts-ignore
         delete output.amount
       }
@@ -415,7 +417,7 @@ export default ({
       }
 
       const error = errorHandler(e)
-      if (values?.orderType === 'SELL') {
+      if (values?.orderType === OrderType.SELL) {
         yield put(actions.form.stopSubmit('previewSell', { _error: error }))
       }
       yield put(actions.form.stopSubmit('simpleBuyCheckout', { _error: error }))
@@ -1135,7 +1137,7 @@ export default ({
       const pair = S.getSBPair(yield select())
       if (!pair) throw new Error(NO_PAIR_SELECTED)
       // Fetch rates
-      if (orderType === 'BUY') {
+      if (orderType === OrderType.BUY) {
         yield put(A.fetchSBQuote(pair.pair, orderType, '0'))
         // used for sell only now, eventually buy as well
         // TODO: use swap2 quote for buy AND sell
@@ -1332,7 +1334,7 @@ export default ({
         })
       )
     } else if (cryptoCurrency) {
-      orderType === 'BUY' &&
+      orderType === OrderType.BUY &&
         (yield put(
           // 🚨 SPECIAL TS-IGNORE
           // Usually ENTER_AMOUNT should require a pair but
@@ -1348,7 +1350,7 @@ export default ({
             orderType
           })
         ))
-      orderType === 'SELL' &&
+      orderType === OrderType.SELL &&
         (yield put(
           A.setStep({
             step: 'CRYPTO_SELECTION',
@@ -1377,14 +1379,24 @@ export default ({
   }
 
   const fetchLimits = function * ({
-    currency
-  }: ReturnType<typeof A.fetchSBFiatEligible>) {
+    cryptoCurrency,
+    currency,
+    side
+  }: ReturnType<typeof A.fetchLimits>) {
     try {
       yield put(A.fetchLimitsLoading())
-      const limits: ReturnType<typeof api.getSwapLimits> = yield call(
-        api.getSwapLimits,
-        currency
-      )
+      let limits
+      if (cryptoCurrency && side) {
+        limits = yield call(
+          api.getSBLimits,
+          currency,
+          ProductTypes.SIMPLEBUY,
+          cryptoCurrency,
+          side
+        )
+      } else {
+        limits = yield call(api.getSwapLimits, currency)
+      }
       yield put(A.fetchLimitsSuccess(limits))
     } catch (e) {
       const error = errorHandler(e)

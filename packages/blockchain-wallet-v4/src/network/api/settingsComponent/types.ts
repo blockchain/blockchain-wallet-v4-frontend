@@ -3,6 +3,7 @@ import {
   BeneficiaryType,
   CoinType,
   FiatType,
+  OrderType,
   WalletCurrencyType
 } from 'core/types'
 
@@ -194,7 +195,7 @@ export type ISBBuyOrderType = {
   state: SBOrderStateType
   updatedAt: string
 }
-export type SBOrderActionType = 'BUY' | 'SELL'
+export type SBOrderActionType = keyof typeof OrderType
 export type SBBuyOrderType = ISBBuyOrderType & {
   inputCurrency: FiatType
   outputCurrency: CoinType
@@ -244,7 +245,7 @@ export type SBTransactionType = {
         status: 'UNCONFIRMED' | 'CONFIRMED'
         txHash: string
       }
-      type: 'DEPOSIT' | 'REFUNDED' | 'SELL'
+      type: 'DEPOSIT' | 'REFUNDED' | OrderType.SELL
     }
   | {
       extraAttributes: null | {
