@@ -428,7 +428,7 @@ export default ({
       orderId
     )
 
-    if (order.attributes?.authorisationUrl) {
+    if (order.attributes?.authorisationUrl || order.state === 'FAILED') {
       return order
     } else {
       throw new Error('retrying to fetch for AuthUrl')
@@ -441,7 +441,11 @@ export default ({
       orderId
     )
 
-    if (order.state === 'FINISHED') {
+    if (
+      order.state === 'FINISHED' ||
+      order.state === 'FAILED' ||
+      order.state === 'CANCELED'
+    ) {
       return order
     } else {
       throw new Error('retrying to fetch for FINISHED order')
