@@ -1,6 +1,6 @@
 import { FiatType } from 'core/types'
 
-export type EligibilityResponseType = {
+export type SwapEligibilityResponseType = {
   eligible: boolean
 }
 
