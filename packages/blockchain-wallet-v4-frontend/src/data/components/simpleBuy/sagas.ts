@@ -427,7 +427,6 @@ export default ({
       api.getSBOrder,
       orderId
     )
-
     if (order.attributes?.authorisationUrl || order.state === 'FAILED') {
       return order
     } else {
@@ -508,7 +507,6 @@ export default ({
           confirmedOrder.id
         )
       }
-
       yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
       if (order.paymentType === 'BANK_TRANSFER') {
         yield put(A.setStep({ step: 'ORDER_SUMMARY', order: confirmedOrder }))
