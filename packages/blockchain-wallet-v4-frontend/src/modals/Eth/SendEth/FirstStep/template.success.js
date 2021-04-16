@@ -179,7 +179,7 @@ const FirstStep = props => {
               component={SelectBoxEthAddresses}
               dataE2e='sendEthAddressInput'
               disabled={isRetryAttempt}
-              exclude={[from.label]}
+              exclude={from ? [from.label] : []}
               includeAll={false}
               includeExchangeAddress={!isFromCustody}
               isCreatable={!isFromCustody}
