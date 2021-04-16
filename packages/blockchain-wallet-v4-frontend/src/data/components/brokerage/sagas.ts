@@ -309,12 +309,11 @@ export default ({
     let order: SBTransactionType = yield call(api.getPaymentById, orderId)
 
     if (
-      order.extraAttributes &&
-      'authorisationUrl' in order.extraAttributes &&
-      order.extraAttributes.authorisationUrl
+      (order.extraAttributes &&
+        'authorisationUrl' in order.extraAttributes &&
+        order.extraAttributes.authorisationUrl) ||
+      order.state === 'FAILED'
     ) {
-      return order
-    } else if (order.state === 'FAILED') {
       return order
     } else {
       throw new Error('retrying to fetch for AuthUrl')
