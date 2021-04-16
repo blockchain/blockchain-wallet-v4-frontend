@@ -181,9 +181,8 @@ const enhance = compose(
   connector
 )
 
-type OwnProps = {}
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-export type Props = ModalPropsType & OwnProps & ConnectedProps<typeof connector>
+export type Props = ModalPropsType & ConnectedProps<typeof connector>
 type State = { show: boolean }
 
 export default enhance(Swap)
