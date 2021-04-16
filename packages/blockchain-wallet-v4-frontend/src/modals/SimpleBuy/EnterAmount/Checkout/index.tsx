@@ -41,7 +41,8 @@ class Checkout extends PureComponent<Props> {
       this.props.simpleBuyActions.fetchSBCards()
       this.props.brokerageActions.fetchBankTransferAccounts()
     }
-    // we need to re-fetch limits for SB
+    // we fetch limits as part of home banners logic at that point we had only fiatCurrency
+    // here we have to re-fetch for crypto currency and order type
     this.props.simpleBuyActions.fetchLimits(
       this.props.fiatCurrency,
       this.props.cryptoCurrency,
