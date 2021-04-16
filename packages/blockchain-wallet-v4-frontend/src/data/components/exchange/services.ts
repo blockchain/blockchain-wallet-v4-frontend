@@ -9,7 +9,7 @@ export const convertBaseToStandard = (
   return Exchange.convertCoinToCoin({
     coin,
     value,
-    baseToStandard: baseToStandard
+    baseToStandard
   }).value
 }
 
@@ -21,6 +21,6 @@ export const convertStandardToBase = (
   return Exchange.convertCoinToCoin({
     coin,
     value,
-    baseToStandard: baseToStandard
+    baseToStandard
   }).value
 }
