@@ -66,7 +66,7 @@ type Props = OwnProps & SuccessStateType
 const Success = props => {
   const coin = props.fiatCurrency || 'USD'
   const amount = props.formValues?.amount || 0
-  const unit = (props.defaultMethod?.currency as FiatType) || 'USD'
+  const unit = (props.fiatCurrency as FiatType) || 'USD'
 
   return (
     <Wrapper>
