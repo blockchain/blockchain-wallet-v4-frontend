@@ -667,10 +667,3 @@ export const fetchLimitsSuccess = (
 export const updateSddTransactionFinished = () => ({
   type: AT.UPDATE_SDD_TRANSACTION_FINISHED
 })
-
-export const updateSbOrder = (order: SBOrderType) => ({
-  type: AT.UPDATE_SB_ORDER,
-  payload: {
-    order
-  }
-})

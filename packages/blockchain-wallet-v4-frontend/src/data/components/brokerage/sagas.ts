@@ -348,18 +348,6 @@ export default ({
           AuthUrlCheck,
           data.paymentId
         )
-        if (order.state === 'FAILED') {
-          yield put(
-            actions.form.stopSubmit('brokerageTx', {
-              _error: 'Bank authroization failed, please try again.'
-            })
-          )
-          yield put(
-            actions.components.brokerage.setDWStep({
-              dwStep: BankDWStepType.ENTER_AMOUNT
-            })
-          )
-        }
         if (
           order.extraAttributes &&
           'authorisationUrl' in order.extraAttributes &&

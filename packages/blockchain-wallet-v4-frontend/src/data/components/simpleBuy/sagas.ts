@@ -427,7 +427,6 @@ export default ({
       api.getSBOrder,
       orderId
     )
-
     if (order.attributes?.authorisationUrl || order.state === 'FAILED') {
       return order
     } else {
@@ -454,8 +453,7 @@ export default ({
   const confirmSBOrder = function * (
     payload: ReturnType<typeof A.confirmSBOrder>
   ) {
-    const { paymentMethodId } = payload
-    let { order } = payload
+    const { order, paymentMethodId } = payload
     try {
       if (!order) throw new Error(NO_ORDER_EXISTS)
       yield put(actions.form.startSubmit('sbCheckoutConfirm'))
@@ -508,22 +506,8 @@ export default ({
           OrderConfirmCheck,
           confirmedOrder.id
         )
-        yield put(A.updateSbOrder(order))
       }
-      order = S.getSBOrder(yield select()) as SBOrderType
       yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
-      // If payment method is invalid, backend will send back
-      // A failed trade in ~30 seconds rather than having
-      // payment method faill at a later step
-      if (order.state === 'FAILED') {
-        yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order }))
-        yield put(actions.form.startSubmit('sbCheckoutConfirm'))
-        return yield put(
-          actions.form.stopSubmit('sbCheckoutConfirm', {
-            _error: 'Order failed. Please try again.'
-          })
-        )
-      }
       if (order.paymentType === 'BANK_TRANSFER') {
         yield put(A.setStep({ step: 'ORDER_SUMMARY', order: confirmedOrder }))
       } else {
