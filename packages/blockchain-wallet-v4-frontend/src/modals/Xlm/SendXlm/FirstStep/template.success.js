@@ -169,7 +169,7 @@ const FirstStep = props => {
                 <Field
                   component={SelectBoxXlmAddresses}
                   dataE2e='sendXlmAddressInput'
-                  exclude={[from.label]}
+                  exclude={from ? [from.label] : []}
                   includeAll={false}
                   includeExchangeAddress={!isFromCustody}
                   isCreatable={!isFromCustody}
