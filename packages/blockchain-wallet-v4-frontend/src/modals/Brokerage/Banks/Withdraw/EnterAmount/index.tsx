@@ -5,7 +5,6 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { SBPaymentTypes } from 'blockchain-wallet-v4/src/network/api/settingsComponent/types'
 import {
-  BankTransferAccountType,
   BeneficiaryType,
   ExtractSuccess,
   WalletFiatType
@@ -13,6 +12,7 @@ import {
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
+  BankTransferAccountType,
   UserDataType,
   WithdrawCheckoutFormValuesType,
   WithdrawStepEnum
@@ -28,7 +28,7 @@ class EnterAmount extends PureComponent<Props> {
 
   componentDidMount() {
     let paymentMethod: SBPaymentTypes | 'ALL' = 'ALL'
-    if (this.props.isInvited && this.props.defaultMethod) {
+    if (this.props.defaultMethod) {
       paymentMethod = 'BANK_TRANSFER'
     }
     // We need to make this call each time we load the enter amount component
@@ -57,7 +57,7 @@ class EnterAmount extends PureComponent<Props> {
       this.props.withdrawActions.setStep({
         step: WithdrawStepEnum.CONFIRM_WITHDRAW,
         amount: this.props.formValues.amount,
-        defaultMethod
+        defaultMethod: defaultMethod as BankTransferAccountType
       })
     } else if (defaultBeneficiary || this.props.beneficiary) {
       this.props.withdrawActions.setStep({
@@ -116,8 +116,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   formValues: selectors.form.getFormValues('custodyWithdrawForm')(
     state
   ) as WithdrawCheckoutFormValuesType,
-  defaultMethod: selectors.components.brokerage.getAccount(state),
-  isInvited: selectors.core.settings.getInvitations(state)
+  defaultMethod: selectors.components.brokerage.getAccount(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -132,7 +131,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   beneficiary?: BeneficiaryType
-  defaultMethod?: BankTransferAccountType
   fiatCurrency: WalletFiatType
   handleClose: () => void
 }

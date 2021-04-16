@@ -37,7 +37,7 @@ class OrderSummary extends PureComponent<Props> {
         order: this.props.order
       })
     }
-    this.props.interestActions.fetchAfterTransaction()
+    this.props.interestActions.fetchShowInterestCardAfterTransaction()
   }
 
   handleRefresh = () => {

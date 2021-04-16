@@ -169,8 +169,8 @@ const Success: React.FC<Props> = props => {
             >
               {isTransactionPending ? (
                 <FormattedMessage
-                  id='modals.simplebuy.transferdetails.available'
-                  defaultMessage='Your {coin} is now available in your Trading Wallet.'
+                  id='modals.simplebuy.transferdetails.available1'
+                  defaultMessage='Your {coin} is now available in your Trading Account.'
                   values={{
                     coin: baseCurrency
                   }}

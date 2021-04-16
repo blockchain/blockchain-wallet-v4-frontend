@@ -113,6 +113,10 @@ export const INTEREST_EVENTS = {
     SEND_ONE_CLICK: ['interest', 'deposit', 'send_one_click_success'],
     SEND_FAILURE: ['interest', 'deposit', 'send_failure']
   },
+  MODAL: {
+    START_EARNING: ['interest', 'deposit modal', 'start_earning'],
+    DONT_SHOW_AGAIN: ['interest', 'deposit modal', 'dont show again']
+  },
   WITHDRAWAL: {
     REQUEST_SUCCESS: ['interest', 'withdrawal', 'request_success'],
     REQUEST_FAILURE: ['interest', 'withdrawal', 'request_failure']

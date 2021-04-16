@@ -19,7 +19,6 @@ import {
   getCoinFromPair,
   getFiatFromPair
 } from 'data/components/simpleBuy/model'
-import { getBankLogoImageName } from 'services/images'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
 import BankWire from './BankWire'
@@ -102,10 +101,6 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     this.props.simpleBuyActions.handleSBMethodChange(method)
   }
 
-  getLinkedBankIcon = (bankName: string): ReactElement => (
-    <Image name={getBankLogoImageName(bankName)} height='48px' />
-  )
-
   getIcon = (value: SBPaymentMethodType): ReactElement => {
     switch (value.type) {
       case 'BANK_TRANSFER':
@@ -147,22 +142,6 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       default:
         return <Image name='blank-card' />
     }
-  }
-
-  renderBankText = (value: SBPaymentMethodType): string => {
-    return value.details
-      ? value.details.accountName
-        ? value.details.accountName
-        : value.details.accountNumber
-      : 'Bank Account'
-  }
-
-  renderCardText = (value: SBPaymentMethodType): string => {
-    return value.card
-      ? value.card.label
-        ? value.card.label
-        : value.card.type
-      : 'Credit or Debit Card'
   }
 
   render() {

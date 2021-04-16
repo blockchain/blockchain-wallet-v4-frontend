@@ -5,6 +5,7 @@ import {
   FiatType,
   WalletCurrencyType
 } from 'core/types'
+import { BankDetails } from 'data/types'
 
 export type Everypay3DSResponseType = {
   payment_state: null | 'waiting_for_3DS_response'
@@ -175,11 +176,15 @@ export type SBMoneyType = {
 
 export type ISBBuyOrderType = {
   attributes?: {
+    authorisationUrl?: string
+    consentId?: string
     everypay: {
       paymentLink: string
       paymentState: 'WAITING_FOR_3DS_RESPONSE' | null
     }
+    expiresAt?: string
     paymentId: string
+    qrcodeUrl?: string
   }
   expiresAt: string
   fee?: string
@@ -237,11 +242,13 @@ export type SBTransactionType = {
         amount: {
           [key in WalletCurrencyType]: number
         }
+        authorisationUrl?: string
         confirmations: number
         dsr: number
         hash: string
         id: string
-        status: 'UNCONFIRMED' | 'CONFIRMED'
+        qrcodeUrl?: string
+        status: 'UNCONFIRMED' | 'CONFIRMED' | 'COMPLETED' | 'CLEARED' | 'FAILED'
         txHash: string
       }
       type: 'DEPOSIT' | 'REFUNDED' | 'SELL'
@@ -302,32 +309,4 @@ export type FiatEligibleType = {
 export type Limits = {
   max: string
   min: string
-}
-
-export type YodleeAccountType = {
-  accountId: string
-  additionalStatus: string
-  providerAccountId: number
-  providerId: number
-  providerName: string
-  requestId: string
-  status: string
-}
-
-export type BankDetails = {
-  accountName: string
-  accountNumber: string
-  bankAccountType: string
-  bankName: string
-  routingNumber: string
-}
-
-export type BankTransferAccountType = {
-  addedAt: string
-  attributes: {}
-  currency: FiatType
-  details: BankDetails
-  id: string
-  partner: string
-  state: string
 }

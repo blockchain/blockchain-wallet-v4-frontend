@@ -158,8 +158,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const isErc20 = !!supportedCoins[coin].contractAddress
   const insufficientEth =
     payment &&
-    !!supportedCoins[coin].contractAddress &&
-    !!supportedCoins[payment.coin].contractAddress &&
+    !!supportedCoins[coin]?.contractAddress &&
+    !!supportedCoins[payment.coin]?.contractAddress &&
     // @ts-ignore
     !payment.isSufficientEthForErc20
 
@@ -578,8 +578,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <Text lineHeight='1.4' size='14px' weight={500}>
               {isCustodial ? (
                 <FormattedMessage
-                  id='modals.interest.deposit.agreement.custodial'
-                  defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) from your {displayName} Trading Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
+                  id='modals.interest.deposit.agreement.custodial1'
+                  defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) from your {displayName} Trading Account to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
                   values={{
                     lockupPeriod,
                     depositAmountFiat: `${currencySymbol}${formatFiat(

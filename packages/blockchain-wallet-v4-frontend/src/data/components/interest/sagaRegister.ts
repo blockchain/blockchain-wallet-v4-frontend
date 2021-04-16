@@ -66,8 +66,12 @@ export default ({
       interestSagas.fetchInterestBalance
     )
     yield takeLatest(
-      AT.FETCH_AFTER_TRANSACTION,
-      interestSagas.fetchAfterTransaction
+      AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION,
+      interestSagas.fetchShowInterestCardAfterTransaction
+    )
+    yield takeLatest(
+      AT.STOP_SHOWING_INTEREST_MODAL,
+      interestSagas.stopShowingInterestModal
     )
   }
 }

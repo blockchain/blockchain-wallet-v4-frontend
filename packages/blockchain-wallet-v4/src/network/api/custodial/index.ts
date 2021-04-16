@@ -1,9 +1,5 @@
-import {
-  BankTransferAccountType,
-  CoinType,
-  SBPaymentTypes,
-  WalletFiatType
-} from 'core/types'
+import { CoinType, SBPaymentTypes, WalletFiatType } from 'core/types'
+import { BankTransferAccountType } from 'data/types'
 
 import {
   BeneficiariesType,

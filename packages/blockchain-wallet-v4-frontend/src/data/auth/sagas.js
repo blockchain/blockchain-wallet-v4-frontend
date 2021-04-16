@@ -78,6 +78,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.goals.saveGoal('kycDocResubmit'))
     yield put(actions.goals.saveGoal('transferEth'))
     yield put(actions.goals.saveGoal('syncPit'))
+    yield put(actions.goals.saveGoal('interestPromo'))
     // when airdrops are running
     // yield put(actions.goals.saveGoal('upgradeForAirdrop'))
     // yield put(actions.goals.saveGoal('airdropClaim'))
@@ -179,6 +180,9 @@ export default ({ api, coreSagas }) => {
       }
       // swap tasks
       yield put(actions.components.swap.fetchTrades())
+
+      // check/update btc account names
+      yield call(coreSagas.wallet.checkAndUpdateWalletNames)
 
       yield fork(checkExchangeUsage)
       yield fork(checkDataErrors)

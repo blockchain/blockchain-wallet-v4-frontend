@@ -37,7 +37,7 @@ export const getData = createDeepEqualSelector(
                 name: `${coin.displayName} (${coin.coinTicker})`,
                 price: currentPrice,
                 priceChange: Number(
-                  ((yesterdayPrice - currentPrice) / yesterdayPrice) * 100
+                  ((currentPrice - yesterdayPrice) / yesterdayPrice) * 100
                 ).toPrecision(2),
                 balance: coinBalances[coin.coinCode]
               }

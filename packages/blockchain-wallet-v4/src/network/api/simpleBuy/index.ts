@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Moment } from 'moment'
 import { v4 as uuidv4 } from 'uuid'
 
-import { UserDataType } from 'data/types'
+import { BankTransferAccountType, UserDataType } from 'data/types'
 
 import {
   CoinType,
@@ -12,7 +12,6 @@ import {
 } from '../../../types'
 import { SwapOrderStateType, SwapOrderType } from '../swap/types'
 import {
-  BankTransferAccountType,
   FiatEligibleType,
   NabuAddressType,
   SBAccountType,
@@ -28,7 +27,8 @@ import {
   SBProviderAttributesType,
   SBQuoteType,
   SBTransactionStateType,
-  SBTransactionsType
+  SBTransactionsType,
+  SBTransactionType
 } from './types'
 
 export default ({
@@ -82,13 +82,19 @@ export default ({
     amount: number,
     bankId: string,
     currency: FiatType,
-    product: 'SIMPLEBUY' = 'SIMPLEBUY'
+    callback: string | undefined
   ) =>
     authorizedPost({
       url: nabuUrl,
       contentType: 'application/json',
       endPoint: `/payments/banktransfer/${bankId}/payment`,
-      data: { amount, currency, product, orderId: uuidv4() }
+      data: {
+        amount,
+        currency,
+        product: 'SIMPLEBUY',
+        orderId: uuidv4(),
+        callback
+      }
     })
 
   const createSBOrder = (
@@ -140,22 +146,13 @@ export default ({
       }
     })
 
-  const updateBankAccountLink = (
-    providerAccountId: number,
-    bankId: string,
-    accountId: string
-  ) =>
+  const updateBankAccountLink = (bankId: string, attributes) =>
     authorizedPost({
       url: nabuUrl,
       removeDefaultPostData: true,
       endPoint: `/payments/banktransfer/${bankId}/update`,
       contentType: 'application/json',
-      data: {
-        attributes: {
-          providerAccountId: `${providerAccountId}`,
-          accountId: `${accountId}`
-        }
-      }
+      data: { attributes }
     })
 
   const confirmSBOrder = (
@@ -173,6 +170,12 @@ export default ({
         attributes,
         paymentMethodId
       }
+    })
+
+  const getPaymentById = (pId: string): SBTransactionType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/payments/payment/${pId}`
     })
 
   // TODO: move this BROKERAGE component
@@ -428,6 +431,7 @@ export default ({
     deleteSavedAccount,
     getBankTransferAccounts,
     getBankTransferAccountDetails,
+    getPaymentById,
     getSBBalances,
     getSBCard,
     getSBCards,

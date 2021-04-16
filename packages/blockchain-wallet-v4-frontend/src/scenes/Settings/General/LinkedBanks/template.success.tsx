@@ -6,7 +6,6 @@ import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 import {
-  BankTransferAccountType,
   SBPaymentMethodType,
   WalletFiatEnum
 } from 'blockchain-wallet-v4/src/types'
@@ -15,6 +14,7 @@ import {
   SettingContainer,
   SettingSummary
 } from 'components/Setting'
+import { BankTransferAccountType } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 import { media } from 'services/styles'
 
@@ -53,7 +53,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const isEligible = any(
     (method: SBPaymentMethodType) => method.type === 'BANK_TRANSFER'
   )(props.paymentMethods.methods)
-
   return (
     <StyledSettingsContainer>
       <SettingSummary>
@@ -90,7 +89,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       {account.details?.bankName}
                     </Text>
                     <Text size='14px' color='grey600' weight={500} capitalize>
-                      {account.details?.bankAccountType.toLowerCase()}{' '}
+                      {account.details?.bankAccountType?.toLowerCase() || ''}{' '}
                       <FormattedMessage
                         id='scenes.settings.general.account'
                         defaultMessage='account'
@@ -127,7 +126,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <Button
             nature='primary'
             data-e2e='addBankFromSettings'
-            onClick={() => props.handleBankClick()}
+            onClick={props.handleBankClick}
           >
             <FormattedMessage
               id='buttons.add_bank'

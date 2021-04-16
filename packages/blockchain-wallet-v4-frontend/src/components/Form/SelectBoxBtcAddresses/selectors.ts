@@ -29,7 +29,7 @@ const allWallets = {
   label: 'All',
   options: [
     {
-      label: 'All Bitcoin Wallets',
+      label: 'All BTC Private Key Wallets',
       value: 'all'
     }
   ]
@@ -39,7 +39,7 @@ const allImportedAddresses = {
   label: 'Imported Addresses',
   options: [
     {
-      label: 'All Imported Bitcoin Addresses',
+      label: 'All Imported BTC Addresses',
       value: 'allImportedAddresses'
     }
   ]
@@ -85,7 +85,7 @@ export const getData = (
   }
   const buildCustodialDisplay = x => {
     return (
-      `BTC Trading Wallet` +
+      `Trading Account` +
       ` (${Exchange.displayBtcToBtc({
         value: x ? x.available : 0,
         fromUnit: 'SAT',
@@ -95,7 +95,7 @@ export const getData = (
   }
   const buildInterestDisplay = (x: InterestAccountBalanceType['BTC']) => {
     return (
-      `BTC Interest Wallet` +
+      `Interest Account` +
       ` (${Exchange.displayBtcToBtc({
         value: x ? x.balance : 0,
         fromUnit: 'SAT',
@@ -107,14 +107,14 @@ export const getData = (
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
-  const toExchange = x => [{ label: `Exchange BTC Address`, value: x }]
+  const toExchange = x => [{ label: `Exchange Account`, value: x }]
   const toCustodialDropdown = currencyDetails => [
     {
       label: buildCustodialDisplay(currencyDetails),
       value: {
         ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: 'BTC Trading Wallet'
+        label: 'Trading Account'
       }
     }
   ]
@@ -124,7 +124,7 @@ export const getData = (
       value: {
         ...x,
         type: ADDRESS_TYPES.INTEREST,
-        label: 'BTC Interest Wallet'
+        label: 'Interest Account'
       }
     }
   ]
@@ -170,7 +170,7 @@ export const getData = (
             .getInterestAccountBalance(state)
             .map(x => x.BTC)
             .map(toInterestDropdown)
-            .map(toGroup('Interest Wallet'))
+            .map(toGroup('Interest Account'))
         : Remote.of([]),
       excludeImported
         ? Remote.of([])

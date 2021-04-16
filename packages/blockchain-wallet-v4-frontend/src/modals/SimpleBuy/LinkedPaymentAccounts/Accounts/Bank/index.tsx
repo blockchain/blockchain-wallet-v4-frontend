@@ -25,11 +25,11 @@ const StyledValue = styled(Value)`
 type Props = {
   icon: ReactElement
   onClick: () => void
-  text: string
+  text: string | ReactElement
   value: SBPaymentMethodType
 }
 
-const Bank: React.FC<Props> = ({ icon, onClick, text, value }) => (
+const Bank = ({ icon, onClick, text, value }: Props) => (
   <DisplayContainer
     data-e2e={`sb${value.type.toLowerCase()}Banks`}
     role='button'
@@ -39,9 +39,8 @@ const Bank: React.FC<Props> = ({ icon, onClick, text, value }) => (
     <MultiRowContainer>
       <StyledValue asTitle>{text}</StyledValue>
       <StyledTitle asValue>
-        {`${value.details?.bankAccountType.toLowerCase()} account ${
-          value.details?.accountNumber
-        }`}
+        {`${value.details?.bankAccountType?.toLowerCase() || ''} account ${value
+          .details?.accountNumber || ''}`}
       </StyledTitle>
     </MultiRowContainer>
   </DisplayContainer>

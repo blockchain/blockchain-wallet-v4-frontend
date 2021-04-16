@@ -86,8 +86,8 @@ const Success = props => {
           </Text>
           <LineItemText>
             <FormattedMessage
-              id='modals.brokerage.my_currency_wallet'
-              defaultMessage='My {currency} Wallet'
+              id='modals.brokerage.fiat_account'
+              defaultMessage='{currency} Account'
               values={{ currency: props.defaultMethod?.currency }}
             />
           </LineItemText>
@@ -103,19 +103,6 @@ const Success = props => {
             {moment()
               .add(3, 'days')
               .format('dddd, MMM Do, YYYY')}
-          </LineItemText>
-        </Row>
-        <Row>
-          <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
-            <FormattedMessage id='copy.fee' defaultMessage='Fee' />
-          </Text>
-          <LineItemText>
-            {/* // TODO: get this from an endpoint */}
-            {fiatToString({
-              value: 0,
-              unit: props.defaultMethod?.currency || ('USD' as FiatType),
-              digits: 0
-            })}
           </LineItemText>
         </Row>
         <Row>

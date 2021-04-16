@@ -23,12 +23,13 @@ const Icon = styled(BCIcon)`
   font-weight: 600;
 `
 const getSymbolDisplayName = (props: Props) => {
-  return path([props.tx.amount.symbol, 'displayName'], props.supportedCoins)
+  return path([props.tx.amount.symbol, 'coinTicker'], props.supportedCoins)
 }
 
 const getCoinDisplayName = (props: Props) => {
-  return path([props.coin, 'displayName'], props.supportedCoins)
+  return path([props.coin, 'coinTicker'], props.supportedCoins)
 }
+
 export const IconTx = (props: Props) => {
   switch (props.tx.state) {
     case 'FINISHED':
@@ -161,23 +162,22 @@ export const TransactionType = (props: Props) => {
 
 export const Origin = (props: Props) => {
   switch (props.tx.type) {
+    case 'CHARGE':
     case 'REFUNDED':
     case 'DEPOSIT':
       return props.tx.amount.symbol in CoinTypeEnum ? (
-        <>{getCoinDisplayName(props)} Wallet</>
+        <>{getCoinDisplayName(props)} Account</>
       ) : (
         <>Bank Account</>
       )
     case 'SELL':
       return props.tx.extraAttributes?.direction === 'FROM_USERKEY' ? (
-        <> {getSymbolDisplayName(props)} Wallet</>
+        <> {getSymbolDisplayName(props)} Account</>
       ) : (
-        <>{getSymbolDisplayName(props)} Trading Wallet</>
+        <>{getSymbolDisplayName(props)} Trading Account</>
       )
     case 'WITHDRAWAL':
-      return (
-        <>{path([props.coin, 'displayName'], props.supportedCoins)} Wallet</>
-      )
+      return <>{getSymbolDisplayName(props)} Account</>
     default:
       return <></>
   }
@@ -185,14 +185,14 @@ export const Origin = (props: Props) => {
 
 export const Destination = (props: Props) => {
   switch (props.tx.type) {
+    case 'CHARGE':
     case 'REFUNDED':
     case 'DEPOSIT':
-      return <>{getCoinDisplayName(props)} Wallet</>
     case 'SELL':
-      return <>{getCoinDisplayName(props)} Wallet</>
+      return <>{getCoinDisplayName(props)} Account</>
     case 'WITHDRAWAL':
       return props.tx.amount.symbol in CoinTypeEnum ? (
-        <>{getSymbolDisplayName(props)} Wallet</>
+        <>{getSymbolDisplayName(props)} Account</>
       ) : (
         <>Bank Account</>
       )

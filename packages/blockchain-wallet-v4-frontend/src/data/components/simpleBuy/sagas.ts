@@ -1,12 +1,14 @@
 import BigNumber from 'bignumber.js'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/validation'
 import moment from 'moment'
+import { defaultTo, filter, prop } from 'ramda'
 import {
   call,
   cancel,
   delay,
   put,
   race,
+  retry,
   select,
   take
 } from 'redux-saga/effects'
@@ -31,9 +33,14 @@ import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { actions, selectors } from 'data'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import { UserDataType } from 'data/modules/types'
-import { AddBankStepType, BrokerageModalOriginType } from 'data/types'
+import {
+  AddBankStepType,
+  BankTransferAccountType,
+  BrokerageModalOriginType
+} from 'data/types'
 
 import profileSagas from '../../modules/profile/sagas'
+import { FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS } from '../brokerage/actionTypes'
 import brokerageSagas from '../brokerage/sagas'
 import {
   convertBaseToStandard,
@@ -58,6 +65,7 @@ import {
   NO_ORDER_EXISTS,
   NO_PAIR_SELECTED,
   NO_PAYMENT_TYPE,
+  POLLING,
   SDD_TIER
 } from './model'
 import * as S from './selectors'
@@ -341,9 +349,11 @@ export default ({
       if (!paymentType) throw new Error(NO_PAYMENT_TYPE)
 
       if (orderType === 'BUY' && fix === 'CRYPTO') {
+        // @ts-ignore
         delete input.amount
       }
       if (orderType === 'BUY' && fix === 'FIAT') {
+        // @ts-ignore
         delete output.amount
       }
 
@@ -412,39 +422,93 @@ export default ({
     }
   }
 
-  const confirmSBCreditCardOrder = function * (
-    payload: ReturnType<typeof A.confirmSBCreditCardOrder>
+  const AuthUrlCheck = function * (orderId) {
+    let order: ReturnType<typeof api.getSBOrder> = yield call(
+      api.getSBOrder,
+      orderId
+    )
+
+    if (order.attributes?.authorisationUrl || order.state === 'FAILED') {
+      return order
+    } else {
+      throw new Error('retrying to fetch for AuthUrl')
+    }
+  }
+
+  const OrderConfirmCheck = function * (orderId) {
+    let order: ReturnType<typeof api.getSBOrder> = yield call(
+      api.getSBOrder,
+      orderId
+    )
+
+    if (
+      order.state === 'FINISHED' ||
+      order.state === 'FAILED' ||
+      order.state === 'CANCELED'
+    ) {
+      return order
+    } else {
+      throw new Error('retrying to fetch for FINISHED order')
+    }
+  }
+  const confirmSBOrder = function * (
+    payload: ReturnType<typeof A.confirmSBOrder>
   ) {
     const { order, paymentMethodId } = payload
     try {
       if (!order) throw new Error(NO_ORDER_EXISTS)
       yield put(actions.form.startSubmit('sbCheckoutConfirm'))
+      const account = selectors.components.brokerage.getAccount(yield select())
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
       const domains = domainsR.getOrElse({
-        walletHelper: 'https://wallet-helper.blockchain.com'
+        walletHelper: 'https://wallet-helper.blockchain.com',
+        yapilyCallbackUrl: 'https://www.blockchain.com/brokerage-link-success'
       } as WalletOptionsType['domains'])
 
-      // TODO: Maybe we can't send any attributes for ACH, but I didn't want
-      //       to put an if statement in so need to test ACH works with attributes
-      let attributes =
-        order.paymentMethodId || paymentMethodId
-          ? {
-              everypay: {
-                customerUrl: `${domains.walletHelper}/wallet-helper/everypay/#/response-handler`
+      let attributes
+      if (
+        order.paymentType === 'PAYMENT_CARD' ||
+        order.paymentType === 'USER_CARD'
+      ) {
+        attributes =
+          order.paymentMethodId || paymentMethodId
+            ? {
+                everypay: {
+                  customerUrl: `${domains.walletHelper}/wallet-helper/everypay/#/response-handler`
+                }
               }
-            }
-          : undefined
+            : undefined
+      } else if (account?.partner === 'YAPILY') {
+        attributes = { callback: domains.yapilyCallbackUrl }
+      }
 
-      // if (order.paymentType === 'BANK_TRANSFER') {
-      // } else {
-      // }
-
-      const confirmedOrder: SBOrderType = yield call(
+      let confirmedOrder: SBOrderType = yield call(
         api.confirmSBOrder,
         order,
         attributes,
         paymentMethodId
       )
+      const { RETRY_AMOUNT, SECONDS } = POLLING
+      if (account?.partner === 'YAPILY') {
+        // for OB the authorisationUrl isn't in the initial response to confirm
+        // order. We need to poll the order for it.
+        yield put(A.setStep({ step: 'LOADING' }))
+        const order = yield retry(
+          RETRY_AMOUNT,
+          SECONDS * 1000,
+          AuthUrlCheck,
+          confirmedOrder.id
+        )
+        yield put(A.setStep({ step: 'OPEN_BANKING_CONNECT', order }))
+        // Now we need to poll for the order success
+        confirmedOrder = yield retry(
+          RETRY_AMOUNT,
+          SECONDS * 1000,
+          OrderConfirmCheck,
+          confirmedOrder.id
+        )
+      }
+
       yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
       if (order.paymentType === 'BANK_TRANSFER') {
         yield put(A.setStep({ step: 'ORDER_SUMMARY', order: confirmedOrder }))
@@ -676,6 +740,7 @@ export default ({
       if (!skipLoading) yield put(A.fetchSBOrdersLoading())
       const orders = yield call(api.getSBOrders, {})
       yield put(A.fetchSBOrdersSuccess(orders))
+      yield put(actions.components.brokerage.fetchBankTransferAccounts())
     } catch (e) {
       const error = errorHandler(e)
       if (!(yield call(isTier2))) return yield put(A.fetchSBOrdersSuccess([]))
@@ -735,7 +800,6 @@ export default ({
         .getOrElse({
           state: 'NONE'
         } as UserDataType)
-
       // 🚨DO NOT create the user if no currency is passed
       if (userData.state === 'NONE' && !currency) {
         return yield put(A.fetchSBPaymentMethodsSuccess(DEFAULT_SB_METHODS))
@@ -784,7 +848,6 @@ export default ({
           method => method.type !== 'BANK_TRANSFER'
         )
       }
-
       yield put(
         A.fetchSBPaymentMethodsSuccess({
           currency: currency || fallbackFiatCurrency,
@@ -888,7 +951,8 @@ export default ({
       let payment = paymentGetOrElse(account.coin, paymentR)
       const paymentAmount = generateProvisionalPaymentAmount(
         payment.coin,
-        Number(cryptoAmt)
+        Number(cryptoAmt),
+        account.coin
       )
       payment = yield payment.amount(paymentAmount)
       yield put(A.updatePaymentSuccess(payment.value()))
@@ -995,7 +1059,9 @@ export default ({
         yield put(
           actions.components.brokerage.showModal(
             BrokerageModalOriginType.ADD_BANK,
-            'ADD_BANK_MODAL'
+            fiatCurrency === 'USD'
+              ? 'ADD_BANK_YODLEE_MODAL'
+              : 'ADD_BANK_YAPILY_MODAL'
           )
         )
         return yield put(
@@ -1083,12 +1149,16 @@ export default ({
           failure: take(AT.FETCH_SELL_QUOTE_FAILURE)
         })
         const quote = S.getSellQuote(yield select()).getOrFail(NO_QUOTE)
+
         if (account.type === 'ACCOUNT') {
+          const formValues = selectors.form.getFormValues('simpleBuyCheckout')(
+            yield select()
+          ) as T.SBCheckoutFormValuesType
           let payment = yield call(
             calculateProvisionalPayment,
             account,
             quote.quote,
-            0
+            formValues ? formValues.cryptoAmount : 0
           )
           yield put(A.updatePaymentSuccess(payment))
         } else {
@@ -1171,7 +1241,7 @@ export default ({
         yield put(A.fetchSBCards(skipLoading))
         // If the order was already created
         if (order && order.state === 'PENDING_CONFIRMATION') {
-          return yield put(A.confirmSBCreditCardOrder(card.id, order))
+          return yield put(A.confirmSBOrder(card.id, order))
         } else {
           return yield put(A.createSBOrder('PAYMENT_CARD', card.id))
         }
@@ -1215,20 +1285,45 @@ export default ({
     }
   }
 
+  // Util function to help match payment method ID
+  // to more details about the bank
+  const getBankInformation = function * (order: SBOrderType) {
+    yield put(actions.components.brokerage.fetchBankTransferAccounts())
+    yield take(FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS)
+    const bankAccountsR = selectors.components.brokerage.getBankTransferAccounts(
+      yield select()
+    )
+    const bankAccounts = bankAccountsR.getOrElse([])
+    const [bankAccount] = filter(
+      (b: BankTransferAccountType) =>
+        // @ts-ignore
+        b.id === prop('paymentMethodId', order),
+      defaultTo([])(bankAccounts)
+    )
+
+    return bankAccount
+  }
+
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
     const { cryptoCurrency, orderType, origin } = payload
+    const latestPendingOrder = S.getSBLatestPendingOrder(yield select())
+
     yield put(
       actions.modals.showModal('SIMPLE_BUY_MODAL', { origin, cryptoCurrency })
     )
     const fiatCurrencyR = selectors.core.settings.getCurrency(yield select())
     const fiatCurrency = fiatCurrencyR.getOrElse('USD')
 
-    const latestPendingOrder = S.getSBLatestPendingOrder(yield select())
-
     if (latestPendingOrder) {
+      const bankAccount = yield call(
+        getBankInformation,
+        latestPendingOrder as SBOrderType
+      )
       const step =
         latestPendingOrder.state === 'PENDING_CONFIRMATION'
-          ? 'CHECKOUT_CONFIRM'
+          ? prop('partner', bankAccount) === 'YAPILY'
+            ? 'OPEN_BANKING_CONNECT'
+            : 'CHECKOUT_CONFIRM'
           : 'ORDER_SUMMARY'
       yield put(
         A.setStep({
@@ -1302,7 +1397,7 @@ export default ({
     addCardDetails,
     addCardFinished,
     cancelSBOrder,
-    confirmSBCreditCardOrder,
+    confirmSBOrder,
     confirmSBFundsOrder,
     createSBOrder,
     deleteSBCard,

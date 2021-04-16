@@ -2,14 +2,13 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { duration } from 'components/Flyout'
 import { actions, model, selectors } from 'data'
 
 import VerifyEmail from './template'
 
 const { DISMISS_VERIFICATION, EMAIL_VERIFIED } = model.analytics.AB_TEST_EVENTS
 
-class VerifyEmailContainer extends React.PureComponent<PropsType, {}> {
+class VerifyEmailContainer extends React.PureComponent<Props, {}> {
   state = {}
 
   static getDerivedStateFromProps(nextProps) {
@@ -17,9 +16,8 @@ class VerifyEmailContainer extends React.PureComponent<PropsType, {}> {
       nextProps.authActions.setRegisterEmail(undefined)
       nextProps.routerActions.push('/home')
       nextProps.analyticsActions.logEvent(EMAIL_VERIFIED)
-      setTimeout(() => {
-        nextProps.simpleBuyActions.showModal('WelcomeModal')
-      }, duration)
+      // for first time login users we need to run goal since this is a first page we show them
+      nextProps.runGoals()
     }
     return null
   }
@@ -33,9 +31,8 @@ class VerifyEmailContainer extends React.PureComponent<PropsType, {}> {
     this.props.authActions.setRegisterEmail(undefined)
     this.props.analyticsActions.logEvent(DISMISS_VERIFICATION)
     this.props.routerActions.push('/home')
-    setTimeout(() => {
-      this.props.simpleBuyActions.showModal('WelcomeModal')
-    }, duration)
+    // for first time login users we need to run goal since this is a first page we show them
+    this.props.runGoals()
   }
 
   render() {
@@ -66,11 +63,11 @@ const mapDispatchToProps = dispatch => ({
   routerActions: bindActionCreators(actions.router, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch),
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  runGoals: () => dispatch(actions.goals.runGoals())
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type PropsType = ConnectedProps<typeof connector>
+export type Props = ConnectedProps<typeof connector>
 
 export default connector(VerifyEmailContainer)

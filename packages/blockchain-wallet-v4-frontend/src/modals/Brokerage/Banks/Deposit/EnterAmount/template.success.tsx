@@ -201,6 +201,7 @@ const Account = ({
   bankTransferAccounts,
   brokerageActions,
   defaultMethod,
+  fiatCurrency,
   invalid
 }: OwnProps) => {
   const dMethod = getDefaultMethod(defaultMethod, bankTransferAccounts)
@@ -216,7 +217,9 @@ const Account = ({
         if (!bankTransferAccounts.length) {
           brokerageActions.showModal(
             BrokerageModalOriginType.ADD_BANK,
-            'ADD_BANK_MODAL'
+            fiatCurrency === 'USD'
+              ? 'ADD_BANK_YODLEE_MODAL'
+              : 'ADD_BANK_YAPILY_MODAL'
           )
           brokerageActions.setAddBankStep({
             addBankStep: AddBankStepType.ADD_BANK

@@ -1,9 +1,10 @@
+import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import {
   BankTransferAccountType,
-  WalletFiatType,
+  BrokerageModalOriginType,
+  ModalNamesType,
   YodleeAccountType
-} from 'blockchain-wallet-v4/src/types'
-import { BrokerageModalOriginType, ModalNamesType } from 'data/types'
+} from 'data/types'
 
 import * as AT from './actionTypes'
 import {
@@ -13,7 +14,8 @@ import {
   BrokerageActionTypes,
   BrokerageAddBankStepPayload,
   BrokerageDWStepPayload,
-  FastLinkType
+  FastLinkType,
+  OBType
 } from './types'
 
 export const deleteSavedBank = (bankId: BankTransferAccountType['id']) => ({
@@ -35,13 +37,24 @@ export const setFastLink = (fastLink: FastLinkType): BrokerageActionTypes => ({
   }
 })
 
+export const setBankCredentials = (
+  credentials: OBType
+): BrokerageActionTypes => ({
+  type: AT.FETCH_BANK_CREDENTIALS_SUCCESS,
+  payload: {
+    credentials
+  }
+})
+
 export const createFiatDeposit = () => ({
   type: AT.CREATE_FIAT_DEPOSIT
 })
 
-export const fetchBankTransferUpdate = (accounts: YodleeAccountType[]) => ({
+export const fetchBankTransferUpdate = (
+  account: YodleeAccountType | string
+) => ({
   type: AT.FETCH_BANK_TRANSFER_UPDATE,
-  accounts
+  payload: { account }
 })
 
 export const fetchBTUpdateLoading = (): BrokerageActionTypes => ({
@@ -68,8 +81,20 @@ export const fetchBankTransferAccountsSuccess = (
   payload: { accounts }
 })
 
-export const fetchFastLink = (): BrokerageActionTypes => ({
-  type: AT.FETCH_FAST_LINK
+export const fetchBankLinkCredentials = (
+  fiatCurrency: WalletFiatType
+): BrokerageActionTypes => ({
+  type: AT.FETCH_BANK_LINK_CREDENTIALS,
+  payload: { fiatCurrency }
+})
+
+export const fetchBankLinkCredentialsError = (error: string) => ({
+  type: AT.FETCH_BANK_CREDENTIALS_ERROR,
+  payload: { error }
+})
+
+export const fetchBankLinkCredentialsLoading = () => ({
+  type: AT.FETCH_BANK_CREDENTIALS_LOADING
 })
 
 export const setAddBankStep = (

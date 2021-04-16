@@ -8,7 +8,6 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import {
-  BankTransferAccountType,
   BeneficiaryType,
   NabuMoneyFloatType
 } from 'blockchain-wallet-v4/src/types'
@@ -17,7 +16,11 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
-import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
+import {
+  BankTransferAccountType,
+  UserDataType,
+  WithdrawCheckoutFormValuesType
+} from 'data/types'
 
 import { Row } from '../../components'
 import { DepositOrWithdrawal, normalizeAmount } from '../../model'
@@ -168,8 +171,8 @@ const Success: React.FC<InjectedFormProps<
         <LimitWrapper>
           <Text color='grey600' size='14px' lineHeight={'25px'} weight={500}>
             <FormattedMessage
-              id='modals.brokerage.my_currency_wallet'
-              defaultMessage='My {currency} Wallet'
+              id='modals.brokerage.fiat_account'
+              defaultMessage='{currency} Account'
               values={{ currency: props.fiatCurrency }}
             />
           </Text>

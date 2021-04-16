@@ -11,13 +11,11 @@ export const generateTradingAccount = (
   coin: CoinType,
   sbBalance?: SBBalanceType
 ) => {
-  // hack to support PAX rebrand 🤬
-  const ticker = coin === 'PAX' ? 'USD-D' : coin
   return [
     {
       baseCoin: coin in Erc20CoinsEnum ? 'ETH' : coin,
       coin,
-      label: `${ticker} Trading Wallet`,
+      label: 'Trading Account',
       type: ADDRESS_TYPES.CUSTODIAL,
       balance: sbBalance?.available || '0'
     }
@@ -34,7 +32,7 @@ export const generateInterestAccount = (
     {
       baseCoin: coin in Erc20CoinsEnum ? 'ETH' : coin,
       coin,
-      label: `${ticker} Interest Wallet`,
+      label: `${ticker} Interest Account`,
       type: ADDRESS_TYPES.INTEREST,
       balance: interestBalance?.balance
     }
@@ -43,10 +41,15 @@ export const generateInterestAccount = (
 
 export const generateProvisionalPaymentAmount = (
   coin: CoinType,
-  amount: number
+  amount: number,
+  orgCoin?: CoinType
 ): string | number => {
   if (coin === 'BTC' || coin === 'BCH') {
     return parseInt(convertStandardToBase(coin, amount))
+  }
+
+  if (coin === 'ETH' && orgCoin && orgCoin === 'USDT') {
+    return parseInt(convertStandardToBase(orgCoin, amount))
   }
 
   return convertStandardToBase(coin, amount)

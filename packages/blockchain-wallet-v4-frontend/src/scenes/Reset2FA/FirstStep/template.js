@@ -136,7 +136,7 @@ const FirstStep = props => {
             <InfoMsg size='12px' weight={400}>
               <FormattedMessage
                 id='scenes.reset2fa.firststep.newEmailExplain'
-                defaultMessage="Enter your updated email if you've lost access to your previously verified email. If your 2FA reset request if approved, this will automatically be set as your wallet's new email address."
+                defaultMessage="Enter your updated email if you've lost access to your previously verified email. If your 2FA reset request is approved, this will automatically be set as your wallet's new email address."
               />
             </InfoMsg>
           </FormItem>

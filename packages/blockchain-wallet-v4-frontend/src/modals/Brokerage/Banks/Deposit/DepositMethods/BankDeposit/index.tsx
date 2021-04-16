@@ -55,8 +55,8 @@ const BankDeposit = ({ icon, onClick, value }: Props) => (
         <Content>
           <DisplayTitleBank>
             <FormattedMessage
-              id='modals.brokerage.bank_deposit'
-              defaultMessage='Bank Deposit'
+              id='modals.simplebuy.linkbank'
+              defaultMessage='Link a Bank'
             />
           </DisplayTitleBank>
           <DisplaySubTitle>

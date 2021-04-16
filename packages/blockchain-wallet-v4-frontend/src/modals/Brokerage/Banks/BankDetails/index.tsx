@@ -2,11 +2,11 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { BankTransferAccountType } from 'blockchain-wallet-v4/src/types'
+import { WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { BrokerageModalOriginType } from 'data/types'
+import { BankTransferAccountType, BrokerageModalOriginType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../../types'
@@ -19,13 +19,14 @@ export type OwnProps = {
 export type LinkDispatchPropsType = {
   brokerageActions: typeof actions.components.brokerage
 }
-type LinkStatePropsType = {
+export type LinkStatePropsType = {
   account: BankTransferAccountType | undefined
+  walletCurrency: WalletCurrencyType
 }
 // export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 class BankDetails extends PureComponent<Props, {}> {
-  state: State = { show: false, direction: 'left' }
+  state: State = { show: false }
 
   componentDidMount() {
     /* eslint-disable */
@@ -61,15 +62,13 @@ class BankDetails extends PureComponent<Props, {}> {
       <Flyout
         {...this.props}
         onClose={this.handleClose}
-        in={this.state.show}
-        direction={this.state.direction}
+        isOpen={this.state.show}
         data-e2e='bankDetailsModal'
       >
         <FlyoutChild>
           <Template
             {...this.props}
             onSubmit={this.handleSubmit}
-            account={this.props.account}
             handleClose={this.handleClose}
           />
         </FlyoutChild>
@@ -79,7 +78,8 @@ class BankDetails extends PureComponent<Props, {}> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  account: selectors.components.brokerage.getAccount(state)
+  account: selectors.components.brokerage.getAccount(state),
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
@@ -97,6 +97,6 @@ export type Props = OwnProps &
   LinkStatePropsType &
   ConnectedProps<typeof connector>
 
-type State = { direction: 'left' | 'right'; show: boolean }
+type State = { show: boolean }
 
 export default enhance(BankDetails)

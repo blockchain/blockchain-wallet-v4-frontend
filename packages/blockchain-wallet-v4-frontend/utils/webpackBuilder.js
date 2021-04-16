@@ -253,7 +253,8 @@ const buildDevServerConfig = (
           root: envConfig.ROOT_URL,
           veriff: envConfig.VERIFF_URL,
           walletHelper: envConfig.WALLET_HELPER_DOMAIN,
-          webSocket: envConfig.WEB_SOCKET_URL
+          webSocket: envConfig.WEB_SOCKET_URL,
+          yapilyCallbackUrl: envConfig.YAPILY_CALLBACK_URL
         }
 
         res.json(mockWalletOptions)
@@ -278,7 +279,7 @@ const buildDevServerConfig = (
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Content-Security-Policy': [
-        `img-src 'self' *.googleusercontent.com *.zendesk.com data: blob:`,
+        `img-src 'self' *.googleusercontent.com *.zendesk.com *.yapily.com data: blob:`,
         allowUnsafeScripts
           ? `script-src 'nonce-${CSP_NONCE}' 'self' 'unsafe-eval'`
           : `script-src 'nonce-${CSP_NONCE}' 'self'`,

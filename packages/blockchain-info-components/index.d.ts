@@ -2,12 +2,15 @@ import {
   ButtonHTMLAttributes,
   ComponentClass,
   CSSProperties,
-  FunctionComponent
+  FunctionComponent,
+  ReactNode
 } from 'react'
 import { DefaultTheme } from 'styled-components'
 import { IcoMoonType } from './src/Icons/Icomoon'
 import { ImageType } from './src/Images/Images'
 import { CoinType, WalletCurrencyType } from 'core/types'
+
+type AllCoinsType = WalletCurrencyType | 'BSV' | 'STX'
 
 export const Badge: FunctionComponent<any>
 export const Banner: FunctionComponent<any>
@@ -94,7 +97,7 @@ export const HeartbeatLoader: FunctionComponent<{
 }>
 export const Icon: FunctionComponent<{
   className?: string
-  name: keyof IcoMoonType | WalletCurrencyType | 'BSV' | 'STX'
+  name: keyof IcoMoonType | AllCoinsType
   weight?: number
   size?: string
   cursor?: boolean
@@ -102,6 +105,11 @@ export const Icon: FunctionComponent<{
   style?: CSSProperties
   onClick?: () => void
   role?: 'button'
+}>
+export const CoinAccountIcon: FunctionComponent<{
+  accountType: 'ACCOUNT' | 'CUSTODIAL' | 'EXCHANGE' | 'INTEREST'
+  coin: AllCoinsType
+  style?: CSSProperties
 }>
 export const IconButton: FunctionComponent<{
   'data-e2e': string
@@ -132,7 +140,7 @@ export const IconButton: FunctionComponent<{
   height?: string
   jumbo?: boolean
   margin?: string
-  name: keyof IcoMoonType | WalletCurrencyType | 'BSV' | 'STX'
+  name: keyof IcoMoonType | AllCoinsType
   onClick?: () => void
   padding?: string
   rounded?: boolean
@@ -168,6 +176,7 @@ export const Link: FunctionComponent<{
   onClick?: (e?: KeyboardEvent) => void
 }>
 export const Modal: FunctionComponent<{
+  children: ReactNode
   size?: '' | 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
   type?: 'tray' | 'flyout'
   position?: number
@@ -183,7 +192,10 @@ export const ModalBody: FunctionComponent<{
 export const ModalHeader: FunctionComponent<{
   closeButton?: boolean
   onClose?: () => void
-  icon?: keyof IcoMoonType | WalletCurrencyType | 'BSV' | 'STX'
+  icon?: keyof IcoMoonType | AllCoinsType
+}>
+export const ModalFooter: FunctionComponent<{
+  align: 'left' | 'right' | 'center' | 'spaced'
 }>
 export function Palette(theme: string): DefaultTheme
 export const Separator: FunctionComponent<{}>
@@ -252,7 +264,7 @@ export const Tooltip: FunctionComponent<{ id: string; offset?: any }>
 export const TooltipHost: FunctionComponent<{ id: string }>
 export const TooltipIcon: FunctionComponent<{
   color?: keyof DefaultTheme
-  name: keyof IcoMoonType | WalletCurrencyType | 'BSV' | 'STX'
+  name: keyof IcoMoonType | AllCoinsType
   size?: string
 }>
 export const CheckBoxInput: FunctionComponent<{

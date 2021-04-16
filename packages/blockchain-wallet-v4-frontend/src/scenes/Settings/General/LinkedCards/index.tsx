@@ -18,9 +18,7 @@ import Success from './template.success'
 class LinkedCards extends PureComponent<Props> {
   componentDidMount() {
     this.props.simpleBuyActions.fetchSBCards()
-    this.props.simpleBuyActions.fetchSBPaymentMethods(
-      this.props.fiatCurrency || 'USD'
-    )
+    this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
   }
 
   handleCreditCardClick = () => {

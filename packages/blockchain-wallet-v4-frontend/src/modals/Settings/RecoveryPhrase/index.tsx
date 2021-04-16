@@ -5,7 +5,6 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
-import { RecoveryPhraseStepType } from 'data/components/recoveryPhrase/types'
 import { RootState } from 'data/rootReducer'
 import modalEnhancer from 'providers/ModalEnhancer'
 
@@ -42,12 +41,11 @@ export type LinkStatePropsType = {
 }
 
 export type Props = OwnPropsType & LinkDispatchPropsType & LinkStatePropsType
-type State = { direction: 'left' | 'right'; show: boolean }
+type State = { show: boolean }
 
 class RecoveryPhraseFlyout extends PureComponent<Props, State> {
   state: State = {
-    show: false,
-    direction: 'left'
+    show: false
   }
 
   componentDidMount() {
@@ -55,20 +53,6 @@ class RecoveryPhraseFlyout extends PureComponent<Props, State> {
     this.setState({ show: true })
     /* eslint-enable */
     this.getWords()
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    if (this.props.step === prevProps.step) return
-    if (
-      RecoveryPhraseStepType[this.props.step] >
-      RecoveryPhraseStepType[prevProps.step]
-    ) {
-      /* eslint-disable */
-      this.setState({ direction: 'left' })
-    } else {
-      this.setState({ direction: 'right' })
-      /* eslint-enable */
-    }
   }
 
   componentWillUnmount() {
@@ -98,9 +82,8 @@ class RecoveryPhraseFlyout extends PureComponent<Props, State> {
     return (
       <Flyout
         {...this.props}
-        in={this.state.show}
+        isOpen={this.state.show}
         onClose={this.handleClose}
-        direction={this.state.direction}
         data-e2e='recoveryPhraseModal'
       >
         {this.props.step === 'RECOVERY_PHRASE_INTRO' && (

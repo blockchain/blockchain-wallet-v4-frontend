@@ -589,8 +589,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               style={{ marginRight: '4px' }}
             />
             <FormattedMessage
-              id='copy.not_enough_eth'
-              defaultMessage='ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in "My Ether Wallet" for this transaction, not the Ether Trading Wallet.'
+              id='copy.not_enough_eth1'
+              defaultMessage='ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in your Ether Wallet for this transaction, not Ether Trading Account.'
               values={{
                 coin: props.supportedCoins[cryptoCurrency].coinTicker
               }}
