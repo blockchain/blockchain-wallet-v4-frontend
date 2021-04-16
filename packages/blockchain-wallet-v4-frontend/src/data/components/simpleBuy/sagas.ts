@@ -430,6 +430,8 @@ export default ({
 
     if (order.attributes?.authorisationUrl) {
       return order
+    } else if (order.state === 'FAILED') {
+      return order
     } else {
       throw new Error('retrying to fetch for AuthUrl')
     }
@@ -440,8 +442,9 @@ export default ({
       api.getSBOrder,
       orderId
     )
-
     if (order.state === 'FINISHED') {
+      return order
+    } else if (order.state === 'FAILED') {
       return order
     } else {
       throw new Error('retrying to fetch for FINISHED order')
@@ -450,7 +453,8 @@ export default ({
   const confirmSBOrder = function * (
     payload: ReturnType<typeof A.confirmSBOrder>
   ) {
-    const { order, paymentMethodId } = payload
+    const { paymentMethodId } = payload
+    let { order } = payload
     try {
       if (!order) throw new Error(NO_ORDER_EXISTS)
       yield put(actions.form.startSubmit('sbCheckoutConfirm'))
@@ -501,9 +505,17 @@ export default ({
           OrderConfirmCheck,
           confirmedOrder.id
         )
+        // yield put(A.updateSbOrder(order))
       }
-
+      // order = S.getSBOrder(yield select()) as SBOrderType
+      // console.log('order', order)
+      // debugger
       yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
+      // if (order.state === 'FAILED') {
+      //   yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order }))
+      //   yield put(actions.form.startSubmit('sbCheckoutConfirm'))
+      //   return yield put(actions.form.stopSubmit('sbCheckoutConfirm', { _error: 'Order failed. Please try again.' }))
+      // }
       if (order.paymentType === 'BANK_TRANSFER') {
         yield put(A.setStep({ step: 'ORDER_SUMMARY', order: confirmedOrder }))
       } else {

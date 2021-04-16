@@ -339,6 +339,12 @@ export function simpleBuyReducer(
         sddTransactionFinished: true
       }
     }
+    case AT.UPDATE_SB_ORDER: {
+      return {
+        ...state,
+        order: action.payload.order
+      }
+    }
     case AT.SET_FIAT_CURRENCY:
       return {
         ...state,

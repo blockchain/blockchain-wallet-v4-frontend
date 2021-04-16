@@ -492,6 +492,13 @@ interface FetchLimitsSuccess {
   }
   type: typeof AT.FETCH_LIMITS_SUCCESS
 }
+
+interface UpdateSbOrder {
+  payload: {
+    order: SBOrderType
+  }
+  type: typeof AT.UPDATE_SB_ORDER
+}
 interface UpdateSddTransactionFinished {
   type: typeof AT.UPDATE_SDD_TRANSACTION_FINISHED
 }
@@ -552,3 +559,4 @@ export type SimpleBuyActionTypes =
   | UpdatePaymentLoadingAction
   | UpdatePaymentSuccessAction
   | UpdateSddTransactionFinished
+  | UpdateSbOrder
