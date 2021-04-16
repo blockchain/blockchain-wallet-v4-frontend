@@ -329,13 +329,14 @@ export default ({
       yapilyCallbackUrl: 'https://www.blockchain.com/brokerage-link-success'
     })
     const callback = partner === 'YAPILY' ? yapilyCallbackUrl : undefined
+    const attributes = { callback }
     try {
       const data = yield call(
         api.createFiatDeposit,
         amount,
         id,
         currency,
-        callback
+        attributes
       )
       const { RETRY_AMOUNT, SECONDS } = POLLING
       // If yapily we need to transition to another screen and poll for auth

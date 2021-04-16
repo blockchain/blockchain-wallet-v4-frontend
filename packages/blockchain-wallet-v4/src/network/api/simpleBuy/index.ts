@@ -82,7 +82,7 @@ export default ({
     amount: number,
     bankId: string,
     currency: FiatType,
-    callback: string | undefined
+    attributes: { callback: string | undefined }
   ) =>
     authorizedPost({
       url: nabuUrl,
@@ -90,10 +90,10 @@ export default ({
       endPoint: `/payments/banktransfer/${bankId}/payment`,
       data: {
         amount,
+        attributes,
         currency,
         product: 'SIMPLEBUY',
-        orderId: uuidv4(),
-        callback
+        orderId: uuidv4()
       }
     })
 
