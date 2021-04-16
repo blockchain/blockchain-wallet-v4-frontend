@@ -10,7 +10,12 @@ import {
   FiatType,
   WalletCurrencyType
 } from '../../../types'
-import { SwapOrderStateType, SwapOrderType } from '../swap/types'
+import { NabuCustodialProductType } from '../custodial/types'
+import {
+  SwapOrderStateType,
+  SwapOrderType,
+  SwapUserLimitsType
+} from '../swap/types'
 import {
   FiatEligibleType,
   NabuAddressType,
@@ -420,6 +425,19 @@ export default ({
       }
     })
 
+  const getSBLimits = (
+    currency: FiatType,
+    product: NabuCustodialProductType,
+    networkFee: CoinType,
+    side: SBOrderActionType
+  ): SwapUserLimitsType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/trades/limits?currency=${currency}&product=${product}&networkFee=${networkFee}&side=${side}`,
+      contentType: 'application/json',
+      ignoreQueryParams: true
+    })
+
   return {
     activateSBCard,
     createFiatDeposit,
@@ -435,6 +453,7 @@ export default ({
     getSBBalances,
     getSBCard,
     getSBCards,
+    getSBLimits,
     getSBOrder,
     getSBOrders,
     getSBPairs,
