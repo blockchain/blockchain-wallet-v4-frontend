@@ -1,4 +1,4 @@
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import Task from 'data.task'
 // eslint-disable-next-line
 import { fromJS as iFromJS } from 'immutable-ext'
@@ -13,8 +13,7 @@ import {
   isNil,
   not,
   pipe,
-  split,
-  values
+  split
 } from 'ramda'
 import { over, traverseOf, view } from 'ramda-lens'
 
@@ -71,6 +70,19 @@ export const getChangeAddress = (account, changeIndex, network) => {
   return Cache.getAddress(selectCache(account), 1, changeIndex, network)
 }
 
+export const selectAllXpubsGrouped = account => {
+  return [
+    {
+      type: 'legacy',
+      xpub: selectXpub(account)
+    }
+  ]
+}
+
+export const selectAllXpubs = account => {
+  return [selectXpub(account)]
+}
+
 export const fromJS = (x, i) => {
   if (is(HDAccount, x)) {
     return x
@@ -78,11 +90,11 @@ export const fromJS = (x, i) => {
   const accountCons = a => {
     const xpub = selectXpub(a)
     const node =
-      isEmpty(xpub) || isNil(xpub)
-        ? null
-        : Bitcoin.HDNode.fromBase58(xpub, values(Bitcoin.networks))
+      isEmpty(xpub) || isNil(xpub) ? null : Bitcoin.bip32.fromBase58(xpub)
     const cacheCons = c =>
-      c || isNil(node) ? Cache.fromJS(c) : Cache.fromJS(Cache.js(node))
+      !isEmpty(c) || isNil(node)
+        ? Cache.fromJS(c)
+        : Cache.fromJS(Cache.js(node))
     return compose(
       over(addressLabels, AddressLabelMap.fromJS),
       over(cache, cacheCons)

@@ -1,4 +1,4 @@
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import { formValueSelector } from 'redux-form'
 
 import { selectors } from 'data'

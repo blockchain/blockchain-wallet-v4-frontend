@@ -111,7 +111,6 @@ const EditTxDescription = React.lazy(() =>
 // WALLET
 const PairingCode = React.lazy(() => import('./Wallet/PairingCode'))
 const ShowXPub = React.lazy(() => import('./Wallet/ShowXPub'))
-const UpgradeWallet = React.lazy(() => import('./Wallet/UpgradeWallet'))
 const InterestPromo = React.lazy(() => import('./Wallet/InterestPromo'))
 
 // SOLO
@@ -193,7 +192,6 @@ const Modals = () => (
       <TwoStepYubico />
       <UpgradeAddressLabels />
       <UpgradeForAirdrop />
-      <UpgradeWallet />
       <InterestPromo />
       <VerifyMessage />
       <Welcome />
