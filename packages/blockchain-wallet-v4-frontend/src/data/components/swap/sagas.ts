@@ -392,8 +392,11 @@ export default ({
         BASE.coin,
         Number(swapAmountValues?.cryptoAmount)
       )
-      payment = yield payment.amount(paymentAmount)
-      payment = yield payment.build()
+      if (BASE.coin === 'BTC' || BASE.coin === 'BCH') {
+        payment = yield payment.build()
+      } else {
+        payment = yield payment.amount(paymentAmount)
+      }
       yield put(A.updatePaymentSuccess(payment.value()))
     } catch (error) {
       yield put(A.updatePaymentFailure(error))

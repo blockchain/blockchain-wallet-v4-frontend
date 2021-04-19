@@ -939,8 +939,12 @@ export default ({
         Number(cryptoAmt),
         account.coin
       )
-      payment = yield payment.amount(paymentAmount)
-      payment = yield payment.build()
+      if (payment.coin === 'BTC' || payment.coin === 'BCH') {
+        payment = yield payment.build()
+      } else {
+        payment = yield payment.amount(paymentAmount)
+      }
+
       yield put(A.updatePaymentSuccess(payment.value()))
     } catch (e) {
       // eslint-disable-next-line
