@@ -22,6 +22,7 @@ import WalletLoading from './loading.wallet'
 const AuthorizeLogin = React.lazy(() => import('./AuthorizeLogin'))
 const Help = React.lazy(() => import('./Help'))
 const Login = React.lazy(() => import('./Login'))
+const LoginNew = React.lazy(() => import('./LoginNew'))
 const Logout = React.lazy(() => import('./Logout'))
 const MobileLogin = React.lazy(() => import('./MobileLogin'))
 const Recover = React.lazy(() => import('./Recover'))
@@ -33,8 +34,8 @@ const UploadDocuments = React.lazy(() => import('./UploadDocuments'))
 const UploadDocumentsSuccess = React.lazy(() =>
   import('./UploadDocuments/Success')
 )
+// TODO: should these move into the Login folder?
 const VerifyEmailToken = React.lazy(() => import('./VerifyEmailToken'))
-
 const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
 
 // WALLET
@@ -71,6 +72,7 @@ class App extends React.PureComponent<Props> {
                       />
                       <PublicLayout path='/help' component={Help} />
                       <PublicLayout path='/login' component={Login} />
+                      <PublicLayout path='/new' component={LoginNew} />
                       <PublicLayout path='/logout' component={Logout} />
                       <PublicLayout
                         path='/mobile-login'
