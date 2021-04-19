@@ -121,6 +121,14 @@ export const getMaxMin = (
             )
           }
 
+          const defaultLimitMaxAmount = convertBaseToStandard(
+            'FIAT',
+            limitMaxAmount
+          )
+          if (Number(defaultMax.FIAT) > Number(defaultLimitMaxAmount)) {
+            defaultMax.FIAT = defaultLimitMaxAmount
+          }
+
           if (!allValues) return defaultMax
           if (!method) return defaultMax
 
@@ -177,6 +185,14 @@ export const getMaxMin = (
                 ? convertBaseToStandard('FIAT', Number(sddLimit.min))
                 : convertBaseToStandard('FIAT', pair.buyMin)
             )
+          }
+
+          const defaultLimitMinAmount = convertBaseToStandard(
+            'FIAT',
+            limitMinAmount
+          )
+          if (Number(defaultMin.FIAT) < Number(defaultLimitMinAmount)) {
+            defaultMin.FIAT = defaultLimitMinAmount
           }
 
           if (!allValues) return defaultMin
