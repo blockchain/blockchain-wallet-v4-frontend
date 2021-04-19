@@ -38,11 +38,7 @@ export default ({
     destination: string
   ): Generator<PaymentType | CallEffect, boolean, any> {
     let paymentError
-    const paymentAmount = generateProvisionalPaymentAmount(
-      payment.coin,
-      amount,
-      coin
-    )
+    const paymentAmount = generateProvisionalPaymentAmount(coin, amount)
     payment = yield payment.amount(paymentAmount)
     try {
       payment = yield payment.to(destination, 'ADDRESS')
