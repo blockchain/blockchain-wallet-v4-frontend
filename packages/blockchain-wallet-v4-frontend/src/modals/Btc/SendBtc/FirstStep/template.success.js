@@ -42,7 +42,6 @@ import {
   FeePerByteContainer,
   Row
 } from 'components/Send'
-import ExchangePromo from 'components/Send/ExchangePromo'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import { model } from 'data'
 import { required, validBtcAddress } from 'services/forms'
@@ -197,27 +196,21 @@ const FirstStep = props => {
                   component={SelectBoxBtcAddresses}
                   dataE2e='sendBtcAddressInput'
                   exclude={from ? [from.label] : []}
-                  excludeImported={isFromCustody}
                   includeAll={false}
-                  includeExchangeAddress={!isFromCustody}
-                  isCreatable={!isFromCustody}
+                  includeExchangeAddress
+                  isCreatable
                   isValidNewOption={() => false}
                   includeCustodial={!isFromCustody}
-                  forceCustodialFirst={!isFromCustody}
+                  forceCustodialFirst
                   name='to'
-                  openMenuOnClick={!!isFromCustody}
                   noOptionsMessage={() => null}
                   placeholder='Paste, scan, or select destination'
-                  validate={
-                    isFromCustody ? [required] : [required, validBtcAddress]
-                  }
+                  validate={[required, validBtcAddress]}
                 />
-                {!isFromCustody && (
-                  <QRCodeCapture
-                    scanType='btcAddress'
-                    border={['top', 'bottom', 'right', 'left']}
-                  />
-                )}
+                <QRCodeCapture
+                  scanType='btcAddress'
+                  border={['top', 'bottom', 'right', 'left']}
+                />
               </>
             ) : (
               <Field
@@ -231,11 +224,7 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       <FormGroup>
-        {isFromCustody && isMnemonicVerified ? (
-          <CustodyToAccountMessage coin='BTC' account={from} amount={amount} />
-        ) : (
-          <ExchangePromo />
-        )}
+        <CustodyToAccountMessage coin={'BTC'} account={from} amount={amount} />
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>

@@ -27,7 +27,6 @@ import {
 } from 'components/Form'
 import QRCodeCapture from 'components/QRCode/Capture'
 import { CustodyToAccountMessage, Row } from 'components/Send'
-import ExchangePromo from 'components/Send/ExchangePromo'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import { model } from 'data'
 import { required, validXlmAddress } from 'services/forms'
@@ -171,18 +170,15 @@ const FirstStep = props => {
                   dataE2e='sendXlmAddressInput'
                   exclude={from ? [from.label] : []}
                   includeAll={false}
-                  includeExchangeAddress={!isFromCustody}
-                  isCreatable={!isFromCustody}
+                  includeExchangeAddress
+                  isCreatable
                   isValidNewOption={() => false}
                   name='to'
                   noOptionsMessage={() => null}
-                  openMenuOnClick={!!isFromCustody}
                   includeCustodial={!isFromCustody}
-                  forceCustodialFirst={!isFromCustody}
+                  forceCustodialFirst
                   placeholder='Paste, scan, or select destination'
-                  validate={
-                    isFromCustody ? [required] : [required, validXlmAddress]
-                  }
+                  validate={[required, validXlmAddress]}
                 />
                 {!isFromCustody && (
                   <QRCodeCapture
@@ -193,17 +189,13 @@ const FirstStep = props => {
               </Row>
             </FormItem>
           </FormGroup>
-          {isFromCustody && isMnemonicVerified ? (
-            <FormGroup>
-              <CustodyToAccountMessage
-                coin={'XLM'}
-                account={from}
-                amount={amount}
-              />
-            </FormGroup>
-          ) : (
-            <ExchangePromo />
-          )}
+          <FormGroup>
+            <CustodyToAccountMessage
+              coin={'XLM'}
+              account={from}
+              amount={amount}
+            />
+          </FormGroup>
           <FormGroup margin={'15px'}>
             <FormItem>
               <FormLabel htmlFor='amount'>
