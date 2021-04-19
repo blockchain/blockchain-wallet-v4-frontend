@@ -212,10 +212,7 @@ export default ({
               coin,
               paymentR
             )
-            const paymentAmount = generateProvisionalPaymentAmount(
-              payment.coin,
-              value
-            )
+            const paymentAmount = generateProvisionalPaymentAmount(coin, value)
             payment = yield payment.amount(paymentAmount)
             yield put(A.setPaymentSuccess(payment.value()))
           }
@@ -312,10 +309,7 @@ export default ({
       const paymentR = S.getPayment(yield select())
       if (paymentR) {
         let payment = yield getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
-        const paymentAmount = generateProvisionalPaymentAmount(
-          payment.coin,
-          value
-        )
+        const paymentAmount = generateProvisionalPaymentAmount(coin, value)
         payment = yield payment.amount(paymentAmount)
         yield put(A.setPaymentSuccess(payment.value()))
       }
@@ -550,10 +544,10 @@ export default ({
   const stopShowingInterestModal = function * () {
     try {
       yield call(api.stopInterestCtaAfterTransaction, false)
-      yield put(actions.modals.closeModal('InterestPromo'))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'InterestPromo', e))
     }
+    yield put(actions.modals.closeModal('InterestPromo'))
   }
 
   return {

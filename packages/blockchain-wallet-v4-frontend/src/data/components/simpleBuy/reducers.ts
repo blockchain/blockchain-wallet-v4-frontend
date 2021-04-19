@@ -404,6 +404,7 @@ export function simpleBuyReducer(
             step: action.payload.step,
             sellOrder: action.payload.sellOrder
           }
+        case 'LOADING':
         default: {
           return {
             ...state,

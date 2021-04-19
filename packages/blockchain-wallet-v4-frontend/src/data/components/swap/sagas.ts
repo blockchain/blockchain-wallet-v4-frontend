@@ -127,10 +127,7 @@ export default ({
         .from(addressOrIndex, addressType)
         .done()
 
-      const paymentAmount = generateProvisionalPaymentAmount(
-        payment.coin,
-        amount
-      )
+      const paymentAmount = generateProvisionalPaymentAmount(coin, amount)
       payment = yield payment.amount(paymentAmount)
       if (payment.coin === 'BTC' || payment.coin === 'BCH') {
         return (yield payment
@@ -240,8 +237,8 @@ export default ({
       yield put(A.fetchCustodialEligibilityLoading())
       const {
         eligible
-      }: ReturnType<typeof api.checkCustodialEligiblity> = yield call(
-        api.checkCustodialEligiblity
+      }: ReturnType<typeof api.checkCustodialSwapEligibility> = yield call(
+        api.checkCustodialSwapEligibility
       )
       yield put(A.fetchCustodialEligibilitySuccess(eligible))
     } catch (e) {

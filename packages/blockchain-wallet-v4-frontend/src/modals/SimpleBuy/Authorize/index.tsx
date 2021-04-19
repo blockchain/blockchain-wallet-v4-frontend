@@ -324,10 +324,6 @@ const Authorize = (props: Props) => {
               order.paymentMethodId as string,
               order
             )
-            simpleBuyActions.setStep({
-              step: 'OPEN_BANKING_CONNECT',
-              order: order
-            })
           }}
         >
           <FormattedMessage id='copy.approve' defaultMessage='Approve' />

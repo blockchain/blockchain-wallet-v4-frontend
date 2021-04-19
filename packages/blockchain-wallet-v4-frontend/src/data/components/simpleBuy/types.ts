@@ -74,6 +74,7 @@ export enum SimpleBuyStepType {
   'ENTER_AMOUNT',
   'KYC_REQUIRED',
   'LINKED_PAYMENT_ACCOUNTS',
+  'LOADING',
   'OPEN_BANKING_CONNECT',
   'PAYMENT_METHODS',
   'PREVIEW_SELL',
@@ -435,6 +436,7 @@ export type StepActionsPayload =
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
+        | 'LOADING'
     }
 
 interface SetStepAction {
@@ -492,6 +494,7 @@ interface FetchLimitsSuccess {
   }
   type: typeof AT.FETCH_LIMITS_SUCCESS
 }
+
 interface UpdateSddTransactionFinished {
   type: typeof AT.UPDATE_SDD_TRANSACTION_FINISHED
 }

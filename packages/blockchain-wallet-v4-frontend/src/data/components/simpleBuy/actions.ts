@@ -630,9 +630,15 @@ export const updatePaymentFailure = (error: string): SimpleBuyActionTypes => ({
   }
 })
 
-export const fetchLimits = (currency: FiatType) => ({
+export const fetchLimits = (
+  currency: FiatType,
+  cryptoCurrency?: CoinType,
+  side?: SBOrderActionType
+) => ({
   type: AT.FETCH_LIMITS,
-  currency
+  currency,
+  cryptoCurrency,
+  side
 })
 
 export const fetchLimitsFailure = (error: string): SimpleBuyActionTypes => ({

@@ -1,7 +1,6 @@
 import React from 'react'
 import bip39 from 'bip39'
 import { isValidBIC, isValidIBAN } from 'ibantools'
-import isObject from 'isobject'
 import { isValidNumber } from 'libphonenumber-js'
 import { validate } from 'postal-codes-js'
 import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
@@ -24,6 +23,10 @@ import {
 import * as M from './validationMessages'
 
 const { BAD_2FA } = model.profile.ERROR_TYPES
+
+const isObject = val => {
+  return val != null && typeof val === 'object' && Array.isArray(val) === false
+}
 
 export const required = value => (value ? undefined : <M.RequiredMessage />)
 
@@ -214,7 +217,7 @@ export const requiredDOB = value =>
 export const requiredUsZipcode = value =>
   isUsZipcode(value) ? undefined : <M.RequiredUSZipCodeMessage />
 
-export const countryUsesPostalcode = countryCode => {
+export const countryUsesPostalCode = countryCode => {
   return path([countryCode, 'postalCodeFormat'], postalCodes)
 }
 

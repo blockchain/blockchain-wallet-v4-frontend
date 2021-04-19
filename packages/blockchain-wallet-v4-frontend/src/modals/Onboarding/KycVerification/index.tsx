@@ -72,15 +72,16 @@ type LinkDispatchPropsType = {
 }
 
 type Props = OwnProps & LinkDispatchPropsType
-type State = { direction: 'left' | 'right'; show: boolean }
+type State = { show: boolean }
 
 class IdentityVerification extends React.PureComponent<Props, State> {
-  state: State = { show: false, direction: 'left' }
+  state: State = { show: false }
 
   componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
+
     this.initializeVerification()
   }
 
@@ -132,9 +133,8 @@ class IdentityVerification extends React.PureComponent<Props, State> {
       Success: () => (
         <Flyout
           {...this.props}
-          in={show}
+          isOpen={show}
           onClose={this.handleClose}
-          direction={this.state.direction}
           data-e2e='identityVerificationModal'
         >
           <FlyoutChild>
@@ -146,8 +146,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
         <Flyout
           {...this.props}
           onClose={this.handleClose}
-          in={this.state.show}
-          direction={this.state.direction}
+          isOpen={this.state.show}
           data-e2e='identityVerificationModal'
         >
           <FlyoutChild>
@@ -159,8 +158,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
         <Flyout
           {...this.props}
           onClose={this.handleClose}
-          in={this.state.show}
-          direction={this.state.direction}
+          isOpen={this.state.show}
           data-e2e='identityVerificationModal'
         >
           <Loading />
@@ -170,8 +168,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
         <Flyout
           {...this.props}
           onClose={this.handleClose}
-          in={this.state.show}
-          direction={this.state.direction}
+          isOpen={this.state.show}
           data-e2e='identityVerificationModal'
         >
           <DataError onClick={this.initializeVerification} message={error} />

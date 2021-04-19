@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 import { Icon, Image, Text } from 'blockchain-info-components'
 import {
+  OrderType,
   SBPaymentMethodType,
   WalletCurrencyType,
   WalletFiatEnum
@@ -184,10 +185,10 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   render() {
     const { orderType } = this.props
     const availableBankAccounts = this.props.bankTransferAccounts.filter(
-      account => account.state === 'ACTIVE' && orderType === 'BUY'
+      account => account.state === 'ACTIVE' && orderType === OrderType.BUY
     )
     const availableCards = this.props.cards.filter(
-      card => card.state === 'ACTIVE' && orderType === 'BUY'
+      card => card.state === 'ACTIVE' && orderType === OrderType.BUY
     )
 
     const defaultMethods = this.props.paymentMethods.methods.map(value => ({
@@ -196,14 +197,15 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     }))
 
     const bankTransfer = defaultMethods.find(
-      method => method.value.type === 'BANK_TRANSFER' && orderType === 'BUY'
+      method =>
+        method.value.type === 'BANK_TRANSFER' && orderType === OrderType.BUY
     )
 
     const funds = defaultMethods.filter(
       method =>
         method.value.type === 'FUNDS' &&
         method.value.currency in WalletFiatEnum &&
-        (orderType === 'SELL' ||
+        (orderType === OrderType.SELL ||
           Number(
             this.props.balances[method.value.currency as WalletCurrencyType]
               ?.available
@@ -346,7 +348,7 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   onClick={() => this.handleSubmit(bankMethod.value)}
                 />
               ))}
-            {orderType === 'BUY' && (
+            {orderType === OrderType.BUY && (
               <AddNewButton
                 data-e2e='addNewPaymentMethod'
                 onClick={this.addNewPaymentMethod}

@@ -19,7 +19,13 @@ export type BeneficiaryType = {
 
 export type BeneficiariesType = Array<BeneficiaryType>
 
-export type NabuCustodialProductType = 'SWAP' | 'SIMPLEBUY' | 'SAVINGS'
+export enum ProductTypes {
+  SAVINGS = 'SAVINGS',
+  SIMPLEBUY = 'SIMPLEBUY',
+  SWAP = 'SWAP'
+}
+
+export type NabuCustodialProductType = keyof typeof ProductTypes
 
 export type WithdrawalFeesProductType = 'simplebuy' | 'mercurial'
 

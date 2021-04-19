@@ -12,6 +12,7 @@ import {
   CoinTypeEnum,
   FiatType,
   FiatTypeEnum,
+  OrderType,
   SupportedFiatType,
   SupportedWalletCurrencyType,
   TimeRange,
@@ -175,7 +176,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                         this.props.simpleBuyActions.showModal(
                           'TransactionList',
                           coin as CoinType,
-                          'SELL'
+                          OrderType.SELL
                         )
                       }}
                     >
@@ -192,7 +193,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                         this.props.simpleBuyActions.showModal(
                           'TransactionList',
                           coin as CoinType,
-                          'BUY'
+                          OrderType.BUY
                         )
                       }}
                     >

@@ -11,7 +11,7 @@ import {
   TabMenuItem,
   Text
 } from 'blockchain-info-components'
-import { SBPairType } from 'blockchain-wallet-v4/src/types'
+import { OrderType, SBPairType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
 import { model } from 'data'
@@ -227,9 +227,9 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
                 </TabMenuItem>
                 <TabMenuItem
                   role='button'
-                  selected={orderType === 'SELL'}
+                  selected={orderType === OrderType.SELL}
                   onClick={() => {
-                    setOrderType('SELL')
+                    setOrderType(OrderType.SELL)
                     props.analyticsActions.logEvent('SB_SELL_BUTTON')
                   }}
                   data-e2e='sbSellButton'
@@ -244,7 +244,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
           )}
         </FlyoutWrapper>
         <Currencies>
-          {orderType === 'SELL' ? (
+          {orderType === OrderType.SELL ? (
             checkAccountsBalances ? (
               SUPPORTED_COINS.map(coin => {
                 const accounts = props.accounts[coin] as Array<SwapAccountType>

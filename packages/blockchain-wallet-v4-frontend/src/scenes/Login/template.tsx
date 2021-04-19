@@ -525,14 +525,14 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
           <LinkContainer data-e2e='signupLink' to='/signup'>
             <Link>
               <SubCard>
-                <Text size='16px' color='whiteFade600' weight={500}>
+                <Text size='16px' color='white' weight={500}>
                   <FormattedMessage
                     id='scenes.login.wallet.link'
                     defaultMessage="Don't have a wallet?"
                   />
                 </Text>
                 &nbsp;
-                <SignUpText size='16px' color='whiteFade900' weight={600}>
+                <SignUpText size='16px' color='white' weight={600}>
                   <FormattedMessage
                     id='buttons.signup'
                     defaultMessage='Sign Up'
