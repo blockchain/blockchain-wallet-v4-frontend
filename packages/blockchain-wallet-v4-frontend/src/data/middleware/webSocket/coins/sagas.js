@@ -98,10 +98,16 @@ export default ({ api, socket }) => {
 
       // 2. subscribe to btc xpubs
       const btcWalletContext = yield select(selectors.core.data.btc.getContext)
+      // context has separate bech32 ,legacy, and imported address arrays
+      const btcWalletXPubs = prop('legacy', btcWalletContext).concat(
+        prop('addresses', btcWalletContext),
+        prop('bech32', btcWalletContext)
+      )
+
       const btcLockboxContext = (yield select(
         selectors.core.kvStore.lockbox.getLockboxBtcContext
       )).getOrElse([])
-      const btcXPubs = concat(btcWalletContext, btcLockboxContext)
+      const btcXPubs = concat(btcWalletXPubs, btcLockboxContext)
       btcXPubs.forEach(xpub =>
         send(
           JSON.stringify({

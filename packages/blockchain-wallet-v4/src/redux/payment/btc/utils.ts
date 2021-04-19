@@ -7,6 +7,8 @@ import {
   drop,
   equals,
   or,
+  prop,
+  propEq,
   set
 } from 'ramda'
 
@@ -74,23 +76,42 @@ export const fromExternal = (addrComp, addrUncomp, wifComp, wifUncomp) => ({
 })
 
 // fromAccount :: Network -> ReduxState -> Object
-
-export const fromAccount = (network, state, index, coin) => {
+export const fromAccount = (network, state, index) => {
   const wallet = S.wallet.getWallet(state)
   let account = Wallet.getAccount(index, wallet).get()
+  if (account.derivations) {
+    let defaultDerivationXpub = HDAccount.selectXpub(account)
+    let allXpubsGrouped = HDAccount.selectAllXpubsGrouped(account).toJS()
+    let legacy = prop('xpub', allXpubsGrouped.find(propEq('type', 'legacy')))
+    let bech32 = prop('xpub', allXpubsGrouped.find(propEq('type', 'bech32')))
 
-  let changeIndex = equals(coin, 'BTC')
-    ? S.data.btc.getChangeIndex(account.xpub, state)
-    : S.data.bch.getChangeIndex(account.xpub, state)
-  let changeAddress = changeIndex
-    .map(index => HDAccount.getChangeAddress(account, index, network))
-    .getOrFail('missing_change_address')
+    let changeIndex = S.data.btc.getChangeIndex(defaultDerivationXpub, state)
+    let changeAddress = changeIndex
+      .map(index => HDAccount.getChangeAddress(account, index, network))
+      .getOrFail('missing_change_address')
 
-  return {
-    fromType: ADDRESS_TYPES.ACCOUNT,
-    from: [account.xpub],
-    change: changeAddress,
-    fromAccountIdx: index
+    return {
+      change: changeAddress,
+      extras: {
+        bech32
+      },
+      from: [legacy],
+      fromAccountIdx: index,
+      fromType: ADDRESS_TYPES.ACCOUNT
+    }
+    // TODO: SEGWIT remove w/ DEPRECATED_V3
+  } else {
+    let changeIndex = S.data.btc.getChangeIndex(account.xpub, state)
+    let changeAddress = changeIndex
+      .map(index => HDAccount.getChangeAddress(account, index, network))
+      .getOrFail('missing_change_address')
+
+    return {
+      fromType: ADDRESS_TYPES.ACCOUNT,
+      from: [account.xpub],
+      change: changeAddress,
+      fromAccountIdx: index
+    }
   }
 }
 
@@ -126,6 +147,7 @@ export const fromCustodial = origin => {
 export const fromPrivateKey = (network, wallet, key) => {
   let c = getWifAddress(key, true)
   let u = getWifAddress(key, false)
+  // TODO: SEGWIT i believe we can get rid of the watch only checks
   let isCompressedWatchOnly = Wallet.getAddress(c.address, wallet)
     .map(Address.isWatchOnly)
     .getOrElse(false)
@@ -149,14 +171,21 @@ export const fromPrivateKey = (network, wallet, key) => {
 export const toOutputAccount = (coin, network, state, accountIndex) => {
   const wallet = S.wallet.getWallet(state)
   const account = Wallet.getAccount(accountIndex, wallet).get() // throw if nothing
+  let xpub =
+    coin === 'BTC'
+      ? HDAccount.selectXpub(account)
+      : HDAccount.selectXpub(account, 'legacy')
   const receiveIndexR =
     coin === 'BTC'
-      ? S.data.btc.getReceiveIndex(account.xpub, state)
-      : S.data.bch.getReceiveIndex(account.xpub, state)
+      ? S.data.btc.getReceiveIndex(xpub, state)
+      : S.data.bch.getReceiveIndex(xpub, state)
   const receiveIndex = receiveIndexR.getOrFail(
     new Error('missing_receive_address')
   )
-  const address = HDAccount.getReceiveAddress(account, receiveIndex, network)
+  const address =
+    coin === 'BTC'
+      ? HDAccount.getReceiveAddress(account, receiveIndex, network)
+      : HDAccount.getReceiveAddress(account, receiveIndex, network, 'legacy')
   return {
     type: ADDRESS_TYPES.ACCOUNT,
     address,

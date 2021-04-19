@@ -1,5 +1,4 @@
 import { Moment } from 'moment'
-import { equals, toUpper } from 'ramda'
 
 import { CoinType, FiatType } from 'core/types'
 
@@ -14,16 +13,6 @@ export default ({ apiUrl, get, post, rootUrl }) => {
       data: { timestamp },
       sessionToken
     })
-
-  const getTransactionHistory = (coin, active, currency, start, end) => {
-    const isBCH = equals(coin, 'BCH')
-    const endpoint = '/v2/export-history'
-    return post({
-      url: isBCH ? apiUrl : rootUrl,
-      endPoint: isBCH ? '/bch' + endpoint : endpoint,
-      data: { active, currency: toUpper(currency), start, end }
-    })
-  }
 
   const getLogs = (guid, sharedKey) =>
     post({
@@ -75,7 +64,6 @@ export default ({ apiUrl, get, post, rootUrl }) => {
 
   return {
     getCaptchaImage,
-    getTransactionHistory,
     getLogs,
     getPriceIndex,
     getPriceIndexSeries,

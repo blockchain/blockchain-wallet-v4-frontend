@@ -33,11 +33,25 @@ export const selectReceiveAddress = function * (source, networks) {
     return utils.bch.toCashAddr(bchReceiveAddress.getOrElse(''))
   }
   if (equals('BTC', coin)) {
-    const selector =
-      type !== ADDRESS_TYPES.LOCKBOX
-        ? selectors.core.common.btc.getNextAvailableReceiveAddress
-        : selectors.core.common.btc.getNextAvailableReceiveAddressLockbox
-    const btcReceiveAddress = selector(networks.btc, address, appState)
+    let btcReceiveAddress
+    if (type === ADDRESS_TYPES.LOCKBOX) {
+      btcReceiveAddress = selectors.core.common.btc.getNextAvailableReceiveAddressLockbox(
+        networks.btc,
+        address,
+        appState
+      )
+    } else {
+      const defaultDerivation = selectors.core.common.btc.getAccountDefaultDerivation(
+        address,
+        appState
+      )
+      btcReceiveAddress = selectors.core.common.btc.getNextAvailableReceiveAddress(
+        networks.btc,
+        address,
+        defaultDerivation,
+        appState
+      )
+    }
     if (isEmpty(btcReceiveAddress.getOrElse(''))) {
       throw new Error('Could not generate return bitcoin receive address')
     }
