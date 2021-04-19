@@ -33,6 +33,7 @@ import QRCodeCapture from 'components/QRCode/Capture'
 import {
   ColLeft,
   ColRight,
+  CustodyToAccountMessage,
   CustomFeeAlertBanner,
   FeeFormContainer,
   FeeFormGroup,
@@ -41,7 +42,6 @@ import {
   FeePerByteContainer,
   Row
 } from 'components/Send'
-import ExchangePromo from 'components/Send/ExchangePromo'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import { model } from 'data'
 import { required, validBtcAddress } from 'services/forms'
@@ -95,6 +95,7 @@ const FirstStep = props => {
   } = props
 
   const {
+    amount,
     autofilled,
     excludeHDWallets,
     excludeLockbox,
@@ -223,7 +224,7 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       <FormGroup>
-        <ExchangePromo />
+        <CustodyToAccountMessage coin={'BTC'} account={from} amount={amount} />
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>

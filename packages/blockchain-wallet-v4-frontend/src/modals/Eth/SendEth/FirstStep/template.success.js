@@ -41,7 +41,6 @@ import {
   FeePerByteContainer,
   Row
 } from 'components/Send'
-import ExchangePromo from 'components/Send/ExchangePromo'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import { model } from 'data'
 import { required, validEthAddress } from 'services/forms'
@@ -181,20 +180,17 @@ const FirstStep = props => {
               disabled={isRetryAttempt}
               exclude={from ? [from.label] : []}
               includeAll={false}
-              includeExchangeAddress={!isFromCustody}
-              isCreatable={!isFromCustody}
+              includeExchangeAddress
+              isCreatable
               isValidNewOption={() => false}
               includeCustodial={!isFromCustody}
-              forceCustodialFirst={!isFromCustody}
+              forceCustodialFirst
               name='to'
               noOptionsMessage={() => null}
-              openMenuOnClick={isFromCustody}
               placeholder='Paste, scan, or select destination'
-              validate={
-                isFromCustody ? [required] : [required, validEthAddress]
-              }
+              validate={[required, validEthAddress]}
             />
-            {isFromCustody || isRetryAttempt ? null : (
+            {isRetryAttempt ? null : (
               <QRCodeCapture
                 scanType='ethAddress'
                 border={['top', 'bottom', 'right', 'left']}
@@ -211,13 +207,9 @@ const FirstStep = props => {
           )}
         </FormItem>
       </FormGroup>
-      {isFromCustody && isMnemonicVerified ? (
-        <FormGroup>
-          <CustodyToAccountMessage coin={coin} account={from} amount={amount} />
-        </FormGroup>
-      ) : (
-        <ExchangePromo />
-      )}
+      <FormGroup>
+        <CustodyToAccountMessage coin={coin} account={from} amount={amount} />
+      </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel HtmlFor='amount'>
