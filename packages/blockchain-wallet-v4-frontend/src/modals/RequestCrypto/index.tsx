@@ -25,26 +25,12 @@ import { RequestFormType, RequestSteps } from './types'
 
 class RequestCrypto extends PureComponent<Props, State> {
   state: State = {
-    direction: 'left',
     show: false
   }
 
   componentDidMount() {
-    // eslint-disable-next-line
-    this.setState({ show: true })
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    const newStep = this.props.formValues?.step
-    const previousStep = prevProps.formValues?.step
-
-    if (newStep === previousStep) return
     /* eslint-disable */
-    if (newStep > previousStep) {
-      this.setState({ direction: 'left' })
-    } else {
-      this.setState({ direction: 'right' })
-    }
+    this.setState({ show: true })
     /* eslint-enable */
   }
 
@@ -66,13 +52,12 @@ class RequestCrypto extends PureComponent<Props, State> {
   render() {
     const { formValues, position, total, userClickedOutside } = this.props
     const { step } = formValues || {}
-    const { direction, show } = this.state
+    const { show } = this.state
 
     return (
       <Flyout
         position={position}
-        in={show}
-        direction={direction}
+        isOpen={show}
         userClickedOutside={userClickedOutside}
         onClose={this.handleClose}
         data-e2e='requestCryptoModal'
@@ -149,7 +134,6 @@ const mapDispatchToProps = dispatch => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type State = {
-  direction: 'left' | 'right'
   show: boolean
 }
 type OwnProps = ModalPropsType & { coin?: CoinType }

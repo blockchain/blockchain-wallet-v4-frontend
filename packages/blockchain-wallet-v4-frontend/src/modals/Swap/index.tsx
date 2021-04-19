@@ -5,7 +5,6 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { ExtractSuccess, SwapOrderType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
-import { SwapStepType } from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
@@ -21,23 +20,12 @@ import SuccessfulSwap from './SuccessfulSwap'
 import UpgradePrompt from './UpgradePrompt'
 
 class Swap extends PureComponent<Props, State> {
-  state: State = { show: false, direction: 'left' }
+  state: State = { show: false }
 
   componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    if (this.props.step === prevProps.step) return
-    if (SwapStepType[this.props.step] > SwapStepType[prevProps.step]) {
-      /* eslint-disable */
-      this.setState({ direction: 'left' })
-    } else {
-      this.setState({ direction: 'right' })
-      /* eslint-enable */
-    }
   }
 
   componentWillUnmount() {
@@ -56,8 +44,7 @@ class Swap extends PureComponent<Props, State> {
       Success: val => (
         <Flyout
           {...this.props}
-          in={this.state.show}
-          direction={this.state.direction}
+          isOpen={this.state.show}
           onClose={this.handleClose}
         >
           {this.props.step === 'INIT_SWAP' && (
@@ -194,9 +181,8 @@ const enhance = compose(
   connector
 )
 
-type OwnProps = {}
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-export type Props = ModalPropsType & OwnProps & ConnectedProps<typeof connector>
-type State = { direction: 'left' | 'right'; show: boolean }
+export type Props = ModalPropsType & ConnectedProps<typeof connector>
+type State = { show: boolean }
 
 export default enhance(Swap)

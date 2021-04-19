@@ -20,7 +20,7 @@ export type OwnProps = {
 } & ModalPropsType
 
 class TradingLimits extends PureComponent<Props, State> {
-  state: State = { show: false, direction: 'left' }
+  state: State = { show: false }
 
   componentDidMount() {
     /* eslint-disable */
@@ -43,8 +43,7 @@ class TradingLimits extends PureComponent<Props, State> {
         <Flyout
           {...this.props}
           onClose={this.handleClose}
-          in={this.state.show}
-          direction={this.state.direction}
+          isOpen={this.state.show}
           data-e2e='tradingLimitsModal'
         >
           <FlyoutChild>
@@ -98,6 +97,6 @@ export type SuccessStateType = {
 export type Props = OwnProps &
   LinkStatePropsType &
   ConnectedProps<typeof connector>
-type State = { direction: 'left' | 'right'; show: boolean }
+type State = { show: boolean }
 
 export default enhance(TradingLimits)

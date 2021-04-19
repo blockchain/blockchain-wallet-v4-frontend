@@ -64,9 +64,9 @@ const DescriptionText = styled(Text)`
 type Props = OwnProps & SuccessStateType
 
 const Success = props => {
-  const coin = props.fiatCurrency || 'USD'
+  const coin = props.formValues?.currency || 'USD'
   const amount = props.formValues?.amount || 0
-  const unit = (props.defaultMethod?.currency as FiatType) || 'USD'
+  const unit = (props.formValues?.currency as FiatType) || 'USD'
 
   return (
     <Wrapper>

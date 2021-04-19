@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { OrderType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import {
   getCoinFromPair,
@@ -51,7 +52,7 @@ const Success: React.FC<Props> = props => {
           <TopText color='grey800' size='20px' weight={600}>
             <span>
               <BuyOrSell
-                orderType={'SELL'}
+                orderType={OrderType.SELL}
                 crypto={sellBaseCurrency}
                 coinModel={supportedCoins[sellBaseCurrency]}
               />

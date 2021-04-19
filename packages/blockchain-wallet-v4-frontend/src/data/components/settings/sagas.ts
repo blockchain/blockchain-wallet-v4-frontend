@@ -55,7 +55,7 @@ export default ({ api, coreSagas }) => {
       )
       const userId = userIdR.getOrElse(null)
       if (userId) {
-        const data = yield call(api.getProductsEligiblity)
+        const data = yield call(api.getProductsEligibility)
         yield put(A.fetchProductsEligibilitySuccess(data))
       } else {
         yield put(A.fetchProductsEligibilitySuccess(Remote.Success([])))

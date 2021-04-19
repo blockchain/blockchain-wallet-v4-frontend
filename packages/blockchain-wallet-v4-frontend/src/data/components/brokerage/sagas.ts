@@ -1,5 +1,5 @@
 import { getFormValues } from 'redux-form'
-import { call, put, retry, select, take } from 'redux-saga/effects'
+import { call, delay, put, retry, select, take } from 'redux-saga/effects'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
@@ -18,7 +18,7 @@ import {
 import profileSagas from '../../modules/profile/sagas'
 import * as A from './actions'
 import * as AT from './actionTypes'
-import { DEFAULT_METHODS } from './model'
+import { DEFAULT_METHODS, POLLING } from './model'
 import * as S from './selectors'
 import { OBType } from './types'
 
@@ -70,11 +70,16 @@ export default ({
   }
 
   const conditionalRetry = function * (id: string) {
-    const data = yield retry(100, 1000, transferAccountState, id)
+    const { RETRY_AMOUNT, SECONDS } = POLLING
+    const data = yield retry(
+      RETRY_AMOUNT,
+      SECONDS * 1000,
+      transferAccountState,
+      id
+    )
     return data
   }
 
-  // TODO move OB stuff to separate saga
   const fetchBankTransferUpdate = function * (
     action: ReturnType<typeof A.fetchBankTransferUpdate>
   ) {
@@ -92,8 +97,13 @@ export default ({
 
       if (typeof account === 'string' && bankCredentials) {
         // Yapily
+        const domainsR = yield select(selectors.core.walletOptions.getDomains)
+        const { yapilyCallbackUrl } = domainsR.getOrElse({
+          yapilyCallbackUrl: 'https://www.blockchain.com/brokerage-link-success'
+        })
+        const callback = yapilyCallbackUrl
         bankId = bankCredentials.id
-        attributes = { institutionId: account }
+        attributes = { institutionId: account, callback }
       } else if (typeof account === 'object' && fastLink) {
         // Yodlee
         bankId = fastLink.id
@@ -284,7 +294,11 @@ export default ({
   const ClearedStatusCheck = function * (orderId) {
     let order: SBTransactionType = yield call(api.getPaymentById, orderId)
 
-    if (order.state === 'CLEARED' || order.state === 'COMPLETE') {
+    if (
+      order.state === 'CLEARED' ||
+      order.state === 'COMPLETE' ||
+      order.state === 'FAILED'
+    ) {
       return order
     } else {
       throw new Error('retrying to fetch for cleared status')
@@ -295,9 +309,10 @@ export default ({
     let order: SBTransactionType = yield call(api.getPaymentById, orderId)
 
     if (
-      order.extraAttributes &&
-      'authorisationUrl' in order.extraAttributes &&
-      order.extraAttributes.authorisationUrl
+      (order.extraAttributes &&
+        'authorisationUrl' in order.extraAttributes &&
+        order.extraAttributes.authorisationUrl) ||
+      order.state === 'FAILED'
     ) {
       return order
     } else {
@@ -310,10 +325,30 @@ export default ({
     const { id, partner } = yield select(
       selectors.components.brokerage.getAccount
     )
+    const domainsR = yield select(selectors.core.walletOptions.getDomains)
+    const { yapilyCallbackUrl } = domainsR.getOrElse({
+      yapilyCallbackUrl: 'https://www.blockchain.com/brokerage-link-success'
+    })
+    const callback = partner === 'YAPILY' ? yapilyCallbackUrl : undefined
+    const attributes = { callback }
     try {
-      const data = yield call(api.createFiatDeposit, amount, id, currency)
+      const data = yield call(
+        api.createFiatDeposit,
+        amount,
+        id,
+        currency,
+        attributes
+      )
+      const { RETRY_AMOUNT, SECONDS } = POLLING
+      // If yapily we need to transition to another screen and poll for auth
+      // details before polling for order status
       if (partner === 'YAPILY') {
-        const order = yield retry(100, 10000, AuthUrlCheck, data.paymentId)
+        const order = yield retry(
+          RETRY_AMOUNT,
+          SECONDS * 1000,
+          AuthUrlCheck,
+          data.paymentId
+        )
         if (
           order.extraAttributes &&
           'authorisationUrl' in order.extraAttributes &&
@@ -325,15 +360,28 @@ export default ({
               dwStep: BankDWStepType.DEPOSIT_CONNECT
             })
           )
-          yield retry(100, 10000, ClearedStatusCheck, data.paymentId)
         }
       }
+      // Poll for order status in order to show success, timed out or failed
+      try {
+        const updatedOrder: SBTransactionType = yield retry(
+          RETRY_AMOUNT,
+          SECONDS * 1000,
+          ClearedStatusCheck,
+          data.paymentId
+        )
+        yield put(actions.form.change('brokerageTx', 'order', updatedOrder))
+      } catch (error) {
+        yield put(actions.form.change('brokerageTx', 'retryTimeout', true))
+      }
+
       yield put(
         actions.components.brokerage.setDWStep({
           dwStep: BankDWStepType.DEPOSIT_STATUS
         })
       )
-      // refresh the fiat list so the newest tx shows up right away
+      // refresh the tx list after small delay so the newest tx shows up right away
+      yield delay(1000)
       yield put(actions.core.data.fiat.fetchTransactions(currency, true))
     } catch (e) {
       const error = errorHandler(e)

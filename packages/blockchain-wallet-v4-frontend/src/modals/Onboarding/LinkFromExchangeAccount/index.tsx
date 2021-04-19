@@ -60,8 +60,7 @@ class LinkFromExchangeAccountContainer extends React.PureComponent<
         <Flyout
           {...this.props}
           onClose={this.handleClose}
-          in={this.state.show}
-          direction={this.state.direction}
+          isOpen={this.state.show}
           data-e2e='infoModalLinkFromExchangeAccount'
         >
           <FlyoutChild>
@@ -73,8 +72,7 @@ class LinkFromExchangeAccountContainer extends React.PureComponent<
         <Flyout
           {...this.props}
           onClose={this.handleClose}
-          in={this.state.show}
-          direction={this.state.direction}
+          isOpen={this.state.show}
           data-e2e='infoModalLinkFromExchangeAccount'
         >
           <FlyoutChild>
@@ -86,8 +84,7 @@ class LinkFromExchangeAccountContainer extends React.PureComponent<
         <Flyout
           {...this.props}
           onClose={this.handleClose}
-          in={this.state.show}
-          direction={this.state.direction}
+          isOpen={this.state.show}
           data-e2e='infoModalLinkFromExchangeAccount'
         >
           <FlyoutChild>
@@ -99,8 +96,7 @@ class LinkFromExchangeAccountContainer extends React.PureComponent<
         <Flyout
           {...this.props}
           onClose={this.handleClose}
-          in={this.state.show}
-          direction={this.state.direction}
+          isOpen={this.state.show}
           data-e2e='infoModalLinkFromExchangeAccount'
         >
           <FlyoutChild>
