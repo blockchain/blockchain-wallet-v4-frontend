@@ -4,7 +4,7 @@ import { prop } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/network/api/settingsComponent/types'
+import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
 import {
   ExtractSuccess,
   FiatType,
