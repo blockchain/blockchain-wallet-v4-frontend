@@ -282,6 +282,7 @@ export default ({
     const defaultAccount = isFromBuySell
       ? yield call(getCustodialAccountForCoin, coin)
       : yield call(getDefaultAccountForCoin, coin)
+
     const payment: PaymentValue = yield call(createPayment, {
       ...defaultAccount,
       address: getAccountIndexOrAccount(coin, defaultAccount)

@@ -176,9 +176,6 @@ export default ({ api }) => {
         ? Coin.fromJS({ script: target.script, value })
         : Coin.fromJS({ address: target.address, value })
     )
-    // logs inputs
-    // const inputs = CoinSelection.descentDraw(targets, fee, coins, change)
-    // console.log(inputs, 'inputs change')
     return CoinSelection.descentDraw(targets, fee, coins, change)
   }
 
