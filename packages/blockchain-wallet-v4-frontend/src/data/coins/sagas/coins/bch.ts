@@ -24,11 +24,13 @@ export const getDefaultAccount = function * () {
 }
 
 // retrieves the next receive address
-export const getNextReceiveAddress = function * (coin, networks) {
+export const getNextReceiveAddress = function * (_, networks, index) {
   const state = yield select()
-  const defaultAccountIndex = (yield select(
-    selectors.core.kvStore.bch.getDefaultAccountIndex
-  )).getOrFail()
+  const defaultAccountIndex =
+    index ||
+    (yield select(
+      selectors.core.kvStore.bch.getDefaultAccountIndex
+    )).getOrFail()
   const nextAddress = selectors.core.common.bch
     .getNextAvailableReceiveAddress(networks.bch, defaultAccountIndex, state)
     .getOrFail('Failed to get BCH receive address')

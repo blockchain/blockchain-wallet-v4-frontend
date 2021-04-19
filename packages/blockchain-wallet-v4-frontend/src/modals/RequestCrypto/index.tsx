@@ -16,6 +16,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import { ModalPropsType } from '../types'
 import RequestBuildLink from './BuildLink'
 import RequestCoinSelect from './CoinSelect'
+import InitTradingAccount from './InitTradingAccount'
 import { REQUEST_FORM } from './model'
 import { getData } from './selectors'
 import RequestShareLink from './ShareLink'
@@ -64,7 +65,11 @@ class RequestCrypto extends PureComponent<Props, State> {
       >
         {step === RequestSteps.COIN_SELECT && (
           <FlyoutChild>
-            <RequestCoinSelect {...this.props} handleClose={this.handleClose} />
+            <RequestCoinSelect
+              {...this.props}
+              handleClose={this.handleClose}
+              setStep={this.setStep}
+            />
           </FlyoutChild>
         )}
         {step === RequestSteps.SHOW_ADDRESS && (
@@ -84,6 +89,15 @@ class RequestCrypto extends PureComponent<Props, State> {
         {step === RequestSteps.SHARE_LINK && (
           <FlyoutChild>
             <RequestShareLink
+              {...this.props}
+              handleClose={this.handleClose}
+              setStep={this.setStep}
+            />
+          </FlyoutChild>
+        )}
+        {step === RequestSteps.IDV_INTRO && (
+          <FlyoutChild>
+            <InitTradingAccount
               {...this.props}
               handleClose={this.handleClose}
               setStep={this.setStep}

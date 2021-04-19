@@ -10,6 +10,7 @@ import * as manageAddresses from './manageAddresses/selectors'
 import * as priceChart from './priceChart/selectors'
 import * as priceTicker from './priceTicker/selectors'
 import * as recoveryPhrase from './recoveryPhrase/selectors'
+import * as request from './request/selectors'
 import * as send from './send/selectors'
 import * as sendBch from './sendBch/selectors'
 import * as sendBtc from './sendBtc/selectors'
@@ -37,6 +38,7 @@ export {
   priceChart,
   priceTicker,
   recoveryPhrase,
+  request,
   send,
   sendBch,
   sendBtc,
