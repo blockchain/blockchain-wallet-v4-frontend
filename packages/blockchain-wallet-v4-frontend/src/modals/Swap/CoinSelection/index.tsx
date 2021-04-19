@@ -83,11 +83,7 @@ class CoinSelection extends PureComponent<Props> {
     custodialEligibility: boolean,
     account: SwapAccountType
   ) => {
-    if (account.type === 'CUSTODIAL' && !custodialEligibility) {
-      return false
-    } else {
-      return true
-    }
+    return !(account.type === 'CUSTODIAL' && !custodialEligibility)
   }
 
   render() {

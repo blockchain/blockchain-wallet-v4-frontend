@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import { isEmpty, length, path, pathOr, prop } from 'ramda'
 
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'

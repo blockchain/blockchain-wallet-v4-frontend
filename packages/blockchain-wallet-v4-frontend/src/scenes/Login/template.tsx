@@ -35,7 +35,6 @@ import { selectors } from 'data'
 import { required, validWalletId } from 'services/forms'
 import { media } from 'services/styles'
 
-import Modals from '../../modals'
 import LinkExchangeAccount from '../Register/LinkExchangeAccount'
 import SimpleBuyInfo from '../Register/SimpleBuyInfo'
 import { Props as OwnProps } from '.'
@@ -262,7 +261,6 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
             </HeaderWrapper>
           )}
           <PublicWrapper>
-            <Modals />
             <Header>
               <Text size='20px' color='textBlack' weight={600} capitalize>
                 {isLinkAccountGoal ? (
@@ -451,6 +449,11 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                 </FormGroup>
               )}
               <FormGroup>
+                <Text color='red600' size='12px' weight={600}>
+                  You are about to upgrade your wallet to the new SegWit
+                  payload. This is not reversible and you will no longer be able
+                  to use this wallet in normal environments!
+                </Text>
                 <LoginButton
                   type='submit'
                   nature='primary'
@@ -522,14 +525,14 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
           <LinkContainer data-e2e='signupLink' to='/signup'>
             <Link>
               <SubCard>
-                <Text size='16px' color='whiteFade600' weight={500}>
+                <Text size='16px' color='white' weight={500}>
                   <FormattedMessage
                     id='scenes.login.wallet.link'
                     defaultMessage="Don't have a wallet?"
                   />
                 </Text>
                 &nbsp;
-                <SignUpText size='16px' color='whiteFade900' weight={600}>
+                <SignUpText size='16px' color='white' weight={600}>
                   <FormattedMessage
                     id='buttons.signup'
                     defaultMessage='Sign Up'

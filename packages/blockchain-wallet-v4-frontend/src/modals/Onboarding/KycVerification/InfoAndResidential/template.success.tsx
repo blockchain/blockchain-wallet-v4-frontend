@@ -26,7 +26,7 @@ import { model } from 'data'
 import { CountryType } from 'data/components/identityVerification/types'
 import {
   ageOverEighteen,
-  countryUsesPostalcode,
+  countryUsesPostalCode,
   countryUsesZipcode,
   required,
   requiredDOB,
@@ -145,7 +145,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.countryCode
   const countryIsUS = countryCode === 'US'
   const countryUsesZipOrPostcode =
-    countryUsesZipcode(countryCode) || countryUsesPostalcode(countryCode)
+    countryUsesZipcode(countryCode) || countryUsesPostalCode(countryCode)
 
   const defaultCountry = props.supportedCountries.find(
     country => country.code === countryCode

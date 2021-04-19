@@ -265,7 +265,7 @@ const Authorize = (props: Props) => {
             />
           ) : (
             <FormattedMessage
-              id='modals.brokerage.authorize.fca.title'
+              id='modals.brokerage.authorize.bol.title'
               defaultMessage='Bank of Lithuania Authorisation'
             />
           )
@@ -324,10 +324,6 @@ const Authorize = (props: Props) => {
               order.paymentMethodId as string,
               order
             )
-            simpleBuyActions.setStep({
-              step: 'OPEN_BANKING_CONNECT',
-              order: order
-            })
           }}
         >
           <FormattedMessage id='copy.approve' defaultMessage='Approve' />

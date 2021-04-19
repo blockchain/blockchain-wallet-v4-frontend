@@ -36,8 +36,6 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type OwnProps = {}
-
-type Props = OwnProps & ConnectedProps<typeof connector>
+type Props = ConnectedProps<typeof connector>
 
 export default connector(ChartContainer)

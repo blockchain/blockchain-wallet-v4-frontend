@@ -25,23 +25,12 @@ import EnterAmount from './EnterAmount'
 import OpenBankingConnect from './OpenBankingConnect'
 import WireInstructions from './WireInstructions'
 class Deposit extends PureComponent<Props> {
-  state: State = { show: false, direction: 'left' }
+  state: State = { show: false }
 
   componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    if (this.props.step === prevProps.step) return
-    if (BankDWStepType[this.props.step] > BankDWStepType[prevProps.step]) {
-      /* eslint-disable */
-      this.setState({ direction: 'left' })
-    } else {
-      this.setState({ direction: 'right' })
-      /* eslint-enable */
-    }
   }
 
   handleClose = () => {
@@ -54,8 +43,7 @@ class Deposit extends PureComponent<Props> {
       <Flyout
         {...this.props}
         onClose={this.handleClose}
-        in={this.state.show}
-        direction={this.state.direction}
+        isOpen={this.state.show}
         data-e2e='bankDepositModal'
       >
         {this.props.step === BankDWStepType.LOADING && (
@@ -174,6 +162,6 @@ export type Props = OwnProps &
   LinkStatePropsType &
   ConnectedProps<typeof connector>
 
-type State = { direction: 'left' | 'right'; show: boolean }
+type State = { show: boolean }
 
 export default enhance(Deposit)

@@ -1,12 +1,14 @@
 import BigInteger from 'bigi'
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import Base58 from 'bs58'
 import scrypt from 'scrypt-js'
 import Unorm from 'unorm'
 
 import * as WalletCrypto from './utils'
 
-const hash256 = Bitcoin.crypto.hash256
+const {
+  crypto: { hash256 }
+} = Bitcoin
 
 export const parseBIP38toECPair = function(
   base58Encrypted,
@@ -63,12 +65,11 @@ export const parseBIP38toECPair = function(
   } else {
     throw new Error('Invalid Private Key')
   }
-
   var decrypted
   var AESopts = { mode: WalletCrypto.AES.ECB, padding: WalletCrypto.NoPadding }
 
   var verifyHashAndReturn = function() {
-    var tmpkey = new Bitcoin.ECPair(decrypted, null, {
+    var tmpkey = Bitcoin.ECPair.fromPrivateKey(decrypted, null, {
       compressed: isCompPoint,
       network: network
     })
@@ -103,8 +104,7 @@ export const parseBIP38toECPair = function(
     for (var x = 0; x < 32; x++) {
       decryptedBytes[x] ^= derivedBytes[x]
     }
-
-    decrypted = BigInteger.fromBuffer(decryptedBytes)
+    decrypted = decryptedBytes
 
     return verifyHashAndReturn()
   } else {
@@ -127,11 +127,7 @@ export const parseBIP38toECPair = function(
       passfactor = hash256(prefactorB)
     }
 
-    var kp = new Bitcoin.ECPair(BigInteger.fromBuffer(passfactor), null, {
-      network: network
-    })
-
-    var passpoint = kp.getPublicKeyBuffer()
+    var passpoint = Bitcoin.ECPair.fromPrivateKey(passfactor).publicKey
 
     var encryptedpart2 = Buffer.from(hex.slice(23, 23 + 16), 'hex')
 

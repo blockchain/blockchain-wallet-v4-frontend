@@ -165,7 +165,7 @@ const FirstStep = props => {
                 <Field
                   component={SelectBoxBchAddresses}
                   dataE2e='sendBchAddressInput'
-                  exclude={[from.label]}
+                  exclude={from ? [from.label] : []}
                   excludeImported={isFromCustody}
                   includeAll={false}
                   includeExchangeAddress={!isFromCustody}

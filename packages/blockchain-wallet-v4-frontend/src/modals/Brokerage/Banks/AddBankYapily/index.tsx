@@ -15,23 +15,12 @@ import Connect from './Connect'
 import SelectBank from './SelectBank'
 
 class Banks extends PureComponent<Props> {
-  state: State = { show: false, direction: 'left', yapilyBankId: '' }
+  state: State = { show: false, yapilyBankId: '' }
 
   componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    if (this.props.step === prevProps.step) return
-    if (AddBankStepType[this.props.step] > AddBankStepType[prevProps.step]) {
-      /* eslint-disable */
-      this.setState({ direction: 'left' })
-    } else {
-      this.setState({ direction: 'right' })
-      /* eslint-enable */
-    }
   }
 
   handleClose = () => {
@@ -50,8 +39,7 @@ class Banks extends PureComponent<Props> {
       <Flyout
         {...this.props}
         onClose={this.handleClose}
-        in={this.state.show}
-        direction={this.state.direction}
+        isOpen={this.state.show}
         data-e2e='addBankModal'
       >
         {this.props.step === AddBankStepType.ADD_BANK && (
@@ -108,7 +96,6 @@ export type Props = OwnProps &
   ConnectedProps<typeof connector>
 
 type State = {
-  direction: 'left' | 'right'
   show: boolean
   yapilyBankId: string
 }

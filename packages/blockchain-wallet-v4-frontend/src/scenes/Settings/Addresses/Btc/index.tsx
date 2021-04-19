@@ -9,11 +9,11 @@ import Wallets from './Wallets'
 class BtcAddressesContainer extends React.PureComponent<Props> {
   render() {
     return (
-      <React.Fragment>
+      <>
         <Wallets context={this.props.data} />
         <ImportedAddresses />
         <ArchivedAddresses />
-      </React.Fragment>
+      </>
     )
   }
 }

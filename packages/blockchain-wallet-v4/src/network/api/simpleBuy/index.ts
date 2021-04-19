@@ -10,7 +10,12 @@ import {
   FiatType,
   WalletCurrencyType
 } from '../../../types'
-import { SwapOrderStateType, SwapOrderType } from '../swap/types'
+import { NabuCustodialProductType } from '../custodial/types'
+import {
+  SwapOrderStateType,
+  SwapOrderType,
+  SwapUserLimitsType
+} from '../swap/types'
 import {
   FiatEligibleType,
   NabuAddressType,
@@ -82,13 +87,19 @@ export default ({
     amount: number,
     bankId: string,
     currency: FiatType,
-    product: 'SIMPLEBUY' = 'SIMPLEBUY'
+    attributes: { callback: string | undefined }
   ) =>
     authorizedPost({
       url: nabuUrl,
       contentType: 'application/json',
       endPoint: `/payments/banktransfer/${bankId}/payment`,
-      data: { amount, currency, product, orderId: uuidv4() }
+      data: {
+        amount,
+        attributes,
+        currency,
+        product: 'SIMPLEBUY',
+        orderId: uuidv4()
+      }
     })
 
   const createSBOrder = (
@@ -414,6 +425,19 @@ export default ({
       }
     })
 
+  const getSBLimits = (
+    currency: FiatType,
+    product: NabuCustodialProductType,
+    networkFee: CoinType,
+    side: SBOrderActionType
+  ): SwapUserLimitsType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/trades/limits?currency=${currency}&product=${product}&networkFee=${networkFee}&side=${side}`,
+      contentType: 'application/json',
+      ignoreQueryParams: true
+    })
+
   return {
     activateSBCard,
     createFiatDeposit,
@@ -429,6 +453,7 @@ export default ({
     getSBBalances,
     getSBCard,
     getSBCards,
+    getSBLimits,
     getSBOrder,
     getSBOrders,
     getSBPairs,

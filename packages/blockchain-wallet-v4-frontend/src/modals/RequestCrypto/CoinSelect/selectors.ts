@@ -38,6 +38,7 @@ export const getData = createDeepEqualSelector(
               ? coinAvailabilities[acct.coin].request
               : acct.coin === selectedCoin
           ) {
+
             prunedAccounts.push(acct)
           }
         }, coin),

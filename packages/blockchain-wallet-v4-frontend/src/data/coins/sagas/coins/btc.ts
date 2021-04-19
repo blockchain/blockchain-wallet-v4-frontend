@@ -27,8 +27,18 @@ export const getNextReceiveAddress = function * (_, networks, index) {
   const defaultAccountIndex =
     index || (yield select(selectors.core.wallet.getDefaultAccountIndex))
 
+  const defaultDerivation = selectors.core.common.btc.getAccountDefaultDerivation(
+    defaultAccountIndex,
+    state
+  )
+
   return selectors.core.common.btc
-    .getNextAvailableReceiveAddress(networks.btc, defaultAccountIndex, state)
+    .getNextAvailableReceiveAddress(
+      networks.btc,
+      defaultAccountIndex,
+      defaultDerivation,
+      state
+    )
     .getOrFail('Failed to get BTC receive address')
 }
 

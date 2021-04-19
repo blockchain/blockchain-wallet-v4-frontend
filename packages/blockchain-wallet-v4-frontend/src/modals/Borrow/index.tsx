@@ -6,7 +6,6 @@ import { LoanType, OfferType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { BorrowSteps } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
@@ -34,26 +33,15 @@ export type OwnProps = ModalPropsType
 
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
-type State = { direction: 'left' | 'right'; show: boolean }
+type State = { show: boolean }
 
 class Borrow extends PureComponent<Props, State> {
-  state: State = { show: false, direction: 'left' }
+  state: State = { show: false }
 
   componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    if (this.props.step === prevProps.step) return
-    if (BorrowSteps[this.props.step] > BorrowSteps[prevProps.step]) {
-      /* eslint-disable */
-      this.setState({ direction: 'left' })
-    } else {
-      this.setState({ direction: 'right' })
-      /* eslint-enable */
-    }
   }
 
   handleClose = () => {
@@ -66,8 +54,7 @@ class Borrow extends PureComponent<Props, State> {
     return (
       <Flyout
         position={position}
-        in={this.state.show}
-        direction={this.state.direction}
+        isOpen={this.state.show}
         userClickedOutside={this.props.userClickedOutside}
         onClose={this.handleClose}
         data-e2e='borrowModal'

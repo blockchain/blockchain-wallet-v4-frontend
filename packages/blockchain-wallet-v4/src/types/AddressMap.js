@@ -46,7 +46,7 @@ export const toJS = pipe(AddressMap.guard, addressMap => {
   return map(Address.toJS, addressList).toArray()
 })
 
-export const fromJS = keys => {
+export const fromJS = (keys = []) => {
   if (is(AddressMap, keys)) {
     return keys
   } else {

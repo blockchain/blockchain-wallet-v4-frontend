@@ -122,8 +122,11 @@ export const setAuthType = authType => ({
   type: AT.SET_AUTH_TYPE,
   payload: { authType }
 })
-export const upgradeWallet = () => ({ type: AT.UPGRADE_WALLET, payload: {} })
 export const setRegisterEmail = email => ({
   type: AT.SET_REGISTER_EMAIL,
   payload: { email }
+})
+export const upgradeWallet = version => ({
+  type: AT.UPGRADE_WALLET,
+  payload: { version }
 })
