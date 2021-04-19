@@ -1434,6 +1434,7 @@ type MessagesType = {
   'modals.simplebuy.name_on_card': 'Name on Card'
   'modals.simplebuy.order_summary': 'Order Summary'
   'modals.simplebuy.refresh': 'Refresh'
+  'modals.simplebuy.rejected.bank_failed': 'Please try making your purchase again. If this keeps happening, please'
   'modals.simplebuy.rejected.blocked_by_laws': 'Blocked by Local Laws'
   'modals.simplebuy.rejected.blocked_by_laws_description': 'At Blockchain.com, we strive to adhere to any and all local laws. Based on your location, we cannot allow the buying or selling digital currencies at this time.'
   'modals.simplebuy.rejected.contact_support': 'Contact Support'

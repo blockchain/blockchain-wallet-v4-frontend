@@ -181,14 +181,14 @@ const Success: React.FC<Props> = props => {
               {props.order.state === 'FAILED' && (
                 <>
                   <FormattedMessage
-                    id='copy.bank_linked_error'
-                    defaultMessage='Please try linking your bank again. If this keeps happening, please'
+                    id='modals.simplebuy.rejected.bank_failed'
+                    defaultMessage='Please try making your purchase again. If this keeps happening, please'
                   />{' '}
                   <Link
                     size='14px'
                     weight={500}
                     target='_blank'
-                    href='https://support.blockchain.com/hc/en-us/'
+                    href='https://support.blockchain.com/hc/en-us/sections/360007997071-Buy-Crypto'
                   >
                     <FormattedMessage
                       id='buttons.contact_support'
