@@ -133,9 +133,11 @@ export default ({
         coin
       )
       payment = yield payment.amount(paymentAmount)
+      // TODO, add isMemoBased check
+      const sampleAddr = quote.sampleDepositAddress.split(':')[0]
       return (yield payment
         .chain()
-        .to(quote.sampleDepositAddress, 'ADDRESS')
+        .to(sampleAddr, 'ADDRESS')
         .build()
         .done()).value()
     } catch (e) {
