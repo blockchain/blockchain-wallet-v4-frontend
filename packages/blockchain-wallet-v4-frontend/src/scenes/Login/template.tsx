@@ -449,11 +449,6 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                 </FormGroup>
               )}
               <FormGroup>
-                <Text color='red600' size='12px' weight={600}>
-                  You are about to upgrade your wallet to the new SegWit
-                  payload. This is not reversible and you will no longer be able
-                  to use this wallet in normal environments!
-                </Text>
                 <LoginButton
                   type='submit'
                   nature='primary'
