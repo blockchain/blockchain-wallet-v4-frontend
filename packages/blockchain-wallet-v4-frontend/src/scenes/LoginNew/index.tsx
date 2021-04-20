@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
 
@@ -30,7 +31,7 @@ enum LoginSteps {
 type LoginFormType = {
   guidOrEmail: string
   password: string
-  step: LoginSteps,
+  step: LoginSteps
   twoFA?: number | string
 }
 
@@ -56,6 +57,18 @@ class Login extends PureComponent<Props> {
     const { step } = formValues
     return (
       <>
+        <Text
+          color={'white'}
+          size={'24px'}
+          weight={600}
+          style={{ marginBottom: '64px' }}
+        >
+          <FormattedMessage
+            id='scenes.login.welcome'
+            defaultMessage='Welcome back!'
+          />
+        </Text>
+
         <Wrapper>
           {(() => {
             switch (step) {
