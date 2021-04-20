@@ -3,18 +3,18 @@ declare module 'react-intl' {
     DefaultMessageType,
     MessageIdType
   } from 'blockchain-wallet-v4-frontend/src/assets/locales'
-  import { StatelessComponent } from 'react'
+  import React from 'react'
 
   export const injectIntl
 
-  export const FormattedMessage: StatelessComponent<{
+  export const FormattedMessage: React.FC<{
     className?: string
     defaultMessage: DefaultMessageType
     id: MessageIdType
     values?: any
   }>
 
-  export const FormattedHTMLMessage: StatelessComponent<{
+  export const FormattedHTMLMessage: React.FC<{
     defaultMessage: DefaultMessageType
     id: MessageIdType
     values?: any
