@@ -5,6 +5,7 @@ import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   CoinType,
   FiatType,
+  SBCardType,
   SBOrderActionType,
   SBOrderType,
   SupportedWalletCurrenciesType,
@@ -95,8 +96,7 @@ export const getPaymentMethod = (
         accountNumber: ''
       }
       const d = (bankAccount && bankAccount.details) || defaultBankInfo
-      return `${d.bankName} ${d.bankAccountType?.toLowerCase() ||
-        ''} ${d.accountNumber || ''}`
+      return `${d.bankName}`
     default:
       return (
         <FormattedMessage
@@ -118,4 +118,26 @@ export const displayFiat = (
     unit: counterCurrency as FiatType,
     value: convertBaseToStandard('FIAT', amt)
   })
+}
+
+export const getPaymentMethodDetails = (
+  order: SBOrderType,
+  bankAccount: BankTransferAccountType,
+  cardDetails: SBCardType | null
+) => {
+  switch (order.paymentType) {
+    case 'PAYMENT_CARD':
+      return `${cardDetails?.card?.type} ${cardDetails?.card?.number}`
+    case 'BANK_TRANSFER':
+      const defaultBankInfo = {
+        bankName: 'Bank Transfer',
+        bankAccountType: '',
+        accountNumber: ''
+      }
+      const d = (bankAccount && bankAccount.details) || defaultBankInfo
+      return `${d.bankAccountType?.toLowerCase() || ''} ${d.accountNumber ||
+        ''}`
+    default:
+      return null
+  }
 }
