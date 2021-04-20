@@ -1,19 +1,19 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import styled from 'styled-components'
 import { bindActionCreators, compose } from 'redux'
-import { InjectedFormProps, reduxForm } from 'redux-form'
+import { reduxForm } from 'redux-form'
+import styled from 'styled-components'
 
-import { actions, selectors } from 'data'
 import { Button } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
+import { actions, selectors } from 'data'
 
 import Loading from '../loading.public'
-import {LOGIN_NEW} from './model'
 // step templates
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
 import EnterTwoFactor from './EnterTwoFactor'
+import { LOGIN_NEW } from './model'
 import VerificationEmail from './VerificationEmail'
 import VerificationMobile from './VerificationMobile'
 
@@ -27,10 +27,11 @@ enum LoginSteps {
   VERIFICATION_MOBILE
 }
 
-type LoginFormValues = {
+type LoginFormType = {
   guidOrEmail: string
   password: string
-  twoFA?: number |string 
+  step: LoginSteps,
+  twoFA?: number | string
 }
 
 // TODO: remove temp
@@ -41,24 +42,23 @@ const ButtonRow = styled.div`
 `
 
 class Login extends PureComponent<Props> {
-  state = { currentStep: LoginSteps.ENTER_EMAIL_GUID }
-
   componentDidMount() {
     // TODO: browser check
     // TODO: check for existing cookie/localstorage?
   }
 
-setStep = (step: LoginSteps) => {
-  this.props.formActions.change(LOGIN_NEW, 'step', step)
-}
+  setStep = (step: LoginSteps) => {
+    this.props.formActions.change(LOGIN_NEW, 'step', step)
+  }
 
   render() {
-    const { currentStep } = this.state
+    const { formValues } = this.props
+    const { step } = formValues
     return (
       <>
         <Wrapper>
           {(() => {
-            switch (currentStep) {
+            switch (step) {
               case LoginSteps.ENTER_EMAIL_GUID:
                 return <EnterEmailOrGuid />
 
@@ -122,10 +122,8 @@ setStep = (step: LoginSteps) => {
   }
 }
 
-const mapStateToProps = (state) => ({
-  formValues: selectors.form.getFormValues(LOGIN_NEW)(
-    state
-  )
+const mapStateToProps = state => ({
+  formValues: selectors.form.getFormValues(LOGIN_NEW)(state) as LoginFormType
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -137,7 +135,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 type Props = ConnectedProps<typeof connector>
 const enhance = compose<any>(
   reduxForm({
-    form: LOGIN_NEW,
+    form: LOGIN_NEW
   }),
   connector
 )
