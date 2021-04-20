@@ -93,10 +93,10 @@ const Success: React.FC<InjectedFormProps<
         </Title>
         <Value>
           <FormattedMessage
-            id='modals.simplebuy.confirm.funds_wallet'
-            defaultMessage='{coin} Wallet'
+            id='modals.brokerage.fiat_account'
+            defaultMessage='{currency} Account'
             values={{
-              coin: props.fiatCurrency
+              currency: props.fiatCurrency
             }}
           />
         </Value>

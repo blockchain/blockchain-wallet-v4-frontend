@@ -112,6 +112,7 @@ const EditTxDescription = React.lazy(() =>
 const PairingCode = React.lazy(() => import('./Wallet/PairingCode'))
 const ShowXPub = React.lazy(() => import('./Wallet/ShowXPub'))
 const UpgradeWallet = React.lazy(() => import('./Wallet/UpgradeWallet'))
+const InterestPromo = React.lazy(() => import('./Wallet/InterestPromo'))
 
 // SOLO
 const Borrow = React.lazy(() => import('./Borrow'))
@@ -124,14 +125,20 @@ const Swap = React.lazy(() => import('./Swap'))
 // BROKERAGE
 const BankDetails = React.lazy(() => import('./Brokerage/Banks/BankDetails'))
 const RemoveBank = React.lazy(() => import('./Brokerage/Banks/RemoveBank'))
-const AddBank = React.lazy(() => import('./Brokerage/Banks/AddBank'))
+const AddBankYapily = React.lazy(() =>
+  import('./Brokerage/Banks/AddBankYapily')
+)
+const AddBankYodlee = React.lazy(() =>
+  import('./Brokerage/Banks/AddBankYodlee')
+)
 const Deposit = React.lazy(() => import('./Brokerage/Banks/Deposit'))
 const Withdraw = React.lazy(() => import('./Brokerage/Banks/Withdraw'))
 
 const Modals = () => (
   <Suspense fallback={null}>
     <div>
-      <AddBank />
+      <AddBankYapily />
+      <AddBankYodlee />
       <AddBtcWallet />
       <AirdropClaim />
       <AirdropSuccess />
@@ -187,6 +194,7 @@ const Modals = () => (
       <UpgradeAddressLabels />
       <UpgradeForAirdrop />
       <UpgradeWallet />
+      <InterestPromo />
       <VerifyMessage />
       <Welcome />
       <Withdraw />

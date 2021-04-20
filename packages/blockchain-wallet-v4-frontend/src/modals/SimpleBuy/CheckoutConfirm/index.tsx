@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import BigNumber from 'bignumber.js'
+import { defaultTo, filter, prop } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -15,6 +16,7 @@ import { getFiatFromPair, getOrderType } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
 import {
   AddBankStepType,
+  BankTransferAccountType,
   BrokerageModalOriginType,
   UserDataType
 } from 'data/types'
@@ -43,6 +45,7 @@ class CheckoutConfirm extends PureComponent<Props> {
 
   handleSubmit = () => {
     const {
+      bankAccounts,
       cards,
       isSddFlow,
       isUserSddVerified,
@@ -61,7 +64,7 @@ class CheckoutConfirm extends PureComponent<Props> {
       if (isUserSddVerified) {
         if (cards && cards.length > 0) {
           const card = cards[0]
-          return this.props.simpleBuyActions.confirmSBCreditCardOrder(
+          return this.props.simpleBuyActions.confirmSBOrder(
             card.id,
             this.props.order
           )
@@ -99,7 +102,7 @@ class CheckoutConfirm extends PureComponent<Props> {
         }
       case 'PAYMENT_CARD':
         if (this.props.order.paymentMethodId) {
-          return this.props.simpleBuyActions.confirmSBCreditCardOrder(
+          return this.props.simpleBuyActions.confirmSBOrder(
             this.props.order.paymentMethodId,
             this.props.order
           )
@@ -107,15 +110,28 @@ class CheckoutConfirm extends PureComponent<Props> {
           return this.props.simpleBuyActions.setStep({ step: 'ADD_CARD' })
         }
       case 'BANK_TRANSFER':
+        const [bankAccount] = filter(
+          (b: BankTransferAccountType) =>
+            b.state === 'ACTIVE' && b.id === this.props.order.paymentMethodId,
+          defaultTo([])(bankAccounts)
+        )
+        const paymentPartner = prop('partner', bankAccount)
+        // if yapily we need the auth screen before creating the order
+        if (paymentPartner === 'YAPILY') {
+          return this.props.simpleBuyActions.setStep({
+            step: 'AUTHORIZE_PAYMENT',
+            order: this.props.order
+          })
+        }
         if (this.props.order.paymentMethodId) {
-          return this.props.simpleBuyActions.confirmSBCreditCardOrder(
+          return this.props.simpleBuyActions.confirmSBOrder(
             this.props.order.paymentMethodId,
             this.props.order
           )
         } else {
           this.props.brokerageActions.showModal(
             BrokerageModalOriginType.ADD_BANK,
-            'ADD_BANK_MODAL'
+            'ADD_BANK_YODLEE_MODAL'
           )
           return this.props.brokerageActions.setAddBankStep({
             addBankStep: AddBankStepType.ADD_BANK_HANDLER

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { transparentize } from 'polished'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
@@ -65,7 +65,7 @@ const selectWidth = size => {
   }
 }
 
-const Modal = props => {
+const Modal = forwardRef((props, ref) => {
   const { children, ...rest } = props
   const modalDataE2e = rest.dataE2e || 'modal'
   const type = rest.type
@@ -100,6 +100,7 @@ const Modal = props => {
           isLast={isLast}
           position={position}
           width={width}
+          ref={ref}
           {...rest}
         >
           {children}
@@ -107,7 +108,7 @@ const Modal = props => {
       </ModalBackground>
     )
   }
-}
+})
 
 Modal.propTypes = {
   position: PropTypes.number,

@@ -9,7 +9,11 @@ import {
   coinToString,
   fiatToString
 } from 'blockchain-wallet-v4/src/exchange/currency'
-import { CoinType, SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
+import {
+  CoinType,
+  OrderType,
+  SBPaymentMethodType
+} from 'blockchain-wallet-v4/src/types'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -239,7 +243,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     method,
     props.swapAccount,
     props.isSddFlow,
-    sddLimit
+    sddLimit,
+    props.limits
   )[fix]
   const min: string = getMaxMin(
     'min',
@@ -252,7 +257,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     method,
     props.swapAccount,
     props.isSddFlow,
-    sddLimit
+    sddLimit,
+    props.limits
   )[fix]
 
   const handleMinMaxClick = () => {
@@ -289,7 +295,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       method,
       props.swapAccount,
       props.isSddFlow,
-      sddLimit
+      sddLimit,
+      props.limits
     )[fix]
     const value = convertStandardToBase(conversionCoinType, maxMin)
     props.simpleBuyActions.handleSBSuggestedAmountClick(
@@ -315,7 +322,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const isSufficientEthForErc20 =
     props.payment &&
     props.swapAccount?.type === 'ACCOUNT' &&
-    props.orderType === 'SELL' &&
+    props.orderType === OrderType.SELL &&
     isErc20 &&
     // @ts-ignore
     !props.payment.isSufficientEthForErc20
@@ -446,7 +453,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </QuoteRow>
           )}
         </QuoteActionContainer>
-        {(!props.isSddFlow || props.orderType === 'SELL') &&
+        {(!props.isSddFlow || props.orderType === OrderType.SELL) &&
           props.pair &&
           Number(min) <= Number(max) && (
             <Amounts onClick={handleMinMaxClick}>
@@ -461,7 +468,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       defaultMessage='{value} Minimum {orderType}'
                       values={{
                         value: getValue(min),
-                        orderType: props.orderType === 'BUY' ? 'Buy' : 'Sell'
+                        orderType:
+                          props.orderType === OrderType.BUY ? 'Buy' : 'Sell'
                       }}
                     />
                   </CustomErrorCartridge>
@@ -471,7 +479,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       id='modals.simplebuy.checkout.maxbuysell'
                       defaultMessage='{orderType} Max'
                       values={{
-                        orderType: orderType === 'BUY' ? 'Buy' : 'Sell'
+                        orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell'
                       }}
                     />
                   </BlueRedCartridge>
@@ -480,7 +488,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </Amounts>
           )}
 
-        {(!props.isSddFlow || props.orderType === 'SELL') &&
+        {(!props.isSddFlow || props.orderType === OrderType.SELL) &&
           props.pair &&
           Number(min) > Number(max) && (
             <Amounts>
@@ -496,7 +504,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </Amounts>
           )}
 
-        {props.isSddFlow && props.orderType === 'BUY' && (
+        {props.isSddFlow && props.orderType === OrderType.BUY && (
           <ActionsRow>
             <ActionsItem>
               <Text weight={500} size='14px' color='grey600'>
@@ -529,7 +537,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <Payment
           {...props}
           method={method}
-          isSddFlow={props.isSddFlow && props.orderType === 'BUY'}
+          isSddFlow={props.isSddFlow && props.orderType === OrderType.BUY}
         />
 
         {props.error && (
@@ -577,7 +585,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </Amounts>
         )}
       </FlyoutWrapper>
-      {props.isSddFlow && props.orderType === 'BUY' && (
+      {props.isSddFlow && props.orderType === OrderType.BUY && (
         <IncreaseLimits {...props} />
       )}
       {isSufficientEthForErc20 && (
@@ -589,8 +597,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               style={{ marginRight: '4px' }}
             />
             <FormattedMessage
-              id='copy.not_enough_eth'
-              defaultMessage='ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in "My Ether Wallet" for this transaction, not the Ether Trading Wallet.'
+              id='copy.not_enough_eth1'
+              defaultMessage='ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in your Ether Wallet for this transaction, not Ether Trading Account.'
               values={{
                 coin: props.supportedCoins[cryptoCurrency].coinTicker
               }}

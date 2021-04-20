@@ -4,6 +4,7 @@ import { find, isEmpty, pathOr, propEq, propOr } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { Remote } from 'blockchain-wallet-v4/src'
+import { OrderType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
@@ -39,8 +40,14 @@ class Checkout extends PureComponent<Props> {
       this.props.simpleBuyActions.fetchSDDEligible()
       this.props.simpleBuyActions.fetchSBCards()
       this.props.brokerageActions.fetchBankTransferAccounts()
-      this.props.simpleBuyActions.fetchLimits(this.props.fiatCurrency || 'USD')
     }
+    // we fetch limits as part of home banners logic at that point we had only fiatCurrency
+    // here we have to re-fetch for crypto currency and order type
+    this.props.simpleBuyActions.fetchLimits(
+      this.props.fiatCurrency,
+      this.props.cryptoCurrency,
+      this.props.orderType || OrderType.BUY
+    )
   }
 
   handleSubmit = () => {
@@ -64,7 +71,7 @@ class Checkout extends PureComponent<Props> {
 
     // TODO: sell
     // need to do kyc check
-    if (formValues?.orderType === 'SELL') {
+    if (formValues?.orderType === OrderType.SELL) {
       return this.props.simpleBuyActions.setStep({
         step: 'PREVIEW_SELL',
         sellOrderType: this.props.swapAccount?.type
@@ -86,7 +93,7 @@ class Checkout extends PureComponent<Props> {
         )
       }
     } else if (!method) {
-      const fiatCurrency = this.props.fiatCurrency || 'USD'
+      const fiatCurrency = this.props.fiatCurrency
       const nextStep = hasPaymentAccount
         ? 'LINKED_PAYMENT_ACCOUNTS'
         : 'PAYMENT_METHODS'
@@ -146,7 +153,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   data: getData(state, ownProps),
   cryptoCurrency:
     selectors.components.simpleBuy.getCryptoCurrency(state) || 'BTC',
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD',
   formValues: selectors.form.getFormValues('simpleBuyCheckout')(state) as
     | SBCheckoutFormValuesType
     | undefined,

@@ -3,7 +3,12 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import styled from 'styled-components'
 
-import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import {
+  CoinAccountIcon,
+  Icon,
+  SpinningLoader,
+  Text
+} from 'blockchain-info-components'
 import { formatCoin } from 'blockchain-wallet-v4/src/exchange/currency'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -171,10 +176,9 @@ class EnterAmount extends PureComponent<Props> {
                         </BalanceRow>
                       </OptionValue>
                     </div>
-                    <Icon
-                      name={coins[BASE.coin].coinCode}
-                      color={coins[BASE.coin].coinCode}
-                      size='32px'
+                    <CoinAccountIcon
+                      accountType={BASE.type}
+                      coin={coins[BASE.coin].coinCode}
                     />
                   </Option>
                   <Toggler
@@ -214,10 +218,9 @@ class EnterAmount extends PureComponent<Props> {
                         </BalanceRow>
                       </OptionValue>
                     </div>
-                    <Icon
-                      name={coins[COUNTER.coin].coinCode}
-                      color={coins[COUNTER.coin].coinCode}
-                      size='32px'
+                    <CoinAccountIcon
+                      accountType={COUNTER.type}
+                      coin={coins[COUNTER.coin].coinCode}
                     />
                   </Option>
                   <Border />

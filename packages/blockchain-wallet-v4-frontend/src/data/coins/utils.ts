@@ -11,13 +11,11 @@ export const generateTradingAccount = (
   coin: CoinType,
   sbBalance?: SBBalanceType
 ) => {
-  // hack to support PAX rebrand 🤬
-  const ticker = coin === 'PAX' ? 'USD-D' : coin
   return [
     {
       baseCoin: coin in Erc20CoinsEnum ? 'ETH' : coin,
       coin,
-      label: `${ticker} Trading Wallet`,
+      label: 'Trading Account',
       type: ADDRESS_TYPES.CUSTODIAL,
       balance: sbBalance?.available || '0'
     }
@@ -34,7 +32,7 @@ export const generateInterestAccount = (
     {
       baseCoin: coin in Erc20CoinsEnum ? 'ETH' : coin,
       coin,
-      label: `${ticker} Interest Wallet`,
+      label: `${ticker} Interest Account`,
       type: ADDRESS_TYPES.INTEREST,
       balance: interestBalance?.balance
     }

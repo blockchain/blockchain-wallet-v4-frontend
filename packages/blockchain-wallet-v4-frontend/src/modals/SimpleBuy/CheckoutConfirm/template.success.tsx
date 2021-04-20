@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import moment from 'moment'
-import { defaultTo, filter, path } from 'ramda'
+import { defaultTo, filter, path, prop } from 'ramda'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -13,10 +13,7 @@ import {
   Text
 } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import {
-  BankTransferAccountType,
-  SupportedWalletCurrenciesType
-} from 'blockchain-wallet-v4/src/types'
+import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { Form } from 'components/Form'
@@ -28,6 +25,7 @@ import {
   getOrderType,
   getPaymentMethodId
 } from 'data/components/simpleBuy/model'
+import { BankTransferAccountType } from 'data/types'
 
 import { displayFiat, getPaymentMethod } from '../model'
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -86,6 +84,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       b.state === 'ACTIVE' && b.id === paymentMethodId,
     defaultTo([])(path(['bankAccounts'], props))
   )
+  const paymentPartner = prop('partner', bankAccount)
+
   const showLock = props.withdrawLockCheck && props.withdrawLockCheck.lockTime
   const isBankLink = props.order.paymentType === 'BANK_TRANSFER'
 
@@ -179,45 +179,26 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </Value>
       </Row>
       <Bottom>
-        {requiresTerms ? (
-          <Info style={{ marginBottom: '12px' }}>
-            <Icon
-              name='market-up'
-              color='grey900'
-              size='16px'
-              style={{ marginRight: '8px' }}
-            />
+        <Info style={{ marginBottom: '12px' }}>
+          {requiresTerms ? (
             <Text size='12px' weight={500} color='grey900'>
               <FormattedHTMLMessage
-                id='modals.simplebuy.confirm.activity_card1'
-                defaultMessage='Your final amount might change due to market activity.'
+                id='modals.simplebuy.confirm.activity_card11'
+                defaultMessage='Your final amount might change due to market activity. For your security, buy orders with a bank account are subject up to a 14 day holding period. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
               />
             </Text>
-          </Info>
-        ) : (
-          <Info style={{ marginBottom: '12px' }}>
-            <Icon
-              name='info'
-              color='grey900'
-              size='16px'
-              style={{ marginRight: '8px' }}
-            />
+          ) : (
             <Text size='12px' weight={500} color='grey900'>
               <FormattedMessage
                 id='modals.simplebuy.confirm.activity'
                 defaultMessage='Your final amount may change due to market activity.'
               />
             </Text>
-          </Info>
-        )}
+          )}
+        </Info>
+
         {showLock && props.order.paymentType === 'USER_CARD' && (
           <Info>
-            <Icon
-              name='info'
-              color='grey900'
-              size='16px'
-              style={{ marginRight: '8px' }}
-            />
             <Text size='12px' weight={500} color='grey900'>
               <FormattedHTMLMessage
                 id='modals.simplebuy.confirm.activity_card2'
@@ -273,12 +254,15 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         >
           {props.submitting ? (
             <HeartbeatLoader height='16px' width='16px' color='white' />
+          ) : paymentPartner === 'YAPILY' ? (
+            <FormattedMessage id='copy.next' defaultMessage='Next' />
           ) : (
             `${
               orderType === 'BUY' ? 'Buy' : 'Sell'
             } ${baseAmount} ${baseCurrency}`
           )}
         </Button>
+
         <Button
           data-e2e='sbCancelCheckout'
           disabled={props.submitting}

@@ -108,7 +108,7 @@ function TransactionList(props: Props): ReactElement | null {
                     <IconBackground color={coinCode}>
                       <Icon
                         name='arrow-up'
-                        color={coinCode}
+                        color='white'
                         size='20px'
                         weight={600}
                         data-e2e={id}
@@ -145,7 +145,7 @@ function TransactionList(props: Props): ReactElement | null {
                     <IconBackground color={coinCode}>
                       <Icon
                         name='arrow-down'
-                        color={coinCode}
+                        color='white'
                         size='20px'
                         weight={600}
                       />
@@ -198,9 +198,9 @@ function TransactionList(props: Props): ReactElement | null {
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionFrom'>
                       {isCustodial ? (
-                        <span>{displayName} Trading Wallet</span>
+                        <span>{displayName} Trading Account</span>
                       ) : (
-                        <span>My {displayName} Wallet</span>
+                        <span>{displayName} Private Key Wallet</span>
                       )}
                     </Value>
                   </TableCell>
@@ -220,9 +220,9 @@ function TransactionList(props: Props): ReactElement | null {
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionTo'>
                       {isCustodial ? (
-                        <span>{displayName} Trading Wallet</span>
+                        <span>{displayName} Trading Account</span>
                       ) : (
-                        <span>My {displayName} Wallet</span>
+                        <span>{displayName} Private Key Wallet</span>
                       )}
                     </Value>
                   </TableCell>

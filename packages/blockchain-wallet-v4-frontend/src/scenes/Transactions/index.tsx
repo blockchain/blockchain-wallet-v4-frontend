@@ -12,6 +12,7 @@ import {
   CoinTypeEnum,
   FiatType,
   FiatTypeEnum,
+  OrderType,
   SupportedFiatType,
   SupportedWalletCurrencyType,
   TimeRange,
@@ -144,6 +145,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       currency,
       hasTxResults,
       isCoinErc20,
+      isInvited,
       isSearchEntered,
       loadMoreTxs,
       pages,
@@ -174,7 +176,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                         this.props.simpleBuyActions.showModal(
                           'TransactionList',
                           coin as CoinType,
-                          'SELL'
+                          OrderType.SELL
                         )
                       }}
                     >
@@ -191,7 +193,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                         this.props.simpleBuyActions.showModal(
                           'TransactionList',
                           coin as CoinType,
-                          'BUY'
+                          OrderType.BUY
                         )
                       }}
                     >
@@ -209,17 +211,16 @@ class TransactionsContainer extends React.PureComponent<Props> {
                         onClick={() => {
                           if (!this.props.brokerageActions) return
                           if (!this.props.simpleBuyActions) return
-                          // ACH Deposits/Withdrawals is only for USD right now
-                          // so keeping the existing functionality for EUR
-                          // TODO: update coinIntroduction login as well!
-                          coin === 'USD'
-                            ? this.props.brokerageActions.handleDepositFiatClick(
-                                coin as WalletFiatType
-                              )
-                            : this.props.simpleBuyActions.handleSBDepositFiatClick(
-                                coin as WalletFiatType,
-                                'TransactionList'
-                              )
+                          if (isInvited || coin === 'USD') {
+                            this.props.brokerageActions.handleDepositFiatClick(
+                              coin as WalletFiatType
+                            )
+                          } else {
+                            this.props.simpleBuyActions.handleSBDepositFiatClick(
+                              coin as WalletFiatType,
+                              'TransactionList'
+                            )
+                          }
                         }}
                       >
                         <FormattedMessage

@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { last, prop } from 'ramda'
+import { isEmpty, isNil, last, prop } from 'ramda'
 import { FormAction, initialize } from 'redux-form'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
@@ -31,6 +31,8 @@ import { InterestDepositFormType, InterestWithdrawalFormType } from './types'
 const { INTEREST_EVENTS } = model.analytics
 const DEPOSIT_FORM = 'interestDepositForm'
 const WITHDRAWAL_FORM = 'interestWithdrawalForm'
+
+export const logLocation = 'components/interest/sagas'
 
 export default ({
   api,
@@ -210,10 +212,7 @@ export default ({
               coin,
               paymentR
             )
-            const paymentAmount = generateProvisionalPaymentAmount(
-              payment.coin,
-              value
-            )
+            const paymentAmount = generateProvisionalPaymentAmount(coin, value)
             payment = yield payment.amount(paymentAmount)
             yield put(A.setPaymentSuccess(payment.value()))
           }
@@ -310,10 +309,7 @@ export default ({
       const paymentR = S.getPayment(yield select())
       if (paymentR) {
         let payment = yield getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
-        const paymentAmount = generateProvisionalPaymentAmount(
-          payment.coin,
-          value
-        )
+        const paymentAmount = generateProvisionalPaymentAmount(coin, value)
         payment = yield payment.amount(paymentAmount)
         yield put(A.setPaymentSuccess(payment.value()))
       }
@@ -397,8 +393,18 @@ export default ({
         })
       } else {
         // non-custodial deposit
+        // fetch deposit address
         yield put(A.fetchInterestAccount(coin))
+        yield take([
+          AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS,
+          AT.FETCH_INTEREST_PAYMENT_ACCOUNT_FAILURE
+        ])
         const depositAddress = yield select(S.getDepositAddress)
+
+        // abort if deposit address missing
+        if (isEmpty(depositAddress) || isNil(depositAddress)) {
+          throw new Error('Missing deposit address')
+        }
 
         // build and publish payment to network
         const transaction = yield call(
@@ -433,7 +439,9 @@ export default ({
         yield put(
           actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_ONE_CLICK)
         )
-        yield put(actions.components.interest.resetAfterTransaction())
+        yield put(
+          actions.components.interest.resetShowInterestCardAfterTransaction()
+        )
       }
 
       yield delay(3000)
@@ -517,21 +525,33 @@ export default ({
     )
   }
 
-  const fetchAfterTransaction = function * () {
+  const fetchShowInterestCardAfterTransaction = function * ({
+    payload
+  }: ReturnType<typeof A.fetchShowInterestCardAfterTransaction>) {
     try {
-      yield put(A.fetchAfterTransactionLoading())
+      yield put(A.fetchShowInterestCardAfterTransactionLoading())
       const response: InterestAfterTransactionType = yield call(
-        api.getInterestCtaAfterTransaction
+        api.getInterestCtaAfterTransaction,
+        payload.currency
       )
-      yield put(A.fetchAfterTransactionSuccess(response))
+      yield put(A.fetchShowInterestCardAfterTransactionSuccess(response))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchAfterTransactionFailure(error))
+      yield put(A.fetchShowInterestCardAfterTransactionFailure(error))
     }
   }
 
+  const stopShowingInterestModal = function * () {
+    try {
+      yield call(api.stopInterestCtaAfterTransaction, false)
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'InterestPromo', e))
+    }
+    yield put(actions.modals.closeModal('InterestPromo'))
+  }
+
   return {
-    fetchAfterTransaction,
+    fetchShowInterestCardAfterTransaction,
     fetchInterestBalance,
     fetchInterestEligible,
     fetchInterestInstruments,
@@ -545,6 +565,7 @@ export default ({
     requestWithdrawal,
     routeToTxHash,
     sendDeposit,
-    showInterestModal
+    showInterestModal,
+    stopShowingInterestModal
   }
 }

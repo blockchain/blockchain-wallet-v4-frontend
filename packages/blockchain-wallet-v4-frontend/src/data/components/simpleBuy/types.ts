@@ -66,20 +66,23 @@ export type SBFixType = 'CRYPTO' | 'FIAT'
 export enum SimpleBuyStepType {
   '3DS_HANDLER',
   'ADD_CARD',
+  'AUTHORIZE_PAYMENT',
+  'BANK_WIRE_DETAILS',
   'CC_BILLING_ADDRESS',
   'CHECKOUT_CONFIRM',
   'CRYPTO_SELECTION',
   'ENTER_AMOUNT',
   'KYC_REQUIRED',
   'LINKED_PAYMENT_ACCOUNTS',
+  'LOADING',
+  'OPEN_BANKING_CONNECT',
   'PAYMENT_METHODS',
   'PREVIEW_SELL',
   'ORDER_SUMMARY',
   'SELL_ORDER_SUMMARY',
   'TRANSFER_DETAILS',
   'UPGRADE_TO_GOLD',
-  'VERIFY_EMAIL',
-  'BANK_WIRE_DETAILS'
+  'VERIFY_EMAIL'
 }
 export type SBShowModalOriginType =
   | 'EmptyFeed'
@@ -376,7 +379,11 @@ interface InitializeCheckout {
 export type StepActionsPayload =
   | {
       order: SBOrderType
-      step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY'
+      step:
+        | 'CHECKOUT_CONFIRM'
+        | 'ORDER_SUMMARY'
+        | 'OPEN_BANKING_CONNECT'
+        | 'AUTHORIZE_PAYMENT'
     }
   | {
       sellOrder: SwapOrderType
@@ -429,6 +436,7 @@ export type StepActionsPayload =
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
+        | 'LOADING'
     }
 
 interface SetStepAction {
@@ -486,6 +494,7 @@ interface FetchLimitsSuccess {
   }
   type: typeof AT.FETCH_LIMITS_SUCCESS
 }
+
 interface UpdateSddTransactionFinished {
   type: typeof AT.UPDATE_SDD_TRANSACTION_FINISHED
 }

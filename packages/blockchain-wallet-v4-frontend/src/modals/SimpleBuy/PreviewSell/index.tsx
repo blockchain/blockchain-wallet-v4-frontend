@@ -18,6 +18,8 @@ import {
   formatFiat
 } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
+  CoinType,
+  Erc20CoinsEnum,
   PaymentValue,
   RatesType,
   SBOrderActionType,
@@ -61,30 +63,33 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     })
   }
 
+  getFeeInFiat = (account, BASE, COUNTER) => {
+    const { payment, rates, ratesEth } = this.props
+    return (
+      (account.type === 'ACCOUNT' &&
+        (Exchange.convertCoinToFiat(
+          convertBaseToStandard(account.baseCoin, this.networkFee(payment)),
+          BASE,
+          COUNTER,
+          BASE in Erc20CoinsEnum ? ratesEth : rates
+        ) as Number)) ||
+      0
+    )
+  }
+
   render() {
     return this.props.quoteR.cata({
       Failure: () => null,
       NotAsked: () => null,
       Loading: () => <Loading />,
       Success: val => {
-        if (!this.props.formValues) return null
-        if (!this.props.account) return null
+        const { account, coins, formValues } = this.props
+        if (!formValues) return null
+        if (!account) return null
         const BASE = getInputFromPair(val.quote.pair)
         const COUNTER = getOutputFromPair(val.quote.pair)
-        const { account, coins, formValues } = this.props
+        const feeInFiat = this.getFeeInFiat(account, BASE, COUNTER)
         const counterCoinTicker = coins[COUNTER].coinTicker
-        const feeInFiat =
-          account.type === 'ACCOUNT' &&
-          this.props.rates &&
-          (Exchange.convertCoinToFiat(
-            convertBaseToStandard(
-              account.baseCoin,
-              this.networkFee(this.props.payment)
-            ),
-            BASE,
-            COUNTER,
-            this.props.rates
-          ) as Number)
         return (
           <>
             <FlyoutWrapper>
@@ -220,15 +225,17 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               </Title>
               <Value data-e2e='sbIncomingAmount'>
                 {this.props.incomingAmountR.cata({
-                  Success: val => (
-                    <>
-                      {
-                        Currencies[counterCoinTicker].units[counterCoinTicker]
-                          .symbol
-                      }
-                      {formatFiat(Number(val.amt) + Number(feeInFiat))}
-                    </>
-                  ),
+                  Success: val => {
+                    return (
+                      <>
+                        {
+                          Currencies[counterCoinTicker].units[counterCoinTicker]
+                            .symbol
+                        }
+                        {formatFiat(Number(val.amt) + Number(feeInFiat))}
+                      </>
+                    )
+                  },
                   Failure: () => (
                     <Text size='14px' color='red600'>
                       <FormattedMessage
@@ -334,29 +341,32 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 }
 
 const mapStateToProps = (state: RootState) => {
-  const coin = selectors.components.simpleBuy.getCryptoCurrency(state)
+  const coin = selectors.components.simpleBuy.getCryptoCurrency(
+    state
+  ) as CoinType
   const payment = selectors.components.simpleBuy
     .getPayment(state)
     .getOrElse(undefined)
-  const rates =
-    coin &&
-    selectors.core.data.misc
-      .getRatesSelector(coin, state)
-      .getOrElse({} as RatesType)
+
   return {
-    formValues: selectors.form.getFormValues('simpleBuyCheckout')(
-      state
-    ) as SBCheckoutFormValuesType,
     account: selectors.components.simpleBuy.getSwapAccount(state),
+    coin,
     coins: selectors.core.walletOptions
       .getSupportedCoins(state)
       .getOrElse({} as SupportedWalletCurrenciesType),
+    formValues: selectors.form.getFormValues('simpleBuyCheckout')(
+      state
+    ) as SBCheckoutFormValuesType,
     pair: selectors.components.simpleBuy.getSBPair(state),
+    payment,
     incomingAmountR: selectors.components.simpleBuy.getIncomingAmount(state),
     quoteR: selectors.components.simpleBuy.getSellQuote(state),
-    coin,
-    payment,
-    rates
+    rates: selectors.core.data.misc
+      .getRatesSelector(coin, state)
+      .getOrElse({} as RatesType),
+    ratesEth: selectors.core.data.misc
+      .getRatesSelector('ETH', state)
+      .getOrElse({} as RatesType)
   }
 }
 

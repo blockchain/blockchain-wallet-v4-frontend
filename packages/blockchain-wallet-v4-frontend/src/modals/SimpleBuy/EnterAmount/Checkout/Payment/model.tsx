@@ -5,7 +5,6 @@ import styled, { css } from 'styled-components'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
-  BankTransferAccountType,
   FiatType,
   SBBalancesType,
   SBPaymentMethodType,
@@ -17,6 +16,7 @@ import {
   DEFAULT_CARD_SVG_LOGO
 } from 'components/Form/CreditCardBox/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
+import { BankTransferAccountType } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 
 type PaymentContainerProps = {
@@ -98,12 +98,16 @@ export const DisplayValue = styled(Value)`
 
 export const renderBankText = (
   value: SBPaymentMethodType | BankTransferAccountType
-): string => {
-  return value.details
-    ? value.details.bankName
-      ? value.details.bankName
-      : value.details.accountNumber
-    : 'Bank Account'
+): string | ReactElement => {
+  return value.details ? (
+    value.details.bankName ? (
+      value.details.bankName
+    ) : (
+      value.details.accountNumber
+    )
+  ) : (
+    <FormattedMessage id='copy.bank_account' defaultMessage='Bank Account' />
+  )
 }
 
 export const renderBank = (
@@ -112,9 +116,8 @@ export const renderBank = (
   <>
     <DisplayValue>{renderBankText(value)}</DisplayValue>
     <DisplayTitle>
-      {`${value.details?.bankAccountType.toLowerCase()} account ${
-        value.details?.accountNumber
-      }`}
+      {`${value.details?.bankAccountType?.toLowerCase() || ''} account ${value
+        .details?.accountNumber || ''}`}
     </DisplayTitle>
   </>
 )

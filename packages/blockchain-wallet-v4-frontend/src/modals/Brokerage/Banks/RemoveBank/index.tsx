@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { BankTransferAccountType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { BankTransferAccountType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../../types'
@@ -18,13 +18,14 @@ export type OwnProps = {
 export type LinkDispatchPropsType = {
   brokerageActions: typeof actions.components.brokerage
 }
-type LinkStatePropsType = {
+
+export type LinkStatePropsType = {
   account: BankTransferAccountType | undefined
   redirectBackToStep: boolean
 }
 
 class CancelOrder extends PureComponent<Props, {}> {
-  state: State = { show: false, direction: 'left' }
+  state: State = { show: false }
 
   componentDidMount() {
     /* eslint-disable */
@@ -53,16 +54,13 @@ class CancelOrder extends PureComponent<Props, {}> {
       <Flyout
         {...this.props}
         onClose={this.handleClose}
-        in={this.state.show}
-        direction={this.state.direction}
+        isOpen={this.state.show}
         data-e2e='bankRemoveModal'
       >
         <FlyoutChild>
           <Template
             {...this.props}
             onSubmit={this.handleSubmit}
-            account={this.props.account}
-            redirectBack={this.props.redirectBackToStep}
             handleClose={this.handleClose}
           />
         </FlyoutChild>
@@ -93,6 +91,6 @@ export type Props = OwnProps &
   LinkStatePropsType &
   ConnectedProps<typeof connector>
 
-type State = { direction: 'left' | 'right'; show: boolean }
+type State = { show: boolean }
 
 export default enhance(CancelOrder)

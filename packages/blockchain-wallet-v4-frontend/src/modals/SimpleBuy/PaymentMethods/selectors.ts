@@ -1,6 +1,7 @@
 import { lift } from 'ramda'
 
 import { ExtractSuccess, FiatType } from 'blockchain-wallet-v4/src/types'
+import { InvitationsType } from 'core/types'
 import { selectors } from 'data'
 
 export const getData = state => {
@@ -14,6 +15,13 @@ export const getData = state => {
   const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
     state
   )
+  // TODO: Remove this when Open Banking gets rolled out 100%
+  const invitations: InvitationsType = selectors.core.settings
+    .getInvitations(state)
+    .getOrElse({
+      openBanking: false
+    } as InvitationsType)
+
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
@@ -33,7 +41,12 @@ export const getData = state => {
       cards,
       eligibility,
       pairs,
-      paymentMethods,
+      paymentMethods:
+        (!invitations.openBanking && {
+          ...paymentMethods,
+          methods: paymentMethods.methods.filter(m => m.type === 'BANK_ACCOUNT')
+        }) ||
+        paymentMethods,
       supportedCoins,
       walletCurrency
     })

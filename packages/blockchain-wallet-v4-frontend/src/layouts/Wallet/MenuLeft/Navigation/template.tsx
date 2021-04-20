@@ -98,7 +98,7 @@ const Navigation = (props: OwnProps & Props) => {
         <MenuItem data-e2e='dashboardLink'>
           <MenuIcon className='icon' name='home' size='24px' />
           <Destination>
-            <FormattedMessage id='copy.dashboard' defaultMessage='Dashboard' />
+            <FormattedMessage id='copy.home' defaultMessage='Home' />
           </Destination>
         </MenuItem>
       </LinkContainer>

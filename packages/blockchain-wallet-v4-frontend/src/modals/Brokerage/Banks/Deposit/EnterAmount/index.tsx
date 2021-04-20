@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { prop } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/network/api/settingsComponent/types'
+import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
 import {
   ExtractSuccess,
   FiatType,
@@ -11,9 +12,9 @@ import {
 } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { BankDWStepType } from 'data/types'
+import { BankDWStepType, BankTransferAccountType } from 'data/types'
 
-import Loading from '../DepositMethods/template.loading'
+import { Loading, LoadingTextEnum } from '../../../../components'
 import { getData } from './selectors'
 import Failure from './template.failure'
 import Success from './template.success'
@@ -29,9 +30,13 @@ const EnterAmount = props => {
   })
 
   const onSubmit = () => {
-    props.brokerageActions.setDWStep({
-      dwStep: BankDWStepType.CONFIRM
-    })
+    prop('partner', props.defaultMethod) === 'YAPILY'
+      ? props.brokerageActions.setDWStep({
+          dwStep: BankDWStepType.AUTHORIZE
+        })
+      : props.brokerageActions.setDWStep({
+          dwStep: BankDWStepType.CONFIRM
+        })
   }
 
   return props.data.cata({
@@ -44,14 +49,15 @@ const EnterAmount = props => {
       />
     ),
     Failure: () => <Failure {...props} />,
-    Loading: () => <Loading />,
-    NotAsked: () => <Loading />
+    Loading: () => <Loading text={LoadingTextEnum.LOADING} />,
+    NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />
   })
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD'
+  defaultMethod: selectors.components.brokerage.getAccount(state),
+  fiatCurrency: selectors.core.settings.getCurrency(state).getOrFail()
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -72,6 +78,7 @@ export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>> & {
 }
 export type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
+  defaultMethod: BankTransferAccountType | undefined
   fiatCurrency: FiatType
 }
 export type FailurePropsType = {

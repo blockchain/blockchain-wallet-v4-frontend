@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 import { Icon, Image, Text } from 'blockchain-info-components'
 import {
+  OrderType,
   SBPaymentMethodType,
   WalletCurrencyType,
   WalletFiatEnum
@@ -161,12 +162,16 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     }
   }
 
-  renderBankText = (value: SBPaymentMethodType): string => {
-    return value.details
-      ? value.details.bankName
-        ? value.details.bankName
-        : value.details.accountNumber
-      : 'Bank Account'
+  renderBankText = (value: SBPaymentMethodType): string | ReactElement => {
+    return value.details ? (
+      value.details.bankName ? (
+        value.details.bankName
+      ) : (
+        value.details.accountNumber
+      )
+    ) : (
+      <FormattedMessage id='copy.bank_account' defaultMessage='Bank Account' />
+    )
   }
 
   renderCardText = (value: SBPaymentMethodType): string => {
@@ -180,10 +185,10 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   render() {
     const { orderType } = this.props
     const availableBankAccounts = this.props.bankTransferAccounts.filter(
-      account => account.state === 'ACTIVE' && orderType === 'BUY'
+      account => account.state === 'ACTIVE' && orderType === OrderType.BUY
     )
     const availableCards = this.props.cards.filter(
-      card => card.state === 'ACTIVE' && orderType === 'BUY'
+      card => card.state === 'ACTIVE' && orderType === OrderType.BUY
     )
 
     const defaultMethods = this.props.paymentMethods.methods.map(value => ({
@@ -192,14 +197,15 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     }))
 
     const bankTransfer = defaultMethods.find(
-      method => method.value.type === 'BANK_TRANSFER' && orderType === 'BUY'
+      method =>
+        method.value.type === 'BANK_TRANSFER' && orderType === OrderType.BUY
     )
 
     const funds = defaultMethods.filter(
       method =>
         method.value.type === 'FUNDS' &&
         method.value.currency in WalletFiatEnum &&
-        (orderType === 'SELL' ||
+        (orderType === OrderType.SELL ||
           Number(
             this.props.balances[method.value.currency as WalletCurrencyType]
               ?.available
@@ -230,11 +236,18 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     }))
 
     const bankMethods = availableBankAccounts.map(account => ({
-      text: account.details
-        ? account.details.accountName
-          ? account.details.accountName
-          : account.details.accountNumber
-        : 'Bank Account',
+      text: account.details ? (
+        account.details.accountName ? (
+          account.details.accountName
+        ) : (
+          account.details.accountNumber
+        )
+      ) : (
+        <FormattedMessage
+          id='copy.bank_account'
+          defaultMessage='Bank Account'
+        />
+      ),
       value: {
         ...account,
         type: 'BANK_TRANSFER',
@@ -335,7 +348,7 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   onClick={() => this.handleSubmit(bankMethod.value)}
                 />
               ))}
-            {orderType === 'BUY' && (
+            {orderType === OrderType.BUY && (
               <AddNewButton
                 data-e2e='addNewPaymentMethod'
                 onClick={this.addNewPaymentMethod}

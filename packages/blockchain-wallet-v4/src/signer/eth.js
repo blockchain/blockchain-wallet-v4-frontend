@@ -18,6 +18,12 @@ export const signErc20 = curry(
     const { amount, gasLimit, gasPrice, index, nonce, to } = data
     const privateKey = eth.getPrivateKey(mnemonic, index)
     const transferMethodHex = '0xa9059cbb'
+
+    // block ERC20 transfers/sends that are being created with 0 amount
+    if (new BigNumber(amount).isZero()) {
+      return Task.rejected(new Error('erc20_amount_cannot_be_zero'))
+    }
+
     const txParams = {
       to: contractAddress,
       nonce: toHex(nonce),

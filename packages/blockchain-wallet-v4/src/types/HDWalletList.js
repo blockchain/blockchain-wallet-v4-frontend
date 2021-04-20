@@ -32,7 +32,7 @@ export const createNew = (
   password,
   sharedKey,
   mnemonic,
-  firstAccountName = 'My Bitcoin Wallet',
+  firstAccountName = 'Private Key Wallet',
   nAccounts = 1
 ) =>
   fromJS([

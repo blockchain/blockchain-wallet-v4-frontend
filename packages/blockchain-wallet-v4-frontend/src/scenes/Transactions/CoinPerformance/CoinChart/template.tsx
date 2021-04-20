@@ -4,10 +4,11 @@ import { localPoint } from '@visx/event'
 import { EventType } from '@visx/event/lib/types'
 import { LinearGradient } from '@visx/gradient'
 import { scaleLinear, scaleTime } from '@visx/scale'
-import { AreaClosed, Bar, Line,LinePath } from '@visx/shape'
+import { AreaClosed, Bar, Line, LinePath } from '@visx/shape'
 import { defaultStyles, TooltipWithBounds, useTooltip } from '@visx/tooltip'
 import { bisector, extent, max, min } from 'd3-array'
 import { timeFormat } from 'd3-time-format'
+import ResizeObserver from 'resize-observer-polyfill'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { Color } from 'blockchain-info-components'
@@ -32,10 +33,15 @@ const circleSize = 4
 
 const tooltipBorderRadius = 4
 
+const margin = 8
+
 const Wrapper = styled.div`
   position: relative;
   height: 80px;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 const Chart = ({
@@ -47,7 +53,7 @@ const Chart = ({
   currency: FiatType
   data: Data[]
 }) => {
-  const [ref, { height, width }] = useMeasure()
+  const [ref, { height, width }] = useMeasure({ polyfill: ResizeObserver })
   const color = Color(coin as keyof DefaultTheme)
 
   const {
@@ -116,7 +122,7 @@ const Chart = ({
 
   return (
     <Wrapper ref={ref}>
-      <svg width={width} height={height}>
+      <svg width={width - margin} height={height}>
         <LinearGradient
           id={color}
           fromOpacity={0.5}

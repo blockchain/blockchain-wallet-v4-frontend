@@ -17,7 +17,7 @@ export const getData = (
 
   const buildCustodialDisplay = x => {
     return (
-      `DOT Trading Wallet` +
+      `Trading Account` +
       ` (${Exchange.displayDotToDot({
         value: x ? x.available : 0,
         fromUnit: 'PLANCK',
@@ -27,14 +27,14 @@ export const getData = (
   }
 
   const toGroup = curry((label, options) => [{ label, options }])
-  const toExchange = x => [{ label: `Exchange DOT Address`, value: x }]
+  const toExchange = x => [{ label: `Exchange Account`, value: x }]
   const toCustodialDropdown = currencyDetails => [
     {
       label: buildCustodialDisplay(currencyDetails),
       value: {
         ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: 'DOT Trading Wallet'
+        label: 'Trading Account'
       }
     }
   ]

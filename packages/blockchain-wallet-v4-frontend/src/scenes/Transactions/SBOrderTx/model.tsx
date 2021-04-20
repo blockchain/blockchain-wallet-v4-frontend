@@ -2,8 +2,8 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Text } from 'blockchain-info-components'
-import { BankTransferAccountType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
 import { getCoinFromPair, getOrderType } from 'data/components/simpleBuy/model'
+import { BankTransferAccountType } from 'data/types'
 
 import {
   IconTx as SharedIconTx,
@@ -23,7 +23,7 @@ export const getOrigin = (
 ) => {
   switch (props.order.paymentType) {
     case 'FUNDS':
-      return props.order.inputCurrency + ' Wallet'
+      return props.order.inputCurrency + ' Account'
     case 'PAYMENT_CARD':
     case 'USER_CARD':
       return 'Credit/Debit Card'
@@ -36,11 +36,15 @@ export const getOrigin = (
       )
       if (bankAccount) {
         const { details } = bankAccount
-        return `${details.bankName} ${details.bankAccountType?.toLowerCase()} ${
-          details.accountNumber
-        }`
+        return `${details.bankName} ${details.bankAccountType?.toLowerCase() ||
+          ''} ${details.accountNumber}`
       }
-      return 'Bank Account'
+      return (
+        <FormattedMessage
+          id='copy.bank_account'
+          defaultMessage='Bank Account'
+        />
+      )
     case undefined:
       return 'Unknown Payment Type'
     default:

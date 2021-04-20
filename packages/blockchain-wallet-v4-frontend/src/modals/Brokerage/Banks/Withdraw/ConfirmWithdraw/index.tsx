@@ -4,7 +4,6 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import {
-  BankTransferAccountType,
   BeneficiaryType,
   ExtractSuccess,
   WalletFiatType
@@ -51,7 +50,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 export type OwnProps = {
   amount: string
   beneficiary?: BeneficiaryType
-  defaultMethod?: BankTransferAccountType
   fiatCurrency: WalletFiatType
   handleClose: () => void
 }
