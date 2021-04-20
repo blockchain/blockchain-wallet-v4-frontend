@@ -29,6 +29,7 @@ export type WalletFormType =
   | 'linkedBanks'
   | 'linkedCards'
   | 'login'
+  | 'loginNew'
   | 'previewSwap'
   | 'previewSell'
   | 'prices'

@@ -1,11 +1,15 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import styled from 'styled-components'
+import { bindActionCreators, compose } from 'redux'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 
+import { actions, selectors } from 'data'
 import { Button } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 
 import Loading from '../loading.public'
+import {LOGIN_NEW} from './model'
 // step templates
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
@@ -22,6 +26,13 @@ enum LoginSteps {
   VERIFICATION_EMAIL,
   VERIFICATION_MOBILE
 }
+
+type LoginFormValues = {
+  guidOrEmail: string
+  password: string
+  twoFA?: number |string 
+}
+
 // TODO: remove temp
 const ButtonRow = styled.div`
   display: flex;
@@ -37,9 +48,9 @@ class Login extends PureComponent<Props> {
     // TODO: check for existing cookie/localstorage?
   }
 
-  onStepChange = newStep => {
-    this.setState({ currentStep: newStep })
-  }
+setStep = (step: LoginSteps) => {
+  this.props.formActions.change(LOGIN_NEW, 'step', step)
+}
 
   render() {
     const { currentStep } = this.state
@@ -73,35 +84,35 @@ class Login extends PureComponent<Props> {
           <Button
             data-e2e=''
             nature='empty-blue'
-            onClick={() => this.onStepChange(LoginSteps.ENTER_EMAIL_GUID)}
+            onClick={() => this.setStep(LoginSteps.ENTER_EMAIL_GUID)}
           >
             Enter Email/Guid
           </Button>
           <Button
             data-e2e=''
             nature='empty-blue'
-            onClick={() => this.onStepChange(LoginSteps.ENTER_PASSWORD)}
+            onClick={() => this.setStep(LoginSteps.ENTER_PASSWORD)}
           >
             Enter Password
           </Button>
           <Button
             data-e2e=''
             nature='empty-blue'
-            onClick={() => this.onStepChange(LoginSteps.ENTER_TWO_FACTOR)}
+            onClick={() => this.setStep(LoginSteps.ENTER_TWO_FACTOR)}
           >
             Enter 2FA
           </Button>
           <Button
             data-e2e=''
             nature='empty-blue'
-            onClick={() => this.onStepChange(LoginSteps.VERIFICATION_EMAIL)}
+            onClick={() => this.setStep(LoginSteps.VERIFICATION_EMAIL)}
           >
             Verify Email
           </Button>
           <Button
             data-e2e=''
             nature='empty-blue'
-            onClick={() => this.onStepChange(LoginSteps.VERIFICATION_MOBILE)}
+            onClick={() => this.setStep(LoginSteps.VERIFICATION_MOBILE)}
           >
             Verify Mobile
           </Button>
@@ -111,12 +122,24 @@ class Login extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = () => ({})
+const mapStateToProps = (state) => ({
+  formValues: selectors.form.getFormValues(LOGIN_NEW)(
+    state
+  )
+})
 
-const mapDispatchToProps = () => ({})
+const mapDispatchToProps = dispatch => ({
+  formActions: bindActionCreators(actions.form, dispatch)
+})
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector>
+const enhance = compose<any>(
+  reduxForm({
+    form: LOGIN_NEW,
+  }),
+  connector
+)
 
-export default connector(Login)
+export default enhance(Login)
