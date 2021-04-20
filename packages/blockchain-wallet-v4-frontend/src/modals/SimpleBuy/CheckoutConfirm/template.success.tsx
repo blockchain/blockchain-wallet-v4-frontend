@@ -10,12 +10,14 @@ import {
   CheckBoxInput,
   HeartbeatLoader,
   Icon,
-  Text
+  Link,
+  Text,
+  TextGroup
 } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
-import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
+import { FlyoutWrapper, Row } from 'components/Flyout'
 import { Form } from 'components/Form'
 import {
   getBaseAmount,
@@ -62,14 +64,88 @@ const InfoTerms = styled(Text)`
   }
 `
 const Amount = styled.div`
+  display: flex;
+  flex-direction: column;
   margin-top: 40px;
   > div {
-    display: inline;
+    display: flex;
+    flex-direction: row;
   }
+`
+const RowItem = styled(Row)`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
+const TopRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
+
+const RowIcon = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+
+const RowItemContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`
+
+const IconWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: 4px;
+`
+
+const RowText = styled(Text)`
+  font-size: 16px;
+  font-weight: 500;
+  color: ${props => props.theme.grey900};
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`
+const AdditionalText = styled(Text)`
+  font-weight: 500;
+  color: ${props => props.theme.grey400};
+  text-align: right;
+  font-size: 14px;
+`
+const ToolTipText = styled.div`
+  display: flex;
+  flex-direction: row;
+  border-radius: 8px;
+  margin-top: 8px;
+  padding: 16px;
+  background-color: ${props => props.theme.grey000};
+
+  animation: fadeIn 0.3s ease-in-out;
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+`
+
+const BottomActions = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex: 1;
 `
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const [acceptTerms, setAcceptTerms] = useState(false)
+  const [isActiveCoinTooltip, setCoinToolTip] = useState(false)
+  const [isActiveFeeTooltip, setFeeToolTip] = useState(false)
   const orderType = getOrderType(props.order)
   const baseAmount = getBaseAmount(props.order)
   const baseCurrency = getBaseCurrency(props.order, props.supportedCoins)
@@ -93,6 +169,20 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.withdrawLockCheck && props.withdrawLockCheck.lockTime
       ? moment.duration(props.withdrawLockCheck.lockTime, 'seconds').days()
       : 3
+
+  const cardDetails =
+    (requiresTerms &&
+      props.cards.filter(card => card.id === paymentMethodId)[0]) ||
+    null
+
+  const isCardPayment = requiresTerms && cardDetails
+
+  const fee = props.order.fee ? props.order.fee : props.quote.fee
+  const totalAmount = fiatToString({
+    value: counterAmount,
+    unit: counterCurrency
+  })
+  const purchase = Number(counterAmount) * 100 - Number(fee)
 
   useEffect(() => {
     if (!requiresTerms) {
@@ -123,61 +213,180 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </TopText>
         <Amount data-e2e='sbTotalAmount'>
-          <Text size='32px' weight={600} color='grey800'>
-            {baseAmount}
-          </Text>
-          <Text size='32px' weight={600} color='grey800'>
-            {baseCurrency}
-          </Text>
+          <div>
+            <Text size='32px' weight={600} color='grey800'>
+              {`${baseAmount} ${baseCurrency}`}
+            </Text>
+          </div>
+          <div>
+            <Text
+              size='20px'
+              weight={600}
+              color='grey600'
+              style={{ marginTop: '8px' }}
+            >
+              {totalAmount}
+            </Text>
+          </div>
         </Amount>
       </FlyoutWrapper>
-      <Row>
-        <Title>
-          <FormattedMessage
-            id='modals.simplebuy.confirm.coin_price'
-            defaultMessage='{coin} Price'
-            values={{
-              coin: baseCurrency
-            }}
-          />
-        </Title>
-        <Value data-e2e='sbExchangeRate'>
-          {displayFiat(props.order, props.supportedCoins, props.quote.rate)}
-        </Value>
-      </Row>
-      <Row>
-        <Title>
-          <FormattedMessage id='copy.fee' defaultMessage='Fee' />
-        </Title>
-        <Value>
-          {props.order.fee
-            ? displayFiat(props.order, props.supportedCoins, props.order.fee)
-            : `${displayFiat(
-                props.order,
-                props.supportedCoins,
-                props.quote.fee
-              )} ${props.order.inputCurrency}`}
-        </Value>
-      </Row>
-      <Row>
-        <Title>
-          <FormattedMessage id='copy.total' defaultMessage='Total' />
-        </Title>
-        <Value data-e2e='sbFiatBuyAmount'>
-          {fiatToString({ value: counterAmount, unit: counterCurrency })}
-        </Value>
-      </Row>
-      <Row>
-        <Title>
+      <RowItem>
+        <RowItemContainer>
+          <TopRow>
+            <RowIcon>
+              <RowText>
+                <FormattedMessage
+                  id='modals.simplebuy.confirm.coin_price'
+                  defaultMessage='{coin} Price'
+                  values={{
+                    coin: baseCurrency
+                  }}
+                />
+              </RowText>
+              {isCardPayment && (
+                <IconWrapper>
+                  <Icon
+                    name='question-in-circle-filled'
+                    size='16px'
+                    color={isActiveCoinTooltip ? 'blue600' : 'grey300'}
+                    onClick={() => setCoinToolTip(!isActiveCoinTooltip)}
+                  />
+                </IconWrapper>
+              )}
+            </RowIcon>
+            <RowText data-e2e='sbExchangeRate'>
+              {displayFiat(props.order, props.supportedCoins, props.quote.rate)}
+            </RowText>
+          </TopRow>
+          {isCardPayment && isActiveCoinTooltip && (
+            <ToolTipText>
+              <Text size='12px' weight={500} color='grey600'>
+                <TextGroup inline>
+                  <Text size='14px'>
+                    <FormattedMessage
+                      id='modals.simplebuy.paying_with_card'
+                      defaultMessage='Blockchain.com requires a fee when paying with a card.'
+                    />
+                  </Text>
+                  {/* TODO: update link */}
+                  <Link
+                    href='https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox'
+                    size='14px'
+                    rel='noopener noreferrer'
+                    target='_blank'
+                  >
+                    <FormattedMessage
+                      id='modals.simplebuy.summary.learn_more'
+                      defaultMessage='Learn more'
+                    />
+                  </Link>
+                </TextGroup>
+              </Text>
+            </ToolTipText>
+          )}
+        </RowItemContainer>
+      </RowItem>
+      <RowItem>
+        <RowText>
           <FormattedMessage
             id='modals.simplebuy.confirm.payment'
             defaultMessage='Payment Method'
           />
-        </Title>
-        <Value>
-          {getPaymentMethod(props.order, props.supportedCoins, bankAccount)}
-        </Value>
-      </Row>
+        </RowText>
+        <RowText>
+          {isCardPayment ? (
+            <>
+              {cardDetails?.card?.label}
+              <AdditionalText>
+                {`${cardDetails?.card?.type} ${cardDetails?.card?.number}`}
+              </AdditionalText>
+            </>
+          ) : (
+            getPaymentMethod(props.order, props.supportedCoins, bankAccount)
+          )}
+        </RowText>
+      </RowItem>
+      <RowItem>
+        <RowText>
+          <FormattedMessage id='copy.purchase' defaultMessage='Purchase' />
+        </RowText>
+        <RowText>
+          {displayFiat(props.order, props.supportedCoins, String(purchase))}
+        </RowText>
+      </RowItem>
+      <RowItem>
+        <RowItemContainer>
+          <TopRow>
+            <RowIcon>
+              <RowText>
+                {isCardPayment ? (
+                  <FormattedMessage
+                    id='copy.card_fee'
+                    defaultMessage='Card Fee'
+                  />
+                ) : (
+                  <FormattedMessage id='copy.fee' defaultMessage='Fee' />
+                )}
+              </RowText>
+              {isCardPayment && (
+                <IconWrapper>
+                  <Icon
+                    name='question-in-circle-filled'
+                    size='16px'
+                    color={isActiveFeeTooltip ? 'blue600' : 'grey300'}
+                    onClick={() => setFeeToolTip(!isActiveFeeTooltip)}
+                  />
+                </IconWrapper>
+              )}
+            </RowIcon>
+            <RowText data-e2e='sbFee'>
+              {props.order.fee
+                ? displayFiat(
+                    props.order,
+                    props.supportedCoins,
+                    props.order.fee
+                  )
+                : `${displayFiat(
+                    props.order,
+                    props.supportedCoins,
+                    props.quote.fee
+                  )} ${props.order.inputCurrency}`}
+            </RowText>
+          </TopRow>
+          {isCardPayment && isActiveFeeTooltip && (
+            <ToolTipText>
+              <Text size='12px' weight={500} color='grey600'>
+                <TextGroup inline>
+                  <Text size='14px'>
+                    <FormattedMessage
+                      id='modals.simplebuy.paying_with_card'
+                      defaultMessage='Blockchain.com requires a fee when paying with a card.'
+                    />
+                  </Text>
+                  {/* TODO: update link */}
+                  <Link
+                    href='https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox'
+                    size='14px'
+                    rel='noopener noreferrer'
+                    target='_blank'
+                  >
+                    <FormattedMessage
+                      id='modals.simplebuy.summary.learn_more'
+                      defaultMessage='Learn more'
+                    />
+                  </Link>
+                </TextGroup>
+              </Text>
+            </ToolTipText>
+          )}
+        </RowItemContainer>
+      </RowItem>
+      <RowItem>
+        <RowText>
+          <FormattedMessage id='copy.total' defaultMessage='Total' />
+        </RowText>
+        <RowText data-e2e='sbFiatBuyAmount'>{totalAmount}</RowText>
+      </RowItem>
       <Bottom>
         <Info style={{ marginBottom: '12px' }}>
           {requiresTerms ? (
@@ -264,30 +473,31 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           )}
         </Button>
 
-        <Button
-          data-e2e='sbCancelCheckout'
-          disabled={props.submitting}
-          size='16px'
-          height='48px'
-          nature='light-red'
-          onClick={handleCancel}
-          style={{ marginTop: '16px' }}
-        >
-          <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
-        </Button>
-        {props.error && (
-          <ErrorCartridge
+          <Button
+            data-e2e='sbCancelCheckout'
+            disabled={props.submitting}
+            size='16px'
+            height='48px'
+            nature='light-red'
+            onClick={handleCancel}
             style={{ marginTop: '16px' }}
-            data-e2e='checkoutError'
           >
-            <Icon
-              name='alert-filled'
-              color='red600'
-              style={{ marginRight: '4px' }}
-            />
-            Error: {props.error}
-          </ErrorCartridge>
-        )}
+            <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
+          </Button>
+          {props.error && (
+            <ErrorCartridge
+              style={{ marginTop: '16px' }}
+              data-e2e='checkoutError'
+            >
+              <Icon
+                name='alert-filled'
+                color='red600'
+                style={{ marginRight: '4px' }}
+              />
+              Error: {props.error}
+            </ErrorCartridge>
+          )}
+        </BottomActions>
       </Bottom>
     </CustomForm>
   )
