@@ -133,15 +133,11 @@ export default ({
         coin
       )
       payment = yield payment.amount(paymentAmount)
-      if (payment.coin === 'BTC' || payment.coin === 'BCH') {
-        return (yield payment
-          .chain()
-          .to(quote.sampleDepositAddress, 'ADDRESS')
-          .build()
-          .done()).value()
-      }
-
-      return payment.value()
+      return (yield payment
+        .chain()
+        .to(quote.sampleDepositAddress, 'ADDRESS')
+        .build()
+        .done()).value()
     } catch (e) {
       // eslint-disable-next-line
       console.log(e)
@@ -392,11 +388,8 @@ export default ({
         BASE.coin,
         Number(swapAmountValues?.cryptoAmount)
       )
-      if (BASE.coin === 'BTC' || BASE.coin === 'BCH') {
-        payment = yield payment.build()
-      } else {
-        payment = yield payment.amount(paymentAmount)
-      }
+      payment = yield payment.amount(paymentAmount)
+      payment = yield payment.build()
       yield put(A.updatePaymentSuccess(payment.value()))
     } catch (error) {
       yield put(A.updatePaymentFailure(error))
