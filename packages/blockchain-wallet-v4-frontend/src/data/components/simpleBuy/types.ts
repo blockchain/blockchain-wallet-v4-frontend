@@ -494,6 +494,7 @@ interface FetchLimitsSuccess {
   }
   type: typeof AT.FETCH_LIMITS_SUCCESS
 }
+
 interface UpdateSddTransactionFinished {
   type: typeof AT.UPDATE_SDD_TRANSACTION_FINISHED
 }

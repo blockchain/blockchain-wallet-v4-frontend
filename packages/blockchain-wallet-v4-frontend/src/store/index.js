@@ -1,5 +1,5 @@
 import BitcoinCash from 'bitcoinforksjs-lib'
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { createHashHistory } from 'history'
 import { applyMiddleware, compose, createStore } from 'redux'

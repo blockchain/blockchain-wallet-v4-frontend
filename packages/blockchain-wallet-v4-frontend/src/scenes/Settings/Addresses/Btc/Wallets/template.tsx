@@ -76,7 +76,7 @@ const ErrorMessageText = styled(Text)`
 const Success = ({
   failure,
   message,
-  onAddNewWallet,
+  // onAddNewWallet,
   onClickImport,
   onUnarchive,
   search,
@@ -84,7 +84,7 @@ const Success = ({
 }: {
   failure?: any
   message?: any
-  onAddNewWallet: () => void
+  // onAddNewWallet: () => void
   onClickImport: () => void
   onUnarchive: (i: any) => void
   search: any
@@ -145,8 +145,22 @@ const Success = ({
                 defaultMessage='Unarchive'
               />
             </Link>
+          ) : //   // TODO: SEGWIT remove w/ DEPRECATED_V3
+          wallet.type === 'v3' ? (
+            <LinkContainer
+              to={`/settings/addresses/btc/${wallet.index}/legacy`}
+            >
+              <Link weight={500} size='13px' data-e2e='btcManageWalletLink'>
+                <FormattedMessage
+                  id='scenes.settings.addresses.btc.wallets.manage'
+                  defaultMessage='Manage'
+                />
+              </Link>
+            </LinkContainer>
           ) : (
-            <LinkContainer to={`/settings/addresses/btc/${wallet.index}`}>
+            <LinkContainer
+              to={`/settings/addresses/btc/${wallet.index}/bech32`}
+            >
               <Link weight={500} size='13px' data-e2e='btcManageWalletLink'>
                 <FormattedMessage
                   id='scenes.settings.addresses.btc.wallets.manage'
@@ -223,7 +237,8 @@ const Success = ({
               defaultMessage='Import Address'
             />
           </Button>
-          <Button
+          {/* // (MAYBE REMOVE FOREVER) TODO: SEGWIT remove w/ DEPRECATED_V3 */}
+          {/* <Button
             data-e2e='btcNewWalletButton'
             height='36px'
             nature='primary'
@@ -234,7 +249,7 @@ const Success = ({
               id='scenes.settings.addresses.btc.wallets.newhdaccount'
               defaultMessage='New Wallet'
             />
-          </Button>
+          </Button> */}
         </ButtonsWrapper>
       </HeaderWrapper>
       <TableStyled>
@@ -258,8 +273,8 @@ const Success = ({
           >
             <Text color='grey900' size='14px' weight={500}>
               <FormattedMessage
-                id='scenes.settings.addresses.btc.wallets.actions'
-                defaultMessage='Actions'
+                id='scenes.settings.addresses.btc.wallets.manage'
+                defaultMessage='Manage'
               />
             </Text>
           </TableCell>

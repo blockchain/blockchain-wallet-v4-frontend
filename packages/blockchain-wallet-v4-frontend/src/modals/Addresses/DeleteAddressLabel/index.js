@@ -9,14 +9,21 @@ import DeleteAddressLabel from './template'
 
 class DeleteAddressLabelContainer extends React.PureComponent {
   onDeleteConfirm = () => {
-    const { accountIdx, addressIdx, walletIdx } = this.props
-
-    this.props.componentActions.deleteAddressLabel(
+    const {
+      accountIdx,
+      addressIdx,
+      close,
+      componentActions,
+      derivation,
+      walletIdx
+    } = this.props
+    componentActions.deleteAddressLabel(
       accountIdx,
       walletIdx,
-      addressIdx
+      addressIdx,
+      derivation
     )
-    this.props.close()
+    close()
   }
 
   render() {

@@ -64,9 +64,10 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchTransactions = function * ({ payload }) {
-    const { address, reset, filter } = payload
+  const fetchTransactions = function * (action) {
     try {
+      const { payload } = action
+      const { address, filter, reset } = payload
       const pages = yield select(S.getTransactions)
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
       const transactionsAtBound = yield select(S.getTransactionsAtBound)
@@ -148,8 +149,7 @@ export default ({ api }: { api: APIType }) => {
       if (address) {
         const convertedAddress = convertFromCashAddrIfCashAddr(address)
         const data = yield call(
-          api.getTransactionHistory,
-          'BCH',
+          api.getBchTransactionHistory,
           convertedAddress,
           currency.getOrElse('USD'),
           startDate,
@@ -160,8 +160,7 @@ export default ({ api }: { api: APIType }) => {
         const context = yield select(S.getContext)
         const active = context.join('|')
         const data = yield call(
-          api.getTransactionHistory,
-          'BCH',
+          api.getBchTransactionHistory,
           active,
           currency.getOrElse('USD'),
           startDate,

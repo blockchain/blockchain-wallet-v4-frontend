@@ -1,4 +1,4 @@
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import cashaddress from 'cashaddress'
 
 export const TX_PER_PAGE = 5

@@ -20,7 +20,6 @@ import {
 import * as S from '../../selectors'
 import {
   ADDRESS_TYPES,
-  fromAccount,
   fromCustodial,
   fromLegacy,
   fromLegacyList,
@@ -30,6 +29,7 @@ import {
   toCoin,
   toOutput
 } from '../btc/utils'
+import { fromAccount } from './utils'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -52,7 +52,7 @@ export default ({ api }) => {
   const pushBchTx = futurizeP(Task)(api.pushBchTx)
   const getWalletUnspent = (network, fromData) =>
     api
-      .getBchUnspents(fromData.from, -1)
+      .getBchUnspents(fromData.from)
       .then(prop('unspent_outputs'))
       .then(map(toCoin(network, fromData)))
 
@@ -60,7 +60,6 @@ export default ({ api }) => {
   const calculateTo = function * (destinations, type, network) {
     const appState = yield select(identity)
     const wallet = S.wallet.getWallet(appState)
-
     // if address or account index
     if (isValidAddressOrIndex(destinations)) {
       return [toOutput('BCH', network, appState, destinations, type)]
@@ -223,7 +222,7 @@ export default ({ api }) => {
       const { outputs } = CoinSelection.selectAll(
         fee,
         coins,
-        'fake-target-address'
+        '16xq4AVL8shMiF3MYM7zm9Ac1G3QfUWjDi' // fake target address
       )
       return outputs[0].value
     } else {
