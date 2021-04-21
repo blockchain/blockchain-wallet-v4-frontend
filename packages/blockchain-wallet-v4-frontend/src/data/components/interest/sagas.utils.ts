@@ -133,6 +133,40 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     return payment
   }
 
+  const createInitialProvisionalPayment = function * (
+    coin: CoinType,
+    payment: PaymentType,
+    destination: string
+  ): Generator<PaymentType | CallEffect, PaymentValue, any> {
+    try {
+      if (coin === 'XLM') {
+        // separate out addresses and memo
+        const depositAddressMemo = destination.split(':')
+        const txMemo = depositAddressMemo[1]
+        // throw error if we cant parse the memo for tx
+        if (
+          isNil(txMemo) ||
+          (typeof txMemo === 'string' && txMemo.length === 0)
+        ) {
+          throw new Error('Memo for transaction is missing')
+        }
+        payment = yield payment.to(depositAddressMemo[0], 'CUSTODIAL')
+        // @ts-ignore
+        payment = yield payment.memo(txMemo)
+        // @ts-ignore
+        payment = yield payment.memoType('text')
+        // @ts-ignore
+        payment = yield payment.setDestinationAccountExists(true)
+      } else {
+        payment = yield payment.to(destination, 'CUSTODIAL')
+      }
+    } catch (e) {
+      throw e
+    }
+
+    return payment.value()
+  }
+
   const toCustodialDropdown = currencyDetails => {
     // this object has to be equal to object we do expect in dropdown
     const { ...restDetails } = currencyDetails
@@ -192,6 +226,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     buildAndPublishPayment,
     createLimits,
     createPayment,
+    createInitialProvisionalPayment,
     getCustodialAccountForCoin
   }
 }

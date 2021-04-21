@@ -46,6 +46,7 @@ export default ({
   const { isTier2 } = profileSagas({ api, coreSagas, networks })
   const {
     buildAndPublishPayment,
+    createInitialProvisionalPayment,
     createLimits,
     createPayment,
     getCustodialAccountForCoin
@@ -271,7 +272,19 @@ export default ({
         actionTypes.components.simpleBuy.FETCH_SB_BALANCES_FAILURE
       ])
     }
+    // non-custodial deposit
+    // fetch deposit address
+    yield put(A.fetchInterestAccount(coin))
+    yield take([
+      AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS,
+      AT.FETCH_INTEREST_PAYMENT_ACCOUNT_FAILURE
+    ])
+    const depositAddress = yield select(S.getDepositAddress)
 
+    // abort if deposit address missing
+    if (isEmpty(depositAddress) || isNil(depositAddress)) {
+      throw new Error('Missing deposit address')
+    }
     yield put(A.setPaymentLoading())
     yield put(A.fetchInterestLimits(coin, currency))
     yield take([
@@ -288,14 +301,26 @@ export default ({
       address: getAccountIndexOrAccount(coin, defaultAccount)
     })
 
+    let newPayment = yield getOrUpdateProvisionalPaymentForCoin(
+      coin,
+      Remote.of(payment)
+    )
+    // const provPayment = yield getOrUpdateProvisionalPaymentForCoin(coin, Remote.of(payment))
+    const updatedPayment = yield call(
+      createInitialProvisionalPayment,
+      coin,
+      newPayment,
+      depositAddress
+    )
+    // console.log(newPayment)
     const custodialBalances = isFromBuySell
       ? (yield select(selectors.components.simpleBuy.getSBBalances)).getOrFail(
           'Failed to get balance'
         )
       : null
 
-    yield call(createLimits, payment, custodialBalances)
-    yield put(A.setPaymentSuccess(payment))
+    yield call(createLimits, updatedPayment, custodialBalances)
+    yield put(A.setPaymentSuccess(updatedPayment))
     let additionalParameters = {}
     if (isFromBuySell) {
       yield put(A.setCoinDisplay(true))
@@ -401,26 +426,12 @@ export default ({
           origin: 'SIMPLEBUY'
         })
       } else {
-        // non-custodial deposit
-        // fetch deposit address
-        yield put(A.fetchInterestAccount(coin))
-        yield take([
-          AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS,
-          AT.FETCH_INTEREST_PAYMENT_ACCOUNT_FAILURE
-        ])
-        const depositAddress = yield select(S.getDepositAddress)
-
-        // abort if deposit address missing
-        if (isEmpty(depositAddress) || isNil(depositAddress)) {
-          throw new Error('Missing deposit address')
-        }
-
         // build and publish payment to network
         const transaction = yield call(
           buildAndPublishPayment,
           coin,
           payment,
-          depositAddress
+          payment.to()
         )
         // notify backend of incoming non-custodial deposit
         yield put(
