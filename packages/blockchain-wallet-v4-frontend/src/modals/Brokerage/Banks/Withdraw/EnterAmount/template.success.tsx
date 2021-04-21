@@ -283,7 +283,7 @@ const Success: React.FC<InjectedFormProps<
                 props.formActions.change(
                   'custodyWithdrawForm',
                   'amount',
-                  displayFiatToFiat({ value: props.withdrawableBalance })
+                  displayFiatToFiat({ value: maxAmount })
                 )
               }
             >

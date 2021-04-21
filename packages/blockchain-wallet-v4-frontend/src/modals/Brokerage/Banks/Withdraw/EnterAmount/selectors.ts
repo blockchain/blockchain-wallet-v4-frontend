@@ -63,6 +63,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   const supportedCoins = supportedCoinsR.getOrElse(
     {} as SupportedWalletCurrenciesType
   )
+
   return lift(
     (
       bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
