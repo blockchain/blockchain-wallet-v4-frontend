@@ -226,16 +226,16 @@ export default ({ api }) => {
         let account = origin
 
         if (p.from && p.from.type === 'CUSTODIAL') {
-          const fee = Exchange.convertEtherToEther({
+          const feeInGwei = Exchange.convertEtherToEther({
             value,
-            fromUnit: 'GWEI',
-            toUnit: 'WEI'
+            fromUnit: 'WEI',
+            toUnit: 'GWEI'
           }).value
 
           return makePayment(
             mergeRight(p, {
-              feeInGwei: value,
-              fee
+              feeInGwei,
+              fee: value
             })
           )
         }

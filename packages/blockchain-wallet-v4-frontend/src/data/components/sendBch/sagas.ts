@@ -233,7 +233,7 @@ export default ({
                 'DEFAULT'
               )
               const fee =
-                response.fees.find(({ symbol }) => symbol === 'BTC')
+                response.fees.find(({ symbol }) => symbol === 'BCH')
                   ?.minorValue || '0'
               payment = yield payment.from(
                 payloadT.label,
