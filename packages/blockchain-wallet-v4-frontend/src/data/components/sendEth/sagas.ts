@@ -179,12 +179,21 @@ export default ({
               payment = yield payment.from(source, fromPayload.type)
               break
             case 'CUSTODIAL':
+              const response: ReturnType<typeof api.getWithdrawalFees> = yield call(
+                api.getWithdrawalFees,
+                'mercury',
+                'DEFAULT'
+              )
+              const fee =
+                response.fees.find(({ symbol }) => symbol === 'BTC')
+                  ?.minorValue || '0'
               source = fromPayload.label
               payment = yield payment.from(
                 source,
                 fromPayload.type,
-                fromPayload.withdrawable
+                new BigNumber(fromPayload.withdrawable).minus(fee).toString()
               )
+              payment = yield payment.fee(new BigNumber(fee).toNumber(), '')
               yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
               yield put(change(FORM, 'to', null))
               break
@@ -198,6 +207,8 @@ export default ({
           // Do not block payment update when to is changed w/ isContract check
           yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
           // After updating payment success check if to isContract
+
+          if (payment.value().from.type === 'CUSTODIAL') return
           yield put(A.sendEthCheckIsContract(value))
           return
         case 'amount':
