@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { prop } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
 import {
   ExtractSuccess,
-  FiatType,
-  RemoteDataType
+  RemoteDataType,
+  WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -27,10 +26,12 @@ const EnterAmount = props => {
       props.brokerageActions.fetchBankTransferAccounts()
       props.simpleBuyActions.fetchSDDEligible()
     }
-  })
+  }, [props.fiatCurrency])
 
   const onSubmit = () => {
-    prop('partner', props.defaultMethod) === 'YAPILY'
+    props.defaultMethod &&
+    'partner' in props.defaultMethod &&
+    props.defaultMethod.partner === 'YAPILY'
       ? props.brokerageActions.setDWStep({
           dwStep: BankDWStepType.AUTHORIZE
         })
@@ -57,7 +58,7 @@ const EnterAmount = props => {
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
   defaultMethod: selectors.components.brokerage.getAccount(state),
-  fiatCurrency: selectors.core.settings.getCurrency(state).getOrFail()
+  fiatCurrency: selectors.components.brokerage.getFiatCurrency(state)
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -79,13 +80,10 @@ export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>> & {
 export type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
   defaultMethod: BankTransferAccountType | undefined
-  fiatCurrency: FiatType
-}
-export type FailurePropsType = {
-  fiatCurrency: FiatType
+  fiatCurrency: WalletFiatType | undefined
 }
 
-export type LinkDispatchPropsType = ReturnType<typeof mapDispatchToProps>
 export type Props = OwnProps & ConnectedProps<typeof connector>
+export type ValidateProps = Props & SuccessStateType & LinkStatePropsType
 
 export default connector(EnterAmount)

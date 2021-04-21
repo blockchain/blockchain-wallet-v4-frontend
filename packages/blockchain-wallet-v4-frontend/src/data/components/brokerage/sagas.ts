@@ -250,13 +250,16 @@ export default ({
         })
       )
     }
-    const bankTransferAccounts = yield select(
-      selectors.components.brokerage.getBankTransferAccounts
+    const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
+      yield select()
     )
-    if (bankTransferAccounts?.data?.length) {
+    const bankTransferAccounts = bankTransferAccountsR.getOrElse([])
+    if (bankTransferAccounts.length) {
       yield put(
         actions.components.brokerage.setBankDetails({
-          account: bankTransferAccounts.data[0]
+          account: bankTransferAccounts.filter(
+            a => a.currency === payload.fiatCurrency && a.state === 'ACTIVE'
+          )[0]
         })
       )
       yield put(
@@ -265,6 +268,7 @@ export default ({
           'BANK_DEPOSIT_MODAL'
         )
       )
+      // Resets any previous form errors
       yield put(actions.form.destroy('brokerageTx'))
       yield put(
         actions.components.brokerage.setDWStep({

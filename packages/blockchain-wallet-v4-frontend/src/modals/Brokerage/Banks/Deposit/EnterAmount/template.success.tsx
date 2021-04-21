@@ -126,7 +126,7 @@ const Header = ({ brokerageActions, fiatCurrency }) => {
   )
 }
 
-const LimitSection = ({ paymentMethods, supportedCoins, walletCurrency }) => {
+const LimitSection = ({ fiatCurrency, paymentMethods, supportedCoins }) => {
   const bankTransfer = paymentMethods.methods.find(
     method => method.type === 'BANK_TRANSFER'
   )
@@ -147,15 +147,15 @@ const LimitSection = ({ paymentMethods, supportedCoins, walletCurrency }) => {
                 'FIAT',
                 bankTransfer.limits.daily.available
               ),
-              unit: walletCurrency as FiatType
+              unit: fiatCurrency as FiatType
             })}{' '}
             <FormattedMessage id='copy.available' defaultMessage='Available' />
           </Text>
         </LimitWrapper>
         <FiatIconWrapper>
           <Icon
-            color={supportedCoins[walletCurrency].coinCode}
-            name={supportedCoins[walletCurrency].coinCode}
+            color={supportedCoins[fiatCurrency].coinCode}
+            name={supportedCoins[fiatCurrency].coinCode}
             size='32px'
           />
           <SubIconWrapper>
@@ -305,7 +305,7 @@ const Success = (props: OwnProps) => {
   )
 }
 
-export type Props = _P & SuccessStateType & LinkStatePropsType
+type Props = _P & SuccessStateType & LinkStatePropsType
 type OwnProps = Props & InjectedFormProps<{}, Props>
 
 export default reduxForm<{}, OwnProps>({
