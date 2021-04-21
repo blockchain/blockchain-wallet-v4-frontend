@@ -54,19 +54,46 @@ class Login extends PureComponent<Props> {
 
   render() {
     const { formValues } = this.props
-    const { step } = formValues
+    const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
     return (
       <>
         <Text
-          color={'white'}
+          color='white'
           size={'24px'}
           weight={600}
-          style={{ marginBottom: '64px' }}
+          style={{ marginBottom: '30px' }}
         >
-          <FormattedMessage
-            id='scenes.login.welcome'
-            defaultMessage='Welcome back!'
-          />
+          {step === LoginSteps.ENTER_TWO_FACTOR ? (
+            <FormattedMessage
+              id='scenes.login.authorize'
+              defaultMessage='Authorize login'
+            />
+          ) : (
+            <FormattedMessage
+              id='scenes.login.welcome'
+              defaultMessage='Welcome back!'
+            />
+          )}
+        </Text>
+        <Text color='grey400' weight={500} style={{ marginBottom: '24px' }}>
+          {step === LoginSteps.VERIFICATION_MOBILE && (
+            <FormattedMessage
+              id='scenes.login.approve'
+              defaultMessage='Approve your login'
+            />
+          )}
+          {step === LoginSteps.ENTER_PASSWORD && (
+            <FormattedMessage
+              id='scenes.login.enter_password'
+              defaultMessage='Enter your password to login'
+            />
+          )}
+          {step === LoginSteps.ENTER_TWO_FACTOR && (
+            <FormattedMessage
+              id='scenes.logins.twofa.code'
+              defaultMessage='Enter the Two Factor Authentication code from your code generator or the SMS message just sent'
+            />
+          )}
         </Text>
 
         <Wrapper>
@@ -136,7 +163,10 @@ class Login extends PureComponent<Props> {
 }
 
 const mapStateToProps = state => ({
-  formValues: selectors.form.getFormValues(LOGIN_NEW)(state) as LoginFormType
+  formValues: selectors.form.getFormValues(LOGIN_NEW)(state) as LoginFormType,
+  initialValues: {
+    step: LoginSteps.ENTER_EMAIL_GUID
+  }
 })
 
 const mapDispatchToProps = dispatch => ({
