@@ -227,11 +227,20 @@ export default ({
               payment = yield payment.from(payloadT.xpub, fromType)
               break
             case 'CUSTODIAL':
+              const response: ReturnType<typeof api.getWithdrawalFees> = yield call(
+                api.getWithdrawalFees,
+                'mercury',
+                'DEFAULT'
+              )
+              const fee =
+                response.fees.find(({ symbol }) => symbol === 'BTC')
+                  ?.minorValue || '0'
               payment = yield payment.from(
                 payloadT.label,
                 fromType,
-                payloadT.withdrawable
+                new BigNumber(payloadT.withdrawable).minus(fee).toString()
               )
+              payment = yield payment.fee(new BigNumber(fee).toNumber())
               yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
               yield put(change(FORM, 'to', null))
               break
