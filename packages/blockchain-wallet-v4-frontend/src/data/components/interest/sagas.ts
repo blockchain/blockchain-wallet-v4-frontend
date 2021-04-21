@@ -272,7 +272,7 @@ export default ({
       ])
     }
     // non-custodial deposit
-    // fetch deposit address
+    // fetch deposit address to build provisional payment
     yield put(A.fetchInterestAccount(coin))
     yield take([
       AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS,
@@ -304,16 +304,16 @@ export default ({
       coin,
       Remote.of(payment)
     )
-    newPayment = newPayment.to(depositAddress, 'ADDRESS')
-    debugger
+    newPayment = newPayment.to(depositAddress, 'ADDRESS').value()
+
     const custodialBalances = isFromBuySell
       ? (yield select(selectors.components.simpleBuy.getSBBalances)).getOrFail(
           'Failed to get balance'
         )
       : null
 
-    yield call(createLimits, newPayment.value(), custodialBalances)
-    yield put(A.setPaymentSuccess(newPayment.value()))
+    yield call(createLimits, newPayment, custodialBalances)
+    yield put(A.setPaymentSuccess(newPayment))
     let additionalParameters = {}
     if (isFromBuySell) {
       yield put(A.setCoinDisplay(true))
@@ -419,12 +419,26 @@ export default ({
           origin: 'SIMPLEBUY'
         })
       } else {
+        // non-custodial deposit
+        // fetch deposit address
+        yield put(A.fetchInterestAccount(coin))
+        yield take([
+          AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS,
+          AT.FETCH_INTEREST_PAYMENT_ACCOUNT_FAILURE
+        ])
+        const depositAddress = yield select(S.getDepositAddress)
+
+        // abort if deposit address missing
+        if (isEmpty(depositAddress) || isNil(depositAddress)) {
+          throw new Error('Missing deposit address')
+        }
+
         // build and publish payment to network
         const transaction = yield call(
           buildAndPublishPayment,
           coin,
           payment,
-          payment.to()
+          depositAddress
         )
         // notify backend of incoming non-custodial deposit
         yield put(
