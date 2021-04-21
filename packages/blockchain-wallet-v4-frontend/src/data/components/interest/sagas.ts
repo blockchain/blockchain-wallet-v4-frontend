@@ -46,7 +46,6 @@ export default ({
   const { isTier2 } = profileSagas({ api, coreSagas, networks })
   const {
     buildAndPublishPayment,
-    createInitialProvisionalPayment,
     createLimits,
     createPayment,
     getCustodialAccountForCoin
@@ -279,12 +278,12 @@ export default ({
       AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS,
       AT.FETCH_INTEREST_PAYMENT_ACCOUNT_FAILURE
     ])
-    const depositAddress = yield select(S.getDepositAddress)
-
+    const depositAddr = yield select(S.getDepositAddress)
     // abort if deposit address missing
-    if (isEmpty(depositAddress) || isNil(depositAddress)) {
+    if (isEmpty(depositAddr) || isNil(depositAddr)) {
       throw new Error('Missing deposit address')
     }
+    const depositAddress = depositAddr.split(':')[0]
     yield put(A.setPaymentLoading())
     yield put(A.fetchInterestLimits(coin, currency))
     yield take([
@@ -305,22 +304,16 @@ export default ({
       coin,
       Remote.of(payment)
     )
-    // const provPayment = yield getOrUpdateProvisionalPaymentForCoin(coin, Remote.of(payment))
-    const updatedPayment = yield call(
-      createInitialProvisionalPayment,
-      coin,
-      newPayment,
-      depositAddress
-    )
-    // console.log(newPayment)
+    newPayment = newPayment.to(depositAddress, 'ADDRESS')
+    debugger
     const custodialBalances = isFromBuySell
       ? (yield select(selectors.components.simpleBuy.getSBBalances)).getOrFail(
           'Failed to get balance'
         )
       : null
 
-    yield call(createLimits, updatedPayment, custodialBalances)
-    yield put(A.setPaymentSuccess(updatedPayment))
+    yield call(createLimits, newPayment.value(), custodialBalances)
+    yield put(A.setPaymentSuccess(newPayment.value()))
     let additionalParameters = {}
     if (isFromBuySell) {
       yield put(A.setCoinDisplay(true))
