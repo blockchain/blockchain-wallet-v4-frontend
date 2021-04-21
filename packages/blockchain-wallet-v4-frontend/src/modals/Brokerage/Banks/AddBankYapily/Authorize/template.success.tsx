@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import moment from 'moment'
 import styled from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
@@ -87,6 +88,9 @@ const Success = (props: Props) => {
   const { entity } = props
   const entityName =
     entity === 'Safeconnect(UK)' ? 'SafeConnect' : 'SafeConnect (UAB)'
+
+  const today = moment()
+  today.add(90, 'day')
 
   return (
     <Wrapper>
@@ -189,9 +193,12 @@ const Success = (props: Props) => {
         bodyText={
           <>
             <FormattedMessage
-              id='modals.brokerage.authorize.about_access'
-              defaultMessage='{entityName} will then use these details with Blockchain.com solely for the purposes of buying cryptocurrencies. This access is valid until 24th of January 2021, you can cancel consent at any time via the Blockchain.com settings or via your bank. This request is not a one-off, you will continue to receive consent requests as older versions expire.'
-              values={{ entityName }}
+              id='modals.brokerage.authorize.about_access_ais'
+              defaultMessage='{entityName} will then use these details with Blockchain.com solely for the purposes of buying cryptocurrencies. This access is valid until {expirationDate}, you can cancel consent at any time via the Blockchain.com settings or via your bank. This request is not a one-off, you will continue to receive consent requests as older versions expire.'
+              values={{
+                entityName,
+                expirationDate: today.format('Do MMM YYYY')
+              }}
             />
             {entityName !== 'SafeConnect' && (
               <FormattedHTMLMessage
