@@ -331,7 +331,7 @@ const FirstStep = props => {
               defaultMessage='Network Fee'
             />
           </FormLabel>
-          <ComboDisplay size='13px' weight={600} coin='ETH'>
+          <ComboDisplay size='13px' weight={600} coin={coin}>
             {fee}
           </ComboDisplay>
         </FeeFormGroup>

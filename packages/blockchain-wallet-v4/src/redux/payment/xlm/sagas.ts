@@ -230,6 +230,14 @@ export default ({ api }) => {
       },
 
       * fee(value) {
+        if (p.from && p.from.type === 'CUSTODIAL') {
+          return makePayment(
+            merge(p, {
+              fee: value
+            })
+          )
+        }
+
         const fee = yield call(calculateFee, value, prop('fees', p))
         return makePayment(merge(p, { fee }))
       },

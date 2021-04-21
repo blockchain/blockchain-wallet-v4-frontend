@@ -185,7 +185,7 @@ export default ({
                 'DEFAULT'
               )
               const fee =
-                response.fees.find(({ symbol }) => symbol === 'ETH')
+                response.fees.find(({ symbol }) => symbol === coin)
                   ?.minorValue || '0'
               source = fromPayload.label
               payment = yield payment.from(
@@ -193,7 +193,11 @@ export default ({
                 fromPayload.type,
                 new BigNumber(fromPayload.withdrawable).minus(fee).toString()
               )
-              payment = yield payment.fee(new BigNumber(fee).toNumber(), '')
+              payment = yield payment.fee(
+                new BigNumber(fee).toNumber(),
+                '',
+                coin
+              )
               yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
               yield put(change(FORM, 'to', null))
               break

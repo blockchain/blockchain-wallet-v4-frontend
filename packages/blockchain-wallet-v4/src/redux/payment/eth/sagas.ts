@@ -221,15 +221,15 @@ export default ({ api }) => {
         )
       },
 
-      * fee(value, origin) {
+      * fee(value, origin, coin) {
         let contract
         let account = origin
 
         if (p.from && p.from.type === 'CUSTODIAL') {
-          const feeInGwei = Exchange.convertEtherToEther({
+          const feeInGwei = Exchange.convertCoinToCoin({
             value,
-            fromUnit: 'WEI',
-            toUnit: 'GWEI'
+            baseToStandard: true,
+            coin
           }).value
 
           return makePayment(
