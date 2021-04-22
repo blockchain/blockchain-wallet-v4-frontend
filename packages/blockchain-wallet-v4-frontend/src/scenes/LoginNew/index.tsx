@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { reduxForm } from 'redux-form'
+import { getFormMeta, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
@@ -10,12 +10,12 @@ import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
 
 import Loading from '../loading.public'
+import CheckEmail from './CheckEmail'
 // step templates
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
 import EnterTwoFactor from './EnterTwoFactor'
-import { LOGIN_NEW } from './model'
-import VerificationEmail from './VerificationEmail'
+import { LOGIN_NEW, LoginForm } from './model'
 import VerificationMobile from './VerificationMobile'
 
 // TODO: move this
@@ -24,7 +24,7 @@ enum LoginSteps {
   ENTER_PASSWORD,
   ENTER_TWO_FACTOR,
   LOADING,
-  VERIFICATION_EMAIL,
+  CHECK_EMAIL,
   VERIFICATION_MOBILE
 }
 
@@ -53,8 +53,19 @@ class Login extends PureComponent<Props> {
   }
 
   render() {
-    const { formValues } = this.props
+    const { data, formValues } = this.props
     const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
+    const { busy, error } = data.cata({
+      Success: () => ({ error: null, busy: false }),
+      Failure: val => ({ error: val.err, busy: false }),
+      Loading: () => ({ error: null, busy: true }),
+      NotAsked: () => ({ error: null, busy: false })
+    })
+    const loginProps = {
+      busy,
+      loginError: error
+    }
+    // console.log(this.props, 'from main index')
     return (
       <>
         <Text
@@ -95,31 +106,34 @@ class Login extends PureComponent<Props> {
             />
           )}
         </Text>
-
         <Wrapper>
-          {(() => {
-            switch (step) {
-              case LoginSteps.ENTER_EMAIL_GUID:
-                return <EnterEmailOrGuid />
+          <LoginForm>
+            {(() => {
+              switch (step) {
+                case LoginSteps.ENTER_EMAIL_GUID:
+                  // @ts-ignore
+                  return <EnterEmailOrGuid {...this.props} {...loginProps} />
 
-              case LoginSteps.ENTER_PASSWORD:
-                return <EnterPassword />
+                case LoginSteps.ENTER_PASSWORD:
+                  return <EnterPassword />
 
-              case LoginSteps.ENTER_TWO_FACTOR:
-                return <EnterTwoFactor />
+                case LoginSteps.ENTER_TWO_FACTOR:
+                  return <EnterTwoFactor />
 
-              case LoginSteps.VERIFICATION_EMAIL:
-                return <VerificationEmail />
+                case LoginSteps.CHECK_EMAIL:
+                  return <CheckEmail />
 
-              case LoginSteps.VERIFICATION_MOBILE:
-                return <VerificationMobile />
+                case LoginSteps.VERIFICATION_MOBILE:
+                  return <VerificationMobile />
 
-              case LoginSteps.LOADING:
-              default:
-                return <Loading />
-            }
-          })()}
+                case LoginSteps.LOADING:
+                default:
+                  return <Loading />
+              }
+            })()}
+          </LoginForm>
         </Wrapper>
+
         <ButtonRow>
           <Button
             data-e2e=''
@@ -145,9 +159,9 @@ class Login extends PureComponent<Props> {
           <Button
             data-e2e=''
             nature='empty-blue'
-            onClick={() => this.setStep(LoginSteps.VERIFICATION_EMAIL)}
+            onClick={() => this.setStep(LoginSteps.CHECK_EMAIL)}
           >
-            Verify Email
+            Check Email
           </Button>
           <Button
             data-e2e=''
@@ -163,7 +177,9 @@ class Login extends PureComponent<Props> {
 }
 
 const mapStateToProps = state => ({
+  data: selectors.auth.getLogin(state),
   formValues: selectors.form.getFormValues(LOGIN_NEW)(state) as LoginFormType,
+  formMeta: getFormMeta(LOGIN_NEW)(state),
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   }
@@ -175,7 +191,7 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type Props = ConnectedProps<typeof connector>
+export type Props = ConnectedProps<typeof connector>
 const enhance = compose<any>(
   reduxForm({
     form: LOGIN_NEW

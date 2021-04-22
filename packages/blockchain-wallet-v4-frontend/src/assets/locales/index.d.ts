@@ -2032,6 +2032,7 @@ type MessagesType = {
   'scenes.login.authorize': 'Authorize login'
   'scenes.login.browserwarning': 'Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.'
   'scenes.login.clickhere': 'click here.'
+  'scenes.login.email_or_guid': 'Your Email or Wallet ID'
   'scenes.login.enter_password': 'Enter your password'
   'scenes.login.enter_password_login': 'Enter your password to login'
   'scenes.login.findyourguid': 'Forgot your Wallet ID? Request a reminder via email.'
