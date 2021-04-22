@@ -5,6 +5,7 @@ import {
   InterestAccountBalanceType,
   InterestAccountType,
   InterestAfterTransactionType,
+  InterestEDDStatus,
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
@@ -65,6 +66,7 @@ export interface InterestState {
   coin: CoinType
   depositLimits: InterestMinMaxType
   instruments: RemoteDataType<string, InterestInstrumentsType>
+  interestEDDStatus: RemoteDataType<string, InterestEDDStatus>
   interestEligible: RemoteDataType<string, InterestEligibleType>
   interestLimits: RemoteDataType<string, InterestLimitsType>
   interestRate: RemoteDataType<string, InterestRateType['rates']>
@@ -286,6 +288,19 @@ interface ResetAfterTransaction {
   type: typeof AT.RESET_SHOW_INTEREST_CARD_AFTER_TRANSACTION
 }
 
+// EDD
+interface FetchInterestEDDStatusFailure {
+  payload: { error: string }
+  type: typeof AT.FETCH_EDD_STATUS_FAILURE
+}
+interface FetchInterestEDDStatusLoading {
+  type: typeof AT.FETCH_EDD_STATUS_LOADING
+}
+interface FetchInterestEDDStatusSuccess {
+  payload: { eddStatus: InterestEDDStatus }
+  type: typeof AT.FETCH_EDD_STATUS_SUCCESS
+}
+
 export type InterestActionTypes =
   | FetchInterestAfterTransactionFailure
   | FetchInterestAfterTransactionLoading
@@ -312,6 +327,9 @@ export type InterestActionTypes =
   | FetchInterestTransactionsFailure
   | FetchInterestTransactionsLoading
   | FetchInterestTransactionsSuccess
+  | FetchInterestEDDStatusFailure
+  | FetchInterestEDDStatusLoading
+  | FetchInterestEDDStatusSuccess
   | InitializeDepositModalAction
   | InitializeDepositFormAction
   | InitializeWithdrawalFormAction

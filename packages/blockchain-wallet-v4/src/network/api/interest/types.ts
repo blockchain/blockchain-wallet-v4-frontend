@@ -34,6 +34,19 @@ export type InterestAfterTransactionType = {
   show: boolean
 }
 
+type LimitDetials = {
+  amount: number
+  currency: WalletFiatType
+}
+
+export type DepositLimits = {
+  deposit_limits: LimitDetials
+}
+
+export type WithdrawLimits = {
+  withdraw_limits: LimitDetials
+}
+
 export type InterestInstrumentsType = Array<CoinType>
 
 export type InterestFormErrorsType = {
@@ -104,4 +117,9 @@ export type WithdrawalMinimumType = Array<NabuMoneyFloatType>
 export type CustodialTransferResponseType = {
   amount: string
   coin: CoinType
+}
+
+export type InterestEDDStatus = {
+  eddNeeded: boolean
+  eddPassed: boolean
 }
