@@ -46,6 +46,7 @@ const IcoMoon = {
   close: '\\e90d',
   'close-circle': '\\e903',
   'comment-alt-regular': '\\e982',
+  computer: '\\e91f',
   'credit-card': '\\e941',
   'credit-card-filled': '\\e90e',
   'credit-card-sb': '\\e92e',

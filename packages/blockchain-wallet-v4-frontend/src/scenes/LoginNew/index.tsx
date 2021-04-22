@@ -6,6 +6,7 @@ import { getFormMeta, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
+import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
 
@@ -15,11 +16,11 @@ import CheckEmail from './CheckEmail'
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
 import EnterTwoFactor from './EnterTwoFactor'
-import { LOGIN_NEW, LoginForm } from './model'
+import { LOGIN_NEW } from './model'
 import VerificationMobile from './VerificationMobile'
 
 // TODO: move this
-enum LoginSteps {
+export enum LoginSteps {
   ENTER_EMAIL_GUID,
   ENTER_PASSWORD,
   ENTER_TWO_FACTOR,
@@ -107,12 +108,12 @@ class Login extends PureComponent<Props> {
           )}
         </Text>
         <Wrapper>
-          <LoginForm>
+          <Form>
             {(() => {
               switch (step) {
                 case LoginSteps.ENTER_EMAIL_GUID:
                   // @ts-ignore
-                  return <EnterEmailOrGuid {...this.props} {...loginProps} />
+                  return <EnterEmailOrGuid {...this.props} {...loginProps} setStep={this.setStep} />
 
                 case LoginSteps.ENTER_PASSWORD:
                   return <EnterPassword />
@@ -121,7 +122,8 @@ class Login extends PureComponent<Props> {
                   return <EnterTwoFactor />
 
                 case LoginSteps.CHECK_EMAIL:
-                  return <CheckEmail />
+                  // @ts-ignore
+                  return <CheckEmail {...this.props} {...loginProps} setStep={this.setStep} />
 
                 case LoginSteps.VERIFICATION_MOBILE:
                   return <VerificationMobile />
@@ -131,7 +133,7 @@ class Login extends PureComponent<Props> {
                   return <Loading />
               }
             })()}
-          </LoginForm>
+          </Form>
         </Wrapper>
 
         <ButtonRow>

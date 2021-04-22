@@ -46,9 +46,6 @@ export const PublicWrapper = styled(Wrapper)`
   overflow: visible;
 `
 
-export const LoginForm = styled(Form)`
-  margin-top: 8px;
-`
 export const LoginTextGroup = styled(TextGroup)`
   line-height: 1;
   margin: 12px 0;
@@ -56,4 +53,15 @@ export const LoginTextGroup = styled(TextGroup)`
 `
 export const LoginFormLabel = styled(FormLabel)`
   margin-bottom: 8px;
+`
+export const CircleBackground = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  background-color: ${props => props.theme.blue600};
+  border-radius: 40px;
+  margin: 24px 0 8px 0;
 `

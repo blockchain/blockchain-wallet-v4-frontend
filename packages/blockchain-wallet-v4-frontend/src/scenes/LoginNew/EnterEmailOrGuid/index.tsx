@@ -16,31 +16,31 @@ import {
 // import Bowser from 'bowser'
 import { required, validWalletIdOrEmail } from 'services/forms'
 
-import { Props as OwnProps } from '..'
+import { LoginSteps, Props as OwnProps } from '..'
 import {
   ActionButton,
   isSupportedBrowser,
   LoginFormLabel,
   removeWhitespace
 } from '../model'
-/* eslint-disable */
+
 const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
-  /* eslint-disable */
-  // const {
-  //    busy,
-  //    invalid,
-  //    loginError,
-  //    submitting,
-  // } = props
+  const {
+     busy,
+     invalid,
+     loginError,
+     setStep,
+     submitting,
+  } = props
 
-  // const accountLocked =
-  //     loginError &&
-  //     (loginError.toLowerCase().includes('this account has been locked') ||
-  //       loginError.toLowerCase().includes('account is locked'))
-  // const guidError =
-  //   loginError && loginError.toLowerCase().includes('unknown wallet id')
+  const accountLocked =
+      loginError &&
+      (loginError.toLowerCase().includes('this account has been locked') ||
+        loginError.toLowerCase().includes('account is locked'))
+  const guidError =
+    loginError && loginError.toLowerCase().includes('unknown wallet id')
 
-  // console.log(props, 'from enter email')
+  console.log(props, 'from enter email')
   return (
     <>
       <FormGroup>
@@ -113,12 +113,13 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
       </FormGroup>
       <FormGroup>
         <ActionButton
-          type='submit'
+          // type='submit'
           nature='primary'
           fullwidth
           height='48px'
           // disabled={submitting || invalid || busy || !password}
           data-e2e='loginButton'
+          onClick={()=> setStep(LoginSteps.CHECK_EMAIL)}
         >
           {/* {busy && !loginError ? (
     <HeartbeatLoader height='20px' width='20px' color='white' />
@@ -136,6 +137,7 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
 type Props = OwnProps & {
   busy: boolean
   loginError?: string
+  setStep: (step: LoginSteps) => void 
 }
 
 export default EnterEmailOrGuid

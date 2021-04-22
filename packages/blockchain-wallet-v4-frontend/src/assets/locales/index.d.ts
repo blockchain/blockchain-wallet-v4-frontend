@@ -31,6 +31,7 @@ type MessagesType = {
   'buttons.deposited': 'Deposited'
   'buttons.different_bank': 'Try a Different Bank'
   'buttons.done': 'Done'
+  'buttons.email_didnt_arrive': "Email didn't arrive?"
   'buttons.go_back': 'Go Back'
   'buttons.hide': 'Hide'
   'buttons.learn_more': 'Learn More'
@@ -471,6 +472,7 @@ type MessagesType = {
   'copy.week': '1W'
   'copy.year': '1Y'
   'copy.or': 'or'
+  'copy.verifyyourdevice': 'Verify Your Device'
   'dentityverification.verify.resubmit.reason.missing': 'The required photos are missing'
   'exchange-side-nav-tooltip-connected': 'connected'
   'exchangepromo.pairs': 'Access 20+ trading pairs on the Exchange.'
@@ -991,7 +993,6 @@ type MessagesType = {
   'modals.lockboxfirmware.installstep.title': 'Finalizing Install'
   'modals.lockboxfirmware.uninstallapps.message1': "Update in progress. Please keep your browser opened, your device opened, and wait while your device's applications are uninstalled for the time being."
   'modals.lockboxfirmware.uninstallapps.message2': 'Also, please verify the below on your device before continuing.'
-  'modals.lockboxfirmware.uninstallapps.title': 'Verify Your Device'
   'modals.lockboxsetup.connectdevice.existing.stepone': '1. Connect your {deviceType} to your computer with the supplied USB cable.'
   'modals.lockboxsetup.connectdevice.existing.stepthreenew': '3. Ensure the device dashboard is open and you are not in an application.'
   'modals.lockboxsetup.connectdevice.existing.steptwo1': '2. Enter your pin on the device.'
@@ -2031,6 +2032,7 @@ type MessagesType = {
   'scenes.login.approve': 'Approve your login'
   'scenes.login.authorize': 'Authorize login'
   'scenes.login.browserwarning': 'Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.'
+  'scenes.login.checkemail': 'Check your email and click the link to continue.'
   'scenes.login.clickhere': 'click here.'
   'scenes.login.email_or_guid': 'Your Email or Wallet ID'
   'scenes.login.enter_password': 'Enter your password'
@@ -2054,6 +2056,7 @@ type MessagesType = {
   'scenes.login.password': 'Password'
   'scenes.login.resendsms': 'Resend SMS'
   'scenes.login.sendguid': 'Request Wallet ID'
+  'scenes.login.signingin_email': 'Signing in with {email}'
   'scenes.login.simplebuy.header': 'Buy Crypto With Credit Card'
   'scenes.login.wallet.link': "Don't have a wallet?"
   'scenes.login.wallet.exchange': 'Looking for Exchange?'
