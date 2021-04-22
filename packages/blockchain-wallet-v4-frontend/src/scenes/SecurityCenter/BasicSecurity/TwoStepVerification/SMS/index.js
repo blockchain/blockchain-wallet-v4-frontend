@@ -39,11 +39,13 @@ class SmsAuthContainer extends React.PureComponent {
       this.props.goBackOnSuccess()
     }
   }
+
   handleMount() {
     this.setState({
       changeNumberToggled: !this.state.changeNumberToggled
     })
   }
+
   handleUpdate() {
     this.setState({
       successToggled: !this.state.successToggled

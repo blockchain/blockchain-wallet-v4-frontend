@@ -31,6 +31,7 @@ class ConfirmWords extends PureComponent<Props> {
     this.setState({ indexes })
     /* eslint-enable */
   }
+
   handleSubmit = values => {
     const errors = {}
     compose(
