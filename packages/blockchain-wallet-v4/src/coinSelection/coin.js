@@ -17,47 +17,60 @@ export class Coin extends Type {
   toString() {
     return `Coin(${this.value})`
   }
+
   concat(coin) {
     return new Coin({ value: this.value + coin.value })
   }
+
   equals(coin) {
     return this.value === coin.value
   }
+
   lte(coin) {
     return this.value <= coin.value
   }
+
   ge(coin) {
     return this.value >= coin.value
   }
+
   overValue(f) {
     return over(value, f, this)
   }
+
   isFromAccount() {
     return length(split('/', this.priv)) > 1
   }
+
   isFromLegacy() {
     return !this.isFromAccount()
   }
+
   type() {
     let type = 'P2PKH'
     try {
       const output = Bitcoin.address.toOutputScript(this.address)
+      // TODO: is addr var even needed?
       // eslint-disable-next-line
       let addr = null
 
       try {
+        // eslint-disable-next-line
         addr = Bitcoin.payments.p2pkh({ output }).address
         type = 'P2PKH'
       } catch (e) {}
       try {
+        // eslint-disable-next-line
         addr = Bitcoin.payments.p2sh({ output }).address
         type = 'P2SH'
       } catch (e) {}
       try {
+        // eslint-disable-next-line
         addr = Bitcoin.payments.p2wpkh({ output }).address
         type = 'P2WPKH'
       } catch (e) {}
       try {
+        // eslint-disable-next-line
         addr = Bitcoin.payments.p2wsh({ output }).address
         type = 'P2WSH'
       } catch (e) {}

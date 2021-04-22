@@ -10,6 +10,7 @@ class SelectBoxCountry extends React.PureComponent {
     whiteList: PropTypes.arrayOf(PropTypes.string),
     blackList: PropTypes.arrayOf(PropTypes.string)
   }
+
   static defaultProps = {
     whiteList: null,
     blackList: null
