@@ -19,6 +19,7 @@ import {
 } from 'ramda'
 import { over, set, traversed, traverseOf, view } from 'ramda-lens'
 
+import * as utils from '../utils'
 import * as crypto from '../walletCrypto'
 import * as Address from './Address'
 import * as AddressBook from './AddressBook'
@@ -498,7 +499,7 @@ export const getHDPrivateKeyWIF = curry(
 // TODO :: find a proper place for that
 const fromBase58toKey = (string, address, network) => {
   var key = Bitcoin.ECPair.fromPrivateKey(Base58.decode(string))
-  if (key.getAddress() === address) return key
+  if (utils.btc.keyPairToAddress(key) === address) return key
   key.compressed = !key.compressed
   return key
 }

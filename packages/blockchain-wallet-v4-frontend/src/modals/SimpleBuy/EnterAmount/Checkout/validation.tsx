@@ -121,13 +121,21 @@ export const getMaxMin = (
             )
           }
 
+          const defaultLimitMaxAmount = convertBaseToStandard(
+            'FIAT',
+            limitMaxAmount
+          )
+          if (Number(defaultMax.FIAT) > Number(defaultLimitMaxAmount)) {
+            defaultMax.FIAT = defaultLimitMaxAmount
+          }
+
           if (!allValues) return defaultMax
           if (!method) return defaultMax
 
           let max = BigNumber.minimum(
             method.limits.max,
             isSddFlow ? Number(sddLimit.max) : pair.buyMax,
-            limitMaxAmount
+            isSddFlow ? Number(sddLimit.max) : limitMaxAmount
           ).toString()
 
           if (
@@ -179,13 +187,21 @@ export const getMaxMin = (
             )
           }
 
+          const defaultLimitMinAmount = convertBaseToStandard(
+            'FIAT',
+            limitMinAmount
+          )
+          if (Number(defaultMin.FIAT) < Number(defaultLimitMinAmount)) {
+            defaultMin.FIAT = defaultLimitMinAmount
+          }
+
           if (!allValues) return defaultMin
           if (!method) return defaultMin
 
           const min = BigNumber.maximum(
             method.limits.min,
             pair.buyMin,
-            limitMinAmount
+            isSddFlow ? method.limits.min : limitMinAmount
           ).toString()
 
           const minFiat = convertBaseToStandard('FIAT', min)
@@ -294,13 +310,6 @@ export const maximumAmount = (
   const method = selectedMethod || defaultMethod
   if (!allValues) return
 
-  if (
-    limits?.maxPossibleOrder &&
-    Number(limits.maxPossibleOrder) < Number(sddLimit.max)
-  ) {
-    sddLimit.max = limits.maxPossibleOrder
-  }
-
   return Number(value) >
     Number(
       getMaxMin(
@@ -332,6 +341,7 @@ export const minimumAmount = (
   const {
     defaultMethod,
     isSddFlow,
+    limits,
     method: selectedMethod,
     orderType,
     pair,
@@ -357,7 +367,8 @@ export const minimumAmount = (
         method,
         swapAccount,
         isSddFlow,
-        sddLimit
+        sddLimit,
+        limits
       )[allValues.fix]
     )
     ? 'BELOW_MIN'
