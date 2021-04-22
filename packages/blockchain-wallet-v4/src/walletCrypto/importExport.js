@@ -4,6 +4,7 @@ import Base58 from 'bs58'
 import scrypt from 'scrypt-js'
 import Unorm from 'unorm'
 
+import * as utils from '../utils'
 import * as WalletCrypto from './utils'
 
 const {
@@ -74,7 +75,7 @@ export const parseBIP38toECPair = function(
       network: network
     })
 
-    var base58Address = tmpkey.getAddress()
+    var base58Address = utils.btc.keyPairToAddress(tmpkey)
 
     checksum = hash256(base58Address)
 
