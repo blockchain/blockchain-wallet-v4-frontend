@@ -2,12 +2,13 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
+import { Text } from 'blockchain-info-components'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
-import { ModalPropsType } from './../../types'
+import { ModalPropsType } from '../../types'
 import { getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
@@ -36,47 +37,33 @@ class TradingLimits extends PureComponent<Props, State> {
   }
 
   render() {
-    return this.props.data.cata({
-      Success: val => (
-        <Flyout
-          {...this.props}
-          onClose={this.handleClose}
-          isOpen={this.state.show}
-          data-e2e='tradingLimitsModal'
-        >
-          <FlyoutChild>
-            <Success {...val} {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        </Flyout>
-      ),
-      NotAsked: () => (
-        <Flyout
-          {...this.props}
-          onClose={this.handleClose}
-          in={this.state.show}
-          direction={this.state.direction}
-          data-e2e='tradingLimitsModal'
-        >
-          <FlyoutChild>
-            <Loading />
-          </FlyoutChild>
-        </Flyout>
-      ),
-      Loading: () => (
-        <Flyout
-          {...this.props}
-          onClose={this.handleClose}
-          in={this.state.show}
-          direction={this.state.direction}
-          data-e2e='tradingLimitsModal'
-        >
-          <FlyoutChild>
-            <Loading />
-          </FlyoutChild>
-        </Flyout>
-      ),
-      Failure: () => null
-    })
+    return (
+      <Flyout
+        {...this.props}
+        onClose={this.handleClose}
+        isOpen={this.state.show}
+        data-e2e='tradingLimitsModal'
+      >
+        <FlyoutChild>
+          {this.props.data.cata({
+            Success: (val) => (
+              <Success
+                {...val}
+                {...this.props}
+                handleClose={this.handleClose}
+              />
+            ),
+            Failure: (error) => (
+              <Text color='red600' size='14px' weight={400}>
+                {error}
+              </Text>
+            ),
+            Loading: () => <Loading />,
+            NotAsked: () => <Loading />,
+          })}
+        </FlyoutChild>
+      </Flyout>
+    )
   }
 }
 
@@ -90,11 +77,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     actions.components.identityVerification,
     dispatch
   ),
-  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
 })
 
 const mapStateToProps = (state: RootState) => ({
-  data: getData(state)
+  data: getData(state),
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -107,6 +94,6 @@ const enhance = compose(
 export type SuccessStateType = ReturnType<typeof getData>['data']
 
 export type Props = OwnProps & ConnectedProps<typeof connector>
-type State = { direction: 'left' | 'right'; show: boolean }
+type State = { show: boolean }
 
 export default enhance(TradingLimits)

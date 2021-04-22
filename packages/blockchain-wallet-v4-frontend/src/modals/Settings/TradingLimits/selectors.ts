@@ -1,6 +1,5 @@
 import { lift } from 'ramda'
 
-// import { Remote } from 'blockchain-wallet-v4/src'
 import { ExtractSuccess, SDDEligibleType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { UserDataType } from 'data/modules/types'
@@ -9,7 +8,7 @@ import { UserTierType } from 'data/types'
 
 export const getData = (state: RootState) => {
   const userData = selectors.modules.profile.getUserData(state).getOrElse({
-    tiers: { current: 0 }
+    tiers: { current: 0 },
   } as UserDataType)
   // @ts-ignore
   const userTiers = selectors.modules.profile
@@ -21,7 +20,7 @@ export const getData = (state: RootState) => {
     .getOrElse({
       eligible: false,
       ineligibilityReason: 'KYC_TIER',
-      tier: 0
+      tier: 0,
     } as SDDEligibleType)
 
   const productsEligibility = selectors.components.settings
@@ -38,7 +37,7 @@ export const getData = (state: RootState) => {
       userTiers,
       sddEligible,
       productsEligibility,
-      interestEDDStatus
+      interestEDDStatus,
     })
   )(interestEDDStatusR)
 }

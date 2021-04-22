@@ -9,7 +9,7 @@ import {
   Image,
   Link,
   Text,
-  TextGroup
+  TextGroup,
 } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
@@ -17,7 +17,7 @@ import {
   BlueCartridge,
   ErrorCartridge,
   OrangeCartridge,
-  SuccessCartridge
+  SuccessCartridge,
 } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { model } from 'data'
@@ -47,12 +47,12 @@ const IconsContainer = styled.div`
   width: 100%;
 `
 const Item = styled.div<{ isClickable?: boolean }>`
-  border-top: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
   padding: 20px 40px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  cursor: ${props => (props.isClickable ? 'pointer' : 'auto')};
+  cursor: ${(props) => (props.isClickable ? 'pointer' : 'auto')};
 `
 const ContentItem = styled(Item)`
   align-items: center;
@@ -70,7 +70,7 @@ const TierDescription = styled.div`
 const HeaderWrapper = styled(FlyoutWrapper)`
   position: fixed;
   max-width: 480px;
-  background-color: ${props => props.theme.white};
+  background-color: ${(props) => props.theme.white};
   z-index: 9999;
 `
 const LinkWrapper = styled.div`
@@ -106,7 +106,7 @@ const IconBareWrapper = styled.div`
   }
 `
 const TierTitle = styled(Text)`
-  color: ${props => props.theme.grey900};
+  color: ${(props) => props.theme.grey900};
   font-size: 16px;
   font-weight: 600;
   line-height: 150%;
@@ -115,13 +115,13 @@ const MainContent = styled.div`
   margin-top: 177px;
 `
 const ItemTitle = styled(Text)`
-  color: ${props => props.theme.grey900};
+  color: ${(props) => props.theme.grey900};
   font-size: 16px;
   font-weight: 600;
   margin-left: 20px;
 `
 const ItemSubtitle = styled(Text)`
-  color: ${props => props.theme.grey900};
+  color: ${(props) => props.theme.grey900};
   font-size: 16px;
   font-weight: 500;
   margin-bottom: 4px;
@@ -206,23 +206,23 @@ const getTierStatus = (
   )
 }
 
-const Template: React.FC<Props> = props => {
+const Template: React.FC<Props> = (props) => {
   const {
     analyticsActions,
     interestEDDStatus,
     sddEligible,
     userData,
-    userTiers
+    userTiers,
   } = props
 
   if (!Array.isArray(userTiers)) {
     return null
   }
   const silverTier = userTiers.find(
-    userTier => userTier.index === TIER_TYPES.SILVER
+    (userTier) => userTier.index === TIER_TYPES.SILVER
   )
   const goldTier = userTiers.find(
-    userTier => userTier.index === TIER_TYPES.GOLD
+    (userTier) => userTier.index === TIER_TYPES.GOLD
   )
 
   const userCurrentTier = path(['tiers', 'current'], userData) as number
@@ -240,16 +240,16 @@ const Template: React.FC<Props> = props => {
 
   const swapProduct =
     props.productsEligibility &&
-    props.productsEligibility.find(pE => pE.product === 'SWAP')
+    props.productsEligibility.find((pE) => pE.product === 'SWAP')
   const simpleBuyProduct =
     props.productsEligibility &&
-    props.productsEligibility.find(pE => pE.product === 'SIMPLEBUY')
+    props.productsEligibility.find((pE) => pE.product === 'SIMPLEBUY')
   const brokerageProduct =
     props.productsEligibility &&
-    props.productsEligibility.find(pE => pE.product === 'BROKERAGE')
+    props.productsEligibility.find((pE) => pE.product === 'BROKERAGE')
   const savingsProduct =
     props.productsEligibility &&
-    props.productsEligibility.find(pE => pE.product === 'SAVINGS')
+    props.productsEligibility.find((pE) => pE.product === 'SAVINGS')
 
   const isGoldInreview =
     goldTier.state === 'under_review' || goldTier.state === 'pending'
@@ -319,8 +319,8 @@ const Template: React.FC<Props> = props => {
                     value: silverTier.limits.annual,
                     unit: (silverTier.limits.currency ||
                       'USD') as WalletFiatType,
-                    digits: 0
-                  })
+                    digits: 0,
+                  }),
                 }}
               />
             </ItemSubtitle>
@@ -367,8 +367,8 @@ const Template: React.FC<Props> = props => {
                   amount: fiatToString({
                     value: goldTier.limits.daily,
                     unit: (goldTier.limits.currency || 'USD') as WalletFiatType,
-                    digits: 0
-                  })
+                    digits: 0,
+                  }),
                 }}
               />
             </ItemSubtitle>
@@ -378,7 +378,7 @@ const Template: React.FC<Props> = props => {
                 <Text color='grey600' size='12px' weight={500}>
                   <FormattedMessage
                     id='modals.tradinglimits.gold_desc_edd'
-                    defaultMessage='We need more  information before we can approve your Gold Level application.'
+                    defaultMessage='We need more information before we can approve your Gold Level application.'
                   />
                 </Text>
                 <Link
