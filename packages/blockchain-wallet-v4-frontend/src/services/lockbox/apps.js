@@ -37,6 +37,7 @@ const getBtcAppVersion = transport => {
  * @returns {Promise} Returns install result as a Promise
  */
 const uninstallApp = (transport, baseUrl, targetId, appInfo) => {
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     try {
       // ensure timeout is long enough for user to allow device access
@@ -83,6 +84,7 @@ const uninstallApp = (transport, baseUrl, targetId, appInfo) => {
  * @returns {Promise} Returns install result as a Promise
  */
 const installApp = (transport, baseUrl, targetId, appName, appInfos) => {
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     try {
       // ensure timeout is long enough for user to allow device access

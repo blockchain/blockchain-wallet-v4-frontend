@@ -16,9 +16,11 @@ class LazyLoadContainer extends React.PureComponent {
   setWrapperRef = node => {
     this.wrapper = node
   }
+
   setContainerRef = node => {
     this.container = node
   }
+
   onScroll = () => {
     const { onLazyLoad, triggerDistance } = this.props
     const wrapperRect = this.wrapper.getBoundingClientRect()

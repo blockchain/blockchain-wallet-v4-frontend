@@ -29,6 +29,7 @@ class CopyToClipboardContainer extends React.PureComponent<Props, State> {
   componentWillUnmount() {
     clearTimeout(this.timeout)
   }
+
   timeout: number | undefined
 
   handleClick() {

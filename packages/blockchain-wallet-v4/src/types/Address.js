@@ -146,9 +146,9 @@ export const fromString = (
         return Task.rejected(e)
       }
       key.compressed = true
-      let cad = key.getAddress()
+      let cad = utils.btc.keyPairToAddress(key)
       key.compressed = false
-      let uad = key.getAddress()
+      let uad = utils.btc.keyPairToAddress(key)
       return wrapPromiseInTask(() => api.getBalances([cad, uad])).fold(
         e => {
           key.compressed = true

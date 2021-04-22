@@ -127,7 +127,7 @@ describe('rates service', () => {
     it('should set initial advice for pair upon new subscription', () => {
       expect(
         selectors.modules.rates.getPairAdvice(pair, store.getState())
-      ).toEqual(Remote.NotAsked)
+      ).toEqual(Remote.Loading)
     })
 
     it('should set initial config for pair upon new subscription', () => {
@@ -242,28 +242,6 @@ describe('rates service', () => {
       expect(
         selectors.modules.rates.getPairAdvice(pair, store.getState())
       ).toEqual(Remote.of(stubAdvice.currencyRatio))
-    })
-
-    it('should set pair rate to success upon advice message if fix does not match', () => {
-      ratesSocket.triggerMessage({
-        ...model.rates.ADVICE_UPDATED_MESSAGE,
-        ...stubAdvice,
-        fix: 'base'
-      })
-      expect(
-        selectors.modules.rates.getPairAdvice(pair, store.getState())
-      ).toEqual(Remote.NotAsked)
-    })
-
-    it('should set pair rate to success upon advice message if volume does not match', () => {
-      ratesSocket.triggerMessage({
-        ...model.rates.ADVICE_UPDATED_MESSAGE,
-        ...stubAdvice,
-        volume: volume + 1
-      })
-      expect(
-        selectors.modules.rates.getPairAdvice(pair, store.getState())
-      ).toEqual(Remote.NotAsked)
     })
 
     it('should update bestRates upon rates message', () => {

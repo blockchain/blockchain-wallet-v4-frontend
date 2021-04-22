@@ -32,11 +32,17 @@ class Socket {
     this.wsUrl = url
     this.headers = { Origin: options.domains.root }
   }
+
   pingInterval = 30000
+
   pingIntervalPID = null
+
   pingTimeout = 5000
+
   pingTimeoutPID = null
+
   reconnect = null
+
   reconnectCount = 0
 
   connect(
