@@ -293,7 +293,7 @@ const Authorize = (props: Props) => {
           <>
             <FormattedMessage
               id='modals.brokerage.authorize.about_access'
-              defaultMessage='{entityName} will then use these details with Blockchain solely for the purposes of buying cryptocurrencies. This consent request is a one-off, you will not receive additional requests once completed.'
+              defaultMessage='{entityName} will then use these details with Blockchain.com solely for the purposes of buying cryptocurrencies. This consent request is a one-off, you will not receive additional requests once completed.'
               values={{ entityName }}
             />
             {entityName !== 'SafeConnect' && (
