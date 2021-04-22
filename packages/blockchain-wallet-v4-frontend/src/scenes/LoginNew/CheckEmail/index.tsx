@@ -1,18 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Field, InjectedFormProps } from 'redux-form'
+import { InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import {
-    // Form,
-    // FormError,
-    FormGroup,
-    FormItem,
-    // FormLabel,
-    // PasswordBox,
-    TextBox
-  } from 'components/Form'
 
 import { CircleBackground } from '../model'
 import { LoginSteps, Props as OwnProps  } from '..'
@@ -86,10 +77,12 @@ return (
     </Button>
     </>
     )}
+
+    type Props = OwnProps & {
+        busy: boolean
+        loginError?: string
+        setStep: (step: LoginSteps) => void
+      }
+
 export default CheckEmail
 
-type Props = OwnProps & {
-    busy: boolean
-    loginError?: string
-    setStep: (step: LoginSteps) => void
-  }

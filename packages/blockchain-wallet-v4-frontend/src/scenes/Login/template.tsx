@@ -646,7 +646,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                 >
                   <FormattedMessage
                     id='scenes.login.wallet.connected.description_1'
-                    defaultMessage='We sent your connected mobile device a notification. Open the app to auto-log in on the web.'
+                    defaultMessage='We sent your connected mobile device a notification. Open the app to confirm to auto-log in on the web.'
                   />
                 </Text>
                 <Text
@@ -657,7 +657,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                 >
                   <FormattedMessage
                     id='scenes.login.wallet.connected.description_2'
-                    defaultMessage='Didn’t get the notification? Make sure you have push notifications enabled.'
+                    defaultMessage='Didn’t get the notification? Make sure you have push notifications enabled. You can also scan this QR with your mobile app to login.'
                   />
                 </Text>
 

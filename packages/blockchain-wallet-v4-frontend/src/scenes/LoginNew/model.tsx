@@ -13,7 +13,6 @@ import {
   TextGroup
 } from 'blockchain-info-components'
 import {
-  Form,
   // FormError,
   // FormGroup,
   // FormItem,

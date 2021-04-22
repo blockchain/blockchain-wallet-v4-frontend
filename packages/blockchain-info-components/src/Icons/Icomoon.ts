@@ -72,6 +72,7 @@ const IcoMoon = {
   'market-up': '\\e94f',
   'nav-buy': '\\e988',
   'open-in-new-tab': '\\e979',
+  padlock: '\\e932',
   parachute: '\\e931',
   pencil: '\\e96a',
   pending: '\\e915',

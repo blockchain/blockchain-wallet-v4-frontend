@@ -126,7 +126,8 @@ class Login extends PureComponent<Props> {
                   return <CheckEmail {...this.props} {...loginProps} setStep={this.setStep} />
 
                 case LoginSteps.VERIFICATION_MOBILE:
-                  return <VerificationMobile />
+                   // @ts-ignore
+                  return <VerificationMobile {...this.props} {...loginProps} setStep={this.setStep} />
 
                 case LoginSteps.LOADING:
                 default:
