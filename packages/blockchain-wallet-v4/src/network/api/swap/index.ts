@@ -1,7 +1,7 @@
 import { CoinType, FiatType } from 'core/types'
 
 import {
-  EligibilityResponseType,
+  SwapEligibilityResponseType,
   SwapOrderDirectionType,
   SwapOrderStateType,
   SwapOrderType,
@@ -21,7 +21,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       }
     })
 
-  const checkCustodialEligiblity = (): EligibilityResponseType =>
+  const checkCustodialSwapEligibility = (): SwapEligibilityResponseType =>
     authorizedGet({
       url: nabuUrl,
       endPoint: '/eligible/product/swap'
@@ -136,7 +136,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
 
   return {
     cancelSwapOrder,
-    checkCustodialEligiblity,
+    checkCustodialSwapEligibility,
     createSwapOrder,
     getSwapLimits,
     getSwapPairs,

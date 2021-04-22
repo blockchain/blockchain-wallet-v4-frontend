@@ -199,7 +199,11 @@ export type ISBBuyOrderType = {
   state: SBOrderStateType
   updatedAt: string
 }
-export type SBOrderActionType = 'BUY' | 'SELL'
+export enum OrderType {
+  BUY = 'BUY',
+  SELL = 'SELL'
+}
+export type SBOrderActionType = keyof typeof OrderType
 export type SBBuyOrderType = ISBBuyOrderType & {
   inputCurrency: FiatType
   outputCurrency: CoinType

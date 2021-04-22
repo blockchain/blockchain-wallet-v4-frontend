@@ -6,6 +6,7 @@ import Alerts from 'components/Alerts'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 
+import Modals from '../../modals'
 import Footer from './components/Footer'
 // import AndroidAppBanner from './components/AndroidAppBanner'
 import Header from './components/Header'
@@ -82,6 +83,7 @@ const PublicLayoutContainer = ({
               <Header />
             </HeaderContainer>
 
+            <Modals />
             <ContentContainer isLogin={isLogin}>
               <Component {...matchProps} />
             </ContentContainer>

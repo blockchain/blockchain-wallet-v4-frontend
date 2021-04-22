@@ -39,7 +39,7 @@ import {
 import { CountryType } from 'data/components/identityVerification/types'
 import { SBAddCardErrorType } from 'data/types'
 import {
-  countryUsesPostalcode,
+  countryUsesPostalCode,
   countryUsesZipcode,
   required,
   requiredZipCode
@@ -121,7 +121,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
 
   const countryIsUS = countryCode === 'US'
   const countryUsesZipOrPostcode =
-    countryUsesZipcode(countryCode) || countryUsesPostalcode(countryCode)
+    countryUsesZipcode(countryCode) || countryUsesPostalCode(countryCode)
 
   const defaultCountry = props.supportedCountries.find(
     country => country.code === countryCode

@@ -1,6 +1,6 @@
 import { HDAccount, serializer } from './index'
 
-const accFixture = require('./__mocks__/hdaccount')
+const accFixture = require('./__mocks__/hdaccount.v4')
 
 describe('HDAccount', () => {
   const account = HDAccount.fromJS(accFixture, 1)

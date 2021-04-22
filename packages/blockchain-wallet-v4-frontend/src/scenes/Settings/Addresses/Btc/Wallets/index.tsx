@@ -46,9 +46,9 @@ class BtcWalletsContainer extends React.Component<Props> {
           search={search && search.toLowerCase()}
           onUnarchive={this.onUnarchive}
           onClickImport={this.onClickImport}
-          onAddNewWallet={() => {
-            this.onAddNewWallet(value)
-          }}
+          // onAddNewWallet={() => {
+          //   this.onAddNewWallet(value)
+          // }}
           {...rest}
         />
       ),
@@ -60,9 +60,9 @@ class BtcWalletsContainer extends React.Component<Props> {
           search={search && search.toLowerCase()}
           onUnarchive={this.onUnarchive}
           onClickImport={this.onClickImport}
-          onAddNewWallet={() => {
-            this.onAddNewWallet(walletsWithoutRemoteData)
-          }}
+          // onAddNewWallet={() => {
+          //   this.onAddNewWallet(walletsWithoutRemoteData)
+          // }}
           {...rest}
         />
       ),

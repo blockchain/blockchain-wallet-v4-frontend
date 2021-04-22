@@ -24,6 +24,7 @@ class Banners extends React.PureComponent<Props> {
     this.props.simpleBuyActions.fetchSBOrders()
     this.props.simpleBuyActions.fetchSDDEligible()
     if (this.props.userData.tiers?.current > 0) {
+      // TODO move this away from SB
       this.props.simpleBuyActions.fetchLimits(this.props.fiatCurrency)
     }
   }

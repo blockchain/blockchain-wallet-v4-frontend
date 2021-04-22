@@ -1,22 +1,11 @@
 import { inputComparator, sortOutputs } from 'bip69'
-import {
-  add,
-  always,
-  clamp,
-  complement,
-  compose,
-  curry,
-  ifElse,
-  is,
-  length,
-  sort,
-  split,
-  tryCatch
-} from 'ramda'
+import * as Bitcoin from 'bitcoinjs-lib'
+import { clamp, curry, is, length, sort, split } from 'ramda'
 import { over, view } from 'ramda-lens'
 
 import Type from '../types/Type'
 import { addressToScript, scriptToAddress } from '../utils/btc'
+import { IO_TYPES } from './'
 
 export const TX_EMPTY_SIZE = 4 + 1 + 1 + 4
 export const TX_INPUT_BASE = 32 + 4 + 1 + 4
@@ -28,26 +17,66 @@ export class Coin extends Type {
   toString() {
     return `Coin(${this.value})`
   }
+
   concat(coin) {
     return new Coin({ value: this.value + coin.value })
   }
+
   equals(coin) {
     return this.value === coin.value
   }
+
   lte(coin) {
     return this.value <= coin.value
   }
+
   ge(coin) {
     return this.value >= coin.value
   }
+
   overValue(f) {
     return over(value, f, this)
   }
+
   isFromAccount() {
     return length(split('/', this.priv)) > 1
   }
+
   isFromLegacy() {
     return !this.isFromAccount()
+  }
+
+  type() {
+    let type = 'P2PKH'
+    try {
+      const output = Bitcoin.address.toOutputScript(this.address)
+      // TODO: is addr var even needed?
+      // eslint-disable-next-line
+      let addr = null
+
+      try {
+        // eslint-disable-next-line
+        addr = Bitcoin.payments.p2pkh({ output }).address
+        type = 'P2PKH'
+      } catch (e) {}
+      try {
+        // eslint-disable-next-line
+        addr = Bitcoin.payments.p2sh({ output }).address
+        type = 'P2SH'
+      } catch (e) {}
+      try {
+        // eslint-disable-next-line
+        addr = Bitcoin.payments.p2wpkh({ output }).address
+        type = 'P2WPKH'
+      } catch (e) {}
+      try {
+        // eslint-disable-next-line
+        addr = Bitcoin.payments.p2wsh({ output }).address
+        type = 'P2WSH'
+      } catch (e) {}
+    } catch (e) {}
+
+    return type
   }
 }
 
@@ -87,25 +116,15 @@ export const fromJS = (o, network) => {
 export const empty = new Coin({ value: 0 })
 
 export const inputBytes = input => {
-  // const coin = isCoin(input) ? input : new Coin(input)
-  // return TX_INPUT_BASE + (isNil(coin.script) ? TX_INPUT_PUBKEYHASH : coin.script.length)
-  return TX_INPUT_BASE + TX_INPUT_PUBKEYHASH
+  return IO_TYPES.inputs[input.type ? input.type() : 'P2PKH']
 }
 
-export const outputBytes = ifElse(
-  complement(isCoin),
-  always(TX_OUTPUT_BASE + TX_OUTPUT_PUBKEYHASH),
-  compose(
-    add(TX_OUTPUT_BASE),
-    tryCatch(
-      compose(s => s.length, selectScript),
-      always(TX_OUTPUT_PUBKEYHASH)
-    )
-  )
-)
+export const outputBytes = output => {
+  return IO_TYPES.outputs[output.type ? output.type() : 'P2PKH']
+}
 
 export const effectiveValue = curry((feePerByte, coin) =>
-  clamp(0, Infinity, coin.value - feePerByte * inputBytes(coin))
+  clamp(0, Infinity, Math.ceil(coin.value - feePerByte * inputBytes(coin)))
 )
 
 export const bip69SortInputs = sort((inputA, inputB) =>

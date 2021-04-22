@@ -28,12 +28,12 @@ const CancelBtn = styled(Text)`
 `
 
 const ShowUsedAddresses = props => {
-  const { busy, close, position, total, ...rest } = props
+  const { busy, closeAll, position, total, ...rest } = props
   const { handleContinue } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
-      <ModalHeader onClose={close}>
+      <ModalHeader onClose={closeAll}>
         <HeaderWrapper>
           <Icon
             name='alert-filled'
@@ -60,7 +60,7 @@ const ShowUsedAddresses = props => {
           size='small'
           weight={400}
           style={spacing('mr-15')}
-          onClick={close}
+          onClick={closeAll}
           data-e2e='cancelShowUsedAddressesButton'
         >
           <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />

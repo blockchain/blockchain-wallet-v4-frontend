@@ -27,6 +27,7 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import SelectBox from 'components/Form/SelectBox'
 import { actions } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
+import { ModalNamesType } from 'data/modals/types'
 
 import { getData } from './selectors'
 import Loading from './template.loading'
@@ -145,10 +146,13 @@ class WalletBalanceDropdown extends Component<Props> {
   }
 
   handleRequest = () => {
-    this.props.modalActions.showModal('REQUEST_CRYPTO_MODAL', {
-      coin: this.props.coin,
-      origin: 'WalletBalanceDropdown'
-    })
+    this.props.modalActions.showModal(
+      'REQUEST_CRYPTO_MODAL' as ModalNamesType,
+      {
+        coin: this.props.coin in CoinTypeEnum && this.props.coin,
+        origin: 'WalletBalanceDropdown'
+      }
+    )
   }
 
   isTotalBalanceType = selectProps => {

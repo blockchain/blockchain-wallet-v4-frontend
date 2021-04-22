@@ -156,7 +156,7 @@ const Success = (props: Props) => {
             />
           ) : (
             <FormattedMessage
-              id='modals.brokerage.authorize.fca.title'
+              id='modals.brokerage.authorize.bol.title'
               defaultMessage='Bank of Lithuania Authorisation'
             />
           )
