@@ -38,6 +38,7 @@ class TransactionList extends PureComponent<Props> {
       Success: (transactions: SuccessStateType) => (
         <TransactionsWrapper>
           {transactions.map(tx => {
+            // @ts-ignore
             return 'hash' in tx ? (
               <NonCustodialTxListItem
                 key={tx.hash}

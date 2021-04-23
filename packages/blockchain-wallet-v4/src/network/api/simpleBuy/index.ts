@@ -275,7 +275,7 @@ export default ({
     })
 
   const getSBPaymentMethods = (
-    currency: FiatType,
+    currency: FiatType | undefined,
     includeNonEligibleMethods?: boolean,
     includeTierLimits?: number
   ): SBPaymentMethodsType =>
