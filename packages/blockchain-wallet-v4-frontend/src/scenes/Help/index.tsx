@@ -54,7 +54,7 @@ const Help = () => {
       <Header>
         <Text size='20px' color='blue900' weight={600} capitalize>
           <FormattedMessage
-            id='scenes.help.needsomehelp'
+            id='copy.need_some_help'
             defaultMessage='Need some help?'
           />
         </Text>
