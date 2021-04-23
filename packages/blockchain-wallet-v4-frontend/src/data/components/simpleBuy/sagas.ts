@@ -452,6 +452,23 @@ export default ({
       throw new Error('retrying to fetch for FINISHED order')
     }
   }
+
+  const confirmOrderPoll = function * (
+    action: ReturnType<typeof A.confirmOrderPoll>
+  ) {
+    const { order } = action.payload
+    const { RETRY_AMOUNT, SECONDS } = POLLING
+    const confirmedOrder = yield retry(
+      RETRY_AMOUNT,
+      SECONDS * 1000,
+      OrderConfirmCheck,
+      order.id
+    )
+    yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
+    yield put(A.setStep({ step: 'ORDER_SUMMARY', order: confirmedOrder }))
+    yield put(A.fetchSBOrders())
+  }
+
   const confirmSBOrder = function * (
     payload: ReturnType<typeof A.confirmSBOrder>
   ) {
@@ -489,6 +506,7 @@ export default ({
         attributes,
         paymentMethodId
       )
+
       const { RETRY_AMOUNT, SECONDS } = POLLING
       if (account?.partner === 'YAPILY') {
         // for OB the authorisationUrl isn't in the initial response to confirm
@@ -500,14 +518,12 @@ export default ({
           AuthUrlCheck,
           confirmedOrder.id
         )
+        // Refresh the tx list in the modal background
+        yield put(A.fetchSBOrders())
+
         yield put(A.setStep({ step: 'OPEN_BANKING_CONNECT', order }))
         // Now we need to poll for the order success
-        confirmedOrder = yield retry(
-          RETRY_AMOUNT,
-          SECONDS * 1000,
-          OrderConfirmCheck,
-          confirmedOrder.id
-        )
+        return yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
       }
       yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
       if (order.paymentType === 'BANK_TRANSFER') {
@@ -1406,6 +1422,7 @@ export default ({
     addCardDetails,
     addCardFinished,
     cancelSBOrder,
+    confirmOrderPoll,
     confirmSBOrder,
     confirmSBFundsOrder,
     createSBOrder,

@@ -26,16 +26,16 @@ const Success = (props: Props) => {
       </ModalNavWithCloseIcon>
       <LinkOptionsWrapper>
         <ScanWithPhone
-          logo={props.account?.attributes.media[0].source as string}
-          qrCode={props.account?.attributes.qrcodeUrl as string}
+          logo={props.account?.attributes?.media[0].source as string}
+          qrCode={props.account?.attributes?.qrcodeUrl as string}
         />
         <Hr />
         <Section>
           <LinkViaDesktop
-            authUrl={props.account?.attributes.authorisationUrl as string}
+            authUrl={props.account?.attributes?.authorisationUrl as string}
           />
           <BankWaitIndicator
-            qrCode={props.account?.attributes.qrcodeUrl as string}
+            qrCode={props.account?.attributes?.qrcodeUrl as string}
           />
         </Section>
       </LinkOptionsWrapper>
