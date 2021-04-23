@@ -78,7 +78,7 @@ const Success: React.FC<Props> = props => {
             {props.yapilyBankId ? (
               <FormattedMessage
                 id='copy.bank_linked.name'
-                defaultMessage='Your bank {bankName} account is now linked to your Blockchain.com Wallet'
+                defaultMessage='Your {bankName} account is now linked to your Blockchain.com Wallet'
                 values={{ bankName }}
               />
             ) : (
