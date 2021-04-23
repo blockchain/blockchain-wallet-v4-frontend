@@ -236,7 +236,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <Text size='12px' weight={500} color='grey900'>
               <FormattedMessage
                 id='modals.simplebuy.confirm.ach_lock'
-                defaultMessage='For your security, buy orders with a bank account are subject up to a 7 day holding period. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
+                defaultMessage='For your security, buy orders with a bank account are subject up to a {days} day holding period. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
+                values={{ days: days }}
               />
             </Text>
           </Info>
