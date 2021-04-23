@@ -37,6 +37,7 @@ import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import { UserDataType } from 'data/modules/types'
 import {
   AddBankStepType,
+  BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType
 } from 'data/types'
@@ -496,7 +497,7 @@ export default ({
                 }
               }
             : undefined
-      } else if (account?.partner === 'YAPILY') {
+      } else if (account?.partner === BankPartners.YAPILY) {
         attributes = { callback: domains.yapilyCallbackUrl }
       }
 
@@ -508,7 +509,7 @@ export default ({
       )
 
       const { RETRY_AMOUNT, SECONDS } = POLLING
-      if (account?.partner === 'YAPILY') {
+      if (account?.partner === BankPartners.YAPILY) {
         // for OB the authorisationUrl isn't in the initial response to confirm
         // order. We need to poll the order for it.
         yield put(A.setStep({ step: 'LOADING' }))
@@ -1336,7 +1337,7 @@ export default ({
       )
       const step =
         latestPendingOrder.state === 'PENDING_CONFIRMATION'
-          ? prop('partner', bankAccount) === 'YAPILY'
+          ? prop('partner', bankAccount) === BankPartners.YAPILY
             ? 'OPEN_BANKING_CONNECT'
             : 'CHECKOUT_CONFIRM'
           : 'ORDER_SUMMARY'

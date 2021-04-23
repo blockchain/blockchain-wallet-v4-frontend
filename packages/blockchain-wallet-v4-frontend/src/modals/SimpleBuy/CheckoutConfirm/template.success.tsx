@@ -25,7 +25,7 @@ import {
   getOrderType,
   getPaymentMethodId
 } from 'data/components/simpleBuy/model'
-import { BankTransferAccountType } from 'data/types'
+import { BankPartners, BankTransferAccountType } from 'data/types'
 
 import { displayFiat, getPaymentMethod } from '../model'
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -254,7 +254,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         >
           {props.submitting ? (
             <HeartbeatLoader height='16px' width='16px' color='white' />
-          ) : paymentPartner === 'YAPILY' ? (
+          ) : paymentPartner === BankPartners.YAPILY ? (
             <FormattedMessage id='copy.next' defaultMessage='Next' />
           ) : (
             `${

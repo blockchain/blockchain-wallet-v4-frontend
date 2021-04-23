@@ -11,7 +11,11 @@ import {
 } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { BankDWStepType, BankTransferAccountType } from 'data/types'
+import {
+  BankDWStepType,
+  BankPartners,
+  BankTransferAccountType
+} from 'data/types'
 
 import { Loading, LoadingTextEnum } from '../../../../components'
 import { getData } from './selectors'
@@ -31,7 +35,7 @@ const EnterAmount = props => {
   const onSubmit = () => {
     props.defaultMethod &&
     'partner' in props.defaultMethod &&
-    props.defaultMethod.partner === 'YAPILY'
+    props.defaultMethod.partner === BankPartners.YAPILY
       ? props.brokerageActions.setDWStep({
           dwStep: BankDWStepType.AUTHORIZE
         })

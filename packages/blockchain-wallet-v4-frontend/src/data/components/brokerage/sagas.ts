@@ -9,6 +9,7 @@ import { actions, selectors } from 'data'
 import {
   AddBankStepType,
   BankDWStepType,
+  BankPartners,
   BankStatusType,
   BrokerageModalOriginType,
   FastLinkType,
@@ -197,9 +198,9 @@ export default ({
       yield put(A.fetchBankLinkCredentialsLoading())
       const { fiatCurrency } = action.payload
       const credentials = yield call(api.createBankAccountLink, fiatCurrency)
-      if (credentials.partner === 'YODLEE') {
+      if (credentials.partner === BankPartners.YODLEE) {
         yield put(A.setFastLink(credentials))
-      } else if (credentials.partner === 'YAPILY') {
+      } else if (credentials.partner === BankPartners.YAPILY) {
         yield put(A.setBankCredentials(credentials))
       }
     } catch (e) {
@@ -333,7 +334,8 @@ export default ({
     const { yapilyCallbackUrl } = domainsR.getOrElse({
       yapilyCallbackUrl: 'https://www.blockchain.com/brokerage-link-success'
     })
-    const callback = partner === 'YAPILY' ? yapilyCallbackUrl : undefined
+    const callback =
+      partner === BankPartners.YAPILY ? yapilyCallbackUrl : undefined
     const attributes = { callback }
     try {
       const data = yield call(
@@ -346,7 +348,7 @@ export default ({
       const { RETRY_AMOUNT, SECONDS } = POLLING
       // If yapily we need to transition to another screen and poll for auth
       // details before polling for order status
-      if (partner === 'YAPILY') {
+      if (partner === BankPartners.YAPILY) {
         const order = yield retry(
           RETRY_AMOUNT,
           SECONDS * 1000,
