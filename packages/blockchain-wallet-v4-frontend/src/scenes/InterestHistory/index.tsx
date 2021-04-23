@@ -10,6 +10,7 @@ import { actions } from 'data'
 import InterestHeader from '../Interest/template.header'
 import InterestMenu from '../Interest/template.menu'
 import CoinFilter from './CoinFilter'
+import DownloadTransactions from './DownloadTransactions'
 import { getData } from './selectors'
 import Loading from './template.loading'
 import TransactionList from './template.success'
@@ -32,7 +33,6 @@ const MenuRow = styled.div`
 
 class InterestHistoryContainer extends Component<Props> {
   componentDidMount() {
-    console.log('this file')
     this.props.interestActions.fetchInterestTransactions(true)
   }
 
@@ -52,17 +52,20 @@ class InterestHistoryContainer extends Component<Props> {
       <SceneWrapper>
         <InterestHeader />
         {data.cata({
-          Success: val => (
-            <>
-              <MenuRow>
-                <InterestMenu />
-                <CoinFilter {...val} />
-              </MenuRow>
-              <LazyLoadWrapper onLazyLoad={this.onFetchMoreTransactions}>
-                <TransactionList {...val} {...this.props} />
-              </LazyLoadWrapper>
-            </>
-          ),
+          Success: val => {
+            return (
+              <>
+                <MenuRow>
+                  <InterestMenu />
+                  <DownloadTransactions {...val} />
+                  <CoinFilter {...val} />
+                </MenuRow>
+                <LazyLoadWrapper onLazyLoad={this.onFetchMoreTransactions}>
+                  <TransactionList {...val} {...this.props} />
+                </LazyLoadWrapper>
+              </>
+            )
+          },
           Failure: () => null,
           Loading: () => <Loading />,
           NotAsked: () => <Loading />
