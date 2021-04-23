@@ -113,21 +113,45 @@ class Login extends PureComponent<Props> {
               switch (step) {
                 case LoginSteps.ENTER_EMAIL_GUID:
                   // @ts-ignore
-                  return <EnterEmailOrGuid {...this.props} {...loginProps} setStep={this.setStep} />
-
+                  return (
+                    <EnterEmailOrGuid
+                      {...this.props}
+                      {...loginProps}
+                      setStep={this.setStep}
+                    />
+                  )
                 case LoginSteps.ENTER_PASSWORD:
-                  return <EnterPassword />
+                  // @ts-ignore
+                  return (
+                    <EnterPassword
+                      {...this.props}
+                      {...loginProps}
+                      setStep={this.setStep}
+                    />
+                  )
 
                 case LoginSteps.ENTER_TWO_FACTOR:
                   return <EnterTwoFactor />
 
                 case LoginSteps.CHECK_EMAIL:
                   // @ts-ignore
-                  return <CheckEmail {...this.props} {...loginProps} setStep={this.setStep} />
+                  return (
+                    <CheckEmail
+                      {...this.props}
+                      {...loginProps}
+                      setStep={this.setStep}
+                    />
+                  )
 
                 case LoginSteps.VERIFICATION_MOBILE:
-                   // @ts-ignore
-                  return <VerificationMobile {...this.props} {...loginProps} setStep={this.setStep} />
+                  // @ts-ignore
+                  return (
+                    <VerificationMobile
+                      {...this.props}
+                      {...loginProps}
+                      setStep={this.setStep}
+                    />
+                  )
 
                 case LoginSteps.LOADING:
                 default:
