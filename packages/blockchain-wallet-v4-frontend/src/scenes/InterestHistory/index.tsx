@@ -32,6 +32,7 @@ const MenuRow = styled.div`
 
 class InterestHistoryContainer extends Component<Props> {
   componentDidMount() {
+    console.log('this file')
     this.props.interestActions.fetchInterestTransactions(true)
   }
 

@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { isEmpty, isNil, last, prop } from 'ramda'
+import { concat, isEmpty, isNil, last, prop } from 'ramda'
 import { FormAction, initialize } from 'redux-form'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
@@ -70,7 +70,7 @@ export default ({
     return account.address
   }
 
-  const fetchInterestBalance = function * () {
+  const fetchInterestBalance = function*() {
     try {
       yield put(A.fetchInterestBalanceLoading())
       if (!(yield call(isTier2)))
@@ -87,7 +87,7 @@ export default ({
     }
   }
 
-  const fetchInterestEligible = function * () {
+  const fetchInterestEligible = function*() {
     try {
       yield put(A.fetchInterestEligibleLoading())
       const response: ReturnType<typeof api.getInterestEligible> = yield call(
@@ -100,7 +100,7 @@ export default ({
     }
   }
 
-  const fetchInterestInstruments = function * () {
+  const fetchInterestInstruments = function*() {
     try {
       yield put(A.fetchInterestInstrumentsLoading())
       const response: ReturnType<typeof api.getInterestInstruments> = yield call(
@@ -113,7 +113,7 @@ export default ({
     }
   }
 
-  const fetchInterestLimits = function * ({
+  const fetchInterestLimits = function*({
     coin,
     currency
   }: ReturnType<typeof A.fetchInterestLimits>) {
@@ -131,7 +131,7 @@ export default ({
     }
   }
 
-  const fetchInterestAccount = function * ({
+  const fetchInterestAccount = function*({
     coin
   }: ReturnType<typeof A.fetchInterestAccount>) {
     try {
@@ -147,7 +147,7 @@ export default ({
     }
   }
 
-  const fetchInterestRate = function * () {
+  const fetchInterestRate = function*() {
     try {
       yield put(A.fetchInterestRateLoading())
       const response: ReturnType<typeof api.getInterestSavingsRate> = yield call(
@@ -159,7 +159,41 @@ export default ({
       yield put(A.fetchInterestRateFailure(error))
     }
   }
-  const fetchInterestTransactions = function * ({
+  const fetchInterestTransactionsReport = function*() {
+    const reportHeaders = [['Date', 'Type', 'Asset', 'Amount', 'Tx Hash']]
+    const formatTxData = d => [
+      d.insertedAt,
+      d.type,
+      d.amount?.symbol,
+      d.amount?.value,
+      d.txHash
+    ]
+    let list = [],
+      hasNext = true,
+      nextPageUrl
+    const { coin } = yield select(
+      selectors.form.getFormValues('interestHistoryCoin')
+    )
+    yield put(A.fetchInterestTransactionsReportLoading())
+    try {
+      while (hasNext) {
+        const { items, next } = yield call(
+          api.getInterestTransactions,
+          coin === 'ALL' ? undefined : coin,
+          nextPageUrl
+        )
+        list = concat(list, items.map(formatTxData))
+        hasNext = next
+        nextPageUrl = next
+      }
+      const report = concat(reportHeaders, list)
+      yield put(A.fetchInterestTransactionsReportSuccess(report))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchInterestTransactionsReportFailure(error))
+    }
+  }
+  const fetchInterestTransactions = function*({
     payload
   }: ReturnType<typeof A.fetchInterestTransactions>) {
     const { coin, reset } = payload
@@ -184,7 +218,7 @@ export default ({
     }
   }
 
-  const formChanged = function * (action: FormAction) {
+  const formChanged = function*(action: FormAction) {
     const form = action.meta.form
     if (form !== DEPOSIT_FORM) return
 
@@ -251,7 +285,7 @@ export default ({
     }
   }
 
-  const initializeDepositForm = function * ({
+  const initializeDepositForm = function*({
     payload
   }: ReturnType<typeof A.initializeDepositForm>) {
     const { coin, currency } = payload
@@ -325,7 +359,7 @@ export default ({
     )
   }
 
-  const initializeWithdrawalForm = function * ({
+  const initializeWithdrawalForm = function*({
     payload
   }: ReturnType<typeof A.initializeWithdrawalForm>) {
     const { coin, walletCurrency } = payload
@@ -349,7 +383,7 @@ export default ({
     }
   }
 
-  const routeToTxHash = function * ({
+  const routeToTxHash = function*({
     payload
   }: ReturnType<typeof A.routeToTxHash>) {
     const { coin, txHash } = payload
@@ -360,7 +394,7 @@ export default ({
     yield put(actions.form.change('walletTxSearch', 'search', txHash))
   }
 
-  const sendDeposit = function * () {
+  const sendDeposit = function*() {
     try {
       yield put(actions.form.startSubmit(DEPOSIT_FORM))
       const formValues: InterestDepositFormType = yield select(
@@ -461,7 +495,7 @@ export default ({
     }
   }
 
-  const requestWithdrawal = function * ({
+  const requestWithdrawal = function*({
     payload
   }: ReturnType<typeof A.requestWithdrawal>) {
     const { coin, withdrawalAmount } = payload
@@ -512,7 +546,7 @@ export default ({
     }
   }
 
-  const showInterestModal = function * ({
+  const showInterestModal = function*({
     payload
   }: ReturnType<typeof A.showInterestModal>) {
     const { coin, step } = payload
@@ -525,7 +559,7 @@ export default ({
     )
   }
 
-  const fetchShowInterestCardAfterTransaction = function * ({
+  const fetchShowInterestCardAfterTransaction = function*({
     payload
   }: ReturnType<typeof A.fetchShowInterestCardAfterTransaction>) {
     try {
@@ -541,7 +575,7 @@ export default ({
     }
   }
 
-  const stopShowingInterestModal = function * () {
+  const stopShowingInterestModal = function*() {
     try {
       yield call(api.stopInterestCtaAfterTransaction, false)
     } catch (e) {
@@ -552,6 +586,7 @@ export default ({
 
   return {
     fetchShowInterestCardAfterTransaction,
+    fetchInterestTransactionsReport,
     fetchInterestBalance,
     fetchInterestEligible,
     fetchInterestInstruments,

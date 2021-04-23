@@ -21,7 +21,8 @@ import {
   InterestActionTypes,
   InterestMinMaxType,
   InterestStep,
-  InterestStepMetadata
+  InterestStepMetadata,
+  InterestTransactionsReportType
 } from './types'
 
 // BALANCES
@@ -166,6 +167,26 @@ export const fetchInterestRateSuccess = (
 })
 
 // TRANSACTIONS
+export const clearInterestTransactionsReport = () => ({
+  type: AT.CLEAR_INTEREST_TRANSACTIONS_REPORT
+})
+export const fetchInterestTransactionsReport = (coin?: CoinType) => ({
+  payload: { coin },
+  type: AT.FETCH_INTEREST_TRANSACTIONS_REPORT
+})
+export const fetchInterestTransactionsReportFailure = (error: string) => ({
+  payload: { error },
+  type: AT.FETCH_INTEREST_TRANSACTIONS_REPORT_FAILURE
+})
+export const fetchInterestTransactionsReportLoading = () => ({
+  type: AT.FETCH_INTEREST_TRANSACTIONS_REPORT_LOADING
+})
+export const fetchInterestTransactionsReportSuccess = (
+  transactions: InterestTransactionsReportType
+) => ({
+  payload: { transactions },
+  type: AT.FETCH_INTEREST_TRANSACTIONS_REPORT_SUCCESS
+})
 export const fetchInterestTransactions = (reset: boolean, coin?: CoinType) => ({
   payload: { reset, coin },
   type: AT.FETCH_INTEREST_TRANSACTIONS

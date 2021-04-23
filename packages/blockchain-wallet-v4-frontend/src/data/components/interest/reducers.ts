@@ -29,6 +29,7 @@ const INITIAL_STATE: InterestState = {
   },
   transactions: [],
   transactionsNextPage: null,
+  transactionsReport: Remote.NotAsked,
   withdrawalMinimums: Remote.NotAsked
 }
 
@@ -129,6 +130,19 @@ export function interestReducer(
         ...state,
         interestRate: Remote.Success(payload.interestRate.rates)
       }
+    case AT.CLEAR_INTEREST_TRANSACTIONS_REPORT: {
+      return assoc('transactionsReport', Remote.NotAsked, state)
+    }
+    case AT.FETCH_INTEREST_TRANSACTIONS_REPORT_LOADING: {
+      return assoc('transactionsReport', Remote.Loading, state)
+    }
+    case AT.FETCH_INTEREST_TRANSACTIONS_REPORT_FAILURE: {
+      return assoc('transactionsReport', Remote.Failure(payload), state)
+    }
+    case AT.FETCH_INTEREST_TRANSACTIONS_REPORT_SUCCESS: {
+      const { transactions } = payload
+      return assoc('transactionsReport', Remote.Success(transactions), state)
+    }
     case AT.FETCH_INTEREST_TRANSACTIONS_LOADING: {
       const { reset } = payload
       return reset
