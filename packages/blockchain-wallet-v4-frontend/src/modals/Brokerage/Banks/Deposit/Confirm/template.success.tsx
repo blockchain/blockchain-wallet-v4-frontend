@@ -7,7 +7,7 @@ import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
-import { BankDWStepType } from 'data/types'
+import { BankDWStepType, BankPartners } from 'data/types'
 
 import { FormattedBank, LineItemText } from './model'
 
@@ -42,6 +42,8 @@ const ActionsRow = styled(BareRow)`
 
 const Success = props => {
   const [submitting, setSubmitting] = useState<boolean>(false)
+
+  const isOpenBanking = props.defaultMethod?.partner === BankPartners.YAPILY
 
   return (
     <Wrapper>
@@ -92,19 +94,21 @@ const Success = props => {
             />
           </LineItemText>
         </Row>
-        <Row>
-          <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
-            <FormattedMessage
-              id='modals.brokerage.funds_will_arrive'
-              defaultMessage='Funds Will Arrive'
-            />
-          </Text>
-          <LineItemText>
-            {moment()
-              .add(3, 'days')
-              .format('dddd, MMM Do, YYYY')}
-          </LineItemText>
-        </Row>
+        {!isOpenBanking && (
+          <Row>
+            <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
+              <FormattedMessage
+                id='modals.brokerage.funds_will_arrive'
+                defaultMessage='Funds Will Arrive'
+              />
+            </Text>
+            <LineItemText>
+              {moment()
+                .add(3, 'days')
+                .format('dddd, MMM Do, YYYY')}
+            </LineItemText>
+          </Row>
+        )}
         <Row>
           <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
             <FormattedMessage id='copy.total' defaultMessage='Total' />
