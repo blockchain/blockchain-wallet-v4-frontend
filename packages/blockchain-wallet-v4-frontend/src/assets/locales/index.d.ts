@@ -345,6 +345,7 @@ type MessagesType = {
   'copy.bank_linked_error_alreadylinked1': 'Log into your Exchange account and link your Wallet. This will connect your bank. If any of this doesn’t look right to you, please'
   'copy.bank_linked_error_alreadylinked2': 'immediately.'
   'copy.bank_linked_error_yourbank': 'We noticed the names don’t match. The bank you link must have a matching legal first & last name as your Blockchain.com Account.'
+  'copy.bank_linked_error_account_invalid': 'You’ve tried to link an account which is not valid. Please check again or contact support.'
   'copy.bank_linked_error_title_already_linked': 'This bank has already been linked to your account.'
   'copy.bank_linked_error_title_connectionrejected': 'Connection Rejected'
   'copy.bank_linked_error_title_expiredaccount': 'Expired Account Access'
