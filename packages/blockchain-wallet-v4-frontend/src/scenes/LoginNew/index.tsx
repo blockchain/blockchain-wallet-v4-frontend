@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { getFormMeta, reduxForm } from 'redux-form'
+import { formValueSelector, getFormMeta, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
@@ -29,7 +29,7 @@ export enum LoginSteps {
   VERIFICATION_MOBILE
 }
 
-type LoginFormType = {
+export type LoginFormType = {
   guidOrEmail: string
   password: string
   step: LoginSteps
@@ -112,8 +112,8 @@ class Login extends PureComponent<Props> {
             {(() => {
               switch (step) {
                 case LoginSteps.ENTER_EMAIL_GUID:
-                  // @ts-ignore
                   return (
+                    // @ts-ignore
                     <EnterEmailOrGuid
                       {...this.props}
                       {...loginProps}
@@ -121,8 +121,8 @@ class Login extends PureComponent<Props> {
                     />
                   )
                 case LoginSteps.ENTER_PASSWORD:
-                  // @ts-ignore
                   return (
+                    // @ts-ignore
                     <EnterPassword
                       {...this.props}
                       {...loginProps}
@@ -131,11 +131,18 @@ class Login extends PureComponent<Props> {
                   )
 
                 case LoginSteps.ENTER_TWO_FACTOR:
-                  return <EnterTwoFactor />
+                  return (
+                    // @ts-ignore
+                    <EnterTwoFactor
+                      {...this.props}
+                      {...loginProps}
+                      setStep={this.setStep}
+                    />
+                  )
 
                 case LoginSteps.CHECK_EMAIL:
-                  // @ts-ignore
                   return (
+                    // @ts-ignore
                     <CheckEmail
                       {...this.props}
                       {...loginProps}
@@ -144,8 +151,8 @@ class Login extends PureComponent<Props> {
                   )
 
                 case LoginSteps.VERIFICATION_MOBILE:
-                  // @ts-ignore
                   return (
+                    // @ts-ignore
                     <VerificationMobile
                       {...this.props}
                       {...loginProps}
@@ -207,6 +214,7 @@ const mapStateToProps = state => ({
   data: selectors.auth.getLogin(state),
   formValues: selectors.form.getFormValues(LOGIN_NEW)(state) as LoginFormType,
   formMeta: getFormMeta(LOGIN_NEW)(state),
+  guid: formValueSelector(LOGIN_NEW)(state, 'guid'),
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   }

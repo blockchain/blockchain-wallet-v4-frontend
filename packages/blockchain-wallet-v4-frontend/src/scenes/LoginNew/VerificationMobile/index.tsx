@@ -11,11 +11,7 @@ import QRCodeWrapper from 'components/QRCodeWrapper'
 import { selectors } from 'data'
 
 import { LoginSteps, Props as OwnProps } from '..'
-
-const TopRow = styled.div`
-  display: flex;
-  align-items: center;
-`
+import { BackArrowFormHeader } from '../model'
 
 const Body = styled.div`
   display: flex;
@@ -39,25 +35,7 @@ const VerificationMobile = (props: InjectedFormProps<{}, Props> & Props) => {
 
   return (
     <>
-      <TopRow>
-        <Icon
-          cursor
-          data-e2e='signupBack'
-          name='arrow-left'
-          size='24px'
-          color='grey400'
-          style={{ marginRight: '6px' }}
-          role='button'
-          onClick={() => setStep(LoginSteps.ENTER_EMAIL_GUID)}
-        />
-        <Text color='grey400' size='14px' weight={600}>
-          <FormattedMessage
-            id='scenes.login.signingin_email'
-            defaultMessage='Signing in with {email}'
-            values={{ email: formValues.guidOrEmail }}
-          />
-        </Text>
-      </TopRow>
+      <BackArrowFormHeader formValues={formValues} setStep={setStep} />
       <Icon
         name='padlock'
         color='green600'

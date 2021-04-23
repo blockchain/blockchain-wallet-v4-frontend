@@ -1,4 +1,6 @@
-// import React from 'react'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import Bowser from 'bowser'
 import styled from 'styled-components'
 
@@ -6,10 +8,10 @@ import {
   // Banner,
   Button,
   // HeartbeatLoader,
-  // Icon,
+  Icon,
   // Image,
-  // Link,
-  // Text,
+  Link,
+  Text,
   TextGroup
 } from 'blockchain-info-components'
 import {
@@ -21,6 +23,8 @@ import {
   // TextBox
 } from 'components/Form'
 import { Wrapper } from 'components/Public'
+
+import { LoginFormType, LoginSteps } from '.'
 
 export const LOGIN_NEW = 'loginNew'
 
@@ -64,3 +68,78 @@ export const CircleBackground = styled.div`
   border-radius: 40px;
   margin: 24px 0 8px 0;
 `
+const TopRow = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+`
+export const BackArrowFormHeader = (props: {
+  formValues: LoginFormType
+  setStep: (LoginSteps) => void
+}) => {
+  return (
+    <TopRow>
+      <Icon
+        cursor
+        data-e2e='signupBack'
+        name='arrow-left'
+        size='24px'
+        color='grey400'
+        style={{ marginRight: '6px' }}
+        role='button'
+        onClick={() => props.setStep(LoginSteps.ENTER_EMAIL_GUID)}
+      />
+      <Text color='grey400' size='14px' weight={600}>
+        <FormattedMessage
+          id='scenes.login.signingin_email'
+          defaultMessage='Signing in with {email}'
+          values={{ email: props.formValues.guidOrEmail }}
+        />
+      </Text>
+    </TopRow>
+  )
+}
+
+const LinkRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`
+
+export const FooterButtons = (props: {
+  busy: boolean,
+  invalid: boolean
+  submitting: boolean
+}) => {
+  return (
+    <LinkRow>
+      <ActionButton
+        // type='submit'
+        nature='primary'
+        fullwidth
+        height='48px'
+        disabled={props.submitting || props.invalid || props.busy}
+        data-e2e='passwordButton'
+        style={{ marginBottom: '16px' }}
+
+        //   onClick={}
+      >
+        {/* {busy && !loginError ? (
+<HeartbeatLoader height='20px' width='20px' color='white' />
+) : ( */}
+        <Text color='whiteFade900' size='16px' weight={600}>
+          <FormattedMessage id='scenes.login.login' defaultMessage='Log In' />
+        </Text>
+        {/* )} */}
+      </ActionButton>
+      <LinkContainer to='/help'>
+        <Link size='13px' weight={600} data-e2e='loginGetHelp'>
+          <FormattedMessage
+            id='scenes.login.needhelp'
+            defaultMessage='Need some help?'
+          />
+        </Link>
+      </LinkContainer>
+    </LinkRow>
+  )
+}
