@@ -14,6 +14,7 @@ export default ({ api }) => {
     yield takeEvery(AT.FETCH_ERC20_TOKEN_DATA, dataEthSagas.fetchErc20Data)
     yield takeEvery(AT.FETCH_ERC20_RATES, dataEthSagas.fetchErc20Rates)
     yield takeLatest(
+      // @ts-ignore
       AT.FETCH_ETH_TRANSACTION_HISTORY,
       dataEthSagas.fetchTransactionHistory
     )

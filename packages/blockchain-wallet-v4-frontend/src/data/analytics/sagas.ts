@@ -50,8 +50,8 @@ export default () => {
           variableId: CUSTOM_VARIABLES.KYC_TIER.ID,
           variableName: CUSTOM_VARIABLES.KYC_TIER.NAME,
           variableValue: propOr(0, 'current', currentUserTiers),
-          variableScope: 'visit'
-        }
+          variableScope: 'visit',
+        },
       })
       // log current user balance flags
       const state = yield select()
@@ -60,15 +60,15 @@ export default () => {
       )).getOrElse(0)
       const paxBalance = (yield select(
         selectors.core.data.eth.getErc20Balance,
-        'pax'
+        'PAX'
       )).getOrElse(0)
       const usdtBalance = (yield select(
         selectors.core.data.eth.getErc20Balance,
-        'usdt'
+        'USDT'
       )).getOrElse(0)
       const wdgldBalance = (yield select(
         selectors.core.data.eth.getErc20Balance,
-        'wdgld'
+        'WDGLD'
       )).getOrElse(0)
       const xlmBalance = (yield select(
         selectors.core.data.xlm.getTotalBalance
@@ -79,7 +79,7 @@ export default () => {
         add,
         0,
         map(
-          address =>
+          (address) =>
             selectors.core.data.btc
               .getFinalBalance(state, address)
               .getOrElse(0),
@@ -94,7 +94,7 @@ export default () => {
         add,
         0,
         map(
-          address =>
+          (address) =>
             selectors.core.data.bch
               .getFinalBalance(state, address)
               .getOrElse(0),
@@ -113,10 +113,10 @@ export default () => {
             PAX: not(equals(paxBalance, 0)),
             USDT: not(equals(usdtBalance, 0)),
             XLM: not(equals(xlmBalance, 0)),
-            WDGLD: not(equals(wdgldBalance, 0))
+            WDGLD: not(equals(wdgldBalance, 0)),
           }),
-          variableScope: 'visit'
-        }
+          variableScope: 'visit',
+        },
       })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initUserSession', e))
@@ -128,7 +128,7 @@ export default () => {
       const { event } = action.payload
       yield call(postMessage, {
         method: 'trackEvent',
-        messageData: event
+        messageData: event,
       })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'logEvent', e))
@@ -140,7 +140,7 @@ export default () => {
       const { test } = action.payload
       yield call(postMessage, {
         method: 'AbTesting::create',
-        messageData: { name: test }
+        messageData: { name: test },
       })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'logABTest', e))
@@ -152,7 +152,7 @@ export default () => {
       const { route } = action.payload
       yield call(postMessage, {
         method: 'logPageView',
-        messageData: { route }
+        messageData: { route },
       })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'logPageView', e))
@@ -173,12 +173,7 @@ export default () => {
       const { guid } = action.payload
       yield call(postMessage, {
         method: 'setUserId',
-        messageData: [
-          crypto
-            .sha256(guid)
-            .toString('hex')
-            .slice(0, 15)
-        ]
+        messageData: [crypto.sha256(guid).toString('hex').slice(0, 15)],
       })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'startSession', e))
@@ -201,6 +196,6 @@ export default () => {
     initUserSession,
     postMessage,
     startSession,
-    stopSession
+    stopSession,
   }
 }

@@ -13,7 +13,7 @@ export const getEthBalance = function * () {
     if (!Remote.Success.is(ethBalanceR)) {
       const ethData = yield take([
         actionTypes.core.data.eth.FETCH_ETH_DATA_SUCCESS,
-        actionTypes.core.data.eth.FETCH_ETH_DATA_FAILURE
+        actionTypes.core.data.eth.FETCH_ETH_DATA_FAILURE,
       ])
       return pathOr(0, balancePath, ethData)
     }
@@ -32,14 +32,14 @@ export const getErc20Balance = function * (token) {
     if (!Remote.Success.is(erc20BalanceR)) {
       yield put(actions.core.data.eth.fetchErc20Data(token))
       const erc20Data = yield take([
-        action =>
+        (action) =>
           action.type ===
             actionTypes.core.data.eth.FETCH_ERC20_TOKEN_DATA_SUCCESS &&
           action.payload.token === token,
-        action =>
+        (action) =>
           action.type ===
             actionTypes.core.data.eth.FETCH_ERC20_TOKEN_DATA_FAILURE &&
-          action.payload.token === token
+          action.payload.token === token,
       ])
       return pathOr(0, balancePath, erc20Data)
     }
@@ -55,7 +55,7 @@ export const getBtcBalance = function * () {
     if (!Remote.Success.is(btcBalanceR)) {
       const btcData = yield take([
         actionTypes.core.data.btc.FETCH_BTC_DATA_SUCCESS,
-        actionTypes.core.data.btc.FETCH_BTC_DATA_FAILURE
+        actionTypes.core.data.btc.FETCH_BTC_DATA_FAILURE,
       ])
       return pathOr(0, balancePath, btcData)
     }
@@ -71,7 +71,7 @@ export const getBchBalance = function * () {
     if (!Remote.Success.is(bchBalanceR)) {
       const bchData = yield take([
         actionTypes.core.data.bch.FETCH_BCH_DATA_SUCCESS,
-        actionTypes.core.data.bch.FETCH_BCH_DATA_FAILURE
+        actionTypes.core.data.bch.FETCH_BCH_DATA_FAILURE,
       ])
       return pathOr(0, balancePath, bchData)
     }
@@ -98,17 +98,11 @@ export const waitForAllBalances = function * () {
   const btcT = yield fork(getBtcBalance)
   const bchT = yield fork(getBchBalance)
   const ethT = yield fork(getEthBalance)
-  const paxT = yield fork(getErc20Balance, 'pax')
-  const usdtT = yield fork(getErc20Balance, 'usdt')
-  const wdgldT = yield fork(getErc20Balance, 'wdgld')
   const xlmT = yield fork(getXlmBalance)
   const btc = yield join(btcT)
   const bch = yield join(bchT)
   const eth = yield join(ethT)
-  const pax = yield join(paxT)
-  const usdt = yield join(usdtT)
-  const wdgld = yield join(wdgldT)
   const xlm = yield join(xlmT)
 
-  return { btc, eth, bch, pax, xlm, usdt, wdgld }
+  return { btc, eth, bch, xlm }
 }

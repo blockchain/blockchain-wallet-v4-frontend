@@ -7,7 +7,7 @@ import {
   mergeRight,
   path,
   prop,
-  toLower
+  toLower,
 } from 'ramda'
 import { call, select } from 'redux-saga/effects'
 
@@ -20,7 +20,7 @@ import {
   calculateEffectiveBalance,
   calculateFee,
   convertGweiToWei,
-  isValidAddress
+  isValidAddress,
 } from '../../../utils/eth'
 import * as S from '../../selectors'
 import { ADDRESS_TYPES } from '../btc/utils'
@@ -28,7 +28,7 @@ import { FETCH_FEES_FAILURE } from '../model'
 import { AddressTypesType } from '../types'
 import { isValidIndex } from './utils'
 
-const taskToPromise = t =>
+const taskToPromise = (t) =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 /**
@@ -62,7 +62,7 @@ export default ({ api }) => {
     )
   }
 
-  const calculateTo = destination => {
+  const calculateTo = (destination) => {
     if (!destination.type) {
       return { address: destination, type: ADDRESS_TYPES.ADDRESS }
     }
@@ -88,12 +88,12 @@ export default ({ api }) => {
             S.kvStore.eth.getErc20ContractAddr,
             toLower(p.coin)
           )).getOrFail('missing_contract_addr')
-          sign = data =>
+          sign = (data) =>
             taskToPromise(
               eth.signErc20(network, mnemonic, data, contractAddress)
             )
         } else {
-          sign = data => taskToPromise(eth.sign(network, mnemonic, data))
+          sign = (data) => taskToPromise(eth.sign(network, mnemonic, data))
         }
         return yield call(sign, p.raw)
       }
@@ -125,7 +125,7 @@ export default ({ api }) => {
   }
 
   function create({ network, payment } = { network: undefined, payment: {} }) {
-    const makePayment = p => ({
+    const makePayment = (p) => ({
       coin: 'ETH',
 
       value() {
@@ -162,7 +162,7 @@ export default ({ api }) => {
             feeInGwei: gasPrice,
             isErc20,
             coin,
-            isSufficientEthForErc20
+            isSufficientEthForErc20,
           })
         )
       },
@@ -185,7 +185,7 @@ export default ({ api }) => {
         if (type === 'CUSTODIAL') {
           from = {
             type,
-            address: origin
+            address: origin,
           }
         } else {
           let account = origin
@@ -196,10 +196,9 @@ export default ({ api }) => {
           const ethData = yield call(api.getEthBalances, account)
           const nonce = path([account, 'nonce'], ethData)
           let balance = p.isErc20
-            ? (yield select(
-                S.data.eth.getErc20Balance,
-                toLower(p.coin)
-              )).getOrFail('missing_erc20_balance')
+            ? (yield select(S.data.eth.getErc20Balance, p.coin)).getOrFail(
+                'missing_erc20_balance'
+              )
             : path([account, 'balance'], ethData)
 
           effectiveBalance = calculateEffectiveBalance(
@@ -210,7 +209,7 @@ export default ({ api }) => {
           from = {
             type: type || ADDRESS_TYPES.ACCOUNT,
             address: account,
-            nonce
+            nonce,
           }
           unconfirmedTx = yield call(calculateUnconfirmed, account)
         }
@@ -231,7 +230,7 @@ export default ({ api }) => {
           return makePayment(
             mergeRight(p, {
               feeInGwei: 0,
-              fee: 0
+              fee: 0,
             })
           )
         }
@@ -271,7 +270,7 @@ export default ({ api }) => {
           mergeRight(p, {
             feeInGwei,
             fee,
-            effectiveBalance
+            effectiveBalance,
           })
         )
       },
@@ -307,7 +306,7 @@ export default ({ api }) => {
           gasLimit,
           nonce,
           from,
-          fromType
+          fromType,
         }
         return makePayment(mergeRight(p, { raw }))
       },
@@ -337,7 +336,7 @@ export default ({ api }) => {
           const appState = yield select(identity)
           const seedHexT = S.wallet.getSeedHex(appState, password)
           const seedHex = yield call(() => taskToPromise(seedHexT))
-          const signLegacy = data =>
+          const signLegacy = (data) =>
             taskToPromise(eth.signLegacy(network, seedHex, data))
           const signed = yield call(signLegacy, p.raw)
           return makePayment(mergeRight(p, { signed }))
@@ -376,7 +375,7 @@ export default ({ api }) => {
           mergeRight(p, {
             from: { ...p.from, nonce: Number(nonce) },
             isRetryAttempt,
-            minFeeRequiredForRetry
+            minFeeRequiredForRetry,
           })
         )
       },
@@ -397,40 +396,40 @@ export default ({ api }) => {
             return yield f(yield gen())
           })
 
-        const makeChain = gen => ({
-          init: values => chain(gen, payment => payment.init(values)),
-          to: address => chain(gen, payment => payment.to(address)),
-          amount: amount => chain(gen, payment => payment.amount(amount)),
+        const makeChain = (gen) => ({
+          init: (values) => chain(gen, (payment) => payment.init(values)),
+          to: (address) => chain(gen, (payment) => payment.to(address)),
+          amount: (amount) => chain(gen, (payment) => payment.amount(amount)),
           from: (origin, type) =>
-            chain(gen, payment => payment.from(origin, type)),
-          fee: value => chain(gen, payment => payment.fee(value)),
-          fees: fees => chain(gen, payment => payment.fees(fees)),
-          build: () => chain(gen, payment => payment.build()),
-          sign: password => chain(gen, payment => payment.sign(password)),
-          publish: () => chain(gen, payment => payment.publish()),
-          setIsErc20: val => chain(gen, payment => payment.setIsErc20(val)),
-          setIsContract: val =>
-            chain(gen, payment => payment.setIsContract(val)),
-          setIsRetryAttempt: val =>
-            chain(gen, payment => payment.setIsRetryAttempt(val)),
-          setCoin: coin => chain(gen, payment => payment.setCoin(coin)),
-          description: message =>
-            chain(gen, payment => payment.description(message)),
+            chain(gen, (payment) => payment.from(origin, type)),
+          fee: (value) => chain(gen, (payment) => payment.fee(value)),
+          fees: (fees) => chain(gen, (payment) => payment.fees(fees)),
+          build: () => chain(gen, (payment) => payment.build()),
+          sign: (password) => chain(gen, (payment) => payment.sign(password)),
+          publish: () => chain(gen, (payment) => payment.publish()),
+          setIsErc20: (val) => chain(gen, (payment) => payment.setIsErc20(val)),
+          setIsContract: (val) =>
+            chain(gen, (payment) => payment.setIsContract(val)),
+          setIsRetryAttempt: (val) =>
+            chain(gen, (payment) => payment.setIsRetryAttempt(val)),
+          setCoin: (coin) => chain(gen, (payment) => payment.setCoin(coin)),
+          description: (message) =>
+            chain(gen, (payment) => payment.description(message)),
           * done() {
             return yield gen()
-          }
+          },
         })
 
         return makeChain(function * () {
           return yield call(makePayment, p)
         })
-      }
+      },
     })
 
     return makePayment(payment)
   }
 
   return {
-    create: create
+    create: create,
   }
 }

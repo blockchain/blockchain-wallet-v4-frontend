@@ -13,11 +13,7 @@ export default () => {
       yield put(actions.core.data.btc.fetchData())
       yield put(actions.core.data.eth.fetchData())
       yield put(actions.core.data.xlm.fetchData())
-      yield put(actions.core.data.eth.fetchErc20Data('pax'))
-      yield put(actions.core.data.eth.fetchErc20Data('usdt'))
-      yield put(actions.core.data.eth.fetchErc20Data('wdgld'))
-      yield put(actions.core.data.eth.fetchErc20Data('yfi'))
-      yield put(actions.core.data.eth.fetchErc20Data('aave'))
+      yield put(actions.core.data.eth.fetchErc20Data())
       yield put(actions.components.interest.fetchInterestBalance())
       yield put(actions.components.simpleBuy.fetchSBBalances())
       yield put(actions.components.simpleBuy.fetchSBOrders())
@@ -155,6 +151,6 @@ export default () => {
   return {
     refreshClicked,
     refreshBchTransactions,
-    refreshBtcTransactions
+    refreshBtcTransactions,
   }
 }

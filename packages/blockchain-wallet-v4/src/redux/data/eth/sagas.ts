@@ -20,18 +20,22 @@ import {
   prop,
   sum,
   takeLast,
+  toLower,
   toUpper,
-  values
+  values,
 } from 'ramda'
 import { call, put, select, take } from 'redux-saga/effects'
 
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
+import { APIType } from 'core/network/api'
 import { EthRawTxType } from 'core/network/api/eth/types'
 import { EthProcessedTxType } from 'core/transactions/types'
 import {
+  CoinType,
   Erc20CoinType,
-  FetchCustodialOrdersAndTransactionsReturnType
+  FetchCustodialOrdersAndTransactionsReturnType,
+  SupportedWalletCurrenciesType,
 } from 'core/types'
 
 import * as Exchange from '../../../exchange'
@@ -48,7 +52,7 @@ const TX_PER_PAGE = 10
 const TX_REPORT_PAGE_SIZE = 50
 const CONTEXT_FAILURE = 'Could not get ETH context.'
 
-export default ({ api }) => {
+export default ({ api }: { api: APIType }) => {
   const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
   //
   // ETH
@@ -60,11 +64,11 @@ export default ({ api }) => {
       const data = yield call(api.getEthData, context)
       const latestBlock = yield call(api.getEthLatestBlock)
       // account treatments
-      const finalBalance = sum(values(data).map(obj => obj.balance))
-      const totalReceived = sum(values(data).map(obj => obj.totalReceived))
-      const totalSent = sum(values(data).map(obj => obj.totalSent))
-      const nTx = sum(values(data).map(obj => obj.txn_count))
-      const addresses = mapObjIndexed(num => dissoc('txns', num), data)
+      const finalBalance = sum(values(data).map((obj) => obj.balance))
+      const totalReceived = sum(values(data).map((obj) => obj.totalReceived))
+      const totalSent = sum(values(data).map((obj) => obj.totalSent))
+      const nTx = sum(values(data).map((obj) => obj.txn_count))
+      const addresses = mapObjIndexed((num) => dissoc('txns', num), data)
 
       const ethData = {
         addresses,
@@ -73,10 +77,10 @@ export default ({ api }) => {
             n_tx: nTx,
             total_received: totalReceived,
             total_sent: totalSent,
-            final_balance: finalBalance
-          }
+            final_balance: finalBalance,
+          },
         },
-        latest_block: latestBlock
+        latest_block: latestBlock,
       }
       yield put(A.fetchDataSuccess(ethData))
       yield call(checkForLowEthBalance)
@@ -218,20 +222,20 @@ export default ({ api }) => {
       const balance = path([addr, 'balance'], balances)
       yield put(A.fetchLegacyBalanceSuccess(balance))
     } catch (e) {
-      yield put(A.fetchLegacyBalanceFailure())
+      yield put(A.fetchLegacyBalanceFailure(e))
     }
   }
 
   const checkForLowEthBalance = function * () {
     // TODO: ERC20 check for any erc20 balance in future
-    const erc20Balance = (yield select(S.getErc20Balance, 'pax')).getOrElse(0)
+    const erc20Balance = (yield select(S.getErc20Balance, 'PAX')).getOrElse(0)
     const weiBalance = (yield select(S.getBalance)).getOrFail()
     const ethRates = (yield select(S.getRates)).getOrFail()
     const ethBalance = Exchange.convertEthToFiat({
       value: weiBalance,
       fromUnit: 'WEI',
       toCurrency: 'USD',
-      rates: ethRates
+      rates: ethRates,
     }).value
     // less than $1 eth and has PAX, set warning flag to true
     const showWarning = parseInt(ethBalance) < 1 && erc20Balance > 0
@@ -241,32 +245,34 @@ export default ({ api }) => {
   //
   // ERC20
   //
-  const fetchErc20Data = function * (action) {
-    const { token } = action.payload
+  const fetchErc20Data = function * (
+    action: ReturnType<typeof A.fetchErc20Data>
+  ) {
+    const coin = action.payload.coin
+    const erc20Coins = coin
+      ? [coin]
+      : selectors.walletOptions.getErc20CoinList(yield select()).getOrElse([])
+    const supportedCoins = selectors.walletOptions
+      .getSupportedCoins(yield select())
+      .getOrElse({} as SupportedWalletCurrenciesType)
+    const ethAddr = head(S.getContext(yield select()))
+    const data: ReturnType<typeof api.getAccountTokensBalances> = yield call(
+      api.getAccountTokensBalances,
+      ethAddr
+    )
     try {
-      yield put(A.fetchErc20DataLoading(token))
-      yield put(A.fetchErc20Rates(token))
-      const ethAddrs = yield select(S.getContext)
-      const contractAddr = (yield select(
-        selectors.kvStore.eth.getErc20ContractAddr,
-        token
-      )).getOrFail()
-      const data = yield call(
-        api.getErc20AccountSummaryV2,
-        head(ethAddrs),
-        contractAddr
-      )
-      // account treatments similar to eth info plus the token account_hash
-      const tokenData = {
-        account_hash: prop('accountHash', data),
-        n_tx: parseInt(prop('transferCount', data)),
-        total_received: parseInt(prop('totalReceived', data)),
-        total_sent: parseInt(prop('totalSent', data)),
-        final_balance: parseInt(prop('balance', data))
+      for (const i in erc20Coins) {
+        const token = erc20Coins[i]
+        yield put(A.fetchErc20DataLoading(token))
+        yield put(A.fetchErc20Rates(token))
+        const contract = supportedCoins[token as CoinType].contractAddress
+        const tokenData = data.tokenAccounts.find(
+          ({ tokenHash }) => toLower(tokenHash) === toLower(contract as string)
+        )
+        yield put(A.fetchErc20DataSuccess(token, tokenData))
       }
-      yield put(A.fetchErc20DataSuccess(token, tokenData))
     } catch (e) {
-      yield put(A.fetchErc20DataFailure(token, prop('message', e)))
+      yield put(A.fetchErc20DataFailure(coin, prop('message', e)))
     }
   }
 
@@ -437,7 +443,7 @@ export default ({ api }) => {
     const ethAddresses = concat(addresses, lockboxContext)
     return map(transformErc20Tx(ethAddresses, state, token), txs)
   }
-  const __buildTransactionReportModel = function(
+  const __buildTransactionReportModel = function (
     prunedTxList,
     historicalPrices,
     currentPrices,
@@ -459,7 +465,7 @@ export default ({ api }) => {
         )
       )
       // @ts-ignore
-      const txType = prop('type', tx)
+      const txType = prop('type', tx) as string
       const negativeSignOrEmpty = equals('sent', txType) ? '-' : ''
       const priceAtTime = new BigNumber(
         // @ts-ignore
@@ -483,7 +489,7 @@ export default ({ api }) => {
         type: txType,
         value_then: `${fiatSymbol}${negativeSignOrEmpty}${valueThen}`,
         value_now: `${fiatSymbol}${negativeSignOrEmpty}${valueNow}`,
-        exchange_rate_then: fiatSymbol + priceAtTime.toFixed(2)
+        exchange_rate_then: fiatSymbol + priceAtTime.toFixed(2),
       }
     }, prunedTxList)
   }
@@ -503,7 +509,7 @@ export default ({ api }) => {
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter(
       // @ts-ignore
-      tx => moment.unix(tx.time).isBetween(startDate, endDate),
+      (tx) => moment.unix(tx.time).isBetween(startDate, endDate),
       fullTxList
     )
 
@@ -539,7 +545,7 @@ export default ({ api }) => {
     )).getOrFail()
 
     // remove txs that dont match coin type and are not within date range
-    let prunedTxList = filter(tx => {
+    let prunedTxList = filter((tx) => {
       // @ts-ignore
       return moment.unix(tx.time).isBetween(startDate, endDate)
     }, fullTxList)
@@ -586,6 +592,6 @@ export default ({ api }) => {
     watchTransactions,
     watchErc20Transactions,
     __processTxs,
-    __processErc20Txs
+    __processErc20Txs,
   }
 }
