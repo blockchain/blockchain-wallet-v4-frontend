@@ -97,6 +97,11 @@ const BankLinkError: React.FC<Props> = ({
               id='copy.bank_linked_error_title_failedconnection'
               defaultMessage='Failed Connection Request'
             />
+          ) : bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_INVALID ? (
+            <FormattedMessage
+              id='scenes.exchange.confirm.oopsheader'
+              defaultMessage='Oops! Something went wrong.'
+            />
           ) : (
             <FormattedMessage
               id='scenes.exchange.confirm.oopsheader'
@@ -146,6 +151,13 @@ const BankLinkError: React.FC<Props> = ({
                   defaultMessage='Learn more ->'
                 />
               </Link>
+            </>
+          ) : bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_INVALID ? (
+            <>
+              <FormattedMessage
+                id='copy.bank_linked_error_account_invalid'
+                defaultMessage='You’ve tried to link an account which is not valid. Please check again or contact support.'
+              />
             </>
           ) : (
             <>
