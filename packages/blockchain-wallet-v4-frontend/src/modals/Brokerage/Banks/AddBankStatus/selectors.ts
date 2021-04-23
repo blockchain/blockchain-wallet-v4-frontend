@@ -6,8 +6,17 @@ import { RootState } from 'data/rootReducer'
 
 export const getData = (state: RootState) => {
   const bankStatusR = selectors.components.brokerage.getAddBankStatus(state)
+  const bankCredentialsR = selectors.components.brokerage.getBankCredentials(
+    state
+  )
 
-  return lift((bankStatus: ExtractSuccess<typeof bankStatusR>) => ({
-    bankStatus
-  }))(bankStatusR)
+  return lift(
+    (
+      bankStatus: ExtractSuccess<typeof bankStatusR>,
+      bankCredentials: ExtractSuccess<typeof bankCredentialsR>
+    ) => ({
+      bankStatus,
+      bankCredentials
+    })
+  )(bankStatusR, bankCredentialsR)
 }

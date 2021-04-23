@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { ExtractSuccess, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -13,19 +12,14 @@ import Success from './template.success'
 
 export type OwnProps = {
   handleClose: () => void
+  yapilyBankId?: string
 }
 type LinkDispatchPropsType = {
   analyticsActions: typeof actions.analytics
   brokerageActions: typeof actions.components.brokerage
 }
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-}
-export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
-type State = {}
 
-class LinkBankStatus extends PureComponent<Props, State> {
+class LinkBankStatus extends PureComponent<Props> {
   render() {
     return this.props.data.cata({
       Success: val =>
@@ -41,7 +35,7 @@ class LinkBankStatus extends PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState) => ({
   data: getData(state)
 })
 
@@ -51,5 +45,10 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
+
+export type SuccessStateType = ReturnType<typeof getData>['data']
+export type Props = OwnProps &
+  LinkDispatchPropsType &
+  ConnectedProps<typeof connector>
 
 export default connector(LinkBankStatus)
