@@ -4,13 +4,14 @@ import Base58 from 'bs58'
 import scrypt from 'scrypt-js'
 import Unorm from 'unorm'
 
+import * as utils from '../utils'
 import * as WalletCrypto from './utils'
 
 const {
-  crypto: { hash256 }
+  crypto: { hash256 },
 } = Bitcoin
 
-export const parseBIP38toECPair = function(
+export const parseBIP38toECPair = function (
   base58Encrypted,
   passphrase,
   network
@@ -68,13 +69,13 @@ export const parseBIP38toECPair = function(
   var decrypted
   var AESopts = { mode: WalletCrypto.AES.ECB, padding: WalletCrypto.NoPadding }
 
-  var verifyHashAndReturn = function() {
+  var verifyHashAndReturn = function () {
     var tmpkey = Bitcoin.ECPair.fromPrivateKey(decrypted, null, {
       compressed: isCompPoint,
-      network: network
+      network: network,
     })
 
-    var base58Address = tmpkey.getAddress()
+    var base58Address = utils.btc.keyPairToAddress(tmpkey)
 
     checksum = hash256(base58Address)
 
@@ -122,7 +123,7 @@ export const parseBIP38toECPair = function(
     } else {
       var prefactorB = Buffer.concat([
         prefactorA,
-        Buffer.from(ownerentropy, 'hex')
+        Buffer.from(ownerentropy, 'hex'),
       ])
       passfactor = hash256(prefactorB)
     }
@@ -149,7 +150,7 @@ export const parseBIP38toECPair = function(
 
     var encryptedpart1 = Buffer.concat([
       Buffer.from(hex.slice(15, 15 + 8), 'hex'),
-      Buffer.from(unencryptedpart2Bytes.slice(0, 0 + 8), 'hex')
+      Buffer.from(unencryptedpart2Bytes.slice(0, 0 + 8), 'hex'),
     ])
 
     var unencryptedpart1Bytes = WalletCrypto.AES.decrypt(
@@ -165,7 +166,7 @@ export const parseBIP38toECPair = function(
 
     var seedb = Buffer.concat([
       Buffer.from(unencryptedpart1Bytes.slice(0, 0 + 16), 'hex'),
-      Buffer.from(unencryptedpart2Bytes.slice(8, 8 + 8), 'hex')
+      Buffer.from(unencryptedpart2Bytes.slice(8, 8 + 8), 'hex'),
     ])
 
     var factorb = hash256(seedb)

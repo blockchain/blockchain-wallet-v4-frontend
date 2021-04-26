@@ -16,7 +16,7 @@ import {
   Image,
   Link,
   Text,
-  TextGroup
+  TextGroup,
 } from 'blockchain-info-components'
 import { CoinType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import { SuccessCartridge } from 'components/Cartridge'
@@ -27,7 +27,7 @@ import {
   FormItem,
   FormLabel,
   PasswordBox,
-  TextBox
+  TextBox,
 } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import QRCodeWrapper from 'components/QRCodeWrapper'
@@ -47,10 +47,10 @@ const isSupportedBrowser = browser.satisfies({
   firefox: '>45',
   opera: '>20',
   safari: '>8',
-  vivaldi: '>2'
+  vivaldi: '>2',
 })
 
-export const removeWhitespace = string => string.replace(/\s/g, ``)
+export const removeWhitespace = (string) => string.replace(/\s/g, ``)
 
 const OuterWrapper = styled.div`
   display: flex;
@@ -157,7 +157,7 @@ const SubCard = styled.div`
 `
 const SignUpText = styled(Text)`
   &:hover {
-    color: ${props => props.theme.white};
+    color: ${(props) => props.theme.white};
     font-weight: 600;
   }
 `
@@ -449,11 +449,6 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                 </FormGroup>
               )}
               <FormGroup>
-                <Text color='red600' size='12px' weight={600}>
-                  You are about to upgrade your wallet to the new SegWit
-                  payload. This is not reversible and you will no longer be able
-                  to use this wallet in normal environments!
-                </Text>
                 <LoginButton
                   type='submit'
                   nature='primary'
@@ -597,7 +592,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                         </Text>
                       )
                     },
-                    Failure: e => (
+                    Failure: (e) => (
                       <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>
                     ),
                     Loading: () => {
@@ -613,7 +608,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                         size={qrData.length}
                         showImage
                       />
-                    )
+                    ),
                   })}
                 </QRCodeContainer>
               </>
@@ -703,8 +698,8 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
   )
 }
 
-const mapStateToProps = state => ({
-  secureChannelLoginState: selectors.auth.getSecureChannelLogin(state)
+const mapStateToProps = (state) => ({
+  secureChannelLoginState: selectors.auth.getSecureChannelLogin(state),
 })
 
 const connector = connect(mapStateToProps)

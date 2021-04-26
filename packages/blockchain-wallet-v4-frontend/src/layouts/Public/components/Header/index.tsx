@@ -9,7 +9,7 @@ import { media } from 'services/styles'
 const NavbarStyled = styled(Navbar)`
   padding: 0 16px;
   box-sizing: border-box;
-  background-color: ${props => props.theme.grey900};
+  background-color: ${(props) => props.theme.grey900};
   background-image: url('/img/bg-pattern.svg');
 `
 const NavbarBrandStyled = styled(NavbarBrand)`
@@ -23,14 +23,6 @@ const NavbarBrandStyled = styled(NavbarBrand)`
 const BlockchainLogoImage = styled(Image)`
   width: 240px;
   display: block;
-  ${media.tablet`
-    width: 200px;
-  `}
-`
-const SegwitLogo = styled(Image)`
-  width: 180px;
-  display: block;
-  margin-top: -6px;
   ${media.tablet`
     width: 200px;
   `}
@@ -49,7 +41,6 @@ const Header = () => (
           <Link href='https://www.blockchain.com'>
             <BlockchainLogoImage name='blockchain-logo' height='24px' />
           </Link>
-          <SegwitLogo name='segwit-logo' height='40px' />
         </PublicBrand>
       </NavbarBrandStyled>
     </NavbarStyled>

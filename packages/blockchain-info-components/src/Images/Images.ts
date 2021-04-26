@@ -122,7 +122,6 @@ import recoverPadlock from './img/recover-padlock.svg'
 import refresh from './img/refresh.svg'
 import safeConnect from './img/safe-connect.svg'
 import search from './img/search.svg'
-import segwitLogo from './img/segwit-logo.png'
 import selectArrow from './img/select-arrow.png'
 import silverApproved from './img/silver-approved.svg'
 import smartphone from './img/smartphone.png'
@@ -273,7 +272,6 @@ const Images = {
   refresh,
   'safe-connect': safeConnect,
   search: search,
-  'segwit-logo': segwitLogo,
   'select-arrow': selectArrow,
   'silver-approved': silverApproved,
   smartphone: smartphone,
@@ -299,7 +297,7 @@ const Images = {
   'world-alert2': worldAlert2,
   'world-alert3': worldAlert3,
   'yodlee-connect': yodleeConnect,
-  yubikey: yubikey
+  yubikey: yubikey,
 }
 
 export type ImageType = typeof Images

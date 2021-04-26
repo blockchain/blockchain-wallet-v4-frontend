@@ -2,18 +2,19 @@ import {
   InterestAccountBalanceType,
   InterestAccountType,
   InterestAfterTransactionType,
+  InterestEDDStatus,
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
   InterestRateType,
   InterestTransactionType,
-  WithdrawalMinimumType
+  WithdrawalMinimumType,
 } from 'blockchain-wallet-v4/src/network/api/interest/types'
 import {
   CoinType,
   FiatType,
   PaymentValue,
-  WalletFiatType
+  WalletFiatType,
 } from 'blockchain-wallet-v4/src/types'
 
 import * as AT from './actionTypes'
@@ -22,217 +23,217 @@ import {
   InterestMinMaxType,
   InterestStep,
   InterestStepMetadata,
-  InterestTransactionsReportType
+  InterestTransactionsReportType,
 } from './types'
 
 // BALANCES
 export const fetchInterestBalance = (coin?: CoinType) => ({
   type: AT.FETCH_INTEREST_BALANCE,
-  payload: { coin }
+  payload: { coin },
 })
 export const fetchInterestBalanceFailure = (
   error: string
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_BALANCE_FAILURE,
-  payload: { error }
+  payload: { error },
 })
 export const fetchInterestBalanceLoading = (): InterestActionTypes => ({
-  type: AT.FETCH_INTEREST_BALANCE_LOADING
+  type: AT.FETCH_INTEREST_BALANCE_LOADING,
 })
 export const fetchInterestBalanceSuccess = (
   interestAccountBalance: InterestAccountBalanceType
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_BALANCE_SUCCESS,
-  payload: { interestAccountBalance }
+  payload: { interestAccountBalance },
 })
 
 // ELIGIBLE
 export const fetchInterestEligible = () => ({
-  type: AT.FETCH_INTEREST_ELIGIBLE
+  type: AT.FETCH_INTEREST_ELIGIBLE,
 })
 export const fetchInterestEligibleFailure = (
   error: string
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_ELIGIBLE_FAILURE,
-  payload: { error }
+  payload: { error },
 })
 export const fetchInterestEligibleLoading = (): InterestActionTypes => ({
-  type: AT.FETCH_INTEREST_ELIGIBLE_LOADING
+  type: AT.FETCH_INTEREST_ELIGIBLE_LOADING,
 })
 export const fetchInterestEligibleSuccess = (
   interestEligible: InterestEligibleType
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_ELIGIBLE_SUCCESS,
-  payload: { interestEligible }
+  payload: { interestEligible },
 })
 
 // INSTRUMENTS
 export const fetchInterestInstruments = () => ({
-  type: AT.FETCH_INTEREST_INSTRUMENTS
+  type: AT.FETCH_INTEREST_INSTRUMENTS,
 })
 export const fetchInterestInstrumentsFailure = (
   error: string
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_INSTRUMENTS_FAILURE,
-  payload: { error }
+  payload: { error },
 })
 export const fetchInterestInstrumentsLoading = (): InterestActionTypes => ({
-  type: AT.FETCH_INTEREST_INSTRUMENTS_LOADING
+  type: AT.FETCH_INTEREST_INSTRUMENTS_LOADING,
 })
 export const fetchInterestInstrumentsSuccess = (
   interestInstruments: InterestInstrumentsType
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_INSTRUMENTS_SUCCESS,
-  payload: { interestInstruments }
+  payload: { interestInstruments },
 })
 
 // LIMITS
 export const fetchInterestLimits = (coin: CoinType, currency: FiatType) => ({
   type: AT.FETCH_INTEREST_LIMITS,
   coin,
-  currency
+  currency,
 })
 export const fetchInterestLimitsFailure = (
   error: string
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_LIMITS_FAILURE,
-  payload: { error }
+  payload: { error },
 })
 export const fetchInterestLimitsLoading = (): InterestActionTypes => ({
-  type: AT.FETCH_INTEREST_LIMITS_LOADING
+  type: AT.FETCH_INTEREST_LIMITS_LOADING,
 })
 export const fetchInterestLimitsSuccess = (
   interestLimits: InterestLimitsType
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_LIMITS_SUCCESS,
-  payload: { interestLimits }
+  payload: { interestLimits },
 })
 
 export const setWithdrawalMinimumsFailure = (error: string) => ({
   type: AT.SET_WITHDRAWAL_MINIMUMS_FAILURE,
   payload: {
-    error
-  }
+    error,
+  },
 })
 
 export const setWithdrawalMinimumsLoading = () => ({
-  type: AT.SET_WITHDRAWAL_MINIMUMS_LOADING
+  type: AT.SET_WITHDRAWAL_MINIMUMS_LOADING,
 })
 export const setWithdrawalMinimumsSuccess = (
   withdrawalMinimums: WithdrawalMinimumType
 ) => ({
   type: AT.SET_WITHDRAWAL_MINIMUMS_SUCCESS,
-  payload: { withdrawalMinimums }
+  payload: { withdrawalMinimums },
 })
 
 // ACCOUNT
 export const fetchInterestAccount = (coin?: CoinType) => ({
   type: AT.FETCH_INTEREST_PAYMENT_ACCOUNT,
-  coin
+  coin,
 })
 export const fetchInterestAccountFailure = (
   error: string
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_PAYMENT_ACCOUNT_FAILURE,
-  payload: { error }
+  payload: { error },
 })
 export const fetchInterestAccountLoading = (): InterestActionTypes => ({
-  type: AT.FETCH_INTEREST_PAYMENT_ACCOUNT_LOADING
+  type: AT.FETCH_INTEREST_PAYMENT_ACCOUNT_LOADING,
 })
 export const fetchInterestAccountSuccess = (
   account: InterestAccountType
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS,
-  payload: { account }
+  payload: { account },
 })
 
 // INTEREST RATES
 export const fetchInterestRate = () => ({
-  type: AT.FETCH_INTEREST_RATE
+  type: AT.FETCH_INTEREST_RATE,
 })
 export const fetchInterestRateFailure = (
   error: string
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_RATE_FAILURE,
-  payload: { error }
+  payload: { error },
 })
 export const fetchInterestRateLoading = (): InterestActionTypes => ({
-  type: AT.FETCH_INTEREST_RATE_LOADING
+  type: AT.FETCH_INTEREST_RATE_LOADING,
 })
 export const fetchInterestRateSuccess = (
   interestRate: InterestRateType
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_RATE_SUCCESS,
-  payload: { interestRate }
+  payload: { interestRate },
 })
 
 // TRANSACTIONS
 export const clearInterestTransactionsReport = () => ({
-  type: AT.CLEAR_INTEREST_TRANSACTIONS_REPORT
+  type: AT.CLEAR_INTEREST_TRANSACTIONS_REPORT,
 })
 export const fetchInterestTransactionsReport = (coin?: CoinType) => ({
   payload: { coin },
-  type: AT.FETCH_INTEREST_TRANSACTIONS_REPORT
+  type: AT.FETCH_INTEREST_TRANSACTIONS_REPORT,
 })
 export const fetchInterestTransactionsReportFailure = (error: string) => ({
   payload: { error },
-  type: AT.FETCH_INTEREST_TRANSACTIONS_REPORT_FAILURE
+  type: AT.FETCH_INTEREST_TRANSACTIONS_REPORT_FAILURE,
 })
 export const fetchInterestTransactionsReportLoading = () => ({
-  type: AT.FETCH_INTEREST_TRANSACTIONS_REPORT_LOADING
+  type: AT.FETCH_INTEREST_TRANSACTIONS_REPORT_LOADING,
 })
 export const fetchInterestTransactionsReportSuccess = (
   transactions: InterestTransactionsReportType
 ) => ({
   payload: { transactions },
-  type: AT.FETCH_INTEREST_TRANSACTIONS_REPORT_SUCCESS
+  type: AT.FETCH_INTEREST_TRANSACTIONS_REPORT_SUCCESS,
 })
 export const fetchInterestTransactions = (reset: boolean, coin?: CoinType) => ({
   payload: { reset, coin },
-  type: AT.FETCH_INTEREST_TRANSACTIONS
+  type: AT.FETCH_INTEREST_TRANSACTIONS,
 })
 export const fetchInterestTransactionsFailure = (
   error: string
 ): InterestActionTypes => ({
   payload: { error },
-  type: AT.FETCH_INTEREST_TRANSACTIONS_FAILURE
+  type: AT.FETCH_INTEREST_TRANSACTIONS_FAILURE,
 })
 export const fetchInterestTransactionsLoading = (
   reset: boolean
 ): InterestActionTypes => ({
   payload: { reset },
-  type: AT.FETCH_INTEREST_TRANSACTIONS_LOADING
+  type: AT.FETCH_INTEREST_TRANSACTIONS_LOADING,
 })
 export const fetchInterestTransactionsSuccess = (
   transactions: Array<InterestTransactionType>,
   reset: boolean
 ): InterestActionTypes => ({
   payload: { transactions, reset },
-  type: AT.FETCH_INTEREST_TRANSACTIONS_SUCCESS
+  type: AT.FETCH_INTEREST_TRANSACTIONS_SUCCESS,
 })
 export const setTransactionsNextPage = (
   nextPage: string | null
 ): InterestActionTypes => ({
   payload: { nextPage },
-  type: AT.SET_TRANSACTIONS_NEXT_PAGE
+  type: AT.SET_TRANSACTIONS_NEXT_PAGE,
 })
 
 // DEPOSIT
 export const initializeDepositModal = (): InterestActionTypes => ({
-  type: AT.INITIALIZE_DEPOSIT_MODAL
+  type: AT.INITIALIZE_DEPOSIT_MODAL,
 })
 export const initializeDepositForm = (coin: CoinType, currency: FiatType) => ({
   payload: { coin, currency },
-  type: AT.INITIALIZE_DEPOSIT_FORM
+  type: AT.INITIALIZE_DEPOSIT_FORM,
 })
 export const setDepositLimits = (limits: InterestMinMaxType) => ({
   payload: { limits },
-  type: AT.SET_INTEREST_DEPOSIT_LIMITS
+  type: AT.SET_INTEREST_DEPOSIT_LIMITS,
 })
 
 export const submitDepositForm = (coin: CoinType) => ({
   payload: { coin },
-  type: AT.SUBMIT_DEPOSIT_FORM
+  type: AT.SUBMIT_DEPOSIT_FORM,
 })
 
 // WITHDRAWAL
@@ -241,51 +242,51 @@ export const initializeWithdrawalForm = (
   walletCurrency: FiatType
 ) => ({
   payload: { coin, walletCurrency },
-  type: AT.INITIALIZE_WITHDRAWAL_FORM
+  type: AT.INITIALIZE_WITHDRAWAL_FORM,
 })
 export const requestWithdrawal = (
   coin: CoinType,
   withdrawalAmount: number
 ) => ({
   payload: { coin, withdrawalAmount },
-  type: AT.REQUEST_WITHDRAWAL
+  type: AT.REQUEST_WITHDRAWAL,
 })
 
 // PAYMENTS
 export const setPaymentFailure = (error: string): InterestActionTypes => ({
   type: AT.SET_PAYMENT_FAILURE,
   payload: {
-    error
-  }
+    error,
+  },
 })
 export const setPaymentLoading = (): InterestActionTypes => ({
-  type: AT.SET_PAYMENT_LOADING
+  type: AT.SET_PAYMENT_LOADING,
 })
 export const setPaymentSuccess = (
   payment?: PaymentValue
 ): InterestActionTypes => ({
   type: AT.SET_PAYMENT_SUCCESS,
   payload: {
-    payment
-  }
+    payment,
+  },
 })
 
 // MISC
 export const routeToTxHash = (coin: CoinType, txHash?: string) => ({
   payload: { coin, txHash },
-  type: AT.ROUTE_TO_TX_HASH
+  type: AT.ROUTE_TO_TX_HASH,
 })
 export const setInterestStep = (
   name: InterestStep,
   data?: InterestStepMetadata
 ) => ({
   payload: { name, data },
-  type: AT.SET_INTEREST_STEP
+  type: AT.SET_INTEREST_STEP,
 })
 
 export const setCoinDisplay = (isCoinDisplayed: boolean) => ({
   payload: { isCoinDisplayed },
-  type: AT.SET_COIN_DISPLAY
+  type: AT.SET_COIN_DISPLAY,
 })
 
 export const showInterestModal = (
@@ -294,11 +295,11 @@ export const showInterestModal = (
   isFromBuySell?: boolean
 ) => ({
   payload: { step, coin, isFromBuySell },
-  type: AT.SHOW_INTEREST_MODAL
+  type: AT.SHOW_INTEREST_MODAL,
 })
 
 export const stopShowingInterestModal = () => ({
-  type: AT.STOP_SHOWING_INTEREST_MODAL
+  type: AT.STOP_SHOWING_INTEREST_MODAL,
 })
 
 // INTEREST CTA/Card AFTER TRANSACTION
@@ -306,23 +307,41 @@ export const fetchShowInterestCardAfterTransaction = (
   currency?: WalletFiatType
 ) => ({
   type: AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION,
-  payload: { currency }
+  payload: { currency },
 })
 export const fetchShowInterestCardAfterTransactionFailure = (
   error: string
 ): InterestActionTypes => ({
   type: AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_FAILURE,
-  payload: { error }
+  payload: { error },
 })
 export const fetchShowInterestCardAfterTransactionLoading = (): InterestActionTypes => ({
-  type: AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_LOADING
+  type: AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_LOADING,
 })
 export const fetchShowInterestCardAfterTransactionSuccess = (
   afterTransaction: InterestAfterTransactionType
 ): InterestActionTypes => ({
   type: AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_SUCCESS,
-  payload: { afterTransaction }
+  payload: { afterTransaction },
 })
 export const resetShowInterestCardAfterTransaction = (): InterestActionTypes => ({
-  type: AT.RESET_SHOW_INTEREST_CARD_AFTER_TRANSACTION
+  type: AT.RESET_SHOW_INTEREST_CARD_AFTER_TRANSACTION,
+})
+
+// EDD
+export const fetchEDDStatus = () => ({
+  type: AT.FETCH_EDD_STATUS,
+})
+export const fetchEDDStatusFailure = (error: string): InterestActionTypes => ({
+  type: AT.FETCH_EDD_STATUS_FAILURE,
+  payload: { error },
+})
+export const fetchEDDStatusLoading = (): InterestActionTypes => ({
+  type: AT.FETCH_EDD_STATUS_LOADING,
+})
+export const fetchEDDStatusSuccess = (
+  eddStatus: InterestEDDStatus
+): InterestActionTypes => ({
+  type: AT.FETCH_EDD_STATUS_SUCCESS,
+  payload: { eddStatus },
 })

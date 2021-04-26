@@ -14,23 +14,24 @@ const INITIAL_STATE: InterestState = {
     maxFiat: 0,
     minFiat: 0,
     maxCoin: 0,
-    minCoin: 0
+    minCoin: 0,
   },
   interestEligible: Remote.NotAsked,
   instruments: Remote.NotAsked,
   interestLimits: Remote.NotAsked,
   interestRate: Remote.NotAsked,
+  interestEDDStatus: Remote.NotAsked,
   isCoinDisplayed: false,
   isFromBuySell: false,
   payment: Remote.NotAsked,
   step: {
     data: {},
-    name: 'ACCOUNT_SUMMARY'
+    name: 'ACCOUNT_SUMMARY',
   },
   transactions: [],
   transactionsNextPage: null,
   transactionsReport: Remote.NotAsked,
-  withdrawalMinimums: Remote.NotAsked
+  withdrawalMinimums: Remote.NotAsked,
 }
 
 export function interestReducer(
@@ -43,92 +44,92 @@ export function interestReducer(
     case AT.FETCH_INTEREST_BALANCE_FAILURE:
       return {
         ...state,
-        accountBalance: Remote.Failure(payload.error)
+        accountBalance: Remote.Failure(payload.error),
       }
     case AT.FETCH_INTEREST_BALANCE_LOADING:
       return {
         ...state,
-        accountBalance: Remote.Loading
+        accountBalance: Remote.Loading,
       }
     case AT.FETCH_INTEREST_BALANCE_SUCCESS:
       return {
         ...state,
-        accountBalance: Remote.Success(payload.interestAccountBalance)
+        accountBalance: Remote.Success(payload.interestAccountBalance),
       }
     case AT.FETCH_INTEREST_ELIGIBLE_FAILURE:
       return {
         ...state,
-        interestEligible: Remote.Failure(payload.error)
+        interestEligible: Remote.Failure(payload.error),
       }
     case AT.FETCH_INTEREST_ELIGIBLE_LOADING:
       return {
         ...state,
-        interestEligible: Remote.Loading
+        interestEligible: Remote.Loading,
       }
     case AT.FETCH_INTEREST_ELIGIBLE_SUCCESS:
       return {
         ...state,
-        interestEligible: Remote.Success(payload.interestEligible)
+        interestEligible: Remote.Success(payload.interestEligible),
       }
     case AT.FETCH_INTEREST_INSTRUMENTS_FAILURE:
       return {
         ...state,
-        instruments: Remote.Failure(payload.error)
+        instruments: Remote.Failure(payload.error),
       }
     case AT.FETCH_INTEREST_INSTRUMENTS_LOADING:
       return {
         ...state,
-        instruments: Remote.Loading
+        instruments: Remote.Loading,
       }
     case AT.FETCH_INTEREST_INSTRUMENTS_SUCCESS:
       return {
         ...state,
-        instruments: Remote.Success(payload.interestInstruments.instruments)
+        instruments: Remote.Success(payload.interestInstruments.instruments),
       }
     case AT.FETCH_INTEREST_LIMITS_FAILURE:
       return {
         ...state,
-        interestLimits: Remote.Failure(payload.error)
+        interestLimits: Remote.Failure(payload.error),
       }
     case AT.FETCH_INTEREST_LIMITS_LOADING:
       return {
         ...state,
-        interestLimits: Remote.Loading
+        interestLimits: Remote.Loading,
       }
     case AT.FETCH_INTEREST_LIMITS_SUCCESS:
       return {
         ...state,
-        interestLimits: Remote.Success(payload.interestLimits)
+        interestLimits: Remote.Success(payload.interestLimits),
       }
     case AT.FETCH_INTEREST_PAYMENT_ACCOUNT_FAILURE:
       return {
         ...state,
-        account: Remote.Failure(payload.error)
+        account: Remote.Failure(payload.error),
       }
     case AT.FETCH_INTEREST_PAYMENT_ACCOUNT_LOADING:
       return {
         ...state,
-        account: Remote.Loading
+        account: Remote.Loading,
       }
     case AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS:
       return {
         ...state,
-        account: Remote.Success(payload.account)
+        account: Remote.Success(payload.account),
       }
     case AT.FETCH_INTEREST_RATE_FAILURE:
       return {
         ...state,
-        interestRate: Remote.Failure(payload.error)
+        interestRate: Remote.Failure(payload.error),
       }
     case AT.FETCH_INTEREST_RATE_LOADING:
       return {
         ...state,
-        interestRate: Remote.Loading
+        interestRate: Remote.Loading,
       }
     case AT.FETCH_INTEREST_RATE_SUCCESS:
       return {
         ...state,
-        interestRate: Remote.Success(payload.interestRate.rates)
+        interestRate: Remote.Success(payload.interestRate.rates),
       }
     case AT.CLEAR_INTEREST_TRANSACTIONS_REPORT: {
       return assoc('transactionsReport', Remote.NotAsked, state)
@@ -143,6 +144,21 @@ export function interestReducer(
       const { transactions } = payload
       return assoc('transactionsReport', Remote.Success(transactions), state)
     }
+    case AT.FETCH_EDD_STATUS_FAILURE:
+      return {
+        ...state,
+        interestEDDStatus: Remote.Failure(payload.error),
+      }
+    case AT.FETCH_EDD_STATUS_LOADING:
+      return {
+        ...state,
+        interestEDDStatus: Remote.Loading,
+      }
+    case AT.FETCH_EDD_STATUS_SUCCESS:
+      return {
+        ...state,
+        interestEDDStatus: Remote.Success(payload.eddStatus),
+      }
     case AT.FETCH_INTEREST_TRANSACTIONS_LOADING: {
       const { reset } = payload
       return reset
@@ -169,18 +185,18 @@ export function interestReducer(
     case AT.SET_TRANSACTIONS_NEXT_PAGE:
       return {
         ...state,
-        transactionsNextPage: payload.nextPage
+        transactionsNextPage: payload.nextPage,
       }
     case AT.INITIALIZE_DEPOSIT_FORM: {
       return {
         ...state,
-        coin: payload.coin
+        coin: payload.coin,
       }
     }
     case AT.SET_INTEREST_DEPOSIT_LIMITS: {
       return {
         ...state,
-        depositLimits: payload.limits
+        depositLimits: payload.limits,
       }
     }
     case AT.SET_INTEREST_STEP: {
@@ -189,43 +205,43 @@ export function interestReducer(
         ...state,
         step: {
           data: data || {},
-          name
-        }
+          name,
+        },
       }
     }
 
     case AT.SET_COIN_DISPLAY: {
       return {
         ...state,
-        isCoinDisplayed: payload.isCoinDisplayed
+        isCoinDisplayed: payload.isCoinDisplayed,
       }
     }
 
     case AT.SET_PAYMENT_FAILURE:
       return {
         ...state,
-        payment: Remote.Failure(payload.error)
+        payment: Remote.Failure(payload.error),
       }
     case AT.SET_PAYMENT_LOADING:
       return {
         ...state,
-        payment: Remote.Loading
+        payment: Remote.Loading,
       }
     case AT.SET_PAYMENT_SUCCESS:
       return {
         ...state,
-        payment: Remote.Success(payload.payment)
+        payment: Remote.Success(payload.payment),
       }
     case AT.SET_WITHDRAWAL_MINIMUMS_FAILURE: {
       return {
         ...state,
-        withdrawalMinimums: Remote.Failure(payload.error)
+        withdrawalMinimums: Remote.Failure(payload.error),
       }
     }
     case AT.SET_WITHDRAWAL_MINIMUMS_LOADING: {
       return {
         ...state,
-        withdrawalMinimums: Remote.Loading
+        withdrawalMinimums: Remote.Loading,
       }
     }
     case AT.SET_WITHDRAWAL_MINIMUMS_SUCCESS:
@@ -233,33 +249,33 @@ export function interestReducer(
         ...state,
         withdrawalMinimums: Remote.Success(
           payload.withdrawalMinimums.minAmounts
-        )
+        ),
       }
     case AT.SHOW_INTEREST_MODAL:
       return {
         ...state,
         coin: payload.coin,
-        isFromBuySell: payload.isFromBuySell
+        isFromBuySell: payload.isFromBuySell,
       }
     case AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_FAILURE:
       return {
         ...state,
-        afterTransaction: Remote.Failure(payload.error)
+        afterTransaction: Remote.Failure(payload.error),
       }
     case AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_LOADING:
       return {
         ...state,
-        afterTransaction: Remote.Loading
+        afterTransaction: Remote.Loading,
       }
     case AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_SUCCESS:
       return {
         ...state,
-        afterTransaction: Remote.Success(payload.afterTransaction)
+        afterTransaction: Remote.Success(payload.afterTransaction),
       }
     case AT.RESET_SHOW_INTEREST_CARD_AFTER_TRANSACTION:
       return {
         ...state,
-        afterTransaction: Remote.NotAsked
+        afterTransaction: Remote.NotAsked,
       }
     default:
       return state

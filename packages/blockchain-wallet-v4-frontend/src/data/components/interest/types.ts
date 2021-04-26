@@ -5,6 +5,7 @@ import {
   InterestAccountBalanceType,
   InterestAccountType,
   InterestAfterTransactionType,
+  InterestEDDStatus,
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
@@ -12,7 +13,7 @@ import {
   InterestTransactionType,
   PaymentValue,
   RemoteDataType,
-  WithdrawalMinimumType
+  WithdrawalMinimumType,
 } from 'blockchain-wallet-v4/src/types'
 
 import * as AT from './actionTypes'
@@ -44,7 +45,7 @@ export enum InterestSteps {
   'ACCOUNT_SUMMARY',
   'DEPOSIT',
   'DEPOSIT_SUCCESS',
-  'WITHDRAWAL'
+  'WITHDRAWAL',
 }
 
 export type InterestStepMetadata = {
@@ -69,6 +70,7 @@ export interface InterestState {
   coin: CoinType
   depositLimits: InterestMinMaxType
   instruments: RemoteDataType<string, InterestInstrumentsType>
+  interestEDDStatus: RemoteDataType<string, InterestEDDStatus>
   interestEligible: RemoteDataType<string, InterestEligibleType>
   interestLimits: RemoteDataType<string, InterestLimitsType>
   interestRate: RemoteDataType<string, InterestRateType['rates']>
@@ -307,6 +309,19 @@ interface ResetAfterTransaction {
   type: typeof AT.RESET_SHOW_INTEREST_CARD_AFTER_TRANSACTION
 }
 
+// EDD
+interface FetchInterestEDDStatusFailure {
+  payload: { error: string }
+  type: typeof AT.FETCH_EDD_STATUS_FAILURE
+}
+interface FetchInterestEDDStatusLoading {
+  type: typeof AT.FETCH_EDD_STATUS_LOADING
+}
+interface FetchInterestEDDStatusSuccess {
+  payload: { eddStatus: InterestEDDStatus }
+  type: typeof AT.FETCH_EDD_STATUS_SUCCESS
+}
+
 export type InterestActionTypes =
   | ClearInterestTransactionsReport
   | FetchInterestAfterTransactionFailure
@@ -337,6 +352,9 @@ export type InterestActionTypes =
   | FetchInterestTransactionsFailure
   | FetchInterestTransactionsLoading
   | FetchInterestTransactionsSuccess
+  | FetchInterestEDDStatusFailure
+  | FetchInterestEDDStatusLoading
+  | FetchInterestEDDStatusSuccess
   | InitializeDepositModalAction
   | InitializeDepositFormAction
   | InitializeWithdrawalFormAction

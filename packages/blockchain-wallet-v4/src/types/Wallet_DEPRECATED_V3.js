@@ -15,10 +15,11 @@ import {
   isNil,
   map,
   pipe,
-  split
+  split,
 } from 'ramda'
 import { over, set, traversed, traverseOf, view } from 'ramda-lens'
 
+import * as utils from '../utils'
 import * as crypto from '../walletCrypto'
 import * as Address from './Address'
 import * as AddressBook from './AddressBook'
@@ -100,16 +101,16 @@ export const selectSpendableAddrContext = compose(
   AddressMap.selectSpendable,
   selectAddresses
 )
-export const selectContext = w =>
+export const selectContext = (w) =>
   selectAddrContext(w).concat(selectXpubsContext(w))
-export const selectHDAccounts = w =>
+export const selectHDAccounts = (w) =>
   selectHdWallets(w).flatMap(HDWallet.selectAccounts)
-export const selectSpendableContext = w =>
+export const selectSpendableContext = (w) =>
   selectSpendableAddrContext(w).concat(selectXpubsContext(w))
 
 const shiftWallet = compose(shiftIProp('keys', 'addresses'), shift)
 
-export const fromJS = x => {
+export const fromJS = (x) => {
   if (is(Wallet, x)) {
     return x
   }
@@ -120,14 +121,14 @@ export const fromJS = x => {
     over(txNames, TXNames.fromJS),
     over(txNotes, TXNotes.fromJS),
     over(addressBook, AddressBook.fromJS),
-    w => shiftWallet(w).forward()
+    (w) => shiftWallet(w).forward()
   )
   return walletCons(new Wallet(x))
 }
 
-export const toJS = pipe(Wallet.guard, wallet => {
+export const toJS = pipe(Wallet.guard, (wallet) => {
   const walletDecons = compose(
-    w => shiftWallet(w).back(),
+    (w) => shiftWallet(w).back(),
     over(options, Options.toJS),
     over(txNotes, TXNotes.toJS),
     over(txNames, TXNames.toJS),
@@ -138,22 +139,21 @@ export const toJS = pipe(Wallet.guard, wallet => {
   return walletDecons(wallet).toJS()
 })
 
-export const reviver = jsObject => {
+export const reviver = (jsObject) => {
   return new Wallet(jsObject)
 }
 
-export const spendableActiveAddresses = wallet => {
-  let isSpendableActive = a => !Address.isWatchOnly(a) && !Address.isArchived(a)
+export const spendableActiveAddresses = (wallet) => {
+  let isSpendableActive = (a) =>
+    !Address.isWatchOnly(a) && !Address.isArchived(a)
   return selectAddresses(wallet)
     .filter(isSpendableActive)
-    .map(a => a.addr)
+    .map((a) => a.addr)
 }
 
 // fromEncryptedPayload :: String -> String -> Task Error Wallet
 export const fromEncryptedPayload = curry((password, payload) => {
-  return Task.of(payload)
-    .chain(crypto.decryptWallet(password))
-    .map(fromJS)
+  return Task.of(payload).chain(crypto.decryptWallet(password)).map(fromJS)
 })
 
 // toEncryptedPayload :: String -> Wallet -> Task Error String
@@ -221,22 +221,22 @@ const applyCipher = curry((wallet, password, f, value) => {
 // importLegacyAddress :: Wallet -> String -> Number -> String? -> { Network, Api } -> Task Error Wallet
 export const importLegacyAddress = curry(
   (wallet, key, createdTime, password, bipPass, label, { api, network }) => {
-    let checkIfExists = address =>
+    let checkIfExists = (address) =>
       getAddress(address.addr, wallet)
-        .map(existing =>
+        .map((existing) =>
           Address.isWatchOnly(existing) && !Address.isWatchOnly(address)
             ? Task.of(existing)
             : Task.rejected(new Error('present_in_wallet'))
         )
-        .map(aE => aE.map(set(Address.priv, address.priv)))
+        .map((aE) => aE.map(set(Address.priv, address.priv)))
         .getOrElse(Task.of(address))
 
-    let appendAddress = address =>
-      over(addresses, as => as.set(address.addr, address), wallet)
+    let appendAddress = (address) =>
+      over(addresses, (as) => as.set(address.addr, address), wallet)
 
     return Address.fromString(key, createdTime, label, bipPass, {
       network,
-      api
+      api,
     })
       .chain(checkIfExists)
       .chain(applyCipher(wallet, password, Address.encrypt))
@@ -264,7 +264,7 @@ export const upgradeToV4 = curry(
 export const newHDWallet = curry((mnemonic, password, wallet) => {
   let hdWallet = HDWallet.createNew(mnemonic)
   let appendHdWallet = curry((w, hd) =>
-    over(hdWallets, list => list.push(hd), w)
+    over(hdWallets, (list) => list.push(hd), w)
   )
   return applyCipher(wallet, password, HDWallet.encrypt, hdWallet).map(
     appendHdWallet(wallet)
@@ -282,7 +282,7 @@ export const newHDAccount = curry((label, password, network, wallet) => {
       HDWallet.accounts
     )
     let accountWithIndex = set(HDAccount.index, index, account)
-    return over(accountsLens, accounts => accounts.push(accountWithIndex), w)
+    return over(accountsLens, (accounts) => accounts.push(accountWithIndex), w)
   })
   return applyCipher(
     wallet,
@@ -306,7 +306,7 @@ export const setLegacyAddressLabel = curry((address, label, wallet) => {
 export const getPrivateKeyForAddress = curry((wallet, password, addr) => {
   let address = AddressMap.selectAddress(addr, selectAddresses(wallet))
   return applyCipher(wallet, password, Address.decrypt, address).map(
-    a => a.priv
+    (a) => a.priv
   )
 })
 
@@ -396,10 +396,7 @@ export const traverseKeyValues = curry((of, f, wallet) => {
     of,
     f
   )
-  return of(wallet)
-    .chain(trAddr)
-    .chain(trSeed)
-    .chain(trXpriv)
+  return of(wallet).chain(trAddr).chain(trSeed).chain(trXpriv)
 })
 
 // encryptMonadic :: Monad m => (a -> m a) -> (String -> m String) -> String -> Wallet -> m Wallet
@@ -428,7 +425,7 @@ export const decryptMonadic = curry((of, cipher, verify, password, wallet) => {
     let dec = cipher(wallet.sharedKey, iter, password)
 
     let setFlag = over(doubleEncryption, () => false)
-    let setHash = over(Wallet.lens, x => x.delete('dpasswordhash'))
+    let setHash = over(Wallet.lens, (x) => x.delete('dpasswordhash'))
 
     return verify(password, wallet)
       .chain(traverseKeyValues(of, dec))
@@ -453,10 +450,7 @@ export const decrypt = decryptMonadic(
 )
 
 const _derivePrivateKey = (network, xpriv, chain, index) =>
-  Bitcoin.bip32
-    .fromBase58(xpriv, network)
-    .derive(chain)
-    .derive(index)
+  Bitcoin.bip32.fromBase58(xpriv, network).derive(chain).derive(index)
 
 export const derivePrivateKey = memoize(_derivePrivateKey)
 
@@ -482,12 +476,12 @@ export const getHDPrivateKeyWIF = curry(
             xpriv
           )
         )
-        .map(xp => {
+        .map((xp) => {
           const node = derivePrivateKey(network, xp, chain, index)
           return Bitcoin.ECPair.fromPrivateKey(node.privateKey).toWIF()
         })
     } else {
-      return Task.of(xpriv).map(xp => {
+      return Task.of(xpriv).map((xp) => {
         const node = derivePrivateKey(network, xp, chain, index)
         return Bitcoin.ECPair.fromPrivateKey(node.privateKey).toWIF()
       })
@@ -498,7 +492,7 @@ export const getHDPrivateKeyWIF = curry(
 // TODO :: find a proper place for that
 const fromBase58toKey = (string, address, network) => {
   var key = Bitcoin.ECPair.fromPrivateKey(Base58.decode(string))
-  if (key.getAddress() === address) return key
+  if (utils.btc.keyPairToAddress(key) === address) return key
   key.compressed = !key.compressed
   return key
 }
@@ -520,9 +514,9 @@ export const getLegacyPrivateKey = curry(
             priv
           )
         )
-        .map(pk => fromBase58toKey(pk, address, network))
+        .map((pk) => fromBase58toKey(pk, address, network))
     } else {
-      return Task.of(priv).map(pk => fromBase58toKey(pk, address, network))
+      return Task.of(priv).map((pk) => fromBase58toKey(pk, address, network))
     }
   }
 )
@@ -534,7 +528,7 @@ export const getLegacyPrivateKeyWIF = curry(
       secondPassword,
       network,
       wallet
-    ).map(ecpair => ecpair.toWIF())
+    ).map((ecpair) => ecpair.toWIF())
   }
 )
 
@@ -564,7 +558,7 @@ export const getSeedHex = curry((secondPassword, wallet) => {
 
 // getMnemonic :: String -> Wallet -> Task Error String
 export const getMnemonic = curry((secondPassword, wallet) => {
-  const eitherToTask = e => e.fold(Task.rejected, Task.of)
+  const eitherToTask = (e) => e.fold(Task.rejected, Task.of)
   const entropyToMnemonic = compose(
     eitherToTask,
     Either.try(BIP39.entropyToMnemonic)
@@ -582,5 +576,5 @@ export const js = (guid, sharedKey, label, mnemonic, nAccounts, network) => ({
   address_book: [],
   keys: [],
   hd_wallets: [HDWallet.js(label, mnemonic, nAccounts, network)],
-  options: Options.js()
+  options: Options.js(),
 })

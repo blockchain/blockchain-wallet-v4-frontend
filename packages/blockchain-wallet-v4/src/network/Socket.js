@@ -9,34 +9,40 @@ function WS(uri, protocols, opts) {
 if (WebSocket) {
   WS.prototype = WebSocket.prototype
 
-  WS.prototype.on = function(event, callback) {
+  WS.prototype.on = function (event, callback) {
     this['on' + event] = callback
   }
 
-  WS.prototype.once = function(event, callback) {
-    this['on' + event] = function() {
+  WS.prototype.once = function (event, callback) {
+    this['on' + event] = function () {
       callback.apply(callback, arguments)
       this['on' + event] = null
     }.bind(this)
   }
 
-  WS.prototype.off = function(event) {
+  WS.prototype.off = function (event) {
     this['on' + event] = null
   }
 }
 
-let toArrayFormat = a => (Array.isArray(a) ? a : [a])
+let toArrayFormat = (a) => (Array.isArray(a) ? a : [a])
 
 class Socket {
   constructor({ options = {}, url }) {
     this.wsUrl = url
     this.headers = { Origin: options.domains.root }
   }
+
   pingInterval = 30000
+
   pingIntervalPID = null
+
   pingTimeout = 5000
+
   pingTimeoutPID = null
+
   reconnect = null
+
   reconnectCount = 0
 
   connect(
@@ -82,7 +88,7 @@ class Socket {
     )
   }
 
-  onPong = msg => {
+  onPong = (msg) => {
     if (propEq('command', 'pong')) {
       clearTimeout(this.pingTimeoutPID)
     }
@@ -104,10 +110,8 @@ class Socket {
 
   static addrSubMessage(addresses) {
     if (addresses == null) return ''
-    let toMsg = addr => JSON.stringify({ op: 'addr_sub', addr })
-    return toArrayFormat(addresses)
-      .map(toMsg)
-      .reduce(concat, '')
+    let toMsg = (addr) => JSON.stringify({ op: 'addr_sub', addr })
+    return toArrayFormat(addresses).map(toMsg).reduce(concat, '')
   }
 
   static pingMessage() {

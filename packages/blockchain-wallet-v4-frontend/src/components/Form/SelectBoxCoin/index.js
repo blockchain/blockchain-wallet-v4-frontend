@@ -23,14 +23,14 @@ const HeaderWrapper = styled.div`
   }
 `
 const ItemIcon = styled(Icon)`
-  color: ${props => props.theme[props.color]} !important;
+  color: ${(props) => props.theme[props.color]} !important;
   * {
-    color: ${props => props.theme[props.color]} !important;
+    color: ${(props) => props.theme[props.color]} !important;
   }
 `
 
 class SelectBoxCoin extends React.PureComponent {
-  renderItem = props => {
+  renderItem = (props) => {
     const { supportedCoins } = this.props
     const { text, value, ...rest } = props
     return (
@@ -46,6 +46,7 @@ class SelectBoxCoin extends React.PureComponent {
       </HeaderWrapper>
     )
   }
+
   renderDisplay = (props, children) => {
     const { supportedCoins } = this.props
     const { value, ...rest } = props
@@ -65,6 +66,7 @@ class SelectBoxCoin extends React.PureComponent {
       </HeaderWrapper>
     )
   }
+
   render() {
     const {
       additionalOptions = [],
@@ -95,7 +97,7 @@ const mapStateToProps = (state, ownProps) => ({
   coins: getCoins(state, ownProps),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
-    .getOrFail()
+    .getOrFail(),
 })
 
 export default connect(mapStateToProps)(SelectBoxCoin)

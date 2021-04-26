@@ -52,12 +52,12 @@ class InterestHistoryContainer extends Component<Props> {
       <SceneWrapper>
         <InterestHeader />
         {data.cata({
-          Success: val => {
+          Success: (val) => {
             return (
               <>
                 <MenuRow>
                   <InterestMenu />
-                  <DownloadTransactions {...val} />
+                  <DownloadTransactions />
                   <CoinFilter {...val} />
                 </MenuRow>
                 <LazyLoadWrapper onLazyLoad={this.onFetchMoreTransactions}>
@@ -68,19 +68,19 @@ class InterestHistoryContainer extends Component<Props> {
           },
           Failure: () => null,
           Loading: () => <Loading />,
-          NotAsked: () => <Loading />
+          NotAsked: () => <Loading />,
         })}
       </SceneWrapper>
     )
   }
 }
 
-const mapStateToProps = state => ({
-  data: getData(state)
+const mapStateToProps = (state) => ({
+  data: getData(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  interestActions: bindActionCreators(actions.components.interest, dispatch)
+  interestActions: bindActionCreators(actions.components.interest, dispatch),
 })
 const connector = connect(mapStateToProps, mapDispatchToProps)
 

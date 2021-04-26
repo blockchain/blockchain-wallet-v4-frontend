@@ -1,7 +1,7 @@
 import {
   FiatType,
   RatesType,
-  RemoteDataType
+  RemoteDataType,
 } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -73,3 +73,6 @@ export const getAfterTransaction = (state: RootState) =>
 
 export const getIsFromBuySell = (state: RootState) =>
   state.components.interest.isFromBuySell
+
+export const getInterestEDDStatus = (state: RootState) =>
+  state.components.interest.interestEDDStatus

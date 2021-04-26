@@ -17,47 +17,60 @@ export class Coin extends Type {
   toString() {
     return `Coin(${this.value})`
   }
+
   concat(coin) {
     return new Coin({ value: this.value + coin.value })
   }
+
   equals(coin) {
     return this.value === coin.value
   }
+
   lte(coin) {
     return this.value <= coin.value
   }
+
   ge(coin) {
     return this.value >= coin.value
   }
+
   overValue(f) {
     return over(value, f, this)
   }
+
   isFromAccount() {
     return length(split('/', this.priv)) > 1
   }
+
   isFromLegacy() {
     return !this.isFromAccount()
   }
+
   type() {
     let type = 'P2PKH'
     try {
       const output = Bitcoin.address.toOutputScript(this.address)
+      // TODO: is addr var even needed?
       // eslint-disable-next-line
       let addr = null
 
       try {
+        // eslint-disable-next-line
         addr = Bitcoin.payments.p2pkh({ output }).address
         type = 'P2PKH'
       } catch (e) {}
       try {
+        // eslint-disable-next-line
         addr = Bitcoin.payments.p2sh({ output }).address
         type = 'P2SH'
       } catch (e) {}
       try {
+        // eslint-disable-next-line
         addr = Bitcoin.payments.p2wpkh({ output }).address
         type = 'P2WPKH'
       } catch (e) {}
       try {
+        // eslint-disable-next-line
         addr = Bitcoin.payments.p2wsh({ output }).address
         type = 'P2WSH'
       } catch (e) {}
@@ -96,17 +109,17 @@ export const fromJS = (o, network) => {
     priv: o.priv,
     path: o.path,
     xpub: o.xpub,
-    address: o.address ? o.address : scriptToAddress(o.script, network)
+    address: o.address ? o.address : scriptToAddress(o.script, network),
   })
 }
 
 export const empty = new Coin({ value: 0 })
 
-export const inputBytes = input => {
+export const inputBytes = (input) => {
   return IO_TYPES.inputs[input.type ? input.type() : 'P2PKH']
 }
 
-export const outputBytes = output => {
+export const outputBytes = (output) => {
   return IO_TYPES.outputs[output.type ? output.type() : 'P2PKH']
 }
 

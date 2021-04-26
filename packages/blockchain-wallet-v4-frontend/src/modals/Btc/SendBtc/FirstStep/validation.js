@@ -11,20 +11,18 @@ import {
   MaximumFeeMessage,
   MinimumAmountMessage,
   MinimumFeeMessage,
-  MinimumOneSatoshiMessage
+  MinimumOneSatoshiMessage,
 } from './validationMessages'
 
 const DUST = 546
 
-const getEffectiveBalance = props => {
+const getEffectiveBalance = (props) => {
   return Number(props.effectiveBalance)
 }
 
 export const insufficientFunds = (value, allValues, props) => {
   const effectiveBalance = getEffectiveBalance(props)
-  return effectiveBalance > 0 && DUST <= effectiveBalance ? (
-    undefined
-  ) : (
+  return effectiveBalance > 0 && DUST <= effectiveBalance ? undefined : (
     <InsufficientFundsMessage />
   )
 }
@@ -34,7 +32,7 @@ export const invalidAmount = (value, allValues, props) => {
   const valueSatoshi = Exchange.convertBtcToBtc({
     value: valueBtc,
     fromUnit: 'BTC',
-    toUnit: 'SAT'
+    toUnit: 'SAT',
   }).value
   return valueSatoshi > 0 ? undefined : <InvalidAmountMessage />
 }
@@ -44,7 +42,7 @@ export const minimumAmount = (value, allValues, props) => {
   const valueSatoshi = Exchange.convertBtcToBtc({
     value: valueBtc,
     fromUnit: 'BTC',
-    toUnit: 'SAT'
+    toUnit: 'SAT',
   }).value
   return parseInt(valueSatoshi) >= DUST ? undefined : <MinimumAmountMessage />
 }
@@ -55,15 +53,13 @@ export const maximumAmount = (value, allValues, props) => {
   const valueSatoshi = Exchange.convertBtcToBtc({
     value: valueBtc,
     fromUnit: 'BTC',
-    toUnit: 'SAT'
+    toUnit: 'SAT',
   }).value
   return valueSatoshi <= effectiveBalance ? undefined : <MaximumAmountMessage />
 }
 
 export const minimumFeePerByte = (value, allValues, props) =>
-  value && parseInt(value) >= props.minFeePerByte ? (
-    undefined
-  ) : (
+  value && parseInt(value) >= props.minFeePerByte ? undefined : (
     <MinimumFeeMessage />
   )
 
@@ -71,9 +67,7 @@ export const minimumOneSatoshi = (value, allValues, props) =>
   value >= 1 ? undefined : <MinimumOneSatoshiMessage />
 
 export const maximumFeePerByte = (value, allValues, props) =>
-  value && parseInt(value) <= props.maxFeePerByte ? (
-    undefined
-  ) : (
+  value && parseInt(value) <= props.maxFeePerByte ? undefined : (
     <MaximumFeeMessage />
   )
 
@@ -82,7 +76,7 @@ export const shouldError = ({
   nextProps,
   props,
   structure,
-  values
+  values,
 }) => {
   if (initialRender) {
     return true
@@ -99,7 +93,7 @@ export const shouldWarn = ({
   nextProps,
   props,
   structure,
-  values
+  values,
 }) => {
   if (initialRender) {
     return true
@@ -115,5 +109,7 @@ export const isAddressDerivedFromPriv = (value, allValues, props) => {
   const format = utils.btc.detectPrivateKeyFormat(value)
   const address = path(['from', 'address'], allValues)
   const key = utils.btc.privateKeyStringToKey(value, format, props.network)
-  return key.getAddress() === address ? undefined : <AddressMatchesPriv />
+  return utils.btc.keyPairToAddress(key) === address ? undefined : (
+    <AddressMatchesPriv />
+  )
 }

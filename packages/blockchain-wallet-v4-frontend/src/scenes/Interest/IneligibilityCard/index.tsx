@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import { Icon, Link, Text } from 'blockchain-info-components'
 import {
   InterestEligibleType,
-  RemoteDataType
+  RemoteDataType,
 } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 
@@ -23,12 +23,13 @@ class IneligibiltyWarning extends PureComponent<Props & SuccessStateType> {
   componentDidMount() {
     this.props.interestActions.fetchInterestEligible()
   }
+
   render() {
     const { instruments, interestEligible } = this.props
 
     return interestEligible.cata({
-      Success: val => {
-        const ineligibilityReasonList = instruments.map(instrument => {
+      Success: (val) => {
+        const ineligibilityReasonList = instruments.map((instrument) => {
           return val[instrument]?.ineligibilityReason
         })
         return (
@@ -82,17 +83,17 @@ class IneligibiltyWarning extends PureComponent<Props & SuccessStateType> {
       },
       Failure: () => null,
       Loading: () => null,
-      NotAsked: () => null
+      NotAsked: () => null,
     })
   }
 }
 
-const mapStateToProps = state => ({
-  interestEligible: selectors.components.interest.getInterestEligible(state)
+const mapStateToProps = (state) => ({
+  interestEligible: selectors.components.interest.getInterestEligible(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  interestActions: bindActionCreators(actions.components.interest, dispatch)
+const mapDispatchToProps = (dispatch) => ({
+  interestActions: bindActionCreators(actions.components.interest, dispatch),
 })
 const connector = connect(mapStateToProps, mapDispatchToProps)
 

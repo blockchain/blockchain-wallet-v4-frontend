@@ -80,11 +80,11 @@ class Conflict extends PureComponent<
       selectedAddress: null,
       selectedEmail: null,
       considerEmail: isEmail,
-      considerAddress: isAddress
+      considerAddress: isAddress,
     }
   }
 
-  handleAddress = event => {
+  handleAddress = (event) => {
     const { allowSubmit, considerEmail, selectedEmail } = this.state
     this.setState({ selectedAddress: event.target.value })
     if (!allowSubmit && (selectedEmail !== null || !considerEmail)) {
@@ -92,13 +92,14 @@ class Conflict extends PureComponent<
     }
   }
 
-  handleEmail = event => {
+  handleEmail = (event) => {
     const { allowSubmit, considerAddress, selectedAddress } = this.state
     this.setState({ selectedEmail: event.target.value })
     if (!allowSubmit && (selectedAddress !== null || !considerAddress)) {
       this.setState({ allowSubmit: true })
     }
   }
+
   handleSubmit = () => {
     const { actions, error, linkId } = this.props
     const { selectedAddress, selectedEmail } = this.state
@@ -171,7 +172,7 @@ class Conflict extends PureComponent<
       considerAddress,
       considerEmail,
       selectedAddress,
-      selectedEmail
+      selectedEmail,
     } = this.state
     const { address, email } = this.props.error
 
@@ -283,7 +284,7 @@ class Conflict extends PureComponent<
                       weight={500}
                       style={{
                         justifyContent: 'flex-start',
-                        lineHeight: '32px'
+                        lineHeight: '32px',
                       }}
                     >
                       {email.wallet}
@@ -308,7 +309,7 @@ class Conflict extends PureComponent<
                       weight={500}
                       style={{
                         justifyContent: 'flex-start',
-                        lineHeight: '32px'
+                        lineHeight: '32px',
                       }}
                     >
                       {email.exchange}
@@ -325,7 +326,7 @@ class Conflict extends PureComponent<
                 weight={500}
                 style={{
                   textAlign: 'left',
-                  marginTop: '34px'
+                  marginTop: '34px',
                 }}
               >
                 <FormattedHTMLMessage
@@ -342,7 +343,7 @@ class Conflict extends PureComponent<
                 weight={500}
                 style={{
                   textAlign: 'left',
-                  marginTop: '16px'
+                  marginTop: '16px',
                 }}
               >
                 <FormattedHTMLMessage

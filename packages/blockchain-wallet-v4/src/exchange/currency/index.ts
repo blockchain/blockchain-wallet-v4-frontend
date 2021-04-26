@@ -12,23 +12,26 @@ import Currencies, { CurrenciesType } from '../currencies'
 
 export class Currency extends Type {
   'value': typeof BigRational
+
   'currency': CurrenciesType[keyof CurrenciesType]
 
   toString() {
     return `Currency(${this.value} ${this.currency.code}-${this.currency.base})`
   }
+
   toUnit(unit) {
     if (unit && unit.currency === this.currency.code) {
       return Maybe.Just({
         value: this.value
           .multiply(BigRational(unit.rate).reciprocate())
           .toDecimal(unit.decimal_digits),
-        unit: unit
+        unit: unit,
       })
     } else {
       return Maybe.Nothing()
     }
   }
+
   convert(pairs, toCurrency) {
     let ratio = BigRational.one
     const toCurrencyM = Maybe.fromNullable(toCurrency)
@@ -44,11 +47,12 @@ export class Currency extends Type {
           ratio = prop(this.currency.code, pairs.table).reciprocate()
         }
 
-        return this.toUnit(this.currency.units[this.currency.trade]).chain(o =>
-          fromUnit({
-            value: BigRational(o.value).multiply(ratio),
-            unit: toCurrency.units[toCurrency.trade]
-          })
+        return this.toUnit(this.currency.units[this.currency.trade]).chain(
+          (o) =>
+            fromUnit({
+              value: BigRational(o.value).multiply(ratio),
+              unit: toCurrency.units[toCurrency.trade],
+            })
         )
       }
     )
@@ -59,12 +63,12 @@ export class Currency extends Type {
     const toCurrencyM = Maybe.fromNullable(toCurrency)
 
     return sequence(Maybe.of, [toCurrencyM]).chain(([toCurrency]) => {
-      return this.toUnit(this.currency.units[this.currency.trade]).chain(o =>
+      return this.toUnit(this.currency.units[this.currency.trade]).chain((o) =>
         fromUnit({
           value: reverse
             ? BigRational(o.value).divide(ratio)
             : BigRational(o.value).multiply(ratio),
-          unit: toCurrency.units[toCurrency.trade]
+          unit: toCurrency.units[toCurrency.trade],
         })
       )
     })
@@ -72,7 +76,7 @@ export class Currency extends Type {
 }
 
 // @ts-ignore
-const newCurrency = o => new Currency(o)
+const newCurrency = (o) => new Currency(o)
 
 export const isCurrency = is(Currency)
 export const value = Currency.define('value')
@@ -100,7 +104,7 @@ export const fromUnit = ({ unit, value }) => {
   return sequence(Maybe.of, [unitM, currencyM]).map(([unit, currency]) =>
     newCurrency({
       value: BigRational(value).multiply(BigRational(unit.rate)),
-      currency: currency
+      currency: currency,
     })
   )
 }
@@ -108,7 +112,7 @@ export const fromUnit = ({ unit, value }) => {
 export const unsafe_deprecated_fiatToString = ({
   digits = 2,
   unit,
-  value
+  value,
 }: {
   digits: number
   unit: {
@@ -123,7 +127,7 @@ export const unsafe_deprecated_fiatToString = ({
 export const fiatToString = ({
   digits = 2,
   unit,
-  value
+  value,
 }: {
   digits?: number
   unit: FiatType
@@ -136,7 +140,7 @@ export const coinToString = ({
   maxDigits = 8,
   minDigits = 0,
   unit,
-  value
+  value,
 }: {
   maxDigits?: number
   minDigits?: number
@@ -147,7 +151,7 @@ export const coinToString = ({
 export const formatFiat = (value, digits = 2) =>
   Number(value).toLocaleString(undefined, {
     minimumFractionDigits: digits,
-    maximumFractionDigits: digits
+    maximumFractionDigits: digits,
   })
 
 export const formatCoin = (value, minDigits = 0, maxDigits = 8) => {

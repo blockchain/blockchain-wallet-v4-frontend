@@ -20,7 +20,7 @@ const BackupCopy = styled.div`
   display: inline;
 `
 const BackupLink = styled.span`
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
   text-decoration: underline;
   cursor: pointer;
 `
@@ -28,9 +28,10 @@ const BackupLink = styled.span`
 class MnemonicRequiredForCustodySend extends React.PureComponent<Props> {
   handleClick = () => {
     this.props.modalActions.showModal('RECOVERY_PHRASE_MODAL', {
-      origin: 'Send'
+      origin: 'Send',
     })
   }
+
   render() {
     return (
       <CustomBlueCartridge>
@@ -58,7 +59,7 @@ class MnemonicRequiredForCustodySend extends React.PureComponent<Props> {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
 })
 
 const connector = connect(null, mapDispatchToProps)

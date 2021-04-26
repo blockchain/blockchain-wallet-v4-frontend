@@ -16,7 +16,7 @@ const ButtonContainer = styled.button`
   outline: none;
 
   > span {
-    background-color: ${props => (props.color ? props.color : 'white')};
+    background-color: ${(props) => (props.color ? props.color : 'white')};
     border-radius: var(--smBorderRadius);
     display: block;
     height: 2px;
@@ -28,7 +28,7 @@ const ButtonContainer = styled.button`
 
   > span::before,
   > span::after {
-    background-color: ${props => (props.color ? props.color : 'white')};
+    background-color: ${(props) => (props.color ? props.color : 'white')};
     border-radius: var(--smBorderRadius);
     content: '';
     display: block;
@@ -78,11 +78,12 @@ const ButtonContainer = styled.button`
 
 class MenuButton extends PureComponent {
   state = {
-    active: false
+    active: false,
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     let active = prevState.active
+    // eslint-disable-next-line no-prototype-builtins
     if (nextProps.hasOwnProperty('active')) {
       active = nextProps.active
     }

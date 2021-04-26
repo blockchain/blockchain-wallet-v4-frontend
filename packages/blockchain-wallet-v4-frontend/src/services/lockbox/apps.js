@@ -5,22 +5,19 @@ import constants from './constants'
 import utils from './utils'
 
 // gets version of btc application
-const getBtcAppVersion = transport => {
+const getBtcAppVersion = (transport) => {
   return new Promise((resolve, reject) => {
     transport.send(...constants.apdus.get_btc_app_version).then(
-      res => {
+      (res) => {
         const byteArray = [...res]
         resolve({
-          full: byteArray
-            .slice(2, 5)
-            .join()
-            .replace(/,/g, '.'),
+          full: byteArray.slice(2, 5).join().replace(/,/g, '.'),
           major: byteArray[2],
           minor: byteArray[3],
-          patch: byteArray[4]
+          patch: byteArray[4],
         })
       },
-      error => {
+      (error) => {
         reject(error)
       }
     )
@@ -37,6 +34,7 @@ const getBtcAppVersion = transport => {
  * @returns {Promise} Returns install result as a Promise
  */
 const uninstallApp = (transport, baseUrl, targetId, appInfo) => {
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     try {
       // ensure timeout is long enough for user to allow device access
@@ -48,7 +46,7 @@ const uninstallApp = (transport, baseUrl, targetId, appInfo) => {
         perso: appInfo.perso,
         deleteKey: appInfo.delete_key,
         firmware: appInfo.delete,
-        firmwareKey: appInfo.delete_key
+        firmwareKey: appInfo.delete_key,
       }
 
       // build socket url
@@ -83,6 +81,7 @@ const uninstallApp = (transport, baseUrl, targetId, appInfo) => {
  * @returns {Promise} Returns install result as a Promise
  */
 const installApp = (transport, baseUrl, targetId, appName, appInfos) => {
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     try {
       // ensure timeout is long enough for user to allow device access
@@ -98,7 +97,7 @@ const installApp = (transport, baseUrl, targetId, appName, appInfos) => {
         perso: latestAppInfo.perso,
         deleteKey: latestAppInfo.delete_key,
         firmware: latestAppInfo.firmware,
-        firmwareKey: latestAppInfo.firmware_key
+        firmwareKey: latestAppInfo.firmware_key,
       }
 
       // build socket url
@@ -125,5 +124,5 @@ const installApp = (transport, baseUrl, targetId, appName, appInfos) => {
 export default {
   getBtcAppVersion,
   installApp,
-  uninstallApp
+  uninstallApp,
 }

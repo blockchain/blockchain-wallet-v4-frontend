@@ -12,7 +12,7 @@ import {
   CoinBalanceDropdown,
   Form,
   FormLabel,
-  NumberBox
+  NumberBox,
 } from 'components/Form'
 import { selectors } from 'data'
 import { BorrowFormValuesType } from 'data/components/borrow/types'
@@ -78,7 +78,7 @@ const FiatContainer = styled.div`
   display: inline-block;
   padding: 4px 8px;
   border-radius: 20px;
-  background-color: ${props => props.theme.grey000};
+  background-color: ${(props) => props.theme.grey000};
 `
 
 const ButtonContainer = styled.div`
@@ -91,7 +91,7 @@ const ButtonContainer = styled.div`
   }
 `
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   // TODO: Borrow - make dynamic
   const displayName = props.supportedCoins['PAX'].displayName
 
@@ -125,7 +125,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               <Text color='blue600' size='14px' weight={500}>
                 {fiatToString({
                   value: props.limits.maxFiat,
-                  unit: 'USD'
+                  unit: 'USD',
                 })}
               </Text>
             </FiatContainer>{' '}
@@ -167,7 +167,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               autoFocus: true,
               errorBottom: true,
               errorLeft: true,
-              errorIcon: 'alert-filled'
+              errorIcon: 'alert-filled',
             }}
           />
           <PrincipalCcyAbsolute>
@@ -215,10 +215,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   )
 }
 
-const mapStateToProps = state => ({
-  values: selectors.form.getFormValues('borrowForm')(state)
+const mapStateToProps = (state) => ({
+  values: selectors.form.getFormValues('borrowForm')(state),
 })
 
+// @ts-ignore
 const enhance = compose(
   reduxForm<{}, Props>({ form: 'borrowForm', destroyOnUnmount: false }),
   connect(mapStateToProps)

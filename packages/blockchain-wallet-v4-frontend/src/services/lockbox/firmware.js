@@ -4,10 +4,10 @@ import constants from './constants'
 import utils from './utils'
 
 // gets firmware information about device
-const getDeviceFirmwareInfo = transport => {
+const getDeviceFirmwareInfo = (transport) => {
   return new Promise((resolve, reject) => {
     transport.send(...constants.apdus.get_firmware).then(
-      res => {
+      (res) => {
         const byteArray = [...res]
         const data = byteArray.slice(0, byteArray.length - 2)
         const targetIdStr = Buffer.from(data.slice(0, 4))
@@ -41,13 +41,13 @@ const getDeviceFirmwareInfo = transport => {
             targetId,
             seVersion: '0.0.0',
             flags: '',
-            mcuVersion: ''
+            mcuVersion: '',
           })
         }
 
         resolve({ targetId, seVersion, flags, mcuVersion })
       },
-      error => {
+      (error) => {
         reject(error)
       }
     )
@@ -56,13 +56,14 @@ const getDeviceFirmwareInfo = transport => {
 
 // installs osu firmware on device
 const installOsuFirmware = (transport, baseUrl, osuFirmware, targetId) => {
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     try {
       // socket params
       const params = {
         targetId,
         ...osuFirmware,
-        firmwareKey: osuFirmware.firmware_key
+        firmwareKey: osuFirmware.firmware_key,
       }
       delete params.shouldFlashMcu
 
@@ -89,13 +90,14 @@ const installOsuFirmware = (transport, baseUrl, osuFirmware, targetId) => {
 
 // installs final firmware on device
 const installFinalFirmware = (transport, baseUrl, finalFirmware, targetId) => {
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     try {
       // socket params
       const params = {
         targetId,
         ...finalFirmware,
-        firmwareKey: finalFirmware.firmware_key
+        firmwareKey: finalFirmware.firmware_key,
       }
 
       // build socket url
@@ -122,5 +124,5 @@ const installFinalFirmware = (transport, baseUrl, finalFirmware, targetId) => {
 export default {
   getDeviceFirmwareInfo,
   installFinalFirmware,
-  installOsuFirmware
+  installOsuFirmware,
 }

@@ -18,6 +18,7 @@ class SoftwareDownloadContainer extends React.PureComponent {
       this.props.lockboxActions.finalizeNewDeviceSetup()
     }
   }
+
   onSkipDownload = () => {
     if (equals('existing', this.props.setupType)) {
       this.props.lockboxActions.changeDeviceSetupStep('connect-device')
@@ -40,13 +41,13 @@ class SoftwareDownloadContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  setupType: selectors.components.lockbox.getNewDeviceSetupType(state)
+const mapStateToProps = (state) => ({
+  setupType: selectors.components.lockbox.getNewDeviceSetupType(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
+  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
 })
 
 export default connect(
