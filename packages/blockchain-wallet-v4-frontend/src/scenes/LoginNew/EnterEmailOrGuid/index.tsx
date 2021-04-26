@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps } from 'redux-form'
 
-import { Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Text } from 'blockchain-info-components'
 import {
   // Form,
   // FormError,
@@ -12,7 +12,6 @@ import {
   // PasswordBox,
   TextBox
 } from 'components/Form'
-// import { LinkContainer } from 'react-router-bootstrap'
 // import Bowser from 'bowser'
 import { required, validWalletIdOrEmail } from 'services/forms'
 
@@ -25,22 +24,15 @@ import {
 } from '../model'
 
 const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
-  const {
-     busy,
-     invalid,
-     loginError,
-     setStep,
-     submitting,
-  } = props
+  const { busy, guidOrEmail, invalid, loginError, setStep, submitting } = props
 
-  const accountLocked =
-      loginError &&
-      (loginError.toLowerCase().includes('this account has been locked') ||
-        loginError.toLowerCase().includes('account is locked'))
-  const guidError =
-    loginError && loginError.toLowerCase().includes('unknown wallet id')
+  // const accountLocked =
+  //     loginError &&
+  //     (loginError.toLowerCase().includes('this account has been locked') ||
+  //       loginError.toLowerCase().includes('account is locked'))
+  // const guidError =
+  //   loginError && loginError.toLowerCase().includes('unknown wallet id')
 
-  console.log(props, 'from enter email')
   return (
     <>
       <FormGroup>
@@ -117,17 +109,21 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
           nature='primary'
           fullwidth
           height='48px'
-          // disabled={submitting || invalid || busy || !password}
+          disabled={submitting || invalid || busy || !guidOrEmail}
           data-e2e='loginButton'
-          onClick={()=> setStep(LoginSteps.CHECK_EMAIL)}
+          // TODO: change this to trigger call for email
+          onClick={() => setStep(LoginSteps.CHECK_EMAIL)}
         >
-          {/* {busy && !loginError ? (
-    <HeartbeatLoader height='20px' width='20px' color='white' />
-    ) : ( */}
-          <Text color='whiteFade900' size='16px' weight={600}>
-            <FormattedMessage id='scenes.login.login' defaultMessage='Log In' />
-          </Text>
-          {/* )} */}
+          {busy && !loginError ? (
+            <HeartbeatLoader height='20px' width='20px' color='white' />
+          ) : (
+            <Text color='whiteFade900' size='16px' weight={600}>
+              <FormattedMessage
+                id='scenes.login.login'
+                defaultMessage='Log In'
+              />
+            </Text>
+          )}
         </ActionButton>
       </FormGroup>
     </>
@@ -137,7 +133,7 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
 type Props = OwnProps & {
   busy: boolean
   loginError?: string
-  setStep: (step: LoginSteps) => void 
+  setStep: (step: LoginSteps) => void
 }
 
 export default EnterEmailOrGuid

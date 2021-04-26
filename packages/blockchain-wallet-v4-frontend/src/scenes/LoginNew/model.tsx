@@ -111,46 +111,19 @@ export const BackArrowFormHeader = (props: {
   )
 }
 
-const LinkRow = styled.div`
+export const LinkRow = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 `
 
-export const FooterButtons = (props: {
-  busy: boolean
-  invalid: boolean
-  submitting: boolean
-}) => {
-  return (
-    <LinkRow>
-      <ActionButton
-        // type='submit'
-        nature='primary'
-        fullwidth
-        height='48px'
-        disabled={props.submitting || props.invalid || props.busy}
-        data-e2e='passwordButton'
-        style={{ marginBottom: '16px' }}
-
-        //   onClick={}
-      >
-        {/* {busy && !loginError ? (
-<HeartbeatLoader height='20px' width='20px' color='white' />
-) : ( */}
-        <Text color='whiteFade900' size='16px' weight={600}>
-          <FormattedMessage id='scenes.login.login' defaultMessage='Log In' />
-        </Text>
-        {/* )} */}
-      </ActionButton>
-      <LinkContainer to='/help'>
-        <Link size='13px' weight={600} data-e2e='loginGetHelp'>
-          <FormattedMessage
-            id='scenes.login.needhelp'
-            defaultMessage='Need some help?'
-          />
-        </Link>
-      </LinkContainer>
-    </LinkRow>
-  )
-}
+export const NeedHelpLink = () => (
+  <LinkContainer to='/help'>
+    <Link size='13px' weight={600} data-e2e='loginGetHelp'>
+      <FormattedMessage
+        id='scenes.login.needhelp'
+        defaultMessage='Need some help?'
+      />
+    </Link>
+  </LinkContainer>
+)

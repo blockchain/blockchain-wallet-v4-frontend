@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Field, InjectedFormProps } from 'redux-form'
 
-import { Link } from 'blockchain-info-components'
+import { HeartbeatLoader, Link , Text } from 'blockchain-info-components'
 import {
   FormError,
   FormGroup,
@@ -17,7 +17,13 @@ import { actions, selectors } from 'data'
 import { required } from 'services/forms'
 
 import { LoginSteps, Props as OwnProps } from '..'
-import { BackArrowFormHeader, FooterButtons, removeWhitespace } from '../model'
+import {
+  ActionButton,
+  BackArrowFormHeader,
+  LinkRow,
+  NeedHelpLink,
+  removeWhitespace
+} from '../model'
 
 const EnterTwoFactor = (props: InjectedFormProps<{}, Props> & Props) => {
   const {
@@ -80,7 +86,29 @@ const EnterTwoFactor = (props: InjectedFormProps<{}, Props> & Props) => {
           </FormItem>
         </FormGroup>
       )}
-      <FooterButtons submitting={submitting} invalid={invalid} busy={busy} />
+      <LinkRow>
+        <ActionButton
+          type='submit'
+          nature='primary'
+          fullwidth
+          height='48px'
+          disabled={submitting || invalid || busy}
+          data-e2e='passwordButton'
+          style={{ marginBottom: '16px' }}
+        >
+          {busy && !loginError ? (
+            <HeartbeatLoader height='20px' width='20px' color='white' />
+          ) : (
+            <Text color='whiteFade900' size='16px' weight={600}>
+              <FormattedMessage
+                id='scenes.login.login'
+                defaultMessage='Log In'
+              />
+            </Text>
+          )}
+        </ActionButton>
+        <NeedHelpLink />
+      </LinkRow>
     </>
   )
 }

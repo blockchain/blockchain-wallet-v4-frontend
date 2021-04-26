@@ -6,7 +6,7 @@ import { bindActionCreators, compose } from 'redux'
 import { formValueSelector, getFormMeta, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, Link,Text } from 'blockchain-info-components'
+import { Button, Link, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
@@ -54,6 +54,20 @@ class Login extends PureComponent<Props> {
     this.props.formActions.change(LOGIN_NEW, 'step', step)
   }
 
+  onSubmit = () => {
+    const { code, guid, password } = this.props
+    let auth = code
+    // only uppercase if authType is not Yubikey
+    if (auth && this.props.authType !== 1) {
+      auth = auth.toUpperCase()
+    }
+    this.props.authActions.login(guid, password, auth)
+  }
+
+  handleSmsResend = () => {
+    this.props.authActions.resendSmsCode(this.props.guid)
+  }
+
   render() {
     const { data, formValues } = this.props
     const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
@@ -65,9 +79,9 @@ class Login extends PureComponent<Props> {
     })
     const loginProps = {
       busy,
-      loginError: error
+      loginError: error,
+      handleSmsResend: this.handleSmsResend
     }
-    // console.log(this.props, 'from main index')
     return (
       <>
         <Text
@@ -233,16 +247,23 @@ class Login extends PureComponent<Props> {
 }
 
 const mapStateToProps = state => ({
+  authType: selectors.auth.getAuthType(state),
+  code: formValueSelector(LOGIN_NEW)(state, 'code'),
   data: selectors.auth.getLogin(state),
   formValues: selectors.form.getFormValues(LOGIN_NEW)(state) as LoginFormType,
   formMeta: getFormMeta(LOGIN_NEW)(state),
+  // TODO guid selector shouldn't come from form
+  // we set it on the state when we get the callback
   guid: formValueSelector(LOGIN_NEW)(state, 'guid'),
+  guidOrEmail: formValueSelector(LOGIN_NEW)(state, 'guidOrEmail'),
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
-  }
+  },
+  password: formValueSelector(LOGIN_NEW)(state, 'password')
 })
 
 const mapDispatchToProps = dispatch => ({
+  authActions: bindActionCreators(actions.auth, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
