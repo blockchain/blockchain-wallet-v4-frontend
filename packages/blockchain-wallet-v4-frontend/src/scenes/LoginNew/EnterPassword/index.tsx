@@ -1,9 +1,10 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { LinkContainer } from 'react-router-bootstrap'
 import { Field, InjectedFormProps } from 'redux-form'
 
-import { HeartbeatLoader, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import {
   FormError,
   FormGroup,
@@ -59,17 +60,24 @@ const EnterPassword = (props: InjectedFormProps<{}, Props> & Props) => {
             data-e2e='loginPassword'
             placeholder='Enter your password'
           />
-          {passwordError && (
-            <FormError
-              position={authType > 0 ? 'relative' : 'absolute'}
-              data-e2e='passwordError'
-            >
-              <FormattedMessage
-                id='scenes.login.wrong_password'
-                defaultMessage='Error decrypting wallet. Wrong password'
-              />
-            </FormError>
-          )}
+          {/* {passwordError && ( */}
+          <FormError data-e2e='passwordError' style={{ paddingTop: '5px' }}>
+            <FormattedHTMLMessage
+              id='scenes.login.wrong_password_recover'
+              defaultMessage='Wrong password. Do you want to recover your wallet using Secret Private Key Recovery Phrase?'
+            />
+            {'  '}
+            <LinkContainer to='/recover'>
+              <Link size='12px' data-e2e='loginRecover'>
+                <FormattedMessage
+                  id='scenes.login.recover_account'
+                  defaultMessage='Recover account'
+                />
+                {'.'}
+              </Link>
+            </LinkContainer>
+          </FormError>
+          {/* )} */}
           {accountLocked && (
             <FormError
               position={authType > 0 || passwordError ? 'relative' : 'absolute'}
