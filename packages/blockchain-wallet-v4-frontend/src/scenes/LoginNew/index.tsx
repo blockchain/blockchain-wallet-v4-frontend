@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { LinkContainer } from 'react-router-bootstrap'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector, getFormMeta, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Link,Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
@@ -16,7 +17,7 @@ import CheckEmail from './CheckEmail'
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
 import EnterTwoFactor from './EnterTwoFactor'
-import { LOGIN_NEW } from './model'
+import { LOGIN_NEW, SignUpText, SubCard } from './model'
 import VerificationMobile from './VerificationMobile'
 
 // TODO: move this
@@ -205,6 +206,27 @@ class Login extends PureComponent<Props> {
             Verify Mobile
           </Button>
         </ButtonRow>
+        {step === LoginSteps.ENTER_EMAIL_GUID && (
+          <LinkContainer data-e2e='signupLink' to='/signup'>
+            <Link>
+              <SubCard>
+                <Text size='16px' color='grey400' weight={500}>
+                  <FormattedMessage
+                    id='scenes.login.wallet.link_signup'
+                    defaultMessage="Don't have a Blockchain Wallet?"
+                  />
+                </Text>
+                &nbsp;
+                <SignUpText size='16px' color='white' weight={600}>
+                  <FormattedMessage
+                    id='buttons.signup_now'
+                    defaultMessage='Sign up Now ->'
+                  />
+                </SignUpText>
+              </SubCard>
+            </Link>
+          </LinkContainer>
+        )}
       </>
     )
   }

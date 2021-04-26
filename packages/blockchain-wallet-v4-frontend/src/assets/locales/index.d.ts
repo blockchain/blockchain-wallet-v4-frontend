@@ -53,6 +53,7 @@ type MessagesType = {
   'buttons.sell_coin': 'Sell {displayName}'
   'buttons.show': 'Show'
   'buttons.signup': 'Sign Up'
+  'buttons.signup_now': 'Sign up Now ->'
   'buttons.swap': 'Swap'
   'buttons.swap_min': 'Swap Min'
   'buttons.swap_max': 'Swap Max'
@@ -2058,6 +2059,7 @@ type MessagesType = {
   'scenes.login.signingin_email': 'Signing in with {email}'
   'scenes.login.simplebuy.header': 'Buy Crypto With Credit Card'
   'scenes.login.wallet.link': "Don't have a wallet?"
+  'scenes.login.wallet.link_signup': "Don't have a Blockchain Wallet?"
   'scenes.login.wallet.exchange': 'Looking for Exchange?'
   'scenes.login.wallet.message.sent': 'Message Sent'
   'scenes.login.wallet.connected.title': 'Mobile Device Connected'

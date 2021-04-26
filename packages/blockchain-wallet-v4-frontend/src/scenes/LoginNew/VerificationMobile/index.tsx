@@ -40,7 +40,7 @@ const VerificationMobile = (props: InjectedFormProps<{}, Props> & Props) => {
         name='padlock'
         color='green600'
         size='20px'
-        style={{ padding: '16px 0 16px 4px' }}
+        style={{ padding: '0 0 16px 4px' }}
       />
       <Body>
         <TextColumn>

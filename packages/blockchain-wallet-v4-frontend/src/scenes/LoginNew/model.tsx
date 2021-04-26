@@ -66,7 +66,18 @@ export const CircleBackground = styled.div`
   min-width: 40px;
   background-color: ${props => props.theme.blue600};
   border-radius: 40px;
-  margin: 24px 0 8px 0;
+  margin-bottom: 8px;
+`
+export const SubCard = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 1.25rem;
+`
+export const SignUpText = styled(Text)`
+  &:hover {
+    color: ${props => props.theme.white};
+    font-weight: 600;
+  }
 `
 const TopRow = styled.div`
   display: flex;
@@ -107,7 +118,7 @@ const LinkRow = styled.div`
 `
 
 export const FooterButtons = (props: {
-  busy: boolean,
+  busy: boolean
   invalid: boolean
   submitting: boolean
 }) => {
