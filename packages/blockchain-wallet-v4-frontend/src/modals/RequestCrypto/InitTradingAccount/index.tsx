@@ -44,7 +44,7 @@ const InitTradingAccount: React.FC<Props> = props => {
       resultCopy={
         <FormattedMessage
           id='copy.trade_and_fund'
-          defaultMessage='Send, Receive and instantly fund your trades using the Trading Account.'
+          defaultMessage='Send, Receive, Buy and Swap cryptocurrencies with your Trading Account.'
         />
       }
     />

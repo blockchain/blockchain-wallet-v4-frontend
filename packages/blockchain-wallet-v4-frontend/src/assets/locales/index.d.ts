@@ -457,7 +457,7 @@ type MessagesType = {
   'copy.viewTransactions': 'View Transactions'
   'copy.to': 'To'
   'copy.to:': 'To: '
-  'copy.trade_and_fund': 'Send, Receive and instantly fund your trades using the Trading Account.'
+  'copy.trade_and_fund': 'Send, Receive, Buy and Swap cryptocurrencies with your Trading Account.'
   'copy.trading_account_access': 'Get Trading Account access'
   'copy.trading_get_access': 'Get access to the Trading Account in seconds by completing your profile and getting Silver access.'
   'copy.trading_start': 'Use the Trading Account'
