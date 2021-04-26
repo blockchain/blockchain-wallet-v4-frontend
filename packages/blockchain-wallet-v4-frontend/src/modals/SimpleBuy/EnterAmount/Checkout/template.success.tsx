@@ -7,12 +7,12 @@ import { Icon, Text } from 'blockchain-info-components'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import {
   coinToString,
-  fiatToString
+  fiatToString,
 } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   CoinType,
   OrderType,
-  SBPaymentMethodType
+  SBPaymentMethodType,
 } from 'blockchain-wallet-v4/src/types'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { AmountTextBox } from 'components/Exchange'
@@ -24,7 +24,7 @@ import { SBCheckoutFormValuesType } from 'data/types'
 import {
   CRYPTO_DECIMALS,
   FIAT_DECIMALS,
-  formatTextAmount
+  formatTextAmount,
 } from 'services/forms'
 
 import { Row } from '../../../Swap/EnterAmount/Checkout'
@@ -40,7 +40,7 @@ import {
   getMaxMin,
   getQuote,
   maximumAmount,
-  minimumAmount
+  minimumAmount,
 } from './validation'
 
 const { LIMIT, LIMIT_FACTOR } = model.components.simpleBuy
@@ -106,11 +106,11 @@ const ActionsItem = styled.div`
   flex-direction: column;
 `
 const CustomBlueCartridge = styled(BlueCartridge)`
-  border: 1px solid ${props => props.theme.blue000};
+  border: 1px solid ${(props) => props.theme.blue000};
   cursor: pointer;
 `
 const CustomErrorCartridge = styled(ErrorCartridge)`
-  border: 1px solid ${props => props.theme.red000};
+  border: 1px solid ${(props) => props.theme.red000};
   cursor: pointer;
 `
 const ErrorTextContainer = styled.div`
@@ -127,8 +127,8 @@ const ErrorText = styled(Text)`
   font-size: 14px;
   padding: 6px 12px;
   border-radius: 8px;
-  background-color: ${props => props.theme.red000};
-  color: ${props => props.theme.red800};
+  background-color: ${(props) => props.theme.red000};
+  color: ${(props) => props.theme.red800};
   margin-bottom: 16px;
   > div {
     cursor: pointer;
@@ -137,7 +137,7 @@ const ErrorText = styled(Text)`
 
 const BlueRedCartridge = ({
   children,
-  error
+  error,
 }: {
   children: ReactChild
   error: boolean
@@ -164,14 +164,14 @@ const normalizeAmount = (
   return formatTextAmount(value, allValues && allValues.fix === 'FIAT')
 }
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const {
     cards,
     cryptoCurrency,
     defaultMethod,
     fiatCurrency,
     method: selectedMethod,
-    orderType
+    orderType,
   } = props
   const [fontRatio, setRatio] = useState(1)
 
@@ -182,7 +182,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     const card = cards[0]
 
     const defaultCardMethod = props.paymentMethods.methods.find(
-      m => m.type === 'PAYMENT_CARD' && orderType === 'BUY'
+      (m) => m.type === 'PAYMENT_CARD' && orderType === 'BUY'
     )
     method = {
       ...card,
@@ -192,7 +192,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       limits:
         defaultCardMethod && defaultCardMethod.limits
           ? defaultCardMethod.limits
-          : { min: '500', max: '10000' }
+          : { min: '500', max: '10000' },
     } as SBPaymentMethodType
   }
 
@@ -223,12 +223,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   const limits = props.sddLimit || LIMIT
   const sddLimit = { ...limits }
-  if (
-    props.limits?.maxPossibleOrder &&
-    Number(props.limits.maxPossibleOrder) < Number(props.sddLimit.max)
-  ) {
-    sddLimit.max = props.limits.maxPossibleOrder
-  }
+
   const isDailyLimitExceeded =
     props.limits?.daily?.available && Number(props.limits.daily.available) === 0
 
@@ -327,16 +322,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     // @ts-ignore
     !props.payment.isSufficientEthForErc20
 
-  const getValue = value =>
+  const getValue = (value) =>
     fix === 'FIAT'
       ? fiatToString({
           digits,
           unit: fiatCurrency,
-          value
+          value,
         })
       : coinToString({
           value,
-          unit: { symbol: cryptoCurrency }
+          unit: { symbol: cryptoCurrency },
         })
 
   return (
@@ -357,7 +352,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   step: 'CRYPTO_SELECTION',
                   // Always reset back to walletCurrency
                   // Otherwise FUNDS currency and Pairs currency can mismatch
-                  fiatCurrency: props.walletCurrency || 'USD'
+                  fiatCurrency: props.walletCurrency || 'USD',
                 })
               }
             />
@@ -391,7 +386,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             fiatActive
             {...{
               autoFocus: true,
-              hideError: true
+              hideError: true,
             }}
           />
           {fix === 'CRYPTO' && (
@@ -412,7 +407,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   defaultMessage='{value} Minimum {orderType}'
                   values={{
                     value: getValue(min),
-                    orderType: 'Buy'
+                    orderType: 'Buy',
                   }}
                 />
               </CustomErrorCartridge>
@@ -469,7 +464,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       values={{
                         value: getValue(min),
                         orderType:
-                          props.orderType === OrderType.BUY ? 'Buy' : 'Sell'
+                          props.orderType === OrderType.BUY ? 'Buy' : 'Sell',
                       }}
                     />
                   </CustomErrorCartridge>
@@ -479,7 +474,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       id='modals.simplebuy.checkout.maxbuysell'
                       defaultMessage='{orderType} Max'
                       values={{
-                        orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell'
+                        orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell',
                       }}
                     />
                   </BlueRedCartridge>
@@ -488,7 +483,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </Amounts>
           )}
 
-        {(!props.isSddFlow || props.orderType === OrderType.SELL) &&
+        {!props.isSddFlow &&
+          props.orderType === OrderType.SELL &&
           props.pair &&
           Number(min) > Number(max) && (
             <Amounts>
@@ -600,7 +596,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               id='copy.not_enough_eth1'
               defaultMessage='ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in your Ether Wallet for this transaction, not Ether Trading Account.'
               values={{
-                coin: props.supportedCoins[cryptoCurrency].coinTicker
+                coin: props.supportedCoins[cryptoCurrency].coinTicker,
               }}
             />
           </ErrorText>
@@ -614,5 +610,5 @@ export type Props = OwnProps & SuccessStateType
 
 export default reduxForm<{}, Props>({
   form: 'simpleBuyCheckout',
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
 })(Success)
