@@ -39,7 +39,7 @@ export const getServerEntropy = (nBytes = DEFAULT_BYTES, api) => {
     )
   }
 
-  return api.getRandomBytes(nBytes, FORMAT).then(responseText => {
+  return api.getRandomBytes(nBytes, FORMAT).then((responseText) => {
     try {
       assert(isHex(responseText), 'Non-hex server entropy answer.')
 
@@ -62,12 +62,12 @@ export const mixEntropy = (localH, serverH, nBytes) => {
     assert(serverH.length > 0, 'Server entropy should not be empty.')
 
     assert(
-      !Array.prototype.every.call(localH, b => b === localH[0]),
+      !Array.prototype.every.call(localH, (b) => b === localH[0]),
       'The browser entropy should not be the same byte repeated.'
     )
 
     assert(
-      !Array.prototype.every.call(serverH, b => b === serverH[0]),
+      !Array.prototype.every.call(serverH, (b) => b === serverH[0]),
       'The server entropy should not be the same byte repeated.'
     )
 
@@ -79,7 +79,7 @@ export const mixEntropy = (localH, serverH, nBytes) => {
     let combinedH = xor(localH, serverH)
 
     assert(
-      !Array.prototype.every.call(combinedH, b => b === combinedH[0]),
+      !Array.prototype.every.call(combinedH, (b) => b === combinedH[0]),
       'The combined entropy should not be the same byte repeated.'
     )
 
@@ -98,12 +98,12 @@ export const mixEntropy = (localH, serverH, nBytes) => {
 
 // createRng :: Int -> Promise Rng Error
 const createRng = (maxBytes = DEFAULT_BYTES, api) => {
-  return getServerEntropy(maxBytes, api).then(serverH => {
+  return getServerEntropy(maxBytes, api).then((serverH) => {
     let localH = _overrides.randomBytes(maxBytes)
-    let entropy = serverH.chain(sH => mixEntropy(localH, sH, maxBytes))
+    let entropy = serverH.chain((sH) => mixEntropy(localH, sH, maxBytes))
 
     // Rng :: Int -> Buffer
-    return nBytes => {
+    return (nBytes) => {
       nBytes = isPositiveInteger(nBytes) ? nBytes : DEFAULT_BYTES
 
       if (entropy.isLeft) {
@@ -115,7 +115,7 @@ const createRng = (maxBytes = DEFAULT_BYTES, api) => {
       }
 
       let generated = entropy.value.slice(0, nBytes)
-      entropy = entropy.map(e => e.slice(nBytes))
+      entropy = entropy.map((e) => e.slice(nBytes))
       return generated
     }
   })

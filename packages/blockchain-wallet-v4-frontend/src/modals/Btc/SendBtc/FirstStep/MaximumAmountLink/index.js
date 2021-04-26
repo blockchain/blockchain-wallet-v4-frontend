@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import { Link } from 'blockchain-info-components'
 import { actions } from 'data'
 
-const MaximumAmountLink = props => (
+const MaximumAmountLink = (props) => (
   <Link
     size='12px'
     weight={400}
@@ -20,7 +20,7 @@ const MaximumAmountLink = props => (
   </Link>
 )
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.sendBtc, dispatch)
 })
 

@@ -881,7 +881,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const runGoals = function * () {
     const goals = yield select(selectors.goals.getGoals)
-    const goalTasks = yield all(map(goal => spawn(runGoal, goal), goals))
+    const goalTasks = yield all(map((goal) => spawn(runGoal, goal), goals))
     yield all(map(join, goalTasks))
     yield call(runInitialRedirect)
     yield call(showInitialModal)

@@ -28,8 +28,8 @@ class IneligibiltyWarning extends PureComponent<Props & SuccessStateType> {
     const { instruments, interestEligible } = this.props
 
     return interestEligible.cata({
-      Success: val => {
-        const ineligibilityReasonList = instruments.map(instrument => {
+      Success: (val) => {
+        const ineligibilityReasonList = instruments.map((instrument) => {
           return val[instrument]?.ineligibilityReason
         })
         return (
@@ -88,11 +88,11 @@ class IneligibiltyWarning extends PureComponent<Props & SuccessStateType> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   interestEligible: selectors.components.interest.getInterestEligible(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 const connector = connect(mapStateToProps, mapDispatchToProps)

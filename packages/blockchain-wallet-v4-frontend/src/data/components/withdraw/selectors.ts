@@ -27,7 +27,7 @@ export const getFeeForCurrency = (state: RootState, currency: string) => {
 
   return lift(
     (fees: ExtractSuccess<typeof feesR>) =>
-      fees.fees.filter(fee => fee.symbol === currency)[0] || {
+      fees.fees.filter((fee) => fee.symbol === currency)[0] || {
         symbol: currency,
         value: '0.00'
       }
@@ -38,7 +38,7 @@ export const getMinAmountForCurrency = (state: RootState, currency: string) => {
 
   return lift(
     (fees: ExtractSuccess<typeof feesR>) =>
-      fees.minAmounts.filter(fee => fee.symbol === currency)[0] || {
+      fees.minAmounts.filter((fee) => fee.symbol === currency)[0] || {
         symbol: currency,
         value: MIN_AMOUNT
       }

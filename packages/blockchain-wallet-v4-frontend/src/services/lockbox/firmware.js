@@ -4,10 +4,10 @@ import constants from './constants'
 import utils from './utils'
 
 // gets firmware information about device
-const getDeviceFirmwareInfo = transport => {
+const getDeviceFirmwareInfo = (transport) => {
   return new Promise((resolve, reject) => {
     transport.send(...constants.apdus.get_firmware).then(
-      res => {
+      (res) => {
         const byteArray = [...res]
         const data = byteArray.slice(0, byteArray.length - 2)
         const targetIdStr = Buffer.from(data.slice(0, 4))
@@ -47,7 +47,7 @@ const getDeviceFirmwareInfo = transport => {
 
         resolve({ targetId, seVersion, flags, mcuVersion })
       },
-      error => {
+      (error) => {
         reject(error)
       }
     )

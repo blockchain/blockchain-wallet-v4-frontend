@@ -6,16 +6,16 @@ import styled from 'styled-components'
 import Images from './Images'
 
 const BaseImage = styled.img`
-  width: ${props => props.width};
-  height: ${props => props.height};
-  color: ${props => props.color};
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+  color: ${(props) => props.color};
 `
 
-const Image = props => {
+const Image = (props) => {
   const { name, srcset, ...rest } = props
   const file = Images[name]
   const srcSet = srcset
-    ? keysIn(srcset).map(name => `${Images[name]} ${srcset[name]}`)
+    ? keysIn(srcset).map((name) => `${Images[name]} ${srcset[name]}`)
     : []
   if (!file) {
     return <img />

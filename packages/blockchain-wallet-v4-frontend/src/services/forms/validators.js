@@ -24,67 +24,61 @@ import * as M from './validationMessages'
 
 const { BAD_2FA } = model.profile.ERROR_TYPES
 
-const isObject = val => {
+const isObject = (val) => {
   return val != null && typeof val === 'object' && Array.isArray(val) === false
 }
 
-export const required = value => (value ? undefined : <M.RequiredMessage />)
+export const required = (value) => (value ? undefined : <M.RequiredMessage />)
 
-export const maxValue = (max, canEqual = false) => value =>
+export const maxValue = (max, canEqual = false) => (value) =>
   value && gt(value, max) ? (
     <M.ValueOverMaxMessage />
   ) : !canEqual && value && +value === max ? (
     <M.ValueIsEqualToMaxMessage />
-  ) : (
-    undefined
-  )
+  ) : undefined
 
-export const optional = validator => value =>
+export const optional = (validator) => (value) =>
   value === undefined || value === '' ? undefined : validator(value)
 
-export const termsCheckBoxChecked = value =>
+export const termsCheckBoxChecked = (value) =>
   value ? undefined : <M.UnacceptedTermsMessage />
 
-export const validNumber = value =>
+export const validNumber = (value) =>
   isNumeric(value) ? undefined : <M.InvalidNumberMessage />
 
-export const requiredNumber = value =>
+export const requiredNumber = (value) =>
   isNumeric(value) && value > 0 ? undefined : <M.RequiredNumberMessage />
 
-export const validEmail = value =>
+export const validEmail = (value) =>
   isEmail(value) ? undefined : <M.InvalidEmailMessage />
 
-export const validEmailNotAllowed = value =>
+export const validEmailNotAllowed = (value) =>
   isEmail(value) ? <M.ValidEmailNotAllowed /> : undefined
 
-export const validMnemonic = value =>
+export const validMnemonic = (value) =>
   bip39.validateMnemonic(value) ? undefined : <M.InvalidPassphraseMessage />
 
-export const validWalletId = value =>
+export const validWalletId = (value) =>
   isGuid(value) ? undefined : <M.InvalidWalletIdMessage />
 
-export const validMobileNumber = value =>
+export const validMobileNumber = (value) =>
   isValidNumber(value) ? undefined : <M.InvalidMobileNumberMessage />
 
-export const validIpList = ipList => {
-  return !ipList || all(isIpValid)(ipList.split(',')) ? (
-    undefined
-  ) : (
+export const validIpList = (ipList) => {
+  return !ipList || all(isIpValid)(ipList.split(',')) ? undefined : (
     <M.InvalidIpListMessage />
   )
 }
 
-export const validStrongPassword = value => {
+export const validStrongPassword = (value) => {
   return value !== undefined &&
     window.zxcvbn &&
-    window.zxcvbn(value).score > 1 ? (
-    undefined
-  ) : (
+    window.zxcvbn(value).score > 1 ? undefined : (
     <M.InvalidStrongPassword />
   )
 }
 
-export const validPasswordConfirmation = passwordFieldName => (
+export const validPasswordConfirmation = (passwordFieldName) => (
   value,
   allValues
 ) =>
@@ -102,10 +96,8 @@ export const isNotCurrentPassword = (
   { currentWalletPassword }
 ) => (value !== currentWalletPassword ? undefined : <M.SamePasswordAsCurrent />)
 
-export const validPasswordStretchingNumber = value =>
-  value > 1 && value <= 20000 ? (
-    undefined
-  ) : (
+export const validPasswordStretchingNumber = (value) =>
+  value > 1 && value <= 20000 ? undefined : (
     <M.InvalidPasswordStretchingNumberMessage />
   )
 
@@ -116,9 +108,7 @@ export const validEthAddress = ({ value: dropdownValue }) => {
   if (address === BAD_2FA) {
     return <M.ExchangeRequires2FAMessage />
   }
-  return utils.eth.isValidAddress(address) ? (
-    undefined
-  ) : (
+  return utils.eth.isValidAddress(address) ? undefined : (
     <M.InvalidEthAddressMessage />
   )
 }
@@ -130,9 +120,7 @@ export const validXlmAddress = ({ value: dropdownValue }) => {
   if (address === BAD_2FA) {
     return <M.ExchangeRequires2FAMessage />
   }
-  return utils.xlm.isValidAddress(address) ? (
-    undefined
-  ) : (
+  return utils.xlm.isValidAddress(address) ? undefined : (
     <M.InvalidXlmAddressMessage />
   )
 }
@@ -152,9 +140,7 @@ export const validBtcAddress = (value, allValues, props) => {
     return <M.ExchangeRequires2FAMessage />
   }
 
-  return utils.btc.isValidBtcAddress(address, props.network) ? (
-    undefined
-  ) : (
+  return utils.btc.isValidBtcAddress(address, props.network) ? undefined : (
     <M.InvalidBtcAddressMessage />
   )
 }
@@ -172,56 +158,51 @@ export const validBchAddress = (value, allValues, props) => {
     return <M.ExchangeRequires2FAMessage />
   }
   return utils.btc.isValidBtcAddress(address, props.network) ||
-    utils.bch.isCashAddr(address) ? (
-    undefined
-  ) : (
+    utils.bch.isCashAddr(address) ? undefined : (
     <M.InvalidBchAddressMessage />
   )
 }
 
-export const validEmailCode = value =>
+export const validEmailCode = (value) =>
   isAlphaNumeric(value) ? undefined : <M.InvalidEmailCodeMessage />
 
 export const validBtcPrivateKey = (value, allValues, props) =>
-  utils.btc.isValidBtcPrivateKey(value, props.network) ? (
-    undefined
-  ) : (
+  utils.btc.isValidBtcPrivateKey(value, props.network) ? undefined : (
     <M.InvalidBtcPrivateKeyMessage />
   )
 
 export const validBtcAddressOrPrivateKey = (value, allValues, props) =>
   utils.btc.isValidBtcPrivateKey(value, props.network) ||
-  utils.btc.isValidBtcAddress(value, props.network) ? (
-    undefined
-  ) : (
+  utils.btc.isValidBtcAddress(value, props.network) ? undefined : (
     <M.InvalidBtcAddressAndPrivateKeyMessage />
   )
 
-export const isSegwitAddress = value =>
+export const isSegwitAddress = (value) =>
   utils.btc.isSegwitAddress(value) ? <M.SegwitAddressMessage /> : undefined
 
-export const validIban = value =>
+export const validIban = (value) =>
   isValidIBAN(value) ? undefined : 'Invalid IBAN'
 
-export const validBIC = value => (isValidBIC(value) ? undefined : 'Invalid BIC')
+export const validBIC = (value) =>
+  isValidBIC(value) ? undefined : 'Invalid BIC'
 
-export const ageOverEighteen = value =>
+export const ageOverEighteen = (value) =>
   isOverEighteen(value) ? undefined : <M.AgeOverEighteenMessage />
 
-export const requiredSSN = value =>
+export const requiredSSN = (value) =>
   isSSN(value) ? undefined : <M.RequiredSSNMessage />
 
-export const requiredDOB = value =>
+export const requiredDOB = (value) =>
   isDOB(value) ? undefined : <M.RequiredDOBMessage />
 
-export const requiredUsZipcode = value =>
+export const requiredUsZipcode = (value) =>
   isUsZipcode(value) ? undefined : <M.RequiredUSZipCodeMessage />
 
-export const countryUsesPostalCode = countryCode => {
+export const countryUsesPostalCode = (countryCode) => {
   return path([countryCode, 'postalCodeFormat'], postalCodes)
 }
 
-export const countryUsesZipcode = countryCode => countryCode === 'US'
+export const countryUsesZipcode = (countryCode) => countryCode === 'US'
 
 export const requiredZipCode = (value, allVals) => {
   const countryCode =
@@ -229,9 +210,7 @@ export const requiredZipCode = (value, allVals) => {
   if (!path([countryCode, 'postalCodeFormat'], postalCodes)) return undefined
   if (!value) return <M.RequiredMessage />
 
-  return validate(countryCode, value) === true ? (
-    undefined
-  ) : (
+  return validate(countryCode, value) === true ? undefined : (
     <M.InvalidZipCodeMessage />
   )
 }
@@ -239,16 +218,12 @@ export const requiredZipCode = (value, allVals) => {
 export const requireUniqueDeviceName = (value, usedDeviceNames) => {
   return any(equals(value))(usedDeviceNames) ? (
     <M.UniqueDeviceName />
-  ) : (
-    undefined
-  )
+  ) : undefined
 }
 
 export const requireUniqueWalletName = (value, allWalletLabels, index) => {
   const walletIdx = allWalletLabels.indexOf(value)
   return walletIdx !== index && walletIdx > -1 ? (
     <M.UniqueWalletName />
-  ) : (
-    undefined
-  )
+  ) : undefined
 }

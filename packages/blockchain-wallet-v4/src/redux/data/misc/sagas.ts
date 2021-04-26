@@ -16,7 +16,7 @@ import * as wS from '../../wallet/selectors'
 import * as A from './actions'
 import { start } from './model'
 
-const taskToPromise = t =>
+const taskToPromise = (t) =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api }: { api: APIType }) => {

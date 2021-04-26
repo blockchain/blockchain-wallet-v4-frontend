@@ -21,9 +21,7 @@ export const maximumAmount = (value: string, allValues, restProps: Props) => {
         amount: formattedMax
       }}
     />
-  ) : (
-    undefined
-  )
+  ) : undefined
 }
 
 export const minimumAmount = (value: string, allValues, restProps: Props) => {
@@ -40,7 +38,5 @@ export const minimumAmount = (value: string, allValues, restProps: Props) => {
         amount: formattedMin
       }}
     />
-  ) : (
-    undefined
-  )
+  ) : undefined
 }

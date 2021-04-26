@@ -89,7 +89,7 @@ const QRCodeBox = styled.div`
   display: flex;
   padding: 16px;
   border-radius: 8px;
-  border: 1px solid ${props => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.grey000};
 `
 const IconContainer = styled.div`
   display: flex;
@@ -105,10 +105,10 @@ const FiatContainer = styled.div`
   display: inline-block;
   padding: 4px 8px;
   border-radius: 20px;
-  background-color: ${props => props.theme.grey000};
+  background-color: ${(props) => props.theme.grey000};
 `
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const collateralRequired = getCollateralAmtRequired(props.loan, props.offer)
   const isPositiveAmtRequired = Number(collateralRequired) > 0
 
@@ -308,7 +308,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   values: selectors.form.getFormValues('borrowForm')(state)
 })
 

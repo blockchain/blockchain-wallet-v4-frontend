@@ -30,10 +30,10 @@ const CoinPerformanceContainer = ({
   }, [coin])
 
   return data.cata({
-    Success: value => (
+    Success: (value) => (
       <Chart currency={currency} coin={value.coin} data={value.data} />
     ),
-    Failure: error => (
+    Failure: (error) => (
       <ErrorWrapper>
         <Text size='12px' weight={400} color='red600'>
           {error}
@@ -47,7 +47,7 @@ const CoinPerformanceContainer = ({
 
 const mapStateToProps = (state, ownProps) => getData(state, ownProps)
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   priceChartActions: bindActionCreators(actions.components.priceChart, dispatch)
 })
 

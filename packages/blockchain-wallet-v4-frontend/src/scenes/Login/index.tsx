@@ -40,7 +40,7 @@ class LoginContainer extends React.PureComponent<Props> {
 
     const { busy, error } = data.cata({
       Success: () => ({ error: null, busy: false }),
-      Failure: val => ({ error: val.err, busy: false }),
+      Failure: (val) => ({ error: val.err, busy: false }),
       Loading: () => ({ error: null, busy: true }),
       NotAsked: () => ({ error: null, busy: false })
     })
@@ -66,7 +66,7 @@ class LoginContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   authType: selectors.auth.getAuthType(state),
   code: formValueSelector('login')(state, 'code'),
   data: selectors.auth.getLogin(state),
@@ -99,7 +99,7 @@ const mapStateToProps = state => ({
     .getOrElse({} as SupportedWalletCurrenciesType)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch),
   cacheActions: bindActionCreators(actions.cache, dispatch),

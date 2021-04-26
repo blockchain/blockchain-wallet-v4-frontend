@@ -282,8 +282,8 @@ describe('Coin Selection', () => {
       const estimatedFee = estimatedSize * feePerByte // 205700
 
       expect(selection.fee).toEqual(estimatedFee)
-      expect(selection.inputs.map(x => x.value)).toEqual([20000, 300000])
-      expect(selection.outputs.map(x => x.value)).toEqual([
+      expect(selection.inputs.map((x) => x.value)).toEqual([20000, 300000])
+      expect(selection.outputs.map((x) => x.value)).toEqual([
         10000,
         300000 + 20000 - 10000 - estimatedFee
       ])
@@ -301,7 +301,7 @@ describe('Coin Selection', () => {
       ])
 
       const selection = cs.selectAll(55, inputs)
-      expect(selection.inputs.map(x => x.value)).toEqual([20000, 300000])
+      expect(selection.inputs.map((x) => x.value)).toEqual([20000, 300000])
 
       // overhead + inputs + outputs
       // 55 * (10 + 148 * 2 + 34 * 1) = 55 * 340 = 18700
@@ -309,14 +309,14 @@ describe('Coin Selection', () => {
 
       // change = inputs - outputs - fee
       // 20000 + 300000 - 18700 = 301300
-      expect(selection.outputs.map(x => x.value)).toEqual([301300])
+      expect(selection.outputs.map((x) => x.value)).toEqual([301300])
     })
     it('should return the right selection without inputs', () => {
       const inputs = map(Coin.fromJS, [])
       const selection = cs.selectAll(55, inputs)
       expect(selection.fee).toEqual(0)
-      expect(selection.inputs.map(x => x.value)).toEqual([])
-      expect(selection.outputs.map(x => x.value)).toEqual([0])
+      expect(selection.inputs.map((x) => x.value)).toEqual([])
+      expect(selection.outputs.map((x) => x.value)).toEqual([0])
     })
   })
 
@@ -334,7 +334,7 @@ describe('Coin Selection', () => {
       const targets = map(Coin.fromJS, [{ value: 100000 }])
       const selection = cs.descentDraw(targets, 55, inputs, 'change-address')
 
-      expect(selection.inputs.map(x => x.value)).toEqual([20000, 300000])
+      expect(selection.inputs.map((x) => x.value)).toEqual([20000, 300000])
 
       // overhead + inputs + outputs
       // 55 * (10 + 148 * 2 + 34 * 2) = 20570
@@ -342,7 +342,7 @@ describe('Coin Selection', () => {
 
       // change = inputs - outputs - fee
       // 20000 + 300000 - 100000 - 20570 = 199430
-      expect(selection.outputs.map(x => x.value)).toEqual([100000, 199430])
+      expect(selection.outputs.map((x) => x.value)).toEqual([100000, 199430])
     })
   })
 
@@ -359,7 +359,7 @@ describe('Coin Selection', () => {
       ])
       const targets = map(Coin.fromJS, [{ value: 100000 }])
       const selection = cs.ascentDraw(targets, 55, inputs, 'change-address')
-      expect(selection.inputs.map(x => x.value)).toEqual([20000, 300000])
+      expect(selection.inputs.map((x) => x.value)).toEqual([20000, 300000])
 
       // overhead + inputs + outputs
       // 55 * (10 + 148 * 2 + 34 * 2) = 20570
@@ -367,7 +367,7 @@ describe('Coin Selection', () => {
 
       // change = inputs - outputs - fee
       // 20000 + 300000 - 100000 - 20570 = 199430
-      expect(selection.outputs.map(x => x.value)).toEqual([100000, 199430])
+      expect(selection.outputs.map((x) => x.value)).toEqual([100000, 199430])
     })
   })
 
@@ -392,8 +392,8 @@ describe('Coin Selection', () => {
         seed
       )
       expect(selection.fee).toEqual(20000)
-      expect(selection.inputs.map(x => x.value)).toEqual([30000, 50000])
-      expect(selection.outputs.map(x => x.value)).toEqual([60000])
+      expect(selection.inputs.map((x) => x.value)).toEqual([30000, 50000])
+      expect(selection.outputs.map((x) => x.value)).toEqual([60000])
     })
   })
 })

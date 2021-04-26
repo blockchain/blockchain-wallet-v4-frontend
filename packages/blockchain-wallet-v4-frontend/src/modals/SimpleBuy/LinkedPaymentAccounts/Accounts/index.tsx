@@ -39,7 +39,7 @@ const TopText = styled(Text)`
   margin-bottom: 7px;
 `
 const PaymentsWrapper = styled.div`
-  border-top: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 const NoMethods = styled(FlyoutWrapper)`
   text-align: center;
@@ -48,7 +48,7 @@ const IconContainer = styled.div`
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: ${props => props.theme.blue000};
+  background-color: ${(props) => props.theme.blue000};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -141,7 +141,7 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         if (!card) {
           return <></>
         }
-        const cardType = CARD_TYPES.find(cc => cc.type === card.type)
+        const cardType = CARD_TYPES.find((cc) => cc.type === card.type)
         return (
           <img
             height='18px'
@@ -185,24 +185,24 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   render() {
     const { orderType } = this.props
     const availableBankAccounts = this.props.bankTransferAccounts.filter(
-      account => account.state === 'ACTIVE' && orderType === OrderType.BUY
+      (account) => account.state === 'ACTIVE' && orderType === OrderType.BUY
     )
     const availableCards = this.props.cards.filter(
-      card => card.state === 'ACTIVE' && orderType === OrderType.BUY
+      (card) => card.state === 'ACTIVE' && orderType === OrderType.BUY
     )
 
-    const defaultMethods = this.props.paymentMethods.methods.map(value => ({
+    const defaultMethods = this.props.paymentMethods.methods.map((value) => ({
       text: this.getType(value),
       value
     }))
 
     const bankTransfer = defaultMethods.find(
-      method =>
+      (method) =>
         method.value.type === 'BANK_TRANSFER' && orderType === OrderType.BUY
     )
 
     const funds = defaultMethods.filter(
-      method =>
+      (method) =>
         method.value.type === 'FUNDS' &&
         method.value.currency in WalletFiatEnum &&
         (orderType === OrderType.SELL ||
@@ -215,9 +215,9 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     // use this to get min/max for card buys from eligible/payment-methods
     // limits aren't available on availableCards
     const cardMethod = defaultMethods.find(
-      method => method.value.type === 'PAYMENT_CARD'
+      (method) => method.value.type === 'PAYMENT_CARD'
     )
-    const cardMethods = availableCards.map(card => ({
+    const cardMethods = availableCards.map((card) => ({
       text: card.card
         ? card.card.label
           ? card.card.label
@@ -235,7 +235,7 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       } as SBPaymentMethodType
     }))
 
-    const bankMethods = availableBankAccounts.map(account => ({
+    const bankMethods = availableBankAccounts.map((account) => ({
       text: account.details ? (
         account.details.accountName ? (
           account.details.accountName

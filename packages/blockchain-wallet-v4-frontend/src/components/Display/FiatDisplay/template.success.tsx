@@ -12,13 +12,13 @@ const Wrapper = styled.div`
   align-items: center;
 `
 const FiatText = styled(Text)<{ mobileSize: string }>`
-  font-size: ${props => props.mobileSize};
+  font-size: ${(props) => props.mobileSize};
   ${media.atLeastMobile`
-    font-size: ${props => props.size};
+    font-size: ${(props) => props.size};
   `}
 `
 
-const FiatDisplay = props => {
+const FiatDisplay = (props) => {
   const {
     children,
     className,

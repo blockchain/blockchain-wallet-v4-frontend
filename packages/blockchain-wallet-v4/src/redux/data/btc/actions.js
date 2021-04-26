@@ -8,11 +8,11 @@ export const setBtcLatestBlock = (block_index, hash, height, time) => ({
 // FETCH_BTC_DATA
 export const fetchData = () => ({ type: AT.FETCH_BTC_DATA })
 export const fetchDataLoading = () => ({ type: AT.FETCH_BTC_DATA_LOADING })
-export const fetchDataSuccess = data => ({
+export const fetchDataSuccess = (data) => ({
   type: AT.FETCH_BTC_DATA_SUCCESS,
   payload: data
 })
-export const fetchDataFailure = error => ({
+export const fetchDataFailure = (error) => ({
   type: AT.FETCH_BTC_DATA_FAILURE,
   payload: error
 })
@@ -40,11 +40,11 @@ export const fetchRates = () => ({ type: AT.FETCH_BTC_RATES })
 export const fetchRatesLoading = () => ({
   type: AT.FETCH_BTC_RATES_LOADING
 })
-export const fetchRatesSuccess = data => ({
+export const fetchRatesSuccess = (data) => ({
   type: AT.FETCH_BTC_RATES_SUCCESS,
   payload: data
 })
-export const fetchRatesFailure = error => ({
+export const fetchRatesFailure = (error) => ({
   type: AT.FETCH_BTC_RATES_FAILURE,
   payload: error
 })
@@ -54,7 +54,7 @@ export const fetchTransactions = (address, reset, filter) => ({
   type: AT.FETCH_BTC_TRANSACTIONS,
   payload: { address, reset, filter }
 })
-export const fetchTransactionsLoading = reset => ({
+export const fetchTransactionsLoading = (reset) => ({
   type: AT.FETCH_BTC_TRANSACTIONS_LOADING,
   payload: { reset }
 })
@@ -62,11 +62,11 @@ export const fetchTransactionsSuccess = (transactions, reset, isFinalPage) => ({
   type: AT.FETCH_BTC_TRANSACTIONS_SUCCESS,
   payload: { transactions, reset, isFinalPage }
 })
-export const fetchTransactionsFailure = error => ({
+export const fetchTransactionsFailure = (error) => ({
   type: AT.FETCH_BTC_TRANSACTIONS_FAILURE,
   payload: error
 })
-export const transactionsAtBound = payload => ({
+export const transactionsAtBound = (payload) => ({
   type: AT.BTC_TRANSACTIONS_AT_BOUND,
   payload
 })
@@ -79,11 +79,11 @@ export const fetchTransactionHistory = (address, start, end) => ({
 export const fetchTransactionHistoryLoading = () => ({
   type: AT.FETCH_BTC_TRANSACTION_HISTORY_LOADING
 })
-export const fetchTransactionHistorySuccess = data => ({
+export const fetchTransactionHistorySuccess = (data) => ({
   type: AT.FETCH_BTC_TRANSACTION_HISTORY_SUCCESS,
   payload: data
 })
-export const fetchTransactionHistoryFailure = error => ({
+export const fetchTransactionHistoryFailure = (error) => ({
   type: AT.FETCH_BTC_TRANSACTION_HISTORY_FAILURE,
   payload: error
 })

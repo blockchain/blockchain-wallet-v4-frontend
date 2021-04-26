@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux'
 import { Link } from 'blockchain-info-components'
 import { actions } from 'data'
 
-const RegularFeeLink = props => (
+const RegularFeeLink = (props) => (
   <Link
     size='12px'
     weight={400}
@@ -26,7 +26,7 @@ RegularFeeLink.propTypes = {
   fee: PropTypes.number.isRequired
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.sendBtc, dispatch)
 })
 

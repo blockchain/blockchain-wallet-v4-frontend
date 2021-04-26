@@ -8,7 +8,7 @@ export default ({ authorizedGet, authorizedPost, get, nabuUrl, post }) => {
       data: { scope: 'kyc' }
     })
 
-  const getSupportedDocuments = countryCode =>
+  const getSupportedDocuments = (countryCode) =>
     authorizedGet({
       url: nabuUrl,
       endPoint: `/kyc/supported-documents/${countryCode}`
@@ -28,7 +28,7 @@ export default ({ authorizedGet, authorizedPost, get, nabuUrl, post }) => {
       cancelToken
     })
 
-  const fetchUploadData = token =>
+  const fetchUploadData = (token) =>
     get({
       url: nabuUrl,
       endPoint: `/upload/data/${token}`
@@ -48,7 +48,7 @@ export default ({ authorizedGet, authorizedPost, get, nabuUrl, post }) => {
       headers: { 'x-client-type': 'WEB' }
     })
 
-  const syncVeriff = applicantId =>
+  const syncVeriff = (applicantId) =>
     authorizedPost({
       url: nabuUrl,
       endPoint: '/kyc/verifications',
@@ -87,7 +87,7 @@ export default ({ authorizedGet, authorizedPost, get, nabuUrl, post }) => {
       endPoint: '/kyc/tiers'
     })
 
-  const selectTier = selectedTier =>
+  const selectTier = (selectedTier) =>
     authorizedPost({
       url: nabuUrl,
       contentType: 'application/json',

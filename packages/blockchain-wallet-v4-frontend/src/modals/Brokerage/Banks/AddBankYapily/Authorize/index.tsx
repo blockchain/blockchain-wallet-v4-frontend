@@ -11,9 +11,9 @@ import { getData } from './selectors'
 import Failure from './template.error'
 import Success from './template.success'
 
-const Authorize = props => {
+const Authorize = (props) => {
   return props.data.cata({
-    Success: val => <Success {...props} {...val} />,
+    Success: (val) => <Success {...props} {...val} />,
     Failure: () => <Failure {...props} />,
     Loading: () => <Loading />,
     NotAsked: () => <Loading />

@@ -8,7 +8,7 @@ const formSelector = formValueSelector('mobileNumberChange')
 export const getData = createDeepEqualSelector(
   [
     selectors.core.settings.getSmsNumber,
-    state => formSelector(state, 'mobileNumber')
+    (state) => formSelector(state, 'mobileNumber')
   ],
   (currentNumber, smsNumberNew) => ({
     smsNumberNew,

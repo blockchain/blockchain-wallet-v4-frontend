@@ -74,7 +74,7 @@ class SimpleBuy extends PureComponent<Props, State> {
 
   render() {
     return this.props.data.cata({
-      Success: val => {
+      Success: (val) => {
         const { userData } = val
         const { kycState } = userData
         const isUserRejectedOrExpired =

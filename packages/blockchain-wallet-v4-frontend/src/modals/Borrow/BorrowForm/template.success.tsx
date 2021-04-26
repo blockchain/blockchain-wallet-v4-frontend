@@ -78,7 +78,7 @@ const FiatContainer = styled.div`
   display: inline-block;
   padding: 4px 8px;
   border-radius: 20px;
-  background-color: ${props => props.theme.grey000};
+  background-color: ${(props) => props.theme.grey000};
 `
 
 const ButtonContainer = styled.div`
@@ -91,7 +91,7 @@ const ButtonContainer = styled.div`
   }
 `
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   // TODO: Borrow - make dynamic
   const displayName = props.supportedCoins['PAX'].displayName
 
@@ -215,7 +215,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   values: selectors.form.getFormValues('borrowForm')(state)
 })
 

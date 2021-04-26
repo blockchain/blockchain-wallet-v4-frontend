@@ -26,9 +26,7 @@ export type CampaignInfoType = {
   campaignState: CampaignState
   updatedAt: string
   userCampaignState?: UserCampaignState
-  userCampaignTransactionResponseList: Array<
-    UserCampaignTransactionResponseType
-  >
+  userCampaignTransactionResponseList: Array<UserCampaignTransactionResponseType>
 }
 
 export type KycStateType =

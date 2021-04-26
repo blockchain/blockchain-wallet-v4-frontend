@@ -23,14 +23,14 @@ import * as Coin from './coin.js'
 const VBYTES_PER_WEIGHT_UNIT = 4
 
 // isFromAccount :: selection -> boolean
-export const isFromAccount = selection =>
+export const isFromAccount = (selection) =>
   selection.inputs[0] ? selection.inputs[0].isFromAccount() : false
 
 // isFromLegacy :: selection -> boolean
-export const isFromLegacy = selection =>
+export const isFromLegacy = (selection) =>
   selection.inputs[0] ? selection.inputs[0].isFromLegacy() : false
 
-export const dustThreshold = feeRate =>
+export const dustThreshold = (feeRate) =>
   Math.ceil((Coin.inputBytes({}) + Coin.outputBytes({})) * feeRate)
 
 export const transactionBytes = (inputs, outputs) => {
@@ -56,7 +56,7 @@ export const changeBytes = () => Coin.TX_OUTPUT_BASE + Coin.TX_OUTPUT_PUBKEYHASH
 export const effectiveBalance = curry((feePerByte, inputs, outputs = [{}]) =>
   List(inputs)
     .fold(Coin.empty)
-    .overValue(v =>
+    .overValue((v) =>
       clamp(
         0,
         Infinity,
@@ -68,7 +68,7 @@ export const effectiveBalance = curry((feePerByte, inputs, outputs = [{}]) =>
 // findTarget :: [Coin(x), ..., Coin(y)] -> Number -> [Coin(a), ..., Coin(b)] -> Selection
 const ft = (targets, feePerByte, coins, changeAddress) => {
   const target = List(targets).fold(Coin.empty).value
-  const _findTarget = seed => {
+  const _findTarget = (seed) => {
     const acc = seed[0]
     const newCoin = head(seed[2])
     if (isNil(newCoin) || acc > target + seed[1]) {
@@ -86,7 +86,7 @@ const ft = (targets, feePerByte, coins, changeAddress) => {
   }
   const partialFee = Math.ceil(transactionBytes([], targets) * feePerByte)
   const effectiveCoins = filter(
-    c => Coin.effectiveValue(feePerByte, c) > 0,
+    (c) => Coin.effectiveValue(feePerByte, c) > 0,
     coins
   )
   const selection = unfold(_findTarget, [0, partialFee, effectiveCoins])
@@ -96,7 +96,7 @@ const ft = (targets, feePerByte, coins, changeAddress) => {
   } else {
     const maxBalance = last(selection)[0]
     const fee = last(selection)[1]
-    const selectedCoins = map(e => e[2], selection)
+    const selectedCoins = map((e) => e[2], selection)
     if (maxBalance < target + fee) {
       // not enough money to satisfy target
       return { fee: fee, inputs: [], outputs: targets }
@@ -129,7 +129,7 @@ export const findTarget = memoize(ft)
 // singleRandomDraw :: Number -> [Coin(a), ..., Coin(b)] -> String -> Selection
 export const selectAll = (feePerByte, coins, outAddress) => {
   const effectiveCoins = filter(
-    c => Coin.effectiveValue(feePerByte, c) > 0,
+    (c) => Coin.effectiveValue(feePerByte, c) > 0,
     coins
   )
   const effBalance = effectiveBalance(feePerByte, effectiveCoins).value
@@ -215,14 +215,14 @@ export const getByteCount = (inputs, outputs) => {
       : 9
   }
 
-  Object.keys(inputs).forEach(function(key) {
+  Object.keys(inputs).forEach(function (key) {
     checkUInt53(inputs[key])
     vBytesTotal += IO_TYPES.inputs[key] * inputs[key]
     inputCount += inputs[key]
     if (key.indexOf('W') >= 0) hasWitness = true
   })
 
-  Object.keys(outputs).forEach(function(key) {
+  Object.keys(outputs).forEach(function (key) {
     checkUInt53(outputs[key])
     vBytesTotal += IO_TYPES.outputs[key] * outputs[key]
     outputCount += outputs[key]

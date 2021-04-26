@@ -15,7 +15,7 @@ const rotateAnimation = css`
   animation: ${rotateFrames} 2.5s linear infinite;
 `
 
-export const RotateSync = props => {
+export const RotateSync = (props) => {
   const RotateIcon = styled(Icon)`
     ${rotateAnimation};
   `

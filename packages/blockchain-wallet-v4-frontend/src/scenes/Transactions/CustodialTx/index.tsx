@@ -37,7 +37,7 @@ import {
   TransactionType
 } from './model'
 
-const CustodialTxListItem: React.FC<Props> = props => {
+const CustodialTxListItem: React.FC<Props> = (props) => {
   const [isToggled, setIsToggled] = useState(false)
   const { tx } = props
   return (

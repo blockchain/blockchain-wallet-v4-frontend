@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
 
-const wizard = (name, totalSteps) => Component => {
+const wizard = (name, totalSteps) => (Component) => {
   class WizardProvider extends React.PureComponent {
     constructor(props) {
       super(props)
@@ -41,11 +41,11 @@ const wizard = (name, totalSteps) => Component => {
     }
   }
 
-  const mapStateToProps = state => ({
+  const mapStateToProps = (state) => ({
     step: selectors.wizard.selectStep(name, state)
   })
 
-  const mapDispatchToProps = dispatch => ({
+  const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators(actions.wizard, dispatch)
   })
 

@@ -3,10 +3,10 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   position: relative;
-  width: ${props => props.width || '100%'};
+  width: ${(props) => props.width || '100%'};
 `
 
-const FormGroup = props => {
+const FormGroup = (props) => {
   const { children, ...rest } = props
 
   return <Wrapper {...rest}>{children}</Wrapper>

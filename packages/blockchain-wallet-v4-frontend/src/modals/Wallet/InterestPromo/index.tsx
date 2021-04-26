@@ -10,7 +10,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import { getData } from './selectors'
 import Success from './template'
 
-const InterestPromo: React.FC<Props> = props => {
+const InterestPromo: React.FC<Props> = (props) => {
   useEffect(() => {
     props.interestActions.fetchInterestRate()
   }, [])
@@ -18,7 +18,7 @@ const InterestPromo: React.FC<Props> = props => {
   return (
     <>
       {props.data.cata({
-        Success: val => <Success {...props} {...val} />,
+        Success: (val) => <Success {...props} {...val} />,
         Failure: () => null,
         Loading: () => null,
         NotAsked: () => null

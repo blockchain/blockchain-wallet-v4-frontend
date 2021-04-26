@@ -27,7 +27,7 @@ const CancelBtn = styled(Text)`
   }
 `
 
-const ShowUsedAddresses = props => {
+const ShowUsedAddresses = (props) => {
   const { busy, closeAll, position, total, ...rest } = props
   const { handleContinue } = rest
 

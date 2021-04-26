@@ -35,7 +35,7 @@ const setPairProp = (lens, fn, pair, state) => {
   const pairValue = set(lens, fn, getPair(pair, state.pairs))
   return assocPath(['pairs', pair], pairValue, state)
 }
-const getError = error => {
+const getError = (error) => {
   const description = prop('description', error)
   if (description === MIN_ERROR) return MIN_ERROR
   if (new RegExp(MAX_ERROR).test(description)) return MAX_ERROR

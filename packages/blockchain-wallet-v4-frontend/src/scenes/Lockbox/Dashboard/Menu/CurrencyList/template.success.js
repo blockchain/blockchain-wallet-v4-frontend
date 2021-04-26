@@ -12,7 +12,7 @@ const CurrencyList = styled.div`
   width: calc(100% - 340px);
   padding: 16px 30px;
   overflow-x: scroll;
-  border-bottom: 1px solid ${props => props.theme.grey000};
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
   ${media.tablet`
     padding: 4px;
   `}
@@ -32,12 +32,12 @@ const browser = Bowser.getParser(window.navigator.userAgent)
 const isBrowserSupported = browser.satisfies(
   model.components.lockbox.supportedBrowsers
 )
-const Success = props => {
+const Success = (props) => {
   const { data, formValues, ...rest } = props
   const { coinContexts, handleCoinSelection, handleSaveCoinMD } = rest
 
-  const isActive = coin =>
-    any(val => equals(toLower(prop('label', val)), toLower(coin)), formValues)
+  const isActive = (coin) =>
+    any((val) => equals(toLower(prop('label', val)), toLower(coin)), formValues)
 
   return (
     <CurrencyList>

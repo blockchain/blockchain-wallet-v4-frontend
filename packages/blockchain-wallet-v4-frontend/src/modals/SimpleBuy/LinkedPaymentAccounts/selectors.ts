@@ -3,7 +3,7 @@ import { lift } from 'ramda'
 import { ExtractSuccess, FiatType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
-export const getData = state => {
+export const getData = (state) => {
   const balancesR = selectors.components.simpleBuy.getSBBalances(state)
   const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
     state

@@ -27,7 +27,7 @@ import { spacing } from 'services/styles'
 
 const Wrapper = styled.div`
   font-weight: 400;
-  color: ${props => props.theme.grey700};
+  color: ${(props) => props.theme.grey700};
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `
@@ -66,7 +66,7 @@ const ImportHeader = styled(ModalHeader)`
 
   > div:first-child * {
     font-weight: 500;
-    color: ${props => props.theme.grey800};
+    color: ${(props) => props.theme.grey800};
   }
 `
 const ImportFooter = styled(ModalFooter)`

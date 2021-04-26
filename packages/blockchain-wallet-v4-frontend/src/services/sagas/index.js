@@ -4,7 +4,7 @@ import { call, put, race, select, take } from 'redux-saga/effects'
 import { Types } from 'blockchain-wallet-v4/src'
 import { actions, actionTypes, selectors } from 'data'
 
-export const askSecondPasswordEnhancer = coreSaga =>
+export const askSecondPasswordEnhancer = (coreSaga) =>
   function * (args) {
     let enhancedArgs = args
     const wallet = yield select(selectors.core.wallet.getWallet)

@@ -24,8 +24,8 @@ const DataFieldBox = styled.span`
   white-space: nowrap;
   overflow: scroll;
   padding-right: 10px;
-  color: ${props => props.theme.grey700};
-  border: 1px solid ${props => props.theme.grey100};
+  color: ${(props) => props.theme.grey700};
+  border: 1px solid ${(props) => props.theme.grey100};
   border-right: none;
   border-radius: 4px 0 0 4px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
@@ -36,17 +36,17 @@ const CopyButton = styled(IconButton)`
   min-width: 0;
   height: 38px;
   border-radius: 0 4px 4px 0;
-  border: 1px solid ${props => props.theme.grey100};
+  border: 1px solid ${(props) => props.theme.grey100};
   > span {
-    margin-top: ${props => (props.active ? '-2px' : '-5px;')};
+    margin-top: ${(props) => (props.active ? '-2px' : '-5px;')};
     margin-right: 0 !important;
-    font-size: ${props => (props.active ? '18px' : '20px')};
-    color: ${props =>
+    font-size: ${(props) => (props.active ? '18px' : '20px')};
+    color: ${(props) =>
       props.active ? props.theme['success'] : props.theme.grey700};
   }
 `
 
-const CopyClipboard = props => {
+const CopyClipboard = (props) => {
   const { active, address, handleClick } = props
 
   return (

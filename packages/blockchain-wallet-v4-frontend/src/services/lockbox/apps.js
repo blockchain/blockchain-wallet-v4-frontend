@@ -5,22 +5,19 @@ import constants from './constants'
 import utils from './utils'
 
 // gets version of btc application
-const getBtcAppVersion = transport => {
+const getBtcAppVersion = (transport) => {
   return new Promise((resolve, reject) => {
     transport.send(...constants.apdus.get_btc_app_version).then(
-      res => {
+      (res) => {
         const byteArray = [...res]
         resolve({
-          full: byteArray
-            .slice(2, 5)
-            .join()
-            .replace(/,/g, '.'),
+          full: byteArray.slice(2, 5).join().replace(/,/g, '.'),
           major: byteArray[2],
           minor: byteArray[3],
           patch: byteArray[4]
         })
       },
-      error => {
+      (error) => {
         reject(error)
       }
     )

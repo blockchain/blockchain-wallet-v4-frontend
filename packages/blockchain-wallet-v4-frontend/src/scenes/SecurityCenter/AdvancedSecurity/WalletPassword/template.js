@@ -11,7 +11,7 @@ import {
 
 import Settings from './Settings'
 
-const WalletPassword = props => {
+const WalletPassword = (props) => {
   return (
     <SettingContainer>
       <SettingSummary>

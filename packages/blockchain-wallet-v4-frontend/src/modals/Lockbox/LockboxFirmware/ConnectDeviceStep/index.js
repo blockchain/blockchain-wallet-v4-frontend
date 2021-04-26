@@ -24,11 +24,11 @@ class ConnectDeviceContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   connection: selectors.components.lockbox.getCurrentConnection(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })

@@ -113,7 +113,7 @@ const mapStateToProps = (state): LinkStatePropsType => ({
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 

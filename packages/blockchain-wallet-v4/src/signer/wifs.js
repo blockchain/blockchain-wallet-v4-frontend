@@ -9,10 +9,10 @@ import { Wallet, Wrapper } from '../types'
 export const addHDWalletWIFS = curry(
   (network, secondPassword, wrapper, selection) => {
     const wallet = Wrapper.selectWallet(wrapper)
-    const deriveKey = coin =>
+    const deriveKey = (coin) =>
       Wallet.getHDPrivateKeyWIF(coin, secondPassword, network, wallet)
         // .map(wif => Bitcoin.ECPair.fromWIF(wif, network))
-        .map(wif => set(Coin.priv, wif, coin))
+        .map((wif) => set(Coin.priv, wif, coin))
     const selectionWithKeys = traverseOf(
       compose(lensProp('inputs'), traversed),
       Task.of,
@@ -27,13 +27,13 @@ export const addHDWalletWIFS = curry(
 export const addLegacyWIFS = curry(
   (network, secondPassword, wrapper, selection) => {
     const wallet = Wrapper.selectWallet(wrapper)
-    const getPriv = coin =>
+    const getPriv = (coin) =>
       Wallet.getLegacyPrivateKeyWIF(
         coin.address,
         secondPassword,
         network,
         wallet
-      ).map(wif => set(Coin.priv, wif, coin))
+      ).map((wif) => set(Coin.priv, wif, coin))
     const selectionWithKeys = traverseOf(
       compose(lensProp('inputs'), traversed),
       Task.of,

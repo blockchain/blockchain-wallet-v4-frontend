@@ -6,9 +6,9 @@ import data from './wallet-data.json'
 
 describe('WalletCrypto', () => {
   describe('safeParse', () => {
-    it('return a success task', done => {
+    it('return a success task', (done) => {
       let myTask = wCrypto.safeParse('{"article":155}')
-      myTask.fork(done, object => {
+      myTask.fork(done, (object) => {
         expect(object.article).toEqual(155)
         done()
       })
@@ -37,14 +37,14 @@ describe('WalletCrypto', () => {
   })
 
   describe('de/encryptDataWithPassword composition', () => {
-    it('should be the identity', done => {
+    it('should be the identity', (done) => {
       let message = '155 is a bad number'
       wCrypto
         .encryptDataWithPassword(message, '1714', 11)
-        .chain(msg =>
+        .chain((msg) =>
           wCrypto.decryptDataWithPassword(msg, '1714', 11, { mode: U.AES.CBC })
         )
-        .fork(done, text => {
+        .fork(done, (text) => {
           expect(text).toEqual(message)
           done()
         })
@@ -52,16 +52,16 @@ describe('WalletCrypto', () => {
   })
 
   describe('encryptDataWithNullPassword', () => {
-    it('should not accept null password', done => {
+    it('should not accept null password', (done) => {
       let message = '155'
-      wCrypto.encryptDataWithPassword(message, null, 11).fork(failure => {
+      wCrypto.encryptDataWithPassword(message, null, 11).fork((failure) => {
         expect(failure).toEqual('password_required')
         done()
       }, done)
     })
-    it('should not accept bad iterations', done => {
+    it('should not accept bad iterations', (done) => {
       let message = '155'
-      wCrypto.encryptDataWithPassword(message, '155', -100).fork(failure => {
+      wCrypto.encryptDataWithPassword(message, '155', -100).fork((failure) => {
         expect(failure).toEqual('iterations_required')
         done()
       }, done())
@@ -69,10 +69,10 @@ describe('WalletCrypto', () => {
   })
 
   describe('decryptDataWithPassword no salt', () => {
-    it('should not accept encrypted messages without the salt', done => {
+    it('should not accept encrypted messages without the salt', (done) => {
       wCrypto
         .decryptDataWithPassword('message-without-salt', '1714', 11)
-        .fork(failure => {
+        .fork((failure) => {
           expect(failure.message).toBeTruthy()
           done()
         }, done)
@@ -89,16 +89,18 @@ describe('WalletCrypto', () => {
   })
 
   describe('stretchPassword', () => {
-    it('should stretch the password', done => {
-      wCrypto.stretchPassword('mypassword', 'salt', 10, 256).fork(done, res => {
-        expect(res.toString('hex')).toEqual(
-          'bfa4bc6a1b049170dfa00ccfa7bdf542b15f014f544026dbbb676499e8344dcc'
-        )
-        done()
-      })
+    it('should stretch the password', (done) => {
+      wCrypto
+        .stretchPassword('mypassword', 'salt', 10, 256)
+        .fork(done, (res) => {
+          expect(res.toString('hex')).toEqual(
+            'bfa4bc6a1b049170dfa00ccfa7bdf542b15f014f544026dbbb676499e8344dcc'
+          )
+          done()
+        })
     })
-    it('should fail with no iterations', done => {
-      wCrypto.stretchPassword('mypassword', 'salt', 0, 256).fork(res => {
+    it('should fail with no iterations', (done) => {
+      wCrypto.stretchPassword('mypassword', 'salt', 0, 256).fork((res) => {
         expect(res).toEqual('iterations_required')
         done()
       }, done)
@@ -106,19 +108,19 @@ describe('WalletCrypto', () => {
   })
 
   describe('(de)encryptSecPass', () => {
-    it('composition should be the identity', done =>
+    it('composition should be the identity', (done) =>
       wCrypto
         .encryptSecPass('sharedKey', 10, 'password', '300 years ago')
         .chain(wCrypto.decryptSecPass('sharedKey', 10, 'password'))
-        .fork(done, res => {
+        .fork(done, (res) => {
           expect(res).toEqual('300 years ago')
           done()
         }))
   })
 
   describe('decryptWalletV1 (v1)', () => {
-    it('should decrypt the wallet correctly', done => {
-      wCrypto.decryptWalletV1('mypassword', data.v1).fork(done, wallet => {
+    it('should decrypt the wallet correctly', (done) => {
+      wCrypto.decryptWalletV1('mypassword', data.v1).fork(done, (wallet) => {
         expect(wallet.guid).toEqual('5b0e3243-1e61-40d5-bd0e-3c1e5dfcda48')
         done()
       })
@@ -126,8 +128,8 @@ describe('WalletCrypto', () => {
   })
 
   describe('decryptWalletV2V3 (v2)', () => {
-    it('should decrypt the wallet correctly', done => {
-      wCrypto.decryptWalletV2V3('mypassword', data.v2).fork(done, wallet => {
+    it('should decrypt the wallet correctly', (done) => {
+      wCrypto.decryptWalletV2V3('mypassword', data.v2).fork(done, (wallet) => {
         expect(wallet.guid).toEqual('40f09ca9-4a94-47ad-b9c8-47d4bbacef5e')
         done()
       })
@@ -135,8 +137,8 @@ describe('WalletCrypto', () => {
   })
 
   describe('decryptWalletV2V3 (v3)', () => {
-    it('should decrypt the wallet correctly', done => {
-      wCrypto.decryptWalletV2V3('mypassword', data.v3).fork(done, wallet => {
+    it('should decrypt the wallet correctly', (done) => {
+      wCrypto.decryptWalletV2V3('mypassword', data.v3).fork(done, (wallet) => {
         expect(wallet.guid).toEqual('e01a59a0-31f2-4403-8488-32ffd8fdb3cc')
         done()
       })
@@ -144,8 +146,8 @@ describe('WalletCrypto', () => {
   })
 
   describe('decryptWallet (V4)', () => {
-    it('should decrypt the wallet correctly', done => {
-      wCrypto.decryptWallet('blockchain', data.v4).fork(done, wallet => {
+    it('should decrypt the wallet correctly', (done) => {
+      wCrypto.decryptWallet('blockchain', data.v4).fork(done, (wallet) => {
         expect(wallet.guid).toEqual('d9e5766d-d646-4b3a-b32e-4bda649e4c45')
         done()
       })

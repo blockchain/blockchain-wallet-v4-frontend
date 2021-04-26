@@ -25,7 +25,7 @@ const FooterContainer = styled.div`
 `
 
 const Wrapper = styled.div`
-  background-color: ${props => props.theme.grey900};
+  background-color: ${(props) => props.theme.grey900};
   height: auto;
   min-height: 100%;
   width: 100%;
@@ -54,7 +54,7 @@ const ContentContainer = styled.div<{ isLogin?: boolean }>`
   box-sizing: border-box;
   margin: 0 16px;
 
-  ${props =>
+  ${(props) =>
     props.isLogin &&
     css`
       margin-top: 80px;
@@ -72,7 +72,7 @@ const PublicLayoutContainer = ({
     <Route
       path={path}
       exact={exact}
-      render={matchProps => (
+      render={(matchProps) => (
         <ErrorBoundary>
           <Wrapper>
             {/* TODO: STILL NEEDS DEV/QA */}

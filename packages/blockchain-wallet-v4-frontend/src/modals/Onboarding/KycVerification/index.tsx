@@ -85,7 +85,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
     this.initializeVerification()
   }
 
-  getSteps = steps => pickBy((_, step) => includes(step, steps), stepMap)
+  getSteps = (steps) => pickBy((_, step) => includes(step, steps), stepMap)
 
   handleClose = () => {
     this.setState({ show: false })
@@ -164,7 +164,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
           <Loading />
         </Flyout>
       ),
-      Failure: error => (
+      Failure: (error) => (
         <Flyout
           {...this.props}
           onClose={this.handleClose}
@@ -183,7 +183,7 @@ IdentityVerification.defaultProps = {
   step: STEPS.infoAndResidential
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 

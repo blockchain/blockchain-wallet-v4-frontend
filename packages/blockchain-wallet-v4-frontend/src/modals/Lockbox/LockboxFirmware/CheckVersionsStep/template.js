@@ -25,7 +25,7 @@ const ButtonContainer = styled.div`
 const RotateSyncContainer = styled(RotateSync)`
   margin-left: 15px;
 `
-const CheckVersionsStep = props => {
+const CheckVersionsStep = (props) => {
   const { onStartInstall, status } = props
   return (
     <React.Fragment>

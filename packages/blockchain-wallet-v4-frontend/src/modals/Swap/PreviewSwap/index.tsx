@@ -29,7 +29,7 @@ import { Border, FreeCartridge, TopText } from '../components'
 class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   state = {}
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault()
     this.props.swapActions.createOrder()
   }
@@ -103,7 +103,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           </Title>
           <Value data-e2e='swapIncomingValue'>
             {this.props.incomingAmountR.cata({
-              Success: value => (
+              Success: (value) => (
                 <>
                   {coinToString({
                     value: value.amt,
@@ -111,7 +111,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   })}
                 </>
               ),
-              Failure: e => e,
+              Failure: (e) => e,
               Loading: () => <SkeletonRectangle height='18px' width='70px' />,
               NotAsked: () => <SkeletonRectangle height='18px' width='70px' />
             })}
@@ -126,7 +126,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           </Title>
           <Value data-e2e='swapExchangeRate'>
             {this.props.quoteR.cata({
-              Success: val => (
+              Success: (val) => (
                 <>
                   1 {baseCoinTicker} = {formatCoin(val.rate)}{' '}
                   {counterCoinTicker}
@@ -172,7 +172,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               </FreeCartridge>
             ) : (
               this.props.paymentR.cata({
-                Success: value => (
+                Success: (value) => (
                   <>
                     {coinToString({
                       value: convertBaseToStandard(
@@ -183,7 +183,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     })}
                   </>
                 ),
-                Failure: e => e,
+                Failure: (e) => e,
                 Loading: () => <SkeletonRectangle height='18px' width='70px' />,
                 NotAsked: () => <SkeletonRectangle height='18px' width='70px' />
               })
@@ -205,7 +205,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               </FreeCartridge>
             ) : (
               this.props.quoteR.cata({
-                Success: value => (
+                Success: (value) => (
                   <>
                     {coinToString({
                       value: convertBaseToStandard(
@@ -218,7 +218,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     })}
                   </>
                 ),
-                Failure: e => e,
+                Failure: (e) => e,
                 Loading: () => <SkeletonRectangle height='18px' width='70px' />,
                 NotAsked: () => <SkeletonRectangle height='18px' width='70px' />
               })

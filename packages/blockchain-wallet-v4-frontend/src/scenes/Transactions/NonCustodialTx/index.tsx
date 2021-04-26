@@ -21,7 +21,7 @@ class NonCustodialTxListItem extends React.PureComponent<Props> {
     this.setState({ isToggled: !this.state.isToggled })
   }
 
-  handleEditDescription = value => {
+  handleEditDescription = (value) => {
     const { coin, erc20List, transaction } = this.props
     // TODO: ERC20 make more generic
     switch (true) {
@@ -60,7 +60,7 @@ class NonCustodialTxListItem extends React.PureComponent<Props> {
     this.props.sendEthActions.retrySendEth(txHash, isErc20)
   }
 
-  onViewTxDetails = coin => {
+  onViewTxDetails = (coin) => {
     this.props.analyticsActions.logEvent([
       ...TRANSACTION_EVENTS.VIEW_TX_ON_EXPLORER,
       coin
@@ -81,11 +81,11 @@ class NonCustodialTxListItem extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrElse([])
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   bchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
   ethActions: bindActionCreators(actions.core.kvStore.eth, dispatch),

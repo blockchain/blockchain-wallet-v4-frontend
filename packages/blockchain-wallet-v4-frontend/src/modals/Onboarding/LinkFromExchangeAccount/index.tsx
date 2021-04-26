@@ -57,7 +57,7 @@ class LinkFromExchangeAccountContainer extends React.PureComponent<
 
   render() {
     return this.props.linkFromExchangeAccountStatus.cata({
-      Success: val => (
+      Success: (val) => (
         <Flyout
           {...this.props}
           onClose={this.handleClose}
@@ -69,7 +69,7 @@ class LinkFromExchangeAccountContainer extends React.PureComponent<
           </FlyoutChild>
         </Flyout>
       ),
-      Failure: error => (
+      Failure: (error) => (
         <Flyout
           {...this.props}
           onClose={this.handleClose}
@@ -109,7 +109,7 @@ class LinkFromExchangeAccountContainer extends React.PureComponent<
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   email: selectors.core.settings.getEmail(state).getOrElse(false),
   emailVerified: selectors.core.settings
     .getEmailVerified(state)

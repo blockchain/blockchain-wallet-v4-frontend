@@ -21,7 +21,7 @@ export default ({ bitpayUrl }) => {
         chain
       }
     })
-      .then(response => {
+      .then((response) => {
         if (response.status !== 200) {
           throw new Error(response.data.toString())
         }
@@ -30,7 +30,7 @@ export default ({ bitpayUrl }) => {
           headers: response.headers
         }
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           throw new Error(error)
         }

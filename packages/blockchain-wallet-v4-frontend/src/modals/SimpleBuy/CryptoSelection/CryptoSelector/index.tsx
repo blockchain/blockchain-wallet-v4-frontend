@@ -43,7 +43,7 @@ const TabsContainer = styled.div`
   display: inline-block;
 `
 const Currencies = styled.div`
-  border-top: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 const Top = styled.div`
   display: flex;
@@ -72,8 +72,9 @@ const Header = styled.div`
 
 export type Props = OwnProps & SuccessStateType
 
-const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
-  Props> = props => {
+const CryptoSelector: React.FC<InjectedFormProps<{}, Props> & Props> = (
+  props
+) => {
   const [orderType, setOrderType] = useState(props.orderType)
   const showWelcome = props.isFirstLogin && !props.sddTransactionFinished
 
@@ -110,7 +111,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
 
   const handleSell = (swapAccount: SwapAccountType) => {
     const pair = props.pairs.find(
-      value => getCoinFromPair(value.pair) === swapAccount.coin
+      (value) => getCoinFromPair(value.pair) === swapAccount.coin
     )
 
     if (!pair) return
@@ -130,13 +131,14 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
 
   // Check to see if any accounts have balance
   // @ts-ignore
-  const checkAccountsBalances = any(hasFunds => hasFunds)(
+  const checkAccountsBalances = any((hasFunds) => hasFunds)(
     // @ts-ignore
     values(
       // @ts-ignore
       map(
         // @ts-ignore
-        coin => any(acct => acct.balance !== 0 && acct.balance !== '0')(coin),
+        (coin) =>
+          any((acct) => acct.balance !== 0 && acct.balance !== '0')(coin),
         // @ts-ignore
         props.accounts
       )
@@ -246,10 +248,10 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
         <Currencies>
           {orderType === OrderType.SELL ? (
             checkAccountsBalances ? (
-              SUPPORTED_COINS.map(coin => {
+              SUPPORTED_COINS.map((coin) => {
                 const accounts = props.accounts[coin] as Array<SwapAccountType>
                 return accounts.map(
-                  account =>
+                  (account) =>
                     account.balance !== '0' &&
                     account.balance !== 0 && (
                       <CoinAccountListOption

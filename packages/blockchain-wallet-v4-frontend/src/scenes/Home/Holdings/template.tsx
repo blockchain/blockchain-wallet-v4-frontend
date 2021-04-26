@@ -27,7 +27,7 @@ const Coin = styled.div`
 const CoinName = styled(Text)`
   font-size: 20px;
   font-weight: 500;
-  color: ${props => props.theme.grey800};
+  color: ${(props) => props.theme.grey800};
 `
 const CoinIcon = styled(Icon)`
   font-size: 32px;

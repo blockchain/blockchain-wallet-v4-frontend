@@ -12,7 +12,7 @@ export const testPropTypes = (
   expectError,
   otherProps
 ) => {
-  const _test = testValues => {
+  const _test = (testValues) => {
     for (let propValue of testValues) {
       console.error.mockClear()
       React.createElement(component, { ...otherProps, [propName]: propValue })
@@ -32,4 +32,5 @@ export const testPropTypes = (
 }
 /* eslint-enable */
 
-export const flushPromises = () => new Promise(resolve => setImmediate(resolve))
+export const flushPromises = () =>
+  new Promise((resolve) => setImmediate(resolve))

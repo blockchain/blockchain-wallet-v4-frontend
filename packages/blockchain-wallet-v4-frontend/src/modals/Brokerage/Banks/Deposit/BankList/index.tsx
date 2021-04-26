@@ -22,7 +22,7 @@ const BankList = (props: Props) => {
   }, [])
 
   return props.data.cata({
-    Success: val => <Success {...val} {...props} />,
+    Success: (val) => <Success {...val} {...props} />,
     Failure: () => <Failure {...props} handleClose={props.handleClose} />,
     Loading: () => <Loading />,
     NotAsked: () => <Loading />

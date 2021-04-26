@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   }
 `
 
-const CountdownTimer = props => (
+const CountdownTimer = (props) => (
   <Wrapper {...props}>
     {!props.payProInvoice ? (
       <Text size='11px' weight={400} color='grey400'>
@@ -63,7 +63,7 @@ CountdownTimer.propTypes = {
   timeLeft: PropTypes.string
 }
 
-export const getCountdownColor = expiryDateString => {
+export const getCountdownColor = (expiryDateString) => {
   const expiryDate = new Date(expiryDateString)
   const oneMinuteLimit = new Date(expiryDate - 60000)
   const fiveMinuteLimit = new Date(expiryDate - 5 * 60000)

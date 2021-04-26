@@ -37,7 +37,7 @@ const IconWrapper = styled.div<{ bgColor?: keyof DefaultTheme }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.bgColor ? props.theme[props.bgColor] : props.theme.grey000};
 `
 const AmountsContainer = styled.div`
@@ -54,7 +54,7 @@ const AmountsHeader = styled(Text)`
   font-size: 14px;
   font-weight: 500;
   margin-bottom: 8px;
-  color: ${props => props.theme.grey600};
+  color: ${(props) => props.theme.grey600};
 `
 const InlineText = styled(Text)`
   * {
@@ -62,7 +62,7 @@ const InlineText = styled(Text)`
   }
 `
 
-const Info: React.FC<Props & { offer: OfferType }> = props => {
+const Info: React.FC<Props & { offer: OfferType }> = (props) => {
   const lastFailedTx = isLastTxStatus(
     ['FAILED'],
     props.loan,

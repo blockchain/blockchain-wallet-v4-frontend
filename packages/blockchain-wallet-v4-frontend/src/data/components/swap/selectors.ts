@@ -36,7 +36,7 @@ export const getTradesStatus = (state: RootState) =>
 
 export const getLatestPendingSwapTrade = (state: RootState) => {
   const trades = state.components.swap.trades.list
-  return trades.find(trade => {
+  return trades.find((trade) => {
     return trade.state === 'PENDING_DEPOSIT'
   })
 }

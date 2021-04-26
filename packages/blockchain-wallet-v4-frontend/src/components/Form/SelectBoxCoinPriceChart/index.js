@@ -24,7 +24,7 @@ const CoinText = styled(Text)`
   display: flex;
 `
 const ItemIcon = styled(Icon)`
-  color: ${props => props.theme[props.color]} !important;
+  color: ${(props) => props.theme[props.color]} !important;
 `
 const SelectBoxCoin = styled(SelectBox)`
   .bc__control {
@@ -32,10 +32,10 @@ const SelectBoxCoin = styled(SelectBox)`
   }
   .bc__dropdown-indicator {
     padding-left: 0px;
-    color: ${props => props.theme.black};
+    color: ${(props) => props.theme.black};
   }
   .bc__single-value {
-    color: ${props => props.theme.black};
+    color: ${(props) => props.theme.black};
     transform: initial;
     position: relative;
     max-width: none;
@@ -43,7 +43,7 @@ const SelectBoxCoin = styled(SelectBox)`
   }
 `
 
-const renderItem = props => {
+const renderItem = (props) => {
   const { text, value, ...rest } = props
   const coinValue = value || 'BTC'
   return (

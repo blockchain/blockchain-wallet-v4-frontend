@@ -20,7 +20,7 @@ class WalletLayoutContainer extends React.PureComponent<Props> {
     return isAuthenticated ? (
       <Route
         path={path}
-        render={props => (
+        render={(props) => (
           <WalletLayout location={props.location} coin={this.props.coin}>
             <Component computedMatch={computedMatch} {...rest} />
           </WalletLayout>
@@ -32,7 +32,7 @@ class WalletLayoutContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: selectors.auth.isAuthenticated(state)
 })
 

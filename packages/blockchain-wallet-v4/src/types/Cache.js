@@ -21,7 +21,7 @@ export const receiveChain = 0
 export const changeChain = 1
 
 const _getAddress = (cache, chain, index, network, type) => {
-  const derive = c => {
+  const derive = (c) => {
     try {
       const node = getNode(c, chain, network)
       const childNode = node.derive(index)
@@ -50,31 +50,21 @@ const _getNode = (cache, chain, network) =>
       selectChangeAccount,
       selectReceiveAccount
     ),
-    xpub => Bitcoin.bip32.fromBase58(xpub, network)
+    (xpub) => Bitcoin.bip32.fromBase58(xpub, network)
   )(cache)
 export const getNode = memoize(_getNode)
 
-export const fromJS = x => (is(Cache, x) ? x : new Cache(x))
+export const fromJS = (x) => (is(Cache, x) ? x : new Cache(x))
 
 export const toJS = pipe(Cache.guard, iToJS)
 
-export const reviver = jsObject => {
+export const reviver = (jsObject) => {
   return new Cache(jsObject)
 }
 
 export const js = (node, xpub) => {
   node = xpub ? Bitcoin.bip32.fromBase58(xpub) : node
-  const receiveAccount = node
-    ? node
-        .derive(0)
-        .neutered()
-        .toBase58()
-    : ''
-  const changeAccount = node
-    ? node
-        .derive(1)
-        .neutered()
-        .toBase58()
-    : ''
+  const receiveAccount = node ? node.derive(0).neutered().toBase58() : ''
+  const changeAccount = node ? node.derive(1).neutered().toBase58() : ''
   return { receiveAccount, changeAccount }
 }

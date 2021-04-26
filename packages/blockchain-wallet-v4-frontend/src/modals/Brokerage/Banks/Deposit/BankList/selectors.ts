@@ -32,7 +32,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       balances,
       bankTransferAccounts,
       beneficiaries: beneficiaries.filter(
-        value => value.currency === ownProps.fiatCurrency
+        (value) => value.currency === ownProps.fiatCurrency
       ),
       minAmount,
       account

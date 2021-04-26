@@ -24,9 +24,9 @@ const DisplayContainer = styled.div<{
   width: 100%;
   align-items: center;
   box-sizing: border-box;
-  padding: ${props => (props.isItem ? '0px 6px' : '16px 12px')};
+  padding: ${(props) => (props.isItem ? '0px 6px' : '16px 12px')};
   > span {
-    color: ${props => props.theme[props.coinType.coinCode]} !important;
+    color: ${(props) => props.theme[props.coinType.coinCode]} !important;
   }
 `
 const AccountContainer = styled.div`
@@ -53,10 +53,10 @@ const AmountContainer = styled.div`
 const FiatContainer = styled.div`
   display: flex;
   font-size: 12px;
-  color: ${props => props.theme.grey400};
+  color: ${(props) => props.theme.grey400};
 `
 export class CoinBalanceDropdown extends PureComponent<Props> {
-  coinBalance = selectProps => {
+  coinBalance = (selectProps) => {
     if (selectProps.value) {
       // Account balance
       if (selectProps.value.balance) {
@@ -70,7 +70,7 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
     }
   }
 
-  accountLabel = selectProps => {
+  accountLabel = (selectProps) => {
     if (selectProps.value) {
       // Account/Custodial label
       return selectProps.value.label || selectProps.label
@@ -130,7 +130,7 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: values => {
+      Success: (values) => {
         const { addressData } = values
         const options = addressData.data
         return (
@@ -148,7 +148,7 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
           />
         )
       },
-      Failure: e => (
+      Failure: (e) => (
         <Text>
           {' '}
           {typeof e === 'string' ? e : typeof e === 'object' ? e.message : e}

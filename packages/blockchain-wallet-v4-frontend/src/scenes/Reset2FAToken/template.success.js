@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-const Success = props => {
+const Success = (props) => {
   const { message } = props.value
   const declined = message === 'Reset Request Successfully Declined.'
 

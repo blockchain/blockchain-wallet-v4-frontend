@@ -44,7 +44,7 @@ class LockboxContainer extends React.PureComponent {
     this.setState({ run: true })
   }
 
-  handleTourCallbacks = data => {
+  handleTourCallbacks = (data) => {
     if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(data.type)) {
       // advance current step
       this.setState({
@@ -88,11 +88,11 @@ class LockboxContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   showProductTour: selectors.components.lockbox.getProductTourVisibility(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 

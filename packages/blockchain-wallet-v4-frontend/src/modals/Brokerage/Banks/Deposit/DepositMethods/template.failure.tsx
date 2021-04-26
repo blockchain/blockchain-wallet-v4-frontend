@@ -20,7 +20,7 @@ const Title = styled(Text)`
   margin: 40px 0px 24px 0px;
 `
 
-const Failure: React.FC<Props> = props => {
+const Failure: React.FC<Props> = (props) => {
   return (
     <Wrapper>
       <div>

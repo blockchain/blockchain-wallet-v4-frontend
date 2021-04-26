@@ -23,7 +23,7 @@ const CoinIcon = styled(Icon)`
   margin-right: 16px;
 `
 
-export const getNameColumn = routerActions => ({
+export const getNameColumn = (routerActions) => ({
   Header: () => (
     <HeaderWrapper>
       <CellHeaderText>

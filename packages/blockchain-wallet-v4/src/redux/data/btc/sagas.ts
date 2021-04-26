@@ -121,10 +121,10 @@ export default ({ api }: { api: APIType }) => {
     // Remove address.length check
     const bech32Address =
       address.length === 2 &&
-      address.find(add => prop('type', add) === 'bech32')
+      address.find((add) => prop('type', add) === 'bech32')
     const legacyAddress =
       address.length === 2 &&
-      address.find(add => prop('type', add) === 'legacy')
+      address.find((add) => prop('type', add) === 'legacy')
     const startDate = moment(start).format('DD/MM/YYYY')
     const endDate = moment(end).format('DD/MM/YYYY')
     try {

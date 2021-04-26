@@ -7,7 +7,7 @@ import {
 } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
-export const getData = state => {
+export const getData = (state) => {
   const ratesR = selectors.components.interest.getRates(state)
   const txPages = selectors.components.interest.getInterestTransactions(state)
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)

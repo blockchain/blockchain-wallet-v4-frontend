@@ -150,12 +150,12 @@ LockboxSetupContainer.propTypes = {
   closeAll: PropTypes.func.isRequired
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentStep: selectors.components.lockbox.getNewDeviceSetupStep(state),
   setupType: selectors.components.lockbox.getNewDeviceSetupType(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 

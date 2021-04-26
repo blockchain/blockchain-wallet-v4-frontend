@@ -48,7 +48,7 @@ describe('Wallet', () => {
         AddressMap.toJS,
         Wallet.selectAddresses
       )(wallet)
-      expect(addressesJS).toEqual(walletFixture.keys.filter(key => key.priv))
+      expect(addressesJS).toEqual(walletFixture.keys.filter((key) => key.priv))
     })
 
     it('should select if is double encrypted', () => {
@@ -58,7 +58,7 @@ describe('Wallet', () => {
   })
 
   describe('importLegacyAddress', () => {
-    const n = walletFixture.keys.filter(key => key.priv).length
+    const n = walletFixture.keys.filter((key) => key.priv).length
     const address = Address.fromJS({
       addr: '1CC3X2gu58d6wXUWMffpuzN9JAfTUWu4Kj',
       priv: '5Kb8kLf9zgWQnogidDA76MzPL6TsZZY36hWXMssSzNydYXYB9KF'
@@ -74,8 +74,8 @@ describe('Wallet', () => {
         null,
         {}
       ).fork(
-        failure => expect(failure).toEqual(undefined),
-        withNewAddress => {
+        (failure) => expect(failure).toEqual(undefined),
+        (withNewAddress) => {
           let addresses = Wallet.selectAddresses(withNewAddress)
           expect(addresses.size).toEqual(n + 1)
           const newAddr = R.compose(
@@ -100,8 +100,8 @@ describe('Wallet', () => {
         null,
         {}
       ).fork(
-        failure => expect(failure).toEqual(undefined),
-        withNewAddress => {
+        (failure) => expect(failure).toEqual(undefined),
+        (withNewAddress) => {
           let addresses = Wallet.selectAddresses(withNewAddress)
           expect(addresses.size).toEqual(n + 1)
           const newAddr = R.compose(
@@ -166,8 +166,8 @@ describe('Wallet', () => {
     //   }, done)
     // })
 
-    it('should fail when given an incorrect password', done => {
-      Wallet.decrypt('wrong', walletSecpass).fork(error => {
+    it('should fail when given an incorrect password', (done) => {
+      Wallet.decrypt('wrong', walletSecpass).fork((error) => {
         expect(R.is(Error, error)).toEqual(true)
         expect(error.message).toEqual('INVALID_SECOND_PASSWORD')
         done()

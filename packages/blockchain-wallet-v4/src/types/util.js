@@ -1,14 +1,21 @@
 import { Map } from 'immutable'
-import { assoc, compose, curry, identity, /* is, */ prop, reduceRight } from 'ramda'
+import {
+  assoc,
+  compose,
+  curry,
+  identity,
+  /* is, */ prop,
+  reduceRight
+} from 'ramda'
 import { lens } from 'ramda-lens'
 
 export const iRename = curry((from, to, i) =>
   i.set(to, i.get(from)).delete(from)
 )
 
-export const iLensProp = key =>
+export const iLensProp = (key) =>
   lens(
-    x => x.get(key),
+    (x) => x.get(key),
     (val, x) => x.set(key, val)
   )
 
@@ -17,7 +24,7 @@ export const iLensPath = reduceRight(
   identity
 )
 
-export const shift = x => ({
+export const shift = (x) => ({
   forward: () => x,
   back: () => x
 })
@@ -27,9 +34,9 @@ export const shiftIProp = curry((from, to, s) => ({
   back: () => iRename(to, from, s.back())
 }))
 
-export const iToJS = i => i.toJS()
+export const iToJS = (i) => i.toJS()
 
-export const error = e => {
+export const error = (e) => {
   throw e
 }
 
@@ -48,11 +55,11 @@ export const typeGuard = curry(
     x
 )
 
-export const typeLens = Type => lens(typeGuard(Type), val => new Type(val))
+export const typeLens = (Type) => lens(typeGuard(Type), (val) => new Type(val))
 
-export const lensProp = key =>
+export const lensProp = (key) =>
   lens(
-    x => {
+    (x) => {
       // console.info('GET ', key, ' from ', x)
       if (Map.isMap(x)) {
         return x.get(key)

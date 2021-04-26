@@ -41,7 +41,7 @@ import Loading from '../template.loading'
 class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   state = {}
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault()
     this.props.simpleBuyActions.createSBOrder()
   }
@@ -82,7 +82,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       Failure: () => null,
       NotAsked: () => null,
       Loading: () => <Loading />,
-      Success: val => {
+      Success: (val) => {
         const { account, coins, formValues } = this.props
         if (!formValues) return null
         if (!account) return null
@@ -144,7 +144,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               </Title>
               <Value data-e2e='sbExchangeRate'>
                 {this.props.quoteR.cata({
-                  Success: val => (
+                  Success: (val) => (
                     <>
                       {
                         Currencies[counterCoinTicker].units[counterCoinTicker]
@@ -225,7 +225,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               </Title>
               <Value data-e2e='sbIncomingAmount'>
                 {this.props.incomingAmountR.cata({
-                  Success: val => {
+                  Success: (val) => {
                     return (
                       <>
                         {

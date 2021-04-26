@@ -26,7 +26,7 @@ const ButtonWrapper = styled.div`
   }
 `
 
-const Settings = props => {
+const Settings = (props) => {
   const { handleSubmit, handleToggle, invalid, submitting } = props
 
   return (

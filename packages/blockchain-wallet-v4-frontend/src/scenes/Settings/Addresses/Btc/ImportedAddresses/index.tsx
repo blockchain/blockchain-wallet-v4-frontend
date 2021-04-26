@@ -21,7 +21,7 @@ class ImportedAddressesContainer extends React.Component<Props> {
     })
   }
 
-  handleShowPriv = address => {
+  handleShowPriv = (address) => {
     this.props.modalActions.showModal('ShowBtcPrivateKey', {
       addr: address.addr,
       balance: address.info.final_balance,
@@ -29,18 +29,18 @@ class ImportedAddressesContainer extends React.Component<Props> {
     })
   }
 
-  handleSignMessage = address => {
+  handleSignMessage = (address) => {
     this.props.modalActions.showModal('SignMessage', {
       address: address.addr,
       origin: 'SettingsPage'
     })
   }
 
-  handleEditLabel = address => {
+  handleEditLabel = (address) => {
     this.props.componentActions.editImportedAddressLabel(address.addr)
   }
 
-  handleToggleArchived = address => {
+  handleToggleArchived = (address) => {
     let isArchived = address.tag === 2
     this.props.coreActions.setAddressArchived(address.addr, !isArchived)
   }
@@ -56,7 +56,7 @@ class ImportedAddressesContainer extends React.Component<Props> {
   render() {
     const { addressesWithoutRemoteData, search } = this.props
     return this.props.activeAddresses.cata({
-      Success: value => (
+      Success: (value) => (
         <ImportedAddresses
           importedAddresses={value}
           onClickVerify={this.handleClickVerify}
@@ -87,13 +87,13 @@ class ImportedAddressesContainer extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   activeAddresses: selectors.core.common.btc.getActiveAddresses(state),
   search: formValueSelector(WALLET_TX_SEARCH)(state, 'search'),
   addressesWithoutRemoteData: selectors.core.wallet.getAddresses(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   coreActions: bindActionCreators(actions.core.wallet, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   componentActions: bindActionCreators(

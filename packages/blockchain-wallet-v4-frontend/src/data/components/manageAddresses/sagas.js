@@ -16,7 +16,7 @@ export default ({ api, networks }) => {
     yield put(actions.modals.closeAllModals())
   }
 
-  const deriveAddresses = function(account, receiveIndex, derivation) {
+  const deriveAddresses = function (account, receiveIndex, derivation) {
     let i = 0
     let addrs = []
 
@@ -81,7 +81,7 @@ export default ({ api, networks }) => {
         .reverse()
         .toArray()
       // derive addresses from label indexes
-      const labeledAddrs = labels.map(la => ({
+      const labeledAddrs = labels.map((la) => ({
         address: Types.HDAccount.getReceiveAddress(
           account,
           la.index,
@@ -97,12 +97,12 @@ export default ({ api, networks }) => {
       })
       // filter only addresses with 0 txs
       const unusedAddresses = filter(
-        a => a.n_tx === 0,
+        (a) => a.n_tx === 0,
         labeledAddrsFull.addresses
       )
 
       // map labels back to unused addresses
-      forEach(labeledAddr => {
+      forEach((labeledAddr) => {
         let idx = findIndex(propEq('address', labeledAddr.address))(
           unusedAddresses
         )
@@ -157,7 +157,7 @@ export default ({ api, networks }) => {
       const labels = Types.HDAccount.selectAddressLabels(account, derivation)
         .reverse()
         .toArray()
-      const labeledAddrs = labels.map(la => ({
+      const labeledAddrs = labels.map((la) => ({
         address: Types.HDAccount.getReceiveAddress(
           account,
           la.index,
@@ -169,10 +169,13 @@ export default ({ api, networks }) => {
       }))
 
       // filter only addresses with tx's
-      const usedAddresses = filter(a => a.n_tx > 0, derivedAddrsFull.addresses)
+      const usedAddresses = filter(
+        (a) => a.n_tx > 0,
+        derivedAddrsFull.addresses
+      )
 
       // map labels back to used addresses
-      forEach(labeledAddr => {
+      forEach((labeledAddr) => {
         let idx = findIndex(propEq('address', labeledAddr.address))(
           usedAddresses
         )

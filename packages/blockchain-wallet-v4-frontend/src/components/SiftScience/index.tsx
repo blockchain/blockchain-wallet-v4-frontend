@@ -16,7 +16,7 @@ const SiftScienceIframe = styled.iframe`
 
 class SiftScience extends Component<Props> {
   componentDidMount() {
-    let receiveMessage = e => {
+    let receiveMessage = (e) => {
       if (!e.data.command) return
       if (e.data.from !== 'sift-science') return
       if (e.data.to !== 'exchange') return

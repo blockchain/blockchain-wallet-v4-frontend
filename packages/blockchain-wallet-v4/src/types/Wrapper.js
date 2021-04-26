@@ -57,7 +57,7 @@ export const traverseWallet = curry((of, f, wrapper) =>
 )
 
 // fromJS :: JSON -> Wrapper
-export const fromJS = wrapper => {
+export const fromJS = (wrapper) => {
   if (isWrapper(wrapper)) {
     return wrapper
   }
@@ -70,7 +70,7 @@ export const fromJS = wrapper => {
 }
 
 // toJS :: wrapper -> JSON
-export const toJS = pipe(Wrapper.guard, wrapper => {
+export const toJS = pipe(Wrapper.guard, (wrapper) => {
   // TODO: SEGWIT remove w/ DEPRECATED_V3
   const wrapperDecons = over(
     wallet,
@@ -79,12 +79,12 @@ export const toJS = pipe(Wrapper.guard, wrapper => {
   return wrapperDecons(wrapper).toJS()
 })
 
-export const reviver = jsObject => {
+export const reviver = (jsObject) => {
   return new Wrapper(jsObject)
 }
 
 // isLatestVersion :: Wrapper -> Boolean
-export const isLatestVersion = wrapper => {
+export const isLatestVersion = (wrapper) => {
   return selectVersion(wrapper) === PAYLOAD_VERSION
 }
 
@@ -120,7 +120,7 @@ export const upgradeToV4 = curry((seedHex, password, network, wrapper) => {
 
 // computeChecksum :: encJSON -> String
 export const computeChecksum = compose(
-  payload => crypto.sha256(payload).toString('hex'),
+  (payload) => crypto.sha256(payload).toString('hex'),
   prop('payload')
 )
 
@@ -130,17 +130,17 @@ export const fromEncJSON = curry((password, json) => {
   let payloadJsonE = Either.try(JSON.parse)(json.payload)
 
   // assocIterations :: Number -> Wrapper
-  let assocIterations = wrapper =>
+  let assocIterations = (wrapper) =>
     payloadJsonE
-      .map(payload =>
+      .map((payload) =>
         assoc('pbkdf2_iterations', payload.pbkdf2_iterations, wrapper)
       )
       .getOrElse(wrapper)
 
   // assocVersion :: Wrapper -> Wrapper
-  let assocVersion = wrapper =>
+  let assocVersion = (wrapper) =>
     payloadJsonE
-      .map(payload => assoc('version', payload.version, wrapper))
+      .map((payload) => assoc('version', payload.version, wrapper))
       .getOrElse(wrapper)
 
   // TODO: SEGWIT remove w/ DEPRECATED_V3
@@ -161,7 +161,7 @@ export const fromEncJSON = curry((password, json) => {
   )
     .map(assocVersion)
     .map(assocIterations)
-    .map(o => assoc('wallet', o.payload, o))
+    .map((o) => assoc('wallet', o.payload, o))
     .map(dissoc('payload'))
     .map(assoc('password', password))
     .map(dissoc('extra_seed'))
@@ -193,13 +193,13 @@ export const fromEncPayload = curry((password, payload) => {
     ),
     wrapper
   )
-    .map(o => assoc('wallet', o.payload, o))
+    .map((o) => assoc('wallet', o.payload, o))
     .map(dissoc('payload'))
     .map(fromJS)
 })
 
 // toEncJSON :: Wrapper -> Either Error JSON
-export const toEncJSON = wrapper => {
+export const toEncJSON = (wrapper) => {
   // TODO: SEGWIT remove w/ DEPRECATED_V3
   const W = wrapper.version === 4 ? Wallet : Wallet_DEPRECATED_V3
   const plens = lensProp('payload')
@@ -222,10 +222,10 @@ export const toEncJSON = wrapper => {
           selectPassword(wrapper),
           selectPbkdf2Iterations(wrapper) || 5000
         )
-  const hash = x => crypto.sha256(x).toString('hex')
+  const hash = (x) => crypto.sha256(x).toString('hex')
   return traverseOf(plens, Task.of, encrypt, response)
-    .map(r => assoc('length', view(plens, r).length, r))
-    .map(r => assoc('checksum', hash(view(plens, r)), r))
+    .map((r) => assoc('length', view(plens, r).length, r))
+    .map((r) => assoc('checksum', hash(view(plens, r)), r))
 }
 
 // new wallets

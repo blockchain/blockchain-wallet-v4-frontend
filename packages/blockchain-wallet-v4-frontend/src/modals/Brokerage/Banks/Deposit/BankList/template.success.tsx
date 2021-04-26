@@ -38,7 +38,7 @@ const TopText = styled(Text)`
 `
 
 const AccountsListWrapper = styled.div`
-  border-top: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 
 const getLinkedBankIcon = (bankName: string): ReactElement => (
@@ -73,7 +73,7 @@ const BankList = (props: Props) => {
       </Header>
 
       <AccountsListWrapper>
-        {props.bankTransferAccounts.map(account => (
+        {props.bankTransferAccounts.map((account) => (
           <Bank
             key={account.id}
             bankDetails={account.details}
@@ -88,7 +88,7 @@ const BankList = (props: Props) => {
             }}
           />
         ))}
-        {props.beneficiaries.map(beneficiary => (
+        {props.beneficiaries.map((beneficiary) => (
           <BankWire
             beneficiary={beneficiary}
             minAmount={props.minAmount}

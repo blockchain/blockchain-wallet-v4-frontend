@@ -21,12 +21,12 @@ const SwitchButton = styled(Button)`
   padding: 0;
 
   &:hover {
-    border: 1px solid ${props => props.theme.blue600};
+    border: 1px solid ${(props) => props.theme.blue600};
     background-color: transparent;
   }
 `
 const ButtonText = styled(Text)`
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
   font-weight: 600;
   font-size: 14px;
   line-height: 150%;
@@ -64,12 +64,12 @@ const CurrencySwitchContainer = ({
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   settings: selectors.core.settings.getSettings(state),
   coinDisplayed: selectors.preferences.getCoinDisplayed(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 

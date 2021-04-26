@@ -39,7 +39,7 @@ const MarqueeContainer = styled.marquee.attrs({
   top: 50%;
 `
 
-const LockboxConnectionPrompt = props => {
+const LockboxConnectionPrompt = (props) => {
   const { onClose, position, total, ...rest } = props
   const { appName, currentConnection, isTx, marquees } = rest
   const { error, ready, success } = currentConnection

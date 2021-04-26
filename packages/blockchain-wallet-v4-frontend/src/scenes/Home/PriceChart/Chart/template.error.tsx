@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `
 
-export default props => (
+export default (props) => (
   <Wrapper>
     <Text size='12px' weight={400} color='red600'>
       {props.children}

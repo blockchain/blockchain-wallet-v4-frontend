@@ -55,7 +55,7 @@ const LabelCell = styled(Text)`
   font-weight: 500;
 `
 
-const WalletRow = props => {
+const WalletRow = (props) => {
   const { bchAccounts, defaultIndex, wallets } = props.data
   const {
     onEditBchAccountLabel,
@@ -65,7 +65,7 @@ const WalletRow = props => {
     onShowXPub,
     search
   } = props
-  const isMatch = wallet =>
+  const isMatch = (wallet) =>
     !search || wallet.label.toLowerCase().indexOf(search) > -1
   const matchedWallets = filter(isMatch, take(bchAccounts.length, wallets))
 

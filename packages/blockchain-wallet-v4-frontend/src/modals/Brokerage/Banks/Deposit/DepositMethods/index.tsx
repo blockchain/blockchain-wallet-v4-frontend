@@ -11,7 +11,7 @@ import { getData } from './selectors'
 import Failure from './template.failure'
 import Success from './template.success'
 
-const DepositMethods = props => {
+const DepositMethods = (props) => {
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
       props.simpleBuyActions.fetchSBFiatEligible(props.fiatCurrency)
@@ -21,7 +21,7 @@ const DepositMethods = props => {
   }, [])
 
   return props.data.cata({
-    Success: val => <Success {...val} {...props} />,
+    Success: (val) => <Success {...val} {...props} />,
     Failure: () => <Failure {...props} />,
     Loading: () => <Loading text={LoadingTextEnum.LOADING} />,
     NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />

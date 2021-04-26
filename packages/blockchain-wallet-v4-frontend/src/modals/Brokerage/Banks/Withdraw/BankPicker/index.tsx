@@ -28,7 +28,7 @@ class BankPicker extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => <Success {...this.props} {...val} />,
+      Success: (val) => <Success {...this.props} {...val} />,
       Failure: () => (
         <Failure {...this.props} handleClose={this.props.handleClose} />
       ),

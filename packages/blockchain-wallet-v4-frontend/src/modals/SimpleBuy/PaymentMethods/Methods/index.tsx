@@ -38,7 +38,7 @@ const TopText = styled(Text)`
   margin-bottom: 7px;
 `
 const PaymentsWrapper = styled.div`
-  border-top: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 const NoMethods = styled(FlyoutWrapper)`
   text-align: center;
@@ -47,7 +47,7 @@ const IconContainer = styled.div`
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: ${props => props.theme.blue000};
+  background-color: ${(props) => props.theme.blue000};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -124,7 +124,7 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         if (!card) {
           return <></>
         }
-        const cardType = CARD_TYPES.find(cc => cc.type === card.type)
+        const cardType = CARD_TYPES.find((cc) => cc.type === card.type)
         return (
           <img
             height='18px'
@@ -148,20 +148,20 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   render() {
     const { fiatCurrency, orderType } = this.props
     const availableCards = this.props.cards.filter(
-      card => card.state === 'ACTIVE' && orderType === OrderType.BUY
+      (card) => card.state === 'ACTIVE' && orderType === OrderType.BUY
     )
 
-    const defaultMethods = this.props.paymentMethods.methods.map(value => ({
+    const defaultMethods = this.props.paymentMethods.methods.map((value) => ({
       text: this.getType(value),
       value
     }))
 
     const defaultCardMethod = this.props.paymentMethods.methods.find(
-      m => m.type === 'PAYMENT_CARD' && orderType === OrderType.BUY
+      (m) => m.type === 'PAYMENT_CARD' && orderType === OrderType.BUY
     )
 
     const funds = defaultMethods.filter(
-      method =>
+      (method) =>
         method.value.type === 'FUNDS' &&
         method.value.currency in WalletFiatEnum &&
         (orderType === OrderType.SELL ||
@@ -172,19 +172,19 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     )
 
     const paymentCard = defaultMethods.find(
-      method =>
+      (method) =>
         method.value.type === 'PAYMENT_CARD' && orderType === OrderType.BUY
     )
     const bankAccount = defaultMethods.find(
-      method =>
+      (method) =>
         method.value.type === 'BANK_ACCOUNT' && orderType === OrderType.BUY
     )
     const bankTransfer = defaultMethods.find(
-      method =>
+      (method) =>
         method.value.type === 'BANK_TRANSFER' && orderType === OrderType.BUY
     )
 
-    const cardMethods = availableCards.map(card => ({
+    const cardMethods = availableCards.map((card) => ({
       text: card.card
         ? card.card.label
           ? card.card.label

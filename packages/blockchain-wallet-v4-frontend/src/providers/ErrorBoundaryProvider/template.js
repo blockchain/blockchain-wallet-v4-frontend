@@ -38,7 +38,7 @@ const ErrorDetails = styled.details`
   }
 `
 
-const ErrorBoundary = props => {
+const ErrorBoundary = (props) => {
   const { error, errorInfo, onSubmit, position, total } = props
 
   return (

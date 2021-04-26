@@ -30,7 +30,7 @@ class RecoverContainer extends React.PureComponent {
     })
 
     return metadataRestore.cata({
-      Success: val => (
+      Success: (val) => (
         <Recover
           previousStep={previousStep}
           onSubmit={this.onSubmit}
@@ -53,7 +53,7 @@ class RecoverContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   email: formValueSelector('recover')(state, 'email'),
   registering: selectors.auth.getRegistering(state),
   metadataRestore: selectors.auth.getMetadataRestore(state),
@@ -62,7 +62,7 @@ const mapStateToProps = state => ({
   password: formValueSelector('recover')(state, 'password') || ''
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch)
 })

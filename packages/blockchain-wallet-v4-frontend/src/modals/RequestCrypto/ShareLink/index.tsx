@@ -23,11 +23,11 @@ const Wrapper = styled.div`
 `
 const SectionWrapper = styled.div<{ center?: boolean; direction?: string }>`
   display: flex;
-  flex-direction: ${props => props.direction || 'row'};
+  flex-direction: ${(props) => props.direction || 'row'};
   justify-content: space-between;
-  align-items: ${props => (props.center ? 'center' : 'flex-start')};
+  align-items: ${(props) => (props.center ? 'center' : 'flex-start')};
   padding: 16px 40px;
-  border-top: ${props => `1px solid ${props.theme.grey000}`};
+  border-top: ${(props) => `1px solid ${props.theme.grey000}`};
 `
 const LinkDisplay = styled.div`
   display: flex;
@@ -45,7 +45,7 @@ const QRCodeContainer = styled.div`
   align-items: center;
   padding: 24px 0;
   width: 100%;
-  border-top: ${props => `1px solid ${props.theme.grey000}`};
+  border-top: ${(props) => `1px solid ${props.theme.grey000}`};
 `
 const ButtonsWrapper = styled.div`
   display: flex;
@@ -53,7 +53,7 @@ const ButtonsWrapper = styled.div`
   justify-content: center;
   align-items: center;
   padding: 40px;
-  border-top: ${props => `1px solid ${props.theme.grey000}`};
+  border-top: ${(props) => `1px solid ${props.theme.grey000}`};
 `
 
 class ShareLink extends React.PureComponent<Props> {

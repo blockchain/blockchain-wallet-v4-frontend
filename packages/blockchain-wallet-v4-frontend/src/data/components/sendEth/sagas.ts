@@ -572,7 +572,7 @@ export default ({
   }
 
   const setTo = function * (to: string, payment: EthPaymentType) {
-    const prepareTo = to => {
+    const prepareTo = (to) => {
       return to ? { value: { value: to, label: to } } : null
     }
 

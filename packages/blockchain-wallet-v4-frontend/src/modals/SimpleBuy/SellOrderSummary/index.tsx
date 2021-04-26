@@ -28,7 +28,7 @@ class SellOrderSummary extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => <Success {...this.props} {...val} />,
+      Success: (val) => <Success {...this.props} {...val} />,
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />

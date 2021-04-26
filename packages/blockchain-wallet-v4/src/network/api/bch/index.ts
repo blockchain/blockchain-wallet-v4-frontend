@@ -62,7 +62,7 @@ export default ({ apiUrl, get, post }) => {
       data: { tx, lock_secret, format: 'plain' }
     })
 
-  const getBchRawTx = txHex =>
+  const getBchRawTx = (txHex) =>
     get({
       url: apiUrl,
       endPoint: '/bch/rawtx/' + txHex,

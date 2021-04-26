@@ -58,7 +58,7 @@ const CoinContainer = styled.div`
 `
 const PendingText = styled(Text)`
   a {
-    color: ${props => props.theme.blue600};
+    color: ${(props) => props.theme.blue600};
     text-decoration: none;
   }
 `
@@ -72,8 +72,8 @@ const Limits = styled.div`
   display: flex;
   flex-direction: row;
   padding: 15px 40px;
-  border-top: 1px solid ${props => props.theme.grey000};
-  border-bottom: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
 `
 
 const LimitWrapper = styled.div`
@@ -96,7 +96,7 @@ const AmountRow = styled(Row)`
 const SubIconWrapper = styled.div`
   align-items: center;
   justify-content: center;
-  background-color: ${props => props.theme['fiat-light']};
+  background-color: ${(props) => props.theme['fiat-light']};
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -116,11 +116,9 @@ const BlueRedCartridge = ({
   return <CustomBlueCartridge role='button'>{children}</CustomBlueCartridge>
 }
 
-const Success: React.FC<InjectedFormProps<
-  WithdrawCheckoutFormValuesType,
-  Props
-> &
-  Props> = props => {
+const Success: React.FC<
+  InjectedFormProps<WithdrawCheckoutFormValuesType, Props> & Props
+> = (props) => {
   const beneficiary =
     (!props.defaultMethod && props.beneficiary) || props.defaultBeneficiary
   const transferAccount = props.defaultMethod

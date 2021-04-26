@@ -91,7 +91,7 @@ class KycDocResubmit extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   closeModal: () => dispatch(actions.modals.closeModal()),
   verifyIdentity: () =>
     dispatch(actions.components.identityVerification.verifyIdentity(2))

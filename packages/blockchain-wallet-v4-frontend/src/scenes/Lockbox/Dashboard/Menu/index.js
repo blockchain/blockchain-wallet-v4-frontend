@@ -12,7 +12,7 @@ class LockboxMenuContainer extends React.PureComponent {
   render() {
     const { data, ...rest } = this.props
     return data.cata({
-      Success: val => (
+      Success: (val) => (
         <LockboxMenu
           deviceInfo={val}
           location={this.props.location}
@@ -35,7 +35,7 @@ const mapStateToProps = (state, ownProps) => ({
   formValues: getFormValues(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.lockbox, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

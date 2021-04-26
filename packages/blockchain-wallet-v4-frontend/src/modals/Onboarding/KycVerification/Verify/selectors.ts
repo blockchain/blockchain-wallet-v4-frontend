@@ -10,7 +10,7 @@ const {
   getSupportedDocuments
 } = selectors.components.identityVerification
 
-export const getData = state => {
+export const getData = (state) => {
   const getEmailR = getEmail(state)
   const getSupportedDocumentsR = getSupportedDocuments(state)
   const getKycFlowConfigR = getKycFlowConfig(state)
@@ -31,7 +31,7 @@ export const getData = state => {
   })(getEmailR, getSupportedDocumentsR, getKycFlowConfigR)
 }
 
-export const getPreIdvData = state => {
+export const getPreIdvData = (state) => {
   const getPreIdvDataR = getSiftData(state)
   const getSiftKeyR = selectors.core.walletOptions.getSiftKey(
     state

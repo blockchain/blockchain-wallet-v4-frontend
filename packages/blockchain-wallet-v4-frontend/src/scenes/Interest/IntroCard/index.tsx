@@ -255,11 +255,11 @@ class IntroCard extends PureComponent<
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   showInterestInfoBox: selectors.preferences.getShowInterestInfoBox(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })

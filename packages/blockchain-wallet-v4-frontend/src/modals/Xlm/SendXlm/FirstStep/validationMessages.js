@@ -35,7 +35,7 @@ export const InvalidAmountMessage = () => (
   </div>
 )
 
-export const ShouldCreateAccountMessage = props => (
+export const ShouldCreateAccountMessage = (props) => (
   <ErrorBanner type='warning' data-e2e='sendXlmErrorSendAtLeast'>
     <FormattedMessage
       id='modals.sendxlm.shouldcreateaccountmessage'
@@ -46,7 +46,7 @@ export const ShouldCreateAccountMessage = props => (
   </ErrorBanner>
 )
 
-export const NoFundsMessage = props => (
+export const NoFundsMessage = (props) => (
   <ErrorBanner type='warning'>
     <FormattedMessage
       id='modals.sendxlm.nofunds'
@@ -56,7 +56,7 @@ export const NoFundsMessage = props => (
   </ErrorBanner>
 )
 
-export const ReserveMessage = props => (
+export const ReserveMessage = (props) => (
   <ErrorBanner type='warning' data-e2e='sendXlmUseTotalBalance'>
     <div>
       <FormattedMessage

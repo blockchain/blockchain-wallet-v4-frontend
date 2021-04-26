@@ -10,7 +10,7 @@ import {
   TooltipIcon
 } from 'blockchain-info-components'
 
-const SignMessage = props => (
+const SignMessage = (props) => (
   <Modal size='medium' position={props.position} total={props.total}>
     <ModalHeader onClose={props.closeAll}>
       <FormattedMessage

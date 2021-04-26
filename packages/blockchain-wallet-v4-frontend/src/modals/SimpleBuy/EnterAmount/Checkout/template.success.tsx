@@ -106,11 +106,11 @@ const ActionsItem = styled.div`
   flex-direction: column;
 `
 const CustomBlueCartridge = styled(BlueCartridge)`
-  border: 1px solid ${props => props.theme.blue000};
+  border: 1px solid ${(props) => props.theme.blue000};
   cursor: pointer;
 `
 const CustomErrorCartridge = styled(ErrorCartridge)`
-  border: 1px solid ${props => props.theme.red000};
+  border: 1px solid ${(props) => props.theme.red000};
   cursor: pointer;
 `
 const ErrorTextContainer = styled.div`
@@ -127,8 +127,8 @@ const ErrorText = styled(Text)`
   font-size: 14px;
   padding: 6px 12px;
   border-radius: 8px;
-  background-color: ${props => props.theme.red000};
-  color: ${props => props.theme.red800};
+  background-color: ${(props) => props.theme.red000};
+  color: ${(props) => props.theme.red800};
   margin-bottom: 16px;
   > div {
     cursor: pointer;
@@ -164,7 +164,7 @@ const normalizeAmount = (
   return formatTextAmount(value, allValues && allValues.fix === 'FIAT')
 }
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const {
     cards,
     cryptoCurrency,
@@ -182,7 +182,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     const card = cards[0]
 
     const defaultCardMethod = props.paymentMethods.methods.find(
-      m => m.type === 'PAYMENT_CARD' && orderType === 'BUY'
+      (m) => m.type === 'PAYMENT_CARD' && orderType === 'BUY'
     )
     method = {
       ...card,
@@ -327,7 +327,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     // @ts-ignore
     !props.payment.isSufficientEthForErc20
 
-  const getValue = value =>
+  const getValue = (value) =>
     fix === 'FIAT'
       ? fiatToString({
           digits,

@@ -61,11 +61,11 @@ const mapStateToProps = (state, ownProps) => ({
   usedDeviceNames: selectors.core.kvStore.lockbox
     .getDevices(state)
     .getOrElse([])
-    .map(d => d.device_name),
+    .map((d) => d.device_name),
   newDeviceName: formValueSelector('RenameDevice')(state, 'newDeviceName')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.core.kvStore.lockbox, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

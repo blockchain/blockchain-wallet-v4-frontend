@@ -8,10 +8,10 @@ import { selectors } from 'data'
 export const getData = createSelector(
   [
     path<any>(['router', 'location', 'pathname']),
-    state => selectors.core.walletOptions.getCoinAvailability(state),
-    state => selectors.core.walletOptions.getErc20CoinList(state),
-    state => selectors.core.walletOptions.getSupportedCoins(state),
-    state => selectors.core.settings.getInvitations(state)
+    (state) => selectors.core.walletOptions.getCoinAvailability(state),
+    (state) => selectors.core.walletOptions.getErc20CoinList(state),
+    (state) => selectors.core.walletOptions.getSupportedCoins(state),
+    (state) => selectors.core.settings.getInvitations(state)
   ],
   (
     pathname: string,

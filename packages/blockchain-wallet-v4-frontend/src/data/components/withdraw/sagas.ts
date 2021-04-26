@@ -71,7 +71,9 @@ export default ({ api }: { api: APIType }) => {
   ) {
     yield put(A.fetchWithdrawalFeesLoading())
     try {
-      const withdrawalFees: ReturnType<typeof api.getWithdrawalFees> = yield call(
+      const withdrawalFees: ReturnType<
+        typeof api.getWithdrawalFees
+      > = yield call(
         api.getWithdrawalFees,
         SERVICE_NAME,
         action.payload.paymentMethod

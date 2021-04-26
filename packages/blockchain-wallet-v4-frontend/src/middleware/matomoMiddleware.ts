@@ -38,7 +38,7 @@ const TYPE_WHITELIST = Object.keys(WhitelistActionTypesEnum)
 
 const EVENT_ACTION_BLACKLIST = ['ShowXPub']
 
-const formatEvent = x => (typeof x !== 'string' ? JSON.stringify(x) : x)
+const formatEvent = (x) => (typeof x !== 'string' ? JSON.stringify(x) : x)
 
 const sanitizeEvent = (
   nextCategory: WhitelistActions,
@@ -156,7 +156,7 @@ const sanitizeEvent = (
 
 let lastEvent = []
 
-const matomoMiddleware = () => () => next => action => {
+const matomoMiddleware = () => () => (next) => (action) => {
   try {
     const nextCategory: WhitelistActions = prop('type', action)
     const nextAction: string | undefined =

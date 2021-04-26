@@ -12,7 +12,7 @@ const checkAccountZeroBalance = (
   }
 
   return allAccounts.every(
-    account => account.balance === 0 || account.balance === '0'
+    (account) => account.balance === 0 || account.balance === '0'
   )
 }
 

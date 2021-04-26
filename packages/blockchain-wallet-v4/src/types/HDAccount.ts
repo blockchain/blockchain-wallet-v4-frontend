@@ -69,7 +69,7 @@ export const isArchived = compose(Boolean, view(archived))
 
 export const isActive = compose(not, isArchived)
 
-export const isWatchOnly = account =>
+export const isWatchOnly = (account) =>
   // @ts-ignore
   compose(isNil, selectXpriv('bech32'))(account)
 
@@ -77,7 +77,7 @@ export const isXpub = curry((myxpub, account) =>
   compose(contains(myxpub), selectAllXpubs)(account)
 )
 
-export const selectAllXpubsGrouped = account => {
+export const selectAllXpubsGrouped = (account) => {
   // TODO: SEGWIT remove w/ DEPRECATED_V3
   // @ts-ignore
   if (!account.derivations)
@@ -86,7 +86,7 @@ export const selectAllXpubsGrouped = account => {
   return DerivationList.getXpubsAndTypesFromDerivations(derivations)
 }
 
-export const selectAllXpubs = account => {
+export const selectAllXpubs = (account) => {
   // TODO: SEGWIT remove w/ DEPRECATED_V3
   // @ts-ignore
   if (!account.derivations) return HDAccountDeprecatedV3.selectAllXpubs(account)
@@ -177,7 +177,7 @@ export const getChangeAddress = (account, changeIndex, network, type?) => {
 }
 
 // migrateFromV3 :: Object -> Object
-const migrateFromV3 = account => {
+const migrateFromV3 = (account) => {
   if (account.derivations != null) {
     return account
   }
@@ -212,7 +212,7 @@ export const fromJS = (account, index) => {
   const accountCons = compose(
     over(derivations, DerivationList.fromJS),
     // @ts-ignore
-    a => new HDAccount(a),
+    (a) => new HDAccount(a),
     assoc('index', index),
     migrateFromV3
   )
@@ -220,7 +220,7 @@ export const fromJS = (account, index) => {
   return accountCons(account)
 }
 
-export const toJSwithIndex = pipe(HDAccount.guard, acc => {
+export const toJSwithIndex = pipe(HDAccount.guard, (acc) => {
   // TODO: SEGWIT remove w/ DEPRECATED_V3
   // @ts-ignore
   // console.log(acc)
@@ -233,7 +233,7 @@ export const toJSwithIndex = pipe(HDAccount.guard, acc => {
 
 export const toJS = compose(dissoc('index'), toJSwithIndex)
 
-export const reviver = jsObject => {
+export const reviver = (jsObject) => {
   // @ts-ignore
   return new HDAccount(jsObject)
 }

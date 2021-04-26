@@ -57,7 +57,7 @@ const InputWrapper = styled(LabelWrapper)`
 const Error = styled(Text)`
   position: absolute;
   display: block;
-  top: ${props => (props.errorBottom ? 48 : -20)}px;
+  top: ${(props) => (props.errorBottom ? 48 : -20)}px;
   right: 0;
   height: 15px;
 `
@@ -75,7 +75,7 @@ const monthElements = [
   }
 ]
 
-const removeExtraDigits = maxDigits =>
+const removeExtraDigits = (maxDigits) =>
   replace(new RegExp(`(.{${maxDigits}}).*`), ($0, $1) => $1)
 const formatDate = removeExtraDigits(2)
 const formatYear = removeExtraDigits(4)
@@ -157,25 +157,25 @@ class DateInputBox extends React.PureComponent {
     })
   }
 
-  onFocus = e => {
+  onFocus = (e) => {
     if (!this.state.isActive) this.props.input.onFocus(e)
     this.setState({ isActive: true })
   }
 
-  onMonthChange = month => {
+  onMonthChange = (month) => {
     this.props.input.onChange({
       ...this.props.input.value,
       month
     })
   }
 
-  onYearChange = e =>
+  onYearChange = (e) =>
     this.props.input.onChange({
       ...this.props.input.value,
       year: formatYear(e.target.value)
     })
 
-  onDateChange = e =>
+  onDateChange = (e) =>
     this.props.input.onChange({
       ...this.props.input.value,
       date: formatDate(e.target.value)

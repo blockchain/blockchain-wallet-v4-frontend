@@ -35,7 +35,7 @@ class TransactionFee extends React.PureComponent<Props> {
           />
         </RowHeader>
         {feeR.cata({
-          Success: value => (
+          Success: (value) => (
             <ComboDisplay
               coin={supportedCoins[coin].contractAddress ? 'ETH' : coin}
               size='14px'
@@ -61,13 +61,13 @@ class TransactionFee extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrElse({} as SupportedWalletCurrenciesType)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   ethActions: bindActionCreators(actions.core.data.eth, dispatch)
 })
 

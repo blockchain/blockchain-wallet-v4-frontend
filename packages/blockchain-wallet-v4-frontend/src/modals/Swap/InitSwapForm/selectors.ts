@@ -5,7 +5,7 @@ import { RootState } from 'data/rootReducer'
 
 export const getData = createDeepEqualSelector(
   [(state: RootState) => getCoinAccounts(state, SWAP_ACCOUNTS_SELECTOR)],
-  accounts => {
+  (accounts) => {
     return { accounts }
   }
 )

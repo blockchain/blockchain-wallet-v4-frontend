@@ -41,7 +41,7 @@ const QrContainer = styled.div`
   align-items: center;
   margin: 40px auto 0;
   padding: 15px;
-  border: 2px solid ${p => p.theme.blue600};
+  border: 2px solid ${(p) => p.theme.blue600};
   border-radius: 4px;
 
   & img {
@@ -269,7 +269,7 @@ const BankRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border: 0px solid ${p => p.theme.grey000};
+  border: 0px solid ${(p) => p.theme.grey000};
   border-bottom-width: 1px;
   padding: 28px 40px;
 
@@ -280,7 +280,7 @@ const BankRow = styled.div`
     align-items: center;
   }
 
-  ${props =>
+  ${(props) =>
     props.onClick &&
     css`
       cursor: pointer;
@@ -288,7 +288,7 @@ const BankRow = styled.div`
         cursor: pointer;
       }
       &:hover {
-        background-color: ${props => props.theme.blue000};
+        background-color: ${(props) => props.theme.blue000};
       }
     `}
 `
@@ -296,7 +296,7 @@ const BankRow = styled.div`
 const BankIcon = styled.div<BankIconProps>`
   height: 30px;
   width: 30px;
-  background: url("${p => p.url}") 0 0 no-repeat;
+  background: url('${(p) => p.url}') 0 0 no-repeat;
   background-size: 30px;
   background-position: center;
 `
@@ -305,7 +305,7 @@ const BankSearchWrapper = styled.div`
   position: relative;
 `
 const BankSearchInput = styled.input`
-  border: 1px solid ${p => p.theme.grey000};
+  border: 1px solid ${(p) => p.theme.grey000};
   font-size: 16px;
   width: 100%;
   border-width: 1px 0;
@@ -350,7 +350,7 @@ const SimpleBankRow = (props: {
   )
 }
 
-const ModalNavWithBackArrow = props => {
+const ModalNavWithBackArrow = (props) => {
   return (
     <NavText color='grey800' size='20px' weight={600}>
       <Icon
@@ -367,7 +367,7 @@ const ModalNavWithBackArrow = props => {
   )
 }
 
-const ModalNavWithCloseIcon = props => {
+const ModalNavWithCloseIcon = (props) => {
   return (
     <NavText
       color='grey800'
@@ -391,7 +391,7 @@ const ModalNavWithCloseIcon = props => {
 
 const HrEl = styled.hr`
   border: none;
-  border-top: 1px solid ${p => p.theme.grey100};
+  border-top: 1px solid ${(p) => p.theme.grey100};
   text-align: center;
   overflow: visible;
   color: #333;
@@ -403,7 +403,7 @@ const HrEl = styled.hr`
     padding: 0 4px;
     position: relative;
     top: -10px;
-    background: ${p => p.theme.alwaysWhite};
+    background: ${(p) => p.theme.alwaysWhite};
   }
 `
 

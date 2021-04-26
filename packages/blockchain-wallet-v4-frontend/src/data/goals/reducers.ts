@@ -19,7 +19,7 @@ export function goalsReducer(state = INITIAL_STATE, action): GoalsState {
       const { id } = action.payload
       return assoc(
         'goals',
-        filter(a => a.id !== id, state.goals),
+        filter((a) => a.id !== id, state.goals),
         state
       )
     }

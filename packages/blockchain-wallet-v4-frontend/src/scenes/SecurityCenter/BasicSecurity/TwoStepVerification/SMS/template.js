@@ -13,7 +13,7 @@ import { required, validMobileNumber } from 'services/forms'
 const AuthenticatorSummary = styled.div`
   width: 100%;
   padding: 0px 20px;
-  opacity: ${props => (props.verified ? 0.3 : 1)};
+  opacity: ${(props) => (props.verified ? 0.3 : 1)};
   @media (min-width: 992px) {
     width: 110%;
   }
@@ -39,7 +39,7 @@ const QRInputWrapper = styled.div`
   }
 `
 
-const SmsAuth = props => {
+const SmsAuth = (props) => {
   const {
     changeMobileNumber,
     code,

@@ -68,7 +68,7 @@ class InfoAndResidential extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => (
+      Success: (val) => (
         <Success
           {...this.props}
           {...val}
@@ -95,7 +95,7 @@ const mapStateToProps = (state: RootState) => ({
   countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,

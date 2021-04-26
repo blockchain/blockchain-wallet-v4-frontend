@@ -2,19 +2,19 @@ import React from 'react'
 import { darken } from 'polished'
 import styled from 'styled-components'
 
-const BaseButton = styled.button.attrs(props => ({
+const BaseButton = styled.button.attrs((props) => ({
   type: props.type ? props.type : 'button'
 }))`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: ${props =>
+  width: ${(props) =>
     props.fullwidth ? '100%' : props.width ? props.width : 'auto'};
-  min-width: ${props => (props.width ? props.width : '140px')};
-  height: ${props => (props.jumbo ? '56px' : props.height)};
-  padding: ${props => (props.padding ? props.padding : '10px 15px')};
-  margin: ${props => props.margin};
+  min-width: ${(props) => (props.width ? props.width : '140px')};
+  height: ${(props) => (props.jumbo ? '56px' : props.height)};
+  padding: ${(props) => (props.padding ? props.padding : '10px 15px')};
+  margin: ${(props) => props.margin};
   box-sizing: border-box;
   user-select: none;
   text-align: center;
@@ -24,30 +24,30 @@ const BaseButton = styled.button.attrs(props => ({
   transition: all 0.2s ease-in-out;
   white-space: nowrap;
   line-height: 1;
-  text-transform: ${props =>
+  text-transform: ${(props) =>
     props.uppercase ? 'uppercase' : props.capitalize ? 'capitalize' : 'none'};
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: ${props => (props.jumbo ? '16px' : props.size)};
-  font-weight: ${props => (props.jumbo ? '600' : '600')};
-  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
-  opacity: ${props => (props.disabled ? 0.5 : 1)};
-  color: ${props => props.theme[props.color]};
-  background-color: ${props =>
+  font-size: ${(props) => (props.jumbo ? '16px' : props.size)};
+  font-weight: ${(props) => (props.jumbo ? '600' : '600')};
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
+  color: ${(props) => props.theme[props.color]};
+  background-color: ${(props) =>
     props.backgroundColor ? props.theme[props.backgroundColor] : 'transparent'};
-  border-radius: ${props => (props.rounded ? '20px' : '8px')};
+  border-radius: ${(props) => (props.rounded ? '20px' : '8px')};
   border-style: solid;
-  border-width: ${props => (props.rounded ? '2px' : '1px')};
-  border-color: ${props => props.theme[props.borderColor]};
+  border-width: ${(props) => (props.rounded ? '2px' : '1px')};
+  border-color: ${(props) => props.theme[props.borderColor]};
 
   &:hover {
-    border-color: ${props =>
+    border-color: ${(props) =>
       props.disabled
         ? 'none'
         : props.hoverBorderColor
         ? props.theme[props.hoverBorderColor]
         : darken(0.1, props.theme[props.borderColor])};
-    background-color: ${props =>
+    background-color: ${(props) =>
       props.disabled
         ? 'none'
         : props.backgroundColor
@@ -195,7 +195,7 @@ const selectColor = (nature, small) => {
   }
 }
 
-const Button = props => {
+const Button = (props) => {
   const { children, disabled, nature, small, ...rest } = props
   const { backgroundColor, borderColor, color, hoverBorderColor } = selectColor(
     nature,

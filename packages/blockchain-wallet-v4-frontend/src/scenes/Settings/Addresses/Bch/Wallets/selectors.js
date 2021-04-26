@@ -2,8 +2,8 @@ import { lift, map } from 'ramda'
 
 import { selectors } from 'data'
 
-export const getData = state => {
-  const formatAccounts = map(x => ({ label: x.label, value: x }))
+export const getData = (state) => {
+  const formatAccounts = map((x) => ({ label: x.label, value: x }))
   const bchAccounts = selectors.core.kvStore.bch.getAccounts(state)
   const defaultIndex = selectors.core.kvStore.bch.getDefaultAccountIndex(state)
   const wallets = selectors.core.common.bch

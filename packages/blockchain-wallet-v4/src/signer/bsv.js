@@ -12,13 +12,13 @@ export const signSelection = curry((network, coinDust, selection) => {
     BitcoinCash.Transaction.SIGHASH_BITCOINCASHBIP143
   const tx = new BitcoinCash.TransactionBuilder(network)
   tx.enableBitcoinCash(true)
-  const addInput = coin =>
+  const addInput = (coin) =>
     tx.addInput(
       coin.txHash,
       coin.index,
       BitcoinCash.Transaction.DEFAULT_SEQUENCE
     )
-  const addOutput = coin =>
+  const addOutput = (coin) =>
     tx.addOutput(
       isCashAddr(coin.address) ? fromCashAddr(coin.address) : coin.address,
       coin.value
@@ -38,7 +38,7 @@ export const signSelection = curry((network, coinDust, selection) => {
   return { txHex: signedTx.toHex(), txId: signedTx.getId() }
 })
 
-export const sortSelection = selection => ({
+export const sortSelection = (selection) => ({
   ...selection,
   inputs: Coin.bip69SortInputs(selection.inputs),
   outputs: Coin.bip69SortOutputs(selection.outputs)
@@ -63,7 +63,7 @@ export const signLegacy = curry(
 export const wifToKeys = curry((network, selection) =>
   over(
     compose(lensProp('inputs'), mapped, Coin.priv),
-    wif => BitcoinCash.ECPair.fromWIF(wif, network),
+    (wif) => BitcoinCash.ECPair.fromWIF(wif, network),
     selection
   )
 )

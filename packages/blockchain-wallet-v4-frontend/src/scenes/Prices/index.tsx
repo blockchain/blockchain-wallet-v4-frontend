@@ -96,7 +96,7 @@ const Scene = ({ children }) => (
   </SceneWrapper>
 )
 
-const PricesContainer = props => {
+const PricesContainer = (props) => {
   const { priceActions, rowDataR } = props
 
   useEffect(() => {
@@ -105,7 +105,7 @@ const PricesContainer = props => {
   }, [])
 
   return rowDataR.cata({
-    Success: val => (
+    Success: (val) => (
       <Scene>
         <PricesTable data={val} {...props} />
       </Scene>
@@ -128,13 +128,13 @@ const PricesContainer = props => {
   })
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   rowDataR: getData(state),
   textFilter: formValueSelector('prices')(state, 'textFilter'),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   priceActions: bindActionCreators(actions.prices, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)

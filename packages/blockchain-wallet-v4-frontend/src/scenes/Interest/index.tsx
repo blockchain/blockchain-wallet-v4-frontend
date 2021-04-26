@@ -97,12 +97,12 @@ class Interest extends React.PureComponent<Props, StateType> {
           </TabRow>
         )}
         {data.cata({
-          Success: val => (
+          Success: (val) => (
             <>
               <ContainerStyled>
                 <IntroCard {...val} {...this.props} isGoldTier={isGoldTier} />
                 {isGoldTier &&
-                  val.instruments.map(instrument => {
+                  val.instruments.map((instrument) => {
                     return (
                       <SummaryCard
                         {...val}

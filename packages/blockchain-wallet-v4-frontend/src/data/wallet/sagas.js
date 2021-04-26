@@ -58,13 +58,13 @@ export default ({ coreSagas }) => {
         selectors.core.common.btc.getHDAccounts
       ))
         .getOrFail()
-        .map(wallet => wallet.label)
+        .map((wallet) => wallet.label)
       let newLabel = yield call(promptForInput, {
         title: 'Rename Bitcoin Wallet',
         initial: label,
         maxLength: 30,
         validations: [
-          value => requireUniqueWalletName(value, allWalletLabels, index)
+          (value) => requireUniqueWalletName(value, allWalletLabels, index)
         ]
       })
       yield put(actions.core.wallet.setAccountLabel(index, newLabel))

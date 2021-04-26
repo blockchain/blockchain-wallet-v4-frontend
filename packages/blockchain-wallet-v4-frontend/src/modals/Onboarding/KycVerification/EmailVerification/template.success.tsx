@@ -28,7 +28,7 @@ const Wrapper = styled.div`
 
 const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
   display: flex;
-  background: ${props => props.theme[props.color]};
+  background: ${(props) => props.theme[props.color]};
   height: 40px;
   width: 40px;
   justify-content: center;
@@ -79,7 +79,7 @@ export const Label = styled.label`
   text-align: left;
 `
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const [changeEmail, setChangeEmail] = useState(false)
 
   return (

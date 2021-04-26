@@ -27,7 +27,7 @@ const SwapIcon = styled.div`
   height: 72px;
   width: 72px;
   border-radius: 50%;
-  background: ${props => props.theme.blue600};
+  background: ${(props) => props.theme.blue600};
 `
 const CheckIcon = styled.div`
   position: absolute;
@@ -38,10 +38,10 @@ const CheckIcon = styled.div`
   align-items: center;
   padding: 2px;
   border-radius: 50%;
-  background: ${props => props.theme.white};
+  background: ${(props) => props.theme.white};
 `
 
-const SuccessfulSwap: React.FC<Props> = props => {
+const SuccessfulSwap: React.FC<Props> = (props) => {
   if (!props.order) return null
   return (
     <Wrapper>

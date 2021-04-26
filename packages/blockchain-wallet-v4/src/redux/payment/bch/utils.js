@@ -10,7 +10,7 @@ export const fromAccount = (network, state, index, coin) => {
 
     let changeIndex = S.data.bch.getChangeIndex(xpub, state)
     let changeAddress = changeIndex
-      .map(index =>
+      .map((index) =>
         HDAccount.getChangeAddress(account, index, network, 'legacy')
       )
       .getOrFail('missing_change_address')
@@ -25,7 +25,7 @@ export const fromAccount = (network, state, index, coin) => {
   } else {
     let changeIndex = S.data.bch.getChangeIndex(account.xpub, state)
     let changeAddress = changeIndex
-      .map(index => HDAccount.getChangeAddress(account, index, network))
+      .map((index) => HDAccount.getChangeAddress(account, index, network))
       .getOrFail('missing_change_address')
 
     return {

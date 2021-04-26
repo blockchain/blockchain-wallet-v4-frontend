@@ -3,7 +3,7 @@ import { lift } from 'ramda'
 import { ExtractSuccess, FiatType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
-export const getData = state => {
+export const getData = (state) => {
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
   const defaultMethodR = selectors.components.simpleBuy.getDefaultPaymentMethod(
     state

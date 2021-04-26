@@ -18,7 +18,7 @@ export const getData = (
     includeExchangeAddress
   } = ownProps
 
-  const buildCustodialDisplay = x => {
+  const buildCustodialDisplay = (x) => {
     return (
       `Trading Account` +
       ` (${Exchange.displayAlgoToAlgo({
@@ -31,8 +31,8 @@ export const getData = (
   // @ts-ignore
   // const excluded = filter(x => !exclude.includes(x.label))
   const toGroup = curry((label, options) => [{ label, options }])
-  const toExchange = x => [{ label: `Exchange Account`, value: x }]
-  const toCustodialDropdown = currencyDetails => [
+  const toExchange = (x) => [{ label: `Exchange Account`, value: x }]
+  const toCustodialDropdown = (currencyDetails) => [
     {
       label: buildCustodialDisplay(currencyDetails),
       value: {
@@ -56,7 +56,7 @@ export const getData = (
     includeCustodial
       ? selectors.components.simpleBuy
           .getSBBalances(state)
-          .map(x => x.ALGO)
+          .map((x) => x.ALGO)
           .map(toCustodialDropdown)
           .map(toGroup('Custodial Wallet'))
       : Remote.of([])

@@ -15,7 +15,7 @@ const DetailRow = styled.div`
   display: flex;
   margin-bottom: 10px;
   align-items: flex-start;
-  flex-direction: ${props => (props.column ? 'column' : 'row')};
+  flex-direction: ${(props) => (props.column ? 'column' : 'row')};
   > div:first-child {
     margin-right: 2px;
   }
@@ -33,7 +33,7 @@ const ClickableText = styled(Text)`
   cursor: pointer;
 `
 
-const SecondStep = props => {
+const SecondStep = (props) => {
   const { address, closeAll, message, resetForm, signedMessage } = props
 
   return (

@@ -21,13 +21,13 @@ const TitleText = styled(Text)`
   font-weight: 500;
   font-size: 16px;
   line-height: 150%;
-  color: ${props => props.theme.grey400};
+  color: ${(props) => props.theme.grey400};
 `
 const PriceText = styled(Text)`
   font-weight: 500;
   font-size: 24px;
   line-height: 135%;
-  color: ${props => props.theme.grey800};
+  color: ${(props) => props.theme.grey800};
 `
 
 class CoinPricesContainer extends React.PureComponent<Props> {
@@ -35,7 +35,7 @@ class CoinPricesContainer extends React.PureComponent<Props> {
     const { data } = this.props
 
     return data.cata({
-      Success: val => {
+      Success: (val) => {
         const { priceChange } = val
 
         return (
@@ -63,7 +63,9 @@ class CoinPricesContainer extends React.PureComponent<Props> {
           </Wrapper>
         )
       },
-      Failure: e => <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>,
+      Failure: (e) => (
+        <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>
+      ),
       Loading: () => <Skeletons />,
       NotAsked: () => <Skeletons />
     })

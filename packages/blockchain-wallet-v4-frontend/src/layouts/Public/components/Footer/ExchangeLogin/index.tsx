@@ -10,7 +10,7 @@ const ExchangePill = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  background-color: ${props => props.theme.whiteFade100};
+  background-color: ${(props) => props.theme.whiteFade100};
   padding: 12px 32px;
 `
 

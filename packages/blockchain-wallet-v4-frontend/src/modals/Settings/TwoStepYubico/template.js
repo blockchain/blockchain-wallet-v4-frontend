@@ -30,7 +30,7 @@ const Code = styled.div`
   }
 `
 
-const TwoStepYubico = props => {
+const TwoStepYubico = (props) => {
   const {
     close,
     closeAll,

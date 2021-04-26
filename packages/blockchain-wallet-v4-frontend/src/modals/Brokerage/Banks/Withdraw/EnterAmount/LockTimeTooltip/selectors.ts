@@ -3,7 +3,7 @@ import { lift } from 'ramda'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
-export const getData = state => {
+export const getData = (state) => {
   const withdrawLockCheckR = selectors.components.send.getWithdrawLockCheckRule(
     state
   )

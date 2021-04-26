@@ -10,7 +10,7 @@ import * as Exchange from '../exchange'
 /**
  * @param {string} address - The ethereum address
  */
-export const isValidAddress = address => /^0x[a-fA-F0-9]{40}$/.test(address)
+export const isValidAddress = (address) => /^0x[a-fA-F0-9]{40}$/.test(address)
 
 /**
  * @param {string} mnemonic
@@ -26,16 +26,12 @@ export const getPrivateKey = (mnemonic, index) => {
     .derive(0)
     .derive(index)
     .toBase58()
-  return EthHd.fromExtendedKey(account)
-    .getWallet()
-    .getPrivateKey()
+  return EthHd.fromExtendedKey(account).getWallet().getPrivateKey()
 }
 
 // Derivation error using seedHex directly instead of seed derived from mnemonic derived from seedHex
-export const getLegacyPrivateKey = seedHex => {
-  return deriveChildLegacy(0, seedHex)
-    .getWallet()
-    .getPrivateKey()
+export const getLegacyPrivateKey = (seedHex) => {
+  return deriveChildLegacy(0, seedHex).getWallet().getPrivateKey()
 }
 
 const deriveChildLegacy = (index, seed) => {
@@ -45,16 +41,14 @@ const deriveChildLegacy = (index, seed) => {
     .deriveChild(index)
 }
 
-export const privateKeyToAddress = pk =>
+export const privateKeyToAddress = (pk) =>
   EthUtil.toChecksumAddress(EthUtil.privateToAddress(pk).toString('hex'))
 
 export const deriveAddress = (mnemonic, index) =>
   privateKeyToAddress(getPrivateKey(mnemonic, index))
 
-export const deriveAddressFromXpub = xpub => {
-  const ethPublic = EthHd.fromExtendedKey(xpub)
-    .getWallet()
-    .getPublicKey()
+export const deriveAddressFromXpub = (xpub) => {
+  const ethPublic = EthHd.fromExtendedKey(xpub).getWallet().getPublicKey()
   return EthUtil.toChecksumAddress(
     EthUtil.publicToAddress(ethPublic).toString('hex')
   )
@@ -95,11 +89,11 @@ export const calculateTransactionAmount = (amount, fee) => {
   return new BigNumber(amount).plus(new BigNumber(fee)).toString()
 }
 
-export const convertGweiToWei = amount => {
+export const convertGweiToWei = (amount) => {
   return new BigNumber(amount).multipliedBy('1000000000').toString()
 }
 
-export const convertFeeToWei = fees => ({
+export const convertFeeToWei = (fees) => ({
   gasLimit: prop('gasLimit', fees),
   priority: convertGweiToWei(prop('priority', fees)),
   regular: convertGweiToWei(prop('regular', fees)),

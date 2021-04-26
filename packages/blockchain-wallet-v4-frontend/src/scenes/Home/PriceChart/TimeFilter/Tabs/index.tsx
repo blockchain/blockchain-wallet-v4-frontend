@@ -64,7 +64,7 @@ const TabsContainer = ({ currentTab, handleClick }: OwnProps) => {
   )
 }
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
   layoutActions: bindActionCreators(actions.components.layoutWallet, dispatch)
 })
 

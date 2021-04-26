@@ -16,7 +16,7 @@ const ButtonContainer = styled.div`
   margin-top: 30px;
 `
 
-const CompleteStep = props => {
+const CompleteStep = (props) => {
   const { onInstallApps, status } = props
 
   return (

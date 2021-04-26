@@ -45,13 +45,13 @@ const CoinSelector = ({
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     priceChart: selectors.preferences.getPriceChart(state)
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.priceChart, dispatch)
 })
 

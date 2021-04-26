@@ -22,7 +22,7 @@ const MaximumMessage = () => (
   />
 )
 
-export const isValidAutoLogoutTime = value => {
+export const isValidAutoLogoutTime = (value) => {
   if (!Number.isInteger(Number(value))) return <InvalidMessage />
   if (value < 1) return <MinimumMessage />
   if (value > 1440) return <MaximumMessage />

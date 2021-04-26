@@ -22,7 +22,7 @@ const SubTitle = styled(Text)`
   margin: 0 0 24px;
 `
 
-const TimedOut = props => {
+const TimedOut = (props) => {
   return (
     <Wrapper>
       <div>

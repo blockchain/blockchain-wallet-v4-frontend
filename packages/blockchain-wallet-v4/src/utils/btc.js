@@ -47,7 +47,7 @@ export const isValidBtcAddress = (value, network) => {
   }
 }
 
-export const isSegwitAddress = value => {
+export const isSegwitAddress = (value) => {
   try {
     const decoded = decode(value)
     return decoded.prefix === 'bc'
@@ -62,7 +62,7 @@ export const addressToScript = (value, network) => {
     if (value.toLowerCase().startsWith('bc')) {
       const words = decode(value).words
       const version = words[0]
-      const program = compose(Buffer.from, fromWords, w => w.slice(1))(words)
+      const program = compose(Buffer.from, fromWords, (w) => w.slice(1))(words)
 
       return compile([OP[`OP_${version}`], program])
     } else {
@@ -83,7 +83,7 @@ export const scriptToAddress = (script, network) => {
   }
 }
 
-export const detectPrivateKeyFormat = key => {
+export const detectPrivateKeyFormat = (key) => {
   // 51 characters base58, always starts with 5
   const sipaRegex = /^[5][1-9A-HJ-Za-km-z]{50}$/
 
@@ -134,7 +134,7 @@ export const detectPrivateKeyFormat = key => {
   return null
 }
 
-const parseMiniKey = function(miniKey) {
+const parseMiniKey = function (miniKey) {
   const check = crypto.sha256(miniKey + '?')
   if (check[0] !== 0x00) {
     throw new Error('Invalid mini key')
@@ -142,7 +142,7 @@ const parseMiniKey = function(miniKey) {
   return crypto.sha256(miniKey)
 }
 
-export const privateKeyStringToKey = function(
+export const privateKeyStringToKey = function (
   value,
   format,
   network = networks.bitcoin,
@@ -186,7 +186,7 @@ export const formatPrivateKeyString = (keyString, format, addr) => {
     null,
     addr
   )
-  return eitherKey.chain(key => {
+  return eitherKey.chain((key) => {
     if (format === 'wif') return Either.of(key.toWIF())
     if (format === 'base58') return Either.of(Base58.encode(key.privateKey))
     return Either.Left(new Error('Unsupported Key Format'))
@@ -212,7 +212,7 @@ export const calculateBalanceSatoshi = (coins, feePerByte) => {
   return { balance, fee, effectiveBalance }
 }
 
-export const isKey = btcKey => {
+export const isKey = (btcKey) => {
   // creating fake keypair for ECPair class comparison
   const mockECPair = ECPair.fromPrivateKey(crypto.sha256('mock privatekey'))
   return btcKey.constructor === mockECPair.constructor
@@ -247,22 +247,22 @@ export const getWifAddress = (key, compressed = true) => {
   return result
 }
 
-export const compressPublicKey = publicKey => {
+export const compressPublicKey = (publicKey) => {
   const prefix = (publicKey[64] & 1) !== 0 ? 0x03 : 0x02
   const prefixBuffer = Buffer.alloc(1)
   prefixBuffer[0] = prefix
   return Buffer.concat([prefixBuffer, publicKey.slice(1, 1 + 32)])
 }
 
-export const fingerprint = publickey => {
+export const fingerprint = (publickey) => {
   let pkh = compose(crypto.ripemd160, crypto.sha256)(publickey)
   return ((pkh[0] << 24) | (pkh[1] << 16) | (pkh[2] << 8) | pkh[3]) >>> 0
 }
 
 export const getParentPath = compose(
-  array => bippath.fromPathArray(array).toString(),
+  (array) => bippath.fromPathArray(array).toString(),
   dropLast(1),
-  path => bippath.fromString(path).toPathArray()
+  (path) => bippath.fromString(path).toPathArray()
 )
 
 export const createXpubFromChildAndParent = (path, child, parent) => {
@@ -277,5 +277,5 @@ export const createXpubFromChildAndParent = (path, child, parent) => {
   return hdnode.neutered().toBase58()
 }
 
-export const keyPairToAddress = key =>
+export const keyPairToAddress = (key) =>
   payments.p2pkh({ pubkey: key.publicKey }).address

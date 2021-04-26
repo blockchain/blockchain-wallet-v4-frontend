@@ -31,7 +31,7 @@ const DetailColumn = styled.div`
 `
 
 const DetailColTitle = styled(DetailColumn)`
-  border-bottom: ${props => `solid 1px ${props.theme.grey000}`};
+  border-bottom: ${(props) => `solid 1px ${props.theme.grey000}`};
   padding-bottom: 0.5rem;
 `
 

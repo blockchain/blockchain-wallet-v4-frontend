@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   width: 100%;
   border-radius: 8px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.grey000};
   margin-bottom: 36px;
 `
 

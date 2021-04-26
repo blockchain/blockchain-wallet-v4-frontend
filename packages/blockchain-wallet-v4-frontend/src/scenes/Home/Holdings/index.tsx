@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   border-radius: 8px;
   padding: 24px 24px 0;
-  border: 1px solid ${props => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.grey000};
 
   ${media.mobile`
     padding: 12px;
@@ -59,14 +59,14 @@ const Loading = () => (
   </>
 )
 
-const HoldingsTableContainer = props => (
+const HoldingsTableContainer = (props) => (
   <Wrapper>
     <TitleText size='16px' weight={500} color='grey400' capitalize>
       <FormattedHTMLMessage id='copy.holdings' defaultMessage='Holdings' />
     </TitleText>
     {props.data.cata({
-      Success: val => <Table {...props} {...val} />,
-      Failure: e => (
+      Success: (val) => <Table {...props} {...val} />,
+      Failure: (e) => (
         <Text size='16px' weight={500} color='grey400' capitalize>
           {e?.toString() || 'Failed to load balances'}
         </Text>
@@ -77,11 +77,11 @@ const HoldingsTableContainer = props => (
   </Wrapper>
 )
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.refresh, dispatch)
 })
 

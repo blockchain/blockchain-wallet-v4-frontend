@@ -28,8 +28,8 @@ class Reset2FAToken extends React.PureComponent {
     const { data } = this.props
 
     let Reset2FARequest = data.cata({
-      Success: value => <Success value={value} />,
-      Failure: value => <Error value={value} />,
+      Success: (value) => <Success value={value} />,
+      Failure: (value) => <Error value={value} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -38,11 +38,11 @@ class Reset2FAToken extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   miscActions: bindActionCreators(actions.core.data.misc, dispatch)
 })
 

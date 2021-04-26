@@ -48,8 +48,8 @@ const Toggler = styled.div`
   transform: translateY(-50%);
   position: absolute;
   border-radius: 4px;
-  border: 1px solid ${props => props.theme['grey000']};
-  background: ${props => props.theme['white']};
+  border: 1px solid ${(props) => props.theme['grey000']};
+  background: ${(props) => props.theme['white']};
   right: 33px;
   display: flex;
   cursor: pointer;
@@ -132,7 +132,7 @@ class EnterAmount extends PureComponent<Props> {
               </Text>
             </SubTopText>
             {this.props.quoteR.cata({
-              Success: val => (
+              Success: (val) => (
                 <Text size='14px' color='grey900' weight={500}>
                   1 {coins[BASE.coin].coinTicker} = {formatCoin(val.rate)}{' '}
                   {coins[COUNTER.coin].coinTicker}
@@ -150,7 +150,7 @@ class EnterAmount extends PureComponent<Props> {
         </FlyoutWrapper>
         <div>
           {this.props.data.cata({
-            Success: val => (
+            Success: (val) => (
               <>
                 <Options>
                   <Option
@@ -234,7 +234,7 @@ class EnterAmount extends PureComponent<Props> {
                 {userData.tiers.current === 1 && <Upgrade {...this.props} />}
               </>
             ),
-            Failure: e => <Failure {...this.props} error={e} />,
+            Failure: (e) => <Failure {...this.props} error={e} />,
             Loading: () => <Loading />,
             NotAsked: () => <Loading />
           })}

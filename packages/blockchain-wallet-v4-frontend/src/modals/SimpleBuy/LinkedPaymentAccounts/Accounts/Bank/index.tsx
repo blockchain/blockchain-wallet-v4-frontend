@@ -11,13 +11,13 @@ import {
 
 const StyledTitle = styled(Title)`
   text-transform: capitalize;
-  color: ${p => p.theme.grey600};
+  color: ${(p) => p.theme.grey600};
   font-weight: 500;
   font-size: 14px;
 `
 
 const StyledValue = styled(Value)`
-  color: ${p => p.theme.grey900};
+  color: ${(p) => p.theme.grey900};
   font-weight: 600;
   font-size: 16px;
 `
@@ -39,8 +39,9 @@ const Bank = ({ icon, onClick, text, value }: Props) => (
     <MultiRowContainer>
       <StyledValue asTitle>{text}</StyledValue>
       <StyledTitle asValue>
-        {`${value.details?.bankAccountType?.toLowerCase() || ''} account ${value
-          .details?.accountNumber || ''}`}
+        {`${value.details?.bankAccountType?.toLowerCase() || ''} account ${
+          value.details?.accountNumber || ''
+        }`}
       </StyledTitle>
     </MultiRowContainer>
   </DisplayContainer>

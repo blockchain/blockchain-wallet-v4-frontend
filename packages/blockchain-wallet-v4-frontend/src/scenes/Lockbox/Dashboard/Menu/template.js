@@ -13,12 +13,12 @@ import DeviceTitle from './DeviceTitle'
 const Container = styled.div`
   width: 100%;
   position: fixed;
-  background-color: ${props => props.theme.white};
+  background-color: ${(props) => props.theme.white};
   z-index: 99;
 `
 const TitleBar = styled.div`
   width: 100%;
-  border-bottom: 1px solid ${props => props.theme.grey000};
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
 `
 const TitleBarWrapper = styled.div`
   display: flex;
@@ -31,7 +31,7 @@ const StyledCreatableInputContainer = styled.div`
   min-height: 48px;
   padding: 10px 30px;
   align-items: center;
-  border-bottom: 1px solid ${props => props.theme.grey000};
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
 `
 const SearchContainer = styled.div`
   display: flex;
@@ -45,7 +45,7 @@ const SearchContainer = styled.div`
     border: none;
     cursor: text;
     box-shadow: none;
-    background-color: ${props => props.theme.white};
+    background-color: ${(props) => props.theme.white};
   }
   .bc__placeholder {
     font-size: 13px;
@@ -65,24 +65,24 @@ const SearchContainer = styled.div`
 const SearchLabel = styled.div`
   display: flex;
   border-radius: 4px;
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.background ? props.theme[toLower(props.background)] : 'initial'};
   > div {
     font-size: 14px;
-    color: ${props =>
+    color: ${(props) =>
       props.theme[toLower(props.background)]
         ? props.theme.white
         : props.theme.grey700};
   }
 `
 
-const multiValueContainer = props => {
+const multiValueContainer = (props) => {
   return (
     <SearchLabel background={props.data.value}>{props.children}</SearchLabel>
   )
 }
 
-const Menu = props => {
+const Menu = (props) => {
   const { deviceIndex, deviceInfo, ...rest } = props
   const { formValues, location } = rest
   const onDashboard = location.pathname.includes('/lockbox/dashboard')

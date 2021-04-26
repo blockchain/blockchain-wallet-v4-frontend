@@ -75,7 +75,7 @@ class SmsAuthContainer extends React.PureComponent {
     const { data, goBack, verificationCode } = this.props
 
     return data.cata({
-      Success: value => (
+      Success: (value) => (
         <Sms
           data={value}
           handleClick={this.handleClick}
@@ -93,13 +93,13 @@ class SmsAuthContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   mobileNumber: formValueSelector('securitySms')(state, 'mobileNumber'),
   verificationCode: formValueSelector('securitySms')(state, 'verificationCode'),
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   settingsActions: bindActionCreators(actions.core.settings, dispatch),
   securityCenterActions: bindActionCreators(

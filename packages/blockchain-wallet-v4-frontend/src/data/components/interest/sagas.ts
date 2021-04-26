@@ -77,9 +77,9 @@ export default ({
         return yield put(
           A.fetchInterestBalanceSuccess(DEFAULT_INTEREST_BALANCES)
         )
-      const response: ReturnType<typeof api.getInterestAccountBalance> = yield call(
-        api.getInterestAccountBalance
-      )
+      const response: ReturnType<
+        typeof api.getInterestAccountBalance
+      > = yield call(api.getInterestAccountBalance)
       yield put(A.fetchInterestBalanceSuccess(response))
     } catch (e) {
       const error = errorHandler(e)
@@ -103,9 +103,9 @@ export default ({
   const fetchInterestInstruments = function * () {
     try {
       yield put(A.fetchInterestInstrumentsLoading())
-      const response: ReturnType<typeof api.getInterestInstruments> = yield call(
-        api.getInterestInstruments
-      )
+      const response: ReturnType<
+        typeof api.getInterestInstruments
+      > = yield call(api.getInterestInstruments)
       yield put(A.fetchInterestInstrumentsSuccess(response))
     } catch (e) {
       const error = errorHandler(e)
@@ -136,10 +136,9 @@ export default ({
   }: ReturnType<typeof A.fetchInterestAccount>) {
     try {
       yield put(A.fetchInterestAccountLoading())
-      const paymentAccount: ReturnType<typeof api.getInterestAccount> = yield call(
-        api.getInterestAccount,
-        coin as CoinType
-      )
+      const paymentAccount: ReturnType<
+        typeof api.getInterestAccount
+      > = yield call(api.getInterestAccount, coin as CoinType)
       yield put(A.fetchInterestAccountSuccess(paymentAccount))
     } catch (e) {
       const error = errorHandler(e)
@@ -150,9 +149,9 @@ export default ({
   const fetchInterestRate = function * () {
     try {
       yield put(A.fetchInterestRateLoading())
-      const response: ReturnType<typeof api.getInterestSavingsRate> = yield call(
-        api.getInterestSavingsRate
-      )
+      const response: ReturnType<
+        typeof api.getInterestSavingsRate
+      > = yield call(api.getInterestSavingsRate)
       yield put(A.fetchInterestRateSuccess(response))
     } catch (e) {
       const error = errorHandler(e)
@@ -331,9 +330,9 @@ export default ({
     const { coin, walletCurrency } = payload
     try {
       yield put(A.setWithdrawalMinimumsLoading())
-      const response: ReturnType<typeof api.getWithdrawalMinsAndFees> = yield call(
-        api.getWithdrawalMinsAndFees
-      )
+      const response: ReturnType<
+        typeof api.getWithdrawalMinsAndFees
+      > = yield call(api.getWithdrawalMinsAndFees)
       const defaultAccount = yield call(getDefaultAccountForCoin, coin)
       yield put(
         initialize(WITHDRAWAL_FORM, {

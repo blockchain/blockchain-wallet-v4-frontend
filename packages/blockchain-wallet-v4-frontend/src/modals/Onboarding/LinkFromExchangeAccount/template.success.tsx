@@ -25,7 +25,7 @@ const shouldRenderInfo = (tier: number) => {
   }
 }
 
-const getStatus = tier => {
+const getStatus = (tier) => {
   switch (tier) {
     case 1:
       return 'Silver Verified'
@@ -52,7 +52,7 @@ const InfoText = styled(Text)`
   display: flex;
   text-align: left;
   a {
-    color: ${props => props.theme.blue600};
+    color: ${(props) => props.theme.blue600};
     text-decoration: none;
   }
 `
@@ -74,7 +74,7 @@ const ListText = styled(Text)`
   }
 `
 
-const Success: React.FC<Props & { close: () => void; data: any }> = props => {
+const Success: React.FC<Props & { close: () => void; data: any }> = (props) => {
   const { close, userTiers } = props
 
   // @ts-ignore

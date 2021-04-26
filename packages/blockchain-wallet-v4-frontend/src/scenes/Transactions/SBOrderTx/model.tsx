@@ -32,12 +32,13 @@ export const getOrigin = (
     case 'LINK_BANK':
     case 'BANK_TRANSFER':
       const bankAccount = bankAccounts.find(
-        acct => acct.id === props.order.paymentMethodId
+        (acct) => acct.id === props.order.paymentMethodId
       )
       if (bankAccount) {
         const { details } = bankAccount
-        return `${details.bankName} ${details.bankAccountType?.toLowerCase() ||
-          ''} ${details.accountNumber}`
+        return `${details.bankName} ${
+          details.bankAccountType?.toLowerCase() || ''
+        } ${details.accountNumber}`
       }
       return (
         <FormattedMessage

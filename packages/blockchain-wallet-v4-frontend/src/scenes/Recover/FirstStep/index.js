@@ -33,7 +33,7 @@ const GoBackLink = styled(LinkContainer)`
   margin-right: 15px;
 `
 
-const FirstStep = props => {
+const FirstStep = (props) => {
   const { handleSubmit, invalid, submitting } = props
 
   return (

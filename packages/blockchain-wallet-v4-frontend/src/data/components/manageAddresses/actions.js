@@ -45,7 +45,7 @@ export const editAddressLabelSuccess = (walletIndex, derivation) => ({
   payload: { derivation, walletIndex }
 })
 
-export const editImportedAddressLabel = address => ({
+export const editImportedAddressLabel = (address) => ({
   type: AT.EDIT_IMPORTED_ADDRESS_LABEL,
   payload: { address }
 })
@@ -53,11 +53,11 @@ export const editImportedAddressLabelError = (address, message) => ({
   type: AT.EDIT_ADDRESS_LABEL_ERROR,
   payload: { address, message }
 })
-export const editImportedAddressLabelLoading = address => ({
+export const editImportedAddressLabelLoading = (address) => ({
   type: AT.EDIT_ADDRESS_LABEL_LOADING,
   payload: { address }
 })
-export const editImportedAddressLabelSuccess = address => ({
+export const editImportedAddressLabelSuccess = (address) => ({
   type: AT.EDIT_ADDRESS_LABEL_SUCCESS,
   payload: { address }
 })

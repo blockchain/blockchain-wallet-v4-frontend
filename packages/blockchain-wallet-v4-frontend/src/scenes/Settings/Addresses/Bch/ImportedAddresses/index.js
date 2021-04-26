@@ -24,7 +24,7 @@ class ImportedAddressesContainer extends React.Component {
     })
   }
 
-  handleEditLabel = address => {
+  handleEditLabel = (address) => {
     const btcAddr = fromCashAddr(address.addr)
     this.props.componentActions.editImportedAddressLabel(btcAddr)
   }
@@ -32,7 +32,7 @@ class ImportedAddressesContainer extends React.Component {
   render() {
     const { data, ...rest } = this.props
     return data.cata({
-      Success: addresses => {
+      Success: (addresses) => {
         return addresses.length ? (
           <BchImportedAddresses
             importedAddresses={addresses}
@@ -44,14 +44,14 @@ class ImportedAddressesContainer extends React.Component {
           <div />
         )
       },
-      Failure: message => <div>{message}</div>,
+      Failure: (message) => <div>{message}</div>,
       Loading: () => <div />,
       NotAsked: () => <div />
     })
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.modals, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   componentActions: bindActionCreators(
@@ -60,7 +60,7 @@ const mapDispatchToProps = dispatch => ({
   )
 })
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state),
   search: formValueSelector(WALLET_TX_SEARCH)(state, 'search')
 })

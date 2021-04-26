@@ -138,13 +138,13 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrElse({} as SupportedWalletCurrenciesType)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)

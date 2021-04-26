@@ -39,7 +39,7 @@ class BorrowForm extends PureComponent<Props> {
   render() {
     const { data } = this.props
     return data.cata({
-      Success: val => (
+      Success: (val) => (
         <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
       ),
       Failure: () => <DataError onClick={this.handleRefresh} />,

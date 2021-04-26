@@ -25,7 +25,7 @@ class WithdrawalFormContainer extends PureComponent<Props> {
     this.handleRefresh()
   }
 
-  handleDisplayToggle = isCoin => {
+  handleDisplayToggle = (isCoin) => {
     const { displayCoin } = this.props.data.getOrElse({
       displayCoin: false
     } as SuccessStateType)
@@ -50,7 +50,7 @@ class WithdrawalFormContainer extends PureComponent<Props> {
   render() {
     const { data } = this.props
     return data.cata({
-      Success: val => (
+      Success: (val) => (
         <WithdrawalForm
           {...val}
           {...this.props}

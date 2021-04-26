@@ -26,7 +26,7 @@ class ConfirmWithdraw extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => <Success {...val} {...this.props} />,
+      Success: (val) => <Success {...val} {...this.props} />,
       Failure: () => <Failure {...this.props} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />

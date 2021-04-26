@@ -3,10 +3,7 @@ import { ModalNamesType } from 'data/modals/types'
 import * as AT from './actionTypes'
 import { GoalsType } from './types'
 
-const generateId = () =>
-  Math.random()
-    .toString(36)
-    .substr(2, 10)
+const generateId = () => Math.random().toString(36).substr(2, 10)
 
 export const saveGoal = (name: GoalsType, data) => ({
   type: AT.SAVE_GOAL,

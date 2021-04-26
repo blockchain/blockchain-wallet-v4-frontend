@@ -9,7 +9,7 @@ const currencySymbolMap = mapObjIndexed(
   Currencies
 )
 
-const convertXlmToFiat = (rates, currency) => amount =>
+const convertXlmToFiat = (rates, currency) => (amount) =>
   Exchange.convertXlmToFiat({
     value: amount,
     fromUnit: 'XLM',

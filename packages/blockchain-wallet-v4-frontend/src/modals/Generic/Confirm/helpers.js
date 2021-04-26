@@ -5,7 +5,7 @@ import { prop } from 'ramda'
 import { Link, Text } from 'blockchain-info-components'
 import * as C from 'services/alerts'
 
-export const selectTitle = title => {
+export const selectTitle = (title) => {
   switch (title) {
     case C.BITPAY_CONFIRM_TITLE:
       return (
@@ -141,7 +141,7 @@ export const selectMessage = (message, values) => {
   }
 }
 
-export const selectCancel = message => {
+export const selectCancel = (message) => {
   switch (message) {
     case C.CANCEL_VERIFY_IDENTITY:
       return (
@@ -162,7 +162,7 @@ export const selectCancel = message => {
   }
 }
 
-export const selectConfirm = message => {
+export const selectConfirm = (message) => {
   switch (message) {
     case C.CONFIRM_VERIFY_IDENTITY:
       return (

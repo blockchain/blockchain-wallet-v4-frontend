@@ -206,7 +206,7 @@ let supportedLanguages = {
   fr: 'French'
 }
 
-let langItems = Object.keys(supportedLanguages).map(langKey => {
+let langItems = Object.keys(supportedLanguages).map((langKey) => {
   return {
     text: supportedLanguages[langKey],
     value: langKey

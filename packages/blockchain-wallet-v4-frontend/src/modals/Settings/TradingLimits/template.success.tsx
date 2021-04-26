@@ -9,7 +9,7 @@ import {
   Image,
   Link,
   Text,
-  TextGroup,
+  TextGroup
 } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
@@ -17,7 +17,7 @@ import {
   BlueCartridge,
   ErrorCartridge,
   OrangeCartridge,
-  SuccessCartridge,
+  SuccessCartridge
 } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { model } from 'data'
@@ -212,7 +212,7 @@ const Template: React.FC<Props> = (props) => {
     interestEDDStatus,
     sddEligible,
     userData,
-    userTiers,
+    userTiers
   } = props
 
   if (!Array.isArray(userTiers)) {
@@ -319,8 +319,8 @@ const Template: React.FC<Props> = (props) => {
                     value: silverTier.limits.annual,
                     unit: (silverTier.limits.currency ||
                       'USD') as WalletFiatType,
-                    digits: 0,
-                  }),
+                    digits: 0
+                  })
                 }}
               />
             </ItemSubtitle>
@@ -367,8 +367,8 @@ const Template: React.FC<Props> = (props) => {
                   amount: fiatToString({
                     value: goldTier.limits.daily,
                     unit: (goldTier.limits.currency || 'USD') as WalletFiatType,
-                    digits: 0,
-                  }),
+                    digits: 0
+                  })
                 }}
               />
             </ItemSubtitle>

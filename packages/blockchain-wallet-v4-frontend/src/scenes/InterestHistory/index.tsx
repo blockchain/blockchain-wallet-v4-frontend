@@ -51,7 +51,7 @@ class InterestHistoryContainer extends Component<Props> {
       <SceneWrapper>
         <InterestHeader />
         {data.cata({
-          Success: val => (
+          Success: (val) => (
             <>
               <MenuRow>
                 <InterestMenu />
@@ -71,7 +71,7 @@ class InterestHistoryContainer extends Component<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 

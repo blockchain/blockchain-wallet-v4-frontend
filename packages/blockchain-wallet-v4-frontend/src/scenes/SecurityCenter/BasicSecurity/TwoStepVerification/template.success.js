@@ -43,7 +43,7 @@ const SecurityTwoStepContainer = styled(SecurityContainer)`
   `};
 `
 const IconAndHeaderContainer = styled.div`
-  opacity: ${props => (props.success ? 0.3 : 1)};
+  opacity: ${(props) => (props.success ? 0.3 : 1)};
   @media (min-width: 480px) {
     display: grid;
     grid-template-columns: 15% 85%;
@@ -62,7 +62,7 @@ const DisableContainer = styled.div`
   }
   a.link {
     cursor: pointer;
-    color: ${props => props.theme.blue600};
+    color: ${(props) => props.theme.blue600};
   }
 `
 const DisableLinkContainer = styled.div`
@@ -75,11 +75,11 @@ const DisableLinkText = styled(Text)`
   margin-bottom: 30px;
   margin-top: 10px;
   a {
-    color: ${props => props.theme.blue600};
+    color: ${(props) => props.theme.blue600};
     cursor: pointer;
     padding-left: 3px;
   }
-  ${props => (props.pulse ? pulseAnimation : null)};
+  ${(props) => (props.pulse ? pulseAnimation : null)};
 `
 const TwoStepButton = styled(Button)`
   width: 100px;
@@ -108,7 +108,7 @@ const TipText = styled(Text)`
   }
 `
 
-const TwoStepVerification = props => {
+const TwoStepVerification = (props) => {
   const {
     data,
     editing,

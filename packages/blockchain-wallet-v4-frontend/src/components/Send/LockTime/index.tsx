@@ -20,7 +20,7 @@ class LockTimeContainer extends React.PureComponent<Props> {
     const { data, ...rest } = this.props
 
     return data.cata({
-      Success: val => (
+      Success: (val) => (
         <LockTime
           {...rest}
           lockTime={moment
@@ -39,7 +39,7 @@ const mapStateToProps = (state: RootState) => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   sendActions: bindActionCreators(actions.components.send, dispatch)
 })
 

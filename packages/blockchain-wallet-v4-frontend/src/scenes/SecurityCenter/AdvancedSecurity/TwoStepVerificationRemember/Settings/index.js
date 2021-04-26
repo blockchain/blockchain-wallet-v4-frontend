@@ -18,13 +18,13 @@ class SettingsContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   authTypeNeverSave: selectors.core.settings
     .getAuthTypeNeverSave(state)
     .getOrElse(0)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })

@@ -8,7 +8,7 @@ import SelectBox from '../SelectBox'
 const countryRegionData = React.lazy(() => import('country-region-data'))
 const countriesWithStates = ['US']
 
-export const countryHasStates = countryCode =>
+export const countryHasStates = (countryCode) =>
   countriesWithStates.includes(countryCode)
 
 class SelectBoxRegion extends React.PureComponent {

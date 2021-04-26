@@ -6,7 +6,7 @@ import {
 } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
-export const getData = state => {
+export const getData = (state) => {
   const borrowHistoryR = selectors.components.borrow.getBorrowHistory(state)
   const offersR = selectors.components.borrow.getOffers(state)
   const ratesR = selectors.components.borrow.getRates(state)

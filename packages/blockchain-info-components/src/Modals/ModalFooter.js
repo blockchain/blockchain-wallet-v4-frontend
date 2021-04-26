@@ -11,17 +11,17 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 20px 30px;
   box-sizing: border-box;
-  border-top: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 const Footer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: ${props => props.alignment};
+  justify-content: ${(props) => props.alignment};
   align-items: center;
   width: 100%;
 `
 
-const selectAlignment = align => {
+const selectAlignment = (align) => {
   switch (align) {
     case 'left':
       return 'flex-start'
@@ -36,7 +36,7 @@ const selectAlignment = align => {
   }
 }
 
-const ModalFooter = props => {
+const ModalFooter = (props) => {
   const { align, children, ...rest } = props
   const alignment = selectAlignment(align)
   return (

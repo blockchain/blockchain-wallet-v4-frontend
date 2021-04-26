@@ -21,7 +21,7 @@ export const HomeBalanceRow = styled.div`
     padding: 15px 0;
   }
   &:not(:last-child) {
-    border-bottom: 1px solid ${props => props.theme.grey000};
+    border-bottom: 1px solid ${(props) => props.theme.grey000};
   }
   ${media.mobile`
     min-height: auto;

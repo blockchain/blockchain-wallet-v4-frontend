@@ -73,7 +73,7 @@ export const getData = (state, ownProps: OwnProps) => {
       addressDataR = Remote.Success({ data: [] })
   }
 
-  const transform = addressData => {
+  const transform = (addressData) => {
     return {
       addressData
     }

@@ -15,9 +15,9 @@ const Container = styled.div`
 const Error = styled(Text)`
   position: absolute;
   display: block;
-  top: ${props => (props.errorBottom ? 'initial' : '-18px')};
-  left: ${props => (props.errorLeft ? '0' : 'initial')};
-  bottom: ${props => (props.errorBottom ? '-18px' : 'initial')};
+  top: ${(props) => (props.errorBottom ? 'initial' : '-18px')};
+  left: ${(props) => (props.errorLeft ? '0' : 'initial')};
+  bottom: ${(props) => (props.errorBottom ? '-18px' : 'initial')};
   right: 0;
   height: 15px;
 `
@@ -26,11 +26,11 @@ const CustomIcon = styled(Icon)`
   right: 12px;
   top: 14px;
 `
-const getErrorState = meta => {
+const getErrorState = (meta) => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
-const NumberBox = field => {
+const NumberBox = (field) => {
   const errorState = getErrorState(field.meta)
 
   return (

@@ -6,8 +6,8 @@ import Icomoon from './Icomoon'
 
 const Wrapper = styled.div`
   position: relative;
-  height: ${props => props.height || '32px'};
-  width: ${props => props.height || '32px'};
+  height: ${(props) => props.height || '32px'};
+  width: ${(props) => props.height || '32px'};
 `
 const SubIconWrapper = styled.div`
   position: absolute;
@@ -15,28 +15,28 @@ const SubIconWrapper = styled.div`
   right: -3px;
   width: 14px;
   height: 14px;
-  background: ${props => props.theme.white};
+  background: ${(props) => props.theme.white};
   border-radius: 14px;
 `
 const SubIcon = styled.span`
   display: flex;
   font-size: 12px;
   margin: 1px;
-  color: ${props => props.theme[props.color] || props.color};
-  cursor: ${props => (props.cursorEnabled ? 'pointer' : 'inherit')};
+  color: ${(props) => props.theme[props.color] || props.color};
+  cursor: ${(props) => (props.cursorEnabled ? 'pointer' : 'inherit')};
   -webkit-font-smoothing: antialiased;
 
   * {
     color: red !important;
   }
-  
+
   &:before {
     font-family: 'icomoon', sans-serif;
-    content: '${props => props.icon}';
+    content: '${(props) => props.icon}';
   }
 `
 
-const CoinAccountIcon = props => {
+const CoinAccountIcon = (props) => {
   const { accountType, coin } = props
 
   let icon

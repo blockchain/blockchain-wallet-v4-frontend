@@ -25,7 +25,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const ordersR = selectors.components.simpleBuy.getSBOrders(state)
   const orders: Array<SBOrderType> = ordersR.getOrElse([])
   const isSimpleBuyOrderPending = orders.find(
-    order =>
+    (order) =>
       order.state === 'PENDING_CONFIRMATION' ||
       order.state === 'PENDING_DEPOSIT'
   )

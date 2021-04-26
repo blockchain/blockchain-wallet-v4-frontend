@@ -31,7 +31,7 @@ import {
 } from '../btc/utils'
 import { fromAccount } from './utils'
 
-const taskToPromise = t =>
+const taskToPromise = (t) =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 /**
@@ -78,7 +78,7 @@ export default ({ api }) => {
   }
 
   // ///////////////////////////////////////////////////////////////////////////
-  const calculateAmount = function(amounts) {
+  const calculateAmount = function (amounts) {
     if (isPositiveNumber(amounts)) {
       return [amounts]
     }
@@ -134,7 +134,7 @@ export default ({ api }) => {
   }
 
   // ///////////////////////////////////////////////////////////////////////////
-  const calculateFee = function(fee, fees) {
+  const calculateFee = function (fee, fees) {
     if (isPositiveNumber(fee)) {
       return fee
     }
@@ -147,7 +147,7 @@ export default ({ api }) => {
   }
 
   // ///////////////////////////////////////////////////////////////////////////
-  const calculateSelection = function({
+  const calculateSelection = function ({
     amount,
     change,
     coins,
@@ -188,7 +188,7 @@ export default ({ api }) => {
   }
 
   // ///////////////////////////////////////////////////////////////////////////
-  const calculateSweepSelection = function({
+  const calculateSweepSelection = function ({
     coins,
     effectiveBalance,
     fee,
@@ -217,7 +217,7 @@ export default ({ api }) => {
     return CoinSelection.selectAll(fee, coins, to[0].address)
   }
 
-  const calculateEffectiveBalance = function({ coins, fee }) {
+  const calculateEffectiveBalance = function ({ coins, fee }) {
     if (isPositiveInteger(fee) && coins) {
       const { outputs } = CoinSelection.selectAll(
         fee,
@@ -287,7 +287,7 @@ export default ({ api }) => {
 
   // ///////////////////////////////////////////////////////////////////////////
   function create({ network, payment } = { network: undefined, payment: {} }) {
-    const makePayment = p => ({
+    const makePayment = (p) => ({
       coin: 'BCH',
 
       value() {
@@ -395,20 +395,20 @@ export default ({ api }) => {
             return yield f(yield gen())
           })
 
-        const makeChain = gen => ({
-          init: () => chain(gen, payment => payment.init()),
+        const makeChain = (gen) => ({
+          init: () => chain(gen, (payment) => payment.init()),
           to: (destinations, type) =>
-            chain(gen, payment => payment.to(destinations, type)),
-          amount: amounts => chain(gen, payment => payment.amount(amounts)),
+            chain(gen, (payment) => payment.to(destinations, type)),
+          amount: (amounts) => chain(gen, (payment) => payment.amount(amounts)),
           from: (origins, type) =>
-            chain(gen, payment => payment.from(origins, type)),
-          fee: value => chain(gen, payment => payment.fee(value)),
-          build: () => chain(gen, payment => payment.build()),
-          buildSweep: () => chain(gen, payment => payment.buildSweep()),
-          sign: password => chain(gen, payment => payment.sign(password)),
-          publish: () => chain(gen, payment => payment.publish()),
-          description: message =>
-            chain(gen, payment => payment.description(message)),
+            chain(gen, (payment) => payment.from(origins, type)),
+          fee: (value) => chain(gen, (payment) => payment.fee(value)),
+          build: () => chain(gen, (payment) => payment.build()),
+          buildSweep: () => chain(gen, (payment) => payment.buildSweep()),
+          sign: (password) => chain(gen, (payment) => payment.sign(password)),
+          publish: () => chain(gen, (payment) => payment.publish()),
+          description: (message) =>
+            chain(gen, (payment) => payment.description(message)),
           * done() {
             return yield gen()
           }

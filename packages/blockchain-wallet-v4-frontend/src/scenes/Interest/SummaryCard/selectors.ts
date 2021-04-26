@@ -7,7 +7,7 @@ import {
 } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
-export const getData = state => {
+export const getData = (state) => {
   const interestAccountBalanceR = selectors.components.interest.getInterestAccountBalance(
     state
   )

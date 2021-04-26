@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-const Error = props => {
+const Error = (props) => {
   return (
     <Wrapper>
       <Icon color='error' name='close-circle' size='40px' />

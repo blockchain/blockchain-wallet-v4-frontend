@@ -59,7 +59,7 @@ class SecondStepContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   guid: formValueSelector('reset2FA')(state, 'guid'),
   email: formValueSelector('reset2FA')(state, 'email'),
   newEmail: formValueSelector('reset2FA')(state, 'newEmail'),
@@ -70,7 +70,7 @@ const mapStateToProps = state => ({
   data: selectors.auth.getReset2fa(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch)
 })

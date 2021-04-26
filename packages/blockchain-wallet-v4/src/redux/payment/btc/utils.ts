@@ -21,9 +21,7 @@ import * as S from '../../selectors'
 // Validations
 // isValidIndex :: Wallet -> Integer -> Boolean
 export const isValidIndex = curry((wallet, index) =>
-  Wallet.getAccount(index, wallet)
-    .map(always(true))
-    .getOrElse(false)
+  Wallet.getAccount(index, wallet).map(always(true)).getOrElse(false)
 )
 
 // isValidAddressOrIndex :: Wallet -> Any -> Boolean
@@ -46,14 +44,14 @@ export const ADDRESS_TYPES = {
 }
 
 // fromLegacy :: String -> Object
-export const fromLegacy = address => ({
+export const fromLegacy = (address) => ({
   fromType: ADDRESS_TYPES.LEGACY,
   from: [address],
   change: address
 })
 
 // fromLegacyList :: [String] -> Object
-export const fromLegacyList = addresses => ({
+export const fromLegacyList = (addresses) => ({
   fromType: ADDRESS_TYPES.LEGACY,
   from: addresses,
   change: addresses[0]
@@ -87,7 +85,7 @@ export const fromAccount = (network, state, index) => {
 
     let changeIndex = S.data.btc.getChangeIndex(defaultDerivationXpub, state)
     let changeAddress = changeIndex
-      .map(index => HDAccount.getChangeAddress(account, index, network))
+      .map((index) => HDAccount.getChangeAddress(account, index, network))
       .getOrFail('missing_change_address')
 
     return {
@@ -103,7 +101,7 @@ export const fromAccount = (network, state, index) => {
   } else {
     let changeIndex = S.data.btc.getChangeIndex(account.xpub, state)
     let changeAddress = changeIndex
-      .map(index => HDAccount.getChangeAddress(account, index, network))
+      .map((index) => HDAccount.getChangeAddress(account, index, network))
       .getOrFail('missing_change_address')
 
     return {
@@ -125,7 +123,7 @@ export const fromLockbox = (network, state, xpub, coin) => {
     ? S.data.btc.getChangeIndex(xpub, state)
     : S.data.bch.getChangeIndex(xpub, state)
   let changeAddress = changeIndex
-    .map(index => HDAccount.getChangeAddress(hdAccount, index, network))
+    .map((index) => HDAccount.getChangeAddress(hdAccount, index, network))
     .getOrFail('missing_change_address')
 
   return {
@@ -136,7 +134,7 @@ export const fromLockbox = (network, state, xpub, coin) => {
   }
 }
 
-export const fromCustodial = origin => {
+export const fromCustodial = (origin) => {
   return {
     fromType: ADDRESS_TYPES.CUSTODIAL,
     from: origin
@@ -218,19 +216,19 @@ export const toLockboxAccount = (coin, network, state, xpub) => {
 }
 
 // toOutputScript :: String -> Object
-export const toOutputScript = script => ({
+export const toOutputScript = (script) => ({
   type: ADDRESS_TYPES.SCRIPT,
   script
 })
 
 // toOutputCustodial :: String -> Object
-export const toOutputCustodial = address => ({
+export const toOutputCustodial = (address) => ({
   type: ADDRESS_TYPES.CUSTODIAL,
   address
 })
 
 // toOutputAddress :: String -> Object
-export const toOutputAddress = address => ({
+export const toOutputAddress = (address) => ({
   type: ADDRESS_TYPES.ADDRESS,
   address
 })

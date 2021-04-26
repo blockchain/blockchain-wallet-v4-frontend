@@ -18,6 +18,6 @@ const elements = [
   }
 ]
 
-export const SelectBoxMemo = props => (
+export const SelectBoxMemo = (props) => (
   <SelectBox elements={elements} {...props} />
 )

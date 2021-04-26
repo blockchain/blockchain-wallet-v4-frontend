@@ -27,7 +27,7 @@ const ExistingButton = styled(Button)`
   height: 55px;
 `
 
-const SetupTypeStep = props => {
+const SetupTypeStep = (props) => {
   const { deviceType, handleStepChange } = props
   return (
     <Wrapper>

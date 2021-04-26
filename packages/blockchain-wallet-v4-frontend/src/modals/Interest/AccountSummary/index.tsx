@@ -43,7 +43,7 @@ class AccountSummaryContainer extends PureComponent<Props> {
 
     const unsupportedCurrencies = [Currencies.TWD.code, Currencies.CLP.code]
     return data.cata({
-      Success: val =>
+      Success: (val) =>
         includes(walletCurrency, unsupportedCurrencies) ? (
           <Unsupported
             {...val}

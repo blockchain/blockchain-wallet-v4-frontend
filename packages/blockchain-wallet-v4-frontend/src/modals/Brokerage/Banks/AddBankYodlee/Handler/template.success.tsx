@@ -16,7 +16,7 @@ const Iframe = styled.iframe`
   height: 100%;
 `
 
-const Success: React.FC<Props> = props => {
+const Success: React.FC<Props> = (props) => {
   return (
     <CustomFlyoutWrapper>
       <Iframe src={props.iFrameUrl} />

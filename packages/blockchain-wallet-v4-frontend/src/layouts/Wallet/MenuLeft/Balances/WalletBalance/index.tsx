@@ -27,7 +27,7 @@ class WalletBalanceContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   totalBalancesDropdown: selectors.preferences.getTotalBalancesDropdown(state),
   coins: selectors.components.utils
     .getSupportedCoinsWithMethodAndOrder(state)
@@ -35,7 +35,7 @@ const mapStateToProps = state => ({
     .getOrElse({})
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 

@@ -146,10 +146,10 @@ class CoinSelection extends PureComponent<Props> {
             )}
           </Text>
         </StickyHeaderFlyoutWrapper>
-        {SUPPORTED_COINS.map(coin => {
+        {SUPPORTED_COINS.map((coin) => {
           const accounts =
             (this.props.accounts[coin] as Array<SwapAccountType>) || []
-          return accounts.map(account => {
+          return accounts.map((account) => {
             const isAccountSelected = this.checkAccountSelected(
               this.props.side,
               values,

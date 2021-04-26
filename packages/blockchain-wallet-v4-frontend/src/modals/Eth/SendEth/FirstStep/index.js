@@ -13,7 +13,7 @@ class FirstStep extends React.PureComponent {
   render() {
     const { actions, coin, data } = this.props
     return data.cata({
-      Success: value => (
+      Success: (value) => (
         <Success
           {...value}
           coin={coin}
@@ -21,7 +21,7 @@ class FirstStep extends React.PureComponent {
           onSubmit={actions.sendEthFirstStepSubmitClicked}
         />
       ),
-      Failure: message => <Error>{message}</Error>,
+      Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -32,7 +32,7 @@ const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps.coin)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.sendEth, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

@@ -26,7 +26,7 @@ const IconColumn = styled.div`
   margin: 0 10px 0 0;
 `
 
-const buildMessageTemplate = messageText => (
+const buildMessageTemplate = (messageText) => (
   <Text
     size='14px'
     weight={600}

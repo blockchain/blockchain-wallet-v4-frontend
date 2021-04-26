@@ -57,7 +57,7 @@ class CustomizeStepContainer extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 

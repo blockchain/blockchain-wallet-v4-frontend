@@ -54,18 +54,10 @@ export const start: { [key in CoinType]: number } = {
 
 export const calculateStart = (coin: CoinType, time: TimeRange) => {
   const coinStart = prop(coin, start)
-  const dayStart = moment()
-    .subtract(1, 'day')
-    .format('X')
-  const weekStart = moment()
-    .subtract(7, 'day')
-    .format('X')
-  const monthStart = moment()
-    .subtract(1, 'month')
-    .format('X')
-  const yearStart = moment()
-    .subtract(1, 'year')
-    .format('X')
+  const dayStart = moment().subtract(1, 'day').format('X')
+  const weekStart = moment().subtract(7, 'day').format('X')
+  const monthStart = moment().subtract(1, 'month').format('X')
+  const yearStart = moment().subtract(1, 'year').format('X')
 
   switch (time) {
     case 'all':

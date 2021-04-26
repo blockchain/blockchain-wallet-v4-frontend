@@ -31,7 +31,7 @@ export default ({ get, post, rootUrl }) => {
     })
   }
 
-  const savePayload = data =>
+  const savePayload = (data) =>
     post({
       url: rootUrl,
       endPoint: '/wallet',
@@ -92,13 +92,13 @@ export default ({ get, post, rootUrl }) => {
     post({
       url: rootUrl,
       endPoint: '/wallet/sessions'
-    }).then(data =>
+    }).then((data) =>
       !data.token || !data.token.length
         ? Promise.reject(new Error('INVALID_SESSION_TOKEN'))
         : data.token
     )
 
-  const pollForSessionGUID = sessionToken =>
+  const pollForSessionGUID = (sessionToken) =>
     get({
       url: rootUrl,
       endPoint: '/wallet/poll-for-session-guid',
@@ -106,12 +106,12 @@ export default ({ get, post, rootUrl }) => {
       sessionToken
     })
 
-  const generateUUIDs = count =>
+  const generateUUIDs = (count) =>
     get({
       url: rootUrl,
       endPoint: '/uuid-generator',
       data: { format: 'json', n: count }
-    }).then(data =>
+    }).then((data) =>
       !data.uuids || data.uuids.length !== count
         ? Promise.reject(new Error('Could not generate uuids'))
         : data.uuids
@@ -149,7 +149,7 @@ export default ({ get, post, rootUrl }) => {
       sessionToken
     })
 
-  const deauthorizeBrowser = sessionToken =>
+  const deauthorizeBrowser = (sessionToken) =>
     get({
       url: rootUrl,
       endPoint: '/wallet/logout',
@@ -181,7 +181,7 @@ export default ({ get, post, rootUrl }) => {
       sessionToken
     })
 
-  const getPairingPassword = guid =>
+  const getPairingPassword = (guid) =>
     post({
       url: rootUrl,
       endPoint: '/wallet',
@@ -199,7 +199,7 @@ export default ({ get, post, rootUrl }) => {
       }
     })
 
-  const sendSecureChannel = message =>
+  const sendSecureChannel = (message) =>
     post({
       url: rootUrl,
       endPoint: '/wallet',
@@ -210,7 +210,7 @@ export default ({ get, post, rootUrl }) => {
       }
     })
 
-  const handle2faReset = token =>
+  const handle2faReset = (token) =>
     post({
       url: rootUrl,
       endPoint: '/wallet',
@@ -220,7 +220,7 @@ export default ({ get, post, rootUrl }) => {
       }
     })
 
-  const verifyEmailToken = token =>
+  const verifyEmailToken = (token) =>
     post({
       url: rootUrl,
       endPoint: '/wallet',

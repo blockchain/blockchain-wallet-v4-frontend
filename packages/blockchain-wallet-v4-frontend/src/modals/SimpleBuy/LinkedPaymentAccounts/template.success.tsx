@@ -3,7 +3,7 @@ import React from 'react'
 import { LinkStatePropsType, Props as OwnProps, SuccessStateType } from '.'
 import Accounts from './Accounts'
 
-const Success: React.FC<Props> = props => {
+const Success: React.FC<Props> = (props) => {
   return <Accounts {...props} />
 }
 

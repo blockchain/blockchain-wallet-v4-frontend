@@ -50,9 +50,9 @@ const BtcRequiredText = styled(Text)`
   text-align: center;
 `
 
-const getKeyByValue = value => {
+const getKeyByValue = (value) => {
   return Object.keys(Lockbox.constants.supportedApps).find(
-    key => Lockbox.constants.supportedApps[key] === value
+    (key) => Lockbox.constants.supportedApps[key] === value
   )
 }
 
@@ -66,7 +66,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
   componentDidUpdate(prevProps) {
     if (this.props.appChangeStatus !== prevProps.appChangeStatus) {
       this.props.appChangeStatus.cata({
-        Success: val => {
+        Success: (val) => {
           // install/uninstall APIs use different keys for appName
           const AppName = Lockbox.constants.supportedApps[val.appName]
             ? Lockbox.constants.supportedApps[val.appName]
@@ -78,7 +78,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
             this.setState({ [AppName]: { status: null } })
           }, SUCCESS_STATUS_TIMEOUT)
         },
-        Failure: val => {
+        Failure: (val) => {
           // install/uninstall APIs use different keys for appName
           const AppName = Lockbox.constants.supportedApps[val.appName]
             ? Lockbox.constants.supportedApps[val.appName]
@@ -113,7 +113,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
     this.props.lockboxActions.installApplication(coin)
   }
 
-  onAppUninstall = appName => {
+  onAppUninstall = (appName) => {
     this.setState({
       [appName]: {
         status: 'Updating',
@@ -128,8 +128,8 @@ class LockboxAppManagerContainer extends React.PureComponent {
     const { appChangeStatus, appVersionInfos, connection } = this.props
     const disableButtons = !Remote.NotAsked.is(appChangeStatus)
     const appListView = appVersionInfos.cata({
-      Success: apps => {
-        const appList = apps.map(app => {
+      Success: (apps) => {
+        const appList = apps.map((app) => {
           const appName = app.name
           const coin = getKeyByValue(appName)
           return (
@@ -230,7 +230,7 @@ LockboxAppManagerContainer.propTypes = {
   onClose: PropTypes.func.isRequired
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   appChangeStatus: selectors.components.lockbox.getAppChangeStatus(state),
   appVersionInfos: selectors.components.lockbox.getLatestApplicationVersions(
     state
@@ -238,7 +238,7 @@ const mapStateToProps = state => ({
   connection: selectors.components.lockbox.getCurrentConnection(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 

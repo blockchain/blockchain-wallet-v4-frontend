@@ -6,7 +6,7 @@ import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { SBCheckoutFormValuesType } from 'data/types'
 
-export const getData = state => {
+export const getData = (state) => {
   const coinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const eligibilityR = selectors.components.simpleBuy.getSBFiatEligible(state)
   const formValues = selectors.form.getFormValues('simpleBuyCheckout')(

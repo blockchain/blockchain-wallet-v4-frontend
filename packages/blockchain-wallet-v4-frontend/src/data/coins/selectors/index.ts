@@ -38,7 +38,7 @@ const coinSelectors = {
 }
 
 // retrieves introduction text for coin on its transaction page
-export const getIntroductionText = coin => {
+export const getIntroductionText = (coin) => {
   return coinSelectors[
     coin in Erc20CoinsEnum ? 'ERC20' : coin
   ]?.getTransactionPageHeaderText(coin)
@@ -46,14 +46,14 @@ export const getIntroductionText = coin => {
 
 // retrieves custodial account balances
 export const getTradingBalance = (coin: CoinType, state) => {
-  return selectors.components.simpleBuy.getSBBalances(state).map(x => x[coin])
+  return selectors.components.simpleBuy.getSBBalances(state).map((x) => x[coin])
 }
 
 // retrieves custodial account balances
 export const getInterestBalance = (coin: CoinType, state) => {
   return selectors.components.interest
     .getInterestAccountBalance(state)
-    .map(x => x[coin])
+    .map((x) => x[coin])
 }
 
 // generic selector that should be used by all features to request their desired
@@ -62,7 +62,7 @@ export const getCoinAccounts = (
   state: RootState,
   ownProps: CoinAccountSelectorType
 ) => {
-  const getCoinAccountsR = state => {
+  const getCoinAccountsR = (state) => {
     const coinList = ownProps?.coins
 
     // dynamically create account selectors via passed in coin list
@@ -77,13 +77,13 @@ export const getCoinAccounts = (
             return accounts
           }, {})
 
-    const isNotLoaded = coinAccounts => Remote.Loading.is(coinAccounts)
+    const isNotLoaded = (coinAccounts) => Remote.Loading.is(coinAccounts)
     if (any(isNotLoaded, values(accounts))) return Remote.Loading
 
     // @ts-ignore
     return Remote.of(
       map(
-        coinAccounts =>
+        (coinAccounts) =>
           (isEmpty(coinAccounts) && []) || coinAccounts.getOrElse([]),
         accounts
       )

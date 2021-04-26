@@ -34,7 +34,7 @@ export const getOrUpdateProvisionalPayment = function * (
 }
 
 // converts base unit (STROOP) to fiat
-export const convertFromBaseUnitToFiat = function(
+export const convertFromBaseUnitToFiat = function (
   coin: CoinType,
   baseUnitValue: number | string,
   userCurrency: keyof CurrenciesType,

@@ -45,10 +45,10 @@ const Instruction = styled(Text)`
   &:first-child {
     margin-top: 0px;
   }
-  color: ${props => props.theme['grey800']};
+  color: ${(props) => props.theme['grey800']};
 `
 
-const MobileLogin = props => {
+const MobileLogin = (props) => {
   const { close, ...rest } = props
   const { handleError, handleScan, isScanning } = rest
 

@@ -24,7 +24,7 @@ const ItemWrapper = styled.div`
   }
 `
 
-const renderItem = item => (
+const renderItem = (item) => (
   <ItemWrapper data-e2e='ethAddressOption'>
     <Text weight={400} size='14px'>
       {item.text}
@@ -32,7 +32,7 @@ const renderItem = item => (
   </ItemWrapper>
 )
 
-export default props => {
+export default (props) => {
   const { input, meta, ...rest } = props
   return rest.isCreatable ? (
     <CreatableInputField {...props} templateItem={renderItem} grouped />

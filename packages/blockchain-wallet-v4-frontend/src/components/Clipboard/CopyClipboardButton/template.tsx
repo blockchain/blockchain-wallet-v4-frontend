@@ -23,10 +23,10 @@ const CopyButton = styled(IconButton)<CopyButtonProps>`
     background: transparent;
   }
   > span {
-    margin-top: ${props => (props.active ? '-2px' : '-5px;')};
+    margin-top: ${(props) => (props.active ? '-2px' : '-5px;')};
     margin-right: 0 !important;
-    font-size: ${props => (props.active ? '18px' : props.size || '20px')};
-    color: ${props =>
+    font-size: ${(props) => (props.active ? '18px' : props.size || '20px')};
+    color: ${(props) =>
       props.active
         ? props.theme['success']
         : props.color

@@ -116,7 +116,7 @@ XlmCreateAccountLearn.propTypes = {
   reserveXlm: PropTypes.string.isRequired
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

@@ -41,7 +41,7 @@ const Subcontent = styled(Text)`
   text-align: center;
 `
 
-const Unsupported: React.FC<Props> = props => {
+const Unsupported: React.FC<Props> = (props) => {
   const { paymentAccountEligible } = props.eligibility
   return (
     <Top>

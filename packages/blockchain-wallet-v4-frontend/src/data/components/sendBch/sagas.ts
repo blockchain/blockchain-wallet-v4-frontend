@@ -352,7 +352,7 @@ export default ({
         const deviceType = prop('device_type', device)
         const selection = payment.value().selection || { outputs: [] }
         const outputs = selection.outputs
-          .filter(o => !o.change)
+          .filter((o) => !o.change)
           .map(prop('address'))
         yield call(Lockbox.promptForLockbox, 'BCH', deviceType, outputs)
         let connection = yield select(

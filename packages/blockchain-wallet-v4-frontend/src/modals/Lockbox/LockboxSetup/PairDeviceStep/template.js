@@ -30,7 +30,7 @@ const ExportKeysText = styled(Text)`
 `
 
 const ClickableText = styled(Text)`
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
   cursor: pointer;
 `
 const AppManagerLink = styled(ClickableText)`
@@ -63,7 +63,7 @@ const Tooltip = styled(TooltipHost)`
     font-size: 12px;
   }
 `
-const PairDeviceStep = props => {
+const PairDeviceStep = (props) => {
   const {
     btcOpenTimeout,
     deviceType,

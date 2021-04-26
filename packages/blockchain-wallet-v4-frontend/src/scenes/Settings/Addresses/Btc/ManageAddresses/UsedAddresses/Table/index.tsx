@@ -21,7 +21,7 @@ class UsedAddressesTableContainer extends React.PureComponent<Props> {
     return !usedAddresses
       ? null
       : usedAddresses.cata({
-          Success: value => (
+          Success: (value) => (
             <UsedAddressesTable usedAddresses={value} search={search} />
           ),
           Failure: () => <div />,
@@ -46,7 +46,7 @@ const mapStateToProps = (state, ownProps) => ({
   )
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   componentActions: bindActionCreators(
     actions.components.manageAddresses,
     dispatch

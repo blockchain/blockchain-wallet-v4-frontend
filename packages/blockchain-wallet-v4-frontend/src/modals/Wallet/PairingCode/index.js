@@ -42,10 +42,10 @@ const WarningCircle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: ${props => props.size};
-  height: ${props => props.size};
-  border-radius: ${props => props.size};
-  background: ${props => props.theme[props.color]};
+  min-width: ${(props) => props.size};
+  height: ${(props) => props.size};
+  border-radius: ${(props) => props.size};
+  background: ${(props) => props.theme[props.color]};
 `
 class PairingCodeContainer extends React.PureComponent {
   state = { showCode: false }
@@ -62,8 +62,8 @@ class PairingCodeContainer extends React.PureComponent {
     const { closeAll, data, position, total } = this.props
 
     let PairingCode = data.cata({
-      Success: val => <Success val={val} />,
-      Failure: message => <Error>{message}</Error>,
+      Success: (val) => <Success val={val} />,
+      Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -147,11 +147,11 @@ class PairingCodeContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.core.data.misc, dispatch)
 })
 

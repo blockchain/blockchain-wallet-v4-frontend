@@ -20,14 +20,14 @@ const { KYC_STATES } = model.profile
 
 const BlueCartridgeCTA = styled(CustomCartridge)`
   cursor: pointer;
-  background-color: ${props => props.theme.blue600};
+  background-color: ${(props) => props.theme.blue600};
   font-weight: 600;
 `
 
 const DateOrAmount = styled.div`
   height: 100%;
   padding-left: 20px;
-  border-left: 1px solid ${props => props.theme.grey000};
+  border-left: 1px solid ${(props) => props.theme.grey000};
 
   > div:first-child {
     margin-bottom: 4px;
@@ -118,15 +118,12 @@ export const StxInfo = ({ stxCampaign }: { stxCampaign: CampaignInfoType }) => {
   }
 }
 
-const calcStxAmount = stxCampaign => {
+const calcStxAmount = (stxCampaign) => {
   let stxAmount =
     stxCampaign.userCampaignTransactionResponseList.length &&
     stxCampaign.userCampaignTransactionResponseList[0].withdrawalQuantity
   if (!stxAmount) return
-  return new BigNumber(stxAmount)
-    .dividedBy(10000000)
-    .toString()
-    .concat(' STX')
+  return new BigNumber(stxAmount).dividedBy(10000000).toString().concat(' STX')
 }
 
 export const StxDateOrAmount = ({

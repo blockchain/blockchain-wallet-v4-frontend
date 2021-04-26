@@ -29,7 +29,7 @@ const ClickableText = styled(Text)`
   margin-right: 15px;
 `
 
-const FirstStep = props => {
+const FirstStep = (props) => {
   const { address, closeAll, handleSubmit, invalid, submitting } = props
   return (
     <Form onSubmit={handleSubmit}>

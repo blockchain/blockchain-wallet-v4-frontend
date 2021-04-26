@@ -45,10 +45,10 @@ const DisplayContainer = styled.div<{ coinType: any; isItem?: boolean }>`
   width: 100%;
   align-items: center;
   box-sizing: border-box;
-  height: ${props => (props.isItem ? 'auto' : '100%')};
-  padding: ${props => (props.isItem ? '0px' : '16px')};
+  height: ${(props) => (props.isItem ? 'auto' : '100%')};
+  padding: ${(props) => (props.isItem ? '0px' : '16px')};
   > span {
-    color: ${props => props.theme[props.coinType.coinCode]} !important;
+    color: ${(props) => props.theme[props.coinType.coinCode]} !important;
   }
   background-color: transparent;
 `
@@ -57,9 +57,9 @@ const AccountContainer = styled.div<{ isItem?: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-left: ${props => (props.isItem ? '16px' : '0')};
-  height: ${props => (props.isItem ? 'auto' : '100%')};
-  padding: ${props => (props.isItem ? '12px 0' : '0')};
+  margin-left: ${(props) => (props.isItem ? '16px' : '0')};
+  height: ${(props) => (props.isItem ? 'auto' : '100%')};
+  padding: ${(props) => (props.isItem ? '12px 0' : '0')};
   width: 100%;
   cursor: pointer;
   .bc__single-value {
@@ -75,13 +75,13 @@ const AccountContainer = styled.div<{ isItem?: boolean }>`
 
 const AmountContainer = styled.div<{ isItem?: boolean }>`
   display: flex;
-  margin-top: ${props => (props.isItem ? '4px' : '0px')};
+  margin-top: ${(props) => (props.isItem ? '4px' : '0px')};
 `
 
 const FiatContainer = styled.div`
   display: flex;
   font-size: 12px;
-  color: ${props => props.theme.grey400};
+  color: ${(props) => props.theme.grey400};
 `
 
 const CoinSelect = styled(SelectBox)`
@@ -110,7 +110,7 @@ const CoinSelect = styled(SelectBox)`
   .bc__group {
     &:not(:last-child) {
       ${AccountContainer} {
-        border-bottom: 1px solid ${props => props.theme.grey000};
+        border-bottom: 1px solid ${(props) => props.theme.grey000};
         box-sizing: border-box;
       }
     }
@@ -136,7 +136,7 @@ class WalletBalanceDropdown extends Component<Props> {
     if (this.props.coin in FiatTypeEnum) return false
 
     const balance = this.coinBalance(this.props.coin)
-    const accounts = flatten(groups.map(group => group.options))
+    const accounts = flatten(groups.map((group) => group.options))
 
     if (balance > 0) {
       return true
@@ -155,14 +155,14 @@ class WalletBalanceDropdown extends Component<Props> {
     )
   }
 
-  isTotalBalanceType = selectProps => {
+  isTotalBalanceType = (selectProps) => {
     // BTC/BCH
     if (selectProps.value === 'all') return true
     // ETH/PAX/STELLAR/ALGO
     return !selectProps.value
   }
 
-  coinBalance = selectProps => {
+  coinBalance = (selectProps) => {
     if (this.isTotalBalanceType(selectProps)) {
       // Total balance
       return this.props.data.getOrElse({
@@ -185,7 +185,7 @@ class WalletBalanceDropdown extends Component<Props> {
     }
   }
 
-  accountLabel = selectProps => {
+  accountLabel = (selectProps) => {
     if (this.isTotalBalanceType(selectProps)) {
       // All label
       return this.props.coinModel.coinTicker
@@ -370,7 +370,7 @@ class WalletBalanceDropdown extends Component<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: values => {
+      Success: (values) => {
         const { addressData } = values
         const options = addressData.data
 
@@ -391,7 +391,9 @@ class WalletBalanceDropdown extends Component<Props> {
           </Wrapper>
         )
       },
-      Failure: e => <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>,
+      Failure: (e) => (
+        <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>
+      ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })

@@ -69,10 +69,8 @@ const DownloadButton = styled(CSVLink)`
   width: 100%;
 `
 
-export const validAddressOrWallet = value => {
-  return value !== 'all' ? (
-    undefined
-  ) : (
+export const validAddressOrWallet = (value) => {
+  return value !== 'all' ? undefined : (
     <FormattedMessage
       id='modals.transactions.report.required'
       defaultMessage='Wallet selection required'
@@ -82,11 +80,9 @@ export const validAddressOrWallet = value => {
 
 type Props = OwnProps & StateProps
 
-const DownloadTransactions: React.FunctionComponent<InjectedFormProps<
-  {},
-  Props
-> &
-  Props> = props => {
+const DownloadTransactions: React.FunctionComponent<
+  InjectedFormProps<{}, Props> & Props
+> = (props) => {
   const {
     closeAll,
     coin,

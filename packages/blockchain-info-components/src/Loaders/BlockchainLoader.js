@@ -6,12 +6,12 @@ import { Image } from '../..'
 
 const Img = styled(Image)`
   position: relative;
-  width: ${props => props.width};
-  height: ${props => props.height};
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
   overflow: hidden;
 `
 
-const BlockchainLoader = props => <Img {...props} name='logo-loader' />
+const BlockchainLoader = (props) => <Img {...props} name='logo-loader' />
 
 BlockchainLoader.propTypes = {
   width: PropTypes.string.isRequired,

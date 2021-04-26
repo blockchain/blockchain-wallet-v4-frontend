@@ -34,7 +34,7 @@ export const getData = createDeepEqualSelector(
 
     // @ts-ignore
     map(
-      coin =>
+      (coin) =>
         map((acct: any) => {
           // remove account if any if either of following are true
           // - coin receive feature is currently disabled

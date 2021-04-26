@@ -22,7 +22,7 @@ const AirdropSuccessModalHeader = styled(ModalHeader)`
   position: absolute;
   border: 0;
   > span {
-    color: ${props => props.theme.grey000};
+    color: ${(props) => props.theme.grey000};
   }
 `
 const Body = styled.div`
@@ -155,7 +155,7 @@ class AirdropSuccess extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.onboarding, dispatch)
 })
 

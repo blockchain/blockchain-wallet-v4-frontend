@@ -35,7 +35,7 @@ const GetStartedContainer = styled.div`
   width: ${containerWidth};
   box-sizing: border-box;
   height: 325px;
-  border: 1px solid ${props => props.theme.blue000};
+  border: 1px solid ${(props) => props.theme.blue000};
   border-radius: 3px;
   background-image: url('/img/lockbox@2x.png');
   background-repeat: no-repeat;
@@ -95,7 +95,7 @@ const LearnMoreContainer = styled.div`
   padding: ${containerPadding};
   box-sizing: border-box;
   border-radius: 3px;
-  background-color: ${props => props.theme.grey000};
+  background-color: ${(props) => props.theme.grey000};
   ${media.mobile`
     width: 100%;
     flex-direction: column;
@@ -110,11 +110,11 @@ const LearnMoreLink = styled(Link)`
 `
 const LearnMoreText = styled(Text)`
   margin-right: 15px;
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
 `
 const SetupGuideText = styled(Text)`
   margin: 0 4px;
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
 `
 const BrowserWarning = styled(Banner)``
 const browser = Bowser.getParser(window.navigator.userAgent)
@@ -122,7 +122,7 @@ const disableSetup = !browser.satisfies(
   model.components.lockbox.supportedBrowsers
 )
 
-const Onboard = props => {
+const Onboard = (props) => {
   const { launchLockboxSetup } = props
 
   return (

@@ -36,7 +36,7 @@ const DownloadButton = styled(Button)`
   margin: 30px 0 20px;
 `
 const DismissText = styled(Text)`
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
   &:hover {
     cursor: pointer;
   }
@@ -62,7 +62,7 @@ const getOsSpecificUpdater = () => {
   }
 }
 
-const SoftwareDownloadStep = props => {
+const SoftwareDownloadStep = (props) => {
   const {
     hasDownloaded,
     onGoBackToDownload,

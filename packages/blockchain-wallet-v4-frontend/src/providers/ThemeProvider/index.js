@@ -10,7 +10,7 @@ import { selectors } from 'data'
 
 const mapStateToProps = createDeepEqualSelector(
   [selectors.preferences.getTheme],
-  themeName => {
+  (themeName) => {
     const oldTheme = Palette(themeName)
     const newTheme = merge(theme, oldTheme)
     return { theme: newTheme }

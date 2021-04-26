@@ -40,7 +40,7 @@ const LeftTopCol = styled.div`
 
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
-const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Template: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const bankAccountName =
     props.account && 'details' in props.account
       ? `${props.account.details?.bankName} ${props.account.details?.accountNumber}`

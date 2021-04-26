@@ -7,7 +7,7 @@ import {
 } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
-export const getData = state => {
+export const getData = (state) => {
   const invitations = selectors.core.settings
     .getInvitations(state)
     .getOrElse(DEFAULT_INVITATIONS)

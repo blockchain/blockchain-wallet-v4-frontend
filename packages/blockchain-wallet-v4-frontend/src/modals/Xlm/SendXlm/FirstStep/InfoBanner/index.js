@@ -26,7 +26,7 @@ const BannerTemplate = styled(Banner)`
   margin-bottom: 16px;
 `
 
-export const InfoBanner = props => {
+export const InfoBanner = (props) => {
   const effectiveBalance = prop('effectiveBalance', props)
   const reserve = prop('reserve', props)
   const fee = prop('fee', props)

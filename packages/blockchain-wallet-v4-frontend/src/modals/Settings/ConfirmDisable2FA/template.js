@@ -16,13 +16,13 @@ import { flex, spacing } from 'services/styles'
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: ${props => (props.extraCopy ? null : 'center')};
+  justify-content: ${(props) => (props.extraCopy ? null : 'center')};
 `
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: ${props => (props.extraCopy ? null : 'center')};
-  align-items: ${props => (props.extraCopy ? null : 'center')};
+  justify-content: ${(props) => (props.extraCopy ? null : 'center')};
+  align-items: ${(props) => (props.extraCopy ? null : 'center')};
   height: 100%;
   padding: 0;
   box-sizing: border-box;
@@ -37,7 +37,7 @@ const Buttons = styled(ButtonGroup)`
   }
 `
 
-const ConfirmDisable2FA = props => {
+const ConfirmDisable2FA = (props) => {
   const {
     authName,
     extraCopy,

@@ -59,7 +59,7 @@ class TradingLimits extends PureComponent<Props, State> {
               </Text>
             ),
             Loading: () => <Loading />,
-            NotAsked: () => <Loading />,
+            NotAsked: () => <Loading />
           })}
         </FlyoutChild>
       </Flyout>
@@ -77,11 +77,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     actions.components.identityVerification,
     dispatch
   ),
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
 })
 
 const mapStateToProps = (state: RootState) => ({
-  data: getData(state),
+  data: getData(state)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

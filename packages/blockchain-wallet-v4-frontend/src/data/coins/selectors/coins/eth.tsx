@@ -41,7 +41,7 @@ export const getAccounts = createDeepEqualSelector(
       // add non-custodial accounts if requested
       if (ownProps?.nonCustodialAccounts) {
         accounts = accounts.concat(
-          ethMetadata.map(acc => {
+          ethMetadata.map((acc) => {
             const address = prop('addr', acc)
             const data = prop(address, ethData)
 

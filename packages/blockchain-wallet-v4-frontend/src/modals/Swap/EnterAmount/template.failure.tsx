@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-const Failure: React.FC<Props> = props => {
+const Failure: React.FC<Props> = (props) => {
   return (
     <>
       <FlyoutWrapper>

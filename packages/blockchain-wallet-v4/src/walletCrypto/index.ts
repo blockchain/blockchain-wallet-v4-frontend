@@ -17,17 +17,17 @@ import * as U from './utils'
 export const SUPPORTED_ENCRYPTION_VERSION = 4
 
 // eitherToTask :: Either a b -> Task a b
-const eitherToTask = e => e.fold(Task.rejected, Task.of)
+const eitherToTask = (e) => e.fold(Task.rejected, Task.of)
 
 // TaskTry :: (a -> b) -> (a -> Task Error b)
-const TaskTry = f => compose(eitherToTask, Either.try(f))
+const TaskTry = (f) => compose(eitherToTask, Either.try(f))
 
 // satisfy :: [Bool, String] => Task Error Bool
 const satisfy = ([bool, message]) =>
   bool ? Task.of(true) : Task.rejected(message)
 
 // satisfyAll :: [[Bool, String]] => Task Error Bool
-const satisfyAll = conditions => sequence(Task.of, conditions.map(satisfy))
+const satisfyAll = (conditions) => sequence(Task.of, conditions.map(satisfy))
 
 // safeParse :: String -> String -> Task error JSON
 export const safeParse = (payload, errorMessage) => {
@@ -39,7 +39,7 @@ export const safeParse = (payload, errorMessage) => {
 }
 
 // toPayloadIV :: Buffer -> Object
-const toPayloadIV = data => {
+const toPayloadIV = (data) => {
   let dataHex = Buffer.from(data, 'base64')
 
   let iv = dataHex.slice(0, U.SALT_BYTES)
@@ -125,15 +125,12 @@ export const decryptDataWithKey = curry((data, key) => {
 })
 
 // sha256 :: Buffer -> Buffer
-export const sha256 = data =>
-  crypto
-    .createHash('sha256')
-    .update(data)
-    .digest()
+export const sha256 = (data) =>
+  crypto.createHash('sha256').update(data).digest()
 
 // generateMnemonic :: Api -> Promise String
-export const generateMnemonic = api => {
-  return createRng(16, api).then(rng => BIP39.generateMnemonic(null, rng))
+export const generateMnemonic = (api) => {
+  return createRng(16, api).then((rng) => BIP39.generateMnemonic(null, rng))
 }
 
 // stretchPassword :: password -> salt -> iterations -> keylen -> Task Error Buffer
@@ -163,7 +160,7 @@ export const decryptDataWithPassword = (
   ]).chain(() =>
     // @ts-ignore
     TaskTry(toPayloadIV)(data, options).chain(({ iv, payload }) =>
-      stretchPassword(password, iv, iterations, U.KEY_BIT_LEN).chain(key =>
+      stretchPassword(password, iv, iterations, U.KEY_BIT_LEN).chain((key) =>
         // @ts-ignore
         TaskTry(decryptBufferWithKey)(payload, iv, key, options)
       )
@@ -180,7 +177,7 @@ export const encryptDataWithPassword = (data, password, iterations) => {
     [is(Number, iterations) && iterations > 0, 'iterations_required']
   ])
     .chain(() => stretchPassword(password, salt, iterations, U.KEY_BIT_LEN))
-    .chain(key =>
+    .chain((key) =>
       // @ts-ignore
       TaskTry(encryptDataWithKey)(data, key, salt, { mode: U.AES.CBC })
     )
@@ -195,7 +192,7 @@ export const encryptWallet = curry((data, password, iterations, version) =>
     [version, 'version_required']
   ])
     .chain(() => encryptDataWithPassword(data, password, iterations))
-    .map(payload =>
+    .map((payload) =>
       JSON.stringify({ pbkdf2_iterations: iterations, version, payload })
     )
 )
@@ -223,7 +220,7 @@ export const decryptSecPass = curry(
 // decryptWalletV1 :: String -> String -> Task Error Object
 export const decryptWalletV1 = (password, data) => {
   let decrypt = (i, o) =>
-    decryptDataWithPassword(data, password, i, o).chain(p =>
+    decryptDataWithPassword(data, password, i, o).chain((p) =>
       safeParse(p, 'v1: wrong_wallet_password')
     )
   // v1: CBC, ISO10126, 10 iterations
@@ -252,7 +249,11 @@ const validateWrapper = (
     ],
     [
       // @ts-ignore
-      propSatisfies(v => v <= SUPPORTED_ENCRYPTION_VERSION, 'version', wrapper),
+      propSatisfies(
+        (v) => v <= SUPPORTED_ENCRYPTION_VERSION,
+        'version',
+        wrapper
+      ),
       'Wallet version ' + wrapper.version + ' not supported.'
     ]
   ]).map(() => wrapper)
@@ -263,24 +264,24 @@ export const decryptWalletV2V3 = (password, data) => {
     safeParse(data, 'v2v3: wrong_wrapper')
       .chain(validateWrapper)
       // v2/v3: CBC, ISO10126, iterations in wrapper
-      .chain(w =>
+      .chain((w) =>
         decryptDataWithPassword(w.payload, password, w.pbkdf2_iterations, {
           mode: U.AES.CBC
         })
       )
-      .chain(p => safeParse(p, 'v2v3: wrong_wallet_password'))
+      .chain((p) => safeParse(p, 'v2v3: wrong_wallet_password'))
   )
 }
 
 export const decryptWallet = curry((password, data) =>
-  decryptWalletV1(password, data).orElse(result => {
+  decryptWalletV1(password, data).orElse((result) => {
     return result === 'v1: wrong_wallet_password'
       ? Task.rejected(result)
       : decryptWalletV2V3(password, data)
   })
 )
 
-export const derivePubFromPriv = priv => {
+export const derivePubFromPriv = (priv) => {
   return Bitcoin.ECPair.fromPrivateKey(priv).publicKey
 }
 

@@ -9,15 +9,15 @@ import NavbarHeader from './NavbarHeader'
 import NavbarMenu from './NavbarMenu'
 
 export const NavbarNavItemIcon = styled(Icon)<{ persist?: boolean }>`
-  color: ${props => props.theme[props.color || 'whiteFade900']};
+  color: ${(props) => props.theme[props.color || 'whiteFade900']};
   transition: color 0.3s;
-  display: ${props => (props.persist ? 'flex !important' : '')};
+  display: ${(props) => (props.persist ? 'flex !important' : '')};
 `
 
 export const NavbarNavItemTextHeader = styled(Text)<{ persist?: boolean }>`
-  color: ${props => props.theme[props.color || 'whiteFade900']};
+  color: ${(props) => props.theme[props.color || 'whiteFade900']};
   transition: color 0.3s;
-  display: ${props => (props.persist ? 'block !important' : '')};
+  display: ${(props) => (props.persist ? 'block !important' : '')};
 `
 
 export const NavbarNavItemButton = styled(Button)`
@@ -34,7 +34,7 @@ export const NavbarNavItemButton = styled(Button)`
     background-color: transparent;
     ${NavbarNavItemIcon},
     ${NavbarNavItemTextHeader} {
-      color: ${props => props.theme.whiteFade900} !important;
+      color: ${(props) => props.theme.whiteFade900} !important;
     }
   }
 
@@ -69,11 +69,11 @@ export const NavbarNavItem = styled.li`
   cursor: pointer;
 
   &.active {
-    background: ${props => props.theme.grey800};
+    background: ${(props) => props.theme.grey800};
     border-radius: 8px;
     ${NavbarNavItemIcon},
     ${NavbarNavItemTextHeader} {
-      color: ${props => props.theme.white} !important;
+      color: ${(props) => props.theme.white} !important;
     }
   }
 
@@ -97,7 +97,7 @@ export const NavbarNavItem = styled.li`
 
 export const NavbarDivider = styled.div`
   height: 20px;
-  border-left: 1px solid ${props => props.theme.grey800};
+  border-left: 1px solid ${(props) => props.theme.grey800};
 
   ${media.laptopM`
     height: 40px;
@@ -120,7 +120,7 @@ export const NavbarNav = styled.ul`
   &:hover {
     ${NavbarNavItemIcon},
     ${NavbarNavItemTextHeader} {
-      color: ${props => props.theme.grey600};
+      color: ${(props) => props.theme.grey600};
     }
   }
 `

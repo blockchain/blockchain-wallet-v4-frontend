@@ -70,7 +70,7 @@ export const Label = styled.label`
   font-weight: 500;
   margin-bottom: 12px;
   display: block;
-  color: ${props => props.theme.grey900};
+  color: ${(props) => props.theme.grey900};
 `
 export const CaptionContainer = styled.div`
   margin-top: 8px;
@@ -87,13 +87,13 @@ export const Caption = styled(Text)`
   font-weight: 500;
   font-size: 12px;
   line-height: 150%;
-  color: ${props => props.theme.grey600};
+  color: ${(props) => props.theme.grey600};
 `
-const getCountryElements = countries => [
+const getCountryElements = (countries) => [
   {
     group: '',
     items: map(
-      country => ({
+      (country) => ({
         value: country,
         text: country.name
       }),
@@ -102,15 +102,16 @@ const getCountryElements = countries => [
   }
 ]
 
-const getCountryCode = country => {
+const getCountryCode = (country) => {
   if (country.code) {
     return country.code
   }
   return country
 }
 
-const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
-  Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = (
+  props
+) => {
   const [billingAddress, setBillingAddress] = useState(false)
 
   const countryCode =
@@ -124,7 +125,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
     countryUsesZipcode(countryCode) || countryUsesPostalCode(countryCode)
 
   const defaultCountry = props.supportedCountries.find(
-    country => country.code === countryCode
+    (country) => country.code === countryCode
   )
 
   if (
@@ -298,7 +299,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
                   component={CheckBox}
                   type='checkbox'
                   onChange={() =>
-                    setBillingAddress(billingAddress => !billingAddress)
+                    setBillingAddress((billingAddress) => !billingAddress)
                   }
                 >
                   <Text weight={500} size='14px'>
@@ -388,7 +389,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
                         component={SelectBoxUSState}
                         errorBottom
                         validate={[required]}
-                        normalize={val => val && val.code}
+                        normalize={(val) => val && val.code}
                       />
                     ) : (
                       <Field name='state' component={TextBox} />

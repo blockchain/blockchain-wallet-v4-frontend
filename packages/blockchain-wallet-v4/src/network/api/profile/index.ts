@@ -17,7 +17,7 @@ export default ({
       }
     })
 
-  const createUser = retailToken => {
+  const createUser = (retailToken) => {
     return post({
       url: nabuUrl,
       endPoint: '/users',
@@ -58,7 +58,7 @@ export default ({
     })
   }
 
-  const getPaymentsAccountExchange = currency => {
+  const getPaymentsAccountExchange = (currency) => {
     return authorizedPut({
       url: nabuUrl,
       endPoint: '/payments/accounts/linked',
@@ -77,7 +77,7 @@ export default ({
     })
   }
 
-  const shareWalletDepositAddresses = addresses => {
+  const shareWalletDepositAddresses = (addresses) => {
     return authorizedPost({
       url: nabuUrl,
       endPoint: '/users/deposit/addresses',
@@ -137,7 +137,7 @@ export default ({
       endPoint: '/users/current'
     })
 
-  const updateUser = userData =>
+  const updateUser = (userData) =>
     authorizedPut({
       url: nabuUrl,
       endPoint: '/users/current',
@@ -145,7 +145,7 @@ export default ({
       data: { ...userData }
     })
 
-  const updateUserAddress = address =>
+  const updateUserAddress = (address) =>
     authorizedPut({
       url: nabuUrl,
       endPoint: '/users/current/address',
@@ -153,7 +153,7 @@ export default ({
       data: { address }
     })
 
-  const syncUserWithWallet = retailToken =>
+  const syncUserWithWallet = (retailToken) =>
     authorizedPut({
       url: nabuUrl,
       endPoint: '/users/current/walletInfo',

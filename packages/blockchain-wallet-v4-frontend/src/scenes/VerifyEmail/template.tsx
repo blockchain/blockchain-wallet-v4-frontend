@@ -13,7 +13,7 @@ const ContentWrapper = styled.div`
 `
 const IconWrapper = styled.div`
   display: flex;
-  background: ${props => props.theme['blue600']};
+  background: ${(props) => props.theme['blue600']};
   height: 40px;
   width: 40px;
   justify-content: center;

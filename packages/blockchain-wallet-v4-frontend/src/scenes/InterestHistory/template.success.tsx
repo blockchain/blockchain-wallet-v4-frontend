@@ -47,7 +47,7 @@ function TransactionList(props: Props): ReactElement | null {
   const txList = flatten(
     txPages &&
       // @ts-ignore
-      txPages.map(pages => map(page => page, (pages && pages.data) || []))
+      txPages.map((pages) => map((page) => page, (pages && pages.data) || []))
   )
   return txList && txList.length > 0 ? (
     <Container style={{ minWidth: '900px', paddingBottom: '45px' }}>
@@ -188,9 +188,7 @@ function TransactionList(props: Props): ReactElement | null {
               </InterestTableCell>
               <TableCell width='20%'>
                 <Value data-e2e='interestTransactionDate'>
-                  {moment(insertedAt)
-                    .local()
-                    .format('MMMM D YYYY @ h:mm A')}
+                  {moment(insertedAt).local().format('MMMM D YYYY @ h:mm A')}
                 </Value>
               </TableCell>
               {type === 'DEPOSIT' ? (

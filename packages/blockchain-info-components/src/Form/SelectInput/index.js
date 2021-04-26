@@ -20,7 +20,7 @@ class SelectInputContainer extends React.PureComponent {
   }
   /* eslint-enable react/no-did-update-set-state */
 
-  handleChange = item => {
+  handleChange = (item) => {
     const value = prop('value', item)
 
     this.setState({ value })
@@ -29,11 +29,11 @@ class SelectInputContainer extends React.PureComponent {
 
   transform = (elements, search) => {
     let items = []
-    elements.map(element => {
+    elements.map((element) => {
       if (!search && element.group !== '') {
         items.push({ text: element.group })
       }
-      element.items.map(item => {
+      element.items.map((item) => {
         if (
           !search ||
           (search && contains(toUpper(search), toUpper(item.text)))

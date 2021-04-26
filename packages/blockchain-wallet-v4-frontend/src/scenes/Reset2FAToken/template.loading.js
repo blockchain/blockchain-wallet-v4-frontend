@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-const Loading = props => {
+const Loading = (props) => {
   return (
     <Wrapper>
       <BlockchainLoader width='40px' height='40px' />

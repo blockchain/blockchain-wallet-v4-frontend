@@ -13,7 +13,7 @@ export default ({ get, nabuUrl, post }) => {
       ignoreQueryParams: true
     })
 
-  const fetchBestRates = pairs =>
+  const fetchBestRates = (pairs) =>
     get({
       url: nabuUrl,
       endPoint: `/markets/bestrates?currencyPairs=${pairs.join(',')}`,

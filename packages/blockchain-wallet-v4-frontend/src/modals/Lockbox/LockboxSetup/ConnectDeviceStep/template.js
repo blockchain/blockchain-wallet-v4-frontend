@@ -46,7 +46,7 @@ const TimeoutText = styled(Text)`
 const SupportText = styled(Link)`
   margin: 52px 0 12px;
 `
-const ConnectDeviceStep = props => {
+const ConnectDeviceStep = (props) => {
   const {
     connectTimeout,
     deviceType,

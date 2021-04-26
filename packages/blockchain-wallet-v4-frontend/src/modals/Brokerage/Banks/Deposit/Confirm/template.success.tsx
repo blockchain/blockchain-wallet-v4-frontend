@@ -34,13 +34,13 @@ const BareRow = styled.div`
 `
 
 const Row = styled(BareRow)`
-  border-bottom: 1px solid ${p => p.theme.grey000};
+  border-bottom: 1px solid ${(p) => p.theme.grey000};
 `
 const ActionsRow = styled(BareRow)`
   margin-top: 80px;
 `
 
-const Success = props => {
+const Success = (props) => {
   const [submitting, setSubmitting] = useState<boolean>(false)
 
   return (
@@ -100,9 +100,7 @@ const Success = props => {
             />
           </Text>
           <LineItemText>
-            {moment()
-              .add(3, 'days')
-              .format('dddd, MMM Do, YYYY')}
+            {moment().add(3, 'days').format('dddd, MMM Do, YYYY')}
           </LineItemText>
         </Row>
         <Row>

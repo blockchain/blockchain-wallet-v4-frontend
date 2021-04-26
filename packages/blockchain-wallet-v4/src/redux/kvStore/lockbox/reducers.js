@@ -50,14 +50,15 @@ export default (state = INITIAL_STATE, action) => {
       )
 
       // TODO: multiple account support
-      const accountLabelLens = coin => lensPath([coin, 'accounts', 0, 'label'])
+      const accountLabelLens = (coin) =>
+        lensPath([coin, 'accounts', 0, 'label'])
 
       const setDeviceName = compose(
         assoc('device_name', deviceName),
         set(accountLabelLens('btc'), deviceName + ' - BTC Wallet'),
         set(accountLabelLens('bch'), deviceName + ' - BCH Wallet'),
         set(accountLabelLens('eth'), deviceName + ' - ETH Wallet'),
-        lockboxKv => {
+        (lockboxKv) => {
           if (lockboxKv.xlm) {
             return set(
               accountLabelLens('xlm'),

@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import DataError from 'components/DataError'
-import { SBTransactionType,WalletFiatType  } from 'core/types'
+import { SBTransactionType, WalletFiatType } from 'core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -24,7 +24,7 @@ const Connect = (props: Props) => {
   useEffect(fetchBank, [props.walletCurrency])
 
   return props.data.cata({
-    Success: val => <Success {...props} {...val} />,
+    Success: (val) => <Success {...props} {...val} />,
     Failure: () => <DataError onClick={fetchBank} />,
     Loading: () => <Loading text={LoadingTextEnum.LOADING} />,
     NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />

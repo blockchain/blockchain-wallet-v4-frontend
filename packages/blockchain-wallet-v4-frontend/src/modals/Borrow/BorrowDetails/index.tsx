@@ -20,8 +20,8 @@ class BorrowDetails extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => <Success {...val} {...this.props} />,
-      Failure: e => (typeof e === 'object' ? e.message : e),
+      Success: (val) => <Success {...val} {...this.props} />,
+      Failure: (e) => (typeof e === 'object' ? e.message : e),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })

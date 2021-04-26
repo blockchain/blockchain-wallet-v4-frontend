@@ -56,7 +56,7 @@ class CopyToClipboardContainer extends React.PureComponent<Props, State> {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch)
 })
 

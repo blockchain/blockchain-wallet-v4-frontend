@@ -10,7 +10,7 @@ const ModalIcon = styled(Icon)`
   margin-left: 24px;
   cursor: pointer;
   font-size: 20px;
-  color: ${props => props.theme['brand-secondary']};
+  color: ${(props) => props.theme['brand-secondary']};
 `
 
 const ModalIconContainer = ({ className, showModal }) => (

@@ -29,7 +29,7 @@ const DropdownTitleRow = styled.div`
   > span:last-child {
     size: 10px;
     transition: transform 0.2s;
-    color: ${props => props.theme.grey600};
+    color: ${(props) => props.theme.grey600};
     &.active {
       transform: rotate(180deg);
     }
@@ -38,7 +38,7 @@ const DropdownTitleRow = styled.div`
 const InfoTitle = styled(Title)`
   font-weight: 600px;
   line-height: 1.5;
-  color: ${props => props.theme.grey900};
+  color: ${(props) => props.theme.grey900};
 `
 
 const InfoDropdown = styled.div`
@@ -54,10 +54,10 @@ const InfoDropdown = styled.div`
 const InfoText = styled(Title)`
   font-size: 14px;
   font-weight: 500;
-  color: ${props => props.theme.grey600};
+  color: ${(props) => props.theme.grey600};
   line-height: 1.5;
   a {
-    color: ${props => props.theme.blue600};
+    color: ${(props) => props.theme.blue600};
     cursor: pointer;
     text-decoration: none;
   }

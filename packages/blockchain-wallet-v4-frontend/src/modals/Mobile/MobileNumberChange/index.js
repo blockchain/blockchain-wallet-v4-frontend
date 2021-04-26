@@ -36,9 +36,9 @@ class MobileNumberChangeContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => getData(state)
+const mapStateToProps = (state) => getData(state)
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })

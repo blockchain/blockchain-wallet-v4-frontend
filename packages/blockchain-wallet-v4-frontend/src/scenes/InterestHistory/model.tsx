@@ -26,7 +26,7 @@ export const IconBackground = styled.div<{ color: string }>`
   height: 32px;
   min-width: 32px;
   border-radius: 32px;
-  background: ${props => props.theme[props.color]};
+  background: ${(props) => props.theme[props.color]};
 `
 
 export const PendingTag = styled(GreyCartridge)`
@@ -42,12 +42,12 @@ export const Value = styled(Text)`
   font-size: 14px;
   font-weight: 500;
   white-space: nowrap;
-  color: ${props => props.theme.grey600};
+  color: ${(props) => props.theme.grey600};
   line-height: 1.5;
   * {
     font-size: 14px !important;
     font-weight: 500 !important;
-    color: ${props => props.theme.grey600} !important;
+    color: ${(props) => props.theme.grey600} !important;
   }
 `
 

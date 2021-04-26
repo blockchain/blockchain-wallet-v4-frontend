@@ -20,7 +20,7 @@ class FiatConverterContainer extends React.PureComponent {
     } = this.props
 
     return data.cata({
-      Success: value => (
+      Success: (value) => (
         <Converter
           {...value}
           className={className}
@@ -35,7 +35,7 @@ class FiatConverterContainer extends React.PureComponent {
           data-e2e={this.props['data-e2e']}
         />
       ),
-      Failure: message => <Error>{message}</Error>,
+      Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })

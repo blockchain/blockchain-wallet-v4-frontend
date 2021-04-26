@@ -34,7 +34,7 @@ const StyledNavbarNavItem = styled(NavbarNavItem)`
       &:last-child {
         padding-right: 0px;
       }
-    `}   
+    `}
   }
 `
 

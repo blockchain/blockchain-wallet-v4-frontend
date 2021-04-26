@@ -45,7 +45,7 @@ export const CustomField = styled(Field)<
   BaseFieldProps & { coin: CoinType; displayCoin: boolean }
 >`
   > input {
-    padding-left: ${props =>
+    padding-left: ${(props) =>
       props.displayCoin && (props.coin === 'USDT' || props.coin === 'PAX')
         ? '60px'
         : '42px'};
@@ -69,8 +69,8 @@ export const ErrorText = styled(Text)`
   font-size: 14px;
   padding: 6px 12px;
   border-radius: 32px;
-  background-color: ${props => props.theme.red000};
-  color: ${props => props.theme.red800};
+  background-color: ${(props) => props.theme.red000};
+  color: ${(props) => props.theme.red800};
   margin-bottom: 16px;
 `
 export const FiatMaxContainer = styled.div`
@@ -78,7 +78,7 @@ export const FiatMaxContainer = styled.div`
   display: inline-block;
   padding: 0px 6px;
   border-radius: 10px;
-  background-color: ${props => props.theme.grey000};
+  background-color: ${(props) => props.theme.grey000};
 `
 export const CalculatorWrapper = styled.div`
   display: flex;
@@ -98,7 +98,7 @@ export const CalculatorContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   padding: 16px;
-  background-color: ${props => props.theme.greyFade000};
+  background-color: ${(props) => props.theme.greyFade000};
   border: 1px solid ${({ theme }) => theme.grey000};
   box-sizing: border-box;
   border-radius: 8px;
@@ -112,9 +112,9 @@ export const AmountError = styled.div`
 `
 
 export const GreyBlueCartridge = styled(CustomCartridge)`
-  background-color: ${props => props.theme.white};
-  border: 1px solid ${props => props.theme.grey100};
-  color: ${props => props.theme.blue600};
+  background-color: ${(props) => props.theme.white};
+  border: 1px solid ${(props) => props.theme.grey100};
+  color: ${(props) => props.theme.blue600};
   cursor: pointer;
   margin-left: 10px;
 `
@@ -170,7 +170,7 @@ export const ToggleFiatText = styled(Text)<{ displayCoin: boolean }>`
   padding-right: 5px;
   cursor: pointer;
   display: inline;
-  color: ${props =>
+  color: ${(props) =>
     props.displayCoin ? props.theme.grey800 : props.theme.blue600};
 `
 
@@ -180,7 +180,7 @@ export const ToggleCoinText = styled(Text)<{ displayCoin: boolean }>`
   padding-left: 5px;
   cursor: pointer;
   display: inline;
-  color: ${props =>
+  color: ${(props) =>
     props.displayCoin ? props.theme.blue600 : props.theme.grey800};
 `
 

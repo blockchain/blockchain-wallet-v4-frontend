@@ -74,7 +74,7 @@ const StyledRow = styled(Row)`
   }
 `
 
-const FirstStep = props => {
+const FirstStep = (props) => {
   const {
     amount,
     balanceStatus,

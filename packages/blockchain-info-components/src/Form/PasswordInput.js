@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { selectBorderColor, selectFocusBorderColor } from './helper'
 
-const BasePasswordInput = styled.input.attrs(props => ({
+const BasePasswordInput = styled.input.attrs((props) => ({
   type: 'password',
   spellCheck: 'false',
   disabled: props.disabled,
@@ -19,7 +19,7 @@ const BasePasswordInput = styled.input.attrs(props => ({
   letter-spacing: 4px;
   font-size: 20px;
   font-weight: 500;
-  color: ${props => props.theme['grey800']};
+  color: ${(props) => props.theme['grey800']};
   background-color: ${({ theme }) => theme.white};
   background-image: none;
   outline-width: 0;
@@ -37,19 +37,19 @@ const BasePasswordInput = styled.input.attrs(props => ({
     opacity: 0.25;
   }
   &::placeholder {
-    color: ${props => props.theme.grey400};
+    color: ${(props) => props.theme.grey400};
     font-size: 14px;
     font-weight: 500;
   }
   &::-webkit-input-placeholder {
     opacity: 0.4;
-    color: ${props => props.theme['grey400']};
+    color: ${(props) => props.theme['grey400']};
     font-size: 14px;
     font-weight: 500;
   }
   &:disabled {
     cursor: not-allowed;
-    background-color: ${props => props.theme.grey100};
+    background-color: ${(props) => props.theme.grey100};
     border: '1px solid transparent';
   }
 `
@@ -61,7 +61,7 @@ class PasswordInput extends React.Component {
     }
   }
 
-  refInput = input => {
+  refInput = (input) => {
     this.input = input
   }
 

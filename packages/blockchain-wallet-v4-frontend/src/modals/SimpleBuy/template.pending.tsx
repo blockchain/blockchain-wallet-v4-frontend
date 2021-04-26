@@ -37,7 +37,7 @@ const Title = styled(Text)`
 const Pending: React.FC<{
   handleClose: () => void
   handleRefresh: () => void
-}> = props => {
+}> = (props) => {
   return (
     <Top>
       <MainText color='grey800' size='20px' weight={600}>

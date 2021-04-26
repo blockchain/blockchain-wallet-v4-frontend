@@ -20,7 +20,7 @@ const BackupCopy = styled.div`
   display: inline;
 `
 const BackupLink = styled.span`
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
   text-decoration: underline;
   cursor: pointer;
 `

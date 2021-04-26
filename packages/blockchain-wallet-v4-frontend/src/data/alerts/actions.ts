@@ -3,10 +3,7 @@ import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { ALERTS_CLEAR, ALERTS_DISMISS, ALERTS_SHOW } from './actionTypes'
 import { AlertNatureType } from './types'
 
-const generateId = () =>
-  Math.random()
-    .toString(36)
-    .substr(2, 10)
+const generateId = () => Math.random().toString(36).substr(2, 10)
 
 const display = (
   nature: AlertNatureType,
@@ -42,4 +39,4 @@ export const displayError = (
 
 export const clearAlerts = () => ({ type: ALERTS_CLEAR })
 
-export const dismissAlert = id => ({ type: ALERTS_DISMISS, payload: { id } })
+export const dismissAlert = (id) => ({ type: ALERTS_DISMISS, payload: { id } })

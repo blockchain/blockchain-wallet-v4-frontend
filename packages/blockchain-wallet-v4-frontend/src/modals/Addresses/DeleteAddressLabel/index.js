@@ -36,7 +36,7 @@ class DeleteAddressLabelContainer extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   componentActions: bindActionCreators(
     actions.components.manageAddresses,
     dispatch

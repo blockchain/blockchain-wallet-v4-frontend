@@ -23,7 +23,7 @@ const Success = (props: Props) => {
   const simpleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
     const searchResults = props.bankCredentials.attributes.institutions.filter(
-      bank => bank.name.toLowerCase().match(value.toLowerCase())
+      (bank) => bank.name.toLowerCase().match(value.toLowerCase())
     )
     setBanks(searchResults)
   }
@@ -44,7 +44,7 @@ const Success = (props: Props) => {
         />
         <BankSearchIcon />
       </BankSearchWrapper>
-      {banks.map(bank => {
+      {banks.map((bank) => {
         return (
           <SimpleBankRow
             key={bank.id}

@@ -44,7 +44,7 @@ export const getData = createDeepEqualSelector(
     const destination = prop('to', formValues)
     const from = prop('from', formValues)
 
-    const transform = payment => {
+    const transform = (payment) => {
       const regularFeePerByte = path(['fees', 'regular'], payment)
       const priorityFeePerByte = path(['fees', 'priority'], payment)
       const minFeePerByte = path(['fees', 'limits', 'min'], payment)

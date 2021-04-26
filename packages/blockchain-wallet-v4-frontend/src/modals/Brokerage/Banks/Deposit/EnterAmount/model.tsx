@@ -6,7 +6,7 @@ import { BankTransferAccountType } from 'data/types'
 // TODO: move this somewhere more generic
 import { renderBank } from '../../../../SimpleBuy/EnterAmount/Checkout/Payment/model'
 
-const getText = method => {
+const getText = (method) => {
   if (!method) {
     return (
       <FormattedMessage

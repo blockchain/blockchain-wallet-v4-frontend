@@ -25,11 +25,11 @@ class PromptContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   value: formValueSelector('promptInputModal')(state, 'value')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.wallet, dispatch)
 })
 

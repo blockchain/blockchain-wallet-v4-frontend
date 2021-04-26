@@ -36,12 +36,12 @@ class BasicSecurityContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   authType: selectors.core.settings.getAuthType(state),
   emailVerified: selectors.core.settings.getEmailVerified(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 

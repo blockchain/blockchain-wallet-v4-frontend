@@ -4,11 +4,11 @@ import styled from 'styled-components'
 import { Text } from 'blockchain-info-components'
 
 const Error = styled(Text)`
-  position: ${props => props.position || 'relative'};
-  bottom: ${props => props.position === 'absolute' && '-18px'};
+  position: ${(props) => props.position || 'relative'};
+  bottom: ${(props) => props.position === 'absolute' && '-18px'};
 `
 
-const FormError = props => {
+const FormError = (props) => {
   const { children, position } = props
   return (
     <Error

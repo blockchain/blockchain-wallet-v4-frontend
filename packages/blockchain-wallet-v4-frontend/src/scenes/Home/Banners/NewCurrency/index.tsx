@@ -27,29 +27,29 @@ const NewAlert = styled.div`
   line-height: 150%;
   text-transform: uppercase;
   margin-right: 5px;
-  color: ${props => props.theme.green600};
-  background-color: ${props => props.theme.green000};
+  color: ${(props) => props.theme.green600};
+  background-color: ${(props) => props.theme.green000};
 `
 
 const VerbText = styled.span`
   margin-right: 5px;
   font-weight: 600;
   font-size: 16px;
-  color: ${props => props.theme.grey800};
+  color: ${(props) => props.theme.grey800};
 `
 
 const Description = styled.span`
   margin-right: 5px;
   font-weight: 500;
   font-size: 14px;
-  color: ${props => props.theme.grey600};
+  color: ${(props) => props.theme.grey600};
 `
 
 const CTAButton = styled(Button)`
   margin-right: 5px;
 
   & div {
-    color: ${props => props.theme.white};
+    color: ${(props) => props.theme.white};
     font-weight: 600;
     font-size: 14px;
   }
@@ -121,7 +121,7 @@ const NewCurrency = ({
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   announcementState: selectors.cache.getLastAnnouncementState(state)
 })
 const mapDispatchToProps = (dispatch: Dispatch) => ({

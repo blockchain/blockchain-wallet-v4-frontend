@@ -42,7 +42,7 @@ export const getAccounts = createDeepEqualSelector(
       if (ownProps?.nonCustodialAccounts) {
         accounts = accounts.concat(
           xlmMetadata
-            .map(acc => {
+            .map((acc) => {
               const address = prop('publicKey', acc)
               const account = prop(address, xlmData)
               const noAccount =

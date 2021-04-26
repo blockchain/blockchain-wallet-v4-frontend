@@ -102,7 +102,7 @@ class Submitted extends React.PureComponent<
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch

@@ -63,7 +63,7 @@ const FieldWrapper = styled.div`
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
-const scrollToId = id => {
+const scrollToId = (id) => {
   const element = document.getElementById(id)
   if (element) {
     element.scrollIntoView({ behavior: 'smooth' })

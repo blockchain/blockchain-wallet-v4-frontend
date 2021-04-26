@@ -18,7 +18,7 @@ const Title = styled(Text)`
   margin: 40px 0 24px;
 `
 
-const Failure = props => {
+const Failure = (props) => {
   return (
     <Wrapper>
       <div>

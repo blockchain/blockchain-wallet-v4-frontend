@@ -181,7 +181,7 @@ export function simpleBuyReducer(
         pairs: Remote.Success(action.payload.pairs),
         pair: action.payload.coin
           ? action.payload.pairs.find(
-              pair =>
+              (pair) =>
                 getCoinFromPair(pair.pair) === action.payload.coin &&
                 getFiatFromPair(pair.pair) === state.fiatCurrency
             )
@@ -310,7 +310,7 @@ export function simpleBuyReducer(
         pair:
           action.pair ||
           action.pairs.find(
-            pair =>
+            (pair) =>
               getCoinFromPair(pair.pair) === state.cryptoCurrency &&
               getFiatFromPair(pair.pair) === state.fiatCurrency
           )

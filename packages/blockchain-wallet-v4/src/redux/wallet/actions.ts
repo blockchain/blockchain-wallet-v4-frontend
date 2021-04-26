@@ -1,20 +1,20 @@
 import * as T from './actionTypes'
 
 // setters
-export const setWrapper = payload => ({
+export const setWrapper = (payload) => ({
   type: T.SET_WRAPPER,
   payload: payload
 })
 // ignored by the sync middleware and used by websocket middleware
-export const refreshWrapper = payload => ({
+export const refreshWrapper = (payload) => ({
   type: T.REFRESH_WRAPPER,
   payload: payload
 })
-export const setMainPassword = password => ({
+export const setMainPassword = (password) => ({
   type: T.SET_MAIN_PASSWORD,
   payload: password
 })
-export const setPayloadChecksum = checksum => ({
+export const setPayloadChecksum = (checksum) => ({
   type: T.SET_PAYLOAD_CHECKSUM,
   payload: checksum
 })
@@ -38,7 +38,7 @@ export const setHdAddressLabel = (
   // TODO: SEGWIT remove w/ DEPRECATED_V3, payloadV
   payload: { accountIdx, addressIdx, derivationType, label, payloadV }
 })
-export const createLegacyAddress = address => ({
+export const createLegacyAddress = (address) => ({
   type: T.CREATE_LEGACY_ADDRESS,
   payload: address
 })
@@ -50,7 +50,7 @@ export const setAccountArchived = (accountIdx, archived) => ({
   type: T.SET_ACCOUNT_ARCHIVED,
   payload: { accountIdx, archived }
 })
-export const setDefaultAccountIdx = index => ({
+export const setDefaultAccountIdx = (index) => ({
   type: T.SET_DEFAULT_ACCOUNT,
   payload: { index }
 })
@@ -58,14 +58,14 @@ export const setTransactionNote = (txHash, txNote) => ({
   type: T.SET_TRANSACTION_NOTE,
   payload: { txHash, txNote }
 })
-export const setSyncPubKeys = syncPubKeys => ({
+export const setSyncPubKeys = (syncPubKeys) => ({
   type: T.SET_SYNC_PUB_KEYS,
   payload: { syncPubKeys }
 })
 
 // deletes
 export const deleteWrapper = () => ({ type: T.DELETE_WRAPPER })
-export const deleteLegacyAddress = address => ({
+export const deleteLegacyAddress = (address) => ({
   type: T.DELETE_LEGACY_ADDRESS,
   payload: address
 })
@@ -80,7 +80,7 @@ export const deleteHdAddressLabel = (
 })
 
 // autologout time
-export const setAutoLogout = time => ({
+export const setAutoLogout = (time) => ({
   type: T.SET_AUTOLOGOUT,
   payload: { time }
 })

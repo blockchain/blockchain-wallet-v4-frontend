@@ -62,13 +62,13 @@ ConnectDeviceStepContainer.propTypes = {
   supportLink: PropTypes.string.isRequired
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   connection: selectors.components.lockbox.getCurrentConnection(state),
   setupType: selectors.components.lockbox.getNewDeviceSetupType(state),
   deviceType: selectors.components.lockbox.getNewDeviceType(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })

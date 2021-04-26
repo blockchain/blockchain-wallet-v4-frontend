@@ -29,7 +29,7 @@ export const getEthData = (
     forceCustodialFirst
   } = ownProps
 
-  const displayEthFixed = data => {
+  const displayEthFixed = (data) => {
     const etherAmount = Exchange.convertEtherToEther(data)
     return Exchange.displayEtherToEther({
       value: Number(etherAmount.value).toFixed(8),
@@ -37,7 +37,7 @@ export const getEthData = (
       toUnit: 'ETH'
     })
   }
-  const buildDisplay = wallet => {
+  const buildDisplay = (wallet) => {
     if (has('balance', wallet)) {
       let ethDisplay = displayEthFixed({
         value: wallet.balance,
@@ -48,7 +48,7 @@ export const getEthData = (
     }
     return wallet.label
   }
-  const buildCustodialDisplay = x => {
+  const buildCustodialDisplay = (x) => {
     return (
       `Trading Account` +
       ` (${Exchange.displayEtherToEther({
@@ -69,11 +69,11 @@ export const getEthData = (
     )
   }
   // @ts-ignore
-  const excluded = filter(x => !exclude.includes(x.label))
-  const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
+  const excluded = filter((x) => !exclude.includes(x.label))
+  const toDropdown = map((x) => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options, value: '' }])
-  const toExchange = x => [{ label: `ETH Exchange Account`, value: x }]
-  const toCustodialDropdown = currencyDetails => [
+  const toExchange = (x) => [{ label: `ETH Exchange Account`, value: x }]
+  const toCustodialDropdown = (currencyDetails) => [
     {
       label: buildCustodialDisplay(currencyDetails),
       value: {
@@ -84,7 +84,7 @@ export const getEthData = (
     }
   ]
 
-  const toInterestDropdown = x => [
+  const toInterestDropdown = (x) => [
     {
       label: buildInterestDisplay(x),
       value: {
@@ -124,7 +124,7 @@ export const getEthData = (
       showCustodial || showCustodialWithAddress
         ? selectors.components.simpleBuy
             .getSBBalances(state)
-            .map(x => ({
+            .map((x) => ({
               ...x.ETH,
               address: accountAddress ? accountAddress.data : null
             }))
@@ -134,7 +134,7 @@ export const getEthData = (
       includeInterest
         ? selectors.components.interest
             .getInterestAccountBalance(state)
-            .map(x => x.ETH)
+            .map((x) => x.ETH)
             .map(toInterestDropdown)
             .map(toGroup('Interest Account'))
         : Remote.of([]),
@@ -177,7 +177,7 @@ export const getErc20Data = (
     includeInterest,
     forceCustodialFirst
   } = ownProps
-  const displayErc20Fixed = data => {
+  const displayErc20Fixed = (data) => {
     // TODO: ERC20 make more generic
     if (coin === 'PAX') {
       const paxAmount = Exchange.convertPaxToPax(data)
@@ -244,8 +244,8 @@ export const getErc20Data = (
   }
 
   // @ts-ignore
-  const excluded = filter(x => !exclude.includes(x.label))
-  const buildDisplay = wallet => {
+  const excluded = filter((x) => !exclude.includes(x.label))
+  const buildDisplay = (wallet) => {
     let erc20BalanceDisplay = displayErc20Fixed({
       value: wallet.balance,
       fromUnit: 'WEI',
@@ -253,18 +253,18 @@ export const getErc20Data = (
     })
     return wallet.label + ` (${erc20BalanceDisplay})`
   }
-  const toDropdown = map(x => ({
+  const toDropdown = map((x) => ({
     label: buildDisplay(x),
     value: x
   }))
   const toGroup = curry((label, options) => [{ label, options }])
-  const toExchange = x => [
+  const toExchange = (x) => [
     {
       label: 'Exchange Account',
       value: x
     }
   ]
-  const toCustodialDropdown = currencyDetails => [
+  const toCustodialDropdown = (currencyDetails) => [
     {
       label: buildCustodialDisplay(currencyDetails, coin),
       value: {
@@ -275,7 +275,7 @@ export const getErc20Data = (
     }
   ]
 
-  const toInterestDropdown = x => [
+  const toInterestDropdown = (x) => [
     {
       label: buildInterestDisplay(x, coin),
       value: {
@@ -315,7 +315,7 @@ export const getErc20Data = (
       showCustodial || showCustodialWithAddress
         ? selectors.components.simpleBuy
             .getSBBalances(state)
-            .map(x => ({
+            .map((x) => ({
               ...x[coin],
               address: accountAddress ? accountAddress.data : null
             }))
@@ -325,7 +325,7 @@ export const getErc20Data = (
       includeInterest
         ? selectors.components.interest
             .getInterestAccountBalance(state)
-            .map(x => x[coin])
+            .map((x) => x[coin])
             .map(toInterestDropdown)
             .map(toGroup('Interest Account'))
         : Remote.of([])

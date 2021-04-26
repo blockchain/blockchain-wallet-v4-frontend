@@ -42,14 +42,14 @@ const Header = styled(Text)`
   font-size: 24px;
   font-weight: 600;
   margin-top: 18px;
-  color: ${props => props.theme['grey800']};
+  color: ${(props) => props.theme['grey800']};
 `
 const Copy = styled(Text)`
   margin-top: 16px;
   font-weight: 500;
   line-height: 1.6;
   max-width: 300px;
-  color: ${props => props.theme['grey800']};
+  color: ${(props) => props.theme['grey800']};
 `
 const FooterButton = styled(Button)`
   height: 56px;
@@ -136,13 +136,13 @@ AirdropClaim.defaultProps = {
   campaign: 'sunriver'
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isCampaignTagged: selectors.modules.profile
     .getSunRiverTag(state)
     .getOrElse(false)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.onboarding, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })

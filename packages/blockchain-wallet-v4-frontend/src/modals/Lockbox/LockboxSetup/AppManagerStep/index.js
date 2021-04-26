@@ -36,7 +36,7 @@ class AppManagerStepContainer extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })

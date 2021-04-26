@@ -16,15 +16,13 @@ import {
 
 const DUST = 546
 
-const getEffectiveBalance = props => {
+const getEffectiveBalance = (props) => {
   return Number(props.effectiveBalance)
 }
 
 export const insufficientFunds = (value, allValues, props) => {
   const effectiveBalance = getEffectiveBalance(props)
-  return effectiveBalance > 0 && DUST <= effectiveBalance ? (
-    undefined
-  ) : (
+  return effectiveBalance > 0 && DUST <= effectiveBalance ? undefined : (
     <InsufficientFundsMessage />
   )
 }
@@ -61,9 +59,7 @@ export const maximumAmount = (value, allValues, props) => {
 }
 
 export const minimumFeePerByte = (value, allValues, props) =>
-  value && parseInt(value) >= props.minFeePerByte ? (
-    undefined
-  ) : (
+  value && parseInt(value) >= props.minFeePerByte ? undefined : (
     <MinimumFeeMessage />
   )
 
@@ -71,9 +67,7 @@ export const minimumOneSatoshi = (value, allValues, props) =>
   value >= 1 ? undefined : <MinimumOneSatoshiMessage />
 
 export const maximumFeePerByte = (value, allValues, props) =>
-  value && parseInt(value) <= props.maxFeePerByte ? (
-    undefined
-  ) : (
+  value && parseInt(value) <= props.maxFeePerByte ? undefined : (
     <MaximumFeeMessage />
   )
 
@@ -115,9 +109,7 @@ export const isAddressDerivedFromPriv = (value, allValues, props) => {
   const format = utils.btc.detectPrivateKeyFormat(value)
   const address = path(['from', 'address'], allValues)
   const key = utils.btc.privateKeyStringToKey(value, format, props.network)
-  return utils.btc.keyPairToAddress(key) === address ? (
-    undefined
-  ) : (
+  return utils.btc.keyPairToAddress(key) === address ? undefined : (
     <AddressMatchesPriv />
   )
 }

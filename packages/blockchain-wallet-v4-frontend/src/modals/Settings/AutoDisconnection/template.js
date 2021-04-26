@@ -35,20 +35,20 @@ const Header = styled(Text)`
   font-size: 24px;
   font-weight: 600;
   margin-top: 12px;
-  color: ${props => props.theme['grey800']};
+  color: ${(props) => props.theme['grey800']};
 `
 const Copy = styled(Text)`
   margin-top: 14px;
   font-weight: 500;
   line-height: 1.5;
-  color: ${props => props.theme['grey800']};
+  color: ${(props) => props.theme['grey800']};
 `
 const FooterButton = styled(Button)`
   height: 56px;
   font-weight: 600;
   margin-top: 24px;
 `
-const AutoDisconnection = props => {
+const AutoDisconnection = (props) => {
   const { duration, position, total, ...rest } = props
   const { handleCancel } = rest
 

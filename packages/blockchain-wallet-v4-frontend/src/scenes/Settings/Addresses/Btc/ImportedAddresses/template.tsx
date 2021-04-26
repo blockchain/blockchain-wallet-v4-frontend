@@ -63,10 +63,10 @@ const Success = ({
   onTransferAll: any
   search: any
 }) => {
-  const isMatch = address =>
+  const isMatch = (address) =>
     !search || address.addr.toLowerCase().indexOf(search) > -1
   const importedAddressesTableRows = filter(isMatch, importedAddresses).map(
-    address => (
+    (address) => (
       <AddressRow
         coin='BTC'
         key={address.addr}

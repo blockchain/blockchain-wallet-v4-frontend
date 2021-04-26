@@ -14,7 +14,7 @@ const Button = styled.button`
     width: 20px;
 
     &:after {
-      color: ${props => props.theme.white};
+      color: ${(props) => props.theme.white};
       content: '\e92d';
       font-family: 'icomoon', sans-serif;
       font-size: 17px;

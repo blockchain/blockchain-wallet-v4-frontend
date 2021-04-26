@@ -22,7 +22,7 @@ const Wrapper = styled.div`
   }
 `
 
-const Setting = props => (
+const Setting = (props) => (
   <Wrapper>
     <Field
       name='emailEnabled'

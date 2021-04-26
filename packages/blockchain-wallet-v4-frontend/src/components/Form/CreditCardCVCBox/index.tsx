@@ -46,7 +46,7 @@ export const validateCreditCardCVC: Validator = (
   }
 }
 
-const CreditCardCVCBox: React.FC<Props> = props => {
+const CreditCardCVCBox: React.FC<Props> = (props) => {
   return <TextBox {...props} />
 }
 

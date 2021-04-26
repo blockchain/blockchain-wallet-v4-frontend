@@ -4,7 +4,7 @@ import { ExtractSuccess, FiatType } from 'blockchain-wallet-v4/src/types'
 import { InvitationsType } from 'core/types'
 import { selectors } from 'data'
 
-export const getData = state => {
+export const getData = (state) => {
   const balancesR = selectors.components.simpleBuy.getSBBalances(state)
   const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
     state
@@ -35,7 +35,9 @@ export const getData = state => {
       paymentMethods:
         (!invitations.openBanking && {
           ...paymentMethods,
-          methods: paymentMethods.methods.filter(m => m.type === 'BANK_ACCOUNT')
+          methods: paymentMethods.methods.filter(
+            (m) => m.type === 'BANK_ACCOUNT'
+          )
         }) ||
         paymentMethods,
       userData,

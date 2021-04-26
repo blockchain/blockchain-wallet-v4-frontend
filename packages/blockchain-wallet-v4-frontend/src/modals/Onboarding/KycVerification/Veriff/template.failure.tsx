@@ -43,7 +43,7 @@ const ServerErrorText = styled(Text)`
 const Failure: React.FC<{
   message?: { message: string | Error }
   onClose: () => void
-}> = props => {
+}> = (props) => {
   return (
     <Wrapper data-e2e='veriffFailureContainer'>
       <Image name='gold-notice' width='70' height='66' />

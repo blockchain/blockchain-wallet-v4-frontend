@@ -24,7 +24,7 @@ class ConfirmDisable2FAContainer extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   securityCenterActions: bindActionCreators(
     actions.modules.securityCenter,
     dispatch

@@ -13,7 +13,7 @@ export const getData = (state, { currentTier, nextTier }) => {
     .getOrElse('USD')
   const amountLeft = selectors.modules.profile
     .getUserData(state)
-    .map(x => x.limits[currentTier - 1].annual)
+    .map((x) => x.limits[currentTier - 1].annual)
     .getOrElse('0')
   const nextTierAmount = nextTierLimits.map(propOr(0, 'daily')).getOrElse(0)
   return {

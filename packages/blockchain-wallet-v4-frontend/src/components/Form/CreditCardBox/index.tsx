@@ -35,7 +35,7 @@ export const normalizeCreditCard = (value, previousValue) => {
   if (execResult) {
     return execResult
       .splice(1, 3)
-      .filter(x => x)
+      .filter((x) => x)
       .join(' ')
   }
 
@@ -45,7 +45,7 @@ export const normalizeCreditCard = (value, previousValue) => {
 export const validateCreditCard = (value, allValues, props: AddCardProps) => {
   const cardType = getCardTypeByValue(value)
   const cardMethod = props.paymentMethods.methods.find(
-    method => method.type === 'PAYMENT_CARD'
+    (method) => method.type === 'PAYMENT_CARD'
   )
 
   if (!cardType) {
@@ -70,7 +70,7 @@ export const validateCreditCard = (value, allValues, props: AddCardProps) => {
     !(
       cardMethod &&
       cardMethod.subTypes &&
-      cardMethod.subTypes.find(subType => subType === cardType.type)
+      cardMethod.subTypes.find((subType) => subType === cardType.type)
     )
   ) {
     return (
@@ -99,7 +99,7 @@ const CardLogo = styled.img`
   }
 `
 
-const CreditCardBox: React.FC<Props> = props => {
+const CreditCardBox: React.FC<Props> = (props) => {
   const [isActive, setIsActive] = useState(false)
   const [cardType, setCardType] = useState({ logo: DEFAULT_CARD_SVG_LOGO })
   const newCardType = getCardTypeByValue(props.input.value) || {

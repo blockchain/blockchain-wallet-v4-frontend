@@ -46,7 +46,7 @@ class VerifyEmailContainer extends React.PureComponent<Props, {}> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   email: selectors.auth.getRegisterEmail(state),
   appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod'),
   isEmailVerified: selectors.core.settings
@@ -54,7 +54,7 @@ const mapStateToProps = state => ({
     .getOrElse(false)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   miscActions: bindActionCreators(actions.core.data.misc, dispatch),
   securityCenterActions: bindActionCreators(
     actions.modules.securityCenter,

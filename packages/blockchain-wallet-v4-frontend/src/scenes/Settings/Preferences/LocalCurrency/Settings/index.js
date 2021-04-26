@@ -31,11 +31,11 @@ class SettingsContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   newCurrency: formValueSelector('settingCurrency')(state, 'currency')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

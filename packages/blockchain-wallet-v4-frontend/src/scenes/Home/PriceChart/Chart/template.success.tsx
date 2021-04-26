@@ -23,7 +23,7 @@ const getYValue = (d: Data) => new Date(d[0])
 
 const getXValue = (d: Data) => d[1]
 
-const bisectDate = bisector<Data, Date>(d => new Date(getYValue(d))).left
+const bisectDate = bisector<Data, Date>((d) => new Date(getYValue(d))).left
 
 const strokeWidth = 2
 
@@ -126,15 +126,15 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
           data={data}
           fill={`url(#${color})`}
           yScale={yScale}
-          x={d => xScale(getYValue(d)) ?? 0}
-          y={d => yScale(getXValue(d)) ?? 0}
+          x={(d) => xScale(getYValue(d)) ?? 0}
+          y={(d) => yScale(getXValue(d)) ?? 0}
           strokeWidth={0}
         />
 
         <LinePath<Data>
           data={data}
-          x={d => xScale(getYValue(d)) ?? 0}
-          y={d => yScale(getXValue(d)) ?? 0}
+          x={(d) => xScale(getYValue(d)) ?? 0}
+          y={(d) => yScale(getXValue(d)) ?? 0}
           strokeWidth={strokeWidth}
           stroke={color}
         />

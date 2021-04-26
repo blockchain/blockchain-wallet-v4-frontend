@@ -55,13 +55,13 @@ class TwoStepSetupContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   authType: selectors.core.settings.getAuthType(state),
   smsNumber: selectors.core.settings.getSmsNumber(state),
   smsVerified: selectors.core.settings.getSmsVerified(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })

@@ -17,8 +17,8 @@ export const checkHasWebcam = () => {
 
   return media
     .enumerateDevices()
-    .then(devices => devices.some(device => device.kind === 'videoinput'))
+    .then((devices) => devices.some((device) => device.kind === 'videoinput'))
 }
 
-export const collapse = text =>
+export const collapse = (text) =>
   text.length > 30 ? text.replace(/(.{17})..+/, '$1…') : text

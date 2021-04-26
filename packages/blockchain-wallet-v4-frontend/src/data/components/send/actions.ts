@@ -7,11 +7,11 @@ import {
 
 import * as AT from './actionTypes'
 
-export const fetchPaymentsAccountExchange = currency => ({
+export const fetchPaymentsAccountExchange = (currency) => ({
   type: AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE,
   payload: { currency }
 })
-export const fetchPaymentsAccountExchangeLoading = currency => ({
+export const fetchPaymentsAccountExchangeLoading = (currency) => ({
   type: AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE_LOADING,
   payload: { currency }
 })
@@ -61,7 +61,7 @@ export const getLockRule = () => ({
 export const getLockRuleLoading = () => ({
   type: AT.GET_LOCK_RULE_LOADING
 })
-export const getLockRuleFailure = e => ({
+export const getLockRuleFailure = (e) => ({
   type: AT.GET_LOCK_RULE_FAILURE,
   payload: { e }
 })

@@ -43,7 +43,7 @@ export const Label = styled.label`
   font-weight: 500;
   margin-bottom: 12px;
   display: block;
-  color: ${props => props.theme.grey900};
+  color: ${(props) => props.theme.grey900};
 `
 const SpinnerWrapper = styled.div`
   width: 100%;
@@ -69,7 +69,7 @@ export const Caption = styled(Text)`
   font-weight: 500;
   font-size: 12px;
   line-height: 150%;
-  color: ${props => props.theme.grey600};
+  color: ${(props) => props.theme.grey600};
 `
 const CustomForm = styled(Form)`
   height: 100%;
@@ -98,15 +98,15 @@ const ErrorText = styled(Text)`
   font-size: 14px;
   padding: 6px 12px;
   border-radius: 32px;
-  background-color: ${props => props.theme.red000};
-  color: ${props => props.theme.red800};
+  background-color: ${(props) => props.theme.red000};
+  color: ${(props) => props.theme.red800};
   margin-bottom: 16px;
 `
-const getCountryElements = countries => [
+const getCountryElements = (countries) => [
   {
     group: '',
     items: map(
-      country => ({
+      (country) => ({
         value: country,
         text: country.name
       }),
@@ -115,11 +115,11 @@ const getCountryElements = countries => [
   }
 ]
 
-const addTrailingZero = string => (string.length >= 2 ? string : `0${string}`)
+const addTrailingZero = (string) => (string.length >= 2 ? string : `0${string}`)
 const removeTrailingZero = replace(/^0/, '')
 const objectToDOB = ({ date = '', month = '', year = '' }) =>
   `${year}-${month}-${addTrailingZero(date)}`
-const DOBToObject = value => {
+const DOBToObject = (value) => {
   const [year = '', month = '', date = ''] = defaultTo('', value).split('-')
   return {
     date: removeTrailingZero(date),
@@ -127,7 +127,7 @@ const DOBToObject = value => {
     year
   }
 }
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const disabled = props.invalid || props.submitting
 
   if (props.submitting) {
@@ -148,7 +148,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     countryUsesZipcode(countryCode) || countryUsesPostalCode(countryCode)
 
   const defaultCountry = props.supportedCountries.find(
-    country => country.code === countryCode
+    (country) => country.code === countryCode
   )
 
   if (
@@ -366,8 +366,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 component={SelectBoxUSState}
                 errorBottom
                 validate={[required]}
-                normalize={val => val && val.code}
-                format={val => ({
+                normalize={(val) => val && val.code}
+                format={(val) => ({
                   name: getStateNameFromAbbreviation(val),
                   code: val
                 })}

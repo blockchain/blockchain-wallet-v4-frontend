@@ -42,11 +42,11 @@ export const selectSignKey = view(signKey)
 export const selectEncKeyBuffer = view(encKeyBuffer)
 export const selectValue = view(value)
 
-export const reviver = jsObject => {
+export const reviver = (jsObject) => {
   return new KVStoreEntry(jsObject)
 }
 
-export const createEmpty = typeId => {
+export const createEmpty = (typeId) => {
   return new KVStoreEntry({ VERSION: 1, typeId })
 }
 
@@ -75,7 +75,7 @@ export const getMasterHDNode = curry((network, seedHex) => {
   return Bitcoin.bip32.fromSeed(masterhex, network)
 })
 
-export const deriveMetadataNode = masterHDNode => {
+export const deriveMetadataNode = (masterHDNode) => {
   // BIP 43 purpose needs to be 31 bit or less. For lack of a BIP number
   // we take the first 31 bits of the SHA256 hash of a reverse domain.
   let hash = crypto.sha256('info.blockchain.metadata')
@@ -112,10 +112,10 @@ export const encrypt = curry((key, data) =>
 export const decrypt = curry((key, data) =>
   crypto.decryptDataWithKey(data, key)
 )
-export const B64ToBuffer = base64 => Buffer.from(base64, 'base64')
-export const BufferToB64 = buff => buff.toString('base64')
-export const StringToBuffer = base64 => Buffer.from(base64)
-export const BufferToString = buff => buff.toString()
+export const B64ToBuffer = (base64) => Buffer.from(base64, 'base64')
+export const BufferToB64 = (buff) => buff.toString('base64')
+export const StringToBuffer = (base64) => Buffer.from(base64)
+export const BufferToString = (buff) => buff.toString()
 
 // message :: Buffer -> Buffer -> Base64String
 export const message = curry((payload, prevMagic) => {

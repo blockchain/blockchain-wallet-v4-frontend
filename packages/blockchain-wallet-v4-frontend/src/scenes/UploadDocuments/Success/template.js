@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import { Button, Text, TextGroup } from 'blockchain-info-components'
 
 const CheckCircleIcon = styled(FarCheckCircle)`
-  fill: ${props => props.theme['success']};
+  fill: ${(props) => props.theme['success']};
 `
 
 const SuccessText = styled(Text)`
@@ -22,7 +22,7 @@ const Wrapper = styled.div`
   align-items: center;
   padding: 35px;
   box-sizing: border-box;
-  background-color: ${props => props.theme.grey000};
+  background-color: ${(props) => props.theme.grey000};
   max-width: 720px;
   & > * {
     padding-bottom: 10px;

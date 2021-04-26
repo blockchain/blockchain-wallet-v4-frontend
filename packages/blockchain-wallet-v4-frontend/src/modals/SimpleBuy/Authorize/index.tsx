@@ -37,12 +37,12 @@ const DropdownTitleRow = styled.div<{ isPaymentInformation?: boolean }>`
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  padding: ${props => (props.isPaymentInformation ? '0 40px' : 'auto')};
+  padding: ${(props) => (props.isPaymentInformation ? '0 40px' : 'auto')};
   /* chevorn icon rotation */
   > span:last-child {
     size: 10px;
     transition: transform 0.2s;
-    color: ${props => props.theme.grey600};
+    color: ${(props) => props.theme.grey600};
     &.active {
       transform: rotate(180deg);
     }
@@ -51,7 +51,7 @@ const DropdownTitleRow = styled.div<{ isPaymentInformation?: boolean }>`
 const InfoTitle = styled(Title)`
   font-weight: 600;
   line-height: 1.5;
-  color: ${props => props.theme.grey900};
+  color: ${(props) => props.theme.grey900};
 `
 
 const InfoDropdown = styled.div`
@@ -67,7 +67,7 @@ const InfoDropdown = styled.div`
 const InfoText = styled(Title)`
   font-size: 14px;
   font-weight: 500;
-  color: ${props => props.theme.grey600};
+  color: ${(props) => props.theme.grey600};
   line-height: 1.5;
 `
 const Bottom = styled(FlyoutWrapper)`
@@ -77,7 +77,7 @@ const Bottom = styled(FlyoutWrapper)`
   height: 100%;
 `
 const DropdownRow = styled(Row)<{ isPaymentInformation?: boolean }>`
-  padding: ${props => (props.isPaymentInformation ? '16px 0' : 'auto')};
+  padding: ${(props) => (props.isPaymentInformation ? '16px 0' : 'auto')};
 `
 
 const DropdownItem = ({ bodyText, isPaymentInformation, titleText }) => {

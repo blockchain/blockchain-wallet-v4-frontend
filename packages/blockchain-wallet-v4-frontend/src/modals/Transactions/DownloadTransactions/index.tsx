@@ -53,9 +53,7 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
     initForm({
       from: 'all',
       // @ts-ignore
-      start: moment()
-        .startOf('day')
-        .subtract(7, 'day'),
+      start: moment().startOf('day').subtract(7, 'day'),
       // @ts-ignore
       end: moment().endOf('day')
     })
@@ -72,7 +70,7 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
     const endDate = prop('end', formValues)
     const addressDerivations =
       from.derivations &&
-      from.derivations.map(derivation => ({
+      from.derivations.map((derivation) => ({
         address: derivation.xpub,
         type: derivation.type
       }))
@@ -160,7 +158,7 @@ const mapDispatchToProps = (dispatch: Dispatch, { coin }: OwnProps) => {
         )
       )
     },
-    initForm: initialValues =>
+    initForm: (initialValues) =>
       dispatch(actions.form.initialize('transactionReport', initialValues))
   }
 }

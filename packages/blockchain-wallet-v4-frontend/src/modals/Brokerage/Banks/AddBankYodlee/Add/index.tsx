@@ -31,7 +31,7 @@ class Add extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => (
+      Success: (val) => (
         <Success
           {...this.props}
           {...val}
@@ -39,7 +39,7 @@ class Add extends PureComponent<Props> {
           handleBack={this.props.handleClose}
         />
       ),
-      Failure: e => (
+      Failure: (e) => (
         <DataError
           message={{ message: e }}
           onClick={this.props.simpleBuyActions.fetchSBPaymentMethods}

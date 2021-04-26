@@ -12,17 +12,17 @@ export const fetchMetadataXlm = () => ({
 export const fetchMetadataXlmLoading = () => ({
   type: AT.FETCH_METADATA_XLM_LOADING
 })
-export const fetchMetadataXlmSuccess = data => ({
+export const fetchMetadataXlmSuccess = (data) => ({
   type: AT.FETCH_METADATA_XLM_SUCCESS,
   payload: data
 })
-export const fetchMetadataXlmFailure = error => ({
+export const fetchMetadataXlmFailure = (error) => ({
   type: AT.FETCH_METADATA_XLM_FAILURE,
   payload: error
 })
 
 // CREATE
-export const createMetadataXlm = data => ({
+export const createMetadataXlm = (data) => ({
   type: AT.CREATE_METADATA_XLM,
   payload: data
 })

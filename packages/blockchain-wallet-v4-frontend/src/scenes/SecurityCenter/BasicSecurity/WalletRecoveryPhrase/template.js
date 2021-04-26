@@ -51,11 +51,11 @@ const WarningText = styled.div`
   align-items: flex-start;
 `
 
-const WalletRecoveryPhrase = props => {
+const WalletRecoveryPhrase = (props) => {
   const { handleBackupNow, isMnemonicVerified } = props
 
   const buttonHelper = () => {
-    const securityComponent = components => (
+    const securityComponent = (components) => (
       <SecurityComponent>{components}</SecurityComponent>
     )
     if (isMnemonicVerified) {

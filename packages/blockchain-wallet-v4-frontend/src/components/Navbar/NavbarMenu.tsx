@@ -10,7 +10,7 @@ const BaseMenu = styled.div`
   width: 100%;
 `
 
-const NavbarMenu = props => {
+const NavbarMenu = (props) => {
   const { children, ...rest } = props
 
   return <BaseMenu {...rest}>{children}</BaseMenu>

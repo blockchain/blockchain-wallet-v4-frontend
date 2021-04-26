@@ -88,7 +88,7 @@ class BorrowForm extends PureComponent<Props, State> {
     const { data } = this.props
 
     return data.cata({
-      Success: val => (
+      Success: (val) => (
         <Success
           {...val}
           {...this.props}

@@ -7,7 +7,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { Props as BaseProps } from '..'
 import { FlexStartRow, IconBackground } from '../components'
 
-const UpgradePrompt: React.FC<Props> = props => {
+const UpgradePrompt: React.FC<Props> = (props) => {
   return (
     <>
       <FlyoutWrapper>

@@ -17,7 +17,7 @@ class SecondStepContainer extends React.PureComponent {
   render() {
     const { actions, data } = this.props
     return data.cata({
-      Success: value => (
+      Success: (value) => (
         <Success
           coin='XLM'
           {...value}
@@ -25,18 +25,18 @@ class SecondStepContainer extends React.PureComponent {
           handleSubmit={actions.secondStepSubmitClicked}
         />
       ),
-      Failure: message => <Error>{message}</Error>,
+      Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.sendXlm, dispatch)
 })
 

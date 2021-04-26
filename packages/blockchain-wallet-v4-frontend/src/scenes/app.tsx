@@ -30,8 +30,8 @@ const Reminder = React.lazy(() => import('./Reminder'))
 const Reset2FA = React.lazy(() => import('./Reset2FA'))
 const Reset2FAToken = React.lazy(() => import('./Reset2FAToken'))
 const UploadDocuments = React.lazy(() => import('./UploadDocuments'))
-const UploadDocumentsSuccess = React.lazy(() =>
-  import('./UploadDocuments/Success')
+const UploadDocumentsSuccess = React.lazy(
+  () => import('./UploadDocuments/Success')
 )
 const VerifyEmailToken = React.lazy(() => import('./VerifyEmailToken'))
 
@@ -134,7 +134,7 @@ class App extends React.PureComponent<Props> {
                       />
                       <WalletLayout path='/prices' component={Prices} />
                       {values(
-                        map(coinModel => {
+                        map((coinModel) => {
                           const coin = coinModel.coinCode
                           const isFiat =
                             coin === 'USD' || coin === 'EUR' || coin === 'GBP'
@@ -172,7 +172,7 @@ class App extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: selectors.auth.isAuthenticated(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)

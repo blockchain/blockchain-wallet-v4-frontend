@@ -54,22 +54,24 @@ export const getAccounts = createDeepEqualSelector(
       if (ownProps?.nonCustodialAccounts) {
         // each account has a derivations object with legacy xpub and segwit xpub
         // need to extract each xpub for balance
-        const xpubArray = acc =>
-          prop('derivations', acc).map(derr => prop('xpub', derr))
-        const xpubBalance = acc =>
+        const xpubArray = (acc) =>
+          prop('derivations', acc).map((derr) => prop('xpub', derr))
+        const xpubBalance = (acc) =>
           // @ts-ignore
-          xpubArray(acc).map(xpub => prop('final_balance', prop(xpub, btcData)))
+          xpubArray(acc).map((xpub) =>
+            prop('final_balance', prop(xpub, btcData))
+          )
         accounts = accounts.concat(
           btcAccounts
-            .map(acc => ({
+            .map((acc) => ({
               accountIndex: prop('index', acc),
               address: prop('index', acc),
               archived: prop('archived', acc),
               // TODO: SEGWIT remove w/ DEPRECATED_V3
               balance: acc.derivations
                 ? xpubBalance(acc).reduce(add, 0)
-                // @ts-ignore
-                : prop('final_balance', prop(prop('xpub', acc), btcData)),
+                : // @ts-ignore
+                  prop('final_balance', prop(prop('xpub', acc), btcData)),
               baseCoin: coin,
               coin,
               label: prop('label', acc) || prop('xpub', acc),
@@ -82,7 +84,7 @@ export const getAccounts = createDeepEqualSelector(
       // add imported addresses if requested
       if (ownProps?.importedAddresses) {
         accounts = accounts.concat(
-          importedAddresses.map(importedAcc => ({
+          importedAddresses.map((importedAcc) => ({
             address: importedAcc.addr,
             balance: importedAcc.final_balance,
             baseCoin: coin,

@@ -12,7 +12,7 @@ import {
   SettingWrapper
 } from 'components/Setting'
 
-const WalletAccessTor = props => {
+const WalletAccessTor = (props) => {
   const { blockingTor, handleClick } = props
   return (
     <SettingContainer>

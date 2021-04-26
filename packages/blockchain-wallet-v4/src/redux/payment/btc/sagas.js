@@ -31,7 +31,7 @@ import {
   toOutput
 } from './utils'
 
-export const taskToPromise = t =>
+export const taskToPromise = (t) =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 /**
@@ -76,7 +76,7 @@ export default ({ api }) => {
     throw new Error('no_destination_set')
   }
 
-  const __calculateAmount = function(amounts) {
+  const __calculateAmount = function (amounts) {
     if (isPositiveNumber(amounts)) {
       return [amounts]
     }
@@ -127,7 +127,7 @@ export default ({ api }) => {
     }
   }
 
-  const __calculateFee = function(fee, fees) {
+  const __calculateFee = function (fee, fees) {
     if (isPositiveNumber(fee)) {
       return fee
     }
@@ -139,7 +139,7 @@ export default ({ api }) => {
     throw new Error('no_fee_set')
   }
 
-  const __calculateSelection = function({
+  const __calculateSelection = function ({
     amount,
     change,
     coins,
@@ -179,7 +179,7 @@ export default ({ api }) => {
     return CoinSelection.descentDraw(targets, fee, coins, change)
   }
 
-  const __calculateSweepSelection = function({
+  const __calculateSweepSelection = function ({
     coins,
     effectiveBalance,
     fee,
@@ -208,7 +208,7 @@ export default ({ api }) => {
     return CoinSelection.selectAll(fee, coins, to[0].address)
   }
 
-  const __calculateEffectiveBalance = function({ coins, fee }) {
+  const __calculateEffectiveBalance = function ({ coins, fee }) {
     if (isPositiveInteger(fee) && coins) {
       const { outputs } = CoinSelection.selectAll(
         fee,
@@ -268,7 +268,7 @@ export default ({ api }) => {
   }
 
   function create({ network, payment } = { network: undefined, payment: {} }) {
-    const makePayment = p => ({
+    const makePayment = (p) => ({
       coin: 'BTC',
 
       value() {
@@ -367,20 +367,20 @@ export default ({ api }) => {
             return yield f(yield gen())
           })
 
-        const makeChain = gen => ({
-          init: () => chain(gen, payment => payment.init()),
+        const makeChain = (gen) => ({
+          init: () => chain(gen, (payment) => payment.init()),
           to: (destinations, type) =>
-            chain(gen, payment => payment.to(destinations, type)),
-          amount: amounts => chain(gen, payment => payment.amount(amounts)),
+            chain(gen, (payment) => payment.to(destinations, type)),
+          amount: (amounts) => chain(gen, (payment) => payment.amount(amounts)),
           from: (origins, type) =>
-            chain(gen, payment => payment.from(origins, type)),
-          fee: value => chain(gen, payment => payment.fee(value)),
-          build: () => chain(gen, payment => payment.build()),
-          buildSweep: () => chain(gen, payment => payment.buildSweep()),
-          sign: password => chain(gen, payment => payment.sign(password)),
-          publish: () => chain(gen, payment => payment.publish()),
-          description: message =>
-            chain(gen, payment => payment.description(message)),
+            chain(gen, (payment) => payment.from(origins, type)),
+          fee: (value) => chain(gen, (payment) => payment.fee(value)),
+          build: () => chain(gen, (payment) => payment.build()),
+          buildSweep: () => chain(gen, (payment) => payment.buildSweep()),
+          sign: (password) => chain(gen, (payment) => payment.sign(password)),
+          publish: () => chain(gen, (payment) => payment.publish()),
+          description: (message) =>
+            chain(gen, (payment) => payment.description(message)),
           * done() {
             return yield gen()
           }

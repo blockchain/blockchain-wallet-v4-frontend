@@ -38,7 +38,7 @@ const FormItemSpaced = styled(FormItem)`
 
 const validatePasswordConfirmation = validPasswordConfirmation('newPassword')
 
-const Settings = props => {
+const Settings = (props) => {
   const {
     handleCancel,
     handleSubmit,

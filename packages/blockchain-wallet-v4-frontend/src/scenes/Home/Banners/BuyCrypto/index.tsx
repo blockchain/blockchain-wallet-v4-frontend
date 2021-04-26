@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid ${props => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 8px;
   padding: 20px;
 
@@ -49,7 +49,7 @@ const PendingIconWrapper = styled.div`
   min-width: 40px;
   border-radius: 20px;
   margin-right: 20px;
-  background-color: ${props => props.theme.blue100};
+  background-color: ${(props) => props.theme.blue100};
 `
 const Copy = styled(Text)`
   display: flex;

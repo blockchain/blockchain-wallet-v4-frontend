@@ -34,7 +34,7 @@ const Footer = styled(FormGroup)`
   margin-top: 6px;
 `
 
-const SecondStep = props => {
+const SecondStep = (props) => {
   const { busy, handleSubmit, invalid, previousStep } = props
 
   return (

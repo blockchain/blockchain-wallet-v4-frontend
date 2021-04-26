@@ -27,7 +27,7 @@ const TransactionsWrapper = styled.div`
   align-items: flex-start;
   width: 99%;
   border-radius: 8px;
-  border: 1px solid ${props => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.grey000};
 `
 
 class TransactionList extends PureComponent<Props> {
@@ -37,7 +37,7 @@ class TransactionList extends PureComponent<Props> {
     return data.cata({
       Success: (transactions: SuccessStateType) => (
         <TransactionsWrapper>
-          {transactions.map(tx => {
+          {transactions.map((tx) => {
             return 'hash' in tx ? (
               <NonCustodialTxListItem
                 key={tx.hash}
@@ -61,7 +61,7 @@ class TransactionList extends PureComponent<Props> {
           })}
         </TransactionsWrapper>
       ),
-      Failure: message => (
+      Failure: (message) => (
         <DataError onClick={this.props.onRefresh} message={message} />
       ),
       Loading: () => <Loading />,

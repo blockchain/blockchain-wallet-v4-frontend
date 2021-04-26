@@ -2,7 +2,7 @@ import { lift, values } from 'ramda'
 
 import { selectors } from 'data'
 
-export const getData = state => {
+export const getData = (state) => {
   const userDataR = selectors.modules.profile.getUserData(state)
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const interestRateR = selectors.components.interest.getInterestRate(state)

@@ -35,7 +35,7 @@ const Code = styled.div`
   }
 `
 
-const TwoStepGoogleAuthenticator = props => {
+const TwoStepGoogleAuthenticator = (props) => {
   const {
     close,
     closeAll,

@@ -13,24 +13,24 @@ const Option = styled.div<{ displayOnly?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: ${props => `1px solid ${props.theme.grey000}`};
+  border-top: ${(props) => `1px solid ${props.theme.grey000}`};
   padding: 16px 40px;
   &:first-child {
     border-top: 0;
   }
 
-  ${props =>
+  ${(props) =>
     !props.displayOnly &&
     css`
       cursor: pointer;
       &:hover {
-        background-color: ${props => props.theme.blue000};
+        background-color: ${(props) => props.theme.blue000};
       }
     `}
 `
 
 const OptionTitle = styled(Text)`
-  color: ${props => props.theme.grey800};
+  color: ${(props) => props.theme.grey800};
   font-weight: 600;
   max-width: 200px;
   white-space: nowrap;
@@ -41,9 +41,9 @@ const OptionValue = styled(Text)<{
   color?: keyof DefaultTheme
   weight?: number
 }>`
-  color: ${props => props.color || props.theme.grey600};
+  color: ${(props) => props.color || props.theme.grey600};
   margin-top: 4px;
-  font-weight: ${props => (props.weight ? props.weight : 600)};
+  font-weight: ${(props) => (props.weight ? props.weight : 600)};
   font-size: 14px;
 `
 const BalanceRow = styled.div`
@@ -64,7 +64,7 @@ const CircleBorder = styled.div`
   width: 24px;
   height: 24px;
   background-color: white;
-  border: 1px solid ${props => props.theme.grey300};
+  border: 1px solid ${(props) => props.theme.grey300};
   border-radius: 24px;
   margin-left: 18px;
 `
@@ -74,7 +74,7 @@ const LowFeeCartridge = styled(SuccessCartridge)`
   padding: 6px;
 `
 
-const CoinAccountListOption: React.FC<Props> = props => {
+const CoinAccountListOption: React.FC<Props> = (props) => {
   const {
     account,
     coinModel,

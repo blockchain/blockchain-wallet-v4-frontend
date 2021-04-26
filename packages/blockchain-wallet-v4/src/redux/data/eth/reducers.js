@@ -8,9 +8,7 @@ import {
   mergeRight,
   over,
   path,
-  prepend,
   prop,
-  reduce,
   toLower
 } from 'ramda'
 import { mapped } from 'ramda-lens'
@@ -18,24 +16,17 @@ import { mapped } from 'ramda-lens'
 import Remote from '../../../remote'
 import * as AT from './actionTypes'
 
-// TODO: figure out how to pull ERC20 from walletOptions state
-const buildStateWithTokens = defaultValue =>
-  compose(
-    reduce((acc, curr) => assoc(curr, defaultValue, acc), {}),
-    prepend('eth')
-  )(['aave', 'pax', 'usdt', 'wdgld', 'yfi'])
-
 const INITIAL_STATE = {
   addresses: Remote.NotAsked,
   fee: Remote.NotAsked,
-  info: buildStateWithTokens(Remote.NotAsked),
+  info: { eth: Remote.NotAsked },
   latest_block: Remote.NotAsked,
-  current_balance: buildStateWithTokens(Remote.NotAsked),
+  current_balance: {},
   legacy_balance: Remote.NotAsked,
-  rates: buildStateWithTokens(Remote.NotAsked),
-  transactions: buildStateWithTokens([]),
-  transactions_at_bound: buildStateWithTokens(false),
-  transaction_history: buildStateWithTokens(Remote.NotAsked),
+  rates: { eth: Remote.NotAsked },
+  transactions: { eth: [] },
+  transactions_at_bound: { eth: false },
+  transaction_history: {},
   warn_low_eth_balance: false
 }
 
@@ -70,6 +61,7 @@ export default (state = INITIAL_STATE, action) => {
         addresses: Remote.Failure(prop('addresses', payload)),
         info: {
           ...state.info,
+          // @ts-ignore
           eth: Remote.Failure(path('info', 'eth', payload))
         },
         latest_block: Remote.Failure(prop('latest_block', payload))
@@ -147,6 +139,7 @@ export default (state = INITIAL_STATE, action) => {
           )
         : over(
             lensPath(['transactions', 'eth']),
+            // @ts-ignore
             compose(append(Remote.Success(transactions)), dropLast(1)),
             state
           )
@@ -241,6 +234,7 @@ export default (state = INITIAL_STATE, action) => {
           )
         : over(
             lensPath(['transactions', token]),
+            // @ts-ignore
             compose(append(Remote.Success(transactions)), dropLast(1)),
             state
           )
@@ -252,25 +246,28 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_ERC20_TX_FEE_LOADING: {
       const { hash, token } = payload
       const txListLens = lensPath(['transactions', toLower(token), 0])
-      const setData = target => tx =>
+      const setData = (target) => (tx) =>
         tx.hash === target ? { ...tx, fee: Remote.Loading } : tx
 
+      // @ts-ignore
       return over(compose(txListLens, mapped, mapped), setData(hash), state)
     }
     case AT.FETCH_ERC20_TX_FEE_SUCCESS: {
       const { fee, hash, token } = payload
       const txListLens = lensPath(['transactions', toLower(token), 0])
-      const setData = target => tx =>
+      const setData = (target) => (tx) =>
         tx.hash === target ? { ...tx, fee: Remote.Success(fee) } : tx
 
+      // @ts-ignore
       return over(compose(txListLens, mapped, mapped), setData(hash), state)
     }
     case AT.FETCH_ERC20_TX_FEE_FAILURE: {
       const { error, hash, token } = payload
       const txListLens = lensPath(['transactions', toLower(token), 0])
-      const setData = target => tx =>
+      const setData = (target) => (tx) =>
         tx.hash === target ? { ...tx, fee: Remote.Failure(error) } : tx
 
+      // @ts-ignore
       return over(compose(txListLens, mapped, mapped), setData(hash), state)
     }
     case AT.ERC20_TOKEN_TX_AT_BOUND: {

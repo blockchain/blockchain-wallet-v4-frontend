@@ -60,7 +60,7 @@ const VerifyEmailToken = ({ appEnv, data, location, miscActions }: Props) => {
     <Wrapper>
       {data.cata({
         Success: () => <Success mobileLinkOut={mobileLinkOut} />,
-        Failure: error => <Error error={error} />,
+        Failure: (error) => <Error error={error} />,
         Loading: () => <Loading />,
         NotAsked: () => <Loading />
       })}
@@ -68,12 +68,12 @@ const VerifyEmailToken = ({ appEnv, data, location, miscActions }: Props) => {
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: selectors.core.data.misc.verifyEmailToken(state),
   appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   miscActions: bindActionCreators(actions.core.data.misc, dispatch)
 })
 

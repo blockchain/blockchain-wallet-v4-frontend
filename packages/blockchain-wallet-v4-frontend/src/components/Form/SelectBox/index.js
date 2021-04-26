@@ -8,12 +8,12 @@ const Container = styled.div`
   position: relative;
   width: 100%;
   height: auto;
-  z-index: ${props => props.zIndex || 'initial'};
-  background-color: ${props => props.theme.white};
+  z-index: ${(props) => props.zIndex || 'initial'};
+  background-color: ${(props) => props.theme.white};
 `
 const Error = styled.label`
   position: absolute;
-  top: ${props => (props.errorBottom ? '48px' : '-20px')};
+  top: ${(props) => (props.errorBottom ? '48px' : '-20px')};
   right: 0;
   display: block;
   height: 15px;
@@ -21,7 +21,7 @@ const Error = styled.label`
   font-weight: 400;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  color: ${props => props.theme['error']};
+  color: ${(props) => props.theme['error']};
 `
 
 class SelectBox extends React.PureComponent {
@@ -31,11 +31,11 @@ class SelectBox extends React.PureComponent {
     }
   }
 
-  getSelectRef = node => {
+  getSelectRef = (node) => {
     if (node) this.selectRef = node
   }
 
-  onKeyPressed = evt => {
+  onKeyPressed = (evt) => {
     const event = evt || window.event
     if (event.keyCode === 27) {
       event.stopPropagation()

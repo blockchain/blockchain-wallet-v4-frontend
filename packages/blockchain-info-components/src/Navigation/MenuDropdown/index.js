@@ -12,8 +12,9 @@ const DropdownContainer = styled.div`
   background-color: #fff;
   position: absolute;
   left: 0;
-  top: ${props => props.dropdownTop}px;
-  transform: translateX(${props => props.x}px) translateY(${props => props.y}px);
+  top: ${(props) => props.dropdownTop}px;
+  transform: translateX(${(props) => props.x}px)
+    translateY(${(props) => props.y}px);
   transition: all 0.3s ease-in-out;
   border-radius: var(--lgBorderRadius);
   z-index: 1000;
@@ -22,7 +23,7 @@ const DropdownContainer = styled.div`
   min-width: 15rem;
 `
 
-const Dropdown = props => {
+const Dropdown = (props) => {
   if (props.kind in props.map) {
     let component = props.map[props.kind].component
 
@@ -76,12 +77,12 @@ class MenuDropdown extends PureComponent {
     }
   }
 
-  handleMouseMove = e => {
+  handleMouseMove = (e) => {
     this.mouseX = e.clientX
     this.mouseY = e.clientY
   }
 
-  handleMouseLeave = e => {
+  handleMouseLeave = (e) => {
     if (window) {
       window.setTimeout(this.checkPointer, 500)
     }
@@ -96,12 +97,12 @@ class MenuDropdown extends PureComponent {
     }
   }
 
-  handleClickOutside = evt => {
+  handleClickOutside = (evt) => {
     this.setState({ dropDown: null })
   }
 
   toggleDropdown(name, onlyOn) {
-    return e => {
+    return (e) => {
       let dropDownVal = null
       if (typeof name === 'string') {
         if (this.state.dropDown === name && !onlyOn) {
@@ -159,7 +160,7 @@ class MenuDropdown extends PureComponent {
       <div ref={this.ref} onMouseLeave={this.handleMouseLeave}>
         <ButtonGroup>
           <ul>
-            {Object.keys(this.props.map).map(name => {
+            {Object.keys(this.props.map).map((name) => {
               let vals = this.props.map[name]
               return this.getLink(name, vals.linkText)
             })}

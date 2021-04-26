@@ -14,14 +14,14 @@ const PriceChangeText = styled(Text)`
   font-weight: 500;
   font-size: 14px;
   white-space: nowrap;
-  color: ${props => props.theme.grey600};
+  color: ${(props) => props.theme.grey600};
 `
 
 const PriceChangeColoredText = styled.span<{
   change: PriceDiffType
 }>`
   font-weight: 600;
-  color: ${props =>
+  color: ${(props) =>
     props.change.movement === 'down'
       ? props.theme.red600
       : props.change.movement === 'up'

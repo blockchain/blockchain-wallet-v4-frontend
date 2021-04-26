@@ -26,17 +26,17 @@ const Display = styled.div<{ canClick: boolean }>`
   flex-direction: column;
   margin-left: 12px;
   width: 100%;
-  cursor: ${props => (props.canClick ? 'pointer' : 'initial')};
+  cursor: ${(props) => (props.canClick ? 'pointer' : 'initial')};
   font-size: 16px;
   font-weight: 500;
-  color: ${props => props.theme.grey800};
+  color: ${(props) => props.theme.grey800};
 `
 const DisplayTitle = styled(Title)`
   margin-top: 4px;
   display: flex;
   align-items: center;
   font-weight: 600;
-  color: ${props => props.theme.grey800};
+  color: ${(props) => props.theme.grey800};
 `
 const IconBackground = styled.div<{ color: string }>`
   display: flex;
@@ -46,7 +46,7 @@ const IconBackground = styled.div<{ color: string }>`
   height: 24px;
   border-radius: 24px;
   z-index: 100;
-  background: ${props => props.theme[props.color]};
+  background: ${(props) => props.theme[props.color]};
 `
 const PlusMinusIconWrapper = styled.div`
   z-index: 10;
@@ -54,7 +54,7 @@ const PlusMinusIconWrapper = styled.div`
 
 type Props = OwnProps & ParentOwnProps & SuccessStateType
 
-const Success: React.FC<Props> = props => {
+const Success: React.FC<Props> = (props) => {
   const coin = props.coin
   const fiat = props.fiat
   const coinType = props.supportedCoins[coin]

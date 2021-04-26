@@ -46,16 +46,16 @@ const isLegacy = (wallet, coin) =>
     AddressMap.selectAddress(prop('addr', coin)),
     Wallet.selectAddresses
   )(wallet)
-const isAccount = coin => !!coin.xpub
-const isAccountChange = x => isAccount(x) && x.xpub.path.split('/')[1] === '1'
+const isAccount = (coin) => !!coin.xpub
+const isAccountChange = (x) => isAccount(x) && x.xpub.path.split('/')[1] === '1'
 const accountPath = (index, coin) => index + coin.xpub.path.substr(1)
-const receiveIndex = coin => {
+const receiveIndex = (coin) => {
   if (!coin || !coin.xpub || !coin.xpub.path) return
   if (!coin.xpub.path.split('/').length === 3) return
   return parseInt(coin.xpub.path.substr(1).split('/')[2])
 }
 const isDust = propEq('amount', 546)
-const isCoinBase = inputs => inputs.length === 1 && inputs[0].prev_out == null
+const isCoinBase = (inputs) => inputs.length === 1 && inputs[0].prev_out == null
 
 const tagCoin = curry((wallet, accountList, coin) => {
   switch (true) {
@@ -152,7 +152,7 @@ const init = {
 
 // internalAmount :: taggedCoin -> Integer
 const internalAmount = ifElse(
-  propSatisfies(x => x !== 'external', 'coinType'),
+  propSatisfies((x) => x !== 'external', 'coinType'),
   prop('amount'),
   always(0)
 )
@@ -201,14 +201,18 @@ const findLegacyChanges = (inputs, inputData, outputs, outputData) => {
       outputs
     )
     const change = view(compose(lensIndex(index), lensProp('amount')), outputs)
-    const newOutputData = over(lensProp('change'), c => c + change, outputData)
+    const newOutputData = over(
+      lensProp('change'),
+      (c) => c + change,
+      outputData
+    )
     return [newOutputData, newOutputs]
   } else {
     return [outputData, outputs]
   }
 }
 
-const CoinbaseCoin = total => ({
+const CoinbaseCoin = (total) => ({
   address: 'Coinbase',
   amount: total,
   change: false,
@@ -217,14 +221,14 @@ const CoinbaseCoin = total => ({
   isWatchOnly: false
 })
 
-const CoinBaseData = total => ({
+const CoinBaseData = (total) => ({
   total: total,
   internal: 0,
   isWatchOnly: false,
   change: 0
 })
 
-export const getTime = tx => {
+export const getTime = (tx) => {
   const date = moment.unix(tx.time).local()
   return equals(date.year(), moment().year())
     ? date.format('MMMM D @ h:mm A')
@@ -239,7 +243,7 @@ export const _transformTx = (wallet, accountList, txNotes, tx) => {
   let [inputData, inputs] = ifElse(
     compose(isCoinBase, prop('inputs')),
     always([CoinBaseData(oData.total), [CoinbaseCoin(oData.total)]]),
-    t => mapAccum(appender(inputTagger), init, prop('inputs', t))
+    (t) => mapAccum(appender(inputTagger), init, prop('inputs', t))
   )(tx)
 
   let [outputData, outputs] = findLegacyChanges(inputs, inputData, outs, oData)

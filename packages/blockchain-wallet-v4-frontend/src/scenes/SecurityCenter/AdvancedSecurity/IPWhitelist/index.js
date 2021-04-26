@@ -47,12 +47,12 @@ class IPWhitelistContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentWhitelist: selectors.core.settings.getIpLock(state).getOrElse(''),
   IPWhitelist: formValueSelector('settingIPWhitelist')(state, 'IPWhitelist')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

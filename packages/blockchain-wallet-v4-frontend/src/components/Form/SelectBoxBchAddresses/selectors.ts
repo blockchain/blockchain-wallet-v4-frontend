@@ -78,7 +78,7 @@ export const getData = (
     forceCustodialFirst
   } = ownProps
 
-  const buildDisplay = wallet => {
+  const buildDisplay = (wallet) => {
     const label = collapse(wallet.label)
     if (has('balance', wallet)) {
       let bchDisplay = Exchange.displayBchToBch({
@@ -91,7 +91,7 @@ export const getData = (
     return label
   }
 
-  const buildCustodialDisplay = x => {
+  const buildCustodialDisplay = (x) => {
     return (
       `Trading Account` +
       ` (${Exchange.displayBchToBch({
@@ -114,21 +114,21 @@ export const getData = (
   }
 
   // @ts-ignore
-  const isActive = filter(x => !x.archived)
+  const isActive = filter((x) => !x.archived)
   // @ts-ignore
-  const excluded = filter(x => !exclude.includes(x.label))
-  const toDropdown = map(x => ({
+  const excluded = filter((x) => !exclude.includes(x.label))
+  const toDropdown = map((x) => ({
     label: buildDisplay(x),
     value: x
   }))
   const toGroup = curry((label, options) => [{ label, options }])
-  const toExchange = x => [
+  const toExchange = (x) => [
     {
       label: `Exchange Account`,
       value: x
     }
   ]
-  const toCustodialDropdown = currencyDetails => [
+  const toCustodialDropdown = (currencyDetails) => [
     {
       label: buildCustodialDisplay(currencyDetails),
       value: {
@@ -139,7 +139,7 @@ export const getData = (
     }
   ]
 
-  const toInterestDropdown = x => [
+  const toInterestDropdown = (x) => [
     {
       label: buildInterestDisplay(x),
       value: {
@@ -162,27 +162,27 @@ export const getData = (
   )
   const hasAccountAddress = Remote.Success.is(accountAddress)
 
-  const formatAddress = addressData => {
+  const formatAddress = (addressData) => {
     const formattedAddress = {}
     return compose(
-      a =>
+      (a) =>
         isNil(prop('label', addressData))
           ? assoc('label', prop('addr', addressData), a)
           : assoc('label', prop('label', addressData), a),
-      a => assocPath(['value', 'type'], ADDRESS_TYPES.LEGACY, a),
-      a =>
+      (a) => assocPath(['value', 'type'], ADDRESS_TYPES.LEGACY, a),
+      (a) =>
         assocPath(
           ['value', 'balance'],
           path(['info', 'final_balance'], addressData),
           a
         ),
-      a => assocPath(['value', 'coin'], coin, a),
-      a => assocPath(['value', 'address'], prop('addr', addressData), a),
-      a => assoc('value', prop('info', addressData), a)
+      (a) => assocPath(['value', 'coin'], coin, a),
+      (a) => assocPath(['value', 'address'], prop('addr', addressData), a),
+      (a) => assoc('value', prop('info', addressData), a)
     )(formattedAddress)
   }
 
-  const formatImportedAddressesData = addressesData => {
+  const formatImportedAddressesData = (addressesData) => {
     return map(formatAddress, addressesData)
   }
 
@@ -190,8 +190,8 @@ export const getData = (
     const importedAddresses = selectors.core.common.bch.getActiveAddresses(
       state
     )
-    const filterRelevantAddresses = addrs =>
-      filter(addr => {
+    const filterRelevantAddresses = (addrs) =>
+      filter((addr) => {
         // @ts-ignore
         return not(isNil(prop('priv', addr)))
       }, addrs)
@@ -214,7 +214,7 @@ export const getData = (
       showCustodial || showCustodialWithAddress
         ? selectors.components.simpleBuy
             .getSBBalances(state)
-            .map(x => ({
+            .map((x) => ({
               ...x.BCH,
               address: accountAddress ? accountAddress.data : null
             }))
@@ -224,7 +224,7 @@ export const getData = (
       includeInterest
         ? selectors.components.interest
             .getInterestAccountBalance(state)
-            .map(x => x.BCH)
+            .map((x) => x.BCH)
             .map(toInterestDropdown)
             .map(toGroup('Interest Account'))
         : Remote.of([]),
@@ -232,7 +232,7 @@ export const getData = (
         ? Remote.of([])
         : lift(formatImportedAddressesData)(relevantAddresses)
             .map(toGroup('Imported Addresses'))
-            .map(x =>
+            .map((x) =>
               set(
                 // @ts-ignore
                 compose(lensIndex(0), lensProp('options')),

@@ -28,7 +28,7 @@ class BorrowHistory extends Component<Props> {
     return (
       <History>
         {this.props.data.cata({
-          Success: val => (
+          Success: (val) => (
             <Success {...val} showLoanDetails={this.showLoanDetails} />
           ),
           Failure: () => null,
@@ -40,7 +40,7 @@ class BorrowHistory extends Component<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 

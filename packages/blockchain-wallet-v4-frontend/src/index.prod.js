@@ -26,10 +26,10 @@ const renderError = () => {
 }
 
 configureStore()
-  .then(root => {
+  .then((root) => {
     renderApp(App, root.store, root.history, root.persistor)
   })
-  .catch(e => {
+  .catch((e) => {
     // eslint-disable-next-line no-console
     console.info(e)
     renderError(e)

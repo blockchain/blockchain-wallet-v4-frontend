@@ -196,7 +196,7 @@ XlmReserveLearn.propTypes = {
   rates: PropTypes.object.isRequired
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

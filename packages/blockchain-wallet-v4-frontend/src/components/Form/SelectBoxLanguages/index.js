@@ -24,7 +24,7 @@ class SelectBoxLanguages extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   language: selectors.preferences.getLanguage(state),
   languages: languagesSortedByName
 })

@@ -14,8 +14,8 @@ const bounceAnimation = css`
 `
 const Container = styled.div`
   position: relative;
-  width: ${props => props.width};
-  height: ${props => props.height};
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
 `
 const Circle1 = styled.div`
   position: absolute;
@@ -25,14 +25,14 @@ const Circle1 = styled.div`
   height: 100%;
   border-radius: 50%;
   opacity: 0.7;
-  background-color: ${props => props.theme[props.color]};
+  background-color: ${(props) => props.theme[props.color]};
   ${bounceAnimation};
 `
 const Circle2 = styled(Circle1)`
   animation-delay: -1s;
 `
 
-const HeartbeatLoader = props => {
+const HeartbeatLoader = (props) => {
   const { color, ...rest } = props
 
   return (

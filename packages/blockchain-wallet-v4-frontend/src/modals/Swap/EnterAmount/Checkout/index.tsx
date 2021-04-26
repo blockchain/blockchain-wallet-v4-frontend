@@ -33,8 +33,8 @@ export const Cell = styled.div<{ center?: boolean; size?: 'small' }>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: ${props => (props.center ? 'center' : 'flex-start')};
-  width: ${props => (props.size === 'small' ? '10%' : '45%')};
+  justify-content: ${(props) => (props.center ? 'center' : 'flex-start')};
+  width: ${(props) => (props.size === 'small' ? '10%' : '45%')};
   height: 100%;
 `
 
@@ -93,9 +93,9 @@ const QuoteRow = styled.div`
   min-height: 32px;
 `
 const CustomErrorCartridge = styled(ErrorCartridge)`
-  border: 1px solid ${props => props.theme.red000};
+  border: 1px solid ${(props) => props.theme.red000};
   cursor: pointer;
-  color: ${props => props.theme.red400};
+  color: ${(props) => props.theme.red400};
 `
 
 const normalizeAmount = (
@@ -109,7 +109,7 @@ const normalizeAmount = (
   )
 }
 
-const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const {
     BASE,
     COUNTER,
@@ -215,7 +215,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     formActions.change('swapAmount', 'amount', value)
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     props.swapActions.setStep({
       step: 'PREVIEW_SWAP',
@@ -481,7 +481,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <ErrorCartridge style={{ marginTop: '16px' }}>
             Error:{' '}
             {props.quoteR.cata({
-              Failure: e => e,
+              Failure: (e) => e,
               Success: () => null,
               Loading: () => null,
               NotAsked: () => null

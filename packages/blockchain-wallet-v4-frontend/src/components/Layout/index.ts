@@ -6,7 +6,7 @@ import { media } from 'services/styles'
 import { Box } from '../Box'
 
 export const StickyHeader = styled.div`
-  background-color: ${props => props.theme.white};
+  background-color: ${(props) => props.theme.white};
   position: sticky;
   width: 100%;
   z-index: 1;
@@ -20,7 +20,7 @@ export const SceneWrapper = styled.div<{ centerContent?: boolean }>`
   width: 100%;
   height: 100%;
 
-  ${props =>
+  ${(props) =>
     props.centerContent &&
     `
     display: flex;
@@ -38,7 +38,7 @@ export const IconBackground = styled.div`
   width: 40px;
   height: 40px;
   min-width: 40px;
-  background-color: ${props => props.theme.blue000};
+  background-color: ${(props) => props.theme.blue000};
   border-radius: 40px;
 `
 export const SceneHeader = styled.div`
@@ -62,13 +62,13 @@ export const HeaderTextWrapper = styled.div`
 
 export const SceneHeaderText = styled(Text)`
   font-size: 32px;
-  color: ${props => props.theme.grey800};
+  color: ${(props) => props.theme.grey800};
   font-weight: 600;
   margin-right: 14px;
 `
 export const SceneSubHeaderText = styled(Text)`
   font-size: 16px;
-  color: ${props => props.theme.grey600};
+  color: ${(props) => props.theme.grey600};
   font-weight: 500;
   margin-bottom: 30px;
   display: flex;
@@ -94,7 +94,7 @@ export const CustomBoxRightOriented = styled.div`
   position: relative;
   padding: 24px;
   border-radius: 8px;
-  border: 1px solid ${props => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.grey000};
   background-image: url('/img/bg-banner-pattern.svg');
   background-repeat: repeat-y;
   background-position: right;

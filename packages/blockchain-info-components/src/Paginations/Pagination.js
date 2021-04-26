@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   margin: 10px 0;
 `
 
-const Pagination = props => {
+const Pagination = (props) => {
   const { children } = props
   return <Wrapper>{children}</Wrapper>
 }

@@ -59,7 +59,7 @@ const IconBackground = styled.div<{ color: string }>`
   z-index: 100;
   position: absolute;
   right: -5px;
-  background: ${props => props.theme[props.color]};
+  background: ${(props) => props.theme[props.color]};
 `
 const IconWrapper = styled.div`
   display: flex;
@@ -73,12 +73,12 @@ const TitleWrapper = styled(Text)`
 const BottomInfo = styled(Bottom)`
   text-align: center;
   a {
-    color: ${props => props.theme.blue600};
+    color: ${(props) => props.theme.blue600};
     text-decoration: none;
   }
 `
 
-const Success: React.FC<Props> = props => {
+const Success: React.FC<Props> = (props) => {
   const orderType = getOrderType(props.order)
   const baseAmount = getBaseAmount(props.order)
   const baseCurrency = getBaseCurrency(props.order, props.supportedCoins)

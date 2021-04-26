@@ -17,7 +17,7 @@ import * as T from 'services/alerts'
 const { decodeOperations, getDestination } = transactions.xlm
 
 export default () => {
-  const getAccountIds = tx =>
+  const getAccountIds = (tx) =>
     compose(
       append(tx.source_account),
       map(getDestination),
@@ -66,7 +66,7 @@ export default () => {
     }
   }
 
-  const onError = action => {
+  const onError = (action) => {
     const message = path(['payload', 'error', 'message'], action)
     actions.logs.logErrorMessage(
       'middleware/webSocket/xlm/sagas',

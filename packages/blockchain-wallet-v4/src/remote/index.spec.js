@@ -55,40 +55,40 @@ describe('Remote', () => {
         Remote.Loading,
         Remote.NotAsked
       ]
-      let left = r => Remote.of(identity).ap(r)
+      let left = (r) => Remote.of(identity).ap(r)
       let right = identity
       expect(map(left, opt)).toEqual(map(right, opt))
     })
 
     it('ii) homomorphism: A.of(f).ap(A.of(x)) = A.of(f(x))', () => {
       let f = toUpper
-      let left = x => Remote.of(f).ap(Remote.of(x))
-      let right = x => Remote.of(f(x))
+      let left = (x) => Remote.of(f).ap(Remote.of(x))
+      let right = (x) => Remote.of(f(x))
       expect(left('hello')).toEqual(right('hello'))
     })
 
     it('iii) interchange: r.ap(A.of(x)) = A.of(f => f(x)).ap(r)', () => {
       let opt = [
-        Remote.Success(x => x * x),
+        Remote.Success((x) => x * x),
         Remote.Failure('OMG'),
         Remote.Loading,
         Remote.NotAsked
       ]
       let x = 3
-      let left = r => r.ap(Remote.of(x))
-      let right = r => Remote.of(f => f(x)).ap(r)
+      let left = (r) => r.ap(Remote.of(x))
+      let right = (r) => Remote.of((f) => f(x)).ap(r)
       expect(map(left, opt)).toEqual(map(right, opt))
     })
 
     it('iv) composotion: A.of(compose).ap(r).ap(s).ap(t) = r.ap(s.ap(t))', () => {
       let opt1 = [
-        Remote.Success(x => x + 5),
+        Remote.Success((x) => x + 5),
         Remote.Failure('OMG'),
         Remote.Loading,
         Remote.NotAsked
       ]
       let opt2 = [
-        Remote.Success(x => x * 5),
+        Remote.Success((x) => x * 5),
         Remote.Failure('OMG'),
         Remote.Loading,
         Remote.NotAsked
@@ -99,21 +99,16 @@ describe('Remote', () => {
         Remote.Loading,
         Remote.NotAsked
       ]
-      let composition = f => g => x => f(g(x))
-      let checkComposition = r => s => t =>
-        expect(
-          Remote.of(composition)
-            .ap(r)
-            .ap(s)
-            .ap(t)
-        ).toEqual(r.ap(s.ap(t)))
+      let composition = (f) => (g) => (x) => f(g(x))
+      let checkComposition = (r) => (s) => (t) =>
+        expect(Remote.of(composition).ap(r).ap(s).ap(t)).toEqual(r.ap(s.ap(t)))
       lift(checkComposition)(opt1, opt2, opt3)
     })
   })
 
   describe('Monoid', () => {
     it('combination table', () => {
-      let addR = Remote.of(x => y => x + y)
+      let addR = Remote.of((x) => (y) => x + y)
       expect(
         Remote.Success.is(addR.ap(Remote.Success(1)).ap(Remote.Success(2)))
       ).toEqual(true)

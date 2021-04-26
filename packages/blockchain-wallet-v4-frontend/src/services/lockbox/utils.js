@@ -53,7 +53,7 @@ const pollForAppConnection = (deviceType, app, timeout = 45000, logLevel) => {
 
   return new Promise((resolve, reject) => {
     // create transport
-    TransportU2F.open().then(transport => {
+    TransportU2F.open().then((transport) => {
       // get scrambleKey
       const scrambleKey = getScrambleKey(app, deviceType)
       // configure transport
@@ -66,7 +66,7 @@ const pollForAppConnection = (deviceType, app, timeout = 45000, logLevel) => {
       // send NO_OP cmd until response is received (success) or timeout is hit (reject)
       transport.send(...constants.apdus.no_op).then(
         () => {},
-        res => {
+        (res) => {
           // since no_op wont be recognized by any app as a valid cmd, this is always going
           // to fail but a response, means a device is connected and unlocked
           if (logLevel === LOG_LEVELS.VERBOSE) {
@@ -90,7 +90,7 @@ const pollForAppConnection = (deviceType, app, timeout = 45000, logLevel) => {
  * @returns {Observable} the final socket result
  */
 const createDeviceSocket = (transport, url) => {
-  return Observable.create(o => {
+  return Observable.create((o) => {
     let ws, lastMessage
 
     try {
@@ -104,7 +104,7 @@ const createDeviceSocket = (transport, url) => {
       console.info('OPENED', { url })
     }
 
-    ws.onerror = e => {
+    ws.onerror = (e) => {
       console.info('ERROR', { message: e.message, stack: e.stack })
       o.error(e.message, { url })
     }
@@ -115,7 +115,7 @@ const createDeviceSocket = (transport, url) => {
       o.complete()
     }
 
-    ws.onmessage = async rawMsg => {
+    ws.onmessage = async (rawMsg) => {
       try {
         const msg = JSON.parse(rawMsg.data)
         if (!(msg.query in handlers)) {
@@ -141,7 +141,7 @@ const createDeviceSocket = (transport, url) => {
     }
 
     const handlers = {
-      exchange: async input => {
+      exchange: async (input) => {
         const { data, nonce } = input
         const res = await transport.exchange(Buffer.from(data, 'hex'))
         const status = res.slice(res.length - 2)
@@ -154,7 +154,7 @@ const createDeviceSocket = (transport, url) => {
         )
       },
 
-      bulk: async input => {
+      bulk: async (input) => {
         const { data, nonce } = input
         let lastStatus // Execute all apdus and collect last status
         let i = 0
@@ -175,12 +175,12 @@ const createDeviceSocket = (transport, url) => {
         )
       },
 
-      success: msg => {
+      success: (msg) => {
         lastMessage = msg.data || msg.result
         ws.close()
       },
 
-      error: msg => {
+      error: (msg) => {
         console.info('ERROR', { data: msg.data })
         ws.close()
         throw new Error(msg.data, { url })
@@ -203,10 +203,10 @@ const createDeviceSocket = (transport, url) => {
  * @param {Transport} transport - Current device transport
  * @returns {Promise} full device information
  */
-const getDeviceInfo = transport => {
+const getDeviceInfo = (transport) => {
   return new Promise((resolve, reject) => {
     firmware.getDeviceFirmwareInfo(transport).then(
-      res => {
+      (res) => {
         const { seVersion } = res
         const { flags, mcuVersion, targetId } = res
         const parsedVersion =
@@ -234,7 +234,7 @@ const getDeviceInfo = transport => {
           fullVersion: providerName === 'bc' ? seVersion : fullVersion
         })
       },
-      err => {
+      (err) => {
         reject(err)
       }
     )
@@ -246,8 +246,8 @@ const getDeviceInfo = transport => {
  * @param {Promise} promise - Current device transport
  * @returns {Promise} a catch function that returns human error
  */
-const mapSocketError = promise => {
-  return promise.catch(err => {
+const mapSocketError = (promise) => {
+  return promise.catch((err) => {
     switch (true) {
       case err.message.endsWith('6985'):
         return {
@@ -338,7 +338,7 @@ const getScrambleKey = (app, deviceType) => {
  * @param {TransportU2F} btcApp - The BTC app connection
  * @returns {Object} the derived xPubs
  */
-const deriveDeviceInfo = async btcApp => {
+const deriveDeviceInfo = async (btcApp) => {
   let btcPath = "44'/0'/0'"
   let bchPath = "44'/145'/0'"
   let ethPath = "44'/60'/0'/0/0"
@@ -433,7 +433,7 @@ const getXlmPublicKey = (deviceType, transport) => {
  * @param {String} hash - THe unformatted firmware hash
  * @returns {String} Returns the formatted hash
  */
-const formatFirmwareHash = hash => {
+const formatFirmwareHash = (hash) => {
   if (!hash) {
     return ''
   }
@@ -451,7 +451,7 @@ const formatFirmwareHash = hash => {
  * @param {String} raw - THe unformatted firmware version
  * @returns {String} Returns the formatted firmware name
  */
-const formatFirmwareDisplayName = raw => {
+const formatFirmwareDisplayName = (raw) => {
   return raw.endsWith('-osu') ? raw.replace('-osu', '') : raw
 }
 

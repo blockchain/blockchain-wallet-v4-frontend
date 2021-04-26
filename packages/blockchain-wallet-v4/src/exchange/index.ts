@@ -1452,7 +1452,7 @@ const displayDotToDot = ({
   value: number | string
 }) => {
   return transformDotToDot({ value, fromUnit, toUnit })
-    .map(x => Currency.coinToString({ ...x, minDigits: 2 }))
+    .map((x) => Currency.coinToString({ ...x, minDigits: 2 }))
     .getOrElse(DefaultDisplay)
 }
 
@@ -1576,7 +1576,7 @@ const displayPaxToPax = ({
   value: number | string
 }) => {
   return transformPaxToPax({ value, fromUnit, toUnit })
-    .map(x => Currency.coinToString({ ...x, minDigits: 2, maxDigits: 2 }))
+    .map((x) => Currency.coinToString({ ...x, minDigits: 2, maxDigits: 2 }))
     .getOrElse(DefaultDisplay)
 }
 
@@ -1590,7 +1590,7 @@ const displayAaveToAave = ({
   value: number | string
 }) => {
   return transformAaveToAave({ value, fromUnit, toUnit })
-    .map(x => Currency.coinToString({ ...x, minDigits: 2, maxDigits: 8 }))
+    .map((x) => Currency.coinToString({ ...x, minDigits: 2, maxDigits: 8 }))
     .getOrElse(DefaultDisplay)
 }
 
@@ -1604,7 +1604,7 @@ const displayYfiToYfi = ({
   value: number | string
 }) => {
   return transformYfiToYfi({ value, fromUnit, toUnit })
-    .map(x => Currency.coinToString({ ...x, minDigits: 2, maxDigits: 8 }))
+    .map((x) => Currency.coinToString({ ...x, minDigits: 2, maxDigits: 8 }))
     .getOrElse(DefaultDisplay)
 }
 
@@ -1618,7 +1618,7 @@ const displayUsdtToUsdt = ({
   value: number | string
 }) => {
   return transformUsdtToUsdt({ value, fromUnit, toUnit })
-    .map(x => Currency.coinToString({ ...x, minDigits: 2, maxDigits: 2 }))
+    .map((x) => Currency.coinToString({ ...x, minDigits: 2, maxDigits: 2 }))
     .getOrElse(DefaultDisplay)
 }
 
@@ -1716,7 +1716,7 @@ const displayAlgoToAlgo = ({
   value: number | string
 }) => {
   return transformAlgoToAlgo({ value, fromUnit, toUnit })
-    .map(x => Currency.coinToString({ ...x, minDigits: 2 }))
+    .map((x) => Currency.coinToString({ ...x, minDigits: 2 }))
     .getOrElse(DefaultDisplay)
 }
 
@@ -1765,7 +1765,7 @@ const displayFiatToFiat = ({ value }: { value: number | string }) => {
   return new BigNumber(value).toFixed(2)
 }
 
-const getSymbol = currency => {
+const getSymbol = (currency) => {
   const data = Currencies[currency]
   const tradeUnit = prop('trade', data)
   return path(['units', tradeUnit, 'symbol'], data)

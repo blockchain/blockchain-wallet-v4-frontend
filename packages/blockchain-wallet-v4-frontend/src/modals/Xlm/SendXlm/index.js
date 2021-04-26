@@ -38,11 +38,11 @@ SendXlmContainer.propTypes = {
   closeAll: PropTypes.func.isRequired
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   step: selectors.components.sendXlm.getStep(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.sendXlm, dispatch),
   fetchData: bindActionCreators(actions.core.data.xlm.fetchData, dispatch)
 })

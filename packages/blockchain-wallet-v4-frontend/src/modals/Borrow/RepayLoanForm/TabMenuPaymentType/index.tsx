@@ -6,7 +6,7 @@ import { TabMenu, TabMenuItem, TooltipHost } from 'blockchain-info-components'
 
 type Props = WrappedFieldProps
 
-const TabMenuPaymentType: React.FC<Props> = props => {
+const TabMenuPaymentType: React.FC<Props> = (props) => {
   const handleClick = (value: 'full' | 'partial') => {
     props.input.onChange(value)
   }

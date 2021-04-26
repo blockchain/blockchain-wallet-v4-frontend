@@ -49,10 +49,10 @@ class Airdrops extends React.PureComponent<Props> {
       kycState: 'NONE'
     } as SuccessStateType)
     const AirdropCards = data.cata({
-      Success: val => <Success {...val} {...this.props} />,
+      Success: (val) => <Success {...val} {...this.props} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
-      Failure: e =>
+      Failure: (e) =>
         e.type === 'INVALID_CREDENTIALS' ? (
           // @ts-ignore
           <Success
@@ -70,10 +70,10 @@ class Airdrops extends React.PureComponent<Props> {
         )
     })
     const PastAirdrops = data.cata({
-      Success: val => <PastAirdropsSuccess {...val} {...this.props} />,
+      Success: (val) => <PastAirdropsSuccess {...val} {...this.props} />,
       Loading: () => <Text weight={500}>Loading...</Text>,
       NotAsked: () => <Text weight={500}>Loading...</Text>,
-      Failure: e =>
+      Failure: (e) =>
         e.type === 'INVALID_CREDENTIALS' ? (
           <Text weight={500} size='12px'>
             <FormattedMessage
@@ -141,7 +141,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
     .getOrElse(false)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch

@@ -14,7 +14,7 @@ const injectAuthCredentials = curry(
       request,
       mergeDeepLeft(options),
       getAuthOptions
-    )(getAuthCredentials()).catch(error => {
+    )(getAuthCredentials()).catch((error) => {
       // 🚨!
       // 401 status means access token expired
       // BAD_2FA type means 2fa required by Exchange

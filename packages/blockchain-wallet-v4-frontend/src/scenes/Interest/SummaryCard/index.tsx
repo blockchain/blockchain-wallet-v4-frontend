@@ -26,7 +26,7 @@ const LoadingCard = () => <LoadingBox width='330px' height='275px' />
 class SummaryCardContainer extends PureComponent<Props> {
   render() {
     return this.props.data.cata({
-      Success: val => <SummaryCard {...this.props} {...val} />,
+      Success: (val) => <SummaryCard {...this.props} {...val} />,
       Failure: () => null,
       Loading: () => <LoadingCard />,
       NotAsked: () => <LoadingCard />

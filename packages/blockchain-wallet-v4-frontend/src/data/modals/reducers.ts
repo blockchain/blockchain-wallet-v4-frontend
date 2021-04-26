@@ -15,14 +15,14 @@ export const modalsReducer = (
   switch (action.type) {
     case AT.CLOSE_MODAL:
       if (action.payload.modalName) {
-        return state.filter(modal => modal.type !== action.payload.modalName)
+        return state.filter((modal) => modal.type !== action.payload.modalName)
       }
 
       return remove(lastIndex, 1, state)
     case AT.CLOSE_ALL_MODALS:
       return []
     case AT.SHOW_MODAL: {
-      return state.filter(x => x.type === action.payload.type).length === 0
+      return state.filter((x) => x.type === action.payload.type).length === 0
         ? insert(nextIndex, action.payload, state)
         : state
     }

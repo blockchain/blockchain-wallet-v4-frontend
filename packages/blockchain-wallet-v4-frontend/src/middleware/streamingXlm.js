@@ -15,7 +15,7 @@ import { actions, actionTypes } from 'data'
 const logLocation = 'middleware/streamingXlm'
 
 const streamingMiddleware = (streamingService, api) => {
-  const addCursor = publicKey =>
+  const addCursor = (publicKey) =>
     api
       .getXlmTransactions({
         publicKey,
@@ -23,25 +23,25 @@ const streamingMiddleware = (streamingService, api) => {
       })
       .then(head)
       .then(prop('paging_token'))
-      .then(txCursor => ({
+      .then((txCursor) => ({
         id: publicKey,
         txCursor
       }))
       .catch(() => ({
         id: publicKey
       }))
-  const addStreams = accountIds =>
+  const addStreams = (accountIds) =>
     Promise.all(map(addCursor, accountIds))
       .then(indexBy(prop('id')))
       .then(streamingService.addStreams)
-      .catch(error =>
+      .catch((error) =>
         actions.logs.logErrorMessage(
           logLocation,
           'streamingMiddleware',
           prop('message', error)
         )
       )
-  return store => next => action => {
+  return (store) => (next) => (action) => {
     const { payload, type } = action
 
     if (type === actionTypes.middleware.webSocket.xlm.START_STREAMS) {

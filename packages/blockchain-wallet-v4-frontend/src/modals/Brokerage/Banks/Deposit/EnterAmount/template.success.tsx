@@ -58,8 +58,8 @@ const Limits = styled.div`
   display: flex;
   flex-direction: row;
   padding: 15px 40px;
-  border-top: 1px solid ${props => props.theme.grey000};
-  border-bottom: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
 `
 const LimitWrapper = styled.div`
   display: flex;
@@ -89,7 +89,7 @@ const AmountRow = styled(Row)`
   border: 0;
 `
 const SubIconWrapper = styled.div`
-  background-color: ${props => props.theme['fiat-light']};
+  background-color: ${(props) => props.theme['fiat-light']};
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -128,7 +128,7 @@ const Header = ({ brokerageActions, fiatCurrency }) => {
 
 const LimitSection = ({ paymentMethods, supportedCoins, walletCurrency }) => {
   const bankTransfer = paymentMethods.methods.find(
-    method => method.type === 'BANK_TRANSFER'
+    (method) => method.type === 'BANK_TRANSFER'
   )
 
   if (bankTransfer?.limits) {
@@ -273,7 +273,7 @@ const Success = (props: OwnProps) => {
   const amtError = props.formErrors.amount
   const isUserEligible =
     props.paymentMethods.methods.length &&
-    props.paymentMethods.methods.find(method => method.limits.max !== '0')
+    props.paymentMethods.methods.find((method) => method.limits.max !== '0')
 
   return (
     <div>

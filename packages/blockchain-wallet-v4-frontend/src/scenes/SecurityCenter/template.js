@@ -62,7 +62,7 @@ const Circle = styled.div`
   height: 50px;
   min-width: 50px;
   background-color: white;
-  border: 5px solid ${props => props.theme.blue900};
+  border: 5px solid ${(props) => props.theme.blue900};
   transition: background-color 0.4s, border 0.4s;
   border-radius: 50px;
   ${media.mobile`
@@ -71,8 +71,8 @@ const Circle = styled.div`
     min-width: 25px;
   `};
   &.active {
-    background-color: ${props => props.theme.grey000};
-    border: 5px solid ${props => props.theme.grey000};
+    background-color: ${(props) => props.theme.grey000};
+    border: 5px solid ${(props) => props.theme.grey000};
   }
 `
 const StepText = styled(Text)`
@@ -86,7 +86,7 @@ const StepText = styled(Text)`
     word-break: initial;
   `};
 `
-const SecurityCenter = props => {
+const SecurityCenter = (props) => {
   const { children, progress } = props
   const {
     emailComplete,
