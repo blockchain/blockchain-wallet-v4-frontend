@@ -12,7 +12,7 @@ import SecondPassword from './template.js'
 class SecondPasswordContainer extends React.PureComponent {
   state = { secondPassword: '' }
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault()
     if (
       Types.Wallet.isValidSecondPwd(
@@ -28,7 +28,7 @@ class SecondPasswordContainer extends React.PureComponent {
     }
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({ secondPassword: event.target.value })
   }
 
@@ -43,11 +43,11 @@ class SecondPasswordContainer extends React.PureComponent {
     )
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   wallet: selectors.core.wallet.getWallet(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   walletActions: bindActionCreators(actions.wallet, dispatch)

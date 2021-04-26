@@ -4,7 +4,7 @@ import { testPropTypes } from 'utils/test.utils'
 
 describe('Test.Utils', () => {
   describe('testPropTypes()', () => {
-    const fakeComponent = props => {
+    const fakeComponent = (props) => {
       return (
         <div
           size={props.size}

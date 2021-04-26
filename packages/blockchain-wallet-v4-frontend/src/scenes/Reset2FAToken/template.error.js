@@ -12,11 +12,11 @@ const Wrapper = styled.div`
 `
 const ErrorText = styled(Text)`
   > span > span {
-    color: ${props => props.theme.grey700};
+    color: ${(props) => props.theme.grey700};
   }
 `
 
-const Error = props => {
+const Error = (props) => {
   return (
     <Wrapper>
       <Icon name='alert-filled' color='red600' size='40px' />

@@ -46,7 +46,7 @@ export default () => {
           yield put(actions.core.data.btc.fetchTransactions(onlyShow, true))
           break
         case 'status':
-          const filter = payload => {
+          const filter = (payload) => {
             switch (payload) {
               case 'sent':
                 return 1

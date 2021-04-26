@@ -16,7 +16,7 @@ import Loading from '../template.loading'
 import { getData } from './selectors'
 import Success from './template.success'
 
-const WireInstructions = props => {
+const WireInstructions = (props) => {
   useEffect(() => {
     if (props.fiatCurrency) {
       props.simpleBuyActions.setFiatCurrency(props.fiatCurrency)
@@ -25,8 +25,8 @@ const WireInstructions = props => {
   }, [])
 
   return props.data.cata({
-    Success: val => <Success {...val} {...props} />,
-    Failure: e => <DataError message={{ message: e }} />,
+    Success: (val) => <Success {...val} {...props} />,
+    Failure: (e) => <DataError message={{ message: e }} />,
     Loading: () => <Loading />,
     NotAsked: () => <Loading />
   })

@@ -10,14 +10,15 @@ type PromptType = {
 
 // https://developers.google.com/web/fundamentals/app-install-banners/native
 const AndroidAppBanner = () => {
-  const [installPromptDeffered, setInstallPromptDeffered] = useState<
-    PromptType
-  >({})
+  const [
+    installPromptDeffered,
+    setInstallPromptDeffered
+  ] = useState<PromptType>({})
   const [showPrompt, setShowPrompt] = useState(false)
 
   useEffect(() => {
     console.log('component mounted')
-    window.addEventListener('beforeinstallprompt', e => {
+    window.addEventListener('beforeinstallprompt', (e) => {
       console.log('beforeinstallprompt run')
       e.preventDefault()
       setInstallPromptDeffered(e)
@@ -32,7 +33,7 @@ const AndroidAppBanner = () => {
     installPromptDeffered.prompt && installPromptDeffered.prompt()
     // wait for user response
     installPromptDeffered.userChoice &&
-      installPromptDeffered.userChoice.then(resp => {
+      installPromptDeffered.userChoice.then((resp) => {
         console.log('user response', resp)
         if (resp.outcome === 'accepted') {
           window.alert('User accepted install')

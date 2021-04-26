@@ -18,17 +18,17 @@ const createWalletApi = (
     reauthenticate,
     networks
   })
-  const taskToPromise = t =>
+  const taskToPromise = (t) =>
     new Promise((resolve, reject) => t.fork(reject, resolve))
   const promiseToTask = futurizeP(Task)
   const future = returnType ? futurizeP(returnType) : identity
   const is2FAEnabled = ifElse(
-    propSatisfies(x => x > 0, 'auth_type'),
+    propSatisfies((x) => x > 0, 'auth_type'),
     Task.rejected,
     Task.of
   )
   const is2FACodeValid = ifElse(
-    x => contains('incorrect', x),
+    (x) => contains('incorrect', x),
     Task.rejected,
     Task.of
   )
@@ -90,13 +90,13 @@ const createWalletApi = (
     return Promise.reject(new Error('MISSING_CREDENTIALS'))
   }
   // ////////////////////////////////////////////////////////////////
-  const saveWalletTask = wrapper =>
+  const saveWalletTask = (wrapper) =>
     Wrapper.toEncJSON(wrapper).chain(promiseToTask(ApiPromise.savePayload))
 
   const saveWallet = compose(taskToPromise, saveWalletTask)
   // ////////////////////////////////////////////////////////////////
-  const createWalletTask = email => wrapper => {
-    const create = w => ApiPromise.createPayload(email, w)
+  const createWalletTask = (email) => (wrapper) => {
+    const create = (w) => ApiPromise.createPayload(email, w)
     return Wrapper.toEncJSON(wrapper).chain(promiseToTask(create))
   }
   const createWallet = (email, wrapper) =>

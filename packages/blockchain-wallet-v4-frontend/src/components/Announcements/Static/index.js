@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   padding: 8px 20px 8px 20px;
   align-items: center;
   justify-content: space-between;
-  background: ${props => props.theme.blue600};
+  background: ${(props) => props.theme.blue600};
   overflow: hidden;
   ${media.tablet`
     display: none;
@@ -23,7 +23,7 @@ const Wrapper = styled.div`
 class StaticAnnouncementsContainer extends React.PureComponent {
   state = {}
 
-  onEmailResend = email => {
+  onEmailResend = (email) => {
     if (this.state.emailReminded) return
     this.props.resendEmail(email)
     this.setState({ emailReminded: true })
@@ -36,7 +36,7 @@ class StaticAnnouncementsContainer extends React.PureComponent {
     const { data } = this.props
 
     return data.cata({
-      Success: val => {
+      Success: (val) => {
         switch (val.announcementToShow) {
           case 'email':
             return (
@@ -59,12 +59,12 @@ class StaticAnnouncementsContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
-  resendEmail: email =>
+const mapDispatchToProps = (dispatch) => ({
+  resendEmail: (email) =>
     dispatch(actions.modules.securityCenter.resendVerifyEmail(email)),
   verifyIdentity: () =>
     dispatch(actions.components.identityVerification.verifyIdentity(2))

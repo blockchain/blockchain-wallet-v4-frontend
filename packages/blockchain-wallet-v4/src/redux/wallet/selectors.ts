@@ -21,7 +21,7 @@ import {
 } from '../../types'
 import { walletPath } from '../paths'
 
-const intoJS = i => i.toJS()
+const intoJS = (i) => i.toJS()
 export const getWrapper = prop(walletPath)
 export const getWallet = compose(Wrapper.selectWallet, getWrapper)
 export const getVersion = compose(Wrapper.selectVersion, getWrapper)
@@ -115,9 +115,9 @@ export const getLegacyAddressLabel = curry((state, address) =>
     getWallet
   )(state)
 )
-export const getDefaultAccountXpub = state =>
+export const getDefaultAccountXpub = (state) =>
   getAccountXpub(getDefaultAccountIndex(state), state)
-export const getInitialSocketContext = state => ({
+export const getInitialSocketContext = (state) => ({
   guid: getGuid(state),
   context: getContextGrouped(state)
 })
@@ -138,7 +138,7 @@ export const getPbkdf2Iterations = compose(
 )
 export const isHdWallet = compose(
   // @ts-ignore
-  wallets => wallets.size > 0,
+  (wallets) => wallets.size > 0,
   Wallet.selectHdWallets,
   getWallet
 )

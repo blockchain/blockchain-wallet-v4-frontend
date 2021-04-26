@@ -13,7 +13,7 @@ import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'
 
-export const getCurrency = state => {
+export const getCurrency = (state) => {
   return selectors.core.settings.getCurrency(state)
 }
 

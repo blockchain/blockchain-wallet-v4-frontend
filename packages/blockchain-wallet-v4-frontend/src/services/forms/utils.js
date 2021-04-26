@@ -12,11 +12,12 @@ const IpRegex = new RegExp(
   /^((?:(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%)\.){3}(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%))$/
 )
 const emailCodeRegex = new RegExp(/^[a-z0-9]{5}$/i)
-const isNumeric = value => value - 0 === value && ('' + value).trim().length > 0
-const isEmail = value => emailRegex.test(value)
-const isGuid = value => guidRegex.test(value)
-const isIpValid = value => IpRegex.test(value.trim())
-const isAlphaNumeric = value => emailCodeRegex.test(value)
+const isNumeric = (value) =>
+  value - 0 === value && ('' + value).trim().length > 0
+const isEmail = (value) => emailRegex.test(value)
+const isGuid = (value) => guidRegex.test(value)
+const isIpValid = (value) => IpRegex.test(value.trim())
+const isAlphaNumeric = (value) => emailCodeRegex.test(value)
 const formatSSN = (val, prevVal) => {
   const nums = val.replace(/[^\d]/g, '')
   if (!prevVal || val.length > prevVal.length) {
@@ -53,32 +54,32 @@ const formatDOB = (val, prevVal) => {
   }
   return nums.slice(0, 2) + '/' + nums.slice(2, 4) + '/' + nums.slice(4, 8)
 }
-const formatUSZipcode = val => {
+const formatUSZipcode = (val) => {
   if (val.length > 5) return val.slice(0, 5)
   return val
 }
-const isOverEighteen = val => {
+const isOverEighteen = (val) => {
   const dob = new Date(val)
   const now = new Date()
   const eighteenYearsAgo = now.setFullYear(now.getFullYear() - 18)
   // @ts-ignore
   return dob < eighteenYearsAgo
 }
-const isSSN = val => {
+const isSSN = (val) => {
   if (val && val.length) {
     const cleaned = val.replace(/[^\d]/g, '')
     return cleaned.length === 9
   }
   return val
 }
-const isDOB = val => {
+const isDOB = (val) => {
   if (val && val.length) {
     const cleaned = val.replace(/[^\d]/g, '')
     return cleaned.length === 8 && moment(val).isValid()
   }
   return val
 }
-const isUsZipcode = val => {
+const isUsZipcode = (val) => {
   if (val && val.length) {
     const cleaned = val.replace(/[^\d]/g, '')
     return cleaned.length === 5
@@ -94,7 +95,7 @@ const formatTextAmount = (val, isFiat) => {
     .replace('-', '')
 }
 
-const capitalizeFirstLetter = string => {
+const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
 }
 

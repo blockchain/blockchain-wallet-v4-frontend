@@ -47,11 +47,12 @@ export class Currency extends Type {
           ratio = prop(this.currency.code, pairs.table).reciprocate()
         }
 
-        return this.toUnit(this.currency.units[this.currency.trade]).chain(o =>
-          fromUnit({
-            value: BigRational(o.value).multiply(ratio),
-            unit: toCurrency.units[toCurrency.trade]
-          })
+        return this.toUnit(this.currency.units[this.currency.trade]).chain(
+          (o) =>
+            fromUnit({
+              value: BigRational(o.value).multiply(ratio),
+              unit: toCurrency.units[toCurrency.trade]
+            })
         )
       }
     )
@@ -62,7 +63,7 @@ export class Currency extends Type {
     const toCurrencyM = Maybe.fromNullable(toCurrency)
 
     return sequence(Maybe.of, [toCurrencyM]).chain(([toCurrency]) => {
-      return this.toUnit(this.currency.units[this.currency.trade]).chain(o =>
+      return this.toUnit(this.currency.units[this.currency.trade]).chain((o) =>
         fromUnit({
           value: reverse
             ? BigRational(o.value).divide(ratio)
@@ -75,7 +76,7 @@ export class Currency extends Type {
 }
 
 // @ts-ignore
-const newCurrency = o => new Currency(o)
+const newCurrency = (o) => new Currency(o)
 
 export const isCurrency = is(Currency)
 export const value = Currency.define('value')

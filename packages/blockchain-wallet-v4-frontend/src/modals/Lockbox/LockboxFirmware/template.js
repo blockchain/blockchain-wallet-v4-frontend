@@ -11,7 +11,7 @@ const ContentWrapper = styled(ModalBody)`
   padding: 20px;
 `
 
-const LockboxFirmware = props => {
+const LockboxFirmware = (props) => {
   const { children, onClose, position, step, total, totalSteps } = props
   return (
     <Modal size='small' position={position} total={total}>

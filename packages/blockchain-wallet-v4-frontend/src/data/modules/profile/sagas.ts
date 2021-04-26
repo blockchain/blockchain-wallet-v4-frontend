@@ -181,9 +181,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(A.setApiTokenSuccess(apiToken))
       yield call(fetchUser)
       yield call(renewApiSockets)
-      const expiresIn = moment(expiresAt)
-        .subtract(5, 's')
-        .diff(moment())
+      const expiresIn = moment(expiresAt).subtract(5, 's').diff(moment())
       yield spawn(renewSession, userId, lifetimeToken, email, guid, expiresIn)
     } catch (e) {
       if (prop('description', e) === userRequiresRestoreError) {
@@ -295,7 +293,7 @@ export default ({ api, coreSagas, networks }) => {
     const guid = yield select(selectors.core.wallet.getGuid)
 
     const { lifetimeToken, userId } = yield authCredentialsR
-      .map(authCredentials => {
+      .map((authCredentials) => {
         const { lifetimeToken, userId } = authCredentials
         if (!userId || !lifetimeToken) return call(generateAuthCredentials)
         return authCredentials
@@ -500,8 +498,9 @@ export default ({ api, coreSagas, networks }) => {
         )).getOrFail()
         const accountDeeplinkUrl = `${exchangeDomain}/trade/link/${exchangeLinkId}?email=${encodeURIComponent(
           email
-        )}&utm_source=web_wallet&utm_medium=referral&utm_campaign=${utmCampaign ||
-          'wallet_exchange_page'}`
+        )}&utm_source=web_wallet&utm_medium=referral&utm_campaign=${
+          utmCampaign || 'wallet_exchange_page'
+        }`
         // share addresses
         yield put(A.shareWalletAddressesWithExchange())
         // simulate wait while allowing user to read modal

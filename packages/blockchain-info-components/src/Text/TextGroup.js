@@ -3,16 +3,16 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const BaseTextGroup = styled.div`
-  ${props =>
+  ${(props) =>
     props.nowrap
       ? '& > * { white-space: nowrap }'
       : '& > * { white-space: normal }'};
-  ${props =>
+  ${(props) =>
     props.inline
       ? '& > * { display: inline; margin-right: 2px; }'
       : '& > * { display: block; margin-bottom: 10px; }'};
 `
-const TextGroup = props => {
+const TextGroup = (props) => {
   const { children, ...rest } = props
 
   return <BaseTextGroup {...rest}>{children}</BaseTextGroup>

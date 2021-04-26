@@ -18,7 +18,7 @@ export const fetchProductsEligibilitySuccess = (
   type: AT.FETCH_PRODUCTS_ELIGIBILITY_SUCCESS,
   payload: data
 })
-export const fetchProductsEligibilityFailure = error => ({
+export const fetchProductsEligibilityFailure = (error) => ({
   type: AT.FETCH_PRODUCTS_ELIGIBILITY_FAILURE,
   payload: error
 })

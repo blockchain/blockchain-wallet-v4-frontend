@@ -13,7 +13,7 @@ type Props = {
 } & OwnProps &
   SuccessStateType
 
-const ActionButton: React.FC<Props> = props => {
+const ActionButton: React.FC<Props> = (props) => {
   const disabled = props.invalid || props.submitting
   const disableInsufficientEth = props.isSufficientEthForErc20
   const dailyLimitExceeded = props.isDailyLimitExceeded

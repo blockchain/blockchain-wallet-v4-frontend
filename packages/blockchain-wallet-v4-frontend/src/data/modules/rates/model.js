@@ -59,7 +59,7 @@ export const RATES_UPDATED_MESSAGE = {
   event: 'updated'
 }
 
-export const getRatesSubscribeMessage = pairs => ({
+export const getRatesSubscribeMessage = (pairs) => ({
   channel: 'exchange_rate',
   action: 'subscribe',
   params: {
@@ -88,7 +88,7 @@ export const getAdviceSubscribeMessage = (pair, volume, fix, fiatCurrency) => ({
   }
 })
 
-export const getAdviceUnsubscribeMessage = pair => ({
+export const getAdviceUnsubscribeMessage = (pair) => ({
   channel: 'conversion',
   action: 'unsubscribe',
   params: {
@@ -97,7 +97,7 @@ export const getAdviceUnsubscribeMessage = pair => ({
   }
 })
 
-export const getAuthMessage = token => ({
+export const getAuthMessage = (token) => ({
   channel: 'auth',
   action: 'subscribe',
   params: {

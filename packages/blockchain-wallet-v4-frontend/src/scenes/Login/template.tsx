@@ -50,7 +50,7 @@ const isSupportedBrowser = browser.satisfies({
   vivaldi: '>2'
 })
 
-export const removeWhitespace = string => string.replace(/\s/g, ``)
+export const removeWhitespace = (string) => string.replace(/\s/g, ``)
 
 const OuterWrapper = styled.div`
   display: flex;
@@ -157,7 +157,7 @@ const SubCard = styled.div`
 `
 const SignUpText = styled(Text)`
   &:hover {
-    color: ${props => props.theme.white};
+    color: ${(props) => props.theme.white};
     font-weight: 600;
   }
 `
@@ -592,7 +592,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                         </Text>
                       )
                     },
-                    Failure: e => (
+                    Failure: (e) => (
                       <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>
                     ),
                     Loading: () => {
@@ -698,7 +698,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   secureChannelLoginState: selectors.auth.getSecureChannelLogin(state)
 })
 

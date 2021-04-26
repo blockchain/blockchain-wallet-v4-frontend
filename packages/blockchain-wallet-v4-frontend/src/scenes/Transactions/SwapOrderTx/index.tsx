@@ -111,7 +111,7 @@ class SwapOrderTx extends PureComponent<Props, State> {
                 height='35px'
                 nature='light'
                 // @ts-ignore
-                onClick={e => {
+                onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
                   return this.showModal(order)

@@ -31,10 +31,10 @@ const GoBackLink = styled(LinkContainer)`
   margin-right: 15px;
 `
 
-const FirstStep = props => {
+const FirstStep = (props) => {
   const { handleSubmit, invalid, submitting } = props
 
-  const validNullableEmail = emailVal => {
+  const validNullableEmail = (emailVal) => {
     return emailVal && emailVal.length ? validEmail(emailVal) : undefined
   }
 

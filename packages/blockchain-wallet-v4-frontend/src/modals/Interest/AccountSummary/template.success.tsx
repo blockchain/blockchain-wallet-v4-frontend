@@ -32,7 +32,7 @@ import {
   Wrapper
 } from './model'
 
-const AccountSummary: React.FC<Props> = props => {
+const AccountSummary: React.FC<Props> = (props) => {
   const {
     accountBalances,
     coin,

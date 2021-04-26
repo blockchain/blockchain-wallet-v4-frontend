@@ -27,13 +27,13 @@ const Wrapper = styled.div`
   `}
 `
 
-const Alerts = props => {
+const Alerts = (props) => {
   const { alerts, handleClose } = props
 
   return (
     <Wrapper>
       <AnimatePresence>
-        {alerts.map(alert => {
+        {alerts.map((alert) => {
           const { coin, data, id, message, nature, persist, timeout } = alert
           const dismissTimer = timeout || 7000
           return (

@@ -25,7 +25,7 @@ class ConfirmBorrow extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => (
+      Success: (val) => (
         <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
       ),
       Failure: () => (

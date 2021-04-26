@@ -7,7 +7,7 @@ import { actions } from 'data'
 import { getData } from './selectors'
 import EthAddresses from './template'
 
-const isValid = item => !isNil(item) && !isEmpty(item)
+const isValid = (item) => !isNil(item) && !isEmpty(item)
 
 type StateType = {
   hasCheckedSecondPassword: boolean
@@ -59,12 +59,12 @@ class EthContainer extends Component<PropsType, StateType> {
 
   toggleQrCode = () => {
     if (this.state.hasCheckedSecondPassword) {
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         showQrCode: !prevState.showQrCode
       }))
     } else {
       this.props.showEthPrivateKey(this.props.isLegacy)
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         hasCheckedSecondPassword: true,
         showQrCode: !prevState.showQrCode
       }))
@@ -98,14 +98,14 @@ class EthContainer extends Component<PropsType, StateType> {
 
 const mapStateToProps = (state, ownProps) => getData(state, ownProps)
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchLegacyBalance: () =>
     dispatch(actions.core.data.eth.fetchLegacyBalance()),
   clearShownEthLegacyPrivateKey: () =>
     dispatch(actions.modules.settings.clearShownEthLegacyPrivateKey()),
   clearShownEthPrivateKey: () =>
     dispatch(actions.modules.settings.clearShownEthPrivateKey()),
-  showEthPrivateKey: isLegacy =>
+  showEthPrivateKey: (isLegacy) =>
     dispatch(actions.modules.settings.showEthPrivateKey(isLegacy))
 })
 

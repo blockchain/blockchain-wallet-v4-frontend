@@ -56,7 +56,7 @@ export const getAddress = (account, path, network) => {
   const [, chain, index] = split('/', path)
   const i = parseInt(index)
   const c = parseInt(chain)
-  const derive = acc => Cache.getAddress(selectCache(acc), c, i, network)
+  const derive = (acc) => Cache.getAddress(selectCache(acc), c, i, network)
   return pipe(HDAccount.guard, derive)(account)
 }
 
@@ -70,7 +70,7 @@ export const getChangeAddress = (account, changeIndex, network) => {
   return Cache.getAddress(selectCache(account), 1, changeIndex, network)
 }
 
-export const selectAllXpubsGrouped = account => {
+export const selectAllXpubsGrouped = (account) => {
   return [
     {
       type: 'legacy',
@@ -79,7 +79,7 @@ export const selectAllXpubsGrouped = account => {
   ]
 }
 
-export const selectAllXpubs = account => {
+export const selectAllXpubs = (account) => {
   return [selectXpub(account)]
 }
 
@@ -87,11 +87,11 @@ export const fromJS = (x, i) => {
   if (is(HDAccount, x)) {
     return x
   }
-  const accountCons = a => {
+  const accountCons = (a) => {
     const xpub = selectXpub(a)
     const node =
       isEmpty(xpub) || isNil(xpub) ? null : Bitcoin.bip32.fromBase58(xpub)
-    const cacheCons = c =>
+    const cacheCons = (c) =>
       !isEmpty(c) || isNil(node)
         ? Cache.fromJS(c)
         : Cache.fromJS(Cache.js(node))
@@ -103,7 +103,7 @@ export const fromJS = (x, i) => {
   return accountCons(new HDAccount(assoc('index', i, x)))
 }
 
-export const toJSwithIndex = pipe(HDAccount.guard, acc => {
+export const toJSwithIndex = pipe(HDAccount.guard, (acc) => {
   const accountDecons = compose(
     over(addressLabels, AddressLabelMap.toJS),
     over(cache, Cache.toJS)
@@ -113,7 +113,7 @@ export const toJSwithIndex = pipe(HDAccount.guard, acc => {
 
 export const toJS = compose(dissoc('index'), toJSwithIndex)
 
-export const reviver = jsObject => {
+export const reviver = (jsObject) => {
   return new HDAccount(jsObject)
 }
 

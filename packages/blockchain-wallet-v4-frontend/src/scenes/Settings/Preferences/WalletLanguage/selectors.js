@@ -3,7 +3,7 @@ import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
   [selectors.preferences.getLanguage],
-  language => {
+  (language) => {
     const locale = language || 'en'
     return { locale }
   }

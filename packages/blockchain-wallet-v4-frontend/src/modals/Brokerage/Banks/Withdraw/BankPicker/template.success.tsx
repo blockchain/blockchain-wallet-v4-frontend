@@ -20,7 +20,7 @@ const getLinkedBankIcon = (bankName: string): ReactElement => (
   <Image name={getBankLogoImageName(bankName)} height='48px' />
 )
 
-const Success: React.FC<Props> = props => {
+const Success: React.FC<Props> = (props) => {
   return (
     <div>
       <FlyoutWrapper>
@@ -48,7 +48,7 @@ const Success: React.FC<Props> = props => {
           </Text>
         </Top>
       </FlyoutWrapper>
-      {props.bankTransferAccounts.map(account => {
+      {props.bankTransferAccounts.map((account) => {
         return (
           <Bank
             key={account.id}
@@ -67,7 +67,7 @@ const Success: React.FC<Props> = props => {
           />
         )
       })}
-      {props.beneficiaries.map(beneficiary => {
+      {props.beneficiaries.map((beneficiary) => {
         return (
           <BankWire
             beneficiary={beneficiary}

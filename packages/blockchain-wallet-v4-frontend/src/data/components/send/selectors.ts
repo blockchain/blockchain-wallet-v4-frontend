@@ -6,7 +6,7 @@ import { RootState } from 'data/rootReducer'
 export const getPaymentsAccountExchange = curry(
   (currency: CoinType, state: RootState) => {
     return state.components.send.exchangePaymentsAccount[currency].map(
-      x => x.address
+      (x) => x.address
     )
   }
 )
@@ -14,7 +14,7 @@ export const getPaymentsAccountExchange = curry(
 export const getPaymentsTradingAccountAddress = curry(
   (currency: CoinType, state: RootState) => {
     return state.components.send.tradingPaymentsAccount[currency].map(
-      x => x.address
+      (x) => x.address
     )
   }
 )

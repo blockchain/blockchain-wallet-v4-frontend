@@ -42,7 +42,7 @@ const Subcontent = styled(Text)`
   text-align: center;
 `
 
-const Success: React.FC<Props> = props => {
+const Success: React.FC<Props> = (props) => {
   return (
     <Top>
       <CloseIcon

@@ -86,7 +86,7 @@ export default ({ api }: { api: APIType }) => {
         },
         filter
       )
-      const filteredTxs = data.txs.filter(tx => tx.time > BCH_FORK_TIME)
+      const filteredTxs = data.txs.filter((tx) => tx.time > BCH_FORK_TIME)
       const atBounds = length(filteredTxs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
       const txPage: Array<BchTxType> = yield call(__processTxs, filteredTxs)

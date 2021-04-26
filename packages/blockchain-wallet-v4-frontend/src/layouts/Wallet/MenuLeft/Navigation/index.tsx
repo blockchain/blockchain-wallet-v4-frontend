@@ -22,7 +22,7 @@ class NavigationContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.layoutWallet, dispatch),
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
@@ -30,7 +30,7 @@ const mapDispatchToProps = dispatch => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   coinList: getData(state)
 })
 

@@ -8,7 +8,7 @@ import Settings from './template'
 
 const SettingsContainer = (props: Props) => <Settings {...props} />
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })

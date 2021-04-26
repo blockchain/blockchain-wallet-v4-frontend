@@ -26,7 +26,7 @@ const Table = styled.div`
   margin-top: 16px;
 `
 
-const Summary: React.FC<Props> = props => {
+const Summary: React.FC<Props> = (props) => {
   const principalDisplayName = props.displayName
 
   if (!props.values) return null

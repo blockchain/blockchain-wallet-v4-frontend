@@ -1,11 +1,11 @@
 import * as AT from './actionTypes'
 
 // CREATE
-export const createMetadataLockbox = data => ({
+export const createMetadataLockbox = (data) => ({
   type: AT.CREATE_METADATA_LOCKBOX,
   payload: data
 })
-export const createNewDeviceEntry = deviceEntry => ({
+export const createNewDeviceEntry = (deviceEntry) => ({
   type: AT.CREATE_NEW_DEVICE_ENTRY,
   payload: { deviceEntry }
 })
@@ -17,11 +17,11 @@ export const fetchMetadataLockbox = () => ({
 export const fetchMetadataLockboxLoading = () => ({
   type: AT.FETCH_METADATA_LOCKBOX_LOADING
 })
-export const fetchMetadataLockboxSuccess = data => ({
+export const fetchMetadataLockboxSuccess = (data) => ({
   type: AT.FETCH_METADATA_LOCKBOX_SUCCESS,
   payload: data
 })
-export const fetchMetadataLockboxFailure = error => ({
+export const fetchMetadataLockboxFailure = (error) => ({
   type: AT.FETCH_METADATA_LOCKBOX_FAILURE,
   payload: error
 })
@@ -45,7 +45,7 @@ export const setLatestTxTimestampEthLockbox = (deviceIndex, timestamp) => ({
 })
 
 // DELETE
-export const deleteDeviceLockbox = deviceIndex => ({
+export const deleteDeviceLockbox = (deviceIndex) => ({
   type: AT.DELETE_DEVICE_LOCKBOX,
   payload: { deviceIndex }
 })

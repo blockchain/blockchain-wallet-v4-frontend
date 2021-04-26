@@ -11,7 +11,7 @@ class SimpleDropdown extends React.PureComponent {
     this.state = {
       toggled: props.opened,
       selectedItem:
-        props.items.filter(item => item.value === props.selectedValue)[0] ||
+        props.items.filter((item) => item.value === props.selectedValue)[0] ||
         props.items[0]
     }
     this.handleClick = this.handleClick.bind(this)

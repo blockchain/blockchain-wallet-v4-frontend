@@ -30,7 +30,7 @@ const {
   getCollateralizationDisplayName
 } = model.components.borrow
 
-const Summary: React.FC<Props> = props => {
+const Summary: React.FC<Props> = (props) => {
   const currentCollateralStatus = getCollateralizationDisplayName(
     props.loan.collateralisationRatio,
     props.offer

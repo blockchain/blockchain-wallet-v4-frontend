@@ -71,7 +71,7 @@ export const getData = (
     forceCustodialFirst
   } = ownProps
 
-  const buildDisplay = wallet => {
+  const buildDisplay = (wallet) => {
     const label = collapse(wallet.label)
     if (has('balance', wallet)) {
       let btcDisplay = Exchange.displayBtcToBtc({
@@ -83,7 +83,7 @@ export const getData = (
     }
     return label
   }
-  const buildCustodialDisplay = x => {
+  const buildCustodialDisplay = (x) => {
     return (
       `Trading Account` +
       ` (${Exchange.displayBtcToBtc({
@@ -104,11 +104,11 @@ export const getData = (
     )
   }
   // @ts-ignore
-  const excluded = filter(x => !exclude.includes(x.label))
-  const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
+  const excluded = filter((x) => !exclude.includes(x.label))
+  const toDropdown = map((x) => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
-  const toExchange = x => [{ label: `Exchange Account`, value: x }]
-  const toCustodialDropdown = currencyDetails => [
+  const toExchange = (x) => [{ label: `Exchange Account`, value: x }]
+  const toCustodialDropdown = (currencyDetails) => [
     {
       label: buildCustodialDisplay(currencyDetails),
       value: {
@@ -118,7 +118,7 @@ export const getData = (
       }
     }
   ]
-  const toInterestDropdown = x => [
+  const toInterestDropdown = (x) => [
     {
       label: buildInterestDisplay(x),
       value: {
@@ -158,7 +158,7 @@ export const getData = (
       showCustodial || showCustodialWithAddress
         ? selectors.components.simpleBuy
             .getSBBalances(state)
-            .map(x => ({
+            .map((x) => ({
               ...x.BTC,
               address: accountAddress ? accountAddress.data : null
             }))
@@ -168,7 +168,7 @@ export const getData = (
       includeInterest
         ? selectors.components.interest
             .getInterestAccountBalance(state)
-            .map(x => x.BTC)
+            .map((x) => x.BTC)
             .map(toInterestDropdown)
             .map(toGroup('Interest Account'))
         : Remote.of([]),
@@ -178,7 +178,7 @@ export const getData = (
             .getAddressesBalances(state)
             .map(toDropdown)
             .map(toGroup('Imported Addresses'))
-            .map(x =>
+            .map((x) =>
               set(
                 // @ts-ignore
                 compose(lensIndex(0), lensProp('options')),

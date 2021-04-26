@@ -80,7 +80,7 @@ class EmailAddressContainer extends React.PureComponent {
     const { data, ...rest } = this.props
 
     return data.cata({
-      Success: value => (
+      Success: (value) => (
         <Success
           {...rest}
           uiState={this.state}
@@ -92,20 +92,20 @@ class EmailAddressContainer extends React.PureComponent {
           handleEmailChangeSubmit={this.handleEmailChangeSubmit}
         />
       ),
-      Failure: message => <Error {...rest} message={message} />,
+      Failure: (message) => <Error {...rest} message={message} />,
       Loading: () => <Loading {...rest} />,
       NotAsked: () => <Loading {...rest} />
     })
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state),
   code: formValueSelector('securityEmailAddress')(state, 'emailCode'),
   updatedEmail: formValueSelector('securityEmailAddress')(state, 'changeEmail')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   securityCenterActions: bindActionCreators(

@@ -10,11 +10,11 @@ export const fetchMetadataRoot = () => ({ type: AT.FETCH_METADATA_ROOT })
 export const fetchMetadataRootLoading = () => ({
   type: AT.FETCH_METADATA_ROOT_LOADING
 })
-export const fetchMetadataRootSuccess = data => ({
+export const fetchMetadataRootSuccess = (data) => ({
   type: AT.FETCH_METADATA_ROOT_SUCCESS,
   payload: data
 })
-export const fetchMetadataRootFailure = error => ({
+export const fetchMetadataRootFailure = (error) => ({
   type: AT.FETCH_METADATA_ROOT_FAILURE,
   payload: error
 })

@@ -30,7 +30,9 @@ export const getData = (state: RootState) => {
       paymentMethods:
         (!invitations.openBanking && {
           ...paymentMethods,
-          methods: paymentMethods.methods.filter(m => m.type === 'BANK_ACCOUNT')
+          methods: paymentMethods.methods.filter(
+            (m) => m.type === 'BANK_ACCOUNT'
+          )
         }) ||
         paymentMethods
     })

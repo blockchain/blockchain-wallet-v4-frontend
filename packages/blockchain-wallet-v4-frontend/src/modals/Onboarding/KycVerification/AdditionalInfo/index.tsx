@@ -4,7 +4,7 @@ import { actions } from 'data'
 
 import AdditionalInfo from './template'
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   goToNextStep: () =>
     dispatch(actions.components.identityVerification.goToNextStep()),
   closeAllModals: () => dispatch(actions.modals.closeAllModals())

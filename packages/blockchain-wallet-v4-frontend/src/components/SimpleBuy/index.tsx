@@ -12,10 +12,10 @@ const DisplayPaymentIcon = styled(DisplayIcon)<{
 }>`
   align-items: center;
   justify-content: center;
-  ${props =>
+  ${(props) =>
     props.showBackground &&
     css`
-      background-color: ${props => props.theme.blue000};
+      background-color: ${(props) => props.theme.blue000};
       width: 32px;
       height: 32px;
       border-radius: 50%;

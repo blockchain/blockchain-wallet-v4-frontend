@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import { TabMenu, TabMenuItem } from 'blockchain-info-components'
 
-const TabMenuTransactionStatus = props => {
+const TabMenuTransactionStatus = (props) => {
   const { handleClick, statuses, value } = props
 
   return (

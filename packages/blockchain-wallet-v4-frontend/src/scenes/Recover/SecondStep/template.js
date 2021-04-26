@@ -39,7 +39,7 @@ const GoBackLink = styled(Link)`
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
-const SecondStep = props => {
+const SecondStep = (props) => {
   const {
     handleSubmit,
     invalid,

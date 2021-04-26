@@ -28,7 +28,7 @@ const BCH_ACCT_NAME = 'Private Key Wallet'
 
 export default ({ api, networks }) => {
   const createBch = function * (kv, hdAccounts, bchAccounts) {
-    const createAccountEntry = x => ({
+    const createAccountEntry = (x) => ({
       label: `${BCH_ACCT_NAME}${x > 0 ? ` ${x + 1}` : ''}`,
       archived: pathOr(false, [x, 'archived'], hdAccounts)
     })
@@ -88,7 +88,7 @@ export default ({ api, networks }) => {
       }
       // update account labels
       const legacyWalletName = 'My Bitcoin Cash Wallet'
-      forEach(account => {
+      forEach((account) => {
         // check if legacy format is used
         if (startsWith(legacyWalletName, account.label)) {
           // pluck label suffix e.g. " 2"

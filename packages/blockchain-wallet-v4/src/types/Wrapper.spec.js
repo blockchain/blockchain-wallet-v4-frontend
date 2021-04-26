@@ -19,7 +19,7 @@ const wrapperFixtureV4Segwit = require('./__mocks__/wrapper.v4-segwit')
 const wrapperFixtureV3 = require('./__mocks__/wrapper.v3')
 const wrapperFixtureV2 = require('./__mocks__/wrapper.v2')
 
-const taskToPromise = t =>
+const taskToPromise = (t) =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 describe('Wrapper', () => {

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { Button, Text } from 'blockchain-info-components'
 import { SettingWrapper } from 'components/Setting'
 
-const Setting = props => {
+const Setting = (props) => {
   const {
     handleClick,
     modalActions,

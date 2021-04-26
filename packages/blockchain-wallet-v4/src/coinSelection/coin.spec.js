@@ -44,7 +44,7 @@ describe('Coin Selection', () => {
     })
     it('coins map', () => {
       const A = Coin.fromJS({ value: 100 })
-      const square = x => x * x
+      const square = (x) => x * x
       expect(A.overValue(square).value).toEqual(square(A.value))
     })
     it('coin empty', () => {
@@ -116,7 +116,7 @@ describe('bip69SortInputs', () => {
           'ffbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
         value: 5
       }
-    ].map(input => new Coin.Coin(input))
+    ].map((input) => new Coin.Coin(input))
     const sortedInputs = [
       {
         txHash:
@@ -143,7 +143,7 @@ describe('bip69SortInputs', () => {
           'ffbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
         value: 5
       }
-    ].map(input => new Coin.Coin(input))
+    ].map((input) => new Coin.Coin(input))
     expect(bip69SortInputs(assortedInputs)).toEqual(sortedInputs)
   })
 
@@ -174,7 +174,7 @@ describe('bip69SortInputs', () => {
           'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         value: 2
       }
-    ].map(input => new Coin.Coin(input))
+    ].map((input) => new Coin.Coin(input))
     const sortedInputs = [
       {
         txHash:
@@ -201,7 +201,7 @@ describe('bip69SortInputs', () => {
           'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         value: 10
       }
-    ].map(input => new Coin.Coin(input))
+    ].map((input) => new Coin.Coin(input))
     expect(bip69SortInputs(assortedInputs)).toEqual(sortedInputs)
   })
 })
@@ -231,7 +231,7 @@ describe('bip69SortOutputs', () => {
         value: 2
       }
     ].map(
-      output =>
+      (output) =>
         new Coin.Coin({
           ...output,
           script: Buffer.from(output.script, 'hex')
@@ -259,7 +259,7 @@ describe('bip69SortOutputs', () => {
         value: 10
       }
     ].map(
-      output =>
+      (output) =>
         new Coin.Coin({
           ...output,
           script: Buffer.from(output.script, 'hex')
@@ -291,7 +291,7 @@ describe('bip69SortOutputs', () => {
         value: 0
       }
     ].map(
-      output =>
+      (output) =>
         new Coin.Coin({
           ...output,
           script: Buffer.from(output.script, 'hex')
@@ -319,7 +319,7 @@ describe('bip69SortOutputs', () => {
         value: 0
       }
     ].map(
-      output =>
+      (output) =>
         new Coin.Coin({
           ...output,
           script: Buffer.from(output.script, 'hex')

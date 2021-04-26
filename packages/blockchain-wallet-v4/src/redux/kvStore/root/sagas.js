@@ -10,7 +10,7 @@ import {
   getSharedKey
 } from '../../wallet/selectors'
 import * as A from './actions'
-const taskToPromise = t =>
+const taskToPromise = (t) =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api, networks }) => {
@@ -19,7 +19,7 @@ export default ({ api, networks }) => {
   }
   const createRoot = function * ({ password }) {
     try {
-      const obtainMnemonic = state => getMnemonic(state, password)
+      const obtainMnemonic = (state) => getMnemonic(state, password)
       const mnemonicT = yield select(obtainMnemonic)
       const mnemonic = yield call(() => taskToPromise(mnemonicT))
       const seedHex = BIP39.mnemonicToEntropy(mnemonic)

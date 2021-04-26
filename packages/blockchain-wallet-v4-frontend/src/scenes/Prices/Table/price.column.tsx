@@ -5,7 +5,7 @@ import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 
 import { CellHeaderText, CellText } from '.'
 
-export const getPriceColumn = walletCurrency => ({
+export const getPriceColumn = (walletCurrency) => ({
   Header: () => (
     <CellHeaderText>
       <FormattedMessage id='copy.price' defaultMessage='Price' />

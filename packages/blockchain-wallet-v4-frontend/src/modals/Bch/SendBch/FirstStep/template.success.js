@@ -63,7 +63,7 @@ const ImageInInputContainer = styled.div`
   right: 10px;
 `
 
-const FirstStep = props => {
+const FirstStep = (props) => {
   const {
     amount,
     excludeHDWallets,

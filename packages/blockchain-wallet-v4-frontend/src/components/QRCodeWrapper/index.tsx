@@ -7,7 +7,7 @@ import blockChainLogo from 'blockchain-info-components/src/Images/img/qr-logo.sv
 const Wrapper = styled.div`
   canvas {
     padding: 12px;
-    border: 1px solid ${props => props.theme.grey000};
+    border: 1px solid ${(props) => props.theme.grey000};
     border-radius: 6px;
     background-color: white;
   }

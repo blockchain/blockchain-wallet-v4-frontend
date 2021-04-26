@@ -14,7 +14,7 @@ const Header = styled(ModalHeader)`
   }
 `
 
-const LockboxSetup = props => {
+const LockboxSetup = (props) => {
   const { children, onClose, position, title, total } = props
 
   return (

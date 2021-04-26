@@ -49,8 +49,8 @@ class LinkBankHandler extends PureComponent<Props, State> {
 
   render() {
     return this.props.data.cata({
-      Success: val => <Success {...val} {...this.props} {...this.state} />,
-      Failure: e => <DataError message={{ message: e }} />,
+      Success: (val) => <Success {...val} {...this.props} {...this.state} />,
+      Failure: (e) => <DataError message={{ message: e }} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })

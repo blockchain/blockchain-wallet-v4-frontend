@@ -23,7 +23,7 @@ import { Props as OwnProps, SuccessStateType } from '.'
 import CountrySelect from './CountrySelect'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
-  border-bottom: 1px solid ${props => props.theme.grey000};
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
   padding-bottom: 0px;
 `
 const Top = styled(Text)`
@@ -34,7 +34,7 @@ const Top = styled(Text)`
 
 export type Props = OwnProps & SuccessStateType
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   if (!props.formValues) return null
 
   const countryCode = props.formValues.country
@@ -129,7 +129,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   name='state'
                   component={SelectBoxUSState}
                   validate={[required]}
-                  normalize={val => val.name}
+                  normalize={(val) => val.name}
                 />
               ) : (
                 <Field name='state' component={TextBox} />

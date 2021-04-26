@@ -41,7 +41,7 @@ const AmountColumn = styled.div`
   justify-content: flex-start;
 `
 const Separator = styled.div`
-  border: solid 1px ${props => props.theme.grey000};
+  border: solid 1px ${(props) => props.theme.grey000};
 `
 
 function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {

@@ -24,7 +24,7 @@ const SelectBank = (props: Props) => {
   const { data } = props
 
   return data.cata({
-    Success: val => <Success {...val} {...props} />,
+    Success: (val) => <Success {...val} {...props} />,
     Failure: () => <DataError onClick={fetchBank} />,
     Loading: () => <Loading text={LoadingTextEnum.GETTING_READY} />,
     NotAsked: () => <Loading text={LoadingTextEnum.GETTING_READY} />

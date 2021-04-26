@@ -65,9 +65,9 @@ const GlobalNav = styled.div.attrs({
   className: 'flex-container'
 })`
   ${Normalize8}
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.backgroundColor ? props.backgroundColor : 'transparent'};
-  position: ${props => props.position};
+  position: ${(props) => props.position};
   z-index: 100;
 
   &.hidden {
@@ -83,11 +83,11 @@ const GlobalNav = styled.div.attrs({
   }
 
   &.scrollup {
-    background-color: ${props => (props.navColor ? props.navColor : 'white')};
+    background-color: ${(props) => (props.navColor ? props.navColor : 'white')};
   }
 
   @media only screen and (max-width: 48rem) {
-    position: ${props => props.position};
+    position: ${(props) => props.position};
   }
 `
 
@@ -134,7 +134,7 @@ const NavInner = styled.div`
       font-weight: 500;
       line-height: 2.5rem;
       cursor: pointer;
-      color: ${props => (props.textColor ? props.textColor : 'white')};
+      color: ${(props) => (props.textColor ? props.textColor : 'white')};
       z-index: 10;
 
       &::-webkit-search-cancel-button {
@@ -142,19 +142,19 @@ const NavInner = styled.div`
       }
 
       &::placeholder {
-        color: ${props =>
+        color: ${(props) =>
           props.placeholderColor ? props.placeholderColor : 'white'};
       }
     }
 
     .search-icon {
-      fill: ${props => (props.textColor ? props.textColor : 'white')};
+      fill: ${(props) => (props.textColor ? props.textColor : 'white')};
     }
 
     > input[type='search']:focus {
       width: 100%;
       border-bottom: 2px solid white;
-      border-bottom: ${props =>
+      border-bottom: ${(props) =>
         props.textColor ? '2px solid ' + props.textColor : '2px solid white'};
 
       cursor: text;
@@ -349,7 +349,7 @@ const dataList = [
   }
 ]
 
-const ListWrap = items => (
+const ListWrap = (items) => (
   <DropdownWrap>
     <ul>
       {items.map((item, index) => {
@@ -433,7 +433,7 @@ const MobileMenuItem = styled.div`
   }
 `
 
-const MobileMenu = props => {
+const MobileMenu = (props) => {
   if (!props.active) {
     return null
   }
@@ -528,13 +528,13 @@ class Header extends PureComponent {
     return undefined
   }
 
-  handleResize = throttle(e => {
+  handleResize = throttle((e) => {
     if (window.innerWidth > 768) {
       this.setState({ menuActive: false })
     }
   }, 200)
 
-  handleScroll = throttle(e => {
+  handleScroll = throttle((e) => {
     let scrollTop = this.getScrollTop()
     if (scrollTop === undefined) {
       return
@@ -561,7 +561,7 @@ class Header extends PureComponent {
     this.previousScroll = scrollTop
   }, 200)
 
-  handleMenuClick = active => {
+  handleMenuClick = (active) => {
     this.setState({ menuActive: active })
   }
 
@@ -574,11 +574,11 @@ class Header extends PureComponent {
     this.setState({ search: false })
   }
 
-  handleSearchChange = e => {
+  handleSearchChange = (e) => {
     this.setState({ searchText: e.target.value })
   }
 
-  handleSearchKey = e => {
+  handleSearchKey = (e) => {
     if (e.keyCode === 13) {
       let searchText = this.state.searchText.trim()
       if (searchText.length) {
@@ -590,7 +590,7 @@ class Header extends PureComponent {
     }
   }
 
-  handleSearch = text => {
+  handleSearch = (text) => {
     document.location = this.props.searchURL + encodeURIComponent(text)
   }
 

@@ -88,8 +88,10 @@ function Success(
             (a, b) =>
               moment(b.openedAt).valueOf() - moment(a.openedAt).valueOf()
           )
-          .map(loan => {
-            const offer = props.offers.find(offer => offer.id === loan.offerId)
+          .map((loan) => {
+            const offer = props.offers.find(
+              (offer) => offer.id === loan.offerId
+            )
             if (!offer) return
 
             return (
@@ -123,7 +125,7 @@ function Success(
                     <CoinDisplay coin='PAX'>
                       {
                         loan.principal.amount.find(
-                          amount => amount.currency === 'PAX'
+                          (amount) => amount.currency === 'PAX'
                         )!.amount
                       }
                     </CoinDisplay>

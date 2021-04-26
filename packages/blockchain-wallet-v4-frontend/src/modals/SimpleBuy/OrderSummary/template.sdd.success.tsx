@@ -51,7 +51,7 @@ const IconBackground = styled.div<{ color: string }>`
   z-index: 100;
   position: absolute;
   right: -5px;
-  background: ${props => props.theme[props.color]};
+  background: ${(props) => props.theme[props.color]};
 `
 const IconProgressBackground = styled.div<{ color: string }>`
   width: 72px;
@@ -60,7 +60,7 @@ const IconProgressBackground = styled.div<{ color: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ${props => props.theme[props.color]};
+  background: ${(props) => props.theme[props.color]};
 `
 const TitleWrapper = styled(Text)`
   margin: 32px 0 24px 0;
@@ -71,13 +71,13 @@ const Bottom = styled.div`
   flex-direction: column;
   height: 100%;
   a {
-    color: ${props => props.theme.blue600};
+    color: ${(props) => props.theme.blue600};
     text-decoration: none;
     margin-left: 2px;
   }
 `
 
-const Success: React.FC<Props> = props => {
+const Success: React.FC<Props> = (props) => {
   const baseAmount = getBaseAmount(props.order)
   const baseCurrency = getBaseCurrency(props.order, props.supportedCoins)
   const days =

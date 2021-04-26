@@ -11,7 +11,9 @@ import * as S from './selectors'
 export const logLocation = 'modules/transferEth/sagas'
 
 export default ({ coreSagas, networks }) => {
-  const initialized = function * ({ payload }: ReturnType<typeof A.initialized>) {
+  const initialized = function * ({
+    payload
+  }: ReturnType<typeof A.initialized>) {
     try {
       yield put(A.transferEthPaymentUpdatedLoading())
       let payment: EthPaymentType = coreSagas.payment.eth.create({

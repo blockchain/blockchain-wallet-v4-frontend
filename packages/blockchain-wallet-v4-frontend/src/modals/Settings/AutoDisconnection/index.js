@@ -54,7 +54,7 @@ AutoDisconnectionContainer.propTypes = {
   duration: PropTypes.number
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })

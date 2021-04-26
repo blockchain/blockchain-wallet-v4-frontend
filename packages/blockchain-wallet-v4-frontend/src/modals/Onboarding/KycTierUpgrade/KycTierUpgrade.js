@@ -27,7 +27,7 @@ const Title = styled(Text)`
   font-size: 20px;
   b {
     font-weight: 500;
-    color: ${props => props.theme.success};
+    color: ${(props) => props.theme.success};
   }
 `
 const Message = styled(Text)`

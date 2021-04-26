@@ -13,7 +13,7 @@ import { generateTradingAccount } from 'data/coins/utils'
 import { getTradingBalance } from '../'
 
 // retrieves introduction text for coin on its transaction page
-export const getTransactionPageHeaderText = coin => {
+export const getTransactionPageHeaderText = (coin) => {
   switch (coin) {
     case 'AAVE':
       return (

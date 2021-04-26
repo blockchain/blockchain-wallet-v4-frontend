@@ -21,10 +21,10 @@ const ClickableText = styled(Text)`
 `
 
 const Success = ({ archivedAddresses, onDelete, onToggleArchived, search }) => {
-  const isMatch = address =>
+  const isMatch = (address) =>
     !search || address.addr.toLowerCase().indexOf(search) > -1
   const archivedAddressesTableRows = filter(isMatch, archivedAddresses).map(
-    address => (
+    (address) => (
       <AddressRow
         key={address.addr}
         archived

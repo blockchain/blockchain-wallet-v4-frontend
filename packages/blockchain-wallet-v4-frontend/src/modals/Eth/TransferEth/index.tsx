@@ -43,7 +43,7 @@ class TransferEthContainer extends React.PureComponent<Props> {
   render() {
     const { data, legacyEthAddr } = this.props
     return data.cata({
-      Success: val => (
+      Success: (val) => (
         <TransferEth
           ethAddr={val.ethAddr}
           ethBalance={val.ethBalance}
@@ -60,11 +60,11 @@ class TransferEthContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   transferEthActions: bindActionCreators(actions.modules.transferEth, dispatch)
 })

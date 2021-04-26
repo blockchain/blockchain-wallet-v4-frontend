@@ -2,8 +2,8 @@ import { compose } from 'ramda'
 
 import { actions, actionTypes } from 'data'
 
-const socket = socket => store => {
-  return next => action => {
+const socket = (socket) => (store) => {
+  return (next) => (action) => {
     const { type } = action
 
     if (type === actionTypes.middleware.webSocket.coins.START_SOCKET) {

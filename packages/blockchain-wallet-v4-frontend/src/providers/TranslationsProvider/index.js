@@ -34,7 +34,7 @@ class TranslationsProvider extends React.Component {
     const locale = any(propOr('en', this.props.locale), languages)
       ? this.props.locale
       : 'en'
-    loadLocaleData(locale, messages => {
+    loadLocaleData(locale, (messages) => {
       this.setState({ messages, locale })
     })
   }
@@ -49,7 +49,7 @@ class TranslationsProvider extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   locale: selectors.preferences.getLanguage(state)
 })
 

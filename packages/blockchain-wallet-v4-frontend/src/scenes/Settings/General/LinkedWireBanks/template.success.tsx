@@ -29,7 +29,7 @@ const getAvailableAmountForCurrency = (
   currency: WalletFiatType
 ) => {
   const method = methods.find(
-    method => method.type === 'FUNDS' && method.currency === currency
+    (method) => method.type === 'FUNDS' && method.currency === currency
   )
   if (method) {
     return Number(method.limits.max)
@@ -37,9 +37,9 @@ const getAvailableAmountForCurrency = (
   return null
 }
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const walletBeneficiaries = props.beneficiaries.filter(
-    beneficiary => beneficiary.currency in WalletFiatEnum
+    (beneficiary) => beneficiary.currency in WalletFiatEnum
   )
 
   return (

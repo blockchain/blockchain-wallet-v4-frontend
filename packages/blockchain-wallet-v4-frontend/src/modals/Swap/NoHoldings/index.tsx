@@ -30,9 +30,9 @@ const DisplayContainer = styled(FlyoutWrapper)`
   box-sizing: border-box;
   padding: 16px 40px;
   flex-direction: row;
-  border-bottom: 1px solid ${props => props.theme.grey000};
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
   transition: background-color 0.3s;
-  ${props =>
+  ${(props) =>
     props.onClick &&
     css`
       cursor: pointer;
@@ -40,7 +40,7 @@ const DisplayContainer = styled(FlyoutWrapper)`
         cursor: pointer;
       }
       &:hover {
-        background-color: ${props => props.theme.blue000};
+        background-color: ${(props) => props.theme.blue000};
       }
     `}
 `
@@ -201,7 +201,7 @@ const NoHoldings: React.FC<Props> = ({
   )
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })

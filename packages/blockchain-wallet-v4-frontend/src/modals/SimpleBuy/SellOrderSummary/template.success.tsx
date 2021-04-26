@@ -36,7 +36,7 @@ const Amount = styled.div`
   }
 `
 
-const Success: React.FC<Props> = props => {
+const Success: React.FC<Props> = (props) => {
   const { sellOrder, supportedCoins } = props
   const sellBaseAmount = sellOrder && getSellBaseAmount(sellOrder)
   const sellBaseCurrency = sellOrder ? getCoinFromPair(sellOrder.pair) : 'BTC'

@@ -3,7 +3,7 @@ import { SBFixType } from 'data/components/types'
 
 import * as AT from './actionTypes'
 
-export const setCulture = culture => ({
+export const setCulture = (culture) => ({
   type: AT.SET_CULTURE,
   payload: { culture }
 })
@@ -23,8 +23,8 @@ export const setSBCheckoutFix = (
     fix
   }
 })
-export const setTheme = theme => ({ type: AT.SET_THEME, payload: { theme } })
-export const setTotalBalancesDropdown = payload => ({
+export const setTheme = (theme) => ({ type: AT.SET_THEME, payload: { theme } })
+export const setTotalBalancesDropdown = (payload) => ({
   type: AT.SET_TOTAL_BALANCES_DROPDOWN,
   payload
 })

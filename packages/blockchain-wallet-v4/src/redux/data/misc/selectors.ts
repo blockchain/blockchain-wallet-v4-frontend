@@ -76,7 +76,7 @@ export const getRatesSelector = (
 
 // @ts-ignore
 const missingRatesFallback = map(
-  fiat => ({
+  (fiat) => ({
     [fiat]: {
       '15m': 0,
       buy: 0,

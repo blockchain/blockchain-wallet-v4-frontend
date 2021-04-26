@@ -13,7 +13,7 @@ const UpgradeRow = styled.div`
   justify-content: space-between;
 `
 
-const Upgrade: React.FC<Props> = props => {
+const Upgrade: React.FC<Props> = (props) => {
   return (
     <FlyoutWrapper>
       <UpgradeRow>

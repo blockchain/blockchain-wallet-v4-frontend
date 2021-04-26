@@ -9,11 +9,11 @@ const SendHeader = styled(ModalHeader)`
   border-bottom: 0;
   padding-bottom: 8px;
   > div:first-child * {
-    color: ${props => props.theme.blue900};
+    color: ${(props) => props.theme.blue900};
   }
 `
 
-const SendBtc = props => (
+const SendBtc = (props) => (
   <Modal size='medium' position={props.position} total={props.total}>
     <SendHeader icon='send' onClose={props.closeAll}>
       <FormattedMessage

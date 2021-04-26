@@ -79,7 +79,7 @@ export default ({ api }: { api: APIType }) => {
           after
         }
       )
-      const filteredOrders = orders.filter(order => {
+      const filteredOrders = orders.filter((order) => {
         return order.inputCurrency in CoinTypeEnum
           ? order.inputCurrency === currency
           : order.outputCurrency === currency
@@ -102,7 +102,7 @@ export default ({ api }: { api: APIType }) => {
         currency
       )
       const pendingTxs = transactions.items.filter(
-        val => val.state in SBPendingTransactionStateEnum
+        (val) => val.state in SBPendingTransactionStateEnum
       )
 
       yield put(
@@ -123,10 +123,12 @@ export default ({ api }: { api: APIType }) => {
         before,
         after
       )
-      const processedSwaps: Array<ProcessedSwapOrderType> = swaps.map(swap => ({
-        ...swap,
-        insertedAt: swap.createdAt
-      }))
+      const processedSwaps: Array<ProcessedSwapOrderType> = swaps.map(
+        (swap) => ({
+          ...swap,
+          insertedAt: swap.createdAt
+        })
+      )
       const response: FetchCustodialOrdersAndTransactionsReturnType = {
         orders: [...filteredOrders, ...transactions.items, ...processedSwaps]
       }

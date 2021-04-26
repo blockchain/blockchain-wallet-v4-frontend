@@ -39,7 +39,7 @@ class LinkToExchangeAccountContainer extends React.PureComponent {
           onAccountLinkComplete={this.onAccountLinkComplete}
         />
       ),
-      Failure: error => (
+      Failure: (error) => (
         <LinkToExchangeAccountError {...this.props} error={error} />
       ),
       Loading: () => <LinkToExchangeAccountLoading {...this.props} />,
@@ -54,7 +54,7 @@ class LinkToExchangeAccountContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   deeplinkToExchange: selectors.modules.profile.getLinkToExchangeAccountDeeplink(
     state
   ),
@@ -67,7 +67,7 @@ const mapStateToProps = state => ({
   )
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(
     {
       ...actions.components.identityVerification,

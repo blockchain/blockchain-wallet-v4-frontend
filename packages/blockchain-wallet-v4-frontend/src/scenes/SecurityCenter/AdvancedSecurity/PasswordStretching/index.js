@@ -38,7 +38,7 @@ class PasswordStretchingContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   passwordStretchingValue: formValueSelector('settingPasswordStretching')(
     state,
     'passwordStretching'
@@ -46,7 +46,7 @@ const mapStateToProps = state => ({
   currentStretch: selectors.core.wallet.getPbkdf2Iterations(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
   walletActions: bindActionCreators(actions.wallet, dispatch)
 })

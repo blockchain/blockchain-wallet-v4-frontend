@@ -17,7 +17,7 @@ import Success from './template.success'
 class CryptoItem extends PureComponent<Props> {
   render() {
     return this.props.data.cata({
-      Success: val => <Success {...this.props} {...val} />,
+      Success: (val) => <Success {...this.props} {...val} />,
       Failure: () => null,
       Loading: () => null,
       NotAsked: () => null

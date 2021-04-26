@@ -37,14 +37,14 @@ const TopText = styled(Text)`
 `
 
 const MethodList = styled.section`
-  border-top: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 
 const IconContainer = styled.div`
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: ${props => props.theme.blue000};
+  background-color: ${(props) => props.theme.blue000};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -94,10 +94,10 @@ const Success = ({
   paymentMethods
 }: Props) => {
   const bankTransfer = paymentMethods.methods.find(
-    method => method.type === 'BANK_TRANSFER'
+    (method) => method.type === 'BANK_TRANSFER'
   )
   const bankWire = paymentMethods.methods.find(
-    method => method.type === 'BANK_ACCOUNT'
+    (method) => method.type === 'BANK_ACCOUNT'
   )
 
   return (

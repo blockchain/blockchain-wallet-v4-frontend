@@ -26,7 +26,7 @@ export default ({ apiUrl, get, post, rootUrl }) => {
       endPoint: '/mempool/fees'
     })
 
-  const pushBtcTx = txHex =>
+  const pushBtcTx = (txHex) =>
     post({
       url: rootUrl,
       endPoint: '/pushtx',
@@ -67,7 +67,7 @@ export default ({ apiUrl, get, post, rootUrl }) => {
       endPoint: '/latestblock'
     })
 
-  const getRawTx = txHex =>
+  const getRawTx = (txHex) =>
     get({
       url: rootUrl,
       endPoint: '/rawtx/' + txHex,
@@ -77,7 +77,7 @@ export default ({ apiUrl, get, post, rootUrl }) => {
       }
     })
 
-  const getBalances = addresses =>
+  const getBalances = (addresses) =>
     post({
       url: rootUrl,
       endPoint: '/balance',

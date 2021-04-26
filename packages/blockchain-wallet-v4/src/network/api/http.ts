@@ -75,7 +75,7 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
         cancelToken,
         ...options
       })
-      .catch(error => {
+      .catch((error) => {
         const errorData = pathOr({}, ['response', 'data'], error)
         const status = path(['response', 'status'], error)
         if (typeof errorData === 'string') throw errorData

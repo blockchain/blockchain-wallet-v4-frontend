@@ -18,14 +18,14 @@ export default ({ coreSagas, networks }) => {
         selectors.core.common.bch.getActiveHDAccounts
       ))
         .getOrFail()
-        .map(wallet => wallet.label)
+        .map((wallet) => wallet.label)
 
       const newLabel = yield call(promptForInput, {
         title: 'Rename Bitcoin Cash Wallet',
         initial: label,
         maxLength: 30,
         validations: [
-          value => requireUniqueWalletName(value, allWalletLabels, index)
+          (value) => requireUniqueWalletName(value, allWalletLabels, index)
         ]
       })
       yield put(actions.core.kvStore.bch.setAccountLabel(index, newLabel))

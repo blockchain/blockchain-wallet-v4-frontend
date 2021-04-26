@@ -49,7 +49,7 @@ export function brokerageReducer(
       }
     case AT.FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS:
       const accounts = action.payload.accounts.filter(
-        a => a.state !== 'PENDING' && a.state !== 'BLOCKED'
+        (a) => a.state !== 'PENDING' && a.state !== 'BLOCKED'
       )
       return {
         ...state,

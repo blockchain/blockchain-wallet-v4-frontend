@@ -42,7 +42,7 @@ const getErrorState = ({ invalid, touched }) => {
   return touched && invalid ? 'invalid' : 'initial'
 }
 
-const PasswordBox = field => {
+const PasswordBox = (field) => {
   const {
     borderColor,
     disabled,

@@ -6,15 +6,15 @@ export const fetchMetadataWalletCredentials = () => ({
 export const fetchMetadataWalletCredentialsLoading = () => ({
   type: AT.FETCH_METADATA_WALLET_CREDENTIALS_LOADING
 })
-export const fetchMetadataWalletCredentialsSuccess = data => ({
+export const fetchMetadataWalletCredentialsSuccess = (data) => ({
   type: AT.FETCH_METADATA_WALLET_CREDENTIALS_SUCCESS,
   payload: data
 })
-export const fetchMetadataWalletCredentialsFailure = error => ({
+export const fetchMetadataWalletCredentialsFailure = (error) => ({
   type: AT.FETCH_METADATA_WALLET_CREDENTIALS_FAILURE,
   payload: error
 })
-export const createMetadataWalletCredentials = data => ({
+export const createMetadataWalletCredentials = (data) => ({
   type: AT.CREATE_METADATA_WALLET_CREDENTIALS,
   payload: data
 })

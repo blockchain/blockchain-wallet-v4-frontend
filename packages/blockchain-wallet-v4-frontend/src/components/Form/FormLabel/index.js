@@ -9,7 +9,7 @@ const Label = styled.label`
   }
 `
 
-const FormLabel = props => {
+const FormLabel = (props) => {
   const { children, htmlFor, ...rest } = props
 
   return (

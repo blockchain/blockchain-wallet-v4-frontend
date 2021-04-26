@@ -79,7 +79,7 @@ const ApproveRejectButtons = styled(Button)`
 `}
 `
 
-const Success = props => {
+const Success = (props) => {
   /* eslint-disable */
   const {
     approver_device_description,

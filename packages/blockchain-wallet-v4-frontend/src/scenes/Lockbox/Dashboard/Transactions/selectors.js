@@ -29,8 +29,8 @@ const assocCoin = (txs, coin) => txs.map(assoc('coin', coin))
 
 const filterTransactions = curry((searches, transactions) => {
   const search = curry((searches, property, tx) => {
-    const checkSearch = text => {
-      const containText = search => contains(toUpper(search), text)
+    const checkSearch = (text) => {
+      const containText = (search) => contains(toUpper(search), text)
       return isEmpty(searches) || any(containText, searches)
     }
 
@@ -52,13 +52,13 @@ const filterTransactions = curry((searches, transactions) => {
 })
 
 const processPages = (pages, coinType) => {
-  const ProcessTxs = txList => assocCoin(txList, coinType)
+  const ProcessTxs = (txList) => assocCoin(txList, coinType)
   const ProcessPage = lift(ProcessTxs)
   const allPages = map(ProcessPage, pages)
   const isLoading = Remote.Loading.is(last(allPages))
   const displayPages = isLoading ? dropLast(1, allPages) : allPages
   const pagesR = Remote.of(
-    flatten(displayPages.map(page => page.getOrElse([])))
+    flatten(displayPages.map((page) => page.getOrElse([])))
   )
   return {
     isLoading,
@@ -66,7 +66,7 @@ const processPages = (pages, coinType) => {
   }
 }
 
-const getTransactionsAtBounds = state => {
+const getTransactionsAtBounds = (state) => {
   const bchAtBounds = selectors.core.data.bch.getTransactionsAtBound(state)
   const xlmAtBounds = selectors.core.data.xlm.getTransactionsAtBound(state)
   const btcAtBounds = selectors.core.data.btc.getTransactionsAtBound(state)
@@ -109,7 +109,7 @@ export const getData = createDeepEqualSelector(
       xlmPages,
       'XLM'
     )
-    const isLoading = any(x => !!x, [
+    const isLoading = any((x) => !!x, [
       btcIsLoading,
       bchIsLoading,
       ethIsLoading,

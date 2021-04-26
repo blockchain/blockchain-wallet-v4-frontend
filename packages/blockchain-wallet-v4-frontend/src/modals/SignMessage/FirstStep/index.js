@@ -15,7 +15,7 @@ class FirstStepContainer extends React.PureComponent {
       <FirstStep
         address={address}
         closeAll={closeAll}
-        handleSubmit={e => {
+        handleSubmit={(e) => {
           e.preventDefault()
           signMessageActions.signMessageSubmitted(address, message)
         }}
@@ -24,11 +24,11 @@ class FirstStepContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   message: formValueSelector('signMessage')(state, 'message')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   signMessageActions: bindActionCreators(
     actions.components.signMessage,
     dispatch

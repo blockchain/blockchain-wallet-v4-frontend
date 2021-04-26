@@ -7,7 +7,7 @@ import 'matchmedia-polyfill'
 import 'matchmedia-polyfill/matchMedia.addListener'
 
 const mediaMatchers = map(
-  size => window.matchMedia(`(max-width: ${size}px)`),
+  (size) => window.matchMedia(`(max-width: ${size}px)`),
   sizes
 )
 const getMediaMatches = () => map(({ matches }) => matches, mediaMatchers)

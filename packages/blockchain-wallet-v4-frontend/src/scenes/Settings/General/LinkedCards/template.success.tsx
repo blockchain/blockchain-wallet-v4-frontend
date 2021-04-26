@@ -43,15 +43,14 @@ const CardImg = styled.img`
   width: 24px;
 `
 
-const Success: React.FC<InjectedFormProps<
-  {},
-  Props & { fiatCurrency?: FiatType }
-> &
-  Props & { fiatCurrency?: FiatType }> = props => {
+const Success: React.FC<
+  InjectedFormProps<{}, Props & { fiatCurrency?: FiatType }> &
+    Props & { fiatCurrency?: FiatType }
+> = (props) => {
   const ccPaymentMethod = props.paymentMethods.methods.find(
-    m => m.type === 'PAYMENT_CARD'
+    (m) => m.type === 'PAYMENT_CARD'
   )
-  const activeCards = props.cards.filter(card => card.state === 'ACTIVE')
+  const activeCards = props.cards.filter((card) => card.state === 'ACTIVE')
 
   return (
     <CustomSettingContainer>
@@ -73,7 +72,7 @@ const Success: React.FC<InjectedFormProps<
         )}
         {activeCards.map((card, i) => {
           let cardType = CARD_TYPES.find(
-            cardType => cardType.type === (card.card ? card.card.type : '')
+            (cardType) => cardType.type === (card.card ? card.card.type : '')
           )
 
           if (card.state !== 'ACTIVE') return

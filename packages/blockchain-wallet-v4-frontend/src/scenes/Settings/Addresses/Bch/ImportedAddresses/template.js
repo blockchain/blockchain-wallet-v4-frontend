@@ -32,14 +32,14 @@ const ClickableText = styled(Text)`
   text-align: right;
 `
 
-const BchImportedAddresses = props => {
+const BchImportedAddresses = (props) => {
   const { importedAddresses, onEditLabel, onTransferAll, search } = props
 
-  const isMatch = address =>
+  const isMatch = (address) =>
     !search || address.addr.toLowerCase().indexOf(search) > -1
 
   const importedAddressesTableRows = filter(isMatch, importedAddresses).map(
-    address => {
+    (address) => {
       return (
         <AddressRow
           key={address.addr}

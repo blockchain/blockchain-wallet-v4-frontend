@@ -5,14 +5,14 @@ import styled from 'styled-components'
 import Images from './Images'
 
 const BaseBackground = styled.div`
-  background: url(${props => props.url});
+  background: url(${(props) => props.url});
   background-size: cover;
   background-position: 70% 100%;
-  width: ${props => props.width};
-  height: ${props => props.height};
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
 `
 
-const Background = props => {
+const Background = (props) => {
   const { name, ...rest } = props
   const file = Images[name]
 

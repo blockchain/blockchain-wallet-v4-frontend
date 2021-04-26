@@ -21,7 +21,7 @@ const BaseRadioButtonInput = styled.input.attrs({
   &:checked {
     & + label {
       &:before {
-        background: ${props => props.theme.blue600};
+        background: ${(props) => props.theme.blue600};
       }
     }
   }
@@ -29,7 +29,7 @@ const BaseRadioButtonInput = styled.input.attrs({
     & + label {
       &:before {
         cursor: not-allowed;
-        border: 1px solid ${props => props.theme.grey200};
+        border: 1px solid ${(props) => props.theme.grey200};
       }
     }
   }
@@ -46,11 +46,11 @@ const Label = styled.label`
     background: white;
     border-radius: 2px;
     transition: background 0.2s;
-    border: 1px solid ${props => props.theme.blue600};
+    border: 1px solid ${(props) => props.theme.blue600};
   }
 `
 
-const RadioButtonInput = props => {
+const RadioButtonInput = (props) => {
   const { checked, children, disabled, name, ...rest } = props
   const { id } = props.props
 

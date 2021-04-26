@@ -43,7 +43,7 @@ class BorrowPax extends PureComponent<Props & State> {
         </div>
         {this.props.isDisabled ? (
           this.props.userDataR.cata({
-            Success: val => (
+            Success: (val) => (
               <Button
                 nature='primary'
                 data-e2e='verifyIdentityBorrow'

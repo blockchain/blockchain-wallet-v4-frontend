@@ -27,8 +27,8 @@ const AddressWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 16px 40px;
-  border-top: ${props => `1px solid ${props.theme.grey000}`};
-  border-bottom: ${props => `1px solid ${props.theme.grey000}`};
+  border-top: ${(props) => `1px solid ${props.theme.grey000}`};
+  border-bottom: ${(props) => `1px solid ${props.theme.grey000}`};
 `
 const AddressDisplay = styled.div`
   display: flex;
@@ -78,7 +78,7 @@ const CustomField = styled(Field)<
   }
 >`
   > input {
-    padding-left: ${props => (props.isFiatBaseCcy ? '32px' : '50px')};
+    padding-left: ${(props) => (props.isFiatBaseCcy ? '32px' : '50px')};
   }
   > div:last-child {
     display: none;
@@ -94,7 +94,7 @@ const ToggleCurrencyText = styled(Text)<{ selected?: boolean }>`
   font-weight: 500;
   cursor: pointer;
   display: inline;
-  color: ${props =>
+  color: ${(props) =>
     props.selected ? props.theme.blue600 : props.theme.grey800};
 `
 

@@ -28,7 +28,7 @@ const ButtonWrapper = styled.div`
 const CurrentText = styled(Text)`
   margin-bottom: 10px;
 `
-const PasswordStretching = props => {
+const PasswordStretching = (props) => {
   const {
     currentStretch,
     handleSubmit,

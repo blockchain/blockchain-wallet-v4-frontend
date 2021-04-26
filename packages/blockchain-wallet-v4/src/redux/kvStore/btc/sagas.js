@@ -42,10 +42,10 @@ export default ({ api, networks }) => {
     const accounts = Wallet.selectHDAccounts(wallet)
     let labelSize = 0
 
-    accounts.map(account => {
+    accounts.map((account) => {
       if (prop('address_labels', account)) {
         // v2 => v3 payload
-        account.address_labels.map(l => {
+        account.address_labels.map((l) => {
           labelSize += l.size
         })
       } else {

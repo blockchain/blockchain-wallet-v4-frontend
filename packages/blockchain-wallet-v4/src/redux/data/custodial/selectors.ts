@@ -18,7 +18,7 @@ export const getSBTransactionsPending = (
 export const getTotalSBTransactionsPendingN = (state: RootState) => {
   let n = 0
   Object.keys(state.dataPath.custodial).map(
-    coin => (n += state.dataPath.custodial[coin].pendingTxsN)
+    (coin) => (n += state.dataPath.custodial[coin].pendingTxsN)
   )
   return n
 }

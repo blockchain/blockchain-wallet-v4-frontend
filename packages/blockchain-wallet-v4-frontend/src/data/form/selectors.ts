@@ -27,7 +27,7 @@ import {
   isValid
 } from 'redux-form'
 
-const getActiveField = formName => state =>
+const getActiveField = (formName) => (state) =>
   compose(
     defaultTo(null),
     head,
@@ -36,7 +36,7 @@ const getActiveField = formName => state =>
     getFormMeta(formName)
   )(state)
 
-const isAsyncValidating = formName => state => {
+const isAsyncValidating = (formName) => (state) => {
   const formPath = split('.', formName)
   return path(['form', ...formPath, 'asyncValidating'], state)
 }

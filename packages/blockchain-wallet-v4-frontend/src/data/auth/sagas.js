@@ -109,13 +109,9 @@ export default ({ api, coreSagas }) => {
   const fetchBalances = function * () {
     yield put(actions.core.data.bch.fetchData())
     yield put(actions.core.data.btc.fetchData())
-    yield put(actions.core.data.eth.fetchData())
     yield put(actions.core.data.xlm.fetchData())
-    yield put(actions.core.data.eth.fetchErc20Data('pax'))
-    yield put(actions.core.data.eth.fetchErc20Data('usdt'))
-    yield put(actions.core.data.eth.fetchErc20Data('wdgld'))
-    yield put(actions.core.data.eth.fetchErc20Data('aave'))
-    yield put(actions.core.data.eth.fetchErc20Data('yfi'))
+    yield put(actions.core.data.eth.fetchData())
+    yield put(actions.core.data.eth.fetchErc20Data())
   }
 
   const loginRoutineSaga = function * (
@@ -263,7 +259,7 @@ export default ({ api, coreSagas }) => {
         selectors.core.wallet.getDefaultAccountIndex
       )
       const defaultAccount = accounts.find(
-        account => account.index === defaultIndex
+        (account) => account.index === defaultIndex
       )
       if (!defaultAccount) return
       yield call(api.checkExchangeUsage, defaultAccount.xpub)
@@ -546,8 +542,8 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const setLogoutEventListener = function() {
-    return new Promise(resolve => {
+  const setLogoutEventListener = function () {
+    return new Promise((resolve) => {
       window.addEventListener('wallet.core.logout', resolve)
     })
   }

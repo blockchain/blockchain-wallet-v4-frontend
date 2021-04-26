@@ -9,7 +9,7 @@ const SettingHeader = styled.div`
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 500;
   font-size: 17px;
-  color: ${props => props.theme.black};
+  color: ${(props) => props.theme.black};
   margin-bottom: 3px;
 
   & > * {

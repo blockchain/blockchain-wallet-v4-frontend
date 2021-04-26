@@ -27,8 +27,8 @@ import * as selectors from '../selectors'
  */
 export const addressLookaheadCount = 10
 
-export const toAsync = fn =>
-  new Promise(resolve => setTimeout(() => resolve(fn()), 0))
+export const toAsync = (fn) =>
+  new Promise((resolve) => setTimeout(() => resolve(fn()), 0))
 
 /**
  * Launches derivation of future addresses for target HDAccount
@@ -46,7 +46,7 @@ export const getHDAccountAddressPromises = curry((state, account) => {
    * setTimeout runs infrequently and is less blocking
    * requestAnimation frame blocks UI heavier
    */
-  const asyncDerive = index =>
+  const asyncDerive = (index) =>
     toAsync(() =>
       HDAccount.getReceiveAddress(account, index, networks.bitcoin.NETWORK_BTC)
     )
@@ -99,10 +99,9 @@ export const getWalletAddresses = async (state, api) => {
  *
  * TODO: refactor to sagas, VERY painful to test/write mocks
  */
-const walletSync = ({
-  api,
-  isAuthenticated
-} = {}) => store => next => action => {
+const walletSync = ({ api, isAuthenticated } = {}) => (store) => (next) => (
+  action
+) => {
   const prevState = store.getState()
   const prevWallet = selectors.wallet.getWrapper(prevState)
   const wasAuth = isAuthenticated(prevState)
@@ -117,7 +116,7 @@ const walletSync = ({
   // Easily know when to sync, because of ✨immutable✨ data
   // the initial_state check could be done against full payload state
 
-  const handleChecksum = encrypted => {
+  const handleChecksum = (encrypted) => {
     const checksum = Wrapper.computeChecksum(encrypted)
     compose(store.dispatch, A.wallet.setPayloadChecksum)(checksum)
     return encrypted

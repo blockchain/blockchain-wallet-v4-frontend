@@ -57,7 +57,7 @@ const mapStateToProps = (state, ownProps) => ({
     .getOrFail()
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })

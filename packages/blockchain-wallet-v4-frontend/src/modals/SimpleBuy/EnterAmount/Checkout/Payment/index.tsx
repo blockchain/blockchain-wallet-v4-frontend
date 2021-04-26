@@ -19,14 +19,14 @@ const RightArrowIcon = styled(Icon)<{
   disabled?: boolean
 }>`
   transform: rotate(180deg);
-  ${props =>
+  ${(props) =>
     props.disabled &&
     css`
       cursor: not-allowed;
     `}
 `
 
-const Payment: React.FC<Props & { invalid?: boolean }> = props => {
+const Payment: React.FC<Props & { invalid?: boolean }> = (props) => {
   const nextStep = props.hasPaymentAccount
     ? 'LINKED_PAYMENT_ACCOUNTS'
     : 'PAYMENT_METHODS'

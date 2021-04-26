@@ -761,7 +761,7 @@ export default ({
       const supportedCoins = selectors.core.walletOptions
         .getSupportedCoins(yield select())
         .getOrElse({} as SupportedWalletCurrenciesType)
-      const filteredPairs = pairs.filter(pair => {
+      const filteredPairs = pairs.filter((pair) => {
         return (
           getCoinFromPair(pair.pair) in CoinTypeEnum &&
           supportedCoins[getCoinFromPair(pair.pair)].invited
@@ -845,7 +845,7 @@ export default ({
       // return that method if they are actually eligible
       if (currentUserTier !== 2) {
         paymentMethods = paymentMethods.filter(
-          method => method.type !== 'BANK_TRANSFER'
+          (method) => method.type !== 'BANK_TRANSFER'
         )
       }
       yield put(
@@ -1249,7 +1249,9 @@ export default ({
     }
   }
 
-  const pollSBOrder = function * ({ payload }: ReturnType<typeof A.pollSBOrder>) {
+  const pollSBOrder = function * ({
+    payload
+  }: ReturnType<typeof A.pollSBOrder>) {
     let retryAttempts = 0
     let maxRetryAttempts = 20
 

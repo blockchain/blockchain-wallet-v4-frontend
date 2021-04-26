@@ -6,7 +6,7 @@ import Large from './template.large'
 import Medium from './template.medium'
 import Small from './template.small'
 
-const Header = props => {
+const Header = (props) => {
   const isLaptop = useMedia('laptop')
   const isTablet = useMedia('tablet')
 

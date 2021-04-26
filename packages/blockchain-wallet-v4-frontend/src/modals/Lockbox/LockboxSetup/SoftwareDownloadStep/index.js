@@ -41,11 +41,11 @@ class SoftwareDownloadContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   setupType: selectors.components.lockbox.getNewDeviceSetupType(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })

@@ -61,7 +61,7 @@ PairDeviceStepContainer.propTypes = {
   supportLink: PropTypes.string.isRequired
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   showBtcWarning: selectors.components.lockbox.getNewDeviceShowBtcWarning(
     state
   ),
@@ -69,7 +69,7 @@ const mapStateToProps = state => ({
   setupType: selectors.components.lockbox.getNewDeviceSetupType(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)

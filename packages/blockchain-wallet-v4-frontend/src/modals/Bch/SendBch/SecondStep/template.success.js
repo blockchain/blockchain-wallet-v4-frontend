@@ -50,7 +50,7 @@ const Footer = styled.div`
   }
 `
 
-const Success = props => {
+const Success = (props) => {
   const {
     amount,
     coin,

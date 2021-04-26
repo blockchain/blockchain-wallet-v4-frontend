@@ -3,7 +3,7 @@ import { lift } from 'ramda'
 import { selectors } from 'data'
 
 // getData :: state -> Remote( [smsNumber, smsVerified ])
-export const getData = state => {
+export const getData = (state) => {
   const smsNumber = selectors.core.settings.getSmsNumber(state)
   const smsVerified = selectors.core.settings.getSmsVerified(state)
   const authType = selectors.core.settings.getAuthType(state)

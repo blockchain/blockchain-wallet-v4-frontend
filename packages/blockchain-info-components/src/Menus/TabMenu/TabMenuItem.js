@@ -12,12 +12,12 @@ const BaseTabMenuItem = styled.span`
   text-align: center;
   border-radius: 8px;
   white-space: nowrap;
-  width: ${props => props.width || 'auto'};
+  width: ${(props) => props.width || 'auto'};
   margin: 2px;
-  color: ${props =>
+  color: ${(props) =>
     props.selected ? props.theme.blue600 : props.theme.grey400};
-  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
-  ${props =>
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+  ${(props) =>
     props.selected &&
     `
     border-radius: 6px;
@@ -28,7 +28,7 @@ const BaseTabMenuItem = styled.span`
   transition: color 0.3s, background-color 0.3s;
 
   &:hover {
-    color: ${props => !props.disabled && props.theme.blue600};
+    color: ${(props) => !props.disabled && props.theme.blue600};
   }
 
   @media (max-width: 767px) {
@@ -37,7 +37,7 @@ const BaseTabMenuItem = styled.span`
   }
 `
 
-const TabMenuItem = props => {
+const TabMenuItem = (props) => {
   const { children, className, selected, ...rest } = props
   const isSelectedOrActive = selected || className === 'active'
 

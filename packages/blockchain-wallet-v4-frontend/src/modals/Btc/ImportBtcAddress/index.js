@@ -39,7 +39,7 @@ class ImportBtcAddressContainer extends React.PureComponent {
 
 const mapStateToProps = getData
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   importBtcAddress: () =>
     dispatch(
       actions.components.importBtcAddress.importBtcAddressSubmitClicked()

@@ -7,7 +7,7 @@ import { actions } from 'data'
 import SetupTypeStep from './template'
 
 class DeviceSelectStepContainer extends React.PureComponent {
-  onChangeStep = deviceType => {
+  onChangeStep = (deviceType) => {
     this.props.lockboxActions.setDeviceSetupType(
       deviceType === 'ledger' ? 'Nano S' : 'Lockbox'
     )
@@ -31,7 +31,7 @@ class DeviceSelectStepContainer extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 

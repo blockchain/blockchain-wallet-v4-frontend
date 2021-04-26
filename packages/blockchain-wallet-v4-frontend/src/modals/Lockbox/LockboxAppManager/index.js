@@ -50,7 +50,7 @@ LockboxAppManagerModal.propTypes = {
   closeAll: PropTypes.func.isRequired
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 

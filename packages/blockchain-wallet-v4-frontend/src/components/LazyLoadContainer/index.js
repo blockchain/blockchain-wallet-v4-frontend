@@ -13,11 +13,11 @@ const Container = styled.div`
 `
 
 class LazyLoadContainer extends React.PureComponent {
-  setWrapperRef = node => {
+  setWrapperRef = (node) => {
     this.wrapper = node
   }
 
-  setContainerRef = node => {
+  setContainerRef = (node) => {
     this.container = node
   }
 

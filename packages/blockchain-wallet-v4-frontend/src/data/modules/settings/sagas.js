@@ -13,7 +13,7 @@ import {
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 
-export const taskToPromise = t =>
+export const taskToPromise = (t) =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export const ipRestrictionError =
@@ -48,7 +48,7 @@ export default ({ api, coreSagas }) => {
   }
 
   const recoverySaga = function * ({ password }) {
-    const getMnemonic = s => selectors.core.wallet.getMnemonic(s, password)
+    const getMnemonic = (s) => selectors.core.wallet.getMnemonic(s, password)
     try {
       const mnemonicT = yield select(getMnemonic)
       const mnemonic = yield call(() => taskToPromise(mnemonicT))
@@ -318,14 +318,14 @@ export default ({ api, coreSagas }) => {
     try {
       const password = yield call(promptForSecondPassword)
       if (isLegacy) {
-        const getSeedHex = state =>
+        const getSeedHex = (state) =>
           selectors.core.wallet.getSeedHex(state, password)
         const seedHexT = yield select(getSeedHex)
         const seedHex = yield call(() => taskToPromise(seedHexT))
         const legPriv = utils.eth.getLegacyPrivateKey(seedHex).toString('hex')
         yield put(actions.modules.settings.addShownEthLegacyPrivateKey(legPriv))
       }
-      const getMnemonic = state =>
+      const getMnemonic = (state) =>
         selectors.core.wallet.getMnemonic(state, password)
       const mnemonicT = yield select(getMnemonic)
       const mnemonic = yield call(() => taskToPromise(mnemonicT))
@@ -341,7 +341,7 @@ export default ({ api, coreSagas }) => {
   const showXlmPrivateKey = function * () {
     try {
       const password = yield call(promptForSecondPassword)
-      const getMnemonic = state =>
+      const getMnemonic = (state) =>
         selectors.core.wallet.getMnemonic(state, password)
       const mnemonicT = yield select(getMnemonic)
       const mnemonic = yield call(() => taskToPromise(mnemonicT))

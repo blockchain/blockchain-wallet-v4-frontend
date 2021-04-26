@@ -4,7 +4,7 @@ import { formValueSelector } from 'redux-form'
 
 import { model, selectors } from 'data'
 
-export const getData = state => {
+export const getData = (state) => {
   const amount = formValueSelector(model.components.sendBch.FORM)(
     state,
     'amount'
@@ -27,7 +27,7 @@ export const getData = state => {
   const isMnemonicVerified = selectors.core.wallet.isMnemonicVerified(state)
   const network = Bitcoin.networks[networkType]
 
-  const transform = payment => {
+  const transform = (payment) => {
     const minFeePerByte = path(['fees', 'limit', 'min'], payment)
     const maxFeePerByte = path(['fees', 'limit', 'max'], payment)
     const totalFee = path(['selection', 'fee'], payment)

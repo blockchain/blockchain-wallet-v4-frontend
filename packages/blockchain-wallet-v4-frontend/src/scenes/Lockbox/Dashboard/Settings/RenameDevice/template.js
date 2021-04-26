@@ -25,7 +25,7 @@ const ButtonWrapper = styled.div`
   }
 `
 
-const RenameDevice = props => {
+const RenameDevice = (props) => {
   const {
     deviceName,
     handleCancel,

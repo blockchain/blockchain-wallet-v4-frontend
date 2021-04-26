@@ -30,7 +30,7 @@ class Interest extends PureComponent<Props, State> {
     }, duration)
   }
 
-  handleSBClick = coin => {
+  handleSBClick = (coin) => {
     this.setState({ show: false })
     setTimeout(() => {
       this.props.close()

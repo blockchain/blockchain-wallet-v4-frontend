@@ -20,7 +20,7 @@ export const getData = createDeepEqualSelector(
         ? selectors.core.data.eth.getErc20CurrentBalance(state, coin)
         : selectors.core.data.eth.getCurrentBalance(state)
     },
-    state =>
+    (state) =>
       selectors.core.common.eth.getErc20AccountBalances(state, 'PAX').map(head),
     selectors.core.kvStore.lockbox.getDevices,
     selectors.form.getFormValues(model.components.sendEth.FORM),
@@ -43,7 +43,7 @@ export const getData = createDeepEqualSelector(
     // TODO: include any/all ERC20 balances in future
     const hasErc20Balance = gt(prop('balance', paxBalanceR.getOrElse(0)), 0)
 
-    const transform = payment => {
+    const transform = (payment) => {
       const amount = prop('amount', payment)
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)
       const unconfirmedTx = prop('unconfirmedTx', payment)

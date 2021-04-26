@@ -38,25 +38,19 @@ export const maximumAmount = (value, allValues, props) => {
     }).value
     return new BigNumber(coinValue).isLessThanOrEqualTo(
       new BigNumber(effectiveBalance || 0)
-    ) ? (
-      undefined
-    ) : (
+    ) ? undefined : (
       <MaximumAmountMessage coin={props.coin} />
     )
   } catch (e) {}
 }
 
 export const minimumFee = (value, allValues, props) =>
-  value && parseInt(value) >= props.minFee ? (
-    undefined
-  ) : (
+  value && parseInt(value) >= props.minFee ? undefined : (
     <MinimumFeeMessage coin={props.coin} />
   )
 
 export const maximumFee = (value, allValues, props) =>
-  value && parseInt(value) <= props.maxFee ? (
-    undefined
-  ) : (
+  value && parseInt(value) <= props.maxFee ? undefined : (
     <MaximumFeeMessage coin={props.coin} />
   )
 

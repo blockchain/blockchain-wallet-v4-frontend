@@ -45,7 +45,7 @@ const IconBackground = styled.div`
   width: 48px;
   height: 48px;
   min-width: 48px;
-  background-color: ${props => props.theme.blue000};
+  background-color: ${(props) => props.theme.blue000};
   border-radius: 48px;
 `
 
@@ -167,7 +167,7 @@ class WelcomeContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   cryptoCurrency:
     selectors.components.simpleBuy.getCryptoCurrency(state) || undefined
 })

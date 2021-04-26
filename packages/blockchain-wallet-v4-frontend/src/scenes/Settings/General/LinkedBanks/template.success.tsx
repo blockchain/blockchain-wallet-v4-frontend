@@ -45,9 +45,9 @@ const StyledSettingsContainer = styled(SettingContainer)`
   border-bottom: none;
 `
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const walletBeneficiaries = props.bankAccounts.filter(
-    account => account.currency in WalletFiatEnum
+    (account) => account.currency in WalletFiatEnum
   )
 
   const isEligible = any(
@@ -71,7 +71,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               />
             </Text>
           )}
-          {walletBeneficiaries.map(account => {
+          {walletBeneficiaries.map((account) => {
             return (
               <CardWrapper
                 key={account.id}

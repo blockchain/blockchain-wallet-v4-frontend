@@ -29,7 +29,7 @@ import Remote from '../remote'
 //
 // Shared Utils
 //
-export const getTime = timeStamp => {
+export const getTime = (timeStamp) => {
   const date = moment.unix(timeStamp).local()
   return equals(date.year(), moment().year())
     ? date.format('MMMM D @ h:mm A')
@@ -65,12 +65,12 @@ export const getLabel = (address, state) => {
         return defaultLabel
       case any(
         // @ts-ignore
-        x => equals(toLower(x.addr), toLower(address)),
+        (x) => equals(toLower(x.addr), toLower(address)),
         lockboxEthAccounts
       ):
         const ethAccounts = filter(
           // @ts-ignore
-          x => equals(toLower(x.addr), toLower(address)),
+          (x) => equals(toLower(x.addr), toLower(address)),
           lockboxEthAccounts
         )
         // @ts-ignore

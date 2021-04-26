@@ -37,7 +37,7 @@ const SuggestedTextCustomBorder = styled.span`
   width: 100%;
   height: 1px;
   margin-left: 8px;
-  background-color: ${props => props.theme['grey000']};
+  background-color: ${(props) => props.theme['grey000']};
 `
 
 class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
@@ -47,13 +47,13 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     this.props.swapActions.refreshAccounts()
   }
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault()
     this.props.swapActions.setStep({ step: 'ENTER_AMOUNT' })
   }
 
   getCustodialWallet = (accounts, coin: CoinType) => {
-    return accounts[coin].filter(account => account.type === 'CUSTODIAL')[0]
+    return accounts[coin].filter((account) => account.type === 'CUSTODIAL')[0]
   }
 
   handleStepCoinSelection = (
@@ -418,7 +418,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   latestPendingSwapTrade: selectors.components.swap.getLatestPendingSwapTrade(
     state
   ),

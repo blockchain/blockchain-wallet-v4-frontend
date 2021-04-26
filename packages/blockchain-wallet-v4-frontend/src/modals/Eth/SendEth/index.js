@@ -54,14 +54,14 @@ SendEthContainer.propTypes = {
   closeAll: PropTypes.func.isRequired
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   step: selectors.components.sendEth.getStep(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrFail()
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.sendEth, dispatch)
 })
 

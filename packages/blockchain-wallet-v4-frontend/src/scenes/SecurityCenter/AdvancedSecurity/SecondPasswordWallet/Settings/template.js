@@ -16,7 +16,7 @@ import { SettingForm, SettingWrapper } from 'components/Setting'
 import { required, validPasswordConfirmation } from 'services/forms'
 
 const SecondPasswordWrapper = styled(SettingWrapper)`
-  width: ${props => (props.toggled ? '150%' : 'initial')};
+  width: ${(props) => (props.toggled ? '150%' : 'initial')};
 `
 const ButtonWrapper = styled(ButtonGroup)`
   display: flex;
@@ -48,7 +48,7 @@ const isMainPassword = (value, allValues, { mainPassword }) =>
     />
   )
 
-const Settings = props => {
+const Settings = (props) => {
   const {
     handleCancel,
     handleSubmit,

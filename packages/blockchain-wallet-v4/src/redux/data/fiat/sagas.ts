@@ -88,7 +88,7 @@ export default ({ api }: { api: APIType }) => {
 
         // create a view model that looks like a SB transaction for easier component rendering
         swapTransactions = rawSwapTransactions.map(
-          swap =>
+          (swap) =>
             ({
               amount: {
                 symbol: swap.pair.split('-')[0] as CoinType,
@@ -126,10 +126,11 @@ export default ({ api }: { api: APIType }) => {
       let lastSbTxId, lastSbTxTimestamp, nextSwapTimestamp
       if (nextTransactionPage.length === PAGE_SIZE) {
         nextSwapTimestamp = last(nextTransactionPage)?.insertedAt as string
-        lastSbTxId = last(filter(tx => tx.type !== 'SELL', nextTransactionPage))
-          ?.id as string
+        lastSbTxId = last(
+          filter((tx) => tx.type !== 'SELL', nextTransactionPage)
+        )?.id as string
         lastSbTxTimestamp = last(
-          filter(tx => tx.type !== 'SELL', nextTransactionPage)
+          filter((tx) => tx.type !== 'SELL', nextTransactionPage)
         )?.insertedAt as string
       }
 

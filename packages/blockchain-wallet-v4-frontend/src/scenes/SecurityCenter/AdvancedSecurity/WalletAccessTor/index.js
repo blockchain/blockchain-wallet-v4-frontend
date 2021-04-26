@@ -26,11 +26,11 @@ class WalletAccessTorContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   blockTorIps: selectors.core.settings.getBlockTorIps(state).getOrElse(0)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 

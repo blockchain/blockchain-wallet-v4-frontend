@@ -11,16 +11,17 @@ const spinAnimation = css`
 `
 const Wrapper = styled.div`
   position: relative;
-  width: ${props => props.width};
-  height: ${props => props.height};
-  border: ${props => props.borderWidth} solid ${props => props.theme.blue200};
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+  border: ${(props) => props.borderWidth} solid
+    ${(props) => props.theme.blue200};
   border-radius: 50%;
   overflow: hidden;
-  border-top-color: ${props => props.theme.blue600};
+  border-top-color: ${(props) => props.theme.blue600};
   ${spinAnimation};
 `
 
-const SpinningLoader = props => <Wrapper {...props} />
+const SpinningLoader = (props) => <Wrapper {...props} />
 
 SpinningLoader.propTypes = {
   width: PropTypes.string.isRequired,

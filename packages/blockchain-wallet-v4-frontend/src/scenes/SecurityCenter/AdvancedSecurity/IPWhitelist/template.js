@@ -28,7 +28,7 @@ const ButtonWrapper = styled.div`
 const Input = styled(Field)`
   margin-top: 20px;
 `
-const IPWhitelist = props => {
+const IPWhitelist = (props) => {
   const {
     currentWhitelist,
     handleCancel,

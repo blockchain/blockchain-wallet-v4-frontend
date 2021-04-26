@@ -22,7 +22,7 @@ import * as S from '../../selectors'
 import { ADDRESS_TYPES } from '../btc/utils'
 import { AddressTypesType } from '../types'
 
-const taskToPromise = t =>
+const taskToPromise = (t) =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 /**
@@ -57,7 +57,7 @@ export const WRONG_MEMO_FORMAT = 'Bad memo'
 export default ({ api }) => {
   const settingsSagas = settingsSagaFactory({ api })
   // ///////////////////////////////////////////////////////////////////////////
-  const calculateTo = destination => {
+  const calculateTo = (destination) => {
     if (!destination.type) {
       return { address: destination, type: ADDRESS_TYPES.ADDRESS }
     }
@@ -152,7 +152,7 @@ export default ({ api }) => {
   // ///////////////////////////////////////////////////////////////////////////
 
   function create({ payment } = { payment: {} }) {
-    const makePayment = p => ({
+    const makePayment = (p) => ({
       coin: 'XLM',
 
       value() {
@@ -324,23 +324,23 @@ export default ({ api }) => {
             return yield f(yield gen())
           })
 
-        const makeChain = gen => ({
-          init: () => chain(gen, payment => payment.init()),
-          to: address => chain(gen, payment => payment.to(address)),
-          amount: amount => chain(gen, payment => payment.amount(amount)),
+        const makeChain = (gen) => ({
+          init: () => chain(gen, (payment) => payment.init()),
+          to: (address) => chain(gen, (payment) => payment.to(address)),
+          amount: (amount) => chain(gen, (payment) => payment.amount(amount)),
           from: (origin, type) =>
-            chain(gen, payment => payment.from(origin, type)),
-          fee: value => chain(gen, payment => payment.fee(value)),
-          build: () => chain(gen, payment => payment.build()),
-          sign: password => chain(gen, payment => payment.sign(password)),
-          publish: () => chain(gen, payment => payment.publish()),
-          description: message =>
-            chain(gen, payment => payment.description(message)),
-          memo: memo => chain(gen, payment => payment.memo(memo)),
-          memoType: memoType =>
-            chain(gen, payment => payment.memoType(memoType)),
-          setDestinationAccountExists: value =>
-            chain(gen, payment => payment.setDestinationAccountExists(value)),
+            chain(gen, (payment) => payment.from(origin, type)),
+          fee: (value) => chain(gen, (payment) => payment.fee(value)),
+          build: () => chain(gen, (payment) => payment.build()),
+          sign: (password) => chain(gen, (payment) => payment.sign(password)),
+          publish: () => chain(gen, (payment) => payment.publish()),
+          description: (message) =>
+            chain(gen, (payment) => payment.description(message)),
+          memo: (memo) => chain(gen, (payment) => payment.memo(memo)),
+          memoType: (memoType) =>
+            chain(gen, (payment) => payment.memoType(memoType)),
+          setDestinationAccountExists: (value) =>
+            chain(gen, (payment) => payment.setDestinationAccountExists(value)),
           * done() {
             return yield gen()
           }

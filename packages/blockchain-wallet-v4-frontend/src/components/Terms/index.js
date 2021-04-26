@@ -10,7 +10,7 @@ const TermsContainer = styled.div`
     display: inline-block;
   }
 `
-const Terms = props => {
+const Terms = (props) => {
   const { company, recovery } = props
   switch (company) {
     case 'blockchain-kyc':

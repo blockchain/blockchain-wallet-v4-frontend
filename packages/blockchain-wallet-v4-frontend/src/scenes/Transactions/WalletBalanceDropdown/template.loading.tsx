@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   border-radius: 8px;
   padding: 16px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme.grey100};
+  border: 1px solid ${(props) => props.theme.grey100};
   display: flex;
   flex-direction: column;
 `

@@ -46,7 +46,7 @@ class OrderSummary extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => {
+      Success: (val) => {
         return val.userData?.tiers?.current !== 2 ? (
           <SuccessSdd {...val} {...this.props} />
         ) : (

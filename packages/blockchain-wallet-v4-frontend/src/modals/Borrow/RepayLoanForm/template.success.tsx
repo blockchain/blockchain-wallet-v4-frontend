@@ -50,7 +50,7 @@ const AmountsHeader = styled(Text)`
   font-size: 14px;
   font-weight: 500;
   margin-bottom: 8px;
-  color: ${props => props.theme.grey600};
+  color: ${(props) => props.theme.grey600};
 `
 
 const Bottom = styled(FlyoutWrapper)`
@@ -94,14 +94,14 @@ const ErrorText = styled(Text)`
   font-size: 14px;
   padding: 6px 12px;
   border-radius: 32px;
-  background-color: ${props => props.theme.red000};
-  color: ${props => props.theme.red800};
+  background-color: ${(props) => props.theme.red000};
+  color: ${(props) => props.theme.red800};
   margin-bottom: 16px;
 `
 
 export type Props = OwnProps & SuccessStateType & LinkStatePropsType & FormProps
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const principalDisplayName =
     props.supportedCoins[props.loan.principal.amount[0].currency].displayName
   const isSufficientEthForErc20 =
@@ -304,7 +304,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   values: selectors.form.getFormValues('repayLoanForm')(state)
 })
 

@@ -32,11 +32,11 @@ class SettingsContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   newLanguage: formValueSelector('settingLanguage')(state, 'language')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)

@@ -22,7 +22,7 @@ import {
 
 const Wrapper = styled.div`
   font-weight: 400;
-  color: ${props => props.theme.grey700};
+  color: ${(props) => props.theme.grey700};
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `

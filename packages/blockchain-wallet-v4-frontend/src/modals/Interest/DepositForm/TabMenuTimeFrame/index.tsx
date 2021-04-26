@@ -13,7 +13,7 @@ const CustomTabMenu = styled(TabMenu)`
   margin-bottom: 12px;
 `
 
-const TabMenuTimeFrame: React.FC<Props> = props => {
+const TabMenuTimeFrame: React.FC<Props> = (props) => {
   const [value, setTab] = useState<'long' | 'short'>('long')
   const handleTimeFrameChange = (value: 'long' | 'short') => {
     setTab(value)

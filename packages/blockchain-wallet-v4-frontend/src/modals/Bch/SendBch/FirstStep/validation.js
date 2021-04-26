@@ -9,14 +9,12 @@ import {
   MaximumAmountMessage
 } from './validationMessages'
 
-const getEffectiveBalance = props => {
+const getEffectiveBalance = (props) => {
   return Number(props.effectiveBalance)
 }
 
 export const insufficientFunds = (value, allValues, props) => {
-  return getEffectiveBalance(props) > 0 ? (
-    undefined
-  ) : (
+  return getEffectiveBalance(props) > 0 ? undefined : (
     <InsufficientFundsMessage />
   )
 }
@@ -38,9 +36,7 @@ export const maximumAmount = (value, allValues, props) => {
     fromUnit: 'BCH',
     toUnit: 'SAT'
   }).value
-  return valueSatoshi <= getEffectiveBalance(props) ? (
-    undefined
-  ) : (
+  return valueSatoshi <= getEffectiveBalance(props) ? undefined : (
     <MaximumAmountMessage />
   )
 }

@@ -10,14 +10,14 @@ const Container = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background-color: ${props => props.theme[props.backgroundColor]};
+  background-color: ${(props) => props.theme[props.backgroundColor]};
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   margin: 0 auto;
   overflow: hidden;
   padding: 12px 25px;
   box-sizing: border-box;
-  height: ${props => (props.collapsed ? '40px' : '')};
+  height: ${(props) => (props.collapsed ? '40px' : '')};
   width: 100%;
 `
 
@@ -70,7 +70,7 @@ const ActionButton = styled(Button)`
   }
 `
 
-const selectStyle = type => {
+const selectStyle = (type) => {
   switch (type) {
     case 'danger':
       return {
@@ -93,7 +93,7 @@ const selectStyle = type => {
   }
 }
 
-const Announcement = props => {
+const Announcement = (props) => {
   const { announcement, collapsed, handleDismiss, lang, toggleCollapse } = props
   const { action, header, hideType, icon, id, sections, type } = announcement
   const { backgroundColor, textColor, uppercase } = selectStyle(type)

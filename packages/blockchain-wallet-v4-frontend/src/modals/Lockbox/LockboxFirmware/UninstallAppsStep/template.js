@@ -16,7 +16,7 @@ const Content = styled.div`
   flex-direction: column;
   align-items: center;
 `
-const UninstallApps = props => {
+const UninstallApps = (props) => {
   const { status } = props
   return (
     <React.Fragment>

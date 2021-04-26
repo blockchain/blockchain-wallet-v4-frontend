@@ -27,13 +27,13 @@ const Title = styled(Text)`
   margin: 20px 0 8px;
 `
 const ContentContainer = styled(FlyoutWrapper)`
-  border-top: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 const DisplayTitle = styled(Text)`
   font-weight: 600;
   font-size: 15px;
   display: flex;
-  color: ${props => props.theme.textBlack};
+  color: ${(props) => props.theme.textBlack};
   width: 100%;
 `
 const IconsContainer = styled.div`
@@ -42,7 +42,7 @@ const IconsContainer = styled.div`
   justify-content: space-between;
   width: 100%;
 `
-const Template: React.FC<Props> = props => {
+const Template: React.FC<Props> = (props) => {
   return (
     <Wrapper>
       <FlyoutWrapper>

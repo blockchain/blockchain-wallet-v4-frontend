@@ -28,7 +28,7 @@ class DropdownLink extends PureComponent {
     }
   }, 200)
 
-  mouseOver = throttle(e => {
+  mouseOver = throttle((e) => {
     this.resized()
     this.props.onMouseOver(e)
   }, 200)

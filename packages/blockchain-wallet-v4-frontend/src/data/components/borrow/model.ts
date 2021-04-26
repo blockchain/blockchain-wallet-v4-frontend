@@ -82,7 +82,7 @@ export const isLastTxStatus = (
   }
 
   if (!txType) return
-  const lastDeposit = loanTransactions.find(tx => tx.type === txType)
+  const lastDeposit = loanTransactions.find((tx) => tx.type === txType)
   return lastDeposit && statuses.indexOf(lastDeposit.status) > -1
     ? lastDeposit
     : undefined

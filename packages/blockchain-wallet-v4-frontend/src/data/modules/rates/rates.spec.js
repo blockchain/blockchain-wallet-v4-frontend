@@ -245,7 +245,7 @@ describe('rates service', () => {
     })
 
     it('should update bestRates upon rates message', () => {
-      const rates = pairs.map(pair => ({ pair, rate: Math.random() }))
+      const rates = pairs.map((pair) => ({ pair, rate: Math.random() }))
       const resultRates = compose(map(head), groupBy(prop('pair')))(rates)
       ratesSocket.triggerMessage({
         ...model.rates.RATES_UPDATED_MESSAGE,

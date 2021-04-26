@@ -32,11 +32,11 @@ export const getErc20Balance = function * (token) {
     if (!Remote.Success.is(erc20BalanceR)) {
       yield put(actions.core.data.eth.fetchErc20Data(token))
       const erc20Data = yield take([
-        action =>
+        (action) =>
           action.type ===
             actionTypes.core.data.eth.FETCH_ERC20_TOKEN_DATA_SUCCESS &&
           action.payload.token === token,
-        action =>
+        (action) =>
           action.type ===
             actionTypes.core.data.eth.FETCH_ERC20_TOKEN_DATA_FAILURE &&
           action.payload.token === token

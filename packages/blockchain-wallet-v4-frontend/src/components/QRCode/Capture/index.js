@@ -28,7 +28,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     this.setState({ toggled: !this.state.toggled })
   }
 
-  createNewValue = data => {
+  createNewValue = (data) => {
     return {
       value: {
         value: data,
@@ -218,7 +218,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleScan = data => {
+  handleScan = (data) => {
     if (!isNil(data) && !isEmpty(data)) {
       const handlerName = this.getScanHandlerKey()
       this[handlerName](data)
@@ -226,7 +226,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleError = error => {
+  handleError = (error) => {
     if (!isNil(error) && !isEmpty(error)) {
       if (error.name === 'NotAllowedError') {
         this.props.alertActions.displayError(C.QR_SCANNER_NOT_ALLOWED)
@@ -252,14 +252,14 @@ class QRCodeCaptureContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
   btcRates: selectors.core.data.btc
     .getRates(state)
     .getOrFail('Could not find btc rates')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)

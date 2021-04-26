@@ -12,14 +12,14 @@ const Wrapper = styled.div`
 `
 const CoinText = styled(Text)<{ mobileSize: string }>`
   white-space: nowrap;
-  font-size: ${props => props.mobileSize};
-  text-transform: ${props => (props.italic ? 'italic' : 'none')};
+  font-size: ${(props) => props.mobileSize};
+  text-transform: ${(props) => (props.italic ? 'italic' : 'none')};
   ${media.atLeastMobile`
-    font-size: ${props => props.size};
+    font-size: ${(props) => props.size};
   `}
 `
 
-const CoinDisplay = props => {
+const CoinDisplay = (props) => {
   const {
     children,
     coin,

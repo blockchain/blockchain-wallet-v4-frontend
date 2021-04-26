@@ -7,8 +7,8 @@ import { curry } from 'ramda'
 
 import * as eth from '../utils/eth'
 
-const isOdd = str => str.length % 2 !== 0
-const toHex = value => {
+const isOdd = (str) => str.length % 2 !== 0
+const toHex = (value) => {
   const hex = new BigNumber(value).toString(16)
   return isOdd(hex) ? `0x0${hex}` : `0x${hex}`
 }

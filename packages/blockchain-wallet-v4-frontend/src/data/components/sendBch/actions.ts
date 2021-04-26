@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
 
-export const initialized = payload => ({
+export const initialized = (payload) => ({
   type: AT.SEND_BCH_INITIALIZED,
   payload
 })
@@ -8,11 +8,11 @@ export const destroyed = () => ({ type: AT.SEND_BCH_DESTROYED })
 export const sendBchPaymentUpdatedLoading = () => ({
   type: AT.SEND_BCH_PAYMENT_UPDATED_LOADING
 })
-export const sendBchPaymentUpdatedSuccess = payment => ({
+export const sendBchPaymentUpdatedSuccess = (payment) => ({
   type: AT.SEND_BCH_PAYMENT_UPDATED_SUCCESS,
   payload: payment
 })
-export const sendBchPaymentUpdatedFailure = e => ({
+export const sendBchPaymentUpdatedFailure = (e) => ({
   type: AT.SEND_BCH_PAYMENT_UPDATED_FAILURE,
   payload: e
 })

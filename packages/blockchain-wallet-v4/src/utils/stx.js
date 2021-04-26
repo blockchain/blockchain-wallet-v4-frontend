@@ -1,7 +1,7 @@
 import BIP39 from 'bip39'
 import * as Bitcoin from 'bitcoinjs-lib'
 
-export const deriveAddress = mnemonic => {
+export const deriveAddress = (mnemonic) => {
   const seed = BIP39.mnemonicToSeed(mnemonic)
   const pubkey = Bitcoin.bip32
     .fromSeed(seed)

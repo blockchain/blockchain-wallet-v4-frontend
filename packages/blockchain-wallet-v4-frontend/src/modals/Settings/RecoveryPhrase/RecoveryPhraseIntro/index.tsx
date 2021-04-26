@@ -37,10 +37,10 @@ const WarningCircle = styled.div<{ color: string; size: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: ${props => props.size};
-  height: ${props => props.size};
-  border-radius: ${props => props.size};
-  background: ${props => props.theme[props.color]};
+  min-width: ${(props) => props.size};
+  height: ${(props) => props.size};
+  border-radius: ${(props) => props.size};
+  background: ${(props) => props.theme[props.color]};
 `
 
 class RecoveryPhraseIntro extends PureComponent<Props> {

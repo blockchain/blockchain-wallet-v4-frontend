@@ -16,10 +16,10 @@ const IntroText = styled(Text)`
 `
 const SkipTourText = styled(Text)`
   cursor: pointer;
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
   margin: 25px 0 12px;
 `
-const FinishSetupStep = props => {
+const FinishSetupStep = (props) => {
   const { onFinishSetup } = props
 
   return (

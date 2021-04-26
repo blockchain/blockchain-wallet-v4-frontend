@@ -4,9 +4,9 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div<{ height: string }>`
   width: 100%;
-  height: ${props => props.height};
+  height: ${(props) => props.height};
   margin: 0 auto;
-  background-color: ${props => props.theme.grey900};
+  background-color: ${(props) => props.theme.grey900};
 `
 
 const BaseNavbar = styled.div`
@@ -20,7 +20,7 @@ const BaseNavbar = styled.div`
   background-color: inherit;
 `
 
-const Navbar = props => {
+const Navbar = (props) => {
   const { children, height, ...rest } = props
 
   return (

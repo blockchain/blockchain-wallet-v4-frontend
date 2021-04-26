@@ -14,7 +14,7 @@ const Bar = styled.div`
   position: relative;
   width: 100%;
   height: 8px;
-  background-color: ${props => props.theme.grey100};
+  background-color: ${(props) => props.theme.grey100};
   margin-top: 16px;
   margin-bottom: 48px;
   border-radius: 8px;
@@ -23,7 +23,7 @@ const Line = styled.div<{ position: number }>`
   top: 0;
   position: absolute;
   z-index: 3;
-  left: ${props => props.position * 100}%;
+  left: ${(props) => props.position * 100}%;
   &:before {
     content: '';
     width: 1px;
@@ -31,7 +31,7 @@ const Line = styled.div<{ position: number }>`
     position: relative;
     display: block;
     height: 24px;
-    border-right: 2px dashed ${props => props.theme.greyFade400};
+    border-right: 2px dashed ${(props) => props.theme.greyFade400};
   }
 `
 const Percentage = styled(Text)`
@@ -44,9 +44,9 @@ const Percentage = styled(Text)`
 `
 const Current = styled.div<{ color: string; width: number }>`
   z-index: 2;
-  width: ${props => props.width * 100}%;
+  width: ${(props) => props.width * 100}%;
   height: 8px;
-  background-color: ${props => props.theme[props.color]};
+  background-color: ${(props) => props.theme[props.color]};
   border-radius: 8px;
   transition: width 0.3s;
   position: relative;
@@ -81,7 +81,7 @@ export const percentageFormatter = (n: number) => {
   )
 }
 
-const CollateralizationBar: React.FC<Props> = props => {
+const CollateralizationBar: React.FC<Props> = (props) => {
   const { offer } = props
 
   const max = Math.ceil(

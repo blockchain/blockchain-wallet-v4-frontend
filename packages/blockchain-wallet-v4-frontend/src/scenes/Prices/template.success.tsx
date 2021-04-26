@@ -21,7 +21,7 @@ const initialState = {
   sortBy: [{ id: 'price', desc: true }]
 }
 
-const PricesTable = props => {
+const PricesTable = (props) => {
   const { data, modalActions, routerActions, walletCurrency } = props
 
   const columns = React.useMemo(
@@ -76,9 +76,9 @@ const PricesTable = props => {
       ) : (
         <table {...getTableProps()}>
           <thead>
-            {headerGroups.map(headerGroup => (
+            {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map(column => (
+                {headerGroup.headers.map((column) => (
                   <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                     <HeaderText>
                       {column.render('Header')}
@@ -100,11 +100,11 @@ const PricesTable = props => {
             ))}
           </thead>
           <tbody {...getTableBodyProps()}>
-            {rows.map(row => {
+            {rows.map((row) => {
               prepareRow(row)
               return (
                 <tr {...row.getRowProps()}>
-                  {row.cells.map(cell => (
+                  {row.cells.map((cell) => (
                     <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                   ))}
                 </tr>

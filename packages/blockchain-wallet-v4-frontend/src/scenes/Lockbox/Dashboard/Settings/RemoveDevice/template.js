@@ -10,7 +10,7 @@ import {
   SettingSummary
 } from 'components/Setting'
 
-const DeviceStatus = props => {
+const DeviceStatus = (props) => {
   const { deleteDevice, deviceName } = props
 
   return (

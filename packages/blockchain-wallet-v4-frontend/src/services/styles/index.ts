@@ -17,9 +17,9 @@ const templates = {
   l: (type, size) => ({ [`${type}Left`]: size })
 }
 
-export const spacing = value =>
+export const spacing = (value) =>
   mergeAll(
-    value.split(' ').map(statement => {
+    value.split(' ').map((statement) => {
       let [rule, size] = statement.split('-')
       let [type, tmpl] = rule.split('')
       let valid = types[type] && templates[tmpl] && size % 5 === 0
@@ -47,7 +47,7 @@ const flexRules = {
   evenly: 'space-evenly'
 }
 
-export const flex = value => {
+export const flex = (value) => {
   const [directions, ...params] = value.split(' ')
   const base = {
     display: 'flex',
@@ -55,7 +55,7 @@ export const flex = value => {
   }
   return mergeAll(
     [base].concat(
-      params.map(p => {
+      params.map((p) => {
         const [property, rule] = p.split('/')
         return { [flexProperties[property]]: flexRules[rule] }
       })

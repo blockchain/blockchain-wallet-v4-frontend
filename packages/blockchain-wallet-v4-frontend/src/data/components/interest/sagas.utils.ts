@@ -133,7 +133,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     return payment
   }
 
-  const toCustodialDropdown = currencyDetails => {
+  const toCustodialDropdown = (currencyDetails) => {
     // this object has to be equal to object we do expect in dropdown
     const { ...restDetails } = currencyDetails
     return [
@@ -163,7 +163,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
 
     const sellAndBuyAccount = selectors.components.simpleBuy
       .getSBBalances(state)
-      .map(x => ({
+      .map((x) => ({
         ...x[coin],
         coin,
         address: accountAddress ? accountAddress.data : null

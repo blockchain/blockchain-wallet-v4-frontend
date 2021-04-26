@@ -35,7 +35,7 @@ class ReminderContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   email: formValueSelector('reminder')(state, 'email'),
   code: formValueSelector('reminder')(state, 'code'),
   captcha: selectors.core.data.misc.getCaptcha(state) as RemoteDataType<
@@ -45,7 +45,7 @@ const mapStateToProps = state => ({
   remindGuid: selectors.auth.getRemindGuid(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch)
 })
 

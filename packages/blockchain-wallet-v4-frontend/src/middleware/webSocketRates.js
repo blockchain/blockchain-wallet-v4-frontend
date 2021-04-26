@@ -5,8 +5,8 @@ import { actions, actionTypes } from 'data'
 export const fallbackInterval = 5000
 let fallbackIntervalPID = null
 
-const socket = socket => store => {
-  return next => action => {
+const socket = (socket) => (store) => {
+  return (next) => (action) => {
     const { type } = action
 
     if (type === actionTypes.middleware.webSocket.rates.START_SOCKET) {
@@ -23,7 +23,7 @@ const socket = socket => store => {
         compose(store.dispatch, actions.middleware.webSocket.rates.closeSocket),
         // onError
         // eslint-disable-next-line no-console
-        e => console.error('Failed to connect to websocket', e),
+        (e) => console.error('Failed to connect to websocket', e),
         // fallback
         () => {
           fallbackIntervalPID = setInterval(

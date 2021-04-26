@@ -29,12 +29,12 @@ class SecondStepContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   message: formValueSelector('signMessage')(state, 'message'),
   signedMessage: selectors.components.signMessage.getSignedMessage(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   signMessageActions: bindActionCreators(
     actions.components.signMessage,
     dispatch

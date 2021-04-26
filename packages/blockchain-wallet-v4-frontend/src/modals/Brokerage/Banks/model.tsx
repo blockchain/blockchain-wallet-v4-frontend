@@ -30,7 +30,7 @@ const RightArrowIcon = styled(Icon)<{
   disabled?: boolean
 }>`
   transform: rotate(180deg);
-  ${props =>
+  ${(props) =>
     props.disabled &&
     css`
       cursor: not-allowed;
@@ -39,13 +39,13 @@ const RightArrowIcon = styled(Icon)<{
 
 const StyledTitle = styled(Title)`
   text-transform: capitalize;
-  color: ${p => p.theme.grey600};
+  color: ${(p) => p.theme.grey600};
   font-weight: 500;
   font-size: 14px;
 `
 
 const StyledValue = styled(Value)`
-  color: ${p => p.theme.grey900};
+  color: ${(p) => p.theme.grey900};
   font-weight: 600;
   font-size: 16px;
 `
@@ -83,8 +83,9 @@ const Bank = ({ bankDetails, icon, isActive, onClick, text }: BankProps) => (
     <MultiRowContainer>
       <StyledValue asTitle>{text}</StyledValue>
       <StyledTitle asValue>
-        {`${bankDetails?.bankAccountType?.toLowerCase() ||
-          ''} account ${bankDetails?.accountNumber || ''}`}
+        {`${bankDetails?.bankAccountType?.toLowerCase() || ''} account ${
+          bankDetails?.accountNumber || ''
+        }`}
       </StyledTitle>
       <CartridgeContainer>
         <SuccessCartridge>

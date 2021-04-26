@@ -50,7 +50,7 @@ export const getAccounts = createDeepEqualSelector(
       if (ownProps?.nonCustodialAccounts) {
         accounts = accounts.concat(
           bchAccounts
-            .map(acc => {
+            .map((acc) => {
               const index = prop('index', acc)
               // this is using hdAccount with new segwit structure
               // need to get legacy xPub from derivations object similar to btc selector
@@ -59,7 +59,7 @@ export const getAccounts = createDeepEqualSelector(
                 ? prop(
                     'xpub',
                     prop('derivations', acc).find(
-                      derr => derr.type === 'legacy'
+                      (derr) => derr.type === 'legacy'
                     )
                   )
                 : acc.xpub
@@ -83,7 +83,7 @@ export const getAccounts = createDeepEqualSelector(
       // add imported addresses if requested
       if (ownProps?.importedAddresses) {
         accounts = accounts.concat(
-          importedAddresses.map(importedAcc => ({
+          importedAddresses.map((importedAcc) => ({
             address: importedAcc.addr,
             balance: importedAcc.final_balance,
             baseCoin: coin,

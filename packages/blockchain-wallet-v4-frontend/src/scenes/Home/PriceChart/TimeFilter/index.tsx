@@ -20,9 +20,9 @@ const TimeFilter = ({ actions, time }: Props) => {
   return <Tabs currentTab={time} handleClick={handleClick} />
 }
 
-const mapStateToProps = state => getData(state)
+const mapStateToProps = (state) => getData(state)
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.priceChart, dispatch)
 })
 

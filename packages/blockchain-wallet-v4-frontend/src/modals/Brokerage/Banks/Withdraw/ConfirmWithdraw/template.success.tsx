@@ -33,14 +33,12 @@ const ErrorContainer = styled(FlyoutWrapper)`
   margin-top: 0px;
 `
 
-const Success: React.FC<InjectedFormProps<
-  WithdrawCheckoutFormValuesType,
-  Props
-> &
-  Props> = props => {
+const Success: React.FC<
+  InjectedFormProps<WithdrawCheckoutFormValuesType, Props> & Props
+> = (props) => {
   return (
     <Form
-      onSubmit={e => {
+      onSubmit={(e) => {
         e.preventDefault()
 
         props.withdrawActions.handleCustodyWithdraw(

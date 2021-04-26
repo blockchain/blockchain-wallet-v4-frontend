@@ -7,7 +7,7 @@ export const signMessageSubmitted = (addr, message) => ({
   type: AT.SIGN_MESSAGE_SUBMITTED,
   payload: { addr, message }
 })
-export const messageSigned = signedMessage => ({
+export const messageSigned = (signedMessage) => ({
   type: AT.MESSAGE_SIGNED,
   payload: { signedMessage }
 })

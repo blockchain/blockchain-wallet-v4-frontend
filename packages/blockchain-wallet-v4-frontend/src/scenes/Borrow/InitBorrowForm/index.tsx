@@ -48,7 +48,7 @@ const HorizontalBorder = styled.div`
   width: 100%;
   height: 1px;
   margin: 16px auto 8px auto;
-  background-color: ${props => props.theme.grey000};
+  background-color: ${(props) => props.theme.grey000};
 `
 
 const AbsoluteWarning = styled(Text)`
@@ -67,7 +67,7 @@ class InitBorrowForm extends PureComponent<Props> {
     const values = this.props.values
 
     const offer = offers.find(
-      offer =>
+      (offer) =>
         offer.terms.collateralCcy === values?.coin &&
         offer.terms.principalCcy === 'PAX'
     )
@@ -79,7 +79,7 @@ class InitBorrowForm extends PureComponent<Props> {
       Success: () => false,
       Loading: () => false,
       NotAsked: () => false,
-      Failure: e => typeof e === 'object' && e.description === USER_BLOCKED
+      Failure: (e) => typeof e === 'object' && e.description === USER_BLOCKED
     })
   }
 

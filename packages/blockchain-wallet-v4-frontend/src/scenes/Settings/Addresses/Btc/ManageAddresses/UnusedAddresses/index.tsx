@@ -76,7 +76,7 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
     }
   }
 
-  onEditLabel = i => {
+  onEditLabel = (i) => {
     const {
       accountIndex,
       componentActions,
@@ -86,7 +86,7 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
     componentActions.editAddressLabel(accountIndex, walletIndex, derivation, i)
   }
 
-  onDeleteLabel = i => {
+  onDeleteLabel = (i) => {
     const { accountIndex, derivation, modalsActions, walletIndex } = this.props
     modalsActions.showModal('DeleteAddressLabel', {
       origin: 'SettingsPage',
@@ -264,7 +264,7 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
                     defaultMessage='Show xPub'
                   />
                 </ClickableText>
-              ].filter(x => x)}
+              ].filter((x) => x)}
             />
           </div>
         </HeaderWrapper>
@@ -301,7 +301,7 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
         {!unusedAddresses
           ? null
           : unusedAddresses.cata({
-              Success: unusedAddresses => (
+              Success: (unusedAddresses) => (
                 <UnusedAddresses
                   search={search}
                   onDeleteLabel={this.onDeleteLabel}
@@ -354,7 +354,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   componentActions: bindActionCreators(
     actions.components.manageAddresses,

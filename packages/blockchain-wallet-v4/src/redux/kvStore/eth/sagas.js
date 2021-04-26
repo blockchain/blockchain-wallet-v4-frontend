@@ -30,7 +30,7 @@ const ACCT_NAME = 'Private Key Wallet'
 export default ({ api, networks } = {}) => {
   const deriveAccount = function * (password) {
     try {
-      const obtainMnemonic = state => getMnemonic(state, password)
+      const obtainMnemonic = (state) => getMnemonic(state, password)
       const mnemonicT = yield select(obtainMnemonic)
       const mnemonic = yield callTask(mnemonicT)
       const defaultIndex = 0
@@ -55,7 +55,7 @@ export default ({ api, networks } = {}) => {
     const entries = {}
     const erc20List = (yield select(getErc20CoinList)).getOrFail()
     const coinModels = (yield select(getSupportedCoins)).getOrFail()
-    forEach(token => {
+    forEach((token) => {
       entries[toLower(token)] = buildErc20Entry(token, coinModels)
     }, erc20List)
     return entries
@@ -117,7 +117,7 @@ export default ({ api, networks } = {}) => {
         newkv.value.ethereum.accounts[0].label = ACCT_NAME
         // create fake metadata entries for erc20 assets
         const erc20 = pathOr({}, ['value', 'ethereum', 'erc20'], newkv)
-        forEach(token => {
+        forEach((token) => {
           erc20[toLower(token)] = buildErc20Entry(
             token,
             coinModels,

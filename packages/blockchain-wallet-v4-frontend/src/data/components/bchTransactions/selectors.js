@@ -12,7 +12,7 @@ export const selectOnlyShow = (state, s) => {
     : source.derivations
     ? prop(
         'xpub',
-        source.derivations.find(d => d.type === 'legacy')
+        source.derivations.find((d) => d.type === 'legacy')
       )
     : source.address
 }

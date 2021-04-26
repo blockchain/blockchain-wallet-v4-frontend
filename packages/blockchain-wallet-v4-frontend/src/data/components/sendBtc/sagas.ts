@@ -120,7 +120,7 @@ export default ({
         ? path(['fees', feeType || 'priority'], payment.value())
         : path(['fees', feeType || 'regular'], payment.value())
       payment = yield payment.fee(defaultFeePerByte)
-      const prepareTo = to => {
+      const prepareTo = (to) => {
         return to ? { value: { value: to, label: to } } : null
       }
       const initialValues = {
@@ -469,7 +469,7 @@ export default ({
         const deviceType = prop('device_type', device)
         const selection = payment.value().selection || { outputs: [] }
         const outputs = selection.outputs
-          .filter(o => !o.change)
+          .filter((o) => !o.change)
           .map(prop('address'))
         yield call(Lockbox.promptForLockbox, 'BTC', deviceType, outputs)
         let connection = yield select(

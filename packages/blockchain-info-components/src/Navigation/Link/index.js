@@ -3,7 +3,7 @@ import { injectIntl } from 'react-intl'
 
 import { LinkEvent } from '../Events'
 
-const Link = props => {
+const Link = (props) => {
   let { children, href, locale, ...rest } = props
   let parsedURL = null
   let to = href

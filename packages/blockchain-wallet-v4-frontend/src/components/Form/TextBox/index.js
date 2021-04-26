@@ -10,14 +10,14 @@ const Container = styled.div`
   justify-content: flex-end;
   align-items: flex-start;
   width: 100%;
-  height: ${props => props.height};
+  height: ${(props) => props.height};
 `
 const Error = styled(Text)`
   position: absolute;
   display: block;
-  top: ${props => (props.errorBottom ? props.height : '-20px')};
-  left: ${props => (props.errorLeft ? '0' : 'initial')};
-  bottom: ${props => (props.errorBottom ? '-20px' : 'initial')};
+  top: ${(props) => (props.errorBottom ? props.height : '-20px')};
+  left: ${(props) => (props.errorLeft ? '0' : 'initial')};
+  bottom: ${(props) => (props.errorBottom ? '-20px' : 'initial')};
   right: 0;
   height: 15px;
 `
@@ -32,7 +32,7 @@ const getErrorState = ({ invalid, touched }) => {
   return touched && invalid ? 'invalid' : 'initial'
 }
 
-const TextBox = field => {
+const TextBox = (field) => {
   const {
     autoComplete,
     autoFocus,

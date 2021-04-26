@@ -47,13 +47,11 @@ export default ({ api }) => {
         selectors.core.walletOptions.getCoinAvailability
       )
       const getExchangeTypeAvailability = (type, coin) =>
-        getCoinAvailability(coin)
-          .map(prop(type))
-          .getOrElse(false)
+        getCoinAvailability(coin).map(prop(type)).getOrElse(false)
 
       const walletAvailablePairs = pairs.filter(
         compose(
-          coins =>
+          (coins) =>
             and(
               getExchangeTypeAvailability('exchangeTo', last(coins)),
               getExchangeTypeAvailability('exchangeFrom', head(coins))

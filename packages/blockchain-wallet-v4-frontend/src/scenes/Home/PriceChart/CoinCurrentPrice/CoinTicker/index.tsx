@@ -15,8 +15,8 @@ const CoinTickerContainer = ({ actions: { initialized }, data }: Props) => {
   }, [initialized])
 
   return data.cata({
-    Success: value => <Success {...value} />,
-    Failure: message => <Error>{message}</Error>,
+    Success: (value) => <Success {...value} />,
+    Failure: (message) => <Error>{message}</Error>,
     Loading: () => <Loading />,
     NotAsked: () => <Loading />
   })
@@ -26,7 +26,7 @@ const mapStateToProps = (state, ownProps: OwnProps) => ({
   data: selectors.components.priceTicker.getData(ownProps.coin, state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.priceTicker, dispatch)
 })
 

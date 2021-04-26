@@ -64,7 +64,7 @@ let blackListedActivityTypes = [
   '@@redux-form/START_ASYNC_VALIDATION'
 ]
 
-const AutoDisconnectionMiddleware = () => store => next => action => {
+const AutoDisconnectionMiddleware = () => (store) => (next) => (action) => {
   // We start the timer
   if (action.type === actionTypes.auth.START_LOGOUT_TIMER) {
     startTimer(store)
@@ -79,7 +79,7 @@ const AutoDisconnectionMiddleware = () => store => next => action => {
   return next(action)
 }
 
-const startTimer = store => {
+const startTimer = (store) => {
   counter = timer =
     parseInt(selectors.core.wallet.getLogoutTime(store.getState()) / 1000) ||
     600 // (Default: 10min )
@@ -93,7 +93,7 @@ const resetTimer = () => {
   counter = timer
 }
 
-const refreshTimer = store => {
+const refreshTimer = (store) => {
   if (counter === 0) {
     if (interval) {
       clearInterval(interval)

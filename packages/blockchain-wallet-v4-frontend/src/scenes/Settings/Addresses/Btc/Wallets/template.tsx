@@ -90,11 +90,11 @@ const Success = ({
   search: any
   wallets: Array<any>
 }) => {
-  const isMatch = wallet =>
+  const isMatch = (wallet) =>
     !search || wallet.label.toLowerCase().indexOf(search) > -1
   const matchedWallets = filter(isMatch, take(wallets.length, wallets))
 
-  const walletTableRows = matchedWallets.map(wallet => {
+  const walletTableRows = matchedWallets.map((wallet) => {
     return (
       <TableRow key={wallet.index} data-e2e='btcWalletRow'>
         <WalletTableCell width='50%'>

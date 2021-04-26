@@ -25,15 +25,16 @@ export const getWalletContext = createDeepEqualSelector(
     getAccounts
   ],
   (btcHDAccounts, activeAddresses, metadataAccountsR) => {
-    const transform = metadataAccounts => {
-      const activeAccounts = filter(account => {
+    const transform = (metadataAccounts) => {
+      const activeAccounts = filter((account) => {
         const index = prop('index', account)
         const metadataAccount = metadataAccounts[index]
         return not(prop('archived', metadataAccount))
       }, btcHDAccounts)
       return flatten(
         map(
-          a => Types.HDAccount.selectXpub(Types.HDAccount.fromJS(a), 'legacy'),
+          (a) =>
+            Types.HDAccount.selectXpub(Types.HDAccount.fromJS(a), 'legacy'),
           activeAccounts
         )
       )
@@ -47,7 +48,7 @@ export const getWalletContext = createDeepEqualSelector(
 export const getContext = createDeepEqualSelector(
   [getWalletContext, getLockboxBchContext],
   (walletContext, lockboxContextR) => {
-    const lockboxContext = lockboxContextR.map(x => x).getOrElse([])
+    const lockboxContext = lockboxContextR.map((x) => x).getOrElse([])
     return concat(walletContext, lockboxContext)
   }
 )
@@ -88,20 +89,21 @@ export const getTotalTxPerAccount = curry((xpubOrAddress, state) =>
 export const getFinalBalance = curry((state, address) =>
   getAddresses(state)
     .map(path([address, 'final_balance']))
-    .map(x => x || 0)
+    .map((x) => x || 0)
 )
 
-export const getBalance = state => getInfo(state).map(path(['final_balance']))
+export const getBalance = (state) => getInfo(state).map(path(['final_balance']))
 
-export const getNumberTransactions = state => getInfo(state).map(path(['n_tx']))
+export const getNumberTransactions = (state) =>
+  getInfo(state).map(path(['n_tx']))
 
-export const getHeight = state => getLatestBlock(state).map(path(['height']))
+export const getHeight = (state) => getLatestBlock(state).map(path(['height']))
 
-export const getTime = state => getLatestBlock(state).map(path(['time']))
+export const getTime = (state) => getLatestBlock(state).map(path(['time']))
 
-export const getHash = state => getLatestBlock(state).map(path(['hash']))
+export const getHash = (state) => getLatestBlock(state).map(path(['hash']))
 
-export const getIndex = state =>
+export const getIndex = (state) =>
   getLatestBlock(state).map(path(['block_index']))
 
 export const getSelection = path([dataPath, 'bch', 'payment', 'selection'])

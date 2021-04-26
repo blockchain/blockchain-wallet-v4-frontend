@@ -17,7 +17,7 @@ const LearnMoreText = styled(Text)`
   margin-left: 3px;
   font-size: 15px;
   font-weight: 500;
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
 `
 const DisclaimerText = styled(Text)`
   display: flex;

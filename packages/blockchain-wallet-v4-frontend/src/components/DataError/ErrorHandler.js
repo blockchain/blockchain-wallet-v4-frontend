@@ -17,7 +17,7 @@ const MessageText = styled(Text)`
   margin-bottom: 20px;
 `
 
-const ErrorHandler = props => {
+const ErrorHandler = (props) => {
   const { message, onClick } = props
   const e2e = props['data-e2e']
   const errorMessage = prop('message', message) || prop('description', message)

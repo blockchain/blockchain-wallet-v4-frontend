@@ -40,16 +40,16 @@ const Bottom = styled(FlyoutWrapper)`
 
 const TermsContainer = styled.div`
   padding-top: 40px;
-  border-top: 1px solid ${props => props.theme.grey100};
+  border-top: 1px solid ${(props) => props.theme.grey100};
 `
 
 const BasicTerms = styled(Text)`
   font-weight: 500;
   line-height: 28px;
   margin: 40px 0;
-  color: ${props => props.theme.grey600};
+  color: ${(props) => props.theme.grey600};
   b {
-    color: ${props => props.theme.grey800};
+    color: ${(props) => props.theme.grey800};
   }
   * {
     display: inline;
@@ -62,8 +62,8 @@ const ErrorText = styled(Text)`
   font-size: 14px;
   padding: 6px 12px;
   border-radius: 32px;
-  background-color: ${props => props.theme.red000};
-  color: ${props => props.theme.red800};
+  background-color: ${(props) => props.theme.red000};
+  color: ${(props) => props.theme.red800};
   margin-bottom: 16px;
 `
 
@@ -85,9 +85,9 @@ const TermsFormItem = styled(FormItem)`
   }
 `
 
-const checkboxShouldBeChecked = value => (value ? undefined : true)
+const checkboxShouldBeChecked = (value) => (value ? undefined : true)
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const principalAmt = fiatToString({
     value: props.values ? Number(props.values.principal) : 0,
     unit: 'USD'
@@ -221,7 +221,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   values: selectors.form.getFormValues('borrowForm')(state)
 })
 

@@ -13,7 +13,7 @@ const Choice = styled.div`
   border-radius: 6px;
   padding: 15px;
   cursor: pointer;
-  opacity: ${props =>
+  opacity: ${(props) =>
     props.selected && props.editing ? 1 : !props.editing ? 1 : 0.3};
   div * {
     cursor: pointer;

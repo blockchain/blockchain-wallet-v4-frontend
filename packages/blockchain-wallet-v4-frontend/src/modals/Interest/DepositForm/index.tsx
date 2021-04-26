@@ -55,7 +55,7 @@ class DepositForm extends PureComponent<Props> {
     const walletCurrency = currency.getOrElse('GBP' as CurrencySuccessStateType)
 
     return data.cata({
-      Success: val => (
+      Success: (val) => (
         <Success
           {...this.props}
           {...val}

@@ -9,7 +9,7 @@ const BaseTextAreaInput = styled.textarea`
   padding: 6px 12px;
   box-sizing: border-box;
   font-size: 14px;
-  color: ${props => props.theme['grey800']};
+  color: ${(props) => props.theme['grey800']};
   background-color: ${({ theme }) => theme.white};
   background-image: none;
   outline-width: 0;
@@ -17,7 +17,7 @@ const BaseTextAreaInput = styled.textarea`
   font-weight: 500;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  resize: ${props => (props.resize ? 'initial' : 'none')};
+  resize: ${(props) => (props.resize ? 'initial' : 'none')};
   border: ${({ borderColor, theme }) => `1px solid ${theme[borderColor]}`};
   border-radius: 8px;
 
@@ -29,13 +29,13 @@ const BaseTextAreaInput = styled.textarea`
     opacity: 0.25;
   }
   &::placeholder {
-    color: ${props => props.theme.grey400};
+    color: ${(props) => props.theme.grey400};
     font-size: 14px;
     font-weight: 500;
   }
   &:disabled {
     cursor: not-allowed;
-    background-color: ${props => props.theme.grey100};
+    background-color: ${(props) => props.theme.grey100};
     border: '1px solid transparent';
   }
 `

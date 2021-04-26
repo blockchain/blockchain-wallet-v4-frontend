@@ -49,7 +49,9 @@ export default ({
   })
   const { waitForUserData } = profileSagas({ api, coreSagas, networks })
 
-  const cancelOrder = function * ({ payload }: ReturnType<typeof A.cancelOrder>) {
+  const cancelOrder = function * ({
+    payload
+  }: ReturnType<typeof A.cancelOrder>) {
     try {
       yield put(actions.form.startSubmit('swapOrderDetails'))
       yield call(api.cancelSwapOrder, payload.id)
@@ -442,10 +444,10 @@ export default ({
 
     const accounts = getCoinAccounts(yield select(), SWAP_ACCOUNTS_SELECTOR)
     const baseAccount = accounts[initSwapFormValues.BASE.coin].find(
-      val => val.label === initSwapFormValues.BASE?.label
+      (val) => val.label === initSwapFormValues.BASE?.label
     )
     const counterAccount = accounts[initSwapFormValues.COUNTER.coin].find(
-      val => val.label === initSwapFormValues.COUNTER?.label
+      (val) => val.label === initSwapFormValues.COUNTER?.label
     )
 
     yield put(actions.form.change('initSwap', 'BASE', baseAccount))

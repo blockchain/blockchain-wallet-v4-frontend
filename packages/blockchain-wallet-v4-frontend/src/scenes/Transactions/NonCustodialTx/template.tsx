@@ -109,7 +109,7 @@ const NonCustodialTx = ({
           transaction.type === 'sent' && (
             <TooltipHost id='transaction.pending.eth' data-place='right'>
               <BannerWrapper
-                onClick={e =>
+                onClick={(e) =>
                   handleRetrySendEth(e, transaction.hash, transaction.erc20)
                 }
               >
@@ -194,7 +194,7 @@ const NonCustodialTx = ({
                 defaultMessage='Sent From'
               />
             </RowHeader>
-            {prop('inputs', transaction).map(input => (
+            {prop('inputs', transaction).map((input) => (
               <RowValue size='13px'>{input.address}</RowValue>
             ))}
             <RowHeader>
@@ -203,7 +203,7 @@ const NonCustodialTx = ({
                 defaultMessage='Received By'
               />
             </RowHeader>
-            {prop('outputs', transaction).map(output => (
+            {prop('outputs', transaction).map((output) => (
               <IOAddressText size='14px' weight={400}>
                 <RowValue size='13px'>{output.address}</RowValue>
                 {output.change && (

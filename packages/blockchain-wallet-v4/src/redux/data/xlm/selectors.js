@@ -63,7 +63,7 @@ export const getAccountBalance = compose(
   getAccount
 )
 
-const calculateBalance = balance =>
+const calculateBalance = (balance) =>
   Exchange.convertCoinToCoin({
     value: balance,
     coin: 'XLM',
@@ -77,11 +77,11 @@ export const getBalance = curry((state, accountId) =>
   )(accountId, state)
 )
 
-export const getTotalBalance = state =>
+export const getTotalBalance = (state) =>
   compose(
     Remote.of,
     sum,
-    map(accountId => getBalance(state, accountId).getOrElse(0)),
+    map((accountId) => getBalance(state, accountId).getOrElse(0)),
     getContext
   )(state)
 

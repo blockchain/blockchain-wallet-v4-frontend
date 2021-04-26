@@ -39,7 +39,7 @@ export default ({ api }: { api: APIType }) => {
       )).getOrElse('USD')
 
       // build request model
-      const request = (coins || defaultCoins).map(coin => ({
+      const request = (coins || defaultCoins).map((coin) => ({
         base: coin,
         quote: fiatCurrency || defaultFiat
       }))
@@ -56,9 +56,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchCoinPricesPreviousDayLoading())
 
       // get timestamp from 24 hours ago
-      const timestamp = moment()
-        .subtract(1, 'days')
-        .unix()
+      const timestamp = moment().subtract(1, 'days').unix()
 
       // assume wallet currency if one was not passed in
       const defaultFiat = (yield select(
@@ -66,7 +64,7 @@ export default ({ api }: { api: APIType }) => {
       )).getOrElse('USD')
 
       // build request model
-      const request = (coins || defaultCoins).map(coin => ({
+      const request = (coins || defaultCoins).map((coin) => ({
         base: coin,
         quote: fiatCurrency || defaultFiat
       }))

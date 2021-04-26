@@ -21,7 +21,7 @@ export function trackButtonEvent(eventName, props) {
   return _trackEvent(eventName, true, props)
 }
 
-export const LinkEvent = props => {
+export const LinkEvent = (props) => {
   const {
     children,
     download,

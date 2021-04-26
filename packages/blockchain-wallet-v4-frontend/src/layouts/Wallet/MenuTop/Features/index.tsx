@@ -11,7 +11,7 @@ import { getData } from './selectors'
 import Features from './template'
 
 class FeaturesContainer extends React.PureComponent<Props> {
-  showModal = type => {
+  showModal = (type) => {
     const {
       coin,
       erc20List,
@@ -56,7 +56,7 @@ class FeaturesContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   swapActions: bindActionCreators(actions.components.swap, dispatch)

@@ -27,7 +27,7 @@ type PaymentContainerProps = {
 const DisablableIcon = styled(Icon)<{
   disabled?: boolean
 }>`
-  ${props =>
+  ${(props) =>
     props.disabled &&
     css`
       cursor: not-allowed;
@@ -35,7 +35,7 @@ const DisablableIcon = styled(Icon)<{
 `
 
 export const PaymentContainer = styled.div<PaymentContainerProps>`
-  border: 1px solid ${props => props.theme.grey100};
+  border: 1px solid ${(props) => props.theme.grey100};
   box-sizing: border-box;
   height: 80px;
   border-radius: 8px;
@@ -43,13 +43,13 @@ export const PaymentContainer = styled.div<PaymentContainerProps>`
   display: flex;
   flex-direction: row;
   cursor: pointer;
-  padding: ${props => (props.isMethod ? `12px 28px` : `23px 28px`)};
+  padding: ${(props) => (props.isMethod ? `12px 28px` : `23px 28px`)};
   justify-content: space-between;
-  ${props => !props.isMethod && `line-height: 32px;`}
-  ${props =>
+  ${(props) => !props.isMethod && `line-height: 32px;`}
+  ${(props) =>
     props.disabled &&
     css`
-      background-color: ${props => props.theme.grey000};
+      background-color: ${(props) => props.theme.grey000};
       cursor: not-allowed;
     `}
 `
@@ -60,7 +60,7 @@ export const PaymentText = styled(Text)<PaymentContainerProps>`
   display: flex;
   flex-direction: column;
   padding-left: 16px;
-  ${props =>
+  ${(props) =>
     !props.isMethod &&
     css`
       font-style: normal;
@@ -75,7 +75,7 @@ export const PaymentArrowContainer = styled.div<{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  ${props =>
+  ${(props) =>
     props.disabled &&
     css`
       cursor: not-allowed;
@@ -84,7 +84,7 @@ export const PaymentArrowContainer = styled.div<{
 export const DisplayTitle = styled(Title)`
   margin-top: 4px;
   text-transform: capitalize;
-  color: ${p => p.theme.grey600};
+  color: ${(p) => p.theme.grey600};
   font-weight: 500;
   font-size: 14px;
 `
@@ -116,8 +116,9 @@ export const renderBank = (
   <>
     <DisplayValue>{renderBankText(value)}</DisplayValue>
     <DisplayTitle>
-      {`${value.details?.bankAccountType?.toLowerCase() || ''} account ${value
-        .details?.accountNumber || ''}`}
+      {`${value.details?.bankAccountType?.toLowerCase() || ''} account ${
+        value.details?.accountNumber || ''
+      }`}
     </DisplayTitle>
   </>
 )
@@ -201,7 +202,7 @@ export const getIcon = (
   switch (method.type) {
     case 'USER_CARD':
       let cardType = CARD_TYPES.find(
-        card => card.type === (method.card ? method.card.type : '')
+        (card) => card.type === (method.card ? method.card.type : '')
       )
       return (
         <img

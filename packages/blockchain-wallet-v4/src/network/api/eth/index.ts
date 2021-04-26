@@ -1,16 +1,16 @@
-import { EthRawTxType } from './types'
+import { AccountTokensBalancesResponseType, EthRawTxType } from './types'
 
 export default ({ apiUrl, get, post }) => {
   //
   // Misc
   //
-  const checkContract = address =>
+  const checkContract = (address) =>
     get({
       url: apiUrl,
       endPoint: `/eth/account/${address}/isContract`
     })
 
-  const getEthFees = contractAddress => {
+  const getEthFees = (contractAddress) => {
     const baseUrl = '/mempool/fees/eth'
     return get({
       url: apiUrl,
@@ -28,7 +28,7 @@ export default ({ apiUrl, get, post }) => {
       data: { base: 'ETH' }
     })
 
-  const pushEthTx = rawTx =>
+  const pushEthTx = (rawTx) =>
     post({
       url: apiUrl,
       endPoint: '/eth/pushtx',
@@ -36,7 +36,7 @@ export default ({ apiUrl, get, post }) => {
       data: { rawTx }
     })
 
-  const getErc20Ticker = token =>
+  const getErc20Ticker = (token) =>
     get({
       url: apiUrl,
       endPoint: '/ticker',
@@ -74,6 +74,14 @@ export default ({ apiUrl, get, post }) => {
       data: { page, size: pageSize }
     })
 
+  const getAccountTokensBalances = (
+    ethAddr
+  ): AccountTokensBalancesResponseType =>
+    get({
+      url: apiUrl,
+      endPoint: `/eth/v2/account/${ethAddr}/tokens`
+    })
+
   const getErc20AccountSummaryV2 = (ethAddr, tokenAddr, page = 0, pageSize) =>
     get({
       url: apiUrl,
@@ -92,7 +100,7 @@ export default ({ apiUrl, get, post }) => {
   // LEGACY ETH ENDPOINTS
   // TODO: update to v2 endpoints, deprecate these
   //
-  const getEthBalances = context =>
+  const getEthBalances = (context) =>
     get({
       url: apiUrl,
       endPoint: `/eth/account/${
@@ -100,7 +108,7 @@ export default ({ apiUrl, get, post }) => {
       }/balance`
     })
 
-  const getEthData = context =>
+  const getEthData = (context) =>
     get({
       url: apiUrl,
       endPoint: `/eth/account/${
@@ -123,7 +131,7 @@ export default ({ apiUrl, get, post }) => {
       endPoint: '/eth/latestblock'
     })
 
-  const getEthTransaction = hash =>
+  const getEthTransaction = (hash) =>
     get({
       url: apiUrl,
       endPoint: `/eth/tx/${hash}`
@@ -131,6 +139,7 @@ export default ({ apiUrl, get, post }) => {
 
   return {
     checkContract,
+    getAccountTokensBalances,
     getEthAccountSummaryV2,
     getEthBalances,
     getEthData,

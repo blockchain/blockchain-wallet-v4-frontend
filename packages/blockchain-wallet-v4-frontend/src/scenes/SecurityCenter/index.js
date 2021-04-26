@@ -29,7 +29,7 @@ class SecurityCenterContainer extends React.PureComponent {
       <Wrapper>
         <Menu location={this.props.location} />
         {this.props.data.cata({
-          Success: progress => (
+          Success: (progress) => (
             <SecurityCenter progress={progress} {...this.props}>
               <Switch>
                 <Route
@@ -53,11 +53,11 @@ class SecurityCenterContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 

@@ -29,7 +29,7 @@ const SecurityIcon = styled(Icon)`
   margin-right: 5px;
 `
 
-const SecurityGauge = props => {
+const SecurityGauge = (props) => {
   const { score } = props
   const hide = score === 3
 

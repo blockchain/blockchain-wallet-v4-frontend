@@ -113,9 +113,10 @@ export const isCountrySupported = (countryCode, supportedCountries) =>
 export const getApiToken = path(['profile', 'apiToken'])
 
 // @ts-ignore
-export const isAuthenticated = state => getApiToken(state).map(prop('isActive'))
+export const isAuthenticated = (state) =>
+  getApiToken(state).map(prop('isActive'))
 
-export const getAuthCredentials = state => ({
+export const getAuthCredentials = (state) => ({
   // @ts-ignore
   token: getApiToken(state).getOrElse(''),
   email: selectors.core.settings.getEmail(state).getOrElse(''),
@@ -125,7 +126,7 @@ export const getAuthCredentials = state => ({
 export const getCampaign = pathOr(null, ['profile', 'campaign'])
 
 export const CLOSE_TO_AMOUNT = 0.8
-export const closeToTier1Limit = state =>
+export const closeToTier1Limit = (state) =>
   lift(
     (userData, tiers) =>
       path([0, 'state'], tiers) === TIERS_STATES.VERIFIED &&
@@ -153,7 +154,7 @@ export const getLinkToExchangeAccountDeeplink = path([
 export const getShareWalletAddressesStatus = (state: RootState) =>
   state.profile.exchangeOnboarding.shareWalletAddressesWithExchange
 
-export const getRemainingCoins = state => {
+export const getRemainingCoins = (state) => {
   const supportedCoinsList = selectors.core.walletOptions
     .getSyncToExchangeList(state)
     .getOrElse([])
@@ -172,7 +173,7 @@ export const getRemainingCoins = state => {
 export const isExchangeAccountLinked = (
   state
 ): RemoteDataType<string, boolean> =>
-  lift(user => not(isNil(prop('settings', user))))(getUserData(state))
+  lift((user) => not(isNil(prop('settings', user))))(getUserData(state))
 
 // related to selector above, but will check if addresses are no longer stored and
 // suggest to the linking saga that a relink should be attempted

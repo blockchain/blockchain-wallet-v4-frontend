@@ -15,7 +15,7 @@ const StyledValue = styled(Value)`
 `
 
 const StyledTitle = styled(Title)`
-  color: ${p => p.theme.grey600};
+  color: ${(p) => p.theme.grey600};
   font-size: 14px;
   font-weight: 500;
 `

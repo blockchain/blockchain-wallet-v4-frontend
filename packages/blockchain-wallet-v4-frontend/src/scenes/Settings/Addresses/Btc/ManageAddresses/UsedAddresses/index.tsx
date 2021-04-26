@@ -49,7 +49,7 @@ const mapStateToProps = (state, ownProps) => ({
   )
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalsActions: bindActionCreators(actions.modals, dispatch),
   componentActions: bindActionCreators(
     actions.components.manageAddresses,

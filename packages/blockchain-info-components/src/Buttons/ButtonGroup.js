@@ -27,7 +27,7 @@ const BaseButtonGroup = styled.div`
     border-right: none;
   }
 `
-const ButtonGroup = props => {
+const ButtonGroup = (props) => {
   const { children, ...rest } = props
 
   return <BaseButtonGroup {...rest}>{children}</BaseButtonGroup>

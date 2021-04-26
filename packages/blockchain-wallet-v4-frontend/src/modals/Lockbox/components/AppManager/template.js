@@ -45,14 +45,14 @@ const AppActions = styled.div`
 const IconBox = styled.div`
   padding: 5px;
   border-radius: 3px;
-  background-color: ${props => props.theme[props.coin]};
+  background-color: ${(props) => props.theme[props.coin]};
 `
 const InstallButton = styled(Button)`
   border-radius: 20px;
   height: 40px;
   width: 40px;
   &:hover {
-    background-color: ${props => !props.disabled && props.theme.blue000};
+    background-color: ${(props) => !props.disabled && props.theme.blue000};
   }
 `
 const UninstallButton = styled(Button)`
@@ -145,7 +145,7 @@ class CoinActions extends React.PureComponent {
   }
 }
 
-const LockboxAppManager = props => {
+const LockboxAppManager = (props) => {
   const {
     app,
     coin,

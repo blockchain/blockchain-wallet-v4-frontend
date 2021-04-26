@@ -13,12 +13,12 @@ export const sharedSelect = css`
   font-weight: 500;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: ${props => (props.fontSize === 'small' ? '14px' : '16px')};
+  font-size: ${(props) => (props.fontSize === 'small' ? '14px' : '16px')};
 
   .bc__menu {
     border-radius: 8px;
-    box-shadow: 0px 4px 16px ${props => props.theme.greyFade200};
-    background-color: ${props => props.theme.white};
+    box-shadow: 0px 4px 16px ${(props) => props.theme.greyFade200};
+    background-color: ${(props) => props.theme.white};
   }
   .bc__menu-list {
     margin: 8px;
@@ -34,7 +34,7 @@ export const sharedSelect = css`
     opacity: 0.25;
   }
   .bc__placeholder {
-    color: ${props => props.theme.grey400};
+    color: ${(props) => props.theme.grey400};
     font-size: 14px;
     font-weight: 500;
     & + div {
@@ -47,16 +47,16 @@ export const sharedSelect = css`
   }
   .bc__control {
     box-shadow: none;
-    color: ${props => props.theme.grey800};
+    color: ${(props) => props.theme.grey800};
     background-color: ${({ theme }) => theme.white};
     cursor: pointer;
-    min-height: ${props => props.height};
+    min-height: ${(props) => props.height};
     border-radius: 8px;
     border: ${({ borderColor, theme }) => `1px solid ${theme[borderColor]}`};
 
     &:disabled {
       cursor: not-allowed;
-      background-color: ${props => props.theme.grey100};
+      background-color: ${(props) => props.theme.grey100};
       border: 1px solid transparent;
     }
     &:hover {
@@ -81,7 +81,7 @@ export const sharedSelect = css`
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
         Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
         sans-serif;
-      font-size: ${props => (props.fontSize === 'small' ? '14px' : '16px')};
+      font-size: ${(props) => (props.fontSize === 'small' ? '14px' : '16px')};
     }
   }
   .bc__option {
@@ -89,18 +89,18 @@ export const sharedSelect = css`
     cursor: pointer;
     font-size: 14px;
     border-radius: 8px;
-    color: ${props => props.theme.grey800};
-    background-color: ${props => props.theme.white};
+    color: ${(props) => props.theme.grey800};
+    background-color: ${(props) => props.theme.white};
     transition: all 0.3s;
 
     &.bc__option--is-focused.bc__option--is-selected,
     &.bc__option--is-focused {
-      background-color: ${props => props.theme.grey000};
+      background-color: ${(props) => props.theme.grey000};
     }
 
     &.bc__option--is-selected {
       position: relative;
-      background-color: ${props => props.theme.white};
+      background-color: ${(props) => props.theme.white};
       &:after {
         content: '\\e90b';
         font-family: icomoon, -apple-system, sans-serif;
@@ -110,8 +110,8 @@ export const sharedSelect = css`
         position: absolute;
         transform: translateY(-50%);
         font-size: 16px;
-        color: ${props => props.theme.green500};
-        background-color: ${props => props.theme.white};
+        color: ${(props) => props.theme.green500};
+        background-color: ${(props) => props.theme.white};
       }
     }
     * {
@@ -119,7 +119,7 @@ export const sharedSelect = css`
     }
   }
   .bc__single-value {
-    color: ${props => props.theme.grey800};
+    color: ${(props) => props.theme.grey800};
   }
   .bc__dropdown-indicator {
     padding-right: 12px;
@@ -139,7 +139,7 @@ export const AssistiveControl = styled.div`
   top: 0;
 `
 
-export const Control = props => {
+export const Control = (props) => {
   return props.selectProps.hideFocusedControl &&
     props.selectProps.menuIsOpen ? null : (
     <components.Control {...props}>
@@ -149,7 +149,7 @@ export const Control = props => {
   )
 }
 
-const Option = props => {
+const Option = (props) => {
   const itemProps = assoc('text', props.label, props)
   return (
     <components.Option {...props}>
@@ -175,19 +175,19 @@ const ValueContainer = ({ children, ...props }) => {
   )
 }
 
-const DropdownIndicator = props => {
+const DropdownIndicator = (props) => {
   return props.selectProps.hideIndicator ? null : (
     <components.DropdownIndicator {...props} />
   )
 }
 
-const IndicatorSeparator = props => {
+const IndicatorSeparator = (props) => {
   return props.selectProps.hideIndicator ? null : (
     <components.IndicatorSeparator {...props} />
   )
 }
 
-const SelectInput = props => {
+const SelectInput = (props) => {
   const {
     className,
     defaultDisplay,
@@ -215,11 +215,11 @@ const SelectInput = props => {
   } = props
   const options = grouped
     ? items
-    : items.map(item => ({ value: item.value, label: item.text }))
-  const groupedOptions = grouped && flatten(options.map(o => o.options))
+    : items.map((item) => ({ value: item.value, label: item.text }))
+  const groupedOptions = grouped && flatten(options.map((o) => o.options))
   const defaultValue = grouped
-    ? head(filter(x => equals(x.value, defaultItem), groupedOptions))
-    : head(filter(x => equals(x.value, defaultItem), options))
+    ? head(filter((x) => equals(x.value, defaultItem), groupedOptions))
+    : head(filter((x) => equals(x.value, defaultItem), options))
 
   return (
     // @ts-ignore

@@ -60,15 +60,15 @@ export default () => {
       )).getOrElse(0)
       const paxBalance = (yield select(
         selectors.core.data.eth.getErc20Balance,
-        'pax'
+        'PAX'
       )).getOrElse(0)
       const usdtBalance = (yield select(
         selectors.core.data.eth.getErc20Balance,
-        'usdt'
+        'USDT'
       )).getOrElse(0)
       const wdgldBalance = (yield select(
         selectors.core.data.eth.getErc20Balance,
-        'wdgld'
+        'WDGLD'
       )).getOrElse(0)
       const xlmBalance = (yield select(
         selectors.core.data.xlm.getTotalBalance
@@ -79,7 +79,7 @@ export default () => {
         add,
         0,
         map(
-          address =>
+          (address) =>
             selectors.core.data.btc
               .getFinalBalance(state, address)
               .getOrElse(0),
@@ -94,7 +94,7 @@ export default () => {
         add,
         0,
         map(
-          address =>
+          (address) =>
             selectors.core.data.bch
               .getFinalBalance(state, address)
               .getOrElse(0),
@@ -173,12 +173,7 @@ export default () => {
       const { guid } = action.payload
       yield call(postMessage, {
         method: 'setUserId',
-        messageData: [
-          crypto
-            .sha256(guid)
-            .toString('hex')
-            .slice(0, 15)
-        ]
+        messageData: [crypto.sha256(guid).toString('hex').slice(0, 15)]
       })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'startSession', e))

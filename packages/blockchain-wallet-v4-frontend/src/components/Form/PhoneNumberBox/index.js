@@ -24,8 +24,8 @@ const Container = styled.div`
     height: 48px;
     font-size: 16px;
     border-radius: 4px;
-    border: 1px solid ${props => props.theme.grey100};
-    color: ${props => props.theme['grey800']};
+    border: 1px solid ${(props) => props.theme.grey100};
+    color: ${(props) => props.theme['grey800']};
     ::-webkit-input-placeholder {
       opacity: 0.35;
     }
@@ -45,7 +45,7 @@ const Error = styled(Text)`
   position: absolute;
   display: block;
   height: 15px;
-  top: ${props => (props.errorBottom ? '48px' : '-20px')};
+  top: ${(props) => (props.errorBottom ? '48px' : '-20px')};
   right: 0;
 `
 
@@ -64,7 +64,7 @@ class PhoneNumberBox extends React.Component {
     this.props.input.onBlur(number)
   }
 
-  bindTel = ref => {
+  bindTel = (ref) => {
     const tel = prop('tel', ref)
     if (tel) this.tel = tel
   }

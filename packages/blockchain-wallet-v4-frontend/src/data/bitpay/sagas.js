@@ -29,10 +29,7 @@ export const parsePaymentRequest = function * (rawPaymentRequest) {
     }
 
     let digest = headers.digest.split('=')[1]
-    let hash = crypto
-      .createHash('sha256')
-      .update(rawBody, 'utf8')
-      .digest('hex')
+    let hash = crypto.createHash('sha256').update(rawBody, 'utf8').digest('hex')
 
     if (digest !== hash) {
       throw new Error(

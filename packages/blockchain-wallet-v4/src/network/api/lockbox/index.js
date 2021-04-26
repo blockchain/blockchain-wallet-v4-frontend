@@ -1,5 +1,5 @@
 export default ({ get, ledgerUrl, post }) => {
-  const getApplications = req =>
+  const getApplications = (req) =>
     post({
       url: ledgerUrl,
       endPoint: '/api/get_apps',
@@ -7,7 +7,7 @@ export default ({ get, ledgerUrl, post }) => {
       data: req
     })
 
-  const getFinalFirmwareById = id =>
+  const getFinalFirmwareById = (id) =>
     get({
       url: ledgerUrl,
       endPoint: `/api/firmware_final_versions/${id}`,
@@ -15,7 +15,7 @@ export default ({ get, ledgerUrl, post }) => {
       ignoreQueryParams: true
     })
 
-  const getDeviceVersion = req =>
+  const getDeviceVersion = (req) =>
     post({
       url: ledgerUrl,
       endPoint: '/api/get_device_version',
@@ -23,7 +23,7 @@ export default ({ get, ledgerUrl, post }) => {
       data: req
     })
 
-  const getCurrentFirmware = req =>
+  const getCurrentFirmware = (req) =>
     post({
       url: ledgerUrl,
       endPoint: '/api/get_firmware_version',
@@ -31,7 +31,7 @@ export default ({ get, ledgerUrl, post }) => {
       data: req
     })
 
-  const getLatestFirmware = req =>
+  const getLatestFirmware = (req) =>
     post({
       url: ledgerUrl,
       endPoint: '/api/get_latest_firmware',
@@ -55,7 +55,7 @@ export default ({ get, ledgerUrl, post }) => {
       ignoreQueryParams: true
     })
 
-  const getNextMcu = bootLoaderVersion =>
+  const getNextMcu = (bootLoaderVersion) =>
     post({
       url: ledgerUrl,
       endPoint: '/api/mcu_versions_bootloader',

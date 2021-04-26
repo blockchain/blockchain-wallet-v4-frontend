@@ -141,7 +141,7 @@ export const getNextCardExists = (
   existingCards: Array<SBCardType>,
   formValues: SBAddCardFormValuesType
 ) => {
-  return existingCards.find(card => {
+  return existingCards.find((card) => {
     if (
       card.state === 'BLOCKED' ||
       card.state === 'FRAUD_REVIEW' ||

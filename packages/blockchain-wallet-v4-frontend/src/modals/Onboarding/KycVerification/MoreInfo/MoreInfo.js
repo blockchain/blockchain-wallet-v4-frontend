@@ -71,7 +71,7 @@ const MoreInfo = ({ closeAllModals, goToNextStep }) => (
   </IdentityVerificationForm>
 )
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   goToNextStep: () =>
     dispatch(actions.components.identityVerification.goToNextStep()),
   closeAllModals: () => dispatch(actions.modals.closeAllModals())

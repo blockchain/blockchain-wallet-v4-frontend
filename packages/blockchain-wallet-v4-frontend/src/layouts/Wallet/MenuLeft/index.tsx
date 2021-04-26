@@ -15,7 +15,7 @@ class MenuLeftContainer extends React.PureComponent<Props> {
     const { data } = this.props
 
     return data.cata({
-      Success: val => <MenuLeft {...val} {...this.props} />,
+      Success: (val) => <MenuLeft {...val} {...this.props} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Failure: () => <Failure />
@@ -23,11 +23,11 @@ class MenuLeftContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   analyticsActions: bindActionCreators(actions.analytics, dispatch)
 })

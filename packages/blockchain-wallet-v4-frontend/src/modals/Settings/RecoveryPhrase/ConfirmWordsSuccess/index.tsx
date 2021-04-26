@@ -26,7 +26,7 @@ const ContentWrapper = styled(FlyoutWrapper)`
   height: 70%;
 `
 
-const ConfirmWordsSuccess: React.FC<Props> = props => {
+const ConfirmWordsSuccess: React.FC<Props> = (props) => {
   return (
     <Wrapper>
       <IconWrapper>

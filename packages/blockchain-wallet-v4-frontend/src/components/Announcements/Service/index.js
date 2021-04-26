@@ -10,7 +10,7 @@ import { getData } from './selectors'
 import Announcement from './template.js'
 
 class ServiceAnnouncement extends React.PureComponent {
-  handleDismiss = id => {
+  handleDismiss = (id) => {
     this.props.cacheActions.announcementDismissed(id)
   }
 
@@ -21,7 +21,7 @@ class ServiceAnnouncement extends React.PureComponent {
   render() {
     const { alertArea, data } = this.props
     return data.cata({
-      Success: val => {
+      Success: (val) => {
         return val.showAnnouncement ? (
           <Announcement
             announcement={val.announcements[alertArea]}
@@ -43,7 +43,7 @@ const mapStateToProps = (state, ownProps) => ({
   data: Remote.of(getData(state, ownProps))
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   cacheActions: bindActionCreators(actions.cache, dispatch)
 })
 

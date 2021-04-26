@@ -169,11 +169,11 @@ export const setStepsSuccess = (steps): IdentityVerificationActionTypes => ({
   payload: { steps }
 })
 
-export const updateEmail = email => ({
+export const updateEmail = (email) => ({
   type: AT.UPDATE_EMAIL,
   payload: { email }
 })
-export const sendEmailVerification = email => ({
+export const sendEmailVerification = (email) => ({
   type: AT.SEND_EMAIL_VERIFICATION,
   payload: { email }
 })

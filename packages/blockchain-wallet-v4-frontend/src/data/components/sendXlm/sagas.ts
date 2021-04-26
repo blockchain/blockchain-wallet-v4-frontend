@@ -74,7 +74,7 @@ export default ({
       if (memo) {
         payment = yield payment.memo(memo)
       }
-      const prepareTo = to => {
+      const prepareTo = (to) => {
         return to ? { value: { value: to, label: to } } : null
       }
       const initialValues = {

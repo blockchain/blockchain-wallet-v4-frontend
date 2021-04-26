@@ -17,7 +17,7 @@ export const setConnectionInfo = (app, deviceIndex, deviceType, transport) => ({
   type: AT.SET_CONNECTION_INFO,
   payload: { app, deviceIndex, deviceType, transport }
 })
-export const setConnectionError = error => ({
+export const setConnectionError = (error) => ({
   type: AT.SET_CONNECTION_ERROR,
   payload: { error }
 })
@@ -27,7 +27,7 @@ export const setConnectionReady = () => ({
 export const setConnectionSuccess = () => ({
   type: AT.SET_CONNECTION_SUCCESS
 })
-export const setDeviceTargetId = targetId => ({
+export const setDeviceTargetId = (targetId) => ({
   type: AT.SET_DEVICE_TARGET_ID,
   payload: targetId
 })
@@ -42,7 +42,7 @@ export const resetNewDeviceSetup = () => ({
 export const finalizeNewDeviceSetup = () => ({
   type: AT.FINALIZE_NEW_DEVICE_SETUP
 })
-export const routeNewDeviceToDashboard = startTour => ({
+export const routeNewDeviceToDashboard = (startTour) => ({
   type: AT.ROUTE_NEW_DEVICE_DASHBOARD,
   payload: { startTour }
 })
@@ -50,23 +50,23 @@ export const changeDeviceSetupStep = (step, done, error) => ({
   type: AT.SET_NEW_DEVICE_SETUP_STEP,
   payload: { step, done, error }
 })
-export const setSetupNewOrExisting = type => ({
+export const setSetupNewOrExisting = (type) => ({
   type: AT.SET_SETUP_NEW_OR_EXISTING,
   payload: type
 })
-export const setDeviceSetupType = type => ({
+export const setDeviceSetupType = (type) => ({
   type: AT.SET_SETUP_DEVICE_TYPE,
   payload: type
 })
-export const setNewDeviceShowBtcWarning = showWarning => ({
+export const setNewDeviceShowBtcWarning = (showWarning) => ({
   type: AT.SET_NEW_DEVICE_SHOW_BTC_WARNING,
   payload: showWarning
 })
-export const setNewDeviceInfo = deviceInfo => ({
+export const setNewDeviceInfo = (deviceInfo) => ({
   type: AT.SET_NEW_DEVICE_INFO,
   payload: { deviceInfo }
 })
-export const saveNewDeviceKvStore = deviceName => ({
+export const saveNewDeviceKvStore = (deviceName) => ({
   type: AT.SAVE_NEW_DEVICE_KVSTORE,
   payload: { deviceName }
 })
@@ -76,7 +76,7 @@ export const saveNewDeviceKvStoreLoading = () => ({
 export const saveNewDeviceKvStoreSuccess = () => ({
   type: AT.SAVE_NEW_DEVICE_KVSTORE_SUCCESS
 })
-export const saveNewDeviceKvStoreFailure = payload => ({
+export const saveNewDeviceKvStoreFailure = (payload) => ({
   type: AT.SAVE_NEW_DEVICE_KVSTORE_FAILURE,
   payload
 })
@@ -92,7 +92,7 @@ export const updateDeviceNameLoading = () => ({
 export const updateDeviceNameSuccess = () => ({
   type: AT.UPDATE_DEVICE_NAME_SUCCESS
 })
-export const updateDeviceNameFailure = payload => ({
+export const updateDeviceNameFailure = (payload) => ({
   type: AT.UPDATE_DEVICE_NAME_FAILURE,
   payload
 })
@@ -105,35 +105,35 @@ export const changeFirmwareUpdateStep = (step, status) => ({
 export const resetFirmwareInfo = () => ({
   type: AT.RESET_FIRMWARE_INFO
 })
-export const updateDeviceFirmware = deviceIndex => ({
+export const updateDeviceFirmware = (deviceIndex) => ({
   type: AT.UPDATE_DEVICE_FIRMWARE,
   payload: { deviceIndex }
 })
 
 // DELETE
-export const deleteDevice = deviceIndex => ({
+export const deleteDevice = (deviceIndex) => ({
   type: AT.DELETE_DEVICE,
   payload: { deviceIndex }
 })
 export const deleteDeviceLoading = () => ({ type: AT.DELETE_DEVICE_LOADING })
 export const deleteDeviceSuccess = () => ({ type: AT.DELETE_DEVICE_SUCCESS })
-export const deleteDeviceFailure = payload => ({
+export const deleteDeviceFailure = (payload) => ({
   type: AT.DELETE_DEVICE_FAILURE,
   payload
 })
 
 // DASHBOARD
-export const initializeDashboard = deviceIndex => ({
+export const initializeDashboard = (deviceIndex) => ({
   type: AT.INITIALIZE_DASHBOARD,
   payload: { deviceIndex, reset: true }
 })
-export const updateTransactionList = deviceIndex => ({
+export const updateTransactionList = (deviceIndex) => ({
   type: AT.UPDATE_TRANSACTION_LIST,
   payload: { deviceIndex }
 })
 
 // APPLICATIONS
-export const initializeAppManager = deviceIndex => ({
+export const initializeAppManager = (deviceIndex) => ({
   type: AT.INITIALIZE_APP_MANAGER,
   payload: { deviceIndex }
 })
@@ -143,15 +143,15 @@ export const setLatestAppInfosLoading = () => ({
 export const setLatestAppInfosFailure = () => ({
   type: AT.SET_LATEST_APP_INFOS_FAILURE
 })
-export const setLatestAppInfosSuccess = appInfos => ({
+export const setLatestAppInfosSuccess = (appInfos) => ({
   type: AT.SET_LATEST_APP_INFOS_SUCCESS,
   payload: appInfos
 })
-export const installApplication = appName => ({
+export const installApplication = (appName) => ({
   type: AT.INSTALL_APPLICATION,
   payload: { appName }
 })
-export const uninstallApplication = appName => ({
+export const uninstallApplication = (appName) => ({
   type: AT.UNINSTALL_APPLICATION,
   payload: { appName }
 })
@@ -181,7 +181,7 @@ export const saveCoinMD = (deviceIndex, coin) => ({
 export const lockboxModalClose = () => ({
   type: AT.LOCKBOX_MODAL_CLOSE
 })
-export const setProductTourVisibility = visibility => ({
+export const setProductTourVisibility = (visibility) => ({
   type: AT.SET_PRODUCT_TOUR_VISIBILITY,
   payload: visibility
 })

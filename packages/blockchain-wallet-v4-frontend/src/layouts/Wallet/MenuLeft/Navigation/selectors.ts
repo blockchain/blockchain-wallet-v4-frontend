@@ -20,7 +20,7 @@ export const getData = createDeepEqualSelector(
       // @ts-ignore
       const fiatList = reject(
         not,
-        map(coin => {
+        map((coin) => {
           if (coin.coinCode in WalletFiatEnum && coin.method === true) {
             return coin
           }
@@ -29,10 +29,10 @@ export const getData = createDeepEqualSelector(
 
       // returns all coins with balances as a list
       const cryptoList = map(
-        coin => coins.find(c => c.coinCode === coin),
+        (coin) => coins.find((c) => c.coinCode === coin),
         reject(
           not,
-          map(x => last(x) !== '0' && head(x), toPairs(balances))
+          map((x) => last(x) !== '0' && head(x), toPairs(balances))
         )
       )
 

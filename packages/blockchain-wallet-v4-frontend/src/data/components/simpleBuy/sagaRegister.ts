@@ -103,13 +103,14 @@ export default ({ api, coreSagas, networks }) => {
 
     // used for sell only now, eventually buy as well
     // TODO: use swap2 quote for buy AND sell
-    yield takeLatest(AT.START_POLL_SELL_QUOTE, function * (
-      payload: ReturnType<typeof A.startPollSellQuote>
-    ) {
-      if (pollTask && pollTask.isRunning) yield cancel(pollTask)
-      pollTask = yield fork(simpleBuySagas.fetchSellQuote, payload)
-      yield take(AT.STOP_POLL_SELL_QUOTE)
-      yield cancel(pollTask)
-    })
+    yield takeLatest(
+      AT.START_POLL_SELL_QUOTE,
+      function * (payload: ReturnType<typeof A.startPollSellQuote>) {
+        if (pollTask && pollTask.isRunning) yield cancel(pollTask)
+        pollTask = yield fork(simpleBuySagas.fetchSellQuote, payload)
+        yield take(AT.STOP_POLL_SELL_QUOTE)
+        yield cancel(pollTask)
+      }
+    )
   }
 }

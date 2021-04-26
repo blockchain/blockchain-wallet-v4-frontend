@@ -45,7 +45,7 @@ const Bottom = styled(FlyoutWrapper)`
   flex-direction: column;
   padding-top: 30px;
   height: 100%;
-  border-top: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 const Info = styled.div`
   display: flex;
@@ -56,7 +56,7 @@ const InfoTerms = styled(Text)`
   flex-direction: row;
   margin-top: 16px;
   a {
-    color: ${props => props.theme.blue600};
+    color: ${(props) => props.theme.blue600};
     cursor: pointer;
     text-decoration: none;
   }
@@ -68,7 +68,7 @@ const Amount = styled.div`
   }
 `
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const [acceptTerms, setAcceptTerms] = useState(false)
   const orderType = getOrderType(props.order)
   const baseAmount = getBaseAmount(props.order)
@@ -221,7 +221,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 name='sbAcceptTerms'
                 checked={acceptTerms}
                 data-e2e='sbAcceptTermsCheckbox'
-                onChange={() => setAcceptTerms(acceptTerms => !acceptTerms)}
+                onChange={() => setAcceptTerms((acceptTerms) => !acceptTerms)}
               >
                 <FormattedHTMLMessage
                   id='modals.simplebuy.confirm.activity_accept_terms'

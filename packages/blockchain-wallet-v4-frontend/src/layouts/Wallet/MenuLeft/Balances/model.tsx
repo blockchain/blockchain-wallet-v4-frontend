@@ -18,7 +18,7 @@ export const CoinBalanceMain = styled.div`
   > div:last-child {
     margin-left: 10px;
     > div {
-      color: ${props => props.theme.blue900};
+      color: ${(props) => props.theme.blue900};
     }
   }
 `
@@ -40,7 +40,7 @@ const CoinNameText = styled(Text)`
   font-weight: 600;
   font-size: 12px;
   line-height: 150%;
-  color: ${props => props.theme.grey800};
+  color: ${(props) => props.theme.grey800};
 `
 
 export const BalancesWrapper = styled.div`
@@ -48,7 +48,7 @@ export const BalancesWrapper = styled.div`
   overflow: hidden;
   transition: max-height 0.3s;
   &.active {
-    max-height: ${props => React.Children.count(props.children) * 30}px;
+    max-height: ${(props) => React.Children.count(props.children) * 30}px;
   }
 `
 
@@ -93,7 +93,7 @@ export const CoinBalanceWrapper = (props: OwnProps) => {
   )
 }
 
-export const LoadingBalance = props => {
+export const LoadingBalance = (props) => {
   return props.large ? (
     <BalanceSkeleton>
       <SkeletonRectangle width='170px' height='12px' />

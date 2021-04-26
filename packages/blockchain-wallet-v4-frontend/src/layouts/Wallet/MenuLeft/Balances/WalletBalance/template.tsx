@@ -8,7 +8,7 @@ import { BalancesWrapper } from '../model'
 import Balance from './Balance'
 import PendingSBTransactions from './PendingSBTransactions'
 
-const Template = props => {
+const Template = (props) => {
   const { coins } = props
 
   return (

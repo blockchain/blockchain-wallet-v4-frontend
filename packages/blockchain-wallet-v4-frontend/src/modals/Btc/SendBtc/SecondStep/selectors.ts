@@ -59,10 +59,10 @@ const btcFromLabel = curry((payment, state) => {
   }
 })
 
-export const getData = state => {
+export const getData = (state) => {
   const paymentR = selectors.components.sendBtc.getPayment(state)
 
-  const transform = payment => {
+  const transform = (payment) => {
     const fromLabel = btcFromLabel(payment, state)
     const toLabel = btcToLabel(payment, state)
 

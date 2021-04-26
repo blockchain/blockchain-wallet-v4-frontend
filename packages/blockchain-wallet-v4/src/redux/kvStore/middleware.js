@@ -7,10 +7,9 @@ import * as A from './actions'
 import * as T from './actionTypes'
 import * as C from './config'
 
-const kvStoreMiddleware = ({
-  api,
-  isAuthenticated
-} = {}) => store => next => action => {
+const kvStoreMiddleware = ({ api, isAuthenticated } = {}) => (store) => (
+  next
+) => (action) => {
   const prevKVStore = store.getState()[kvStorePath]
   const wasAuth = isAuthenticated(store.getState())
   const result = next(action)
@@ -53,7 +52,7 @@ const kvStoreMiddleware = ({
         return value && nextKV
           ? api
               .updateKVStore(nextKV)
-              .map(k => store.dispatch(actionCreators[key](k)))
+              .map((k) => store.dispatch(actionCreators[key](k)))
           : Task.of(nextKV)
       }
       const taskObject = mapObjIndexed(saveTasks, changes)

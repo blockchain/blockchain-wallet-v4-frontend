@@ -34,16 +34,16 @@ const renderApp = (Component, store, history, persistor) => {
   }
 }
 
-const renderError = e => {
+const renderError = (e) => {
   // eslint-disable-next-line no-console
   console.error(e)
   ReactDOM.render(<Error />, document.getElementById('app'))
 }
 
 configureStore()
-  .then(root => {
+  .then((root) => {
     renderApp(App, root.store, root.history, root.persistor)
   })
-  .catch(e => {
+  .catch((e) => {
     renderError(e)
   })

@@ -10,10 +10,10 @@ const INITIAL_STATE: PricesStateType = {
   previousDay: Remote.NotAsked
 }
 
-const createPricesKvPairs = prices => {
+const createPricesKvPairs = (prices) => {
   return mergeAll(
     map(
-      x => ({
+      (x) => ({
         // @ts-ignore
         [x.split('-')[0]]: prices[x].price
       }),

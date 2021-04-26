@@ -26,7 +26,7 @@ class Balance extends React.PureComponent<Props> {
     const { coin, coinTicker, data, large } = this.props
 
     return data.cata({
-      Success: value => (
+      Success: (value) => (
         <Success
           {...this.props}
           balance={value}
@@ -47,7 +47,7 @@ const mapStateToProps = (state, ownProps) => ({
   erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrElse([])
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   bchActions: bindActionCreators(actions.core.data.bch, dispatch),
   btcActions: bindActionCreators(actions.core.data.btc, dispatch),
   ethActions: bindActionCreators(actions.core.data.eth, dispatch),

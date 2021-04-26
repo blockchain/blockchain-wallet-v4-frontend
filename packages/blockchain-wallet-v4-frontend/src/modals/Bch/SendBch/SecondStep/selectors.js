@@ -6,7 +6,7 @@ import { model, selectors } from 'data'
 
 const isSubmitting = selectors.form.isSubmitting(model.components.sendBch.FORM)
 
-const isBchLegacyAddress = curry(payment => {
+const isBchLegacyAddress = curry((payment) => {
   const target = payment.to[0]
   return (
     target.type === ADDRESS_TYPES.ADDRESS &&
@@ -63,10 +63,10 @@ const bchFromLabel = curry((payment, state) => {
   }
 })
 
-export const getData = state => {
+export const getData = (state) => {
   const paymentR = selectors.components.sendBch.getPayment(state)
 
-  const transform = payment => {
+  const transform = (payment) => {
     const fromLabel = bchFromLabel(payment, state)
     const toLabel = bchToLabel(payment, state)
     const isLegacy = isBchLegacyAddress(payment, state)

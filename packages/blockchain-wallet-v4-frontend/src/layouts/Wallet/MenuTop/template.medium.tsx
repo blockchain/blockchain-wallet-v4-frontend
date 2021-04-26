@@ -27,7 +27,7 @@ const Spacer = styled.div``
 const NavbarContainer = styled.div`
   width: auto;
   padding: 0 16px;
-  background-color: ${props => props.theme.grey900};
+  background-color: ${(props) => props.theme.grey900};
 `
 
 const BlockchainLogoImage = styled(Image)`
@@ -39,10 +39,10 @@ const BlockchainLogoImage = styled(Image)`
 const NavbarBottomStyled = styled(Navbar)`
   display: flex;
   box-sizing: border-box;
-  border-top: 1px solid ${props => props.theme.whiteFade100};
+  border-top: 1px solid ${(props) => props.theme.whiteFade100};
 `
 
-const Medium: React.FC<Props> = props => {
+const Medium: React.FC<Props> = (props) => {
   return (
     <NavbarContainer>
       <Navbar>

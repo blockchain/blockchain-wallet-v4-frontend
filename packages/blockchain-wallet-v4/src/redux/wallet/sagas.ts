@@ -40,7 +40,7 @@ import * as S from './selectors'
 
 const BTC_ACCT_NAME = 'Private Key Wallet'
 
-const taskToPromise = t =>
+const taskToPromise = (t) =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api, networks }) => {
@@ -87,7 +87,9 @@ export default ({ api, networks }) => {
       label,
       { network, api }
     )
-    const wrapperT = walletT.map(wallet => set(Wrapper.wallet, wallet, wrapper))
+    const wrapperT = walletT.map((wallet) =>
+      set(Wrapper.wallet, wallet, wrapper)
+    )
     yield call(runTask, wrapperT, A.wallet.setWrapper)
   }
 
@@ -141,7 +143,7 @@ export default ({ api, networks }) => {
     let wrapper = yield select(S.getWrapper)
     let hdwallets = compose(
       // @ts-ignore
-      i => i.toJS(),
+      (i) => i.toJS(),
       Wallet.selectHdWallets,
       Wrapper.selectWallet
       // @ts-ignore
@@ -188,13 +190,9 @@ export default ({ api, networks }) => {
       return n < 1 ? 1 : n
     } else {
       const l = length(usedAccounts)
-      const getxpub = i =>
-        node
-          .deriveHardened(i)
-          .neutered()
-          .toBase58()
+      const getxpub = (i) => node.deriveHardened(i).neutered().toBase58()
       // @ts-ignore
-      const isUsed = a => propSatisfies(n => n > 0, 'n_tx', a)
+      const isUsed = (a) => propSatisfies((n) => n > 0, 'n_tx', a)
       const xpubs = map(getxpub, range(l, l + batch))
       const result = yield call(
         api.fetchBlockchainData,
@@ -205,9 +203,9 @@ export default ({ api, networks }) => {
           onlyShow: ''
         }
       )
-      const search = xpub => find(propEq('address', xpub))
+      const search = (xpub) => find(propEq('address', xpub))
       const accounts = map(
-        xpub => search(xpub)(prop('addresses', result)),
+        (xpub) => search(xpub)(prop('addresses', result)),
         xpubs
       )
       const flags = map(isUsed, accounts)
@@ -221,12 +219,7 @@ export default ({ api, networks }) => {
 
   const findUsedAccounts = function * ({ batch, nodes }) {
     const getxpub = curry((nodes, i) =>
-      nodes.map(node =>
-        node
-          .deriveHardened(i)
-          .neutered()
-          .toBase58()
-      )
+      nodes.map((node) => node.deriveHardened(i).neutered().toBase58())
     )
     const xpubs = map(getxpub(nodes), range(0, batch))
     const result = yield call(
@@ -242,21 +235,21 @@ export default ({ api, networks }) => {
       }
     )
     // @ts-ignore
-    const isUsed = a => propSatisfies(n => n > 0, 'n_tx', a)
+    const isUsed = (a) => propSatisfies((n) => n > 0, 'n_tx', a)
     const search = curry((xpubGroup, addresses) =>
       any(
         isUsed,
-        xpubGroup.map(xpub => find(propEq('address', xpub), addresses))
+        xpubGroup.map((xpub) => find(propEq('address', xpub), addresses))
       )
     )
     const accounts = map(
-      xpubGroup => search(xpubGroup)(prop('addresses', result)),
+      (xpubGroup) => search(xpubGroup)(prop('addresses', result)),
       xpubs
     )
     return (
       add(
         1,
-        findLastIndex(a => !!a, accounts)
+        findLastIndex((a) => !!a, accounts)
       ) || 1
     )
   }
@@ -478,7 +471,7 @@ export default ({ api, networks }) => {
     try {
       const accountLabels = (yield select(SS.common.btc.getHDAccounts))
         .getOrFail()
-        .map(wallet => wallet.label)
+        .map((wallet) => wallet.label)
       const legacyWalletName = 'My Bitcoin Wallet'
 
       // loop over accounts and update labels if user hasnt customized

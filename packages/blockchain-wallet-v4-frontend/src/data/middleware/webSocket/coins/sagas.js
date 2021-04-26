@@ -16,7 +16,7 @@ import {
 } from './messageTypes'
 
 function uuidv4() {
-  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
     (c ^ (crypto.randomBytes(1)[0] & (15 >> (c / 4)))).toString(16)
   )
 }
@@ -108,7 +108,7 @@ export default ({ api, socket }) => {
         selectors.core.kvStore.lockbox.getLockboxBtcContext
       )).getOrElse([])
       const btcXPubs = concat(btcWalletXPubs, btcLockboxContext)
-      btcXPubs.forEach(xpub =>
+      btcXPubs.forEach((xpub) =>
         send(
           JSON.stringify({
             command: 'subscribe',
@@ -125,7 +125,7 @@ export default ({ api, socket }) => {
         selectors.core.kvStore.lockbox.getLockboxBchContext
       )).getOrElse([])
       const bchXPubs = concat(bchWalletContext, bchLockboxContext)
-      bchXPubs.forEach(xpub =>
+      bchXPubs.forEach((xpub) =>
         send(
           JSON.stringify({
             command: 'subscribe',
@@ -142,7 +142,7 @@ export default ({ api, socket }) => {
         selectors.core.kvStore.lockbox.getLockboxEthContext
       )).getOrElse([])
       const ethAddresses = concat(ethWalletContext, ethLockboxContext)
-      ethAddresses.forEach(address => {
+      ethAddresses.forEach((address) => {
         send(
           JSON.stringify({
             command: 'subscribe',

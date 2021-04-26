@@ -13,7 +13,9 @@ import { Props } from '.'
 import { MainWrapperCentered, Status } from './styles'
 import Conflict from './template.conflict'
 
-const Failure: React.FC<Props & { close: () => void; error: any }> = props => {
+const Failure: React.FC<Props & { close: () => void; error: any }> = (
+  props
+) => {
   if (props.error.email) {
     return <Conflict {...props} close={props.close} />
   }

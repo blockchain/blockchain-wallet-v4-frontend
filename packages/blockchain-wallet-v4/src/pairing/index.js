@@ -11,34 +11,34 @@ const TaskFromPredicate = (predicate, value, errorMsg) =>
 const PBKDF2_ITERATIONS = 10
 const VERSION = '1'
 
-const parseQRcode = data => {
-  const split = string => {
+const parseQRcode = (data) => {
+  const split = (string) => {
     const [version, guid, encrypted] = string.split('|')
     return { version, guid, encrypted }
   }
 
-  const isValidGUID = propSatisfies(g => g != null && g.length === 36, 'guid')
+  const isValidGUID = propSatisfies((g) => g != null && g.length === 36, 'guid')
   const isValidVersion = propEq('version', VERSION)
   const errorGUID = `Invalid Pairing QR Code, GUID is invalid`
   const errorVersion = `Invalid Pairing QR Code, Version is invalid`
 
   return TaskFromPredicate(isNotNil, data, 'Null QR code data to parse')
     .map(split)
-    .chain(obj => TaskFromPredicate(isValidGUID, obj, errorVersion))
-    .chain(obj => TaskFromPredicate(isValidVersion, obj, errorGUID))
+    .chain((obj) => TaskFromPredicate(isValidGUID, obj, errorVersion))
+    .chain((obj) => TaskFromPredicate(isValidVersion, obj, errorGUID))
 }
 
 // decode :: data -> String -> Task Error Object
 const decode = (data, passphrase) => {
-  const decryptData = data => {
+  const decryptData = (data) => {
     return crypto.decryptDataWithPassword(data, passphrase, PBKDF2_ITERATIONS)
   }
 
-  const getCredentials = decryptedData => {
+  const getCredentials = (decryptedData) => {
     const [sharedKey, passwordHex] = decryptedData.split('|')
     return TaskFromPredicate(isNotNil, passwordHex, 'qr_code_expired')
-      .map(p => Buffer.from(p, 'hex').toString('utf8'))
-      .map(p => ({ sharedKey, password: p }))
+      .map((p) => Buffer.from(p, 'hex').toString('utf8'))
+      .map((p) => ({ sharedKey, password: p }))
   }
   return TaskFromPredicate(isNotNil, data, 'Null QR code data to decode')
     .chain(decryptData)
@@ -51,7 +51,7 @@ const encode = (guid, sharedKey, password, pairingPassword) => {
   const data = `${sharedKey}|${passwordHex}`
   return crypto
     .encryptDataWithPassword(data, pairingPassword, PBKDF2_ITERATIONS)
-    .map(encrypted => `${VERSION}|${guid}|${encrypted}`)
+    .map((encrypted) => `${VERSION}|${guid}|${encrypted}`)
 }
 
 export { decode, encode, parseQRcode }

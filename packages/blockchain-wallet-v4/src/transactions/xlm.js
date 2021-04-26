@@ -25,12 +25,12 @@ const getType = (tx, addresses) => {
   return 'unknown'
 }
 
-const getAmount = operation => {
+const getAmount = (operation) => {
   if (operation.amount) return operation.amount().toString()
   if (operation.startingBalance) return operation.startingBalance().toString()
   return '0'
 }
-export const getDestination = operation =>
+export const getDestination = (operation) =>
   StellarSdk.StrKey.encodeEd25519PublicKey(operation.destination().value())
 
 const getLabel = (accounts, address) =>
@@ -40,7 +40,7 @@ const getLabel = (accounts, address) =>
     find(propEq('publicKey', address))
   )(accounts)
 
-export const isLumenOperation = operation =>
+export const isLumenOperation = (operation) =>
   typeof operation.destination === 'function'
 
 export const belongsToCurrentWallet = (accounts, from, to) => {
@@ -84,9 +84,9 @@ export const transformTx = curry((accounts, txNotes, tx, operation) => {
   }
 })
 
-export const decodeOperations = tx =>
+export const decodeOperations = (tx) =>
   map(
-    operation => operation.body().value(),
+    (operation) => operation.body().value(),
     StellarSdk.xdr.TransactionEnvelope.fromXDR(tx.envelope_xdr, 'base64')
       .value()
       .tx()

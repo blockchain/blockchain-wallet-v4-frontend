@@ -38,7 +38,7 @@ const SuccessIcon = styled(Icon)`
   position: absolute;
   top: -16px;
   right: -22px;
-  background: ${props => props.theme.white};
+  background: ${(props) => props.theme.white};
 `
 
 class WithdrawalDetails extends PureComponent<Props> {

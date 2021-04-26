@@ -12,7 +12,7 @@ import {
 
 import Settings from './Settings'
 
-const MobileNumber = props => {
+const MobileNumber = (props) => {
   const { data } = props
   const { authType, smsNumber, smsVerified } = data
   const isVerified = smsVerified === 1

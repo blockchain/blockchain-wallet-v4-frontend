@@ -44,7 +44,7 @@ const ListItem = styled.li`
 
   ::before {
     content: '–';
-    color: ${p => p.theme.whiteFade600};
+    color: ${(p) => p.theme.whiteFade600};
     padding-right: 0.5rem;
   }
 `

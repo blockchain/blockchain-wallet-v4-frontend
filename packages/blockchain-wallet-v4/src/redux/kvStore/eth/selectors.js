@@ -20,18 +20,18 @@ export const getMetadata = path([kvStorePath, ETH])
 //
 // ETH
 //
-export const getAccounts = state =>
+export const getAccounts = (state) =>
   getMetadata(state).map(path(['value', 'ethereum', 'accounts']))
-export const getContext = state =>
+export const getContext = (state) =>
   getAccounts(state).map(compose(prop('addr'), head))
-export const getDefaultAccount = state => getAccounts(state).map(head)
-export const getDefaultAddress = state =>
+export const getDefaultAccount = (state) => getAccounts(state).map(head)
+export const getDefaultAddress = (state) =>
   getDefaultAccount(state).map(prop('addr'))
-export const getDefaultLabel = state =>
+export const getDefaultLabel = (state) =>
   getDefaultAccount(state).map(prop('label'))
-export const getLegacyAccount = state =>
+export const getLegacyAccount = (state) =>
   getMetadata(state).map(path(['value', 'ethereum', 'legacy_account']))
-export const getLegacyAccountAddress = state =>
+export const getLegacyAccountAddress = (state) =>
   getLegacyAccount(state).map(prop('addr'))
 export const getAccount = (state, address) =>
   getAccounts(state).map(find(propEq('addr', address)))
@@ -42,21 +42,21 @@ export const getAccountIndex = (state, address) =>
   getAccounts(state).map(findIndex(propEq('addr', address)))
 export const getEthTxNote = (state, txHash) =>
   getMetadata(state).map(path(['value', 'ethereum', 'tx_notes', txHash]))
-export const getLatestTx = state =>
+export const getLatestTx = (state) =>
   getMetadata(state).map(path(['value', 'ethereum', 'last_tx']))
-export const getLatestTxTimestamp = state =>
+export const getLatestTxTimestamp = (state) =>
   getMetadata(state).map(path(['value', 'ethereum', 'last_tx_timestamp']))
 
 //
 // ERC20
 //
-export const getErc20Accounts = state =>
+export const getErc20Accounts = (state) =>
   getMetadata(state).map(path(['value', 'ethereum', 'erc20']))
 export const getErc20Account = (state, token) =>
   getErc20Accounts(state).map(path([token]))
 export const getErc20ContractAddr = (state, token) =>
   getErc20Accounts(state).map(path([token, 'contract']))
-export const getErc20ContractAddrs = state =>
+export const getErc20ContractAddrs = (state) =>
   getErc20Accounts(state)
     .map(mapObjIndexed(prop('contract')))
     .map(values)

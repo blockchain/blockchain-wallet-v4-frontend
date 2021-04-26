@@ -42,7 +42,7 @@ const filterTransactions = curry(
   ) => {
     const isOfTxType = curry((filter: TransferType, tx) => {
       return propSatisfies(
-        x =>
+        (x) =>
           filter === '' ||
           // @ts-ignore
           (x && toUpper(x) === toUpper(filter)) ||
@@ -92,7 +92,7 @@ const coinSelectorMap = (
   isCoinErc20
 ): ((state: RootState) => Array<RemoteDataType<any, Array<TxType>>>) => {
   if (isCoinErc20) {
-    return state =>
+    return (state) =>
       selectors.core.common.eth.getErc20WalletTransactions(state, coin)
   }
   if (selectors.core.common[toLower(coin)]) {
@@ -100,7 +100,7 @@ const coinSelectorMap = (
   }
 
   // default to fiat
-  return state => selectors.core.data.fiat.getTransactions(coin, state)
+  return (state) => selectors.core.data.fiat.getTransactions(coin, state)
 }
 
 export const getData = (state, coin, isCoinErc20) =>
@@ -121,7 +121,7 @@ export const getData = (state, coin, isCoinErc20) =>
       coinModelR,
       supportedCoinsR
     ) => {
-      const empty = page => isEmpty(page.data)
+      const empty = (page) => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status: TransferType = propOr('', 'status', userSearch)
       const sourceType: '' | AddressTypesType = pathOr(

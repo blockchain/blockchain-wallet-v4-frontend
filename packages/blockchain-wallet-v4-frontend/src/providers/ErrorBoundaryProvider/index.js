@@ -46,11 +46,11 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: selectors.auth.isAuthenticated(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })

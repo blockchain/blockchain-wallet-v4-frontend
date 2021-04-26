@@ -14,7 +14,7 @@ import { getData } from './selectors'
 import Success from './template.success'
 import TimedOut from './template.timedOut'
 
-const DepositStatus = props => {
+const DepositStatus = (props) => {
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
       props.simpleBuyActions.fetchSBPaymentMethods(props.fiatCurrency)
@@ -25,7 +25,7 @@ const DepositStatus = props => {
   }, [])
 
   return props.data.cata({
-    Success: val =>
+    Success: (val) =>
       props.formValues?.order?.state === 'CLEARED' ||
       props.formValues?.order?.state === 'COMPLETED' ? (
         <Success {...val} {...props} />

@@ -36,7 +36,7 @@ const PURPOSES = {
   )
 }
 
-const SecondPassword = props => {
+const SecondPassword = (props) => {
   const { close, position, total, ...rest } = props
   const { handleSubmit, handleChange, purposes = [], value } = rest
 
@@ -53,7 +53,7 @@ const SecondPassword = props => {
         </SecPasswordHeader>
         {purposes && purposes.length ? (
           <PurposeContainer>
-            {purposes.map(purpose => PURPOSES[purpose])}
+            {purposes.map((purpose) => PURPOSES[purpose])}
           </PurposeContainer>
         ) : null}
         <ModalBody>

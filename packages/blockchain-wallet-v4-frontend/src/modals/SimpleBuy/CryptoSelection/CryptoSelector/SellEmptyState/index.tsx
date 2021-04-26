@@ -16,7 +16,7 @@ export const IconBackground = styled.div`
   width: 32px;
   height: 32px;
   min-width: 32px;
-  background-color: ${props => props.theme.blue000};
+  background-color: ${(props) => props.theme.blue000};
   border-radius: 40px;
 `
 
@@ -26,7 +26,7 @@ export const FlexStartRow = styled.div`
   justify-content: flex-start;
 `
 
-const SellEmptyState: React.FC<Props> = props => {
+const SellEmptyState: React.FC<Props> = (props) => {
   return (
     <>
       <FlyoutWrapper>
@@ -128,7 +128,7 @@ const SellEmptyState: React.FC<Props> = props => {
   )
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 

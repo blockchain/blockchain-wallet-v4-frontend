@@ -21,7 +21,7 @@ class VerifyContainer extends React.PureComponent<Props> {
     const { actions } = this.props
     actions.fetchSupportedDocuments()
     actions.checkKycFlow()
-    checkHasWebcam().then(res => {
+    checkHasWebcam().then((res) => {
       this.setState({ hasWebcam: res })
     })
   }
@@ -35,11 +35,11 @@ class VerifyContainer extends React.PureComponent<Props> {
       },
       Loading: () => <Loading />,
       NotAsked: () => null,
-      Failure: message => <DataError message={message} />
+      Failure: (message) => <DataError message={message} />
     })
 
     const PreIdvCheck = preIdvData.cata({
-      Success: val => (
+      Success: (val) => (
         <SiftScience {...val} onDone={actions.preIdvCheckFinished} />
       ),
       Loading: () => null,
@@ -56,12 +56,12 @@ class VerifyContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state),
   preIdvData: getPreIdvData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(
     actions.components.identityVerification,
     dispatch

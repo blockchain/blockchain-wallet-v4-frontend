@@ -6,7 +6,7 @@ import { RootState } from 'data/rootReducer'
 export const getData = (state: RootState) => {
   const defaultMethodR = selectors.components.brokerage.getAccount(state)
 
-  return lift(defaultMethod => ({
+  return lift((defaultMethod) => ({
     defaultMethod
   }))(defaultMethodR)
 }

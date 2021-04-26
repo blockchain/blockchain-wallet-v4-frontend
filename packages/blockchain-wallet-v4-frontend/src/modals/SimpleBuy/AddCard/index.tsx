@@ -47,7 +47,7 @@ class AddCard extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => (
+      Success: (val) => (
         <Success
           {...this.props}
           {...val}
@@ -57,7 +57,7 @@ class AddCard extends PureComponent<Props> {
           updateDefaultCountry={this.setDefaultCountry}
         />
       ),
-      Failure: e => (
+      Failure: (e) => (
         <DataError
           message={{ message: e }}
           onClick={this.props.simpleBuyActions.fetchSBPaymentMethods}

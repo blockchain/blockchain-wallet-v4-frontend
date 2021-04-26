@@ -17,7 +17,7 @@ const Iframe = styled.iframe`
   margin-top: 16px;
 `
 
-const Success: React.FC<Props> = props => {
+const Success: React.FC<Props> = (props) => {
   return props.threeDSCallbackReceived ? (
     <Loading polling order={props.type === 'ORDER'} />
   ) : (

@@ -51,13 +51,13 @@ CopyClipboardContainer.propTypes = {
   address: PropTypes.string.isRequired
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrFail()
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch)
 })
 

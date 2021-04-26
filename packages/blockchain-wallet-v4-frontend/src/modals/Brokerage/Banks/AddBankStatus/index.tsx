@@ -28,7 +28,7 @@ type State = {}
 class LinkBankStatus extends PureComponent<Props, State> {
   render() {
     return this.props.data.cata({
-      Success: val =>
+      Success: (val) =>
         val.bankStatus === 'ACTIVE' ? (
           <Success {...val} {...this.props} />
         ) : (

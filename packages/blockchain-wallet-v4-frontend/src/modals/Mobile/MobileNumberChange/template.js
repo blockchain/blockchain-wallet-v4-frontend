@@ -27,7 +27,7 @@ const MobileNumber = styled.div`
   }
 `
 
-const MobileNumberChange = props => {
+const MobileNumberChange = (props) => {
   const {
     close,
     closeAll,

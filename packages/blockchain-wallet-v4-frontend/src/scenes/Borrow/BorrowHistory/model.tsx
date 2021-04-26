@@ -11,22 +11,22 @@ export const Value = styled(Text)<{ size?: string }>`
   font-size: 14px;
   font-weight: 500;
   white-space: nowrap;
-  color: ${props => props.theme.grey800};
+  color: ${(props) => props.theme.grey800};
   * {
     font-size: 14px !important;
     font-weight: 500 !important;
-    color: ${props => props.theme.grey800} !important;
+    color: ${(props) => props.theme.grey800} !important;
   }
 `
 
 const OrangeValue = styled(Value)`
-  color: ${props => props.theme.orange600};
+  color: ${(props) => props.theme.orange600};
 `
 const GreenValue = styled(Value)`
-  color: ${props => props.theme.green600};
+  color: ${(props) => props.theme.green600};
 `
 const RedValue = styled(Value)`
-  color: ${props => props.theme.red600};
+  color: ${(props) => props.theme.red600};
 `
 
 export const Status = (props: LoanType) => {
@@ -63,7 +63,7 @@ export const CollateralAmt = (props: {
       const lastRequestedDeposit =
         props.loanTransactions &&
         props.loanTransactions.find(
-          tx => tx.status === 'REQUESTED' && tx.type === 'DEPOSIT_COLLATERAL'
+          (tx) => tx.status === 'REQUESTED' && tx.type === 'DEPOSIT_COLLATERAL'
         )
 
       return props.loanTransactions ? (

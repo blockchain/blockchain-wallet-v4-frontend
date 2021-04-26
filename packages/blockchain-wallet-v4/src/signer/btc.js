@@ -17,7 +17,7 @@ import { privateKeyStringToKey } from '../utils/btc'
 import * as crypto from '../walletCrypto'
 import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
 
-const getOutputScript = keyPair => {
+const getOutputScript = (keyPair) => {
   const pubKey = keyPair.publicKey
   const payment = Bitcoin.payments.p2wpkh({ pubkey: pubKey })
   return payment.output
@@ -33,9 +33,9 @@ const getOutputScript = keyPair => {
 export const signSelection = curry((network, selection) => {
   const tx = new Bitcoin.TransactionBuilder(network)
 
-  const addOutput = coin =>
+  const addOutput = (coin) =>
     tx.addOutput(defaultTo(coin.address, coin.script), coin.value)
-  const addInput = coin => {
+  const addInput = (coin) => {
     switch (coin.type()) {
       case 'P2WPKH':
         return tx.addInput(
@@ -68,7 +68,7 @@ export const signSelection = curry((network, selection) => {
   }
 })
 
-export const sortSelection = selection => ({
+export const sortSelection = (selection) => ({
   ...selection,
   inputs: Coin.bip69SortInputs(selection.inputs),
   outputs: Coin.bip69SortOutputs(selection.outputs)
@@ -92,7 +92,7 @@ export const signLegacy = curry((network, secondPassword, wrapper, selection) =>
 export const wifToKeys = curry((network, selection) =>
   over(
     compose(lensProp('inputs'), mapped, Coin.priv),
-    wif => Bitcoin.ECPair.fromWIF(wif, network),
+    (wif) => Bitcoin.ECPair.fromWIF(wif, network),
     selection
   )
 )
@@ -128,13 +128,13 @@ export const signWithLockbox = function * (
     paths.push("44'/0'/0'" + coin.path.split('M')[1])
   }
 
-  const intToHex = i => {
+  const intToHex = (i) => {
     const hex = i.toString(16)
     return hex.length > 1 ? hex : '0' + hex
   }
 
   let outputs = intToHex(selection.outputs.length)
-  selection.outputs.map(coin => {
+  selection.outputs.map((coin) => {
     let amount = Buffer.alloc(8)
     amount.writeUInt32LE(coin.value)
     outputs +=

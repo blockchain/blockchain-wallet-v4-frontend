@@ -20,7 +20,7 @@ export default ({ api, networks }) => {
 
   const upgradeLockboxV4 = function * (kv) {
     try {
-      let upgradedDevices = kv.value.devices.map(d => {
+      let upgradedDevices = kv.value.devices.map((d) => {
         const BtcXpub = path(['btc', 'accounts', 0, 'xpub'], d)
         const BtcLabel = path(['btc', 'accounts', 0, 'label'], d)
         const BchXpub = path(['bch', 'accounts', 0, 'xpub'], d)

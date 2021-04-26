@@ -25,7 +25,7 @@ const Header = styled.div`
   margin-bottom: 20px;
 `
 const Separator = styled.div`
-  border: solid 0.5px ${props => props.theme.grey000};
+  border: solid 0.5px ${(props) => props.theme.grey000};
 `
 const WordContainerWrapper = styled(FlyoutWrapper)`
   padding-top: 24px;
@@ -45,7 +45,7 @@ const Bottom = styled(FlyoutWrapper)`
   justify-content: flex-end;
   flex-direction: column;
 `
-const languageHelper = num => {
+const languageHelper = (num) => {
   switch (num) {
     case 0:
       return `${num + 1}st`
@@ -58,8 +58,9 @@ const languageHelper = num => {
   }
 }
 
-const ConfirmWordsForm: React.FC<InjectedFormProps<{}, Props> &
-  Props> = props => {
+const ConfirmWordsForm: React.FC<InjectedFormProps<{}, Props> & Props> = (
+  props
+) => {
   const { handleBackArrow, indexes, invalid, submitting, ...rest } = props
   const { handleSubmit } = rest
   return (
@@ -92,7 +93,7 @@ const ConfirmWordsForm: React.FC<InjectedFormProps<{}, Props> &
       </HeaderWrapper>
       <Separator />
       <WordContainerWrapper>
-        {indexes.map(index => (
+        {indexes.map((index) => (
           <WordContainer key={index}>
             <Text
               size='14px'

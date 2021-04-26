@@ -22,7 +22,7 @@ const MainTitle = styled(Text)`
   margin-bottom: 20px;
 `
 
-const Loading: React.FC<Props & { close: () => void }> = props => {
+const Loading: React.FC<Props & { close: () => void }> = (props) => {
   return (
     <Content>
       <ActionsWrapper>

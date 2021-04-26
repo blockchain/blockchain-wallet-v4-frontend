@@ -24,7 +24,7 @@ const QRCodeContainer = styled.div`
   padding: 30px 0;
 `
 
-const QRCode = props => {
+const QRCode = (props) => {
   const { close, closeAll, position, total, ...rest } = props
   const { amount, message, receiveAddress } = rest.value
   let btcAddress = `bitcoin:${receiveAddress}`

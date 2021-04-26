@@ -134,7 +134,7 @@ class Checkout extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => (
+      Success: (val) => (
         <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
       ),
       Failure: () => (
@@ -162,7 +162,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   sbOrders: selectors.components.simpleBuy.getSBOrders(state).getOrElse([])
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),
   identityVerificationActions: bindActionCreators(

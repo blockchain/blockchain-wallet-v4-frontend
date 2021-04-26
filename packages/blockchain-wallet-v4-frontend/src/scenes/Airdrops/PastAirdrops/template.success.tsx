@@ -30,7 +30,7 @@ const getQuantity = (amt, currency) => {
 
 export default function Success({ userCampaignsInfoResponseList }: Props) {
   const completedCampaigns = userCampaignsInfoResponseList.filter(
-    campaign => campaign.campaignState === 'ENDED'
+    (campaign) => campaign.campaignState === 'ENDED'
   )
 
   return (
@@ -78,11 +78,11 @@ export default function Success({ userCampaignsInfoResponseList }: Props) {
             </Text>
           </TableCell>
         </TableHeader>
-        {completedCampaigns.map(campaign => {
+        {completedCampaigns.map((campaign) => {
           return campaign.userCampaignTransactionResponseList.length ? (
             // User has campaign transactions
             campaign.userCampaignTransactionResponseList.map(
-              campaignTransaction => {
+              (campaignTransaction) => {
                 return (
                   <TableRow>
                     <TableCell width='18%'>

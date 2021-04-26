@@ -25,7 +25,7 @@ const Connect = (props: Props) => {
   useEffect(fetchBank, [props.walletCurrency])
 
   return props.data.cata({
-    Success: val => <Success {...props} {...val} />,
+    Success: (val) => <Success {...props} {...val} />,
     Failure: () => <DataError onClick={fetchBank} />,
     Loading: () => <Loading text={LoadingTextEnum.LOADING} />,
     NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />

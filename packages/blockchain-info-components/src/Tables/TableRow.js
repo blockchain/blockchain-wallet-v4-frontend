@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   padding: 16px 0px;
   box-sizing: border-box;
-  border-bottom: 1px solid ${props => props.theme.grey000};
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
 `
 
 const TableRow = ({ children, className, ...rest }) => (

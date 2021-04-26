@@ -10,7 +10,7 @@ import { actions } from 'data'
 import { Border, FlexStartRow, IconBackground, TopText } from '../../components'
 import { Props as BaseProps } from '../../index'
 
-const VerifyIdentity: React.FC<Props> = props => {
+const VerifyIdentity: React.FC<Props> = (props) => {
   return (
     <>
       <FlyoutWrapper>

@@ -47,8 +47,9 @@ import { maximumWithdrawalAmount, minimumWithdrawalAmount } from './validation'
 
 const FORM_NAME = 'interestWithdrawalForm'
 
-const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
-  Props> = props => {
+const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (
+  props
+) => {
   const {
     accountBalances,
     availToWithdraw,
@@ -64,7 +65,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     values,
     walletCurrency
   } = props
-  const handleFormSubmit = e => {
+  const handleFormSubmit = (e) => {
     e.preventDefault()
     interestActions.requestWithdrawal(coin, withdrawalAmountCrypto)
   }
@@ -348,7 +349,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   values: selectors.form.getFormValues(FORM_NAME)(state)
 })
 

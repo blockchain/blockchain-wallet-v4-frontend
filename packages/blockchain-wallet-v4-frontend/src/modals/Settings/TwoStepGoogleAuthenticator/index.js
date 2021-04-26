@@ -25,11 +25,11 @@ class TwoStepGoogleAuthenticatorContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   code: formValueSelector('twoStepGoogleAuthenticator')(state, 'code')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   alertsActions: bindActionCreators(actions.alerts, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })

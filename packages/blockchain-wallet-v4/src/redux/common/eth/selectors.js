@@ -9,7 +9,7 @@ import { ADDRESS_TYPES } from '../../payment/btc/utils'
 //
 // ETH
 //
-export const getAccountBalances = state => {
+export const getAccountBalances = (state) => {
   const digest = (addresses, account) => ({
     coin: 'ETH',
     label: account.label,
@@ -21,7 +21,7 @@ export const getAccountBalances = state => {
   return map(lift(digest)(balances), getAccounts(state))
 }
 
-export const getLockboxEthBalances = state => {
+export const getLockboxEthBalances = (state) => {
   const digest = (addresses, account) => ({
     coin: 'ETH',
     label: account.label,
@@ -33,8 +33,8 @@ export const getLockboxEthBalances = state => {
   return map(lift(digest)(balances), getLockboxEthAccounts(state))
 }
 
-export const getAccountsInfo = state => {
-  const digest = account => ({
+export const getAccountsInfo = (state) => {
+  const digest = (account) => ({
     coin: 'ETH',
     label: prop('label', account),
     address: prop('addr', account)
@@ -43,7 +43,7 @@ export const getAccountsInfo = state => {
 }
 
 // getWalletTransactions :: state -> Remote([ProcessedTx])
-export const getWalletTransactions = state => {
+export const getWalletTransactions = (state) => {
   return state.dataPath.eth.transactions.eth
 }
 

@@ -25,10 +25,10 @@ const xlmFromLabel = curry((payment, state) => {
   }
 })
 
-export const getData = state => {
+export const getData = (state) => {
   const paymentR = selectors.components.sendXlm.getPayment(state)
 
-  const transform = payment => {
+  const transform = (payment) => {
     const fromLabel = xlmFromLabel(payment, state)
     const toLabel = payment.to.label || payment.to.address
 

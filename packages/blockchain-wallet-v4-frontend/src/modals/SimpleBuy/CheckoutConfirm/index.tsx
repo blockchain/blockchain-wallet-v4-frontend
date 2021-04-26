@@ -148,10 +148,10 @@ class CheckoutConfirm extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => (
+      Success: (val) => (
         <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
       ),
-      Failure: e => <DataError message={{ message: e }} />,
+      Failure: (e) => <DataError message={{ message: e }} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })

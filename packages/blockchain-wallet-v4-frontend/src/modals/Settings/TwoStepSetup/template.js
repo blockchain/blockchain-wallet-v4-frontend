@@ -33,7 +33,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: ${props => props.theme.white};
+  background-color: ${(props) => props.theme.white};
   width: 100%;
   cursor: pointer;
   text-align: center;
@@ -45,7 +45,7 @@ const Container = styled.div`
     margin-bottom: 10px;
   }
   &:hover {
-    background-color: ${props => props.theme.grey000};
+    background-color: ${(props) => props.theme.grey000};
   }
 
   ${media.atLeastMobile`
@@ -53,7 +53,7 @@ const Container = styled.div`
   `}
 `
 
-const TwoStepSetup = props => {
+const TwoStepSetup = (props) => {
   const { close, closeAll, position, total, ...rest } = props
   const {
     authType,

@@ -11,7 +11,7 @@ export const DEFAULT_INTEREST_BALANCE = {
 }
 
 export const DEFAULT_INTEREST_BALANCES = Object.keys(CoinTypeEnum)
-  .filter(key => !isNaN(Number(CoinTypeEnum[key])))
+  .filter((key) => !isNaN(Number(CoinTypeEnum[key])))
   .reduce((obj, item) => {
     obj[item] = DEFAULT_INTEREST_BALANCE
     return obj

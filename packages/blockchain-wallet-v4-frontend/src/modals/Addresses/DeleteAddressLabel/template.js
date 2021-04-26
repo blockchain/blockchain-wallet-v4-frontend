@@ -21,7 +21,7 @@ const TitleGroup = styled(TextGroup)`
   align-items: center;
 `
 
-const DeleteAdresssLabel = props => {
+const DeleteAdresssLabel = (props) => {
   const { close, onDeleteConfirm } = props
 
   return (

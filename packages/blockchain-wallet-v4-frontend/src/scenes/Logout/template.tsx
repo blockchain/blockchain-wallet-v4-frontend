@@ -21,7 +21,7 @@ const Footer = styled.div`
   }
 `
 
-const Logout = props => {
+const Logout = (props) => {
   const { onDeauthorizeBrowser, onGoToLogin, secondsRemaining } = props
 
   return (

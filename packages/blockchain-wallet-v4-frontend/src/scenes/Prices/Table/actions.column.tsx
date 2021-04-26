@@ -13,7 +13,7 @@ const CellWrapper = styled.div`
   padding-right: 8px;
 `
 
-export const getActionsColumn = modalActions => ({
+export const getActionsColumn = (modalActions) => ({
   Header: () => (
     <CellHeaderText>
       <FormattedMessage id='copy.actions' defaultMessage='Actions' />

@@ -115,11 +115,11 @@ export const fromJS = (o, network) => {
 
 export const empty = new Coin({ value: 0 })
 
-export const inputBytes = input => {
+export const inputBytes = (input) => {
   return IO_TYPES.inputs[input.type ? input.type() : 'P2PKH']
 }
 
-export const outputBytes = output => {
+export const outputBytes = (output) => {
   return IO_TYPES.outputs[output.type ? output.type() : 'P2PKH']
 }
 

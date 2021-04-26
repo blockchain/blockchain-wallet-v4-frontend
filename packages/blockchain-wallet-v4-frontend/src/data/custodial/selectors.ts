@@ -16,6 +16,6 @@ export const getDefaultBeneficiary = (
   const beneficiariesR = getBeneficiaries(state)
 
   return lift((beneficiaries: ExtractSuccess<typeof beneficiariesR>) =>
-    beneficiaries.find(val => val.currency === currency)
+    beneficiaries.find((val) => val.currency === currency)
   )(beneficiariesR)
 }

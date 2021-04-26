@@ -8,7 +8,7 @@ import { promptForSecondPassword } from 'services/sagas'
 
 import * as A from './actions.js'
 
-const taskToPromise = t =>
+const taskToPromise = (t) =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ coreSagas }) => {
@@ -23,7 +23,7 @@ export default ({ coreSagas }) => {
         wallet,
         password,
         addr
-      ).map(priv => signer.btc.signMessage(priv, addr, message))
+      ).map((priv) => signer.btc.signMessage(priv, addr, message))
       const signed = yield call(() => taskToPromise(signedT))
       yield put(A.messageSigned(signed))
     } catch (e) {

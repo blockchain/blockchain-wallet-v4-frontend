@@ -22,7 +22,7 @@ const Container = styled.div`
 //   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
 // }
 
-const CodeInputBoxes = field => {
+const CodeInputBoxes = (field) => {
   // const errorState = getErrorState(field.meta)
 
   return (

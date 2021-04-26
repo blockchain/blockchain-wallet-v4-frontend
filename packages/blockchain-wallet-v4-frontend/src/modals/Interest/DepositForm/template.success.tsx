@@ -68,7 +68,7 @@ import {
 import TabMenuTimeFrame from './TabMenuTimeFrame'
 import { maxDepositAmount, minDepositAmount } from './validation'
 
-const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const {
     coin,
     depositLimits,

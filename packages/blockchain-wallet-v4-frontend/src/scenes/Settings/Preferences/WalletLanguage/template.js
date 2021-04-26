@@ -11,7 +11,7 @@ import {
 
 import Settings from './Settings'
 
-const WalletLanguage = props => {
+const WalletLanguage = (props) => {
   const { language } = props
 
   return (

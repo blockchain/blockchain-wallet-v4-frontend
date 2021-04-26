@@ -5,4 +5,4 @@ export const setStep = (name, step) => ({
   payload: { name, step }
 })
 
-export const reset = name => ({ type: AT.RESET_STEP, payload: { name } })
+export const reset = (name) => ({ type: AT.RESET_STEP, payload: { name } })

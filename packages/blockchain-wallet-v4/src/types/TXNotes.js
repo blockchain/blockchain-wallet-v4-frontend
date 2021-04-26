@@ -14,11 +14,11 @@ export const selectNote = curry((txhash, txnotes) =>
   pipe(TXNotes.guard, view(iLensProp(txhash)))(txnotes)
 )
 
-export const toJS = pipe(TXNotes.guard, txnotes => {
+export const toJS = pipe(TXNotes.guard, (txnotes) => {
   return txnotes.toObject()
 })
 
-export const fromJS = object => {
+export const fromJS = (object) => {
   if (isTXNotes(object)) {
     return object
   } else {
@@ -26,6 +26,6 @@ export const fromJS = object => {
   }
 }
 
-export const reviver = object => {
+export const reviver = (object) => {
   return new TXNotes(object)
 }

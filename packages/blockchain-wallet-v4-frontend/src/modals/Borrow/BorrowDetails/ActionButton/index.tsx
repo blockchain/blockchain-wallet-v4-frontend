@@ -17,7 +17,7 @@ const ButtonContainer = styled.div`
 
 const { isLastTxStatus } = model.components.borrow
 
-const ActionButton: React.FC<Props> = props => {
+const ActionButton: React.FC<Props> = (props) => {
   const lastFailedTx = isLastTxStatus(
     ['FAILED'],
     props.loan,

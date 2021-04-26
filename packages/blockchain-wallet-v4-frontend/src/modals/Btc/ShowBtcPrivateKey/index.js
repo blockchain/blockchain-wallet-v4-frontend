@@ -48,11 +48,11 @@ class ShowBtcPrivateKeyContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   priv: state.securityCenter.shownBtcPrivKey
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.modules.settings, dispatch)
 })
 

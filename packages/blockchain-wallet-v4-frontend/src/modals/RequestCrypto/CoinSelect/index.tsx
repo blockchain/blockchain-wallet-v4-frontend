@@ -26,7 +26,7 @@ const SelectCoinWrapper = styled.div`
   width: 40%;
 `
 const NoAccountsText = styled.div`
-  border-top: ${props => `1px solid ${props.theme.grey000}`};
+  border-top: ${(props) => `1px solid ${props.theme.grey000}`};
   padding: 40px 40px 0;
   text-align: center;
 `
@@ -81,7 +81,7 @@ class RequestCoinSelect extends React.PureComponent<Props> {
                 name='selectedCoin'
                 props={{
                   additionalOptions: [{ text: 'All Wallets', value: 'ALL' }],
-                  limitTo: requestableCoins.map(coin => ({
+                  limitTo: requestableCoins.map((coin) => ({
                     text: coin,
                     value: coin
                   }))
@@ -91,7 +91,7 @@ class RequestCoinSelect extends React.PureComponent<Props> {
             </SelectCoinWrapper>
           </div>
         </StickyHeaderFlyoutWrapper>
-        {accounts.map(account => (
+        {accounts.map((account) => (
           <CoinAccountListOption
             account={account}
             coinModel={supportedCoins[account.coin]}

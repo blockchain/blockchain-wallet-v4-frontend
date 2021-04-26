@@ -21,19 +21,20 @@ const Container = styled.div<{ bgColor: string; borderColor?: string }>`
   padding: 16px;
   border-radius: 8px;
   margin-bottom: 40px;
-  background-color: ${props => props.theme[props.bgColor]};
-  border: 1px solid ${props => props.theme[props.borderColor || props.bgColor]};
+  background-color: ${(props) => props.theme[props.bgColor]};
+  border: 1px solid
+    ${(props) => props.theme[props.borderColor || props.bgColor]};
 
   .orange900 {
-    color: ${props => props.theme.orange900};
+    color: ${(props) => props.theme.orange900};
   }
 
   .green600 {
-    color: ${props => props.theme.green600};
+    color: ${(props) => props.theme.green600};
   }
 
   .grey900 {
-    color: ${props => props.theme.grey900};
+    color: ${(props) => props.theme.grey900};
   }
 `
 const CustomIcon = styled(Icon)`
@@ -44,7 +45,7 @@ const CustomButton = styled(Button)`
   margin-top: 16px;
 `
 
-const AddCollateralCTA: React.FC<Props & { optional?: boolean }> = props => {
+const AddCollateralCTA: React.FC<Props & { optional?: boolean }> = (props) => {
   const lastCompletedTx = isLastTxStatus(
     ['FAILED', 'CONFIRMED'],
     props.loan,
@@ -79,7 +80,7 @@ const AddCollateralCTA: React.FC<Props & { optional?: boolean }> = props => {
   ) : null
 }
 
-const CollateralWarning: React.FC<Props> = props => {
+const CollateralWarning: React.FC<Props> = (props) => {
   const { offer } = props
   const currentCollateralStatus = getCollateralizationDisplayName(
     props.loan.collateralisationRatio,

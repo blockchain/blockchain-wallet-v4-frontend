@@ -31,12 +31,12 @@ class SettingsContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   theme: selectors.preferences.getTheme(state),
   newTheme: formValueSelector('settingTheme')(state, 'theme')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

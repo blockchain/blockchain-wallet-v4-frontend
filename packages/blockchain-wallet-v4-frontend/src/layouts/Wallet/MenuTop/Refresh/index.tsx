@@ -33,7 +33,7 @@ class RefreshContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.refresh, dispatch)
 })
 

@@ -5,7 +5,7 @@ import { Button, Link } from 'blockchain-info-components'
 
 import { Props } from './template'
 
-const LinkToExchange: React.FC<Props> = props => {
+const LinkToExchange: React.FC<Props> = (props) => {
   const exchangeUrl = props.domains.exchange + '/trade'
 
   return (

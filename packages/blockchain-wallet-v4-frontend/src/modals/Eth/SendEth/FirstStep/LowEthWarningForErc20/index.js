@@ -10,7 +10,7 @@ import {
   WarningWrapper
 } from '../Components'
 
-const LowEthWarningForErc20 = props => {
+const LowEthWarningForErc20 = (props) => {
   const { coin } = props
 
   const supportArticle =

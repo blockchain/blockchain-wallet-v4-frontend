@@ -14,8 +14,8 @@ const Wrapper = styled.div`
   z-index: 10;
 `
 const Iframe = styled.iframe<{ widgetOpen: State['widgetOpen'] }>`
-  height: ${props => (props.widgetOpen ? '580px' : '60px')};
-  width: ${props => (props.widgetOpen ? '400px' : '190px')};
+  height: ${(props) => (props.widgetOpen ? '580px' : '60px')};
+  width: ${(props) => (props.widgetOpen ? '400px' : '190px')};
   border: none;
 `
 
@@ -30,7 +30,7 @@ class ZendeskWidget extends React.PureComponent<Props, State> {
     window.addEventListener('message', this.updateWidgetState, false)
   }
 
-  updateWidgetState = e => {
+  updateWidgetState = (e) => {
     const message = e.data
     // HMR/zendesk combo sends empty messages sometimes that result in widget state
     // being set to close when it really is still open

@@ -14,7 +14,7 @@ import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
   font-weight: 400;
-  color: ${props => props.theme.grey700};
+  color: ${(props) => props.theme.grey700};
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `
@@ -24,7 +24,7 @@ const Label = styled.label`
   margin-bottom: 5px;
 `
 
-const EditTxDescription = props => {
+const EditTxDescription = (props) => {
   const { closeAll, handleSubmit, invalid, position, submitting } = props
 
   return (

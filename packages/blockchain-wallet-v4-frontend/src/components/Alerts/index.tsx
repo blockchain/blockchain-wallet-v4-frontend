@@ -10,16 +10,16 @@ const AlertsContainer = ({ alertActions, alerts }: Props) => {
   return (
     <Alerts
       alerts={alerts || []}
-      handleClose={id => alertActions.dismissAlert(id)}
+      handleClose={(id) => alertActions.dismissAlert(id)}
     />
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alerts: selectors.alerts.selectAlerts(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch)
 })
 

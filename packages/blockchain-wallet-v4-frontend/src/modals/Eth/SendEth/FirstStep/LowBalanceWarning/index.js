@@ -14,7 +14,7 @@ import {
   WarningWrapper
 } from '../Components'
 
-const LowBalanceWarning = props => {
+const LowBalanceWarning = (props) => {
   const { amount, ethRates, totalBalance } = props
   const totalEthValue = Exchange.convertEthToFiat({
     value: totalBalance,
@@ -69,7 +69,7 @@ const LowBalanceWarning = props => {
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   amount: formValueSelector(model.components.sendEth.FORM)(state, 'amount'),
   ethRates: selectors.core.data.eth.getRates(state).getOrFail()
 })

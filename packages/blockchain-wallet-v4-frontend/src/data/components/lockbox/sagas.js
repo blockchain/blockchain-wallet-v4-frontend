@@ -35,8 +35,8 @@ export default ({ api }) => {
   let pollPosition, closePoll
 
   // allows for device type quick polling during new device setup
-  const pollForDeviceTypeChannel = pollLength => {
-    return eventChannel(emitter => {
+  const pollForDeviceTypeChannel = (pollLength) => {
+    return eventChannel((emitter) => {
       const devicePollInterval = setInterval(() => {
         if (closePoll) {
           emitter(END)
@@ -53,7 +53,7 @@ export default ({ api }) => {
 
   // allows for application quick polling during new device setup
   const pollForDeviceAppChannel = (app, pollLength) => {
-    return eventChannel(emitter => {
+    return eventChannel((emitter) => {
       const appPollInterval = setInterval(() => {
         if (closePoll) {
           emitter(END)
@@ -162,7 +162,7 @@ export default ({ api }) => {
       const deviceList = (yield select(
         selectors.core.kvStore.lockbox.getDevices
       )).getOrElse([])
-      const deviceCount = length(deviceList.map(d => d.device_name))
+      const deviceCount = length(deviceList.map((d) => d.device_name))
       if (deviceCount > 0) {
         newDeviceName += ` ${deviceCount + 1}`
       }
@@ -320,7 +320,7 @@ export default ({ api }) => {
       })
       // limit apps to only the ones we support
       const appList = filter(
-        item => includes(item.name, values(Lockbox.constants.supportedApps)),
+        (item) => includes(item.name, values(Lockbox.constants.supportedApps)),
         appInfos.application_versions
       )
       yield put(A.setLatestAppInfosSuccess(appList))

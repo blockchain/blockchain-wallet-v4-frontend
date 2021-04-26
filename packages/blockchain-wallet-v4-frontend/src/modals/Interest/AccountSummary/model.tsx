@@ -82,7 +82,7 @@ export const StatusIconWrapper = styled.div<{ color: string }>`
   justify-content: center;
   align-items: center;
   margin-right: 16px;
-  background: ${props => props.theme[props.color]};
+  background: ${(props) => props.theme[props.color]};
   border-radius: 20px;
   min-height: 38px;
   min-width: 38px;

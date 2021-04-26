@@ -29,7 +29,7 @@ class FiatDisplayContainer extends React.PureComponent<Props> {
   render() {
     const { data, ...rest } = this.props
     return data.cata({
-      Success: value => <Success {...rest}>{value}</Success>,
+      Success: (value) => <Success {...rest}>{value}</Success>,
       Failure: () => <Error {...rest} />,
       Loading: () => <Loading {...rest} />,
       NotAsked: () => <Loading {...rest} />
@@ -48,7 +48,7 @@ const mapStateToProps = (state, ownProps) => ({
   erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrElse([])
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   algoActions: bindActionCreators(actions.core.data.algo, dispatch),
   bchActions: bindActionCreators(actions.core.data.bch, dispatch),
   btcActions: bindActionCreators(actions.core.data.btc, dispatch),

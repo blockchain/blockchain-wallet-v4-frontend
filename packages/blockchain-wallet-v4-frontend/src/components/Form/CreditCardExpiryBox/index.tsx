@@ -66,7 +66,7 @@ export const validateCreditCardExpiry = (value: string) => {
   }
 }
 
-const CreditCardExpiryBox: React.FC<Props> = props => {
+const CreditCardExpiryBox: React.FC<Props> = (props) => {
   return <TextBox {...props} />
 }
 

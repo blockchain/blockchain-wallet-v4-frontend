@@ -20,7 +20,7 @@ const Container = styled.div`
   padding-left: 5px;
 `
 
-const ComboDisplay = props => {
+const ComboDisplay = (props) => {
   return (
     <Wrapper>
       <CoinDisplay {...props} />

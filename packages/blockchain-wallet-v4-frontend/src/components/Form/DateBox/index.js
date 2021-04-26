@@ -19,11 +19,11 @@ const Error = styled(Text)`
   right: 0;
   height: 15px;
 `
-const getErrorState = meta => {
+const getErrorState = (meta) => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
-const DateBox = field => {
+const DateBox = (field) => {
   const errorState = getErrorState(field.meta)
 
   return (

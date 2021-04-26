@@ -84,7 +84,7 @@ class Conflict extends PureComponent<
     }
   }
 
-  handleAddress = event => {
+  handleAddress = (event) => {
     const { allowSubmit, considerEmail, selectedEmail } = this.state
     this.setState({ selectedAddress: event.target.value })
     if (!allowSubmit && (selectedEmail !== null || !considerEmail)) {
@@ -92,7 +92,7 @@ class Conflict extends PureComponent<
     }
   }
 
-  handleEmail = event => {
+  handleEmail = (event) => {
     const { allowSubmit, considerAddress, selectedAddress } = this.state
     this.setState({ selectedEmail: event.target.value })
     if (!allowSubmit && (selectedAddress !== null || !considerAddress)) {

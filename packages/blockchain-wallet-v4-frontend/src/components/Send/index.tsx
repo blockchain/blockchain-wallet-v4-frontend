@@ -40,15 +40,15 @@ export const AddressButton = styled.div`
   width: 40px;
   height: 40px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme.grey200};
+  border: 1px solid ${(props) => props.theme.grey200};
 
   &:hover {
-    background-color: ${props => props.theme.grey000};
+    background-color: ${(props) => props.theme.grey000};
   }
 `
 export const FeeFormContainer = styled.div<{ toggled: boolean }>`
   display: flex;
-  flex-direction: ${props => (props.toggled ? 'column' : 'row')};
+  flex-direction: ${(props) => (props.toggled ? 'column' : 'row')};
   align-items: center;
   justify-content: space-between;
   width: 100%;

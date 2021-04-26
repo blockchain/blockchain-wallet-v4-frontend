@@ -16,19 +16,19 @@ class SettingContainer extends React.PureComponent {
 
   render() {
     return this.props.data.cata({
-      Success: value => <Success {...value} />,
-      Failure: message => <Error>{message}</Error>,
+      Success: (value) => <Success {...value} />,
+      Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.settings, dispatch)
 })
 

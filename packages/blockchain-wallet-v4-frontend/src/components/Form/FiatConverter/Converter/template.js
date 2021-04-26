@@ -23,7 +23,7 @@ const FiatConverterInput = styled.div`
   width: 100%;
   height: 100%;
   margin-bottom: 0;
-  margin-top: ${props => (props.marginTop ? props.marginTop : '')};
+  margin-top: ${(props) => (props.marginTop ? props.marginTop : '')};
 `
 const Container = styled.div`
   position: relative;
@@ -39,7 +39,7 @@ const Unit = styled.span`
   font-size: 12px;
   font-weight: 500;
   position: absolute;
-  color: ${props => props.theme['text-black']};
+  color: ${(props) => props.theme['text-black']};
 `
 const Equals = styled(Text)`
   margin: 0 8px;
@@ -49,14 +49,14 @@ const Error = styled(Text)`
   display: block;
   font-size: 12px;
   height: 15px;
-  top: ${props => (props.errorBottom ? '40px' : '-20px')};
+  top: ${(props) => (props.errorBottom ? '40px' : '-20px')};
   right: 0;
 `
-const getErrorState = meta => {
+const getErrorState = (meta) => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
-const Converter = props => {
+const Converter = (props) => {
   const {
     className,
     coin,

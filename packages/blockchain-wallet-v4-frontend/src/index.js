@@ -3,7 +3,7 @@ import './create-nonce'
 // load zxcvbn dependency async and set on window
 require.ensure(
   ['zxcvbn'],
-  require => (window.zxcvbn = require('zxcvbn')),
+  (require) => (window.zxcvbn = require('zxcvbn')),
   'zxcvbn'
 )
 

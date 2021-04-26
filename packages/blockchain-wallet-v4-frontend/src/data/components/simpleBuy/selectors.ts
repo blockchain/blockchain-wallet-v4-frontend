@@ -21,7 +21,7 @@ import { getRate } from '../swap/utils'
 import { LIMIT } from './model'
 import { SBCardStateEnum, SBCheckoutFormValuesType } from './types'
 
-const hasEligibleFiatCurrency = currency =>
+const hasEligibleFiatCurrency = (currency) =>
   currency === FiatTypeEnum.USD ||
   currency === FiatTypeEnum.GBP ||
   currency === FiatTypeEnum.EUR
@@ -61,7 +61,7 @@ export const getDefaultPaymentMethod = (state: RootState) => {
     sbMethods: ExtractSuccess<typeof sbMethodsR>,
     sbBalances: ExtractSuccess<typeof sbBalancesR>
   ): SBPaymentMethodType | undefined => {
-    const lastOrder = orders.find(order => {
+    const lastOrder = orders.find((order) => {
       if (actionType === 'BUY') {
         return order.inputCurrency in FiatTypeEnum
       } else {
@@ -79,7 +79,7 @@ export const getDefaultPaymentMethod = (state: RootState) => {
             FiatTypeEnum.EUR
           ]
           const balancesToUse = Object.keys(sbBalances)
-            .filter(key => currenciesToUse.indexOf(FiatTypeEnum[key]) >= 0)
+            .filter((key) => currenciesToUse.indexOf(FiatTypeEnum[key]) >= 0)
             .reduce((acc, key) => {
               acc[key] = sbBalances[key]
               return acc
@@ -92,14 +92,14 @@ export const getDefaultPaymentMethod = (state: RootState) => {
         }
 
         return sbMethods.methods.find(
-          method =>
+          (method) =>
             method.type === 'FUNDS' && method.currency === fiatCurrencyToUse
         )
       default:
         if (!lastOrder) return undefined
 
         const methodsOfType = sbMethods.methods.filter(
-          method => method.type === lastOrder.paymentType
+          (method) => method.type === lastOrder.paymentType
         )
         const method = head(methodsOfType)
 
@@ -110,7 +110,7 @@ export const getDefaultPaymentMethod = (state: RootState) => {
             const active = SBCardStateEnum.ACTIVE
             const sbCards = getSBCards(state).getOrElse([])
             const sbCard = sbCards.find(
-              value =>
+              (value) =>
                 value.id === lastOrder.paymentMethodId &&
                 value.state === SBCardStateEnum[active]
             )
@@ -125,7 +125,7 @@ export const getDefaultPaymentMethod = (state: RootState) => {
               card
             }
           case 'FUNDS':
-            return methodsOfType.find(method => {
+            return methodsOfType.find((method) => {
               return (
                 method.currency === lastOrder.inputCurrency &&
                 method.currency === fiatCurrency &&
@@ -136,7 +136,7 @@ export const getDefaultPaymentMethod = (state: RootState) => {
           case 'BANK_TRANSFER':
             if (!method) return
             const bankAccount = bankAccounts.find(
-              acct => acct.id === lastOrder.paymentMethodId
+              (acct) => acct.id === lastOrder.paymentMethodId
             )
             if (bankAccount && bankAccount.state === 'ACTIVE') {
               return {
@@ -163,7 +163,7 @@ export const hasFiatBalances = (state: RootState) => {
   const fiatBalances = Object.keys(
     state.components.simpleBuy.balances.data
   ).filter(
-    currency =>
+    (currency) =>
       currency in FiatTypeEnum &&
       state.components.simpleBuy.balances.data[currency].available > 0
   )
@@ -204,7 +204,7 @@ export const getSBOrders = (state: RootState) =>
   state.components.simpleBuy.orders
 
 export const getSBLatestPendingOrder = (state: RootState) =>
-  state.components.simpleBuy.orders.getOrElse([]).find(order => {
+  state.components.simpleBuy.orders.getOrElse([]).find((order) => {
     return (
       order.state === 'PENDING_CONFIRMATION' ||
       order.state === 'PENDING_DEPOSIT'
@@ -276,7 +276,9 @@ export const getUserSddEligibleTier = (state: RootState) => {
 export const getUserLimit = (state: RootState, type: SBPaymentTypes) => {
   const sbMethodsR = getSBPaymentMethods(state)
   return lift((sbMethods: ExtractSuccess<typeof sbMethodsR>) => {
-    const paymentMethod = sbMethods.methods.find(method => method.type === type)
+    const paymentMethod = sbMethods.methods.find(
+      (method) => method.type === type
+    )
     return paymentMethod?.limits || LIMIT
   })(sbMethodsR)
 }

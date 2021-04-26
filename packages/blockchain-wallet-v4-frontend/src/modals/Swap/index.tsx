@@ -41,7 +41,7 @@ class Swap extends PureComponent<Props, State> {
 
   render() {
     return this.props.data.cata({
-      Success: val => (
+      Success: (val) => (
         <Flyout
           {...this.props}
           isOpen={this.state.show}

@@ -49,7 +49,7 @@ class YubikeyContainer extends React.PureComponent {
 
   render() {
     return this.props.data.cata({
-      Success: value => (
+      Success: (value) => (
         <Yubikey
           data={value}
           handleClick={this.handleClick}
@@ -67,11 +67,11 @@ class YubikeyContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   settingsActions: bindActionCreators(actions.core.settings, dispatch),
   securityCenterActions: bindActionCreators(

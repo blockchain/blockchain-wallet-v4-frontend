@@ -164,7 +164,7 @@ export default ({
           const sbMethods = sbMethodsR.getOrElse(DEFAULT_METHODS)
           if (Remote.Success.is(sbMethodsR) && sbMethods.methods.length) {
             const bankTransferMethod = sbMethods.methods.filter(
-              method => method.type === 'BANK_TRANSFER'
+              (method) => method.type === 'BANK_TRANSFER'
             )[0]
             yield put(
               actions.components.simpleBuy.handleSBMethodChange({
@@ -216,7 +216,7 @@ export default ({
       // Set the default account whenever you fetch the entire saved accounts
       // list. It's convenient.
       if (accounts.length > 0) {
-        const account = accounts.find(a => a.state === 'ACTIVE')
+        const account = accounts.find((a) => a.state === 'ACTIVE')
         yield put(A.setBankDetails({ account }))
       }
     } catch (e) {

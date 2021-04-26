@@ -28,7 +28,7 @@ type OwnProps = {
   weight?: number
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   coinDisplayed: selectors.preferences.getCoinDisplayed(state)
 })
 

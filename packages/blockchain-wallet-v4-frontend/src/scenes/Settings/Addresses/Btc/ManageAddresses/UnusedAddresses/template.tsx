@@ -26,7 +26,7 @@ const UnusedAddressesTemplate = ({
   search,
   unusedAddresses
 }) => {
-  const isMatch = addr =>
+  const isMatch = (addr) =>
     !search ||
     addr.label.toLowerCase().indexOf(search.toLowerCase()) > -1 ||
     addr.address.toLowerCase().indexOf(search.toLowerCase()) > -1

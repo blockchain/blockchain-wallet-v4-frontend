@@ -28,13 +28,13 @@ class ConverterContainer extends React.PureComponent {
     return null
   }
 
-  handleCoinChange = e => {
+  handleCoinChange = (e) => {
     const { currency, rates, unit } = this.props
     const nextProps = convertCoinToFiat(e.target.value, unit, currency, rates)
     this.props.onChange(nextProps)
   }
 
-  handleFiatChange = e => {
+  handleFiatChange = (e) => {
     const { currency, rates, unit } = this.props
     const decimals = e.target.value.split('.')[1]
     const needsFormatting = decimals && decimals.length > 2

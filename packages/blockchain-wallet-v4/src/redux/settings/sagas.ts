@@ -7,7 +7,7 @@ import * as walletActions from '../wallet/actions'
 import * as wS from '../wallet/selectors'
 import * as actions from './actions'
 
-const taskToPromise = t =>
+const taskToPromise = (t) =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api }) => {

@@ -3,16 +3,16 @@ import * as StellarSDK from 'stellar-sdk'
 
 export default ({ apiUrl, get, horizonUrl }) => {
   const server = new StellarSDK.Server(horizonUrl)
-  const createXlmAccount = publicKey =>
+  const createXlmAccount = (publicKey) =>
     get({
       url: `https://friendbot.stellar.org`,
       endPoint: '',
       data: { addr: publicKey }
     })
 
-  const getXlmAccount = publicKey => server.loadAccount(publicKey)
+  const getXlmAccount = (publicKey) => server.loadAccount(publicKey)
 
-  const getTimebounds = waitTime => server.fetchTimebounds(waitTime)
+  const getTimebounds = (waitTime) => server.fetchTimebounds(waitTime)
 
   const getXlmFees = () =>
     get({
@@ -20,7 +20,7 @@ export default ({ apiUrl, get, horizonUrl }) => {
       endPoint: '/mempool/fees/xlm'
     })
 
-  const pushXlmTx = tx => server.submitTransaction(tx)
+  const pushXlmTx = (tx) => server.submitTransaction(tx)
 
   const getXlmTransactions = ({
     limit,

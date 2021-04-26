@@ -21,7 +21,7 @@ const Container = styled.span`
 `
 const Change = styled.span<{ color: keyof DefaultTheme }>`
   font-weight: 600;
-  color: ${props => props.theme[props.color]};
+  color: ${(props) => props.theme[props.color]};
 `
 
 const getSignFromMovement = (movement: PriceMovementDirType) => {
@@ -62,7 +62,7 @@ class PriceMovement extends PureComponent<Props, State> {
     return (
       <Container>
         {this.props.data.cata({
-          Success: val => (
+          Success: (val) => (
             <Change
               color={getColorFromMovement(val.price24Hr.overallChange.movement)}
             >

@@ -36,7 +36,7 @@ export const selectAccount = curry((index, hdwallet) =>
   selectAccounts(hdwallet).get(index)
 )
 
-export const selectDefaultAccount = hdwallet =>
+export const selectDefaultAccount = (hdwallet) =>
   selectAccount(selectDefaultAccountIdx(hdwallet), hdwallet)
 
 export const selectContextGrouped = compose(
@@ -51,25 +51,25 @@ export const selectContext = compose(
 
 const shiftHDWallet = compose(shiftIProp('seed_hex', 'seedHex'), shift)
 
-export const fromJS = x => {
+export const fromJS = (x) => {
   if (is(HDWallet, x)) {
     return x
   }
-  const hdwalletCons = compose(over(accounts, HDAccountList.fromJS), hdw =>
+  const hdwalletCons = compose(over(accounts, HDAccountList.fromJS), (hdw) =>
     shiftHDWallet(hdw).forward()
   )
   return hdwalletCons(new HDWallet(x))
 }
 
-export const toJS = pipe(HDWallet.guard, hd => {
+export const toJS = pipe(HDWallet.guard, (hd) => {
   const hdwalletDecons = compose(
-    hdw => shiftHDWallet(hdw).back(),
+    (hdw) => shiftHDWallet(hdw).back(),
     over(accounts, HDAccountList.toJS)
   )
   return hdwalletDecons(hd).toJS()
 })
 
-export const reviver = jsObject => {
+export const reviver = (jsObject) => {
   return new HDWallet(jsObject)
 }
 
@@ -117,9 +117,7 @@ export const encrypt = curry((iterations, sharedKey, password, hdWallet) => {
   const cipher = crypto.encryptSecPass(sharedKey, iterations, password)
   const traverseSeed = traverseOf(seedHex, Task.of, cipher)
   const traverseAccounts = traverseOf(secretsLens, Task.of, cipher)
-  return Task.of(hdWallet)
-    .chain(traverseSeed)
-    .chain(traverseAccounts)
+  return Task.of(hdWallet).chain(traverseSeed).chain(traverseAccounts)
 })
 
 // decrypt :: Number -> String -> String -> HDWallet -> Task Error HDWallet
@@ -127,12 +125,10 @@ export const decrypt = curry((iterations, sharedKey, password, hdWallet) => {
   const cipher = crypto.decryptSecPass(sharedKey, iterations, password)
   const traverseSeed = traverseOf(seedHex, Task.of, cipher)
   const traverseAccounts = traverseOf(secretsLens, Task.of, cipher)
-  return Task.of(hdWallet)
-    .chain(traverseSeed)
-    .chain(traverseAccounts)
+  return Task.of(hdWallet).chain(traverseSeed).chain(traverseAccounts)
 })
 
-export const createNew = mnemonic =>
+export const createNew = (mnemonic) =>
   fromJS({
     seed_hex: mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : '',
     passphrase: '',
@@ -144,7 +140,7 @@ export const createNew = mnemonic =>
 export const js = (label, mnemonic, nAccounts, network) => {
   const seedHex = mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : ''
 
-  const createAccountAtIndex = i => {
+  const createAccountAtIndex = (i) => {
     const derivations = generateDerivations(seedHex, i, network)
     return HDAccount.js(`${label}${i > 0 ? ` ${i + 1}` : ''}`, derivations)
   }

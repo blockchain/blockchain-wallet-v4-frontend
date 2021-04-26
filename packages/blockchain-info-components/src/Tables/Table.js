@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   width: 100%;
 
   & > :last-child {
-    border-bottom: 1px solid ${props => props.theme.grey000};
+    border-bottom: 1px solid ${(props) => props.theme.grey000};
   }
 `
 

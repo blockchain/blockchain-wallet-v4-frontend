@@ -20,7 +20,7 @@ const DropdownWrapper = styled.div`
   position: relative;
   width: 60%;
   height: auto;
-  background-color: ${props => props.theme.white};
+  background-color: ${(props) => props.theme.white};
 `
 
 const DetailTable = styled.div`
@@ -110,12 +110,12 @@ const SecondStep = ({
         {':'}
         &nbsp;
         {utils.btc.formatPrivateKeyString(priv, format, addr).fold(
-          error => (
+          (error) => (
             <Text size='14px' weight={400} color='error'>
               {error.message}
             </Text>
           ),
-          keyString => (
+          (keyString) => (
             <KeyText size='14px' weight={400} data-e2e='btcPrivateKeyValue'>
               {keyString}
             </KeyText>

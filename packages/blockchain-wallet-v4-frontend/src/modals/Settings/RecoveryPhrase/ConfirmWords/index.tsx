@@ -19,7 +19,7 @@ class ConfirmWords extends PureComponent<Props> {
   componentDidMount() {
     // @ts-ignore
     const randomize = sortBy(prop(0))
-    const pair = map(x => [Math.random(), x])
+    const pair = map((x) => [Math.random(), x])
     const indexes = compose(
       take(5),
       // @ts-ignore
@@ -32,10 +32,10 @@ class ConfirmWords extends PureComponent<Props> {
     /* eslint-enable */
   }
 
-  handleSubmit = values => {
+  handleSubmit = (values) => {
     const errors = {}
     compose(
-      forEach(word => {
+      forEach((word) => {
         // @ts-ignore
         if (values[word] !== this.props.recoveryPhrase[split('w', word)[1]]) {
           // @ts-ignore

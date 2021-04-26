@@ -22,7 +22,7 @@ const isSafari = browser.satisfies({
 
 const TextWrapper = styled(Text)`
   a {
-    color: ${props => props.theme.blue600};
+    color: ${(props) => props.theme.blue600};
     text-decoration: none;
   }
 `
@@ -97,7 +97,7 @@ class CryptoLinkHandlingContainer extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch)
 })
 

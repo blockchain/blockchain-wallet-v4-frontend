@@ -19,7 +19,7 @@ import { getData } from './selectors'
 import Failure from './template.failure'
 import Success from './template.success'
 
-const EnterAmount = props => {
+const EnterAmount = (props) => {
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
       props.simpleBuyActions.fetchSBPaymentMethods(props.fiatCurrency)
@@ -40,7 +40,7 @@ const EnterAmount = props => {
   }
 
   return props.data.cata({
-    Success: val => (
+    Success: (val) => (
       <Success
         {...val}
         {...props}

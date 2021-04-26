@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
 `
 
-const Success: React.FC<Props> = props => {
+const Success: React.FC<Props> = (props) => {
   // debugging
   // props.loan.status = 'PENDING_CLOSE'
   // props.loan.collateralisationRatio = 1.3

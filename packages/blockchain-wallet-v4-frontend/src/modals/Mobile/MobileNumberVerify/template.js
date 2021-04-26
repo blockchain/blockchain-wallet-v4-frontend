@@ -33,7 +33,7 @@ const OptionsText = styled(Text)`
     margin-right: 4px;
   }
 `
-const MobileNumberVerify = props => {
+const MobileNumberVerify = (props) => {
   const {
     close,
     closeAll,

@@ -7,7 +7,7 @@ const SettingDescription = styled.div`
   font-size: 13px;
   margin-top: 5px;
   margin-bottom: 10px;
-  color: ${props => props.theme.grey700};
+  color: ${(props) => props.theme.grey700};
 
   & > * {
     display: inline;

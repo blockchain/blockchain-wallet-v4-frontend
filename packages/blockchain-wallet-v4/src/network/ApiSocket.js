@@ -80,13 +80,13 @@ export default class ApiSocket {
     return compose(JSON.parse, prop('data'))(msg)
   }
 
-  send = message => {
+  send = (message) => {
     if (this.isReady()) {
       this.socket.send(JSON.stringify(message))
     }
   }
 
-  handleSystemMessage = msg => {
+  handleSystemMessage = (msg) => {
     if (isHeartbeatMsg(msg)) {
       this.stopReconnecting()
       this.heartbeatIntervalPID = setInterval(

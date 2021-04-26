@@ -51,7 +51,7 @@ export const sumBigNumbers = reduce(
 const sumBalance = compose(
   sumBigNumbers,
   // @ts-ignore
-  map(account => account.map(S.selectBalanceFromAccount).getOrElse('0')),
+  map((account) => account.map(S.selectBalanceFromAccount).getOrElse('0')),
   // @ts-ignore
   values
 )
@@ -73,7 +73,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     if (networks.xlm !== 'testnet') return
     try {
       const accountIds = yield select(S.getContext)
-      yield all(accountIds.map(id => call(api.createXlmAccount, id)))
+      yield all(accountIds.map((id) => call(api.createXlmAccount, id)))
       yield call(fetchData)
     } catch (e) {}
   }
@@ -90,7 +90,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
 
   const fetchData = function * () {
     const accountIds = yield select(S.getContext)
-    yield all(accountIds.map(id => call(fetchAccount, id)))
+    yield all(accountIds.map((id) => call(fetchAccount, id)))
     const accounts = yield select(S.getAccounts)
     const data = { info: { final_balance: sumBalance(accounts) } }
     yield put(A.fetchDataSuccess(data))
@@ -214,7 +214,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter(
       // @ts-ignore
-      tx => moment.unix(tx.time).isBetween(startDate, endDate),
+      (tx) => moment.unix(tx.time).isBetween(startDate, endDate),
       fullTxList
     )
 
@@ -290,7 +290,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     const txNotes = (yield select(getXlmTxNotes)).getOrElse({})
     const accounts = concat(walletAccounts, lockboxAccounts)
     return unnest(
-      map(tx => {
+      map((tx) => {
         const operations = decodeOperations(tx)
         return compose(
           // @ts-ignore

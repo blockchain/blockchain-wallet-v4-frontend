@@ -30,7 +30,7 @@ const Requirements = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 28px;
-  border-top: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 const ContentTop = styled.div`
   display: flex;
@@ -38,7 +38,7 @@ const ContentTop = styled.div`
   flex: 1;
 `
 const ContentItem = styled.div`
-  border-bottom: 1px solid ${props => props.theme.grey000};
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
   padding: 28px 250px 28px 40px;
 `
 
@@ -54,13 +54,13 @@ const LeftTopCol = styled.div`
 const BannerContainer = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: ${props => props.theme.blue000};
+  background-color: ${(props) => props.theme.blue000};
   border-radius: 8px;
   margin-bottom: 24px;
   padding: 16px;
 `
 
-const AdditionalInfo: React.FC<Props> = props => {
+const AdditionalInfo: React.FC<Props> = (props) => {
   return (
     <Wrapper>
       <FlyoutWrapper style={{ paddingBottom: '0px', borderBottom: 'grey000' }}>

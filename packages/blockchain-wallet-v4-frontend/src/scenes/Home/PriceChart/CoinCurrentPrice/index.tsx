@@ -9,7 +9,7 @@ const CoinCurrentPrice = ({ priceChart: { coin = 'BTC' } }: Props) => {
   return <CoinTicker coin={coin} data-e2e={`coinTicker${coin}`} />
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   priceChart: selectors.preferences.getPriceChart(state)
 })
 

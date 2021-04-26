@@ -95,7 +95,7 @@ const ExplainerText = styled(Text)`
   margin-top: 15px;
   font-size: 16px;
   font-weight: 500;
-  color: ${props => props.theme.grey600};
+  color: ${(props) => props.theme.grey600};
 `
 const LearnMoreLink = styled(Link)`
   display: inline-flex;
@@ -105,7 +105,7 @@ const LearnMoreText = styled(Text)`
   margin-left: 3px;
   size: 16px;
   font-weight: 500;
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
 `
 
 class TransactionsContainer extends React.PureComponent<Props> {
@@ -133,7 +133,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
     this.props.initTxs()
   }
 
-  handleArchive = address => {
+  handleArchive = (address) => {
     // @ts-ignore
     this.props.setAddressArchived && this.props.setAddressArchived(address)
   }
@@ -362,7 +362,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
       ),
     loadMoreTxs: () =>
       dispatch(actions.components[`${toLower(coin)}Transactions`].loadMore()),
-    setAddressArchived: address =>
+    setAddressArchived: (address) =>
       dispatch(actions.core.wallet.setAddressArchived(address, true))
   }
 }

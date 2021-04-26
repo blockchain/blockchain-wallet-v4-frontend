@@ -159,5 +159,5 @@ export type CardNameType =
   | 'ELO'
   | 'VISA'
 
-export const getCardTypeByValue = value =>
-  CARD_TYPES.find(cardType => cardType.startPattern.test(value))
+export const getCardTypeByValue = (value) =>
+  CARD_TYPES.find((cardType) => cardType.startPattern.test(value))
