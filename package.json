@@ -35,7 +35,6 @@
   },
   "lint-staged": {
     "packages/*/src/**/*.{js,ts,tsx}": [
-      "prettier --write",
       "eslint --fix",
       "yarn test --bail --findRelatedTests",
       "git add"
@@ -44,7 +43,6 @@
       "stylelint './packages/*/src/**/*.{js,tsx}'"
     ],
     "packages/**/*.json": [
-      "prettier --write",
       "git add"
     ]
   },
