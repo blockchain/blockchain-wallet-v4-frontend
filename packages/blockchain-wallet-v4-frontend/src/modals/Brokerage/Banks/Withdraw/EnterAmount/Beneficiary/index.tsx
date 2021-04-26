@@ -11,7 +11,7 @@ import { Props as OwnProps } from '../template.success'
 import { BeneficiaryIcon, BeneficiaryName } from './model'
 
 const Container = styled.div<{ onClick }>`
-  border: 1px solid ${(props) => props.theme['grey100']};
+  border: 1px solid ${(props) => props.theme.grey100};
   border-radius: 8px;
   padding: 20px 24px;
   display: flex;

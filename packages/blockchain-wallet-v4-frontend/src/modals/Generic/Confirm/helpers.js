@@ -74,7 +74,7 @@ export const selectMessage = (message, values) => {
       )
     case C.PHONE_CALL_MSG:
       return (
-        <Fragment>
+        <>
           <Text size='18px'>
             <FormattedMessage
               id='modals.confirm.message.phone_call'
@@ -95,7 +95,7 @@ export const selectMessage = (message, values) => {
               values={values}
             />
           </Text>
-        </Fragment>
+        </>
       )
     case C.CONFIRM_DELETE_LOCKBOX_MESSAGE:
       return (

@@ -29,7 +29,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   })
   const { convertCoinFromBaseUnitToFiat } = coinSagas({ coreSagas, networks })
 
-  const buildAndPublishPayment = function * (
+  const buildAndPublishPayment = function* (
     coin: CoinType,
     payment: PaymentType,
     destination: string
@@ -68,7 +68,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     return payment.value()
   }
 
-  const createLimits = function * (
+  const createLimits = function* (
     payment: PaymentValue,
     custodialBalances?: SBBalancesType
   ) {
@@ -109,10 +109,10 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
 
       yield put(
         A.setDepositLimits({
-          maxFiat: maxFiat,
+          maxFiat,
           minFiat: Number(convertBaseToStandard('FIAT', minFiat)), // default unit is cents, convert to standard
-          maxCoin: maxCoin,
-          minCoin: minCoin
+          maxCoin,
+          minCoin
         })
       )
     } catch (e) {
@@ -120,7 +120,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     }
   }
 
-  const createPayment = function * (source: AccountTypes) {
+  const createPayment = function* (source: AccountTypes) {
     const coin = S.getCoinType(yield select())
 
     const payment: PaymentValue = yield call(
@@ -146,7 +146,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     ]
   }
 
-  const getCustodialAccountForCoin = function * (coin: CoinType) {
+  const getCustodialAccountForCoin = function* (coin: CoinType) {
     let defaultAccountR
 
     yield put(actions.components.send.fetchPaymentsTradingAccount(coin))

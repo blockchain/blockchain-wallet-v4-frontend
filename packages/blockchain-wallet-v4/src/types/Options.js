@@ -26,9 +26,8 @@ export const toJS = pipe(Options.guard, (txnotes) => {
 export const fromJS = (object) => {
   if (isOptions(object)) {
     return object
-  } else {
-    return new Options(object)
   }
+  return new Options(object)
 }
 
 export const reviver = (object) => {

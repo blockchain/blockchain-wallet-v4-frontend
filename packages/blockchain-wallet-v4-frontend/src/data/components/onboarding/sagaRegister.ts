@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default () => {
   const onboardingSagas = sagas()
 
-  return function * swapGetStartedSaga() {
+  return function* swapGetStartedSaga() {
     yield takeLatest(
       // @ts-ignore
       AT.AIRDROP_CLAIM_SUBMIT_CLICKED,

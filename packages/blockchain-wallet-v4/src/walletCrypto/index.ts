@@ -254,7 +254,7 @@ const validateWrapper = (
         'version',
         wrapper
       ),
-      'Wallet version ' + wrapper.version + ' not supported.'
+      `Wallet version ${wrapper.version} not supported.`
     ]
   ]).map(() => wrapper)
 

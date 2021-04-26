@@ -134,7 +134,7 @@ const EmailInput = ({
     <InputRow>
       <TextBox
         errorBottom={errorBottom}
-        placeholder={'satoshi@blockchain.com'}
+        placeholder='satoshi@blockchain.com'
         input={input}
         meta={meta}
       />

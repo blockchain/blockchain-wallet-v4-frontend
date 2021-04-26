@@ -13,11 +13,14 @@ import { call, put, select, take } from 'redux-saga/effects'
 
 import { APIType } from 'core/network/api'
 import { ProcessedTxType } from 'core/transactions/types'
-import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
+import {
+  FetchCustodialOrdersAndTransactionsReturnType,
+  HDAccountList,
+  Wallet
+} from 'core/types'
 
 import Remote from '../../../remote'
 import * as transactions from '../../../transactions'
-import { HDAccountList, Wallet } from '../../../types'
 import { errorHandler, MISSING_WALLET } from '../../../utils'
 import { getAddressLabels } from '../../kvStore/btc/selectors'
 import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
@@ -28,13 +31,13 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 
-const transformTx = transactions.btc.transformTx
+const { transformTx } = transactions.btc
 const TX_PER_PAGE = 10
 
 export default ({ api }: { api: APIType }) => {
   const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
 
-  const fetchData = function * () {
+  const fetchData = function* () {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
@@ -51,7 +54,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchRates = function * () {
+  const fetchRates = function* () {
     try {
       yield put(A.fetchRatesLoading())
       const data = yield call(api.getBtcTicker)
@@ -61,14 +64,14 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const watchTransactions = function * () {
+  const watchTransactions = function* () {
     while (true) {
       const action = yield take(AT.FETCH_BTC_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
 
-  const fetchTransactions = function * (action) {
+  const fetchTransactions = function* (action) {
     try {
       const { payload } = action
       const { address, filter, reset } = payload
@@ -115,7 +118,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchTransactionHistory = function * ({ payload }) {
+  const fetchTransactionHistory = function* ({ payload }) {
     const { address, end, start } = payload
     // TODO: SEGWIT remove w/ DEPRECATED_V3
     // Remove address.length check
@@ -160,7 +163,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const __processTxs = function * (txs) {
+  const __processTxs = function* (txs) {
     // Page == Remote ([Tx])
     // Remote(wallet)
     const wallet = yield select(walletSelectors.getWallet)
@@ -189,7 +192,7 @@ export default ({ api }: { api: APIType }) => {
     return ProcessTxs(walletR, accountListR, txs, txNotes, addressLabels)
   }
 
-  const fetchFiatAtTime = function * (action) {
+  const fetchFiatAtTime = function* (action) {
     const { amount, currency, hash, time } = action.payload
     try {
       yield put(A.fetchFiatAtTimeLoading(hash, currency))

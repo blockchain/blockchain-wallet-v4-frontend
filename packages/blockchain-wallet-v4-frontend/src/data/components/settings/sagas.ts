@@ -10,7 +10,7 @@ import * as A from './actions'
 export const logLocation = 'components/settings/sagas'
 
 export default ({ api, coreSagas }) => {
-  const notificationsInitialized = function * () {
+  const notificationsInitialized = function* () {
     try {
       const typesR = yield select(selectors.core.settings.getNotificationsType)
       const types = typesR.getOrElse([])
@@ -26,7 +26,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const notificationsFormChanged = function * (action) {
+  const notificationsFormChanged = function* (action) {
     try {
       const form = path(['meta', 'form'], action)
       if (!equals('settingsNotifications', form)) return
@@ -47,7 +47,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const fetchProductsEligibility = function * () {
+  const fetchProductsEligibility = function* () {
     try {
       yield put(A.fetchProductsEligibilityLoading())
       const userIdR = yield select(

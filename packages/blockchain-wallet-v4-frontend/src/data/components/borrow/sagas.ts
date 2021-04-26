@@ -17,7 +17,7 @@ import {
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { actions, selectors } from 'data'
 
-import profileSagas from '../../../data/modules/profile/sagas'
+import profileSagas from '../../modules/profile/sagas'
 import exchangeSagaUtils from '../exchange/sagas.utils'
 import {
   convertBaseToStandard,
@@ -44,8 +44,10 @@ export default ({
   networks: any
 }) => {
   const { waitForUserData } = profileSagas({ api, coreSagas, networks })
-  const calculateProvisionalPayment = exchangeSagaUtils({ coreSagas, networks })
-    .calculateProvisionalPayment
+  const { calculateProvisionalPayment } = exchangeSagaUtils({
+    coreSagas,
+    networks
+  })
   const {
     buildAndPublishPayment,
     createLimits,
@@ -58,7 +60,7 @@ export default ({
     networks
   })
 
-  const addCollateral = function * () {
+  const addCollateral = function* () {
     try {
       yield put(actions.form.startSubmit('borrowForm'))
       const paymentR = S.getPayment(yield select())
@@ -108,7 +110,7 @@ export default ({
     }
   }
 
-  const amtCollateralRequiredClick = function * () {
+  const amtCollateralRequiredClick = function* () {
     const offer = S.getOffer(yield select())
     const loan = S.getLoan(yield select())
     if (!loan || !offer) return
@@ -117,7 +119,7 @@ export default ({
     yield put(actions.form.change('borrowForm', 'additionalCollateral', amt))
   }
 
-  const createBorrow = function * () {
+  const createBorrow = function* () {
     try {
       yield put(actions.form.startSubmit('borrowForm'))
       const coin = S.getCoinType(yield select())
@@ -187,11 +189,11 @@ export default ({
     }
   }
 
-  const destroyBorrow = function * () {
+  const destroyBorrow = function* () {
     yield put(actions.form.destroy('borrowForm'))
   }
 
-  const fetchBorrowOffers = function * () {
+  const fetchBorrowOffers = function* () {
     try {
       yield put(A.fetchBorrowOffersLoading())
       const offers = yield call(api.getOffers)
@@ -201,7 +203,7 @@ export default ({
     }
   }
 
-  const fetchLoanTransactions = function * ({
+  const fetchLoanTransactions = function* ({
     payload
   }: ReturnType<typeof A.fetchLoanTransactions>) {
     try {
@@ -220,13 +222,13 @@ export default ({
     }
   }
 
-  const fetchUserBorrowHistory = function * () {
+  const fetchUserBorrowHistory = function* () {
     try {
       yield put(A.fetchUserBorrowHistoryLoading())
       yield call(waitForUserData)
       let loans: Array<LoanType> = yield call(api.getUserBorrowHistory)
       loans = yield all(
-        loans.map(function * (loan) {
+        loans.map(function* (loan) {
           const financials: LoanFinancialsType = yield call(
             api.getLoanFinancials,
             loan.loanId
@@ -244,8 +246,8 @@ export default ({
     }
   }
 
-  const formChanged = function * (action: FormAction) {
-    const form = action.meta.form
+  const formChanged = function* (action: FormAction) {
+    const { form } = action.meta
     if (form !== 'borrowForm') return
     const offer = S.getOffer(yield select())
     if (!offer) return
@@ -288,7 +290,7 @@ export default ({
     }
   }
 
-  const initializeBorrow = function * ({
+  const initializeBorrow = function* ({
     payload
   }: ReturnType<typeof A.initializeBorrow>) {
     let defaultAccountR
@@ -324,7 +326,7 @@ export default ({
     }
   }
 
-  const initializeRepayLoan = function * ({
+  const initializeRepayLoan = function* ({
     payload
   }: ReturnType<typeof A.initializeRepayLoan>) {
     let defaultAccountR
@@ -368,13 +370,13 @@ export default ({
     }
   }
 
-  const maxCollateralClick = function * () {
+  const maxCollateralClick = function* () {
     const limits = S.getLimits(yield select())
 
     yield put(actions.form.change('borrowForm', 'principal', limits.maxFiat))
   }
 
-  const repayLoan = function * () {
+  const repayLoan = function* () {
     try {
       yield put(actions.form.startSubmit('repayLoanForm'))
       const paymentR = S.getPayment(yield select())

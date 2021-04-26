@@ -2,7 +2,9 @@ import { contains } from 'ramda'
 
 import { actions, actionTypes, selectors } from 'data'
 
-let timer, counter, interval
+let timer
+let counter
+let interval
 // Actions that won't refresh the autodisconnection timer
 let blackListedActivityTypes = [
   // ETH

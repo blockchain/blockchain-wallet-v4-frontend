@@ -6,6 +6,7 @@ import { Address, AddressMap, serializer, Wallet } from './index'
 const walletFixture = require('./__mocks__/wallet.v4')
 const walletFixtureSecpass = require('./__mocks__/wallet.v4-secpass')
 const walletFixtureV3 = require('./__mocks__/wallet.v3')
+
 const secpass = 'secret'
 
 describe('Wallet', () => {
@@ -74,7 +75,7 @@ describe('Wallet', () => {
         null,
         {}
       ).fork(
-        (failure) => expect(failure).toEqual(undefined),
+        (failure) => expect(failure).toBeUndefined(),
         (withNewAddress) => {
           let addresses = Wallet.selectAddresses(withNewAddress)
           expect(addresses.size).toEqual(n + 1)
@@ -100,7 +101,7 @@ describe('Wallet', () => {
         null,
         {}
       ).fork(
-        (failure) => expect(failure).toEqual(undefined),
+        (failure) => expect(failure).toBeUndefined(),
         (withNewAddress) => {
           let addresses = Wallet.selectAddresses(withNewAddress)
           expect(addresses.size).toEqual(n + 1)

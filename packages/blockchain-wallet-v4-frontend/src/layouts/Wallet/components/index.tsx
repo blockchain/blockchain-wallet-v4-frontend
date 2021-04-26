@@ -39,7 +39,7 @@ export const MenuItem = styled.button<{ colorCode?: keyof DefaultTheme }>`
   .icon {
     width: 26px;
     margin-right: 10px;
-    color: ${(props) => props.theme['grey400']};
+    color: ${(props) => props.theme.grey400};
   }
   .destination {
     white-space: nowrap;
@@ -79,7 +79,7 @@ export const MenuItem = styled.button<{ colorCode?: keyof DefaultTheme }>`
         color: ${(props) => props.theme.green600};
       }
       .destination {
-        color: ${(props) => props.theme['green800']};
+        color: ${(props) => props.theme.green800};
       }
     }
   }

@@ -35,13 +35,12 @@ export const setLabel = curry((index, label, addressLabelMap) =>
 export const fromJS = (labels = []) => {
   if (is(AddressLabelMap, labels)) {
     return labels
-  } else {
-    const addressLabels = compose(
-      indexBy(prop('index')),
-      map(AddressLabel.fromJS)
-    )(labels)
-    return new AddressLabelMap(addressLabels)
   }
+  const addressLabels = compose(
+    indexBy(prop('index')),
+    map(AddressLabel.fromJS)
+  )(labels)
+  return new AddressLabelMap(addressLabels)
 }
 
 export const reviver = (jsObject) => {

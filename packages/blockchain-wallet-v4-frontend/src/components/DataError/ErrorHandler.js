@@ -25,7 +25,7 @@ const ErrorHandler = (props) => {
 
   if (vulnerableAddress) {
     return (
-      <React.Fragment>
+      <>
         <MessageText size='18px' weight={400}>
           {message}
         </MessageText>
@@ -37,11 +37,13 @@ const ErrorHandler = (props) => {
             />
           </Text>
         </Button>
-      </React.Fragment>
+      </>
     )
-  } else if (errorMessage === BROKERAGE_INELIGIBLE) {
+  }
+  if (errorMessage === BROKERAGE_INELIGIBLE) {
     return <IneligibleErrorMessage />
-  } else if (errorMessage === FETCH_FEES_FAILURE) {
+  }
+  if (errorMessage === FETCH_FEES_FAILURE) {
     return (
       <Text size='16px' weight={400}>
         <FormattedMessage
@@ -50,36 +52,36 @@ const ErrorHandler = (props) => {
         />
       </Text>
     )
-  } else if (typeof errorMessage === 'string') {
+  }
+  if (typeof errorMessage === 'string') {
     return (
       <Text size='16px' color='error' weight={500}>
         {errorMessage}
       </Text>
     )
-  } else {
-    return (
-      <TextGroup inline>
-        <Text size='18px' weight={400}>
-          <FormattedMessage
-            id='components.dataerror.body'
-            defaultMessage='Please '
-          />
-        </Text>
-        <Link size='18px' data-e2e={e2e ? `${e2e}Link` : ''} onClick={onClick}>
-          <FormattedMessage
-            id='components.dataerror.click'
-            defaultMessage='click here'
-          />
-        </Link>
-        <Text size='18px' weight={400}>
-          <FormattedMessage
-            id='components.dataerror.refresh'
-            defaultMessage=' to refresh.'
-          />
-        </Text>
-      </TextGroup>
-    )
   }
+  return (
+    <TextGroup inline>
+      <Text size='18px' weight={400}>
+        <FormattedMessage
+          id='components.dataerror.body'
+          defaultMessage='Please '
+        />
+      </Text>
+      <Link size='18px' data-e2e={e2e ? `${e2e}Link` : ''} onClick={onClick}>
+        <FormattedMessage
+          id='components.dataerror.click'
+          defaultMessage='click here'
+        />
+      </Link>
+      <Text size='18px' weight={400}>
+        <FormattedMessage
+          id='components.dataerror.refresh'
+          defaultMessage=' to refresh.'
+        />
+      </Text>
+    </TextGroup>
+  )
 }
 
 export default ErrorHandler

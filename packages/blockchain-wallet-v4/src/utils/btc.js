@@ -60,14 +60,13 @@ export const addressToScript = (value, network) => {
   const n = network || networks.bitcoin
   try {
     if (value.toLowerCase().startsWith('bc')) {
-      const words = decode(value).words
+      const { words } = decode(value)
       const version = words[0]
       const program = compose(Buffer.from, fromWords, (w) => w.slice(1))(words)
 
       return compile([OP[`OP_${version}`], program])
-    } else {
-      return address.toOutputScript(value, n)
     }
+    return address.toOutputScript(value, n)
   } catch (e) {
     return undefined
   }
@@ -125,7 +124,7 @@ export const detectPrivateKeyFormat = (key) => {
     /^S[1-9A-HJ-Za-km-z]{29}$/.test(key) ||
     /^S[1-9A-HJ-Za-km-z]{30}$/.test(key)
   ) {
-    const testBytes = crypto.sha256(key + '?')
+    const testBytes = crypto.sha256(`${key}?`)
 
     if (testBytes[0] === 0x00 || testBytes[0] === 0x01) {
       return 'mini'
@@ -135,7 +134,7 @@ export const detectPrivateKeyFormat = (key) => {
 }
 
 const parseMiniKey = function (miniKey) {
-  const check = crypto.sha256(miniKey + '?')
+  const check = crypto.sha256(`${miniKey}?`)
   if (check[0] !== 0x00) {
     throw new Error('Invalid mini key')
   }
@@ -150,31 +149,30 @@ export const privateKeyStringToKey = function (
 ) {
   if (format === 'sipa' || format === 'compsipa') {
     return ECPair.fromWIF(value, network)
-  } else {
-    let keyBuffer = null
-
-    switch (format) {
-      case 'base58':
-        keyBuffer = Base58.decode(value)
-        break
-      case 'base64':
-        keyBuffer = Buffer.from(value, 'base64')
-        break
-      case 'hex':
-        keyBuffer = Buffer.from(value, 'hex')
-        break
-      case 'mini':
-        keyBuffer = parseMiniKey(value)
-        break
-      default:
-        throw new Error('Unsupported Key Format')
-    }
-    let keyPair = ECPair.fromPrivateKey(keyBuffer)
-    if (addr && keyPairToAddress(keyPair) !== addr) {
-      keyPair.compressed = false
-    }
-    return keyPair
   }
+  let keyBuffer = null
+
+  switch (format) {
+    case 'base58':
+      keyBuffer = Base58.decode(value)
+      break
+    case 'base64':
+      keyBuffer = Buffer.from(value, 'base64')
+      break
+    case 'hex':
+      keyBuffer = Buffer.from(value, 'hex')
+      break
+    case 'mini':
+      keyBuffer = parseMiniKey(value)
+      break
+    default:
+      throw new Error('Unsupported Key Format')
+  }
+  let keyPair = ECPair.fromPrivateKey(keyBuffer)
+  if (addr && keyPairToAddress(keyPair) !== addr) {
+    keyPair.compressed = false
+  }
+  return keyPair
 }
 
 // formatPrivateKeyString :: String -> String -> String

@@ -20,7 +20,7 @@ const BaseDateInput = styled(ReactDatetime)`
       Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 16px;
     font-weight: 400;
-    color: ${(props) => props.theme['grey800']};
+    color: ${(props) => props.theme.grey800};
     background-color: ${({ theme }) => theme.white};
     background-image: none;
     outline-width: 0;
@@ -88,7 +88,7 @@ const BaseDateInput = styled(ReactDatetime)`
   }
   .rdtPicker td.rdtOld,
   .rdtPicker td.rdtNew {
-    color: ${(props) => props.theme['grey400']};
+    color: ${(props) => props.theme.grey400};
   }
   .rdtPicker td.rdtToday {
     position: relative;
@@ -123,7 +123,7 @@ const BaseDateInput = styled(ReactDatetime)`
   }
 
   .rdtPicker td span.rdtOld {
-    color: ${(props) => props.theme['grey400']};
+    color: ${(props) => props.theme.grey400};
   }
   .rdtPicker td span.rdtDisabled,
   .rdtPicker td span.rdtDisabled:hover {
@@ -142,7 +142,7 @@ const BaseDateInput = styled(ReactDatetime)`
       Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
     font-weight: 400;
-    color: ${(props) => props.theme['grey800']};
+    color: ${(props) => props.theme.grey800};
   }
   .rdtPicker th.rdtSwitch {
     width: 100px;

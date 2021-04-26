@@ -6,7 +6,7 @@ const SettingStatus = styled.div<{ active: boolean }>`
   box-sizing: border-box;
   border-radius: 3px;
   background-color: ${(props) =>
-    props.active ? props.theme['success'] : props.theme['error']};
+    props.active ? props.theme.success : props.theme.error};
   color: ${(props) => props.theme.white};
   font-size: 12px;
   font-weight: 500;

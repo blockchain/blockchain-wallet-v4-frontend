@@ -38,7 +38,7 @@ const ShowUsedAddresses = (props) => {
           <Icon
             name='alert-filled'
             size='26px'
-            className={'warning-icon'}
+            className='warning-icon'
             color='brand-yellow'
           />
           <FormattedMessage

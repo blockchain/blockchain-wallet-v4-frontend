@@ -103,7 +103,8 @@ class Conflict extends PureComponent<
   handleSubmit = () => {
     const { actions, error, linkId } = this.props
     const { selectedAddress, selectedEmail } = this.state
-    let chosenAddress, chosenEmail
+    let chosenAddress
+    let chosenEmail
 
     // determine which email to use, if any
     switch (true) {

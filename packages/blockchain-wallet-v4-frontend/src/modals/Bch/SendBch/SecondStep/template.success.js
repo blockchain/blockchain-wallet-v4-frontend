@@ -68,7 +68,7 @@ const Success = (props) => {
   } = props
 
   return (
-    <React.Fragment>
+    <>
       {payPro && (
         <CountdownTimer
           expiryDate={payPro.expiration}
@@ -209,7 +209,7 @@ const Success = (props) => {
           <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
         </Link>
       </Footer>
-    </React.Fragment>
+    </>
   )
 }
 

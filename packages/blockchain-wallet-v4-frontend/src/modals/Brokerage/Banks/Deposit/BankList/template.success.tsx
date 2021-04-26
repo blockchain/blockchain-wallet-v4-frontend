@@ -97,7 +97,7 @@ const BankList = (props: Props) => {
                 dwStep: BankDWStepType.WIRE_INSTRUCTIONS
               })
             }}
-            type={'DEPOSIT'}
+            type='DEPOSIT'
           />
         ))}
         <AddNewButton

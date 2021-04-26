@@ -8,6 +8,7 @@ import { actions, model } from 'data'
 
 import { getData } from './selectors'
 import Wallets from './template'
+
 const { WALLET_TX_SEARCH } = model.form
 
 class BchWalletsContainer extends React.Component {

@@ -5,7 +5,7 @@ import { actions } from 'data'
 export const logLocation = 'components/dotTransactions/sagas'
 
 export default () => {
-  const initialized = function * () {
+  const initialized = function* () {
     try {
       yield put(actions.core.data.dot.fetchTransactions('', true))
     } catch (e) {
@@ -13,7 +13,7 @@ export default () => {
     }
   }
 
-  const loadMore = function * () {
+  const loadMore = function* () {
     try {
       yield put(actions.core.data.dot.fetchTransactions())
     } catch (e) {

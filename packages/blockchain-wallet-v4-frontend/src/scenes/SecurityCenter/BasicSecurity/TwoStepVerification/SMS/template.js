@@ -55,7 +55,7 @@ const SmsAuth = (props) => {
       <AuthenticatorSummary verified={uiState.successToggled}>
         <SmsAuthContainer>
           {(!smsNumber && !smsVerified) || uiState.changeNumberToggled ? (
-            <Fragment>
+            <>
               <Text size='14px' weight={400}>
                 <FormattedMessage
                   id='scenes.security.twostepverification.sms.entermobile'
@@ -75,9 +75,9 @@ const SmsAuth = (props) => {
                   Get Verification Code
                 </Button>
               </QRInputWrapper>
-            </Fragment>
+            </>
           ) : (
-            <Fragment>
+            <>
               <Text size='14px' weight={400}>
                 <FormattedMessage
                   id='scenes.security.twostepverification.sms.entercode'
@@ -97,7 +97,7 @@ const SmsAuth = (props) => {
                   Submit Code
                 </Button>
               </QRInputWrapper>
-            </Fragment>
+            </>
           )}
         </SmsAuthContainer>
       </AuthenticatorSummary>

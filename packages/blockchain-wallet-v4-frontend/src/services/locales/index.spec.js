@@ -12,14 +12,11 @@ describe('LocalesService getLanguageName', () => {
   ]
 
   testCases.forEach(function (testCase) {
-    it(
-      'Get correct language name from culture code: ' + testCase.cultureCode,
-      () => {
-        expect(LocalesService.getLanguageName(testCase.cultureCode)).toEqual(
-          testCase.value
-        )
-      }
-    )
+    it(`Get correct language name from culture code: ${testCase.cultureCode}`, () => {
+      expect(LocalesService.getLanguageName(testCase.cultureCode)).toEqual(
+        testCase.value
+      )
+    })
   })
 })
 
@@ -33,7 +30,7 @@ describe('LocalesService convertLanguageToCultureCode', () => {
   ]
 
   testCases.forEach(function (testCase) {
-    it('Convert culture code to language name: ' + testCase.language, () => {
+    it(`Convert culture code to language name: ${testCase.language}`, () => {
       expect(
         LocalesService.convertLanguageToCultureCode(testCase.language)
       ).toEqual(testCase.value)
@@ -51,7 +48,7 @@ describe('LocalesService convertCultureCodeToLanguage', () => {
   ]
 
   testCases.forEach(function (testCase) {
-    test('Convert language to culture code: ' + testCase.cultureCode, () => {
+    test(`Convert language to culture code: ${testCase.cultureCode}`, () => {
       expect(
         LocalesService.convertCultureCodeToLanguage(testCase.cultureCode)
       ).toEqual(testCase.value)

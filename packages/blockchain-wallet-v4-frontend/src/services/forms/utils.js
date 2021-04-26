@@ -12,8 +12,7 @@ const IpRegex = new RegExp(
   /^((?:(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%)\.){3}(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%))$/
 )
 const emailCodeRegex = new RegExp(/^[a-z0-9]{5}$/i)
-const isNumeric = (value) =>
-  value - 0 === value && ('' + value).trim().length > 0
+const isNumeric = (value) => value - 0 === value && `${value}`.trim().length > 0
 const isEmail = (value) => emailRegex.test(value)
 const isGuid = (value) => guidRegex.test(value)
 const isIpValid = (value) => IpRegex.test(value.trim())
@@ -22,37 +21,37 @@ const formatSSN = (val, prevVal) => {
   const nums = val.replace(/[^\d]/g, '')
   if (!prevVal || val.length > prevVal.length) {
     if (nums.length === 3) {
-      return nums + '-'
+      return `${nums}-`
     }
     if (nums.length === 5) {
-      return nums.slice(0, 3) + '-' + nums.slice(3) + '-'
+      return `${nums.slice(0, 3)}-${nums.slice(3)}-`
     }
   }
   if (nums.length <= 3) {
     return nums
   }
   if (nums.length <= 5) {
-    return nums.slice(0, 3) + '-' + nums.slice(3)
+    return `${nums.slice(0, 3)}-${nums.slice(3)}`
   }
-  return nums.slice(0, 3) + '-' + nums.slice(3, 5) + '-' + nums.slice(5, 9)
+  return `${nums.slice(0, 3)}-${nums.slice(3, 5)}-${nums.slice(5, 9)}`
 }
 const formatDOB = (val, prevVal) => {
   const nums = val.replace(/[^\d]/g, '')
   if (!prevVal || val.length > prevVal.length) {
     if (nums.length === 2) {
-      return nums + '/'
+      return `${nums}/`
     }
     if (nums.length === 4) {
-      return nums.slice(0, 2) + '/' + nums.slice(2, 4) + '/'
+      return `${nums.slice(0, 2)}/${nums.slice(2, 4)}/`
     }
   }
   if (nums.length <= 2) {
     return nums
   }
   if (nums.length <= 4) {
-    return nums.slice(0, 2) + '/' + nums.slice(2)
+    return `${nums.slice(0, 2)}/${nums.slice(2)}`
   }
-  return nums.slice(0, 2) + '/' + nums.slice(2, 4) + '/' + nums.slice(4, 8)
+  return `${nums.slice(0, 2)}/${nums.slice(2, 4)}/${nums.slice(4, 8)}`
 }
 const formatUSZipcode = (val) => {
   if (val.length > 5) return val.slice(0, 5)

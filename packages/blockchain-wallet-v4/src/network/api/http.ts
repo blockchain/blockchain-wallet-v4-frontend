@@ -49,7 +49,7 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
     const headers: Header = {
       'Content-Type': contentType
     }
-    if (sessionToken) headers['Authorization'] = `Bearer ${sessionToken}`
+    if (sessionToken) headers.Authorization = `Bearer ${sessionToken}`
 
     return headers
   }

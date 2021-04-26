@@ -118,7 +118,7 @@ const Header = ({ brokerageActions, fiatCurrency }) => {
           />
           <DepositOrWithdrawal
             fiatCurrency={fiatCurrency}
-            orderType={'DEPOSIT'}
+            orderType='DEPOSIT'
           />
         </LeftTopCol>
       </TopText>
@@ -135,13 +135,13 @@ const LimitSection = ({ paymentMethods, supportedCoins, walletCurrency }) => {
     return (
       <Limits>
         <LimitWrapper>
-          <Text color='grey600' size='14px' lineHeight={'25px'} weight={500}>
+          <Text color='grey600' size='14px' lineHeight='25px' weight={500}>
             <FormattedMessage
               id='modals.brokerage.daily_limit'
               defaultMessage='Daily Limit'
             />
           </Text>
-          <Text color='grey800' size='14px' lineHeight={'25px'} weight={600}>
+          <Text color='grey800' size='14px' lineHeight='25px' weight={600}>
             {fiatToString({
               value: convertBaseToStandard(
                 'FIAT',
@@ -164,17 +164,16 @@ const LimitSection = ({ paymentMethods, supportedCoins, walletCurrency }) => {
         </FiatIconWrapper>
       </Limits>
     )
-  } else {
-    // TODO: return something if no limits are available
-    return <></>
   }
+  // TODO: return something if no limits are available
+  return <></>
 }
 
 const Amount = ({ fiatCurrency }) => {
   return (
     <FlyoutWrapper>
       <AmountRow id='amount-row'>
-        <Text size={'56px'} color='textBlack' weight={500}>
+        <Text size='56px' color='textBlack' weight={500}>
           {Currencies[fiatCurrency]?.units[fiatCurrency].symbol}
         </Text>
         <Field

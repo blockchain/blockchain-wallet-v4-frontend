@@ -70,7 +70,7 @@ export default ({
     return account.address
   }
 
-  const fetchInterestBalance = function * () {
+  const fetchInterestBalance = function* () {
     try {
       yield put(A.fetchInterestBalanceLoading())
       if (!(yield call(isTier2)))
@@ -87,7 +87,7 @@ export default ({
     }
   }
 
-  const fetchInterestEligible = function * () {
+  const fetchInterestEligible = function* () {
     try {
       yield put(A.fetchInterestEligibleLoading())
       const response: ReturnType<typeof api.getInterestEligible> = yield call(
@@ -100,7 +100,7 @@ export default ({
     }
   }
 
-  const fetchInterestInstruments = function * () {
+  const fetchInterestInstruments = function* () {
     try {
       yield put(A.fetchInterestInstrumentsLoading())
       const response: ReturnType<
@@ -113,7 +113,7 @@ export default ({
     }
   }
 
-  const fetchInterestLimits = function * ({
+  const fetchInterestLimits = function* ({
     coin,
     currency
   }: ReturnType<typeof A.fetchInterestLimits>) {
@@ -131,7 +131,7 @@ export default ({
     }
   }
 
-  const fetchInterestAccount = function * ({
+  const fetchInterestAccount = function* ({
     coin
   }: ReturnType<typeof A.fetchInterestAccount>) {
     try {
@@ -146,7 +146,7 @@ export default ({
     }
   }
 
-  const fetchInterestRate = function * () {
+  const fetchInterestRate = function* () {
     try {
       yield put(A.fetchInterestRateLoading())
       const response: ReturnType<
@@ -158,7 +158,7 @@ export default ({
       yield put(A.fetchInterestRateFailure(error))
     }
   }
-  const fetchInterestTransactions = function * ({
+  const fetchInterestTransactions = function* ({
     payload
   }: ReturnType<typeof A.fetchInterestTransactions>) {
     const { coin, reset } = payload
@@ -183,8 +183,8 @@ export default ({
     }
   }
 
-  const formChanged = function * (action: FormAction) {
-    const form = action.meta.form
+  const formChanged = function* (action: FormAction) {
+    const { form } = action.meta
     if (form !== DEPOSIT_FORM) return
 
     try {
@@ -250,7 +250,7 @@ export default ({
     }
   }
 
-  const initializeDepositForm = function * ({
+  const initializeDepositForm = function* ({
     payload
   }: ReturnType<typeof A.initializeDepositForm>) {
     const { coin, currency } = payload
@@ -324,7 +324,7 @@ export default ({
     )
   }
 
-  const initializeWithdrawalForm = function * ({
+  const initializeWithdrawalForm = function* ({
     payload
   }: ReturnType<typeof A.initializeWithdrawalForm>) {
     const { coin, walletCurrency } = payload
@@ -348,7 +348,7 @@ export default ({
     }
   }
 
-  const routeToTxHash = function * ({
+  const routeToTxHash = function* ({
     payload
   }: ReturnType<typeof A.routeToTxHash>) {
     const { coin, txHash } = payload
@@ -359,7 +359,7 @@ export default ({
     yield put(actions.form.change('walletTxSearch', 'search', txHash))
   }
 
-  const sendDeposit = function * () {
+  const sendDeposit = function* () {
     try {
       yield put(actions.form.startSubmit(DEPOSIT_FORM))
       const formValues: InterestDepositFormType = yield select(
@@ -460,7 +460,7 @@ export default ({
     }
   }
 
-  const requestWithdrawal = function * ({
+  const requestWithdrawal = function* ({
     payload
   }: ReturnType<typeof A.requestWithdrawal>) {
     const { coin, withdrawalAmount } = payload
@@ -511,7 +511,7 @@ export default ({
     }
   }
 
-  const showInterestModal = function * ({
+  const showInterestModal = function* ({
     payload
   }: ReturnType<typeof A.showInterestModal>) {
     const { coin, step } = payload
@@ -524,7 +524,7 @@ export default ({
     )
   }
 
-  const fetchShowInterestCardAfterTransaction = function * ({
+  const fetchShowInterestCardAfterTransaction = function* ({
     payload
   }: ReturnType<typeof A.fetchShowInterestCardAfterTransaction>) {
     try {
@@ -540,7 +540,7 @@ export default ({
     }
   }
 
-  const stopShowingInterestModal = function * () {
+  const stopShowingInterestModal = function* () {
     try {
       yield call(api.stopInterestCtaAfterTransaction, false)
     } catch (e) {
@@ -549,7 +549,7 @@ export default ({
     yield put(actions.modals.closeModal('InterestPromo'))
   }
 
-  const fetchEDDStatus = function * () {
+  const fetchEDDStatus = function* () {
     try {
       yield put(A.fetchEDDStatusLoading())
       const response: ReturnType<typeof api.getSavingsEDDStatus> = yield call(

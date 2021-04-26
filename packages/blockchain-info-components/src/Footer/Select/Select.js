@@ -45,7 +45,7 @@ class Select extends PureComponent {
 
   onChange(e) {
     if (e.target && this.props.onChange) {
-      let value = e.target.value
+      let { value } = e.target
       this.setState({ value }, () => {
         this.props.onChange(value)
       })

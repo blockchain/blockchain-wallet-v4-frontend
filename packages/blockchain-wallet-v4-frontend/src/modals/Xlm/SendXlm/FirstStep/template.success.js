@@ -105,8 +105,8 @@ const FirstStep = (props) => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup inline margin={'15px'} style={{ zIndex: 3 }}>
-        <FormItem width={'40%'}>
+      <FormGroup inline margin='15px' style={{ zIndex: 3 }}>
+        <FormItem width='40%'>
           <FormLabel htmlFor='coin'>
             <FormattedMessage
               id='modals.sendxlm.firststep.currency'
@@ -120,7 +120,7 @@ const FirstStep = (props) => {
             validate={[required]}
           />
         </FormItem>
-        <FormItem width={'60%'}>
+        <FormItem width='60%'>
           <FormLabel htmlFor='from'>
             <FormattedMessage id='copy.from' defaultMessage='From' />
           </FormLabel>
@@ -136,7 +136,7 @@ const FirstStep = (props) => {
       </FormGroup>
       {noAccount && <NoAccountTemplate swapActions={swapActions} />}
       {!noAccount && (
-        <React.Fragment>
+        <>
           {isFromLockbox && !disableLockboxSend && (
             <WarningBanners type='info'>
               <Text color='warning' size='13px'>
@@ -196,7 +196,7 @@ const FirstStep = (props) => {
           {isFromCustody && isMnemonicVerified ? (
             <FormGroup>
               <CustodyToAccountMessage
-                coin={'XLM'}
+                coin='XLM'
                 account={from}
                 amount={amount}
               />
@@ -204,7 +204,7 @@ const FirstStep = (props) => {
           ) : (
             <ExchangePromo />
           )}
-          <FormGroup margin={'15px'}>
+          <FormGroup margin='15px'>
             <FormItem>
               <FormLabel htmlFor='amount'>
                 <FormattedMessage
@@ -228,7 +228,7 @@ const FirstStep = (props) => {
           )}
           {error && !isFromCustody && <ErrorBanner error={error} />}
           {!isFromCustody && (
-            <FormGroup margin={'15px'}>
+            <FormGroup margin='15px'>
               <FormItem>
                 <FormLabel htmlFor='memo'>
                   <FormattedMessage
@@ -287,7 +287,7 @@ const FirstStep = (props) => {
             </FormGroup>
           )}
 
-          <FormGroup margin={'15px'}>
+          <FormGroup margin='15px'>
             <FormItem>
               <FormLabel htmlFor='description'>
                 <FormattedMessage
@@ -310,7 +310,7 @@ const FirstStep = (props) => {
             </FormItem>
           </FormGroup>
           {!isFromCustody && (
-            <FormGroup inline margin={'10px'}>
+            <FormGroup inline margin='10px'>
               <FormItem>
                 <Text size='16px' weight={500}>
                   <FormattedMessage
@@ -356,7 +356,7 @@ const FirstStep = (props) => {
               />
             </Button>
           </SubmitFormGroup>
-        </React.Fragment>
+        </>
       )}
     </Form>
   )

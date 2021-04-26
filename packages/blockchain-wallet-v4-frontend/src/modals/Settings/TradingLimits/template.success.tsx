@@ -132,7 +132,7 @@ type Props = OwnProps & SuccessStateType
 const getItemBadgeStatus = (
   tier: number | undefined,
   type: ITEMS,
-  isEligible: boolean = false
+  isEligible = false
 ) => {
   return (tier !== undefined && TIERS[tier][type]) || isEligible ? (
     <CartridgeWrapper>

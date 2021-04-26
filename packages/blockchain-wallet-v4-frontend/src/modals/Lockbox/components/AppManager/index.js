@@ -150,7 +150,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
           )
         })
         return (
-          <React.Fragment>
+          <>
             {appList}
             <AllowManagerText size='11px' weight={400}>
               <FormattedHTMLMessage
@@ -174,7 +174,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
             >
               {this.props.mainButtonText}
             </ContinueButton>
-          </React.Fragment>
+          </>
         )
       },
       Failure: () => (

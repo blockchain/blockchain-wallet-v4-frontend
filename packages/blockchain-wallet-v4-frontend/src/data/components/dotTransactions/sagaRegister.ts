@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default () => {
   const dotTransactionsSagas = sagas()
 
-  return function * algoTransactionsSaga() {
+  return function* algoTransactionsSaga() {
     yield takeEvery(
       AT.TRANSACTIONS_INITIALIZED,
       dotTransactionsSagas.initialized

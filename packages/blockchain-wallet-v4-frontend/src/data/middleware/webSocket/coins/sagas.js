@@ -24,10 +24,10 @@ function uuidv4() {
 export default ({ api, socket }) => {
   const send = socket.send.bind(socket)
 
-  const pingPhone = function * (channelId, secretHex, phonePubKey, guid) {
+  const pingPhone = function* (channelId, secretHex, phonePubKey, guid) {
     const msg = {
       type: 'login_wallet',
-      channelId: channelId,
+      channelId,
       timestamp: Date.now()
     }
 
@@ -40,7 +40,7 @@ export default ({ api, socket }) => {
       Buffer.from(JSON.stringify(msg), 'utf8')
     )
     const payload = {
-      guid: guid,
+      guid,
       pubkeyhash: wCrypto
         .sha256(wCrypto.derivePubFromPriv(Buffer.from(secretHex, 'hex')))
         .toString('hex'),
@@ -51,7 +51,7 @@ export default ({ api, socket }) => {
     yield put(actions.core.data.misc.sendSecureChannelMessage(payload))
   }
 
-  const onOpen = function * () {
+  const onOpen = function* () {
     let secretHex = yield select(selectors.cache.getChannelPrivKey)
     let channelId = yield select(selectors.cache.getChannelChannelId)
 
@@ -68,7 +68,7 @@ export default ({ api, socket }) => {
       JSON.stringify({
         command: 'subscribe',
         entity: 'secure_channel',
-        param: { channelId: channelId }
+        param: { channelId }
       })
     )
 
@@ -80,7 +80,7 @@ export default ({ api, socket }) => {
     }
   }
 
-  const onAuth = function * () {
+  const onAuth = function* () {
     try {
       // 1. subscribe to block headers
       yield call(
@@ -177,7 +177,7 @@ export default ({ api, socket }) => {
     }
   }
 
-  const onMessage = function * (action) {
+  const onMessage = function* (action) {
     const message = prop('payload', action)
     try {
       switch (message.coin) {
@@ -333,7 +333,7 @@ export default ({ api, socket }) => {
     }
   }
 
-  const sentOrReceived = function * (coin, message) {
+  const sentOrReceived = function* (coin, message) {
     if (coin !== 'btc' && coin !== 'bch')
       throw new Error(
         `${coin} is not a valid coin. sentOrReceived only accepts btc and bch types.`
@@ -356,7 +356,7 @@ export default ({ api, socket }) => {
     return 'sent'
   }
 
-  const transactionsUpdate = function * (coin) {
+  const transactionsUpdate = function* (coin) {
     if (coin !== 'btc' && coin !== 'bch')
       throw new Error(
         `${coin} is not a valid coin. transactionsUpdate only accepts btc and bch types.`
@@ -375,7 +375,7 @@ export default ({ api, socket }) => {
     }
   }
 
-  const onClose = function * (action) {
+  const onClose = function* (action) {
     yield put(
       actions.logs.logErrorMessage(
         'middleware/webSocket/coins/sagas',
@@ -385,7 +385,7 @@ export default ({ api, socket }) => {
     )
   }
 
-  const resendMessageSocket = function * () {
+  const resendMessageSocket = function* () {
     const secretHex = yield select(selectors.cache.getChannelPrivKey)
     const channelId = yield select(selectors.cache.getChannelChannelId)
     const phonePubKey = yield select(selectors.cache.getPhonePubkey)

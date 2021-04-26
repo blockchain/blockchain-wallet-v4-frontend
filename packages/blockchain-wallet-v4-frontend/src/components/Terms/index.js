@@ -36,8 +36,7 @@ const Terms = (props) => {
             />
             &nbsp;
           </Link>
-          {`&`}
-          &nbsp;
+          & &nbsp;
           <Link
             href='https://www.blockchain.com/legal/privacy'
             tabIndex='-1'

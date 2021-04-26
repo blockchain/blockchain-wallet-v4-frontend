@@ -39,7 +39,7 @@ export const getLockboxBchBalances = (state) => {
       coin: 'BCH',
       label: account.label,
       balance: path([xpub, 'final_balance'], addresses),
-      xpub: xpub,
+      xpub,
       address: xpub,
       type: ADDRESS_TYPES.LOCKBOX
     }

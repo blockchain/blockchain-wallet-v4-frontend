@@ -37,7 +37,7 @@ const SuggestedTextCustomBorder = styled.span`
   width: 100%;
   height: 1px;
   margin-left: 8px;
-  background-color: ${(props) => props.theme['grey000']};
+  background-color: ${(props) => props.theme.grey000};
 `
 
 class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {

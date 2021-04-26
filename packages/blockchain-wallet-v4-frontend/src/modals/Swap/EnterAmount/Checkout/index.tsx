@@ -245,7 +245,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       <StyledForm onSubmit={handleSubmit}>
         <AmountRow id='amount-row'>
           {fix === 'FIAT' && (
-            <Text size={'56px'} color='textBlack' weight={500}>
+            <Text size='56px' color='textBlack' weight={500}>
               {Currencies[walletCurrency].units[walletCurrency].symbol}
             </Text>
           )}
@@ -266,7 +266,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             }}
           />
           {fix === 'CRYPTO' && (
-            <Text size={'56px'} color='textBlack' weight={500}>
+            <Text size='56px' color='textBlack' weight={500}>
               {coins[BASE.coin].coinTicker}
             </Text>
           )}

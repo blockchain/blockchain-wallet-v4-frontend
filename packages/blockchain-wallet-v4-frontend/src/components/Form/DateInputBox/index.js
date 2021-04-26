@@ -96,7 +96,7 @@ const MonthBox = ({ input, onBlur, onFocus, onMonthChange, otherMeta }) => (
         value: input.value.month,
         onBlur: onBlur.bind(this, 'month'),
         onChange: onMonthChange,
-        onFocus: onFocus
+        onFocus
       }}
       meta={otherMeta}
     />
@@ -115,7 +115,7 @@ const DateBox = ({ input, intl, onBlur, onDateChange, onFocus, otherMeta }) => (
         value: input.value.date,
         onBlur: onBlur.bind(this, 'date'),
         onChange: onDateChange,
-        onFocus: onFocus
+        onFocus
       }}
       size='16px'
       meta={otherMeta}
@@ -135,7 +135,7 @@ const YearBox = ({ input, intl, onBlur, onFocus, onYearChange, otherMeta }) => (
         value: input.value.year,
         onBlur: onBlur.bind(this, 'year'),
         onChange: onYearChange,
-        onFocus: onFocus
+        onFocus
       }}
       size='16px'
       meta={otherMeta}

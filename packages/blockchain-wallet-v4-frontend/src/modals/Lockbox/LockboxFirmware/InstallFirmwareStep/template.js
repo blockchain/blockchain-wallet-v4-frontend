@@ -19,7 +19,7 @@ const Content = styled.div`
 
 const InstallFirmware = (props) => {
   return (
-    <React.Fragment>
+    <>
       <Title>
         <Text size='22px' weight={500}>
           <FormattedMessage
@@ -41,7 +41,7 @@ const InstallFirmware = (props) => {
           />
         </Content>
       </Title>
-    </React.Fragment>
+    </>
   )
 }
 

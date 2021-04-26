@@ -62,9 +62,8 @@ export const toJSwithIndex = pipe(HDAccountList.guard, (accList) => {
 export const fromJS = (accounts) => {
   if (is(HDAccountList, accounts)) {
     return accounts
-  } else {
-    return new HDAccountList(mapIndexed(HDAccount.fromJS, accounts))
   }
+  return new HDAccountList(mapIndexed(HDAccount.fromJS, accounts))
 }
 
 export const reviver = (jsObject) => {

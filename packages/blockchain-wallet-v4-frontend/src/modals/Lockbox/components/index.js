@@ -85,8 +85,8 @@ class ModalStepper extends React.PureComponent {
           return (
             <React.Fragment key={i}>
               <Step>
-                <Circle className={active + ' ' + complete}>
-                  <CircleContent className={active + ' ' + complete}>
+                <Circle className={`${active} ${complete}`}>
+                  <CircleContent className={`${active} ${complete}`}>
                     <Text
                       size='13px'
                       color={

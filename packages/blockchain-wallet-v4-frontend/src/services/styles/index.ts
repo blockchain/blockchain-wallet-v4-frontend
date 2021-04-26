@@ -114,7 +114,7 @@ export const media = Object.keys(sizes).reduce((acc, label) => {
       ${css(...args)};
     }
   `
-  acc['atLeast' + label[0].toUpperCase() + label.slice(1, label.length)] = (
+  acc[`atLeast${label[0].toUpperCase()}${label.slice(1, label.length)}`] = (
     ...args
   ) => css`
     @media (min-width: ${sizes[label] + 1}px) {

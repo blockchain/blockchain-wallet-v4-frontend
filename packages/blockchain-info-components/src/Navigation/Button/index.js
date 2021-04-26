@@ -22,7 +22,7 @@ const DefaultButton = styled('button', 'input[type=submit]')`
   border: ${(props) =>
     props.outline
       ? props.bgColor
-        ? '2px solid ' + props.bgColor
+        ? `2px solid ${props.bgColor}`
         : `2px solid ${Color('blue600')}`
       : 'transparent'};
   background-color: ${(props) =>

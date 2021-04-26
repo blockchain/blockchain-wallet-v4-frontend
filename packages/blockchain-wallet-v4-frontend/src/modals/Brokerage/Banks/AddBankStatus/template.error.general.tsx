@@ -164,7 +164,7 @@ const BankLinkError: React.FC<Props> = ({
                   defaultMessage='Contact Support'
                 />
               </Link>
-              {'.'}
+              .
             </>
           )}
         </Subcontent>

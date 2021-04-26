@@ -149,7 +149,7 @@ const Success = (props) => {
                     coin={coin}
                     size='14px'
                     weight={300}
-                    data-e2e={`ETHSendTotal`}
+                    data-e2e='ETHSendTotal'
                   >
                     {totalCrypto}
                   </CoinDisplay>

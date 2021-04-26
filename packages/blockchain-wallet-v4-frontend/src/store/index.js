@@ -53,7 +53,7 @@ const configureStore = async function () {
     : compose
   const walletPath = 'wallet.payload'
   const kvStorePath = 'wallet.kvstore'
-  const isAuthenticated = selectors.auth.isAuthenticated
+  const { isAuthenticated } = selectors.auth
 
   const res = await fetch('/wallet-options-v4.json')
   const options = await res.json()

@@ -93,22 +93,22 @@ class CheckoutConfirm extends PureComponent<Props> {
           )
         ) {
           return this.props.simpleBuyActions.confirmSBFundsOrder()
-        } else {
-          return this.props.simpleBuyActions.setStep({
-            step: 'BANK_WIRE_DETAILS',
-            fiatCurrency: inputCurrency,
-            displayBack: false
-          })
         }
+        return this.props.simpleBuyActions.setStep({
+          step: 'BANK_WIRE_DETAILS',
+          fiatCurrency: inputCurrency,
+          displayBack: false
+        })
+
       case 'PAYMENT_CARD':
         if (this.props.order.paymentMethodId) {
           return this.props.simpleBuyActions.confirmSBOrder(
             this.props.order.paymentMethodId,
             this.props.order
           )
-        } else {
-          return this.props.simpleBuyActions.setStep({ step: 'ADD_CARD' })
         }
+        return this.props.simpleBuyActions.setStep({ step: 'ADD_CARD' })
+
       case 'BANK_TRANSFER':
         const [bankAccount] = filter(
           (b: BankTransferAccountType) =>
@@ -128,15 +128,15 @@ class CheckoutConfirm extends PureComponent<Props> {
             this.props.order.paymentMethodId,
             this.props.order
           )
-        } else {
-          this.props.brokerageActions.showModal(
-            BrokerageModalOriginType.ADD_BANK,
-            'ADD_BANK_YODLEE_MODAL'
-          )
-          return this.props.brokerageActions.setAddBankStep({
-            addBankStep: AddBankStepType.ADD_BANK_HANDLER
-          })
         }
+        this.props.brokerageActions.showModal(
+          BrokerageModalOriginType.ADD_BANK,
+          'ADD_BANK_YODLEE_MODAL'
+        )
+        return this.props.brokerageActions.setAddBankStep({
+          addBankStep: AddBankStepType.ADD_BANK_HANDLER
+        })
+
       default:
         // Not a valid payment method type, go back to CRYPTO_SELECTION
         return this.props.simpleBuyActions.setStep({

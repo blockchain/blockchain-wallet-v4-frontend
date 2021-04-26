@@ -145,7 +145,7 @@ const UploadDocuments = ({
         ref={setDropzoneRef}
       >
         {files.length === 0 ? (
-          <Fragment>
+          <>
             {isMobile.matches ? (
               <Link onClick={openDropzone} weight={500}>
                 <FormattedMessage
@@ -154,7 +154,7 @@ const UploadDocuments = ({
                 />
               </Link>
             ) : (
-              <Fragment>
+              <>
                 <Text color='blue900' size='20px' weight={400}>
                   <FormattedMessage
                     id='scenes.uploaddoc.dragdrop'
@@ -175,7 +175,7 @@ const UploadDocuments = ({
                     />
                   </Link>
                 </TextGroup>
-              </Fragment>
+              </>
             )}
             <Icons>
               <IdContainer>
@@ -206,9 +206,9 @@ const UploadDocuments = ({
                 </Text>
               </IdContainer>
             </Icons>
-          </Fragment>
+          </>
         ) : (
-          <Fragment>
+          <>
             <FilesList>
               {files.map((file, index) => (
                 <FileContainer key={index}>
@@ -241,7 +241,7 @@ const UploadDocuments = ({
                 defaultMessage='Browse my computer'
               />
             </Link>
-          </Fragment>
+          </>
         )}
         <Text color='grey400' size='14px' weight={400}>
           <FormattedMessage

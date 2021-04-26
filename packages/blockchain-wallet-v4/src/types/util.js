@@ -42,10 +42,9 @@ export const error = (e) => {
 
 export const typeError = (T, val) =>
   new TypeError(
-    'Expected ' +
-      T.name +
-      ' but received ' +
-      (val == null ? val : val.constructor.name + ': ' + val)
+    `Expected ${T.name} but received ${
+      val == null ? val : `${val.constructor.name}: ${val}`
+    }`
   )
 
 export const typeGuard = curry(
@@ -63,16 +62,14 @@ export const lensProp = (key) =>
       // console.info('GET ', key, ' from ', x)
       if (Map.isMap(x)) {
         return x.get(key)
-      } else {
-        return prop(key, x)
       }
+      return prop(key, x)
     },
     (val, x) => {
       // console.info('SET ', key, ' TO ', val, ' in ', x)
       if (Map.isMap(x)) {
         return x.set(key, val)
-      } else {
-        return assoc(key, val, x)
       }
+      return assoc(key, val, x)
     }
   )

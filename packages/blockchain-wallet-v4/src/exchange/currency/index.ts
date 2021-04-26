@@ -25,11 +25,10 @@ export class Currency extends Type {
         value: this.value
           .multiply(BigRational(unit.rate).reciprocate())
           .toDecimal(unit.decimal_digits),
-        unit: unit
+        unit
       })
-    } else {
-      return Maybe.Nothing()
     }
+    return Maybe.Nothing()
   }
 
   convert(pairs, toCurrency) {
@@ -41,7 +40,8 @@ export class Currency extends Type {
       ([toCurrency, pairs]) => {
         if (this.currency.code === toCurrency.code) {
           return Maybe.Just(this)
-        } else if (this.currency.code === pairs.code) {
+        }
+        if (this.currency.code === pairs.code) {
           ratio = prop(toCurrency.code, pairs.table)
         } else {
           ratio = prop(this.currency.code, pairs.table).reciprocate()
@@ -104,7 +104,7 @@ export const fromUnit = ({ unit, value }) => {
   return sequence(Maybe.of, [unitM, currencyM]).map(([unit, currency]) =>
     newCurrency({
       value: BigRational(value).multiply(BigRational(unit.rate)),
-      currency: currency
+      currency
     })
   )
 }

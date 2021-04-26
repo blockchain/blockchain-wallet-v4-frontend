@@ -111,7 +111,7 @@ const Success = ({
           )}
           {wallet.archived && (
             <Banner
-              label={'true'}
+              label='true'
               type='informational'
               data-e2e='btcArchivedWalletBadge'
             >

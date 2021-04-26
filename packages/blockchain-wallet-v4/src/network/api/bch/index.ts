@@ -9,13 +9,13 @@ export default ({ apiUrl, get, post }) => {
     const data = {
       active: (Array.isArray(context) ? context : [context]).join('|'),
       format: 'json',
-      offset: offset,
+      offset,
       no_compact: true,
       ct: new Date().getTime(),
-      n: n,
+      n,
       language: 'en',
       no_buttons: true,
-      filter: filter
+      filter
     }
     return post({
       url: apiUrl,
@@ -65,7 +65,7 @@ export default ({ apiUrl, get, post }) => {
   const getBchRawTx = (txHex) =>
     get({
       url: apiUrl,
-      endPoint: '/bch/rawtx/' + txHex,
+      endPoint: `/bch/rawtx/${txHex}`,
       data: {
         format: 'hex',
         cors: 'true'

@@ -50,7 +50,7 @@ const CurrencySwitchContainer = ({
             <FormattedMessage
               id='layouts.wallet.menutop.balance.walletbalance.show.in.fiat'
               defaultMessage='Show in {currency}'
-              values={{ currency: currency }}
+              values={{ currency }}
             />
           ) : (
             <FormattedMessage

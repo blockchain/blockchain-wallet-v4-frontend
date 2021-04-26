@@ -72,25 +72,24 @@ const WalletRecoveryPhrase = (props) => {
         </BackupButton>
       )
       return securityComponent(againBtn)
-    } else {
-      const backupBtn = (
-        <BackupButton
-          nature='primary'
-          onClick={handleBackupNow}
-          data-e2e='backupFundsButton'
-        >
-          <FormattedMessage
-            id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupfunds'
-            defaultMessage='Backup Funds'
-          />
-        </BackupButton>
-      )
-      return securityComponent(backupBtn)
     }
+    const backupBtn = (
+      <BackupButton
+        nature='primary'
+        onClick={handleBackupNow}
+        data-e2e='backupFundsButton'
+      >
+        <FormattedMessage
+          id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupfunds'
+          defaultMessage='Backup Funds'
+        />
+      </BackupButton>
+    )
+    return securityComponent(backupBtn)
   }
 
   return (
-    <React.Fragment>
+    <>
       <SecurityGridContainer>
         <IconAndHeaderContainer>
           <IconContainer>
@@ -123,7 +122,7 @@ const WalletRecoveryPhrase = (props) => {
         </IconAndHeaderContainer>
         {buttonHelper()}
       </SecurityGridContainer>
-    </React.Fragment>
+    </>
   )
 }
 

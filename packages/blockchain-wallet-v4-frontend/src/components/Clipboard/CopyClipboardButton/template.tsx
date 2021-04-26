@@ -28,7 +28,7 @@ const CopyButton = styled(IconButton)<CopyButtonProps>`
     font-size: ${(props) => (props.active ? '18px' : props.size || '20px')};
     color: ${(props) =>
       props.active
-        ? props.theme['success']
+        ? props.theme.success
         : props.color
         ? props.theme[props.color]
         : props.theme.grey400};

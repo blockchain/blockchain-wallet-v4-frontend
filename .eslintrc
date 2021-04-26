@@ -1,119 +1,104 @@
 {
-  "extends": ["standard", "prettier"],
-  "parser": "babel-eslint",
+  "extends": ["eslint-config-constellation"],
   "parserOptions": {
-    "ecmaVersion": 8,
+    "project": "./tsconfig.json",
+    "ecmaVersion": 12,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
     }
   },
-  "plugins": [
-    "@typescript-eslint",
-    "babel",
-    "jest",
-    "json",
-    "react",
-    "simple-import-sort",
-    "sort-destructure-keys",
-    "typescript-sort-keys"
-  ],
-  "overrides": [
-    {
-      "files": ["*.{ts,tsx}"],
-      "parser": "@typescript-eslint/parser",
-      "parserOptions": {
-        "project": "./tsconfig.json"
-      },
-      "rules": {
-        "@typescript-eslint/no-unused-vars": 2,
-        "@typescript-eslint/switch-exhaustiveness-check": 2
-      }
-    }
-  ],
-  "env": {
-    "browser": true,
-    "jest": true,
-    "node": true
-  },
-  "globals": {
-    "APP_VERSION": true
-  },
   "settings": {
-    "react": {
-      "version": "latest"
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {
+        "project": "./tsconfig.json"
+      }
     }
   },
   "rules": {
-    "camelcase": 0,
-    "generator-star-spacing": [
-      "error",
-      {
-        "before": true,
-        "after": true
-      }
-    ],
-    "jest/no-disabled-tests": 1,
-    "jest/no-focused-tests": 2,
-    "jest/no-identical-title": 2,
-    "jest/prefer-to-have-length": 0,
-    "jest/valid-expect": 2,
-    "jsx-quotes": [2, "prefer-single"],
-    "new-cap": 0,
-    "no-alert": 2,
-    "no-case-declarations": 0,
-    "no-console": 2,
-    "no-underscore-dangle": 0,
-    "no-useless-catch": 0,
-    "prefer-const": 0,
-    "react/display-name": 0,
-    "react/forbid-prop-types": 0,
-    "react/jsx-boolean-value": 0,
-    "react/jsx-closing-bracket-location": 0,
-    "react/jsx-curly-spacing": 2,
-    "react/jsx-indent-props": 0,
-    "react/jsx-key": 0,
-    "react/jsx-max-props-per-line": 0,
-    "react/jsx-no-bind": 0,
-    "react/jsx-no-duplicate-props": 2,
-    "react/jsx-no-literals": 0,
-    "react/jsx-no-undef": 2,
-    "react/jsx-pascal-case": 2,
-    "react/jsx-sort-prop-types": 0,
-    "react/jsx-sort-props": 0,
-    "react/jsx-uses-react": 2,
-    "react/jsx-uses-vars": 2,
-    "react/no-danger": 1,
-    "react/no-did-mount-set-state": 2,
-    "react/no-did-update-set-state": 2,
-    "react/no-direct-mutation-state": 2,
-    "react/no-multi-comp": 0,
-    "react/no-set-state": 0,
-    "react/no-unknown-property": 2,
-    "react/prefer-es6-class": 2,
-    "react/prop-types": 0,
-    "react/react-in-jsx-scope": 2,
-    "react/self-closing-comp": 2,
-    "react/sort-comp": 2,
-    "require-yield": 2,
-    // "space-before-function-paren": 2,
-    "simple-import-sort/exports": "error",
+    "@typescript-eslint/ban-ts-comment": "warn",
+    "@typescript-eslint/ban-types": "warn",
+    "@typescript-eslint/no-empty-function": "warn",
+    "@typescript-eslint/no-empty-interface": "warn",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/no-var-requires": "warn",
+    "array-callback-return": "warn",
+    "block-scoped-var": "warn",
+    "class-methods-use-this": "warn",
+    "consistent-return": "warn",
+    "default-case": "warn",
+    "func-names": "warn",
+    "global-require": "warn",
+    "guard-for-in": "warn",
+    "import/no-extraneous-dependencies": "warn",
+    "import/no-named-as-default": "warn",
+    "import/no-unresolved": "warn",
+    "import/prefer-default-export": "warn",
+    "jest/no-done-callback": "warn",
+    "jest/no-export": "warn",
+    "jest/no-mocks-import": "warn",
+    "jest/valid-title": "warn",
+    "jsx-a11y/accessible-emoji": "warn",
+    "jsx-a11y/alt-text": "warn",
+    "jsx-a11y/anchor-is-valid": "warn",
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "jsx-a11y/label-has-associated-control": "warn",
+    "jsx-a11y/mouse-events-have-key-events": "warn",
+    "jsx-a11y/no-noninteractive-tabindex": "warn",
+    "jsx-a11y/no-static-element-interactions": "warn",
+    "no-bitwise": "warn",
+    "no-done-callback": "off",
+    "no-empty": "warn",
+    "no-lonely-if": "warn",
+    "no-multi-assign": "warn",
+    "no-nested-ternary": "warn",
+    "no-param-reassign": "warn",
+    "no-plusplus": "warn",
+    "no-restricted-globals": "warn",
+    "no-restricted-properties": "off",
+    "no-restricted-syntax": "warn",
+    "no-return-assign": "warn",
+    "no-shadow": "warn",
+    "no-unused-expressions": "warn",
+    "no-useless-catch": "warn",
+    "no-useless-concat": "warn",
+    "no-var": "warn",
+    "no-void": "warn",
+    "prefer-const": "warn",
+    "prefer-rest-params": "warn",
+    "radix": "warn",
+    "react/default-props-match-prop-types": "warn",
+    "react/forbid-prop-types": "warn",
+    "react/jsx-key": "warn",
+    "react/jsx-no-bind": "warn",
+    "react/no-access-state-in-setstate": "warn",
+    "react/no-array-index-key": "warn",
+    "react/no-children-prop": "warn",
+    "react/no-find-dom-node": "warn",
+    "react/no-string-refs": "warn",
+    "react/no-unescaped-entities": "warn",
+    "react/no-unused-prop-types": "warn",
+    "react/no-unused-state": "warn",
+    "react/prefer-stateless-function": "warn",
+    "react/sort-comp": "warn",
+    "react/state-in-constructor": "warn",
+    "react/static-property-placement": "warn",
     "simple-import-sort/imports": [
       "error",
       {
         "groups": [
-          // external imports and things that start with a letter (or digit or underscore), or `@` followed by a letter.
           ["^react", "^@?\\w"],
-          // aliased imports
-          ["^(blockchain-wallet-v4|blockchain-info-components|components|coins|core|data|layouts|providers|services|utils)(/.*|$)"],
-          // relative imports
+          [
+            "^(blockchain-wallet-v4|blockchain-info-components|components|coins|core|data|layouts|providers|services|utils)(/.*|$)"
+          ],
           ["^\\.", "^[^.]"]
         ]
       }
     ],
-    "sort-destructure-keys/sort-destructure-keys": "error",
-    "typescript-sort-keys/interface": "error",
-    "typescript-sort-keys/string-enum": "error",
-    "strict": 0
+    "sort-keys": "warn",
+    "vars-on-top": "warn"
   }
 }

@@ -63,7 +63,7 @@ const Tab = styled.div`
     position: absolute;
     transform: scaleX(0);
     transition: transform 0.3s;
-    border-bottom: solid 2px ${(props) => props.theme['grey800']};
+    border-bottom: solid 2px ${(props) => props.theme.grey800};
   }
   > * {
     transition: color 0.3s;

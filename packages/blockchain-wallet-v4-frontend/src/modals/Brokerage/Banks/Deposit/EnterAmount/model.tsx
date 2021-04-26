@@ -14,9 +14,8 @@ const getText = (method) => {
         defaultMessage='Add a Bank Account'
       />
     )
-  } else {
-    return renderBank(method)
   }
+  return renderBank(method)
 }
 
 const getDefaultMethod = (
@@ -25,7 +24,8 @@ const getDefaultMethod = (
 ) => {
   if (defaultMethod) {
     return { ...defaultMethod, type: 'BANK_TRANSFER' }
-  } else if (bankAccounts.length === 1) {
+  }
+  if (bankAccounts.length === 1) {
     return { ...bankAccounts[0], type: 'BANK_TRANSFER' }
   }
 }

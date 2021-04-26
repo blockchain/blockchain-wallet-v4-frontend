@@ -19,7 +19,7 @@ const Content = styled.div`
 const UninstallApps = (props) => {
   const { status } = props
   return (
-    <React.Fragment>
+    <>
       <Title>
         <Text size='22px' weight={500}>
           <FormattedMessage
@@ -51,7 +51,7 @@ const UninstallApps = (props) => {
           />
         </Content>
       </Title>
-    </React.Fragment>
+    </>
   )
 }
 

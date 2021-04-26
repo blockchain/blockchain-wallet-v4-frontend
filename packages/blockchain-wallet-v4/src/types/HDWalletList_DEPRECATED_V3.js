@@ -21,10 +21,9 @@ export const toJS = pipe(HDWalletList.guard, (wList) => {
 export const fromJS = (wallets) => {
   if (is(HDWalletList, wallets)) {
     return wallets
-  } else {
-    const ws = wallets || []
-    return new HDWalletList(map(HDWallet.fromJS, ws))
   }
+  const ws = wallets || []
+  return new HDWalletList(map(HDWallet.fromJS, ws))
 }
 
 export const createNew = (

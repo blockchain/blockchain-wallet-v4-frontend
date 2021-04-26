@@ -93,7 +93,7 @@ class Checkout extends PureComponent<Props> {
         )
       }
     } else if (!method) {
-      const fiatCurrency = this.props.fiatCurrency
+      const { fiatCurrency } = this.props
       const nextStep = hasPaymentAccount
         ? 'LINKED_PAYMENT_ACCOUNTS'
         : 'PAYMENT_METHODS'

@@ -8,6 +8,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, model, selectors } from 'data'
 
 import ImportedAddresses from './template'
+
 const { WALLET_TX_SEARCH } = model.form
 
 class ImportedAddressesContainer extends React.Component<Props> {

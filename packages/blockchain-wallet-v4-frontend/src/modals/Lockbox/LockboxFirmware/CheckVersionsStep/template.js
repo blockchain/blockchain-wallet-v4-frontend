@@ -28,7 +28,7 @@ const RotateSyncContainer = styled(RotateSync)`
 const CheckVersionsStep = (props) => {
   const { onStartInstall, status } = props
   return (
-    <React.Fragment>
+    <>
       <Title>
         <Text>
           <FormattedMessage
@@ -76,7 +76,7 @@ const CheckVersionsStep = (props) => {
           </Button>
         )}
       </ButtonContainer>
-    </React.Fragment>
+    </>
   )
 }
 

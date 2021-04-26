@@ -10,7 +10,7 @@ import ModalIcon from '../ModalIcon'
 const { CREATE_ACCOUNT_LEARN_MODAL } = model.components.sendXlm
 
 export const NoAccountTemplate = ({ swapActions }) => (
-  <React.Fragment>
+  <>
     <FormGroup>
       <Banner type='info' data-e2e='sendXlmNoAccount'>
         <Text color='warning' size='12px'>
@@ -36,5 +36,5 @@ export const NoAccountTemplate = ({ swapActions }) => (
         />
       </Button>
     </FormGroup>
-  </React.Fragment>
+  </>
 )

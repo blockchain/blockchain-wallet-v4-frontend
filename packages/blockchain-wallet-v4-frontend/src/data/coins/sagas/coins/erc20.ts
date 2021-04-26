@@ -12,7 +12,7 @@ import {
 import { selectors } from 'data'
 
 // retrieves default account/address
-export const getDefaultAccount = function * (coin: CoinType) {
+export const getDefaultAccount = function* (coin: CoinType) {
   const erc20AccountR = yield select(
     selectors.core.common.eth.getErc20AccountBalances,
     coin
@@ -21,14 +21,14 @@ export const getDefaultAccount = function * (coin: CoinType) {
 }
 
 // retrieves the next receive address
-export const getNextReceiveAddress = function * (coin: CoinType) {
+export const getNextReceiveAddress = function* (coin: CoinType) {
   return selectors.core.data.eth
     .getDefaultAddress(yield select())
     .getOrFail(`Failed to get ${coin} receive address`)
 }
 
 // gets or updates a provisional payment
-export const getOrUpdateProvisionalPayment = function * (
+export const getOrUpdateProvisionalPayment = function* (
   coreSagas,
   networks,
   paymentR

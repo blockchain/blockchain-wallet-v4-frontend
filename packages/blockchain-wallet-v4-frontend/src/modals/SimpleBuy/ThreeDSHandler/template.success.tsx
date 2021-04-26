@@ -41,17 +41,15 @@ const Success: React.FC<Props> = (props) => {
           }}
         />
         <Iframe
-          src={
-            props.domains.walletHelper +
-            '/wallet-helper/everypay/#/paymentLink/' +
-            encodeURIComponent(
-              props.type === 'CARD'
-                ? props.providerDetails.everypay.paymentLink
-                : props.order && props.order.attributes
-                ? props.order.attributes.everypay.paymentLink
-                : ''
-            )
-          }
+          src={`${
+            props.domains.walletHelper
+          }/wallet-helper/everypay/#/paymentLink/${encodeURIComponent(
+            props.type === 'CARD'
+              ? props.providerDetails.everypay.paymentLink
+              : props.order && props.order.attributes
+              ? props.order.attributes.everypay.paymentLink
+              : ''
+          )}`}
         />
       </>
     </CustomFlyoutWrapper>

@@ -39,7 +39,7 @@ const coinSagas = {
 
 export default ({ coreSagas, networks }) => {
   // gets the default account/address for requested coin
-  const getDefaultAccountForCoin = function * (
+  const getDefaultAccountForCoin = function* (
     coin: CoinType
   ): Generator<string> {
     const defaultAccountR = yield coinSagas[
@@ -51,7 +51,7 @@ export default ({ coreSagas, networks }) => {
 
   // gets the next receive address for requested coin
   // account based currencies will just return the account address
-  const getNextReceiveAddressForCoin = function * (
+  const getNextReceiveAddressForCoin = function* (
     coin: CoinType
   ): Generator<string> {
     return yield coinSagas[
@@ -62,7 +62,7 @@ export default ({ coreSagas, networks }) => {
   // gets or updates a provisional payment for a coin
   // provisional payments are mutable payment objects used to build a transaction
   // over an extended period of time (e.g. as user goes through interest/swap/sell flows)
-  const getOrUpdateProvisionalPaymentForCoin = function * (
+  const getOrUpdateProvisionalPaymentForCoin = function* (
     coin: CoinType,
     paymentR: RemoteDataType<string | Error, PaymentValue | undefined>
   ): Generator<PaymentType> {

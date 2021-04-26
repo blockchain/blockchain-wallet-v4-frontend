@@ -25,7 +25,7 @@ const _getAddress = (cache, chain, index, network, type) => {
     try {
       const node = getNode(c, chain, network)
       const childNode = node.derive(index)
-      const publicKey = childNode.publicKey
+      const { publicKey } = childNode
 
       if (equals('bech32', type)) {
         const { address } = Bitcoin.payments.p2wpkh({ pubkey: publicKey })

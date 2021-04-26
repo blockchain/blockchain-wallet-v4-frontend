@@ -245,7 +245,7 @@ export const js = (
   // version: PAYLOAD_VERSION,
   // TODO: SEGWIT remove w/ DEPRECATED_V3
   version: 3,
-  language: language,
+  language,
   // TODO: SEGWIT remove w/ DEPRECATED_V3
   wallet: Wallet_DEPRECATED_V3.js(
     guid,
@@ -256,7 +256,7 @@ export const js = (
     network
   ),
   war_checksum: '',
-  password: password,
+  password,
   pbkdf2_iterations: 5000
 })
 

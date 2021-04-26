@@ -6,7 +6,7 @@ import { utils } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { selectors } from 'data'
 
-export const selectReceiveAddress = function * (source, networks) {
+export const selectReceiveAddress = function* (source, networks) {
   const appState = yield select(identity)
   const erc20List = (yield select(
     selectors.core.walletOptions.getErc20CoinList

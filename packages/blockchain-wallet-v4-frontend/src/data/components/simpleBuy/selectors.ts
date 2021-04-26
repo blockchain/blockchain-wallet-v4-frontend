@@ -64,9 +64,8 @@ export const getDefaultPaymentMethod = (state: RootState) => {
     const lastOrder = orders.find((order) => {
       if (actionType === 'BUY') {
         return order.inputCurrency in FiatTypeEnum
-      } else {
-        return order.outputCurrency in FiatTypeEnum
       }
+      return order.outputCurrency in FiatTypeEnum
     })
 
     switch (actionType) {

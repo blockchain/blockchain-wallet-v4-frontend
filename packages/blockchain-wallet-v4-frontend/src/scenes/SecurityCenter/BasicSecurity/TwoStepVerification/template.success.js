@@ -150,7 +150,7 @@ const TwoStepVerification = (props) => {
     if (uiState.verifyToggled) {
       if (authType > 0 && authType !== 5) {
         return (
-          <React.Fragment>
+          <>
             <div />
             <DisableLinkContainer style={spacing('pl-25')}>
               <DisableLinkText
@@ -172,12 +172,12 @@ const TwoStepVerification = (props) => {
                 />
               </DisableLinkText>
             </DisableLinkContainer>
-          </React.Fragment>
+          </>
         )
       }
       if (authType === 5 && smsVerified) {
         return (
-          <React.Fragment>
+          <>
             <div />
             <DisableContainer style={spacing('pl-25')}>
               <Text weight={400} size='14px'>
@@ -205,7 +205,7 @@ const TwoStepVerification = (props) => {
                 />
               </DisableLinkText>
             </DisableContainer>
-          </React.Fragment>
+          </>
         )
       }
     }
@@ -214,7 +214,7 @@ const TwoStepVerification = (props) => {
   const renderDescription = () => {
     if (!twoFAEnabled) {
       return (
-        <React.Fragment>
+        <>
           <Text size='14px'>
             <FormattedMessage
               id='scenes.security.twostepverification.description'
@@ -226,7 +226,7 @@ const TwoStepVerification = (props) => {
             id='scenes.security.twostepverification.description2'
             defaultMessage='Two-step verification helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. Enable this to further secure your wallet.'
           />
-        </React.Fragment>
+        </>
       )
     }
     return (
@@ -245,35 +245,35 @@ const TwoStepVerification = (props) => {
   const renderHeader = () => {
     if (twoStepChoice === 'google') {
       return (
-        <React.Fragment>
+        <>
           <FormattedMessage
             id='scenes.security.twostepverification.authenticator.title'
             defaultMessage='Two-Step Verification - Authenticator App'
           />
           {goBackLink()}
-        </React.Fragment>
+        </>
       )
     }
     if (twoStepChoice === 'yubikey') {
       return (
-        <React.Fragment>
+        <>
           <FormattedMessage
             id='scenes.security.twostepverification.yubi.title'
             defaultMessage='Two-Step Verification - Yubikey'
           />
           {goBackLink()}
-        </React.Fragment>
+        </>
       )
     }
     if (twoStepChoice === 'sms') {
       return (
-        <React.Fragment>
+        <>
           <FormattedMessage
             id='scenes.security.twostepverification.mobile.title'
             defaultMessage='Two-Step Verification - Mobile Phone Number'
           />
           {goBackLink()}
-        </React.Fragment>
+        </>
       )
     }
     return (
@@ -288,7 +288,7 @@ const TwoStepVerification = (props) => {
     !uiState.verifyToggled ? null : renderVerificationChoice()
 
   return (
-    <Fragment>
+    <>
       <SecurityTwoStepContainer>
         <IconAndHeaderContainer success={uiState.success}>
           <IconContainer>
@@ -360,7 +360,7 @@ const TwoStepVerification = (props) => {
           </TipText>
         </SecurityTip>
       ) : null}
-    </Fragment>
+    </>
   )
 }
 

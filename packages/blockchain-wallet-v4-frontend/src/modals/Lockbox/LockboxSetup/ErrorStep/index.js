@@ -6,7 +6,7 @@ import { Button, Text } from 'blockchain-info-components'
 class ErrorStepContainer extends React.PureComponent {
   render() {
     return (
-      <React.Fragment>
+      <>
         <Text size='16px' weight={500}>
           <FormattedMessage
             id='modals.lockboxsetup.duplicatedevice.title'
@@ -31,7 +31,7 @@ class ErrorStepContainer extends React.PureComponent {
             defaultMessage='OK'
           />
         </Button>
-      </React.Fragment>
+      </>
     )
   }
 }

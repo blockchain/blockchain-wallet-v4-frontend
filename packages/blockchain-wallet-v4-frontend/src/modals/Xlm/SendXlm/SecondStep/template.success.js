@@ -57,7 +57,7 @@ const Success = (props) => {
   } = props
 
   return (
-    <React.Fragment>
+    <>
       <ConfirmWrapper>
         <LargeTableRow>
           <Text size='16px' weight={500}>
@@ -194,7 +194,7 @@ const Success = (props) => {
           <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
         </Link>
       </Footer>
-    </React.Fragment>
+    </>
   )
 }
 

@@ -48,8 +48,8 @@ const Toggler = styled.div`
   transform: translateY(-50%);
   position: absolute;
   border-radius: 4px;
-  border: 1px solid ${(props) => props.theme['grey000']};
-  background: ${(props) => props.theme['white']};
+  border: 1px solid ${(props) => props.theme.grey000};
+  background: ${(props) => props.theme.white};
   right: 33px;
   display: flex;
   cursor: pointer;

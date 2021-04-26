@@ -150,7 +150,7 @@ const Authorize = (props: Props) => {
         </Value>
       </Row>
       <DropdownItem
-        isPaymentInformation={true}
+        isPaymentInformation
         titleText='Payment Information'
         bodyText={
           <>

@@ -86,7 +86,7 @@ const ConnectDeviceStep = (props) => {
           defaultMessage='Contact Support'
         />
       </SupportText>
-      <Button fullwidth onClick={onTimeoutAccept} nature={'primary'}>
+      <Button fullwidth onClick={onTimeoutAccept} nature='primary'>
         <FormattedMessage
           id='modals.lockboxsetup.connectdevice.timeout.retry'
           defaultMessage='Retry'
@@ -101,7 +101,7 @@ const ConnectDeviceStep = (props) => {
         width='100%'
       />
       {isNewSetup ? (
-        <React.Fragment>
+        <>
           <Row>
             <Text size='14px' weight={600}>
               <FormattedHTMLMessage
@@ -212,7 +212,7 @@ const ConnectDeviceStep = (props) => {
               />
             </Button>
           </ButtonContainer>
-        </React.Fragment>
+        </>
       ) : (
         <>
           <Instructions>

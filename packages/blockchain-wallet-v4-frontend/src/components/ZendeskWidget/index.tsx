@@ -81,7 +81,7 @@ class ZendeskWidget extends React.PureComponent<Props, State> {
       <Wrapper>
         <Iframe
           id='zendesk-iframe'
-          src={domains.walletHelper + '/wallet-helper/zendesk/#/'}
+          src={`${domains.walletHelper}/wallet-helper/zendesk/#/`}
           widgetOpen={this.state.widgetOpen}
         />
       </Wrapper>

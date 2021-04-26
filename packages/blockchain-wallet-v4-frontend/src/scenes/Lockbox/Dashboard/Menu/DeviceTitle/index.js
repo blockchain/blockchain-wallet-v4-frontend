@@ -75,7 +75,7 @@ class DeviceTitle extends React.PureComponent {
           {/*  /> */}
           {/* </Button> */}
           <LinkContainer to={linkTo} className='tour-step5'>
-            <ToggleIcon name={icon} size={'24px'} />
+            <ToggleIcon name={icon} size='24px' />
           </LinkContainer>
         </RightCol>
       </Wrapper>

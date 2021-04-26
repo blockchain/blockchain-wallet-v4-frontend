@@ -7,7 +7,7 @@ import * as A from './actions'
 export const logLocation = 'components/fiatTransactions/sagas'
 
 export default () => {
-  const initialized = function * (action: ReturnType<typeof A.initialized>) {
+  const initialized = function* (action: ReturnType<typeof A.initialized>) {
     try {
       yield put(actions.components.simpleBuy.fetchSBBalances(undefined, true))
       yield put(
@@ -18,7 +18,7 @@ export default () => {
     }
   }
 
-  const loadMore = function * (action: ReturnType<typeof A.loadMore>) {
+  const loadMore = function* (action: ReturnType<typeof A.loadMore>) {
     try {
       yield put(
         actions.core.data.fiat.fetchTransactions(action.payload.currency)

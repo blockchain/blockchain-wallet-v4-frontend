@@ -24,6 +24,7 @@ import DepositStatus from './DepositStatus'
 import EnterAmount from './EnterAmount'
 import OpenBankingConnect from './OpenBankingConnect'
 import WireInstructions from './WireInstructions'
+
 class Deposit extends PureComponent<Props> {
   state: State = { show: false }
 

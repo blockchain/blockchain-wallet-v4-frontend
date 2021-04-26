@@ -27,7 +27,7 @@ class TransactionFee extends React.PureComponent<Props> {
     const { coin, feeR, supportedCoins } = this.props
 
     return (
-      <React.Fragment>
+      <>
         <RowHeader>
           <FormattedMessage
             id='copy.transaction_fee'
@@ -56,7 +56,7 @@ class TransactionFee extends React.PureComponent<Props> {
           Loading: () => <FlatLoader width='60px' height='16px' />,
           NotAsked: () => <FlatLoader width='60px' height='16px' />
         })}
-      </React.Fragment>
+      </>
     )
   }
 }

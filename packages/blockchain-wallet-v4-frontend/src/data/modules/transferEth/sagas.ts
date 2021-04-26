@@ -11,7 +11,7 @@ import * as S from './selectors'
 export const logLocation = 'modules/transferEth/sagas'
 
 export default ({ coreSagas, networks }) => {
-  const initialized = function * ({
+  const initialized = function* ({
     payload
   }: ReturnType<typeof A.initialized>) {
     try {
@@ -29,7 +29,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const confirmTransferEth = function * (action) {
+  const confirmTransferEth = function* (action) {
     try {
       yield put(actions.form.startSubmit('transferEth'))
       const { effectiveBalance, to } = action.payload

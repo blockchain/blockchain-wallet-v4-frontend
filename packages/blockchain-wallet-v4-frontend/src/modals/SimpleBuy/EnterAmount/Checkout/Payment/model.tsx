@@ -174,7 +174,7 @@ export const renderFund = (
 
 export const getIcon = (
   method: SBPaymentMethodType | undefined,
-  isSddFlow: boolean = false,
+  isSddFlow = false,
   disabled?: boolean
 ): ReactElement => {
   if (isSddFlow && !method) {
@@ -234,7 +234,7 @@ export const getIcon = (
 export const getText = (
   method: SBPaymentMethodType | undefined,
   sbBalances: SBBalancesType,
-  isSddFlow: boolean = false
+  isSddFlow = false
 ): ReactElement => {
   if (isSddFlow && !method) {
     return (

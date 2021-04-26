@@ -55,10 +55,10 @@ const PlusMinusIconWrapper = styled.div`
 type Props = OwnProps & ParentOwnProps & SuccessStateType
 
 const Success: React.FC<Props> = (props) => {
-  const coin = props.coin
-  const fiat = props.fiat
+  const { coin } = props
+  const { fiat } = props
   const coinType = props.supportedCoins[coin]
-  const displayName = coinType.displayName
+  const { displayName } = coinType
 
   return (
     <CheckoutDisplayContainer

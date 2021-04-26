@@ -78,7 +78,7 @@ describe('rng', () => {
     it('returns a 32 bytes buffer if nBytes not indicated and if is successful', async () => {
       let res = await getServerEntropy(void 0, api)
       expect(Buffer.isBuffer(res.value)).toBeTruthy()
-      expect(res.value.length).toEqual(32)
+      expect(res.value).toHaveLength(32)
     })
 
     it('should fail if passed a bad argument', async () => {

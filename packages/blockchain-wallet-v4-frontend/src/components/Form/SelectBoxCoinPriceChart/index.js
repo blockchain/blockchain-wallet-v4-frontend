@@ -59,7 +59,7 @@ const renderItem = (props) => {
 const renderDisplay = (props, children) => {
   const { value } = props
   const coinValue = value || 'BTC'
-  const e2eTag = coinValue + 'CurrencyOption'
+  const e2eTag = `${coinValue}CurrencyOption`
 
   return (
     <HeaderWrapper>

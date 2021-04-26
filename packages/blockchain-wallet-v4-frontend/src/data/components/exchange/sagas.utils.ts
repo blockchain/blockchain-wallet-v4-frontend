@@ -21,7 +21,7 @@ export default ({ coreSagas, networks }) => {
   let paymentTask
   let isSourceErc20
 
-  const calculatePaymentMemo = function * (
+  const calculatePaymentMemo = function* (
     source,
     amount,
     fee: MempoolFeeType = 'priority'
@@ -45,7 +45,7 @@ export default ({ coreSagas, networks }) => {
     return prevPayment
   }
 
-  const calculateProvisionalPayment = function * (
+  const calculateProvisionalPayment = function* (
     source: AccountTypes,
     amount,
     fee: MempoolFeeType = 'priority'

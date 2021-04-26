@@ -23,8 +23,8 @@ import {
   SwapUserLimitsType
 } from 'blockchain-wallet-v4/src/types'
 
+import { CountryType } from '../identityVerification/types'
 import { SwapAccountType } from '../swap/types'
-import { CountryType } from './../identityVerification/types'
 import * as AT from './actionTypes'
 
 // Types

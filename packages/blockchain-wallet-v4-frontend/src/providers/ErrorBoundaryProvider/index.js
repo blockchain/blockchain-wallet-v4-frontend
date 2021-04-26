@@ -3,9 +3,8 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 
-import { selectors } from '../../data'
 import ErrorModal from './template'
 
 class ErrorBoundary extends React.Component {
@@ -16,7 +15,7 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, info) {
     this.setState({
-      error: error,
+      error,
       errorInfo: info
     })
   }

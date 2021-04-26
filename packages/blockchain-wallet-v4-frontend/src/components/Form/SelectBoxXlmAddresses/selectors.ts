@@ -33,7 +33,7 @@ export const getData = (
         fromUnit: 'STROOP',
         toUnit: 'XLM'
       })
-      return wallet.label + ` (${xlmDisplay})`
+      return `${wallet.label} (${xlmDisplay})`
     }
     return wallet.label
   }

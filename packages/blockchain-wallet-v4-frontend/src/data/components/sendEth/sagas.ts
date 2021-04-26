@@ -69,7 +69,7 @@ export default ({
     coreSagas,
     networks
   })
-  const initialized = function * (action) {
+  const initialized = function* (action) {
     try {
       const erc20List = (yield select(
         selectors.core.walletOptions.getErc20CoinList
@@ -116,11 +116,11 @@ export default ({
     }
   }
 
-  const destroyed = function * () {
+  const destroyed = function* () {
     yield put(actions.form.destroy(FORM))
   }
 
-  const firstStepSubmitClicked = function * () {
+  const firstStepSubmitClicked = function* () {
     try {
       let p = yield select(S.getPayment)
       yield put(A.sendEthPaymentUpdatedLoading())
@@ -138,11 +138,11 @@ export default ({
     }
   }
 
-  const formChanged = function * (action: SendEthFormActionType) {
+  const formChanged = function* (action: SendEthFormActionType) {
     try {
-      const form = action.meta.form
+      const { form } = action.meta
       if (!equals(FORM, form)) return
-      const payload = action.payload
+      const { payload } = action
       const erc20List = (yield select(
         selectors.core.walletOptions.getErc20CoinList
       )).getOrElse([])
@@ -228,14 +228,15 @@ export default ({
     }
   }
 
-  const maximumAmountClicked = function * (action) {
+  const maximumAmountClicked = function* (action) {
     try {
       const coinCode = action.payload
       const appState = yield select(identity)
       const currency = selectors.core.settings
         .getCurrency(appState)
         .getOrFail('Failed to get currency')
-      let rates, fiat
+      let rates
+      let fiat
       if (equals(coinCode, 'ETH')) {
         rates = selectors.core.data.eth
           .getRates(appState)
@@ -258,7 +259,7 @@ export default ({
         value: effectiveBalance,
         fromUnit: 'WEI',
         toCurrency: currency,
-        rates: rates
+        rates
       }).value
       yield put(change(FORM, 'amount', { coin, fiat, coinCode }))
     } catch (e) {
@@ -268,7 +269,7 @@ export default ({
     }
   }
 
-  const secondStepSubmitClicked = function * () {
+  const secondStepSubmitClicked = function* () {
     const { coin } = yield select(selectors.form.getFormValues(FORM))
     const coinModel = (yield select(
       selectors.core.walletOptions.getCoinModel,
@@ -283,7 +284,7 @@ export default ({
     const fromType = payment.value().from.type
     const toAddress = path(['to', 'address'], payment.value())
     const fromAddress = path(['from', 'address'], payment.value())
-    const isRetryAttempt = payment.value().isRetryAttempt
+    const { isRetryAttempt } = payment.value()
 
     try {
       // Sign payment
@@ -451,7 +452,7 @@ export default ({
     }
   }
 
-  const regularFeeClicked = function * () {
+  const regularFeeClicked = function* () {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -464,7 +465,7 @@ export default ({
     }
   }
 
-  const checkIsContract = function * ({
+  const checkIsContract = function* ({
     payload
   }: {
     payload: string | EthAccountFromType
@@ -490,7 +491,7 @@ export default ({
     }
   }
 
-  const priorityFeeClicked = function * () {
+  const priorityFeeClicked = function* () {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -503,7 +504,7 @@ export default ({
     }
   }
 
-  const minimumFeeClicked = function * () {
+  const minimumFeeClicked = function* () {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -516,7 +517,7 @@ export default ({
     }
   }
 
-  const maximumFeeClicked = function * () {
+  const maximumFeeClicked = function* () {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -529,7 +530,7 @@ export default ({
     }
   }
 
-  const setAmount = function * (
+  const setAmount = function* (
     amountInWei: string,
     coin: 'ETH' | Erc20CoinType,
     payment: EthPaymentType
@@ -558,7 +559,7 @@ export default ({
       value: amountInWei,
       fromUnit: 'WEI',
       toCurrency: currency,
-      rates: rates
+      rates
     }).value
     yield put(
       change(FORM, 'amount', {
@@ -571,7 +572,7 @@ export default ({
     return yield payment.amount(amountInWei)
   }
 
-  const setTo = function * (to: string, payment: EthPaymentType) {
+  const setTo = function* (to: string, payment: EthPaymentType) {
     const prepareTo = (to) => {
       return to ? { value: { value: to, label: to } } : null
     }
@@ -580,7 +581,7 @@ export default ({
     return yield payment.to(to)
   }
 
-  const retrySendEth = function * ({
+  const retrySendEth = function* ({
     payload
   }: ReturnType<typeof A.retrySendEth>) {
     const { isErc20, txHash } = payload
@@ -621,7 +622,7 @@ export default ({
           ['uint256'],
           Buffer.from(tx.data.slice(120, 138), 'hex')
         )
-        const to = EthUtil.toChecksumAddress('0x' + tx.data?.slice(32, 72))
+        const to = EthUtil.toChecksumAddress(`0x${tx.data?.slice(32, 72)}`)
 
         payment = yield call(setAmount, value, coin, payment)
         payment = yield call(setTo, to, payment)

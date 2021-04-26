@@ -1,6 +1,6 @@
 import { repeat } from 'ramda'
 
-import * as wCrypto from './'
+import * as wCrypto from '.'
 import * as U from './utils'
 import data from './wallet-data.json'
 

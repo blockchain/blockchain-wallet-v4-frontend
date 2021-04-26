@@ -50,7 +50,7 @@ describe('Wrapper', () => {
       expect(jsWrapper.version).toBe(3)
       const hd = jsWrapper.wallet.hd_wallets[0]
       const account = hd.accounts[0]
-      expect(account.derivations).toBe(undefined)
+      expect(account.derivations).toBeUndefined()
     })
   })
 

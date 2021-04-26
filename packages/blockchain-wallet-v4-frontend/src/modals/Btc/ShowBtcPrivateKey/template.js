@@ -84,8 +84,7 @@ const SecondStep = ({
         <DetailRowText size='14px' weight={500}>
           <FormattedMessage id='copy.balance' defaultMessage='Balance' />
         </DetailRowText>
-        {':'}
-        &nbsp;
+        : &nbsp;
         <CoinDisplay coin='BTC' size='14px'>
           {balance}
         </CoinDisplay>
@@ -94,8 +93,7 @@ const SecondStep = ({
         <DetailRowText size='14px' weight={500}>
           <FormattedMessage id='copy.address' defaultMessage='Address' />
         </DetailRowText>
-        {':'}
-        &nbsp;
+        : &nbsp;
         <Text size='14px' weight={400} data-e2e='btcAddressValue'>
           {addr}
         </Text>
@@ -107,8 +105,7 @@ const SecondStep = ({
             defaultMessage='Private Key'
           />
         </DetailRowText>
-        {':'}
-        &nbsp;
+        : &nbsp;
         {utils.btc.formatPrivateKeyString(priv, format, addr).fold(
           (error) => (
             <Text size='14px' weight={400} color='error'>
@@ -129,8 +126,7 @@ const SecondStep = ({
             defaultMessage='Private Key Format'
           />
         </DetailRowText>
-        {':'}
-        &nbsp;
+        : &nbsp;
         <DropdownWrapper data-e2e='dropdownSelect'>
           <KeySelectInput
             label='Export Format'

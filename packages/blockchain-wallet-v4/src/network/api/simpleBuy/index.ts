@@ -393,7 +393,7 @@ export default ({
           // months are 0 indexed
           month: expirationDate.month() + 1,
           year: expirationDate.year(),
-          cvc: cvc,
+          cvc,
           holder_name: holderName
         },
         nonce: nonce.slice(0, 8),
@@ -402,7 +402,7 @@ export default ({
       },
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + accessToken
+        Authorization: `Bearer ${accessToken}`
       }
     })
 

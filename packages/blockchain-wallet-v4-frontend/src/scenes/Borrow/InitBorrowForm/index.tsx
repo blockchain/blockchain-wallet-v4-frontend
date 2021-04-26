@@ -64,7 +64,7 @@ class InitBorrowForm extends PureComponent<Props> {
 
   getOfferForCoin = () => {
     const offers = this.props.offersR.getOrElse([])
-    const values = this.props.values
+    const { values } = this.props
 
     const offer = offers.find(
       (offer) =>

@@ -35,13 +35,13 @@ const Header = styled(Text)`
   font-size: 24px;
   font-weight: 600;
   margin-top: 12px;
-  color: ${(props) => props.theme['grey800']};
+  color: ${(props) => props.theme.grey800};
 `
 const Copy = styled(Text)`
   margin-top: 14px;
   font-weight: 500;
   line-height: 1.5;
-  color: ${(props) => props.theme['grey800']};
+  color: ${(props) => props.theme.grey800};
 `
 const FooterButton = styled(Button)`
   height: 56px;
@@ -67,7 +67,7 @@ const AutoDisconnection = (props) => {
           <FormattedMessage
             id='modals.autodisconnection.foryoursafety1'
             defaultMessage="You've been inactive for {duration} minutes. For your safety, you'll be logged out of your Wallet shortly."
-            values={{ duration: duration }}
+            values={{ duration }}
           />
         </Copy>
         <FooterButton

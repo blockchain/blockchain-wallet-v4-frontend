@@ -31,7 +31,7 @@ export const renewUserDelay = 30000
 let renewSessionTask = null
 let renewUserTask = null
 export default ({ api, coreSagas, networks }) => {
-  const waitForUserId = function * () {
+  const waitForUserId = function* () {
     const userId = yield select(
       selectors.core.kvStore.userCredentials.getUserId
     )
@@ -53,7 +53,7 @@ export default ({ api, coreSagas, networks }) => {
     )).getOrElse(null)
   }
 
-  const waitForUserData = function * () {
+  const waitForUserData = function* () {
     const userId = yield call(waitForUserId)
     const userData = yield select(selectors.modules.profile.getUserData)
     const apiToken = yield select(selectors.modules.profile.getApiToken)
@@ -76,7 +76,7 @@ export default ({ api, coreSagas, networks }) => {
     })
   }
 
-  const isTier2 = function * () {
+  const isTier2 = function* () {
     yield call(waitForUserData)
     const userDataR = selectors.modules.profile.getUserData(yield select())
     const userData = userDataR.getOrElse({
@@ -85,7 +85,7 @@ export default ({ api, coreSagas, networks }) => {
     return userData.tiers && userData.tiers.current >= 2
   }
 
-  const getCampaignData = function * (campaign) {
+  const getCampaignData = function* (campaign) {
     if (campaign.name === 'sunriver') {
       const xlmAccount = (yield select(
         selectors.core.kvStore.xlm.getDefaultAccountId
@@ -109,7 +109,7 @@ export default ({ api, coreSagas, networks }) => {
     return null
   }
 
-  const signIn = function * () {
+  const signIn = function* () {
     try {
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail(
         'No email'
@@ -146,7 +146,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const renewSession = function * (
+  const renewSession = function* (
     userId,
     lifetimeToken,
     email,
@@ -169,7 +169,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const setSession = function * (userId, lifetimeToken, email, guid) {
+  const setSession = function* (userId, lifetimeToken, email, guid) {
     try {
       const { expiresAt, token: apiToken } = yield call(
         api.generateSession,
@@ -191,7 +191,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const fetchUser = function * () {
+  const fetchUser = function* () {
     try {
       const user = yield call(api.getUser)
       yield put(A.fetchUserDataSuccess(user))
@@ -207,7 +207,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const renewUser = function * (renewIn = 0) {
+  const renewUser = function* (renewIn = 0) {
     try {
       yield delay(renewIn)
       const user = yield call(api.getUser)
@@ -219,12 +219,12 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const renewApiSockets = function * () {
+  const renewApiSockets = function* () {
     yield put(actions.middleware.webSocket.rates.stopSocket())
     yield put(actions.middleware.webSocket.rates.startSocket())
   }
 
-  const clearSession = function * () {
+  const clearSession = function* () {
     if (renewSessionTask) {
       // @ts-ignore
       yield cancel(renewSessionTask)
@@ -239,14 +239,14 @@ export default ({ api, coreSagas, networks }) => {
     yield put(A.setApiTokenNotAsked())
   }
 
-  const generateRetailToken = function * () {
+  const generateRetailToken = function* () {
     const guid = yield select(selectors.core.wallet.getGuid)
     const sharedKey = yield select(selectors.core.wallet.getSharedKey)
     const { token } = yield call(api.generateRetailToken, guid, sharedKey)
     return token
   }
 
-  const generateAuthCredentials = function * () {
+  const generateAuthCredentials = function* () {
     const retailToken = yield call(generateRetailToken)
     const { token: lifetimeToken, userId } = yield call(
       api.createUser,
@@ -261,7 +261,7 @@ export default ({ api, coreSagas, networks }) => {
     return { userId, lifetimeToken }
   }
 
-  const recoverUser = function * () {
+  const recoverUser = function* () {
     const retailToken = yield call(generateRetailToken)
     const userId = (yield select(
       selectors.core.kvStore.userCredentials.getUserId
@@ -275,7 +275,7 @@ export default ({ api, coreSagas, networks }) => {
     yield call(setSession, userId, lifetimeToken, email, guid)
   }
 
-  const createUser = function * () {
+  const createUser = function* () {
     const token = yield select(S.getApiToken)
     if (!Remote.NotAsked.is(token)) return
 
@@ -303,7 +303,7 @@ export default ({ api, coreSagas, networks }) => {
     yield call(setSession, userId, lifetimeToken, email, guid)
   }
 
-  const updateUser = function * ({ payload }) {
+  const updateUser = function* ({ payload }) {
     const { data } = payload
     const userR = S.getUserData(yield select())
     const user = userR.getOrElse({
@@ -333,7 +333,7 @@ export default ({ api, coreSagas, networks }) => {
     return yield call(fetchUser)
   }
 
-  const updateUserAddress = function * ({ payload }) {
+  const updateUserAddress = function* ({ payload }) {
     const { address } = payload
     const user = (yield select(S.getUserData)).getOrElse({})
     const { address: prevAddress } = user
@@ -344,13 +344,13 @@ export default ({ api, coreSagas, networks }) => {
     return yield call(fetchUser)
   }
 
-  const syncUserWithWallet = function * () {
+  const syncUserWithWallet = function* () {
     const retailToken = yield call(generateRetailToken)
     const userData = yield call(api.syncUserWithWallet, retailToken)
     yield put(A.fetchUserDataSuccess(userData))
   }
 
-  const fetchUserCampaigns = function * () {
+  const fetchUserCampaigns = function* () {
     try {
       yield put(A.fetchUserCampaignsLoading())
       yield call(waitForUserData)
@@ -361,7 +361,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const fetchTiers = function * () {
+  const fetchTiers = function* () {
     try {
       yield put(A.fetchTiersLoading())
       const tiersData = yield call(api.fetchTiers)
@@ -379,7 +379,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const shareWalletAddressesWithExchange = function * () {
+  const shareWalletAddressesWithExchange = function* () {
     try {
       yield put(A.shareWalletAddressesWithExchangeLoading())
       const state = yield select()
@@ -426,7 +426,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const linkFromExchangeAccount = function * ({ payload }) {
+  const linkFromExchangeAccount = function* ({ payload }) {
     try {
       const { address, email, linkId } = payload
       yield put(A.linkFromExchangeAccountLoading())
@@ -453,7 +453,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const linkToExchangeAccount = function * ({ payload }) {
+  const linkToExchangeAccount = function* ({ payload }) {
     try {
       const { utmCampaign } = payload
       yield put(A.linkToExchangeAccountLoading())
@@ -482,48 +482,45 @@ export default ({ api, coreSagas, networks }) => {
       if (isRelinkAttempt) {
         yield put(A.shareWalletAddressesWithExchange())
         return yield put(actions.modals.closeAllModals())
-      } else {
-        // get or create nabu user
-        const isUserStateNone = (yield select(S.isUserStateNone)).getOrFail()
-        if (isUserStateNone) yield call(createUser)
-        // get exchange linkId, exchange domain and user email
-        const domains = (yield select(
-          selectors.core.walletOptions.getDomains
-        )).getOrFail()
-        const exchangeDomain = prop('exchange', domains)
-        const data = yield call(api.createLinkAccountId)
-        const exchangeLinkId = prop('linkId', data)
-        const email = (yield select(
-          selectors.core.settings.getEmail
-        )).getOrFail()
-        const accountDeeplinkUrl = `${exchangeDomain}/trade/link/${exchangeLinkId}?email=${encodeURIComponent(
-          email
-        )}&utm_source=web_wallet&utm_medium=referral&utm_campaign=${
-          utmCampaign || 'wallet_exchange_page'
-        }`
-        // share addresses
-        yield put(A.shareWalletAddressesWithExchange())
-        // simulate wait while allowing user to read modal
-        yield delay(2000)
-        // attempt to open url for user
-        window.open(accountDeeplinkUrl, '_blank', 'noreferrer')
-        yield put(A.setLinkToExchangeAccountDeepLink(accountDeeplinkUrl))
-        // poll for account link
-        yield race({
-          task: call(pollForAccountLinkSuccess, 0),
-          cancel: take([
-            AT.LINK_TO_EXCHANGE_ACCOUNT_FAILURE,
-            AT.LINK_TO_EXCHANGE_ACCOUNT_SUCCESS,
-            actionTypes.modals.CLOSE_MODAL
-          ])
-        })
       }
+      // get or create nabu user
+      const isUserStateNone = (yield select(S.isUserStateNone)).getOrFail()
+      if (isUserStateNone) yield call(createUser)
+      // get exchange linkId, exchange domain and user email
+      const domains = (yield select(
+        selectors.core.walletOptions.getDomains
+      )).getOrFail()
+      const exchangeDomain = prop('exchange', domains)
+      const data = yield call(api.createLinkAccountId)
+      const exchangeLinkId = prop('linkId', data)
+      const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
+      const accountDeeplinkUrl = `${exchangeDomain}/trade/link/${exchangeLinkId}?email=${encodeURIComponent(
+        email
+      )}&utm_source=web_wallet&utm_medium=referral&utm_campaign=${
+        utmCampaign || 'wallet_exchange_page'
+      }`
+      // share addresses
+      yield put(A.shareWalletAddressesWithExchange())
+      // simulate wait while allowing user to read modal
+      yield delay(2000)
+      // attempt to open url for user
+      window.open(accountDeeplinkUrl, '_blank', 'noreferrer')
+      yield put(A.setLinkToExchangeAccountDeepLink(accountDeeplinkUrl))
+      // poll for account link
+      yield race({
+        task: call(pollForAccountLinkSuccess, 0),
+        cancel: take([
+          AT.LINK_TO_EXCHANGE_ACCOUNT_FAILURE,
+          AT.LINK_TO_EXCHANGE_ACCOUNT_SUCCESS,
+          actionTypes.modals.CLOSE_MODAL
+        ])
+      })
     } catch (e) {
       yield put(A.linkToExchangeAccountFailure(e.message))
     }
   }
 
-  const pollForAccountLinkSuccess = function * (attemptCount) {
+  const pollForAccountLinkSuccess = function* (attemptCount) {
     try {
       // check every 10 seconds
       yield delay(10000)

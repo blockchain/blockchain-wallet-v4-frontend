@@ -5,7 +5,7 @@ import styled from 'styled-components'
 const Wrapper = styled.div`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
-  border-radius: ${(props) => parseFloat(props.width) / 2 + 'px'};
+  border-radius: ${(props) => `${parseFloat(props.width) / 2}px`};
   background-color: ${(props) => props.theme[props.bgColor]};
 `
 

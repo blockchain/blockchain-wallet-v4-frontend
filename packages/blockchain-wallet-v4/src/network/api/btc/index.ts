@@ -70,7 +70,7 @@ export default ({ apiUrl, get, post, rootUrl }) => {
   const getRawTx = (txHex) =>
     get({
       url: rootUrl,
-      endPoint: '/rawtx/' + txHex,
+      endPoint: `/rawtx/${txHex}`,
       data: {
         format: 'hex',
         cors: 'true'

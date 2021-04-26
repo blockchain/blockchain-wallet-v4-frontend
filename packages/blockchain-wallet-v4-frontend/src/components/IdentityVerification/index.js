@@ -106,8 +106,7 @@ export const ColRightInner = styled.div`
 export const EmailHelper = styled.span`
   margin-top: 5px;
   font-size: 12px;
-  color: ${(props) =>
-    props.error ? props.theme['error'] : props.theme['grey400']};
+  color: ${(props) => (props.error ? props.theme.error : props.theme.grey400)};
   a {
     cursor: pointer;
     color: ${(props) => props.theme.blue600};

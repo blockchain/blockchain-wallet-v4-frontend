@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import { Button, Text, TextGroup } from 'blockchain-info-components'
 
 const CheckCircleIcon = styled(FarCheckCircle)`
-  fill: ${(props) => props.theme['success']};
+  fill: ${(props) => props.theme.success};
 `
 
 const SuccessText = styled(Text)`

@@ -90,7 +90,7 @@ const UsedTableEntry = ({ address, search }) => {
         style={{ display: 'flex', justifyContent: 'flex-end' }}
       >
         <Text size='13px' weight={500}>
-          <CoinDisplay coin={'BTC'} size='13px' weight={400}>
+          <CoinDisplay coin='BTC' size='13px' weight={400}>
             {address.final_balance}
           </CoinDisplay>
         </Text>

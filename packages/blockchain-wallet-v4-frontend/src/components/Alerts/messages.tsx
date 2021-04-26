@@ -61,9 +61,7 @@ export const getAlertContent = (message, data = undefined) => {
               </Text>
               <Text>
                 <Link
-                  href={
-                    'https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Pax-FAQ'
-                  }
+                  href='https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Pax-FAQ'
                   target='_blank'
                   weight={500}
                   size='12px'
@@ -298,7 +296,7 @@ export const getAlertContent = (message, data = undefined) => {
       )
     case C.FIRST_PAX_TRADE_INFO:
       return buildMessageTemplate(
-        <React.Fragment>
+        <>
           <Text>
             <FormattedMessage
               id='components.alerts.first_pax_trade_info_dyk'
@@ -313,9 +311,7 @@ export const getAlertContent = (message, data = undefined) => {
               />
             </Text>
             <Link
-              href={
-                'https://support.blockchain.com/hc/en-us/articles/360027492092-Why-do-I-need-ETH-to-send-my-PAX-'
-              }
+              href='https://support.blockchain.com/hc/en-us/articles/360027492092-Why-do-I-need-ETH-to-send-my-PAX-'
               target='_blank'
               weight={500}
               size='12px'
@@ -326,7 +322,7 @@ export const getAlertContent = (message, data = undefined) => {
               />
             </Link>
           </TextGroup>
-        </React.Fragment>
+        </>
       )
     case C.FETCH_UNUSED_ADDRESSES_ERROR:
       return buildMessageTemplate(

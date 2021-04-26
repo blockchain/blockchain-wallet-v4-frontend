@@ -36,7 +36,7 @@ export default ({
     coreSagas,
     networks
   })
-  const deleteSavedBank = function * ({
+  const deleteSavedBank = function* ({
     bankId
   }: ReturnType<typeof A.deleteSavedBank>) {
     try {
@@ -58,18 +58,18 @@ export default ({
     }
   }
 
-  const transferAccountState = function * (id: string) {
+  const transferAccountState = function* (id: string) {
     const data = yield call(api.getBankTransferAccountDetails, id)
     if (data.state === 'ACTIVE') {
       return data
-    } else if (data.state === 'BLOCKED') {
-      return data.error
-    } else {
-      throw new Error('retry active account check')
     }
+    if (data.state === 'BLOCKED') {
+      return data.error
+    }
+    throw new Error('retry active account check')
   }
 
-  const conditionalRetry = function * (id: string) {
+  const conditionalRetry = function* (id: string) {
     const { RETRY_AMOUNT, SECONDS } = POLLING
     const data = yield retry(
       RETRY_AMOUNT,
@@ -80,7 +80,7 @@ export default ({
     return data
   }
 
-  const fetchBankTransferUpdate = function * (
+  const fetchBankTransferUpdate = function* (
     action: ReturnType<typeof A.fetchBankTransferUpdate>
   ) {
     try {
@@ -192,7 +192,7 @@ export default ({
     }
   }
 
-  const fetchBankLinkCredentials = function * (action) {
+  const fetchBankLinkCredentials = function* (action) {
     try {
       yield put(A.fetchBankLinkCredentialsLoading())
       const { fiatCurrency } = action.payload
@@ -207,7 +207,7 @@ export default ({
     }
   }
 
-  const fetchBankTransferAccounts = function * () {
+  const fetchBankTransferAccounts = function* () {
     try {
       yield put(A.fetchBankTransferAccountsLoading())
       const accounts = yield call(api.getBankTransferAccounts)
@@ -225,7 +225,7 @@ export default ({
     }
   }
 
-  const handleDepositFiatClick = function * ({
+  const handleDepositFiatClick = function* ({
     payload
   }: ReturnType<typeof A.handleDepositFiatClick>) {
     yield put(
@@ -286,12 +286,12 @@ export default ({
     }
   }
 
-  const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
+  const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
     const { modalType, origin } = payload
     yield put(actions.modals.showModal(modalType, { origin }))
   }
 
-  const ClearedStatusCheck = function * (orderId) {
+  const ClearedStatusCheck = function* (orderId) {
     let order: SBTransactionType = yield call(api.getPaymentById, orderId)
 
     if (
@@ -300,12 +300,11 @@ export default ({
       order.state === 'FAILED'
     ) {
       return order
-    } else {
-      throw new Error('retrying to fetch for cleared status')
     }
+    throw new Error('retrying to fetch for cleared status')
   }
 
-  const AuthUrlCheck = function * (orderId) {
+  const AuthUrlCheck = function* (orderId) {
     let order: SBTransactionType = yield call(api.getPaymentById, orderId)
 
     if (
@@ -315,12 +314,11 @@ export default ({
       order.state === 'FAILED'
     ) {
       return order
-    } else {
-      throw new Error('retrying to fetch for AuthUrl')
     }
+    throw new Error('retrying to fetch for AuthUrl')
   }
 
-  const createFiatDeposit = function * () {
+  const createFiatDeposit = function* () {
     const { amount, currency } = yield select(getFormValues('brokerageTx'))
     const { id, partner } = yield select(
       selectors.components.brokerage.getAccount
@@ -394,7 +392,7 @@ export default ({
     }
   }
 
-  const handleMethodChange = function * (action) {
+  const handleMethodChange = function* (action) {
     const { method } = action
     const isUserTier2 = yield call(isTier2)
 

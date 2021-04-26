@@ -55,7 +55,7 @@ const Confirmations = (props: Props) => {
   } = props
   const conf = blockHeight - txBlockHeight + 1
   const confirmations = conf > 0 && txBlockHeight ? conf : 0
-  const minConfirmations = supportedCoins[coin].minConfirmations
+  const { minConfirmations } = supportedCoins[coin]
 
   return (
     <Wrapper>

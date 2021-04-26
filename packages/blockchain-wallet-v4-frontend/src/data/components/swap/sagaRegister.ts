@@ -10,7 +10,7 @@ let pollTask: Task
 export default ({ api, coreSagas, networks }) => {
   const swapSagas = sagas({ api, coreSagas, networks })
 
-  return function * swapSaga() {
+  return function* swapSaga() {
     yield takeLatest(AT.CANCEL_ORDER, swapSagas.cancelOrder)
     yield takeLatest(AT.CHANGE_PAIR, swapSagas.changePair)
     yield takeLatest(AT.CHANGE_SWAP_TRENDING_PAIR, swapSagas.changeTrendingPair)
@@ -29,7 +29,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.TOGGLE_BASE_COUNTER, swapSagas.toggleBaseAndCounter)
     yield takeEvery(actionTypes.CHANGE, swapSagas.formChanged)
 
-    yield takeLatest(AT.START_POLL_QUOTE, function * () {
+    yield takeLatest(AT.START_POLL_QUOTE, function* () {
       if (pollTask && pollTask.isRunning) yield cancel(pollTask)
       pollTask = yield fork(swapSagas.fetchQuote)
       yield take(AT.STOP_POLL_QUOTE)

@@ -10,7 +10,7 @@ import CompleteStep from './template'
 class CompleteStepContainer extends React.PureComponent {
   onInstallApps = () => {
     this.props.onClose()
-    const deviceIndex = this.props.match.params.deviceIndex
+    const { deviceIndex } = this.props.match.params
     this.props.modalActions.showModal('LockboxAppManager', { deviceIndex })
   }
 

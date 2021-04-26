@@ -20,12 +20,12 @@ export const Addresses = ({ from, to }) => {
   return (
     <AddressesWrapper>
       <TextGroup inline style={{ marginBottom: '5px' }}>
-        <Text size='14px' color={'grey600'} weight={500}>
+        <Text size='14px' color='grey600' weight={500}>
           <FormattedMessage id='copy.to:' defaultMessage='To: ' />
         </Text>
         <Text
           size='14px'
-          color={'grey600'}
+          color='grey600'
           weight={500}
           data-e2e='transactionListItemTo'
         >
@@ -33,12 +33,12 @@ export const Addresses = ({ from, to }) => {
         </Text>
       </TextGroup>
       <TextGroup inline>
-        <Text size='14px' color={'grey600'} weight={500}>
+        <Text size='14px' color='grey600' weight={500}>
           <FormattedMessage id='copy.from:' defaultMessage='From: ' />
         </Text>
         <Text
           size='14px'
-          color={'grey600'}
+          color='grey600'
           weight={500}
           data-e2e='transactionListItemFrom'
         >
@@ -149,25 +149,20 @@ export const IconTx = ({
           <Icon
             size='12px'
             weight={600}
-            name={'arrow-bottom-right'}
+            name='arrow-bottom-right'
             color={color}
           />
         )
       case 'sent':
         return (
-          <Icon
-            size='18px'
-            weight={600}
-            name={'arrow-top-right'}
-            color={color}
-          />
+          <Icon size='18px' weight={600} name='arrow-top-right' color={color} />
         )
       case 'transferred':
         return (
           <Icon
             size='12px'
             weight={600}
-            name={'arrow-top-right-bottom-left'}
+            name='arrow-top-right-bottom-left'
             color={color}
           />
         )

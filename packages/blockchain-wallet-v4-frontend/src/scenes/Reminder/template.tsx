@@ -108,7 +108,7 @@ const Reminder = (props: InjectedFormProps<{}, Props> & Props) => {
 
   const renderReminder = () => {
     return (
-      <React.Fragment>
+      <>
         <SuccessMessages>
           <Text size='13px' weight={400}>
             <FormattedMessage
@@ -125,7 +125,7 @@ const Reminder = (props: InjectedFormProps<{}, Props> & Props) => {
             />
           </Button>
         </LinkContainer>
-      </React.Fragment>
+      </>
     )
   }
 

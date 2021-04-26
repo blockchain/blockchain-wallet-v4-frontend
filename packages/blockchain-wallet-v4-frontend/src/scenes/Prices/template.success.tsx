@@ -57,7 +57,7 @@ const PricesTable = (props) => {
   // limit no match found length to something reasonable
   const filterMatchText =
     (state.globalFilter?.length > 20 &&
-      state.globalFilter.substring(0, 20) + '…') ||
+      `${state.globalFilter.substring(0, 20)}…`) ||
     state.globalFilter
 
   return (

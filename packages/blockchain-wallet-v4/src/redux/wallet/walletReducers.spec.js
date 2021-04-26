@@ -60,8 +60,7 @@ describe('reducers', () => {
       let select = compose(Wallet.toJS, Wrapper.selectWallet)
       expect(
         select(next).hd_wallets[0].accounts[0].derivations[0].address_labels
-          .length
-      ).toEqual(0)
+      ).toHaveLength(0)
     })
 
     // TODO :: wallet creation need review

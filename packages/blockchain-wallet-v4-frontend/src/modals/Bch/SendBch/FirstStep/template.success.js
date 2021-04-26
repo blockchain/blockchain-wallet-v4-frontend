@@ -90,8 +90,8 @@ const FirstStep = (props) => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup inline margin={'15px'} style={{ zIndex: 3 }}>
-        <FormItem width={'40%'}>
+      <FormGroup inline margin='15px' style={{ zIndex: 3 }}>
+        <FormItem width='40%'>
           <FormLabel htmlFor='coin'>
             <FormattedMessage
               id='modals.sendBch.firststep.currency'
@@ -105,7 +105,7 @@ const FirstStep = (props) => {
             validate={[required]}
           />
         </FormItem>
-        <FormItem width={'60%'}>
+        <FormItem width='60%'>
           <FormLabel htmlFor='from'>
             <FormattedMessage id='copy.from' defaultMessage='From' />
           </FormLabel>
@@ -141,7 +141,7 @@ const FirstStep = (props) => {
           </Text>
         </WarningBanners>
       )}
-      <FormGroup margin={'15px'}>
+      <FormGroup margin='15px'>
         <FormItem>
           <FormLabel htmlFor='to'>
             <FormattedMessage
@@ -193,7 +193,7 @@ const FirstStep = (props) => {
                 name='to'
                 component={TextBox}
                 input={{ value: `web+bitcoincash:?r=${payPro.paymentUrl}` }}
-                disabled={true}
+                disabled
               />
             )}
           </Row>
@@ -206,7 +206,7 @@ const FirstStep = (props) => {
           <ExchangePromo />
         )}
       </FormGroup>
-      <FormGroup margin={'15px'}>
+      <FormGroup margin='15px'>
         <FormItem>
           <FormLabel htmlFor='amount'>
             <FormattedMessage id='copy.amount' defaultMessage='Amount' />
@@ -227,7 +227,7 @@ const FirstStep = (props) => {
           />
         </FormItem>
       </FormGroup>
-      <FormGroup margin={'15px'}>
+      <FormGroup margin='15px'>
         <FormItem>
           <FormLabel>
             <FormattedMessage

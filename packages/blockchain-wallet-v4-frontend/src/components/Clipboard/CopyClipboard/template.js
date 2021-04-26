@@ -42,7 +42,7 @@ const CopyButton = styled(IconButton)`
     margin-right: 0 !important;
     font-size: ${(props) => (props.active ? '18px' : '20px')};
     color: ${(props) =>
-      props.active ? props.theme['success'] : props.theme.grey700};
+      props.active ? props.theme.success : props.theme.grey700};
   }
 `
 

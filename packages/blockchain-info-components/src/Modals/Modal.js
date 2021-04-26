@@ -68,7 +68,7 @@ const selectWidth = (size) => {
 const Modal = forwardRef((props, ref) => {
   const { children, ...rest } = props
   const modalDataE2e = rest.dataE2e || 'modal'
-  const type = rest.type
+  const { type } = rest
   const size = rest.size || 'medium'
   const position = rest.position || 1
   const total = rest.total || 1
@@ -80,7 +80,7 @@ const Modal = forwardRef((props, ref) => {
     return (
       <BaseModal
         data-e2e={modalDataE2e}
-        isLast={true}
+        isLast
         position={position}
         width={width}
         {...rest}
@@ -88,26 +88,21 @@ const Modal = forwardRef((props, ref) => {
         {children}
       </BaseModal>
     )
-  } else {
-    return (
-      <ModalBackground
+  }
+  return (
+    <ModalBackground isLast={isLast} position={position} className={rest.class}>
+      <BaseModal
+        data-e2e={modalDataE2e}
         isLast={isLast}
         position={position}
-        className={rest.class}
+        width={width}
+        ref={ref}
+        {...rest}
       >
-        <BaseModal
-          data-e2e={modalDataE2e}
-          isLast={isLast}
-          position={position}
-          width={width}
-          ref={ref}
-          {...rest}
-        >
-          {children}
-        </BaseModal>
-      </ModalBackground>
-    )
-  }
+        {children}
+      </BaseModal>
+    </ModalBackground>
+  )
 })
 
 Modal.propTypes = {

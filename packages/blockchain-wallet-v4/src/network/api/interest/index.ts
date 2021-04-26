@@ -60,7 +60,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     nextPageUrl
       ? authorizedGet({
           url: nabuUrl,
-          endPoint: nextPageUrl + '&pending=true&'
+          endPoint: `${nextPageUrl}&pending=true&`
         })
       : authorizedGet({
           url: nabuUrl,

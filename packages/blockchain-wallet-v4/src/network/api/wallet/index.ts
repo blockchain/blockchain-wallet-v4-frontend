@@ -67,13 +67,13 @@ export default ({ get, post, rootUrl }) => {
       active,
       activeBech32,
       format: 'json',
-      offset: offset,
+      offset,
       no_compact: true,
       ct: new Date().getTime(),
-      n: n,
+      n,
       language: 'en',
       no_buttons: true,
-      filter: filter
+      filter
     }
     return post({
       url: rootUrl,
@@ -193,7 +193,7 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl,
       endPoint: '/wallet',
       data: {
-        token: token,
+        token,
         confirm_approval: confirm,
         method: 'authorize-approve'
       }
@@ -215,7 +215,7 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl,
       endPoint: '/wallet',
       data: {
-        token: token,
+        token,
         method: 'reset-two-factor-token'
       }
     })
@@ -225,7 +225,7 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl,
       endPoint: '/wallet',
       data: {
-        token: token,
+        token,
         method: 'verify-email-token'
       }
     })

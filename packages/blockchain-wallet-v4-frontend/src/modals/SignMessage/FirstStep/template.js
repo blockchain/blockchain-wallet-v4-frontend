@@ -44,8 +44,8 @@ const FirstStep = (props) => {
           {address}
         </Text>
       </DetailRow>
-      <FormGroup inline margin={'15px'}>
-        <FormItem width={'100%'}>
+      <FormGroup inline margin='15px'>
+        <FormItem width='100%'>
           <FormLabel htmlFor='message'>
             <FormattedMessage
               id='modals.signmessage.firststep.message'

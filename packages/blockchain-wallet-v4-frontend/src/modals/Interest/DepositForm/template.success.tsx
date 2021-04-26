@@ -552,7 +552,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               />
             </Link>{' '}
             <Text lineHeight='1.4' size='14px' weight={500}>
-              {'&'}
+              &
             </Text>{' '}
             <Link
               href='https://www.blockchain.com/legal/privacy'
@@ -565,7 +565,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 defaultMessage='Privacy'
               />
             </Link>
-            {'.'}
+            .
           </TermsContainer>
         </Field>
         <Field

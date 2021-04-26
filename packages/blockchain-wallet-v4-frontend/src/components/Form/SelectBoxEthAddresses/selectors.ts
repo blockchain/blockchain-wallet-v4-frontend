@@ -44,7 +44,7 @@ export const getEthData = (
         fromUnit: 'WEI',
         toUnit: 'ETH'
       })
-      return wallet.label + ` (${ethDisplay})`
+      return `${wallet.label} (${ethDisplay})`
     }
     return wallet.label
   }
@@ -251,7 +251,7 @@ export const getErc20Data = (
       fromUnit: 'WEI',
       toUnit: coin
     })
-    return wallet.label + ` (${erc20BalanceDisplay})`
+    return `${wallet.label} (${erc20BalanceDisplay})`
   }
   const toDropdown = map((x) => ({
     label: buildDisplay(x),

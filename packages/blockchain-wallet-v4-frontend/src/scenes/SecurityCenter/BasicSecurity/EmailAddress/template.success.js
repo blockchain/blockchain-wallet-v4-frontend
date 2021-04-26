@@ -124,7 +124,7 @@ const EmailAddress = (props) => {
     if (!uiState.verifyToggled && !uiState.isEditing) {
       if (isVerified) {
         return (
-          <React.Fragment>
+          <>
             <EmailExplanation>
               <FormattedHTMLMessage
                 id='scenes.security.email.verifieddescription.success'
@@ -132,7 +132,7 @@ const EmailAddress = (props) => {
                 values={{ email }}
               />
             </EmailExplanation>
-          </React.Fragment>
+          </>
         )
       }
       return (
@@ -157,7 +157,7 @@ const EmailAddress = (props) => {
 
   const renderFields = () => {
     if (!uiState.verifyToggled && !uiState.isEditing) return null
-    else if (uiState.isEditing) {
+    if (uiState.isEditing) {
       return (
         <ChangeEmailSteps
           handleEmailChangeCancel={props.handleEmailChangeCancel}
@@ -165,9 +165,8 @@ const EmailAddress = (props) => {
           invalid={invalid}
         />
       )
-    } else {
-      return null
     }
+    return null
   }
 
   return (

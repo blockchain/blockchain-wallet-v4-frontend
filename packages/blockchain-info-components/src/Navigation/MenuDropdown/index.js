@@ -25,7 +25,7 @@ const DropdownContainer = styled.div`
 
 const Dropdown = (props) => {
   if (props.kind in props.map) {
-    let component = props.map[props.kind].component
+    let { component } = props.map[props.kind]
 
     return (
       <DropdownContainer
@@ -38,9 +38,8 @@ const Dropdown = (props) => {
           : React.createElement(component)}
       </DropdownContainer>
     )
-  } else {
-    return null
   }
+  return null
 }
 
 class MenuDropdown extends PureComponent {
@@ -145,7 +144,7 @@ class MenuDropdown extends PureComponent {
     let dropX = 0
     let dropY = 0
     let dropdownTip = null
-    let dropdownTop = this.props.dropdownTop
+    let { dropdownTop } = this.props
 
     if (this.state.dropDown !== null) {
       let kind = this.state.dropDown

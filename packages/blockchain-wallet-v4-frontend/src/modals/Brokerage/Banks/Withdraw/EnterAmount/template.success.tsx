@@ -151,7 +151,7 @@ const Success: React.FC<
           <Text color='grey800' size='20px' weight={600}>
             <DepositOrWithdrawal
               fiatCurrency={props.fiatCurrency}
-              orderType={'WITHDRAWAL'}
+              orderType='WITHDRAWAL'
             />
           </Text>
           <Icon
@@ -167,7 +167,7 @@ const Success: React.FC<
       </FlyoutWrapper>
       <Limits>
         <LimitWrapper>
-          <Text color='grey600' size='14px' lineHeight={'25px'} weight={500}>
+          <Text color='grey600' size='14px' lineHeight='25px' weight={500}>
             <FormattedMessage
               id='modals.brokerage.fiat_account'
               defaultMessage='{currency} Account'

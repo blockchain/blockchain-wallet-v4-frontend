@@ -2,7 +2,7 @@ import {
   CoinType,
   FiatType,
   NabuMoneyFloatType,
-  WalletFiatType,
+  WalletFiatType
 } from 'core/types'
 
 export type InterestBalanceType = {

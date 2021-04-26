@@ -83,9 +83,8 @@ const createWalletApi = (
     if (session) {
       if (twoFactorCode) {
         return fetchWalletWithTwoFactor(guid, session, password, twoFactorCode)
-      } else {
-        return fetchWalletWithSession(guid, session, password)
       }
+      return fetchWalletWithSession(guid, session, password)
     }
     return Promise.reject(new Error('MISSING_CREDENTIALS'))
   }

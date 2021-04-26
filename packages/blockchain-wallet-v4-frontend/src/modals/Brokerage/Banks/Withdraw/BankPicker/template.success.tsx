@@ -80,7 +80,7 @@ const Success: React.FC<Props> = (props) => {
                 step: WithdrawStepEnum.ENTER_AMOUNT
               })
             }}
-            type={'WITHDRAWAL'}
+            type='WITHDRAWAL'
           />
         )
       })}

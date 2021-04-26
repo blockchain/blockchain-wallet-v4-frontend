@@ -13,7 +13,7 @@ import {
   generateTradingAccount
 } from 'data/coins/utils'
 
-import { getInterestBalance, getTradingBalance } from '../'
+import { getInterestBalance, getTradingBalance } from '..'
 
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = () => (

@@ -49,10 +49,9 @@ export const toJS = pipe(AddressMap.guard, (addressMap) => {
 export const fromJS = (keys = []) => {
   if (is(AddressMap, keys)) {
     return keys
-  } else {
-    const addrs = compose(indexBy(prop('addr')), map(Address.fromJS))(keys)
-    return new AddressMap(addrs)
   }
+  const addrs = compose(indexBy(prop('addr')), map(Address.fromJS))(keys)
+  return new AddressMap(addrs)
 }
 
 export const reviver = (jsObject) => {

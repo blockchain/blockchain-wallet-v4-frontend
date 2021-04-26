@@ -7,7 +7,7 @@ import { model, selectors } from 'data'
 const isSubmitting = selectors.form.isSubmitting(model.components.sendXlm.FORM)
 
 const xlmFromLabel = curry((payment, state) => {
-  const from = payment.from
+  const { from } = payment
   switch (from.type) {
     case ADDRESS_TYPES.ACCOUNT:
       return selectors.core.kvStore.xlm

@@ -192,7 +192,7 @@ const findLegacyChanges = (inputs, inputData, outputs, outputData) => {
     inputs[0].coinType === 'legacy' &&
     inputData.internal === inputData.total
   ) {
-    const address = inputs[0].address
+    const { address } = inputs[0]
     const index = findIndex(propEq('address', address))(outputs)
     if (index < 0) return [outputData, outputs] // no change
     const newOutputs = over(
@@ -207,9 +207,8 @@ const findLegacyChanges = (inputs, inputData, outputs, outputData) => {
       outputData
     )
     return [newOutputData, newOutputs]
-  } else {
-    return [outputData, outputs]
   }
+  return [outputData, outputs]
 }
 
 const CoinbaseCoin = (total) => ({
@@ -222,7 +221,7 @@ const CoinbaseCoin = (total) => ({
 })
 
 const CoinBaseData = (total) => ({
-  total: total,
+  total,
   internal: 0,
   isWatchOnly: false,
   change: 0
@@ -264,9 +263,9 @@ export const _transformTx = (wallet, accountList, txNotes, tx) => {
     from,
     fromWatchOnly: inputData.isWatchOnly,
     hash: tx.hash,
-    inputs: inputs,
+    inputs,
     insertedAt: tx.time * 1000,
-    outputs: outputs,
+    outputs,
     time: tx.time,
     timeFormatted: getTime(tx),
     to,

@@ -443,7 +443,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                       </ResendSmsLink>
                     )}
                     {twoFactorError && (
-                      <FormError position={'absolute'}>{loginError}</FormError>
+                      <FormError position='absolute'>{loginError}</FormError>
                     )}
                   </FormItem>
                 </FormGroup>

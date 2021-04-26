@@ -267,7 +267,7 @@ const Success: React.FC<Props> = (props) => {
                       defaultMessage='Learn more'
                     />
                   </a>
-                  {'.'}
+                  .
                 </span>
               </Text>
             )}

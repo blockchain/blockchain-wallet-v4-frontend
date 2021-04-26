@@ -11,7 +11,7 @@ import {
 import { selectors } from 'data'
 
 // retrieves default account/address
-export const getDefaultAccount = function * () {
+export const getDefaultAccount = function* () {
   const btcAccountsR = yield select(
     selectors.core.common.btc.getAccountsBalances
   )
@@ -22,7 +22,7 @@ export const getDefaultAccount = function * () {
 }
 
 // retrieves the next receive address
-export const getNextReceiveAddress = function * (coin, networks) {
+export const getNextReceiveAddress = function* (coin, networks) {
   const state = yield select()
   const defaultAccountIndex = yield select(
     selectors.core.wallet.getDefaultAccountIndex
@@ -43,7 +43,7 @@ export const getNextReceiveAddress = function * (coin, networks) {
 }
 
 // gets or updates a provisional payment
-export const getOrUpdateProvisionalPayment = function * (
+export const getOrUpdateProvisionalPayment = function* (
   coreSagas,
   networks,
   paymentR

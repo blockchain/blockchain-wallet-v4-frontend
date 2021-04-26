@@ -10,7 +10,7 @@ export default ({ post, rootUrl }) => {
     post({
       url: rootUrl,
       endPoint: querystring ? `/wallet?${querystring}` : '/wallet',
-      data: { guid, sharedKey, method, payload, length: (payload + '').length }
+      data: { guid, sharedKey, method, payload, length: `${payload}`.length }
     })
 
   const updateEmail = (guid, sharedKey, email) =>

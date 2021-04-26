@@ -28,7 +28,7 @@ import * as A from './actions'
 const ACCT_NAME = 'Private Key Wallet'
 
 export default ({ api, networks } = {}) => {
-  const deriveAccount = function * (password) {
+  const deriveAccount = function* (password) {
     try {
       const obtainMnemonic = (state) => getMnemonic(state, password)
       const mnemonicT = yield select(obtainMnemonic)
@@ -51,7 +51,7 @@ export default ({ api, networks } = {}) => {
     tx_notes: existingNotes || {}
   })
 
-  const createNewErc20Entry = function * () {
+  const createNewErc20Entry = function* () {
     const entries = {}
     const erc20List = (yield select(getErc20CoinList)).getOrFail()
     const coinModels = (yield select(getSupportedCoins)).getOrFail()
@@ -61,7 +61,7 @@ export default ({ api, networks } = {}) => {
     return entries
   }
 
-  const createEth = function * ({ kv, password }) {
+  const createEth = function* ({ kv, password }) {
     const { addr, defaultIndex } = yield call(deriveAccount, password)
     const erc20Entry = yield call(createNewErc20Entry)
     const ethereum = {
@@ -72,7 +72,7 @@ export default ({ api, networks } = {}) => {
           label: ACCT_NAME,
           archived: false,
           correct: true,
-          addr: addr
+          addr
         }
       ],
       erc20: erc20Entry,
@@ -85,7 +85,7 @@ export default ({ api, networks } = {}) => {
     yield put(A.createMetadataEth(newkv))
   }
 
-  const transitionFromLegacy = function * ({ newkv, password }) {
+  const transitionFromLegacy = function* ({ newkv, password }) {
     const { addr, defaultIndex } = yield call(deriveAccount, password)
     const erc20Entry = yield call(createNewErc20Entry)
     const defaultAccount = Map(newkv.value.ethereum.accounts[defaultIndex])
@@ -96,7 +96,7 @@ export default ({ api, networks } = {}) => {
     yield put(A.fetchMetadataEthSuccess(newkv))
   }
 
-  const fetchMetadataEth = function * (secondPasswordSagaEnhancer) {
+  const fetchMetadataEth = function* (secondPasswordSagaEnhancer) {
     try {
       const typeId = derivationMap[ETH]
       const mxpriv = yield select(getMetadataXpriv)

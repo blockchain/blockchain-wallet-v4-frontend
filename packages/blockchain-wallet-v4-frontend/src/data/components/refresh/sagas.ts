@@ -4,7 +4,7 @@ import { call, put, select } from 'redux-saga/effects'
 import { actions, selectors } from 'data'
 
 export default () => {
-  const refreshClicked = function * () {
+  const refreshClicked = function* () {
     try {
       // User
       yield put(actions.modules.profile.fetchUser())
@@ -118,37 +118,37 @@ export default () => {
     }
   }
 
-  const refreshBchTransactions = function * () {
+  const refreshBchTransactions = function* () {
     const onlyShow = yield select(
       selectors.components.bchTransactions.selectOnlyShow
     )
     yield put(actions.core.data.bch.fetchTransactions(onlyShow, true))
   }
 
-  const refreshBtcTransactions = function * () {
+  const refreshBtcTransactions = function* () {
     const onlyShow = yield select(
       selectors.components.btcTransactions.selectOnlyShow
     )
     yield put(actions.core.data.btc.fetchTransactions(onlyShow, true))
   }
 
-  const refreshDotTransactions = function * () {
+  const refreshDotTransactions = function* () {
     yield put(actions.core.data.dot.fetchTransactions(null, true))
   }
 
-  const refreshEthTransactions = function * () {
+  const refreshEthTransactions = function* () {
     yield put(actions.core.data.eth.fetchTransactions(null, true))
   }
 
-  const refreshErc20Transactions = function * (coin) {
+  const refreshErc20Transactions = function* (coin) {
     yield put(actions.core.data.eth.fetchErc20Transactions(coin, true))
   }
 
-  const refreshXlmTransactions = function * () {
+  const refreshXlmTransactions = function* () {
     yield put(actions.core.data.xlm.fetchTransactions(null, true))
   }
 
-  const refreshAlgoTransactions = function * () {
+  const refreshAlgoTransactions = function* () {
     yield put(actions.core.data.algo.fetchTransactions(null, true))
   }
 

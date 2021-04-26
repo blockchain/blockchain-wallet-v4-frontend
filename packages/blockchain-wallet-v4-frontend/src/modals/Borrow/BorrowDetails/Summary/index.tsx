@@ -119,7 +119,7 @@ const Summary: React.FC<Props> = (props) => {
             />
           </Title>
           <Value>
-            {Number(props.offer.terms.interestRate * 100).toFixed(1) + '%'}
+            {`${Number(props.offer.terms.interestRate * 100).toFixed(1)}%`}
           </Value>
         </TableRow>
       </Table>

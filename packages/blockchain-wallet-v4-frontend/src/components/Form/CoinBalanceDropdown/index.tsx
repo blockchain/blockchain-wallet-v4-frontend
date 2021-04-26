@@ -62,21 +62,18 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
       if (selectProps.value.balance) {
         return selectProps.value.balance
         // Custodial balance
-      } else {
-        return selectProps.value.available
       }
-    } else {
-      return 0
+      return selectProps.value.available
     }
+    return 0
   }
 
   accountLabel = (selectProps) => {
     if (selectProps.value) {
       // Account/Custodial label
       return selectProps.value.label || selectProps.label
-    } else {
-      return ''
     }
+    return ''
   }
 
   renderDisplay = (

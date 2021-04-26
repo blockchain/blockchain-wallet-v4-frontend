@@ -1,4 +1,5 @@
 import * as AT from './actionTypes'
+
 export {
   arrayInsert,
   arrayMove,

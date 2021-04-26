@@ -174,7 +174,7 @@ export const getLockboxBtcBalances = (state) => {
       coin: 'BTC',
       label: account.label,
       balance: path([xpub, 'final_balance'], addresses),
-      xpub: xpub,
+      xpub,
       address: xpub,
       type: ADDRESS_TYPES.LOCKBOX
     }

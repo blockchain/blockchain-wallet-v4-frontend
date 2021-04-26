@@ -29,13 +29,12 @@ export const selectPurpose = view(purpose)
 export const fromJS = (derivation) => {
   if (is(Derivation, derivation)) {
     return derivation
-  } else {
-    const derivationCons = compose(
-      over(addressLabels, AddressLabelMap.fromJS),
-      over(cache, Cache.fromJS)
-    )
-    return derivationCons(new Derivation(derivation))
   }
+  const derivationCons = compose(
+    over(addressLabels, AddressLabelMap.fromJS),
+    over(cache, Cache.fromJS)
+  )
+  return derivationCons(new Derivation(derivation))
 }
 
 export const toJS = pipe(Derivation.guard, (derivation) => {

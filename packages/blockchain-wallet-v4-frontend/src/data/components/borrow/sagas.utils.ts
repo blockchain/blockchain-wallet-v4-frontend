@@ -31,7 +31,7 @@ export default ({
   coreSagas: any
   networks: any
 }) => {
-  const buildAndPublishPayment = function * (
+  const buildAndPublishPayment = function* (
     coin: CoinType,
     payment: PaymentType,
     amount: number,
@@ -54,7 +54,7 @@ export default ({
     return !paymentError
   }
 
-  const createLimits = function * (payment: PaymentType) {
+  const createLimits = function* (payment: PaymentType) {
     try {
       const coin = S.getCoinType(yield select())
       const offer = S.getOffer(yield select())
@@ -115,7 +115,7 @@ export default ({
     }
   }
 
-  const createPayment = function * (index?: number) {
+  const createPayment = function* (index?: number) {
     let payment
     const coin = S.getCoinType(yield select())
 
@@ -143,7 +143,7 @@ export default ({
     return payment
   }
 
-  const notifyDeposit = function * (
+  const notifyDeposit = function* (
     coin: CoinType,
     loanId: string,
     amount: number,

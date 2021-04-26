@@ -88,7 +88,7 @@ export const importAddress = (key, createdTime, label, network) => {
   let object = {
     priv: null,
     addr: null,
-    label: label,
+    label,
     tag: 0,
     created_time: createdTime,
     created_device_name: 'wallet-web',
@@ -126,46 +126,46 @@ export const fromString = (
 ) => {
   if (utils.btc.isValidBtcAddress(keyOrAddr)) {
     return Task.of(importAddress(keyOrAddr, createdTime, label, network))
-  } else {
-    let format = utils.btc.detectPrivateKeyFormat(keyOrAddr)
-    let okFormats = ['base58', 'base64', 'hex', 'mini', 'sipa', 'compsipa']
-    if (format === 'bip38') {
-      if (bipPass == null || bipPass === '') {
-        return Task.rejected(new Error('needs_bip38'))
-      }
-      let tryParseBIP38toECPair = Either.try(parseBIP38toECPair)
-      let keyE = tryParseBIP38toECPair(keyOrAddr, bipPass, network)
-      return eitherToTask(keyE).map((key) =>
-        importAddress(key, createdTime, label, network)
-      )
-    } else if (format === 'mini' || format === 'base58') {
-      let key
-      try {
-        key = utils.btc.privateKeyStringToKey(keyOrAddr, format)
-      } catch (e) {
-        return Task.rejected(e)
-      }
-      key.compressed = true
-      let cad = utils.btc.keyPairToAddress(key)
-      key.compressed = false
-      let uad = utils.btc.keyPairToAddress(key)
-      return wrapPromiseInTask(() => api.getBalances([cad, uad])).fold(
-        (e) => {
-          key.compressed = true
-          return importAddress(key, createdTime, label, network)
-        },
-        (o) => {
-          let compBalance = o[cad].final_balance
-          let ucompBalance = o[uad].final_balance
-          key.compressed = !(compBalance === 0 && ucompBalance > 0)
-          return importAddress(key, createdTime, label, network)
-        }
-      )
-    } else if (okFormats.indexOf(format) > -1) {
-      let key = utils.btc.privateKeyStringToKey(keyOrAddr, format)
-      return Task.of(importAddress(key, createdTime, label, network))
-    } else {
-      return Task.rejected(new Error('unknown_key_format'))
-    }
   }
+  let format = utils.btc.detectPrivateKeyFormat(keyOrAddr)
+  let okFormats = ['base58', 'base64', 'hex', 'mini', 'sipa', 'compsipa']
+  if (format === 'bip38') {
+    if (bipPass == null || bipPass === '') {
+      return Task.rejected(new Error('needs_bip38'))
+    }
+    let tryParseBIP38toECPair = Either.try(parseBIP38toECPair)
+    let keyE = tryParseBIP38toECPair(keyOrAddr, bipPass, network)
+    return eitherToTask(keyE).map((key) =>
+      importAddress(key, createdTime, label, network)
+    )
+  }
+  if (format === 'mini' || format === 'base58') {
+    let key
+    try {
+      key = utils.btc.privateKeyStringToKey(keyOrAddr, format)
+    } catch (e) {
+      return Task.rejected(e)
+    }
+    key.compressed = true
+    let cad = utils.btc.keyPairToAddress(key)
+    key.compressed = false
+    let uad = utils.btc.keyPairToAddress(key)
+    return wrapPromiseInTask(() => api.getBalances([cad, uad])).fold(
+      (e) => {
+        key.compressed = true
+        return importAddress(key, createdTime, label, network)
+      },
+      (o) => {
+        let compBalance = o[cad].final_balance
+        let ucompBalance = o[uad].final_balance
+        key.compressed = !(compBalance === 0 && ucompBalance > 0)
+        return importAddress(key, createdTime, label, network)
+      }
+    )
+  }
+  if (okFormats.indexOf(format) > -1) {
+    let key = utils.btc.privateKeyStringToKey(keyOrAddr, format)
+    return Task.of(importAddress(key, createdTime, label, network))
+  }
+  return Task.rejected(new Error('unknown_key_format'))
 }

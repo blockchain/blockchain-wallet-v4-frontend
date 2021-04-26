@@ -95,7 +95,7 @@ const CollateralWarning: React.FC<Props> = (props) => {
       return (
         <Container bgColor='grey000'>
           <CustomIcon name='info' color='grey600' />
-          <Text size='14px' weight={500} color='grey800' lineHeight={'20px'}>
+          <Text size='14px' weight={500} color='grey800' lineHeight='20px'>
             <FormattedMessage
               id='scenes.borrow.loanclosed'
               defaultMessage='This loan is no longer active.'
@@ -112,13 +112,14 @@ const CollateralWarning: React.FC<Props> = (props) => {
         <Container bgColor='red000'>
           <CustomIcon name='info' color='red600' />
           <div>
-            <Text size='14px' weight={500} color='red600' lineHeight={'20px'}>
+            <Text size='14px' weight={500} color='red600' lineHeight='20px'>
               <FormattedMessage
                 id='scenes.borrow.warning.unsafe'
                 defaultMessage='Your collateralization ratio is below {unsafeRatio}. Your loan is in danger of being liquidated.'
                 values={{
-                  unsafeRatio:
-                    props.offer.callTerms.liquidationHardRatio * 100 + '%'
+                  unsafeRatio: `${
+                    props.offer.callTerms.liquidationHardRatio * 100
+                  }%`
                 }}
               />
             </Text>
@@ -131,7 +132,7 @@ const CollateralWarning: React.FC<Props> = (props) => {
         <Container bgColor='orange000'>
           <CustomIcon name='info' color='orange600' />
           <div>
-            <Text size='14px' weight={500} color='grey600' lineHeight={'20px'}>
+            <Text size='14px' weight={500} color='grey600' lineHeight='20px'>
               <FormattedHTMLMessage
                 id='scenes.borrow.warning.risky'
                 defaultMessage='Your collateralization ratio of <span class="orange900">{currentRatio}</span> is below the recommended level. <span class="grey900">You need to add {collateralAmtRequired} of additional collateral.</span> If it drops below {liquidationHardPerc} we will sell your collateral.'
@@ -158,7 +159,7 @@ const CollateralWarning: React.FC<Props> = (props) => {
         <Container bgColor='white' borderColor='grey100'>
           <CustomIcon name='info' color='grey400' />
           <div>
-            <Text size='14px' weight={500} color='grey600' lineHeight={'20px'}>
+            <Text size='14px' weight={500} color='grey600' lineHeight='20px'>
               <FormattedHTMLMessage
                 id='scenes.borrow.warning.safe'
                 defaultMessage='Your collateralization ratio is <span class="green600">{currentRatio}</span>, no action needed at this time.'

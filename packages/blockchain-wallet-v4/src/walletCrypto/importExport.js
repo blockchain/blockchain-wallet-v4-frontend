@@ -72,7 +72,7 @@ export const parseBIP38toECPair = function (
   var verifyHashAndReturn = function () {
     var tmpkey = Bitcoin.ECPair.fromPrivateKey(decrypted, null, {
       compressed: isCompPoint,
-      network: network
+      network
     })
 
     var base58Address = utils.btc.keyPairToAddress(tmpkey)
@@ -108,78 +108,77 @@ export const parseBIP38toECPair = function (
     decrypted = decryptedBytes
 
     return verifyHashAndReturn()
-  } else {
-    var ownerentropy = hex.slice(7, 7 + 8)
-    var ownersalt = Buffer.from(
-      !hasLotSeq ? ownerentropy : ownerentropy.slice(0, 4),
-      'hex'
-    )
-
-    var prefactorA = scrypt(passphrase, ownersalt, 16384, 8, 8, 32)
-    var passfactor
-
-    if (!hasLotSeq) {
-      passfactor = prefactorA
-    } else {
-      var prefactorB = Buffer.concat([
-        prefactorA,
-        Buffer.from(ownerentropy, 'hex')
-      ])
-      passfactor = hash256(prefactorB)
-    }
-
-    var passpoint = Bitcoin.ECPair.fromPrivateKey(passfactor).publicKey
-
-    var encryptedpart2 = Buffer.from(hex.slice(23, 23 + 16), 'hex')
-
-    var addresshashplusownerentropy = Buffer.from(hex.slice(3, 3 + 12), 'hex')
-
-    var derived = scrypt(passpoint, addresshashplusownerentropy, 1024, 1, 1, 64)
-    k = derived.slice(32)
-
-    var unencryptedpart2Bytes = WalletCrypto.AES.decrypt(
-      encryptedpart2,
-      k,
-      null,
-      AESopts
-    )
-
-    for (var i = 0; i < 16; i++) {
-      unencryptedpart2Bytes[i] ^= derived[i + 16]
-    }
-
-    var encryptedpart1 = Buffer.concat([
-      Buffer.from(hex.slice(15, 15 + 8), 'hex'),
-      Buffer.from(unencryptedpart2Bytes.slice(0, 0 + 8), 'hex')
-    ])
-
-    var unencryptedpart1Bytes = WalletCrypto.AES.decrypt(
-      encryptedpart1,
-      k,
-      null,
-      AESopts
-    )
-
-    for (var ii = 0; ii < 16; ii++) {
-      unencryptedpart1Bytes[ii] ^= derived[ii]
-    }
-
-    var seedb = Buffer.concat([
-      Buffer.from(unencryptedpart1Bytes.slice(0, 0 + 16), 'hex'),
-      Buffer.from(unencryptedpart2Bytes.slice(8, 8 + 8), 'hex')
-    ])
-
-    var factorb = hash256(seedb)
-
-    // secp256k1: N
-    var N = BigInteger.fromHex(
-      'fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141'
-    )
-
-    decrypted = BigInteger.fromBuffer(passfactor)
-      .multiply(BigInteger.fromBuffer(factorb))
-      .remainder(N)
-
-    return verifyHashAndReturn()
   }
+  var ownerentropy = hex.slice(7, 7 + 8)
+  var ownersalt = Buffer.from(
+    !hasLotSeq ? ownerentropy : ownerentropy.slice(0, 4),
+    'hex'
+  )
+
+  var prefactorA = scrypt(passphrase, ownersalt, 16384, 8, 8, 32)
+  var passfactor
+
+  if (!hasLotSeq) {
+    passfactor = prefactorA
+  } else {
+    var prefactorB = Buffer.concat([
+      prefactorA,
+      Buffer.from(ownerentropy, 'hex')
+    ])
+    passfactor = hash256(prefactorB)
+  }
+
+  var passpoint = Bitcoin.ECPair.fromPrivateKey(passfactor).publicKey
+
+  var encryptedpart2 = Buffer.from(hex.slice(23, 23 + 16), 'hex')
+
+  var addresshashplusownerentropy = Buffer.from(hex.slice(3, 3 + 12), 'hex')
+
+  var derived = scrypt(passpoint, addresshashplusownerentropy, 1024, 1, 1, 64)
+  k = derived.slice(32)
+
+  var unencryptedpart2Bytes = WalletCrypto.AES.decrypt(
+    encryptedpart2,
+    k,
+    null,
+    AESopts
+  )
+
+  for (var i = 0; i < 16; i++) {
+    unencryptedpart2Bytes[i] ^= derived[i + 16]
+  }
+
+  var encryptedpart1 = Buffer.concat([
+    Buffer.from(hex.slice(15, 15 + 8), 'hex'),
+    Buffer.from(unencryptedpart2Bytes.slice(0, 0 + 8), 'hex')
+  ])
+
+  var unencryptedpart1Bytes = WalletCrypto.AES.decrypt(
+    encryptedpart1,
+    k,
+    null,
+    AESopts
+  )
+
+  for (var ii = 0; ii < 16; ii++) {
+    unencryptedpart1Bytes[ii] ^= derived[ii]
+  }
+
+  var seedb = Buffer.concat([
+    Buffer.from(unencryptedpart1Bytes.slice(0, 0 + 16), 'hex'),
+    Buffer.from(unencryptedpart2Bytes.slice(8, 8 + 8), 'hex')
+  ])
+
+  var factorb = hash256(seedb)
+
+  // secp256k1: N
+  var N = BigInteger.fromHex(
+    'fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141'
+  )
+
+  decrypted = BigInteger.fromBuffer(passfactor)
+    .multiply(BigInteger.fromBuffer(factorb))
+    .remainder(N)
+
+  return verifyHashAndReturn()
 }

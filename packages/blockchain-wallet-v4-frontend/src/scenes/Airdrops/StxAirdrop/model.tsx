@@ -309,7 +309,7 @@ export const StxFooterCta = ({
             >
               <FormattedMessage id='copy.here' defaultMessage='here' />
             </Link>
-            {'.'}
+            .
           </Text>
         )
       case 'FAILED':

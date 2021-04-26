@@ -14,7 +14,7 @@ const convertXlmToFiat = (rates, currency) => (amount) =>
     value: amount,
     fromUnit: 'XLM',
     toCurrency: currency,
-    rates: rates
+    rates
   }).value
 
 export const getData = (state, props) => {

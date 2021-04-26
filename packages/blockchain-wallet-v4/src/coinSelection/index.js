@@ -93,36 +93,33 @@ const ft = (targets, feePerByte, coins, changeAddress) => {
   if (isEmpty(selection)) {
     // no coins to select
     return { fee: 0, inputs: [], outputs: [] }
-  } else {
-    const maxBalance = last(selection)[0]
-    const fee = last(selection)[1]
-    const selectedCoins = map((e) => e[2], selection)
-    if (maxBalance < target + fee) {
-      // not enough money to satisfy target
-      return { fee: fee, inputs: [], outputs: targets }
-    } else {
-      const extra = maxBalance - target - fee
-      const feeChange = changeBytes() * feePerByte
-      const extraWithChangeFee = extra - feeChange
-      if (extraWithChangeFee >= dustThreshold(feePerByte)) {
-        // add change
-        const change = Coin.fromJS({
-          value: extraWithChangeFee,
-          address: changeAddress,
-          change: true
-        })
-        return {
-          fee: fee + feeChange,
-          inputs: selectedCoins,
-          outputs: [...targets, change]
-        }
-      } else {
-        // TODO: SEGWIT update burn logic?
-        // burn change
-        return { fee: fee + extra, inputs: selectedCoins, outputs: targets }
-      }
+  }
+  const maxBalance = last(selection)[0]
+  const fee = last(selection)[1]
+  const selectedCoins = map((e) => e[2], selection)
+  if (maxBalance < target + fee) {
+    // not enough money to satisfy target
+    return { fee, inputs: [], outputs: targets }
+  }
+  const extra = maxBalance - target - fee
+  const feeChange = changeBytes() * feePerByte
+  const extraWithChangeFee = extra - feeChange
+  if (extraWithChangeFee >= dustThreshold(feePerByte)) {
+    // add change
+    const change = Coin.fromJS({
+      value: extraWithChangeFee,
+      address: changeAddress,
+      change: true
+    })
+    return {
+      fee: fee + feeChange,
+      inputs: selectedCoins,
+      outputs: [...targets, change]
     }
   }
+  // TODO: SEGWIT update burn logic?
+  // burn change
+  return { fee: fee + extra, inputs: selectedCoins, outputs: targets }
 }
 export const findTarget = memoize(ft)
 
@@ -136,7 +133,7 @@ export const selectAll = (feePerByte, coins, outAddress) => {
   const Balance = List(effectiveCoins).fold(Coin.empty).value
   const fee = Balance - effBalance
   return {
-    fee: fee,
+    fee,
     inputs: effectiveCoins,
     outputs: [Coin.fromJS({ value: effBalance, address: outAddress })]
   }

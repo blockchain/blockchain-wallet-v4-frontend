@@ -83,12 +83,11 @@ export const getBaseAmount = (order: SBOrderType): string => {
       order.outputCurrency as CoinType,
       order.outputQuantity
     )
-  } else {
-    return convertBaseToStandard(
-      order.inputCurrency as CoinType,
-      order.inputQuantity
-    )
   }
+  return convertBaseToStandard(
+    order.inputCurrency as CoinType,
+    order.inputQuantity
+  )
 }
 
 export const getCounterAmount = (order: SBOrderType): string => {
@@ -96,9 +95,8 @@ export const getCounterAmount = (order: SBOrderType): string => {
 
   if (orderType === 'BUY') {
     return convertBaseToStandard('FIAT', order.inputQuantity)
-  } else {
-    return convertBaseToStandard('FIAT', order.outputQuantity)
   }
+  return convertBaseToStandard('FIAT', order.outputQuantity)
 }
 
 export const getBaseCurrency = (
@@ -152,7 +150,7 @@ export const getNextCardExists = (
     if (card.card.number !== formValues['card-number'].slice(-4)) return false
     if (
       moment(
-        card.card.expireMonth + '/' + card.card.expireYear,
+        `${card.card.expireMonth}/${card.card.expireYear}`,
         'MM/YYYY'
       ).toString() !== moment(formValues['expiry-date'], 'MM/YY').toString()
     )

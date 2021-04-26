@@ -7,7 +7,7 @@ const Wrapper = styled.div<{ border: boolean; marginBottom: string }>`
   box-sizing: border-box;
   background-color: ${(props) => props.theme.white};
   border-bottom: 1px solid
-    ${(props) => (props.border ? props.theme['grey000'] : 'transparent')};
+    ${(props) => (props.border ? props.theme.grey000 : 'transparent')};
   margin-bottom: ${(props) => props.marginBottom};
   padding-bottom: 12px;
   width: 100%;

@@ -91,7 +91,7 @@ export const mixEntropy = (localH, serverH, nBytes) => {
     return Either.of(combinedH)
   } catch (e) {
     return Either.Left(
-      new Error('Failed to generate the entropy: ' + e.message)
+      new Error(`Failed to generate the entropy: ${e.message}`)
     )
   }
 }

@@ -47,14 +47,11 @@ export const getQuote = (
     return new BigNumber(baseAmount || '0')
       .dividedBy(standardRate)
       .toFixed(decimals)
-  } else {
-    const fiat = getFiatFromPair(pair)
-    const decimals = Currencies[fiat].units[fiat as UnitType].decimal_digits
-    const standardRate = convertBaseToStandard('FIAT', rate)
-    return new BigNumber(baseAmount || '0')
-      .times(standardRate)
-      .toFixed(decimals)
   }
+  const fiat = getFiatFromPair(pair)
+  const decimals = Currencies[fiat].units[fiat as UnitType].decimal_digits
+  const standardRate = convertBaseToStandard('FIAT', rate)
+  return new BigNumber(baseAmount || '0').times(standardRate).toFixed(decimals)
 }
 
 export const formatQuote = (
@@ -68,12 +65,11 @@ export const formatQuote = (
       value: amt,
       unit: { symbol: supportedCoins[getCoinFromPair(pair)].coinTicker }
     })
-  } else {
-    return fiatToString({
-      value: amt,
-      unit: getFiatFromPair(pair)
-    })
   }
+  return fiatToString({
+    value: amt,
+    unit: getFiatFromPair(pair)
+  })
 }
 
 export const getMaxMin = (
@@ -86,7 +82,7 @@ export const getMaxMin = (
   allValues?: SBCheckoutFormValuesType,
   method?: SBPaymentMethodType,
   account?: SwapAccountType,
-  isSddFlow: boolean = false,
+  isSddFlow = false,
   sddLimit = LIMIT,
   limits?: SwapUserLimitsType
 ): { CRYPTO: string; FIAT: string } => {
@@ -245,7 +241,7 @@ export const getMaxMinSell = (
       return { CRYPTO: '0', FIAT: '0' }
     case OrderType.SELL:
       const coin = getCoinFromPair(pair.pair)
-      const rate = quote.rate
+      const { rate } = quote
       switch (minOrMax) {
         case 'max':
           const maxAvailable = account

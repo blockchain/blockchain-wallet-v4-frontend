@@ -81,11 +81,10 @@ class EnterAmount extends PureComponent<Props> {
           displayBack: false,
           addBank: true
         })
-      } else {
-        return this.props.simpleBuyActions.setStep({
-          step: 'KYC_REQUIRED'
-        })
       }
+      return this.props.simpleBuyActions.setStep({
+        step: 'KYC_REQUIRED'
+      })
     }
 
     this.props.withdrawActions.setStep({

@@ -114,8 +114,8 @@ const FirstStep = (props) => {
   const disableCustodySend = isFromCustody && !isMnemonicVerified
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup inline margin={'15px'} style={{ zIndex: 3 }}>
-        <FormItem width={'40%'}>
+      <FormGroup inline margin='15px' style={{ zIndex: 3 }}>
+        <FormItem width='40%'>
           <FormLabel HtmlFor='coin'>
             <FormattedMessage
               id='modals.sendether.firststep.currency'
@@ -129,7 +129,7 @@ const FirstStep = (props) => {
             validate={[required]}
           />
         </FormItem>
-        <FormItem width={'60%'}>
+        <FormItem width='60%'>
           <FormLabel HtmlFor='from'>
             <FormattedMessage id='copy.from' defaultMessage='From' />
           </FormLabel>
@@ -165,7 +165,7 @@ const FirstStep = (props) => {
           </Text>
         </WarningBanners>
       )}
-      <FormGroup margin={'8px'}>
+      <FormGroup margin='8px'>
         <FormItem>
           <FormLabel HtmlFor='to'>
             <FormattedMessage
@@ -218,7 +218,7 @@ const FirstStep = (props) => {
       ) : (
         <ExchangePromo />
       )}
-      <FormGroup margin={'15px'}>
+      <FormGroup margin='15px'>
         <FormItem>
           <FormLabel HtmlFor='amount'>
             <FormattedMessage id='copy.amount' defaultMessage='Amount' />
@@ -245,7 +245,7 @@ const FirstStep = (props) => {
           totalBalance={props.from.balance}
         />
       )}
-      <FormGroup margin={'15px'}>
+      <FormGroup margin='15px'>
         <FormItem>
           <FormLabel HtmlFor='description'>
             <FormattedMessage
@@ -268,7 +268,7 @@ const FirstStep = (props) => {
         </FormItem>
       </FormGroup>
       {!isFromCustody && (
-        <FeeFormGroup inline margin={'10px'}>
+        <FeeFormGroup inline margin='10px'>
           <ColLeft>
             <FeeFormContainer toggled={feeToggled}>
               <FeeFormLabel>

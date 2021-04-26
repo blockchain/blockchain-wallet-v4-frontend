@@ -57,7 +57,7 @@ export const fromKeys = (entryECKey, encKeyBuffer, typeId) => {
     magicHash: null,
     address: keyPairToAddress(entryECKey),
     signKey: entryECKey.toWIF(),
-    encKeyBuffer: encKeyBuffer,
+    encKeyBuffer,
     value: void 0
   })
 }
@@ -91,7 +91,7 @@ export const fromMetadataHDNode = curry((metadataHDNode, typeId) => {
   let payloadTypeNode = metadataHDNode.deriveHardened(typeId)
   let node = payloadTypeNode.deriveHardened(0)
   let keypair = Bitcoin.ECPair.fromPrivateKey(node.privateKey)
-  let privateKey = payloadTypeNode.deriveHardened(1).privateKey
+  let { privateKey } = payloadTypeNode.deriveHardened(1)
   let encryptionKey = crypto.sha256(privateKey)
   return fromKeys(keypair, encryptionKey, typeId)
 })
@@ -123,9 +123,8 @@ export const message = curry((payload, prevMagic) => {
     const hash = crypto.sha256(payload)
     const buff = Buffer.concat([prevMagic, hash])
     return buff.toString('base64')
-  } else {
-    return payload.toString('base64')
   }
+  return payload.toString('base64')
 })
 
 // magic :: Buffer -> Buffer -> Buffer
@@ -168,19 +167,18 @@ export const verifyResponse = curry((address, network, res) => {
 export const extractResponse = curry((encKey, res) => {
   if (res === null) {
     return res
-  } else {
-    // TODO: remove when redux/core is moved to frontend
-    if (window.logLevel === 'verbose' && res.type_id !== -1) {
-      // eslint-disable-next-line no-console
-      console.info(
-        'LOG: ',
-        encKey
-          ? compose(decrypt(encKey), prop('payload'))(res)
-          : compose(BufferToString, B64ToBuffer, prop('payload'))(res)
-      )
-    }
-    return encKey
-      ? compose(JSON.parse, decrypt(encKey), prop('payload'))(res)
-      : compose(JSON.parse, BufferToString, B64ToBuffer, prop('payload'))(res)
   }
+  // TODO: remove when redux/core is moved to frontend
+  if (window.logLevel === 'verbose' && res.type_id !== -1) {
+    // eslint-disable-next-line no-console
+    console.info(
+      'LOG: ',
+      encKey
+        ? compose(decrypt(encKey), prop('payload'))(res)
+        : compose(BufferToString, B64ToBuffer, prop('payload'))(res)
+    )
+  }
+  return encKey
+    ? compose(JSON.parse, decrypt(encKey), prop('payload'))(res)
+    : compose(JSON.parse, BufferToString, B64ToBuffer, prop('payload'))(res)
 })

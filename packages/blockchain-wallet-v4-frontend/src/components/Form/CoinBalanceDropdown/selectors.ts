@@ -20,7 +20,7 @@ export const getData = (state, ownProps: OwnProps) => {
       addressDataR = getBchAddressData(state, {
         excludeLockbox: true,
         excludeImported: true,
-        includeCustodial: includeCustodial,
+        includeCustodial,
         includeInterest: false,
         includeAll: false
       })
@@ -29,7 +29,7 @@ export const getData = (state, ownProps: OwnProps) => {
       addressDataR = getBtcAddressData(state, {
         excludeLockbox: true,
         excludeImported: true,
-        includeCustodial: includeCustodial,
+        includeCustodial,
         includeInterest: false,
         includeAll: false
       })
@@ -37,35 +37,35 @@ export const getData = (state, ownProps: OwnProps) => {
     case 'ETH':
       addressDataR = getEthAddressData(state, {
         excludeLockbox: true,
-        includeCustodial: includeCustodial,
+        includeCustodial,
         includeInterest: false
       })
       break
     case 'PAX':
       addressDataR = getErc20AddressData(state, {
         coin: 'PAX',
-        includeCustodial: includeCustodial,
+        includeCustodial,
         includeInterest: false
       })
       break
     case 'USDT':
       addressDataR = getErc20AddressData(state, {
         coin: 'USDT',
-        includeCustodial: includeCustodial,
+        includeCustodial,
         includeInterest: false
       })
       break
     case 'WDGLD':
       addressDataR = getErc20AddressData(state, {
         coin: 'WDGLD',
-        includeCustodial: includeCustodial,
+        includeCustodial,
         includeInterest: false
       })
       break
     case 'XLM':
       addressDataR = getXlmAddressData(state, {
         excludeLockbox: true,
-        includeCustodial: includeCustodial,
+        includeCustodial,
         includeInterest: false
       })
       break

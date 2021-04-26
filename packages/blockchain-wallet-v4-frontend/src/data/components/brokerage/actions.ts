@@ -115,7 +115,7 @@ export const setBankDetails = (
   payload: BankDetailsPayload
 ): BrokerageActionTypes => ({
   type: AT.SET_BANK_DETAILS,
-  payload: payload
+  payload
 })
 
 const getPayloadObjectForAddBankStep = (

@@ -47,7 +47,7 @@ export default ({
     networks
   })
 
-  const initialized = function * (action) {
+  const initialized = function* (action) {
     try {
       const from = path<string | undefined>(['payload', 'from'], action)
       const type = path<AddressTypesType>(['payload', 'type'], action)
@@ -81,7 +81,7 @@ export default ({
         coin: 'XLM',
         fee: defaultFee,
         from: defaultAccount,
-        memo: memo,
+        memo,
         memoType: INITIAL_MEMO_TYPE,
         to: prepareTo(to)
       }
@@ -93,11 +93,11 @@ export default ({
     }
   }
 
-  const destroyed = function * () {
+  const destroyed = function* () {
     yield put(actions.form.destroy(FORM))
   }
 
-  const formChanged = function * (action) {
+  const formChanged = function* (action) {
     try {
       const form = path(['meta', 'form'], action)
       if (!equals(FORM, form)) return
@@ -179,7 +179,7 @@ export default ({
     }
   }
 
-  const checkAccountExistence = function * (id) {
+  const checkAccountExistence = function* (id) {
     try {
       yield call(api.getXlmAccount, id)
       return true
@@ -188,7 +188,7 @@ export default ({
     }
   }
 
-  const checkIfDestinationIsExchange = function * ({ payload }) {
+  const checkIfDestinationIsExchange = function* ({ payload }) {
     try {
       yield put(A.sendXlmCheckIfDestinationIsExchangeLoading())
       const exchangeAddresses = (yield select(
@@ -201,7 +201,7 @@ export default ({
     }
   }
 
-  const checkDestinationAccountExists = function * ({ payload }) {
+  const checkDestinationAccountExists = function* ({ payload }) {
     try {
       yield put(A.sendXlmCheckDestinationAccountExistsLoading())
       const destinationAccountExists = yield call(
@@ -224,7 +224,7 @@ export default ({
     }
   }
 
-  const maximumAmountClicked = function * () {
+  const maximumAmountClicked = function* () {
     try {
       const payment = (yield select(S.getPayment)).getOrElse({})
       const effectiveBalance = prop('effectiveBalance', payment)
@@ -236,7 +236,7 @@ export default ({
     }
   }
 
-  const firstStepSubmitClicked = function * () {
+  const firstStepSubmitClicked = function* () {
     try {
       let payment = (yield select(S.getPayment)).getOrElse({})
       yield put(A.paymentUpdatedLoading())
@@ -251,7 +251,7 @@ export default ({
     }
   }
 
-  const secondStepSubmitClicked = function * () {
+  const secondStepSubmitClicked = function* () {
     yield put(startSubmit(FORM))
     let payment = (yield select(S.getPayment)).getOrElse({})
     payment = yield call(coreSagas.payment.xlm.create, { payment })
@@ -290,7 +290,7 @@ export default ({
       }
       yield put(actions.core.data.xlm.fetchData())
       yield put(A.paymentUpdatedSuccess(value))
-      const description = value.description
+      const { description } = value
       if (description)
         yield put(
           actions.core.kvStore.xlm.setTxNotesXlm(value.txId, description)
@@ -364,7 +364,7 @@ export default ({
     }
   }
 
-  const setAmount = function * (amount: string) {
+  const setAmount = function* (amount: string) {
     const currency = (yield select(
       selectors.core.settings.getCurrency
     )).getOrFail('Can not retrieve currency.')
@@ -385,7 +385,7 @@ export default ({
     yield put(change(FORM, 'amount', { coin, fiat }))
   }
 
-  const setFrom = function * (
+  const setFrom = function* (
     payment: XlmPaymentType,
     from?: string | CustodialFromType,
     type?: AddressTypesType

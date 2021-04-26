@@ -85,7 +85,7 @@ const LockboxConnectionPrompt = (props) => {
             {step === 'ready' &&
               marquees.map((marquee, i) => (
                 <Text size='12px' weight={400}>
-                  {i + 1 + '. ' + marquee}
+                  {`${i + 1}. ${marquee}`}
                 </Text>
               ))}
           </MarqueeContainer>

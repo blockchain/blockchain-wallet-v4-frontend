@@ -203,7 +203,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               <FormattedHTMLMessage
                 id='modals.simplebuy.confirm.activity_card2'
                 defaultMessage='Your crypto will be available to be withdrawn within <b>{days} days</b>.'
-                values={{ days: days }}
+                values={{ days }}
               />
             </Text>
           </Info>

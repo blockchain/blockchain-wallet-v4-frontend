@@ -27,7 +27,7 @@ const Unit = styled(Text)`
   font-size: 12px;
   font-weight: 400;
   position: absolute;
-  color: ${(props) => props.theme['grey500']};
+  color: ${(props) => props.theme.grey500};
   right: 0px;
   bottom: 30%;
 `
@@ -73,7 +73,7 @@ class NumberBoxDebounced extends React.Component {
 
   handleChange(e) {
     e.preventDefault()
-    const value = e.target.value
+    const { value } = e.target
     this.setState({ updatedValue: value })
 
     clearTimeout(this.timeout)

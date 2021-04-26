@@ -21,7 +21,7 @@ export const CONFIRM_STEPS = {
           values={{ appName }}
         />
       ) : (
-        <React.Fragment>
+        <>
           <FormattedMessage
             id='modals.lockbox.connectionprompt.connect.generic'
             defaultMessage='Connect and unlock your hardware device. Then open the {appName} app on the device.'
@@ -34,7 +34,7 @@ export const CONFIRM_STEPS = {
               values={{ appName }}
             />
           </Text>
-        </React.Fragment>
+        </>
       ),
     image: () => 'lockbox-send-connect',
     srcset: () => ({

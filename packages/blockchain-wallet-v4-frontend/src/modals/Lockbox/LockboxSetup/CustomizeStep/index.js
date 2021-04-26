@@ -46,7 +46,7 @@ class CustomizeStepContainer extends React.PureComponent {
             defaultMessage="Don't worry you can always change them later."
           />
         </ReminderText>
-        <Button fullwidth onClick={this.onNextStep} nature={'primary'}>
+        <Button fullwidth onClick={this.onNextStep} nature='primary'>
           <FormattedMessage
             id='modals.lockboxsetup.customizestep.addapps'
             defaultMessage='Add Apps'

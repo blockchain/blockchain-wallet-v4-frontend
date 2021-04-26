@@ -8,7 +8,7 @@ import { CUSTOM_VARIABLES } from './model'
 
 export const logLocation = 'analytics/sagas'
 export default () => {
-  const postMessage = function * (message, isFromRetry?) {
+  const postMessage = function* (message, isFromRetry?) {
     try {
       const frame = document.getElementById('matomo-iframe')
       if (frame) {
@@ -27,13 +27,13 @@ export default () => {
     }
   }
 
-  const generateUniqueUserID = function * () {
+  const generateUniqueUserID = function* () {
     const guid = yield select(selectors.core.wallet.getGuid)
     let hash = crypto.sha256(guid).toString('base64')
     return hash
   }
 
-  const initUserSession = function * () {
+  const initUserSession = function* () {
     try {
       const guid = yield call(generateUniqueUserID)
       yield call(startSession, { payload: { guid } })
@@ -123,7 +123,7 @@ export default () => {
     }
   }
 
-  const logEvent = function * (action) {
+  const logEvent = function* (action) {
     try {
       const { event } = action.payload
       yield call(postMessage, {
@@ -135,7 +135,7 @@ export default () => {
     }
   }
 
-  const createABTest = function * (action) {
+  const createABTest = function* (action) {
     try {
       const { test } = action.payload
       yield call(postMessage, {
@@ -147,7 +147,7 @@ export default () => {
     }
   }
 
-  const logPageView = function * (action) {
+  const logPageView = function* (action) {
     try {
       const { route } = action.payload
       yield call(postMessage, {
@@ -159,7 +159,7 @@ export default () => {
     }
   }
 
-  const logGoal = function * () {
+  const logGoal = function* () {
     try {
       // TODO
       yield
@@ -168,7 +168,7 @@ export default () => {
     }
   }
 
-  const startSession = function * (action) {
+  const startSession = function* (action) {
     try {
       const { guid } = action.payload
       yield call(postMessage, {
@@ -180,7 +180,7 @@ export default () => {
     }
   }
 
-  const stopSession = function * () {
+  const stopSession = function* () {
     try {
       yield call(postMessage, { method: 'resetUserId', messageData: [] })
     } catch (e) {

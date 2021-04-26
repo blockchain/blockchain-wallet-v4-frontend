@@ -123,7 +123,7 @@ const FirstStep = (props) => {
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin='15px' style={{ zIndex: 3 }}>
-        <FormItem width={'40%'}>
+        <FormItem width='40%'>
           <FormLabel htmlFor='coin'>
             <FormattedMessage
               id='modals.sendbtc.firststep.currency'
@@ -224,7 +224,7 @@ const FirstStep = (props) => {
                 name='to'
                 component={TextBox}
                 input={{ value: `bitcoin:?r=${payPro.paymentUrl}` }}
-                disabled={true}
+                disabled
               />
             )}
           </Row>
@@ -237,7 +237,7 @@ const FirstStep = (props) => {
           <ExchangePromo />
         )}
       </FormGroup>
-      <FormGroup margin={'15px'}>
+      <FormGroup margin='15px'>
         <FormItem>
           <FormLabel htmlFor='amount'>
             <FormattedMessage id='copy.amount' defaultMessage='Amount' />
@@ -259,7 +259,7 @@ const FirstStep = (props) => {
           />
         </FormItem>
       </FormGroup>
-      <FormGroup margin={'15px'}>
+      <FormGroup margin='15px'>
         <FormItem>
           <FormLabel>
             <FormattedMessage
@@ -300,7 +300,7 @@ const FirstStep = (props) => {
       {!isPayPro ? (
         isFromCustody ? null : (
           <>
-            <FeeFormGroup inline margin={'10px'}>
+            <FeeFormGroup inline margin='10px'>
               <ColLeft>
                 <FeeFormContainer toggled={feePerByteToggled}>
                   <FeeFormLabel>
@@ -378,7 +378,7 @@ const FirstStep = (props) => {
           </>
         )
       ) : (
-        <FeeFormGroup margin={'10px'}>
+        <FeeFormGroup margin='10px'>
           <FormLabel>
             <FormattedMessage
               id='modals.sendbtc.firststep.networkfee'
@@ -390,7 +390,7 @@ const FirstStep = (props) => {
           </ComboDisplay>
         </FeeFormGroup>
       )}
-      <FormGroup margin={'15px'}>
+      <FormGroup margin='15px'>
         {feePerByte > regularFeePerByte ? (
           <Text size='13px' weight={400} data-e2e='btcSendEstTimeMinutes'>
             <FormattedMessage

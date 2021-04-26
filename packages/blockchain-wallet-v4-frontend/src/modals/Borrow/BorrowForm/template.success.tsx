@@ -93,7 +93,7 @@ const ButtonContainer = styled.div`
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   // TODO: Borrow - make dynamic
-  const displayName = props.supportedCoins['PAX'].displayName
+  const { displayName } = props.supportedCoins.PAX
 
   return (
     <CustomForm onSubmit={props.handleSubmit}>

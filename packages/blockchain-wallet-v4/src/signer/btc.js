@@ -104,13 +104,13 @@ export const signWithWIF = curry((network, selection) =>
 
 export const signMessage = (priv, addr, message) => {
   const keyPair = privateKeyStringToKey(priv, 'base58', null, addr)
-  const privateKey = keyPair.privateKey
+  const { privateKey } = keyPair
   return BitcoinMessage.sign(message, privateKey, keyPair.compressed).toString(
     'base64'
   )
 }
 
-export const signWithLockbox = function * (
+export const signWithLockbox = function* (
   selection,
   transport,
   scrambleKey,
@@ -125,12 +125,12 @@ export const signWithLockbox = function * (
     const coin = selection.inputs[i]
     const txHex = yield api.getRawTx(coin.txHash)
     inputs.push([BTC.splitTransaction(txHex, true), coin.index])
-    paths.push("44'/0'/0'" + coin.path.split('M')[1])
+    paths.push(`44'/0'/0'${coin.path.split('M')[1]}`)
   }
 
   const intToHex = (i) => {
     const hex = i.toString(16)
-    return hex.length > 1 ? hex : '0' + hex
+    return hex.length > 1 ? hex : `0${hex}`
   }
 
   let outputs = intToHex(selection.outputs.length)

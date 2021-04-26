@@ -20,7 +20,7 @@ class AnalyticsTracker extends React.PureComponent {
     return (
       <Iframe
         id='matomo-iframe'
-        src={domains.walletHelper + '/wallet-helper/matomo/#/?siteId=' + siteId}
+        src={`${domains.walletHelper}/wallet-helper/matomo/#/?siteId=${siteId}`}
       />
     )
   }

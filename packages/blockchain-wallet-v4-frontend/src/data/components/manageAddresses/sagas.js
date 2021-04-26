@@ -12,7 +12,7 @@ import * as A from './actions'
 export default ({ api, networks }) => {
   const logLocation = 'components/manageAddresses/sagas'
 
-  const toggleUsedAddresses = function * () {
+  const toggleUsedAddresses = function* () {
     yield put(actions.modals.closeAllModals())
   }
 
@@ -30,7 +30,7 @@ export default ({ api, networks }) => {
     return addrs
   }
 
-  const generateNextReceiveAddress = function * (action) {
+  const generateNextReceiveAddress = function* (action) {
     const { derivation, walletIndex } = action.payload
     try {
       yield put(A.generateNextReceiveAddressLoading(walletIndex, derivation))
@@ -69,7 +69,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const fetchUnusedAddresses = function * (action) {
+  const fetchUnusedAddresses = function* (action) {
     const { derivation, walletIndex } = action.payload
 
     try {
@@ -130,7 +130,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const fetchUsedAddresses = function * (action) {
+  const fetchUsedAddresses = function* (action) {
     const { derivation, walletIndex } = action.payload
 
     try {
@@ -196,7 +196,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const editAddressLabel = function * (action) {
+  const editAddressLabel = function* (action) {
     const {
       accountIndex,
       addressIndex,
@@ -234,7 +234,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const editImportedAddressLabel = function * (action) {
+  const editImportedAddressLabel = function* (action) {
     const {
       payload: { address }
     } = action
@@ -260,14 +260,14 @@ export default ({ api, networks }) => {
     }
   }
 
-  const deleteAddressLabel = function * (action) {
+  const deleteAddressLabel = function* (action) {
     const { accountIdx, addressIdx, derivation, walletIdx } = action.payload
 
     try {
       const wrapper = yield select(selectors.core.wallet.getWrapper)
       yield put(A.deleteAddressLabelLoading(accountIdx, derivation))
       yield call(
-        function * () {
+        function* () {
           yield put(
             actions.core.wallet.deleteHdAddressLabel(
               accountIdx,

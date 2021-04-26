@@ -57,7 +57,7 @@ export default ({
     coreSagas,
     networks
   })
-  const initialized = function * (action) {
+  const initialized = function* (action) {
     try {
       const { amount, description, from, payPro, to } = action.payload
       yield put(A.sendBchPaymentUpdatedLoading())
@@ -125,11 +125,11 @@ export default ({
     }
   }
 
-  const destroyed = function * () {
+  const destroyed = function* () {
     yield put(actions.form.destroy(FORM))
   }
 
-  const bitPayInvoiceEntered = function * (bip21Payload) {
+  const bitPayInvoiceEntered = function* (bip21Payload) {
     yield put(
       actions.modals.showModal('Confirm', {
         origin: 'SendBch',
@@ -152,7 +152,7 @@ export default ({
     return yield put(actions.goals.runGoals())
   }
 
-  const bitpayInvoiceExpired = function * () {
+  const bitpayInvoiceExpired = function* () {
     yield put(actions.modals.closeAllModals())
     yield put(
       actions.modals.showModal('BitPayInvoiceExpired', { origin: 'SendBch' })
@@ -165,7 +165,7 @@ export default ({
     )
   }
 
-  const firstStepSubmitClicked = function * () {
+  const firstStepSubmitClicked = function* () {
     try {
       let p = yield select(S.getPayment)
       yield put(A.sendBchPaymentUpdatedLoading())
@@ -183,7 +183,7 @@ export default ({
     }
   }
 
-  const formChanged = function * (action) {
+  const formChanged = function* (action) {
     try {
       const form = path(['meta', 'form'], action)
       if (!equals(FORM, form)) return
@@ -297,7 +297,7 @@ export default ({
     }
   }
 
-  const maximumAmountClicked = function * () {
+  const maximumAmountClicked = function* () {
     try {
       const appState = yield select(identity)
       const currency = selectors.core.settings
@@ -328,7 +328,7 @@ export default ({
     }
   }
 
-  const secondStepSubmitClicked = function * () {
+  const secondStepSubmitClicked = function* () {
     yield put(startSubmit(FORM))
     let p = yield select(S.getPayment)
     let payment: BtcPaymentType = coreSagas.payment.bch.create({

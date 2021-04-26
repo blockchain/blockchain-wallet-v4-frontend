@@ -24,7 +24,7 @@ const defaultCoins = [
 ]
 
 export default ({ api }: { api: APIType }) => {
-  const fetchCoinPrices = function * (action) {
+  const fetchCoinPrices = function* (action) {
     const {
       coins,
       fiatCurrency,
@@ -50,7 +50,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchCoinPricesPreviousDay = function * (action) {
+  const fetchCoinPricesPreviousDay = function* (action) {
     const { coins, fiatCurrency }: CoinPricesRequestType = action.payload
     try {
       yield put(A.fetchCoinPricesPreviousDayLoading())

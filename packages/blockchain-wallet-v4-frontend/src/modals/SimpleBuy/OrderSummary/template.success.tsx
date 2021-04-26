@@ -195,7 +195,7 @@ const Success: React.FC<Props> = (props) => {
                       defaultMessage='Contact Support'
                     />
                   </Link>
-                  {'.'}
+                  .
                 </>
               )}
               {props.order.state === 'PENDING_DEPOSIT' ||
@@ -243,7 +243,7 @@ const Success: React.FC<Props> = (props) => {
                   <FormattedHTMLMessage
                     id='modals.simplebuy.summary.complete_card_info_main'
                     defaultMessage='For your security, first time card purchases are subject to a {days} day holding period before you can send or withdraw your purchased crypto. We will notify you when the hold is lifted.'
-                    values={{ days: days }}
+                    values={{ days }}
                   />
                 </Text>
                 <Text
@@ -280,7 +280,7 @@ const Success: React.FC<Props> = (props) => {
                   <FormattedHTMLMessage
                     id='modals.simplebuy.summary.ach_lock'
                     defaultMessage='Note: You will not be able to Send or Withdraw these funds from your Wallet for the next {days} days.'
-                    values={{ days: days }}
+                    values={{ days }}
                   />{' '}
                   <span>
                     <a

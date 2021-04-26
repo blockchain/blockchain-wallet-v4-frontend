@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { WalletCurrencyEnum } from 'blockchain-wallet-v4/src/types'
 
-import { Image } from '../..'
+import { Image } from '..'
 import Icomoon from './Icomoon'
 
 const BaseIcon = styled.span`

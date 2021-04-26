@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
 
-import { SETUP_TIMEOUT } from './../model'
+import { SETUP_TIMEOUT } from '../model'
 import Template from './template'
 
 class ConnectDeviceStepContainer extends React.PureComponent {

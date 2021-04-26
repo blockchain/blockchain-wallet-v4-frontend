@@ -10,7 +10,7 @@ import { model, selectors } from 'data'
 const isSubmitting = selectors.form.isSubmitting(model.components.sendEth.FORM)
 
 const ethFromLabel = curry((payment, state) => {
-  const from = payment.from
+  const { from } = payment
   switch (from.type) {
     case ADDRESS_TYPES.ACCOUNT:
       return selectors.core.kvStore.eth
@@ -27,7 +27,7 @@ const ethFromLabel = curry((payment, state) => {
 })
 
 const erc20FromLabel = curry((coin, payment, state) => {
-  const from = payment.from
+  const { from } = payment
   switch (from.type) {
     case ADDRESS_TYPES.ACCOUNT:
       return selectors.core.kvStore.eth
@@ -52,7 +52,7 @@ export const getData = (state, coin) => {
     // Convert WEI to base for amount
     const { value: amountStandard } = Exchange.convertCoinToCoin({
       value: payment.amount,
-      coin: coin,
+      coin,
       baseToStandard: true
     })
     // Convert WEI to base for fee (ETH)

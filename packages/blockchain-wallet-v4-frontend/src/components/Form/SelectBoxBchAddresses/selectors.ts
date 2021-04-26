@@ -86,7 +86,7 @@ export const getData = (
         fromUnit: 'SAT',
         toUnit: 'BCH'
       })
-      return label + ` (${bchDisplay})`
+      return `${label} (${bchDisplay})`
     }
     return label
   }
@@ -259,11 +259,11 @@ export const getData = (
       const data = reduce(concat, [], orderArray)
       if (includeAll) {
         return { data: prepend(allWallets, data) }
-      } else if (excludeHDWallets) {
-        return { data: [allImportedAddresses] }
-      } else {
-        return { data }
       }
+      if (excludeHDWallets) {
+        return { data: [allImportedAddresses] }
+      }
+      return { data }
     })
   }
 

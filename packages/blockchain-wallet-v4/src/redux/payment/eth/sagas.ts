@@ -13,7 +13,6 @@ import { call, select } from 'redux-saga/effects'
 
 import { EthRawTxType } from 'core/types'
 
-import settingsSagaFactory from '../../../redux/settings/sagas'
 import { eth } from '../../../signer'
 import { isPositiveInteger, isString } from '../../../utils/checks'
 import {
@@ -23,6 +22,7 @@ import {
   isValidAddress
 } from '../../../utils/eth'
 import * as S from '../../selectors'
+import settingsSagaFactory from '../../settings/sagas'
 import { ADDRESS_TYPES } from '../btc/utils'
 import { FETCH_FEES_FAILURE } from '../model'
 import { AddressTypesType } from '../types'
@@ -43,7 +43,7 @@ const taskToPromise = (t) =>
 
 export default ({ api }) => {
   const settingsSagas = settingsSagaFactory({ api })
-  const selectIndex = function * (from) {
+  const selectIndex = function* (from) {
     const appState = yield select(identity)
     switch (prop('type', from)) {
       case ADDRESS_TYPES.ACCOUNT:
@@ -55,7 +55,7 @@ export default ({ api }) => {
     }
   }
 
-  const calculateIsSufficientEthForErc20 = function * (fee) {
+  const calculateIsSufficientEthForErc20 = function* (fee) {
     const ethBalanceR = yield select(S.data.eth.getDefaultAddressBalance)
     return new BigNumber(ethBalanceR.getOrElse(0)).isGreaterThan(
       new BigNumber(fee)
@@ -70,7 +70,7 @@ export default ({ api }) => {
     return destination
   }
 
-  const calculateSignature = function * (
+  const calculateSignature = function* (
     network,
     password,
     transport,
@@ -109,7 +109,7 @@ export default ({ api }) => {
     }
   }
 
-  const calculateUnconfirmed = function * (address: string) {
+  const calculateUnconfirmed = function* (address: string) {
     const data: {
       transactions: Array<EthRawTxType>
     } = yield call(api.getEthTransactionsV2, address, 0, 1)
@@ -132,8 +132,9 @@ export default ({ api }) => {
         return p
       },
 
-      * init({ coin, isErc20 }) {
-        let contractAddress, fees
+      *init({ coin, isErc20 }) {
+        let contractAddress
+        let fees
         try {
           if (isErc20) {
             contractAddress = (yield select(
@@ -172,15 +173,16 @@ export default ({ api }) => {
         if (!EthUtil.isValidAddress(to.address)) {
           throw new Error('Invalid address')
         }
-        return makePayment(mergeRight(p, { to: to }))
+        return makePayment(mergeRight(p, { to }))
       },
 
       amount(amount) {
         return makePayment(mergeRight(p, { amount }))
       },
 
-      * from(origin, type: AddressTypesType, effectiveBalance?: string) {
-        let from, unconfirmedTx
+      *from(origin, type: AddressTypesType, effectiveBalance?: string) {
+        let from
+        let unconfirmedTx
 
         if (type === 'CUSTODIAL') {
           from = {
@@ -219,7 +221,7 @@ export default ({ api }) => {
         )
       },
 
-      * fee(value, origin) {
+      *fee(value, origin) {
         let contract
         let account = origin
         if (origin === null || origin === undefined || origin === '') {
@@ -275,7 +277,7 @@ export default ({ api }) => {
         )
       },
 
-      * build() {
+      *build() {
         const fromData = prop('from', p)
         const index = yield call(selectIndex, fromData)
         const to = path(['to', 'address'], p)
@@ -311,7 +313,7 @@ export default ({ api }) => {
         return makePayment(mergeRight(p, { raw }))
       },
 
-      * sign(password, transport, scrambleKey) {
+      *sign(password, transport, scrambleKey) {
         try {
           const signed = yield call(
             calculateSignature,
@@ -331,7 +333,7 @@ export default ({ api }) => {
         }
       },
 
-      * signLegacy(password) {
+      *signLegacy(password) {
         try {
           const appState = yield select(identity)
           const seedHexT = S.wallet.getSeedHex(appState, password)
@@ -345,7 +347,7 @@ export default ({ api }) => {
         }
       },
 
-      * publish() {
+      *publish() {
         const signed = prop('signed', p)
         if (isNil(signed)) throw new Error('missing_signed_tx')
         const publish = () => api.pushEthTx(signed).then(prop('txHash'))
@@ -392,7 +394,7 @@ export default ({ api }) => {
 
       chain() {
         const chain = (gen, f) =>
-          makeChain(function * () {
+          makeChain(function* () {
             return yield f(yield gen())
           })
 
@@ -415,12 +417,12 @@ export default ({ api }) => {
           setCoin: (coin) => chain(gen, (payment) => payment.setCoin(coin)),
           description: (message) =>
             chain(gen, (payment) => payment.description(message)),
-          * done() {
+          *done() {
             return yield gen()
           }
         })
 
-        return makeChain(function * () {
+        return makeChain(function* () {
           return yield call(makePayment, p)
         })
       }
@@ -430,6 +432,6 @@ export default ({ api }) => {
   }
 
   return {
-    create: create
+    create
   }
 }

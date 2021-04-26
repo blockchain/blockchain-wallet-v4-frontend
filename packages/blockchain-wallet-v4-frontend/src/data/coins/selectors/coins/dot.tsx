@@ -7,7 +7,7 @@ import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { generateTradingAccount } from 'data/coins/utils'
 
-import { getTradingBalance } from '../'
+import { getTradingBalance } from '..'
 
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = () => (

@@ -69,9 +69,8 @@ export const calculateFee = (
       fromUnit: 'GWEI',
       toUnit: 'WEI'
     }).value
-  } else {
-    return feeGWei
   }
+  return feeGWei
 }
 
 export const calculateEffectiveBalance = (balance, fee, isErc20) => {

@@ -7,7 +7,7 @@ import { RootState } from 'data/rootReducer'
 import { OwnProps } from '.'
 
 export const getData = (state: RootState, ownProps: OwnProps) => {
-  const coin = ownProps.coin
+  const { coin } = ownProps
   const price24HrR = selectors.core.data.misc.getPriceChange(
     coin,
     TimeRange.DAY,

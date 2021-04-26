@@ -8,7 +8,8 @@ export const getData = (state) => {
   const isMnemonicVerified = selectors.core.wallet.isMnemonicVerified(state)
 
   return lift((authType, emailVerified) => {
-    let emailComplete, twoFactorComplete
+    let emailComplete
+    let twoFactorComplete
     let progress = 0
     if (authType > 0) {
       twoFactorComplete = authType > 0

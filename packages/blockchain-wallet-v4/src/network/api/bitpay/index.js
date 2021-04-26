@@ -9,7 +9,7 @@ export default ({ bitpayUrl }) => {
     axios({
       strictSSL: true,
       method: 'post',
-      url: bitpayUrl + `/i/${invoiceId}`,
+      url: `${bitpayUrl}/i/${invoiceId}`,
       headers: {
         Accept: 'application/payment-options',
         'Content-Type': 'application/payment-request',
@@ -38,7 +38,7 @@ export default ({ bitpayUrl }) => {
 
   const verifyPaymentRequest = (invoiceId, tx, weightedSize, chain) =>
     axios({
-      url: bitpayUrl + `/i/${invoiceId}`,
+      url: `${bitpayUrl}/i/${invoiceId}`,
       method: 'post',
       headers: {
         'Content-Type': 'application/payment-verification',
@@ -54,7 +54,7 @@ export default ({ bitpayUrl }) => {
 
   const submitPaymentRequest = (invoiceId, tx, weightedSize, chain) =>
     axios({
-      url: bitpayUrl + `/i/${invoiceId}`,
+      url: `${bitpayUrl}/i/${invoiceId}`,
       method: 'post',
       headers: {
         'Content-Type': 'application/payment',

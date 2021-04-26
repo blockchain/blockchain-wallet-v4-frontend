@@ -113,9 +113,8 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
                       coinModel.coinCode as WalletFiatType,
                       'TransactionList'
                     )
-              } else {
-                simpleBuyActions.showModal('EmptyFeed')
               }
+              simpleBuyActions.showModal('EmptyFeed')
             }}
           >
             {coinModel.coinCode in WalletFiatEnum ? (

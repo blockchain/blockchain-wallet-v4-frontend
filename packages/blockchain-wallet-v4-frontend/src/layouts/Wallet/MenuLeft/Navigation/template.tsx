@@ -21,7 +21,7 @@ import { Props } from '.'
 const HelperTipContainer = styled.div`
   position: relative;
   > div span {
-    color: ${(props) => props.theme['grey400']};
+    color: ${(props) => props.theme.grey400};
   }
 `
 const HelperTip = styled(TooltipHost)`

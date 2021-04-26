@@ -21,15 +21,15 @@ export const toJS = pipe(AddressBook.guard, (addressBook) => {
 export const fromJS = (labels) => {
   if (is(AddressBook, labels)) {
     return labels
-  } else if (labels == null) {
-    return new AddressBook()
-  } else {
-    const addressBook = compose(
-      indexBy(prop('addr')),
-      map(AddressBookEntry.fromJS)
-    )(labels)
-    return new AddressBook(addressBook)
   }
+  if (labels == null) {
+    return new AddressBook()
+  }
+  const addressBook = compose(
+    indexBy(prop('addr')),
+    map(AddressBookEntry.fromJS)
+  )(labels)
+  return new AddressBook(addressBook)
 }
 
 export const reviver = (jsObject) => {

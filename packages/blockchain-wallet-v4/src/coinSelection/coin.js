@@ -5,7 +5,7 @@ import { over, view } from 'ramda-lens'
 
 import Type from '../types/Type'
 import { addressToScript, scriptToAddress } from '../utils/btc'
-import { IO_TYPES } from './'
+import { IO_TYPES } from '.'
 
 export const TX_EMPTY_SIZE = 4 + 1 + 1 + 4
 export const TX_INPUT_BASE = 32 + 4 + 1 + 4

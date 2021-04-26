@@ -147,7 +147,7 @@ const NonCustodialTx = ({
             handleEditDescription={handleEditDescription}
           />
           {coin === 'BTC' && (
-            <React.Fragment>
+            <>
               <RowHeader>
                 <FormattedMessage
                   id='components.txlistitem.valueattime'
@@ -163,10 +163,10 @@ const NonCustodialTx = ({
                   currency={currency}
                 />
               </RowValue>
-            </React.Fragment>
+            </>
           )}
           {transaction.coin === 'XLM' && transaction.memo && (
-            <React.Fragment>
+            <>
               <RowHeader>
                 <FormattedMessage
                   id='components.txlistitem.memo'
@@ -183,7 +183,7 @@ const NonCustodialTx = ({
               >
                 {transaction.memo}
               </RowValue>
-            </React.Fragment>
+            </>
           )}
         </DetailsColumn>
         {'inputs' in transaction && transaction.inputs && transaction.outputs && (

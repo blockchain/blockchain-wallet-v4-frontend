@@ -40,9 +40,8 @@ export const getCacheFromType = (derivations, type) => {
 export const fromJS = (derivations) => {
   if (is(DerivationList, derivations)) {
     return derivations
-  } else {
-    return new DerivationList(mapIndexed(Derivation.fromJS, derivations))
   }
+  return new DerivationList(mapIndexed(Derivation.fromJS, derivations))
 }
 
 export const toJS = pipe(DerivationList.guard, (derivations) => {

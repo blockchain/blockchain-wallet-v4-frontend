@@ -76,7 +76,7 @@ const Failure: React.FC<{
               defaultMessage='Support Center'
             />
           </Link>
-          {'.'}
+          .
         </Text>
         <ServerErrorText color='red500' size='14px' weight={500}>
           <FormattedMessage

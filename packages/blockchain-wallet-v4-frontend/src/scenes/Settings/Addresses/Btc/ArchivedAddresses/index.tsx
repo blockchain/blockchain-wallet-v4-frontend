@@ -7,6 +7,7 @@ import { Types } from 'blockchain-wallet-v4/src'
 import { actions, model, selectors } from 'data'
 
 import ArchivedAddresses from './template'
+
 const { WALLET_TX_SEARCH } = model.form
 
 class ArchivedAddressesContainer extends React.PureComponent<Props> {

@@ -19,7 +19,7 @@ const Link = (props) => {
   }
   // insert locale in front of link only if its relative and locale is not "en"
   if (doReplace && props.intl && locale && locale !== 'en') {
-    to = '/' + locale + (href.startsWith('/') ? href : '/' + href)
+    to = `/${locale}${href.startsWith('/') ? href : `/${href}`}`
   }
 
   let newProps = {
@@ -28,9 +28,8 @@ const Link = (props) => {
   }
   if (props.event) {
     return <LinkEvent {...newProps}>{children}</LinkEvent>
-  } else {
-    return <a {...newProps}>{children}</a>
   }
+  return <a {...newProps}>{children}</a>
 }
 
 export default injectIntl(Link)

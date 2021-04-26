@@ -118,7 +118,7 @@ export const reviver = (jsObject) => {
 }
 
 export const js = (label, node, xpub) => ({
-  label: label,
+  label,
   archived: false,
   xpriv: node ? node.toBase58() : '',
   xpub: node ? node.neutered().toBase58() : xpub,

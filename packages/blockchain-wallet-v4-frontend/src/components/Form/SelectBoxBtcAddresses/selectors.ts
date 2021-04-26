@@ -79,7 +79,7 @@ export const getData = (
         fromUnit: 'SAT',
         toUnit: 'BTC'
       })
-      return label + ` (${btcDisplay})`
+      return `${label} (${btcDisplay})`
     }
     return label
   }
@@ -206,11 +206,11 @@ export const getData = (
 
       if (includeAll) {
         return { data: prepend(allWallets, data) }
-      } else if (excludeHDWallets) {
-        return { data: [allImportedAddresses] }
-      } else {
-        return { data }
       }
+      if (excludeHDWallets) {
+        return { data: [allImportedAddresses] }
+      }
+      return { data }
     })
   }
   return getAddressesData()

@@ -22,9 +22,9 @@ export const getData = createDeepEqualSelector(
         ? includes(currentCoin, prop('coins', announcement))
         : !(cachedState && cachedState.dismissed)
       return {
-        announcements: announcements,
+        announcements,
         collapsed: cachedState && cachedState.collapsed,
-        language: language,
+        language,
         showAnnouncement
       }
     }

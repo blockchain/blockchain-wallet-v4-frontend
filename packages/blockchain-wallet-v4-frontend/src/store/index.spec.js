@@ -77,14 +77,14 @@ describe('App Store Config', () => {
     },
     eth: 1
   }
-  let createStoreSpy,
-    applyMiddlewareSpy,
-    composeSpy,
-    kvStoreSpy,
-    walletSyncSpy,
-    autoDisconnectSpy,
-    matomoMiddlewareSpy,
-    coinsSocketSpy
+  let createStoreSpy
+  let applyMiddlewareSpy
+  let composeSpy
+  let kvStoreSpy
+  let walletSyncSpy
+  let autoDisconnectSpy
+  let matomoMiddlewareSpy
+  let coinsSocketSpy
 
   beforeAll(() => {
     // setup fetch mock
@@ -108,10 +108,10 @@ describe('App Store Config', () => {
 
     // assertions
     // wallet options
-    expect(fetch.mock.calls.length).toEqual(1)
+    expect(fetch.mock.calls).toHaveLength(1)
     expect(fetch.mock.calls[0][0]).toEqual('/wallet-options-v4.json')
     // socket registration
-    expect(Socket.mock.calls.length).toEqual(1)
+    expect(Socket.mock.calls).toHaveLength(1)
     expect(Socket.mock.calls[0][0]).toEqual({
       options: fakeWalletOptions,
       url: `${fakeWalletOptions.domains.webSocket}/coins`
@@ -123,11 +123,11 @@ describe('App Store Config', () => {
       maxReconnects: 3
     })
     // build api
-    expect(createWalletApi.mock.calls.length).toBe(1)
+    expect(createWalletApi.mock.calls).toHaveLength(1)
     expect(createWalletApi.mock.calls[0][0]).toMatchObject({
       options: fakeWalletOptions,
       networks: mockNetworks,
-      apiKey: apiKey
+      apiKey
     })
     // middleware registration
     expect(kvStoreSpy).toHaveBeenCalledTimes(1)
@@ -153,9 +153,9 @@ describe('App Store Config', () => {
     expect(applyMiddlewareSpy).toHaveBeenCalledTimes(1)
     // store creation
     expect(createStoreSpy).toHaveBeenCalledTimes(1)
-    expect(persistStore.mock.calls.length).toBe(1)
+    expect(persistStore.mock.calls).toHaveLength(1)
     expect(persistStore.mock.calls[0][0]).toEqual(expect.any(Object))
-    expect(persistStore.mock.calls[0][1]).toEqual(null)
+    expect(persistStore.mock.calls[0][1]).toBeNull()
     expect(mockStore.history).toBeDefined()
     expect(mockStore.store).toBeDefined()
   })

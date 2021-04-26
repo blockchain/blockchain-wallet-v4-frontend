@@ -49,7 +49,7 @@ const getColorFromMovement = (movement: PriceMovementDirType) => {
 class PriceMovement extends PureComponent<Props, State> {
   componentDidMount() {
     if (!Remote.Success.is(this.props.data)) {
-      const coin = this.props.coin
+      const { coin } = this.props
       this.props.miscActions.fetchPriceChange(
         coin,
         this.props.fiat || 'EUR',
@@ -70,7 +70,7 @@ class PriceMovement extends PureComponent<Props, State> {
               {val.price24Hr.overallChange.percentChange}%
             </Change>
           ),
-          Loading: () => <SkeletonRectangle height={'12px'} width={'40px'} />,
+          Loading: () => <SkeletonRectangle height='12px' width='40px' />,
           Failure: () => null,
           NotAsked: () => null
         })}

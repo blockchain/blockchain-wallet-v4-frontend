@@ -25,7 +25,7 @@ const Container = styled.div`
     font-size: 16px;
     border-radius: 4px;
     border: 1px solid ${(props) => props.theme.grey100};
-    color: ${(props) => props.theme['grey800']};
+    color: ${(props) => props.theme.grey800};
     ::-webkit-input-placeholder {
       opacity: 0.35;
     }
@@ -91,7 +91,7 @@ class PhoneNumberBox extends React.Component {
           defaultCountry={countryCode}
           preferredCountries={['us', 'gb']}
           css={['intl-tel-input', 'form-control']}
-          utilsScript={'libphonenumber.js'}
+          utilsScript='libphonenumber.js'
           placeholder='555-555-5555'
         />
         {touched && error && (

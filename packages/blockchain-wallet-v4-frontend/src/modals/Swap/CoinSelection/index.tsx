@@ -34,9 +34,8 @@ class CoinSelection extends PureComponent<Props> {
       (side === 'COUNTER' && values?.COUNTER?.label === account.label)
     ) {
       return true
-    } else {
-      return false
     }
+    return false
   }
 
   checkBaseCustodial = (
@@ -53,9 +52,8 @@ class CoinSelection extends PureComponent<Props> {
         account.type === 'CUSTODIAL')
     ) {
       return true
-    } else {
-      return false
     }
+    return false
   }
 
   checkCoinSelected = (
@@ -68,17 +66,15 @@ class CoinSelection extends PureComponent<Props> {
       (side === 'BASE' && values?.COUNTER?.coin === account.coin)
     ) {
       return true
-    } else {
-      return false
     }
+    return false
   }
 
   checkBaseAccountZero = (side: SwapSideType, account: SwapAccountType) => {
     if ((account.balance === 0 || account.balance === '0') && side === 'BASE') {
       return true
-    } else {
-      return false
     }
+    return false
   }
 
   checkCustodialEligibility = (
@@ -187,7 +183,7 @@ class CoinSelection extends PureComponent<Props> {
                     this.props.swapActions.changePair(this.props.side, account)
                   }
                   isAccountSelected={isAccountSelected}
-                  isSwap={true}
+                  isSwap
                   showLowFeeBadges
                   walletCurrency={walletCurrency}
                 />

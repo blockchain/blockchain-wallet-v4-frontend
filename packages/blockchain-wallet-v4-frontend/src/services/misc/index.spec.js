@@ -1,4 +1,5 @@
 import * as ErrorCheckService from './index'
+
 const VULNERABLE_ADDRESS = '1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH'
 
 describe('ErrorCheckService', () => {

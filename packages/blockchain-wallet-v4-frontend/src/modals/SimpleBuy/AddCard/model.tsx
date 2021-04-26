@@ -47,7 +47,7 @@ export const Error = ({ error }: { error: Props['error'] }) => {
       )
 
     default:
-      return <>{'System Error: ' + JSON.stringify(error)}</>
+      return <>{`System Error: ${JSON.stringify(error)}`}</>
   }
 }
 

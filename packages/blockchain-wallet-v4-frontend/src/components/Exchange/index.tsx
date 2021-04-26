@@ -88,7 +88,7 @@ export const Note = styled(Text)`
   font-weight: 400;
   text-align: center;
   margin-top: 16px;
-  color: ${(props) => props.theme['grey500']};
+  color: ${(props) => props.theme.grey500};
 `
 export const ExchangeButton = styled(Button)`
   width: 100%;

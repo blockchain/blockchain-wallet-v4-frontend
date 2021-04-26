@@ -86,7 +86,7 @@ class EthContainer extends Component<PropsType, StateType> {
       <EthAddresses
         addressInfo={addressInfo}
         coin={coin}
-        isEth={true}
+        isEth
         isLegacy={isLegacy}
         legacyAddressInfo={legacyAddressInfo}
         showQrCode={this.state.showQrCode && checkQrCode}

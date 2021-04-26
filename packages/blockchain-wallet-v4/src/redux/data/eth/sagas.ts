@@ -47,6 +47,7 @@ import custodialSagas from '../custodial/sagas'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
+
 const { transformErc20Tx, transformTx } = transactions.eth
 const TX_PER_PAGE = 10
 const TX_REPORT_PAGE_SIZE = 50
@@ -57,7 +58,7 @@ export default ({ api }: { api: APIType }) => {
   //
   // ETH
   //
-  const fetchData = function * () {
+  const fetchData = function* () {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
@@ -89,7 +90,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchLatestBlock = function * () {
+  const fetchLatestBlock = function* () {
     try {
       yield put(A.fetchLatestBlockLoading())
       const data = yield call(api.getEthLatestBlock)
@@ -99,7 +100,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchRates = function * () {
+  const fetchRates = function* () {
     try {
       yield put(A.fetchRatesLoading())
       const data = yield call(api.getEthTicker)
@@ -109,14 +110,14 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const watchTransactions = function * () {
+  const watchTransactions = function* () {
     while (true) {
       const action = yield take(AT.FETCH_ETH_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
 
-  const fetchTransactions = function * ({ payload }) {
+  const fetchTransactions = function* ({ payload }) {
     const { address, reset } = payload
     try {
       const defaultAccountR = yield select(selectors.kvStore.eth.getContext)
@@ -164,7 +165,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchTransactionHistory = function * ({ payload }) {
+  const fetchTransactionHistory = function* ({ payload }) {
     const { address, endDate, startDate } = payload
     let currentPage = 0
 
@@ -213,7 +214,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchLegacyBalance = function * () {
+  const fetchLegacyBalance = function* () {
     try {
       yield put(A.fetchLegacyBalanceLoading())
       const addrR = yield select(kvStoreSelectors.getLegacyAccountAddress)
@@ -226,7 +227,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const checkForLowEthBalance = function * () {
+  const checkForLowEthBalance = function* () {
     // TODO: ERC20 check for any erc20 balance in future
     const erc20Balance = (yield select(S.getErc20Balance, 'PAX')).getOrElse(0)
     const weiBalance = (yield select(S.getBalance)).getOrFail()
@@ -245,10 +246,10 @@ export default ({ api }: { api: APIType }) => {
   //
   // ERC20
   //
-  const fetchErc20Data = function * (
+  const fetchErc20Data = function* (
     action: ReturnType<typeof A.fetchErc20Data>
   ) {
-    const coin = action.payload.coin
+    const { coin } = action.payload
     const erc20Coins = coin
       ? [coin]
       : selectors.walletOptions.getErc20CoinList(yield select()).getOrElse([])
@@ -276,7 +277,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchErc20Rates = function * (action) {
+  const fetchErc20Rates = function* (action) {
     const { token } = action.payload
     try {
       yield put(A.fetchErc20RatesLoading(token))
@@ -287,14 +288,14 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const watchErc20Transactions = function * () {
+  const watchErc20Transactions = function* () {
     while (true) {
       const action = yield take(AT.FETCH_ERC20_TOKEN_TRANSACTIONS)
       yield call(fetchErc20Transactions, action)
     }
   }
 
-  const fetchErc20Transactions = function * (action) {
+  const fetchErc20Transactions = function* (action) {
     const { reset, token } = action.payload
     try {
       const defaultAccountR = yield select(selectors.kvStore.eth.getContext)
@@ -346,7 +347,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchErc20TransactionFee = function * (action) {
+  const fetchErc20TransactionFee = function* (action) {
     const { hash, token } = action.payload
     try {
       yield put(A.fetchErc20TxFeeLoading(hash, token))
@@ -362,7 +363,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchErc20TransactionHistory = function * (action) {
+  const fetchErc20TransactionHistory = function* (action) {
     const { payload } = action
     const { address, endDate, startDate, token } = payload
     let currentPage = 0
@@ -423,7 +424,7 @@ export default ({ api }: { api: APIType }) => {
   //
   // PRIVATE UTILS
   //
-  const __processTxs = function * (txs) {
+  const __processTxs = function* (txs) {
     const accountsR = yield select(kvStoreSelectors.getAccounts)
     const erc20ContractsR = yield select(kvStoreSelectors.getErc20ContractAddrs)
     const addresses = accountsR.getOrElse([]).map(prop('addr'))
@@ -434,7 +435,7 @@ export default ({ api }: { api: APIType }) => {
     const ethAddresses = concat(addresses, lockboxContext)
     return map(transformTx(ethAddresses, erc20Contracts, state), txs)
   }
-  const __processErc20Txs = function * (txs, token) {
+  const __processErc20Txs = function* (txs, token) {
     const accountsR = yield select(kvStoreSelectors.getAccounts)
     const addresses = accountsR.getOrElse([]).map(prop('addr'))
     const lockboxContextR = yield select(getLockboxEthContext)
@@ -493,7 +494,7 @@ export default ({ api }: { api: APIType }) => {
       }
     }, prunedTxList)
   }
-  const __processErc20ReportTxs = function * (
+  const __processErc20ReportTxs = function* (
     rawTxList,
     startDate,
     endDate,
@@ -538,7 +539,7 @@ export default ({ api }: { api: APIType }) => {
       toUpper(token)
     )
   }
-  const __processReportTxs = function * (rawTxList, startDate, endDate) {
+  const __processReportTxs = function* (rawTxList, startDate, endDate) {
     const fullTxList = yield call(__processTxs, rawTxList)
     const ethMarketData = (yield select(
       selectors.data.eth.getRates

@@ -8,7 +8,6 @@ export const getBlockHeight = (state, coin) => {
     .getOrElse([])
   if (includes(coin, erc20List)) {
     return selectors.core.data.eth.getHeight(state).getOrElse(0)
-  } else {
-    return selectors.core.data[toLower(coin)].getHeight(state).getOrElse(0)
   }
+  return selectors.core.data[toLower(coin)].getHeight(state).getOrElse(0)
 }

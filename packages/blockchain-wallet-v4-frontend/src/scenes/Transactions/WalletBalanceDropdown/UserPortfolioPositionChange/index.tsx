@@ -59,7 +59,7 @@ class UserPortfolioPositionChange extends PureComponent<Props> {
         </PriceChange>
       ),
       Failure: () => (
-        <SkeletonRectangle height='17px' width='40px' bgColor={'red400'} />
+        <SkeletonRectangle height='17px' width='40px' bgColor='red400' />
       ),
       Loading: () => <SkeletonRectangle height='17px' width='40px' />,
       NotAsked: () => <SkeletonRectangle height='17px' width='40px' />

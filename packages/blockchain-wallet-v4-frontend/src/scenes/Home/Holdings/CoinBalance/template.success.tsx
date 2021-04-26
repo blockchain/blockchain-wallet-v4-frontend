@@ -20,7 +20,7 @@ const Success = (props: {
         loadingHeight='20px'
         color='grey800'
         weight={500}
-        data-e2e={coin + 'FiatBalance'}
+        data-e2e={`${coin}FiatBalance`}
       >
         {balance}
       </FiatDisplay>
@@ -31,7 +31,7 @@ const Success = (props: {
         mobileSize='12px'
         color='grey400'
         weight={500}
-        data-e2e={coin + 'Balance'}
+        data-e2e={`${coin}Balance`}
       >
         {balance}
       </CoinDisplay>

@@ -33,7 +33,8 @@ class FeaturesContainer extends React.PureComponent<Props> {
         coin,
         origin: 'FeaturesTopNav'
       })
-    } else if (includes(coin, keys(supportedCoins))) {
+    }
+    if (includes(coin, keys(supportedCoins))) {
       return this.props.modalActions.showModal(
         `@MODAL.SEND.${coin}` as ModalNamesType,
         {

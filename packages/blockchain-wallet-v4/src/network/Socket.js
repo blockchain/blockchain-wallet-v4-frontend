@@ -10,18 +10,18 @@ if (WebSocket) {
   WS.prototype = WebSocket.prototype
 
   WS.prototype.on = function (event, callback) {
-    this['on' + event] = callback
+    this[`on${event}`] = callback
   }
 
   WS.prototype.once = function (event, callback) {
-    this['on' + event] = function () {
+    this[`on${event}`] = function () {
       callback.apply(callback, arguments)
-      this['on' + event] = null
+      this[`on${event}`] = null
     }.bind(this)
   }
 
   WS.prototype.off = function (event) {
-    this['on' + event] = null
+    this[`on${event}`] = null
   }
 }
 

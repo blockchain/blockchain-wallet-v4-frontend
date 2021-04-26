@@ -50,9 +50,8 @@ export const amountToCrypto = (
 ) => {
   if (displayCoin) {
     return amount
-  } else {
-    return Exchange.convertFiatToCoin(amount, coin, walletCurrency, rates)
   }
+  return Exchange.convertFiatToCoin(amount, coin, walletCurrency, rates)
 }
 
 export const maxFiat = (maxFiat, walletCurrency) =>

@@ -44,9 +44,9 @@ const btcFromLabel = curry((payment, state) => {
       const { from } = formValues
       if (from === 'allImportedAddresses') {
         return 'All Imported Bitcoin Addresses'
-      } else {
-        return label || payment.from[0]
       }
+      return label || payment.from[0]
+
     case ADDRESS_TYPES.LOCKBOX:
       return selectors.core.kvStore.lockbox
         .getLockboxBtcAccount(state, payment.from[0])

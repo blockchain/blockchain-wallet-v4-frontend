@@ -1,8 +1,7 @@
 import { lift } from 'ramda'
 
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
-import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
-import { InvitationsType } from 'core/types'
+import { ExtractSuccess, InvitationsType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

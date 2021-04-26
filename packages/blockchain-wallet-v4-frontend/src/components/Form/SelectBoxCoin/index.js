@@ -51,7 +51,7 @@ class SelectBoxCoin extends React.PureComponent {
     const { supportedCoins } = this.props
     const { value, ...rest } = props
     const e2eTag = value
-      ? value.toLowerCase() + 'CurrencyOption'
+      ? `${value.toLowerCase()}CurrencyOption`
       : 'currencyOption'
     return (
       <HeaderWrapper {...rest}>

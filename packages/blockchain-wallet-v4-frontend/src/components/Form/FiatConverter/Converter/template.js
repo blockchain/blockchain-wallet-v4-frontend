@@ -81,7 +81,7 @@ const Converter = (props) => {
           <TextInput
             value={fiat}
             disabled={disabled}
-            placeholder={Exchange.getSymbol(currency) + '0.00'}
+            placeholder={`${Exchange.getSymbol(currency)}0.00`}
             onBlur={handleBlur}
             onChange={handleFiatChange}
             onFocus={handleFocus}

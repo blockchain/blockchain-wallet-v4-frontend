@@ -18,7 +18,7 @@ import constants from './constants'
 import firmware from './firmware'
 
 const ethAccount = (xpub, label) => ({
-  label: label,
+  label,
   archived: false,
   correct: true,
   addr: deriveAddressFromXpub(xpub)
@@ -371,10 +371,10 @@ const generateAccountsMDEntry = (newDevice, deviceName) => {
     return {
       device_type: deviceType,
       device_name: deviceName,
-      btc: { accounts: [btcAccount(btc, deviceName + ' - BTC Wallet')] },
-      bch: { accounts: [bchAccount(bch, deviceName + ' - BCH Wallet')] },
+      btc: { accounts: [btcAccount(btc, `${deviceName} - BTC Wallet`)] },
+      bch: { accounts: [bchAccount(bch, `${deviceName} - BCH Wallet`)] },
       eth: {
-        accounts: [ethAccount(eth, deviceName + ' - ETH Wallet')],
+        accounts: [ethAccount(eth, `${deviceName} - ETH Wallet`)],
         last_tx: null,
         last_tx_timestamp: null
       }
@@ -394,8 +394,8 @@ export const generateXlmAccountMDEntry = (deviceName, publicKey) => ({
   default_account_idx: 0,
   accounts: [
     {
-      publicKey: publicKey,
-      label: deviceName + ' - XLM Wallet',
+      publicKey,
+      label: `${deviceName} - XLM Wallet`,
       archived: false
     }
   ],
@@ -438,7 +438,7 @@ const formatFirmwareHash = (hash) => {
     return ''
   }
   hash = hash.toUpperCase()
-  const length = hash.length
+  const { length } = hash
   const half = Math.ceil(length / 2)
   const start = hash.slice(0, half)
   const end = hash.slice(half)

@@ -39,7 +39,8 @@ class QRCodeCaptureContainer extends React.PureComponent {
 
   getAddressOrBitPayInvoice(coin, data) {
     const isBitPay = includes(`${coin}:?r=https://bitpay.com/`, data)
-    let address, options
+    let address
+    let options
 
     if (isBitPay) {
       address = data
@@ -238,7 +239,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
 
   render() {
     const { border } = this.props
-    const toggled = this.state.toggled
+    const { toggled } = this.state
 
     return (
       <QRCodeCapture

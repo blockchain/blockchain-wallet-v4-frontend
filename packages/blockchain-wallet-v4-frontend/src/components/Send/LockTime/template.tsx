@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { CustomBlueCartridge } from './../index'
+import { CustomBlueCartridge } from '../index'
 import { OwnProps as Props } from '.'
 
 const LockTime = (props: Props & { lockTime: number }) => {

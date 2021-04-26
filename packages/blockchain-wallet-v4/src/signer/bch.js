@@ -84,7 +84,7 @@ export const signWithWIF = curry((network, coinDust, selection) =>
   )(selection)
 )
 
-export const signWithLockbox = function * (
+export const signWithLockbox = function* (
   selection,
   coinDust,
   transport,
@@ -101,12 +101,12 @@ export const signWithLockbox = function * (
     const coin = selection.inputs[i]
     const txHex = yield api.getBchRawTx(coin.txHash)
     inputs.push([BTC.splitTransaction(txHex), coin.index])
-    paths.push("44'/145'/0'" + coin.path.split('M')[1])
+    paths.push(`44'/145'/0'${coin.path.split('M')[1]}`)
   }
 
   const intToHex = (i) => {
     const hex = i.toString(16)
-    return hex.length > 1 ? hex : '0' + hex
+    return hex.length > 1 ? hex : `0${hex}`
   }
 
   selection.outputs.push(coinDust)

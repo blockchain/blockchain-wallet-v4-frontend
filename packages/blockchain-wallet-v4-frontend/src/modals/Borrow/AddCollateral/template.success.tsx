@@ -148,7 +148,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 }
               >
                 <Text cursor='pointer' color='blue600' size='14px' weight={500}>
-                  {'$' + getCollateralAmtRequired(props.loan, props.offer)}
+                  {`$${getCollateralAmtRequired(props.loan, props.offer)}`}
                 </Text>
               </FiatContainer>{' '}
               <FormattedMessage

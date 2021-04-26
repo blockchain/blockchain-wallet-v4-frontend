@@ -26,7 +26,7 @@ export const getData = createSelector(
     if (coin === 'USD-D') coin = 'PAX'
     const availability = getCoinAvailability(coin)
     return {
-      coin: coin,
+      coin,
       erc20List: erc20ListR.getOrElse([]),
       invitations: invitationsR.getOrElse(DEFAULT_INVITATIONS),
       supportedCoins: supportedCoinsR.getOrElse(

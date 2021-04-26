@@ -35,7 +35,7 @@ export default ({
   const logLocation = 'components/send/sagas'
   const { waitForUserData } = profileSagas({ api, coreSagas, networks })
 
-  const buildAndPublishPayment = function * (
+  const buildAndPublishPayment = function* (
     coin: CoinType,
     payment: PaymentType,
     destination: string
@@ -66,7 +66,7 @@ export default ({
     return payment.value()
   }
 
-  const fetchPaymentsAccountExchange = function * (action) {
+  const fetchPaymentsAccountExchange = function* (action) {
     const { currency } = action.payload
     try {
       yield call(fetchPaymentsTradingAccount, { payload: { currency } })
@@ -97,7 +97,7 @@ export default ({
     }
   }
 
-  const fetchPaymentsTradingAccount = function * (action) {
+  const fetchPaymentsTradingAccount = function* (action) {
     const { currency } = action.payload
     try {
       yield put(A.fetchPaymentsTradingAccountLoading(currency))
@@ -118,7 +118,7 @@ export default ({
     }
   }
 
-  const notifyNonCustodialToCustodialTransfer = function * (
+  const notifyNonCustodialToCustodialTransfer = function* (
     action: ReturnType<typeof A.notifyNonCustodialToCustodialTransfer>
   ) {
     const { payload } = action
@@ -152,7 +152,7 @@ export default ({
     )
   }
 
-  const getWithdrawalLockCheck = function * () {
+  const getWithdrawalLockCheck = function* () {
     try {
       yield put(A.getLockRuleLoading())
       const payment: SBOrderType = yield select(
@@ -191,7 +191,7 @@ export default ({
     }
   }
 
-  const showWithdrawalLockAlert = function * () {
+  const showWithdrawalLockAlert = function* () {
     try {
       yield call(getWithdrawalLockCheck)
       const rule =
@@ -204,7 +204,7 @@ export default ({
           : rule
       yield put(
         actions.alerts.displayError(C.LOCKED_WITHDRAW_ERROR, {
-          days: days
+          days
         })
       )
     } catch (e) {

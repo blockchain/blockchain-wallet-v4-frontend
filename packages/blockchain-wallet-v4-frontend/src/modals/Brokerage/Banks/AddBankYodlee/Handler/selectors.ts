@@ -26,12 +26,7 @@ export const getData = (state: RootState) => {
       ...providerDetails.data.attributes,
       ...providerDetails.data.attributes.fastlinkParams
     })
-    const iFrameUrl =
-      domains.walletHelper +
-      '/wallet-helper/' +
-      partner +
-      '#/linkBank?' +
-      queryString
+    const iFrameUrl = `${domains.walletHelper}/wallet-helper/${partner}#/linkBank?${queryString}`
     return { iFrameUrl, fastLink }
   }
 

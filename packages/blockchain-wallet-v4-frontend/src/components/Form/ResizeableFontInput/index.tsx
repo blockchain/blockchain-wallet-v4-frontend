@@ -17,7 +17,7 @@ const calculateFontSizeRatio = (
 ) => inputWidth / (inputFontSize * fontSizeToCharWidth * valueLength)
 
 const getValueLength = (value) => {
-  const length = String(value).length
+  const { length } = String(value)
   const matchDot = /\.*/.exec(value)
   const matchOne = /1*/.exec(value)
   const matchDotLength = matchDot ? matchDot[0].length : 0

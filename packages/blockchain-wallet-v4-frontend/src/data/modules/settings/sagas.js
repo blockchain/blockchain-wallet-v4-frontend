@@ -27,7 +27,7 @@ export default ({ api, coreSagas }) => {
     coreSagas
   })
 
-  const initSettingsInfo = function * () {
+  const initSettingsInfo = function* () {
     try {
       yield call(coreSagas.settings.fetchSettings)
     } catch (e) {
@@ -37,7 +37,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const initSettingsPreferences = function * () {
+  const initSettingsPreferences = function* () {
     try {
       yield call(coreSagas.settings.fetchSettings)
     } catch (e) {
@@ -47,7 +47,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const recoverySaga = function * ({ password }) {
+  const recoverySaga = function* ({ password }) {
     const getMnemonic = (s) => selectors.core.wallet.getMnemonic(s, password)
     try {
       const mnemonicT = yield select(getMnemonic)
@@ -63,11 +63,11 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const showBackupRecovery = function * () {
+  const showBackupRecovery = function* () {
     yield call(askSecondPasswordEnhancer(recoverySaga), {})
   }
 
-  const showGoogleAuthenticatorSecretUrl = function * () {
+  const showGoogleAuthenticatorSecretUrl = function* () {
     try {
       const googleAuthenticatorSecretUrl = yield call(
         coreSagas.settings.requestGoogleAuthenticatorSecretUrl
@@ -88,7 +88,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const updateMobile = function * (action) {
+  const updateMobile = function* (action) {
     try {
       yield call(coreSagas.settings.setMobile, action.payload)
       yield call(syncUserWithWallet)
@@ -100,7 +100,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const resendMobile = function * (action) {
+  const resendMobile = function* (action) {
     try {
       yield call(coreSagas.settings.setMobile, action.payload)
       yield put(actions.alerts.displaySuccess(C.SMS_RESEND_SUCCESS))
@@ -110,7 +110,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const verifyMobile = function * (action) {
+  const verifyMobile = function* (action) {
     try {
       yield call(coreSagas.settings.setMobileVerified, action.payload)
       yield call(syncUserWithWallet)
@@ -125,7 +125,7 @@ export default ({ api, coreSagas }) => {
 
   // We prefer local storage language and update this in background for
   // things like emails and external communication with the user
-  const updateLanguage = function * (action) {
+  const updateLanguage = function* (action) {
     try {
       yield call(coreSagas.settings.setLanguage, action.payload)
       addLanguageToUrl(action.payload.language)
@@ -134,7 +134,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const updateCurrency = function * (action) {
+  const updateCurrency = function* (action) {
     try {
       yield call(coreSagas.settings.setCurrency, action.payload)
       if (!action.payload.hideAlert) {
@@ -149,7 +149,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const updateAutoLogout = function * (action) {
+  const updateAutoLogout = function* (action) {
     try {
       yield call(coreSagas.settings.setAutoLogout, action.payload)
       yield put(actions.auth.startLogoutTimer())
@@ -162,7 +162,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const updateLoggingLevel = function * (action) {
+  const updateLoggingLevel = function* (action) {
     try {
       yield call(coreSagas.settings.setLoggingLevel, action.payload)
       yield put(actions.alerts.displaySuccess(C.LOGGINGLEVEL_UPDATE_SUCCESS))
@@ -174,7 +174,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const updateIpLock = function * (action) {
+  const updateIpLock = function* (action) {
     try {
       yield call(coreSagas.settings.setIpLock, action.payload)
       yield put(actions.alerts.displaySuccess(C.IPWHITELIST_UPDATE_SUCCESS))
@@ -184,7 +184,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const updateIpLockOn = function * (action) {
+  const updateIpLockOn = function* (action) {
     try {
       yield call(coreSagas.settings.setIpLockOn, action.payload)
       yield put(actions.alerts.displaySuccess(C.IPRESTRICTION_UPDATE_SUCCESS))
@@ -200,7 +200,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const updateBlockTorIps = function * (action) {
+  const updateBlockTorIps = function* (action) {
     try {
       yield call(coreSagas.settings.setBlockTorIps, action.payload)
       yield put(actions.alerts.displaySuccess(C.TOR_UPDATE_SUCCESS))
@@ -212,7 +212,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const updateHint = function * (action) {
+  const updateHint = function* (action) {
     try {
       yield call(coreSagas.settings.setHint, action.payload)
       yield put(actions.alerts.displaySuccess(C.HINT_UPDATE_SUCCESS))
@@ -222,7 +222,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const updateTwoStepRemember = function * (action) {
+  const updateTwoStepRemember = function* (action) {
     try {
       yield call(coreSagas.settings.setAuthTypeNeverSave, action.payload)
       if (action.payload.authTypeNeverSave === 1) {
@@ -238,7 +238,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const enableTwoStepMobile = function * (action) {
+  const enableTwoStepMobile = function* (action) {
     try {
       yield call(coreSagas.settings.setAuthType, action.payload)
       yield put(actions.alerts.displaySuccess(C.TWOFA_MOBILE_ENABLE_SUCCESS))
@@ -251,7 +251,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.modals.closeModal())
   }
 
-  const enableTwoStepGoogleAuthenticator = function * (action) {
+  const enableTwoStepGoogleAuthenticator = function* (action) {
     try {
       yield call(coreSagas.settings.setGoogleAuthenticator, action.payload)
       yield put(
@@ -270,7 +270,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.modals.closeModal())
   }
 
-  const enableTwoStepYubikey = function * (action) {
+  const enableTwoStepYubikey = function* (action) {
     try {
       yield call(coreSagas.settings.setYubikey, action.payload)
       yield put(actions.alerts.displaySuccess(C.TWOFA_YUBIKEY_ENABLE_SUCCESS))
@@ -283,7 +283,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.modals.closeModal())
   }
 
-  const newHDAccount = function * (action) {
+  const newHDAccount = function* (action) {
     try {
       yield call(
         askSecondPasswordEnhancer(coreSagas.wallet.newHDAccount),
@@ -298,7 +298,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.modals.closeModal())
   }
 
-  const showBtcPrivateKey = function * (action) {
+  const showBtcPrivateKey = function* (action) {
     const { addr } = action.payload
     try {
       const password = yield call(promptForSecondPassword)
@@ -313,7 +313,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const showEthPrivateKey = function * (action) {
+  const showEthPrivateKey = function* (action) {
     const { isLegacy } = action.payload
     try {
       const password = yield call(promptForSecondPassword)
@@ -338,7 +338,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const showXlmPrivateKey = function * () {
+  const showXlmPrivateKey = function* () {
     try {
       const password = yield call(promptForSecondPassword)
       const getMnemonic = (state) =>

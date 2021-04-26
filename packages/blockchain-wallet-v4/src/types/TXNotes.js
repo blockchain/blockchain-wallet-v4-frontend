@@ -21,9 +21,8 @@ export const toJS = pipe(TXNotes.guard, (txnotes) => {
 export const fromJS = (object) => {
   if (isTXNotes(object)) {
     return object
-  } else {
-    return new TXNotes(object)
   }
+  return new TXNotes(object)
 }
 
 export const reviver = (object) => {

@@ -11,7 +11,7 @@ import * as A from './actions'
 const SERVICE_NAME = 'simplebuy'
 
 export default ({ api }: { api: APIType }) => {
-  const handleWithdrawSubmit = function * ({
+  const handleWithdrawSubmit = function* ({
     payload
   }: ReturnType<typeof A.handleCustodyWithdraw>) {
     const WITHDRAW_CONFIRM_FORM = 'confirmCustodyWithdraw'
@@ -44,7 +44,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
+  const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
     const { fiatCurrency } = payload
 
     yield put(
@@ -66,7 +66,7 @@ export default ({ api }: { api: APIType }) => {
     yield put(A.setStep({ step: WithdrawStepEnum.ENTER_AMOUNT, fiatCurrency }))
   }
 
-  const fetchFees = function * (
+  const fetchFees = function* (
     action: ReturnType<typeof A.fetchWithdrawalFees>
   ) {
     yield put(A.fetchWithdrawalFeesLoading())
@@ -86,7 +86,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchWithdrawLocks = function * () {
+  const fetchWithdrawLocks = function* () {
     yield put(A.fetchWithdrawalFeesLoading())
     try {
       const locks: ReturnType<typeof api.getWithdrawalLocks> = yield call(

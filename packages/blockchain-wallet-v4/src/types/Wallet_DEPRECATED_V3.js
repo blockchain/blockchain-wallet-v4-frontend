@@ -183,9 +183,8 @@ export const isValidSecondPwd = curry((password, wallet) => {
       .hashNTimes(iter, concat(sk, password))
       .toString('hex')
     return storedHash === computedHash
-  } else {
-    return true
   }
+  return true
 })
 
 // getAddress :: String -> Wallet -> Maybe Address
@@ -403,16 +402,15 @@ export const traverseKeyValues = curry((of, f, wallet) => {
 export const encryptMonadic = curry((of, cipher, password, wallet) => {
   if (isDoubleEncrypted(wallet)) {
     return of(wallet)
-  } else {
-    let iter = selectIterations(wallet)
-    let enc = cipher(wallet.sharedKey, iter, password)
-    let hash = crypto
-      .hashNTimes(iter, concat(wallet.sharedKey, password))
-      .toString('hex')
-    let setFlag = over(doubleEncryption, () => true)
-    let setHash = over(dpasswordhash, () => hash)
-    return traverseKeyValues(of, enc, wallet).map(compose(setHash, setFlag))
   }
+  let iter = selectIterations(wallet)
+  let enc = cipher(wallet.sharedKey, iter, password)
+  let hash = crypto
+    .hashNTimes(iter, concat(wallet.sharedKey, password))
+    .toString('hex')
+  let setFlag = over(doubleEncryption, () => true)
+  let setHash = over(dpasswordhash, () => hash)
+  return traverseKeyValues(of, enc, wallet).map(compose(setHash, setFlag))
 })
 
 // encrypt :: String -> Wallet -> Task Error Wallet
@@ -430,9 +428,8 @@ export const decryptMonadic = curry((of, cipher, verify, password, wallet) => {
     return verify(password, wallet)
       .chain(traverseKeyValues(of, dec))
       .map(compose(setHash, setFlag))
-  } else {
-    return of(wallet)
   }
+  return of(wallet)
 })
 
 // validateSecondPwd :: (a -> m a) -> (a -> m b) -> String -> Wallet
@@ -480,12 +477,11 @@ export const getHDPrivateKeyWIF = curry(
           const node = derivePrivateKey(network, xp, chain, index)
           return Bitcoin.ECPair.fromPrivateKey(node.privateKey).toWIF()
         })
-    } else {
-      return Task.of(xpriv).map((xp) => {
-        const node = derivePrivateKey(network, xp, chain, index)
-        return Bitcoin.ECPair.fromPrivateKey(node.privateKey).toWIF()
-      })
     }
+    return Task.of(xpriv).map((xp) => {
+      const node = derivePrivateKey(network, xp, chain, index)
+      return Bitcoin.ECPair.fromPrivateKey(node.privateKey).toWIF()
+    })
   }
 )
 
@@ -515,9 +511,8 @@ export const getLegacyPrivateKey = curry(
           )
         )
         .map((pk) => fromBase58toKey(pk, address, network))
-    } else {
-      return Task.of(priv).map((pk) => fromBase58toKey(pk, address, network))
     }
+    return Task.of(priv).map((pk) => fromBase58toKey(pk, address, network))
   }
 )
 
@@ -551,9 +546,8 @@ export const getSeedHex = curry((secondPassword, wallet) => {
         seedHex
       )
     )
-  } else {
-    return Task.of(seedHex)
   }
+  return Task.of(seedHex)
 })
 
 // getMnemonic :: String -> Wallet -> Task Error String
@@ -568,8 +562,8 @@ export const getMnemonic = curry((secondPassword, wallet) => {
 })
 
 export const js = (guid, sharedKey, label, mnemonic, nAccounts, network) => ({
-  guid: guid,
-  sharedKey: sharedKey,
+  guid,
+  sharedKey,
   tx_names: [],
   tx_notes: {},
   double_encryption: false,

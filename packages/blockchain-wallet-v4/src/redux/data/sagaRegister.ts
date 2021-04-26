@@ -11,7 +11,7 @@ import stx from './stx/sagaRegister'
 import xlm from './xlm/sagaRegister'
 
 export default ({ api, networks }) =>
-  function * coreDataSaga() {
+  function* coreDataSaga() {
     yield fork(algo({ api }))
     yield fork(bch({ api }))
     yield fork(btc({ api }))

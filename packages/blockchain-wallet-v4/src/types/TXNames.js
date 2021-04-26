@@ -15,9 +15,8 @@ export const toJS = pipe(TXNames.guard, (txnames) => {
 export const fromJS = (object) => {
   if (isTXNames(object)) {
     return object
-  } else {
-    return new TXNames(object)
   }
+  return new TXNames(object)
 }
 
 export const reviver = (object) => {

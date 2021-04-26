@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Image } from '../..'
+import { Image } from '..'
 import Icomoon from './Icomoon'
 
 const Wrapper = styled.div`
@@ -48,7 +48,7 @@ const CoinAccountIcon = (props) => {
       icon = Icomoon['blockchain-logo-circle']
       break
     case accountType === 'INTEREST':
-      icon = Icomoon['percentage']
+      icon = Icomoon.percentage
       break
     case accountType === 'ACCOUNT':
     default:

@@ -46,9 +46,9 @@ const bchFromLabel = curry((payment, state) => {
       const { from } = formValues
       if (from === 'allImportedAddresses') {
         return 'All Imported Bitcoin Cash Addresses'
-      } else {
-        return utils.bch.toCashAddr(payment.from[0], true)
       }
+      return utils.bch.toCashAddr(payment.from[0], true)
+
     case ADDRESS_TYPES.WATCH_ONLY:
       return utils.bch.toCashAddr(payment.from[0], true)
     case ADDRESS_TYPES.EXTERNAL:
@@ -81,7 +81,7 @@ export const getData = (state) => {
       total: payment.selection
         ? payment.selection.fee + payment.amount[0]
         : payment.amount[0],
-      isLegacy: isLegacy
+      isLegacy
     }
   }
 

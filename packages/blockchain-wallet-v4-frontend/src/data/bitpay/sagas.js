@@ -5,10 +5,10 @@ import { actions } from 'data'
 
 export const logLocation = 'bitpay'
 
-export const parsePaymentRequest = function * (rawPaymentRequest) {
+export const parsePaymentRequest = function* (rawPaymentRequest) {
   try {
-    const rawBody = rawPaymentRequest.rawBody
-    const headers = rawPaymentRequest.headers
+    const { rawBody } = rawPaymentRequest
+    const { headers } = rawPaymentRequest
     let paymentRequest
 
     if (!rawBody) {

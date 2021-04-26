@@ -44,12 +44,12 @@ const taskToPromise = (t) =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api, networks }) => {
-  const runTask = function * (task, setActionCreator) {
+  const runTask = function* (task, setActionCreator) {
     let result = yield call(compose(taskToPromise, () => task))
     yield put(setActionCreator(result))
   }
 
-  const toggleSecondPassword = function * ({ password }) {
+  const toggleSecondPassword = function* ({ password }) {
     const wrapper = yield select(S.getWrapper)
     const isEncrypted = yield select(S.isSecondPasswordOn)
     if (isEncrypted) {
@@ -69,7 +69,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const importLegacyAddress = function * ({
+  const importLegacyAddress = function* ({
     bipPass,
     key,
     label,
@@ -93,7 +93,7 @@ export default ({ api, networks }) => {
     yield call(runTask, wrapperT, A.wallet.setWrapper)
   }
 
-  const newHDAccount = function * ({ label, password }) {
+  const newHDAccount = function* ({ label, password }) {
     let wrapper = yield select(S.getWrapper)
     let nextWrapper = Wrapper.traverseWallet(
       Task.of,
@@ -104,7 +104,7 @@ export default ({ api, networks }) => {
     yield refetchContextData()
   }
 
-  const createWalletSaga = function * ({ email, language, password }) {
+  const createWalletSaga = function* ({ email, language, password }) {
     const mnemonic = yield call(generateMnemonic, api)
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(
@@ -121,7 +121,7 @@ export default ({ api, networks }) => {
     yield put(A.wallet.refreshWrapper(wrapper))
   }
 
-  const fetchWalletSaga = function * ({
+  const fetchWalletSaga = function* ({
     code,
     guid,
     password,
@@ -139,7 +139,7 @@ export default ({ api, networks }) => {
     yield put(A.wallet.setWrapper(wrapper))
   }
 
-  const upgradeToV3 = function * ({ password }) {
+  const upgradeToV3 = function* ({ password }) {
     let wrapper = yield select(S.getWrapper)
     let hdwallets = compose(
       // @ts-ignore
@@ -163,7 +163,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const upgradeToV4 = function * ({ password }) {
+  const upgradeToV4 = function* ({ password }) {
     const wrapper = yield select(S.getWrapper)
     const getSeedHex = yield select(S.getSeedHex, password)
     const seedHex = yield call(() => taskToPromise(getSeedHex))
@@ -180,7 +180,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const findUsedAccounts_DEPRECATED_V3 = function * ({
+  const findUsedAccounts_DEPRECATED_V3 = function* ({
     batch,
     node,
     usedAccounts
@@ -188,36 +188,35 @@ export default ({ api, networks }) => {
     if (endsWith(repeat(false, 5), usedAccounts)) {
       const n = length(dropLastWhile(not, usedAccounts))
       return n < 1 ? 1 : n
-    } else {
-      const l = length(usedAccounts)
-      const getxpub = (i) => node.deriveHardened(i).neutered().toBase58()
-      // @ts-ignore
-      const isUsed = (a) => propSatisfies((n) => n > 0, 'n_tx', a)
-      const xpubs = map(getxpub, range(l, l + batch))
-      const result = yield call(
-        api.fetchBlockchainData,
-        { legacy: xpubs },
-        {
-          n: 1,
-          offset: 0,
-          onlyShow: ''
-        }
-      )
-      const search = (xpub) => find(propEq('address', xpub))
-      const accounts = map(
-        (xpub) => search(xpub)(prop('addresses', result)),
-        xpubs
-      )
-      const flags = map(isUsed, accounts)
-      return yield call(findUsedAccounts_DEPRECATED_V3, {
-        batch: batch,
-        node: node,
-        usedAccounts: concat(usedAccounts, flags)
-      })
     }
+    const l = length(usedAccounts)
+    const getxpub = (i) => node.deriveHardened(i).neutered().toBase58()
+    // @ts-ignore
+    const isUsed = (a) => propSatisfies((n) => n > 0, 'n_tx', a)
+    const xpubs = map(getxpub, range(l, l + batch))
+    const result = yield call(
+      api.fetchBlockchainData,
+      { legacy: xpubs },
+      {
+        n: 1,
+        offset: 0,
+        onlyShow: ''
+      }
+    )
+    const search = (xpub) => find(propEq('address', xpub))
+    const accounts = map(
+      (xpub) => search(xpub)(prop('addresses', result)),
+      xpubs
+    )
+    const flags = map(isUsed, accounts)
+    return yield call(findUsedAccounts_DEPRECATED_V3, {
+      batch,
+      node,
+      usedAccounts: concat(usedAccounts, flags)
+    })
   }
 
-  const findUsedAccounts = function * ({ batch, nodes }) {
+  const findUsedAccounts = function* ({ batch, nodes }) {
     const getxpub = curry((nodes, i) =>
       nodes.map((node) => node.deriveHardened(i).neutered().toBase58())
     )
@@ -254,7 +253,7 @@ export default ({ api, networks }) => {
     )
   }
 
-  const restoreWalletCredentialsFromMetadata = function * (mnemonic) {
+  const restoreWalletCredentialsFromMetadata = function* (mnemonic) {
     const seedHex = BIP39.mnemonicToEntropy(mnemonic)
     const getMetadataNode = compose(
       KVStoreEntry.deriveMetadataNode,
@@ -270,7 +269,7 @@ export default ({ api, networks }) => {
     return newkv.value
   }
 
-  const restoreWalletFromMetadata = function * (kvCredentials, newPassword) {
+  const restoreWalletFromMetadata = function* (kvCredentials, newPassword) {
     try {
       // Let's update the password and upload the new encrypted payload
       const wallet = yield call(
@@ -294,7 +293,7 @@ export default ({ api, networks }) => {
   }
 
   // TODO: SEGWIT remove w/ DEPRECATED_V3
-  const restoreWalletSaga_DEPRECATED_V3 = function * ({
+  const restoreWalletSaga_DEPRECATED_V3 = function* ({
     email,
     kvCredentials,
     language,
@@ -317,7 +316,7 @@ export default ({ api, networks }) => {
     const node = masterNode.deriveHardened(44).deriveHardened(0)
     const nAccounts = yield call(findUsedAccounts_DEPRECATED_V3, {
       batch: 10,
-      node: node,
+      node,
       usedAccounts: []
     })
 
@@ -348,7 +347,7 @@ export default ({ api, networks }) => {
     yield put(A.wallet.refreshWrapper(wrapper))
   }
 
-  const restoreWalletSaga = function * ({
+  const restoreWalletSaga = function* ({
     email,
     kvCredentials,
     language,
@@ -402,7 +401,7 @@ export default ({ api, networks }) => {
     yield put(A.wallet.refreshWrapper(wrapper))
   }
 
-  const updatePbkdf2Iterations = function * ({ iterations, password }) {
+  const updatePbkdf2Iterations = function* ({ iterations, password }) {
     if (not(is(Number, iterations))) {
       throw new Error('PBKDF2_ITERATIONS_NOT_A_NUMBER')
     } else {
@@ -421,11 +420,11 @@ export default ({ api, networks }) => {
     }
   }
 
-  const remindWalletGuidSaga = function * ({ code, email, sessionToken }) {
+  const remindWalletGuidSaga = function* ({ code, email, sessionToken }) {
     yield call(api.remindGuid, email, code, sessionToken)
   }
 
-  const resetWallet2fa = function * ({
+  const resetWallet2fa = function* ({
     code,
     email,
     guid,
@@ -446,15 +445,15 @@ export default ({ api, networks }) => {
     )
   }
 
-  const resendSmsLoginCode = function * ({ guid, sessionToken }) {
+  const resendSmsLoginCode = function* ({ guid, sessionToken }) {
     return yield call(api.resendSmsLoginCode, guid, sessionToken)
   }
 
-  const refetchContextData = function * () {
+  const refetchContextData = function* () {
     yield put(fetchData())
   }
 
-  const setHDAddressLabel = function * ({ payload }) {
+  const setHDAddressLabel = function* ({ payload }) {
     const { accountIdx, addressIdx, derivationType, label } = payload
     const wallet = yield select(S.getWallet)
     const accounts = Wallet.selectHDAccounts(wallet)
@@ -467,7 +466,7 @@ export default ({ api, networks }) => {
     yield put(A.kvStore.btc.addAddressLabel(receiveAddress, label))
   }
 
-  const checkAndUpdateWalletNames = function * () {
+  const checkAndUpdateWalletNames = function* () {
     try {
       const accountLabels = (yield select(SS.common.btc.getHDAccounts))
         .getOrFail()

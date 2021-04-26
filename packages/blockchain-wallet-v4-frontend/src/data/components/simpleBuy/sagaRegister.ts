@@ -22,7 +22,7 @@ export default ({ api, coreSagas, networks }) => {
   const simpleBuySagas = sagas({ api, coreSagas, networks })
   const { waitForUserData } = profileSagas({ api, coreSagas, networks })
 
-  return function * simpleBuySaga() {
+  return function* simpleBuySaga() {
     yield takeEvery(actionTypes.form.CHANGE, simpleBuySagas.formChanged)
     yield takeLatest(AT.ACTIVATE_SB_CARD, simpleBuySagas.activateSBCard)
     yield takeLatest(AT.ADD_CARD_DETAILS, simpleBuySagas.addCardDetails)
@@ -90,7 +90,7 @@ export default ({ api, coreSagas, networks }) => {
     // Fetch balances and orders when step changes to order summary
     yield takeLatest(AT.SET_STEP, simpleBuySagas.setStepChange)
     // Refresh coin tx lists
-    yield takeLatest(AT.FETCH_SB_ORDERS, function * () {
+    yield takeLatest(AT.FETCH_SB_ORDERS, function* () {
       yield call(waitForUserData)
       yield put(actions.core.data.bch.fetchTransactions('', true))
       yield put(actions.core.data.btc.fetchTransactions('', true))
@@ -105,7 +105,7 @@ export default ({ api, coreSagas, networks }) => {
     // TODO: use swap2 quote for buy AND sell
     yield takeLatest(
       AT.START_POLL_SELL_QUOTE,
-      function * (payload: ReturnType<typeof A.startPollSellQuote>) {
+      function* (payload: ReturnType<typeof A.startPollSellQuote>) {
         if (pollTask && pollTask.isRunning) yield cancel(pollTask)
         pollTask = yield fork(simpleBuySagas.fetchSellQuote, payload)
         yield take(AT.STOP_POLL_SELL_QUOTE)

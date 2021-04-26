@@ -6,7 +6,7 @@ import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 
 export default ({ coreSagas }) => {
-  const initialized = function * (action) {
+  const initialized = function* (action) {
     try {
       const bchRates = yield select(selectors.core.data.btc.getRates)
       const btcRates = yield select(selectors.core.data.bch.getRates)

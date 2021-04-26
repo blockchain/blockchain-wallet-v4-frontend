@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import { SkeletonRectangle } from 'blockchain-info-components'
 import { spacing } from 'services/styles'
+
 const Wrapper = styled.div`
   width: 100%;
   height: 470px;

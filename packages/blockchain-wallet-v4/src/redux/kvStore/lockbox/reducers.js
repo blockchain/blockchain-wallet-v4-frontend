@@ -55,14 +55,14 @@ export default (state = INITIAL_STATE, action) => {
 
       const setDeviceName = compose(
         assoc('device_name', deviceName),
-        set(accountLabelLens('btc'), deviceName + ' - BTC Wallet'),
-        set(accountLabelLens('bch'), deviceName + ' - BCH Wallet'),
-        set(accountLabelLens('eth'), deviceName + ' - ETH Wallet'),
+        set(accountLabelLens('btc'), `${deviceName} - BTC Wallet`),
+        set(accountLabelLens('bch'), `${deviceName} - BCH Wallet`),
+        set(accountLabelLens('eth'), `${deviceName} - ETH Wallet`),
         (lockboxKv) => {
           if (lockboxKv.xlm) {
             return set(
               accountLabelLens('xlm'),
-              deviceName + ' - XLM Wallet'
+              `${deviceName} - XLM Wallet`
             )(lockboxKv)
           }
           return lockboxKv

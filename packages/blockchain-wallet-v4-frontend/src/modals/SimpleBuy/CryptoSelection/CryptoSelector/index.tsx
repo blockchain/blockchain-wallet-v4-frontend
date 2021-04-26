@@ -85,7 +85,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> & Props> = (
     if (!props.emailVerified && currentTier !== 2 && currentTier !== 1) {
       return props.simpleBuyActions.setStep({
         step: 'VERIFY_EMAIL',
-        orderType: orderType,
+        orderType,
         cryptoCurrency: getCoinFromPair(pair.pair),
         fiatCurrency: getFiatFromPair(pair.pair),
         pair
@@ -102,7 +102,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> & Props> = (
     // default continue to enter amount step
     return props.simpleBuyActions.setStep({
       step: 'ENTER_AMOUNT',
-      orderType: orderType,
+      orderType,
       cryptoCurrency: getCoinFromPair(pair.pair),
       fiatCurrency: getFiatFromPair(pair.pair),
       pair

@@ -110,7 +110,7 @@ class Airdrops extends React.PureComponent<Props> {
         </SceneSubHeaderText>
         {AirdropCards}
         {userData.kycState === 'VERIFIED' && (
-          <React.Fragment>
+          <>
             <History>
               <MainTitle size='24px' color='grey800' weight={600}>
                 <FormattedMessage
@@ -120,7 +120,7 @@ class Airdrops extends React.PureComponent<Props> {
               </MainTitle>
             </History>
             {PastAirdrops}
-          </React.Fragment>
+          </>
         )}
       </Wrapper>
     )

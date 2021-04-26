@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
 
-import { OPEN_BTC_TIMEOUT } from './../model'
+import { OPEN_BTC_TIMEOUT } from '../model'
 import PairDeviceStep from './template'
 
 class PairDeviceStepContainer extends React.PureComponent {

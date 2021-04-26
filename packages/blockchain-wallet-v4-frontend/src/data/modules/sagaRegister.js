@@ -8,7 +8,7 @@ import settings from './settings/sagaRegister'
 import transferEth from './transferEth/sagaRegister'
 
 export default ({ api, coreSagas, networks }) =>
-  function * modulesSaga() {
+  function* modulesSaga() {
     yield fork(addressesBch({ coreSagas, networks }))
     yield fork(profile({ api, coreSagas, networks }))
     yield fork(rates({ api }))

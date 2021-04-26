@@ -155,7 +155,7 @@ const NavInner = styled.div`
       width: 100%;
       border-bottom: 2px solid white;
       border-bottom: ${(props) =>
-        props.textColor ? '2px solid ' + props.textColor : '2px solid white'};
+        props.textColor ? `2px solid ${props.textColor}` : '2px solid white'};
 
       cursor: text;
       transition: all 0.4s ease;

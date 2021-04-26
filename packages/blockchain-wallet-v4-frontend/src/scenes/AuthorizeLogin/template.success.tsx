@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Banner, Button, Icon, Image, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
-const Fragment = React.Fragment
+const { Fragment } = React
 
 const Wrapper = styled.div`
   display: flex;
@@ -97,7 +97,7 @@ const Success = (props) => {
   return (
     <Wrapper>
       {device_change_reason ? (
-        <Fragment>
+        <>
           <Image name='blockchain-icon' width='40px' height='40px' />
           <InfoWrapper>
             <Text
@@ -281,9 +281,9 @@ const Success = (props) => {
               </ApproveRejectButtons>
             </ApproveWrapper>
           </InfoWrapper>
-        </Fragment>
+        </>
       ) : (
-        <Fragment>
+        <>
           {requestDenied ? (
             <Icon color='error' name='close-circle' size='40px' />
           ) : (
@@ -325,7 +325,7 @@ const Success = (props) => {
               />
             )}
           </Text>
-        </Fragment>
+        </>
       )}
     </Wrapper>
   )

@@ -16,7 +16,7 @@ const BaseSelectInput = styled.select`
   background-size: 12px;
   background-repeat: no-repeat;
   background-position: center right 10px;
-  color: ${(props) => props.theme['grey800']};
+  color: ${(props) => props.theme.grey800};
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: ${(props) => props.theme.white};

@@ -1,10 +1,11 @@
 import React from 'react'
 
 function _trackEvent(eventName, isButton, props) {
-  let properties = Object.assign({}, props || {}, {
+  let properties = {
+    ...(props || {}),
     category: isButton ? 'button' : 'link',
     label: eventName
-  })
+  }
 
   if (typeof window !== 'undefined' && window.analytics) {
     try {

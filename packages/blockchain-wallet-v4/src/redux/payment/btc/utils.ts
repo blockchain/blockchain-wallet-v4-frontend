@@ -98,18 +98,17 @@ export const fromAccount = (network, state, index) => {
       fromType: ADDRESS_TYPES.ACCOUNT
     }
     // TODO: SEGWIT remove w/ DEPRECATED_V3
-  } else {
-    let changeIndex = S.data.btc.getChangeIndex(account.xpub, state)
-    let changeAddress = changeIndex
-      .map((index) => HDAccount.getChangeAddress(account, index, network))
-      .getOrFail('missing_change_address')
+  }
+  let changeIndex = S.data.btc.getChangeIndex(account.xpub, state)
+  let changeAddress = changeIndex
+    .map((index) => HDAccount.getChangeAddress(account, index, network))
+    .getOrFail('missing_change_address')
 
-    return {
-      fromType: ADDRESS_TYPES.ACCOUNT,
-      from: [account.xpub],
-      change: changeAddress,
-      fromAccountIdx: index
-    }
+  return {
+    fromType: ADDRESS_TYPES.ACCOUNT,
+    from: [account.xpub],
+    change: changeAddress,
+    fromAccountIdx: index
   }
 }
 

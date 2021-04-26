@@ -165,9 +165,7 @@ const Onboard = (props) => {
                 />
               </Text>
               <LearnMoreLink
-                href={
-                  'https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox'
-                }
+                href='https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox'
                 target='_blank'
               >
                 <SetupGuideText size='13px' weight={400}>
@@ -204,7 +202,7 @@ const Onboard = (props) => {
             />
           </Text>
           <LearnMoreLink
-            href={'https://www.blockchain.com/lockbox'}
+            href='https://www.blockchain.com/lockbox'
             target='_blank'
           >
             <LearnMoreText size='15px'>

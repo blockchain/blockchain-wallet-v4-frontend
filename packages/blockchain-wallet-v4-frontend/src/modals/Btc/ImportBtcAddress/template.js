@@ -92,7 +92,7 @@ const ImportBtcAddress = ({
         </ImportHeader>
         <ModalBody>
           <FormGroup>
-            <ImportFormItem width={'100%'}>
+            <ImportFormItem width='100%'>
               <Label htmlFor='addrOrPriv'>
                 <LabelText color='grey600' size='14px' weight={500}>
                   <FormattedMessage
@@ -122,7 +122,7 @@ const ImportBtcAddress = ({
                 />
               </BorderRow>
             </ImportFormItem>
-            <ImportFormItem width={'100%'}>
+            <ImportFormItem width='100%'>
               <Label htmlFor='addrOrPriv'>
                 <LabelText color='grey600' size='14px' weight={500}>
                   <FormattedMessage

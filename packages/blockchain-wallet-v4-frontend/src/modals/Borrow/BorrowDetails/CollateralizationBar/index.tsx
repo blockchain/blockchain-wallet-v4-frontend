@@ -73,12 +73,10 @@ const {
 } = model.components.borrow
 
 export const percentageFormatter = (n: number) => {
-  return (
-    Number(n * 100).toLocaleString(undefined, {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2
-    }) + '%'
-  )
+  return `${Number(n * 100).toLocaleString(undefined, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2
+  })}%`
 }
 
 const CollateralizationBar: React.FC<Props> = (props) => {
@@ -102,7 +100,7 @@ const CollateralizationBar: React.FC<Props> = (props) => {
       />
       <CurrentBackground
         width={currentWidth === 0 ? 0 : currentWidth + 0.01}
-        color={'white'}
+        color='white'
       />
       <Line position={offer.callTerms.liquidationHardRatio / max}>
         {props.showPercentages && (

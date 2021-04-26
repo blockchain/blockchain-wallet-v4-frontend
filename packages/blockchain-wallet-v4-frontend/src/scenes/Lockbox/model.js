@@ -102,7 +102,7 @@ export const TOUR_STEPS = [
   {
     target: '.tour-step1',
     content: (
-      <React.Fragment>
+      <>
         <StepTitle weight={500}>
           <FormattedMessage
             id='scenes.lockbox.tour.stepone.title'
@@ -115,7 +115,7 @@ export const TOUR_STEPS = [
             defaultMessage="This is the dashboard for your Lockbox. Below is the list of all transactions made with your Lockbox. Let's learn more about these assets."
           />
         </Text>
-      </React.Fragment>
+      </>
     ),
     placement: 'bottom',
     offset: 4,
@@ -127,7 +127,7 @@ export const TOUR_STEPS = [
   {
     target: '.tour-step2',
     content: (
-      <React.Fragment>
+      <>
         <StepTitle weight={500}>
           <FormattedMessage
             id='scenes.lockbox.tour.steptwo.title'
@@ -140,7 +140,7 @@ export const TOUR_STEPS = [
             defaultMessage='Here are the assets supported by your Lockbox. The balances of each asset are displayed on each card. Clicking on a card will filter the transaction list below to just that asset.'
           />
         </Text>
-      </React.Fragment>
+      </>
     ),
     placement: 'bottom',
     offset: 4,
@@ -152,7 +152,7 @@ export const TOUR_STEPS = [
   {
     target: '.tour-step3',
     content: (
-      <React.Fragment>
+      <>
         <StepTitle weight={500}>
           <FormattedMessage
             id='scenes.lockbox.tour.stepthree.title'
@@ -165,7 +165,7 @@ export const TOUR_STEPS = [
             defaultMessage='Here you can search for any transaction made with your Lockbox by entering coin names, addresses or descriptions. Asset filters, applied by clicking the asset cards above, will also show here.'
           />
         </Text>
-      </React.Fragment>
+      </>
     ),
     placement: 'bottom',
     offset: 4,
@@ -177,7 +177,7 @@ export const TOUR_STEPS = [
   {
     target: '.tour-step4',
     content: (
-      <React.Fragment>
+      <>
         <StepTitle weight={500}>
           <FormattedMessage
             id='scenes.lockbox.tour.stepfour.title'
@@ -190,7 +190,7 @@ export const TOUR_STEPS = [
             defaultMessage='Want to add, update or remove applications?  Clicking here will open the app manager and allow you to change and update the apps on your device.'
           />
         </Text>
-      </React.Fragment>
+      </>
     ),
     placement: 'bottom-end',
     offset: 4,
@@ -202,7 +202,7 @@ export const TOUR_STEPS = [
   {
     target: '.tour-step5',
     content: (
-      <React.Fragment>
+      <>
         <StepTitle weight={500}>
           <FormattedMessage
             id='scenes.lockbox.tour.stepfive.title'
@@ -215,7 +215,7 @@ export const TOUR_STEPS = [
             defaultMessage='Clicking here will bring you to the settings page where you can rename your device, install firmware updates, verify your devices authenticity and much more!'
           />
         </Text>
-      </React.Fragment>
+      </>
     ),
     placement: 'bottom-end',
     offset: 4,

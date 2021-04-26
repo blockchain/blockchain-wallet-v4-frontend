@@ -157,7 +157,7 @@ const Success = ({
               if (userData.tiers.current === 2) {
                 simpleBuyActions.setStep({
                   step: 'BANK_WIRE_DETAILS',
-                  fiatCurrency: fiatCurrency,
+                  fiatCurrency,
                   displayBack: false,
                   addBank: true
                 })

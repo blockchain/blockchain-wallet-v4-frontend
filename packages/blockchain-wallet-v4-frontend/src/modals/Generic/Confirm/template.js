@@ -56,7 +56,7 @@ const ConfirmTemplate = ({
         <ModalHeader onClose={close}>{selectTitle(title)}</ModalHeader>
         <ModalBody>
           {image && <ModalImage name={image} />}
-          <Text size={'16px'} weight={400}>
+          <Text size='16px' weight={400}>
             {selectMessage(message, messageValues)}
           </Text>
         </ModalBody>

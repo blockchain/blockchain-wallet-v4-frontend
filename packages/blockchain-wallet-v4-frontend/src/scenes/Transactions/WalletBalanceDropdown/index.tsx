@@ -140,9 +140,11 @@ class WalletBalanceDropdown extends Component<Props> {
 
     if (balance > 0) {
       return true
-    } else if (this.isBtcTypeCoin() && accounts.length > 4) {
+    }
+    if (this.isBtcTypeCoin() && accounts.length > 4) {
       return true
-    } else return !this.isBtcTypeCoin() && accounts.length > 3
+    }
+    return !this.isBtcTypeCoin() && accounts.length > 3
   }
 
   handleRequest = () => {
@@ -172,29 +174,28 @@ class WalletBalanceDropdown extends Component<Props> {
         currencySymbol: '$',
         sbBalance: { available: '0', pending: '0', withdrawable: '0' }
       } as SuccessStateType).balanceData
-    } else if (selectProps.value) {
+    }
+    if (selectProps.value) {
       // Account balance
       if (selectProps.value.balance) {
         return selectProps.value.balance
         // Custodial balance
-      } else {
-        return selectProps.value.available
       }
-    } else {
-      return 0
+      return selectProps.value.available
     }
+    return 0
   }
 
   accountLabel = (selectProps) => {
     if (this.isTotalBalanceType(selectProps)) {
       // All label
       return this.props.coinModel.coinTicker
-    } else if (selectProps.value) {
+    }
+    if (selectProps.value) {
       // Account/Custodial label
       return selectProps.value.label || selectProps.label
-    } else {
-      return ''
     }
+    return ''
   }
 
   renderDisplaySubtext = (

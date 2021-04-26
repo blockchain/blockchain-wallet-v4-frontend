@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default ({ api, coreSagas }) => {
   const { fetchVeriffUrl, syncVeriff } = sagas({ api, coreSagas })
 
-  return function * veriffSaga() {
+  return function* veriffSaga() {
     yield takeLatest(AT.FETCH_VERIFF_URL, fetchVeriffUrl)
     yield takeLatest(AT.SYNC_VERIFF, syncVeriff)
   }
