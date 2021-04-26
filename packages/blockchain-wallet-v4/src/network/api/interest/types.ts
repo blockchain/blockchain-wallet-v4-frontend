@@ -2,7 +2,7 @@ import {
   CoinType,
   FiatType,
   NabuMoneyFloatType,
-  WalletFiatType
+  WalletFiatType,
 } from 'core/types'
 
 export type InterestBalanceType = {
@@ -37,10 +37,11 @@ export type InterestAfterTransactionType = {
 type LimitDetials = {
   amount: number
   currency: WalletFiatType
+  savingsCurrency: CoinType
 }
 
 export type DepositLimits = {
-  deposit_limits: LimitDetials
+  deposit_limits: LimitDetials[] | []
 }
 
 export type WithdrawLimits = {
