@@ -115,5 +115,9 @@ export const isAddressDerivedFromPriv = (value, allValues, props) => {
   const format = utils.btc.detectPrivateKeyFormat(value)
   const address = path(['from', 'address'], allValues)
   const key = utils.btc.privateKeyStringToKey(value, format, props.network)
-  return key.getAddress() === address ? undefined : <AddressMatchesPriv />
+  return utils.btc.keyPairToAddress(key) === address ? (
+    undefined
+  ) : (
+    <AddressMatchesPriv />
+  )
 }

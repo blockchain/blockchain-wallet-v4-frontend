@@ -365,6 +365,7 @@ export type Props = OwnProps &
   SuccessStateType &
   LinkDispatchPropsType
 
+// @ts-ignore
 const enhance = compose(
   reduxForm<{}, Props>({ form: FORM_NAME }),
   connect(mapStateToProps)

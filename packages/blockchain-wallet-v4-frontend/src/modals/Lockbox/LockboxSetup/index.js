@@ -28,6 +28,7 @@ class LockboxSetupContainer extends React.PureComponent {
     this.props.lockboxActions.resetConnectionStatus()
     this.props.lockboxActions.changeDeviceSetupStep('device-select')
   }
+
   onClose = () => {
     const { closeAll, currentStep, lockboxActions } = this.props
     // if lockbox setup complete but the user clicks the modal close X

@@ -2,6 +2,7 @@ import {
   InterestAccountBalanceType,
   InterestAccountType,
   InterestAfterTransactionType,
+  InterestEDDStatus,
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
@@ -304,4 +305,22 @@ export const fetchShowInterestCardAfterTransactionSuccess = (
 })
 export const resetShowInterestCardAfterTransaction = (): InterestActionTypes => ({
   type: AT.RESET_SHOW_INTEREST_CARD_AFTER_TRANSACTION
+})
+
+// EDD
+export const fetchEDDStatus = () => ({
+  type: AT.FETCH_EDD_STATUS
+})
+export const fetchEDDStatusFailure = (error: string): InterestActionTypes => ({
+  type: AT.FETCH_EDD_STATUS_FAILURE,
+  payload: { error }
+})
+export const fetchEDDStatusLoading = (): InterestActionTypes => ({
+  type: AT.FETCH_EDD_STATUS_LOADING
+})
+export const fetchEDDStatusSuccess = (
+  eddStatus: InterestEDDStatus
+): InterestActionTypes => ({
+  type: AT.FETCH_EDD_STATUS_SUCCESS,
+  payload: { eddStatus }
 })

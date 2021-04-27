@@ -108,6 +108,7 @@ const Success: React.FC<InjectedFormProps<
         <Value>
           {props.beneficiary?.name || props.defaultMethod?.details.bankName}
         </Value>
+        <Value>{props.defaultMethod?.details.accountName || ''}</Value>
       </Row>
       <Row>
         <Title>

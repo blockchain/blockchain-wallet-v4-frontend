@@ -32,8 +32,10 @@ const AddressWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 16px 40px;
-  border-top: ${props => `1px solid ${props.theme.grey000}`};
   border-bottom: ${props => `1px solid ${props.theme.grey000}`};
+  &:first-child {
+    border-top: ${props => `1px solid ${props.theme.grey000}`};
+  }
 `
 const AddressDisplay = styled.div`
   display: flex;
@@ -43,6 +45,12 @@ const AddressDisplay = styled.div`
   overflow-wrap: anywhere;
   word-break: break-all;
   hyphens: none;
+`
+const InfoContainer = styled.div`
+  background: ${props => props.theme.grey000};
+  margin: 16px 40px 0px 40px;
+  padding: 16px;
+  border-radius: 8px;
 `
 const QRCodeContainer = styled.div`
   display: flex;
@@ -88,6 +96,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
       walletCurrency
     } = this.props
     const { selectedAccount } = formValues
+    const coinModel = supportedCoins[selectedAccount.coin]
 
     return (
       <Wrapper>
@@ -111,7 +120,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
         </FlyoutWrapper>
         <CoinAccountListOption
           account={selectedAccount}
-          coinModel={supportedCoins[selectedAccount.coin]}
+          coinModel={coinModel}
           displayOnly
           hideActionIcon
           walletCurrency={walletCurrency}
@@ -179,6 +188,13 @@ class RequestShowAddress extends React.PureComponent<Props> {
                         {val.extras[extra as string]}
                       </Text>
                     </AddressDisplay>
+                    <ClipboardWrapper>
+                      <CopyClipboardButton
+                        textToCopy={val.extras[extra as string]}
+                        color='blue600'
+                        size='24px'
+                      />
+                    </ClipboardWrapper>
                   </AddressWrapper>
                 ))
               : null,
@@ -186,6 +202,17 @@ class RequestShowAddress extends React.PureComponent<Props> {
           Loading: () => null,
           NotAsked: () => null
         })}
+        {coinModel.isMemoBased && selectedAccount.type === 'CUSTODIAL' && (
+          <InfoContainer>
+            <Text color='grey600' size='12px' weight={500}>
+              <FormattedMessage
+                id='modals.requestcrypto.showaddress.memo_required'
+                defaultMessage='If you send funds without the {coin} Memo Text, your funds will be lost and not credited to your account. Please send only {coin} to this address.'
+                values={{ coin: coinModel.coinCode }}
+              />
+            </Text>
+          </InfoContainer>
+        )}
         <QRCodeContainer>
           {this.props.addressR.cata({
             Success: val => (

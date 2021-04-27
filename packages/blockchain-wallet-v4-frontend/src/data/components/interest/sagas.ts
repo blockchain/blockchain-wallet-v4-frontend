@@ -550,6 +550,19 @@ export default ({
     yield put(actions.modals.closeModal('InterestPromo'))
   }
 
+  const fetchEDDStatus = function * () {
+    try {
+      yield put(A.fetchEDDStatusLoading())
+      const response: ReturnType<typeof api.getSavingsEDDStatus> = yield call(
+        api.getSavingsEDDStatus
+      )
+      yield put(A.fetchEDDStatusSuccess(response))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchEDDStatusFailure(error))
+    }
+  }
+
   return {
     fetchShowInterestCardAfterTransaction,
     fetchInterestBalance,
@@ -566,6 +579,7 @@ export default ({
     routeToTxHash,
     sendDeposit,
     showInterestModal,
-    stopShowingInterestModal
+    stopShowingInterestModal,
+    fetchEDDStatus
   }
 }

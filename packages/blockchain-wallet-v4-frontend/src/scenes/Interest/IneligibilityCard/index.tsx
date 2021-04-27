@@ -23,6 +23,7 @@ class IneligibiltyWarning extends PureComponent<Props & SuccessStateType> {
   componentDidMount() {
     this.props.interestActions.fetchInterestEligible()
   }
+
   render() {
     const { instruments, interestEligible } = this.props
 

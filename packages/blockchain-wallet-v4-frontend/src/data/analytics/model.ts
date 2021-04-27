@@ -108,6 +108,9 @@ export const INTEREST_EVENTS = {
     CLICK_SUPPORT_ARTICLE: ['interest', 'home', 'learn_more_click'],
     VIEW_TX_SUMMARY: ['interest', 'home', 'view_tx_click']
   },
+  SETTINGS: {
+    SUPPLY_INFORMATION: ['interest', 'settings', 'supply_information']
+  },
   DEPOSIT: {
     SEND_SUCCESS: ['interest', 'deposit', 'send_success'],
     SEND_ONE_CLICK: ['interest', 'deposit', 'send_one_click_success'],

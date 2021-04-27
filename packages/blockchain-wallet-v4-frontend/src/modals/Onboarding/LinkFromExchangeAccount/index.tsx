@@ -42,6 +42,7 @@ class LinkFromExchangeAccountContainer extends React.PureComponent<
   State
 > {
   state: State = { show: true, direction: 'left' }
+
   componentDidMount() {
     const { linkId } = this.props
     this.props.actions.linkFromExchangeAccount(linkId)

@@ -60,8 +60,8 @@ export default ({
           )
           address = custodial.address
           if (supportedCoins[account.coin].isMemoBased) {
-            address = address.split(':')[0]
             extras.Memo = address.split(':')[1]
+            address = address.split(':')[0]
           }
       }
 
