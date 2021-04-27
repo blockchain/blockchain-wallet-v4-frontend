@@ -146,10 +146,7 @@ class DownloadTransactions extends React.PureComponent<Props> {
             nature='light'
             width='140px'
           >
-            <FormattedMessage
-              id='scenes.transactions.export.download'
-              defaultMessage='Download'
-            />
+            <FormattedMessage id='copy.download' defaultMessage='Download' />
           </StyledIconButton>
         ),
       })
