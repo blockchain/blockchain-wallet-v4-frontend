@@ -16,6 +16,10 @@ export default ({ api, coreSagas, networks }) => {
       sendSagas.fetchPaymentsTradingAccount
     )
     yield takeLatest(
+      AT.FETCH_UNSTOPPABLE_DOMAIN_RESULTS,
+      sendSagas.fetchUnstoppableDomainResults
+    )
+    yield takeLatest(
       AT.NOTIFY_NON_CUSTODIAL_TO_CUSTODIAL_TRANSFER,
       sendSagas.notifyNonCustodialToCustodialTransfer
     )

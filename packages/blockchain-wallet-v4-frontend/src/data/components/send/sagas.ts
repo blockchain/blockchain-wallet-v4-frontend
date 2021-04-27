@@ -13,6 +13,7 @@ import {
   SBPaymentTypes,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { actions, model, selectors } from 'data'
 import * as C from 'services/alerts'
 import { promptForSecondPassword } from 'services/sagas'
@@ -115,6 +116,31 @@ export default ({
         )
       )
       yield put(A.fetchPaymentsTradingAccountFailure(currency, e))
+    }
+  }
+
+  const fetchUnstoppableDomainResults = function * (
+    action: ReturnType<typeof A.fetchUnstoppableDomainResults>
+  ) {
+    const { payload } = action
+    try {
+      yield put(A.fetchUnstoppableDomainResultsLoading())
+      const results: ReturnType<typeof api.getUnstoppableDomainResults> = yield call(
+        api.getUnstoppableDomainResults,
+        payload.name
+        // payload.currency
+      )
+      yield put(A.fetchUnstoppableDomainResultsSuccess(results))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'getWithdrawalLockCheck',
+          error
+        )
+      )
+      yield put(A.fetchUnstoppableDomainResultsFailure(error))
     }
   }
 
@@ -256,6 +282,7 @@ export default ({
     buildAndPublishPayment,
     fetchPaymentsAccountExchange,
     fetchPaymentsTradingAccount,
+    fetchUnstoppableDomainResults,
     getWithdrawalLockCheck,
     showWithdrawalLockAlert,
     notifyNonCustodialToCustodialTransfer,
