@@ -167,7 +167,7 @@ export default ({
       d.amount?.value,
       d.txHash,
     ]
-    let list = []
+    let txList = []
     let hasNext = true
     let nextPageUrl
     const { coin } = yield select(
@@ -181,11 +181,11 @@ export default ({
           coin === 'ALL' ? undefined : coin,
           nextPageUrl
         )
-        list = concat(list, items.map(formatTxData))
+        txList = concat(txList, items.map(formatTxData))
         hasNext = next
         nextPageUrl = next
       }
-      const report = concat(reportHeaders, list)
+      const report = concat(reportHeaders, txList)
       yield put(A.fetchInterestTransactionsReportSuccess(report))
     } catch (e) {
       const error = errorHandler(e)
