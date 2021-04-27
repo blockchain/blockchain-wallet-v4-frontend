@@ -14,19 +14,20 @@ enum AnalyticsType {
   VIEW = 'VIEW'
 }
 
-type ModalViewPayload = {
-  origin: string
+type BasePayload = {
   originalTimestamp: string
-  page: string
-  referrer: string
-  type: AnalyticsType.VIEW
+  type: AnalyticsType
 }
 
-type PageViewPayload = {
-  originalTimestamp: string
+type ModalViewPayload = BasePayload & {
+  origin: string
   page: string
   referrer: string
-  type: AnalyticsType.VIEW
+}
+
+type PageViewPayload = BasePayload & {
+  page: string
+  referrer: string
 }
 
 type AnalyticsPayload = ModalViewPayload | PageViewPayload
