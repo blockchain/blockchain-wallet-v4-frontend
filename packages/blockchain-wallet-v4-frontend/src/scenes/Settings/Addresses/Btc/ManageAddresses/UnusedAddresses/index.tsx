@@ -88,7 +88,7 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
 
   onDeleteLabel = i => {
     const { accountIndex, derivation, modalsActions, walletIndex } = this.props
-    modalsActions.showModal('DeleteAddressLabel', {
+    modalsActions.showModal('DELETE_ADDRESS_LABEL_MODAL', {
       origin: 'SettingsPage',
       accountIdx: accountIndex,
       addressIdx: i,
@@ -109,7 +109,7 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
 
   onShowXPub = () => {
     const { modalsActions, xpub } = this.props
-    modalsActions.showModal('ShowXPub', { xpub, origin: 'SettingsPage' })
+    modalsActions.showModal('SHOW_XPUB_MODAL', { xpub, origin: 'SettingsPage' })
   }
 
   onMakeDefault = () => {

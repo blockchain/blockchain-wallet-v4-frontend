@@ -160,7 +160,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('AirdropSuccess'),
+  modalEnhancer('AIRDROP_SUCCESS_MODAL'),
   connect(null, mapDispatchToProps)
 )
 

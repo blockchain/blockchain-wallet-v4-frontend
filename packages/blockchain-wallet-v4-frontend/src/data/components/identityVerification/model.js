@@ -2,7 +2,7 @@ import { compose, includes, propOr } from 'ramda'
 
 import { TIERS } from '../../modules/profile/model'
 
-export const KYC_MODAL = '@KYC.IdentityVerification'
+export const KYC_MODAL = 'KYC_MODAL'
 
 export const STEPS = {
   infoAndResidential: 'infoAndResidential',
