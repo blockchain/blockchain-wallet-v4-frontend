@@ -57,8 +57,9 @@ export const getAccounts = createDeepEqualSelector(
         const xpubArray = acc =>
           prop('derivations', acc).map(derr => prop('xpub', derr))
         const xpubBalance = acc =>
-          // @ts-ignore
-          xpubArray(acc).map(xpub => prop('final_balance', prop(xpub, btcData)))
+          xpubArray(acc).map(xpub =>
+            prop<string, any>('final_balance', prop(xpub, btcData))
+          )
         accounts = accounts.concat(
           btcAccounts
             .map(acc => ({
@@ -68,8 +69,10 @@ export const getAccounts = createDeepEqualSelector(
               // TODO: SEGWIT remove w/ DEPRECATED_V3
               balance: acc.derivations
                 ? xpubBalance(acc).reduce(add, 0)
-                // @ts-ignore
-                : prop('final_balance', prop(prop('xpub', acc), btcData)),
+                : prop<string, any>(
+                    'final_balance',
+                    prop(prop('xpub', acc), btcData)
+                  ),
               baseCoin: coin,
               coin,
               label: prop('label', acc) || prop('xpub', acc),

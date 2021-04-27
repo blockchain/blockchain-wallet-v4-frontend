@@ -99,10 +99,11 @@ export const getMaxMin = (
           // we need minimum of all max amounts including limits
           let limitMaxAmount = Number(pair.buyMax)
           if (limits?.maxOrder) {
-            const baseMaxLimitAmount = Number(
-              convertBaseToStandard('FIAT', limits.maxOrder, false)
+            const buyMaxItem = Number(
+              convertBaseToStandard('FIAT', limitMaxAmount)
             )
-            if (baseMaxLimitAmount < limitMaxAmount) {
+            const baseMaxLimitAmount = Number(limits.maxOrder)
+            if (baseMaxLimitAmount < buyMaxItem) {
               limitMaxAmount = baseMaxLimitAmount
             }
           }
@@ -134,8 +135,8 @@ export const getMaxMin = (
 
           let max = BigNumber.minimum(
             method.limits.max,
-            isSddFlow ? Number(sddLimit.max) : pair.buyMax,
-            isSddFlow ? Number(sddLimit.max) : limitMaxAmount
+            isSddFlow ? sddLimit.max : pair.buyMax,
+            isSddFlow ? sddLimit.max : limitMaxAmount
           ).toString()
 
           if (
@@ -165,10 +166,11 @@ export const getMaxMin = (
           // we need maximum of all min amounts including limits
           let limitMinAmount = Number(pair.buyMin)
           if (limits?.minOrder) {
-            const baseMinLimitAmount = (limitMinAmount = Number(
-              convertBaseToStandard('FIAT', limits.minOrder, false)
-            ))
-            if (baseMinLimitAmount > limitMinAmount) {
+            const buyMinItem = Number(
+              convertBaseToStandard('FIAT', limitMinAmount)
+            )
+            const baseMinLimitAmount = Number(limits.minOrder)
+            if (baseMinLimitAmount > buyMinItem) {
               limitMinAmount = baseMinLimitAmount
             }
           }
