@@ -126,7 +126,7 @@ const flattenAccount = acc => {
   if (!acc.derivations) {
     return flattenAccount_DEPRECATED_V3(acc)
   }
-  
+
   return {
     coin: 'BTC',
     balance: pipe(

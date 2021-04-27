@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import DataError from 'components/DataError'
-import { SBTransactionType,WalletFiatType  } from 'core/types'
+import { SBTransactionType, WalletFiatType } from 'core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
