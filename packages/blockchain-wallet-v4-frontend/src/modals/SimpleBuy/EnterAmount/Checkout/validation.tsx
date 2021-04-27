@@ -4,7 +4,7 @@ import { UnitType } from 'blockchain-wallet-v4/src/exchange'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import {
   coinToString,
-  fiatToString,
+  fiatToString
 } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   OrderType,
@@ -16,18 +16,18 @@ import {
   SBQuoteType,
   SupportedWalletCurrenciesType,
   SwapQuoteType,
-  SwapUserLimitsType,
+  SwapUserLimitsType
 } from 'blockchain-wallet-v4/src/types'
 import { model } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   getCoinFromPair,
-  getFiatFromPair,
+  getFiatFromPair
 } from 'data/components/simpleBuy/model'
 import {
   SBCheckoutFormValuesType,
   SBFixType,
-  SwapAccountType,
+  SwapAccountType
 } from 'data/types'
 
 import { Props } from './template.success'
@@ -66,12 +66,12 @@ export const formatQuote = (
   if (fix === 'FIAT') {
     return coinToString({
       value: amt,
-      unit: { symbol: supportedCoins[getCoinFromPair(pair)].coinTicker },
+      unit: { symbol: supportedCoins[getCoinFromPair(pair)].coinTicker }
     })
   } else {
     return fiatToString({
       value: amt,
-      unit: getFiatFromPair(pair),
+      unit: getFiatFromPair(pair)
     })
   }
 }
@@ -119,7 +119,7 @@ export const getMaxMin = (
               isSddFlow
                 ? convertBaseToStandard('FIAT', Number(sddLimit.max))
                 : convertBaseToStandard('FIAT', pair.buyMax)
-            ),
+            )
           }
 
           const defaultLimitMaxAmount = convertBaseToStandard(
@@ -186,7 +186,7 @@ export const getMaxMin = (
               isSddFlow
                 ? convertBaseToStandard('FIAT', Number(sddLimit.min))
                 : convertBaseToStandard('FIAT', pair.buyMin)
-            ),
+            )
           }
 
           const defaultLimitMinAmount = convertBaseToStandard(
@@ -306,7 +306,7 @@ export const maximumAmount = (
     quote,
     sbBalances,
     sddLimit,
-    swapAccount,
+    swapAccount
   } = restProps
 
   const method = selectedMethod || defaultMethod
@@ -351,7 +351,7 @@ export const minimumAmount = (
     quote,
     sbBalances,
     sddLimit,
-    swapAccount,
+    swapAccount
   } = restProps
   const method = selectedMethod || defaultMethod
   if (!allValues) return
