@@ -9,7 +9,7 @@ import { checkForVulnerableAddressError } from 'services/misc'
 import {
   askSecondPasswordEnhancer,
   confirm,
-  promptForSecondPassword,
+  promptForSecondPassword
 } from 'services/sagas'
 
 import { guessCurrencyBasedOnCountry } from './helpers'
@@ -31,7 +31,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.core.walletSync.forceSync())
     const { error } = yield race({
       success: take(actionTypes.core.walletSync.SYNC_SUCCESS),
-      error: take(actionTypes.core.walletSync.SYNC_ERROR),
+      error: take(actionTypes.core.walletSync.SYNC_ERROR)
     })
     if (error) {
       throw new Error('Sync failed')
@@ -65,7 +65,7 @@ export default ({ api, coreSagas }) => {
     if (addressLabelSize > 100) {
       yield put(
         actions.modals.showModal('UpgradeAddressLabels', {
-          duration: addressLabelSize / 20,
+          duration: addressLabelSize / 20
         })
       )
     }
@@ -101,7 +101,7 @@ export default ({ api, coreSagas }) => {
       actionTypes.components.identityVerification
         .SET_SUPPORTED_COUNTRIES_SUCCESS,
       actionTypes.components.identityVerification
-        .SET_SUPPORTED_COUNTRIES_FAILURE,
+        .SET_SUPPORTED_COUNTRIES_FAILURE
     ])
     yield put(actions.modules.profile.signIn())
   }
@@ -225,7 +225,7 @@ export default ({ api, coreSagas }) => {
         message: C.ARCHIVE_VULNERABLE_ADDRESS_MSG,
         confirm: C.ARCHIVE_VULNERABLE_ADDRESS_CONFIRM,
         cancel: C.ARCHIVE_VULNERABLE_ADDRESS_CANCEL,
-        messageValues: { vulnerableAddress },
+        messageValues: { vulnerableAddress }
       })
       if (confirmed)
         yield put(
@@ -259,7 +259,7 @@ export default ({ api, coreSagas }) => {
         selectors.core.wallet.getDefaultAccountIndex
       )
       const defaultAccount = accounts.find(
-        (account) => account.index === defaultIndex
+        account => account.index === defaultIndex
       )
       if (!defaultAccount) return
       yield call(api.checkExchangeUsage, defaultAccount.xpub)
@@ -299,7 +299,7 @@ export default ({ api, coreSagas }) => {
         sharedKey,
         session,
         password,
-        code,
+        code
       })
       yield call(loginRoutineSaga, mobileLogin)
     } catch (error) {
@@ -322,7 +322,7 @@ export default ({ api, coreSagas }) => {
             yield call(coreSagas.wallet.fetchWalletSaga, {
               guid,
               session,
-              password,
+              password
             })
             yield call(loginRoutineSaga, mobileLogin)
           } catch (error) {
@@ -466,7 +466,7 @@ export default ({ api, coreSagas }) => {
       // TODO: SEGWIT remove w/ DEPRECATED_V3
       yield call(coreSagas.wallet.restoreWalletSaga_DEPRECATED_V3, {
         ...action.payload,
-        kvCredentials,
+        kvCredentials
       })
       yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
       yield call(loginRoutineSaga, false, true, true)
@@ -542,8 +542,8 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const setLogoutEventListener = function () {
-    return new Promise((resolve) => {
+  const setLogoutEventListener = function() {
+    return new Promise(resolve => {
       window.addEventListener('wallet.core.logout', resolve)
     })
   }
@@ -554,7 +554,7 @@ export default ({ api, coreSagas }) => {
       const sessionToken = yield select(selectors.session.getSession, guid)
       const response = yield call(coreSagas.wallet.resendSmsLoginCode, {
         guid,
-        sessionToken,
+        sessionToken
       })
       if (
         response.initial_error &&
@@ -636,6 +636,6 @@ export default ({ api, coreSagas }) => {
     setLogoutEventListener,
     startSockets,
     upgradeWallet,
-    upgradeAddressLabelsSaga,
+    upgradeAddressLabelsSaga
   }
 }

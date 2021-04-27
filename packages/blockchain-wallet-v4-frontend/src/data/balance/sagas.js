@@ -13,7 +13,7 @@ export const getEthBalance = function * () {
     if (!Remote.Success.is(ethBalanceR)) {
       const ethData = yield take([
         actionTypes.core.data.eth.FETCH_ETH_DATA_SUCCESS,
-        actionTypes.core.data.eth.FETCH_ETH_DATA_FAILURE,
+        actionTypes.core.data.eth.FETCH_ETH_DATA_FAILURE
       ])
       return pathOr(0, balancePath, ethData)
     }
@@ -32,14 +32,14 @@ export const getErc20Balance = function * (token) {
     if (!Remote.Success.is(erc20BalanceR)) {
       yield put(actions.core.data.eth.fetchErc20Data(token))
       const erc20Data = yield take([
-        (action) =>
+        action =>
           action.type ===
             actionTypes.core.data.eth.FETCH_ERC20_TOKEN_DATA_SUCCESS &&
           action.payload.token === token,
-        (action) =>
+        action =>
           action.type ===
             actionTypes.core.data.eth.FETCH_ERC20_TOKEN_DATA_FAILURE &&
-          action.payload.token === token,
+          action.payload.token === token
       ])
       return pathOr(0, balancePath, erc20Data)
     }
@@ -55,7 +55,7 @@ export const getBtcBalance = function * () {
     if (!Remote.Success.is(btcBalanceR)) {
       const btcData = yield take([
         actionTypes.core.data.btc.FETCH_BTC_DATA_SUCCESS,
-        actionTypes.core.data.btc.FETCH_BTC_DATA_FAILURE,
+        actionTypes.core.data.btc.FETCH_BTC_DATA_FAILURE
       ])
       return pathOr(0, balancePath, btcData)
     }
@@ -71,7 +71,7 @@ export const getBchBalance = function * () {
     if (!Remote.Success.is(bchBalanceR)) {
       const bchData = yield take([
         actionTypes.core.data.bch.FETCH_BCH_DATA_SUCCESS,
-        actionTypes.core.data.bch.FETCH_BCH_DATA_FAILURE,
+        actionTypes.core.data.bch.FETCH_BCH_DATA_FAILURE
       ])
       return pathOr(0, balancePath, bchData)
     }

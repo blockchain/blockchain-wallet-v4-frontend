@@ -151,6 +151,6 @@ export default () => {
   return {
     refreshClicked,
     refreshBchTransactions,
-    refreshBtcTransactions,
+    refreshBtcTransactions
   }
 }

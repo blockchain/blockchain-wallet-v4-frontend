@@ -22,7 +22,7 @@ import {
   takeLast,
   toLower,
   toUpper,
-  values,
+  values
 } from 'ramda'
 import { call, put, select, take } from 'redux-saga/effects'
 
@@ -35,7 +35,7 @@ import {
   CoinType,
   Erc20CoinType,
   FetchCustodialOrdersAndTransactionsReturnType,
-  SupportedWalletCurrenciesType,
+  SupportedWalletCurrenciesType
 } from 'core/types'
 
 import * as Exchange from '../../../exchange'
@@ -64,11 +64,11 @@ export default ({ api }: { api: APIType }) => {
       const data = yield call(api.getEthData, context)
       const latestBlock = yield call(api.getEthLatestBlock)
       // account treatments
-      const finalBalance = sum(values(data).map((obj) => obj.balance))
-      const totalReceived = sum(values(data).map((obj) => obj.totalReceived))
-      const totalSent = sum(values(data).map((obj) => obj.totalSent))
-      const nTx = sum(values(data).map((obj) => obj.txn_count))
-      const addresses = mapObjIndexed((num) => dissoc('txns', num), data)
+      const finalBalance = sum(values(data).map(obj => obj.balance))
+      const totalReceived = sum(values(data).map(obj => obj.totalReceived))
+      const totalSent = sum(values(data).map(obj => obj.totalSent))
+      const nTx = sum(values(data).map(obj => obj.txn_count))
+      const addresses = mapObjIndexed(num => dissoc('txns', num), data)
 
       const ethData = {
         addresses,
@@ -77,10 +77,10 @@ export default ({ api }: { api: APIType }) => {
             n_tx: nTx,
             total_received: totalReceived,
             total_sent: totalSent,
-            final_balance: finalBalance,
-          },
+            final_balance: finalBalance
+          }
         },
-        latest_block: latestBlock,
+        latest_block: latestBlock
       }
       yield put(A.fetchDataSuccess(ethData))
       yield call(checkForLowEthBalance)
@@ -235,7 +235,7 @@ export default ({ api }: { api: APIType }) => {
       value: weiBalance,
       fromUnit: 'WEI',
       toCurrency: 'USD',
-      rates: ethRates,
+      rates: ethRates
     }).value
     // less than $1 eth and has PAX, set warning flag to true
     const showWarning = parseInt(ethBalance) < 1 && erc20Balance > 0
@@ -443,7 +443,7 @@ export default ({ api }: { api: APIType }) => {
     const ethAddresses = concat(addresses, lockboxContext)
     return map(transformErc20Tx(ethAddresses, state, token), txs)
   }
-  const __buildTransactionReportModel = function (
+  const __buildTransactionReportModel = function(
     prunedTxList,
     historicalPrices,
     currentPrices,
@@ -489,7 +489,7 @@ export default ({ api }: { api: APIType }) => {
         type: txType,
         value_then: `${fiatSymbol}${negativeSignOrEmpty}${valueThen}`,
         value_now: `${fiatSymbol}${negativeSignOrEmpty}${valueNow}`,
-        exchange_rate_then: fiatSymbol + priceAtTime.toFixed(2),
+        exchange_rate_then: fiatSymbol + priceAtTime.toFixed(2)
       }
     }, prunedTxList)
   }
@@ -509,7 +509,7 @@ export default ({ api }: { api: APIType }) => {
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter(
       // @ts-ignore
-      (tx) => moment.unix(tx.time).isBetween(startDate, endDate),
+      tx => moment.unix(tx.time).isBetween(startDate, endDate),
       fullTxList
     )
 
@@ -545,7 +545,7 @@ export default ({ api }: { api: APIType }) => {
     )).getOrFail()
 
     // remove txs that dont match coin type and are not within date range
-    let prunedTxList = filter((tx) => {
+    let prunedTxList = filter(tx => {
       // @ts-ignore
       return moment.unix(tx.time).isBetween(startDate, endDate)
     }, fullTxList)
@@ -592,6 +592,6 @@ export default ({ api }: { api: APIType }) => {
     watchTransactions,
     watchErc20Transactions,
     __processTxs,
-    __processErc20Txs,
+    __processErc20Txs
   }
 }

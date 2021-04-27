@@ -13,7 +13,7 @@ import { generateTradingAccount } from 'data/coins/utils'
 import { getTradingBalance } from '../'
 
 // retrieves introduction text for coin on its transaction page
-export const getTransactionPageHeaderText = (coin) => {
+export const getTransactionPageHeaderText = coin => {
   switch (coin) {
     case 'AAVE':
       return (
@@ -70,7 +70,7 @@ export const getAccounts = createDeepEqualSelector(
       ), // non-custodial accounts
     (state, { coin }) => coreSelectors.data.eth.getErc20Balance(state, coin), // non-custodial metadata
     (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
-    (state, ownProps) => ownProps, // selector config
+    (state, ownProps) => ownProps // selector config
   ],
   (ethAddressR, erc20AccountR, erc20BalanceR, sbBalanceR, ownProps) => {
     const transform = (
@@ -92,8 +92,8 @@ export const getAccounts = createDeepEqualSelector(
             label: prop('label', erc20Account),
             address: ethAddress,
             balance: erc20Balance,
-            type: ADDRESS_TYPES.ACCOUNT,
-          },
+            type: ADDRESS_TYPES.ACCOUNT
+          }
         ])
       }
 

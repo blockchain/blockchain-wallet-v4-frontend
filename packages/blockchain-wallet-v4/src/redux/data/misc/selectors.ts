@@ -8,7 +8,7 @@ import {
   RatesType,
   RemoteDataType,
   TimeRange,
-  WalletCurrencyType,
+  WalletCurrencyType
 } from 'core/types'
 import { RootState } from 'data/rootReducer'
 
@@ -72,14 +72,14 @@ export const getRatesSelector = (
 
 // @ts-ignore
 const missingRatesFallback = map(
-  (fiat) => ({
+  fiat => ({
     [fiat]: {
       '15m': 0,
       buy: 0,
       last: 0,
       sell: 0,
-      symbol: fiat,
-    },
+      symbol: fiat
+    }
   }),
   keys(FiatCurrencies)
 ) as RatesType
@@ -106,6 +106,6 @@ export const getAllCoinRatesSelector = (state): any => {
       .getOrElse(missingRatesFallback),
     YFI: selectors.data.eth
       .getErc20Rates(state, 'yfi')
-      .getOrElse(missingRatesFallback),
+      .getOrElse(missingRatesFallback)
   }
 }
