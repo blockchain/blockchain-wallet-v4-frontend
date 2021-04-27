@@ -175,7 +175,8 @@ const matomoMiddleware = () => () => next => action => {
       !equals(nextEvent, lastEvent) &&
       !includes(nextAction, EVENT_ACTION_BLACKLIST)
     ) {
-      // console.info('EVENT', nextEvent) // uncomment to assist with debugging
+      // console.info('EVENT', nextEvent)
+      // uncomment to assist with debugging
       const frame = document.getElementById('matomo-iframe')
       frame &&
         // @ts-ignore
