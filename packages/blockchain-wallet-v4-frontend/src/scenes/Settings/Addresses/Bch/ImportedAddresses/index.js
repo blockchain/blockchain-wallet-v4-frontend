@@ -28,6 +28,7 @@ class ImportedAddressesContainer extends React.Component {
     const btcAddr = fromCashAddr(address.addr)
     this.props.componentActions.editImportedAddressLabel(btcAddr)
   }
+
   render() {
     const { data, ...rest } = this.props
     return data.cata({

@@ -1,5 +1,12 @@
 import { Map } from 'immutable'
-import { assoc, compose, curry, identity, /* is, */ prop, reduceRight } from 'ramda'
+import {
+  assoc,
+  compose,
+  curry,
+  identity,
+  /* is, */ prop,
+  reduceRight
+} from 'ramda'
 import { lens } from 'ramda-lens'
 
 export const iRename = curry((from, to, i) =>

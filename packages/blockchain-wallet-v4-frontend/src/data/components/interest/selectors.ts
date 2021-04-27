@@ -73,3 +73,6 @@ export const getAfterTransaction = (state: RootState) =>
 
 export const getIsFromBuySell = (state: RootState) =>
   state.components.interest.isFromBuySell
+
+export const getInterestEDDStatus = (state: RootState) =>
+  state.components.interest.interestEDDStatus

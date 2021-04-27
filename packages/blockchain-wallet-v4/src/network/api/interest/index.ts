@@ -2,16 +2,19 @@ import { CoinType, FiatType, WalletFiatType } from 'core/types'
 
 import {
   CustodialTransferResponseType,
+  DepositLimits,
   InterestAccountBalanceType,
   InterestAccountType,
   InterestAfterTransactionType,
+  InterestEDDStatus,
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
   InterestRateType,
   InterestTransactionResponseType,
   InterestWithdrawalResponseType,
-  WithdrawalMinimumType
+  WithdrawalMinimumType,
+  WithdrawLimits
 } from './types'
 
 export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
@@ -142,6 +145,24 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       }
     })
 
+  const getSavingsEDDStatus = (): InterestEDDStatus =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/savings/edd/status'
+    })
+
+  const getSavingsEDDDepositLimits = (): DepositLimits =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/savings/edd/limits/deposit'
+    })
+
+  const getSavingsEDDWithdrawLimits = (): WithdrawLimits =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/savings/edd/limits/withdraw'
+    })
+
   return {
     getInterestAccountBalance,
     getInterestCtaAfterTransaction,
@@ -151,6 +172,9 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     getInterestAccount,
     getInterestSavingsRate,
     getInterestTransactions,
+    getSavingsEDDStatus,
+    getSavingsEDDWithdrawLimits,
+    getSavingsEDDDepositLimits,
     getWithdrawalMinsAndFees,
     initiateInterestWithdrawal,
     transferFromCustodial,

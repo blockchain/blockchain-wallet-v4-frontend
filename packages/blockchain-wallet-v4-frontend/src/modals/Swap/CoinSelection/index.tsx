@@ -38,6 +38,7 @@ class CoinSelection extends PureComponent<Props> {
       return false
     }
   }
+
   checkBaseCustodial = (
     side: SwapSideType,
     values: InitSwapFormValuesType,
@@ -56,6 +57,7 @@ class CoinSelection extends PureComponent<Props> {
       return false
     }
   }
+
   checkCoinSelected = (
     side: SwapSideType,
     values: InitSwapFormValuesType,

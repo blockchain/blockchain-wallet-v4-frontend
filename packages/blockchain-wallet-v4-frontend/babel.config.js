@@ -45,6 +45,11 @@ module.exports = {
         'react-hot-loader/babel',
         ['babel-plugin-styled-components', { displayName: true }]
       ]
+    },
+    test: {
+      plugins: [
+        '@babel/plugin-transform-runtime'
+      ]
     }
   }
 }

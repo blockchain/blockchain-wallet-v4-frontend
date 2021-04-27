@@ -23,11 +23,16 @@ export default class ApiSocket {
     this.headers = { Origin: options.domains.root }
     this.maxReconnects = maxReconnects
   }
+
   rebootTimeout = 10000
+
   // Slow connections can suffer a significant heartbeat delay
   heartbeatInterval = 15000
+
   heartbeatIntervalPID = null
+
   reconnect = null
+
   reconnectCount = 0
 
   connect(

@@ -56,6 +56,7 @@ const getDeviceFirmwareInfo = transport => {
 
 // installs osu firmware on device
 const installOsuFirmware = (transport, baseUrl, osuFirmware, targetId) => {
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     try {
       // socket params
@@ -89,6 +90,7 @@ const installOsuFirmware = (transport, baseUrl, osuFirmware, targetId) => {
 
 // installs final firmware on device
 const installFinalFirmware = (transport, baseUrl, finalFirmware, targetId) => {
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     try {
       // socket params
