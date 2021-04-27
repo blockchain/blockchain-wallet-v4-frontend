@@ -18,6 +18,7 @@ class SoftwareDownloadContainer extends React.PureComponent {
       this.props.lockboxActions.finalizeNewDeviceSetup()
     }
   }
+
   onSkipDownload = () => {
     if (equals('existing', this.props.setupType)) {
       this.props.lockboxActions.changeDeviceSetupStep('connect-device')

@@ -223,12 +223,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   const limits = props.sddLimit || LIMIT
   const sddLimit = { ...limits }
-  if (
-    props.limits?.maxPossibleOrder &&
-    Number(props.limits.maxPossibleOrder) < Number(props.sddLimit.max)
-  ) {
-    sddLimit.max = props.limits.maxPossibleOrder
-  }
+
   const isDailyLimitExceeded =
     props.limits?.daily?.available && Number(props.limits.daily.available) === 0
 
@@ -488,7 +483,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </Amounts>
           )}
 
-        {(!props.isSddFlow || props.orderType === OrderType.SELL) &&
+        {!props.isSddFlow &&
+          props.orderType === OrderType.SELL &&
           props.pair &&
           Number(min) > Number(max) && (
             <Amounts>

@@ -31,6 +31,7 @@ class MnemonicRequiredForCustodySend extends React.PureComponent<Props> {
       origin: 'Send'
     })
   }
+
   render() {
     return (
       <CustomBlueCartridge>

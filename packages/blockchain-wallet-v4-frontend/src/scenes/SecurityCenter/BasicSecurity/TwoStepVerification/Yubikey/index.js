@@ -29,6 +29,7 @@ class YubikeyContainer extends React.PureComponent {
       this.props.goBackOnSuccess()
     }
   }
+
   handleUpdate() {
     this.setState({ successToggled: true })
   }
