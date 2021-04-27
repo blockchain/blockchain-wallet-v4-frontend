@@ -229,7 +229,7 @@ export default ({
             case 'CUSTODIAL':
               const response: ReturnType<typeof api.getWithdrawalFees> = yield call(
                 api.getWithdrawalFees,
-                'mercury',
+                'simplebuy',
                 'DEFAULT'
               )
               const fee =
