@@ -6,13 +6,13 @@ import { flatten, map } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled, { css } from 'styled-components'
 
-import { HeartbeatLoader, IconButton } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, IconButton } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { InterestHistoryCoinFormType } from 'data/components/interest/types'
 import { RootState } from 'data/rootReducer'
 
 const IconButtonCss = css`
-  border: 1px solid ${props => props.theme['grey100']};
+  border: 1px solid ${(props) => props.theme.grey100};
   border-radius: 8px;
   margin-right: 12px;
 `
@@ -21,26 +21,27 @@ const DownloadButton = styled(CSVLink)`
 `
 const StyledIconButton = styled(IconButton)`
   ${IconButtonCss};
-  color: ${props => props.theme['blue600']};
+  color: ${(props) => props.theme.blue600};
 `
 const SuccessIconButton = styled(IconButton)`
   ${IconButtonCss};
-  color: ${props => props.theme.white};
-  background-color: ${props => props.theme.success};
+  color: ${(props) => props.theme.white};
+  background-color: ${(props) => props.theme.green600};
   opacity: 1;
 `
 const FailedIconButton = styled(IconButton)`
   ${IconButtonCss};
-  color: ${props => props.theme.white};
-  background-color: ${props => props.theme.error};
+  color: ${(props) => props.theme.white};
+  background-color: ${(props) => props.theme.red600};
   opacity: 1;
 `
-const LoaderContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 140px;
+const LoadingButton = styled(Button)`
   margin-right: 12px;
+  opacity: 1;
+
+  & > :first-child {
+    margin-right: 8px;
+  }
 `
 
 class DownloadTransactions extends React.PureComponent<Props> {
@@ -73,13 +74,13 @@ class DownloadTransactions extends React.PureComponent<Props> {
     const txList = flatten(
       txPages &&
         // @ts-ignore
-        txPages.map(pages => map(page => page, (pages && pages.data) || []))
+        txPages.map((pages) => map((page) => page, (pages && pages.data) || []))
     )
 
     return (
       txList?.length > 0 &&
       transactionsReportR.cata({
-        Success: val => {
+        Success: (val) => {
           return this.state.hasSavedReport ? (
             <SuccessIconButton
               data-e2e='interestTxReportSaved'
@@ -89,10 +90,7 @@ class DownloadTransactions extends React.PureComponent<Props> {
               nature='primary'
               width='140px'
             >
-              <FormattedMessage
-                id='scenes.interest.transactions.saved'
-                defaultMessage='Saved'
-              />
+              <FormattedMessage id='copy.saved' defaultMessage='Saved' />
             </SuccessIconButton>
           ) : (
             <DownloadButton
@@ -129,9 +127,15 @@ class DownloadTransactions extends React.PureComponent<Props> {
           </FailedIconButton>
         ),
         Loading: () => (
-          <LoaderContainer>
-            <HeartbeatLoader />
-          </LoaderContainer>
+          <LoadingButton
+            data-e2e='loadingTransactionsReportButton'
+            disabled
+            height='45px'
+            nature='empty-blue'
+          >
+            <HeartbeatLoader height='16px' width='16px' />
+            <FormattedMessage id='copy.loading' defaultMessage='Loading...' />
+          </LoadingButton>
         ),
         NotAsked: () => (
           <StyledIconButton
@@ -147,7 +151,7 @@ class DownloadTransactions extends React.PureComponent<Props> {
               defaultMessage='Download'
             />
           </StyledIconButton>
-        )
+        ),
       })
     )
   }
@@ -160,11 +164,11 @@ const mapStateToProps = (state: RootState) => ({
   transactionsReportR: selectors.components.interest.getInterestTransactionsReport(
     state
   ),
-  txPages: selectors.components.interest.getInterestTransactions(state)
+  txPages: selectors.components.interest.getInterestTransactions(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  interestActions: bindActionCreators(actions.components.interest, dispatch)
+  interestActions: bindActionCreators(actions.components.interest, dispatch),
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

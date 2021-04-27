@@ -10,7 +10,7 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
-  Text
+  Text,
 } from 'blockchain-info-components'
 import {
   DateBoxDebounced,
@@ -18,7 +18,7 @@ import {
   SelectBoxBchAddresses,
   SelectBoxBtcAddresses,
   SelectBoxEthAddresses,
-  SelectBoxXlmAddresses
+  SelectBoxXlmAddresses,
 } from 'components/Form'
 import { required } from 'services/forms'
 
@@ -69,10 +69,8 @@ const DownloadButton = styled(CSVLink)`
   width: 100%;
 `
 
-export const validAddressOrWallet = value => {
-  return value !== 'all' ? (
-    undefined
-  ) : (
+export const validAddressOrWallet = (value) => {
+  return value !== 'all' ? undefined : (
     <FormattedMessage
       id='modals.transactions.report.required'
       defaultMessage='Wallet selection required'
@@ -82,11 +80,9 @@ export const validAddressOrWallet = value => {
 
 type Props = OwnProps & StateProps
 
-const DownloadTransactions: React.FunctionComponent<InjectedFormProps<
-  {},
-  Props
-> &
-  Props> = props => {
+const DownloadTransactions: React.FunctionComponent<
+  InjectedFormProps<{}, Props> & Props
+> = (props) => {
   const {
     closeAll,
     coin,
@@ -96,7 +92,7 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<
     handleSubmit,
     invalid,
     position,
-    total
+    total,
   } = props
 
   return (
@@ -216,7 +212,15 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<
                   </Button>
                 </DownloadButton>
               ) : (
-                <HeartbeatLoader />
+                <Button
+                  data-e2e='loadingTransactionButton'
+                  disabled
+                  fullwidth
+                  height='48px'
+                  nature='primary'
+                >
+                  <HeartbeatLoader height='20px' width='20px' color='white' />
+                </Button>
               )
             ) : (
               <Button
