@@ -1164,6 +1164,7 @@ type MessagesType = {
   'modals.requestcrypto.sharelink.copy': 'Copy Link'
   'modals.requestcrypto.sharelink.title': 'Share Link'
   'modals.requestcrypto.showaddress.createlink': 'Create Link'
+  'modals.requestcrypto.showaddress.memo_required': 'If you send funds without the {coin} Memo Text, your funds will be lost and not credited to your account. Please send only {coin} to this address.'
   'modals.requestcrypto.showaddress.title': 'Scan or Share'
   'modals.requestbch.address': 'Address:'
   'modals.requestbch.firststep.lockbox.clickhere': 'Click here'
