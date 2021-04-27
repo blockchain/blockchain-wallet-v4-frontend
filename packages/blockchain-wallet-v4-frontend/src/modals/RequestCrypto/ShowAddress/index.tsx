@@ -202,7 +202,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
           Loading: () => null,
           NotAsked: () => null
         })}
-        {coinModel.isMemoBased && (
+        {coinModel.isMemoBased && selectedAccount.type === 'CUSTODIAL' && (
           <InfoContainer>
             <Text color='grey600' size='12px' weight={500}>
               <FormattedMessage
