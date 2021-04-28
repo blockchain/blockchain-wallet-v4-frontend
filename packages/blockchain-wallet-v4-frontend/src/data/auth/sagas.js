@@ -2,7 +2,7 @@ import { assoc, find, is, prop, propEq } from 'ramda'
 import { call, delay, fork, put, race, select, take } from 'redux-saga/effects'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import { actions, actionTypes, selectors } from 'data'
+import { actions, actionTypes, model, selectors } from 'data'
 import * as C from 'services/alerts'
 import { checkForVulnerableAddressError } from 'services/misc'
 import {
@@ -12,6 +12,8 @@ import {
 } from 'services/sagas'
 
 import { guessCurrencyBasedOnCountry } from './helpers'
+
+const { MOBILE_LOGIN } = model.analytics
 
 export const logLocation = 'auth/sagas'
 export const defaultLoginErrorMessage = 'Error logging into your wallet'
@@ -377,6 +379,7 @@ export default ({ api, coreSagas }) => {
   const mobileLogin = function * (action) {
     try {
       yield put(actions.auth.mobileLoginStarted())
+      yield put(actions.analytics.logEvent(MOBILE_LOGIN.LEGACY))
       const { guid, password, sharedKey } = yield call(
         coreSagas.settings.decodePairingCode,
         action.payload

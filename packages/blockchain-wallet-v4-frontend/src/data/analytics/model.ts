@@ -122,3 +122,8 @@ export const INTEREST_EVENTS = {
     REQUEST_FAILURE: ['interest', 'withdrawal', 'request_failure']
   }
 }
+
+export const MOBILE_LOGIN = {
+  LEGACY: ['mobile_login', 'login_via_mobile', 'scanned'],
+  MOBILE_LOGIN: ['mobile_login', 'qr_code', 'scanned']
+}
