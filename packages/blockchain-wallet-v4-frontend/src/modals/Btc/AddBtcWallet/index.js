@@ -27,7 +27,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('AddBtcWallet'),
+  modalEnhancer('ADD_BTC_WALLET_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 
