@@ -365,6 +365,7 @@ type MessagesType = {
   'copy.confirm_withdrawal': 'Confirm Withdrawal'
   'copy.confirm_swap': 'Confirm Swap'
   'copy.connect_to_your_bank': 'Connect to your bank'
+  'copy.confirm_with_your_bank': 'Confirm with your bank'
   'copy.contact_us': 'contact us'
   'copy.complete': 'Complete'
   'copy.crypto_selection_empty.buybank': "Send cash directly from your bank. Once received, we'll use that balance to buy the crypto of your choice"
