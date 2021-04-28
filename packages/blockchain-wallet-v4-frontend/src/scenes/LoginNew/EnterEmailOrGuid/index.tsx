@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps } from 'redux-form'
 
-import { HeartbeatLoader, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
 import {
   // Form,
   // FormError,
@@ -18,8 +18,13 @@ import { required, validWalletIdOrEmail } from 'services/forms'
 import { LoginSteps, Props as OwnProps } from '..'
 import {
   ActionButton,
+  HelpRow,
+  IconTextRow,
   isSupportedBrowser,
+  LinkRow,
   LoginFormLabel,
+  NeedHelpLink,
+  RectangleBackground,
   removeWhitespace
 } from '../model'
 
@@ -103,7 +108,7 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
   </LoginTextGroup>
 )} */}
       </FormGroup>
-      <FormGroup>
+      <LinkRow>
         <ActionButton
           // type='submit'
           nature='primary'
@@ -111,6 +116,7 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
           height='48px'
           disabled={submitting || invalid || busy || !guidOrEmail}
           data-e2e='loginButton'
+          style={{ marginBottom: '16px' }}
           // TODO: change this to trigger call for email
           onClick={() => setStep(LoginSteps.CHECK_EMAIL)}
         >
@@ -119,13 +125,38 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
           ) : (
             <Text color='whiteFade900' size='16px' weight={600}>
               <FormattedMessage
-                id='scenes.login.login'
-                defaultMessage='Log In'
+                id='buttons.continue'
+                defaultMessage='Continue'
               />
             </Text>
           )}
         </ActionButton>
-      </FormGroup>
+        <NeedHelpLink />
+      </LinkRow>
+      <RectangleBackground>
+        <HelpRow>
+          <IconTextRow>
+            <Icon name='info' size='14px' color='grey400' />
+            <Text size='12px' weight={500} color='grey600'>
+              <FormattedMessage
+                id='scenes.login.now_login'
+                defaultMessage='You can now log in with your email.'
+              />
+            </Text>
+          </IconTextRow>
+          <Link
+            size='12px'
+            weight={500}
+            // TODO: get actual support article
+            href='https://support.blockchain.com/hc/en-us/'
+          >
+            <FormattedMessage
+              id='buttons.learn_more'
+              defaultMessage='Learn More'
+            />
+          </Link>
+        </HelpRow>
+      </RectangleBackground>
     </>
   )
 }

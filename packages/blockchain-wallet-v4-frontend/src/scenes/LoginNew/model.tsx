@@ -68,6 +68,13 @@ export const CircleBackground = styled.div`
   border-radius: 40px;
   margin-bottom: 8px;
 `
+export const RectangleBackground = styled.div`
+  height: 48px;
+  width: 412px;
+  background-color: ${props => props.theme.grey000};
+  border-radius: 8px;
+  margin-top: 24px;
+`
 export const SubCard = styled.div`
   display: flex;
   justify-content: center;
@@ -83,6 +90,19 @@ const TopRow = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 24px;
+`
+
+export const HelpRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+`
+export const IconTextRow = styled.div`
+  display: flex;
+  align-items: center;
+  & > :first-child {
+    margin-right: 8px;
+  }
 `
 export const BackArrowFormHeader = (props: {
   formValues: LoginFormType

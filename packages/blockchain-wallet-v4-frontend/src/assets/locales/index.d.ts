@@ -2040,6 +2040,7 @@ type MessagesType = {
   'scenes.login.findyourguid': 'Forgot your Wallet ID? Request a reminder via email.'
   'scenes.login.needhelp': 'Need additional help logging in?'
   'scenes.login.needhelpnew': 'Need additional help logging in?'
+  'scenes.login.now_login': 'You can now log in with your email.'
   'scenes.login.google': 'Authenticator App Code'
   'scenes.login.guid': 'Wallet ID'
   'scenes.login.guiderror': 'Unknown Wallet ID. If you need a reminder '
