@@ -122,7 +122,7 @@ const analyticsMiddleware = () => store => next => action => {
       break
     case AT.components.identityVerification.INITIALIZE_VERIFICATION:
       analytics.push(AnalyticsKey.KYC_INITIALIZE_VERIFICATION, {
-        type: AnalyticsType.VIEW,
+        type: AnalyticsType.EVENT,
         originalTimestamp: getOriginalTimestamp(),
         language: language
       })
