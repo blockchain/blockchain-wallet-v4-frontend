@@ -29,7 +29,7 @@ import {
   LinkWrapper,
   Row,
   StatusIconWrapper,
-  StatusSuplyWrapper,
+  StatusSupplyWrapper,
   StatusWrapper,
   Top,
   TopText,
@@ -49,7 +49,7 @@ const AccountSummary: React.FC<Props> = props => {
     interestActions,
     interestLimits,
     interestRate,
-    showSuply,
+    showSupply,
     stepMetadata,
     supportedCoins
   } = props
@@ -204,9 +204,9 @@ const AccountSummary: React.FC<Props> = props => {
         )}
         {stepMetadata && stepMetadata.withdrawSuccess && (
           <StatusWrapper>
-            <StatusIconWrapper color={showSuply ? 'orange000' : coinCode}>
+            <StatusIconWrapper color={showSupply ? 'orange000' : coinCode}>
               <Icon
-                color={showSuply ? 'orange600' : 'white'}
+                color={showSupply ? 'orange600' : 'white'}
                 name='timer'
                 size='24px'
               />
@@ -219,8 +219,8 @@ const AccountSummary: React.FC<Props> = props => {
             </Text>
           </StatusWrapper>
         )}
-        {showSuply && stepMetadata && stepMetadata.withdrawSuccess &&  (
-          <StatusSuplyWrapper>
+        {showSupply && stepMetadata && stepMetadata.withdrawSuccess &&  (
+          <StatusSupplyWrapper>
             <Text color='grey900' size='16px' weight={600}>
               <FormattedMessage
                 id='modals.kycverification.additionalinfo.title'
@@ -270,7 +270,7 @@ const AccountSummary: React.FC<Props> = props => {
                 defaultMessage='One of our Support team agents might contact you if the information needs to be clarified.'
               />
             </Text>
-          </StatusSuplyWrapper>
+          </StatusSupplyWrapper>
         )}
 
         {stepMetadata && stepMetadata.error && (
@@ -300,7 +300,7 @@ const AccountSummary: React.FC<Props> = props => {
             </div>
           </StatusWrapper>
         )}
-        {!showSuply && (
+        {!showSupply && (
           <ButtonContainer>
             <Button
               data-e2e='interestDeposit'

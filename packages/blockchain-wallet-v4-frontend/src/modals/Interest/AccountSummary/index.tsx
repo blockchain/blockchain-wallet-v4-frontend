@@ -81,7 +81,7 @@ export type OwnProps = {
   coin: CoinType
   handleClose: () => void
   handleSBClick: (string) => void
-  showSuply: boolean,
+  showSupply: boolean,
   stepMetadata: InterestStepMetadata
 }
 

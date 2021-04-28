@@ -15,7 +15,7 @@ import DepositForm from './DepositForm'
 import WithdrawalForm from './WithdrawalForm'
 
 class Interest extends PureComponent<Props, State> {
-  state: State = { show: false, showSuplyInformation: false }
+  state: State = { show: false, showSupplyInformation: false }
 
   componentDidMount() {
     /* eslint-disable */
@@ -39,9 +39,9 @@ class Interest extends PureComponent<Props, State> {
     }, duration / 2)
   }
 
-  showSuply = (show: boolean) => {
+  showSupply = (show: boolean) => {
     this.setState({
-      showSuplyInformation: show
+      showSupplyInformation: show
     })
   }
 
@@ -63,7 +63,7 @@ class Interest extends PureComponent<Props, State> {
               handleSBClick={() => this.handleSBClick(coin)}
               stepMetadata={step.data}
               coin={coin}
-              showSuply={this.state.showSuplyInformation}
+              showSupply={this.state.showSupplyInformation}
             />
           </FlyoutChild>
         )}
@@ -77,7 +77,7 @@ class Interest extends PureComponent<Props, State> {
             <WithdrawalForm
               coin={coin}
               walletCurrency={walletCurrency}
-              setShowSuply={this.showSuply}
+              setShowSupply={this.showSupply}
             />
           </FlyoutChild>
         )}
@@ -111,7 +111,7 @@ type LinkStatePropsType = {
   walletCurrency: FiatType
 }
 
-type State = { show: boolean; showSuplyInformation: boolean }
+type State = { show: boolean; showSupplyInformation: boolean }
 type Props = OwnProps & ConnectedProps<typeof connector>
 
 const enhance = compose<any>(

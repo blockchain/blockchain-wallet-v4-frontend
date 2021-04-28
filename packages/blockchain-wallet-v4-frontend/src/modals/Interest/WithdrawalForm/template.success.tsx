@@ -52,7 +52,6 @@ const FORM_NAME = 'interestWithdrawalForm'
 
 const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
   Props> = props => {
-  // const [eddRequired, setEddRequired] = useState(false)
   const {
     accountBalances,
     availToWithdraw,
@@ -125,9 +124,9 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     e.preventDefault()
     interestActions.requestWithdrawal(coin, withdrawalAmountCrypto)
     if (showEDDWithdrawLimit) {
-      props.setShowSuply(true)
+      props.setShowSupply(true)
     } else {
-      props.setShowSuply(false)
+      props.setShowSupply(false)
     }
   }
 
@@ -397,7 +396,7 @@ type LinkStatePropsType = {
 
 type OwnProps = {
   handleDisplayToggle: (boolean) => void
-  setShowSuply: (boolean) => void
+  setShowSupply: (boolean) => void
   walletCurrency: FiatType
 }
 

@@ -78,7 +78,7 @@ export const StatusWrapper = styled.div`
   align-items: center;
 `
 
-export const StatusSuplyWrapper = styled.div`
+export const StatusSupplyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 24px;

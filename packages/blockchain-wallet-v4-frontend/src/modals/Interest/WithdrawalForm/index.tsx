@@ -95,7 +95,7 @@ type LinkStatePropsType = {
 
 export type OwnProps = {
   coin: CoinType,
-  setShowSuply: (boolean) => void,
+  setShowSupply: (boolean) => void,
   walletCurrency: FiatType
 }
 
