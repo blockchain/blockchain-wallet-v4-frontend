@@ -1,4 +1,6 @@
-import { takeLatest } from 'redux-saga/effects'
+import { takeEvery, takeLatest } from 'redux-saga/effects'
+
+import { actionTypes } from 'data/form/actionTypes'
 
 import * as AT from './actionTypes'
 import sagas from './sagas'
@@ -24,5 +26,6 @@ export default ({ api, coreSagas, networks }) => {
       sendSagas.notifyNonCustodialToCustodialTransfer
     )
     yield takeLatest(AT.GET_LOCK_RULE, sendSagas.getWithdrawalLockCheck)
+    yield takeEvery(actionTypes.CHANGE, sendSagas.formChanged)
   }
 }

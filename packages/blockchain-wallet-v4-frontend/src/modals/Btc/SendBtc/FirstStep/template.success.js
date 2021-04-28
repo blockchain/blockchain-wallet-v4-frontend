@@ -43,6 +43,7 @@ import {
   Row
 } from 'components/Send'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
+import UnstoppableDomains from 'components/UnstoppableDomains'
 import { model } from 'data'
 import { required, validBtcAddress } from 'services/forms'
 
@@ -223,6 +224,7 @@ const FirstStep = props => {
           </Row>
         </FormItem>
       </FormGroup>
+      <UnstoppableDomains form={model.components.sendBtc.FORM} />
       <FormGroup>
         <CustodyToAccountMessage coin={'BTC'} account={from} amount={amount} />
       </FormGroup>

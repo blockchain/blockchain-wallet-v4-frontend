@@ -117,6 +117,12 @@ export function sendReducer(
         unstoppableDomainResults: Remote.Failure(action.payload.e)
       }
     }
+    case AT.FETCH_UNSTOPPABLE_DOMAIN_RESULTS_NOT_ASKED: {
+      return {
+        ...state,
+        unstoppableDomainResults: Remote.NotAsked
+      }
+    }
     case AT.GET_LOCK_RULE_LOADING: {
       return {
         ...state,

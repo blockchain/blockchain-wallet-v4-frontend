@@ -15,7 +15,7 @@ export type SendState = {
   tradingPaymentsAccount: {
     [key in CoinType]: RemoteDataType<any, BeneficiaryType>
   }
-  unstoppableDomainResults: RemoteDataType<string, any>
+  unstoppableDomainResults: RemoteDataType<string, UnstoppableDomainResultsType>
   withdrawLockCheck: RemoteDataType<string, WithdrawalLockCheckResponseType>
 }
 
@@ -54,6 +54,9 @@ interface FetchUnstoppableDomainResultsFailureAction {
     e: string
   }
   type: typeof AT.FETCH_UNSTOPPABLE_DOMAIN_RESULTS_FAILURE
+}
+interface FetchUnstoppableDomainResultsNotAskedAction {
+  type: typeof AT.FETCH_UNSTOPPABLE_DOMAIN_RESULTS_NOT_ASKED
 }
 
 interface FetchUnstoppableDomainResultsLoadingAction {
@@ -95,6 +98,7 @@ export type SendActionTypes =
   | FetchUnstoppableDomainResultsFailureAction
   | FetchUnstoppableDomainResultsLoadingAction
   | FetchUnstoppableDomainResultsSuccessAction
+  | FetchUnstoppableDomainResultsNotAskedAction
   | GetLockRuleFailureAction
   | GetLockRuleLoadingAction
   | GetLockRuleSuccessAction

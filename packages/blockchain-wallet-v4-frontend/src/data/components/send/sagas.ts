@@ -1,5 +1,6 @@
 import moment from 'moment'
-import { call, CallEffect, put, select } from 'redux-saga/effects'
+import { FormAction } from 'redux-form'
+import { call, CallEffect, delay, put, select } from 'redux-saga/effects'
 
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
@@ -119,17 +120,17 @@ export default ({
     }
   }
 
-  const fetchUnstoppableDomainResults = function * (
-    action: ReturnType<typeof A.fetchUnstoppableDomainResults>
-  ) {
-    const { payload } = action
+  const fetchUnstoppableDomainResults = function * () // action: ReturnType<typeof A.fetchUnstoppableDomainResults>
+  {
+    // const { payload } = action
     try {
       yield put(A.fetchUnstoppableDomainResultsLoading())
       const results: ReturnType<typeof api.getUnstoppableDomainResults> = yield call(
-        api.getUnstoppableDomainResults,
-        payload.name
+        api.getUnstoppableDomainResults
+        // payload.name
         // payload.currency
       )
+      yield delay(1000)
       yield put(A.fetchUnstoppableDomainResultsSuccess(results))
     } catch (e) {
       const error = errorHandler(e)
@@ -278,11 +279,19 @@ export default ({
     }
   }
 
+  const formChanged = function * (action: FormAction) {
+    const { field } = action.meta
+    if (field === 'to') {
+      yield put(A.fetchUnstoppableDomainResultsNotAsked())
+    }
+  }
+
   return {
     buildAndPublishPayment,
     fetchPaymentsAccountExchange,
     fetchPaymentsTradingAccount,
     fetchUnstoppableDomainResults,
+    formChanged,
     getWithdrawalLockCheck,
     showWithdrawalLockAlert,
     notifyNonCustodialToCustodialTransfer,

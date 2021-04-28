@@ -55,6 +55,9 @@ export const fetchUnstoppableDomainResults = (
 export const fetchUnstoppableDomainResultsLoading = () => ({
   type: AT.FETCH_UNSTOPPABLE_DOMAIN_RESULTS_LOADING
 })
+export const fetchUnstoppableDomainResultsNotAsked = () => ({
+  type: AT.FETCH_UNSTOPPABLE_DOMAIN_RESULTS_NOT_ASKED
+})
 export const fetchUnstoppableDomainResultsFailure = (e: string) => ({
   type: AT.FETCH_UNSTOPPABLE_DOMAIN_RESULTS_FAILURE,
   payload: { e }

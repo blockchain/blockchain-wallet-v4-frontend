@@ -148,6 +148,11 @@ export const validBtcAddress = (value, allValues, props) => {
     if (prop('value', dropdownValue)) address = prop('value', dropdownValue)
   }
 
+  // Unstoppable Domain?
+  if (typeof address === 'string' && address.includes('.')) {
+    return
+  }
+
   if (address === BAD_2FA) {
     return <M.ExchangeRequires2FAMessage />
   }
