@@ -56,7 +56,7 @@ const ContentContainer = styled.div<{ isLogin?: boolean }>`
   ${props =>
     props.isLogin &&
     css`
-      margin-top: 80px;
+      margin-top: 40px;
     `}
 `
 
@@ -65,7 +65,8 @@ const PublicLayoutContainer = ({
   exact = false,
   path
 }: Props) => {
-  const isLogin = path === '/login'
+  // TODO - remove 'new' when login flow is replaced
+  const isLogin = path === '/login' || path === '/new'
 
   return (
     <Route
@@ -98,7 +99,7 @@ const PublicLayoutContainer = ({
 
 type Props = {
   component: ComponentType<any>
-  exact?: boolean,
+  exact?: boolean
   path: string
 }
 

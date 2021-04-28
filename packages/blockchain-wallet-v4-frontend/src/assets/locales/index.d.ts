@@ -2059,6 +2059,7 @@ type MessagesType = {
   'scenes.login.resendsms': 'Resend SMS'
   'scenes.login.sendguid': 'Request Wallet ID'
   'scenes.login.signingin_email': 'Signing in with {email}'
+  'scences.login.wallet_guid': 'Wallet: {guid}'
   'scenes.login.simplebuy.header': 'Buy Crypto With Credit Card'
   'scenes.login.wallet.link': "Don't have a wallet?"
   'scenes.login.wallet.link_signup': "Don't have a Blockchain Wallet?"

@@ -88,7 +88,6 @@ export const SignUpText = styled(Text)`
 `
 const TopRow = styled.div`
   display: flex;
-  align-items: center;
   margin-bottom: 24px;
 `
 
@@ -104,30 +103,47 @@ export const IconTextRow = styled.div`
     margin-right: 8px;
   }
 `
+
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+`
 export const BackArrowFormHeader = (props: {
   formValues: LoginFormType
   setStep: (LoginSteps) => void
 }) => {
+  const guid = 'testguid1234'
   return (
-    <TopRow>
-      <Icon
-        cursor
-        data-e2e='signupBack'
-        name='arrow-left'
-        size='24px'
-        color='grey400'
-        style={{ marginRight: '6px' }}
-        role='button'
-        onClick={() => props.setStep(LoginSteps.ENTER_EMAIL_GUID)}
-      />
-      <Text color='grey400' size='14px' weight={600}>
-        <FormattedMessage
-          id='scenes.login.signingin_email'
-          defaultMessage='Signing in with {email}'
-          values={{ email: props.formValues.guidOrEmail }}
+    <>
+      <TopRow>
+        <Icon
+          cursor
+          data-e2e='signupBack'
+          name='arrow-left'
+          size='24px'
+          color='grey400'
+          style={{ marginRight: '8px' }}
+          role='button'
+          onClick={() => props.setStep(LoginSteps.ENTER_EMAIL_GUID)}
         />
-      </Text>
-    </TopRow>
+        <Column>
+          <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>
+            <FormattedMessage
+              id='scenes.login.signingin_email'
+              defaultMessage='Signing in with {email}'
+              values={{ email: props.formValues.guidOrEmail }}
+            />
+          </Text>
+          <Text size='12px' weight={500} color='grey400'>
+            <FormattedMessage
+              id='scences.login.wallet_guid'
+              defaultMessage='Wallet: {guid}'
+              values={{ guid }}
+            />
+          </Text>
+        </Column>
+      </TopRow>
+    </>
   )
 }
 

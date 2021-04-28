@@ -60,24 +60,24 @@ const EnterPassword = (props: InjectedFormProps<{}, Props> & Props) => {
             data-e2e='loginPassword'
             placeholder='Enter your password'
           />
-          {/* {passwordError && ( */}
-          <FormError data-e2e='passwordError' style={{ paddingTop: '5px' }}>
-            <FormattedHTMLMessage
-              id='scenes.login.wrong_password_recover'
-              defaultMessage='Wrong password. Do you want to recover your wallet using Secret Private Key Recovery Phrase?'
-            />
-            {'  '}
-            <LinkContainer to='/recover'>
-              <Link size='12px' data-e2e='loginRecover'>
-                <FormattedMessage
-                  id='scenes.login.recover_account'
-                  defaultMessage='Recover account'
-                />
-                {'.'}
-              </Link>
-            </LinkContainer>
-          </FormError>
-          {/* )} */}
+          {passwordError && (
+            <FormError data-e2e='passwordError' style={{ paddingTop: '5px' }}>
+              <FormattedHTMLMessage
+                id='scenes.login.wrong_password_recover'
+                defaultMessage='Wrong password. Do you want to recover your wallet using Secret Private Key Recovery Phrase?'
+              />
+              {'  '}
+              <LinkContainer to='/recover'>
+                <Link size='12px' data-e2e='loginRecover'>
+                  <FormattedMessage
+                    id='scenes.login.recover_account'
+                    defaultMessage='Recover account'
+                  />
+                  {'.'}
+                </Link>
+              </LinkContainer>
+            </FormError>
+          )}
           {accountLocked && (
             <FormError
               position={authType > 0 || passwordError ? 'relative' : 'absolute'}
