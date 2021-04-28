@@ -75,19 +75,21 @@ const queueStorage = <K extends string, P extends {}>(queueName: string) => {
 }
 
 const queuevent = <K extends string, P extends {}>({
-  queueName,
-  queueCallback
+  queueCallback,
+  queueName
 }: {
-  queueName: string
   queueCallback: (events: { key: K; payload: P }[]) => Promise<void>
+  queueName: string
 }) => {
   const queue = queueStorage<K, P>(queueName)
+
+  const MAX_ATTEMPTS = 3
 
   const debouncedCallback = debounce(
     async (events: { key: K; payload: P }[]) => {
       let attempts = 0
 
-      while (attempts < 3) {
+      while (attempts < MAX_ATTEMPTS) {
         try {
           await queueCallback(events)
 
