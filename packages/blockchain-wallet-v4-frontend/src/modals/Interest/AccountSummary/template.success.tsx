@@ -6,12 +6,14 @@ import { pathOr } from 'ramda'
 import {
   Button,
   Icon,
+  Link,
   Text,
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
 import { CoinType } from 'blockchain-wallet-v4/src/types'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import { model } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { InterestStepMetadata } from 'data/types'
 
@@ -24,17 +26,22 @@ import {
   DetailsWrapper,
   LineVector,
   LineVectorDetails,
+  LinkWrapper,
   Row,
   StatusIconWrapper,
+  StatusSuplyWrapper,
   StatusWrapper,
   Top,
   TopText,
   Wrapper
 } from './model'
 
+const { INTEREST_EVENTS } = model.analytics
+
 const AccountSummary: React.FC<Props> = props => {
   const {
     accountBalances,
+    analyticsActions,
     coin,
     handleClose,
     handleDepositClick,
@@ -42,6 +49,7 @@ const AccountSummary: React.FC<Props> = props => {
     interestActions,
     interestLimits,
     interestRate,
+    showSuply,
     stepMetadata,
     supportedCoins
   } = props
@@ -66,6 +74,7 @@ const AccountSummary: React.FC<Props> = props => {
     coin,
     pendingInterestBase
   )
+
   return (
     <Wrapper>
       <Top>
@@ -195,8 +204,12 @@ const AccountSummary: React.FC<Props> = props => {
         )}
         {stepMetadata && stepMetadata.withdrawSuccess && (
           <StatusWrapper>
-            <StatusIconWrapper color={coinCode}>
-              <Icon color={coinCode} name='timer' size='24px' />
+            <StatusIconWrapper color={showSuply ? 'orange000' : coinCode}>
+              <Icon
+                color={showSuply ? 'orange600' : 'white'}
+                name='timer'
+                size='24px'
+              />
             </StatusIconWrapper>
             <Text color='grey600' size='14px' weight={500}>
               <FormattedMessage
@@ -206,6 +219,60 @@ const AccountSummary: React.FC<Props> = props => {
             </Text>
           </StatusWrapper>
         )}
+        {showSuply && stepMetadata && stepMetadata.withdrawSuccess &&  (
+          <StatusSuplyWrapper>
+            <Text color='grey900' size='16px' weight={600}>
+              <FormattedMessage
+                id='modals.kycverification.additionalinfo.title'
+                defaultMessage='Additional Information Required'
+              />
+            </Text>
+            <Text color='grey600' size='12px' weight={500} style={{ marginTop: '16px' }}>
+              <FormattedMessage
+                id='scenes.interest.supply_information_description_1'
+                defaultMessage='You’ve requested a withdrawal for an amount that requires further verification for legal and compliance reasons.'
+              />
+            </Text>
+            <Text color='grey600' size='12px' weight={500} style={{ marginTop: '16px' }}>
+              <FormattedMessage
+                id='scenes.interest.supply_information_description_2'
+                defaultMessage='Your funds are safe with us. Please submit the additional information so we can start processing your withdrawal.'
+              />
+            </Text>
+
+            <LinkWrapper>
+              <Link
+                href='https://share.hsforms.com/1DS4i94fURdutr8OXYOxfrg2qt44'
+                style={{ width: '100%' }}
+                target='_blank'
+              >
+                <Button
+                  data-e2e='earnInterestSupplyMoreInformation'
+                  fullwidth
+                  nature='primary'
+                  onClick={() =>
+                    analyticsActions.logEvent(
+                      INTEREST_EVENTS.WITHDRAWAL.SUPPLY_INFORMATION
+                    )
+                  }
+                >
+                  <FormattedMessage
+                    id='scenes.interest.supply_information'
+                    defaultMessage='Supply Information'
+                  />
+                </Button>
+              </Link>
+            </LinkWrapper>
+
+            <Text color='grey600' size='12px' weight={500}>
+              <FormattedMessage
+                id='scenes.interest.supply_information_disclaimer'
+                defaultMessage='One of our Support team agents might contact you if the information needs to be clarified.'
+              />
+            </Text>
+          </StatusSuplyWrapper>
+        )}
+
         {stepMetadata && stepMetadata.error && (
           <StatusWrapper>
             <StatusIconWrapper color='red000'>
@@ -233,37 +300,39 @@ const AccountSummary: React.FC<Props> = props => {
             </div>
           </StatusWrapper>
         )}
-        <ButtonContainer>
-          <Button
-            data-e2e='interestDeposit'
-            height='48px'
-            nature='primary'
-            onClick={handleDepositClick}
-            width='192px'
-          >
-            <Text weight={600} color='white'>
-              <FormattedMessage
-                id='buttons.transfer'
-                defaultMessage='Transfer'
-              />
-            </Text>
-          </Button>
-          <Button
-            data-e2e='interestDeposit'
-            height='48px'
-            nature='empty'
-            onClick={() => handleSBClick(coin)}
-            width='192px'
-          >
-            <Text size='16px' weight={600} color='blue600'>
-              <FormattedMessage
-                id='buttons.buy_coin'
-                defaultMessage='Buy {displayName}'
-                values={{ displayName }}
-              />
-            </Text>
-          </Button>
-        </ButtonContainer>
+        {!showSuply && (
+          <ButtonContainer>
+            <Button
+              data-e2e='interestDeposit'
+              height='48px'
+              nature='primary'
+              onClick={handleDepositClick}
+              width='192px'
+            >
+              <Text weight={600} color='white'>
+                <FormattedMessage
+                  id='buttons.transfer'
+                  defaultMessage='Transfer'
+                />
+              </Text>
+            </Button>
+            <Button
+              data-e2e='interestDeposit'
+              height='48px'
+              nature='empty'
+              onClick={() => handleSBClick(coin)}
+              width='192px'
+            >
+              <Text size='16px' weight={600} color='blue600'>
+                <FormattedMessage
+                  id='buttons.buy_coin'
+                  defaultMessage='Buy {displayName}'
+                  values={{ displayName }}
+                />
+              </Text>
+            </Button>
+          </ButtonContainer>
+        )}
         <DetailsWrapper>
           <Text color='grey800' weight={600} style={{ marginBottom: '6px' }}>
             <FormattedMessage

@@ -11,11 +11,16 @@ export const getData = state => {
   )
   const ratesR = selectors.components.interest.getRates(state)
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
-  const walletCurrencyR = selectors.core.settings.getCurrency(state)
   const withdrawalMinimumsR = selectors.components.interest.getWithdrawalMinimums(
     state
   )
   const interestLimitsR = selectors.components.interest.getInterestLimits(state)
+  const interestEDDStatusR = selectors.components.interest.getInterestEDDStatus(
+    state
+  )
+  const interestEDDWithdrawLimitsR = selectors.components.interest.getInterestEDDWithdrawLimits(
+    state
+  )
 
   return lift(
     (
@@ -23,8 +28,9 @@ export const getData = state => {
       interestLimits,
       rates,
       supportedCoins,
-      walletCurrency,
-      withdrawalMinimums
+      withdrawalMinimums,
+      interestEDDStatus,
+      interestEDDWithdrawLimits
     ) => ({
       accountBalances,
       availToWithdraw: new BigNumber(
@@ -35,15 +41,17 @@ export const getData = state => {
       interestLimits,
       rates,
       supportedCoins,
-      walletCurrency,
-      withdrawalMinimums
+      withdrawalMinimums,
+      interestEDDStatus,
+      interestEDDWithdrawLimits
     })
   )(
     accountBalancesR,
     interestLimitsR,
     ratesR,
     supportedCoinsR,
-    walletCurrencyR,
-    withdrawalMinimumsR
+    withdrawalMinimumsR,
+    interestEDDStatusR,
+    interestEDDWithdrawLimitsR
   )
 }

@@ -7,11 +7,13 @@ import {
   CoinType,
   FiatType,
   InterestAccountBalanceType,
+  InterestEDDStatus,
   InterestLimitsType,
   RatesType,
   RemoteDataType,
   SupportedWalletCurrenciesType,
-  WithdrawalMinimumType
+  WithdrawalMinimumType,
+  WithdrawLimits,
 } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
@@ -22,10 +24,12 @@ import WithdrawalForm from './template.success'
 
 class WithdrawalFormContainer extends PureComponent<Props> {
   componentDidMount() {
+    const { walletCurrency } = this.props
     this.handleRefresh()
+    this.props.interestActions.fetchEddWithdrawLimits(walletCurrency)
   }
 
-  handleDisplayToggle = isCoin => {
+  handleDisplayToggle = (isCoin: boolean) => {
     const { displayCoin } = this.props.data.getOrElse({
       displayCoin: false
     } as SuccessStateType)
@@ -40,10 +44,7 @@ class WithdrawalFormContainer extends PureComponent<Props> {
   }
 
   handleRefresh = () => {
-    const { coin, data, interestActions } = this.props
-    const { walletCurrency } = data.getOrElse({
-      walletCurrency: 'USD'
-    } as SuccessStateType)
+    const { coin, interestActions, walletCurrency } = this.props
     interestActions.initializeWithdrawalForm(coin, walletCurrency)
   }
 
@@ -70,7 +71,7 @@ const mapStateToProps = (state): LinkStatePropsType => ({
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  interestActions: bindActionCreators(actions.components.interest, dispatch)
+  interestActions: bindActionCreators(actions.components.interest, dispatch),
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -80,10 +81,11 @@ export type SuccessStateType = {
   availToWithdraw: BigNumber
   coin: CoinType
   displayCoin: boolean
-  interestLimits: InterestLimitsType
-  rates: RatesType
-  supportedCoins: SupportedWalletCurrenciesType
-  walletCurrency: FiatType
+  interestEDDStatus: InterestEDDStatus,
+  interestEDDWithdrawLimits: WithdrawLimits,
+  interestLimits: InterestLimitsType,
+  rates: RatesType,
+  supportedCoins: SupportedWalletCurrenciesType,
   withdrawalMinimums: WithdrawalMinimumType
 }
 
@@ -92,11 +94,13 @@ type LinkStatePropsType = {
 }
 
 export type OwnProps = {
-  coin: CoinType
+  coin: CoinType,
+  setShowSuply: (boolean) => void,
+  walletCurrency: FiatType
 }
 
 export type LinkDispatchPropsType = {
-  formActions: typeof actions.form
+  formActions: typeof actions.form,
   interestActions: typeof actions.components.interest
 }
 

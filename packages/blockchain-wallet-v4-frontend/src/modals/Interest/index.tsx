@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, FiatType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -15,12 +15,13 @@ import DepositForm from './DepositForm'
 import WithdrawalForm from './WithdrawalForm'
 
 class Interest extends PureComponent<Props, State> {
-  state: State = { show: false }
+  state: State = { show: false, showSuplyInformation: false }
 
   componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
+    this.props.fetchInterestEDDStatus()
   }
 
   handleClose = () => {
@@ -38,8 +39,14 @@ class Interest extends PureComponent<Props, State> {
     }, duration / 2)
   }
 
+  showSuply = (show: boolean) => {
+    this.setState({
+      showSuplyInformation: show
+    })
+  }
+
   render() {
-    const { coin, position, step, total } = this.props
+    const { coin, position, step, total, walletCurrency } = this.props
     return (
       <Flyout
         position={position}
@@ -56,6 +63,7 @@ class Interest extends PureComponent<Props, State> {
               handleSBClick={() => this.handleSBClick(coin)}
               stepMetadata={step.data}
               coin={coin}
+              showSuply={this.state.showSuplyInformation}
             />
           </FlyoutChild>
         )}
@@ -66,7 +74,11 @@ class Interest extends PureComponent<Props, State> {
         )}
         {step.name === 'WITHDRAWAL' && (
           <FlyoutChild>
-            <WithdrawalForm coin={coin} />
+            <WithdrawalForm
+              coin={coin}
+              walletCurrency={walletCurrency}
+              setShowSuply={this.showSuply}
+            />
           </FlyoutChild>
         )}
       </Flyout>
@@ -76,12 +88,15 @@ class Interest extends PureComponent<Props, State> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   step: selectors.components.interest.getStep(state),
-  coin: selectors.components.interest.getCoinType(state)
+  coin: selectors.components.interest.getCoinType(state),
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   interestActions: bindActionCreators(actions.components.interest, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  fetchInterestEDDStatus: () =>
+    dispatch(actions.components.interest.fetchEDDStatus())
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -93,9 +108,10 @@ type LinkStatePropsType = {
     data: InterestStepMetadata
     name: InterestStep
   }
+  walletCurrency: FiatType
 }
 
-type State = { show: boolean }
+type State = { show: boolean; showSuplyInformation: boolean }
 type Props = OwnProps & ConnectedProps<typeof connector>
 
 const enhance = compose<any>(

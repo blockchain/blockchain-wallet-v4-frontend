@@ -41,11 +41,11 @@ type LimitDetails = {
 }
 
 export type DepositLimits = {
-  deposit_limits: LimitDetails[] | []
+  depositLimits: LimitDetails[] | []
 }
 
 export type WithdrawLimits = {
-  withdraw_limits: LimitDetails
+  withdrawLimits: LimitDetails
 }
 
 export type InterestInstrumentsType = Array<CoinType>

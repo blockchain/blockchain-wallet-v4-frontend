@@ -71,7 +71,8 @@ const mapStateToProps = (state): LinkStatePropsType => ({
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   interestActions: bindActionCreators(actions.components.interest, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -80,11 +81,13 @@ export type OwnProps = {
   coin: CoinType
   handleClose: () => void
   handleSBClick: (string) => void
+  showSuply: boolean,
   stepMetadata: InterestStepMetadata
 }
 
 export type LinkDispatchPropsType = {
-  interestActions: typeof actions.components.interest
+  analyticsActions: typeof actions.analytics,
+  interestActions: typeof actions.components.interest,
   simpleBuyActions: typeof actions.components.simpleBuy
 }
 

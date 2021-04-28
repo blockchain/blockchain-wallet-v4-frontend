@@ -77,6 +77,15 @@ export const StatusWrapper = styled.div`
   margin-top: 20px;
   align-items: center;
 `
+
+export const StatusSuplyWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  margin-top: 32px;
+  border-radius: 8px;
+  background-color: ${({ theme }) => theme.grey000};
+`
 export const StatusIconWrapper = styled.div<{ color: string }>`
   display: flex;
   justify-content: center;
@@ -87,4 +96,7 @@ export const StatusIconWrapper = styled.div<{ color: string }>`
   min-height: 38px;
   min-width: 38px;
   max-height: 38px;
+`
+export const LinkWrapper = styled.div`
+  padding: 16px 0;
 `

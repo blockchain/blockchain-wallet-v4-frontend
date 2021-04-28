@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { OrangeCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 
@@ -126,4 +127,16 @@ export const ToggleCoinText = styled(Text)<{ displayCoin: boolean }>`
   display: inline;
   color: ${props =>
     props.displayCoin ? props.theme.blue600 : props.theme.grey800};
+`
+export const CustomOrangeCartridge = styled(OrangeCartridge)`
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  margin-top: 24px;
+`
+export const CartrigeText = styled.div`
+  display: inline;
+  font-size: 14px;
+  font-weight: 500;
+  color: ${props => props.theme.orange800};
 `

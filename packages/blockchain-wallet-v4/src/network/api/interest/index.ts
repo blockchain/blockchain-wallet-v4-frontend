@@ -151,16 +151,26 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       endPoint: '/savings/edd/status'
     })
 
-  const getSavingsEDDDepositLimits = (): DepositLimits =>
+  const getSavingsEDDDepositLimits = (
+    currency?: WalletFiatType
+  ): DepositLimits =>
     authorizedGet({
       url: nabuUrl,
-      endPoint: '/savings/edd/limits/deposit'
+      endPoint: '/savings/edd/limits/deposit',
+      data: {
+        currency
+      }
     })
 
-  const getSavingsEDDWithdrawLimits = (): WithdrawLimits =>
+  const getSavingsEDDWithdrawLimits = (
+    currency: FiatType
+  ): WithdrawLimits =>
     authorizedGet({
       url: nabuUrl,
-      endPoint: '/savings/edd/limits/withdraw'
+      endPoint: '/savings/edd/limits/withdraw',
+      data: {
+        currency
+      }
     })
 
   return {

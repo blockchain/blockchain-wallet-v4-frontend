@@ -8,7 +8,8 @@ import {
   InterestLimitsType,
   InterestRateType,
   InterestTransactionType,
-  WithdrawalMinimumType
+  WithdrawalMinimumType,
+  WithdrawLimits,
 } from 'blockchain-wallet-v4/src/network/api/interest/types'
 import {
   CoinType,
@@ -344,4 +345,23 @@ export const fetchEDDStatusSuccess = (
 ): InterestActionTypes => ({
   type: AT.FETCH_EDD_STATUS_SUCCESS,
   payload: { eddStatus }
+})
+export const fetchEddWithdrawLimits = (
+  currency: FiatType
+) => ({
+  type: AT.FETCH_EDD_WITHDRAW_LIMITS,
+  payload: { currency }
+})
+export const fetchEddWithdrawLimitsFailure = (error: string): InterestActionTypes => ({
+  type: AT.FETCH_EDD_WITHDRAW_LIMITS_FAILURE,
+  payload: { error }
+})
+export const fetchEddWithdrawLimitsLoading = (): InterestActionTypes => ({
+  type: AT.FETCH_EDD_WITHDRAW_LIMITS_LOADING
+})
+export const fetchEddWithdrawLimitsSuccess = (
+  interestEDDWithdrawLimits: WithdrawLimits
+): InterestActionTypes => ({
+  type: AT.FETCH_EDD_WITHDRAW_LIMITS_SUCCESS,
+  payload: { interestEDDWithdrawLimits }
 })
