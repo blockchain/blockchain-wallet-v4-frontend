@@ -6,6 +6,7 @@ import {
   call,
   cancel,
   delay,
+  fork,
   put,
   race,
   retry,
@@ -1329,18 +1330,27 @@ export default ({
     )
     const fiatCurrencyR = selectors.core.settings.getCurrency(yield select())
     const fiatCurrency = fiatCurrencyR.getOrElse('USD')
-
     if (latestPendingOrder) {
       const bankAccount = yield call(
         getBankInformation,
         latestPendingOrder as SBOrderType
       )
-      const step =
+      let step: T.StepActionsPayload['step'] =
         latestPendingOrder.state === 'PENDING_CONFIRMATION'
-          ? prop('partner', bankAccount) === BankPartners.YAPILY
-            ? 'OPEN_BANKING_CONNECT'
-            : 'CHECKOUT_CONFIRM'
+          ? 'CHECKOUT_CONFIRM'
           : 'ORDER_SUMMARY'
+
+      // When user closes the QR code modal and opens it via one of the pending
+      // buy buttons in the app. We need to take them to the qrcode screen and
+      // poll for the order status
+      if (
+        latestPendingOrder.state === 'PENDING_DEPOSIT' &&
+        prop('partner', bankAccount) === BankPartners.YAPILY
+      ) {
+        step = 'OPEN_BANKING_CONNECT'
+        yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))
+      }
+
       yield put(
         A.setStep({
           step,
