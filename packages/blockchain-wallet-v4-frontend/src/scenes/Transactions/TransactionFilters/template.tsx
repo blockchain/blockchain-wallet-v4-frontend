@@ -52,10 +52,7 @@ const TransactionFilters = ({ handleClickReporting }) => (
             onClick={handleClickReporting}
             width='120px'
           >
-            <FormattedMessage
-              id='scenes.transactions.export.download'
-              defaultMessage='Download'
-            />
+            <FormattedMessage id='copy.download' defaultMessage='Download' />
           </StyledIconButton>
         </TooltipHost>
         <SearchField

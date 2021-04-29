@@ -76,10 +76,7 @@ class DownloadUpdaterContainer extends React.PureComponent {
             )}`}
           >
             <Button nature='empty' onClick={this.onSoftwareDownload}>
-              <FormattedMessage
-                id='scenes.lockbox.dashboard.updaterequirednotice.download'
-                defaultMessage='Download'
-              />
+              <FormattedMessage id='copy.download' defaultMessage='Download' />
             </Button>
           </Link>
         </SettingComponent>

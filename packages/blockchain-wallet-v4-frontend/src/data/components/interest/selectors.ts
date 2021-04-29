@@ -34,6 +34,9 @@ export const getInterestAccount = (state: RootState) =>
 export const getInterestRate = (state: RootState) =>
   state.components.interest.interestRate
 
+export const getInterestTransactionsReport = (state: RootState) =>
+  state.components.interest.transactionsReport
+
 export const getInterestTransactions = (state: RootState) =>
   state.components.interest.transactions
 

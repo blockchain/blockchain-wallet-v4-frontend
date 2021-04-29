@@ -30,6 +30,7 @@ const INITIAL_STATE: InterestState = {
   },
   transactions: [],
   transactionsNextPage: null,
+  transactionsReport: Remote.NotAsked,
   withdrawalMinimums: Remote.NotAsked
 }
 
@@ -130,6 +131,31 @@ export function interestReducer(
         ...state,
         interestRate: Remote.Success(payload.interestRate.rates)
       }
+    case AT.CLEAR_INTEREST_TRANSACTIONS_REPORT: {
+      return {
+        ...state,
+        transactionsReport: Remote.NotAsked
+      }
+    }
+    case AT.FETCH_INTEREST_TRANSACTIONS_REPORT_LOADING: {
+      return {
+        ...state,
+        transactionsReport: Remote.Loading
+      }
+    }
+    case AT.FETCH_INTEREST_TRANSACTIONS_REPORT_FAILURE: {
+      return {
+        ...state,
+        transactionsReport: Remote.Failure(payload)
+      }
+    }
+    case AT.FETCH_INTEREST_TRANSACTIONS_REPORT_SUCCESS: {
+      const { transactions } = payload
+      return {
+        ...state,
+        transactionsReport: Remote.Success(transactions)
+      }
+    }
     case AT.FETCH_EDD_STATUS_FAILURE:
       return {
         ...state,
