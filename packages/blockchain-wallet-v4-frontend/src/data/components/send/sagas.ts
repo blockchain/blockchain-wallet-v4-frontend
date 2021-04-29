@@ -120,15 +120,16 @@ export default ({
     }
   }
 
-  const fetchUnstoppableDomainResults = function * () // action: ReturnType<typeof A.fetchUnstoppableDomainResults>
-  {
-    // const { payload } = action
+  const fetchUnstoppableDomainResults = function * (
+    action: ReturnType<typeof A.fetchUnstoppableDomainResults>
+  ) {
+    const { payload } = action
     try {
       yield put(A.fetchUnstoppableDomainResultsLoading())
       const results: ReturnType<typeof api.getUnstoppableDomainResults> = yield call(
-        api.getUnstoppableDomainResults
-        // payload.name
-        // payload.currency
+        api.getUnstoppableDomainResults,
+        payload.name,
+        payload.currency
       )
       yield delay(1000)
       yield put(A.fetchUnstoppableDomainResultsSuccess(results))
