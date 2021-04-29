@@ -278,12 +278,20 @@ export default ({
               payment = yield payment.to(value.xpub, toType)
               break
             // ensure 'r' exists, otherwise its just a BCH address in cash addr format
+            case includes('.', (address as unknown) as string):
+              yield put(
+                actions.components.send.fetchUnstoppableDomainResults(
+                  (address as unknown) as string,
+                  'BCH'
+                )
+              )
+              break
             case !isNil(tryParsePayPro()) &&
               hasPath(['options', 'r'], payProInvoice):
               yield call(bitPayInvoiceEntered, payProInvoice)
               break
             default:
-              payment = yield payment.to(address, toType)
+              payment = yield payment.to((address as unknown) as string, toType)
           }
           break
         case 'amount':

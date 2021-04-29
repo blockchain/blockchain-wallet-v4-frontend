@@ -29,6 +29,7 @@ import {
 import QRCodeCapture from 'components/QRCode/Capture'
 import { CustodyToAccountMessage, Row } from 'components/Send'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
+import UnstoppableDomains from 'components/UnstoppableDomains'
 import { model } from 'data'
 import { required, validBchAddress } from 'services/forms'
 
@@ -195,6 +196,7 @@ const FirstStep = props => {
           </Row>
         </FormItem>
       </FormGroup>
+      <UnstoppableDomains form={model.components.sendBch.FORM} />
       <FormGroup>
         <CustodyToAccountMessage coin='BCH' account={from} amount={amount} />
       </FormGroup>
