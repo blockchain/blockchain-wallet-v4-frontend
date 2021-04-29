@@ -9,7 +9,7 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import { convertCoinToFiat } from 'blockchain-wallet-v4/src/exchange'
 import {
   fiatToString,
-  formatFiat,
+  formatFiat
 } from 'blockchain-wallet-v4/src/exchange/currency'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { CoinBalanceDropdown, NumberBox } from 'components/Form'
@@ -41,15 +41,14 @@ import {
   ToggleCoinText,
   ToggleFiatText,
   Top,
-  Wrapper,
+  Wrapper
 } from './model'
 import { maximumWithdrawalAmount, minimumWithdrawalAmount } from './validation'
 
 const FORM_NAME = 'interestWithdrawalForm'
 
-const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (
-  props
-) => {
+const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
+  Props> = props => {
   const {
     accountBalances,
     availToWithdraw,
@@ -63,9 +62,9 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (
     submitting,
     supportedCoins,
     values,
-    walletCurrency,
+    walletCurrency
   } = props
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = e => {
     e.preventDefault()
     interestActions.requestWithdrawal(coin, withdrawalAmountCrypto)
   }
@@ -233,7 +232,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (
                 <Text color='blue600' size='14px' weight={500}>
                   {fiatToString({
                     value: availToWithdrawFiat,
-                    unit: walletCurrency,
+                    unit: walletCurrency
                   })}
                 </Text>
               </AmountAvailContainer>
@@ -281,12 +280,12 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (
             validate={[
               required,
               maximumWithdrawalAmount,
-              minimumWithdrawalAmount,
+              minimumWithdrawalAmount
             ]}
             {...{
               errorBottom: true,
               errorLeft: true,
-              errorIcon: 'alert-filled',
+              errorIcon: 'alert-filled'
             }}
           />
           <PrincipalCcyAbsolute>
@@ -312,7 +311,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (
                 withdrawalAmountFiat: `${currencySymbol}${formatFiat(
                   withdrawalAmountFiat
                 )}`,
-                withdrawalAmountCrypto: `${withdrawalAmountCrypto} ${coinTicker}`,
+                withdrawalAmountCrypto: `${withdrawalAmountCrypto} ${coinTicker}`
               }}
             />
           </Text>
@@ -349,8 +348,8 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (
   )
 }
 
-const mapStateToProps = (state) => ({
-  values: selectors.form.getFormValues(FORM_NAME)(state),
+const mapStateToProps = state => ({
+  values: selectors.form.getFormValues(FORM_NAME)(state)
 })
 
 type LinkStatePropsType = {

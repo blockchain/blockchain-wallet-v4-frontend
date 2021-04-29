@@ -13,7 +13,7 @@ import {
   CoinBalanceDropdown,
   Form,
   FormLabel,
-  NumberBox,
+  NumberBox
 } from 'components/Form'
 import { selectors } from 'data'
 import { RepayLoanFormType } from 'data/components/borrow/types'
@@ -50,7 +50,7 @@ const AmountsHeader = styled(Text)`
   font-size: 14px;
   font-weight: 500;
   margin-bottom: 8px;
-  color: ${(props) => props.theme.grey600};
+  color: ${props => props.theme.grey600};
 `
 
 const Bottom = styled(FlyoutWrapper)`
@@ -94,14 +94,14 @@ const ErrorText = styled(Text)`
   font-size: 14px;
   padding: 6px 12px;
   border-radius: 32px;
-  background-color: ${(props) => props.theme.red000};
-  color: ${(props) => props.theme.red800};
+  background-color: ${props => props.theme.red000};
+  color: ${props => props.theme.red800};
   margin-bottom: 16px;
 `
 
 export type Props = OwnProps & SuccessStateType & LinkStatePropsType & FormProps
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const principalDisplayName =
     props.supportedCoins[props.loan.principal.amount[0].currency].displayName
   const isSufficientEthForErc20 =
@@ -124,7 +124,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               props.borrowActions.setStep({
                 step: 'DETAILS',
                 loan: props.loan,
-                offer: props.offer,
+                offer: props.offer
               })
             }
           />
@@ -189,7 +189,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           name='repay-method'
           component={TabMenuPaymentMethod}
           {...{
-            coin: principalDisplayName,
+            coin: principalDisplayName
           }}
         />
         <CustomFormLabel>
@@ -226,7 +226,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 : false,
               errorBottom: true,
               errorLeft: true,
-              errorIcon: 'alert-filled',
+              errorIcon: 'alert-filled'
             }}
           />
           <PrincipalCcyAbsolute>
@@ -250,7 +250,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               defaultMessage='If we don’t receive the full outstanding amount in {principalCcy} we will automatically repay the remaining amount with {collateralCcy} collateral.'
               values={{
                 principalCcy: principalDisplayName,
-                collateralCcy: props.offer.terms.collateralCcy,
+                collateralCcy: props.offer.terms.collateralCcy
               }}
             />
           </Text>
@@ -304,8 +304,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  values: selectors.form.getFormValues('repayLoanForm')(state),
+const mapStateToProps = state => ({
+  values: selectors.form.getFormValues('repayLoanForm')(state)
 })
 
 // @ts-ignore

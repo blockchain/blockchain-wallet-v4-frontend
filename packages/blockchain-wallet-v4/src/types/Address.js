@@ -11,8 +11,8 @@ import { parseBIP38toECPair } from '../walletCrypto/importExport'
 import Type from './Type'
 import { iToJS } from './util'
 
-const eitherToTask = (e) => e.fold(Task.rejected, Task.of)
-const wrapPromiseInTask = (fP) =>
+const eitherToTask = e => e.fold(Task.rejected, Task.of)
+const wrapPromiseInTask = fP =>
   new Task((reject, resolve) => fP().then(resolve, reject))
 
 /* Address :: {
@@ -50,11 +50,11 @@ export const isActive = compose(not, isArchived)
 export const isWatchOnly = compose(isNil, view(priv))
 export const isNotWatchOnly = compose(not, isWatchOnly)
 
-export const fromJS = (x) => (is(Address, x) ? x : new Address(x))
+export const fromJS = x => (is(Address, x) ? x : new Address(x))
 
 export const toJS = pipe(Address.guard, iToJS)
 
-export const reviver = (jsObject) => {
+export const reviver = jsObject => {
   return new Address(jsObject)
 }
 
@@ -92,7 +92,7 @@ export const importAddress = (key, createdTime, label, network) => {
     tag: 0,
     created_time: createdTime,
     created_device_name: 'wallet-web',
-    created_device_version: 'v4',
+    created_device_version: 'v4'
   }
 
   switch (true) {
@@ -135,7 +135,7 @@ export const fromString = (
       }
       let tryParseBIP38toECPair = Either.try(parseBIP38toECPair)
       let keyE = tryParseBIP38toECPair(keyOrAddr, bipPass, network)
-      return eitherToTask(keyE).map((key) =>
+      return eitherToTask(keyE).map(key =>
         importAddress(key, createdTime, label, network)
       )
     } else if (format === 'mini' || format === 'base58') {
@@ -150,11 +150,11 @@ export const fromString = (
       key.compressed = false
       let uad = utils.btc.keyPairToAddress(key)
       return wrapPromiseInTask(() => api.getBalances([cad, uad])).fold(
-        (e) => {
+        e => {
           key.compressed = true
           return importAddress(key, createdTime, label, network)
         },
-        (o) => {
+        o => {
           let compBalance = o[cad].final_balance
           let ucompBalance = o[uad].final_balance
           key.compressed = !(compBalance === 0 && ucompBalance > 0)

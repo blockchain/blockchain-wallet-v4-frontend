@@ -11,7 +11,7 @@ import { actions, model, selectors } from 'data'
 import {
   Props as OwnProps,
   StateType as ParentStateType,
-  SuccessStateType,
+  SuccessStateType
 } from '..'
 
 const { INTEREST_EVENTS } = model.analytics
@@ -111,7 +111,7 @@ class IntroCard extends PureComponent<
       isGoldTier,
       preferencesActions,
       showInterestInfoBox,
-      userData,
+      userData
     } = this.props
     const highestRate = interestRateArray.reduce((a, b) => Math.max(a, b))
 
@@ -255,13 +255,13 @@ class IntroCard extends PureComponent<
   }
 }
 
-const mapStateToProps = (state) => ({
-  showInterestInfoBox: selectors.preferences.getShowInterestInfoBox(state),
+const mapStateToProps = state => ({
+  showInterestInfoBox: selectors.preferences.getShowInterestInfoBox(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  preferencesActions: bindActionCreators(actions.preferences, dispatch),
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

@@ -5,16 +5,16 @@ import { noop } from '../utils/functional'
 const isHeartbeatMsg = either(
   whereEq({
     channel: 'heartbeat',
-    event: 'updated',
+    event: 'updated'
   }),
   whereEq({
     channel: 'heartbeat',
-    event: 'snapshot',
+    event: 'snapshot'
   })
 )
 const isServerRebootMsg = whereEq({
   channel: 'server_reboot',
-  event: 'updated',
+  event: 'updated'
 })
 
 export default class ApiSocket {
@@ -80,13 +80,13 @@ export default class ApiSocket {
     return compose(JSON.parse, prop('data'))(msg)
   }
 
-  send = (message) => {
+  send = message => {
     if (this.isReady()) {
       this.socket.send(JSON.stringify(message))
     }
   }
 
-  handleSystemMessage = (msg) => {
+  handleSystemMessage = msg => {
     if (isHeartbeatMsg(msg)) {
       this.stopReconnecting()
       this.heartbeatIntervalPID = setInterval(

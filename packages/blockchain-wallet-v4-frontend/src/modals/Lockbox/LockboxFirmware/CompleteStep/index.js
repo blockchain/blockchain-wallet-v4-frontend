@@ -24,9 +24,9 @@ class CompleteStepContainer extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const enhance = compose(withRouter, connect(null, mapDispatchToProps))

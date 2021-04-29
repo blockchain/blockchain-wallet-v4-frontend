@@ -18,7 +18,7 @@ const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 const reducers = {
   spy: spyReducer,
   rates: ratesReducer,
-  profile: profileReducer,
+  profile: profileReducer
 }
 
 const pair = 'BTC-ETH'
@@ -35,24 +35,24 @@ const stubAdvice = {
     base: {
       fiat: {
         symbol: 'USD',
-        value: 96.77,
+        value: 96.77
       },
       crypto: {
         symbol: 'BTC',
-        value: 0.15,
-      },
+        value: 0.15
+      }
     },
     counter: {
       fiat: {
         symbol: 'USD',
-        value: 100.0,
+        value: 100.0
       },
       crypto: {
         symbol: 'ETH',
-        value: 0.27,
-      },
-    },
-  },
+        value: 0.27
+      }
+    }
+  }
 }
 const ratesSocket = {
   connect(onOpen, onMessage, onClose, onError, fallback) {
@@ -64,13 +64,13 @@ const ratesSocket = {
   },
   close: jest.fn(),
   send: jest.fn(),
-  isReady: jest.fn().mockReturnValue(true),
+  isReady: jest.fn().mockReturnValue(true)
 }
 
 jest.spyOn(ratesSocket, 'connect')
 
 const api = {
-  fetchAdvice: jest.fn(),
+  fetchAdvice: jest.fn()
 }
 
 api.fetchAdvice.mockReturnValue({ ratio: stubAdvice.currencyRatio })
@@ -191,7 +191,7 @@ describe('rates service', () => {
       expect(ratesSocket.send).toHaveBeenCalledTimes(2)
       expect(ratesSocket.send.mock.calls).toEqual([
         [model.rates.getRatesUnsubscribeMessage()],
-        [model.rates.getRatesSubscribeMessage(pairs)],
+        [model.rates.getRatesSubscribeMessage(pairs)]
       ])
     })
   })
@@ -227,7 +227,7 @@ describe('rates service', () => {
     it('should set pair rate to loading upon subscription success message', () => {
       ratesSocket.triggerMessage({
         ...model.rates.ADVICE_SUBSCRIBE_SUCCESS_MESSAGE,
-        pair,
+        pair
       })
       expect(
         selectors.modules.rates.getPairAdvice(pair, store.getState())
@@ -237,7 +237,7 @@ describe('rates service', () => {
     it('should set pair rate to success upon advice message if fix and volume match', () => {
       ratesSocket.triggerMessage({
         ...model.rates.ADVICE_UPDATED_MESSAGE,
-        quote: { ...stubAdvice },
+        quote: { ...stubAdvice }
       })
       expect(
         selectors.modules.rates.getPairAdvice(pair, store.getState())
@@ -245,12 +245,12 @@ describe('rates service', () => {
     })
 
     it('should update bestRates upon rates message', () => {
-      const rates = pairs.map((pair) => ({ pair, rate: Math.random() }))
+      const rates = pairs.map(pair => ({ pair, rate: Math.random() }))
       const resultRates = compose(map(head), groupBy(prop('pair')))(rates)
       ratesSocket.triggerMessage({
         ...model.rates.RATES_UPDATED_MESSAGE,
         pairs,
-        rates,
+        rates
       })
       expect(selectors.modules.rates.getBestRates(store.getState())).toEqual(
         Remote.Success(resultRates)

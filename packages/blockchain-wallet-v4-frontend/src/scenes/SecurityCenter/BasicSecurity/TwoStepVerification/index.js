@@ -19,7 +19,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
       verifyToggled: false,
       editing: false,
       authMethod: '',
-      success: false,
+      success: false
     }
 
     this.handleClick = this.handleClick.bind(this)
@@ -52,13 +52,13 @@ class TwoStepVerificationContainer extends React.PureComponent {
 
   handleUpdate() {
     this.setState({
-      editing: !this.state.editing,
+      editing: !this.state.editing
     })
   }
 
   handleClick() {
     this.setState({
-      verifyToggled: !this.state.verifyToggled,
+      verifyToggled: !this.state.verifyToggled
     })
   }
 
@@ -66,12 +66,12 @@ class TwoStepVerificationContainer extends React.PureComponent {
     const next = this.props.data.getOrElse({})
     if (next.authType > 0) {
       this.props.modalActions.showModal('ConfirmDisable2FA', {
-        authName: this.state.authName,
+        authName: this.state.authName
       })
     } else {
       this.setState({
         verifyToggled: !this.state.verifyToggled,
-        editing: true,
+        editing: true
       })
     }
   }
@@ -81,21 +81,21 @@ class TwoStepVerificationContainer extends React.PureComponent {
     if (next.smsVerified && method === 'sms') {
       this.props.securityCenterActions.setVerifiedMobileAsTwoFactor()
       this.setState({
-        verifyToggled: true,
+        verifyToggled: true
       })
     } else {
       this.setState({
-        authMethod: method,
+        authMethod: method
       })
     }
   }
 
   handleTwoFactorChange() {
     this.props.modalActions.showModal('ConfirmDisable2FA', {
-      authName: this.state.authName,
+      authName: this.state.authName
     })
     this.setState({
-      editing: false,
+      editing: false
     })
   }
 
@@ -121,7 +121,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
     const { data, ...rest } = this.props
 
     return data.cata({
-      Success: (value) => (
+      Success: value => (
         <Success
           {...rest}
           uiState={this.state}
@@ -142,26 +142,26 @@ class TwoStepVerificationContainer extends React.PureComponent {
           }}
         />
       ),
-      Failure: (message) => <Error {...rest} message={message} />,
+      Failure: message => <Error {...rest} message={message} />,
       Loading: () => <Loading {...rest} />,
-      NotAsked: () => <Loading {...rest} />,
+      NotAsked: () => <Loading {...rest} />
     })
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: getData(state),
-  mobileNumber: formValueSelector('twoStepVerification')(state, 'mobileNumber'),
+  mobileNumber: formValueSelector('twoStepVerification')(state, 'mobileNumber')
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   securityCenterActions: bindActionCreators(
     actions.modules.securityCenter,
     dispatch
   ),
   formActions: bindActionCreators(actions.form, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(

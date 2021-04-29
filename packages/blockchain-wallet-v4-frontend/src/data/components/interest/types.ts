@@ -13,7 +13,7 @@ import {
   InterestTransactionType,
   PaymentValue,
   RemoteDataType,
-  WithdrawalMinimumType,
+  WithdrawalMinimumType
 } from 'blockchain-wallet-v4/src/types'
 
 import * as AT from './actionTypes'
@@ -45,7 +45,7 @@ export enum InterestSteps {
   'ACCOUNT_SUMMARY',
   'DEPOSIT',
   'DEPOSIT_SUCCESS',
-  'WITHDRAWAL',
+  'WITHDRAWAL'
 }
 
 export type InterestStepMetadata = {

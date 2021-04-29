@@ -11,7 +11,7 @@ import {
   HeartbeatLoader,
   Link,
   Text,
-  TextGroup,
+  TextGroup
 } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
@@ -21,7 +21,7 @@ const FileContainer = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  border: 1px solid ${(props) => props.theme.blue200};
+  border: 1px solid ${props => props.theme.blue200};
   border-radius: 4px;
   padding: 4px;
   width: 100%;
@@ -42,7 +42,7 @@ const Icons = styled.div`
   justify-content: space-around;
   width: 100%;
   & > * {
-    fill: ${(props) => props.theme.blue900};
+    fill: ${props => props.theme.blue900};
   }
 `
 const IdContainer = styled.div`
@@ -69,14 +69,14 @@ const UploadZone = styled(Dropzone)`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  background-color: ${(props) => props.theme.white};
-  border: 1px solid ${(props) => props.theme.blue200};
+  background-color: ${props => props.theme.white};
+  border: 1px solid ${props => props.theme.blue200};
   border-radius: 8px;
   padding: 8px;
 `
 const UploadZoneContainer = styled.div`
   padding: 16px;
-  border: 1px dashed ${(props) => props.theme.blue200};
+  border: 1px dashed ${props => props.theme.blue200};
   border-radius: 8px;
 `
 const Wrapper = styled.div`
@@ -85,7 +85,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   padding: 35px;
   box-sizing: border-box;
-  background-color: ${(props) => props.theme.grey000};
+  background-color: ${props => props.theme.grey000};
 
   ${media.tablet`
     flex-direction: column;
@@ -102,7 +102,7 @@ const UploadDocuments = ({
   onDropAccepted,
   onSubmit,
   openDropzone,
-  setDropzoneRef,
+  setDropzoneRef
 }) => (
   <Wrapper>
     <TextContainer>
@@ -273,7 +273,7 @@ UploadDocuments.propTypes = {
   onDropAccepted: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   openDropzone: PropTypes.func.isRequired,
-  setDropzoneRef: PropTypes.func.isRequired,
+  setDropzoneRef: PropTypes.func.isRequired
 }
 
 export default UploadDocuments

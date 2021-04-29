@@ -9,7 +9,7 @@ import CheckVersionsStep from './template'
 class CheckVersionsContainer extends React.PureComponent {
   onStartInstall = () => {
     this.props.lockboxActions.changeFirmwareUpdateStep({
-      step: 'uninstall-apps',
+      step: 'uninstall-apps'
     })
   }
 
@@ -21,8 +21,8 @@ class CheckVersionsContainer extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
+const mapDispatchToProps = dispatch => ({
+  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
 export default connect(null, mapDispatchToProps)(CheckVersionsContainer)

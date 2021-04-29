@@ -14,7 +14,7 @@ import {
   InterestTransactionResponseType,
   InterestWithdrawalResponseType,
   WithdrawalMinimumType,
-  WithdrawLimits,
+  WithdrawLimits
 } from './types'
 
 export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
@@ -28,20 +28,20 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       endPoint: '/accounts/savings',
       data: {
         ccy,
-        din,
-      },
+        din
+      }
     })
 
   const getInterestEligible = (): InterestEligibleType =>
     authorizedGet({
       url: nabuUrl,
-      endPoint: '/savings/eligible',
+      endPoint: '/savings/eligible'
     })
 
   const getInterestInstruments = (): InterestInstrumentsType =>
     authorizedGet({
       url: nabuUrl,
-      endPoint: '/savings/instruments',
+      endPoint: '/savings/instruments'
     })
 
   const getInterestLimits = (
@@ -50,7 +50,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
   ): { limits: InterestLimitsType } =>
     authorizedGet({
       url: nabuUrl,
-      endPoint: `/savings/limits?ccy=${ccy}&currency=${currency}&`,
+      endPoint: `/savings/limits?ccy=${ccy}&currency=${currency}&`
     })
 
   const getInterestTransactions = (
@@ -60,7 +60,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     nextPageUrl
       ? authorizedGet({
           url: nabuUrl,
-          endPoint: nextPageUrl + '&pending=true&',
+          endPoint: nextPageUrl + '&pending=true&'
         })
       : authorizedGet({
           url: nabuUrl,
@@ -68,28 +68,28 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
           data: {
             currency,
             product: 'SAVINGS',
-            pending: true,
-          },
+            pending: true
+          }
         })
 
   const getInterestSavingsRate = (): InterestRateType =>
     authorizedGet({
       url: nabuUrl,
-      endPoint: '/savings/rates',
+      endPoint: '/savings/rates'
     })
 
   const getInterestAccount = (ccy: CoinType): InterestAccountType =>
     authorizedGet({
       url: nabuUrl,
       ignoreQueryParams: true,
-      endPoint: `/payments/accounts/savings?ccy=${ccy}`,
+      endPoint: `/payments/accounts/savings?ccy=${ccy}`
     })
 
   const getWithdrawalMinsAndFees = (): WithdrawalMinimumType =>
     authorizedGet({
       url: nabuUrl,
       ignoreQueryParams: true,
-      endPoint: '/payments/withdrawals/fees?product=SAVINGS',
+      endPoint: '/payments/withdrawals/fees?product=SAVINGS'
     })
 
   const initiateInterestWithdrawal = (
@@ -102,10 +102,10 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       data: {
         amount,
         currency,
-        withdrawalAddress,
+        withdrawalAddress
       },
       endPoint: '/savings/withdrawals',
-      url: nabuUrl,
+      url: nabuUrl
     })
 
   const transferFromCustodial = (
@@ -119,8 +119,8 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
         amount,
         currency,
         origin: 'SIMPLEBUY',
-        destination: 'SAVINGS',
-      },
+        destination: 'SAVINGS'
+      }
     })
 
   const getInterestCtaAfterTransaction = (
@@ -130,8 +130,8 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl,
       endPoint: '/savings/cta/after-transaction',
       data: {
-        currency,
-      },
+        currency
+      }
     })
 
   const stopInterestCtaAfterTransaction = (
@@ -141,26 +141,26 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl,
       endPoint: '/savings/cta/after-transaction/enabled',
       data: {
-        enabled,
-      },
+        enabled
+      }
     })
 
   const getSavingsEDDStatus = (): InterestEDDStatus =>
     authorizedGet({
       url: nabuUrl,
-      endPoint: '/savings/edd/status',
+      endPoint: '/savings/edd/status'
     })
 
   const getSavingsEDDDepositLimits = (): DepositLimits =>
     authorizedGet({
       url: nabuUrl,
-      endPoint: '/savings/edd/limits/deposit',
+      endPoint: '/savings/edd/limits/deposit'
     })
 
   const getSavingsEDDWithdrawLimits = (): WithdrawLimits =>
     authorizedGet({
       url: nabuUrl,
-      endPoint: '/savings/edd/limits/withdraw',
+      endPoint: '/savings/edd/limits/withdraw'
     })
 
   return {
@@ -178,6 +178,6 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     getWithdrawalMinsAndFees,
     initiateInterestWithdrawal,
     transferFromCustodial,
-    stopInterestCtaAfterTransaction,
+    stopInterestCtaAfterTransaction
   }
 }

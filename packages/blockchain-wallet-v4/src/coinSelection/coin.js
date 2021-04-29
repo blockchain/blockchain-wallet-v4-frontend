@@ -109,17 +109,17 @@ export const fromJS = (o, network) => {
     priv: o.priv,
     path: o.path,
     xpub: o.xpub,
-    address: o.address ? o.address : scriptToAddress(o.script, network),
+    address: o.address ? o.address : scriptToAddress(o.script, network)
   })
 }
 
 export const empty = new Coin({ value: 0 })
 
-export const inputBytes = (input) => {
+export const inputBytes = input => {
   return IO_TYPES.inputs[input.type ? input.type() : 'P2PKH']
 }
 
-export const outputBytes = (output) => {
+export const outputBytes = output => {
   return IO_TYPES.outputs[output.type ? output.type() : 'P2PKH']
 }
 

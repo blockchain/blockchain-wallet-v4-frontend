@@ -51,7 +51,7 @@ class LockboxSetupContainer extends React.PureComponent {
         ),
         template: () => (
           <DeviceSelectStep restoreDeviceLink={RESTORE_DEVICE_LINK} />
-        ),
+        )
       },
       'setup-type': {
         title: () => (
@@ -60,7 +60,7 @@ class LockboxSetupContainer extends React.PureComponent {
             defaultMessage="Let's Get Started"
           />
         ),
-        template: () => <SetupTypeStep />,
+        template: () => <SetupTypeStep />
       },
       'software-download': {
         title: () => (
@@ -69,7 +69,7 @@ class LockboxSetupContainer extends React.PureComponent {
             defaultMessage='Software Download'
           />
         ),
-        template: () => <SoftwareDownloadStep />,
+        template: () => <SoftwareDownloadStep />
       },
       'connect-device': {
         title: () => (
@@ -78,7 +78,7 @@ class LockboxSetupContainer extends React.PureComponent {
             defaultMessage='Connect Your Device'
           />
         ),
-        template: () => <ConnectDeviceStep supportLink={SUPPORT_LINK} />,
+        template: () => <ConnectDeviceStep supportLink={SUPPORT_LINK} />
       },
       'customize-device': {
         title: () => (
@@ -87,7 +87,7 @@ class LockboxSetupContainer extends React.PureComponent {
             defaultMessage='Customize Your Device'
           />
         ),
-        template: () => <CustomizeStep />,
+        template: () => <CustomizeStep />
       },
       'app-manager-step': {
         title: () => (
@@ -96,7 +96,7 @@ class LockboxSetupContainer extends React.PureComponent {
             defaultMessage='App Manager'
           />
         ),
-        template: () => <AppManagerStep />,
+        template: () => <AppManagerStep />
       },
       'pair-device': {
         title: () => (
@@ -105,7 +105,7 @@ class LockboxSetupContainer extends React.PureComponent {
             defaultMessage='Pair Device'
           />
         ),
-        template: () => <PairDeviceStep supportLink={SUPPORT_LINK} />,
+        template: () => <PairDeviceStep supportLink={SUPPORT_LINK} />
       },
       'finish-step': {
         title: () => (
@@ -114,7 +114,7 @@ class LockboxSetupContainer extends React.PureComponent {
             defaultMessage='Setup Complete'
           />
         ),
-        template: () => <FinishSetupStep onClose={this.props.closeAll} />,
+        template: () => <FinishSetupStep onClose={this.props.closeAll} />
       },
       'error-step': {
         title: () => (
@@ -123,8 +123,8 @@ class LockboxSetupContainer extends React.PureComponent {
             defaultMessage='Error'
           />
         ),
-        template: () => <ErrorStep onClose={this.onClose} />,
-      },
+        template: () => <ErrorStep onClose={this.onClose} />
+      }
     }
     const step =
       currentStep && currentStep.step
@@ -147,16 +147,16 @@ class LockboxSetupContainer extends React.PureComponent {
 LockboxSetupContainer.propTypes = {
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
-  closeAll: PropTypes.func.isRequired,
+  closeAll: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentStep: selectors.components.lockbox.getNewDeviceSetupStep(state),
-  setupType: selectors.components.lockbox.getNewDeviceSetupType(state),
+  setupType: selectors.components.lockbox.getNewDeviceSetupType(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
+const mapDispatchToProps = dispatch => ({
+  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
 const enhance = compose(

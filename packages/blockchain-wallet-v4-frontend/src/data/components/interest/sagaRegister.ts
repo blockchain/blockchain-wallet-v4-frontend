@@ -10,7 +10,7 @@ import sagas from './sagas'
 export default ({
   api,
   coreSagas,
-  networks,
+  networks
 }: {
   api: APIType
   coreSagas: any
@@ -69,7 +69,7 @@ export default ({
       [
         actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS,
         actionTypes.modules.profile.FETCH_USER_DATA_FAILURE,
-        actionTypes.modules.profile.SET_API_TOKEN_FAILURE,
+        actionTypes.modules.profile.SET_API_TOKEN_FAILURE
       ],
       interestSagas.fetchInterestBalance
     )

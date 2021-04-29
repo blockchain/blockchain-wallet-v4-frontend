@@ -9,7 +9,7 @@ import { selectors } from 'data'
 import { SUPPORTED_COINS } from 'data/coins/model/swap'
 import {
   InitSwapFormValuesType,
-  SwapSideType,
+  SwapSideType
 } from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
 import { SwapAccountType } from 'data/types'
@@ -104,7 +104,7 @@ class CoinSelection extends PureComponent<Props> {
               color='grey600'
               onClick={() =>
                 this.props.swapActions.setStep({
-                  step: 'INIT_SWAP',
+                  step: 'INIT_SWAP'
                 })
               }
             />{' '}
@@ -146,10 +146,10 @@ class CoinSelection extends PureComponent<Props> {
             )}
           </Text>
         </StickyHeaderFlyoutWrapper>
-        {SUPPORTED_COINS.map((coin) => {
+        {SUPPORTED_COINS.map(coin => {
           const accounts =
             (this.props.accounts[coin] as Array<SwapAccountType>) || []
-          return accounts.map((account) => {
+          return accounts.map(account => {
             const isAccountSelected = this.checkAccountSelected(
               this.props.side,
               values,
@@ -207,7 +207,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   custodialEligibility: selectors.components.swap
     .getCustodialEligibility(state)
     .getOrElse(false),
-  ...getData(state, ownProps),
+  ...getData(state, ownProps)
 })
 
 const connector = connect(mapStateToProps)

@@ -1,10 +1,10 @@
 import React from 'react'
 import { findDOMNode } from 'react-dom'
 
-const fontSizeToNumber = (fontSize) => Number(fontSize.replace(/px/, ''))
+const fontSizeToNumber = fontSize => Number(fontSize.replace(/px/, ''))
 
 // Empirical constant
-const getFontSizeToCharWidth = (fontSize) => {
+const getFontSizeToCharWidth = fontSize => {
   if (/px/.test(fontSize)) return 0.62
   return 0
 }
@@ -16,7 +16,7 @@ const calculateFontSizeRatio = (
   valueLength
 ) => inputWidth / (inputFontSize * fontSizeToCharWidth * valueLength)
 
-const getValueLength = (value) => {
+const getValueLength = value => {
   const length = String(value).length
   const matchDot = /\.*/.exec(value)
   const matchOne = /1*/.exec(value)
@@ -32,14 +32,14 @@ const getValueLength = (value) => {
  * THIS HOC CAN ONLY BE USED ON CLASS COMPONENTS
  * ANY SFC WILL NOT WORK AND SFC WRAPPED WITH styled() WILL BREAK IN PROD
  */
-export const ResizeableFontInput = (Component) =>
+export const ResizeableFontInput = Component =>
   class ResizeableInput extends React.PureComponent {
     static defaultProps = {
-      onUpdate: () => {},
+      onUpdate: () => {}
     }
 
     state = {
-      fontRatio: 1,
+      fontRatio: 1
     }
 
     componentDidMount() {
@@ -110,7 +110,7 @@ export const ResizeableFontInput = (Component) =>
       this.resizeInputFont()
     }
 
-    onValueChange = (e) => {
+    onValueChange = e => {
       // @ts-ignore
       this.props.input.onChange(e)
       requestAnimationFrame(this.updateValueLength)
