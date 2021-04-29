@@ -56,6 +56,7 @@ export type ModalOriginType =
   | 'EmptyFeed'
   | 'ExchangeForm'
   | 'FeaturesTopNav'
+  | 'Goals'
   | 'Header'
   | 'InterestPage'
   | 'KycDocResubmitGoal'

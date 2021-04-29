@@ -99,34 +99,39 @@ const analyticsMiddleware = () => store => next => action => {
   const state = store.getState()
   const language = state.preferences.language
 
-  switch (action.type) {
-    case '@@INIT':
-      analytics.clear()
-      break
-    case AT.analytics.LOG_PAGE_VIEW:
-      analytics.push(AnalyticsKey.PAGE_VIEW, {
-        type: AnalyticsType.VIEW,
-        originalTimestamp: getOriginalTimestamp(),
-        referrer: referrer,
-        page: action.payload.route
-      })
-      break
-    case AT.modals.SHOW_MODAL:
-      analytics.push(AnalyticsKey.MODAL_VIEW, {
-        type: AnalyticsType.VIEW,
-        originalTimestamp: getOriginalTimestamp(),
-        referrer: location,
-        origin: modalOriginDictionary(action.payload.props.origin),
-        page: modalNameDictionary(action.payload.type)
-      })
-      break
-    case AT.components.identityVerification.INITIALIZE_VERIFICATION:
-      analytics.push(AnalyticsKey.KYC_INITIALIZE_VERIFICATION, {
-        type: AnalyticsType.EVENT,
-        originalTimestamp: getOriginalTimestamp(),
-        language: language
-      })
-      break
+  try {
+    switch (action.type) {
+      case '@@INIT':
+        analytics.clear()
+        break
+      case AT.analytics.LOG_PAGE_VIEW:
+        analytics.push(AnalyticsKey.PAGE_VIEW, {
+          type: AnalyticsType.VIEW,
+          originalTimestamp: getOriginalTimestamp(),
+          referrer: referrer,
+          page: action.payload.route
+        })
+        break
+      case AT.modals.SHOW_MODAL:
+        analytics.push(AnalyticsKey.MODAL_VIEW, {
+          type: AnalyticsType.VIEW,
+          originalTimestamp: getOriginalTimestamp(),
+          referrer: location,
+          origin: modalOriginDictionary(action.payload.props.origin),
+          page: modalNameDictionary(action.payload.type)
+        })
+        break
+      case AT.components.identityVerification.INITIALIZE_VERIFICATION:
+        analytics.push(AnalyticsKey.KYC_INITIALIZE_VERIFICATION, {
+          type: AnalyticsType.EVENT,
+          originalTimestamp: getOriginalTimestamp(),
+          language: language
+        })
+        break
+    }
+  } catch (e) {
+    // eslint-disable-next-line
+    console.log(e)
   }
 
   return next(action)
