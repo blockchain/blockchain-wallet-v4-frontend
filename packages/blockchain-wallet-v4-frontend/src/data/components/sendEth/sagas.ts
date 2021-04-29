@@ -161,7 +161,7 @@ export default ({
           yield put(actions.modals.closeAllModals())
           yield put(
             actions.modals.showModal(
-              `@MODAL.SEND.${modalName}` as ModalNamesType,
+              `SEND_${modalName}_MODAL` as ModalNamesType,
               {
                 coin: payload,
                 origin: 'SendEth'
@@ -615,7 +615,7 @@ export default ({
       }
 
       yield put(
-        actions.modals.showModal('@MODAL.SEND.ETH', {
+        actions.modals.showModal('SEND_ETH_MODAL', {
           origin: 'RetrySendEth',
           coin
         })

@@ -35,7 +35,7 @@ class FeaturesContainer extends React.PureComponent<Props> {
       })
     } else if (includes(coin, keys(supportedCoins))) {
       return this.props.modalActions.showModal(
-        `@MODAL.SEND.${coin}` as ModalNamesType,
+        `SEND_${coin}_MODAL` as ModalNamesType,
         {
           lockboxIndex: lockboxPath ? lockboxDeviceId : null,
           origin: 'FeaturesTopNav'
@@ -43,7 +43,7 @@ class FeaturesContainer extends React.PureComponent<Props> {
       )
     }
     return this.props.modalActions.showModal(
-      `@MODAL.SEND.BTC` as ModalNamesType,
+      `SEND_BTC_MODAL` as ModalNamesType,
       {
         lockboxIndex: lockboxPath ? lockboxDeviceId : null,
         origin: 'FeaturesTopNav'

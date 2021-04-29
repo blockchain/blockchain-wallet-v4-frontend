@@ -77,4 +77,4 @@ class ShowXPubContainer extends Component {
   }
 }
 
-export default modalEnhancer('ShowXPub')(ShowXPubContainer)
+export default modalEnhancer('SHOW_XPUB_MODAL')(ShowXPubContainer)
