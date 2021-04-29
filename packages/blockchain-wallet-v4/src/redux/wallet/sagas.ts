@@ -190,6 +190,10 @@ export default ({ api, networks }) => {
     }
   }
 
+  const loginGuidSaga = function * ({ email }) {
+    yield call(api.loginGuid, email)
+  }
+
   const restoreWalletCredentialsFromMetadata = function * (mnemonic) {
     const seedHex = BIP39.mnemonicToEntropy(mnemonic)
     const getMetadataNode = compose(
@@ -371,6 +375,7 @@ export default ({ api, networks }) => {
     checkAndUpdateWalletNames,
     createWalletSaga,
     fetchWalletSaga,
+    loginGuidSaga,
     importLegacyAddress,
     newHDAccount,
     refetchContextData,

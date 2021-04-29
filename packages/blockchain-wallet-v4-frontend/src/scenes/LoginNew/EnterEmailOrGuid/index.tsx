@@ -13,7 +13,7 @@ import {
   TextBox
 } from 'components/Form'
 // import Bowser from 'bowser'
-import { required, validWalletIdOrEmail } from 'services/forms'
+import { isGuid, required, validWalletIdOrEmail } from 'services/forms'
 
 import { LoginSteps, Props as OwnProps } from '..'
 import {
@@ -31,6 +31,11 @@ import {
 const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
   const { busy, guidOrEmail, invalid, loginError, setStep, submitting } = props
 
+  const handleContinue = () => {
+    isGuid(guidOrEmail)
+      ? setStep(LoginSteps.CHECK_EMAIL)
+      : props.authActions.loginGuid(guidOrEmail)
+  }
   // const accountLocked =
   //     loginError &&
   //     (loginError.toLowerCase().includes('this account has been locked') ||
@@ -118,7 +123,7 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
           data-e2e='loginButton'
           style={{ marginBottom: '16px' }}
           // TODO: change this to trigger call for email
-          onClick={() => setStep(LoginSteps.CHECK_EMAIL)}
+          onClick={() => handleContinue()}
         >
           {busy && !loginError ? (
             <HeartbeatLoader height='20px' width='20px' color='white' />

@@ -48,6 +48,7 @@ class Login extends PureComponent<Props> {
   componentDidMount() {
     // TODO: browser check
     // TODO: check for existing cookie/localstorage?
+    this.setStep(LoginSteps.ENTER_EMAIL_GUID)
   }
 
   setStep = (step: LoginSteps) => {

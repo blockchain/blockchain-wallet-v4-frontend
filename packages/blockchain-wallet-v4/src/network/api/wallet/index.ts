@@ -136,6 +136,14 @@ export default ({ get, post, rootUrl }) => {
       sessionToken
     })
 
+  const loginGuid = (email, sessionToken) =>
+    post({
+      url: rootUrl,
+      endPoint: '/wallet',
+      data: { method: 'send-guid-reminder', email },
+      sessionToken
+    })
+
   const deauthorizeBrowser = sessionToken =>
     get({
       url: rootUrl,
@@ -230,6 +238,7 @@ export default ({ get, post, rootUrl }) => {
     getPairingPassword,
     getPinValue,
     handle2faReset,
+    loginGuid,
     obtainSessionToken,
     pollForSessionGUID,
     sendSecureChannel,
