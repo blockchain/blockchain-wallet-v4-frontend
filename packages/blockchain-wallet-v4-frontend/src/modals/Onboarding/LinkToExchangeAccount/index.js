@@ -82,7 +82,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('LinkToExchangeAccount'),
+  modalEnhancer('LINK_TO_EXCHANGE_ACCOUNT_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

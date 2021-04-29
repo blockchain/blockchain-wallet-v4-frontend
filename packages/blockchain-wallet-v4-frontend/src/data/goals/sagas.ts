@@ -46,6 +46,8 @@ import { DeepLinkGoal, GoalType } from './types'
 
 const { TRANSACTION_EVENTS } = model.analytics
 
+const origin = 'Goals'
+
 export default ({ api, coreSagas, networks }) => {
   const { DOC_RESUBMISSION_REASONS, KYC_STATES, TIERS } = model.profile
   const { NONE } = KYC_STATES
@@ -267,7 +269,11 @@ export default ({ api, coreSagas, networks }) => {
       selectors.modules.profile.getBlockstackTag
     )).getOrElse(false)
     if (current === TIERS[2] && !blockstackTag) {
-      yield put(actions.goals.addInitialModal('airdropClaim', 'AirdropClaim'))
+      yield put(
+        actions.goals.addInitialModal('airdropClaim', 'AIRDROP_CLAIM_MODAL', {
+          origin
+        })
+      )
     }
   }
 
@@ -301,7 +307,8 @@ export default ({ api, coreSagas, networks }) => {
       actions.goals.addInitialModal('simpleBuyModal', 'SIMPLE_BUY_MODAL', {
         amount,
         crypto,
-        fiatCurrency
+        fiatCurrency,
+        origin
       })
     )
   }
@@ -312,7 +319,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(
       actions.goals.addInitialModal(
         'linkAccount',
-        'LinkFromExchangeAccount',
+        'LINK_FROM_EXCHANGE_ACCOUNT_MODAL',
         data
       )
     )
@@ -359,7 +366,7 @@ export default ({ api, coreSagas, networks }) => {
 
       if (new Date() > new Date(paymentRequest.expires)) {
         return yield put(
-          actions.modals.showModal('BitPayInvoiceExpired', {
+          actions.modals.showModal('BITPAY_INVOICE_EXPIRED_MODAL', {
             origin: 'PaymentProtocolGoal'
           })
         )
@@ -400,7 +407,8 @@ export default ({ api, coreSagas, networks }) => {
                 fiat: paymentFiatAmount
               },
               description: merchant,
-              payPro
+              payPro,
+              origin
             }
           )
         )
@@ -427,7 +435,8 @@ export default ({ api, coreSagas, networks }) => {
                 fiat: paymentFiatAmount
               },
               description: merchant,
-              payPro
+              payPro,
+              origin
             }
           )
         )
@@ -466,7 +475,8 @@ export default ({ api, coreSagas, networks }) => {
       actions.goals.addInitialModal('payment', model.components.sendBtc.MODAL, {
         to: address,
         description,
-        amount: { coin: amount, fiat }
+        amount: { coin: amount, fiat },
+        origin
       })
     )
   }
@@ -494,7 +504,8 @@ export default ({ api, coreSagas, networks }) => {
         {
           to: address,
           amount: { coin: amount, fiat },
-          memo
+          memo,
+          origin
         }
       )
     )
@@ -517,9 +528,10 @@ export default ({ api, coreSagas, networks }) => {
       return yield put(
         actions.goals.addInitialModal(
           'upgradeForAirdrop',
-          'UpgradeForAirdrop',
+          'UPGRADE_FOR_AIRDROP_MODAL',
           {
-            campaign: 'BLOCKSTACK'
+            campaign: 'BLOCKSTACK',
+            origin
           }
         )
       )
@@ -530,7 +542,7 @@ export default ({ api, coreSagas, networks }) => {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
-    yield put(actions.goals.addInitialModal('swap', 'SWAP_MODAL'))
+    yield put(actions.goals.addInitialModal('swap', 'SWAP_MODAL', { origin }))
   }
 
   const runSwapUpgradeGoal = function * (goal: GoalType) {
@@ -547,9 +559,10 @@ export default ({ api, coreSagas, networks }) => {
     )).getOrElse(false)
     if (closeToTier1Limit)
       return yield put(
-        actions.goals.addInitialModal('swapUpgrade', 'KycTierUpgrade', {
+        actions.goals.addInitialModal('swapUpgrade', 'KYC_TIER_UPGRADE_MODAL', {
           nextTier: TIERS[2],
-          currentTier: TIERS[1]
+          currentTier: TIERS[1],
+          origin
         })
       )
   }
@@ -567,7 +580,9 @@ export default ({ api, coreSagas, networks }) => {
 
     if (showKycDocResubmitModal) {
       yield put(
-        actions.goals.addInitialModal('kycDocResubmit', 'KycDocResubmit')
+        actions.goals.addInitialModal('kycDocResubmit', 'KYC_RESUBMIT_MODAL', {
+          origin
+        })
       )
     }
   }
@@ -589,7 +604,11 @@ export default ({ api, coreSagas, networks }) => {
     const kycNotFinished = yield call(isKycNotFinished)
     if (kycNotFinished)
       yield put(
-        actions.goals.addInitialModal('swapGetStarted', 'SwapGetStarted')
+        actions.goals.addInitialModal(
+          'swapGetStarted',
+          'SWAP_GET_STARTED_MODAL',
+          { origin }
+        )
       )
   }
 
@@ -619,7 +638,11 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.goals.deleteGoal(id))
 
     if (firstLogin) {
-      yield put(actions.goals.addInitialModal('welcomeModal', 'WELCOME_MODAL'))
+      yield put(
+        actions.goals.addInitialModal('welcomeModal', 'WELCOME_MODAL', {
+          origin
+        })
+      )
     }
   }
 
@@ -649,9 +672,10 @@ export default ({ api, coreSagas, networks }) => {
       const feeAmountBigInt = new BigNumber(feeAmount)
       if (legacyEthBalanceBigInt.isGreaterThan(feeAmountBigInt)) {
         yield put(
-          actions.goals.addInitialModal('transferEth', 'TransferEth', {
+          actions.goals.addInitialModal('transferEth', 'TRANSFER_ETH_MODAL', {
             legacyEthBalance,
-            legacyEthAddr
+            legacyEthAddr,
+            origin
           })
         )
       }
@@ -705,7 +729,11 @@ export default ({ api, coreSagas, networks }) => {
           )
         )
         yield put(
-          actions.goals.addInitialModal('interestPromo', 'InterestPromo')
+          actions.goals.addInitialModal(
+            'interestPromo',
+            'INTEREST_PROMO_MODAL',
+            { origin }
+          )
         )
       }
     }
