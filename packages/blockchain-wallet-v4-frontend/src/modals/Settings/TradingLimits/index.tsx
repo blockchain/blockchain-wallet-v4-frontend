@@ -46,20 +46,20 @@ class TradingLimits extends PureComponent<Props, State> {
       >
         <FlyoutChild>
           {this.props.data.cata({
-            Success: (val) => (
+            Success: val => (
               <Success
                 {...val}
                 {...this.props}
                 handleClose={this.handleClose}
               />
             ),
-            Failure: (error) => (
+            Failure: error => (
               <Text color='red600' size='14px' weight={400}>
                 {error}
               </Text>
             ),
             Loading: () => <Loading />,
-            NotAsked: () => <Loading />,
+            NotAsked: () => <Loading />
           })}
         </FlyoutChild>
       </Flyout>
@@ -77,11 +77,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     actions.components.identityVerification,
     dispatch
   ),
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
 })
 
 const mapStateToProps = (state: RootState) => ({
-  data: getData(state),
+  data: getData(state)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

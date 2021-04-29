@@ -545,9 +545,11 @@ export default ({
     try {
       yield call(api.stopInterestCtaAfterTransaction, false)
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'InterestPromo', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'INTEREST_PROMO_MODAL', e)
+      )
     }
-    yield put(actions.modals.closeModal('InterestPromo'))
+    yield put(actions.modals.closeModal('INTEREST_PROMO_MODAL'))
   }
 
   const fetchEDDStatus = function * () {

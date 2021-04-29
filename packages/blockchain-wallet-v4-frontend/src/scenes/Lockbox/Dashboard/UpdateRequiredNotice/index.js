@@ -95,7 +95,7 @@ class UpdateRequiredNotice extends React.PureComponent {
   }
 
   onSoftwareDownload = () => {
-    this.props.modalActions.showModal('Confirm', {
+    this.props.modalActions.showModal('CONFIRMATION_MODAL', {
       hideCancel: true,
       title: C.LOCKBOX_SOFTWARE_DOWNLOAD_TITLE,
       message: C.LOCKBOX_SOFTWARE_DOWNLOAD_MSG

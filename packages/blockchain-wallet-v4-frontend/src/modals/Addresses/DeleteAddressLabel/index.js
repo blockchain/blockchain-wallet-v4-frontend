@@ -44,7 +44,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('DeleteAddressLabel'),
+  modalEnhancer('DELETE_ADDRESS_LABEL_MODAL'),
   connect(undefined, mapDispatchToProps)
 )
 

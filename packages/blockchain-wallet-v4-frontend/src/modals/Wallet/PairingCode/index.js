@@ -156,7 +156,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('PairingCode'),
+  modalEnhancer('PAIRING_CODE_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 
