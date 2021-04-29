@@ -26,8 +26,8 @@ const formatTxData = (d, coin) => [
   d.description || d.note
 ]
 
-// haskoin returns data differently fiat values in 
-// scientific notation, we need to format it for 
+// haskoin returns data differently fiat values in
+// scientific notation, we need to format it for
 // tx report
 const formatHaskoinData = (d, coin, currency) => [
   d.date,
@@ -36,9 +36,9 @@ const formatHaskoinData = (d, coin, currency) => [
   d.type,
   d.amount || d.amount_btc || d.amount_bch,
   fiatToString({
-      value: d.value_then,
-      unit: currency
-    }), 
+    value: d.value_then,
+    unit: currency
+  }),
   fiatToString({
     value: d.value_now,
     unit: currency

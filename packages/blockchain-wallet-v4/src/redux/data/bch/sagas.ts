@@ -147,13 +147,18 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchTransactionHistoryLoading())
       const currency = yield select(selectors.settings.getCurrency)
       if (address) {
-         // TODO: SEGWIT remove w/ DEPRECATED_V3
-         // remove address.length check, all
-         // wallets will have a derivations array
-        const bchLegacyAddress = prop('address', address.length === 2 && address.find( add => add.type === 'legacy'))
+        // TODO: SEGWIT remove w/ DEPRECATED_V3
+        // remove address.length check, all
+        // wallets will have a derivations array
+        const bchLegacyAddress = prop(
+          'address',
+          address.length === 2 && address.find(add => add.type === 'legacy')
+        )
         // TODO: SEGWIT remove w/ DEPRECATED_V3
         // Just pass bchLegacy to function
-        const convertedAddress = convertFromCashAddrIfCashAddr(bchLegacyAddress || address)
+        const convertedAddress = convertFromCashAddrIfCashAddr(
+          bchLegacyAddress || address
+        )
         const data = yield call(
           api.getBchTransactionHistory,
           convertedAddress,

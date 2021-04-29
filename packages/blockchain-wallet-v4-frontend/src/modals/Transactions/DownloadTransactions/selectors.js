@@ -97,14 +97,17 @@ const getBtcData = createSelector(
   (wallet, currencyR, dataR) => {
     const currency = currencyR.getOrElse('USD')
     const transform = data => {
-      const transformedData = map(tx => formatHaskoinData(tx, 'BTC', currency), data)
+      const transformedData = map(
+        tx => formatHaskoinData(tx, 'BTC', currency),
+        data
+      )
       return [reportHeaders].concat(transformedData)
     }
     return {
       csvData: dataR
         .map(assocBTCNotes(wallet))
         .map(transform)
-        .getOrElse([]),
+        .getOrElse([])
     }
   }
 )
@@ -118,7 +121,10 @@ const getBchData = createSelector(
   (notesR, currencyR, dataR) => {
     const currency = currencyR.getOrElse('USD')
     const transform = data => {
-      const transformedData = map(tx => formatHaskoinData(tx, 'BCH', currency), data)
+      const transformedData = map(
+        tx => formatHaskoinData(tx, 'BCH', currency),
+        data
+      )
       return [reportHeaders].concat(transformedData)
     }
     return {
