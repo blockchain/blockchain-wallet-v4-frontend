@@ -19,7 +19,7 @@ class BtcWalletsContainer extends React.Component<Props> {
 
   onAddNewWallet = wallets => {
     const allWalletLabels = wallets.map(wallet => wallet.label)
-    this.props.modalActions.showModal('AddBtcWallet', {
+    this.props.modalActions.showModal('ADD_BTC_WALLET_MODAL', {
       uniqueWalletName: value =>
         requireUniqueWalletName(value, allWalletLabels),
       origin: 'SettingsPage'
@@ -31,7 +31,7 @@ class BtcWalletsContainer extends React.Component<Props> {
   }
 
   onClickImport = () => {
-    this.props.modalActions.showModal('ImportBtcAddress', {
+    this.props.modalActions.showModal('IMPORT_BTC_ADDRESS_MODAL', {
       origin: 'SettingsPage'
     })
   }

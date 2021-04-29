@@ -51,7 +51,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('SignMessage'),
+  modalEnhancer('SIGN_MESSAGE_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

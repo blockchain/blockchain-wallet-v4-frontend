@@ -103,7 +103,7 @@ export const getMaxMin = (
               convertBaseToStandard('FIAT', limitMaxAmount)
             )
             const baseMaxLimitAmount = Number(limits.maxOrder)
-            if (baseMaxLimitAmount < buyMaxItem) {
+            if (baseMaxLimitAmount < buyMaxItem && !isSddFlow) {
               limitMaxAmount = baseMaxLimitAmount
             }
           }
@@ -170,7 +170,7 @@ export const getMaxMin = (
               convertBaseToStandard('FIAT', limitMinAmount)
             )
             const baseMinLimitAmount = Number(limits.minOrder)
-            if (baseMinLimitAmount > buyMinItem) {
+            if (baseMinLimitAmount > buyMinItem && !isSddFlow) {
               limitMinAmount = baseMinLimitAmount
             }
           }

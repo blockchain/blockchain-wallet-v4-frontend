@@ -166,7 +166,7 @@ const mapDispatchToProps = (dispatch: Dispatch, { coin }: OwnProps) => {
 }
 
 const enhance = compose<any>(
-  modalEnhancer('TRANSACTION_REPORT'),
+  modalEnhancer('TRANSACTION_REPORT_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

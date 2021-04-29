@@ -289,6 +289,8 @@ const buildDevServerConfig = (
         `frame-src http://localhost:8081 ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://localhost:8080 http://localhost:8080`,
         `child-src ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         [
+          //TODO remove this
+          'https://api.dev.blockchain.info',
           'connect-src',
           "'self'",
           'data:',
