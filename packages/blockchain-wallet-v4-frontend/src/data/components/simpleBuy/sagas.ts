@@ -451,7 +451,9 @@ export default ({
     ) {
       return order
     } else {
-      throw new Error('retrying to fetch for FINISHED order')
+      throw new Error(
+        'Order verification timed out. It will continue in the background.'
+      )
     }
   }
 

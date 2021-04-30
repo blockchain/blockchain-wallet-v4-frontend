@@ -48,7 +48,7 @@ class OrderSummary extends PureComponent<Props> {
     const { state } = this.props.order
     return this.props.data.cata({
       Success: val => {
-        return state === 'FAILED' ? (
+        return state === 'FAILED' || state === 'CANCELED' ? (
           <DataError onClick={this.handleRefresh} />
         ) : val.userData?.tiers?.current !== 2 ? (
           <SuccessSdd {...val} {...this.props} />

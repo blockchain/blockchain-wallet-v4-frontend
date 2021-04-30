@@ -47,7 +47,7 @@ export interface OBInstitution {
   features: string[]
   fullName: string
   id: string
-  media: OBMediaType
+  media: OBMediaType[]
   name: string
 }
 interface OBAttributesType {
@@ -127,7 +127,7 @@ export type BankDetails = {
 interface BankTransferAccountAttrs {
   authorisationUrl: string
   entity: OBEntityType
-  media: OBMediaType
+  media: OBMediaType[]
   qrcodeUrl: string
 }
 
@@ -156,7 +156,8 @@ export enum AddBankStepType {
   ADD_BANK_AUTHORIZE = 'ADD_BANK_AUTHORIZE',
   ADD_BANK_CONNECT = 'ADD_BANK_CONNECT',
   ADD_BANK_HANDLER = 'ADD_BANK_HANDLER',
-  ADD_BANK_STATUS = 'ADD_BANK_STATUS'
+  ADD_BANK_STATUS = 'ADD_BANK_STATUS',
+  LOADING = 'LOADING'
 }
 
 export enum BrokerageModalOriginType {
