@@ -50,16 +50,6 @@ export const remindGuidSuccess = () => ({ type: AT.REMIND_GUID_SUCCESS })
 export const remindGuidFailure = () => ({ type: AT.REMIND_GUID_FAILURE })
 export const remindGuidNotAsked = () => ({ type: AT.REMIND_GUID_NOTASKED })
 
-// LOGIN GUID
-export const loginGuid = email => ({
-  type: AT.LOGIN_GUID,
-  payload: { email }
-})
-export const loginGuidLoading = () => ({ type: AT.LOGIN_GUID_LOADING })
-export const loginGuidSuccess = () => ({ type: AT.LOGIN_GUID_SUCCESS })
-export const loginGuidFailure = () => ({ type: AT.LOGIN_GUID_FAILURE })
-export const loginGuidNotAsked = () => ({ type: AT.LOGIN_GUID_NOTASKED })
-
 // 2FA
 export const resendSmsCode = guid => ({
   type: AT.RESEND_SMS_CODE,

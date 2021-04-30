@@ -374,22 +374,6 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const loginGuid = function * (action) {
-    try {
-      yield put(actions.auth.loginGuidLoading())
-      const sessionToken = yield call(api.obtainSessionToken)
-      yield call(coreSagas.wallet.loginGuidSaga, action.payload, sessionToken)
-      // yield call(api.loginGuid, action.payload, sessionToken)
-      yield put(actions.form.change('loginNew', 'step', 4))
-      yield put(actions.alerts.displaySuccess(C.GUID_SENT_SUCCESS))
-      yield put(actions.auth.loginGuidSuccess())
-    } catch (e) {
-      yield put(actions.auth.loginGuidFailure())
-      yield put(actions.logs.logErrorMessage(logLocation, 'loginGuid', e))
-      yield put(actions.alerts.displayError(C.GUID_SENT_ERROR))
-    }
-  }
-
   const mobileLogin = function * (action) {
     try {
       yield put(actions.auth.mobileLoginStarted())
@@ -616,7 +600,6 @@ export default ({ api, coreSagas }) => {
     checkDataErrors,
     deauthorizeBrowser,
     login,
-    loginGuid,
     logout,
     logoutClearReduxStore,
     loginRoutineSaga,

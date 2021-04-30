@@ -7,6 +7,7 @@ import * as actions from './actions'
 import alerts from './alerts/sagaRegister'
 import analytics from './analytics/sagaRegister'
 import auth from './auth/sagaRegister'
+import authNew from './authNew/sagaRegister'
 import components from './components/sagaRegister'
 import custodial from './custodial/sagaRegister'
 import goals from './goals/sagaRegister'
@@ -69,6 +70,7 @@ export default function * rootSaga({
     fork(alerts),
     fork(analytics()),
     fork(auth({ api, coreSagas })),
+    fork(authNew({ api, coreSagas })),
     fork(components({ api, coreSagas, networks, options })),
     fork(custodial({ api })),
     fork(modules({ api, coreSagas, networks })),
