@@ -9,8 +9,9 @@ import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { crypto as wCrypto } from 'blockchain-wallet-v4/src'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { selectors } from 'data'
+import { LoginSteps } from 'data/types'
 
-import { LoginSteps, Props as OwnProps } from '..'
+import { Props as OwnProps } from '..'
 import { BackArrowFormHeader } from '../model'
 
 const Body = styled.div`

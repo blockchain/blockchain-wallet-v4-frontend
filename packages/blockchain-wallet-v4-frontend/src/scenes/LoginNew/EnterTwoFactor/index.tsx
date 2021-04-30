@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Field, InjectedFormProps } from 'redux-form'
 
-import { HeartbeatLoader, Link , Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import {
   FormError,
   FormGroup,
@@ -14,9 +14,10 @@ import {
   TextBox
 } from 'components/Form'
 import { actions, selectors } from 'data'
+import { LoginSteps } from 'data/types'
 import { required } from 'services/forms'
 
-import { LoginSteps, Props as OwnProps } from '..'
+import { Props as OwnProps } from '..'
 import {
   ActionButton,
   BackArrowFormHeader,

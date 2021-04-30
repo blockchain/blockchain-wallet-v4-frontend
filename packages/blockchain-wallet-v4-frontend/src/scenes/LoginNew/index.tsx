@@ -10,6 +10,7 @@ import { Button, Link, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
+import { LoginFormType,LoginSteps } from 'data/types'
 
 import Loading from '../loading.public'
 import CheckEmail from './CheckEmail'
@@ -19,23 +20,6 @@ import EnterPassword from './EnterPassword'
 import EnterTwoFactor from './EnterTwoFactor'
 import { LOGIN_NEW, SignUpText, SubCard } from './model'
 import VerificationMobile from './VerificationMobile'
-
-// TODO: move this
-export enum LoginSteps {
-  ENTER_EMAIL_GUID,
-  ENTER_PASSWORD,
-  ENTER_TWO_FACTOR,
-  LOADING,
-  CHECK_EMAIL,
-  VERIFICATION_MOBILE
-}
-
-export type LoginFormType = {
-  guidOrEmail: string
-  password: string
-  step: LoginSteps
-  twoFA?: number | string
-}
 
 // TODO: remove temp
 const ButtonRow = styled.div`
@@ -48,14 +32,14 @@ class Login extends PureComponent<Props> {
   componentDidMount() {
     // TODO: browser check
     // TODO: check for existing cookie/localstorage?
-    this.setStep(LoginSteps.ENTER_EMAIL_GUID)
+    // this.setStep(LoginSteps.ENTER_EMAIL_GUID)
   }
 
   setStep = (step: LoginSteps) => {
     this.props.formActions.change(LOGIN_NEW, 'step', step)
   }
 
-  onSubmit = () => {
+  handleSubmit = () => {
     const { code, guid, password } = this.props
     let auth = code
     // only uppercase if authType is not Yubikey
@@ -83,6 +67,11 @@ class Login extends PureComponent<Props> {
       loginError: error,
       handleSmsResend: this.handleSmsResend
     }
+    // const params = pathname.split('/')
+    // const loginObject = JSON.parse((atob(params[2]))) as LoginObject
+    // const guidFromRoute = prop('guid', loginObject)
+    // const emailFromRoute = prop('email', loginObject)
+    // console.log(prop('guid', loginObject))
     return (
       <>
         <Text
@@ -124,7 +113,7 @@ class Login extends PureComponent<Props> {
           )}
         </Text>
         <Wrapper>
-          <Form>
+          <Form onSubmit={this.handleSubmit}>
             {(() => {
               switch (step) {
                 case LoginSteps.ENTER_EMAIL_GUID:
@@ -260,11 +249,13 @@ const mapStateToProps = state => ({
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
-  password: formValueSelector(LOGIN_NEW)(state, 'password')
+  password: formValueSelector(LOGIN_NEW)(state, 'password'),
+  pathname: selectors.router.getPathname(state) as string
 })
 
 const mapDispatchToProps = dispatch => ({
   authActions: bindActionCreators(actions.auth, dispatch),
+  authNewActions: bindActionCreators(actions.authNew, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 

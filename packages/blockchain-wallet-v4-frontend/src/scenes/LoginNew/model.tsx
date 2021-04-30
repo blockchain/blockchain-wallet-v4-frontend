@@ -23,8 +23,7 @@ import {
   // TextBox
 } from 'components/Form'
 import { Wrapper } from 'components/Public'
-
-import { LoginFormType, LoginSteps } from '.'
+import { LoginFormType, LoginSteps } from 'data/types'
 
 export const LOGIN_NEW = 'loginNew'
 
@@ -111,6 +110,7 @@ const Column = styled.div`
 export const BackArrowFormHeader = (props: {
   formValues: LoginFormType
   setStep: (LoginSteps) => void
+  step?: LoginSteps
 }) => {
   const guid = 'testguid1234'
   return (
@@ -134,13 +134,15 @@ export const BackArrowFormHeader = (props: {
               values={{ email: props.formValues.guidOrEmail }}
             />
           </Text>
-          <Text size='12px' weight={500} color='grey400'>
-            <FormattedMessage
-              id='scences.login.wallet_guid'
-              defaultMessage='Wallet: {guid}'
-              values={{ guid }}
-            />
-          </Text>
+          {!LoginSteps.CHECK_EMAIL && (
+            <Text size='12px' weight={500} color='grey400'>
+              <FormattedMessage
+                id='scences.login.wallet_guid'
+                defaultMessage='Wallet: {guid}'
+                values={{ guid }}
+              />
+            </Text>
+          )}
         </Column>
       </TopRow>
     </>

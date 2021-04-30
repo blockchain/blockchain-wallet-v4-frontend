@@ -4,8 +4,9 @@ import { InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
+import { LoginSteps } from 'data/types'
 
-import { LoginSteps, Props as OwnProps } from '..'
+import { Props as OwnProps } from '..'
 import { BackArrowFormHeader, CircleBackground } from '../model'
 
 const FormBody = styled.div`

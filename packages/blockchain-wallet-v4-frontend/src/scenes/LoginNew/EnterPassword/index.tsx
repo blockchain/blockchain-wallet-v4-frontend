@@ -13,9 +13,10 @@ import {
   PasswordBox
 } from 'components/Form'
 import { selectors } from 'data'
+import { LoginSteps } from 'data/types'
 import { required } from 'services/forms'
 
-import { LoginSteps, Props as OwnProps } from '..'
+import { Props as OwnProps } from '..'
 import {
   ActionButton,
   BackArrowFormHeader,

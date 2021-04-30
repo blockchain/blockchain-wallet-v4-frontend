@@ -12,10 +12,11 @@ import {
   // PasswordBox,
   TextBox
 } from 'components/Form'
+import { LoginSteps } from 'data/types'
 // import Bowser from 'bowser'
 import { isGuid, required, validWalletIdOrEmail } from 'services/forms'
 
-import { LoginSteps, Props as OwnProps } from '..'
+import { Props as OwnProps } from '..'
 import {
   ActionButton,
   HelpRow,
@@ -33,8 +34,8 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
 
   const handleContinue = () => {
     isGuid(guidOrEmail)
-      ? setStep(LoginSteps.CHECK_EMAIL)
-      : props.authActions.loginGuid(guidOrEmail)
+      ? setStep(LoginSteps.ENTER_PASSWORD)
+      : props.authNewActions.loginGuid(guidOrEmail)
   }
   // const accountLocked =
   //     loginError &&
