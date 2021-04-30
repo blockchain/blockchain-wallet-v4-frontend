@@ -16,6 +16,8 @@ import { OwnProps, Props as _P, SuccessStateType } from '.'
 type Props = OwnProps & SuccessStateType & _P
 
 const Success = (props: Props) => {
+  const media = props.account?.attributes?.media
+  const logo = (media && media.length && media[0].source) || ''
   return (
     <BankWrapper>
       <ModalNavWithCloseIcon {...props}>
@@ -26,7 +28,7 @@ const Success = (props: Props) => {
       </ModalNavWithCloseIcon>
       <LinkOptionsWrapper>
         <ScanWithPhone
-          logo={props.account?.attributes?.media[0].source as string}
+          logo={logo as string}
           qrCode={props.account?.attributes?.qrcodeUrl as string}
         />
         <Hr />

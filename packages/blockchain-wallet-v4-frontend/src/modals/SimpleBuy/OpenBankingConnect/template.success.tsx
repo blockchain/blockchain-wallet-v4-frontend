@@ -17,7 +17,7 @@ type Props = _SS & _P
 
 const Success = (props: Props) => {
   const media = props.account?.attributes?.media
-  const logo = media && media.length && media[0].source
+  const logo = (media && media.length && media[0].source) || ''
   return (
     <BankWrapper>
       <ModalNavWithCloseIcon handleClose={props.handleClose}>
