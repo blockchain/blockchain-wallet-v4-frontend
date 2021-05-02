@@ -99,7 +99,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   connect(null, mapDispatchToProps),
-  modalEnhancer('KycDocResubmit')
+  modalEnhancer('KYC_RESUBMIT_MODAL')
 )
 
 export default enhance(KycDocResubmit)

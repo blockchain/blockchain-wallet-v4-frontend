@@ -53,6 +53,6 @@ export type LinkStatePropsType = {
 
 export type Props = OwnPropsType & ConnectedProps<typeof connector>
 
-const enhance = compose(modalEnhancer('InterestPromo'), connector)
+const enhance = compose(modalEnhancer('INTEREST_PROMO_MODAL'), connector)
 
 export default enhance(InterestPromo)

@@ -18,7 +18,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('BitPayInvoiceExpired'),
+  modalEnhancer('BITPAY_INVOICE_EXPIRED_MODAL'),
   connect(undefined, mapDispatchToProps)
 )
 

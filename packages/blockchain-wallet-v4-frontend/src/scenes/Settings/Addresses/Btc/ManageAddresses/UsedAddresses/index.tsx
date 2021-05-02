@@ -2,32 +2,39 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+import { HDDerivationType } from 'core/types'
 import { actions, selectors } from 'data'
 
 import UsedAddressesShowTemplate from './template'
 
 class UsedAddressesContainer extends React.PureComponent<Props> {
   onShowUsedAddresses = () => {
-    if (this.props.usedAddressesVisible) {
-      this.props.componentActions.toggleUsedAddresses(
-        this.props.walletIndex,
-        false
-      )
+    const {
+      componentActions,
+      derivation,
+      modalsActions,
+      usedAddressesVisible,
+      walletIndex
+    } = this.props
+    if (usedAddressesVisible) {
+      componentActions.toggleUsedAddresses(walletIndex, derivation, false)
     } else {
-      this.props.modalsActions.showModal('ShowUsedAddresses', {
-        walletIndex: this.props.walletIndex,
-        origin: 'SettingsPage'
+      modalsActions.showModal('SHOW_USED_ADDRESS_MODAL', {
+        origin: 'SettingsPage',
+        walletIndex,
+        derivation
       })
     }
   }
 
   render() {
-    const { usedAddressesVisible, walletIndex } = this.props
+    const { derivation, usedAddressesVisible, walletIndex } = this.props
 
     return (
       <UsedAddressesShowTemplate
-        usedAddressesVisible={usedAddressesVisible}
+        derivation={derivation}
         onShowUsedAddresses={this.onShowUsedAddresses}
+        usedAddressesVisible={usedAddressesVisible}
         walletIndex={walletIndex}
       />
     )
@@ -37,7 +44,8 @@ class UsedAddressesContainer extends React.PureComponent<Props> {
 const mapStateToProps = (state, ownProps) => ({
   usedAddressesVisible: selectors.components.manageAddresses.getWalletUsedAddressVisibility(
     state,
-    ownProps.walletIndex
+    ownProps.walletIndex,
+    ownProps.derivation
   )
 })
 
@@ -51,6 +59,9 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type Props = { walletIndex: number } & ConnectedProps<typeof connector>
+type Props = {
+  derivation: HDDerivationType
+  walletIndex: number
+} & ConnectedProps<typeof connector>
 
 export default connector(UsedAddressesContainer)

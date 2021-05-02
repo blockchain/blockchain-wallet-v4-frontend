@@ -16,7 +16,7 @@ class EditDescriptionContainer extends React.PureComponent<Props> {
   }
 
   handleChange = () => {
-    this.props.modalActions.showModal('EditTxDescription', {
+    this.props.modalActions.showModal('EDIT_TX_DESCRIPTION_MODAL', {
       origin: 'TransactionList',
       handleConfirm: this.handleConfirm,
       value: this.state.newDescription

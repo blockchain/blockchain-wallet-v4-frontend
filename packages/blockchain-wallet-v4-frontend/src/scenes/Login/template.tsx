@@ -35,7 +35,6 @@ import { selectors } from 'data'
 import { required, validWalletId } from 'services/forms'
 import { media } from 'services/styles'
 
-import Modals from '../../modals'
 import LinkExchangeAccount from '../Register/LinkExchangeAccount'
 import SimpleBuyInfo from '../Register/SimpleBuyInfo'
 import { Props as OwnProps } from '.'
@@ -262,7 +261,6 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
             </HeaderWrapper>
           )}
           <PublicWrapper>
-            <Modals />
             <Header>
               <Text size='20px' color='textBlack' weight={600} capitalize>
                 {isLinkAccountGoal ? (

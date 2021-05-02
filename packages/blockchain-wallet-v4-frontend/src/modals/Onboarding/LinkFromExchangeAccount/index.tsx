@@ -42,6 +42,7 @@ class LinkFromExchangeAccountContainer extends React.PureComponent<
   State
 > {
   state: State = { show: true, direction: 'left' }
+
   componentDidMount() {
     const { linkId } = this.props
     this.props.actions.linkFromExchangeAccount(linkId)
@@ -131,6 +132,6 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 })
 
 export default compose<any>(
-  modalEnhancer('LinkFromExchangeAccount'),
+  modalEnhancer('LINK_FROM_EXCHANGE_ACCOUNT_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )(LinkFromExchangeAccountContainer)

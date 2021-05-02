@@ -1,5 +1,5 @@
 import BitcoinCash from 'bitcoinforksjs-lib'
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { createHashHistory } from 'history'
 import { applyMiddleware, compose, createStore } from 'redux'
@@ -19,6 +19,7 @@ import { serializer } from 'blockchain-wallet-v4/src/types'
 import { actions, rootReducer, rootSaga, selectors } from 'data'
 
 import {
+  analyticsMiddleware,
   autoDisconnection,
   matomoMiddleware,
   streamingXlm,
@@ -118,6 +119,7 @@ const configureStore = async function() {
         webSocketCoins(coinsSocket),
         coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
         matomoMiddleware(),
+        analyticsMiddleware(),
         autoDisconnection()
       )
     )

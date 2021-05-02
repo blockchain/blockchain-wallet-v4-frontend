@@ -184,7 +184,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   connect(undefined, mapDispatchToProps),
-  modalEnhancer('UpgradeForAirdrop')
+  modalEnhancer('UPGRADE_FOR_AIRDROP_MODAL')
 )
 
 export default enhance(UpgradeForAirdrop)

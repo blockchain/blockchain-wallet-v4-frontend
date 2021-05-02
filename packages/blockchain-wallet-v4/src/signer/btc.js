@@ -1,5 +1,5 @@
 import Btc from '@ledgerhq/hw-app-btc'
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import BitcoinMessage from 'bitcoinjs-message'
 import {
   addIndex,
@@ -17,12 +17,46 @@ import { privateKeyStringToKey } from '../utils/btc'
 import * as crypto from '../walletCrypto'
 import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
 
+const getOutputScript = keyPair => {
+  const pubKey = keyPair.publicKey
+  const payment = Bitcoin.payments.p2wpkh({ pubkey: pubKey })
+  return payment.output
+}
+
+// not currently needed since we only query legacy and bech32 UTXOs
+// const getRedeemScript = keyPair => {
+//   const pubKey = keyPair.publicKey
+//   const payment = Bitcoin.payments.p2wpkh({ pubkey: pubKey })
+//   return payment.redeem.output
+// }
+
 export const signSelection = curry((network, selection) => {
   const tx = new Bitcoin.TransactionBuilder(network)
-  const addInput = coin => tx.addInput(coin.txHash, coin.index)
+
   const addOutput = coin =>
     tx.addOutput(defaultTo(coin.address, coin.script), coin.value)
-  const sign = (coin, i) => tx.sign(i, coin.priv)
+  const addInput = coin => {
+    switch (coin.type()) {
+      case 'P2WPKH':
+        return tx.addInput(
+          coin.txHash,
+          coin.index,
+          0xffffffff,
+          getOutputScript(coin.priv)
+        )
+      default:
+        return tx.addInput(coin.txHash, coin.index)
+    }
+  }
+  const sign = (coin, i) => {
+    switch (coin.type()) {
+      case 'P2WPKH':
+        return tx.sign(i, coin.priv, null, null, coin.value)
+      default:
+        return tx.sign(i, coin.priv)
+    }
+  }
+
   forEach(addInput, selection.inputs)
   forEach(addOutput, selection.outputs)
   addIndex(forEach)(sign, selection.inputs)
@@ -70,7 +104,7 @@ export const signWithWIF = curry((network, selection) =>
 
 export const signMessage = (priv, addr, message) => {
   const keyPair = privateKeyStringToKey(priv, 'base58', null, addr)
-  const privateKey = keyPair.d.toBuffer(32)
+  const privateKey = keyPair.privateKey
   return BitcoinMessage.sign(message, privateKey, keyPair.compressed).toString(
     'base64'
   )

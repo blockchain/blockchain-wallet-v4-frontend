@@ -10,6 +10,8 @@ import * as AddressLabel from './AddressLabel'
 import * as AddressLabelMap from './AddressLabelMap'
 import * as AddressMap from './AddressMap'
 import * as Cache from './Cache'
+import * as Derivation from './Derivation'
+import * as DerivationList from './DerivationList'
 import * as HDAccount from './HDAccount'
 import * as HDAccountList from './HDAccountList'
 import * as HDWallet from './HDWallet'
@@ -30,6 +32,8 @@ export {
   AddressLabelMap,
   AddressMap,
   Cache,
+  Derivation,
+  DerivationList,
   HDAccount,
   HDAccountList,
   HDWallet,
@@ -113,6 +117,8 @@ export type BtcAccountType = {
   type: 'ACCOUNT' | 'CUSTODIAL'
   xpub: string
 }
+
+export type HDDerivationType = 'bech32' | 'legacy'
 
 export type AccountTypes = BtcAccountType
 

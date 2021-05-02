@@ -1,0 +1,60 @@
+{
+  "guid": "08151b54-5f17-4907-bd29-8b6cdd3096be",
+  "sharedKey": "87d15bdd-95a4-4b35-99d4-8a3a21e3e1fc",
+  "double_encryption": false,
+  "options": {
+    "pbkdf2_iterations": 1200,
+    "fee_per_kb": 10000,
+    "html5_notifications": false,
+    "logout_time": 600000
+  },
+  "address_book": [],
+  "tx_notes": {},
+  "tx_names": [],
+  "keys": [],
+  "paidTo": {},
+  "hd_wallets": [
+    {
+      "seed_hex": "5de57bbf395cec88fd672fc4d9fb3a12",
+      "passphrase": "",
+      "mnemonic_verified": false,
+      "default_account_idx": 0,
+      "accounts": [
+        {
+          "label": "BTC Private Key Wallet",
+          "archived": false,
+          "derivations": [
+            {
+              "type": "legacy",
+              "purpose": 44,
+              "xpriv": "xprv9ymnii74qXShFUk1bhXCWaKhGDqrWVmBg2xAvpT2eopuSjkDk79jNu3TGkg6hTQ7P6vby8f5WxGUnR4Nkqwcz1jt68B8TiJc5UkQ9MbwW3s",
+              "xpub": "xpub6Cm98DdxftzzTxpUhj4CsiGRpFgLuxV33FsmjCreD9MtKY5NHeTyvhMw82aANb5GWaBGvGcey7skgcY9ZHk42KhyBXr23yYP5QYcAJzVz7D",
+              "address_labels": [],
+              "cache": {
+                "receiveAccount": "xpub6EF6JBiHWFT7Vf4vgnHbUV3Vbc8daYYQ9zKCJ65hePNX44nMtbJeJgbdPyC4jag6yzqcNhiNX3GFN337fF7NcEBQh4MzU4WSgV7hzbuYLK2",
+                "changeAccount": "xpub6EF6JBiHWFT7YjnWwdaXQs2gyrrHLrTR8QqGYp7ykcvELkwuiwriWXquG9LqTevaoFbavcwyEXKGTe56H2aQ1j1a9aEiNWboAPJHg29cE3P"
+              }
+            }
+          ]
+        },
+        {
+          "label": "Test",
+          "archived": false,
+          "derivations": [
+            {
+              "type": "legacy",
+              "purpose": 44,
+              "xpriv": "xprv9ymnii74qXShHEZU4RKW1W5Z85ft86Qw7hoy9i1K69k5kKwSJQikq1gN1f5pvke3f7wJFftJ5uzhBZHFNRzFmuWWxLjWkc62X4JfWrS6rwe",
+              "xpub": "xpub6Cm98DdxftzzVidwASrWNe2Hg7WNXZ8nUvjZx6QveVH4d8Gaqx31NozqrupnCxGPqzVcatEJ8aDKfNfUuHxmfKD8dRDZ6NSFtXiWiwtW2Xh",
+              "address_labels": [],
+              "cache": {
+                "receiveAccount": "xpub6DwfzAco4jGLPn84ni1GEmbaZTgPSbSQQKQCxNFfhhPzrxs2nk89gGV3HYWLcGd53DFWpjfwHsD4Gm49bMLv8sBQdN1CeJgxvNBThpDVYrW",
+                "changeAccount": "xpub6DwfzAco4jGLU3VVKZCvttrfwdkoaG4JPkEewGr8TuPfxmPLST6U6DtZjRp9caJgPxw4rpUkFdgdd4tRjh4V8bbEvBN9xcRREyNU8yrt43T"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
