@@ -112,7 +112,6 @@ export const BackArrowFormHeader = (props: {
   setStep: (LoginSteps) => void
   step?: LoginSteps
 }) => {
-  const guid = 'testguid1234'
   return (
     <>
       <TopRow>
@@ -127,19 +126,29 @@ export const BackArrowFormHeader = (props: {
           onClick={() => props.setStep(LoginSteps.ENTER_EMAIL_GUID)}
         />
         <Column>
-          <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>
-            <FormattedMessage
-              id='scenes.login.signingin_email'
-              defaultMessage='Signing in with {email}'
-              values={{ email: props.formValues.guidOrEmail }}
-            />
-          </Text>
-          {!LoginSteps.CHECK_EMAIL && (
+          {props.formValues.email ? (
+            <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>
+              <FormattedMessage
+                id='scenes.login.signingin_email'
+                defaultMessage='Signing in with {email}'
+                values={{ email: props.formValues.email }}
+              />
+            </Text>
+          ) : (
+            <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>
+              <FormattedMessage
+                id='scences.login.wallet_guid'
+                defaultMessage='Wallet: {guid}'
+                values={{ guid: props.formValues.guid }}
+              />
+            </Text>
+          )}
+          {props.formValues.step !== LoginSteps.CHECK_EMAIL && (
             <Text size='12px' weight={500} color='grey400'>
               <FormattedMessage
                 id='scences.login.wallet_guid'
                 defaultMessage='Wallet: {guid}'
-                values={{ guid }}
+                values={{ guid: props.formValues.guid }}
               />
             </Text>
           )}

@@ -10,7 +10,7 @@ import { Button, Link, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
-import { LoginFormType,LoginSteps } from 'data/types'
+import { LoginFormType, LoginSteps } from 'data/types'
 
 import Loading from '../loading.public'
 import CheckEmail from './CheckEmail'
@@ -30,6 +30,7 @@ const ButtonRow = styled.div`
 
 class Login extends PureComponent<Props> {
   componentDidMount() {
+    this.props.authNewActions.initializeLogin()
     // TODO: browser check
     // TODO: check for existing cookie/localstorage?
     // this.setStep(LoginSteps.ENTER_EMAIL_GUID)
@@ -67,11 +68,7 @@ class Login extends PureComponent<Props> {
       loginError: error,
       handleSmsResend: this.handleSmsResend
     }
-    // const params = pathname.split('/')
-    // const loginObject = JSON.parse((atob(params[2]))) as LoginObject
-    // const guidFromRoute = prop('guid', loginObject)
-    // const emailFromRoute = prop('email', loginObject)
-    // console.log(prop('guid', loginObject))
+
     return (
       <>
         <Text
@@ -249,8 +246,7 @@ const mapStateToProps = state => ({
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
-  password: formValueSelector(LOGIN_NEW)(state, 'password'),
-  pathname: selectors.router.getPathname(state) as string
+  password: formValueSelector(LOGIN_NEW)(state, 'password')
 })
 
 const mapDispatchToProps = dispatch => ({

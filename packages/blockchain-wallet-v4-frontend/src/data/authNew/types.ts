@@ -1,24 +1,26 @@
 import * as AT from './actionTypes'
 
 export enum LoginSteps {
-  CHECK_EMAIL,
-  ENTER_EMAIL_GUID,
-  ENTER_PASSWORD,
-  ENTER_TWO_FACTOR,
-  LOADING,
-  VERIFICATION_MOBILE
+  CHECK_EMAIL = 'CHECK_EMAIL',
+  ENTER_EMAIL_GUID = 'ENTER_EMAIL_GUID',
+  ENTER_PASSWORD = 'ENTER_PASSWORD',
+  ENTER_TWO_FACTOR = 'ENTER_TWO_FACTOR',
+  LOADING = 'LOADING',
+  VERIFICATION_MOBILE = 'VERIFICATION_MOBILE'
 }
 
 export type LoginFormType = {
-  guidOrEmail: string
+  email: string,
+  guid: string
+  guidOrEmail: string,
   password: string
   step: LoginSteps
   twoFA?: number | string
 }
 
 export type LoginObject = {
-  email: string,
-  email_code: string,
+  email: string
+  email_code: string
   guid: string
 }
 

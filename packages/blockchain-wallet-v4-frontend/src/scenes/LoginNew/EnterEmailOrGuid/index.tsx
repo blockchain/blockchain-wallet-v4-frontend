@@ -32,10 +32,14 @@ import {
 const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
   const { busy, guidOrEmail, invalid, loginError, setStep, submitting } = props
 
+  // TODO move to saga
   const handleContinue = () => {
-    isGuid(guidOrEmail)
-      ? setStep(LoginSteps.ENTER_PASSWORD)
-      : props.authNewActions.loginGuid(guidOrEmail)
+    if (isGuid(guidOrEmail)) {
+      setStep(LoginSteps.VERIFICATION_MOBILE)
+    } else {
+      props.authNewActions.loginGuid(guidOrEmail)
+      setStep(LoginSteps.CHECK_EMAIL)
+    }
   }
   // const accountLocked =
   //     loginError &&

@@ -1,6 +1,23 @@
 import * as AT from './actionTypes'
 import { AuthNewActionTypes } from './types'
 
+// INITIALIZE LOGIN
+export const initializeLogin = () => ({
+  type: AT.INTIALIZE_LOGIN
+})
+
+export const intializeLoginLoading = (): AuthNewActionTypes => ({
+  type: AT.INTIALIZE_LOGIN_LOADING
+})
+
+export const initializeLoginSuccess = (): AuthNewActionTypes => ({
+  type: AT.INTIALIZE_LOGIN_SUCCESS
+})
+
+export const intializeLoginFailure = (): AuthNewActionTypes => ({
+  type: AT.INTIALIZE_LOGIN_FAILURE
+})
+
 // LOGIN GUID
 export const loginGuid = (email: string) => ({
   type: AT.LOGIN_GUID,

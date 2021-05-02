@@ -1,12 +1,58 @@
-import { call, put } from 'redux-saga/effects'
+import { prop } from 'ramda'
+import { call, put, select } from 'redux-saga/effects'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import * as C from 'services/alerts'
+import { isGuid } from 'services/forms'
 
 import * as A from './actions'
+import { LoginObject, LoginSteps } from './types'
 
 export default ({ api, coreSagas }) => {
   const logLocation = 'auth/sagas'
+
+  const intializeLogin = function * () {
+    try {
+      yield put(A.intializeLoginLoading())
+      const pathname = yield select(selectors.router.getPathname)
+      const params = pathname.split('/')
+      if (!params[2]) {
+        yield put(
+          actions.form.change('loginNew', 'step', LoginSteps.ENTER_EMAIL_GUID)
+        )
+      } else {
+        if (isGuid(params[2])) {
+          // const values = yield select(
+          //   selectors.form.getFormValues('loginNew')
+          // )
+          // // todo: add GUID to state
+          yield put(
+            actions.form.change(
+              'loginNew',
+              'step',
+              LoginSteps.VERIFICATION_MOBILE
+            )
+          )
+        } else {
+          const loginData = JSON.parse(atob(params[2])) as LoginObject
+          const guidFromRoute = prop('guid', loginData)
+          const emailFromRoute = prop('email', loginData)
+          yield put(actions.form.change('loginNew', 'guid', guidFromRoute))
+          yield put(actions.form.change('loginNew', 'email', emailFromRoute))
+          yield put(
+            actions.form.change(
+              'loginNew',
+              'step',
+              LoginSteps.VERIFICATION_MOBILE
+            )
+          )
+        }
+      }
+    } catch (e) {
+      yield put(A.intializeLoginFailure())
+      yield put(actions.logs.logErrorMessage(logLocation, 'intializeLogin', e))
+    }
+  }
 
   const loginGuid = function * (action) {
     try {
@@ -24,6 +70,7 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
+    intializeLogin,
     loginGuid
   }
 }
