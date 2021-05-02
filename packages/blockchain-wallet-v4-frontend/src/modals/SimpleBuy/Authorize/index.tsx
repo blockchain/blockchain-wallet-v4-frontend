@@ -215,7 +215,7 @@ const Authorize = (props: Props) => {
         bodyText={
           <FormattedMessage
             id='modals.brokertitleage.authorize.data_sharing'
-            defaultMessage='{entityName} will retrieve your bank data based on your request and provide this information to Blockchain.'
+            defaultMessage='{entityName} will retrieve your bank data based on your request and provide this information to Blockchain.com.'
             values={{ entityName }}
           />
         }
@@ -247,7 +247,7 @@ const Authorize = (props: Props) => {
           entityName === 'SafeConnect' ? (
             <FormattedMessage
               id='modals.brokerage.authorize.fca'
-              defaultMessage='Blockchain is an agent of {entityName} Ltd. {entityName} Ltd is authorised and regulated by the Financial Conduct Authority under the Payment Service Regulations 2017 [827001] for the provision of Account Information and Payment Initiation services.'
+              defaultMessage='Blockchain.com is an agent of {entityName} Ltd. {entityName} Ltd is authorised and regulated by the Financial Conduct Authority under the Payment Service Regulations 2017 [827001] for the provision of Account Information and Payment Initiation services.'
               values={{ entityName }}
             />
           ) : (
@@ -275,7 +275,7 @@ const Authorize = (props: Props) => {
         <InfoText>
           <FormattedMessage
             id='modals.brokerage.authorize.deposit_data.first'
-            defaultMessage='To easily set up payments from your bank to Blockchain, we are about to securely re-direct you to your bank where you will be asked to confirm the payment via {entityName}, an FCA regulated payment initiation provider for Blockchain.'
+            defaultMessage='To easily set up payments from your bank to Blockchain.com, we are about to securely re-direct you to your bank where you will be asked to confirm the payment via {entityName}, an FCA regulated payment initiation provider for Blockchain.com.'
             values={{ entityName }}
           />
         </InfoText>
@@ -293,7 +293,7 @@ const Authorize = (props: Props) => {
           <>
             <FormattedMessage
               id='modals.brokerage.authorize.about_access'
-              defaultMessage='{entityName} will then use these details with Blockchain solely for the purposes of buying cryptocurrencies. This access is valid until 24th of January 2021, you can cancel consent at any time via the Blockchain settings or via your bank. This request is not a one-off, you will continue to receive consent requests as older versions expire.'
+              defaultMessage='{entityName} will then use these details with Blockchain.com solely for the purposes of buying cryptocurrencies. This consent request is a one-off, you will not receive additional requests once completed.'
               values={{ entityName }}
             />
             {entityName !== 'SafeConnect' && (

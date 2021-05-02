@@ -71,6 +71,11 @@ const LinkOptionsWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 `
+const LogoImage = styled.img`
+  margin-bottom: 32px;
+  max-height: 60px;
+`
+
 interface ScanWithPhoneType {
   readonly logo?: string
   readonly qrCode?: string
@@ -78,7 +83,7 @@ interface ScanWithPhoneType {
 const ScanWithPhone = ({ logo, qrCode }: ScanWithPhoneType) => {
   return (
     <Section>
-      {logo && <img width='32' src={logo} />}
+      {logo && <LogoImage src={logo} />}
       <Text weight={600} size='20px' color='grey900'>
         <FormattedMessage
           id='modals.brokerage.link_via_mobile'

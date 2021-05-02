@@ -37,7 +37,7 @@ export const getOrigin = (
       if (bankAccount) {
         const { details } = bankAccount
         return `${details.bankName} ${details.bankAccountType?.toLowerCase() ||
-          ''} ${details.accountNumber}`
+          ''} ${details.accountNumber || ''}`
       }
       return (
         <FormattedMessage

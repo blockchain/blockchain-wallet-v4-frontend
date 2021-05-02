@@ -1,11 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
+import { BankPartners } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 
@@ -63,10 +65,11 @@ const DescriptionText = styled(Text)`
 
 type Props = OwnProps & SuccessStateType
 
-const Success = props => {
+const Success: React.FC<InjectedFormProps<Props> & Props> = props => {
   const coin = props.formValues?.currency || 'USD'
   const amount = props.formValues?.amount || 0
   const unit = (props.formValues?.currency as FiatType) || 'USD'
+  const isOpenBanking = props.defaultMethod?.partner === BankPartners.YAPILY
 
   return (
     <Wrapper>
@@ -130,17 +133,19 @@ const Success = props => {
               }}
             />
           </DescriptionText>
-          <DescriptionText
-            color='grey600'
-            size='14px'
-            weight={600}
-            style={{ marginTop: '16px' }}
-          >
-            <FormattedMessage
-              id='modals.brokerage.deposit_success.funds_available'
-              defaultMessage='Your funds will be available to withdraw once the bank transfer is complete in 3-5 business days.'
-            />
-          </DescriptionText>
+          {!isOpenBanking && (
+            <DescriptionText
+              color='grey600'
+              size='14px'
+              weight={600}
+              style={{ marginTop: '16px' }}
+            >
+              <FormattedMessage
+                id='modals.brokerage.deposit_success.funds_available'
+                defaultMessage='Your funds will be available to withdraw once the bank transfer is complete in 3-5 business days.'
+              />
+            </DescriptionText>
+          )}
         </MainContentWrapper>
 
         <Button
