@@ -54,9 +54,9 @@ export const getData = (state: RootState) => {
       walletCurrency: ExtractSuccess<typeof walletCurrencyR>
     ) => {
       const depositFee =
-        coin in Erc20CoinsEnum
-          ? Number(propOr('0', 'fee', payment))
-          : Number(pathOr('0', ['selection', 'fee'], payment))
+        coin === 'BCH' || coin === 'BTC'
+          ? Number(pathOr('0', ['selection', 'fee'], payment))
+          : Number(propOr('0', 'fee', payment))
 
       const feeCrypto =
         coin in Erc20CoinsEnum
