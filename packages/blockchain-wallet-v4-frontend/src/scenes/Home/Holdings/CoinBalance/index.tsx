@@ -18,10 +18,10 @@ class CoinBalance extends React.PureComponent<Props> {
       e.preventDefault()
     }
     const { coin } = this.props
-    const coinLower = toLower(coin)
     if (includes(coin, this.props.erc20List)) {
-      this.props.ethActions.fetchErc20Data(coinLower)
+      this.props.ethActions.fetchErc20Data(coin)
     } else {
+      const coinLower = toLower(coin)
       this.props[`${coinLower}Actions`].fetchData()
     }
   }

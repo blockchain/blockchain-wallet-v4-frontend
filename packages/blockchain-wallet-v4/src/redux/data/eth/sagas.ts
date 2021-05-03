@@ -47,6 +47,7 @@ import custodialSagas from '../custodial/sagas'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
+import { constructDefaultErc20Data } from './utils'
 const { transformErc20Tx, transformTx } = transactions.eth
 const TX_PER_PAGE = 50
 const TX_REPORT_PAGE_SIZE = 500
@@ -269,7 +270,12 @@ export default ({ api }: { api: APIType }) => {
         const tokenData = data.tokenAccounts.find(
           ({ tokenHash }) => toLower(tokenHash) === toLower(contract as string)
         )
-        yield put(A.fetchErc20DataSuccess(token, tokenData))
+        yield put(
+          A.fetchErc20DataSuccess(
+            token,
+            tokenData || constructDefaultErc20Data(ethAddr, contract!)
+          )
+        )
       }
     } catch (e) {
       yield put(A.fetchErc20DataFailure(coin, prop('message', e)))
