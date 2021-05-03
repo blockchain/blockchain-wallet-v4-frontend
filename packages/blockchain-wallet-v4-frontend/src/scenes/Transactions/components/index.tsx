@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
-import { lighten } from 'polished'
+import { transparentize } from 'polished'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { Icon, Text, TextGroup } from 'blockchain-info-components'
@@ -187,7 +187,7 @@ export const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
   height: 32px;
   width: 32px;
   border-radius: 16px;
-  background: ${props => lighten(0.4, props.theme[props.color])};
+  background: ${props => transparentize(0.85, props.theme[props.color])};
 `
 export const Row = styled(Col)`
   display: flex;
