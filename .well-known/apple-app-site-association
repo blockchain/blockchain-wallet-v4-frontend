@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "NZ6PH75U7K.com.rainydayapps.Blockchain",
+        "paths": ["/#/login", "/#/signup", "/login", "/signup"]
+      }
+    ]
+  },
+ "webcredentials": {
+    "apps": ["NZ6PH75U7K.com.rainydayapps.Blockchain"]
+ }
+}
