@@ -3,7 +3,7 @@ import { concat, equals, prop } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
 import { crypto as wCrypto } from 'blockchain-wallet-v4/src'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import * as T from 'services/alerts'
 
 import { WALLET_TX_SEARCH } from '../../../form/model'
@@ -15,6 +15,7 @@ import {
   header
 } from './messageTypes'
 
+const { MOBILE_LOGIN } = model.analytics
 function uuidv4() {
   return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
     (c ^ (crypto.randomBytes(1)[0] & (15 >> (c / 4)))).toString(16)
@@ -48,6 +49,7 @@ export default ({ api, socket }) => {
     }
 
     yield put(actions.auth.secureChannelLoginLoading())
+    yield put(actions.analytics.logEvent(MOBILE_LOGIN.MOBILE_LOGIN))
     yield put(actions.core.data.misc.sendSecureChannelMessage(payload))
   }
 

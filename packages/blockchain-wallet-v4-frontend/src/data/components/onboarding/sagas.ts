@@ -21,7 +21,7 @@ export default () => {
       yield put(actions.form.stopSubmit('airdropClaim'))
       yield put(actions.modals.closeAllModals())
       yield put(
-        actions.modals.showModal('AirdropSuccess', {
+        actions.modals.showModal('AIRDROP_SUCCESS_MODAL', {
           origin: 'AirdropClaimGoal'
         })
       )

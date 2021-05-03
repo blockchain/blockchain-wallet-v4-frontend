@@ -62,7 +62,8 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   const bankAccountName =
     account && 'details' in account ? (
-      `${account.details?.bankName} ${account.details?.accountNumber}`
+      `${account.details?.bankName || ''} ${account.details?.accountNumber ||
+        ''}`
     ) : (
       <FormattedMessage id='copy.bank_account' defaultMessage='Bank Account' />
     )
@@ -100,7 +101,10 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               id='scenes.settings.general.account'
               defaultMessage='account'
             />{' '}
-            {account && 'details' in account && account.details.accountNumber}
+            {(account &&
+              'details' in account &&
+              account.details.accountNumber) ||
+              ''}
           </Text>
         </BankDetails>
       </FlyoutWrapper>

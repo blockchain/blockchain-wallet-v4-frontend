@@ -7,6 +7,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { BrokerageTxFormValuesType } from 'data/types'
 
 import { Loading, LoadingTextEnum } from '../../../../components'
 import Failure from '../template.failure'
@@ -42,8 +43,9 @@ const DepositStatus = props => {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
+  defaultMethod: selectors.components.brokerage.getAccount(state),
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD',
-  formValues: getFormValues('brokerageTx')(state)
+  formValues: getFormValues('brokerageTx')(state) as BrokerageTxFormValuesType
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({

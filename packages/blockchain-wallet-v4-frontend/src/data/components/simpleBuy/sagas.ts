@@ -6,6 +6,7 @@ import {
   call,
   cancel,
   delay,
+  fork,
   put,
   race,
   retry,
@@ -37,6 +38,7 @@ import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import { UserDataType } from 'data/modules/types'
 import {
   AddBankStepType,
+  BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType
 } from 'data/types'
@@ -449,9 +451,28 @@ export default ({
     ) {
       return order
     } else {
-      throw new Error('retrying to fetch for FINISHED order')
+      throw new Error(
+        'Order verification timed out. It will continue in the background.'
+      )
     }
   }
+
+  const confirmOrderPoll = function * (
+    action: ReturnType<typeof A.confirmOrderPoll>
+  ) {
+    const { order } = action.payload
+    const { RETRY_AMOUNT, SECONDS } = POLLING
+    const confirmedOrder = yield retry(
+      RETRY_AMOUNT,
+      SECONDS * 1000,
+      OrderConfirmCheck,
+      order.id
+    )
+    yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
+    yield put(A.setStep({ step: 'ORDER_SUMMARY', order: confirmedOrder }))
+    yield put(A.fetchSBOrders())
+  }
+
   const confirmSBOrder = function * (
     payload: ReturnType<typeof A.confirmSBOrder>
   ) {
@@ -479,7 +500,7 @@ export default ({
                 }
               }
             : undefined
-      } else if (account?.partner === 'YAPILY') {
+      } else if (account?.partner === BankPartners.YAPILY) {
         attributes = { callback: domains.yapilyCallbackUrl }
       }
 
@@ -489,8 +510,9 @@ export default ({
         attributes,
         paymentMethodId
       )
+
       const { RETRY_AMOUNT, SECONDS } = POLLING
-      if (account?.partner === 'YAPILY') {
+      if (account?.partner === BankPartners.YAPILY) {
         // for OB the authorisationUrl isn't in the initial response to confirm
         // order. We need to poll the order for it.
         yield put(A.setStep({ step: 'LOADING' }))
@@ -500,14 +522,12 @@ export default ({
           AuthUrlCheck,
           confirmedOrder.id
         )
+        // Refresh the tx list in the modal background
+        yield put(A.fetchSBOrders())
+
         yield put(A.setStep({ step: 'OPEN_BANKING_CONNECT', order }))
         // Now we need to poll for the order success
-        confirmedOrder = yield retry(
-          RETRY_AMOUNT,
-          SECONDS * 1000,
-          OrderConfirmCheck,
-          confirmedOrder.id
-        )
+        return yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
       }
       yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
       if (order.paymentType === 'BANK_TRANSFER') {
@@ -1312,18 +1332,27 @@ export default ({
     )
     const fiatCurrencyR = selectors.core.settings.getCurrency(yield select())
     const fiatCurrency = fiatCurrencyR.getOrElse('USD')
-
     if (latestPendingOrder) {
       const bankAccount = yield call(
         getBankInformation,
         latestPendingOrder as SBOrderType
       )
-      const step =
+      let step: T.StepActionsPayload['step'] =
         latestPendingOrder.state === 'PENDING_CONFIRMATION'
-          ? prop('partner', bankAccount) === 'YAPILY'
-            ? 'OPEN_BANKING_CONNECT'
-            : 'CHECKOUT_CONFIRM'
+          ? 'CHECKOUT_CONFIRM'
           : 'ORDER_SUMMARY'
+
+      // When user closes the QR code modal and opens it via one of the pending
+      // buy buttons in the app. We need to take them to the qrcode screen and
+      // poll for the order status
+      if (
+        latestPendingOrder.state === 'PENDING_DEPOSIT' &&
+        prop('partner', bankAccount) === BankPartners.YAPILY
+      ) {
+        step = 'OPEN_BANKING_CONNECT'
+        yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))
+      }
+
       yield put(
         A.setStep({
           step,
@@ -1406,6 +1435,7 @@ export default ({
     addCardDetails,
     addCardFinished,
     cancelSBOrder,
+    confirmOrderPoll,
     confirmSBOrder,
     confirmSBFundsOrder,
     createSBOrder,

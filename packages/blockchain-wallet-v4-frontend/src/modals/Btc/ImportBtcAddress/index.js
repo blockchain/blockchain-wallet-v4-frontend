@@ -47,7 +47,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('ImportBtcAddress'),
+  modalEnhancer('IMPORT_BTC_ADDRESS_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

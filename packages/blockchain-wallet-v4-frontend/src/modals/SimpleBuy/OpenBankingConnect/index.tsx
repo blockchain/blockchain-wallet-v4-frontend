@@ -20,6 +20,12 @@ const Connect = (props: Props) => {
       )
     }
   }
+  useEffect(() => {
+    const { id } = props.order
+    if (id) {
+      props.simpleBuyActions.pollSBOrder(id)
+    }
+  }, [])
 
   useEffect(fetchBank, [props.walletCurrency])
 
@@ -37,7 +43,8 @@ const mapStateToProps = (state: RootState) => ({
   account: selectors.components.brokerage.getAccount(state)
 })
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

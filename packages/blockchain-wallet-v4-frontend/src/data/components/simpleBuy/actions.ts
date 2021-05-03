@@ -93,6 +93,11 @@ export const createSBOrder = (
   paymentType
 })
 
+export const confirmOrderPoll = (order: SBOrderType) => ({
+  type: AT.CONFIRM_ORDER_POLL,
+  payload: { order }
+})
+
 export const confirmSBOrder = (
   paymentMethodId: SBCardType['id'],
   order: SBOrderType

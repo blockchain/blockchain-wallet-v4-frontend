@@ -48,8 +48,8 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 const { transformErc20Tx, transformTx } = transactions.eth
-const TX_PER_PAGE = 10
-const TX_REPORT_PAGE_SIZE = 50
+const TX_PER_PAGE = 50
+const TX_REPORT_PAGE_SIZE = 500
 const CONTEXT_FAILURE = 'Could not get ETH context.'
 
 export default ({ api }: { api: APIType }) => {

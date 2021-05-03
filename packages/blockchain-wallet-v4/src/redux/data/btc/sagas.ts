@@ -151,7 +151,7 @@ export default ({ api }: { api: APIType }) => {
           undefined,
           currency.getOrElse('USD'),
           startDate,
-          end
+          endDate
         )
         yield put(A.fetchTransactionHistorySuccess(data))
       }
