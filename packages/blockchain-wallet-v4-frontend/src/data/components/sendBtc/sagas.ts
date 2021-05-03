@@ -308,11 +308,19 @@ export default ({
               // @ts-ignore
               payment = yield payment.to(value.xpub, toType)
               break
+            case includes('.', (address as unknown) as string):
+              yield put(
+                actions.components.send.fetchUnstoppableDomainResults(
+                  (address as unknown) as string,
+                  'BTC'
+                )
+              )
+              break
             case !isNil(tryParsePayPro()):
               yield call(bitPayInvoiceEntered, payProInvoice)
               break
             default:
-              payment = yield payment.to(address, toType)
+              payment = yield payment.to((address as unknown) as string, toType)
           }
           break
         case 'amount':

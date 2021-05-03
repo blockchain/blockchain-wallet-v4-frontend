@@ -15,6 +15,7 @@ import lockbox from './lockbox'
 import misc from './misc'
 import profile from './profile'
 import rates from './rates'
+import send from './send'
 import settings from './settings'
 import simpleBuy from './simpleBuy'
 import swap from './swap'
@@ -79,6 +80,7 @@ const api = ({
       authorizedPut: authorizedHttp.put,
       ...http
     }),
+    ...send({ apiUrl, ...http }),
     ...settings({ rootUrl, ...http }),
     ...simpleBuy({
       everypayUrl,
@@ -115,6 +117,7 @@ export type APIType = ReturnType<typeof analytics> &
   ReturnType<typeof misc> &
   ReturnType<typeof profile> &
   ReturnType<typeof simpleBuy> &
+  ReturnType<typeof send> &
   ReturnType<typeof swap> &
   ReturnType<typeof wallet> &
   ReturnType<typeof xlm>

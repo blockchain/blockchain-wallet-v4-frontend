@@ -1,5 +1,6 @@
 import moment from 'moment'
-import { call, CallEffect, put, select } from 'redux-saga/effects'
+import { FormAction } from 'redux-form'
+import { call, CallEffect, delay, put, select } from 'redux-saga/effects'
 
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
@@ -13,6 +14,7 @@ import {
   SBPaymentTypes,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { actions, model, selectors } from 'data'
 import * as C from 'services/alerts'
 import { promptForSecondPassword } from 'services/sagas'
@@ -115,6 +117,32 @@ export default ({
         )
       )
       yield put(A.fetchPaymentsTradingAccountFailure(currency, e))
+    }
+  }
+
+  const fetchUnstoppableDomainResults = function * (
+    action: ReturnType<typeof A.fetchUnstoppableDomainResults>
+  ) {
+    const { payload } = action
+    try {
+      yield put(A.fetchUnstoppableDomainResultsLoading())
+      const results: ReturnType<typeof api.getUnstoppableDomainResults> = yield call(
+        api.getUnstoppableDomainResults,
+        payload.name,
+        payload.currency
+      )
+      yield delay(1000)
+      yield put(A.fetchUnstoppableDomainResultsSuccess(results))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'getWithdrawalLockCheck',
+          error
+        )
+      )
+      yield put(A.fetchUnstoppableDomainResultsFailure(error))
     }
   }
 
@@ -252,10 +280,19 @@ export default ({
     }
   }
 
+  const formChanged = function * (action: FormAction) {
+    const { field } = action.meta
+    if (field === 'to') {
+      yield put(A.fetchUnstoppableDomainResultsNotAsked())
+    }
+  }
+
   return {
     buildAndPublishPayment,
     fetchPaymentsAccountExchange,
     fetchPaymentsTradingAccount,
+    fetchUnstoppableDomainResults,
+    formChanged,
     getWithdrawalLockCheck,
     showWithdrawalLockAlert,
     notifyNonCustodialToCustodialTransfer,
