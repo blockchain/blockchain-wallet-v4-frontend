@@ -2361,6 +2361,7 @@ type MessagesType = {
   'scenes.settings.addresses.btc.manageaddresses.unusedaddresses.desc': 'Wallets contain an unlimited number of addresses that you can use to receive funds. Your wallet will automatically manage your bitcoin addresses for you. The addresses below are only a subset that you have manually created and labeled.'
   'scenes.settings.addresses.btc.manageaddresses.unusedaddresses.moreoptions': 'More Options'
   'scenes.settings.addresses.btc.manageaddresses.unusedaddresses.title': 'Unused Addresses'
+  'scenes.settings.addresses.btc.manageaddresses.usedaddresses.hide': 'Hide Addresses'
   'scenes.settings.addresses.btc.manageaddresses.usedaddresses.show': 'Reveal Addresses'
   'scenes.settings.addresses.btc.manageaddresses.usedaddresses.title': 'Used Addresses'
   'scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.label': 'Label'
