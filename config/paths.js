@@ -10,5 +10,6 @@ module.exports = {
   pkgJson: resolveRoot('package.json'),
   envConfig: resolveRoot('config/env'),
   src: resolveRoot('packages/blockchain-wallet-v4-frontend/src'),
-  sslConfig: resolveRoot('config/ssl')
+  sslConfig: resolveRoot('config/ssl'),
+  wellKnownConfig: resolveRoot('.well-known')
 }
