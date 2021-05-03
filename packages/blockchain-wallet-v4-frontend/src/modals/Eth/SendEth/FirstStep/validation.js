@@ -18,10 +18,10 @@ export const insufficientFunds = (value, allValues, props) => {
 
 export const invalidAmount = (value, allValues, props) => {
   const valueEth = prop('coin', value)
-  const valueWei = Exchange.convertEtherToEther({
+  const valueWei = Exchange.convertCoinToCoin({
     value: valueEth,
-    fromUnit: 'ETH',
-    toUnit: 'WEI'
+    baseToStandard: false,
+    coin: 'ETH'
   }).value
   return valueWei > 0 ? undefined : <InvalidAmountMessage />
 }

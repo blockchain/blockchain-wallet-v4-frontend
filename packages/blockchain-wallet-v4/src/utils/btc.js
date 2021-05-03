@@ -221,20 +221,20 @@ export const isKey = btcKey => {
 export const calculateBalanceBtc = (coins, feePerByte) => {
   const data = calculateBalanceSatoshi(coins, feePerByte)
   return {
-    balance: Exchange.convertBtcToBtc({
+    balance: Exchange.convertCoinToCoin({
       value: data.balance,
-      fromUnit: 'SAT',
-      toUnit: 'BTC'
+      baseToStandard: false,
+      coin: 'BTC'
     }).value,
-    fee: Exchange.convertBtcToBtc({
+    fee: Exchange.convertCoinToCoin({
       value: data.fee,
-      fromUnit: 'SAT',
-      toUnit: 'BTC'
+      baseToStandard: false,
+      coin: 'BTC'
     }).value,
-    effectiveBalance: Exchange.convertBtcToBtc({
+    effectiveBalance: Exchange.convertCoinToCoin({
       value: data.effectiveBalance,
-      fromUnit: 'SAT',
-      toUnit: 'BTC'
+      baseToStandard: false,
+      coin: 'BTC'
     }).value
   }
 }

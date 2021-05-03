@@ -88,10 +88,10 @@ export default ({
         payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
         if (to) payment = yield payment.to(to)
         if (amount && amount.coin) {
-          const satAmount = Exchange.convertBchToBch({
+          const satAmount = Exchange.convertCoinToCoin({
             value: amount.coin,
-            fromUnit: 'BCH',
-            toUnit: 'SAT'
+            baseToStandard: false,
+            coin: 'BCH'
           }).value
           payment = yield payment.amount(parseInt(satAmount))
         }
@@ -279,10 +279,10 @@ export default ({
           break
         case 'amount':
           const bchAmount = prop('coin', payload)
-          const satAmount = Exchange.convertBchToBch({
+          const satAmount = Exchange.convertCoinToCoin({
             value: bchAmount,
-            fromUnit: 'BCH',
-            toUnit: 'SAT'
+            baseToStandard: false,
+            coin: 'BCH'
           }).value
           payment = yield payment.amount(parseInt(satAmount))
           break
@@ -311,10 +311,10 @@ export default ({
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
       const effectiveBalance = prop('effectiveBalance', payment)
-      const coin = Exchange.convertBchToBch({
+      const coin = Exchange.convertCoinToCoin({
         value: effectiveBalance,
-        fromUnit: 'SAT',
-        toUnit: 'BCH'
+        baseToStandard: true,
+        coin: 'BCH'
       }).value
       const fiat = Exchange.convertBchToFiat({
         value: effectiveBalance,

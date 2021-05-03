@@ -107,10 +107,10 @@ export default ({
         payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
         if (to) payment = yield payment.to(to)
         if (amount && amount.coin) {
-          const satAmount = Exchange.convertBtcToBtc({
+          const satAmount = Exchange.convertCoinToCoin({
             value: amount.coin,
-            fromUnit: 'BTC',
-            toUnit: 'SAT'
+            baseToStandard: false,
+            coin: 'BTC'
           }).value
           payment = yield payment.amount(parseInt(satAmount))
         }
@@ -308,10 +308,10 @@ export default ({
           break
         case 'amount':
           const btcAmount = prop('coin', payload)
-          const satAmount = Exchange.convertBtcToBtc({
+          const satAmount = Exchange.convertCoinToCoin({
             value: btcAmount,
-            fromUnit: 'BTC',
-            toUnit: 'SAT'
+            baseToStandard: false,
+            coin: 'BTC'
           }).value
           payment = yield payment.amount(parseInt(satAmount))
           break
@@ -369,10 +369,10 @@ export default ({
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
       const effectiveBalance = prop('effectiveBalance', payment)
-      const coin = Exchange.convertBtcToBtc({
+      const coin = Exchange.convertCoinToCoin({
         value: effectiveBalance,
-        fromUnit: 'SAT',
-        toUnit: 'BTC'
+        baseToStandard: true,
+        coin: 'BTC'
       }).value
       const fiat = Exchange.convertBtcToFiat({
         value: effectiveBalance,

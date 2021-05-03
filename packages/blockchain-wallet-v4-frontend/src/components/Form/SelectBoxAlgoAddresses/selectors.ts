@@ -21,11 +21,7 @@ export const getData = (
   const buildCustodialDisplay = x => {
     return (
       `Trading Account` +
-      ` (${Exchange.displayAlgoToAlgo({
-        value: x ? x.available : 0,
-        fromUnit: 'mALGO',
-        toUnit: 'ALGO'
-      })})`
+      ` (${Exchange.displayCoinToCoin(x ? x.available : 0, 'ALGO')})`
     )
   }
   // @ts-ignore

@@ -39,7 +39,7 @@ const getXlmData = createSelector(
 )
 
 const getPaxData = createSelector(
-  [state => selectors.core.data.eth.getErc20TransactionHistory(state, 'pax')],
+  [state => selectors.core.data.eth.getErc20TransactionHistory(state, 'PAX')],
   dataR => {
     const transform = data => {
       const transformedData = map(tx => formatTxData(tx, 'USD-D'), data)
@@ -51,7 +51,7 @@ const getPaxData = createSelector(
   }
 )
 const getUsdtData = createSelector(
-  [state => selectors.core.data.eth.getErc20TransactionHistory(state, 'usdt')],
+  [state => selectors.core.data.eth.getErc20TransactionHistory(state, 'USDT')],
   dataR => {
     const transform = data => {
       const transformedData = map(tx => formatTxData(tx, 'USDT'), data)
@@ -63,7 +63,7 @@ const getUsdtData = createSelector(
   }
 )
 const getWdgldData = createSelector(
-  [state => selectors.core.data.eth.getErc20TransactionHistory(state, 'wdgld')],
+  [state => selectors.core.data.eth.getErc20TransactionHistory(state, 'WDGLD')],
   dataR => {
     const transform = data => {
       const transformedData = map(tx => formatTxData(tx, 'WDGLD'), data)

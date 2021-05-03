@@ -90,4 +90,19 @@ export type FiatCurrenciesType = typeof FiatCurrencies
 export type CryptoCurrenciesType = typeof CryptoCurrencies
 export type Erc20CurrenciesType = typeof ERC20Currencies
 export type CurrenciesType = FiatCurrenciesType & CryptoCurrenciesType
+export type CurrencyType = {
+  base: string
+  code: string
+  displayName: string
+  trade: string
+  units: {
+    [key in string]: {
+      currency: string
+      decimal_digits: number
+      rate: string
+      symbol: string
+    }
+  }
+}
+
 export default Currencies

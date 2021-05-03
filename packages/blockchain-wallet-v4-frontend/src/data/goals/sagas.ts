@@ -334,7 +334,7 @@ export default ({ api, coreSagas, networks }) => {
   const runPaymentProtocolGoal = function * (goal) {
     const { data, id } = goal
     const { coin, r } = data
-    let coinRate, paymentCryptoAmount, paymentFiatAmount
+    let coinRate, paymentFiatAmount
 
     yield put(actions.goals.deleteGoal(id))
     yield put(
@@ -383,13 +383,13 @@ export default ({ api, coreSagas, networks }) => {
         paymentUrl: r,
         merchant
       }
+      const paymentCryptoAmount = Exchange.convertCoinToCoin({
+        value: satoshiAmount,
+        baseToStandard: true,
+        coin
+      }).value
 
       if (equals('BTC', coin)) {
-        paymentCryptoAmount = Exchange.convertBtcToBtc({
-          value: satoshiAmount,
-          fromUnit: 'SAT',
-          toUnit: 'BTC'
-        }).value
         paymentFiatAmount = Exchange.convertBtcToFiat({
           value: paymentCryptoAmount,
           fromUnit: 'BTC',
@@ -413,11 +413,6 @@ export default ({ api, coreSagas, networks }) => {
           )
         )
       } else {
-        paymentCryptoAmount = Exchange.convertBchToBch({
-          value: satoshiAmount,
-          fromUnit: 'SAT',
-          toUnit: 'BCH'
-        }).value
         paymentFiatAmount = Exchange.convertBchToFiat({
           value: paymentCryptoAmount,
           fromUnit: 'BCH',

@@ -23,20 +23,20 @@ export const insufficientFunds = (value, allValues, props) => {
 
 export const invalidAmount = (value, allValues, props) => {
   const valueBch = prop('coin', value)
-  const valueSatoshi = Exchange.convertBchToBch({
+  const valueSatoshi = Exchange.convertCoinToCoin({
     value: valueBch,
-    fromUnit: 'BCH',
-    toUnit: 'SAT'
+    baseToStandard: false,
+    coin: 'BCH'
   }).value
   return valueSatoshi > 0 ? undefined : <InvalidAmountMessage />
 }
 
 export const maximumAmount = (value, allValues, props) => {
   const valueBch = prop('coin', value)
-  const valueSatoshi = Exchange.convertBchToBch({
+  const valueSatoshi = Exchange.convertCoinToCoin({
     value: valueBch,
-    fromUnit: 'BCH',
-    toUnit: 'SAT'
+    baseToStandard: false,
+    coin: 'BCH'
   }).value
   return valueSatoshi <= getEffectiveBalance(props) ? (
     undefined

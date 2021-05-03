@@ -72,14 +72,24 @@ export const getErc20Balance = (state, token) => {
   return tokenData ? tokenData.map(prop('balance')) : Remote.NotAsked
 }
 export const getErc20CurrentBalance = (state, token) => {
-  return path([dataPath, 'eth', 'current_balance', token])(state)
+  return (
+    path([dataPath, 'eth', 'current_balance', token])(state) || Remote.NotAsked
+  )
 }
 export const getErc20Transactions = (state, token) => {
-  return path([dataPath, 'eth', 'transactions', token])(state)
+  return (
+    path([dataPath, 'eth', 'transactions', token])(state) || Remote.NotAsked
+  )
 }
 export const getErc20TransactionsAtBound = (state, token) => {
-  return path([dataPath, 'eth', 'transactions_at_bound', token])(state)
+  return (
+    path([dataPath, 'eth', 'transactions_at_bound', token])(state) ||
+    Remote.NotAsked
+  )
 }
 export const getErc20TransactionHistory = (state, token) => {
-  return path([dataPath, 'eth', 'transaction_history', token])(state)
+  return (
+    path([dataPath, 'eth', 'transaction_history', token])(state) ||
+    Remote.NotAsked
+  )
 }

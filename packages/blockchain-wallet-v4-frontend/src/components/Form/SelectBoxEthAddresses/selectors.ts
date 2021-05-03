@@ -30,7 +30,11 @@ export const getEthData = (
   } = ownProps
 
   const displayEthFixed = data => {
-    const etherAmount = Exchange.convertEtherToEther(data)
+    const etherAmount = Exchange.convertCoinToCoin({
+      coin: 'ETH',
+      baseToStandard: true,
+      value: data.value
+    })
     return Exchange.displayEtherToEther({
       value: Number(etherAmount.value).toFixed(8),
       fromUnit: 'ETH',
@@ -178,48 +182,16 @@ export const getErc20Data = (
     forceCustodialFirst
   } = ownProps
   const displayErc20Fixed = data => {
-    // TODO: ERC20 make more generic
-    if (coin === 'PAX') {
-      const paxAmount = Exchange.convertPaxToPax(data)
-      return Exchange.displayPaxToPax({
-        value: Number(paxAmount.value).toFixed(8),
-        fromUnit: 'PAX',
-        toUnit: 'PAX'
-      })
-    }
-    if (coin === 'USDT') {
-      const usdtAmount = Exchange.convertUsdtToUsdt(data)
-      return Exchange.displayUsdtToUsdt({
-        value: Number(usdtAmount.value).toFixed(8),
-        fromUnit: 'USDT',
-        toUnit: 'USDT'
-      })
-    }
-    if (coin === 'WDGLD') {
-      const wdgldAmount = Exchange.convertWdgldToWdgld(data)
-      return Exchange.displayWdgldToWdgld({
-        value: Number(wdgldAmount.value).toFixed(8),
-        fromUnit: 'WDGLD',
-        toUnit: 'WDGLD'
-      })
-    }
-    if (coin === 'AAVE') {
-      const aaveAmount = Exchange.convertAaveToAave(data)
-      return Exchange.displayAaveToAave({
-        value: Number(aaveAmount.value).toFixed(8),
-        fromUnit: 'AAVE',
-        toUnit: 'AAVE'
-      })
-    }
-    if (coin === 'YFI') {
-      const yfiAmount = Exchange.convertYfiToYfi(data)
-      return Exchange.displayYfiToYfi({
-        value: Number(yfiAmount.value).toFixed(8),
-        fromUnit: 'YFI',
-        toUnit: 'YFI'
-      })
-    }
-    return {}
+    const amount = Exchange.convertCoinToCoin({
+      baseToStandard: true,
+      coin,
+      value: data.value
+    })
+    return Exchange.displayPaxToPax({
+      value: Number(amount.value).toFixed(8),
+      fromUnit: coin,
+      toUnit: coin
+    })
   }
   const buildCustodialDisplay = (x, coin: Erc20CoinType) => {
     return (

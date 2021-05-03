@@ -31,20 +31,20 @@ export const insufficientFunds = (value, allValues, props) => {
 
 export const invalidAmount = (value, allValues, props) => {
   const valueBtc = prop('coin', value)
-  const valueSatoshi = Exchange.convertBtcToBtc({
+  const valueSatoshi = Exchange.convertCoinToCoin({
     value: valueBtc,
-    fromUnit: 'BTC',
-    toUnit: 'SAT'
+    baseToStandard: false,
+    coin: 'BTC'
   }).value
   return valueSatoshi > 0 ? undefined : <InvalidAmountMessage />
 }
 
 export const minimumAmount = (value, allValues, props) => {
   const valueBtc = prop('coin', value)
-  const valueSatoshi = Exchange.convertBtcToBtc({
+  const valueSatoshi = Exchange.convertCoinToCoin({
     value: valueBtc,
-    fromUnit: 'BTC',
-    toUnit: 'SAT'
+    baseToStandard: false,
+    coin: 'BTC'
   }).value
   return parseInt(valueSatoshi) >= DUST ? undefined : <MinimumAmountMessage />
 }
@@ -52,10 +52,10 @@ export const minimumAmount = (value, allValues, props) => {
 export const maximumAmount = (value, allValues, props) => {
   const effectiveBalance = getEffectiveBalance(props)
   const valueBtc = prop('coin', value)
-  const valueSatoshi = Exchange.convertBtcToBtc({
+  const valueSatoshi = Exchange.convertCoinToCoin({
     value: valueBtc,
-    fromUnit: 'BTC',
-    toUnit: 'SAT'
+    baseToStandard: false,
+    coin: 'BTC'
   }).value
   return valueSatoshi <= effectiveBalance ? undefined : <MaximumAmountMessage />
 }

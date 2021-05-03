@@ -422,7 +422,8 @@ export default ({ api }: { api: APIType }) => {
 
       yield put(A.fetchErc20TransactionHistorySuccess(processedTxList, token))
     } catch (e) {
-      yield put(A.fetchErc20TransactionHistoryFailure(e.message, token))
+      const error = errorHandler(e)
+      yield put(A.fetchErc20TransactionHistoryFailure(error, token))
     }
   }
 
@@ -477,9 +478,14 @@ export default ({ api }: { api: APIType }) => {
         // @ts-ignore
         prop('price', nth(idx, historicalPrices))
       )
+      // @ts-ignore
+      const value = tx.amount as string
       const amountBig = new BigNumber(
-        // @ts-ignore
-        Exchange.convertCoinToCoinFromTransaction(coin, tx)
+        Exchange.convertCoinToCoin({
+          baseToStandard: true,
+          coin,
+          value
+        }).value
       )
       const valueThen = amountBig.multipliedBy(priceAtTime).toFixed(2)
       const valueNow = amountBig.multipliedBy(currentPrice).toFixed(2)
