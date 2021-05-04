@@ -16,10 +16,14 @@ const FormBody = styled.div`
 `
 
 const CheckEmail = (props: InjectedFormProps<{}, Props> & Props) => {
-  const { formValues, setStep } = props
+  const { formActions, formValues, setStep } = props
   return (
     <>
-      <BackArrowFormHeader formValues={formValues} setStep={setStep} />
+      <BackArrowFormHeader
+        formActions={formActions}
+        formValues={formValues}
+        setStep={setStep}
+      />
       <FormBody>
         <CircleBackground>
           <Icon name='computer' color='white' size='24px' />

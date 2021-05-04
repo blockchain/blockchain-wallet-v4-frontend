@@ -28,6 +28,7 @@ const EnterPassword = (props: InjectedFormProps<{}, Props> & Props) => {
   const {
     authType,
     busy,
+    formActions,
     formValues,
     invalid,
     loginError,
@@ -45,7 +46,11 @@ const EnterPassword = (props: InjectedFormProps<{}, Props> & Props) => {
 
   return (
     <>
-      <BackArrowFormHeader formValues={formValues} setStep={setStep} />
+      <BackArrowFormHeader
+        formActions={formActions}
+        formValues={formValues}
+        setStep={setStep}
+      />
       <FormGroup>
         <FormItem>
           <FormLabel htmlFor='password'>

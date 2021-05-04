@@ -32,11 +32,15 @@ const LinkRow = styled.div`
 `
 
 const VerificationMobile = (props: InjectedFormProps<{}, Props> & Props) => {
-  const { formValues, qrData, setStep } = props
+  const { formActions, formValues, qrData, setStep } = props
 
   return (
     <>
-      <BackArrowFormHeader formValues={formValues} setStep={setStep} />
+      <BackArrowFormHeader
+        formActions={formActions}
+        formValues={formValues}
+        setStep={setStep}
+      />
       <Icon
         name='padlock'
         color='green600'

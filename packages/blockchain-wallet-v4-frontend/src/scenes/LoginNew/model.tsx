@@ -108,10 +108,15 @@ const Column = styled.div`
   flex-direction: column;
 `
 export const BackArrowFormHeader = (props: {
+  formActions
   formValues: LoginFormType
   setStep: (LoginSteps) => void
   step?: LoginSteps
 }) => {
+  const handleIconClick = () => {
+    props.formActions.destroy(LOGIN_NEW)
+    props.setStep(LoginSteps.ENTER_EMAIL_GUID)
+  }
   return (
     <>
       <TopRow>
@@ -123,7 +128,7 @@ export const BackArrowFormHeader = (props: {
           color='grey400'
           style={{ marginRight: '8px' }}
           role='button'
-          onClick={() => props.setStep(LoginSteps.ENTER_EMAIL_GUID)}
+          onClick={() => handleIconClick()}
         />
         <Column>
           {props.formValues.email ? (
@@ -143,15 +148,16 @@ export const BackArrowFormHeader = (props: {
               />
             </Text>
           )}
-          {props.formValues.step !== LoginSteps.CHECK_EMAIL && (
-            <Text size='12px' weight={500} color='grey400'>
-              <FormattedMessage
-                id='scences.login.wallet_guid'
-                defaultMessage='Wallet: {guid}'
-                values={{ guid: props.formValues.guid }}
-              />
-            </Text>
-          )}
+          {props.formValues.step !== LoginSteps.CHECK_EMAIL &&
+            props.formValues.email && (
+              <Text size='12px' weight={500} color='grey400'>
+                <FormattedMessage
+                  id='scences.login.wallet_guid'
+                  defaultMessage='Wallet: {guid}'
+                  values={{ guid: props.formValues.guid }}
+                />
+              </Text>
+            )}
         </Column>
       </TopRow>
     </>

@@ -30,6 +30,7 @@ const EnterTwoFactor = (props: InjectedFormProps<{}, Props> & Props) => {
   const {
     authType,
     busy,
+    formActions,
     formValues,
     guid,
     invalid,
@@ -45,7 +46,11 @@ const EnterTwoFactor = (props: InjectedFormProps<{}, Props> & Props) => {
   }
   return (
     <>
-      <BackArrowFormHeader formValues={formValues} setStep={setStep} />
+      <BackArrowFormHeader
+        formActions={formActions}
+        formValues={formValues}
+        setStep={setStep}
+      />
       {authType > 0 && (
         <FormGroup>
           <FormItem>
