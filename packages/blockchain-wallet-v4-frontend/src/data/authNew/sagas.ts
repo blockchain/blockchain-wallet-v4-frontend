@@ -20,6 +20,13 @@ export default ({ api, coreSagas }) => {
         yield put(
           actions.form.change('loginNew', 'step', LoginSteps.ENTER_EMAIL_GUID)
         )
+        yield put(
+          actions.form.change(
+            'loginNew',
+            'step',
+            LoginSteps.VERIFICATION_MOBILE
+          )
+        )
       } else {
         if (isGuid(params[2])) {
           const guidFromRoute = params[2]
@@ -28,16 +35,23 @@ export default ({ api, coreSagas }) => {
           const loginData = JSON.parse(atob(params[2])) as LoginObject
           const guidFromRoute = prop('guid', loginData)
           const emailFromRoute = prop('email', loginData)
+          const mobileSetup = prop('is_mobile_setup', loginData) === 'true'
           yield put(actions.form.change('loginNew', 'guid', guidFromRoute))
           yield put(actions.form.change('loginNew', 'email', emailFromRoute))
+          if (mobileSetup) {
+            yield put(
+              actions.form.change(
+                'loginNew',
+                'step',
+                LoginSteps.VERIFICATION_MOBILE
+              )
+            )
+          } else {
+            yield put(
+              actions.form.change('loginNew', 'step', LoginSteps.ENTER_PASSWORD)
+            )
+          }
         }
-        yield put(
-          actions.form.change(
-            'loginNew',
-            'step',
-            LoginSteps.VERIFICATION_MOBILE
-          )
-        )
       }
     } catch (e) {
       yield put(A.intializeLoginFailure())
