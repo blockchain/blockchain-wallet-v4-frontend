@@ -62,7 +62,7 @@ const OuterWrapper = styled.div`
   `};
 `
 const SideWrapper = styled.div`
-  height: 480px;
+  height: 442px;
   width: 274px;
   ${media.tabletL`
     display: none;
