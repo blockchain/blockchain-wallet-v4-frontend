@@ -9,6 +9,7 @@ import { RootState } from 'data/rootReducer'
 import { AddBankStepType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
+import { Loading, LoadingTextEnum } from '../../../components'
 import AddBankStatus from '../AddBankStatus'
 import Authorize from './Authorize'
 import Connect from './Connect'
@@ -65,7 +66,15 @@ class Banks extends PureComponent<Props> {
         )}
         {this.props.step === AddBankStepType.ADD_BANK_STATUS && (
           <FlyoutChild>
-            <AddBankStatus handleClose={this.handleClose} />
+            <AddBankStatus
+              handleClose={this.handleClose}
+              yapilyBankId={this.state.yapilyBankId}
+            />
+          </FlyoutChild>
+        )}
+        {this.props.step === AddBankStepType.LOADING && (
+          <FlyoutChild>
+            <Loading text={LoadingTextEnum.LOADING} />
           </FlyoutChild>
         )}
       </Flyout>

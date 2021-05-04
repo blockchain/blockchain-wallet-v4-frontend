@@ -45,6 +45,14 @@ export default ({
       interestSagas.fetchInterestTransactions
     )
     yield takeLatest(
+      AT.FETCH_INTEREST_TRANSACTIONS_REPORT,
+      interestSagas.fetchInterestTransactionsReport
+    )
+    yield takeLeading(
+      AT.FETCH_INTEREST_TRANSACTIONS,
+      interestSagas.fetchInterestTransactions
+    )
+    yield takeLatest(
       AT.INITIALIZE_DEPOSIT_FORM,
       interestSagas.initializeDepositForm
     )
@@ -73,5 +81,6 @@ export default ({
       AT.STOP_SHOWING_INTEREST_MODAL,
       interestSagas.stopShowingInterestModal
     )
+    yield takeLatest(AT.FETCH_EDD_STATUS, interestSagas.fetchEDDStatus)
   }
 }

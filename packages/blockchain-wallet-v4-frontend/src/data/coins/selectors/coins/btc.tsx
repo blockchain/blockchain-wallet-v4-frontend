@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { lift, prop, propEq } from 'ramda'
+import { add, lift, prop, propEq } from 'ramda'
 
 import { coreSelectors } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
@@ -50,17 +50,29 @@ export const getAccounts = createDeepEqualSelector(
     ) => {
       const { coin } = ownProps
       let accounts = []
-
       // add non-custodial accounts if requested
       if (ownProps?.nonCustodialAccounts) {
+        // each account has a derivations object with legacy xpub and segwit xpub
+        // need to extract each xpub for balance
+        const xpubArray = acc =>
+          prop('derivations', acc).map(derr => prop('xpub', derr))
+        const xpubBalance = acc =>
+          xpubArray(acc).map(xpub =>
+            prop<string, any>('final_balance', prop(xpub, btcData))
+          )
         accounts = accounts.concat(
           btcAccounts
             .map(acc => ({
               accountIndex: prop('index', acc),
               address: prop('index', acc),
               archived: prop('archived', acc),
-              // @ts-ignore
-              balance: prop('final_balance', prop(prop('xpub', acc), btcData)),
+              // TODO: SEGWIT remove w/ DEPRECATED_V3
+              balance: acc.derivations
+                ? xpubBalance(acc).reduce(add, 0)
+                : prop<string, any>(
+                    'final_balance',
+                    prop(prop('xpub', acc), btcData)
+                  ),
               baseCoin: coin,
               coin,
               label: prop('label', acc) || prop('xpub', acc),
@@ -99,7 +111,6 @@ export const getAccounts = createDeepEqualSelector(
           generateInterestAccount(coin, interestBalance)
         )
       }
-
       return accounts
     }
 

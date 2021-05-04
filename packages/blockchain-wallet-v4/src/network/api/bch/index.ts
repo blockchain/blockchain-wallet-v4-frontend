@@ -1,4 +1,4 @@
-import { merge } from 'ramda'
+import { merge, toUpper } from 'ramda'
 
 export default ({ apiUrl, get, post }) => {
   const fetchBchData = (
@@ -37,6 +37,13 @@ export default ({ apiUrl, get, post }) => {
       data: { base: 'BCH' }
     })
 
+  const getBchTransactionHistory = (active, currency, start, end) => {
+    return post({
+      url: apiUrl,
+      endPoint: '/bch/v2/export-history',
+      data: { active, currency: toUpper(currency), start, end }
+    })
+  }
   const getBchUnspents = (fromAddresses, confirmations = 0) =>
     post({
       url: apiUrl,
@@ -83,6 +90,7 @@ export default ({ apiUrl, get, post }) => {
     getBchFees,
     getBchRawTx,
     getBchTicker,
+    getBchTransactionHistory,
     getBchUnspents,
     pushBchTx
   }

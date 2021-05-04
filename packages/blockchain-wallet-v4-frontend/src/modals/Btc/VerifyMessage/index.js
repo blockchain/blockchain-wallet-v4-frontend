@@ -162,4 +162,4 @@ class VerifyMessage extends React.PureComponent {
   }
 }
 
-export default modalEnhancer('VerifyMessage')(VerifyMessage)
+export default modalEnhancer('VERIFY_MESSAGE_AIRDROP')(VerifyMessage)

@@ -16,16 +16,21 @@ import { Props as _P, SuccessStateType as _SS } from '.'
 type Props = _SS & _P
 
 const Success = (props: Props) => {
+  const media = props.account?.attributes?.media
+  const logo = (media && media.length && media[0].source) || ''
   return (
     <BankWrapper>
       <ModalNavWithCloseIcon handleClose={props.handleClose}>
         <FormattedMessage
-          id='copy.connect_to_your_bank'
-          defaultMessage='Connect to your bank'
+          id='copy.confirm_with_your_bank'
+          defaultMessage='Confirm with your bank'
         />
       </ModalNavWithCloseIcon>
       <LinkOptionsWrapper>
-        <ScanWithPhone qrCode={props.order?.attributes?.qrcodeUrl as string} />
+        <ScanWithPhone
+          logo={logo as string}
+          qrCode={props.order?.attributes?.qrcodeUrl as string}
+        />
         <Hr />
         <Section>
           <LinkViaDesktop

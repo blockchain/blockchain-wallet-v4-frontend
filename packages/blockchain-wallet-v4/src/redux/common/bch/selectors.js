@@ -7,6 +7,7 @@ import {
   map,
   path,
   prop,
+  propEq,
   sequence,
   split,
   values
@@ -29,14 +30,20 @@ import { ADDRESS_TYPES } from '../../payment/btc/utils'
 import * as walletSelectors from '../../wallet/selectors'
 
 export const getLockboxBchBalances = state => {
-  const digest = (addresses, account) => ({
-    coin: 'BCH',
-    label: account.label,
-    balance: path([account.xpub, 'final_balance'], addresses),
-    xpub: account.xpub,
-    address: account.xpub,
-    type: ADDRESS_TYPES.LOCKBOX
-  })
+  const digest = (addresses, account) => {
+    const xpub = prop(
+      'xpub',
+      account.derivations.find(propEq('type', 'bch-145'))
+    )
+    return {
+      coin: 'BCH',
+      label: account.label,
+      balance: path([xpub, 'final_balance'], addresses),
+      xpub: xpub,
+      address: xpub,
+      type: ADDRESS_TYPES.LOCKBOX
+    }
+  }
   const balances = Remote.of(getAddresses(state).getOrElse([]))
   return map(lift(digest)(balances), getLockboxBchAccounts(state))
 }
@@ -47,7 +54,17 @@ export const getActiveHDAccounts = state => {
   const bchAccounts = getAccountsList(state).getOrElse([])
   const addInfo = account =>
     balancesRD
-      .map(prop(prop('xpub', account)))
+      .map(
+        prop(
+          prop(
+            'xpub',
+            // TODO: SEGWIT remove w/ DEPRECATED_V3
+            account.derivations
+              ? account.derivations.find(d => d.type === 'legacy')
+              : account
+          )
+        )
+      )
       .map(x => assoc('info', x, account))
   const addBchLabel = account =>
     account.map(a =>
@@ -98,15 +115,24 @@ const digestAddress = acc => ({
   type: ADDRESS_TYPES.LEGACY
 })
 
-const digestAccount = acc => ({
-  coin: 'BCH',
-  label: prop('label', acc) ? prop('label', acc) : prop('xpub', acc),
-  balance: path(['info', 'final_balance'], acc),
-  archived: prop('archived', acc),
-  xpub: prop('xpub', acc),
-  index: prop('index', acc),
-  type: ADDRESS_TYPES.ACCOUNT
-})
+const digestAccount = acc => {
+  const xpub = prop(
+    'xpub',
+    // TODO: SEGWIT remove w/ DEPRECATED_V3
+    acc.derivations ? acc.derivations.find(d => d.type === 'legacy') : acc
+  )
+
+  return {
+    archived: prop('archived', acc),
+    balance: path(['info', 'final_balance'], acc),
+    coin: 'BCH',
+    derivations: prop('derivations', acc),
+    index: prop('index', acc),
+    label: prop('label', acc) ? prop('label', acc) : xpub,
+    type: ADDRESS_TYPES.ACCOUNT,
+    xpub
+  }
+}
 
 export const getAccountsBalances = state =>
   map(map(digestAccount), getActiveHDAccounts(state))
@@ -161,7 +187,7 @@ export const getAddress = curry((network, path, state) => {
     HDWallet.selectAccount(accId),
     walletSelectors.getDefaultHDWallet
   )(state)
-  return HDAccount.getAddress(account, `M/${chain}/${index}`, network)
+  return HDAccount.getAddress(account, `M/${chain}/${index}`, network, 'legacy')
 })
 
 export const getNextAvailableChangeAddress = curry(

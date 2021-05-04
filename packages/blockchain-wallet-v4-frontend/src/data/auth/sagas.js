@@ -2,7 +2,8 @@ import { assoc, find, is, prop, propEq } from 'ramda'
 import { call, delay, fork, put, race, select, take } from 'redux-saga/effects'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import { actions, actionTypes, selectors } from 'data'
+import { DEFAULT_INVITATIONS } from 'blockchain-wallet-v4/src/model'
+import { actions, actionTypes, model, selectors } from 'data'
 import * as C from 'services/alerts'
 import { checkForVulnerableAddressError } from 'services/misc'
 import {
@@ -12,6 +13,8 @@ import {
 } from 'services/sagas'
 
 import { guessCurrencyBasedOnCountry } from './helpers'
+
+const { MOBILE_LOGIN } = model.analytics
 
 export const logLocation = 'auth/sagas'
 export const defaultLoginErrorMessage = 'Error logging into your wallet'
@@ -37,21 +40,26 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const upgradeWallet = function * () {
+  const upgradeWallet = function * ({ payload }) {
     try {
+      const { version } = payload
       let password = yield call(promptForSecondPassword)
-      yield coreSagas.wallet.upgradeToHd({ password })
+      switch (version) {
+        case 3:
+          yield coreSagas.wallet.upgradeToV3({ password })
+          break
+        case 4:
+          yield coreSagas.wallet.upgradeToV4({ password })
+          break
+      }
       yield call(forceSyncWallet)
-      yield put(actions.modals.closeModal())
     } catch (e) {
+      // TODO: SEGWIT (modals are mounted twice)
+      if (e.message === 'Already a v4 wallet') return
       yield put(actions.logs.logErrorMessage(logLocation, 'upgradeWallet', e))
       yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
+      yield put(actions.modals.closeModal())
     }
-  }
-
-  const upgradeWalletSaga = function * () {
-    yield put(actions.modals.showModal('UpgradeWallet'))
-    yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
   }
 
   const upgradeAddressLabelsSaga = function * () {
@@ -112,13 +120,31 @@ export default ({ api, coreSagas }) => {
     yield put(actions.core.data.eth.fetchErc20Data('yfi'))
   }
 
-  const loginRoutineSaga = function * (mobileLogin, firstLogin) {
+  const loginRoutineSaga = function * (
+    mobileLogin,
+    firstLogin,
+    isRecovering = false
+  ) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
       if (!isHdWallet) {
-        yield call(upgradeWalletSaga)
+        yield put(actions.auth.upgradeWallet(3))
+        yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
       }
+      const isLatestVersion = yield select(
+        selectors.core.wallet.isWrapperLatestVersion
+      )
+      yield call(coreSagas.settings.fetchSettings)
+      const invitations = selectors.core.settings
+        .getInvitations(yield select())
+        .getOrElse(DEFAULT_INVITATIONS)
+      const isSegwitEnabled = invitations.segwit
+      if (!isLatestVersion && isSegwitEnabled) {
+        yield put(actions.auth.upgradeWallet(4))
+        yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
+      }
+      // Finish upgrades
       yield put(actions.auth.authenticate())
       yield put(actions.auth.setFirstLogin(firstLogin))
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
@@ -137,7 +163,6 @@ export default ({ api, coreSagas }) => {
       yield call(
         coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials
       )
-      yield call(coreSagas.settings.fetchSettings)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
 
@@ -377,6 +402,7 @@ export default ({ api, coreSagas }) => {
   const mobileLogin = function * (action) {
     try {
       yield put(actions.auth.mobileLoginStarted())
+      yield put(actions.analytics.logEvent(MOBILE_LOGIN.LEGACY))
       const { guid, password, sharedKey } = yield call(
         coreSagas.settings.decodePairingCode,
         action.payload
@@ -444,12 +470,13 @@ export default ({ api, coreSagas }) => {
       const kvCredentials = (yield select(
         selectors.auth.getMetadataRestore
       )).getOrElse({})
-      yield call(coreSagas.wallet.restoreWalletSaga, {
+      // TODO: SEGWIT remove w/ DEPRECATED_V3
+      yield call(coreSagas.wallet.restoreWalletSaga_DEPRECATED_V3, {
         ...action.payload,
         kvCredentials
       })
       yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
-      yield call(loginRoutineSaga, false, true)
+      yield call(loginRoutineSaga, false, true, true)
       yield put(actions.auth.restoreSuccess())
     } catch (e) {
       yield put(actions.auth.restoreFailure())
@@ -616,7 +643,6 @@ export default ({ api, coreSagas }) => {
     setLogoutEventListener,
     startSockets,
     upgradeWallet,
-    upgradeWalletSaga,
     upgradeAddressLabelsSaga
   }
 }

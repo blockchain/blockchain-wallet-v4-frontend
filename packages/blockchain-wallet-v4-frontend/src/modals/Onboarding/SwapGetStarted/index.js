@@ -126,7 +126,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   connect(undefined, mapDispatchToProps),
-  modalEnhancer('SwapGetStarted')
+  modalEnhancer('SWAP_GET_STARTED_MODAL')
 )
 
 export default enhance(SwapGetStarted)

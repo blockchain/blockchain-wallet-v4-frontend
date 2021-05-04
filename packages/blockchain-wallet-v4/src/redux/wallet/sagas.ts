@@ -1,12 +1,17 @@
 import BIP39 from 'bip39'
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import Task from 'data.task'
 import {
+  add,
+  any,
   compose,
   concat,
+  curry,
   dropLastWhile,
   endsWith,
   find,
+  findLastIndex,
+  head,
   is,
   isEmpty,
   last,
@@ -90,7 +95,7 @@ export default ({ api, networks }) => {
     let wrapper = yield select(S.getWrapper)
     let nextWrapper = Wrapper.traverseWallet(
       Task.of,
-      Wallet.newHDAccount(label, password, networks.btc),
+      Wallet.newHDAccount(label, password, networks.btc, wrapper.version),
       wrapper
     )
     yield call(runTask, nextWrapper, A.wallet.setWrapper)
@@ -132,7 +137,7 @@ export default ({ api, networks }) => {
     yield put(A.wallet.setWrapper(wrapper))
   }
 
-  const upgradeToHd = function * ({ password }) {
+  const upgradeToV3 = function * ({ password }) {
     let wrapper = yield select(S.getWrapper)
     let hdwallets = compose(
       // @ts-ignore
@@ -144,20 +149,40 @@ export default ({ api, networks }) => {
 
     if (isEmpty(hdwallets)) {
       let mnemonic = yield call(generateMnemonic, api)
-      let upgradeWallet = Wallet.upgradeToHd(
+      let upgradeTask = Wrapper.upgradeToV3(
         mnemonic,
-        BTC_ACCT_NAME,
         password,
-        networks.btc
+        networks.btc,
+        wrapper
       )
-      let nextWrapper = Wrapper.traverseWallet(Task.of, upgradeWallet, wrapper)
-      yield call(runTask, nextWrapper, A.wallet.setWrapper)
+      yield call(runTask, upgradeTask, A.wallet.setWrapper)
     } else {
-      throw new Error('Already an HD wallet')
+      throw new Error('Already a v3 wallet')
     }
   }
 
-  const findUsedAccounts = function * ({ batch, node, usedAccounts }) {
+  const upgradeToV4 = function * ({ password }) {
+    const wrapper = yield select(S.getWrapper)
+    const getSeedHex = yield select(S.getSeedHex, password)
+    const seedHex = yield call(() => taskToPromise(getSeedHex))
+    if (!Wrapper.isLatestVersion(wrapper)) {
+      let upgradeTask = Wrapper.upgradeToV4(
+        seedHex,
+        password,
+        networks.btc,
+        wrapper
+      )
+      yield call(runTask, upgradeTask, A.wallet.setWrapper)
+    } else {
+      throw new Error('Already a v4 wallet')
+    }
+  }
+
+  const findUsedAccounts_DEPRECATED_V3 = function * ({
+    batch,
+    node,
+    usedAccounts
+  }) {
     if (endsWith(repeat(false, 5), usedAccounts)) {
       const n = length(dropLastWhile(not, usedAccounts))
       return n < 1 ? 1 : n
@@ -171,18 +196,22 @@ export default ({ api, networks }) => {
       // @ts-ignore
       const isUsed = a => propSatisfies(n => n > 0, 'n_tx', a)
       const xpubs = map(getxpub, range(l, l + batch))
-      const result = yield call(api.fetchBlockchainData, xpubs, {
-        n: 1,
-        offset: 0,
-        onlyShow: ''
-      })
+      const result = yield call(
+        api.fetchBlockchainData,
+        { legacy: xpubs },
+        {
+          n: 1,
+          offset: 0,
+          onlyShow: ''
+        }
+      )
       const search = xpub => find(propEq('address', xpub))
       const accounts = map(
         xpub => search(xpub)(prop('addresses', result)),
         xpubs
       )
       const flags = map(isUsed, accounts)
-      return yield call(findUsedAccounts, {
+      return yield call(findUsedAccounts_DEPRECATED_V3, {
         batch: batch,
         node: node,
         usedAccounts: concat(usedAccounts, flags)
@@ -194,6 +223,47 @@ export default ({ api, networks }) => {
     yield call(api.loginGuid, email)
   }
 
+  const findUsedAccounts = function * ({ batch, nodes }) {
+    const getxpub = curry((nodes, i) =>
+      nodes.map(node =>
+        node
+          .deriveHardened(i)
+          .neutered()
+          .toBase58()
+      )
+    )
+    const xpubs = map(getxpub(nodes), range(0, batch))
+    const result = yield call(
+      api.fetchBlockchainData,
+      {
+        legacy: xpubs.map(head),
+        activeBech32: xpubs.map(last)
+      },
+      {
+        n: 1,
+        offset: 0,
+        onlyShow: ''
+      }
+    )
+    // @ts-ignore
+    const isUsed = a => propSatisfies(n => n > 0, 'n_tx', a)
+    const search = curry((xpubGroup, addresses) =>
+      any(
+        isUsed,
+        xpubGroup.map(xpub => find(propEq('address', xpub), addresses))
+      )
+    )
+    const accounts = map(
+      xpubGroup => search(xpubGroup)(prop('addresses', result)),
+      xpubs
+    )
+    return (
+      add(
+        1,
+        findLastIndex(a => !!a, accounts)
+      ) || 1
+    )
+  }
   const restoreWalletCredentialsFromMetadata = function * (mnemonic) {
     const seedHex = BIP39.mnemonicToEntropy(mnemonic)
     const getMetadataNode = compose(
@@ -233,6 +303,61 @@ export default ({ api, networks }) => {
     }
   }
 
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
+  const restoreWalletSaga_DEPRECATED_V3 = function * ({
+    email,
+    kvCredentials,
+    language,
+    mnemonic,
+    password
+  }) {
+    let recoveredFromMetadata
+
+    // if we have retrieved credentials from metadata, use them to restore wallet
+    if (kvCredentials) {
+      recoveredFromMetadata = yield call(
+        restoreWalletFromMetadata,
+        kvCredentials,
+        password
+      )
+    }
+
+    const seed = BIP39.mnemonicToSeed(mnemonic)
+    const masterNode = Bitcoin.bip32.fromSeed(seed, networks.btc)
+    const node = masterNode.deriveHardened(44).deriveHardened(0)
+    const nAccounts = yield call(findUsedAccounts_DEPRECATED_V3, {
+      batch: 10,
+      node: node,
+      usedAccounts: []
+    })
+
+    // generate new guid
+    let [guid, sharedKey] = yield call(api.generateUUIDs, 2)
+
+    // use previously recovered guid and sharedKey from metadata for new wrapper if available
+    if (recoveredFromMetadata) {
+      guid = kvCredentials.guid
+      sharedKey = kvCredentials.sharedKey
+    }
+
+    // create new wallet wrapper
+    const wrapper = Wrapper.createNew(
+      guid,
+      password,
+      sharedKey,
+      mnemonic,
+      language,
+      undefined,
+      nAccounts
+    )
+
+    // create new wallet if it wasn't recovered from metadata
+    if (!recoveredFromMetadata) {
+      yield call(api.createWallet, email, wrapper)
+    }
+    yield put(A.wallet.refreshWrapper(wrapper))
+  }
+
   const restoreWalletSaga = function * ({
     email,
     kvCredentials,
@@ -252,12 +377,12 @@ export default ({ api, networks }) => {
     }
 
     const seed = BIP39.mnemonicToSeed(mnemonic)
-    const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, networks.btc)
-    const node = masterNode.deriveHardened(44).deriveHardened(0)
+    const masterNode = Bitcoin.bip32.fromSeed(seed, networks.btc)
+    const legacyNode = masterNode.deriveHardened(44).deriveHardened(0)
+    const bech32Node = masterNode.deriveHardened(84).deriveHardened(0)
     const nAccounts = yield call(findUsedAccounts, {
       batch: 10,
-      node: node,
-      usedAccounts: []
+      nodes: [legacyNode, bech32Node]
     })
 
     // generate new guid
@@ -340,14 +465,16 @@ export default ({ api, networks }) => {
   }
 
   const setHDAddressLabel = function * ({ payload }) {
+    const { accountIdx, addressIdx, derivationType, label } = payload
     const wallet = yield select(S.getWallet)
     const accounts = Wallet.selectHDAccounts(wallet)
     const receiveAddress = HDAccount.getReceiveAddress(
-      accounts.get(payload.accountIdx),
-      payload.addressIdx,
-      networks.btc
+      accounts.get(accountIdx),
+      addressIdx,
+      networks.btc,
+      derivationType
     )
-    yield put(A.kvStore.btc.addAddressLabel(receiveAddress, payload.label))
+    yield put(A.kvStore.btc.addAddressLabel(receiveAddress, label))
   }
 
   const checkAndUpdateWalletNames = function * () {
@@ -380,13 +507,15 @@ export default ({ api, networks }) => {
     newHDAccount,
     refetchContextData,
     remindWalletGuidSaga,
+    upgradeToV3,
+    upgradeToV4,
     resetWallet2fa,
     resendSmsLoginCode,
     restoreWalletCredentialsFromMetadata,
     restoreWalletSaga,
+    restoreWalletSaga_DEPRECATED_V3,
     setHDAddressLabel,
     toggleSecondPassword,
-    updatePbkdf2Iterations,
-    upgradeToHd
+    updatePbkdf2Iterations
   }
 }

@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { isEmpty, isNil, last, prop } from 'ramda'
+import { concat, isEmpty, isNil, last, prop } from 'ramda'
 import { FormAction, initialize } from 'redux-form'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
@@ -157,6 +157,40 @@ export default ({
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestRateFailure(error))
+    }
+  }
+  const fetchInterestTransactionsReport = function * () {
+    const reportHeaders = [['Date', 'Type', 'Asset', 'Amount', 'Tx Hash']]
+    const formatTxData = d => [
+      d.insertedAt,
+      d.type,
+      d.amount?.symbol,
+      d.amount?.value,
+      d.txHash
+    ]
+    let txList = []
+    let hasNext = true
+    let nextPageUrl
+    const { coin } = yield select(
+      selectors.form.getFormValues('interestHistoryCoin')
+    )
+    yield put(A.fetchInterestTransactionsReportLoading())
+    try {
+      while (hasNext) {
+        const { items, next } = yield call(
+          api.getInterestTransactions,
+          coin === 'ALL' ? undefined : coin,
+          nextPageUrl
+        )
+        txList = concat(txList, items.map(formatTxData))
+        hasNext = next
+        nextPageUrl = next
+      }
+      const report = concat(reportHeaders, txList)
+      yield put(A.fetchInterestTransactionsReportSuccess(report))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchInterestTransactionsReportFailure(error))
     }
   }
   const fetchInterestTransactions = function * ({
@@ -545,13 +579,29 @@ export default ({
     try {
       yield call(api.stopInterestCtaAfterTransaction, false)
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'InterestPromo', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'INTEREST_PROMO_MODAL', e)
+      )
     }
-    yield put(actions.modals.closeModal('InterestPromo'))
+    yield put(actions.modals.closeModal('INTEREST_PROMO_MODAL'))
+  }
+
+  const fetchEDDStatus = function * () {
+    try {
+      yield put(A.fetchEDDStatusLoading())
+      const response: ReturnType<typeof api.getSavingsEDDStatus> = yield call(
+        api.getSavingsEDDStatus
+      )
+      yield put(A.fetchEDDStatusSuccess(response))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchEDDStatusFailure(error))
+    }
   }
 
   return {
     fetchShowInterestCardAfterTransaction,
+    fetchInterestTransactionsReport,
     fetchInterestBalance,
     fetchInterestEligible,
     fetchInterestInstruments,
@@ -566,6 +616,7 @@ export default ({
     routeToTxHash,
     sendDeposit,
     showInterestModal,
-    stopShowingInterestModal
+    stopShowingInterestModal,
+    fetchEDDStatus
   }
 }

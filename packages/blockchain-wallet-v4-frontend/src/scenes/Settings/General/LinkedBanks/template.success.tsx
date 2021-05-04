@@ -94,7 +94,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                         id='scenes.settings.general.account'
                         defaultMessage='account'
                       />{' '}
-                      {account.details?.accountNumber}
+                      {account.details?.accountNumber || ''}
                     </Text>
                   </CardDetails>
                 </Child>

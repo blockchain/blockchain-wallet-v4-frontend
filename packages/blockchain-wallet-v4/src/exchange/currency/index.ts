@@ -12,11 +12,13 @@ import Currencies, { CurrenciesType } from '../currencies'
 
 export class Currency extends Type {
   'value': typeof BigRational
+
   'currency': CurrenciesType[keyof CurrenciesType]
 
   toString() {
     return `Currency(${this.value} ${this.currency.code}-${this.currency.base})`
   }
+
   toUnit(unit) {
     if (unit && unit.currency === this.currency.code) {
       return Maybe.Just({
@@ -29,6 +31,7 @@ export class Currency extends Type {
       return Maybe.Nothing()
     }
   }
+
   convert(pairs, toCurrency) {
     let ratio = BigRational.one
     const toCurrencyM = Maybe.fromNullable(toCurrency)

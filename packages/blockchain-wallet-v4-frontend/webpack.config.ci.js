@@ -15,6 +15,11 @@ let extraPluginsList = [
         force: true,
         from: CONFIG_PATH.legacyPages,
         to: CONFIG_PATH.ciBuild + '/legacy-pages'
+      },
+      {
+        force: true,
+        from: CONFIG_PATH.wellKnownConfig,
+        to: CONFIG_PATH.ciBuild + '/.well-known'
       }
     ]
   })

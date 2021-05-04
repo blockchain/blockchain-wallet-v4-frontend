@@ -6,6 +6,7 @@ import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { Title, Value } from 'components/Flyout'
 import { DisplayContainer } from 'components/SimpleBuy'
 import { media } from 'services/styles'
+import { hexToRgb } from 'utils/helpers'
 
 import PriceMovement from '../PriceMovement'
 import {
@@ -38,7 +39,7 @@ const DisplayTitle = styled(Title)`
   font-weight: 600;
   color: ${props => props.theme.grey800};
 `
-const IconBackground = styled.div<{ color: string }>`
+const IconBackground = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -46,7 +47,19 @@ const IconBackground = styled.div<{ color: string }>`
   height: 24px;
   border-radius: 24px;
   z-index: 100;
-  background: ${props => props.theme[props.color]};
+  background: white;
+`
+const StyledIcon = styled(Icon)<{ background: string }>`
+  background: rgba(${props => hexToRgb(props.theme[props.background])}, 0.15);
+  border-radius: 50%;
+
+  & :not(::before) {
+    opacity: 0.15;
+  }
+
+  &::before {
+    color: ${props => props.theme[props.background]};
+  }
 `
 const PlusMinusIconWrapper = styled.div`
   z-index: 10;
@@ -95,11 +108,11 @@ const Success: React.FC<Props> = props => {
             style={{ position: 'relative', left: '5px' }}
           />
           <PlusMinusIconWrapper>
-            <IconBackground color={coinType.coinCode}>
-              <Icon
+            <IconBackground>
+              <StyledIcon
                 name={props.orderType === 'BUY' ? 'plus' : 'minus'}
                 size='24px'
-                color='white'
+                background={coinType.coinCode}
               />
             </IconBackground>
           </PlusMinusIconWrapper>

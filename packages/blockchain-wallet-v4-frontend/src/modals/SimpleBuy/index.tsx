@@ -274,7 +274,6 @@ const mapStateToProps = (state: RootState) => ({
   displayBack: selectors.components.simpleBuy.getDisplayBack(state),
   orderType: selectors.components.simpleBuy.getOrderType(state),
   goals: selectors.goals.getGoals(state),
-  localCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
   data: getData(state),
   isFirstLogin: selectors.auth.getFirstLogin(state)
 })

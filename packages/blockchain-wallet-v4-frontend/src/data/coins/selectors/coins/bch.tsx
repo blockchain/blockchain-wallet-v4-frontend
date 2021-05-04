@@ -46,17 +46,25 @@ export const getAccounts = createDeepEqualSelector(
     ) => {
       const { coin } = ownProps
       let accounts = []
-
       // add non-custodial accounts if requested
       if (ownProps?.nonCustodialAccounts) {
         accounts = accounts.concat(
           bchAccounts
             .map(acc => {
               const index = prop('index', acc)
-              const xpub = prop('xpub', acc)
+              // this is using hdAccount with new segwit structure
+              // need to get legacy xPub from derivations object similar to btc selector
+              // TODO: SEGWIT remove w/ DEPRECATED_V3
+              const xpub = acc.derivations
+                ? prop(
+                    'xpub',
+                    prop('derivations', acc).find(
+                      derr => derr.type === 'legacy'
+                    )
+                  )
+                : acc.xpub
               const data = prop(xpub, bchData)
               const metadata = bchMetadata[index]
-
               return {
                 accountIndex: prop('index', acc),
                 address: index,
