@@ -85,20 +85,22 @@ export default ({
       )
       switch (coin) {
         case 'BTC':
-          maxFiat = Exchange.convertBtcToFiat({
+          maxFiat = Exchange.convertCoinToFiat(
+            'BTC',
             value,
-            fromUnit: 'SAT',
-            toCurrency: 'USD',
+            'SAT',
+            'USD',
             rates
-          }).value
+          )
           break
         case 'PAX':
-          maxFiat = Exchange.convertPaxToFiat({
+          maxFiat = Exchange.convertCoinToFiat(
+            'PAX',
             value,
-            fromUnit: 'WEI',
-            toCurrency: 'USD',
+            'WEI',
+            'USD',
             rates
-          }).value
+          )
           break
         default:
           throw new Error(INVALID_COIN_TYPE)

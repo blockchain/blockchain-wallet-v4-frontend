@@ -17,7 +17,13 @@ export const maximumWithdrawalAmount = (
   const availToWithdrawCrypto = convertBaseToStandard(coin, availToWithdraw)
   const withdrawalLimit = displayCoin
     ? availToWithdrawCrypto
-    : convertCoinToFiat(availToWithdrawCrypto, coin, walletCurrency, rates)
+    : convertCoinToFiat(
+        coin,
+        availToWithdrawCrypto,
+        coin,
+        walletCurrency,
+        rates
+      )
   return new BigNumber(Number(withdrawalLimit)).isLessThan(Number(value)) ? (
     <FormattedMessage
       id='interest.withdrawal.validation.abovemax'
@@ -37,7 +43,13 @@ export const minimumWithdrawalAmount = (
   const MIN_WITHDRAWAL = withdrawalMinimums.find(propEq('symbol', coin)).value
   const withdrawalMin = displayCoin
     ? MIN_WITHDRAWAL
-    : Exchange.convertCoinToFiat(MIN_WITHDRAWAL, coin, walletCurrency, rates)
+    : Exchange.convertCoinToFiat(
+        coin,
+        MIN_WITHDRAWAL,
+        coin,
+        walletCurrency,
+        rates
+      )
 
   return new BigNumber(Number(withdrawalMin)).isGreaterThan(Number(value)) ? (
     <FormattedMessage

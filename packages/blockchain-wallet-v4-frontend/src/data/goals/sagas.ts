@@ -334,7 +334,7 @@ export default ({ api, coreSagas, networks }) => {
   const runPaymentProtocolGoal = function * (goal) {
     const { data, id } = goal
     const { coin, r } = data
-    let coinRate, paymentFiatAmount
+    let coinRate
 
     yield put(actions.goals.deleteGoal(id))
     yield put(
@@ -388,14 +388,15 @@ export default ({ api, coreSagas, networks }) => {
         baseToStandard: true,
         coin
       }).value
+      const paymentFiatAmount = Exchange.convertCoinToFiat(
+        coin,
+        paymentCryptoAmount,
+        coin,
+        currency.getOrElse(null),
+        coinRate.getOrElse(null)
+      )
 
       if (equals('BTC', coin)) {
-        paymentFiatAmount = Exchange.convertBtcToFiat({
-          value: paymentCryptoAmount,
-          fromUnit: 'BTC',
-          toCurrency: currency.getOrElse(null),
-          rates: coinRate.getOrElse(null)
-        }).value
         yield put(
           actions.goals.addInitialModal(
             'payment',
@@ -413,12 +414,6 @@ export default ({ api, coreSagas, networks }) => {
           )
         )
       } else {
-        paymentFiatAmount = Exchange.convertBchToFiat({
-          value: paymentCryptoAmount,
-          fromUnit: 'BCH',
-          toCurrency: currency.getOrElse(null),
-          rates: coinRate.getOrElse(null)
-        }).value
         yield put(
           actions.goals.addInitialModal(
             'payment',

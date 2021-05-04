@@ -89,6 +89,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
   const withdrawalAmount = (values && values.withdrawalAmount) || 0
   const availToWithdrawCrypto = convertBaseToStandard(coin, availToWithdraw)
   const availToWithdrawFiat = convertCoinToFiat(
+    coin,
     availToWithdrawCrypto,
     coin,
     walletCurrency,

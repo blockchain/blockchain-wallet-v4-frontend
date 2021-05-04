@@ -63,6 +63,7 @@ export const getData = (state, coin) => {
     })
     // Convert ETH or ERC20 amount to Fiat
     const amount = Exchange.convertCoinToFiat(
+      coin,
       amountStandard,
       coin,
       currency,
@@ -70,6 +71,7 @@ export const getData = (state, coin) => {
     )
     // Fee for ETH or ERC20 txs should always be in ETH
     const fee = Exchange.convertCoinToFiat(
+      coin,
       feeStandard,
       'ETH',
       currency,

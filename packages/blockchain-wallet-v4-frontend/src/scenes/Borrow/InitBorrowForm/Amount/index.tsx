@@ -35,6 +35,7 @@ export class Amount extends Component<Props> {
                 value: val.offer
                   ? Math.min(
                       Exchange.convertCoinToFiat(
+                        val.values.coin,
                         convertBaseToStandard(val.values.coin, val.max),
                         val.values.coin,
                         'USD',

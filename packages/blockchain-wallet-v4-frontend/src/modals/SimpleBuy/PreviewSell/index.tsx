@@ -68,6 +68,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     return (
       (account.type === 'ACCOUNT' &&
         (Exchange.convertCoinToFiat(
+          BASE,
           convertBaseToStandard(account.baseCoin, this.networkFee(payment)),
           BASE,
           COUNTER,

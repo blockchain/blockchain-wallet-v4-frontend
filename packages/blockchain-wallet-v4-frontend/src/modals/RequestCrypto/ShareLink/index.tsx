@@ -80,6 +80,7 @@ class ShareLink extends React.PureComponent<Props> {
     const coinAmount =
       currencyDisplay === walletCurrency
         ? Exchange.convertFiatToCoin(
+            selectedAccount.coin,
             requestAmount,
             selectedAccount.coin,
             walletCurrency,
@@ -90,6 +91,7 @@ class ShareLink extends React.PureComponent<Props> {
       currencyDisplay === walletCurrency
         ? requestAmount
         : Exchange.convertCoinToFiat(
+            selectedAccount.coin,
             requestAmount,
             selectedAccount.coin,
             walletCurrency,

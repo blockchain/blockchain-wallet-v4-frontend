@@ -6,16 +6,16 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 
 import Converter from './template'
 
-const convertFiatToCoin = (value, unit, currency, rates) => ({
+const convertFiatToCoin = (unit, value, toUnit, currency, rates) => ({
   coinCode: unit,
-  coin: Exchange.convertFiatToCoin(value, unit, currency, rates),
+  coin: Exchange.convertFiatToCoin(unit, value, toUnit, currency, rates),
   fiat: value
 })
 
-const convertCoinToFiat = (value, unit, currency, rates) => ({
+const convertCoinToFiat = (unit, value, toUnit, currency, rates) => ({
   coinCode: unit,
   coin: value,
-  fiat: Exchange.convertCoinToFiat(value, unit, currency, rates)
+  fiat: Exchange.convertCoinToFiat(unit, value, toUnit, currency, rates)
 })
 
 class ConverterContainer extends React.PureComponent {
@@ -30,7 +30,13 @@ class ConverterContainer extends React.PureComponent {
 
   handleCoinChange = e => {
     const { currency, rates, unit } = this.props
-    const nextProps = convertCoinToFiat(e.target.value, unit, currency, rates)
+    const nextProps = convertCoinToFiat(
+      unit,
+      e.target.value,
+      unit,
+      currency,
+      rates
+    )
     this.props.onChange(nextProps)
   }
 
@@ -42,7 +48,7 @@ class ConverterContainer extends React.PureComponent {
       ? Number(e.target.value).toFixed(2)
       : e.target.value
 
-    const nextProps = convertFiatToCoin(val, unit, currency, rates)
+    const nextProps = convertFiatToCoin(unit, val, unit, currency, rates)
     this.props.onChange(nextProps)
   }
 

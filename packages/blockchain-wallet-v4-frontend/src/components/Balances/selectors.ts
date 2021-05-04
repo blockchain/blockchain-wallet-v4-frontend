@@ -326,8 +326,7 @@ export const getBchBalanceInfo = createDeepEqualSelector(
   ],
   (bchBalanceR, bchRatesR, currencyR) => {
     const transform = (value, rates, toCurrency) =>
-      Exchange.convertBchToFiat({ value, fromUnit: 'SAT', toCurrency, rates })
-        .value
+      Exchange.convertCoinToFiat('BCH', value, 'SAT', toCurrency, rates)
     return lift(transform)(bchBalanceR, bchRatesR, currencyR)
   }
 )
@@ -360,12 +359,7 @@ export const getPaxBalanceInfo = createDeepEqualSelector(
   ],
   (paxBalanceR, erc20RatesR, currencyR) => {
     const transform = (value, rates, toCurrency) => {
-      return Exchange.convertPaxToFiat({
-        value,
-        fromUnit: 'WEI',
-        toCurrency,
-        rates
-      }).value
+      return Exchange.convertCoinToFiat('PAX', value, 'WEI', toCurrency, rates)
     }
 
     return lift(transform)(paxBalanceR, erc20RatesR, currencyR)
@@ -380,12 +374,7 @@ export const getAaveBalanceInfo = createDeepEqualSelector(
   ],
   (aaveBalanceR, erc20RatesR, currencyR) => {
     const transform = (value, rates, toCurrency) => {
-      return Exchange.convertAaveToFiat({
-        value,
-        fromUnit: 'WEI',
-        toCurrency,
-        rates
-      }).value
+      return Exchange.convertCoinToFiat('AAVE', value, 'WEI', toCurrency, rates)
     }
 
     return lift(transform)(aaveBalanceR, erc20RatesR, currencyR)
@@ -400,12 +389,7 @@ export const getYfiBalanceInfo = createDeepEqualSelector(
   ],
   (yfiBalanceR, erc20RatesR, currencyR) => {
     const transform = (value, rates, toCurrency) => {
-      return Exchange.convertYfiToFiat({
-        value,
-        fromUnit: 'WEI',
-        toCurrency,
-        rates
-      }).value
+      return Exchange.convertCoinToFiat('YFI', value, 'WEI', toCurrency, rates)
     }
 
     return lift(transform)(yfiBalanceR, erc20RatesR, currencyR)
@@ -420,12 +404,7 @@ export const getUsdtBalanceInfo = createDeepEqualSelector(
   ],
   (usdtBalanceR, erc20RatesR, currencyR) => {
     const transform = (value, rates, toCurrency) => {
-      return Exchange.convertUsdtToFiat({
-        value,
-        fromUnit: 'WEI',
-        toCurrency,
-        rates
-      }).value
+      return Exchange.convertCoinToFiat('USDT', value, 'WEI', toCurrency, rates)
     }
 
     return lift(transform)(usdtBalanceR, erc20RatesR, currencyR)
@@ -440,12 +419,13 @@ export const getWdgldBalanceInfo = createDeepEqualSelector(
   ],
   (wdgldBalanceR, erc20RatesR, currencyR) => {
     const transform = (value, rates, toCurrency) => {
-      return Exchange.convertWdgldToFiat({
+      return Exchange.convertCoinToFiat(
+        'WDGLD',
         value,
-        fromUnit: 'WEI',
+        'WEI',
         toCurrency,
         rates
-      }).value
+      )
     }
 
     return lift(transform)(wdgldBalanceR, erc20RatesR, currencyR)
@@ -460,12 +440,13 @@ export const getDotBalanceInfo = createDeepEqualSelector(
   ],
   (dotBalanceR, dotRatesR, currencyR) => {
     const transform = (value, rates, toCurrency) => {
-      return Exchange.convertDotToFiat({
+      return Exchange.convertCoinToFiat(
+        'DOT',
         value,
-        fromUnit: 'PLANCK',
+        'PLANCK',
         toCurrency,
         rates
-      }).value
+      )
     }
 
     return lift(transform)(dotBalanceR, dotRatesR, currencyR)
@@ -480,12 +461,7 @@ export const getXlmBalanceInfo = createDeepEqualSelector(
   ],
   (xlmBalanceR, xlmRatesR, currencyR) => {
     const transform = (value, rates, toCurrency) =>
-      Exchange.convertXlmToFiat({
-        value,
-        fromUnit: 'STROOP',
-        toCurrency,
-        rates
-      }).value
+      Exchange.convertCoinToFiat('XLM', value, 'STROOP', toCurrency, rates)
     return lift(transform)(xlmBalanceR, xlmRatesR, currencyR)
   }
 )
@@ -498,12 +474,7 @@ export const getAlgoBalanceInfo = createDeepEqualSelector(
   ],
   (algoBalanceR, algoRatesR, currencyR) => {
     const transform = (value, rates, toCurrency) =>
-      Exchange.convertAlgoToFiat({
-        value,
-        fromUnit: 'mALGO',
-        toCurrency,
-        rates
-      }).value
+      Exchange.convertCoinToFiat('ALGO', value, 'mALGO', toCurrency, rates)
     return lift(transform)(algoBalanceR, algoRatesR, currencyR)
   }
 )

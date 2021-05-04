@@ -87,8 +87,7 @@ export const getBchBalanceInfo = createDeepEqualSelector(
   ],
   (bchBalanceR, bchRatesR, currencyR) => {
     const transform = (value, rates, toCurrency) =>
-      Exchange.convertBchToFiat({ value, fromUnit: 'SAT', toCurrency, rates })
-        .value
+      Exchange.convertCoinToFiat('BCH', value, 'SAT', toCurrency, rates)
     return lift(transform)(bchBalanceR, bchRatesR, currencyR)
   }
 )

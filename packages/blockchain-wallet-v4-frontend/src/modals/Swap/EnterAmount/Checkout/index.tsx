@@ -152,6 +152,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     COUNTER
   )
   const fiatMax = Exchange.convertCoinToFiat(
+    BASE.coin,
     max,
     BASE.coin,
     walletCurrency,
@@ -167,6 +168,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     COUNTER
   )
   const fiatMin = Exchange.convertCoinToFiat(
+    BASE.coin,
     min,
     BASE.coin,
     walletCurrency,
@@ -183,12 +185,14 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const quoteAmount =
     fix === 'FIAT'
       ? Exchange.convertFiatToCoin(
+          BASE.coin,
           formValues?.amount || 0,
           BASE.coin,
           walletCurrency,
           baseRates
         )
       : Exchange.convertCoinToFiat(
+          BASE.coin,
           formValues?.amount || 0,
           BASE.coin,
           walletCurrency,

@@ -1,13 +1,7 @@
 import { head } from 'ramda'
 import { select } from 'redux-saga/effects'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
 import { PaymentValue } from 'blockchain-wallet-v4/src/redux/payment/types'
-import {
-  CoinType,
-  CurrenciesType,
-  RatesType
-} from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
 // retrieves default account/address
@@ -33,19 +27,4 @@ export const getOrUpdateProvisionalPayment = function * (
     payment: paymentR.getOrElse(<PaymentValue>{}),
     network: networks.eth
   })
-}
-
-// converts base unit (WEI) to fiat
-export const convertFromBaseUnitToFiat = function(
-  coin: CoinType,
-  baseUnitValue: number | string,
-  userCurrency: keyof CurrenciesType,
-  rates: RatesType
-): number {
-  return Exchange.convertEthToFiat({
-    value: baseUnitValue,
-    fromUnit: 'WEI',
-    toCurrency: userCurrency,
-    rates
-  }).value
 }

@@ -64,6 +64,7 @@ export const getData = (state: RootState) => {
           : convertBaseToStandard(coin, depositFee)
 
       const feeFiat = Exchange.convertCoinToFiat(
+        coin,
         feeCrypto,
         coin in Erc20CoinsEnum ? 'ETH' : coin,
         walletCurrency,

@@ -38,7 +38,7 @@ export const amountToFiat = (
   rates
 ) =>
   displayCoin
-    ? Exchange.convertCoinToFiat(amount, coin, walletCurrency, rates)
+    ? Exchange.convertCoinToFiat(coin, amount, coin, walletCurrency, rates)
     : amount
 
 export const amountToCrypto = (
@@ -51,7 +51,7 @@ export const amountToCrypto = (
   if (displayCoin) {
     return amount
   } else {
-    return Exchange.convertFiatToCoin(amount, coin, walletCurrency, rates)
+    return Exchange.convertFiatToCoin(coin, amount, coin, walletCurrency, rates)
   }
 }
 

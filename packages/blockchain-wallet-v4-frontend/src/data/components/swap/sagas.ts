@@ -366,6 +366,7 @@ export default ({
       fix === 'CRYPTO'
         ? action.payload
         : Exchange.convertFiatToCoin(
+            BASE.coin,
             action.payload,
             BASE.coin,
             userCurrency,

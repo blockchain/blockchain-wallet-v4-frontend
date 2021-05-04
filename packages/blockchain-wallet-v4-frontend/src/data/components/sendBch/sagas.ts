@@ -316,7 +316,8 @@ export default ({
         baseToStandard: true,
         coin: 'BCH'
       }).value
-      const fiat = Exchange.convertBchToFiat({
+      const fiat = Exchange.convertCoinUnitToFiat({
+        coin: 'BCH',
         value: effectiveBalance,
         fromUnit: 'SAT',
         toCurrency: currency,

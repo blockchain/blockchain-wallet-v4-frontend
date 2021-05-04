@@ -98,6 +98,7 @@ export const maximumAmount = (
     )
   )
   const fiatMax = Exchange.convertCoinToFiat(
+    restProps.BASE.coin,
     cryptoMax,
     restProps.BASE.coin,
     walletCurrency,
@@ -131,6 +132,7 @@ export const minimumAmount = (
     )
   )
   const fiatMin = Exchange.convertCoinToFiat(
+    restProps.BASE.coin,
     cryptoMin,
     restProps.BASE.coin,
     walletCurrency,

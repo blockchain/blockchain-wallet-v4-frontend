@@ -101,6 +101,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
         baseToStandard: true
       }).value
       const minCoin = Exchange.convertFiatToCoin(
+        coin,
         Number(convertBaseToStandard('FIAT', minFiat)),
         coin,
         walletCurrency,
