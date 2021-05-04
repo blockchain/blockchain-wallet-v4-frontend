@@ -20,17 +20,17 @@ export default ({ api, coreSagas }) => {
         yield put(
           actions.form.change('loginNew', 'step', LoginSteps.ENTER_EMAIL_GUID)
         )
-        yield put(
-          actions.form.change(
-            'loginNew',
-            'step',
-            LoginSteps.VERIFICATION_MOBILE
-          )
-        )
       } else {
         if (isGuid(params[2])) {
           const guidFromRoute = params[2]
           yield put(actions.form.change('loginNew', 'guid', guidFromRoute))
+          yield put(
+            actions.form.change(
+              'loginNew',
+              'step',
+              LoginSteps.VERIFICATION_MOBILE
+            )
+          )
         } else {
           const loginData = JSON.parse(atob(params[2])) as LoginObject
           const guidFromRoute = prop('guid', loginData)

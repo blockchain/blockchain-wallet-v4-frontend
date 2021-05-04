@@ -6,6 +6,7 @@ import { Field, InjectedFormProps } from 'redux-form'
 
 import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import {
+  Form,
   FormError,
   FormGroup,
   FormItem,
@@ -33,6 +34,7 @@ const EnterTwoFactor = (props: InjectedFormProps<{}, Props> & Props) => {
     formActions,
     formValues,
     guid,
+    handleSubmit,
     invalid,
     loginError,
     setStep,
@@ -45,7 +47,7 @@ const EnterTwoFactor = (props: InjectedFormProps<{}, Props> & Props) => {
     props.authActions.resendSmsCode(guid)
   }
   return (
-    <>
+    <Form onSubmit={handleSubmit}>
       <BackArrowFormHeader
         formActions={formActions}
         formValues={formValues}
@@ -115,7 +117,7 @@ const EnterTwoFactor = (props: InjectedFormProps<{}, Props> & Props) => {
         </ActionButton>
         <NeedHelpLink />
       </LinkRow>
-    </>
+    </Form>
   )
 }
 
@@ -131,6 +133,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = OwnProps & {
   busy: boolean
+  handleSubmit: (e) => void
   loginError?: string
   setStep: (step: LoginSteps) => void
 } & ConnectedProps<typeof connector>

@@ -126,7 +126,7 @@ export default ({ api, coreSagas }) => {
     isRecovering = false
   ) {
     try {
-      // If needed, the user should upgrade its wallet before being able to open the wallet
+      // If needed, the user should upgrade its wallet before being able to open the wallet    
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
       if (!isHdWallet) {
         yield put(actions.auth.upgradeWallet(3))
@@ -351,6 +351,7 @@ export default ({ api, coreSagas }) => {
         // dispatch state change to show form
         yield put(actions.auth.loginFailure())
         yield put(actions.auth.setAuthType(error.auth_type))
+        yield put(actions.form.change('loginNew', 'step', 'ENTER_TWO_FACTOR'))
         yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
         // Wrong password error
       } else if (

@@ -40,7 +40,8 @@ class Login extends PureComponent<Props> {
     this.props.formActions.change(LOGIN_NEW, 'step', step)
   }
 
-  handleSubmit = () => {
+  handleSubmit = (e) => {
+    e.preventDefault()
     const { code, guid, password } = this.props
     let auth = code
     // only uppercase if authType is not Yubikey
@@ -110,7 +111,6 @@ class Login extends PureComponent<Props> {
           )}
         </Text>
         <Wrapper>
-          <Form onSubmit={this.handleSubmit}>
             {(() => {
               switch (step) {
                 case LoginSteps.ENTER_EMAIL_GUID:
@@ -129,6 +129,7 @@ class Login extends PureComponent<Props> {
                       {...this.props}
                       {...loginProps}
                       setStep={this.setStep}
+                      handleSubmit={this.handleSubmit}
                     />
                   )
 
@@ -139,6 +140,7 @@ class Login extends PureComponent<Props> {
                       {...this.props}
                       {...loginProps}
                       setStep={this.setStep}
+                      handleSubmit={this.handleSubmit}
                     />
                   )
 
@@ -167,7 +169,6 @@ class Login extends PureComponent<Props> {
                   return <Loading />
               }
             })()}
-          </Form>
         </Wrapper>
 
         <ButtonRow>

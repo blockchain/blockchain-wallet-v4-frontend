@@ -6,6 +6,7 @@ import { Field, InjectedFormProps } from 'redux-form'
 
 import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import {
+  Form,
   FormError,
   FormGroup,
   FormItem,
@@ -30,6 +31,7 @@ const EnterPassword = (props: InjectedFormProps<{}, Props> & Props) => {
     busy,
     formActions,
     formValues,
+    handleSubmit,
     invalid,
     loginError,
     password,
@@ -45,7 +47,7 @@ const EnterPassword = (props: InjectedFormProps<{}, Props> & Props) => {
       loginError.toLowerCase().includes('account is locked'))
 
   return (
-    <>
+    <Form onSubmit={handleSubmit}>
       <BackArrowFormHeader
         formActions={formActions}
         formValues={formValues}
@@ -116,7 +118,7 @@ const EnterPassword = (props: InjectedFormProps<{}, Props> & Props) => {
         </ActionButton>
         <NeedHelpLink />
       </LinkRow>
-    </>
+    </Form>
   )
 }
 
@@ -128,6 +130,7 @@ const connector = connect(mapStateToProps)
 
 type Props = OwnProps & {
   busy: boolean
+  handleSubmit: (e) => void
   loginError?: string
   setStep: (step: LoginSteps) => void
 } & ConnectedProps<typeof connector>

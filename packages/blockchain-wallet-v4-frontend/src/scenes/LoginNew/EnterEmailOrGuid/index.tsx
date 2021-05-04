@@ -4,7 +4,7 @@ import { Field, InjectedFormProps } from 'redux-form'
 
 import { HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
 import {
-  // Form,
+  Form,
   // FormError,
   FormGroup,
   FormItem,
@@ -58,7 +58,7 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
   //   loginError && loginError.toLowerCase().includes('unknown wallet id')
 
   return (
-    <>
+    <Form onSubmit={handleContinue}>
       <FormGroup>
         <FormItem>
           <LoginFormLabel htmlFor='guid'>
@@ -176,7 +176,7 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
           </Link>
         </HelpRow>
       </RectangleBackground>
-    </>
+    </Form>
   )
 }
 
