@@ -18,11 +18,7 @@ export const getData = (
   const buildCustodialDisplay = x => {
     return (
       `Trading Account` +
-      ` (${Exchange.displayDotToDot({
-        value: x ? x.available : 0,
-        fromUnit: 'PLANCK',
-        toUnit: 'DOT'
-      })})`
+      ` (${Exchange.displayCoinToCoin(x ? x.available : 0, 'DOT')})`
     )
   }
 

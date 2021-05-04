@@ -12,7 +12,7 @@ export type UnitType = KeysOfUnion<
   CurrenciesType[keyof CurrenciesType]['units']
 >
 
-const { BTC, DOT, ETH, XLM } = Currencies
+const { BTC, ETH, XLM } = Currencies
 
 const DefaultConversion = {
   value: '0',
@@ -115,22 +115,6 @@ const transformBtcToFiat = ({
   return Currency.fromUnit({ value, unit: sourceUnit })
     .chain(Currency.convert(pairs, targetCurrency))
     .chain(Currency.toUnit(targetCurrencyUnit))
-}
-
-const transformDotToDot = ({
-  fromUnit,
-  toUnit,
-  value
-}: {
-  fromUnit: UnitType
-  toUnit: UnitType
-  value: number | string
-}) => {
-  const sourceUnit = path(['units', fromUnit], DOT)
-  const targetUnit = path(['units', toUnit], DOT)
-  return Currency.fromUnit({ value, unit: sourceUnit }).chain(
-    Currency.toUnit(targetUnit)
-  )
 }
 
 const transformEtherToFiat = ({
@@ -317,47 +301,6 @@ const displayCoinToCoinV2 = ({
     .getOrElse(DefaultDisplay)
 }
 
-const displayDotToDot = ({
-  fromUnit,
-  toUnit,
-  value
-}: {
-  fromUnit: UnitType
-  toUnit: UnitType
-  value: number | string
-}) => {
-  return transformDotToDot({ value, fromUnit, toUnit })
-    .map(x => Currency.coinToString({ ...x, minDigits: 2 }))
-    .getOrElse(DefaultDisplay)
-}
-
-const displayEthToEth = ({
-  fromUnit,
-  toUnit,
-  value
-}: {
-  fromUnit: UnitType
-  toUnit: UnitType
-  value: number | string
-}) => {
-  return transformCoinToCoin({ coin: 'ETH', value, fromUnit, toUnit })
-    .map(Currency.coinToString)
-    .getOrElse(DefaultDisplay)
-}
-
-const displayPaxToPax = ({
-  fromUnit,
-  toUnit,
-  value
-}: {
-  fromUnit: UnitType
-  toUnit: UnitType
-  value: number | string
-}) => {
-  return transformCoinToCoin({ coin: 'PAX', value, fromUnit, toUnit })
-    .map(x => Currency.coinToString({ ...x, minDigits: 2, maxDigits: 2 }))
-    .getOrElse(DefaultDisplay)
-}
 const displayCoinToFiat = ({
   fromCoin,
   fromUnit,
@@ -521,9 +464,6 @@ export {
   DefaultDisplay,
   displayCoinToCoin,
   displayCoinToFiat,
-  displayDotToDot,
-  displayEthToEth,
   displayFiatToFiat,
-  displayPaxToPax,
   getSymbol
 }

@@ -30,16 +30,7 @@ export const getEthData = (
   } = ownProps
 
   const displayEthFixed = data => {
-    const etherAmount = Exchange.convertCoinToCoin({
-      coin: 'ETH',
-      baseToStandard: true,
-      value: data.value
-    })
-    return Exchange.displayEthToEth({
-      value: Number(etherAmount.value).toFixed(8),
-      fromUnit: 'ETH',
-      toUnit: 'ETH'
-    })
+    return Exchange.displayCoinToCoin(data.value, 'ETH')
   }
   const buildDisplay = wallet => {
     if (has('balance', wallet)) {
@@ -55,21 +46,13 @@ export const getEthData = (
   const buildCustodialDisplay = x => {
     return (
       `Trading Account` +
-      ` (${Exchange.displayEthToEth({
-        value: x ? x.available : 0,
-        fromUnit: 'WEI',
-        toUnit: 'ETH'
-      })})`
+      ` (${Exchange.displayCoinToCoin(x ? x.available : 0, 'ETH')})`
     )
   }
   const buildInterestDisplay = (x: InterestAccountBalanceType['ETH']) => {
     return (
       `Interest Account` +
-      ` (${Exchange.displayEthToEth({
-        value: x ? x.balance : 0,
-        fromUnit: 'WEI',
-        toUnit: 'ETH'
-      })})`
+      ` (${Exchange.displayCoinToCoin(x ? x.balance : 0, 'ETH')})`
     )
   }
   // @ts-ignore
@@ -187,11 +170,7 @@ export const getErc20Data = (
       coin,
       value: data.value
     })
-    return Exchange.displayPaxToPax({
-      value: Number(amount.value).toFixed(8),
-      fromUnit: coin,
-      toUnit: coin
-    })
+    return Exchange.displayCoinToCoin(Number(amount.value).toFixed(8), 'PAX')
   }
   const buildCustodialDisplay = (x, coin: Erc20CoinType) => {
     return (
@@ -207,11 +186,7 @@ export const getErc20Data = (
   const buildInterestDisplay = (coin: Erc20CoinType, x) => {
     return (
       `Interest Account` +
-      ` (${Exchange.displayEthToEth({
-        value: x ? x.balance : 0,
-        fromUnit: 'WEI',
-        toUnit: coin
-      })})`
+      ` (${Exchange.displayCoinToCoin(x ? x.balance : 0, 'ETH')})`
     )
   }
 
