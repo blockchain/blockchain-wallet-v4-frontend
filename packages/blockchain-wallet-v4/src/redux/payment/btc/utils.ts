@@ -85,10 +85,23 @@ export const fromAccount = (network, state, index) => {
     let legacy = prop('xpub', allXpubsGrouped.find(propEq('type', 'legacy')))
     let bech32 = prop('xpub', allXpubsGrouped.find(propEq('type', 'bech32')))
 
+    let receiveIndex = S.data.btc.getReceiveIndex(defaultDerivationXpub, state)
     let changeIndex = S.data.btc.getChangeIndex(defaultDerivationXpub, state)
     let changeAddress = changeIndex
       .map(index => HDAccount.getChangeAddress(account, index, network))
       .getOrFail('missing_change_address')
+    // When moving from one chain to another i.e legacy to segwit
+    // we must send to the receive chain so that backend services
+    // will search for funds on the change chain. Without funds
+    // received to a receive chain, the backend will not lookup change.
+    let shouldTransferToReceive = receiveIndex.getOrElse(0) === 0
+    let receiveAddress = shouldTransferToReceive
+      ? HDAccount.getReceiveAddress(account, 0, network).getOrElse('')
+      : ''
+
+    if (shouldTransferToReceive && receiveAddress) {
+      changeAddress = receiveAddress
+    }
 
     return {
       change: changeAddress,
