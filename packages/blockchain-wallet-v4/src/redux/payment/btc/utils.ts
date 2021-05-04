@@ -96,7 +96,7 @@ export const fromAccount = (network, state, index) => {
     // received to a receive chain, the backend will not lookup change.
     let shouldTransferToReceive = receiveIndex.getOrElse(0) === 0
     let receiveAddress = shouldTransferToReceive
-      ? HDAccount.getReceiveAddress(account, 0, network).getOrElse('')
+      ? HDAccount.getReceiveAddress(account, 0, network)
       : ''
 
     if (shouldTransferToReceive && receiveAddress) {
