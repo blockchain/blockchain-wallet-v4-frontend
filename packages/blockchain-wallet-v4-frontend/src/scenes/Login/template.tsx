@@ -62,10 +62,8 @@ const OuterWrapper = styled.div`
   `};
 `
 const SideWrapper = styled.div`
+  height: 480px;
   width: 274px;
-  padding: 12px 0 12px 0;
-  display: flex;
-  flex-direction: column;
   ${media.tabletL`
     display: none;
   `};
@@ -98,15 +96,18 @@ const LoginWrapper = styled.div`
 const PublicWrapper = styled(Wrapper)`
   position: relative;
   overflow: visible;
+  border-radius: ${props => (props.showMobileAuth ? '8px 0 0 8px' : '8px')};
 `
 
-const PublicSideWrapper = styled(Wrapper)`
-  position: relative;
-  overflow: visible;
-  max-width: 274px;
-  border-radius: 0 8px 8px 0;
+const MobileAuthSideWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: visible;
+  height: 402px;
+  max-width: 274px;
+  border-radius: 0 8px 8px 0;
+  background-color: ${props => props.theme.grey000};
 `
 const Header = styled.div`
   display: flex;
@@ -162,7 +163,7 @@ const SignUpText = styled(Text)`
   }
 `
 const QRCodeContainer = styled.div`
-  margin-top: 8px;
+  margin-top: 16px;
   display: flex;
   justify-content: left;
 `
@@ -260,7 +261,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
               </Text>
             </HeaderWrapper>
           )}
-          <PublicWrapper>
+          <PublicWrapper showMobileAuth={props.showMobileAuth}>
             <Header>
               <Text size='20px' color='textBlack' weight={600} capitalize>
                 {isLinkAccountGoal ? (
@@ -540,7 +541,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
       </CenterWrapper>
       {showMobileAuth && (
         <SideWrapper>
-          <PublicSideWrapper>
+          <MobileAuthSideWrapper>
             {!phonePubKey && (
               <>
                 <CartridgeContainer>
@@ -603,11 +604,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                       )
                     },
                     NotAsked: () => (
-                      <QRCodeWrapper
-                        value={qrData}
-                        size={qrData.length}
-                        showImage
-                      />
+                      <QRCodeWrapper value={qrData} size={175} showImage />
                     )
                   })}
                 </QRCodeContainer>
@@ -691,7 +688,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                 </TextGroup>
               </>
             )}
-          </PublicSideWrapper>
+          </MobileAuthSideWrapper>
         </SideWrapper>
       )}
     </OuterWrapper>
