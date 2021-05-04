@@ -1,5 +1,5 @@
 import { BigNumber } from 'bignumber.js'
-import { assoc, assocPath, path, prop } from 'ramda'
+import { assocPath, path, prop } from 'ramda'
 
 import { CoinType, RatesType, WalletFiatType } from 'core/types'
 
@@ -12,19 +12,7 @@ export type UnitType = KeysOfUnion<
   CurrenciesType[keyof CurrenciesType]['units']
 >
 
-const {
-  AAVE,
-  ALGO,
-  BCH,
-  BTC,
-  DOT,
-  ETH,
-  PAX,
-  USDT,
-  WDGLD,
-  XLM,
-  YFI
-} = Currencies
+const { BTC, DOT, ETH, XLM } = Currencies
 
 const DefaultConversion = {
   value: '0',
@@ -129,27 +117,6 @@ const transformBtcToFiat = ({
     .chain(Currency.toUnit(targetCurrencyUnit))
 }
 
-const transformDotToFiat = ({
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  const pairs = Pairs.create(DOT.code, rates)
-  const targetCurrency = prop(toCurrency, Currencies)
-  const targetCurrencyCode = prop('code', targetCurrency)
-  const targetCurrencyUnit = path(['units', targetCurrencyCode], targetCurrency)
-  const sourceUnit = path(['units', fromUnit], DOT)
-  return Currency.fromUnit({ value, unit: sourceUnit })
-    .chain(Currency.convert(pairs, targetCurrency))
-    .chain(Currency.toUnit(targetCurrencyUnit))
-}
-
 const transformDotToDot = ({
   fromUnit,
   toUnit,
@@ -187,132 +154,6 @@ const transformEtherToFiat = ({
     .chain(Currency.toUnit(targetCurrencyUnit))
 }
 
-const transformPaxToFiat = ({
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  const pairs = Pairs.create(PAX.code, rates)
-  const targetCurrency = prop(toCurrency, Currencies)
-  const targetCurrencyCode = prop('code', targetCurrency)
-  const targetCurrencyUnit = path(['units', targetCurrencyCode], targetCurrency)
-  const sourceUnit = path(['units', fromUnit], PAX)
-  return Currency.fromUnit({ value, unit: sourceUnit })
-    .chain(Currency.convert(pairs, targetCurrency))
-    .chain(Currency.toUnit(targetCurrencyUnit))
-}
-
-const transformYfiToFiat = ({
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  const pairs = Pairs.create(YFI.code, rates)
-  const targetCurrency = prop(toCurrency, Currencies)
-  const targetCurrencyCode = prop('code', targetCurrency)
-  const targetCurrencyUnit = path(['units', targetCurrencyCode], targetCurrency)
-  const sourceUnit = path(['units', fromUnit], YFI)
-  return Currency.fromUnit({ value, unit: sourceUnit })
-    .chain(Currency.convert(pairs, targetCurrency))
-    .chain(Currency.toUnit(targetCurrencyUnit))
-}
-
-const transformAaveToFiat = ({
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  const pairs = Pairs.create(AAVE.code, rates)
-  const targetCurrency = prop(toCurrency, Currencies)
-  const targetCurrencyCode = prop('code', targetCurrency)
-  const targetCurrencyUnit = path(['units', targetCurrencyCode], targetCurrency)
-  const sourceUnit = path(['units', fromUnit], AAVE)
-  return Currency.fromUnit({ value, unit: sourceUnit })
-    .chain(Currency.convert(pairs, targetCurrency))
-    .chain(Currency.toUnit(targetCurrencyUnit))
-}
-
-const transformUsdtToFiat = ({
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  const pairs = Pairs.create(USDT.code, rates)
-  const targetCurrency = prop(toCurrency, Currencies)
-  const targetCurrencyCode = prop('code', targetCurrency)
-  const targetCurrencyUnit = path(['units', targetCurrencyCode], targetCurrency)
-  const sourceUnit = path(['units', fromUnit], USDT)
-  return Currency.fromUnit({ value, unit: sourceUnit })
-    .chain(Currency.convert(pairs, targetCurrency))
-    .chain(Currency.toUnit(targetCurrencyUnit))
-}
-
-const transformWdgldToFiat = ({
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  const pairs = Pairs.create(WDGLD.code, rates)
-  const targetCurrency = prop(toCurrency, Currencies)
-  const targetCurrencyCode = prop('code', targetCurrency)
-  const targetCurrencyUnit = path(['units', targetCurrencyCode], targetCurrency)
-  const sourceUnit = path(['units', fromUnit], WDGLD)
-  return Currency.fromUnit({ value, unit: sourceUnit })
-    .chain(Currency.convert(pairs, targetCurrency))
-    .chain(Currency.toUnit(targetCurrencyUnit))
-}
-
-const transformBchToFiat = ({
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  const pairs = Pairs.create(BCH.code, rates)
-  const targetCurrency = prop(toCurrency, Currencies)
-  const targetCurrencyCode = prop('code', targetCurrency)
-  const targetCurrencyUnit = path(['units', targetCurrencyCode], targetCurrency)
-  const sourceUnit = path(['units', fromUnit], BCH)
-  return Currency.fromUnit({ value, unit: sourceUnit })
-    .chain(Currency.convert(pairs, targetCurrency))
-    .chain(Currency.toUnit(targetCurrencyUnit))
-}
-
 const transformXlmToFiat = ({
   digits = 2,
   fromUnit,
@@ -339,37 +180,6 @@ const transformXlmToFiat = ({
     updatedTargetCurrency
   )
   const sourceUnit = path(['units', fromUnit], XLM)
-  return Currency.fromUnit({ value, unit: sourceUnit })
-    .chain(Currency.convert(pairs, updatedTargetCurrency))
-    .chain(Currency.toUnit(targetCurrencyUnit))
-}
-
-const transformAlgoToFiat = ({
-  digits = 2,
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  digits?: number
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  const pairs = Pairs.create(ALGO.code, rates)
-  const targetCurrency = prop(toCurrency, Currencies)
-  const targetCurrencyCode = prop('code', targetCurrency)
-  const updatedTargetCurrency = assocPath(
-    ['units', targetCurrencyCode, 'decimal_digits'],
-    digits,
-    prop(toCurrency, Currencies)
-  )
-  const targetCurrencyUnit = path(
-    ['units', targetCurrencyCode],
-    updatedTargetCurrency
-  )
-  const sourceUnit = path(['units', fromUnit], ALGO)
   return Currency.fromUnit({ value, unit: sourceUnit })
     .chain(Currency.convert(pairs, updatedTargetCurrency))
     .chain(Currency.toUnit(targetCurrencyUnit))
@@ -507,38 +317,6 @@ const displayCoinToCoinV2 = ({
     .getOrElse(DefaultDisplay)
 }
 
-const displayBtcToFiat = ({
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  return transformBtcToFiat({ value, fromUnit, toCurrency, rates })
-    .map(Currency.unsafe_deprecated_fiatToString)
-    .getOrElse(DefaultDisplay)
-}
-
-const displayDotToFiat = ({
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  return transformDotToFiat({ value, fromUnit, toCurrency, rates })
-    .map(Currency.unsafe_deprecated_fiatToString)
-    .getOrElse(DefaultDisplay)
-}
-
 const displayDotToDot = ({
   fromUnit,
   toUnit,
@@ -553,103 +331,7 @@ const displayDotToDot = ({
     .getOrElse(DefaultDisplay)
 }
 
-const displayEtherToFiat = ({
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  return transformEtherToFiat({ value, fromUnit, toCurrency, rates })
-    .map(Currency.unsafe_deprecated_fiatToString)
-    .getOrElse(DefaultDisplay)
-}
-
-const displayPaxToFiat = ({
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  return transformPaxToFiat({ value, fromUnit, toCurrency, rates })
-    .map(Currency.unsafe_deprecated_fiatToString)
-    .getOrElse(DefaultDisplay)
-}
-
-const displayAaveToFiat = ({
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  return transformAaveToFiat({ value, fromUnit, toCurrency, rates })
-    .map(Currency.unsafe_deprecated_fiatToString)
-    .getOrElse(DefaultDisplay)
-}
-
-const displayYfiToFiat = ({
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  return transformYfiToFiat({ value, fromUnit, toCurrency, rates })
-    .map(Currency.unsafe_deprecated_fiatToString)
-    .getOrElse(DefaultDisplay)
-}
-
-const displayUsdtToFiat = ({
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  return transformUsdtToFiat({ value, fromUnit, toCurrency, rates })
-    .map(Currency.unsafe_deprecated_fiatToString)
-    .getOrElse(DefaultDisplay)
-}
-
-const displayWdgldToFiat = ({
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  return transformWdgldToFiat({ value, fromUnit, toCurrency, rates })
-    .map(Currency.unsafe_deprecated_fiatToString)
-    .getOrElse(DefaultDisplay)
-}
-
-const displayEtherToEther = ({
+const displayEthToEth = ({
   fromUnit,
   toUnit,
   value
@@ -676,63 +358,6 @@ const displayPaxToPax = ({
     .map(x => Currency.coinToString({ ...x, minDigits: 2, maxDigits: 2 }))
     .getOrElse(DefaultDisplay)
 }
-
-const displayAaveToAave = ({
-  fromUnit,
-  toUnit,
-  value
-}: {
-  fromUnit: UnitType
-  toUnit: UnitType
-  value: number | string
-}) => {
-  return transformCoinToCoin({ coin: 'AAVE', value, fromUnit, toUnit })
-    .map(x => Currency.coinToString({ ...x, minDigits: 2, maxDigits: 8 }))
-    .getOrElse(DefaultDisplay)
-}
-
-const displayBchToFiat = ({
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  return transformBchToFiat({ value, fromUnit, toCurrency, rates })
-    .map(Currency.unsafe_deprecated_fiatToString)
-    .getOrElse(DefaultDisplay)
-}
-
-const displayXlmToFiat = ({
-  digits = 2,
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}) => {
-  return transformXlmToFiat({ value, fromUnit, toCurrency, rates, digits })
-    .map(assoc('digits', digits))
-    .map(Currency.unsafe_deprecated_fiatToString)
-    .getOrElse(DefaultDisplay)
-}
-
-const displayAlgoToFiat = ({
-  digits = 2,
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}) => {
-  return transformAlgoToFiat({ value, fromUnit, toCurrency, rates, digits })
-    .map(assoc('digits', digits))
-    .map(Currency.unsafe_deprecated_fiatToString)
-    .getOrElse(DefaultDisplay)
-}
-
 const displayCoinToFiat = ({
   fromCoin,
   fromUnit,
@@ -746,32 +371,15 @@ const displayCoinToFiat = ({
   toCurrency: keyof CurrenciesType
   value: number | string
 }) => {
-  switch (fromCoin) {
-    case 'AAVE':
-      return displayAaveToFiat({ value, fromUnit, toCurrency, rates })
-    case 'ALGO':
-      return displayAlgoToFiat({ value, fromUnit, toCurrency, rates })
-    case 'BCH':
-      return displayBchToFiat({ value, fromUnit, toCurrency, rates })
-    case 'BTC':
-      return displayBtcToFiat({ value, fromUnit, toCurrency, rates })
-    case 'DOT':
-      return displayDotToFiat({ value, fromUnit, toCurrency, rates })
-    case 'ETH':
-      return displayEtherToFiat({ value, fromUnit, toCurrency, rates })
-    case 'PAX':
-      return displayPaxToFiat({ value, fromUnit, toCurrency, rates })
-    case 'USDT':
-      return displayUsdtToFiat({ value, fromUnit, toCurrency, rates })
-    case 'WDGLD':
-      return displayWdgldToFiat({ value, fromUnit, toCurrency, rates })
-    case 'XLM':
-      return displayXlmToFiat({ value, fromUnit, toCurrency, rates })
-    case 'YFI':
-      return displayYfiToFiat({ value, fromUnit, toCurrency, rates })
-    default:
-      return 'Unsupported Coin Code'
-  }
+  return transformCoinToFiat({
+    coin: fromCoin,
+    value,
+    fromUnit,
+    toCurrency,
+    rates
+  })
+    .map(Currency.unsafe_deprecated_fiatToString)
+    .getOrElse(DefaultDisplay)
 }
 
 const displayFiatToFiat = ({ value }: { value: number | string }) => {
@@ -911,20 +519,11 @@ export {
   convertXlmToXlm,
   DefaultConversion,
   DefaultDisplay,
-  displayAaveToAave,
-  displayAaveToFiat,
-  displayAlgoToFiat,
-  displayBchToFiat,
-  displayBtcToFiat,
   displayCoinToCoin,
   displayCoinToFiat,
   displayDotToDot,
-  displayDotToFiat,
-  displayEtherToEther,
-  displayEtherToFiat,
+  displayEthToEth,
   displayFiatToFiat,
   displayPaxToPax,
-  displayXlmToFiat,
-  displayYfiToFiat,
   getSymbol
 }

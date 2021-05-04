@@ -35,7 +35,7 @@ export const getEthData = (
       baseToStandard: true,
       value: data.value
     })
-    return Exchange.displayEtherToEther({
+    return Exchange.displayEthToEth({
       value: Number(etherAmount.value).toFixed(8),
       fromUnit: 'ETH',
       toUnit: 'ETH'
@@ -55,7 +55,7 @@ export const getEthData = (
   const buildCustodialDisplay = x => {
     return (
       `Trading Account` +
-      ` (${Exchange.displayEtherToEther({
+      ` (${Exchange.displayEthToEth({
         value: x ? x.available : 0,
         fromUnit: 'WEI',
         toUnit: 'ETH'
@@ -65,7 +65,7 @@ export const getEthData = (
   const buildInterestDisplay = (x: InterestAccountBalanceType['ETH']) => {
     return (
       `Interest Account` +
-      ` (${Exchange.displayEtherToEther({
+      ` (${Exchange.displayEthToEth({
         value: x ? x.balance : 0,
         fromUnit: 'WEI',
         toUnit: 'ETH'
@@ -207,7 +207,7 @@ export const getErc20Data = (
   const buildInterestDisplay = (coin: Erc20CoinType, x) => {
     return (
       `Interest Account` +
-      ` (${Exchange.displayEtherToEther({
+      ` (${Exchange.displayEthToEth({
         value: x ? x.balance : 0,
         fromUnit: 'WEI',
         toUnit: coin
