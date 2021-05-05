@@ -589,17 +589,32 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                     Success: () => {
                       return (
                         <Text size='14px' weight={600}>
-                          Success! Logging in...
+                          <FormattedMessage
+                            id='scenes.login.qrcodelogin_success'
+                            defaultMessage='Success! Logging in...'
+                          />
                         </Text>
                       )
                     },
                     Failure: e => (
-                      <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>
+                      <Text>
+                        {typeof e === 'string' ? (
+                          e
+                        ) : (
+                          <FormattedMessage
+                            id='scenes.login.qrcodelogin_failed'
+                            defaultMessage='Login failed. Please refresh browser and try again.'
+                          />
+                        )}
+                      </Text>
                     ),
                     Loading: () => {
                       return (
                         <Text size='14px' weight={600}>
-                          Please confirm the login on your mobile device...
+                          <FormattedMessage
+                            id='scenes.login.qrcodelogin_success_confirm'
+                            defaultMessage='Please confirm the login on your mobile device.'
+                          />
                         </Text>
                       )
                     },
