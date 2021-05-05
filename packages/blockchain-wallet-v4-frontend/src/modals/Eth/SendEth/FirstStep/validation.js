@@ -22,7 +22,7 @@ export const invalidAmount = (value, allValues, props) => {
     value: valueEth,
     baseToStandard: false,
     coin: 'ETH'
-  }).value
+  })
   return valueWei > 0 ? undefined : <InvalidAmountMessage />
 }
 
@@ -33,9 +33,8 @@ export const maximumAmount = (value, allValues, props) => {
     const effectiveBalanceWei = prop('effectiveBalance', props)
     const effectiveBalance = Exchange.convertCoinToCoin({
       value: effectiveBalanceWei,
-      coin,
-      baseToStandard: true
-    }).value
+      coin
+    })
     return new BigNumber(coinValue).isLessThanOrEqualTo(
       new BigNumber(effectiveBalance || 0)
     ) ? (

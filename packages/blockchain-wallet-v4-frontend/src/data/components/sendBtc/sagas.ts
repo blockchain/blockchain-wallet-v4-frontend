@@ -111,7 +111,7 @@ export default ({
             value: amount.coin,
             baseToStandard: false,
             coin: 'BTC'
-          }).value
+          })
           payment = yield payment.amount(parseInt(satAmount))
         }
         if (description) payment = yield payment.description(description)
@@ -312,7 +312,7 @@ export default ({
             value: btcAmount,
             baseToStandard: false,
             coin: 'BTC'
-          }).value
+          })
           payment = yield payment.amount(parseInt(satAmount))
           break
         case 'description':
@@ -372,9 +372,8 @@ export default ({
       const effectiveBalance = prop('effectiveBalance', payment)
       const coin = Exchange.convertCoinToCoin({
         value: effectiveBalance,
-        baseToStandard: true,
         coin: 'BTC'
-      }).value
+      })
       const fiat = Exchange.convertCoinToFiat(
         'BTC',
         effectiveBalance,
@@ -569,17 +568,15 @@ export default ({
           'BTC',
           Exchange.convertCoinToCoin({
             value: amt.reduce(add, 0),
-            coin: 'BTC',
-            baseToStandard: true
-          }).value
+            coin: 'BTC'
+          })
         ])
       )
       if (payPro) {
         const coinAmount = Exchange.convertCoinToCoin({
           value: amt.reduce(add, 0),
-          coin: 'BTC',
-          baseToStandard: true
-        }).value
+          coin: 'BTC'
+        })
         yield put(
           actions.analytics.logEvent([
             ...TRANSACTION_EVENTS.BITPAY_SUCCESS,

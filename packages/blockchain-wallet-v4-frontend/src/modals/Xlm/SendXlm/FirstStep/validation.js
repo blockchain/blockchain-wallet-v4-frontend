@@ -32,7 +32,7 @@ export const invalidAmount = (value, allValues, props) => {
     value: valueXlm,
     baseToStandard: false,
     coin: 'XLM'
-  }).value
+  })
   return valueStroop > 0 ? undefined : <InvalidAmountMessage />
 }
 
@@ -43,7 +43,7 @@ export const accountCreationAmount = (errors, allValues, props) => {
   const reserveXlm = Exchange.convertCoinToCoin({
     value: reserveStroop,
     coin: 'XLM'
-  }).value
+  })
   const destinationAccountExists = prop('destinationAccountExists', props)
 
   if (
@@ -61,18 +61,18 @@ export const balanceReserveAmount = (errors, allValues, props) => {
     coin: 'XLM',
     value: valueXlm,
     baseToStandard: false
-  }).value
+  })
   const effectiveBalance = prop('effectiveBalance', props)
   const reserve = prop('reserve', props)
   const fee = prop('fee', props)
   const reserveXlm = Exchange.convertCoinToCoin({
     value: reserve,
     coin: 'XLM'
-  }).value
+  })
   const effectiveBalanceXlm = Exchange.convertCoinToCoin({
     value: new BigNumber.sum(effectiveBalance, fee),
     coin: 'XLM'
-  }).value
+  })
   const currency = prop('currency', props)
   const rates = prop('rates', props)
   const effectiveBalanceFiat = Exchange.convertCoinToFiat(

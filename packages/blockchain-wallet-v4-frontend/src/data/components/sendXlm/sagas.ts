@@ -159,7 +159,7 @@ export default ({
             value: xlmAmount,
             baseToStandard: false,
             coin: 'XLM'
-          }).value
+          })
           payment = yield call(payment.amount, stroopAmount)
           break
         case 'description':
@@ -320,9 +320,8 @@ export default ({
           'XLM',
           Exchange.convertCoinToCoin({
             value: payment.value().amount,
-            coin: 'XLM',
-            baseToStandard: true
-          }).value
+            coin: 'XLM'
+          })
         ])
       )
       yield put(actions.modals.closeAllModals())
@@ -375,7 +374,7 @@ export default ({
       value: amount,
       baseToStandard: false,
       coin: 'XLM'
-    }).value
+    })
     const fiat = Exchange.convertCoinToFiat(
       'XLM',
       amount,

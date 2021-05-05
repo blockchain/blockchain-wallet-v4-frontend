@@ -10,7 +10,7 @@ export const convertBaseToStandard = (
     coin,
     value,
     baseToStandard
-  }).value
+  })
 }
 
 export const convertStandardToBase = (
@@ -22,5 +22,5 @@ export const convertStandardToBase = (
     coin,
     value,
     baseToStandard
-  }).value
+  })
 }

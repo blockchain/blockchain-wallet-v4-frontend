@@ -1,3 +1,5 @@
+import { RatesType } from 'core/types'
+
 import { btcRates } from './conversion.textures'
 import * as Conversion from './index'
 
@@ -9,7 +11,7 @@ describe('convertFiatToCoin', () => {
       1,
       'BTC',
       'USD',
-      btcRates
+      btcRates as RatesType
     )
     expect(result).toEqual(expectedOutput)
   })
@@ -22,7 +24,7 @@ describe('convertFiatToCoin', () => {
       undefined,
       'BTC',
       'USD',
-      btcRates
+      btcRates as RatesType
     )
     expect(result).toEqual(expectedOutput)
   })
@@ -34,7 +36,7 @@ describe('convertFiatToCoin', () => {
       'BTC',
       // @ts-ignore
       undefined,
-      btcRates
+      btcRates as RatesType
     )
     expect(result).toEqual(Conversion.DefaultConversion.value)
   })

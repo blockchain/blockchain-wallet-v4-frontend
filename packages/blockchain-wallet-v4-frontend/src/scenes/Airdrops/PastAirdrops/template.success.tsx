@@ -17,7 +17,7 @@ const getQuantity = (amt, coin) => {
   return Exchange.convertCoinToCoin({
     coin,
     value: amt
-  }).value
+  })
 }
 
 export default function Success({ userCampaignsInfoResponseList }: Props) {

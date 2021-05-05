@@ -368,9 +368,8 @@ export default ({ api, coreSagas, networks }) => {
       }
       const paymentCryptoAmount = Exchange.convertCoinToCoin({
         value: satoshiAmount,
-        baseToStandard: true,
         coin
-      }).value
+      })
       const paymentFiatAmount = Exchange.convertCoinToFiat(
         coin,
         paymentCryptoAmount,

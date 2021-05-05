@@ -92,7 +92,7 @@ export default ({
             value: amount.coin,
             baseToStandard: false,
             coin: 'BCH'
-          }).value
+          })
           payment = yield payment.amount(parseInt(satAmount))
         }
         if (description) payment = yield payment.description(description)
@@ -283,7 +283,7 @@ export default ({
             value: bchAmount,
             baseToStandard: false,
             coin: 'BCH'
-          }).value
+          })
           payment = yield payment.amount(parseInt(satAmount))
           break
         case 'description':
@@ -313,9 +313,8 @@ export default ({
       const effectiveBalance = prop('effectiveBalance', payment)
       const coin = Exchange.convertCoinToCoin({
         value: effectiveBalance,
-        baseToStandard: true,
         coin: 'BCH'
-      }).value
+      })
       const fiat = Exchange.convertCoinToFiat(
         'BCH',
         effectiveBalance,
@@ -418,9 +417,8 @@ export default ({
           'BCH',
           Exchange.convertCoinToCoin({
             value: amt.reduce(add, 0),
-            coin: 'BCH',
-            baseToStandard: true
-          }).value
+            coin: 'BCH'
+          })
         ])
       )
       yield put(actions.modals.closeAllModals())

@@ -8,7 +8,7 @@ export const getData = (state, props) => {
   const feeXlm = Exchange.convertCoinToCoin({
     value: fee,
     coin: 'XLM'
-  }).value
+  })
   const effectiveBalanceXlm = prop('effectiveBalanceXlm', props)
   return {
     effectiveBalance: new BigNumber(effectiveBalanceXlm)

@@ -50,16 +50,14 @@ export const getData = (state, coin) => {
   const transform = (payment, ethRates, currency: FiatType) => {
     const rates = isErc20 ? erc20Rates : ethRates
     // Convert WEI to base for amount
-    const { value: amountStandard } = Exchange.convertCoinToCoin({
+    const amountStandard = Exchange.convertCoinToCoin({
       value: payment.amount,
-      coin: coin,
-      baseToStandard: true
+      coin: coin
     })
     // Convert WEI to base for fee (ETH)
-    const { value: feeStandard } = Exchange.convertCoinToCoin({
+    const feeStandard = Exchange.convertCoinToCoin({
       value: payment.fee,
-      coin: 'ETH',
-      baseToStandard: true
+      coin: 'ETH'
     })
     // Convert ETH or ERC20 amount to Fiat
     const amount = Exchange.convertCoinToFiat(

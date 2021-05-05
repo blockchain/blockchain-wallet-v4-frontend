@@ -483,10 +483,9 @@ export default ({ api }: { api: APIType }) => {
       const value = tx.amount as string
       const amountBig = new BigNumber(
         Exchange.convertCoinToCoin({
-          baseToStandard: true,
           coin,
           value
-        }).value
+        })
       )
       const valueThen = amountBig.multipliedBy(priceAtTime).toFixed(2)
       const valueNow = amountBig.multipliedBy(currentPrice).toFixed(2)

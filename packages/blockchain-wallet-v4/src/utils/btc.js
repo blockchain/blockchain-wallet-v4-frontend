@@ -225,17 +225,17 @@ export const calculateBalanceBtc = (coins, feePerByte) => {
       value: data.balance,
       baseToStandard: false,
       coin: 'BTC'
-    }).value,
+    }),
     fee: Exchange.convertCoinToCoin({
       value: data.fee,
       baseToStandard: false,
       coin: 'BTC'
-    }).value,
+    }),
     effectiveBalance: Exchange.convertCoinToCoin({
       value: data.effectiveBalance,
       baseToStandard: false,
       coin: 'BTC'
-    }).value
+    })
   }
 }
 

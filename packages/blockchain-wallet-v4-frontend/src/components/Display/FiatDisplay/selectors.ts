@@ -23,9 +23,8 @@ export const getData = (
   if (coin in CoinTypeEnum) {
     value = Exchange.convertCoinToCoin({
       value: amount,
-      coin,
-      baseToStandard: true
-    }).value
+      coin
+    })
   }
 
   const convert = (currency, rates) => {

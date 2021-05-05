@@ -166,11 +166,10 @@ export const getErc20Data = (
   } = ownProps
   const displayErc20Fixed = data => {
     const amount = Exchange.convertCoinToCoin({
-      baseToStandard: true,
       coin,
       value: data.value
     })
-    return Exchange.displayCoinToCoin(Number(amount.value).toFixed(8), 'PAX')
+    return Exchange.displayCoinToCoin(Number(amount).toFixed(8), 'PAX')
   }
   const buildCustodialDisplay = (x, coin: Erc20CoinType) => {
     return (

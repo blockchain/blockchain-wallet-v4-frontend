@@ -27,7 +27,7 @@ export const invalidAmount = (value, allValues, props) => {
     value: valueBch,
     baseToStandard: false,
     coin: 'BCH'
-  }).value
+  })
   return valueSatoshi > 0 ? undefined : <InvalidAmountMessage />
 }
 
@@ -37,7 +37,7 @@ export const maximumAmount = (value, allValues, props) => {
     value: valueBch,
     baseToStandard: false,
     coin: 'BCH'
-  }).value
+  })
   return valueSatoshi <= getEffectiveBalance(props) ? (
     undefined
   ) : (

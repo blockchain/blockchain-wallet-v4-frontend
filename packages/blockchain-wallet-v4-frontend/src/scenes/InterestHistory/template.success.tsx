@@ -252,13 +252,11 @@ function TransactionList(props: Props): ReactElement | null {
                     size='14px'
                     style={{ marginBottom: '4px', lineHeight: '1.5' }}
                   >
-                    {
-                      Exchange.convertCoinToCoin({
-                        value: amount.value,
-                        coin: amount.symbol,
-                        baseToStandard: false
-                      }).value
-                    }
+                    {Exchange.convertCoinToCoin({
+                      value: amount.value,
+                      coin: amount.symbol,
+                      baseToStandard: false
+                    })}
                   </CoinAmountWrapper>
                   <FiatAmountWrapper
                     color='grey600'
@@ -269,13 +267,11 @@ function TransactionList(props: Props): ReactElement | null {
                     style={{ alignItems: 'right' }}
                     weight={500}
                   >
-                    {
-                      Exchange.convertCoinToCoin({
-                        value: amount.value,
-                        coin: amount.symbol,
-                        baseToStandard: false
-                      }).value
-                    }
+                    {Exchange.convertCoinToCoin({
+                      value: amount.value,
+                      coin: amount.symbol,
+                      baseToStandard: false
+                    })}
                   </FiatAmountWrapper>
                   {type === 'DEPOSIT' && !isCustodial && (
                     <ViewTransaction

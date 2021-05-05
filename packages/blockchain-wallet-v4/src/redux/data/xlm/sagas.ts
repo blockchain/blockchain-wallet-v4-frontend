@@ -262,7 +262,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
           // @ts-ignore
           value: tx.amount,
           coin: 'XLM'
-        }).value
+        })
       )
       const valueThen = amountBig.multipliedBy(priceAtTime).toFixed(2)
       const valueNow = amountBig.multipliedBy(currentPrice).toFixed(2)

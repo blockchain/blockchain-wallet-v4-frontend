@@ -25,9 +25,8 @@ export const calcBasicInterest = (principal: number, rate: number): number =>
 export const amountConverter = (amount, coin) => {
   return Exchange.convertCoinToCoin({
     value: amount || 0,
-    coin,
-    baseToStandard: true
-  }).value
+    coin
+  })
 }
 
 export const amountToFiat = (

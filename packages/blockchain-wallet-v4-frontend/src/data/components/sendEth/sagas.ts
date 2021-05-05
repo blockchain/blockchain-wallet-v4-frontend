@@ -207,7 +207,7 @@ export default ({
             baseToStandard: false,
             value: amountPayload.coin,
             coin: coinCode
-          }).value
+          })
           payment = yield payment.amount(weiAmount)
           break
         case 'description':
@@ -250,9 +250,8 @@ export default ({
       const effectiveBalance = prop('effectiveBalance', payment)
       const coin = Exchange.convertCoinToCoin({
         value: effectiveBalance,
-        coin: coinCode,
-        baseToStandard: true
-      }).value
+        coin: coinCode
+      })
       fiat = Exchange.convertCoinToFiat(
         coinCode,
         effectiveBalance,
@@ -401,9 +400,8 @@ export default ({
           coin,
           Exchange.convertCoinToCoin({
             value: payment.value().amount || 0,
-            coin,
-            baseToStandard: true
-          }).value
+            coin
+          })
         ])
       )
       yield put(destroy(FORM))
@@ -550,9 +548,8 @@ export default ({
     }
     const cryptoAmt = Exchange.convertCoinToCoin({
       value: amountInWei,
-      coin,
-      baseToStandard: true
-    }).value
+      coin
+    })
     const fiatAmt = Exchange.convertCoinToFiat(
       coin,
       amountInWei,

@@ -98,9 +98,8 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       )
       const maxCoin = Exchange.convertCoinToCoin({
         value: baseUnitBalance,
-        coin,
-        baseToStandard: true
-      }).value
+        coin
+      })
       const minCoin = Exchange.convertFiatToCoin(
         coin,
         Number(convertBaseToStandard('FIAT', minFiat)),
@@ -113,7 +112,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
         A.setDepositLimits({
           maxFiat: maxFiat,
           minFiat: Number(convertBaseToStandard('FIAT', minFiat)), // default unit is cents, convert to standard
-          maxCoin: maxCoin,
+          maxCoin: Number(maxCoin),
           minCoin: minCoin
         })
       )

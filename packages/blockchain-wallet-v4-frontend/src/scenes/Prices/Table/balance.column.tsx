@@ -27,16 +27,14 @@ export const getBalanceColumn = () => ({
     const aBalance = Number(
       Exchange.convertCoinToCoin({
         value: a.original.balance,
-        coin: a.original.coin,
-        baseToStandard: true
-      }).value
+        coin: a.original.coin
+      })
     )
     const bBalance = Number(
       Exchange.convertCoinToCoin({
         value: b.original.balance,
-        coin: b.original.coin,
-        baseToStandard: true
-      }).value
+        coin: b.original.coin
+      })
     )
     if (aBalance > bBalance) return 1
     if (bBalance > aBalance) return -1

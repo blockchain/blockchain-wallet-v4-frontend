@@ -214,11 +214,11 @@ const convertCoinToCoin = ({
   baseToStandard?: boolean
   coin: CoinType | 'FIAT'
   value: number | string
-}) => {
+}): string => {
   if (coin === 'FIAT') {
     return baseToStandard
-      ? { value: new BigNumber(value).dividedBy(100).valueOf() }
-      : { value: new BigNumber(value).multipliedBy(100).valueOf() }
+      ? new BigNumber(value).dividedBy(100).valueOf()
+      : new BigNumber(value).multipliedBy(100).valueOf()
   }
 
   const config = Currencies[coin]
@@ -228,7 +228,7 @@ const convertCoinToCoin = ({
     value,
     fromUnit: (baseToStandard ? config.base : config.code) as UnitType,
     toUnit: (baseToStandard ? config.code : config.base) as UnitType
-  }).getOrElse(DefaultConversion)
+  }).getOrElse(DefaultConversion).value
 }
 
 const convertFiatToCoin = (

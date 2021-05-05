@@ -33,7 +33,7 @@ export const InfoBanner = props => {
   const reserveXlm = Exchange.convertCoinToCoin({
     value: reserve,
     coin: 'XLM'
-  }).value
+  })
   const currency = prop('currency', props)
   const rates = prop('rates', props)
   const effectiveBalanceFiat = Exchange.convertCoinToFiat(
@@ -46,7 +46,7 @@ export const InfoBanner = props => {
   const effectiveBalanceXlm = Exchange.convertCoinToCoin({
     value: new BigNumber.sum(effectiveBalance, fee),
     coin: 'XLM'
-  }).value
+  })
   const modalProps = { currency, effectiveBalanceXlm, fee, rates, reserveXlm }
 
   return (

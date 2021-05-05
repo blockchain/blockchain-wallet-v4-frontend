@@ -104,7 +104,7 @@ export default ({ api }) => {
     const amount = convertCoinToCoin({
       value,
       coin: 'XLM'
-    }).value
+    })
     if (destinationAccountExists)
       return StellarSdk.Operation.payment({
         destination: to,

@@ -35,7 +35,7 @@ export const invalidAmount = (value, allValues, props) => {
     value: valueBtc,
     baseToStandard: false,
     coin: 'BTC'
-  }).value
+  })
   return valueSatoshi > 0 ? undefined : <InvalidAmountMessage />
 }
 
@@ -45,7 +45,7 @@ export const minimumAmount = (value, allValues, props) => {
     value: valueBtc,
     baseToStandard: false,
     coin: 'BTC'
-  }).value
+  })
   return parseInt(valueSatoshi) >= DUST ? undefined : <MinimumAmountMessage />
 }
 
@@ -56,7 +56,7 @@ export const maximumAmount = (value, allValues, props) => {
     value: valueBtc,
     baseToStandard: false,
     coin: 'BTC'
-  }).value
+  })
   return valueSatoshi <= effectiveBalance ? undefined : <MaximumAmountMessage />
 }
 
