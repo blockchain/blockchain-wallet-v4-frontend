@@ -83,7 +83,7 @@ export const IconTx = (props: Props) => {
     default:
       return (
         <IconWrapper color='grey500'>
-          <Icon size='20px' weight={500} color='grey600' name={'timer'} />
+          <Icon size='20px' weight={500} color='grey600' name='timer' />
         </IconWrapper>
       )
   }

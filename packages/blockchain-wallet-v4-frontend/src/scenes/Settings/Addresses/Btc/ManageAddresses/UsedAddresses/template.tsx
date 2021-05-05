@@ -40,25 +40,30 @@ const UsedAddressesTemplate = ({
         </SettingDescription>
       </div>
       <div>
-        {!usedAddressesVisible && (
-          <Button
-            data-e2e='btcShowUsedAddressesLink'
-            height='36px'
-            nature='primary'
-            onClick={onShowUsedAddresses}
-            size='14px'
-          >
+        <Button
+          data-e2e='btcShowUsedAddressesLink'
+          height='36px'
+          nature='primary'
+          onClick={onShowUsedAddresses}
+          size='14px'
+        >
+          {usedAddressesVisible ? (
+            <FormattedMessage
+              id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.hide'
+              defaultMessage='Hide Addresses'
+            />
+          ) : (
             <FormattedMessage
               id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.show'
               defaultMessage='Reveal Addresses'
             />
-          </Button>
-        )}
+          )}
+        </Button>
       </div>
     </Wrapper>
-    {usedAddressesVisible ? (
+    {usedAddressesVisible && (
       <UsedAddressesTable derivation={derivation} walletIndex={walletIndex} />
-    ) : null}
+    )}
   </>
 )
 
