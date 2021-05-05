@@ -155,10 +155,10 @@ export default ({
           return
         case 'amount':
           const xlmAmount = prop('coin', payload)
-          const stroopAmount = Exchange.convertXlmToXlm({
+          const stroopAmount = Exchange.convertCoinToCoin({
             value: xlmAmount,
-            fromUnit: 'XLM',
-            toUnit: 'STROOP'
+            baseToStandard: false,
+            coin: 'XLM'
           }).value
           payment = yield call(payment.amount, stroopAmount)
           break
@@ -371,10 +371,10 @@ export default ({
     const xlmRates = (yield select(selectors.core.data.xlm.getRates)).getOrFail(
       'Can not retrieve stellar rates.'
     )
-    const coin = Exchange.convertXlmToXlm({
+    const coin = Exchange.convertCoinToCoin({
       value: amount,
-      fromUnit: 'STROOP',
-      toUnit: 'XLM'
+      baseToStandard: false,
+      coin: 'XLM'
     }).value
     const fiat = Exchange.convertXlmToFiat({
       value: amount,

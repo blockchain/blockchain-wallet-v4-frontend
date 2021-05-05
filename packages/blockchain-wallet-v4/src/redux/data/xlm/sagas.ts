@@ -258,11 +258,10 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
         prop('price', nth(idx, historicalPrices))
       )
       const amountBig = new BigNumber(
-        Exchange.convertXlmToXlm({
+        Exchange.convertCoinToCoin({
           // @ts-ignore
           value: tx.amount,
-          fromUnit: 'STROOP',
-          toUnit: 'XLM'
+          coin: 'XLM'
         }).value
       )
       const valueThen = amountBig.multipliedBy(priceAtTime).toFixed(2)

@@ -1,5 +1,5 @@
 export default {
-  base: 'SAT',
+  base: 'PLANCK',
   code: 'DOT',
   displayName: 'Polkadot',
   trade: 'DOT',

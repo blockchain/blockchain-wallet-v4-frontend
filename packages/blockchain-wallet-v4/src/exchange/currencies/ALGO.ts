@@ -1,5 +1,5 @@
 export default {
-  base: 'microAlgo',
+  base: 'mALGO',
   code: 'ALGO',
   displayName: 'Bitcoin',
   trade: 'ALGO',

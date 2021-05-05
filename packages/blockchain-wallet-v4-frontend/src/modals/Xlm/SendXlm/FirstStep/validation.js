@@ -28,10 +28,10 @@ export const insufficientFunds = (value, allValues, props) => {
 
 export const invalidAmount = (value, allValues, props) => {
   const valueXlm = prop('coin', value)
-  const valueStroop = Exchange.convertXlmToXlm({
+  const valueStroop = Exchange.convertCoinToCoin({
     value: valueXlm,
-    fromUnit: 'XLM',
-    toUnit: 'STROOP'
+    baseToStandard: false,
+    coin: 'XLM'
   }).value
   return valueStroop > 0 ? undefined : <InvalidAmountMessage />
 }
@@ -40,10 +40,9 @@ export const accountCreationAmount = (errors, allValues, props) => {
   const valueXlm = path(['amount', 'coin'], allValues)
   const reserveStroop = prop('reserve', props)
   if (!valueXlm || !reserveStroop) return errors
-  const reserveXlm = Exchange.convertXlmToXlm({
+  const reserveXlm = Exchange.convertCoinToCoin({
     value: reserveStroop,
-    fromUnit: 'STROOP',
-    toUnit: 'XLM'
+    coin: 'XLM'
   }).value
   const destinationAccountExists = prop('destinationAccountExists', props)
 
@@ -58,23 +57,21 @@ export const accountCreationAmount = (errors, allValues, props) => {
 
 export const balanceReserveAmount = (errors, allValues, props) => {
   const valueXlm = path(['amount', 'coin'], allValues)
-  const valueStroop = Exchange.convertXlmToXlm({
+  const valueStroop = Exchange.convertCoinToCoin({
+    coin: 'XLM',
     value: valueXlm,
-    fromUnit: 'XLM',
-    toUnit: 'STROOP'
+    baseToStandard: false
   }).value
   const effectiveBalance = prop('effectiveBalance', props)
   const reserve = prop('reserve', props)
   const fee = prop('fee', props)
-  const reserveXlm = Exchange.convertXlmToXlm({
+  const reserveXlm = Exchange.convertCoinToCoin({
     value: reserve,
-    fromUnit: 'STROOP',
-    toUnit: 'XLM'
+    coin: 'XLM'
   }).value
-  const effectiveBalanceXlm = Exchange.convertXlmToXlm({
+  const effectiveBalanceXlm = Exchange.convertCoinToCoin({
     value: new BigNumber.sum(effectiveBalance, fee),
-    fromUnit: 'STROOP',
-    toUnit: 'XLM'
+    coin: 'XLM'
   }).value
   const currency = prop('currency', props)
   const rates = prop('rates', props)

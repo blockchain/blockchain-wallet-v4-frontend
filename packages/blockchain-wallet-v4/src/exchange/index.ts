@@ -260,23 +260,6 @@ const convertXlmToFiat = ({
   )
 }
 
-const convertXlmToXlm = ({
-  fromUnit,
-  toUnit,
-  value
-}: {
-  fromUnit: UnitType
-  toUnit: UnitType
-  value: number | string
-}) => {
-  return transformCoinToCoin({
-    coin: 'XLM',
-    value,
-    fromUnit,
-    toUnit
-  }).getOrElse(DefaultConversion)
-}
-
 // =====================================================================
 // =============================== STRING ==============================
 // =====================================================================
@@ -336,11 +319,11 @@ const getSymbol = currency => {
 }
 
 const convertCoinToCoin = ({
-  baseToStandard,
+  baseToStandard = true,
   coin,
   value
 }: {
-  baseToStandard: boolean
+  baseToStandard?: boolean
   coin: CoinType | 'FIAT'
   value: number | string
 }) => {
@@ -459,7 +442,6 @@ export {
   convertFiatToCoin,
   convertFiatToFiat,
   convertXlmToFiat,
-  convertXlmToXlm,
   DefaultConversion,
   DefaultDisplay,
   displayCoinToCoin,

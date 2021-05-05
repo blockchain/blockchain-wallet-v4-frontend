@@ -26,10 +26,9 @@ export const getData = (state, props) => {
   ).toString()
   const totalAmountFiat = convertToFiat(totalAmountXlm)
   const reserveFiat = convertToFiat(reserveXlm)
-  const feeXlm = Exchange.convertXlmToXlm({
+  const feeXlm = Exchange.convertCoinToCoin({
     value: fee,
-    fromUnit: 'STROOP',
-    toUnit: 'XLM'
+    coin: 'XLM'
   }).value
   const feeFiat = convertToFiat(feeXlm)
   const effectiveBalanceMinusFeeBig = new BigNumber(effectiveBalanceXlm).minus(
