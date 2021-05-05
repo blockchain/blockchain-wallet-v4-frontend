@@ -47,7 +47,10 @@ export const PublicWrapper = styled(Wrapper)`
   position: relative;
   overflow: visible;
 `
-
+export const GuidError = styled(TextGroup)`
+  display: inline;
+  margin-top: 3px;
+`
 export const LoginTextGroup = styled(TextGroup)`
   line-height: 1;
   margin: 12px 0;

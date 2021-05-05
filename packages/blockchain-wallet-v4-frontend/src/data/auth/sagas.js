@@ -25,6 +25,7 @@ export const notEnabled2faErrorMessage =
   'Error: Two factor authentication not enabled.'
 export const emailMismatch2faErrorMessage =
   'Error: Email entered does not match the email address associated with this wallet'
+export const unknownWalletId = 'Unknown Wallet Identifier.'
 export const wrongCaptcha2faErrorMessage = 'Error: Captcha Code Incorrect'
 export const wrongAuthCodeErrorMessage = 'Authentication code is incorrect'
 
@@ -126,7 +127,7 @@ export default ({ api, coreSagas }) => {
     isRecovering = false
   ) {
     try {
-      // If needed, the user should upgrade its wallet before being able to open the wallet    
+      // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
       if (!isHdWallet) {
         yield put(actions.auth.upgradeWallet(3))
@@ -311,7 +312,6 @@ export default ({ api, coreSagas }) => {
     } catch (error) {
       const initialError = prop('initial_error', error)
       const authRequired = prop('authorization_required', error)
-
       if (authRequired) {
         // auth errors (polling)
         const authRequiredAlert = yield put(
@@ -381,6 +381,8 @@ export default ({ api, coreSagas }) => {
               9500
             )
           )
+        if (initialError.includes(unknownWalletId))
+          yield put(actions.form.change('loginNew', 'step', 'ENTER_EMAIL_GUID'))
         yield put(actions.auth.loginFailure(initialError))
       } else if (
         // Wrong 2fa code error

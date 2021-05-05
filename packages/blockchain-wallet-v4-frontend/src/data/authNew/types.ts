@@ -51,6 +51,18 @@ interface LoginGuidFailureActionType {
   type: typeof AT.LOGIN_GUID_FAILURE
 }
 
+interface WalletGuidSubmitSuccessActionType {
+  type: typeof AT.GUID_WALLET_SUCCESS
+}
+
+interface WalletGuidSubmitLoadingActionType {
+  type: typeof AT.GUID_WALLET_LOADING
+}
+
+interface WalletGuidSubmitFailureActionType {
+  type: typeof AT.GUID_WALLET_FAILURE
+}
+
 export type AuthNewActionTypes =
   | InitializeLoginFailureActionType
   | InitializeLoginLoadingActionType
@@ -58,3 +70,6 @@ export type AuthNewActionTypes =
   | LoginGuidFailureActionType
   | LoginGuidLoadingActionType
   | LoginGuidSuccessActionType
+  | WalletGuidSubmitSuccessActionType
+  | WalletGuidSubmitLoadingActionType
+  | WalletGuidSubmitFailureActionType

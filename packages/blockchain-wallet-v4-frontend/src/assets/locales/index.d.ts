@@ -2058,6 +2058,7 @@ type MessagesType = {
   'scenes.login.google': 'Authenticator App Code'
   'scenes.login.guid': 'Wallet ID'
   'scenes.login.guiderror': 'Unknown Wallet ID. If you need a reminder '
+  'scenes.login.guid_error': 'Unknown Wallet ID. Please check that it was entered or correctly or try signing in with your email.'
   'scenes.login.isguidemailerror': '👋 Hey! Make sure this is your Wallet ID and not an email address. If you need a reminder'
   'scenes.login.isguidinvalid': "👋 Hey! This format doesn't look quite right. Wallet ID's look like this: ef7549a5-94ad-39...If you need a reminder"
   'scenes.login.login': 'Log In'

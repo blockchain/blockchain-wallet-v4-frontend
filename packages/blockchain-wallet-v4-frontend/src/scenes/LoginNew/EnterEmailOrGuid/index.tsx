@@ -19,6 +19,7 @@ import { isGuid, required, validWalletIdOrEmail } from 'services/forms'
 import { Props as OwnProps } from '..'
 import {
   ActionButton,
+  GuidError,
   HelpRow,
   IconTextRow,
   isSupportedBrowser,
@@ -36,7 +37,6 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
     guidOrEmail,
     invalid,
     loginError,
-    setStep,
     submitting
   } = props
 
@@ -44,7 +44,7 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
   const handleContinue = () => {
     if (isGuid(guidOrEmail)) {
       formActions.change('loginNew', 'guid', guidOrEmail)
-      setStep(LoginSteps.VERIFICATION_MOBILE)
+      props.authNewActions.guidWallet(guidOrEmail)
     } else {
       formActions.change('loginNew', 'email', guidOrEmail)
       props.authNewActions.loginGuid(guidOrEmail)
@@ -54,8 +54,8 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
   //     loginError &&
   //     (loginError.toLowerCase().includes('this account has been locked') ||
   //       loginError.toLowerCase().includes('account is locked'))
-  // const guidError =
-  //   loginError && loginError.toLowerCase().includes('unknown wallet id')
+  const guidError =
+    loginError && loginError.toLowerCase().includes('unknown wallet id')
 
   return (
     <Form onSubmit={handleContinue}>
@@ -78,29 +78,21 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
             placeholder='Enter your email or wallet ID'
           />
         </FormItem>
-        {/* {guidError && (
-  <GuidError inline>
-    <Text
-      size='12px'
-      color='error'
-      weight={400}
-      data-e2e='walletIdError'
-    >
-      <FormattedMessage
-        id='scenes.login.guiderror'
-        defaultMessage='Unknown Wallet ID. If you need a reminder '
-      />
-    </Text>
-    <LinkContainer to='/reminder'>
-      <Link size='12px' weight={500}>
-        <FormattedMessage
-          id='scenes.login.clickhere'
-          defaultMessage='click here.'
-        />
-      </Link>
-    </LinkContainer>
-  </GuidError>
-)} */}
+        {guidError && (
+          <GuidError inline>
+            <Text
+              size='12px'
+              color='error'
+              weight={400}
+              data-e2e='walletIdError'
+            >
+              <FormattedMessage
+                id='scenes.login.guid_error'
+                defaultMessage='Unknown Wallet ID. Please check that it was entered or correctly or try signing in with your email.'
+              />
+            </Text>
+          </GuidError>
+        )}
         {/* {showGuidInvalidError && (
   <LoginTextGroup inline>
     <Text size='12px' color='grey800' weight={500}>

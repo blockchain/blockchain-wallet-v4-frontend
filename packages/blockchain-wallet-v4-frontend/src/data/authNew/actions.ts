@@ -33,3 +33,21 @@ export const loginGuidFailure = (): AuthNewActionTypes => ({
   type: AT.LOGIN_GUID_FAILURE
 })
 export const loginGuidNotAsked = () => ({ type: AT.LOGIN_GUID_NOTASKED })
+
+// FIRST GUID SUBMISSION
+export const guidWallet = (guid: string) => ({
+  type: AT.GUID_WALLET,
+  payload: { guid }
+})
+
+export const guidWalletLoading = (): AuthNewActionTypes => ({
+  type: AT.GUID_WALLET_LOADING
+})
+
+export const guidWalletSuccess = (): AuthNewActionTypes => ({
+  type: AT.GUID_WALLET_SUCCESS
+})
+
+export const guidWalletFailure = (): AuthNewActionTypes => ({
+  type: AT.GUID_WALLET_FAILURE
+})

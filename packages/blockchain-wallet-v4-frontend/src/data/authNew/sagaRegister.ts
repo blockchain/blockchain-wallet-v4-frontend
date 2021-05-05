@@ -9,5 +9,6 @@ export default ({ api, coreSagas }) => {
   return function * authSaga() {
     yield takeLatest(AT.INTIALIZE_LOGIN, authNewSagas.intializeLogin)
     yield takeLatest(AT.LOGIN_GUID, authNewSagas.loginGuid)
+    yield takeLatest(AT.GUID_WALLET, authNewSagas.submitWalletGuid)
   }
 }

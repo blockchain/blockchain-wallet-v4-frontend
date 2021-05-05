@@ -74,8 +74,24 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const submitWalletGuid = function * (action) {
+    try {
+      yield put(A.guidWalletLoading())
+      yield put(actions.form.change('loginNew', 'step', LoginSteps.LOADING))
+      const sessionToken = yield call(api.obtainSessionToken)
+      yield call(actions.auth.login, action.payload, sessionToken)
+      yield yield put(
+        actions.form.change('loginNew', 'step', LoginSteps.VERIFICATION_MOBILE)
+      )
+    } catch (e) {
+      yield put(A.guidWalletFailure())
+      yield put(actions.logs.logErrorMessage(logLocation, 'walletGuid', e))
+    }
+  }
+
   return {
     intializeLogin,
-    loginGuid
+    loginGuid,
+    submitWalletGuid
   }
 }
