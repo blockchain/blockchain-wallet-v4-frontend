@@ -19,7 +19,7 @@ export const getData = (state, ownProps) => {
   try {
     // @ts-ignore
     ratesR = includes(coin, erc20List)
-      ? selectors.core.data.eth.getErc20Rates(state, toLower(coin))
+      ? selectors.core.data.eth.getErc20Rates(state, coin)
       : selectors.core.data[toLower(coin)].getRates(state)
   } catch (e) {
     ratesR = Remote.Failure('Unsupported Coin Code: Rates selector missing')
