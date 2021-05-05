@@ -77,12 +77,20 @@ const getType = (value: SBPaymentMethodType) => {
         />
       )
     case 'BANK_ACCOUNT':
-      return (
-        <FormattedMessage
-          id='modals.simplebuy.bankwire'
-          defaultMessage='Wire Transfer'
-        />
-      )
+      let text
+      if (value.currency === 'EUR' || value.currency === 'GBP') {
+        text = (
+          <FormattedMessage id='buttons.transfer' defaultMessage='Transfer' />
+        )
+      } else {
+        text = (
+          <FormattedMessage
+            id='modals.simplebuy.bankwire'
+            defaultMessage='Wire Transfer'
+          />
+        )
+      }
+      return text
   }
 }
 
@@ -155,7 +163,6 @@ const Success = ({
             value={bankTransfer}
           />
         )}
-
         {bankWire && (
           <BankWire
             icon={getIcon(bankWire)}
