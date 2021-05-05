@@ -2,6 +2,8 @@ import { head, isNil, nth } from 'ramda'
 import { call, CallEffect, put, select, take } from 'redux-saga/effects'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
+import { UnitType } from 'blockchain-wallet-v4/src/exchange'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { NO_DEFAULT_ACCOUNT } from 'blockchain-wallet-v4/src/model'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import {
@@ -14,7 +16,6 @@ import {
   SBBalancesType
 } from 'blockchain-wallet-v4/src/types'
 import { actions, actionTypes, selectors } from 'data'
-import coinSagas from 'data/coins/sagas'
 import { promptForSecondPassword } from 'services/sagas'
 
 import exchangeSagaUtils from '../exchange/sagas.utils'
@@ -27,7 +28,6 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     coreSagas,
     networks
   })
-  const { convertCoinFromBaseUnitToFiat } = coinSagas({ coreSagas, networks })
 
   const buildAndPublishPayment = function * (
     coin: CoinType,
@@ -89,9 +89,10 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       const baseUnitBalance = custodialBalance || balance || 0
 
       const minFiat = limits[coin]?.minDepositAmount || 100
-      const maxFiat = convertCoinFromBaseUnitToFiat(
+      const maxFiat = Exchange.convertCoinToFiat(
         coin,
         baseUnitBalance,
+        Currencies[coin].base as UnitType,
         userCurrency,
         rates
       )

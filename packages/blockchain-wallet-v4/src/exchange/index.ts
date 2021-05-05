@@ -1,5 +1,5 @@
 import { BigNumber } from 'bignumber.js'
-import { assocPath, path, prop } from 'ramda'
+import { path, prop } from 'ramda'
 
 import { CoinType, RatesType, WalletFiatType } from 'core/types'
 
@@ -11,8 +11,6 @@ type KeysOfUnion<T> = T extends any ? keyof T : never
 export type UnitType = KeysOfUnion<
   CurrenciesType[keyof CurrenciesType]['units']
 >
-
-const { BTC, ETH, XLM } = Currencies
 
 const DefaultConversion = {
   value: '0',
@@ -96,79 +94,6 @@ const transformCoinToFiat = ({
     .chain(Currency.toUnit(targetCurrencyUnit))
 }
 
-const transformBtcToFiat = ({
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  const pairs = Pairs.create(BTC.code, rates)
-  const targetCurrency = prop(toCurrency, Currencies)
-  const targetCurrencyCode = prop('code', targetCurrency)
-  const targetCurrencyUnit = path(['units', targetCurrencyCode], targetCurrency)
-  const sourceUnit = path(['units', fromUnit], BTC)
-  return Currency.fromUnit({ value, unit: sourceUnit })
-    .chain(Currency.convert(pairs, targetCurrency))
-    .chain(Currency.toUnit(targetCurrencyUnit))
-}
-
-const transformEtherToFiat = ({
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  const pairs = Pairs.create(ETH.code, rates)
-  const targetCurrency = prop(toCurrency, Currencies)
-  const targetCurrencyCode = prop('code', targetCurrency)
-  const targetCurrencyUnit = path(['units', targetCurrencyCode], targetCurrency)
-  const sourceUnit = path(['units', fromUnit], ETH)
-  return Currency.fromUnit({ value, unit: sourceUnit })
-    .chain(Currency.convert(pairs, targetCurrency))
-    .chain(Currency.toUnit(targetCurrencyUnit))
-}
-
-const transformXlmToFiat = ({
-  digits = 2,
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  digits?: number
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  const pairs = Pairs.create(XLM.code, rates)
-  const targetCurrency = prop(toCurrency, Currencies)
-  const targetCurrencyCode = prop('code', targetCurrency)
-  const updatedTargetCurrency = assocPath(
-    ['units', targetCurrencyCode, 'decimal_digits'],
-    digits,
-    prop(toCurrency, Currencies)
-  )
-  const targetCurrencyUnit = path(
-    ['units', targetCurrencyCode],
-    updatedTargetCurrency
-  )
-  const sourceUnit = path(['units', fromUnit], XLM)
-  return Currency.fromUnit({ value, unit: sourceUnit })
-    .chain(Currency.convert(pairs, updatedTargetCurrency))
-    .chain(Currency.toUnit(targetCurrencyUnit))
-}
-
 // =====================================================================
 // ============================== DECIMALS =============================
 // =====================================================================
@@ -203,28 +128,13 @@ const convertBtcToFiat = ({
   toCurrency: keyof CurrenciesType
   value: number | string
 }) => {
-  return transformBtcToFiat({
+  return transformCoinToFiat({
+    coin: 'BTC',
     value,
     fromUnit,
     toCurrency,
     rates
   }).getOrElse(DefaultConversion)
-}
-
-const convertEthToFiat = ({
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  return transformEtherToFiat({ value, fromUnit, toCurrency, rates }).getOrElse(
-    DefaultConversion
-  )
 }
 
 const convertEthToEth = ({
@@ -242,22 +152,6 @@ const convertEthToEth = ({
     fromUnit,
     toUnit
   }).getOrElse(DefaultConversion)
-}
-
-const convertXlmToFiat = ({
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  return transformXlmToFiat({ value, fromUnit, toCurrency, rates }).getOrElse(
-    DefaultConversion
-  )
 }
 
 // =====================================================================
@@ -312,12 +206,6 @@ const displayFiatToFiat = ({ value }: { value: number | string }) => {
   return new BigNumber(value).toFixed(2)
 }
 
-const getSymbol = currency => {
-  const data = Currencies[currency]
-  const tradeUnit = prop('trade', data)
-  return path(['units', tradeUnit, 'symbol'], data)
-}
-
 const convertCoinToCoin = ({
   baseToStandard = true,
   coin,
@@ -357,29 +245,6 @@ const convertFiatToCoin = (
     toUnit: unit,
     rates
   }).getOrElse(DefaultConversion).value
-}
-
-// TODO, only one coin to fiat function
-const convertCoinUnitToFiat = ({
-  coin,
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  coin: CoinType
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  return transformCoinToFiat({
-    coin,
-    fromUnit,
-    toCurrency,
-    rates,
-    value
-  })
 }
 
 // TODO, only one coin to fiat function
@@ -431,19 +296,19 @@ const displayCoinToCoin = (value: number | string, toUnit: CoinType) => {
   })
 }
 
+const getSymbol = currency => {
+  const data = Currencies[currency]
+  const tradeUnit = prop('trade', data)
+  return path(['units', tradeUnit, 'symbol'], data)
+}
+
 export {
-  convertBtcToFiat,
   convertCoinToCoin,
   convertCoinToFiat,
-  convertCoinUnitToFiat,
   convertEthToEth,
-  convertEthToFiat,
-  convertFiatToBtc,
   convertFiatToCoin,
   convertFiatToFiat,
-  convertXlmToFiat,
   DefaultConversion,
-  DefaultDisplay,
   displayCoinToCoin,
   displayCoinToFiat,
   displayFiatToFiat,

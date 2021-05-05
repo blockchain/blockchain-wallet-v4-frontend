@@ -376,12 +376,13 @@ export default ({
       baseToStandard: false,
       coin: 'XLM'
     }).value
-    const fiat = Exchange.convertXlmToFiat({
-      value: amount,
-      fromUnit: 'STROOP',
-      toCurrency: currency,
-      rates: xlmRates
-    }).value
+    const fiat = Exchange.convertCoinToFiat(
+      'XLM',
+      amount,
+      'STROOP',
+      currency,
+      xlmRates
+    )
     yield put(change(FORM, 'amount', { coin, fiat }))
   }
 

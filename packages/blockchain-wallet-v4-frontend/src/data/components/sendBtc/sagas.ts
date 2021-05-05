@@ -343,12 +343,13 @@ export default ({
         .getRates(appState)
         .getOrFail('Can not retrieve bitcoin rates.')
       const coin = DUST_BTC
-      const fiat = Exchange.convertBtcToFiat({
-        value: DUST,
-        fromUnit: 'SAT',
-        toCurrency: currency,
-        rates: btcRates
-      }).value
+      const fiat = Exchange.convertCoinToFiat(
+        'BTC',
+        DUST,
+        'SAT',
+        currency,
+        btcRates
+      )
       yield put(change(FORM, 'amount', { coin, fiat }))
     } catch (e) {
       yield put(
@@ -374,12 +375,13 @@ export default ({
         baseToStandard: true,
         coin: 'BTC'
       }).value
-      const fiat = Exchange.convertBtcToFiat({
-        value: effectiveBalance,
-        fromUnit: 'SAT',
-        toCurrency: currency,
-        rates: btcRates
-      }).value
+      const fiat = Exchange.convertCoinToFiat(
+        'BTC',
+        effectiveBalance,
+        'SAT',
+        currency,
+        btcRates
+      )
       yield put(change(FORM, 'amount', { coin, fiat }))
     } catch (e) {
       yield put(

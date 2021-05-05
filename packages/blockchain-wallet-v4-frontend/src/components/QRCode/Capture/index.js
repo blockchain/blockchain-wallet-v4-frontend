@@ -66,12 +66,13 @@ class QRCodeCaptureContainer extends React.PureComponent {
       coinInfo = this.getAddressOrBitPayInvoice('bitcoin', data)
       const { btcRates, currency } = this.props
       const { amount, message } = coinInfo.options
-      const fiat = Exchange.convertBtcToFiat({
-        value: amount,
-        fromUnit: 'BTC',
-        toCurrency: currency,
-        rates: btcRates
-      }).value
+      const fiat = Exchange.convertCoinToFiat(
+        'BTC',
+        amount,
+        'BTC',
+        currency,
+        btcRates
+      )
 
       this.props.formActions.change(
         BTC_FORM,

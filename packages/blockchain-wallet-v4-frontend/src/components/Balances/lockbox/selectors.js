@@ -69,12 +69,7 @@ export const getBtcBalanceInfo = createDeepEqualSelector(
   ],
   (btcBalanceR, btcRatesR, currencyR) => {
     const transform = (value, rates, toCurrency) =>
-      Exchange.convertBtcToFiat({
-        value,
-        fromUnit: 'SAT',
-        toCurrency,
-        rates
-      }).value
+      Exchange.convertCoinToFiat('BTC', value, 'SAT', toCurrency, rates)
     return lift(transform)(btcBalanceR, btcRatesR, currencyR)
   }
 )
@@ -100,8 +95,7 @@ export const getEthBalanceInfo = createDeepEqualSelector(
   ],
   (ethBalanceR, ethRatesR, currencyR) => {
     const transform = (value, rates, toCurrency) =>
-      Exchange.convertEthToFiat({ value, fromUnit: 'WEI', toCurrency, rates })
-        .value
+      Exchange.convertCoinToFiat('ETH', value, 'WEI', toCurrency, rates)
     return lift(transform)(ethBalanceR, ethRatesR, currencyR)
   }
 )
@@ -114,12 +108,7 @@ export const getXlmBalanceInfo = createDeepEqualSelector(
   ],
   (xlmBalanceR, xlmRatesR, currencyR) => {
     const transform = (value, rates, toCurrency) =>
-      Exchange.convertXlmToFiat({
-        value,
-        fromUnit: 'STROOP',
-        toCurrency,
-        rates
-      }).value
+      Exchange.convertCoinToFiat('XLM', value, 'STROOP', toCurrency, rates)
     return lift(transform)(xlmBalanceR, xlmRatesR, currencyR)
   }
 )

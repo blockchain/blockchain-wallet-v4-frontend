@@ -1,7 +1,7 @@
 import {
   Erc20CurrenciesType,
   FiatCurrenciesType
-} from 'core/exchange/currencies'
+} from 'blockchain-wallet-v4/src/exchange/currencies'
 
 import * as Address from './Address'
 import * as AddressBook from './AddressBook'

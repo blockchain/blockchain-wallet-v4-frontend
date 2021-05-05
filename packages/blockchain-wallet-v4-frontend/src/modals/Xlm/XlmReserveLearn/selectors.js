@@ -10,12 +10,7 @@ const currencySymbolMap = mapObjIndexed(
 )
 
 const convertXlmToFiat = (rates, currency) => amount =>
-  Exchange.convertXlmToFiat({
-    value: amount,
-    fromUnit: 'XLM',
-    toCurrency: currency,
-    rates: rates
-  }).value
+  Exchange.convertCoinToFiat('XLM', amount, 'XLM', currency, rates)
 
 export const getData = (state, props) => {
   const { currency, effectiveBalanceXlm, fee, rates, reserveXlm } = props

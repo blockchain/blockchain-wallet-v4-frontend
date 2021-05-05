@@ -75,12 +75,13 @@ export const balanceReserveAmount = (errors, allValues, props) => {
   }).value
   const currency = prop('currency', props)
   const rates = prop('rates', props)
-  const effectiveBalanceFiat = Exchange.convertXlmToFiat({
-    value: effectiveBalanceXlm,
-    fromUnit: 'XLM',
-    toCurrency: currency,
-    rates: prop('rates', props)
-  }).value
+  const effectiveBalanceFiat = Exchange.convertCoinToFiat(
+    'XLM',
+    effectiveBalanceXlm,
+    'XLM',
+    currency,
+    rates
+  )
   if (effectiveBalance < 0)
     errors._error = {
       currency,

@@ -16,18 +16,20 @@ import {
 
 const LowBalanceWarning = props => {
   const { amount, ethRates, totalBalance } = props
-  const totalEthValue = Exchange.convertEthToFiat({
-    value: totalBalance,
-    toCurrency: 'USD',
-    fromUnit: 'WEI',
-    rates: ethRates
-  }).value
-  const totalSendValue = Exchange.convertEthToFiat({
-    value: propOr(0, 'coin', amount),
-    toCurrency: 'USD',
-    fromUnit: 'ETH',
-    rates: ethRates
-  }).value
+  const totalEthValue = Exchange.convertCoinToFiat(
+    'ETH',
+    totalBalance,
+    'ETH',
+    'USD',
+    ethRates
+  )
+  const totalSendValue = Exchange.convertCoinToFiat(
+    'ETH',
+    propOr(0, 'coin', amount),
+    'ETH',
+    'USD',
+    ethRates
+  )
 
   return (
     lt(totalEthValue - totalSendValue, 1) && (

@@ -34,7 +34,6 @@ import { actions, actionTypes, model, selectors } from 'data'
 import {
   getBchBalance,
   getBtcBalance,
-  getXlmBalance,
   waitForAllBalances
 } from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
@@ -106,18 +105,6 @@ export default ({ api, coreSagas, networks }) => {
 
   const defineInterestGoal = function * () {
     yield put(actions.goals.saveGoal('interest', {}))
-  }
-
-  const defineSendXlmGoal = function * (pathname, search) {
-    // /#/open/xlm?address={address}&amount={amount}
-    const params = new URLSearchParams(search)
-    const address = params.get('address')
-    const amount = params.get('amount')
-    const memo = params.get('memo')
-
-    yield put(actions.goals.saveGoal('xlmPayment', { address, amount, memo }))
-    yield put(actions.router.push('/wallet'))
-    yield put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
   }
 
   const defineSimpleBuyGoal = function * (search) {
@@ -200,10 +187,6 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const defineDeepLinkGoals = function * (pathname, search) {
-    if (startsWith(DeepLinkGoal.XLM, pathname)) {
-      return yield call(defineSendXlmGoal, pathname, search)
-    }
-
     if (startsWith(DeepLinkGoal.LINK_ACCOUNT, pathname)) {
       return yield call(defineLinkAccountGoal, search)
     }
@@ -454,12 +437,13 @@ export default ({ api, coreSagas, networks }) => {
     const { address, amount, description } = data
     const currency = yield select(selectors.core.settings.getCurrency)
     const btcRates = yield select(selectors.core.data.btc.getRates)
-    const fiat = Exchange.convertBtcToFiat({
-      value: amount,
-      fromUnit: 'BTC',
-      toCurrency: currency.getOrElse(null),
-      rates: btcRates.getOrElse(null)
-    }).value
+    const fiat = Exchange.convertCoinToFiat(
+      'BTC',
+      amount,
+      'BTC',
+      currency.getOrElse('USD'),
+      btcRates.getOrElse(null)
+    )
     // Goal work
     yield put(
       actions.goals.addInitialModal('payment', model.components.sendBtc.MODAL, {
@@ -468,36 +452,6 @@ export default ({ api, coreSagas, networks }) => {
         amount: { coin: amount, fiat },
         origin
       })
-    )
-  }
-
-  const runSendXlmGoal = function * (goal: GoalType) {
-    const { data, id } = goal
-    yield put(actions.goals.deleteGoal(id))
-
-    yield call(getXlmBalance)
-
-    const { address, amount, memo } = data
-    const currency = yield select(selectors.core.settings.getCurrency)
-    const xlmRates = yield select(selectors.core.data.xlm.getRates)
-    const fiat = Exchange.convertXlmToFiat({
-      value: amount,
-      fromUnit: 'XLM',
-      toCurrency: currency.getOrElse(null),
-      rates: xlmRates.getOrElse(null)
-    }).value
-    // Goal work
-    yield put(
-      actions.goals.addInitialModal(
-        'xlmPayment',
-        model.components.sendXlm.MODAL,
-        {
-          to: address,
-          amount: { coin: amount, fiat },
-          memo,
-          origin
-        }
-      )
     )
   }
 
@@ -751,8 +705,7 @@ export default ({ api, coreSagas, networks }) => {
       swapUpgrade,
       transferEth,
       upgradeForAirdrop,
-      welcomeModal,
-      xlmPayment
+      welcomeModal
     } = initialModals
 
     // Order matters here
@@ -775,11 +728,6 @@ export default ({ api, coreSagas, networks }) => {
     }
     if (payment) {
       return yield put(actions.modals.showModal(payment.name, payment.data))
-    }
-    if (xlmPayment) {
-      return yield put(
-        actions.modals.showModal(xlmPayment.name, xlmPayment.data)
-      )
     }
     if (upgradeForAirdrop) {
       return yield put(
@@ -877,9 +825,6 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'upgradeForAirdrop':
           yield call(runUpgradeForAirdropGoal, goal)
-          break
-        case 'xlmPayment':
-          yield call(runSendXlmGoal, goal)
           break
         case 'welcomeModal':
           yield call(runWelcomeModal, goal)

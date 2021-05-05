@@ -253,13 +253,13 @@ export default ({
         coin: coinCode,
         baseToStandard: true
       }).value
-      fiat = Exchange.convertCoinUnitToFiat({
-        coin: coinCode,
-        value: effectiveBalance,
-        fromUnit: 'WEI',
-        toCurrency: currency,
-        rates: rates
-      }).value
+      fiat = Exchange.convertCoinToFiat(
+        coinCode,
+        effectiveBalance,
+        'WEI',
+        currency,
+        rates
+      )
       yield put(change(FORM, 'amount', { coin, fiat, coinCode }))
     } catch (e) {
       yield put(
@@ -553,13 +553,13 @@ export default ({
       coin,
       baseToStandard: true
     }).value
-    const fiatAmt = Exchange.convertCoinUnitToFiat({
+    const fiatAmt = Exchange.convertCoinToFiat(
       coin,
-      value: amountInWei,
-      fromUnit: 'WEI',
-      toCurrency: currency,
-      rates: rates
-    }).value
+      amountInWei,
+      'WEI',
+      currency,
+      rates
+    )
     yield put(
       change(FORM, 'amount', {
         coin: cryptoAmt,

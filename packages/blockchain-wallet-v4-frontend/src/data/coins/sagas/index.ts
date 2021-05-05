@@ -1,13 +1,8 @@
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { UnitType } from 'blockchain-wallet-v4/src/exchange'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import {
   CoinType,
-  CurrenciesType,
   Erc20CoinsEnum,
   PaymentType,
   PaymentValue,
-  RatesType,
   RemoteDataType
 } from 'blockchain-wallet-v4/src/types'
 
@@ -78,24 +73,7 @@ export default ({ coreSagas, networks }) => {
     ) as PaymentType
   }
 
-  // convert from a coins base unit into fiat
-  const convertCoinFromBaseUnitToFiat = (
-    coin: CoinType,
-    value: number | string,
-    userCurrency: keyof CurrenciesType,
-    rates: RatesType
-  ): number => {
-    return Exchange.convertCoinUnitToFiat({
-      coin,
-      fromUnit: Currencies[coin].base as UnitType,
-      rates,
-      toCurrency: userCurrency,
-      value
-    })
-  }
-
   return {
-    convertCoinFromBaseUnitToFiat,
     getDefaultAccountForCoin,
     getNextReceiveAddressForCoin,
     getOrUpdateProvisionalPaymentForCoin

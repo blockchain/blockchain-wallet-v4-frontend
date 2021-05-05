@@ -316,13 +316,13 @@ export default ({
         baseToStandard: true,
         coin: 'BCH'
       }).value
-      const fiat = Exchange.convertCoinUnitToFiat({
-        coin: 'BCH',
-        value: effectiveBalance,
-        fromUnit: 'SAT',
-        toCurrency: currency,
-        rates: bchRates
-      }).value
+      const fiat = Exchange.convertCoinToFiat(
+        'BCH',
+        effectiveBalance,
+        'SAT',
+        currency,
+        bchRates
+      )
       yield put(change(FORM, 'amount', { coin, fiat }))
     } catch (e) {
       yield put(
