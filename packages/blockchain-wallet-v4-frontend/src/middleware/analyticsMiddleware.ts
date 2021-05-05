@@ -97,7 +97,7 @@ const analyticsMiddleware = () => store => next => action => {
   const referrer = document.referrer
   const location = window.location.href
   const state = store.getState()
-  const language = state.preferences.language
+  const language = state?.preferences?.language || ''
 
   try {
     switch (action.type) {
@@ -109,7 +109,7 @@ const analyticsMiddleware = () => store => next => action => {
           type: AnalyticsType.VIEW,
           originalTimestamp: getOriginalTimestamp(),
           referrer: referrer,
-          page: action.payload.route
+          page: action.payload?.route || ''
         })
         break
       case AT.modals.SHOW_MODAL:
@@ -117,8 +117,8 @@ const analyticsMiddleware = () => store => next => action => {
           type: AnalyticsType.VIEW,
           originalTimestamp: getOriginalTimestamp(),
           referrer: location,
-          origin: modalOriginDictionary(action.payload.props.origin),
-          page: modalNameDictionary(action.payload.type)
+          origin: modalOriginDictionary(action?.payload?.props?.origin),
+          page: modalNameDictionary(action?.payload?.type)
         })
         break
       case AT.components.identityVerification.INITIALIZE_VERIFICATION:
