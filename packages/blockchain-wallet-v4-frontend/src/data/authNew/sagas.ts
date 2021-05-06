@@ -16,7 +16,27 @@ export default ({ api, coreSagas }) => {
       yield put(A.intializeLoginLoading())
       const pathname = yield select(selectors.router.getPathname)
       const params = pathname.split('/')
-      if (!params[2]) {
+      const isMobileConnected = yield select(selectors.cache.getMobileConnected)
+      const email = yield select(selectors.cache.getEmail)
+      const guid = yield select(selectors.cache.getStoredGuid)
+      // debugger
+      if (guid && !params[2]) {
+        yield put(actions.form.change('loginNew', 'guid', guid))
+        yield put(actions.form.change('loginNew', 'email', email))
+        if (isMobileConnected) {
+          yield put(
+            actions.form.change(
+              'loginNew',
+              'step',
+              LoginSteps.VERIFICATION_MOBILE
+            )
+          )
+        } else {
+          yield put(
+            actions.form.change('loginNew', 'step', LoginSteps.ENTER_PASSWORD)
+          )
+        }
+      } else if (!params[2]) {
         yield put(
           actions.form.change('loginNew', 'step', LoginSteps.ENTER_EMAIL_GUID)
         )
@@ -36,8 +56,13 @@ export default ({ api, coreSagas }) => {
           const guidFromRoute = prop('guid', loginData)
           const emailFromRoute = prop('email', loginData)
           const mobileSetup = prop('is_mobile_setup', loginData) === 'true'
+          yield put(actions.cache.emailStored(emailFromRoute))
+          yield put(actions.cache.guidStored(guidFromRoute))
+          yield put(actions.cache.mobileConnectedStored(mobileSetup))
+
           yield put(actions.form.change('loginNew', 'guid', guidFromRoute))
           yield put(actions.form.change('loginNew', 'email', emailFromRoute))
+
           if (mobileSetup) {
             yield put(
               actions.form.change(
@@ -53,6 +78,7 @@ export default ({ api, coreSagas }) => {
           }
         }
       }
+      yield put(A.initializeLoginSuccess())
     } catch (e) {
       yield put(A.intializeLoginFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'intializeLogin', e))

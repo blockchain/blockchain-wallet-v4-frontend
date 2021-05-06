@@ -4,24 +4,8 @@ import { LinkContainer } from 'react-router-bootstrap'
 import Bowser from 'bowser'
 import styled from 'styled-components'
 
-import {
-  // Banner,
-  Button,
-  // HeartbeatLoader,
-  Icon,
-  // Image,
-  Link,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
-import {
-  // FormError,
-  // FormGroup,
-  // FormItem,
-  FormLabel
-  // PasswordBox,
-  // TextBox
-} from 'components/Form'
+import { Button, Icon, Link, SpinningLoader , Text, TextGroup } from 'blockchain-info-components'
+import { FormLabel } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { LoginFormType, LoginSteps } from 'data/types'
 
@@ -110,6 +94,17 @@ const Column = styled.div`
   display: flex;
   flex-direction: column;
 `
+
+export const Loader = styled(SpinningLoader)`
+  height: 75px;
+  width: 75px;
+  margin: 75px;
+`
+export const LoaderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
 export const BackArrowFormHeader = (props: {
   formActions
   formValues: LoginFormType

@@ -16,6 +16,18 @@ const cache = (state = INITIAL_STATE, action) => {
       const { collapsed, id } = payload
       return assocPath(['announcements', id, 'collapsed'], collapsed, state)
     }
+    case AT.EMAIL_STORED: {
+      const { email } = payload
+      return assoc('lastEmail', email, state)
+    }
+    case AT.GUID_STORED: {
+      const { guid } = payload
+      return assoc('guidStored', guid, state)
+    }
+    case AT.MOBILE_CONNECTED_STORED: {
+      const { mobileConnected } = payload
+      return assoc('mobileConnected', mobileConnected, state)
+    }
     case AT.GUID_ENTERED: {
       const { guid } = payload
       return assoc('lastGuid', guid, state)

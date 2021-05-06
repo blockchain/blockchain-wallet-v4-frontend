@@ -7,18 +7,22 @@ import { formValueSelector, getFormMeta, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Link, Text } from 'blockchain-info-components'
-import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
 import { LoginFormType, LoginSteps } from 'data/types'
 
-import Loading from '../loading.public'
 import CheckEmail from './CheckEmail'
 // step templates
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
 import EnterTwoFactor from './EnterTwoFactor'
-import { LOGIN_NEW, SignUpText, SubCard } from './model'
+import {
+  Loader,
+  LoaderContainer,
+  LOGIN_NEW,
+  SignUpText,
+  SubCard
+} from './model'
 import VerificationMobile from './VerificationMobile'
 
 // TODO: remove temp
@@ -32,15 +36,13 @@ class Login extends PureComponent<Props> {
   componentDidMount() {
     this.props.authNewActions.initializeLogin()
     // TODO: browser check
-    // TODO: check for existing cookie/localstorage?
-    // this.setStep(LoginSteps.ENTER_EMAIL_GUID)
   }
 
   setStep = (step: LoginSteps) => {
     this.props.formActions.change(LOGIN_NEW, 'step', step)
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault()
     const { code, guid, password } = this.props
     let auth = code
@@ -111,64 +113,68 @@ class Login extends PureComponent<Props> {
           )}
         </Text>
         <Wrapper>
-            {(() => {
-              switch (step) {
-                case LoginSteps.ENTER_EMAIL_GUID:
-                  return (
-                    // @ts-ignore
-                    <EnterEmailOrGuid
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                    />
-                  )
-                case LoginSteps.ENTER_PASSWORD:
-                  return (
-                    // @ts-ignore
-                    <EnterPassword
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                      handleSubmit={this.handleSubmit}
-                    />
-                  )
+          {(() => {
+            switch (step) {
+              case LoginSteps.ENTER_EMAIL_GUID:
+                return (
+                  // @ts-ignore
+                  <EnterEmailOrGuid
+                    {...this.props}
+                    {...loginProps}
+                    setStep={this.setStep}
+                  />
+                )
+              case LoginSteps.ENTER_PASSWORD:
+                return (
+                  // @ts-ignore
+                  <EnterPassword
+                    {...this.props}
+                    {...loginProps}
+                    setStep={this.setStep}
+                    handleSubmit={this.handleSubmit}
+                  />
+                )
 
-                case LoginSteps.ENTER_TWO_FACTOR:
-                  return (
-                    // @ts-ignore
-                    <EnterTwoFactor
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                      handleSubmit={this.handleSubmit}
-                    />
-                  )
+              case LoginSteps.ENTER_TWO_FACTOR:
+                return (
+                  // @ts-ignore
+                  <EnterTwoFactor
+                    {...this.props}
+                    {...loginProps}
+                    setStep={this.setStep}
+                    handleSubmit={this.handleSubmit}
+                  />
+                )
 
-                case LoginSteps.CHECK_EMAIL:
-                  return (
-                    // @ts-ignore
-                    <CheckEmail
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                    />
-                  )
+              case LoginSteps.CHECK_EMAIL:
+                return (
+                  // @ts-ignore
+                  <CheckEmail
+                    {...this.props}
+                    {...loginProps}
+                    setStep={this.setStep}
+                  />
+                )
 
-                case LoginSteps.VERIFICATION_MOBILE:
-                  return (
-                    // @ts-ignore
-                    <VerificationMobile
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                    />
-                  )
+              case LoginSteps.VERIFICATION_MOBILE:
+                return (
+                  // @ts-ignore
+                  <VerificationMobile
+                    {...this.props}
+                    {...loginProps}
+                    setStep={this.setStep}
+                  />
+                )
 
-                case LoginSteps.LOADING:
-                default:
-                  return <Loading />
-              }
-            })()}
+              case LoginSteps.LOADING:
+              default:
+                return (
+                  <LoaderContainer>
+                    <Loader />
+                  </LoaderContainer>
+                )
+            }
+          })()}
         </Wrapper>
 
         <ButtonRow>
@@ -206,6 +212,13 @@ class Login extends PureComponent<Props> {
             onClick={() => this.setStep(LoginSteps.VERIFICATION_MOBILE)}
           >
             Verify Mobile
+          </Button>
+          <Button
+            data-e2e=''
+            nature='empty-blue'
+            onClick={() => this.setStep(LoginSteps.LOADING)}
+          >
+            Loading
           </Button>
         </ButtonRow>
         {step === LoginSteps.ENTER_EMAIL_GUID && (
