@@ -80,7 +80,10 @@ export default ({ api, coreSagas }) => {
   }
 
   const saveGoals = function * (firstLogin) {
-    yield put(actions.goals.saveGoal('welcomeModal', { firstLogin }))
+    // only for non first login users we save goal here for first login users we do that over verify email page
+    if (!firstLogin) {
+      yield put(actions.goals.saveGoal('welcomeModal'))
+    }
     yield put(actions.goals.saveGoal('swapUpgrade'))
     yield put(actions.goals.saveGoal('swapGetStarted'))
     yield put(actions.goals.saveGoal('kycDocResubmit'))
