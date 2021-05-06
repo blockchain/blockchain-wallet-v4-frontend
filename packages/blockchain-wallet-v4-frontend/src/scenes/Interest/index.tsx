@@ -14,6 +14,7 @@ import {
 import { Remote } from 'blockchain-wallet-v4/src'
 import {
   CoinType,
+  InterestEDDStatus,
   InterestRateType,
   RemoteDataType,
   SupportedWalletCurrenciesType
@@ -149,6 +150,7 @@ export type StateType = {
 }
 export type SuccessStateType = {
   instruments: Array<CoinType>
+  interestEDDStatus: InterestEDDStatus
   interestRate: InterestRateType
   interestRateArray: Array<number>
   supportedCoins: SupportedWalletCurrenciesType
