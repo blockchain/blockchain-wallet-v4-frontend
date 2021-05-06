@@ -136,7 +136,9 @@ export const getMaxMin = (
           let max = BigNumber.minimum(
             method.limits.max,
             isSddFlow ? sddLimit.max : pair.buyMax,
-            isSddFlow ? sddLimit.max : limitMaxAmount
+            isSddFlow
+              ? sddLimit.max
+              : convertBaseToStandard('FIAT', limitMaxAmount, false)
           ).toString()
 
           if (
@@ -158,6 +160,7 @@ export const getMaxMin = (
                 break
             }
           }
+
           const maxFiat = convertBaseToStandard('FIAT', max)
           const maxCrypto = getQuote(quote.pair, quote.rate, 'FIAT', maxFiat)
 
@@ -170,6 +173,7 @@ export const getMaxMin = (
               convertBaseToStandard('FIAT', limitMinAmount)
             )
             const baseMinLimitAmount = Number(limits.minOrder)
+
             if (baseMinLimitAmount > buyMinItem && !isSddFlow) {
               limitMinAmount = baseMinLimitAmount
             }
@@ -203,7 +207,9 @@ export const getMaxMin = (
           const min = BigNumber.maximum(
             method.limits.min,
             pair.buyMin,
-            isSddFlow ? method.limits.min : limitMinAmount
+            isSddFlow
+              ? method.limits.min
+              : convertBaseToStandard('FIAT', limitMinAmount, false)
           ).toString()
 
           const minFiat = convertBaseToStandard('FIAT', min)
