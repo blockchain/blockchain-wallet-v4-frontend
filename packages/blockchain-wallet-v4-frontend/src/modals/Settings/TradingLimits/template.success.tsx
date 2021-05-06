@@ -174,12 +174,12 @@ const getTierStatus = (
   if (isEddQualified) {
     return (
       <StatusCartridge>
-        <OrangeCartridge fontSize='12px'>
+        <ErrorCartridge fontSize='12px'>
           <FormattedMessage
-            id='modals.tradinglimits.more_info_needed'
-            defaultMessage='More Info Needed'
+            id='modals.tradinglimits.info_needed'
+            defaultMessage='Info Needed'
           />
-        </OrangeCartridge>
+        </ErrorCartridge>
       </StatusCartridge>
     )
   }

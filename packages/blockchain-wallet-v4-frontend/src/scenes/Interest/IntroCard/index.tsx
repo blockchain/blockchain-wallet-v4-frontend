@@ -107,6 +107,7 @@ class IntroCard extends PureComponent<
     const {
       analyticsActions,
       idvActions,
+      interestEDDStatus,
       interestRateArray,
       isGoldTier,
       preferencesActions,
@@ -138,8 +139,8 @@ class IntroCard extends PureComponent<
 
     return (
       <>
-        {this.renderAdditionalInfo()}
-        {showInterestInfoBox && (
+        {interestEDDStatus?.eddNeeded && this.renderAdditionalInfo()}
+        {showInterestInfoBox && !interestEDDStatus?.eddNeeded && (
           <BoxStyled>
             {isGoldTier ? (
               <ContentWrapper>
