@@ -16,10 +16,11 @@ const FormBody = styled.div`
 `
 
 const CheckEmail = (props: InjectedFormProps<{}, Props> & Props) => {
-  const { formActions, formValues, setStep } = props
+  const { cacheActions, formActions, formValues, setStep } = props
   return (
     <>
       <BackArrowFormHeader
+        cacheActions={cacheActions}
         formActions={formActions}
         formValues={formValues}
         setStep={setStep}

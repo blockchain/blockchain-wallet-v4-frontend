@@ -28,6 +28,15 @@ const cache = (state = INITIAL_STATE, action) => {
       const { mobileConnected } = payload
       return assoc('mobileConnected', mobileConnected, state)
     }
+
+    case AT.REMOVED_STORED_LOGIN: {
+      return {
+        ...state,
+        guidStored: undefined,
+        lastEmail: undefined,
+        mobileConnected: undefined
+      }
+    }
     case AT.GUID_ENTERED: {
       const { guid } = payload
       return assoc('lastGuid', guid, state)

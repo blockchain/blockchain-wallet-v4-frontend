@@ -266,12 +266,14 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   authNewActions: bindActionCreators(actions.authNew, dispatch),
+  cacheActions: bindActionCreators(actions.cache, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type Props = ConnectedProps<typeof connector>
+
 const enhance = compose<any>(
   reduxForm({
     form: LOGIN_NEW

@@ -28,6 +28,8 @@ export const emailMismatch2faErrorMessage =
 export const unknownWalletId = 'Unknown Wallet Identifier.'
 export const wrongCaptcha2faErrorMessage = 'Error: Captcha Code Incorrect'
 export const wrongAuthCodeErrorMessage = 'Authentication code is incorrect'
+export const ipAddressRestriction =
+  'This wallet is restricted to another IP address.'
 
 export default ({ api, coreSagas }) => {
   const forceSyncWallet = function * () {
@@ -367,22 +369,19 @@ export default ({ api, coreSagas }) => {
         )
         yield put(actions.form.focus('login', 'password'))
         yield put(actions.auth.loginFailure(error))
-      } else if (initialError) {
-        const ipRestriction =
-          'This wallet is restricted to another IP address. To remove this restriction, submit a 2FA reset request under Login Help.'
-        // general error
-        if (initialError === ipRestriction)
-          yield put(
-            actions.alerts.displayError(
-              C.IPRESTRICTION_LOGIN_ERROR,
-              null,
-              null,
-              null,
-              9500
-            )
+      } else if (error && error.includes(ipAddressRestriction)) {
+        yield put(
+          actions.alerts.displayError(
+            C.IPRESTRICTION_LOGIN_ERROR,
+            null,
+            null,
+            null,
+            9500
           )
-        if (initialError.includes(unknownWalletId))
-          yield put(actions.form.change('loginNew', 'step', 'ENTER_EMAIL_GUID'))
+        )
+        yield put(actions.auth.loginFailure(ipAddressRestriction))
+      } else if (initialError && initialError.includes(unknownWalletId)) {
+        yield put(actions.form.change('loginNew', 'step', 'ENTER_EMAIL_GUID'))
         yield put(actions.auth.loginFailure(initialError))
       } else if (
         // Wrong 2fa code error

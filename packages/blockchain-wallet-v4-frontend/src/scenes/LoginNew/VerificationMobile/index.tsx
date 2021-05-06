@@ -32,11 +32,12 @@ const LinkRow = styled.div`
 `
 
 const VerificationMobile = (props: InjectedFormProps<{}, Props> & Props) => {
-  const { formActions, formValues, qrData, setStep } = props
+  const { cacheActions, formActions, formValues, qrData, setStep } = props
 
   return (
     <>
       <BackArrowFormHeader
+        cacheActions={cacheActions}
         formActions={formActions}
         formValues={formValues}
         setStep={setStep}

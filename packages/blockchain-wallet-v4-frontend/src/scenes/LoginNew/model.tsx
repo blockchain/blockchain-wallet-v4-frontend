@@ -4,7 +4,14 @@ import { LinkContainer } from 'react-router-bootstrap'
 import Bowser from 'bowser'
 import styled from 'styled-components'
 
-import { Button, Icon, Link, SpinningLoader , Text, TextGroup } from 'blockchain-info-components'
+import {
+  Button,
+  Icon,
+  Link,
+  SpinningLoader,
+  Text,
+  TextGroup
+} from 'blockchain-info-components'
 import { FormLabel } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { LoginFormType, LoginSteps } from 'data/types'
@@ -106,12 +113,14 @@ export const LoaderContainer = styled.div`
 `
 
 export const BackArrowFormHeader = (props: {
+  cacheActions
   formActions
   formValues: LoginFormType
   setStep: (LoginSteps) => void
   step?: LoginSteps
 }) => {
   const handleIconClick = () => {
+    props.cacheActions.removedStoredLogin()
     props.formActions.destroy(LOGIN_NEW)
     props.setStep(LoginSteps.ENTER_EMAIL_GUID)
   }

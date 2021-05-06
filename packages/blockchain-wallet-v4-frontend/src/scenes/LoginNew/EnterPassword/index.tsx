@@ -29,6 +29,7 @@ const EnterPassword = (props: InjectedFormProps<{}, Props> & Props) => {
   const {
     authType,
     busy,
+    cacheActions,
     formActions,
     formValues,
     handleSubmit,
@@ -49,6 +50,7 @@ const EnterPassword = (props: InjectedFormProps<{}, Props> & Props) => {
   return (
     <Form onSubmit={handleSubmit}>
       <BackArrowFormHeader
+        cacheActions={cacheActions}
         formActions={formActions}
         formValues={formValues}
         setStep={setStep}
