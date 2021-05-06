@@ -825,7 +825,7 @@ export default ({ api, coreSagas, networks }) => {
       )
     }
     if (interestPromo) {
-      yield put(
+      return yield put(
         actions.modals.showModal(interestPromo.name, interestPromo.data)
       )
     }
