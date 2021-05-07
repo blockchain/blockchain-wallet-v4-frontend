@@ -14,6 +14,7 @@ import {
 import { Remote } from 'blockchain-wallet-v4/src'
 import {
   CoinType,
+  InterestEDDStatus,
   InterestRateType,
   RemoteDataType,
   SupportedWalletCurrenciesType
@@ -48,6 +49,7 @@ class Interest extends React.PureComponent<Props, StateType> {
     this.props.interestActions.fetchInterestInstruments()
     this.props.interestActions.fetchInterestRate()
     this.props.interestActions.fetchInterestBalance()
+    this.props.interestActions.fetchEDDStatus()
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -149,6 +151,7 @@ export type StateType = {
 }
 export type SuccessStateType = {
   instruments: Array<CoinType>
+  interestEDDStatus: InterestEDDStatus
   interestRate: InterestRateType
   interestRateArray: Array<number>
   supportedCoins: SupportedWalletCurrenciesType
