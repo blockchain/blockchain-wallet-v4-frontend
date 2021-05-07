@@ -1,11 +1,11 @@
 import {
-  BankTransferAccountType,
   BeneficiaryType,
   SBPaymentTypes,
   WalletFiatType,
   WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse
 } from 'blockchain-wallet-v4/src/types'
+import { BankTransferAccountType } from 'data/types'
 
 import * as AT from './actionTypes'
 import { WithdrawActionTypes, WithdrawStepActionsPayload } from './types'

@@ -3,14 +3,17 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import {
-  BankTransferAccountType,
   ExtractSuccess,
   RemoteDataType,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { AddBankStepType, BrokerageModalOriginType } from 'data/types'
+import {
+  AddBankStepType,
+  BankTransferAccountType,
+  BrokerageModalOriginType
+} from 'data/types'
 
 import { getData } from './selectors'
 import Loading from './template.loading'
@@ -19,13 +22,15 @@ import Success from './template.success'
 class LinkedBanks extends PureComponent<Props> {
   componentDidMount() {
     this.props.brokerageActions.fetchBankTransferAccounts()
-    this.props.simpleBuyActions.fetchSBPaymentMethods()
+    this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.walletCurrency)
   }
 
   handleBankClick = () => {
     this.props.brokerageActions.showModal(
       BrokerageModalOriginType.ADD_BANK,
-      'ADD_BANK_MODAL'
+      this.props.fiatCurrency === 'USD'
+        ? 'ADD_BANK_YODLEE_MODAL'
+        : 'ADD_BANK_YAPILY_MODAL'
     )
     this.props.brokerageActions.setAddBankStep({
       addBankStep: AddBankStepType.ADD_BANK
@@ -72,7 +77,8 @@ class LinkedBanks extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
-  fiatCurrency: selectors.components.withdraw.getFiatCurrency(state)
+  fiatCurrency: selectors.components.withdraw.getFiatCurrency(state),
+  walletCurrency: selectors.core.settings.getCurrency(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -84,12 +90,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type OwnProps = {}
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
   fiatCurrency: WalletFiatType
+  walletCurrency: WalletFiatType
 }
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-export type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = ConnectedProps<typeof connector>
 
 export default connector(LinkedBanks)

@@ -46,6 +46,7 @@ class SelectBoxCoin extends React.PureComponent {
       </HeaderWrapper>
     )
   }
+
   renderDisplay = (props, children) => {
     const { supportedCoins } = this.props
     const { value, ...rest } = props
@@ -65,6 +66,7 @@ class SelectBoxCoin extends React.PureComponent {
       </HeaderWrapper>
     )
   }
+
   render() {
     const {
       additionalOptions = [],

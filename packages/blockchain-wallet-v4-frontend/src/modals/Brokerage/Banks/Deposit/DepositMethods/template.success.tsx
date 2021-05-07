@@ -8,6 +8,7 @@ import {
   SBPaymentMethodType
 } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
+import { model } from 'data'
 import {
   AddBankStepType,
   BankDWStepType,
@@ -18,6 +19,11 @@ import {
 import BankWire from '../../../../SimpleBuy/PaymentMethods/Methods/BankWire'
 import { mapDispatchToProps, Props as _P } from '.'
 import BankDeposit from './BankDeposit'
+
+const {
+  LINK_BANK_TRANSFER,
+  LINK_WIRE_TRANSFER
+} = model.analytics.FIAT_DEPOSIT_EVENTS
 
 const Wrapper = styled.section`
   display: flex;
@@ -77,19 +83,29 @@ const getType = (value: SBPaymentMethodType) => {
         />
       )
     case 'BANK_ACCOUNT':
-      return (
-        <FormattedMessage
-          id='modals.simplebuy.bankwire'
-          defaultMessage='Wire Transfer'
-        />
-      )
+      let text
+      if (value.currency === 'EUR' || value.currency === 'GBP') {
+        text = (
+          <FormattedMessage id='buttons.transfer' defaultMessage='Transfer' />
+        )
+      } else {
+        text = (
+          <FormattedMessage
+            id='modals.simplebuy.bankwire'
+            defaultMessage='Wire Transfer'
+          />
+        )
+      }
+      return text
   }
 }
 
 const Success = ({
   addNew,
+  analyticsActions,
   brokerageActions,
   close,
+  fiatCurrency,
   paymentMethods
 }: Props) => {
   const bankTransfer = paymentMethods.methods.find(
@@ -134,7 +150,9 @@ const Success = ({
               if (addNew) {
                 brokerageActions.showModal(
                   BrokerageModalOriginType.ADD_BANK,
-                  'ADD_BANK_MODAL'
+                  fiatCurrency === 'USD'
+                    ? 'ADD_BANK_YODLEE_MODAL'
+                    : 'ADD_BANK_YAPILY_MODAL'
                 )
                 brokerageActions.setAddBankStep({
                   addBankStep: AddBankStepType.ADD_BANK
@@ -147,20 +165,21 @@ const Success = ({
                   dwStep: BankDWStepType.ENTER_AMOUNT
                 })
               }
+              analyticsActions.logEvent(LINK_BANK_TRANSFER)
             }}
             text={getType(bankTransfer)}
             value={bankTransfer}
           />
         )}
-
         {bankWire && (
           <BankWire
             icon={getIcon(bankWire)}
-            onClick={() =>
+            onClick={() => {
               brokerageActions.setDWStep({
                 dwStep: BankDWStepType.WIRE_INSTRUCTIONS
               })
-            }
+              analyticsActions.logEvent(LINK_WIRE_TRANSFER)
+            }}
             text={getType(bankWire)}
             value={bankWire}
           />

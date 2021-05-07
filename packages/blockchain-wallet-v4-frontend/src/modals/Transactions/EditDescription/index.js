@@ -41,7 +41,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('EditTxDescription'),
+  modalEnhancer('EDIT_TX_DESCRIPTION_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

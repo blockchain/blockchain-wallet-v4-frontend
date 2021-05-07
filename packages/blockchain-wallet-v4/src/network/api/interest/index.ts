@@ -1,20 +1,23 @@
-import { CoinType, FiatType } from 'core/types'
+import { CoinType, FiatType, WalletFiatType } from 'core/types'
 
 import {
   CustodialTransferResponseType,
+  DepositLimits,
   InterestAccountBalanceType,
   InterestAccountType,
   InterestAfterTransactionType,
+  InterestEDDStatus,
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
   InterestRateType,
   InterestTransactionResponseType,
   InterestWithdrawalResponseType,
-  WithdrawalMinimumType
+  WithdrawalMinimumType,
+  WithdrawLimits
 } from './types'
 
-export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
+export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
   // TODO - consider removing parameters since we never pass anything here
   const getInterestAccountBalance = (
     ccy?: CoinType,
@@ -120,10 +123,44 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       }
     })
 
-  const getInterestCtaAfterTransaction = (): InterestAfterTransactionType =>
+  const getInterestCtaAfterTransaction = (
+    currency?: WalletFiatType
+  ): InterestAfterTransactionType =>
     authorizedGet({
       url: nabuUrl,
-      endPoint: '/savings/cta/after-transaction'
+      endPoint: '/savings/cta/after-transaction',
+      data: {
+        currency
+      }
+    })
+
+  const stopInterestCtaAfterTransaction = (
+    enabled: boolean
+  ): InterestAfterTransactionType =>
+    authorizedPut({
+      url: nabuUrl,
+      endPoint: '/savings/cta/after-transaction/enabled',
+      data: {
+        enabled
+      }
+    })
+
+  const getSavingsEDDStatus = (): InterestEDDStatus =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/savings/edd/status'
+    })
+
+  const getSavingsEDDDepositLimits = (): DepositLimits =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/savings/edd/limits/deposit'
+    })
+
+  const getSavingsEDDWithdrawLimits = (): WithdrawLimits =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/savings/edd/limits/withdraw'
     })
 
   return {
@@ -135,8 +172,12 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     getInterestAccount,
     getInterestSavingsRate,
     getInterestTransactions,
+    getSavingsEDDStatus,
+    getSavingsEDDWithdrawLimits,
+    getSavingsEDDDepositLimits,
     getWithdrawalMinsAndFees,
     initiateInterestWithdrawal,
-    transferFromCustodial
+    transferFromCustodial,
+    stopInterestCtaAfterTransaction
   }
 }

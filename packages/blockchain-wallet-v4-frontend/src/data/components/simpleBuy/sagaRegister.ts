@@ -30,9 +30,10 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.CANCEL_ORDER, simpleBuySagas.cancelSBOrder)
     yield takeLatest(AT.CREATE_ORDER, simpleBuySagas.createSBOrder)
     yield takeLatest(AT.CONFIRM_FUNDS_ORDER, simpleBuySagas.confirmSBFundsOrder)
+    yield takeLatest(AT.CONFIRM_ORDER_POLL, simpleBuySagas.confirmOrderPoll)
     yield takeLatest(
       AT.CONFIRM_CREDIT_CARD_ORDER,
-      simpleBuySagas.confirmSBCreditCardOrder
+      simpleBuySagas.confirmSBOrder
     )
     yield takeLatest(AT.FETCH_SB_BALANCES, simpleBuySagas.fetchSBBalances)
     yield takeLatest(AT.DELETE_SB_CARD, simpleBuySagas.deleteSBCard)

@@ -71,7 +71,7 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-const enhance = compose(modalEnhancer('TransferEth'), connector)
+const enhance = compose(modalEnhancer('TRANSFER_ETH_MODAL'), connector)
 
 type OwnProps = {
   legacyEthAddr: string

@@ -1,9 +1,5 @@
-import {
-  BankTransferAccountType,
-  CoinType,
-  SBPaymentTypes,
-  WalletFiatType
-} from 'core/types'
+import { CoinType, SBPaymentTypes, WalletFiatType } from 'core/types'
+import { BankTransferAccountType, ProductEligibility } from 'data/types'
 
 import {
   BeneficiariesType,
@@ -105,9 +101,16 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       data: request
     })
 
+  const getProductsEligibility = (): ProductEligibility[] =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/eligible/products'
+    })
+
   return {
     checkWithdrawalLocks,
     getBeneficiaries,
+    getProductsEligibility,
     getWithdrawalLocks,
     getWithdrawalFees,
     initiateCustodialTransfer,

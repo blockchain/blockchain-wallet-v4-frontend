@@ -2,8 +2,8 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Icon, Image } from 'blockchain-info-components'
-import { BankTransferAccountType } from 'blockchain-wallet-v4/src/types'
 import { Title, Value } from 'components/Flyout'
+import { BankTransferAccountType } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 
 import { Props as _P } from '.'
@@ -51,7 +51,7 @@ export const BeneficiaryName = (props: Props) => {
         {' '}
         <Value asTitle>{bankName}</Value>
         <Title asValue capitalize>
-          {`${bankAccountType} Account ${accountNumber}`}
+          {`${bankAccountType || ''} Account ${accountNumber}`}
         </Title>
       </>
     )

@@ -42,7 +42,6 @@ const IconsContainer = styled.div`
   justify-content: flex-end;
   width: 100%;
 `
-
 const Item = styled.div<{ isClickable?: boolean }>`
   border-top: 1px solid ${props => props.theme.grey000};
   padding: 20px 40px;
@@ -51,9 +50,9 @@ const Item = styled.div<{ isClickable?: boolean }>`
   justify-content: space-between;
   cursor: ${props => (props.isClickable ? 'pointer' : 'auto')};
 `
-
 const ContentItem = styled(Item)`
   align-items: center;
+  position: relative;
 `
 const IconWrapper = styled.div`
   display: flex;
@@ -68,6 +67,7 @@ const HeaderWrapper = styled(FlyoutWrapper)`
   position: fixed;
   max-width: 480px;
   background-color: ${props => props.theme.white};
+  z-index: 9999;
 `
 const FooterWrapper = styled(FlyoutWrapper)`
   flex: 1;
@@ -75,6 +75,15 @@ const FooterWrapper = styled(FlyoutWrapper)`
   display: flex;
   flex-direction: column;
   margin-top: -16px;
+`
+const StatusCartridge = styled.div`
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  right: 40px;
+  > span {
+    padding: 3px 8px;
+  }
 `
 const CartridgeWrapper = styled.div`
   display: flex;
@@ -88,6 +97,12 @@ const IconBareWrapper = styled.div`
     margin-top: -8px;
     margin-right: -8px;
   }
+`
+const TierTitle = styled(Text)`
+  color: ${props => props.theme.grey900};
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 150%;
 `
 const MainContent = styled.div`
   margin-top: 177px;
@@ -140,27 +155,25 @@ const getTierStatus = (
 ) => {
   if (tierDetails.state === 'under_review' || tierDetails.state === 'pending') {
     return (
-      <div>
-        <CartridgeWrapper>
-          <OrangeCartridge fontSize='12px'>
-            <FormattedMessage id='copy.in_review' defaultMessage='In Review' />
-          </OrangeCartridge>
-        </CartridgeWrapper>
-      </div>
+      <StatusCartridge>
+        <OrangeCartridge fontSize='12px'>
+          <FormattedMessage id='copy.in_review' defaultMessage='In Review' />
+        </OrangeCartridge>
+      </StatusCartridge>
     )
   }
 
   if (tier && tier >= tierType) {
     return (
       <div>
-        <CartridgeWrapper>
+        <StatusCartridge>
           <BlueCartridge fontSize='12px'>
             <FormattedMessage
               id='modals.tradinglimits.approved'
               defaultMessage='Approved'
             />
           </BlueCartridge>
-        </CartridgeWrapper>
+        </StatusCartridge>
       </div>
     )
   }
@@ -264,12 +277,12 @@ const Template: React.FC<Props> = props => {
             <Image name='tier-silver' size='32px' />
           </div>
           <TierDescription>
-            <Text color='grey900' size='16px' weight={600}>
+            <TierTitle>
               <FormattedMessage
                 id='components.identityverification.tiercard.silver'
                 defaultMessage='Silver Level'
               />
-            </Text>
+            </TierTitle>
             <ItemSubtitle color='grey900' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.tradinglimits.silver_subheader'
@@ -312,12 +325,12 @@ const Template: React.FC<Props> = props => {
             <Image name='tier-gold' size='32px' />
           </div>
           <TierDescription>
-            <Text color='grey900' size='16px' weight={600}>
+            <TierTitle>
               <FormattedMessage
                 id='components.identityverification.tiercard.gold'
                 defaultMessage='Gold Level'
               />
-            </Text>
+            </TierTitle>
 
             <ItemSubtitle color='grey900' size='14px' weight={500}>
               <FormattedMessage
@@ -332,7 +345,6 @@ const Template: React.FC<Props> = props => {
                 }}
               />
             </ItemSubtitle>
-
             <TextGroup inline>
               <Text color='grey600' size='12px' weight={500}>
                 <FormattedMessage

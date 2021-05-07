@@ -1,4 +1,4 @@
-import { map, pathOr } from 'ramda'
+import { isNil, map, pathOr, pipe, pluck, prop, reject, sum } from 'ramda'
 
 import { Types } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
@@ -8,11 +8,22 @@ const getDefaultIdx = state =>
     Types.Wallet.selectHdWallets(state.walletPath.wallet).get(0)
   )
 const prepareWallet = (wallet, idx) => ({
+  archived: wallet.archived,
+  balance: wallet.derivations
+    ? pipe(
+        prop('derivations'),
+        // @ts-ignore
+        pluck('info'),
+        pluck('final_balance'),
+        reject(isNil),
+        sum
+      )(wallet)
+    : pathOr(0, ['info', 'final_balance'], wallet),
+  default: idx === wallet.index,
   label: wallet.label,
   index: wallet.index,
-  archived: wallet.archived,
-  default: idx === wallet.index,
-  balance: pathOr(0, ['info', 'final_balance'], wallet),
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
+  type: wallet.derivations ? 'v4' : 'v3',
   xpub: wallet.xpub
 })
 

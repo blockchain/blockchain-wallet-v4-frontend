@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl'
 
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
-  BankTransferAccountType,
   CoinType,
   FiatType,
   SBOrderActionType,
@@ -17,6 +16,7 @@ import {
   getCounterCurrency,
   getOrderType
 } from 'data/components/simpleBuy/model'
+import { BankTransferAccountType } from 'data/types'
 
 export const BuyOrSell = (props: {
   coinModel: SupportedWalletCurrencyType
@@ -95,9 +95,8 @@ export const getPaymentMethod = (
         accountNumber: ''
       }
       const d = (bankAccount && bankAccount.details) || defaultBankInfo
-      return `${d.bankName} ${d.bankAccountType?.toLowerCase() || ''} ${
-        d.accountNumber
-      }`
+      return `${d.bankName} ${d.bankAccountType?.toLowerCase() ||
+        ''} ${d.accountNumber || ''}`
     default:
       return (
         <FormattedMessage

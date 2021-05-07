@@ -15,7 +15,7 @@ const DepositMethods = (props: Props) => {
 
 const mapStateToProps = (state: RootState) => ({
   defaultMethod: selectors.components.brokerage.getAccount(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
+  fiatCurrency: selectors.core.settings.getCurrency(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrElse({} as SupportedWalletCurrenciesType),
@@ -23,6 +23,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 

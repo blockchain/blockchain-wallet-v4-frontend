@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Moment } from 'moment'
 import { v4 as uuidv4 } from 'uuid'
 
-import { UserDataType } from 'data/types'
+import { BankTransferAccountType, UserDataType } from 'data/types'
 
 import {
   CoinType,
@@ -10,9 +10,13 @@ import {
   FiatType,
   WalletCurrencyType
 } from '../../../types'
-import { SwapOrderStateType, SwapOrderType } from '../swap/types'
+import { NabuCustodialProductType } from '../custodial/types'
 import {
-  BankTransferAccountType,
+  SwapOrderStateType,
+  SwapOrderType,
+  SwapUserLimitsType
+} from '../swap/types'
+import {
   FiatEligibleType,
   NabuAddressType,
   SBAccountType,
@@ -28,7 +32,8 @@ import {
   SBProviderAttributesType,
   SBQuoteType,
   SBTransactionStateType,
-  SBTransactionsType
+  SBTransactionsType,
+  SBTransactionType
 } from './types'
 
 export default ({
@@ -82,13 +87,19 @@ export default ({
     amount: number,
     bankId: string,
     currency: FiatType,
-    product: 'SIMPLEBUY' = 'SIMPLEBUY'
+    attributes: { callback: string | undefined }
   ) =>
     authorizedPost({
       url: nabuUrl,
       contentType: 'application/json',
       endPoint: `/payments/banktransfer/${bankId}/payment`,
-      data: { amount, currency, product, orderId: uuidv4() }
+      data: {
+        amount,
+        attributes,
+        currency,
+        product: 'SIMPLEBUY',
+        orderId: uuidv4()
+      }
     })
 
   const createSBOrder = (
@@ -140,22 +151,13 @@ export default ({
       }
     })
 
-  const updateBankAccountLink = (
-    providerAccountId: number,
-    bankId: string,
-    accountId: string
-  ) =>
+  const updateBankAccountLink = (bankId: string, attributes) =>
     authorizedPost({
       url: nabuUrl,
       removeDefaultPostData: true,
       endPoint: `/payments/banktransfer/${bankId}/update`,
       contentType: 'application/json',
-      data: {
-        attributes: {
-          providerAccountId: `${providerAccountId}`,
-          accountId: `${accountId}`
-        }
-      }
+      data: { attributes }
     })
 
   const confirmSBOrder = (
@@ -173,6 +175,12 @@ export default ({
         attributes,
         paymentMethodId
       }
+    })
+
+  const getPaymentById = (pId: string): SBTransactionType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/payments/payment/${pId}`
     })
 
   // TODO: move this BROKERAGE component
@@ -267,7 +275,7 @@ export default ({
     })
 
   const getSBPaymentMethods = (
-    currency: FiatType,
+    currency: FiatType | undefined,
     includeNonEligibleMethods?: boolean,
     includeTierLimits?: number
   ): SBPaymentMethodsType =>
@@ -417,6 +425,19 @@ export default ({
       }
     })
 
+  const getSBLimits = (
+    currency: FiatType,
+    product: NabuCustodialProductType,
+    networkFee: CoinType,
+    side: SBOrderActionType
+  ): SwapUserLimitsType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/trades/limits?currency=${currency}&product=${product}&networkFee=${networkFee}&side=${side}`,
+      contentType: 'application/json',
+      ignoreQueryParams: true
+    })
+
   return {
     activateSBCard,
     createFiatDeposit,
@@ -428,9 +449,11 @@ export default ({
     deleteSavedAccount,
     getBankTransferAccounts,
     getBankTransferAccountDetails,
+    getPaymentById,
     getSBBalances,
     getSBCard,
     getSBCards,
+    getSBLimits,
     getSBOrder,
     getSBOrders,
     getSBPairs,

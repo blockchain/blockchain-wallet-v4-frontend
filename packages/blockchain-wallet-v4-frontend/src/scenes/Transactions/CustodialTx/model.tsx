@@ -83,7 +83,7 @@ export const IconTx = (props: Props) => {
     default:
       return (
         <IconWrapper color='grey500'>
-          <Icon size='20px' weight={500} color='grey600' name={'timer'} />
+          <Icon size='20px' weight={500} color='grey600' name='timer' />
         </IconWrapper>
       )
   }
@@ -162,6 +162,7 @@ export const TransactionType = (props: Props) => {
 
 export const Origin = (props: Props) => {
   switch (props.tx.type) {
+    case 'CHARGE':
     case 'REFUNDED':
     case 'DEPOSIT':
       return props.tx.amount.symbol in CoinTypeEnum ? (
@@ -184,6 +185,7 @@ export const Origin = (props: Props) => {
 
 export const Destination = (props: Props) => {
   switch (props.tx.type) {
+    case 'CHARGE':
     case 'REFUNDED':
     case 'DEPOSIT':
     case 'SELL':

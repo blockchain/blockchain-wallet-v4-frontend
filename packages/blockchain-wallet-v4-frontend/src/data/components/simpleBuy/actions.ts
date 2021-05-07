@@ -1,5 +1,4 @@
 import {
-  BankTransferAccountType,
   CoinType,
   Everypay3DSResponseType,
   FiatEligibleType,
@@ -23,6 +22,7 @@ import {
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import { ModalOriginType } from 'data/modals/types'
+import { BankTransferAccountType } from 'data/types'
 
 import { SwapAccountType } from '../swap/types'
 import * as AT from './actionTypes'
@@ -93,7 +93,12 @@ export const createSBOrder = (
   paymentType
 })
 
-export const confirmSBCreditCardOrder = (
+export const confirmOrderPoll = (order: SBOrderType) => ({
+  type: AT.CONFIRM_ORDER_POLL,
+  payload: { order }
+})
+
+export const confirmSBOrder = (
   paymentMethodId: SBCardType['id'],
   order: SBOrderType
 ) => ({
@@ -568,8 +573,10 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
     case 'PREVIEW_SELL': {
       return { step: payload.step, sellOrderType: payload.sellOrderType }
     }
+    case 'AUTHORIZE_PAYMENT':
     case 'CHECKOUT_CONFIRM':
     case 'ORDER_SUMMARY':
+    case 'OPEN_BANKING_CONNECT':
       return { step: payload.step, order: payload.order }
     case '3DS_HANDLER':
       return { step: payload.step, order: payload.order }
@@ -628,9 +635,15 @@ export const updatePaymentFailure = (error: string): SimpleBuyActionTypes => ({
   }
 })
 
-export const fetchLimits = (currency: FiatType) => ({
+export const fetchLimits = (
+  currency: FiatType,
+  cryptoCurrency?: CoinType,
+  side?: SBOrderActionType
+) => ({
   type: AT.FETCH_LIMITS,
-  currency
+  currency,
+  cryptoCurrency,
+  side
 })
 
 export const fetchLimitsFailure = (error: string): SimpleBuyActionTypes => ({

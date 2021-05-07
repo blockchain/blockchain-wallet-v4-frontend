@@ -25,7 +25,7 @@ const StyledValue = styled(Value)`
 type Props = {
   icon: ReactElement
   onClick: () => void
-  text: string
+  text: string | ReactElement
   value: SBPaymentMethodType
 }
 

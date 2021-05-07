@@ -37,7 +37,7 @@ class OrderSummary extends PureComponent<Props> {
         order: this.props.order
       })
     }
-    this.props.interestActions.fetchAfterTransaction()
+    this.props.interestActions.fetchShowInterestCardAfterTransaction()
   }
 
   handleRefresh = () => {
@@ -45,9 +45,12 @@ class OrderSummary extends PureComponent<Props> {
   }
 
   render() {
+    const { state } = this.props.order
     return this.props.data.cata({
       Success: val => {
-        return val.userData?.tiers?.current !== 2 ? (
+        return state === 'FAILED' || state === 'CANCELED' ? (
+          <DataError onClick={this.handleRefresh} />
+        ) : val.userData?.tiers?.current !== 2 ? (
           <SuccessSdd {...val} {...this.props} />
         ) : (
           <Success {...val} {...this.props} />

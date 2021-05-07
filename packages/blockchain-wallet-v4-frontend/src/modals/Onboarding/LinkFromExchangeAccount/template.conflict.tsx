@@ -99,6 +99,7 @@ class Conflict extends PureComponent<
       this.setState({ allowSubmit: true })
     }
   }
+
   handleSubmit = () => {
     const { actions, error, linkId } = this.props
     const { selectedAddress, selectedEmail } = this.state

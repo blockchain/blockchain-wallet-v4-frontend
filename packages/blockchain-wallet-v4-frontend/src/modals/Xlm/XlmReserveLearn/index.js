@@ -55,7 +55,7 @@ const Bold = styled.b`
 class XlmReserveLearn extends React.PureComponent {
   onClose = () => {
     this.props.closeAll()
-    this.props.modalActions.showModal('@MODAL.SEND.XLM', {
+    this.props.modalActions.showModal('SEND_XLM_MODAL', {
       origin: '@SEND.XLM.RESERVE_LEARN_MODAL'
     })
   }

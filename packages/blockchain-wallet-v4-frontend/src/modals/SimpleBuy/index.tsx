@@ -16,12 +16,14 @@ import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
-import { BankStatusType, FastLinkType, SimpleBuyStepType } from 'data/types'
+import { BankStatusType, FastLinkType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
+import { Loading as StdLoading, LoadingTextEnum } from '../components'
 import { ModalPropsType } from '../types'
 // step templates
 import AddCard from './AddCard'
+import Authorize from './Authorize'
 import BankWireDetails from './BankWireDetails'
 import BillingAddress from './BillingAddress'
 import CheckoutConfirm from './CheckoutConfirm'
@@ -29,6 +31,7 @@ import CryptoSelection from './CryptoSelection'
 import EnterAmount from './EnterAmount'
 import KycRequired from './KycRequired'
 import LinkedPaymentAccounts from './LinkedPaymentAccounts'
+import OpenBankingConnect from './OpenBankingConnect'
 import OrderSummary from './OrderSummary'
 import PaymentMethods from './PaymentMethods'
 import PreviewSell from './PreviewSell'
@@ -43,29 +46,12 @@ import UpgradeToGold from './UpgradeToGold'
 import VerifyEmail from './VerifyEmail'
 
 class SimpleBuy extends PureComponent<Props, State> {
-  state: State = { show: false, direction: 'left' }
+  state: State = { show: false }
 
   componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
-    // for first time login users we need to run goal since this is a first page we show them
-    if (this.props.isFirstLogin) {
-      this.props.runGoals()
-    }
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    if (this.props.step === prevProps.step) return
-    if (
-      SimpleBuyStepType[this.props.step] > SimpleBuyStepType[prevProps.step]
-    ) {
-      /* eslint-disable */
-      this.setState({ direction: 'left' })
-    } else {
-      this.setState({ direction: 'right' })
-      /* eslint-enable */
-    }
   }
 
   componentWillUnmount() {
@@ -100,8 +86,7 @@ class SimpleBuy extends PureComponent<Props, State> {
           <Flyout
             {...this.props}
             onClose={this.handleClose}
-            in={this.state.show}
-            direction={this.state.direction}
+            isOpen={this.state.show}
             data-e2e='simpleBuyModal'
           >
             <Rejected handleClose={this.handleClose} />
@@ -110,8 +95,7 @@ class SimpleBuy extends PureComponent<Props, State> {
           <Flyout
             {...this.props}
             onClose={this.handleClose}
-            in={this.state.show}
-            direction={this.state.direction}
+            isOpen={this.state.show}
             data-e2e='simpleBuyModal'
           >
             <Pending
@@ -126,8 +110,7 @@ class SimpleBuy extends PureComponent<Props, State> {
           <Flyout
             {...this.props}
             onClose={this.handleClose}
-            in={this.state.show}
-            direction={this.state.direction}
+            isOpen={this.state.show}
             data-e2e='simpleBuyModal'
           >
             {this.props.step === 'ENTER_AMOUNT' && (
@@ -180,6 +163,11 @@ class SimpleBuy extends PureComponent<Props, State> {
                 />
               </FlyoutChild>
             )}
+            {this.props.step === 'AUTHORIZE_PAYMENT' && (
+              <FlyoutChild>
+                <Authorize {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
             {this.props.step === 'CHECKOUT_CONFIRM' && (
               <FlyoutChild>
                 <CheckoutConfirm
@@ -218,6 +206,14 @@ class SimpleBuy extends PureComponent<Props, State> {
                 />
               </FlyoutChild>
             )}
+            {this.props.step === 'OPEN_BANKING_CONNECT' && (
+              <FlyoutChild>
+                <OpenBankingConnect
+                  {...this.props}
+                  handleClose={this.handleClose}
+                />
+              </FlyoutChild>
+            )}
             {this.props.step === 'KYC_REQUIRED' && (
               <FlyoutChild>
                 <KycRequired {...this.props} handleClose={this.handleClose} />
@@ -233,6 +229,11 @@ class SimpleBuy extends PureComponent<Props, State> {
                 <UpgradeToGold {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
+            {this.props.step === 'LOADING' && (
+              <FlyoutChild>
+                <StdLoading text={LoadingTextEnum.GETTING_READY} />
+              </FlyoutChild>
+            )}
           </Flyout>
         )
       },
@@ -241,8 +242,7 @@ class SimpleBuy extends PureComponent<Props, State> {
         <Flyout
           {...this.props}
           onClose={this.handleClose}
-          in={this.state.show}
-          direction={this.state.direction}
+          isOpen={this.state.show}
           data-e2e='simpleBuyModal'
         >
           <Loading />
@@ -252,8 +252,7 @@ class SimpleBuy extends PureComponent<Props, State> {
         <Flyout
           {...this.props}
           onClose={this.handleClose}
-          in={this.state.show}
-          direction={this.state.direction}
+          isOpen={this.state.show}
           data-e2e='simpleBuyModal'
         >
           <Loading />
@@ -275,14 +274,12 @@ const mapStateToProps = (state: RootState) => ({
   displayBack: selectors.components.simpleBuy.getDisplayBack(state),
   orderType: selectors.components.simpleBuy.getOrderType(state),
   goals: selectors.goals.getGoals(state),
-  localCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
   data: getData(state),
   isFirstLogin: selectors.auth.getFirstLogin(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),
-  runGoals: () => dispatch(actions.goals.runGoals()),
   formActions: bindActionCreators(actions.form, dispatch),
   preferenceActions: bindActionCreators(actions.preferences, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
@@ -312,6 +309,7 @@ type LinkStatePropsType =
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
+        | 'LOADING'
     }
   | {
       orderType: SBOrderActionType
@@ -327,7 +325,11 @@ type LinkStatePropsType =
     }
   | {
       order: SBOrderType
-      step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY'
+      step:
+        | 'CHECKOUT_CONFIRM'
+        | 'ORDER_SUMMARY'
+        | 'OPEN_BANKING_CONNECT'
+        | 'AUTHORIZE_PAYMENT'
     }
   | { order: SwapOrderType; step: 'SELL_ORDER_SUMMARY' }
   | {
@@ -369,6 +371,6 @@ type LinkStatePropsType =
     }
 
 type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
-type State = { direction: 'left' | 'right'; show: boolean }
+type State = { show: boolean }
 
 export default enhance(SimpleBuy)

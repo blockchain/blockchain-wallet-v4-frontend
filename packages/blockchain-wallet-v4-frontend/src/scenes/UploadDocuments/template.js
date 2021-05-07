@@ -102,8 +102,7 @@ const UploadDocuments = ({
   onDropAccepted,
   onSubmit,
   openDropzone,
-  setDropzoneRef,
-  submitted
+  setDropzoneRef
 }) => (
   <Wrapper>
     <TextContainer>
@@ -137,13 +136,6 @@ const UploadDocuments = ({
             {type}
           </Text>
         ))}
-      {/* Add back when link is provided */}
-      {/* <Link>
-        <FormattedMessage
-          id='scenes.uploaddoc.need'
-          defaultMessage='Why do you need this?'
-        />
-      </Link> */}
     </TextContainer>
     <UploadZoneContainer>
       <UploadZone

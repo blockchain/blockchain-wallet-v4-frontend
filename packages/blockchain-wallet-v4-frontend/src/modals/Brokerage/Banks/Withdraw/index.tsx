@@ -14,8 +14,8 @@ import { RootState } from 'data/rootReducer'
 import { WithdrawStepEnum } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
+import { BROKERAGE_INELIGIBLE } from '../../../components'
 import { ModalPropsType } from '../../../types'
-import { BROKERAGE_INELIGIBLE } from '../../components'
 import BankPicker from './BankPicker'
 import ConfirmWithdraw from './ConfirmWithdraw'
 import Loading from './ConfirmWithdraw/template.loading'
@@ -24,23 +24,12 @@ import WithdrawalDetails from './WithdrawalDetails'
 import WithdrawalMethods from './WithdrawalMethods'
 
 class Withdraw extends PureComponent<Props> {
-  state: State = { show: false, direction: 'left' }
+  state: State = { show: false }
 
   componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    if (this.props.step === prevProps.step) return
-    if (WithdrawStepEnum[this.props.step] > WithdrawStepEnum[prevProps.step]) {
-      /* eslint-disable */
-      this.setState({ direction: 'left' })
-    } else {
-      this.setState({ direction: 'right' })
-      /* eslint-enable */
-    }
   }
 
   handleClose = () => {
@@ -55,8 +44,7 @@ class Withdraw extends PureComponent<Props> {
       <Flyout
         {...this.props}
         onClose={this.handleClose}
-        in={this.state.show}
-        direction={this.state.direction}
+        isOpen={this.state.show}
         data-e2e='custodyWithdrawModal'
       >
         {this.props.step === WithdrawStepEnum.LOADING && (
@@ -146,6 +134,6 @@ type LinkStatePropsType =
 export type Props = OwnProps &
   LinkStatePropsType &
   ConnectedProps<typeof connector>
-type State = { direction: 'left' | 'right'; show: boolean }
+type State = { show: boolean }
 
 export default enhance(Withdraw)

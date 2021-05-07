@@ -38,6 +38,7 @@ class CoinSelection extends PureComponent<Props> {
       return false
     }
   }
+
   checkBaseCustodial = (
     side: SwapSideType,
     values: InitSwapFormValuesType,
@@ -56,6 +57,7 @@ class CoinSelection extends PureComponent<Props> {
       return false
     }
   }
+
   checkCoinSelected = (
     side: SwapSideType,
     values: InitSwapFormValuesType,
@@ -83,11 +85,7 @@ class CoinSelection extends PureComponent<Props> {
     custodialEligibility: boolean,
     account: SwapAccountType
   ) => {
-    if (account.type === 'CUSTODIAL' && !custodialEligibility) {
-      return false
-    } else {
-      return true
-    }
+    return !(account.type === 'CUSTODIAL' && !custodialEligibility)
   }
 
   render() {

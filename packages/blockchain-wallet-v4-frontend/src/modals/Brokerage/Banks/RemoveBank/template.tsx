@@ -4,11 +4,10 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import { BankTransferAccountType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 
-import { LinkDispatchPropsType, OwnProps } from '.'
+import { LinkDispatchPropsType, LinkStatePropsType, OwnProps } from '.'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -39,17 +38,19 @@ const LeftTopCol = styled.div`
   align-items: center;
 `
 
-type Props = OwnProps &
-  LinkDispatchPropsType & {
-    account: BankTransferAccountType
-    redirectBack: boolean
-  }
+type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+  const bankAccountName =
+    props.account && 'details' in props.account
+      ? `${props.account.details?.bankName} ${props.account.details
+          ?.accountNumber || ''}`
+      : `bank account`
+
   return (
     <Wrapper>
       <RemoveBankFlyout>
-        {props.redirectBack ? (
+        {props.redirectBackToStep ? (
           <TopText color='grey800' size='20px' weight={600}>
             <LeftTopCol>
               <Icon
@@ -108,7 +109,7 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               id='modals.brokerage.remove_bank.description'
               defaultMessage="You're about to remove your {bankAccount}"
               values={{
-                bankAccount: `${props.account.details?.bankName} ${props.account.details?.accountNumber}`
+                bankAccount: bankAccountName
               }}
             />
           </Text>

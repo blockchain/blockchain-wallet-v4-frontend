@@ -8,12 +8,13 @@ export default ({ apiUrl, get, post, rootUrl }) => {
       data: { base: 'BTC' }
     })
 
-  const getBtcUnspents = (fromAddresses, confirmations = 0) =>
+  const getBtcUnspents = (fromAddresses, confirmations = 0, extras) =>
     post({
       url: rootUrl,
       endPoint: '/unspent',
       data: {
         active: fromAddresses.join('|'),
+        activeBech32: extras ? extras.bech32 : null,
         confirmations: Math.max(confirmations, -1),
         format: 'json'
       }
@@ -45,6 +46,21 @@ export default ({ apiUrl, get, post, rootUrl }) => {
       }
     })
 
+  const getBtcTransactionHistory = (
+    active,
+    activeBech32,
+    currency,
+    start,
+    end
+  ) => {
+    const endpoint = '/v2/export-history'
+    return post({
+      url: rootUrl,
+      endPoint: endpoint,
+      data: { active, activeBech32, currency: toUpper(currency), start, end }
+    })
+  }
+
   const getLatestBlock = () =>
     get({
       url: rootUrl,
@@ -75,6 +91,7 @@ export default ({ apiUrl, get, post, rootUrl }) => {
     getBtcTicker,
     getBtcUnspents,
     getBtcFees,
+    getBtcTransactionHistory,
     pushBtcTx,
     getBtcFiatAtTime,
     getLatestBlock,

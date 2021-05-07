@@ -134,7 +134,7 @@ const Success = ({
             onClick={() => {
               brokerageActions.showModal(
                 BrokerageModalOriginType.ADD_BANK,
-                'ADD_BANK_MODAL'
+                'ADD_BANK_YODLEE_MODAL'
               )
               brokerageActions.setAddBankStep({
                 addBankStep: AddBankStepType.ADD_BANK

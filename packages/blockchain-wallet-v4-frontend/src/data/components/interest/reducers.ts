@@ -20,6 +20,7 @@ const INITIAL_STATE: InterestState = {
   instruments: Remote.NotAsked,
   interestLimits: Remote.NotAsked,
   interestRate: Remote.NotAsked,
+  interestEDDStatus: Remote.NotAsked,
   isCoinDisplayed: false,
   isFromBuySell: false,
   payment: Remote.NotAsked,
@@ -29,6 +30,7 @@ const INITIAL_STATE: InterestState = {
   },
   transactions: [],
   transactionsNextPage: null,
+  transactionsReport: Remote.NotAsked,
   withdrawalMinimums: Remote.NotAsked
 }
 
@@ -129,6 +131,46 @@ export function interestReducer(
         ...state,
         interestRate: Remote.Success(payload.interestRate.rates)
       }
+    case AT.CLEAR_INTEREST_TRANSACTIONS_REPORT: {
+      return {
+        ...state,
+        transactionsReport: Remote.NotAsked
+      }
+    }
+    case AT.FETCH_INTEREST_TRANSACTIONS_REPORT_LOADING: {
+      return {
+        ...state,
+        transactionsReport: Remote.Loading
+      }
+    }
+    case AT.FETCH_INTEREST_TRANSACTIONS_REPORT_FAILURE: {
+      return {
+        ...state,
+        transactionsReport: Remote.Failure(payload)
+      }
+    }
+    case AT.FETCH_INTEREST_TRANSACTIONS_REPORT_SUCCESS: {
+      const { transactions } = payload
+      return {
+        ...state,
+        transactionsReport: Remote.Success(transactions)
+      }
+    }
+    case AT.FETCH_EDD_STATUS_FAILURE:
+      return {
+        ...state,
+        interestEDDStatus: Remote.Failure(payload.error)
+      }
+    case AT.FETCH_EDD_STATUS_LOADING:
+      return {
+        ...state,
+        interestEDDStatus: Remote.Loading
+      }
+    case AT.FETCH_EDD_STATUS_SUCCESS:
+      return {
+        ...state,
+        interestEDDStatus: Remote.Success(payload.eddStatus)
+      }
     case AT.FETCH_INTEREST_TRANSACTIONS_LOADING: {
       const { reset } = payload
       return reset
@@ -227,22 +269,22 @@ export function interestReducer(
         coin: payload.coin,
         isFromBuySell: payload.isFromBuySell
       }
-    case AT.FETCH_AFTER_TRANSACTION_FAILURE:
+    case AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_FAILURE:
       return {
         ...state,
         afterTransaction: Remote.Failure(payload.error)
       }
-    case AT.FETCH_AFTER_TRANSACTION_LOADING:
+    case AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_LOADING:
       return {
         ...state,
         afterTransaction: Remote.Loading
       }
-    case AT.FETCH_AFTER_TRANSACTION_SUCCESS:
+    case AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_SUCCESS:
       return {
         ...state,
         afterTransaction: Remote.Success(payload.afterTransaction)
       }
-    case AT.RESET_AFTER_TRANSACTION:
+    case AT.RESET_SHOW_INTEREST_CARD_AFTER_TRANSACTION:
       return {
         ...state,
         afterTransaction: Remote.NotAsked

@@ -308,6 +308,7 @@ const mapStateToProps = state => ({
   values: selectors.form.getFormValues('repayLoanForm')(state)
 })
 
+// @ts-ignore
 const enhance = compose(
   reduxForm<{}, Props>({ form: 'repayLoanForm', destroyOnUnmount: false }),
   connect(mapStateToProps)

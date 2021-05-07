@@ -12,7 +12,6 @@ import styled from 'styled-components'
 import { Button, Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
-  BankTransferAccountType,
   ExtractSuccess,
   RemoteDataType,
   SBOrderType,
@@ -29,6 +28,7 @@ import {
   getOrderType
 } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
+import { BankTransferAccountType } from 'data/types'
 
 import {
   Addresses,
@@ -67,9 +67,14 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
       step:
         order.state === 'PENDING_CONFIRMATION'
           ? 'CHECKOUT_CONFIRM'
+          : order.attributes?.authorisationUrl
+          ? 'OPEN_BANKING_CONNECT'
           : 'ORDER_SUMMARY',
       order
     })
+    if (order.attributes?.authorisationUrl) {
+      this.props.simpleBuyActions.confirmOrderPoll(order)
+    }
   }
 
   render() {

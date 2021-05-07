@@ -5,12 +5,15 @@ import airdropWelcome from './img/airdrop-welcome.png'
 import airdropWelcome2 from './img/airdrop-welcome@2x.png'
 import airdropWelcomeBanner from './img/airdrop-welcome-banner.png'
 import airdropWelcomeBanner2 from './img/airdrop-welcome-banner@2x.png'
+import alert from './img/alert.svg'
 import allowCamera from './img/allow-camera.png'
 import allowCamera2 from './img/allow-camera@2x.png'
 import allowCamera3 from './img/allow-camera@3x.png'
 import appleAppStoreBadge from './img/apple-app-store-badge.svg'
 import bank from './img/bank.svg'
 import bankError from './img/bank-error.svg'
+import bankExpired from './img/bank-expired.svg'
+import bankRejected from './img/bank-rejected.svg'
 import bankSuccess from './img/bank-success.svg'
 import bankLogoAcorns from './img/banks/bank-logo-acorns.svg'
 import bankLogoAlly from './img/banks/bank-logo-ally.svg'
@@ -62,6 +65,7 @@ import facebookWhite from './img/facebook-white.svg'
 import failedKyc from './img/failed-kyc.png'
 import failedKyc2 from './img/failed-kyc@2x.png'
 import failedKyc3 from './img/failed-kyc@3x.png'
+import fintecture from './img/fintecture.svg'
 import goldApproved from './img/gold-approved.svg'
 import goldNotice from './img/gold-notice.png'
 import goldVerified from './img/gold-verified.svg'
@@ -117,6 +121,7 @@ import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
 import recoverPadlock from './img/recover-padlock.svg'
 import refresh from './img/refresh.svg'
+import safeConnect from './img/safe-connect.svg'
 import search from './img/search.svg'
 import selectArrow from './img/select-arrow.png'
 import silverApproved from './img/silver-approved.svg'
@@ -137,10 +142,6 @@ import visaLogo from './img/visa-logo.svg'
 import visaNewLogo from './img/visa-new-logo.svg'
 import wallet from './img/wallet.svg'
 import walletBlue from './img/wallet-blue.svg'
-import walletV3Backup from './img/wallet-v3-backup.jpg'
-import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
-import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
-import walletV3SecurityUpgrade from './img/wallet-v3-security-upgrade.jpg'
 import warningCircleFilled from './img/warning-circle-filled.png'
 import worldAlert from './img/world-alert.jpg'
 import worldAlert2 from './img/world-alert@2x.jpg'
@@ -150,6 +151,7 @@ import yubikey from './img/yubikey.svg'
 
 const Images = {
   ...coins,
+  alert: alert,
   'bank-logo-acorns': bankLogoAcorns,
   'ad-bitcoin-games': adBitcoinGames,
   'ad-bitcoin-games2': adBitcoinGames2,
@@ -164,6 +166,8 @@ const Images = {
   'apple-app-store-badge': appleAppStoreBadge,
   bank,
   'bank-error': bankError,
+  'bank-expired': bankExpired,
+  'bank-rejected': bankRejected,
   'bank-logo-ally': bankLogoAlly,
   'bank-logo-bank-of-america': bankLogoBankOfAmerica,
   'bank-success': bankSuccess,
@@ -212,6 +216,7 @@ const Images = {
   'failed-kyc': failedKyc,
   'failed-kyc2': failedKyc2,
   'failed-kyc3': failedKyc3,
+  fintecture: fintecture,
   'firmware-connect': firmwareConnect,
   'firmware-connect2': firmwareConnect2,
   'firmware-connect3': firmwareConnect3,
@@ -267,6 +272,7 @@ const Images = {
   'qr-code': qrCode,
   'recover-padlock': recoverPadlock,
   refresh,
+  'safe-connect': safeConnect,
   search: search,
   'select-arrow': selectArrow,
   'silver-approved': silverApproved,
@@ -285,10 +291,6 @@ const Images = {
   'usdd-intro': usddIntro,
   'visa-logo': visaLogo,
   'visa-new-logo': visaNewLogo,
-  'wallet-v3-backup': walletV3Backup,
-  'wallet-v3-fund-management': walletV3FundManagement,
-  'wallet-v3-new-design': walletV3NewDesign,
-  'wallet-v3-security-upgrade': walletV3SecurityUpgrade,
   'warning-circle-filled': warningCircleFilled,
   wallet,
   'wallet-blue': walletBlue,

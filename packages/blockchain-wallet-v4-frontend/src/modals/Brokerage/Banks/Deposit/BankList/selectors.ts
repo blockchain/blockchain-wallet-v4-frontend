@@ -3,6 +3,7 @@ import { lift } from 'ramda'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { BankTransferAccountType } from 'data/types'
 
 import { OwnProps } from '.'
 
@@ -11,7 +12,9 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
     state
   )
-  const account = selectors.components.brokerage.getAccount(state)
+  const account = selectors.components.brokerage.getAccount(
+    state
+  ) as BankTransferAccountType
   const beneficiariesR = selectors.custodial.getBeneficiaries(state)
 
   const minAmountR = selectors.components.withdraw.getMinAmountForCurrency(

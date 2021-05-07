@@ -11,5 +11,7 @@ export type InvitationsType = {
   WDGLD: boolean
   XLM: boolean
   YFI: boolean
+  segwit: boolean
   achDepositWithdrawal: boolean
+  openBanking: boolean
 }

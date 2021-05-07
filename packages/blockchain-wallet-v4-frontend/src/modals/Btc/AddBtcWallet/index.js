@@ -9,12 +9,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import AddBtcWallet from './template.js'
 
 class AddBtcWalletContainer extends React.PureComponent {
-  constructor(props) {
-    super(props)
-    this.onSubmit = this.onSubmit.bind(this)
-  }
-
-  onSubmit() {
+  onSubmit = () => {
     this.props.actions.newHDAccount(this.props.wallet)
   }
 
@@ -32,7 +27,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('AddBtcWallet'),
+  modalEnhancer('ADD_BTC_WALLET_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

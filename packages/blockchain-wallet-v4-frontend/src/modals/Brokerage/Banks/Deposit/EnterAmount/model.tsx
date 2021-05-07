@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { BankTransferAccountType } from 'blockchain-wallet-v4/src/types'
+import { BankTransferAccountType } from 'data/types'
 
 // TODO: move this somewhere more generic
 import { renderBank } from '../../../../SimpleBuy/EnterAmount/Checkout/Payment/model'
