@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
 import { Box } from 'components/Box'
 import { actions, model, selectors } from 'data'
 
@@ -52,7 +52,7 @@ class IntroCard extends PureComponent<
       <BoxStyledAdditional>
         <ContentWrapper>
           <IconWrapper>
-            <Icon color='blue600' name='percentage' size='32px' />
+            <Image name='alert' width='32px' />
           </IconWrapper>
           <Text
             size='20px'
@@ -84,7 +84,7 @@ class IntroCard extends PureComponent<
             <Button
               data-e2e='earnInterestSupplyInformation'
               fullwidth
-              nature='light'
+              nature='dark-grey'
               onClick={() =>
                 analyticsActions.logEvent(
                   INTEREST_EVENTS.HOME.CLICK_SUPPORT_ARTICLE
