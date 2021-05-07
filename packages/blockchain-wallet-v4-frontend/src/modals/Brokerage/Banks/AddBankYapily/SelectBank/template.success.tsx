@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 
+import { model } from 'data'
 import { AddBankStepType, OBInstitution } from 'data/types'
 
 import {
@@ -12,6 +13,8 @@ import {
   SimpleBankRow
 } from '../../../../components'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
+
+const { SELECT_YAPILY_INSTITUTION } = model.analytics.FIAT_DEPOSIT_EVENTS
 
 type Props = LinkDispatchPropsType & OwnProps & SuccessStateType
 
@@ -54,6 +57,7 @@ const Success = (props: Props) => {
               props.brokerageActions.setAddBankStep({
                 addBankStep: AddBankStepType.ADD_BANK_AUTHORIZE
               })
+              props.analyticsActions.logEvent(SELECT_YAPILY_INSTITUTION)
             }}
           />
         )

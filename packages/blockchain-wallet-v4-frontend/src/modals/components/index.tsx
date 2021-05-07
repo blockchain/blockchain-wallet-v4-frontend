@@ -141,7 +141,13 @@ const StyledButton = styled(Button)`
   margin: 20px 0 0;
   display: unset;
 `
-const LinkViaDesktop = ({ authUrl }: { authUrl?: string }) => {
+const LinkViaDesktop = ({
+  authUrl,
+  onClick = () => {}
+}: {
+  authUrl?: string
+  onClick?: () => void
+}) => {
   if (!authUrl) return null
   return (
     <Section>
@@ -156,6 +162,7 @@ const LinkViaDesktop = ({ authUrl }: { authUrl?: string }) => {
         nature='empty-blue'
         onClick={() => {
           window.open(authUrl, '_blank')
+          onClick() // additional callback from implementing component
         }}
       >
         <FormattedMessage

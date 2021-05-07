@@ -7,9 +7,12 @@ import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
+import { model } from 'data'
 import { BankDWStepType, BankPartners } from 'data/types'
 
 import { FormattedBank, LineItemText } from './model'
+
+const { DEPOSIT_CANCEL, DEPOSIT_CONFIRM } = model.analytics.FIAT_DEPOSIT_EVENTS
 
 const Wrapper = styled.div`
   height: 100%;
@@ -132,6 +135,7 @@ const Success = props => {
           onClick={() => {
             setSubmitting(true)
             props.brokerageActions.createFiatDeposit()
+            props.analyticsActions.logEvent(DEPOSIT_CONFIRM)
           }}
           fullwidth
           disabled={submitting}
@@ -158,7 +162,10 @@ const Success = props => {
           size='16px'
           height='48px'
           nature='light-red'
-          onClick={props.handleClose}
+          onClick={() => {
+            props.handleClose()
+            props.analyticsActions.logEvent(DEPOSIT_CANCEL)
+          }}
           fullwidth
           style={{ marginTop: '16px' }}
         >

@@ -1,6 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
+import { model } from 'data'
+
 import {
   BankWaitIndicator,
   BankWrapper,
@@ -12,6 +14,8 @@ import {
   Section
 } from '../../../../components'
 import { OwnProps, Props as _P, SuccessStateType } from '.'
+
+const { YAPILY_CONT_IN_BROWSER } = model.analytics.FIAT_DEPOSIT_EVENTS
 
 type Props = OwnProps & SuccessStateType & _P
 
@@ -35,6 +39,9 @@ const Success = (props: Props) => {
         <Section>
           <LinkViaDesktop
             authUrl={props.account?.attributes?.authorisationUrl as string}
+            onClick={() => {
+              props.analyticsActions.logEvent(YAPILY_CONT_IN_BROWSER)
+            }}
           />
           <BankWaitIndicator
             qrCode={props.account?.attributes?.qrcodeUrl as string}

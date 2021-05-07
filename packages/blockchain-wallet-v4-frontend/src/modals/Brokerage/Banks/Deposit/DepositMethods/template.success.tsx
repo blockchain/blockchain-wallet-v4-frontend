@@ -8,6 +8,7 @@ import {
   SBPaymentMethodType
 } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
+import { model } from 'data'
 import {
   AddBankStepType,
   BankDWStepType,
@@ -18,6 +19,11 @@ import {
 import BankWire from '../../../../SimpleBuy/PaymentMethods/Methods/BankWire'
 import { mapDispatchToProps, Props as _P } from '.'
 import BankDeposit from './BankDeposit'
+
+const {
+  LINK_BANK_TRANSFER,
+  LINK_WIRE_TRANSFER
+} = model.analytics.FIAT_DEPOSIT_EVENTS
 
 const Wrapper = styled.section`
   display: flex;
@@ -96,6 +102,7 @@ const getType = (value: SBPaymentMethodType) => {
 
 const Success = ({
   addNew,
+  analyticsActions,
   brokerageActions,
   close,
   fiatCurrency,
@@ -158,6 +165,7 @@ const Success = ({
                   dwStep: BankDWStepType.ENTER_AMOUNT
                 })
               }
+              analyticsActions.logEvent(LINK_BANK_TRANSFER)
             }}
             text={getType(bankTransfer)}
             value={bankTransfer}
@@ -166,11 +174,12 @@ const Success = ({
         {bankWire && (
           <BankWire
             icon={getIcon(bankWire)}
-            onClick={() =>
+            onClick={() => {
               brokerageActions.setDWStep({
                 dwStep: BankDWStepType.WIRE_INSTRUCTIONS
               })
-            }
+              analyticsActions.logEvent(LINK_WIRE_TRANSFER)
+            }}
             text={getType(bankWire)}
             value={bankWire}
           />

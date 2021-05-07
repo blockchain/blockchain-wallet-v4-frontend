@@ -42,6 +42,7 @@ const mapStateToProps = (state: RootState) => ({
   account: selectors.components.brokerage.getAccount(state)
 })
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 
