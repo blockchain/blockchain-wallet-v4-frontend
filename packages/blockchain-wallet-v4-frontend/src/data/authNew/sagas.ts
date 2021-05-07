@@ -18,11 +18,24 @@ export default ({ api, coreSagas }) => {
       const params = pathname.split('/')
       const isMobileConnected = yield select(selectors.cache.getMobileConnected)
       const email = yield select(selectors.cache.getEmail)
-      const guid = yield select(selectors.cache.getStoredGuid)
+      // Check for both stored GUID (from email)
+      // And lastGuid (last successful login)
+      const storedGuid = yield select(selectors.cache.getStoredGuid)
+      const lastGuid = yield select(selectors.cache.getLastGuid)
       // debugger
-      if (guid && !params[2]) {
-        yield put(actions.form.change('loginNew', 'guid', guid))
-        yield put(actions.form.change('loginNew', 'email', email))
+      if ((storedGuid || lastGuid) && !params[2]) {
+        // logic to be compatible with lastGuid in cache
+        // make sure that email matches guid being used for login
+        // eventually can deprecate after some time
+        if (lastGuid === storedGuid) {
+          yield put(actions.form.change('loginNew', 'guid', lastGuid))
+          yield put(actions.form.change('loginNew', 'email', email))
+        } else if (lastGuid) {
+          yield put(actions.form.change('loginNew', 'guid', lastGuid))
+        } else {
+          yield put(actions.form.change('loginNew', 'guid', storedGuid))
+          yield put(actions.form.change('loginNew', 'email', email))
+        }
         if (isMobileConnected) {
           yield put(
             actions.form.change(
@@ -88,7 +101,7 @@ export default ({ api, coreSagas }) => {
   const loginGuid = function * (action) {
     try {
       yield put(A.loginGuidLoading())
-      yield put(actions.form.change('loginNew', 'step', LoginSteps.LOADING))
+      // yield put(actions.form.change('loginNew', 'step', LoginSteps.LOADING))
       const sessionToken = yield call(api.obtainSessionToken)
       yield call(coreSagas.wallet.loginGuidSaga, action.payload, sessionToken)
       yield put(actions.form.change('loginNew', 'step', LoginSteps.CHECK_EMAIL))
@@ -103,7 +116,7 @@ export default ({ api, coreSagas }) => {
   const submitWalletGuid = function * (action) {
     try {
       yield put(A.guidWalletLoading())
-      yield put(actions.form.change('loginNew', 'step', LoginSteps.LOADING))
+      // yield put(actions.form.change('loginNew', 'step', LoginSteps.LOADING))
       const sessionToken = yield call(api.obtainSessionToken)
       yield call(actions.auth.login, action.payload, sessionToken)
       yield yield put(

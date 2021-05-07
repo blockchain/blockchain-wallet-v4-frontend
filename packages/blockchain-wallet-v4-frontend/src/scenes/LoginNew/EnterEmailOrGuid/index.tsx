@@ -3,17 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps } from 'redux-form'
 
 import { HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
-import {
-  Form,
-  // FormError,
-  FormGroup,
-  FormItem,
-  // FormLabel,
-  // PasswordBox,
-  TextBox
-} from 'components/Form'
+import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
 import { LoginSteps } from 'data/types'
-// import Bowser from 'bowser'
 import { isGuid, required, validWalletIdOrEmail } from 'services/forms'
 
 import { Props as OwnProps } from '..'
@@ -58,7 +49,7 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
     loginError && loginError.toLowerCase().includes('unknown wallet id')
 
   return (
-    <Form onSubmit={handleContinue}>
+    <Form>
       <FormGroup>
         <FormItem>
           <LoginFormLabel htmlFor='guid'>

@@ -369,6 +369,9 @@ export default ({ api, coreSagas }) => {
         )
         yield put(actions.form.focus('login', 'password'))
         yield put(actions.auth.loginFailure(error))
+      } else if (initialError && initialError.includes(unknownWalletId)) {
+        yield put(actions.form.change('loginNew', 'step', 'ENTER_EMAIL_GUID'))
+        yield put(actions.auth.loginFailure(initialError))
       } else if (error && error.includes(ipAddressRestriction)) {
         yield put(
           actions.alerts.displayError(
@@ -380,9 +383,6 @@ export default ({ api, coreSagas }) => {
           )
         )
         yield put(actions.auth.loginFailure(ipAddressRestriction))
-      } else if (initialError && initialError.includes(unknownWalletId)) {
-        yield put(actions.form.change('loginNew', 'step', 'ENTER_EMAIL_GUID'))
-        yield put(actions.auth.loginFailure(initialError))
       } else if (
         // Wrong 2fa code error
         error &&

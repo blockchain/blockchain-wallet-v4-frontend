@@ -11,6 +11,7 @@ import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
 import { LoginFormType, LoginSteps } from 'data/types'
 
+import Loading from '../loading.public'
 import CheckEmail from './CheckEmail'
 // step templates
 import EnterEmailOrGuid from './EnterEmailOrGuid'
@@ -63,7 +64,7 @@ class Login extends PureComponent<Props> {
     const { busy, error } = data.cata({
       Success: () => ({ error: null, busy: false }),
       Failure: val => ({ error: val.err, busy: false }),
-      Loading: () => ({ error: null, busy: true }),
+      Loading: () => <Loading />,
       NotAsked: () => ({ error: null, busy: false })
     })
     const loginProps = {
