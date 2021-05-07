@@ -3,13 +3,19 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { bindActionCreators, compose } from 'redux'
-import { formValueSelector, getFormMeta, reduxForm } from 'redux-form'
+import {
+  formValueSelector,
+  getFormMeta,
+  InjectedFormProps,
+  reduxForm
+} from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Link, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
 import { LoginFormType, LoginSteps } from 'data/types'
+import { isGuid } from 'services/forms'
 
 import Loading from '../loading.public'
 import CheckEmail from './CheckEmail'
@@ -17,13 +23,7 @@ import CheckEmail from './CheckEmail'
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
 import EnterTwoFactor from './EnterTwoFactor'
-import {
-  Loader,
-  LoaderContainer,
-  LOGIN_NEW,
-  SignUpText,
-  SubCard
-} from './model'
+import { LOGIN_NEW, SignUpText, SubCard } from './model'
 import VerificationMobile from './VerificationMobile'
 
 // TODO: remove temp
@@ -33,7 +33,7 @@ const ButtonRow = styled.div`
   margin-top: 8px;
 `
 
-class Login extends PureComponent<Props> {
+class Login extends PureComponent<InjectedFormProps & Props> {
   componentDidMount() {
     this.props.authNewActions.initializeLogin()
     // TODO: browser check
@@ -45,13 +45,32 @@ class Login extends PureComponent<Props> {
 
   handleSubmit = e => {
     e.preventDefault()
-    const { code, guid, password } = this.props
+    const {
+      authActions,
+      authNewActions,
+      code,
+      formActions,
+      formValues,
+      guid,
+      guidOrEmail,
+      password
+    } = this.props
     let auth = code
     // only uppercase if authType is not Yubikey
     if (auth && this.props.authType !== 1) {
       auth = auth.toUpperCase()
     }
-    this.props.authActions.login(guid, password, auth)
+    if (formValues.step === LoginSteps.ENTER_EMAIL_GUID) {
+      if (isGuid(guidOrEmail)) {
+        formActions.change(LOGIN_NEW, 'guid', guidOrEmail)
+        authNewActions.guidWallet(guidOrEmail)
+      } else {
+        formActions.change(LOGIN_NEW, 'email', guidOrEmail)
+        authNewActions.loginGuid(guidOrEmail)
+      }
+    } else {
+      authActions.login(guid, password, auth)
+    }
   }
 
   handleSmsResend = () => {
@@ -72,7 +91,6 @@ class Login extends PureComponent<Props> {
       loginError: error,
       handleSmsResend: this.handleSmsResend
     }
-
     return (
       <>
         <Text
@@ -118,16 +136,15 @@ class Login extends PureComponent<Props> {
             switch (step) {
               case LoginSteps.ENTER_EMAIL_GUID:
                 return (
-                  // @ts-ignore
                   <EnterEmailOrGuid
                     {...this.props}
                     {...loginProps}
                     setStep={this.setStep}
+                    handleSubmit={this.handleSubmit}
                   />
                 )
               case LoginSteps.ENTER_PASSWORD:
                 return (
-                  // @ts-ignore
                   <EnterPassword
                     {...this.props}
                     {...loginProps}
@@ -138,7 +155,6 @@ class Login extends PureComponent<Props> {
 
               case LoginSteps.ENTER_TWO_FACTOR:
                 return (
-                  // @ts-ignore
                   <EnterTwoFactor
                     {...this.props}
                     {...loginProps}
@@ -149,31 +165,25 @@ class Login extends PureComponent<Props> {
 
               case LoginSteps.CHECK_EMAIL:
                 return (
-                  // @ts-ignore
                   <CheckEmail
                     {...this.props}
                     {...loginProps}
                     setStep={this.setStep}
+                    handleSubmit={this.handleSubmit}
                   />
                 )
 
               case LoginSteps.VERIFICATION_MOBILE:
                 return (
-                  // @ts-ignore
                   <VerificationMobile
                     {...this.props}
                     {...loginProps}
                     setStep={this.setStep}
+                    handleSubmit={this.handleSubmit}
                   />
                 )
-
-              case LoginSteps.LOADING:
               default:
-                return (
-                  <LoaderContainer>
-                    <Loader />
-                  </LoaderContainer>
-                )
+                return null
             }
           })()}
         </Wrapper>

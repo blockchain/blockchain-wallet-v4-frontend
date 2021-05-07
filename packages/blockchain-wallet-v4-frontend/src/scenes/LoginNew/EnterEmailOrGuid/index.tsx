@@ -5,7 +5,7 @@ import { Field, InjectedFormProps } from 'redux-form'
 import { HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
 import { LoginSteps } from 'data/types'
-import { isGuid, required, validWalletIdOrEmail } from 'services/forms'
+import { required, validWalletIdOrEmail } from 'services/forms'
 
 import { Props as OwnProps } from '..'
 import {
@@ -24,23 +24,13 @@ import {
 const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
   const {
     busy,
-    formActions,
     guidOrEmail,
+    handleSubmit,
     invalid,
     loginError,
     submitting
   } = props
 
-  // TODO move to saga
-  const handleContinue = () => {
-    if (isGuid(guidOrEmail)) {
-      formActions.change('loginNew', 'guid', guidOrEmail)
-      props.authNewActions.guidWallet(guidOrEmail)
-    } else {
-      formActions.change('loginNew', 'email', guidOrEmail)
-      props.authNewActions.loginGuid(guidOrEmail)
-    }
-  }
   // const accountLocked =
   //     loginError &&
   //     (loginError.toLowerCase().includes('this account has been locked') ||
@@ -49,7 +39,7 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
     loginError && loginError.toLowerCase().includes('unknown wallet id')
 
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <FormGroup>
         <FormItem>
           <LoginFormLabel htmlFor='guid'>
@@ -112,7 +102,7 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
       </FormGroup>
       <LinkRow>
         <ActionButton
-          // type='submit'
+          type='submit'
           nature='primary'
           fullwidth
           height='48px'
@@ -120,9 +110,8 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
           data-e2e='loginButton'
           style={{ marginBottom: '16px' }}
           // TODO: change this to trigger call for email
-          onClick={() => handleContinue()}
         >
-          {busy && !loginError ? (
+          {submitting ? (
             <HeartbeatLoader height='20px' width='20px' color='white' />
           ) : (
             <Text color='whiteFade900' size='16px' weight={600}>
