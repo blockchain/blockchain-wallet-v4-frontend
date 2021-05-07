@@ -7,7 +7,6 @@ import {
   Button,
   Icon,
   Image,
-  Link,
   Text,
   TextGroup
 } from 'blockchain-info-components'
@@ -20,13 +19,10 @@ import {
   SuccessCartridge
 } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
-import { model } from 'data'
 import { UserTierType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import { ITEMS, TIER_TYPES, TIERS } from './model'
-
-const { INTEREST_EVENTS } = model.analytics
 
 const Wrapper = styled.div`
   width: 100%;
@@ -72,9 +68,6 @@ const HeaderWrapper = styled(FlyoutWrapper)`
   max-width: 480px;
   background-color: ${props => props.theme.white};
   z-index: 9999;
-`
-const LinkWrapper = styled.div`
-  padding: 0 40px 35px;
 `
 const FooterWrapper = styled(FlyoutWrapper)`
   flex: 1;
@@ -158,8 +151,7 @@ const getItemBadgeStatus = (
 const getTierStatus = (
   tier: number | undefined,
   tierType: TIER_TYPES,
-  tierDetails: UserTierType,
-  isEddQualified: boolean
+  tierDetails: UserTierType
 ) => {
   if (tierDetails.state === 'under_review' || tierDetails.state === 'pending') {
     return (
@@ -167,19 +159,6 @@ const getTierStatus = (
         <OrangeCartridge fontSize='12px'>
           <FormattedMessage id='copy.in_review' defaultMessage='In Review' />
         </OrangeCartridge>
-      </StatusCartridge>
-    )
-  }
-
-  if (isEddQualified) {
-    return (
-      <StatusCartridge>
-        <ErrorCartridge fontSize='12px'>
-          <FormattedMessage
-            id='modals.tradinglimits.info_needed'
-            defaultMessage='Info Needed'
-          />
-        </ErrorCartridge>
       </StatusCartridge>
     )
   }
@@ -207,13 +186,7 @@ const getTierStatus = (
 }
 
 const Template: React.FC<Props> = props => {
-  const {
-    analyticsActions,
-    interestEDDStatus,
-    sddEligible,
-    userData,
-    userTiers
-  } = props
+  const { sddEligible, userData, userTiers } = props
 
   if (!Array.isArray(userTiers)) {
     return null
@@ -333,7 +306,7 @@ const Template: React.FC<Props> = props => {
             </Text>
           </TierDescription>
 
-          {getTierStatus(currentTier, TIER_TYPES.SILVER, silverTier, false)}
+          {getTierStatus(currentTier, TIER_TYPES.SILVER, silverTier)}
         </Item>
 
         <Item
@@ -372,44 +345,20 @@ const Template: React.FC<Props> = props => {
                 }}
               />
             </ItemSubtitle>
-
-            {interestEDDStatus?.eddNeeded ? (
-              <TextGroup inline>
-                <Text color='grey600' size='12px' weight={500}>
-                  <FormattedMessage
-                    id='modals.tradinglimits.gold_desc_edd'
-                    defaultMessage='We need more information before we can approve your Gold Level application.'
-                  />
-                </Text>
-                <Link
-                  size='12px'
-                  weight={500}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  href='https://support.blockchain.com/hc/en-us/articles/360018080172-Identity-Verification-Overview'
-                >
-                  <FormattedMessage
-                    id='buttons.learn_more'
-                    defaultMessage='Learn More'
-                  />
-                </Link>
-              </TextGroup>
-            ) : (
-              <TextGroup inline>
-                <Text color='grey600' size='12px' weight={500}>
-                  <FormattedMessage
-                    id='modals.tradinglimits.gold_desc1'
-                    defaultMessage='You’ll need to verify your identity by uploading an ID and a selfie.'
-                  />
-                </Text>
-                <Text color='grey600' italic size='12px' weight={500}>
-                  <FormattedMessage
-                    id='modals.tradinglimits.gold_desc2'
-                    defaultMessage='Requires Silver Tier approval.'
-                  />
-                </Text>
-              </TextGroup>
-            )}
+            <TextGroup inline>
+              <Text color='grey600' size='12px' weight={500}>
+                <FormattedMessage
+                  id='modals.tradinglimits.gold_desc1'
+                  defaultMessage='You’ll need to verify your identity by uploading an ID and a selfie.'
+                />
+              </Text>
+              <Text color='grey600' italic size='12px' weight={500}>
+                <FormattedMessage
+                  id='modals.tradinglimits.gold_desc2'
+                  defaultMessage='Requires Silver Tier approval.'
+                />
+              </Text>
+            </TextGroup>
           </TierDescription>
 
           {getTierStatus(
@@ -417,36 +366,9 @@ const Template: React.FC<Props> = props => {
               ? TIER_TYPES.SILVER
               : currentTier,
             TIER_TYPES.GOLD,
-            goldTier,
-            interestEDDStatus?.eddNeeded
+            goldTier
           )}
         </Item>
-
-        {interestEDDStatus?.eddNeeded && (
-          <LinkWrapper>
-            <Link
-              href='https://share.hsforms.com/1DS4i94fURdutr8OXYOxfrg2qt44'
-              style={{ width: '100%' }}
-              target='_blank'
-            >
-              <Button
-                data-e2e='earnInterestSupplyInformation'
-                fullwidth
-                nature='primary'
-                onClick={() =>
-                  analyticsActions.logEvent(
-                    INTEREST_EVENTS.SETTINGS.SUPPLY_INFORMATION
-                  )
-                }
-              >
-                <FormattedMessage
-                  id='scenes.interest.supply_information'
-                  defaultMessage='Supply Information'
-                />
-              </Button>
-            </Link>
-          </LinkWrapper>
-        )}
 
         <ContentItem>
           <IconWrapper>
