@@ -184,13 +184,12 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   const quoteAmount =
     fix === 'FIAT'
-      ? Exchange.convertFiatToCoin(
-          BASE.coin,
-          formValues?.amount || 0,
-          BASE.coin,
-          walletCurrency,
-          baseRates
-        )
+      ? Exchange.convertFiatToCoin({
+          coin: BASE.coin,
+          value: formValues?.amount || 0,
+          currency: walletCurrency,
+          rates: baseRates
+        })
       : Exchange.convertCoinToFiat(
           BASE.coin,
           formValues?.amount || 0,

@@ -365,13 +365,12 @@ export default ({
     const amountFieldValue =
       fix === 'CRYPTO'
         ? action.payload
-        : Exchange.convertFiatToCoin(
-            BASE.coin,
-            action.payload,
-            BASE.coin,
-            userCurrency,
+        : Exchange.convertFiatToCoin({
+            coin: BASE.coin,
+            value: action.payload,
+            currency: userCurrency,
             rates
-          )
+          })
     yield put(
       actions.form.change('swapAmount', 'cryptoAmount', amountFieldValue)
     )

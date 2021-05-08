@@ -173,7 +173,7 @@ export const extractResponse = curry((encKey, res) => {
     if (window.logLevel === 'verbose' && res.type_id !== -1) {
       // eslint-disable-next-line no-console
       console.info(
-        'LOG: ',
+        `LOG: ${res.type_id}`,
         encKey
           ? compose(decrypt(encKey), prop('payload'))(res)
           : compose(BufferToString, B64ToBuffer, prop('payload'))(res)

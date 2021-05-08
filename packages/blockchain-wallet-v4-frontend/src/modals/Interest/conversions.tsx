@@ -50,7 +50,12 @@ export const amountToCrypto = (
   if (displayCoin) {
     return amount
   } else {
-    return Exchange.convertFiatToCoin(coin, amount, coin, walletCurrency, rates)
+    return Exchange.convertFiatToCoin({
+      coin,
+      value: amount,
+      currency: walletCurrency,
+      rates
+    })
   }
 }
 

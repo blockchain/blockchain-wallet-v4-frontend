@@ -6,9 +6,9 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 
 import Converter from './template'
 
-const convertFiatToCoin = (unit, value, toUnit, currency, rates) => ({
+const convertFiatToCoin = (unit, value, currency, rates) => ({
   coinCode: unit,
-  coin: Exchange.convertFiatToCoin(unit, value, toUnit, currency, rates),
+  coin: Exchange.convertFiatToCoin({ coin: unit, value, currency, rates }),
   fiat: value
 })
 
@@ -48,7 +48,7 @@ class ConverterContainer extends React.PureComponent {
       ? Number(e.target.value).toFixed(2)
       : e.target.value
 
-    const nextProps = convertFiatToCoin(unit, val, unit, currency, rates)
+    const nextProps = convertFiatToCoin(unit, val, currency, rates)
     this.props.onChange(nextProps)
   }
 

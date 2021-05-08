@@ -79,13 +79,12 @@ class ShareLink extends React.PureComponent<Props> {
     const currencySymbol = Exchange.getSymbol(walletCurrency) as string
     const coinAmount =
       currencyDisplay === walletCurrency
-        ? Exchange.convertFiatToCoin(
-            selectedAccount.coin,
-            requestAmount,
-            selectedAccount.coin,
-            walletCurrency,
+        ? Exchange.convertFiatToCoin({
+            coin: selectedAccount.coin,
+            value: requestAmount,
+            currency: walletCurrency,
             rates
-          )
+          })
         : requestAmount
     const fiatAmount =
       currencyDisplay === walletCurrency

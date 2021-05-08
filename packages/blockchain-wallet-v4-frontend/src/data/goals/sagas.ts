@@ -206,6 +206,7 @@ export default ({ api, coreSagas, networks }) => {
       return yield call(defineSendCryptoGoal, pathname, search)
     }
 
+    // /#/log-level?level=verbose
     if (startsWith(DeepLinkGoal.LOG_LEVEL, pathname)) {
       return yield call(defineLogLevel, search)
     }
