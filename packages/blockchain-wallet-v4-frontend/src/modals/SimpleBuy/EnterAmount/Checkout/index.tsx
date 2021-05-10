@@ -64,13 +64,16 @@ class Checkout extends PureComponent<Props> {
       isSddFlow: false
     } as SuccessStateType)
     const simpleBuyGoal = find(propEq('name', 'simpleBuy'), this.props.goals)
+
     const id = propOr('', 'id', simpleBuyGoal)
 
     !isEmpty(id) && this.props.deleteGoal(String(id))
+
     const method = this.props.method || this.props.defaultMethod
 
     // TODO: sell
     // need to do kyc check
+    // SELL
     if (formValues?.orderType === OrderType.SELL) {
       return this.props.simpleBuyActions.setStep({
         step: 'PREVIEW_SELL',
@@ -78,6 +81,7 @@ class Checkout extends PureComponent<Props> {
       })
     }
 
+    // BUY
     if (isSddFlow) {
       const currentTier = userData?.tiers?.current
       if (currentTier === 2 || currentTier === 1) {
