@@ -31,10 +31,6 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
     submitting
   } = props
 
-  // const accountLocked =
-  //     loginError &&
-  //     (loginError.toLowerCase().includes('this account has been locked') ||
-  //       loginError.toLowerCase().includes('account is locked'))
   const guidError =
     loginError && loginError.toLowerCase().includes('unknown wallet id')
 

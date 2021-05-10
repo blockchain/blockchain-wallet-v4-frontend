@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Field, InjectedFormProps } from 'redux-form'
 
@@ -13,7 +12,6 @@ import {
   FormLabel,
   PasswordBox
 } from 'components/Form'
-import { selectors } from 'data'
 import { LoginSteps } from 'data/types'
 import { required } from 'services/forms'
 
@@ -27,7 +25,6 @@ import {
 
 const EnterPassword = (props: InjectedFormProps<{}, Props> & Props) => {
   const {
-    authType,
     busy,
     cacheActions,
     formActions,
@@ -89,10 +86,8 @@ const EnterPassword = (props: InjectedFormProps<{}, Props> & Props) => {
             </FormError>
           )}
           {accountLocked && (
-            <FormError
-              position={authType > 0 || passwordError ? 'relative' : 'absolute'}
-            >
-              {loginError}
+            <FormError position={'relative'}>
+              {loginError?.split('.')[0]}.
             </FormError>
           )}
         </FormItem>
@@ -124,17 +119,11 @@ const EnterPassword = (props: InjectedFormProps<{}, Props> & Props) => {
   )
 }
 
-const mapStateToProps = state => ({
-  authType: selectors.auth.getAuthType(state)
-})
-
-const connector = connect(mapStateToProps)
-
 type Props = OwnProps & {
   busy: boolean
   handleSubmit: (e) => void
   loginError?: string
   setStep: (step: LoginSteps) => void
-} & ConnectedProps<typeof connector>
+}
 
-export default connector(EnterPassword)
+export default EnterPassword
