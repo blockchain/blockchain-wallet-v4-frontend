@@ -122,12 +122,8 @@ export const getMaxMin = (
             )
           }
 
-          const defaultLimitMaxAmount = convertBaseToStandard(
-            'FIAT',
-            limitMaxAmount
-          )
-          if (Number(defaultMax.FIAT) > Number(defaultLimitMaxAmount)) {
-            defaultMax.FIAT = defaultLimitMaxAmount
+          if (Number(defaultMax.FIAT) > limitMaxAmount) {
+            defaultMax.FIAT = String(limitMaxAmount)
           }
 
           if (!allValues) return defaultMax
@@ -193,12 +189,8 @@ export const getMaxMin = (
             )
           }
 
-          const defaultLimitMinAmount = convertBaseToStandard(
-            'FIAT',
-            limitMinAmount
-          )
-          if (Number(defaultMin.FIAT) < Number(defaultLimitMinAmount)) {
-            defaultMin.FIAT = defaultLimitMinAmount
+          if (Number(defaultMin.FIAT) < limitMinAmount) {
+            defaultMin.FIAT = String(limitMinAmount)
           }
 
           if (!allValues) return defaultMin
