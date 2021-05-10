@@ -11,7 +11,7 @@ const parseError = error => {
 }
 
 const toTask = promise =>
-  new Task((reject, resolve) => promise.then(resolve, reject))
+  new Task((reject, resolve) => promise.then(resolve).catch(reject))
 
 export default ({ apiUrl, get, networks, put }) => {
   const updateKVStore = kv => {
