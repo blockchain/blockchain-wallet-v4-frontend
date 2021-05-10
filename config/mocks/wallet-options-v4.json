@@ -22,6 +22,7 @@
           "coinCode": "EUR",
           "coinTicker": "EUR",
           "displayName": "Euros",
+          "isFiat": true,
           "learnMoreLink": "",
           "minConfirmations": 0,
           "txListAppRoute": "/eur/transactions"
@@ -36,6 +37,7 @@
           "coinCode": "GBP",
           "coinTicker": "GBP",
           "displayName": "Pounds",
+          "isFiat": true,
           "learnMoreLink": "",
           "minConfirmations": 0,
           "txListAppRoute": "/gbp/transactions"
@@ -51,6 +53,7 @@
           "coinTicker": "USD",
           "displayName": "U.S. Dollars",
           "learnMoreLink": "",
+          "isFiat": true,
           "minConfirmations": 0,
           "txListAppRoute": "/usd/transactions"
         },

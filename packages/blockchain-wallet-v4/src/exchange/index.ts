@@ -1,7 +1,13 @@
 import { BigNumber } from 'bignumber.js'
 import { path, prop } from 'ramda'
 
-import { CoinType, RatesType, WalletFiatType } from 'core/types'
+import {
+  CoinType,
+  FiatType,
+  RatesType,
+  WalletCurrencyType,
+  WalletFiatType
+} from 'core/types'
 
 import Currencies, { CurrenciesType } from './currencies'
 import * as Currency from './currency'
@@ -118,9 +124,17 @@ const convertEthToEth = ({
 // =====================================================================
 // =============================== STRING ==============================
 // =====================================================================
-const displayCoinToCoin = (value: number | string, toUnit: CoinType) => {
+const displayCoinToCoin = (
+  value: number | string,
+  toUnit: WalletCurrencyType,
+  isFiat?: boolean
+) => {
+  if (isFiat) {
+    return Currency.fiatToString({ value, unit: toUnit as FiatType })
+  }
+
   return transformCoinToCoin({
-    coin: toUnit,
+    coin: toUnit as CoinType,
     value,
     fromUnit: Currencies[toUnit].base as UnitType,
     toUnit
@@ -160,13 +174,15 @@ const displayFiatToFiat = ({ value }: { value: number | string }) => {
 const convertCoinToCoin = ({
   baseToStandard = true,
   coin,
+  isFiat = false,
   value
 }: {
   baseToStandard?: boolean
-  coin: CoinType | 'FIAT'
+  coin: WalletCurrencyType | 'FIAT'
+  isFiat?: boolean
   value: number | string
 }): string => {
-  if (coin === 'FIAT') {
+  if (isFiat || coin === 'FIAT') {
     return baseToStandard
       ? new BigNumber(value).dividedBy(100).valueOf()
       : new BigNumber(value).multipliedBy(100).valueOf()
@@ -175,7 +191,7 @@ const convertCoinToCoin = ({
   const config = Currencies[coin]
 
   return transformCoinToCoin({
-    coin,
+    coin: coin as CoinType,
     value,
     fromUnit: (baseToStandard ? config.base : config.code) as UnitType,
     toUnit: (baseToStandard ? config.code : config.base) as UnitType

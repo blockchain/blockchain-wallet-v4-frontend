@@ -21,6 +21,7 @@ export type SupportedCoinType = {
   displayName: string
   hasLockboxSupport: boolean
   invited?: boolean
+  isFiat?: boolean
   learnMoreLink: string
   method?: boolean
   minConfirmations: number
@@ -37,8 +38,9 @@ export type SupportedFiatType = {
   }
   coinCode: WalletFiatType
   coinTicker: WalletFiatType
-  displayName: 'Euros' | 'Pounds'
+  displayName: string
   invited?: boolean
+  isFiat?: boolean
   learnMoreLink: ''
   method?: boolean
   minConfirmations: 0
