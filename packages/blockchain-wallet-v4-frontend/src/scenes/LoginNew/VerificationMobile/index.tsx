@@ -15,14 +15,16 @@ import { BackArrowFormHeader } from '../model'
 
 const Body = styled.div`
   display: flex;
-  margin-bottom: 44px;
+  margin-bottom: 24px;
 `
 const TextColumn = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   max-width: 55%;
   margin-right: 24px;
+  > div {
+    margin-bottom: 16px;
+  }
 `
 const LinkRow = styled.div`
   display: flex;
@@ -51,20 +53,20 @@ const VerificationMobile = (props: Props) => {
         <TextColumn>
           <Text color='grey900' size='16px' weight={600} lineHeight='1.5'>
             <FormattedMessage
-              id='scenes.login.wallet.connected.title'
-              defaultMessage='Mobile Device Connected'
+              id='scenes.login.wallet.mobile_login.title'
+              defaultMessage='Log in with mobile app'
             />
           </Text>
           <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
             <FormattedMessage
-              id='scenes.login.wallet.connected.description_1'
-              defaultMessage='We sent your connected mobile device a notification. Open the app to confirm to auto-log in on the web.'
+              id='scenes.login.wallet.mobile_login.description_1'
+              defaultMessage='Scan this QR code with the Blockchain.com mobile app.'
             />
           </Text>
           <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
             <FormattedMessage
-              id='scenes.login.wallet.connected.description_2'
-              defaultMessage='Didn’t get the notification? Make sure you have push notifications enabled. You can also scan this QR with your mobile app to login.'
+              id='scenes.login.wallet.mobile_login.description_2'
+              defaultMessage='You can tap on the scanning icon on the top right corner of the app.'
             />
           </Text>
         </TextColumn>
