@@ -1,4 +1,5 @@
 import { prop } from 'ramda'
+import { startSubmit, stopSubmit } from 'redux-form'
 import { call, put, select } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
@@ -13,6 +14,7 @@ export default ({ api, coreSagas }) => {
 
   const intializeLogin = function * () {
     try {
+      yield put(startSubmit('loginNew'))
       yield put(A.intializeLoginLoading())
       const pathname = yield select(selectors.router.getPathname)
       const params = pathname.split('/')
@@ -92,6 +94,7 @@ export default ({ api, coreSagas }) => {
         }
       }
       yield put(A.initializeLoginSuccess())
+      yield put(stopSubmit('loginNew'))
     } catch (e) {
       yield put(A.intializeLoginFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'intializeLogin', e))
@@ -115,13 +118,16 @@ export default ({ api, coreSagas }) => {
 
   const submitWalletGuid = function * (action) {
     try {
+      yield put(startSubmit('loginNew'))
       yield put(A.guidWalletLoading())
+
       // yield put(actions.form.change('loginNew', 'step', LoginSteps.LOADING))
       const sessionToken = yield call(api.obtainSessionToken)
       yield call(actions.auth.login, action.payload, sessionToken)
       yield yield put(
         actions.form.change('loginNew', 'step', LoginSteps.VERIFICATION_MOBILE)
       )
+      yield put(stopSubmit('loginNew'))
     } catch (e) {
       yield put(A.guidWalletFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'walletGuid', e))

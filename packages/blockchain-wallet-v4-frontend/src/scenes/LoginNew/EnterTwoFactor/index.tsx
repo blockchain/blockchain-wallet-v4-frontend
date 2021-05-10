@@ -2,11 +2,10 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Field, InjectedFormProps } from 'redux-form'
+import { Field } from 'redux-form'
 
 import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import {
-  Form,
   FormError,
   FormGroup,
   FormItem,
@@ -15,7 +14,6 @@ import {
   TextBox
 } from 'components/Form'
 import { actions, selectors } from 'data'
-import { LoginSteps } from 'data/types'
 import { required } from 'services/forms'
 
 import { Props as OwnProps } from '..'
@@ -27,7 +25,7 @@ import {
   removeWhitespace
 } from '../model'
 
-const EnterTwoFactor = (props: InjectedFormProps<{}, Props> & Props) => {
+const EnterTwoFactor = (props: Props) => {
   const {
     authType,
     busy,
@@ -35,7 +33,6 @@ const EnterTwoFactor = (props: InjectedFormProps<{}, Props> & Props) => {
     formActions,
     formValues,
     guid,
-    handleSubmit,
     invalid,
     loginError,
     setStep,
@@ -51,7 +48,7 @@ const EnterTwoFactor = (props: InjectedFormProps<{}, Props> & Props) => {
     props.authActions.resendSmsCode(guid)
   }
   return (
-    <Form onSubmit={handleSubmit}>
+    <>
       <BackArrowFormHeader
         cacheActions={cacheActions}
         formActions={formActions}
@@ -127,7 +124,7 @@ const EnterTwoFactor = (props: InjectedFormProps<{}, Props> & Props) => {
         </ActionButton>
         <NeedHelpLink />
       </LinkRow>
-    </Form>
+    </>
   )
 }
 
@@ -141,11 +138,6 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type Props = OwnProps & {
-  busy: boolean
-  handleSubmit: (e) => void
-  loginError?: string
-  setStep: (step: LoginSteps) => void
-} & ConnectedProps<typeof connector>
+type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(EnterTwoFactor)

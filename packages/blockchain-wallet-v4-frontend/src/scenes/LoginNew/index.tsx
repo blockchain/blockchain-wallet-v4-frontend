@@ -12,6 +12,7 @@ import {
 import styled from 'styled-components'
 
 import { Button, Link, Text } from 'blockchain-info-components'
+import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
 import { LoginFormType, LoginSteps } from 'data/types'
@@ -132,58 +133,59 @@ class Login extends PureComponent<InjectedFormProps & Props> {
           )}
         </Text>
         <Wrapper>
-          {(() => {
-            switch (step) {
-              case LoginSteps.ENTER_EMAIL_GUID:
-                return (
-                  <EnterEmailOrGuid
-                    {...this.props}
-                    {...loginProps}
-                    setStep={this.setStep}
-                    handleSubmit={this.handleSubmit}
-                  />
-                )
-              case LoginSteps.ENTER_PASSWORD:
-                return (
-                  <EnterPassword
-                    {...this.props}
-                    {...loginProps}
-                    setStep={this.setStep}
-                    handleSubmit={this.handleSubmit}
-                  />
-                )
+          <Form onSubmit={this.handleSubmit}>
+            {(() => {
+              switch (step) {
+                case LoginSteps.ENTER_EMAIL_GUID:
+                  return (
+                    <EnterEmailOrGuid
+                      {...this.props}
+                      {...loginProps}
+                      setStep={this.setStep}
+                    />
+                  )
+                case LoginSteps.ENTER_PASSWORD:
+                  return (
+                    <EnterPassword
+                      {...this.props}
+                      {...loginProps}
+                      setStep={this.setStep}
+                    />
+                  )
 
-              case LoginSteps.ENTER_TWO_FACTOR:
-                return (
-                  <EnterTwoFactor
-                    {...this.props}
-                    {...loginProps}
-                    setStep={this.setStep}
-                    handleSubmit={this.handleSubmit}
-                  />
-                )
+                case LoginSteps.ENTER_TWO_FACTOR:
+                  return (
+                    <EnterTwoFactor
+                      {...this.props}
+                      {...loginProps}
+                      setStep={this.setStep}
+                      // invalid={this.props.invalid}
+                      // submitting={this.props.submitting}
+                    />
+                  )
 
-              case LoginSteps.CHECK_EMAIL:
-                return (
-                  <CheckEmail
-                    {...this.props}
-                    {...loginProps}
-                    setStep={this.setStep}
-                  />
-                )
+                case LoginSteps.CHECK_EMAIL:
+                  return (
+                    <CheckEmail
+                      {...this.props}
+                      {...loginProps}
+                      setStep={this.setStep}
+                    />
+                  )
 
-              case LoginSteps.VERIFICATION_MOBILE:
-                return (
-                  <VerificationMobile
-                    {...this.props}
-                    {...loginProps}
-                    setStep={this.setStep}
-                  />
-                )
-              default:
-                return null
-            }
-          })()}
+                case LoginSteps.VERIFICATION_MOBILE:
+                  return (
+                    <VerificationMobile
+                      {...this.props}
+                      {...loginProps}
+                      setStep={this.setStep}
+                    />
+                  )
+                default:
+                  return null
+              }
+            })()}
+          </Form>
         </Wrapper>
 
         <ButtonRow>
@@ -281,7 +283,15 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type Props = ConnectedProps<typeof connector>
+type FormProps = {
+  busy: boolean
+  invalid: boolean,
+  loginError?: string,
+  setStep: (step: LoginSteps) => void
+  submitting: boolean
+}
+
+export type Props = ConnectedProps<typeof connector> & FormProps
 
 const enhance = compose<any>(
   reduxForm({

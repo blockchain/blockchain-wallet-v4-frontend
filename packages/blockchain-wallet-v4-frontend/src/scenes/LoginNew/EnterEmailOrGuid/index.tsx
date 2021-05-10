@@ -1,13 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Field, InjectedFormProps } from 'redux-form'
+import { Field } from 'redux-form'
 
 import { HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
-import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
-import { LoginSteps } from 'data/types'
+import { FormGroup, FormItem, TextBox } from 'components/Form'
 import { required, validWalletIdOrEmail } from 'services/forms'
 
-import { Props as OwnProps } from '..'
+import { Props } from '..'
 import {
   ActionButton,
   GuidError,
@@ -21,21 +20,14 @@ import {
   removeWhitespace
 } from '../model'
 
-const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
-  const {
-    busy,
-    guidOrEmail,
-    handleSubmit,
-    invalid,
-    loginError,
-    submitting
-  } = props
+const EnterEmailOrGuid = (props: Props) => {
+  const { busy, guidOrEmail, invalid, loginError, submitting } = props
 
   const guidError =
     loginError && loginError.toLowerCase().includes('unknown wallet id')
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <>
       <FormGroup>
         <FormItem>
           <LoginFormLabel htmlFor='guid'>
@@ -144,14 +136,8 @@ const EnterEmailOrGuid = (props: InjectedFormProps<{}, Props> & Props) => {
           </Link>
         </HelpRow>
       </RectangleBackground>
-    </Form>
+    </>
   )
-}
-
-type Props = OwnProps & {
-  busy: boolean
-  loginError?: string
-  setStep: (step: LoginSteps) => void
 }
 
 export default EnterEmailOrGuid

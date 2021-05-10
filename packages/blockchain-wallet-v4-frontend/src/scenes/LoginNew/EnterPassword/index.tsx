@@ -1,21 +1,19 @@
 import React from 'react'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Field, InjectedFormProps } from 'redux-form'
+import { Field } from 'redux-form'
 
 import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import {
-  Form,
   FormError,
   FormGroup,
   FormItem,
   FormLabel,
   PasswordBox
 } from 'components/Form'
-import { LoginSteps } from 'data/types'
 import { required } from 'services/forms'
 
-import { Props as OwnProps } from '..'
+import { Props } from '..'
 import {
   ActionButton,
   BackArrowFormHeader,
@@ -23,13 +21,12 @@ import {
   NeedHelpLink
 } from '../model'
 
-const EnterPassword = (props: InjectedFormProps<{}, Props> & Props) => {
+const EnterPassword = (props: Props) => {
   const {
     busy,
     cacheActions,
     formActions,
     formValues,
-    handleSubmit,
     invalid,
     loginError,
     password,
@@ -43,9 +40,8 @@ const EnterPassword = (props: InjectedFormProps<{}, Props> & Props) => {
     loginError &&
     (loginError.toLowerCase().includes('this account has been locked') ||
       loginError.toLowerCase().includes('account is locked'))
-
   return (
-    <Form onSubmit={handleSubmit}>
+    <>
       <BackArrowFormHeader
         cacheActions={cacheActions}
         formActions={formActions}
@@ -115,15 +111,8 @@ const EnterPassword = (props: InjectedFormProps<{}, Props> & Props) => {
         </ActionButton>
         <NeedHelpLink />
       </LinkRow>
-    </Form>
+    </>
   )
-}
-
-type Props = OwnProps & {
-  busy: boolean
-  handleSubmit: (e) => void
-  loginError?: string
-  setStep: (step: LoginSteps) => void
 }
 
 export default EnterPassword
