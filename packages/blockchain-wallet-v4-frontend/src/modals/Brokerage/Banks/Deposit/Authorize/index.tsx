@@ -13,9 +13,14 @@ import {
   SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { BankDWStepType } from 'data/types'
+
+const {
+  ACCEPT_YAPILY_PIS_AGREEMENT,
+  DECLINE_YAPILY_PIS_AGREEMENT
+} = model.analytics.FIAT_DEPOSIT_EVENTS
 
 const Wrapper = styled.div`
   display: flex;
@@ -310,11 +315,12 @@ const Authorize = (props: Props) => {
           type='submit'
           fullwidth
           height='48px'
-          onClick={() =>
+          onClick={() => {
             props.brokerageActions.setDWStep({
               dwStep: BankDWStepType.CONFIRM
             })
-          }
+            props.analyticsActions.logEvent(ACCEPT_YAPILY_PIS_AGREEMENT)
+          }}
         >
           <FormattedMessage id='copy.approve' defaultMessage='Approve' />
         </Button>
@@ -326,7 +332,10 @@ const Authorize = (props: Props) => {
           height='48px'
           color='red400'
           style={{ marginTop: '16px' }}
-          onClick={() => props.handleClose()}
+          onClick={() => {
+            props.handleClose()
+            props.analyticsActions.logEvent(DECLINE_YAPILY_PIS_AGREEMENT)
+          }}
         >
           <FormattedMessage id='copy.deny' defaultMessage='Deny' />
         </Button>
@@ -345,6 +354,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 

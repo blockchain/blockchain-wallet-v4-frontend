@@ -5,9 +5,15 @@ import styled from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper, Row, Title } from 'components/Flyout'
+import { model } from 'data'
 import { AddBankStepType } from 'data/types'
 
 import { Props as _P } from '.'
+
+const {
+  ACCEPT_YAPILY_AIS_AGREEMENT,
+  DECLINE_YAPILY_AIS_AGREEMENT
+} = model.analytics.FIAT_DEPOSIT_EVENTS
 
 const Wrapper = styled.div`
   display: flex;
@@ -223,11 +229,12 @@ const Success = (props: Props) => {
           type='submit'
           fullwidth
           height='48px'
-          onClick={() =>
+          onClick={() => {
             props.brokerageActions.setAddBankStep({
               addBankStep: AddBankStepType.ADD_BANK_CONNECT
             })
-          }
+            props.analyticsActions.logEvent(ACCEPT_YAPILY_AIS_AGREEMENT)
+          }}
         >
           <FormattedMessage id='copy.approve' defaultMessage='Approve' />
         </Button>
@@ -239,7 +246,10 @@ const Success = (props: Props) => {
           height='48px'
           color='red400'
           style={{ marginTop: '16px' }}
-          onClick={() => props.handleClose()}
+          onClick={() => {
+            props.handleClose()
+            props.analyticsActions.logEvent(DECLINE_YAPILY_AIS_AGREEMENT)
+          }}
         >
           <FormattedMessage id='copy.deny' defaultMessage='Deny' />
         </Button>

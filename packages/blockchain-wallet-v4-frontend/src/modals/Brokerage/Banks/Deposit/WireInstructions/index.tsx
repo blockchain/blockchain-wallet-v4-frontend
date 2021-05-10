@@ -8,7 +8,7 @@ import {
   SBAccountType
 } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 
@@ -33,8 +33,7 @@ const WireInstructions = props => {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD'
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -46,6 +45,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
+  fiatCurrency: FiatType
   handleClose: () => void
 }
 
@@ -55,7 +55,6 @@ export type SuccessStateType = {
 }
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
-  fiatCurrency: FiatType
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

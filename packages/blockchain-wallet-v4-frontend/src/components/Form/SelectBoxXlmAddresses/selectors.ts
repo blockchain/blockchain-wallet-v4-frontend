@@ -33,16 +33,16 @@ export const getData = (
     }
     return wallet.label
   }
-  const buildCustodialDisplay = x => {
+  const buildCustodialDisplay = account => {
     return (
       `Trading Account` +
-      ` (${Exchange.displayCoinToCoin(x ? x.available : 0, 'XLM')})`
+      ` (${Exchange.displayCoinToCoin(account ? account.available : 0, 'XLM')})`
     )
   }
-  const buildInterestDisplay = (x: InterestAccountBalanceType['XLM']) => {
+  const buildInterestDisplay = (account: InterestAccountBalanceType['XLM']) => {
     return (
       `Interest Account` +
-      ` (${Exchange.displayCoinToCoin(x ? x.balance : 0, 'XLM')})`
+      ` (${Exchange.displayCoinToCoin(account ? account.balance : 0, 'XLM')})`
     )
   }
   // @ts-ignore
@@ -60,11 +60,11 @@ export const getData = (
       }
     }
   ]
-  const toInterestDropdown = x => [
+  const toInterestDropdown = account => [
     {
-      label: buildInterestDisplay(x),
+      label: buildInterestDisplay(account),
       value: {
-        ...x,
+        ...account,
         type: ADDRESS_TYPES.INTEREST,
         label: 'Interest Account'
       }
@@ -119,8 +119,10 @@ export const getData = (
           .map(toInterestDropdown)
           .map(toGroup('Interest Account'))
       : Remote.of([])
-  ]).map(([b1, b2, b3, b4]) => {
-    const orderArray = forceCustodialFirst ? [b2, b1, b3, b4] : [b1, b2, b3, b4]
+  ]).map(([b1, b2, b3, b4, b5]) => {
+    const orderArray = forceCustodialFirst
+      ? [b2, b1, b3, b4, b5]
+      : [b1, b2, b3, b4, b5]
     // @ts-ignore
     const data = reduce(concat, [], orderArray)
     return { data }
