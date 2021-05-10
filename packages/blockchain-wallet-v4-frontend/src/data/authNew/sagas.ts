@@ -102,34 +102,44 @@ export default ({ api, coreSagas }) => {
   }
 
   const loginGuid = function * (action) {
+    const formValues = yield select(selectors.form.getFormValues('loginNew'))
+    const { step } = formValues
+    yield put(startSubmit('loginNew'))
     try {
       yield put(A.loginGuidLoading())
-      // yield put(actions.form.change('loginNew', 'step', LoginSteps.LOADING))
       const sessionToken = yield call(api.obtainSessionToken)
       yield call(coreSagas.wallet.loginGuidSaga, action.payload, sessionToken)
-      yield put(actions.form.change('loginNew', 'step', LoginSteps.CHECK_EMAIL))
+      if (step === LoginSteps.CHECK_EMAIL) {
+        yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
+      } else {
+        yield put(
+          actions.form.change('loginNew', 'step', LoginSteps.CHECK_EMAIL)
+        )
+      }
+      yield put(stopSubmit('loginNew'))
       yield put(A.loginGuidSuccess())
     } catch (e) {
       yield put(A.loginGuidFailure())
+      yield put(stopSubmit('loginNew'))
       yield put(actions.logs.logErrorMessage(logLocation, 'loginGuid', e))
-      yield put(actions.alerts.displayError(C.GUID_SENT_ERROR))
+      yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
     }
   }
 
   const submitWalletGuid = function * (action) {
+    yield put(startSubmit('loginNew'))
     try {
-      yield put(startSubmit('loginNew'))
       yield put(A.guidWalletLoading())
-
-      // yield put(actions.form.change('loginNew', 'step', LoginSteps.LOADING))
       const sessionToken = yield call(api.obtainSessionToken)
       yield call(actions.auth.login, action.payload, sessionToken)
       yield yield put(
         actions.form.change('loginNew', 'step', LoginSteps.VERIFICATION_MOBILE)
       )
       yield put(stopSubmit('loginNew'))
+      yield put(A.guidWalletSuccess())
     } catch (e) {
       yield put(A.guidWalletFailure())
+      yield put(stopSubmit('loginNew'))
       yield put(actions.logs.logErrorMessage(logLocation, 'walletGuid', e))
     }
   }

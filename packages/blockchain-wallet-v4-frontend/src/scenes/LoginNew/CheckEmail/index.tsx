@@ -48,11 +48,11 @@ const CheckEmail = (props: Props) => {
         </Text>
       </FormBody>
       <Button
+        type='submit'
         nature='empty-blue'
         fullwidth
         height='48px'
         data-e2e='loginResendEmail'
-        // onClick={()=> 'whatever action resends email'}
       >
         <FormattedMessage
           id='buttons.email_didnt_arrive'

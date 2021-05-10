@@ -61,7 +61,10 @@ class Login extends PureComponent<InjectedFormProps & Props> {
     if (auth && this.props.authType !== 1) {
       auth = auth.toUpperCase()
     }
-    if (formValues.step === LoginSteps.ENTER_EMAIL_GUID) {
+    if (
+      formValues.step === LoginSteps.ENTER_EMAIL_GUID ||
+      formValues.step === LoginSteps.CHECK_EMAIL
+    ) {
       if (isGuid(guidOrEmail)) {
         formActions.change(LOGIN_NEW, 'guid', guidOrEmail)
         authNewActions.guidWallet(guidOrEmail)
@@ -285,8 +288,8 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type FormProps = {
   busy: boolean
-  invalid: boolean,
-  loginError?: string,
+  invalid: boolean
+  loginError?: string
   setStep: (step: LoginSteps) => void
   submitting: boolean
 }

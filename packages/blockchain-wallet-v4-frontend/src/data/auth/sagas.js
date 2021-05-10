@@ -1,4 +1,5 @@
 import { assoc, find, is, prop, propEq } from 'ramda'
+import { startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, fork, put, race, select, take } from 'redux-saga/effects'
 
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -297,6 +298,7 @@ export default ({ api, coreSagas }) => {
   const login = function * (action) {
     let { code, guid, mobileLogin, password, sharedKey } = action.payload
     let session = yield select(selectors.session.getSession, guid)
+    yield put(startSubmit('loginNew'))
     try {
       if (!session) {
         session = yield call(api.obtainSessionToken)
@@ -311,7 +313,9 @@ export default ({ api, coreSagas }) => {
         code
       })
       yield call(loginRoutineSaga, mobileLogin)
+      yield put(stopSubmit('loginNew'))
     } catch (error) {
+      yield put(stopSubmit('loginNew'))
       const initialError = prop('initial_error', error)
       const authRequired = prop('authorization_required', error)
       if (authRequired) {

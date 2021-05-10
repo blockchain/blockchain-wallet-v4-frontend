@@ -98,7 +98,7 @@ const EnterPassword = (props: Props) => {
           data-e2e='passwordButton'
           style={{ marginBottom: '16px' }}
         >
-          {busy && !loginError ? (
+          {submitting ? (
             <HeartbeatLoader height='20px' width='20px' color='white' />
           ) : (
             <Text color='whiteFade900' size='16px' weight={600}>
