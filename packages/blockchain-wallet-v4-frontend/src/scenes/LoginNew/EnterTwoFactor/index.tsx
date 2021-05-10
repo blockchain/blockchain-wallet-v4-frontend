@@ -44,6 +44,9 @@ const EnterTwoFactor = (props: InjectedFormProps<{}, Props> & Props) => {
   const twoFactorError =
     loginError && loginError.toLowerCase().includes('authentication code')
 
+  const accountLocked =
+    loginError && loginError.toLowerCase().includes('account is locked')
+
   const handleSmsResend = () => {
     props.authActions.resendSmsCode(guid)
   }
@@ -92,6 +95,11 @@ const EnterTwoFactor = (props: InjectedFormProps<{}, Props> & Props) => {
             )}
             {twoFactorError && (
               <FormError position={'absolute'}>{loginError}</FormError>
+            )}
+            {accountLocked && (
+              <FormError position={'absolute'}>
+                {loginError?.split('.')[0]}.
+              </FormError>
             )}
           </FormItem>
         </FormGroup>
