@@ -2,7 +2,6 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
@@ -31,7 +30,7 @@ const LinkRow = styled.div`
   align-items: center;
 `
 
-const VerificationMobile = (props: InjectedFormProps<{}, Props> & Props) => {
+const VerificationMobile = (props: Props) => {
   const { cacheActions, formActions, formValues, qrData, setStep } = props
 
   return (

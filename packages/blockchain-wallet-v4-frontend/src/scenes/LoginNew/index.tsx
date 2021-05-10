@@ -169,7 +169,6 @@ class Login extends PureComponent<InjectedFormProps & Props> {
                     {...this.props}
                     {...loginProps}
                     setStep={this.setStep}
-                    handleSubmit={this.handleSubmit}
                   />
                 )
 
@@ -179,7 +178,6 @@ class Login extends PureComponent<InjectedFormProps & Props> {
                     {...this.props}
                     {...loginProps}
                     setStep={this.setStep}
-                    handleSubmit={this.handleSubmit}
                   />
                 )
               default:

@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
@@ -15,7 +14,7 @@ const FormBody = styled.div`
   align-items: center;
 `
 
-const CheckEmail = (props: InjectedFormProps<{}, Props> & Props) => {
+const CheckEmail = (props: Props) => {
   const { cacheActions, formActions, formValues, setStep } = props
   return (
     <>
