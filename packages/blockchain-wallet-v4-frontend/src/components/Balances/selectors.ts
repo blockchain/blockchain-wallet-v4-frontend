@@ -162,6 +162,24 @@ export const getYfiBalance = createDeepEqualSelector(
   }
 )
 
+export const getErc20Balance = coin =>
+  createDeepEqualSelector(
+    [
+      getErc20NonCustodialBalance(coin),
+      selectors.components.simpleBuy.getSBBalances
+    ],
+    (balanceR, sbBalancesR: RemoteDataType<string, SBBalancesType>) => {
+      const sbCoinBalance = sbBalancesR.getOrElse({
+        [coin]: DEFAULT_SB_BALANCE
+      })[coin]
+      const sbBalance = sbCoinBalance ? sbCoinBalance.available : '0'
+
+      return Remote.of(
+        new BigNumber(balanceR.getOrElse(0)).plus(new BigNumber(sbBalance))
+      )
+    }
+  )
+
 export const getAaveBalance = createDeepEqualSelector(
   [
     getErc20NonCustodialBalance('AAVE'),
