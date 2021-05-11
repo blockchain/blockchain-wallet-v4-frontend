@@ -28,6 +28,7 @@ import {
 import QRCodeCapture from 'components/QRCode/Capture'
 import { CustodyToAccountMessage, Row } from 'components/Send'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
+import UnstoppableDomains from 'components/UnstoppableDomains'
 import { model } from 'data'
 import { required, validXlmAddress } from 'services/forms'
 
@@ -189,6 +190,7 @@ const FirstStep = props => {
               </Row>
             </FormItem>
           </FormGroup>
+          <UnstoppableDomains form={model.components.sendXlm.FORM} />
           <FormGroup>
             <CustodyToAccountMessage
               coin={'XLM'}

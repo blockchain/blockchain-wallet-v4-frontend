@@ -150,6 +150,15 @@ export default ({
           // @ts-ignore
           const splitValue = propOr(value, 'address', value).split(':')
           const address = head(splitValue)
+          if (includes('.', (address as unknown) as string)) {
+            yield put(
+              actions.components.send.fetchUnstoppableDomainResults(
+                (value as unknown) as string,
+                'XLM'
+              )
+            )
+            return
+          }
           payment = yield payment.to(address)
           // do not block payment update when to is changed w/ destinationAccount check
           yield put(A.paymentUpdatedSuccess(payment.value()))

@@ -206,6 +206,15 @@ export default ({
         case 'to':
           const toPayload = payload as SendEthFormToActionType['payload']
           const value = pathOr(toPayload, ['value', 'value'], toPayload)
+          if (includes('.', (value as unknown) as string)) {
+            yield put(
+              actions.components.send.fetchUnstoppableDomainResults(
+                (value as unknown) as string,
+                coin
+              )
+            )
+            return
+          }
           // @ts-ignore
           payment = yield payment.to(value)
           // Do not block payment update when to is changed w/ isContract check
