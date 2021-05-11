@@ -37,7 +37,6 @@ const ButtonRow = styled.div`
 class Login extends PureComponent<InjectedFormProps & Props> {
   componentDidMount() {
     this.props.authNewActions.initializeLogin()
-    // TODO: browser check
   }
 
   setStep = (step: LoginSteps) => {

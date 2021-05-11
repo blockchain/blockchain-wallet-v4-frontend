@@ -3,7 +3,7 @@ import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Field } from 'redux-form'
 
-import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { Banner, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import {
   FormError,
   FormGroup,
@@ -17,6 +17,8 @@ import { Props } from '..'
 import {
   ActionButton,
   BackArrowFormHeader,
+  BrowserWarning,
+  isSupportedBrowser,
   LinkRow,
   NeedHelpLink
 } from '../model'
@@ -49,6 +51,16 @@ const EnterPassword = (props: Props) => {
         setStep={setStep}
       />
       <FormGroup>
+        {!isSupportedBrowser && (
+          <BrowserWarning>
+            <Banner type='warning'>
+              <FormattedMessage
+                id='scenes.login.browserwarning'
+                defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.'
+              />
+            </Banner>
+          </BrowserWarning>
+        )}
         <FormItem>
           <FormLabel htmlFor='password'>
             <FormattedMessage
@@ -58,6 +70,7 @@ const EnterPassword = (props: Props) => {
           </FormLabel>
           <Field
             name='password'
+            disabled={!isSupportedBrowser}
             validate={[required]}
             component={PasswordBox}
             data-e2e='loginPassword'

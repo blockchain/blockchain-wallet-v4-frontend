@@ -2,13 +2,20 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
-import { HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
+import {
+  Banner,
+  HeartbeatLoader,
+  Icon,
+  Link,
+  Text
+} from 'blockchain-info-components'
 import { FormGroup, FormItem, TextBox } from 'components/Form'
 import { required, validWalletIdOrEmail } from 'services/forms'
 
 import { Props } from '..'
 import {
   ActionButton,
+  BrowserWarning,
   GuidError,
   HelpRow,
   IconTextRow,
@@ -29,6 +36,16 @@ const EnterEmailOrGuid = (props: Props) => {
   return (
     <>
       <FormGroup>
+        {!isSupportedBrowser && (
+          <BrowserWarning>
+            <Banner type='warning'>
+              <FormattedMessage
+                id='scenes.login.browserwarning'
+                defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.'
+              />
+            </Banner>
+          </BrowserWarning>
+        )}
         <FormItem>
           <LoginFormLabel htmlFor='guid'>
             <FormattedMessage
@@ -62,31 +79,6 @@ const EnterEmailOrGuid = (props: Props) => {
             </Text>
           </GuidError>
         )}
-        {/* {showGuidInvalidError && (
-  <LoginTextGroup inline>
-    <Text size='12px' color='grey800' weight={500}>
-      {isGuidEmailAddress ? (
-        <FormattedMessage
-          id='scenes.login.isguidemailerror'
-          defaultMessage='👋 Hey! Make sure this is your Wallet ID and not an email address. If you need a reminder'
-        />
-      ) : (
-        <FormattedMessage
-          id='scenes.login.isguidinvalid'
-          defaultMessage="👋 Hey! This format doesn't look quite right. Wallet ID's look like this: ef7549a5-94ad-39...If you need a reminder"
-        />
-      )}
-    </Text>
-    <LinkContainer to='/reminder'>
-      <Link size='12px' weight={600}>
-        <FormattedMessage
-          id='scenes.login.clickhere'
-          defaultMessage='click here.'
-        />
-      </Link>
-    </LinkContainer>
-  </LoginTextGroup>
-)} */}
       </FormGroup>
       <LinkRow>
         <ActionButton
@@ -97,7 +89,6 @@ const EnterEmailOrGuid = (props: Props) => {
           disabled={submitting || invalid || busy || !guidOrEmail}
           data-e2e='loginButton'
           style={{ marginBottom: '16px' }}
-          // TODO: change this to trigger call for email
         >
           {submitting ? (
             <HeartbeatLoader height='20px' width='20px' color='white' />

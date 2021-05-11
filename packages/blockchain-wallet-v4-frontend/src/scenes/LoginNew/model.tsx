@@ -33,6 +33,9 @@ export const isSupportedBrowser = browser.satisfies({
 export const ActionButton = styled(Button)`
   margin-top: 15px;
 `
+export const BrowserWarning = styled.div`
+  margin-bottom: 10px;
+`
 
 export const PublicWrapper = styled(Wrapper)`
   position: relative;
