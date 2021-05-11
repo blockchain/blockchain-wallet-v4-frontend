@@ -5,6 +5,7 @@ import airdropWelcome from './img/airdrop-welcome.png'
 import airdropWelcome2 from './img/airdrop-welcome@2x.png'
 import airdropWelcomeBanner from './img/airdrop-welcome-banner.png'
 import airdropWelcomeBanner2 from './img/airdrop-welcome-banner@2x.png'
+import alert from './img/alert.svg'
 import allowCamera from './img/allow-camera.png'
 import allowCamera2 from './img/allow-camera@2x.png'
 import allowCamera3 from './img/allow-camera@3x.png'
@@ -150,6 +151,7 @@ import yubikey from './img/yubikey.svg'
 
 const Images = {
   ...coins,
+  alert: alert,
   'bank-logo-acorns': bankLogoAcorns,
   'ad-bitcoin-games': adBitcoinGames,
   'ad-bitcoin-games2': adBitcoinGames2,

@@ -73,13 +73,6 @@ export default ({ api, socket }) => {
         param: { channelId: channelId }
       })
     )
-
-    // Also, if we already know a phone, let's ping it to give us it's secrets
-    const phonePubKey = yield select(selectors.cache.getPhonePubkey)
-    const guid = yield select(selectors.cache.getLastGuid)
-    if (phonePubKey && guid) {
-      yield pingPhone(channelId, secretHex, phonePubKey, guid)
-    }
   }
 
   const onAuth = function * () {
