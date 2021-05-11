@@ -1011,9 +1011,18 @@ export default ({
     }
   }
 
-  const handleSBSuggestedAmountClick = function * ({
+  const handleSBMaxAmountClick = function * ({
     payload
-  }: ReturnType<typeof A.handleSBSuggestedAmountClick>) {
+  }: ReturnType<typeof A.handleSBMaxAmountClick>) {
+    const { amount, coin } = payload
+    const standardAmt = convertBaseToStandard(coin, amount)
+
+    yield put(actions.form.change('simpleBuyCheckout', 'amount', standardAmt))
+  }
+
+  const handleSBMinAmountClick = function * ({
+    payload
+  }: ReturnType<typeof A.handleSBMinAmountClick>) {
     const { amount, coin } = payload
     const standardAmt = convertBaseToStandard(coin, amount)
 
@@ -1456,7 +1465,8 @@ export default ({
     fetchSellQuote,
     formChanged,
     handleSBDepositFiatClick,
-    handleSBSuggestedAmountClick,
+    handleSBMaxAmountClick,
+    handleSBMinAmountClick,
     handleSBMethodChange,
     initializeBillingAddress,
     initializeCheckout,
