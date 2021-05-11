@@ -37,6 +37,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
@@ -48,6 +49,7 @@ export type OwnProps = {
   setYapilyBankId: (string) => void
 }
 export type LinkDispatchPropsType = {
+  analyticsActions: typeof actions.analytics
   brokerageActions: typeof actions.components.brokerage
   simpleBuyActions: typeof actions.components.simpleBuy
 }

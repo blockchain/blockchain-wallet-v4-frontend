@@ -71,6 +71,11 @@ const LinkOptionsWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 `
+const LogoImage = styled.img`
+  margin-bottom: 32px;
+  max-height: 60px;
+`
+
 interface ScanWithPhoneType {
   readonly logo?: string
   readonly qrCode?: string
@@ -78,7 +83,7 @@ interface ScanWithPhoneType {
 const ScanWithPhone = ({ logo, qrCode }: ScanWithPhoneType) => {
   return (
     <Section>
-      {logo && <img width='32' src={logo} />}
+      {logo && <LogoImage src={logo} />}
       <Text weight={600} size='20px' color='grey900'>
         <FormattedMessage
           id='modals.brokerage.link_via_mobile'
@@ -136,7 +141,13 @@ const StyledButton = styled(Button)`
   margin: 20px 0 0;
   display: unset;
 `
-const LinkViaDesktop = ({ authUrl }: { authUrl?: string }) => {
+const LinkViaDesktop = ({
+  authUrl,
+  onClick = () => {}
+}: {
+  authUrl?: string
+  onClick?: () => void
+}) => {
   if (!authUrl) return null
   return (
     <Section>
@@ -151,6 +162,7 @@ const LinkViaDesktop = ({ authUrl }: { authUrl?: string }) => {
         nature='empty-blue'
         onClick={() => {
           window.open(authUrl, '_blank')
+          onClick() // additional callback from implementing component
         }}
       >
         <FormattedMessage

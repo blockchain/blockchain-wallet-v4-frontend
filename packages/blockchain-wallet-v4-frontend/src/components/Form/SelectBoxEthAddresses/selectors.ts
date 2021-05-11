@@ -48,21 +48,21 @@ export const getEthData = (
     }
     return wallet.label
   }
-  const buildCustodialDisplay = x => {
+  const buildCustodialDisplay = account => {
     return (
       `Trading Account` +
       ` (${Exchange.displayEtherToEther({
-        value: x ? x.available : 0,
+        value: account ? account.available : 0,
         fromUnit: 'WEI',
         toUnit: 'ETH'
       })})`
     )
   }
-  const buildInterestDisplay = (x: InterestAccountBalanceType['ETH']) => {
+  const buildInterestDisplay = (account: InterestAccountBalanceType['ETH']) => {
     return (
       `Interest Account` +
       ` (${Exchange.displayEtherToEther({
-        value: x ? x.balance : 0,
+        value: account ? account.balance : 0,
         fromUnit: 'WEI',
         toUnit: 'ETH'
       })})`
@@ -84,11 +84,11 @@ export const getEthData = (
     }
   ]
 
-  const toInterestDropdown = x => [
+  const toInterestDropdown = account => [
     {
-      label: buildInterestDisplay(x),
+      label: buildInterestDisplay(account),
       value: {
-        ...x,
+        ...account,
         type: ADDRESS_TYPES.INTEREST,
         label: 'Interest Account'
       }
@@ -221,22 +221,22 @@ export const getErc20Data = (
     }
     return {}
   }
-  const buildCustodialDisplay = (x, coin: Erc20CoinType) => {
+  const buildCustodialDisplay = (coin: Erc20CoinType, account) => {
     return (
       `Trading Account` +
       ` (${displayErc20Fixed({
-        value: x ? x.available : 0,
+        value: account ? account.available : 0,
         fromUnit: 'WEI',
         toUnit: coin
       })})`
     )
   }
 
-  const buildInterestDisplay = (coin: Erc20CoinType, x) => {
+  const buildInterestDisplay = (coin: Erc20CoinType, account) => {
     return (
       `Interest Account` +
       ` (${Exchange.displayEtherToEther({
-        value: x ? x.balance : 0,
+        value: account ? account.balance : 0,
         fromUnit: 'WEI',
         toUnit: coin
       })})`
@@ -244,7 +244,7 @@ export const getErc20Data = (
   }
 
   // @ts-ignore
-  const excluded = filter(x => !exclude.includes(x.label))
+  const excluded = filter(account => !exclude.includes(account.label))
   const buildDisplay = wallet => {
     let erc20BalanceDisplay = displayErc20Fixed({
       value: wallet.balance,
@@ -264,22 +264,22 @@ export const getErc20Data = (
       value: x
     }
   ]
-  const toCustodialDropdown = currencyDetails => [
+  const toCustodialDropdown = account => [
     {
-      label: buildCustodialDisplay(currencyDetails, coin),
+      label: buildCustodialDisplay(coin, account),
       value: {
-        ...currencyDetails,
+        ...account,
         type: ADDRESS_TYPES.CUSTODIAL,
         label: `Trading Account`
       }
     }
   ]
 
-  const toInterestDropdown = x => [
+  const toInterestDropdown = account => [
     {
-      label: buildInterestDisplay(x, coin),
+      label: buildInterestDisplay(coin, account),
       value: {
-        ...x,
+        ...account,
         type: ADDRESS_TYPES.INTEREST,
         label: `Interest Account`
       }
@@ -329,10 +329,10 @@ export const getErc20Data = (
             .map(toInterestDropdown)
             .map(toGroup('Interest Account'))
         : Remote.of([])
-    ]).map(([b1, b2, b3, b4]) => {
+    ]).map(([b1, b2, b3, b4, b5]) => {
       const orderArray = forceCustodialFirst
-        ? [b2, b1, b3, b4]
-        : [b1, b2, b3, b4]
+        ? [b2, b1, b3, b4, b5]
+        : [b1, b2, b3, b4, b5]
       // @ts-ignore
       const data = reduce(concat, [], orderArray)
       return { data }

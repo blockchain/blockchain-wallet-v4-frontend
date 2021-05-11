@@ -8,6 +8,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { getBaseAmount, getBaseCurrency } from 'data/components/simpleBuy/model'
 
 import { Props as OwnProps, SuccessStateType } from '.'
+import { CloseContainer } from './styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,11 +36,6 @@ const Content = styled.div`
   flex-direction: column;
   min-height: 250px;
   width: 100%;
-`
-const CloseContainer = styled.div`
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
 `
 const IconBackground = styled.div<{ color: string }>`
   display: flex;

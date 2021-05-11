@@ -32,6 +32,48 @@ export const AB_TEST_EVENTS = {
   EMAIL_VERIFIED: ['email_ab_test', 'email_verified']
 }
 
+export const FIAT_DEPOSIT_EVENTS = {
+  LINK_BANK_TRANSFER: ['deposit', 'click', 'bank_account_button'],
+  LINK_WIRE_TRANSFER: ['deposit', 'click', 'wire_transfer_button'],
+  SELECT_DEPOSIT_METHOD: ['deposit', 'click', 'select_deposit_method_button'],
+  SELECT_BANK_OPTION: ['deposit', 'click', 'bank_option_item'],
+  DEPOSIT_CONTINUE: ['deposit', 'click', 'continue_button'],
+  DEPOSIT_CONFIRM: ['deposit', 'click', 'confirm_button'],
+  DEPOSIT_CANCEL: ['deposit', 'click', 'cancel_button'],
+  SELECT_YAPILY_INSTITUTION: ['deposit', 'click', 'yapily_bank_institution'],
+  ACCEPT_YAPILY_AIS_AGREEMENT: [
+    'deposit',
+    'click',
+    'yapily_agreement_accept_button'
+  ],
+  DECLINE_YAPILY_AIS_AGREEMENT: [
+    'deposit',
+    'click',
+    'yapily_agreement_decline_button'
+  ],
+  YAPILY_CONT_IN_BROWSER: [
+    'deposit',
+    'click',
+    'yapily_ais_continue_in_browser'
+  ],
+  ACCEPT_YAPILY_PIS_AGREEMENT: [
+    'deposit',
+    'click',
+    'yapily_pis_agreement_accept'
+  ],
+  DECLINE_YAPILY_PIS_AGREEMENT: [
+    'deposit',
+    'click',
+    'yapily_pis_agreement_decline'
+  ],
+  YAPILY_CONT_IN_BROWSER_PIS: [
+    'deposit',
+    'click',
+    'yapily_pis_continue_in_browser'
+  ],
+  YODLEE_ADD_BANK_CONT: ['deposit', 'click', 'yodlee_add_bank_continue']
+}
+
 export const PREFERENCE_EVENTS = {
   GENERAL: {
     ENABLE_BTC_LINKS: 'enable_btc_links'
@@ -124,4 +166,9 @@ export const INTEREST_EVENTS = {
     REQUEST_SUCCESS: ['interest', 'withdrawal', 'request_success'],
     REQUEST_FAILURE: ['interest', 'withdrawal', 'request_failure']
   }
+}
+
+export const MOBILE_LOGIN = {
+  LEGACY: ['mobile_login', 'login_via_mobile', 'scanned'],
+  MOBILE_LOGIN: ['mobile_login', 'qr_code', 'scanned']
 }

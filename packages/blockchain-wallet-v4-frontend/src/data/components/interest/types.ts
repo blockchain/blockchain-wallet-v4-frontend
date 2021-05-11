@@ -56,6 +56,10 @@ export type InterestStepMetadata = {
 
 export type InterestStep = keyof typeof InterestSteps
 
+export type InterestTransactionsReportType = Array<Array<string>>
+
+export type InterestHistoryCoinFormType = { coin: CoinType | 'ALL' }
+
 //
 // State
 //
@@ -80,6 +84,7 @@ export interface InterestState {
   }
   transactions: Array<InterestTransactionType>
   transactionsNextPage: string | null
+  transactionsReport: RemoteDataType<string, Array<InterestTransactionType>>
   withdrawalMinimums: RemoteDataType<string, WithdrawalMinimumType>
 }
 
@@ -178,6 +183,22 @@ interface FetchInterestRateSuccess {
 }
 
 // TRANSACTIONS
+interface ClearInterestTransactionsReport {
+  type: typeof AT.CLEAR_INTEREST_TRANSACTIONS_REPORT
+}
+interface FetchInterestTransactionsReportFailure {
+  payload: { error: string }
+  type: typeof AT.FETCH_INTEREST_TRANSACTIONS_REPORT_FAILURE
+}
+interface FetchInterestTransactionsReportLoading {
+  type: typeof AT.FETCH_INTEREST_TRANSACTIONS_REPORT_LOADING
+}
+interface FetchInterestTransactionsReportSuccess {
+  payload: {
+    transactions: Array<InterestTransactionType>
+  }
+  type: typeof AT.FETCH_INTEREST_TRANSACTIONS_REPORT_SUCCESS
+}
 interface FetchInterestTransactionsFailure {
   payload: { error: string }
   type: typeof AT.FETCH_INTEREST_TRANSACTIONS_FAILURE
@@ -302,6 +323,7 @@ interface FetchInterestEDDStatusSuccess {
 }
 
 export type InterestActionTypes =
+  | ClearInterestTransactionsReport
   | FetchInterestAfterTransactionFailure
   | FetchInterestAfterTransactionLoading
   | FetchInterestAfterTransactionSuccess
@@ -321,6 +343,9 @@ export type InterestActionTypes =
   | fetchInterestAccountFailure
   | fetchInterestAccountLoading
   | fetchInterestAccountSuccess
+  | FetchInterestTransactionsReportFailure
+  | FetchInterestTransactionsReportLoading
+  | FetchInterestTransactionsReportSuccess
   | FetchInterestRateFailure
   | FetchInterestRateLoading
   | FetchInterestRateSuccess

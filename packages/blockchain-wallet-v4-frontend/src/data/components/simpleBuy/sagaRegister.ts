@@ -30,6 +30,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.CANCEL_ORDER, simpleBuySagas.cancelSBOrder)
     yield takeLatest(AT.CREATE_ORDER, simpleBuySagas.createSBOrder)
     yield takeLatest(AT.CONFIRM_FUNDS_ORDER, simpleBuySagas.confirmSBFundsOrder)
+    yield takeLatest(AT.CONFIRM_ORDER_POLL, simpleBuySagas.confirmOrderPoll)
     yield takeLatest(
       AT.CONFIRM_CREDIT_CARD_ORDER,
       simpleBuySagas.confirmSBOrder
@@ -65,8 +66,12 @@ export default ({ api, coreSagas, networks }) => {
       simpleBuySagas.handleSBMethodChange
     )
     yield takeLatest(
-      AT.HANDLE_SB_SUGGESTED_AMOUNT_CLICK,
-      simpleBuySagas.handleSBSuggestedAmountClick
+      AT.HANDLE_SB_MAX_AMOUNT_CLICK,
+      simpleBuySagas.handleSBMaxAmountClick
+    )
+    yield takeLatest(
+      AT.HANDLE_SB_MIN_AMOUNT_CLICK,
+      simpleBuySagas.handleSBMinAmountClick
     )
     yield takeLatest(
       AT.INITIALIZE_BILLING_ADDRESS,

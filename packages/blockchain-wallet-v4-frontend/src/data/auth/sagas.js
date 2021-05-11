@@ -3,7 +3,7 @@ import { call, delay, fork, put, race, select, take } from 'redux-saga/effects'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { DEFAULT_INVITATIONS } from 'blockchain-wallet-v4/src/model'
-import { actions, actionTypes, selectors } from 'data'
+import { actions, actionTypes, model, selectors } from 'data'
 import * as C from 'services/alerts'
 import { checkForVulnerableAddressError } from 'services/misc'
 import {
@@ -13,6 +13,8 @@ import {
 } from 'services/sagas'
 
 import { guessCurrencyBasedOnCountry } from './helpers'
+
+const { MOBILE_LOGIN } = model.analytics
 
 export const logLocation = 'auth/sagas'
 export const defaultLoginErrorMessage = 'Error logging into your wallet'
@@ -78,7 +80,10 @@ export default ({ api, coreSagas }) => {
   }
 
   const saveGoals = function * (firstLogin) {
-    yield put(actions.goals.saveGoal('welcomeModal', { firstLogin }))
+    // only for non first login users we save goal here for first login users we do that over verify email page
+    if (!firstLogin) {
+      yield put(actions.goals.saveGoal('welcomeModal'))
+    }
     yield put(actions.goals.saveGoal('swapUpgrade'))
     yield put(actions.goals.saveGoal('swapGetStarted'))
     yield put(actions.goals.saveGoal('kycDocResubmit'))
@@ -400,6 +405,7 @@ export default ({ api, coreSagas }) => {
   const mobileLogin = function * (action) {
     try {
       yield put(actions.auth.mobileLoginStarted())
+      yield put(actions.analytics.logEvent(MOBILE_LOGIN.LEGACY))
       const { guid, password, sharedKey } = yield call(
         coreSagas.settings.decodePairingCode,
         action.payload
@@ -584,15 +590,24 @@ export default ({ api, coreSagas }) => {
     const isEmailVerified = (yield select(
       selectors.core.settings.getEmailVerified
     )).getOrElse(0)
-    yield put(actions.modules.profile.clearSession())
-    yield put(actions.middleware.webSocket.rates.stopSocket())
-    yield put(actions.middleware.webSocket.coins.stopSocket())
-    yield put(actions.middleware.webSocket.xlm.stopStreams())
-    // only show browser de-auth page to accounts with verified email
-    isEmailVerified
-      ? yield put(actions.router.push('/logout'))
-      : yield logoutClearReduxStore()
-    yield put(actions.analytics.stopSession())
+    try {
+      yield put(actions.cache.disconnectChannelPhone())
+      yield put(actions.modules.profile.clearSession())
+      yield put(actions.middleware.webSocket.rates.stopSocket())
+      yield put(actions.middleware.webSocket.coins.stopSocket())
+      yield put(actions.middleware.webSocket.xlm.stopStreams())
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'logout', e))
+    } finally {
+      // only show browser de-auth page to accounts with verified email
+      // delay allows for all actions to run and complete
+      // before clearing redux store
+      yield delay(100)
+      isEmailVerified
+        ? yield put(actions.router.push('/logout'))
+        : yield call(logoutClearReduxStore)
+      yield put(actions.analytics.stopSession())
+    }
   }
 
   const deauthorizeBrowser = function * () {

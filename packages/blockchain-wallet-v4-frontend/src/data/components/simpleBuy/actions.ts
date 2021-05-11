@@ -93,6 +93,11 @@ export const createSBOrder = (
   paymentType
 })
 
+export const confirmOrderPoll = (order: SBOrderType) => ({
+  type: AT.CONFIRM_ORDER_POLL,
+  payload: { order }
+})
+
 export const confirmSBOrder = (
   paymentMethodId: SBCardType['id'],
   order: SBOrderType
@@ -459,11 +464,22 @@ export const handleSBDepositFiatClick = (
   }
 })
 
-export const handleSBSuggestedAmountClick = (
+export const handleSBMaxAmountClick = (
   amount: string,
   coin: 'FIAT' | CoinType
 ) => ({
-  type: AT.HANDLE_SB_SUGGESTED_AMOUNT_CLICK,
+  type: AT.HANDLE_SB_MAX_AMOUNT_CLICK,
+  payload: {
+    amount,
+    coin
+  }
+})
+
+export const handleSBMinAmountClick = (
+  amount: string,
+  coin: 'FIAT' | CoinType
+) => ({
+  type: AT.HANDLE_SB_MIN_AMOUNT_CLICK,
   payload: {
     amount,
     coin

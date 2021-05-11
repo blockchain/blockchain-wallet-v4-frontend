@@ -20,9 +20,7 @@ const BoxStyled = styled(Box)`
   width: 275px;
   margin-bottom: 24px;
 `
-const BoxStyledAdditional = styled(BoxStyled)`
-  display: flex;
-`
+
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -46,63 +44,6 @@ const IneligibleBanner = styled.div`
 class IntroCard extends PureComponent<
   ParentStateType & Props & SuccessStateType
 > {
-  renderAdditionalInfo = () => {
-    const { analyticsActions } = this.props
-    return (
-      <BoxStyledAdditional>
-        <ContentWrapper>
-          <IconWrapper>
-            <Icon color='blue600' name='percentage' size='32px' />
-          </IconWrapper>
-          <Text
-            size='20px'
-            color='grey800'
-            weight={600}
-            style={{ marginTop: '16px' }}
-          >
-            <FormattedMessage
-              id='scenes.interest.additional_info_required'
-              defaultMessage='Additional Info Required'
-            />
-          </Text>
-          <Text
-            size='14px'
-            color='grey600'
-            weight={500}
-            style={{ marginTop: '4px', lineHeight: 1.5 }}
-          >
-            <FormattedMessage
-              id='scenes.interest.additional_info_required_description'
-              defaultMessage='Please supply the additional information required to avoid delays on withdrawals.'
-            />
-          </Text>
-          <Link
-            href='https://share.hsforms.com/1DS4i94fURdutr8OXYOxfrg2qt44'
-            style={{ width: '100%' }}
-            target='_blank'
-          >
-            <Button
-              data-e2e='earnInterestSupplyInformation'
-              fullwidth
-              nature='light'
-              onClick={() =>
-                analyticsActions.logEvent(
-                  INTEREST_EVENTS.HOME.CLICK_SUPPORT_ARTICLE
-                )
-              }
-              style={{ marginTop: '45px' }}
-            >
-              <FormattedMessage
-                id='scenes.interest.supply_information'
-                defaultMessage='Supply Information'
-              />
-            </Button>
-          </Link>
-        </ContentWrapper>
-      </BoxStyledAdditional>
-    )
-  }
-
   render() {
     const {
       analyticsActions,
@@ -138,7 +79,6 @@ class IntroCard extends PureComponent<
 
     return (
       <>
-        {this.renderAdditionalInfo()}
         {showInterestInfoBox && (
           <BoxStyled>
             {isGoldTier ? (

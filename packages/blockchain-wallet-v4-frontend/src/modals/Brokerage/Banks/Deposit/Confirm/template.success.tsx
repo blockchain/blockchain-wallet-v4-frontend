@@ -7,9 +7,12 @@ import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
-import { BankDWStepType } from 'data/types'
+import { model } from 'data'
+import { BankDWStepType, BankPartners } from 'data/types'
 
 import { FormattedBank, LineItemText } from './model'
+
+const { DEPOSIT_CANCEL, DEPOSIT_CONFIRM } = model.analytics.FIAT_DEPOSIT_EVENTS
 
 const Wrapper = styled.div`
   height: 100%;
@@ -42,6 +45,8 @@ const ActionsRow = styled(BareRow)`
 
 const Success = props => {
   const [submitting, setSubmitting] = useState<boolean>(false)
+
+  const isOpenBanking = props.defaultMethod?.partner === BankPartners.YAPILY
 
   return (
     <Wrapper>
@@ -92,19 +97,21 @@ const Success = props => {
             />
           </LineItemText>
         </Row>
-        <Row>
-          <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
-            <FormattedMessage
-              id='modals.brokerage.funds_will_arrive'
-              defaultMessage='Funds Will Arrive'
-            />
-          </Text>
-          <LineItemText>
-            {moment()
-              .add(3, 'days')
-              .format('dddd, MMM Do, YYYY')}
-          </LineItemText>
-        </Row>
+        {!isOpenBanking && (
+          <Row>
+            <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
+              <FormattedMessage
+                id='modals.brokerage.funds_will_arrive'
+                defaultMessage='Funds Will Arrive'
+              />
+            </Text>
+            <LineItemText>
+              {moment()
+                .add(3, 'days')
+                .format('dddd, MMM Do, YYYY')}
+            </LineItemText>
+          </Row>
+        )}
         <Row>
           <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
             <FormattedMessage id='copy.total' defaultMessage='Total' />
@@ -128,6 +135,7 @@ const Success = props => {
           onClick={() => {
             setSubmitting(true)
             props.brokerageActions.createFiatDeposit()
+            props.analyticsActions.logEvent(DEPOSIT_CONFIRM)
           }}
           fullwidth
           disabled={submitting}
@@ -154,7 +162,10 @@ const Success = props => {
           size='16px'
           height='48px'
           nature='light-red'
-          onClick={props.handleClose}
+          onClick={() => {
+            props.handleClose()
+            props.analyticsActions.logEvent(DEPOSIT_CANCEL)
+          }}
           fullwidth
           style={{ marginTop: '16px' }}
         >

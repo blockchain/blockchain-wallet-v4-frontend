@@ -242,6 +242,7 @@ const Success: React.FC<InjectedFormProps<
             component={AmountTextBox}
             normalize={normalizeAmount}
             validate={[minimumAmount, maximumAmount]}
+            maxFontSize='56px'
             placeholder='0'
             {...{
               autoFocus: true,

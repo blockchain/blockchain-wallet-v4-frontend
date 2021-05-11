@@ -17,6 +17,7 @@ class VerifyEmailContainer extends React.PureComponent<Props, {}> {
       nextProps.routerActions.push('/home')
       nextProps.analyticsActions.logEvent(EMAIL_VERIFIED)
       // for first time login users we need to run goal since this is a first page we show them
+      nextProps.saveGoal('welcomeModal', { firstLogin: true })
       nextProps.runGoals()
     }
     return null
@@ -32,6 +33,7 @@ class VerifyEmailContainer extends React.PureComponent<Props, {}> {
     this.props.analyticsActions.logEvent(DISMISS_VERIFICATION)
     this.props.routerActions.push('/home')
     // for first time login users we need to run goal since this is a first page we show them
+    this.props.saveGoal('welcomeModal', { firstLogin: true })
     this.props.runGoals()
   }
 
@@ -63,7 +65,8 @@ const mapDispatchToProps = dispatch => ({
   routerActions: bindActionCreators(actions.router, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch),
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  runGoals: () => dispatch(actions.goals.runGoals())
+  runGoals: () => dispatch(actions.goals.runGoals()),
+  saveGoal: (name, data) => dispatch(actions.goals.saveGoal(name, data))
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

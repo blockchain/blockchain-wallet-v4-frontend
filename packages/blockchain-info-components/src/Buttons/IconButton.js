@@ -26,6 +26,8 @@ const selectColor = (nature, disabled) => {
     case 'logout':
     case 'dark':
       return 'white'
+    case 'success':
+      return 'success'
     case 'light':
     case 'white-transparent':
     case 'white-blue':

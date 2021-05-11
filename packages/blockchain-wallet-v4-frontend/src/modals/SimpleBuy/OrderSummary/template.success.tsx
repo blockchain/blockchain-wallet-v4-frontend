@@ -13,6 +13,7 @@ import {
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import InterestBanner from './InterestBanner'
+import { CloseContainer } from './styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -98,6 +99,19 @@ const Success: React.FC<Props> = props => {
 
   return (
     <Wrapper>
+      <FlyoutWrapper>
+        <CloseContainer>
+          <Icon
+            cursor
+            data-e2e='sbCloseModalIcon'
+            name='close'
+            size='20px'
+            color='grey600'
+            role='button'
+            onClick={props.handleClose}
+          />
+        </CloseContainer>
+      </FlyoutWrapper>
       <ContentWrapper>
         <Content>
           <IconWrapper>
@@ -181,14 +195,14 @@ const Success: React.FC<Props> = props => {
               {props.order.state === 'FAILED' && (
                 <>
                   <FormattedMessage
-                    id='copy.bank_linked_error'
-                    defaultMessage='Please try linking your bank again. If this keeps happening, please'
+                    id='modals.simplebuy.rejected.bank_failed'
+                    defaultMessage='Please try making your purchase again. If this keeps happening, please'
                   />{' '}
                   <Link
                     size='14px'
                     weight={500}
                     target='_blank'
-                    href='https://support.blockchain.com/hc/en-us/'
+                    href='https://support.blockchain.com/hc/en-us/sections/360007997071-Buy-Crypto'
                   >
                     <FormattedMessage
                       id='buttons.contact_support'
@@ -234,6 +248,23 @@ const Success: React.FC<Props> = props => {
               </Button>
             </Bottom>
           )}
+
+          {orderType === 'BUY' &&
+            props.order.paymentType === 'BANK_TRANSFER' &&
+            props.order.state !== 'FAILED' && (
+              <Bottom>
+                <Button
+                  data-e2e='sbDone'
+                  size='16px'
+                  height='48px'
+                  nature='primary'
+                  onClick={props.handleClose}
+                  style={{ marginBottom: '16px' }}
+                >
+                  <FormattedMessage id='buttons.ok' defaultMessage='OK' />
+                </Button>
+              </Bottom>
+            )}
 
           {orderType === 'BUY' &&
             (props.order.paymentType === 'PAYMENT_CARD' ||
