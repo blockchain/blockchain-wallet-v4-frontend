@@ -6,7 +6,10 @@ import {
   SupportedCoinType
 } from 'blockchain-wallet-v4/src/types'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
-import { getAllCoinsBalancesSelector } from 'components/Balances/selectors'
+import {
+  getAllCoinsBalancesSelector,
+  getErc20Balance
+} from 'components/Balances/selectors'
 import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
@@ -14,9 +17,10 @@ export const getData = createDeepEqualSelector(
     selectors.prices.getAllCoinPrices,
     selectors.prices.getAllCoinPricesPreviousDay,
     selectors.core.walletOptions.getSupportedCoins,
-    getAllCoinsBalancesSelector
+    getAllCoinsBalancesSelector,
+    state => state
   ],
-  (coinPricesR, coinPricesPreviousR, supportedCoinsR, coinBalances) => {
+  (coinPricesR, coinPricesPreviousR, supportedCoinsR, coinBalances, state) => {
     const transform = (
       coinPrices: ExtractSuccess<typeof coinPricesR>,
       coinPricesPrevious: ExtractSuccess<typeof coinPricesPreviousR>,
@@ -39,7 +43,9 @@ export const getData = createDeepEqualSelector(
                 priceChange: Number(
                   ((currentPrice - yesterdayPrice) / yesterdayPrice) * 100
                 ).toPrecision(2),
-                balance: coinBalances[coin.coinCode]
+                balance:
+                  coinBalances[coin.coinCode] ||
+                  getErc20Balance(coin.coinCode)(state).getOrElse(0)
               }
             )
           }, supportedCoins)

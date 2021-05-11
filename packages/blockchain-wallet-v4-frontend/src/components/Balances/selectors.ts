@@ -3,8 +3,8 @@ import { add, curry, flatten, lift, pathOr, reduce } from 'ramda'
 
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import {
+  CoinType,
   ExtractSuccess,
   InterestAccountBalanceType,
   RemoteDataType,
@@ -162,7 +162,7 @@ export const getYfiBalance = createDeepEqualSelector(
   }
 )
 
-export const getErc20Balance = coin =>
+export const getErc20Balance = (coin: CoinType) =>
   createDeepEqualSelector(
     [
       getErc20NonCustodialBalance(coin),
@@ -596,8 +596,6 @@ export const getTotalBalance = createDeepEqualSelector(
 
 export const getBalanceSelector = (coin: WalletCurrencyType) => {
   switch (coin) {
-    case 'AAVE':
-      return getAaveBalance
     case 'ALGO':
       return getAlgoBalance
     case 'BCH':
@@ -608,30 +606,20 @@ export const getBalanceSelector = (coin: WalletCurrencyType) => {
       return getDotBalance
     case 'ETH':
       return getEthBalance
+    case 'XLM':
+      return getXlmBalance
     case 'EUR':
     case 'GBP':
     case 'USD':
       return getFiatBalance(coin)
-    case 'PAX':
-      return getPaxBalance
-    case 'XLM':
-      return getXlmBalance
-    case 'USDT':
-      return getUsdtBalance
-    case 'WDGLD':
-      return getWdgldBalance
-    case 'YFI':
-      return getYfiBalance
+    // TODO: FIX erc20 is default
     default:
-      return Remote.Failure(INVALID_COIN_TYPE)
+      return getErc20Balance(coin)
   }
 }
 
 export const getAllCoinsBalancesSelector = state => {
   return {
-    AAVE: getAaveBalance(state)
-      .getOrElse(new BigNumber(0))
-      .valueOf(),
     ALGO: getAlgoBalance(state)
       .getOrElse(new BigNumber(0))
       .valueOf(),
@@ -643,19 +631,7 @@ export const getAllCoinsBalancesSelector = state => {
     ETH: getEthBalance(state)
       .getOrElse(new BigNumber(0))
       .valueOf(),
-    PAX: getPaxBalance(state)
-      .getOrElse(new BigNumber(0))
-      .valueOf(),
     XLM: getXlmBalance(state)
-      .getOrElse(new BigNumber(0))
-      .valueOf(),
-    USDT: getUsdtBalance(state)
-      .getOrElse(new BigNumber(0))
-      .valueOf(),
-    WDGLD: getWdgldBalance(state)
-      .getOrElse(new BigNumber(0))
-      .valueOf(),
-    YFI: getYfiBalance(state)
       .getOrElse(new BigNumber(0))
       .valueOf()
   }

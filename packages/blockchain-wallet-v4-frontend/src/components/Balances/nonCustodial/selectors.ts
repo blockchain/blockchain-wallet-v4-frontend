@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js'
 import { add, lift, pathOr, reduce } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { CoinType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { selectors } from 'data'
@@ -87,13 +86,8 @@ export const getBalanceSelector = (coin: CoinType) => {
       return getEthBalance
     case 'XLM':
       return getXlmBalance
-    case 'AAVE':
-    case 'PAX':
-    case 'USDT':
-    case 'WDGLD':
-    case 'YFI':
-      return getErc20Balance(coin)
+    // TODO: FIX erc20 is default
     default:
-      return Remote.Failure(INVALID_COIN_TYPE)
+      return getErc20Balance(coin)
   }
 }

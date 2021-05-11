@@ -34,14 +34,6 @@ export const getData = (state, ownProps: OwnProps) => {
   // } as CoinAccountSelectorType)[coin as CoinType]
 
   switch (coin) {
-    case 'AAVE':
-      addressDataR = getErc20AddressData(state, {
-        coin: 'AAVE',
-        includeCustodial: true,
-        includeInterest: true
-      })
-      balanceDataR = balanceSelectors.getAaveBalance(state)
-      break
     case 'BTC':
       addressDataR = getBtcAddressData(state, {
         excludeLockbox: true,
@@ -68,29 +60,6 @@ export const getData = (state, ownProps: OwnProps) => {
       })
       balanceDataR = balanceSelectors.getEthBalance(state)
       break
-    case 'PAX':
-      addressDataR = getErc20AddressData(state, {
-        coin: 'PAX',
-        includeCustodial: true,
-        includeInterest: true
-      })
-      balanceDataR = balanceSelectors.getPaxBalance(state)
-      break
-    case 'USDT':
-      addressDataR = getErc20AddressData(state, {
-        coin: 'USDT',
-        includeCustodial: true,
-        includeInterest: true
-      })
-      balanceDataR = balanceSelectors.getUsdtBalance(state)
-      break
-    case 'WDGLD':
-      addressDataR = getErc20AddressData(state, {
-        coin: 'WDGLD',
-        includeCustodial: true
-      })
-      balanceDataR = balanceSelectors.getWdgldBalance(state)
-      break
     case 'XLM':
       addressDataR = getXlmAddressData(state, {
         excludeLockbox: true,
@@ -98,14 +67,6 @@ export const getData = (state, ownProps: OwnProps) => {
         includeInterest: true
       })
       balanceDataR = balanceSelectors.getXlmBalance(state)
-      break
-    case 'YFI':
-      addressDataR = getErc20AddressData(state, {
-        coin: 'YFI',
-        includeCustodial: true,
-        includeInterest: true
-      })
-      balanceDataR = balanceSelectors.getYfiBalance(state)
       break
     case 'ALGO':
       addressDataR = getAlgoAddressData(state, {
@@ -125,9 +86,14 @@ export const getData = (state, ownProps: OwnProps) => {
       addressDataR = Remote.Success({ data: [] })
       balanceDataR = balanceSelectors.getFiatBalance(coin, state)
       break
+    // TODO: FIX erc20 is default
     default:
-      addressDataR = Remote.Success({ data: [] })
-      balanceDataR = Remote.Success(0)
+      addressDataR = getErc20AddressData(state, {
+        coin,
+        includeCustodial: true,
+        includeInterest: true
+      })
+      balanceDataR = balanceSelectors.getErc20Balance(coin)(state)
   }
   const currencyR = selectors.core.settings.getCurrency(state)
   const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
