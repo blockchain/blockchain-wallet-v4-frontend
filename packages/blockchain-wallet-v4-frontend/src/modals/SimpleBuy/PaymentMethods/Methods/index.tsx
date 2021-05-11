@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 import { Icon, Image, Text } from 'blockchain-info-components'
 import {
+  OrderType,
   SBPaymentMethodType,
   SupportedFiatType,
   WalletCurrencyType,
@@ -147,7 +148,7 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   render() {
     const { fiatCurrency, orderType } = this.props
     const availableCards = this.props.cards.filter(
-      card => card.state === 'ACTIVE' && orderType === 'BUY'
+      card => card.state === 'ACTIVE' && orderType === OrderType.BUY
     )
 
     const defaultMethods = this.props.paymentMethods.methods.map(value => ({
@@ -156,14 +157,14 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     }))
 
     const defaultCardMethod = this.props.paymentMethods.methods.find(
-      m => m.type === 'PAYMENT_CARD' && orderType === 'BUY'
+      m => m.type === 'PAYMENT_CARD' && orderType === OrderType.BUY
     )
 
     const funds = defaultMethods.filter(
       method =>
         method.value.type === 'FUNDS' &&
         method.value.currency in WalletFiatEnum &&
-        (orderType === 'SELL' ||
+        (orderType === OrderType.SELL ||
           Number(
             this.props.balances[method.value.currency as WalletCurrencyType]
               ?.available
@@ -171,13 +172,16 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     )
 
     const paymentCard = defaultMethods.find(
-      method => method.value.type === 'PAYMENT_CARD' && orderType === 'BUY'
+      method =>
+        method.value.type === 'PAYMENT_CARD' && orderType === OrderType.BUY
     )
     const bankAccount = defaultMethods.find(
-      method => method.value.type === 'BANK_ACCOUNT' && orderType === 'BUY'
+      method =>
+        method.value.type === 'BANK_ACCOUNT' && orderType === OrderType.BUY
     )
     const bankTransfer = defaultMethods.find(
-      method => method.value.type === 'BANK_TRANSFER' && orderType === 'BUY'
+      method =>
+        method.value.type === 'BANK_TRANSFER' && orderType === OrderType.BUY
     )
 
     const cardMethods = availableCards.map(card => ({

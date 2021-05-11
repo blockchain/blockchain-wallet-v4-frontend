@@ -4,7 +4,7 @@ import { createSelector } from 'reselect'
 import { TXNotes, Wallet } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
-import { formatTxData, reportHeaders } from './model'
+import { formatHaskoinData, formatTxData, reportHeaders } from './model'
 
 export const getData = (state, coin) => {
   switch (coin) {
@@ -91,11 +91,16 @@ const getEthData = createSelector(
 const getBtcData = createSelector(
   [
     selectors.core.wallet.getWallet,
+    selectors.core.settings.getCurrency,
     selectors.core.data.btc.getTransactionHistory
   ],
-  (wallet, dataR) => {
+  (wallet, currencyR, dataR) => {
+    const currency = currencyR.getOrElse('USD')
     const transform = data => {
-      const transformedData = map(tx => formatTxData(tx, 'BTC'), data)
+      const transformedData = map(
+        tx => formatHaskoinData(tx, 'BTC', currency),
+        data
+      )
       return [reportHeaders].concat(transformedData)
     }
     return {
@@ -110,11 +115,16 @@ const getBtcData = createSelector(
 const getBchData = createSelector(
   [
     selectors.core.kvStore.bch.getBchTxNotes,
+    selectors.core.settings.getCurrency,
     selectors.core.data.bch.getTransactionHistory
   ],
-  (notesR, dataR) => {
+  (notesR, currencyR, dataR) => {
+    const currency = currencyR.getOrElse('USD')
     const transform = data => {
-      const transformedData = map(tx => formatTxData(tx, 'BCH'), data)
+      const transformedData = map(
+        tx => formatHaskoinData(tx, 'BCH', currency),
+        data
+      )
       return [reportHeaders].concat(transformedData)
     }
     return {

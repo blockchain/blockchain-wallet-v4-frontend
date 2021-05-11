@@ -1,5 +1,5 @@
 import BitcoinCash from 'bitcoinforksjs-lib'
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import { map } from 'ramda'
 
 import { utils } from 'blockchain-wallet-v4/src'
@@ -29,7 +29,7 @@ export const getData = createDeepEqualSelector(
     const coinAvailabilities = coinAvailabilitiesR.getOrFail(
       'No available coins.'
     )
-    const btcNetwork = btcNetworkR.getOrElse('bitcoin')
+    const btcNetwork = btcNetworkR.getOrElse('bitcoin') as string
     const prunedAccounts = [] as Array<SwapAccountType>
 
     // @ts-ignore
@@ -46,10 +46,15 @@ export const getData = createDeepEqualSelector(
           ) {
             // if HD account type and coin is BTC, derive next address
             if (acct.type === ADDRESS_TYPES.ACCOUNT && acct.coin === 'BTC') {
+              const defaultDerivation = selectors.core.common.btc.getAccountDefaultDerivation(
+                acct.accountIndex,
+                state
+              )
               acct.nextReceiveAddress = selectors.core.common.btc
                 .getNextAvailableReceiveAddress(
                   Bitcoin.networks[btcNetwork],
                   acct.accountIndex,
+                  defaultDerivation,
                   state
                 )
                 .getOrFail()

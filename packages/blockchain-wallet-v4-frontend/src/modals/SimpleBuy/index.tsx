@@ -16,9 +16,10 @@ import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
-import { BankStatusType, FastLinkType, SimpleBuyStepType } from 'data/types'
+import { BankStatusType, FastLinkType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
+import { Loading as StdLoading, LoadingTextEnum } from '../components'
 import { ModalPropsType } from '../types'
 // step templates
 import AddCard from './AddCard'
@@ -45,25 +46,12 @@ import UpgradeToGold from './UpgradeToGold'
 import VerifyEmail from './VerifyEmail'
 
 class SimpleBuy extends PureComponent<Props, State> {
-  state: State = { show: false, direction: 'left' }
+  state: State = { show: false }
 
   componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    if (this.props.step === prevProps.step) return
-    if (
-      SimpleBuyStepType[this.props.step] > SimpleBuyStepType[prevProps.step]
-    ) {
-      /* eslint-disable */
-      this.setState({ direction: 'left' })
-    } else {
-      this.setState({ direction: 'right' })
-      /* eslint-enable */
-    }
   }
 
   componentWillUnmount() {
@@ -98,8 +86,7 @@ class SimpleBuy extends PureComponent<Props, State> {
           <Flyout
             {...this.props}
             onClose={this.handleClose}
-            in={this.state.show}
-            direction={this.state.direction}
+            isOpen={this.state.show}
             data-e2e='simpleBuyModal'
           >
             <Rejected handleClose={this.handleClose} />
@@ -108,8 +95,7 @@ class SimpleBuy extends PureComponent<Props, State> {
           <Flyout
             {...this.props}
             onClose={this.handleClose}
-            in={this.state.show}
-            direction={this.state.direction}
+            isOpen={this.state.show}
             data-e2e='simpleBuyModal'
           >
             <Pending
@@ -124,8 +110,7 @@ class SimpleBuy extends PureComponent<Props, State> {
           <Flyout
             {...this.props}
             onClose={this.handleClose}
-            in={this.state.show}
-            direction={this.state.direction}
+            isOpen={this.state.show}
             data-e2e='simpleBuyModal'
           >
             {this.props.step === 'ENTER_AMOUNT' && (
@@ -244,6 +229,11 @@ class SimpleBuy extends PureComponent<Props, State> {
                 <UpgradeToGold {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
+            {this.props.step === 'LOADING' && (
+              <FlyoutChild>
+                <StdLoading text={LoadingTextEnum.GETTING_READY} />
+              </FlyoutChild>
+            )}
           </Flyout>
         )
       },
@@ -252,8 +242,7 @@ class SimpleBuy extends PureComponent<Props, State> {
         <Flyout
           {...this.props}
           onClose={this.handleClose}
-          in={this.state.show}
-          direction={this.state.direction}
+          isOpen={this.state.show}
           data-e2e='simpleBuyModal'
         >
           <Loading />
@@ -263,8 +252,7 @@ class SimpleBuy extends PureComponent<Props, State> {
         <Flyout
           {...this.props}
           onClose={this.handleClose}
-          in={this.state.show}
-          direction={this.state.direction}
+          isOpen={this.state.show}
           data-e2e='simpleBuyModal'
         >
           <Loading />
@@ -286,7 +274,6 @@ const mapStateToProps = (state: RootState) => ({
   displayBack: selectors.components.simpleBuy.getDisplayBack(state),
   orderType: selectors.components.simpleBuy.getOrderType(state),
   goals: selectors.goals.getGoals(state),
-  localCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
   data: getData(state),
   isFirstLogin: selectors.auth.getFirstLogin(state)
 })
@@ -322,6 +309,7 @@ type LinkStatePropsType =
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
+        | 'LOADING'
     }
   | {
       orderType: SBOrderActionType
@@ -383,6 +371,6 @@ type LinkStatePropsType =
     }
 
 type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
-type State = { direction: 'left' | 'right'; show: boolean }
+type State = { show: boolean }
 
 export default enhance(SimpleBuy)

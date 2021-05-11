@@ -93,6 +93,11 @@ export const createSBOrder = (
   paymentType
 })
 
+export const confirmOrderPoll = (order: SBOrderType) => ({
+  type: AT.CONFIRM_ORDER_POLL,
+  payload: { order }
+})
+
 export const confirmSBOrder = (
   paymentMethodId: SBCardType['id'],
   order: SBOrderType
@@ -630,9 +635,15 @@ export const updatePaymentFailure = (error: string): SimpleBuyActionTypes => ({
   }
 })
 
-export const fetchLimits = (currency: FiatType) => ({
+export const fetchLimits = (
+  currency: FiatType,
+  cryptoCurrency?: CoinType,
+  side?: SBOrderActionType
+) => ({
   type: AT.FETCH_LIMITS,
-  currency
+  currency,
+  cryptoCurrency,
+  side
 })
 
 export const fetchLimitsFailure = (error: string): SimpleBuyActionTypes => ({

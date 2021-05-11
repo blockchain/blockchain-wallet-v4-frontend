@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { add, curry, lift, pathOr, reduce } from 'ramda'
+import { add, curry, flatten, lift, pathOr, reduce } from 'ramda'
 
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
@@ -41,7 +41,7 @@ export const getBtcBalance = createDeepEqualSelector(
       interestAccountBalance: InterestAccountBalanceType,
       sbBalances: SBBalancesType
     ): Array<number> => {
-      const walletBalances: Array<number> = context.map(a =>
+      const walletBalances: Array<number> = flatten(context).map(a =>
         pathOr(0, [a, 'final_balance'], balances)
       )
       const interestBalance = interestAccountBalance.BTC

@@ -9,7 +9,11 @@ import {
   coinToString,
   fiatToString
 } from 'blockchain-wallet-v4/src/exchange/currency'
-import { CoinType, SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
+import {
+  CoinType,
+  OrderType,
+  SBPaymentMethodType
+} from 'blockchain-wallet-v4/src/types'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -219,12 +223,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   const limits = props.sddLimit || LIMIT
   const sddLimit = { ...limits }
-  if (
-    props.limits?.maxPossibleOrder &&
-    Number(props.limits.maxPossibleOrder) < Number(props.sddLimit.max)
-  ) {
-    sddLimit.max = props.limits.maxPossibleOrder
-  }
+
   const isDailyLimitExceeded =
     props.limits?.daily?.available && Number(props.limits.daily.available) === 0
 
@@ -239,7 +238,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     method,
     props.swapAccount,
     props.isSddFlow,
-    sddLimit
+    sddLimit,
+    props.limits
   )[fix]
   const min: string = getMaxMin(
     'min',
@@ -252,7 +252,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     method,
     props.swapAccount,
     props.isSddFlow,
-    sddLimit
+    sddLimit,
+    props.limits
   )[fix]
 
   const handleMinMaxClick = () => {
@@ -289,7 +290,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       method,
       props.swapAccount,
       props.isSddFlow,
-      sddLimit
+      sddLimit,
+      props.limits
     )[fix]
     const value = convertStandardToBase(conversionCoinType, maxMin)
     props.simpleBuyActions.handleSBSuggestedAmountClick(
@@ -315,7 +317,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const isSufficientEthForErc20 =
     props.payment &&
     props.swapAccount?.type === 'ACCOUNT' &&
-    props.orderType === 'SELL' &&
+    props.orderType === OrderType.SELL &&
     isErc20 &&
     // @ts-ignore
     !props.payment.isSufficientEthForErc20
@@ -446,7 +448,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </QuoteRow>
           )}
         </QuoteActionContainer>
-        {(!props.isSddFlow || props.orderType === 'SELL') &&
+        {(!props.isSddFlow || props.orderType === OrderType.SELL) &&
           props.pair &&
           Number(min) <= Number(max) && (
             <Amounts onClick={handleMinMaxClick}>
@@ -461,7 +463,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       defaultMessage='{value} Minimum {orderType}'
                       values={{
                         value: getValue(min),
-                        orderType: props.orderType === 'BUY' ? 'Buy' : 'Sell'
+                        orderType:
+                          props.orderType === OrderType.BUY ? 'Buy' : 'Sell'
                       }}
                     />
                   </CustomErrorCartridge>
@@ -471,7 +474,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       id='modals.simplebuy.checkout.maxbuysell'
                       defaultMessage='{orderType} Max'
                       values={{
-                        orderType: orderType === 'BUY' ? 'Buy' : 'Sell'
+                        orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell'
                       }}
                     />
                   </BlueRedCartridge>
@@ -480,7 +483,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </Amounts>
           )}
 
-        {(!props.isSddFlow || props.orderType === 'SELL') &&
+        {!props.isSddFlow &&
+          props.orderType === OrderType.SELL &&
           props.pair &&
           Number(min) > Number(max) && (
             <Amounts>
@@ -496,7 +500,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </Amounts>
           )}
 
-        {props.isSddFlow && props.orderType === 'BUY' && (
+        {props.isSddFlow && props.orderType === OrderType.BUY && (
           <ActionsRow>
             <ActionsItem>
               <Text weight={500} size='14px' color='grey600'>
@@ -529,7 +533,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <Payment
           {...props}
           method={method}
-          isSddFlow={props.isSddFlow && props.orderType === 'BUY'}
+          isSddFlow={props.isSddFlow && props.orderType === OrderType.BUY}
         />
 
         {props.error && (
@@ -577,7 +581,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </Amounts>
         )}
       </FlyoutWrapper>
-      {props.isSddFlow && props.orderType === 'BUY' && (
+      {props.isSddFlow && props.orderType === OrderType.BUY && (
         <IncreaseLimits {...props} />
       )}
       {isSufficientEthForErc20 && (

@@ -29,7 +29,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('Confirm'),
+  modalEnhancer('CONFIRMATION_MODAL'),
   connect(null, mapDispatchToProps)
 )
 

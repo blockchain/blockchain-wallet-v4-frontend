@@ -71,7 +71,7 @@ export const confirm = function * ({
   title
 }) {
   yield put(
-    actions.modals.showModal('Confirm', {
+    actions.modals.showModal('CONFIRMATION_MODAL', {
       title,
       message,
       image,

@@ -127,11 +127,7 @@ export default ({
         .from(addressOrIndex, addressType)
         .done()
 
-      const paymentAmount = generateProvisionalPaymentAmount(
-        payment.coin,
-        amount,
-        coin
-      )
+      const paymentAmount = generateProvisionalPaymentAmount(coin, amount)
       payment = yield payment.amount(paymentAmount)
       // TODO, add isMemoBased check
       const sampleAddr = quote.sampleDepositAddress.split(':')[0]
@@ -239,8 +235,8 @@ export default ({
       yield put(A.fetchCustodialEligibilityLoading())
       const {
         eligible
-      }: ReturnType<typeof api.checkCustodialEligiblity> = yield call(
-        api.checkCustodialEligiblity
+      }: ReturnType<typeof api.checkCustodialSwapEligibility> = yield call(
+        api.checkCustodialSwapEligibility
       )
       yield put(A.fetchCustodialEligibilitySuccess(eligible))
     } catch (e) {

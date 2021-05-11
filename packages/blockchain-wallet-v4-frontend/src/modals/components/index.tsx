@@ -71,6 +71,11 @@ const LinkOptionsWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 `
+const LogoImage = styled.img`
+  margin-bottom: 32px;
+  max-height: 60px;
+`
+
 interface ScanWithPhoneType {
   readonly logo?: string
   readonly qrCode?: string
@@ -78,7 +83,7 @@ interface ScanWithPhoneType {
 const ScanWithPhone = ({ logo, qrCode }: ScanWithPhoneType) => {
   return (
     <Section>
-      {logo && <img width='32' src={logo} />}
+      {logo && <LogoImage src={logo} />}
       <Text weight={600} size='20px' color='grey900'>
         <FormattedMessage
           id='modals.brokerage.link_via_mobile'
@@ -124,7 +129,7 @@ const BankWaitIndicator = ({ qrCode }: { readonly qrCode?: string }) => {
         {waitCount > 0 && (
           <FormattedMessage
             id='modals.brokerage.this_can_take_a_while'
-            defaultMessage='This can take a while, hold tight!'
+            defaultMessage='This can take several minutes, hold tight!'
           />
         )}
       </Text>
@@ -136,7 +141,13 @@ const StyledButton = styled(Button)`
   margin: 20px 0 0;
   display: unset;
 `
-const LinkViaDesktop = ({ authUrl }: { authUrl?: string }) => {
+const LinkViaDesktop = ({
+  authUrl,
+  onClick = () => {}
+}: {
+  authUrl?: string
+  onClick?: () => void
+}) => {
   if (!authUrl) return null
   return (
     <Section>
@@ -151,6 +162,7 @@ const LinkViaDesktop = ({ authUrl }: { authUrl?: string }) => {
         nature='empty-blue'
         onClick={() => {
           window.open(authUrl, '_blank')
+          onClick() // additional callback from implementing component
         }}
       >
         <FormattedMessage
@@ -252,7 +264,7 @@ const LoadingUpdating = () => {
       </HeadingText>
       <BodyText color='grey600'>
         <FormattedMessage
-          defaultMessage='This could take up to 30 secconds. Please do not go back or close the app.'
+          defaultMessage='This could take up to 30 seconds. Please do not go back or close the app.'
           id='modals.brokerage.this_could_take'
         />
       </BodyText>

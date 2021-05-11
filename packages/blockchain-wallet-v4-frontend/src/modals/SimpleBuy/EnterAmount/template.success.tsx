@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 
+import { OrderType } from 'blockchain-wallet-v4/src/types'
+
 import { LinkStatePropsType, Props as OwnProps, SuccessStateType } from '.'
 import Checkout from './Checkout'
 import Unsupported from './template.unsupported'
@@ -7,7 +9,10 @@ import Unsupported from './template.unsupported'
 const Success: React.FC<Props> = props => {
   const isUserEligible =
     props.paymentMethods.methods.length &&
-    props.paymentMethods.methods.find(method => method.limits.max !== '0')
+    props.paymentMethods.methods.find(
+      method =>
+        method.limits.max !== '0' && method.currency === props.fiatCurrency
+    )
 
   useEffect(() => {
     props.analyticsActions.logEvent([
@@ -22,8 +27,8 @@ const Success: React.FC<Props> = props => {
   // Check to see if user can sell into their wallet's preferred currency
   // Handles the case where we support credit card buy for the currency but not sell, i.e. CAD
   const sellCurrencyAvailable =
-    props.orderType === 'BUY' ||
-    (props.orderType === 'SELL' &&
+    props.orderType === OrderType.BUY ||
+    (props.orderType === OrderType.SELL &&
       props.paymentMethods.methods
         .filter(method => method.type === 'FUNDS')
         .map(method => method.currency)

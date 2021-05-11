@@ -12,6 +12,7 @@ import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
+import { model } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   AddBankStepType,
@@ -35,6 +36,11 @@ import {
 import { LinkStatePropsType, Props as _P, SuccessStateType } from '.'
 import { getDefaultMethod, getText } from './model'
 import { maximumAmount, minimumAmount } from './validation'
+
+const {
+  DEPOSIT_CONTINUE,
+  SELECT_DEPOSIT_METHOD
+} = model.analytics.FIAT_DEPOSIT_EVENTS
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -126,7 +132,7 @@ const Header = ({ brokerageActions, fiatCurrency }) => {
   )
 }
 
-const LimitSection = ({ paymentMethods, supportedCoins, walletCurrency }) => {
+const LimitSection = ({ fiatCurrency, paymentMethods, supportedCoins }) => {
   const bankTransfer = paymentMethods.methods.find(
     method => method.type === 'BANK_TRANSFER'
   )
@@ -147,15 +153,15 @@ const LimitSection = ({ paymentMethods, supportedCoins, walletCurrency }) => {
                 'FIAT',
                 bankTransfer.limits.daily.available
               ),
-              unit: walletCurrency as FiatType
+              unit: fiatCurrency as FiatType
             })}{' '}
             <FormattedMessage id='copy.available' defaultMessage='Available' />
           </Text>
         </LimitWrapper>
         <FiatIconWrapper>
           <Icon
-            color={supportedCoins[walletCurrency].coinCode}
-            name={supportedCoins[walletCurrency].coinCode}
+            color={supportedCoins[fiatCurrency].coinCode}
+            name={supportedCoins[fiatCurrency].coinCode}
             size='32px'
           />
           <SubIconWrapper>
@@ -198,6 +204,7 @@ const Amount = ({ fiatCurrency }) => {
 }
 
 const Account = ({
+  analyticsActions,
   bankTransferAccounts,
   brokerageActions,
   defaultMethod,
@@ -229,6 +236,7 @@ const Account = ({
             dwStep: BankDWStepType.BANK_LIST
           })
         }
+        analyticsActions.logEvent(SELECT_DEPOSIT_METHOD)
       }}
       isMethod={!!dMethod}
     >
@@ -249,7 +257,13 @@ const Account = ({
   )
 }
 
-const NextButton = ({ defaultMethod, invalid, pristine, submitting }) => {
+const NextButton = ({
+  analyticsActions,
+  defaultMethod,
+  invalid,
+  pristine,
+  submitting
+}) => {
   return (
     <Button
       data-e2e='submitDepositAmount'
@@ -259,6 +273,7 @@ const NextButton = ({ defaultMethod, invalid, pristine, submitting }) => {
       type='submit'
       fullwidth
       disabled={invalid || pristine || submitting || !defaultMethod}
+      onClick={() => analyticsActions.logEvent(DEPOSIT_CONTINUE)}
     >
       {submitting ? (
         <HeartbeatLoader height='16px' width='16px' color='white' />
@@ -305,7 +320,7 @@ const Success = (props: OwnProps) => {
   )
 }
 
-export type Props = _P & SuccessStateType & LinkStatePropsType
+type Props = _P & SuccessStateType & LinkStatePropsType
 type OwnProps = Props & InjectedFormProps<{}, Props>
 
 export default reduxForm<{}, OwnProps>({

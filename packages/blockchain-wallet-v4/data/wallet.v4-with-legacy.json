@@ -1,0 +1,62 @@
+{
+  "guid": "e01a59a0-31f2-4403-8488-32ffd8fdb3cc",
+  "sharedKey": "5d7e1444-82c3-4489-a63a-97e06b0f0434",
+  "double_encryption": false,
+  "options": {
+    "pbkdf2_iterations": 1200,
+    "fee_per_kb": 10000,
+    "html5_notifications": false,
+    "logout_time": 600000
+  },
+  "address_book": [],
+  "tx_notes": {},
+  "tx_names": [],
+  "keys": [
+    {
+      "addr": "1EGW5YZs4EXExhLiCVvRXTRVmfLjs69bZc",
+      "priv": "3jqZaXvzgV9Zp8BqJHovefNZ8nc1BHsLrbZRFuQPrZtG",
+      "created_time": 0,
+      "created_device_name": "javascript_iphone_app",
+      "created_device_version": "0.1 BETA",
+      "tag": 0,
+      "label": "Aaaa"
+    },
+    {
+      "addr": "12BeccoHhdZ5DtoZbuphji1FbQEgNNhy3P",
+      "priv": null,
+      "created_time": 0,
+      "created_device_name": "javascript_iphone_app",
+      "created_device_version": "0.1 BETA",
+      "tag": 0,
+      "label": "Bbbb"
+    }
+  ],
+  "paidTo": {},
+  "hd_wallets": [
+    {
+      "seed_hex": "cd704d52e010f5b374fd95945a4b11e2",
+      "passphrase": "",
+      "mnemonic_verified": false,
+      "default_account_idx": 0,
+      "accounts": [
+        {
+          "label": "BTC Private Key Wallet",
+          "archived": false,
+          "derivations": [
+            {
+              "type": "legacy",
+              "purpose": 44,
+              "xpriv": "xprv9yb4M8aKinUDAwNrs7Y4Qp8J2yoRZHox2NiaDWEkg2TSF11j8VDYezATWJMs49i4LtYWSYs9rCg1LUW8pBj1j8LTkHaYcitXjqBsXhzNebJ",
+              "xpub": "xpub6CaQke7DZA2WPRTKy954mx52b1duxkXoPbeB1teNEMzR7oLsg2XoCnUwMbK8WDvKJYfuvWxfeH2f7HdoyGDEZs7Kj11AuQiKeJhLBd2GciM",
+              "address_labels": [],
+              "cache": {
+                "receiveAccount": "xpub6DrWPuoPBCE2dtHyQtErZimnm4rNTSaueiU2Xfj1BgaE6T8UUXTLYhbkei765HNzJWTLFXvVHMUyQiE739C7rYTtK2yPReojEqsNLFE15St",
+                "changeAccount": "xpub6DrWPuoPBCE2fzxhqQUa12HJQnmHEKrdL1vTphHoE55pyAPph8paBDwSDu8rUDeY9BKirZZidtxgGyiyFCxbnbNtvL5R2Ks1EK4iidNyqda"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -12,6 +12,7 @@ import PairingCode from './PairingCode'
 import PrivacyPolicy from './PrivacyPolicy'
 import TermsOfService from './TermsOfService'
 import WalletId from './WalletId'
+import WalletVersion from './WalletVersion'
 
 const MenuHeader = styled.div`
   display: flex;
@@ -47,6 +48,7 @@ const General = () => {
       <PrivacyPolicy />
       <TermsOfService />
       <About />
+      <WalletVersion />
     </section>
   )
 }

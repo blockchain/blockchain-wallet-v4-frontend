@@ -29,15 +29,6 @@ class Add extends PureComponent<Props> {
     })
   }
 
-  handleBack = () => {
-    // this.props.simpleBuyActions.setStep({
-    //   step: 'PAYMENT_METHODS',
-    //   cryptoCurrency: this.props.cryptoCurrency,
-    //   fiatCurrency: this.props.fiatCurrency,
-    //   pair: this.props.pair
-    // })
-  }
-
   render() {
     return this.props.data.cata({
       Success: val => (
@@ -45,7 +36,7 @@ class Add extends PureComponent<Props> {
           {...this.props}
           {...val}
           onSubmit={this.handleSubmit}
-          handleBack={this.handleBack}
+          handleBack={this.props.handleClose}
         />
       ),
       Failure: e => (
@@ -66,6 +57,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
@@ -76,6 +68,7 @@ type OwnProps = {
   handleClose: () => void
 }
 type LinkDispatchPropsType = {
+  analyticsActions: typeof actions.analytics
   brokerageActions: typeof actions.components.brokerage
   simpleBuyActions: typeof actions.components.simpleBuy
 }

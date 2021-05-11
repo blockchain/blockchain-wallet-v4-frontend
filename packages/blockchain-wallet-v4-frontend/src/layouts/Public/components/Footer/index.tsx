@@ -1,38 +1,31 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Link } from 'blockchain-info-components'
+import DropdownLanguage from './DropdownLanguage'
+import ExchangeLogin from './ExchangeLogin'
+import Help from './Help'
+import Version from './Version'
 
-const VersionWrapper = styled.span`
-  margin-top: 4px;
-  margin-left: 16px;
-  margin-right: 16px;
+const FooterInner = styled.div`
+  padding: 2rem;
+  padding-bottom: 0;
 `
 
-// @ts-ignore
-const V = APP_VERSION
+const Footer = ({ isLogin }: Props) => {
+  return (
+    <>
+      <FooterInner>{isLogin ? <ExchangeLogin /> : null}</FooterInner>
+      <FooterInner>
+        <DropdownLanguage color='grey400' size='16px' />
+        <Version />
+        <Help />
+      </FooterInner>
+    </>
+  )
+}
 
-const Footer = () => (
-  <>
-    <VersionWrapper>
-      <Link
-        color='grey400'
-        href='https://github.com/blockchain/blockchain-wallet-v4-frontend/releases'
-        size='14px'
-        target='_blank'
-        weight={500}
-      >
-        <FormattedMessage
-          id='scenes.login.version'
-          defaultMessage='Version {version}'
-          values={{
-            version: V
-          }}
-        />
-      </Link>
-    </VersionWrapper>
-  </>
-)
+type Props = {
+  isLogin: boolean
+}
 
 export default Footer

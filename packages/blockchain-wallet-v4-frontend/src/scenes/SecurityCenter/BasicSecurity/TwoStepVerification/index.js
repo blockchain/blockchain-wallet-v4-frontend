@@ -49,6 +49,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
       this.handleUpdate()
     }
   }
+
   handleUpdate() {
     this.setState({
       editing: !this.state.editing
@@ -74,6 +75,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
       })
     }
   }
+
   chooseMethod(method) {
     const next = this.props.data.getOrElse({})
     if (next.smsVerified && method === 'sms') {
@@ -87,6 +89,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
       })
     }
   }
+
   handleTwoFactorChange() {
     this.props.modalActions.showModal('ConfirmDisable2FA', {
       authName: this.state.authName
@@ -95,15 +98,18 @@ class TwoStepVerificationContainer extends React.PureComponent {
       editing: false
     })
   }
+
   pulseText() {
     this.setState({ pulse: true })
     setTimeout(() => {
       this.setState({ pulse: false })
     }, 500)
   }
+
   handleGoBack() {
     this.setState({ authMethod: '', verifyToggled: false })
   }
+
   triggerSuccess() {
     this.setState({ success: true })
     setTimeout(() => {

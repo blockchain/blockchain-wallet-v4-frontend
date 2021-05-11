@@ -5,7 +5,7 @@ import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 
-import { Props } from './template.success'
+import { ValidateProps as Props } from '.'
 
 export const maximumAmount = (value: string, allValues, restProps: Props) => {
   const max = convertBaseToStandard('FIAT', restProps.depositLimits.max)

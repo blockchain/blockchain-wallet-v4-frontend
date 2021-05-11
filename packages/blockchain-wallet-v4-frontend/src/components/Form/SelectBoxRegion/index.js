@@ -15,6 +15,7 @@ class SelectBoxRegion extends React.PureComponent {
   static propTypes = {
     countryCode: PropTypes.string
   }
+
   static defaultProps = {
     countryCode: null
   }

@@ -13,9 +13,14 @@ import {
   SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
-import { actions, selectors } from 'data'
+import { actions, model,selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { BankDWStepType } from 'data/types'
+
+const {
+  ACCEPT_YAPILY_PIS_AGREEMENT,
+  DECLINE_YAPILY_PIS_AGREEMENT
+} = model.analytics.FIAT_DEPOSIT_EVENTS
 
 const Wrapper = styled.div`
   display: flex;
@@ -206,7 +211,7 @@ const Authorize = (props: Props) => {
         bodyText={
           <FormattedMessage
             id='modals.brokertitleage.authorize.data_sharing'
-            defaultMessage='{entityName} will retrieve your bank data based on your request and provide this information to Blockchain.'
+            defaultMessage='{entityName} will retrieve your bank data based on your request and provide this information to Blockchain.com.'
             values={{ entityName }}
           />
         }
@@ -238,7 +243,7 @@ const Authorize = (props: Props) => {
           entityName === 'SafeConnect' ? (
             <FormattedMessage
               id='modals.brokerage.authorize.fca'
-              defaultMessage='Blockchain is an agent of {entityName} Ltd. {entityName} Ltd is authorised and regulated by the Financial Conduct Authority under the Payment Service Regulations 2017 [827001] for the provision of Account Information and Payment Initiation services.'
+              defaultMessage='Blockchain.com is an agent of {entityName} Ltd. {entityName} Ltd is authorised and regulated by the Financial Conduct Authority under the Payment Service Regulations 2017 [827001] for the provision of Account Information and Payment Initiation services.'
               values={{ entityName }}
             />
           ) : (
@@ -256,7 +261,7 @@ const Authorize = (props: Props) => {
             />
           ) : (
             <FormattedMessage
-              id='modals.brokerage.authorize.fca.title'
+              id='modals.brokerage.authorize.bol.title'
               defaultMessage='Bank of Lithuania Authorisation'
             />
           )
@@ -266,7 +271,7 @@ const Authorize = (props: Props) => {
         <InfoText>
           <FormattedMessage
             id='modals.brokerage.authorize.deposit_data.first'
-            defaultMessage='To easily set up payments from your bank to Blockchain, we are about to securely re-direct you to your bank where you will be asked to confirm the payment via {entityName}, an FCA regulated payment initiation provider for Blockchain.'
+            defaultMessage='To easily set up payments from your bank to Blockchain.com, we are about to securely re-direct you to your bank where you will be asked to confirm the payment via {entityName}, an FCA regulated payment initiation provider for Blockchain.com.'
             values={{ entityName }}
           />
         </InfoText>
@@ -284,7 +289,7 @@ const Authorize = (props: Props) => {
           <>
             <FormattedMessage
               id='modals.brokerage.authorize.about_access'
-              defaultMessage='{entityName} will then use these details with Blockchain solely for the purposes of buying cryptocurrencies. This access is valid until 24th of January 2021, you can cancel consent at any time via the Blockchain settings or via your bank. This request is not a one-off, you will continue to receive consent requests as older versions expire.'
+              defaultMessage='{entityName} will then use these details with Blockchain.com solely for the purposes of buying cryptocurrencies. This consent request is a one-off, you will not receive additional requests once completed.'
               values={{ entityName }}
             />
             {entityName !== 'SafeConnect' && (
@@ -310,11 +315,12 @@ const Authorize = (props: Props) => {
           type='submit'
           fullwidth
           height='48px'
-          onClick={() =>
+          onClick={() => {
             props.brokerageActions.setDWStep({
               dwStep: BankDWStepType.CONFIRM
             })
-          }
+            props.analyticsActions.logEvent(ACCEPT_YAPILY_PIS_AGREEMENT)
+          }}
         >
           <FormattedMessage id='copy.approve' defaultMessage='Approve' />
         </Button>
@@ -326,7 +332,10 @@ const Authorize = (props: Props) => {
           height='48px'
           color='red400'
           style={{ marginTop: '16px' }}
-          onClick={() => props.handleClose()}
+          onClick={() => {
+            props.handleClose()
+            props.analyticsActions.logEvent(DECLINE_YAPILY_PIS_AGREEMENT)
+          }}
         >
           <FormattedMessage id='copy.deny' defaultMessage='Deny' />
         </Button>
@@ -345,6 +354,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 

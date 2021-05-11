@@ -9,11 +9,14 @@ import {
 } from 'blockchain-wallet-v4/src/types'
 import { AddNewButton } from 'components/Brokerage'
 import { FlyoutWrapper } from 'components/Flyout'
+import { model } from 'data'
 import { BankDWStepType, BankTransferAccountType } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 
 import { Bank, BankWire } from '../../model'
 import { Props as _P } from '.'
+
+const { SELECT_BANK_OPTION } = model.analytics.FIAT_DEPOSIT_EVENTS
 
 type OwnProps = {
   account: BankTransferAccountType | undefined
@@ -85,6 +88,7 @@ const BankList = (props: Props) => {
               props.brokerageActions.setDWStep({
                 dwStep: BankDWStepType.ENTER_AMOUNT
               })
+              props.analyticsActions.logEvent(SELECT_BANK_OPTION)
             }}
           />
         ))}
@@ -96,6 +100,7 @@ const BankList = (props: Props) => {
               props.brokerageActions.setDWStep({
                 dwStep: BankDWStepType.WIRE_INSTRUCTIONS
               })
+              props.analyticsActions.logEvent(SELECT_BANK_OPTION)
             }}
             type={'DEPOSIT'}
           />

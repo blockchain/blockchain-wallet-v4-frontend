@@ -117,4 +117,4 @@ export const ConnectedSwapUpgrade = connect(
   mapDispatchToProps
 )(KycTierUpgrade)
 
-export default modalEnhancer('KycTierUpgrade')(ConnectedSwapUpgrade)
+export default modalEnhancer('KYC_TIER_UPGRADE_MODAL')(ConnectedSwapUpgrade)

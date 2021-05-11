@@ -27,6 +27,11 @@ export const DEFAULT_SB_METHODS = {
   methods: []
 }
 
+export const POLLING = {
+  SECONDS: 10,
+  RETRY_AMOUNT: 30
+}
+
 export const LIMIT = { min: '500', max: '10000' } as Limits
 export const LIMIT_FACTOR = 100 // we get 10000 from API
 

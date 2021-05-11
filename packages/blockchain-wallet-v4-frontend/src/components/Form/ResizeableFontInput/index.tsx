@@ -37,6 +37,7 @@ export const ResizeableFontInput = Component =>
     static defaultProps = {
       onUpdate: () => {}
     }
+
     state = {
       fontRatio: 1
     }

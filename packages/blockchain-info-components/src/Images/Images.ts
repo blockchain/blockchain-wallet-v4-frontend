@@ -5,6 +5,7 @@ import airdropWelcome from './img/airdrop-welcome.png'
 import airdropWelcome2 from './img/airdrop-welcome@2x.png'
 import airdropWelcomeBanner from './img/airdrop-welcome-banner.png'
 import airdropWelcomeBanner2 from './img/airdrop-welcome-banner@2x.png'
+import alert from './img/alert.svg'
 import allowCamera from './img/allow-camera.png'
 import allowCamera2 from './img/allow-camera@2x.png'
 import allowCamera3 from './img/allow-camera@3x.png'
@@ -141,10 +142,6 @@ import visaLogo from './img/visa-logo.svg'
 import visaNewLogo from './img/visa-new-logo.svg'
 import wallet from './img/wallet.svg'
 import walletBlue from './img/wallet-blue.svg'
-import walletV3Backup from './img/wallet-v3-backup.jpg'
-import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
-import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
-import walletV3SecurityUpgrade from './img/wallet-v3-security-upgrade.jpg'
 import warningCircleFilled from './img/warning-circle-filled.png'
 import worldAlert from './img/world-alert.jpg'
 import worldAlert2 from './img/world-alert@2x.jpg'
@@ -154,6 +151,7 @@ import yubikey from './img/yubikey.svg'
 
 const Images = {
   ...coins,
+  alert: alert,
   'bank-logo-acorns': bankLogoAcorns,
   'ad-bitcoin-games': adBitcoinGames,
   'ad-bitcoin-games2': adBitcoinGames2,
@@ -293,10 +291,6 @@ const Images = {
   'usdd-intro': usddIntro,
   'visa-logo': visaLogo,
   'visa-new-logo': visaNewLogo,
-  'wallet-v3-backup': walletV3Backup,
-  'wallet-v3-fund-management': walletV3FundManagement,
-  'wallet-v3-new-design': walletV3NewDesign,
-  'wallet-v3-security-upgrade': walletV3SecurityUpgrade,
   'warning-circle-filled': warningCircleFilled,
   wallet,
   'wallet-blue': walletBlue,

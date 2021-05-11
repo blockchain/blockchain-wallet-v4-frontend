@@ -38,6 +38,7 @@ class TransactionList extends PureComponent<Props> {
       Success: (transactions: SuccessStateType) => (
         <TransactionsWrapper>
           {transactions.map(tx => {
+            // @ts-ignore
             return 'hash' in tx ? (
               <NonCustodialTxListItem
                 key={tx.hash}
@@ -47,11 +48,13 @@ class TransactionList extends PureComponent<Props> {
                 currency={currency}
               />
             ) : 'priceFunnel' in tx ? (
-              <SwapOrderTx order={tx} coin={coin as CoinType} />
+              // @ts-ignore
+              <SwapOrderTx key={tx.id} order={tx} coin={coin as CoinType} />
             ) : 'pair' in tx ? (
-              <SimpleBuyListItem order={tx} />
+              <SimpleBuyListItem key={tx.id} order={tx} />
             ) : (
               <CustodialTxListItem
+                key={tx.id}
                 tx={tx as FiatSBAndSwapTransactionType}
                 {...this.props}
               />

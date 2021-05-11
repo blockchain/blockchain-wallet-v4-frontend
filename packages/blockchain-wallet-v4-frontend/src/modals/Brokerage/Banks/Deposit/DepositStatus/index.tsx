@@ -7,11 +7,13 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { BrokerageTxFormValuesType } from 'data/types'
 
 import { Loading, LoadingTextEnum } from '../../../../components'
 import Failure from '../template.failure'
 import { getData } from './selectors'
 import Success from './template.success'
+import TimedOut from './template.timedOut'
 
 const DepositStatus = props => {
   useEffect(() => {
@@ -24,7 +26,15 @@ const DepositStatus = props => {
   }, [])
 
   return props.data.cata({
-    Success: val => <Success {...val} {...props} />,
+    Success: val =>
+      props.formValues?.order?.state === 'CLEARED' ||
+      props.formValues?.order?.state === 'COMPLETED' ? (
+        <Success {...val} {...props} />
+      ) : props.formValues?.retryTimeout ? (
+        <TimedOut {...props} />
+      ) : (
+        <Failure {...props} />
+      ),
     Failure: () => <Failure {...props} />,
     Loading: () => <Loading text={LoadingTextEnum.LOADING} />,
     NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />
@@ -33,8 +43,9 @@ const DepositStatus = props => {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
+  defaultMethod: selectors.components.brokerage.getAccount(state),
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD',
-  formValues: getFormValues('brokerageTx')(state)
+  formValues: getFormValues('brokerageTx')(state) as BrokerageTxFormValuesType
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({

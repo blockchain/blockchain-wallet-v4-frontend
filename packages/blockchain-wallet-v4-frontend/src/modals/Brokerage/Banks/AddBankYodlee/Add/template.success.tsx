@@ -6,10 +6,13 @@ import styled from 'styled-components'
 import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormGroup } from 'components/Form'
+import { model } from 'data'
 import { SBAddCardErrorType } from 'data/types'
 
 import { NavText } from '../../../../components'
 import { Props as _P, SuccessStateType } from '.'
+
+const { YODLEE_ADD_BANK_CONT } = model.analytics.FIAT_DEPOSIT_EVENTS
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
   height: 100%;
@@ -51,6 +54,7 @@ const TermsText = styled(Text)`
 `
 
 const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
+  analyticsActions,
   handleBack,
   handleSubmit,
   submitting
@@ -112,6 +116,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
           <Button
             nature='primary'
             data-e2e='linkBankContinue'
+            onClick={() => analyticsActions.logEvent(YODLEE_ADD_BANK_CONT)}
             height='48px'
             size='16px'
             type='submit'

@@ -16,6 +16,7 @@ import { getFiatFromPair, getOrderType } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
 import {
   AddBankStepType,
+  BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
   UserDataType
@@ -117,7 +118,7 @@ class CheckoutConfirm extends PureComponent<Props> {
         )
         const paymentPartner = prop('partner', bankAccount)
         // if yapily we need the auth screen before creating the order
-        if (paymentPartner === 'YAPILY') {
+        if (paymentPartner === BankPartners.YAPILY) {
           return this.props.simpleBuyActions.setStep({
             step: 'AUTHORIZE_PAYMENT',
             order: this.props.order

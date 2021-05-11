@@ -25,7 +25,7 @@ export type LinkStatePropsType = {
 }
 
 class CancelOrder extends PureComponent<Props, {}> {
-  state: State = { show: false, direction: 'left' }
+  state: State = { show: false }
 
   componentDidMount() {
     /* eslint-disable */
@@ -54,8 +54,7 @@ class CancelOrder extends PureComponent<Props, {}> {
       <Flyout
         {...this.props}
         onClose={this.handleClose}
-        in={this.state.show}
-        direction={this.state.direction}
+        isOpen={this.state.show}
         data-e2e='bankRemoveModal'
       >
         <FlyoutChild>
@@ -92,6 +91,6 @@ export type Props = OwnProps &
   LinkStatePropsType &
   ConnectedProps<typeof connector>
 
-type State = { direction: 'left' | 'right'; show: boolean }
+type State = { show: boolean }
 
 export default enhance(CancelOrder)

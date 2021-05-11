@@ -3,7 +3,7 @@ import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import styled from 'styled-components'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import {
   getBaseAmount,
@@ -13,6 +13,7 @@ import {
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import InterestBanner from './InterestBanner'
+import { CloseContainer } from './styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -98,6 +99,19 @@ const Success: React.FC<Props> = props => {
 
   return (
     <Wrapper>
+      <FlyoutWrapper>
+        <CloseContainer>
+          <Icon
+            cursor
+            data-e2e='sbCloseModalIcon'
+            name='close'
+            size='20px'
+            color='grey600'
+            role='button'
+            onClick={props.handleClose}
+          />
+        </CloseContainer>
+      </FlyoutWrapper>
       <ContentWrapper>
         <Content>
           <IconWrapper>
@@ -114,6 +128,10 @@ const Success: React.FC<Props> = props => {
                   size='24px'
                   color='green400'
                 />
+              </IconBackground>
+            ) : props.order.state === 'FAILED' ? (
+              <IconBackground color='white'>
+                <Icon name='close-circle' size='32px' color='orange500' />
               </IconBackground>
             ) : (
               <IconBackground color='grey600'>
@@ -142,6 +160,11 @@ const Success: React.FC<Props> = props => {
                   id='modals.simplebuy.summary.pending_buy'
                   defaultMessage='Pending Buy'
                 />
+              ) : props.order.state === 'FAILED' ? (
+                <FormattedMessage
+                  id='copy.bank_linked_error_title_connectionrejected'
+                  defaultMessage='Connection Rejected'
+                />
               ) : (
                 <FormattedMessage
                   id='modals.simplebuy.summary.purchased'
@@ -168,6 +191,26 @@ const Success: React.FC<Props> = props => {
                     coin: baseCurrency
                   }}
                 />
+              )}
+              {props.order.state === 'FAILED' && (
+                <>
+                  <FormattedMessage
+                    id='modals.simplebuy.rejected.bank_failed'
+                    defaultMessage='Please try making your purchase again. If this keeps happening, please'
+                  />{' '}
+                  <Link
+                    size='14px'
+                    weight={500}
+                    target='_blank'
+                    href='https://support.blockchain.com/hc/en-us/sections/360007997071-Buy-Crypto'
+                  >
+                    <FormattedMessage
+                      id='buttons.contact_support'
+                      defaultMessage='Contact Support'
+                    />
+                  </Link>
+                  {'.'}
+                </>
               )}
               {props.order.state === 'PENDING_DEPOSIT' ||
                 (props.order.state === 'PENDING_CONFIRMATION' && (
@@ -207,6 +250,23 @@ const Success: React.FC<Props> = props => {
           )}
 
           {orderType === 'BUY' &&
+            props.order.paymentType === 'BANK_TRANSFER' &&
+            props.order.state !== 'FAILED' && (
+              <Bottom>
+                <Button
+                  data-e2e='sbDone'
+                  size='16px'
+                  height='48px'
+                  nature='primary'
+                  onClick={props.handleClose}
+                  style={{ marginBottom: '16px' }}
+                >
+                  <FormattedMessage id='buttons.ok' defaultMessage='OK' />
+                </Button>
+              </Bottom>
+            )}
+
+          {orderType === 'BUY' &&
             (props.order.paymentType === 'PAYMENT_CARD' ||
               props.order.paymentType === 'USER_CARD') && (
               <BottomInfo>
@@ -244,6 +304,7 @@ const Success: React.FC<Props> = props => {
             )}
           {orderType === 'BUY' &&
             props.order.paymentType === 'BANK_TRANSFER' &&
+            props.order.state !== 'FAILED' &&
             !isPendingAch && (
               <BottomInfo>
                 <Text color='grey600' size='14px' weight={500}>
@@ -270,6 +331,7 @@ const Success: React.FC<Props> = props => {
         </Content>
       </ContentWrapper>
       {orderType === 'BUY' &&
+        props.order.state !== 'FAILED' &&
         (props.order.paymentType === 'PAYMENT_CARD' ||
           props.order.paymentType === 'USER_CARD' ||
           props.order.paymentType === 'BANK_TRANSFER' ||

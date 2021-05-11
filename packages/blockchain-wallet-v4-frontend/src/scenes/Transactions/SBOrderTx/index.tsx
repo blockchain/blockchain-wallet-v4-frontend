@@ -67,9 +67,14 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
       step:
         order.state === 'PENDING_CONFIRMATION'
           ? 'CHECKOUT_CONFIRM'
+          : order.attributes?.authorisationUrl
+          ? 'OPEN_BANKING_CONNECT'
           : 'ORDER_SUMMARY',
       order
     })
+    if (order.attributes?.authorisationUrl) {
+      this.props.simpleBuyActions.confirmOrderPoll(order)
+    }
   }
 
   render() {

@@ -13,6 +13,7 @@ class CompleteStepContainer extends React.PureComponent {
     const deviceIndex = this.props.match.params.deviceIndex
     this.props.modalActions.showModal('LockboxAppManager', { deviceIndex })
   }
+
   render() {
     return (
       <CompleteStep

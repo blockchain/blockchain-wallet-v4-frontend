@@ -47,6 +47,7 @@ class RecoveryPhraseIntro extends PureComponent<Props> {
   handleBackupNow = () => {
     this.props.recoveryPhraseActions.setStep('FIRST_SET_WORDS')
   }
+
   render() {
     return (
       <Wrapper>

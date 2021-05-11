@@ -1,20 +1,26 @@
 import { path } from 'ramda'
 
-export const getWalletUsedAddressVisibility = (state, walletId) => {
+export const getWalletUsedAddressVisibility = (state, walletId, derivation) => {
   return path(
-    ['components', 'manageAddresses', walletId, 'usedAddressesVisible'],
+    [
+      'components',
+      'manageAddresses',
+      walletId,
+      derivation,
+      'usedAddressesVisible'
+    ],
     state
   )
 }
-export const getWalletUnusedAddresses = (state, walletId) => {
+export const getWalletUnusedAddresses = (state, walletId, derivation) => {
   return path(
-    ['components', 'manageAddresses', walletId, 'unusedAddresses'],
+    ['components', 'manageAddresses', walletId, derivation, 'unusedAddresses'],
     state
   )
 }
-export const getWalletUsedAddresses = (state, walletId) => {
+export const getWalletUsedAddresses = (state, walletId, derivation) => {
   return path(
-    ['components', 'manageAddresses', walletId, 'usedAddresses'],
+    ['components', 'manageAddresses', walletId, derivation, 'usedAddresses'],
     state
   )
 }

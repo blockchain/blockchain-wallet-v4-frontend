@@ -216,7 +216,15 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<
                   </Button>
                 </DownloadButton>
               ) : (
-                <HeartbeatLoader />
+                <Button
+                  data-e2e='loadingTransactionButton'
+                  disabled
+                  fullwidth
+                  height='48px'
+                  nature='primary'
+                >
+                  <HeartbeatLoader height='20px' width='20px' color='white' />
+                </Button>
               )
             ) : (
               <Button

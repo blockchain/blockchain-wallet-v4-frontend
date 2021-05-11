@@ -45,12 +45,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type OwnProps = {}
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
   fiatCurrency: WalletFiatType
 }
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-export type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = ConnectedProps<typeof connector>
 
 export default connector(LinkedBanks)

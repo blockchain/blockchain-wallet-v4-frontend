@@ -6,6 +6,7 @@ import {
   call,
   cancel,
   delay,
+  fork,
   put,
   race,
   retry,
@@ -19,6 +20,8 @@ import {
   CoinTypeEnum,
   Everypay3DSResponseType,
   FiatEligibleType,
+  OrderType,
+  ProductTypes,
   SBAccountType,
   SBCardStateType,
   SBCardType,
@@ -35,6 +38,7 @@ import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import { UserDataType } from 'data/modules/types'
 import {
   AddBankStepType,
+  BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType
 } from 'data/types'
@@ -65,6 +69,7 @@ import {
   NO_ORDER_EXISTS,
   NO_PAIR_SELECTED,
   NO_PAYMENT_TYPE,
+  POLLING,
   SDD_TIER
 } from './model'
 import * as S from './selectors'
@@ -228,7 +233,7 @@ export default ({
             A.setStep({
               step: 'ENTER_AMOUNT',
               cryptoCurrency,
-              orderType: order.side || 'BUY',
+              orderType: order.side || OrderType.BUY,
               fiatCurrency,
               pair,
               method
@@ -266,7 +271,7 @@ export default ({
 
       // since two screens use this order creation saga and they have different
       // forms, detect the order type and set correct form to submitting
-      if (orderType === 'SELL') {
+      if (orderType === OrderType.SELL) {
         yield put(actions.form.startSubmit('previewSell'))
       } else {
         yield put(actions.form.startSubmit('simpleBuyCheckout'))
@@ -278,14 +283,14 @@ export default ({
         fix === 'FIAT'
           ? convertStandardToBase('FIAT', values.amount)
           : convertStandardToBase(coin, values.amount)
-      const inputCurrency = orderType === 'BUY' ? fiat : coin
-      const outputCurrency = orderType === 'BUY' ? coin : fiat
+      const inputCurrency = orderType === OrderType.BUY ? fiat : coin
+      const outputCurrency = orderType === OrderType.BUY ? coin : fiat
       const input = { amount, symbol: inputCurrency }
       const output = { amount, symbol: outputCurrency }
 
       // used for sell only now, eventually buy as well
       // TODO: use swap2 quote for buy AND sell
-      if (orderType === 'SELL') {
+      if (orderType === OrderType.SELL) {
         const from = S.getSwapAccount(yield select())
         const quote = S.getSellQuote(yield select()).getOrFail(NO_QUOTE)
         if (!from) throw new Error(NO_ACCOUNT)
@@ -347,11 +352,11 @@ export default ({
 
       if (!paymentType) throw new Error(NO_PAYMENT_TYPE)
 
-      if (orderType === 'BUY' && fix === 'CRYPTO') {
+      if (orderType === OrderType.BUY && fix === 'CRYPTO') {
         // @ts-ignore
         delete input.amount
       }
-      if (orderType === 'BUY' && fix === 'FIAT') {
+      if (orderType === OrderType.BUY && fix === 'FIAT') {
         // @ts-ignore
         delete output.amount
       }
@@ -414,7 +419,7 @@ export default ({
       }
 
       const error = errorHandler(e)
-      if (values?.orderType === 'SELL') {
+      if (values?.orderType === OrderType.SELL) {
         yield put(actions.form.stopSubmit('previewSell', { _error: error }))
       }
       yield put(actions.form.stopSubmit('simpleBuyCheckout', { _error: error }))
@@ -426,8 +431,7 @@ export default ({
       api.getSBOrder,
       orderId
     )
-
-    if (order.attributes?.authorisationUrl) {
+    if (order.attributes?.authorisationUrl || order.state === 'FAILED') {
       return order
     } else {
       throw new Error('retrying to fetch for AuthUrl')
@@ -440,12 +444,35 @@ export default ({
       orderId
     )
 
-    if (order.state === 'FINISHED') {
+    if (
+      order.state === 'FINISHED' ||
+      order.state === 'FAILED' ||
+      order.state === 'CANCELED'
+    ) {
       return order
     } else {
-      throw new Error('retrying to fetch for FINISHED order')
+      throw new Error(
+        'Order verification timed out. It will continue in the background.'
+      )
     }
   }
+
+  const confirmOrderPoll = function * (
+    action: ReturnType<typeof A.confirmOrderPoll>
+  ) {
+    const { order } = action.payload
+    const { RETRY_AMOUNT, SECONDS } = POLLING
+    const confirmedOrder = yield retry(
+      RETRY_AMOUNT,
+      SECONDS * 1000,
+      OrderConfirmCheck,
+      order.id
+    )
+    yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
+    yield put(A.setStep({ step: 'ORDER_SUMMARY', order: confirmedOrder }))
+    yield put(A.fetchSBOrders())
+  }
+
   const confirmSBOrder = function * (
     payload: ReturnType<typeof A.confirmSBOrder>
   ) {
@@ -453,9 +480,11 @@ export default ({
     try {
       if (!order) throw new Error(NO_ORDER_EXISTS)
       yield put(actions.form.startSubmit('sbCheckoutConfirm'))
+      const account = selectors.components.brokerage.getAccount(yield select())
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
       const domains = domainsR.getOrElse({
-        walletHelper: 'https://wallet-helper.blockchain.com'
+        walletHelper: 'https://wallet-helper.blockchain.com',
+        yapilyCallbackUrl: 'https://www.blockchain.com/brokerage-link-success'
       } as WalletOptionsType['domains'])
 
       let attributes
@@ -471,6 +500,8 @@ export default ({
                 }
               }
             : undefined
+      } else if (account?.partner === BankPartners.YAPILY) {
+        attributes = { callback: domains.yapilyCallbackUrl }
       }
 
       let confirmedOrder: SBOrderType = yield call(
@@ -480,20 +511,24 @@ export default ({
         paymentMethodId
       )
 
-      if (confirmedOrder.state === 'PENDING_DEPOSIT') {
+      const { RETRY_AMOUNT, SECONDS } = POLLING
+      if (account?.partner === BankPartners.YAPILY) {
         // for OB the authorisationUrl isn't in the initial response to confirm
         // order. We need to poll the order for it.
-        const order = yield retry(100, 10000, AuthUrlCheck, confirmedOrder.id)
-        yield put(A.setStep({ step: 'OPEN_BANKING_CONNECT', order }))
-        // Now we need to poll for the order success
-        confirmedOrder = yield retry(
-          100,
-          10000,
-          OrderConfirmCheck,
+        yield put(A.setStep({ step: 'LOADING' }))
+        const order = yield retry(
+          RETRY_AMOUNT,
+          SECONDS * 1000,
+          AuthUrlCheck,
           confirmedOrder.id
         )
-      }
+        // Refresh the tx list in the modal background
+        yield put(A.fetchSBOrders())
 
+        yield put(A.setStep({ step: 'OPEN_BANKING_CONNECT', order }))
+        // Now we need to poll for the order success
+        return yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
+      }
       yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
       if (order.paymentType === 'BANK_TRANSFER') {
         yield put(A.setStep({ step: 'ORDER_SUMMARY', order: confirmedOrder }))
@@ -935,9 +970,8 @@ export default ({
       // @ts-ignore
       let payment = paymentGetOrElse(account.coin, paymentR)
       const paymentAmount = generateProvisionalPaymentAmount(
-        payment.coin,
-        Number(cryptoAmt),
-        account.coin
+        account.coin,
+        Number(cryptoAmt)
       )
       payment = yield payment.amount(paymentAmount)
       payment = yield payment.build()
@@ -1121,7 +1155,7 @@ export default ({
       const pair = S.getSBPair(yield select())
       if (!pair) throw new Error(NO_PAIR_SELECTED)
       // Fetch rates
-      if (orderType === 'BUY') {
+      if (orderType === OrderType.BUY) {
         yield put(A.fetchSBQuote(pair.pair, orderType, '0'))
         // used for sell only now, eventually buy as well
         // TODO: use swap2 quote for buy AND sell
@@ -1293,23 +1327,33 @@ export default ({
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
     const { cryptoCurrency, orderType, origin } = payload
     const latestPendingOrder = S.getSBLatestPendingOrder(yield select())
-    const bankAccount = yield call(
-      getBankInformation,
-      latestPendingOrder as SBOrderType
-    )
+
     yield put(
       actions.modals.showModal('SIMPLE_BUY_MODAL', { origin, cryptoCurrency })
     )
     const fiatCurrencyR = selectors.core.settings.getCurrency(yield select())
     const fiatCurrency = fiatCurrencyR.getOrElse('USD')
-
     if (latestPendingOrder) {
-      const step =
+      const bankAccount = yield call(
+        getBankInformation,
+        latestPendingOrder as SBOrderType
+      )
+      let step: T.StepActionsPayload['step'] =
         latestPendingOrder.state === 'PENDING_CONFIRMATION'
-          ? prop('partner', bankAccount) === 'YAPILY'
-            ? 'OPEN_BANKING_CONNECT'
-            : 'CHECKOUT_CONFIRM'
+          ? 'CHECKOUT_CONFIRM'
           : 'ORDER_SUMMARY'
+
+      // When user closes the QR code modal and opens it via one of the pending
+      // buy buttons in the app. We need to take them to the qrcode screen and
+      // poll for the order status
+      if (
+        latestPendingOrder.state === 'PENDING_DEPOSIT' &&
+        prop('partner', bankAccount) === BankPartners.YAPILY
+      ) {
+        step = 'OPEN_BANKING_CONNECT'
+        yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))
+      }
+
       yield put(
         A.setStep({
           step,
@@ -1317,7 +1361,7 @@ export default ({
         })
       )
     } else if (cryptoCurrency) {
-      orderType === 'BUY' &&
+      orderType === OrderType.BUY &&
         (yield put(
           // 🚨 SPECIAL TS-IGNORE
           // Usually ENTER_AMOUNT should require a pair but
@@ -1333,7 +1377,7 @@ export default ({
             orderType
           })
         ))
-      orderType === 'SELL' &&
+      orderType === OrderType.SELL &&
         (yield put(
           A.setStep({
             step: 'CRYPTO_SELECTION',
@@ -1362,14 +1406,24 @@ export default ({
   }
 
   const fetchLimits = function * ({
-    currency
-  }: ReturnType<typeof A.fetchSBFiatEligible>) {
+    cryptoCurrency,
+    currency,
+    side
+  }: ReturnType<typeof A.fetchLimits>) {
     try {
       yield put(A.fetchLimitsLoading())
-      const limits: ReturnType<typeof api.getSwapLimits> = yield call(
-        api.getSwapLimits,
-        currency
-      )
+      let limits
+      if (cryptoCurrency && side) {
+        limits = yield call(
+          api.getSBLimits,
+          currency,
+          ProductTypes.SIMPLEBUY,
+          cryptoCurrency,
+          side
+        )
+      } else {
+        limits = yield call(api.getSwapLimits, currency)
+      }
       yield put(A.fetchLimitsSuccess(limits))
     } catch (e) {
       const error = errorHandler(e)
@@ -1382,6 +1436,7 @@ export default ({
     addCardDetails,
     addCardFinished,
     cancelSBOrder,
+    confirmOrderPoll,
     confirmSBOrder,
     confirmSBFundsOrder,
     createSBOrder,

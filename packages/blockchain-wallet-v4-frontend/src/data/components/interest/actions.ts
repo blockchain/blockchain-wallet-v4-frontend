@@ -2,6 +2,7 @@ import {
   InterestAccountBalanceType,
   InterestAccountType,
   InterestAfterTransactionType,
+  InterestEDDStatus,
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
@@ -21,7 +22,8 @@ import {
   InterestActionTypes,
   InterestMinMaxType,
   InterestStep,
-  InterestStepMetadata
+  InterestStepMetadata,
+  InterestTransactionsReportType
 } from './types'
 
 // BALANCES
@@ -166,6 +168,26 @@ export const fetchInterestRateSuccess = (
 })
 
 // TRANSACTIONS
+export const clearInterestTransactionsReport = () => ({
+  type: AT.CLEAR_INTEREST_TRANSACTIONS_REPORT
+})
+export const fetchInterestTransactionsReport = (coin?: CoinType) => ({
+  payload: { coin },
+  type: AT.FETCH_INTEREST_TRANSACTIONS_REPORT
+})
+export const fetchInterestTransactionsReportFailure = (error: string) => ({
+  payload: { error },
+  type: AT.FETCH_INTEREST_TRANSACTIONS_REPORT_FAILURE
+})
+export const fetchInterestTransactionsReportLoading = () => ({
+  type: AT.FETCH_INTEREST_TRANSACTIONS_REPORT_LOADING
+})
+export const fetchInterestTransactionsReportSuccess = (
+  transactions: InterestTransactionsReportType
+) => ({
+  payload: { transactions },
+  type: AT.FETCH_INTEREST_TRANSACTIONS_REPORT_SUCCESS
+})
 export const fetchInterestTransactions = (reset: boolean, coin?: CoinType) => ({
   payload: { reset, coin },
   type: AT.FETCH_INTEREST_TRANSACTIONS
@@ -304,4 +326,22 @@ export const fetchShowInterestCardAfterTransactionSuccess = (
 })
 export const resetShowInterestCardAfterTransaction = (): InterestActionTypes => ({
   type: AT.RESET_SHOW_INTEREST_CARD_AFTER_TRANSACTION
+})
+
+// EDD
+export const fetchEDDStatus = () => ({
+  type: AT.FETCH_EDD_STATUS
+})
+export const fetchEDDStatusFailure = (error: string): InterestActionTypes => ({
+  type: AT.FETCH_EDD_STATUS_FAILURE,
+  payload: { error }
+})
+export const fetchEDDStatusLoading = (): InterestActionTypes => ({
+  type: AT.FETCH_EDD_STATUS_LOADING
+})
+export const fetchEDDStatusSuccess = (
+  eddStatus: InterestEDDStatus
+): InterestActionTypes => ({
+  type: AT.FETCH_EDD_STATUS_SUCCESS,
+  payload: { eddStatus }
 })
