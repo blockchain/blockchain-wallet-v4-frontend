@@ -22,7 +22,7 @@ import { DEFAULT_SB_BALANCE } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
 
 import {
-  getErc20Balance as getErc20NonCustodialBalance,
+  getErc20NonCustodialBalance,
   getEthBalance as getEthNonCustodialBalance,
   getXlmBalance as getXlmNonCustodialBalance
 } from './nonCustodial/selectors'

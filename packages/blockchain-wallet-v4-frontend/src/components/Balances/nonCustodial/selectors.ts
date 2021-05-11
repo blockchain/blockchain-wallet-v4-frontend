@@ -68,7 +68,7 @@ export const getXlmBalance = createDeepEqualSelector(
   }
 )
 
-export const getErc20Balance = coin =>
+export const getErc20NonCustodialBalance = coin =>
   createDeepEqualSelector(
     [state => selectors.core.data.eth.getErc20Balance(state, coin)],
     balanceR => {
@@ -88,6 +88,6 @@ export const getBalanceSelector = (coin: CoinType) => {
       return getXlmBalance
     // TODO: FIX erc20 is default
     default:
-      return getErc20Balance(coin)
+      return getErc20NonCustodialBalance(coin)
   }
 }
