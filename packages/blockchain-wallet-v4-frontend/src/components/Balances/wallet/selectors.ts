@@ -15,7 +15,7 @@ export const getTotalBalance = createDeepEqualSelector(
     S.getEthBalanceInfo,
     S.getXlmBalanceInfo,
     S.getFiatBalanceInfo,
-    S.getErc20BalancesInfo,
+    S.getErc20BalancesInfoV2,
     selectors.core.settings.getCurrency
   ],
   (
@@ -25,7 +25,7 @@ export const getTotalBalance = createDeepEqualSelector(
     ethBalanceInfoR,
     xlmBalanceInfoR,
     fiatBalanceInfoR,
-    erc20BalancesInfo,
+    erc20BalancesInfoV2,
     currency
   ) => {
     const transform = (
@@ -35,17 +35,21 @@ export const getTotalBalance = createDeepEqualSelector(
       ethBalance,
       xlmBalance,
       fiatBalance,
-      erc20Balances,
+      erc20BalancesInfoV2,
       currency
     ) => {
+      const erc20Balance = erc20BalancesInfoV2.reduce(
+        (acc, cur) => (acc += Number(cur.getOrElse('0'))),
+        0
+      )
       const total = formatFiat(
         Number(btcBalance) +
           Number(dotBalance) +
           Number(ethBalance) +
           Number(bchBalance) +
           Number(xlmBalance) +
-          Number(erc20Balances) +
-          Number(fiatBalance)
+          Number(fiatBalance) +
+          erc20Balance
       )
       const totalBalance = `${Exchange.getSymbol(currency)}${total}`
       return { totalBalance }
@@ -57,7 +61,7 @@ export const getTotalBalance = createDeepEqualSelector(
       ethBalanceInfoR,
       xlmBalanceInfoR,
       fiatBalanceInfoR,
-      erc20BalancesInfo,
+      erc20BalancesInfoV2,
       currency
     )
   }

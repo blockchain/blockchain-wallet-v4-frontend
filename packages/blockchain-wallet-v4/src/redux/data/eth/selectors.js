@@ -1,4 +1,4 @@
-import { concat, head, keys, path, prop } from 'ramda'
+import { concat, curry, head, keys, path, prop } from 'ramda'
 
 import Remote from '../../../remote'
 import { createDeepEqualSelector } from '../../../utils'
@@ -63,10 +63,10 @@ export const getTransactionHistory = path([
 //
 // ERC20
 //
-export const getErc20Rates = (state, token) => {
+export const getErc20Rates = curry((state, token) => {
   const tokenRates = path([dataPath, 'eth', 'rates', token])(state)
   return tokenRates || Remote.NotAsked
-}
+})
 export const getErc20Balance = (state, token) => {
   const tokenData = path([dataPath, 'eth', 'info', token])(state)
   return tokenData ? tokenData.map(prop('balance')) : Remote.NotAsked

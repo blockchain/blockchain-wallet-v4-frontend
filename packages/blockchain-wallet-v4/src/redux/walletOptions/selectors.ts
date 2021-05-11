@@ -95,10 +95,14 @@ export const getAllCoinAvailabilities = state => {
   >
 }
 
-export const getErc20CoinList = state =>
-  getSupportedCoins(state).map(x =>
-    // @ts-ignore
-    keys(filter((c: SupportedCoinType) => !!c.contractAddress, x))
+export const getErc20CoinList = (state): RemoteDataType<any, CoinType[]> =>
+  getSupportedCoins(state).map(
+    x =>
+      // @ts-ignore
+      keys(
+        // @ts-ignore
+        filter((c: SupportedCoinType) => !!c.contractAddress, x)
+      ) as CoinType[]
   )
 export const getCoinModel = (state, coin) =>
   // @ts-ignore
