@@ -301,23 +301,21 @@ const FirstStep = props => {
               />
             </FormItem>
           </FormGroup>
-          {!isFromCustody && (
-            <FormGroup inline margin={'10px'}>
-              <FormItem>
-                <Text size='16px' weight={500}>
-                  <FormattedMessage
-                    id='modals.sendxlm.firststep.fee'
-                    defaultMessage='Transaction Fee:'
-                  />
-                </Text>
-                <Text>
-                  <ComboDisplay size='13px' coin='XLM' weight={500}>
-                    {fee}
-                  </ComboDisplay>
-                </Text>
-              </FormItem>
-            </FormGroup>
-          )}
+          <FormGroup inline margin={'10px'}>
+            <FormItem>
+              <Text size='16px' weight={500}>
+                <FormattedMessage
+                  id='modals.sendxlm.firststep.fee'
+                  defaultMessage='Transaction Fee:'
+                />
+              </Text>
+              <Text>
+                <ComboDisplay size='13px' coin='XLM' weight={500}>
+                  {fee}
+                </ComboDisplay>
+              </Text>
+            </FormItem>
+          </FormGroup>
           {isFromCustody && !isMnemonicVerified ? (
             <MnemonicRequiredForCustodySend />
           ) : null}

@@ -259,7 +259,7 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      {!isFromCustody && (
+      {!isFromCustody ? (
         <FeeFormGroup inline margin={'10px'}>
           <ColLeft>
             <FeeFormContainer toggled={feeToggled}>
@@ -322,6 +322,18 @@ const FirstStep = props => {
               )}
             </Link>
           </ColRight>
+        </FeeFormGroup>
+      ) : (
+        <FeeFormGroup margin={'10px'}>
+          <FormLabel>
+            <FormattedMessage
+              id='modals.sendeth.firststep.networkfee'
+              defaultMessage='Network Fee'
+            />
+          </FormLabel>
+          <ComboDisplay size='13px' weight={600} coin={coin}>
+            {fee}
+          </ComboDisplay>
         </FeeFormGroup>
       )}
       {feeToggled ? (

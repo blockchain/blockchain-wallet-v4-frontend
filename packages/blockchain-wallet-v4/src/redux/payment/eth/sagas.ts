@@ -11,6 +11,7 @@ import {
 } from 'ramda'
 import { call, select } from 'redux-saga/effects'
 
+import { Exchange } from 'blockchain-wallet-v4/src/'
 import { EthRawTxType } from 'core/types'
 
 import settingsSagaFactory from '../../../redux/settings/sagas'
@@ -220,20 +221,28 @@ export default ({ api }) => {
         )
       },
 
-      * fee(value, origin) {
+      * fee(value, origin, coin) {
         let contract
         let account = origin
+
+        if (p.from && p.from.type === 'CUSTODIAL') {
+          const feeInGwei = Exchange.convertCoinToCoin({
+            value,
+            baseToStandard: true,
+            coin
+          }).value
+
+          return makePayment(
+            mergeRight(p, {
+              feeInGwei,
+              fee: value
+            })
+          )
+        }
+
         if (origin === null || origin === undefined || origin === '') {
           const accountR = yield select(S.kvStore.eth.getDefaultAddress)
           account = accountR.getOrFail('missing_default_from')
-        }
-        if (p.from && p.from.type === 'CUSTODIAL') {
-          return makePayment(
-            mergeRight(p, {
-              feeInGwei: 0,
-              fee: 0
-            })
-          )
         }
         if (p.isErc20) {
           contract = (yield select(

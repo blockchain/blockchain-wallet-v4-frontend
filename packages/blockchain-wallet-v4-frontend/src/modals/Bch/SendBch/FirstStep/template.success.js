@@ -258,21 +258,19 @@ const FirstStep = props => {
           )}
         </FormItem>
       </FormGroup>
-      {!isFromCustody && (
-        <FormGroup inline margin={isPayPro ? '10px' : '30px'}>
-          <FormItem>
-            <FormLabel>
-              <FormattedMessage
-                id='modals.sendBch.firststep.networkfee'
-                defaultMessage='Network Fee'
-              />
-            </FormLabel>
-            <ComboDisplay size='13px' coin='BCH' weight={500}>
-              {totalFee}
-            </ComboDisplay>
-          </FormItem>
-        </FormGroup>
-      )}
+      <FormGroup inline margin={isPayPro ? '10px' : '30px'}>
+        <FormItem>
+          <FormLabel>
+            <FormattedMessage
+              id='modals.sendBch.firststep.networkfee'
+              defaultMessage='Network Fee'
+            />
+          </FormLabel>
+          <ComboDisplay size='13px' coin='BCH' weight={500}>
+            {totalFee}
+          </ComboDisplay>
+        </FormItem>
+      </FormGroup>
       {isPayPro && invalid && (
         <Text
           size='13px'

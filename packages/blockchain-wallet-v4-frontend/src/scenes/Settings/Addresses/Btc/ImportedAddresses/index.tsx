@@ -16,13 +16,13 @@ class ImportedAddressesContainer extends React.Component<Props> {
   }
 
   handleClickVerify = () => {
-    this.props.modalActions.showModal('VerifyMessage', {
+    this.props.modalActions.showModal('VERIFY_MESSAGE_AIRDROP', {
       origin: 'SettingsPage'
     })
   }
 
   handleShowPriv = address => {
-    this.props.modalActions.showModal('ShowBtcPrivateKey', {
+    this.props.modalActions.showModal('SHOW_BTC_PRIVATE_KEY_MODAL', {
       addr: address.addr,
       balance: address.info.final_balance,
       origin: 'SettingsPage'
@@ -30,7 +30,7 @@ class ImportedAddressesContainer extends React.Component<Props> {
   }
 
   handleSignMessage = address => {
-    this.props.modalActions.showModal('SignMessage', {
+    this.props.modalActions.showModal('SIGN_MESSAGE_MODAL', {
       address: address.addr,
       origin: 'SettingsPage'
     })

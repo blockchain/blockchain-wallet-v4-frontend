@@ -32,7 +32,7 @@ class BchWalletsContainer extends React.Component {
       addressesBchActions.showChangeAddrs(account.index, account.xpub)
     }
     const onShowXPub = account => {
-      modalsActions.showModal('ShowXPub', { xpub: account.xpub })
+      modalsActions.showModal('SHOW_XPUB_MODAL', { xpub: account.xpub })
     }
     const onMakeDefault = account => {
       kvStoreBchActions.setDefaultAccountIdx(account.index)

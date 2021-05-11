@@ -161,7 +161,7 @@ export default ({
           yield put(actions.modals.closeAllModals())
           yield put(
             actions.modals.showModal(
-              `@MODAL.SEND.${modalName}` as ModalNamesType,
+              `SEND_${modalName}_MODAL` as ModalNamesType,
               {
                 coin: payload,
                 origin: 'SendEth'
@@ -179,11 +179,24 @@ export default ({
               payment = yield payment.from(source, fromPayload.type)
               break
             case 'CUSTODIAL':
+              const response: ReturnType<typeof api.getWithdrawalFees> = yield call(
+                api.getWithdrawalFees,
+                'simplebuy',
+                'DEFAULT'
+              )
+              const fee =
+                response.fees.find(({ symbol }) => symbol === coin)
+                  ?.minorValue || '0'
               source = fromPayload.label
               payment = yield payment.from(
                 source,
                 fromPayload.type,
-                fromPayload.withdrawable
+                new BigNumber(fromPayload.withdrawable).minus(fee).toString()
+              )
+              payment = yield payment.fee(
+                new BigNumber(fee).toNumber(),
+                '',
+                coin
               )
               yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
               yield put(change(FORM, 'to', null))
@@ -198,6 +211,8 @@ export default ({
           // Do not block payment update when to is changed w/ isContract check
           yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
           // After updating payment success check if to isContract
+
+          if (payment.value().from.type === 'CUSTODIAL') return
           yield put(A.sendEthCheckIsContract(value))
           return
         case 'amount':
@@ -600,7 +615,7 @@ export default ({
       }
 
       yield put(
-        actions.modals.showModal('@MODAL.SEND.ETH', {
+        actions.modals.showModal('SEND_ETH_MODAL', {
           origin: 'RetrySendEth',
           coin
         })

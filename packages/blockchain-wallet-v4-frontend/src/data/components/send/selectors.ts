@@ -19,6 +19,9 @@ export const getPaymentsTradingAccountAddress = curry(
   }
 )
 
+export const getUnstoppableDomainResults = (state: RootState) =>
+  state.components.send.unstoppableDomainResults
+
 export const getWithdrawLockCheck = (state: RootState) =>
   state.components.send.withdrawLockCheck
 

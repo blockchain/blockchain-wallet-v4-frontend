@@ -131,7 +131,7 @@ export default ({
 
   const bitPayInvoiceEntered = function * (bip21Payload) {
     yield put(
-      actions.modals.showModal('Confirm', {
+      actions.modals.showModal('CONFIRMATION_MODAL', {
         origin: 'SendBch',
         title: C.BITPAY_CONFIRM_TITLE,
         message: C.BITPAY_CONFIRM_MSG
@@ -155,7 +155,9 @@ export default ({
   const bitpayInvoiceExpired = function * () {
     yield put(actions.modals.closeAllModals())
     yield put(
-      actions.modals.showModal('BitPayInvoiceExpired', { origin: 'SendBch' })
+      actions.modals.showModal('BITPAY_INVOICE_EXPIRED_MODAL', {
+        origin: 'SendBch'
+      })
     )
     yield put(
       actions.analytics.logEvent([
@@ -204,7 +206,7 @@ export default ({
           yield put(actions.modals.closeAllModals())
           yield put(
             actions.modals.showModal(
-              `@MODAL.SEND.${modalName}` as ModalNamesType,
+              `SEND_${modalName}_MODAL` as ModalNamesType,
               {
                 coin: payload,
                 origin: 'SendBch'
@@ -227,11 +229,20 @@ export default ({
               payment = yield payment.from(payloadT.xpub, fromType)
               break
             case 'CUSTODIAL':
+              const response: ReturnType<typeof api.getWithdrawalFees> = yield call(
+                api.getWithdrawalFees,
+                'simplebuy',
+                'DEFAULT'
+              )
+              const fee =
+                response.fees.find(({ symbol }) => symbol === 'BCH')
+                  ?.minorValue || '0'
               payment = yield payment.from(
                 payloadT.label,
                 fromType,
-                payloadT.withdrawable
+                new BigNumber(payloadT.withdrawable).minus(fee).toString()
               )
+              payment = yield payment.fee(new BigNumber(fee).toNumber())
               yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
               yield put(change(FORM, 'to', null))
               break

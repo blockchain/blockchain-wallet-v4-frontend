@@ -57,7 +57,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('ShowBtcPrivateKey'),
+  modalEnhancer('SHOW_BTC_PRIVATE_KEY_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 
