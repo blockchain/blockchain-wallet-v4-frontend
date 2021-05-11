@@ -25,9 +25,8 @@ export const getData = (coin, state) => {
     return {
       coin: `1 ${coin}`,
       fiat: Exchange.displayCoinToFiat({
-        fromCoin: coin,
+        coin,
         value: 1,
-        fromUnit: coin,
         toCurrency: currency,
         rates
       })

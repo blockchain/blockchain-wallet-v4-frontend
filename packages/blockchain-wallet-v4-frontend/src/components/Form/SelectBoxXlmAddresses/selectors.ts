@@ -28,7 +28,10 @@ export const getData = (
 
   const buildDisplay = wallet => {
     if (has('balance', wallet)) {
-      let xlmDisplay = Exchange.displayCoinToCoin(wallet.balnace, 'XLM')
+      let xlmDisplay = Exchange.displayCoinToCoin({
+        value: wallet.balnace,
+        coin: 'XLM'
+      })
       return wallet.label + ` (${xlmDisplay})`
     }
     return wallet.label
@@ -36,13 +39,19 @@ export const getData = (
   const buildCustodialDisplay = account => {
     return (
       `Trading Account` +
-      ` (${Exchange.displayCoinToCoin(account ? account.available : 0, 'XLM')})`
+      ` (${Exchange.displayCoinToCoin({
+        value: account ? account.available : 0,
+        coin: 'XLM'
+      })})`
     )
   }
   const buildInterestDisplay = (account: InterestAccountBalanceType['XLM']) => {
     return (
       `Interest Account` +
-      ` (${Exchange.displayCoinToCoin(account ? account.balance : 0, 'XLM')})`
+      ` (${Exchange.displayCoinToCoin({
+        value: account ? account.balance : 0,
+        coin: 'XLM'
+      })})`
     )
   }
   // @ts-ignore

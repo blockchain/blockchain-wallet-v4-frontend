@@ -109,7 +109,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
 
       yield put(
         A.setDepositLimits({
-          maxFiat: maxFiat,
+          maxFiat: Number(maxFiat),
           minFiat: Number(convertBaseToStandard('FIAT', minFiat)), // default unit is cents, convert to standard
           maxCoin: Number(maxCoin),
           minCoin: Number(minCoin)

@@ -19,7 +19,7 @@ export const getData = (state: RootState, coin, amount, hideCoinTicker) => {
     const config = coins[coin]
     return hideCoinTicker
       ? Exchange.convertCoinToCoin({ value, coin, isFiat: config.isFiat })
-      : Exchange.displayCoinToCoin(value, coin, config.isFiat)
+      : Exchange.displayCoinToCoin({ value, coin, isFiat: config.isFiat })
   }
   return lift(convert)(coinsR, Remote.of(coin), Remote.of(amount))
 }

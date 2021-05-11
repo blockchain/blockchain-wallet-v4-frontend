@@ -34,12 +34,14 @@ export class Amount extends Component<Props> {
                 unit: 'USD',
                 value: val.offer
                   ? Math.min(
-                      Exchange.convertCoinToFiat(
-                        val.values.coin,
-                        convertBaseToStandard(val.values.coin, val.max),
-                        val.values.coin,
-                        'USD',
-                        val.rates
+                      Number(
+                        Exchange.convertCoinToFiat(
+                          val.values.coin,
+                          convertBaseToStandard(val.values.coin, val.max),
+                          val.values.coin,
+                          'USD',
+                          val.rates
+                        )
                       ),
                       Number(
                         convertBaseToStandard(

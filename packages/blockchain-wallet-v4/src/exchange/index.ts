@@ -31,7 +31,174 @@ const DefaultConversion = {
 const DefaultDisplay = 'N/A'
 
 // =====================================================================
-// ============================ CALCULATION ============================
+// ============================== DECIMALS =============================
+// =====================================================================
+const convertCoinToCoin = ({
+  baseToStandard = true,
+  coin,
+  isFiat = false,
+  value
+}: {
+  baseToStandard?: boolean
+  coin: WalletCurrencyType | 'FIAT'
+  isFiat?: boolean
+  value: number | string
+}): string => {
+  if (isFiat || coin === 'FIAT') {
+    return baseToStandard
+      ? new BigNumber(value).dividedBy(100).valueOf()
+      : new BigNumber(value).multipliedBy(100).valueOf()
+  }
+
+  const config = Currencies[coin]
+
+  return transformCoinToCoin({
+    coin: coin as CoinType,
+    value,
+    fromUnit: (baseToStandard ? config.base : config.code) as UnitType,
+    toUnit: (baseToStandard ? config.code : config.base) as UnitType
+  }).getOrElse(DefaultConversion).value
+}
+
+const convertCoinToFiat = (
+  coin: CoinType,
+  value: number | string,
+  fromUnit: UnitType,
+  currency: keyof CurrenciesType,
+  rates: RatesType
+): string => {
+  return transformCoinToFiat({
+    coin,
+    value,
+    fromUnit,
+    toCurrency: currency,
+    rates
+  }).getOrElse(DefaultConversion).value
+}
+
+// Still used for gwei => eth conversion
+const convertEthToEth = ({
+  fromUnit,
+  toUnit,
+  value
+}: {
+  fromUnit: UnitType
+  toUnit: UnitType
+  value: number | string
+}) => {
+  return transformCoinToCoin({
+    coin: 'ETH',
+    value,
+    fromUnit,
+    toUnit
+  }).getOrElse(DefaultConversion)
+}
+
+const convertFiatToCoin = ({
+  coin,
+  currency,
+  rates,
+  value
+}: {
+  coin: CoinType
+  currency: keyof CurrenciesType
+  rates: RatesType
+  value: number | string
+}): string => {
+  const config = Currencies[coin]
+  return transformFiatToCoin({
+    coin,
+    value,
+    fromCurrency: currency,
+    toUnit: config.code as UnitType,
+    rates
+  }).getOrElse(DefaultConversion).value
+}
+
+// 🔺Triangulate Wallet Fiat -> BTC -> To other Fiat
+const convertFiatToFiat = ({
+  fromCurrency,
+  rates,
+  toCurrency,
+  value
+}: {
+  fromCurrency: WalletFiatType
+  rates: RatesType
+  toCurrency: WalletFiatType
+  value: number | string
+}) => {
+  const btcAmt = transformFiatToCoin({
+    coin: 'BTC',
+    value,
+    fromCurrency,
+    toUnit: 'BTC',
+    rates
+  }).getOrElse(DefaultConversion)
+  const fiatAmt = transformCoinToFiat({
+    coin: 'BTC',
+    value: btcAmt.value,
+    fromUnit: 'BTC',
+    toCurrency,
+    rates
+  }).getOrElse(DefaultConversion)
+
+  return fiatAmt
+}
+
+// =====================================================================
+// =============================== STRING ==============================
+// =====================================================================
+const displayCoinToCoin = ({
+  coin,
+  isFiat,
+  value
+}: {
+  coin: WalletCurrencyType
+  isFiat?: boolean
+  value: number | string
+}): string => {
+  if (isFiat) {
+    return Currency.fiatToString({ value, unit: coin as FiatType })
+  }
+
+  return transformCoinToCoin({
+    coin: coin as CoinType,
+    value,
+    fromUnit: Currencies[coin].base as UnitType,
+    toUnit: coin
+  })
+    .map(Currency.coinToString)
+    .getOrElse(DefaultDisplay)
+}
+
+const displayCoinToFiat = ({
+  coin,
+  rates,
+  toCurrency,
+  value
+}: {
+  coin: CoinType
+  rates: RatesType
+  toCurrency: keyof CurrenciesType
+  value: number | string
+}): string => {
+  return transformCoinToFiat({
+    coin,
+    fromUnit: coin,
+    value,
+    toCurrency,
+    rates
+  })
+    .map(Currency.unsafe_deprecated_fiatToString)
+    .getOrElse(DefaultDisplay)
+}
+
+const displayFiatToFiat = ({ value }: { value: number | string }) => {
+  return new BigNumber(value).toFixed(2)
+}
+
+// =====================================================================
+// ======================== CALCULATION (internal) =====================
 // =====================================================================
 const transformCoinToCoin = ({
   coin,
@@ -100,175 +267,10 @@ const transformCoinToFiat = ({
     .chain(Currency.toUnit(targetCurrencyUnit))
 }
 
-// =====================================================================
-// ============================== DECIMALS =============================
-// =====================================================================
-// Still used for gwei => eth conversion
-const convertEthToEth = ({
-  fromUnit,
-  toUnit,
-  value
-}: {
-  fromUnit: UnitType
-  toUnit: UnitType
-  value: number | string
-}) => {
-  return transformCoinToCoin({
-    coin: 'ETH',
-    value,
-    fromUnit,
-    toUnit
-  }).getOrElse(DefaultConversion)
-}
-
-// =====================================================================
-// =============================== STRING ==============================
-// =====================================================================
-const displayCoinToCoin = (
-  value: number | string,
-  toUnit: WalletCurrencyType,
-  isFiat?: boolean
-) => {
-  if (isFiat) {
-    return Currency.fiatToString({ value, unit: toUnit as FiatType })
-  }
-
-  return transformCoinToCoin({
-    coin: toUnit as CoinType,
-    value,
-    fromUnit: Currencies[toUnit].base as UnitType,
-    toUnit
-  })
-    .map(Currency.coinToString)
-    .getOrElse(DefaultDisplay)
-}
-
-const displayCoinToFiat = ({
-  fromCoin,
-  fromUnit,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromCoin: CoinType
-  fromUnit: UnitType
-  rates: RatesType
-  toCurrency: keyof CurrenciesType
-  value: number | string
-}) => {
-  return transformCoinToFiat({
-    coin: fromCoin,
-    value,
-    fromUnit,
-    toCurrency,
-    rates
-  })
-    .map(Currency.unsafe_deprecated_fiatToString)
-    .getOrElse(DefaultDisplay)
-}
-
-const displayFiatToFiat = ({ value }: { value: number | string }) => {
-  return new BigNumber(value).toFixed(2)
-}
-
-const convertCoinToCoin = ({
-  baseToStandard = true,
-  coin,
-  isFiat = false,
-  value
-}: {
-  baseToStandard?: boolean
-  coin: WalletCurrencyType | 'FIAT'
-  isFiat?: boolean
-  value: number | string
-}): string => {
-  if (isFiat || coin === 'FIAT') {
-    return baseToStandard
-      ? new BigNumber(value).dividedBy(100).valueOf()
-      : new BigNumber(value).multipliedBy(100).valueOf()
-  }
-
-  const config = Currencies[coin]
-
-  return transformCoinToCoin({
-    coin: coin as CoinType,
-    value,
-    fromUnit: (baseToStandard ? config.base : config.code) as UnitType,
-    toUnit: (baseToStandard ? config.code : config.base) as UnitType
-  }).getOrElse(DefaultConversion).value
-}
-
-const convertFiatToCoin = ({
-  coin,
-  currency,
-  rates,
-  value
-}: {
-  coin: CoinType
-  currency: keyof CurrenciesType
-  rates: RatesType
-  value: number | string
-}): string => {
-  const config = Currencies[coin]
-  return transformFiatToCoin({
-    coin,
-    value,
-    fromCurrency: currency,
-    toUnit: config.code as UnitType,
-    rates
-  }).getOrElse(DefaultConversion).value
-}
-
-const convertCoinToFiat = (
-  coin: CoinType,
-  value: number | string,
-  fromUnit: UnitType,
-  currency: keyof CurrenciesType,
-  rates: RatesType
-) => {
-  return transformCoinToFiat({
-    coin,
-    value,
-    fromUnit,
-    toCurrency: currency,
-    rates
-  }).getOrElse(DefaultConversion).value
-}
-
-// 🔺Triangulate Wallet Fiat -> BTC -> To other Fiat
-const convertFiatToFiat = ({
-  fromCurrency,
-  rates,
-  toCurrency,
-  value
-}: {
-  fromCurrency: WalletFiatType
-  rates: RatesType
-  toCurrency: WalletFiatType
-  value: number | string
-}) => {
-  const btcAmt = transformFiatToCoin({
-    coin: 'BTC',
-    value,
-    fromCurrency,
-    toUnit: 'BTC',
-    rates
-  }).getOrElse(DefaultConversion)
-  const fiatAmt = transformCoinToFiat({
-    coin: 'BTC',
-    value: btcAmt.value,
-    fromUnit: 'BTC',
-    toCurrency,
-    rates
-  }).getOrElse(DefaultConversion)
-
-  return fiatAmt
-}
-
-const getSymbol = currency => {
+const getSymbol = (currency): string => {
   const data = Currencies[currency]
   const tradeUnit = prop('trade', data)
-  return path(['units', tradeUnit, 'symbol'], data)
+  return path(['units', tradeUnit, 'symbol'], data) as string
 }
 
 export {

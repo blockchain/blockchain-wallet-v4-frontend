@@ -42,8 +42,7 @@ export const getData = (
     }
     return Exchange.displayCoinToFiat({
       value,
-      fromCoin: coin,
-      fromUnit: coin,
+      coin,
       toCurrency: defaultCurrency || currency,
       rates: defaultRates || rates
     })

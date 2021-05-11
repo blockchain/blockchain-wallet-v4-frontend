@@ -67,13 +67,15 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     const { payment, rates, ratesEth } = this.props
     return (
       (account.type === 'ACCOUNT' &&
-        (Exchange.convertCoinToFiat(
-          BASE,
-          convertBaseToStandard(account.baseCoin, this.networkFee(payment)),
-          BASE,
-          COUNTER,
-          BASE in Erc20CoinsEnum ? ratesEth : rates
-        ) as Number)) ||
+        Number(
+          Exchange.convertCoinToFiat(
+            BASE,
+            convertBaseToStandard(account.baseCoin, this.networkFee(payment)),
+            BASE,
+            COUNTER,
+            BASE in Erc20CoinsEnum ? ratesEth : rates
+          )
+        )) ||
       0
     )
   }
