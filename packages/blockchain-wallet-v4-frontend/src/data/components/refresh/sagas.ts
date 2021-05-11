@@ -1,6 +1,7 @@
-import { contains } from 'ramda'
+import { contains, toUpper } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
+import { CoinType } from 'core/types'
 import { actions, selectors } from 'data'
 
 export default () => {
@@ -32,6 +33,9 @@ export default () => {
       yield put(actions.core.data.eth.fetchErc20Rates('aave'))
       yield put(actions.core.data.eth.fetchErc20Rates('yfi'))
       const pathname = yield select(selectors.router.getPathname)
+      const erc20s = selectors.core.walletOptions
+        .getErc20CoinList(yield select())
+        .getOrElse([]) as CoinType[]
       switch (true) {
         case contains('/bch/transactions', pathname):
           yield call(refreshBchTransactions)
@@ -45,26 +49,14 @@ export default () => {
         case contains('/dot/transactions', pathname):
           yield call(refreshDotTransactions)
           break
-        case contains('/aave/transactions', pathname):
-          yield call(refreshErc20Transactions, 'aave')
-          break
-        case contains('/yfi/transactions', pathname):
-          yield call(refreshErc20Transactions, 'yfi')
-          break
-        case contains('/usd-d/transactions', pathname):
-          yield call(refreshErc20Transactions, 'pax')
-          break
-        case contains('/usdt/transactions', pathname):
-          yield call(refreshErc20Transactions, 'usdt')
-          break
-        case contains('/wdgld/transactions', pathname):
-          yield call(refreshErc20Transactions, 'wdgld')
-          break
         case contains('/xlm/transactions', pathname):
           yield call(refreshXlmTransactions)
           break
         case contains('/algo/transactions', pathname):
           yield call(refreshAlgoTransactions)
+          break
+        case erc20s.includes(toUpper(pathname.split('/')[1]) as CoinType):
+          yield call(refreshErc20Transactions, pathname.split('/')[1])
           break
         case contains('/eur/transactions', pathname):
           yield put(actions.core.data.fiat.fetchTransactions('EUR', true))
