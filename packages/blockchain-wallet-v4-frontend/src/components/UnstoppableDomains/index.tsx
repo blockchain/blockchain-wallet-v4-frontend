@@ -38,16 +38,15 @@ class UnstoppableDomains extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val =>
-        val.unstoppableDomains.results.map(result => {
-          return (
-            <AddressWrapper onClick={() => this.handleClick(result.address)}>
-              <Text size='14px' weight={500} color='grey800'>
-                {result.address}
-              </Text>
-            </AddressWrapper>
-          )
-        }),
+      Success: val => (
+        <AddressWrapper
+          onClick={() => this.handleClick(val.unstoppableDomains.address)}
+        >
+          <Text size='14px' weight={500} color='grey800'>
+            {val.unstoppableDomains.address}
+          </Text>
+        </AddressWrapper>
+      ),
       Loading: () => <BlockchainLoader height='24px' width='24px' />,
       NotAsked: () => null,
       Failure: e => <>{e}</>
