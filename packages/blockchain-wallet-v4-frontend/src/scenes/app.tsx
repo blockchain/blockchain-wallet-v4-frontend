@@ -22,7 +22,7 @@ import WalletLoading from './loading.wallet'
 const AuthorizeLogin = React.lazy(() => import('./AuthorizeLogin'))
 const Help = React.lazy(() => import('./Help'))
 const Login = React.lazy(() => import('./Login'))
-const LoginNew = React.lazy(() => import('./LoginNew'))
+const LoginOld = React.lazy(() => import('./LoginOld'))
 const Logout = React.lazy(() => import('./Logout'))
 const MobileLogin = React.lazy(() => import('./MobileLogin'))
 const Recover = React.lazy(() => import('./Recover'))
@@ -72,7 +72,7 @@ class App extends React.PureComponent<Props> {
                       />
                       <PublicLayout path='/help' component={Help} />
                       <PublicLayout path='/login' component={Login} />
-                      <PublicLayout path='/new' component={LoginNew} />
+                      <PublicLayout path='/old' component={LoginOld} />
                       <PublicLayout path='/logout' component={Logout} />
                       <PublicLayout
                         path='/mobile-login'
