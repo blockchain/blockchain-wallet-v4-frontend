@@ -78,7 +78,7 @@ class LinkedBanks extends PureComponent<Props> {
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
   fiatCurrency: selectors.components.withdraw.getFiatCurrency(state),
-  walletCurrency: selectors.core.settings.getCurrency(state)
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
