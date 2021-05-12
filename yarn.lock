@@ -8199,10 +8199,10 @@ eslint-config-airbnb@^18.2.1:
     object.assign "^4.1.2"
     object.entries "^1.1.2"
 
-eslint-config-constellation@0.0.20:
-  version "0.0.20"
-  resolved "https://registry.yarnpkg.com/eslint-config-constellation/-/eslint-config-constellation-0.0.20.tgz#5707f7b93897a46e219bd190750a9c9446a31dfc"
-  integrity sha512-JQhJcvelPMq4At6CwKV6m12AG/AnZs9aDV18PxQw+RhxTqPxOIp3zkHpeBTQThDjQrASyaWIF5dFN6DLFJl6cg==
+eslint-config-constellation@0.0.21:
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/eslint-config-constellation/-/eslint-config-constellation-0.0.21.tgz#5359d99afc374572fa9861032c2175551000c322"
+  integrity sha512-eKx7BjVU3sNUFUSXo5D7HKUDT9+/WR/+qYhvRHViNIkK28NsIMUI8lCtTmQISwiihKuht8XkdwF47y2AmACcww==
 
 eslint-config-prettier@8.2.0:
   version "8.2.0"
@@ -15771,10 +15771,10 @@ prepend-http@^2.0.0:
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-2.0.0.tgz#e92434bfa5ea8c19f41cdfd401d741a3c819d897"
   integrity sha1-6SQ0v6XqjBn0HN/UAddBo8gZ2Jc=
 
-prettier-config-constellation@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/prettier-config-constellation/-/prettier-config-constellation-0.0.3.tgz#3fe2a293d6ba0a5e14682eed30bd5a40eb2b4559"
-  integrity sha512-BCfGNPvLdtzvxtrH18IHVgV1kSFRogcqFPI5J/VkH5IpbBR9taKIPNZ80+4aqD+fIN6ubI7DVdAFt0OSIaulZw==
+prettier-config-constellation@0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/prettier-config-constellation/-/prettier-config-constellation-0.0.4.tgz#90c947131a3ef6dc4682339b487c207242f84726"
+  integrity sha512-bQ020KKzc6tJcTM0ekkEL63SNHd9Qsbx/tvxQqeVND9WwpVw3i8Cexv478mQO1TJCXa/9KDPv0DawU+bb1iubA==
 
 prettier-linter-helpers@^1.0.0:
   version "1.0.0"
@@ -18754,10 +18754,10 @@ styled-components@4.4.1:
     stylis-rule-sheet "^0.0.10"
     supports-color "^5.5.0"
 
-stylelint-config-constellation@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/stylelint-config-constellation/-/stylelint-config-constellation-0.0.3.tgz#ccea77a9c1bd201e8f303acc474f19e5a1d5b0aa"
-  integrity sha512-3GCt91a50EGUt52EfoGLAu9ZjA6y0fqNIYhZ6dueKALJyvVTyRaY+dqWHTRFPFvG3ZQf7SsK8omed0W0f8LmcQ==
+stylelint-config-constellation@0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/stylelint-config-constellation/-/stylelint-config-constellation-0.0.4.tgz#94585286108c3d003cf4758acea7714325e5d60b"
+  integrity sha512-WNVqXotpi0TpqlNibFug5fqIC/V4aXkGdFc4OkJrLbVV88Qayym31c+gjvU4Hd5GzHzFd0GP+bQ59ni7uD/X+Q==
 
 stylelint-config-prettier@8.0.2:
   version "8.0.2"
