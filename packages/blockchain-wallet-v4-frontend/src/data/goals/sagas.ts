@@ -162,7 +162,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.router.push('/wallet'))
       yield put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
     } else {
-      // TODO: BCH payments?
+      // BTC payments
       const { address } = bip21Payload
       const { amount, message } = bip21Payload.options || {}
       const data = { address, amount, description: message }
