@@ -6,7 +6,6 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import {
   CoinType,
-  Erc20CoinsEnum,
   PaymentType,
   PaymentValue,
   SwapQuoteType
@@ -117,7 +116,7 @@ export default ({
       const coin = source.coin
       const addressOrIndex = source.address
       const addressType = source.type
-      const isSourceErc20 = coin in Erc20CoinsEnum
+      const isSourceErc20 = !!source.config.contractAddress
       const paymentType = isSourceErc20 ? 'eth' : coin.toLowerCase()
       let payment: PaymentType = yield coreSagas.payment[paymentType]
         .create({ network: networks[paymentType] })

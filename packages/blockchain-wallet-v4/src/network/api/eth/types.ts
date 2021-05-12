@@ -52,11 +52,3 @@ export enum Erc20ListEnum {
   '0x8e870d67f660d95d5be530380d0ec0bd388289e1' = 'PAX',
   '0xdac17f958d2ee523a2206206994597c13d831ec7' = 'USDT'
 }
-
-export enum Erc20CoinsEnum {
-  AAVE = 'AAVE',
-  PAX = 'PAX',
-  USDT = 'USDT',
-  WDGLD = 'WDGLD',
-  YFI = 'YFI'
-}

@@ -2,10 +2,13 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { lift } from 'ramda'
 
+import { coreSelectors } from 'blockchain-wallet-v4/src'
 import { SBBalanceType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { generateTradingAccount } from 'data/coins/utils'
+import { SwapAccountType } from 'data/components/types'
 
 import { getTradingBalance } from '../'
 
@@ -22,25 +25,29 @@ export const getTransactionPageHeaderText = () => (
 // NOT IMPLEMENTED FOR COIN: non-custodial accounts, imported addresses/accounts
 export const getAccounts = createDeepEqualSelector(
   [
+    coreSelectors.walletOptions.getSupportedCoins,
     (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
-  (sbBalanceR, ownProps) => {
-    const transform = (sbBalance: ExtractSuccess<typeof sbBalanceR>) => {
+  (supportedCoinsR, sbBalanceR, ownProps) => {
+    const transform = (
+      sbBalance: ExtractSuccess<typeof sbBalanceR>,
+      supportedCoins: ExtractSuccess<typeof supportedCoinsR>
+    ) => {
       const { coin } = ownProps
-      let accounts = []
+      const config = supportedCoins[coin as CoinType]
+      let accounts: SwapAccountType[] = []
 
       // add trading accounts if requested
       if (ownProps?.tradingAccounts) {
         accounts = accounts.concat(
-          // @ts-ignore
-          generateTradingAccount(coin, sbBalance as SBBalanceType)
+          generateTradingAccount(coin, config, sbBalance as SBBalanceType)
         )
       }
 
       return accounts
     }
 
-    return lift(transform)(sbBalanceR)
+    return lift(transform)(sbBalanceR, supportedCoinsR)
   }
 )

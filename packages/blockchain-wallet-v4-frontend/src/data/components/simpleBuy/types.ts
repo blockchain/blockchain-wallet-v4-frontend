@@ -22,6 +22,7 @@ import {
   SwapQuoteType,
   SwapUserLimitsType
 } from 'blockchain-wallet-v4/src/types'
+import { ADDRESS_TYPES } from 'core/redux/payment/btc/utils'
 
 import { SwapAccountType } from '../swap/types'
 import { CountryType } from './../identityVerification/types'
@@ -427,7 +428,7 @@ export type StepActionsPayload =
     }
   | { order?: SBOrderType; step: '3DS_HANDLER' }
   | {
-      sellOrderType?: 'ACCOUNT' | 'CUSTODIAL'
+      sellOrderType?: keyof typeof ADDRESS_TYPES
       step: 'PREVIEW_SELL'
     }
   | {

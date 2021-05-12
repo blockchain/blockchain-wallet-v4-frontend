@@ -2,7 +2,6 @@ import { lift, pathOr, propOr } from 'ramda'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
 import {
-  Erc20CoinsEnum,
   ExtractSuccess,
   FiatType,
   InterestAfterTransactionType,
@@ -53,22 +52,22 @@ export const getData = (state: RootState) => {
       supportedCoins: ExtractSuccess<typeof supportedCoinsR>,
       walletCurrency: ExtractSuccess<typeof walletCurrencyR>
     ) => {
+      const config = supportedCoins[coin]
       const depositFee =
         coin === 'BCH' || coin === 'BTC'
           ? Number(pathOr('0', ['selection', 'fee'], payment))
           : Number(propOr('0', 'fee', payment))
 
-      const feeCrypto =
-        coin in Erc20CoinsEnum
-          ? convertBaseToStandard('ETH', depositFee)
-          : convertBaseToStandard(coin, depositFee)
+      const feeCrypto = config.contractAddress
+        ? convertBaseToStandard('ETH', depositFee)
+        : convertBaseToStandard(coin, depositFee)
 
       const feeFiat = Exchange.convertCoinToFiat(
         coin,
         feeCrypto,
-        coin in Erc20CoinsEnum ? 'ETH' : coin,
+        config.contractAddress ? 'ETH' : coin,
         walletCurrency,
-        coin in Erc20CoinsEnum ? ethRates : rates
+        config.contractAddress ? ethRates : rates
       )
 
       return {

@@ -3,10 +3,12 @@ import {
   Erc20CoinType,
   PaymentValue,
   RemoteDataType,
+  SupportedCoinType,
   SwapOrderType,
   SwapQuoteType,
   SwapUserLimitsType
 } from 'blockchain-wallet-v4/src/types'
+import { ADDRESS_TYPES } from 'core/redux/payment/btc/utils'
 
 import * as AT from './actionTypes'
 
@@ -14,14 +16,15 @@ export type MempoolFeeType = 'regular' | 'priority'
 
 export type SwapAccountType = {
   accountIndex?: number
-  address: number | string
-  archived: boolean
+  address?: number | string
+  archived?: boolean
   balance: number | string
   baseCoin: Exclude<CoinType, Erc20CoinType>
   coin: CoinType
-  index: number
+  config: SupportedCoinType
+  index?: number
   label: string
-  type: 'ACCOUNT' | 'CUSTODIAL'
+  type: keyof typeof ADDRESS_TYPES
 }
 
 export type SwapAmountFormValues =
@@ -189,7 +192,7 @@ export type SwapStepPayload =
   // added these optional payloads for data science tracking
   | {
       options?: {
-        account?: 'ACCOUNT' | 'CUSTODIAL'
+        account?: keyof typeof ADDRESS_TYPES
         coin?: CoinType
         side?: 'BASE' | 'COUNTER'
       }
@@ -197,7 +200,7 @@ export type SwapStepPayload =
     }
   | {
       options?: {
-        account?: 'ACCOUNT' | 'CUSTODIAL'
+        account?: keyof typeof ADDRESS_TYPES
         coin?: CoinType
         side?: 'BASE' | 'COUNTER'
       }
@@ -205,9 +208,9 @@ export type SwapStepPayload =
     }
   | {
       options?: {
-        baseAccountType?: 'ACCOUNT' | 'CUSTODIAL'
+        baseAccountType?: keyof typeof ADDRESS_TYPES
         baseCoin?: CoinType
-        counterAccountType?: 'ACCOUNT' | 'CUSTODIAL'
+        counterAccountType?: keyof typeof ADDRESS_TYPES
         counterCoin?: CoinType
       }
       step: 'PREVIEW_SWAP'

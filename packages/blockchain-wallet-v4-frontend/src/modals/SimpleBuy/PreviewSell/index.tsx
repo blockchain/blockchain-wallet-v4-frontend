@@ -19,7 +19,6 @@ import {
 } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   CoinType,
-  Erc20CoinsEnum,
   PaymentValue,
   RatesType,
   SBOrderActionType,
@@ -33,7 +32,7 @@ import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getFiatFromPair } from 'data/components/simpleBuy/model'
 import { getInputFromPair, getOutputFromPair } from 'data/components/swap/model'
 import { RootState } from 'data/rootReducer'
-import { SBCheckoutFormValuesType } from 'data/types'
+import { SBCheckoutFormValuesType, SwapAccountType } from 'data/types'
 
 import { Border, FreeCartridge, TopText } from '../../Swap/components'
 import Loading from '../template.loading'
@@ -63,7 +62,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     })
   }
 
-  getFeeInFiat = (account, BASE, COUNTER) => {
+  getFeeInFiat = (account: SwapAccountType, BASE, COUNTER) => {
     const { payment, rates, ratesEth } = this.props
     return (
       (account.type === 'ACCOUNT' &&
@@ -73,7 +72,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             convertBaseToStandard(account.baseCoin, this.networkFee(payment)),
             BASE,
             COUNTER,
-            BASE in Erc20CoinsEnum ? ratesEth : rates
+            account.config.contractAddress ? ratesEth : rates
           )
         )) ||
       0

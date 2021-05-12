@@ -9,6 +9,7 @@ import { DefaultTheme } from 'styled-components'
 import { IcoMoonType } from './src/Icons/Icomoon'
 import { ImageType } from './src/Images/Images'
 import { CoinType, WalletCurrencyType } from 'core/types'
+import { ADDRESS_TYPES } from 'core/redux/payment/btc/utils'
 
 type AllCoinsType = WalletCurrencyType | 'BSV' | 'STX'
 
@@ -107,7 +108,7 @@ export const Icon: FunctionComponent<{
   role?: 'button'
 }>
 export const CoinAccountIcon: FunctionComponent<{
-  accountType: 'ACCOUNT' | 'CUSTODIAL' | 'EXCHANGE' | 'INTEREST'
+  accountType: keyof typeof ADDRESS_TYPES
   coin: AllCoinsType
   style?: CSSProperties
 }>

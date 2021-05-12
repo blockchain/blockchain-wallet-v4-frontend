@@ -1,22 +1,26 @@
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import {
   CoinType,
-  Erc20CoinsEnum,
   InterestBalanceType,
-  SBBalanceType
+  SBBalanceType,
+  SupportedCoinType
 } from 'blockchain-wallet-v4/src/types'
 import { convertStandardToBase } from 'data/components/exchange/services'
+import { SwapAccountType } from 'data/components/types'
 
 export const generateTradingAccount = (
   coin: CoinType,
+  config: SupportedCoinType,
   sbBalance?: SBBalanceType
-) => {
+): SwapAccountType[] => {
   return [
     {
-      baseCoin: coin in Erc20CoinsEnum ? 'ETH' : coin,
+      baseCoin: config.contractAddress
+        ? 'ETH'
+        : (coin as SwapAccountType['baseCoin']),
       coin,
+      config,
       label: 'Trading Account',
-      type: ADDRESS_TYPES.CUSTODIAL,
+      type: 'CUSTODIAL',
       balance: sbBalance?.available || '0'
     }
   ]
@@ -24,17 +28,21 @@ export const generateTradingAccount = (
 
 export const generateInterestAccount = (
   coin: CoinType,
+  config: SupportedCoinType,
   interestBalance?: InterestBalanceType
-) => {
+): SwapAccountType[] => {
   // hack to support PAX rebrand 🤬
   const ticker = coin === 'PAX' ? 'USD-D' : coin
   return [
     {
-      baseCoin: coin in Erc20CoinsEnum ? 'ETH' : coin,
+      baseCoin: config.contractAddress
+        ? 'ETH'
+        : (coin as SwapAccountType['baseCoin']),
       coin,
+      config,
       label: `${ticker} Interest Account`,
-      type: ADDRESS_TYPES.INTEREST,
-      balance: interestBalance?.balance
+      type: 'INTEREST',
+      balance: interestBalance?.balance || '0'
     }
   ]
 }

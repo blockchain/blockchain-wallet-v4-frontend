@@ -4,11 +4,11 @@ import { lift, prop, toLower } from 'ramda'
 
 import { coreSelectors } from 'blockchain-wallet-v4/src'
 import { SBBalanceType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
 import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { generateTradingAccount } from 'data/coins/utils'
+import { SwapAccountType } from 'data/components/types'
 
 import { getTradingBalance } from '../'
 
@@ -62,6 +62,7 @@ export const getTransactionPageHeaderText = coin => {
 // NOT IMPLEMENTED: imported addresses/accounts
 export const getAccounts = createDeepEqualSelector(
   [
+    coreSelectors.walletOptions.getSupportedCoins,
     coreSelectors.data.eth.getDefaultAddress,
     (state, { coin }) =>
       coreSelectors.kvStore.eth.getErc20Account(
@@ -72,27 +73,36 @@ export const getAccounts = createDeepEqualSelector(
     (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
-  (ethAddressR, erc20AccountR, erc20BalanceR, sbBalanceR, ownProps) => {
+  (
+    supportedCoinsR,
+    ethAddressR,
+    erc20AccountR,
+    erc20BalanceR,
+    sbBalanceR,
+    ownProps
+  ) => {
     const transform = (
       ethAddress,
       erc20Account,
       erc20Balance,
-      sbBalance: ExtractSuccess<typeof sbBalanceR>
+      sbBalance: ExtractSuccess<typeof sbBalanceR>,
+      supportedCoins: ExtractSuccess<typeof supportedCoinsR>
     ) => {
       const { coin } = ownProps
-      let accounts = []
+      const config = supportedCoins[coin as CoinType]
+      let accounts: SwapAccountType[] = []
 
       // add non-custodial accounts if requested
       if (ownProps?.nonCustodialAccounts) {
-        // @ts-ignore
         accounts = accounts.concat([
           {
             baseCoin: 'ETH',
             coin,
+            config,
             label: prop('label', erc20Account),
             address: ethAddress,
             balance: erc20Balance,
-            type: ADDRESS_TYPES.ACCOUNT
+            type: 'ACCOUNT'
           }
         ])
       }
@@ -100,8 +110,7 @@ export const getAccounts = createDeepEqualSelector(
       // add trading accounts if requested
       if (ownProps?.tradingAccounts) {
         accounts = accounts.concat(
-          // @ts-ignore
-          generateTradingAccount(coin, sbBalance as SBBalanceType)
+          generateTradingAccount(coin, config, sbBalance as SBBalanceType)
         )
       }
       return accounts
@@ -111,7 +120,8 @@ export const getAccounts = createDeepEqualSelector(
       ethAddressR,
       erc20AccountR,
       erc20BalanceR,
-      sbBalanceR
+      sbBalanceR,
+      supportedCoinsR
     )
   }
 )

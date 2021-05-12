@@ -1,10 +1,13 @@
+import { select } from '@redux-saga/core/effects'
+
 import {
   CoinType,
-  Erc20CoinsEnum,
   PaymentType,
   PaymentValue,
-  RemoteDataType
+  RemoteDataType,
+  SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
+import { selectors } from 'data'
 
 // import * as ALGO from './coins/algo'
 import * as BCH from './coins/bch'
@@ -37,11 +40,16 @@ const coinSagas = {
 
 export default ({ coreSagas, networks }) => {
   // gets the default account/address for requested coin
-  const getDefaultAccountForCoin = function * (
-    coin: CoinType
-  ): Generator<string> {
+  const getDefaultAccountForCoin = function * (coin: CoinType) {
+    const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(
+      yield select()
+    )
+    const supportedCoins = supportedCoinsR.getOrElse(
+      {} as SupportedWalletCurrenciesType
+    )
+    const config = supportedCoins[coin]
     const defaultAccountR = yield coinSagas[
-      coin in Erc20CoinsEnum ? 'ERC20' : coin
+      config.contractAddress ? 'ERC20' : coin
     ]?.getDefaultAccount(coin)
     // @ts-ignore
     return defaultAccountR.getOrFail('Failed to find default account')
@@ -49,11 +57,16 @@ export default ({ coreSagas, networks }) => {
 
   // gets the next receive address for requested coin
   // account based currencies will just return the account address
-  const getNextReceiveAddressForCoin = function * (
-    coin: CoinType
-  ): Generator<string> {
+  const getNextReceiveAddressForCoin = function * (coin: CoinType) {
+    const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(
+      yield select()
+    )
+    const supportedCoins = supportedCoinsR.getOrElse(
+      {} as SupportedWalletCurrenciesType
+    )
+    const config = supportedCoins[coin]
     return yield coinSagas[
-      coin in Erc20CoinsEnum ? 'ERC20' : coin
+      config.contractAddress ? 'ERC20' : coin
     ]?.getNextReceiveAddress(coin, networks)
   }
 
@@ -63,9 +76,16 @@ export default ({ coreSagas, networks }) => {
   const getOrUpdateProvisionalPaymentForCoin = function * (
     coin: CoinType,
     paymentR: RemoteDataType<string | Error, PaymentValue | undefined>
-  ): Generator<PaymentType> {
+  ) {
+    const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(
+      yield select()
+    )
+    const supportedCoins = supportedCoinsR.getOrElse(
+      {} as SupportedWalletCurrenciesType
+    )
+    const config = supportedCoins[coin]
     return yield coinSagas[
-      coin in Erc20CoinsEnum ? 'ERC20' : coin
+      config.contractAddress ? 'ERC20' : coin
     ]?.getOrUpdateProvisionalPayment(
       coreSagas,
       networks,

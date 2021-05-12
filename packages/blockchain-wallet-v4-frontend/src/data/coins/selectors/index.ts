@@ -3,8 +3,9 @@ import { any, isEmpty, isNil, map, values } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import {
   CoinType,
-  Erc20CoinsEnum,
-  RemoteDataType
+  RemoteDataType,
+  SupportedWalletCurrenciesType,
+  SupportedWalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { SUPPORTED_COINS } from 'data/coins/model/swap'
@@ -38,10 +39,10 @@ const coinSelectors = {
 }
 
 // retrieves introduction text for coin on its transaction page
-export const getIntroductionText = coin => {
+export const getIntroductionText = (coinfig: SupportedWalletCurrencyType) => {
   return coinSelectors[
-    coin in Erc20CoinsEnum ? 'ERC20' : coin
-  ]?.getTransactionPageHeaderText(coin)
+    coinfig.contractAddress ? 'ERC20' : coinfig.coinCode
+  ]?.getTransactionPageHeaderText(coinfig.coinCode)
 }
 
 // retrieves custodial account balances
@@ -64,15 +65,21 @@ export const getCoinAccounts = (
 ) => {
   const getCoinAccountsR = state => {
     const coinList = ownProps?.coins
+    const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(
+      state
+    )
+    const supportedCoins = supportedCoinsR.getOrElse(
+      {} as SupportedWalletCurrenciesType
+    )
 
     // dynamically create account selectors via passed in coin list
     const accounts =
       isEmpty(coinList) || isNil(coinList)
         ? Remote.of({})
         : coinList.reduce((accounts, coin) => {
-            // @ts-ignore
+            const config = supportedCoins[coin]
             accounts[coin] = coinSelectors[
-              coin in Erc20CoinsEnum ? 'ERC20' : coin
+              config.contractAddress ? 'ERC20' : coin
             ]?.getAccounts(state, { coin, ...ownProps })
             return accounts
           }, {})

@@ -38,6 +38,7 @@ export type SupportedFiatType = {
   }
   coinCode: WalletFiatType
   coinTicker: WalletFiatType
+  contractAddress?: never
   displayName: string
   invited?: boolean
   isFiat?: boolean
