@@ -66,8 +66,12 @@ export default ({ api, coreSagas, networks }) => {
       simpleBuySagas.handleSBMethodChange
     )
     yield takeLatest(
-      AT.HANDLE_SB_SUGGESTED_AMOUNT_CLICK,
-      simpleBuySagas.handleSBSuggestedAmountClick
+      AT.HANDLE_SB_MAX_AMOUNT_CLICK,
+      simpleBuySagas.handleSBMaxAmountClick
+    )
+    yield takeLatest(
+      AT.HANDLE_SB_MIN_AMOUNT_CLICK,
+      simpleBuySagas.handleSBMinAmountClick
     )
     yield takeLatest(
       AT.INITIALIZE_BILLING_ADDRESS,
