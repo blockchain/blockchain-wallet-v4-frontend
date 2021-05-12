@@ -9,9 +9,8 @@ import {
   InjectedFormProps,
   reduxForm
 } from 'redux-form'
-import styled from 'styled-components'
 
-import { Button, Link, Text } from 'blockchain-info-components'
+import { Link, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
@@ -26,13 +25,6 @@ import EnterPassword from './EnterPassword'
 import EnterTwoFactor from './EnterTwoFactor'
 import { LOGIN_NEW, SignUpText, SubCard } from './model'
 import VerificationMobile from './VerificationMobile'
-
-// TODO: remove temp
-const ButtonRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-top: 8px;
-`
 
 class Login extends PureComponent<InjectedFormProps & Props> {
   componentDidMount() {
@@ -187,51 +179,6 @@ class Login extends PureComponent<InjectedFormProps & Props> {
             })()}
           </Form>
         </Wrapper>
-
-        <ButtonRow>
-          <Button
-            data-e2e=''
-            nature='empty-blue'
-            onClick={() => this.setStep(LoginSteps.ENTER_EMAIL_GUID)}
-          >
-            Enter Email/Guid
-          </Button>
-          <Button
-            data-e2e=''
-            nature='empty-blue'
-            onClick={() => this.setStep(LoginSteps.ENTER_PASSWORD)}
-          >
-            Enter Password
-          </Button>
-          <Button
-            data-e2e=''
-            nature='empty-blue'
-            onClick={() => this.setStep(LoginSteps.ENTER_TWO_FACTOR)}
-          >
-            Enter 2FA
-          </Button>
-          <Button
-            data-e2e=''
-            nature='empty-blue'
-            onClick={() => this.setStep(LoginSteps.CHECK_EMAIL)}
-          >
-            Check Email
-          </Button>
-          <Button
-            data-e2e=''
-            nature='empty-blue'
-            onClick={() => this.setStep(LoginSteps.VERIFICATION_MOBILE)}
-          >
-            Verify Mobile
-          </Button>
-          <Button
-            data-e2e=''
-            nature='empty-blue'
-            onClick={() => this.setStep(LoginSteps.LOADING)}
-          >
-            Loading
-          </Button>
-        </ButtonRow>
         {step === LoginSteps.ENTER_EMAIL_GUID && (
           <LinkContainer data-e2e='signupLink' to='/signup'>
             <Link>
