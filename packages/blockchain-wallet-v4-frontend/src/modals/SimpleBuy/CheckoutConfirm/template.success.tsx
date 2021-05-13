@@ -452,26 +452,27 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </Info>
         )}
 
-        <Button
-          fullwidth
-          nature='primary'
-          data-e2e='confirmSBOrder'
-          size='16px'
-          height='48px'
-          type='submit'
-          style={{ marginTop: '28px' }}
-          disabled={props.submitting || !acceptTerms}
-        >
-          {props.submitting ? (
-            <HeartbeatLoader height='16px' width='16px' color='white' />
-          ) : paymentPartner === BankPartners.YAPILY ? (
-            <FormattedMessage id='copy.next' defaultMessage='Next' />
-          ) : (
-            `${
-              orderType === 'BUY' ? 'Buy' : 'Sell'
-            } ${baseAmount} ${baseCurrency}`
-          )}
-        </Button>
+        <BottomActions>
+          <Button
+            fullwidth
+            nature='primary'
+            data-e2e='confirmSBOrder'
+            size='16px'
+            height='48px'
+            type='submit'
+            style={{ marginTop: '28px' }}
+            disabled={props.submitting || !acceptTerms}
+          >
+            {props.submitting ? (
+              <HeartbeatLoader height='16px' width='16px' color='white' />
+            ) : paymentPartner === BankPartners.YAPILY ? (
+              <FormattedMessage id='copy.next' defaultMessage='Next' />
+            ) : (
+              `${
+                orderType === 'BUY' ? 'Buy' : 'Sell'
+              } ${baseAmount} ${baseCurrency}`
+            )}
+          </Button>
 
           <Button
             data-e2e='sbCancelCheckout'
