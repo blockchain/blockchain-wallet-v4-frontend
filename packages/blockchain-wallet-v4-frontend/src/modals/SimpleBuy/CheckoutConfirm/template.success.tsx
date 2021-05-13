@@ -29,7 +29,11 @@ import {
 } from 'data/components/simpleBuy/model'
 import { BankPartners, BankTransferAccountType } from 'data/types'
 
-import { displayFiat, getPaymentMethod } from '../model'
+import {
+  displayFiat,
+  getPaymentMethod,
+  getPaymentMethodDetails
+} from '../model'
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const CustomForm = styled(Form)`
@@ -100,6 +104,10 @@ const IconWrapper = styled.div`
   justify-content: center;
   cursor: pointer;
   margin-left: 4px;
+`
+
+const RowTextWrapper = styled.div`
+  text-align: right;
 `
 
 const RowText = styled(Text)`
@@ -230,6 +238,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </div>
         </Amount>
       </FlyoutWrapper>
+
       <RowItem>
         <RowItemContainer>
           <TopRow>
@@ -243,22 +252,20 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   }}
                 />
               </RowText>
-              {isCardPayment && (
-                <IconWrapper>
-                  <Icon
-                    name='question-in-circle-filled'
-                    size='16px'
-                    color={isActiveCoinTooltip ? 'blue600' : 'grey300'}
-                    onClick={() => setCoinToolTip(!isActiveCoinTooltip)}
-                  />
-                </IconWrapper>
-              )}
+              <IconWrapper>
+                <Icon
+                  name='question-in-circle-filled'
+                  size='16px'
+                  color={isActiveCoinTooltip ? 'blue600' : 'grey300'}
+                  onClick={() => setCoinToolTip(!isActiveCoinTooltip)}
+                />
+              </IconWrapper>
             </RowIcon>
             <RowText data-e2e='sbExchangeRate'>
               {displayFiat(props.order, props.supportedCoins, props.quote.rate)}
             </RowText>
           </TopRow>
-          {isCardPayment && isActiveCoinTooltip && (
+          {isActiveCoinTooltip && (
             <ToolTipText>
               <Text size='12px' weight={500} color='grey600'>
                 <TextGroup inline>
@@ -286,6 +293,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           )}
         </RowItemContainer>
       </RowItem>
+
       <RowItem>
         <RowText>
           <FormattedMessage
@@ -294,16 +302,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </RowText>
         <RowText>
-          {isCardPayment ? (
-            <>
-              {cardDetails?.card?.label}
-              <AdditionalText>
-                {`${cardDetails?.card?.type} ${cardDetails?.card?.number}`}
-              </AdditionalText>
-            </>
-          ) : (
-            getPaymentMethod(props.order, props.supportedCoins, bankAccount)
-          )}
+          <RowTextWrapper>
+            {getPaymentMethod(props.order, props.supportedCoins, bankAccount)}
+            <AdditionalText>
+              {getPaymentMethodDetails(props.order, bankAccount, cardDetails)}
+            </AdditionalText>
+          </RowTextWrapper>
         </RowText>
       </RowItem>
       <RowItem>
@@ -314,79 +318,87 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           {displayFiat(props.order, props.supportedCoins, String(purchase))}
         </RowText>
       </RowItem>
-      <RowItem>
-        <RowItemContainer>
-          <TopRow>
-            <RowIcon>
-              <RowText>
-                {isCardPayment ? (
-                  <FormattedMessage
-                    id='copy.card_fee'
-                    defaultMessage='Card Fee'
-                  />
-                ) : (
-                  <FormattedMessage id='copy.fee' defaultMessage='Fee' />
+      {!isBankLink && (
+        <RowItem>
+          <RowItemContainer>
+            <TopRow>
+              <RowIcon>
+                <RowText>
+                  {isCardPayment ? (
+                    <FormattedMessage
+                      id='copy.card_fee'
+                      defaultMessage='Card Fee'
+                    />
+                  ) : (
+                    <FormattedMessage id='copy.fee' defaultMessage='Fee' />
+                  )}
+                </RowText>
+                {isCardPayment && (
+                  <IconWrapper>
+                    <Icon
+                      name='question-in-circle-filled'
+                      size='16px'
+                      color={isActiveFeeTooltip ? 'blue600' : 'grey300'}
+                      onClick={() => setFeeToolTip(!isActiveFeeTooltip)}
+                    />
+                  </IconWrapper>
                 )}
+              </RowIcon>
+              <RowText data-e2e='sbFee'>
+                {props.order.fee
+                  ? displayFiat(
+                      props.order,
+                      props.supportedCoins,
+                      props.order.fee
+                    )
+                  : `${displayFiat(
+                      props.order,
+                      props.supportedCoins,
+                      props.quote.fee
+                    )} ${props.order.inputCurrency}`}
               </RowText>
-              {isCardPayment && (
-                <IconWrapper>
-                  <Icon
-                    name='question-in-circle-filled'
-                    size='16px'
-                    color={isActiveFeeTooltip ? 'blue600' : 'grey300'}
-                    onClick={() => setFeeToolTip(!isActiveFeeTooltip)}
-                  />
-                </IconWrapper>
-              )}
-            </RowIcon>
-            <RowText data-e2e='sbFee'>
-              {props.order.fee
-                ? displayFiat(
-                    props.order,
-                    props.supportedCoins,
-                    props.order.fee
-                  )
-                : `${displayFiat(
-                    props.order,
-                    props.supportedCoins,
-                    props.quote.fee
-                  )} ${props.order.inputCurrency}`}
-            </RowText>
-          </TopRow>
-          {isCardPayment && isActiveFeeTooltip && (
-            <ToolTipText>
-              <Text size='12px' weight={500} color='grey600'>
-                <TextGroup inline>
-                  <Text size='14px'>
-                    <FormattedMessage
-                      id='modals.simplebuy.paying_with_card'
-                      defaultMessage='Blockchain.com requires a fee when paying with a card.'
-                    />
-                  </Text>
-                  {/* TODO: update link */}
-                  <Link
-                    href='https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox'
-                    size='14px'
-                    rel='noopener noreferrer'
-                    target='_blank'
-                  >
-                    <FormattedMessage
-                      id='modals.simplebuy.summary.learn_more'
-                      defaultMessage='Learn more'
-                    />
-                  </Link>
-                </TextGroup>
-              </Text>
-            </ToolTipText>
-          )}
-        </RowItemContainer>
-      </RowItem>
+            </TopRow>
+            {isCardPayment && isActiveFeeTooltip && (
+              <ToolTipText>
+                <Text size='12px' weight={500} color='grey600'>
+                  <TextGroup inline>
+                    <Text size='14px'>
+                      <FormattedMessage
+                        id='modals.simplebuy.paying_with_card'
+                        defaultMessage='Blockchain.com requires a fee when paying with a card.'
+                      />
+                    </Text>
+                    {/* TODO: update link */}
+                    <Link
+                      href='https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox'
+                      size='14px'
+                      rel='noopener noreferrer'
+                      target='_blank'
+                    >
+                      <FormattedMessage
+                        id='modals.simplebuy.summary.learn_more'
+                        defaultMessage='Learn more'
+                      />
+                    </Link>
+                  </TextGroup>
+                </Text>
+              </ToolTipText>
+            )}
+          </RowItemContainer>
+        </RowItem>
+      )}
       <RowItem>
         <RowText>
           <FormattedMessage id='copy.total' defaultMessage='Total' />
         </RowText>
-        <RowText data-e2e='sbFiatBuyAmount'>{totalAmount}</RowText>
+        <RowText>
+          <RowTextWrapper>
+            <div data-e2e='sbFiatBuyAmount'>{totalAmount}</div>
+            <AdditionalText>{`${baseAmount} ${baseCurrency}`}</AdditionalText>
+          </RowTextWrapper>
+        </RowText>
       </RowItem>
+
       <Bottom>
         <Info style={{ marginBottom: '12px' }}>
           {requiresTerms ? (
