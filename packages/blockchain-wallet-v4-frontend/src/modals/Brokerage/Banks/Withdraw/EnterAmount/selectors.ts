@@ -39,7 +39,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       openBanking: false
     } as InvitationsType)
 
-  if (!invitations.openBanking) {
+  if (!invitations.openBanking && ownProps.fiatCurrency !== 'USD') {
     defaultMethodR = undefined
     bankTransferAccountsR = Remote.Success([])
   }
