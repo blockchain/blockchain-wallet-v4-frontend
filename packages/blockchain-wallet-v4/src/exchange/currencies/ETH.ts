@@ -13,13 +13,13 @@ export default {
     GWEI: {
       rate: '1000000000',
       symbol: 'GWEI',
-      decimal_digits: 0,
+      decimal_digits: 9,
       currency: 'ETH'
     },
     ETH: {
       rate: '1000000000000000000',
       symbol: 'ETH',
-      decimal_digits: 8,
+      decimal_digits: 18,
       currency: 'ETH'
     }
   }

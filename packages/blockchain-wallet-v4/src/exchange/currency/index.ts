@@ -102,7 +102,9 @@ export const fromUnit = ({ unit, value }) => {
 
   return sequence(Maybe.of, [unitM, currencyM]).map(([unit, currency]) =>
     newCurrency({
-      value: BigRational(value).multiply(BigRational(unit.rate)),
+      value: BigRational(value).multiply(
+        BigRational(Math.pow(10, unit.decimal_digits))
+      ),
       currency: currency
     })
   )

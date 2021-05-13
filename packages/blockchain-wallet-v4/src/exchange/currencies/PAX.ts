@@ -13,13 +13,13 @@ export default {
     GWEI: {
       rate: '1000000000',
       symbol: 'GWEI',
-      decimal_digits: 0,
+      decimal_digits: 9,
       currency: 'PAX'
     },
     PAX: {
       rate: '1000000000000000000',
       symbol: 'USD-D',
-      decimal_digits: 2,
+      decimal_digits: 18,
       currency: 'PAX'
     }
   }
