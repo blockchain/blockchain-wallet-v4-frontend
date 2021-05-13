@@ -13,9 +13,7 @@ enum AnalyticsKey {
   BUY_PAYMENT_METHOD_SELECTED = 'Buy Payment Method Selected',
   CARD_REJECTED = 'Card Rejected',
   MODAL_VIEW = 'Page Viewed',
-  PAGE_VIEW = 'Page Viewed',
-  USER_SDD_ELIGIBLE = 'User Sdd Eligible',
-  USER_SDD_NOT_ELIGIBLE = 'User Sdd Not Eligible'
+  PAGE_VIEW = 'Page Viewed'
 }
 
 enum AnalyticsType {
@@ -84,16 +82,6 @@ type CardRejectedPayload = BasePayload & {
   reason: string
 }
 
-type UserSddEligiblePayload = BasePayload & {
-  is_profile_check: boolean
-  is_region_check: boolean
-}
-
-type UserSddNotEligiblePayload = BasePayload & {
-  is_profile_check: boolean
-  is_region_check: boolean
-}
-
 type AnalyticsPayload =
   | ModalViewPayload
   | PageViewPayload
@@ -103,8 +91,6 @@ type AnalyticsPayload =
   | BuyLearnMoreClickedPayload
   | BuyPaymentMethodSelectedPayload
   | CardRejectedPayload
-  | UserSddEligiblePayload
-  | UserSddNotEligiblePayload
 
 const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
   queueName: 'analytics',
@@ -282,25 +268,6 @@ const analyticsMiddleware = () => store => next => action => {
           reason: reason
         })
         break
-      }
-      case AT.components.simpleBuy.FETCH_SDD_ELIGIBILITY_SUCCESS: {
-        if (action.payload.eligible) {
-          analytics.push(AnalyticsKey.USER_SDD_ELIGIBLE, {
-            type: AnalyticsType.EVENT,
-            originalTimestamp: getOriginalTimestamp(),
-            is_profile_check: action.payload.ineligibilityReason === 'KYC_TIER',
-            is_region_check: action.payload.ineligibilityReason === 'REGION'
-          })
-        }
-
-        if (!action.payload.eligible) {
-          analytics.push(AnalyticsKey.USER_SDD_NOT_ELIGIBLE, {
-            type: AnalyticsType.EVENT,
-            originalTimestamp: getOriginalTimestamp(),
-            is_profile_check: action.payload.ineligibilityReason === 'KYC_TIER',
-            is_region_check: action.payload.ineligibilityReason === 'REGION'
-          })
-        }
       }
     }
   } catch (e) {}

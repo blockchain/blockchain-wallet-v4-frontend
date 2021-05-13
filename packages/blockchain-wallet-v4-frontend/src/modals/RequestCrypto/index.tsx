@@ -14,11 +14,9 @@ import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
-import RequestBuildLink from './BuildLink'
 import RequestCoinSelect from './CoinSelect'
 import { REQUEST_FORM } from './model'
 import { getData } from './selectors'
-import RequestShareLink from './ShareLink'
 import RequestShowAddress from './ShowAddress'
 import { RequestFormType, RequestSteps } from './types'
 
@@ -70,20 +68,6 @@ class RequestCrypto extends PureComponent<Props, State> {
         {step === RequestSteps.SHOW_ADDRESS && (
           <FlyoutChild>
             <RequestShowAddress
-              {...this.props}
-              handleClose={this.handleClose}
-              setStep={this.setStep}
-            />
-          </FlyoutChild>
-        )}
-        {step === RequestSteps.BUILD_LINK && (
-          <FlyoutChild>
-            <RequestBuildLink {...this.props} setStep={this.setStep} />
-          </FlyoutChild>
-        )}
-        {step === RequestSteps.SHARE_LINK && (
-          <FlyoutChild>
-            <RequestShareLink
               {...this.props}
               handleClose={this.handleClose}
               setStep={this.setStep}
