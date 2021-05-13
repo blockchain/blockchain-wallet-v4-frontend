@@ -400,23 +400,25 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       </RowItem>
 
       <Bottom>
-        <Info style={{ marginBottom: '12px' }}>
-          {requiresTerms ? (
-            <Text size='12px' weight={500} color='grey900'>
-              <FormattedHTMLMessage
-                id='modals.simplebuy.confirm.activity_card11'
-                defaultMessage='Your final amount might change due to market activity. For your security, buy orders with a bank account are subject up to a 14 day holding period. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
-              />
-            </Text>
-          ) : (
-            <Text size='12px' weight={500} color='grey900'>
-              <FormattedMessage
-                id='modals.simplebuy.confirm.activity'
-                defaultMessage='Your final amount may change due to market activity.'
-              />
-            </Text>
-          )}
-        </Info>
+        {!isBankLink && (
+          <Info style={{ marginBottom: '12px' }}>
+            {requiresTerms ? (
+              <Text size='12px' weight={500} color='grey900'>
+                <FormattedHTMLMessage
+                  id='modals.simplebuy.confirm.activity_card11'
+                  defaultMessage='Your final amount might change due to market activity. For your security, buy orders with a bank account are subject up to a 14 day holding period. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
+                />
+              </Text>
+            ) : (
+              <Text size='12px' weight={500} color='grey900'>
+                <FormattedMessage
+                  id='modals.simplebuy.confirm.activity'
+                  defaultMessage='Your final amount may change due to market activity.'
+                />
+              </Text>
+            )}
+          </Info>
+        )}
 
         {showLock && props.order.paymentType === 'USER_CARD' && (
           <Info>
@@ -456,8 +458,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <Info>
             <Text size='12px' weight={500} color='grey900'>
               <FormattedMessage
-                id='modals.simplebuy.confirm.ach_lock'
-                defaultMessage='For your security, buy orders with a bank account are subject to a holding period of up to {days} days. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
+                id='modals.simplebuy.confirm.ach_ob_lock'
+                defaultMessage='Your final amount might change due to market activity. An initial hold period of {days} days will be applied to your funds. You can Buy, Sell, and Swap during this period.'
                 values={{ days: days }}
               />
             </Text>
