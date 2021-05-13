@@ -170,23 +170,17 @@ export const getErc20Data = (
     includeInterest,
     forceCustodialFirst
   } = ownProps
-  const displayErc20Fixed = data => {
-    const amount = Exchange.convertCoinToCoin({
-      coin,
-      value: data.value
-    })
+  const displayErc20Fixed = ({ value }) => {
     return Exchange.displayCoinToCoin({
-      value: Number(amount).toFixed(8),
-      coin: 'PAX'
+      value,
+      coin
     })
   }
   const buildCustodialDisplay = (coin: Erc20CoinType, account) => {
     return (
       `Trading Account` +
       ` (${displayErc20Fixed({
-        value: account ? account.available : 0,
-        fromUnit: 'WEI',
-        toUnit: coin
+        value: account ? account.available : 0
       })})`
     )
   }
@@ -205,9 +199,7 @@ export const getErc20Data = (
   const excluded = filter(account => !exclude.includes(account.label))
   const buildDisplay = wallet => {
     let erc20BalanceDisplay = displayErc20Fixed({
-      value: wallet.balance,
-      fromUnit: 'WEI',
-      toUnit: coin
+      value: wallet.balance
     })
     return wallet.label + ` (${erc20BalanceDisplay})`
   }

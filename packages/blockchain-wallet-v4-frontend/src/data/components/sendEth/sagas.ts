@@ -26,9 +26,10 @@ import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { EthAccountFromType } from 'blockchain-wallet-v4/src/redux/payment/eth/types'
 import {
+  CoinType,
   Erc20CoinType,
-  Erc20ListEnum,
-  EthPaymentType
+  EthPaymentType,
+  SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
@@ -591,9 +592,19 @@ export default ({
         yield put(actions.core.data.eth.fetchTransactions())
         return
       }
-      let coin: 'ETH' | Erc20CoinType = 'ETH'
+      let coin: string = 'ETH'
       if (isErc20) {
-        coin = Erc20ListEnum[tx.to]
+        const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(
+          yield select()
+        )
+        const supportedCoins = supportedCoinsR.getOrElse(
+          {} as SupportedWalletCurrenciesType
+        )
+        coin =
+          Object.keys(supportedCoins).find(
+            (c: string) =>
+              tx.to === supportedCoins[c as CoinType].contractAddress
+          ) || 'ETH'
       }
 
       yield put(
@@ -620,7 +631,7 @@ export default ({
         )
         const to = EthUtil.toChecksumAddress('0x' + tx.data?.slice(32, 72))
 
-        payment = yield call(setAmount, value, coin, payment)
+        payment = yield call(setAmount, value, coin as Erc20CoinType, payment)
         payment = yield call(setTo, to, payment)
       }
 
