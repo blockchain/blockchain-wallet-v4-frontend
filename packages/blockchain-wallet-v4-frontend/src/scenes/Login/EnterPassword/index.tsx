@@ -9,7 +9,8 @@ import {
   FormGroup,
   FormItem,
   FormLabel,
-  PasswordBox
+  PasswordBox,
+  TextBox
 } from 'components/Form'
 import { required } from 'services/forms'
 
@@ -20,28 +21,37 @@ import {
   BrowserWarning,
   isSupportedBrowser,
   LinkRow,
-  NeedHelpLink
+  NeedHelpLink,
+  removeWhitespace
 } from '../model'
 
 const EnterPassword = (props: Props) => {
   const {
+    authType,
     busy,
     cacheActions,
     formActions,
     formValues,
+    guid,
     invalid,
     loginError,
     password,
     setStep,
     submitting
   } = props
-
   const passwordError =
     loginError && loginError.toLowerCase().includes('wrong_wallet_password')
   const accountLocked =
     loginError &&
     (loginError.toLowerCase().includes('this account has been locked') ||
       loginError.toLowerCase().includes('account is locked'))
+
+  const twoFactorError =
+    loginError && loginError.toLowerCase().includes('authentication code')
+  const handleSmsResend = () => {
+    props.authActions.resendSmsCode(guid)
+  }
+
   return (
     <>
       <BackArrowFormHeader
@@ -101,6 +111,52 @@ const EnterPassword = (props: Props) => {
           )}
         </FormItem>
       </FormGroup>
+      {authType > 0 && (
+        <FormGroup>
+          <FormItem>
+            <FormLabel htmlFor='code'>
+              {authType === 1 && (
+                <FormattedMessage
+                  id='scenes.login.yubikey_verify'
+                  defaultMessage='Verify with your Yubikey'
+                />
+              )}
+              {authType === 4 ||
+                (authType === 5 && (
+                  <FormattedMessage
+                    id='scenes.logins.twofa.enter_code'
+                    defaultMessage='Enter your Two Factor Authentication Code'
+                  />
+                ))}
+            </FormLabel>
+            <Field
+              name='code'
+              normalize={removeWhitespace}
+              validate={[required]}
+              component={authType === 1 ? PasswordBox : TextBox}
+              noLastPass
+              autoFocus
+              data-e2e='loginTwoFactorCode'
+            />
+            {authType === 5 && (
+              <Link size='12px' weight={400} onClick={handleSmsResend}>
+                <FormattedMessage
+                  id='scenes.login.resendsms'
+                  defaultMessage='Resend SMS'
+                />
+              </Link>
+            )}
+            {twoFactorError && (
+              <FormError position={'absolute'}>{loginError}</FormError>
+            )}
+            {accountLocked && (
+              <FormError position={'absolute'}>
+                {loginError?.split('.')[0]}.
+              </FormError>
+            )}
+          </FormItem>
+        </FormGroup>
+      )}
       <LinkRow>
         <ActionButton
           type='submit'
@@ -111,7 +167,7 @@ const EnterPassword = (props: Props) => {
           data-e2e='passwordButton'
           style={{ marginBottom: '16px' }}
         >
-          {submitting ? (
+          {submitting || busy ? (
             <HeartbeatLoader height='20px' width='20px' color='white' />
           ) : (
             <Text color='whiteFade900' size='16px' weight={600}>

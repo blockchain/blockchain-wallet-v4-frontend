@@ -22,7 +22,6 @@ import CheckEmail from './CheckEmail'
 // step templates
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
-import EnterTwoFactor from './EnterTwoFactor'
 import { LOGIN_NEW, SignUpText, SubCard } from './model'
 import VerificationMobile from './VerificationMobile'
 
@@ -94,7 +93,7 @@ class Login extends PureComponent<InjectedFormProps & Props> {
           weight={600}
           style={{ marginBottom: '30px' }}
         >
-          {step === LoginSteps.ENTER_TWO_FACTOR ? (
+          {step === LoginSteps.ENTER_PASSWORD ? (
             <FormattedMessage
               id='scenes.login.authorize'
               defaultMessage='Authorize login'
@@ -114,15 +113,10 @@ class Login extends PureComponent<InjectedFormProps & Props> {
             />
           )}
           {step === LoginSteps.ENTER_PASSWORD && (
+            // add check here to see what kind of auth type, what kind of string to show
             <FormattedMessage
               id='scenes.login.enter_password'
               defaultMessage='Enter your password to login'
-            />
-          )}
-          {step === LoginSteps.ENTER_TWO_FACTOR && (
-            <FormattedMessage
-              id='scenes.logins.twofa.code'
-              defaultMessage='Enter the Two Factor Authentication code from your code generator or the SMS message just sent'
             />
           )}
         </Text>
@@ -141,15 +135,6 @@ class Login extends PureComponent<InjectedFormProps & Props> {
                 case LoginSteps.ENTER_PASSWORD:
                   return (
                     <EnterPassword
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                    />
-                  )
-
-                case LoginSteps.ENTER_TWO_FACTOR:
-                  return (
-                    <EnterTwoFactor
                       {...this.props}
                       {...loginProps}
                       setStep={this.setStep}

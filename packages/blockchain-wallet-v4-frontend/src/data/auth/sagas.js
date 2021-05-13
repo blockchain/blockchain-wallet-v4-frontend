@@ -318,7 +318,6 @@ export default ({ api, coreSagas }) => {
       yield call(loginRoutineSaga, mobileLogin)
       yield put(stopSubmit('loginNew'))
     } catch (error) {
-      yield put(stopSubmit('loginNew'))
       const initialError = prop('initial_error', error)
       const authRequired = prop('authorization_required', error)
       if (authRequired) {
@@ -360,7 +359,6 @@ export default ({ api, coreSagas }) => {
         // dispatch state change to show form
         yield put(actions.auth.loginFailure())
         yield put(actions.auth.setAuthType(error.auth_type))
-        yield put(actions.form.change('loginNew', 'step', 'ENTER_TWO_FACTOR'))
         yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
         // Wrong password error
       } else if (
@@ -405,6 +403,7 @@ export default ({ api, coreSagas }) => {
         const errorMessage = prop('message', error) || defaultLoginErrorMessage
         yield put(actions.auth.loginFailure(errorMessage))
       }
+      yield put(stopSubmit('loginNew'))
     }
   }
 
