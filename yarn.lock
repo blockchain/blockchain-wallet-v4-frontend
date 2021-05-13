@@ -8199,10 +8199,10 @@ eslint-config-airbnb@^18.2.1:
     object.assign "^4.1.2"
     object.entries "^1.1.2"
 
-eslint-config-constellation@0.0.22:
-  version "0.0.22"
-  resolved "https://registry.yarnpkg.com/eslint-config-constellation/-/eslint-config-constellation-0.0.22.tgz#b38ac9cf310764c8ff76209f5e6341e678f9e72a"
-  integrity sha512-fPM9jac4QVkNGq0ZeKrw/ftiPPlM2fFPmygtFsfcj4exYjmzkJ4eYpKRaIqgXze77g/GaZxrEoN9hd8Hjv3Ylw==
+eslint-config-constellation@0.0.23:
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/eslint-config-constellation/-/eslint-config-constellation-0.0.23.tgz#50658e9069e6b763e94c65fe9ac028afc39d1b12"
+  integrity sha512-Ejl8JBM+Yto9ptDUMJex3rLPzlXZTTh+uZRJe7HvDQ1SG7GRkK4lk9zY9CsaLwiLxmDP+8HRxhBok/sQGRMEbw==
 
 eslint-config-prettier@8.2.0:
   version "8.2.0"
