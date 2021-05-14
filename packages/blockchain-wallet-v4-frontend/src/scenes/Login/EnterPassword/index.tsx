@@ -27,6 +27,7 @@ import {
 
 const EnterPassword = (props: Props) => {
   const {
+    authActions,
     authType,
     busy,
     cacheActions,
@@ -55,6 +56,7 @@ const EnterPassword = (props: Props) => {
   return (
     <>
       <BackArrowFormHeader
+        authActions={authActions}
         cacheActions={cacheActions}
         formActions={formActions}
         formValues={formValues}

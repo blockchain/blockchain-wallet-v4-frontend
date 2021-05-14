@@ -24,6 +24,9 @@ const auth = (state = INITIAL_STATE, action) => {
   const { payload, type } = action
 
   switch (type) {
+    case AT.CLEAR_LOGIN_ERROR: {
+      return assoc('login', Remote.NotAsked, state)
+    }
     case AT.LOGIN: {
       return assoc('isLoggingIn', true, state)
     }

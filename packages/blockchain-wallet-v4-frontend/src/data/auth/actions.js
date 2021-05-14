@@ -130,3 +130,7 @@ export const upgradeWallet = version => ({
   type: AT.UPGRADE_WALLET,
   payload: { version }
 })
+
+export const clearLoginError = () => ({
+  type: AT.CLEAR_LOGIN_ERROR
+})

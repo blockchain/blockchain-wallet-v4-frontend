@@ -15,10 +15,11 @@ const FormBody = styled.div`
 `
 
 const CheckEmail = (props: Props) => {
-  const { cacheActions, formActions, formValues, setStep } = props
+  const { authActions, cacheActions, formActions, formValues, setStep } = props
   return (
     <>
       <BackArrowFormHeader
+        authActions={authActions}
         cacheActions={cacheActions}
         formActions={formActions}
         formValues={formValues}

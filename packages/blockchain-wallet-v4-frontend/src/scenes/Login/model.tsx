@@ -116,6 +116,7 @@ export const LoaderContainer = styled.div`
 `
 
 export const BackArrowFormHeader = (props: {
+  authActions
   cacheActions
   formActions
   formValues: LoginFormType
@@ -126,6 +127,7 @@ export const BackArrowFormHeader = (props: {
     props.cacheActions.removedStoredLogin()
     props.formActions.destroy(LOGIN_NEW)
     props.setStep(LoginSteps.ENTER_EMAIL_GUID)
+    props.authActions.clearLoginError()
   }
   return (
     <>
