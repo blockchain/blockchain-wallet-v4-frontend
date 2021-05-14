@@ -3,21 +3,15 @@ import { lift } from 'ramda'
 
 import { selectors } from 'data'
 
-export const getData = state => {
+const getData = (state) => {
   const coin = selectors.components.interest.getCoinType(state)
   const displayCoin = selectors.components.interest.getCoinDisplay(state)
-  const accountBalancesR = selectors.components.interest.getInterestAccountBalance(
-    state
-  )
+  const accountBalancesR = selectors.components.interest.getInterestAccountBalance(state)
   const ratesR = selectors.components.interest.getRates(state)
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
-  const withdrawalMinimumsR = selectors.components.interest.getWithdrawalMinimums(
-    state
-  )
+  const withdrawalMinimumsR = selectors.components.interest.getWithdrawalMinimums(state)
   const interestLimitsR = selectors.components.interest.getInterestLimits(state)
-  const interestEDDStatusR = selectors.components.interest.getInterestEDDStatus(
-    state
-  )
+  const interestEDDStatusR = selectors.components.interest.getInterestEDDStatus(state)
   const interestEDDWithdrawLimitsR = selectors.components.interest.getInterestEDDWithdrawLimits(
     state
   )
@@ -33,17 +27,17 @@ export const getData = state => {
       interestEDDWithdrawLimits
     ) => ({
       accountBalances,
-      availToWithdraw: new BigNumber(
-        Number(accountBalances[coin].balance)
-      ).minus(accountBalances[coin].locked),
+      availToWithdraw: new BigNumber(Number(accountBalances[coin].balance)).minus(
+        accountBalances[coin].locked
+      ),
       coin,
       displayCoin,
+      interestEDDStatus,
+      interestEDDWithdrawLimits,
       interestLimits,
       rates,
       supportedCoins,
       withdrawalMinimums,
-      interestEDDStatus,
-      interestEDDWithdrawLimits
     })
   )(
     accountBalancesR,
@@ -55,3 +49,5 @@ export const getData = state => {
     interestEDDWithdrawLimitsR
   )
 }
+
+export default getData

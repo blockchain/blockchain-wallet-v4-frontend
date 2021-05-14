@@ -916,6 +916,9 @@ type MessagesType = {
   'modals.interest.summary.lockup.one': '1 Day'
   'modals.interest.deposit.termsread': 'I have read and agreed to the'
   'modals.interest.deposit.termsservice': 'Terms of Service'
+  'modals.interest.deposit.edd_need': "Transferring this amount requires further verification. We'll ask you for those details in the next step."
+  'modals.interest.deposit.supply_information_description_1': "You’ve transferred an amount that requires further verification for legal and compliance reasons."
+  'modals.interest.deposit.supply_information_description_2': "Your funds are safe with us and have started accruing interest already. To avoid delays when you decide to withdraw your funds, submit your information now."
   'modals.interest.totalearned': 'Total Interest Earned'
   'modals.interest.unsupported-title': 'Rates Unavailable'
   'modals.interest.unsupported-subcontent-1': "Interest rates are currently unavailable for {walletCurrency}. Please change your wallet's local currency in Preferences."
@@ -927,8 +930,11 @@ type MessagesType = {
   'modals.interest.withdrawal.recap': 'You are requesting to withdraw <b>{withdrawalAmountFiat}</b> ({withdrawalAmountCrypto}) from your Interest Account. After confirming this withdrawal, you will not continue to earn interest on the amount withdrawn.'
   'modals.interest.withdrawal.progress': 'In Progress'
   'modals.interest.withdrawal.progressmsg': 'Requesting a withdrawal from your Interest Account'
-  'modals.interest.withdrawal.edd_need': 'This amount requires further information, confirm the withdrawal and follow the instructions on the next screen.'
+  'modals.interest.withdrawal.edd_need': 'This amount requires further information. Confirm the withdrawal and follow the instructions on the next screen.'
   'modals.interest.withdrawal.success': 'Waiting on your withdrawal to be confirmed by our team. It may take a few moments to show in your Interest Account History. No action is required at this time.'
+  'modals.interest.withdrawal.supply_information_description_1': "You've requested a withdrawal for an amount that requires further verification for legal and compliance reasons."
+  'modals.interest.withdrawal.supply_information_description_2': "Your funds are safe with us. Please submit the additional information so we can start processing your withdrawal."
+  'modals.interest.supply_information_disclaimer': 'Our Support team may contact you if further clarification is needed.'
   'modals.interest.withdrawal.totalinterest': 'Total Interest Earned'
   'modals.interest.withdrawal.warning': 'In the last month you have earned {pendingInterestCrypto} in interest. Once you withdraw {withdrawalAmount} ({withdrawalAmountCrypto}), you will continue to earn interest on the remaining balance.'
   'modals.interestpromo.button': 'Start Earning Now'
@@ -1978,12 +1984,8 @@ type MessagesType = {
   'scenes.interest.kycunderreview': 'Gold Verification In Review'
   'scenes.interest.subheader': 'Deposit crypto and watch it grow. Interest is paid by the end of the day on the 1st of each month.'
   'scenes.interest.subheader_store': 'Store crypto and watch it grow.'
-  'scenes.interest.additional_info_required': 'Additional Info Required'
-  'scenes.interest.additional_info_required_description': 'Please supply the additional information required to avoid delays on withdrawals.'
-  'scenes.interest.supply_information': 'Supply Information'
-  'scenes.interest.supply_information_description_1': 'You’ve requested a withdrawal for an amount that requires further verification for legal and compliance reasons.'
-  'scenes.interest.supply_information_description_2': 'Your funds are safe with us. Please submit the additional information so we can start processing your withdrawal.'
-  'scenes.interest.supply_information_disclaimer': 'One of our Support team agents might contact you if the information needs to be clarified.'
+  'scenes.interest.additional_information_required_description': 'Supply additional information here to avoid delays on withdrawal.'
+  'scenes.interest.submit_information': 'Submit Information'
   'scenes.linkaccount.able_to': 'The Exchange will be able to:'
   'scenes.linkaccount.able_to1': 'Access your profile information'
   'scenes.linkaccount.able_to2': 'Send & receive currency between apps'

@@ -8,11 +8,7 @@ import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
 import { Box } from 'components/Box'
 import { actions, model, selectors } from 'data'
 
-import {
-  Props as OwnProps,
-  StateType as ParentStateType,
-  SuccessStateType
-} from '..'
+import { Props as OwnProps, StateType as ParentStateType, SuccessStateType } from '..'
 
 const { INTEREST_EVENTS } = model.analytics
 
@@ -43,9 +39,7 @@ const IneligibleBanner = styled.div`
   justify-content: center;
 `
 
-class IntroCard extends PureComponent<
-  ParentStateType & Props & SuccessStateType
-> {
+class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType> {
   renderAdditionalInfo = () => {
     const { analyticsActions } = this.props
     return (
@@ -54,26 +48,21 @@ class IntroCard extends PureComponent<
           <IconWrapper>
             <Image name='alert' width='32px' />
           </IconWrapper>
-          <Text
-            size='20px'
-            color='grey800'
-            weight={600}
-            style={{ marginTop: '16px' }}
-          >
+          <Text size='20px' color='grey800' weight={600} style={{ marginTop: '16px' }}>
             <FormattedMessage
-              id='scenes.interest.additional_info_required'
-              defaultMessage='Additional Info Required'
+              id='modals.kycverification.additionalinfo.title'
+              defaultMessage='Additional Information Required'
             />
           </Text>
           <Text
             size='14px'
             color='grey600'
             weight={500}
-            style={{ marginTop: '4px', lineHeight: 1.5 }}
+            style={{ lineHeight: 1.5, marginTop: '4px' }}
           >
             <FormattedMessage
-              id='scenes.interest.additional_info_required_description'
-              defaultMessage='Please supply the additional information required to avoid delays on withdrawals.'
+              id='scenes.interest.additional_information_required_description'
+              defaultMessage='Supply additional information here to avoid delays on withdrawal.'
             />
           </Text>
           <Link
@@ -85,16 +74,12 @@ class IntroCard extends PureComponent<
               data-e2e='earnInterestSupplyInformation'
               fullwidth
               nature='dark-grey'
-              onClick={() =>
-                analyticsActions.logEvent(
-                  INTEREST_EVENTS.HOME.SUPPLY_INFORMATION
-                )
-              }
+              onClick={() => analyticsActions.logEvent(INTEREST_EVENTS.HOME.SUPPLY_INFORMATION)}
               style={{ marginTop: '45px' }}
             >
               <FormattedMessage
-                id='scenes.interest.supply_information'
-                defaultMessage='Supply Information'
+                id='scenes.interest.submit_information'
+                defaultMessage='Submit Information'
               />
             </Button>
           </Link>
@@ -112,7 +97,7 @@ class IntroCard extends PureComponent<
       isGoldTier,
       preferencesActions,
       showInterestInfoBox,
-      userData
+      userData,
     } = this.props
     const highestRate = interestRateArray.reduce((a, b) => Math.max(a, b))
 
@@ -122,12 +107,7 @@ class IntroCard extends PureComponent<
           <div>
             <Icon name='alert-filled' color='error' size='40px' />
           </div>
-          <Text
-            size='16px'
-            color='grey800'
-            weight={600}
-            style={{ marginTop: '16px' }}
-          >
+          <Text size='16px' color='grey800' weight={600} style={{ marginTop: '16px' }}>
             <FormattedMessage
               id='scenes.interest.ineligible'
               defaultMessage='You are not currently eligible to use this feature.'
@@ -155,12 +135,7 @@ class IntroCard extends PureComponent<
                     onClick={preferencesActions.hideInterestInfoBox}
                   />
                 </IconWrapper>
-                <Text
-                  size='20px'
-                  color='grey800'
-                  weight={600}
-                  style={{ marginTop: '16px' }}
-                >
+                <Text size='20px' color='grey800' weight={600} style={{ marginTop: '16px' }}>
                   <FormattedMessage
                     id='scenes.interest.earnheaderverified'
                     defaultMessage='Earn interest on your crypto today.'
@@ -170,7 +145,7 @@ class IntroCard extends PureComponent<
                   size='14px'
                   color='grey600'
                   weight={500}
-                  style={{ marginTop: '4px', lineHeight: 1.5 }}
+                  style={{ lineHeight: 1.5, marginTop: '4px' }}
                 >
                   <FormattedMessage
                     id='scenes.interest.earninfo.verified.copy'
@@ -188,28 +163,18 @@ class IntroCard extends PureComponent<
                     fullwidth
                     nature='light'
                     onClick={() =>
-                      analyticsActions.logEvent(
-                        INTEREST_EVENTS.HOME.CLICK_SUPPORT_ARTICLE
-                      )
+                      analyticsActions.logEvent(INTEREST_EVENTS.HOME.CLICK_SUPPORT_ARTICLE)
                     }
                     style={{ marginTop: '45px' }}
                   >
-                    <FormattedMessage
-                      id='buttons.learn_more'
-                      defaultMessage='Learn More'
-                    />
+                    <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
                   </Button>
                 </Link>
               </ContentWrapper>
             ) : (
               <ContentWrapper>
                 <Icon name='percentage' color='blue600' size='32px' />
-                <Text
-                  size='20px'
-                  color='grey800'
-                  weight={600}
-                  style={{ marginTop: '16px' }}
-                >
+                <Text size='20px' color='grey800' weight={600} style={{ marginTop: '16px' }}>
                   <FormattedMessage
                     id='scenes.interest.earnupgrade.header'
                     defaultMessage='Upgrade to Gold Level so you can earn interest on your crypto.'
@@ -219,7 +184,7 @@ class IntroCard extends PureComponent<
                   size='14px'
                   color='grey600'
                   weight={500}
-                  style={{ marginTop: '10px', lineHeight: 1.5 }}
+                  style={{ lineHeight: 1.5, marginTop: '10px' }}
                 >
                   <FormattedMessage
                     id='scenes.interest.earnbody.access'
@@ -234,17 +199,13 @@ class IntroCard extends PureComponent<
                   disabled={userData.kycState !== 'NONE'}
                   onClick={() => idvActions.verifyIdentity(2, false)}
                 >
-                  {userData.kycState === 'UNDER_REVIEW' ||
-                  userData.kycState === 'PENDING' ? (
+                  {userData.kycState === 'UNDER_REVIEW' || userData.kycState === 'PENDING' ? (
                     <FormattedMessage
                       id='scenes.interest.kycunderreview'
                       defaultMessage='Gold Verification In Review'
                     />
                   ) : (
-                    <FormattedMessage
-                      id='scenes.interest.verifyid'
-                      defaultMessage='Upgrade Now'
-                    />
+                    <FormattedMessage id='scenes.interest.verifyid' defaultMessage='Upgrade Now' />
                   )}
                 </Button>
               </ContentWrapper>
@@ -256,13 +217,13 @@ class IntroCard extends PureComponent<
   }
 }
 
-const mapStateToProps = state => ({
-  showInterestInfoBox: selectors.preferences.getShowInterestInfoBox(state)
+const mapStateToProps = (state) => ({
+  showInterestInfoBox: selectors.preferences.getShowInterestInfoBox(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  preferencesActions: bindActionCreators(actions.preferences, dispatch)
+  preferencesActions: bindActionCreators(actions.preferences, dispatch),
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

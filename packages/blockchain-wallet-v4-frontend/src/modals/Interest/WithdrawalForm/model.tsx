@@ -34,7 +34,7 @@ export const BalanceWrapper = styled.div`
   display: flex;
   margin-top: 40px;
   padding-bottom: 20px;
-  border-bottom: 1px solid ${props => props.theme.grey000};
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
 `
 export const BalanceItem = styled.div`
   width: 100%;
@@ -51,11 +51,11 @@ export const AmountAvailContainer = styled.div`
   display: inline-block;
   padding: 4px 8px;
   border-radius: 20px;
-  background-color: ${props => props.theme.grey000};
+  background-color: ${(props) => props.theme.grey000};
 `
 export const Spacer = styled.div`
   height: 48px;
-  border-right: 1px solid ${props => props.theme.grey000};
+  border-right: 1px solid ${(props) => props.theme.grey000};
 `
 export const Bottom = styled(FlyoutWrapper)`
   display: flex;
@@ -69,16 +69,14 @@ export const CustomFormLabel = styled.div`
   margin-top: 24px;
   margin-bottom: 10px;
 `
-export const CustomField = styled(Field)<
-  BaseFieldProps & { coin: CoinType; displayCoin: boolean }
->`
+const displayCoinPadding = (displayCoin: boolean) => (displayCoin ? '46px' : '42px')
+
+export const CustomField = styled(Field)<BaseFieldProps & { coin: CoinType; displayCoin: boolean }>`
   > input {
-    padding-left: ${props =>
+    padding-left: ${(props) =>
       props.displayCoin && (props.coin === 'USDT' || props.coin === 'PAX')
         ? '64px'
-        : props.displayCoin
-        ? '46px'
-        : '42px'};
+        : displayCoinPadding(props.displayCoin)};
   }
 `
 export const AmountFieldContainer = styled.div`
@@ -115,8 +113,7 @@ export const ToggleFiatText = styled(Text)<{ displayCoin: boolean }>`
   padding-right: 5px;
   cursor: pointer;
   display: inline;
-  color: ${props =>
-    props.displayCoin ? props.theme.grey800 : props.theme.blue600};
+  color: ${(props) => (props.displayCoin ? props.theme.grey800 : props.theme.blue600)};
 `
 
 export const ToggleCoinText = styled(Text)<{ displayCoin: boolean }>`
@@ -125,8 +122,7 @@ export const ToggleCoinText = styled(Text)<{ displayCoin: boolean }>`
   padding-left: 5px;
   cursor: pointer;
   display: inline;
-  color: ${props =>
-    props.displayCoin ? props.theme.blue600 : props.theme.grey800};
+  color: ${(props) => (props.displayCoin ? props.theme.blue600 : props.theme.grey800)};
 `
 export const CustomOrangeCartridge = styled(OrangeCartridge)`
   display: flex;
@@ -138,5 +134,5 @@ export const CartrigeText = styled.div`
   display: inline;
   font-size: 14px;
   font-weight: 500;
-  color: ${props => props.theme.orange800};
+  color: ${(props) => props.theme.orange800};
 `

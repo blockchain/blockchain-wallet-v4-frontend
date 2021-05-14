@@ -15,7 +15,10 @@ import DepositForm from './DepositForm'
 import WithdrawalForm from './WithdrawalForm'
 
 class Interest extends PureComponent<Props, State> {
-  state: State = { show: false, showSupplyInformation: false }
+  constructor(props: Props) {
+    super(props)
+    this.state = { show: false, showSupplyInformation: false }
+  }
 
   componentDidMount() {
     /* eslint-disable */
@@ -31,7 +34,7 @@ class Interest extends PureComponent<Props, State> {
     }, duration)
   }
 
-  handleSBClick = coin => {
+  handleSBClick = (coin: CoinType) => {
     this.setState({ show: false })
     setTimeout(() => {
       this.props.close()
@@ -41,7 +44,7 @@ class Interest extends PureComponent<Props, State> {
 
   showSupply = (show: boolean) => {
     this.setState({
-      showSupplyInformation: show
+      showSupplyInformation: show,
     })
   }
 
@@ -69,7 +72,7 @@ class Interest extends PureComponent<Props, State> {
         )}
         {step.name === 'DEPOSIT' && (
           <FlyoutChild>
-            <DepositForm coin={coin} />
+            <DepositForm coin={coin} setShowSupply={this.showSupply} />
           </FlyoutChild>
         )}
         {step.name === 'WITHDRAWAL' && (
@@ -87,16 +90,15 @@ class Interest extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  step: selectors.components.interest.getStep(state),
   coin: selectors.components.interest.getCoinType(state),
-  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
+  step: selectors.components.interest.getStep(state),
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  fetchInterestEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
   interestActions: bindActionCreators(actions.components.interest, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
-  fetchInterestEDDStatus: () =>
-    dispatch(actions.components.interest.fetchEDDStatus())
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -114,9 +116,6 @@ type LinkStatePropsType = {
 type State = { show: boolean; showSupplyInformation: boolean }
 type Props = OwnProps & ConnectedProps<typeof connector>
 
-const enhance = compose<any>(
-  modalEnhancer('INTEREST_MODAL', { transition: duration }),
-  connector
-)
+const enhance = compose(modalEnhancer('INTEREST_MODAL', { transition: duration }), connector)
 
 export default enhance(Interest)

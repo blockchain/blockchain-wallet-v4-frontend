@@ -18,7 +18,7 @@ import {
 import DataError from 'components/DataError'
 import { actions } from 'data'
 
-import { getData } from './selectors'
+import getData from './selectors'
 import Loading from './template.loading'
 import WithdrawalForm from './template.success'
 
@@ -31,15 +31,10 @@ class WithdrawalFormContainer extends PureComponent<Props> {
 
   handleDisplayToggle = (isCoin: boolean) => {
     const { displayCoin } = this.props.data.getOrElse({
-      displayCoin: false
+      displayCoin: false,
     } as SuccessStateType)
     if (isCoin === displayCoin) return
-    this.props.formActions.clearFields(
-      'interestWithdrawalForm',
-      false,
-      false,
-      'withdrawalAmount'
-    )
+    this.props.formActions.clearFields('interestWithdrawalForm', false, false, 'withdrawalAmount')
     this.props.interestActions.setCoinDisplay(isCoin)
   }
 
@@ -51,22 +46,18 @@ class WithdrawalFormContainer extends PureComponent<Props> {
   render() {
     const { data } = this.props
     return data.cata({
-      Success: val => (
-        <WithdrawalForm
-          {...val}
-          {...this.props}
-          handleDisplayToggle={this.handleDisplayToggle}
-        />
-      ),
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      NotAsked: () => <Loading />,
+      Success: (val) => (
+        <WithdrawalForm {...val} {...this.props} handleDisplayToggle={this.handleDisplayToggle} />
+      ),
     })
   }
 }
 
 const mapStateToProps = (state): LinkStatePropsType => ({
-  data: getData(state)
+  data: getData(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
@@ -81,11 +72,11 @@ export type SuccessStateType = {
   availToWithdraw: BigNumber
   coin: CoinType
   displayCoin: boolean
-  interestEDDStatus: InterestEDDStatus,
-  interestEDDWithdrawLimits: WithdrawLimits,
-  interestLimits: InterestLimitsType,
-  rates: RatesType,
-  supportedCoins: SupportedWalletCurrenciesType,
+  interestEDDStatus: InterestEDDStatus
+  interestEDDWithdrawLimits: WithdrawLimits
+  interestLimits: InterestLimitsType
+  rates: RatesType
+  supportedCoins: SupportedWalletCurrenciesType
   withdrawalMinimums: WithdrawalMinimumType
 }
 
@@ -94,13 +85,13 @@ type LinkStatePropsType = {
 }
 
 export type OwnProps = {
-  coin: CoinType,
-  setShowSupply: (boolean) => void,
+  coin: CoinType
+  setShowSupply: (boolean) => void
   walletCurrency: FiatType
 }
 
 export type LinkDispatchPropsType = {
-  formActions: typeof actions.form,
+  formActions: typeof actions.form
   interestActions: typeof actions.components.interest
 }
 

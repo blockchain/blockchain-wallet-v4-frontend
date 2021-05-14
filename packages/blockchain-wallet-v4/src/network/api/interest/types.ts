@@ -1,9 +1,4 @@
-import {
-  CoinType,
-  FiatType,
-  NabuMoneyFloatType,
-  WalletFiatType
-} from 'core/types'
+import { CoinType, FiatType, NabuMoneyFloatType, WalletFiatType } from 'core/types'
 
 export type InterestBalanceType = {
   balance: string
