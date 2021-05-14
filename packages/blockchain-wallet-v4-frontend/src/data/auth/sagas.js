@@ -198,7 +198,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.cache.guidEntered(guid))
       // reset auth type and clear previous login form state
       yield put(actions.auth.setAuthType(0))
-      yield put(actions.form.destroy('login'))
+      yield put(actions.form.destroy('loginNew'))
       // set payload language to settings language
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
@@ -347,7 +347,7 @@ export default ({ api, coreSagas }) => {
             } else {
               yield put(actions.auth.loginFailure(wrongWalletPassErrorMessage))
               yield put(
-                actions.logs.logErrorMessage(logLocation, 'login', error)
+                actions.logs.logErrorMessage(logLocation, 'loginNew', error)
               )
             }
           }
@@ -370,9 +370,9 @@ export default ({ api, coreSagas }) => {
         // password error can only occur after 2fa validation
         yield put(actions.auth.setAuthType(0))
         yield put(
-          actions.form.clearFields('login', false, true, 'password', 'code')
+          actions.form.clearFields('loginNew', false, true, 'password', 'code')
         )
-        yield put(actions.form.focus('login', 'password'))
+        yield put(actions.form.focus('loginNew', 'password'))
         yield put(actions.auth.loginFailure(error))
       } else if (initialError && initialError.includes(unknownWalletId)) {
         yield put(actions.form.change('loginNew', 'step', 'ENTER_EMAIL_GUID'))
@@ -394,8 +394,8 @@ export default ({ api, coreSagas }) => {
         is(String, error) &&
         error.includes(wrongAuthCodeErrorMessage)
       ) {
-        yield put(actions.form.clearFields('login', false, true, 'code'))
-        yield put(actions.form.focus('login', 'code'))
+        yield put(actions.form.clearFields('loginNew', false, true, 'code'))
+        yield put(actions.form.focus('loginNew', 'code'))
         yield put(actions.auth.loginFailure(error))
       } else if (error && is(String, error)) {
         yield put(actions.auth.loginFailure(error))
