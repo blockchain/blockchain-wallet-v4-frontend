@@ -10,18 +10,20 @@ export enum LoginSteps {
 
 export type LoginFormType = {
   email: string
-  guid: string
-  guidOrEmail: string
-  password: string
-  step: LoginSteps
+  emailToken?: string,
+  guid: string,
+  guidOrEmail: string,
+  password: string,
+  step: LoginSteps,
   twoFA?: number | string
 }
 
 export type LoginObject = {
   email: string
-  email_code: string
+  email_code?: string
   guid: string
   is_mobile_setup: string | boolean
+  mobile_device_type: number | null
 }
 
 // actions
