@@ -13,7 +13,7 @@ import {
   ApiSocket,
   createWalletApi,
   HorizonStreamingService,
-  Socket
+  Socket,
 } from 'blockchain-wallet-v4/src/network/index.ts'
 import { serializer } from 'blockchain-wallet-v4/src/types'
 import { actions, rootReducer, rootSaga, selectors } from 'data'
@@ -24,12 +24,10 @@ import {
   matomoMiddleware,
   streamingXlm,
   webSocketCoins,
-  webSocketRates
+  webSocketRates,
 } from '../middleware'
 
 const devToolsConfig = {
-  maxAge: 1000,
-  serialize: serializer,
   actionsBlacklist: [
     // '@@redux-form/INITIALIZE',
     // '@@redux-form/CHANGE',
@@ -42,11 +40,13 @@ const devToolsConfig = {
     // '@@redux-form/RESET'
     '@CORE.COINS_WEBSOCKET_MESSAGE',
     '@CORE.FETCH_ETH_LATEST_BLOCK_SUCCESS',
-    '@EVENT.RATES_SOCKET.WEBSOCKET_MESSAGE'
-  ]
+    '@EVENT.RATES_SOCKET.WEBSOCKET_MESSAGE',
+  ],
+  maxAge: 1000,
+  serialize: serializer,
 }
 
-const configureStore = async function() {
+const configureStore = async function () {
   const history = createHashHistory()
   const sagaMiddleware = createSagaMiddleware()
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -54,7 +54,7 @@ const configureStore = async function() {
     : compose
   const walletPath = 'wallet.payload'
   const kvStorePath = 'wallet.kvstore'
-  const isAuthenticated = selectors.auth.isAuthenticated
+  const { isAuthenticated } = selectors.auth
 
   const res = await fetch('/wallet-options-v4.json')
   const options = await res.json()
@@ -63,31 +63,30 @@ const configureStore = async function() {
   const horizonUrl = options.domains.horizon
   const coinsSocket = new Socket({
     options,
-    url: `${socketUrl}/coins`
+    url: `${socketUrl}/coins`,
   })
   const ratesSocket = new ApiSocket({
+    maxReconnects: 3,
     options,
     url: `${socketUrl}/nabu-gateway/markets/quotes`,
-    maxReconnects: 3
   })
   const xlmStreamingService = new HorizonStreamingService({
-    url: horizonUrl
+    url: horizonUrl,
   })
-  const getAuthCredentials = () =>
-    selectors.modules.profile.getAuthCredentials(store.getState())
+  const getAuthCredentials = () => selectors.modules.profile.getAuthCredentials(store.getState())
   const reauthenticate = () => store.dispatch(actions.modules.profile.signIn())
   const networks = {
-    btc: Bitcoin.networks[options.platforms.web.coins.BTC.config.network],
     bch: BitcoinCash.networks[options.platforms.web.coins.BTC.config.network],
+    btc: Bitcoin.networks[options.platforms.web.coins.BTC.config.network],
     eth: options.platforms.web.coins.ETH.config.network,
-    xlm: options.platforms.web.coins.XLM.config.network
+    xlm: options.platforms.web.coins.XLM.config.network,
   }
   const api = createWalletApi({
-    options,
     apiKey,
     getAuthCredentials,
+    networks,
+    options,
     reauthenticate,
-    networks
   })
   const persistWhitelist = ['session', 'preferences', 'cache']
 
@@ -97,15 +96,15 @@ const configureStore = async function() {
       persistCombineReducers(
         {
           getStoredState: getStoredStateMigrateV4({
-            whitelist: persistWhitelist
+            whitelist: persistWhitelist,
           }),
           key: 'root',
           storage,
-          whitelist: persistWhitelist
+          whitelist: persistWhitelist,
         },
         {
           router: connectRouter(history),
-          ...rootReducer
+          ...rootReducer,
         }
       )
     ),
@@ -113,11 +112,11 @@ const configureStore = async function() {
       applyMiddleware(
         sagaMiddleware,
         routerMiddleware(history),
-        coreMiddleware.kvStore({ isAuthenticated, api, kvStorePath }),
+        coreMiddleware.kvStore({ api, isAuthenticated, kvStorePath }),
         streamingXlm(xlmStreamingService, api),
         webSocketRates(ratesSocket),
         webSocketCoins(coinsSocket),
-        coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
+        coreMiddleware.walletSync({ api, isAuthenticated, walletPath }),
         matomoMiddleware(),
         analyticsMiddleware(),
         autoDisconnection()
@@ -131,7 +130,7 @@ const configureStore = async function() {
     coinsSocket,
     networks,
     options,
-    ratesSocket
+    ratesSocket,
   })
 
   // expose globals here
@@ -142,9 +141,9 @@ const configureStore = async function() {
   store.dispatch(actions.goals.defineGoals())
 
   return {
-    store,
     history,
-    persistor
+    persistor,
+    store,
   }
 }
 
