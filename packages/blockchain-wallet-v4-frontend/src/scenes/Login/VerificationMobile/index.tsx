@@ -70,7 +70,41 @@ const VerificationMobile = (props: Props) => {
             />
           </Text>
         </TextColumn>
-        <QRCodeWrapper value={qrData} size={qrData.length} showImage />
+        {props.secureChannelLoginState.cata({
+          Success: () => {
+            return (
+              <Text size='14px' weight={600}>
+                <FormattedMessage
+                  id='scenes.login.qrcodelogin_success'
+                  defaultMessage='Success! Logging in...'
+                />
+              </Text>
+            )
+          },
+          Failure: e => (
+            <Text>
+              {typeof e === 'string' ? (
+                e
+              ) : (
+                <FormattedMessage
+                  id='scenes.login.qrcodelogin_failed'
+                  defaultMessage='Login failed. Please refresh browser and try again.'
+                />
+              )}
+            </Text>
+          ),
+          Loading: () => {
+            return (
+              <Text size='14px' weight={600}>
+                <FormattedMessage
+                  id='scenes.login.qrcodelogin_success_confirm'
+                  defaultMessage='Please confirm the login on your mobile device.'
+                />
+              </Text>
+            )
+          },
+          NotAsked: () => <QRCodeWrapper value={qrData} size={175} showImage />
+        })}
       </Body>
       <LinkRow>
         <Button
