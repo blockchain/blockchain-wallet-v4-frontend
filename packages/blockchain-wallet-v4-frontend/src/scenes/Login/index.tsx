@@ -34,6 +34,9 @@ class Login extends PureComponent<InjectedFormProps & Props> {
     this.props.formActions.change(LOGIN_NEW, 'step', step)
   }
 
+  // Every step is part of one form
+  // One submit function that fires different events
+  // Depending on which step user is on
   handleSubmit = e => {
     e.preventDefault()
     const {

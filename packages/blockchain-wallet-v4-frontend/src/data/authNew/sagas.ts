@@ -15,7 +15,12 @@ export default ({ api, coreSagas }) => {
   const intializeLogin = function * () {
     try {
       yield put(A.intializeLoginLoading())
+      // Opens coin socket, needed for coin streams
+      // and channel key for mobile login
       yield put(actions.ws.startSocket())
+      // Grab pathname to determine next step
+      // Depending on if pathname is just /login
+      // /login/{guid} or /login/{base64_link}
       const pathname = yield select(selectors.router.getPathname)
       const params = pathname.split('/')
       const isMobileConnected = yield select(selectors.cache.getMobileConnected)
@@ -50,11 +55,13 @@ export default ({ api, coreSagas }) => {
             actions.form.change('loginNew', 'step', LoginSteps.ENTER_PASSWORD)
           )
         }
+        // if url is just /login, take them to enter guid or email
       } else if (!params[2]) {
         yield put(
           actions.form.change('loginNew', 'step', LoginSteps.ENTER_EMAIL_GUID)
         )
       } else {
+        // we detect a guid in the pathname
         if (isGuid(params[2])) {
           const guidFromRoute = params[2]
           yield put(actions.form.change('loginNew', 'guid', guidFromRoute))
@@ -65,19 +72,23 @@ export default ({ api, coreSagas }) => {
               LoginSteps.VERIFICATION_MOBILE
             )
           )
+          // if path has base64 encrypted JSON
         } else {
           const loginData = JSON.parse(atob(params[2])) as LoginObject
+          // grab all the data from the JSON
           const guidFromRoute = prop('guid', loginData)
           const emailFromRoute = prop('email', loginData)
           const mobileSetup = prop('is_mobile_setup', loginData) === 'true'
           const emailToken = prop('email_code', loginData)
+          // store data in the cache and update form values
+          // to be used to submit login
           yield put(actions.cache.emailStored(emailFromRoute))
           yield put(actions.cache.guidStored(guidFromRoute))
           yield put(actions.cache.mobileConnectedStored(mobileSetup))
           yield put(actions.form.change('loginNew', 'emailToken', emailToken))
           yield put(actions.form.change('loginNew', 'guid', guidFromRoute))
           yield put(actions.form.change('loginNew', 'email', emailFromRoute))
-
+          // check if mobile detected
           if (mobileSetup) {
             yield put(
               actions.form.change(
@@ -100,6 +111,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  // triggers verification email for login
   const loginGuid = function * (action) {
     const formValues = yield select(selectors.form.getFormValues('loginNew'))
     const { step } = formValues
@@ -125,6 +137,9 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  // TODO
+  // I don't think I ended up using this,
+  // Probably can remove
   const submitWalletGuid = function * (action) {
     yield put(startSubmit('loginNew'))
     try {
