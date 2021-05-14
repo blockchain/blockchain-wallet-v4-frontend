@@ -14,8 +14,8 @@ export default ({ api, coreSagas }) => {
 
   const intializeLogin = function * () {
     try {
-      yield put(startSubmit('loginNew'))
       yield put(A.intializeLoginLoading())
+      yield put(actions.ws.startSocket())
       const pathname = yield select(selectors.router.getPathname)
       const params = pathname.split('/')
       const isMobileConnected = yield select(selectors.cache.getMobileConnected)
@@ -24,7 +24,6 @@ export default ({ api, coreSagas }) => {
       // And lastGuid (last successful login)
       const storedGuid = yield select(selectors.cache.getStoredGuid)
       const lastGuid = yield select(selectors.cache.getLastGuid)
-      // debugger
       if ((storedGuid || lastGuid) && !params[2]) {
         // logic to be compatible with lastGuid in cache
         // make sure that email matches guid being used for login
@@ -71,10 +70,11 @@ export default ({ api, coreSagas }) => {
           const guidFromRoute = prop('guid', loginData)
           const emailFromRoute = prop('email', loginData)
           const mobileSetup = prop('is_mobile_setup', loginData) === 'true'
+          const emailToken = prop('email_code', loginData)
           yield put(actions.cache.emailStored(emailFromRoute))
           yield put(actions.cache.guidStored(guidFromRoute))
           yield put(actions.cache.mobileConnectedStored(mobileSetup))
-
+          yield put(actions.form.change('loginNew', 'emailToken', emailToken))
           yield put(actions.form.change('loginNew', 'guid', guidFromRoute))
           yield put(actions.form.change('loginNew', 'email', emailFromRoute))
 
@@ -94,7 +94,6 @@ export default ({ api, coreSagas }) => {
         }
       }
       yield put(A.initializeLoginSuccess())
-      yield put(stopSubmit('loginNew'))
     } catch (e) {
       yield put(A.intializeLoginFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'intializeLogin', e))
