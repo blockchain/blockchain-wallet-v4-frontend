@@ -6,6 +6,7 @@ import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 
 import {
   Button,
+  CoinAccountIcon,
   HeartbeatLoader,
   Icon,
   SkeletonRectangle,
@@ -17,7 +18,7 @@ import {
 } from 'blockchain-wallet-v4/src/exchange/currency'
 import { PaymentValue } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
-import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
+import { Col, FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'
@@ -88,34 +89,46 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         </FlyoutWrapper>
         <Row>
           <Title>
-            <FormattedMessage id='copy.swap' defaultMessage='Swap' />
+            <FormattedMessage id='copy.from' defaultMessage='From' />
           </Title>
           <Value data-e2e='swapOutgoingValue'>
+            <CoinAccountIcon
+              accountType={BASE.type}
+              coin={coins[BASE.coin].coinCode}
+            />
             {coinToString({
               value: this.props.swapAmountFormValues?.cryptoAmount,
               unit: { symbol: baseCoinTicker }
             })}
           </Value>
         </Row>
-        <Row>
-          <Title>
-            <FormattedMessage id='buttons.receive' defaultMessage='Receive' />
-          </Title>
-          <Value data-e2e='swapIncomingValue'>
-            {this.props.incomingAmountR.cata({
-              Success: value => (
-                <>
-                  {coinToString({
-                    value: value.amt,
-                    unit: { symbol: counterCoinTicker }
-                  })}
-                </>
-              ),
-              Failure: e => e,
-              Loading: () => <SkeletonRectangle height='18px' width='70px' />,
-              NotAsked: () => <SkeletonRectangle height='18px' width='70px' />
-            })}
-          </Value>
+        <Row style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Col style={{}}>
+            <CoinAccountIcon
+              accountType={COUNTER.type}
+              coin={coins[COUNTER.coin].coinCode}
+            />
+            <Title>
+              <FormattedMessage id='copy.to' defaultMessage='To' />
+            </Title>
+          </Col>
+          <Col>
+            <Value data-e2e='swapIncomingValue'>
+              {this.props.incomingAmountR.cata({
+                Success: value => (
+                  <>
+                    {coinToString({
+                      value: value.amt,
+                      unit: { symbol: counterCoinTicker }
+                    })}
+                  </>
+                ),
+                Failure: e => e,
+                Loading: () => <SkeletonRectangle height='18px' width='70px' />,
+                NotAsked: () => <SkeletonRectangle height='18px' width='70px' />
+              })}
+            </Value>
+          </Col>
         </Row>
         <Row>
           <Title>
