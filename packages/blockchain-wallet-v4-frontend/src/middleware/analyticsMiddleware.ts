@@ -2,7 +2,7 @@ import { v4 } from 'uuid'
 
 import { getCardTypeByValue } from 'components/Form/CreditCardBox/model'
 import { actionTypes as AT } from 'data'
-import { ModalNamesType } from 'data/types'
+import { ModalNamesType, SBShowModalOriginType } from 'data/types'
 import queuevent from 'utils/queuevent'
 
 enum AnalyticsKey {
@@ -77,7 +77,7 @@ type BuyPaymentMethodSelectedPayload = BasePayload & {
 }
 
 type BuySellClickedPayload = BasePayload & {
-  origin: string
+  origin: 'BUY_WIDGET' | string
   // type: "BUY" | "SELL"
 }
 
@@ -148,7 +148,17 @@ type AnalyticsPayload =
   | SignedUpPayload
   | UpgradeVerificationClickedPayload
 
-type PageNamesType = '/home'
+type PageNamesType = '/home' | '/interest'
+
+const simpleBuyOriginDictionary = (rawOrigin: SBShowModalOriginType) => {
+  switch (rawOrigin) {
+    case 'SimpleBuyLink':
+      return 'BUY_WIDGET'
+    default: {
+      return rawOrigin
+    }
+  }
+}
 
 const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
   queueCallback: async (rawEvents) => {
@@ -233,9 +243,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         switch (modalName) {
           case 'SIMPLE_BUY_MODAL': {
-            const { origin } = action.payload.props
+            const rawOrigin = action.payload.props.origin
             const { href, pathname, search } = window.location
             const { referrer, title } = document
+
+            const origin = simpleBuyOriginDictionary(rawOrigin)
 
             analytics.push(AnalyticsKey.BUY_SELL_CLICKED, {
               origin,
