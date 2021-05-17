@@ -2,6 +2,7 @@ import { v4 } from 'uuid'
 
 import { getCardTypeByValue } from 'components/Form/CreditCardBox/model'
 import { actionTypes as AT } from 'data'
+import { ModalNamesType } from 'data/types'
 import queuevent from 'utils/queuevent'
 
 enum AnalyticsKey {
@@ -10,11 +11,35 @@ enum AnalyticsKey {
   BUY_AMOUNT_MIN_CLICKED = 'Buy Amount Min Clicked',
   BUY_LEARN_MORE_CLICKED = 'Buy Learn More Clicked',
   BUY_PAYMENT_METHOD_SELECTED = 'Buy Payment Method Selected',
+  BUY_SELL_CLICKED = 'Buy Sell Clicked',
+  BUY_SELL_VIEWED = 'Buy Sell Viewed',
   CARD_REJECTED = 'Card Rejected',
+  DASHBOARD_CLICKED = 'Dashboard Clicked',
+  DASHBOARD_VIEWED = 'Dashboard Viewed',
+  EMAIL_VERIFICATION_CLICKED = 'Email Verification Clicked',
+  SIGNED_IN = 'Signed In',
+  SIGNED_OUT = 'Signed Out',
+  // SWAP_ACCOUNTS_SELECTED = 'Swap Accounts Selected', // not implemented
+  // SWAP_AMOUNT_ENTERED = 'Swap Amount Entered', // not implemented
+  // SWAP_AMOUNT_MAX_CLICKED = 'Swap Amount Max Clicked', // not implemented
+  // SWAP_AMOUNT_MIN_CLICKED = 'Swap Amount Min Clicked', // not implemented
+  SWAP_CLICKED = 'Swap Clicked',
+  // SWAP_FROM_SELECTED = 'Swap From Selected', // not implemented
+  // SWAP_RECEIVE_SELECTED = 'Swap Receive Selected', // not implemented
+  SWAP_VIEWED = 'Swap Viewed',
+  UPGRADE_VERIFICATION_CLICKED = 'Upgrade Verification Clicked'
 }
 
 type BasePayload = {
   originalTimestamp: string
+}
+
+type PageViewPayload = {
+  path: string
+  referrer: string
+  search: string
+  title: string
+  url: string
 }
 
 type BuyAmountEnteredPayload = BasePayload & {
@@ -51,11 +76,58 @@ type BuyPaymentMethodSelectedPayload = BasePayload & {
   platform: 'WALLET'
 }
 
+type BuySellClickedPayload = BasePayload & {
+  origin: string
+  // type: "BUY" | "SELL"
+}
+
+type BuySellViewedPayload = BasePayload &
+  PageViewPayload & {
+    // type: "BUY" | "SELL"
+  }
+
 type CardRejectedPayload = BasePayload & {
   card_type: string
   country_billing: string
   product: 'SIMPLE_BUY' | 'SIMPLE_TRADE' | 'SWAP'
   reason: string
+}
+
+type SwapClickedPayload = BasePayload & {
+  origin: 'CURRENCY_PAGE' | 'DASHBOARD_PROMO' | 'NAVIGATION'
+}
+
+type SwapViewedPayload = BasePayload & PageViewPayload & {}
+
+type DashboardClickedPayload = BasePayload & {
+  origin: 'SIGN_IN'
+}
+
+type DashboardViewedPayload = BasePayload & PageViewPayload & {}
+
+type EmailVerificationClicked = BasePayload & {
+  // origin: 'SIGN_UP' | 'VERIFICATION'
+}
+
+type SignedInPayload = BasePayload & {
+  platform: 'WALLET'
+}
+
+type SignedUpPayload = BasePayload & {
+  platform: 'WALLET'
+}
+
+type UpgradeVerificationClickedPayload = BasePayload & {
+  // origin:
+  //   | 'AIRDROP'
+  //   | 'FIAT_FUNDS'
+  //   | 'RESUBMISSION'
+  //   | 'SAVINGS'
+  //   | 'SETTINGS'
+  //   | 'SIMPLEBUY'
+  //   | 'SIMPLETRADE'
+  //   | 'SWAP'
+  tier: number
 }
 
 type AnalyticsPayload =
@@ -64,7 +136,19 @@ type AnalyticsPayload =
   | BuyAmountMinClickedPayload
   | BuyLearnMoreClickedPayload
   | BuyPaymentMethodSelectedPayload
+  | BuySellClickedPayload
+  | BuySellViewedPayload
   | CardRejectedPayload
+  | SwapClickedPayload
+  | SwapViewedPayload
+  | DashboardClickedPayload
+  | DashboardViewedPayload
+  | EmailVerificationClicked
+  | SignedInPayload
+  | SignedUpPayload
+  | UpgradeVerificationClickedPayload
+
+type PageNamesType = '/home'
 
 const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
   queueCallback: async (rawEvents) => {
@@ -85,7 +169,7 @@ const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
       return {
         name,
         originalTimestamp,
-        properties,
+        properties
       }
     })
 
@@ -93,15 +177,15 @@ const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
       body: JSON.stringify({
         context,
         events,
-        id,
+        id
       }),
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      method: 'POST',
+      method: 'POST'
     })
   },
-  queueName: 'analytics',
+  queueName: 'analytics'
 })
 
 const getOriginalTimestamp = () => new Date().toISOString()
@@ -111,6 +195,99 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
     switch (action.type) {
       case '@@INIT': {
         analytics.clear()
+        break
+      }
+      case AT.analytics.LOG_PAGE_VIEW: {
+        const pageName: PageNamesType = action.payload.route
+
+        switch (pageName) {
+          case '/home': {
+            const { href, pathname, search } = window.location
+            const { referrer, title } = document
+
+            analytics.push(AnalyticsKey.DASHBOARD_CLICKED, {
+              origin: 'SIGN_IN',
+              originalTimestamp: getOriginalTimestamp()
+            })
+
+            analytics.push(AnalyticsKey.DASHBOARD_VIEWED, {
+              originalTimestamp: getOriginalTimestamp(),
+              path: pathname,
+              referrer,
+              search,
+              title,
+              url: href
+            })
+
+            break
+          }
+          default: {
+            break
+          }
+        }
+
+        break
+      }
+      case AT.modals.SHOW_MODAL: {
+        const modalName: ModalNamesType = action.payload.type
+
+        switch (modalName) {
+          case 'SIMPLE_BUY_MODAL': {
+            const { origin } = action.payload.props
+            const { href, pathname, search } = window.location
+            const { referrer, title } = document
+
+            analytics.push(AnalyticsKey.BUY_SELL_CLICKED, {
+              origin,
+              originalTimestamp: getOriginalTimestamp()
+            })
+
+            analytics.push(AnalyticsKey.BUY_SELL_VIEWED, {
+              originalTimestamp: getOriginalTimestamp(),
+              path: pathname,
+              referrer,
+              search,
+              title,
+              url: href
+            })
+
+            break
+          }
+          case 'SWAP_MODAL': {
+            const { origin } = action.payload.props
+            const { href, pathname, search } = window.location
+            const { referrer, title } = document
+
+            analytics.push(AnalyticsKey.SWAP_CLICKED, {
+              origin,
+              originalTimestamp: getOriginalTimestamp()
+            })
+
+            analytics.push(AnalyticsKey.SWAP_VIEWED, {
+              originalTimestamp: getOriginalTimestamp(),
+              path: pathname,
+              referrer,
+              search,
+              title,
+              url: href
+            })
+
+            break
+          }
+          case 'KYC_MODAL': {
+            const { tier } = action.payload.props
+
+            analytics.push(AnalyticsKey.SWAP_CLICKED, {
+              originalTimestamp: getOriginalTimestamp(),
+              tier
+            })
+            break
+          }
+          default: {
+            break
+          }
+        }
+
         break
       }
 
@@ -128,8 +305,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           originalTimestamp: getOriginalTimestamp(),
           // output_amount: 123,
           output_currency: outputCurrency,
-
-          platform: 'WALLET',
+          platform: 'WALLET'
         })
         break
       }
@@ -144,7 +320,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           input_currency: inputCurrency,
           originalTimestamp: getOriginalTimestamp(),
           output_currency: outputCurrency,
-          platform: 'WALLET',
+          platform: 'WALLET'
         })
         break
       }
@@ -159,7 +335,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           input_currency: inputCurrency,
           originalTimestamp: getOriginalTimestamp(),
           output_currency: outputCurrency,
-          platform: 'WALLET',
+          platform: 'WALLET'
         })
         break
       }
@@ -169,7 +345,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         analytics.push(AnalyticsKey.BUY_PAYMENT_METHOD_SELECTED, {
           originalTimestamp: getOriginalTimestamp(),
           payment_type: paymentType,
-          platform: 'WALLET',
+          platform: 'WALLET'
         })
         break
       }
@@ -185,7 +361,27 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           country_billing: countryBilling,
           originalTimestamp: getOriginalTimestamp(),
           product: 'SIMPLE_BUY',
-          reason,
+          reason
+        })
+        break
+      }
+      case AT.auth.VERIFY_EMAIL_TOKEN_SUCCESS: {
+        analytics.push(AnalyticsKey.EMAIL_VERIFICATION_CLICKED, {
+          originalTimestamp: getOriginalTimestamp()
+        })
+        break
+      }
+      case AT.auth.LOGIN_SUCCESS: {
+        analytics.push(AnalyticsKey.SIGNED_IN, {
+          originalTimestamp: getOriginalTimestamp(),
+          platform: 'WALLET'
+        })
+        break
+      }
+      case AT.auth.LOGOUT: {
+        analytics.push(AnalyticsKey.SIGNED_OUT, {
+          originalTimestamp: getOriginalTimestamp(),
+          platform: 'WALLET'
         })
         break
       }
