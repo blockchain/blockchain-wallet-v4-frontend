@@ -172,16 +172,20 @@ export const getMaxMin = (
           let fundsChangedMax = false
           if (method.type === 'FUNDS' && sbBalances && limits?.maxPossibleOrder) {
             const { available } = sbBalances[method.currency]
+            // available is always in minor string
+            const availableStandard = available
+              ? convertBaseToStandard('FIAT', available)
+              : available
             switch (true) {
-              case !available:
+              case !availableStandard:
               default:
                 max = '0'
                 break
-              case Number(available) >= Number(limits.maxPossibleOrder):
+              case Number(availableStandard) >= Number(limits.maxPossibleOrder):
                 max = limits.maxPossibleOrder
                 fundsChangedMax = true
                 break
-              case Number(available) < Number(limits.maxPossibleOrder):
+              case Number(availableStandard) < Number(limits.maxPossibleOrder):
                 max = available
                 break
             }
