@@ -26,18 +26,13 @@ const IconColumn = styled.div`
   margin: 0 10px 0 0;
 `
 
-const buildMessageTemplate = messageText => (
-  <Text
-    size='14px'
-    weight={600}
-    style={{ marginLeft: '10px' }}
-    data-e2e='toastMessage'
-  >
+const buildMessageTemplate = (messageText) => (
+  <Text size='14px' weight={600} style={{ marginLeft: '10px' }} data-e2e='toastMessage'>
     {messageText}
   </Text>
 )
 
-export const getAlertContent = (message, data = undefined) => {
+const getAlertContent = (message, data = undefined) => {
   switch (message) {
     case C.ETH_LOW_BALANCE_WARNING:
       return (
@@ -61,9 +56,7 @@ export const getAlertContent = (message, data = undefined) => {
               </Text>
               <Text>
                 <Link
-                  href={
-                    'https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Pax-FAQ'
-                  }
+                  href='https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Pax-FAQ'
                   target='_blank'
                   weight={500}
                   size='12px'
@@ -298,7 +291,7 @@ export const getAlertContent = (message, data = undefined) => {
       )
     case C.FIRST_PAX_TRADE_INFO:
       return buildMessageTemplate(
-        <React.Fragment>
+        <>
           <Text>
             <FormattedMessage
               id='components.alerts.first_pax_trade_info_dyk'
@@ -313,20 +306,15 @@ export const getAlertContent = (message, data = undefined) => {
               />
             </Text>
             <Link
-              href={
-                'https://support.blockchain.com/hc/en-us/articles/360027492092-Why-do-I-need-ETH-to-send-my-PAX-'
-              }
+              href='https://support.blockchain.com/hc/en-us/articles/360027492092-Why-do-I-need-ETH-to-send-my-PAX-'
               target='_blank'
               weight={500}
               size='12px'
             >
-              <FormattedMessage
-                id='buttons.learn_more'
-                defaultMessage='Learn More'
-              />
+              <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
             </Link>
           </TextGroup>
-        </React.Fragment>
+        </>
       )
     case C.FETCH_UNUSED_ADDRESSES_ERROR:
       return buildMessageTemplate(
@@ -354,20 +342,6 @@ export const getAlertContent = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.google_auth_verify_success'
           defaultMessage='Google auth verified'
-        />
-      )
-    case C.GUID_SENT_ERROR:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.guid_sent_error'
-          defaultMessage='Wallet guid could not be sent to your email address'
-        />
-      )
-    case C.GUID_SENT_SUCCESS:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.guid_sent_success'
-          defaultMessage='Your wallet ID has been sent to your email address'
         />
       )
     case C.HINT_UPDATE_ERROR:
@@ -493,10 +467,7 @@ export const getAlertContent = (message, data = undefined) => {
       )
     case C.LOGIN_ERROR:
       return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.login_failed'
-          defaultMessage='Login failed'
-        />
+        <FormattedMessage id='components.alerts.login_failed' defaultMessage='Login failed' />
       )
 
     case C.MESSAGE_SIGN_ERROR:
@@ -1064,13 +1035,6 @@ export const getAlertContent = (message, data = undefined) => {
           defaultMessage='Yubikey verified'
         />
       )
-    case C.CAPTCHA_CODE_INCORRECT:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.captcha_code_incorrect'
-          defaultMessage='The captcha you provided was incorrect, please try again'
-        />
-      )
     case C.BTC_ADDRESS_INVALID:
       return buildMessageTemplate(
         <FormattedMessage
@@ -1183,3 +1147,5 @@ export const getAlertContent = (message, data = undefined) => {
       )
   }
 }
+
+export default getAlertContent

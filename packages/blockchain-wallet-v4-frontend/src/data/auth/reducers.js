@@ -6,17 +6,16 @@ import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   auth_type: 0,
-  isLoggingIn: false,
-  isAuthenticated: false,
   firstLogin: false,
+  isAuthenticated: false,
+  isLoggingIn: false,
+  login: Remote.NotAsked,
   metadataRestore: Remote.NotAsked,
   mobileLoginStarted: false,
-  login: Remote.NotAsked,
+  registerEmail: undefined,
+  registering: Remote.NotAsked,
   reset_2fa: Remote.NotAsked,
   restoring: Remote.NotAsked,
-  remindGuid: Remote.NotAsked,
-  registering: Remote.NotAsked,
-  registerEmail: undefined,
   secureChannelLogin: Remote.NotAsked
 }
 
@@ -71,18 +70,6 @@ const auth = (state = INITIAL_STATE, action) => {
     }
     case AT.RESET_2FA_FAILURE: {
       return assoc('reset_2fa', Remote.Failure(payload), state)
-    }
-    case AT.REMIND_GUID_LOADING: {
-      return assoc('remindGuid', Remote.Loading, state)
-    }
-    case AT.REMIND_GUID_SUCCESS: {
-      return assoc('remindGuid', Remote.Success(payload), state)
-    }
-    case AT.REMIND_GUID_FAILURE: {
-      return assoc('remindGuid', Remote.Failure(payload), state)
-    }
-    case AT.REMIND_GUID_NOTASKED: {
-      return assoc('remindGuid', Remote.NotAsked, state)
     }
     case AT.SECURE_CHANNEL_LOGIN_LOADING: {
       return assoc('secureChannelLogin', Remote.Loading, state)

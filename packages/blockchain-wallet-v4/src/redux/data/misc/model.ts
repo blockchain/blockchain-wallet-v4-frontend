@@ -8,17 +8,17 @@ import { PriceChangeType, TimeRange } from './types'
 
 export const DEFAULT_PRICE_CHANGE: PriceChangeType = {
   currentPrice: 1,
-  previousPrice: 1,
   overallChange: {
-    percentChange: '0',
     diff: '0',
-    movement: 'none'
+    movement: 'none',
+    percentChange: '0'
   },
   positionChange: {
     diff: '0',
-    percentChange: '0',
-    movement: 'none'
-  }
+    movement: 'none',
+    percentChange: '0'
+  },
+  previousPrice: 1
 }
 
 export const initialPriceChange = {
@@ -54,32 +54,28 @@ export const start: { [key in CoinType]: number } = {
 
 export const calculateStart = (coin: CoinType, time: TimeRange) => {
   const coinStart = prop(coin, start)
-  const dayStart = moment()
-    .subtract(1, 'day')
-    .format('X')
-  const weekStart = moment()
-    .subtract(7, 'day')
-    .format('X')
-  const monthStart = moment()
-    .subtract(1, 'month')
-    .format('X')
-  const yearStart = moment()
-    .subtract(1, 'year')
-    .format('X')
+  const dayStart = moment().subtract(1, 'day').format('X')
+  const weekStart = moment().subtract(7, 'day').format('X')
+  const monthStart = moment().subtract(1, 'month').format('X')
+  const yearStart = moment().subtract(1, 'year').format('X')
 
   switch (time) {
     case 'all':
       return coinStart
     case 'year':
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       return yearStart > coinStart ? yearStart : coinStart
     case 'month':
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       return monthStart > coinStart ? monthStart : coinStart
     case 'week':
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       return weekStart > coinStart ? weekStart : coinStart
     case 'day':
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       return dayStart > coinStart ? dayStart : coinStart
     default:
