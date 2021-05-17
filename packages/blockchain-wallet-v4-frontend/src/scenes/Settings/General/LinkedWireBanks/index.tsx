@@ -18,7 +18,7 @@ class LinkedBanks extends PureComponent<Props> {
   componentDidMount() {
     this.props.custodialActions.fetchCustodialBeneficiaries()
     this.props.brokerageActions.fetchBankTransferAccounts()
-    this.props.simpleBuyActions.fetchSBPaymentMethods()
+    this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
   }
 
   render() {

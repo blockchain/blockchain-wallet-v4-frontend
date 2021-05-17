@@ -83,23 +83,11 @@ const queuevent = <K extends string, P extends {}>({
 }) => {
   const queue = queueStorage<K, P>(queueName)
 
-  const MAX_ATTEMPTS = 3
-
   const debouncedCallback = debounce(
     async (events: { key: K; payload: P }[]) => {
-      let attempts = 0
+      await queueCallback(events)
 
-      while (attempts < MAX_ATTEMPTS) {
-        try {
-          await queueCallback(events)
-
-          queue.flush()
-
-          break
-        } catch {
-          attempts += 1
-        }
-      }
+      queue.flush()
     }
   )
 

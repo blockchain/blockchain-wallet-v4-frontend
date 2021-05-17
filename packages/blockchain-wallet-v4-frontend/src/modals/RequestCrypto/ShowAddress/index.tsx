@@ -125,22 +125,6 @@ class RequestShowAddress extends React.PureComponent<Props> {
           />
         </QRCodeContainer>
         <ButtonsWrapper>
-          {selectedAccount.coin === 'BTC' && (
-            <Button
-              data-e2e='createRequestLink'
-              fullwidth
-              height='48px'
-              nature='empty-blue'
-              onClick={() => setStep(RequestSteps.BUILD_LINK)}
-            >
-              <Text color='blue600' size='16px' weight={600}>
-                <FormattedMessage
-                  id='modals.requestcrypto.showaddress.createlink'
-                  defaultMessage='Create Link'
-                />
-              </Text>
-            </Button>
-          )}
           <Button
             data-e2e='copyRequestLink'
             fullwidth

@@ -251,6 +251,10 @@ export default ({ api }) => {
             ? path(['fees', 'gasLimitContract'], p)
             : path(['fees', 'gasLimit'], p)
         const fee = calculateFee(feeInGwei, gasLimit as string, true)
+        const isSufficientEthForErc20 = yield call(
+          calculateIsSufficientEthForErc20,
+          fee
+        )
 
         const data = p.isErc20
           ? yield call(api.getErc20AccountSummaryV2, account, contract)
@@ -271,7 +275,8 @@ export default ({ api }) => {
           mergeRight(p, {
             feeInGwei,
             fee,
-            effectiveBalance
+            effectiveBalance,
+            isSufficientEthForErc20
           })
         )
       },
