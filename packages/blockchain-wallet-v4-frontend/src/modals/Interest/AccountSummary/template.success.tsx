@@ -83,7 +83,7 @@ const AccountSummary: React.FC<Props> = (props) => {
         </TopText>
         {!showSupply && (
           <>
-            <Row style={{ paddingBottom: '8px' }}>
+            <Row>
               <Container>
                 <Text color='grey600' size='14px' weight={500} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
