@@ -40,6 +40,9 @@
     ],
     "packages/*/src/**/*.{js,tsx}": [
       "stylelint './packages/*/src/**/*.{js,tsx}'"
+    ],
+    "packages/**/!(*package).json": [
+      "eslint --fix"
     ]
   },
   "postinstall": "rm -rf node_modules/@types/react-native",

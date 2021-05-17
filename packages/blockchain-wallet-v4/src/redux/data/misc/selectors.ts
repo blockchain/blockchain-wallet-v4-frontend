@@ -10,8 +10,6 @@ import * as selectors from '../../selectors'
 
 export const getPriceIndexSeries = (state: RootState) => state.dataPath.misc.price_index_series
 
-export const getLogs = (state: RootState) => state.dataPath.misc.logs
-
 export const getPairingCode = (state: RootState) => state.dataPath.misc.pairing_code
 
 export const authorizeLogin = (state: RootState) => state.dataPath.misc.authorize_login

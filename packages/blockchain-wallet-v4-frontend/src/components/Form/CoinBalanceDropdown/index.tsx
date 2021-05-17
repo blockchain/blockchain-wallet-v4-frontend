@@ -14,7 +14,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import SelectBox from 'components/Form/SelectBox'
 
-import { getData } from './selectors'
+import getData from './selectors'
 
 const DisplayContainer = styled.div<{
   coinType: SupportedCoinType
@@ -24,9 +24,9 @@ const DisplayContainer = styled.div<{
   width: 100%;
   align-items: center;
   box-sizing: border-box;
-  padding: ${props => (props.isItem ? '0px 6px' : '16px 12px')};
+  padding: ${(props) => (props.isItem ? '0px 6px' : '16px 12px')};
   > span {
-    color: ${props => props.theme[props.coinType.coinCode]} !important;
+    color: ${(props) => props.theme[props.coinType.coinCode]} !important;
   }
 `
 const AccountContainer = styled.div`
@@ -53,36 +53,30 @@ const AmountContainer = styled.div`
 const FiatContainer = styled.div`
   display: flex;
   font-size: 12px;
-  color: ${props => props.theme.grey400};
+  color: ${(props) => props.theme.grey400};
 `
-export class CoinBalanceDropdown extends PureComponent<Props> {
-  coinBalance = selectProps => {
+class CoinBalanceDropdown extends PureComponent<Props> {
+  coinBalance = (selectProps) => {
     if (selectProps.value) {
       // Account balance
       if (selectProps.value.balance) {
         return selectProps.value.balance
         // Custodial balance
-      } else {
-        return selectProps.value.available
       }
-    } else {
-      return 0
+      return selectProps.value.available
     }
+    return 0
   }
 
-  accountLabel = selectProps => {
+  accountLabel = (selectProps) => {
     if (selectProps.value) {
       // Account/Custodial label
       return selectProps.value.label || selectProps.label
-    } else {
-      return ''
     }
+    return ''
   }
 
-  renderDisplay = (
-    props: { selectProps: { options: Array<any> }; value },
-    children
-  ) => {
+  renderDisplay = (props: { selectProps: { options: Array<any> }; value }, children) => {
     const coinType = this.props.supportedCoins[this.props.coin]
     const balance = this.coinBalance(props)
     const account = this.accountLabel(props)
@@ -90,10 +84,7 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
 
     return (
       <DisplayContainer coinType={coinType} isItem={isItem}>
-        <CoinAccountIcon
-          accountType={props.value?.type}
-          coin={coinType.coinCode}
-        />
+        <CoinAccountIcon accountType={props.value?.type} coin={coinType.coinCode} />
         <AccountContainer>
           <Text weight={500} color='grey400' size='14px'>
             {account}{' '}
@@ -130,7 +121,12 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: values => {
+      Failure: (e) => (
+        <Text> {typeof e === 'string' ? e : typeof e === 'object' ? e.message : e}</Text>
+      ),
+      Loading: () => <Text size='24px'>...</Text>,
+      NotAsked: () => <Text size='24px'>...</Text>,
+      Success: (values) => {
         const { addressData } = values
         const options = addressData.data
         return (
@@ -147,15 +143,7 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
             templateItem={this.renderDisplay}
           />
         )
-      },
-      Failure: e => (
-        <Text>
-          {' '}
-          {typeof e === 'string' ? e : typeof e === 'object' ? e.message : e}
-        </Text>
-      ),
-      Loading: () => <Text size='24px'>...</Text>,
-      NotAsked: () => <Text size='24px'>...</Text>
+      }
     })
   }
 }
@@ -170,11 +158,7 @@ export type OwnProps = {
   coin: CoinType
   fiatCurrency?: string
   includeCustodial: boolean
-  name:
-    | 'collateral'
-    | 'interestDepositAccount'
-    | 'interestWithdrawalAccount'
-    | 'repay-principal'
+  name: 'collateral' | 'interestDepositAccount' | 'interestWithdrawalAccount' | 'repay-principal'
   rates: RatesType
   supportedCoins: SupportedWalletCurrenciesType
 }
