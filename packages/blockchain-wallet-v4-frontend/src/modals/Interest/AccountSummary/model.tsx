@@ -24,7 +24,7 @@ export const Row = styled.div`
 `
 export const Container = styled(Row)`
   flex-direction: column;
-  height: 48px;
+  min-height: 48px;
   justify-content: space-between;
 
   &:first-child {
@@ -56,6 +56,7 @@ export const LineVector = styled.div`
   width: 100%;
   background: ${({ theme }) => theme.grey000};
   margin: 24px 0 8px 0;
+  display: flex;
 `
 export const Bottom = styled(FlyoutWrapper)`
   display: flex;
@@ -91,7 +92,7 @@ export const StatusIconWrapper = styled.div<{ color: string }>`
   justify-content: center;
   align-items: center;
   margin-right: 16px;
-  background: ${props => props.theme[props.color]};
+  background: ${(props) => props.theme[props.color]};
   border-radius: 20px;
   min-height: 38px;
   min-width: 38px;
