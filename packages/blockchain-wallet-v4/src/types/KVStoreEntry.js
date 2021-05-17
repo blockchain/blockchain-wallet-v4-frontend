@@ -44,11 +44,11 @@ export const selectSignKey = view(signKey)
 export const selectEncKeyBuffer = view(encKeyBuffer)
 export const selectValue = view(value)
 
-export const reviver = jsObject => {
+export const reviver = (jsObject) => {
   return new KVStoreEntry(jsObject)
 }
 
-export const createEmpty = typeId => {
+export const createEmpty = (typeId) => {
   return new KVStoreEntry({ VERSION: 1, typeId })
 }
 
@@ -61,7 +61,7 @@ export const fromKeys = (entryECKey, encKeyBuffer, encKeyBufferPadded, typeId) =
     signKey: entryECKey.toWIF(),
     encKeyBufferPadded,
     encKeyBuffer,
-    value: void 0
+    value: void 0,
   })
 }
 
@@ -78,7 +78,7 @@ export const getMasterHDNode = curry((network, seedHex) => {
   return Bitcoin.bip32.fromSeed(masterhex, network)
 })
 
-export const deriveMetadataNode = masterHDNode => {
+export const deriveMetadataNode = (masterHDNode) => {
   // BIP 43 purpose needs to be 31 bit or less. For lack of a BIP number
   // we take the first 31 bits of the SHA256 hash of a reverse domain.
   let hash = crypto.sha256('info.blockchain.metadata')
@@ -113,13 +113,11 @@ export const fromHdWallet = curry((hdWallet, typeId) => {
 export const encrypt = curry((key, data) =>
   crypto.encryptDataWithKey(data, key, null, { mode: U.AES.CBC })
 )
-export const decrypt = curry((key, data) =>
-  crypto.decryptDataWithKey(data, key)
-)
-export const B64ToBuffer = base64 => Buffer.from(base64, 'base64')
-export const BufferToB64 = buff => buff.toString('base64')
-export const StringToBuffer = base64 => Buffer.from(base64)
-export const BufferToString = buff => buff.toString()
+export const decrypt = curry((key, data) => crypto.decryptDataWithKey(data, key))
+export const B64ToBuffer = (base64) => Buffer.from(base64, 'base64')
+export const BufferToB64 = (buff) => buff.toString('base64')
+export const StringToBuffer = (base64) => Buffer.from(base64)
+export const BufferToString = (buff) => buff.toString()
 
 // message :: Buffer -> Buffer -> Base64String
 export const message = curry((payload, prevMagic) => {
@@ -148,20 +146,16 @@ export const sign = curry((keyPair, msg) =>
 )
 
 // computeSignature :: keypair -> buffer -> buffer -> base64
-export const computeSignature = curry(
-  (keyWIF, payloadBuff, magicHash, network) => {
-    const key = Bitcoin.ECPair.fromWIF(keyWIF, network)
-    return sign(key, message(payloadBuff, magicHash))
-  }
-)
+export const computeSignature = curry((keyWIF, payloadBuff, magicHash, network) => {
+  const key = Bitcoin.ECPair.fromWIF(keyWIF, network)
+  return sign(key, message(payloadBuff, magicHash))
+})
 
 export const verifyResponse = curry((address, network, res) => {
   if (res === null) return Either.of(res)
   let sB = res.signature ? Buffer.from(res.signature, 'base64') : undefined
   let pB = res.payload ? Buffer.from(res.payload, 'base64') : undefined
-  let mB = res.prev_magic_hash
-    ? Buffer.from(res.prev_magic_hash, 'hex')
-    : undefined
+  let mB = res.prev_magic_hash ? Buffer.from(res.prev_magic_hash, 'hex') : undefined
   let verified = verify(address, sB, message(pB, mB), network)
   if (!verified) {
     return Either.Left(new Error('METADATA_SIGNATURE_VERIFICATION_ERROR'))
@@ -188,7 +182,9 @@ export const extractResponse = curry((encKey, encKeyPadded, res) => {
         ? compose(JSON.parse, decrypt(encKey), prop('payload'))(res)
         : compose(JSON.parse, BufferToString, B64ToBuffer, prop('payload'))(res)
     } catch (e) {
-      return compose(JSON.parse, decrypt(encKeyPadded), prop('payload'))(res)
+      return encKeyPadded
+        ? compose(JSON.parse, decrypt(encKeyPadded), prop('payload'))(res)
+        : compose(JSON.parse, BufferToString, B64ToBuffer, prop('payload'))(res)
     }
   }
 })
