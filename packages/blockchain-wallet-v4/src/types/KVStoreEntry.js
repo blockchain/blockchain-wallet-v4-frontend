@@ -1,3 +1,4 @@
+/* eslint-disable */
 import BIP39 from 'bip39'
 import * as Bitcoin from 'bitcoinjs-lib'
 import BitcoinMessage from 'bitcoinjs-message'
@@ -32,6 +33,7 @@ export const magicHash = KVStoreEntry.define('magicHash')
 export const address = KVStoreEntry.define('address')
 export const signKey = KVStoreEntry.define('signKey')
 export const encKeyBuffer = KVStoreEntry.define('encKeyBuffer')
+export const encKeyBufferPadded = KVStoreEntry.define('encKeyBufferPadded')
 export const value = KVStoreEntry.define('value')
 
 export const selectVERSION = view(VERSION)
@@ -50,14 +52,15 @@ export const createEmpty = typeId => {
   return new KVStoreEntry({ VERSION: 1, typeId })
 }
 
-export const fromKeys = (entryECKey, encKeyBuffer, typeId) => {
+export const fromKeys = (entryECKey, encKeyBuffer, encKeyBufferPadded, typeId) => {
   return new KVStoreEntry({
     VERSION: 1,
     typeId: isNil(typeId) ? -1 : typeId,
     magicHash: null,
     address: keyPairToAddress(entryECKey),
     signKey: entryECKey.toWIF(),
-    encKeyBuffer: encKeyBuffer,
+    encKeyBufferPadded,
+    encKeyBuffer,
     value: void 0
   })
 }
@@ -92,8 +95,9 @@ export const fromMetadataHDNode = curry((metadataHDNode, typeId) => {
   let node = payloadTypeNode.deriveHardened(0)
   let keypair = Bitcoin.ECPair.fromPrivateKey(node.privateKey)
   let privateKey = payloadTypeNode.deriveHardened(1).privateKey
-  let encryptionKey = crypto.sha256(privateKey)
-  return fromKeys(keypair, encryptionKey, typeId)
+  let encryptionKeyPadded = crypto.sha256(privateKey)
+  let encryptionKey = crypto.sha256(sanitizeBuffer(privateKey))
+  return fromKeys(keypair, encryptionKey, encryptionKeyPadded, typeId)
 })
 
 export const fromMasterHDNode = curry((masterHDNode, typeId) => {
@@ -165,7 +169,7 @@ export const verifyResponse = curry((address, network, res) => {
   return Either.of(assoc('compute_new_magic_hash', magic(pB, mB, network), res))
 })
 
-export const extractResponse = curry((encKey, res) => {
+export const extractResponse = curry((encKey, encKeyPadded, res) => {
   if (res === null) {
     return res
   } else {
@@ -179,8 +183,22 @@ export const extractResponse = curry((encKey, res) => {
           : compose(BufferToString, B64ToBuffer, prop('payload'))(res)
       )
     }
-    return encKey
-      ? compose(JSON.parse, decrypt(encKey), prop('payload'))(res)
-      : compose(JSON.parse, BufferToString, B64ToBuffer, prop('payload'))(res)
+    try {
+      return encKey
+        ? compose(JSON.parse, decrypt(encKey), prop('payload'))(res)
+        : compose(JSON.parse, BufferToString, B64ToBuffer, prop('payload'))(res)
+    } catch (e) {
+      return compose(JSON.parse, decrypt(encKeyPadded), prop('payload'))(res)
+    }
   }
 })
+
+// Remove all `00` leading nibbles from Buffer.
+// Input [0, 0, 0, 10, 0, 20, 30]
+// Output [10, 0, 20, 30]]
+export const sanitizeBuffer = function (buffer) {
+  while (buffer.length > 0 && buffer.readUInt8(0) == 0) {
+    buffer = buffer.slice(1)
+  }
+  return buffer
+}

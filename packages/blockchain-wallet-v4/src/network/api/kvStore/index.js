@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Task from 'data.task'
 import { compose, curry, dissoc, prop, set } from 'ramda'
 
@@ -57,7 +58,7 @@ export default ({ apiUrl, get, networks, put }) => {
       if (res === null) return set(KV.value, null, currentKv)
       let setFromResponse = compose(
         set(KV.magicHash, prop('compute_new_magic_hash', res)),
-        set(KV.value, KV.extractResponse(kv.encKeyBuffer, res))
+        set(KV.value, KV.extractResponse(kv.encKeyBuffer, kv.encKeyBufferPadded, res))
       )
       return setFromResponse(currentKv)
     })
