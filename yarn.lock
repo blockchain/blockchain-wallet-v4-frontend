@@ -8190,7 +8190,7 @@ eslint-config-airbnb-base@^14.2.1:
     object.assign "^4.1.2"
     object.entries "^1.1.2"
 
-eslint-config-airbnb@^18.2.1:
+eslint-config-airbnb@18.2.1:
   version "18.2.1"
   resolved "https://registry.yarnpkg.com/eslint-config-airbnb/-/eslint-config-airbnb-18.2.1.tgz#b7fe2b42f9f8173e825b73c8014b592e449c98d9"
   integrity sha512-glZNDEZ36VdlZWoxn/bUR1r/sdFKPd1mHPbqUtkctgNG4yT2DLLtJ3D+yCV+jzZCc2V1nBVkmdknOJBZ5Hc0fg==
@@ -8199,10 +8199,10 @@ eslint-config-airbnb@^18.2.1:
     object.assign "^4.1.2"
     object.entries "^1.1.2"
 
-eslint-config-constellation@0.0.23:
-  version "0.0.23"
-  resolved "https://registry.yarnpkg.com/eslint-config-constellation/-/eslint-config-constellation-0.0.23.tgz#50658e9069e6b763e94c65fe9ac028afc39d1b12"
-  integrity sha512-Ejl8JBM+Yto9ptDUMJex3rLPzlXZTTh+uZRJe7HvDQ1SG7GRkK4lk9zY9CsaLwiLxmDP+8HRxhBok/sQGRMEbw==
+eslint-config-constellation@0.0.24:
+  version "0.0.24"
+  resolved "https://registry.yarnpkg.com/eslint-config-constellation/-/eslint-config-constellation-0.0.24.tgz#1c9b7120ecde5ab0da9f3c87bb0a221fa4b6b2ea"
+  integrity sha512-afDsh4FA+LlzDfgGe3jykPiMOmJbBr+AvCD4JhykDB7JzG0G4iSwQ0/kJN+WPqcAwIXnLZrlAw7JzJTdlk/AHw==
 
 eslint-config-prettier@8.2.0:
   version "8.2.0"
@@ -8217,7 +8217,7 @@ eslint-import-resolver-node@^0.3.4:
     debug "^2.6.9"
     resolve "^1.13.1"
 
-eslint-import-resolver-typescript@^2.4.0:
+eslint-import-resolver-typescript@2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/eslint-import-resolver-typescript/-/eslint-import-resolver-typescript-2.4.0.tgz#ec1e7063ebe807f0362a7320543aaed6fe1100e1"
   integrity sha512-useJKURidCcldRLCNKWemr1fFQL1SzB3G4a0li6lFGvlc5xGe1hY343bvG07cbpCzPuM/lK19FIJB3XGFSkplA==
@@ -8236,7 +8236,7 @@ eslint-module-utils@^2.6.0:
     debug "^2.6.9"
     pkg-dir "^2.0.0"
 
-eslint-plugin-import@^2.22.1:
+eslint-plugin-import@2.22.1:
   version "2.22.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.22.1.tgz#0896c7e6a0cf44109a2d97b95903c2bb689d7702"
   integrity sha512-8K7JjINHOpH64ozkAhpT3sd+FswIZTfMZTjdx052pnWrgRCVfp8op9tbjpAk3DdUeI/Ba4C8OjdC0r90erHEOw==
@@ -8338,7 +8338,7 @@ eslint-plugin-sort-destructure-keys@1.3.5:
   dependencies:
     natural-compare-lite "^1.4.0"
 
-eslint-plugin-sort-keys-fix@^1.1.1:
+eslint-plugin-sort-keys-fix@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-sort-keys-fix/-/eslint-plugin-sort-keys-fix-1.1.1.tgz#2ed201b53fd4a89552c6e2abd38933f330a4b62e"
   integrity sha512-x02SLBg+8OEaoT9vvMbsgeInw17wjHLsa9cOieIVQY+xMNRiXBbyMWw+NiBoxYyJIR4QKDOPDofCjQdoSvltQg==
@@ -15771,10 +15771,10 @@ prepend-http@^2.0.0:
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-2.0.0.tgz#e92434bfa5ea8c19f41cdfd401d741a3c819d897"
   integrity sha1-6SQ0v6XqjBn0HN/UAddBo8gZ2Jc=
 
-prettier-config-constellation@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/prettier-config-constellation/-/prettier-config-constellation-0.0.4.tgz#90c947131a3ef6dc4682339b487c207242f84726"
-  integrity sha512-bQ020KKzc6tJcTM0ekkEL63SNHd9Qsbx/tvxQqeVND9WwpVw3i8Cexv478mQO1TJCXa/9KDPv0DawU+bb1iubA==
+prettier-config-constellation@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/prettier-config-constellation/-/prettier-config-constellation-0.0.5.tgz#2fcaedbcbe68a2542e7b84776f9c361f10144683"
+  integrity sha512-ylfSeBA/SZZBeIg5vfMpM/eoPa8tmyGLe8F3z9z7JrtkDDwCq/2LglRmf1Qw2OvW01dKPmPNBmkME9KJU3UTqA==
 
 prettier-linter-helpers@^1.0.0:
   version "1.0.0"
