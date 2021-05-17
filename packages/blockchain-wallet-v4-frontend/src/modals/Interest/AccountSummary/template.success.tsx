@@ -193,34 +193,31 @@ const AccountSummary: React.FC<Props> = (props) => {
                 />
               </Text>
               <Text color='grey600' size='12px' weight={500} style={{ marginTop: '16px' }}>
-                <FormattedMessage
-                  id={
-                    stepMetadata.withdrawSuccess
-                      ? 'modals.interest.withdrawal.supply_information_description_1'
-                      : 'modals.interest.deposit.supply_information_description_1'
-                  }
-                  defaultMessage={
-                    stepMetadata.withdrawSuccess
-                      ? "You've requested a withdrawal for an amount that requires further verification for legal and compliance reasons."
-                      : 'You’ve transferred an amount that requires further verification for legal and compliance reasons.'
-                  }
-                />
+                {stepMetadata.withdrawSuccess ? (
+                  <FormattedMessage
+                    id='modals.interest.withdrawal.supply_information_description_1'
+                    defaultMessage="You've requested a withdrawal for an amount that requires further verification for legal and compliance reasons."
+                  />
+                ) : (
+                  <FormattedMessage
+                    id='modals.interest.deposit.supply_information_description_1'
+                    defaultMessage="You've transferred an amount that requires further verification for legal and compliance reasons."
+                  />
+                )}
               </Text>
               <Text color='grey600' size='12px' weight={500} style={{ marginTop: '16px' }}>
-                <FormattedMessage
-                  id={
-                    stepMetadata.withdrawSuccess
-                      ? 'modals.interest.withdrawal.supply_information_description_2'
-                      : 'modals.interest.deposit.supply_information_description_2'
-                  }
-                  defaultMessage={
-                    stepMetadata.withdrawSuccess
-                      ? 'Your funds are safe with us. Please submit the additional information so we can start processing your withdrawal.'
-                      : 'Your funds are safe with us and have started accruing interest already. To avoid delays when you decide to withdraw your funds, submit your information now.'
-                  }
-                />
+                {stepMetadata.withdrawSuccess ? (
+                  <FormattedMessage
+                    id='modals.interest.withdrawal.supply_information_description_2'
+                    defaultMessage="You've requested a withdrawal for an amount that requires further verification for legal and compliance reasons."
+                  />
+                ) : (
+                  <FormattedMessage
+                    id='modals.interest.deposit.supply_information_description_2'
+                    defaultMessage='Your funds are safe with us and have started accruing interest already. To avoid delays when you decide to withdraw your funds, submit your information now.'
+                  />
+                )}
               </Text>
-
               <LinkWrapper>
                 <Link
                   href='https://share.hsforms.com/1DS4i94fURdutr8OXYOxfrg2qt44'

@@ -57,8 +57,7 @@ import {
 import TabMenuTimeFrame from './TabMenuTimeFrame'
 import { maxDepositAmount, minDepositAmount } from './validation'
 
-// eslint-disable-next-line
-const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
+const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (props) => {
   const {
     coin,
     depositLimits,
@@ -142,11 +141,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const handleFormSubmit = () => {
     props.interestActions.submitDepositForm(coin)
-    if (showEDDWithdrawLimit) {
-      props.setShowSupply(true)
-    } else {
-      props.setShowSupply(false)
-    }
+    props.setShowSupply(showEDDWithdrawLimit)
   }
 
   return (

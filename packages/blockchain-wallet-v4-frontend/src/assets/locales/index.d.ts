@@ -917,7 +917,7 @@ type MessagesType = {
   'modals.interest.deposit.termsread': 'I have read and agreed to the'
   'modals.interest.deposit.termsservice': 'Terms of Service'
   'modals.interest.deposit.edd_need': "Transferring this amount requires further verification. We'll ask you for those details in the next step."
-  'modals.interest.deposit.supply_information_description_1': "You’ve transferred an amount that requires further verification for legal and compliance reasons."
+  'modals.interest.deposit.supply_information_description_1': "You've transferred an amount that requires further verification for legal and compliance reasons."
   'modals.interest.deposit.supply_information_description_2': "Your funds are safe with us and have started accruing interest already. To avoid delays when you decide to withdraw your funds, submit your information now."
   'modals.interest.totalearned': 'Total Interest Earned'
   'modals.interest.unsupported-title': 'Rates Unavailable'
