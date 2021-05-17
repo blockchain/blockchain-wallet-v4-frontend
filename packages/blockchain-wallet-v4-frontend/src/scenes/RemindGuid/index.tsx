@@ -1,16 +1,16 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
+import { LinkContainer } from 'react-router-bootstrap'
 import { bindActionCreators, compose } from 'redux'
 import { Field, formValueSelector, InjectedFormProps, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { LinkContainer } from 'react-router-bootstrap'
 
-import { required, validEmail } from 'services/forms'
-import { actions } from 'data'
 import { Button, Text } from 'blockchain-info-components'
-import { Wrapper } from 'components/Public'
 import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
+import { Wrapper } from 'components/Public'
+import { actions } from 'data'
+import { required, validEmail } from 'services/forms'
 
 const Header = styled.div`
   display: flex;
@@ -26,12 +26,11 @@ const Footer = styled.div`
   margin-top: 24px;
 `
 
-class RemindGuid extends React.PureComponent<InjectedFormProps<{}, Props> & Props> {
+class RemindGuid extends React.PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
   constructor(props) {
     super(props)
     this.state = {
-      isFormSubmitted: false,
-      recaptchaToken: null,
+      isFormSubmitted: false
     }
   }
 
@@ -57,10 +56,8 @@ class RemindGuid extends React.PureComponent<InjectedFormProps<{}, Props> & Prop
 
   onSubmit = (e) => {
     e.preventDefault()
-    // @ts-ignore
     const { recaptchaToken } = this.state
     const { authActions, email } = this.props
-    console.log(recaptchaToken)
 
     authActions.remindGuid(email, recaptchaToken)
     this.setState({ isFormSubmitted: true })
@@ -68,8 +65,6 @@ class RemindGuid extends React.PureComponent<InjectedFormProps<{}, Props> & Prop
 
   render() {
     const { invalid } = this.props
-    console.info(this.props)
-    // @ts-ignore
     const { isFormSubmitted } = this.state
 
     return (
@@ -132,22 +127,30 @@ class RemindGuid extends React.PureComponent<InjectedFormProps<{}, Props> & Prop
 }
 
 const mapStateToProps = (state) => ({
-  email: formValueSelector('walletGuidReminder')(state, 'email'),
+  email: formValueSelector('walletGuidReminder')(state, 'email')
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  authActions: bindActionCreators(actions.auth, dispatch),
+  authActions: bindActionCreators(actions.auth, dispatch)
 })
 
-type Props = {
-  email: string
+type LinkStatePropsType = {
+  authActions: typeof actions.auth
+  email?: string
 }
+
+type StateProps = {
+  isFormSubmitted: boolean
+  recaptchaToken?: string
+}
+
+type Props = LinkStatePropsType
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const enhance = compose(
-  reduxForm<{ form: string }, Props>({ form: 'walletGuidReminder' }),
+  reduxForm<{}, Props>({ form: 'walletGuidReminder' }),
   connect(mapStateToProps, mapDispatchToProps)
 )
 
-export default enhance(RemindGuid)
+export default enhance(RemindGuid) as React.ComponentType

@@ -26,7 +26,6 @@ const Logout = React.lazy(() => import('./Logout'))
 const MobileLogin = React.lazy(() => import('./MobileLogin'))
 const Recover = React.lazy(() => import('./Recover'))
 const Register = React.lazy(() => import('./Register'))
-// @ts-ignore
 const RemindGuid = React.lazy(() => import('./RemindGuid'))
 const Reset2FA = React.lazy(() => import('./Reset2FA'))
 const Reset2FAToken = React.lazy(() => import('./Reset2FAToken'))
@@ -133,7 +132,7 @@ const mapStateToProps = (state) => ({
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrFail('No supported coins.'),
-  userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
+  userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
 })
 
 const connector = connect(mapStateToProps)
