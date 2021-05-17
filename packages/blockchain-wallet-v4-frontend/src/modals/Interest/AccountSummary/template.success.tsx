@@ -81,66 +81,70 @@ const AccountSummary: React.FC<Props> = (props) => {
             data-e2e='closeInterest'
           />
         </TopText>
-        <Row style={{ paddingBottom: '8px' }}>
-          <Container>
-            <Text color='grey600' size='14px' weight={500} style={{ marginBottom: '5px' }}>
-              <FormattedMessage
-                id='modals.interest.balance'
-                defaultMessage='Your {coin} Balance'
-                values={{ coin: displayName }}
-              />
-            </Text>
-            {account ? (
-              <>
-                <Text color='grey800' size='18px' weight={600}>
-                  {accountBalanceStandard} {coinTicker}
+        {!showSupply && (
+          <>
+            <Row>
+              <Container>
+                <Text color='grey600' size='14px' weight={500} style={{ marginBottom: '5px' }}>
+                  <FormattedMessage
+                    id='modals.interest.balance'
+                    defaultMessage='Your {coin} Balance'
+                    values={{ coin: displayName }}
+                  />
                 </Text>
-                <FiatDisplay
-                  color='grey600'
-                  size='14px'
-                  weight={500}
-                  coin={coin}
-                  style={{ marginTop: '5px' }}
-                >
-                  {account.balance}
-                </FiatDisplay>
-              </>
-            ) : (
-              <Text color='grey800' size='18px' weight={600}>
-                0 {coinTicker}
-              </Text>
-            )}
-          </Container>
-          <Container>
-            <Text color='grey600' size='14px' weight={500} style={{ marginBottom: '5px' }}>
-              <FormattedMessage
-                id='modals.interest.totalearned'
-                defaultMessage='Total Interest Earned'
-              />
-            </Text>
-            {account ? (
-              <>
-                <Text color='grey800' size='18px' weight={600}>
-                  {interestBalanceStandard} {coinTicker}
+                {account ? (
+                  <>
+                    <Text color='grey800' size='18px' weight={600}>
+                      {accountBalanceStandard} {coinTicker}
+                    </Text>
+                    <FiatDisplay
+                      color='grey600'
+                      size='14px'
+                      weight={500}
+                      coin={coin}
+                      style={{ marginTop: '5px' }}
+                    >
+                      {account.balance}
+                    </FiatDisplay>
+                  </>
+                ) : (
+                  <Text color='grey800' size='18px' weight={600}>
+                    0 {coinTicker}
+                  </Text>
+                )}
+              </Container>
+              <Container>
+                <Text color='grey600' size='14px' weight={500} style={{ marginBottom: '5px' }}>
+                  <FormattedMessage
+                    id='modals.interest.totalearned'
+                    defaultMessage='Total Interest Earned'
+                  />
                 </Text>
-                <FiatDisplay
-                  color='grey600'
-                  size='14px'
-                  weight={500}
-                  coin={coin}
-                  style={{ marginTop: '5px' }}
-                >
-                  {account.totalInterest}
-                </FiatDisplay>
-              </>
-            ) : (
-              <Text color='grey800' size='18px' weight={600}>
-                0 {coinTicker}
-              </Text>
-            )}
-          </Container>
-        </Row>
-        <LineVector />
+                {account ? (
+                  <>
+                    <Text color='grey800' size='18px' weight={600}>
+                      {interestBalanceStandard} {coinTicker}
+                    </Text>
+                    <FiatDisplay
+                      color='grey600'
+                      size='14px'
+                      weight={500}
+                      coin={coin}
+                      style={{ marginTop: '5px' }}
+                    >
+                      {account.totalInterest}
+                    </FiatDisplay>
+                  </>
+                ) : (
+                  <Text color='grey800' size='18px' weight={600}>
+                    0 {coinTicker}
+                  </Text>
+                )}
+              </Container>
+            </Row>
+            <LineVector />
+          </>
+        )}
         {stepMetadata && stepMetadata.depositSuccess && (
           <>
             <StatusWrapper>
@@ -248,7 +252,6 @@ const AccountSummary: React.FC<Props> = (props) => {
               </Text>
             </StatusSupplyWrapper>
           )}
-
         {stepMetadata && stepMetadata.error && (
           <StatusWrapper>
             <StatusIconWrapper color='red000'>
