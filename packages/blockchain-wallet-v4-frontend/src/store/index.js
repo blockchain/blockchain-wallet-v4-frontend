@@ -26,6 +26,7 @@ import {
   webSocketCoins,
   webSocketRates
 } from '../middleware'
+import { ERC20s } from './REMOVE_ME_ERC20s'
 
 const devToolsConfig = {
   maxAge: 1000,
@@ -58,6 +59,20 @@ const configureStore = async function() {
 
   const res = await fetch('/wallet-options-v4.json')
   const options = await res.json()
+  // TODO, remove all of this and add all erc20s
+  // const erc20Res = await fetch(`${options.domains.api}/assets/currencies/erc20`)
+  // const erc20s = await erc20Res.json()
+  const erc20s = ERC20s.currencies
+  const coins = Object.keys(options.platforms.web.coins)
+  const erc20sSupportedBeforeDynamicChange = erc20s.filter((erc20) => coins.includes(erc20.symbol))
+  
+  erc20sSupportedBeforeDynamicChange.forEach((val) => {
+    options.platforms.web.coins[val.symbol].coinfig = val
+  })
+
+  // hmmmm....
+  window.coins = options.platforms.web.coins
+  
   const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
   const socketUrl = options.domains.webSocket
   const horizonUrl = options.domains.horizon

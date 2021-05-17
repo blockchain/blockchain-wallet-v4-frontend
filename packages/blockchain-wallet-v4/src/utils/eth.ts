@@ -70,10 +70,8 @@ export const calculateFee = (
     .toString()
 
   if (toWei) {
-    return Exchange.convertEthToEth({
-      value: feeGWei,
-      fromUnit: 'GWEI',
-      toUnit: 'WEI'
+    return Exchange.convertGweiToWei({
+      value: feeGWei
     }).value
   } else {
     return feeGWei

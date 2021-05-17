@@ -11,7 +11,7 @@ import { ImageType } from './src/Images/Images'
 import { CoinType, WalletCurrencyType } from 'core/types'
 import { ADDRESS_TYPES } from 'core/redux/payment/btc/utils'
 
-type AllCoinsType = WalletCurrencyType | 'BSV' | 'STX'
+type AllCoinsType = WalletCurrencyType | 'STX'
 
 export const Badge: FunctionComponent<any>
 export const Banner: FunctionComponent<any>

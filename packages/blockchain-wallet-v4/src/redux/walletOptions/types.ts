@@ -14,17 +14,30 @@ export type SupportedCoinType = {
   }
   coinCode: CoinType
   coinTicker: CoinType
+  coinfig: {
+    name: string,
+    precision: number,
+    products: string[],
+    symbol: string,
+    type: {
+      erc20Address?: string,
+      logoPngUrl: string,
+      name: string,
+      parentChain: string,
+      websiteUrl: string
+    }
+  },
   config: {
     network: string
-  }
-  contractAddress?: string
-  displayName: string
-  hasLockboxSupport: boolean
-  invited?: boolean
-  isFiat?: boolean
-  learnMoreLink: string
-  method?: boolean
-  minConfirmations: number
+  },
+  contractAddress?: string,
+  displayName: string,
+  hasLockboxSupport: boolean,
+  invited?: boolean,
+  isFiat?: boolean,
+  learnMoreLink: string,
+  method?: boolean,
+  minConfirmations: number,
   txExplorerBaseUrl: string
   txListAppRoute: string
 }

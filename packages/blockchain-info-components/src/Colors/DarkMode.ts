@@ -92,7 +92,6 @@ const DarkTheme: DefaultTheme = {
   AAVE: '#2EBAC6',
   ALGO: '#000000',
   BCH: '#8DC351',
-  BSV: '#EAB300',
   BTC: '#FF9B22',
   DOT: '#E6007A',
   ETH: '#473BCB',

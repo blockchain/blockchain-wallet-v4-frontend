@@ -21,6 +21,18 @@
           },
           "coinCode": "EUR",
           "coinTicker": "EUR",
+          "coinfig": {
+            "name": "Euros",
+            "precision": 2,
+            "products": [],
+            "symbol": "EUR",
+            "type": {
+              "logoPngUrl": "",
+              "name": "Euros",
+              "parentChain": "EUR",
+              "websiteUrl": ""
+            }
+          },
           "displayName": "Euros",
           "isFiat": true,
           "learnMoreLink": "",
@@ -36,6 +48,18 @@
           },
           "coinCode": "GBP",
           "coinTicker": "GBP",
+          "coinfig": {
+            "name": "Pounds",
+            "precision": 2,
+            "products": [],
+            "symbol": "GBP",
+            "type": {
+              "logoPngUrl": "",
+              "name": "Pounds",
+              "parentChain": "GBP",
+              "websiteUrl": ""
+            }
+          },
           "displayName": "Pounds",
           "isFiat": true,
           "learnMoreLink": "",
@@ -51,6 +75,18 @@
           },
           "coinCode": "USD",
           "coinTicker": "USD",
+          "coinfig": {
+            "name": "U.S. Dollars",
+            "precision": 2,
+            "products": [],
+            "symbol": "USD",
+            "type": {
+              "logoPngUrl": "",
+              "name": "U.S. Dollars",
+              "parentChain": "USD",
+              "websiteUrl": ""
+            }
+          },
           "displayName": "U.S. Dollars",
           "learnMoreLink": "",
           "isFiat": true,
@@ -68,6 +104,18 @@
           },
           "coinCode": "BTC",
           "coinTicker": "BTC",
+          "coinfig": {
+            "name": "Bitcoin",
+            "precision": 8,
+            "products": ["PrivateKey"],
+            "symbol": "BTC",
+            "type": {
+              "logoPngUrl": "",
+              "name": "Bitcoin",
+              "parentChain": "BTC",
+              "websiteUrl": ""
+            }
+          },
           "displayName": "Bitcoin",
           "config": {
             "network": "bitcoin"
@@ -89,6 +137,18 @@
           },
           "coinCode": "ETH",
           "coinTicker": "ETH",
+          "coinfig": {
+            "name": "Ethereum",
+            "precision": 18,
+            "products": ["PrivateKey"],
+            "symbol": "ETH",
+            "type": {
+              "logoPngUrl": "",
+              "name": "Ethereum",
+              "parentChain": "ETH",
+              "websiteUrl": ""
+            }
+          },
           "displayName": "Ether",
           "config": {
             "network": 1
@@ -111,6 +171,18 @@
           },
           "coinCode": "BCH",
           "coinTicker": "BCH",
+          "coinfig": {
+            "name": "Ethereum",
+            "precision": 18,
+            "products": ["PrivateKey"],
+            "symbol": "ETH",
+            "type": {
+              "logoPngUrl": "",
+              "name": "Ethereum",
+              "parentChain": "ETH",
+              "websiteUrl": ""
+            }
+          },
           "displayName": "Bitcoin Cash",
           "config": {},
           "hasLockboxSupport": true,
@@ -118,23 +190,6 @@
           "minConfirmations": 3,
           "txExplorerBaseUrl": "https://blockchain.com/bch/tx",
           "txListAppRoute": "/bch/transactions"
-        },
-        "BSV": {
-          "availability": {
-            "send": false,
-            "request": false,
-            "lockbox": false,
-            "exchangeTo": false,
-            "exchangeFrom": true,
-            "syncToPit": false
-          },
-          "coinCode": "BSV",
-          "coinTicker": "BSV",
-          "displayName": "Bitcoin SV",
-          "config": {},
-          "hasLockboxSupport": false,
-          "minConfirmations": 3,
-          "txExplorerBaseUrl": "https://blockchair.com/bitcoin-sv/transaction"
         },
         "XLM": {
           "airdrop": {
@@ -152,6 +207,18 @@
           "campaign": "sunriver",
           "coinCode": "XLM",
           "coinTicker": "XLM",
+          "coinfig": {
+            "name": "Stellar",
+            "precision": 7,
+            "products": ["PrivateKey"],
+            "symbol": "XLM",
+            "type": {
+              "logoPngUrl": "",
+              "name": "Stellar",
+              "parentChain": "XLM",
+              "websiteUrl": ""
+            }
+          },
           "config": {
             "network": "public",
             "sendTimeOutSeconds": 600
@@ -211,6 +278,18 @@
           },
           "coinCode": "ALGO",
           "coinTicker": "ALGO",
+          "coinfig": {
+            "name": "Algorand",
+            "precision": 6,
+            "products": ["PrivateKey"],
+            "symbol": "ALGO",
+            "type": {
+              "logoPngUrl": "",
+              "name": "Algorand",
+              "parentChain": "ALGO",
+              "websiteUrl": ""
+            }
+          },
           "displayName": "Algorand",
           "hasLockboxSupport": false,
           "learnMoreLink": "",
@@ -324,6 +403,18 @@
           },
           "coinCode": "DOT",
           "coinTicker": "DOT",
+          "coinfig": {
+            "name": "Polkadot",
+            "precision": 10,
+            "products": ["PrivateKey"],
+            "symbol": "DOT",
+            "type": {
+              "logoPngUrl": "",
+              "name": "Polkadot",
+              "parentChain": "DOT",
+              "websiteUrl": ""
+            }
+          },
           "displayName": "Polkadot",
           "hasLockboxSupport": false,
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360044952032",
@@ -335,7 +426,7 @@
       "sift": {
         "apiKey": "0ecd212038",
         "paymentKey": "4a0510ff14"
-      }, 
+      },
       "mobile_auth": {
         "enabled": true
       }

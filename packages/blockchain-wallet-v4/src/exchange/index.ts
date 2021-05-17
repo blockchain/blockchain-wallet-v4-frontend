@@ -50,19 +50,20 @@ const convertCoinToCoin = ({
       : new BigNumber(value).multipliedBy(100).valueOf()
   }
 
-  const config = Currencies[coin]
+  const { coinfig } = window.coins[coin]
 
   return transformCoinToCoin({
     coin: coin as CoinType,
     value,
-    fromUnit: (baseToStandard ? config.base : config.code) as UnitType,
-    toUnit: (baseToStandard ? config.code : config.base) as UnitType
+    fromPrecision: baseToStandard ? 1 : coinfig.precision,
+    toPrecision: baseToStandard ? coinfig.precision : 1
   }).getOrElse(DefaultConversion).value
 }
 
 const convertCoinToFiat = (
   coin: CoinType,
   value: number | string,
+  // TODO: not necessary
   fromUnit: UnitType,
   currency: keyof CurrenciesType,
   rates: RatesType
@@ -70,27 +71,22 @@ const convertCoinToFiat = (
   return transformCoinToFiat({
     coin,
     value,
-    fromUnit,
     toCurrency: currency,
     rates
   }).getOrElse(DefaultConversion).value
 }
 
 // Still used for gwei => eth conversion
-const convertEthToEth = ({
-  fromUnit,
-  toUnit,
+const convertGweiToWei = ({
   value
 }: {
-  fromUnit: UnitType
-  toUnit: UnitType
   value: number | string
 }) => {
   return transformCoinToCoin({
     coin: 'ETH',
     value,
-    fromUnit,
-    toUnit
+    fromPrecision: 9,
+    toPrecision: 1
   }).getOrElse(DefaultConversion)
 }
 
@@ -137,7 +133,6 @@ const convertFiatToFiat = ({
   const fiatAmt = transformCoinToFiat({
     coin: 'BTC',
     value: btcAmt.value,
-    fromUnit: 'BTC',
     toCurrency,
     rates
   }).getOrElse(DefaultConversion)
@@ -161,11 +156,13 @@ const displayCoinToCoin = ({
     return Currency.fiatToString({ value, unit: coin as FiatType })
   }
 
+  const { coinfig } = window.coins[coin]
+
   return transformCoinToCoin({
     coin: coin as CoinType,
     value,
-    fromUnit: Currencies[coin].base as UnitType,
-    toUnit: coin
+    fromPrecision: 1,
+    toPrecision: coinfig.precision
   })
     .map(Currency.coinToString)
     .getOrElse(DefaultDisplay)
@@ -184,7 +181,6 @@ const displayCoinToFiat = ({
 }): string => {
   return transformCoinToFiat({
     coin,
-    fromUnit: coin,
     value,
     toCurrency,
     rates
@@ -201,21 +197,17 @@ const displayFiatToFiat = ({ value }: { value: number | string }) => {
 // ======================== CALCULATION (internal) =====================
 // =====================================================================
 const transformCoinToCoin = ({
-  coin,
-  fromUnit,
-  toUnit,
+  fromPrecision,
+  toPrecision,
   value
 }: {
   coin: CoinType
-  fromUnit: UnitType
-  toUnit: UnitType
+  fromPrecision: number
+  toPrecision: number
   value: number | string
 }) => {
-  const currency = Currencies[coin]
-  const sourceUnit = currency.units[fromUnit]
-  const targetUnit = currency.units[toUnit]
-  return Currency.fromUnit({ value, unit: sourceUnit }).chain(
-    Currency.toUnit(targetUnit)
+  return Currency.fromUnit({ value, precision: fromPrecision }).chain(
+    Currency.toUnit(toPrecision)
   )
 }
 
@@ -232,26 +224,27 @@ const transformFiatToCoin = ({
   toUnit: UnitType
   value: number | string
 }) => {
+  // TODO: remove Currencies reference
   const config = Currencies[coin]
   const pairs = Pairs.create(config, rates)
   const sourceCurrency = prop(fromCurrency, Currencies)
   const sourceCurrencyCode = prop('code', sourceCurrency)
   const sourceCurrencyUnit = path(['units', sourceCurrencyCode], sourceCurrency)
   const targetUnit = path(['units', toUnit], config)
-  return Currency.fromUnit({ value: value, unit: sourceCurrencyUnit })
+  
+  // @ts-ignore
+  return Currency.fromUnit({ value, precision: sourceCurrencyUnit.decimal_digits })
     .chain(Currency.convert(pairs, config))
     .chain(Currency.toUnit(targetUnit))
 }
 
 const transformCoinToFiat = ({
   coin,
-  fromUnit,
   rates,
   toCurrency,
   value
 }: {
   coin: CoinType
-  fromUnit: UnitType
   rates: RatesType
   toCurrency: keyof CurrenciesType
   value: number | string
@@ -261,8 +254,10 @@ const transformCoinToFiat = ({
   const targetCurrency = prop(toCurrency, Currencies)
   const targetCurrencyCode = prop('code', targetCurrency)
   const targetCurrencyUnit = path(['units', targetCurrencyCode], targetCurrency)
-  const sourceUnit = path(['units', fromUnit], config)
-  return Currency.fromUnit({ value, unit: sourceUnit })
+
+  const { coinfig } = window.coins[coin]
+  
+  return Currency.fromUnit({ value, precision: coinfig.precision })
     .chain(Currency.convert(pairs, targetCurrency))
     .chain(Currency.toUnit(targetCurrencyUnit))
 }
@@ -276,9 +271,9 @@ const getSymbol = (currency): string => {
 export {
   convertCoinToCoin,
   convertCoinToFiat,
-  convertEthToEth,
   convertFiatToCoin,
   convertFiatToFiat,
+  convertGweiToWei,
   DefaultConversion,
   displayCoinToCoin,
   displayCoinToFiat,
