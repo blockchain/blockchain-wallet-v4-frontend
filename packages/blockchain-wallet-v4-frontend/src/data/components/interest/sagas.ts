@@ -598,6 +598,21 @@ export default ({
       yield put(A.fetchEDDStatusFailure(error))
     }
   }
+  const fetchEDDWithdrawLimits = function * ({
+    payload
+  }: ReturnType<typeof A.fetchEddWithdrawLimits>) {
+    try {
+      yield put(A.fetchEddWithdrawLimitsLoading())
+      const response: ReturnType<typeof api.getSavingsEDDWithdrawLimits> = yield call(
+        api.getSavingsEDDWithdrawLimits,
+        payload.currency
+      )
+      yield put(A.fetchEddWithdrawLimitsSuccess(response))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchEddWithdrawLimitsFailure(error))
+    }
+  }
 
   return {
     fetchShowInterestCardAfterTransaction,
@@ -617,6 +632,7 @@ export default ({
     sendDeposit,
     showInterestModal,
     stopShowingInterestModal,
-    fetchEDDStatus
+    fetchEDDStatus,
+    fetchEDDWithdrawLimits,
   }
 }

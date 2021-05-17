@@ -19,17 +19,12 @@ class DepositForm extends PureComponent<Props> {
   handleDisplayToggle = (isCoin: boolean) => {
     const { data, formActions, interestActions } = this.props
     const { displayCoin } = data.getOrElse({
-      displayCoin: false
+      displayCoin: false,
     } as DataSuccessStateType)
 
     if (isCoin === displayCoin) return
 
-    formActions.clearFields(
-      'interestDepositForm',
-      false,
-      false,
-      'depositAmount'
-    )
+    formActions.clearFields('interestDepositForm', false, false, 'depositAmount')
 
     interestActions.setCoinDisplay(isCoin)
   }
@@ -45,41 +40,35 @@ class DepositForm extends PureComponent<Props> {
     interestActions.initializeDepositForm(coin, walletCurrency)
   }
 
-  handleSubmit = () => {
-    const { coin, interestActions } = this.props
-    interestActions.submitDepositForm(coin)
-  }
-
   render() {
     const { currency, data } = this.props
     const walletCurrency = currency.getOrElse('GBP' as CurrencySuccessStateType)
 
     return data.cata({
-      Success: val => (
+      Failure: () => <DataError onClick={this.handleRefresh} />,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />,
+      Success: (val) => (
         <Success
           {...this.props}
           {...val}
           walletCurrency={walletCurrency}
-          onSubmit={this.handleSubmit}
           handleDisplayToggle={this.handleDisplayToggle}
         />
       ),
-      Failure: () => <DataError onClick={this.handleRefresh} />,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
     })
   }
 }
 
 const mapStateToProps = (state: RootState) => ({
+  currency: getCurrency(state),
   data: getData(state),
-  currency: getCurrency(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  interestActions: bindActionCreators(actions.components.interest, dispatch)
+  interestActions: bindActionCreators(actions.components.interest, dispatch),
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -96,6 +85,7 @@ export type CurrencySuccessStateType = ReturnType<typeof getCurrency>['data']
 
 export type OwnProps = {
   coin: CoinType
+  setShowSupply: (boolean) => void
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
