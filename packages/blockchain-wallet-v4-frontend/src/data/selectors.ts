@@ -15,7 +15,6 @@ import * as preferences from './preferences/selectors'
 import * as prices from './prices/selectors'
 import * as router from './router/selectors'
 import * as session from './session/selectors'
-import * as wizard from './wizard/selectors'
 
 export {
   alerts,
@@ -33,6 +32,5 @@ export {
   preferences,
   prices,
   router,
-  session,
-  wizard
+  session
 }

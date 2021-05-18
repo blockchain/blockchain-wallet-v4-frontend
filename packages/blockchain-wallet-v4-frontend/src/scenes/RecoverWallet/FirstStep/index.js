@@ -33,17 +33,14 @@ const GoBackLink = styled(LinkContainer)`
   margin-right: 15px;
 `
 
-const FirstStep = props => {
+const FirstStep = (props) => {
   const { handleSubmit, invalid, submitting } = props
 
   return (
     <Wrapper>
       <Header>
         <Text size='20px' color='blue900' weight={600} capitalize>
-          <FormattedMessage
-            id='scenes.recover.firststep.funds'
-            defaultMessage='Recover Funds'
-          />
+          <FormattedMessage id='scenes.recover.firststep.funds' defaultMessage='Recover Funds' />
         </Text>
       </Header>
       <Form onSubmit={handleSubmit}>
@@ -100,6 +97,4 @@ const FirstStep = props => {
   )
 }
 
-export default reduxForm({ form: 'recover', destroyOnUnmount: false })(
-  FirstStep
-)
+export default reduxForm({ destroyOnUnmount: false, form: 'recover' })(FirstStep)

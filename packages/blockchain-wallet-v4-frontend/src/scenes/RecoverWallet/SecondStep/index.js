@@ -23,22 +23,13 @@ class RecoverContainer extends React.PureComponent {
     const { metadataRestore, password, previousStep, registering } = this.props
 
     const isRegistering = registering.cata({
-      Success: () => false,
       Failure: () => false,
       Loading: () => true,
-      NotAsked: () => false
+      NotAsked: () => false,
+      Success: () => false
     })
 
     return metadataRestore.cata({
-      Success: val => (
-        <Recover
-          previousStep={previousStep}
-          onSubmit={this.onSubmit}
-          isRegistering={isRegistering}
-          isRestoringFromMetadata={val && !!val.sharedKey}
-          password={password}
-        />
-      ),
       Failure: () => (
         <Recover
           previousStep={previousStep}
@@ -48,21 +39,30 @@ class RecoverContainer extends React.PureComponent {
         />
       ),
       Loading: () => <SpinningLoader width='36px' height='36px' />,
-      NotAsked: () => <SpinningLoader width='36px' height='36px' />
+      NotAsked: () => <SpinningLoader width='36px' height='36px' />,
+      Success: (val) => (
+        <Recover
+          previousStep={previousStep}
+          onSubmit={this.onSubmit}
+          isRegistering={isRegistering}
+          isRestoringFromMetadata={val && !!val.sharedKey}
+          password={password}
+        />
+      )
     })
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   email: formValueSelector('recover')(state, 'email'),
-  registering: selectors.auth.getRegistering(state),
-  metadataRestore: selectors.auth.getMetadataRestore(state),
   language: selectors.preferences.getLanguage(state),
+  metadataRestore: selectors.auth.getMetadataRestore(state),
   mnemonic: formValueSelector('recover')(state, 'mnemonic'),
-  password: formValueSelector('recover')(state, 'password') || ''
+  password: formValueSelector('recover')(state, 'password') || '',
+  registering: selectors.auth.getRegistering(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch)
 })
