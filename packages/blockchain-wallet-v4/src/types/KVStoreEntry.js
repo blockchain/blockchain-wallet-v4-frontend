@@ -33,7 +33,7 @@ export const magicHash = KVStoreEntry.define('magicHash')
 export const address = KVStoreEntry.define('address')
 export const signKey = KVStoreEntry.define('signKey')
 export const encKeyBuffer = KVStoreEntry.define('encKeyBuffer')
-export const encKeyBufferPadded = KVStoreEntry.define('encKeyBufferUnpadded')
+export const encKeyBufferUnpadded = KVStoreEntry.define('encKeyBufferUnpadded')
 export const value = KVStoreEntry.define('value')
 
 export const selectVERSION = view(VERSION)
