@@ -76,3 +76,6 @@ export const getIsFromBuySell = (state: RootState) =>
 
 export const getInterestEDDStatus = (state: RootState) =>
   state.components.interest.interestEDDStatus
+
+export const getInterestEDDWithdrawLimits = (state: RootState) =>
+  state.components.interest.interestEDDWithdrawLimits

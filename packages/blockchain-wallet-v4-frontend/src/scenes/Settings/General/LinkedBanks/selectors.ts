@@ -20,7 +20,6 @@ export const getData = (state: RootState) => {
     .getOrElse({
       openBanking: false
     } as InvitationsType)
-
   return lift(
     (
       bankAccounts: ExtractSuccess<typeof bankAccountsR>,
@@ -30,7 +29,9 @@ export const getData = (state: RootState) => {
       paymentMethods:
         (!invitations.openBanking && {
           ...paymentMethods,
-          methods: paymentMethods.methods.filter(m => m.type === 'BANK_ACCOUNT')
+          methods: paymentMethods.methods.filter(m => {
+            return m.type === 'BANK_ACCOUNT' || m.currency === 'USD'
+          })
         }) ||
         paymentMethods
     })
