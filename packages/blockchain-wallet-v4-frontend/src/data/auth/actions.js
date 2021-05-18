@@ -2,18 +2,18 @@ import * as AT from './actionTypes'
 
 // LOGIN
 export const login = (guid, password, code, sharedKey, mobileLogin) => ({
-  type: AT.LOGIN,
-  payload: { guid, password, code, sharedKey, mobileLogin }
+  payload: { code, guid, mobileLogin, password, sharedKey },
+  type: AT.LOGIN
 })
 export const loginLoading = () => ({ type: AT.LOGIN_LOADING })
-export const loginSuccess = () => ({ type: AT.LOGIN_SUCCESS, payload: {} })
-export const loginFailure = err => ({
-  type: AT.LOGIN_FAILURE,
-  payload: { err }
+export const loginSuccess = () => ({ payload: {}, type: AT.LOGIN_SUCCESS })
+export const loginFailure = (err) => ({
+  payload: { err },
+  type: AT.LOGIN_FAILURE
 })
-export const setFirstLogin = firstLogin => ({
-  type: AT.SET_FIRST_LOGIN,
-  payload: { firstLogin }
+export const setFirstLogin = (firstLogin) => ({
+  payload: { firstLogin },
+  type: AT.SET_FIRST_LOGIN
 })
 
 // LOGOUT
@@ -24,80 +24,52 @@ export const logoutClearReduxStore = () => ({
 export const startLogoutTimer = () => ({ type: AT.START_LOGOUT_TIMER })
 
 // MOBILE LOGIN
-export const mobileLogin = data => ({
-  type: AT.MOBILE_LOGIN,
-  payload: { data }
+export const mobileLogin = (data) => ({
+  payload: { data },
+  type: AT.MOBILE_LOGIN
 })
 export const mobileLoginStarted = () => ({ type: AT.MOBILE_LOGIN_START })
 export const mobileLoginFinish = () => ({ type: AT.MOBILE_LOGIN_FINISH })
 
 // REGISTER
 export const register = (email, password, language) => ({
-  type: AT.REGISTER,
-  payload: { email, password, language }
+  payload: { email, language, password },
+  type: AT.REGISTER
 })
 export const registerLoading = () => ({ type: AT.REGISTER_LOADING })
 export const registerSuccess = () => ({ type: AT.REGISTER_SUCCESS })
 export const registerFailure = () => ({ type: AT.REGISTER_FAILURE })
 
-// REMIND GUID
-export const remindGuid = (email, code, sessionToken) => ({
-  type: AT.REMIND_GUID,
-  payload: { email, code, sessionToken }
-})
-export const remindGuidLoading = () => ({ type: AT.REMIND_GUID_LOADING })
-export const remindGuidSuccess = () => ({ type: AT.REMIND_GUID_SUCCESS })
-export const remindGuidFailure = () => ({ type: AT.REMIND_GUID_FAILURE })
-export const remindGuidNotAsked = () => ({ type: AT.REMIND_GUID_NOTASKED })
-
 // 2FA
-export const resendSmsCode = guid => ({
-  type: AT.RESEND_SMS_CODE,
-  payload: { guid }
-})
-export const reset2fa = (
-  guid,
-  email,
-  newEmail,
-  secretPhrase,
-  message,
-  code,
-  sessionToken
-) => ({
-  type: AT.RESET_2FA,
-  payload: { guid, email, newEmail, secretPhrase, message, code, sessionToken }
-})
-export const reset2faLoading = () => ({ type: AT.RESET_2FA_LOADING })
-export const reset2faSuccess = () => ({ type: AT.RESET_2FA_SUCCESS })
-export const reset2faFailure = err => ({
-  type: AT.RESET_2FA_FAILURE,
-  payload: { err }
+export const resendSmsCode = (guid) => ({
+  payload: { guid },
+  type: AT.RESEND_SMS_CODE
 })
 
 // WALLET RESTORE
 export const restore = (mnemonic, email, password, language, network) => ({
-  type: AT.RESTORE,
-  payload: { mnemonic, email, password, language, network }
+  payload: { email, language, mnemonic, network, password },
+  type: AT.RESTORE
 })
 export const restoreLoading = () => ({ type: AT.RESTORE_LOADING })
 export const restoreSuccess = () => ({ type: AT.RESTORE_SUCCESS })
 export const restoreFailure = () => ({ type: AT.RESTORE_FAILURE })
 
 // WALLET RESTORE FROM METADATA
-export const restoreFromMetadata = mnemonic => ({
-  type: AT.RESTORE_FROM_METADATA,
-  payload: { mnemonic }
+export const restoreFromMetadata = (mnemonic) => ({
+  payload: { mnemonic },
+  type: AT.RESTORE_FROM_METADATA
 })
 export const restoreFromMetadataLoading = () => ({
   type: AT.RESTORE_FROM_METADATA_LOADING
 })
-export const restoreFromMetadataSuccess = payload => ({
-  type: AT.RESTORE_FROM_METADATA_SUCCESS,
-  payload
+export const restoreFromMetadataSuccess = (payload) => ({
+  payload,
+  type: AT.RESTORE_FROM_METADATA_SUCCESS
 })
-export const restoreFromMetadataFailure = err => ({
-  type: AT.RESTORE_FROM_METADATA_FAILURE,
-  payload: err
+export const restoreFromMetadataFailure = (err) => ({
+  payload: err,
+  type: AT.RESTORE_FROM_METADATA_FAILURE
 })
 
 // MOBILE AUTH CHANNEL LOGIN
@@ -110,25 +82,25 @@ export const secureChannelLoginSuccess = () => ({
 export const secureChannelLoginNotAsked = () => ({
   type: AT.SECURE_CHANNEL_LOGIN_NOTASKED
 })
-export const secureChannelLoginFailure = err => ({
-  type: AT.SECURE_CHANNEL_LOGIN_FAILURE,
-  payload: { err }
+export const secureChannelLoginFailure = (err) => ({
+  payload: { err },
+  type: AT.SECURE_CHANNEL_LOGIN_FAILURE
 })
 
 // MISC
 export const authenticate = () => ({ type: AT.AUTHENTICATE })
 export const deauthorizeBrowser = () => ({ type: AT.DEAUTHORIZE_BROWSER })
-export const setAuthType = authType => ({
-  type: AT.SET_AUTH_TYPE,
-  payload: { authType }
+export const setAuthType = (authType) => ({
+  payload: { authType },
+  type: AT.SET_AUTH_TYPE
 })
-export const setRegisterEmail = email => ({
-  type: AT.SET_REGISTER_EMAIL,
-  payload: { email }
+export const setRegisterEmail = (email) => ({
+  payload: { email },
+  type: AT.SET_REGISTER_EMAIL
 })
-export const upgradeWallet = version => ({
-  type: AT.UPGRADE_WALLET,
-  payload: { version }
+export const upgradeWallet = (version) => ({
+  payload: { version },
+  type: AT.UPGRADE_WALLET
 })
 
 export const clearLoginError = () => ({

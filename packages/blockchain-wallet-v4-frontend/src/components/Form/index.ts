@@ -1,5 +1,4 @@
 import AutosizeTextBox from './AutosizeTextBox'
-import CaptchaBox from './CaptchaBox'
 import CheckBox from './CheckBox'
 import CodeInputBoxes from './CodeInputBoxes'
 import CoinAccountListBalance from './CoinAccountListBalance'
@@ -49,7 +48,6 @@ import TextBoxDebounced from './TextBoxDebounced'
 
 export {
   AutosizeTextBox,
-  CaptchaBox,
   CheckBox,
   CodeInputBoxes,
   CoinAccountListBalance,

@@ -7,36 +7,25 @@ import { prop } from 'ramda'
 import { Observable } from 'rxjs'
 
 import { Types } from 'blockchain-wallet-v4/src'
-import {
-  createXpubFromChildAndParent,
-  getParentPath
-} from 'blockchain-wallet-v4/src/utils/btc'
+import { createXpubFromChildAndParent, getParentPath } from 'blockchain-wallet-v4/src/utils/btc'
 import { deriveAddressFromXpub } from 'blockchain-wallet-v4/src/utils/eth'
 
-import { LOG_LEVELS } from '../../data/logs/model'
+import LOG_LEVELS from '../../data/logs/model'
 import constants from './constants'
 import firmware from './firmware'
 
 const ethAccount = (xpub, label) => ({
-  label: label,
+  addr: deriveAddressFromXpub(xpub),
   archived: false,
   correct: true,
-  addr: deriveAddressFromXpub(xpub)
+  label
 })
 
 const btcAccount = (xpub, label) =>
-  Types.HDAccount.js(
-    label,
-    [Types.Derivation.js('legacy', 44, null, xpub)],
-    'legacy'
-  )
+  Types.HDAccount.js(label, [Types.Derivation.js('legacy', 44, null, xpub)], 'legacy')
 
 const bchAccount = (xpub, label) =>
-  Types.HDAccount.js(
-    label,
-    [Types.Derivation.js('bch-145', 145, null, xpub)],
-    'bch-145'
-  )
+  Types.HDAccount.js(label, [Types.Derivation.js('bch-145', 145, null, xpub)], 'bch-145')
 
 /* eslint-disable */
 
@@ -48,7 +37,7 @@ const bchAccount = (xpub, label) =>
  * @param {Number} timeout - Length of time in ms to wait for a connection
  * @returns {Promise<TransportU2F>} Returns a connected Transport or Error
  */
-const pollForAppConnection = (deviceType, app, timeout = 45000, logLevel) => {
+const pollForAppConnection = (deviceType, app, timeout = 45000) => {
   if (!deviceType || !app) throw new Error('Missing required params')
 
   return new Promise((resolve, reject) => {
@@ -60,18 +49,14 @@ const pollForAppConnection = (deviceType, app, timeout = 45000, logLevel) => {
       // transport.setDebugMode(true)
       transport.setExchangeTimeout(timeout)
       transport.setScrambleKey(scrambleKey)
-      if (logLevel === LOG_LEVELS.VERBOSE) {
-        console.info('POLL:START', deviceType, scrambleKey, app, timeout)
-      }
+      console.info('POLL:START', deviceType, scrambleKey, app, timeout)
       // send NO_OP cmd until response is received (success) or timeout is hit (reject)
       transport.send(...constants.apdus.no_op).then(
         () => {},
         res => {
           // since no_op wont be recognized by any app as a valid cmd, this is always going
           // to fail but a response, means a device is connected and unlocked
-          if (logLevel === LOG_LEVELS.VERBOSE) {
-            console.info('POLL:END', deviceType, scrambleKey, app, timeout)
-          }
+          console.info('POLL:END', deviceType, scrambleKey, app, timeout)
           if (res.originalError) {
             reject(res.originalError.metaData)
           }
@@ -203,38 +188,34 @@ const createDeviceSocket = (transport, url) => {
  * @param {Transport} transport - Current device transport
  * @returns {Promise} full device information
  */
-const getDeviceInfo = transport => {
+const getDeviceInfo = (transport) => {
   return new Promise((resolve, reject) => {
     firmware.getDeviceFirmwareInfo(transport).then(
-      res => {
+      (res) => {
         const { seVersion } = res
         const { flags, mcuVersion, targetId } = res
         const parsedVersion =
-          seVersion.match(
-            /([0-9]+.[0-9])+(.[0-9]+)?((?!-osu)-([a-z]+)([0-9]+))?(-osu)?/
-          ) || []
+          seVersion.match(/([0-9]+.[0-9])+(.[0-9]+)?((?!-osu)-([a-z]+)([0-9]+))?(-osu)?/) || []
         const isOSU = typeof parsedVersion[5] !== 'undefined'
         const providerName = parsedVersion[4] || ''
         const providerId = constants.providers[providerName]
         const isBootloader = targetId === 0x01000001
         const majMin = parsedVersion[1]
         const patch = parsedVersion[2] || '.0'
-        const fullVersion = `${majMin}${patch}${
-          providerName ? `${parsedVersion[3]}` : ''
-        }`
+        const fullVersion = `${majMin}${patch}${providerName ? `${parsedVersion[3]}` : ''}`
         resolve({
-          targetId,
-          seVersion: majMin + patch,
+          flags,
+          fullVersion: providerName === 'bc' ? seVersion : fullVersion,
+          isBootloader,
           isOSU,
           mcuVersion,
-          isBootloader,
-          providerName,
           providerId,
-          flags,
-          fullVersion: providerName === 'bc' ? seVersion : fullVersion
+          providerName,
+          seVersion: majMin + patch,
+          targetId
         })
       },
-      err => {
+      (err) => {
         reject(err)
       }
     )
@@ -246,8 +227,8 @@ const getDeviceInfo = transport => {
  * @param {Promise} promise - Current device transport
  * @returns {Promise} a catch function that returns human error
  */
-const mapSocketError = promise => {
-  return promise.catch(err => {
+const mapSocketError = (promise) => {
+  return promise.catch((err) => {
     switch (true) {
       case err.message.endsWith('6985'):
         return {
@@ -338,22 +319,22 @@ const getScrambleKey = (app, deviceType) => {
  * @param {TransportU2F} btcApp - The BTC app connection
  * @returns {Object} the derived xPubs
  */
-const deriveDeviceInfo = async btcApp => {
-  let btcPath = "44'/0'/0'"
-  let bchPath = "44'/145'/0'"
-  let ethPath = "44'/60'/0'/0/0"
+const deriveDeviceInfo = async (btcApp) => {
+  const btcPath = "44'/0'/0'"
+  const bchPath = "44'/145'/0'"
+  const ethPath = "44'/60'/0'/0/0"
 
-  let btcChild = await btcApp.getWalletPublicKey(btcPath)
-  let bchChild = await btcApp.getWalletPublicKey(bchPath)
-  let ethChild = await btcApp.getWalletPublicKey(ethPath)
-  let btcParent = await btcApp.getWalletPublicKey(getParentPath(btcPath))
-  let bchParent = await btcApp.getWalletPublicKey(getParentPath(bchPath))
-  let ethParent = await btcApp.getWalletPublicKey(getParentPath(ethPath))
+  const btcChild = await btcApp.getWalletPublicKey(btcPath)
+  const bchChild = await btcApp.getWalletPublicKey(bchPath)
+  const ethChild = await btcApp.getWalletPublicKey(ethPath)
+  const btcParent = await btcApp.getWalletPublicKey(getParentPath(btcPath))
+  const bchParent = await btcApp.getWalletPublicKey(getParentPath(bchPath))
+  const ethParent = await btcApp.getWalletPublicKey(getParentPath(ethPath))
   const btc = createXpubFromChildAndParent(btcPath, btcChild, btcParent)
   const bch = createXpubFromChildAndParent(bchPath, bchChild, bchParent)
   const eth = createXpubFromChildAndParent(ethPath, ethChild, ethParent)
 
-  return { btc, bch, eth }
+  return { bch, btc, eth }
 }
 
 /**
@@ -369,12 +350,12 @@ const generateAccountsMDEntry = (newDevice, deviceName) => {
     const { bch, btc, eth } = prop('info', newDevice)
 
     return {
-      device_type: deviceType,
+      bch: { accounts: [bchAccount(bch, `${deviceName} - BCH Wallet`)] },
+      btc: { accounts: [btcAccount(btc, `${deviceName} - BTC Wallet`)] },
       device_name: deviceName,
-      btc: { accounts: [btcAccount(btc, deviceName + ' - BTC Wallet')] },
-      bch: { accounts: [bchAccount(bch, deviceName + ' - BCH Wallet')] },
+      device_type: deviceType,
       eth: {
-        accounts: [ethAccount(eth, deviceName + ' - ETH Wallet')],
+        accounts: [ethAccount(eth, `${deviceName} - ETH Wallet`)],
         last_tx: null,
         last_tx_timestamp: null
       }
@@ -391,14 +372,14 @@ const generateAccountsMDEntry = (newDevice, deviceName) => {
  * @returns {Object} the metadata account entry to save
  */
 export const generateXlmAccountMDEntry = (deviceName, publicKey) => ({
-  default_account_idx: 0,
   accounts: [
     {
-      publicKey: publicKey,
-      label: deviceName + ' - XLM Wallet',
-      archived: false
+      archived: false,
+      label: `${deviceName} - XLM Wallet`,
+      publicKey
     }
   ],
+  default_account_idx: 0,
   tx_notes: {}
 })
 
@@ -433,12 +414,13 @@ const getXlmPublicKey = (deviceType, transport) => {
  * @param {String} hash - THe unformatted firmware hash
  * @returns {String} Returns the formatted hash
  */
-const formatFirmwareHash = hash => {
+const formatFirmwareHash = (hash) => {
   if (!hash) {
     return ''
   }
+  // eslint-disable-next-line no-param-reassign
   hash = hash.toUpperCase()
-  const length = hash.length
+  const { length } = hash
   const half = Math.ceil(length / 2)
   const start = hash.slice(0, half)
   const end = hash.slice(half)
@@ -451,13 +433,13 @@ const formatFirmwareHash = hash => {
  * @param {String} raw - THe unformatted firmware version
  * @returns {String} Returns the formatted firmware name
  */
-const formatFirmwareDisplayName = raw => {
+const formatFirmwareDisplayName = (raw) => {
   return raw.endsWith('-osu') ? raw.replace('-osu', '') : raw
 }
 
 export default {
-  createDeviceSocket,
   createBtcBchConnection,
+  createDeviceSocket,
   deriveDeviceInfo,
   formatFirmwareDisplayName,
   formatFirmwareHash,

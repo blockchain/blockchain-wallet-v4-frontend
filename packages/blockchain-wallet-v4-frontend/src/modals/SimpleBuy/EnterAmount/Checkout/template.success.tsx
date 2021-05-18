@@ -273,10 +273,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       props.limits
     )[fix]
     const value = convertStandardToBase(conversionCoinType, maxMin)
-    props.simpleBuyActions.handleSBSuggestedAmountClick(
-      value,
-      conversionCoinType
-    )
+    if (prop === 'min') {
+      props.simpleBuyActions.handleSBMinAmountClick(value, conversionCoinType)
+    }
+
+    if (prop === 'max') {
+      props.simpleBuyActions.handleSBMaxAmountClick(value, conversionCoinType)
+    }
   }
   const handleMaxClick = () => {
     const maxMin: string = getMaxMin(
@@ -294,10 +297,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       props.limits
     )[fix]
     const value = convertStandardToBase(conversionCoinType, maxMin)
-    props.simpleBuyActions.handleSBSuggestedAmountClick(
-      value,
-      conversionCoinType
-    )
+    props.simpleBuyActions.handleSBMaxAmountClick(value, conversionCoinType)
   }
 
   const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {

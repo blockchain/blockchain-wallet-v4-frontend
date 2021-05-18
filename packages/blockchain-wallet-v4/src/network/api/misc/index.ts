@@ -4,71 +4,41 @@ import { CoinType, FiatType } from 'core/types'
 
 import { PriceIndexResponseType } from './types'
 
-export default ({ apiUrl, get, post, rootUrl }) => {
-  const getCaptchaImage = (timestamp, sessionToken) =>
+export default ({ apiUrl, get, post }) => {
+  const getPriceIndex = (base: CoinType, quote: FiatType, time: Moment): PriceIndexResponseType =>
     get({
-      url: rootUrl,
-      endPoint: '/kaptcha.jpg',
-      responseType: 'blob',
-      data: { timestamp },
-      sessionToken
-    })
-
-  const getLogs = (guid, sharedKey) =>
-    post({
-      url: rootUrl,
-      endPoint: '/wallet',
-      data: { guid, sharedKey, method: 'list-logs', format: 'json' }
-    })
-
-  const getPriceIndex = (
-    base: CoinType,
-    quote: FiatType,
-    time: Moment
-  ): PriceIndexResponseType =>
-    get({
-      url: apiUrl,
+      data: { base, quote, time: time.unix() },
       endPoint: '/price/index',
-      data: { base, quote, time: time.unix() }
+      url: apiUrl
     })
 
   const getPriceIndexSeries = (coin, currency, start, scale) =>
     get({
-      url: apiUrl,
+      data: { base: coin, quote: currency, scale, start },
       endPoint: '/price/index-series',
-      data: { base: coin, quote: currency, start: start, scale: scale }
+      url: apiUrl
     })
 
   const getPriceTimestampSeries = (coin, currency, txTimestampList) =>
     post({
-      url: apiUrl,
-      endPoint: `/price/index-series?base=${coin}&quote=${currency}`,
       contentType: 'application/json',
+      data: txTimestampList,
+      endPoint: `/price/index-series?base=${coin}&quote=${currency}`,
       removeDefaultPostData: true,
-      data: txTimestampList
+      url: apiUrl
     })
 
   const getRandomBytes = (bytes, format) =>
     get({
-      url: apiUrl,
+      data: { bytes, format },
       endPoint: '/v2/randombytes',
-      data: { bytes, format }
-    })
-
-  const getWalletNUsers = () =>
-    get({
-      url: apiUrl,
-      ignoreQueryParams: true,
-      endPoint: '/charts/my-wallet-n-users?cors=true'
+      url: apiUrl
     })
 
   return {
-    getCaptchaImage,
-    getLogs,
     getPriceIndex,
     getPriceIndexSeries,
     getPriceTimestampSeries,
-    getRandomBytes,
-    getWalletNUsers
+    getRandomBytes
   }
 }

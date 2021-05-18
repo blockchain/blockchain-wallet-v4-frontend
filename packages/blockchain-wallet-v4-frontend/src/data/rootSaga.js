@@ -20,7 +20,7 @@ import wallet from './wallet/sagaRegister'
 
 const logLocation = 'data/rootSaga'
 
-const welcomeSaga = function * () {
+const welcomeSaga = function* () {
   try {
     const version = APP_VERSION
     const style1 = 'background: #F00; color: #FFF; font-size: 24px;'
@@ -42,7 +42,7 @@ const welcomeSaga = function * () {
   }
 }
 
-const languageInitSaga = function * () {
+const languageInitSaga = function* () {
   try {
     yield delay(250)
     const lang = tryParseLanguageFromUrl()
@@ -57,13 +57,7 @@ const languageInitSaga = function * () {
   }
 }
 
-export default function * rootSaga({
-  api,
-  coinsSocket,
-  networks,
-  options,
-  ratesSocket
-}) {
+export default function* rootSaga({ api, coinsSocket, networks, options, ratesSocket }) {
   const coreSagas = coreSagasFactory({ api, networks, options })
   yield all([
     call(welcomeSaga),
@@ -77,8 +71,8 @@ export default function * rootSaga({
     fork(preferences()),
     fork(prices({ api })),
     fork(goals({ api, coreSagas, networks })),
-    fork(wallet({ coreSagas })),
-    fork(middleware({ api, ratesSocket, coinsSocket })),
+    fork(wallet({ api, coreSagas })),
+    fork(middleware({ api, coinsSocket, ratesSocket })),
     fork(coreRootSagaFactory({ api, networks, options })),
     fork(router()),
     call(languageInitSaga)

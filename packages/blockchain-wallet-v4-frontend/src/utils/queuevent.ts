@@ -1,7 +1,7 @@
 const debounce = <T extends (...args: any[]) => any>(
   debouncedCallback: T,
-  waitFor: number = 10000,
-  maxCount: number = 10
+  waitFor = 10000,
+  maxCount = 10
 ) => {
   let timeout: ReturnType<typeof setTimeout>
 
@@ -66,9 +66,9 @@ const queueStorage = <K extends string, P extends {}>(queueName: string) => {
   }
 
   const values = {
-    push,
+    flush,
     items,
-    flush
+    push
   }
 
   return values
@@ -80,28 +80,17 @@ const queuevent = <K extends string, P extends {}>({
 }: {
   queueCallback: (events: { key: K; payload: P }[]) => Promise<void>
   queueName: string
-}) => {
+}): {
+  clear: () => void
+  push: (key: K, payload: P) => void
+} => {
   const queue = queueStorage<K, P>(queueName)
 
-  const MAX_ATTEMPTS = 3
+  const debouncedCallback = debounce(async (events: { key: K; payload: P }[]) => {
+    await queueCallback(events)
 
-  const debouncedCallback = debounce(
-    async (events: { key: K; payload: P }[]) => {
-      let attempts = 0
-
-      while (attempts < MAX_ATTEMPTS) {
-        try {
-          await queueCallback(events)
-
-          queue.flush()
-
-          break
-        } catch {
-          attempts += 1
-        }
-      }
-    }
-  )
+    queue.flush()
+  })
 
   const push = (key: K, payload: P) => {
     queue.push({ key, payload })
@@ -122,8 +111,8 @@ const queuevent = <K extends string, P extends {}>({
   }
 
   const values = {
-    push,
-    clear
+    clear,
+    push
   }
 
   return values
