@@ -19,7 +19,6 @@ import * as preferences from './preferences/actions'
 import * as prices from './prices/actions'
 import * as session from './session/actions'
 import * as wallet from './wallet/actions'
-import * as wizard from './wizard/actions'
 
 export {
   alerts,
@@ -40,6 +39,5 @@ export {
   router,
   session,
   wallet,
-  wizard,
-  ws // TODO
+  ws
 }

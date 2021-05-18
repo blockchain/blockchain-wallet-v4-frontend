@@ -134,12 +134,15 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       new CleanWebpackPlugin(),
       new Webpack.DefinePlugin({
         APP_VERSION: JSON.stringify(require(CONFIG_PATH.pkgJson).version),
-        NETWORK_TYPE: JSON.stringify(envConfig.NETWORK_TYPE)
+        RECAPTCHA_KEY: JSON.stringify(envConfig.RECAPTCHA_KEY)
       }),
       new HtmlWebpackPlugin({
         template: CONFIG_PATH.src + '/index.html',
         filename: 'index.html'
       }),
+      new HtmlReplaceWebpackPlugin([
+        { pattern: '**RECAPTCHA_KEY**', replacement: envConfig.RECAPTCHA_KEY }
+      ]),
       new Webpack.IgnorePlugin({
         resourceRegExp: /^\.\/locale$/,
         contextRegExp: /moment$/
@@ -286,7 +289,7 @@ const buildDevServerConfig = (
         allowUnsafeStyles
           ? `style-src 'self' 'unsafe-inline'`
           : `style-src 'nonce-${CSP_NONCE}' 'self'`,
-        `frame-src http://localhost:8081 ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://localhost:8080 http://localhost:8080`,
+        `frame-src ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://www.google.com/ https://www.gstatic.com https://localhost:8080 http://localhost:8080 http://localhost:8081`,
         `child-src ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         [
           'connect-src',

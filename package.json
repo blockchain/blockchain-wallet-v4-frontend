@@ -41,7 +41,7 @@
     "packages/*/src/**/*.{js,tsx}": [
       "stylelint './packages/*/src/**/*.{js,tsx}'"
     ],
-    "packages/**/*.json": [
+    "packages/**/!(*package).json": [
       "eslint --fix"
     ]
   },
@@ -121,8 +121,8 @@
     "@types/redux": "3.6.0",
     "@types/redux-form": "8.2.3",
     "@types/styled-components": "5.1.9",
-    "@typescript-eslint/eslint-plugin": "4.17.0",
-    "@typescript-eslint/parser": "4.17.0",
+    "@typescript-eslint/eslint-plugin": "4.23.0",
+    "@typescript-eslint/parser": "4.23.0",
     "babel-jest": "26.6.3",
     "babel-loader": "8.2.2",
     "babel-plugin-inline-react-svg": "2.0.1",
