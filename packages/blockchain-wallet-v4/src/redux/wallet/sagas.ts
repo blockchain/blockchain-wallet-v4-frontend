@@ -111,12 +111,10 @@ export default ({ api, networks }) => {
   const upgradeToV3 = function* ({ password }) {
     const wrapper = yield select(S.getWrapper)
     const hdwallets = compose(
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       (i) => i.toJS(),
       Wallet.selectHdWallets,
       Wrapper.selectWallet
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
     )(wrapper)
 
@@ -148,7 +146,6 @@ export default ({ api, networks }) => {
     }
     const l = length(usedAccounts)
     const getxpub = (i) => node.deriveHardened(i).neutered().toBase58()
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const isUsed = (a) => propSatisfies((n) => n > 0, 'n_tx', a)
     const xpubs = map(getxpub, range(l, l + batch))
@@ -192,7 +189,6 @@ export default ({ api, networks }) => {
         onlyShow: ''
       }
     )
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const isUsed = (a) => propSatisfies((n) => n > 0, 'n_tx', a)
     const search = curry((xpubGroup, addresses) =>
@@ -216,10 +212,8 @@ export default ({ api, networks }) => {
       KVStoreEntry.deriveMetadataNode,
       KVStoreEntry.getMasterHDNode(networks.btc)
     )
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const metadataNode = getMetadataNode(seedHex)
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const mxpriv = metadataNode.toBase58()
     const typeId = derivationMap[WALLET_CREDENTIALS]

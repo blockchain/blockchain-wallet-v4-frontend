@@ -61,7 +61,6 @@ export default ({ get, post, rootUrl }) => {
     // both addresses and legacy xpubs
     const active = concat(addressArray, propOr([], 'legacy', context)).join('|')
     // bech32 xpubs only
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const activeBech32 = propOr([], 'bech32', context).join('|')
     const data = {
