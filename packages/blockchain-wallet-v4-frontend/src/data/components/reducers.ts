@@ -10,6 +10,7 @@ import manageAddresses from './manageAddresses/reducers'
 import { priceChartReducer } from './priceChart/reducers'
 import { recoveryPhraseReducer } from './recoveryPhrase/reducers'
 import remindWalletGuid from './remindWalletGuid/reducers'
+import resetWallet2fa from './resetWallet2fa/reducers'
 import { sendReducer } from './send/reducers'
 import { sendBchReducer } from './sendBch/reducers'
 import { sendBtcReducer } from './sendBtc/reducers'
@@ -34,6 +35,7 @@ const componentReducer = combineReducers({
   priceChart: priceChartReducer,
   recoveryPhrase: recoveryPhraseReducer,
   remindWalletGuid,
+  resetWallet2fa,
   send: sendReducer,
   sendBch: sendBchReducer,
   sendBtc: sendBtcReducer,

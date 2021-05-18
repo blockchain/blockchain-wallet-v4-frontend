@@ -45,16 +45,6 @@ export const resendSmsCode = (guid) => ({
   payload: { guid },
   type: AT.RESEND_SMS_CODE
 })
-export const reset2fa = (guid, email, newEmail, secretPhrase, message, code, sessionToken) => ({
-  payload: { code, email, guid, message, newEmail, secretPhrase, sessionToken },
-  type: AT.RESET_2FA
-})
-export const reset2faLoading = () => ({ type: AT.RESET_2FA_LOADING })
-export const reset2faSuccess = () => ({ type: AT.RESET_2FA_SUCCESS })
-export const reset2faFailure = (err) => ({
-  payload: { err },
-  type: AT.RESET_2FA_FAILURE
-})
 
 // WALLET RESTORE
 export const restore = (mnemonic, email, password, language, network) => ({

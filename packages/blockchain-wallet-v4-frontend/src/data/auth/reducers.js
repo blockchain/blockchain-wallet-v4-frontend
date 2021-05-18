@@ -14,7 +14,6 @@ const INITIAL_STATE = {
   mobileLoginStarted: false,
   registerEmail: undefined,
   registering: Remote.NotAsked,
-  reset_2fa: Remote.NotAsked,
   restoring: Remote.NotAsked,
   secureChannelLogin: Remote.NotAsked
 }
@@ -61,15 +60,6 @@ const auth = (state = INITIAL_STATE, action) => {
     }
     case AT.RESTORE_FAILURE: {
       return assoc('restoring', Remote.Failure(payload), state)
-    }
-    case AT.RESET_2FA_LOADING: {
-      return assoc('reset_2fa', Remote.Loading, state)
-    }
-    case AT.RESET_2FA_SUCCESS: {
-      return assoc('reset_2fa', Remote.Success(payload), state)
-    }
-    case AT.RESET_2FA_FAILURE: {
-      return assoc('reset_2fa', Remote.Failure(payload), state)
     }
     case AT.SECURE_CHANNEL_LOGIN_LOADING: {
       return assoc('secureChannelLogin', Remote.Loading, state)

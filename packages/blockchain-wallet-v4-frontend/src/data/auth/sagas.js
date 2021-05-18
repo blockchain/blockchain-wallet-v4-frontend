@@ -14,12 +14,7 @@ const { MOBILE_LOGIN } = model.analytics
 
 export const logLocation = 'auth/sagas'
 export const defaultLoginErrorMessage = 'Error logging into your wallet'
-// TODO: make this a global error constant
 export const wrongWalletPassErrorMessage = 'wrong_wallet_password'
-export const guidNotFound2faErrorMessage = 'Wallet Identifier Not Found'
-export const notEnabled2faErrorMessage = 'Error: Two factor authentication not enabled.'
-export const emailMismatch2faErrorMessage =
-  'Error: Email entered does not match the email address associated with this wallet'
 export const wrongAuthCodeErrorMessage = 'Authentication code is incorrect'
 
 export default ({ api, coreSagas }) => {
@@ -463,36 +458,6 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const reset2fa = function* (action) {
-    try {
-      yield put(actions.auth.reset2faLoading())
-      const response = yield call(coreSagas.wallet.resetWallet2fa, action.payload)
-      if (response.success) {
-        yield put(actions.auth.reset2faSuccess())
-        return yield put(actions.alerts.displayInfo(C.RESET_TWOFA_INFO))
-      }
-      throw new Error(response.message)
-    } catch (e) {
-      yield put(actions.core.data.misc.fetchCaptcha())
-      yield put(actions.auth.reset2faFailure())
-      yield put(actions.logs.logErrorMessage(logLocation, 'reset2fa', e))
-      switch (e.toString()) {
-        case guidNotFound2faErrorMessage: {
-          return yield put(actions.alerts.displayError(C.TWOFA_RESET_UNKNOWN_GUID_ERROR))
-        }
-        case notEnabled2faErrorMessage: {
-          yield put(actions.router.push('/login'))
-          return yield put(actions.alerts.displayError(C.TWOFA_RESET_NOT_ENABLED_ERROR))
-        }
-        case emailMismatch2faErrorMessage: {
-          return yield put(actions.alerts.displayError(C.TWOFA_RESET_EMAIL_ERROR))
-        }
-        default:
-          return yield put(actions.alerts.displayError(C.TWOFA_RESET_ERROR))
-      }
-    }
-  }
-
   const resendSmsLoginCode = function* (action) {
     try {
       const { guid } = action.payload
@@ -541,7 +506,6 @@ export default ({ api, coreSagas }) => {
     pollingSession,
     register,
     resendSmsLoginCode,
-    reset2fa,
     restore,
     restoreFromMetadata,
     saveGoals,

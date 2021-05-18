@@ -902,34 +902,6 @@ const getAlertContent = (message, data = undefined) => {
           defaultMessage='2FA required for login.'
         />
       )
-    case C.TWOFA_RESET_UNKNOWN_GUID_ERROR:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.twofa_reset_unknown_guid_error'
-          defaultMessage='Unknown Wallet ID.'
-        />
-      )
-    case C.TWOFA_RESET_ERROR:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.twofa_reset_error'
-          defaultMessage='Error resetting two-step authentication.'
-        />
-      )
-    case C.TWOFA_RESET_NOT_ENABLED_ERROR:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.twofa_reset_not_enabled_error'
-          defaultMessage='2FA has not been enabled for this wallet.'
-        />
-      )
-    case C.TWOFA_RESET_EMAIL_ERROR:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.twofa_reset_email_error'
-          defaultMessage='Email does not match the email address associated with this wallet.'
-        />
-      )
     case C.TWOFA_UPDATE_ERROR:
       return buildMessageTemplate(
         <FormattedMessage

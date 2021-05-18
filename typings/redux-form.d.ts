@@ -49,6 +49,7 @@ export type WalletFormType =
   | 'transferEth'
   | 'transactionReport'
   | 'walletGuidReminder'
+  | 'wallet2faReset'
   | 'walletTxSearch'
 
 declare module 'redux-form' {

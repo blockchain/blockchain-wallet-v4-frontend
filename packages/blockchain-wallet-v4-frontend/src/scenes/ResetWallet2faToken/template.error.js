@@ -12,20 +12,15 @@ const Wrapper = styled.div`
 `
 const ErrorText = styled(Text)`
   > span > span {
-    color: ${props => props.theme.grey700};
+    color: ${(props) => props.theme.grey700};
   }
 `
 
-const Error = props => {
+const Error = (props) => {
   return (
     <Wrapper>
       <Icon name='alert-filled' color='red600' size='40px' />
-      <ErrorText
-        size='16px'
-        weight={400}
-        color='red600'
-        style={{ 'margin-top': '25px' }}
-      >
+      <ErrorText size='16px' weight={400} color='red600' style={{ 'margin-top': '25px' }}>
         <FormattedHTMLMessage
           id='scenes.reset2fatoken.error1'
           defaultMessage='Uh Oh. Something went wrong. Error: {error}'
