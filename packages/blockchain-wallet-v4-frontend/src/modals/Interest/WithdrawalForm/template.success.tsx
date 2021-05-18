@@ -41,7 +41,7 @@ import {
   ToggleCoinText,
   ToggleFiatText,
   Top,
-  Wrapper,
+  Wrapper
 } from './model'
 import { maximumWithdrawalAmount, minimumWithdrawalAmount } from './validation'
 
@@ -63,7 +63,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     submitting,
     supportedCoins,
     values,
-    walletCurrency,
+    walletCurrency
   } = props
 
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
@@ -215,7 +215,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
                 <Text color='blue600' size='14px' weight={500}>
                   {fiatToString({
                     unit: walletCurrency,
-                    value: availToWithdrawFiat,
+                    value: availToWithdrawFiat
                   })}
                 </Text>
               </AmountAvailContainer>
@@ -265,7 +265,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
             {...{
               errorBottom: true,
               errorIcon: 'alert-filled',
-              errorLeft: true,
+              errorLeft: true
             }}
           />
           <PrincipalCcyAbsolute>
@@ -301,7 +301,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
               defaultMessage='You are requesting to withdraw <b>{withdrawalAmountFiat}</b> ({withdrawalAmountCrypto}) from your Interest Account. After confirming this withdrawal, you will not continue to earn interest on the amount withdrawn.'
               values={{
                 withdrawalAmountCrypto: `${withdrawalAmountCrypto} ${coinTicker}`,
-                withdrawalAmountFiat: `${currencySymbol}${formatFiat(withdrawalAmountFiat)}`,
+                withdrawalAmountFiat: `${currencySymbol}${formatFiat(withdrawalAmountFiat)}`
               }}
             />
           </Text>
@@ -336,7 +336,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
 }
 
 const mapStateToProps = (state) => ({
-  values: selectors.form.getFormValues(FORM_NAME)(state),
+  values: selectors.form.getFormValues(FORM_NAME)(state)
 })
 
 type LinkStatePropsType = {
@@ -351,7 +351,6 @@ type OwnProps = {
 
 export type Props = OwnProps & LinkStatePropsType & SuccessStateType & LinkDispatchPropsType
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const enhance = compose(
   reduxForm<{ form: string }, Props>({ form: FORM_NAME }),

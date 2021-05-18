@@ -63,19 +63,15 @@ export const calculateStart = (coin: CoinType, time: TimeRange) => {
     case 'all':
       return coinStart
     case 'year':
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       return yearStart > coinStart ? yearStart : coinStart
     case 'month':
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       return monthStart > coinStart ? monthStart : coinStart
     case 'week':
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       return weekStart > coinStart ? weekStart : coinStart
     case 'day':
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       return dayStart > coinStart ? dayStart : coinStart
     default:

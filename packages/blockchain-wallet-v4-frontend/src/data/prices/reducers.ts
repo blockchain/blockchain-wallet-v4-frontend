@@ -14,7 +14,6 @@ const createPricesKvPairs = (prices) => {
   return mergeAll(
     map(
       (x) => ({
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         [x.split('-')[0]]: prices[x].price
       }),

@@ -307,7 +307,6 @@ type StateProps = {
 
 type Props = LinkStatePropsType
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const enhance = compose(
   reduxForm<{}, Props>({ form: 'wallet2faReset' }),

@@ -11,7 +11,7 @@ import {
   SpinningLoader,
   Text,
   TooltipHost,
-  TooltipIcon,
+  TooltipIcon
 } from 'blockchain-info-components'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { fiatToString, formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
@@ -52,7 +52,7 @@ import {
   ToggleCoinText,
   ToggleFiatText,
   Top,
-  TopText,
+  TopText
 } from './model'
 import TabMenuTimeFrame from './TabMenuTimeFrame'
 import { maxDepositAmount, minDepositAmount } from './validation'
@@ -77,7 +77,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     submitting,
     supportedCoins,
     values,
-    walletCurrency,
+    walletCurrency
   } = props
   const { coinTicker, displayName } = supportedCoins[coin]
 
@@ -131,7 +131,6 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     payment &&
     !!supportedCoins[coin]?.contractAddress &&
     !!supportedCoins[payment.coin]?.contractAddress &&
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     !payment.isSufficientEthForErc20
 
@@ -174,7 +173,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
               defaultMessage='Transfer {displayName} to your Interest Account and earn up to {rate}% interest annually on your crypto.'
               values={{
                 displayName,
-                rate: interestRate[coin],
+                rate: interestRate[coin]
               }}
             />{' '}
             {!insufficientEth && (
@@ -183,7 +182,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                   id='modals.interest.deposit.youcantransfer'
                   defaultMessage='You can transfer up to'
                   values={{
-                    coin: coinTicker,
+                    coin: coinTicker
                   }}
                 />{' '}
                 <FiatMaxContainer
@@ -209,7 +208,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                   id='modals.interest.deposit.uptoamount2'
                   defaultMessage='of {coin} from this wallet.'
                   values={{
-                    coin: coinTicker,
+                    coin: coinTicker
                   }}
                 />
                 <TooltipHost id='modals.interest.depositmax.tooltip'>
@@ -266,7 +265,6 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
             coin={coin}
             component={NumberBox}
             data-e2e='depositAmount'
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             disabled={insufficientEth}
             displayCoin={displayCoin}
@@ -274,7 +272,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
             validate={[required, minDepositAmount, maxDepositAmount]}
             {...{
               errorBottom: true,
-              errorLeft: true,
+              errorLeft: true
             }}
           />
           <PrincipalCcyAbsolute>
@@ -301,8 +299,8 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                       ? depositLimits.maxCoin
                       : fiatToString({
                           unit: walletCurrency,
-                          value: depositLimits.maxFiat,
-                        }),
+                          value: depositLimits.maxFiat
+                        })
                   }}
                 />
               ) : (
@@ -314,8 +312,8 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                       ? depositLimits.minCoin
                       : fiatToString({
                           unit: walletCurrency,
-                          value: depositLimits.minFiat,
-                        }),
+                          value: depositLimits.minFiat
+                        })
                   }}
                 />
               )}
@@ -387,7 +385,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                 defaultMessage='With {currencySymbol} {depositAmountFiat} in your Interest Account you can earn:'
                 values={{
                   currencySymbol,
-                  depositAmountFiat: formatFiat(depositAmountFiat),
+                  depositAmountFiat: formatFiat(depositAmountFiat)
                 }}
               />
             )}
@@ -524,7 +522,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     depositAmountCrypto: `${depositAmountCrypto} ${coinTicker}`,
                     depositAmountFiat: `${currencySymbol}${formatFiat(depositAmountFiat)}`,
                     displayName,
-                    lockupPeriod,
+                    lockupPeriod
                   }}
                 />
               ) : (
@@ -537,7 +535,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     depositFeeCrypto: isErc20 ? `${feeCrypto} ETH` : `${feeCrypto} ${coinTicker}`,
                     depositFeeFiat: `${currencySymbol}${formatFiat(Number(feeFiat))}`,
                     displayName,
-                    lockupPeriod,
+                    lockupPeriod
                   }}
                 />
               )}
@@ -567,12 +565,12 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  values: selectors.form.getFormValues(FORM_NAME)(state) as InterestDepositFormType,
+  values: selectors.form.getFormValues(FORM_NAME)(state) as InterestDepositFormType
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  interestActions: bindActionCreators(actions.components.interest, dispatch),
+  interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
