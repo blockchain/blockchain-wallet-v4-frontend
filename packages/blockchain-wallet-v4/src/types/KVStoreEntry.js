@@ -174,6 +174,7 @@ export const extractResponse = curry((encKey, encKeyUnpadded, res) => {
           compose(JSON.parse, decrypt(encKey), prop('payload'))(res)
         )
       } catch (e) {
+        console.error(e)
         console.info(
           'LOG: trying unpadded enc key',
           compose(JSON.parse, decrypt(encKeyUnpadded), prop('payload'))(res)
