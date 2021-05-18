@@ -26,7 +26,7 @@ const Logout = React.lazy(() => import('./Logout'))
 const MobileLogin = React.lazy(() => import('./MobileLogin'))
 const Recover = React.lazy(() => import('./Recover'))
 const Register = React.lazy(() => import('./Register'))
-const RemindGuid = React.lazy(() => import('./RemindGuid'))
+const RemindWalletGuid = React.lazy(() => import('./RemindWalletGuid'))
 const Reset2FA = React.lazy(() => import('./Reset2FA'))
 const Reset2FAToken = React.lazy(() => import('./Reset2FAToken'))
 const UploadDocuments = React.lazy(() => import('./UploadDocuments'))
@@ -68,7 +68,7 @@ class App extends React.PureComponent<Props> {
                       <PublicLayout path='/logout' component={Logout} />
                       <PublicLayout path='/mobile-login' component={MobileLogin} />
                       <PublicLayout path='/recover' component={Recover} />
-                      <PublicLayout path='/reminder' component={RemindGuid} />
+                      <PublicLayout path='/reminder' component={RemindWalletGuid} />
                       <PublicLayout path='/reset-2fa' component={Reset2FA} />
                       <PublicLayout path='/reset-two-factor' component={Reset2FAToken} />
                       <PublicLayout path='/signup' component={Register} />
