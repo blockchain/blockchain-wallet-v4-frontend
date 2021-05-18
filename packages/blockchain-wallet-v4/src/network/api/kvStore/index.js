@@ -58,7 +58,7 @@ export default ({ apiUrl, get, networks, put }) => {
       if (res === null) return set(KV.value, null, currentKv)
       let setFromResponse = compose(
         set(KV.magicHash, prop('compute_new_magic_hash', res)),
-        set(KV.value, KV.extractResponse(kv.encKeyBuffer, kv.encKeyBufferPadded, res))
+        set(KV.value, KV.extractResponse(kv.encKeyBuffer, kv.encKeyBufferUnpadded, res))
       )
       return setFromResponse(currentKv)
     })
