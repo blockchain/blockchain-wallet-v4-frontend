@@ -16,7 +16,7 @@ enum AnalyticsKey {
   CARD_REJECTED = 'Card Rejected',
   DASHBOARD_CLICKED = 'Dashboard Clicked',
   DASHBOARD_VIEWED = 'Dashboard Viewed',
-  EMAIL_VERIFICATION_CLICKED = 'Email Verification Clicked',
+  EMAIL_VERIFICATION_REQUESTED = 'Email Verification Requested',
   SIGNED_IN = 'Signed In',
   SIGNED_OUT = 'Signed Out',
   // SWAP_ACCOUNTS_SELECTED = 'Swap Accounts Selected', // not implemented
@@ -30,8 +30,14 @@ enum AnalyticsKey {
   UPGRADE_VERIFICATION_CLICKED = 'Upgrade Verification Clicked'
 }
 
+enum AnalyticsType {
+  EVENT = 'EVENT',
+  VIEW = 'VIEW'
+}
+
 type BasePayload = {
   originalTimestamp: string
+  type: AnalyticsType
 }
 
 type PageViewPayload = {
@@ -148,10 +154,25 @@ type AnalyticsPayload =
   | SignedUpPayload
   | UpgradeVerificationClickedPayload
 
-type PageNamesType = '/home' | '/interest'
+type PageNamesType = '/home'
+// | '/interest'
+// | '/borrow'
+// | '/settings/general'
+// | '/settings/preferences'
+// | '/settings/addresses'
 
 const simpleBuyOriginDictionary = (rawOrigin: SBShowModalOriginType) => {
   switch (rawOrigin) {
+    case 'InterestPage':
+      return 'SAVINGS'
+    case 'PendingOrder':
+      return 'PENDING_ORDER'
+    case 'SideNav':
+      return 'NAVIGATION'
+    case 'WelcomeModal':
+      return 'WELCOME'
+    case 'PriceChart':
+      return 'PRICE_CHART'
     case 'SimpleBuyLink':
       return 'BUY_WIDGET'
     default: {
@@ -174,12 +195,13 @@ const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
     const events = rawEvents.map((event) => {
       const name = event.key
 
-      const { originalTimestamp, ...properties } = event.payload
+      const { originalTimestamp, type, ...properties } = event.payload
 
       return {
         name,
         originalTimestamp,
-        properties
+        properties,
+        type
       }
     })
 
@@ -217,7 +239,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.DASHBOARD_CLICKED, {
               origin: 'SIGN_IN',
-              originalTimestamp: getOriginalTimestamp()
+              originalTimestamp: getOriginalTimestamp(),
+              type: AnalyticsType.EVENT
             })
 
             analytics.push(AnalyticsKey.DASHBOARD_VIEWED, {
@@ -226,6 +249,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               referrer,
               search,
               title,
+              type: AnalyticsType.EVENT,
               url: href
             })
 
@@ -251,7 +275,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.BUY_SELL_CLICKED, {
               origin,
-              originalTimestamp: getOriginalTimestamp()
+              originalTimestamp: getOriginalTimestamp(),
+              type: AnalyticsType.EVENT
             })
 
             analytics.push(AnalyticsKey.BUY_SELL_VIEWED, {
@@ -260,6 +285,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               referrer,
               search,
               title,
+              type: AnalyticsType.EVENT,
               url: href
             })
 
@@ -272,7 +298,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.SWAP_CLICKED, {
               origin,
-              originalTimestamp: getOriginalTimestamp()
+              originalTimestamp: getOriginalTimestamp(),
+              type: AnalyticsType.EVENT
             })
 
             analytics.push(AnalyticsKey.SWAP_VIEWED, {
@@ -281,6 +308,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               referrer,
               search,
               title,
+              type: AnalyticsType.EVENT,
               url: href
             })
 
@@ -291,7 +319,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.SWAP_CLICKED, {
               originalTimestamp: getOriginalTimestamp(),
-              tier
+              tier,
+              type: AnalyticsType.EVENT
             })
             break
           }
@@ -317,7 +346,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           originalTimestamp: getOriginalTimestamp(),
           // output_amount: 123,
           output_currency: outputCurrency,
-          platform: 'WALLET'
+
+          platform: 'WALLET',
+          type: AnalyticsType.EVENT
         })
         break
       }
@@ -332,7 +363,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           input_currency: inputCurrency,
           originalTimestamp: getOriginalTimestamp(),
           output_currency: outputCurrency,
-          platform: 'WALLET'
+          platform: 'WALLET',
+          type: AnalyticsType.EVENT
         })
         break
       }
@@ -347,7 +379,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           input_currency: inputCurrency,
           originalTimestamp: getOriginalTimestamp(),
           output_currency: outputCurrency,
-          platform: 'WALLET'
+          platform: 'WALLET',
+          type: AnalyticsType.EVENT
         })
         break
       }
@@ -357,7 +390,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         analytics.push(AnalyticsKey.BUY_PAYMENT_METHOD_SELECTED, {
           originalTimestamp: getOriginalTimestamp(),
           payment_type: paymentType,
-          platform: 'WALLET'
+          platform: 'WALLET',
+          type: AnalyticsType.EVENT
         })
         break
       }
@@ -373,27 +407,31 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           country_billing: countryBilling,
           originalTimestamp: getOriginalTimestamp(),
           product: 'SIMPLE_BUY',
-          reason
+          reason,
+          type: AnalyticsType.EVENT
         })
         break
       }
       case AT.auth.VERIFY_EMAIL_TOKEN_SUCCESS: {
-        analytics.push(AnalyticsKey.EMAIL_VERIFICATION_CLICKED, {
-          originalTimestamp: getOriginalTimestamp()
+        analytics.push(AnalyticsKey.EMAIL_VERIFICATION_REQUESTED, {
+          originalTimestamp: getOriginalTimestamp(),
+          type: AnalyticsType.EVENT
         })
         break
       }
       case AT.auth.LOGIN_SUCCESS: {
         analytics.push(AnalyticsKey.SIGNED_IN, {
           originalTimestamp: getOriginalTimestamp(),
-          platform: 'WALLET'
+          platform: 'WALLET',
+          type: AnalyticsType.EVENT
         })
         break
       }
       case AT.auth.LOGOUT: {
         analytics.push(AnalyticsKey.SIGNED_OUT, {
           originalTimestamp: getOriginalTimestamp(),
-          platform: 'WALLET'
+          platform: 'WALLET',
+          type: AnalyticsType.EVENT
         })
         break
       }
