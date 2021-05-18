@@ -4,21 +4,14 @@ import { LinkContainer } from 'react-router-bootstrap'
 import Bowser from 'bowser'
 import styled from 'styled-components'
 
-import {
-  Button,
-  Icon,
-  Link,
-  SpinningLoader,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
+import { Button, Icon, Link, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
 import { FormLabel } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { LoginFormType, LoginSteps } from 'data/types'
 
-export const LOGIN_NEW = 'loginNew'
+export const LOGIN_FORM_NAME = 'login'
 
-export const removeWhitespace = string => string.replace(/\s/g, ``)
+export const removeWhitespace = (string) => string.replace(/\s/g, ``)
 const browser = Bowser.getParser(window.navigator.userAgent)
 export const isSupportedBrowser = browser.satisfies({
   chrome: '>45',
@@ -36,7 +29,6 @@ export const ActionButton = styled(Button)`
 export const BrowserWarning = styled.div`
   margin-bottom: 10px;
 `
-
 export const PublicWrapper = styled(Wrapper)`
   position: relative;
   overflow: visible;
@@ -60,14 +52,14 @@ export const CircleBackground = styled.div`
   width: 40px;
   height: 40px;
   min-width: 40px;
-  background-color: ${props => props.theme.blue600};
+  background-color: ${(props) => props.theme.blue600};
   border-radius: 40px;
   margin-bottom: 8px;
 `
 export const RectangleBackground = styled.div`
   height: 48px;
   width: 412px;
-  background-color: ${props => props.theme.grey000};
+  background-color: ${(props) => props.theme.grey000};
   border-radius: 8px;
   margin-top: 24px;
 `
@@ -78,7 +70,7 @@ export const SubCard = styled.div`
 `
 export const SignUpText = styled(Text)`
   &:hover {
-    color: ${props => props.theme.white};
+    color: ${(props) => props.theme.white};
     font-weight: 600;
   }
 `
@@ -86,7 +78,6 @@ const TopRow = styled.div`
   display: flex;
   margin-bottom: 24px;
 `
-
 export const HelpRow = styled.div`
   display: flex;
   justify-content: space-between;
@@ -110,10 +101,6 @@ export const Loader = styled(SpinningLoader)`
   width: 75px;
   margin: 75px;
 `
-export const LoaderContainer = styled.div`
-  display: flex;
-  justify-content: center;
-`
 
 export const BackArrowFormHeader = (props: {
   authActions
@@ -125,7 +112,7 @@ export const BackArrowFormHeader = (props: {
 }) => {
   const handleIconClick = () => {
     props.cacheActions.removedStoredLogin()
-    props.formActions.destroy(LOGIN_NEW)
+    props.formActions.destroy(LOGIN_FORM_NAME)
     props.setStep(LoginSteps.ENTER_EMAIL_GUID)
     props.authActions.clearLoginError()
   }
@@ -160,16 +147,15 @@ export const BackArrowFormHeader = (props: {
               />
             </Text>
           )}
-          {props.formValues.step !== LoginSteps.CHECK_EMAIL &&
-            props.formValues.email && (
-              <Text size='12px' weight={500} color='grey400'>
-                <FormattedMessage
-                  id='scences.login.wallet_guid'
-                  defaultMessage='Wallet: {guid}'
-                  values={{ guid: props.formValues.guid }}
-                />
-              </Text>
-            )}
+          {props.formValues.step !== LoginSteps.CHECK_EMAIL && props.formValues.email && (
+            <Text size='12px' weight={500} color='grey400'>
+              <FormattedMessage
+                id='scences.login.wallet_guid'
+                defaultMessage='Wallet: {guid}'
+                values={{ guid: props.formValues.guid }}
+              />
+            </Text>
+          )}
         </Column>
       </TopRow>
     </>
@@ -185,10 +171,7 @@ export const LinkRow = styled.div`
 export const NeedHelpLink = () => (
   <LinkContainer to='/help'>
     <Link size='13px' weight={600} data-e2e='loginGetHelp'>
-      <FormattedMessage
-        id='scenes.login.needhelp'
-        defaultMessage='Need some help?'
-      />
+      <FormattedMessage id='scenes.login.needhelp' defaultMessage='Need some help?' />
     </Link>
   </LinkContainer>
 )

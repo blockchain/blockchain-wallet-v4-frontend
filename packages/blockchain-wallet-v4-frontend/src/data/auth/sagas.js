@@ -14,18 +14,6 @@ import { guessCurrencyBasedOnCountry } from './helpers'
 const { MOBILE_LOGIN } = model.analytics
 
 export const logLocation = 'auth/sagas'
-export const defaultLoginErrorMessage = 'Error logging into your wallet'
-export const wrongWalletPassErrorMessage = 'wrong_wallet_password'
-export const guidNotFound2faErrorMessage = 'Wallet Identifier Not Found'
-export const notEnabled2faErrorMessage =
-  'Error: Two factor authentication not enabled.'
-export const emailMismatch2faErrorMessage =
-  'Error: Email entered does not match the email address associated with this wallet'
-export const unknownWalletId = 'Unknown Wallet Identifier.'
-export const wrongCaptcha2faErrorMessage = 'Error: Captcha Code Incorrect'
-export const wrongAuthCodeErrorMessage = 'Authentication code is incorrect'
-export const ipAddressRestriction =
-  'This wallet is restricted to another IP address.'
 
 export default ({ api, coreSagas }) => {
   const forceSyncWallet = function* () {
@@ -54,7 +42,6 @@ export default ({ api, coreSagas }) => {
       }
       yield call(forceSyncWallet)
     } catch (e) {
-      // TODO: SEGWIT (modals are mounted twice)
       if (e.message === 'Already a v4 wallet') return
       yield put(actions.logs.logErrorMessage(logLocation, 'upgradeWallet', e))
       yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
@@ -260,7 +247,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.cache.guidEntered(guid))
       // reset auth type and clear previous login form state
       yield put(actions.auth.setAuthType(0))
-      yield put(actions.form.destroy('loginNew'))
+      yield put(actions.form.destroy('login'))
       // set payload language to settings language
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
@@ -307,7 +294,7 @@ export default ({ api, coreSagas }) => {
   const login = function* (action) {
     const { code, guid, mobileLogin, password, sharedKey } = action.payload
     let session = yield select(selectors.session.getSession, guid)
-    yield put(startSubmit('loginNew'))
+    yield put(startSubmit('login'))
     try {
       if (!session) {
         session = yield call(api.obtainSessionToken)
@@ -322,7 +309,7 @@ export default ({ api, coreSagas }) => {
         sharedKey
       })
       yield call(loginRoutineSaga, mobileLogin)
-      yield put(stopSubmit('loginNew'))
+      yield put(stopSubmit('login'))
     } catch (error) {
       const initialError = prop('initial_error', error)
       const authRequired = prop('authorization_required', error)
@@ -347,10 +334,8 @@ export default ({ api, coreSagas }) => {
               yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
               yield put(actions.auth.loginFailure())
             } else {
-              yield put(actions.auth.loginFailure(wrongWalletPassErrorMessage))
-              yield put(
-                actions.logs.logErrorMessage(logLocation, 'loginNew', error)
-              )
+              yield put(actions.auth.loginFailure('wrong_wallet_password'))
+              yield put(actions.logs.logErrorMessage(logLocation, 'login', error))
             }
           }
         } else {
@@ -363,45 +348,35 @@ export default ({ api, coreSagas }) => {
         yield put(actions.auth.setAuthType(error.auth_type))
         yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
         // Wrong password error
-      } else if (error && is(String, error) && error.includes(wrongWalletPassErrorMessage)) {
+      } else if (error && is(String, error) && error.includes('wrong_wallet_password')) {
         // remove 2fa if password is wrong
         // password error can only occur after 2fa validation
         yield put(actions.auth.setAuthType(0))
-        yield put(
-          actions.form.clearFields('loginNew', false, true, 'password', 'code')
-        )
-        yield put(actions.form.focus('loginNew', 'password'))
+        yield put(actions.form.clearFields('login', false, true, 'password', 'code'))
+        yield put(actions.form.focus('login', 'password'))
         yield put(actions.auth.loginFailure(error))
-      } else if (initialError && initialError.includes(unknownWalletId)) {
-        yield put(actions.form.change('loginNew', 'step', 'ENTER_EMAIL_GUID'))
+      } else if (initialError && initialError.includes('Unknown Wallet Identifier')) {
+        yield put(actions.form.change('login', 'step', 'ENTER_EMAIL_GUID'))
         yield put(actions.auth.loginFailure(initialError))
-      } else if (error && error.includes(ipAddressRestriction)) {
-        yield put(
-          actions.alerts.displayError(
-            C.IPRESTRICTION_LOGIN_ERROR,
-            null,
-            null,
-            null,
-            9500
-          )
-        )
-        yield put(actions.auth.loginFailure(ipAddressRestriction))
+      } else if (error && error.includes('restricted to another IP address.')) {
+        yield put(actions.alerts.displayError(C.IPRESTRICTION_LOGIN_ERROR, null, null, null, 9500))
+        yield put(actions.auth.loginFailure('This wallet is restricted to another IP address.'))
       } else if (
         // Wrong 2fa code error
         error &&
         is(String, error) &&
-        error.includes(wrongAuthCodeErrorMessage)
+        error.includes('Authentication code is incorrect')
       ) {
-        yield put(actions.form.clearFields('loginNew', false, true, 'code'))
-        yield put(actions.form.focus('loginNew', 'code'))
+        yield put(actions.form.clearFields('login', false, true, 'code'))
+        yield put(actions.form.focus('login', 'code'))
         yield put(actions.auth.loginFailure(error))
       } else if (error && is(String, error)) {
         yield put(actions.auth.loginFailure(error))
       } else {
-        const errorMessage = prop('message', error) || defaultLoginErrorMessage
+        const errorMessage = prop('message', error) || 'Error logging into your wallet'
         yield put(actions.auth.loginFailure(errorMessage))
       }
-      yield put(stopSubmit('loginNew'))
+      yield put(stopSubmit('login'))
     }
   }
 
