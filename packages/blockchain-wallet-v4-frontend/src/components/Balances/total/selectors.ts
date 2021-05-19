@@ -1,7 +1,7 @@
 import { lift } from 'ramda'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { formatFiat } from 'blockchain-wallet-v4/src/exchange/utils'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { selectors } from 'data'
 
@@ -18,7 +18,7 @@ export const getTotalBalance = createDeepEqualSelector(
     S.getFiatBalanceInfo,
     S.getErc20BalancesInfoV2,
     selectors.core.settings.getCurrency,
-    selectors.router.getPathname
+    selectors.router.getPathname,
   ],
   (
     algoBalanceInfoR,
@@ -47,7 +47,7 @@ export const getTotalBalance = createDeepEqualSelector(
         (acc, cur) => (acc += Number(cur.getOrElse('0'))),
         0
       )
-      const total = Currency.formatFiat(
+      const total = formatFiat(
         Number(algoBalance) +
           Number(bchBalance) +
           Number(btcBalance) +
@@ -58,7 +58,7 @@ export const getTotalBalance = createDeepEqualSelector(
           erc20Balance
       )
       const totalBalance = `${Exchange.getSymbol(currency)}${total}`
-      return { totalBalance, path }
+      return { path, totalBalance }
     }
     return lift(transform)(
       algoBalanceInfoR,

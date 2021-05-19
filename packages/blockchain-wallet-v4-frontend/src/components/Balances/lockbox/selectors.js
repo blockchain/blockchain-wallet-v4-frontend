@@ -1,7 +1,7 @@
 import { lift, map, pathOr, sum } from 'ramda'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { formatFiat } from 'blockchain-wallet-v4/src/exchange/utils'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { selectors } from 'data'
 
@@ -94,7 +94,7 @@ export const getTotalBalance = createDeepEqualSelector(
   ],
   (btcBalanceInfoR, bchBalanceInfoR, ethBalanceInfoR, xlmBalanceInfoR, currency) => {
     const transform = (bchBalance, btcBalance, ethBalance, xlmBalance, currency) => {
-      const total = Currency.formatFiat(
+      const total = formatFiat(
         Number(btcBalance) + Number(ethBalance) + Number(bchBalance) + Number(xlmBalance)
       )
       const totalBalance = `${Exchange.getSymbol(currency)}${total}`

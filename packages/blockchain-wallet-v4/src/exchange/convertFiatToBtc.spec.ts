@@ -8,21 +8,23 @@ describe('convertFiatToCoin', () => {
     const expectedOutput = '0.00015174'
     const result = Conversion.convertFiatToCoin({
       coin: 'BTC',
-      value: 1,
+      currency: 'USD',
       rates: btcRates as RatesType,
-      currency: 'USD'
+      value: 1,
     })
     expect(result).toEqual(expectedOutput)
   })
 
-  it('should return value 0 if value is undefined ', () => {
+  it('should return value 0 if value is undefined', () => {
     const expectedOutput = '0'
     const result = Conversion.convertFiatToCoin({
       coin: 'BTC',
+
+      currency: 'USD',
+
+      rates: btcRates as RatesType,
       // @ts-ignore
       value: undefined,
-      currency: 'USD',
-      rates: btcRates as RatesType
     })
     expect(result).toEqual(expectedOutput)
   })
@@ -30,11 +32,12 @@ describe('convertFiatToCoin', () => {
   it('should return default if currency is undefined', () => {
     const result = Conversion.convertFiatToCoin({
       coin: 'BTC',
-      value: 1,
       // @ts-ignore
       currency: undefined,
-      rates: btcRates as RatesType
+
+      rates: btcRates as RatesType,
+      value: 1,
     })
-    expect(result).toEqual(Conversion.DefaultConversion.value)
+    expect(result).toEqual('0')
   })
 })
