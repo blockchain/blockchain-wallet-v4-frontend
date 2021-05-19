@@ -2,7 +2,7 @@ import { curry } from 'ramda'
 import { createSelector } from 'reselect'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 

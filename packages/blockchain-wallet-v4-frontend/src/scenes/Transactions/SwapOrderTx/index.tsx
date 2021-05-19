@@ -9,7 +9,7 @@ import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import {
   coinToString,
   fiatToString
-} from 'blockchain-wallet-v4/src/exchange/currency'
+} from 'blockchain-wallet-v4/src/exchange/utils'
 import {
   CoinType,
   ProcessedSwapOrderType,

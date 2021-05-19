@@ -1,7 +1,7 @@
 import { lift, prop } from 'ramda'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { CoinTypeEnum, FiatTypeEnum } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 

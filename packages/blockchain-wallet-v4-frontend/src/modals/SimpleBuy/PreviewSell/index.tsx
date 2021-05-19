@@ -7,7 +7,7 @@ import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { Button, HeartbeatLoader, Icon, SkeletonRectangle, Text } from 'blockchain-info-components'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import { coinToString, formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
+import { coinToString, formatFiat } from 'blockchain-wallet-v4/src/exchange/utils'
 import {
   CoinType,
   PaymentValue,

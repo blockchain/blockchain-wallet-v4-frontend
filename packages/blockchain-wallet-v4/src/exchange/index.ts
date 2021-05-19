@@ -82,7 +82,7 @@ const convertFiatToCoin = ({
   rates: RatesType
   value: number | string
 }): string => {
-  if (!value) return new BigNumber(0).toFixed(2)
+  if (!value) return '0'
 
   const { coinfig } = window.coins[coin]
   const { last } = rates[currency]

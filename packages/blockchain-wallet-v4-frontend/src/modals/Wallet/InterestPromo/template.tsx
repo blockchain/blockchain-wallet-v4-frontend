@@ -3,15 +3,8 @@ import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { calcBasicInterest } from 'blockchain-wallet-v4-frontend/src/modals/Interest/conversions'
 import styled from 'styled-components'
 
-import {
-  Button,
-  Link,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  Text
-} from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { Button, Link, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { BlueCartridge } from 'components/Cartridge'
 import { WalletFiatType } from 'core/types'
 import { model } from 'data'
@@ -51,14 +44,11 @@ const Success: React.FC<Props> = ({
   interestRate,
   position,
   total,
-  walletCurrency
+  walletCurrency,
 }) => {
   const { currency, fiatAmount, fiatCurrency } = afterTransaction
   const purchaseAmount = fiatAmount || 0
-  const interestAmount = calcBasicInterest(
-    purchaseAmount,
-    interestRate[currency || 'BTC']
-  )
+  const interestAmount = calcBasicInterest(purchaseAmount, interestRate[currency || 'BTC'])
   const worthCurrency = fiatCurrency || (walletCurrency as WalletFiatType)
   return (
     <Modal size='medium' position={position} total={total}>
@@ -71,18 +61,13 @@ const Success: React.FC<Props> = ({
         </CustomBlueCartridge>
       </ModalHeaderBorderless>
       <ModalBodyStyled>
-        <Text
-          size='24px'
-          color='grey900'
-          weight={600}
-          style={{ marginTop: '16px' }}
-        >
+        <Text size='24px' color='grey900' weight={600} style={{ marginTop: '16px' }}>
           <FormattedMessage
             id='modals.interestpromo.title'
             defaultMessage='Earn {interestRate}% Interest on your {coin}'
             values={{
               coin: 'BTC',
-              interestRate: interestRate[currency]
+              interestRate: interestRate[currency],
             }}
           />
         </Text>
@@ -90,21 +75,21 @@ const Success: React.FC<Props> = ({
           size='14px'
           color='grey600'
           weight={500}
-          style={{ marginTop: '4px', lineHeight: 1.5, maxWidth: '414px' }}
+          style={{ lineHeight: 1.5, marginTop: '4px', maxWidth: '414px' }}
         >
           <FormattedHTMLMessage
             id='modals.interestpromo.body'
             defaultMessage='Your recent {amount} purchase of {coin} could be worth <b>{worthAmount}*</b> in the next 12 months.'
             values={{
               amount: fiatToString({
+                unit: worthCurrency,
                 value: purchaseAmount,
-                unit: worthCurrency
               }),
               coin: currency,
               worthAmount: fiatToString({
+                unit: worthCurrency,
                 value: interestAmount,
-                unit: worthCurrency
-              })
+              }),
             }}
           />
         </Text>
@@ -112,7 +97,7 @@ const Success: React.FC<Props> = ({
           size='12px'
           color='grey600'
           weight={500}
-          style={{ marginTop: '4px', lineHeight: 1.5, maxWidth: '414px' }}
+          style={{ lineHeight: 1.5, marginTop: '4px', maxWidth: '414px' }}
         >
           <FormattedMessage
             id='modals.interestpromo.disclaimer'
@@ -131,18 +116,15 @@ const Success: React.FC<Props> = ({
             analyticsActions.logEvent(INTEREST_EVENTS.MODAL.START_EARNING)
           }}
         >
-          <FormattedMessage
-            id='modals.interestpromo.button'
-            defaultMessage='Start Earning Now'
-          />
+          <FormattedMessage id='modals.interestpromo.button' defaultMessage='Start Earning Now' />
         </Button>
         <Link
           size='16px'
           weight={600}
           style={{
+            marginTop: '16px',
             textAlign: 'center',
             width: '100%',
-            marginTop: '16px'
           }}
           onClick={() => {
             interestActions.stopShowingInterestModal()

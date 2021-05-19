@@ -3,18 +3,15 @@ import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
 import { Icon, Image, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import {
   FiatType,
   SBBalancesType,
   SBPaymentMethodType,
-  WalletCurrencyType
+  WalletCurrencyType,
 } from 'blockchain-wallet-v4/src/types'
 import { Title, Value } from 'components/Flyout'
-import {
-  CARD_TYPES,
-  DEFAULT_CARD_SVG_LOGO
-} from 'components/Form/CreditCardBox/model'
+import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { BankTransferAccountType } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
@@ -27,7 +24,7 @@ type PaymentContainerProps = {
 const DisablableIcon = styled(Icon)<{
   disabled?: boolean
 }>`
-  ${props =>
+  ${(props) =>
     props.disabled &&
     css`
       cursor: not-allowed;
@@ -35,7 +32,7 @@ const DisablableIcon = styled(Icon)<{
 `
 
 export const PaymentContainer = styled.div<PaymentContainerProps>`
-  border: 1px solid ${props => props.theme.grey100};
+  border: 1px solid ${(props) => props.theme.grey100};
   box-sizing: border-box;
   height: 80px;
   border-radius: 8px;
@@ -43,13 +40,13 @@ export const PaymentContainer = styled.div<PaymentContainerProps>`
   display: flex;
   flex-direction: row;
   cursor: pointer;
-  padding: ${props => (props.isMethod ? `12px 28px` : `23px 28px`)};
+  padding: ${(props) => (props.isMethod ? `12px 28px` : `23px 28px`)};
   justify-content: space-between;
-  ${props => !props.isMethod && `line-height: 32px;`}
-  ${props =>
+  ${(props) => !props.isMethod && `line-height: 32px;`}
+  ${(props) =>
     props.disabled &&
     css`
-      background-color: ${props => props.theme.grey000};
+      background-color: ${(props) => props.theme.grey000};
       cursor: not-allowed;
     `}
 `
@@ -60,7 +57,7 @@ export const PaymentText = styled(Text)<PaymentContainerProps>`
   display: flex;
   flex-direction: column;
   padding-left: 16px;
-  ${props =>
+  ${(props) =>
     !props.isMethod &&
     css`
       font-style: normal;
@@ -75,7 +72,7 @@ export const PaymentArrowContainer = styled.div<{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  ${props =>
+  ${(props) =>
     props.disabled &&
     css`
       cursor: not-allowed;
@@ -84,7 +81,7 @@ export const PaymentArrowContainer = styled.div<{
 export const DisplayTitle = styled(Title)`
   margin-top: 4px;
   text-transform: capitalize;
-  color: ${p => p.theme.grey600};
+  color: ${(p) => p.theme.grey600};
   font-weight: 500;
   font-size: 14px;
 `
@@ -110,14 +107,13 @@ export const renderBankText = (
   )
 }
 
-export const renderBank = (
-  value: SBPaymentMethodType | BankTransferAccountType
-) => (
+export const renderBank = (value: SBPaymentMethodType | BankTransferAccountType) => (
   <>
     <DisplayValue>{renderBankText(value)}</DisplayValue>
     <DisplayTitle>
-      {`${value.details?.bankAccountType?.toLowerCase() || ''} account ${value
-        .details?.accountNumber || ''}`}
+      {`${value.details?.bankAccountType?.toLowerCase() || ''} account ${
+        value.details?.accountNumber || ''
+      }`}
     </DisplayTitle>
   </>
 )
@@ -139,32 +135,23 @@ export const renderCard = (value: SBPaymentMethodType) => (
           id='modals.simplebuy.card_ending_in'
           defaultMessage='Card Ending in {lastFour}'
           values={{
-            lastFour: value.card.number
+            lastFour: value.card.number,
           }}
         />
       ) : (
-        <FormattedMessage
-          id='modals.simplebuy.paymentcard'
-          defaultMessage='Credit or Debit Card'
-        />
+        <FormattedMessage id='modals.simplebuy.paymentcard' defaultMessage='Credit or Debit Card' />
       )}
     </DisplayTitle>
   </>
 )
 
-export const renderFund = (
-  value: SBPaymentMethodType,
-  sbBalances: SBBalancesType
-) => (
+export const renderFund = (value: SBPaymentMethodType, sbBalances: SBBalancesType) => (
   <>
     <DisplayValue>{value.currency}</DisplayValue>
     <DisplayTitle>
       {fiatToString({
-        value: convertBaseToStandard(
-          'FIAT',
-          sbBalances[value.currency]?.available || '0'
-        ),
-        unit: value.currency as FiatType
+        unit: value.currency as FiatType,
+        value: convertBaseToStandard('FIAT', sbBalances[value.currency]?.available || '0'),
       })}{' '}
       <FormattedMessage id='copy.available' defaultMessage='Available' />
     </DisplayTitle>
@@ -173,18 +160,11 @@ export const renderFund = (
 
 export const getIcon = (
   method: SBPaymentMethodType | undefined,
-  isSddFlow: boolean = false,
+  isSddFlow = false,
   disabled?: boolean
 ): ReactElement => {
   if (isSddFlow && !method) {
-    return (
-      <DisablableIcon
-        disabled={disabled}
-        size='18px'
-        color='blue600'
-        name='credit-card-sb'
-      />
-    )
+    return <DisablableIcon disabled={disabled} size='18px' color='blue600' name='credit-card-sb' />
   }
   if (!method) {
     return (
@@ -200,31 +180,16 @@ export const getIcon = (
 
   switch (method.type) {
     case 'USER_CARD':
-      let cardType = CARD_TYPES.find(
-        card => card.type === (method.card ? method.card.type : '')
+      const cardType = CARD_TYPES.find(
+        (card) => card.type === (method.card ? method.card.type : '')
       )
       return (
-        <img
-          height='18px'
-          width='auto'
-          src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO}
-        />
+        <img height='18px' width='auto' src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO} />
       )
     case 'FUNDS':
-      return (
-        <Icon
-          size='32px'
-          color='USD'
-          name={method.currency as WalletCurrencyType}
-        />
-      )
+      return <Icon size='32px' color='USD' name={method.currency as WalletCurrencyType} />
     case 'BANK_TRANSFER':
-      return (
-        <Image
-          name={getBankLogoImageName(method.details?.bankName)}
-          height='48px'
-        />
-      )
+      return <Image name={getBankLogoImageName(method.details?.bankName)} height='48px' />
     default:
       return <></>
   }
@@ -233,7 +198,7 @@ export const getIcon = (
 export const getText = (
   method: SBPaymentMethodType | undefined,
   sbBalances: SBBalancesType,
-  isSddFlow: boolean = false
+  isSddFlow = false
 ): ReactElement => {
   if (isSddFlow && !method) {
     return (

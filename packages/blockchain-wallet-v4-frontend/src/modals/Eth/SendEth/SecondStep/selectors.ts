@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { curry, equals, lift, prop, toLower } from 'ramda'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { model, selectors } from 'data'

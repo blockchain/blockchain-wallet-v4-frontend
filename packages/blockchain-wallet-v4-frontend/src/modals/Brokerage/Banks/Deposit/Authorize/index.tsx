@@ -7,7 +7,7 @@ import { getFormValues } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import {
   FiatType,
   SupportedWalletCurrenciesType

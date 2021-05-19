@@ -2,17 +2,14 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { model } from 'data'
 import { BorrowFormValuesType, BorrowSteps } from 'data/types'
 
 import { Props as AddCollateralProps } from '../AddCollateral/template.success'
 import { Props as CheckoutProps } from './template.success'
 
-const {
-  getCollateralAmtRequired,
-  getCollateralizationDisplayName
-} = model.components.borrow
+const { getCollateralAmtRequired, getCollateralizationDisplayName } = model.components.borrow
 
 export const maximumAmount = (
   value: string,
@@ -34,9 +31,7 @@ export const maximumAmount = (
 export const minimumAmount = (
   value: string,
   allValues: BorrowFormValuesType,
-  props:
-    | ({ step: 'CHECKOUT' } & CheckoutProps)
-    | ({ step: 'ADD_COLLATERAL' } & AddCollateralProps)
+  props: ({ step: 'CHECKOUT' } & CheckoutProps) | ({ step: 'ADD_COLLATERAL' } & AddCollateralProps)
 ) => {
   if (!value) return true
   switch (props.step) {
@@ -47,9 +42,9 @@ export const minimumAmount = (
           defaultMessage='The amount you entered is below the minimum amount of {minFiat}.'
           values={{
             minFiat: fiatToString({
+              unit: 'USD',
               value: props.limits.minFiat,
-              unit: 'USD'
-            })
+            }),
           }}
         />
       ) : (
@@ -72,9 +67,9 @@ export const minimumAmount = (
               defaultMessage='The amount you entered is below the minimum amount of {minFiat}.'
               values={{
                 minFiat: fiatToString({
+                  unit: 'USD',
                   value: getCollateralAmtRequired(props.loan, props.offer),
-                  unit: 'USD'
-                })
+                }),
               }}
             />
           ) : (
@@ -87,9 +82,9 @@ export const minimumAmount = (
               defaultMessage='You must enter an amount greater than {minFiat}.'
               values={{
                 minFiat: fiatToString({
+                  unit: 'USD',
                   value: 0,
-                  unit: 'USD'
-                })
+                }),
               }}
             />
           ) : (

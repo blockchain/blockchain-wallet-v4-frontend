@@ -14,7 +14,7 @@ import {
 import {
   coinToString,
   formatCoin
-} from 'blockchain-wallet-v4/src/exchange/currency'
+} from 'blockchain-wallet-v4/src/exchange/utils'
 import { PaymentValue } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'

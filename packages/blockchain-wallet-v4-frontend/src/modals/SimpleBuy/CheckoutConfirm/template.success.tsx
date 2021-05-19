@@ -5,14 +5,8 @@ import { defaultTo, filter, path, prop } from 'ramda'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import {
-  Button,
-  CheckBoxInput,
-  HeartbeatLoader,
-  Icon,
-  Text
-} from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { Button, CheckBoxInput, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
@@ -23,7 +17,7 @@ import {
   getCounterAmount,
   getCounterCurrency,
   getOrderType,
-  getPaymentMethodId
+  getPaymentMethodId,
 } from 'data/components/simpleBuy/model'
 import { BankPartners, BankTransferAccountType } from 'data/types'
 
@@ -45,7 +39,7 @@ const Bottom = styled(FlyoutWrapper)`
   flex-direction: column;
   padding-top: 30px;
   height: 100%;
-  border-top: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 const Info = styled.div`
   display: flex;
@@ -56,7 +50,7 @@ const InfoTerms = styled(Text)`
   flex-direction: row;
   margin-top: 16px;
   a {
-    color: ${props => props.theme.blue600};
+    color: ${(props) => props.theme.blue600};
     cursor: pointer;
     text-decoration: none;
   }
@@ -68,7 +62,7 @@ const Amount = styled.div`
   }
 `
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const [acceptTerms, setAcceptTerms] = useState(false)
   const orderType = getOrderType(props.order)
   const baseAmount = getBaseAmount(props.order)
@@ -77,11 +71,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const counterCurrency = getCounterCurrency(props.order, props.supportedCoins)
   const paymentMethodId = getPaymentMethodId(props.order)
   const requiresTerms =
-    props.order.paymentType === 'PAYMENT_CARD' ||
-    props.order.paymentType === 'USER_CARD'
+    props.order.paymentType === 'PAYMENT_CARD' || props.order.paymentType === 'USER_CARD'
   const [bankAccount] = filter(
-    (b: BankTransferAccountType) =>
-      b.state === 'ACTIVE' && b.id === paymentMethodId,
+    (b: BankTransferAccountType) => b.state === 'ACTIVE' && b.id === paymentMethodId,
     defaultTo([])(path(['bankAccounts'], props))
   )
   const paymentPartner = prop('partner', bankAccount)
@@ -117,10 +109,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             role='button'
             onClick={handleCancel}
           />
-          <FormattedMessage
-            id='modals.simplebuy.checkoutconfirm'
-            defaultMessage='Checkout'
-          />
+          <FormattedMessage id='modals.simplebuy.checkoutconfirm' defaultMessage='Checkout' />
         </TopText>
         <Amount data-e2e='sbTotalAmount'>
           <Text size='32px' weight={600} color='grey800'>
@@ -137,7 +126,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             id='modals.simplebuy.confirm.coin_price'
             defaultMessage='{coin} Price'
             values={{
-              coin: baseCurrency
+              coin: baseCurrency,
             }}
           />
         </Title>
@@ -152,11 +141,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <Value>
           {props.order.fee
             ? displayFiat(props.order, props.supportedCoins, props.order.fee)
-            : `${displayFiat(
-                props.order,
-                props.supportedCoins,
-                props.quote.fee
-              )} ${props.order.inputCurrency}`}
+            : `${displayFiat(props.order, props.supportedCoins, props.quote.fee)} ${
+                props.order.inputCurrency
+              }`}
         </Value>
       </Row>
       <Row>
@@ -164,19 +151,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <FormattedMessage id='copy.total' defaultMessage='Total' />
         </Title>
         <Value data-e2e='sbFiatBuyAmount'>
-          {fiatToString({ value: counterAmount, unit: counterCurrency })}
+          {fiatToString({ unit: counterCurrency, value: counterAmount })}
         </Value>
       </Row>
       <Row>
         <Title>
-          <FormattedMessage
-            id='modals.simplebuy.confirm.payment'
-            defaultMessage='Payment Method'
-          />
+          <FormattedMessage id='modals.simplebuy.confirm.payment' defaultMessage='Payment Method' />
         </Title>
-        <Value>
-          {getPaymentMethod(props.order, props.supportedCoins, bankAccount)}
-        </Value>
+        <Value>{getPaymentMethod(props.order, props.supportedCoins, bankAccount)}</Value>
       </Row>
       <Bottom>
         <Info style={{ marginBottom: '12px' }}>
@@ -203,7 +185,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               <FormattedHTMLMessage
                 id='modals.simplebuy.confirm.activity_card2'
                 defaultMessage='Your crypto will be available to be withdrawn within <b>{days} days</b>.'
-                values={{ days: days }}
+                values={{ days }}
               />
             </Text>
           </Info>
@@ -211,17 +193,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
         {requiresTerms && (
           <Info>
-            <InfoTerms
-              size='12px'
-              weight={500}
-              color='grey900'
-              data-e2e='sbAcceptTerms'
-            >
+            <InfoTerms size='12px' weight={500} color='grey900' data-e2e='sbAcceptTerms'>
               <CheckBoxInput
                 name='sbAcceptTerms'
                 checked={acceptTerms}
                 data-e2e='sbAcceptTermsCheckbox'
-                onChange={() => setAcceptTerms(acceptTerms => !acceptTerms)}
+                onChange={() => setAcceptTerms((acceptTerms) => !acceptTerms)}
               >
                 <FormattedHTMLMessage
                   id='modals.simplebuy.confirm.activity_accept_terms'
@@ -237,7 +214,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               <FormattedMessage
                 id='modals.simplebuy.confirm.ach_lock'
                 defaultMessage='For your security, buy orders with a bank account are subject to a holding period of up to {days} days. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
-                values={{ days: days }}
+                values={{ days }}
               />
             </Text>
           </Info>
@@ -258,9 +235,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           ) : paymentPartner === BankPartners.YAPILY ? (
             <FormattedMessage id='copy.next' defaultMessage='Next' />
           ) : (
-            `${
-              orderType === 'BUY' ? 'Buy' : 'Sell'
-            } ${baseAmount} ${baseCurrency}`
+            `${orderType === 'BUY' ? 'Buy' : 'Sell'} ${baseAmount} ${baseCurrency}`
           )}
         </Button>
 
@@ -276,15 +251,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </Button>
         {props.error && (
-          <ErrorCartridge
-            style={{ marginTop: '16px' }}
-            data-e2e='checkoutError'
-          >
-            <Icon
-              name='alert-filled'
-              color='red600'
-              style={{ marginRight: '4px' }}
-            />
+          <ErrorCartridge style={{ marginTop: '16px' }} data-e2e='checkoutError'>
+            <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
             Error: {props.error}
           </ErrorCartridge>
         )}
@@ -293,7 +261,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   )
 }
 
-type Props = OwnProps &
-  SuccessStateType & { supportedCoins: SupportedWalletCurrenciesType }
+type Props = OwnProps & SuccessStateType & { supportedCoins: SupportedWalletCurrenciesType }
 
 export default reduxForm<{}, Props>({ form: 'sbCheckoutConfirm' })(Success)
