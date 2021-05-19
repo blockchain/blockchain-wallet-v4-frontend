@@ -330,6 +330,7 @@ type MessagesType = {
   'components.txlistitem.erc20fee': 'ERC20 Fee'
   'components.txlistitem.valueattime': 'Value When {type}'
   'components.txlistitem.watchonly': 'Non-Spendable'
+  'copy.account': 'Account'
   'copy.above_swap_max': 'You can swap up to {value}'
   'copy.above_swap_max_silver': 'Upgrade your profile to swap this amount.'
   'copy.actions': 'Actions'
@@ -464,6 +465,7 @@ type MessagesType = {
   'copy.viewTransactions': 'View Transactions'
   'copy.to': 'To'
   'copy.to:': 'To: '
+  'copy.deposit_to': 'Deposit To'
   'copy.transaction_fee': 'Transaction Fee'
   'copy.trade': 'Trade'
   'copy.total': 'Total'
@@ -1422,6 +1424,11 @@ type MessagesType = {
   'modals.simplebuy.comfirm.price': '{baseCoinTicker} Price'
   'modals.simplebuy.confirm.rate': 'Exchange Rate'
   'modals.simplebuy.confirm.coin_price': '{coin} Price'
+  'modals.simplebuy.confirm.sell_description': "Final amount may change due to market activity.<br /> By approving this Sell you agree to Blockchain.com’s <br /><a href='https://www.blockchain.com/legal/terms' rel='noopener noreferrer' target='_blank'>Refund Policy.</a>"
+  'modals.simplebuy.confirm.coin_tooltip': "Blockchain.com provides the best market price we receive and applies a spread."
+  'modals.simplebuy.confirm.sale_amount': "Sale Amount"
+  'modals.simplebuy.confirm.network_fees': "Network fees are set by the Bitcoin network."
+  'modals.simplebuy.confirm.learn_more_about_fees': "Learn more about fees"
   'modals.simplebuy.processing': 'Processing…'
   'modals.simplebuy.deposit.deposit_button': 'Deposit {amount}'
   'modals.simplebuy.deposit.bank_transfer': 'Bank Transfer'
