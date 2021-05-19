@@ -5,7 +5,6 @@ import { coreActions as core } from 'blockchain-wallet-v4/src'
 import * as alerts from './alerts/actions'
 import * as analytics from './analytics/actions'
 import * as auth from './auth/actions'
-import * as authNew from './authNew/actions'
 import * as cache from './cache/actions'
 import * as components from './components/actions'
 import * as custodial from './custodial/actions'
@@ -25,7 +24,6 @@ export {
   alerts,
   analytics,
   auth,
-  authNew,
   cache,
   components,
   core,

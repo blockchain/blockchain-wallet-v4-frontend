@@ -1,4 +1,5 @@
 import * as AT from './actionTypes'
+import { AuthActionTypes } from './types'
 
 // LOGIN
 export const login = (guid, password, code, sharedKey, mobileLogin) => ({
@@ -105,4 +106,55 @@ export const upgradeWallet = (version) => ({
 
 export const clearLoginError = () => ({
   type: AT.CLEAR_LOGIN_ERROR
+})
+
+// INITIALIZE LOGIN
+export const initializeLogin = () => ({
+  type: AT.INTIALIZE_LOGIN
+})
+
+export const initializeLoginLoading = (): AuthActionTypes => ({
+  type: AT.INTIALIZE_LOGIN_LOADING
+})
+
+export const initializeLoginSuccess = (): AuthActionTypes => ({
+  type: AT.INTIALIZE_LOGIN_SUCCESS
+})
+
+export const initializeLoginFailure = (): AuthActionTypes => ({
+  type: AT.INTIALIZE_LOGIN_FAILURE
+})
+
+// LOGIN GUID
+export const loginGuid = (email: string) => ({
+  payload: { email },
+  type: AT.LOGIN_GUID
+})
+export const loginGuidLoading = (): AuthActionTypes => ({
+  type: AT.LOGIN_GUID_LOADING
+})
+export const loginGuidSuccess = (): AuthActionTypes => ({
+  type: AT.LOGIN_GUID_SUCCESS
+})
+export const loginGuidFailure = (): AuthActionTypes => ({
+  type: AT.LOGIN_GUID_FAILURE
+})
+export const loginGuidNotAsked = () => ({ type: AT.LOGIN_GUID_NOTASKED })
+
+// FIRST GUID SUBMISSION
+export const guidWallet = (guid: string) => ({
+  payload: { guid },
+  type: AT.GUID_WALLET
+})
+
+export const guidWalletLoading = (): AuthActionTypes => ({
+  type: AT.GUID_WALLET_LOADING
+})
+
+export const guidWalletSuccess = (): AuthActionTypes => ({
+  type: AT.GUID_WALLET_SUCCESS
+})
+
+export const guidWalletFailure = (): AuthActionTypes => ({
+  type: AT.GUID_WALLET_FAILURE
 })

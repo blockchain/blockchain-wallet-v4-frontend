@@ -10,11 +10,11 @@ export enum LoginSteps {
 
 export type LoginFormType = {
   email: string
-  emailToken?: string,
-  guid: string,
-  guidOrEmail: string,
-  password: string,
-  step: LoginSteps,
+  emailToken?: string
+  guid: string
+  guidOrEmail: string
+  password: string
+  step: LoginSteps
   twoFA?: number | string
 }
 
@@ -64,7 +64,7 @@ interface WalletGuidSubmitFailureActionType {
   type: typeof AT.GUID_WALLET_FAILURE
 }
 
-export type AuthNewActionTypes =
+export type AuthActionTypes =
   | InitializeLoginFailureActionType
   | InitializeLoginLoadingActionType
   | InitalizeLoginSuccessActionType

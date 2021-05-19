@@ -1,4 +1,4 @@
-export * from './authNew/types'
+export * from './auth/types'
 export * from './components/types'
 export * from './custodial/types'
 export * from './modals/types'

@@ -6,16 +6,19 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { DEFAULT_INVITATIONS } from 'blockchain-wallet-v4/src/model'
 import { actions, actionTypes, model, selectors } from 'data'
 import * as C from 'services/alerts'
+import { isGuid } from 'services/forms'
 import { checkForVulnerableAddressError } from 'services/misc'
 import { askSecondPasswordEnhancer, confirm, promptForSecondPassword } from 'services/sagas'
 
+import * as A from './actions'
 import { guessCurrencyBasedOnCountry } from './helpers'
+import { LoginObject, LoginSteps } from './types'
 
 const { MOBILE_LOGIN } = model.analytics
 
-export const logLocation = 'auth/sagas'
-
 export default ({ api, coreSagas }) => {
+  const logLocation = 'auth/sagas'
+
   const forceSyncWallet = function* () {
     yield put(actions.core.walletSync.forceSync())
     const { error } = yield race({
@@ -53,8 +56,9 @@ export default ({ api, coreSagas }) => {
     const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
     if (addressLabelSize > 100) {
       yield put(
-        actions.modals.showModal('UpgradeAddressLabels', {
-          duration: addressLabelSize / 20
+        actions.modals.showModal('UPGRADE_ADDRESS_LABELS', {
+          duration: addressLabelSize / 20,
+          origin: 'LoginSaga'
         })
       )
     }
@@ -69,14 +73,14 @@ export default ({ api, coreSagas }) => {
   const saveGoals = function* (firstLogin) {
     // only for non first login users we save goal here for first login users we do that over verify email page
     if (!firstLogin) {
-      yield put(actions.goals.saveGoal('welcomeModal'))
+      yield put(actions.goals.saveGoal('welcomeModal', {}))
     }
-    yield put(actions.goals.saveGoal('swapUpgrade'))
-    yield put(actions.goals.saveGoal('swapGetStarted'))
-    yield put(actions.goals.saveGoal('kycDocResubmit'))
-    yield put(actions.goals.saveGoal('transferEth'))
-    yield put(actions.goals.saveGoal('syncPit'))
-    yield put(actions.goals.saveGoal('interestPromo'))
+    yield put(actions.goals.saveGoal('swapUpgrade', {}))
+    yield put(actions.goals.saveGoal('swapGetStarted', {}))
+    yield put(actions.goals.saveGoal('kycDocResubmit', {}))
+    yield put(actions.goals.saveGoal('transferEth', {}))
+    yield put(actions.goals.saveGoal('syncPit', {}))
+    yield put(actions.goals.saveGoal('interestPromo', {}))
     // when airdrops are running
     // yield put(actions.goals.saveGoal('upgradeForAirdrop'))
     // yield put(actions.goals.saveGoal('airdropClaim'))
@@ -182,6 +186,7 @@ export default ({ api, coreSagas }) => {
       isEmailVerified
         ? yield put(actions.router.push('/logout'))
         : yield call(logoutClearReduxStore)
+      // @ts-ignore
       yield put(actions.analytics.stopSession())
     }
   }
@@ -267,6 +272,7 @@ export default ({ api, coreSagas }) => {
 
       yield fork(checkExchangeUsage)
       yield fork(checkDataErrors)
+      // @ts-ignore
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e))
@@ -308,16 +314,26 @@ export default ({ api, coreSagas }) => {
         session,
         sharedKey
       })
+      // @ts-ignore
       yield call(loginRoutineSaga, mobileLogin)
       yield put(stopSubmit('login'))
     } catch (error) {
       const initialError = prop('initial_error', error)
       const authRequired = prop('authorization_required', error)
       if (authRequired) {
+        // This is to test email verification
+        // for sso when it starts working
+        // const formValues = yield select(selectors.form.getFormValues('login'))
+        // const {emailToken} = formValues
+        // console.log(emailToken)
+        // yield put(actions.core.data.misc.authorizeLogin(emailToken, true))
+        // yield delay(2000)
+        // const authorized = true
         // auth errors (polling)
         const authRequiredAlert = yield put(
           actions.alerts.displayInfo(C.AUTHORIZATION_REQUIRED_INFO, undefined, true)
         )
+
         const authorized = yield call(pollingSession, session)
         yield put(actions.alerts.dismissAlert(authRequiredAlert.payload.id))
         if (authorized) {
@@ -327,12 +343,13 @@ export default ({ api, coreSagas }) => {
               password,
               session
             })
+            // @ts-ignore
             yield call(loginRoutineSaga, mobileLogin)
           } catch (error) {
             if (error && error.auth_type > 0) {
               yield put(actions.auth.setAuthType(error.auth_type))
               yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
-              yield put(actions.auth.loginFailure())
+              yield put(actions.auth.loginFailure(error))
             } else {
               yield put(actions.auth.loginFailure('wrong_wallet_password'))
               yield put(actions.logs.logErrorMessage(logLocation, 'login', error))
@@ -344,7 +361,7 @@ export default ({ api, coreSagas }) => {
       } else if (error && error.auth_type > 0) {
         // 2fa required
         // dispatch state change to show form
-        yield put(actions.auth.loginFailure())
+        yield put(actions.auth.loginFailure(error))
         yield put(actions.auth.setAuthType(error.auth_type))
         yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
         // Wrong password error
@@ -359,7 +376,7 @@ export default ({ api, coreSagas }) => {
         yield put(actions.form.change('login', 'step', 'ENTER_EMAIL_GUID'))
         yield put(actions.auth.loginFailure(initialError))
       } else if (error && error.includes('restricted to another IP address.')) {
-        yield put(actions.alerts.displayError(C.IPRESTRICTION_LOGIN_ERROR, null, null, null, 9500))
+        yield put(actions.alerts.displayError(C.IPRESTRICTION_LOGIN_ERROR))
         yield put(actions.auth.loginFailure('This wallet is restricted to another IP address.'))
       } else if (
         // Wrong 2fa code error
@@ -428,7 +445,7 @@ export default ({ api, coreSagas }) => {
       )
       yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
     } catch (e) {
-      yield put(actions.auth.restoreFromMetadataFailure())
+      yield put(actions.auth.restoreFromMetadataFailure({ e }))
       yield put(actions.logs.logErrorMessage(logLocation, 'restoreFromMetadata', e))
     }
   }
@@ -445,6 +462,7 @@ export default ({ api, coreSagas }) => {
         kvCredentials
       })
       yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
+      // @ts-ignore
       yield call(loginRoutineSaga, false, true, true)
       yield put(actions.auth.restoreSuccess())
     } catch (e) {
@@ -488,12 +506,108 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const initializeLogin = function* () {
+    try {
+      yield put(A.initializeLoginLoading())
+      // Opens coin socket, needed for coin streams and channel key for mobile login
+      yield put(actions.ws.startSocket())
+      // Grab pathname to determine next step
+      // Depending on if pathname is just /login
+      // /login/{guid} or /login/{base64_link}
+      const pathname = yield select(selectors.router.getPathname)
+      const params = pathname.split('/')
+      const isMobileConnected = yield select(selectors.cache.getMobileConnected)
+      const email = yield select(selectors.cache.getEmail)
+      // Check for both stored GUID (from email) and lastGuid (last successful login)
+      const storedGuid = yield select(selectors.cache.getStoredGuid)
+      const lastGuid = yield select(selectors.cache.getLastGuid)
+      if ((storedGuid || lastGuid) && !params[2]) {
+        // logic to be compatible with lastGuid in cache make sure that email matches
+        // guid being used for login eventually can deprecate after some time
+        if (lastGuid === storedGuid) {
+          yield put(actions.form.change('login', 'guid', lastGuid))
+          yield put(actions.form.change('login', 'email', email))
+        } else if (lastGuid) {
+          yield put(actions.form.change('login', 'guid', lastGuid))
+        } else {
+          yield put(actions.form.change('login', 'guid', storedGuid))
+          yield put(actions.form.change('login', 'email', email))
+        }
+        if (isMobileConnected) {
+          yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
+        } else {
+          yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
+        }
+        // if url is just /login, take them to enter guid or email
+      } else if (!params[2]) {
+        yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
+        // we detect a guid in the pathname
+      } else if (isGuid(params[2])) {
+        const guidFromRoute = params[2]
+        yield put(actions.form.change('login', 'guid', guidFromRoute))
+        yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
+        // if path has base64 encrypted JSON
+      } else {
+        const loginData = JSON.parse(atob(params[2])) as LoginObject
+        // grab all the data from the JSON
+        const guidFromRoute = prop('guid', loginData)
+        const emailFromRoute = prop('email', loginData)
+        const mobileSetup = prop('is_mobile_setup', loginData) === 'true'
+        const emailToken = prop('email_code', loginData)
+        // store data in the cache and update form values
+        // to be used to submit login
+        yield put(actions.cache.emailStored(emailFromRoute))
+        yield put(actions.cache.guidStored(guidFromRoute))
+        yield put(actions.cache.mobileConnectedStored(mobileSetup))
+        yield put(actions.form.change('login', 'emailToken', emailToken))
+        yield put(actions.form.change('login', 'guid', guidFromRoute))
+        yield put(actions.form.change('login', 'email', emailFromRoute))
+        // check if mobile detected
+        if (mobileSetup) {
+          yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
+        } else {
+          yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
+        }
+      }
+      yield put(A.initializeLoginSuccess())
+    } catch (e) {
+      yield put(A.initializeLoginFailure())
+      yield put(actions.logs.logErrorMessage(logLocation, 'initializeLogin', e))
+    }
+  }
+
+  // triggers verification email for login
+  const loginGuid = function* (action) {
+    const formValues = yield select(selectors.form.getFormValues('login'))
+    const { step } = formValues
+    yield put(startSubmit('login'))
+    try {
+      yield put(A.loginGuidLoading())
+      const sessionToken = yield call(api.obtainSessionToken)
+      yield call(coreSagas.wallet.loginGuidSaga, action.payload, sessionToken)
+      if (step === LoginSteps.CHECK_EMAIL) {
+        yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
+      } else {
+        yield put(actions.form.change('login', 'step', LoginSteps.CHECK_EMAIL))
+      }
+      yield put(stopSubmit('login'))
+      yield put(A.loginGuidSuccess())
+    } catch (e) {
+      yield put(A.loginGuidFailure())
+      yield put(stopSubmit('login'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'loginGuid', e))
+      yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
+    }
+  }
+
   return {
     authNabu,
     checkAndHandleVulnerableAddress,
     checkDataErrors,
     deauthorizeBrowser,
+    initializeLogin,
     login,
+    loginGuid,
     loginRoutineSaga,
     logout,
     logoutClearReduxStore,

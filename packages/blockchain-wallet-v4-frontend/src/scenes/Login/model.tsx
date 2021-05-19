@@ -29,6 +29,11 @@ export const ActionButton = styled(Button)`
 export const BrowserWarning = styled.div`
   margin-bottom: 10px;
 `
+
+export const CartridgeSentContainer = styled.div`
+  width: auto;
+`
+
 export const PublicWrapper = styled(Wrapper)`
   position: relative;
   overflow: visible;

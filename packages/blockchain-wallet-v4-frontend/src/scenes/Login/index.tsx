@@ -8,6 +8,7 @@ import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 're
 import { Link, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
+import { RemoteDataType } from 'core/types'
 import { actions, selectors } from 'data'
 import { LoginFormType, LoginSteps } from 'data/types'
 import { isGuid } from 'services/forms'
@@ -22,7 +23,7 @@ import VerificationMobile from './VerificationMobile'
 
 class Login extends PureComponent<InjectedFormProps & Props> {
   componentDidMount() {
-    this.props.authNewActions.initializeLogin()
+    this.props.authActions.initializeLogin()
   }
 
   setStep = (step: LoginSteps) => {
@@ -34,16 +35,7 @@ class Login extends PureComponent<InjectedFormProps & Props> {
   // Depending on which step user is on
   handleSubmit = (e) => {
     e.preventDefault()
-    const {
-      authActions,
-      authNewActions,
-      code,
-      formActions,
-      formValues,
-      guid,
-      guidOrEmail,
-      password
-    } = this.props
+    const { authActions, code, formActions, formValues, guid, guidOrEmail, password } = this.props
     let auth = code
     // only uppercase if authType is not Yubikey
     if (auth && this.props.authType !== 1) {
@@ -55,13 +47,13 @@ class Login extends PureComponent<InjectedFormProps & Props> {
     ) {
       if (isGuid(guidOrEmail)) {
         formActions.change(LOGIN_FORM_NAME, 'guid', guidOrEmail)
-        authNewActions.guidWallet(guidOrEmail)
+        formActions.change(LOGIN_FORM_NAME, 'step', LoginSteps.VERIFICATION_MOBILE)
       } else {
         formActions.change(LOGIN_FORM_NAME, 'email', guidOrEmail)
-        authNewActions.loginGuid(guidOrEmail)
+        authActions.loginGuid(guidOrEmail)
       }
     } else {
-      authActions.login(guid, password, auth)
+      authActions.login(guid, password, auth, null, null)
     }
   }
 
@@ -150,9 +142,9 @@ class Login extends PureComponent<InjectedFormProps & Props> {
 }
 
 const mapStateToProps = (state) => ({
-  authType: selectors.auth.getAuthType(state),
+  authType: selectors.auth.getAuthType(state) as Number,
   code: formValueSelector(LOGIN_FORM_NAME)(state, 'code'),
-  data: selectors.auth.getLogin(state),
+  data: selectors.auth.getLogin(state) as RemoteDataType<any, any>,
   formMeta: getFormMeta(LOGIN_FORM_NAME)(state),
   formValues: selectors.form.getFormValues(LOGIN_FORM_NAME)(state) as LoginFormType,
   // TODO guid selector shouldn't come from form
@@ -167,7 +159,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
-  authNewActions: bindActionCreators(actions.authNew, dispatch),
   cacheActions: bindActionCreators(actions.cache, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

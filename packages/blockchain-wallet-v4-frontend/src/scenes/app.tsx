@@ -22,7 +22,6 @@ import WalletLoading from './loading.wallet'
 const AuthorizeLogin = React.lazy(() => import('./AuthorizeLogin'))
 const Help = React.lazy(() => import('./Help'))
 const Login = React.lazy(() => import('./Login'))
-const LoginOld = React.lazy(() => import('./LoginOld'))
 const Logout = React.lazy(() => import('./Logout'))
 const MobileLogin = React.lazy(() => import('./MobileLogin'))
 const RecoverWallet = React.lazy(() => import('./RecoverWallet'))
@@ -66,7 +65,6 @@ class App extends React.PureComponent<Props> {
                       <PublicLayout path='/authorize-approve' component={AuthorizeLogin} />
                       <PublicLayout path='/help' component={Help} />
                       <PublicLayout path='/login' component={Login} />
-                      <PublicLayout path='/old' component={LoginOld} />
                       <PublicLayout path='/logout' component={Logout} />
                       <PublicLayout path='/mobile-login' component={MobileLogin} />
                       <PublicLayout path='/recover' component={RecoverWallet} />
@@ -130,7 +128,7 @@ class App extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: selectors.auth.isAuthenticated(state),
+  isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrFail('No supported coins.'),

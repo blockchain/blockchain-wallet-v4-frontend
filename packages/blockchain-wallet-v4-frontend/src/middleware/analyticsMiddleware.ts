@@ -412,6 +412,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
+      // @ts-ignore
       case AT.auth.VERIFY_EMAIL_TOKEN_SUCCESS: {
         analytics.push(AnalyticsKey.EMAIL_VERIFICATION_REQUESTED, {
           originalTimestamp: getOriginalTimestamp(),

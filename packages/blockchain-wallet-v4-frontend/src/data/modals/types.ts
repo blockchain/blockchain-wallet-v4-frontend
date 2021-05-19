@@ -40,6 +40,7 @@ export type ModalNamesType =
   | 'TRANSACTION_REPORT_MODAL'
   | 'TRANSFER_ETH_MODAL'
   | 'TRADING_LIMITS'
+  | 'UPGRADE_ADDRESS_LABELS'
   | 'UPGRADE_FOR_AIRDROP_MODAL'
   | 'VERIFY_MESSAGE_AIRDROP'
   | 'WELCOME_MODAL'
@@ -61,6 +62,7 @@ export type ModalOriginType =
   | 'InterestPage'
   | 'KycDocResubmitGoal'
   | 'KycRequiredStep'
+  | 'LoginSaga'
   | 'PaymentProtocolGoal'
   | 'PendingOrder'
   | 'PriceChart'
@@ -132,8 +134,4 @@ interface UpdateModalOptions {
   type: typeof AT.UPDATE_MODAL
 }
 
-export type ModalActionTypes =
-  | CloseAllModals
-  | CloseModal
-  | ShowModal
-  | UpdateModalOptions
+export type ModalActionTypes = CloseAllModals | CloseModal | ShowModal | UpdateModalOptions
