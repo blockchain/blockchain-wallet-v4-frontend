@@ -1,8 +1,9 @@
+/* eslint-disable */
 import BigRational from 'big-rational'
 import { BigNumber } from 'bignumber.js'
 import Maybe from 'data.maybe'
 // @ts-ignore
-import { compose, curry, is, prop, sequence } from 'ramda'
+import { compose, curry, flip, is, prop, sequence } from 'ramda'
 import { view } from 'ramda-lens'
 
 import { FiatType } from 'core/types'
@@ -20,7 +21,7 @@ export class Currency extends Type {
   }
 
   toUnit(unit) {
-    if (unit && unit.symbol === this.currency.code) {
+    if (unit && unit.currency === this.currency.code) {
       return Maybe.Just({
         value: this.value
           .multiply(BigRational(unit.rate).reciprocate())
@@ -50,7 +51,7 @@ export class Currency extends Type {
         return this.toUnit(this.currency.units[this.currency.trade]).chain(o =>
           fromUnit({
             value: BigRational(o.value).multiply(ratio),
-            precision: window.coins[toCurrency.trade].coinfig.precision
+            unit: toCurrency.units[toCurrency.trade]
           })
         )
       }
@@ -67,7 +68,7 @@ export class Currency extends Type {
           value: reverse
             ? BigRational(o.value).divide(ratio)
             : BigRational(o.value).multiply(ratio),
-          precision: window.coins[toCurrency.trade].coinfig.precision
+          unit: toCurrency.units[toCurrency.trade]
         })
       )
     })
@@ -96,12 +97,14 @@ export const toUnit = curry((unit, currencyObject) =>
   currencyObject.toUnit(unit)
 )
 
-export const fromUnit = ({ precision, value }) => {
-  return sequence(
-    Maybe.of,
+export const fromUnit = ({ unit, value }) => {
+  const unitM = Maybe.fromNullable(unit)
+  const currencyM = unitM.map(prop('currency')).map(flip(prop)(Currencies))
+
+  return sequence(Maybe.of, [unitM, currencyM]).map(([unit, currency]) =>
     newCurrency({
-      value: BigRational(value).multiply(BigRational(Math.pow(10, precision))),
-      currency
+      value: BigRational(value).multiply(BigRational(unit.rate)),
+      currency: currency
     })
   )
 }

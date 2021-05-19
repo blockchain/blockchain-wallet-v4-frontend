@@ -346,6 +346,18 @@
           },
           "coinCode": "WDGLD",
           "coinTicker": "WDGLD",
+          "coinfig": {
+            "name": "Wrapped DGLD",
+            "precision": 6,
+            "products": ["PrivateKey"],
+            "symbol": "WGDLD",
+            "type": {
+              "logoPngUrl": "",
+              "name": "Wrapped DGLD",
+              "parentChain": "ETH",
+              "websiteUrl": ""
+            }
+          },
           "contractAddress": "0x123151402076fc819B7564510989e475c9cD93CA",
           "displayName": "Wrapped-DGLD",
           "hasLockboxSupport": false,

@@ -18,43 +18,21 @@ const Wrapper = styled.div`
 const Content = styled(Text)`
   font-size: 32px;
   font-weight: 600;
-  color: ${props => props.theme.grey800};
+  color: ${(props) => props.theme.grey800};
 `
 
 export class Amount extends Component<Props> {
-  state = {}
+  constructor(props) {
+    super(props)
 
-  render() {
+    this.state = {}
+  }
+
+  render(): JSX.Element {
     return (
       <Wrapper>
         {this.props.data.cata({
-          Success: val => (
-            <Text weight={600} size='32px'>
-              {fiatToString({
-                unit: 'USD',
-                value: val.offer
-                  ? Math.min(
-                      Number(
-                        Exchange.convertCoinToFiat(
-                          val.values.coin,
-                          convertBaseToStandard(val.values.coin, val.max),
-                          val.values.coin,
-                          'USD',
-                          val.rates
-                        )
-                      ),
-                      Number(
-                        convertBaseToStandard(
-                          val.offer.terms.maxPrincipalAmount.currency,
-                          val.offer.terms.maxPrincipalAmount.amount
-                        )
-                      )
-                    )
-                  : 0
-              })}
-            </Text>
-          ),
-          Failure: e => {
+          Failure: (e) => {
             return (
               <Content>
                 {typeof e === 'object'
@@ -67,8 +45,34 @@ export class Amount extends Component<Props> {
               </Content>
             )
           },
+          Loading: () => <Content>...</Content>,
           NotAsked: () => <Content>...</Content>,
-          Loading: () => <Content>...</Content>
+          Success: (val) => (
+            <Text weight={600} size='32px'>
+              {fiatToString({
+                unit: 'USD',
+                value: val.offer
+                  ? Math.min(
+                      Number(
+                        Exchange.convertCoinToFiat({
+                          coin: val.values.coin,
+                          currency: 'USD',
+                          isStandard: true,
+                          rates: val.rates,
+                          value: convertBaseToStandard(val.values.coin, val.max),
+                        })
+                      ),
+                      Number(
+                        convertBaseToStandard(
+                          val.offer.terms.maxPrincipalAmount.currency,
+                          val.offer.terms.maxPrincipalAmount.amount
+                        )
+                      )
+                    )
+                  : 0,
+              })}
+            </Text>
+          ),
         })}
       </Wrapper>
     )
@@ -76,7 +80,7 @@ export class Amount extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  data: getBalance(state)
+  data: getBalance(state),
 })
 
 const connector = connect(mapStateToProps)

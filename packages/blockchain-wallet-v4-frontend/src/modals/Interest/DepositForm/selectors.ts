@@ -65,13 +65,13 @@ export const getData = (state: RootState) => {
         ? convertBaseToStandard('ETH', depositFee)
         : convertBaseToStandard(coin, depositFee)
 
-      const feeFiat = Exchange.convertCoinToFiat(
+      const feeFiat = Exchange.convertCoinToFiat({
         coin,
-        feeCrypto,
-        config.contractAddress ? 'ETH' : coin,
-        walletCurrency,
-        config.contractAddress ? ethRates : rates
-      )
+        currency: walletCurrency,
+        isStandard: true,
+        rates: config.contractAddress ? ethRates : rates,
+        value: feeCrypto,
+      })
 
       return {
         coin,

@@ -37,7 +37,7 @@ export const getData = (
         fromCurrency: coin,
         toCurrency: currency,
         rates
-      }).value
+      })
       return fiatToString({ value, unit: currency })
     }
     return Exchange.displayCoinToFiat({

@@ -1,8 +1,5 @@
 import { Exchange } from 'blockchain-wallet-v4/src'
-import {
-  fiatToString,
-  formatFiat
-} from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString, formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
 
 const PERCENTAGE_100 = 100
 
@@ -12,10 +9,7 @@ export const calcCompoundInterest = (principal, rate, term) => {
   if (!principalInt) return '0.00'
   const totalAmount =
     principalInt *
-    Math.pow(
-      1 + rate / (COMPOUNDS_PER_YEAR * PERCENTAGE_100),
-      COMPOUNDS_PER_YEAR * term
-    )
+    Math.pow(1 + rate / (COMPOUNDS_PER_YEAR * PERCENTAGE_100), COMPOUNDS_PER_YEAR * term)
   return formatFiat(totalAmount - principalInt)
 }
 
@@ -24,43 +18,36 @@ export const calcBasicInterest = (principal: number, rate: number): number =>
 
 export const amountConverter = (amount, coin) => {
   return Exchange.convertCoinToCoin({
+    coin,
     value: amount || 0,
-    coin
   })
 }
 
-export const amountToFiat = (
-  displayCoin,
-  amount,
-  coin,
-  walletCurrency,
-  rates
-) =>
+export const amountToFiat = (displayCoin, amount, coin, walletCurrency, rates) =>
   displayCoin
-    ? Exchange.convertCoinToFiat(coin, amount, coin, walletCurrency, rates)
+    ? Exchange.convertCoinToFiat({
+        coin,
+        currency: walletCurrency,
+        isStandard: true,
+        rates,
+        value: amount,
+      })
     : amount
 
-export const amountToCrypto = (
-  displayCoin,
-  amount,
-  coin,
-  walletCurrency,
-  rates
-) => {
+export const amountToCrypto = (displayCoin, amount, coin, walletCurrency, rates) => {
   if (displayCoin) {
     return amount
-  } else {
-    return Exchange.convertFiatToCoin({
-      coin,
-      value: amount,
-      currency: walletCurrency,
-      rates
-    })
   }
+  return Exchange.convertFiatToCoin({
+    coin,
+    currency: walletCurrency,
+    rates,
+    value: amount,
+  })
 }
 
 export const maxFiat = (maxFiat, walletCurrency) =>
   fiatToString({
+    unit: walletCurrency,
     value: maxFiat,
-    unit: walletCurrency
   })
