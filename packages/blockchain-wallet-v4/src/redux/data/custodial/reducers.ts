@@ -3,7 +3,7 @@ import { SBCoreActionTypes, SBCoreStateType } from './types'
 
 const DEFAULT_COIN_SB_STATE = {
   nextSBTransactionsURL: null,
-  pendingTxsN: 0
+  pendingTxsN: 0,
 }
 
 const INITIAL_STATE: SBCoreStateType = {
@@ -20,13 +20,10 @@ const INITIAL_STATE: SBCoreStateType = {
   USDT: DEFAULT_COIN_SB_STATE,
   WDGLD: DEFAULT_COIN_SB_STATE,
   XLM: DEFAULT_COIN_SB_STATE,
-  YFI: DEFAULT_COIN_SB_STATE
+  YFI: DEFAULT_COIN_SB_STATE,
 }
 
-export function custodialReducer(
-  state = INITIAL_STATE,
-  action: SBCoreActionTypes
-) {
+export function custodialReducer(state = INITIAL_STATE, action: SBCoreActionTypes) {
   switch (action.type) {
     case AT.SET_SB_CORE_COIN_DATA: {
       return {
@@ -34,13 +31,13 @@ export function custodialReducer(
         [action.payload.coin]: {
           ...state[action.payload.coin],
           nextSBTransactionsURL: action.payload.next,
-          pendingTxsN: action.payload.pendingTxsN
-        }
+          pendingTxsN: action.payload.pendingTxsN,
+        },
       }
     }
     default:
       return {
-        ...state
+        ...state,
       }
   }
 }

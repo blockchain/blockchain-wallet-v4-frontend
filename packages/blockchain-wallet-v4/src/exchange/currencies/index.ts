@@ -1,4 +1,3 @@
-import AAVE from './AAVE'
 import ALGO from './ALGO'
 import AUD from './AUD'
 import BCH from './BCH'
@@ -29,9 +28,7 @@ import TRY from './TRY'
 import TWD from './TWD'
 import USD from './USD'
 import USDT from './USDT'
-import WDGLD from './WDGLD'
 import XLM from './XLM'
-import YFI from './YFI'
 
 export const FiatCurrencies = {
   AUD,
@@ -60,7 +57,6 @@ export const FiatCurrencies = {
 }
 
 const CryptoCurrencies = {
-  AAVE,
   ALGO,
   BCH,
   BTC,
@@ -68,17 +64,12 @@ const CryptoCurrencies = {
   ETH,
   PAX,
   USDT,
-  WDGLD,
   XLM,
-  YFI,
 }
 
 const ERC20Currencies = {
-  AAVE,
   PAX,
   USDT,
-  WDGLD,
-  YFI,
 }
 
 const Currencies = {

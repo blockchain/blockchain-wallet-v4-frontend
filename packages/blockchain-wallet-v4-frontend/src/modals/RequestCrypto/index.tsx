@@ -7,7 +7,7 @@ import {
   CoinType,
   FiatType,
   SupportedWalletCurrenciesType,
-  WalletCurrencyType
+  WalletCurrencyType,
 } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
@@ -22,7 +22,7 @@ import { RequestFormType, RequestSteps } from './types'
 
 class RequestCrypto extends PureComponent<Props, State> {
   state: State = {
-    show: false
+    show: false,
   }
 
   componentDidMount() {
@@ -80,25 +80,21 @@ class RequestCrypto extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state): LinkStatePropsType => ({
-  formValues: selectors.form.getFormValues(REQUEST_FORM)(
-    state
-  ) as RequestFormType,
+  formValues: selectors.form.getFormValues(REQUEST_FORM)(state) as RequestFormType,
   initialValues: {
-    currencyDisplay: selectors.core.settings
-      .getCurrency(state)
-      .getOrElse('USD'),
+    currencyDisplay: selectors.core.settings.getCurrency(state).getOrElse('USD'),
     selectedCoin: selectors.router.getCoinFromPageUrl(state) || 'ALL',
-    step: RequestSteps.COIN_SELECT
+    step: RequestSteps.COIN_SELECT,
   },
   requestableCoins: getData(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrElse({} as SupportedWalletCurrenciesType),
-  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
 })
 
-const mapDispatchToProps = dispatch => ({
-  formActions: bindActionCreators(actions.form, dispatch)
+const mapDispatchToProps = (dispatch) => ({
+  formActions: bindActionCreators(actions.form, dispatch),
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -114,7 +110,7 @@ type LinkStatePropsType = {
     selectedCoin: CoinType | string | undefined
     step: RequestSteps
   }
-  requestableCoins: Array<WalletCurrencyType>
+  requestableCoins: Array<string>
   supportedCoins: SupportedWalletCurrenciesType
   walletCurrency: FiatType
 }
@@ -128,8 +124,8 @@ const enhance = compose<any>(
   modalEnhancer('REQUEST_CRYPTO_MODAL', { transition: duration }),
   connector,
   reduxForm({
+    enableReinitialize: true,
     form: REQUEST_FORM,
-    enableReinitialize: true
   })
 )
 

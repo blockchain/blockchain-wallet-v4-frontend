@@ -48,7 +48,6 @@ export {
 }
 
 export enum CoinTypeEnum {
-  AAVE,
   ALGO,
   BCH,
   BTC,

@@ -7,7 +7,11 @@ import styled from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import { SBOrderType, SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
+import {
+  FiatType,
+  SBOrderType,
+  SupportedWalletCurrenciesType,
+} from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { getCounterAmount, getCounterCurrency } from 'data/components/simpleBuy/model'
@@ -132,7 +136,7 @@ const Authorize = (props: Props) => {
         </Title>
         <Value>
           {fiatToString({
-            unit: counterCurrency,
+            unit: counterCurrency as FiatType,
             value: counterAmount,
           })}
         </Value>

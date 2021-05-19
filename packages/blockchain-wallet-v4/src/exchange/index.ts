@@ -26,7 +26,7 @@ const convertCoinToCoin = ({
   value,
 }: {
   baseToStandard?: boolean
-  coin: WalletCurrencyType | 'FIAT'
+  coin: string
   isFiat?: boolean
   value: number | string
 }): string => {
@@ -120,7 +120,7 @@ const displayCoinToCoin = ({
   isFiat,
   value,
 }: {
-  coin: WalletCurrencyType
+  coin: string
   isFiat?: boolean
   value: number | string
 }): string => {

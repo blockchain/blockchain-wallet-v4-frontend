@@ -7,7 +7,8 @@ interface Window {
         products: string[]
         symbol: string
         type: {
-          erc20Address: string
+          erc20Address?: string
+          isFiat?: boolean
           logoPngUrl: string
           name: string
           parentChain: string

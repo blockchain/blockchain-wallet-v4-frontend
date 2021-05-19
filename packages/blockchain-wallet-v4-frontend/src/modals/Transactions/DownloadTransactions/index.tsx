@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import locale from 'browser-locale'
 import * as moment from 'moment'
-import { prop, toLower } from 'ramda'
+import { prop } from 'ramda'
 import { compose, Dispatch } from 'redux'
 
 import { CoinType, SupportedCoinType } from 'blockchain-wallet-v4/src/types'
@@ -32,16 +32,8 @@ type LinkStatePropsType = {
 }
 type LinkDispatchPropsType = {
   clearTransactions: () => void
-  fetchTransactions: (
-    address: string,
-    startDate: string,
-    endDate: string
-  ) => void
-  initForm: (formDefaults: {
-    end: moment.Moment
-    from: 'all'
-    start: moment.Moment
-  }) => void
+  fetchTransactions: (address: string, startDate: string, endDate: string) => void
+  initForm: (formDefaults: { end: moment.Moment; from: 'all'; start: moment.Moment }) => void
 }
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
@@ -51,13 +43,13 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
   componentDidMount() {
     const { initForm } = this.props
     initForm({
+      // @ts-ignore
+      end: moment().endOf('day'),
+
       from: 'all',
+
       // @ts-ignore
-      start: moment()
-        .startOf('day')
-        .subtract(7, 'day'),
-      // @ts-ignore
-      end: moment().endOf('day')
+      start: moment().startOf('day').subtract(7, 'day'),
     })
   }
 
@@ -72,16 +64,15 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
     const endDate = prop('end', formValues)
     const addressDerivations =
       from.derivations &&
-      from.derivations.map(derivation => ({
+      from.derivations.map((derivation) => ({
         address: derivation.xpub,
-        type: derivation.type
+        type: derivation.type,
       }))
-    const address =
-      from && (addressDerivations || from.xpub || from.address || from)
+    const address = from && (addressDerivations || from.xpub || from.address || from)
     const filename =
       `${coinModel.coinTicker}_${startDate.format('MM-DD-YYYY')}` +
       `_${endDate.format('MM-DD-YYYY')}.csv`
-    this.setState({ generating: true, filename })
+    this.setState({ filename, generating: true })
     fetchTransactions(address, startDate, endDate)
   }
 
@@ -108,41 +99,29 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   coinModel: selectors.core.walletOptions
     .getCoinModel(state, ownProps.coin)
-    .getOrElse({ coinTicker: 'ETH' }),
+    .getOrElse({ coinTicker: 'ETH' } as SupportedCoinType),
   formValues: selectors.form.getFormValues('transactionReport')(state),
-  ...getData(state, ownProps.coin)
+  ...getData(state, ownProps.coin),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch, { coin }: OwnProps) => {
-  const coinCode =
-    coin === 'PAX' || coin === 'USDT' || coin === 'WDGLD'
-      ? 'eth'
-      : toLower(coin)
+  const { erc20Address, parentChain } = window.coins[coin].coinfig.type
+  const coinCode = parentChain.toLowerCase()
   return {
-    clearTransactions: () =>
-      dispatch(actions.core.data[coinCode].clearTransactionHistory()),
+    clearTransactions: () => dispatch(actions.core.data[coinCode].clearTransactionHistory()),
     fetchTransactions: (address, startDate, endDate) => {
-      if (coin === 'PAX' || coin === 'USDT' || coin === 'WDGLD') {
+      if (erc20Address) {
         return dispatch(
-          actions.core.data.eth.fetchErc20TransactionHistory(
-            address,
-            startDate,
-            endDate,
-            coin
-          )
+          actions.core.data.eth.fetchErc20TransactionHistory(address, startDate, endDate, coin)
         )
       }
 
       return dispatch(
-        actions.core.data[coinCode].fetchTransactionHistory(
-          address,
-          startDate,
-          endDate
-        )
+        actions.core.data[coinCode].fetchTransactionHistory(address, startDate, endDate)
       )
     },
-    initForm: initialValues =>
-      dispatch(actions.form.initialize('transactionReport', initialValues))
+    initForm: (initialValues) =>
+      dispatch(actions.form.initialize('transactionReport', initialValues)),
   }
 }
 

@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 import { Button, CheckBoxInput, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
+import { FiatType, SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { Form } from 'components/Form'
@@ -151,7 +151,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           <FormattedMessage id='copy.total' defaultMessage='Total' />
         </Title>
         <Value data-e2e='sbFiatBuyAmount'>
-          {fiatToString({ unit: counterCurrency, value: counterAmount })}
+          {fiatToString({ unit: counterCurrency as FiatType, value: counterAmount })}
         </Value>
       </Row>
       <Row>

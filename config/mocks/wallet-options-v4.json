@@ -28,6 +28,7 @@
             "symbol": "EUR",
             "type": {
               "logoPngUrl": "",
+              "isFiat": true,
               "name": "Euros",
               "parentChain": "EUR",
               "websiteUrl": ""
@@ -55,6 +56,7 @@
             "symbol": "GBP",
             "type": {
               "logoPngUrl": "",
+              "isFiat": true,
               "name": "Pounds",
               "parentChain": "GBP",
               "websiteUrl": ""
@@ -82,6 +84,7 @@
             "symbol": "USD",
             "type": {
               "logoPngUrl": "",
+              "isFiat": true,
               "name": "U.S. Dollars",
               "parentChain": "USD",
               "websiteUrl": ""
@@ -354,6 +357,7 @@
             "type": {
               "logoPngUrl": "",
               "name": "Wrapped DGLD",
+              "erc20Address": "0x123151402076fc819B7564510989e475c9cD93CA",
               "parentChain": "ETH",
               "websiteUrl": ""
             }

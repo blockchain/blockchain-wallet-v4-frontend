@@ -5,7 +5,7 @@ import {
   SBOrderType,
   SBTransactionStateType,
   SBTransactionType,
-  WalletCurrencyType
+  WalletCurrencyType,
 } from 'core/types'
 
 import * as AT from './actionTypes'
@@ -16,7 +16,7 @@ export type FetchCustodialOrdersAndTransactionsReturnType = {
 
 // state
 export type SBCoreStateType = {
-  [key in WalletCurrencyType]: {
+  [key in string]: {
     nextSBTransactionsURL: string | null
     pendingTxsN: number
   }
