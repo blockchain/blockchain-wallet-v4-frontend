@@ -18,7 +18,6 @@ import ISK from './ISK'
 import JPY from './JPY'
 import KRW from './KRW'
 import NZD from './NZD'
-import PAX from './PAX'
 import PLN from './PLN'
 import RUB from './RUB'
 import SEK from './SEK'
@@ -27,7 +26,6 @@ import THB from './THB'
 import TRY from './TRY'
 import TWD from './TWD'
 import USD from './USD'
-import USDT from './USDT'
 import XLM from './XLM'
 
 export const FiatCurrencies = {
@@ -62,14 +60,7 @@ const CryptoCurrencies = {
   BTC,
   DOT,
   ETH,
-  PAX,
-  USDT,
   XLM,
-}
-
-const ERC20Currencies = {
-  PAX,
-  USDT,
 }
 
 const Currencies = {
@@ -79,7 +70,6 @@ const Currencies = {
 
 export type FiatCurrenciesType = typeof FiatCurrencies
 export type CryptoCurrenciesType = typeof CryptoCurrencies
-export type Erc20CurrenciesType = typeof ERC20Currencies
 export type CurrenciesType = FiatCurrenciesType & CryptoCurrenciesType
 export type CurrencyType = {
   base: string

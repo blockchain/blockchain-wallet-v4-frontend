@@ -1,26 +1,17 @@
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
 
-export const convertBaseToStandard = (
-  coin: CoinType | 'FIAT',
-  value,
-  baseToStandard: boolean = true
-): string => {
+export const convertBaseToStandard = (coin: string, value, baseToStandard = true): string => {
   return Exchange.convertCoinToCoin({
+    baseToStandard,
     coin,
     value,
-    baseToStandard
   })
 }
 
-export const convertStandardToBase = (
-  coin: CoinType | 'FIAT',
-  value,
-  baseToStandard: boolean = false
-): string => {
+export const convertStandardToBase = (coin: string, value, baseToStandard = false): string => {
   return Exchange.convertCoinToCoin({
+    baseToStandard,
     coin,
     value,
-    baseToStandard
   })
 }

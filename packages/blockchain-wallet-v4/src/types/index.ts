@@ -1,7 +1,4 @@
-import {
-  Erc20CurrenciesType,
-  FiatCurrenciesType,
-} from 'blockchain-wallet-v4/src/exchange/currencies'
+import { FiatCurrenciesType } from 'blockchain-wallet-v4/src/exchange/currencies'
 
 import * as Address from './Address'
 import * as AddressBook from './AddressBook'
@@ -95,7 +92,7 @@ export const WalletCurrencyEnum = {
 }
 export type CoinType = keyof typeof CoinTypeEnum
 
-export type Erc20CoinType = keyof Erc20CurrenciesType
+export type Erc20CoinType = string
 
 // All Fiats
 export type FiatType = keyof FiatCurrenciesType

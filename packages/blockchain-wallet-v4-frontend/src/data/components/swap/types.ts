@@ -1,6 +1,5 @@
 import {
   CoinType,
-  Erc20CoinType,
   PaymentValue,
   RemoteDataType,
   SupportedCoinType,
@@ -19,7 +18,7 @@ export type SwapAccountType = {
   address?: number | string
   archived?: boolean
   balance: number | string
-  baseCoin: Exclude<CoinType, Erc20CoinType>
+  baseCoin: string
   coin: CoinType
   config: SupportedCoinType
   index?: number

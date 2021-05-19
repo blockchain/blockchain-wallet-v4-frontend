@@ -52,7 +52,7 @@ const convertCoinToFiat = ({
   rates,
   isStandard,
 }: {
-  coin: CoinType
+  coin: string
   value?: number | string
   currency: FiatType
   rates: RatesType
