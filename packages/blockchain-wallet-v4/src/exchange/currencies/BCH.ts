@@ -4,29 +4,29 @@ export default {
   displayName: 'Bitcoin Cash',
   trade: 'BCH',
   units: {
-    SAT: {
-      rate: '1',
-      symbol: 'SAT',
-      decimal_digits: 0,
-      currency: 'BCH'
-    },
-    UBC: {
-      rate: '100',
-      symbol: 'μBCH',
-      decimal_digits: 2,
-      currency: 'BCH'
-    },
-    MBC: {
-      rate: '100000',
-      symbol: 'mBCH',
-      decimal_digits: 5,
-      currency: 'BCH'
-    },
     BCH: {
+      currency: 'BCH',
+      decimal_digits: 8,
       rate: '100000000',
       symbol: 'BCH',
-      decimal_digits: 8,
-      currency: 'BCH'
-    }
-  }
+    },
+    MBC: {
+      currency: 'BCH',
+      decimal_digits: 5,
+      rate: '100000',
+      symbol: 'mBCH',
+    },
+    SAT: {
+      currency: 'BCH',
+      decimal_digits: 0,
+      rate: '1',
+      symbol: 'SAT',
+    },
+    UBC: {
+      currency: 'BCH',
+      decimal_digits: 2,
+      rate: '100',
+      symbol: 'μBCH',
+    },
+  },
 }

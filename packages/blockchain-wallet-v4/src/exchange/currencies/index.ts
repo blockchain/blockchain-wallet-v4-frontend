@@ -34,8 +34,6 @@ import XLM from './XLM'
 import YFI from './YFI'
 
 export const FiatCurrencies = {
-  EUR,
-  USD,
   AUD,
   BRL,
   CAD,
@@ -43,6 +41,7 @@ export const FiatCurrencies = {
   CLP,
   CNY,
   DKK,
+  EUR,
   GBP,
   HKD,
   INR,
@@ -56,7 +55,8 @@ export const FiatCurrencies = {
   SGD,
   THB,
   TRY,
-  TWD
+  TWD,
+  USD,
 }
 
 const CryptoCurrencies = {
@@ -70,7 +70,7 @@ const CryptoCurrencies = {
   USDT,
   WDGLD,
   XLM,
-  YFI
+  YFI,
 }
 
 const ERC20Currencies = {
@@ -78,12 +78,12 @@ const ERC20Currencies = {
   PAX,
   USDT,
   WDGLD,
-  YFI
+  YFI,
 }
 
 const Currencies = {
   ...CryptoCurrencies,
-  ...FiatCurrencies
+  ...FiatCurrencies,
 }
 
 export type FiatCurrenciesType = typeof FiatCurrencies

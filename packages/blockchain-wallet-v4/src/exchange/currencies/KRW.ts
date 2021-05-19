@@ -1,20 +1,20 @@
 export default {
-  code: 'KRW',
   base: 'CENT',
+  code: 'KRW',
   displayName: 'South Korean Won',
   trade: 'KRW',
   units: {
     CENT: {
+      currency: 'KRW',
+      decimal_digits: 0,
       rate: '1',
       symbol: '¢₩',
-      decimal_digits: 0,
-      currency: 'KRW'
     },
     KRW: {
+      currency: 'KRW',
+      decimal_digits: 2,
       rate: '100',
       symbol: '₩',
-      decimal_digits: 2,
-      currency: 'KRW'
-    }
-  }
+    },
+  },
 }

@@ -2,7 +2,7 @@ import {
   CoinType,
   InterestBalanceType,
   SBBalanceType,
-  SupportedCoinType
+  SupportedCoinType,
 } from 'blockchain-wallet-v4/src/types'
 import { convertStandardToBase } from 'data/components/exchange/services'
 import { SwapAccountType } from 'data/components/types'
@@ -14,15 +14,13 @@ export const generateTradingAccount = (
 ): SwapAccountType[] => {
   return [
     {
-      baseCoin: config.contractAddress
-        ? 'ETH'
-        : (coin as SwapAccountType['baseCoin']),
+      balance: sbBalance?.available || '0',
+      baseCoin: config.contractAddress ? 'ETH' : (coin as SwapAccountType['baseCoin']),
       coin,
       config,
       label: 'Trading Account',
       type: 'CUSTODIAL',
-      balance: sbBalance?.available || '0'
-    }
+    },
   ]
 }
 
@@ -35,15 +33,13 @@ export const generateInterestAccount = (
   const ticker = coin === 'PAX' ? 'USD-D' : coin
   return [
     {
-      baseCoin: config.contractAddress
-        ? 'ETH'
-        : (coin as SwapAccountType['baseCoin']),
+      balance: interestBalance?.balance || '0',
+      baseCoin: config.contractAddress ? 'ETH' : (coin as SwapAccountType['baseCoin']),
       coin,
       config,
       label: `${ticker} Interest Account`,
       type: 'INTEREST',
-      balance: interestBalance?.balance || '0'
-    }
+    },
   ]
 }
 

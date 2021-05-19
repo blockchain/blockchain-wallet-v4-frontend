@@ -5,18 +5,16 @@ import styled from 'styled-components'
 
 import Images from './Images'
 
-const BaseImage = styled.img`
-  width: ${props => props.width};
-  height: ${props => props.height};
-  color: ${props => props.color};
+export const BaseImage = styled.img`
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+  color: ${(props) => props.color};
 `
 
-const Image = props => {
+const Image = (props) => {
   const { name, srcset, ...rest } = props
   const file = Images[name]
-  const srcSet = srcset
-    ? keysIn(srcset).map(name => `${Images[name]} ${srcset[name]}`)
-    : []
+  const srcSet = srcset ? keysIn(srcset).map((name) => `${Images[name]} ${srcset[name]}`) : []
   if (!file) {
     return <img />
   }
@@ -24,16 +22,16 @@ const Image = props => {
 }
 
 Image.defaultProps = {
-  width: 'auto',
+  color: 'auto',
   height: 'auto',
-  color: 'auto'
+  width: 'auto',
 }
 
 Image.propTypes = {
+  color: PropTypes.string,
+  height: PropTypes.string,
   name: PropTypes.string.isRequired,
   width: PropTypes.string,
-  height: PropTypes.string,
-  color: PropTypes.string
 }
 
 export default Image

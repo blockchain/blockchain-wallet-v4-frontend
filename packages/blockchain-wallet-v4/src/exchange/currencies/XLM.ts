@@ -5,16 +5,16 @@ export default {
   trade: 'XLM',
   units: {
     STROOP: {
+      currency: 'XLM',
+      decimal_digits: 0,
       rate: '1',
       symbol: 'STROOP',
-      decimal_digits: 0,
-      currency: 'XLM'
     },
     XLM: {
+      currency: 'XLM',
+      decimal_digits: 7,
       rate: '10000000',
       symbol: 'XLM',
-      decimal_digits: 7,
-      currency: 'XLM'
-    }
-  }
+    },
+  },
 }

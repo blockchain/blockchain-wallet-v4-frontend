@@ -4,23 +4,23 @@ export default {
   displayName: 'USD Pax',
   trade: 'PAX',
   units: {
-    WEI: {
-      rate: '1',
-      symbol: 'WEI',
-      decimal_digits: 0,
-      currency: 'PAX'
-    },
     GWEI: {
+      currency: 'PAX',
+      decimal_digits: 9,
       rate: '1000000000',
       symbol: 'GWEI',
-      decimal_digits: 9,
-      currency: 'PAX'
     },
     PAX: {
+      currency: 'PAX',
+      decimal_digits: 18,
       rate: '1000000000000000000',
       symbol: 'USD-D',
-      decimal_digits: 18,
-      currency: 'PAX'
-    }
-  }
+    },
+    WEI: {
+      currency: 'PAX',
+      decimal_digits: 0,
+      rate: '1',
+      symbol: 'WEI',
+    },
+  },
 }

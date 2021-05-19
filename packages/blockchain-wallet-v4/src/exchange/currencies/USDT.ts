@@ -4,17 +4,17 @@ export default {
   displayName: 'Tether',
   trade: 'USDT',
   units: {
-    WEI: {
-      rate: '1',
-      symbol: 'WEI',
-      decimal_digits: 0,
-      currency: 'USDT'
-    },
     USDT: {
+      currency: 'USDT',
+      decimal_digits: 6,
       rate: '1000000',
       symbol: 'USDT',
-      decimal_digits: 6,
-      currency: 'USDT'
-    }
-  }
+    },
+    WEI: {
+      currency: 'USDT',
+      decimal_digits: 0,
+      rate: '1',
+      symbol: 'WEI',
+    },
+  },
 }

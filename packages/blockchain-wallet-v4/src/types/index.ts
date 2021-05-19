@@ -1,6 +1,6 @@
 import {
   Erc20CurrenciesType,
-  FiatCurrenciesType
+  FiatCurrenciesType,
 } from 'blockchain-wallet-v4/src/exchange/currencies'
 
 import * as Address from './Address'
@@ -44,7 +44,7 @@ export {
   TXNames,
   TXNotes,
   Wallet,
-  Wrapper
+  Wrapper,
 }
 
 export enum CoinTypeEnum {
@@ -58,7 +58,7 @@ export enum CoinTypeEnum {
   USDT,
   WDGLD,
   XLM,
-  YFI
+  YFI,
 }
 export enum FiatTypeEnum {
   EUR,
@@ -82,17 +82,17 @@ export enum FiatTypeEnum {
   SEK,
   SGD,
   THB,
-  TWD
+  TWD,
 }
 export enum WalletFiatEnum {
   EUR,
   GBP,
-  USD
+  USD,
 }
 
 export const WalletCurrencyEnum = {
   ...CoinTypeEnum,
-  ...WalletFiatEnum
+  ...WalletFiatEnum,
 }
 export type CoinType = keyof typeof CoinTypeEnum
 
@@ -135,9 +135,9 @@ export * from '../network/types'
 export * from '../redux/data/custodial/types'
 export * from '../redux/data/misc/types'
 export * from '../redux/payment/types'
-export * from '../redux/settings/'
+export * from '../redux/settings'
 export * from '../redux/walletOptions/types'
 export * from '../remote/types'
 export * from '../transactions/types'
-export * from '../types/index'
+export * from './index'
 export * from './WalletPayload'
