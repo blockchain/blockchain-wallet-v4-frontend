@@ -168,10 +168,6 @@ export default ({ api, networks }) => {
     })
   }
 
-  const loginGuidSaga = function * ({ email }) {
-    yield call(api.loginGuid, email)
-  }
-
   const findUsedAccounts = function* ({ batch, nodes }) {
     const getxpub = curry((nodes, i) =>
       nodes.map((node) => node.deriveHardened(i).neutered().toBase58())
@@ -403,7 +399,6 @@ export default ({ api, networks }) => {
     checkAndUpdateWalletNames,
     createWalletSaga,
     fetchWalletSaga,
-    loginGuidSaga,
     importLegacyAddress,
     newHDAccount,
     refetchContextData,

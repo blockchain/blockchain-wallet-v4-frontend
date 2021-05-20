@@ -299,7 +299,9 @@ export default ({ api, coreSagas }) => {
 
   const login = function* (action) {
     const { code, guid, mobileLogin, password, sharedKey } = action.payload
-    let session = yield select(selectors.session.getSession, guid)
+    const formValues = yield select(selectors.form.getFormValues('login'))
+    const { email, emailToken } = formValues
+    let session = yield select(selectors.session.getSession, email || guid)
     yield put(startSubmit('login'))
     try {
       if (!session) {
@@ -321,21 +323,18 @@ export default ({ api, coreSagas }) => {
       const initialError = prop('initial_error', error)
       const authRequired = prop('authorization_required', error)
       if (authRequired) {
-        // This is to test email verification
-        // for sso when it starts working
-        // const formValues = yield select(selectors.form.getFormValues('login'))
-        // const {emailToken} = formValues
-        // console.log(emailToken)
-        // yield put(actions.core.data.misc.authorizeLogin(emailToken, true))
-        // yield delay(2000)
-        // const authorized = true
+        // If user has already recevied authorization token
+        // from wallet guid reminder email
+        if (emailToken) {
+          yield put(actions.core.data.misc.authorizeLogin(emailToken, true))
+        } else {
+          const authRequiredAlert = yield put(
+            actions.alerts.displayInfo(C.AUTHORIZATION_REQUIRED_INFO, undefined, true)
+          )
+        }
         // auth errors (polling)
-        const authRequiredAlert = yield put(
-          actions.alerts.displayInfo(C.AUTHORIZATION_REQUIRED_INFO, undefined, true)
-        )
-
         const authorized = yield call(pollingSession, session)
-        yield put(actions.alerts.dismissAlert(authRequiredAlert.payload.id))
+        // yield put(actions.alerts.dismissAlert(authRequiredAlert.payload.id))
         if (authorized) {
           try {
             yield call(coreSagas.wallet.fetchWalletSaga, {
@@ -584,7 +583,9 @@ export default ({ api, coreSagas }) => {
     try {
       yield put(A.loginGuidLoading())
       const sessionToken = yield call(api.obtainSessionToken)
-      yield call(coreSagas.wallet.loginGuidSaga, action.payload, sessionToken)
+      const { email } = action.payload
+      yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
+      yield call(api.loginGuid, email, sessionToken)
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
