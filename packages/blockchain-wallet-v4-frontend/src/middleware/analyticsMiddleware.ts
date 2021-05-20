@@ -1,6 +1,7 @@
 import { v4 } from 'uuid'
 
 import { getCardTypeByValue } from 'components/Form/CreditCardBox/model'
+import { SBPaymentTypes } from 'core/types'
 import { actionTypes as AT } from 'data'
 import { ModalNamesType, SBShowModalOriginType } from 'data/types'
 import queuevent from 'utils/queuevent'
@@ -9,7 +10,7 @@ enum AnalyticsKey {
   BUY_AMOUNT_ENTERED = 'Buy Amount Entered',
   BUY_AMOUNT_MAX_CLICKED = 'Buy Amount Max Clicked',
   BUY_AMOUNT_MIN_CLICKED = 'Buy Amount Min Clicked',
-  BUY_LEARN_MORE_CLICKED = 'Buy Learn More Clicked',
+  // BUY_LEARN_MORE_CLICKED = 'Buy Learn More Clicked', // not implemented
   BUY_PAYMENT_METHOD_SELECTED = 'Buy Payment Method Selected',
   BUY_SELL_CLICKED = 'Buy Sell Clicked',
   BUY_SELL_VIEWED = 'Buy Sell Viewed',
@@ -36,6 +37,7 @@ enum AnalyticsType {
 }
 
 type BasePayload = {
+  id?: string
   originalTimestamp: string
   type: AnalyticsType
 }
@@ -50,24 +52,20 @@ type PageViewPayload = {
 
 type BuyAmountEnteredPayload = BasePayload & {
   input_amount: number
-  input_amount_max: number
   input_currency: string
-  // output_amount: number
+  max_card_limit: number
   output_currency: string
   platform: 'WALLET'
 }
 
 type BuyAmountMaxClickedPayload = BasePayload & {
-  amount: number
-  // amount_currency: string
   input_currency: string
+  max_card_limit: number
   output_currency: string
   platform: 'WALLET'
 }
 
 type BuyAmountMinClickedPayload = BasePayload & {
-  amount: number
-  // amount_currency: string
   input_currency: string
   output_currency: string
   platform: 'WALLET'
@@ -181,6 +179,22 @@ const simpleBuyOriginDictionary = (rawOrigin: SBShowModalOriginType) => {
   }
 }
 
+const simpleBuyPaymentTypeDictionary = (rawPaymentType: SBPaymentTypes) => {
+  switch (rawPaymentType) {
+    case 'USER_CARD': {
+      return 'PAYMENT_CARD'
+    }
+    case 'LINK_BANK': {
+      return 'BANK_TRANSFER'
+    }
+    default: {
+      return rawPaymentType
+    }
+  }
+}
+
+const getOriginalTimestamp = () => new Date().toISOString()
+
 const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
   queueCallback: async (rawEvents) => {
     const res = await fetch('/wallet-options-v4.json')
@@ -190,14 +204,13 @@ const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
 
     const id = v4()
 
-    const context = {}
-
     const events = rawEvents.map((event) => {
       const name = event.key
 
-      const { originalTimestamp, type, ...properties } = event.payload
+      const { id, originalTimestamp, type, ...properties } = event.payload
 
       return {
+        id,
         name,
         originalTimestamp,
         properties,
@@ -207,10 +220,10 @@ const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
 
     await fetch(analyticsURL, {
       body: JSON.stringify({
-        context,
         events,
         id
       }),
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -220,9 +233,10 @@ const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
   queueName: 'analytics'
 })
 
-const getOriginalTimestamp = () => new Date().toISOString()
-
 const analyticsMiddleware = () => (store) => (next) => (action) => {
+  const state = store.getState()
+  const id = state.profile.userData.getOrElse({})?.id
+
   try {
     switch (action.type) {
       case '@@INIT': {
@@ -238,12 +252,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const { referrer, title } = document
 
             analytics.push(AnalyticsKey.DASHBOARD_CLICKED, {
+              id,
               origin: 'SIGN_IN',
               originalTimestamp: getOriginalTimestamp(),
               type: AnalyticsType.EVENT
             })
 
             analytics.push(AnalyticsKey.DASHBOARD_VIEWED, {
+              id,
               originalTimestamp: getOriginalTimestamp(),
               path: pathname,
               referrer,
@@ -274,12 +290,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const origin = simpleBuyOriginDictionary(rawOrigin)
 
             analytics.push(AnalyticsKey.BUY_SELL_CLICKED, {
+              id,
               origin,
               originalTimestamp: getOriginalTimestamp(),
               type: AnalyticsType.EVENT
             })
 
             analytics.push(AnalyticsKey.BUY_SELL_VIEWED, {
+              id,
               originalTimestamp: getOriginalTimestamp(),
               path: pathname,
               referrer,
@@ -297,12 +315,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const { referrer, title } = document
 
             analytics.push(AnalyticsKey.SWAP_CLICKED, {
+              id,
               origin,
               originalTimestamp: getOriginalTimestamp(),
               type: AnalyticsType.EVENT
             })
 
             analytics.push(AnalyticsKey.SWAP_VIEWED, {
+              id,
               originalTimestamp: getOriginalTimestamp(),
               path: pathname,
               referrer,
@@ -318,6 +338,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const { tier } = action.payload.props
 
             analytics.push(AnalyticsKey.SWAP_CLICKED, {
+              id,
               originalTimestamp: getOriginalTimestamp(),
               tier,
               type: AnalyticsType.EVENT
@@ -340,13 +361,15 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const outputCurrency = state.components.simpleBuy.cryptoCurrency
 
         analytics.push(AnalyticsKey.BUY_AMOUNT_ENTERED, {
+          id,
           input_amount: inputAmount,
-          input_amount_max: inputAMountMax,
           input_currency: inputCurrency,
+          max_card_limit: inputAMountMax,
+
           originalTimestamp: getOriginalTimestamp(),
+
           // output_amount: 123,
           output_currency: outputCurrency,
-
           platform: 'WALLET',
           type: AnalyticsType.EVENT
         })
@@ -354,13 +377,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.simpleBuy.HANDLE_SB_MAX_AMOUNT_CLICK: {
         const state = store.getState()
-        const amount = Number(action.payload.amount) / 100
+        const maxCardLimit = Number(action.payload.amount) / 100
         const inputCurrency = state.components.simpleBuy.fiatCurrency
         const outputCurrency = state.components.simpleBuy.cryptoCurrency
 
         analytics.push(AnalyticsKey.BUY_AMOUNT_MAX_CLICKED, {
-          amount,
+          id,
           input_currency: inputCurrency,
+          max_card_limit: maxCardLimit,
           originalTimestamp: getOriginalTimestamp(),
           output_currency: outputCurrency,
           platform: 'WALLET',
@@ -370,12 +394,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.simpleBuy.HANDLE_SB_MIN_AMOUNT_CLICK: {
         const state = store.getState()
-        const amount = Number(action.payload.amount) / 100
         const inputCurrency = state.components.simpleBuy.fiatCurrency
         const outputCurrency = state.components.simpleBuy.cryptoCurrency
 
         analytics.push(AnalyticsKey.BUY_AMOUNT_MIN_CLICKED, {
-          amount,
+          id,
           input_currency: inputCurrency,
           originalTimestamp: getOriginalTimestamp(),
           output_currency: outputCurrency,
@@ -388,8 +411,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const paymentType = action.method.type
 
         analytics.push(AnalyticsKey.BUY_PAYMENT_METHOD_SELECTED, {
+          id,
           originalTimestamp: getOriginalTimestamp(),
-          payment_type: paymentType,
+          payment_type: simpleBuyPaymentTypeDictionary(paymentType),
           platform: 'WALLET',
           type: AnalyticsType.EVENT
         })
@@ -405,6 +429,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         analytics.push(AnalyticsKey.CARD_REJECTED, {
           card_type: cardType,
           country_billing: countryBilling,
+          id,
           originalTimestamp: getOriginalTimestamp(),
           product: 'SIMPLE_BUY',
           reason,
@@ -414,6 +439,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.auth.VERIFY_EMAIL_TOKEN_SUCCESS: {
         analytics.push(AnalyticsKey.EMAIL_VERIFICATION_REQUESTED, {
+          id,
           originalTimestamp: getOriginalTimestamp(),
           type: AnalyticsType.EVENT
         })
@@ -421,6 +447,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.auth.LOGIN_SUCCESS: {
         analytics.push(AnalyticsKey.SIGNED_IN, {
+          id,
           originalTimestamp: getOriginalTimestamp(),
           platform: 'WALLET',
           type: AnalyticsType.EVENT
@@ -429,6 +456,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.auth.LOGOUT: {
         analytics.push(AnalyticsKey.SIGNED_OUT, {
+          id,
           originalTimestamp: getOriginalTimestamp(),
           platform: 'WALLET',
           type: AnalyticsType.EVENT
