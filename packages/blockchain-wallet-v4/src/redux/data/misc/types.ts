@@ -40,16 +40,12 @@ export enum TimeRange {
 // state
 export type MiscStateType = {
   authorize_login: RemoteDataType<any, any>
-  captcha: RemoteDataType<any, any>
   handle_2fa_reset: RemoteDataType<any, any>
   logs: RemoteDataType<any, any>
   pairing_code: RemoteDataType<any, any>
   price_change: {
     [key in TimeRange]: {
-      [key in CoinType | WalletFiatType]: RemoteDataType<
-        string,
-        PriceChangeType
-      >
+      [key in CoinType | WalletFiatType]: RemoteDataType<string, PriceChangeType>
     }
   }
   price_index_series: RemoteDataType<any, any>
@@ -83,19 +79,6 @@ interface EncodePairingCodeLoadingActionType {
 interface EncodePairingCodeSuccessActionType {
   payload: any
   type: typeof AT.ENCODE_PAIRING_CODE_SUCCESS
-}
-interface FetchCaptchaFailureActionType {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_CAPTCHA_FAILURE
-}
-interface FetchCaptchaLoadingActionType {
-  type: typeof AT.FETCH_CAPTCHA_LOADING
-}
-interface FetchCaptchaSuccessActionType {
-  payload: any
-  type: typeof AT.FETCH_CAPTCHA_SUCCESS
 }
 interface FetchPriceChangeFailureActionType {
   payload: {
@@ -166,9 +149,6 @@ export type MiscActionTypes =
   | EncodePairingCodeFailureActionType
   | EncodePairingCodeLoadingActionType
   | EncodePairingCodeSuccessActionType
-  | FetchCaptchaFailureActionType
-  | FetchCaptchaLoadingActionType
-  | FetchCaptchaSuccessActionType
   | FetchPriceChangeFailureActionType
   | FetchPriceChangeLoadingActionType
   | FetchPriceChangeSuccessActionType

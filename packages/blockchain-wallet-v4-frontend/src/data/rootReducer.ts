@@ -4,41 +4,39 @@ import { coreReducers, paths } from 'blockchain-wallet-v4/src'
 
 import { alertsReducer } from './alerts/reducers'
 import { analyticsReducer } from './analytics/reducers'
-import authReducer from './auth/reducers'
-import cacheReducer from './cache/reducers'
-import componentsReducer from './components/reducers'
-import { custodialReducer } from './custodial/reducers'
-import formReducer from './form/reducers'
-import { goalsReducer } from './goals/reducers'
-import logsReducer from './logs/reducers'
+import auth from './auth/reducers'
+import cache from './cache/reducers'
+import components from './components/reducers'
+import { custodialReducer as custodial } from './custodial/reducers'
+import form from './form/reducers'
+import goals from './goals/reducers'
+import logs from './logs/reducers'
 import { modalsReducer } from './modals/reducers'
-import profileReducer from './modules/profile/reducers'
-import ratesReducer from './modules/rates/reducers'
-import settingsReducer from './modules/settings/reducers'
+import profile from './modules/profile/reducers'
+import rates from './modules/rates/reducers'
+import securityCenter from './modules/settings/reducers'
 import { transferEthReducer } from './modules/transferEth/reducers'
 import { preferencesReducer } from './preferences/reducers'
-import pricesReducer from './prices/reducers'
-import sessionReducer from './session/reducers'
-import wizardReducer from './wizard/reducers'
+import prices from './prices/reducers'
+import session from './session/reducers'
 
 const rootReducer = {
   alerts: alertsReducer,
   analytics: analyticsReducer,
-  auth: authReducer,
-  components: componentsReducer,
-  custodial: custodialReducer,
-  form: formReducer,
-  goals: goalsReducer,
+  auth,
+  cache,
+  components,
+  custodial,
+  form,
+  goals,
+  logs,
   modals: modalsReducer,
-  logs: logsReducer,
   preferences: preferencesReducer,
-  prices: pricesReducer,
-  profile: profileReducer,
-  rates: ratesReducer,
-  cache: cacheReducer,
-  session: sessionReducer,
-  wizard: wizardReducer,
-  securityCenter: settingsReducer,
+  prices,
+  profile,
+  rates,
+  securityCenter,
+  session,
   transferEth: transferEthReducer,
   [paths.dataPath]: coreReducers.data,
   [paths.walletPath]: coreReducers.wallet,
@@ -49,7 +47,5 @@ const rootReducer = {
 
 const combinedReducer = combineReducers(rootReducer)
 export type RootState = ReturnType<typeof combinedReducer>
-
-type s = RootState['walletOptionsPath']
 
 export default rootReducer

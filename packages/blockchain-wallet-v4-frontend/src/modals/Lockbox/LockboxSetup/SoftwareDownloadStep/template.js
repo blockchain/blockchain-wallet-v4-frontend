@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import linuxUpdater from 'assets/lockbox/lockbox-updater-1.0.0.AppImage'
 import macUpdater from 'assets/lockbox/lockbox-updater-1.0.0.dmg'
 import windowsUpdater from 'assets/lockbox/lockbox-updater-1.0.0.exe'
@@ -82,7 +82,7 @@ const SoftwareDownloadStep = props => {
         />
       </Text>
       <Text size='13px' weight={500} style={{ marginTop: '10px' }}>
-        <FormattedHTMLMessage
+        <FormattedMessage
           id='modals.lockboxsetup.softwaredownloadstep.downloaded.body2'
           defaultMessage='Once you have updated your device and <b>installed the Bitcoin app</b>, press the continue button below.'
         />

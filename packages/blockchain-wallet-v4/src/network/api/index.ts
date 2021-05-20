@@ -22,13 +22,7 @@ import swap from './swap'
 import wallet from './wallet'
 import xlm from './xlm'
 
-const api = ({
-  apiKey,
-  getAuthCredentials,
-  networks,
-  options,
-  reauthenticate
-}: any = {}) => {
+const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: any = {}) => {
   const http = httpService({ apiKey })
   const authorizedHttp = apiAuthorize(http, getAuthCredentials, reauthenticate)
   const apiUrl = options.domains.api
@@ -44,57 +38,57 @@ const api = ({
     ...bch({ apiUrl, ...http }),
     ...bitpay({ bitpayUrl }),
     ...borrow({
-      nabuUrl,
-      authorizedGet: authorizedHttp.get,
-      authorizedPost: authorizedHttp.post
-    }),
-    ...btc({ rootUrl, apiUrl, ...http }),
-    ...coin({ apiUrl, ...http }),
-    ...custodial({
-      nabuUrl,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
+      nabuUrl
+    }),
+    ...btc({ apiUrl, rootUrl, ...http }),
+    ...coin({ apiUrl, ...http }),
+    ...custodial({
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
+      nabuUrl,
       ...http
     }),
     ...eth({ apiUrl, ...http }),
     ...kvStore({ apiUrl, networks, ...http }),
     ...kyc({
-      nabuUrl,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
+      nabuUrl,
       ...http
     }),
     ...interest({
-      nabuUrl,
-      authorizedGet: authorizedHttp.get,
-      authorizedPost: authorizedHttp.post,
-      authorizedPut: authorizedHttp.put
-    }),
-    ...lockbox({ ledgerUrl, ...http }),
-    ...misc({ rootUrl, apiUrl, ...http }),
-    ...profile({
-      rootUrl,
-      nabuUrl,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
       authorizedPut: authorizedHttp.put,
+      nabuUrl
+    }),
+    ...lockbox({ ledgerUrl, ...http }),
+    ...misc({ apiUrl, ...http }),
+    ...profile({
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
+      authorizedPut: authorizedHttp.put,
+      nabuUrl,
+      rootUrl,
       ...http
     }),
     ...send({ apiUrl, ...http }),
     ...settings({ rootUrl, ...http }),
     ...simpleBuy({
-      everypayUrl,
-      nabuUrl,
+      authorizedDelete: authorizedHttp.deleteRequest,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
       authorizedPut: authorizedHttp.put,
-      authorizedDelete: authorizedHttp.deleteRequest,
+      everypayUrl,
+      nabuUrl,
       ...http
     }),
     ...swap({
-      nabuUrl,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
+      nabuUrl,
       ...http
     }),
     ...rates({ nabuUrl, ...authorizedHttp }),

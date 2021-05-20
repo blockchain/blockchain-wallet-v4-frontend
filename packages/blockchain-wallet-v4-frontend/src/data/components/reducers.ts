@@ -9,7 +9,9 @@ import lockbox from './lockbox/reducers'
 import manageAddresses from './manageAddresses/reducers'
 import { priceChartReducer } from './priceChart/reducers'
 import { recoveryPhraseReducer } from './recoveryPhrase/reducers'
+import remindWalletGuid from './remindWalletGuid/reducers'
 import { requestReducer } from './request/reducers'
+import resetWallet2fa from './resetWallet2fa/reducers'
 import { sendReducer } from './send/reducers'
 import { sendBchReducer } from './sendBch/reducers'
 import { sendBtcReducer } from './sendBtc/reducers'
@@ -24,8 +26,8 @@ import veriff from './veriff/reducers'
 import { withdrawReducer } from './withdraw/reducers'
 
 const componentReducer = combineReducers({
-  brokerage: brokerageReducer,
   borrow: borrowReducer,
+  brokerage: brokerageReducer,
   identityVerification: identityVerificationReducer,
   interest: interestReducer,
   layoutWallet,
@@ -33,7 +35,9 @@ const componentReducer = combineReducers({
   manageAddresses,
   priceChart: priceChartReducer,
   recoveryPhrase: recoveryPhraseReducer,
+  remindWalletGuid,
   request: requestReducer,
+  resetWallet2fa,
   send: sendReducer,
   sendBch: sendBchReducer,
   sendBtc: sendBtcReducer,
@@ -44,8 +48,8 @@ const componentReducer = combineReducers({
   simpleBuy: simpleBuyReducer,
   swap: swapReducer,
   uploadDocuments,
+  veriff,
   withdraw: withdrawReducer,
-  veriff
 })
 
 export default componentReducer

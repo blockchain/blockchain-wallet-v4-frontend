@@ -10,10 +10,10 @@ const INITIAL_STATE: PricesStateType = {
   previousDay: Remote.NotAsked
 }
 
-const createPricesKvPairs = prices => {
+const createPricesKvPairs = (prices) => {
   return mergeAll(
     map(
-      x => ({
+      (x) => ({
         // @ts-ignore
         [x.split('-')[0]]: prices[x].price
       }),
@@ -22,20 +22,13 @@ const createPricesKvPairs = prices => {
   )
 }
 
-export const pricesReducer = (
-  state = INITIAL_STATE,
-  action
-): PricesStateType => {
+export const pricesReducer = (state = INITIAL_STATE, action): PricesStateType => {
   switch (action.type) {
     case AT.FETCH_COIN_PRICES_LOADING: {
       return assoc('current', Remote.Loading, state)
     }
     case AT.FETCH_COIN_PRICES_SUCCESS: {
-      return assoc(
-        'current',
-        Remote.Success(createPricesKvPairs(action.payload)),
-        state
-      )
+      return assoc('current', Remote.Success(createPricesKvPairs(action.payload)), state)
     }
     case AT.FETCH_COIN_PRICES_FAILURE: {
       return assoc('current', Remote.Failure(action.payload), state)
@@ -44,11 +37,7 @@ export const pricesReducer = (
       return assoc('previousDay', Remote.Loading, state)
     }
     case AT.FETCH_COIN_PRICES_PREVIOUS_DAY_SUCCESS: {
-      return assoc(
-        'previousDay',
-        Remote.Success(createPricesKvPairs(action.payload)),
-        state
-      )
+      return assoc('previousDay', Remote.Success(createPricesKvPairs(action.payload)), state)
     }
     case AT.FETCH_COIN_PRICES_PREVIOUS_DAY_FAILURE: {
       return assoc('previousDay', Remote.Failure(action.payload), state)

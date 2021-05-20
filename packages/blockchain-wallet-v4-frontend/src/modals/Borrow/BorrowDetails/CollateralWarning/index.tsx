@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
@@ -131,7 +131,7 @@ const CollateralWarning: React.FC<Props> = props => {
           <CustomIcon name='info' color='orange600' />
           <div>
             <Text size='14px' weight={500} color='grey600' lineHeight={'20px'}>
-              <FormattedHTMLMessage
+              <FormattedMessage
                 id='scenes.borrow.warning.risky'
                 defaultMessage='Your collateralization ratio of <span class="orange900">{currentRatio}</span> is below the recommended level. <span class="grey900">You need to add {collateralAmtRequired} of additional collateral.</span> If it drops below {liquidationHardPerc} we will sell your collateral.'
                 values={{
@@ -158,7 +158,7 @@ const CollateralWarning: React.FC<Props> = props => {
           <CustomIcon name='info' color='grey400' />
           <div>
             <Text size='14px' weight={500} color='grey600' lineHeight={'20px'}>
-              <FormattedHTMLMessage
+              <FormattedMessage
                 id='scenes.borrow.warning.safe'
                 defaultMessage='Your collateralization ratio is <span class="green600">{currentRatio}</span>, no action needed at this time.'
                 values={{

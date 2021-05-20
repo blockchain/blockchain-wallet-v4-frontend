@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
@@ -132,7 +132,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </TopText>
         <BasicTerms>
-          <FormattedHTMLMessage
+          <FormattedMessage
             id='modals.borrow.basicterms1'
             defaultMessage='You are requesting to borrow <b>{principalAmt}</b> and using'
             values={{

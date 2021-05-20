@@ -3,7 +3,8 @@ import {
   FormAction,
   FormDecorator,
   GetFormState,
-  InitializeOptions
+  InitializeOptions,
+  // eslint-disable-next-line import/no-extraneous-dependencies
 } from 'redux-form'
 
 export type WalletFormType =
@@ -34,7 +35,6 @@ export type WalletFormType =
   | 'prices'
   | 'priceChartCoin'
   | 'register'
-  | 'reminder'
   | 'repayLoanForm'
   | 'requestCrypto'
   | 'sbCheckoutConfirm'
@@ -48,6 +48,8 @@ export type WalletFormType =
   | 'swapOrderDetails'
   | 'transferEth'
   | 'transactionReport'
+  | 'walletGuidReminder'
+  | 'wallet2faReset'
   | 'walletTxSearch'
 
 declare module 'redux-form' {
@@ -131,38 +133,19 @@ declare module 'redux-form' {
     options?: Partial<InitializeOptions>
   ): FormAction
   /* eslint-enable */
-  export function registerField(
-    form: WalletFormType,
-    name: string,
-    type: FieldType
-  ): FormAction
+  export function registerField(form: WalletFormType, name: string, type: FieldType): FormAction
   export function reset(form: WalletFormType): FormAction
-  export function resetSection(
-    form: WalletFormType,
-    ...sections: string[]
-  ): FormAction
+  export function resetSection(form: WalletFormType, ...sections: string[]): FormAction
   export function startAsyncValidation(form: WalletFormType): FormAction
-  export function stopAsyncValidation(
-    form: WalletFormType,
-    errors?: any
-  ): FormAction
-  export function setSubmitFailed(
-    form: WalletFormType,
-    ...fields: string[]
-  ): FormAction
-  export function setSubmitSucceeded(
-    form: WalletFormType,
-    ...fields: string[]
-  ): FormAction
+  export function stopAsyncValidation(form: WalletFormType, errors?: any): FormAction
+  export function setSubmitFailed(form: WalletFormType, ...fields: string[]): FormAction
+  export function setSubmitSucceeded(form: WalletFormType, ...fields: string[]): FormAction
   export function startSubmit(form: WalletFormType): FormAction
   export function stopSubmit(form: WalletFormType, errors?: any): FormAction
   export function submit(form: WalletFormType): FormAction
   export function clearSubmit(form: WalletFormType): FormAction
   export function clearSubmitErrors(form: WalletFormType): FormAction
-  export function clearAsyncError(
-    form: WalletFormType,
-    field: string
-  ): FormAction
+  export function clearAsyncError(form: WalletFormType, field: string): FormAction
   export function clearFields(
     form: WalletFormType,
     keepTouched: boolean,
@@ -170,10 +153,7 @@ declare module 'redux-form' {
     ...fields: string[]
   ): FormAction
   export function touch(form: WalletFormType, ...fields: string[]): FormAction
-  export function unregisterField(
-    form: WalletFormType,
-    name: string
-  ): FormAction
+  export function unregisterField(form: WalletFormType, name: string): FormAction
   export function untouch(form: WalletFormType, ...fields: string[]): FormAction
   export function updateSyncErrors(
     from: string,
@@ -224,8 +204,7 @@ declare module 'redux-form' {
   export const hasSubmitSucceeded: BooleanSelector
   export const hasSubmitFailed: BooleanSelector
 
-  interface CustomConfigProps<FormData = {}, P = {}, ErrorType = string>
-    extends ConfigProps {
+  interface CustomConfigProps<FormData = {}, P = {}, ErrorType = string> extends ConfigProps {
     form: WalletFormType
   }
 

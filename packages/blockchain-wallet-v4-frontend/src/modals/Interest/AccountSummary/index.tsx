@@ -43,35 +43,28 @@ class AccountSummaryContainer extends PureComponent<Props> {
 
     const unsupportedCurrencies = [Currencies.TWD.code, Currencies.CLP.code]
     return data.cata({
-      Success: val =>
-        includes(walletCurrency, unsupportedCurrencies) ? (
-          <Unsupported
-            {...val}
-            {...this.props}
-            walletCurrency={walletCurrency}
-          />
-        ) : (
-          <AccountSummary
-            {...val}
-            {...this.props}
-            handleDepositClick={this.handleDepositClick}
-          />
-        ),
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      NotAsked: () => <Loading />,
+      Success: (val) =>
+        includes(walletCurrency, unsupportedCurrencies) ? (
+          <Unsupported {...val} {...this.props} walletCurrency={walletCurrency} />
+        ) : (
+          <AccountSummary {...val} {...this.props} handleDepositClick={this.handleDepositClick} />
+        ),
     })
   }
 }
 
 const mapStateToProps = (state): LinkStatePropsType => ({
+  currency: getCurrency(state),
   data: getData(state),
-  currency: getCurrency(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -80,10 +73,12 @@ export type OwnProps = {
   coin: CoinType
   handleClose: () => void
   handleSBClick: (string) => void
+  showSupply: boolean
   stepMetadata: InterestStepMetadata
 }
 
 export type LinkDispatchPropsType = {
+  analyticsActions: typeof actions.analytics
   interestActions: typeof actions.components.interest
   simpleBuyActions: typeof actions.components.simpleBuy
 }

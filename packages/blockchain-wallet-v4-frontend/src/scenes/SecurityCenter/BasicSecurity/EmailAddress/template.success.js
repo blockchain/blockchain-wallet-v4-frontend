@@ -1,6 +1,6 @@
 /* stylelint-disable */
 import React from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -126,7 +126,7 @@ const EmailAddress = props => {
         return (
           <React.Fragment>
             <EmailExplanation>
-              <FormattedHTMLMessage
+              <FormattedMessage
                 id='scenes.security.email.verifieddescription.success'
                 defaultMessage='You’ve verified <b>{email}</b>. Select "Change Email" to modify this existing address. We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.'
                 values={{ email }}
@@ -137,7 +137,7 @@ const EmailAddress = props => {
       }
       return (
         <EmailExplanation>
-          <FormattedHTMLMessage
+          <FormattedMessage
             id='scenes.security.email.unverifiedemaildescription'
             defaultMessage='We have sent a verification email to <b>{email}</b>. Please click on the email that you’ve received to verify your email. We’ll use this email to authorize logins, send payment notifications, and notify you of wallet updates.'
             values={{ email }}
