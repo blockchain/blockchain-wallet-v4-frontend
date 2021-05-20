@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import { defaultTo, filter, path, prop } from 'ramda'
 import { InjectedFormProps, reduxForm } from 'redux-form'
@@ -164,7 +164,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         <Info style={{ marginBottom: '12px' }}>
           {requiresTerms ? (
             <Text size='12px' weight={500} color='grey900'>
-              <FormattedHTMLMessage
+              <FormattedMessage
                 id='modals.simplebuy.confirm.activity_card11'
                 defaultMessage='Your final amount might change due to market activity. For your security, buy orders with a bank account are subject up to a 14 day holding period. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
               />
@@ -182,7 +182,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         {showLock && props.order.paymentType === 'USER_CARD' && (
           <Info>
             <Text size='12px' weight={500} color='grey900'>
-              <FormattedHTMLMessage
+              <FormattedMessage
                 id='modals.simplebuy.confirm.activity_card2'
                 defaultMessage='Your crypto will be available to be withdrawn within <b>{days} days</b>.'
                 values={{ days }}
@@ -200,7 +200,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 data-e2e='sbAcceptTermsCheckbox'
                 onChange={() => setAcceptTerms((acceptTerms) => !acceptTerms)}
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   id='modals.simplebuy.confirm.activity_accept_terms'
                   defaultMessage="I agree to Blockchain’s <a href='https://www.blockchain.com/legal/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a> and its return, refund and cancellation policy."
                 />

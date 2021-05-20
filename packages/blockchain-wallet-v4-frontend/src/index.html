@@ -10,6 +10,10 @@
 		<script nonce="**CSP_NONCE**">
       window.NONCE = '**CSP_NONCE**'
 		</script>
+		<script
+			nonce="**CSP_NONCE**"
+			src="https://www.google.com/recaptcha/enterprise.js?render=**RECAPTCHA_KEY**"
+		></script>
 		<style nonce="**CSP_NONCE**">
 			html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
 			html, body {overflow: hidden;}
@@ -21,6 +25,9 @@
 				scrollbar-width: none;
 				-ms-overflow-style: none;
 				-webkit-font-smoothing: antialiased;
+			}
+			.grecaptcha-badge {
+				visibility: hidden;
 			}
 		</style>
 	</head>

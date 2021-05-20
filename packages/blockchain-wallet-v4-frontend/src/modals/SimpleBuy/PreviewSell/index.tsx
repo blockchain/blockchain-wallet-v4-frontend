@@ -29,7 +29,10 @@ import { Border, FreeCartridge, TopText } from '../../Swap/components'
 import Loading from '../template.loading'
 
 class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
-  state = {}
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
 
   handleSubmit = (e) => {
     e.preventDefault()
@@ -165,7 +168,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             </Row>
             <Row>
               <Title color='grey600'>
-                <FormattedMessage id='copy.coin_network_fee' defaultMessage='Network Fee' />
+                <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
               </Title>
               <Value data-e2e='sbTransactionFee'>
                 {account.type === 'CUSTODIAL' ? (

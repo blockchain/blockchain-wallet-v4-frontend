@@ -56,7 +56,7 @@ const MenuTop = () => (
       </Title>
       <Text size='14px' weight={500} color='grey700'>
         <FormattedMessage
-          id='scenes.settings.menu.subtitle'
+          id='scenes.settings.addresses.subtitle'
           defaultMessage='Manage your wallets, addresses and private keys.'
         />
       </Text>

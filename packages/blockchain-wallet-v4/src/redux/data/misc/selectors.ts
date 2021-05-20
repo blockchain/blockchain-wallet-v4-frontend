@@ -1,15 +1,9 @@
-import { Remote } from 'blockchain-wallet-v4/src'
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { CoinType, RatesType, RemoteDataType, TimeRange, WalletCurrencyType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 
 import * as selectors from '../../selectors'
 
-export const getCaptcha = (state: RootState) => state.dataPath.misc.captcha
-
 export const getPriceIndexSeries = (state: RootState) => state.dataPath.misc.price_index_series
-
-export const getLogs = (state: RootState) => state.dataPath.misc.logs
 
 export const getPairingCode = (state: RootState) => state.dataPath.misc.pairing_code
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled, { DefaultTheme } from 'styled-components'
 
@@ -169,7 +169,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 size='16px'
                 weight={500}
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   id='scenes.verifyemail.description'
                   defaultMessage='We sent a verification email to: <b>{email}</b>. Please click the link in the email to continue.'
                   values={{

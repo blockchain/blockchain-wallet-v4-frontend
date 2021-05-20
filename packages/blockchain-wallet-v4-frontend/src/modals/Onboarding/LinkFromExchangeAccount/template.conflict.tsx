@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
@@ -329,7 +329,7 @@ class Conflict extends PureComponent<
                   marginTop: '34px'
                 }}
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   id='modals.onboarding.linkfromexchange.email_disclaimer1'
                   defaultMessage='Keep using <span class="grey900">{exchangeEmail}</span> to log into the Exchange'
                   values={{ exchangeEmail: email.exchange }}
@@ -346,7 +346,7 @@ class Conflict extends PureComponent<
                   marginTop: '16px'
                 }}
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   id='modals.onboarding.linkfromexchange.email_disclaimer2'
                   defaultMessage={`If you have 2FA enabled for your Wallet, nothing changes. You will still use <span className="grey900">{walletEmail}</span> to securely log in.`}
                   values={{ walletEmail: email.wallet }}

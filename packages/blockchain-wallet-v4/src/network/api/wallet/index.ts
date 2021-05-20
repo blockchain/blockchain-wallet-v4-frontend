@@ -3,46 +3,46 @@ import { concat, mergeRight, prop, propOr } from 'ramda'
 export default ({ get, post, rootUrl }) => {
   const fetchPayloadWithSharedKey = (guid, sharedKey) =>
     post({
-      url: rootUrl,
+      data: { format: 'json', guid, method: 'wallet.aes.json', sharedKey },
       endPoint: '/wallet',
-      data: { guid, sharedKey, method: 'wallet.aes.json', format: 'json' }
+      url: rootUrl
     })
 
   const fetchPayloadWithSession = (guid, sessionToken) =>
     get({
-      url: rootUrl,
-      endPoint: `/wallet/${guid}`,
       data: { format: 'json', resend_code: null },
-      sessionToken
+      endPoint: `/wallet/${guid}`,
+      sessionToken,
+      url: rootUrl
     })
 
   const fetchPayloadWithTwoFactorAuth = (guid, sessionToken, twoFactorCode) => {
     return post({
-      url: rootUrl,
-      endPoint: '/wallet',
       data: {
+        format: 'plain',
         guid,
-        payload: twoFactorCode,
         length: twoFactorCode.length,
         method: 'get-wallet',
-        format: 'plain'
+        payload: twoFactorCode
       },
-      sessionToken
+      endPoint: '/wallet',
+      sessionToken,
+      url: rootUrl
     })
   }
 
-  const savePayload = data =>
+  const savePayload = (data) =>
     post({
-      url: rootUrl,
+      data: mergeRight({ format: 'plain', method: 'update' }, data),
       endPoint: '/wallet',
-      data: mergeRight({ method: 'update', format: 'plain' }, data)
+      url: rootUrl
     }).then(() => data.checksum)
 
   const createPayload = (email, data) =>
     post({
-      url: rootUrl,
+      data: mergeRight({ email, format: 'plain', method: 'insert' }, data),
       endPoint: '/wallet',
-      data: mergeRight({ method: 'insert', format: 'plain', email }, data)
+      url: rootUrl
     }).then(() => data.checksum)
 
   // context => {
@@ -66,52 +66,50 @@ export default ({ get, post, rootUrl }) => {
     const data = {
       active,
       activeBech32,
-      format: 'json',
-      offset: offset,
-      no_compact: true,
       ct: new Date().getTime(),
-      n: n,
+      filter,
+      format: 'json',
       language: 'en',
+      n,
       no_buttons: true,
-      filter: filter
+      no_compact: true,
+      offset
     }
     return post({
-      url: rootUrl,
-      endPoint: '/multiaddr',
       data: onlyShow
         ? mergeRight(data, {
-            onlyShow: (Array.isArray(onlyShow) ? onlyShow : [onlyShow]).join(
-              '|'
-            )
+            onlyShow: (Array.isArray(onlyShow) ? onlyShow : [onlyShow]).join('|')
           })
-        : data
+        : data,
+      endPoint: '/multiaddr',
+      url: rootUrl
     })
   }
 
   const obtainSessionToken = () =>
     post({
-      url: rootUrl,
-      endPoint: '/wallet/sessions'
-    }).then(data =>
+      endPoint: '/wallet/sessions',
+      url: rootUrl
+    }).then((data) =>
       !data.token || !data.token.length
         ? Promise.reject(new Error('INVALID_SESSION_TOKEN'))
         : data.token
     )
 
-  const pollForSessionGUID = sessionToken =>
+  const pollForSessionGUID = (sessionToken) =>
     get({
-      url: rootUrl,
-      endPoint: '/wallet/poll-for-session-guid',
       data: { format: 'json' },
-      sessionToken
+      endPoint: '/wallet/poll-for-session-guid',
+      sessionToken,
+      url: rootUrl
     })
 
-  const generateUUIDs = count =>
+  const generateUUIDs = (count) =>
     get({
-      url: rootUrl,
+      data: { format: 'json', n: count },
       endPoint: '/uuid-generator',
-      data: { format: 'json', n: count }
-    }).then(data =>
+      url: rootUrl
+    }).then((data) =>
       !data.uuids || data.uuids.length !== count
         ? Promise.reject(new Error('Could not generate uuids'))
         : data.uuids
@@ -120,114 +118,104 @@ export default ({ get, post, rootUrl }) => {
   // createPinEntry :: HEXString(32Bytes) -> HEXString(32Bytes) -> String -> Promise Response
   const createPinEntry = (key, value, pin) =>
     post({
-      url: rootUrl,
+      data: { format: 'json', key, method: 'put', pin, value },
       endPoint: '/pin-store',
-      data: { format: 'json', method: 'put', value, pin, key }
+      url: rootUrl
     })
 
   // getPinValue :: HEXString(32Bytes) -> String -> Promise Response
   const getPinValue = (key, pin) =>
     get({
-      url: rootUrl,
+      data: { format: 'json', key, method: 'get', pin },
       endPoint: '/pin-store',
-      data: { format: 'json', method: 'get', pin, key }
+      url: rootUrl
     })
 
   const resendSmsLoginCode = (guid, sessionToken) =>
     get({
-      url: rootUrl,
-      endPoint: `/wallet/${guid}`,
       data: { format: 'json', resend_code: true },
-      sessionToken
+      endPoint: `/wallet/${guid}`,
+      sessionToken,
+      url: rootUrl
     })
 
-  const remindGuid = (email, captcha, sessionToken) =>
+  const remindGuid = (email, captchaToken, sessionToken) =>
     post({
-      url: rootUrl,
+      data: { captcha: captchaToken, email, method: 'send-guid-reminder' },
       endPoint: '/wallet',
-      data: { method: 'send-guid-reminder', email, captcha },
-      sessionToken
+      sessionToken,
+      url: rootUrl
     })
 
-  const deauthorizeBrowser = sessionToken =>
+  const deauthorizeBrowser = (sessionToken) =>
     get({
-      url: rootUrl,
-      endPoint: '/wallet/logout',
       data: { format: 'plain' },
-      sessionToken
+      endPoint: '/wallet/logout',
+      sessionToken,
+      url: rootUrl
     })
 
-  const reset2fa = (
-    guid,
-    email,
-    newEmail,
-    secretPhrase,
-    message,
-    code,
-    sessionToken
-  ) =>
+  const reset2fa = (guid, email, newEmail, captchaToken, sessionToken) =>
     post({
-      url: rootUrl,
-      endPoint: '/wallet',
       data: {
-        method: 'reset-two-factor-form',
-        guid,
-        email,
         contact_email: newEmail,
-        secret_phrase: secretPhrase,
-        message,
-        kaptcha: code
+        email,
+        guid,
+        kaptcha: captchaToken,
+        method: 'reset-two-factor-form'
       },
-      sessionToken
+      endPoint: '/wallet',
+      sessionToken,
+      url: rootUrl
     })
 
-  const getPairingPassword = guid =>
+  const getPairingPassword = (guid) =>
     post({
-      url: rootUrl,
+      data: { guid, method: 'pairing-encryption-password' },
       endPoint: '/wallet',
-      data: { method: 'pairing-encryption-password', guid }
+      url: rootUrl
     })
 
   const authorizeLogin = (token, confirm) =>
     post({
-      url: rootUrl,
-      endPoint: '/wallet',
       data: {
-        token: token,
         confirm_approval: confirm,
-        method: 'authorize-approve'
-      }
+        method: 'authorize-approve',
+        token
+      },
+      endPoint: '/wallet',
+      url: rootUrl
     })
 
-  const sendSecureChannel = message =>
+  const sendSecureChannel = (message) =>
     post({
-      url: rootUrl,
-      endPoint: '/wallet',
       data: {
-        payload: message,
         length: message.length,
-        method: 'send-secure-channel-browser'
-      }
+        method: 'send-secure-channel-browser',
+        payload: message
+      },
+      endPoint: '/wallet',
+      url: rootUrl
     })
 
-  const handle2faReset = token =>
+  const handle2faReset = (token) =>
     post({
-      url: rootUrl,
-      endPoint: '/wallet',
       data: {
-        token: token,
-        method: 'reset-two-factor-token'
-      }
+        method: 'reset-two-factor-token',
+        token
+      },
+      endPoint: '/wallet',
+      url: rootUrl
     })
 
-  const verifyEmailToken = token =>
+  const verifyEmailToken = (token) =>
     post({
-      url: rootUrl,
-      endPoint: '/wallet',
       data: {
-        token: token,
-        method: 'verify-email-token'
-      }
+        method: 'verify-email-token',
+        token
+      },
+      endPoint: '/wallet',
+      url: rootUrl
     })
 
   return {
@@ -245,11 +233,11 @@ export default ({ get, post, rootUrl }) => {
     handle2faReset,
     obtainSessionToken,
     pollForSessionGUID,
-    sendSecureChannel,
     remindGuid,
     resendSmsLoginCode,
     reset2fa,
     savePayload,
+    sendSecureChannel,
     verifyEmailToken
   }
 }

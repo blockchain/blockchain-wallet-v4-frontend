@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { calcBasicInterest } from 'blockchain-wallet-v4-frontend/src/modals/Interest/conversions'
 import styled from 'styled-components'
 
@@ -77,7 +77,7 @@ const Success: React.FC<Props> = ({
           weight={500}
           style={{ lineHeight: 1.5, marginTop: '4px', maxWidth: '414px' }}
         >
-          <FormattedHTMLMessage
+          <FormattedMessage
             id='modals.interestpromo.body'
             defaultMessage='Your recent {amount} purchase of {coin} could be worth <b>{worthAmount}*</b> in the next 12 months.'
             values={{

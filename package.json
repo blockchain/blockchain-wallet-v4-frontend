@@ -41,7 +41,7 @@
     "packages/*/src/**/*.{js,tsx}": [
       "stylelint './packages/*/src/**/*.{js,tsx}'"
     ],
-    "packages/**/*.json": [
+    "packages/**/!(*package).json": [
       "eslint --fix"
     ]
   },
@@ -103,6 +103,7 @@
     "@babel/preset-react": "7.13.13",
     "@commitlint/cli": "12.1.1",
     "@commitlint/config-conventional": "12.1.1",
+    "@formatjs/cli": "4.2.2",
     "@storybook/addon-actions": "5.3.19",
     "@storybook/addon-info": "5.3.19",
     "@storybook/addon-links": "5.3.19",
@@ -121,14 +122,13 @@
     "@types/redux": "3.6.0",
     "@types/redux-form": "8.2.3",
     "@types/styled-components": "5.1.9",
-    "@typescript-eslint/eslint-plugin": "4.17.0",
-    "@typescript-eslint/parser": "4.17.0",
+    "@typescript-eslint/eslint-plugin": "4.23.0",
+    "@typescript-eslint/parser": "4.23.0",
     "babel-jest": "26.6.3",
     "babel-loader": "8.2.2",
     "babel-plugin-inline-react-svg": "2.0.1",
     "babel-plugin-module-resolver": "4.1.0",
     "babel-plugin-react-html-attrs": "3.0.5",
-    "babel-plugin-react-intl": "4.3.0",
     "bs58": "4.0.1",
     "case-sensitive-paths-webpack-plugin": "2.4.0",
     "chalk": "4.1.1",
@@ -179,7 +179,6 @@
     "prettier": "2.2.1",
     "prettier-config-constellation": "0.0.5",
     "react-hot-loader": "4.13.0",
-    "react-intl-translations-manager": "5.0.3",
     "redux-mock-store": "1.5.4",
     "redux-saga-test-plan": "4.0.1",
     "release-it": "12.4.1",

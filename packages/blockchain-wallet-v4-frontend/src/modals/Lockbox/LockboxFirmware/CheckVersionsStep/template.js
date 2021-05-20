@@ -61,10 +61,7 @@ const CheckVersionsStep = props => {
       <ButtonContainer>
         {status ? (
           <Button fullwidth nature='primary' onClick={onStartInstall}>
-            <FormattedMessage
-              id='buttons.continue'
-              defaultMessage='Install Update'
-            />
+            Install Update
           </Button>
         ) : (
           <Button fullwidth disabled nature='dark'>

@@ -1,14 +1,14 @@
 import * as AT from './actionTypes'
 
 export const logInfoMessage = (file, method, message) => ({
-  type: AT.LOG_INFO_MSG,
-  payload: { file, method, message }
+  payload: { file, message, method },
+  type: AT.LOG_INFO_MSG
 })
 export const logErrorMessage = (file, method, message) => ({
-  type: AT.LOG_ERROR_MSG,
-  payload: { file, method, message }
+  payload: { file, message, method },
+  type: AT.LOG_ERROR_MSG
 })
-export const setLogLevel = level => ({
-  type: AT.SET_LOG_LEVEL,
-  payload: { level }
+export const setLogLevel = (level) => ({
+  payload: { level },
+  type: AT.SET_LOG_LEVEL
 })

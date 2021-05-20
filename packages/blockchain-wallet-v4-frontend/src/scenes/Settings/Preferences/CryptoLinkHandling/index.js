@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import Bowser from 'bowser'
 import { bindActionCreators } from 'redux'
@@ -83,7 +83,7 @@ class CryptoLinkHandlingContainer extends React.PureComponent {
 
               {isSafari && (
                 <TextWrapper size='12px' weight={400} color='error'>
-                  <FormattedHTMLMessage
+                  <FormattedMessage
                     id='scenes.settings.preferences.cryptolinkhandling.unknownstatus.safari'
                     defaultMessage='This feature is not supported in Safari <a href="https://caniuse.com/?search=registerProtocolHandler" target="_blank" rel="noopener noreferrrer">more details</a>.'
                   />

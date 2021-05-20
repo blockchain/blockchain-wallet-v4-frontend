@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import Bowser from 'bowser'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -189,7 +189,7 @@ const SignupForm = ({
         <FormLabel>
           <TextGroup inline>
             <Text color='grey800' size='12px' weight={500}>
-              <FormattedHTMLMessage
+              <FormattedMessage
                 id='scenes.register.backupphrase1'
                 defaultMessage='I understand that Blockchain.com never stores passwords and therefore cannot recover or reset my password. If I lose access to my wallet, I must use my'
               />
@@ -207,7 +207,7 @@ const SignupForm = ({
               />
             </Link>
             <Text color='grey800' size='12px' weight={500}>
-              <FormattedHTMLMessage
+              <FormattedMessage
                 id='scenes.register.backupphrase2'
                 defaultMessage='to access my funds.'
               />
