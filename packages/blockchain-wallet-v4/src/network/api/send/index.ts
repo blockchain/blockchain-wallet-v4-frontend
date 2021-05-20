@@ -8,7 +8,7 @@ export default ({ apiUrl, post }) => {
     return post({
       url: apiUrl,
       contentType: 'application/json',
-      endPoint: '/eth/v2/resolve',
+      endPoint: '/resolve',
       data: {
         name,
         currency
