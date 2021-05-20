@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import {
@@ -465,7 +465,7 @@ const Success: React.FC<Props> = props => {
               </DisplayTitle>
               <DisplaySubTitle>
                 {props.account.currency === 'USD' ? (
-                  <FormattedHTMLMessage
+                  <FormattedMessage
                     id='modals.simplebuy.deposit.important_transfer_only_description'
                     defaultMessage='Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected. <b>Be sure to include your Reference ID.</b>'
                   />

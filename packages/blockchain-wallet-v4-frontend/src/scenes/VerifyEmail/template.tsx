@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
@@ -46,7 +46,7 @@ const VerifyEmail = ({ email, resendEmail, skipVerification }: Props) => {
             size='16px'
             weight={500}
           >
-            <FormattedHTMLMessage
+            <FormattedMessage
               id='scenes.verifyemail.description'
               defaultMessage='We sent a verification email to: <b>{email}</b>. Please click the link in the email to continue.'
               values={{

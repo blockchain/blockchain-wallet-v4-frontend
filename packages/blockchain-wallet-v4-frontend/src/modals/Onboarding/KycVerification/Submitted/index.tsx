@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
@@ -71,7 +71,7 @@ class Submitted extends React.PureComponent<
               />
             </Text>
             <Text color='grey600' size='16px'>
-              <FormattedHTMLMessage
+              <FormattedMessage
                 id='modals.exchange.identityverification.submitted.view_status'
                 defaultMessage='You can view your application status by navigating to Settings and selecting Profile.'
               />
