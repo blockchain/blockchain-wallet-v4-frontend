@@ -4,12 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import {
-  Button,
-  Icon,
-  SkeletonRectangle,
-  Text
-} from 'blockchain-info-components'
+import { Button, Icon, SkeletonRectangle, Text } from 'blockchain-info-components'
 import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/redux/walletOptions/types'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -32,9 +27,9 @@ const AddressWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 16px 40px;
-  border-bottom: ${props => `1px solid ${props.theme.grey000}`};
+  border-bottom: ${(props) => `1px solid ${props.theme.grey000}`};
   &:first-child {
-    border-top: ${props => `1px solid ${props.theme.grey000}`};
+    border-top: ${(props) => `1px solid ${props.theme.grey000}`};
   }
 `
 const AddressDisplay = styled.div`
@@ -47,7 +42,7 @@ const AddressDisplay = styled.div`
   hyphens: none;
 `
 const InfoContainer = styled.div`
-  background: ${props => props.theme.grey000};
+  background: ${(props) => props.theme.grey000};
   margin: 16px 40px 0px 40px;
   padding: 16px;
   border-radius: 8px;
@@ -82,19 +77,11 @@ const AlertWrapper = styled.div`
 
 class RequestShowAddress extends React.PureComponent<Props> {
   componentDidMount() {
-    this.props.requestActions.getNextAddress(
-      this.props.formValues.selectedAccount
-    )
+    this.props.requestActions.getNextAddress(this.props.formValues.selectedAccount)
   }
 
   render() {
-    const {
-      formValues,
-      handleClose,
-      setStep,
-      supportedCoins,
-      walletCurrency
-    } = this.props
+    const { formValues, handleClose, setStep, supportedCoins, walletCurrency } = this.props
     const { selectedAccount } = formValues
     const coinModel = supportedCoins[selectedAccount.coin]
 
@@ -132,59 +119,42 @@ class RequestShowAddress extends React.PureComponent<Props> {
             </Text>
             <Text color='grey800' size='16px' weight={600} lineHeight='24px'>
               {this.props.addressR.cata({
-                Success: val => val.address,
-                Failure: err => (
+                Failure: () => (
                   <FormattedMessage
                     id='components.alerts.unknown_error'
                     defaultMessage='An error has occurred.'
-                  >
-                    {err}
-                  </FormattedMessage>
+                  />
                 ),
-                Loading: () => (
-                  <SkeletonRectangle width='280px' height='24px' />
-                ),
-                NotAsked: () => (
-                  <SkeletonRectangle width='280px' height='24px' />
-                )
+                Loading: () => <SkeletonRectangle width='280px' height='24px' />,
+                NotAsked: () => <SkeletonRectangle width='280px' height='24px' />,
+                Success: (val) => val.address,
               })}
             </Text>
           </AddressDisplay>
           <ClipboardWrapper>
             {this.props.addressR.cata({
-              Success: val => (
-                <CopyClipboardButton
-                  textToCopy={val.address}
-                  color='blue600'
-                  size='24px'
-                />
-              ),
               Failure: () => <></>,
               Loading: () => <></>,
-              NotAsked: () => <></>
+              NotAsked: () => <></>,
+              Success: (val) => (
+                <CopyClipboardButton textToCopy={val.address} color='blue600' size='24px' />
+              ),
             })}
           </ClipboardWrapper>
         </AddressWrapper>
         {this.props.addressR.cata({
-          Success: val =>
+          Failure: () => null,
+          Loading: () => null,
+          NotAsked: () => null,
+          Success: (val) =>
             val.extras
-              ? Object.keys(val.extras).map(extra => (
+              ? Object.keys(val.extras).map((extra) => (
                   <AddressWrapper>
                     <AddressDisplay>
-                      <Text
-                        color='grey600'
-                        size='14px'
-                        lineHeight='21px'
-                        weight={500}
-                      >
+                      <Text color='grey600' size='14px' lineHeight='21px' weight={500}>
                         {extra}
                       </Text>
-                      <Text
-                        color='grey800'
-                        size='16px'
-                        weight={600}
-                        lineHeight='24px'
-                      >
+                      <Text color='grey800' size='16px' weight={600} lineHeight='24px'>
                         {val.extras[extra as string]}
                       </Text>
                     </AddressDisplay>
@@ -198,9 +168,6 @@ class RequestShowAddress extends React.PureComponent<Props> {
                   </AddressWrapper>
                 ))
               : null,
-          Failure: () => null,
-          Loading: () => null,
-          NotAsked: () => null
         })}
         {coinModel.isMemoBased && selectedAccount.type === 'CUSTODIAL' && (
           <InfoContainer>
@@ -215,14 +182,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
         )}
         <QRCodeContainer>
           {this.props.addressR.cata({
-            Success: val => (
-              <QRCodeWrapper
-                data-e2e='requestAddressQrCode'
-                size={280}
-                value={val.address}
-              />
-            ),
-            Failure: err => (
+            Failure: (err) => (
               <SkeletonRectangle width='306px' height='306px'>
                 <AlertWrapper>
                   <Icon name='alert-filled' size='40px' color='red600' />
@@ -233,7 +193,10 @@ class RequestShowAddress extends React.PureComponent<Props> {
               </SkeletonRectangle>
             ),
             Loading: () => <SkeletonRectangle width='306px' height='306px' />,
-            NotAsked: () => <SkeletonRectangle width='306px' height='306px' />
+            NotAsked: () => <SkeletonRectangle width='306px' height='306px' />,
+            Success: (val) => (
+              <QRCodeWrapper data-e2e='requestAddressQrCode' size={280} value={val.address} />
+            ),
           })}
         </QRCodeContainer>
         <ButtonsWrapper>
@@ -255,17 +218,14 @@ class RequestShowAddress extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state, ownProps: OwnProps) => ({
+  addressR: selectors.components.request.getNextAddress(state, ownProps.formValues.selectedAccount),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrElse({} as SupportedWalletCurrenciesType),
-  addressR: selectors.components.request.getNextAddress(
-    state,
-    ownProps.formValues.selectedAccount
-  )
 })
 
-const mapDispatchToProps = dispatch => ({
-  requestActions: bindActionCreators(actions.components.request, dispatch)
+const mapDispatchToProps = (dispatch) => ({
+  requestActions: bindActionCreators(actions.components.request, dispatch),
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

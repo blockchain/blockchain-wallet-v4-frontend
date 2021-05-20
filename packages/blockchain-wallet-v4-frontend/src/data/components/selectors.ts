@@ -10,12 +10,9 @@ import * as manageAddresses from './manageAddresses/selectors'
 import * as priceChart from './priceChart/selectors'
 import * as priceTicker from './priceTicker/selectors'
 import * as recoveryPhrase from './recoveryPhrase/selectors'
-<<<<<<< HEAD
-import * as request from './request/selectors'
-=======
 import * as remindWalletGuid from './remindWalletGuid/selectors'
+import * as request from './request/selectors'
 import * as resetWallet2fa from './resetWallet2fa/selectors'
->>>>>>> development
 import * as send from './send/selectors'
 import * as sendBch from './sendBch/selectors'
 import * as sendBtc from './sendBtc/selectors'
@@ -43,12 +40,9 @@ export {
   priceChart,
   priceTicker,
   recoveryPhrase,
-<<<<<<< HEAD
-  request,
-=======
   remindWalletGuid,
+  request,
   resetWallet2fa,
->>>>>>> development
   send,
   sendBch,
   sendBtc,
@@ -61,5 +55,5 @@ export {
   uploadDocuments,
   utils,
   veriff,
-  withdraw
+  withdraw,
 }
