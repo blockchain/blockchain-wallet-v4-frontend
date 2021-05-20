@@ -1,6 +1,7 @@
 import { v4 } from 'uuid'
 
 import { getCardTypeByValue } from 'components/Form/CreditCardBox/model'
+import { SBPaymentTypes } from 'core/types'
 import { actionTypes as AT } from 'data'
 import { ModalNamesType, SBShowModalOriginType } from 'data/types'
 import queuevent from 'utils/queuevent'
@@ -9,7 +10,7 @@ enum AnalyticsKey {
   BUY_AMOUNT_ENTERED = 'Buy Amount Entered',
   BUY_AMOUNT_MAX_CLICKED = 'Buy Amount Max Clicked',
   BUY_AMOUNT_MIN_CLICKED = 'Buy Amount Min Clicked',
-  BUY_LEARN_MORE_CLICKED = 'Buy Learn More Clicked',
+  // BUY_LEARN_MORE_CLICKED = 'Buy Learn More Clicked', // not implemented
   BUY_PAYMENT_METHOD_SELECTED = 'Buy Payment Method Selected',
   BUY_SELL_CLICKED = 'Buy Sell Clicked',
   BUY_SELL_VIEWED = 'Buy Sell Viewed',
@@ -181,6 +182,20 @@ const simpleBuyOriginDictionary = (rawOrigin: SBShowModalOriginType) => {
   }
 }
 
+const simpleBuyPaymentTypeDictionary = (rawPaymentType: SBPaymentTypes) => {
+  switch (rawPaymentType) {
+    case 'USER_CARD': {
+      return 'PAYMENT_CARD'
+    }
+    case 'LINK_BANK': {
+      return 'BANK_TRANSFER'
+    }
+    default: {
+      return rawPaymentType
+    }
+  }
+}
+
 const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
   queueCallback: async (rawEvents) => {
     const res = await fetch('/wallet-options-v4.json')
@@ -211,6 +226,7 @@ const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
         events,
         id
       }),
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -346,7 +362,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           originalTimestamp: getOriginalTimestamp(),
           // output_amount: 123,
           output_currency: outputCurrency,
-
           platform: 'WALLET',
           type: AnalyticsType.EVENT
         })
@@ -389,7 +404,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.BUY_PAYMENT_METHOD_SELECTED, {
           originalTimestamp: getOriginalTimestamp(),
-          payment_type: paymentType,
+          payment_type: simpleBuyPaymentTypeDictionary(paymentType),
           platform: 'WALLET',
           type: AnalyticsType.EVENT
         })
