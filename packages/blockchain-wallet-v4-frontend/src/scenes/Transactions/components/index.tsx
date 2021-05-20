@@ -33,8 +33,9 @@ export const Addresses = ({ from, to }) => {
         </Text>
       </TextGroup>
       <TextGroup inline>
-        <Text size='14px' color={'grey600'} weight={500}>
-          <FormattedMessage id='copy.from:' defaultMessage='From: ' />
+        <Text size='14px' color='grey600' weight={500}>
+          <FormattedMessage id='copy.from:' defaultMessage='From' />
+          :&nbps;
         </Text>
         <Text
           size='14px'

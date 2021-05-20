@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
@@ -61,7 +61,8 @@ const Success = props => {
       <ConfirmWrapper>
         <LargeTableRow>
           <Text size='16px' weight={500}>
-            <FormattedMessage id='copy.from:' defaultMessage='From:' />
+            <FormattedMessage id='copy.from:' defaultMessage='From' />
+            :&nbpc;
           </Text>
           <Text size='16px' weight={400} data-e2e={`${coin}FromWallet`}>
             {fromAddress}
@@ -174,7 +175,7 @@ const Success = props => {
           data-e2e={`${coin}SendSubmitButton`}
         >
           {!submitting ? (
-            <FormattedHTMLMessage
+            <FormattedMessage
               id='modals.sendeth.secondstep.sendcoin'
               defaultMessage='Send {coinDisplayName}'
               values={{ coinDisplayName }}

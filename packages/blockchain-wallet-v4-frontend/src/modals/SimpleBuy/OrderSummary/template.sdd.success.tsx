@@ -259,7 +259,7 @@ const Success: React.FC<Props> = props => {
                     target='_blank'
                   >
                     <FormattedMessage
-                      id='modals.simplebuy.summary.learn_more'
+                      id='copy.learn_more'
                       defaultMessage='Learn more'
                     />
                   </a>

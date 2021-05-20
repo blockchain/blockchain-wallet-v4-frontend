@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Link, Text } from 'blockchain-info-components'
@@ -80,7 +80,7 @@ const Terms = props => {
       return (
         <TermsContainer>
           <Text size='13px' weight={500} color='grey600'>
-            <FormattedHTMLMessage
+            <FormattedMessage
               id='scenes.borrow.transferterms.read1'
               defaultMessage='By accepting this, you agree to transfer'
             />
@@ -94,7 +94,7 @@ const Terms = props => {
             {props.total}
           </CoinDisplay>{' '}
           <Text size='13px' weight={500} color='grey600'>
-            <FormattedHTMLMessage
+            <FormattedMessage
               id='scenes.borrow.transferterms.read2'
               defaultMessage='from your wallet to Blockchain.com. Your'
             />
@@ -108,7 +108,7 @@ const Terms = props => {
             {props.collateralAmt}
           </CoinDisplay>{' '}
           <Text size='13px' weight={500} color='grey600'>
-            <FormattedHTMLMessage
+            <FormattedMessage
               id='scenes.borrow.transferterms.read3'
               defaultMessage='collateral will be returned after your loan has been repaid minus any accrued interest and fees.'
             />{' '}
@@ -164,10 +164,11 @@ const Terms = props => {
             data-e2e='blockchainPrivacyLink'
           >
             <FormattedMessage
-              id='scenes.register.registerform.blockchain.default.privacypolicy'
-              defaultMessage='Privacy Policy.'
+              id='copy.privacy_policy'
+              defaultMessage='Privacy Policy'
             />
           </Link>
+          .
         </TermsContainer>
       )
   }

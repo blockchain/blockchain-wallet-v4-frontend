@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
@@ -252,7 +252,7 @@ const Success: React.FC<Props & { close: () => void; data: any }> = props => {
         weight={500}
         style={{ marginBottom: '24px' }}
       >
-        <FormattedHTMLMessage
+        <FormattedMessage
           id='modals.onboarding.linkfromexchange.success_disclaimer'
           defaultMessage="Having different Exchange and Wallet passwords helps to keep your accounts safe! <a href='https://support.blockchain.com/hc/en-us/articles/360029029911-Your-Wallet-101' rel='noopener noreferrer' target='_blank'>Learn more.</a> about the Wallet."
         />

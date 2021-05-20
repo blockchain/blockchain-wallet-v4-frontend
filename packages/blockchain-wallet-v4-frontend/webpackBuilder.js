@@ -4,9 +4,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const { concat, prepend } = require('ramda')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-let mockWalletOptions = require('./../../../config/mocks/wallet-options-v4')
+let mockWalletOptions = require('./../../config/mocks/wallet-options-v4')
 const TerserPlugin = require('terser-webpack-plugin')
-const CONFIG_PATH = require('./../../../config/paths')
+const CONFIG_PATH = require('./../../config/paths')
 const Webpack = require('webpack')
 const chalk = require('chalk')
 const path = require('path')
@@ -76,12 +76,12 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
     alias: {
-      components: path.resolve(__dirname, '../src/components/'),
-      data: path.resolve(__dirname, '../src/data/'),
-      layouts: path.resolve(__dirname, '../src/layouts/'),
-      providers: path.resolve(__dirname, '../src/providers/'),
-      services: path.resolve(__dirname, '../src/services/'),
-      utils: path.resolve(__dirname, '../src/utils/')
+      components: path.resolve(__dirname, 'src/components/'),
+      data: path.resolve(__dirname, 'src/data/'),
+      layouts: path.resolve(__dirname, 'src/layouts/'),
+      providers: path.resolve(__dirname, 'src/providers/'),
+      services: path.resolve(__dirname, 'src/services/'),
+      utils: path.resolve(__dirname, 'src/utils/')
     }
   },
   module: {

@@ -21,6 +21,7 @@
   "rules": {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/ban-ts-comment": "off",
+    "consistent-return": "off",
     "func-names": "off",
     "simple-import-sort/imports": [
       "error",

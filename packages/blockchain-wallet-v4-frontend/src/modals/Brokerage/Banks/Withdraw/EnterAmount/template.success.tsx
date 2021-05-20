@@ -1,5 +1,5 @@
 import React, { ReactChild } from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { isEmpty } from 'ramda'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -222,7 +222,7 @@ const Success: React.FC<InjectedFormProps<
         {showPendingTransactions && (
           <CoinContainer style={{ marginTop: '4px' }}>
             <PendingText size='14px' color='grey900' weight={500}>
-              <FormattedHTMLMessage
+              <FormattedMessage
                 id='modals.withdraw.lock_description'
                 defaultMessage="You have {locks} pending transactions. We’ll email you when these funds become available for withdrawal. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392-Why-can-t-I-withdraw-my-crypto-' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
                 values={{
