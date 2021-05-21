@@ -53,7 +53,6 @@ class RemindGuid extends React.PureComponent<InjectedFormProps<{}, Props> & Prop
     /* eslint-disable */
     // @ts-ignore
     const recaptchaKey = RECAPTCHA_KEY
-    console.log('captcha key: ', recaptchaKey)
     // @ts-ignore
     window.grecaptcha.enterprise.ready(() => {
       // @ts-ignore
@@ -61,7 +60,6 @@ class RemindGuid extends React.PureComponent<InjectedFormProps<{}, Props> & Prop
         action: 'GUID_REMINDER',
       })
         .then((captchaToken) => {
-          console.log('captcha token success: ', captchaToken)
           this.setState({ captchaToken })
         })
         .catch((e) => {
