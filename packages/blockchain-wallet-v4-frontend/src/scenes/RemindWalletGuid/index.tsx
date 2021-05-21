@@ -52,6 +52,8 @@ class RemindGuid extends React.PureComponent<InjectedFormProps<{}, Props> & Prop
   initCaptcha = () => {
     /* eslint-disable */
     // @ts-ignore
+    if (!window.grecaptcha || !window.grecaptcha.enterprise) return
+    // @ts-ignore
     const recaptchaKey = RECAPTCHA_KEY
     // @ts-ignore
     window.grecaptcha.enterprise.ready(() => {
