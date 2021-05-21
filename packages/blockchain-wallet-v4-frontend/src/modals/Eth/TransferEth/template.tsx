@@ -72,7 +72,7 @@ const TransferEth = (props: InjectedFormProps<{}, Props> & Props) => {
             <Row>
               <Text size='14px' weight={600}>
                 <FormattedMessage id='copy.from:' defaultMessage='From' />
-                :&nbps;
+                :
               </Text>
               <Text size='14px' weight={400}>
                 {legacyEthAddr}
