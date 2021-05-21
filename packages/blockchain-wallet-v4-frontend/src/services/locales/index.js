@@ -1,7 +1,8 @@
-import { addLocaleData } from 'react-intl'
 import Maybe from 'data.maybe'
 import moment from 'moment'
 import { find, findIndex, isNil, prop, propEq, sortBy, toUpper } from 'ramda'
+
+import '@formatjs/intl-relativetimeformat/polyfill'
 
 export const languages = [
   { cultureCode: 'de-DE', language: 'de', name: 'German' },
@@ -17,21 +18,21 @@ export const languages = [
 export const languagesSortedByName = sortBy(prop('name'))(languages)
 
 export function getLanguageName(cultureCode) {
-  let selectedLanguage = find(propEq('cultureCode', cultureCode))(languages)
+  const selectedLanguage = find(propEq('cultureCode', cultureCode))(languages)
   if (isNil(selectedLanguage)) return Maybe.Nothing()
 
   return Maybe.Just(selectedLanguage.name)
 }
 
 export function convertLanguageToCultureCode(language) {
-  let selectedLanguage = find(propEq('language', language))(languages)
+  const selectedLanguage = find(propEq('language', language))(languages)
   if (isNil(selectedLanguage)) return Maybe.Nothing()
 
   return Maybe.Just(selectedLanguage.cultureCode)
 }
 
 export function convertCultureCodeToLanguage(cultureCode) {
-  let selectedLanguage = find(propEq('cultureCode', cultureCode))(languages)
+  const selectedLanguage = find(propEq('cultureCode', cultureCode))(languages)
   if (isNil(selectedLanguage)) return Maybe.Nothing()
 
   return Maybe.Just(selectedLanguage.language)
@@ -51,8 +52,7 @@ export function tryParseLanguageFromUrl() {
 }
 
 export const loadLocaleData = (locale, callback) => {
-  const setLocaleData = (localeData, messages) => {
-    addLocaleData(localeData)
+  const setLocaleData = (messages) => {
     moment.locale(locale)
     callback(messages)
   }
@@ -62,13 +62,13 @@ export const loadLocaleData = (locale, callback) => {
       require.ensure(
         [
           'moment/locale/de.js',
-          'react-intl/locale-data/de.js',
+          '@formatjs/intl-relativetimeformat/locale-data/de.js',
           '../../assets/locales/de.json'
         ],
-        require => {
+        (require) => {
           require('moment/locale/de.js')
           setLocaleData(
-            require('react-intl/locale-data/de.js'),
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
             require('../../assets/locales/de.json')
           )
         },
@@ -79,13 +79,13 @@ export const loadLocaleData = (locale, callback) => {
       require.ensure(
         [
           'moment/locale/en-gb.js',
-          'react-intl/locale-data/en.js',
+          '@formatjs/intl-relativetimeformat/locale-data/en.js',
           '../../assets/locales/en.json'
         ],
-        require => {
+        (require) => {
           require('moment/locale/en-gb.js')
           setLocaleData(
-            require('react-intl/locale-data/en.js'),
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
             require('../../assets/locales/en.json')
           )
         },
@@ -96,13 +96,13 @@ export const loadLocaleData = (locale, callback) => {
       require.ensure(
         [
           'moment/locale/es.js',
-          'react-intl/locale-data/es.js',
+          '@formatjs/intl-relativetimeformat/locale-data/es.js',
           '../../assets/locales/es.json'
         ],
-        require => {
+        (require) => {
           require('moment/locale/es.js')
           setLocaleData(
-            require('react-intl/locale-data/es.js'),
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
             require('../../assets/locales/es.json')
           )
         },
@@ -113,13 +113,13 @@ export const loadLocaleData = (locale, callback) => {
       require.ensure(
         [
           'moment/locale/fr.js',
-          'react-intl/locale-data/fr.js',
+          '@formatjs/intl-relativetimeformat/locale-data/fr.js',
           '../../assets/locales/fr.json'
         ],
-        require => {
+        (require) => {
           require('moment/locale/fr.js')
           setLocaleData(
-            require('react-intl/locale-data/fr.js'),
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
             require('../../assets/locales/fr.json')
           )
         },
@@ -130,13 +130,13 @@ export const loadLocaleData = (locale, callback) => {
       require.ensure(
         [
           'moment/locale/it.js',
-          'react-intl/locale-data/it.js',
+          '@formatjs/intl-relativetimeformat/locale-data/it.js',
           '../../assets/locales/it.json'
         ],
-        require => {
+        (require) => {
           require('moment/locale/it.js')
           setLocaleData(
-            require('react-intl/locale-data/it.js'),
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
             require('../../assets/locales/it.json')
           )
         },
@@ -147,13 +147,13 @@ export const loadLocaleData = (locale, callback) => {
       require.ensure(
         [
           'moment/locale/pt.js',
-          'react-intl/locale-data/pt.js',
+          '@formatjs/intl-relativetimeformat/locale-data/pt.js',
           '../../assets/locales/pt.json'
         ],
-        require => {
+        (require) => {
           require('moment/locale/pt.js')
           setLocaleData(
-            require('react-intl/locale-data/pt.js'),
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
             require('../../assets/locales/pt.json')
           )
         },
@@ -164,13 +164,13 @@ export const loadLocaleData = (locale, callback) => {
       require.ensure(
         [
           'moment/locale/ru.js',
-          'react-intl/locale-data/ru.js',
+          '@formatjs/intl-relativetimeformat/locale-data/ru.js',
           '../../assets/locales/ru.json'
         ],
-        require => {
+        (require) => {
           require('moment/locale/ru.js')
           setLocaleData(
-            require('react-intl/locale-data/ru.js'),
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
             require('../../assets/locales/ru.json')
           )
         },
@@ -181,13 +181,13 @@ export const loadLocaleData = (locale, callback) => {
       require.ensure(
         [
           'moment/locale/tr.js',
-          'react-intl/locale-data/tr.js',
+          '@formatjs/intl-relativetimeformat/locale-data/tr.js',
           '../../assets/locales/tr.json'
         ],
-        require => {
+        (require) => {
           require('moment/locale/tr.js')
           setLocaleData(
-            require('react-intl/locale-data/tr.js'),
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
             require('../../assets/locales/tr.json')
           )
         },
@@ -198,13 +198,13 @@ export const loadLocaleData = (locale, callback) => {
       require.ensure(
         [
           'moment/locale/en-gb.js',
-          'react-intl/locale-data/en.js',
+          '@formatjs/intl-relativetimeformat/locale-data/en.js',
           '../../assets/locales/en.json'
         ],
-        require => {
+        (require) => {
           require('moment/locale/en-gb.js')
           setLocaleData(
-            require('react-intl/locale-data/en.js'),
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
             require('../../assets/locales/en.json')
           )
         },
@@ -215,68 +215,68 @@ export const loadLocaleData = (locale, callback) => {
 }
 
 const stateList = {
-  AL: 'Alabama',
   AK: 'Alaska',
+  AL: 'Alabama',
+  AR: 'Arkansas',
   AS: 'American Samoa',
   AZ: 'Arizona',
-  AR: 'Arkansas',
   CA: 'California',
   CO: 'Colorado',
   CT: 'Connecticut',
-  DE: 'Delaware',
   DC: 'District Of Columbia',
-  FM: 'Federated States Of Micronesia',
+  DE: 'Delaware',
   FL: 'Florida',
+  FM: 'Federated States Of Micronesia',
   GA: 'Georgia',
   GU: 'Guam',
   HI: 'Hawaii',
+  IA: 'Iowa',
   ID: 'Idaho',
   IL: 'Illinois',
   IN: 'Indiana',
-  IA: 'Iowa',
   KS: 'Kansas',
   KY: 'Kentucky',
   LA: 'Louisiana',
+  MA: 'Massachusetts',
+  MD: 'Maryland',
   ME: 'Maine',
   MH: 'Marshall Islands',
-  MD: 'Maryland',
-  MA: 'Massachusetts',
   MI: 'Michigan',
   MN: 'Minnesota',
-  MS: 'Mississippi',
   MO: 'Missouri',
+  MP: 'Northern Mariana Islands',
+  MS: 'Mississippi',
   MT: 'Montana',
+  NC: 'North Carolina',
+  ND: 'North Dakota',
   NE: 'Nebraska',
-  NV: 'Nevada',
   NH: 'New Hampshire',
   NJ: 'New Jersey',
   NM: 'New Mexico',
+  NV: 'Nevada',
   NY: 'New York',
-  NC: 'North Carolina',
-  ND: 'North Dakota',
-  MP: 'Northern Mariana Islands',
   OH: 'Ohio',
   OK: 'Oklahoma',
   OR: 'Oregon',
-  PW: 'Palau',
   PA: 'Pennsylvania',
   PR: 'Puerto Rico',
+  PW: 'Palau',
   RI: 'Rhode Island',
   SC: 'South Carolina',
   SD: 'South Dakota',
   TN: 'Tennessee',
   TX: 'Texas',
   UT: 'Utah',
-  VT: 'Vermont',
-  VI: 'Virgin Islands',
   VA: 'Virginia',
+  VI: 'Virgin Islands',
+  VT: 'Vermont',
   WA: 'Washington',
-  WV: 'West Virginia',
   WI: 'Wisconsin',
+  WV: 'West Virginia',
   WY: 'Wyoming'
 }
 
-export const getStateNameFromAbbreviation = abbreviation => {
+export const getStateNameFromAbbreviation = (abbreviation) => {
   return abbreviation && stateList[toUpper(abbreviation)]
     ? stateList[toUpper(abbreviation)]
     : abbreviation

@@ -166,10 +166,10 @@ export default ({ get, post, rootUrl }) => {
   const reset2fa = (guid, email, newEmail, captchaToken, sessionToken) =>
     post({
       data: {
+        captcha: captchaToken,
         contact_email: newEmail,
         email,
         guid,
-        kaptcha: captchaToken,
         method: 'reset-two-factor-form'
       },
       endPoint: '/wallet',

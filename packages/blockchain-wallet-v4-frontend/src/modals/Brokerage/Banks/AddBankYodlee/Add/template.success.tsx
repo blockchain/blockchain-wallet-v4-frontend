@@ -106,8 +106,8 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
               target='_blank'
             >
               <FormattedMessage
-                defaultMessage='Learn More'
-                id='modals.simplebuy.summary.learn_more'
+                defaultMessage='Learn more'
+                id='copy.learn_more'
               />
             </Link>
           </BodyText>
@@ -150,7 +150,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
             target='_blank'
           >
             <FormattedMessage
-              id='scenes.register.registerform.blockchain.default.privacypolicy'
+              id='copy.privacy_policy'
               defaultMessage='Privacy Policy'
             />
           </Link>

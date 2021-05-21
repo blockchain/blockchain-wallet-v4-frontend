@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
@@ -21,7 +21,7 @@ const Error = (props) => {
     <Wrapper>
       <Icon name='alert-filled' color='red600' size='40px' />
       <ErrorText size='16px' weight={400} color='red600' style={{ 'margin-top': '25px' }}>
-        <FormattedHTMLMessage
+        <FormattedMessage
           id='scenes.reset2fatoken.error1'
           defaultMessage='Uh Oh. Something went wrong. Error: {error}'
           values={{ error: props.value }}

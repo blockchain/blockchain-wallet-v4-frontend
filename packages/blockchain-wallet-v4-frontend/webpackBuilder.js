@@ -4,9 +4,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const { concat, prepend } = require('ramda')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-let mockWalletOptions = require('./../../../config/mocks/wallet-options-v4')
+let mockWalletOptions = require('./../../config/mocks/wallet-options-v4')
 const TerserPlugin = require('terser-webpack-plugin')
-const CONFIG_PATH = require('./../../../config/paths')
+const CONFIG_PATH = require('./../../config/paths')
 const Webpack = require('webpack')
 const chalk = require('chalk')
 const path = require('path')
@@ -76,12 +76,12 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
     alias: {
-      components: path.resolve(__dirname, '../src/components/'),
-      data: path.resolve(__dirname, '../src/data/'),
-      layouts: path.resolve(__dirname, '../src/layouts/'),
-      providers: path.resolve(__dirname, '../src/providers/'),
-      services: path.resolve(__dirname, '../src/services/'),
-      utils: path.resolve(__dirname, '../src/utils/')
+      components: path.resolve(__dirname, 'src/components/'),
+      data: path.resolve(__dirname, 'src/data/'),
+      layouts: path.resolve(__dirname, 'src/layouts/'),
+      providers: path.resolve(__dirname, 'src/providers/'),
+      services: path.resolve(__dirname, 'src/services/'),
+      utils: path.resolve(__dirname, 'src/utils/')
     }
   },
   module: {
@@ -134,14 +134,14 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       new CleanWebpackPlugin(),
       new Webpack.DefinePlugin({
         APP_VERSION: JSON.stringify(require(CONFIG_PATH.pkgJson).version),
-        RECAPTCHA_KEY: JSON.stringify(envConfig.RECAPTCHA_KEY)
+        RECAPTCHA_KEY: JSON.stringify(process.env.CAPTCHA_KEY ? process.env.CAPTCHA_KEY : envConfig.RECAPTCHA_KEY)
       }),
       new HtmlWebpackPlugin({
         template: CONFIG_PATH.src + '/index.html',
         filename: 'index.html'
       }),
       new HtmlReplaceWebpackPlugin([
-        { pattern: '**RECAPTCHA_KEY**', replacement: envConfig.RECAPTCHA_KEY }
+        { pattern: '**RECAPTCHA_KEY**', replacement: process.env.CAPTCHA_KEY ? process.env.CAPTCHA_KEY : envConfig.RECAPTCHA_KEY }
       ]),
       new Webpack.IgnorePlugin({
         resourceRegExp: /^\.\/locale$/,

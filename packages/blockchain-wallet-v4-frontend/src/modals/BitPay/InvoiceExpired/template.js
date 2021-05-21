@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import {
@@ -51,7 +51,7 @@ export const BitPayInvoiceExpired = ({ close, position, total }) => (
     <Body data-e2e='bitpayInvoiceExpired'>
       <TopImage name='close-error' />
       <Title size='20px' color='blue900'>
-        <FormattedHTMLMessage
+        <FormattedMessage
           defaultMessage='BitPay Invoice Expired'
           id='modals.bitpayexpired.invoice_expired'
         />
