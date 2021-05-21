@@ -40,6 +40,8 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
 
   initCaptcha = () => {
     /* eslint-disable */
+        // @ts-ignore
+        if (!window.grecaptcha || !window.grecaptcha.enterprise) return
     // @ts-ignore
     const recaptchaKey = RECAPTCHA_KEY
     // @ts-ignore
