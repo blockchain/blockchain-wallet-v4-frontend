@@ -49,6 +49,10 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     }
   } as SwapUserLimitsType)
 
+  const isRecuringBuy = selectors.core.walletOptions
+    .getFeatureFlagRecurringBuys(state)
+    .getOrElse(false) as boolean
+
   const isTier3SDD = sddEligibleTier === 3
 
   let bannerToShow: BannerType = null
@@ -67,7 +71,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     Number(limits?.annual.available) > 0
   ) {
     bannerToShow = 'continueToGold'
-  } else {
+  } else if (isRecuringBuy) {
     bannerToShow = 'recurringBuys'
   }
 
