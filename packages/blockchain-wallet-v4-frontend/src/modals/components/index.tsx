@@ -136,8 +136,9 @@ const StyledButton = styled(Button)`
 const LinkViaDesktop = ({
   authUrl,
   children,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onClick = () => {} // noop
+  onClick = () => {
+    // noop
+  }
 }: {
   authUrl?: string
   children: React.ReactChild

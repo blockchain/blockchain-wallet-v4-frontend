@@ -14,6 +14,7 @@ export type BannerType =
   | 'newCurrency'
   | 'buyCrypto'
   | 'continueToGold'
+  | 'recurringBuys'
   | null
 
 export const getData = (state: RootState): { bannerToShow: BannerType } => {
@@ -25,14 +26,11 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const ordersR = selectors.components.simpleBuy.getSBOrders(state)
   const orders: Array<SBOrderType> = ordersR.getOrElse([])
   const isSimpleBuyOrderPending = orders.find(
-    order =>
-      order.state === 'PENDING_CONFIRMATION' ||
-      order.state === 'PENDING_DEPOSIT'
+    (order) => order.state === 'PENDING_CONFIRMATION' || order.state === 'PENDING_DEPOSIT'
   )
 
   const isUserActive =
-    selectors.modules.profile.getUserActivationState(state).getOrElse('') !==
-    'NONE'
+    selectors.modules.profile.getUserActivationState(state).getOrElse('') !== 'NONE'
   const isKycStateNone =
     // @ts-ignore
     selectors.modules.profile.getUserKYCState(state).getOrElse('') === 'NONE'
@@ -43,9 +41,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     tiers: { current: 0 }
   } as UserDataType)
 
-  const sddEligibleTier = selectors.components.simpleBuy
-    .getUserSddEligibleTier(state)
-    .getOrElse(1)
+  const sddEligibleTier = selectors.components.simpleBuy.getUserSddEligibleTier(state).getOrElse(1)
 
   const limits = selectors.components.simpleBuy.getLimits(state).getOrElse({
     annual: {
@@ -71,6 +67,8 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     Number(limits?.annual.available) > 0
   ) {
     bannerToShow = 'continueToGold'
+  } else {
+    bannerToShow = 'recurringBuys'
   }
 
   return {
