@@ -2,13 +2,7 @@ import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
-import {
-  Button,
-  Icon,
-  Image,
-  SpinningLoader,
-  Text
-} from 'blockchain-info-components'
+import { Button, Icon, Image, SpinningLoader, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { OBInstitution } from 'data/types'
 
@@ -41,7 +35,7 @@ const QrContainer = styled.div`
   align-items: center;
   margin: 40px auto 0;
   padding: 15px;
-  border: 2px solid ${p => p.theme.blue600};
+  border: 2px solid ${(p) => p.theme.blue600};
   border-radius: 4px;
 
   & img {
@@ -85,10 +79,7 @@ const ScanWithPhone = ({ logo, qrCode }: ScanWithPhoneType) => {
     <Section>
       {logo && <LogoImage src={logo} />}
       <Text weight={600} size='20px' color='grey900'>
-        <FormattedMessage
-          id='modals.brokerage.link_via_mobile'
-          defaultMessage='Link via mobile'
-        />
+        <FormattedMessage id='modals.brokerage.link_via_mobile' defaultMessage='Link via mobile' />
       </Text>
       <Text weight={500} size='14px' color='grey600'>
         <FormattedMessage
@@ -97,11 +88,7 @@ const ScanWithPhone = ({ logo, qrCode }: ScanWithPhoneType) => {
         />
       </Text>
       <QrContainer>
-        {qrCode ? (
-          <img src={qrCode} />
-        ) : (
-          <SpinningLoader width='30px' height='30px' />
-        )}
+        {qrCode ? <img src={qrCode} alt='qrcode' /> : <SpinningLoader width='30px' height='30px' />}
       </QrContainer>
     </Section>
   )
@@ -143,7 +130,9 @@ const StyledButton = styled(Button)`
 `
 const LinkViaDesktop = ({
   authUrl,
-  onClick = () => {}
+  onClick = () => {
+    // do nothing.
+  }
 }: {
   authUrl?: string
   onClick?: () => void
@@ -217,16 +206,10 @@ const Loading = ({ text }: Props) => {
           <FormattedMessage id='copy.loading' defaultMessage='Loading...' />
         )}
         {text === LoadingTextEnum.GETTING_READY && (
-          <FormattedMessage
-            id='loader.message.gettingready'
-            defaultMessage='Getting Ready...'
-          />
+          <FormattedMessage id='loader.message.gettingready' defaultMessage='Getting Ready...' />
         )}
         {text === LoadingTextEnum.PROCESSING && (
-          <FormattedMessage
-            id='modals.simplebuy.processing'
-            defaultMessage='Processing…'
-          />
+          <FormattedMessage id='modals.simplebuy.processing' defaultMessage='Processing…' />
         )}
       </Text>
     </Wrapper>
@@ -281,7 +264,7 @@ const BankRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border: 0px solid ${p => p.theme.grey000};
+  border: 0px solid ${(p) => p.theme.grey000};
   border-bottom-width: 1px;
   padding: 28px 40px;
 
@@ -292,7 +275,7 @@ const BankRow = styled.div`
     align-items: center;
   }
 
-  ${props =>
+  ${(props) =>
     props.onClick &&
     css`
       cursor: pointer;
@@ -300,7 +283,7 @@ const BankRow = styled.div`
         cursor: pointer;
       }
       &:hover {
-        background-color: ${props => props.theme.blue000};
+        background-color: ${(props) => props.theme.blue000};
       }
     `}
 `
@@ -308,7 +291,7 @@ const BankRow = styled.div`
 const BankIcon = styled.div<BankIconProps>`
   height: 30px;
   width: 30px;
-  background: url("${p => p.url}") 0 0 no-repeat;
+  background: url('${(p) => p.url}') 0 0 no-repeat;
   background-size: 30px;
   background-position: center;
 `
@@ -317,7 +300,7 @@ const BankSearchWrapper = styled.div`
   position: relative;
 `
 const BankSearchInput = styled.input`
-  border: 1px solid ${p => p.theme.grey000};
+  border: 1px solid ${(p) => p.theme.grey000};
   font-size: 16px;
   width: 100%;
   border-width: 1px 0;
@@ -338,10 +321,7 @@ const BankSearchIcon = () => (
   />
 )
 
-const SimpleBankRow = (props: {
-  institution: OBInstitution
-  onClick: () => void
-}) => {
+const SimpleBankRow = (props: { institution: OBInstitution; onClick: () => void }) => {
   return (
     <BankRow onClick={props.onClick}>
       <div>
@@ -362,7 +342,7 @@ const SimpleBankRow = (props: {
   )
 }
 
-const ModalNavWithBackArrow = props => {
+const ModalNavWithBackArrow = (props) => {
   return (
     <NavText color='grey800' size='20px' weight={600}>
       <Icon
@@ -379,14 +359,9 @@ const ModalNavWithBackArrow = props => {
   )
 }
 
-const ModalNavWithCloseIcon = props => {
+const ModalNavWithCloseIcon = (props) => {
   return (
-    <NavText
-      color='grey800'
-      size='20px'
-      weight={600}
-      style={{ justifyContent: 'space-between' }}
-    >
+    <NavText color='grey800' size='20px' weight={600} style={{ justifyContent: 'space-between' }}>
       {props.children}
       <Icon
         cursor
@@ -403,7 +378,7 @@ const ModalNavWithCloseIcon = props => {
 
 const HrEl = styled.hr`
   border: none;
-  border-top: 1px solid ${p => p.theme.grey100};
+  border-top: 1px solid ${(p) => p.theme.grey100};
   text-align: center;
   overflow: visible;
   color: #333;
@@ -415,7 +390,7 @@ const HrEl = styled.hr`
     padding: 0 4px;
     position: relative;
     top: -10px;
-    background: ${p => p.theme.alwaysWhite};
+    background: ${(p) => p.theme.alwaysWhite};
   }
 `
 

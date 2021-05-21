@@ -51,20 +51,20 @@ class AccountSummaryContainer extends PureComponent<Props> {
           <Unsupported {...val} {...this.props} walletCurrency={walletCurrency} />
         ) : (
           <AccountSummary {...val} {...this.props} handleDepositClick={this.handleDepositClick} />
-        ),
+        )
     })
   }
 }
 
 const mapStateToProps = (state): LinkStatePropsType => ({
   currency: getCurrency(state),
-  data: getData(state),
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

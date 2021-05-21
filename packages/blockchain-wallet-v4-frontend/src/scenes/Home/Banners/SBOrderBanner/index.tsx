@@ -21,7 +21,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid ${props => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 8px;
   padding: 20px;
 
@@ -55,7 +55,7 @@ const PendingIconWrapper = styled.div`
   min-width: 40px;
   border-radius: 20px;
   margin-right: 20px;
-  background-color: ${props => props.theme.orange000};
+  background-color: ${(props) => props.theme.orange000};
 `
 const Copy = styled(Text)`
   display: flex;
@@ -100,9 +100,7 @@ class SBOrderBanner extends PureComponent<Props> {
               <BuyOrSell
                 orderType={orderType}
                 coinModel={
-                  this.props.supportedCoins[
-                    latestPendingOrder.outputCurrency as WalletCurrencyType
-                  ]
+                  this.props.supportedCoins[latestPendingOrder.outputCurrency as WalletCurrencyType]
                 }
               />
             </Text>
@@ -132,10 +130,7 @@ class SBOrderBanner extends PureComponent<Props> {
           data-e2e='openPendingSBOrder'
           nature='primary'
         >
-          <FormattedMessage
-            id='scenes.home.banner.sborder.details'
-            defaultMessage='View Details'
-          />
+          <FormattedMessage id='scenes.home.banner.sborder.details' defaultMessage='View Details' />
         </BannerButton>
       </Wrapper>
     )
@@ -143,9 +138,7 @@ class SBOrderBanner extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  latestPendingOrder: selectors.components.simpleBuy.getSBLatestPendingOrder(
-    state
-  ),
+  latestPendingOrder: selectors.components.simpleBuy.getSBLatestPendingOrder(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrElse({} as SupportedWalletCurrenciesType)
