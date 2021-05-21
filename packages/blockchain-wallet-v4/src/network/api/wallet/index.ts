@@ -147,12 +147,12 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
-  const loginGuid = (email, sessionToken) =>
+  const loginGuid = (email, captchaToken, sessionToken) =>
     post({
-      url: rootUrl,
+      data: { captcha: captchaToken, email, method: 'send-guid-reminder' },
       endPoint: '/wallet',
-      data: { method: 'send-guid-reminder', email },
-      sessionToken
+      sessionToken,
+      url: rootUrl
     })
 
   const deauthorizeBrowser = (sessionToken) =>

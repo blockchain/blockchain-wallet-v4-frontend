@@ -21,13 +21,41 @@ import EnterPassword from './EnterPassword'
 import { LOGIN_FORM_NAME, SignUpText, SubCard } from './model'
 import VerificationMobile from './VerificationMobile'
 
-class Login extends PureComponent<InjectedFormProps & Props> {
+class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
+  constructor(props) {
+    super(props)
+    this.state = {
+      captchaToken: undefined
+    }
+  }
+
   componentDidMount() {
     this.props.authActions.initializeLogin()
+    this.initCaptcha()
   }
 
   setStep = (step: LoginSteps) => {
     this.props.formActions.change(LOGIN_FORM_NAME, 'step', step)
+  }
+
+  initCaptcha = () => {
+    /* eslint-disable */
+    // @ts-ignore
+    const recaptchaKey = RECAPTCHA_KEY
+    // @ts-ignore
+    window.grecaptcha.enterprise.ready(() => {
+      // @ts-ignore
+      window.grecaptcha.enterprise.execute(recaptchaKey, {
+        action: 'LOGIN',
+      })
+        .then((captchaToken) => {
+          this.setState({ captchaToken })
+        })
+        .catch((e) => {
+          console.error('captcha error: ', e)
+        })
+    })
+    /* eslint-enable */
   }
 
   // Every step is part of one form
@@ -35,6 +63,12 @@ class Login extends PureComponent<InjectedFormProps & Props> {
   // Depending on which step user is on
   handleSubmit = (e) => {
     e.preventDefault()
+    // sometimes captcha doesnt mount correctly (race condition?)
+    // if it's undefined, try to re-init for token
+    if (!this.state.captchaToken) {
+      this.initCaptcha()
+    }
+
     const { authActions, code, formActions, formValues, guid, guidOrEmail, password } = this.props
     let auth = code
     // only uppercase if authType is not Yubikey
@@ -50,7 +84,7 @@ class Login extends PureComponent<InjectedFormProps & Props> {
         formActions.change(LOGIN_FORM_NAME, 'step', LoginSteps.VERIFICATION_MOBILE)
       } else {
         formActions.change(LOGIN_FORM_NAME, 'email', guidOrEmail)
-        authActions.loginGuid(guidOrEmail)
+        authActions.loginGuid(guidOrEmail, this.state.captchaToken)
       }
     } else {
       authActions.login(guid, password, auth, null, null)
@@ -173,6 +207,9 @@ type FormProps = {
   submitting: boolean
 }
 
+type StateProps = {
+  captchaToken?: string
+}
 export type Props = ConnectedProps<typeof connector> & FormProps
 
 const enhance = compose<any>(

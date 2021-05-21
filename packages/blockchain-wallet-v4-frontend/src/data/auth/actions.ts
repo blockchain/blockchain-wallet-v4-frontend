@@ -126,8 +126,8 @@ export const initializeLoginFailure = (): AuthActionTypes => ({
 })
 
 // LOGIN GUID
-export const loginGuid = (email: string) => ({
-  payload: { email },
+export const loginGuid = (email: string, captchaToken?: string) => ({
+  payload: { captchaToken, email },
   type: AT.LOGIN_GUID
 })
 export const loginGuidLoading = (): AuthActionTypes => ({

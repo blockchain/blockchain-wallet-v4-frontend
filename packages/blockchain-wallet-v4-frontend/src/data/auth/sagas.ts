@@ -583,9 +583,9 @@ export default ({ api, coreSagas }) => {
     try {
       yield put(A.loginGuidLoading())
       const sessionToken = yield call(api.obtainSessionToken)
-      const { email } = action.payload
+      const { captchaToken, email } = action.payload
       yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
-      yield call(api.loginGuid, email, sessionToken)
+      yield call(api.loginGuid, email, captchaToken, sessionToken)
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
