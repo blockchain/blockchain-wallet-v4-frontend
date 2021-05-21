@@ -195,6 +195,8 @@ const simpleBuyPaymentTypeDictionary = (rawPaymentType: SBPaymentTypes) => {
 
 const getOriginalTimestamp = () => new Date().toISOString()
 
+const id = v4()
+
 const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
   queueCallback: async (rawEvents) => {
     const res = await fetch('/wallet-options-v4.json')
@@ -202,7 +204,17 @@ const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
 
     const analyticsURL = `${options.domains.api}/events/publish`
 
-    const id = v4()
+    const context: { traits: { nabu_id: string | null } } = {
+      traits: {
+        nabu_id: null
+      }
+    }
+
+    const nabuId = rawEvents.find((event) => event.payload.id)?.payload.id
+
+    if (nabuId) {
+      context.traits.nabu_id = nabuId
+    }
 
     const events = rawEvents.map((event) => {
       const name = event.key
@@ -220,6 +232,7 @@ const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
 
     await fetch(analyticsURL, {
       body: JSON.stringify({
+        context,
         events,
         id
       }),
