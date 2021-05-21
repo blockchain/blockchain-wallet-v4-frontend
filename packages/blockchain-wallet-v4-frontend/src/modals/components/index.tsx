@@ -137,7 +137,7 @@ const LinkViaDesktop = ({
   authUrl,
   children,
   onClick = () => {
-    // noop
+    // do nothing.
   }
 }: {
   authUrl?: string
