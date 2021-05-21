@@ -47,6 +47,9 @@ const getAndLogEnvConfig = () => {
       chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL)
     )
     console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(isSslEnabled))
+    console.log(chalk.cyan('process env: ') + chalk.blue(JSON.stringify(process.env)))
+    console.log(chalk.cyan('env config: ') + chalk.blue(JSON.stringify(envConfig)))
+    console.log(chalk.cyan('captcha key: ') + chalk.blue(process.env.RECAPTCHA_KEY ? process.env.RECAPTCHA_KEY : envConfig.RECAPTCHA_KEY))
   }
 
   return { envConfig, isSslEnabled }
@@ -134,7 +137,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       new CleanWebpackPlugin(),
       new Webpack.DefinePlugin({
         APP_VERSION: JSON.stringify(require(CONFIG_PATH.pkgJson).version),
-        RECAPTCHA_KEY: JSON.stringify(process.env.RECAPTCHA_KEY || envConfig.RECAPTCHA_KEY)
+        RECAPTCHA_KEY: JSON.stringify(process.env.RECAPTCHA_KEY ? process.env.RECAPTCHA_KEY : envConfig.RECAPTCHA_KEY)
       }),
       new HtmlWebpackPlugin({
         template: CONFIG_PATH.src + '/index.html',
