@@ -204,16 +204,12 @@ const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
 
     const analyticsURL = `${options.domains.api}/events/publish`
 
+    const nabuId = rawEvents.find((event) => event.payload.id)?.payload.id || null
+
     const context: { traits: { nabu_id: string | null } } = {
       traits: {
-        nabu_id: null
+        nabu_id: nabuId
       }
-    }
-
-    const nabuId = rawEvents.find((event) => event.payload.id)?.payload.id
-
-    if (nabuId) {
-      context.traits.nabu_id = nabuId
     }
 
     const events = rawEvents.map((event) => {
