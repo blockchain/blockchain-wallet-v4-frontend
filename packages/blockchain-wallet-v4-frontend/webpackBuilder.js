@@ -134,14 +134,14 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       new CleanWebpackPlugin(),
       new Webpack.DefinePlugin({
         APP_VERSION: JSON.stringify(require(CONFIG_PATH.pkgJson).version),
-        RECAPTCHA_KEY: JSON.stringify(process.env.RECAPTCHA_KEY || envConfig.RECAPTCHA_KEY || 'MISSING')
+        RECAPTCHA_KEY: JSON.stringify(process.env.RECAPTCHA_KEY || envConfig.RECAPTCHA_KEY)
       }),
       new HtmlWebpackPlugin({
         template: CONFIG_PATH.src + '/index.html',
         filename: 'index.html'
       }),
       new HtmlReplaceWebpackPlugin([
-        { pattern: '**RECAPTCHA_KEY**', replacement: process.env.RECAPTCHA_KEY || envConfig.RECAPTCHA_KEY || 'MISSING' }
+        { pattern: '**RECAPTCHA_KEY**', replacement: process.env.RECAPTCHA_KEY ? process.env.RECAPTCHA_KEY : envConfig.RECAPTCHA_KEY }
       ]),
       new Webpack.IgnorePlugin({
         resourceRegExp: /^\.\/locale$/,
