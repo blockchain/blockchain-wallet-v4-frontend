@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, FiatType } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -13,13 +13,15 @@ import Success from './template.success'
 
 class DepositForm extends PureComponent<Props> {
   componentDidMount() {
+    const { walletCurrency } = this.props
     this.handleInitializeDepositForm()
+    this.props.interestActions.fetchEddWithdrawLimits(walletCurrency)
   }
 
   handleDisplayToggle = (isCoin: boolean) => {
     const { data, formActions, interestActions } = this.props
     const { displayCoin } = data.getOrElse({
-      displayCoin: false,
+      displayCoin: false
     } as DataSuccessStateType)
 
     if (isCoin === displayCoin) return
@@ -55,20 +57,20 @@ class DepositForm extends PureComponent<Props> {
           walletCurrency={walletCurrency}
           handleDisplayToggle={this.handleDisplayToggle}
         />
-      ),
+      )
     })
   }
 }
 
 const mapStateToProps = (state: RootState) => ({
   currency: getCurrency(state),
-  data: getData(state),
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  interestActions: bindActionCreators(actions.components.interest, dispatch),
+  interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -86,6 +88,7 @@ export type CurrencySuccessStateType = ReturnType<typeof getCurrency>['data']
 export type OwnProps = {
   coin: CoinType
   setShowSupply: (boolean) => void
+  walletCurrency: FiatType
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
