@@ -14,7 +14,6 @@ import onboarding from './onboarding/sagas'
 import priceChart from './priceChart/sagas'
 import priceTicker from './priceTicker/sagas'
 import refresh from './refresh/sagas'
-import remindWalletGuid from './remindWalletGuid/sagas'
 import resetWallet2fa from './resetWallet2fa/sagas'
 import send from './send/sagas'
 import sendBch from './sendBch/sagas'
@@ -47,7 +46,6 @@ export default ({ api, coreSagas, networks }) => ({
   priceChart: priceChart(),
   priceTicker: priceTicker({ coreSagas }),
   refresh: refresh(),
-  remindWalletGuid: remindWalletGuid({ api }),
   resetWallet2fa: resetWallet2fa({ api }),
   send: send({ api, coreSagas, networks }),
   sendBch: sendBch({ api, coreSagas, networks }),
