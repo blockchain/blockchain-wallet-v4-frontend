@@ -99,7 +99,7 @@ export const setRegisterEmail = (email) => ({
   payload: { email },
   type: AT.SET_REGISTER_EMAIL
 })
-export const upgradeWallet = (version) => ({
+export const upgradeWallet = (version: number): AuthActionTypes => ({
   payload: { version },
   type: AT.UPGRADE_WALLET
 })

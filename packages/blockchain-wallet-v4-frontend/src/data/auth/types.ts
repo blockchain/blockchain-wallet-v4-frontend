@@ -52,6 +52,13 @@ interface LoginGuidFailureActionType {
   type: typeof AT.LOGIN_GUID_FAILURE
 }
 
+interface UpgradeWalletActionType {
+  payload: {
+    version: number
+  }
+  type: typeof AT.UPGRADE_WALLET
+}
+
 interface WalletGuidSubmitSuccessActionType {
   type: typeof AT.GUID_WALLET_SUCCESS
 }
@@ -71,6 +78,7 @@ export type AuthActionTypes =
   | LoginGuidFailureActionType
   | LoginGuidLoadingActionType
   | LoginGuidSuccessActionType
+  | UpgradeWalletActionType
   | WalletGuidSubmitSuccessActionType
   | WalletGuidSubmitLoadingActionType
   | WalletGuidSubmitFailureActionType

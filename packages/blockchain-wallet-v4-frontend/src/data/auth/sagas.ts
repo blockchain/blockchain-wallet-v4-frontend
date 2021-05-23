@@ -30,7 +30,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const upgradeWallet = function* ({ payload }) {
+  const upgradeWallet = function* (payload) {
     try {
       const { version } = payload
       const password = yield call(promptForSecondPassword)
@@ -41,6 +41,8 @@ export default ({ api, coreSagas }) => {
           break
         case 4:
           yield coreSagas.wallet.upgradeToV4({ password })
+          break
+        default:
           break
       }
       yield call(forceSyncWallet)
