@@ -13,7 +13,7 @@ import {
   SBQuoteType,
   SupportedWalletCurrenciesType,
   SwapQuoteType,
-  SwapUserLimitsType,
+  SwapUserLimitsType
 } from 'blockchain-wallet-v4/src/types'
 import { model } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
@@ -51,12 +51,12 @@ export const formatQuote = (
   if (fix === 'FIAT') {
     return coinToString({
       unit: { symbol: supportedCoins[getCoinFromPair(pair)].coinTicker },
-      value: amt,
+      value: amt
     })
   }
   return fiatToString({
     unit: getFiatFromPair(pair),
-    value: amt,
+    value: amt
   })
 }
 
@@ -153,7 +153,7 @@ export const getMaxMin = (
             ),
             FIAT: isSddFlow
               ? convertBaseToStandard('FIAT', Number(sddLimit.max))
-              : convertBaseToStandard('FIAT', pair.buyMax),
+              : convertBaseToStandard('FIAT', pair.buyMax)
           }
 
           if (Number(defaultMax.FIAT) > limitMaxAmount && limitMaxChanged) {
@@ -166,7 +166,7 @@ export const getMaxMin = (
           let max = BigNumber.minimum(
             method.limits.max,
             isSddFlow ? sddLimit.max : pair.buyMax,
-            isSddFlow ? sddLimit.max : convertBaseToStandard('FIAT', limitMaxAmount, false)
+            isSddFlow ? sddLimit.max : limitMaxAmount
           ).toString()
 
           let fundsChangedMax = false
@@ -220,7 +220,7 @@ export const getMaxMin = (
             ),
             FIAT: isSddFlow
               ? convertBaseToStandard('FIAT', Number(sddLimit.min))
-              : convertBaseToStandard('FIAT', pair.buyMin),
+              : convertBaseToStandard('FIAT', pair.buyMin)
           }
 
           if (Number(defaultMin.FIAT) < limitMinAmount && limitMinChanged) {
@@ -233,7 +233,7 @@ export const getMaxMin = (
           const min = BigNumber.maximum(
             method.limits.min,
             pair.buyMin,
-            isSddFlow ? method.limits.min : convertBaseToStandard('FIAT', limitMinAmount, false)
+            isSddFlow ? method.limits.min : limitMinAmount
           ).toString()
 
           const minFiat = convertBaseToStandard('FIAT', min)
@@ -286,7 +286,7 @@ export const maximumAmount = (
     quote,
     sbBalances,
     sddLimit,
-    swapAccount,
+    swapAccount
   } = restProps
 
   const method = selectedMethod || defaultMethod
@@ -331,7 +331,7 @@ export const minimumAmount = (
     quote,
     sbBalances,
     sddLimit,
-    swapAccount,
+    swapAccount
   } = restProps
   const method = selectedMethod || defaultMethod
   if (!allValues) return false

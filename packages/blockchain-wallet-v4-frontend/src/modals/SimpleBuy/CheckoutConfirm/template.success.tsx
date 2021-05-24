@@ -17,7 +17,7 @@ import {
   getCounterAmount,
   getCounterCurrency,
   getOrderType,
-  getPaymentMethodId,
+  getPaymentMethodId
 } from 'data/components/simpleBuy/model'
 import { BankPartners, BankTransferAccountType } from 'data/types'
 
@@ -126,7 +126,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             id='modals.simplebuy.confirm.coin_price'
             defaultMessage='{coin} Price'
             values={{
-              coin: baseCurrency,
+              coin: baseCurrency
             }}
           />
         </Title>
@@ -202,7 +202,18 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               >
                 <FormattedMessage
                   id='modals.simplebuy.confirm.activity_accept_terms'
-                  defaultMessage="I agree to Blockchain’s <a href='https://www.blockchain.com/legal/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a> and its return, refund and cancellation policy."
+                  defaultMessage='I agree to Blockchain’s <a>Terms of Service</a> and its return, refund and cancellation policy.'
+                  values={{
+                    a: (msg) => (
+                      <a
+                        href='https://www.blockchain.com/legal/terms'
+                        rel='noopener noreferrer'
+                        target='_blank'
+                      >
+                        {msg}
+                      </a>
+                    )
+                  }}
                 />
               </CheckBoxInput>
             </InfoTerms>

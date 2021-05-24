@@ -8,7 +8,7 @@ import {
   FiatType,
   SBBalancesType,
   SBPaymentMethodType,
-  WalletCurrencyType,
+  WalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
 import { Title, Value } from 'components/Flyout'
 import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
@@ -135,7 +135,7 @@ export const renderCard = (value: SBPaymentMethodType) => (
           id='modals.simplebuy.card_ending_in'
           defaultMessage='Card Ending in {lastFour}'
           values={{
-            lastFour: value.card.number,
+            lastFour: value.card.number
           }}
         />
       ) : (
@@ -151,7 +151,7 @@ export const renderFund = (value: SBPaymentMethodType, sbBalances: SBBalancesTyp
     <DisplayTitle>
       {fiatToString({
         unit: value.currency as FiatType,
-        value: convertBaseToStandard('FIAT', sbBalances[value.currency]?.available || '0'),
+        value: convertBaseToStandard('FIAT', sbBalances[value.currency]?.available || '0')
       })}{' '}
       <FormattedMessage id='copy.available' defaultMessage='Available' />
     </DisplayTitle>
@@ -184,7 +184,12 @@ export const getIcon = (
         (card) => card.type === (method.card ? method.card.type : '')
       )
       return (
-        <img height='18px' width='auto' src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO} />
+        <img
+          height='18px'
+          width='auto'
+          src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO}
+          alt=''
+        />
       )
     case 'FUNDS':
       return <Icon size='32px' color='USD' name={method.currency as WalletCurrencyType} />

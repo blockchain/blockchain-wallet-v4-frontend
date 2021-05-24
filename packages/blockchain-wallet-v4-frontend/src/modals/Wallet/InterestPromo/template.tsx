@@ -44,7 +44,7 @@ const Success: React.FC<Props> = ({
   interestRate,
   position,
   total,
-  walletCurrency,
+  walletCurrency
 }) => {
   const { currency, fiatAmount, fiatCurrency } = afterTransaction
   const purchaseAmount = fiatAmount || 0
@@ -67,7 +67,7 @@ const Success: React.FC<Props> = ({
             defaultMessage='Earn {interestRate}% Interest on your {coin}'
             values={{
               coin: 'BTC',
-              interestRate: interestRate[currency],
+              interestRate: interestRate[currency]
             }}
           />
         </Text>
@@ -83,13 +83,13 @@ const Success: React.FC<Props> = ({
             values={{
               amount: fiatToString({
                 unit: worthCurrency,
-                value: purchaseAmount,
+                value: purchaseAmount
               }),
               coin: currency,
               worthAmount: fiatToString({
                 unit: worthCurrency,
-                value: interestAmount,
-              }),
+                value: interestAmount
+              })
             }}
           />
         </Text>
@@ -124,7 +124,7 @@ const Success: React.FC<Props> = ({
           style={{
             marginTop: '16px',
             textAlign: 'center',
-            width: '100%',
+            width: '100%'
           }}
           onClick={() => {
             interestActions.stopShowingInterestModal()

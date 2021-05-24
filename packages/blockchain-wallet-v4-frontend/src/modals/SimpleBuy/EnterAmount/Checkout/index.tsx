@@ -16,7 +16,7 @@ import {
   SuccessStateType as EnterAmountSuccessStateType
 } from '../index'
 import Failure from '../template.failure'
-import { getData } from './selectors'
+import getData from './selectors'
 import Success from './template.success'
 
 class Checkout extends PureComponent<Props> {
@@ -54,20 +54,18 @@ class Checkout extends PureComponent<Props> {
     // if the user is < tier 2 go to kyc but save order info
     // if the user is tier 2 try to submit order, let BE fail
     const { formValues } = this.props
-    const {
-      hasPaymentAccount,
-      isSddFlow,
-      userData
-    } = this.props.data.getOrElse({
-      userData: { tiers: { current: 0, next: 0, selected: 0 } } as UserDataType,
+    const { hasPaymentAccount, isSddFlow, userData } = this.props.data.getOrElse({
       hasPaymentAccount: false,
-      isSddFlow: false
+      isSddFlow: false,
+      userData: { tiers: { current: 0, next: 0, selected: 0 } } as UserDataType
     } as SuccessStateType)
     const simpleBuyGoal = find(propEq('name', 'simpleBuy'), this.props.goals)
 
     const id = propOr('', 'id', simpleBuyGoal)
 
-    !isEmpty(id) && this.props.deleteGoal(String(id))
+    if (!isEmpty(id)) {
+      this.props.deleteGoal(String(id))
+    }
 
     const method = this.props.method || this.props.defaultMethod
 
@@ -76,8 +74,8 @@ class Checkout extends PureComponent<Props> {
     // SELL
     if (formValues?.orderType === OrderType.SELL) {
       return this.props.simpleBuyActions.setStep({
-        step: 'PREVIEW_SELL',
-        sellOrderType: this.props.swapAccount?.type
+        sellOrderType: this.props.swapAccount?.type,
+        step: 'PREVIEW_SELL'
       })
     }
 
@@ -89,29 +87,22 @@ class Checkout extends PureComponent<Props> {
         this.props.simpleBuyActions.createSBOrder('PAYMENT_CARD')
       } else {
         // user in SDD but needs to confirm KYC and SDD eligibility
-        this.props.identityVerificationActions.verifyIdentity(
-          2,
-          false,
-          true,
-          () => this.props.simpleBuyActions.createSBOrder('PAYMENT_CARD')
+        this.props.identityVerificationActions.verifyIdentity(2, false, true, () =>
+          this.props.simpleBuyActions.createSBOrder('PAYMENT_CARD')
         )
       }
     } else if (!method) {
-      const fiatCurrency = this.props.fiatCurrency
-      const nextStep = hasPaymentAccount
-        ? 'LINKED_PAYMENT_ACCOUNTS'
-        : 'PAYMENT_METHODS'
+      const { fiatCurrency } = this.props
+      const nextStep = hasPaymentAccount ? 'LINKED_PAYMENT_ACCOUNTS' : 'PAYMENT_METHODS'
       this.props.simpleBuyActions.setStep({
-        step: nextStep,
-        fiatCurrency,
-        pair: this.props.pair,
         cryptoCurrency: this.props.cryptoCurrency,
-        order: this.props.order
+        fiatCurrency,
+        order: this.props.order,
+        pair: this.props.pair,
+        step: nextStep
       })
     } else if (userData.tiers.current < 2) {
-      this.props.simpleBuyActions.createSBOrder(
-        getValidPaymentMethod(method.type)
-      )
+      this.props.simpleBuyActions.createSBOrder(getValidPaymentMethod(method.type))
     } else if (formValues && method) {
       switch (method.type) {
         case 'PAYMENT_CARD':
@@ -138,9 +129,6 @@ class Checkout extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => (
-        <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
-      ),
       Failure: () => (
         <Failure
           fiatCurrency={this.props.fiatCurrency}
@@ -148,15 +136,15 @@ class Checkout extends PureComponent<Props> {
         />
       ),
       Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      NotAsked: () => <Loading />,
+      Success: (val) => <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
     })
   }
 }
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
+  cryptoCurrency: selectors.components.simpleBuy.getCryptoCurrency(state) || 'BTC',
   data: getData(state, ownProps),
-  cryptoCurrency:
-    selectors.components.simpleBuy.getCryptoCurrency(state) || 'BTC',
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD',
   formValues: selectors.form.getFormValues('simpleBuyCheckout')(state) as
     | SBCheckoutFormValuesType
@@ -166,7 +154,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   sbOrders: selectors.components.simpleBuy.getSBOrders(state).getOrElse([])
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),
   identityVerificationActions: bindActionCreators(

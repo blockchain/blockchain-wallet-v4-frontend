@@ -44,8 +44,9 @@ class Interest extends PureComponent<Props, State> {
 
   showSupply = (show: boolean) => {
     this.setState({
-      showSupplyInformation: show,
+      showSupplyInformation: show
     })
+    this.props.fetchInterestEDDStatus()
   }
 
   render() {
@@ -72,7 +73,11 @@ class Interest extends PureComponent<Props, State> {
         )}
         {step.name === 'DEPOSIT' && (
           <FlyoutChild>
-            <DepositForm coin={coin} setShowSupply={this.showSupply} />
+            <DepositForm
+              coin={coin}
+              walletCurrency={walletCurrency}
+              setShowSupply={this.showSupply}
+            />
           </FlyoutChild>
         )}
         {step.name === 'WITHDRAWAL' && (
@@ -92,13 +97,13 @@ class Interest extends PureComponent<Props, State> {
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   coin: selectors.components.interest.getCoinType(state),
   step: selectors.components.interest.getStep(state),
-  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   fetchInterestEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
   interestActions: bindActionCreators(actions.components.interest, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

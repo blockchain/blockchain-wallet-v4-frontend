@@ -42,7 +42,17 @@ class RemindGuid extends React.PureComponent<InjectedFormProps<{}, Props> & Prop
   }
 
   componentDidMount() {
+    this.initCaptcha()
+  }
+
+  componentWillUnmount() {
+    this.props.actions.resetForm()
+  }
+
+  initCaptcha = () => {
     /* eslint-disable */
+    // @ts-ignore
+    if (!window.grecaptcha || !window.grecaptcha.enterprise) return
     // @ts-ignore
     const recaptchaKey = RECAPTCHA_KEY
     // @ts-ignore
@@ -51,26 +61,26 @@ class RemindGuid extends React.PureComponent<InjectedFormProps<{}, Props> & Prop
       window.grecaptcha.enterprise.execute(recaptchaKey, {
         action: 'GUID_REMINDER',
       })
-      .then((captchaToken) => {
-        this.setState({ captchaToken })
-      })
-      .catch((e) => {
-        console.error('captcha error', e)
-      })
+        .then((captchaToken) => {
+          this.setState({ captchaToken })
+        })
+        .catch((e) => {
+          console.error('captcha error: ', e)
+        })
     })
     /* eslint-enable */
   }
 
-  componentWillUnmount() {
-    this.props.actions.resetForm()
-  }
-
   onSubmit = (e) => {
     e.preventDefault()
-    const { captchaToken } = this.state
-    const { actions, email } = this.props
 
-    actions.remindWalletGuid(captchaToken, email)
+    // sometimes captcha doesnt mount correctly (race condition?)
+    // if it's undefined, try to re-init for token
+    if (!this.state.captchaToken) {
+      this.initCaptcha()
+    }
+
+    this.props.actions.remindWalletGuid(this.state.captchaToken, this.props.email)
   }
 
   render() {
