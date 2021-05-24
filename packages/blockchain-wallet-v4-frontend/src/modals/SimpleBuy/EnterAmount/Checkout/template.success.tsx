@@ -135,6 +135,24 @@ const normalizeAmount = (value, prevValue, allValues: SBCheckoutFormValuesType) 
   return formatTextAmount(value, allValues && allValues.fix === 'FIAT')
 }
 
+const isAmountInLimits = (amount: number | undefined, min: number, max: number): boolean => {
+  if (!amount) return false
+  if (amount < min || amount > max) {
+    return false
+  }
+  return true
+}
+const getAmountLimitsError = (amount: number, min: number, max: number): string | null => {
+  if (amount < min) {
+    return 'BELOW_MIN'
+  }
+
+  if (amount > max) {
+    return 'ABOVE_MAX'
+  }
+  return null
+}
+
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const {
     cards,
@@ -178,8 +196,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   if (!fiatCurrency || !baseCurrency)
     return <Failure fiatCurrency={props.fiatCurrency} simpleBuyActions={props.simpleBuyActions} />
 
-  const amtError = typeof props.formErrors.amount === 'string' && props.formErrors.amount
-
   const limits = props.sddLimit || LIMIT
   const sddLimit = { ...limits }
 
@@ -214,6 +230,19 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     sddLimit,
     props.limits
   )[fix]
+
+  // prevent proceed if entered amount is out of limits
+  const amountInBounce = isAmountInLimits(
+    Number(props.formValues?.amount),
+    Number(min),
+    Number(max)
+  )
+  const errorMinMax = props.formValues?.amount
+    ? getAmountLimitsError(Number(props.formValues?.amount), Number(min), Number(max))
+    : null
+
+  const amtError =
+    (typeof props.formErrors.amount === 'string' && props.formErrors.amount) || errorMinMax
 
   const handleMinMaxClick = () => {
     const prop = amtError === 'BELOW_MIN' ? 'min' : 'max'
@@ -339,6 +368,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             component={AmountTextBox}
             validate={[maximumAmount, minimumAmount]}
             normalize={normalizeAmount}
+            // eslint-disable-next-line
             onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
             maxFontSize='56px'
             placeholder='0'
@@ -457,7 +487,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               </div>
             </ActionsItem>
             <ActionsItem>
-              <div onClick={handleMaxClick}>
+              <div onClick={handleMaxClick} onKeyDown={handleMaxClick} role='button' tabIndex={0}>
                 <BlueRedCartridge error={amtError === 'ABOVE_MAX'}>
                   <FormattedMessage
                     id='modals.simplebuy.checkout.maxbuy'
@@ -480,7 +510,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             <ErrorText>
               <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
               {isLimitError(props.error) ? (
-                <div onClick={() => props.identityVerificationActions.verifyIdentity(2, false)}>
+                <div
+                  onClick={() => props.identityVerificationActions.verifyIdentity(2, false)}
+                  onKeyDown={() => props.identityVerificationActions.verifyIdentity(2, false)}
+                  role='button'
+                  tabIndex={0}
+                >
                   <FormattedMessage
                     id='modals.simplebuy.checkout.upgrade_to_gold'
                     defaultMessage='Trading limit reached. Upgrade to Gold'
@@ -496,6 +531,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           {...props}
           isSufficientEthForErc20={isSufficientEthForErc20 || false}
           isDailyLimitExceeded={isDailyLimitExceeded || false}
+          isAmountInBounce={amountInBounce}
         />
 
         {isDailyLimitExceeded && (
