@@ -7,7 +7,7 @@ import { Props as OwnProps, SuccessStateType } from '..'
 
 type Props = {
   invalid: boolean
-  isAmountInBounce: boolean
+  isAmountInBounds: boolean
   isDailyLimitExceeded: boolean
   isSufficientEthForErc20: boolean
   submitting: boolean
@@ -15,7 +15,7 @@ type Props = {
   SuccessStateType
 
 const ActionButton: React.FC<Props> = (props) => {
-  const disabled = props.invalid || props.submitting || !props.isAmountInBounce
+  const disabled = props.invalid || props.submitting || !props.isAmountInBounds
   const disableInsufficientEth = props.isSufficientEthForErc20
   const dailyLimitExceeded = props.isDailyLimitExceeded
 
