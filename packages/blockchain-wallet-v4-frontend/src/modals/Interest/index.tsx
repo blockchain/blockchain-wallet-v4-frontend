@@ -46,6 +46,7 @@ class Interest extends PureComponent<Props, State> {
     this.setState({
       showSupplyInformation: show
     })
+    this.props.fetchInterestEDDStatus()
   }
 
   render() {
