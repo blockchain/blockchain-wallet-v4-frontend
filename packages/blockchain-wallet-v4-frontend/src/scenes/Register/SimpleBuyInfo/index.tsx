@@ -15,16 +15,16 @@ const SimpleWrapper = styled.div`
   min-width: 0;
 `
 
-const AmountWrapper = styled.div`
+const AmountWrapper = styled.div<{ marginTop?: string }>`
   display: flex;
   border-radius: 8px;
   justify-content: space-between;
   align-items: center;
   flex: 1;
-  border: 1px solid ${props => props.theme.grey100};
+  border: 1px solid ${(props) => props.theme.grey100};
   padding: 12px;
   margin-right: 16px;
-  margin-top: 32px;
+  margin-top: ${(props) => (props.marginTop ? props.marginTop : '32px')};
   min-width: 0;
 `
 
@@ -48,10 +48,11 @@ const Amount = styled(Text)`
 
 const SimpleBuyInfo = ({
   goalData: { amount, crypto, fiatCurrency },
+  marginTop,
   supportedCoins
 }) => (
   <SimpleBuyItemWrapper>
-    <AmountWrapper>
+    <AmountWrapper marginTop={marginTop}>
       <SimpleWrapper>
         <Text size='16px' color='grey400' weight={500}>
           {Currencies[fiatCurrency].units[fiatCurrency].symbol}
@@ -62,7 +63,7 @@ const SimpleBuyInfo = ({
       </SimpleWrapper>
     </AmountWrapper>
 
-    <CryptoWrapper>
+    <CryptoWrapper marginTop={marginTop}>
       <Icon
         color={supportedCoins[crypto].coinCode}
         name={supportedCoins[crypto].coinCode}

@@ -1,13 +1,16 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { isEmpty, isNil } from 'ramda'
 import { Field } from 'redux-form'
 
 import { Banner, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
+import { GoalDataType } from 'data/types'
 import { required } from 'services/forms'
 
-import { Props } from '..'
+import SimpleBuyInfo from '../../Register/SimpleBuyInfo'
+import { Props as OwnProps } from '..'
 import {
   ActionButton,
   BackArrowFormHeader,
@@ -26,12 +29,14 @@ const EnterPassword = (props: Props) => {
     cacheActions,
     formActions,
     formValues,
+    goalData,
     guid,
     invalid,
     loginError,
     password,
     setStep,
-    submitting
+    submitting,
+    supportedCoins
   } = props
   const passwordError = loginError && loginError.toLowerCase().includes('wrong_wallet_password')
   const accountLocked =
@@ -65,6 +70,13 @@ const EnterPassword = (props: Props) => {
           </BrowserWarning>
         )}
         <FormItem>
+          {!isNil(goalData) &&
+            !isEmpty(goalData) &&
+            !!goalData.fiatCurrency &&
+            !!goalData.crypto &&
+            !!goalData.amount && (
+              <SimpleBuyInfo marginTop='0' goalData={goalData} supportedCoins={supportedCoins} />
+            )}
           <FormLabel htmlFor='password'>
             <FormattedMessage
               id='scenes.login.enter_password'
@@ -162,5 +174,9 @@ const EnterPassword = (props: Props) => {
     </>
   )
 }
+
+type Props = {
+  goalData: GoalDataType
+} & OwnProps
 
 export default EnterPassword

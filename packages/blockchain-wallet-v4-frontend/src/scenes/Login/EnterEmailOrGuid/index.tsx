@@ -1,18 +1,15 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { isEmpty, isNil } from 'ramda'
 import { Field } from 'redux-form'
 
-import {
-  Banner,
-  HeartbeatLoader,
-  Icon,
-  Link,
-  Text
-} from 'blockchain-info-components'
+import { Banner, HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
 import { FormGroup, FormItem, TextBox } from 'components/Form'
+import { GoalDataType } from 'data/types'
 import { required, validWalletIdOrEmail } from 'services/forms'
 
-import { Props } from '..'
+import SimpleBuyInfo from '../../Register/SimpleBuyInfo'
+import { Props as OwnProps } from '..'
 import {
   ActionButton,
   BrowserWarning,
@@ -28,14 +25,20 @@ import {
 } from '../model'
 
 const EnterEmailOrGuid = (props: Props) => {
-  const { busy, guidOrEmail, invalid, loginError, submitting } = props
+  const { busy, goalData, guidOrEmail, invalid, loginError, submitting, supportedCoins } = props
 
-  const guidError =
-    loginError && loginError.toLowerCase().includes('unknown wallet id')
+  const guidError = loginError && loginError.toLowerCase().includes('unknown wallet id')
 
   return (
     <>
       <FormGroup>
+        {!isNil(goalData) &&
+          !isEmpty(goalData) &&
+          !!goalData.fiatCurrency &&
+          !!goalData.crypto &&
+          !!goalData.amount && (
+            <SimpleBuyInfo marginTop='0' goalData={goalData} supportedCoins={supportedCoins} />
+          )}
         {!isSupportedBrowser && (
           <BrowserWarning>
             <Banner type='warning'>
@@ -66,12 +69,7 @@ const EnterEmailOrGuid = (props: Props) => {
         </FormItem>
         {guidError && (
           <GuidError inline>
-            <Text
-              size='12px'
-              color='error'
-              weight={400}
-              data-e2e='walletIdError'
-            >
+            <Text size='12px' color='error' weight={400} data-e2e='walletIdError'>
               <FormattedMessage
                 id='scenes.login.guid_error'
                 defaultMessage='Unknown Wallet ID. Please check that it was entered or correctly or try signing in with your email.'
@@ -94,10 +92,7 @@ const EnterEmailOrGuid = (props: Props) => {
             <HeartbeatLoader height='20px' width='20px' color='white' />
           ) : (
             <Text color='whiteFade900' size='16px' weight={600}>
-              <FormattedMessage
-                id='buttons.continue'
-                defaultMessage='Continue'
-              />
+              <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
             </Text>
           )}
         </ActionButton>
@@ -120,15 +115,16 @@ const EnterEmailOrGuid = (props: Props) => {
             // TODO: get actual support article
             href='https://support.blockchain.com/hc/en-us/'
           >
-            <FormattedMessage
-              id='buttons.learn_more'
-              defaultMessage='Learn More'
-            />
+            <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
           </Link>
         </HelpRow>
       </RectangleBackground>
     </>
   )
 }
+
+type Props = {
+  goalData: GoalDataType
+} & OwnProps
 
 export default EnterEmailOrGuid
