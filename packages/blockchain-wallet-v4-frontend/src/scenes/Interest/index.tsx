@@ -12,7 +12,7 @@ import {
   InterestEDDStatus,
   InterestRateType,
   RemoteDataType,
-  SupportedWalletCurrenciesType,
+  SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
 import { Container } from 'components/Box'
 import { SceneWrapper } from 'components/Layout'
@@ -58,7 +58,7 @@ class Interest extends React.PureComponent<Props, StateType> {
 
   checkUserData = () => {
     const data = this.props.data.getOrElse({
-      userData: { tiers: { current: 0 } } as UserDataType,
+      userData: { tiers: { current: 0 } } as UserDataType
     } as SuccessStateType)
     const tier = data.userData.tiers ? data.userData.tiers.current : 0
     const isGoldTier = tier >= 2
@@ -117,7 +117,7 @@ class Interest extends React.PureComponent<Props, StateType> {
               </ContainerStyled>
               <IneligibilityCard {...val} {...this.props} />
             </>
-          ),
+          )
         })}
       </SceneWrapper>
     )
@@ -125,12 +125,12 @@ class Interest extends React.PureComponent<Props, StateType> {
 }
 
 const mapStateToProps = (state): LinkStatePropsType => ({
-  data: getData(state),
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   idvActions: bindActionCreators(actions.components.identityVerification, dispatch),
-  interestActions: bindActionCreators(actions.components.interest, dispatch),
+  interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
