@@ -19,28 +19,24 @@ const RightArrowIcon = styled(Icon)<{
   disabled?: boolean
 }>`
   transform: rotate(180deg);
-  ${props =>
+  ${(props) =>
     props.disabled &&
     css`
       cursor: not-allowed;
     `}
 `
 
-const Payment: React.FC<Props & { invalid?: boolean }> = props => {
-  const nextStep = props.hasPaymentAccount
-    ? 'LINKED_PAYMENT_ACCOUNTS'
-    : 'PAYMENT_METHODS'
+const Payment: React.FC<Props> = (props: Props) => {
+  const nextStep = props.hasPaymentAccount ? 'LINKED_PAYMENT_ACCOUNTS' : 'PAYMENT_METHODS'
 
-  // disable payment method selection if SDD flow or there is invalid amount entered
-  const disablePaymentSelect = props.isSddFlow ? false : props.invalid
   // ensure only non SDD flow and non empty amount field open the payment selection screen
   const onPaymentMethodClick = () => {
-    return !disablePaymentSelect && !props.isSddFlow
+    return !props.isSddFlow
       ? props.simpleBuyActions.setStep({
-          step: nextStep,
-          pair: props.pair,
+          cryptoCurrency: props.cryptoCurrency,
           fiatCurrency: props.fiatCurrency || 'USD',
-          cryptoCurrency: props.cryptoCurrency
+          pair: props.pair,
+          step: nextStep
         })
       : null
   }
@@ -61,27 +57,20 @@ const Payment: React.FC<Props & { invalid?: boolean }> = props => {
         )}
       </SectionTitle>
       <PaymentContainer
-        disabled={disablePaymentSelect}
         role='button'
         data-e2e='paymentMethodSelect'
         onClick={onPaymentMethodClick}
         isMethod={!!props.method}
       >
         <DisplayPaymentIcon showBackground={!props.method}>
-          {getIcon(props.method, props.isSddFlow, disablePaymentSelect)}
+          {getIcon(props.method, props.isSddFlow)}
         </DisplayPaymentIcon>
         <PaymentText isMethod={!!props.method}>
           {getText(props.method, props.sbBalances, props.isSddFlow)}
         </PaymentText>
         {!props.isSddFlow && (
           <PaymentArrowContainer>
-            <RightArrowIcon
-              cursor
-              disabled={disablePaymentSelect}
-              name='arrow-back'
-              size='20px'
-              color='grey600'
-            />
+            <RightArrowIcon cursor name='arrow-back' size='20px' color='grey600' />
           </PaymentArrowContainer>
         )}
       </PaymentContainer>
