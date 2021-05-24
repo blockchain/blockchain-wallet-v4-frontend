@@ -5,7 +5,7 @@ import { over, view } from 'ramda-lens'
 
 import Type from '../types/Type'
 import { addressToScript, scriptToAddress } from '../utils/btc'
-import { IO_TYPES } from './'
+import { IO_TYPES } from './index'
 
 export const TX_EMPTY_SIZE = 4 + 1 + 1 + 4
 export const TX_INPUT_BASE = 32 + 4 + 1 + 4
@@ -101,25 +101,25 @@ export const selectPath = view(path)
 
 export const fromJS = (o, network) => {
   return new Coin({
-    value: parseInt(o.value),
+    address: o.address ? o.address : scriptToAddress(o.script, network),
+    change: o.change || false,
+    index: o.tx_output_n,
+    path: o.path,
+    priv: o.priv,
     script: o.script ? o.script : addressToScript(o.address, network),
     txHash: o.tx_hash_big_endian,
-    index: o.tx_output_n,
-    change: o.change || false,
-    priv: o.priv,
-    path: o.path,
+    value: parseInt(o.value),
     xpub: o.xpub,
-    address: o.address ? o.address : scriptToAddress(o.script, network)
   })
 }
 
 export const empty = new Coin({ value: 0 })
 
-export const inputBytes = input => {
+export const inputBytes = (input) => {
   return IO_TYPES.inputs[input.type ? input.type() : 'P2PKH']
 }
 
-export const outputBytes = output => {
+export const outputBytes = (output) => {
   return IO_TYPES.outputs[output.type ? output.type() : 'P2PKH']
 }
 

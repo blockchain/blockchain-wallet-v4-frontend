@@ -1,3 +1,4 @@
+/* eslint-disable */
 import memoize from 'fast-memoize'
 import shuffle from 'fisher-yates'
 import { List } from 'immutable-ext'
@@ -30,8 +31,8 @@ export const isFromAccount = selection =>
 export const isFromLegacy = selection =>
   selection.inputs[0] ? selection.inputs[0].isFromLegacy() : false
 
-export const dustThreshold = feeRate =>
-  Math.ceil((Coin.inputBytes({}) + Coin.outputBytes({})) * feeRate)
+export const dustThreshold = (feeRate, change) =>
+  Math.ceil((Coin.inputBytes(change) + Coin.outputBytes(change)) * feeRate)
 
 export const transactionBytes = (inputs, outputs) => {
   const coinTypeReducer = (acc, coin) => {
@@ -50,8 +51,6 @@ export const DEPRECATED_transactionBytes = (inputs, outputs) =>
   Coin.TX_EMPTY_SIZE +
   inputs.reduce((a, c) => a + Coin.inputBytes(c), 0) +
   outputs.reduce((a, c) => a + Coin.outputBytes(c), 0)
-
-export const changeBytes = () => Coin.TX_OUTPUT_BASE + Coin.TX_OUTPUT_PUBKEYHASH
 
 export const effectiveBalance = curry((feePerByte, inputs, outputs = [{}]) =>
   List(inputs)
@@ -102,22 +101,18 @@ const ft = (targets, feePerByte, coins, changeAddress) => {
       return { fee: fee, inputs: [], outputs: targets }
     } else {
       const extra = maxBalance - target - fee
-      const feeChange = changeBytes() * feePerByte
-      const extraWithChangeFee = extra - feeChange
-      if (extraWithChangeFee >= dustThreshold(feePerByte)) {
-        // add change
-        const change = Coin.fromJS({
-          value: extraWithChangeFee,
-          address: changeAddress,
-          change: true
-        })
+      const change = Coin.fromJS({
+        address: changeAddress,
+        change: true,
+        value: extra,
+      })
+      if (extra >= dustThreshold(feePerByte, change)) {
         return {
-          fee: fee + feeChange,
+          fee: fee,
           inputs: selectedCoins,
           outputs: [...targets, change]
         }
       } else {
-        // TODO: SEGWIT update burn logic?
         // burn change
         return { fee: fee + extra, inputs: selectedCoins, outputs: targets }
       }
