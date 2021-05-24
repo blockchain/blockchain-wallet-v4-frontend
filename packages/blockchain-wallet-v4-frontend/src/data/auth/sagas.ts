@@ -30,9 +30,9 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const upgradeWallet = function* (payload) {
+  const upgradeWallet = function* (action) {
     try {
-      const { version } = payload
+      const { version } = action.payload
       const password = yield call(promptForSecondPassword)
       // eslint-disable-next-line default-case
       switch (version) {
