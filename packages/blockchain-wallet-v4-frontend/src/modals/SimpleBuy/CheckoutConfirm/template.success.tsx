@@ -202,7 +202,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               >
                 <FormattedMessage
                   id='modals.simplebuy.confirm.activity_accept_terms'
-                  defaultMessage="I agree to Blockchain’s <a href='https://www.blockchain.com/legal/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a> and its return, refund and cancellation policy."
+                  defaultMessage="I agree to Blockchain’s <a>Terms of Service</a> and its return, refund and cancellation policy."
+                  values = {{
+                    a: msg => <a href='https://www.blockchain.com/legal/terms' rel='noopener noreferrer' target='_blank'>{msg}</a> 
+                  }}
                 />
               </CheckBoxInput>
             </InfoTerms>
