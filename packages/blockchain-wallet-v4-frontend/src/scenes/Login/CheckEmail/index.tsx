@@ -30,43 +30,29 @@ const CheckEmail = (props: Props) => {
           <Icon name='computer' color='white' size='24px' />
         </CircleBackground>
         <Text color='grey900' size='20px' weight={600} lineHeight='1.5'>
-          <FormattedMessage
-            id='copy.verifyyourdevice'
-            defaultMessage='Verify Your Device'
-          />
+          <FormattedMessage id='copy.verifyyourdevice' defaultMessage='Verify Your Device' />
         </Text>
         <Text
           color='grey600'
           size='16px'
-          weight={400}
+          weight={500}
           lineHeight='1.5'
-          style={{ margin: '8px 0 24px 0' }}
+          style={{ margin: '8px 0 24px 0', textAlign: 'center' }}
         >
           <FormattedMessage
             id='scenes.login.checkemail'
-            defaultMessage='Check your email and click the link to continue.'
+            defaultMessage='If you have an account registered with this email address, you will receive an email with a link to verify your device.'
           />
         </Text>
       </FormBody>
-      <Button
-        type='submit'
-        nature='empty-blue'
-        fullwidth
-        height='48px'
-        data-e2e='loginResendEmail'
-      >
-        <FormattedMessage
-          id='buttons.email_didnt_arrive'
-          defaultMessage="Email didn't arrive?"
-        />
+      <Button type='submit' nature='empty-blue' fullwidth height='48px' data-e2e='loginResendEmail'>
+        <FormattedMessage id='buttons.email_didnt_arrive' defaultMessage="Email didn't arrive?" />
       </Button>
     </>
   )
 }
 
 type Props = OwnProps & {
-  busy: boolean
-  loginError?: string
   setStep: (step: LoginSteps) => void
 }
 

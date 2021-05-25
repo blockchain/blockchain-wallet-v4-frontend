@@ -2050,7 +2050,7 @@ type MessagesType = {
   'scenes.login.approve': 'Approve your login'
   'scenes.login.authorize': 'Authorize login'
   'scenes.login.browserwarning': 'Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.'
-  'scenes.login.checkemail': 'Check your email and click the link to continue.'
+  'scenes.login.checkemail': 'If you have an account registered with this email address, you will receive an email with a link to verify your device.'
   'scenes.login.clickhere': 'click here.'
   'scenes.login.email_or_guid': 'Your Email or Wallet ID'
   'scenes.login.enter_password': 'Enter your password'

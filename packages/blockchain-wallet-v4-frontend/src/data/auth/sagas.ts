@@ -197,7 +197,7 @@ export default ({ api, coreSagas }) => {
     yield call(logout)
   }
 
-  const loginRoutineSaga = function* (mobileLogin, firstLogin) {
+  const loginRoutineSaga = function* (mobileLogin, firstLogin, email) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
@@ -250,8 +250,11 @@ export default ({ api, coreSagas }) => {
       yield put(actions.auth.startLogoutTimer())
       yield call(startSockets)
       const guid = yield select(selectors.core.wallet.getGuid)
-      // store guid in cache for future login
+      // store guid and email in cache for future login
       yield put(actions.cache.guidEntered(guid))
+      if (email) {
+        yield put(actions.cache.emailStored(email))
+      }
       // reset auth type and clear previous login form state
       yield put(actions.auth.setAuthType(0))
       yield put(actions.form.destroy('login'))
@@ -426,7 +429,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.auth.setRegisterEmail(action.payload.email))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
-      yield call(loginRoutineSaga, false, true)
+      yield call(loginRoutineSaga, false, true, action.payload.email)
       yield put(actions.auth.registerSuccess())
     } catch (e) {
       yield put(actions.auth.registerFailure())
@@ -525,11 +528,9 @@ export default ({ api, coreSagas }) => {
       if ((storedGuid || lastGuid) && !params[2]) {
         // logic to be compatible with lastGuid in cache make sure that email matches
         // guid being used for login eventually can deprecate after some time
-        if (lastGuid === storedGuid) {
+        if (lastGuid) {
           yield put(actions.form.change('login', 'guid', lastGuid))
           yield put(actions.form.change('login', 'email', email))
-        } else if (lastGuid) {
-          yield put(actions.form.change('login', 'guid', lastGuid))
         } else {
           yield put(actions.form.change('login', 'guid', storedGuid))
           yield put(actions.form.change('login', 'email', email))
