@@ -19,6 +19,7 @@
     "paths": {
       "core/*": ["blockchain-wallet-v4/src/*"],
       "components/*": ["blockchain-wallet-v4-frontend/src/components/*"],
+      "middleware/*": ["blockchain-wallet-v4-frontend/src/middleware/*"],
       "data": ["blockchain-wallet-v4-frontend/src/data"],
       "data/*": ["blockchain-wallet-v4-frontend/src/data/*"],
       "layouts/*": ["blockchain-wallet-v4-frontend/src/layouts/*"],
