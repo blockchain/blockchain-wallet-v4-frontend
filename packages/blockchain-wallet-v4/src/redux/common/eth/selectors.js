@@ -53,7 +53,7 @@ export const getWalletTransactions = (state) => {
 
 // getWalletTransactions :: (state, token) -> Remote([ProcessedTx])
 export const getErc20WalletTransactions = (state, token) => {
-  return state.dataPath.eth.transactions[toLower(token)]
+  return state.dataPath.eth.transactions[token]
 }
 
 export const getErc20AccountBalances = (state, token) => {

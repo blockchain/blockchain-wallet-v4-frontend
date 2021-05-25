@@ -64,15 +64,8 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
     })
 
   render() {
-    const {
-      brokerageActions,
-      coin,
-      simpleBuyActions,
-      supportedCoins
-    } = this.props
-    const coinModel = supportedCoins[coin] as
-      | SupportedCoinType
-      | SupportedFiatType
+    const { brokerageActions, coin, simpleBuyActions, supportedCoins } = this.props
+    const coinModel = supportedCoins[coin] as SupportedCoinType | SupportedFiatType
 
     return (
       <Container>
@@ -90,7 +83,7 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
                   id='scenes.transaction.content.empty.cointxs'
                   defaultMessage='All your {coinName} transactions will show up here.'
                   values={{
-                    coinName: coinModel.displayName
+                    coinName: coinModel.coinfig.name
                   }}
                 />
               </Content>
@@ -106,16 +99,13 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
                 // ACH Deposits/Withdrawals is only for USD right now
                 // so keeping the existing functionality for EUR
                 return coinModel.coinCode === 'USD'
-                  ? brokerageActions.handleDepositFiatClick(
-                      coinModel.coinCode as WalletFiatType
-                    )
+                  ? brokerageActions.handleDepositFiatClick(coinModel.coinCode as WalletFiatType)
                   : simpleBuyActions.handleSBDepositFiatClick(
                       coinModel.coinCode as WalletFiatType,
                       'TransactionList'
                     )
-              } else {
-                simpleBuyActions.showModal('EmptyFeed')
               }
+              simpleBuyActions.showModal('EmptyFeed')
             }}
           >
             {coinModel.coinCode in WalletFiatEnum ? (
@@ -138,13 +128,13 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrElse({} as SupportedWalletCurrenciesType)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)

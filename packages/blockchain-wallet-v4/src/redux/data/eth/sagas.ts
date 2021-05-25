@@ -296,10 +296,7 @@ export default ({ api }: { api: APIType }) => {
       const pages = yield select(S.getErc20Transactions, token)
       const nextPage = reset ? 0 : length(pages)
       const txsAtBound = yield select(S.getErc20TransactionsAtBound, token)
-      const contractAddress = (yield select(
-        selectors.kvStore.eth.getErc20ContractAddr,
-        token
-      )).getOrFail()
+      const contractAddress = window.coins[token].coinfig.type.erc20Address
       if (txsAtBound && !reset) return
       yield put(A.fetchErc20TransactionsLoading(token, reset))
       const data = yield call(
