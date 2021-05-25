@@ -141,6 +141,53 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
 
+      case AT.components.interest.SET_COIN_DISPLAY: {
+        const { isCoinDisplayed } = action.payload
+
+        const fix = isCoinDisplayed ? 'CRYPTO' : 'FIAT'
+
+        analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
+          id,
+          nabuId,
+          originalTimestamp: getOriginalTimestamp(),
+          product: 'SAVINGS',
+          switch_to: fix,
+          type: AnalyticsType.EVENT
+        })
+
+        break
+      }
+
+      case AT.components.swap.SWITCH_FIX: {
+        const { fix } = action.payload
+
+        analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
+          id,
+          nabuId,
+          originalTimestamp: getOriginalTimestamp(),
+          product: 'SWAP',
+          switch_to: fix,
+          type: AnalyticsType.EVENT
+        })
+
+        break
+      }
+
+      case AT.components.simpleBuy.SWITCH_FIX: {
+        const { fix } = action.payload
+
+        analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
+          id,
+          nabuId,
+          originalTimestamp: getOriginalTimestamp(),
+          product: 'SIMPLEBUY',
+          switch_to: fix,
+          type: AnalyticsType.EVENT
+        })
+
+        break
+      }
+
       case AT.components.simpleBuy.CREATE_ORDER: {
         const state = store.getState()
         const inputCurrency = state.components.simpleBuy.fiatCurrency

@@ -18,11 +18,11 @@ const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
 
     const nabuId = rawEvents.find((event) => event.payload.nabuId)?.payload.nabuId || null
 
-    const context: { traits: { nabu_id: string | null } } = {
+    const context = {
       traits: {
         nabu_id: nabuId
       }
-    }
+    } as const
 
     const events = rawEvents.map((event) => {
       const name = event.key

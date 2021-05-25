@@ -45,6 +45,11 @@ type PageViewPayload = {
   url: string
 }
 
+type AmountSwitchedPayload = BasePayload & {
+  product: 'SAVINGS' | 'SIMPLEBUY' | 'SWAP'
+  switch_to: 'CRYPTO' | 'FIAT'
+}
+
 type BuyAmountEnteredPayload = BasePayload & {
   input_amount: number
   input_currency: string
@@ -126,6 +131,7 @@ type UpgradeVerificationClickedPayload = BasePayload & {
 }
 
 type AnalyticsPayload =
+  | AmountSwitchedPayload
   | BuyAmountEnteredPayload
   | BuyAmountMaxClickedPayload
   | BuyAmountMinClickedPayload
