@@ -48,7 +48,7 @@ const FirstStep = (props) => {
           <Text size='13px' weight={400} color='error'>
             <FormattedMessage
               id='scenes.recover.firststep.warning'
-              defaultMessage='You should always pair or login if you have access to your wallet ID and password. Recovering your funds will create a new wallet ID.'
+              defaultMessage='You should always pair or login if you have access to your wallet ID/wallet email and password.'
             />
           </Text>
         </TextGroup>
