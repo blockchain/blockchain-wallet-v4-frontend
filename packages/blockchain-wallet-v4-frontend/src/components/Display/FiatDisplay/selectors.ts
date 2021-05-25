@@ -5,17 +5,15 @@ import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { CoinTypeEnum, FiatTypeEnum } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
-export const getData = (state, coinSymbol, amount, defaultCurrency, defaultRates) => {
-  const coin = coinSymbol === 'USD-D' ? 'PAX' : coinSymbol
+export const getData = (state, coin, amount, defaultCurrency, defaultRates) => {
   const currencyR = selectors.core.settings.getSettings(state).map(prop('currency'))
-
   const ratesR = selectors.core.data.misc.getRatesSelector(coin, state)
 
   let value
   if (coin in CoinTypeEnum) {
     value = Exchange.convertCoinToCoin({
       coin,
-      value: amount,
+      value: amount
     })
   }
 
@@ -27,15 +25,17 @@ export const getData = (state, coinSymbol, amount, defaultCurrency, defaultRates
         fromCurrency: coin,
         rates,
         toCurrency: currency,
-        value: amount,
+        value: amount
       })
       return fiatToString({ unit: currency, value })
     }
     return Exchange.displayCoinToFiat({
       rates: defaultRates || rates,
       toCurrency: defaultCurrency || currency,
-      value,
+      value
     })
   }
   return lift(convert)(currencyR, ratesR)
 }
+
+export default getData

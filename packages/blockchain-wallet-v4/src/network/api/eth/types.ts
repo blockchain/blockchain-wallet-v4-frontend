@@ -36,6 +36,7 @@ export type AccountTokensBalancesResponseType = {
     accountHash: string
     balance: string
     decimals: number
+    symbol?: string
     tokenHash: string
     totalReceived: string
     totalSent: string

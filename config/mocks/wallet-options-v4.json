@@ -175,14 +175,14 @@
           "coinCode": "BCH",
           "coinTicker": "BCH",
           "coinfig": {
-            "name": "Ethereum",
+            "name": "Bitcoin Cash",
             "precision": 18,
             "products": ["PrivateKey"],
-            "symbol": "ETH",
+            "symbol": "BCH",
             "type": {
               "logoPngUrl": "",
-              "name": "Ethereum",
-              "parentChain": "ETH",
+              "name": "Bitcoin Cash",
+              "parentChain": "BTC",
               "websiteUrl": ""
             }
           },

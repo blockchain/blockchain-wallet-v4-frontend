@@ -4,7 +4,7 @@ import { mapObjIndexed, toLower, values } from 'ramda'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
-import { SupportedWalletCurrencyType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, SupportedWalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import { HomeBalanceRow, HomeBalanceTable } from 'components/Balances'
 
 import { Props, SuccessStateType } from '.'
@@ -27,7 +27,7 @@ const Coin = styled.div`
 const CoinName = styled(Text)`
   font-size: 20px;
   font-weight: 500;
-  color: ${props => props.theme.grey800};
+  color: ${(props) => props.theme.grey800};
 `
 const CoinIcon = styled(Icon)`
   font-size: 32px;
@@ -47,31 +47,21 @@ const Success = (props: Props & SuccessStateType) => (
     {values(
       mapObjIndexed((coin: SupportedWalletCurrencyType, i) => {
         return (
-          coin.method &&
-          coin.invited && (
-            <HomeBalanceRow
-              key={i}
-              data-e2e={`${toLower(coin.coinCode)}BalanceTable`}
-            >
-              <TxLink to={coin.txListAppRoute}>
-                <div>
-                  <Wrapper>
-                    <Coin>
-                      <CoinIcon
-                        color={coin.coinCode}
-                        name={coin.coinCode}
-                        size='32px'
-                      />
-                      <CoinName color='grey700'>{coin.displayName}</CoinName>
-                    </Coin>
-                    <Amount>
-                      <CoinBalance {...props} coin={coin.coinCode} />
-                    </Amount>
-                  </Wrapper>
-                </div>
-              </TxLink>
-            </HomeBalanceRow>
-          )
+          <HomeBalanceRow key={i} data-e2e={`${toLower(coin.coinfig.symbol)}BalanceTable`}>
+            <TxLink to={coin.txListAppRoute || `${coin.coinfig.symbol}/transactions`}>
+              <div>
+                <Wrapper>
+                  <Coin>
+                    <CoinIcon name={coin.coinfig.symbol as CoinType} size='32px' />
+                    <CoinName color='grey700'>{coin.coinfig.name}</CoinName>
+                  </Coin>
+                  <Amount>
+                    <CoinBalance {...props} coin={coin.coinfig.symbol} />
+                  </Amount>
+                </Wrapper>
+              </div>
+            </TxLink>
+          </HomeBalanceRow>
         )
       }, props.coins)
     )}

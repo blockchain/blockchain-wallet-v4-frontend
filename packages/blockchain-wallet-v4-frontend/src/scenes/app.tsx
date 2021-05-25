@@ -98,17 +98,17 @@ class App extends React.PureComponent<Props> {
                           const coin = coinModel.coinCode
                           const isFiat = coin === 'USD' || coin === 'EUR' || coin === 'GBP'
                           return (
-                            coinModel.txListAppRoute &&
-                            coinModel.invited && (
-                              <WalletLayout
-                                path={coinModel.txListAppRoute}
-                                component={Transactions}
-                                coin={coin}
-                                isCoinErc20={has('contractAddress', coinModel)}
-                                isFiat={isFiat}
-                                key={coin}
-                              />
-                            )
+                            <WalletLayout
+                              path={
+                                coinModel.txListAppRoute ||
+                                `${coinModel.coinfig.symbol}/transactions`
+                              }
+                              component={Transactions}
+                              coin={coin}
+                              isCoinErc20={has('contractAddress', coinModel)}
+                              isFiat={isFiat}
+                              key={coin}
+                            />
                           )
                         }, this.props.supportedCoins)
                       )}
@@ -129,9 +129,12 @@ class App extends React.PureComponent<Props> {
 
 const mapStateToProps = (state) => ({
   isAuthenticated: selectors.auth.isAuthenticated(state),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrFail('No supported coins.'),
+  // supportedCoins: selectors.core.walletOptions
+  //   .getSupportedCoins(state)
+  //   .getOrFail('No supported coins.'),
+  supportedCoins: selectors.components.utils
+    .getSupportedCoinsWithMethodAndOrder(state)
+    .getOrElse([]),
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
 })
 

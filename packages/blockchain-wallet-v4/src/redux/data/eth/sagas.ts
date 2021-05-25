@@ -22,7 +22,7 @@ import {
   takeLast,
   toLower,
   toUpper,
-  values,
+  values
 } from 'ramda'
 import { call, put, select, take } from 'redux-saga/effects'
 
@@ -31,12 +31,7 @@ import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
 import { APIType } from 'core/network/api'
 import { EthRawTxType } from 'core/network/api/eth/types'
 import { EthProcessedTxType } from 'core/transactions/types'
-import {
-  CoinType,
-  Erc20CoinType,
-  FetchCustodialOrdersAndTransactionsReturnType,
-  SupportedWalletCurrenciesType,
-} from 'core/types'
+import { Erc20CoinType, FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
 
 import * as Exchange from '../../../exchange'
 import * as transactions from '../../../transactions'
@@ -79,10 +74,10 @@ export default ({ api }: { api: APIType }) => {
             final_balance: finalBalance,
             n_tx: nTx,
             total_received: totalReceived,
-            total_sent: totalSent,
-          },
+            total_sent: totalSent
+          }
         },
-        latest_block: latestBlock,
+        latest_block: latestBlock
       }
       yield put(A.fetchDataSuccess(ethData))
       yield call(checkForLowEthBalance)
@@ -222,7 +217,7 @@ export default ({ api }: { api: APIType }) => {
       coin: 'ETH',
       currency: 'USD',
       rates: ethRates,
-      value: weiBalance,
+      value: weiBalance
     })
     // less than $1 eth and has PAX, set warning flag to true
     const showWarning = parseInt(ethBalance) < 1 && erc20Balance > 0
@@ -234,28 +229,40 @@ export default ({ api }: { api: APIType }) => {
   //
   const fetchErc20Data = function* (action: ReturnType<typeof A.fetchErc20Data>) {
     const { coin } = action.payload
-    const erc20Coins = coin
-      ? [coin]
-      : selectors.walletOptions.getErc20CoinList(yield select()).getOrElse([])
-    const supportedCoins = selectors.walletOptions
-      .getSupportedCoins(yield select())
-      .getOrElse({} as SupportedWalletCurrenciesType)
     const ethAddr = head(S.getContext(yield select()))
     const data: ReturnType<typeof api.getAccountTokensBalances> = yield call(
       api.getAccountTokensBalances,
       ethAddr
     )
+
+    const REMOVE_ME_WHEN_BE_SENDS_TOKENNAME_TOKEN_ACCOUNTS = data.tokenAccounts.map((value) => {
+      const token = Object.keys(window.coins).find(
+        (val) =>
+          window.coins[val].coinfig &&
+          window.coins[val].coinfig.type.erc20Address?.toLowerCase() ===
+            value.tokenHash.toLowerCase()
+      )
+      return { ...value, symbol: token }
+    })
+
+    yield put(
+      A.fetchErc20AccountTokenBalancesSuccess(REMOVE_ME_WHEN_BE_SENDS_TOKENNAME_TOKEN_ACCOUNTS)
+    )
     try {
-      for (const i in erc20Coins) {
-        const token = erc20Coins[i]
-        yield put(A.fetchErc20DataLoading(token))
-        yield put(A.fetchErc20Rates(token))
-        const contract = supportedCoins[token as CoinType].contractAddress
-        const tokenData = data.tokenAccounts.find(
+      for (const i in REMOVE_ME_WHEN_BE_SENDS_TOKENNAME_TOKEN_ACCOUNTS) {
+        const token = REMOVE_ME_WHEN_BE_SENDS_TOKENNAME_TOKEN_ACCOUNTS[i]
+        const symbol = token.symbol!
+        yield put(A.fetchErc20DataLoading(symbol))
+        yield put(A.fetchErc20Rates(symbol))
+        const contract = token.tokenHash
+        const tokenData = REMOVE_ME_WHEN_BE_SENDS_TOKENNAME_TOKEN_ACCOUNTS.find(
           ({ tokenHash }) => toLower(tokenHash) === toLower(contract as string)
         )
         yield put(
-          A.fetchErc20DataSuccess(token, tokenData || constructDefaultErc20Data(ethAddr, contract!))
+          A.fetchErc20DataSuccess(
+            symbol,
+            tokenData || constructDefaultErc20Data(ethAddr, contract!)
+          )
         )
       }
     } catch (e) {
@@ -460,7 +467,7 @@ export default ({ api }: { api: APIType }) => {
       const amountBig = new BigNumber(
         Exchange.convertCoinToCoin({
           coin,
-          value,
+          value
         })
       )
       const valueThen = amountBig.multipliedBy(priceAtTime).toFixed(2)
@@ -478,7 +485,7 @@ export default ({ api }: { api: APIType }) => {
         time: timeFormatted,
         type: txType,
         value_now: `${fiatSymbol}${negativeSignOrEmpty}${valueNow}`,
-        value_then: `${fiatSymbol}${negativeSignOrEmpty}${valueThen}`,
+        value_then: `${fiatSymbol}${negativeSignOrEmpty}${valueThen}`
       }
     }, prunedTxList)
   }
@@ -562,6 +569,6 @@ export default ({ api }: { api: APIType }) => {
     fetchTransactionHistory,
     fetchTransactions,
     watchErc20Transactions,
-    watchTransactions,
+    watchTransactions
   }
 }

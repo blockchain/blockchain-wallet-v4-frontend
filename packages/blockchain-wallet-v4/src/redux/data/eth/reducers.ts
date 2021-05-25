@@ -18,15 +18,16 @@ import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   addresses: Remote.NotAsked,
+  current_balance: {},
+  erc20s: Remote.NotAsked,
   fee: Remote.NotAsked,
   info: { eth: Remote.NotAsked },
   latest_block: Remote.NotAsked,
-  current_balance: {},
   legacy_balance: Remote.NotAsked,
   rates: { eth: Remote.NotAsked },
+  transaction_history: {},
   transactions: { eth: [] },
   transactions_at_bound: { eth: false },
-  transaction_history: {},
   warn_low_eth_balance: false
 }
 
@@ -101,18 +102,10 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_ETH_CURRENT_BALANCE_SUCCESS: {
       const { balance } = payload
-      return assocPath(
-        ['current_balance', 'eth'],
-        Remote.Success(balance),
-        state
-      )
+      return assocPath(['current_balance', 'eth'], Remote.Success(balance), state)
     }
     case AT.FETCH_ETH_CURRENT_BALANCE_FAILURE: {
-      return assocPath(
-        ['current_balance', 'eth'],
-        Remote.Failure(payload),
-        state
-      )
+      return assocPath(['current_balance', 'eth'], Remote.Failure(payload), state)
     }
     case AT.FETCH_ETH_RATES_LOADING: {
       return assocPath(['rates', 'eth'], Remote.Loading, state)
@@ -132,11 +125,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_ETH_TRANSACTIONS_SUCCESS: {
       const { reset, transactions } = payload
       return reset
-        ? assocPath(
-            ['transactions', 'eth'],
-            [Remote.Success(transactions)],
-            state
-          )
+        ? assocPath(['transactions', 'eth'], [Remote.Success(transactions)], state)
         : over(
             lensPath(['transactions', 'eth']),
             // @ts-ignore
@@ -145,11 +134,7 @@ export default (state = INITIAL_STATE, action) => {
           )
     }
     case AT.FETCH_ETH_TRANSACTIONS_FAILURE: {
-      return assocPath(
-        ['transactions', 'eth'],
-        [Remote.Failure(payload)],
-        state
-      )
+      return assocPath(['transactions', 'eth'], [Remote.Failure(payload)], state)
     }
     case AT.ETH_TRANSACTIONS_AT_BOUND: {
       return assocPath(['transactions_at_bound', 'eth'], payload, state)
@@ -158,18 +143,10 @@ export default (state = INITIAL_STATE, action) => {
       return assocPath(['transaction_history', 'eth'], Remote.Loading, state)
     }
     case AT.FETCH_ETH_TRANSACTION_HISTORY_SUCCESS: {
-      return assocPath(
-        ['transaction_history', 'eth'],
-        Remote.Success(payload),
-        state
-      )
+      return assocPath(['transaction_history', 'eth'], Remote.Success(payload), state)
     }
     case AT.FETCH_ETH_TRANSACTION_HISTORY_FAILURE: {
-      return assocPath(
-        ['transaction_history', 'eth'],
-        Remote.Failure(payload),
-        state
-      )
+      return assocPath(['transaction_history', 'eth'], Remote.Failure(payload), state)
     }
     case AT.CLEAR_ETH_TRANSACTION_HISTORY: {
       return assocPath(['transaction_history', 'eth'], Remote.NotAsked, state)
@@ -208,11 +185,7 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_ERC20_TOKEN_BALANCE_SUCCESS: {
       const { balance, token } = payload
-      return assocPath(
-        ['current_balance', token],
-        Remote.Success(balance),
-        state
-      )
+      return assocPath(['current_balance', token], Remote.Success(balance), state)
     }
     case AT.FETCH_ERC20_TOKEN_BALANCE_FAILURE: {
       const { error, token } = payload
@@ -227,11 +200,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_ERC20_TOKEN_TRANSACTIONS_SUCCESS: {
       const { reset, token, transactions } = payload
       return reset
-        ? assocPath(
-            ['transactions', token],
-            [Remote.Success(transactions)],
-            state
-          )
+        ? assocPath(['transactions', token], [Remote.Success(transactions)], state)
         : over(
             lensPath(['transactions', token]),
             // @ts-ignore
@@ -246,8 +215,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_ERC20_TX_FEE_LOADING: {
       const { hash, token } = payload
       const txListLens = lensPath(['transactions', toLower(token), 0])
-      const setData = target => tx =>
-        tx.hash === target ? { ...tx, fee: Remote.Loading } : tx
+      const setData = (target) => (tx) => (tx.hash === target ? { ...tx, fee: Remote.Loading } : tx)
 
       // @ts-ignore
       return over(compose(txListLens, mapped, mapped), setData(hash), state)
@@ -255,7 +223,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_ERC20_TX_FEE_SUCCESS: {
       const { fee, hash, token } = payload
       const txListLens = lensPath(['transactions', toLower(token), 0])
-      const setData = target => tx =>
+      const setData = (target) => (tx) =>
         tx.hash === target ? { ...tx, fee: Remote.Success(fee) } : tx
 
       // @ts-ignore
@@ -264,7 +232,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_ERC20_TX_FEE_FAILURE: {
       const { error, hash, token } = payload
       const txListLens = lensPath(['transactions', toLower(token), 0])
-      const setData = target => tx =>
+      const setData = (target) => (tx) =>
         tx.hash === target ? { ...tx, fee: Remote.Failure(error) } : tx
 
       // @ts-ignore
@@ -280,23 +248,22 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_ERC20_TRANSACTION_HISTORY_SUCCESS: {
       const { token, txList } = payload
-      return assocPath(
-        ['transaction_history', token],
-        Remote.Success(txList),
-        state
-      )
+      return assocPath(['transaction_history', token], Remote.Success(txList), state)
     }
     case AT.FETCH_ERC20_TRANSACTION_HISTORY_FAILURE: {
       const { error, token } = payload
-      return assocPath(
-        ['transaction_history', token],
-        Remote.Failure(error),
-        state
-      )
+      return assocPath(['transaction_history', token], Remote.Failure(error), state)
     }
     case AT.CLEAR_ERC20_TRANSACTION_HISTORY: {
       const { token } = payload
       return assocPath(['transaction_history', token], Remote.NotAsked, state)
+    }
+    case AT.FETCH_ERC20_ACCOUNT_TOKEN_BALANCES_SUCCESS: {
+      const { data } = payload
+      return {
+        ...state,
+        erc20s: Remote.Success(data)
+      }
     }
     default:
       return state

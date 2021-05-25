@@ -51,6 +51,19 @@ export type SupportedFiatType = {
   }
   coinCode: WalletFiatType
   coinTicker: WalletFiatType
+  coinfig: {
+    name: string
+    precision: number
+    products: string[]
+    symbol: string
+    type: {
+      erc20Address?: string
+      logoPngUrl: string
+      name: string
+      parentChain: string
+      websiteUrl: string
+    }
+  }
   contractAddress?: never
   displayName: string
   invited?: boolean

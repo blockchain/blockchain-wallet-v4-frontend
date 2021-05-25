@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { includes, toLower } from 'ramda'
+import { toLower } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import { CoinType, FiatTypeEnum } from 'blockchain-wallet-v4/src/types'
-import { actions, selectors } from 'data'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { actions } from 'data'
 
 import { getData } from './selectors'
 import Error from './template.error'
@@ -15,12 +15,13 @@ import Success from './template.success'
 class FiatDisplayContainer extends React.PureComponent<Props> {
   componentDidMount() {
     if (Remote.NotAsked.is(this.props.data)) {
-      const { coin, erc20List } = this.props
-      if (coin in FiatTypeEnum) {
+      const { coin } = this.props
+      const { coinfig } = window.coins[coin]
+      if (coinfig.type.isFiat) {
         return
       }
-      if (includes(coin, erc20List)) {
-        return this.props.ethActions.fetchErc20Rates(toLower(this.props.coin))
+      if (coinfig.type.erc20Address) {
+        return this.props.ethActions.fetchErc20Rates(this.props.coin)
       }
       return this.props[`${toLower(coin)}Actions`].fetchRates()
     }
@@ -29,26 +30,19 @@ class FiatDisplayContainer extends React.PureComponent<Props> {
   render() {
     const { data, ...rest } = this.props
     return data.cata({
-      Success: value => <Success {...rest}>{value}</Success>,
       Failure: () => <Error {...rest} />,
       Loading: () => <Loading {...rest} />,
-      NotAsked: () => <Loading {...rest} />
+      NotAsked: () => <Loading {...rest} />,
+      Success: (value) => <Success {...rest}>{value}</Success>
     })
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(
-    state,
-    ownProps.coin,
-    ownProps.children,
-    ownProps.currency,
-    ownProps.rates
-  ),
-  erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrElse([])
+  data: getData(state, ownProps.coin, ownProps.children, ownProps.currency, ownProps.rates)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   algoActions: bindActionCreators(actions.core.data.algo, dispatch),
   bchActions: bindActionCreators(actions.core.data.bch, dispatch),
   btcActions: bindActionCreators(actions.core.data.btc, dispatch),
