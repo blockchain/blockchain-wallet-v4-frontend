@@ -13,7 +13,7 @@ import {
   propOr,
   propSatisfies,
   toLower,
-  toUpper,
+  toUpper
 } from 'ramda'
 import { createSelector } from 'reselect'
 
@@ -25,6 +25,7 @@ import {
   SBTransactionType,
   SupportedCoinType,
   SupportedWalletCurrenciesType,
+  SupportedWalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -63,7 +64,7 @@ const filterTransactions = curry(
         ['to'],
         ['hash'],
         ['outputs', 0, 'address'],
-        ['inputs', 0, 'address'],
+        ['inputs', 0, 'address']
       ])
     )
 
@@ -86,9 +87,9 @@ const filterTransactions = curry(
 const coinSelectorMap = (
   state,
   coin,
-  isCoinErc20
+  coinfig: SupportedWalletCurrencyType['coinfig']
 ): ((state: RootState) => Array<RemoteDataType<any, Array<TxType>>>) => {
-  if (isCoinErc20) {
+  if (coinfig.type.erc20Address) {
     return (state) => selectors.core.common.eth.getErc20WalletTransactions(state, coin)
   }
   if (selectors.core.common[toLower(coin)]) {
@@ -99,15 +100,15 @@ const coinSelectorMap = (
   return (state) => selectors.core.data.fiat.getTransactions(coin, state)
 }
 
-export const getData = (state, coin, isCoinErc20) =>
+export const getData = (state, coin, coinfig: SupportedWalletCurrencyType['coinfig']) =>
   createSelector(
     [
       () => selectors.core.settings.getInvitations(state),
       selectors.form.getFormValues(WALLET_TX_SEARCH),
-      coinSelectorMap(state, coin, isCoinErc20),
+      coinSelectorMap(state, coin, coinfig),
       selectors.core.settings.getCurrency,
       () => selectors.core.walletOptions.getCoinModel(state, coin),
-      () => selectors.core.walletOptions.getSupportedCoins(state),
+      () => selectors.core.walletOptions.getSupportedCoins(state)
     ],
     (invitationsR, userSearch, pagesR, currencyR, coinModelR, supportedCoinsR) => {
       const empty = (page) => isEmpty(page.data)
@@ -125,13 +126,16 @@ export const getData = (state, coin, isCoinErc20) =>
         coinModel: coinModelR.getOrElse({} as SupportedCoinType),
         currency: currencyR.getOrElse(''),
         hasTxResults: !all(empty)(filteredPages),
-
-        isInvited: invitationsR.map(propOr(false, 'openBanking')).getOrElse({ openBanking: false }),
+        isInvited: invitationsR
+          .map(propOr(false, 'openBanking'))
+          .getOrElse({ openBanking: false }) as boolean,
         // @ts-ignore
         isSearchEntered: search.length > 0 || status !== '',
         pages: filteredPages,
         sourceType,
-        supportedCoins: supportedCoinsR.getOrElse({} as SupportedWalletCurrenciesType),
+        supportedCoins: supportedCoinsR.getOrElse({} as SupportedWalletCurrenciesType)
       }
     }
   )(state)
+
+export default getData

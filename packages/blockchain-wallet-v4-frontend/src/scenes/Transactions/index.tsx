@@ -95,7 +95,7 @@ const ExplainerText = styled(Text)`
   margin-top: 15px;
   font-size: 16px;
   font-weight: 500;
-  color: ${props => props.theme.grey600};
+  color: ${(props) => props.theme.grey600};
 `
 const LearnMoreLink = styled(Link)`
   display: inline-flex;
@@ -105,7 +105,7 @@ const LearnMoreText = styled(Text)`
   margin-left: 3px;
   size: 16px;
   font-weight: 500;
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
 `
 
 class TransactionsContainer extends React.PureComponent<Props> {
@@ -120,10 +120,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      path(['location', 'pathname'], prevProps) !==
-      path(['location', 'pathname'], this.props)
-    ) {
+    if (path(['location', 'pathname'], prevProps) !== path(['location', 'pathname'], this.props)) {
       this.props.initTxs()
     }
   }
@@ -133,7 +130,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
     this.props.initTxs()
   }
 
-  handleArchive = address => {
+  handleArchive = (address) => {
     // @ts-ignore
     this.props.setAddressArchived && this.props.setAddressArchived(address)
   }
@@ -144,7 +141,6 @@ class TransactionsContainer extends React.PureComponent<Props> {
       coinModel,
       currency,
       hasTxResults,
-      isCoinErc20,
       isInvited,
       isSearchEntered,
       loadMoreTxs,
@@ -180,10 +176,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                         )
                       }}
                     >
-                      <FormattedMessage
-                        id='buttons.sell'
-                        defaultMessage='Sell'
-                      />
+                      <FormattedMessage id='buttons.sell' defaultMessage='Sell' />
                     </Button>
                     <Button
                       nature='primary'
@@ -223,29 +216,20 @@ class TransactionsContainer extends React.PureComponent<Props> {
                           }
                         }}
                       >
-                        <FormattedMessage
-                          id='buttons.deposit'
-                          defaultMessage='Deposit'
-                        />
+                        <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />
                       </Button>
                     )}
-                    {(coinModel as SupportedFiatType).availability
-                      .withdrawal && (
+                    {(coinModel as SupportedFiatType).availability.withdrawal && (
                       <Button
                         nature='primary'
                         data-e2e='withdrawFiat'
-                        style={{ minWidth: 'auto', marginLeft: '8px' }}
+                        style={{ marginLeft: '8px', minWidth: 'auto' }}
                         onClick={() => {
                           if (!this.props.withdrawActions) return
-                          this.props.withdrawActions.showModal(
-                            coin as WalletFiatType
-                          )
+                          this.props.withdrawActions.showModal(coin as WalletFiatType)
                         }}
                       >
-                        <FormattedMessage
-                          id='buttons.withdraw'
-                          defaultMessage='Withdraw'
-                        />
+                        <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />
                       </Button>
                     )}
                   </>
@@ -258,24 +242,15 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 {!(coin in FiatTypeEnum) && (
                   <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
                     <LearnMoreText size='16px'>
-                      <FormattedMessage
-                        id='buttons.learn_more'
-                        defaultMessage='Learn More'
-                      />
+                      <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
                     </LearnMoreText>
                   </LearnMoreLink>
                 )}
               </ExplainerText>
             </ExplainerWrapper>
             <StatsContainer>
-              <WalletBalanceDropdown
-                coin={coin}
-                coinModel={coinModel}
-                isCoinErc20={isCoinErc20}
-              />
-              {coin in CoinTypeEnum && (
-                <CoinPerformance coin={coin} coinModel={coinModel} />
-              )}
+              <WalletBalanceDropdown coin={coin} coinModel={coinModel} />
+              {coin in CoinTypeEnum && <CoinPerformance coin={coin} coinModel={coinModel} />}
             </StatsContainer>
           </Header>
           {(hasTxResults || isSearchEntered) && coin in CoinTypeEnum && (
@@ -291,9 +266,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
               <CoinIntroduction coin={coin as CoinType} />
             </SceneWrapper>
           )}
-          {hasTxResults && sourceType && sourceType === 'INTEREST' && (
-            <InterestTransactions />
-          )}
+          {hasTxResults && sourceType && sourceType === 'INTEREST' && <InterestTransactions />}
           {hasTxResults &&
             (!sourceType || sourceType !== 'INTEREST') &&
             pages.map((value, index) => (
@@ -315,55 +288,41 @@ class TransactionsContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state, ownProps): LinkStatePropsType =>
-  // @ts-ignore
-  getData(state, ownProps.coin, ownProps.isCoinErc20, ownProps.isFiat)
+const mapStateToProps = (state, ownProps: OwnProps): LinkStatePropsType =>
+  getData(state, ownProps.coin, ownProps.coinfig)
 
-const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
-  const { coin, isCoinErc20 } = ownProps
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
+  const { coin, coinfig } = ownProps
   const baseActions = {
-    brokerageActions: bindActionCreators(
-      actions.components.brokerage,
-      dispatch
-    ),
+    brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
     miscActions: bindActionCreators(actions.core.data.misc, dispatch),
-    simpleBuyActions: bindActionCreators(
-      actions.components.simpleBuy,
-      dispatch
-    ),
+    simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
     withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
   }
-  if (isCoinErc20) {
+  if (coinfig.type.erc20Address) {
     return {
       ...baseActions,
       fetchData: () => dispatch(actions.core.data.eth.fetchErc20Data(coin)),
-      initTxs: () =>
-        dispatch(actions.components.ethTransactions.initializedErc20(coin)),
-      loadMoreTxs: () =>
-        dispatch(actions.components.ethTransactions.loadMoreErc20(coin))
+      initTxs: () => dispatch(actions.components.ethTransactions.initializedErc20(coin)),
+      loadMoreTxs: () => dispatch(actions.components.ethTransactions.loadMoreErc20(coin))
     }
   }
-  if (coin in WalletFiatEnum) {
+  if (coinfig.type.isFiat) {
     return {
       ...baseActions,
       fetchData: () => {},
-      loadMoreTxs: () =>
-        dispatch(actions.components.fiatTransactions.loadMore(coin)),
       initTxs: () =>
-        dispatch(actions.components.fiatTransactions.initialized(coin))
+        dispatch(actions.components.fiatTransactions.initialized(coin as WalletFiatType)),
+      loadMoreTxs: () =>
+        dispatch(actions.components.fiatTransactions.loadMore(coin as WalletFiatType))
     }
   }
   return {
     ...baseActions,
     fetchData: () => dispatch(actions.core.data[toLower(coin)].fetchData()),
-    initTxs: () =>
-      dispatch(
-        actions.components[`${toLower(coin)}Transactions`].initialized()
-      ),
-    loadMoreTxs: () =>
-      dispatch(actions.components[`${toLower(coin)}Transactions`].loadMore()),
-    setAddressArchived: address =>
-      dispatch(actions.core.wallet.setAddressArchived(address, true))
+    initTxs: () => dispatch(actions.components[`${toLower(coin)}Transactions`].initialized()),
+    loadMoreTxs: () => dispatch(actions.components[`${toLower(coin)}Transactions`].loadMore()),
+    setAddressArchived: (address) => dispatch(actions.core.wallet.setAddressArchived(address, true))
   }
 }
 
@@ -371,8 +330,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   coin: WalletCurrencyType
-  isCoinErc20: boolean
-  isFiat: boolean
+  coinfig: SupportedWalletCurrencyType['coinfig']
 }
 
 export type SuccessStateType = {

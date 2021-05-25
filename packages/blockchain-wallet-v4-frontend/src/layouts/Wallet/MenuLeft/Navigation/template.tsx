@@ -6,7 +6,7 @@ import { map, toLower } from 'ramda'
 import styled from 'styled-components'
 
 import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
-import { SupportedCoinType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, SupportedCoinType } from 'blockchain-wallet-v4/src/types'
 import {
   CoinIcon,
   Destination,
@@ -21,7 +21,7 @@ import { Props } from '.'
 const HelperTipContainer = styled.div`
   position: relative;
   > div span {
-    color: ${props => props.theme['grey400']};
+    color: ${(props) => props.theme.grey400};
   }
 `
 const HelperTip = styled(TooltipHost)`
@@ -30,13 +30,13 @@ const HelperTip = styled(TooltipHost)`
   top: -8px;
 `
 export const NewCartridge = styled(Cartridge)`
-  color: ${props => props.theme.orange600} !important;
-  background-color: ${props => props.theme.white};
+  color: ${(props) => props.theme.orange600} !important;
+  background-color: ${(props) => props.theme.white};
   letter-spacing: 1px;
   margin-left: auto;
   margin-right: -4px;
   padding: 4px 4px;
-  border: 1px solid ${props => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 4px;
 `
 const PortfolioSeparator = styled.div`
@@ -50,7 +50,7 @@ const PortfolioSeparator = styled.div`
 `
 const SeparatorWrapper = styled.div<{ margin?: string }>`
   width: calc(100% - 32px);
-  margin: ${props => (props.margin ? props.margin : '8px 16px')};
+  margin: ${(props) => (props.margin ? props.margin : '8px 16px')};
   box-sizing: border-box;
 `
 
@@ -64,14 +64,9 @@ const Divider = (props: { margin?: string }) => (
   </SeparatorWrapper>
 )
 
-const ExchangeNavItem = props => (
+const ExchangeNavItem = (props) => (
   <>
-    <MenuIcon
-      className='icon'
-      name='blockchain-logo'
-      style={{ marginLeft: '-2px' }}
-      size='21px'
-    />
+    <MenuIcon className='icon' name='blockchain-logo' style={{ marginLeft: '-2px' }} size='21px' />
     <Destination style={{ marginLeft: '2px' }}>
       <FormattedMessage
         id='layouts.wallet.menuleft.navigation.blockchain-exchange-1'
@@ -111,52 +106,39 @@ const Navigation = (props: OwnProps & Props) => {
         </MenuItem>
       </LinkContainer>
       {coinList.cata({
-        Success: coinList =>
+        Failure: () => null,
+        Loading: () => null,
+        NotAsked: () => null,
+        Success: (coinList) =>
           coinList.length ? (
             <>
               <PortfolioSeparator>
-                <Text
-                  color='grey600'
-                  lineHeight='20px'
-                  weight={600}
-                  size='14px'
-                >
-                  <FormattedMessage
-                    id='copy.portfolio'
-                    defaultMessage='Portfolio'
-                  />
+                <Text color='grey600' lineHeight='20px' weight={600} size='14px'>
+                  <FormattedMessage id='copy.portfolio' defaultMessage='Portfolio' />
                 </Text>
                 <Divider />
               </PortfolioSeparator>
               {map(
                 (coin: SupportedCoinType) => (
                   <LinkContainer
-                    to={coin.txListAppRoute}
+                    to={`/${coin.coinfig.symbol}/transactions`}
                     activeClassName='active'
-                    key={coin.coinCode}
+                    key={coin.coinfig.symbol}
                   >
-                    <MenuItem
-                      data-e2e={`${toLower(coin.coinCode)}Link`}
-                      colorCode={coin.coinCode}
-                      className='coin'
-                    >
+                    <MenuItem data-e2e={`${toLower(coin.coinfig.symbol)}Link`} className='coin'>
                       <CoinIcon
                         className='coin-icon'
-                        color={coin.coinCode}
-                        name={coin.coinCode}
+                        name={coin.coinfig.symbol as CoinType}
                         size='24px'
                       />
-                      <Destination>{coin.displayName}</Destination>
+                      <Destination>{coin.coinfig.name}</Destination>
                     </MenuItem>
                   </LinkContainer>
                 ),
                 coinList
               )}
             </>
-          ) : null,
-        Loading: () => null,
-        NotAsked: () => null,
-        Failure: () => null
+          ) : null
       })}
       <Divider margin='0 16px 8px 16px' />
       <LinkContainer to='/airdrops' activeClassName='active'>
@@ -187,12 +169,7 @@ const Navigation = (props: OwnProps & Props) => {
       {lockboxDevices?.length > 0 ? (
         <LinkContainer to='/lockbox' activeClassName='active'>
           <MenuItem data-e2e='lockboxLink'>
-            <MenuIcon
-              className='icon'
-              name='hardware'
-              style={{ paddingLeft: '2px' }}
-              size='24px'
-            />
+            <MenuIcon className='icon' name='hardware' style={{ paddingLeft: '2px' }} size='24px' />
             <Destination style={{ marginLeft: '-2px' }}>
               <FormattedMessage
                 id='layouts.wallet.menuleft.navigation.hardware'

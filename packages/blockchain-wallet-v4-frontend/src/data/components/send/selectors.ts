@@ -4,11 +4,11 @@ import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { RootState } from 'data/rootReducer'
 
 export const getPaymentsAccountExchange = curry((currency: string, state: RootState) => {
-  return state.components.send.exchangePaymentsAccount[currency].map((x) => x.address)
+  return state.components.send.exchangePaymentsAccount[currency]?.map((x) => x.address)
 })
 
 export const getPaymentsTradingAccountAddress = curry((currency: string, state: RootState) => {
-  return state.components.send.tradingPaymentsAccount[currency].map((x) => x.address)
+  return state.components.send.tradingPaymentsAccount[currency]?.map((x) => x.address)
 })
 
 export const getWithdrawLockCheck = (state: RootState) => state.components.send.withdrawLockCheck

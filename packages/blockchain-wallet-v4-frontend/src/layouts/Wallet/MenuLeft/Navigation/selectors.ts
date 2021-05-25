@@ -42,8 +42,8 @@ export const getData = createDeepEqualSelector(
       )
 
       const erc20List = coins.reduce((acc, coin: SupportedWalletCurrencyType) => {
-        if (!(coin as SupportedCoinType).contractAddress) return acc
-        const balance: BigNumber = getErc20Balance(coin.coinCode as CoinType)(state).getOrElse(
+        if (!coin.coinfig.type.erc20Address) return acc
+        const balance: BigNumber = getErc20Balance(coin.coinfig.symbol)(state).getOrElse(
           new BigNumber(0)
         )
         if (balance.isEqualTo(0)) {

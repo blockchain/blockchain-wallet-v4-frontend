@@ -1,3 +1,4 @@
+import { Remote } from 'blockchain-wallet-v4/src'
 import { CoinType, RatesType, RemoteDataType, TimeRange, WalletCurrencyType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 
@@ -14,7 +15,7 @@ export const handle2FAReset = (state: RootState) => state.dataPath.misc.handle_2
 export const verifyEmailToken = (state: RootState) => state.dataPath.misc.verify_email_token
 
 export const getPriceChange = (coin: CoinType, range: TimeRange, state: RootState) =>
-  state.dataPath.misc.price_change[range][coin]
+  state.dataPath.misc.price_change[range][coin] || Remote.NotAsked
 
 export const getRatesSelector = (
   coin: WalletCurrencyType,

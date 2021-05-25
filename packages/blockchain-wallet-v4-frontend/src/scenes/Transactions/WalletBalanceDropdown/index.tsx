@@ -17,7 +17,7 @@ import {
   FiatType,
   FiatTypeEnum,
   SupportedCoinType,
-  WalletFiatType,
+  WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -44,9 +44,6 @@ const DisplayContainer = styled.div<{ coinType: any; isItem?: boolean }>`
   box-sizing: border-box;
   height: ${(props) => (props.isItem ? 'auto' : '100%')};
   padding: ${(props) => (props.isItem ? '0px' : '16px')};
-  > span {
-    color: ${(props) => props.theme[props.coinType.coinCode]} !important;
-  }
   background-color: transparent;
 `
 const AccountContainer = styled.div<{ isItem?: boolean }>`
@@ -123,7 +120,10 @@ const CoinSelect = styled(SelectBox)`
 `
 
 class WalletBalanceDropdown extends Component<Props> {
-  state = {}
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
 
   isBtcTypeCoin = () => {
     return this.props.coin === 'BTC' || this.props.coin === 'BCH'
@@ -147,7 +147,7 @@ class WalletBalanceDropdown extends Component<Props> {
   handleRequest = () => {
     this.props.modalActions.showModal('REQUEST_CRYPTO_MODAL' as ModalNamesType, {
       coin: this.props.coin in CoinTypeEnum && this.props.coin,
-      origin: 'WalletBalanceDropdown',
+      origin: 'WalletBalanceDropdown'
     })
   }
 
@@ -166,7 +166,7 @@ class WalletBalanceDropdown extends Component<Props> {
         balanceData: 0,
         currency: 'USD',
         currencySymbol: '$',
-        sbBalance: { available: '0', pending: '0', withdrawable: '0' },
+        sbBalance: { available: '0', pending: '0', withdrawable: '0' }
       } as SuccessStateType).balanceData
     }
     if (selectProps.value) {
@@ -200,7 +200,7 @@ class WalletBalanceDropdown extends Component<Props> {
     data: SuccessStateType
   ) => {
     const balance = this.coinBalance(props) || 0
-    const { coinTicker } = this.props.coinModel
+    const { coinTicker, coinfig } = this.props.coinModel
 
     const isAllOrCustodial = () => {
       return (
@@ -213,7 +213,7 @@ class WalletBalanceDropdown extends Component<Props> {
       return data.sbBalance?.pending !== undefined && data.sbBalance?.pending !== '0'
     }
 
-    if (this.props.coin in CoinTypeEnum) {
+    if (!coinfig.type.isFiat) {
       switch (true) {
         case isAllOrCustodial() && hasPendingBalance():
           return (
@@ -225,7 +225,7 @@ class WalletBalanceDropdown extends Component<Props> {
                 value: convertBaseToStandard(
                   this.props.coin as CoinType,
                   data.sbBalance?.pending || '0'
-                ),
+                )
               })}
             </Text>
           )
@@ -256,7 +256,7 @@ class WalletBalanceDropdown extends Component<Props> {
           {': '}
           {fiatToString({
             unit: this.props.coin as WalletFiatType,
-            value: convertBaseToStandard('FIAT', data.sbBalance?.pending || '0'),
+            value: convertBaseToStandard('FIAT', data.sbBalance?.pending || '0')
           })}
         </Text>
       )
@@ -273,7 +273,7 @@ class WalletBalanceDropdown extends Component<Props> {
       balanceData: 0,
       currency: 'USD' as FiatType,
       currencySymbol: '$',
-      sbBalance: { available: '0', pending: '0', withdrawable: '0' },
+      sbBalance: { available: '0', pending: '0', withdrawable: '0' }
     } as SuccessStateType)
 
     return (
@@ -308,7 +308,10 @@ class WalletBalanceDropdown extends Component<Props> {
 
     return (
       <DisplayContainer coinType={coinType} isItem>
-        <CoinAccountIcon accountType={props.value.type} coin={coinType.coinCode} />
+        <CoinAccountIcon
+          accountType={props.value.type}
+          coin={coinType.coinfig.symbol as CoinType}
+        />
         <AccountContainer isItem>
           <Text weight={500} color='grey400' size='14px'>
             {account}{' '}
@@ -371,17 +374,17 @@ class WalletBalanceDropdown extends Component<Props> {
             />
           </Wrapper>
         )
-      },
+      }
     })
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(state, ownProps),
+  data: getData(state, ownProps)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -389,7 +392,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 export type OwnProps = {
   coin: CoinType | WalletFiatType
   coinModel: SupportedCoinType
-  isCoinErc20: boolean
 }
 
 type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>

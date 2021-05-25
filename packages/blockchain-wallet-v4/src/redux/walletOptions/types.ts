@@ -3,6 +3,21 @@ import { CoinType, RemoteDataType, WalletFiatType } from '../../types'
 
 export type WalletOptionsType = typeof WalletOptions
 
+type CoinfigType = {
+  name: string
+  precision: number
+  products: string[]
+  symbol: string
+  type: {
+    erc20Address?: string
+    isFiat?: boolean
+    logoPngUrl: string
+    name: string
+    parentChain: string
+    websiteUrl: string
+  }
+}
+
 export type SupportedCoinType = {
   availability: {
     exchangeFrom: boolean
@@ -14,19 +29,7 @@ export type SupportedCoinType = {
   }
   coinCode: CoinType
   coinTicker: CoinType
-  coinfig: {
-    name: string
-    precision: number
-    products: string[]
-    symbol: string
-    type: {
-      erc20Address?: string
-      logoPngUrl: string
-      name: string
-      parentChain: string
-      websiteUrl: string
-    }
-  }
+  coinfig: CoinfigType
   config: {
     network: string
   }
@@ -51,19 +54,7 @@ export type SupportedFiatType = {
   }
   coinCode: WalletFiatType
   coinTicker: WalletFiatType
-  coinfig: {
-    name: string
-    precision: number
-    products: string[]
-    symbol: string
-    type: {
-      erc20Address?: string
-      logoPngUrl: string
-      name: string
-      parentChain: string
-      websiteUrl: string
-    }
-  }
+  coinfig: CoinfigType
   contractAddress?: never
   displayName: string
   invited?: boolean

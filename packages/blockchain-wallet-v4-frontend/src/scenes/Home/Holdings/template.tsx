@@ -48,7 +48,7 @@ const Success = (props: Props & SuccessStateType) => (
       mapObjIndexed((coin: SupportedWalletCurrencyType, i) => {
         return (
           <HomeBalanceRow key={i} data-e2e={`${toLower(coin.coinfig.symbol)}BalanceTable`}>
-            <TxLink to={coin.txListAppRoute || `${coin.coinfig.symbol}/transactions`}>
+            <TxLink to={`/${coin.coinfig.symbol}/transactions`}>
               <div>
                 <Wrapper>
                   <Coin>

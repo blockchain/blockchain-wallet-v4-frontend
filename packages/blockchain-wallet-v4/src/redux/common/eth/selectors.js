@@ -9,41 +9,41 @@ import { ADDRESS_TYPES } from '../../payment/btc/utils'
 //
 // ETH
 //
-export const getAccountBalances = state => {
+export const getAccountBalances = (state) => {
   const digest = (addresses, account) => ({
+    address: account.addr,
+    balance: path([account.addr, 'balance'], addresses),
     coin: 'ETH',
     label: account.label,
-    balance: path([account.addr, 'balance'], addresses),
-    address: account.addr,
     type: ADDRESS_TYPES.ACCOUNT
   })
   const balances = Remote.of(getAddresses(state).getOrElse([]))
   return map(lift(digest)(balances), getAccounts(state))
 }
 
-export const getLockboxEthBalances = state => {
+export const getLockboxEthBalances = (state) => {
   const digest = (addresses, account) => ({
+    address: account.addr,
+    balance: path([account.addr, 'balance'], addresses),
     coin: 'ETH',
     label: account.label,
-    balance: path([account.addr, 'balance'], addresses),
-    address: account.addr,
     type: ADDRESS_TYPES.LOCKBOX
   })
   const balances = Remote.of(getAddresses(state).getOrElse([]))
   return map(lift(digest)(balances), getLockboxEthAccounts(state))
 }
 
-export const getAccountsInfo = state => {
-  const digest = account => ({
+export const getAccountsInfo = (state) => {
+  const digest = (account) => ({
+    address: prop('addr', account),
     coin: 'ETH',
-    label: prop('label', account),
-    address: prop('addr', account)
+    label: prop('label', account)
   })
   return getAccounts(state).map(map(digest))
 }
 
 // getWalletTransactions :: state -> Remote([ProcessedTx])
-export const getWalletTransactions = state => {
+export const getWalletTransactions = (state) => {
   return state.dataPath.eth.transactions.eth
 }
 
@@ -57,12 +57,13 @@ export const getErc20WalletTransactions = (state, token) => {
 }
 
 export const getErc20AccountBalances = (state, token) => {
+  const { coinfig } = window.coins[token]
   const digest = (ethAccount, erc20Balance, erc20Account) => [
     {
-      coin: toUpper(token),
-      label: erc20Account.label,
-      balance: erc20Balance,
       address: head(keys(ethAccount)),
+      balance: erc20Balance,
+      coin: toUpper(token),
+      label: erc20Account ? erc20Account.label : `${coinfig.symbol} Private Key Wallet`,
       type: ADDRESS_TYPES.ACCOUNT
     }
   ]

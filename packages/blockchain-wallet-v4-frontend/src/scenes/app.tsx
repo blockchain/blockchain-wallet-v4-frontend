@@ -95,19 +95,14 @@ class App extends React.PureComponent<Props> {
                       <WalletLayout path='/prices' component={Prices} />
                       {values(
                         map((coinModel) => {
-                          const coin = coinModel.coinCode
-                          const isFiat = coin === 'USD' || coin === 'EUR' || coin === 'GBP'
+                          const { coinfig } = coinModel
                           return (
                             <WalletLayout
-                              path={
-                                coinModel.txListAppRoute ||
-                                `${coinModel.coinfig.symbol}/transactions`
-                              }
+                              path={`/${coinfig.symbol}/transactions`}
                               component={Transactions}
-                              coin={coin}
-                              isCoinErc20={has('contractAddress', coinModel)}
-                              isFiat={isFiat}
-                              key={coin}
+                              coinfig={coinfig}
+                              coin={coinfig.symbol}
+                              key={coinfig.symbol}
                             />
                           )
                         }, this.props.supportedCoins)
