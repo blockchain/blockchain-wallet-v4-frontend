@@ -105,14 +105,10 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     ? Number(withdrawalAmountFiat) > Number(interestEDDWithdrawLimits?.withdrawLimits.amount)
     : false
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
     interestActions.requestWithdrawal(coin, withdrawalAmountCrypto)
-    if (showEDDWithdrawLimit) {
-      props.setShowSupply(true)
-    } else {
-      props.setShowSupply(false)
-    }
+    props.setShowSupply(showEDDWithdrawLimit)
   }
 
   return submitting ? (

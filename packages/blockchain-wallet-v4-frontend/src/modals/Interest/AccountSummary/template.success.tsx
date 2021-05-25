@@ -26,7 +26,7 @@ import {
   StatusWrapper,
   Top,
   TopText,
-  Wrapper,
+  Wrapper
 } from './model'
 
 const { INTEREST_EVENTS } = model.analytics
@@ -44,7 +44,7 @@ const AccountSummary: React.FC<Props> = (props) => {
     interestRate,
     showSupply,
     stepMetadata,
-    supportedCoins,
+    supportedCoins
   } = props
   const { coinCode, coinTicker, displayName } = supportedCoins[coin]
   const account = accountBalances && accountBalances[coin]
@@ -320,7 +320,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                     id='modals.interest.statuspending'
                     defaultMessage='Pending {action}'
                     values={{
-                      action: stepMetadata.withdrawSuccess ? 'Withdrawal' : 'Transfer',
+                      action: stepMetadata.withdrawSuccess ? 'Withdrawal' : 'Transfer'
                     }}
                   />
                 </Text>

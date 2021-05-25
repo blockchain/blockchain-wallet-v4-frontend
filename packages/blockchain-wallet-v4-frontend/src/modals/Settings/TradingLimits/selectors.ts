@@ -1,43 +1,38 @@
-import { lift } from 'ramda'
-
-import { ExtractSuccess, SDDEligibleType } from 'blockchain-wallet-v4/src/types'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { InterestEDDStatus, SDDEligibleType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { UserDataType } from 'data/modules/types'
 import { RootState } from 'data/rootReducer'
 import { UserTierType } from 'data/types'
 
-export const getData = (state: RootState) => {
+const getData = (state: RootState) => {
   const userData = selectors.modules.profile.getUserData(state).getOrElse({
     tiers: { current: 0 }
   } as UserDataType)
   // @ts-ignore
-  const userTiers = selectors.modules.profile
-    .getTiers(state)
-    .getOrElse({} as UserTierType)
+  const userTiers = selectors.modules.profile.getTiers(state).getOrElse({} as UserTierType)
 
-  const sddEligible = selectors.components.simpleBuy
-    .getSddEligible(state)
-    .getOrElse({
-      eligible: false,
-      ineligibilityReason: 'KYC_TIER',
-      tier: 0
-    } as SDDEligibleType)
+  const sddEligible = selectors.components.simpleBuy.getSddEligible(state).getOrElse({
+    eligible: false,
+    ineligibilityReason: 'KYC_TIER',
+    tier: 0
+  } as SDDEligibleType)
 
   const productsEligibility = selectors.components.settings
     .getProductsEligibility(state)
     .getOrElse([])
 
-  const interestEDDStatusR = selectors.components.interest.getInterestEDDStatus(
-    state
-  )
+  const interestEDDStatus = selectors.components.interest
+    .getInterestEDDStatus(state)
+    .getOrElse({} as InterestEDDStatus)
 
-  return lift(
-    (interestEDDStatus: ExtractSuccess<typeof interestEDDStatusR>) => ({
-      userData,
-      userTiers,
-      sddEligible,
-      productsEligibility,
-      interestEDDStatus
-    })
-  )(interestEDDStatusR)
+  return Remote.Success({
+    interestEDDStatus,
+    productsEligibility,
+    sddEligible,
+    userData,
+    userTiers
+  })
 }
+
+export default getData

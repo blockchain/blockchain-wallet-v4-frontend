@@ -13,7 +13,7 @@ import {
   RemoteDataType,
   SupportedWalletCurrenciesType,
   WithdrawalMinimumType,
-  WithdrawLimits,
+  WithdrawLimits
 } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
@@ -31,7 +31,7 @@ class WithdrawalFormContainer extends PureComponent<Props> {
 
   handleDisplayToggle = (isCoin: boolean) => {
     const { displayCoin } = this.props.data.getOrElse({
-      displayCoin: false,
+      displayCoin: false
     } as SuccessStateType)
     if (isCoin === displayCoin) return
     this.props.formActions.clearFields('interestWithdrawalForm', false, false, 'withdrawalAmount')
@@ -51,18 +51,18 @@ class WithdrawalFormContainer extends PureComponent<Props> {
       NotAsked: () => <Loading />,
       Success: (val) => (
         <WithdrawalForm {...val} {...this.props} handleDisplayToggle={this.handleDisplayToggle} />
-      ),
+      )
     })
   }
 }
 
 const mapStateToProps = (state): LinkStatePropsType => ({
-  data: getData(state),
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  interestActions: bindActionCreators(actions.components.interest, dispatch),
+  interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

@@ -599,7 +599,6 @@ type MessagesType = {
   'identityverification.verify.resubmit.reason.incorrect': 'The document you submitted is incorrect'
   'identityverification.verify.resubmit.reason.intro': 'Main reasons for this to happen are'
   'identityverification.verify.resubmit.reason.quality': 'We were unable to read the images you submitted due to image quality'
-  'identityverification.verify.supportecountrieslist': 'Not all countries are supported at this time. Check our up to date <a href="https://support.blockchain.com/hc/en-us/articles/360018751932" target="_blank" rel="noopener noreferrrer">list of countries</a> before proceeding.'
   'identityverification.verify.supportedcountries': 'Is my country supported?'
   'layouts.wallet.header.Sign Out': 'Sign Out'
   'layouts.wallet.header.announcements.emailreminder': 'Confirm your email address to properly secure your account'
@@ -658,7 +657,7 @@ type MessagesType = {
   'modals.brokerage.authorize.bol.title': 'Bank of Lithuania Authorisation'
   'modals.brokerage.authorize.fca': 'Blockchain.com is an agent of {entityName} Ltd. {entityName} Ltd is authorised and regulated by the Financial Conduct Authority under the Payment Service Regulations 2017 [827001] for the provision of Account Information and Payment Initiation services.'
   'modals.brokerage.authorize.bol': 'SafeConnect UAB is authorised and regulated by the Bank of Lithuania under Payments Law (LB002045) for the provision of Account Information and Payment Initiation services.'
-  'modals.brokerage.authorize.bol.terms': "View SafeConnect UAB <a href='https://yapi.ly/GDNT' rel='noopener noreferrer' target='_blank'>Terms and Conditions</a> for more information."
+  'modals.brokerage.authorize.bol.terms': "View SafeConnect UAB <a>Terms and Conditions</a> for more information."
   'modals.brokerage.authorize.data': 'In order to share your bank account data with Blockchain.com, you will now be securely redirected to your bank to confirm your consent for {entityName} to read the following information:'
   'modals.brokerage.authorize.deposit_data.first': 'To easily set up payments from your bank to Blockchain.com, we are about to securely re-direct you to your bank where you will be asked to confirm the payment via {entityName}, an FCA regulated payment initiation provider for Blockchain.com.'
   'modals.brokerage.authorize.deposit_data.second': '{entityName} will share these details with your bank, where you will then be asked to confirm the following payment setup.'
@@ -1113,7 +1112,7 @@ type MessagesType = {
   'modals.onboarding.linkfromexchange.success_subinfo2_title': 'To Log In to Your Exchange'
   'modals.onboarding.linkfromexchange.success_subinfo2_description1': '- Use Email Address: {exchangeEmail}'
   'modals.onboarding.linkfromexchange.success_subinfo2_description2': '- Exchange’s Password'
-  'modals.onboarding.linkfromexchange.success_disclaimer': "Having different Exchange and Wallet passwords helps to keep your accounts safe! <a href='https://support.blockchain.com/hc/en-us/articles/360029029911-Your-Wallet-101' rel='noopener noreferrer' target='_blank'>Learn more.</a> about the Wallet."
+  'modals.onboarding.linkfromexchange.success_disclaimer': "Having different Exchange and Wallet passwords helps to keep your accounts safe! <a>Learn more</a> about the Wallet."
   'modals.onboarding.linkfromexchange.successheader': 'Your Accounts are Connected!'
   'modals.onboarding.linkfromexchange.to_continue': "to continue. We'll be waiting right here in the meantime."
   'modals.onboarding.linkfromexchange.unverified_email': 'Please Verify Your Email'
@@ -1412,7 +1411,7 @@ type MessagesType = {
   'modals.simplebuy.confirm.activity': 'Your final amount may change due to market activity.'
   'modals.simplebuy.confirm.activity_card11': 'Your final amount might change due to market activity. For your security, buy orders with a bank account are subject up to a 14 day holding period. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
   'modals.simplebuy.confirm.activity_card2': 'Your crypto will be available to be withdrawn within <b>{days} days</b>.'
-  'modals.simplebuy.confirm.activity_accept_terms': "I agree to Blockchain’s <a href='https://www.blockchain.com/legal/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a> and its return, refund and cancellation policy."
+  'modals.simplebuy.confirm.activity_accept_terms': "I agree to Blockchain’s <a>Terms of Service</a> and its return, refund and cancellation policy."
   'modals.simplebuy.confirm.funds_wallet': '{coin} Wallet'
   'modals.simplebuy.confirm.payment_card': 'Credit Card'
   'modals.simplebuy.confirm.buynow': 'Buy Now'
@@ -1687,8 +1686,7 @@ type MessagesType = {
   'modals.withdraw.tooltip_info_day': 'The remaining balance will be available to be withdrawn within 1 day.'
   'modals.withdraw.tooltip_info': 'The remaining balance will be available to be withdrawn within {days} days.'
   'modals.withdraw.available_for_withdrawal': 'Available to Withdraw'
-  'modals.withdraw.lock_description': "You have {locks} pending transactions. We’ll email you when these funds become available for withdrawal. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392-Why-can-t-I-withdraw-my-crypto-' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
-  'modals.withdraw.fee': 'Withdraw Fee'
+  'modals.withdraw.lock_description': "You have {locks} pending transactions. We’ll email you when these funds become available for withdrawal. <a>Learn more.</a>"
   'modals.withdraw.not_enought_founds': 'Amount is greater than your max withdrawalable balance ({symbol} {balance}) minus the fee ({symbol} {fee}).'
   'modals.withdraw.success': 'Success! We are withdrawing the cash from your {currency} Wallet now. The funds should be in your bank in 1-3 business days.'
   'modals.xlmairdropwelcome.inprogress.completenow': 'Complete Now'
@@ -2146,9 +2144,7 @@ type MessagesType = {
   'scenes.prices.subtitle': 'Buy, Sell and Swap all of the assets offered by our wallet.'
   'scenes.profile.identityverification.swaplimit.airdrops.learnmore': 'Learn more.'
   'scenes.profile.identityverification.swaplimit.goldcompleteairdropeligible-1': 'By completing the Gold Level requirements you are automatically eligible for our airdrop programs extended to your region.'
-  'scenes.profile.identityverification.swaplimit.learnmorelimits': "We’ve put together an article on Trading Limits. <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
   'scenes.profile.identityverification.swaplimit.tradelimit': 'Your trading limits are how much you can trade each day. These limits include all Swap, Buy and Sell transactions. Limits are necessary for compliance and fraud prevention.'
-  'scenes.profile.identityverification.swaplimit.learnmoreread': "Read the article we've put together on Trading Limits <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>here</a>."
   'scenes.profile.identityverification.swaplimit.wanttolearnmore': 'Want to learn more?'
   'scenes.profile.identityverification.tradingtitle': 'Trading Limits'
   'scenes.public.register.createExchange': 'Create an Exchange Account'
@@ -2455,7 +2451,7 @@ type MessagesType = {
   'scenes.settings.preferences.cryptolinkhandling.enable': 'Enable'
   'scenes.settings.preferences.cryptolinkhandling.title': 'Crypto Link Handling'
   'scenes.settings.preferences.cryptolinkhandling.unknownstatus': "We can't detect whether or not handling of crypto links has been enabled. If it has already been enabled, nothing will happen."
-  'scenes.settings.preferences.cryptolinkhandling.unknownstatus.safari': 'This feature is not supported in Safari <a href="https://caniuse.com/?search=registerProtocolHandler" target="_blank" rel="noopener noreferrrer">more details</a>.'
+  'scenes.settings.preferences.cryptolinkhandling.unknownstatus.safari': 'This feature is not supported in Safari <a>more details</a>.'
   'scenes.settings.preferences.localcurrency.error.description': 'Select your local currency.'
   'scenes.settings.preferences.localcurrency.error.title': 'Local Currency'
   'scenes.settings.preferences.localcurrency.loading.description': 'Select your local currency.'
@@ -2493,8 +2489,6 @@ type MessagesType = {
   'scenes.settings.preferences.walletlanguage.success.title': 'Wallet Language'
   'scenes.settings.profile.title': 'User Profile'
   'scenes.settings.profile.subtitle': 'View and manage your KYC status and trading limits.'
-  'scenes.settings.profile.menu.failedkyc': "We had trouble verifying your identity. Your Swap feature has been disabled at this time. <a href='https://support.blockchain.com/hc/en-us/articles/360018080352-Why-has-my-ID-submission-been-rejected-' target='_blank' rel='noopener noreferrer'>Learn more</a>"
-  'scenes.settings.tor.description': 'Enable the following option to prevent IP addresses that are known to be part of the Tor anonymizing network from accessing your wallet.'
   'scenes.settings.tor.description2': 'The Tor network is frequently used by hackers attempting to access Blockchain users wallets.'
   'scenes.settings.tor.title': 'Wallet Access via Tor'
   'scenes.swap.subheader': 'Exchange any cryptocurrency for another crypto.'

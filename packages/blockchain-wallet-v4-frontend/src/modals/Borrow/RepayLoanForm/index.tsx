@@ -21,8 +21,6 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class RepayLoan extends PureComponent<Props> {
-  state = {}
-
   componentDidMount() {
     this.props.borrowActions.initializeRepayLoan('PAX')
   }
@@ -37,14 +35,10 @@ class RepayLoan extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => (
-        <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
-      ),
-      Failure: e => (
-        <DataError message={{ message: e }} onClick={this.handleRefresh} />
-      ),
+      Failure: (e) => <DataError message={{ message: e }} onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      NotAsked: () => <Loading />,
+      Success: (val) => <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
     })
   }
 }

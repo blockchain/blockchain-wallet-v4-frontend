@@ -224,8 +224,11 @@ const Success: React.FC<InjectedFormProps<
             <PendingText size='14px' color='grey900' weight={500}>
               <FormattedMessage
                 id='modals.withdraw.lock_description'
-                defaultMessage="You have {locks} pending transactions. We’ll email you when these funds become available for withdrawal. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392-Why-can-t-I-withdraw-my-crypto-' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
+                defaultMessage="You have {locks} pending transactions. We’ll email you when these funds become available for withdrawal. <a>Learn more.</a>"
                 values={{
+                  a: msg => (
+                    <a href='https://support.blockchain.com/hc/en-us/articles/360048200392-Why-can-t-I-withdraw-my-crypto-' rel='noopener noreferrer' target='_blank'>{msg}</a>
+                  ),
                   locks: props.locks.length
                 }}
               />
