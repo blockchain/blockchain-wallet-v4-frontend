@@ -20,7 +20,7 @@ const Title = styled(Text)`
   margin: 40px 0px 24px 0px;
 `
 
-const Failure: React.FC<FailurePropsType> = props => {
+const Failure: React.FC<FailurePropsType> = (props: FailurePropsType) => {
   return (
     <Wrapper>
       <div>
@@ -44,8 +44,8 @@ const Failure: React.FC<FailurePropsType> = props => {
           size='16px'
           onClick={() =>
             props.simpleBuyActions.setStep({
-              step: 'CRYPTO_SELECTION',
-              fiatCurrency: props.fiatCurrency || 'USD'
+              fiatCurrency: props.fiatCurrency || 'USD',
+              step: 'CRYPTO_SELECTION'
             })
           }
         >

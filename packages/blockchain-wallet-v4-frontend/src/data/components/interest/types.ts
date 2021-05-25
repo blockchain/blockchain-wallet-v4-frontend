@@ -72,10 +72,10 @@ export interface InterestState {
   depositLimits: InterestMinMaxType
   instruments: RemoteDataType<string, InterestInstrumentsType>
   interestEDDStatus: RemoteDataType<string, InterestEDDStatus>
-  interestEDDWithdrawLimits: RemoteDataType<string, WithdrawLimits>,
-  interestEligible: RemoteDataType<string, InterestEligibleType>,
-  interestLimits: RemoteDataType<string, InterestLimitsType>,
-  interestRate: RemoteDataType<string, InterestRateType['rates']>,
+  interestEDDWithdrawLimits: RemoteDataType<string, WithdrawLimits>
+  interestEligible: RemoteDataType<string, InterestEligibleType>
+  interestLimits: RemoteDataType<string, InterestLimitsType>
+  interestRate: RemoteDataType<string, InterestRateType['rates']>
   isCoinDisplayed: boolean
   isFromBuySell: boolean
   // make this optional here. places where ts doesnt like it, check, custodial

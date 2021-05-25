@@ -254,7 +254,10 @@ const Success: React.FC<Props & { close: () => void; data: any }> = props => {
       >
         <FormattedMessage
           id='modals.onboarding.linkfromexchange.success_disclaimer'
-          defaultMessage="Having different Exchange and Wallet passwords helps to keep your accounts safe! <a href='https://support.blockchain.com/hc/en-us/articles/360029029911-Your-Wallet-101' rel='noopener noreferrer' target='_blank'>Learn more.</a> about the Wallet."
+          defaultMessage="Having different Exchange and Wallet passwords helps to keep your accounts safe! <a>Learn more</a> about the Wallet."
+          values= {{
+            a: msg => <a href='https://support.blockchain.com/hc/en-us/articles/360029029911-Your-Wallet-101' rel='noopener noreferrer' target='_blank'>{msg}</a>
+          }}
         />
       </InfoText>
 

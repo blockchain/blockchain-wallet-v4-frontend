@@ -110,7 +110,7 @@ export const fromJS = (o, network) => {
     script: o.script ? o.script : addressToScript(o.address, network),
     txHash: o.tx_hash_big_endian,
     value: parseInt(o.value),
-    xpub: o.xpub
+    xpub: o.xpub,
   })
 }
 
