@@ -385,11 +385,7 @@ const Register = (props: InjectedFormProps<{}, Props> & Props) => {
               !!goalData.crypto &&
               !!goalData.amount && (
                 <>
-                  <SimpleBuyInfo
-                    marginTop='32px'
-                    goalData={goalData}
-                    supportedCoins={props.supportedCoins}
-                  />
+                  <SimpleBuyInfo goalData={goalData} supportedCoins={props.supportedCoins} />
 
                   <Text size='14px' color='grey600' weight={500}>
                     <FormattedMessage

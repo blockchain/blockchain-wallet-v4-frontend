@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { find, isEmpty, isNil, propEq, propOr } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
 
@@ -11,7 +10,7 @@ import { RemoteDataType, SupportedWalletCurrenciesType } from 'blockchain-wallet
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
-import { GoalDataType, LoginFormType, LoginSteps } from 'data/types'
+import { LoginFormType, LoginSteps } from 'data/types'
 import { isGuid } from 'services/forms'
 
 import Loading from '../loading.public'
@@ -99,7 +98,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   render() {
-    const { data, formValues, goals } = this.props
+    const { data, formValues } = this.props
     const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
     const { busy, error } = data.cata({
       Failure: (val) => ({ busy: false, error: val.err }),
@@ -112,8 +111,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       handleSmsResend: this.handleSmsResend,
       loginError: error
     }
-    const simpleBuyGoal = find(propEq('name', 'simpleBuy'), goals)
-    const goalData: GoalDataType = propOr({}, 'data', simpleBuyGoal)
     return (
       <>
         <Text color='white' size='24px' weight={600} style={{ marginBottom: '30px' }}>
@@ -134,35 +131,15 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
               defaultMessage='Enter your password to login'
             />
           )}
-          {step === LoginSteps.ENTER_EMAIL_GUID && !isNil(goalData) && !isEmpty(goalData) && (
-            <FormattedMessage
-              defaultMessage='Buy Crypto With Credit Card'
-              id='scenes.login.simplebuy.header'
-            />
-          )}
         </Text>
         <Wrapper>
           <Form onSubmit={this.handleSubmit}>
             {(() => {
               switch (step) {
                 case LoginSteps.ENTER_EMAIL_GUID:
-                  return (
-                    <EnterEmailOrGuid
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                      goalData={goalData}
-                    />
-                  )
+                  return <EnterEmailOrGuid {...this.props} {...loginProps} setStep={this.setStep} />
                 case LoginSteps.ENTER_PASSWORD:
-                  return (
-                    <EnterPassword
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                      goalData={goalData}
-                    />
-                  )
+                  return <EnterPassword {...this.props} {...loginProps} setStep={this.setStep} />
 
                 case LoginSteps.CHECK_EMAIL:
                   return <CheckEmail {...this.props} {...loginProps} setStep={this.setStep} />
@@ -206,7 +183,6 @@ const mapStateToProps = (state) => ({
   data: selectors.auth.getLogin(state) as RemoteDataType<any, any>,
   formMeta: getFormMeta(LOGIN_FORM_NAME)(state),
   formValues: selectors.form.getFormValues(LOGIN_FORM_NAME)(state) as LoginFormType,
-  goals: selectors.goals.getGoals(state),
   // TODO guid selector shouldn't come from form
   // we set it on the state when we get the callback
   guid: formValueSelector(LOGIN_FORM_NAME)(state, 'guid'),
@@ -214,10 +190,7 @@ const mapStateToProps = (state) => ({
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
-  password: formValueSelector(LOGIN_FORM_NAME)(state, 'password'),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType)
+  password: formValueSelector(LOGIN_FORM_NAME)(state, 'password')
 })
 
 const mapDispatchToProps = (dispatch) => ({

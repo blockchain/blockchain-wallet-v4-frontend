@@ -1,15 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { isEmpty, isNil } from 'ramda'
 import { Field } from 'redux-form'
 
 import { Banner, HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
 import { FormGroup, FormItem, TextBox } from 'components/Form'
-import { GoalDataType } from 'data/types'
 import { required, validWalletIdOrEmail } from 'services/forms'
 
-import SimpleBuyInfo from '../../Register/SimpleBuyInfo'
-import { Props as OwnProps } from '..'
+import { Props } from '..'
 import {
   ActionButton,
   BrowserWarning,
@@ -25,20 +22,13 @@ import {
 } from '../model'
 
 const EnterEmailOrGuid = (props: Props) => {
-  const { busy, goalData, guidOrEmail, invalid, loginError, submitting, supportedCoins } = props
+  const { busy, guidOrEmail, invalid, loginError, submitting } = props
 
   const guidError = loginError && loginError.toLowerCase().includes('unknown wallet id')
 
   return (
     <>
       <FormGroup>
-        {!isNil(goalData) &&
-          !isEmpty(goalData) &&
-          !!goalData.fiatCurrency &&
-          !!goalData.crypto &&
-          !!goalData.amount && (
-            <SimpleBuyInfo marginTop='0' goalData={goalData} supportedCoins={supportedCoins} />
-          )}
         {!isSupportedBrowser && (
           <BrowserWarning>
             <Banner type='warning'>
@@ -122,9 +112,5 @@ const EnterEmailOrGuid = (props: Props) => {
     </>
   )
 }
-
-type Props = {
-  goalData: GoalDataType
-} & OwnProps
 
 export default EnterEmailOrGuid
