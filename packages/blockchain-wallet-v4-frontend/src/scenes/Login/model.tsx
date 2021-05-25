@@ -63,7 +63,7 @@ export const CircleBackground = styled.div`
 `
 export const RectangleBackground = styled.div`
   height: 48px;
-  width: 412px;
+  width: 100%;
   background-color: ${(props) => props.theme.grey000};
   border-radius: 8px;
   margin-top: 24px;
