@@ -330,16 +330,19 @@ export default ({ api, coreSagas }) => {
       if (authRequired) {
         // If user has already recevied authorization token
         // from wallet guid reminder email
+        let authRequiredAlert
         if (emailToken) {
           yield put(actions.core.data.misc.authorizeLogin(emailToken, true))
         } else {
-          const authRequiredAlert = yield put(
+          authRequiredAlert = yield put(
             actions.alerts.displayInfo(C.AUTHORIZATION_REQUIRED_INFO, undefined, true)
           )
         }
         // auth errors (polling)
         const authorized = yield call(pollingSession, session)
-        // yield put(actions.alerts.dismissAlert(authRequiredAlert.payload.id))
+        if (authRequiredAlert) {
+          yield put(actions.alerts.dismissAlert(authRequiredAlert.payload.id))
+        }
         if (authorized) {
           try {
             yield call(coreSagas.wallet.fetchWalletSaga, {
