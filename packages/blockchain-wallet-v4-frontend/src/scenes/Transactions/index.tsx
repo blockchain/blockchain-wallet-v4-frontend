@@ -147,7 +147,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       pages,
       sourceType
     } = this.props
-    const { coinCode, coinTicker, displayName } = coinModel
+    const { coinfig } = coinModel
 
     return (
       <SceneWrapper>
@@ -155,9 +155,13 @@ class TransactionsContainer extends React.PureComponent<Props> {
           <Header>
             <PageTitle>
               <CoinTitle>
-                <Icon size='36px' color={coinCode} name={coinCode} />
+                <Icon
+                  size='36px'
+                  color={coinfig.symbol as CoinType}
+                  name={coinfig.symbol as CoinType}
+                />
                 <Text color='grey800' size='32px' weight={600}>
-                  {displayName}
+                  {coinfig.name}
                 </Text>
               </CoinTitle>
               <TitleActionContainer>
@@ -269,13 +273,13 @@ class TransactionsContainer extends React.PureComponent<Props> {
           {hasTxResults && sourceType && sourceType === 'INTEREST' && <InterestTransactions />}
           {hasTxResults &&
             (!sourceType || sourceType !== 'INTEREST') &&
-            pages.map((value, index) => (
+            pages.map((value) => (
               <TransactionList
                 coin={coin}
-                coinTicker={coinTicker}
+                coinTicker={coinfig.symbol}
                 currency={currency}
                 data={value}
-                key={index}
+                key={coinfig.symbol}
                 onArchive={this.handleArchive}
                 onLoadMore={loadMoreTxs}
                 onRefresh={this.handleRefresh}
