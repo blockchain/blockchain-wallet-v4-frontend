@@ -38,10 +38,10 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     this.props.formActions.change(LOGIN_FORM_NAME, 'step', step)
   }
 
-  initCaptcha = () => {
+  initCaptcha = (callback?) => {
     /* eslint-disable */
-        // @ts-ignore
-        if (!window.grecaptcha || !window.grecaptcha.enterprise) return
+    // @ts-ignore
+    if (!window.grecaptcha || !window.grecaptcha.enterprise) return
     // @ts-ignore
     const recaptchaKey = RECAPTCHA_KEY
     // @ts-ignore
@@ -51,10 +51,12 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         action: 'LOGIN',
       })
         .then((captchaToken) => {
+          console.log('Captcha success')
           this.setState({ captchaToken })
+          callback && callback(captchaToken)
         })
         .catch((e) => {
-          console.error('captcha error: ', e)
+          console.error('Captcha error: ', e)
         })
     })
     /* eslint-enable */
@@ -68,9 +70,17 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     // sometimes captcha doesnt mount correctly (race condition?)
     // if it's undefined, try to re-init for token
     if (!this.state.captchaToken) {
-      this.initCaptcha()
+      return this.initCaptcha(this.continueLoginProcess)
     }
+    // we have a captcha token, continue login process
+    this.continueLoginProcess()
+  }
 
+  handleSmsResend = () => {
+    this.props.authActions.resendSmsCode(this.props.guid)
+  }
+
+  continueLoginProcess = () => {
     const { authActions, code, formActions, formValues, guid, guidOrEmail, password } = this.props
     let auth = code
     // only uppercase if authType is not Yubikey
@@ -91,10 +101,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     } else {
       authActions.login(guid, password, auth, null, null)
     }
-  }
-
-  handleSmsResend = () => {
-    this.props.authActions.resendSmsCode(this.props.guid)
   }
 
   render() {
