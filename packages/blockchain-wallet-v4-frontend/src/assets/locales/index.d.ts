@@ -406,6 +406,7 @@ type MessagesType = {
   'copy.pending_txs': 'Pending Transactions'
   'copy.purchase': 'Purchase'
   'copy.receive_to': 'Receive to'
+  'copy.refund_policy': 'Refund Policy'
   'copy.reset': 'Reset'
   'copy.max': 'Max'
   'copy.min': 'Min'
@@ -413,8 +414,13 @@ type MessagesType = {
   'copy.next': 'Next'
   'copy.most_popular': 'Most Popular'
   'copy.negative_incoming_swap': 'Amount is below withdrawal fee.'
+  'copy.network': 'network'
+  'copy.networks': 'networks'
+  'copy.network_fees': 'Network Fees'
+  'copy.network_fees_set': 'Network fees are set by the'
   'copy.new': 'New'
   'copy.new_swap': 'New Swap'
+  'copy.no_network_fees': 'When using Trading Accounts, there are no network fees.'
   'copy.no_payment_methods': 'No payment methods available.'
   'copy.now': 'Now'
   'copy.not_enough_eth1': 'ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in your Ether Wallet for this transaction, not Ether Trading Account.'
@@ -435,13 +441,15 @@ type MessagesType = {
   'copy.swap': 'Swap'
   'copy.swap_account_from_error': 'You cannot swap between these types of accounts. Try changing the From account.'
   'copy.swap_add_name': 'Add Your Name and Address'
-  'copy.swap_amount_change_disclaimer': 'The amounts you send and receive may change slightly due to market activity. Once an order starts, we are unable to stop it.'
+  'copy.swap_amount_change_disclaimer': 'Final amount may change due to market activity. By approving this Swap you agree to Blockchain.com’s'
   'copy.swap_arrive_soon': 'Your {coin} will arrive soon.'
   'copy.swap_complete': 'Swap Complete'
   'copy.swap_confirm': 'Confirm your email address to protect your Blockchain.com Wallet.'
   'copy.swap_crypto_get': 'This is the crypto you get.'
   'copy.swap_crypto_send': 'This is the crypto you send.'
   'copy.swap_details': 'Swap Details'
+  'copy.swap_exchange_rate_tt_1': 'The exchange rate is the best price available for'
+  'copy.swap_exchange_rate_tt_2': 'in terms of 1'
   'copy.swap_from': 'Swap from'
   'copy.swap_from_origin': 'Which wallet do you want to Swap from?'
   'copy.swap_for_destination': 'Which crypto do you want to Swap for?'
@@ -922,7 +930,7 @@ type MessagesType = {
   'modals.interest.deposit.termsservice': 'Terms of Service'
   'modals.interest.deposit.edd_need': "Transferring this amount requires further verification. We'll ask you for those details in the next step."
   'modals.interest.deposit.supply_information_description_1': "You've transferred an amount that requires further verification for legal and compliance reasons."
-  'modals.interest.deposit.supply_information_description_2': "Your funds are safe with us and have started accruing interest already. To avoid delays when you decide to withdraw your funds, submit your information now."
+  'modals.interest.deposit.supply_information_description_2': 'Your funds are safe with us and have started accruing interest already. To avoid delays when you decide to withdraw your funds, submit your information now.'
   'modals.interest.totalearned': 'Total Interest Earned'
   'modals.interest.unsupported-title': 'Rates Unavailable'
   'modals.interest.unsupported-subcontent-1': "Interest rates are currently unavailable for {walletCurrency}. Please change your wallet's local currency in Preferences."
@@ -937,7 +945,7 @@ type MessagesType = {
   'modals.interest.withdrawal.edd_need': 'This amount requires further information. Confirm the withdrawal and follow the instructions on the next screen.'
   'modals.interest.withdrawal.success': 'Waiting on your withdrawal to be confirmed by our team. It may take a few moments to show in your Interest Account History. No action is required at this time.'
   'modals.interest.withdrawal.supply_information_description_1': "You've requested a withdrawal for an amount that requires further verification for legal and compliance reasons."
-  'modals.interest.withdrawal.supply_information_description_2': "Your funds are safe with us. Please submit the additional information so we can start processing your withdrawal."
+  'modals.interest.withdrawal.supply_information_description_2': 'Your funds are safe with us. Please submit the additional information so we can start processing your withdrawal.'
   'modals.interest.supply_information_disclaimer': 'Our Support team may contact you if further clarification is needed.'
   'modals.interest.withdrawal.totalinterest': 'Total Interest Earned'
   'modals.interest.withdrawal.warning': 'In the last month you have earned {pendingInterestCrypto} in interest. Once you withdraw {withdrawalAmount} ({withdrawalAmountCrypto}), you will continue to earn interest on the remaining balance.'
@@ -1425,10 +1433,10 @@ type MessagesType = {
   'modals.simplebuy.confirm.rate': 'Exchange Rate'
   'modals.simplebuy.confirm.coin_price': '{coin} Price'
   'modals.simplebuy.confirm.sell_description': "Final amount may change due to market activity.<br /> By approving this Sell you agree to Blockchain.com’s <br /><a href='https://www.blockchain.com/legal/terms' rel='noopener noreferrer' target='_blank'>Refund Policy.</a>"
-  'modals.simplebuy.confirm.coin_tooltip': "Blockchain.com provides the best market price we receive and applies a spread."
-  'modals.simplebuy.confirm.sale_amount': "Sale Amount"
-  'modals.simplebuy.confirm.network_fees': "Network fees are set by the Bitcoin network."
-  'modals.simplebuy.confirm.learn_more_about_fees': "Learn more about fees"
+  'modals.simplebuy.confirm.coin_tooltip': 'Blockchain.com provides the best market price we receive and applies a spread.'
+  'modals.simplebuy.confirm.sale_amount': 'Sale Amount'
+  'modals.simplebuy.confirm.network_fees': 'Network fees are set by the Bitcoin network.'
+  'modals.simplebuy.confirm.learn_more_about_fees': 'Learn more about fees'
   'modals.simplebuy.processing': 'Processing…'
   'modals.simplebuy.deposit.deposit_button': 'Deposit {amount}'
   'modals.simplebuy.deposit.bank_transfer': 'Bank Transfer'
