@@ -61,7 +61,7 @@ class ResetWallet2fa extends React.PureComponent<InjectedFormProps<{}, Props> & 
     this.props.actions.resetForm()
   }
 
-  initCaptcha = () => {
+  initCaptcha = (callback?) => {
     /* eslint-disable */
     // @ts-ignore
     if (!window.grecaptcha || !window.grecaptcha.enterprise) return
@@ -74,10 +74,12 @@ class ResetWallet2fa extends React.PureComponent<InjectedFormProps<{}, Props> & 
         action: 'RESET_2FA',
       })
         .then((captchaToken) => {
+          console.log('Captcha success')
           this.setState({ captchaToken })
+          callback && callback(captchaToken)
         })
         .catch((e) => {
-          console.error('captcha error: ', e)
+          console.error('Captcha error: ', e)
         })
     })
     /* eslint-enable */
@@ -89,7 +91,9 @@ class ResetWallet2fa extends React.PureComponent<InjectedFormProps<{}, Props> & 
     // sometimes captcha doesnt mount correctly (race condition?)
     // if it's undefined, try to re-init for token
     if (!this.state.captchaToken) {
-      this.initCaptcha()
+      return this.initCaptcha((captchaToken) => {
+        this.props.actions.resetWallet2fa(captchaToken, this.props.formValues)
+      })
     }
 
     this.props.actions.resetWallet2fa(this.state.captchaToken, this.props.formValues)
