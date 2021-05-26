@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { defaultTo, filter, path, prop } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
@@ -297,9 +297,12 @@ const Authorize = (props: Props) => {
               values={{ entityName }}
             />
             {entityName !== 'SafeConnect' && (
-              <FormattedHTMLMessage
+                <FormattedMessage
                 id='modals.brokerage.authorize.bol.terms'
-                defaultMessage="View SafeConnect UAB <a href='https://yapi.ly/GDNT' rel='noopener noreferrer' target='_blank'>Terms and Conditions</a> for more information."
+                defaultMessage="View SafeConnect UAB <a>Terms and Conditions</a> for more information."
+                values = {{
+                  a: msg => <a href='https://yapi.ly/GDNT' rel='noopener noreferrer' target='_blank'>{msg}</a>
+                }}
               />
             )}
           </>

@@ -11,16 +11,17 @@ const INITIAL_STATE: InterestState = {
   afterTransaction: Remote.NotAsked,
   coin: 'BTC',
   depositLimits: {
-    maxFiat: 0,
-    minFiat: 0,
     maxCoin: 0,
-    minCoin: 0
+    maxFiat: 0,
+    minCoin: 0,
+    minFiat: 0
   },
-  interestEligible: Remote.NotAsked,
   instruments: Remote.NotAsked,
+  interestEDDStatus: Remote.NotAsked,
+  interestEDDWithdrawLimits: Remote.NotAsked,
+  interestEligible: Remote.NotAsked,
   interestLimits: Remote.NotAsked,
   interestRate: Remote.NotAsked,
-  interestEDDStatus: Remote.NotAsked,
   isCoinDisplayed: false,
   isFromBuySell: false,
   payment: Remote.NotAsked,
@@ -34,10 +35,7 @@ const INITIAL_STATE: InterestState = {
   withdrawalMinimums: Remote.NotAsked
 }
 
-export function interestReducer(
-  state = INITIAL_STATE,
-  action: InterestActionTypes
-): InterestState {
+const interestReducer = (state = INITIAL_STATE, action: InterestActionTypes): InterestState => {
   // @ts-ignore
   const { payload, type } = action
   switch (type) {
@@ -171,6 +169,21 @@ export function interestReducer(
         ...state,
         interestEDDStatus: Remote.Success(payload.eddStatus)
       }
+    case AT.FETCH_EDD_WITHDRAW_LIMITS_FAILURE:
+      return {
+        ...state,
+        interestEDDWithdrawLimits: Remote.Failure(payload.error)
+      }
+    case AT.FETCH_EDD_WITHDRAW_LIMITS_LOADING:
+      return {
+        ...state,
+        interestEDDWithdrawLimits: Remote.Loading
+      }
+    case AT.FETCH_EDD_WITHDRAW_LIMITS_SUCCESS:
+      return {
+        ...state,
+        interestEDDWithdrawLimits: Remote.Success(payload.interestEDDWithdrawLimits)
+      }
     case AT.FETCH_INTEREST_TRANSACTIONS_LOADING: {
       const { reset } = payload
       return reset
@@ -259,9 +272,7 @@ export function interestReducer(
     case AT.SET_WITHDRAWAL_MINIMUMS_SUCCESS:
       return {
         ...state,
-        withdrawalMinimums: Remote.Success(
-          payload.withdrawalMinimums.minAmounts
-        )
+        withdrawalMinimums: Remote.Success(payload.withdrawalMinimums.minAmounts)
       }
     case AT.SHOW_INTEREST_MODAL:
       return {
@@ -293,3 +304,5 @@ export function interestReducer(
       return state
   }
 }
+
+export default interestReducer

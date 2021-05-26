@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { prop } from 'ramda'
 
 import { Link, Text } from 'blockchain-info-components'
@@ -89,7 +89,7 @@ export const selectMessage = (message, values) => {
             />
             <br />
             <br />
-            <FormattedHTMLMessage
+            <FormattedMessage
               id='modals.confirm.message.phone_call_2'
               defaultMessage='If this sounds good to you, you will receive a call within the next 24 hours to <b>{smsNumber}</b>.'
               values={values}

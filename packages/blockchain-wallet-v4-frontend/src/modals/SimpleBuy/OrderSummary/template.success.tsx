@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import styled from 'styled-components'
 
@@ -271,7 +271,7 @@ const Success: React.FC<Props> = props => {
               props.order.paymentType === 'USER_CARD') && (
               <BottomInfo>
                 <Text color='grey600' size='14px' weight={500}>
-                  <FormattedHTMLMessage
+                  <FormattedMessage
                     id='modals.simplebuy.summary.complete_card_info_main'
                     defaultMessage='For your security, first time card purchases are subject to a {days} day holding period before you can send or withdraw your purchased crypto. We will notify you when the hold is lifted.'
                     values={{ days: days }}
@@ -294,7 +294,7 @@ const Success: React.FC<Props> = props => {
                       target='_blank'
                     >
                       <FormattedMessage
-                        id='modals.simplebuy.summary.learn_more'
+                        id='copy.learn_more'
                         defaultMessage='Learn more'
                       />
                     </a>
@@ -308,7 +308,7 @@ const Success: React.FC<Props> = props => {
             !isPendingAch && (
               <BottomInfo>
                 <Text color='grey600' size='14px' weight={500}>
-                  <FormattedHTMLMessage
+                  <FormattedMessage
                     id='modals.simplebuy.summary.ach_lock'
                     defaultMessage='Note: You will not be able to Send or Withdraw these funds from your Wallet for the next {days} days.'
                     values={{ days: days }}
@@ -320,7 +320,7 @@ const Success: React.FC<Props> = props => {
                       target='_blank'
                     >
                       <FormattedMessage
-                        id='modals.simplebuy.summary.learn_more'
+                        id='copy.learn_more'
                         defaultMessage='Learn more'
                       />
                     </a>

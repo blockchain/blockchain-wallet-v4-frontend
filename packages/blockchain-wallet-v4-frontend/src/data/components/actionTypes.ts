@@ -17,6 +17,8 @@ import * as priceChart from './priceChart/actionTypes'
 import * as priceTicker from './priceTicker/actionTypes'
 import * as recoveryPhrase from './recoveryPhrase/actionTypes'
 import * as refresh from './refresh/actionTypes'
+import * as remindWalletGuid from './remindWalletGuid/actionTypes'
+import * as resetWallet2fa from './resetWallet2fa/actionTypes'
 import * as send from './send/actionTypes'
 import * as sendBch from './sendBch/actionTypes'
 import * as sendBtc from './sendBtc/actionTypes'
@@ -52,6 +54,8 @@ export {
   priceTicker,
   recoveryPhrase,
   refresh,
+  remindWalletGuid,
+  resetWallet2fa,
   send,
   sendBch,
   sendBtc,
