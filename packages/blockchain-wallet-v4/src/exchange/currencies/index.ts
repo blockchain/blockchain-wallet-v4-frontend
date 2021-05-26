@@ -51,7 +51,7 @@ export const FiatCurrencies = {
   THB,
   TRY,
   TWD,
-  USD,
+  USD
 }
 
 const CryptoCurrencies = {
@@ -60,12 +60,12 @@ const CryptoCurrencies = {
   BTC,
   DOT,
   ETH,
-  XLM,
+  XLM
 }
 
 const Currencies = {
   ...CryptoCurrencies,
-  ...FiatCurrencies,
+  ...FiatCurrencies
 }
 
 export type FiatCurrenciesType = typeof FiatCurrencies

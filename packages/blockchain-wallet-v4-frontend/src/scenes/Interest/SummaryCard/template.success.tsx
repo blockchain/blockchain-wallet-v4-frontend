@@ -47,15 +47,16 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
     interestRate,
     isGoldTier,
     supportedCoins,
-    walletCurrency,
+    walletCurrency
   } = props
   const { coinCode, coinTicker, displayName } = supportedCoins[coin]
   const account = interestAccountBalance && interestAccountBalance[coin]
   const accountBalanceBase = account ? account.balance : 0
-  const interestBalanceBase = account && account.totalInterest
+  const interestBalanceBase = account ? account.totalInterest : 0
   const accountBalanceStandard = convertBaseToStandard(coin, accountBalanceBase)
   const interestBalanceStandard = convertBaseToStandard(coin, interestBalanceBase)
   const interestEligibleCoin = interestEligible[coin] && interestEligible[coin]?.eligible
+  console.log(coinTicker)
   return (
     <DepositBox>
       <Row>
@@ -80,7 +81,7 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
               defaultMessage='Earning up to {interestRate}% annually on your {coinTicker}.'
               values={{
                 coinTicker,
-                interestRate: interestRate[coin],
+                interestRate: interestRate[coin]
               }}
             />
           ) : (
@@ -89,7 +90,7 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
               defaultMessage='Earn up to {interestRate}% annually on your {coinTicker}.'
               values={{
                 coinTicker,
-                interestRate: interestRate[coin],
+                interestRate: interestRate[coin]
               }}
             />
           )}

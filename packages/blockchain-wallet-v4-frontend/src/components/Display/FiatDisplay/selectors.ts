@@ -2,15 +2,17 @@ import { lift, prop } from 'ramda'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import { CoinTypeEnum, FiatTypeEnum } from 'blockchain-wallet-v4/src/types'
+import { FiatTypeEnum } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
 export const getData = (state, coin, amount, defaultCurrency, defaultRates) => {
   const currencyR = selectors.core.settings.getSettings(state).map(prop('currency'))
   const ratesR = selectors.core.data.misc.getRatesSelector(coin, state)
 
+  const { coinfig } = window.coins[coin]
+
   let value
-  if (coin in CoinTypeEnum) {
+  if (!coinfig.type.isFiat) {
     value = Exchange.convertCoinToCoin({
       coin,
       value: amount
@@ -18,7 +20,7 @@ export const getData = (state, coin, amount, defaultCurrency, defaultRates) => {
   }
 
   const convert = (currency, rates) => {
-    if (coin in FiatTypeEnum) {
+    if (coinfig.type.isFiat) {
       if (coin === currency) return fiatToString({ unit: currency, value: amount })
 
       value = Exchange.convertFiatToFiat({

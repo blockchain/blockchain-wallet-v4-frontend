@@ -10,10 +10,10 @@ import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { generateTradingAccount } from 'data/coins/utils'
 import { SwapAccountType } from 'data/components/types'
 
-import { getTradingBalance } from '../'
+import { getTradingBalance } from '..'
 
 // retrieves introduction text for coin on its transaction page
-export const getTransactionPageHeaderText = coin => {
+export const getTransactionPageHeaderText = (coin) => {
   switch (coin) {
     case 'AAVE':
       return (
@@ -23,12 +23,10 @@ export const getTransactionPageHeaderText = coin => {
         />
       )
     case 'PAX':
-    case 'USDD':
-    case 'USD-D':
       return (
         <FormattedMessage
-          id='coins.pax.intro'
-          defaultMessage='USD Digital (USD-D) is a stablecoin backed by the U.S. dollar.'
+          id='coins.pax.intro1'
+          defaultMessage='Paxos Standard (PAX) is a stablecoin backed by the U.S. dollar.'
         />
       )
     case 'USDT':
@@ -65,22 +63,12 @@ export const getAccounts = createDeepEqualSelector(
     coreSelectors.walletOptions.getSupportedCoins,
     coreSelectors.data.eth.getDefaultAddress,
     (state, { coin }) =>
-      coreSelectors.kvStore.eth.getErc20Account(
-        state,
-        toLower(coin) as CoinType
-      ), // non-custodial accounts
+      coreSelectors.kvStore.eth.getErc20Account(state, toLower(coin) as CoinType), // non-custodial accounts
     (state, { coin }) => coreSelectors.data.eth.getErc20Balance(state, coin), // non-custodial metadata
     (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
-  (
-    supportedCoinsR,
-    ethAddressR,
-    erc20AccountR,
-    erc20BalanceR,
-    sbBalanceR,
-    ownProps
-  ) => {
+  (supportedCoinsR, ethAddressR, erc20AccountR, erc20BalanceR, sbBalanceR, ownProps) => {
     const transform = (
       ethAddress,
       erc20Account,
@@ -96,12 +84,12 @@ export const getAccounts = createDeepEqualSelector(
       if (ownProps?.nonCustodialAccounts) {
         accounts = accounts.concat([
           {
+            address: ethAddress,
+            balance: erc20Balance,
             baseCoin: 'ETH',
             coin,
             config,
             label: prop('label', erc20Account),
-            address: ethAddress,
-            balance: erc20Balance,
             type: 'ACCOUNT'
           }
         ])
@@ -109,19 +97,11 @@ export const getAccounts = createDeepEqualSelector(
 
       // add trading accounts if requested
       if (ownProps?.tradingAccounts) {
-        accounts = accounts.concat(
-          generateTradingAccount(coin, config, sbBalance as SBBalanceType)
-        )
+        accounts = accounts.concat(generateTradingAccount(coin, config, sbBalance as SBBalanceType))
       }
       return accounts
     }
 
-    return lift(transform)(
-      ethAddressR,
-      erc20AccountR,
-      erc20BalanceR,
-      sbBalanceR,
-      supportedCoinsR
-    )
+    return lift(transform)(ethAddressR, erc20AccountR, erc20BalanceR, sbBalanceR, supportedCoinsR)
   }
 )

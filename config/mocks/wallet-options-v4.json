@@ -310,9 +310,9 @@
             "syncToPit": true
           },
           "coinCode": "PAX",
-          "coinTicker": "USD-D",
+          "coinTicker": "PAX",
           "contractAddress": "0x8e870d67f660d95d5be530380d0ec0bd388289e1",
-          "displayName": "USD Digital",
+          "displayName": "Paxos Standard",
           "hasLockboxSupport": false,
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Digital-previously-USD-PAX-FAQ",
           "minConfirmations": 12,
