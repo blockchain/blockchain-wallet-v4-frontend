@@ -14,15 +14,12 @@ const INITIAL_STATE: SwapState = {
   side: 'BASE',
   step: 'INIT_SWAP',
   trades: {
-    status: Remote.NotAsked,
-    list: []
+    list: [],
+    status: Remote.NotAsked
   }
 }
 
-export function swapReducer(
-  state = INITIAL_STATE,
-  action: SwapActionTypes
-): SwapState {
+const swapReducer = (state = INITIAL_STATE, action: SwapActionTypes): SwapState => {
   switch (action.type) {
     case AT.FETCH_CUSTODIAL_ELIGIBILITY_FAILURE: {
       return {
@@ -119,8 +116,8 @@ export function swapReducer(
         ...state,
         trades: {
           ...state.trades,
-          status: Remote.Success('Success'),
-          list: [...state.trades.list, ...action.payload.trades]
+          list: [...state.trades.list, ...action.payload.trades],
+          status: Remote.Success('Success')
         }
       }
     }
@@ -153,15 +150,15 @@ export function swapReducer(
         case 'COIN_SELECTION':
           return {
             ...state,
-            step: action.payload.step,
-            side: action.payload.options.side
+            side: action.payload.options.side,
+            step: action.payload.step
           }
         case 'SUCCESSFUL_SWAP':
         case 'ORDER_DETAILS':
           return {
             ...state,
-            step: action.payload.step,
-            order: action.payload.options.order
+            order: action.payload.options.order,
+            step: action.payload.step
           }
         default: {
           return {
@@ -174,3 +171,5 @@ export function swapReducer(
       return state
   }
 }
+
+export default swapReducer

@@ -16,6 +16,7 @@ import manageAddresses from './manageAddresses/sagaRegister'
 import onboarding from './onboarding/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
 import priceTicker from './priceTicker/sagaRegister'
+import recurringBuys from './recurringBuys/sagaRegister'
 import refresh from './refresh/sagaRegister'
 import remindWalletGuid from './remindWalletGuid/sagaRegister'
 import request from './request/sagaRegister'
@@ -56,6 +57,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(refresh())
     yield fork(request({ api, coreSagas, networks }))
     yield fork(remindWalletGuid({ api }))
+    yield fork(recurringBuys())
     yield fork(resetWallet2fa({ api }))
     yield fork(send({ api, coreSagas, networks }))
     yield fork(sendBch({ api, coreSagas, networks }))

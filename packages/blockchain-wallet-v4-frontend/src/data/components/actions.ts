@@ -16,6 +16,7 @@ import * as onboarding from './onboarding/actions'
 import * as priceChart from './priceChart/actions'
 import * as priceTicker from './priceTicker/actions'
 import * as recoveryPhrase from './recoveryPhrase/actions'
+import * as recurringBuys from './recurringBuys/actions'
 import * as refresh from './refresh/actions'
 import * as remindWalletGuid from './remindWalletGuid/actions'
 import * as request from './request/actions'
@@ -54,6 +55,7 @@ export {
   priceChart,
   priceTicker,
   recoveryPhrase,
+  recurringBuys,
   refresh,
   remindWalletGuid,
   request,
