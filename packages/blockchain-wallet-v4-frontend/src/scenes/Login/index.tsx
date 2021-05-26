@@ -51,11 +51,12 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         action: 'LOGIN',
       })
         .then((captchaToken) => {
+          console.log('Captcha success')
           this.setState({ captchaToken })
           callback && callback(captchaToken)
         })
         .catch((e) => {
-          console.error('captcha error: ', e)
+          console.error('Captcha error: ', e)
         })
     })
     /* eslint-enable */
