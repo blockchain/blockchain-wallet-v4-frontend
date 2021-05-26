@@ -75,7 +75,7 @@ const BannerButton = styled(Button)`
 
 const RecurringBuys = (props: Props) => {
   const showModal = () => {
-    props.simpleBuyActions.showModal('PendingOrder')
+    props.recurringBuysActions.showModal('RecurringBuys')
   }
 
   return (
@@ -120,7 +120,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  recurringBuysActions: bindActionCreators(actions.components.recurringBuys, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

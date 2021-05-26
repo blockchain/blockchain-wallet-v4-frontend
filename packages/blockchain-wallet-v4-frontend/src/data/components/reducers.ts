@@ -9,6 +9,7 @@ import lockbox from './lockbox/reducers'
 import manageAddresses from './manageAddresses/reducers'
 import { priceChartReducer } from './priceChart/reducers'
 import { recoveryPhraseReducer } from './recoveryPhrase/reducers'
+import recurringBuysReducer from './recurringBuys/reducers'
 import remindWalletGuid from './remindWalletGuid/reducers'
 import { requestReducer } from './request/reducers'
 import resetWallet2fa from './resetWallet2fa/reducers'
@@ -20,7 +21,7 @@ import { sendXlmReducer } from './sendXlm/reducers'
 import { settingsReducer } from './settings/reducers'
 import signMessage from './signMessage/reducers'
 import { simpleBuyReducer } from './simpleBuy/reducers'
-import { swapReducer } from './swap/reducers'
+import swapReducer from './swap/reducers'
 import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
 import { withdrawReducer } from './withdraw/reducers'
@@ -35,6 +36,7 @@ const componentReducer = combineReducers({
   manageAddresses,
   priceChart: priceChartReducer,
   recoveryPhrase: recoveryPhraseReducer,
+  recurringBuys: recurringBuysReducer,
   remindWalletGuid,
   request: requestReducer,
   resetWallet2fa,

@@ -146,11 +146,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       payment = yield payment.amount(paymentAmount)
       // TODO, add isMemoBased check
       const sampleAddr = quote.sampleDepositAddress.split(':')[0]
-      return (yield payment
-        .chain()
-        .to(sampleAddr, 'ADDRESS')
-        .build()
-        .done()).value()
+      return (yield payment.chain().to(sampleAddr, 'ADDRESS').build().done()).value()
     } catch (e) {
       // eslint-disable-next-line
       console.log(e)
