@@ -187,6 +187,7 @@ export const getMaxMin = (
                 break
               case Number(availableStandard) < Number(limits.maxPossibleOrder):
                 max = availableStandard
+                fundsChangedMax = true
                 break
             }
           }
