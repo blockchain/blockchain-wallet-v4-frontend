@@ -8,7 +8,7 @@ export const login = (guid, password, code, sharedKey, mobileLogin) => ({
 })
 export const loginLoading = () => ({ type: AT.LOGIN_LOADING })
 export const loginSuccess = () => ({ payload: {}, type: AT.LOGIN_SUCCESS })
-export const loginFailure = (err) => ({
+export const loginFailure = (err?: string): AuthActionTypes => ({
   payload: { err },
   type: AT.LOGIN_FAILURE
 })

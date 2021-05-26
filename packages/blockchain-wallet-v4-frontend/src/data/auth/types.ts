@@ -28,6 +28,12 @@ export type LoginObject = {
 
 // actions
 
+interface LoginFailureActionType {
+  payload: {
+    err?: string
+  }
+  type: typeof AT.LOGIN_FAILURE
+}
 interface InitalizeLoginSuccessActionType {
   type: typeof AT.INTIALIZE_LOGIN_SUCCESS
 }
@@ -72,6 +78,7 @@ interface WalletGuidSubmitFailureActionType {
 }
 
 export type AuthActionTypes =
+  | LoginFailureActionType
   | InitializeLoginFailureActionType
   | InitializeLoginLoadingActionType
   | InitalizeLoginSuccessActionType

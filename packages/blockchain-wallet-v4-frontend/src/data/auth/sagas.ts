@@ -353,7 +353,7 @@ export default ({ api, coreSagas }) => {
             if (error && error.auth_type > 0) {
               yield put(actions.auth.setAuthType(error.auth_type))
               yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
-              yield put(actions.auth.loginFailure(error))
+              yield put(actions.auth.loginFailure())
             } else {
               yield put(actions.auth.loginFailure('wrong_wallet_password'))
               yield put(actions.logs.logErrorMessage(logLocation, 'login', error))
@@ -365,7 +365,7 @@ export default ({ api, coreSagas }) => {
       } else if (error && error.auth_type > 0) {
         // 2fa required
         // dispatch state change to show form
-        yield put(actions.auth.loginFailure(error))
+        yield put(actions.auth.loginFailure())
         yield put(actions.auth.setAuthType(error.auth_type))
         yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
         // Wrong password error
