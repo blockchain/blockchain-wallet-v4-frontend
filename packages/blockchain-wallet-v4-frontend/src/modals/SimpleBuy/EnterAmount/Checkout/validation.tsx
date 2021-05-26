@@ -186,12 +186,13 @@ export const getMaxMin = (
                 fundsChangedMax = true
                 break
               case Number(availableStandard) < Number(limits.maxPossibleOrder):
-                max = available
+                max = availableStandard
                 break
             }
           }
 
-          const maxFiat = !fundsChangedMax ? convertBaseToStandard('FIAT', max) : max
+          const maxFiat =
+            !fundsChangedMax && !limitMaxChanged ? convertBaseToStandard('FIAT', max) : max
           const maxCrypto = getQuote(quote.pair, quote.rate, 'FIAT', maxFiat)
 
           return { CRYPTO: maxCrypto, FIAT: maxFiat }
@@ -236,7 +237,7 @@ export const getMaxMin = (
             isSddFlow ? method.limits.min : limitMinAmount
           ).toString()
 
-          const minFiat = convertBaseToStandard('FIAT', min)
+          const minFiat = !limitMinChanged ? convertBaseToStandard('FIAT', min) : min
           const minCrypto = getQuote(quote.pair, quote.rate, 'FIAT', minFiat)
 
           return { CRYPTO: minCrypto, FIAT: minFiat }
