@@ -40,13 +40,9 @@ const coinSagas = {
 
 export default ({ coreSagas, networks }) => {
   // gets the default account/address for requested coin
-  const getDefaultAccountForCoin = function * (coin: CoinType) {
-    const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(
-      yield select()
-    )
-    const supportedCoins = supportedCoinsR.getOrElse(
-      {} as SupportedWalletCurrenciesType
-    )
+  const getDefaultAccountForCoin = function* (coin: CoinType) {
+    const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(yield select())
+    const supportedCoins = supportedCoinsR.getOrElse({} as SupportedWalletCurrenciesType)
     const config = supportedCoins[coin]
     const defaultAccountR = yield coinSagas[
       config.contractAddress ? 'ERC20' : coin
@@ -57,36 +53,28 @@ export default ({ coreSagas, networks }) => {
 
   // gets the next receive address for requested coin
   // account based currencies will just return the account address
-  const getNextReceiveAddressForCoin = function * (coin: CoinType) {
-    const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(
-      yield select()
-    )
-    const supportedCoins = supportedCoinsR.getOrElse(
-      {} as SupportedWalletCurrenciesType
-    )
+  const getNextReceiveAddressForCoin = function* (coin: CoinType, index?: number) {
+    const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(yield select())
+    const supportedCoins = supportedCoinsR.getOrElse({} as SupportedWalletCurrenciesType)
     const config = supportedCoins[coin]
-    return yield coinSagas[
-      config.contractAddress ? 'ERC20' : coin
-    ]?.getNextReceiveAddress(coin, networks)
+    return yield coinSagas[config.contractAddress ? 'ERC20' : coin]?.getNextReceiveAddress(
+      coin,
+      networks,
+      index
+    )
   }
 
   // gets or updates a provisional payment for a coin
   // provisional payments are mutable payment objects used to build a transaction
   // over an extended period of time (e.g. as user goes through interest/swap/sell flows)
-  const getOrUpdateProvisionalPaymentForCoin = function * (
+  const getOrUpdateProvisionalPaymentForCoin = function* (
     coin: CoinType,
     paymentR: RemoteDataType<string | Error, PaymentValue | undefined>
   ) {
-    const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(
-      yield select()
-    )
-    const supportedCoins = supportedCoinsR.getOrElse(
-      {} as SupportedWalletCurrenciesType
-    )
+    const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(yield select())
+    const supportedCoins = supportedCoinsR.getOrElse({} as SupportedWalletCurrenciesType)
     const config = supportedCoins[coin]
-    return yield coinSagas[
-      config.contractAddress ? 'ERC20' : coin
-    ]?.getOrUpdateProvisionalPayment(
+    return yield coinSagas[config.contractAddress ? 'ERC20' : coin]?.getOrUpdateProvisionalPayment(
       coreSagas,
       networks,
       paymentR

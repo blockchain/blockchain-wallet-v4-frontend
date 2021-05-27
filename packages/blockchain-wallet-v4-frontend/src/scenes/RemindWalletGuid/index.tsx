@@ -49,7 +49,7 @@ class RemindGuid extends React.PureComponent<InjectedFormProps<{}, Props> & Prop
     this.props.actions.resetForm()
   }
 
-  initCaptcha = () => {
+  initCaptcha = (callback?) => {
     /* eslint-disable */
     // @ts-ignore
     if (!window.grecaptcha || !window.grecaptcha.enterprise) return
@@ -62,10 +62,12 @@ class RemindGuid extends React.PureComponent<InjectedFormProps<{}, Props> & Prop
         action: 'GUID_REMINDER',
       })
         .then((captchaToken) => {
+          console.log('Captcha success')
           this.setState({ captchaToken })
+          callback && callback(captchaToken)
         })
         .catch((e) => {
-          console.error('captcha error: ', e)
+          console.error('Captcha error: ', e)
         })
     })
     /* eslint-enable */
@@ -77,7 +79,9 @@ class RemindGuid extends React.PureComponent<InjectedFormProps<{}, Props> & Prop
     // sometimes captcha doesnt mount correctly (race condition?)
     // if it's undefined, try to re-init for token
     if (!this.state.captchaToken) {
-      this.initCaptcha()
+      return this.initCaptcha((captchaToken) => {
+        this.props.actions.remindWalletGuid(captchaToken, this.props.email)
+      })
     }
 
     this.props.actions.remindWalletGuid(this.state.captchaToken, this.props.email)

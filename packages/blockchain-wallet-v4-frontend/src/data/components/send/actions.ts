@@ -4,6 +4,7 @@ import {
   PaymentValue,
   WithdrawalLockCheckResponseType
 } from 'blockchain-wallet-v4/src/types'
+import { UnstoppableDomainResultsType } from 'core/network/api/send/types'
 
 import * as AT from './actionTypes'
 
@@ -42,6 +43,30 @@ export const fetchPaymentsTradingAccountSuccess = (
 ) => ({
   type: AT.FETCH_PAYMENTS_TRADING_ACCOUNTS_SUCCESS,
   payload: { currency, tradingAccount }
+})
+
+export const fetchUnstoppableDomainResults = (
+  name: string,
+  currency?: string
+) => ({
+  type: AT.FETCH_UNSTOPPABLE_DOMAIN_RESULTS,
+  payload: { name, currency }
+})
+export const fetchUnstoppableDomainResultsLoading = () => ({
+  type: AT.FETCH_UNSTOPPABLE_DOMAIN_RESULTS_LOADING
+})
+export const fetchUnstoppableDomainResultsNotAsked = () => ({
+  type: AT.FETCH_UNSTOPPABLE_DOMAIN_RESULTS_NOT_ASKED
+})
+export const fetchUnstoppableDomainResultsFailure = (e: string) => ({
+  type: AT.FETCH_UNSTOPPABLE_DOMAIN_RESULTS_FAILURE,
+  payload: { e }
+})
+export const fetchUnstoppableDomainResultsSuccess = (
+  data: UnstoppableDomainResultsType
+) => ({
+  type: AT.FETCH_UNSTOPPABLE_DOMAIN_RESULTS_SUCCESS,
+  payload: { data }
 })
 
 export const notifyNonCustodialToCustodialTransfer = (

@@ -232,7 +232,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   )[fix]
 
   // prevent proceed if entered amount is out of limits
-  const amountInBounce = isAmountInLimits(
+  const amountInBounds = isAmountInLimits(
     Number(props.formValues?.amount),
     Number(min),
     Number(max)
@@ -531,7 +531,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           {...props}
           isSufficientEthForErc20={isSufficientEthForErc20 || false}
           isDailyLimitExceeded={isDailyLimitExceeded || false}
-          isAmountInBounce={amountInBounce}
+          isAmountInBounds={amountInBounds}
         />
 
         {isDailyLimitExceeded && (

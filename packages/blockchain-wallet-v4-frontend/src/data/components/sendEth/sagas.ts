@@ -13,7 +13,7 @@ import {
   CoinType,
   Erc20CoinType,
   EthPaymentType,
-  SupportedWalletCurrenciesType,
+  SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
@@ -34,7 +34,7 @@ import {
   SendEthFormDescActionType,
   SendEthFormFeeActionType,
   SendEthFormFromActionType,
-  SendEthFormToActionType,
+  SendEthFormToActionType
 } from './types'
 
 const { TRANSACTION_EVENTS } = model.analytics
@@ -44,7 +44,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
   const { showWithdrawalLockAlert } = sendSagas({
     api,
     coreSagas,
-    networks,
+    networks
   })
   const initialized = function* (action) {
     try {
@@ -55,7 +55,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(A.sendEthPaymentUpdatedLoading())
       yield put(actions.components.send.fetchPaymentsAccountExchange(coin))
       let payment = coreSagas.payment.eth.create({
-        network: networks.eth,
+        network: networks.eth
       })
       payment = yield payment.init({ coin, isErc20 })
       payment = yield payment.from()
@@ -66,7 +66,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         initialValues = {
           coin,
           fee: defaultFee,
-          from: defaultErc20AccountR.getOrElse({}),
+          from: defaultErc20AccountR.getOrElse({})
         }
       } else {
         const ethAccountR = yield select(selectors.core.common.eth.getAccountBalances)
@@ -74,7 +74,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         initialValues = {
           coin,
           fee: defaultFee,
-          from: defaultAccountR.getOrElse({}),
+          from: defaultAccountR.getOrElse({})
         }
       }
       yield put(initialize(FORM, initialValues))
@@ -94,7 +94,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(A.sendEthPaymentUpdatedLoading())
       let payment = coreSagas.payment.eth.create({
         network: networks.eth,
-        payment: p.getOrElse({}),
+        payment: p.getOrElse({})
       })
       payment = yield payment.build()
       yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
@@ -115,7 +115,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const p = yield select(S.getPayment)
       let payment: EthPaymentType = coreSagas.payment.eth.create({
         network: networks.eth,
-        payment: p.getOrElse({}),
+        payment: p.getOrElse({})
       })
 
       switch (action.meta.field) {
@@ -126,7 +126,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           yield put(
             actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNamesType, {
               coin: payload,
-              origin: 'SendEth',
+              origin: 'SendEth'
             })
           )
           break
@@ -140,21 +140,44 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
               payment = yield payment.from(source, fromPayload.type)
               break
             case 'CUSTODIAL':
+              const response: ReturnType<typeof api.getWithdrawalFees> = yield call(
+                api.getWithdrawalFees,
+                'simplebuy',
+                'DEFAULT'
+              )
+              const fee = response.fees.find(({ symbol }) => symbol === coin)?.minorValue || '0'
               source = fromPayload.label
-              payment = yield payment.from(source, fromPayload.type, fromPayload.withdrawable)
+              payment = yield payment.from(
+                source,
+                fromPayload.type,
+                new BigNumber(fromPayload.withdrawable).minus(fee).toString()
+              )
+              payment = yield payment.fee(new BigNumber(fee).toNumber(), '', coin)
               yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
               yield put(change(FORM, 'to', null))
               break
+            default:
           }
           break
         case 'to':
           const toPayload = payload as SendEthFormToActionType['payload']
           const value = pathOr(toPayload, ['value', 'value'], toPayload)
+          if (includes('.', (value as unknown) as string)) {
+            yield put(
+              actions.components.send.fetchUnstoppableDomainResults(
+                (value as unknown) as string,
+                coin
+              )
+            )
+            return
+          }
           // @ts-ignore
           payment = yield payment.to(value)
           // Do not block payment update when to is changed w/ isContract check
           yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
           // After updating payment success check if to isContract
+
+          if (payment.value().from.type === 'CUSTODIAL') return
           yield put(A.sendEthCheckIsContract(value))
           return
         case 'amount':
@@ -163,7 +186,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           const weiAmount = Exchange.convertCoinToCoin({
             baseToStandard: false,
             coin: coinCode,
-            value: amountPayload.coin,
+            value: amountPayload.coin
           })
           payment = yield payment.amount(weiAmount)
           break
@@ -177,6 +200,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           // @ts-ignore
           payment = yield payment.fee(feePayload, account)
           break
+        default:
       }
 
       yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
@@ -193,7 +217,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         .getCurrency(appState)
         .getOrFail('Failed to get currency')
       let rates
-      let fiat
       if (equals(coinCode, 'ETH')) {
         rates = selectors.core.data.eth.getRates(appState).getOrFail('Failed to get ETH rates')
       } else {
@@ -205,13 +228,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const effectiveBalance = prop('effectiveBalance', payment)
       const coin = Exchange.convertCoinToCoin({
         coin: coinCode,
-        value: effectiveBalance,
+        value: effectiveBalance
       })
-      fiat = Exchange.convertCoinToFiat({
+      const fiat = Exchange.convertCoinToFiat({
         coin: coinCode,
         currency,
         rates,
-        value: effectiveBalance,
+        value: effectiveBalance
       })
       yield put(change(FORM, 'amount', { coin, coinCode, fiat }))
     } catch (e) {
@@ -226,7 +249,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     const p = yield select(S.getPayment)
     let payment: EthPaymentType = coreSagas.payment.eth.create({
       network: networks.eth,
-      payment: p.getOrElse({}),
+      payment: p.getOrElse({})
     })
     const fromType = payment.value().from.type
     const toAddress = path(['to', 'address'], payment.value())
@@ -326,7 +349,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           actions.alerts.displaySuccess(
             isRetryAttempt ? C.RESEND_COIN_SUCCESS : C.SEND_COIN_SUCCESS,
             {
-              coinName: coinModel.displayName,
+              coinName: coinModel.displayName
             }
           )
         )
@@ -337,8 +360,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           coin,
           Exchange.convertCoinToCoin({
             coin,
-            value: payment.value().amount || 0,
-          }),
+            value: payment.value().amount || 0
+          })
         ])
       )
       yield put(destroy(FORM))
@@ -356,7 +379,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           actions.analytics.logEvent([
             ...TRANSACTION_EVENTS.SEND_FAILURE,
             coin,
-            coinModel.contractAddress && lowEthBalance ? 'Potentially insufficient ETH for TX' : e,
+            coinModel.contractAddress && lowEthBalance ? 'Potentially insufficient ETH for TX' : e
           ])
         )
         if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
@@ -368,7 +391,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         } else {
           yield put(
             actions.alerts.displayError(C.SEND_COIN_ERROR, {
-              coinName: coinModel.displayName,
+              coinName: coinModel.displayName
             })
           )
         }
@@ -392,7 +415,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const p = yield select(S.getPayment)
       let payment = coreSagas.payment.eth.create({
         network: networks.eth,
-        payment: p.getOrElse({}),
+        payment: p.getOrElse({})
       })
       yield put(A.sendEthCheckIsContractLoading())
       const { contract } = yield call(
@@ -460,14 +483,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     }
     const cryptoAmt = Exchange.convertCoinToCoin({
       coin,
-      value: amountInWei,
+      value: amountInWei
     })
     const fiatAmt = Exchange.convertCoinToFiat({ coin, currency, rates, value: amountInWei })
     yield put(
       change(FORM, 'amount', {
         coin: cryptoAmt,
         coinCode: coin,
-        fiat: fiatAmt,
+        fiat: fiatAmt
       })
     )
 
@@ -508,7 +531,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(
         actions.modals.showModal('SEND_ETH_MODAL', {
           coin,
-          origin: 'RetrySendEth',
+          origin: 'RetrySendEth'
         })
       )
 
@@ -516,7 +539,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const p = yield select(S.getPayment)
       let payment: EthPaymentType = coreSagas.payment.eth.create({
         network: networks.eth,
-        payment: p.getOrElse({}),
+        payment: p.getOrElse({})
       })
       if (!isErc20) {
         payment = yield call(setAmount, tx.value, 'ETH', payment)
@@ -556,6 +579,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     priorityFeeClicked,
     regularFeeClicked,
     retrySendEth,
-    secondStepSubmitClicked,
+    secondStepSubmitClicked
   }
 }

@@ -38,6 +38,7 @@ export type SupportedCoinType = {
   hasLockboxSupport: boolean
   invited?: boolean
   isFiat?: boolean
+  isMemoBased?: boolean
   learnMoreLink: string
   method?: boolean
   minConfirmations: number
@@ -62,7 +63,7 @@ export type SupportedFiatType = {
   learnMoreLink: ''
   method?: boolean
   minConfirmations: 0
-  txExplorerBaseUrl: ''
+  txExploreBaseUrl: ''
   txListAppRoute: string
 }
 

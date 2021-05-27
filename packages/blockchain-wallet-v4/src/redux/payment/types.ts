@@ -103,7 +103,7 @@ export type EthPaymentType = IPaymentType & {
   amount: (n: number | string) => EthPaymentType
   coin: 'ETH' | string
   description: (arg: string) => EthPaymentType
-  fee: (arg: number, account: string) => EthPaymentType
+  fee: (arg: number, account: string, coin?: string) => EthPaymentType
   init: (arg: { coin: 'ETH' | string; isErc20?: boolean }) => EthPaymentType
   setIsRetryAttempt: (
     isRetryAttempt: boolean,
@@ -118,6 +118,7 @@ export type XlmPaymentType = IPaymentType & {
   amount: (n: number | string) => XlmPaymentType
   coin: 'XLM'
   description: (arg: string) => XlmPaymentType
+  fee: (arg: string) => XlmPaymentType
   memo: (arg: string) => XlmPaymentType
   memoType: (arg: string) => XlmPaymentType
   value: () => XlmPaymentValue

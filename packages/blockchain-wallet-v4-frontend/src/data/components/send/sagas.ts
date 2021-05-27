@@ -1,7 +1,7 @@
 import moment from 'moment'
-import { call, CallEffect, put, select } from 'redux-saga/effects'
+import { FormAction } from 'redux-form'
+import { call, CallEffect, delay, put, select } from 'redux-saga/effects'
 
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import {
   BeneficiaryType,
@@ -11,8 +11,9 @@ import {
   RemoteDataType,
   SBOrderType,
   SBPaymentTypes,
-  WalletFiatType,
+  WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { actions, model, selectors } from 'data'
 import * as C from 'services/alerts'
 import { promptForSecondPassword } from 'services/sagas'
@@ -58,6 +59,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     return payment.value()
   }
 
+  const fetchPaymentsTradingAccount = function* (action) {
+    const { currency } = action.payload
+    try {
+      yield put(A.fetchPaymentsTradingAccountLoading(currency))
+      const tradingAccount: BeneficiaryType = yield call(api.getSBPaymentAccount, currency)
+      yield put(A.fetchPaymentsTradingAccountSuccess(currency, tradingAccount))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'fetchPaymentsTradingAccount', e))
+      yield put(A.fetchPaymentsTradingAccountFailure(currency, e))
+    }
+  }
+
   const fetchPaymentsAccountExchange = function* (action) {
     const { currency } = action.payload
     try {
@@ -80,15 +93,23 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const fetchPaymentsTradingAccount = function* (action) {
-    const { currency } = action.payload
+  const fetchUnstoppableDomainResults = function* (
+    action: ReturnType<typeof A.fetchUnstoppableDomainResults>
+  ) {
+    const { payload } = action
     try {
-      yield put(A.fetchPaymentsTradingAccountLoading(currency))
-      const tradingAccount: BeneficiaryType = yield call(api.getSBPaymentAccount, currency)
-      yield put(A.fetchPaymentsTradingAccountSuccess(currency, tradingAccount))
+      yield put(A.fetchUnstoppableDomainResultsLoading())
+      const results: ReturnType<typeof api.getUnstoppableDomainResults> = yield call(
+        api.getUnstoppableDomainResults,
+        payload.name,
+        payload.currency
+      )
+      yield delay(1000)
+      yield put(A.fetchUnstoppableDomainResultsSuccess(results))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'fetchPaymentsTradingAccount', e))
-      yield put(A.fetchPaymentsTradingAccountFailure(currency, e))
+      const error = errorHandler(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'getWithdrawalLockCheck', error))
+      yield put(A.fetchUnstoppableDomainResultsFailure(error))
     }
   }
 
@@ -169,7 +190,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         typeof rule === 'object' ? moment.duration(rule.lockTime, 'seconds').days() : rule
       yield put(
         actions.alerts.displayError(C.LOCKED_WITHDRAW_ERROR, {
-          days,
+          days
         })
       )
     } catch (e) {
@@ -187,20 +208,29 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     if (saga) {
       return saga.create({
         network: networks[coinLower],
-        payment: paymentR.getOrElse(<PaymentValue>{}),
+        payment: paymentR.getOrElse(<PaymentValue>{})
       })
     }
     // @ts-ignore
     return {}
   }
 
+  const formChanged = function* (action: FormAction) {
+    const { field } = action.meta
+    if (field === 'to') {
+      yield put(A.fetchUnstoppableDomainResultsNotAsked())
+    }
+  }
+
   return {
     buildAndPublishPayment,
     fetchPaymentsAccountExchange,
     fetchPaymentsTradingAccount,
+    fetchUnstoppableDomainResults,
+    formChanged,
     getWithdrawalLockCheck,
     notifyNonCustodialToCustodialTransfer,
     paymentGetOrElse,
-    showWithdrawalLockAlert,
+    showWithdrawalLockAlert
   }
 }

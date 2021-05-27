@@ -11,6 +11,9 @@ export const getPaymentsTradingAccountAddress = curry((currency: string, state: 
   return state.components.send.tradingPaymentsAccount[currency]?.map((x) => x.address)
 })
 
+export const getUnstoppableDomainResults = (state: RootState) =>
+  state.components.send.unstoppableDomainResults
+
 export const getWithdrawLockCheck = (state: RootState) => state.components.send.withdrawLockCheck
 
 export const getWithdrawLockCheckRule = (state: RootState) => {

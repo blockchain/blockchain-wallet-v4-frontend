@@ -26,7 +26,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const { showWithdrawalLockAlert } = sendSagas({
     api,
     coreSagas,
-    networks,
+    networks
   })
   const initialized = function* (action) {
     try {
@@ -34,7 +34,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.sendBchPaymentUpdatedLoading())
       yield put(actions.components.send.fetchPaymentsAccountExchange('BCH'))
       let payment = coreSagas.payment.bch.create({
-        network: networks.bch,
+        network: networks.bch
       })
       payment = yield payment.init()
       const accountsR = yield select(selectors.core.common.bch.getAccountsBalances)
@@ -56,7 +56,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const satAmount = Exchange.convertCoinToCoin({
             baseToStandard: false,
             coin: 'BCH',
-            value: amount.coin,
+            value: amount.coin
           })
           payment = yield payment.amount(parseInt(satAmount))
         }
@@ -69,7 +69,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         description,
         from: from || defaultAccountR.getOrElse(),
         payPro,
-        to: to ? { value: { label: to, value: to } } : null,
+        to: to ? { value: { label: to, value: to } } : null
       }
       if (payPro) {
         try {
@@ -95,19 +95,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       actions.modals.showModal('CONFIRMATION_MODAL', {
         message: C.BITPAY_CONFIRM_MSG,
         origin: 'SendBch',
-        title: C.BITPAY_CONFIRM_TITLE,
+        title: C.BITPAY_CONFIRM_TITLE
       })
     )
     const { canceled } = yield race({
       canceled: take(actionTypes.modals.CLOSE_MODAL),
-      response: take(actionTypes.wallet.SUBMIT_CONFIRMATION),
+      response: take(actionTypes.wallet.SUBMIT_CONFIRMATION)
     })
     if (canceled) return
     yield put(actions.modals.closeAllModals())
     yield put(
       actions.goals.saveGoal('paymentProtocol', {
         coin: 'BCH',
-        r: pathOr({}, ['options', 'r'], bip21Payload),
+        r: pathOr({}, ['options', 'r'], bip21Payload)
       })
     )
     return yield put(actions.goals.runGoals())
@@ -117,7 +117,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(actions.modals.closeAllModals())
     yield put(
       actions.modals.showModal('BITPAY_INVOICE_EXPIRED_MODAL', {
-        origin: 'SendBch',
+        origin: 'SendBch'
       })
     )
     yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.BITPAY_FAILURE, 'invoice expired']))
@@ -129,7 +129,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.sendBchPaymentUpdatedLoading())
       let payment = coreSagas.payment.bch.create({
         network: networks.bch,
-        payment: p.getOrElse({}),
+        payment: p.getOrElse({})
       })
       payment = yield payment.build()
       yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
@@ -149,7 +149,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const p = yield select(S.getPayment)
       let payment: BtcPaymentType = coreSagas.payment.bch.create({
         network: networks.bch,
-        payment: p.getOrElse({}),
+        payment: p.getOrElse({})
       })
 
       switch (field) {
@@ -159,7 +159,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           yield put(
             actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNamesType, {
               coin: payload,
-              origin: 'SendBch',
+              origin: 'SendBch'
             })
           )
           break
@@ -178,7 +178,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               payment = yield payment.from(payloadT.xpub, fromType)
               break
             case 'CUSTODIAL':
-              payment = yield payment.from(payloadT.label, fromType, payloadT.withdrawable)
+              const response: ReturnType<typeof api.getWithdrawalFees> = yield call(
+                api.getWithdrawalFees,
+                'simplebuy',
+                'DEFAULT'
+              )
+              const fee = response.fees.find(({ symbol }) => symbol === 'BCH')?.minorValue || '0'
+              payment = yield payment.from(
+                payloadT.label,
+                fromType,
+                new BigNumber(payloadT.withdrawable).minus(fee).toString()
+              )
+              payment = yield payment.fee(new BigNumber(fee).toNumber())
               yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
               yield put(change(FORM, 'to', null))
               break
@@ -210,11 +221,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               payment = yield payment.to(value.xpub, toType)
               break
             // ensure 'r' exists, otherwise its just a BCH address in cash addr format
+            case includes('.', (address as unknown) as string):
+              yield put(
+                actions.components.send.fetchUnstoppableDomainResults(
+                  (address as unknown) as string,
+                  'BCH'
+                )
+              )
+              break
             case !isNil(tryParsePayPro()) && hasPath(['options', 'r'], payProInvoice):
               yield call(bitPayInvoiceEntered, payProInvoice)
               break
             default:
-              payment = yield payment.to(address, toType)
+              payment = yield payment.to((address as unknown) as string, toType)
           }
           break
         case 'amount':
@@ -222,13 +241,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const satAmount = Exchange.convertCoinToCoin({
             baseToStandard: false,
             coin: 'BCH',
-            value: bchAmount,
+            value: bchAmount
           })
           payment = yield payment.amount(parseInt(satAmount))
           break
         case 'description':
           payment = yield payment.description(payload)
           break
+        default:
       }
       try {
         payment = yield payment.build()
@@ -253,13 +273,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const effectiveBalance = prop('effectiveBalance', payment)
       const coin = Exchange.convertCoinToCoin({
         coin: 'BCH',
-        value: effectiveBalance,
+        value: effectiveBalance
       })
       const fiat = Exchange.convertCoinToFiat({
         coin: 'BCH',
         currency,
         rates: bchRates,
-        value: effectiveBalance,
+        value: effectiveBalance
       })
       yield put(change(FORM, 'amount', { coin, fiat }))
     } catch (e) {
@@ -272,7 +292,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const p = yield select(S.getPayment)
     let payment: BtcPaymentType = coreSagas.payment.bch.create({
       network: networks.bch,
-      payment: p.getOrElse({}),
+      payment: p.getOrElse({})
     })
     const fromType = path(['fromType'], payment.value())
     try {
@@ -335,7 +355,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(actions.router.push('/bch/transactions'))
         yield put(
           actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
-            coinName: 'Bitcoin Cash',
+            coinName: 'Bitcoin Cash'
           })
         )
       }
@@ -347,8 +367,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           'BCH',
           Exchange.convertCoinToCoin({
             coin: 'BCH',
-            value: amt.reduce(add, 0),
-          }),
+            value: amt.reduce(add, 0)
+          })
         ])
       )
       yield put(actions.modals.closeAllModals())
@@ -371,7 +391,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         } else {
           yield put(
             actions.alerts.displayError(C.SEND_COIN_ERROR, {
-              coinName: 'Bitcoin Cash',
+              coinName: 'Bitcoin Cash'
             })
           )
         }
@@ -387,6 +407,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     formChanged,
     initialized,
     maximumAmountClicked,
-    secondStepSubmitClicked,
+    secondStepSubmitClicked
   }
 }

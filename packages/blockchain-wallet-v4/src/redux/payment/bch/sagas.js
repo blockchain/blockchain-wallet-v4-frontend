@@ -330,6 +330,8 @@ export default ({ api }) => {
       },
 
       * fee(value) {
+        if (p.fromType === 'CUSTODIAL')
+          return makePayment(merge(p, { selection: { fee: value } }))
         let fee = yield call(calculateFee, value, p.fees)
         let effectiveBalance = yield call(calculateEffectiveBalance, {
           coins: p.coins,

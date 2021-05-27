@@ -11,7 +11,7 @@ import {
   AddressTypesType,
   BtcAccountFromType,
   BtcFromType,
-  BtcPaymentType,
+  BtcPaymentType
 } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { actions, actionTypes, model, selectors } from 'data'
@@ -34,7 +34,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const { showWithdrawalLockAlert } = sendSagas({
     api,
     coreSagas,
-    networks,
+    networks
   })
   const initialized = function* (action) {
     try {
@@ -43,7 +43,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(actions.components.send.fetchPaymentsAccountExchange('BTC'))
       let payment = coreSagas.payment.btc.create({
-        network: networks.btc,
+        network: networks.btc
       })
       payment = yield payment.init()
       let defaultAccountR
@@ -67,7 +67,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const satAmount = Exchange.convertCoinToCoin({
             baseToStandard: false,
             coin: 'BTC',
-            value: amount.coin,
+            value: amount.coin
           })
           payment = yield payment.amount(parseInt(satAmount))
         }
@@ -87,7 +87,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         feePerByte: defaultFeePerByte,
         from: from || defaultAccountR.getOrElse(),
         payPro,
-        to: prepareTo(to),
+        to: prepareTo(to)
       }
       if (payPro) {
         try {
@@ -113,19 +113,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       actions.modals.showModal('CONFIRMATION_MODAL', {
         message: C.BITPAY_CONFIRM_MSG,
         origin: 'SendBtc',
-        title: C.BITPAY_CONFIRM_TITLE,
+        title: C.BITPAY_CONFIRM_TITLE
       })
     )
     const { canceled } = yield race({
       canceled: take(actionTypes.modals.CLOSE_MODAL),
-      response: take(actionTypes.wallet.SUBMIT_CONFIRMATION),
+      response: take(actionTypes.wallet.SUBMIT_CONFIRMATION)
     })
     if (canceled) return
     yield put(actions.modals.closeAllModals())
     yield put(
       actions.goals.saveGoal('paymentProtocol', {
         coin: 'BTC',
-        r: pathOr({}, ['options', 'r'], bip21Payload),
+        r: pathOr({}, ['options', 'r'], bip21Payload)
       })
     )
     return yield put(actions.goals.runGoals())
@@ -135,7 +135,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(actions.modals.closeAllModals())
     yield put(
       actions.modals.showModal('BITPAY_INVOICE_EXPIRED_MODAL', {
-        origin: 'SendBtc',
+        origin: 'SendBtc'
       })
     )
     yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.BITPAY_FAILURE, 'invoice expired']))
@@ -147,7 +147,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.sendBtcPaymentUpdatedLoading())
       let payment: BtcPaymentType = coreSagas.payment.btc.create({
         network: networks.btc,
-        payment: p.getOrElse({}),
+        payment: p.getOrElse({})
       })
       payment = yield payment.build()
       yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
@@ -166,7 +166,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const p = yield select(S.getPayment)
       let payment: BtcPaymentType = coreSagas.payment.btc.create({
         network: networks.btc,
-        payment: p.getOrElse({}),
+        payment: p.getOrElse({})
       })
 
       switch (field) {
@@ -176,7 +176,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           yield put(
             actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNamesType, {
               coin: payload,
-              origin: 'SendBtc',
+              origin: 'SendBtc'
             })
           )
           break
@@ -195,7 +195,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               payment = yield payment.from(payloadT.xpub, fromType)
               break
             case 'CUSTODIAL':
-              payment = yield payment.from(payloadT.label, fromType, payloadT.withdrawable)
+              const response: ReturnType<typeof api.getWithdrawalFees> = yield call(
+                api.getWithdrawalFees,
+                'simplebuy',
+                'DEFAULT'
+              )
+              const fee = response.fees.find(({ symbol }) => symbol === 'BTC')?.minorValue || '0'
+              payment = yield payment.from(
+                payloadT.label,
+                fromType,
+                new BigNumber(payloadT.withdrawable).minus(fee).toString()
+              )
+              payment = yield payment.fee(new BigNumber(fee).toNumber())
               yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
               yield put(change(FORM, 'to', null))
               break
@@ -232,11 +243,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               // @ts-ignore
               payment = yield payment.to(value.xpub, toType)
               break
+            case includes('.', (address as unknown) as string):
+              yield put(
+                actions.components.send.fetchUnstoppableDomainResults(
+                  (address as unknown) as string,
+                  'BTC'
+                )
+              )
+              break
             case !isNil(tryParsePayPro()):
               yield call(bitPayInvoiceEntered, payProInvoice)
               break
             default:
-              payment = yield payment.to(address, toType)
+              payment = yield payment.to((address as unknown) as string, toType)
           }
           break
         case 'amount':
@@ -244,7 +263,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const satAmount = Exchange.convertCoinToCoin({
             baseToStandard: false,
             coin: 'BTC',
-            value: btcAmount,
+            value: btcAmount
           })
           payment = yield payment.amount(parseInt(satAmount))
           break
@@ -254,6 +273,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         case 'feePerByte':
           payment = yield payment.fee(parseInt(payload))
           break
+        default:
       }
       try {
         payment = yield payment.build()
@@ -280,7 +300,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         coin: 'BTC',
         currency,
         rates: btcRates,
-        value: DUST,
+        value: DUST
       })
       yield put(change(FORM, 'amount', { coin, fiat }))
     } catch (e) {
@@ -302,13 +322,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const effectiveBalance = prop('effectiveBalance', payment)
       const coin = Exchange.convertCoinToCoin({
         coin: 'BTC',
-        value: effectiveBalance,
+        value: effectiveBalance
       })
       const fiat = Exchange.convertCoinToFiat({
         coin: 'BTC',
         currency,
         rates: btcRates,
-        value: effectiveBalance,
+        value: effectiveBalance
       })
       yield put(change(FORM, 'amount', { coin, fiat }))
     } catch (e) {
@@ -365,7 +385,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const p = yield select(S.getPayment)
     let payment: BtcPaymentType = coreSagas.payment.btc.create({
       network: networks.btc,
-      payment: p.getOrElse({}),
+      payment: p.getOrElse({})
     })
     const fromType: AddressTypesType | undefined = path(['fromType'], payment.value())
     const { payPro } = yield select(selectors.form.getFormValues(FORM))
@@ -421,11 +441,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const value = payment.value()
         if (!value.to) return
         if (!value.amount) return
+        if (!value.selection) return
+
         yield call(
           api.withdrawSBFunds,
           value.to[0].address,
           'BTC',
-          new BigNumber(value.amount[0]).toString()
+          new BigNumber(value.amount[0]).toString(),
+          value.selection.fee
         )
       } else {
         const value = payment.value()
@@ -461,7 +484,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(actions.router.push('/btc/transactions'))
         yield put(
           actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
-            coinName: 'Bitcoin',
+            coinName: 'Bitcoin'
           })
         )
       }
@@ -474,14 +497,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           'BTC',
           Exchange.convertCoinToCoin({
             coin: 'BTC',
-            value: amt.reduce(add, 0),
-          }),
+            value: amt.reduce(add, 0)
+          })
         ])
       )
       if (payPro) {
         const coinAmount = Exchange.convertCoinToCoin({
           coin: 'BTC',
-          value: amt.reduce(add, 0),
+          value: amt.reduce(add, 0)
         })
         yield put(
           actions.analytics.logEvent([...TRANSACTION_EVENTS.BITPAY_SUCCESS, `${coinAmount} BTC`])
@@ -507,7 +530,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         } else {
           yield put(
             actions.alerts.displayError(C.SEND_COIN_ERROR, {
-              coinName: 'Bitcoin',
+              coinName: 'Bitcoin'
             })
           )
         }
@@ -530,6 +553,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     minimumFeeClicked,
     priorityFeeClicked,
     regularFeeClicked,
-    secondStepSubmitClicked,
+    secondStepSubmitClicked
   }
 }
