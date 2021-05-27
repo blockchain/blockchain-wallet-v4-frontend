@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { map } from 'ramda'
 
 import * as Coin from './coin.js'
@@ -264,14 +263,14 @@ describe('Coin Selection', () => {
       ])
       const targets = map(Coin.fromJS, [{ value: 100000 }])
       const selection = cs.descentDraw(targets, 55, inputs, 'change-address')
-      expect(selection.inputs.map(x => x.value)).toEqual([20000, 300000])
+      expect(selection.inputs.map((x) => x.value)).toEqual([20000, 300000])
 
       // overhead + inputs + outputs
       // 55 * (10 + 148 * 2 + 34 * 2) = 20570
       expect(selection.fee).toEqual(20570)
       // change = inputs - outputs - fee + feeForAdditionalChangeOutput
       // 20000 + 300000 - 100000 - 20570 + 1870 = 201300
-      expect(selection.outputs.map(x => x.value)).toEqual([100000, 201300])
+      expect(selection.outputs.map((x) => x.value)).toEqual([100000, 201300])
     })
   })
 
@@ -288,7 +287,7 @@ describe('Coin Selection', () => {
       ])
       const targets = map(Coin.fromJS, [{ value: 100000 }])
       const selection = cs.ascentDraw(targets, 55, inputs, 'change-address')
-      expect(selection.inputs.map(x => x.value)).toEqual([20000, 300000])
+      expect(selection.inputs.map((x) => x.value)).toEqual([20000, 300000])
 
       // overhead + inputs + outputs
       // 55 * (10 + 148 * 2 + 34 * 2) = 20570
@@ -296,7 +295,7 @@ describe('Coin Selection', () => {
 
       // change = inputs - outputs - fee
       // 20000 + 300000 - 100000 - 20570 + 1870 = 201300
-      expect(selection.outputs.map(x => x.value)).toEqual([100000, 201300])
+      expect(selection.outputs.map((x) => x.value)).toEqual([100000, 201300])
     })
   })
 
