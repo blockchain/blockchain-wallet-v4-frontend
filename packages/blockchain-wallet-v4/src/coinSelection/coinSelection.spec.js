@@ -207,14 +207,15 @@ describe('Coin Selection', () => {
       const feePerByte = 55
       const selection = cs.findTarget(targets, feePerByte, inputs)
 
-      const estimatedSize = 10 + 2 * 148 + 34 // 334
-      const estimatedFee = estimatedSize * feePerByte // 205700
+      const estimatedSize = 10 + 2 * 148 + 34 * 2 // 374
+      const estimatedFee = estimatedSize * feePerByte // 20570
+      const feeForAdditionalChangeOutput = cs.IO_TYPES.outputs.P2PKH * feePerByte
 
       expect(selection.fee).toEqual(estimatedFee)
       expect(selection.inputs.map((x) => x.value)).toEqual([20000, 300000])
       expect(selection.outputs.map((x) => x.value)).toEqual([
         10000,
-        300000 + 20000 - 10000 - estimatedFee
+        300000 + 20000 - 10000 - estimatedFee + feeForAdditionalChangeOutput
       ])
     })
   })
@@ -262,15 +263,13 @@ describe('Coin Selection', () => {
       ])
       const targets = map(Coin.fromJS, [{ value: 100000 }])
       const selection = cs.descentDraw(targets, 55, inputs, 'change-address')
-
       expect(selection.inputs.map((x) => x.value)).toEqual([20000, 300000])
 
       // overhead + inputs + outputs
-      // 55 * (10 + 148 * 2 + 34) = 20570
-      expect(selection.fee).toEqual(18700)
-
-      // change = inputs - outputs - fee
-      // 20000 + 300000 - 100000 - 18700 = 201300
+      // 55 * (10 + 148 * 2 + 34 * 2) = 20570
+      expect(selection.fee).toEqual(20570)
+      // change = inputs - outputs - fee + feeForAdditionalChangeOutput
+      // 20000 + 300000 - 100000 - 20570 + 1870 = 201300
       expect(selection.outputs.map((x) => x.value)).toEqual([100000, 201300])
     })
   })
@@ -291,11 +290,11 @@ describe('Coin Selection', () => {
       expect(selection.inputs.map((x) => x.value)).toEqual([20000, 300000])
 
       // overhead + inputs + outputs
-      // 55 * (10 + 148 * 2 + 34) = 20570
-      expect(selection.fee).toEqual(18700)
+      // 55 * (10 + 148 * 2 + 34 * 2) = 20570
+      expect(selection.fee).toEqual(20570)
 
       // change = inputs - outputs - fee
-      // 20000 + 300000 - 100000 - 18700 = 201300
+      // 20000 + 300000 - 100000 - 20570 + 1870 = 201300
       expect(selection.outputs.map((x) => x.value)).toEqual([100000, 201300])
     })
   })

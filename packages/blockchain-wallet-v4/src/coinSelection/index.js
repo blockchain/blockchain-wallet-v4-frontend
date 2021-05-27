@@ -1,4 +1,3 @@
-/* eslint-disable */
 import memoize from 'fast-memoize'
 import shuffle from 'fisher-yates'
 import { List } from 'immutable-ext'
@@ -21,150 +20,6 @@ import seedrandom from 'seedrandom'
 
 import * as Coin from './coin.js'
 
-const VBYTES_PER_WEIGHT_UNIT = 4
-
-// isFromAccount :: selection -> boolean
-export const isFromAccount = selection =>
-  selection.inputs[0] ? selection.inputs[0].isFromAccount() : false
-
-// isFromLegacy :: selection -> boolean
-export const isFromLegacy = selection =>
-  selection.inputs[0] ? selection.inputs[0].isFromLegacy() : false
-
-export const dustThreshold = (feeRate, change) =>
-  Math.ceil((Coin.inputBytes(change) + Coin.outputBytes(change)) * feeRate)
-
-export const transactionBytes = (inputs, outputs) => {
-  const coinTypeReducer = (acc, coin) => {
-    const type = coin.type ? coin.type() : 'P2PKH'
-    if (acc[type]) acc[type] += 1
-    else acc[type] = 1
-    return acc
-  }
-
-  const inputTypeCollection = reduce(coinTypeReducer, {}, inputs)
-  const outputTypeCollection = reduce(coinTypeReducer, {}, outputs)
-  return getByteCount(inputTypeCollection, outputTypeCollection)
-}
-
-export const DEPRECATED_transactionBytes = (inputs, outputs) =>
-  Coin.TX_EMPTY_SIZE +
-  inputs.reduce((a, c) => a + Coin.inputBytes(c), 0) +
-  outputs.reduce((a, c) => a + Coin.outputBytes(c), 0)
-
-export const effectiveBalance = curry((feePerByte, inputs, outputs = [{}]) =>
-  List(inputs)
-    .fold(Coin.empty)
-    .overValue(v =>
-      clamp(
-        0,
-        Infinity,
-        v - Math.ceil(transactionBytes(inputs, outputs) * feePerByte)
-      )
-    )
-)
-
-// findTarget :: [Coin(x), ..., Coin(y)] -> Number -> [Coin(a), ..., Coin(b)] -> Selection
-const ft = (targets, feePerByte, coins, changeAddress) => {
-  const target = List(targets).fold(Coin.empty).value
-  const _findTarget = seed => {
-    const acc = seed[0]
-    const newCoin = head(seed[2])
-    if (isNil(newCoin) || acc > target + seed[1]) {
-      return false
-    }
-    const partialFee = seed[1] + Coin.inputBytes(newCoin) * feePerByte
-    const restCoins = tail(seed[2])
-    const nextAcc = acc + newCoin.value
-    return acc > target + partialFee
-      ? false
-      : [
-          [nextAcc, partialFee, newCoin],
-          [nextAcc, partialFee, restCoins]
-        ]
-  }
-  const partialFee = Math.ceil(transactionBytes([], targets) * feePerByte)
-  const effectiveCoins = filter(
-    c => Coin.effectiveValue(feePerByte, c) > 0,
-    coins
-  )
-  const selection = unfold(_findTarget, [0, partialFee, effectiveCoins])
-  if (isEmpty(selection)) {
-    // no coins to select
-    return { fee: 0, inputs: [], outputs: [] }
-  } else {
-    const maxBalance = last(selection)[0]
-    const fee = last(selection)[1]
-    const selectedCoins = map(e => e[2], selection)
-    if (maxBalance < target + fee) {
-      // not enough money to satisfy target
-      return { fee: fee, inputs: [], outputs: targets }
-    } else {
-      const extra = maxBalance - target - fee
-      const change = Coin.fromJS({
-        address: changeAddress,
-        change: true,
-        value: extra,
-      })
-      if (extra >= dustThreshold(feePerByte, change)) {
-        return {
-          fee: fee,
-          inputs: selectedCoins,
-          outputs: [...targets, change]
-        }
-      } else {
-        // burn change
-        return { fee: fee + extra, inputs: selectedCoins, outputs: targets }
-      }
-    }
-  }
-}
-export const findTarget = memoize(ft)
-
-// singleRandomDraw :: Number -> [Coin(a), ..., Coin(b)] -> String -> Selection
-export const selectAll = (feePerByte, coins, outAddress) => {
-  const effectiveCoins = filter(
-    c => Coin.effectiveValue(feePerByte, c) > 0,
-    coins
-  )
-  const effBalance = effectiveBalance(feePerByte, effectiveCoins).value
-  const Balance = List(effectiveCoins).fold(Coin.empty).value
-  const fee = Balance - effBalance
-  return {
-    fee: fee,
-    inputs: effectiveCoins,
-    outputs: [Coin.fromJS({ value: effBalance, address: outAddress })]
-  }
-}
-// singleRandomDraw :: [Coin(x), ..., Coin(y)] -> Number -> [Coin(a), ..., Coin(b)] -> String -> Selection
-export const singleRandomDraw = (
-  targets,
-  feePerByte,
-  coins,
-  changeAddress,
-  seed
-) => {
-  const rng = is(String, seed) ? seedrandom(seed) : undefined
-  return findTarget(targets, feePerByte, shuffle(coins, rng), changeAddress)
-}
-
-// descentDraw :: [Coin(x), ..., Coin(y)] -> Number -> [Coin(a), ..., Coin(b)] -> Selection
-export const descentDraw = (targets, feePerByte, coins, changeAddress) =>
-  findTarget(
-    targets,
-    feePerByte,
-    sort((a, b) => a.lte(b), coins),
-    changeAddress
-  )
-// ascentDraw :: [Coin(x), ..., Coin(y)] -> Number -> [Coin(a), ..., Coin(b)] -> Selection
-export const ascentDraw = (targets, feePerByte, coins, changeAddress) =>
-  findTarget(
-    targets,
-    feePerByte,
-    sort((a, b) => b.lte(a), coins),
-    changeAddress
-  )
-
 // getByteCount implementation
 // based on https://gist.github.com/junderw/b43af3253ea5865ed52cb51c200ac19c
 // Usage:
@@ -185,12 +40,24 @@ export const IO_TYPES = {
     P2WSH: 43
   }
 }
+const VBYTES_PER_WEIGHT_UNIT = 4
+
+// isFromAccount :: selection -> boolean
+export const isFromAccount = (selection) =>
+  selection.inputs[0] ? selection.inputs[0].isFromAccount() : false
+
+// isFromLegacy :: selection -> boolean
+export const isFromLegacy = (selection) =>
+  selection.inputs[0] ? selection.inputs[0].isFromLegacy() : false
+
+export const dustThreshold = (feeRate, change) =>
+  Math.ceil((Coin.inputBytes(change) + Coin.outputBytes(change)) * feeRate)
 
 export const getByteCount = (inputs, outputs) => {
-  var vBytesTotal = 0
-  var hasWitness = false
-  var inputCount = 0
-  var outputCount = 0
+  let vBytesTotal = 0
+  let hasWitness = false
+  let inputCount = 0
+  let outputCount = 0
   // assumes compressed pubkeys in all cases.
 
   function checkUInt53(n) {
@@ -201,32 +68,24 @@ export const getByteCount = (inputs, outputs) => {
   function varIntLength(number) {
     checkUInt53(number)
 
-    return number < 0xfd
-      ? 1
-      : number <= 0xffff
-      ? 3
-      : number <= 0xffffffff
-      ? 5
-      : 9
+    return number < 0xfd ? 1 : number <= 0xffff ? 3 : number <= 0xffffffff ? 5 : 9
   }
 
-  Object.keys(inputs).forEach(function(key) {
+  Object.keys(inputs).forEach(function (key) {
     checkUInt53(inputs[key])
     vBytesTotal += IO_TYPES.inputs[key] * inputs[key]
     inputCount += inputs[key]
     if (key.indexOf('W') >= 0) hasWitness = true
   })
 
-  Object.keys(outputs).forEach(function(key) {
+  Object.keys(outputs).forEach(function (key) {
     checkUInt53(outputs[key])
     vBytesTotal += IO_TYPES.outputs[key] * outputs[key]
     outputCount += outputs[key]
   })
 
   // segwit marker + segwit flag + witness element count
-  var overhead = hasWitness
-    ? 0.25 + 0.25 + varIntLength(inputCount) / VBYTES_PER_WEIGHT_UNIT
-    : 0
+  let overhead = hasWitness ? 0.25 + 0.25 + varIntLength(inputCount) / VBYTES_PER_WEIGHT_UNIT : 0
 
   overhead += 4 // nVersion
   overhead += varIntLength(inputCount)
@@ -236,3 +95,119 @@ export const getByteCount = (inputs, outputs) => {
   vBytesTotal += overhead
   return vBytesTotal
 }
+
+export const transactionBytes = (inputs, outputs) => {
+  const coinTypeReducer = (acc, coin) => {
+    const type = coin.type ? coin.type() : 'P2PKH'
+    if (acc[type]) acc[type] += 1
+    else acc[type] = 1
+    return acc
+  }
+
+  const inputTypeCollection = reduce(coinTypeReducer, {}, inputs)
+  const outputTypeCollection = reduce(coinTypeReducer, {}, outputs)
+  return getByteCount(inputTypeCollection, outputTypeCollection)
+}
+
+export const changeBytes = (type) => IO_TYPES.outputs[type]
+
+export const DEPRECATED_transactionBytes = (inputs, outputs) =>
+  Coin.TX_EMPTY_SIZE +
+  inputs.reduce((a, c) => a + Coin.inputBytes(c), 0) +
+  outputs.reduce((a, c) => a + Coin.outputBytes(c), 0)
+
+export const effectiveBalance = curry((feePerByte, inputs, outputs = [{}]) =>
+  List(inputs)
+    .fold(Coin.empty)
+    .overValue((v) =>
+      clamp(0, Infinity, v - Math.ceil(transactionBytes(inputs, outputs) * feePerByte))
+    )
+)
+
+// findTarget :: [Coin(x), ..., Coin(y)] -> Number -> [Coin(a), ..., Coin(b)] -> Selection
+const ft = (targets, feePerByte, coins, changeAddress) => {
+  const target = List(targets).fold(Coin.empty).value
+  const _findTarget = (seed) => {
+    const acc = seed[0]
+    const newCoin = head(seed[2])
+    if (isNil(newCoin) || acc > target + seed[1]) {
+      return false
+    }
+    const partialFee = seed[1] + Coin.inputBytes(newCoin) * feePerByte
+    const restCoins = tail(seed[2])
+    const nextAcc = acc + newCoin.value
+    return acc > target + partialFee
+      ? false
+      : [
+          [nextAcc, partialFee, newCoin],
+          [nextAcc, partialFee, restCoins]
+        ]
+  }
+  const partialFee = Math.ceil(transactionBytes([], targets) * feePerByte)
+  const effectiveCoins = filter((c) => Coin.effectiveValue(feePerByte, c) > 0, coins)
+  const selection = unfold(_findTarget, [0, partialFee, effectiveCoins])
+  if (isEmpty(selection)) {
+    // no coins to select
+    return { fee: 0, inputs: [], outputs: [] }
+  }
+  const maxBalance = last(selection)[0]
+  const fee = last(selection)[1]
+  const selectedCoins = map((e) => e[2], selection)
+  if (maxBalance < target + fee) {
+    // not enough money to satisfy target
+    return { fee, inputs: [], outputs: targets }
+  }
+  const extra = maxBalance - target - fee
+  const change = Coin.fromJS({
+    address: changeAddress,
+    change: true,
+    value: extra
+  })
+  // should we add change?
+  if (extra >= dustThreshold(feePerByte, change)) {
+    const feeForAdditionalChangeOutput = changeBytes(change.type()) * feePerByte
+    return {
+      fee: fee + feeForAdditionalChangeOutput,
+      inputs: selectedCoins,
+      outputs: [...targets, change]
+    }
+  }
+  // burn change
+  return { fee: fee + extra, inputs: selectedCoins, outputs: targets }
+}
+export const findTarget = memoize(ft)
+
+// singleRandomDraw :: Number -> [Coin(a), ..., Coin(b)] -> String -> Selection
+export const selectAll = (feePerByte, coins, outAddress) => {
+  const effectiveCoins = filter((c) => Coin.effectiveValue(feePerByte, c) > 0, coins)
+  const effBalance = effectiveBalance(feePerByte, effectiveCoins).value
+  const Balance = List(effectiveCoins).fold(Coin.empty).value
+  const fee = Balance - effBalance
+  return {
+    fee,
+    inputs: effectiveCoins,
+    outputs: [Coin.fromJS({ address: outAddress, value: effBalance })]
+  }
+}
+// singleRandomDraw :: [Coin(x), ..., Coin(y)] -> Number -> [Coin(a), ..., Coin(b)] -> String -> Selection
+export const singleRandomDraw = (targets, feePerByte, coins, changeAddress, seed) => {
+  const rng = is(String, seed) ? seedrandom(seed) : undefined
+  return findTarget(targets, feePerByte, shuffle(coins, rng), changeAddress)
+}
+
+// descentDraw :: [Coin(x), ..., Coin(y)] -> Number -> [Coin(a), ..., Coin(b)] -> Selection
+export const descentDraw = (targets, feePerByte, coins, changeAddress) =>
+  findTarget(
+    targets,
+    feePerByte,
+    sort((a, b) => a.lte(b), coins),
+    changeAddress
+  )
+// ascentDraw :: [Coin(x), ..., Coin(y)] -> Number -> [Coin(a), ..., Coin(b)] -> Selection
+export const ascentDraw = (targets, feePerByte, coins, changeAddress) =>
+  findTarget(
+    targets,
+    feePerByte,
+    sort((a, b) => b.lte(a), coins),
+    changeAddress
+  )

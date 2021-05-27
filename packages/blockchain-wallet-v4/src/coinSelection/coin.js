@@ -35,6 +35,7 @@ export class Coin extends Type {
   }
 
   overValue(f) {
+    // eslint-disable-next-line
     return over(value, f, this)
   }
 
@@ -50,7 +51,7 @@ export class Coin extends Type {
     let type = 'P2PKH'
     try {
       const output = Bitcoin.address.toOutputScript(this.address)
-      // TODO: is addr var even needed?
+      // TODO: is addr var even needed doesnt seem to be used?
       // eslint-disable-next-line
       let addr = null
 
@@ -58,22 +59,27 @@ export class Coin extends Type {
         // eslint-disable-next-line
         addr = Bitcoin.payments.p2pkh({ output }).address
         type = 'P2PKH'
+        // eslint-disable-next-line
       } catch (e) {}
       try {
         // eslint-disable-next-line
         addr = Bitcoin.payments.p2sh({ output }).address
         type = 'P2SH'
+        // eslint-disable-next-line
       } catch (e) {}
       try {
         // eslint-disable-next-line
         addr = Bitcoin.payments.p2wpkh({ output }).address
         type = 'P2WPKH'
+        // eslint-disable-next-line
       } catch (e) {}
       try {
         // eslint-disable-next-line
         addr = Bitcoin.payments.p2wsh({ output }).address
         type = 'P2WSH'
+        // eslint-disable-next-line
       } catch (e) {}
+      // eslint-disable-next-line
     } catch (e) {}
 
     return type
@@ -108,8 +114,9 @@ export const fromJS = (o, network) => {
     priv: o.priv,
     script: o.script ? o.script : addressToScript(o.address, network),
     txHash: o.tx_hash_big_endian,
+    // eslint-disable-next-line
     value: parseInt(o.value),
-    xpub: o.xpub,
+    xpub: o.xpub
   })
 }
 
