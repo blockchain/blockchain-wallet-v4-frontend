@@ -148,7 +148,8 @@ export const ONE_CLICK_INTEREST = {
 export const INTEREST_EVENTS = {
   HOME: {
     CLICK_SUPPORT_ARTICLE: ['interest', 'home', 'learn_more_click'],
-    VIEW_TX_SUMMARY: ['interest', 'home', 'view_tx_click']
+    VIEW_TX_SUMMARY: ['interest', 'home', 'view_tx_click'],
+    SUPPLY_INFORMATION: ['interest', 'home', 'supply_information']
   },
   SETTINGS: {
     SUPPLY_INFORMATION: ['interest', 'settings', 'supply_information']
@@ -164,7 +165,8 @@ export const INTEREST_EVENTS = {
   },
   WITHDRAWAL: {
     REQUEST_SUCCESS: ['interest', 'withdrawal', 'request_success'],
-    REQUEST_FAILURE: ['interest', 'withdrawal', 'request_failure']
+    REQUEST_FAILURE: ['interest', 'withdrawal', 'request_failure'],
+    SUPPLY_INFORMATION: ['interest', 'withdrawal', 'supply_information']
   }
 }
 

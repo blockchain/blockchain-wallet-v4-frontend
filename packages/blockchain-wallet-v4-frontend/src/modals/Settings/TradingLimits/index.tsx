@@ -9,7 +9,7 @@ import { RootState } from 'data/rootReducer'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
-import { getData } from './selectors'
+import getData from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 
@@ -18,7 +18,10 @@ export type OwnProps = {
 } & ModalPropsType
 
 class TradingLimits extends PureComponent<Props, State> {
-  state: State = { show: false }
+  constructor(props: Props) {
+    super(props)
+    this.state = { show: false }
+  }
 
   componentDidMount() {
     /* eslint-disable */
@@ -46,20 +49,14 @@ class TradingLimits extends PureComponent<Props, State> {
       >
         <FlyoutChild>
           {this.props.data.cata({
-            Success: val => (
-              <Success
-                {...val}
-                {...this.props}
-                handleClose={this.handleClose}
-              />
-            ),
-            Failure: error => (
+            Failure: (error) => (
               <Text color='red600' size='14px' weight={400}>
                 {error}
               </Text>
             ),
             Loading: () => <Loading />,
-            NotAsked: () => <Loading />
+            NotAsked: () => <Loading />,
+            Success: (val) => <Success {...val} {...this.props} handleClose={this.handleClose} />
           })}
         </FlyoutChild>
       </Flyout>
@@ -68,16 +65,11 @@ class TradingLimits extends PureComponent<Props, State> {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  fetchInterestEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
+  fetchProductsEligibility: () => dispatch(actions.components.settings.fetchProductsEligibility()),
   fetchUser: () => dispatch(actions.modules.profile.fetchUser()),
-  fetchInterestEDDStatus: () =>
-    dispatch(actions.components.interest.fetchEDDStatus()),
-  fetchProductsEligibility: () =>
-    dispatch(actions.components.settings.fetchProductsEligibility()),
-  identityVerificationActions: bindActionCreators(
-    actions.components.identityVerification,
-    dispatch
-  ),
-  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+  identityVerificationActions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 
 const mapStateToProps = (state: RootState) => ({
@@ -86,10 +78,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-const enhance = compose(
-  ModalEnhancer('TRADING_LIMITS', { transition: duration }),
-  connector
-)
+const enhance = compose(ModalEnhancer('TRADING_LIMITS', { transition: duration }), connector)
 
 export type SuccessStateType = ReturnType<typeof getData>['data']
 

@@ -8,12 +8,10 @@ import {
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-export const getData = (state: RootState) => {
+const getData = (state: RootState) => {
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const interestRateR = selectors.components.interest.getInterestRate(state)
-  const afterTransactionR = selectors.components.interest.getAfterTransaction(
-    state
-  )
+  const afterTransactionR = selectors.components.interest.getAfterTransaction(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
   return lift(
@@ -23,10 +21,12 @@ export const getData = (state: RootState) => {
       afterTransaction: ExtractSuccess<typeof afterTransactionR>,
       walletCurrency: FiatType
     ) => ({
-      supportedCoins,
-      interestRate,
       afterTransaction,
+      interestRate,
+      supportedCoins,
       walletCurrency
     })
   )(supportedCoinsR, interestRateR, afterTransactionR, walletCurrencyR)
 }
+
+export default getData

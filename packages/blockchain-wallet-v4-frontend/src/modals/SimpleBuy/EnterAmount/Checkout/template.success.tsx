@@ -5,15 +5,8 @@ import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import {
-  coinToString,
-  fiatToString
-} from 'blockchain-wallet-v4/src/exchange/currency'
-import {
-  CoinType,
-  OrderType,
-  SBPaymentMethodType
-} from 'blockchain-wallet-v4/src/types'
+import { coinToString, fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { CoinType, OrderType, SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -21,11 +14,7 @@ import { Form } from 'components/Form'
 import { model } from 'data'
 import { convertStandardToBase } from 'data/components/exchange/services'
 import { SBCheckoutFormValuesType } from 'data/types'
-import {
-  CRYPTO_DECIMALS,
-  FIAT_DECIMALS,
-  formatTextAmount
-} from 'services/forms'
+import { CRYPTO_DECIMALS, FIAT_DECIMALS, formatTextAmount } from 'services/forms'
 
 import { Row } from '../../../Swap/EnterAmount/Checkout'
 import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
@@ -35,13 +24,7 @@ import { Props as OwnProps, SuccessStateType } from '.'
 import ActionButton from './ActionButton'
 import IncreaseLimits from './IncreaseLimits'
 import Payment from './Payment'
-import {
-  formatQuote,
-  getMaxMin,
-  getQuote,
-  maximumAmount,
-  minimumAmount
-} from './validation'
+import { formatQuote, getMaxMin, getQuote, maximumAmount, minimumAmount } from './validation'
 
 const { LIMIT, LIMIT_FACTOR } = model.components.simpleBuy
 
@@ -50,9 +33,7 @@ const WEEKLY_LIMIT_MESSAGE = 'User exceeded weekly trading limit'
 const ANNUAL_LIMIT_MESSAGE = 'User exceeded annual trading limit'
 
 const isLimitError = (error: string) =>
-  error === DAILY_LIMIT_MESSAGE ||
-  error === WEEKLY_LIMIT_MESSAGE ||
-  error === ANNUAL_LIMIT_MESSAGE
+  error === DAILY_LIMIT_MESSAGE || error === WEEKLY_LIMIT_MESSAGE || error === ANNUAL_LIMIT_MESSAGE
 
 const AmountRow = styled(Row)`
   position: relative;
@@ -106,11 +87,11 @@ const ActionsItem = styled.div`
   flex-direction: column;
 `
 const CustomBlueCartridge = styled(BlueCartridge)`
-  border: 1px solid ${props => props.theme.blue000};
+  border: 1px solid ${(props) => props.theme.blue000};
   cursor: pointer;
 `
 const CustomErrorCartridge = styled(ErrorCartridge)`
-  border: 1px solid ${props => props.theme.red000};
+  border: 1px solid ${(props) => props.theme.red000};
   cursor: pointer;
 `
 const ErrorTextContainer = styled.div`
@@ -127,21 +108,15 @@ const ErrorText = styled(Text)`
   font-size: 14px;
   padding: 6px 12px;
   border-radius: 8px;
-  background-color: ${props => props.theme.red000};
-  color: ${props => props.theme.red800};
+  background-color: ${(props) => props.theme.red000};
+  color: ${(props) => props.theme.red800};
   margin-bottom: 16px;
   > div {
     cursor: pointer;
   }
 `
 
-const BlueRedCartridge = ({
-  children,
-  error
-}: {
-  children: ReactChild
-  error: boolean
-}) => {
+const BlueRedCartridge = ({ children, error }: { children: ReactChild; error: boolean }) => {
   if (error)
     return (
       <CustomErrorCartridge role='button' data-e2e='sbEnterAmountMaxError'>
@@ -155,16 +130,30 @@ const BlueRedCartridge = ({
   )
 }
 
-const normalizeAmount = (
-  value,
-  prevValue,
-  allValues: SBCheckoutFormValuesType
-) => {
-  if (isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
+const normalizeAmount = (value, prevValue, allValues: SBCheckoutFormValuesType) => {
+  if (Number.isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
   return formatTextAmount(value, allValues && allValues.fix === 'FIAT')
 }
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const isAmountInLimits = (amount: number | undefined, min: number, max: number): boolean => {
+  if (!amount) return false
+  if (amount < min || amount > max) {
+    return false
+  }
+  return true
+}
+const getAmountLimitsError = (amount: number, min: number, max: number): string | null => {
+  if (amount < min) {
+    return 'BELOW_MIN'
+  }
+
+  if (amount > max) {
+    return 'ABOVE_MAX'
+  }
+  return null
+}
+
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const {
     cards,
     cryptoCurrency,
@@ -182,44 +171,30 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     const card = cards[0]
 
     const defaultCardMethod = props.paymentMethods.methods.find(
-      m => m.type === 'PAYMENT_CARD' && orderType === 'BUY'
+      (m) => m.type === 'PAYMENT_CARD' && orderType === 'BUY'
     )
     method = {
       ...card,
       card: card.card,
-      type: 'USER_CARD',
       currency: card.currency,
       limits:
         defaultCardMethod && defaultCardMethod.limits
           ? defaultCardMethod.limits
-          : { min: '500', max: '10000' }
+          : { max: '10000', min: '500' },
+      type: 'USER_CARD'
     } as SBPaymentMethodType
   }
 
-  const fix = props.preferences[props.orderType].fix
+  const { fix } = props.preferences[props.orderType]
   const digits = fix === 'FIAT' ? FIAT_DECIMALS : CRYPTO_DECIMALS
   const baseCurrency = fix === 'FIAT' ? fiatCurrency : cryptoCurrency
-  const conversionCoinType: 'FIAT' | CoinType =
-    fix === 'FIAT' ? 'FIAT' : cryptoCurrency
+  const conversionCoinType: 'FIAT' | CoinType = fix === 'FIAT' ? 'FIAT' : cryptoCurrency
 
-  const quoteAmt = getQuote(
-    props.pair.pair,
-    props.quote.rate,
-    fix,
-    props.formValues?.amount
-  )
+  const quoteAmt = getQuote(props.pair.pair, props.quote.rate, fix, props.formValues?.amount)
 
   if (!props.formValues) return null
   if (!fiatCurrency || !baseCurrency)
-    return (
-      <Failure
-        fiatCurrency={props.fiatCurrency}
-        simpleBuyActions={props.simpleBuyActions}
-      />
-    )
-
-  const amtError =
-    typeof props.formErrors.amount === 'string' && props.formErrors.amount
+    return <Failure fiatCurrency={props.fiatCurrency} simpleBuyActions={props.simpleBuyActions} />
 
   const limits = props.sddLimit || LIMIT
   const sddLimit = { ...limits }
@@ -256,6 +231,19 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.limits
   )[fix]
 
+  // prevent proceed if entered amount is out of limits
+  const amountInBounds = isAmountInLimits(
+    Number(props.formValues?.amount),
+    Number(min),
+    Number(max)
+  )
+  const errorMinMax = props.formValues?.amount
+    ? getAmountLimitsError(Number(props.formValues?.amount), Number(min), Number(max))
+    : null
+
+  const amtError =
+    (typeof props.formErrors.amount === 'string' && props.formErrors.amount) || errorMinMax
+
   const handleMinMaxClick = () => {
     const prop = amtError === 'BELOW_MIN' ? 'min' : 'max'
     const maxMin: string = getMaxMin(
@@ -273,10 +261,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       props.limits
     )[fix]
     const value = convertStandardToBase(conversionCoinType, maxMin)
-    props.simpleBuyActions.handleSBSuggestedAmountClick(
-      value,
-      conversionCoinType
-    )
+    if (prop === 'min') {
+      props.simpleBuyActions.handleSBMinAmountClick(value, conversionCoinType)
+    }
+
+    if (prop === 'max') {
+      props.simpleBuyActions.handleSBMaxAmountClick(value, conversionCoinType)
+    }
   }
   const handleMaxClick = () => {
     const maxMin: string = getMaxMin(
@@ -294,10 +285,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       props.limits
     )[fix]
     const value = convertStandardToBase(conversionCoinType, maxMin)
-    props.simpleBuyActions.handleSBSuggestedAmountClick(
-      value,
-      conversionCoinType
-    )
+    props.simpleBuyActions.handleSBMaxAmountClick(value, conversionCoinType)
   }
 
   const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
@@ -322,7 +310,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     // @ts-ignore
     !props.payment.isSufficientEthForErc20
 
-  const getValue = value =>
+  const getValue = (value) =>
     fix === 'FIAT'
       ? fiatToString({
           digits,
@@ -330,13 +318,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           value
         })
       : coinToString({
-          value,
-          unit: { symbol: cryptoCurrency }
+          unit: { symbol: cryptoCurrency },
+          value
         })
 
   return (
     <CustomForm onSubmit={props.handleSubmit}>
-      <FlyoutWrapper style={{ paddingBottom: '0px', borderBottom: 'grey000' }}>
+      <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
         <TopText color='grey800' size='20px' weight={600}>
           <LeftTopCol>
             <Icon
@@ -349,10 +337,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               style={{ marginRight: '8px' }}
               onClick={() =>
                 props.simpleBuyActions.setStep({
-                  step: 'CRYPTO_SELECTION',
                   // Always reset back to walletCurrency
                   // Otherwise FUNDS currency and Pairs currency can mismatch
-                  fiatCurrency: props.walletCurrency || 'USD'
+                  fiatCurrency: props.walletCurrency || 'USD',
+
+                  step: 'CRYPTO_SELECTION'
                 })
               }
             />
@@ -369,7 +358,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       <FlyoutWrapper style={{ paddingTop: '0px' }}>
         <AmountRow id='amount-row'>
           {fix === 'FIAT' && (
-            <Text size={'56px'} color='textBlack' weight={500}>
+            <Text size='56px' color='textBlack' weight={500}>
               {Currencies[fiatCurrency].units[fiatCurrency].symbol}
             </Text>
           )}
@@ -379,6 +368,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             component={AmountTextBox}
             validate={[maximumAmount, minimumAmount]}
             normalize={normalizeAmount}
+            // eslint-disable-next-line
             onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
             maxFontSize='56px'
             placeholder='0'
@@ -390,24 +380,22 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }}
           />
           {fix === 'CRYPTO' && (
-            <Text size={'56px'} color='textBlack' weight={500}>
+            <Text size='56px' color='textBlack' weight={500}>
               {props.supportedCoins[cryptoCurrency].coinTicker}
             </Text>
           )}
         </AmountRow>
 
         <QuoteActionContainer>
-          {props.isSddFlow &&
-          props.orderType === 'BUY' &&
-          amtError === 'BELOW_MIN' ? (
+          {props.isSddFlow && props.orderType === 'BUY' && amtError === 'BELOW_MIN' ? (
             <ErrorAmountContainer onClick={handleMinMaxClick}>
               <CustomErrorCartridge role='button' data-e2e='sbEnterAmountMin'>
                 <FormattedMessage
                   id='modals.simplebuy.checkout.belowmin'
                   defaultMessage='{value} Minimum {orderType}'
                   values={{
-                    value: getValue(min),
-                    orderType: 'Buy'
+                    orderType: 'Buy',
+                    value: getValue(min)
                   }}
                 />
               </CustomErrorCartridge>
@@ -415,18 +403,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           ) : (
             <QuoteRow>
               <div />
-              <Text
-                color='grey600'
-                size='14px'
-                weight={500}
-                data-e2e='sbQuoteAmount'
-              >
-                {formatQuote(
-                  quoteAmt,
-                  props.pair.pair,
-                  fix,
-                  props.supportedCoins
-                )}
+              <Text color='grey600' size='14px' weight={500} data-e2e='sbQuoteAmount'>
+                {formatQuote(quoteAmt, props.pair.pair, fix, props.supportedCoins)}
               </Text>
               <Icon
                 color='blue600'
@@ -436,9 +414,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   props.simpleBuyActions.switchFix(
                     quoteAmt,
                     props.orderType,
-                    props.preferences[props.orderType].fix === 'CRYPTO'
-                      ? 'FIAT'
-                      : 'CRYPTO'
+                    props.preferences[props.orderType].fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO'
                   )
                 }
                 role='button'
@@ -454,17 +430,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <Amounts onClick={handleMinMaxClick}>
               <>
                 {amtError === 'BELOW_MIN' ? (
-                  <CustomErrorCartridge
-                    role='button'
-                    data-e2e='sbEnterAmountMin'
-                  >
+                  <CustomErrorCartridge role='button' data-e2e='sbEnterAmountMin'>
                     <FormattedMessage
                       id='modals.simplebuy.checkout.belowmin'
                       defaultMessage='{value} Minimum {orderType}'
                       values={{
-                        value: getValue(min),
-                        orderType:
-                          props.orderType === OrderType.BUY ? 'Buy' : 'Sell'
+                        orderType: props.orderType === OrderType.BUY ? 'Buy' : 'Sell',
+                        value: getValue(min)
                       }}
                     />
                   </CustomErrorCartridge>
@@ -488,10 +460,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           props.pair &&
           Number(min) > Number(max) && (
             <Amounts>
-              <CustomErrorCartridge
-                role='button'
-                data-e2e='sbEnterAmountNotEnoughFundsForSell'
-              >
+              <CustomErrorCartridge role='button' data-e2e='sbEnterAmountNotEnoughFundsForSell'>
                 <FormattedMessage
                   id='modals.simplebuy.checkout.not_enough_funds_for_sell'
                   defaultMessage='Not Enough funds for Sell'
@@ -518,7 +487,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               </div>
             </ActionsItem>
             <ActionsItem>
-              <div onClick={handleMaxClick}>
+              <div onClick={handleMaxClick} onKeyDown={handleMaxClick} role='button' tabIndex={0}>
                 <BlueRedCartridge error={amtError === 'ABOVE_MAX'}>
                   <FormattedMessage
                     id='modals.simplebuy.checkout.maxbuy'
@@ -539,16 +508,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         {props.error && (
           <ErrorTextContainer>
             <ErrorText>
-              <Icon
-                name='alert-filled'
-                color='red600'
-                style={{ marginRight: '4px' }}
-              />
+              <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
               {isLimitError(props.error) ? (
                 <div
-                  onClick={() =>
-                    props.identityVerificationActions.verifyIdentity(2, false)
-                  }
+                  onClick={() => props.identityVerificationActions.verifyIdentity(2, false)}
+                  onKeyDown={() => props.identityVerificationActions.verifyIdentity(2, false)}
+                  role='button'
+                  tabIndex={0}
                 >
                   <FormattedMessage
                     id='modals.simplebuy.checkout.upgrade_to_gold'
@@ -565,14 +531,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           {...props}
           isSufficientEthForErc20={isSufficientEthForErc20 || false}
           isDailyLimitExceeded={isDailyLimitExceeded || false}
+          isAmountInBounds={amountInBounds}
         />
 
         {isDailyLimitExceeded && (
           <Amounts>
-            <CustomErrorCartridge
-              role='button'
-              data-e2e='sbEnterAmountDailyLimitExceeded'
-            >
+            <CustomErrorCartridge role='button' data-e2e='sbEnterAmountDailyLimitExceeded'>
               <FormattedMessage
                 id='modals.simplebuy.checkout.dailylimitexceeded'
                 defaultMessage="You've reached your daily trading limit"
@@ -581,17 +545,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </Amounts>
         )}
       </FlyoutWrapper>
-      {props.isSddFlow && props.orderType === OrderType.BUY && (
-        <IncreaseLimits {...props} />
-      )}
+      {props.isSddFlow && props.orderType === OrderType.BUY && <IncreaseLimits {...props} />}
       {isSufficientEthForErc20 && (
         <ErrorTextContainer>
           <ErrorText>
-            <Icon
-              name='alert-filled'
-              color='red600'
-              style={{ marginRight: '4px' }}
-            />
+            <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
             <FormattedMessage
               id='copy.not_enough_eth1'
               defaultMessage='ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in your Ether Wallet for this transaction, not Ether Trading Account.'
@@ -609,6 +567,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 export type Props = OwnProps & SuccessStateType
 
 export default reduxForm<{}, Props>({
-  form: 'simpleBuyCheckout',
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
+  form: 'simpleBuyCheckout'
 })(Success)

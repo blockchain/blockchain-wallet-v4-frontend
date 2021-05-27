@@ -6,36 +6,23 @@ import { initialPriceChange } from './model'
 import { MiscActionTypes, MiscStateType } from './types'
 
 const INITIAL_STATE: MiscStateType = {
+  authorize_login: Remote.NotAsked,
+  handle_2fa_reset: Remote.NotAsked,
   logs: Remote.NotAsked,
-  captcha: Remote.NotAsked,
   pairing_code: Remote.NotAsked,
   price_change: {
     all: initialPriceChange,
     day: initialPriceChange,
-    week: initialPriceChange,
     month: initialPriceChange,
+    week: initialPriceChange,
     year: initialPriceChange
   },
   price_index_series: Remote.NotAsked,
-  verify_email_token: Remote.NotAsked,
-  handle_2fa_reset: Remote.NotAsked,
-  authorize_login: Remote.NotAsked
+  verify_email_token: Remote.NotAsked
 }
 
-export const miscReducer = (
-  state = INITIAL_STATE,
-  action: MiscActionTypes
-): MiscStateType => {
+export const miscReducer = (state = INITIAL_STATE, action: MiscActionTypes): MiscStateType => {
   switch (action.type) {
-    case AT.FETCH_CAPTCHA_FAILURE: {
-      return assoc('captcha', Remote.Failure(action.payload), state)
-    }
-    case AT.FETCH_CAPTCHA_LOADING: {
-      return assoc('captcha', Remote.Loading, state)
-    }
-    case AT.FETCH_CAPTCHA_SUCCESS: {
-      return assoc('captcha', Remote.Success(action.payload), state)
-    }
     case AT.FETCH_PRICE_CHANGE_LOADING: {
       return {
         ...state,

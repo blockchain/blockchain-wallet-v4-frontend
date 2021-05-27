@@ -335,6 +335,9 @@
       }, 
       "mobile_auth": {
         "enabled": true
+      },
+      "featureFlags": {
+        "recurringBuys": true
       }
     }
   },

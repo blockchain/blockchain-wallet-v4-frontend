@@ -187,7 +187,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             <Row>
               <Title color='grey600'>
                 <FormattedMessage
-                  id='copy.coin_network_fee'
+                  id='copy.network_fee'
                   defaultMessage='Network Fee'
                 />
               </Title>

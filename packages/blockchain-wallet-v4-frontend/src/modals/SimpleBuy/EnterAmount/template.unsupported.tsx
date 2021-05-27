@@ -41,7 +41,7 @@ const Subcontent = styled(Text)`
   text-align: center;
 `
 
-const Unsupported: React.FC<Props> = props => {
+const Unsupported: React.FC<Props> = (props) => {
   const { paymentAccountEligible } = props.eligibility
 
   return (
@@ -91,10 +91,7 @@ const Unsupported: React.FC<Props> = props => {
                 id='modals.simplebuy.unsupported-subcontent-1'
                 defaultMessage="Well this is awkward. We don't support buying crypto yet for"
               />{' '}
-              <FormattedMessage
-                id='modals.simplebuy.fiatregion'
-                defaultMessage='your region'
-              />
+              <FormattedMessage id='modals.simplebuy.fiatregion' defaultMessage='your region' />
               {'. '}
             </>
           )}

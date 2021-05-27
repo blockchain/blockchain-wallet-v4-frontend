@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
@@ -62,7 +62,7 @@ const Loading = () => (
 const HoldingsTableContainer = props => (
   <Wrapper>
     <TitleText size='16px' weight={500} color='grey400' capitalize>
-      <FormattedHTMLMessage id='copy.holdings' defaultMessage='Holdings' />
+      <FormattedMessage id='copy.holdings' defaultMessage='Holdings' />
     </TitleText>
     {props.data.cata({
       Success: val => <Table {...props} {...val} />,
