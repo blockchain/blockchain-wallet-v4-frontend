@@ -285,10 +285,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const depositAddress = depositAddr.split(':')[0]
       yield put(A.setPaymentLoading())
       yield put(A.fetchInterestLimits(coin, currency))
-      yield take([
-        AT.FETCH_INTEREST_LIMITS_SUCCESS,
-        AT.FETCH_INTEREST_LIMITS_FAILURE
-      ])
+      yield take([AT.FETCH_INTEREST_LIMITS_SUCCESS, AT.FETCH_INTEREST_LIMITS_FAILURE])
 
       const defaultAccount = isFromBuySell
         ? yield call(getCustodialAccountForCoin, coin)
@@ -299,17 +296,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         address: getAccountIndexOrAccount(coin, defaultAccount)
       })
 
-      let newPayment = yield getOrUpdateProvisionalPaymentForCoin(
-        coin,
-        Remote.of(payment)
-      )
+      let newPayment = yield getOrUpdateProvisionalPaymentForCoin(coin, Remote.of(payment))
 
       newPayment = yield newPayment.to(depositAddress, 'ADDRESS')
       newPayment = yield newPayment.value()
       const custodialBalances = isFromBuySell
-        ? (yield select(
-            selectors.components.simpleBuy.getSBBalances
-          )).getOrFail('Failed to get balance')
+        ? (yield select(selectors.components.simpleBuy.getSBBalances)).getOrFail(
+            'Failed to get balance'
+          )
         : null
 
       yield call(createLimits, newPayment, custodialBalances)
@@ -317,9 +311,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       let additionalParameters = {}
       if (isFromBuySell) {
         yield put(A.setCoinDisplay(true))
-        const afterTransactionR = yield select(
-          selectors.components.interest.getAfterTransaction
-        )
+        const afterTransactionR = yield select(selectors.components.interest.getAfterTransaction)
         const afterTransaction = afterTransactionR.getOrElse({
           show: false
         } as InterestAfterTransactionType)
@@ -327,28 +319,28 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           depositAmount: afterTransaction.amount || 0
         }
 
-      // update payment since initial one was with 0
-      const value = new BigNumber(afterTransaction.amount).toNumber()
-      const paymentR = S.getPayment(yield select())
-      if (paymentR) {
-        let payment = yield getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
-        const paymentAmount = generateProvisionalPaymentAmount(coin, value)
-        payment = yield payment.amount(paymentAmount)
-        yield put(A.setPaymentSuccess(payment.value()))
+        // update payment since initial one was with 0
+        const value = new BigNumber(afterTransaction.amount).toNumber()
+        const paymentR = S.getPayment(yield select())
+        if (paymentR) {
+          let payment = yield getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
+          const paymentAmount = generateProvisionalPaymentAmount(coin, value)
+          payment = yield payment.amount(paymentAmount)
+          yield put(A.setPaymentSuccess(payment.value()))
+        }
+        yield put(actions.modals.closeModal('SIMPLE_BUY_MODAL'))
       }
-      yield put(actions.modals.closeModal('SIMPLE_BUY_MODAL'))
+      yield put(
+        initialize(DEPOSIT_FORM, {
+          coin,
+          currency,
+          interestDepositAccount: defaultAccount,
+          ...additionalParameters
+        })
+      )
+    } catch (e) {
+      yield put(A.setPaymentFailure(e))
     }
-    yield put(
-      initialize(DEPOSIT_FORM, {
-        coin,
-        currency,
-        interestDepositAccount: defaultAccount,
-        ...additionalParameters
-      })
-    )
-  } catch (e) {
-    yield put(A.setPaymentFailure(e))
-  }
   }
 
   const initializeWithdrawalForm = function* ({
