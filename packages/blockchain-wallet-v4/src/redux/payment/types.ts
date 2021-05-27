@@ -106,7 +106,11 @@ export type EthPaymentType = IPaymentType & {
   amount: (n: number | string) => EthPaymentType
   coin: 'ETH' | 'PAX' | 'USDT' | 'WDGLD' | 'YFI' | 'AAVE'
   description: (arg: string) => EthPaymentType
-  fee: (arg: number, account: string) => EthPaymentType
+  fee: (
+    arg: number,
+    account: string,
+    coin?: Erc20CoinType | 'ETH'
+  ) => EthPaymentType
   init: (arg: {
     coin: 'ETH' | Erc20CoinType
     isErc20?: boolean
@@ -124,6 +128,7 @@ export type XlmPaymentType = IPaymentType & {
   amount: (n: number | string) => XlmPaymentType
   coin: 'XLM'
   description: (arg: string) => XlmPaymentType
+  fee: (arg: string) => XlmPaymentType
   memo: (arg: string) => XlmPaymentType
   memoType: (arg: string) => XlmPaymentType
   value: () => XlmPaymentValue

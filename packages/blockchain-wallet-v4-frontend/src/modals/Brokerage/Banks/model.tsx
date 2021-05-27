@@ -6,7 +6,7 @@ import { Icon } from 'blockchain-info-components'
 import {
   BeneficiaryType,
   FiatType,
-  NabuMoneyFloatType
+  NabuSymbolNumberType
 } from 'blockchain-wallet-v4/src/types'
 import {
   GreyCartridge,
@@ -99,7 +99,7 @@ const Bank = ({ bankDetails, icon, isActive, onClick, text }: BankProps) => (
 type BankWireProps = {
   beneficiary: BeneficiaryType
   isActive?: boolean
-  minAmount?: NabuMoneyFloatType
+  minAmount?: NabuSymbolNumberType
   onClick: () => void
   type: 'DEPOSIT' | 'WITHDRAWAL'
 }

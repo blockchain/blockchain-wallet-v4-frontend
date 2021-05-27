@@ -18,6 +18,7 @@ import * as priceTicker from './priceTicker/actions'
 import * as recoveryPhrase from './recoveryPhrase/actions'
 import * as refresh from './refresh/actions'
 import * as remindWalletGuid from './remindWalletGuid/actions'
+import * as request from './request/actions'
 import * as resetWallet2fa from './resetWallet2fa/actions'
 import * as send from './send/actions'
 import * as sendBch from './sendBch/actions'
@@ -55,6 +56,7 @@ export {
   recoveryPhrase,
   refresh,
   remindWalletGuid,
+  request,
   resetWallet2fa,
   send,
   sendBch,
@@ -69,5 +71,5 @@ export {
   uploadDocuments,
   veriff,
   withdraw,
-  xlmTransactions
+  xlmTransactions,
 }

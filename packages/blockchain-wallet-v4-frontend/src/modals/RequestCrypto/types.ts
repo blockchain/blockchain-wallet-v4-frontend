@@ -3,6 +3,7 @@ import { SwapAccountType } from 'data/components/swap/types'
 
 export enum RequestSteps {
   'COIN_SELECT',
+  'IDV_INTRO',
   'SHOW_ADDRESS'
 }
 

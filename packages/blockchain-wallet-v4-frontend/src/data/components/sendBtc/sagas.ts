@@ -254,11 +254,20 @@ export default ({
               payment = yield payment.from(payloadT.xpub, fromType)
               break
             case 'CUSTODIAL':
+              const response: ReturnType<typeof api.getWithdrawalFees> = yield call(
+                api.getWithdrawalFees,
+                'simplebuy',
+                'DEFAULT'
+              )
+              const fee =
+                response.fees.find(({ symbol }) => symbol === 'BTC')
+                  ?.minorValue || '0'
               payment = yield payment.from(
                 payloadT.label,
                 fromType,
-                payloadT.withdrawable
+                new BigNumber(payloadT.withdrawable).minus(fee).toString()
               )
+              payment = yield payment.fee(new BigNumber(fee).toNumber())
               yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
               yield put(change(FORM, 'to', null))
               break
@@ -299,11 +308,19 @@ export default ({
               // @ts-ignore
               payment = yield payment.to(value.xpub, toType)
               break
+            case includes('.', (address as unknown) as string):
+              yield put(
+                actions.components.send.fetchUnstoppableDomainResults(
+                  (address as unknown) as string,
+                  'BTC'
+                )
+              )
+              break
             case !isNil(tryParsePayPro()):
               yield call(bitPayInvoiceEntered, payProInvoice)
               break
             default:
-              payment = yield payment.to(address, toType)
+              payment = yield payment.to((address as unknown) as string, toType)
           }
           break
         case 'amount':
@@ -508,11 +525,14 @@ export default ({
         const value = payment.value()
         if (!value.to) return
         if (!value.amount) return
+        if (!value.selection) return
+
         yield call(
           api.withdrawSBFunds,
           value.to[0].address,
           'BTC',
-          new BigNumber(value.amount[0]).toString()
+          new BigNumber(value.amount[0]).toString(),
+          value.selection.fee
         )
       } else {
         const value = payment.value()

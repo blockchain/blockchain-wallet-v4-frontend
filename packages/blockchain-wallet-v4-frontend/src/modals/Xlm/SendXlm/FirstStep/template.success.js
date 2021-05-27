@@ -27,8 +27,8 @@ import {
 } from 'components/Form'
 import QRCodeCapture from 'components/QRCode/Capture'
 import { CustodyToAccountMessage, Row } from 'components/Send'
-import ExchangePromo from 'components/Send/ExchangePromo'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
+import UnstoppableDomains from 'components/UnstoppableDomains'
 import { model } from 'data'
 import { required, validXlmAddress } from 'services/forms'
 
@@ -171,18 +171,15 @@ const FirstStep = props => {
                   dataE2e='sendXlmAddressInput'
                   exclude={from ? [from.label] : []}
                   includeAll={false}
-                  includeExchangeAddress={!isFromCustody}
-                  isCreatable={!isFromCustody}
+                  includeExchangeAddress
+                  isCreatable
                   isValidNewOption={() => false}
                   name='to'
                   noOptionsMessage={() => null}
-                  openMenuOnClick={!!isFromCustody}
                   includeCustodial={!isFromCustody}
-                  forceCustodialFirst={!isFromCustody}
+                  forceCustodialFirst
                   placeholder='Paste, scan, or select destination'
-                  validate={
-                    isFromCustody ? [required] : [required, validXlmAddress]
-                  }
+                  validate={[required, validXlmAddress]}
                 />
                 {!isFromCustody && (
                   <QRCodeCapture
@@ -193,17 +190,14 @@ const FirstStep = props => {
               </Row>
             </FormItem>
           </FormGroup>
-          {isFromCustody && isMnemonicVerified ? (
-            <FormGroup>
-              <CustodyToAccountMessage
-                coin={'XLM'}
-                account={from}
-                amount={amount}
-              />
-            </FormGroup>
-          ) : (
-            <ExchangePromo />
-          )}
+          <UnstoppableDomains form={model.components.sendXlm.FORM} />
+          <FormGroup>
+            <CustodyToAccountMessage
+              coin={'XLM'}
+              account={from}
+              amount={amount}
+            />
+          </FormGroup>
           <FormGroup margin={'15px'}>
             <FormItem>
               <FormLabel htmlFor='amount'>
@@ -309,23 +303,21 @@ const FirstStep = props => {
               />
             </FormItem>
           </FormGroup>
-          {!isFromCustody && (
-            <FormGroup inline margin={'10px'}>
-              <FormItem>
-                <Text size='16px' weight={500}>
-                  <FormattedMessage
-                    id='modals.sendxlm.firststep.fee'
-                    defaultMessage='Transaction Fee:'
-                  />
-                </Text>
-                <Text>
-                  <ComboDisplay size='13px' coin='XLM' weight={500}>
-                    {fee}
-                  </ComboDisplay>
-                </Text>
-              </FormItem>
-            </FormGroup>
-          )}
+          <FormGroup inline margin={'10px'}>
+            <FormItem>
+              <Text size='16px' weight={500}>
+                <FormattedMessage
+                  id='modals.sendxlm.firststep.fee'
+                  defaultMessage='Transaction Fee:'
+                />
+              </Text>
+              <Text>
+                <ComboDisplay size='13px' coin='XLM' weight={500}>
+                  {fee}
+                </ComboDisplay>
+              </Text>
+            </FormItem>
+          </FormGroup>
           {isFromCustody && !isMnemonicVerified ? (
             <MnemonicRequiredForCustodySend />
           ) : null}

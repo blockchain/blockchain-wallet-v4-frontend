@@ -1,12 +1,14 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption, SelectBoxCoin } from 'components/Form'
+import { actions } from 'data'
 import { SwapAccountType } from 'data/components/swap/types'
 
 import { Props as OwnProps } from '..'
@@ -34,10 +36,11 @@ const NoAccountsText = styled.div`
 class RequestCoinSelect extends React.PureComponent<Props> {
   render() {
     const {
-      accounts,
+      data,
       formActions,
       handleClose,
       requestableCoins,
+      setStep,
       supportedCoins,
       walletCurrency
     } = this.props
@@ -91,22 +94,26 @@ class RequestCoinSelect extends React.PureComponent<Props> {
             </SelectCoinWrapper>
           </div>
         </StickyHeaderFlyoutWrapper>
-        {accounts.map(account => (
+        {data.accounts.map(account => (
           <CoinAccountListOption
             account={account}
             coinModel={supportedCoins[account.coin]}
             onClick={() => {
-              formActions.change(REQUEST_FORM, 'selectedAccount', account)
-              formActions.change(
-                REQUEST_FORM,
-                'step',
-                RequestSteps.SHOW_ADDRESS
-              )
+              if (account.type === 'CUSTODIAL' && !data.isAtLeastTier1) {
+                setStep(RequestSteps.IDV_INTRO)
+              } else {
+                formActions.change(REQUEST_FORM, 'selectedAccount', account)
+                formActions.change(
+                  REQUEST_FORM,
+                  'step',
+                  RequestSteps.SHOW_ADDRESS
+                )
+              }
             }}
             walletCurrency={walletCurrency}
           />
         ))}
-        {accounts.length === 0 && (
+        {data.accounts.length === 0 && (
           <NoAccountsText>
             <Text
               size='16px'
@@ -127,14 +134,19 @@ class RequestCoinSelect extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  accounts: getData(state, ownProps)
+  data: getData(state, ownProps)
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = dispatch => ({
+  modalActions: bindActionCreators(actions.modals, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 type Props = ConnectedProps<typeof connector> &
   OwnProps & {
     handleAccountChange: (account: SwapAccountType) => void
     handleClose: () => void
+    setStep: (step: RequestSteps) => void
   }
 
 export default connector(RequestCoinSelect)

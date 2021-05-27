@@ -52,11 +52,12 @@ export default ({ coreSagas, networks }) => {
   // gets the next receive address for requested coin
   // account based currencies will just return the account address
   const getNextReceiveAddressForCoin = function * (
-    coin: CoinType
+    coin: CoinType,
+    index?: number
   ): Generator<string> {
     return yield coinSagas[
       coin in Erc20CoinsEnum ? 'ERC20' : coin
-    ]?.getNextReceiveAddress(coin, networks)
+    ]?.getNextReceiveAddress(coin, networks, index)
   }
 
   // gets or updates a provisional payment for a coin

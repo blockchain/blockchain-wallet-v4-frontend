@@ -30,6 +30,12 @@ class EnterAmount extends PureComponent<Props> {
     let paymentMethod: SBPaymentTypes | 'ALL' = 'ALL'
     if (this.props.defaultMethod) {
       paymentMethod = 'BANK_TRANSFER'
+      if (
+        this.props.defaultMethod.partner !== 'YODLEE' &&
+        this.props.defaultMethod.currency === 'USD'
+      ) {
+        paymentMethod = 'BANK_ACCOUNT'
+      }
     }
     // We need to make this call each time we load the enter amount component
     // because the bank wires and ach have different min/max/fees

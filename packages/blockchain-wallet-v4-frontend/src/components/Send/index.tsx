@@ -1,5 +1,4 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 import styled, { css } from 'styled-components'
 
@@ -10,6 +9,7 @@ import { FormGroup, FormLabel } from 'components/Form'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { media } from 'services/styles'
 
+import ExchangePromo from './ExchangePromo'
 import LockTime from './LockTime'
 
 export const Row = styled.div`
@@ -125,14 +125,6 @@ export const CustodyToAccountMessage = ({
         />
       )
     default:
-      return (
-        <CustomBlueCartridge>
-          <FormattedMessage
-            id='modals.send.firststep.fromcustody11'
-            defaultMessage='At this time, Blockchain.com only allows sending from your {coin} Trading Account to your {coin} Wallet.'
-            values={{ coin }}
-          />
-        </CustomBlueCartridge>
-      )
+      return <ExchangePromo />
   }
 }

@@ -229,11 +229,20 @@ export default ({
               payment = yield payment.from(payloadT.xpub, fromType)
               break
             case 'CUSTODIAL':
+              const response: ReturnType<typeof api.getWithdrawalFees> = yield call(
+                api.getWithdrawalFees,
+                'simplebuy',
+                'DEFAULT'
+              )
+              const fee =
+                response.fees.find(({ symbol }) => symbol === 'BCH')
+                  ?.minorValue || '0'
               payment = yield payment.from(
                 payloadT.label,
                 fromType,
-                payloadT.withdrawable
+                new BigNumber(payloadT.withdrawable).minus(fee).toString()
               )
+              payment = yield payment.fee(new BigNumber(fee).toNumber())
               yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
               yield put(change(FORM, 'to', null))
               break
@@ -269,12 +278,20 @@ export default ({
               payment = yield payment.to(value.xpub, toType)
               break
             // ensure 'r' exists, otherwise its just a BCH address in cash addr format
+            case includes('.', (address as unknown) as string):
+              yield put(
+                actions.components.send.fetchUnstoppableDomainResults(
+                  (address as unknown) as string,
+                  'BCH'
+                )
+              )
+              break
             case !isNil(tryParsePayPro()) &&
               hasPath(['options', 'r'], payProInvoice):
               yield call(bitPayInvoiceEntered, payProInvoice)
               break
             default:
-              payment = yield payment.to(address, toType)
+              payment = yield payment.to((address as unknown) as string, toType)
           }
           break
         case 'amount':

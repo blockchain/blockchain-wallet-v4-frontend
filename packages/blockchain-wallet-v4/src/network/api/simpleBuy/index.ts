@@ -409,7 +409,8 @@ export default ({
   const withdrawSBFunds = (
     address: string,
     currency: keyof CurrenciesType,
-    amount: string
+    amount: string,
+    fee?: number
   ) =>
     authorizedPost({
       url: nabuUrl,
@@ -421,7 +422,8 @@ export default ({
       data: {
         address,
         currency,
-        amount
+        amount,
+        fee
       }
     })
 

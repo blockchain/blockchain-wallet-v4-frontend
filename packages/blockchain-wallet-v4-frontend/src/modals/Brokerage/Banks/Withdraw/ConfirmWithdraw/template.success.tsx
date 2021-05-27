@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import { NabuMoneyFloatType } from 'blockchain-wallet-v4/src/types'
+import { NabuSymbolNumberType } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
@@ -178,7 +178,7 @@ const Success: React.FC<InjectedFormProps<
   )
 }
 
-export type Props = OwnProps & SuccessStateType & { fees: NabuMoneyFloatType }
+export type Props = OwnProps & SuccessStateType & { fees: NabuSymbolNumberType }
 
 export default reduxForm<WithdrawCheckoutFormValuesType, Props>({
   form: 'confirmCustodyWithdraw',

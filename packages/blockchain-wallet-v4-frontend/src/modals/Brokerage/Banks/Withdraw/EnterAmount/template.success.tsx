@@ -9,7 +9,7 @@ import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import {
   BeneficiaryType,
-  NabuMoneyFloatType
+  NabuSymbolNumberType
 } from 'blockchain-wallet-v4/src/types'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -287,7 +287,7 @@ const Success: React.FC<InjectedFormProps<
                 props.formActions.change(
                   'custodyWithdrawForm',
                   'amount',
-                  displayFiatToFiat({ value: props.withdrawableBalance })
+                  displayFiatToFiat({ value: maxAmount })
                 )
               }
             >
@@ -367,7 +367,7 @@ export type Props = OwnProps &
       userData: UserDataType,
       beneficiary?: BeneficiaryType | BankTransferAccountType
     ) => void
-    minAmount: NabuMoneyFloatType
+    minAmount: NabuSymbolNumberType
   }
 
 export default reduxForm<WithdrawCheckoutFormValuesType, Props>({

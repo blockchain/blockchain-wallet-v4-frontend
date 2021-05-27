@@ -24,7 +24,7 @@ class LockTimeContainer extends React.PureComponent<Props> {
         <LockTime
           {...rest}
           lockTime={moment
-            .duration(val.withdrawLockCheck.lockTime, 'seconds')
+            .duration(val.withdrawLockCheck?.lockTime, 'seconds')
             .days()}
         />
       ),
