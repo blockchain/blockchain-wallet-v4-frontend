@@ -200,7 +200,8 @@ export const getMaxMin = (
             }
           }
 
-          const maxFiat = !fundsChangedMax ? convertBaseToStandard('FIAT', max) : max
+          const maxFiat =
+            !fundsChangedMax && !limitMaxChanged ? convertBaseToStandard('FIAT', max) : max
           const maxCrypto = getQuote(quote.pair, quote.rate, 'FIAT', maxFiat)
 
           return { CRYPTO: maxCrypto, FIAT: maxFiat }
