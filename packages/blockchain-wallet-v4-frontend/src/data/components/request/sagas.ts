@@ -1,11 +1,4 @@
-import {
-  call,
-  CallEffect,
-  put,
-  PutEffect,
-  select,
-  SelectEffect
-} from 'redux-saga/effects'
+import { call, CallEffect, put, PutEffect, select, SelectEffect } from 'redux-saga/effects'
 
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
@@ -18,15 +11,7 @@ import * as A from './actions'
 import { RequestExtrasType } from './types'
 import { generateKey } from './utils'
 
-export default ({
-  api,
-  coreSagas,
-  networks
-}: {
-  api: APIType
-  coreSagas: any
-  networks: any
-}) => {
+export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
   // const logLocation = 'components/request/sagas'
   const { waitForUserData } = profileSagas({ api, coreSagas, networks })
   const { getNextReceiveAddressForCoin } = coinSagas({
@@ -34,7 +19,7 @@ export default ({
     networks
   })
 
-  const getNextAddress = function * (
+  const getNextAddress = function* (
     action: ReturnType<typeof A.getNextAddress>
   ): Generator<CallEffect | PutEffect | SelectEffect, void, any> {
     const key = generateKey(action.payload.account)
@@ -44,8 +29,8 @@ export default ({
     try {
       yield put(A.getNextAddressLoading(key))
       let address
-      let extras: RequestExtrasType = {}
-      const account = action.payload.account
+      const extras: RequestExtrasType = {}
+      const { account } = action.payload
 
       switch (account.type) {
         case 'ACCOUNT':
@@ -53,7 +38,7 @@ export default ({
           address = yield call(getNextReceiveAddressForCoin, coin, accountIndex)
           break
         case 'CUSTODIAL':
-          waitForUserData()
+          yield call(waitForUserData)
           const custodial: ReturnType<typeof api.getSBPaymentAccount> = yield call(
             api.getSBPaymentAccount,
             account.coin
@@ -63,6 +48,8 @@ export default ({
             extras.Memo = address.split(':')[1]
             address = address.split(':')[0]
           }
+          break
+        default:
       }
 
       yield put(A.getNextAddressSuccess(key, address, extras))
