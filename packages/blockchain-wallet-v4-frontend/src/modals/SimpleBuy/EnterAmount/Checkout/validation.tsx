@@ -134,8 +134,11 @@ export const getMaxMin = (
           let limitMaxAmount = Number(pair.buyMax)
           let limitMaxChanged = false
           if (limits?.maxOrder) {
-            const buyMaxItem = Number(convertBaseToStandard('FIAT', limitMaxAmount))
-            const baseMaxLimitAmount = Number(limits.maxOrder)
+            const buyMaxItem = Number(limitMaxAmount)
+            // 1000.00 => 100000 since all other amounts are in base we do convert this in base
+            const maxOrderBase = convertBaseToStandard('FIAT', limits.maxOrder, false)
+
+            const baseMaxLimitAmount = Number(maxOrderBase)
             if (baseMaxLimitAmount < buyMaxItem && !isSddFlow) {
               limitMaxAmount = baseMaxLimitAmount
               limitMaxChanged = true
@@ -156,8 +159,13 @@ export const getMaxMin = (
               : convertBaseToStandard('FIAT', pair.buyMax)
           }
 
-          if (Number(defaultMax.FIAT) > limitMaxAmount && limitMaxChanged) {
-            defaultMax.FIAT = String(limitMaxAmount)
+          // we have to convert in case that this ammount is from maxOrder
+          // we have to convert it to Standard since defaultMax is in standard format
+          const defaultMaxCompare = limitMaxChanged
+            ? Number(convertBaseToStandard('FIAT', limitMaxAmount))
+            : limitMaxAmount
+          if (Number(defaultMax.FIAT) > defaultMaxCompare && limitMaxChanged) {
+            defaultMax.FIAT = String(defaultMaxCompare)
           }
 
           if (!allValues) return defaultMax
@@ -202,10 +210,9 @@ export const getMaxMin = (
           let limitMinAmount = Number(pair.buyMin)
           let limitMinChanged = false
           if (limits?.minOrder) {
-            const buyMinItem = Number(convertBaseToStandard('FIAT', limitMinAmount))
-            const baseMinLimitAmount = Number(limits.minOrder)
-
-            if (baseMinLimitAmount > buyMinItem && !isSddFlow) {
+            const minOrderBase = convertBaseToStandard('FIAT', limits.minOrder, false)
+            const baseMinLimitAmount = Number(minOrderBase)
+            if (baseMinLimitAmount > limitMinAmount && !isSddFlow) {
               limitMinAmount = baseMinLimitAmount
               limitMinChanged = true
             }
@@ -225,8 +232,11 @@ export const getMaxMin = (
               : convertBaseToStandard('FIAT', pair.buyMin)
           }
 
-          if (Number(defaultMin.FIAT) < limitMinAmount && limitMinChanged) {
-            defaultMin.FIAT = String(limitMinAmount)
+          const defaultMinCompare = limitMinChanged
+            ? Number(convertBaseToStandard('FIAT', limitMinAmount))
+            : limitMinAmount
+          if (Number(defaultMin.FIAT) < defaultMinCompare && limitMinChanged) {
+            defaultMin.FIAT = String(defaultMinCompare)
           }
 
           if (!allValues) return defaultMin

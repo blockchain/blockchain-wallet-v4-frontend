@@ -62,11 +62,12 @@ class RemindGuid extends React.PureComponent<InjectedFormProps<{}, Props> & Prop
         action: 'GUID_REMINDER',
       })
         .then((captchaToken) => {
+          console.log('Captcha success')
           this.setState({ captchaToken })
           callback && callback(captchaToken)
         })
         .catch((e) => {
-          console.error('captcha error: ', e)
+          console.error('Captcha error: ', e)
         })
     })
     /* eslint-enable */
