@@ -129,15 +129,13 @@ export default ({
 
       const paymentAmount = generateProvisionalPaymentAmount(coin, amount)
       payment = yield payment.amount(paymentAmount)
-      if (payment.coin === 'BTC' || payment.coin === 'BCH') {
-        return (yield payment
-          .chain()
-          .to(quote.sampleDepositAddress, 'ADDRESS')
-          .build()
-          .done()).value()
-      }
-
-      return payment.value()
+      // TODO, add isMemoBased check
+      const sampleAddr = quote.sampleDepositAddress.split(':')[0]
+      return (yield payment
+        .chain()
+        .to(sampleAddr, 'ADDRESS')
+        .build()
+        .done()).value()
     } catch (e) {
       // eslint-disable-next-line
       console.log(e)
@@ -389,6 +387,7 @@ export default ({
         Number(swapAmountValues?.cryptoAmount)
       )
       payment = yield payment.amount(paymentAmount)
+      payment = yield payment.build()
       yield put(A.updatePaymentSuccess(payment.value()))
     } catch (error) {
       yield put(A.updatePaymentFailure(error))
