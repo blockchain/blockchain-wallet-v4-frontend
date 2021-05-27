@@ -135,6 +135,7 @@ export const getMaxMin = (
           let limitMaxChanged = false
           if (limits?.maxOrder) {
             const buyMaxItem = Number(limitMaxAmount)
+            // 1000.00 => 100000 since all other amounts are in base we do convert this in base
             const maxOrderBase = convertBaseToStandard('FIAT', limits.maxOrder, false)
 
             const baseMaxLimitAmount = Number(maxOrderBase)
@@ -158,6 +159,8 @@ export const getMaxMin = (
               : convertBaseToStandard('FIAT', pair.buyMax)
           }
 
+          // we have to convert in case that this ammount is from maxOrder
+          // we have to convert it to Standard since defaultMax is in standard format
           const defaultMaxCompare = limitMaxChanged
             ? Number(convertBaseToStandard('FIAT', limitMaxAmount))
             : limitMaxAmount
