@@ -121,18 +121,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case 'KYC_MODAL': {
-            const { tier } = action.payload.props
-
-            analytics.push(AnalyticsKey.SWAP_CLICKED, {
-              id,
-              nabuId,
-              originalTimestamp: getOriginalTimestamp(),
-              tier,
-              type: AnalyticsType.EVENT
-            })
-            break
-          }
           default: {
             break
           }
@@ -201,10 +189,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           input_currency: inputCurrency,
           max_card_limit: inputAMountMax,
           nabuId,
-
           originalTimestamp: getOriginalTimestamp(),
-
-          // output_amount: 123,
           output_currency: outputCurrency,
           platform: 'WALLET',
           type: AnalyticsType.EVENT
@@ -306,12 +291,177 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
+      case AT.components.swap.SET_STEP: {
+        const stepName = action.payload.step
+
+        switch (stepName) {
+          case 'ENTER_AMOUNT': {
+            const state = store.getState()
+            const inputCurrency = state.form.initSwap.values.BASE.coin
+            const inputType =
+              state.form.initSwap.values.BASE.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+            const outputCurrency = state.form.initSwap.values.COUNTER.coin
+            const outputType =
+              state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+
+            analytics.push(AnalyticsKey.SWAP_ACCOUNTS_SELECTED, {
+              id,
+              input_currency: inputCurrency,
+              input_type: inputType,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp(),
+              output_currency: outputCurrency,
+              output_type: outputType,
+              type: AnalyticsType.EVENT
+            })
+
+            break
+          }
+          case 'PREVIEW_SWAP': {
+            const state = store.getState()
+            const exchangeRate = state.components.swap.quote.getOrElse({})?.rate || 1
+            const inputAmount = Number(state.form.swapAmount.values.cryptoAmount)
+            const inputCurrency = state.form.initSwap.values.BASE.coin
+            const inputType =
+              state.form.initSwap.values.BASE.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+            const outputAmount = inputAmount * exchangeRate
+            const outputCurrency = state.form.initSwap.values.COUNTER.coin
+            const outputType =
+              state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+
+            analytics.push(AnalyticsKey.SWAP_AMOUNT_ENTERED, {
+              id,
+              input_amount: inputAmount,
+              input_currency: inputCurrency,
+              input_type: inputType,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp(),
+              output_amount: outputAmount,
+              output_currency: outputCurrency,
+              output_type: outputType,
+              type: AnalyticsType.EVENT
+            })
+
+            break
+          }
+          default: {
+            break
+          }
+        }
+        break
+      }
+      case AT.components.swap.HANDLE_SWAP_MAX_AMOUNT_CLICK: {
+        const state = store.getState()
+        const inputCurrency = state.form.initSwap.values.BASE.coin
+        const inputType =
+          state.form.initSwap.values.BASE.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+        const outputCurrency = state.form.initSwap.values.COUNTER.coin
+        const outputType =
+          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+
+        analytics.push(AnalyticsKey.SWAP_AMOUNT_MAX_CLICKED, {
+          id,
+          input_currency: inputCurrency,
+          input_type: inputType,
+          nabuId,
+          originalTimestamp: getOriginalTimestamp(),
+          output_currency: outputCurrency,
+          output_type: outputType,
+          type: AnalyticsType.EVENT
+        })
+
+        break
+      }
+      case AT.components.swap.HANDLE_SWAP_MIN_AMOUNT_CLICK: {
+        const state = store.getState()
+        const inputCurrency = state.form.initSwap.values.BASE.coin
+        const inputType =
+          state.form.initSwap.values.BASE.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+        const outputCurrency = state.form.initSwap.values.COUNTER.coin
+        const outputType =
+          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+
+        analytics.push(AnalyticsKey.SWAP_AMOUNT_MIN_CLICKED, {
+          id,
+          input_currency: inputCurrency,
+          input_type: inputType,
+          nabuId,
+          originalTimestamp: getOriginalTimestamp(),
+          output_currency: outputCurrency,
+          output_type: outputType,
+          type: AnalyticsType.EVENT
+        })
+        break
+      }
+      case AT.components.swap.CHANGE_BASE: {
+        const inputCurrency = action.payload.account.coin
+        const inputType = action.payload.account.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+
+        analytics.push(AnalyticsKey.SWAP_FROM_SELECTED, {
+          id,
+          input_currency: inputCurrency,
+          input_type: inputType,
+          nabuId,
+          originalTimestamp: getOriginalTimestamp(),
+
+          type: AnalyticsType.EVENT
+        })
+        break
+      }
+      case AT.components.swap.CHANGE_COUNTER: {
+        const inputCurrency = action.payload.account.coin
+        const inputType = action.payload.account.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+
+        analytics.push(AnalyticsKey.SWAP_RECEIVE_SELECTED, {
+          id,
+          input_currency: inputCurrency,
+          input_type: inputType,
+          nabuId,
+          originalTimestamp: getOriginalTimestamp(),
+
+          type: AnalyticsType.EVENT
+        })
+        break
+      }
+      case AT.components.swap.CREATE_ORDER: {
+        const state = store.getState()
+        const exchangeRate = state.components.swap.quote.getOrElse({})?.rate || 1
+        const inputAmount = Number(state.form.swapAmount.values.cryptoAmount)
+        const inputCurrency = state.form.initSwap.values.BASE.coin
+        const inputType =
+          state.form.initSwap.values.BASE.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+        const outputAmount = inputAmount * exchangeRate
+        const outputCurrency = state.form.initSwap.values.COUNTER.coin
+        const outputType =
+          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+
+        analytics.push(AnalyticsKey.SWAP_REQUESTED, {
+          exchange_rate: exchangeRate,
+          id,
+          input_amount: inputAmount,
+          input_currency: inputCurrency,
+          input_type: inputType,
+          nabuId,
+          network_fee_input_amount: 123, // TODO CHANGE
+          network_fee_input_currency: 'abc', // TODO CHANGE
+          network_fee_output_amount: 123, // TODO CHANGE
+          network_fee_output_currency: 'abc', // TODO CHANGE
+          originalTimestamp: getOriginalTimestamp(),
+          output_amount: outputAmount,
+          output_currency: outputCurrency,
+          output_type: outputType,
+          type: AnalyticsType.EVENT
+        })
+
+        break
+      }
+
       default: {
         break
       }
     }
   } catch (e) {
-    // nothing
+    // do nothing
   }
 
   return next(action)

@@ -13,14 +13,14 @@ enum AnalyticsKey {
   EMAIL_VERIFICATION_REQUESTED = 'Email Verification Requested',
   SIGNED_IN = 'Signed In',
   SIGNED_OUT = 'Signed Out',
-  // SWAP_ACCOUNTS_SELECTED = 'Swap Accounts Selected', // not implemented
-  // SWAP_AMOUNT_ENTERED = 'Swap Amount Entered', // not implemented
-  // SWAP_AMOUNT_MAX_CLICKED = 'Swap Amount Max Clicked', // not implemented
-  // SWAP_AMOUNT_MIN_CLICKED = 'Swap Amount Min Clicked', // not implemented
+  SWAP_ACCOUNTS_SELECTED = 'Swap Accounts Selected',
+  SWAP_AMOUNT_ENTERED = 'Swap Amount Entered',
+  SWAP_AMOUNT_MAX_CLICKED = 'Swap Amount Max Clicked',
+  SWAP_AMOUNT_MIN_CLICKED = 'Swap Amount Min Clicked',
   SWAP_CLICKED = 'Swap Clicked',
-  // SWAP_FROM_SELECTED = 'Swap From Selected', // not implemented
-  // SWAP_RECEIVE_SELECTED = 'Swap Receive Selected', // not implemented
-  // SWAP_REQUESTED = 'Swap Requested' // not implemented
+  SWAP_FROM_SELECTED = 'Swap From Selected',
+  SWAP_RECEIVE_SELECTED = 'Swap Receive Selected',
+  SWAP_REQUESTED = 'Swap Requested',
   SWAP_VIEWED = 'Swap Viewed',
   UPGRADE_VERIFICATION_CLICKED = 'Upgrade Verification Clicked'
 }
@@ -93,12 +93,6 @@ type CardRejectedPayload = BasePayload & {
   reason: string
 }
 
-type SwapClickedPayload = BasePayload & {
-  origin: 'CURRENCY_PAGE' | 'DASHBOARD_PROMO' | 'NAVIGATION'
-}
-
-type SwapViewedPayload = BasePayload & PageViewPayload & {}
-
 type DashboardClickedPayload = BasePayload & {
   origin: 'SIGN_IN'
 }
@@ -113,8 +107,68 @@ type SignedInPayload = BasePayload & {
   platform: 'WALLET'
 }
 
-type SignedUpPayload = BasePayload & {
+type SignedOutPayload = BasePayload & {
   platform: 'WALLET'
+}
+
+type SwapClickedPayload = BasePayload & {
+  origin: 'CURRENCY_PAGE' | 'DASHBOARD_PROMO' | 'NAVIGATION'
+}
+
+type SwapViewedPayload = BasePayload & PageViewPayload & {}
+
+type SwapAccountsSelectedPayload = BasePayload & {
+  input_currency: string
+  input_type: 'TRADING' | 'USERKEY'
+  output_currency: string
+  output_type: 'TRADING' | 'USERKEY'
+}
+
+type SwapAmountEnteredPayload = BasePayload & {
+  input_amount: number
+  input_currency: string
+  input_type: 'TRADING' | 'USERKEY'
+  output_amount: number
+  output_currency: string
+  output_type: 'TRADING' | 'USERKEY'
+}
+
+type SwapAmountMaxClickedPayload = BasePayload & {
+  input_currency: string
+  input_type: 'TRADING' | 'USERKEY'
+  output_currency: string
+  output_type: 'TRADING' | 'USERKEY'
+}
+
+type SwapAmountMinClickedPayload = BasePayload & {
+  input_currency: string
+  input_type: 'TRADING' | 'USERKEY'
+  output_currency: string
+  output_type: 'TRADING' | 'USERKEY'
+}
+
+type SwapFromSelectedPayload = BasePayload & {
+  input_currency: string
+  input_type: 'TRADING' | 'USERKEY'
+}
+
+type SwapReceiveSelectedPayload = BasePayload & {
+  input_currency: string
+  input_type: 'TRADING' | 'USERKEY'
+}
+
+type SwapRequested = BasePayload & {
+  exchange_rate: number
+  input_amount: number
+  input_currency: string
+  input_type: string
+  network_fee_input_amount: number
+  network_fee_input_currency: string
+  network_fee_output_amount: number
+  network_fee_output_currency: string
+  output_amount: number
+  output_currency: string
+  output_type: string
 }
 
 type UpgradeVerificationClickedPayload = BasePayload & {
@@ -139,13 +193,20 @@ type AnalyticsPayload =
   | BuySellClickedPayload
   | BuySellViewedPayload
   | CardRejectedPayload
-  | SwapClickedPayload
-  | SwapViewedPayload
   | DashboardClickedPayload
   | DashboardViewedPayload
   | EmailVerificationClicked
   | SignedInPayload
-  | SignedUpPayload
+  | SignedOutPayload
+  | SwapClickedPayload
+  | SwapViewedPayload
+  | SwapAccountsSelectedPayload
+  | SwapAmountEnteredPayload
+  | SwapAmountMaxClickedPayload
+  | SwapAmountMinClickedPayload
+  | SwapFromSelectedPayload
+  | SwapReceiveSelectedPayload
+  | SwapRequested
   | UpgradeVerificationClickedPayload
 
 type PageNamesType = '/home'
