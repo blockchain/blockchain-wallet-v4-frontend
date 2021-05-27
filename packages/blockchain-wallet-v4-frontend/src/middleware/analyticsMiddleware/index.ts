@@ -2,6 +2,7 @@ import analytics from 'middleware/analyticsMiddleware/analytics'
 import type { PageNamesType } from 'middleware/analyticsMiddleware/types'
 import { AnalyticsKey, AnalyticsType } from 'middleware/analyticsMiddleware/types'
 import {
+  getNetworkFee,
   getOriginalTimestamp,
   simpleBuyOriginDictionary,
   simpleBuyPaymentTypeDictionary
@@ -9,6 +10,7 @@ import {
 
 import { getCardTypeByValue } from 'components/Form/CreditCardBox/model'
 import { actionTypes as AT } from 'data'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ModalNamesType } from 'data/types'
 
 const analyticsMiddleware = () => (store) => (next) => (action) => {
@@ -434,6 +436,19 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const outputCurrency = state.form.initSwap.values.COUNTER.coin
         const outputType =
           state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+        const networkFeeInputAmount =
+          state.form.initSwap.values.BASE.type === 'CUSTODIAL'
+            ? 0
+            : Number(
+                convertBaseToStandard(
+                  state.form.initSwap.values.BASE.coin,
+                  getNetworkFee(state.components.swap.payment.getOrElse(undefined))
+                )
+              )
+        const networkFeeOutputAmount =
+          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL'
+            ? 0
+            : state.components.swap.quote.getOrElse({})?.quote.networkFee || 0
 
         analytics.push(AnalyticsKey.SWAP_REQUESTED, {
           exchange_rate: exchangeRate,
@@ -442,10 +457,10 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           input_currency: inputCurrency,
           input_type: inputType,
           nabuId,
-          network_fee_input_amount: 123, // TODO CHANGE
-          network_fee_input_currency: 'abc', // TODO CHANGE
-          network_fee_output_amount: 123, // TODO CHANGE
-          network_fee_output_currency: 'abc', // TODO CHANGE
+          network_fee_input_amount: networkFeeInputAmount,
+          network_fee_input_currency: inputCurrency,
+          network_fee_output_amount: networkFeeOutputAmount,
+          network_fee_output_currency: outputCurrency,
           originalTimestamp: getOriginalTimestamp(),
           output_amount: outputAmount,
           output_currency: outputCurrency,

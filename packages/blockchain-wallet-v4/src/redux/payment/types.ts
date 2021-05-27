@@ -80,10 +80,7 @@ type IPaymentType = {
   ) => PaymentType
   publish: () => PaymentType
   sign: (pw: string) => PaymentType
-  to: (
-    addressOrIndex: string | number,
-    addressType?: AddressTypesType
-  ) => PaymentType
+  to: (addressOrIndex: string | number, addressType?: AddressTypesType) => PaymentType
 }
 
 export type BchPaymentType = IPaymentType & {
@@ -134,11 +131,7 @@ export type XlmPaymentType = IPaymentType & {
   value: () => XlmPaymentValue
 }
 
-export type PaymentType =
-  | BchPaymentType
-  | BtcPaymentType
-  | EthPaymentType
-  | XlmPaymentType
+export type PaymentType = BchPaymentType | BtcPaymentType | EthPaymentType | XlmPaymentType
 
 export type PaymentValue = BtcPaymentValue | EthPaymentValue | XlmPaymentValue
 

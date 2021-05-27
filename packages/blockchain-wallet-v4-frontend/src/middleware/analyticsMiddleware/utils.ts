@@ -1,6 +1,6 @@
 import * as crypto from 'crypto'
 
-import { SBPaymentTypes } from 'core/types'
+import { PaymentValue, SBPaymentTypes } from 'core/types'
 import { SBShowModalOriginType } from 'data/types'
 
 const simpleBuyOriginDictionary = (rawOrigin: SBShowModalOriginType) => {
@@ -45,8 +45,17 @@ const generateUniqueUserId = (guid: string) => {
   return sha256(guid).toString('base64')
 }
 
+const getNetworkFee = (value: PaymentValue | undefined) => {
+  return value
+    ? value.coin === 'BTC' || value.coin === 'BCH'
+      ? value.selection?.fee
+      : value.fee
+    : 0
+}
+
 export {
   generateUniqueUserId,
+  getNetworkFee,
   getOriginalTimestamp,
   simpleBuyOriginDictionary,
   simpleBuyPaymentTypeDictionary
