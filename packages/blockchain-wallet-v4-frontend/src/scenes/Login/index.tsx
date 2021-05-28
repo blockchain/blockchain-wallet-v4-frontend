@@ -5,8 +5,8 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
 
-import { Link, Text } from 'blockchain-info-components'
-import { RemoteDataType, SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
+import { Icon, Link, Text } from 'blockchain-info-components'
+import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
@@ -18,7 +18,7 @@ import CheckEmail from './CheckEmail'
 // step templates
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
-import { LOGIN_FORM_NAME, SignUpText, SubCard } from './model'
+import { LOGIN_FORM_NAME, PhishingWarning, SignUpText, SubCard } from './model'
 import VerificationMobile from './VerificationMobile'
 
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
@@ -119,14 +119,14 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     }
     return (
       <>
-        <Text color='white' size='24px' weight={600} style={{ marginBottom: '30px' }}>
+        <Text color='white' size='24px' weight={600}>
           {step === LoginSteps.ENTER_PASSWORD ? (
             <FormattedMessage id='scenes.login.authorize' defaultMessage='Authorize login' />
           ) : (
             <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back!' />
           )}
         </Text>
-        <Text color='grey400' weight={500} style={{ marginBottom: '24px' }}>
+        <Text color='grey400' weight={500} style={{ margin: '24px 0 16px 0' }}>
           {step === LoginSteps.VERIFICATION_MOBILE && (
             <FormattedMessage id='scenes.login.approve' defaultMessage='Approve your login' />
           )}
@@ -138,6 +138,23 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             />
           )}
         </Text>
+        {step === LoginSteps.ENTER_EMAIL_GUID && (
+          <>
+            <Text color='grey400' weight={500} style={{ marginBottom: '8px' }}>
+              <FormattedMessage
+                id='scenes.login.phishingwarning'
+                defaultMessage='Please check that you are visiting the correct URL'
+              />
+            </Text>
+            <PhishingWarning>
+              <Icon name='padlock' color='grey400' size='16px' />
+              <Text color='grey400' weight={500} style={{ paddingLeft: '8px' }}>
+                https://login.blockchain.com
+              </Text>
+            </PhishingWarning>
+          </>
+        )}
+
         <Wrapper>
           <Form onSubmit={this.handleSubmit}>
             {(() => {

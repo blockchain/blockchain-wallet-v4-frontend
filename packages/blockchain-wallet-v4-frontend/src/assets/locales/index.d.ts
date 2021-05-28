@@ -2070,6 +2070,7 @@ type MessagesType = {
   'scenes.login.version': 'Version {version}'
   'scenes.login.need.help': 'Need help?'
   'scenes.login.password': 'Password'
+  'scenes.login.phishingwarning': 'Please check that you are visiting the correct URL'
   'scenes.login.recover_account': 'Recover account'
   'scenes.login.resendsms': 'Resend SMS'
   'scenes.login.sendguid': 'Request Wallet ID'

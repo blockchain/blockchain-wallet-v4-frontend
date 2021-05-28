@@ -106,6 +106,16 @@ export const Loader = styled(SpinningLoader)`
   width: 75px;
   margin: 75px;
 `
+export const PhishingWarning = styled.div`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background-color: ${(props) => props.theme.whiteFade100};
+  padding: 12px 32px;
+  margin-bottom: 16px;
+`
 
 export const BackArrowFormHeader = (props: {
   authActions
