@@ -7,7 +7,6 @@ enum AnalyticsKey {
   BUY_PAYMENT_METHOD_SELECTED = 'Buy Payment Method Selected',
   BUY_SELL_CLICKED = 'Buy Sell Clicked',
   BUY_SELL_VIEWED = 'Buy Sell Viewed',
-  CARD_REJECTED = 'Card Rejected',
   DASHBOARD_CLICKED = 'Dashboard Clicked',
   DASHBOARD_VIEWED = 'Dashboard Viewed',
   EMAIL_VERIFICATION_REQUESTED = 'Email Verification Requested',
@@ -85,13 +84,6 @@ type BuySellViewedPayload = BasePayload &
   PageViewPayload & {
     // type: "BUY" | "SELL"
   }
-
-type CardRejectedPayload = BasePayload & {
-  card_type: string
-  country_billing: string
-  product: 'SIMPLE_BUY' | 'SIMPLE_TRADE' | 'SWAP'
-  reason: string
-}
 
 type DashboardClickedPayload = BasePayload & {
   origin: 'SIGN_IN'
@@ -192,7 +184,6 @@ type AnalyticsPayload =
   | BuyPaymentMethodSelectedPayload
   | BuySellClickedPayload
   | BuySellViewedPayload
-  | CardRejectedPayload
   | DashboardClickedPayload
   | DashboardViewedPayload
   | EmailVerificationClicked
@@ -211,7 +202,6 @@ type AnalyticsPayload =
 
 type PageNamesType = '/home'
 // | '/interest'
-// | '/borrow'
 // | '/settings/general'
 // | '/settings/preferences'
 // | '/settings/addresses'

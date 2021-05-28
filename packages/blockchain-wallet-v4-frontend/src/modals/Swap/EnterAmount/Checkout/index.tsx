@@ -104,7 +104,6 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     coins,
     // @ts-ignore
     fix,
-    formActions,
     formErrors,
     formValues,
     limits,

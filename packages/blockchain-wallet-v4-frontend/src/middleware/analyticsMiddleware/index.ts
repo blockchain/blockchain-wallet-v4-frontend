@@ -8,7 +8,6 @@ import {
   simpleBuyPaymentTypeDictionary
 } from 'middleware/analyticsMiddleware/utils'
 
-import { getCardTypeByValue } from 'components/Form/CreditCardBox/model'
 import { actionTypes as AT } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ModalNamesType } from 'data/types'
@@ -245,25 +244,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case AT.components.simpleBuy.ADD_CARD_DETAILS_FAILURE: {
-        const state = store.getState()
-        const cardType =
-          getCardTypeByValue(state.form.addCCForm.values['card-number'])?.type || 'NOT_KNOWN'
-        const countryBilling = state.form.addCCForm.values.billingAddress.country
-        const reason = state.form.addCCForm.error
-
-        analytics.push(AnalyticsKey.CARD_REJECTED, {
-          card_type: cardType,
-          country_billing: countryBilling,
-          id,
-          nabuId,
-          originalTimestamp: getOriginalTimestamp(),
-          product: 'SIMPLE_BUY',
-          reason,
-          type: AnalyticsType.EVENT
-        })
-        break
-      }
       case AT.auth.VERIFY_EMAIL_TOKEN_SUCCESS: {
         analytics.push(AnalyticsKey.EMAIL_VERIFICATION_REQUESTED, {
           id,
@@ -405,7 +385,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           input_type: inputType,
           nabuId,
           originalTimestamp: getOriginalTimestamp(),
-
           type: AnalyticsType.EVENT
         })
         break
@@ -420,7 +399,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           input_type: inputType,
           nabuId,
           originalTimestamp: getOriginalTimestamp(),
-
           type: AnalyticsType.EVENT
         })
         break

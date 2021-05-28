@@ -30,7 +30,7 @@ const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
       const { id, nabuId, originalTimestamp, type, ...properties } = event.payload
 
       return {
-        id: id ? generateUniqueUserId(id) : generateUniqueUserId(randomId),
+        id: generateUniqueUserId(id || randomId),
         nabuId,
         name,
         originalTimestamp,
@@ -43,7 +43,7 @@ const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
       body: JSON.stringify({
         context,
         events,
-        id: id ? generateUniqueUserId(id) : generateUniqueUserId(randomId)
+        id: generateUniqueUserId(id || randomId)
       }),
       credentials: 'include',
       headers: {
