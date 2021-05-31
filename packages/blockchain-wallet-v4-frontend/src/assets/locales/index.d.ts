@@ -1181,6 +1181,26 @@ type MessagesType = {
   'modals.recoveryphrase.success': 'Success!'
   'modals.recoveryphrase.success.body': 'Your Wallet is now backed up.'
   'modals.recoveryphrase.success.close': 'Close'
+
+  'modals.recurringbuys.notification.title': 'Recurring buys'
+  'modals.recurringbuys.notification.button': 'Setup recurring buy'
+
+  'modals.recurringbuys.notification.page_1.title': 'Instead of timing the market, many smart investors use'
+  'modals.recurringbuys.notification.page_1.description': 'Dollar cost averaging'
+
+  'modals.recurringbuys.notification.page_2.title': 'The strategy is pretty simple'
+  'modals.recurringbuys.notification.page_2.description': 'Invest the same amount every week'
+
+  'modals.recurringbuys.notification.page_3.title': 'When the price goes down,'
+  'modals.recurringbuys.notification.page_3.description': 'You’ll buy more crypto.'
+
+  'modals.recurringbuys.notification.page_4.title': 'When the price goes up,'
+  'modals.recurringbuys.notification.page_4.description': 'You’ll buy less.'
+
+  'modals.recurringbuys.notification.page_5.title': 'But does it work?'
+  'modals.recurringbuys.notification.page_5.description': 'Over the past 5 years, buying Bitcoin every week performed better than timing the market'
+  'modals.recurringbuys.notification.page_5.disclaimer': '82% of the time.'
+
   'modals.repayloan.chooseamttorepay': 'Choose how much you want to repay'
   'modals.repayloan.choosewaytopay': 'How do you want to repay?'
   'modals.repayloan.repayamount': 'Repay amount'

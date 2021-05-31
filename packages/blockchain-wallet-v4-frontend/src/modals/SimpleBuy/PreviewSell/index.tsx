@@ -577,6 +577,17 @@ class PreviewSell extends PureComponent<
                 >
                   <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
                 </Button>
+                <Text
+                  size='12px'
+                  weight={500}
+                  color='grey600'
+                  style={{ marginTop: '16px', textAlign: 'center' }}
+                >
+                  <FormattedMessage
+                    id='copy.swap_amount_change_disclaimer'
+                    defaultMessage='The amounts you send and receive may change slightly due to market activity. Once an order starts, we are unable to stop it.'
+                  />
+                </Text>
                 {this.props.error && (
                   <ErrorCartridge style={{ marginTop: '16px' }} data-e2e='checkoutError'>
                     <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
