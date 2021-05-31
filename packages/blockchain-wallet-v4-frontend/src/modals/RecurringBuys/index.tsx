@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
-// import { ExtractSuccess, SwapOrderType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -10,6 +9,7 @@ import { ModalNamesEnum, RecurringBuysStepType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
+import Notifications from './Notifications'
 
 class RecurringBuys extends PureComponent<Props, State> {
   constructor(props: Props) {
@@ -33,12 +33,11 @@ class RecurringBuys extends PureComponent<Props, State> {
   render() {
     return (
       <Flyout {...this.props} isOpen={this.state.show} onClose={this.handleClose}>
-        {this.props.step === RecurringBuysStepType.INIT_PAGE && <FlyoutChild>step 1</FlyoutChild>}
-        {/* {this.props.step === 'COIN_SELECTION' && (
+        {this.props.step === RecurringBuysStepType.INIT_PAGE && (
           <FlyoutChild>
-            <CoinSelection {...this.props} handleClose={this.handleClose} {...val} />
+            <Notifications handleClose={this.handleClose} {...this.props} />
           </FlyoutChild>
-        )} */}
+        )}
       </Flyout>
     )
   }
@@ -59,7 +58,6 @@ const enhance = compose(
   connector
 )
 
-// export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type Props = ModalPropsType & ConnectedProps<typeof connector>
 type State = { show: boolean }
 

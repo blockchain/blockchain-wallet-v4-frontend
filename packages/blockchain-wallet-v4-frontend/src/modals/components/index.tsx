@@ -407,6 +407,17 @@ const Hr = () => {
     </div>
   )
 }
+
+const TopText = styled(Text)<{
+  marginBottom?: boolean
+  spaceBetween: boolean
+}>`
+  display: flex;
+  align-items: center;
+  justify-content: ${(props) => (props.spaceBetween ? 'space-between' : 'initial')};
+  margin-bottom: ${(props) => (props.marginBottom ? '16px' : '0px')};
+`
+
 export {
   BankSearchIcon,
   BankSearchInput,
@@ -425,5 +436,6 @@ export {
   NavText,
   ScanWithPhone,
   Section,
-  SimpleBankRow
+  SimpleBankRow,
+  TopText
 }

@@ -10,7 +10,7 @@ import {
   BlueCartridge,
   ErrorCartridge,
   OrangeCartridge,
-  SuccessCartridge,
+  SuccessCartridge
 } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { model } from 'data'
@@ -270,8 +270,8 @@ const Template: React.FC<Props> = (props) => {
                   amount: fiatToString({
                     digits: 0,
                     unit: (silverTier.limits.currency || 'USD') as WalletFiatType,
-                    value: silverTier.limits.annual,
-                  }),
+                    value: silverTier.limits.annual
+                  })
                 }}
               />
             </ItemSubtitle>
@@ -315,8 +315,8 @@ const Template: React.FC<Props> = (props) => {
                   amount: fiatToString({
                     digits: 0,
                     unit: (goldTier.limits.currency || 'USD') as WalletFiatType,
-                    value: goldTier.limits.daily,
-                  }),
+                    value: goldTier.limits.daily
+                  })
                 }}
               />
             </ItemSubtitle>

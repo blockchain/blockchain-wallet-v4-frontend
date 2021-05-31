@@ -4,19 +4,10 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 
-import {
-  Button,
-  HeartbeatLoader,
-  Icon,
-  SkeletonRectangle,
-  Text
-} from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, SkeletonRectangle, Text } from 'blockchain-info-components'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import {
-  coinToString,
-  formatFiat
-} from 'blockchain-wallet-v4/src/exchange/currency'
+import { coinToString, formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   CoinType,
   Erc20CoinsEnum,
@@ -39,9 +30,7 @@ import { Border, FreeCartridge, TopText } from '../../Swap/components'
 import Loading from '../template.loading'
 
 class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
-  state = {}
-
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault()
     this.props.simpleBuyActions.createSBOrder()
   }
@@ -56,10 +45,10 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 
   displayAmount = (formValues, coins, account) => {
     return coinToString({
-      value: formValues?.cryptoAmount,
       unit: {
         symbol: coins[account.coin].coinTicker
-      }
+      },
+      value: formValues?.cryptoAmount
     })
   }
 
@@ -80,9 +69,9 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   render() {
     return this.props.quoteR.cata({
       Failure: () => null,
-      NotAsked: () => null,
       Loading: () => <Loading />,
-      Success: val => {
+      NotAsked: () => null,
+      Success: (val) => {
         const { account, coins, formValues } = this.props
         if (!formValues) return null
         if (!account) return null
@@ -103,21 +92,16 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   color='grey600'
                   onClick={() => {
                     this.props.simpleBuyActions.setStep({
-                      step: 'ENTER_AMOUNT',
-                      pair: this.props.pair,
                       cryptoCurrency: BASE,
                       fiatCurrency: getFiatFromPair(this.props.pair.pair),
                       orderType: this.props.orderType,
+                      pair: this.props.pair,
+                      step: 'ENTER_AMOUNT',
                       swapAccount: this.props.account
                     })
                   }}
                 />{' '}
-                <Text
-                  size='20px'
-                  color='grey900'
-                  weight={600}
-                  style={{ marginLeft: '24px' }}
-                >
+                <Text size='20px' color='grey900' weight={600} style={{ marginLeft: '24px' }}>
                   <FormattedMessage
                     id='modals.simplebuy.checkoutconfirm'
                     defaultMessage='Checkout'
@@ -144,15 +128,6 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               </Title>
               <Value data-e2e='sbExchangeRate'>
                 {this.props.quoteR.cata({
-                  Success: val => (
-                    <>
-                      {
-                        Currencies[counterCoinTicker].units[counterCoinTicker]
-                          .symbol
-                      }
-                      {formatFiat(convertBaseToStandard('FIAT', val.rate))}
-                    </>
-                  ),
                   Failure: () => (
                     <Text size='14px' color='red600'>
                       <FormattedMessage
@@ -161,11 +136,13 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       />
                     </Text>
                   ),
-                  Loading: () => (
-                    <SkeletonRectangle height='18px' width='70px' />
-                  ),
-                  NotAsked: () => (
-                    <SkeletonRectangle height='18px' width='70px' />
+                  Loading: () => <SkeletonRectangle height='18px' width='70px' />,
+                  NotAsked: () => <SkeletonRectangle height='18px' width='70px' />,
+                  Success: (val) => (
+                    <>
+                      {Currencies[counterCoinTicker].units[counterCoinTicker].symbol}
+                      {formatFiat(convertBaseToStandard('FIAT', val.rate))}
+                    </>
                   )
                 })}
               </Value>
@@ -180,16 +157,11 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               <Title color='grey600'>
                 <FormattedMessage id='copy.to' defaultMessage='To' />
               </Title>
-              <Value data-e2e='sbIncomingAccount'>
-                {counterCoinTicker} Wallet
-              </Value>
+              <Value data-e2e='sbIncomingAccount'>{counterCoinTicker} Wallet</Value>
             </Row>
             <Row>
               <Title color='grey600'>
-                <FormattedMessage
-                  id='copy.network_fee'
-                  defaultMessage='Network Fee'
-                />
+                <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
               </Title>
               <Value data-e2e='sbTransactionFee'>
                 {account.type === 'CUSTODIAL' ? (
@@ -197,23 +169,20 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     <>0 {account.baseCoin}</>
                     <div>
                       <FreeCartridge>
-                        <FormattedMessage
-                          id='copy.free'
-                          defaultMessage='FREE'
-                        />
+                        <FormattedMessage id='copy.free' defaultMessage='FREE' />
                       </FreeCartridge>
                     </div>
                   </>
                 ) : (
                   <>
                     {coinToString({
+                      unit: {
+                        symbol: coins[account.baseCoin].coinTicker
+                      },
                       value: convertBaseToStandard(
                         account.baseCoin,
                         this.networkFee(this.props.payment)
-                      ),
-                      unit: {
-                        symbol: coins[account.baseCoin].coinTicker
-                      }
+                      )
                     })}
                   </>
                 )}
@@ -225,17 +194,6 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               </Title>
               <Value data-e2e='sbIncomingAmount'>
                 {this.props.incomingAmountR.cata({
-                  Success: val => {
-                    return (
-                      <>
-                        {
-                          Currencies[counterCoinTicker].units[counterCoinTicker]
-                            .symbol
-                        }
-                        {formatFiat(Number(val.amt) + Number(feeInFiat))}
-                      </>
-                    )
-                  },
                   Failure: () => (
                     <Text size='14px' color='red600'>
                       <FormattedMessage
@@ -244,12 +202,16 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       />
                     </Text>
                   ),
-                  Loading: () => (
-                    <SkeletonRectangle height='18px' width='70px' />
-                  ),
-                  NotAsked: () => (
-                    <SkeletonRectangle height='18px' width='70px' />
-                  )
+                  Loading: () => <SkeletonRectangle height='18px' width='70px' />,
+                  NotAsked: () => <SkeletonRectangle height='18px' width='70px' />,
+                  Success: (val) => {
+                    return (
+                      <>
+                        {Currencies[counterCoinTicker].units[counterCoinTicker].symbol}
+                        {formatFiat(Number(val.amt) + Number(feeInFiat))}
+                      </>
+                    )
+                  }
                 })}{' '}
               </Value>
             </Row>
@@ -272,11 +234,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         id='buttons.sell_coin'
                         defaultMessage='Sell {displayName}'
                         values={{
-                          displayName: this.displayAmount(
-                            formValues,
-                            coins,
-                            account
-                          )
+                          displayName: this.displayAmount(formValues, coins, account)
                         }}
                       />
                     </Text>
@@ -293,25 +251,22 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   style={{ marginTop: '16px' }}
                   onClick={() => {
                     this.props.simpleBuyActions.setStep({
-                      step: 'ENTER_AMOUNT',
-                      pair: this.props.pair,
                       cryptoCurrency: BASE,
                       fiatCurrency: getFiatFromPair(this.props.pair.pair),
                       orderType: this.props.orderType,
+                      pair: this.props.pair,
+                      step: 'ENTER_AMOUNT',
                       swapAccount: this.props.account
                     })
                   }}
                 >
-                  <FormattedMessage
-                    id='buttons.cancel'
-                    defaultMessage='Cancel'
-                  />
+                  <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
                 </Button>
                 <Text
                   size='12px'
                   weight={500}
                   color='grey600'
-                  style={{ textAlign: 'center', marginTop: '16px' }}
+                  style={{ marginTop: '16px', textAlign: 'center' }}
                 >
                   <FormattedMessage
                     id='copy.swap_amount_change_disclaimer'
@@ -319,15 +274,8 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   />
                 </Text>
                 {this.props.error && (
-                  <ErrorCartridge
-                    style={{ marginTop: '16px' }}
-                    data-e2e='checkoutError'
-                  >
-                    <Icon
-                      name='alert-filled'
-                      color='red600'
-                      style={{ marginRight: '4px' }}
-                    />
+                  <ErrorCartridge style={{ marginTop: '16px' }} data-e2e='checkoutError'>
+                    <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
                     Error: {this.props.error}
                   </ErrorCartridge>
                 )}
@@ -341,12 +289,8 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 }
 
 const mapStateToProps = (state: RootState) => {
-  const coin = selectors.components.simpleBuy.getCryptoCurrency(
-    state
-  ) as CoinType
-  const payment = selectors.components.simpleBuy
-    .getPayment(state)
-    .getOrElse(undefined)
+  const coin = selectors.components.simpleBuy.getCryptoCurrency(state) as CoinType
+  const payment = selectors.components.simpleBuy.getPayment(state).getOrElse(undefined)
 
   return {
     account: selectors.components.simpleBuy.getSwapAccount(state),
@@ -357,16 +301,12 @@ const mapStateToProps = (state: RootState) => {
     formValues: selectors.form.getFormValues('simpleBuyCheckout')(
       state
     ) as SBCheckoutFormValuesType,
+    incomingAmountR: selectors.components.simpleBuy.getIncomingAmount(state),
     pair: selectors.components.simpleBuy.getSBPair(state),
     payment,
-    incomingAmountR: selectors.components.simpleBuy.getIncomingAmount(state),
     quoteR: selectors.components.simpleBuy.getSellQuote(state),
-    rates: selectors.core.data.misc
-      .getRatesSelector(coin, state)
-      .getOrElse({} as RatesType),
-    ratesEth: selectors.core.data.misc
-      .getRatesSelector('ETH', state)
-      .getOrElse({} as RatesType)
+    rates: selectors.core.data.misc.getRatesSelector(coin, state).getOrElse({} as RatesType),
+    ratesEth: selectors.core.data.misc.getRatesSelector('ETH', state).getOrElse({} as RatesType)
   }
 }
 
@@ -377,7 +317,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
-  reduxForm<{}, Props>({ form: 'previewSell', destroyOnUnmount: false }),
+  reduxForm<{}, Props>({ destroyOnUnmount: false, form: 'previewSell' }),
   connector
 )
 
