@@ -58,11 +58,11 @@ const Arrow = styled(Icon).attrs({
   transform: ${(props) => (props.left ? 'rotate(90deg)' : 'rotate(-90deg)')};
   cursor: pointer;
   z-index: 1;
-  color: ${(props) => props.theme.grey800};
+  color: ${(props) => props.theme.grey400};
   font-size: 34px;
 
   &:hover {
-    color: ${(props) => props.theme.blue600};
+    color: ${(props) => props.theme.grey600};
   }
 `
 const FooterWrapper = styled.div`
@@ -96,17 +96,13 @@ const AnimatedCarousel = (props: Props) => {
       </Content>
       <FooterWrapper>
         <Actions>
-          <ArrowWrapper>
-            <Arrow left onClick={handlePrevious} />
-          </ArrowWrapper>
+          <ArrowWrapper>{index > 0 && <Arrow left onClick={handlePrevious} />}</ArrowWrapper>
           <Controls>
             {[...Array(total + 1).keys()].map((value) => (
               <Control key={value} onClick={() => handleClick(value)} active={index === value} />
             ))}
           </Controls>
-          <ArrowWrapper>
-            <Arrow onClick={handleNext} />
-          </ArrowWrapper>
+          <ArrowWrapper>{index < total && <Arrow onClick={handleNext} />}</ArrowWrapper>
         </Actions>
       </FooterWrapper>
     </Wrapper>
