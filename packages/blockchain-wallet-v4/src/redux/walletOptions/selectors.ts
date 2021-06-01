@@ -1,22 +1,15 @@
-import {
-  curry,
-  filter,
-  keys,
-  lensProp,
-  map,
-  mapObjIndexed,
-  path,
-  prop,
-  propOr,
-  set,
-  toUpper
-} from 'ramda'
+import { curry, filter, keys, lift, map, path, prop, toUpper } from 'ramda'
 
-import { CoinType, RemoteDataType } from 'core/types'
+import {
+  AccountTokensBalancesResponseType,
+  CoinType,
+  ExtractSuccess,
+  RemoteDataType
+} from 'core/types'
 import { RootState } from 'data/rootReducer'
 
 import { createDeepEqualSelector } from '../../utils'
-import { getInvitations } from '../settings/selectors'
+import { getErc20AccountTokenBalances } from '../data/eth/selectors.js'
 import {
   SupportedCoinType,
   SupportedWalletCurrenciesType,
@@ -41,19 +34,45 @@ export const getAnnouncements = (state) =>
   getWebOptions(state).map(path(['application', 'announcements']))
 
 // coins
-// @ts-ignore
 export const getSupportedCoins = createDeepEqualSelector(
-  [getInvitations, getWebOptions],
-  (invitationsR, webOptionsR) => {
-    const addInvited = (obj, coin) => {
-      // @ts-ignore
-      const invited = invitationsR.map(propOr(true, coin)).getOrElse(false)
-      return set(lensProp('invited'), invited, obj)
+  [getWebOptions, getErc20AccountTokenBalances],
+  (webOptionsR, erc20CoinsR) => {
+    const newSupportedCoinAccount = (symbol: string) => {
+      const { coinfig } = window.coins[symbol]
+
+      return {
+        availability: {
+          exchangeFrom: true,
+          exchangeTo: true,
+          request: true,
+          send: true
+        },
+        coinCode: coinfig.symbol,
+        coinTicker: coinfig.symbol,
+        coinfig,
+        minConfirmations: 3,
+        txListAppRoute: `/${coinfig.symbol}/transactions`
+      }
     }
-    // @ts-ignore
-    return webOptionsR.map(prop('coins')).map(mapObjIndexed(addInvited))
+
+    const transform = (
+      webOptions: ExtractSuccess<typeof webOptionsR>,
+      erc20Coins: AccountTokensBalancesResponseType['tokenAccounts']
+    ) => {
+      return {
+        ...webOptions.coins,
+        ...erc20Coins.reduce((previousValue, currentValue) => {
+          return {
+            ...previousValue,
+            [currentValue.symbol!]: newSupportedCoinAccount(currentValue.symbol!)
+          }
+        }, {})
+      }
+    }
+    return lift(transform)(webOptionsR, erc20CoinsR)
   }
 ) as (state: RootState) => RemoteDataType<string, SupportedWalletCurrenciesType>
+
 export const getSyncToExchangeList = (state) =>
   getSupportedCoins(state)
     .map(

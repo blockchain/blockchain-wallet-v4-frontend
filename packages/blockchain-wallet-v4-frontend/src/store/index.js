@@ -65,16 +65,17 @@ const configureStore = async function () {
   //   coins.includes(erc20.symbol)
   // )
 
-  erc20s.currencies.forEach((val) => {
-    if (options.platforms.web.coins[val.symbol]) {
-      options.platforms.web.coins[val.symbol].coinfig = val
-    } else {
-      options.platforms.web.coins[val.symbol] = { coinfig: val }
-    }
-  })
-
   // hmmmm....
-  window.coins = options.platforms.web.coins
+  window.coins = {
+    ...options.platforms.web.coins,
+    ...erc20s.currencies.reduce(
+      (acc, curr) => ({
+        ...acc,
+        [curr.symbol]: { coinfig: curr }
+      }),
+      {}
+    )
+  }
 
   const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
   const socketUrl = options.domains.webSocket

@@ -14,7 +14,7 @@ import {
   RatesType,
   SBOrderActionType,
   SBPairType,
-  SupportedWalletCurrenciesType,
+  SupportedWalletCurrenciesType
 } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
@@ -50,9 +50,9 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   displayAmount = (formValues, coins, account) => {
     return coinToString({
       unit: {
-        symbol: coins[account.coin].coinTicker,
+        symbol: coins[account.coin].coinTicker
       },
-      value: formValues?.cryptoAmount,
+      value: formValues?.cryptoAmount
     })
   }
 
@@ -66,7 +66,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             currency: COUNTER,
             isStandard: true,
             rates: account.config.contractAddress ? ratesEth : rates,
-            value: convertBaseToStandard(account.baseCoin, this.networkFee(payment)),
+            value: convertBaseToStandard(account.baseCoin, this.networkFee(payment))
           })
         )) ||
       0
@@ -104,7 +104,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       orderType: this.props.orderType,
                       pair: this.props.pair,
                       step: 'ENTER_AMOUNT',
-                      swapAccount: this.props.account,
+                      swapAccount: this.props.account
                     })
                   }}
                 />{' '}
@@ -150,7 +150,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       {Currencies[counterCoinTicker].units[counterCoinTicker].symbol}
                       {formatFiat(convertBaseToStandard('FIAT', val.rate))}
                     </>
-                  ),
+                  )
                 })}
               </Value>
             </Row>
@@ -184,12 +184,12 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   <>
                     {coinToString({
                       unit: {
-                        symbol: coins[account.baseCoin].coinTicker,
+                        symbol: coins[account.baseCoin].coinTicker
                       },
                       value: convertBaseToStandard(
                         account.baseCoin,
                         this.networkFee(this.props.payment)
-                      ),
+                      )
                     })}
                   </>
                 )}
@@ -218,7 +218,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         {formatFiat(Number(val.amt) + Number(feeInFiat))}
                       </>
                     )
-                  },
+                  }
                 })}{' '}
               </Value>
             </Row>
@@ -241,7 +241,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         id='buttons.sell_coin'
                         defaultMessage='Sell {displayName}'
                         values={{
-                          displayName: this.displayAmount(formValues, coins, account),
+                          displayName: this.displayAmount(formValues, coins, account)
                         }}
                       />
                     </Text>
@@ -263,7 +263,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       orderType: this.props.orderType,
                       pair: this.props.pair,
                       step: 'ENTER_AMOUNT',
-                      swapAccount: this.props.account,
+                      swapAccount: this.props.account
                     })
                   }}
                 >
@@ -290,7 +290,7 @@ class PreviewSell extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             </FlyoutWrapper>
           </>
         )
-      },
+      }
     })
   }
 }
@@ -313,12 +313,12 @@ const mapStateToProps = (state: RootState) => {
     payment,
     quoteR: selectors.components.simpleBuy.getSellQuote(state),
     rates: selectors.core.data.misc.getRatesSelector(coin, state).getOrElse({} as RatesType),
-    ratesEth: selectors.core.data.misc.getRatesSelector('ETH', state).getOrElse({} as RatesType),
+    ratesEth: selectors.core.data.misc.getRatesSelector('ETH', state).getOrElse({} as RatesType)
   }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

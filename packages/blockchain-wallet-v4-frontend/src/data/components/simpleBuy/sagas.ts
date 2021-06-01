@@ -847,6 +847,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       let payment = paymentGetOrElse(account.coin, paymentR)
       const paymentAmount = generateProvisionalPaymentAmount(account.coin, Number(cryptoAmt))
       payment = yield payment.amount(paymentAmount)
+      payment = yield payment.build()
       yield put(A.updatePaymentSuccess(payment.value()))
     } catch (e) {
       // eslint-disable-next-line

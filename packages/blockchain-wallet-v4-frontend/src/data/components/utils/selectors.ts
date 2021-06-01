@@ -30,6 +30,7 @@ export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
       supportedCoins.XLM,
       supportedCoins.ALGO,
       supportedCoins.DOT,
+      // ...supportedCoins.rest // erc20s
       ...erc20s.map((value) => {
         return window.coins[value.symbol!]
       })

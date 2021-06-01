@@ -1,13 +1,13 @@
-import { includes, lift, toLower } from 'ramda'
+import { lift, toLower } from 'ramda'
 
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
 import * as selectors from '../../selectors'
 
 const selectRates = (coin, state) => {
-  const erc20List = selectors.core.walletOptions.getErc20CoinList(state).getOrFail()
+  const { coinfig } = window.coins[coin]
   try {
-    return includes(coin, erc20List)
+    return coinfig.type.erc20Address
       ? selectors.core.data.eth.getErc20Rates(state, toLower(coin))
       : selectors.core.data[toLower(coin)].getRates(state)
   } catch (e) {
@@ -25,10 +25,12 @@ export const getData = (coin, state) => {
       fiat: Exchange.displayCoinToFiat({
         rates,
         toCurrency: currency,
-        value: 1,
-      }),
+        value: 1
+      })
     }
   }
 
   return lift(transform)(ratesR, currencyR)
 }
+
+export default getData

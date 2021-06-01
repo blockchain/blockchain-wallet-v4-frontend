@@ -26,7 +26,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const { showWithdrawalLockAlert } = sendSagas({
     api,
     coreSagas,
-    networks,
+    networks
   })
 
   const initialized = function* (action) {
@@ -61,7 +61,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         from: defaultAccount,
         memo,
         memoType: INITIAL_MEMO_TYPE,
-        to: prepareTo(to),
+        to: prepareTo(to)
       }
       yield put(initialize(FORM, initialValues))
       yield put(touch(FORM, 'memo', 'memoType'))
@@ -81,18 +81,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!equals(FORM, form)) return
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      const erc20List = (yield select(selectors.core.walletOptions.getErc20CoinList)).getOrElse([])
       let payment: XlmPaymentType = (yield select(S.getPayment)).getOrElse({})
       payment = yield call(coreSagas.payment.xlm.create, { payment })
 
       switch (field) {
         case 'coin':
-          const modalName = includes(payload, erc20List) ? 'ETH' : payload
+          const { coinfig } = window.coins[payload]
+          const modalName = coinfig.type.erc20Address ? 'ETH' : payload
           yield put(actions.modals.closeAllModals())
           yield put(
             actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNamesType, {
               coin: payload,
-              origin: 'SendXlm',
+              origin: 'SendXlm'
             })
           )
           break
@@ -105,9 +105,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               'simplebuy',
               'DEFAULT'
             )
-            const fee =
-              response.fees.find(({ symbol }) => symbol === 'XLM')
-                ?.minorValue || '0'
+            const fee = response.fees.find(({ symbol }) => symbol === 'XLM')?.minorValue || '0'
             payment = yield call(setFrom, payment, payload, fromType, fee)
             payment = yield payment.fee(fee)
             yield put(A.paymentUpdatedSuccess(payment.value()))
@@ -149,7 +147,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const stroopAmount = Exchange.convertCoinToCoin({
             baseToStandard: false,
             coin: 'XLM',
-            value: xlmAmount,
+            value: xlmAmount
           })
           payment = yield call(payment.amount, stroopAmount)
           break
@@ -284,7 +282,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(actions.router.push('/xlm/transactions'))
         yield put(
           actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
-            coinName: 'Stellar',
+            coinName: 'Stellar'
           })
         )
       }
@@ -295,8 +293,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           'XLM',
           Exchange.convertCoinToCoin({
             coin: 'XLM',
-            value: payment.value().amount,
-          }),
+            value: payment.value().amount
+          })
         ])
       )
       yield put(actions.modals.closeAllModals())
@@ -318,7 +316,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         } else {
           yield put(
             actions.alerts.displayError(C.SEND_COIN_ERROR, {
-              coinName: 'Stellar',
+              coinName: 'Stellar'
             })
           )
         }
@@ -336,13 +334,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const coin = Exchange.convertCoinToCoin({
       baseToStandard: false,
       coin: 'XLM',
-      value: amount,
+      value: amount
     })
     const fiat = Exchange.convertCoinToFiat({
       coin: 'XLM',
       currency,
       rates: xlmRates,
-      value: amount,
+      value: amount
     })
     yield put(change(FORM, 'amount', { coin, fiat }))
   }
@@ -363,9 +361,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             payment.from,
             fromCustodialT.label,
             type,
-            new BigNumber(fromCustodialT.withdrawable)
-              .minus(fee || '0')
-              .toString()
+            new BigNumber(fromCustodialT.withdrawable).minus(fee || '0').toString()
           )
           break
         default:
@@ -394,6 +390,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     maximumAmountClicked,
     secondStepSubmitClicked,
     setAmount,
-    setFrom,
+    setFrom
   }
 }

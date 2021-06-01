@@ -48,9 +48,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
   })
   const initialized = function* (action) {
     try {
-      const erc20List = (yield select(selectors.core.walletOptions.getErc20CoinList)).getOrFail()
-      const coin = propOr('ETH', 'payload', action)
-      const isErc20 = includes(coin, erc20List)
+      const coin: string = propOr('ETH', 'payload', action)
+      const { coinfig } = window.coins[coin]
+      const isErc20 = coinfig.type.erc20Address
       let initialValues = {}
       yield put(A.sendEthPaymentUpdatedLoading())
       yield put(actions.components.send.fetchPaymentsAccountExchange(coin))
@@ -109,9 +109,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const { form } = action.meta
       if (!equals(FORM, form)) return
       const { payload } = action
-      const erc20List = (yield select(selectors.core.walletOptions.getErc20CoinList)).getOrElse([])
       const { coin } = yield select(selectors.form.getFormValues(FORM))
-      const isErc20 = includes(coin, erc20List)
       const p = yield select(S.getPayment)
       let payment: EthPaymentType = coreSagas.payment.eth.create({
         network: networks.eth,
@@ -121,7 +119,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       switch (action.meta.field) {
         // @ts-ignore
         case 'coin':
-          const modalName = isErc20 ? 'ETH' : payload
+          const { coinfig } = window.coins[coin]
+          const modalName = coinfig.type.erc20Address ? 'ETH' : payload
           yield put(actions.modals.closeAllModals())
           yield put(
             actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNamesType, {

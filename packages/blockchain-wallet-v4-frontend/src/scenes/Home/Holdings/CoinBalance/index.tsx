@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { includes, toLower } from 'ramda'
+import { toLower } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { SkeletonRectangle } from 'blockchain-info-components'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 
 import { Props as TableProps } from '..'
 import { getData } from './selectors'
@@ -17,7 +17,8 @@ class CoinBalance extends React.PureComponent<Props> {
       e.preventDefault()
     }
     const { coin } = this.props
-    if (includes(coin, this.props.erc20List)) {
+    const { coinfig } = window.coins[coin]
+    if (coinfig.type.erc20Address) {
       this.props.ethActions.fetchErc20Data(coin)
     } else {
       const coinLower = toLower(coin)
@@ -38,8 +39,7 @@ class CoinBalance extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state, ownProps: OwnProps) => ({
-  data: getData(state, ownProps),
-  erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrElse([])
+  data: getData(state, ownProps)
 })
 
 const mapDispatchToProps = (dispatch) => ({

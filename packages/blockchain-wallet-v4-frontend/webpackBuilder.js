@@ -23,9 +23,7 @@ const getAndLogEnvConfig = () => {
       fs.existsSync(CONFIG_PATH.sslConfig + '/cert.pem')
 
   try {
-    envConfig = require(CONFIG_PATH.envConfig +
-      `/${process.env.NODE_ENV}` +
-      '.js')
+    envConfig = require(CONFIG_PATH.envConfig + `/${process.env.NODE_ENV}` + '.js')
   } catch (e) {
     console.log(
       chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') +
@@ -39,13 +37,9 @@ const getAndLogEnvConfig = () => {
     console.log(chalk.cyan('Root URL') + `: ${envConfig.ROOT_URL}`)
     console.log(chalk.cyan('API Domain') + `: ${envConfig.API_DOMAIN}`)
     console.log(
-      chalk.cyan('Wallet Helper Domain') +
-        ': ' +
-        chalk.blue(envConfig.WALLET_HELPER_DOMAIN)
+      chalk.cyan('Wallet Helper Domain') + ': ' + chalk.blue(envConfig.WALLET_HELPER_DOMAIN)
     )
-    console.log(
-      chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL)
-    )
+    console.log(chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL))
     console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(isSslEnabled))
   }
 
@@ -77,6 +71,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
     extensions: ['.ts', '.tsx', '.js', '.json'],
     alias: {
       components: path.resolve(__dirname, 'src/components/'),
+      middleware: path.resolve(__dirname, 'src/middleware/'),
       data: path.resolve(__dirname, 'src/data/'),
       layouts: path.resolve(__dirname, 'src/layouts/'),
       providers: path.resolve(__dirname, 'src/providers/'),
@@ -88,10 +83,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
     rules: [
       {
         test: /\.js$/,
-        use: [
-          { loader: 'thread-loader', options: { workerParallelJobs: 50 } },
-          'babel-loader'
-        ]
+        use: [{ loader: 'thread-loader', options: { workerParallelJobs: 50 } }, 'babel-loader']
       },
       { test: /\.tsx?$/, loader: 'ts-loader' },
       {
@@ -134,14 +126,19 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       new CleanWebpackPlugin(),
       new Webpack.DefinePlugin({
         APP_VERSION: JSON.stringify(require(CONFIG_PATH.pkgJson).version),
-        RECAPTCHA_KEY: JSON.stringify(process.env.CAPTCHA_KEY ? process.env.CAPTCHA_KEY : envConfig.RECAPTCHA_KEY)
+        RECAPTCHA_KEY: JSON.stringify(
+          process.env.CAPTCHA_KEY ? process.env.CAPTCHA_KEY : envConfig.RECAPTCHA_KEY
+        )
       }),
       new HtmlWebpackPlugin({
         template: CONFIG_PATH.src + '/index.html',
         filename: 'index.html'
       }),
       new HtmlReplaceWebpackPlugin([
-        { pattern: '**RECAPTCHA_KEY**', replacement: process.env.CAPTCHA_KEY ? process.env.CAPTCHA_KEY : envConfig.RECAPTCHA_KEY }
+        {
+          pattern: '**RECAPTCHA_KEY**',
+          replacement: process.env.CAPTCHA_KEY ? process.env.CAPTCHA_KEY : envConfig.RECAPTCHA_KEY
+        }
       ]),
       new Webpack.IgnorePlugin({
         resourceRegExp: /^\.\/locale$/,
@@ -201,11 +198,9 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
           name: 'frontend',
           priority: -11,
           reuseExistingChunk: true,
-          test: function(module) {
+          test: function (module) {
             return (
-              module.resource &&
-              module.resource.indexOf('blockchain-wallet-v4-frontend/src') !==
-                -1
+              module.resource && module.resource.indexOf('blockchain-wallet-v4-frontend/src') !== -1
             )
           }
         }
@@ -222,26 +217,20 @@ const buildDevServerConfig = (
   isSslEnabled,
   useHMR
 ) => {
-  const localhostUrl = isSslEnabled
-    ? 'https://localhost:8080'
-    : 'http://localhost:8080'
+  const localhostUrl = isSslEnabled ? 'https://localhost:8080' : 'http://localhost:8080'
 
   return {
-    cert: isSslEnabled
-      ? fs.readFileSync(CONFIG_PATH.sslConfig + '/cert.pem', 'utf8')
-      : '',
+    cert: isSslEnabled ? fs.readFileSync(CONFIG_PATH.sslConfig + '/cert.pem', 'utf8') : '',
     contentBase: CONFIG_PATH.src,
     disableHostCheck: true,
     historyApiFallback: true,
     host: 'localhost',
     hot: useHMR,
     https: isSslEnabled,
-    key: isSslEnabled
-      ? fs.readFileSync(CONFIG_PATH.sslConfig + '/key.pem', 'utf8')
-      : '',
+    key: isSslEnabled ? fs.readFileSync(CONFIG_PATH.sslConfig + '/key.pem', 'utf8') : '',
     port: 8080,
     before(app) {
-      app.get('/wallet-options-v4.json', function(req, res) {
+      app.get('/wallet-options-v4.json', function (req, res) {
         // combine wallet options base with custom environment config
         mockWalletOptions.domains = {
           api: envConfig.API_DOMAIN,
@@ -263,7 +252,7 @@ const buildDevServerConfig = (
         res.json(mockWalletOptions)
       })
 
-      app.get('/wallet-options.json', function(req, res) {
+      app.get('/wallet-options.json', function (req, res) {
         mockWalletOptions.domains = {
           comWalletApp: localhostUrl
         }
@@ -333,9 +322,7 @@ module.exports = ({
   // add CSP nonce support if using local dev server
   if (useDevServer) {
     extraPluginsList = prepend(
-      new HtmlReplaceWebpackPlugin([
-        { pattern: '**CSP_NONCE**', replacement: CSP_NONCE }
-      ]),
+      new HtmlReplaceWebpackPlugin([{ pattern: '**CSP_NONCE**', replacement: CSP_NONCE }]),
       extraPluginsList
     )
   }
@@ -346,13 +333,7 @@ module.exports = ({
   // build dev server config if requested
   const devServerConfig =
     useDevServer &&
-    buildDevServerConfig(
-      allowUnsafeScripts,
-      allowUnsafeStyles,
-      envConfig,
-      isSslEnabled,
-      useHMR
-    )
+    buildDevServerConfig(allowUnsafeScripts, allowUnsafeStyles, envConfig, isSslEnabled, useHMR)
 
   return { devServerConfig, webpackConfig }
 }

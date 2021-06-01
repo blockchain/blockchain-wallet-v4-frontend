@@ -23,7 +23,7 @@ import {
   InitSwapFormValuesType,
   MempoolFeeType,
   SwapAccountType,
-  SwapAmountFormValues,
+  SwapAmountFormValues
 } from './types'
 import { getDirection, getPair, getRate, NO_QUOTE } from './utils'
 
@@ -31,7 +31,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
   const { buildAndPublishPayment, paymentGetOrElse } = sendSagas({
     api,
     coreSagas,
-    networks,
+    networks
   })
   const { waitForUserData } = profileSagas({ api, coreSagas, networks })
 
@@ -48,8 +48,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     }
   }
 
-  const changePair = function* ({ payload }: ReturnType<typeof A.changePair>) {
-    yield put(actions.form.change('initSwap', payload.side, payload.account))
+  const changeBase = function* ({ payload }: ReturnType<typeof A.changeBase>) {
+    yield put(actions.form.change('initSwap', 'BASE', payload.account))
     const initSwapFormValues = selectors.form.getFormValues('initSwap')(
       yield select()
     ) as InitSwapFormValuesType
@@ -60,9 +60,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           options: {
             account: payload.account.type,
             coin: payload.account.coin,
-            side: payload.side,
+            side: 'BASE'
           },
-          step: 'ENTER_AMOUNT',
+          step: 'ENTER_AMOUNT'
         })
       )
     } else {
@@ -71,9 +71,40 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           options: {
             account: payload.account.type,
             coin: payload.account.coin,
-            side: payload.side,
+            side: 'BASE'
           },
-          step: 'INIT_SWAP',
+          step: 'INIT_SWAP'
+        })
+      )
+    }
+  }
+
+  const changeCounter = function* ({ payload }: ReturnType<typeof A.changeCounter>) {
+    yield put(actions.form.change('initSwap', 'COUNTER', payload.account))
+    const initSwapFormValues = selectors.form.getFormValues('initSwap')(
+      yield select()
+    ) as InitSwapFormValuesType
+
+    if (initSwapFormValues?.BASE && initSwapFormValues?.COUNTER) {
+      yield put(
+        A.setStep({
+          options: {
+            account: payload.account.type,
+            coin: payload.account.coin,
+            side: 'COUNTER'
+          },
+          step: 'ENTER_AMOUNT'
+        })
+      )
+    } else {
+      yield put(
+        A.setStep({
+          options: {
+            account: payload.account.type,
+            coin: payload.account.coin,
+            side: 'COUNTER'
+          },
+          step: 'INIT_SWAP'
         })
       )
     }
@@ -107,15 +138,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
       const paymentAmount = generateProvisionalPaymentAmount(coin, amount)
       payment = yield payment.amount(paymentAmount)
-      if (payment.coin === 'BTC' || payment.coin === 'BCH') {
-        return (yield payment
-          .chain()
-          .to(quote.sampleDepositAddress, 'ADDRESS')
-          .build()
-          .done()).value()
-      }
-
-      return payment.value()
+      // TODO, add isMemoBased check
+      const sampleAddr = quote.sampleDepositAddress.split(':')[0]
+      return (yield payment.chain().to(sampleAddr, 'ADDRESS').build().done()).value()
     } catch (e) {
       // eslint-disable-next-line
       console.log(e)
@@ -167,11 +192,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         refundAddr
       )
       const paymentR = S.getPayment(yield select())
-      // @ts-ignore
       const payment = paymentGetOrElse(BASE.coin, paymentR)
       if (onChain) {
         try {
-          // @ts-ignore
           yield call(buildAndPublishPayment, payment.coin, payment, order.kind.depositAddress)
           yield call(api.updateSwapOrder, order.id, 'DEPOSIT_SENT')
         } catch (e) {
@@ -185,9 +208,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(
         A.setStep({
           options: {
-            order,
+            order
           },
-          step: 'SUCCESSFUL_SWAP',
+          step: 'SUCCESSFUL_SWAP'
         })
       )
     } catch (e) {
@@ -283,7 +306,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         yield put(A.fetchQuoteFailure(error))
         yield delay(FALLBACK_DELAY)
         yield put(A.startPollQuote())
-      } finally {
       }
     }
   }
@@ -323,7 +345,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
             coin: BASE.coin,
             currency: userCurrency,
             rates,
-            value: action.payload,
+            value: action.payload
           })
     yield put(actions.form.change('swapAmount', 'cryptoAmount', amountFieldValue))
 
@@ -341,6 +363,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         Number(swapAmountValues?.cryptoAmount)
       )
       payment = yield payment.amount(paymentAmount)
+      payment = yield payment.build()
       yield put(A.updatePaymentSuccess(payment.value()))
     } catch (error) {
       yield put(A.updatePaymentFailure(error))
@@ -362,7 +385,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
       yield race({
         failure: take(AT.FETCH_QUOTE_FAILURE),
-        success: take(AT.FETCH_QUOTE_SUCCESS),
+        success: take(AT.FETCH_QUOTE_SUCCESS)
       })
       const quote = S.getQuote(yield select()).getOrFail(NO_QUOTE)
 
@@ -406,7 +429,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       actions.modals.showModal('SWAP_MODAL', {
         baseCurrency,
         counterCurrency,
-        origin,
+        origin
       })
     )
 
@@ -416,13 +439,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(
         A.setStep({
           options: { order: latestPendingOrder },
-          step: 'ORDER_DETAILS',
+          step: 'ORDER_DETAILS'
         })
       )
     } else {
       yield put(
         A.setStep({
-          step: 'INIT_SWAP',
+          step: 'INIT_SWAP'
         })
       )
     }
@@ -453,10 +476,27 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     yield put(A.initAmountForm())
   }
 
+  const handleSwapMaxAmountClick = function* ({
+    payload
+  }: ReturnType<typeof A.handleSwapMaxAmountClick>) {
+    const { amount } = payload
+
+    yield put(actions.form.change('swapAmount', 'amount', amount))
+  }
+
+  const handleSwapMinAmountClick = function* ({
+    payload
+  }: ReturnType<typeof A.handleSwapMinAmountClick>) {
+    const { amount } = payload
+
+    yield put(actions.form.change('swapAmount', 'amount', amount))
+  }
+
   return {
     calculateProvisionalPayment,
     cancelOrder,
-    changePair,
+    changeBase,
+    changeCounter,
     changeTrendingPair,
     createOrder,
     fetchCustodialEligibility,
@@ -465,10 +505,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     fetchQuote,
     fetchTrades,
     formChanged,
+    handleSwapMaxAmountClick,
+    handleSwapMinAmountClick,
     initAmountForm,
     refreshAccounts,
     showModal,
     switchFix,
-    toggleBaseAndCounter,
+    toggleBaseAndCounter
   }
 }

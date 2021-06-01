@@ -36,7 +36,7 @@ class SelectBoxCoin extends React.PureComponent {
     return (
       <HeaderWrapper {...rest}>
         <ItemIcon
-          name={supportedCoins[value].coinfig.symbol}
+          name={value}
           color={pathOr('textBlack', [value, 'coinCode'], supportedCoins)}
           size='20px'
         />
@@ -54,7 +54,7 @@ class SelectBoxCoin extends React.PureComponent {
     return (
       <HeaderWrapper {...rest}>
         <ItemIcon
-          name={supportedCoins[value].coinfig.symbol}
+          name={value}
           color={pathOr('textBlack', [value, 'coinCode'], supportedCoins)}
           size='20px'
         />

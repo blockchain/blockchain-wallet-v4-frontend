@@ -337,6 +337,7 @@ export const getAllCoinsBalancesSelector = (state) => {
 
 export const getErc20BalancesInfoV2 = createDeepEqualSelector(
   [
+    // TOKEN_ACCOUNT_BALANCES
     selectors.core.walletOptions.getErc20CoinList,
     selectors.core.data.eth.getErc20Rates,
     selectors.core.settings.getCurrency,

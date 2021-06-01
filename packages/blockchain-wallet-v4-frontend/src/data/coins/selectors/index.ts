@@ -47,53 +47,39 @@ export const getIntroductionText = (coinfig: SupportedWalletCurrencyType) => {
 
 // retrieves custodial account balances
 export const getTradingBalance = (coin: CoinType, state) => {
-  return selectors.components.simpleBuy.getSBBalances(state).map(x => x[coin])
+  return selectors.components.simpleBuy.getSBBalances(state).map((x) => x[coin])
 }
 
 // retrieves custodial account balances
 export const getInterestBalance = (coin: CoinType, state) => {
-  return selectors.components.interest
-    .getInterestAccountBalance(state)
-    .map(x => x[coin])
+  return selectors.components.interest.getInterestAccountBalance(state).map((x) => x[coin])
 }
 
 // generic selector that should be used by all features to request their desired
 // account types for their coins
-export const getCoinAccounts = (
-  state: RootState,
-  ownProps: CoinAccountSelectorType
-) => {
-  const getCoinAccountsR = state => {
+export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorType) => {
+  const getCoinAccountsR = (state) => {
     const coinList = ownProps?.coins
-    const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(
-      state
-    )
-    const supportedCoins = supportedCoinsR.getOrElse(
-      {} as SupportedWalletCurrenciesType
-    )
 
     // dynamically create account selectors via passed in coin list
     const accounts =
       isEmpty(coinList) || isNil(coinList)
         ? Remote.of({})
         : coinList.reduce((accounts, coin) => {
-            const config = supportedCoins[coin]
+            console.log(coin)
+            const { coinfig } = window.coins[coin]
             accounts[coin] = coinSelectors[
-              config.contractAddress ? 'ERC20' : coin
+              coinfig.type.erc20Address ? 'ERC20' : coin
             ]?.getAccounts(state, { coin, ...ownProps })
             return accounts
           }, {})
 
-    const isNotLoaded = coinAccounts => Remote.Loading.is(coinAccounts)
+    const isNotLoaded = (coinAccounts) => Remote.Loading.is(coinAccounts)
     if (any(isNotLoaded, values(accounts))) return Remote.Loading
 
     // @ts-ignore
     return Remote.of(
-      map(
-        coinAccounts =>
-          (isEmpty(coinAccounts) && []) || coinAccounts.getOrElse([]),
-        accounts
-      )
+      map((coinAccounts) => (isEmpty(coinAccounts) && []) || coinAccounts.getOrElse([]), accounts)
     )
   }
 

@@ -27,18 +27,21 @@ const Success = (props: Props) => {
         />
       </ModalNavWithCloseIcon>
       <LinkOptionsWrapper>
-        <ScanWithPhone
-          logo={logo as string}
-          qrCode={props.order?.attributes?.qrcodeUrl as string}
-        />
+        <ScanWithPhone logo={logo as string} qrCode={props.order?.attributes?.qrcodeUrl as string}>
+          <FormattedMessage
+            id='modals.brokerage.confirm_via_mobile'
+            defaultMessage='Confirm via mobile'
+          />
+        </ScanWithPhone>
         <Hr />
         <Section>
-          <LinkViaDesktop
-            authUrl={props.order?.attributes?.authorisationUrl as string}
-          />
-          <BankWaitIndicator
-            qrCode={props.order?.attributes?.qrcodeUrl as string}
-          />
+          <LinkViaDesktop authUrl={props.order?.attributes?.authorisationUrl as string}>
+            <FormattedMessage
+              id='modals.brokerage.confirm_via_desktop'
+              defaultMessage='Confirm via desktop'
+            />
+          </LinkViaDesktop>
+          <BankWaitIndicator qrCode={props.order?.attributes?.qrcodeUrl as string} />
         </Section>
       </LinkOptionsWrapper>
     </BankWrapper>

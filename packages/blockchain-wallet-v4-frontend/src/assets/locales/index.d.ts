@@ -659,7 +659,7 @@ type MessagesType = {
   'modals.brokerage.authorize.bol.title': 'Bank of Lithuania Authorisation'
   'modals.brokerage.authorize.fca': 'Blockchain.com is an agent of {entityName} Ltd. {entityName} Ltd is authorised and regulated by the Financial Conduct Authority under the Payment Service Regulations 2017 [827001] for the provision of Account Information and Payment Initiation services.'
   'modals.brokerage.authorize.bol': 'SafeConnect UAB is authorised and regulated by the Bank of Lithuania under Payments Law (LB002045) for the provision of Account Information and Payment Initiation services.'
-  'modals.brokerage.authorize.bol.terms': "View SafeConnect UAB <a>Terms and Conditions</a> for more information."
+  'modals.brokerage.authorize.bol.terms': 'View SafeConnect UAB <a>Terms and Conditions</a> for more information.'
   'modals.brokerage.authorize.data': 'In order to share your bank account data with Blockchain.com, you will now be securely redirected to your bank to confirm your consent for {entityName} to read the following information:'
   'modals.brokerage.authorize.deposit_data.first': 'To easily set up payments from your bank to Blockchain.com, we are about to securely re-direct you to your bank where you will be asked to confirm the payment via {entityName}, an FCA regulated payment initiation provider for Blockchain.com.'
   'modals.brokerage.authorize.deposit_data.second': '{entityName} will share these details with your bank, where you will then be asked to confirm the following payment setup.'
@@ -691,6 +691,8 @@ type MessagesType = {
   'modals.brokerage.wire_fee': 'Wire Fee'
   'modals.brokerage.withdraw_fiat': 'Withdraw {fiat}'
   'modals.brokerage.confirm_deposit': 'Confirm Deposit'
+  'modals.brokerage.confirm_via_mobile': 'Confirm via mobile'
+  'modals.brokerage.confirm_via_desktop': 'Confirm via desktop'
   'modals.brokerage.bank_deposit': 'Bank Deposit'
   'modals.brokerage.bank_deposit_description': 'Securely link a bank and send cash to your Blockchain.com Wallet at anytime.'
   'modals.brokerage.deposit_currency': 'Deposit {currency}'
@@ -924,7 +926,7 @@ type MessagesType = {
   'modals.interest.deposit.termsservice': 'Terms of Service'
   'modals.interest.deposit.edd_need': "Transferring this amount requires further verification. We'll ask you for those details in the next step."
   'modals.interest.deposit.supply_information_description_1': "You've transferred an amount that requires further verification for legal and compliance reasons."
-  'modals.interest.deposit.supply_information_description_2': "Your funds are safe with us and have started accruing interest already. To avoid delays when you decide to withdraw your funds, submit your information now."
+  'modals.interest.deposit.supply_information_description_2': 'Your funds are safe with us and have started accruing interest already. To avoid delays when you decide to withdraw your funds, submit your information now.'
   'modals.interest.totalearned': 'Total Interest Earned'
   'modals.interest.unsupported-title': 'Rates Unavailable'
   'modals.interest.unsupported-subcontent-1': "Interest rates are currently unavailable for {walletCurrency}. Please change your wallet's local currency in Preferences."
@@ -939,7 +941,7 @@ type MessagesType = {
   'modals.interest.withdrawal.edd_need': 'This amount requires further information. Confirm the withdrawal and follow the instructions on the next screen.'
   'modals.interest.withdrawal.success': 'Waiting on your withdrawal to be confirmed by our team. It may take a few moments to show in your Interest Account History. No action is required at this time.'
   'modals.interest.withdrawal.supply_information_description_1': "You've requested a withdrawal for an amount that requires further verification for legal and compliance reasons."
-  'modals.interest.withdrawal.supply_information_description_2': "Your funds are safe with us. Please submit the additional information so we can start processing your withdrawal."
+  'modals.interest.withdrawal.supply_information_description_2': 'Your funds are safe with us. Please submit the additional information so we can start processing your withdrawal.'
   'modals.interest.supply_information_disclaimer': 'Our Support team may contact you if further clarification is needed.'
   'modals.interest.withdrawal.totalinterest': 'Total Interest Earned'
   'modals.interest.withdrawal.warning': 'In the last month you have earned {pendingInterestCrypto} in interest. Once you withdraw {withdrawalAmount} ({withdrawalAmountCrypto}), you will continue to earn interest on the remaining balance.'
@@ -1115,7 +1117,7 @@ type MessagesType = {
   'modals.onboarding.linkfromexchange.success_subinfo2_title': 'To Log In to Your Exchange'
   'modals.onboarding.linkfromexchange.success_subinfo2_description1': '- Use Email Address: {exchangeEmail}'
   'modals.onboarding.linkfromexchange.success_subinfo2_description2': '- Exchange’s Password'
-  'modals.onboarding.linkfromexchange.success_disclaimer': "Having different Exchange and Wallet passwords helps to keep your accounts safe! <a>Learn more</a> about the Wallet."
+  'modals.onboarding.linkfromexchange.success_disclaimer': 'Having different Exchange and Wallet passwords helps to keep your accounts safe! <a>Learn more</a> about the Wallet.'
   'modals.onboarding.linkfromexchange.successheader': 'Your Accounts are Connected!'
   'modals.onboarding.linkfromexchange.to_continue': "to continue. We'll be waiting right here in the meantime."
   'modals.onboarding.linkfromexchange.unverified_email': 'Please Verify Your Email'
@@ -1415,7 +1417,7 @@ type MessagesType = {
   'modals.simplebuy.confirm.activity': 'Your final amount may change due to market activity.'
   'modals.simplebuy.confirm.activity_card11': 'Your final amount might change due to market activity. For your security, buy orders with a bank account are subject up to a 14 day holding period. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
   'modals.simplebuy.confirm.activity_card2': 'Your crypto will be available to be withdrawn within <b>{days} days</b>.'
-  'modals.simplebuy.confirm.activity_accept_terms': "I agree to Blockchain’s <a>Terms of Service</a> and its return, refund and cancellation policy."
+  'modals.simplebuy.confirm.activity_accept_terms': 'I agree to Blockchain’s <a>Terms of Service</a> and its return, refund and cancellation policy.'
   'modals.simplebuy.confirm.funds_wallet': '{coin} Wallet'
   'modals.simplebuy.confirm.payment_card': 'Credit Card'
   'modals.simplebuy.confirm.buynow': 'Buy Now'
@@ -1691,7 +1693,7 @@ type MessagesType = {
   'modals.withdraw.tooltip_info_day': 'The remaining balance will be available to be withdrawn within 1 day.'
   'modals.withdraw.tooltip_info': 'The remaining balance will be available to be withdrawn within {days} days.'
   'modals.withdraw.available_for_withdrawal': 'Available to Withdraw'
-  'modals.withdraw.lock_description': "You have {locks} pending transactions. We’ll email you when these funds become available for withdrawal. <a>Learn more.</a>"
+  'modals.withdraw.lock_description': 'You have {locks} pending transactions. We’ll email you when these funds become available for withdrawal. <a>Learn more.</a>'
   'modals.withdraw.not_enought_founds': 'Amount is greater than your max withdrawalable balance ({symbol} {balance}) minus the fee ({symbol} {fee}).'
   'modals.withdraw.success': 'Success! We are withdrawing the cash from your {currency} Wallet now. The funds should be in your bank in 1-3 business days.'
   'modals.xlmairdropwelcome.inprogress.completenow': 'Complete Now'

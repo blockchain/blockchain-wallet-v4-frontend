@@ -145,7 +145,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!equals(FORM, form)) return
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      const erc20List = (yield select(selectors.core.walletOptions.getErc20CoinList)).getOrElse([])
       const p = yield select(S.getPayment)
       let payment: BtcPaymentType = coreSagas.payment.bch.create({
         network: networks.bch,
@@ -154,7 +153,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       switch (field) {
         case 'coin':
-          const modalName = includes(payload, erc20List) ? 'ETH' : payload
+          const { coinfig } = window.coins[payload]
+          const modalName = coinfig.type.erc20Address ? 'ETH' : payload
           yield put(actions.modals.closeAllModals())
           yield put(
             actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNamesType, {

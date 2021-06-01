@@ -29,7 +29,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const { waitForUserData } = profileSagas({ api, coreSagas, networks })
 
   const buildAndPublishPayment = function* (
-    coin: CoinType,
+    coin: string,
     payment: PaymentType,
     destination: string
   ): Generator<PaymentType | CallEffect, PaymentValue, any> {
