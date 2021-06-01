@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
@@ -336,10 +336,7 @@ class PreviewSell extends PureComponent<
                           rel='noopener noreferrer'
                           target='_blank'
                         >
-                          <FormattedMessage
-                            id='modals.simplebuy.summary.learn_more'
-                            defaultMessage='Learn more'
-                          />
+                          <FormattedMessage defaultMessage='Learn more' id='copy.learn_more' />
                         </Link>
                       </TextGroup>
                     </Text>
@@ -510,7 +507,7 @@ class PreviewSell extends PureComponent<
             <Border />
             <FlyoutWrapper>
               <DisclaimerText>
-                <FormattedHTMLMessage
+                <FormattedMessage
                   id='modals.simplebuy.confirm.sell_description'
                   defaultMessage="Final amount may change due to market activity.<br /> By approving this Sell you agree to Blockchain.com’s <br /><a href='https://www.blockchain.com/legal/terms' rel='noopener noreferrer' target='_blank'>Refund Policy.</a>"
                 />

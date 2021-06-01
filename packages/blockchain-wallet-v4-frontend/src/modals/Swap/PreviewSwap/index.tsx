@@ -153,7 +153,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
                 <Icon
                   name='question-in-circle-filled'
                   size='16px'
-                  color={true ? 'blue600' : 'grey300'}
+                  color='blue600'
                   onClick={() =>
                     this.setState((prevState) => ({
                       isActiveExchangeToolTip: !prevState.isActiveExchangeToolTip

@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-
-import { Row, Title, Value } from 'components/Flyout'
+import styled from 'styled-components'
 
 import { Icon, Link, SkeletonRectangle, Text, TextGroup } from 'blockchain-info-components'
-import { SwapAccountType } from 'data/types'
-import { selectors } from 'data'
+import { convertCoinToFiat, UnitType } from 'blockchain-wallet-v4/src/exchange'
+import { coinToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import FiatDisplay from 'components/Display/FiatDisplay'
+import { Row, Title, Value } from 'components/Flyout'
 import {
   FiatType,
   PaymentValue,
@@ -15,13 +16,10 @@ import {
   SupportedWalletCurrenciesType,
   SwapQuoteType
 } from 'core/types'
-import { coinToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import FiatDisplay from 'components/Display/FiatDisplay'
+import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { FormattedMessage } from 'react-intl'
 import { RootState } from 'data/rootReducer'
-
-import { convertCoinToFiat, UnitType } from 'blockchain-wallet-v4/src/exchange'
+import { SwapAccountType } from 'data/types'
 
 const Container = styled.div`
   background-color: ${(p) => p.theme.grey000};
