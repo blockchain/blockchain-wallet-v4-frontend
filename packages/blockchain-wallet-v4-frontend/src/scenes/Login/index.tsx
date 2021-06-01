@@ -119,25 +119,29 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     }
     return (
       <>
-        <Text color='white' size='24px' weight={600}>
+        <Text color='white' size='24px' weight={600} style={{ marginBottom: '24px' }}>
           {step === LoginSteps.ENTER_PASSWORD ? (
             <FormattedMessage id='scenes.login.authorize' defaultMessage='Authorize login' />
           ) : (
             <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back!' />
           )}
         </Text>
-        <Text color='grey400' weight={500} style={{ margin: '24px 0 16px 0' }}>
-          {step === LoginSteps.VERIFICATION_MOBILE && (
+
+        {step === LoginSteps.VERIFICATION_MOBILE && (
+          <Text color='grey400' weight={500} style={{ marginBottom: '32px' }}>
             <FormattedMessage id='scenes.login.approve' defaultMessage='Approve your login' />
-          )}
-          {step === LoginSteps.ENTER_PASSWORD && (
-            // add check here to see what kind of auth type, what kind of string to show
+          </Text>
+        )}
+
+        {step === LoginSteps.ENTER_PASSWORD && (
+          // add check here to see what kind of auth type, what kind of string to show
+          <Text color='grey400' weight={500} style={{ marginBottom: '32px' }}>
             <FormattedMessage
               id='scenes.login.enter_password'
               defaultMessage='Enter your password to login'
             />
-          )}
-        </Text>
+          </Text>
+        )}
         {step === LoginSteps.ENTER_EMAIL_GUID && (
           <>
             <Text color='grey400' weight={500} style={{ marginBottom: '8px' }}>
