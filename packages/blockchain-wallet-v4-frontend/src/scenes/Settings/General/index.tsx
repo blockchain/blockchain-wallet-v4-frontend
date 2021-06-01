@@ -36,12 +36,15 @@ const General = () => {
         <Text size='14px' weight={500} color='grey700'>
           <FormattedMessage
             id='scenes.settings.general.subtitle'
-            defaultMessage='View your wallet ID, mobile pairing codes and helpful links.'
+            defaultMessage='View your wallet ID and other helpful links.'
           />
         </Text>
       </MenuHeader>
       <WalletId />
-      <PairingCode />
+      {/* We are hiding the pairing code as part of SSO authorization
+      squad work. We may bring it back in some form later
+      so just commenting it out for now */}
+      {/* <PairingCode /> */}
       <LinkedBanks />
       <LinkedWireBanks />
       <LinkedCards />
