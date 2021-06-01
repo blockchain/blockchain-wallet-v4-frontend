@@ -72,6 +72,9 @@ import goldNotice from './img/gold-notice.png'
 import goldVerified from './img/gold-verified.svg'
 import googleAuthenticator from './img/google-authenticator.png'
 import googlePlayBadge from './img/google-play-badge.svg'
+import recurringBuys from './img/graph-recurring-buys.svg'
+import recurringBuys2 from './img/graph-recurring-buys2.svg'
+import recurringBuys3 from './img/graph-recurring-buys3.svg'
 import identityVerification from './img/identity-verification.svg'
 import introBankGif from './img/intro-bank.gif'
 import introCartGif from './img/intro-cart.gif'
@@ -228,6 +231,9 @@ const Images = {
   'gold-verified': goldVerified,
   'google-authenticator': googleAuthenticator,
   'google-play-badge': googlePlayBadge,
+  'graph-recurring-buys': recurringBuys,
+  'graph-recurring-buys-2': recurringBuys2,
+  'graph-recurring-buys-3': recurringBuys3,
   'identity-verification': identityVerification,
   'intro-bank-gif': introBankGif,
   'intro-cart-gif': introCartGif,

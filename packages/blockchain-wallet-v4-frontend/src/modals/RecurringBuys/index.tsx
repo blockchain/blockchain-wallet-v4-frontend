@@ -48,7 +48,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  swapActions: bindActionCreators(actions.components.swap, dispatch)
+  recurringBuysActions: bindActionCreators(actions.components.recurringBuys, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
