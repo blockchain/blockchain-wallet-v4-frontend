@@ -337,7 +337,8 @@
         "enabled": true
       },
       "featureFlags": {
-        "recurringBuys": true
+        "recurringBuys": true,
+        "showPairing": false
       }
     }
   },
