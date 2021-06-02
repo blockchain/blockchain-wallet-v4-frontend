@@ -33,7 +33,7 @@ import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getFiatFromPair } from 'data/components/simpleBuy/model'
 import { getInputFromPair, getOutputFromPair } from 'data/components/swap/model'
 import { RootState } from 'data/rootReducer'
-import { SBCheckoutFormValuesType } from 'data/types'
+import { SBCheckoutFormValuesType, SwapBaseCounterTypes } from 'data/types'
 
 import { Border, TopText } from '../../Swap/components'
 import Loading from '../template.loading'
@@ -177,7 +177,7 @@ class PreviewSell extends PureComponent<
   getFeeInFiat = (account, BASE, COUNTER) => {
     const { payment, rates, ratesEth } = this.props
     return (
-      (account.type === 'ACCOUNT' &&
+      (account.type === SwapBaseCounterTypes.ACCOUNT &&
         (Exchange.convertCoinToFiat(
           convertBaseToStandard(account.baseCoin, this.networkFee(payment)),
           BASE,
@@ -353,7 +353,7 @@ class PreviewSell extends PureComponent<
               </Value>
             </RowItem>
 
-            {account.type !== 'CUSTODIAL' && (
+            {account.type !== SwapBaseCounterTypes.CUSTODIAL && (
               <>
                 <RowItem>
                   <RowText>

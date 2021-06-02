@@ -11,6 +11,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { actions, selectors } from 'data'
+import { SwapBaseCounterTypes } from 'data/types'
 
 import { Props as OwnProps } from '../index'
 import { ClipboardWrapper, StepHeader } from '../model'
@@ -127,7 +128,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
                 ),
                 Loading: () => <SkeletonRectangle width='280px' height='24px' />,
                 NotAsked: () => <SkeletonRectangle width='280px' height='24px' />,
-                Success: (val) => val.address,
+                Success: (val) => val.address
               })}
             </Text>
           </AddressDisplay>
@@ -138,7 +139,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
               NotAsked: () => <></>,
               Success: (val) => (
                 <CopyClipboardButton textToCopy={val.address} color='blue600' size='24px' />
-              ),
+              )
             })}
           </ClipboardWrapper>
         </AddressWrapper>
@@ -167,9 +168,9 @@ class RequestShowAddress extends React.PureComponent<Props> {
                     </ClipboardWrapper>
                   </AddressWrapper>
                 ))
-              : null,
+              : null
         })}
-        {coinModel.isMemoBased && selectedAccount.type === 'CUSTODIAL' && (
+        {coinModel.isMemoBased && selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL && (
           <InfoContainer>
             <Text color='grey600' size='12px' weight={500}>
               <FormattedMessage
@@ -196,7 +197,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
             NotAsked: () => <SkeletonRectangle width='306px' height='306px' />,
             Success: (val) => (
               <QRCodeWrapper data-e2e='requestAddressQrCode' size={280} value={val.address} />
-            ),
+            )
           })}
         </QRCodeContainer>
         <ButtonsWrapper>
@@ -221,11 +222,11 @@ const mapStateToProps = (state, ownProps: OwnProps) => ({
   addressR: selectors.components.request.getNextAddress(state, ownProps.formValues.selectedAccount),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType),
+    .getOrElse({} as SupportedWalletCurrenciesType)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  requestActions: bindActionCreators(actions.components.request, dispatch),
+  requestActions: bindActionCreators(actions.components.request, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

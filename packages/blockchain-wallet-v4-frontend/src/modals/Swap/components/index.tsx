@@ -10,7 +10,7 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout'
 import { CoinType } from 'core/types'
 import { convertStandardToBase } from 'data/components/exchange/services'
-import { SwapAccountType } from 'data/types'
+import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 
 import FeeBreakdownBox from './FeeBreakdownBox'
 
@@ -137,7 +137,7 @@ const AmountsRight = styled.div`
 `
 
 interface FromToLogoLeftProps {
-  accountType: SwapAccountType['type']
+  accountType: SwapBaseCounterTypes
   amount?: string | number | BigNumber
   base: boolean
   children: React.ReactNode

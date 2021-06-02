@@ -5,7 +5,7 @@ import styled, { css, DefaultTheme } from 'styled-components'
 import { CoinAccountIcon, Icon, Text } from 'blockchain-info-components'
 import { FiatType, SupportedCoinType } from 'blockchain-wallet-v4/src/types'
 import { SuccessCartridge } from 'components/Cartridge'
-import { SwapAccountType } from 'data/types'
+import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 
 import CoinAccountListBalance from '../CoinAccountListBalance'
 
@@ -13,24 +13,24 @@ const Option = styled.div<{ displayOnly?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: ${props => `1px solid ${props.theme.grey000}`};
+  border-top: ${(props) => `1px solid ${props.theme.grey000}`};
   padding: 16px 40px;
   &:first-child {
     border-top: 0;
   }
 
-  ${props =>
+  ${(props) =>
     !props.displayOnly &&
     css`
       cursor: pointer;
       &:hover {
-        background-color: ${props => props.theme.blue000};
+        background-color: ${(props) => props.theme.blue000};
       }
     `}
 `
 
 const OptionTitle = styled(Text)`
-  color: ${props => props.theme.grey800};
+  color: ${(props) => props.theme.grey800};
   font-weight: 600;
   max-width: 200px;
   white-space: nowrap;
@@ -41,9 +41,9 @@ const OptionValue = styled(Text)<{
   color?: keyof DefaultTheme
   weight?: number
 }>`
-  color: ${props => props.color || props.theme.grey600};
+  color: ${(props) => props.color || props.theme.grey600};
   margin-top: 4px;
-  font-weight: ${props => (props.weight ? props.weight : 600)};
+  font-weight: ${(props) => (props.weight ? props.weight : 600)};
   font-size: 14px;
 `
 const BalanceRow = styled.div`
@@ -64,7 +64,7 @@ const CircleBorder = styled.div`
   width: 24px;
   height: 24px;
   background-color: white;
-  border: 1px solid ${props => props.theme.grey300};
+  border: 1px solid ${(props) => props.theme.grey300};
   border-radius: 24px;
   margin-left: 18px;
 `
@@ -74,7 +74,7 @@ const LowFeeCartridge = styled(SuccessCartridge)`
   padding: 6px;
 `
 
-const CoinAccountListOption: React.FC<Props> = props => {
+const CoinAccountListOption: React.FC<Props> = (props) => {
   const {
     account,
     coinModel,
@@ -87,12 +87,7 @@ const CoinAccountListOption: React.FC<Props> = props => {
   } = props
 
   return (
-    <Option
-      data-e2e='changeAcct'
-      displayOnly={displayOnly}
-      onClick={props.onClick}
-      role='button'
-    >
+    <Option data-e2e='changeAcct' displayOnly={displayOnly} onClick={props.onClick} role='button'>
       <FlexStartRow>
         <CoinAccountIcon
           accountType={account.type}
@@ -113,12 +108,9 @@ const CoinAccountListOption: React.FC<Props> = props => {
         </div>
       </FlexStartRow>
       <FlexStartRow>
-        {showLowFeeBadges && account.type === 'CUSTODIAL' && (
+        {showLowFeeBadges && account.type === SwapBaseCounterTypes.CUSTODIAL && (
           <LowFeeCartridge>
-            <FormattedMessage
-              id='scenes.swap.low_fees'
-              defaultMessage='Low Fees'
-            />
+            <FormattedMessage id='scenes.swap.low_fees' defaultMessage='Low Fees' />
           </LowFeeCartridge>
         )}
         {isSwap && isAccountSelected && (
@@ -130,9 +122,7 @@ const CoinAccountListOption: React.FC<Props> = props => {
           />
         )}
         {isSwap && !isAccountSelected && <CircleBorder />}
-        {!isSwap && !hideActionIcon && (
-          <Icon name='chevron-right' size='32px' color='grey400' />
-        )}
+        {!isSwap && !hideActionIcon && <Icon name='chevron-right' size='32px' color='grey400' />}
       </FlexStartRow>
     </Option>
   )

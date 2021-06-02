@@ -13,7 +13,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { model } from 'data'
 import { convertStandardToBase } from 'data/components/exchange/services'
-import { SBCheckoutFormValuesType } from 'data/types'
+import { SBCheckoutFormValuesType, SwapBaseCounterTypes } from 'data/types'
 import { CRYPTO_DECIMALS, FIAT_DECIMALS, formatTextAmount } from 'services/forms'
 
 import { Row } from '../../../Swap/EnterAmount/Checkout'
@@ -304,7 +304,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const isErc20 = props.supportedCoins[cryptoCurrency].contractAddress
   const isSufficientEthForErc20 =
     props.payment &&
-    props.swapAccount?.type === 'ACCOUNT' &&
+    props.swapAccount?.type === SwapBaseCounterTypes.ACCOUNT &&
     props.orderType === OrderType.SELL &&
     isErc20 &&
     // @ts-ignore

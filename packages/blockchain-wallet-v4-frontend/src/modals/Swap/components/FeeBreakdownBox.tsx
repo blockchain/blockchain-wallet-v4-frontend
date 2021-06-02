@@ -19,7 +19,7 @@ import {
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'
-import { SwapAccountType } from 'data/types'
+import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 
 const Container = styled.div`
   background-color: ${(p) => p.theme.grey000};
@@ -80,8 +80,10 @@ const FeeBreakdownBox = ({
   )
   const counterName = supportedCoins[counter.coin]?.displayName || counter.coin
   const baseName = supportedCoins[base.coin]?.displayName || base.coin
-  const bothCustodial = base.type === 'CUSTODIAL' && counter.type === 'CUSTODIAL'
-  const bothNonCustodial = base.type === 'ACCOUNT' && counter.type === 'ACCOUNT'
+  const bothCustodial =
+    base.type === SwapBaseCounterTypes.CUSTODIAL && counter.type === SwapBaseCounterTypes.CUSTODIAL
+  const bothNonCustodial =
+    base.type === SwapBaseCounterTypes.ACCOUNT && counter.type === SwapBaseCounterTypes.ACCOUNT
 
   if (bothCustodial) {
     return (
@@ -137,7 +139,7 @@ const FeeBreakdownBox = ({
         </HorizontalRow>
         {toggle && (
           <>
-            {base.type === 'ACCOUNT' && (
+            {base.type === SwapBaseCounterTypes.ACCOUNT && (
               <HorizontalRow>
                 <Title style={{ fontSize: '12px' }} color='grey900'>
                   <FormattedMessage
@@ -175,7 +177,7 @@ const FeeBreakdownBox = ({
                 </Value>
               </HorizontalRow>
             )}
-            {counter.type === 'ACCOUNT' && (
+            {counter.type === SwapBaseCounterTypes.ACCOUNT && (
               <HorizontalRow>
                 <Title style={{ fontSize: '12px' }} color='grey900'>
                   <FormattedMessage
@@ -231,7 +233,8 @@ const FeeBreakdownBox = ({
           <Text size='14px'>
             {bothNonCustodial
               ? `${baseName} and ${counterName}`
-              : base.type !== 'CUSTODIAL' && counter.type === 'CUSTODIAL'
+              : base.type !== SwapBaseCounterTypes.CUSTODIAL &&
+                counter.type === SwapBaseCounterTypes.CUSTODIAL
               ? baseName
               : counterName}
           </Text>{' '}
