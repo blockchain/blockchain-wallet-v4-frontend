@@ -14,7 +14,7 @@ export function alertsReducer(state = INITIAL_STATE, action) {
     }
     case ALERTS_DISMISS: {
       const { id } = payload
-      return state.filter(alert => alert.id !== id)
+      return state.filter((alert) => alert.id !== id)
     }
     case ALERTS_SHOW: {
       return prepend({ ...action.payload }, state)
