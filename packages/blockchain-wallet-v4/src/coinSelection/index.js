@@ -111,11 +111,6 @@ export const transactionBytes = (inputs, outputs) => {
 
 export const changeBytes = (type) => IO_TYPES.outputs[type]
 
-export const DEPRECATED_transactionBytes = (inputs, outputs) =>
-  Coin.TX_EMPTY_SIZE +
-  inputs.reduce((a, c) => a + Coin.inputBytes(c), 0) +
-  outputs.reduce((a, c) => a + Coin.outputBytes(c), 0)
-
 export const effectiveBalance = curry((feePerByte, inputs, outputs = [{}]) =>
   List(inputs)
     .fold(Coin.empty)

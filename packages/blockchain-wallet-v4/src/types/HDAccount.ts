@@ -20,7 +20,6 @@ import * as crypto from '../walletCrypto'
 import * as Cache from './Cache'
 import * as Derivation from './Derivation'
 import * as DerivationList from './DerivationList'
-import * as HDAccountDeprecatedV3 from './HDAccount_DEPRECATED_V3'
 import Type from './Type'
 
 export const DEFAULT_DERIVATION_TYPE = 'bech32'
@@ -78,26 +77,16 @@ export const isXpub = curry((myxpub, account) =>
 )
 
 export const selectAllXpubsGrouped = account => {
-  // TODO: SEGWIT remove w/ DEPRECATED_V3
-  // @ts-ignore
-  if (!account.derivations)
-    return HDAccountDeprecatedV3.selectAllXpubsGrouped(account)
   const derivations = selectDerivations(account)
   return DerivationList.getXpubsAndTypesFromDerivations(derivations)
 }
 
 export const selectAllXpubs = account => {
-  // TODO: SEGWIT remove w/ DEPRECATED_V3
-  // @ts-ignore
-  if (!account.derivations) return HDAccountDeprecatedV3.selectAllXpubs(account)
   const derivations = selectDerivations(account)
   return DerivationList.getXpubsFromDerivations(derivations)
 }
 
 export const selectXpub = (account, type?) => {
-  // TODO: SEGWIT remove w/ DEPRECATED_V3
-  // @ts-ignore
-  if (!account.derivations) return HDAccountDeprecatedV3.selectXpub(account)
   const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
   const derivation = DerivationList.getDerivationFromType(
@@ -108,9 +97,6 @@ export const selectXpub = (account, type?) => {
 }
 
 export const selectXpriv = curry((type, account) => {
-  // TODO: SEGWIT remove w/ DEPRECATED_V3
-  // @ts-ignore
-  if (!account.derivations) return HDAccountDeprecatedV3.selectXpriv(account)
   const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
   const derivation = DerivationList.getDerivationFromType(
@@ -121,10 +107,6 @@ export const selectXpriv = curry((type, account) => {
 })
 
 export const selectAddressLabels = (account, type) => {
-  // TODO: SEGWIT remove w/ DEPRECATED_V3
-  // @ts-ignore
-  if (!account.derivations)
-    return HDAccountDeprecatedV3.selectAddressLabels(account)
   const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
   const derivation = DerivationList.getDerivationFromType(
@@ -135,10 +117,6 @@ export const selectAddressLabels = (account, type) => {
 }
 
 export const getAddress = (account, path, network, type?) => {
-  // TODO: SEGWIT remove w/ DEPRECATED_V3
-  // @ts-ignore
-  if (!account.derivations)
-    return HDAccountDeprecatedV3.getAddress(account, path, network)
   const [, chain, index] = split('/', path)
   const i = parseInt(index)
   const c = parseInt(chain)
@@ -149,14 +127,6 @@ export const getAddress = (account, path, network, type?) => {
 }
 
 export const getReceiveAddress = (account, receiveIndex, network, type?) => {
-  // TODO: SEGWIT remove w/ DEPRECATED_V3
-  // @ts-ignore
-  if (!account.derivations)
-    return HDAccountDeprecatedV3.getReceiveAddress(
-      account,
-      receiveIndex,
-      network
-    )
   HDAccount.guard(account)
   const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
@@ -165,10 +135,6 @@ export const getReceiveAddress = (account, receiveIndex, network, type?) => {
 }
 
 export const getChangeAddress = (account, changeIndex, network, type?) => {
-  // TODO: SEGWIT remove w/ DEPRECATED_V3
-  // @ts-ignore
-  if (!account.derivations)
-    return HDAccountDeprecatedV3.getChangeAddress(account, changeIndex, network)
   HDAccount.guard(account)
   const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
@@ -221,11 +187,6 @@ export const fromJS = (account, index) => {
 }
 
 export const toJSwithIndex = pipe(HDAccount.guard, acc => {
-  // TODO: SEGWIT remove w/ DEPRECATED_V3
-  // @ts-ignore
-  // console.log(acc)
-  // @ts-ignore
-  if (!acc.derivations) return HDAccountDeprecatedV3.toJSwithIndex(acc)
   const accountDecons = compose(over(derivations, DerivationList.toJS))
   // @ts-ignore
   return accountDecons(acc).toJS()

@@ -8,7 +8,6 @@ import * as crypto from '../walletCrypto'
 import * as Derivation from './Derivation'
 import * as HDAccount from './HDAccount'
 import * as HDAccountList from './HDAccountList'
-import * as HDWallet_DEPRECATED_V3 from './HDWallet_DEPRECATED_V3'
 import Type from './Type'
 import { shift, shiftIProp } from './util'
 
@@ -32,55 +31,44 @@ export const selectAccounts = view(accounts)
 export const selectDefaultAccountIdx = view(defaultAccountIdx)
 export const selectMnemonicVerified = compose(Boolean, view(mnemonicVerified))
 
-export const selectAccount = curry((index, hdwallet) =>
-  selectAccounts(hdwallet).get(index)
-)
+export const selectAccount = curry((index, hdwallet) => selectAccounts(hdwallet).get(index))
 
-export const selectDefaultAccount = hdwallet =>
+export const selectDefaultAccount = (hdwallet) =>
   selectAccount(selectDefaultAccountIdx(hdwallet), hdwallet)
 
-export const selectContextGrouped = compose(
-  HDAccountList.selectContextGrouped,
-  selectAccounts
-)
+export const selectContextGrouped = compose(HDAccountList.selectContextGrouped, selectAccounts)
 
-export const selectContext = compose(
-  HDAccountList.selectContext,
-  selectAccounts
-)
+export const selectContext = compose(HDAccountList.selectContext, selectAccounts)
 
 const shiftHDWallet = compose(shiftIProp('seed_hex', 'seedHex'), shift)
 
-export const fromJS = x => {
+export const fromJS = (x) => {
   if (is(HDWallet, x)) {
     return x
   }
-  const hdwalletCons = compose(over(accounts, HDAccountList.fromJS), hdw =>
+  const hdwalletCons = compose(over(accounts, HDAccountList.fromJS), (hdw) =>
     shiftHDWallet(hdw).forward()
   )
   return hdwalletCons(new HDWallet(x))
 }
 
-export const toJS = pipe(HDWallet.guard, hd => {
+export const toJS = pipe(HDWallet.guard, (hd) => {
   const hdwalletDecons = compose(
-    hdw => shiftHDWallet(hdw).back(),
+    (hdw) => shiftHDWallet(hdw).back(),
     over(accounts, HDAccountList.toJS)
   )
   return hdwalletDecons(hd).toJS()
 })
 
-export const reviver = jsObject => {
+export const reviver = (jsObject) => {
   return new HDWallet(jsObject)
 }
 
 const deriveAccountNodeAtIndex = (seedHex, purpose, index, network) => {
   if (!seedHex) return
-  let seed = BIP39.mnemonicToSeed(BIP39.entropyToMnemonic(seedHex))
-  let masterNode = Bitcoin.bip32.fromSeed(Buffer.from(seed), network)
-  return masterNode
-    .deriveHardened(purpose)
-    .deriveHardened(0)
-    .deriveHardened(index)
+  const seed = BIP39.mnemonicToSeed(BIP39.entropyToMnemonic(seedHex))
+  const masterNode = Bitcoin.bip32.fromSeed(Buffer.from(seed), network)
+  return masterNode.deriveHardened(purpose).deriveHardened(0).deriveHardened(index)
 }
 
 export const generateDerivations = (seedHex, index, network) => {
@@ -90,36 +78,22 @@ export const generateDerivations = (seedHex, index, network) => {
   })
 }
 
-export const generateDerivation = curry(
-  (type, purpose, index, network, seedHex) => {
-    let node = deriveAccountNodeAtIndex(seedHex, purpose, index, network)
-    return Derivation.fromJS(Derivation.js(type, purpose, node, null))
-  }
-)
+export const generateDerivation = curry((type, purpose, index, network, seedHex) => {
+  const node = deriveAccountNodeAtIndex(seedHex, purpose, index, network)
+  return Derivation.fromJS(Derivation.js(type, purpose, node, null))
+})
 
-export const generateAccount = curry(
-  (index, label, network, payloadV, seedHex) => {
-    // TODO: SEGWIT remove (version) w/ DEPRECATED_V3
-    if (payloadV < 4)
-      return HDWallet_DEPRECATED_V3.generateAccount(
-        index,
-        label,
-        network,
-        seedHex
-      )
-    const derivations = generateDerivations(seedHex, index, network)
-    return HDAccount.fromJS(HDAccount.js(label, derivations))
-  }
-)
+export const generateAccount = curry((index, label, network, payloadV, seedHex) => {
+  const derivations = generateDerivations(seedHex, index, network)
+  return HDAccount.fromJS(HDAccount.js(label, derivations))
+})
 
 // encrypt :: Number -> String -> String -> HDWallet -> Task Error HDWallet
 export const encrypt = curry((iterations, sharedKey, password, hdWallet) => {
   const cipher = crypto.encryptSecPass(sharedKey, iterations, password)
   const traverseSeed = traverseOf(seedHex, Task.of, cipher)
   const traverseAccounts = traverseOf(secretsLens, Task.of, cipher)
-  return Task.of(hdWallet)
-    .chain(traverseSeed)
-    .chain(traverseAccounts)
+  return Task.of(hdWallet).chain(traverseSeed).chain(traverseAccounts)
 })
 
 // decrypt :: Number -> String -> String -> HDWallet -> Task Error HDWallet
@@ -127,33 +101,31 @@ export const decrypt = curry((iterations, sharedKey, password, hdWallet) => {
   const cipher = crypto.decryptSecPass(sharedKey, iterations, password)
   const traverseSeed = traverseOf(seedHex, Task.of, cipher)
   const traverseAccounts = traverseOf(secretsLens, Task.of, cipher)
-  return Task.of(hdWallet)
-    .chain(traverseSeed)
-    .chain(traverseAccounts)
+  return Task.of(hdWallet).chain(traverseSeed).chain(traverseAccounts)
 })
 
-export const createNew = mnemonic =>
+export const createNew = (mnemonic) =>
   fromJS({
-    seed_hex: mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : '',
-    passphrase: '',
-    mnemonic_verified: false,
+    accounts: [],
     default_account_idx: 0,
-    accounts: []
+    mnemonic_verified: false,
+    passphrase: '',
+    seed_hex: mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : ''
   })
 
 export const js = (label, mnemonic, nAccounts, network) => {
   const seedHex = mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : ''
 
-  const createAccountAtIndex = i => {
+  const createAccountAtIndex = (i) => {
     const derivations = generateDerivations(seedHex, i, network)
     return HDAccount.js(`${label}${i > 0 ? ` ${i + 1}` : ''}`, derivations)
   }
 
   return {
-    seed_hex: seedHex,
-    passphrase: '',
-    mnemonic_verified: false,
+    accounts: map(createAccountAtIndex, range(0, nAccounts)),
     default_account_idx: 0,
-    accounts: map(createAccountAtIndex, range(0, nAccounts))
+    mnemonic_verified: false,
+    passphrase: '',
+    seed_hex: seedHex
   }
 }
