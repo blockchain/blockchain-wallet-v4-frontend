@@ -229,8 +229,7 @@ class WalletBalanceDropdown extends Component<Props> {
               })}
             </Text>
           )
-        case this.hasBalanceOrAccounts(props.selectProps.options) ||
-          !this.props.coinModel.availability.request:
+        case this.hasBalanceOrAccounts(props.selectProps.options):
           return (
             <UserPortfolioPositionChange
               coin={this.props.coin as CoinType}

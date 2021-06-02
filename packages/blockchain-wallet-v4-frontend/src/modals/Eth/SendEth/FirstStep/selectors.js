@@ -20,8 +20,7 @@ export const getData = createDeepEqualSelector(
     },
     (state) => selectors.core.common.eth.getErc20AccountBalances(state, 'PAX').map(head),
     selectors.core.kvStore.lockbox.getDevices,
-    selectors.form.getFormValues(model.components.sendEth.FORM),
-    (state, coin) => selectors.core.walletOptions.getCoinAvailability(state, coin)
+    selectors.form.getFormValues(model.components.sendEth.FORM)
   ],
   (
     isMnemonicVerified,
@@ -31,11 +30,9 @@ export const getData = createDeepEqualSelector(
     balanceR,
     paxBalanceR,
     lockboxDevicesR,
-    formValues,
-    coinAvailability
+    formValues
   ) => {
     const enableToggle = !isEmpty(lockboxDevicesR.getOrElse([]))
-    const excludeLockbox = !prop('lockbox', coinAvailability.getOrElse({}))
     // TODO: include any/all ERC20 balances in future
     const hasErc20Balance = gt(prop('balance', paxBalanceR.getOrElse(0)), 0)
 
@@ -84,7 +81,7 @@ export const getData = createDeepEqualSelector(
         balanceStatus: balanceR,
         effectiveBalance,
         enableToggle,
-        excludeLockbox,
+        excludeLockbox: true,
         fee,
         feeElements,
         feeToggled,

@@ -200,7 +200,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 )}
                 {coin in WalletFiatEnum && (
                   <>
-                    {(coinModel as SupportedFiatType).availability.deposit && (
+                    {window.coins[coin].coinfig.type.isFiat && (
                       <Button
                         nature='primary'
                         data-e2e='depositFiat'
@@ -223,7 +223,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                         <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />
                       </Button>
                     )}
-                    {(coinModel as SupportedFiatType).availability.withdrawal && (
+                    {window.coins[coin].coinfig.type.isFiat && (
                       <Button
                         nature='primary'
                         data-e2e='withdrawFiat'

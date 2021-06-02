@@ -73,7 +73,25 @@ const configureStore = async function () {
         ...acc,
         [curr.symbol]: { coinfig: curr }
       }),
-      {}
+      // TODO: remove when BE send wdgld from currencies/erc20
+      {
+        WDGLD: {
+          coinfig: {
+            name: 'wrapped-DGLD',
+            precision: 18,
+            products: ['PrivateKey'],
+            symbol: 'WDGLD',
+            type: {
+              erc20Address: '0x123151402076fc819B7564510989e475c9cD93CA',
+              logoPngUrl:
+                'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x0000000000085d4780B73119b644AE5ecd22b376/logo.png',
+              name: 'ERC20',
+              parentChain: 'ETH',
+              websiteUrl: 'https://etherscan.io/token/0x123151402076fc819B7564510989e475c9cD93CA'
+            }
+          }
+        }
+      }
     )
   }
 

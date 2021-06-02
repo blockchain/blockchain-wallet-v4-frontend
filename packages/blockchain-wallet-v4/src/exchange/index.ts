@@ -4,11 +4,11 @@ import { path, prop } from 'ramda'
 
 import { CoinType, FiatType, RatesType, WalletCurrencyType, WalletFiatType } from 'core/types'
 
-import Currencies, { CurrenciesType } from './currencies'
+import Currencies, { FiatCurrenciesType } from './currencies'
 import { formatCoin, getLang } from './utils'
 
 type KeysOfUnion<T> = T extends any ? keyof T : never
-export type UnitType = KeysOfUnion<CurrenciesType[keyof CurrenciesType]['units']>
+export type UnitType = KeysOfUnion<FiatCurrenciesType[keyof FiatCurrenciesType]['units']>
 
 const getSymbol = (currency): string => {
   const data = Currencies[currency]
@@ -78,7 +78,7 @@ const convertFiatToCoin = ({
   value,
 }: {
   coin: CoinType
-  currency: keyof CurrenciesType
+  currency: keyof FiatCurrenciesType
   rates: RatesType
   value: number | string
 }): string => {
@@ -138,7 +138,7 @@ const displayCoinToFiat = ({
   value,
 }: {
   rates: RatesType
-  toCurrency: keyof CurrenciesType
+  toCurrency: keyof FiatCurrenciesType
   value: number | string
 }): string => {
   const { last } = rates[toCurrency as FiatType]

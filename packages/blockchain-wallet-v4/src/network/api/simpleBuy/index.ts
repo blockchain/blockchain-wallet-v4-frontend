@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { BankTransferAccountType, UserDataType } from 'data/types'
 
-import { CoinType, CurrenciesType, FiatType, WalletCurrencyType } from '../../../types'
+import { CoinType, FiatCurrenciesType, FiatType, WalletCurrencyType } from '../../../types'
 import { NabuCustodialProductType } from '../custodial/types'
 import { SwapOrderStateType, SwapOrderType, SwapUserLimitsType } from '../swap/types'
 import {
@@ -203,7 +203,7 @@ export default ({
       url: nabuUrl
     })
 
-  const getSBFiatEligible = (currency: keyof CurrenciesType): FiatEligibleType =>
+  const getSBFiatEligible = (currency: keyof FiatCurrenciesType): FiatEligibleType =>
     authorizedGet({
       data: {
         fiatCurrency: currency,
@@ -239,7 +239,7 @@ export default ({
       url: nabuUrl
     })
 
-  const getSBPairs = (currency: keyof CurrenciesType): { pairs: Array<SBPairType> } =>
+  const getSBPairs = (currency: keyof FiatCurrenciesType): { pairs: Array<SBPairType> } =>
     get({
       data: {
         fiatCurrency: currency
@@ -248,7 +248,7 @@ export default ({
       url: nabuUrl
     })
 
-  const getSBPaymentAccount = (currency: keyof CurrenciesType): SBAccountType =>
+  const getSBPaymentAccount = (currency: keyof FiatCurrenciesType): SBAccountType =>
     authorizedPut({
       contentType: 'application/json',
       data: {
@@ -392,12 +392,7 @@ export default ({
       url: `${everypayUrl}/api/v3/mobile_payments/card_details`
     })
 
-  const withdrawSBFunds = (
-    address: string,
-    currency: keyof CurrenciesType,
-    amount: string,
-    fee?: number
-  ) =>
+  const withdrawSBFunds = (address: string, currency: string, amount: string, fee?: number) =>
     authorizedPost({
       contentType: 'application/json',
       data: {

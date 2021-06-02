@@ -19,32 +19,4 @@ describe('walletOptions selectors', () => {
   it('getEthTxFuse should return correct lastTxFuse', () => {
     expect(selectors.getEthTxFuse(successState)).toEqual(Remote.of(600))
   })
-
-  it('getCoinAvailability should return correct btc availability', () => {
-    const expected = {
-      send: true,
-      request: true,
-      lockbox: true,
-      exchangeFrom: true,
-      exchangeTo: true,
-      syncToPit: true
-    }
-    expect(selectors.getCoinAvailability(successState, 'BTC')).toEqual(
-      Remote.of(expected)
-    )
-  })
-
-  it('getCoinAvailability should return correct eth availability', () => {
-    const expected = {
-      send: true,
-      request: true,
-      lockbox: true,
-      exchangeFrom: true,
-      exchangeTo: true,
-      syncToPit: true
-    }
-    expect(selectors.getCoinAvailability(successState, 'ETH')).toEqual(
-      Remote.of(expected)
-    )
-  })
 })

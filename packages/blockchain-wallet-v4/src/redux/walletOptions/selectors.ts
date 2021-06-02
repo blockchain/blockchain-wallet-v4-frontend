@@ -73,16 +73,7 @@ export const getSupportedCoins = createDeepEqualSelector(
   }
 ) as (state: RootState) => RemoteDataType<string, SupportedWalletCurrenciesType>
 
-export const getSyncToExchangeList = (state) =>
-  getSupportedCoins(state)
-    .map(
-      filter(
-        (value: SupportedWalletCurrencyType) =>
-          // @ts-ignore
-          value.availability.syncToPit
-      )
-    )
-    .map(keys)
+export const getSyncToExchangeList = (state) => getSupportedCoins(state).map(keys)
 export const getBtcNetwork = (state) =>
   getSupportedCoins(state).map(path(['BTC', 'config', 'network']))
 export const getEthTxFuse = (state) => getSupportedCoins(state).map(path(['ETH', 'lastTxFuse']))
@@ -92,21 +83,6 @@ export const getXlmExchangeAddresses = (state) =>
   getSupportedCoins(state).map(path(['XLM', 'exchangeAddresses']))
 export const getStxCampaign = (state) =>
   getWebOptions(state).map(path(['coins', 'STX', 'campaign']))
-
-// coin feature availability
-export const getCoinAvailability = curry((state, coin) =>
-  getSupportedCoins(state).map(path([toUpper(coin), 'availability']))
-)
-export const getAllCoinAvailabilities = (state) => {
-  return map(map(prop('availability')), getSupportedCoins(state)) as RemoteDataType<
-    any,
-    {
-      [key in CoinType]: {
-        [key in keyof SupportedCoinType['availability']]: boolean
-      }
-    }
-  >
-}
 
 export const getErc20CoinList = (state): RemoteDataType<any, CoinType[]> =>
   getSupportedCoins(state).map(

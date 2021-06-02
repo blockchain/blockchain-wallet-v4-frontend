@@ -66,7 +66,6 @@ export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorT
       isEmpty(coinList) || isNil(coinList)
         ? Remote.of({})
         : coinList.reduce((accounts, coin) => {
-            console.log(coin)
             const { coinfig } = window.coins[coin]
             accounts[coin] = coinSelectors[
               coinfig.type.erc20Address ? 'ERC20' : coin
