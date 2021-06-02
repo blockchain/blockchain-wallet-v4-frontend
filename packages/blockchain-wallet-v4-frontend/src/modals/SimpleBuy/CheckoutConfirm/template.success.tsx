@@ -266,9 +266,8 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                       defaultMessage='Blockchain.com requires a fee when paying with a card.'
                     />
                   </Text>
-                  {/* TODO: update link */}
                   <Link
-                    href='https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox'
+                    href='https://support.blockchain.com/hc/en-us/articles/360061672651'
                     size='14px'
                     rel='noopener noreferrer'
                     target='_blank'
@@ -345,9 +344,8 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                         defaultMessage='Blockchain.com requires a fee when paying with a card.'
                       />
                     </Text>
-                    {/* TODO: update link */}
                     <Link
-                      href='https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox'
+                      href='https://support.blockchain.com/hc/en-us/articles/360061672651'
                       size='14px'
                       rel='noopener noreferrer'
                       target='_blank'
@@ -383,7 +381,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
               <Text size='12px' weight={500} color='grey900'>
                 <FormattedMessage
                   id='modals.simplebuy.confirm.activity_card11'
-                  defaultMessage='Your final amount might change due to market activity. For your security, buy orders with a bank account are subject up to a 14 day holding period. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
+                  defaultMessage='Your final amount might change due to market activity. For your security, buy orders with a bank account are subject to up to a 14 day holding period. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
                 />
               </Text>
             ) : (

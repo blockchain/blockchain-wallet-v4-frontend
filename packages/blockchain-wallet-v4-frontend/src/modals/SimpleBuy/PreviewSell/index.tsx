@@ -215,6 +215,7 @@ class PreviewSell extends PureComponent<
         const counterCoinTicker = coins[COUNTER].coinTicker
         const { rates, ratesEth } = this.props
         const fiatCurrency = getFiatFromPair(this.props.pair.pair)
+        const isErc20 = coins[COUNTER].contractAddress
 
         return (
           <CustomForm onSubmit={this.handleSubmit}>
@@ -329,9 +330,8 @@ class PreviewSell extends PureComponent<
                             defaultMessage='Blockchain.com provides the best market price we receive and applies a spread.'
                           />
                         </Text>
-                        {/* TODO: update link */}
                         <Link
-                          href='https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox'
+                          href='https://support.blockchain.com/hc/en-us/articles/360061675191'
                           size='14px'
                           rel='noopener noreferrer'
                           target='_blank'
@@ -448,12 +448,16 @@ class PreviewSell extends PureComponent<
                             <Text size='14px'>
                               <FormattedMessage
                                 id='modals.simplebuy.confirm.network_fees'
-                                defaultMessage='Network fees are set by the Bitcoin network.'
+                                defaultMessage='Network fees are set by the {coin} network.'
+                                values={{ coin: counterCoinTicker }}
                               />
                             </Text>
-                            {/* TODO: update link */}
                             <Link
-                              href='https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox'
+                              href={
+                                isErc20
+                                  ? 'https://support.blockchain.com/hc/en-us/articles/360061258732'
+                                  : 'https://support.blockchain.com/hc/en-us/articles/360061672651'
+                              }
                               size='14px'
                               rel='noopener noreferrer'
                               target='_blank'

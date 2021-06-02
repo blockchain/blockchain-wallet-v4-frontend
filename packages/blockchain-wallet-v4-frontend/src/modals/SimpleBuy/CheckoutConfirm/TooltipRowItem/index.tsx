@@ -31,7 +31,7 @@ const IconWrapper = styled.div`
 const RowText = styled(Text)`
   font-size: 16px;
   font-weight: 500;
-  color: ${props => props.theme.grey900};
+  color: ${(props) => props.theme.grey900};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -42,7 +42,7 @@ const ToolTipText = styled.div`
   border-radius: 8px;
   margin-top: 8px;
   padding: 16px;
-  background-color: ${props => props.theme.grey000};
+  background-color: ${(props) => props.theme.grey000};
 
   animation: fadeIn 0.3s ease-in-out;
   @keyframes fadeIn {
@@ -88,9 +88,8 @@ const TooltipRowItem = ({ title, value }: Props) => {
                   defaultMessage='Blockchain.com requires a fee when paying with a card.'
                 />
               </Text>
-              {/* TODO: update link */}
               <Link
-                href='https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox'
+                href='https://support.blockchain.com/hc/en-us/articles/360061672651'
                 size='14px'
                 rel='noopener noreferrer'
                 target='_blank'
