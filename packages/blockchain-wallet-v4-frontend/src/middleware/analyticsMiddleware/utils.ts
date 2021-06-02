@@ -3,7 +3,7 @@ import * as crypto from 'crypto'
 import { PaymentValue, SBPaymentTypes } from 'core/types'
 import { SBShowModalOriginType } from 'data/types'
 
-const simpleBuyOriginDictionary = (rawOrigin: SBShowModalOriginType) => {
+const simpleBuyOriginDictionary = (rawOrigin: SBShowModalOriginType | string) => {
   switch (rawOrigin) {
     case 'InterestPage':
       return 'SAVINGS'
@@ -17,6 +17,8 @@ const simpleBuyOriginDictionary = (rawOrigin: SBShowModalOriginType) => {
       return 'PRICE_CHART'
     case 'SimpleBuyLink':
       return 'BUY_WIDGET'
+    case 'CurrencyList':
+      return 'CURRENCY_PAGE'
     default: {
       return rawOrigin
     }

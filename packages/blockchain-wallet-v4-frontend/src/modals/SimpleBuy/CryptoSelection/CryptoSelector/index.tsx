@@ -4,22 +4,13 @@ import { any, map, values } from 'ramda'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import {
-  Icon,
-  Image,
-  TabMenu,
-  TabMenuItem,
-  Text
-} from 'blockchain-info-components'
+import { Icon, Image, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { OrderType, SBPairType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
 import { model } from 'data'
 import { SUPPORTED_COINS } from 'data/coins/model/swap'
-import {
-  getCoinFromPair,
-  getFiatFromPair
-} from 'data/components/simpleBuy/model'
+import { getCoinFromPair, getFiatFromPair } from 'data/components/simpleBuy/model'
 import { SwapAccountType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
@@ -43,7 +34,7 @@ const TabsContainer = styled.div`
   display: inline-block;
 `
 const Currencies = styled.div`
-  border-top: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 const Top = styled.div`
   display: flex;
@@ -72,8 +63,7 @@ const Header = styled.div`
 
 export type Props = OwnProps & SuccessStateType
 
-const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
-  Props> = props => {
+const CryptoSelector: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const [orderType, setOrderType] = useState(props.orderType)
   const showWelcome = props.isFirstLogin && !props.sddTransactionFinished
 
@@ -83,11 +73,11 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
     // if first time user, send to verify email step which is required future SDD check
     if (!props.emailVerified && currentTier !== 2 && currentTier !== 1) {
       return props.simpleBuyActions.setStep({
-        step: 'VERIFY_EMAIL',
-        orderType: orderType,
         cryptoCurrency: getCoinFromPair(pair.pair),
         fiatCurrency: getFiatFromPair(pair.pair),
-        pair
+        orderType,
+        pair,
+        step: 'VERIFY_EMAIL'
       })
     }
 
@@ -100,28 +90,26 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
 
     // default continue to enter amount step
     return props.simpleBuyActions.setStep({
-      step: 'ENTER_AMOUNT',
-      orderType: orderType,
       cryptoCurrency: getCoinFromPair(pair.pair),
       fiatCurrency: getFiatFromPair(pair.pair),
-      pair
+      orderType,
+      pair,
+      step: 'ENTER_AMOUNT'
     })
   }
 
   const handleSell = (swapAccount: SwapAccountType) => {
-    const pair = props.pairs.find(
-      value => getCoinFromPair(value.pair) === swapAccount.coin
-    )
+    const pair = props.pairs.find((value) => getCoinFromPair(value.pair) === swapAccount.coin)
 
     if (!pair) return
 
     props.simpleBuyActions.setStep({
-      step: 'ENTER_AMOUNT',
-      swapAccount,
-      orderType,
       cryptoCurrency: getCoinFromPair(pair.pair),
       fiatCurrency: getFiatFromPair(pair.pair),
-      pair
+      orderType,
+      pair,
+      step: 'ENTER_AMOUNT',
+      swapAccount
     })
     // reset form values so order doesn't hold values
     // if user changes wallet/coin
@@ -130,13 +118,13 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
 
   // Check to see if any accounts have balance
   // @ts-ignore
-  const checkAccountsBalances = any(hasFunds => hasFunds)(
+  const checkAccountsBalances = any((hasFunds) => hasFunds)(
     // @ts-ignore
     values(
       // @ts-ignore
       map(
         // @ts-ignore
-        coin => any(acct => acct.balance !== 0 && acct.balance !== '0')(coin),
+        (coin) => any((acct) => acct.balance !== 0 && acct.balance !== '0')(coin),
         // @ts-ignore
         props.accounts
       )
@@ -170,9 +158,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
             </Header>
           )}
           <Top>
-            {!showWelcome && (
-              <Icon cursor name='cart-filled' size='32px' color='blue600' />
-            )}
+            {!showWelcome && <Icon cursor name='cart-filled' size='32px' color='blue600' />}
           </Top>
           {!showWelcome && (
             <>
@@ -216,28 +202,22 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
                   selected={orderType === 'BUY'}
                   onClick={() => {
                     setOrderType('BUY')
-                    props.analyticsActions.logEvent('SB_BUY_BUTTON')
+                    props.simpleBuyActions.setBuyCrypto('CurrencyList')
                   }}
                   data-e2e='sbBuyButton'
                 >
-                  <FormattedMessage
-                    id='buttons.buy_crypto'
-                    defaultMessage='Buy Crypto'
-                  />
+                  <FormattedMessage id='buttons.buy_crypto' defaultMessage='Buy Crypto' />
                 </TabMenuItem>
                 <TabMenuItem
                   role='button'
                   selected={orderType === OrderType.SELL}
                   onClick={() => {
                     setOrderType(OrderType.SELL)
-                    props.analyticsActions.logEvent('SB_SELL_BUTTON')
+                    props.simpleBuyActions.setSellCrypto('CurrencyList')
                   }}
                   data-e2e='sbSellButton'
                 >
-                  <FormattedMessage
-                    id='buttons.sell_crypto'
-                    defaultMessage='Sell Crypto'
-                  />
+                  <FormattedMessage id='buttons.sell_crypto' defaultMessage='Sell Crypto' />
                 </TabMenuItem>
               </TabMenu>
             </TabsContainer>
@@ -246,10 +226,10 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
         <Currencies>
           {orderType === OrderType.SELL ? (
             checkAccountsBalances ? (
-              SUPPORTED_COINS.map(coin => {
+              SUPPORTED_COINS.map((coin) => {
                 const accounts = props.accounts[coin] as Array<SwapAccountType>
                 return accounts.map(
-                  account =>
+                  (account) =>
                     account.balance !== '0' &&
                     account.balance !== 0 && (
                       <CoinAccountListOption
@@ -286,6 +266,6 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
 }
 
 export default reduxForm<{}, Props>({
-  form: SB_CRYPTO_SELECTION,
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
+  form: SB_CRYPTO_SELECTION
 })(CryptoSelector)

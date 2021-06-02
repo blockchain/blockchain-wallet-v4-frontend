@@ -79,14 +79,13 @@ type BuyPaymentMethodSelectedPayload = BasePayload & {
 }
 
 type BuySellClickedPayload = BasePayload & {
-  origin: 'BUY_WIDGET' | string
-
-  // type: "BUY" | "SELL"
+  origin: string
+  type: 'BUY' | 'SELL'
 }
 
 type BuySellViewedPayload = BasePayload &
   PageViewPayload & {
-    // type: "BUY" | "SELL"
+    type: 'BUY' | 'SELL'
   }
 
 type DashboardClickedPayload = BasePayload & {

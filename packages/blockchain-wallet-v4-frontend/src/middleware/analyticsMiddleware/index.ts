@@ -78,7 +78,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               id,
               nabuId,
               origin,
-              originalTimestamp: getOriginalTimestamp()
+              originalTimestamp: getOriginalTimestamp(),
+              type: 'BUY'
             })
 
             analytics.push(AnalyticsKey.BUY_SELL_VIEWED, {
@@ -90,6 +91,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               referrer,
               search,
               title,
+              type: 'BUY',
               url: href
             })
 
@@ -482,7 +484,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-
       case AT.components.request.SET_ADDRESS_COPIED: {
         const state = store.getState()
         const accountType =
@@ -498,6 +499,67 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           id,
           nabuId,
           originalTimestamp: getOriginalTimestamp()
+        })
+
+        break
+      }
+      case AT.components.simpleBuy.SET_BUY_CRYPTO: {
+        const rawOrigin = action.payload.props.origin
+        const { href, pathname, search } = window.location
+        const { referrer, title } = document
+
+        const origin = simpleBuyOriginDictionary(rawOrigin)
+
+        analytics.push(AnalyticsKey.BUY_SELL_CLICKED, {
+          analyticsType: AnalyticsType.EVENT,
+          id,
+          nabuId,
+          origin,
+          originalTimestamp: getOriginalTimestamp(),
+          type: 'BUY'
+        })
+
+        analytics.push(AnalyticsKey.BUY_SELL_VIEWED, {
+          analyticsType: AnalyticsType.EVENT,
+          id,
+          nabuId,
+          originalTimestamp: getOriginalTimestamp(),
+          path: pathname,
+          referrer,
+          search,
+          title,
+          type: 'BUY',
+          url: href
+        })
+        break
+      }
+      case AT.components.simpleBuy.SET_SELL_CRYPTO: {
+        const rawOrigin = action.payload.props.origin
+        const { href, pathname, search } = window.location
+        const { referrer, title } = document
+
+        const origin = simpleBuyOriginDictionary(rawOrigin)
+
+        analytics.push(AnalyticsKey.BUY_SELL_CLICKED, {
+          analyticsType: AnalyticsType.EVENT,
+          id,
+          nabuId,
+          origin,
+          originalTimestamp: getOriginalTimestamp(),
+          type: 'SELL'
+        })
+
+        analytics.push(AnalyticsKey.BUY_SELL_VIEWED, {
+          analyticsType: AnalyticsType.EVENT,
+          id,
+          nabuId,
+          originalTimestamp: getOriginalTimestamp(),
+          path: pathname,
+          referrer,
+          search,
+          title,
+          type: 'SELL',
+          url: href
         })
 
         break
