@@ -5,11 +5,7 @@ import styled from 'styled-components'
 
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import {
-  getBaseAmount,
-  getBaseCurrency,
-  getOrderType
-} from 'data/components/simpleBuy/model'
+import { getBaseAmount, getBaseCurrency, getOrderType } from 'data/components/simpleBuy/model'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import InterestBanner from './InterestBanner'
@@ -60,7 +56,7 @@ const IconBackground = styled.div<{ color: string }>`
   z-index: 100;
   position: absolute;
   right: -5px;
-  background: ${props => props.theme[props.color]};
+  background: ${(props) => props.theme[props.color]};
 `
 const IconWrapper = styled.div`
   display: flex;
@@ -74,12 +70,12 @@ const TitleWrapper = styled(Text)`
 const BottomInfo = styled(Bottom)`
   text-align: center;
   a {
-    color: ${props => props.theme.blue600};
+    color: ${(props) => props.theme.blue600};
     text-decoration: none;
   }
 `
 
-const Success: React.FC<Props> = props => {
+const Success: React.FC<Props> = (props) => {
   const orderType = getOrderType(props.order)
   const baseAmount = getBaseAmount(props.order)
   const baseCurrency = getBaseCurrency(props.order, props.supportedCoins)
@@ -89,12 +85,10 @@ const Success: React.FC<Props> = props => {
       : 3
 
   const isPendingDeposit = props.order.state === 'PENDING_DEPOSIT'
-  const isPendingAch =
-    isPendingDeposit && props.order.paymentType === 'BANK_TRANSFER'
+  const isPendingAch = isPendingDeposit && props.order.paymentType === 'BANK_TRANSFER'
   const isTransactionPending =
     isPendingDeposit &&
-    props.order.attributes?.everypay?.paymentState ===
-      'WAITING_FOR_3DS_RESPONSE'
+    props.order.attributes?.everypay?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
   const { show } = props.afterTransaction
 
   return (
@@ -123,11 +117,7 @@ const Success: React.FC<Props> = props => {
 
             {props.order.state === 'FINISHED' ? (
               <IconBackground color='white'>
-                <Icon
-                  name='checkmark-circle-filled'
-                  size='24px'
-                  color='green400'
-                />
+                <Icon name='checkmark-circle-filled' size='24px' color='green400' />
               </IconBackground>
             ) : props.order.state === 'FAILED' ? (
               <IconBackground color='white'>
@@ -140,12 +130,7 @@ const Success: React.FC<Props> = props => {
             )}
           </IconWrapper>
           <TitleWrapper>
-            <Text
-              data-e2e='sbSddPurchasing'
-              size='20px'
-              weight={600}
-              color='grey800'
-            >
+            <Text data-e2e='sbSddPurchasing' size='20px' weight={600} color='grey800'>
               {isPendingAch ? (
                 <FormattedMessage
                   id='modals.simplebuy.summary.buy_started'
@@ -177,12 +162,7 @@ const Success: React.FC<Props> = props => {
               )}
             </Text>
 
-            <Text
-              size='14px'
-              weight={500}
-              color='grey600'
-              style={{ marginTop: '8px' }}
-            >
+            <Text size='14px' weight={500} color='grey600' style={{ marginTop: '8px' }}>
               {props.order.state === 'FINISHED' && (
                 <FormattedMessage
                   id='modals.simplebuy.transferdetails.available1'
@@ -209,7 +189,7 @@ const Success: React.FC<Props> = props => {
                       defaultMessage='Contact Support'
                     />
                   </Link>
-                  {'.'}
+                  .
                 </>
               )}
               {props.order.state === 'PENDING_DEPOSIT' ||
@@ -236,8 +216,8 @@ const Success: React.FC<Props> = props => {
                 nature='primary'
                 onClick={() =>
                   props.simpleBuyActions.setStep({
-                    step: '3DS_HANDLER',
-                    order: props.order
+                    order: props.order,
+                    step: '3DS_HANDLER'
                   })
                 }
               >
@@ -274,15 +254,10 @@ const Success: React.FC<Props> = props => {
                   <FormattedMessage
                     id='modals.simplebuy.summary.complete_card_info_main'
                     defaultMessage='For your security, first time card purchases are subject to a {days} day holding period before you can send or withdraw your purchased crypto. We will notify you when the hold is lifted.'
-                    values={{ days: days }}
+                    values={{ days }}
                   />
                 </Text>
-                <Text
-                  color='grey600'
-                  size='14px'
-                  weight={500}
-                  style={{ marginTop: '16px' }}
-                >
+                <Text color='grey600' size='14px' weight={500} style={{ marginTop: '16px' }}>
                   <span>
                     <FormattedMessage
                       id='modals.simplebuy.summary.complete_card_info_additional'
@@ -293,10 +268,7 @@ const Success: React.FC<Props> = props => {
                       rel='noopener noreferrer'
                       target='_blank'
                     >
-                      <FormattedMessage
-                        id='copy.learn_more'
-                        defaultMessage='Learn more'
-                      />
+                      <FormattedMessage id='copy.learn_more' defaultMessage='Learn more' />
                     </a>
                   </span>
                 </Text>
@@ -311,7 +283,7 @@ const Success: React.FC<Props> = props => {
                   <FormattedMessage
                     id='modals.simplebuy.summary.ach_lock'
                     defaultMessage='Note: You will not be able to Send or Withdraw these funds from your Wallet for the next {days} days.'
-                    values={{ days: days }}
+                    values={{ days }}
                   />{' '}
                   <span>
                     <a
@@ -319,10 +291,7 @@ const Success: React.FC<Props> = props => {
                       rel='noopener noreferrer'
                       target='_blank'
                     >
-                      <FormattedMessage
-                        id='copy.learn_more'
-                        defaultMessage='Learn more'
-                      />
+                      <FormattedMessage id='copy.learn_more' defaultMessage='Learn more' />
                     </a>
                   </span>
                 </Text>

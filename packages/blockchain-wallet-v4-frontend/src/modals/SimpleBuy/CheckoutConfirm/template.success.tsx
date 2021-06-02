@@ -262,8 +262,8 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                 <TextGroup inline>
                   <Text size='14px'>
                     <FormattedMessage
-                      id='modals.simplebuy.paying_with_card'
-                      defaultMessage='Blockchain.com requires a fee when paying with a card.'
+                      id='modals.simplebuy.confirm.coin_tooltip'
+                      defaultMessage='Blockchain.com provides the best market price we receive and applies a spread.'
                     />
                   </Text>
                   <Link
