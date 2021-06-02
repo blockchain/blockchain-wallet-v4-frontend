@@ -192,7 +192,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           nabuId,
           originalTimestamp: getOriginalTimestamp(),
           output_currency: outputCurrency,
-          platform: 'WALLET',
           type: AnalyticsType.EVENT
         })
         break
@@ -210,7 +209,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           nabuId,
           originalTimestamp: getOriginalTimestamp(),
           output_currency: outputCurrency,
-          platform: 'WALLET',
           type: AnalyticsType.EVENT
         })
         break
@@ -226,7 +224,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           nabuId,
           originalTimestamp: getOriginalTimestamp(),
           output_currency: outputCurrency,
-          platform: 'WALLET',
           type: AnalyticsType.EVENT
         })
         break
@@ -239,7 +236,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           nabuId,
           originalTimestamp: getOriginalTimestamp(),
           payment_type: simpleBuyPaymentTypeDictionary(paymentType),
-          platform: 'WALLET',
           type: AnalyticsType.EVENT
         })
         break
@@ -258,7 +254,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           id,
           nabuId,
           originalTimestamp: getOriginalTimestamp(),
-          platform: 'WALLET',
           type: AnalyticsType.EVENT
         })
         break
@@ -268,7 +263,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           id,
           nabuId,
           originalTimestamp: getOriginalTimestamp(),
-          platform: 'WALLET',
           type: AnalyticsType.EVENT
         })
         break

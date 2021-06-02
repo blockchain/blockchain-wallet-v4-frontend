@@ -43,7 +43,8 @@ const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
       body: JSON.stringify({
         context,
         events,
-        id: generateUniqueUserId(id || randomId)
+        id: generateUniqueUserId(id || randomId),
+        platform: 'WALLET'
       }),
       credentials: 'include',
       headers: {

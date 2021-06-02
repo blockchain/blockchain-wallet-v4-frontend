@@ -3,7 +3,6 @@ enum AnalyticsKey {
   BUY_AMOUNT_ENTERED = 'Buy Amount Entered',
   BUY_AMOUNT_MAX_CLICKED = 'Buy Amount Max Clicked',
   BUY_AMOUNT_MIN_CLICKED = 'Buy Amount Min Clicked',
-  // BUY_LEARN_MORE_CLICKED = 'Buy Learn More Clicked', // doesn't exist on the web
   BUY_PAYMENT_METHOD_SELECTED = 'Buy Payment Method Selected',
   BUY_SELL_CLICKED = 'Buy Sell Clicked',
   BUY_SELL_VIEWED = 'Buy Sell Viewed',
@@ -54,29 +53,26 @@ type BuyAmountEnteredPayload = BasePayload & {
   input_currency: string
   max_card_limit: number
   output_currency: string
-  platform: 'WALLET'
 }
 
 type BuyAmountMaxClickedPayload = BasePayload & {
   input_currency: string
   max_card_limit: number
   output_currency: string
-  platform: 'WALLET'
 }
 
 type BuyAmountMinClickedPayload = BasePayload & {
   input_currency: string
   output_currency: string
-  platform: 'WALLET'
 }
 
 type BuyPaymentMethodSelectedPayload = BasePayload & {
   payment_type: 'BANK_ACCOUNT' | 'BANK_TRANSFER' | 'FUNDS' | 'PAYMENT_CARD'
-  platform: 'WALLET'
 }
 
 type BuySellClickedPayload = BasePayload & {
   origin: 'BUY_WIDGET' | string
+
   // type: "BUY" | "SELL"
 }
 
@@ -95,13 +91,9 @@ type EmailVerificationClicked = BasePayload & {
   // origin: 'SIGN_UP' | 'VERIFICATION'
 }
 
-type SignedInPayload = BasePayload & {
-  platform: 'WALLET'
-}
+type SignedInPayload = BasePayload & {}
 
-type SignedOutPayload = BasePayload & {
-  platform: 'WALLET'
-}
+type SignedOutPayload = BasePayload & {}
 
 type SwapClickedPayload = BasePayload & {
   origin: 'CURRENCY_PAGE' | 'DASHBOARD_PROMO' | 'NAVIGATION'
