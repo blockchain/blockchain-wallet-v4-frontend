@@ -9,11 +9,13 @@ enum AnalyticsKey {
   DASHBOARD_CLICKED = 'Dashboard Clicked',
   DASHBOARD_VIEWED = 'Dashboard Viewed',
   EMAIL_VERIFICATION_REQUESTED = 'Email Verification Requested',
+  RECEIVE_CURRENCY_SELECTED = 'Receive Currency Selected',
+  RECEIVE_DETAILS_COPIED = 'Receive Details Copied',
   SEND_AMOUNT_MAX_CLICKED = 'Send Amount Max Clicked', // not implemented
   SEND_FEE_RATE_SELECTED = 'Send Fee Rate Selected', // not implemented
   SEND_FROM_SELECTED = 'Send From Selected', // not implemented
-  SEND_RECEIVE_CLICKED = 'Send Receive Clicked', // not implemented
-  SEND_RECEIVE_VIEWED = 'Send Receive Viewed', // not implemented
+  SEND_RECEIVE_CLICKED = 'Send Receive Clicked', // half implemented
+  SEND_RECEIVE_VIEWED = 'Send Receive Viewed', // half implemented
   SEND_SUBMITTED = 'Send Submitted', // not implemented
   SIGNED_IN = 'Signed In',
   SIGNED_OUT = 'Signed Out',
@@ -35,10 +37,10 @@ enum AnalyticsType {
 }
 
 type BasePayload = {
+  analyticsType: AnalyticsType
   id: string
   nabuId: string
   originalTimestamp: string
-  type: AnalyticsType
 }
 
 type PageViewPayload = {
@@ -97,6 +99,16 @@ type EmailVerificationClicked = BasePayload & {
   // origin: 'SIGN_UP' | 'VERIFICATION'
 }
 
+type ReceiveCurrencySelectedPayload = BasePayload & {
+  account_type: 'SAVINGS' | 'TRADING' | 'USERKEY'
+  currency: string
+}
+
+type ReceiveDetailsCopiedPayload = BasePayload & {
+  account_type: 'SAVINGS' | 'TRADING' | 'USERKEY'
+  currency: string
+}
+
 type SendAmountMaxClickedPayload = BasePayload & {
   currency: string
   from_account_type: 'SAVINGS' | 'TRADING' | 'USERKEY'
@@ -117,9 +129,12 @@ type SendFromSelectedPayload = BasePayload & {
 
 type SendReceiveClickedPayload = BasePayload & {
   origin: 'NAVIGATION'
+  type: 'RECEIVE' | 'SEND'
 }
 
-type SendReceiveViewedPayload = BasePayload & {}
+type SendReceiveViewedPayload = BasePayload & {
+  type: 'RECEIVE' | 'SEND'
+}
 
 type SendSubmittedPayload = BasePayload & {
   currency: string
@@ -216,6 +231,8 @@ type AnalyticsPayload =
   | DashboardClickedPayload
   | DashboardViewedPayload
   | EmailVerificationClicked
+  | ReceiveCurrencySelectedPayload
+  | ReceiveDetailsCopiedPayload
   | SendAmountMaxClickedPayload
   | SendFeeRateSelectedPayload
   | SendFromSelectedPayload

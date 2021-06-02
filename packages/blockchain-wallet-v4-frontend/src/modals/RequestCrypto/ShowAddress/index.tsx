@@ -127,7 +127,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
                 ),
                 Loading: () => <SkeletonRectangle width='280px' height='24px' />,
                 NotAsked: () => <SkeletonRectangle width='280px' height='24px' />,
-                Success: (val) => val.address,
+                Success: (val) => val.address
               })}
             </Text>
           </AddressDisplay>
@@ -137,8 +137,13 @@ class RequestShowAddress extends React.PureComponent<Props> {
               Loading: () => <></>,
               NotAsked: () => <></>,
               Success: (val) => (
-                <CopyClipboardButton textToCopy={val.address} color='blue600' size='24px' />
-              ),
+                <CopyClipboardButton
+                  onClick={() => this.props.requestActions.setAddressCopied()}
+                  textToCopy={val.address}
+                  color='blue600'
+                  size='24px'
+                />
+              )
             })}
           </ClipboardWrapper>
         </AddressWrapper>
@@ -149,7 +154,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
           Success: (val) =>
             val.extras
               ? Object.keys(val.extras).map((extra) => (
-                  <AddressWrapper>
+                  <AddressWrapper key={extra}>
                     <AddressDisplay>
                       <Text color='grey600' size='14px' lineHeight='21px' weight={500}>
                         {extra}
@@ -160,6 +165,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
                     </AddressDisplay>
                     <ClipboardWrapper>
                       <CopyClipboardButton
+                        onClick={() => this.props.requestActions.setAddressCopied()}
                         textToCopy={val.extras[extra as string]}
                         color='blue600'
                         size='24px'
@@ -167,7 +173,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
                     </ClipboardWrapper>
                   </AddressWrapper>
                 ))
-              : null,
+              : null
         })}
         {coinModel.isMemoBased && selectedAccount.type === 'CUSTODIAL' && (
           <InfoContainer>
@@ -196,7 +202,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
             NotAsked: () => <SkeletonRectangle width='306px' height='306px' />,
             Success: (val) => (
               <QRCodeWrapper data-e2e='requestAddressQrCode' size={280} value={val.address} />
-            ),
+            )
           })}
         </QRCodeContainer>
         <ButtonsWrapper>
@@ -221,11 +227,11 @@ const mapStateToProps = (state, ownProps: OwnProps) => ({
   addressR: selectors.components.request.getNextAddress(state, ownProps.formValues.selectedAccount),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType),
+    .getOrElse({} as SupportedWalletCurrenciesType)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  requestActions: bindActionCreators(actions.components.request, dispatch),
+  requestActions: bindActionCreators(actions.components.request, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

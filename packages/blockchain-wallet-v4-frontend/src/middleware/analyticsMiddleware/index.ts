@@ -32,14 +32,15 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const { referrer, title } = document
 
             analytics.push(AnalyticsKey.DASHBOARD_CLICKED, {
+              analyticsType: AnalyticsType.EVENT,
               id,
               nabuId,
               origin: 'SIGN_IN',
-              originalTimestamp: getOriginalTimestamp(),
-              type: AnalyticsType.EVENT
+              originalTimestamp: getOriginalTimestamp()
             })
 
             analytics.push(AnalyticsKey.DASHBOARD_VIEWED, {
+              analyticsType: AnalyticsType.EVENT,
               id,
               nabuId,
               originalTimestamp: getOriginalTimestamp(),
@@ -47,7 +48,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               referrer,
               search,
               title,
-              type: AnalyticsType.EVENT,
               url: href
             })
 
@@ -74,14 +74,15 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const origin = simpleBuyOriginDictionary(rawOrigin)
 
             analytics.push(AnalyticsKey.BUY_SELL_CLICKED, {
+              analyticsType: AnalyticsType.EVENT,
               id,
               nabuId,
               origin,
-              originalTimestamp: getOriginalTimestamp(),
-              type: AnalyticsType.EVENT
+              originalTimestamp: getOriginalTimestamp()
             })
 
             analytics.push(AnalyticsKey.BUY_SELL_VIEWED, {
+              analyticsType: AnalyticsType.EVENT,
               id,
               nabuId,
               originalTimestamp: getOriginalTimestamp(),
@@ -89,7 +90,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               referrer,
               search,
               title,
-              type: AnalyticsType.EVENT,
               url: href
             })
 
@@ -101,14 +101,15 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const { referrer, title } = document
 
             analytics.push(AnalyticsKey.SWAP_CLICKED, {
+              analyticsType: AnalyticsType.EVENT,
               id,
               nabuId,
               origin,
-              originalTimestamp: getOriginalTimestamp(),
-              type: AnalyticsType.EVENT
+              originalTimestamp: getOriginalTimestamp()
             })
 
             analytics.push(AnalyticsKey.SWAP_VIEWED, {
+              analyticsType: AnalyticsType.EVENT,
               id,
               nabuId,
               originalTimestamp: getOriginalTimestamp(),
@@ -116,8 +117,27 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               referrer,
               search,
               title,
-              type: AnalyticsType.EVENT,
               url: href
+            })
+
+            break
+          }
+          case 'REQUEST_CRYPTO_MODAL': {
+            analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
+              analyticsType: AnalyticsType.VIEW,
+              id,
+              nabuId,
+              origin: 'NAVIGATION',
+              originalTimestamp: getOriginalTimestamp(),
+              type: 'RECEIVE'
+            })
+
+            analytics.push(AnalyticsKey.SEND_RECEIVE_VIEWED, {
+              analyticsType: AnalyticsType.VIEW,
+              id,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp(),
+              type: 'RECEIVE'
             })
 
             break
@@ -136,12 +156,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const fix = isCoinDisplayed ? 'CRYPTO' : 'FIAT'
 
         analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
+          analyticsType: AnalyticsType.EVENT,
           id,
           nabuId,
           originalTimestamp: getOriginalTimestamp(),
           product: 'SAVINGS',
-          switch_to: fix,
-          type: AnalyticsType.EVENT
+          switch_to: fix
         })
 
         break
@@ -151,12 +171,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { fix } = action.payload
 
         analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
+          analyticsType: AnalyticsType.EVENT,
           id,
           nabuId,
           originalTimestamp: getOriginalTimestamp(),
           product: 'SWAP',
-          switch_to: fix,
-          type: AnalyticsType.EVENT
+          switch_to: fix
         })
 
         break
@@ -166,12 +186,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { fix } = action.payload
 
         analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
+          analyticsType: AnalyticsType.EVENT,
           id,
           nabuId,
           originalTimestamp: getOriginalTimestamp(),
           product: 'SIMPLEBUY',
-          switch_to: fix,
-          type: AnalyticsType.EVENT
+          switch_to: fix
         })
 
         break
@@ -185,14 +205,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const outputCurrency = state.components.simpleBuy.cryptoCurrency
 
         analytics.push(AnalyticsKey.BUY_AMOUNT_ENTERED, {
+          analyticsType: AnalyticsType.EVENT,
           id,
           input_amount: inputAmount,
           input_currency: inputCurrency,
           max_card_limit: inputAMountMax,
           nabuId,
           originalTimestamp: getOriginalTimestamp(),
-          output_currency: outputCurrency,
-          type: AnalyticsType.EVENT
+          output_currency: outputCurrency
         })
         break
       }
@@ -203,13 +223,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const outputCurrency = state.components.simpleBuy.cryptoCurrency
 
         analytics.push(AnalyticsKey.BUY_AMOUNT_MAX_CLICKED, {
+          analyticsType: AnalyticsType.EVENT,
           id,
           input_currency: inputCurrency,
           max_card_limit: maxCardLimit,
           nabuId,
           originalTimestamp: getOriginalTimestamp(),
-          output_currency: outputCurrency,
-          type: AnalyticsType.EVENT
+          output_currency: outputCurrency
         })
         break
       }
@@ -219,12 +239,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const outputCurrency = state.components.simpleBuy.cryptoCurrency
 
         analytics.push(AnalyticsKey.BUY_AMOUNT_MIN_CLICKED, {
+          analyticsType: AnalyticsType.EVENT,
           id,
           input_currency: inputCurrency,
           nabuId,
           originalTimestamp: getOriginalTimestamp(),
-          output_currency: outputCurrency,
-          type: AnalyticsType.EVENT
+          output_currency: outputCurrency
         })
         break
       }
@@ -232,38 +252,38 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const paymentType = action.method.type
 
         analytics.push(AnalyticsKey.BUY_PAYMENT_METHOD_SELECTED, {
+          analyticsType: AnalyticsType.EVENT,
           id,
           nabuId,
           originalTimestamp: getOriginalTimestamp(),
-          payment_type: simpleBuyPaymentTypeDictionary(paymentType),
-          type: AnalyticsType.EVENT
+          payment_type: simpleBuyPaymentTypeDictionary(paymentType)
         })
         break
       }
       case AT.auth.VERIFY_EMAIL_TOKEN_SUCCESS: {
         analytics.push(AnalyticsKey.EMAIL_VERIFICATION_REQUESTED, {
+          analyticsType: AnalyticsType.EVENT,
           id,
           nabuId,
-          originalTimestamp: getOriginalTimestamp(),
-          type: AnalyticsType.EVENT
+          originalTimestamp: getOriginalTimestamp()
         })
         break
       }
       case AT.auth.LOGIN_SUCCESS: {
         analytics.push(AnalyticsKey.SIGNED_IN, {
+          analyticsType: AnalyticsType.EVENT,
           id,
           nabuId,
-          originalTimestamp: getOriginalTimestamp(),
-          type: AnalyticsType.EVENT
+          originalTimestamp: getOriginalTimestamp()
         })
         break
       }
       case AT.auth.LOGOUT: {
         analytics.push(AnalyticsKey.SIGNED_OUT, {
+          analyticsType: AnalyticsType.EVENT,
           id,
           nabuId,
-          originalTimestamp: getOriginalTimestamp(),
-          type: AnalyticsType.EVENT
+          originalTimestamp: getOriginalTimestamp()
         })
         break
       }
@@ -281,14 +301,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
 
             analytics.push(AnalyticsKey.SWAP_ACCOUNTS_SELECTED, {
+              analyticsType: AnalyticsType.EVENT,
               id,
               input_currency: inputCurrency,
               input_type: inputType,
               nabuId,
               originalTimestamp: getOriginalTimestamp(),
               output_currency: outputCurrency,
-              output_type: outputType,
-              type: AnalyticsType.EVENT
+              output_type: outputType
             })
 
             break
@@ -306,6 +326,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
 
             analytics.push(AnalyticsKey.SWAP_AMOUNT_ENTERED, {
+              analyticsType: AnalyticsType.EVENT,
               id,
               input_amount: inputAmount,
               input_currency: inputCurrency,
@@ -314,8 +335,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               originalTimestamp: getOriginalTimestamp(),
               output_amount: outputAmount,
               output_currency: outputCurrency,
-              output_type: outputType,
-              type: AnalyticsType.EVENT
+              output_type: outputType
             })
 
             break
@@ -336,14 +356,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
 
         analytics.push(AnalyticsKey.SWAP_AMOUNT_MAX_CLICKED, {
+          analyticsType: AnalyticsType.EVENT,
           id,
           input_currency: inputCurrency,
           input_type: inputType,
           nabuId,
           originalTimestamp: getOriginalTimestamp(),
           output_currency: outputCurrency,
-          output_type: outputType,
-          type: AnalyticsType.EVENT
+          output_type: outputType
         })
 
         break
@@ -358,14 +378,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
 
         analytics.push(AnalyticsKey.SWAP_AMOUNT_MIN_CLICKED, {
+          analyticsType: AnalyticsType.EVENT,
           id,
           input_currency: inputCurrency,
           input_type: inputType,
           nabuId,
           originalTimestamp: getOriginalTimestamp(),
           output_currency: outputCurrency,
-          output_type: outputType,
-          type: AnalyticsType.EVENT
+          output_type: outputType
         })
         break
       }
@@ -374,12 +394,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const inputType = action.payload.account.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
 
         analytics.push(AnalyticsKey.SWAP_FROM_SELECTED, {
+          analyticsType: AnalyticsType.EVENT,
           id,
           input_currency: inputCurrency,
           input_type: inputType,
           nabuId,
-          originalTimestamp: getOriginalTimestamp(),
-          type: AnalyticsType.EVENT
+          originalTimestamp: getOriginalTimestamp()
         })
         break
       }
@@ -388,12 +408,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const inputType = action.payload.account.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
 
         analytics.push(AnalyticsKey.SWAP_RECEIVE_SELECTED, {
+          analyticsType: AnalyticsType.EVENT,
           id,
           input_currency: inputCurrency,
           input_type: inputType,
           nabuId,
-          originalTimestamp: getOriginalTimestamp(),
-          type: AnalyticsType.EVENT
+          originalTimestamp: getOriginalTimestamp()
         })
         break
       }
@@ -423,6 +443,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             : state.components.swap.quote.getOrElse({})?.quote.networkFee || 0
 
         analytics.push(AnalyticsKey.SWAP_REQUESTED, {
+          analyticsType: AnalyticsType.EVENT,
           exchange_rate: exchangeRate,
           id,
           input_amount: inputAmount,
@@ -436,8 +457,47 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           originalTimestamp: getOriginalTimestamp(),
           output_amount: outputAmount,
           output_currency: outputCurrency,
-          output_type: outputType,
-          type: AnalyticsType.EVENT
+          output_type: outputType
+        })
+
+        break
+      }
+
+      case AT.components.request.GET_NEXT_ADDRESS: {
+        const state = store.getState()
+        const accountType =
+          state.forms.requestCrypto.values.selectedAccount.type === 'CUSTODIAL'
+            ? 'TRADING'
+            : 'USERKEY'
+        const currency = state.forms.requestCrypto.values.selectedAccount.coin
+
+        analytics.push(AnalyticsKey.RECEIVE_CURRENCY_SELECTED, {
+          account_type: accountType,
+          analyticsType: AnalyticsType.EVENT,
+          currency,
+          id,
+          nabuId,
+          originalTimestamp: getOriginalTimestamp()
+        })
+
+        break
+      }
+
+      case AT.components.request.SET_ADDRESS_COPIED: {
+        const state = store.getState()
+        const accountType =
+          state.forms.requestCrypto.values.selectedAccount.type === 'CUSTODIAL'
+            ? 'TRADING'
+            : 'USERKEY'
+        const currency = state.forms.requestCrypto.values.selectedAccount.coin
+
+        analytics.push(AnalyticsKey.RECEIVE_DETAILS_COPIED, {
+          account_type: accountType,
+          analyticsType: AnalyticsType.EVENT,
+          currency,
+          id,
+          nabuId,
+          originalTimestamp: getOriginalTimestamp()
         })
 
         break

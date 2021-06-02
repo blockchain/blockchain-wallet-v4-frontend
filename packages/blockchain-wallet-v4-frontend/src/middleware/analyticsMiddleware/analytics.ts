@@ -27,7 +27,7 @@ const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
     const events = rawEvents.map((event) => {
       const name = event.key
 
-      const { id, nabuId, originalTimestamp, type, ...properties } = event.payload
+      const { analyticsType, id, nabuId, originalTimestamp, ...properties } = event.payload
 
       return {
         id: generateUniqueUserId(id || randomId),
@@ -35,7 +35,7 @@ const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
         name,
         originalTimestamp,
         properties,
-        type
+        type: analyticsType
       }
     })
 
