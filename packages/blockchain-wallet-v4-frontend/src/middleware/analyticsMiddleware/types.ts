@@ -9,6 +9,12 @@ enum AnalyticsKey {
   DASHBOARD_CLICKED = 'Dashboard Clicked',
   DASHBOARD_VIEWED = 'Dashboard Viewed',
   EMAIL_VERIFICATION_REQUESTED = 'Email Verification Requested',
+  SEND_AMOUNT_MAX_CLICKED = 'Send Amount Max Clicked', // not implemented
+  SEND_FEE_RATE_SELECTED = 'Send Fee Rate Selected', // not implemented
+  SEND_FROM_SELECTED = 'Send From Selected', // not implemented
+  SEND_RECEIVE_CLICKED = 'Send Receive Clicked', // not implemented
+  SEND_RECEIVE_VIEWED = 'Send Receive Viewed', // not implemented
+  SEND_SUBMITTED = 'Send Submitted', // not implemented
   SIGNED_IN = 'Signed In',
   SIGNED_OUT = 'Signed Out',
   SWAP_ACCOUNTS_SELECTED = 'Swap Accounts Selected',
@@ -89,6 +95,37 @@ type DashboardViewedPayload = BasePayload & PageViewPayload & {}
 
 type EmailVerificationClicked = BasePayload & {
   // origin: 'SIGN_UP' | 'VERIFICATION'
+}
+
+type SendAmountMaxClickedPayload = BasePayload & {
+  currency: string
+  from_account_type: 'SAVINGS' | 'TRADING' | 'USERKEY'
+  to_account_type: 'SAVINGS' | 'TRADING' | 'USERKEY'
+}
+
+type SendFeeRateSelectedPayload = BasePayload & {
+  currency: string
+  fee_rate: 'CUSTOM' | 'NORMAL' | 'PRIORITY'
+  from_account_type: 'SAVINGS' | 'TRADING' | 'USERKEY'
+  to_account_type: 'SAVINGS' | 'TRADING' | 'USERKEY'
+}
+
+type SendFromSelectedPayload = BasePayload & {
+  currency: string
+  from_account_type: 'SAVINGS' | 'TRADING' | 'USERKEY'
+}
+
+type SendReceiveClickedPayload = BasePayload & {
+  origin: 'NAVIGATION'
+}
+
+type SendReceiveViewedPayload = BasePayload & {}
+
+type SendSubmittedPayload = BasePayload & {
+  currency: string
+  fee_rate: 'CUSTOM' | 'NORMAL' | 'PRIORITY'
+  from_account_type: 'SAVINGS' | 'TRADING' | 'USERKEY'
+  to_account_type: 'SAVINGS' | 'TRADING' | 'USERKEY'
 }
 
 type SignedInPayload = BasePayload & {}
@@ -179,6 +216,12 @@ type AnalyticsPayload =
   | DashboardClickedPayload
   | DashboardViewedPayload
   | EmailVerificationClicked
+  | SendAmountMaxClickedPayload
+  | SendFeeRateSelectedPayload
+  | SendFromSelectedPayload
+  | SendReceiveClickedPayload
+  | SendReceiveViewedPayload
+  | SendSubmittedPayload
   | SignedInPayload
   | SignedOutPayload
   | SwapClickedPayload
