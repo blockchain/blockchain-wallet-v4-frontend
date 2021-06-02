@@ -13,8 +13,8 @@ import * as AT from './actionTypes'
 export type MempoolFeeType = 'regular' | 'priority'
 
 export enum SwapBaseCounterTypes {
-  'ACCOUNT',
-  'CUSTODIAL'
+  ACCOUNT = 'ACCOUNT',
+  CUSTODIAL = 'CUSTODIAL'
 }
 export type SwapAccountType = {
   accountIndex?: number
