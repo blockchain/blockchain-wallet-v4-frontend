@@ -33,7 +33,7 @@ export const typeError = (T, val) =>
     `Expected ${T.name} but received ${val == null ? val : `${val.constructor.name}: ${val}`}`
   )
 
-export const typeGuard = curry((Type, x) => (is(Type, x) ? x : error(typeError(Type, x))), x)
+export const typeGuard = curry((Type, x) => (is(Type, x) ? x : error(typeError(Type, x))))
 
 export const typeLens = (Type) => lens(typeGuard(Type), (val) => new Type(val))
 

@@ -82,10 +82,7 @@ export const isLatestVersion = (wrapper) => {
 export const upgradeToV3 = curry((mnemonic, password, network, wrapper) => {
   const upgradeWallet = Wallet.upgradeToV3(mnemonic, 'BTC Private Key Wallet', password, network)
 
-  const upgradeWrapper = compose(
-    traverseWallet(Task.of, upgradeWallet),
-    set(version, PAYLOAD_VERSION)
-  )
+  const upgradeWrapper = compose(traverseWallet(Task.of, upgradeWallet), set(version, 3.0))
 
   return upgradeWrapper(wrapper)
 })
