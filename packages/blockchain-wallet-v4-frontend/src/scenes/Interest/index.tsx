@@ -104,7 +104,7 @@ class Interest extends React.PureComponent<Props, StateType> {
                 <IntroCard {...val} {...this.props} isGoldTier={isGoldTier} />
                 {isGoldTier &&
                   val.instruments.map((instrument) => {
-                    return (
+                    return val.supportedCoins[instrument] ? (
                       <SummaryCard
                         {...val}
                         {...this.props}
@@ -112,7 +112,7 @@ class Interest extends React.PureComponent<Props, StateType> {
                         coin={instrument}
                         key={instrument}
                       />
-                    )
+                    ) : null
                   })}
               </ContainerStyled>
               <IneligibilityCard {...val} {...this.props} />

@@ -41,15 +41,10 @@ export const getSupportedCoins = createDeepEqualSelector(
       const { coinfig } = window.coins[symbol]
 
       return {
-        availability: {
-          exchangeFrom: true,
-          exchangeTo: true,
-          request: true,
-          send: true
-        },
         coinCode: coinfig.symbol,
         coinTicker: coinfig.symbol,
         coinfig,
+        displayName: coinfig.name,
         minConfirmations: 3,
         txListAppRoute: `/${coinfig.symbol}/transactions`
       }

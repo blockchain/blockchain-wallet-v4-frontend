@@ -97,7 +97,7 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
       isGoldTier,
       preferencesActions,
       showInterestInfoBox,
-      userData,
+      userData
     } = this.props
     const highestRate = interestRateArray.reduce((a, b) => Math.max(a, b))
 
@@ -218,12 +218,12 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
 }
 
 const mapStateToProps = (state) => ({
-  showInterestInfoBox: selectors.preferences.getShowInterestInfoBox(state),
+  showInterestInfoBox: selectors.preferences.getShowInterestInfoBox(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  preferencesActions: bindActionCreators(actions.preferences, dispatch),
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

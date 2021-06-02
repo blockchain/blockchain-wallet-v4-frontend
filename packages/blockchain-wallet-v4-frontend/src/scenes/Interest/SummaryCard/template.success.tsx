@@ -56,7 +56,7 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
   const accountBalanceStandard = convertBaseToStandard(coin, accountBalanceBase)
   const interestBalanceStandard = convertBaseToStandard(coin, interestBalanceBase)
   const interestEligibleCoin = interestEligible[coin] && interestEligible[coin]?.eligible
-  console.log(coinTicker)
+
   return (
     <DepositBox>
       <Row>
