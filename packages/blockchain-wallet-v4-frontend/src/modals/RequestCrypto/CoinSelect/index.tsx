@@ -9,7 +9,7 @@ import { Icon, Text } from 'blockchain-info-components'
 import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption, SelectBoxCoin } from 'components/Form'
 import { actions } from 'data'
-import { SwapAccountType } from 'data/components/swap/types'
+import { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
 
 import { Props as OwnProps } from '..'
 import { REQUEST_FORM, StepHeader } from '../model'
@@ -95,7 +95,7 @@ class RequestCoinSelect extends React.PureComponent<Props> {
             account={account}
             coinModel={supportedCoins[account.coin]}
             onClick={() => {
-              if (account.type === 'CUSTODIAL' && !data.isAtLeastTier1) {
+              if (account.type === SwapBaseCounterTypes.CUSTODIAL && !data.isAtLeastTier1) {
                 setStep(RequestSteps.IDV_INTRO)
               } else {
                 formActions.change(REQUEST_FORM, 'selectedAccount', account)

@@ -125,7 +125,7 @@ const DarkTheme: DefaultTheme = {
   received: '#00994C',
   transferred: '#3D89F5',
   // State
-  error: '#651D1E',
+  error: '#D93B30',
   warn: '#7F4F48',
   success: '#00422C',
   // Marketing

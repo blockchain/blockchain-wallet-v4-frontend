@@ -5,17 +5,14 @@ import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   CoinType,
   FiatType,
+  SBCardType,
   SBOrderActionType,
   SBOrderType,
   SupportedWalletCurrenciesType,
   SupportedWalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import {
-  getBaseCurrency,
-  getCounterCurrency,
-  getOrderType
-} from 'data/components/simpleBuy/model'
+import { getBaseCurrency, getCounterCurrency, getOrderType } from 'data/components/simpleBuy/model'
 import { BankTransferAccountType } from 'data/types'
 
 export const BuyOrSell = (props: {
@@ -29,8 +26,7 @@ export const BuyOrSell = (props: {
         id='buttons.buy_coin'
         defaultMessage='Buy {displayName}'
         values={{
-          displayName:
-            props.crypto === 'Crypto' ? 'Crypto' : props.coinModel?.coinTicker
+          displayName: props.crypto === 'Crypto' ? 'Crypto' : props.coinModel?.coinTicker
         }}
       />
     ) : (
@@ -54,9 +50,7 @@ export const getOrderDestination = (order: SBOrderType, supportedCoins) => {
   const baseCurrency = getBaseCurrency(order, supportedCoins)
   const counterCurrency = getCounterCurrency(order, supportedCoins)
 
-  return orderType === 'BUY'
-    ? `${baseCurrency} Trading Account`
-    : `${counterCurrency} Account`
+  return orderType === 'BUY' ? `${baseCurrency} Trading Account` : `${counterCurrency} Account`
 }
 
 export const getPaymentMethod = (
@@ -71,10 +65,7 @@ export const getPaymentMethod = (
   switch (order.paymentType) {
     case 'PAYMENT_CARD':
       return (
-        <FormattedMessage
-          id='modals.simplebuy.confirm.payment_card'
-          defaultMessage='Credit Card'
-        />
+        <FormattedMessage id='modals.simplebuy.confirm.payment_card' defaultMessage='Credit Card' />
       )
     case 'FUNDS':
       return orderType === 'BUY' ? (
@@ -90,13 +81,12 @@ export const getPaymentMethod = (
       )
     case 'BANK_TRANSFER':
       const defaultBankInfo = {
-        bankName: 'Bank Transfer',
+        accountNumber: '',
         bankAccountType: '',
-        accountNumber: ''
+        bankName: 'Bank Transfer'
       }
       const d = (bankAccount && bankAccount.details) || defaultBankInfo
-      return `${d.bankName} ${d.bankAccountType?.toLowerCase() ||
-        ''} ${d.accountNumber || ''}`
+      return `${d.bankName}`
     default:
       return (
         <FormattedMessage
@@ -118,4 +108,25 @@ export const displayFiat = (
     unit: counterCurrency as FiatType,
     value: convertBaseToStandard('FIAT', amt)
   })
+}
+
+export const getPaymentMethodDetails = (
+  order: SBOrderType,
+  bankAccount: BankTransferAccountType,
+  cardDetails: SBCardType | null
+) => {
+  switch (order.paymentType) {
+    case 'PAYMENT_CARD':
+      return `${cardDetails?.card?.type} ${cardDetails?.card?.number}`
+    case 'BANK_TRANSFER':
+      const defaultBankInfo = {
+        accountNumber: '',
+        bankAccountType: '',
+        bankName: 'Bank Transfer'
+      }
+      const d = (bankAccount && bankAccount.details) || defaultBankInfo
+      return `${d.bankAccountType?.toLowerCase() || ''} ${d.accountNumber || ''}`
+    default:
+      return null
+  }
 }

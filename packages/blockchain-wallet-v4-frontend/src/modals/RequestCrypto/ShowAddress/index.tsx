@@ -11,6 +11,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { actions, selectors } from 'data'
+import { SwapBaseCounterTypes } from 'data/types'
 
 import { Props as OwnProps } from '../index'
 import { ClipboardWrapper, StepHeader } from '../model'
@@ -175,7 +176,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
                 ))
               : null
         })}
-        {coinModel.isMemoBased && selectedAccount.type === 'CUSTODIAL' && (
+        {coinModel.isMemoBased && selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL && (
           <InfoContainer>
             <Text color='grey600' size='12px' weight={500}>
               <FormattedMessage

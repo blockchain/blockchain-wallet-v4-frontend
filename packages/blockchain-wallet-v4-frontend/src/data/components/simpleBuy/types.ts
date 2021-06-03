@@ -24,7 +24,7 @@ import {
 } from 'blockchain-wallet-v4/src/types'
 
 import { CountryType } from '../identityVerification/types'
-import { SwapAccountType } from '../swap/types'
+import { SwapAccountType, SwapBaseCounterTypes } from '../swap/types'
 import * as AT from './actionTypes'
 
 // Types
@@ -424,7 +424,7 @@ export type StepActionsPayload =
     }
   | { order?: SBOrderType; step: '3DS_HANDLER' }
   | {
-      sellOrderType?: 'ACCOUNT' | 'CUSTODIAL'
+      sellOrderType?: SwapBaseCounterTypes
       step: 'PREVIEW_SELL'
     }
   | {
