@@ -15,14 +15,12 @@ class SelectBoxBtcAddresses extends React.PureComponent<Props> {
   render() {
     const { data, ...rest } = this.props
     return data.cata({
-      Success: value => {
-        return (
-          <SelectBoxBtc options={value.data} elements={value.data} {...rest} />
-        )
-      },
-      Failure: message => <div>{message}</div>,
+      Failure: (message) => <div>{message}</div>,
       Loading: () => <SkeletonRectangle height='48px' width='100%' />,
-      NotAsked: () => <SkeletonRectangle height='48px' width='100%' />
+      NotAsked: () => <SkeletonRectangle height='48px' width='100%' />,
+      Success: (value) => {
+        return <SelectBoxBtc options={value.data} elements={value.data} {...rest} />
+      }
     })
   }
 }

@@ -1628,7 +1628,7 @@ type MessagesType = {
   'modals.tradinglimits.info_needed': 'Info Needed'
   'modals.tradinglimits.locked': 'Locked'
   'modals.tradinglimits.silver_desc': 'You’ll need to verify your email address, name, home address and date of birth.'
-  'modals.tradinglimits.gold_desc_edd': 'We need more information before we can approve your Gold Level application.'
+  'modals.tradinglimits.gold_desc_high_edd': 'Due to the high balance in your account, we need further information for legal reasons.'
   'modals.tradinglimits.gold_desc1': 'You’ll need to verify your identity by uploading an ID and a selfie.'
   'modals.tradinglimits.gold_desc2': 'Requires Silver Tier approval.'
   'modals.tradinglimits.gold_subheader': 'Earn Interest & trade up to {amount}/day.'

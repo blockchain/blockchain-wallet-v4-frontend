@@ -155,7 +155,7 @@ const mapStateToProps = (state, ownProps) => ({
 const connector = connect(mapStateToProps)
 
 export type OwnProps = {
-  coin: CoinType
+  coin: string
   fiatCurrency?: string
   includeCustodial: boolean
   name: 'collateral' | 'interestDepositAccount' | 'interestWithdrawalAccount' | 'repay-principal'

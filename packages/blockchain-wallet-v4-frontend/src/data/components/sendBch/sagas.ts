@@ -205,6 +205,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           let payProInvoice
           const tryParsePayPro = () => {
             try {
+              if (address.indexOf('?') === -1) throw new Error('Not bitpay')
               payProInvoice = bip21.decode(address, 'bitcoincash')
               return payProInvoice
             } catch (e) {
@@ -323,11 +324,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const value = payment.value()
         if (!value.to) throw new Error('missing_to_from_custodial')
         if (!value.amount) throw new Error('missing_amount_from_custodial')
+        if (!value.selection) throw new Error('missing_selection_from_custodial')
         yield call(
           api.withdrawSBFunds,
-          utils.bch.toCashAddr(value.to[0].address),
+          utils.bch.isCashAddr(value.to[0].address)
+            ? value.to[0].address
+            : utils.bch.toCashAddr(value.to[0].address),
           'BCH',
-          new BigNumber(value.amount[0]).toString()
+          new BigNumber(value.amount[0]).toString(),
+          value.selection.fee
         )
       } else {
         payment = yield payment.publish()

@@ -209,7 +209,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const rates = ratesR.getOrElse({} as RatesType)
       const rate = rates[userCurrency].last
       const isDisplayed = S.getCoinDisplay(yield select())
-
+      const isCustodialDeposit = prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
       switch (action.meta.field) {
         case 'depositAmount':
           const value = isDisplayed
@@ -220,13 +220,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             let payment = yield getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
             const paymentAmount = generateProvisionalPaymentAmount(coin, value)
             payment = yield payment.amount(paymentAmount)
-            payment = yield payment.build()
-            yield put(A.setPaymentSuccess(payment.value()))
+            if (!isCustodialDeposit) {
+              payment = yield payment.build()
+              yield put(A.setPaymentSuccess(payment.value()))
+            } else {
+              yield put(A.setPaymentSuccess(payment.value()))
+            }
           }
           break
         case 'interestDepositAccount':
           let custodialBalances: SBBalancesType | undefined
-          const isCustodialDeposit = prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
 
           yield put(A.setPaymentLoading())
           yield put(actions.form.change(DEPOSIT_FORM, 'depositAmount', undefined))

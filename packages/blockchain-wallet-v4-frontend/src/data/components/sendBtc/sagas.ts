@@ -228,6 +228,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           let payProInvoice
           const tryParsePayPro = () => {
             try {
+              if (address.indexOf('?') === -1) throw new Error('Not bitpay')
               payProInvoice = bip21.decode(address)
               return payProInvoice
             } catch (e) {
@@ -243,7 +244,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               // @ts-ignore
               payment = yield payment.to(value.xpub, toType)
               break
-            case includes('.', (address as unknown) as string):
+            case includes('.', (address as unknown) as string) &&
+              !includes('bitpay', (address as unknown) as string):
               yield put(
                 actions.components.send.fetchUnstoppableDomainResults(
                   (address as unknown) as string,

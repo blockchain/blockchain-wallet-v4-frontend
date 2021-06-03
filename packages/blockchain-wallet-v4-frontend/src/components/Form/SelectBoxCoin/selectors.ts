@@ -1,14 +1,18 @@
-import { map, values } from 'ramda'
+import { lift } from 'ramda'
 
+import { ExtractSuccess } from 'core/types'
 import { selectors } from 'data'
 
-export const getCoins = (state) => {
-  const supportedCoins = selectors.components.utils
-    .getSupportedCoinsWithMethodAndOrder(state)
-    // @ts-ignore
-    .getOrElse({})
+export const getData = (state) => {
+  const supportedCoinsR = selectors.components.utils.getSupportedCoinsWithMethodAndOrder(state)
 
-  return values(map((x) => ({ text: x.coinfig.name, value: x.coinfig.symbol }), supportedCoins))
+  const transform = (supportedCoins: ExtractSuccess<typeof supportedCoinsR>) => {
+    return supportedCoins
+      .filter((val) => val.coinfig.products.includes('PrivateKey'))
+      .map(({ coinfig }) => ({ text: coinfig.name, value: coinfig.symbol }))
+  }
+
+  return lift(transform)(supportedCoinsR)
 }
 
-export default getCoins
+export default getData

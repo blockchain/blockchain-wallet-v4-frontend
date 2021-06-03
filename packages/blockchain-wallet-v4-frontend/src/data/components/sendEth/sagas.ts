@@ -176,7 +176,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
           // After updating payment success check if to isContract
 
-          if (payment.value().from.type === 'CUSTODIAL') return
+          if (payment.value().from.type === 'CUSTODIAL') {
+            // @ts-ignore
+            payment = yield payment.setIsContract(false)
+            yield put(A.sendEthCheckIsContractSuccess(false))
+            return
+          }
           yield put(A.sendEthCheckIsContract(value))
           return
         case 'amount':

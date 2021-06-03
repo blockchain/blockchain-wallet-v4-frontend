@@ -35,10 +35,7 @@ const VerifyEmailToken = ({ appEnv, data, location, miscActions }: Props) => {
 
     deepLinkParams.set('deep_link_path', PARAM_DEEP_LINK_PATH)
 
-    if (
-      urlParamContext != null &&
-      VALID_CONTEXTS.indexOf(urlParamContext.toUpperCase()) > -1
-    ) {
+    if (urlParamContext != null && VALID_CONTEXTS.indexOf(urlParamContext.toUpperCase()) > -1) {
       deepLinkParams.set('context', urlParamContext)
     }
 
@@ -59,21 +56,21 @@ const VerifyEmailToken = ({ appEnv, data, location, miscActions }: Props) => {
   return (
     <Wrapper>
       {data.cata({
-        Success: () => <Success mobileLinkOut={mobileLinkOut} />,
-        Failure: error => <Error error={error} />,
+        Failure: (error) => <Error error={error} />,
         Loading: () => <Loading />,
-        NotAsked: () => <Loading />
+        NotAsked: () => <Loading />,
+        Success: () => <Success mobileLinkOut={mobileLinkOut} />
       })}
     </Wrapper>
   )
 }
 
-const mapStateToProps = state => ({
-  data: selectors.core.data.misc.verifyEmailToken(state),
-  appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod')
+const mapStateToProps = (state) => ({
+  appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod'),
+  data: selectors.core.data.misc.verifyEmailToken(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   miscActions: bindActionCreators(actions.core.data.misc, dispatch)
 })
 
