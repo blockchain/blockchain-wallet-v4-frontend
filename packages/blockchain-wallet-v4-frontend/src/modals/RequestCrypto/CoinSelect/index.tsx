@@ -91,6 +91,7 @@ class RequestCoinSelect extends React.PureComponent<Props> {
         </StickyHeaderFlyoutWrapper>
         {data.accounts.map((account) => (
           <CoinAccountListOption
+            key={account.address}
             account={account}
             coinModel={supportedCoins[account.coin]}
             onClick={() => {

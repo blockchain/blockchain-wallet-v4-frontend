@@ -138,7 +138,12 @@ class RequestShowAddress extends React.PureComponent<Props> {
               Loading: () => <></>,
               NotAsked: () => <></>,
               Success: (val) => (
-                <CopyClipboardButton textToCopy={val.address} color='blue600' size='24px' />
+                <CopyClipboardButton
+                  onClick={() => this.props.requestActions.setAddressCopied()}
+                  textToCopy={val.address}
+                  color='blue600'
+                  size='24px'
+                />
               )
             })}
           </ClipboardWrapper>
@@ -150,7 +155,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
           Success: (val) =>
             val.extras
               ? Object.keys(val.extras).map((extra) => (
-                  <AddressWrapper>
+                  <AddressWrapper key={extra}>
                     <AddressDisplay>
                       <Text color='grey600' size='14px' lineHeight='21px' weight={500}>
                         {extra}
@@ -161,6 +166,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
                     </AddressDisplay>
                     <ClipboardWrapper>
                       <CopyClipboardButton
+                        onClick={() => this.props.requestActions.setAddressCopied()}
                         textToCopy={val.extras[extra as string]}
                         color='blue600'
                         size='24px'

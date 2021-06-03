@@ -93,6 +93,7 @@ export type ModalOriginType =
   | 'WalletBalanceDropdown'
   | 'WelcomeModal'
   | 'WithdrawModal'
+  | 'CurrencyList'
 
 export type ModalParamPropsType = {
   [key: string]: any
@@ -132,8 +133,4 @@ interface UpdateModalOptions {
   type: typeof AT.UPDATE_MODAL
 }
 
-export type ModalActionTypes =
-  | CloseAllModals
-  | CloseModal
-  | ShowModal
-  | UpdateModalOptions
+export type ModalActionTypes = CloseAllModals | CloseModal | ShowModal | UpdateModalOptions

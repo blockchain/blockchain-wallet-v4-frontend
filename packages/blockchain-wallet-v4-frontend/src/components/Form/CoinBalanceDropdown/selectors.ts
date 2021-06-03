@@ -69,6 +69,20 @@ const getData = (state, ownProps: OwnProps) => {
         includeInterest: false
       })
       break
+    case 'AAVE':
+      addressDataR = getErc20AddressData(state, {
+        coin: 'AAVE',
+        includeCustodial,
+        includeInterest: false
+      })
+      break
+    case 'YFI':
+      addressDataR = getErc20AddressData(state, {
+        coin: 'YFI',
+        includeCustodial,
+        includeInterest: false
+      })
+      break
     default:
       addressDataR = Remote.Success({ data: [] })
   }

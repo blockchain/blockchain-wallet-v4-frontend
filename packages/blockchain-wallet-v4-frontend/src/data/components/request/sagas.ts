@@ -52,6 +52,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             address = address.split(':')[0]
           }
           break
+        // SwapAccountType only supports ACCOUNT and CUSTODIAL?
+        // @ts-ignore
+        case 'LEGACY':
+          address = account.address
+          break
         default:
       }
 
