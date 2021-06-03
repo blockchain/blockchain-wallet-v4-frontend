@@ -620,3 +620,15 @@ export const fetchLimitsSuccess = (limits: SwapUserLimitsType): SimpleBuyActionT
 export const updateSddTransactionFinished = () => ({
   type: AT.UPDATE_SDD_TRANSACTION_FINISHED
 })
+export const setBuyCrypto = (origin: string) => ({
+  payload: {
+    props: { origin }
+  },
+  type: AT.SET_BUY_CRYPTO
+})
+export const setSellCrypto = (origin: string) => ({
+  payload: {
+    props: { origin }
+  },
+  type: AT.SET_SELL_CRYPTO
+})

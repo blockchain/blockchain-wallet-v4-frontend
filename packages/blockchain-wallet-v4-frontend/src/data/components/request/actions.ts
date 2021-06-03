@@ -3,25 +3,25 @@ import * as AT from './actionTypes'
 import { RequestActionTypes, RequestExtrasType } from './types'
 
 export const getNextAddress = (account: SwapAccountType) => ({
-  type: AT.GET_NEXT_ADDRESS,
-  payload: { account }
+  payload: { account },
+  type: AT.GET_NEXT_ADDRESS
 })
 export const getNextAddressLoading = (key: string): RequestActionTypes => ({
-  type: AT.GET_NEXT_ADDRESS_LOADING,
-  payload: { key }
+  payload: { key },
+  type: AT.GET_NEXT_ADDRESS_LOADING
 })
-export const getNextAddressFailure = (
-  key: string,
-  error: string
-): RequestActionTypes => ({
-  type: AT.GET_NEXT_ADDRESS_FAILURE,
-  payload: { key, error }
+export const getNextAddressFailure = (key: string, error: string): RequestActionTypes => ({
+  payload: { error, key },
+  type: AT.GET_NEXT_ADDRESS_FAILURE
 })
 export const getNextAddressSuccess = (
   key: string,
   address: string,
   extras: RequestExtrasType
 ): RequestActionTypes => ({
-  type: AT.GET_NEXT_ADDRESS_SUCCESS,
-  payload: { key, address, extras }
+  payload: { address, extras, key },
+  type: AT.GET_NEXT_ADDRESS_SUCCESS
+})
+export const setAddressCopied = () => ({
+  type: AT.SET_ADDRESS_COPIED
 })

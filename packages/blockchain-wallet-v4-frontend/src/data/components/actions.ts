@@ -71,5 +71,5 @@ export {
   uploadDocuments,
   veriff,
   withdraw,
-  xlmTransactions,
+  xlmTransactions
 }

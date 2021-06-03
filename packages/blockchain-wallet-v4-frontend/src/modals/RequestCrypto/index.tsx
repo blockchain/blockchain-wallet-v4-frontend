@@ -7,7 +7,7 @@ import {
   CoinType,
   FiatType,
   SupportedWalletCurrenciesType,
-  WalletCurrencyType,
+  WalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
@@ -23,7 +23,7 @@ import { RequestFormType, RequestSteps } from './types'
 
 class RequestCrypto extends PureComponent<Props, State> {
   state: State = {
-    show: false,
+    show: false
   }
 
   componentDidMount() {
@@ -98,17 +98,17 @@ const mapStateToProps = (state): LinkStatePropsType => ({
   initialValues: {
     currencyDisplay: selectors.core.settings.getCurrency(state).getOrElse('USD'),
     selectedCoin: selectors.router.getCoinFromPageUrl(state) || 'ALL',
-    step: RequestSteps.COIN_SELECT,
+    step: RequestSteps.COIN_SELECT
   },
   requestableCoins: getData(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrElse({} as SupportedWalletCurrenciesType),
-  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  formActions: bindActionCreators(actions.form, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -139,7 +139,7 @@ const enhance = compose<any>(
   connector,
   reduxForm({
     enableReinitialize: true,
-    form: REQUEST_FORM,
+    form: REQUEST_FORM
   })
 )
 

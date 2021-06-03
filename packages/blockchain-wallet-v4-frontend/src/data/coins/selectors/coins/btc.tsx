@@ -84,7 +84,7 @@ export const getAccounts = createDeepEqualSelector(
         accounts = accounts.concat(
           importedAddresses.map((importedAcc) => ({
             address: importedAcc.addr,
-            balance: importedAcc.final_balance,
+            balance: importedAcc.info.final_balance,
             baseCoin: coin,
             coin,
             config,
