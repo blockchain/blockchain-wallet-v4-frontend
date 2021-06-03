@@ -10,7 +10,7 @@ import {
   BlueCartridge,
   ErrorCartridge,
   OrangeCartridge,
-  SuccessCartridge,
+  SuccessCartridge
 } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { model } from 'data'
@@ -270,8 +270,8 @@ const Template: React.FC<Props> = (props) => {
                   amount: fiatToString({
                     digits: 0,
                     unit: (silverTier.limits.currency || 'USD') as WalletFiatType,
-                    value: silverTier.limits.annual,
-                  }),
+                    value: silverTier.limits.annual
+                  })
                 }}
               />
             </ItemSubtitle>
@@ -315,8 +315,8 @@ const Template: React.FC<Props> = (props) => {
                   amount: fiatToString({
                     digits: 0,
                     unit: (goldTier.limits.currency || 'USD') as WalletFiatType,
-                    value: goldTier.limits.daily,
-                  }),
+                    value: goldTier.limits.daily
+                  })
                 }}
               />
             </ItemSubtitle>
@@ -325,8 +325,8 @@ const Template: React.FC<Props> = (props) => {
               <TextGroup inline>
                 <Text color='grey600' size='12px' weight={500}>
                   <FormattedMessage
-                    id='modals.tradinglimits.gold_desc_edd'
-                    defaultMessage='We need more information before we can approve your Gold Level application.'
+                    id='modals.tradinglimits.gold_desc_high_edd'
+                    defaultMessage='Due to the high balance in your account, we need further information for legal reasons.'
                   />
                 </Text>
                 <Link
