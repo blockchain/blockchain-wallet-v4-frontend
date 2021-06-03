@@ -11,7 +11,7 @@ import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { generateTradingAccount } from 'data/coins/utils'
 import { SwapAccountType } from 'data/components/types'
 
-import { getTradingBalance } from '../'
+import { getTradingBalance } from '..'
 
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = () => (
@@ -56,7 +56,7 @@ export const getAccounts = createDeepEqualSelector(
       if (ownProps?.nonCustodialAccounts) {
         accounts = accounts.concat(
           bchAccounts
-            .map(acc => {
+            .map((acc) => {
               const index = prop('index', acc)
               // this is using hdAccount with new segwit structure
               // need to get legacy xPub from derivations object similar to btc selector
@@ -64,9 +64,7 @@ export const getAccounts = createDeepEqualSelector(
               const xpub = acc.derivations
                 ? prop(
                     'xpub',
-                    prop('derivations', acc).find(
-                      derr => derr.type === 'legacy'
-                    )
+                    prop('derivations', acc).find((derr) => derr.type === 'legacy')
                   )
                 : acc.xpub
               const data = prop(xpub, bchData)
@@ -77,8 +75,8 @@ export const getAccounts = createDeepEqualSelector(
                 archived: prop('archived', metadata),
                 balance: prop('final_balance', data),
                 baseCoin: coin,
-                config,
                 coin,
+                config,
                 label: prop('label', metadata) || xpub,
                 type: ADDRESS_TYPES.ACCOUNT
               }
@@ -90,12 +88,12 @@ export const getAccounts = createDeepEqualSelector(
       // add imported addresses if requested
       if (ownProps?.importedAddresses) {
         accounts = accounts.concat(
-          importedAddresses.map(importedAcc => ({
+          importedAddresses.map((importedAcc) => ({
             address: importedAcc.addr,
-            balance: importedAcc.final_balance,
+            balance: importedAcc.info.final_balance,
             baseCoin: coin,
-            config,
             coin,
+            config,
             label: importedAcc.label || importedAcc.addr,
             type: ADDRESS_TYPES.LEGACY
           }))
@@ -104,20 +102,12 @@ export const getAccounts = createDeepEqualSelector(
 
       // add trading accounts if requested
       if (ownProps?.tradingAccounts) {
-        accounts = accounts.concat(
-          generateTradingAccount(coin, config, sbBalance as SBBalanceType)
-        )
+        accounts = accounts.concat(generateTradingAccount(coin, config, sbBalance as SBBalanceType))
       }
 
       return accounts
     }
 
-    return lift(transform)(
-      bchDataR,
-      bchMetadataR,
-      importedAddressesR,
-      supportedCoinsR,
-      sbBalanceR
-    )
+    return lift(transform)(bchDataR, bchMetadataR, importedAddressesR, supportedCoinsR, sbBalanceR)
   }
 )
