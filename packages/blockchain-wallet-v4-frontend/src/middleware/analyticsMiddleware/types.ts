@@ -37,6 +37,7 @@ enum AnalyticsType {
 }
 
 enum AccountType {
+  SAVINGS = 'SAVINGS',
   TRADING = 'TRADING',
   USERKEY = 'USERKEY'
 }
@@ -44,6 +45,24 @@ enum AccountType {
 enum CoinType {
   CRYPTO = 'CRYPTO',
   FIAT = 'FIAT'
+}
+
+enum OrderType {
+  BUY = 'BUY',
+  SELL = 'SELL'
+}
+
+enum PaymentType {
+  BANK_ACCOUNT = 'BANK_ACCOUNT',
+  BANK_TRANSFER = 'BANK_TRANSFER',
+  FUNDS = 'FUNDS',
+  PAYMENT_CARD = 'PAYMENT_CARD'
+}
+
+enum FeeRateType {
+  CUSTOM = 'CUSTOM',
+  NORMAL = 'NORMAL',
+  PRIORITY = 'PRIORITY'
 }
 
 type BasePayload = {
@@ -63,7 +82,7 @@ type PageViewPayload = {
 
 type AmountSwitchedPayload = BasePayload & {
   product: 'SAVINGS' | 'SIMPLEBUY' | 'SWAP'
-  switch_to: 'CRYPTO' | 'FIAT'
+  switch_to: CoinType
 }
 
 type BuyAmountEnteredPayload = BasePayload & {
@@ -85,17 +104,17 @@ type BuyAmountMinClickedPayload = BasePayload & {
 }
 
 type BuyPaymentMethodSelectedPayload = BasePayload & {
-  payment_type: 'BANK_ACCOUNT' | 'BANK_TRANSFER' | 'FUNDS' | 'PAYMENT_CARD'
+  payment_type: PaymentType
 }
 
 type BuySellClickedPayload = BasePayload & {
   origin: string
-  type: 'BUY' | 'SELL'
+  type: OrderType
 }
 
 type BuySellViewedPayload = BasePayload &
   PageViewPayload & {
-    type: 'BUY' | 'SELL'
+    type: OrderType
   }
 
 type DashboardClickedPayload = BasePayload & {
@@ -109,31 +128,31 @@ type EmailVerificationClicked = BasePayload & {
 }
 
 type ReceiveCurrencySelectedPayload = BasePayload & {
-  account_type: 'SAVINGS' | 'TRADING' | 'USERKEY'
+  account_type: AccountType
   currency: string
 }
 
 type ReceiveDetailsCopiedPayload = BasePayload & {
-  account_type: 'SAVINGS' | 'TRADING' | 'USERKEY'
+  account_type: AccountType
   currency: string
 }
 
 type SendAmountMaxClickedPayload = BasePayload & {
   currency: string
-  from_account_type: 'SAVINGS' | 'TRADING' | 'USERKEY'
-  to_account_type: 'SAVINGS' | 'TRADING' | 'USERKEY'
+  from_account_type: AccountType
+  to_account_type: AccountType
 }
 
 type SendFeeRateSelectedPayload = BasePayload & {
   currency: string
-  fee_rate: 'CUSTOM' | 'NORMAL' | 'PRIORITY'
-  from_account_type: 'SAVINGS' | 'TRADING' | 'USERKEY'
-  to_account_type: 'SAVINGS' | 'TRADING' | 'USERKEY'
+  fee_rate: FeeRateType
+  from_account_type: AccountType
+  to_account_type: AccountType
 }
 
 type SendFromSelectedPayload = BasePayload & {
   currency: string
-  from_account_type: 'SAVINGS' | 'TRADING' | 'USERKEY'
+  from_account_type: AccountType
 }
 
 type SendReceiveClickedPayload = BasePayload & {
@@ -147,9 +166,9 @@ type SendReceiveViewedPayload = BasePayload & {
 
 type SendSubmittedPayload = BasePayload & {
   currency: string
-  fee_rate: 'CUSTOM' | 'NORMAL' | 'PRIORITY'
-  from_account_type: 'SAVINGS' | 'TRADING' | 'USERKEY'
-  to_account_type: 'SAVINGS' | 'TRADING' | 'USERKEY'
+  fee_rate: FeeRateType
+  from_account_type: AccountType
+  to_account_type: AccountType
 }
 
 type SignedInPayload = BasePayload & {}
@@ -164,42 +183,42 @@ type SwapViewedPayload = BasePayload & PageViewPayload & {}
 
 type SwapAccountsSelectedPayload = BasePayload & {
   input_currency: string
-  input_type: 'TRADING' | 'USERKEY'
+  input_type: Omit<AccountType, AccountType.SAVINGS>
   output_currency: string
-  output_type: 'TRADING' | 'USERKEY'
+  output_type: Omit<AccountType, AccountType.SAVINGS>
 }
 
 type SwapAmountEnteredPayload = BasePayload & {
   input_amount: number
   input_currency: string
-  input_type: 'TRADING' | 'USERKEY'
+  input_type: Omit<AccountType, AccountType.SAVINGS>
   output_amount: number
   output_currency: string
-  output_type: 'TRADING' | 'USERKEY'
+  output_type: Omit<AccountType, AccountType.SAVINGS>
 }
 
 type SwapAmountMaxClickedPayload = BasePayload & {
   input_currency: string
-  input_type: 'TRADING' | 'USERKEY'
+  input_type: Omit<AccountType, AccountType.SAVINGS>
   output_currency: string
-  output_type: 'TRADING' | 'USERKEY'
+  output_type: Omit<AccountType, AccountType.SAVINGS>
 }
 
 type SwapAmountMinClickedPayload = BasePayload & {
   input_currency: string
-  input_type: 'TRADING' | 'USERKEY'
+  input_type: Omit<AccountType, AccountType.SAVINGS>
   output_currency: string
-  output_type: 'TRADING' | 'USERKEY'
+  output_type: Omit<AccountType, AccountType.SAVINGS>
 }
 
 type SwapFromSelectedPayload = BasePayload & {
   input_currency: string
-  input_type: 'TRADING' | 'USERKEY'
+  input_type: Omit<AccountType, AccountType.SAVINGS>
 }
 
 type SwapReceiveSelectedPayload = BasePayload & {
   input_currency: string
-  input_type: 'TRADING' | 'USERKEY'
+  input_type: Omit<AccountType, AccountType.SAVINGS>
 }
 
 type SwapRequested = BasePayload & {
@@ -269,4 +288,4 @@ type PageNamesType = '/home'
 
 export type { AnalyticsPayload, PageNamesType }
 
-export { AccountType, AnalyticsKey, AnalyticsType, CoinType }
+export { AccountType, AnalyticsKey, AnalyticsType, CoinType, FeeRateType, OrderType, PaymentType }

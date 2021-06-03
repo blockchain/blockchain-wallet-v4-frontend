@@ -4,7 +4,8 @@ import {
   AccountType,
   AnalyticsKey,
   AnalyticsType,
-  CoinType
+  CoinType,
+  OrderType
 } from 'middleware/analyticsMiddleware/types'
 import {
   getNetworkFee,
@@ -84,7 +85,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               nabuId,
               origin,
               originalTimestamp: getOriginalTimestamp(),
-              type: 'BUY'
+              type: OrderType.BUY
             })
 
             analytics.push(AnalyticsKey.BUY_SELL_VIEWED, {
@@ -96,7 +97,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               referrer,
               search,
               title,
-              type: 'BUY',
+              type: OrderType.BUY,
               url: href
             })
 
@@ -302,12 +303,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const state = store.getState()
             const inputCurrency = state.form.initSwap.values.BASE.coin
             const inputType =
-              state.form.initSwap.values.BASE.type === 'CUSTODIAL'
+              state.form.initSwap.values.BASE.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
                 ? AccountType.TRADING
                 : AccountType.USERKEY
             const outputCurrency = state.form.initSwap.values.COUNTER.coin
             const outputType =
-              state.form.initSwap.values.COUNTER.type === 'CUSTODIAL'
+              state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
                 ? AccountType.TRADING
                 : AccountType.USERKEY
 
@@ -330,13 +331,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const inputAmount = Number(state.form.swapAmount.values.cryptoAmount)
             const inputCurrency = state.form.initSwap.values.BASE.coin
             const inputType =
-              state.form.initSwap.values.BASE.type === 'CUSTODIAL'
+              state.form.initSwap.values.BASE.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
                 ? AccountType.TRADING
                 : AccountType.USERKEY
             const outputAmount = inputAmount * exchangeRate
             const outputCurrency = state.form.initSwap.values.COUNTER.coin
             const outputType =
-              state.form.initSwap.values.COUNTER.type === 'CUSTODIAL'
+              state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
                 ? AccountType.TRADING
                 : AccountType.USERKEY
 
@@ -365,12 +366,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const state = store.getState()
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
-          state.form.initSwap.values.BASE.type === 'CUSTODIAL'
+          state.form.initSwap.values.BASE.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
             : AccountType.USERKEY
         const outputCurrency = state.form.initSwap.values.COUNTER.coin
         const outputType =
-          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL'
+          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
             : AccountType.USERKEY
 
@@ -391,12 +392,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const state = store.getState()
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
-          state.form.initSwap.values.BASE.type === 'CUSTODIAL'
+          state.form.initSwap.values.BASE.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
             : AccountType.USERKEY
         const outputCurrency = state.form.initSwap.values.COUNTER.coin
         const outputType =
-          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL'
+          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
             : AccountType.USERKEY
 
@@ -415,7 +416,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       case AT.components.swap.CHANGE_BASE: {
         const inputCurrency = action.payload.account.coin
         const inputType =
-          action.payload.account.type === 'CUSTODIAL' ? AccountType.TRADING : AccountType.USERKEY
+          action.payload.account.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+            ? AccountType.TRADING
+            : AccountType.USERKEY
 
         analytics.push(AnalyticsKey.SWAP_FROM_SELECTED, {
           analyticsType: AnalyticsType.EVENT,
@@ -430,7 +433,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       case AT.components.swap.CHANGE_COUNTER: {
         const inputCurrency = action.payload.account.coin
         const inputType =
-          action.payload.account.type === 'CUSTODIAL' ? AccountType.TRADING : AccountType.USERKEY
+          action.payload.account.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+            ? AccountType.TRADING
+            : AccountType.USERKEY
 
         analytics.push(AnalyticsKey.SWAP_RECEIVE_SELECTED, {
           analyticsType: AnalyticsType.EVENT,
@@ -448,17 +453,17 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const inputAmount = Number(state.form.swapAmount.values.cryptoAmount)
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
-          state.form.initSwap.values.BASE.type === 'CUSTODIAL'
+          state.form.initSwap.values.BASE.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
             : AccountType.USERKEY
         const outputAmount = inputAmount * exchangeRate
         const outputCurrency = state.form.initSwap.values.COUNTER.coin
         const outputType =
-          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL'
+          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
             : AccountType.USERKEY
         const networkFeeInputAmount =
-          state.form.initSwap.values.BASE.type === 'CUSTODIAL'
+          state.form.initSwap.values.BASE.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
             ? 0
             : Number(
                 convertBaseToStandard(
@@ -467,7 +472,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
                 )
               )
         const networkFeeOutputAmount =
-          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL'
+          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
             ? 0
             : state.components.swap.quote.getOrElse({})?.quote.networkFee || 0
 
@@ -495,7 +500,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       case AT.components.request.GET_NEXT_ADDRESS: {
         const state = store.getState()
         const accountType =
-          state.forms.requestCrypto.values.selectedAccount.type === 'CUSTODIAL'
+          state.forms.requestCrypto.values.selectedAccount.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
             : AccountType.USERKEY
         const currency = state.forms.requestCrypto.values.selectedAccount.coin
@@ -514,7 +519,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       case AT.components.request.SET_ADDRESS_COPIED: {
         const state = store.getState()
         const accountType =
-          state.forms.requestCrypto.values.selectedAccount.type === 'CUSTODIAL'
+          state.forms.requestCrypto.values.selectedAccount.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
             : AccountType.USERKEY
         const currency = state.forms.requestCrypto.values.selectedAccount.coin
@@ -543,7 +548,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           nabuId,
           origin,
           originalTimestamp: getOriginalTimestamp(),
-          type: 'BUY'
+          type: OrderType.BUY
         })
 
         analytics.push(AnalyticsKey.BUY_SELL_VIEWED, {
@@ -555,7 +560,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           referrer,
           search,
           title,
-          type: 'BUY',
+          type: OrderType.BUY,
           url: href
         })
         break
@@ -573,7 +578,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           nabuId,
           origin,
           originalTimestamp: getOriginalTimestamp(),
-          type: 'SELL'
+          type: OrderType.SELL
         })
 
         analytics.push(AnalyticsKey.BUY_SELL_VIEWED, {
@@ -585,7 +590,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           referrer,
           search,
           title,
-          type: 'SELL',
+          type: OrderType.SELL,
           url: href
         })
 
