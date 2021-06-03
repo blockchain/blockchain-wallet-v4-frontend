@@ -94,13 +94,9 @@ class RequestCrypto extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state): LinkStatePropsType => ({
-  formValues: selectors.form.getFormValues(REQUEST_FORM)(
-    state
-  ) as RequestFormType,
+  formValues: selectors.form.getFormValues(REQUEST_FORM)(state) as RequestFormType,
   initialValues: {
-    currencyDisplay: selectors.core.settings
-      .getCurrency(state)
-      .getOrElse('USD'),
+    currencyDisplay: selectors.core.settings.getCurrency(state).getOrElse('USD'),
     selectedCoin: selectors.router.getCoinFromPageUrl(state) || 'ALL',
     step: RequestSteps.COIN_SELECT
   },
@@ -111,7 +107,7 @@ const mapStateToProps = (state): LinkStatePropsType => ({
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 

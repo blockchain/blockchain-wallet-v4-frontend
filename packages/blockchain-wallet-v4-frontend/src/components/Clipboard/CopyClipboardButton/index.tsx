@@ -10,6 +10,7 @@ import CopyClipboard from './template'
 export interface OwnProps {
   alertActions: any
   color?: string
+  onClick?: Function
   size?: string
   textToCopy: string
 }
@@ -19,6 +20,8 @@ export interface State {
 }
 
 class CopyToClipboardContainer extends React.PureComponent<Props, State> {
+  timeout: number | undefined
+
   constructor(props) {
     super(props)
     this.timeout = undefined
@@ -30,8 +33,6 @@ class CopyToClipboardContainer extends React.PureComponent<Props, State> {
     clearTimeout(this.timeout)
   }
 
-  timeout: number | undefined
-
   handleClick() {
     const { alertActions } = this.props
     this.setState({ active: true })
@@ -40,6 +41,7 @@ class CopyToClipboardContainer extends React.PureComponent<Props, State> {
       this.setState({ active: false })
     }, 2000)
     alertActions.displaySuccess(C.COPY_LINK_CLIPBOARD_SUCCESS)
+    if (this.props.onClick) this.props.onClick()
   }
 
   render() {
@@ -56,7 +58,7 @@ class CopyToClipboardContainer extends React.PureComponent<Props, State> {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch)
 })
 
