@@ -404,7 +404,8 @@ export default ({
         address,
         amount,
         currency,
-        fee: fee?.toString()
+        fee: fee?.toString(),
+        product: 'SIMPLEBUY'
       },
       endPoint: '/payments/withdrawals',
       headers: {
