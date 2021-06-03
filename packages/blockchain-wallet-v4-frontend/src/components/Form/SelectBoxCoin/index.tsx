@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { pathOr } from 'ramda'
 import styled from 'styled-components'
 
@@ -22,14 +22,14 @@ const HeaderWrapper = styled.div`
     margin-right: 5px;
   }
 `
-const ItemIcon = styled(Icon)`
+const ItemIcon = styled(Icon)<{ color: string }>`
   color: ${(props) => props.theme[props.color]} !important;
   * {
     color: ${(props) => props.theme[props.color]} !important;
   }
 `
 
-class SelectBoxCoin extends React.PureComponent {
+class SelectBoxCoin extends React.PureComponent<Props> {
   renderItem = (props) => {
     const { supportedCoins } = this.props
     const { text, value, ...rest } = props
@@ -66,6 +66,7 @@ class SelectBoxCoin extends React.PureComponent {
   }
 
   render() {
+    // @ts-ignore
     const { additionalOptions = [], coins, limitTo = [], supportedCoins, ...rest } = this.props
     const items =
       limitTo.length > 0 ? [...additionalOptions, ...limitTo] : [...additionalOptions, ...coins]
@@ -83,9 +84,13 @@ class SelectBoxCoin extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  coins: getCoins(state, ownProps),
-  supportedCoins: selectors.core.walletOptions.getSupportedCoins(state).getOrFail()
+const mapStateToProps = (state) => ({
+  coins: getCoins(state),
+  supportedCoins: selectors.core.walletOptions.getSupportedCoins(state)
 })
 
-export default connect(mapStateToProps)(SelectBoxCoin)
+const connector = connect(mapStateToProps)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(SelectBoxCoin)

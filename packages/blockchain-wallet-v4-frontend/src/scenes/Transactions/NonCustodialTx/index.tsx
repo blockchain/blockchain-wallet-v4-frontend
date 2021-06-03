@@ -1,20 +1,22 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { includes } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { CoinType, FiatType, ProcessedTxType } from 'blockchain-wallet-v4/src/types'
-import { actions, model, selectors } from 'data'
+import { actions, model } from 'data'
 
 import NonCustodialTx from './template'
 
 const { TRANSACTION_EVENTS } = model.analytics
 
-class NonCustodialTxListItem extends React.PureComponent<Props> {
-  state = { isToggled: false }
+class NonCustodialTxListItem extends React.PureComponent<Props, { isToggled: boolean }> {
+  constructor(props) {
+    super(props)
+    this.state = { isToggled: false }
+  }
 
   handleToggle = () => {
-    this.setState({ isToggled: !this.state.isToggled })
+    this.setState((prevState) => ({ isToggled: !prevState.isToggled }))
   }
 
   handleEditDescription = (value) => {

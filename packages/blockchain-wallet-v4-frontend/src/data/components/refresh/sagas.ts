@@ -1,11 +1,40 @@
 import { contains, toUpper } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
-import { CoinType } from 'core/types'
 import { actions, selectors } from 'data'
 
 export default () => {
-  const refreshClicked = function * () {
+  const refreshBchTransactions = function* () {
+    const onlyShow = yield select(selectors.components.bchTransactions.selectOnlyShow)
+    yield put(actions.core.data.bch.fetchTransactions(onlyShow, true))
+  }
+
+  const refreshBtcTransactions = function* () {
+    const onlyShow = yield select(selectors.components.btcTransactions.selectOnlyShow)
+    yield put(actions.core.data.btc.fetchTransactions(onlyShow, true))
+  }
+
+  const refreshDotTransactions = function* () {
+    yield put(actions.core.data.dot.fetchTransactions(null, true))
+  }
+
+  const refreshEthTransactions = function* () {
+    yield put(actions.core.data.eth.fetchTransactions(null, true))
+  }
+
+  const refreshErc20Transactions = function* (coin) {
+    yield put(actions.core.data.eth.fetchErc20Transactions(coin, true))
+  }
+
+  const refreshXlmTransactions = function* () {
+    yield put(actions.core.data.xlm.fetchTransactions(null, true))
+  }
+
+  const refreshAlgoTransactions = function* () {
+    yield put(actions.core.data.algo.fetchTransactions(null, true))
+  }
+
+  const refreshClicked = function* () {
     try {
       // User
       yield put(actions.modules.profile.fetchUser())
@@ -32,10 +61,10 @@ export default () => {
       yield put(actions.core.data.eth.fetchErc20Rates('wdgld'))
       yield put(actions.core.data.eth.fetchErc20Rates('aave'))
       yield put(actions.core.data.eth.fetchErc20Rates('yfi'))
+
       const pathname = yield select(selectors.router.getPathname)
-      const erc20s = selectors.core.walletOptions
-        .getErc20CoinList(yield select())
-        .getOrElse([]) as CoinType[]
+      const maybeCoin = toUpper(pathname.split('/')[1])
+
       switch (true) {
         case contains('/bch/transactions', pathname):
           yield call(refreshBchTransactions)
@@ -55,7 +84,7 @@ export default () => {
         case contains('/algo/transactions', pathname):
           yield call(refreshAlgoTransactions)
           break
-        case erc20s.includes(toUpper(pathname.split('/')[1]) as CoinType):
+        case !!window.coins[maybeCoin]?.coinfig?.type?.erc20Address:
           yield call(refreshErc20Transactions, pathname.split('/')[1])
           break
         case contains('/eur/transactions', pathname):
@@ -68,11 +97,7 @@ export default () => {
           yield put(actions.core.data.fiat.fetchTransactions('USD', true))
           break
         case contains('/lockbox/', pathname):
-          yield put(
-            actions.components.lockbox.initializeDashboard(
-              pathname.split('/')[3]
-            )
-          )
+          yield put(actions.components.lockbox.initializeDashboard(pathname.split('/')[3]))
           break
         case contains('profile', pathname):
         case contains('/airdrops', pathname):
@@ -97,52 +122,14 @@ export default () => {
       // eslint-disable-next-line
       console.log(e)
       yield put(
-        actions.logs.logErrorMessage(
-          'components/refresh/sagas',
-          'refresh',
-          'Refresh failed.'
-        )
+        actions.logs.logErrorMessage('components/refresh/sagas', 'refresh', 'Refresh failed.')
       )
     }
   }
 
-  const refreshBchTransactions = function * () {
-    const onlyShow = yield select(
-      selectors.components.bchTransactions.selectOnlyShow
-    )
-    yield put(actions.core.data.bch.fetchTransactions(onlyShow, true))
-  }
-
-  const refreshBtcTransactions = function * () {
-    const onlyShow = yield select(
-      selectors.components.btcTransactions.selectOnlyShow
-    )
-    yield put(actions.core.data.btc.fetchTransactions(onlyShow, true))
-  }
-
-  const refreshDotTransactions = function * () {
-    yield put(actions.core.data.dot.fetchTransactions(null, true))
-  }
-
-  const refreshEthTransactions = function * () {
-    yield put(actions.core.data.eth.fetchTransactions(null, true))
-  }
-
-  const refreshErc20Transactions = function * (coin) {
-    yield put(actions.core.data.eth.fetchErc20Transactions(coin, true))
-  }
-
-  const refreshXlmTransactions = function * () {
-    yield put(actions.core.data.xlm.fetchTransactions(null, true))
-  }
-
-  const refreshAlgoTransactions = function * () {
-    yield put(actions.core.data.algo.fetchTransactions(null, true))
-  }
-
   return {
-    refreshClicked,
     refreshBchTransactions,
-    refreshBtcTransactions
+    refreshBtcTransactions,
+    refreshClicked
   }
 }

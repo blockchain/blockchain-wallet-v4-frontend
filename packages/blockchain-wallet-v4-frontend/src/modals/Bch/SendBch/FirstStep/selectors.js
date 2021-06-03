@@ -11,7 +11,7 @@ export const getData = (state) => {
 
   const paymentR = selectors.components.sendBch.getPayment(state)
   const excludeLockbox = false
-  const networkType = selectors.core.walletOptions.getBtcNetwork(state).getOrElse('bitcoin')
+  const networkType = 'bitcoin'
   const isMnemonicVerified = selectors.core.wallet.isMnemonicVerified(state)
   const network = Bitcoin.networks[networkType]
 

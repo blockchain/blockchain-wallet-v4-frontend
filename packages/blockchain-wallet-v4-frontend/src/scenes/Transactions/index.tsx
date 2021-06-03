@@ -13,7 +13,6 @@ import {
   FiatType,
   FiatTypeEnum,
   OrderType,
-  SupportedFiatType,
   SupportedWalletCurrencyType,
   TimeRange,
   WalletCurrencyType,

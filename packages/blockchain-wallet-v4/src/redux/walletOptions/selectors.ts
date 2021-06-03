@@ -69,9 +69,6 @@ export const getSupportedCoins = createDeepEqualSelector(
 ) as (state: RootState) => RemoteDataType<string, SupportedWalletCurrenciesType>
 
 export const getSyncToExchangeList = (state) => getSupportedCoins(state).map(keys)
-export const getBtcNetwork = (state) =>
-  getSupportedCoins(state).map(path(['BTC', 'config', 'network']))
-export const getEthTxFuse = (state) => getSupportedCoins(state).map(path(['ETH', 'lastTxFuse']))
 export const getXlmSendTimeOutSeconds = (state) =>
   getSupportedCoins(state).map(path(['XLM', 'config', 'sendTimeOutSeconds']))
 export const getXlmExchangeAddresses = (state) =>

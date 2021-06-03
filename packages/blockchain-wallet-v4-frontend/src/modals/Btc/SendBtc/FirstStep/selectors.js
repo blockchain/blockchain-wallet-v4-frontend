@@ -14,7 +14,6 @@ export const getData = createDeepEqualSelector(
     selectors.core.common.btc.getActiveAddresses,
     selectors.core.kvStore.lockbox.getDevices,
     selectors.core.wallet.isMnemonicVerified,
-    selectors.core.walletOptions.getBtcNetwork,
     selectors.form.getFormValues(model.components.sendBtc.FORM)
   ],
   (
@@ -24,12 +23,11 @@ export const getData = createDeepEqualSelector(
     btcAddressesR,
     lockboxDevicesR,
     isMnemonicVerified,
-    networkTypeR,
     formValues
   ) => {
     const btcAccountsLength = length(btcAccountsR.getOrElse([]))
     const btcAddressesLength = length(btcAddressesR.getOrElse([]))
-    const networkType = networkTypeR.getOrElse('bitcoin')
+    const networkType = 'bitcoin'
     const excludeLockbox = false
     const enableToggle =
       btcAccountsLength + btcAddressesLength > 1 || !isEmpty(lockboxDevicesR.getOrElse([]))
