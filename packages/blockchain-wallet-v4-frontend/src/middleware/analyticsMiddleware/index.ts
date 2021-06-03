@@ -1,6 +1,11 @@
 import analytics from 'middleware/analyticsMiddleware/analytics'
 import type { PageNamesType } from 'middleware/analyticsMiddleware/types'
-import { AnalyticsKey, AnalyticsType } from 'middleware/analyticsMiddleware/types'
+import {
+  AccountType,
+  AnalyticsKey,
+  AnalyticsType,
+  CoinType
+} from 'middleware/analyticsMiddleware/types'
 import {
   getNetworkFee,
   getOriginalTimestamp,
@@ -155,7 +160,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       case AT.components.interest.SET_COIN_DISPLAY: {
         const { isCoinDisplayed } = action.payload
 
-        const fix = isCoinDisplayed ? 'CRYPTO' : 'FIAT'
+        const fix = isCoinDisplayed ? CoinType.CRYPTO : CoinType.FIAT
 
         analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
           analyticsType: AnalyticsType.EVENT,
@@ -297,10 +302,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const state = store.getState()
             const inputCurrency = state.form.initSwap.values.BASE.coin
             const inputType =
-              state.form.initSwap.values.BASE.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+              state.form.initSwap.values.BASE.type === 'CUSTODIAL'
+                ? AccountType.TRADING
+                : AccountType.USERKEY
             const outputCurrency = state.form.initSwap.values.COUNTER.coin
             const outputType =
-              state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+              state.form.initSwap.values.COUNTER.type === 'CUSTODIAL'
+                ? AccountType.TRADING
+                : AccountType.USERKEY
 
             analytics.push(AnalyticsKey.SWAP_ACCOUNTS_SELECTED, {
               analyticsType: AnalyticsType.EVENT,
@@ -321,11 +330,15 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const inputAmount = Number(state.form.swapAmount.values.cryptoAmount)
             const inputCurrency = state.form.initSwap.values.BASE.coin
             const inputType =
-              state.form.initSwap.values.BASE.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+              state.form.initSwap.values.BASE.type === 'CUSTODIAL'
+                ? AccountType.TRADING
+                : AccountType.USERKEY
             const outputAmount = inputAmount * exchangeRate
             const outputCurrency = state.form.initSwap.values.COUNTER.coin
             const outputType =
-              state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+              state.form.initSwap.values.COUNTER.type === 'CUSTODIAL'
+                ? AccountType.TRADING
+                : AccountType.USERKEY
 
             analytics.push(AnalyticsKey.SWAP_AMOUNT_ENTERED, {
               analyticsType: AnalyticsType.EVENT,
@@ -352,10 +365,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const state = store.getState()
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
-          state.form.initSwap.values.BASE.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+          state.form.initSwap.values.BASE.type === 'CUSTODIAL'
+            ? AccountType.TRADING
+            : AccountType.USERKEY
         const outputCurrency = state.form.initSwap.values.COUNTER.coin
         const outputType =
-          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL'
+            ? AccountType.TRADING
+            : AccountType.USERKEY
 
         analytics.push(AnalyticsKey.SWAP_AMOUNT_MAX_CLICKED, {
           analyticsType: AnalyticsType.EVENT,
@@ -374,10 +391,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const state = store.getState()
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
-          state.form.initSwap.values.BASE.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+          state.form.initSwap.values.BASE.type === 'CUSTODIAL'
+            ? AccountType.TRADING
+            : AccountType.USERKEY
         const outputCurrency = state.form.initSwap.values.COUNTER.coin
         const outputType =
-          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL'
+            ? AccountType.TRADING
+            : AccountType.USERKEY
 
         analytics.push(AnalyticsKey.SWAP_AMOUNT_MIN_CLICKED, {
           analyticsType: AnalyticsType.EVENT,
@@ -393,7 +414,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.swap.CHANGE_BASE: {
         const inputCurrency = action.payload.account.coin
-        const inputType = action.payload.account.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+        const inputType =
+          action.payload.account.type === 'CUSTODIAL' ? AccountType.TRADING : AccountType.USERKEY
 
         analytics.push(AnalyticsKey.SWAP_FROM_SELECTED, {
           analyticsType: AnalyticsType.EVENT,
@@ -407,7 +429,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.swap.CHANGE_COUNTER: {
         const inputCurrency = action.payload.account.coin
-        const inputType = action.payload.account.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+        const inputType =
+          action.payload.account.type === 'CUSTODIAL' ? AccountType.TRADING : AccountType.USERKEY
 
         analytics.push(AnalyticsKey.SWAP_RECEIVE_SELECTED, {
           analyticsType: AnalyticsType.EVENT,
@@ -425,11 +448,15 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const inputAmount = Number(state.form.swapAmount.values.cryptoAmount)
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
-          state.form.initSwap.values.BASE.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+          state.form.initSwap.values.BASE.type === 'CUSTODIAL'
+            ? AccountType.TRADING
+            : AccountType.USERKEY
         const outputAmount = inputAmount * exchangeRate
         const outputCurrency = state.form.initSwap.values.COUNTER.coin
         const outputType =
-          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL'
+            ? AccountType.TRADING
+            : AccountType.USERKEY
         const networkFeeInputAmount =
           state.form.initSwap.values.BASE.type === 'CUSTODIAL'
             ? 0
@@ -469,8 +496,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const state = store.getState()
         const accountType =
           state.forms.requestCrypto.values.selectedAccount.type === 'CUSTODIAL'
-            ? 'TRADING'
-            : 'USERKEY'
+            ? AccountType.TRADING
+            : AccountType.USERKEY
         const currency = state.forms.requestCrypto.values.selectedAccount.coin
 
         analytics.push(AnalyticsKey.RECEIVE_CURRENCY_SELECTED, {
@@ -488,8 +515,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const state = store.getState()
         const accountType =
           state.forms.requestCrypto.values.selectedAccount.type === 'CUSTODIAL'
-            ? 'TRADING'
-            : 'USERKEY'
+            ? AccountType.TRADING
+            : AccountType.USERKEY
         const currency = state.forms.requestCrypto.values.selectedAccount.coin
 
         analytics.push(AnalyticsKey.RECEIVE_DETAILS_COPIED, {

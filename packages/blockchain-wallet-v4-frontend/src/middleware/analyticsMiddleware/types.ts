@@ -36,6 +36,16 @@ enum AnalyticsType {
   VIEW = 'VIEW'
 }
 
+enum AccountType {
+  TRADING = 'TRADING',
+  USERKEY = 'USERKEY'
+}
+
+enum CoinType {
+  CRYPTO = 'CRYPTO',
+  FIAT = 'FIAT'
+}
+
 type BasePayload = {
   analyticsType: AnalyticsType
   id: string
@@ -259,4 +269,4 @@ type PageNamesType = '/home'
 
 export type { AnalyticsPayload, PageNamesType }
 
-export { AnalyticsKey, AnalyticsType }
+export { AccountType, AnalyticsKey, AnalyticsType, CoinType }
