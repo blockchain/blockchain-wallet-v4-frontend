@@ -15,7 +15,7 @@ import {
   TextGroup
 } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
+import { OrderType, SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row } from 'components/Flyout'
 import { Form } from 'components/Form'
@@ -198,7 +198,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     paymentPartner === BankPartners.YAPILY ? (
       <FormattedMessage id='copy.next' defaultMessage='Next' />
     ) : (
-      `${orderType === 'BUY' ? 'Buy' : 'Sell'} ${baseAmount} ${baseCurrency}`
+      `${orderType === OrderType.BUY ? 'Buy' : 'Sell'} ${baseAmount} ${baseCurrency}`
     )
 
   return (
