@@ -1,10 +1,5 @@
 import { CardNameType } from 'components/Form/CreditCardBox/model'
-import {
-  BeneficiaryType,
-  CoinType,
-  FiatType,
-  WalletCurrencyType
-} from 'core/types'
+import { BeneficiaryType, CoinType, FiatType, WalletCurrencyType } from 'core/types'
 import { BankDetails } from 'data/types'
 
 export type Everypay3DSResponseType = {
@@ -103,12 +98,7 @@ export type SBCardType = {
 
 export type SBCardPartnerType = 'EVERYPAY'
 
-export type SBCardStateType =
-  | 'PENDING'
-  | 'CREATED'
-  | 'ACTIVE'
-  | 'BLOCKED'
-  | 'FRAUD_REVIEW'
+export type SBCardStateType = 'PENDING' | 'CREATED' | 'ACTIVE' | 'BLOCKED' | 'FRAUD_REVIEW'
 
 export type SBPairsType = string
 
@@ -216,6 +206,7 @@ export type SBSellOrderType = ISBBuyOrderType & {
 }
 export type SBOrderType = SBBuyOrderType | SBSellOrderType
 
+// TODO: refactor this into an enum
 export type SBOrderStateType =
   | 'PENDING_CONFIRMATION'
   | 'PENDING_DEPOSIT'

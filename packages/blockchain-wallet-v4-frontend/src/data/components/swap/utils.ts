@@ -42,11 +42,6 @@ export const interpolatePrice = (
   amount: BigNumber
 ): number | string => {
   try {
-    // if (thisPrice.isGreaterThan(nextPrice)) throw new Error('Should be sorted')
-    // if (thisVol.isGreaterThan(nextVol)) throw new Error('Should be sorted')
-    // if (amount.isLessThan(thisVol) && amount.isGreaterThan(nextVol))
-    //   throw new Error('Amount should be between x[0] and x[1]')
-
     return amount
       .minus(thisVol)
       .times(nextPrice.minus(thisPrice).dividedBy(nextVol.minus(thisVol)))
@@ -64,7 +59,7 @@ export const getRate = (
   minor?: boolean
 ): number => {
   try {
-    for (var index = 0; index <= priceTiers.length; index++) {
+    for (let index = 0; index <= priceTiers.length; index += 1) {
       const priceTier = priceTiers[index]
       if (index === priceTiers.length - 1)
         return minor
