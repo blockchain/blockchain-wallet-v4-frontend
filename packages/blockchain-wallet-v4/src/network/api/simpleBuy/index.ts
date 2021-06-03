@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { BankTransferAccountType, UserDataType } from 'data/types'
 
 import { CoinType, CurrenciesType, FiatType, WalletCurrencyType } from '../../../types'
-import { NabuCustodialProductType } from '../custodial/types'
+import { NabuCustodialProductType, ProductTypes } from '../custodial/types'
 import { SwapOrderStateType, SwapOrderType, SwapUserLimitsType } from '../swap/types'
 import {
   FiatEligibleType,
@@ -405,7 +405,7 @@ export default ({
         amount,
         currency,
         fee: fee?.toString(),
-        product: 'SIMPLEBUY'
+        product: ProductTypes.SIMPLEBUY
       },
       endPoint: '/payments/withdrawals',
       headers: {
