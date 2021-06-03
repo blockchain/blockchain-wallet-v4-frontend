@@ -9,7 +9,7 @@ import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { generateTradingAccount } from 'data/coins/utils'
 
-import { getTradingBalance } from '../'
+import { getTradingBalance } from '..'
 
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = () => (
@@ -30,14 +30,7 @@ export const getAccounts = createDeepEqualSelector(
     (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
-  (
-    bchAccounts,
-    bchDataR,
-    bchMetadataR,
-    importedAddressesR,
-    sbBalanceR,
-    ownProps
-  ) => {
+  (bchAccounts, bchDataR, bchMetadataR, importedAddressesR, sbBalanceR, ownProps) => {
     const transform = (
       bchData,
       bchMetadata,
@@ -50,7 +43,7 @@ export const getAccounts = createDeepEqualSelector(
       if (ownProps?.nonCustodialAccounts) {
         accounts = accounts.concat(
           bchAccounts
-            .map(acc => {
+            .map((acc) => {
               const index = prop('index', acc)
               // this is using hdAccount with new segwit structure
               // need to get legacy xPub from derivations object similar to btc selector
@@ -58,9 +51,7 @@ export const getAccounts = createDeepEqualSelector(
               const xpub = acc.derivations
                 ? prop(
                     'xpub',
-                    prop('derivations', acc).find(
-                      derr => derr.type === 'legacy'
-                    )
+                    prop('derivations', acc).find((derr) => derr.type === 'legacy')
                   )
                 : acc.xpub
               const data = prop(xpub, bchData)
@@ -83,9 +74,9 @@ export const getAccounts = createDeepEqualSelector(
       // add imported addresses if requested
       if (ownProps?.importedAddresses) {
         accounts = accounts.concat(
-          importedAddresses.map(importedAcc => ({
+          importedAddresses.map((importedAcc) => ({
             address: importedAcc.addr,
-            balance: importedAcc.final_balance,
+            balance: importedAcc.info.final_balance,
             baseCoin: coin,
             coin,
             label: importedAcc.label || importedAcc.addr,
@@ -105,11 +96,6 @@ export const getAccounts = createDeepEqualSelector(
       return accounts
     }
 
-    return lift(transform)(
-      bchDataR,
-      bchMetadataR,
-      importedAddressesR,
-      sbBalanceR
-    )
+    return lift(transform)(bchDataR, bchMetadataR, importedAddressesR, sbBalanceR)
   }
 )
