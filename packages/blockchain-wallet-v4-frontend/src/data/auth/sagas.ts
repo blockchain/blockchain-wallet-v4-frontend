@@ -215,6 +215,11 @@ export default ({ api, coreSagas }) => {
         yield put(actions.auth.upgradeWallet(4))
         yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
       }
+      // Adding this to sync isMnemonicVerified flags
+      const lastMnemonicBackup = selectors.core.settings
+        .getLastMnemonicBackup(yield select())
+        .getOrElse(true)
+      const isMnemonicVerified = yield select(selectors.core.wallet.isMnemonicVerified)
       // Finish upgrades
       yield put(actions.auth.authenticate())
       yield put(actions.auth.setFirstLogin(firstLogin))
@@ -274,7 +279,9 @@ export default ({ api, coreSagas }) => {
 
       // check/update btc account names
       yield call(coreSagas.wallet.checkAndUpdateWalletNames)
-
+      if (isMnemonicVerified && !lastMnemonicBackup) {
+        yield put(actions.wallet.updateMnemonicBackup())
+      }
       yield fork(checkExchangeUsage)
       yield fork(checkDataErrors)
       // @ts-ignore
