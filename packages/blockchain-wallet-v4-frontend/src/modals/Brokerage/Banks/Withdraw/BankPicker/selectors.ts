@@ -1,24 +1,19 @@
 import { lift } from 'ramda'
 
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
-import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
-import { InvitationsType } from 'core/types'
+import { ExtractSuccess, InvitationsType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import { OwnProps } from '.'
 
-export const getData = (state: RootState, ownProps: OwnProps) => {
-  let bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
-    state
-  )
+const getData = (state: RootState, ownProps: OwnProps) => {
+  let bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(state)
   let defaultMethodR = selectors.components.brokerage.getAccount(state)
   // TODO: Remove this when ach deposits withdrawals gets rolled out hundo P
-  const invitations: InvitationsType = selectors.core.settings
-    .getInvitations(state)
-    .getOrElse({
-      openBanking: false
-    } as InvitationsType)
+  const invitations: InvitationsType = selectors.core.settings.getInvitations(state).getOrElse({
+    openBanking: false
+  } as InvitationsType)
 
   if (!invitations.openBanking && ownProps.fiatCurrency !== 'USD') {
     defaultMethodR = undefined
@@ -35,12 +30,14 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       beneficiaries: ExtractSuccess<typeof beneficiariesR>,
       defaultBeneficiary: ExtractSuccess<typeof defaultBeneficiaryR>
     ) => ({
-      bankTransferAccounts,
-      beneficiaries: beneficiaries.filter(
-        value => value.currency === ownProps.fiatCurrency
+      bankTransferAccounts: bankTransferAccounts.filter(
+        (value) => value.currency === ownProps.fiatCurrency
       ),
+      beneficiaries: beneficiaries.filter((value) => value.currency === ownProps.fiatCurrency),
       defaultBeneficiary,
       defaultMethod: defaultMethodR
     })
   )(bankTransferAccountsR, beneficiariesR, defaultBeneficiaryR)
 }
+
+export default getData
