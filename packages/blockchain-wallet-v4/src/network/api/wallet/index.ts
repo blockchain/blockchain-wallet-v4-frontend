@@ -155,6 +155,14 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
+  // endpoint is triggered when mnemonic is viewed
+  const updateMnemonicBackup = (sharedKey, guid) =>
+    post({
+      data: { guid, method: 'update-mnemonic-backup', sharedKey },
+      endPoint: '/wallet',
+      url: rootUrl
+    })
+
   const deauthorizeBrowser = (sessionToken) =>
     get({
       data: { format: 'plain' },
@@ -247,6 +255,7 @@ export default ({ get, post, rootUrl }) => {
     reset2fa,
     savePayload,
     sendSecureChannel,
+    updateMnemonicBackup,
     verifyEmailToken
   }
 }

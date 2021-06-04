@@ -63,10 +63,15 @@ export default ({ coreSagas }) => {
     yield call(coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials)
   }
 
+  const updateMnemonicBackup = function* () {
+    yield put(actions.core.wallet.updateMnemonicBackup())
+  }
+
   return {
     editBtcAccountLabel,
     setMainPassword,
     toggleSecondPassword,
+    updateMnemonicBackup,
     updatePbkdf2Iterations,
     verifyMnemonic
   }

@@ -21,7 +21,7 @@ export const importLegacyAddress = (addr, priv, to, bipPass) => ({
 })
 
 export const verifyMnemonic = () => ({ type: AT.VERIFY_MNEMONIC })
-
+export const updateMnemonicBackup = () => ({ type: AT.UPDATE_MNEMONIC_BACKUP })
 export const submitPromptInput = (value) => ({
   payload: { value },
   type: AT.SUBMIT_PROMPT_INPUT
