@@ -46,7 +46,7 @@ const WarningCircle = styled.div<{ color: string; size: string }>`
 class RecoveryPhraseIntro extends PureComponent<Props> {
   handleBackupNow = () => {
     this.props.recoveryPhraseActions.setStep('FIRST_SET_WORDS')
-    this.props.walletActions.updateMnemonicBackup()
+    this.props.walletActions.triggerMnemonicViewedAlert()
   }
 
   render() {

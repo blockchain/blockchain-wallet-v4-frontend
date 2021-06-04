@@ -27,5 +27,6 @@ export const VERIFY_MNEMONIC = '@CORE.VERIFY_MNEMONIC'
 // check/update account labels
 export const CHECK_UPDATE_ACCT_LABELS = '@CORE.CHECK_UPDATE_ACCT_LABELS'
 
-// UPDATE MNEMONIC VIEWED
+// update mmenomic viewedd/ confirmed
+export const MNEMONIC_VIEWED_ALERT = 'MNEMONIC_VIEWED_ALERT'
 export const UPDATE_MNEMONIC_BACKUP = 'UPDATE_MNEMONIC_BACKUP'

@@ -1,7 +1,5 @@
 import { takeLatest } from 'redux-saga/effects'
 
-import wallet from 'core/network/api/wallet'
-
 import * as AT from './actionTypes'
 import sagas from './sagas'
 
@@ -16,5 +14,6 @@ export default ({ api, networks }) => {
     yield takeLatest(AT.SET_HD_ADDRESS_LABEL, walletSagas.setHDAddressLabel)
     yield takeLatest(AT.CHECK_UPDATE_ACCT_LABELS, walletSagas.checkAndUpdateWalletNames)
     yield takeLatest(AT.UPDATE_MNEMONIC_BACKUP, walletSagas.updateMnemonicBackup)
+    yield takeLatest(AT.MNEMONIC_VIEWED_ALERT, walletSagas.triggerMnemonicViewedAlert)
   }
 }

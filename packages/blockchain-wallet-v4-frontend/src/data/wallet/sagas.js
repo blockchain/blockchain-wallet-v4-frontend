@@ -67,10 +67,15 @@ export default ({ coreSagas }) => {
     yield put(actions.core.wallet.updateMnemonicBackup())
   }
 
+  const triggerMnemonicViewedAlert = function* () {
+    yield put(actions.core.wallet.triggerMnemonicViewedAlert())
+  }
+
   return {
     editBtcAccountLabel,
     setMainPassword,
     toggleSecondPassword,
+    triggerMnemonicViewedAlert,
     updateMnemonicBackup,
     updatePbkdf2Iterations,
     verifyMnemonic

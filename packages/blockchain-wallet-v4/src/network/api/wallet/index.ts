@@ -155,10 +155,18 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
-  // endpoint is triggered when mnemonic is viewed
+  // marks timestamp when user last backed up phrase
   const updateMnemonicBackup = (sharedKey, guid) =>
     post({
       data: { guid, method: 'update-mnemonic-backup', sharedKey },
+      endPoint: '/wallet',
+      url: rootUrl
+    })
+
+  // endpoint is triggered when mnemonic is viewed
+  const triggerMnemonicViewedAlert = (sharedKey, guid) =>
+    post({
+      data: { guid, method: 'trigger-alert', sharedKey },
       endPoint: '/wallet',
       url: rootUrl
     })
@@ -255,6 +263,7 @@ export default ({ get, post, rootUrl }) => {
     reset2fa,
     savePayload,
     sendSecureChannel,
+    triggerMnemonicViewedAlert,
     updateMnemonicBackup,
     verifyEmailToken
   }

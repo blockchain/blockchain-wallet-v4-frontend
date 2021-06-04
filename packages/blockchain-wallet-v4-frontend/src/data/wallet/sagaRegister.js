@@ -13,5 +13,6 @@ export default ({ coreSagas }) => {
     yield takeEvery(AT.EDIT_BTC_ACCOUNT_LABEL, walletSagas.editBtcAccountLabel)
     yield takeLatest(AT.SET_MAIN_PASSWORD, walletSagas.setMainPassword)
     yield takeLatest(AT.UPDATE_MNEMONIC_BACKUP, walletSagas.updateMnemonicBackup)
+    yield takeLatest(AT.MNEMONIC_VIEWED_ALERT, walletSagas.triggerMnemonicViewedAlert)
   }
 }
