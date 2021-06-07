@@ -133,7 +133,11 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
 
   return (
     <Wrapper>
-      <Form onSubmit={() => {}}>
+      <Form
+        onSubmit={() => {
+          // do nothing
+        }}
+      >
         <FlyoutWrapper>
           <CloseContainer>
             <Icon
@@ -249,9 +253,9 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
               <SellEmptyState handleClose={props.handleClose} />
             )
           ) : (
-            props.pairs.map((value, index) => (
+            props.pairs.map((value) => (
               <CryptoItem
-                key={index}
+                key={`${getFiatFromPair(value.pair)}-${getCoinFromPair(value.pair)}`}
                 orderType={orderType}
                 fiat={getFiatFromPair(value.pair)}
                 coin={getCoinFromPair(value.pair)}

@@ -467,20 +467,36 @@ export const handleSBDepositFiatClick = (coin: WalletFiatType, origin: ModalOrig
   type: AT.HANDLE_SB_DEPOSIT_FIAT_CLICK
 })
 
-export const handleSBMaxAmountClick = (amount: string, coin: 'FIAT' | CoinType) => ({
+export const handleSellMaxAmountClick = (amount: string, coin: 'FIAT' | CoinType) => ({
   payload: {
     amount,
     coin
   },
-  type: AT.HANDLE_SB_MAX_AMOUNT_CLICK
+  type: AT.HANDLE_SELL_MAX_AMOUNT_CLICK
 })
 
-export const handleSBMinAmountClick = (amount: string, coin: 'FIAT' | CoinType) => ({
+export const handleSellMinAmountClick = (amount: string, coin: 'FIAT' | CoinType) => ({
   payload: {
     amount,
     coin
   },
-  type: AT.HANDLE_SB_MIN_AMOUNT_CLICK
+  type: AT.HANDLE_SELL_MIN_AMOUNT_CLICK
+})
+
+export const handleBuyMaxAmountClick = (amount: string, coin: 'FIAT' | CoinType) => ({
+  payload: {
+    amount,
+    coin
+  },
+  type: AT.HANDLE_BUY_MAX_AMOUNT_CLICK
+})
+
+export const handleBuyMinAmountClick = (amount: string, coin: 'FIAT' | CoinType) => ({
+  payload: {
+    amount,
+    coin
+  },
+  type: AT.HANDLE_BUY_MIN_AMOUNT_CLICK
 })
 
 export const initializeBillingAddress = () => ({

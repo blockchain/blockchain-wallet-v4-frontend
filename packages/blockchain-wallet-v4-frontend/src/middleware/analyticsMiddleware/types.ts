@@ -11,12 +11,15 @@ enum AnalyticsKey {
   EMAIL_VERIFICATION_REQUESTED = 'Email Verification Requested',
   RECEIVE_CURRENCY_SELECTED = 'Receive Currency Selected',
   RECEIVE_DETAILS_COPIED = 'Receive Details Copied',
-  SEND_AMOUNT_MAX_CLICKED = 'Send Amount Max Clicked', // not implemented
-  SEND_FEE_RATE_SELECTED = 'Send Fee Rate Selected', // not implemented
-  SEND_FROM_SELECTED = 'Send From Selected', // not implemented
+  SELL_AMOUNT_ENTERED = 'Sell Amount Entered',
+  SELL_AMOUNT_MAX_CLICKED = 'Sell Amount Max Clicked',
+  SELL_AMOUNT_MIN_CLICKED = 'Sell Amount Min Clicked',
+  SEND_AMOUNT_MAX_CLICKED = 'Send Amount Max Clicked', // not implemented - blocked
+  SEND_FEE_RATE_SELECTED = 'Send Fee Rate Selected', // not implemented - blocked
+  SEND_FROM_SELECTED = 'Send From Selected', // not implemented - blocked
   SEND_RECEIVE_CLICKED = 'Send Receive Clicked', // half implemented
   SEND_RECEIVE_VIEWED = 'Send Receive Viewed', // half implemented
-  SEND_SUBMITTED = 'Send Submitted', // not implemented
+  SEND_SUBMITTED = 'Send Submitted', // not implemented - blocked
   SIGNED_IN = 'Signed In',
   SIGNED_OUT = 'Signed Out',
   SWAP_ACCOUNTS_SELECTED = 'Swap Accounts Selected',
@@ -135,6 +138,25 @@ type ReceiveCurrencySelectedPayload = BasePayload & {
 type ReceiveDetailsCopiedPayload = BasePayload & {
   account_type: AccountType
   currency: string
+}
+
+type SellAmountEnteredPayload = BasePayload & {
+  from_account_type: AccountType
+  input_amount: number
+  input_currency: string
+  output_currency: string
+}
+
+type SellAmountMaxClickedPayload = BasePayload & {
+  from_account_type: AccountType
+  input_currency: string
+  output_currency: string
+}
+
+type SellAmountMinClickedPayload = BasePayload & {
+  from_account_type: AccountType
+  input_currency: string
+  output_currency: string
 }
 
 type SendAmountMaxClickedPayload = BasePayload & {
@@ -261,6 +283,9 @@ type AnalyticsPayload =
   | EmailVerificationClicked
   | ReceiveCurrencySelectedPayload
   | ReceiveDetailsCopiedPayload
+  | SellAmountEnteredPayload
+  | SellAmountMaxClickedPayload
+  | SellAmountMinClickedPayload
   | SendAmountMaxClickedPayload
   | SendFeeRateSelectedPayload
   | SendFromSelectedPayload
