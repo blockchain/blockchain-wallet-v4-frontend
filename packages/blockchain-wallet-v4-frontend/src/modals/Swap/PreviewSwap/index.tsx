@@ -59,6 +59,16 @@ const ToolTipText = styled.div`
   }
 `
 
+const ExchangeRateRow = styled.div`
+  display: flex;
+`
+const IconWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: 4px;
+`
 class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, State> {
   constructor(props) {
     super(props)
@@ -145,22 +155,26 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
         <StyledRow>
           <div>
             <Title>
-              <TextGroup inline>
-                <FormattedMessage
-                  id='modals.simplebuy.confirm.rate'
-                  defaultMessage='Exchange Rate'
-                />
-                <Icon
-                  name='question-in-circle-filled'
-                  size='16px'
-                  color='blue600'
-                  onClick={() =>
-                    this.setState((prevState) => ({
-                      isActiveExchangeToolTip: !prevState.isActiveExchangeToolTip
-                    }))
-                  }
-                />
-              </TextGroup>
+              <ExchangeRateRow>
+                <Text color='grey900' weight={500}>
+                  <FormattedMessage
+                    id='modals.simplebuy.confirm.rate'
+                    defaultMessage='Exchange Rate'
+                  />
+                </Text>
+                <IconWrapper>
+                  <Icon
+                    name='question-in-circle-filled'
+                    size='16px'
+                    color={this.state.isActiveExchangeToolTip ? 'blue600' : 'grey300'}
+                    onClick={() =>
+                      this.setState((prevState) => ({
+                        isActiveExchangeToolTip: !prevState.isActiveExchangeToolTip
+                      }))
+                    }
+                  />
+                </IconWrapper>
+              </ExchangeRateRow>
             </Title>
             <Value data-e2e='swapExchangeRate'>
               {this.props.quoteR.cata({
