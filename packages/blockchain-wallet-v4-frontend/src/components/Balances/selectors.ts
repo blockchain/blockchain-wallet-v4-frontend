@@ -3,13 +3,11 @@ import { add, curry, flatten, lift, pathOr, reduce } from 'ramda'
 
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import {
-  CoinType,
   ExtractSuccess,
   InterestAccountBalanceType,
   RemoteDataType,
   SBBalancesType,
   SBBalanceType,
-  WalletCurrencyType,
   WalletFiatEnum,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
@@ -44,7 +42,7 @@ export const getBtcBalance = createDeepEqualSelector(
         pathOr(0, [a, 'final_balance'], balances)
       )
       const interestBalance = interestAccountBalance.BTC
-        ? parseInt(interestAccountBalance.BTC.balance)
+        ? parseInt(interestAccountBalance.BTC.balance, 10)
         : 0
       const sbBalance = Number(sbBalances.BTC ? sbBalances.BTC.available : 0)
       return walletBalances.concat(sbBalance).concat(interestBalance)
@@ -77,7 +75,7 @@ export const getBchBalance = createDeepEqualSelector(
         pathOr(0, [a, 'final_balance'], balances)
       )
       const interestBalance = interestAccountBalance.BCH
-        ? parseInt(interestAccountBalance.BCH.balance)
+        ? parseInt(interestAccountBalance.BCH.balance, 10)
         : 0
       const sbBalance = Number(sbBalances.BCH ? sbBalances.BCH.available : 0)
       return walletBalances.concat(sbBalance).concat(interestBalance)
@@ -337,22 +335,22 @@ export const getAllCoinsBalancesSelector = (state) => {
 
 export const getErc20BalancesInfoV2 = createDeepEqualSelector(
   [
-    // TOKEN_ACCOUNT_BALANCES
-    selectors.core.walletOptions.getErc20CoinList,
+    selectors.core.data.eth.getErc20AccountTokenBalances,
     selectors.core.data.eth.getErc20Rates,
     selectors.core.settings.getCurrency,
     (state) => state
   ],
   (erc20CoinsR, ratesF, currencyR, state) => {
-    const transform = (erc20Coins: ExtractSuccess<typeof erc20CoinsR>, currency) => {
-      return erc20Coins.map((coin) => {
+    const transform = (erc20Coins, currency) => {
+      return erc20Coins.map((erc20) => {
+        const coin = erc20.symbol
         const transform2 = (balance, rates) => {
           return Exchange.convertCoinToFiat({ coin, currency, rates, value: balance })
         }
         const balanceR = getErc20Balance(coin)(state)
         // @ts-ignore
         const ratesR = ratesF(coin)
-        return lift(transform2)(balanceR, ratesR)
+        return ratesR ? lift(transform2)(balanceR, ratesR) : Remote.of('0')
       })
     }
 

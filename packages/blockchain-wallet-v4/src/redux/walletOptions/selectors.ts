@@ -1,21 +1,11 @@
-import { curry, filter, keys, lift, map, path, prop, toUpper } from 'ramda'
+import { keys, lift, path, prop, toUpper } from 'ramda'
 
-import {
-  AccountTokensBalancesResponseType,
-  CoinType,
-  ExtractSuccess,
-  RemoteDataType
-} from 'core/types'
+import { AccountTokensBalancesResponseType, ExtractSuccess, RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 
 import { createDeepEqualSelector } from '../../utils'
 import { getErc20AccountTokenBalances } from '../data/eth/selectors.js'
-import {
-  SupportedCoinType,
-  SupportedWalletCurrenciesType,
-  SupportedWalletCurrencyType,
-  WalletOptionsType
-} from './types'
+import { SupportedWalletCurrenciesType, WalletOptionsType } from './types'
 
 // general
 export const getOptions = (state: RootState) =>
@@ -76,15 +66,6 @@ export const getXlmExchangeAddresses = (state) =>
 export const getStxCampaign = (state) =>
   getWebOptions(state).map(path(['coins', 'STX', 'campaign']))
 
-export const getErc20CoinList = (state): RemoteDataType<any, CoinType[]> =>
-  getSupportedCoins(state).map(
-    (x) =>
-      // @ts-ignore
-      keys(
-        // @ts-ignore
-        filter((c: SupportedCoinType) => !!c.contractAddress, x)
-      ) as CoinType[]
-  )
 export const getCoinModel = (state, coin) =>
   // @ts-ignore
   getSupportedCoins(state).map((x) => prop(toUpper(coin), x))
