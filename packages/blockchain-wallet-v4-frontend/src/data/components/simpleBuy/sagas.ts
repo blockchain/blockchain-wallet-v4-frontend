@@ -16,6 +16,7 @@ import {
   SBCardStateType,
   SBCardType,
   SBOrderType,
+  SBPaymentTypes,
   SBProviderDetailsType,
   SBQuoteType,
   SupportedWalletCurrenciesType,
@@ -185,13 +186,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // @ts-ignore
         api.submitSBCardDetailsToEverypay,
         {
-          ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
-          cvc: formValues['cvc'],
-          expirationDate: moment(formValues['expiry-date'], 'MM/YY'),
-          holderName: formValues['name-on-card'],
           accessToken: providerDetails.everypay.mobileToken,
           apiUserName: providerDetails.everypay.apiUsername,
-          nonce: nonce
+          ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
+          cvc: formValues.cvc,
+          expirationDate: moment(formValues['expiry-date'], 'MM/YY'),
+          holderName: formValues['name-on-card'],
+          nonce
         }
       )
       yield put(A.addCardDetailsSuccess(response.data))
@@ -234,19 +235,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         if (pair) {
           yield put(
             A.setStep({
-              step: 'ENTER_AMOUNT',
               cryptoCurrency,
-              orderType: order.side || OrderType.BUY,
               fiatCurrency,
+              method,
+              orderType: order.side || OrderType.BUY,
               pair,
-              method
+              step: 'ENTER_AMOUNT'
             })
           )
         } else {
           yield put(
             A.setStep({
-              step: 'CRYPTO_SELECTION',
-              fiatCurrency
+              fiatCurrency,
+              step: 'CRYPTO_SELECTION'
             })
           )
         }
@@ -323,7 +324,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         if (direction === 'FROM_USERKEY') {
           const paymentR = S.getPayment(yield select())
           // @ts-ignore
-          let payment = paymentGetOrElse(from.coin, paymentR)
+          const payment = paymentGetOrElse(from.coin, paymentR)
           try {
             yield call(buildAndPublishPayment, payment.coin, payment, sellOrder.kind.depositAddress)
             yield call(api.updateSwapOrder, sellOrder.id, 'DEPOSIT_SENT')
@@ -334,8 +335,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
         yield put(
           A.setStep({
-            step: 'SELL_ORDER_SUMMARY',
-            sellOrder: sellOrder
+            sellOrder,
+            step: 'SELL_ORDER_SUMMARY'
           })
         )
         yield put(actions.form.stopSubmit('previewSell'))
@@ -367,7 +368,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
       yield put(A.fetchSBOrders())
-      yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order: buyOrder }))
+      yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
 
       // log user tier
       const currentTier = selectors.modules.profile.getCurrentTier(yield select())
@@ -388,12 +389,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         if (pair) {
           yield put(
             A.setStep({
-              step: 'ENTER_AMOUNT',
               cryptoCurrency: getCoinFromPair(pair.pair),
               fiatCurrency: getFiatFromPair(pair.pair),
-              pair,
               method,
               orderType: values?.orderType,
+              pair,
+              step: 'ENTER_AMOUNT',
               swapAccount: from
             })
           )
@@ -412,22 +413,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const AuthUrlCheck = function* (orderId) {
-    let order: ReturnType<typeof api.getSBOrder> = yield call(api.getSBOrder, orderId)
+    const order: ReturnType<typeof api.getSBOrder> = yield call(api.getSBOrder, orderId)
     if (order.attributes?.authorisationUrl || order.state === 'FAILED') {
       return order
-    } else {
-      throw new Error('retrying to fetch for AuthUrl')
     }
+    throw new Error('retrying to fetch for AuthUrl')
   }
 
   const OrderConfirmCheck = function* (orderId) {
-    let order: ReturnType<typeof api.getSBOrder> = yield call(api.getSBOrder, orderId)
+    const order: ReturnType<typeof api.getSBOrder> = yield call(api.getSBOrder, orderId)
 
     if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
       return order
-    } else {
-      throw new Error('Order verification timed out. It will continue in the background.')
     }
+    throw new Error('Order verification timed out. It will continue in the background.')
   }
 
   const confirmOrderPoll = function* (action: ReturnType<typeof A.confirmOrderPoll>) {
@@ -435,7 +434,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { RETRY_AMOUNT, SECONDS } = POLLING
     const confirmedOrder = yield retry(RETRY_AMOUNT, SECONDS * 1000, OrderConfirmCheck, order.id)
     yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
-    yield put(A.setStep({ step: 'ORDER_SUMMARY', order: confirmedOrder }))
+    yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
     yield put(A.fetchSBOrders())
   }
 
@@ -452,7 +451,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       } as WalletOptionsType['domains'])
 
       let attributes
-      if (order.paymentType === 'PAYMENT_CARD' || order.paymentType === 'USER_CARD') {
+      if (
+        order.paymentType === SBPaymentTypes.PAYMENT_CARD ||
+        order.paymentType === SBPaymentTypes.USER_CARD
+      ) {
         attributes =
           order.paymentMethodId || paymentMethodId
             ? {
@@ -465,7 +467,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         attributes = { callback: domains.yapilyCallbackUrl }
       }
 
-      let confirmedOrder: SBOrderType = yield call(
+      const confirmedOrder: SBOrderType = yield call(
         api.confirmSBOrder,
         order,
         attributes,
@@ -481,20 +483,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // Refresh the tx list in the modal background
         yield put(A.fetchSBOrders())
 
-        yield put(A.setStep({ step: 'OPEN_BANKING_CONNECT', order }))
+        yield put(A.setStep({ order, step: 'OPEN_BANKING_CONNECT' }))
         // Now we need to poll for the order success
         return yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
       }
       yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
-      if (order.paymentType === 'BANK_TRANSFER') {
-        yield put(A.setStep({ step: 'ORDER_SUMMARY', order: confirmedOrder }))
+      if (order.paymentType === SBPaymentTypes.BANK_TRANSFER) {
+        yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
       } else {
-        yield put(A.setStep({ step: '3DS_HANDLER', order: confirmedOrder }))
+        yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER' }))
       }
       yield put(A.fetchSBOrders())
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order }))
+      yield put(A.setStep({ order, step: 'CHECKOUT_CONFIRM' }))
       yield put(actions.form.startSubmit('sbCheckoutConfirm'))
       yield put(actions.form.stopSubmit('sbCheckoutConfirm', { _error: error }))
     }
@@ -508,7 +510,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const confirmedOrder: SBOrderType = yield call(api.confirmSBOrder, order as SBOrderType)
       yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
       yield put(A.fetchSBOrders())
-      yield put(A.setStep({ step: 'ORDER_SUMMARY', order: confirmedOrder }))
+      yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('sbCheckoutConfirm', { _error: error }))
@@ -760,7 +762,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // t2 users who are invited to ACH beta will still get method since the API will
       // return that method if they are actually eligible
       if (currentUserTier !== 2) {
-        paymentMethods = paymentMethods.filter((method) => method.type !== 'BANK_TRANSFER')
+        paymentMethods = paymentMethods.filter(
+          (method) => method.type !== SBPaymentTypes.BANK_TRANSFER
+        )
       }
       yield put(
         A.fetchSBPaymentMethodsSuccess({
@@ -797,7 +801,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       try {
         yield put(A.fetchSellQuoteLoading())
 
-        const pair = payload.pair
+        const { pair } = payload
         const direction = getDirection(payload.account)
         const quote: ReturnType<typeof api.getSwapQuote> = yield call(
           api.getSwapQuote,
@@ -819,7 +823,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.fetchSellQuoteFailure(error))
         yield delay(FALLBACK_DELAY)
         yield put(A.startPollSellQuote(payload.pair, payload.account))
-      } finally {
       }
     }
   }
@@ -881,9 +884,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield delay(500)
       yield put(
         A.setStep({
-          step: 'BANK_WIRE_DETAILS',
           displayBack: false,
-          fiatCurrency: coin
+          fiatCurrency: coin,
+          step: 'BANK_WIRE_DETAILS'
         })
       )
     }
@@ -926,8 +929,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // https://blockc.slack.com/archives/GT1JZ1ZN2/p1596546978351100?thread_ts=1596541628.345800&cid=GT1JZ1ZN2
         // REMOVE THIS WHEN BACKEND CAN HANDLE PENDING 'FUNDS' ORDERS
         // 👇--------------------------------------------------------
-        case 'BANK_ACCOUNT':
-        case 'USER_CARD':
+        case SBPaymentTypes.BANK_ACCOUNT:
+        case SBPaymentTypes.USER_CARD:
           return yield put(
             A.setStep({
               step: 'KYC_REQUIRED'
@@ -935,11 +938,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           )
         // REMOVE THIS WHEN BACKEND CAN HANDLE PENDING 'FUNDS' ORDERS
         // 👆--------------------------------------------------------
-        case 'PAYMENT_CARD':
+        case SBPaymentTypes.PAYMENT_CARD:
           // ADD THIS WHEN BACKEND CAN HANDLE PENDING 'FUNDS' ORDERS
           // 👇-----------------------------------------------------
           // const methodType =
-          //   method.type === 'BANK_ACCOUNT' ? 'FUNDS' : method.type
+          //   method.type === SBPaymentTypes.BANK_ACCOUNT ? SBPaymentTypes.FUNDS : method.type
           // return yield put(A.createSBOrder(undefined, methodType))
           // 👆------------------------------------------------------
 
@@ -951,15 +954,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     // User is Tier 2
     switch (method.type) {
-      case 'BANK_ACCOUNT':
+      case SBPaymentTypes.BANK_ACCOUNT:
         return yield put(
           A.setStep({
-            step: 'BANK_WIRE_DETAILS',
             displayBack: true,
-            fiatCurrency
+            fiatCurrency,
+            step: 'BANK_WIRE_DETAILS'
           })
         )
-      case 'LINK_BANK':
+      case SBPaymentTypes.LINK_BANK:
         yield put(
           actions.components.brokerage.showModal(
             BrokerageModalOriginType.ADD_BANK,
@@ -972,7 +975,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           })
         )
 
-      case 'PAYMENT_CARD':
+      case SBPaymentTypes.PAYMENT_CARD:
         return yield put(
           A.setStep({
             step: 'ADD_CARD'
@@ -981,12 +984,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       default:
         yield put(
           A.setStep({
-            step: 'ENTER_AMOUNT',
             cryptoCurrency,
             fiatCurrency,
             method,
             orderType: values?.orderType,
             pair,
+            step: 'ENTER_AMOUNT',
             swapAccount
           })
         )
@@ -1008,10 +1011,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const address = userData
       ? userData.address
       : {
+          city: '',
           country: 'GB',
           line1: '',
           line2: '',
-          city: '',
           postCode: '',
           state: ''
         }
@@ -1047,8 +1050,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.fetchSellQuote(pair.pair, account))
         yield put(A.startPollSellQuote(pair.pair, account))
         yield race({
-          success: take(AT.FETCH_SELL_QUOTE_SUCCESS),
-          failure: take(AT.FETCH_SELL_QUOTE_FAILURE)
+          failure: take(AT.FETCH_SELL_QUOTE_FAILURE),
+          success: take(AT.FETCH_SELL_QUOTE_SUCCESS)
         })
         const quote = S.getSellQuote(yield select()).getOrFail(NO_QUOTE)
 
@@ -1056,7 +1059,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const formValues = selectors.form.getFormValues('simpleBuyCheckout')(
             yield select()
           ) as T.SBCheckoutFormValuesType
-          let payment = yield call(
+          const payment = yield call(
             calculateProvisionalPayment,
             account,
             quote.quote,
@@ -1070,10 +1073,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(
         actions.form.initialize('simpleBuyCheckout', {
-          fix,
-          orderType,
           amount,
-          cryptoAmount
+          cryptoAmount,
+          fix,
+          orderType
         } as T.SBCheckoutFormValuesType)
       )
     } catch (e) {
@@ -1110,7 +1113,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const pollSBCard = function* ({ payload }: ReturnType<typeof A.pollSBCard>) {
     let retryAttempts = 0
-    let maxRetryAttempts = 20
+    const maxRetryAttempts = 20
 
     const { cardId } = payload
 
@@ -1122,7 +1125,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       retryAttempts < maxRetryAttempts
     ) {
       card = yield call(api.getSBCard, cardId)
-      retryAttempts++
+      retryAttempts += 1
       step = S.getStep(yield select())
       if (step !== '3DS_HANDLER') {
         yield cancel()
@@ -1141,9 +1144,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // If the order was already created
         if (order && order.state === 'PENDING_CONFIRMATION') {
           return yield put(A.confirmSBOrder(card.id, order))
-        } else {
-          return yield put(A.createSBOrder('PAYMENT_CARD', card.id))
         }
+        return yield put(A.createSBOrder(SBPaymentTypes.PAYMENT_CARD, card.id))
+
       default:
         yield call(pollSBCardErrorHandler, card.state)
     }
@@ -1151,7 +1154,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const pollSBOrder = function* ({ payload }: ReturnType<typeof A.pollSBOrder>) {
     let retryAttempts = 0
-    let maxRetryAttempts = 20
+    const maxRetryAttempts = 20
 
     const { orderId } = payload
     let order: ReturnType<typeof api.getSBOrder> = yield call(api.getSBOrder, orderId)
@@ -1160,14 +1163,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     while (order.state === 'PENDING_DEPOSIT' && retryAttempts < maxRetryAttempts) {
       order = yield call(api.getSBOrder, orderId)
       step = S.getStep(yield select())
-      retryAttempts++
+      retryAttempts += 1
       if (step !== '3DS_HANDLER') {
         yield cancel()
       }
       yield delay(3000)
     }
 
-    yield put(A.setStep({ step: 'ORDER_SUMMARY', order }))
+    yield put(A.setStep({ order, step: 'ORDER_SUMMARY' }))
   }
 
   const setStepChange = function* (action: ReturnType<typeof A.setStep>) {
@@ -1199,7 +1202,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { cryptoCurrency, orderType, origin } = payload
     const latestPendingOrder = S.getSBLatestPendingOrder(yield select())
 
-    yield put(actions.modals.showModal('SIMPLE_BUY_MODAL', { origin, cryptoCurrency }))
+    yield put(actions.modals.showModal('SIMPLE_BUY_MODAL', { cryptoCurrency, origin }))
     const fiatCurrencyR = selectors.core.settings.getCurrency(yield select())
     const fiatCurrency = fiatCurrencyR.getOrElse('USD')
     if (latestPendingOrder) {
@@ -1220,8 +1223,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(
         A.setStep({
-          step,
-          order: latestPendingOrder
+          order: latestPendingOrder,
+          step
         })
       )
     } else if (cryptoCurrency) {
@@ -1258,7 +1261,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           break
       }
     } else {
-      yield put(A.setStep({ step: 'CRYPTO_SELECTION', cryptoCurrency, fiatCurrency }))
+      yield put(A.setStep({ cryptoCurrency, fiatCurrency, step: 'CRYPTO_SELECTION' }))
     }
   }
 
@@ -1296,8 +1299,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     addCardFinished,
     cancelSBOrder,
     confirmOrderPoll,
-    confirmSBOrder,
     confirmSBFundsOrder,
+    confirmSBOrder,
     createSBOrder,
     deleteSBCard,
     fetchLimits,
@@ -1306,19 +1309,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchSBCardSDD,
     fetchSBCards,
     fetchSBFiatEligible,
-    fetchSDDEligible,
-    fetchSDDVerified,
     fetchSBOrders,
     fetchSBPairs,
     fetchSBPaymentAccount,
     fetchSBPaymentMethods,
     fetchSBQuote,
+    fetchSDDEligible,
+    fetchSDDVerified,
     fetchSellQuote,
     formChanged,
     handleSBDepositFiatClick,
     handleSBMaxAmountClick,
-    handleSBMinAmountClick,
     handleSBMethodChange,
+    handleSBMinAmountClick,
     initializeBillingAddress,
     initializeCheckout,
     pollSBBalances,

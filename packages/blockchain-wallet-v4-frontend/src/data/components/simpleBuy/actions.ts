@@ -13,6 +13,7 @@ import {
   SBPairType,
   SBPaymentMethodsType,
   SBPaymentMethodType,
+  SBPaymentTypes,
   SBProviderDetailsType,
   SBQuoteType,
   SDDEligibleType,
@@ -130,7 +131,10 @@ export const cancelSBOrder = (order: SBOrderType) => ({
 })
 
 export const createSBOrder = (
-  paymentType?: Exclude<SBPaymentMethodType['type'], 'USER_CARD' | 'BANK_ACCOUNT'>,
+  paymentType?: Exclude<
+    SBPaymentMethodType['type'],
+    SBPaymentTypes.USER_CARD | SBPaymentTypes.BANK_ACCOUNT
+  >,
   paymentMethodId?: SBCardType['id'] | BankTransferAccountType['id']
 ) => ({
   paymentMethodId,

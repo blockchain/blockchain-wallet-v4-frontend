@@ -5,26 +5,13 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
-import {
-  SBPaymentMethodType,
-  WalletFiatEnum
-} from 'blockchain-wallet-v4/src/types'
-import {
-  SettingComponent,
-  SettingContainer,
-  SettingSummary
-} from 'components/Setting'
+import { SBPaymentMethodType, SBPaymentTypes, WalletFiatEnum } from 'blockchain-wallet-v4/src/types'
+import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
 import { BankTransferAccountType } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 import { media } from 'services/styles'
 
-import {
-  CardDetails,
-  CardWrapper,
-  Child,
-  CustomSettingHeader,
-  RemoveButton
-} from '../styles'
+import { CardDetails, CardWrapper, Child, CustomSettingHeader, RemoveButton } from '../styles'
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const BankIconWrapper = styled.div`
@@ -45,22 +32,19 @@ const StyledSettingsContainer = styled(SettingContainer)`
   border-bottom: none;
 `
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const walletBeneficiaries = props.bankAccounts.filter(
-    account => account.currency in WalletFiatEnum
+    (account) => account.currency in WalletFiatEnum
   )
 
   const isEligible = any(
-    (method: SBPaymentMethodType) => method.type === 'BANK_TRANSFER'
+    (method: SBPaymentMethodType) => method.type === SBPaymentTypes.BANK_TRANSFER
   )(props.paymentMethods.methods)
   return (
     <StyledSettingsContainer>
       <SettingSummary>
         <CustomSettingHeader>
-          <FormattedMessage
-            id='scenes.settings.linked_banks'
-            defaultMessage='Linked Banks'
-          />
+          <FormattedMessage id='scenes.settings.linked_banks' defaultMessage='Linked Banks' />
         </CustomSettingHeader>
         <div>
           {!walletBeneficiaries.length && (
@@ -71,7 +55,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               />
             </Text>
           )}
-          {walletBeneficiaries.map(account => {
+          {walletBeneficiaries.map((account) => {
             return (
               <CardWrapper
                 key={account.id}
@@ -80,9 +64,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               >
                 <Child>
                   <BankIconWrapper>
-                    <Image
-                      name={getBankLogoImageName(account.details?.bankName)}
-                    />
+                    <Image name={getBankLogoImageName(account.details?.bankName)} />
                   </BankIconWrapper>
                   <CardDetails>
                     <Text size='16px' color='grey800' weight={600}>
@@ -110,10 +92,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       props.handleDeleteBank(account)
                     }}
                   >
-                    <FormattedMessage
-                      id='buttons.remove'
-                      defaultMessage='Remove'
-                    />
+                    <FormattedMessage id='buttons.remove' defaultMessage='Remove' />
                   </RemoveButton>
                 </Child>
               </CardWrapper>
@@ -123,15 +102,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       </SettingSummary>
       {isEligible && (
         <CustomSettingComponent>
-          <Button
-            nature='primary'
-            data-e2e='addBankFromSettings'
-            onClick={props.handleBankClick}
-          >
-            <FormattedMessage
-              id='buttons.add_bank'
-              defaultMessage='Add a Bank'
-            />
+          <Button nature='primary' data-e2e='addBankFromSettings' onClick={props.handleBankClick}>
+            <FormattedMessage id='buttons.add_bank' defaultMessage='Add a Bank' />
           </Button>
         </CustomSettingComponent>
       )}

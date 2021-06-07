@@ -4,6 +4,7 @@ import moment from 'moment'
 import styled from 'styled-components'
 
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import { SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { getBaseAmount, getBaseCurrency, getOrderType } from 'data/components/simpleBuy/model'
 
@@ -85,7 +86,7 @@ const Success: React.FC<Props> = (props) => {
       : 3
 
   const isPendingDeposit = props.order.state === 'PENDING_DEPOSIT'
-  const isPendingAch = isPendingDeposit && props.order.paymentType === 'BANK_TRANSFER'
+  const isPendingAch = isPendingDeposit && props.order.paymentType === SBPaymentTypes.BANK_TRANSFER
   const isTransactionPending =
     isPendingDeposit &&
     props.order.attributes?.everypay?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
@@ -230,7 +231,7 @@ const Success: React.FC<Props> = (props) => {
           )}
 
           {orderType === 'BUY' &&
-            props.order.paymentType === 'BANK_TRANSFER' &&
+            props.order.paymentType === SBPaymentTypes.BANK_TRANSFER &&
             props.order.state !== 'FAILED' && (
               <Bottom>
                 <Button
@@ -247,8 +248,8 @@ const Success: React.FC<Props> = (props) => {
             )}
 
           {orderType === 'BUY' &&
-            (props.order.paymentType === 'PAYMENT_CARD' ||
-              props.order.paymentType === 'USER_CARD') && (
+            (props.order.paymentType === SBPaymentTypes.PAYMENT_CARD ||
+              props.order.paymentType === SBPaymentTypes.USER_CARD) && (
               <BottomInfo>
                 <Text color='grey600' size='14px' weight={500}>
                   <FormattedMessage
@@ -275,7 +276,7 @@ const Success: React.FC<Props> = (props) => {
               </BottomInfo>
             )}
           {orderType === 'BUY' &&
-            props.order.paymentType === 'BANK_TRANSFER' &&
+            props.order.paymentType === SBPaymentTypes.BANK_TRANSFER &&
             props.order.state !== 'FAILED' &&
             !isPendingAch && (
               <BottomInfo>
@@ -301,10 +302,10 @@ const Success: React.FC<Props> = (props) => {
       </ContentWrapper>
       {orderType === 'BUY' &&
         props.order.state !== 'FAILED' &&
-        (props.order.paymentType === 'PAYMENT_CARD' ||
-          props.order.paymentType === 'USER_CARD' ||
-          props.order.paymentType === 'BANK_TRANSFER' ||
-          props.order.paymentType === 'FUNDS') &&
+        (props.order.paymentType === SBPaymentTypes.PAYMENT_CARD ||
+          props.order.paymentType === SBPaymentTypes.USER_CARD ||
+          props.order.paymentType === SBPaymentTypes.BANK_TRANSFER ||
+          props.order.paymentType === SBPaymentTypes.FUNDS) &&
         show && (
           <BottomInterest>
             <InterestBanner {...props} />
