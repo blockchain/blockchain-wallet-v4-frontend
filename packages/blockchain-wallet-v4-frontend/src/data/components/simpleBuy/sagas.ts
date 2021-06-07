@@ -488,6 +488,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         return yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
       }
       yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
+
       if (order.paymentType === SBPaymentTypes.BANK_TRANSFER) {
         yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
       } else {
@@ -892,18 +893,36 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const handleSBMaxAmountClick = function* ({
+  const handleBuyMaxAmountClick = function* ({
     payload
-  }: ReturnType<typeof A.handleSBMaxAmountClick>) {
+  }: ReturnType<typeof A.handleBuyMaxAmountClick>) {
     const { amount, coin } = payload
     const standardAmt = convertBaseToStandard(coin, amount)
 
     yield put(actions.form.change('simpleBuyCheckout', 'amount', standardAmt))
   }
 
-  const handleSBMinAmountClick = function* ({
+  const handleBuyMinAmountClick = function* ({
     payload
-  }: ReturnType<typeof A.handleSBMinAmountClick>) {
+  }: ReturnType<typeof A.handleBuyMinAmountClick>) {
+    const { amount, coin } = payload
+    const standardAmt = convertBaseToStandard(coin, amount)
+
+    yield put(actions.form.change('simpleBuyCheckout', 'amount', standardAmt))
+  }
+
+  const handleSellMaxAmountClick = function* ({
+    payload
+  }: ReturnType<typeof A.handleSellMaxAmountClick>) {
+    const { amount, coin } = payload
+    const standardAmt = convertBaseToStandard(coin, amount)
+
+    yield put(actions.form.change('simpleBuyCheckout', 'amount', standardAmt))
+  }
+
+  const handleSellMinAmountClick = function* ({
+    payload
+  }: ReturnType<typeof A.handleSellMinAmountClick>) {
     const { amount, coin } = payload
     const standardAmt = convertBaseToStandard(coin, amount)
 
@@ -1145,6 +1164,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         if (order && order.state === 'PENDING_CONFIRMATION') {
           return yield put(A.confirmSBOrder(card.id, order))
         }
+
         return yield put(A.createSBOrder(SBPaymentTypes.PAYMENT_CARD, card.id))
 
       default:
@@ -1318,10 +1338,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchSDDVerified,
     fetchSellQuote,
     formChanged,
+    handleBuyMaxAmountClick,
+    handleBuyMinAmountClick,
     handleSBDepositFiatClick,
-    handleSBMaxAmountClick,
     handleSBMethodChange,
-    handleSBMinAmountClick,
+    handleSellMaxAmountClick,
+    handleSellMinAmountClick,
     initializeBillingAddress,
     initializeCheckout,
     pollSBBalances,

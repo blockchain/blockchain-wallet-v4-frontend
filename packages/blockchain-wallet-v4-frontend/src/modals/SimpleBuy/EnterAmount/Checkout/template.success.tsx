@@ -267,11 +267,19 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     )[fix]
     const value = convertStandardToBase(conversionCoinType, maxMin)
     if (prop === 'min') {
-      props.simpleBuyActions.handleSBMinAmountClick(value, conversionCoinType)
+      if (props.orderType === OrderType.SELL) {
+        props.simpleBuyActions.handleSellMinAmountClick(value, conversionCoinType)
+      } else if (props.orderType === OrderType.BUY) {
+        props.simpleBuyActions.handleBuyMinAmountClick(value, conversionCoinType)
+      }
     }
 
     if (prop === 'max') {
-      props.simpleBuyActions.handleSBMaxAmountClick(value, conversionCoinType)
+      if (props.orderType === OrderType.SELL) {
+        props.simpleBuyActions.handleSellMaxAmountClick(value, conversionCoinType)
+      } else if (props.orderType === OrderType.BUY) {
+        props.simpleBuyActions.handleBuyMaxAmountClick(value, conversionCoinType)
+      }
     }
   }
   const handleMaxClick = () => {
@@ -290,7 +298,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       props.limits
     )[fix]
     const value = convertStandardToBase(conversionCoinType, maxMin)
-    props.simpleBuyActions.handleSBMaxAmountClick(value, conversionCoinType)
+    if (props.orderType === OrderType.SELL) {
+      props.simpleBuyActions.handleSellMaxAmountClick(value, conversionCoinType)
+    } else if (props.orderType === OrderType.BUY) {
+      props.simpleBuyActions.handleBuyMaxAmountClick(value, conversionCoinType)
+    }
   }
 
   const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
