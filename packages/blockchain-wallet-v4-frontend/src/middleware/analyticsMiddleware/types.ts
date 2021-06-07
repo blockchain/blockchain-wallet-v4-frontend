@@ -14,6 +14,7 @@ enum AnalyticsKey {
   SELL_AMOUNT_ENTERED = 'Sell Amount Entered',
   SELL_AMOUNT_MAX_CLICKED = 'Sell Amount Max Clicked',
   SELL_AMOUNT_MIN_CLICKED = 'Sell Amount Min Clicked',
+  SELL_FROM_SELECTED = 'Sell From Selected',
   SEND_AMOUNT_MAX_CLICKED = 'Send Amount Max Clicked', // not implemented - blocked
   SEND_FEE_RATE_SELECTED = 'Send Fee Rate Selected', // not implemented - blocked
   SEND_FROM_SELECTED = 'Send From Selected', // not implemented - blocked
@@ -159,6 +160,11 @@ type SellAmountMinClickedPayload = BasePayload & {
   output_currency: string
 }
 
+type SellFromSelectedPayload = BasePayload & {
+  from_account_type: AccountType
+  input_currency: string
+}
+
 type SendAmountMaxClickedPayload = BasePayload & {
   currency: string
   from_account_type: AccountType
@@ -286,6 +292,7 @@ type AnalyticsPayload =
   | SellAmountEnteredPayload
   | SellAmountMaxClickedPayload
   | SellAmountMinClickedPayload
+  | SellFromSelectedPayload
   | SendAmountMaxClickedPayload
   | SendFeeRateSelectedPayload
   | SendFromSelectedPayload

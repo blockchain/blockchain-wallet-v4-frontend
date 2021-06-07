@@ -656,9 +656,32 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const stepName = action.payload.step
 
         switch (stepName) {
+          case 'ENTER_AMOUNT': {
+            if (action.payload.orderType === OrderType.BUY) {
+              break
+            }
+
+            const accountType =
+              action.payload.swapAccount.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+                ? AccountType.TRADING
+                : AccountType.USERKEY
+            const inputCurrency = state.components.simpleBuy.fiatCurrency
+
+            analytics.push(AnalyticsKey.SELL_FROM_SELECTED, {
+              analyticsType: AnalyticsType.EVENT,
+              from_account_type: accountType,
+              id,
+              input_currency: inputCurrency,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp()
+            })
+
+            break
+          }
+
           case 'PREVIEW_SELL': {
             const accountType =
-              action.payload.sellOrderType === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+              state.components.simpleBuy.swapAccount.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
                 ? AccountType.TRADING
                 : AccountType.USERKEY
             const inputCurrency = state.components.simpleBuy.fiatCurrency
@@ -733,7 +756,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
     }
   } catch (e) {
-    // do nothing
+    // eslint-disable-next-line no-console
+    console.error(e)
   }
 
   return next(action)
