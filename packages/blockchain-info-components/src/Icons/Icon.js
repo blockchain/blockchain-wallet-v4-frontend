@@ -65,14 +65,14 @@ Icon.propTypes = {
   cursor: PropTypes.bool,
   name: PropTypes.string.isRequired,
   size: PropTypes.string,
-  weight: PropTypes.oneOf([100, 200, 300, 400, 500, 600, 700, 800, 900]),
+  weight: PropTypes.oneOf([100, 200, 300, 400, 500, 600, 700, 800, 900])
 }
 
 Icon.defaultProps = {
   color: 'grey700',
   cursor: false,
   size: '16px',
-  weight: 400,
+  weight: 400
 }
 
 export default Icon

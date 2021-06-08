@@ -21,25 +21,25 @@ export const formatCoin = (value, minDigits = 0, maxDigits = 8) => {
 export const formatFiat = (value, digits = 2) =>
   Number(value).toLocaleString(undefined, {
     maximumFractionDigits: digits,
-    minimumFractionDigits: digits,
+    minimumFractionDigits: digits
   })
 
 export const coinToString = ({
   maxDigits = 8,
   minDigits = 0,
   unit,
-  value,
+  value
 }: {
   maxDigits?: number
   minDigits?: number
   unit: { symbol: string }
-  value: any
+  value
 }): string => `${formatCoin(value, minDigits, maxDigits)} ${unit.symbol}`
 
 export const fiatToString = ({
   digits = 2,
   unit,
-  value,
+  value
 }: {
   digits?: number
   unit: FiatType

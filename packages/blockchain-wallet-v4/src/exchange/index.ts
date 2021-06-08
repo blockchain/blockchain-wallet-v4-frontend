@@ -129,7 +129,7 @@ const displayCoinToCoin = ({
     return new Intl.NumberFormat(getLang(), options).format(Number(value))
   }
 
-  return formatCoin(convertCoinToCoin({ baseToStandard: true, value, coin }))
+  return `${formatCoin(convertCoinToCoin({ baseToStandard: true, value, coin }))} ${coin}`
 }
 
 const displayCoinToFiat = ({
