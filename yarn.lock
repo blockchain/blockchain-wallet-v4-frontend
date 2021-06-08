@@ -3589,7 +3589,7 @@
   resolved "https://registry.npmjs.org/@types/urijs/-/urijs-1.19.15.tgz"
   integrity sha512-pEDVREIvkyRtzpWlO5nqsUgR/JpLv9+lAzvkERCwoH2jXxl+TmaTNshhL7gjQLhfqgFUzCM6ovmoB1JssTop1A==
 
-"@types/uuid@^8.3.0":
+"@types/uuid@8.3.0":
   version "8.3.0"
   resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.0.tgz#215c231dff736d5ba92410e6d602050cce7e273f"
   integrity sha512-eQ9qFW/fhfGJF8WKHGEHZEyVWfZxrT+6CLIJGBcZPfxUh/+BnEj+UCGYMlr9qZuX/2AltsvwrGqp0LhEW8D0zQ==

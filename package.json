@@ -122,6 +122,7 @@
     "@types/redux": "3.6.0",
     "@types/redux-form": "8.2.3",
     "@types/styled-components": "5.1.9",
+    "@types/uuid": "8.3.0",
     "@typescript-eslint/eslint-plugin": "4.23.0",
     "@typescript-eslint/parser": "4.23.0",
     "babel-jest": "26.6.3",
@@ -203,8 +204,5 @@
     "webpack-cli": "3.3.11",
     "webpack-dev-server": "3.11.2",
     "wsrun": "5.2.4"
-  },
-  "dependencies": {
-    "uuid": "^3.4.0"
   }
 }
