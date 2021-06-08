@@ -77,6 +77,11 @@ enum DepositMethodType {
   BANK_TRANSFER = 'BANK_TRANSFER'
 }
 
+enum SendReceiveType {
+  RECEIVE = 'RECEIVE',
+  SEND = 'SEND'
+}
+
 type BasePayload = {
   analyticsType: AnalyticsType
   id: string
@@ -357,5 +362,6 @@ export {
   DepositMethodType,
   FeeRateType,
   OrderType,
-  PaymentType
+  PaymentType,
+  SendReceiveType
 }
