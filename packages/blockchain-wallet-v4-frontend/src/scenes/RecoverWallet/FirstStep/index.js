@@ -66,6 +66,12 @@ const FirstStep = (props) => {
                 defaultMessage='Enter your 12 word phrase, lowercase, with spaces between each word, to recover your funds & transactions.'
               />
             </Text>
+            <Text size='12px' weight={400} style={{ marginBottom: '16px' }}>
+              <FormattedMessage
+                id='scenes.recover.firststep.mnemonic_explain_verification'
+                defaultMessage='For your security, you may have to re-verify your identity before accessing your trading or interest account.'
+              />
+            </Text>
             <Field
               bgColor='grey000'
               autoComplete='off'

@@ -11,6 +11,7 @@ export default ({ api, coreSagas, networks }) => {
     fetchUserCampaigns,
     linkFromExchangeAccount,
     linkToExchangeAccount,
+    resetUser,
     shareWalletAddressesWithExchange,
     signIn
   } = sagas({
@@ -19,7 +20,7 @@ export default ({ api, coreSagas, networks }) => {
     networks
   })
 
-  return function * profileSaga() {
+  return function* profileSaga() {
     yield takeLatest(AT.SIGN_IN, signIn)
     yield takeLatest(AT.CLEAR_SESSION, clearSession)
     yield takeLatest(AT.CREATE_USER, createUser)
@@ -29,9 +30,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.LINK_FROM_EXCHANGE_ACCOUNT, linkFromExchangeAccount)
     // @ts-ignore
     yield takeLatest(AT.LINK_TO_EXCHANGE_ACCOUNT, linkToExchangeAccount)
-    yield takeLatest(
-      AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE,
-      shareWalletAddressesWithExchange
-    )
+    yield takeLatest(AT.RESET_USER, resetUser)
+    yield takeLatest(AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE, shareWalletAddressesWithExchange)
   }
 }

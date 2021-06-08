@@ -93,13 +93,13 @@ export default ({ api, coreSagas }) => {
     yield put(actions.middleware.webSocket.xlm.startStreams())
   }
 
-  const authNabu = function* () {
+  const authNabu = function* (restored) {
     yield put(actions.components.identityVerification.fetchSupportedCountries())
     yield take([
       actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES_SUCCESS,
       actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES_FAILURE
     ])
-    yield put(actions.modules.profile.signIn())
+    yield put(actions.modules.profile.signIn(restored))
   }
 
   const fetchBalances = function* () {
@@ -197,7 +197,7 @@ export default ({ api, coreSagas }) => {
     yield call(logout)
   }
 
-  const loginRoutineSaga = function* (mobileLogin, firstLogin, email) {
+  const loginRoutineSaga = function* (mobileLogin, firstLogin, email, restored) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
@@ -246,7 +246,7 @@ export default ({ api, coreSagas }) => {
         yield put(actions.router.push('/home'))
       }
 
-      yield call(authNabu)
+      yield call(authNabu, restored)
       yield call(fetchBalances)
       yield call(saveGoals, firstLogin)
       yield put(actions.goals.runGoals())
@@ -439,7 +439,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.auth.setRegisterEmail(action.payload.email))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
-      yield call(loginRoutineSaga, false, true, action.payload.email)
+      yield call(loginRoutineSaga, false, true, action.payload.email, false)
       yield put(actions.auth.registerSuccess())
     } catch (e) {
       yield put(actions.auth.registerFailure())
@@ -477,7 +477,7 @@ export default ({ api, coreSagas }) => {
       })
       yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
       // @ts-ignore
-      yield call(loginRoutineSaga, false, true, true)
+      yield call(loginRoutineSaga, false, true, true, true)
       yield put(actions.auth.restoreSuccess())
     } catch (e) {
       yield put(actions.auth.restoreFailure())
