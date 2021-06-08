@@ -60,6 +60,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       default:
         throw new Error('retry active account check')
     }
+    throw new Error('retry active account check')
   }
 
   const conditionalRetry = function* (id: string) {

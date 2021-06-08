@@ -5,6 +5,7 @@ import {
   AnalyticsKey,
   AnalyticsType,
   CoinType,
+  DepositMethodType,
   OrderType
 } from 'middleware/analyticsMiddleware/types'
 import {
@@ -16,7 +17,7 @@ import {
 
 import { actionTypes as AT } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { ModalNamesType } from 'data/types'
+import { BankDWStepType, ModalNamesType } from 'data/types'
 
 const analyticsMiddleware = () => (store) => (next) => (action) => {
   try {
@@ -148,6 +149,33 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               nabuId,
               originalTimestamp: getOriginalTimestamp(),
               type: 'RECEIVE'
+            })
+
+            break
+          }
+          case 'BANK_DEPOSIT_MODAL': {
+            const { origin } = action.payload.props
+            const { href, pathname, search } = window.location
+            const { referrer, title } = document
+
+            analytics.push(AnalyticsKey.DEPOSIT_CLICKED, {
+              analyticsType: AnalyticsType.EVENT,
+              id,
+              nabuId,
+              origin,
+              originalTimestamp: getOriginalTimestamp()
+            })
+
+            analytics.push(AnalyticsKey.DEPOSIT_VIEWED, {
+              analyticsType: AnalyticsType.EVENT,
+              id,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp(),
+              path: pathname,
+              referrer,
+              search,
+              title,
+              url: href
             })
 
             break
@@ -748,6 +776,55 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           originalTimestamp: getOriginalTimestamp(),
           output_currency: outputCurrency
         })
+        break
+      }
+      case AT.components.brokerage.SET_D_W_STEP: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
+        const stepName = action.payload.dwStep as BankDWStepType
+
+        switch (stepName) {
+          case BankDWStepType.CONFIRM: {
+            const depositMethod = DepositMethodType.BANK_TRANSFER // we only have it for now
+            const { amount, currency } = state.form.brokerageTx.values
+
+            analytics.push(AnalyticsKey.DEPOSIT_AMOUNT_ENTERED, {
+              amount,
+              analyticsType: AnalyticsType.EVENT,
+              currency,
+              deposit_method: depositMethod,
+              id,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp()
+            })
+
+            break
+          }
+
+          default: {
+            break
+          }
+        }
+
+        break
+      }
+      case AT.components.brokerage.SET_BANK_DETAILS: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
+        const depositMethod = DepositMethodType.BANK_TRANSFER // we only have it for now
+        const { currency } = state.form.brokerageTx.values
+
+        analytics.push(AnalyticsKey.DEPOSIT_METHOD_SELECTED, {
+          analyticsType: AnalyticsType.EVENT,
+          currency,
+          deposit_method: depositMethod,
+          id,
+          nabuId,
+          originalTimestamp: getOriginalTimestamp()
+        })
+
         break
       }
 
