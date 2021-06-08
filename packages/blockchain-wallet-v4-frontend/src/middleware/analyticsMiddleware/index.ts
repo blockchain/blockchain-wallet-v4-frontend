@@ -6,7 +6,8 @@ import {
   AnalyticsType,
   CoinType,
   DepositMethodType,
-  OrderType
+  OrderType,
+  SendReceiveType
 } from 'middleware/analyticsMiddleware/types'
 import {
   getNetworkFee,
@@ -17,7 +18,7 @@ import {
 
 import { actionTypes as AT } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { BankDWStepType, ModalNamesType } from 'data/types'
+import { BankDWStepType, ModalNamesType, SwapBaseCounterTypes } from 'data/types'
 
 const analyticsMiddleware = () => (store) => (next) => (action) => {
   try {
@@ -135,20 +136,20 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
           case 'REQUEST_CRYPTO_MODAL': {
             analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
-              analyticsType: AnalyticsType.VIEW,
+              analyticsType: AnalyticsType.EVENT,
               id,
               nabuId,
               origin: 'NAVIGATION',
               originalTimestamp: getOriginalTimestamp(),
-              type: 'RECEIVE'
+              type: SendReceiveType.RECEIVE
             })
 
             analytics.push(AnalyticsKey.SEND_RECEIVE_VIEWED, {
-              analyticsType: AnalyticsType.VIEW,
+              analyticsType: AnalyticsType.EVENT,
               id,
               nabuId,
               originalTimestamp: getOriginalTimestamp(),
-              type: 'RECEIVE'
+              type: SendReceiveType.RECEIVE
             })
 
             break
@@ -362,12 +363,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           case 'ENTER_AMOUNT': {
             const inputCurrency = state.form.initSwap.values.BASE.coin
             const inputType =
-              state.form.initSwap.values.BASE.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+              state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
                 ? AccountType.TRADING
                 : AccountType.USERKEY
             const outputCurrency = state.form.initSwap.values.COUNTER.coin
             const outputType =
-              state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+              state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
                 ? AccountType.TRADING
                 : AccountType.USERKEY
 
@@ -389,13 +390,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const inputAmount = Number(state.form.swapAmount.values.cryptoAmount)
             const inputCurrency = state.form.initSwap.values.BASE.coin
             const inputType =
-              state.form.initSwap.values.BASE.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+              state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
                 ? AccountType.TRADING
                 : AccountType.USERKEY
             const outputAmount = inputAmount * exchangeRate
             const outputCurrency = state.form.initSwap.values.COUNTER.coin
             const outputType =
-              state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+              state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
                 ? AccountType.TRADING
                 : AccountType.USERKEY
 
@@ -426,12 +427,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const id = state.walletPath.wallet.guid
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
-          state.form.initSwap.values.BASE.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+          state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
             : AccountType.USERKEY
         const outputCurrency = state.form.initSwap.values.COUNTER.coin
         const outputType =
-          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+          state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
             : AccountType.USERKEY
 
@@ -454,12 +455,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const id = state.walletPath.wallet.guid
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
-          state.form.initSwap.values.BASE.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+          state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
             : AccountType.USERKEY
         const outputCurrency = state.form.initSwap.values.COUNTER.coin
         const outputType =
-          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+          state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
             : AccountType.USERKEY
 
@@ -481,7 +482,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const id = state.walletPath.wallet.guid
         const inputCurrency = action.payload.account.coin
         const inputType =
-          action.payload.account.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+          action.payload.account.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
             : AccountType.USERKEY
 
@@ -501,7 +502,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const id = state.walletPath.wallet.guid
         const inputCurrency = action.payload.account.coin
         const inputType =
-          action.payload.account.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+          action.payload.account.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
             : AccountType.USERKEY
 
@@ -523,17 +524,17 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const inputAmount = Number(state.form.swapAmount.values.cryptoAmount)
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
-          state.form.initSwap.values.BASE.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+          state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
             : AccountType.USERKEY
         const outputAmount = inputAmount * exchangeRate
         const outputCurrency = state.form.initSwap.values.COUNTER.coin
         const outputType =
-          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+          state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
             : AccountType.USERKEY
         const networkFeeInputAmount =
-          state.form.initSwap.values.BASE.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+          state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
             ? 0
             : Number(
                 convertBaseToStandard(
@@ -542,7 +543,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
                 )
               )
         const networkFeeOutputAmount =
-          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+          state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
             ? 0
             : state.components.swap.quote.getOrElse({})?.quote.networkFee || 0
 
@@ -572,7 +573,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
         const accountType =
-          state.form.requestCrypto.values.selectedAccount.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+          state.form.requestCrypto.values.selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
             : AccountType.USERKEY
         const currency = state.form.requestCrypto.values.selectedAccount.coin
@@ -593,7 +594,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
         const accountType =
-          state.form.requestCrypto.values.selectedAccount.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+          state.form.requestCrypto.values.selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
             : AccountType.USERKEY
         const currency = state.form.requestCrypto.values.selectedAccount.coin
@@ -690,7 +691,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             }
 
             const accountType =
-              action.payload.swapAccount.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+              action.payload.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
                 ? AccountType.TRADING
                 : AccountType.USERKEY
             const inputCurrency = state.components.simpleBuy.fiatCurrency
@@ -709,7 +710,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
           case 'PREVIEW_SELL': {
             const accountType =
-              state.components.simpleBuy.swapAccount.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+              state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
                 ? AccountType.TRADING
                 : AccountType.USERKEY
             const inputCurrency = state.components.simpleBuy.fiatCurrency
@@ -739,7 +740,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
         const accountType =
-          state.components.simpleBuy.swapAccount.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+          state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
             : AccountType.USERKEY
         const inputCurrency = state.components.simpleBuy.fiatCurrency
@@ -761,7 +762,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
         const accountType =
-          state.components.simpleBuy.swapAccount.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
+          state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
             : AccountType.USERKEY
         const inputCurrency = state.components.simpleBuy.fiatCurrency
