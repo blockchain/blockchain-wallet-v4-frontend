@@ -65,6 +65,7 @@ const InfoTerms = styled(Text)`
     color: ${(props) => props.theme.blue600};
     cursor: pointer;
     text-decoration: none;
+    display: contents;
   }
 `
 const Amount = styled.div`

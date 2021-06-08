@@ -119,7 +119,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.logs.logErrorMessage(logLocation, 'getWithdrawalLockCheck', error))
-      yield put(A.fetchUnstoppableDomainResultsFailure(error))
+      yield put(A.fetchUnstoppableDomainResultsFailure(''))
     }
   }
 
