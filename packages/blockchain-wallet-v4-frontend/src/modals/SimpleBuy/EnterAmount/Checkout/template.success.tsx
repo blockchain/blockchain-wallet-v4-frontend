@@ -66,7 +66,6 @@ const Amounts = styled.div`
   display: flex;
   justify-content: center;
 `
-
 const QuoteActionContainer = styled.div`
   height: 32px;
 `
@@ -471,7 +470,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               </>
             </Amounts>
           )}
-
         {!props.isSddFlow &&
           props.orderType === OrderType.SELL &&
           props.pair &&
