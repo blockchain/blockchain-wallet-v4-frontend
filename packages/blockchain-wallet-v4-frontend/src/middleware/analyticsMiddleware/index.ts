@@ -135,7 +135,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
           case 'REQUEST_CRYPTO_MODAL': {
             analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
-              analyticsType: AnalyticsType.VIEW,
+              analyticsType: AnalyticsType.EVENT,
               id,
               nabuId,
               origin: 'NAVIGATION',
@@ -144,7 +144,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             })
 
             analytics.push(AnalyticsKey.SEND_RECEIVE_VIEWED, {
-              analyticsType: AnalyticsType.VIEW,
+              analyticsType: AnalyticsType.EVENT,
               id,
               nabuId,
               originalTimestamp: getOriginalTimestamp(),
