@@ -25,7 +25,7 @@ import {
 import { ADDRESS_TYPES } from 'core/redux/payment/btc/utils'
 
 import { CountryType } from '../identityVerification/types'
-import { SwapAccountType } from '../swap/types'
+import { SwapAccountType, SwapBaseCounterTypes } from '../swap/types'
 import * as AT from './actionTypes'
 
 // Types
@@ -425,7 +425,7 @@ export type StepActionsPayload =
     }
   | { order?: SBOrderType; step: '3DS_HANDLER' }
   | {
-      sellOrderType?: keyof typeof ADDRESS_TYPES
+      sellOrderType?: SwapBaseCounterTypes
       step: 'PREVIEW_SELL'
     }
   | {

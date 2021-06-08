@@ -23,7 +23,8 @@ import {
   InitSwapFormValuesType,
   MempoolFeeType,
   SwapAccountType,
-  SwapAmountFormValues
+  SwapAmountFormValues,
+  SwapBaseCounterTypes
 } from './types'
 import { getDirection, getPair, getRate, NO_QUOTE } from './utils'
 
@@ -349,7 +350,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           })
     yield put(actions.form.change('swapAmount', 'cryptoAmount', amountFieldValue))
 
-    if (BASE.type === 'CUSTODIAL') return
+    if (BASE.type === SwapBaseCounterTypes.CUSTODIAL) return
 
     const swapAmountValues = selectors.form.getFormValues('swapAmount')(
       yield select()
@@ -390,7 +391,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const quote = S.getQuote(yield select()).getOrFail(NO_QUOTE)
 
       const { BASE } = initSwapFormValues
-      if (BASE.type === 'ACCOUNT') {
+      if (BASE.type === SwapBaseCounterTypes.ACCOUNT) {
         payment = yield call(calculateProvisionalPayment, BASE, quote.quote, 0)
         yield put(A.updatePaymentSuccess(payment))
       } else {

@@ -5,10 +5,11 @@ import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import {
   CoinType,
   FiatType,
+  SBCardType,
   SBOrderActionType,
   SBOrderType,
   SupportedWalletCurrenciesType,
-  SupportedWalletCurrencyType,
+  SupportedWalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getBaseCurrency, getCounterCurrency, getOrderType } from 'data/components/simpleBuy/model'
@@ -25,7 +26,7 @@ export const BuyOrSell = (props: {
         id='buttons.buy_coin'
         defaultMessage='Buy {displayName}'
         values={{
-          displayName: props.crypto === 'Crypto' ? 'Crypto' : props.coinModel?.coinTicker,
+          displayName: props.crypto === 'Crypto' ? 'Crypto' : props.coinModel?.coinTicker
         }}
       />
     ) : (
@@ -72,7 +73,7 @@ export const getPaymentMethod = (
           id='modals.simplebuy.confirm.funds_wallet'
           defaultMessage='{coin} Wallet'
           values={{
-            coin: counterCurrency,
+            coin: counterCurrency
           }}
         />
       ) : (
@@ -82,10 +83,10 @@ export const getPaymentMethod = (
       const defaultBankInfo = {
         accountNumber: '',
         bankAccountType: '',
-        bankName: 'Bank Transfer',
+        bankName: 'Bank Transfer'
       }
       const d = (bankAccount && bankAccount.details) || defaultBankInfo
-      return `${d.bankName} ${d.bankAccountType?.toLowerCase() || ''} ${d.accountNumber || ''}`
+      return `${d.bankName}`
     default:
       return (
         <FormattedMessage
@@ -105,6 +106,27 @@ export const displayFiat = (
 
   return fiatToString({
     unit: counterCurrency as FiatType,
-    value: convertBaseToStandard('FIAT', amt),
+    value: convertBaseToStandard('FIAT', amt)
   })
+}
+
+export const getPaymentMethodDetails = (
+  order: SBOrderType,
+  bankAccount: BankTransferAccountType,
+  cardDetails: SBCardType | null
+) => {
+  switch (order.paymentType) {
+    case 'PAYMENT_CARD':
+      return `${cardDetails?.card?.type} ${cardDetails?.card?.number}`
+    case 'BANK_TRANSFER':
+      const defaultBankInfo = {
+        accountNumber: '',
+        bankAccountType: '',
+        bankName: 'Bank Transfer'
+      }
+      const d = (bankAccount && bankAccount.details) || defaultBankInfo
+      return `${d.bankAccountType?.toLowerCase() || ''} ${d.accountNumber || ''}`
+    default:
+      return null
+  }
 }

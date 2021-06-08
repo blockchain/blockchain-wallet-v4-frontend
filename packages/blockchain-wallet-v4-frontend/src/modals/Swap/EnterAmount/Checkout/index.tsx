@@ -13,7 +13,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
-import { SwapAccountType } from 'data/types'
+import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 import { formatTextAmount } from 'services/forms'
 import { media } from 'services/styles'
 
@@ -203,8 +203,11 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   // ETH balance else warn user and disable trade
   const isErc20 = coins[BASE.coin].contractAddress
   const disableInsufficientEth =
+    props.payment &&
+    BASE.type === SwapBaseCounterTypes.ACCOUNT &&
+    isErc20 &&
     // @ts-ignore
-    props.payment && BASE.type === 'ACCOUNT' && isErc20 && !props.payment.isSufficientEthForErc20
+    !props.payment.isSufficientEthForErc20
 
   return (
     <FlyoutWrapper style={{ paddingTop: '20px' }}>

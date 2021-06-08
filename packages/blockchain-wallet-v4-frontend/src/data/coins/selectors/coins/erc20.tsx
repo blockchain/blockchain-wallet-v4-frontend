@@ -8,7 +8,7 @@ import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
 import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { generateTradingAccount } from 'data/coins/utils'
-import { SwapAccountType } from 'data/components/types'
+import { SwapAccountType, SwapBaseCounterTypes } from 'data/components/types'
 
 import { getTradingBalance } from '..'
 
@@ -90,7 +90,7 @@ export const getAccounts = createDeepEqualSelector(
             coin,
             config,
             label: prop('label', erc20Account),
-            type: 'ACCOUNT'
+            type: SwapBaseCounterTypes.ACCOUNT
           }
         ])
       }

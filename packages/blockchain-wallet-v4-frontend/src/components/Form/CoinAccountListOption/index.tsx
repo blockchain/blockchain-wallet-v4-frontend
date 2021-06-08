@@ -5,7 +5,7 @@ import styled, { css, DefaultTheme } from 'styled-components'
 import { CoinAccountIcon, Icon, Text } from 'blockchain-info-components'
 import { FiatType, SupportedCoinType } from 'blockchain-wallet-v4/src/types'
 import { SuccessCartridge } from 'components/Cartridge'
-import { SwapAccountType } from 'data/types'
+import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 
 import CoinAccountListBalance from '../CoinAccountListBalance'
 
@@ -108,7 +108,7 @@ const CoinAccountListOption: React.FC<Props> = (props) => {
         </div>
       </FlexStartRow>
       <FlexStartRow>
-        {showLowFeeBadges && account.type === 'CUSTODIAL' && (
+        {showLowFeeBadges && account.type === SwapBaseCounterTypes.CUSTODIAL && (
           <LowFeeCartridge>
             <FormattedMessage id='scenes.swap.low_fees' defaultMessage='Low Fees' />
           </LowFeeCartridge>

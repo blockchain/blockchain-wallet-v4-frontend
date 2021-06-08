@@ -5,14 +5,17 @@ import {
   SupportedCoinType,
   SwapOrderType,
   SwapQuoteType,
-  SwapUserLimitsType,
+  SwapUserLimitsType
 } from 'blockchain-wallet-v4/src/types'
-import { ADDRESS_TYPES } from 'core/redux/payment/btc/utils'
 
 import * as AT from './actionTypes'
 
 export type MempoolFeeType = 'regular' | 'priority'
 
+export enum SwapBaseCounterTypes {
+  ACCOUNT = 'ACCOUNT',
+  CUSTODIAL = 'CUSTODIAL'
+}
 export type SwapAccountType = {
   accountIndex?: number
   address?: number | string
@@ -23,7 +26,7 @@ export type SwapAccountType = {
   config: SupportedCoinType
   index?: number
   label: string
-  type: keyof typeof ADDRESS_TYPES
+  type: SwapBaseCounterTypes
 }
 
 export type SwapAmountFormValues = { amount?: string; cryptoAmount?: string } | undefined
@@ -45,7 +48,7 @@ export enum SwapStepType {
   'UPGRADE_PROMPT',
   'PREVIEW_SWAP',
   'SUCCESSFUL_SWAP',
-  'ORDER_DETAILS',
+  'ORDER_DETAILS'
 }
 
 export type SwapSideType = 'BASE' | 'COUNTER'
@@ -189,7 +192,7 @@ export type SwapStepPayload =
   // added these optional payloads for data science tracking
   | {
       options?: {
-        account?: keyof typeof ADDRESS_TYPES
+        account?: SwapBaseCounterTypes
         coin?: CoinType
         side?: 'BASE' | 'COUNTER'
       }
@@ -197,7 +200,7 @@ export type SwapStepPayload =
     }
   | {
       options?: {
-        account?: keyof typeof ADDRESS_TYPES
+        account?: SwapBaseCounterTypes
         coin?: CoinType
         side?: 'BASE' | 'COUNTER'
       }
@@ -205,9 +208,9 @@ export type SwapStepPayload =
     }
   | {
       options?: {
-        baseAccountType?: keyof typeof ADDRESS_TYPES
+        baseAccountType?: SwapBaseCounterTypes
         baseCoin?: CoinType
-        counterAccountType?: keyof typeof ADDRESS_TYPES
+        counterAccountType?: SwapBaseCounterTypes
         counterCoin?: CoinType
       }
       step: 'PREVIEW_SWAP'

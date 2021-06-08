@@ -5,7 +5,7 @@ import {
   SupportedCoinType
 } from 'blockchain-wallet-v4/src/types'
 import { convertStandardToBase } from 'data/components/exchange/services'
-import { SwapAccountType } from 'data/components/types'
+import { SwapAccountType, SwapBaseCounterTypes } from 'data/components/types'
 
 export const generateTradingAccount = (
   coin: CoinType,
@@ -19,7 +19,7 @@ export const generateTradingAccount = (
       coin,
       config,
       label: 'Trading Account',
-      type: 'CUSTODIAL'
+      type: SwapBaseCounterTypes.CUSTODIAL
     }
   ]
 }
@@ -36,6 +36,7 @@ export const generateInterestAccount = (
       coin,
       config,
       label: `${coin} Interest Account`,
+      // @ts-ignore
       type: 'INTEREST'
     }
   ]

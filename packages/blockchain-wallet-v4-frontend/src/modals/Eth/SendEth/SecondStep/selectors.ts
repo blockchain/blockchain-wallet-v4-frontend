@@ -47,33 +47,33 @@ export const getData = (state, coin) => {
     const rates = isErc20 ? erc20Rates : ethRates
     // Convert WEI to base for amount
     const amountStandard = Exchange.convertCoinToCoin({
+      baseToStandard: true,
       coin,
-      value: payment.amount,
+      value: payment.amount
     })
-    // Convert WEI to base for fee (ETH)
-    const feeStandard = Exchange.convertCoinToCoin({
-      coin: 'ETH',
-      value: payment.fee,
-    })
+    // // Convert WEI to base for fee (ETH)
+    // const feeStandard = Exchange.convertCoinToCoin({
+    //   baseToStandard: true,
+    //   coin: 'ETH',
+    //   value: payment.fee
+    // })
     // Convert ETH or ERC20 amount to Fiat
     const amount = Exchange.convertCoinToFiat({
       coin,
       currency,
       isStandard: true,
       rates,
-      value: amountStandard,
+      value: amountStandard
     })
     // Fee for ETH or ERC20 txs should always be in ETH
     const fee = Exchange.convertCoinToFiat({
       coin,
       currency,
-      isStandard: true,
-      rates: ethRates,
-      value: feeStandard,
+      rates: isErc20 && payment.from.type === 'CUSTODIAL' ? erc20Rates : ethRates
     })
     const totalFiat = fiatToString({
       unit: currency,
-      value: Number(amount) + Number(fee),
+      value: Number(amount) + Number(fee)
     })
     const fromLabel = isErc20 ? erc20FromLabel(coin, payment, state) : ethFromLabel(payment, state)
 
@@ -82,11 +82,12 @@ export const getData = (state, coin) => {
       description: payment.description,
       fee: payment.fee,
       fromAddress: fromLabel,
+      fromType: payment.from.type,
       submitting: isSubmitting(state),
       toAddress: payment.to.label || payment.to.address,
       // @ts-ignore
       totalCrypto: new BigNumber.sum(payment.amount, payment.fee).toString(),
-      totalFiat,
+      totalFiat
     }
   }
 

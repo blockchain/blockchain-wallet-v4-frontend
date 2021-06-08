@@ -33,6 +33,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     payment: PaymentType,
     destination: string
   ): Generator<PaymentType | CallEffect, PaymentValue, any> {
+    /* eslint-disable */
     try {
       if (coin === 'XLM') {
         // separate out addresses and memo
@@ -55,20 +56,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       throw e
     }
+    /* eslint-enable */
 
     return payment.value()
-  }
-
-  const fetchPaymentsTradingAccount = function* (action) {
-    const { currency } = action.payload
-    try {
-      yield put(A.fetchPaymentsTradingAccountLoading(currency))
-      const tradingAccount: BeneficiaryType = yield call(api.getSBPaymentAccount, currency)
-      yield put(A.fetchPaymentsTradingAccountSuccess(currency, tradingAccount))
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'fetchPaymentsTradingAccount', e))
-      yield put(A.fetchPaymentsTradingAccountFailure(currency, e))
-    }
   }
 
   const fetchPaymentsAccountExchange = function* (action) {
@@ -93,6 +83,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const fetchPaymentsTradingAccount = function* (action) {
+    const { currency } = action.payload
+    try {
+      yield put(A.fetchPaymentsTradingAccountLoading(currency))
+      const tradingAccount: BeneficiaryType = yield call(api.getSBPaymentAccount, currency)
+      yield put(A.fetchPaymentsTradingAccountSuccess(currency, tradingAccount))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'fetchPaymentsTradingAccount', e))
+      yield put(A.fetchPaymentsTradingAccountFailure(currency, e))
+    }
+  }
+
   const fetchUnstoppableDomainResults = function* (
     action: ReturnType<typeof A.fetchUnstoppableDomainResults>
   ) {
@@ -109,7 +111,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.logs.logErrorMessage(logLocation, 'getWithdrawalLockCheck', error))
-      yield put(A.fetchUnstoppableDomainResultsFailure(error))
+      yield put(A.fetchUnstoppableDomainResultsFailure(''))
     }
   }
 

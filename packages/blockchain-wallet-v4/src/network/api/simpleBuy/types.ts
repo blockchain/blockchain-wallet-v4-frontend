@@ -206,6 +206,7 @@ export type SBSellOrderType = ISBBuyOrderType & {
 }
 export type SBOrderType = SBBuyOrderType | SBSellOrderType
 
+// TODO: refactor this into an enum
 export type SBOrderStateType =
   | 'PENDING_CONFIRMATION'
   | 'PENDING_DEPOSIT'
