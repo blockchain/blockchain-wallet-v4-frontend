@@ -513,7 +513,18 @@ class PreviewSell extends PureComponent<
               <DisclaimerText>
                 <FormattedMessage
                   id='modals.simplebuy.confirm.sell_description'
-                  defaultMessage="Final amount may change due to market activity.<br /> By approving this Sell you agree to Blockchain.com’s <br /><a href='https://www.blockchain.com/legal/terms' rel='noopener noreferrer' target='_blank'>Refund Policy.</a>"
+                  defaultMessage='Final amount may change due to market activity.<br /> By approving this Sell you agree to Blockchain.com’s <br /><a>Refund Policy.</a>'
+                  values={{
+                    a: (msg: string) => (
+                      <a
+                        href='https://www.blockchain.com/legal/terms'
+                        rel='noopener noreferrer'
+                        target='_blank'
+                      >
+                        {msg}
+                      </a>
+                    )
+                  }}
                 />
               </DisclaimerText>
             </FlyoutWrapper>

@@ -1441,7 +1441,7 @@ type MessagesType = {
   'modals.simplebuy.comfirm.price': '{baseCoinTicker} Price'
   'modals.simplebuy.confirm.rate': 'Exchange Rate'
   'modals.simplebuy.confirm.coin_price': '{coin} Price'
-  'modals.simplebuy.confirm.sell_description': "Final amount may change due to market activity.<br /> By approving this Sell you agree to Blockchain.com’s <br /><a href='https://www.blockchain.com/legal/terms' rel='noopener noreferrer' target='_blank'>Refund Policy.</a>"
+  'modals.simplebuy.confirm.sell_description': "Final amount may change due to market activity.<br /> By approving this Sell you agree to Blockchain.com’s <br /><a>Refund Policy.</a>"
   'modals.simplebuy.confirm.coin_tooltip': 'Blockchain.com provides the best market price we receive and applies a spread.'
   'modals.simplebuy.confirm.sale_amount': 'Sale Amount'
   'modals.simplebuy.confirm.network_fees': 'Network fees are set by the {coin} network.'
