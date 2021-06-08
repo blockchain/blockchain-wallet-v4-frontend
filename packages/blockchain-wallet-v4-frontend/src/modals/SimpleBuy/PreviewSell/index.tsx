@@ -143,6 +143,7 @@ const DisclaimerText = styled(Text)`
     color: ${(props) => props.theme.blue600};
     cursor: pointer;
     text-decoration: none;
+    display: contents;
   }
 `
 
@@ -213,6 +214,7 @@ class PreviewSell extends PureComponent<
         const COUNTER = getOutputFromPair(val.quote.pair)
         const feeInFiat = this.getFeeInFiat(account, BASE, COUNTER)
         const counterCoinTicker = coins[COUNTER].coinTicker
+        const baseCoinTicker = coins[BASE].coinTicker
         const { rates, ratesEth } = this.props
         const fiatCurrency = getFiatFromPair(this.props.pair.pair)
         const isErc20 = coins[COUNTER].contractAddress
@@ -449,7 +451,7 @@ class PreviewSell extends PureComponent<
                               <FormattedMessage
                                 id='modals.simplebuy.confirm.network_fees'
                                 defaultMessage='Network fees are set by the {coin} network.'
-                                values={{ coin: counterCoinTicker }}
+                                values={{ coin: baseCoinTicker }}
                               />
                             </Text>
                             <Link
@@ -513,7 +515,7 @@ class PreviewSell extends PureComponent<
               <DisclaimerText>
                 <FormattedMessage
                   id='modals.simplebuy.confirm.sell_description'
-                  defaultMessage='Final amount may change due to market activity.<br /> By approving this Sell you agree to Blockchain.com’s <br /><a>Refund Policy.</a>'
+                  defaultMessage='Final amount may change due to market activity.{linebreak} By approving this Sell you agree to Blockchain.com’s {linebreak}<a>Refund Policy.</a>'
                   values={{
                     a: (msg: string) => (
                       <a
@@ -523,7 +525,8 @@ class PreviewSell extends PureComponent<
                       >
                         {msg}
                       </a>
-                    )
+                    ),
+                    linebreak: <br />
                   }}
                 />
               </DisclaimerText>
