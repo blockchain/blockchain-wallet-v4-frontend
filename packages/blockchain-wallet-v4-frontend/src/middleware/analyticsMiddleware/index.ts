@@ -19,10 +19,6 @@ import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ModalNamesType } from 'data/types'
 
 const analyticsMiddleware = () => (store) => (next) => (action) => {
-  const state = store.getState()
-  const nabuId = state.profile.userData.getOrElse({})?.id
-  const id = state.walletPath.wallet.guid
-
   try {
     switch (action.type) {
       case '@@INIT': {
@@ -30,6 +26,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.analytics.LOG_PAGE_VIEW: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const pageName: PageNamesType = action.payload.route
 
         switch (pageName) {
@@ -69,6 +68,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.modals.SHOW_MODAL: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const modalName: ModalNamesType = action.payload.type
 
         switch (modalName) {
@@ -159,6 +161,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
 
       case AT.components.interest.SET_COIN_DISPLAY: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const { isCoinDisplayed } = action.payload
 
         const fix = isCoinDisplayed ? CoinType.CRYPTO : CoinType.FIAT
@@ -176,6 +181,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
 
       case AT.components.swap.SWITCH_FIX: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const { fix } = action.payload
 
         analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
@@ -191,6 +199,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
 
       case AT.components.simpleBuy.SWITCH_FIX: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const { fix } = action.payload
 
         analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
@@ -206,6 +217,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
 
       case AT.components.simpleBuy.CREATE_ORDER: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const inputCurrency = state.components.simpleBuy.fiatCurrency
         const inputAmount = Number(state.form.simpleBuyCheckout.values.amount)
         const inputAMountMax = Number(state.components.simpleBuy.pair.buyMax) / 100
@@ -224,6 +238,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.components.simpleBuy.HANDLE_BUY_MAX_AMOUNT_CLICK: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const maxCardLimit = Number(action.payload.amount) / 100
         const inputCurrency = state.components.simpleBuy.fiatCurrency
         const outputCurrency = state.components.simpleBuy.cryptoCurrency
@@ -240,6 +257,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.components.simpleBuy.HANDLE_BUY_MIN_AMOUNT_CLICK: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const inputCurrency = state.components.simpleBuy.fiatCurrency
         const outputCurrency = state.components.simpleBuy.cryptoCurrency
 
@@ -254,6 +274,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.components.simpleBuy.HANDLE_SB_METHOD_CHANGE: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const paymentType = action.method.type
 
         analytics.push(AnalyticsKey.BUY_PAYMENT_METHOD_SELECTED, {
@@ -266,6 +289,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.auth.VERIFY_EMAIL_TOKEN_SUCCESS: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         analytics.push(AnalyticsKey.EMAIL_VERIFICATION_REQUESTED, {
           analyticsType: AnalyticsType.EVENT,
           id,
@@ -275,6 +301,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.auth.LOGIN_SUCCESS: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         analytics.push(AnalyticsKey.SIGNED_IN, {
           analyticsType: AnalyticsType.EVENT,
           id,
@@ -284,6 +313,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.auth.LOGOUT: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         analytics.push(AnalyticsKey.SIGNED_OUT, {
           analyticsType: AnalyticsType.EVENT,
           id,
@@ -293,6 +325,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.auth.WRONG_CHANGE_CACHE: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         analytics.push(AnalyticsKey.WRONG_CHANGE_CACHE, {
           analyticsType: AnalyticsType.EVENT,
           id,
@@ -302,6 +337,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.auth.WRONG_RECEIVE_CACHE: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         analytics.push(AnalyticsKey.WRONG_RECEIVE_CACHE, {
           analyticsType: AnalyticsType.EVENT,
           id,
@@ -311,6 +349,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.components.swap.SET_STEP: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const stepName = action.payload.step
 
         switch (stepName) {
@@ -376,6 +417,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.components.swap.HANDLE_SWAP_MAX_AMOUNT_CLICK: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
           state.form.initSwap.values.BASE.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
@@ -401,6 +445,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.components.swap.HANDLE_SWAP_MIN_AMOUNT_CLICK: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
           state.form.initSwap.values.BASE.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
@@ -425,6 +472,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.components.swap.CHANGE_BASE: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const inputCurrency = action.payload.account.coin
         const inputType =
           action.payload.account.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
@@ -442,6 +492,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.components.swap.CHANGE_COUNTER: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const inputCurrency = action.payload.account.coin
         const inputType =
           action.payload.account.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
@@ -459,6 +512,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.components.swap.CREATE_ORDER: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const exchangeRate = state.components.swap.quote.getOrElse({})?.rate || 1
         const inputAmount = Number(state.form.swapAmount.values.cryptoAmount)
         const inputCurrency = state.form.initSwap.values.BASE.coin
@@ -508,6 +564,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
 
       case AT.components.request.GET_NEXT_ADDRESS: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const accountType =
           state.form.requestCrypto.values.selectedAccount.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
@@ -526,6 +585,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.components.request.SET_ADDRESS_COPIED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const accountType =
           state.form.requestCrypto.values.selectedAccount.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
@@ -544,6 +606,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.components.simpleBuy.SET_BUY_CRYPTO: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const rawOrigin = action.payload.props.origin
         const { href, pathname, search } = window.location
         const { referrer, title } = document
@@ -574,6 +639,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.components.simpleBuy.SET_SELL_CRYPTO: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const rawOrigin = action.payload.props.origin
         const { href, pathname, search } = window.location
         const { referrer, title } = document
@@ -606,6 +674,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
 
       case AT.components.simpleBuy.SET_STEP: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const stepName = action.payload.step
 
         switch (stepName) {
@@ -660,6 +731,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.components.simpleBuy.HANDLE_SELL_MAX_AMOUNT_CLICK: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const accountType =
           state.components.simpleBuy.swapAccount.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
@@ -679,6 +753,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.components.simpleBuy.HANDLE_SELL_MIN_AMOUNT_CLICK: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
         const accountType =
           state.components.simpleBuy.swapAccount.type === 'CUSTODIAL' // TODO add SwapBaseCounterTypes to it
             ? AccountType.TRADING
