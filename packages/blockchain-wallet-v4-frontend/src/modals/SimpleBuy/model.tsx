@@ -8,6 +8,7 @@ import {
   SBCardType,
   SBOrderActionType,
   SBOrderType,
+  SBPaymentTypes,
   SupportedWalletCurrenciesType,
   SupportedWalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
@@ -63,11 +64,11 @@ export const getPaymentMethod = (
   const orderType = getOrderType(order)
 
   switch (order.paymentType) {
-    case 'PAYMENT_CARD':
+    case SBPaymentTypes.PAYMENT_CARD:
       return (
         <FormattedMessage id='modals.simplebuy.confirm.payment_card' defaultMessage='Credit Card' />
       )
-    case 'FUNDS':
+    case SBPaymentTypes.FUNDS:
       return orderType === 'BUY' ? (
         <FormattedMessage
           id='modals.simplebuy.confirm.funds_wallet'
@@ -79,7 +80,7 @@ export const getPaymentMethod = (
       ) : (
         `${baseCurrency} Trading Account`
       )
-    case 'BANK_TRANSFER':
+    case SBPaymentTypes.BANK_TRANSFER:
       const defaultBankInfo = {
         accountNumber: '',
         bankAccountType: '',
@@ -116,9 +117,9 @@ export const getPaymentMethodDetails = (
   cardDetails: SBCardType | null
 ) => {
   switch (order.paymentType) {
-    case 'PAYMENT_CARD':
+    case SBPaymentTypes.PAYMENT_CARD:
       return `${cardDetails?.card?.type} ${cardDetails?.card?.number}`
-    case 'BANK_TRANSFER':
+    case SBPaymentTypes.BANK_TRANSFER:
       const defaultBankInfo = {
         accountNumber: '',
         bankAccountType: '',

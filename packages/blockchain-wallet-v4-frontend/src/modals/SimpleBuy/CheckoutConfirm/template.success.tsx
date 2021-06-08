@@ -15,7 +15,11 @@ import {
   TextGroup
 } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import { OrderType, SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
+import {
+  OrderType,
+  SBPaymentTypes,
+  SupportedWalletCurrenciesType
+} from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row } from 'components/Flyout'
 import { Form } from 'components/Form'
@@ -158,7 +162,8 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   const counterCurrency = getCounterCurrency(props.order, props.supportedCoins)
   const paymentMethodId = getPaymentMethodId(props.order)
   const requiresTerms =
-    props.order.paymentType === 'PAYMENT_CARD' || props.order.paymentType === 'USER_CARD'
+    props.order.paymentType === SBPaymentTypes.PAYMENT_CARD ||
+    props.order.paymentType === SBPaymentTypes.USER_CARD
   const [bankAccount] = filter(
     (b: BankTransferAccountType) => b.state === 'ACTIVE' && b.id === paymentMethodId,
     defaultTo([])(path(['bankAccounts'], props))
@@ -166,7 +171,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   const paymentPartner = prop('partner', bankAccount)
 
   const showLock = props.withdrawLockCheck && props.withdrawLockCheck.lockTime
-  const isBankLink = props.order.paymentType === 'BANK_TRANSFER'
+  const isBankLink = props.order.paymentType === SBPaymentTypes.BANK_TRANSFER
 
   const days =
     props.withdrawLockCheck && props.withdrawLockCheck.lockTime
@@ -396,7 +401,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           </Info>
         )}
 
-        {showLock && props.order.paymentType === 'USER_CARD' && (
+        {showLock && props.order.paymentType === SBPaymentTypes.USER_CARD && (
           <Info>
             <Text size='12px' weight={500} color='grey900'>
               <FormattedMessage
