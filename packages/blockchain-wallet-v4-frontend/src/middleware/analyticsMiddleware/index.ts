@@ -353,6 +353,30 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
+      case AT.auth.WRONG_CHANGE_CACHE: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
+        analytics.push(AnalyticsKey.WRONG_CHANGE_CACHE, {
+          analyticsType: AnalyticsType.EVENT,
+          id,
+          nabuId,
+          originalTimestamp: getOriginalTimestamp()
+        })
+        break
+      }
+      case AT.auth.WRONG_RECEIVE_CACHE: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
+        analytics.push(AnalyticsKey.WRONG_RECEIVE_CACHE, {
+          analyticsType: AnalyticsType.EVENT,
+          id,
+          nabuId,
+          originalTimestamp: getOriginalTimestamp()
+        })
+        break
+      }
       case AT.components.swap.SET_STEP: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id
