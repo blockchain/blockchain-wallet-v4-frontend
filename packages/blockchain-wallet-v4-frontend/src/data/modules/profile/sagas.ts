@@ -262,11 +262,13 @@ export default ({ api, coreSagas, networks }) => {
 
   const resetUser = function* () {
     const retailToken = yield call(generateRetailToken)
-    const userId = (yield select(selectors.core.kvStore.userCredentials.getUserId)).getOrFail()
+    const userId = (yield select(selectors.core.kvStore.userCredentials.getUserId)).getOrElse(null)
     const lifetimeToken = (yield select(
       selectors.core.kvStore.userCredentials.getLifetimeToken
     )).getOrFail()
-    yield call(api.resetUser, userId, lifetimeToken, retailToken)
+    if (userId) {
+      yield call(api.resetUser, userId, lifetimeToken, retailToken)
+    }
   }
 
   const createUser = function* () {
