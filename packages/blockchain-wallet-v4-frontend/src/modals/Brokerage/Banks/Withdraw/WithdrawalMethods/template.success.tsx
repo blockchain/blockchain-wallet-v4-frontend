@@ -6,6 +6,7 @@ import { Icon, Image, Text } from 'blockchain-info-components'
 import {
   SBPaymentMethodsType,
   SBPaymentMethodType,
+  SBPaymentTypes,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -39,14 +40,14 @@ const TopText = styled(Text)`
 `
 
 const MethodList = styled.section`
-  border-top: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 
 const IconContainer = styled.div`
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: ${props => props.theme.blue000};
+  background-color: ${(props) => props.theme.blue000};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -54,11 +55,11 @@ const IconContainer = styled.div`
 
 const getIcon = (value: SBPaymentMethodType): ReactElement => {
   switch (value.type) {
-    case 'BANK_TRANSFER':
-    case 'LINK_BANK':
+    case SBPaymentTypes.BANK_TRANSFER:
+    case SBPaymentTypes.LINK_BANK:
     default:
       return <Image name='bank' height='48px' />
-    case 'BANK_ACCOUNT':
+    case SBPaymentTypes.BANK_ACCOUNT:
       return (
         <IconContainer>
           <Icon size='18px' color='blue600' name='arrow-down' />
@@ -69,22 +70,12 @@ const getIcon = (value: SBPaymentMethodType): ReactElement => {
 
 const getType = (value: SBPaymentMethodType) => {
   switch (value.type) {
-    case 'BANK_TRANSFER':
-    case 'LINK_BANK':
+    case SBPaymentTypes.BANK_TRANSFER:
+    case SBPaymentTypes.LINK_BANK:
     default:
-      return (
-        <FormattedMessage
-          id='modals.simplebuy.banklink'
-          defaultMessage='Link a Bank'
-        />
-      )
-    case 'BANK_ACCOUNT':
-      return (
-        <FormattedMessage
-          id='modals.simplebuy.bankwire'
-          defaultMessage='Wire Transfer'
-        />
-      )
+      return <FormattedMessage id='modals.simplebuy.banklink' defaultMessage='Link a Bank' />
+    case SBPaymentTypes.BANK_ACCOUNT:
+      return <FormattedMessage id='modals.simplebuy.bankwire' defaultMessage='Wire Transfer' />
   }
 }
 
@@ -98,10 +89,10 @@ const Success = ({
   withdrawActions
 }: Props) => {
   const bankTransfer = paymentMethods.methods.find(
-    method => method.type === 'BANK_TRANSFER'
+    (method) => method.type === SBPaymentTypes.BANK_TRANSFER
   )
   const bankWire = paymentMethods.methods.find(
-    method => method.type === 'BANK_ACCOUNT'
+    (method) => method.type === SBPaymentTypes.BANK_ACCOUNT
   )
 
   return (
@@ -132,10 +123,7 @@ const Success = ({
           <BankTransfer
             icon={getIcon(bankTransfer)}
             onClick={() => {
-              brokerageActions.showModal(
-                BrokerageModalOriginType.ADD_BANK,
-                'ADD_BANK_YODLEE_MODAL'
-              )
+              brokerageActions.showModal(BrokerageModalOriginType.ADD_BANK, 'ADD_BANK_YODLEE_MODAL')
               brokerageActions.setAddBankStep({
                 addBankStep: AddBankStepType.ADD_BANK
               })
@@ -156,10 +144,10 @@ const Success = ({
               simpleBuyActions.showModal('WithdrawModal')
               if (userData.tiers.current === 2) {
                 simpleBuyActions.setStep({
-                  step: 'BANK_WIRE_DETAILS',
-                  fiatCurrency: fiatCurrency,
+                  addBank: true,
                   displayBack: false,
-                  addBank: true
+                  fiatCurrency,
+                  step: 'BANK_WIRE_DETAILS'
                 })
               } else {
                 simpleBuyActions.setStep({

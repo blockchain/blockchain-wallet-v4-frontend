@@ -35,12 +35,22 @@ const FeesContainer = styled.div`
     border: 0;
   }
 `
-const HorizontalRow = styled(Row)`
+const IconWrapper = styled.div<{ toggle: boolean }>`
+  transition: transform 0.2s;
+  transform: ${(p) => (p.toggle ? 'rotate(180deg)' : 'none')};
+  margin-right: -6px;
+`
+
+const HorizontalRow = styled(Row)<{ toggle?: boolean }>`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding: 16px;
+
+  &:last-child {
+    border-bottom-width: ${(p) => (p.toggle ? '0px' : '1px')};
+  }
 `
 const Footer = styled.div`
   padding: 16px;
@@ -126,24 +136,26 @@ const FeeBreakdownBox = ({
               <FiatDisplay size='14px' weight={500} color='grey900' coin={walletCurrency}>
                 {Number(baseFiatFee) + Number(counterFiatFee)}
               </FiatDisplay>
-              <Icon
-                role='button'
-                data-e2e='toggleSwapFeesDropdown'
-                name='chevron-down'
-                cursor
-                size='24px'
-                color='grey900'
-                onClick={() => {
-                  setToggle((prev) => !prev)
-                }}
-              />
+              <IconWrapper toggle={toggle}>
+                <Icon
+                  role='button'
+                  data-e2e='toggleSwapFeesDropdown'
+                  name='chevron-down'
+                  cursor
+                  size='24px'
+                  color='blue600'
+                  onClick={() => {
+                    setToggle((prev) => !prev)
+                  }}
+                />
+              </IconWrapper>
             </HorizontalRow>
           </Value>
         </HorizontalRow>
         {toggle && (
           <>
             {base.type === SwapBaseCounterTypes.ACCOUNT && (
-              <HorizontalRow>
+              <HorizontalRow toggle={toggle}>
                 <Title style={{ fontSize: '12px' }} color='grey900'>
                   <FormattedMessage
                     id='copy.coin_network_fee'
@@ -181,7 +193,7 @@ const FeeBreakdownBox = ({
               </HorizontalRow>
             )}
             {counter.type === SwapBaseCounterTypes.ACCOUNT && (
-              <HorizontalRow>
+              <HorizontalRow toggle={toggle}>
                 <Title style={{ fontSize: '12px' }} color='grey900'>
                   <FormattedMessage
                     id='copy.coin_network_fee'

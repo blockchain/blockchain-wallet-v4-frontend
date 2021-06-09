@@ -47,10 +47,13 @@ const ViewTxWrapper = styled.div`
   }
 `
 class SwapOrderTx extends PureComponent<Props, State> {
-  state: State = { isToggled: false }
+  constructor(props: Props) {
+    super(props)
+    this.state = { isToggled: false }
+  }
 
   handleToggle = () => {
-    this.setState({ isToggled: !this.state.isToggled })
+    this.setState((prevState) => ({ isToggled: !prevState.isToggled }))
   }
 
   showModal = (order: ProcessedSwapOrderType) => {

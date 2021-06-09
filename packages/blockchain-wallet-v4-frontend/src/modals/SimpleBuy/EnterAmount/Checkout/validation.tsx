@@ -10,6 +10,7 @@ import {
   SBOrderActionType,
   SBPairType,
   SBPaymentMethodType,
+  SBPaymentTypes,
   SBQuoteType,
   SupportedWalletCurrenciesType,
   SwapQuoteType,
@@ -178,7 +179,7 @@ export const getMaxMin = (
           ).toString()
 
           let fundsChangedMax = false
-          if (method.type === 'FUNDS' && sbBalances && limits?.maxPossibleOrder) {
+          if (method.type === SBPaymentTypes.FUNDS && sbBalances && limits?.maxPossibleOrder) {
             const { available } = sbBalances[method.currency]
             // available is always in minor string
             const availableStandard = available

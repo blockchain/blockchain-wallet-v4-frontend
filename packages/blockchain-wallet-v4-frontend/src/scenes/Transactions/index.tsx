@@ -131,7 +131,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
 
   handleArchive = (address) => {
     // @ts-ignore
-    this.props.setAddressArchived && this.props.setAddressArchived(address)
+    if (this.props.setAddressArchived) this.props.setAddressArchived(address)
   }
 
   render() {
@@ -313,6 +313,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   if (coinfig.type.isFiat) {
     return {
       ...baseActions,
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       fetchData: () => {},
       initTxs: () =>
         dispatch(actions.components.fiatTransactions.initialized(coin as WalletFiatType)),

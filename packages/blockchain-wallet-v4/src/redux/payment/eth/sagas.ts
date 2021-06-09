@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import BigNumber from 'bignumber.js'
 import EthUtil from 'ethereumjs-util'
 import { identity, indexOf, isNil, mergeRight, path, prop, toLower } from 'ramda'
@@ -44,6 +45,8 @@ export default ({ api }) => {
           .getOrFail('Could not find ether account index')
       case ADDRESS_TYPES.LEGACY:
         return 1
+      default:
+        break
     }
   }
 
@@ -81,6 +84,8 @@ export default ({ api }) => {
       case ADDRESS_TYPES.LOCKBOX: {
         return yield call(eth.signWithLockbox, network, transport, scrambleKey, p.raw)
       }
+      default:
+        break
     }
   }
 
@@ -143,6 +148,7 @@ export default ({ api }) => {
 
       chain() {
         const chain = (gen, f) =>
+          // eslint-disable-next-line @typescript-eslint/no-use-before-define
           makeChain(function* () {
             return yield f(yield gen())
           })
@@ -150,21 +156,21 @@ export default ({ api }) => {
         const makeChain = (gen) => ({
           amount: (amount) => chain(gen, (payment) => payment.amount(amount)),
           build: () => chain(gen, (payment) => payment.build()),
+          description: (message) => chain(gen, (payment) => payment.description(message)),
+          *done() {
+            return yield gen()
+          },
           fee: (value) => chain(gen, (payment) => payment.fee(value)),
           fees: (fees) => chain(gen, (payment) => payment.fees(fees)),
           from: (origin, type) => chain(gen, (payment) => payment.from(origin, type)),
           init: (values) => chain(gen, (payment) => payment.init(values)),
           publish: () => chain(gen, (payment) => payment.publish()),
-          description: (message) => chain(gen, (payment) => payment.description(message)),
-          to: address => chain(gen, payment => payment.to(address)),
-          *done() {
-            return yield gen()
-          },
           setCoin: (coin) => chain(gen, (payment) => payment.setCoin(coin)),
           setIsContract: (val) => chain(gen, (payment) => payment.setIsContract(val)),
           setIsErc20: (val) => chain(gen, (payment) => payment.setIsErc20(val)),
           setIsRetryAttempt: (val) => chain(gen, (payment) => payment.setIsRetryAttempt(val)),
-          sign: password => chain(gen, payment => payment.sign(password))
+          sign: (password) => chain(gen, (payment) => payment.sign(password)),
+          to: (address) => chain(gen, (payment) => payment.to(address))
         })
 
         return makeChain(function* () {
@@ -243,8 +249,8 @@ export default ({ api }) => {
       },
 
       *from(origin, type: AddressTypesType, effectiveBalance?: string) {
-        let from
-        let unconfirmedTx
+        // eslint-disable-next-line one-var
+        let from, unconfirmedTx
 
         if (type === 'CUSTODIAL') {
           from = {
@@ -276,8 +282,8 @@ export default ({ api }) => {
       },
 
       *init({ coin, isErc20 }) {
-        let contractAddress
-        let fees
+        // eslint-disable-next-line one-var
+        let contractAddress, fees
         try {
           if (isErc20) {
             contractAddress = (yield select(

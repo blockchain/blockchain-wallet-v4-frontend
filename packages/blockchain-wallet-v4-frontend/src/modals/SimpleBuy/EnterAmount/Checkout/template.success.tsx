@@ -6,7 +6,12 @@ import styled from 'styled-components'
 import { Icon, Text } from 'blockchain-info-components'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { coinToString, fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import { CoinType, OrderType, SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
+import {
+  CoinType,
+  OrderType,
+  SBPaymentMethodType,
+  SBPaymentTypes
+} from 'blockchain-wallet-v4/src/types'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -61,7 +66,6 @@ const Amounts = styled.div`
   display: flex;
   justify-content: center;
 `
-
 const QuoteActionContainer = styled.div`
   height: 32px;
 `
@@ -171,7 +175,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     const card = cards[0]
 
     const defaultCardMethod = props.paymentMethods.methods.find(
-      (m) => m.type === 'PAYMENT_CARD' && orderType === 'BUY'
+      (m) => m.type === SBPaymentTypes.PAYMENT_CARD && orderType === 'BUY'
     )
     method = {
       ...card,
@@ -181,7 +185,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         defaultCardMethod && defaultCardMethod.limits
           ? defaultCardMethod.limits
           : { max: '10000', min: '500' },
-      type: 'USER_CARD'
+      type: SBPaymentTypes.USER_CARD
     } as SBPaymentMethodType
   }
 
@@ -466,7 +470,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               </>
             </Amounts>
           )}
-
         {!props.isSddFlow &&
           props.orderType === OrderType.SELL &&
           props.pair &&

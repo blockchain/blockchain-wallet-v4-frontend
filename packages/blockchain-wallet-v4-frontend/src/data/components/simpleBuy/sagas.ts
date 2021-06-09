@@ -16,6 +16,7 @@ import {
   SBCardStateType,
   SBCardType,
   SBOrderType,
+  SBPaymentTypes,
   SBProviderDetailsType,
   SBQuoteType,
   SupportedWalletCurrenciesType,
@@ -450,7 +451,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       } as WalletOptionsType['domains'])
 
       let attributes
-      if (order.paymentType === 'PAYMENT_CARD' || order.paymentType === 'USER_CARD') {
+      if (
+        order.paymentType === SBPaymentTypes.PAYMENT_CARD ||
+        order.paymentType === SBPaymentTypes.USER_CARD
+      ) {
         attributes =
           order.paymentMethodId || paymentMethodId
             ? {
@@ -484,7 +488,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         return yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
       }
       yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
-      if (order.paymentType === 'BANK_TRANSFER') {
+
+      if (order.paymentType === SBPaymentTypes.BANK_TRANSFER) {
         yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
       } else {
         yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER' }))
@@ -758,7 +763,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // t2 users who are invited to ACH beta will still get method since the API will
       // return that method if they are actually eligible
       if (currentUserTier !== 2) {
-        paymentMethods = paymentMethods.filter((method) => method.type !== 'BANK_TRANSFER')
+        paymentMethods = paymentMethods.filter(
+          (method) => method.type !== SBPaymentTypes.BANK_TRANSFER
+        )
       }
       yield put(
         A.fetchSBPaymentMethodsSuccess({
@@ -941,8 +948,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // https://blockc.slack.com/archives/GT1JZ1ZN2/p1596546978351100?thread_ts=1596541628.345800&cid=GT1JZ1ZN2
         // REMOVE THIS WHEN BACKEND CAN HANDLE PENDING 'FUNDS' ORDERS
         // 👇--------------------------------------------------------
-        case 'BANK_ACCOUNT':
-        case 'USER_CARD':
+        case SBPaymentTypes.BANK_ACCOUNT:
+        case SBPaymentTypes.USER_CARD:
           return yield put(
             A.setStep({
               step: 'KYC_REQUIRED'
@@ -950,11 +957,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           )
         // REMOVE THIS WHEN BACKEND CAN HANDLE PENDING 'FUNDS' ORDERS
         // 👆--------------------------------------------------------
-        case 'PAYMENT_CARD':
+        case SBPaymentTypes.PAYMENT_CARD:
           // ADD THIS WHEN BACKEND CAN HANDLE PENDING 'FUNDS' ORDERS
           // 👇-----------------------------------------------------
           // const methodType =
-          //   method.type === 'BANK_ACCOUNT' ? 'FUNDS' : method.type
+          //   method.type === SBPaymentTypes.BANK_ACCOUNT ? SBPaymentTypes.FUNDS : method.type
           // return yield put(A.createSBOrder(undefined, methodType))
           // 👆------------------------------------------------------
 
@@ -966,7 +973,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     // User is Tier 2
     switch (method.type) {
-      case 'BANK_ACCOUNT':
+      case SBPaymentTypes.BANK_ACCOUNT:
         return yield put(
           A.setStep({
             displayBack: true,
@@ -974,7 +981,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             step: 'BANK_WIRE_DETAILS'
           })
         )
-      case 'LINK_BANK':
+      case SBPaymentTypes.LINK_BANK:
         yield put(
           actions.components.brokerage.showModal(
             BrokerageModalOriginType.ADD_BANK,
@@ -987,7 +994,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           })
         )
 
-      case 'PAYMENT_CARD':
+      case SBPaymentTypes.PAYMENT_CARD:
         return yield put(
           A.setStep({
             step: 'ADD_CARD'
@@ -1157,7 +1164,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         if (order && order.state === 'PENDING_CONFIRMATION') {
           return yield put(A.confirmSBOrder(card.id, order))
         }
-        return yield put(A.createSBOrder('PAYMENT_CARD', card.id))
+
+        return yield put(A.createSBOrder(SBPaymentTypes.PAYMENT_CARD, card.id))
 
       default:
         yield call(pollSBCardErrorHandler, card.state)

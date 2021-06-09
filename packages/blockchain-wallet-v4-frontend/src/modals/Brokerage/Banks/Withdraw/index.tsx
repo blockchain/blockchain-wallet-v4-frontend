@@ -23,8 +23,11 @@ import EnterAmount from './EnterAmount'
 import WithdrawalDetails from './WithdrawalDetails'
 import WithdrawalMethods from './WithdrawalMethods'
 
-class Withdraw extends PureComponent<Props> {
-  state: State = { show: false }
+class Withdraw extends PureComponent<Props, State> {
+  constructor(props) {
+    super(props)
+    this.state = { show: false }
+  }
 
   componentDidMount() {
     /* eslint-disable */
@@ -131,9 +134,7 @@ type LinkStatePropsType =
       step: WithdrawStepEnum.WITHDRAWAL_METHODS
     }
 // export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-export type Props = OwnProps &
-  LinkStatePropsType &
-  ConnectedProps<typeof connector>
+export type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
 type State = { show: boolean }
 
 export default enhance(Withdraw)

@@ -8,6 +8,10 @@ enum AnalyticsKey {
   BUY_SELL_VIEWED = 'Buy Sell Viewed',
   DASHBOARD_CLICKED = 'Dashboard Clicked',
   DASHBOARD_VIEWED = 'Dashboard Viewed',
+  DEPOSIT_AMOUNT_ENTERED = 'Deposit Amount Entered', // not implemented
+  DEPOSIT_CLICKED = 'Deposit Clicked',
+  DEPOSIT_METHOD_SELECTED = 'Deposit Method Selected', // not implemented
+  DEPOSIT_VIEWED = 'Deposit Viewed',
   EMAIL_VERIFICATION_REQUESTED = 'Email Verification Requested',
   RECEIVE_CURRENCY_SELECTED = 'Receive Currency Selected',
   RECEIVE_DETAILS_COPIED = 'Receive Details Copied',
@@ -32,7 +36,9 @@ enum AnalyticsKey {
   SWAP_RECEIVE_SELECTED = 'Swap Receive Selected',
   SWAP_REQUESTED = 'Swap Requested',
   SWAP_VIEWED = 'Swap Viewed',
-  UPGRADE_VERIFICATION_CLICKED = 'Upgrade Verification Clicked'
+  UPGRADE_VERIFICATION_CLICKED = 'Upgrade Verification Clicked',
+  WRONG_CHANGE_CACHE = 'Wrong Change Cache',
+  WRONG_RECEIVE_CACHE = 'Wrong Receive Cache'
 }
 
 enum AnalyticsType {
@@ -67,6 +73,15 @@ enum FeeRateType {
   CUSTOM = 'CUSTOM',
   NORMAL = 'NORMAL',
   PRIORITY = 'PRIORITY'
+}
+
+enum DepositMethodType {
+  BANK_TRANSFER = 'BANK_TRANSFER'
+}
+
+enum SendReceiveType {
+  RECEIVE = 'RECEIVE',
+  SEND = 'SEND'
 }
 
 type BasePayload = {
@@ -127,7 +142,24 @@ type DashboardClickedPayload = BasePayload & {
 
 type DashboardViewedPayload = BasePayload & PageViewPayload & {}
 
-type EmailVerificationClicked = BasePayload & {
+type DepositAmountEnteredPayload = BasePayload & {
+  amount: number
+  currency: string
+  deposit_method: DepositMethodType
+}
+
+type DepositClickedPayload = BasePayload & {
+  origin: 'CURRENCY_PAGE' | 'PORTFOLIO'
+}
+
+type DepositMethodSelectedPayload = BasePayload & {
+  currency: string
+  deposit_method: DepositMethodType
+}
+
+type DepositViewedPayload = BasePayload & PageViewPayload & {}
+
+type EmailVerificationClickedPayload = BasePayload & {
   // origin: 'SIGN_UP' | 'VERIFICATION'
 }
 
@@ -249,7 +281,7 @@ type SwapReceiveSelectedPayload = BasePayload & {
   input_type: Omit<AccountType, AccountType.SAVINGS>
 }
 
-type SwapRequested = BasePayload & {
+type SwapRequestedPayload = BasePayload & {
   exchange_rate: number
   input_amount: number
   input_currency: string
@@ -276,6 +308,10 @@ type UpgradeVerificationClickedPayload = BasePayload & {
   tier: number
 }
 
+type WrongChangeCachePayload = BasePayload & {}
+
+type WrongReceiveCachePayload = BasePayload & {}
+
 type AnalyticsPayload =
   | AmountSwitchedPayload
   | BuyAmountEnteredPayload
@@ -286,7 +322,11 @@ type AnalyticsPayload =
   | BuySellViewedPayload
   | DashboardClickedPayload
   | DashboardViewedPayload
-  | EmailVerificationClicked
+  | DepositAmountEnteredPayload
+  | DepositClickedPayload
+  | DepositMethodSelectedPayload
+  | DepositViewedPayload
+  | EmailVerificationClickedPayload
   | ReceiveCurrencySelectedPayload
   | ReceiveDetailsCopiedPayload
   | SellAmountEnteredPayload
@@ -309,8 +349,10 @@ type AnalyticsPayload =
   | SwapAmountMinClickedPayload
   | SwapFromSelectedPayload
   | SwapReceiveSelectedPayload
-  | SwapRequested
+  | SwapRequestedPayload
   | UpgradeVerificationClickedPayload
+  | WrongChangeCachePayload
+  | WrongReceiveCachePayload
 
 type PageNamesType = '/home'
 // | '/interest'
@@ -320,4 +362,14 @@ type PageNamesType = '/home'
 
 export type { AnalyticsPayload, PageNamesType }
 
-export { AccountType, AnalyticsKey, AnalyticsType, CoinType, FeeRateType, OrderType, PaymentType }
+export {
+  AccountType,
+  AnalyticsKey,
+  AnalyticsType,
+  CoinType,
+  DepositMethodType,
+  FeeRateType,
+  OrderType,
+  PaymentType,
+  SendReceiveType
+}

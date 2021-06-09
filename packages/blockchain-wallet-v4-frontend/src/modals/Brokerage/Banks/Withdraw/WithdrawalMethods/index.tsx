@@ -6,12 +6,12 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import { getData } from './selectors'
+import getData from './selectors'
 import Failure from './template.failure'
 import Loading from './template.loading'
 import Success from './template.success'
 
-const WithdrawalMethods = props => {
+const WithdrawalMethods = (props) => {
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
       props.simpleBuyActions.fetchSBFiatEligible(props.fiatCurrency)
@@ -21,10 +21,10 @@ const WithdrawalMethods = props => {
   }, [])
 
   return props.data.cata({
-    Success: val => <Success {...val} {...props} />,
     Failure: () => <Failure {...props} />,
     Loading: () => <Loading />,
-    NotAsked: () => <Loading />
+    NotAsked: () => <Loading />,
+    Success: (val) => <Success {...val} {...props} />
   })
 }
 
