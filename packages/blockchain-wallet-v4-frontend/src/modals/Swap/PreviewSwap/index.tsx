@@ -31,7 +31,7 @@ const StyledRow = styled(Row)`
   justify-content: flex-start;
   align-items: center;
   padding-top: 30px;
-  padding-bottom: 30px;
+  padding-bottom: 24px;
 
   & > div:first-child {
     width: 100%;
@@ -176,7 +176,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
                 </IconWrapper>
               </ExchangeRateRow>
             </Title>
-            <Value data-e2e='swapExchangeRate'>
+            <Value data-e2e='swapExchangeRate' style={{ marginTop: 0 }}>
               {this.props.quoteR.cata({
                 Failure: () => (
                   <Text size='14px' color='red600'>
@@ -186,9 +186,9 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
                 Loading: () => <SkeletonRectangle height='18px' width='70px' />,
                 NotAsked: () => <SkeletonRectangle height='18px' width='70px' />,
                 Success: (val) => (
-                  <>
+                  <Text weight={400} color='grey900'>
                     1 {baseCoinTicker} = {formatCoin(val.rate)} {counterCoinTicker}
-                  </>
+                  </Text>
                 )
               })}
             </Value>
