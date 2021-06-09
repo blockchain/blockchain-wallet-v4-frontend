@@ -12,7 +12,6 @@ import Features from './template'
 class FeaturesContainer extends React.PureComponent<Props> {
   showModal = (type) => {
     const { coin, lockboxDeviceId, lockboxPath, modalActions, supportedCoins } = this.props
-    // :red_flag: coin is misnomer here!
 
     if (!window.coins[coin]) {
       if (type === 'REQUEST') {

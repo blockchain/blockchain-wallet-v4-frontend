@@ -7,5 +7,5 @@ export const getCoinFromPageUrl = (state): string | undefined => {
     // @ts-ignore
     nth(1, split('/', path(['router', 'location', 'pathname'], state)))
   )
-  return coin || undefined
+  return window.coins[coin] ? coin : undefined
 }
