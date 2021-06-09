@@ -11,7 +11,7 @@ import {
   getCoinFromPair,
   getFiatFromPair,
   getSellBaseAmount,
-  getSellCounterAmount,
+  getSellCounterAmount
 } from 'data/components/simpleBuy/model'
 
 import { BuyOrSell } from '../model'
@@ -100,7 +100,7 @@ const Success: React.FC<Props> = (props) => {
               <Value data-e2e='sbRate'>
                 {fiatToString({
                   unit: sellCounterCurrency,
-                  value: sellOrder.priceFunnel.price,
+                  value: sellOrder.priceFunnel.price
                 })}{' '}
                 / 1 {supportedCoins[sellBaseCurrency].coinTicker}
               </Value>
@@ -131,7 +131,7 @@ const Success: React.FC<Props> = (props) => {
             <Value data-e2e='sbSentTotal'>
               {fiatToString({
                 unit: sellCounterCurrency,
-                value: sellCounterAmount,
+                value: sellCounterAmount
               })}
             </Value>
           </Row>

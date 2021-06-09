@@ -23,7 +23,6 @@ import profileSagas from '../../modules/profile/sagas'
 import { convertStandardToBase } from '../exchange/services'
 import * as A from './actions'
 import * as AT from './actionTypes'
-import { DEFAULT_INTEREST_BALANCES } from './model'
 import utils from './sagas.utils'
 import * as S from './selectors'
 import { InterestDepositFormType, InterestWithdrawalFormType } from './types'
@@ -62,8 +61,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const fetchInterestBalance = function* () {
     try {
       yield put(A.fetchInterestBalanceLoading())
-      if (!(yield call(isTier2)))
-        return yield put(A.fetchInterestBalanceSuccess(DEFAULT_INTEREST_BALANCES))
+      if (!(yield call(isTier2))) return yield put(A.fetchInterestBalanceSuccess({}))
       const response: ReturnType<typeof api.getInterestAccountBalance> = yield call(
         api.getInterestAccountBalance
       )

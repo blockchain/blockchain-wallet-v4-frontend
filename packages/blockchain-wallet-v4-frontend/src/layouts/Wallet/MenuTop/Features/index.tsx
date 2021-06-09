@@ -3,7 +3,6 @@ import { connect, ConnectedProps } from 'react-redux'
 import { includes, keys } from 'ramda'
 import { bindActionCreators } from 'redux'
 
-import { CoinTypeEnum } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
 import { ModalNamesType } from 'data/types'
 
@@ -13,11 +12,11 @@ import Features from './template'
 class FeaturesContainer extends React.PureComponent<Props> {
   showModal = (type) => {
     const { coin, lockboxDeviceId, lockboxPath, modalActions, supportedCoins } = this.props
+    // :red_flag: coin is misnomer here!
 
     if (!window.coins[coin]) {
       if (type === 'REQUEST') {
         return modalActions.showModal('REQUEST_CRYPTO_MODAL', {
-          coin: coin in CoinTypeEnum && coin,
           origin: 'FeaturesTopNav'
         })
       }

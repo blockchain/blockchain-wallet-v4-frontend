@@ -12,7 +12,6 @@ import { coinToString, fiatToString } from 'blockchain-wallet-v4/src/exchange/ut
 import {
   AddressTypesType,
   CoinType,
-  CoinTypeEnum,
   ExtractSuccess,
   FiatType,
   FiatTypeEnum,
@@ -146,7 +145,7 @@ class WalletBalanceDropdown extends Component<Props> {
 
   handleRequest = () => {
     this.props.modalActions.showModal('REQUEST_CRYPTO_MODAL' as ModalNamesType, {
-      coin: this.props.coin in CoinTypeEnum && this.props.coin,
+      coin: !this.props.coinModel.coinfig.type.isFiat && this.props.coin,
       origin: 'WalletBalanceDropdown'
     })
   }

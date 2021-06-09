@@ -102,7 +102,7 @@ export const Icon: FunctionComponent<{
   weight?: number
   size?: string
   cursor?: boolean
-  color?: keyof DefaultTheme
+  color?: keyof DefaultTheme | string
   style?: CSSProperties
   onClick?: () => void
   role?: 'button'
@@ -238,7 +238,7 @@ export const TableCell: FunctionComponent<{
 export const TableHeader: FunctionComponent<{}>
 export const TableRow: FunctionComponent<{}>
 export const Text: FunctionComponent<{
-  color?: keyof DefaultTheme
+  color?: keyof DefaultTheme | string
   size?: string
   weight?: number
   style?: CSSProperties

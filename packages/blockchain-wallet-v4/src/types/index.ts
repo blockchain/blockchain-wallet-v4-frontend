@@ -41,21 +41,9 @@ export {
   TXNames,
   TXNotes,
   Wallet,
-  Wrapper,
+  Wrapper
 }
 
-export enum CoinTypeEnum {
-  ALGO,
-  BCH,
-  BTC,
-  DOT,
-  ETH,
-  PAX,
-  USDT,
-  WDGLD,
-  XLM,
-  YFI,
-}
 export enum FiatTypeEnum {
   EUR,
   USD,
@@ -78,19 +66,16 @@ export enum FiatTypeEnum {
   SEK,
   SGD,
   THB,
-  TWD,
+  TWD
 }
+
 export enum WalletFiatEnum {
   EUR,
   GBP,
-  USD,
+  USD
 }
 
-export const WalletCurrencyEnum = {
-  ...CoinTypeEnum,
-  ...WalletFiatEnum,
-}
-export type CoinType = keyof typeof CoinTypeEnum
+export type CoinType = string
 
 export type Erc20CoinType = string
 

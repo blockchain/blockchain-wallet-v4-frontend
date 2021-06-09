@@ -2,7 +2,6 @@ import { isNil, lift, mapObjIndexed, reject, values } from 'ramda'
 
 import {
   AccountTokensBalancesResponseType,
-  CoinTypeEnum,
   ExtractSuccess,
   SBPaymentTypes,
   SupportedWalletCurrencyType
@@ -43,7 +42,7 @@ export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
         return {
           ...coin,
           method:
-            coin.coinCode in CoinTypeEnum ||
+            !coin.coinfig.type.isFiat ||
             !!paymentMethods.methods.find(
               (method) => method.currency === coin.coinCode && method.type === SBPaymentTypes.FUNDS
             )

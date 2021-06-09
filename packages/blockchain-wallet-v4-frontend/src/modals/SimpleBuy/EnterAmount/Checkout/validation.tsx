@@ -180,7 +180,7 @@ export const getMaxMin = (
 
           let fundsChangedMax = false
           if (method.type === SBPaymentTypes.FUNDS && sbBalances && limits?.maxPossibleOrder) {
-            const { available } = sbBalances[method.currency]
+            const available = sbBalances[method.currency]?.available || '0'
             // available is always in minor string
             const availableStandard = available
               ? convertBaseToStandard('FIAT', available)

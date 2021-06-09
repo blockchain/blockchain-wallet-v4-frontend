@@ -2,8 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { WalletCurrencyEnum } from 'blockchain-wallet-v4/src/types'
-
 import { Image } from '..'
 import { BaseImage } from '../Images/Image'
 import Icomoon from './Icomoon'
@@ -44,8 +42,7 @@ const Icon = (props) => {
     }
   }
 
-  // if coin still exists in wallet currency enum
-  if (name in WalletCurrencyEnum) {
+  if (window.coins[name]) {
     return (
       <BaseIcon {...props}>
         <Image

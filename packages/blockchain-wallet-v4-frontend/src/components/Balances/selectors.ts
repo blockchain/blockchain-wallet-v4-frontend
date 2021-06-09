@@ -14,7 +14,6 @@ import {
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { DEFAULT_INTEREST_BALANCE } from 'data/components/interest/model'
 import { DEFAULT_SB_BALANCE } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
 
@@ -102,7 +101,7 @@ export const getEthBalance = createDeepEqualSelector(
     sbBalancesR: RemoteDataType<string, SBBalancesType>
   ) => {
     const interestEthBalance = interestAccountBalanceR.getOrElse({
-      ETH: DEFAULT_INTEREST_BALANCE
+      ETH: { balance: '0' } as InterestAccountBalanceType['ETH']
     }).ETH
     const interestBalance = interestEthBalance ? interestEthBalance.balance : 0
     const sbEthBalance = sbBalancesR.getOrElse({ ETH: DEFAULT_SB_BALANCE }).ETH
@@ -151,7 +150,7 @@ export const getXlmBalance = createDeepEqualSelector(
     sbBalancesR: RemoteDataType<string, SBBalancesType>
   ) => {
     const interestXlmBalance = interestAccountBalanceR.getOrElse({
-      XLM: DEFAULT_INTEREST_BALANCE
+      XLM: { balance: '0' } as InterestAccountBalanceType['XLM']
     }).XLM
     const interestBalance = interestXlmBalance ? interestXlmBalance.balance : '0'
     const sbXlmBalance = sbBalancesR.getOrElse({ XLM: DEFAULT_SB_BALANCE }).XLM

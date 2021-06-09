@@ -9,14 +9,12 @@ import styled from 'styled-components'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import {
   CoinType,
-  CoinTypeEnum,
   FiatType,
   FiatTypeEnum,
   OrderType,
   SupportedWalletCurrencyType,
   TimeRange,
   WalletCurrencyType,
-  WalletFiatEnum,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import EmptyResults from 'components/EmptyResults'
@@ -164,7 +162,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 </Text>
               </CoinTitle>
               <TitleActionContainer>
-                {coin in CoinTypeEnum && (
+                {!coinfig.type.isFiat && (
                   <>
                     <Button
                       nature='primary'
@@ -197,7 +195,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                     </Button>
                   </>
                 )}
-                {coin in WalletFiatEnum && (
+                {coinfig.type.isFiat && (
                   <>
                     {window.coins[coin].coinfig.type.isFiat && (
                       <Button
@@ -253,10 +251,10 @@ class TransactionsContainer extends React.PureComponent<Props> {
             </ExplainerWrapper>
             <StatsContainer>
               <WalletBalanceDropdown coin={coin} coinModel={coinModel} />
-              {coin in CoinTypeEnum && <CoinPerformance coin={coin} coinModel={coinModel} />}
+              {!coinfig.type.isFiat && <CoinPerformance coin={coin} coinModel={coinModel} />}
             </StatsContainer>
           </Header>
-          {(hasTxResults || isSearchEntered) && coin in CoinTypeEnum && (
+          {(hasTxResults || isSearchEntered) && !coinfig.type.isFiat && (
             <TransactionFilters coin={coin as CoinType} />
           )}
           {!hasTxResults && isSearchEntered && (

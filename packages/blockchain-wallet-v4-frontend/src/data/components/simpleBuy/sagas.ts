@@ -7,7 +7,6 @@ import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux
 import { Remote } from 'blockchain-wallet-v4/src'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import {
-  CoinTypeEnum,
   Everypay3DSResponseType,
   FiatEligibleType,
   OrderType,
@@ -688,7 +687,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         .getOrElse({} as SupportedWalletCurrenciesType)
       const filteredPairs = pairs.filter((pair) => {
         return (
-          getCoinFromPair(pair.pair) in CoinTypeEnum &&
+          !supportedCoins[getCoinFromPair(pair.pair)].isFiat &&
           supportedCoins[getCoinFromPair(pair.pair)].invited
         )
       })
