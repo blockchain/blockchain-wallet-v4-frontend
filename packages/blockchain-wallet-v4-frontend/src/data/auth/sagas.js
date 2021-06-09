@@ -143,8 +143,6 @@ export default ({ api, coreSagas }) => {
 
   const checkXpubCacheLegitimacy = function* () {
     const wallet = yield select(selectors.core.wallet.getWallet)
-    if (Types.Wallet.isDoubleEncrypted(wallet)) return
-
     const accounts = Types.Wallet.selectHDAccounts(wallet)
     const first5 = accounts.slice(0, 5)
 
