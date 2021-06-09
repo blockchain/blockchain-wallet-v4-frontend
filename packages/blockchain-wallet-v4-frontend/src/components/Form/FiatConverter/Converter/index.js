@@ -7,19 +7,22 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import Converter from './template'
 
 const convertFiatToCoin = (unit, value, currency, rates) => ({
-  coin: Exchange.convertFiatToCoin({ coin: unit, currency, rates, value }),
+  coin: Exchange.convertFiatToCoin({ coin: unit, currency, maxPrecision: 8, rates, value }),
   coinCode: unit,
-  fiat: value,
+  fiat: value
 })
 
 const convertCoinToFiat = (unit, value, currency, rates) => ({
   coin: value,
   coinCode: unit,
-  fiat: Exchange.convertCoinToFiat({ coin: unit, currency, isStandard: true, rates, value }),
+  fiat: Exchange.convertCoinToFiat({ coin: unit, currency, isStandard: true, rates, value })
 })
 
 class ConverterContainer extends React.PureComponent {
-  state = { coin: '', fiat: '' }
+  constructor(props) {
+    super(props)
+    this.state = { coin: '', fiat: '' }
+  }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (!equals(nextProps.value, prevState)) {
@@ -41,6 +44,7 @@ class ConverterContainer extends React.PureComponent {
     const val = needsFormatting ? Number(e.target.value).toFixed(2) : e.target.value
 
     const nextProps = convertFiatToCoin(unit, val, currency, rates)
+    debugger
     this.props.onChange(nextProps)
   }
 
@@ -62,7 +66,7 @@ class ConverterContainer extends React.PureComponent {
       errorBottom,
       marginTop,
       meta,
-      unit,
+      unit
     } = this.props
     return (
       <Converter
@@ -93,7 +97,7 @@ ConverterContainer.propTypes = {
   onFocus: PropTypes.func.isRequired,
   rates: PropTypes.object.isRequired,
   unit: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired
 }
 
 export default ConverterContainer

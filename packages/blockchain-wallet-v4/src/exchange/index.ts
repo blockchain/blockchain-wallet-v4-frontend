@@ -76,18 +76,20 @@ const convertFiatToCoin = ({
   currency,
   rates,
   value,
+  maxPrecision
 }: {
   coin: CoinType
   currency: keyof FiatCurrenciesType
   rates: RatesType
   value: number | string
+  maxPrecision?: number
 }): string => {
   if (!value) return '0'
 
   const { coinfig } = window.coins[coin]
   const { last } = rates[currency]
 
-  return new BigNumber(value).dividedBy(last).toFixed(coinfig.precision)
+  return new BigNumber(value).dividedBy(last).toFixed(maxPrecision || coinfig.precision)
 }
 
 // 🔺Triangulate Wallet Fiat -> BTC -> To other Fiat
