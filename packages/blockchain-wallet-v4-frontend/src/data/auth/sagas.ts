@@ -93,13 +93,13 @@ export default ({ api, coreSagas }) => {
     yield put(actions.middleware.webSocket.xlm.startStreams())
   }
 
-  const authNabu = function* () {
+  const authNabu = function* (fromRestoredFlow) {
     yield put(actions.components.identityVerification.fetchSupportedCountries())
     yield take([
       actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES_SUCCESS,
       actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES_FAILURE
     ])
-    yield put(actions.modules.profile.signIn())
+    yield put(actions.modules.profile.signIn(fromRestoredFlow))
   }
 
   const fetchBalances = function* () {
@@ -197,7 +197,7 @@ export default ({ api, coreSagas }) => {
     yield call(logout)
   }
 
-  const loginRoutineSaga = function* (mobileLogin, firstLogin, email) {
+  const loginRoutineSaga = function* ({ email, firstLogin, fromRestoredFlow, mobileLogin }) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
@@ -215,6 +215,11 @@ export default ({ api, coreSagas }) => {
         yield put(actions.auth.upgradeWallet(4))
         yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
       }
+      // Adding this to sync isMnemonicVerified flags
+      const lastMnemonicBackup = selectors.core.settings
+        .getLastMnemonicBackup(yield select())
+        .getOrElse(true)
+      const isMnemonicVerified = yield select(selectors.core.wallet.isMnemonicVerified)
       // Finish upgrades
       yield put(actions.auth.authenticate())
       yield put(actions.auth.setFirstLogin(firstLogin))
@@ -241,7 +246,7 @@ export default ({ api, coreSagas }) => {
         yield put(actions.router.push('/home'))
       }
 
-      yield call(authNabu)
+      yield call(authNabu, fromRestoredFlow)
       yield call(fetchBalances)
       yield call(saveGoals, firstLogin)
       yield put(actions.goals.runGoals())
@@ -274,7 +279,12 @@ export default ({ api, coreSagas }) => {
 
       // check/update btc account names
       yield call(coreSagas.wallet.checkAndUpdateWalletNames)
-
+      // We are checking wallet metadata to see if mnemonic is verified
+      // and then syncing that information with new Wallet Account model
+      // being used for SSO
+      if (isMnemonicVerified && !lastMnemonicBackup) {
+        yield put(actions.wallet.updateMnemonicBackup())
+      }
       yield fork(checkExchangeUsage)
       yield fork(checkDataErrors)
       // @ts-ignore
@@ -322,7 +332,7 @@ export default ({ api, coreSagas }) => {
         sharedKey
       })
       // @ts-ignore
-      yield call(loginRoutineSaga, mobileLogin)
+      yield call(loginRoutineSaga, { mobileLogin: true })
       yield put(stopSubmit('login'))
     } catch (error) {
       const initialError = prop('initial_error', error)
@@ -351,7 +361,7 @@ export default ({ api, coreSagas }) => {
               session
             })
             // @ts-ignore
-            yield call(loginRoutineSaga, mobileLogin)
+            yield call(loginRoutineSaga, { mobileLogin: true })
           } catch (error) {
             if (error && error.auth_type > 0) {
               yield put(actions.auth.setAuthType(error.auth_type))
@@ -432,7 +442,12 @@ export default ({ api, coreSagas }) => {
       yield put(actions.auth.setRegisterEmail(action.payload.email))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
-      yield call(loginRoutineSaga, false, true, action.payload.email)
+      yield call(loginRoutineSaga, {
+        email: action.payload.email,
+        firstLogin: true,
+        fromRestoredFlow: false,
+        mobileLogin: false
+      })
       yield put(actions.auth.registerSuccess())
     } catch (e) {
       yield put(actions.auth.registerFailure())
@@ -470,7 +485,12 @@ export default ({ api, coreSagas }) => {
       })
       yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
       // @ts-ignore
-      yield call(loginRoutineSaga, false, true, true)
+      yield call(loginRoutineSaga, {
+        email: true,
+        firstLogin: true,
+        fromRestoredFlow: true,
+        mobileLogin: false
+      })
       yield put(actions.auth.restoreSuccess())
     } catch (e) {
       yield put(actions.auth.restoreFailure())

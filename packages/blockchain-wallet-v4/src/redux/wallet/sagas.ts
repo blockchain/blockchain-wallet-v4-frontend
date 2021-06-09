@@ -395,6 +395,17 @@ export default ({ api, networks }) => {
     }
   }
 
+  const updateMnemonicBackup = function* () {
+    const sharedKey = yield select(S.getSharedKey)
+    const guid = yield select(S.getGuid)
+    yield call(api.updateMnemonicBackup, sharedKey, guid)
+  }
+
+  const triggerMnemonicViewedAlert = function* () {
+    const sharedKey = yield select(S.getSharedKey)
+    const guid = yield select(S.getGuid)
+    yield call(api.triggerMnemonicViewedAlert, sharedKey, guid)
+  }
   return {
     checkAndUpdateWalletNames,
     createWalletSaga,
@@ -408,6 +419,8 @@ export default ({ api, networks }) => {
     restoreWalletSaga_DEPRECATED_V3,
     setHDAddressLabel,
     toggleSecondPassword,
+    triggerMnemonicViewedAlert,
+    updateMnemonicBackup,
     updatePbkdf2Iterations,
     upgradeToV3,
     upgradeToV4
