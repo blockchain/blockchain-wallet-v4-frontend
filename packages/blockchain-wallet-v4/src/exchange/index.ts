@@ -118,7 +118,7 @@ const convertFiatToFiat = ({
 const displayCoinToCoin = ({
   coin,
   isFiat,
-  value,
+  value = 0,
 }: {
   coin: string
   isFiat?: boolean
