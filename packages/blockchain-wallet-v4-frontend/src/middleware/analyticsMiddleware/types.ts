@@ -278,6 +278,10 @@ type UpgradeVerificationClickedPayload = BasePayload & {
   tier: number
 }
 
+type WrongChangeCachePayload = BasePayload & {}
+
+type WrongReceiveCachePayload = BasePayload & {}
+
 type AnalyticsPayload =
   | AmountSwitchedPayload
   | BuyAmountEnteredPayload
@@ -313,6 +317,8 @@ type AnalyticsPayload =
   | SwapReceiveSelectedPayload
   | SwapRequested
   | UpgradeVerificationClickedPayload
+  | WrongChangeCachePayload
+  | WrongReceiveCachePayload
 
 type PageNamesType = '/home'
 // | '/interest'
