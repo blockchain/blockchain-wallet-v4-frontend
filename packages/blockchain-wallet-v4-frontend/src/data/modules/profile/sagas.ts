@@ -201,7 +201,7 @@ export default ({ api, coreSagas, networks }) => {
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail('No email')
       const guid = yield select(selectors.core.wallet.getGuid)
       yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
-      if (action.payload.restored) {
+      if (action.payload.fromRestoredFlow) {
         yield put(A.resetUser())
       }
 

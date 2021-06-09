@@ -2153,7 +2153,7 @@ type MessagesType = {
   'scenes.recover.firststep.funds': 'Recover Funds'
   'scenes.recover.firststep.mnemonic1': 'Your Secret Private Key Recovery Phrase'
   'scenes.recover.firststep.mnemonic_explain': 'Enter your 12 word phrase, lowercase, with spaces between each word, to recover your funds & transactions.'
-  'scenes.recover.firststep.mnemonic_explain_verification': 'For your security, you may have to re-verify your identity before accessing your trading or interest account.'
+  'scenes.recover.firststep.mnemonic_explain_verification': 'For your security, you may have to re-verify your identity before accessing your Trading or Interest accounts.'
   'scenes.recover.firststep.warning': 'You should always pair or login if you have access to your wallet ID/wallet email and password.'
   'scenes.recover.secondstep.confirmapassword': 'Confirm Password'
   'scenes.recover.secondstep.email': 'New Email'
