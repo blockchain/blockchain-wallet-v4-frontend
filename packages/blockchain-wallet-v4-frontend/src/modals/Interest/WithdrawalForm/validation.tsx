@@ -22,7 +22,7 @@ export const maximumWithdrawalAmount = (
         currency: walletCurrency,
         isStandard: true,
         rates,
-        value: availToWithdrawCrypto,
+        value: availToWithdrawCrypto
       })
   return new BigNumber(Number(withdrawalLimit)).isLessThan(Number(value)) ? (
     <FormattedMessage
@@ -48,7 +48,7 @@ export const minimumWithdrawalAmount = (
         currency: walletCurrency,
         isStandard: true,
         rates,
-        value: MIN_WITHDRAWAL,
+        value: MIN_WITHDRAWAL
       })
 
   return new BigNumber(Number(withdrawalMin)).isGreaterThan(Number(value)) ? (
@@ -56,8 +56,8 @@ export const minimumWithdrawalAmount = (
       id='interest.withdrawal.validation.belowminamount'
       defaultMessage='Amount is below the minimum withdrawal amount of {withdrawalMin} {currency}.'
       values={{
-        currency: displayCoin && coin === 'PAX' ? 'USD-D' : displayCoin ? coin : walletCurrency,
-        withdrawalMin,
+        currency: displayCoin ? coin : walletCurrency,
+        withdrawalMin
       }}
     />
   ) : (

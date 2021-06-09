@@ -370,11 +370,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const routeToTxHash = function* ({ payload }: ReturnType<typeof A.routeToTxHash>) {
     const { coin, txHash } = payload
-    if (coin === 'PAX') {
-      yield put(actions.router.push(`/usd-d/transactions`))
-    } else {
-      yield put(actions.router.push(`/${coin}/transactions`))
-    }
+    yield put(actions.router.push(`/${coin}/transactions`))
     yield delay(1000)
     yield put(actions.form.change('walletTxSearch', 'search', txHash))
   }

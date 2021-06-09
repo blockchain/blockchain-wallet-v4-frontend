@@ -358,10 +358,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchErc20TransactionHistoryLoading(token))
       const defaultAccountR = yield select(selectors.kvStore.eth.getContext)
       const ethAddress = address || defaultAccountR.getOrFail(CONTEXT_FAILURE)
-      const contractAddress = (yield select(
-        selectors.kvStore.eth.getErc20ContractAddr,
-        token
-      )).getOrFail()
+      const contractAddress = window.coins[token].coinfig.type.erc20Address
 
       // fetch account summary without any txs since erc2
       const accountSummary = yield call(
@@ -391,6 +388,8 @@ export default ({ api }: { api: APIType }) => {
         fullTxList = fullTxList.concat(prop('transfers', txPage))
         currentPage++
       }
+
+      debugger
 
       // process txs further for report
       const processedTxList = yield call(
@@ -489,7 +488,9 @@ export default ({ api }: { api: APIType }) => {
   const __processErc20ReportTxs = function* (rawTxList, startDate, endDate, token) {
     // @ts-ignore
     const fullTxList = yield call(__processErc20Txs, rawTxList)
-    const paxMarketData = (yield select(selectors.data.eth.getErc20Rates, token)).getOrFail()
+    const marketData = (yield select(selectors.data.eth.getErc20Rates, token)).getOrFail()
+
+    debugger
 
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter(
@@ -517,7 +518,7 @@ export default ({ api }: { api: APIType }) => {
       __buildTransactionReportModel,
       prunedTxList,
       historicalPrices,
-      prop(currency, paxMarketData),
+      prop(currency, marketData),
       toUpper(token)
     )
   }

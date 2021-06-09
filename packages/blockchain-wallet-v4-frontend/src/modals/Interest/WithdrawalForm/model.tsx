@@ -69,15 +69,10 @@ export const CustomFormLabel = styled.div`
   margin-top: 24px;
   margin-bottom: 10px;
 `
-const displayCoinPadding = (displayCoin: boolean) => (displayCoin ? '46px' : '42px')
 
 export const CustomField = styled(Field)<BaseFieldProps & { coin: CoinType; displayCoin: boolean }>`
   > input {
-    padding-left: ${(props) =>
-      props.displayCoin && (props.coin === 'USDT' || props.coin === 'PAX')
-        ? '64px'
-        : displayCoinPadding(props.displayCoin)};
-  }
+    padding-left: ${(props) => `${props.coin.length * 14}px`}
 `
 export const AmountFieldContainer = styled.div`
   display: flex;
