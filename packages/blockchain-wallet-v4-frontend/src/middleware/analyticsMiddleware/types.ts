@@ -8,23 +8,26 @@ enum AnalyticsKey {
   BUY_SELL_VIEWED = 'Buy Sell Viewed',
   DASHBOARD_CLICKED = 'Dashboard Clicked',
   DASHBOARD_VIEWED = 'Dashboard Viewed',
-  DEPOSIT_AMOUNT_ENTERED = 'Deposit Amount Entered', // not implemented
+  DEPOSIT_AMOUNT_ENTERED = 'Deposit Amount Entered',
   DEPOSIT_CLICKED = 'Deposit Clicked',
-  DEPOSIT_METHOD_SELECTED = 'Deposit Method Selected', // not implemented
+  DEPOSIT_METHOD_SELECTED = 'Deposit Method Selected',
   DEPOSIT_VIEWED = 'Deposit Viewed',
   EMAIL_VERIFICATION_REQUESTED = 'Email Verification Requested',
+  LINK_BANK_CLICKED = 'Link Bank Clicked', // TODO
+  LINK_BANK_CONDITIONS_APPROVED = 'Link Bank Conditions Approved', // TODO
+  LINK_BANK_SELECTED = 'Link Bank Selected', // TODO
   RECEIVE_CURRENCY_SELECTED = 'Receive Currency Selected',
   RECEIVE_DETAILS_COPIED = 'Receive Details Copied',
   SELL_AMOUNT_ENTERED = 'Sell Amount Entered',
   SELL_AMOUNT_MAX_CLICKED = 'Sell Amount Max Clicked',
   SELL_AMOUNT_MIN_CLICKED = 'Sell Amount Min Clicked',
   SELL_FROM_SELECTED = 'Sell From Selected',
-  SEND_AMOUNT_MAX_CLICKED = 'Send Amount Max Clicked', // not implemented - blocked
-  SEND_FEE_RATE_SELECTED = 'Send Fee Rate Selected', // not implemented - blocked
-  SEND_FROM_SELECTED = 'Send From Selected', // not implemented - blocked
+  SEND_AMOUNT_MAX_CLICKED = 'Send Amount Max Clicked', // blocked
+  SEND_FEE_RATE_SELECTED = 'Send Fee Rate Selected', // blocked
+  SEND_FROM_SELECTED = 'Send From Selected', // blocked
   SEND_RECEIVE_CLICKED = 'Send Receive Clicked', // half implemented
   SEND_RECEIVE_VIEWED = 'Send Receive Viewed', // half implemented
-  SEND_SUBMITTED = 'Send Submitted', // not implemented - blocked
+  SEND_SUBMITTED = 'Send Submitted', // blocked
   SIGNED_IN = 'Signed In',
   SIGNED_OUT = 'Signed Out',
   SWAP_ACCOUNTS_SELECTED = 'Swap Accounts Selected',
@@ -37,6 +40,12 @@ enum AnalyticsKey {
   SWAP_REQUESTED = 'Swap Requested',
   SWAP_VIEWED = 'Swap Viewed',
   UPGRADE_VERIFICATION_CLICKED = 'Upgrade Verification Clicked',
+  WITHDRAWAL_AMOUNT_ENTERED = 'Withdrawal Amount Entered', // TODO
+  WITHDRAWAL_AMOUNT_MAX_CLICKED = 'Withdrawal Amount Max Clicked', // TODO
+  WITHDRAWAL_AMOUNT_MIN_CLICKED = 'Withdrawal Amount Min Clicked', // TODO
+  WITHDRAWAL_CLICKED = 'Withdrawal Clicked', // TODO
+  WITHDRAWAL_METHOD_SELECTED = 'Withdrawal Method Selected', // TODO
+  WITHDRAWAL_VIEWED = 'Withdrawal Viewed', // TODO
   WRONG_CHANGE_CACHE = 'Wrong Change Cache',
   WRONG_RECEIVE_CACHE = 'Wrong Receive Cache'
 }
@@ -84,6 +93,21 @@ enum SendReceiveType {
   SEND = 'SEND'
 }
 
+enum BankPartnerType {
+  YAPILY = 'YAPILY',
+  YODLEE = 'YODLEE'
+}
+
+enum BankProviderType {
+  FINTECTURE = 'FINTECTURE',
+  SAFE_CONNECT = 'SAFE_CONNECT'
+}
+
+enum WithdrawalMethodType {
+  BANK_ACCOUNT = 'BANK_ACCOUNT',
+  BANK_TRANSFER = 'BANK_TRANSFER'
+}
+
 type BasePayload = {
   analyticsType: AnalyticsType
   id: string
@@ -98,6 +122,12 @@ type PageViewPayload = {
   title: string
   url: string
 }
+
+type PageNamesType = '/home'
+// | '/interest'
+// | '/settings/general'
+// | '/settings/preferences'
+// | '/settings/addresses'
 
 type AmountSwitchedPayload = BasePayload & {
   product: 'SAVINGS' | 'SIMPLEBUY' | 'SWAP'
@@ -161,6 +191,21 @@ type DepositViewedPayload = BasePayload & PageViewPayload & {}
 
 type EmailVerificationClickedPayload = BasePayload & {
   // origin: 'SIGN_UP' | 'VERIFICATION'
+}
+
+type LinkBankClickedPayload = BasePayload & {
+  // origin: 'BUY' |'DEPOSIT' | 'SETTINGS' | 'WITHDRAW'
+}
+
+type LinkBankConditionsApprovedPayload = BasePayload & {
+  bank_name: string
+  partner: BankPartnerType
+  provider: BankProviderType
+}
+
+type LinkBankSelected = BasePayload & {
+  bank_name: string
+  partner: BankPartnerType
 }
 
 type ReceiveCurrencySelectedPayload = BasePayload & {
@@ -308,6 +353,35 @@ type UpgradeVerificationClickedPayload = BasePayload & {
   tier: number
 }
 
+type WithdrawalAmountEnteredPayload = BasePayload & {
+  currency: string
+  input_amount: number
+  output_amount: number
+  withdrawal_method: WithdrawalMethodType
+}
+
+type WithdrawalAmountMaxClickedPayload = BasePayload & {
+  amount_currency: string
+  currency: string
+  withdrawal_method: WithdrawalMethodType
+}
+type WithdrawalAmountMinClickedPayload = BasePayload & {
+  amount_currency: string
+  currency: string
+  withdrawal_method: WithdrawalMethodType
+}
+
+type WithdrawalClickedPayload = BasePayload & {
+  // origin: 'CURRENCY_PAGE' | 'PORTFOLIO'
+}
+
+type WithdrawalMethodSelectedPayload = BasePayload & {
+  currency: string
+  withdrawal_method: WithdrawalMethodType
+}
+
+type WithdrawalViewedPayload = BasePayload & PageViewPayload & {}
+
 type WrongChangeCachePayload = BasePayload & {}
 
 type WrongReceiveCachePayload = BasePayload & {}
@@ -327,6 +401,9 @@ type AnalyticsPayload =
   | DepositMethodSelectedPayload
   | DepositViewedPayload
   | EmailVerificationClickedPayload
+  | LinkBankClickedPayload
+  | LinkBankConditionsApprovedPayload
+  | LinkBankSelected
   | ReceiveCurrencySelectedPayload
   | ReceiveDetailsCopiedPayload
   | SellAmountEnteredPayload
@@ -351,14 +428,14 @@ type AnalyticsPayload =
   | SwapReceiveSelectedPayload
   | SwapRequestedPayload
   | UpgradeVerificationClickedPayload
+  | WithdrawalAmountEnteredPayload
+  | WithdrawalAmountMaxClickedPayload
+  | WithdrawalAmountMinClickedPayload
+  | WithdrawalClickedPayload
+  | WithdrawalViewedPayload
+  | WithdrawalMethodSelectedPayload
   | WrongChangeCachePayload
   | WrongReceiveCachePayload
-
-type PageNamesType = '/home'
-// | '/interest'
-// | '/settings/general'
-// | '/settings/preferences'
-// | '/settings/addresses'
 
 export type { AnalyticsPayload, PageNamesType }
 
