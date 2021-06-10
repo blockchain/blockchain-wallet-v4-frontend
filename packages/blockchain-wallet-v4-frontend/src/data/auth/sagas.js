@@ -159,9 +159,13 @@ export default ({ api, coreSagas }) => {
 
         if (receiveAccount !== validReceive) {
           isValidReceive = false
+          // eslint-disable-next-line
+          console.log(`Receive cache is incorrect for ${derivation.type} at ${account.index}`)
         }
         if (changeAccount !== validChange) {
           isValidChange = false
+          // eslint-disable-next-line
+          console.log(`Change cache is incorrect for ${derivation.type} at ${account.index}`)
         }
       })
     })

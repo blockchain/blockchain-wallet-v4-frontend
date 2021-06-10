@@ -849,7 +849,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           nabuId,
           originalTimestamp: getOriginalTimestamp()
         })
-
         break
       }
 
