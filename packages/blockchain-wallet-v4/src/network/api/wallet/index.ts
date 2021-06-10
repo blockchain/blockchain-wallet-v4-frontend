@@ -139,21 +139,27 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
-  const remindGuid = (email, captchaToken, sessionToken) =>
+  const remindGuid = (email, captchaToken, sessionToken) => {
+    // @ts-ignore
+    const recaptchaKey = RECAPTCHA_KEY
     post({
-      data: { captcha: captchaToken, email, method: 'send-guid-reminder' },
+      data: { captcha: captchaToken, email, method: 'send-guid-reminder', siteKey: recaptchaKey },
       endPoint: '/wallet',
       sessionToken,
       url: rootUrl
     })
+  }
 
-  const loginGuid = (email, captchaToken, sessionToken) =>
+  const loginGuid = (email, captchaToken, sessionToken) => {
+    // @ts-ignore
+    const recaptchaKey = RECAPTCHA_KEY
     post({
-      data: { captcha: captchaToken, email, method: 'send-guid-reminder' },
+      data: { captcha: captchaToken, email, method: 'send-guid-reminder', siteKey: recaptchaKey },
       endPoint: '/wallet',
       sessionToken,
       url: rootUrl
     })
+  }
 
   // marks timestamp when user last backed up phrase
   const updateMnemonicBackup = (sharedKey, guid) =>
