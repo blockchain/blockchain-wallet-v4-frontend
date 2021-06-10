@@ -2,20 +2,12 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import {
-  ExtractSuccess,
-  RemoteDataType,
-  WalletFiatType
-} from 'blockchain-wallet-v4/src/types'
+import { ExtractSuccess, RemoteDataType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import {
-  AddBankStepType,
-  BankTransferAccountType,
-  BrokerageModalOriginType
-} from 'data/types'
+import { AddBankStepType, BankTransferAccountType, BrokerageModalOriginType } from 'data/types'
 
-import { getData } from './selectors'
+import getData from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 
@@ -28,9 +20,7 @@ class LinkedBanks extends PureComponent<Props> {
   handleBankClick = () => {
     this.props.brokerageActions.showModal(
       BrokerageModalOriginType.ADD_BANK,
-      this.props.fiatCurrency === 'USD'
-        ? 'ADD_BANK_YODLEE_MODAL'
-        : 'ADD_BANK_YAPILY_MODAL'
+      this.props.fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
     )
     this.props.brokerageActions.setAddBankStep({
       addBankStep: AddBankStepType.ADD_BANK
@@ -38,20 +28,14 @@ class LinkedBanks extends PureComponent<Props> {
   }
 
   handleShowBankClick = (account: BankTransferAccountType) => {
-    this.props.brokerageActions.showModal(
-      BrokerageModalOriginType.BANK,
-      'BANK_DETAILS_MODAL'
-    )
+    this.props.brokerageActions.showModal(BrokerageModalOriginType.BANK, 'BANK_DETAILS_MODAL')
     this.props.brokerageActions.setBankDetails({
       account
     })
   }
 
   handleDeleteBank = (account: BankTransferAccountType) => {
-    this.props.brokerageActions.showModal(
-      BrokerageModalOriginType.BANK,
-      'REMOVE_BANK_MODAL'
-    )
+    this.props.brokerageActions.showModal(BrokerageModalOriginType.BANK, 'REMOVE_BANK_MODAL')
     this.props.brokerageActions.setBankDetails({
       account
     })
@@ -59,7 +43,10 @@ class LinkedBanks extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => (
+      Failure: () => null,
+      Loading: () => <Loading />,
+      NotAsked: () => null,
+      Success: (val) => (
         <Success
           {...this.props}
           {...val}
@@ -67,10 +54,7 @@ class LinkedBanks extends PureComponent<Props> {
           handleShowBankClick={this.handleShowBankClick}
           handleDeleteBank={this.handleDeleteBank}
         />
-      ),
-      Loading: () => <Loading />,
-      Failure: () => null,
-      NotAsked: () => null
+      )
     })
   }
 }
@@ -82,9 +66,9 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   custodialActions: bindActionCreators(actions.custodial, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
 })
 

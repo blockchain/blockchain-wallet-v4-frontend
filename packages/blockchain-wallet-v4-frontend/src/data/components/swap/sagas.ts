@@ -29,7 +29,8 @@ import {
   InitSwapFormValuesType,
   MempoolFeeType,
   SwapAccountType,
-  SwapAmountFormValues
+  SwapAmountFormValues,
+  SwapBaseCounterTypes
 } from './types'
 import { getDirection, getPair, getRate, NO_QUOTE } from './utils'
 
@@ -146,11 +147,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       payment = yield payment.amount(paymentAmount)
       // TODO, add isMemoBased check
       const sampleAddr = quote.sampleDepositAddress.split(':')[0]
-      return (yield payment
-        .chain()
-        .to(sampleAddr, 'ADDRESS')
-        .build()
-        .done()).value()
+      return (yield payment.chain().to(sampleAddr, 'ADDRESS').build().done()).value()
     } catch (e) {
       // eslint-disable-next-line
       console.log(e)
@@ -354,7 +351,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         : Exchange.convertFiatToCoin(action.payload, BASE.coin, userCurrency, rates)
     yield put(actions.form.change('swapAmount', 'cryptoAmount', amountFieldValue))
 
-    if (BASE.type === 'CUSTODIAL') return
+    if (BASE.type === SwapBaseCounterTypes.CUSTODIAL) return
 
     const swapAmountValues = selectors.form.getFormValues('swapAmount')(
       yield select()
@@ -395,7 +392,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const quote = S.getQuote(yield select()).getOrFail(NO_QUOTE)
 
       const { BASE } = initSwapFormValues
-      if (BASE.type === 'ACCOUNT') {
+      if (BASE.type === SwapBaseCounterTypes.ACCOUNT) {
         payment = yield call(calculateProvisionalPayment, BASE, quote.quote, 0)
         yield put(A.updatePaymentSuccess(payment))
       } else {

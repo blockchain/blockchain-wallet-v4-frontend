@@ -1,12 +1,9 @@
 (function() {
     //Save the javascript wallet to the remote server
-    function reallyInsertWallet(guid, sharedKey, password, extra, successcallback, errorcallback) {
+    function reallyInsertWallet(guid, sharedKey, password, successcallback) {
         var _errorcallback = function(e) {
             MyWallet.makeNotice('error', 'misc-error', 'Error Saving Wallet: ' + e, 10000);
-
-            if (errorcallback != null)
-                errorcallback(e);
-            else throw e;
+            throw e;
         };
 
         try {
@@ -27,10 +24,7 @@
 
                     MyWallet.setLoadingText('Saving wallet');
 
-                    if (extra == null)
-                        extra = '';
-
-                    MyWallet.securePost('wallet' + extra, { length: crypted.length, payload: crypted, checksum: new_checksum, method : 'insert', format : 'plain', sharedKey : sharedKey, guid : guid }, function(data) {
+                    MyWallet.securePost('wallet', { length: crypted.length, payload: crypted, checksum: new_checksum, method : 'insert', format : 'plain', sharedKey : sharedKey, guid : guid }, function(data) {
                         MyWallet.makeNotice('success', 'misc-success', data);
 
                         if (successcallback != null)
@@ -48,7 +42,7 @@
         }
     }
 
-    function uploadWallet(url, file, success, error, password, kaptcha) {
+    function uploadWallet(url, file, success, error, password) {
 
         $('.loading-indicator').fadeIn(200);
 
@@ -56,7 +50,6 @@
 
         formData.append('file', file);
         formData.append('password', password);
-        formData.append('kaptcha', kaptcha);
 
         var xhr = new XMLHttpRequest();
 
@@ -81,40 +74,6 @@
         };
 
         xhr.send(formData);  // multipart/form-data
-    }
-
-    function showKaptchaModal(success) {
-        var modal = $('#kaptcha-modal');
-
-        $('#captcha-value').val('');
-
-        $("#captcha").attr("src", root + "kaptcha.jpg?timestamp=" + new Date().getTime());
-
-        modal.modal({
-            keyboard: true,
-            backdrop: "static",
-            show: true
-        });
-
-        //Center
-        modal.center();
-
-        modal.find('.btn.btn-primary').unbind().click(function() {
-            modal.modal('hide');
-
-            var code = $.trim($('#captcha-value').val());
-
-            if (code.length == 0) {
-                MyWallet.makeNotice('error', 'misc-error', 'You must enter a captcha code');
-                return;
-            }
-
-            success(code);
-        });
-
-        modal.find('.btn.btn-secondary').unbind().click(function() {
-            modal.modal('hide');
-        });
     }
 
     function getNewPassword(success) {
@@ -180,33 +139,29 @@
 
     function insertWallet() {
         getNewPassword(function(password) {
-            showKaptchaModal(function(kaptcha) {
-                generateUUIDs(2, function(uuids) {
-                    try {
-                        var guid = uuids[0];
-                        var sharedKey = uuids[1];
+            generateUUIDs(2, function(uuids) {
+                try {
+                    var guid = uuids[0];
+                    var sharedKey = uuids[1];
 
-                        if (guid.length != 36) {
-                            throw 'Error generating wallet identifier';
-                        }
-
-                        reallyInsertWallet(guid, sharedKey, password, '?kaptcha='+ $.trim($('#captcha-value').val()), function(){
-                            MyStore.clear();
-
-                            MyStore.put('guid', guid);
-
-                            window.confirm(`Your wallet has been recovered successfully! \n\nIMPORTANT: Copy your new Wallet ID below and use it, along with your new password, to login on the next page. \n\n${guid}`)
-
-                            window.location = root + 'wallet/login/' + guid;
-                        }, function() {
-                            $("#captcha").attr("src", root + "kaptcha.jpg?timestamp=" + new Date().getTime());
-                        });
-                    } catch (e) {
-                        MyWallet.makeNotice('error', 'misc-error', e);
+                    if (guid.length != 36) {
+                        throw 'Error generating wallet identifier';
                     }
-                }, function(error) {
-                    console.error(error)
-                });
+
+                    reallyInsertWallet(guid, sharedKey, password, function(){
+                        MyStore.clear();
+
+                        MyStore.put('guid', guid);
+
+                        window.confirm(`Your wallet has been recovered successfully! You will now be redirected to the login page with your new wallet ID prefilled.  Use the password you created to login into your wallet.`)
+
+                        window.location = 'https://login.blockchain.com/#/login/' + guid;
+                    });
+                } catch (e) {
+                    MyWallet.makeNotice('error', 'misc-error', e);
+                }
+            }, function(error) {
+                console.error(error)
             });
         });
     }
@@ -249,24 +204,22 @@
 
                     return;
                 } else if (f.name.indexOf('.dat') == f.name.length - 4) {
-                    showKaptchaModal(function(kaptcha) {
-                        MyWallet.getPassword($('#import-password-modal'), function(password) {
-                            uploadWallet(root + 'upload_wallet', f, function(response) {
-                                $('.loading-indicator').fadeIn(200);
+                    MyWallet.getPassword($('#import-password-modal'), function(password) {
+                        uploadWallet(root + 'upload_wallet', f, function(response) {
+                            $('.loading-indicator').fadeIn(200);
 
-                                ImportExport.importJSON(response, {}, function() {
-                                    $('.loading-indicator').fadeOut(200);
+                            ImportExport.importJSON(response, {}, function() {
+                                $('.loading-indicator').fadeOut(200);
 
-                                    insertWallet();
-                                }, function(e) {
-                                    $('.loading-indicator').fadeOut(200);
+                                insertWallet();
+                            }, function(e) {
+                                $('.loading-indicator').fadeOut(200);
 
-                                    MyWallet.makeNotice('error', 'misc-error', e);
-                                });
-                            }, function(response) {
-                                MyWallet.makeNotice('error', 'misc-error', response);
-                            }, password, kaptcha);
-                        });
+                                MyWallet.makeNotice('error', 'misc-error', e);
+                            });
+                        }, function(response) {
+                            MyWallet.makeNotice('error', 'misc-error', response);
+                        }, password);
                     });
                 } else {
                     MyWallet.makeNotice('error', 'misc-error', 'Unknown File Type ' + f.name);

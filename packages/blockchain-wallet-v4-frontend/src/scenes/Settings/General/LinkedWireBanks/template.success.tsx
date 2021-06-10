@@ -7,6 +7,7 @@ import { Icon, Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   SBPaymentMethodType,
+  SBPaymentTypes,
   WalletFiatEnum,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
@@ -29,7 +30,7 @@ const getAvailableAmountForCurrency = (
   currency: WalletFiatType
 ) => {
   const method = methods.find(
-    method => method.type === 'FUNDS' && method.currency === currency
+    (method) => method.type === SBPaymentTypes.FUNDS && method.currency === currency
   )
   if (method) {
     return Number(method.limits.max)
@@ -37,22 +38,22 @@ const getAvailableAmountForCurrency = (
   return null
 }
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const walletBeneficiaries = props.beneficiaries.filter(
-    beneficiary => beneficiary.currency in WalletFiatEnum
+    (beneficiary) => beneficiary.currency in WalletFiatEnum
   )
 
   return (
     <SettingContainer>
       <SettingSummary>
         <div>
-          {walletBeneficiaries.map((beneficiary, i) => {
+          {walletBeneficiaries.map((beneficiary) => {
             const availableAmount = getAvailableAmountForCurrency(
               props.paymentMethods.methods,
               beneficiary.currency as WalletFiatType
             )
             return (
-              <CardWrapper key={i}>
+              <CardWrapper key={beneficiary.id}>
                 <Child>
                   <BankIconWrapper>
                     <Icon name='bank-filled' color='blue600' size='16px' />
@@ -69,12 +70,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                           defaultMessage='{amount} Daily Limit'
                           values={{
                             amount: fiatToString({
-                              value: convertBaseToStandard(
-                                'FIAT',
-                                availableAmount
-                              ),
-                              unit: (beneficiary.currency ||
-                                'EUR') as WalletFiatType
+                              unit: (beneficiary.currency || 'EUR') as WalletFiatType,
+                              value: convertBaseToStandard('FIAT', availableAmount)
                             })
                           }}
                         />

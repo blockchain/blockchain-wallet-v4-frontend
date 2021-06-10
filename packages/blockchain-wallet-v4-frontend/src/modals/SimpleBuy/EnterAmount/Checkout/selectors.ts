@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { ExtractSuccess, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -22,7 +22,7 @@ const getData = (state: RootState, ownProps: OwnProps) => {
   const sddEligibleR = selectors.components.simpleBuy.getSddEligible(state)
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const userSDDTierR = selectors.components.simpleBuy.getUserSddEligibleTier(state)
-  const sddLimitR = selectors.components.simpleBuy.getUserLimit(state, 'PAYMENT_CARD')
+  const sddLimitR = selectors.components.simpleBuy.getUserLimit(state, SBPaymentTypes.PAYMENT_CARD)
   const cardsR = selectors.components.simpleBuy.getSBCards(state) || []
   const bankTransferAccounts = selectors.components.brokerage
     .getBankTransferAccounts(state)
