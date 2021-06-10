@@ -7,7 +7,8 @@ import {
   CoinType,
   DepositMethodType,
   OrderType,
-  SendReceiveType
+  SendReceiveType,
+  WithdrawalMethodType
 } from 'middleware/analyticsMiddleware/types'
 import {
   getNetworkFee,
@@ -168,6 +169,33 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             })
 
             analytics.push(AnalyticsKey.DEPOSIT_VIEWED, {
+              analyticsType: AnalyticsType.EVENT,
+              id,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp(),
+              path: pathname,
+              referrer,
+              search,
+              title,
+              url: href
+            })
+
+            break
+          }
+          case 'CUSTODY_WITHDRAW_MODAL': {
+            const { origin } = action.payload.props
+            const { href, pathname, search } = window.location
+            const { referrer, title } = document
+
+            analytics.push(AnalyticsKey.WITHDRAWAL_CLICKED, {
+              analyticsType: AnalyticsType.EVENT,
+              id,
+              nabuId,
+              origin,
+              originalTimestamp: getOriginalTimestamp()
+            })
+
+            analytics.push(AnalyticsKey.WITHDRAWAL_VIEWED, {
               analyticsType: AnalyticsType.EVENT,
               id,
               nabuId,
@@ -811,7 +839,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         switch (stepName) {
           case BankDWStepType.CONFIRM: {
-            const depositMethod = DepositMethodType.BANK_TRANSFER // we only have it for now
+            const depositMethod = state.components.brokerage.account
+              ? DepositMethodType.BANK_ACCOUNT
+              : DepositMethodType.BANK_TRANSFER
             const { amount, currency } = state.form.brokerageTx.values
 
             analytics.push(AnalyticsKey.DEPOSIT_AMOUNT_ENTERED, {
@@ -838,16 +868,127 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
-        const depositMethod = DepositMethodType.BANK_TRANSFER // we only have it for now
-        const { currency } = state.form.brokerageTx.values
 
-        analytics.push(AnalyticsKey.DEPOSIT_METHOD_SELECTED, {
+        const originModal = state.modals.find((modal) => modal.type).type
+
+        switch (originModal) {
+          case 'BANK_DEPOSIT_MODAL': {
+            const depositMethod = state.components.brokerage.account
+              ? DepositMethodType.BANK_ACCOUNT
+              : DepositMethodType.BANK_TRANSFER
+            const { currency } = state.form.brokerageTx.values
+
+            analytics.push(AnalyticsKey.DEPOSIT_METHOD_SELECTED, {
+              analyticsType: AnalyticsType.EVENT,
+              currency,
+              deposit_method: depositMethod,
+              id,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp()
+            })
+
+            break
+          }
+
+          case 'CUSTODY_WITHDRAW_MODAL': {
+            const currency = state.components.withdraw.fiatCurrency
+            const withdrawalMethod = state.components.brokerage.account
+              ? WithdrawalMethodType.BANK_ACCOUNT
+              : WithdrawalMethodType.BANK_TRANSFER
+
+            analytics.push(AnalyticsKey.WITHDRAWAL_METHOD_SELECTED, {
+              analyticsType: AnalyticsType.EVENT,
+              currency,
+              id,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp(),
+              withdrawal_method: withdrawalMethod
+            })
+
+            break
+          }
+
+          default: {
+            break
+          }
+        }
+
+        break
+      }
+      case AT.components.withdraw.SET_STEP: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
+        const stepName = action.payload.step
+
+        switch (stepName) {
+          case 'CONFIRM_WITHDRAW': {
+            const currency = state.components.withdraw.fiatCurrency
+            const inputAmount = Number(state.form.custodyWithdrawForm.values.amount)
+            const fee = state.components.withdraw.feesAndMinAmount
+              .getOrElse({})
+              ?.fees.find((fee) => fee.symbol === currency)?.value
+            const outputAmount = inputAmount + fee
+            const withdrawMethod = state.components.brokerage.account
+              ? WithdrawalMethodType.BANK_ACCOUNT
+              : WithdrawalMethodType.BANK_TRANSFER
+
+            analytics.push(AnalyticsKey.WITHDRAWAL_AMOUNT_ENTERED, {
+              analyticsType: AnalyticsType.EVENT,
+              currency,
+              id,
+              input_amount: inputAmount,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp(),
+              output_amount: outputAmount,
+              withdrawal_method: withdrawMethod
+            })
+
+            break
+          }
+          default: {
+            break
+          }
+        }
+
+        break
+      }
+      case AT.components.withdraw.HANDLE_WITHDRAWAL_MAX_AMOUNT_CLICK: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
+        const currency = state.components.withdraw.fiatCurrency
+        const withdrawalMethod = state.components.brokerage.account
+          ? WithdrawalMethodType.BANK_ACCOUNT
+          : WithdrawalMethodType.BANK_TRANSFER
+
+        analytics.push(AnalyticsKey.WITHDRAWAL_AMOUNT_MAX_CLICKED, {
           analyticsType: AnalyticsType.EVENT,
           currency,
-          deposit_method: depositMethod,
           id,
           nabuId,
-          originalTimestamp: getOriginalTimestamp()
+          originalTimestamp: getOriginalTimestamp(),
+          withdrawal_method: withdrawalMethod
+        })
+
+        break
+      }
+      case AT.components.withdraw.HANDLE_WITHDRAWAL_MIN_AMOUNT_CLICK: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
+        const currency = state.components.withdraw.fiatCurrency
+        const withdrawalMethod = state.components.brokerage.account
+          ? WithdrawalMethodType.BANK_ACCOUNT
+          : WithdrawalMethodType.BANK_TRANSFER
+
+        analytics.push(AnalyticsKey.WITHDRAWAL_AMOUNT_MIN_CLICKED, {
+          analyticsType: AnalyticsType.EVENT,
+          currency,
+          id,
+          nabuId,
+          originalTimestamp: getOriginalTimestamp(),
+          withdrawal_method: withdrawalMethod
         })
         break
       }

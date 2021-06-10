@@ -40,12 +40,12 @@ enum AnalyticsKey {
   SWAP_REQUESTED = 'Swap Requested',
   SWAP_VIEWED = 'Swap Viewed',
   UPGRADE_VERIFICATION_CLICKED = 'Upgrade Verification Clicked',
-  WITHDRAWAL_AMOUNT_ENTERED = 'Withdrawal Amount Entered', // TODO
-  WITHDRAWAL_AMOUNT_MAX_CLICKED = 'Withdrawal Amount Max Clicked', // TODO
-  WITHDRAWAL_AMOUNT_MIN_CLICKED = 'Withdrawal Amount Min Clicked', // TODO
-  WITHDRAWAL_CLICKED = 'Withdrawal Clicked', // TODO
-  WITHDRAWAL_METHOD_SELECTED = 'Withdrawal Method Selected', // TODO
-  WITHDRAWAL_VIEWED = 'Withdrawal Viewed', // TODO
+  WITHDRAWAL_AMOUNT_ENTERED = 'Withdrawal Amount Entered',
+  WITHDRAWAL_AMOUNT_MAX_CLICKED = 'Withdrawal Amount Max Clicked',
+  WITHDRAWAL_AMOUNT_MIN_CLICKED = 'Withdrawal Amount Min Clicked',
+  WITHDRAWAL_CLICKED = 'Withdrawal Clicked',
+  WITHDRAWAL_METHOD_SELECTED = 'Withdrawal Method Selected',
+  WITHDRAWAL_VIEWED = 'Withdrawal Viewed',
   WRONG_CHANGE_CACHE = 'Wrong Change Cache',
   WRONG_RECEIVE_CACHE = 'Wrong Receive Cache'
 }
@@ -85,6 +85,7 @@ enum FeeRateType {
 }
 
 enum DepositMethodType {
+  BANK_ACCOUNT = 'BANK_ACCOUNT',
   BANK_TRANSFER = 'BANK_TRANSFER'
 }
 
@@ -361,12 +362,10 @@ type WithdrawalAmountEnteredPayload = BasePayload & {
 }
 
 type WithdrawalAmountMaxClickedPayload = BasePayload & {
-  amount_currency: string
   currency: string
   withdrawal_method: WithdrawalMethodType
 }
 type WithdrawalAmountMinClickedPayload = BasePayload & {
-  amount_currency: string
   currency: string
   withdrawal_method: WithdrawalMethodType
 }
@@ -448,5 +447,6 @@ export {
   FeeRateType,
   OrderType,
   PaymentType,
-  SendReceiveType
+  SendReceiveType,
+  WithdrawalMethodType
 }

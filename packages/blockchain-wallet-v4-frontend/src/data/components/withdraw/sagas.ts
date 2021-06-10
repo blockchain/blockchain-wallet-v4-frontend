@@ -1,5 +1,6 @@
 import { call, put } from 'redux-saga/effects'
 
+import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { SBPaymentMethodType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
@@ -70,6 +71,30 @@ export default ({ api }: { api: APIType }) => {
     yield put(A.setStep({ fiatCurrency, step: WithdrawStepEnum.ENTER_AMOUNT }))
   }
 
+  const handleWithdrawMaxAmountClick = function* (
+    action: ReturnType<typeof A.handleWithdrawMaxAmountClick>
+  ) {
+    yield put(
+      actions.form.change(
+        'custodyWithdrawForm',
+        'amount',
+        displayFiatToFiat({ value: action.payload.amount })
+      )
+    )
+  }
+
+  const handleWithdrawMinAmountClick = function* (
+    action: ReturnType<typeof A.handleWithdrawMinAmountClick>
+  ) {
+    yield put(
+      actions.form.change(
+        'custodyWithdrawForm',
+        'amount',
+        displayFiatToFiat({ value: action.payload.amount })
+      )
+    )
+  }
+
   const fetchFees = function* (action: ReturnType<typeof A.fetchWithdrawalFees>) {
     yield put(A.fetchWithdrawalFeesLoading())
     try {
@@ -100,6 +125,8 @@ export default ({ api }: { api: APIType }) => {
   return {
     fetchFees,
     fetchWithdrawLocks,
+    handleWithdrawMaxAmountClick,
+    handleWithdrawMinAmountClick,
     handleWithdrawSubmit,
     showModal
   }
