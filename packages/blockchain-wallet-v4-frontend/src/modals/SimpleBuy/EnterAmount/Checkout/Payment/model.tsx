@@ -8,6 +8,7 @@ import {
   FiatType,
   SBBalancesType,
   SBPaymentMethodType,
+  SBPaymentTypes,
   WalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
 import { Title, Value } from 'components/Flyout'
@@ -179,7 +180,7 @@ export const getIcon = (
   }
 
   switch (method.type) {
-    case 'USER_CARD':
+    case SBPaymentTypes.USER_CARD:
       const cardType = CARD_TYPES.find(
         (card) => card.type === (method.card ? method.card.type : '')
       )
@@ -191,9 +192,9 @@ export const getIcon = (
           alt=''
         />
       )
-    case 'FUNDS':
+    case SBPaymentTypes.FUNDS:
       return <Icon size='32px' color='USD' name={method.currency as WalletCurrencyType} />
-    case 'BANK_TRANSFER':
+    case SBPaymentTypes.BANK_TRANSFER:
       return <Image name={getBankLogoImageName(method.details?.bankName)} height='48px' />
     default:
       return <></>
@@ -222,9 +223,9 @@ export const getText = (
     )
   }
 
-  return method.type === 'USER_CARD'
+  return method.type === SBPaymentTypes.USER_CARD
     ? renderCard(method)
-    : method.type === 'BANK_TRANSFER'
+    : method.type === SBPaymentTypes.BANK_TRANSFER
     ? renderBank(method)
     : renderFund(method, sbBalances)
 }

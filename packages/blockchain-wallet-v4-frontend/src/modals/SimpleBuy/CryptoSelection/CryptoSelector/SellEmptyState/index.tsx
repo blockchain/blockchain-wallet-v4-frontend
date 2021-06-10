@@ -16,7 +16,7 @@ export const IconBackground = styled.div`
   width: 32px;
   height: 32px;
   min-width: 32px;
-  background-color: ${props => props.theme.blue000};
+  background-color: ${(props) => props.theme.blue000};
   border-radius: 40px;
 `
 
@@ -26,27 +26,17 @@ export const FlexStartRow = styled.div`
   justify-content: flex-start;
 `
 
-const SellEmptyState: React.FC<Props> = props => {
+const SellEmptyState: React.FC<Props> = (props) => {
   return (
     <>
       <FlyoutWrapper>
-        <Text
-          size='20px'
-          color='grey800'
-          weight={600}
-          style={{ marginBottom: '8px' }}
-        >
+        <Text size='20px' color='grey800' weight={600} style={{ marginBottom: '8px' }}>
           <FormattedMessage
             id='copy.crypto_selection_empty.needtoown'
             defaultMessage="You'll need to own crypto first..."
           />
         </Text>
-        <Text
-          size='14px'
-          color='grey600'
-          weight={500}
-          style={{ marginBottom: '30px' }}
-        >
+        <Text size='14px' color='grey600' weight={500} style={{ marginBottom: '30px' }}>
           <FormattedMessage
             id='copy.crypto_selection_empty.getstarted'
             defaultMessage="You're all set to Sell, but we don't see any crypto in this Wallet. Below are 3 ways to get started."
@@ -113,22 +103,17 @@ const SellEmptyState: React.FC<Props> = props => {
           nature='primary'
           data-e2e='sellEmptyBuyCta'
           height='48px'
-          onClick={() =>
-            props.simpleBuyActions.showModal('SellEmpty', 'BTC', 'BUY')
-          }
+          onClick={() => props.simpleBuyActions.showModal('SellEmpty', 'BTC', 'BUY')}
           fullwidth
         >
-          <FormattedMessage
-            id='modals.wallet.welcome.sb.button'
-            defaultMessage='Buy Crypto Now'
-          />
+          <FormattedMessage id='modals.wallet.welcome.sb.button' defaultMessage='Buy Crypto Now' />
         </Button>
       </FlyoutWrapper>
     </>
   )
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 

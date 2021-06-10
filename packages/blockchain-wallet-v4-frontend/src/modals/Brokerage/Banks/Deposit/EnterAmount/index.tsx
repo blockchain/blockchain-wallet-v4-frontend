@@ -4,25 +4,17 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
-import {
-  ExtractSuccess,
-  RemoteDataType,
-  WalletFiatType
-} from 'blockchain-wallet-v4/src/types'
+import { ExtractSuccess, RemoteDataType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import {
-  BankDWStepType,
-  BankPartners,
-  BankTransferAccountType
-} from 'data/types'
+import { BankDWStepType, BankPartners, BankTransferAccountType } from 'data/types'
 
 import { Loading, LoadingTextEnum } from '../../../../components'
-import { getData } from './selectors'
+import getData from './selectors'
 import Failure from './template.failure'
 import Success from './template.success'
 
-const EnterAmount = props => {
+const EnterAmount = (props) => {
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
       props.simpleBuyActions.fetchSBPaymentMethods(props.fiatCurrency)
@@ -33,29 +25,33 @@ const EnterAmount = props => {
   }, [props.fiatCurrency])
 
   const onSubmit = () => {
-    props.defaultMethod &&
-    'partner' in props.defaultMethod &&
-    props.defaultMethod.partner === BankPartners.YAPILY
-      ? props.brokerageActions.setDWStep({
-          dwStep: BankDWStepType.AUTHORIZE
-        })
-      : props.brokerageActions.setDWStep({
-          dwStep: BankDWStepType.CONFIRM
-        })
+    if (
+      props.defaultMethod &&
+      'partner' in props.defaultMethod &&
+      props.defaultMethod.partner === BankPartners.YAPILY
+    ) {
+      props.brokerageActions.setDWStep({
+        dwStep: BankDWStepType.AUTHORIZE
+      })
+    } else {
+      props.brokerageActions.setDWStep({
+        dwStep: BankDWStepType.CONFIRM
+      })
+    }
   }
 
   return props.data.cata({
-    Success: val => (
+    Failure: () => <Failure {...props} />,
+    Loading: () => <Loading text={LoadingTextEnum.LOADING} />,
+    NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />,
+    Success: (val) => (
       <Success
         {...val}
         {...props}
         onSubmit={onSubmit}
         initialValues={{ currency: props.fiatCurrency }}
       />
-    ),
-    Failure: () => <Failure {...props} />,
-    Loading: () => <Loading text={LoadingTextEnum.LOADING} />,
-    NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />
+    )
   })
 }
 
@@ -67,9 +63,9 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

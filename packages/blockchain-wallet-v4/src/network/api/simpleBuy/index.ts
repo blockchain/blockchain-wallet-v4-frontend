@@ -20,6 +20,7 @@ import {
   SBPairType,
   SBPaymentMethodsType,
   SBPaymentMethodType,
+  SBPaymentTypes,
   SBProviderAttributesType,
   SBQuoteType,
   SBTransactionStateType,
@@ -207,7 +208,7 @@ export default ({
     authorizedGet({
       data: {
         fiatCurrency: currency,
-        methods: 'PAYMENT_CARD,BANK_ACCOUNT,BANK_TRANSFER'
+        methods: `${SBPaymentTypes.PAYMENT_CARD},${SBPaymentTypes.BANK_ACCOUNT},${SBPaymentTypes.BANK_TRANSFER}`
       },
       endPoint: '/simple-buy/eligible',
       url: nabuUrl

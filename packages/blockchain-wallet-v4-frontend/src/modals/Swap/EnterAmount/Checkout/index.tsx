@@ -13,7 +13,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
-import { SwapAccountType } from 'data/types'
+import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 import { formatTextAmount } from 'services/forms'
 import { media } from 'services/styles'
 
@@ -182,7 +182,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const isErc20 = coins[BASE.coin].contractAddress
   const disableInsufficientEth =
     props.payment &&
-    BASE.type === 'ACCOUNT' &&
+    BASE.type === SwapBaseCounterTypes.ACCOUNT &&
     isErc20 &&
     // @ts-ignore
     !props.payment.isSufficientEthForErc20

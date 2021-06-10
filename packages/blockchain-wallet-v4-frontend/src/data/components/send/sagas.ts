@@ -34,30 +34,51 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     payment: PaymentType,
     destination: string
   ): Generator<PaymentType | CallEffect, PaymentValue, any> {
+    // eslint-disable-next-line no-useless-catch
     try {
       if (coin === 'XLM') {
         // separate out addresses and memo
         const depositAddressMemo = destination.split(':')
+        // eslint-disable-next-line no-param-reassign
         payment = yield payment.to(depositAddressMemo[0], 'CUSTODIAL')
         // @ts-ignore
+        // eslint-disable-next-line no-param-reassign
         payment = yield payment.memo(depositAddressMemo[1])
         // @ts-ignore
+        // eslint-disable-next-line no-param-reassign
         payment = yield payment.memoType('text')
         // @ts-ignore
+        // eslint-disable-next-line no-param-reassign
         payment = yield payment.setDestinationAccountExists(true)
       } else {
+        // eslint-disable-next-line no-param-reassign
         payment = yield payment.to(destination, 'CUSTODIAL')
       }
+      // eslint-disable-next-line no-param-reassign
       payment = yield payment.build()
       // ask for second password
       const password = yield call(promptForSecondPassword)
+      // eslint-disable-next-line no-param-reassign
       payment = yield payment.sign(password)
+      // eslint-disable-next-line no-param-reassign
       payment = yield payment.publish()
     } catch (e) {
       throw e
     }
 
     return payment.value()
+  }
+
+  const fetchPaymentsTradingAccount = function* (action) {
+    const { currency } = action.payload
+    try {
+      yield put(A.fetchPaymentsTradingAccountLoading(currency))
+      const tradingAccount: BeneficiaryType = yield call(api.getSBPaymentAccount, currency)
+      yield put(A.fetchPaymentsTradingAccountSuccess(currency, tradingAccount))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'fetchPaymentsTradingAccount', e))
+      yield put(A.fetchPaymentsTradingAccountFailure(currency, e))
+    }
   }
 
   const fetchPaymentsAccountExchange = function* (action) {
@@ -79,18 +100,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       } else {
         yield put(A.fetchPaymentsAccountExchangeFailure(currency, e))
       }
-    }
-  }
-
-  const fetchPaymentsTradingAccount = function* (action) {
-    const { currency } = action.payload
-    try {
-      yield put(A.fetchPaymentsTradingAccountLoading(currency))
-      const tradingAccount: BeneficiaryType = yield call(api.getSBPaymentAccount, currency)
-      yield put(A.fetchPaymentsTradingAccountSuccess(currency, tradingAccount))
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'fetchPaymentsTradingAccount', e))
-      yield put(A.fetchPaymentsTradingAccountFailure(currency, e))
     }
   }
 
@@ -164,9 +173,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // Lock rule can only be called with BANK_TRANSFER and PAYMENT_CARD
       // Adding check here to only pass those too, else pass BANK_TRANSFER
       const withdrawalCheckPayment: SBPaymentTypes =
-        payment.paymentType === 'BANK_TRANSFER' || payment.paymentType === 'PAYMENT_CARD'
+        payment.paymentType === SBPaymentTypes.BANK_TRANSFER ||
+        payment.paymentType === SBPaymentTypes.PAYMENT_CARD
           ? payment.paymentType
-          : 'BANK_TRANSFER'
+          : SBPaymentTypes.BANK_TRANSFER
 
       const withdrawalLockCheckResponse = yield call(
         api.checkWithdrawalLocks,

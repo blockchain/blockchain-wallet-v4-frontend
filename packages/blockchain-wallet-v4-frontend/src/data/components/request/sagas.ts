@@ -7,6 +7,7 @@ import { selectors } from 'data'
 
 import coinSagas from '../../coins/sagas'
 import profileSagas from '../../modules/profile/sagas'
+import { SwapBaseCounterTypes } from '../swap/types'
 import * as A from './actions'
 import { RequestExtrasType } from './types'
 import { generateKey } from './utils'
@@ -33,11 +34,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const { account } = action.payload
 
       switch (account.type) {
-        case 'ACCOUNT':
+        case SwapBaseCounterTypes.ACCOUNT:
           const { accountIndex, coin } = account
           address = yield call(getNextReceiveAddressForCoin, coin, accountIndex)
           break
-        case 'CUSTODIAL':
+        case SwapBaseCounterTypes.CUSTODIAL:
           yield call(waitForUserData)
           const custodial: ReturnType<typeof api.getSBPaymentAccount> = yield call(
             api.getSBPaymentAccount,
@@ -45,7 +46,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           )
           address = custodial.address
           if (supportedCoins[account.coin].isMemoBased) {
+            // eslint-disable-next-line prefer-destructuring
             extras.Memo = address.split(':')[1]
+            // eslint-disable-next-line prefer-destructuring
             address = address.split(':')[0]
           }
           break

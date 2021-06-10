@@ -7,7 +7,11 @@ import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
 import { selectors } from 'data'
 import { SUPPORTED_COINS } from 'data/coins/model/swap'
-import { InitSwapFormValuesType, SwapSideType } from 'data/components/swap/types'
+import {
+  InitSwapFormValuesType,
+  SwapBaseCounterTypes,
+  SwapSideType
+} from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
 import { SwapAccountType } from 'data/types'
 
@@ -41,8 +45,12 @@ class CoinSelection extends PureComponent<Props> {
     account: SwapAccountType
   ) => {
     if (
-      (side === 'COUNTER' && values?.BASE?.type === 'CUSTODIAL' && account.type === 'ACCOUNT') ||
-      (side === 'BASE' && values?.COUNTER?.type === 'ACCOUNT' && account.type === 'CUSTODIAL')
+      (side === 'COUNTER' &&
+        values?.BASE?.type === SwapBaseCounterTypes.CUSTODIAL &&
+        account.type === SwapBaseCounterTypes.ACCOUNT) ||
+      (side === 'BASE' &&
+        values?.COUNTER?.type === SwapBaseCounterTypes.ACCOUNT &&
+        account.type === SwapBaseCounterTypes.CUSTODIAL)
     ) {
       return true
     }
@@ -71,7 +79,7 @@ class CoinSelection extends PureComponent<Props> {
   }
 
   checkCustodialEligibility = (custodialEligibility: boolean, account: SwapAccountType) => {
-    return !(account.type === 'CUSTODIAL' && !custodialEligibility)
+    return !(account.type === SwapBaseCounterTypes.CUSTODIAL && !custodialEligibility)
   }
 
   render() {

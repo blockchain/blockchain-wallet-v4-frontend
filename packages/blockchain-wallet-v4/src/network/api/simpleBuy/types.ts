@@ -110,13 +110,14 @@ export type SBPairType = {
   sellMin: string
 }
 
-export type SBPaymentTypes =
-  | 'PAYMENT_CARD'
-  | 'BANK_ACCOUNT' // Wire Transfers
-  | 'FUNDS'
-  | 'USER_CARD'
-  | 'BANK_TRANSFER' // ACH
-  | 'LINK_BANK' // Also ACH
+export enum SBPaymentTypes {
+  BANK_ACCOUNT = 'BANK_ACCOUNT',
+  BANK_TRANSFER = 'BANK_TRANSFER',
+  FUNDS = 'FUNDS',
+  LINK_BANK = 'LINK_BANK',
+  PAYMENT_CARD = 'PAYMENT_CARD',
+  USER_CARD = 'USER_CARD'
+}
 
 export type SBPaymentMethodType = {
   addedAt?: string
@@ -206,6 +207,7 @@ export type SBSellOrderType = ISBBuyOrderType & {
 }
 export type SBOrderType = SBBuyOrderType | SBSellOrderType
 
+// TODO: refactor this into an enum
 export type SBOrderStateType =
   | 'PENDING_CONFIRMATION'
   | 'PENDING_DEPOSIT'

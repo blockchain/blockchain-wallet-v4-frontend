@@ -7,19 +7,14 @@ import { Icon, Image, Text } from 'blockchain-info-components'
 import {
   OrderType,
   SBPaymentMethodType,
+  SBPaymentTypes,
   WalletCurrencyType,
   WalletFiatEnum
 } from 'blockchain-wallet-v4/src/types'
 import { AddNewButton } from 'components/Brokerage'
 import { FlyoutWrapper } from 'components/Flyout'
-import {
-  CARD_TYPES,
-  DEFAULT_CARD_SVG_LOGO
-} from 'components/Form/CreditCardBox/model'
-import {
-  getCoinFromPair,
-  getFiatFromPair
-} from 'data/components/simpleBuy/model'
+import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
+import { getCoinFromPair, getFiatFromPair } from 'data/components/simpleBuy/model'
 import { getBankLogoImageName } from 'services/images'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
@@ -39,7 +34,7 @@ const TopText = styled(Text)`
   margin-bottom: 7px;
 `
 const PaymentsWrapper = styled.div`
-  border-top: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 const NoMethods = styled(FlyoutWrapper)`
   text-align: center;
@@ -48,7 +43,7 @@ const IconContainer = styled.div`
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: ${props => props.theme.blue000};
+  background-color: ${(props) => props.theme.blue000};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,29 +54,19 @@ export type Props = OwnProps & SuccessStateType
 class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   getType = (value: SBPaymentMethodType) => {
     switch (value.type) {
-      case 'BANK_TRANSFER':
-      case 'LINK_BANK':
-        return (
-          <FormattedMessage
-            id='modals.simplebuy.banklink'
-            defaultMessage='Link a Bank'
-          />
-        )
-      case 'BANK_ACCOUNT':
-        return (
-          <FormattedMessage
-            id='modals.simplebuy.bankwire'
-            defaultMessage='Wire Transfer'
-          />
-        )
-      case 'PAYMENT_CARD':
+      case SBPaymentTypes.BANK_TRANSFER:
+      case SBPaymentTypes.LINK_BANK:
+        return <FormattedMessage id='modals.simplebuy.banklink' defaultMessage='Link a Bank' />
+      case SBPaymentTypes.BANK_ACCOUNT:
+        return <FormattedMessage id='modals.simplebuy.bankwire' defaultMessage='Wire Transfer' />
+      case SBPaymentTypes.PAYMENT_CARD:
         return (
           <FormattedMessage
             id='modals.simplebuy.paymentcard'
             defaultMessage='Credit or Debit Card'
           />
         )
-      case 'USER_CARD':
+      case SBPaymentTypes.USER_CARD:
         return value && value.card ? (
           value.card.label ? (
             value.card.label
@@ -94,7 +79,8 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             defaultMessage='Credit or Debit Card'
           />
         )
-      case 'FUNDS':
+      case SBPaymentTypes.FUNDS:
+      default:
         return ''
     }
   }
@@ -106,11 +92,11 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   addNewPaymentMethod = () => {
     if (this.props.fiatCurrency) {
       this.props.simpleBuyActions.setStep({
-        fiatCurrency: this.props.fiatCurrency,
-        step: 'PAYMENT_METHODS',
-        pair: this.props.pair,
         cryptoCurrency: getCoinFromPair(this.props.pair.pair),
-        order: this.props.order
+        fiatCurrency: this.props.fiatCurrency,
+        order: this.props.order,
+        pair: this.props.pair,
+        step: 'PAYMENT_METHODS'
       })
     }
   }
@@ -121,42 +107,37 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 
   getIcon = (value: SBPaymentMethodType): ReactElement => {
     switch (value.type) {
-      case 'BANK_TRANSFER':
-      case 'LINK_BANK':
+      case SBPaymentTypes.BANK_TRANSFER:
+      case SBPaymentTypes.LINK_BANK:
         return <Image name='bank' height='48px' />
-      case 'BANK_ACCOUNT':
+      case SBPaymentTypes.BANK_ACCOUNT:
         return (
           <IconContainer>
             <Icon size='18px' color='blue600' name='arrow-down' />
           </IconContainer>
         )
-      case 'PAYMENT_CARD':
+      case SBPaymentTypes.PAYMENT_CARD:
         return (
           <IconContainer>
             <Icon size='18px' color='blue600' name='credit-card-sb' />
           </IconContainer>
         )
-      case 'USER_CARD':
+      case SBPaymentTypes.USER_CARD:
         const { card } = value
         if (!card) {
           return <></>
         }
-        const cardType = CARD_TYPES.find(cc => cc.type === card.type)
+        const cardType = CARD_TYPES.find((cc) => cc.type === card.type)
         return (
           <img
+            alt='Credit Card Type'
             height='18px'
             width='auto'
             src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO}
           />
         )
-      case 'FUNDS':
-        return (
-          <Icon
-            size='32px'
-            color='USD'
-            name={value.currency as WalletCurrencyType}
-          />
-        )
+      case SBPaymentTypes.FUNDS:
+        return <Icon size='32px' color='USD' name={value.currency as WalletCurrencyType} />
       default:
         return <Image name='blank-card' />
     }
@@ -185,39 +166,35 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   render() {
     const { orderType } = this.props
     const availableBankAccounts = this.props.bankTransferAccounts.filter(
-      account => account.state === 'ACTIVE' && orderType === OrderType.BUY
+      (account) => account.state === 'ACTIVE' && orderType === OrderType.BUY
     )
     const availableCards = this.props.cards.filter(
-      card => card.state === 'ACTIVE' && orderType === OrderType.BUY
+      (card) => card.state === 'ACTIVE' && orderType === OrderType.BUY
     )
 
-    const defaultMethods = this.props.paymentMethods.methods.map(value => ({
+    const defaultMethods = this.props.paymentMethods.methods.map((value) => ({
       text: this.getType(value),
       value
     }))
 
     const bankTransfer = defaultMethods.find(
-      method =>
-        method.value.type === 'BANK_TRANSFER' && orderType === OrderType.BUY
+      (method) => method.value.type === SBPaymentTypes.BANK_TRANSFER && orderType === OrderType.BUY
     )
 
     const funds = defaultMethods.filter(
-      method =>
-        method.value.type === 'FUNDS' &&
+      (method) =>
+        method.value.type === SBPaymentTypes.FUNDS &&
         method.value.currency in WalletFiatEnum &&
         (orderType === OrderType.SELL ||
-          Number(
-            this.props.balances[method.value.currency as WalletCurrencyType]
-              ?.available
-          ) > 0)
+          Number(this.props.balances[method.value.currency as WalletCurrencyType]?.available) > 0)
     )
 
     // use this to get min/max for card buys from eligible/payment-methods
     // limits aren't available on availableCards
     const cardMethod = defaultMethods.find(
-      method => method.value.type === 'PAYMENT_CARD'
+      (method) => method.value.type === SBPaymentTypes.PAYMENT_CARD
     )
-    const cardMethods = availableCards.map(card => ({
+    const cardMethods = availableCards.map((card) => ({
       text: card.card
         ? card.card.label
           ? card.card.label
@@ -226,16 +203,16 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       value: {
         ...card,
         card: card.card,
-        type: 'USER_CARD',
         currency: card.currency,
         limits: {
-          min: cardMethod?.value.limits.min || '10000',
-          max: cardMethod?.value.limits.max || '50000'
-        }
+          max: cardMethod?.value.limits.max || '50000',
+          min: cardMethod?.value.limits.min || '10000'
+        },
+        type: SBPaymentTypes.USER_CARD
       } as SBPaymentMethodType
     }))
 
-    const bankMethods = availableBankAccounts.map(account => ({
+    const bankMethods = availableBankAccounts.map((account) => ({
       text: account.details ? (
         account.details.accountName ? (
           account.details.accountName
@@ -243,23 +220,20 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           account.details.accountNumber
         )
       ) : (
-        <FormattedMessage
-          id='copy.bank_account'
-          defaultMessage='Bank Account'
-        />
+        <FormattedMessage id='copy.bank_account' defaultMessage='Bank Account' />
       ),
       value: {
         ...account,
-        type: 'BANK_TRANSFER',
         currency: account.currency,
-        limits: (bankTransfer &&
-          bankTransfer.value &&
-          bankTransfer.value.limits) || { min: '100', max: '200000' }
+        limits: (bankTransfer && bankTransfer.value && bankTransfer.value.limits) || {
+          max: '200000',
+          min: '100'
+        },
+        type: SBPaymentTypes.BANK_TRANSFER
       } as SBPaymentMethodType
     }))
 
-    const availableMethods =
-      funds.length || cardMethods.length || bankMethods.length
+    const availableMethods = funds.length || cardMethods.length || bankMethods.length
     return (
       <Wrapper>
         <Form>
@@ -274,11 +248,11 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 role='button'
                 onClick={() =>
                   this.props.simpleBuyActions.setStep({
-                    step: 'ENTER_AMOUNT',
-                    pair: this.props.pair,
-                    orderType: this.props.orderType,
                     cryptoCurrency: getCoinFromPair(this.props.pair.pair),
-                    fiatCurrency: getFiatFromPair(this.props.pair.pair)
+                    fiatCurrency: getFiatFromPair(this.props.pair.pair),
+                    orderType: this.props.orderType,
+                    pair: this.props.pair,
+                    step: 'ENTER_AMOUNT'
                   })
                 }
               />
@@ -309,6 +283,7 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             {funds &&
               funds.map((fund, index) => (
                 <Fund
+                  // eslint-disable-next-line react/no-array-index-key
                   key={`${fund.text}-${index}`}
                   value={fund.value}
                   icon={this.getIcon(fund.value)}
@@ -325,6 +300,7 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             {cardMethods &&
               cardMethods.map((cardMethod, index) => (
                 <Card
+                  // eslint-disable-next-line react/no-array-index-key
                   key={index}
                   value={cardMethod.value}
                   text={this.renderCardText(cardMethod.value)}
@@ -335,28 +311,21 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             {bankMethods &&
               bankMethods.map((bankMethod, index) => (
                 <Bank
+                  // eslint-disable-next-line react/no-array-index-key
                   key={index}
                   value={bankMethod.value}
                   text={this.renderBankText(bankMethod.value)}
                   icon={
                     bankMethod.value.details
-                      ? this.getLinkedBankIcon(
-                          bankMethod.value?.details?.bankName
-                        )
+                      ? this.getLinkedBankIcon(bankMethod.value?.details?.bankName)
                       : this.getIcon(bankMethod.value)
                   }
                   onClick={() => this.handleSubmit(bankMethod.value)}
                 />
               ))}
             {orderType === OrderType.BUY && (
-              <AddNewButton
-                data-e2e='addNewPaymentMethod'
-                onClick={this.addNewPaymentMethod}
-              >
-                <FormattedMessage
-                  id='buttons.add_new'
-                  defaultMessage='+ Add New'
-                />
+              <AddNewButton data-e2e='addNewPaymentMethod' onClick={this.addNewPaymentMethod}>
+                <FormattedMessage id='buttons.add_new' defaultMessage='+ Add New' />
               </AddNewButton>
             )}
           </PaymentsWrapper>
@@ -367,6 +336,6 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 }
 
 export default reduxForm<{}, Props>({
-  form: 'sbPaymentMethods',
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
+  form: 'sbPaymentMethods'
 })(Accounts)

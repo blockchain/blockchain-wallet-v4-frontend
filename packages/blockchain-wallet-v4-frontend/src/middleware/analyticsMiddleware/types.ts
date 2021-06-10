@@ -8,15 +8,23 @@ enum AnalyticsKey {
   BUY_SELL_VIEWED = 'Buy Sell Viewed',
   DASHBOARD_CLICKED = 'Dashboard Clicked',
   DASHBOARD_VIEWED = 'Dashboard Viewed',
+  DEPOSIT_AMOUNT_ENTERED = 'Deposit Amount Entered', // not implemented
+  DEPOSIT_CLICKED = 'Deposit Clicked',
+  DEPOSIT_METHOD_SELECTED = 'Deposit Method Selected', // not implemented
+  DEPOSIT_VIEWED = 'Deposit Viewed',
   EMAIL_VERIFICATION_REQUESTED = 'Email Verification Requested',
   RECEIVE_CURRENCY_SELECTED = 'Receive Currency Selected',
   RECEIVE_DETAILS_COPIED = 'Receive Details Copied',
-  SEND_AMOUNT_MAX_CLICKED = 'Send Amount Max Clicked', // not implemented
-  SEND_FEE_RATE_SELECTED = 'Send Fee Rate Selected', // not implemented
-  SEND_FROM_SELECTED = 'Send From Selected', // not implemented
+  SELL_AMOUNT_ENTERED = 'Sell Amount Entered',
+  SELL_AMOUNT_MAX_CLICKED = 'Sell Amount Max Clicked',
+  SELL_AMOUNT_MIN_CLICKED = 'Sell Amount Min Clicked',
+  SELL_FROM_SELECTED = 'Sell From Selected',
+  SEND_AMOUNT_MAX_CLICKED = 'Send Amount Max Clicked', // not implemented - blocked
+  SEND_FEE_RATE_SELECTED = 'Send Fee Rate Selected', // not implemented - blocked
+  SEND_FROM_SELECTED = 'Send From Selected', // not implemented - blocked
   SEND_RECEIVE_CLICKED = 'Send Receive Clicked', // half implemented
   SEND_RECEIVE_VIEWED = 'Send Receive Viewed', // half implemented
-  SEND_SUBMITTED = 'Send Submitted', // not implemented
+  SEND_SUBMITTED = 'Send Submitted', // not implemented - blocked
   SIGNED_IN = 'Signed In',
   SIGNED_OUT = 'Signed Out',
   SWAP_ACCOUNTS_SELECTED = 'Swap Accounts Selected',
@@ -65,6 +73,15 @@ enum FeeRateType {
   CUSTOM = 'CUSTOM',
   NORMAL = 'NORMAL',
   PRIORITY = 'PRIORITY'
+}
+
+enum DepositMethodType {
+  BANK_TRANSFER = 'BANK_TRANSFER'
+}
+
+enum SendReceiveType {
+  RECEIVE = 'RECEIVE',
+  SEND = 'SEND'
 }
 
 type BasePayload = {
@@ -125,7 +142,24 @@ type DashboardClickedPayload = BasePayload & {
 
 type DashboardViewedPayload = BasePayload & PageViewPayload & {}
 
-type EmailVerificationClicked = BasePayload & {
+type DepositAmountEnteredPayload = BasePayload & {
+  amount: number
+  currency: string
+  deposit_method: DepositMethodType
+}
+
+type DepositClickedPayload = BasePayload & {
+  origin: 'CURRENCY_PAGE' | 'PORTFOLIO'
+}
+
+type DepositMethodSelectedPayload = BasePayload & {
+  currency: string
+  deposit_method: DepositMethodType
+}
+
+type DepositViewedPayload = BasePayload & PageViewPayload & {}
+
+type EmailVerificationClickedPayload = BasePayload & {
   // origin: 'SIGN_UP' | 'VERIFICATION'
 }
 
@@ -137,6 +171,30 @@ type ReceiveCurrencySelectedPayload = BasePayload & {
 type ReceiveDetailsCopiedPayload = BasePayload & {
   account_type: AccountType
   currency: string
+}
+
+type SellAmountEnteredPayload = BasePayload & {
+  from_account_type: AccountType
+  input_amount: number
+  input_currency: string
+  output_currency: string
+}
+
+type SellAmountMaxClickedPayload = BasePayload & {
+  from_account_type: AccountType
+  input_currency: string
+  output_currency: string
+}
+
+type SellAmountMinClickedPayload = BasePayload & {
+  from_account_type: AccountType
+  input_currency: string
+  output_currency: string
+}
+
+type SellFromSelectedPayload = BasePayload & {
+  from_account_type: AccountType
+  input_currency: string
 }
 
 type SendAmountMaxClickedPayload = BasePayload & {
@@ -223,7 +281,7 @@ type SwapReceiveSelectedPayload = BasePayload & {
   input_type: Omit<AccountType, AccountType.SAVINGS>
 }
 
-type SwapRequested = BasePayload & {
+type SwapRequestedPayload = BasePayload & {
   exchange_rate: number
   input_amount: number
   input_currency: string
@@ -264,9 +322,17 @@ type AnalyticsPayload =
   | BuySellViewedPayload
   | DashboardClickedPayload
   | DashboardViewedPayload
-  | EmailVerificationClicked
+  | DepositAmountEnteredPayload
+  | DepositClickedPayload
+  | DepositMethodSelectedPayload
+  | DepositViewedPayload
+  | EmailVerificationClickedPayload
   | ReceiveCurrencySelectedPayload
   | ReceiveDetailsCopiedPayload
+  | SellAmountEnteredPayload
+  | SellAmountMaxClickedPayload
+  | SellAmountMinClickedPayload
+  | SellFromSelectedPayload
   | SendAmountMaxClickedPayload
   | SendFeeRateSelectedPayload
   | SendFromSelectedPayload
@@ -283,7 +349,7 @@ type AnalyticsPayload =
   | SwapAmountMinClickedPayload
   | SwapFromSelectedPayload
   | SwapReceiveSelectedPayload
-  | SwapRequested
+  | SwapRequestedPayload
   | UpgradeVerificationClickedPayload
   | WrongChangeCachePayload
   | WrongReceiveCachePayload
@@ -296,4 +362,14 @@ type PageNamesType = '/home'
 
 export type { AnalyticsPayload, PageNamesType }
 
-export { AccountType, AnalyticsKey, AnalyticsType, CoinType, FeeRateType, OrderType, PaymentType }
+export {
+  AccountType,
+  AnalyticsKey,
+  AnalyticsType,
+  CoinType,
+  DepositMethodType,
+  FeeRateType,
+  OrderType,
+  PaymentType,
+  SendReceiveType
+}
