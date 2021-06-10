@@ -102,3 +102,10 @@ export const upgradeWallet = (version) => ({
   payload: { version },
   type: AT.UPGRADE_WALLET
 })
+
+export const logWrongChangeCache = () => ({
+  type: AT.WRONG_CHANGE_CACHE
+})
+export const logWrongReceiveCache = () => ({
+  type: AT.WRONG_RECEIVE_CACHE
+})

@@ -28,7 +28,9 @@ enum AnalyticsKey {
   SWAP_RECEIVE_SELECTED = 'Swap Receive Selected',
   SWAP_REQUESTED = 'Swap Requested',
   SWAP_VIEWED = 'Swap Viewed',
-  UPGRADE_VERIFICATION_CLICKED = 'Upgrade Verification Clicked'
+  UPGRADE_VERIFICATION_CLICKED = 'Upgrade Verification Clicked',
+  WRONG_CHANGE_CACHE = 'Wrong Change Cache',
+  WRONG_RECEIVE_CACHE = 'Wrong Receive Cache'
 }
 
 enum AnalyticsType {
@@ -248,6 +250,10 @@ type UpgradeVerificationClickedPayload = BasePayload & {
   tier: number
 }
 
+type WrongChangeCachePayload = BasePayload & {}
+
+type WrongReceiveCachePayload = BasePayload & {}
+
 type AnalyticsPayload =
   | AmountSwitchedPayload
   | BuyAmountEnteredPayload
@@ -279,6 +285,8 @@ type AnalyticsPayload =
   | SwapReceiveSelectedPayload
   | SwapRequested
   | UpgradeVerificationClickedPayload
+  | WrongChangeCachePayload
+  | WrongReceiveCachePayload
 
 type PageNamesType = '/home'
 // | '/interest'
