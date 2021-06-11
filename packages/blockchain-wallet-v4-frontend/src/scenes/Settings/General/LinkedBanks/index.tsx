@@ -20,7 +20,7 @@ class LinkedBanks extends PureComponent<Props> {
   handleBankClick = () => {
     this.props.brokerageActions.showModal(
       BrokerageModalOriginType.ADD_BANK,
-      this.props.fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
+      this.props.walletCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
     )
     this.props.brokerageActions.setAddBankStep({
       addBankStep: AddBankStepType.ADD_BANK
@@ -61,7 +61,6 @@ class LinkedBanks extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
-  fiatCurrency: selectors.components.withdraw.getFiatCurrency(state),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
@@ -76,7 +75,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
-  fiatCurrency: WalletFiatType
   walletCurrency: WalletFiatType
 }
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>

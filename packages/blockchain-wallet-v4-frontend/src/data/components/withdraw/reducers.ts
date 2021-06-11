@@ -6,17 +6,14 @@ import { WithdrawActionTypes, WithdrawState, WithdrawStepEnum } from './types'
 const INITIAL_STATE: WithdrawState = {
   amount: undefined,
   beneficiary: undefined,
-  fiatCurrency: 'EUR',
+  fiatCurrency: 'USD',
   step: WithdrawStepEnum.ENTER_AMOUNT,
   withdrawal: undefined,
   feesAndMinAmount: Remote.NotAsked,
   withdrawLocks: Remote.NotAsked
 }
 
-export function withdrawReducer(
-  state = INITIAL_STATE,
-  action: WithdrawActionTypes
-): WithdrawState {
+export function withdrawReducer(state = INITIAL_STATE, action: WithdrawActionTypes): WithdrawState {
   switch (action.type) {
     case AT.SET_STEP:
       switch (action.payload.step) {

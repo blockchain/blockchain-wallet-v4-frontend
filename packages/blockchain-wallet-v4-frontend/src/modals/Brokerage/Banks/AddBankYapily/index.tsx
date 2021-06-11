@@ -45,18 +45,12 @@ class Banks extends PureComponent<Props> {
       >
         {this.props.step === AddBankStepType.ADD_BANK && (
           <FlyoutChild>
-            <SelectBank
-              setYapilyBankId={this.setYapilyBankId}
-              handleClose={this.handleClose}
-            />
+            <SelectBank setYapilyBankId={this.setYapilyBankId} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {this.props.step === AddBankStepType.ADD_BANK_CONNECT && (
           <FlyoutChild>
-            <Connect
-              handleClose={this.handleClose}
-              yapilyBankId={this.state.yapilyBankId}
-            />
+            <Connect handleClose={this.handleClose} yapilyBankId={this.state.yapilyBankId} />
           </FlyoutChild>
         )}
         {this.props.step === AddBankStepType.ADD_BANK_AUTHORIZE && (
@@ -66,10 +60,7 @@ class Banks extends PureComponent<Props> {
         )}
         {this.props.step === AddBankStepType.ADD_BANK_STATUS && (
           <FlyoutChild>
-            <AddBankStatus
-              handleClose={this.handleClose}
-              yapilyBankId={this.state.yapilyBankId}
-            />
+            <AddBankStatus handleClose={this.handleClose} yapilyBankId={this.state.yapilyBankId} />
           </FlyoutChild>
         )}
         {this.props.step === AddBankStepType.LOADING && (
@@ -88,10 +79,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const connector = connect(mapStateToProps)
 
-const enhance = compose(
-  ModalEnhancer('ADD_BANK_YAPILY_MODAL', { transition: duration }),
-  connector
-)
+const enhance = compose(ModalEnhancer('ADD_BANK_YAPILY_MODAL', { transition: duration }), connector)
 
 type OwnProps = ModalPropsType & {
   handleClose: () => void
@@ -100,9 +88,7 @@ type LinkStatePropsType = {
   step: AddBankStepType
 }
 
-export type Props = OwnProps &
-  LinkStatePropsType &
-  ConnectedProps<typeof connector>
+export type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
 
 type State = {
   show: boolean

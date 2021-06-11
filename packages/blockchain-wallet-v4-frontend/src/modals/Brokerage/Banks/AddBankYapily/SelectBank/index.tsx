@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
@@ -12,22 +12,19 @@ import { getData } from './selectors'
 import Success from './template.success'
 
 const SelectBank = (props: Props) => {
-  const fetchBank = () => {
-    props.brokerageActions.fetchBankLinkCredentials(
-      props.walletCurrency as WalletFiatType
-    )
-  }
+  const fetchBank = useCallback(() => {
+    props.brokerageActions.fetchBankLinkCredentials(props.walletCurrency as WalletFiatType)
+  }, [props.brokerageActions, props.walletCurrency])
+
   useEffect(() => {
     fetchBank()
-  }, [])
+  }, [fetchBank])
 
-  const { data } = props
-
-  return data.cata({
-    Success: val => <Success {...val} {...props} />,
+  return props.data.cata({
     Failure: () => <DataError onClick={fetchBank} />,
     Loading: () => <Loading text={LoadingTextEnum.GETTING_READY} />,
-    NotAsked: () => <Loading text={LoadingTextEnum.GETTING_READY} />
+    NotAsked: () => <Loading text={LoadingTextEnum.GETTING_READY} />,
+    Success: (val) => <Success {...val} {...props} />
   })
 }
 
@@ -38,8 +35,8 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
