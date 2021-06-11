@@ -6,6 +6,7 @@ import * as btcTransactions from './btcTransactions/actions'
 import * as dotTransactions from './dotTransactions/actions'
 import * as ethTransactions from './ethTransactions/actions'
 import * as fiatTransactions from './fiatTransactions/actions'
+import * as fundRecovery from './fundRecovery/actions'
 import * as identityVerification from './identityVerification/actions'
 import * as importBtcAddress from './importBtcAddress/actions'
 import * as interest from './interest/actions'
@@ -44,6 +45,7 @@ export {
   dotTransactions,
   ethTransactions,
   fiatTransactions,
+  fundRecovery,
   identityVerification,
   importBtcAddress,
   interest,

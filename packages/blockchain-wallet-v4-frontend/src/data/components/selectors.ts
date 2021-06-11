@@ -2,6 +2,7 @@ import * as bchTransactions from './bchTransactions/selectors'
 import * as borrow from './borrow/selectors'
 import * as brokerage from './brokerage/selectors'
 import * as btcTransactions from './btcTransactions/selectors'
+import * as fundRecovery from './fundRecovery/selectors'
 import * as identityVerification from './identityVerification/selectors'
 import * as interest from './interest/selectors'
 import * as layoutWallet from './layoutWallet/selectors'
@@ -32,6 +33,7 @@ export {
   borrow,
   brokerage,
   btcTransactions,
+  fundRecovery,
   identityVerification,
   interest,
   layoutWallet,
@@ -55,5 +57,5 @@ export {
   uploadDocuments,
   utils,
   veriff,
-  withdraw,
+  withdraw
 }

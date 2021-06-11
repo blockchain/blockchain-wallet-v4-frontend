@@ -6,6 +6,7 @@ import btcTransactions from './btcTransactions/sagas'
 import dotTransactions from './dotTransactions/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import fiatTransactions from './fiatTransactions/sagas'
+import fundRecovery from './fundRecovery/sagas'
 import identityVerification from './identityVerification/sagas'
 import importBtcAddress from './importBtcAddress/sagas'
 import interest from './interest/sagas'
@@ -40,6 +41,7 @@ export default ({ api, coreSagas, networks }) => ({
   dotTransactions: dotTransactions(),
   ethTransactions: ethTransactions(),
   fiatTransactions: fiatTransactions(),
+  fundRecovery: fundRecovery({ api, coreSagas, networks }),
   identityVerification: identityVerification({ api, coreSagas, networks }),
   importBtcAddress: importBtcAddress({ api, coreSagas, networks }),
   interest: interest({ api, coreSagas, networks }),
@@ -63,5 +65,5 @@ export default ({ api, coreSagas, networks }) => ({
   uploadDocument: uploadDocuments({ api }),
   veriff: veriff({ api, coreSagas }),
   withdraw: withdraw({ api }),
-  xlmTransactions: xlmTransactions(),
+  xlmTransactions: xlmTransactions()
 })
