@@ -321,7 +321,7 @@ export default ({ api, coreSagas }) => {
       // and then syncing that information with new Wallet Account model
       // being used for SSO
       if (isMnemonicVerified && !lastMnemonicBackup) {
-        yield put(actions.wallet.updateMnemonicBackup())
+        yield put(actions.core.wallet.updateMnemonicBackup())
       }
       // ensure xpub cache is correct
       yield fork(checkXpubCacheLegitimacy)
