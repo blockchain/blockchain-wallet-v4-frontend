@@ -29,23 +29,20 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   })
   const { convertCoinFromBaseUnitToFiat } = coinSagas({ coreSagas, networks })
 
-  const buildAndPublishPayment = function * (
+  const buildAndPublishPayment = function* (
     coin: CoinType,
     payment: PaymentType,
     destination: string
   ): Generator<PaymentType | CallEffect, PaymentValue, any> {
-    try {
-      if (coin === 'XLM') {
-        // separate out addresses and memo
-        const depositAddressMemo = destination.split(':')
-        const txMemo = depositAddressMemo[1]
-        // throw error if we cant parse the memo for tx
-        if (
-          isNil(txMemo) ||
-          (typeof txMemo === 'string' && txMemo.length === 0)
-        ) {
-          throw new Error('Memo for transaction is missing')
-        }
+    if (coin === 'XLM') {
+      // separate out addresses and memo
+      const depositAddressMemo = destination.split(':')
+      const txMemo = depositAddressMemo[1]
+      // throw error if we cant parse the memo for tx
+      if (isNil(txMemo) || (typeof txMemo === 'string' && txMemo.length === 0)) {
+        throw new Error('Memo for transaction is missing')
+      }
+      /* eslint-disable */
         payment = yield payment.to(depositAddressMemo[0], 'CUSTODIAL')
         // @ts-ignore
         payment = yield payment.memo(txMemo)
@@ -61,11 +58,8 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       const password = yield call(promptForSecondPassword)
       payment = yield payment.sign(password)
       payment = yield payment.publish()
-    } catch (e) {
-      throw e
-    }
-
-    return payment.value()
+      return payment.value()
+         /* eslint-disable */
   }
 
   const createLimits = function * (
@@ -122,14 +116,13 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
 
   const createPayment = function * (source: AccountTypes) {
     const coin = S.getCoinType(yield select())
-
+    if (source.balance <= 0) return
     const payment: PaymentValue = yield call(
       calculateProvisionalPayment,
       source,
       0,
       coin === 'BTC' ? 'regular' : 'priority'
     )
-
     return payment
   }
 

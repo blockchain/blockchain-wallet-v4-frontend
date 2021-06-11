@@ -121,7 +121,9 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
   const lockUpDuration = interestLimits[coin]?.lockUpDuration || 7200
   const lockupPeriod = lockUpDuration / 86400
   const maxDepositFiat = maxFiat(depositLimits.maxFiat, walletCurrency)
-
+  const accountBalance =
+    values && values?.interestDepositAccount && values.interestDepositAccount.balance
+  const accountHasBalance = accountBalance > 0
   const depositAmountError =
     formErrors.depositAmount &&
     typeof formErrors.depositAmount === 'string' &&
@@ -266,7 +268,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
             component={NumberBox}
             data-e2e='depositAmount'
             // @ts-ignore
-            disabled={insufficientEth}
+            disabled={(insufficientEth, !accountHasBalance)}
             displayCoin={displayCoin}
             name='depositAmount'
             validate={[required, minDepositAmount, maxDepositAmount]}
