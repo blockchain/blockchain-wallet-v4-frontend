@@ -58,7 +58,12 @@ const CoinAccountIcon = props => {
 
   return (
     <Wrapper {...props}>
-      <Image height='32px' name={coin.toLowerCase()} width='32px' />
+      <Image
+        alt={`${coin} ${accountType === 'ACCOUNT' ? accountType : `${accountType} account`}`}
+        height='32px'
+        name={coin.toLowerCase()}
+        width='32px'
+      />
       <SubIconWrapper>
         <SubIcon icon={icon} color={coin} />
       </SubIconWrapper>

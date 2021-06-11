@@ -1,8 +1,9 @@
+import * as Bitcoin from 'bitcoinjs-lib'
 import { assoc, find, is, prop, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, fork, put, race, select, take } from 'redux-saga/effects'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote, Types } from 'blockchain-wallet-v4/src'
 import { DEFAULT_INVITATIONS } from 'blockchain-wallet-v4/src/model'
 import { actions, actionTypes, model, selectors } from 'data'
 import * as C from 'services/alerts'
@@ -143,6 +144,44 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const checkXpubCacheLegitimacy = function* () {
+    const wallet = yield select(selectors.core.wallet.getWallet)
+    const accounts = Types.Wallet.selectHDAccounts(wallet)
+    const first5 = accounts.slice(0, 5)
+
+    let isValidReceive = true
+    let isValidChange = true
+    first5.forEach((account) => {
+      account.derivations.forEach((derivation) => {
+        const { cache, xpub } = derivation
+        const { changeAccount, receiveAccount } = cache
+        const accountNode = Bitcoin.bip32.fromBase58(xpub)
+
+        const validReceive = accountNode.derive(0).neutered().toBase58()
+        const validChange = accountNode.derive(1).neutered().toBase58()
+
+        if (receiveAccount !== validReceive) {
+          isValidReceive = false
+          // eslint-disable-next-line
+          console.log(`Receive cache is incorrect for ${derivation.type} at ${account.index}`)
+        }
+        if (changeAccount !== validChange) {
+          isValidChange = false
+          // eslint-disable-next-line
+          console.log(`Change cache is incorrect for ${derivation.type} at ${account.index}`)
+        }
+      })
+    })
+
+    if (!isValidReceive) {
+      yield put(actions.auth.logWrongReceiveCache())
+    }
+
+    if (!isValidChange) {
+      yield put(actions.auth.logWrongChangeCache())
+    }
+  }
+
   const checkExchangeUsage = function* () {
     try {
       const accountsR = yield select(selectors.core.common.btc.getActiveHDAccounts)
@@ -276,7 +315,6 @@ export default ({ api, coreSagas }) => {
       }
       // swap tasks
       yield put(actions.components.swap.fetchTrades())
-
       // check/update btc account names
       yield call(coreSagas.wallet.checkAndUpdateWalletNames)
       // We are checking wallet metadata to see if mnemonic is verified
@@ -285,6 +323,8 @@ export default ({ api, coreSagas }) => {
       if (isMnemonicVerified && !lastMnemonicBackup) {
         yield put(actions.wallet.updateMnemonicBackup())
       }
+      // ensure xpub cache is correct
+      yield fork(checkXpubCacheLegitimacy)
       yield fork(checkExchangeUsage)
       yield fork(checkDataErrors)
       // @ts-ignore

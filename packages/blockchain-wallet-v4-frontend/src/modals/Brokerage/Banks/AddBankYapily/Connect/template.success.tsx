@@ -25,16 +25,18 @@ const Success = (props: Props) => {
   return (
     <BankWrapper>
       <ModalNavWithCloseIcon {...props}>
-        <FormattedMessage
-          id='copy.connect_to_your_bank'
-          defaultMessage='Connect to your bank'
-        />
+        <FormattedMessage id='copy.connect_to_your_bank' defaultMessage='Connect to your bank' />
       </ModalNavWithCloseIcon>
       <LinkOptionsWrapper>
         <ScanWithPhone
           logo={logo as string}
           qrCode={props.account?.attributes?.qrcodeUrl as string}
-        />
+        >
+          <FormattedMessage
+            id='modals.brokerage.link_via_mobile'
+            defaultMessage='Link via mobile'
+          />
+        </ScanWithPhone>
         <Hr />
         <Section>
           <LinkViaDesktop
@@ -42,10 +44,13 @@ const Success = (props: Props) => {
             onClick={() => {
               props.analyticsActions.logEvent(YAPILY_CONT_IN_BROWSER)
             }}
-          />
-          <BankWaitIndicator
-            qrCode={props.account?.attributes?.qrcodeUrl as string}
-          />
+          >
+            <FormattedMessage
+              id='modals.brokerage.link_via_desktop'
+              defaultMessage='Link via desktop'
+            />
+          </LinkViaDesktop>
+          <BankWaitIndicator qrCode={props.account?.attributes?.qrcodeUrl as string} />
         </Section>
       </LinkOptionsWrapper>
     </BankWrapper>

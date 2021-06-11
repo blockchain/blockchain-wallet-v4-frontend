@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import {
   BeneficiaryType,
-  NabuMoneyFloatType
+  NabuSymbolNumberType
 } from 'blockchain-wallet-v4/src/types'
 import { AddNewButton } from 'components/Brokerage'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -22,7 +22,7 @@ type OwnProps = {
   account: BankTransferAccountType | undefined
   bankTransferAccounts: BankTransferAccountType[]
   beneficiaries: BeneficiaryType[]
-  minAmount: NabuMoneyFloatType
+  minAmount: NabuSymbolNumberType
 }
 type Props = _P & OwnProps
 

@@ -4,25 +4,12 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-import { FiatType } from 'blockchain-wallet-v4/src/types'
-import {
-  CARD_TYPES,
-  DEFAULT_CARD_SVG_LOGO
-} from 'components/Form/CreditCardBox/model'
-import {
-  SettingComponent,
-  SettingContainer,
-  SettingSummary
-} from 'components/Setting'
+import { FiatType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
+import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
+import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
 import { media } from 'services/styles'
 
-import {
-  CardDetails,
-  CardWrapper,
-  Child,
-  CustomSettingHeader,
-  RemoveButton
-} from '../styles'
+import { CardDetails, CardWrapper, Child, CustomSettingHeader, RemoveButton } from '../styles'
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const CustomSettingContainer = styled(SettingContainer)`
@@ -43,24 +30,19 @@ const CardImg = styled.img`
   width: 24px;
 `
 
-const Success: React.FC<InjectedFormProps<
-  {},
-  Props & { fiatCurrency?: FiatType }
-> &
-  Props & { fiatCurrency?: FiatType }> = props => {
+const Success: React.FC<
+  InjectedFormProps<{}, Props & { fiatCurrency?: FiatType }> & Props & { fiatCurrency?: FiatType }
+> = (props) => {
   const ccPaymentMethod = props.paymentMethods.methods.find(
-    m => m.type === 'PAYMENT_CARD'
+    (m) => m.type === SBPaymentTypes.PAYMENT_CARD
   )
-  const activeCards = props.cards.filter(card => card.state === 'ACTIVE')
+  const activeCards = props.cards.filter((card) => card.state === 'ACTIVE')
 
   return (
     <CustomSettingContainer>
       <SettingSummary>
         <CustomSettingHeader>
-          <FormattedMessage
-            id='scenes.settings.linked_cards'
-            defaultMessage='Linked Cards'
-          />
+          <FormattedMessage id='scenes.settings.linked_cards' defaultMessage='Linked Cards' />
         </CustomSettingHeader>
 
         {!activeCards.length && (
@@ -71,28 +53,22 @@ const Success: React.FC<InjectedFormProps<
             />
           </Text>
         )}
-        {activeCards.map((card, i) => {
-          let cardType = CARD_TYPES.find(
-            cardType => cardType.type === (card.card ? card.card.type : '')
+        {activeCards.map((card) => {
+          const cardType = CARD_TYPES.find(
+            (cardType) => cardType.type === (card.card ? card.card.type : '')
           )
 
           if (card.state !== 'ACTIVE') return
 
-          const cardLabel =
-            (card?.card.label && card?.card.label.toLowerCase()) ||
-            card?.card.type
+          const cardLabel = (card?.card.label && card?.card.label.toLowerCase()) || card?.card.type
 
           return (
-            <CardWrapper key={i}>
+            <CardWrapper key={card.id}>
               <Child>
-                <CardImg
-                  src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO}
-                />
+                <CardImg src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO} />
                 <CardDetails>
                   <Text size='16px' color='grey800' weight={600} capitalize>
-                    {cardLabel.length > 22
-                      ? `${cardLabel.slice(0, 22)}…`
-                      : cardLabel}
+                    {cardLabel.length > 22 ? `${cardLabel.slice(0, 22)}…` : cardLabel}
                   </Text>
                   {ccPaymentMethod && (
                     <Text size='14px' color='grey600' weight={500}>
@@ -117,10 +93,7 @@ const Success: React.FC<InjectedFormProps<
                     props.simpleBuyActions.deleteSBCard(card.id)
                   }}
                 >
-                  <FormattedMessage
-                    id='buttons.remove'
-                    defaultMessage='Remove'
-                  />
+                  <FormattedMessage id='buttons.remove' defaultMessage='Remove' />
                 </RemoveButton>
               </Child>
             </CardWrapper>

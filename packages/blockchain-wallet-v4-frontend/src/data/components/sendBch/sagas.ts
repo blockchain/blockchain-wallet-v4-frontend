@@ -1,34 +1,13 @@
 import BigNumber from 'bignumber.js'
 import bip21 from 'bip21'
-import {
-  add,
-  equals,
-  hasPath,
-  identity,
-  includes,
-  isNil,
-  nth,
-  path,
-  pathOr,
-  prop
-} from 'ramda'
-import {
-  change,
-  destroy,
-  initialize,
-  startSubmit,
-  stopSubmit
-} from 'redux-form'
+import { add, equals, hasPath, identity, includes, isNil, nth, path, pathOr, prop } from 'ramda'
+import { change, destroy, initialize, startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, put, race, select, take } from 'redux-saga/effects'
 
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import {
-  BtcAccountFromType,
-  BtcFromType,
-  BtcPaymentType
-} from 'blockchain-wallet-v4/src/types'
+import { BtcAccountFromType, BtcFromType, BtcPaymentType } from 'blockchain-wallet-v4/src/types'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ModalNamesType } from 'data/modals/types'
 import * as C from 'services/alerts'
@@ -43,21 +22,13 @@ import * as S from './selectors'
 const { TRANSACTION_EVENTS } = model.analytics
 
 export const logLocation = 'components/sendBch/sagas'
-export default ({
-  api,
-  coreSagas,
-  networks
-}: {
-  api: APIType
-  coreSagas: any
-  networks: any
-}) => {
+export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
   const { showWithdrawalLockAlert } = sendSagas({
     api,
     coreSagas,
     networks
   })
-  const initialized = function * (action) {
+  const initialized = function* (action) {
     try {
       const { amount, description, from, payPro, to } = action.payload
       yield put(A.sendBchPaymentUpdatedLoading())
@@ -66,18 +37,12 @@ export default ({
         network: networks.bch
       })
       payment = yield payment.init()
-      const accountsR = yield select(
-        selectors.core.common.bch.getAccountsBalances
-      )
-      const defaultIndexR = yield select(
-        selectors.core.kvStore.bch.getDefaultAccountIndex
-      )
+      const accountsR = yield select(selectors.core.common.bch.getAccountsBalances)
+      const defaultIndexR = yield select(selectors.core.kvStore.bch.getDefaultAccountIndex)
       const defaultIndex = defaultIndexR.getOrElse(0)
       const defaultAccountR = accountsR.map(nth(defaultIndex))
       if (from === 'allImportedAddresses') {
-        const addressesR = yield select(
-          selectors.core.common.bch.getActiveAddresses
-        )
+        const addressesR = yield select(selectors.core.common.bch.getActiveAddresses)
         const addresses = addressesR
           .getOrElse([])
           .filter(prop('priv'))
@@ -89,9 +54,9 @@ export default ({
         if (to) payment = yield payment.to(to)
         if (amount && amount.coin) {
           const satAmount = Exchange.convertBchToBch({
-            value: amount.coin,
             fromUnit: 'BCH',
-            toUnit: 'SAT'
+            toUnit: 'SAT',
+            value: amount.coin
           }).value
           payment = yield payment.amount(parseInt(satAmount))
         }
@@ -99,47 +64,43 @@ export default ({
       }
       payment = yield payment.fee('regular')
       const initialValues = {
-        coin: 'BCH',
         amount,
+        coin: 'BCH',
         description,
         from: from || defaultAccountR.getOrElse(),
         payPro,
-        to: to ? { value: { value: to, label: to } } : null
+        to: to ? { value: { label: to, value: to } } : null
       }
       if (payPro) {
         try {
           payment = yield payment.build()
         } catch (e) {
-          yield put(
-            actions.logs.logErrorMessage(logLocation, 'sendBchInitialized', e)
-          )
+          yield put(actions.logs.logErrorMessage(logLocation, 'sendBchInitialized', e))
         }
       }
       yield put(initialize(FORM, initialValues))
       yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
       yield put(A.sendBchPaymentUpdatedFailure(e))
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'sendBchInitialized', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'sendBchInitialized', e))
     }
   }
 
-  const destroyed = function * () {
+  const destroyed = function* () {
     yield put(actions.form.destroy(FORM))
   }
 
-  const bitPayInvoiceEntered = function * (bip21Payload) {
+  const bitPayInvoiceEntered = function* (bip21Payload) {
     yield put(
       actions.modals.showModal('CONFIRMATION_MODAL', {
+        message: C.BITPAY_CONFIRM_MSG,
         origin: 'SendBch',
-        title: C.BITPAY_CONFIRM_TITLE,
-        message: C.BITPAY_CONFIRM_MSG
+        title: C.BITPAY_CONFIRM_TITLE
       })
     )
-    let { canceled } = yield race({
-      response: take(actionTypes.wallet.SUBMIT_CONFIRMATION),
-      canceled: take(actionTypes.modals.CLOSE_MODAL)
+    const { canceled } = yield race({
+      canceled: take(actionTypes.modals.CLOSE_MODAL),
+      response: take(actionTypes.wallet.SUBMIT_CONFIRMATION)
     })
     if (canceled) return
     yield put(actions.modals.closeAllModals())
@@ -152,52 +113,43 @@ export default ({
     return yield put(actions.goals.runGoals())
   }
 
-  const bitpayInvoiceExpired = function * () {
+  const bitpayInvoiceExpired = function* () {
     yield put(actions.modals.closeAllModals())
     yield put(
       actions.modals.showModal('BITPAY_INVOICE_EXPIRED_MODAL', {
         origin: 'SendBch'
       })
     )
-    yield put(
-      actions.analytics.logEvent([
-        ...TRANSACTION_EVENTS.BITPAY_FAILURE,
-        'invoice expired'
-      ])
-    )
+    yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.BITPAY_FAILURE, 'invoice expired']))
   }
 
-  const firstStepSubmitClicked = function * () {
+  const firstStepSubmitClicked = function* () {
     try {
-      let p = yield select(S.getPayment)
+      const p = yield select(S.getPayment)
       yield put(A.sendBchPaymentUpdatedLoading())
       let payment = coreSagas.payment.bch.create({
-        payment: p.getOrElse({}),
-        network: networks.bch
+        network: networks.bch,
+        payment: p.getOrElse({})
       })
       payment = yield payment.build()
       yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
       yield put(A.sendBchPaymentUpdatedFailure(e))
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e))
     }
   }
 
-  const formChanged = function * (action) {
+  const formChanged = function* (action) {
     try {
       const form = path(['meta', 'form'], action)
       if (!equals(FORM, form)) return
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      const erc20List = (yield select(
-        selectors.core.walletOptions.getErc20CoinList
-      )).getOrElse([])
-      let p = yield select(S.getPayment)
+      const erc20List = (yield select(selectors.core.walletOptions.getErc20CoinList)).getOrElse([])
+      const p = yield select(S.getPayment)
       let payment: BtcPaymentType = coreSagas.payment.bch.create({
-        payment: p.getOrElse({}),
-        network: networks.bch
+        network: networks.bch,
+        payment: p.getOrElse({})
       })
 
       switch (field) {
@@ -205,13 +157,10 @@ export default ({
           const modalName = includes(payload, erc20List) ? 'ETH' : payload
           yield put(actions.modals.closeAllModals())
           yield put(
-            actions.modals.showModal(
-              `SEND_${modalName}_MODAL` as ModalNamesType,
-              {
-                coin: payload,
-                origin: 'SendBch'
-              }
-            )
+            actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNamesType, {
+              coin: payload,
+              origin: 'SendBch'
+            })
           )
           break
         case 'from':
@@ -229,11 +178,18 @@ export default ({
               payment = yield payment.from(payloadT.xpub, fromType)
               break
             case 'CUSTODIAL':
+              const response: ReturnType<typeof api.getWithdrawalFees> = yield call(
+                api.getWithdrawalFees,
+                'simplebuy',
+                'DEFAULT'
+              )
+              const fee = response.fees.find(({ symbol }) => symbol === 'BCH')?.minorValue || '0'
               payment = yield payment.from(
                 payloadT.label,
                 fromType,
-                payloadT.withdrawable
+                new BigNumber(payloadT.withdrawable).minus(fee).toString()
               )
+              payment = yield payment.fee(new BigNumber(fee).toNumber())
               yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
               yield put(change(FORM, 'to', null))
               break
@@ -242,17 +198,14 @@ export default ({
           }
           break
         case 'to':
-          const value = pathOr(
-            payload,
-            ['value', 'value'],
-            payload
-          ) as BtcFromType
+          const value = pathOr(payload, ['value', 'value'], payload) as BtcFromType
           const toType = prop('type', value)
           // @ts-ignore
           const address = prop('address', value) || value
           let payProInvoice
           const tryParsePayPro = () => {
             try {
+              if (address.indexOf('?') === -1) throw new Error('Not bitpay')
               payProInvoice = bip21.decode(address, 'bitcoincash')
               return payProInvoice
             } catch (e) {
@@ -269,20 +222,29 @@ export default ({
               payment = yield payment.to(value.xpub, toType)
               break
             // ensure 'r' exists, otherwise its just a BCH address in cash addr format
+            case includes('.', (address as unknown) as string):
+              yield put(
+                actions.components.send.fetchUnstoppableDomainResults(
+                  (address as unknown) as string,
+                  'BCH'
+                )
+              )
+              break
             case !isNil(tryParsePayPro()) &&
-              hasPath(['options', 'r'], payProInvoice):
+              hasPath(['options', 'r'], payProInvoice) &&
+              !includes('bitpay', (address as unknown) as string):
               yield call(bitPayInvoiceEntered, payProInvoice)
               break
             default:
-              payment = yield payment.to(address, toType)
+              payment = yield payment.to((address as unknown) as string, toType)
           }
           break
         case 'amount':
           const bchAmount = prop('coin', payload)
           const satAmount = Exchange.convertBchToBch({
-            value: bchAmount,
             fromUnit: 'BCH',
-            toUnit: 'SAT'
+            toUnit: 'SAT',
+            value: bchAmount
           }).value
           payment = yield payment.amount(parseInt(satAmount))
           break
@@ -299,7 +261,7 @@ export default ({
     }
   }
 
-  const maximumAmountClicked = function * () {
+  const maximumAmountClicked = function* () {
     try {
       const appState = yield select(identity)
       const currency = selectors.core.settings
@@ -312,36 +274,34 @@ export default ({
       const payment = p.getOrElse({})
       const effectiveBalance = prop('effectiveBalance', payment)
       const coin = Exchange.convertBchToBch({
-        value: effectiveBalance,
         fromUnit: 'SAT',
-        toUnit: 'BCH'
+        toUnit: 'BCH',
+        value: effectiveBalance
       }).value
       const fiat = Exchange.convertBchToFiat({
-        value: effectiveBalance,
         fromUnit: 'SAT',
+        rates: bchRates,
         toCurrency: currency,
-        rates: bchRates
+        value: effectiveBalance
       }).value
       yield put(change(FORM, 'amount', { coin, fiat }))
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'maximumAmountClicked', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'maximumAmountClicked', e))
     }
   }
 
-  const secondStepSubmitClicked = function * () {
+  const secondStepSubmitClicked = function* () {
     yield put(startSubmit(FORM))
-    let p = yield select(S.getPayment)
+    const p = yield select(S.getPayment)
     let payment: BtcPaymentType = coreSagas.payment.bch.create({
-      payment: p.getOrElse({}),
-      network: networks.bch
+      network: networks.bch,
+      payment: p.getOrElse({})
     })
     const fromType = path(['fromType'], payment.value())
     try {
       // Sign payment
       if (fromType !== ADDRESS_TYPES.LOCKBOX) {
-        let password = yield call(promptForSecondPassword)
+        const password = yield call(promptForSecondPassword)
         if (fromType !== ADDRESS_TYPES.CUSTODIAL) {
           payment = yield payment.sign(password)
         }
@@ -353,13 +313,9 @@ export default ({
         const device = deviceR.getOrFail('missing_device')
         const deviceType = prop('device_type', device)
         const selection = payment.value().selection || { outputs: [] }
-        const outputs = selection.outputs
-          .filter(o => !o.change)
-          .map(prop('address'))
+        const outputs = selection.outputs.filter((o) => !o.change).map(prop('address'))
         yield call(Lockbox.promptForLockbox, 'BCH', deviceType, outputs)
-        let connection = yield select(
-          selectors.components.lockbox.getCurrentConnection
-        )
+        const connection = yield select(selectors.components.lockbox.getCurrentConnection)
         const transport = prop('transport', connection)
         const scrambleKey = Lockbox.utils.getScrambleKey('BCH', deviceType)
         // @ts-ignore
@@ -370,11 +326,15 @@ export default ({
         const value = payment.value()
         if (!value.to) throw new Error('missing_to_from_custodial')
         if (!value.amount) throw new Error('missing_amount_from_custodial')
+        if (!value.selection) throw new Error('missing_selection_from_custodial')
         yield call(
           api.withdrawSBFunds,
-          utils.bch.toCashAddr(value.to[0].address),
+          utils.bch.isCashAddr(value.to[0].address)
+            ? value.to[0].address
+            : utils.bch.toCashAddr(value.to[0].address),
           'BCH',
-          new BigNumber(value.amount[0]).toString()
+          new BigNumber(value.amount[0]).toString(),
+          value.selection.fee
         )
       } else {
         payment = yield payment.publish()
@@ -384,10 +344,7 @@ export default ({
       // Set tx note
       if (path(['description', 'length'], payment.value())) {
         yield put(
-          actions.core.kvStore.bch.setTxNotesBch(
-            payment.value().txId,
-            payment.value().description
-          )
+          actions.core.kvStore.bch.setTxNotesBch(payment.value().txId, payment.value().description)
         )
       }
       // Redirect to tx list, display success
@@ -416,9 +373,9 @@ export default ({
           ...TRANSACTION_EVENTS.SEND,
           'BCH',
           Exchange.convertCoinToCoin({
-            value: amt.reduce(add, 0),
+            baseToStandard: true,
             coin: 'BCH',
-            baseToStandard: true
+            value: amt.reduce(add, 0)
           }).value
         ])
       )
@@ -431,20 +388,8 @@ export default ({
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
-        yield put(
-          actions.logs.logErrorMessage(
-            logLocation,
-            'secondStepSubmitClicked',
-            e
-          )
-        )
-        yield put(
-          actions.analytics.logEvent([
-            ...TRANSACTION_EVENTS.SEND_FAILURE,
-            'BCH',
-            e
-          ])
-        )
+        yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
+        yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND_FAILURE, 'BCH', e]))
         if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
           if (error === 'Pending withdrawal locks') {
             yield call(showWithdrawalLockAlert)

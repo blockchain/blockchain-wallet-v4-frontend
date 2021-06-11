@@ -13,6 +13,7 @@ import {
   SBPairType,
   SBPaymentMethodsType,
   SBPaymentMethodType,
+  SBPaymentTypes,
   SBProviderDetailsType,
   SBQuoteType,
   SDDEligibleType,
@@ -26,22 +27,70 @@ import { BankTransferAccountType } from 'data/types'
 
 import { SwapAccountType } from '../swap/types'
 import * as AT from './actionTypes'
-import {
-  SBFixType,
-  SBShowModalOriginType,
-  SimpleBuyActionTypes,
-  StepActionsPayload
-} from './types'
+import { SBFixType, SBShowModalOriginType, SimpleBuyActionTypes, StepActionsPayload } from './types'
+
+const getPayloadObjectForStep = (payload: StepActionsPayload) => {
+  switch (payload.step) {
+    case 'LINKED_PAYMENT_ACCOUNTS':
+    case 'PAYMENT_METHODS':
+      return {
+        cryptoCurrency: payload.cryptoCurrency,
+        fiatCurrency: payload.fiatCurrency,
+        order: payload.order,
+        pair: payload.pair,
+        step: payload.step
+      }
+    case 'VERIFY_EMAIL':
+    case 'ENTER_AMOUNT':
+      return {
+        cryptoCurrency: payload.cryptoCurrency,
+        fiatCurrency: payload.fiatCurrency,
+        method: payload.method,
+        orderType: payload.orderType || 'BUY',
+        pair: payload.pair,
+        step: payload.step,
+        swapAccount: payload.swapAccount
+      }
+    case 'CRYPTO_SELECTION':
+      return {
+        cryptoCurrency: payload.cryptoCurrency,
+        fiatCurrency: payload.fiatCurrency,
+        orderType: payload.orderType,
+        step: payload.step
+      }
+    case 'BANK_WIRE_DETAILS':
+      return {
+        addBank: payload.addBank,
+        displayBack: payload.displayBack,
+        fiatCurrency: payload.fiatCurrency,
+        step: payload.step
+      }
+    case 'PREVIEW_SELL': {
+      return { sellOrderType: payload.sellOrderType, step: payload.step }
+    }
+    case 'AUTHORIZE_PAYMENT':
+    case 'CHECKOUT_CONFIRM':
+    case 'ORDER_SUMMARY':
+    case 'OPEN_BANKING_CONNECT':
+      return { order: payload.order, step: payload.step }
+    case '3DS_HANDLER':
+      return { order: payload.order, step: payload.step }
+    case 'SELL_ORDER_SUMMARY':
+      return { sellOrder: payload.sellOrder, step: payload.step }
+    default:
+      return { step: payload.step }
+  }
+}
 
 export const activateSBCard = (card: SBCardType) => ({
-  type: AT.ACTIVATE_SB_CARD,
-  card
+  card,
+  type: AT.ACTIVATE_SB_CARD
 })
 export const activateSBCardFailure = (error: string): SimpleBuyActionTypes => ({
-  type: AT.ACTIVATE_SB_CARD_FAILURE,
   payload: {
     error
-  }
+  },
+  type: AT.ACTIVATE_SB_CARD_FAILURE
 })
 export const activateSBCardLoading = (): SimpleBuyActionTypes => ({
   type: AT.ACTIVATE_SB_CARD_LOADING
@@ -49,20 +98,20 @@ export const activateSBCardLoading = (): SimpleBuyActionTypes => ({
 export const activateSBCardSuccess = (
   providerDetails: SBProviderDetailsType
 ): SimpleBuyActionTypes => ({
-  type: AT.ACTIVATE_SB_CARD_SUCCESS,
   payload: {
     providerDetails
-  }
+  },
+  type: AT.ACTIVATE_SB_CARD_SUCCESS
 })
 
 export const addCardDetails = () => ({
   type: AT.ADD_CARD_DETAILS
 })
 export const addCardDetailsFailure = (error: string): SimpleBuyActionTypes => ({
-  type: AT.ADD_CARD_DETAILS_FAILURE,
   payload: {
     error
-  }
+  },
+  type: AT.ADD_CARD_DETAILS_FAILURE
 })
 export const addCardDetailsLoading = (): SimpleBuyActionTypes => ({
   type: AT.ADD_CARD_DETAILS_LOADING
@@ -70,41 +119,38 @@ export const addCardDetailsLoading = (): SimpleBuyActionTypes => ({
 export const addCardDetailsSuccess = (
   everypay3DS: Everypay3DSResponseType
 ): SimpleBuyActionTypes => ({
-  type: AT.ADD_CARD_DETAILS_SUCCESS,
   payload: {
     everypay3DS
-  }
+  },
+  type: AT.ADD_CARD_DETAILS_SUCCESS
 })
 
 export const cancelSBOrder = (order: SBOrderType) => ({
-  type: AT.CANCEL_ORDER,
-  order
+  order,
+  type: AT.CANCEL_ORDER
 })
 
 export const createSBOrder = (
   paymentType?: Exclude<
     SBPaymentMethodType['type'],
-    'USER_CARD' | 'BANK_ACCOUNT'
+    SBPaymentTypes.USER_CARD | SBPaymentTypes.BANK_ACCOUNT
   >,
   paymentMethodId?: SBCardType['id'] | BankTransferAccountType['id']
 ) => ({
-  type: AT.CREATE_ORDER,
   paymentMethodId,
-  paymentType
+  paymentType,
+  type: AT.CREATE_ORDER
 })
 
 export const confirmOrderPoll = (order: SBOrderType) => ({
-  type: AT.CONFIRM_ORDER_POLL,
-  payload: { order }
+  payload: { order },
+  type: AT.CONFIRM_ORDER_POLL
 })
 
-export const confirmSBOrder = (
-  paymentMethodId: SBCardType['id'],
-  order: SBOrderType
-) => ({
-  type: AT.CONFIRM_CREDIT_CARD_ORDER,
+export const confirmSBOrder = (paymentMethodId: SBCardType['id'], order: SBOrderType) => ({
+  order,
   paymentMethodId,
-  order
+  type: AT.CONFIRM_CREDIT_CARD_ORDER
 })
 
 export const confirmSBFundsOrder = () => ({
@@ -112,8 +158,8 @@ export const confirmSBFundsOrder = () => ({
 })
 
 export const deleteSBCard = (cardId?: SBCardType['id']) => ({
-  type: AT.DELETE_SB_CARD,
-  cardId
+  cardId,
+  type: AT.DELETE_SB_CARD
 })
 
 export const destroyCheckout = () => ({
@@ -121,39 +167,32 @@ export const destroyCheckout = () => ({
 })
 
 export const handleSBMethodChange = (method: SBPaymentMethodType) => ({
-  type: AT.HANDLE_SB_METHOD_CHANGE,
-  method
+  method,
+  type: AT.HANDLE_SB_METHOD_CHANGE
 })
 
-export const fetchSBBalances = (
-  currency?: CoinType,
-  skipLoading?: boolean
-) => ({
-  type: AT.FETCH_SB_BALANCES,
+export const fetchSBBalances = (currency?: CoinType, skipLoading?: boolean) => ({
   currency,
-  skipLoading
+  skipLoading,
+  type: AT.FETCH_SB_BALANCES
 })
 
-export const fetchSBBalancesFailure = (
-  error: string
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_BALANCES_FAILURE,
+export const fetchSBBalancesFailure = (error: string): SimpleBuyActionTypes => ({
   payload: {
     error
-  }
+  },
+  type: AT.FETCH_SB_BALANCES_FAILURE
 })
 
 export const fetchSBBalancesLoading = (): SimpleBuyActionTypes => ({
   type: AT.FETCH_SB_BALANCES_LOADING
 })
 
-export const fetchSBBalancesSuccess = (
-  balances: SBBalancesType
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_BALANCES_SUCCESS,
+export const fetchSBBalancesSuccess = (balances: SBBalancesType): SimpleBuyActionTypes => ({
   payload: {
     balances
-  }
+  },
+  type: AT.FETCH_SB_BALANCES_SUCCESS
 })
 
 export const fetchSBCard = () => ({
@@ -161,10 +200,10 @@ export const fetchSBCard = () => ({
 })
 
 export const fetchSBCardFailure = (error: string): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_CARD_FAILURE,
   payload: {
     error
-  }
+  },
+  type: AT.FETCH_SB_CARD_FAILURE
 })
 
 export const fetchSBCardLoading = (): SimpleBuyActionTypes => ({
@@ -172,51 +211,47 @@ export const fetchSBCardLoading = (): SimpleBuyActionTypes => ({
 })
 
 export const fetchSBCardSuccess = (card: SBCardType): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_CARD_SUCCESS,
   payload: {
     card
-  }
+  },
+  type: AT.FETCH_SB_CARD_SUCCESS
 })
 
 export const fetchSBCards = (skipLoading?: boolean) => ({
-  type: AT.FETCH_SB_CARDS,
   payload: {
     skipLoading
-  }
+  },
+  type: AT.FETCH_SB_CARDS
 })
 
 export const fetchSBCardsFailure = (error: string): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_CARDS_FAILURE,
   payload: {
     error
-  }
+  },
+  type: AT.FETCH_SB_CARDS_FAILURE
 })
 
 export const fetchSBCardsLoading = (): SimpleBuyActionTypes => ({
   type: AT.FETCH_SB_CARDS_LOADING
 })
 
-export const fetchSBCardsSuccess = (
-  cards: Array<SBCardType>
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_CARDS_SUCCESS,
+export const fetchSBCardsSuccess = (cards: Array<SBCardType>): SimpleBuyActionTypes => ({
   payload: {
     cards
-  }
+  },
+  type: AT.FETCH_SB_CARDS_SUCCESS
 })
 
 export const fetchSBFiatEligible = (currency: FiatType) => ({
-  type: AT.FETCH_SB_FIAT_ELIGIBLE,
-  currency
+  currency,
+  type: AT.FETCH_SB_FIAT_ELIGIBLE
 })
 
-export const fetchSBFiatEligibleFailure = (
-  error: string
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_FIAT_ELIGIBLE_FAILURE,
+export const fetchSBFiatEligibleFailure = (error: string): SimpleBuyActionTypes => ({
   payload: {
     error
-  }
+  },
+  type: AT.FETCH_SB_FIAT_ELIGIBLE_FAILURE
 })
 
 export const fetchSBFiatEligibleLoading = (): SimpleBuyActionTypes => ({
@@ -226,101 +261,91 @@ export const fetchSBFiatEligibleLoading = (): SimpleBuyActionTypes => ({
 export const fetchSBFiatEligibleSuccess = (
   fiatEligible: FiatEligibleType
 ): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_FIAT_ELIGIBLE_SUCCESS,
   payload: {
     fiatEligible
-  }
+  },
+  type: AT.FETCH_SB_FIAT_ELIGIBLE_SUCCESS
 })
 
 export const fetchSDDEligible = () => ({
   type: AT.FETCH_SDD_ELIGIBILITY
 })
 
-export const fetchSDDEligibleFailure = (
-  error: string
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SDD_ELIGIBILITY_FAILURE,
+export const fetchSDDEligibleFailure = (error: string): SimpleBuyActionTypes => ({
   payload: {
     error
-  }
+  },
+  type: AT.FETCH_SDD_ELIGIBILITY_FAILURE
 })
 
 export const fetchSDDEligibleLoading = (): SimpleBuyActionTypes => ({
   type: AT.FETCH_SDD_ELIGIBILITY_LOADING
 })
 
-export const fetchSDDEligibleSuccess = (
-  sddEligible: SDDEligibleType
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SDD_ELIGIBILITY_SUCCESS,
+export const fetchSDDEligibleSuccess = (sddEligible: SDDEligibleType): SimpleBuyActionTypes => ({
   payload: {
     sddEligible
-  }
+  },
+  type: AT.FETCH_SDD_ELIGIBILITY_SUCCESS
 })
 export const fetchSDDVerified = () => ({
   type: AT.FETCH_SDD_VERIFIED
 })
 
-export const fetchSDDVerifiedFailure = (
-  error: string
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SDD_VERIFIED_FAILURE,
+export const fetchSDDVerifiedFailure = (error: string): SimpleBuyActionTypes => ({
   payload: {
     error
-  }
+  },
+  type: AT.FETCH_SDD_VERIFIED_FAILURE
 })
 
 export const fetchSDDVerifiedLoading = (): SimpleBuyActionTypes => ({
   type: AT.FETCH_SDD_VERIFIED_LOADING
 })
 
-export const fetchSDDVerifiedSuccess = (
-  sddVerified: SDDVerifiedType
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SDD_VERIFIED_SUCCESS,
+export const fetchSDDVerifiedSuccess = (sddVerified: SDDVerifiedType): SimpleBuyActionTypes => ({
   payload: {
     sddVerified
-  }
+  },
+  type: AT.FETCH_SDD_VERIFIED_SUCCESS
 })
 
 export const fetchSBOrders = (skipLoading?: boolean) => ({
-  type: AT.FETCH_SB_ORDERS,
   payload: {
     skipLoading
-  }
+  },
+  type: AT.FETCH_SB_ORDERS
 })
 
 export const fetchSBOrdersFailure = (error: string): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_ORDERS_FAILURE,
   payload: {
     error
-  }
+  },
+  type: AT.FETCH_SB_ORDERS_FAILURE
 })
 
 export const fetchSBOrdersLoading = (): SimpleBuyActionTypes => ({
   type: AT.FETCH_SB_ORDERS_LOADING
 })
 
-export const fetchSBOrdersSuccess = (
-  orders: Array<SBOrderType>
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_ORDERS_SUCCESS,
+export const fetchSBOrdersSuccess = (orders: Array<SBOrderType>): SimpleBuyActionTypes => ({
   payload: {
     orders
-  }
+  },
+  type: AT.FETCH_SB_ORDERS_SUCCESS
 })
 
 export const fetchSBPairs = (currency: FiatType, coin?: CoinType) => ({
-  type: AT.FETCH_SB_PAIRS,
+  coin,
   currency,
-  coin
+  type: AT.FETCH_SB_PAIRS
 })
 
 export const fetchSBPairsFailure = (error: string): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_PAIRS_FAILURE,
   payload: {
     error
-  }
+  },
+  type: AT.FETCH_SB_PAIRS_FAILURE
 })
 
 export const fetchSBPairsLoading = (): SimpleBuyActionTypes => ({
@@ -331,51 +356,45 @@ export const fetchSBPairsSuccess = (
   pairs: Array<SBPairType>,
   coin?: CoinType
 ): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_PAIRS_SUCCESS,
   payload: {
-    pairs,
-    coin
-  }
+    coin,
+    pairs
+  },
+  type: AT.FETCH_SB_PAIRS_SUCCESS
 })
 
 export const fetchSBPaymentAccount = () => ({
   type: AT.FETCH_SB_PAYMENT_ACCOUNT
 })
 
-export const fetchSBPaymentAccountFailure = (
-  error: string
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_PAYMENT_ACCOUNT_FAILURE,
+export const fetchSBPaymentAccountFailure = (error: string): SimpleBuyActionTypes => ({
   payload: {
     error
-  }
+  },
+  type: AT.FETCH_SB_PAYMENT_ACCOUNT_FAILURE
 })
 
 export const fetchSBPaymentAccountLoading = (): SimpleBuyActionTypes => ({
   type: AT.FETCH_SB_PAYMENT_ACCOUNT_LOADING
 })
 
-export const fetchSBPaymentAccountSuccess = (
-  account: SBAccountType
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_PAYMENT_ACCOUNT_SUCCESS,
+export const fetchSBPaymentAccountSuccess = (account: SBAccountType): SimpleBuyActionTypes => ({
   payload: {
     account
-  }
+  },
+  type: AT.FETCH_SB_PAYMENT_ACCOUNT_SUCCESS
 })
 
 export const fetchSBPaymentMethods = (currency?: FiatType) => ({
-  type: AT.FETCH_SB_PAYMENT_METHODS,
-  currency
+  currency,
+  type: AT.FETCH_SB_PAYMENT_METHODS
 })
 
-export const fetchSBPaymentMethodsFailure = (
-  error: string
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_PAYMENT_METHODS_FAILURE,
+export const fetchSBPaymentMethodsFailure = (error: string): SimpleBuyActionTypes => ({
   payload: {
     error
-  }
+  },
+  type: AT.FETCH_SB_PAYMENT_METHODS_FAILURE
 })
 
 export const fetchSBPaymentMethodsLoading = (): SimpleBuyActionTypes => ({
@@ -385,57 +404,48 @@ export const fetchSBPaymentMethodsLoading = (): SimpleBuyActionTypes => ({
 export const fetchSBPaymentMethodsSuccess = (
   methods: SBPaymentMethodsType
 ): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_PAYMENT_METHODS_SUCCESS,
   payload: {
     methods
-  }
+  },
+  type: AT.FETCH_SB_PAYMENT_METHODS_SUCCESS
 })
 
-export const fetchSBQuote = (
-  pair: SBPairsType,
-  orderType: SBOrderActionType,
-  amount: string
-) => ({
-  type: AT.FETCH_SB_QUOTE,
-  pair,
+export const fetchSBQuote = (pair: SBPairsType, orderType: SBOrderActionType, amount: string) => ({
+  amount,
   orderType,
-  amount
+  pair,
+  type: AT.FETCH_SB_QUOTE
 })
 
 export const fetchSBQuoteFailure = (error: string): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_QUOTE_FAILURE,
   payload: {
     error
-  }
+  },
+  type: AT.FETCH_SB_QUOTE_FAILURE
 })
 
 export const fetchSBQuoteLoading = (): SimpleBuyActionTypes => ({
   type: AT.FETCH_SB_QUOTE_LOADING
 })
 
-export const fetchSBQuoteSuccess = (
-  quote: SBQuoteType
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_QUOTE_SUCCESS,
+export const fetchSBQuoteSuccess = (quote: SBQuoteType): SimpleBuyActionTypes => ({
   payload: {
     quote
-  }
+  },
+  type: AT.FETCH_SB_QUOTE_SUCCESS
 })
 
-export const fetchSellQuote = (
-  pair: SBPairsType,
-  account: SwapAccountType
-) => ({
-  type: AT.FETCH_SELL_QUOTE,
+export const fetchSellQuote = (pair: SBPairsType, account: SwapAccountType) => ({
+  account,
   pair,
-  account
+  type: AT.FETCH_SELL_QUOTE
 })
 
 export const fetchSellQuoteFailure = (error: string): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SELL_QUOTE_FAILURE,
   payload: {
     error
-  }
+  },
+  type: AT.FETCH_SELL_QUOTE_FAILURE
 })
 
 export const fetchSellQuoteLoading = (): SimpleBuyActionTypes => ({
@@ -446,44 +456,51 @@ export const fetchSellQuoteSuccess = (
   quote: SwapQuoteType,
   rate: number
 ): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SELL_QUOTE_SUCCESS,
   payload: {
     quote,
     rate
-  }
+  },
+  type: AT.FETCH_SELL_QUOTE_SUCCESS
 })
 
-export const handleSBDepositFiatClick = (
-  coin: WalletFiatType,
-  origin: ModalOriginType
-) => ({
-  type: AT.HANDLE_SB_DEPOSIT_FIAT_CLICK,
+export const handleSBDepositFiatClick = (coin: WalletFiatType, origin: ModalOriginType) => ({
   payload: {
     coin,
     origin
-  }
+  },
+  type: AT.HANDLE_SB_DEPOSIT_FIAT_CLICK
 })
 
-export const handleSBMaxAmountClick = (
-  amount: string,
-  coin: 'FIAT' | CoinType
-) => ({
-  type: AT.HANDLE_SB_MAX_AMOUNT_CLICK,
+export const handleSellMaxAmountClick = (amount: string, coin: 'FIAT' | CoinType) => ({
   payload: {
     amount,
     coin
-  }
+  },
+  type: AT.HANDLE_SELL_MAX_AMOUNT_CLICK
 })
 
-export const handleSBMinAmountClick = (
-  amount: string,
-  coin: 'FIAT' | CoinType
-) => ({
-  type: AT.HANDLE_SB_MIN_AMOUNT_CLICK,
+export const handleSellMinAmountClick = (amount: string, coin: 'FIAT' | CoinType) => ({
   payload: {
     amount,
     coin
-  }
+  },
+  type: AT.HANDLE_SELL_MIN_AMOUNT_CLICK
+})
+
+export const handleBuyMaxAmountClick = (amount: string, coin: 'FIAT' | CoinType) => ({
+  payload: {
+    amount,
+    coin
+  },
+  type: AT.HANDLE_BUY_MAX_AMOUNT_CLICK
+})
+
+export const handleBuyMinAmountClick = (amount: string, coin: 'FIAT' | CoinType) => ({
+  payload: {
+    amount,
+    coin
+  },
+  type: AT.HANDLE_BUY_MIN_AMOUNT_CLICK
 })
 
 export const initializeBillingAddress = () => ({
@@ -499,14 +516,14 @@ export const initializeCheckout = (
   account?: SwapAccountType,
   cryptoAmount?: string
 ) => ({
-  type: AT.INITIALIZE_CHECKOUT,
   account,
   amount,
+  cryptoAmount,
   fix,
   orderType,
   pair,
   pairs,
-  cryptoAmount
+  type: AT.INITIALIZE_CHECKOUT
 })
 
 export const pollSBBalances = () => ({
@@ -514,26 +531,24 @@ export const pollSBBalances = () => ({
 })
 
 export const pollSBCard = (cardId: SBCardType['id']) => ({
-  type: AT.POLL_SB_CARD,
   payload: {
     cardId
-  }
+  },
+  type: AT.POLL_SB_CARD
 })
 
 export const pollSBOrder = (orderId: string) => ({
-  type: AT.POLL_SB_ORDER,
   payload: {
     orderId
-  }
+  },
+  type: AT.POLL_SB_ORDER
 })
 
-export const setFiatCurrency = (
-  fiatCurrency: FiatType
-): SimpleBuyActionTypes => ({
-  type: AT.SET_FIAT_CURRENCY,
+export const setFiatCurrency = (fiatCurrency: FiatType): SimpleBuyActionTypes => ({
   payload: {
     fiatCurrency
-  }
+  },
+  type: AT.SET_FIAT_CURRENCY
 })
 
 export const addCardFinished = (): SimpleBuyActionTypes => ({
@@ -541,98 +556,38 @@ export const addCardFinished = (): SimpleBuyActionTypes => ({
 })
 
 export const setStep = (payload: StepActionsPayload): SimpleBuyActionTypes => ({
-  type: AT.SET_STEP,
-  payload: getPayloadObjectForStep(payload)
+  payload: getPayloadObjectForStep(payload),
+  type: AT.SET_STEP
 })
-
-const getPayloadObjectForStep = (payload: StepActionsPayload) => {
-  switch (payload.step) {
-    case 'LINKED_PAYMENT_ACCOUNTS':
-    case 'PAYMENT_METHODS':
-      return {
-        step: payload.step,
-        cryptoCurrency: payload.cryptoCurrency,
-        fiatCurrency: payload.fiatCurrency,
-        order: payload.order,
-        pair: payload.pair
-      }
-    case 'VERIFY_EMAIL':
-    case 'ENTER_AMOUNT':
-      return {
-        step: payload.step,
-        orderType: payload.orderType || 'BUY',
-        cryptoCurrency: payload.cryptoCurrency,
-        fiatCurrency: payload.fiatCurrency,
-        method: payload.method,
-        pair: payload.pair,
-        swapAccount: payload.swapAccount
-      }
-    case 'CRYPTO_SELECTION':
-      return {
-        step: payload.step,
-        cryptoCurrency: payload.cryptoCurrency,
-        fiatCurrency: payload.fiatCurrency,
-        orderType: payload.orderType
-      }
-    case 'BANK_WIRE_DETAILS':
-      return {
-        step: payload.step,
-        fiatCurrency: payload.fiatCurrency,
-        displayBack: payload.displayBack,
-        addBank: payload.addBank
-      }
-    case 'PREVIEW_SELL': {
-      return { step: payload.step, sellOrderType: payload.sellOrderType }
-    }
-    case 'AUTHORIZE_PAYMENT':
-    case 'CHECKOUT_CONFIRM':
-    case 'ORDER_SUMMARY':
-    case 'OPEN_BANKING_CONNECT':
-      return { step: payload.step, order: payload.order }
-    case '3DS_HANDLER':
-      return { step: payload.step, order: payload.order }
-    case 'SELL_ORDER_SUMMARY':
-      return { step: payload.step, sellOrder: payload.sellOrder }
-    default:
-      return { step: payload.step }
-  }
-}
 
 export const showModal = (
   origin: SBShowModalOriginType,
   cryptoCurrency?: CoinType,
   orderType?: SBOrderActionType
 ) => ({
-  type: AT.SHOW_MODAL,
   payload: {
-    origin,
     cryptoCurrency,
-    orderType
-  }
+    orderType,
+    origin
+  },
+  type: AT.SHOW_MODAL
 })
 
-export const switchFix = (
-  amount: string,
-  orderType: SBOrderActionType,
-  fix: SBFixType
-) => ({
-  type: AT.SWITCH_FIX,
+export const switchFix = (amount: string, orderType: SBOrderActionType, fix: SBFixType) => ({
   payload: {
     amount,
-    orderType,
-    fix
-  }
+    fix,
+    orderType
+  },
+  type: AT.SWITCH_FIX
 })
 
 // used for sell only now, eventually buy as well
 // TODO: use swap2 quote for buy AND sell
-export const startPollSellQuote = (
-  pair: SBPairsType,
-  account: SwapAccountType
-) => ({
-  type: AT.START_POLL_SELL_QUOTE,
+export const startPollSellQuote = (pair: SBPairsType, account: SwapAccountType) => ({
+  account,
   pair,
-  account
+  type: AT.START_POLL_SELL_QUOTE
 })
 
 export const stopPollSellQuote = () => ({
@@ -640,10 +595,10 @@ export const stopPollSellQuote = () => ({
 })
 
 export const updatePaymentFailure = (error: string): SimpleBuyActionTypes => ({
-  type: AT.UPDATE_PAYMENT_FAILURE,
   payload: {
     error
-  }
+  },
+  type: AT.UPDATE_PAYMENT_FAILURE
 })
 
 export const fetchLimits = (
@@ -651,41 +606,49 @@ export const fetchLimits = (
   cryptoCurrency?: CoinType,
   side?: SBOrderActionType
 ) => ({
-  type: AT.FETCH_LIMITS,
-  currency,
   cryptoCurrency,
-  side
+  currency,
+  side,
+  type: AT.FETCH_LIMITS
 })
 
 export const fetchLimitsFailure = (error: string): SimpleBuyActionTypes => ({
-  type: AT.FETCH_LIMITS_FAILURE,
   payload: {
     error
-  }
+  },
+  type: AT.FETCH_LIMITS_FAILURE
 })
 export const updatePaymentLoading = (): SimpleBuyActionTypes => ({
   type: AT.UPDATE_PAYMENT_LOADING
 })
-export const updatePaymentSuccess = (
-  payment: PaymentValue | undefined
-): SimpleBuyActionTypes => ({
-  type: AT.UPDATE_PAYMENT_SUCCESS,
+export const updatePaymentSuccess = (payment: PaymentValue | undefined): SimpleBuyActionTypes => ({
   payload: {
     payment
-  }
+  },
+  type: AT.UPDATE_PAYMENT_SUCCESS
 })
 export const fetchLimitsLoading = (): SimpleBuyActionTypes => ({
   type: AT.FETCH_LIMITS_LOADING
 })
 
-export const fetchLimitsSuccess = (
-  limits: SwapUserLimitsType
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_LIMITS_SUCCESS,
+export const fetchLimitsSuccess = (limits: SwapUserLimitsType): SimpleBuyActionTypes => ({
   payload: {
     limits
-  }
+  },
+  type: AT.FETCH_LIMITS_SUCCESS
 })
 export const updateSddTransactionFinished = () => ({
   type: AT.UPDATE_SDD_TRANSACTION_FINISHED
+})
+export const setBuyCrypto = (origin: string) => ({
+  payload: {
+    props: { origin }
+  },
+  type: AT.SET_BUY_CRYPTO
+})
+export const setSellCrypto = (origin: string) => ({
+  payload: {
+    props: { origin }
+  },
+  type: AT.SET_SELL_CRYPTO
 })

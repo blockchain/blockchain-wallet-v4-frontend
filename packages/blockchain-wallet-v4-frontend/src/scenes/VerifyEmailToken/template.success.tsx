@@ -39,12 +39,7 @@ const Success = ({ mobileLinkOut }: Props) => {
           </Button>
         </Link>
       ) : (
-        <Text
-          color='grey900'
-          style={{ marginTop: '8px' }}
-          size='16px'
-          weight={500}
-        >
+        <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
           <FormattedMessage
             id='scenes.verifyemailtoken.return'
             defaultMessage='Return to the previous tab to access your Blockchain Wallet.'

@@ -2,6 +2,7 @@ import {
   AgentType,
   CoinType,
   FiatType,
+  SBPaymentTypes,
   SBTransactionStateType,
   WalletCurrencyType,
   WalletFiatType
@@ -27,11 +28,17 @@ export enum ProductTypes {
 
 export type NabuCustodialProductType = keyof typeof ProductTypes
 
-export type WithdrawalFeesProductType = 'simplebuy' | 'mercurial'
+export type WithdrawalFeesProductType = 'simplebuy' | 'mercury'
 
 export type NabuMoneyFloatType = {
   symbol: CoinType | FiatType
   value: string
+}
+
+export type NabuSymbolNumberType = {
+  minorValue: string
+  symbol: CoinType | FiatType
+  value: number
 }
 
 export type NabuCurrencyNumberType = {
@@ -77,8 +84,8 @@ export type WithdrawResponseType = {
 
 export type WithdrawalMinsAndFeesResponse = {
   feeType: 'NETWORK'
-  fees: Array<NabuMoneyFloatType>
-  minAmounts: Array<NabuMoneyFloatType>
+  fees: Array<NabuSymbolNumberType>
+  minAmounts: Array<NabuSymbolNumberType>
 }
 
 export type WithdrawalLockCheckRule = {
@@ -135,5 +142,5 @@ export type PaymentMethod = {
   ineligibleReason: IneligibilityReasons
   limits: { max: string; min: string }
   subTypes: string[]
-  type: 'PAYMENT_CARD' | 'BANK_ACCOUNT'
+  type: SBPaymentTypes.PAYMENT_CARD | SBPaymentTypes.BANK_ACCOUNT
 }

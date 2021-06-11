@@ -13,7 +13,7 @@ const ColumnWrapper = styled.section`
   display: flex;
   flex-direction: column;
 
-  ${media.atLeastLaptopM`
+  ${media.atLeastLaptop`
     flex-direction: row;
   `}
 `
@@ -24,7 +24,7 @@ const Column = styled.div`
 `
 const ColumnLeft = styled(Column)`
   flex: 2;
-  ${media.atLeastLaptopM`
+  ${media.atLeastLaptop`
     margin-right: 24px;
   `}
 `
@@ -33,7 +33,7 @@ const ColumnRight = styled(Column)`
   flex: 3;
   margin-top: 24px;
 
-  ${media.atLeastLaptopM`
+  ${media.atLeastLaptop`
     margin-top: 0;
   `}
 `

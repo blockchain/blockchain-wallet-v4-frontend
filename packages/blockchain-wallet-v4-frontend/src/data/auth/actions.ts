@@ -88,41 +88,26 @@ export const secureChannelLoginFailure = (err) => ({
   type: AT.SECURE_CHANNEL_LOGIN_FAILURE
 })
 
-// MISC
-export const authenticate = () => ({ type: AT.AUTHENTICATE })
-export const deauthorizeBrowser = () => ({ type: AT.DEAUTHORIZE_BROWSER })
-export const setAuthType = (authType) => ({
-  payload: { authType },
-  type: AT.SET_AUTH_TYPE
-})
-export const setRegisterEmail = (email) => ({
-  payload: { email },
-  type: AT.SET_REGISTER_EMAIL
-})
-export const upgradeWallet = (version: number): AuthActionTypes => ({
-  payload: { version },
-  type: AT.UPGRADE_WALLET
-})
-
+// LOGIN
 export const clearLoginError = () => ({
   type: AT.CLEAR_LOGIN_ERROR
 })
 
 // INITIALIZE LOGIN
 export const initializeLogin = () => ({
-  type: AT.INTIALIZE_LOGIN
+  type: AT.INITIALIZE_LOGIN
 })
 
 export const initializeLoginLoading = (): AuthActionTypes => ({
-  type: AT.INTIALIZE_LOGIN_LOADING
+  type: AT.INITIALIZE_LOGIN_LOADING
 })
 
 export const initializeLoginSuccess = (): AuthActionTypes => ({
-  type: AT.INTIALIZE_LOGIN_SUCCESS
+  type: AT.INITIALIZE_LOGIN_SUCCESS
 })
 
 export const initializeLoginFailure = (): AuthActionTypes => ({
-  type: AT.INTIALIZE_LOGIN_FAILURE
+  type: AT.INITIALIZE_LOGIN_FAILURE
 })
 
 // LOGIN GUID
@@ -158,3 +143,27 @@ export const guidWalletSuccess = (): AuthActionTypes => ({
 export const guidWalletFailure = (): AuthActionTypes => ({
   type: AT.GUID_WALLET_FAILURE
 })
+
+// MISC
+export const authenticate = () => ({ type: AT.AUTHENTICATE })
+export const deauthorizeBrowser = () => ({ type: AT.DEAUTHORIZE_BROWSER })
+export const setAuthType = (authType) => ({
+  payload: { authType },
+  type: AT.SET_AUTH_TYPE
+})
+export const setRegisterEmail = (email) => ({
+  payload: { email },
+  type: AT.SET_REGISTER_EMAIL
+})
+export const upgradeWallet = (version: number): AuthActionTypes => ({
+  payload: { version },
+  type: AT.UPGRADE_WALLET
+})
+
+export const logWrongChangeCache = () => ({
+  type: AT.WRONG_CHANGE_CACHE
+})
+export const logWrongReceiveCache = () => ({
+  type: AT.WRONG_RECEIVE_CACHE
+})
+

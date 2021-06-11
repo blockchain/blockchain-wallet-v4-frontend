@@ -1,17 +1,11 @@
-import BitcoinCash from 'bitcoinforksjs-lib'
-import * as Bitcoin from 'bitcoinjs-lib'
 import { map } from 'ramda'
 
-import { utils } from 'blockchain-wallet-v4/src'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { selectors } from 'data'
 import { REQUEST_ACCOUNTS_SELECTOR } from 'data/coins/model/request'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { CoinAccountSelectorType } from 'data/coins/types'
 import { SwapAccountType } from 'data/components/swap/types'
-
-const { isCashAddr, toCashAddr } = utils.bch
 
 export const getData = createDeepEqualSelector(
   [
@@ -21,16 +15,16 @@ export const getData = createDeepEqualSelector(
         ...REQUEST_ACCOUNTS_SELECTOR
       } as CoinAccountSelectorType),
     selectors.core.walletOptions.getAllCoinAvailabilities,
-    selectors.core.walletOptions.getBtcNetwork,
+    selectors.modules.profile.isSilverOrAbove,
     (state, ownProps) => ({ ownProps, state })
   ],
-  (accounts, coinAvailabilitiesR, btcNetworkR, { ownProps, state }) => {
+  (accounts, coinAvailabilitiesR, isSilverOrAbove, { ownProps }) => {
     const { selectedCoin } = ownProps?.formValues || {}
     const coinAvailabilities = coinAvailabilitiesR.getOrFail(
       'No available coins.'
     )
-    const btcNetwork = btcNetworkR.getOrElse('bitcoin') as string
     const prunedAccounts = [] as Array<SwapAccountType>
+    const isAtLeastTier1 = isSilverOrAbove
 
     // @ts-ignore
     map(
@@ -44,41 +38,12 @@ export const getData = createDeepEqualSelector(
               ? coinAvailabilities[acct.coin].request
               : acct.coin === selectedCoin
           ) {
-            // if HD account type and coin is BTC, derive next address
-            if (acct.type === ADDRESS_TYPES.ACCOUNT && acct.coin === 'BTC') {
-              const defaultDerivation = selectors.core.common.btc.getAccountDefaultDerivation(
-                acct.accountIndex,
-                state
-              )
-              acct.nextReceiveAddress = selectors.core.common.btc
-                .getNextAvailableReceiveAddress(
-                  Bitcoin.networks[btcNetwork],
-                  acct.accountIndex,
-                  defaultDerivation,
-                  state
-                )
-                .getOrFail()
-            }
-            // if HD account type and coin is BCH, derive next address
-            if (acct.type === ADDRESS_TYPES.ACCOUNT && acct.coin === 'BCH') {
-              const nextBchAddress = selectors.core.common.bch
-                .getNextAvailableReceiveAddress(
-                  BitcoinCash.networks[btcNetwork],
-                  acct.accountIndex,
-                  state
-                )
-                .getOrFail()
-
-              acct.nextReceiveAddress = isCashAddr(nextBchAddress)
-                ? nextBchAddress
-                : toCashAddr(nextBchAddress, true)
-            }
             prunedAccounts.push(acct)
           }
         }, coin),
       accounts
     )
 
-    return prunedAccounts
+    return { isAtLeastTier1, accounts: prunedAccounts }
   }
 )

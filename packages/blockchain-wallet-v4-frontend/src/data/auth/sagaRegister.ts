@@ -1,4 +1,4 @@
-import { take, takeLatest } from 'redux-saga/effects'
+import { takeLatest } from 'redux-saga/effects'
 
 import * as AT from './actionTypes'
 import sagas from './sagas'
@@ -17,7 +17,7 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.RESEND_SMS_CODE, authSagas.resendSmsLoginCode)
     yield takeLatest(AT.RESTORE_FROM_METADATA, authSagas.restoreFromMetadata)
     yield takeLatest(AT.UPGRADE_WALLET, authSagas.upgradeWallet)
-    yield takeLatest(AT.INTIALIZE_LOGIN, authSagas.initializeLogin)
+    yield takeLatest(AT.INITIALIZE_LOGIN, authSagas.initializeLogin)
     yield takeLatest(AT.LOGIN_GUID, authSagas.loginGuid)
   }
 }

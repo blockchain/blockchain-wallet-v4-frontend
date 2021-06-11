@@ -15,6 +15,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
 import RequestCoinSelect from './CoinSelect'
+import InitTradingAccount from './InitTradingAccount'
 import { REQUEST_FORM } from './model'
 import { getData } from './selectors'
 import RequestShowAddress from './ShowAddress'
@@ -62,12 +63,25 @@ class RequestCrypto extends PureComponent<Props, State> {
       >
         {step === RequestSteps.COIN_SELECT && (
           <FlyoutChild>
-            <RequestCoinSelect {...this.props} handleClose={this.handleClose} />
+            <RequestCoinSelect
+              {...this.props}
+              handleClose={this.handleClose}
+              setStep={this.setStep}
+            />
           </FlyoutChild>
         )}
         {step === RequestSteps.SHOW_ADDRESS && (
           <FlyoutChild>
             <RequestShowAddress
+              {...this.props}
+              handleClose={this.handleClose}
+              setStep={this.setStep}
+            />
+          </FlyoutChild>
+        )}
+        {step === RequestSteps.IDV_INTRO && (
+          <FlyoutChild>
+            <InitTradingAccount
               {...this.props}
               handleClose={this.handleClose}
               setStep={this.setStep}
@@ -80,13 +94,9 @@ class RequestCrypto extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state): LinkStatePropsType => ({
-  formValues: selectors.form.getFormValues(REQUEST_FORM)(
-    state
-  ) as RequestFormType,
+  formValues: selectors.form.getFormValues(REQUEST_FORM)(state) as RequestFormType,
   initialValues: {
-    currencyDisplay: selectors.core.settings
-      .getCurrency(state)
-      .getOrElse('USD'),
+    currencyDisplay: selectors.core.settings.getCurrency(state).getOrElse('USD'),
     selectedCoin: selectors.router.getCoinFromPageUrl(state) || 'ALL',
     step: RequestSteps.COIN_SELECT
   },
@@ -97,7 +107,7 @@ const mapStateToProps = (state): LinkStatePropsType => ({
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 

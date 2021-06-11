@@ -17,6 +17,7 @@ import onboarding from './onboarding/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
 import priceTicker from './priceTicker/sagaRegister'
 import refresh from './refresh/sagaRegister'
+import request from './request/sagaRegister'
 import resetWallet2fa from './resetWallet2fa/sagaRegister'
 import send from './send/sagaRegister'
 import sendBch from './sendBch/sagaRegister'
@@ -52,6 +53,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(priceChart())
     yield fork(priceTicker({ coreSagas }))
     yield fork(refresh())
+    yield fork(request({ api, coreSagas, networks }))
     yield fork(resetWallet2fa({ api }))
     yield fork(send({ api, coreSagas, networks }))
     yield fork(sendBch({ api, coreSagas, networks }))

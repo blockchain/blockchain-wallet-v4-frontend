@@ -10,6 +10,7 @@ import * as manageAddresses from './manageAddresses/selectors'
 import * as priceChart from './priceChart/selectors'
 import * as priceTicker from './priceTicker/selectors'
 import * as recoveryPhrase from './recoveryPhrase/selectors'
+import * as request from './request/selectors'
 import * as resetWallet2fa from './resetWallet2fa/selectors'
 import * as send from './send/selectors'
 import * as sendBch from './sendBch/selectors'
@@ -38,6 +39,7 @@ export {
   priceChart,
   priceTicker,
   recoveryPhrase,
+  request,
   resetWallet2fa,
   send,
   sendBch,

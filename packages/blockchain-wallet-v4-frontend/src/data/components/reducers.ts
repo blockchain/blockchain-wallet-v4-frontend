@@ -9,6 +9,7 @@ import lockbox from './lockbox/reducers'
 import manageAddresses from './manageAddresses/reducers'
 import { priceChartReducer } from './priceChart/reducers'
 import { recoveryPhraseReducer } from './recoveryPhrase/reducers'
+import { requestReducer } from './request/reducers'
 import resetWallet2fa from './resetWallet2fa/reducers'
 import { sendReducer } from './send/reducers'
 import { sendBchReducer } from './sendBch/reducers'
@@ -33,6 +34,7 @@ const componentReducer = combineReducers({
   manageAddresses,
   priceChart: priceChartReducer,
   recoveryPhrase: recoveryPhraseReducer,
+  request: requestReducer,
   resetWallet2fa,
   send: sendReducer,
   sendBch: sendBchReducer,

@@ -95,6 +95,7 @@ export type ModalOriginType =
   | 'WalletBalanceDropdown'
   | 'WelcomeModal'
   | 'WithdrawModal'
+  | 'CurrencyList'
 
 export type ModalParamPropsType = {
   [key: string]: any

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { OrderType } from 'blockchain-wallet-v4/src/types'
+import { OrderType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 
 import { LinkStatePropsType, Props as OwnProps, SuccessStateType } from '.'
 import Checkout from './Checkout'
@@ -29,7 +29,7 @@ const Success: React.FC<Props> = (props) => {
     props.orderType === OrderType.BUY ||
     (props.orderType === OrderType.SELL &&
       props.paymentMethods.methods
-        .filter((method) => method.type === 'FUNDS')
+        .filter((method) => method.type === SBPaymentTypes.FUNDS)
         .map((method) => method.currency)
         .includes(props.walletCurrency))
 

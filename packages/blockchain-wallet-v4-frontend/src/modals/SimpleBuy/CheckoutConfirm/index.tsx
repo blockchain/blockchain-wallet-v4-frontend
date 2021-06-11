@@ -8,6 +8,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import {
   ExtractSuccess,
   SBOrderType,
+  SBPaymentTypes,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
@@ -27,8 +28,6 @@ import { getData } from './selectors'
 import Success from './template.success'
 
 class CheckoutConfirm extends PureComponent<Props> {
-  state = {}
-
   componentDidMount() {
     this.props.simpleBuyActions.fetchSBQuote(
       this.props.order.pair,
@@ -53,22 +52,19 @@ class CheckoutConfirm extends PureComponent<Props> {
       sbBalances,
       userData
     } = this.props.data.getOrElse({
-      userData: { tiers: { current: 0 } } as UserDataType,
-      isSddFlow: false
+      isSddFlow: false,
+      userData: { tiers: { current: 0 } } as UserDataType
     } as SuccessStateType)
 
     const userTier = userData?.tiers?.current
     const inputCurrency = this.props.order.inputCurrency as WalletFiatType
 
     // check for SDD flow and direct to add card
-    if (isSddFlow && this.props.order.paymentType === 'PAYMENT_CARD') {
+    if (isSddFlow && this.props.order.paymentType === SBPaymentTypes.PAYMENT_CARD) {
       if (isUserSddVerified) {
         if (cards && cards.length > 0) {
           const card = cards[0]
-          return this.props.simpleBuyActions.confirmSBOrder(
-            card.id,
-            this.props.order
-          )
+          return this.props.simpleBuyActions.confirmSBOrder(card.id, this.props.order)
         }
         return this.props.simpleBuyActions.setStep({
           step: 'ADD_CARD'
@@ -86,31 +82,27 @@ class CheckoutConfirm extends PureComponent<Props> {
     }
 
     switch (this.props.order.paymentType) {
-      case 'FUNDS':
+      case SBPaymentTypes.FUNDS:
         const available = sbBalances[inputCurrency]?.available || '0'
-        if (
-          new BigNumber(available).isGreaterThanOrEqualTo(
-            this.props.order.inputQuantity
-          )
-        ) {
+        if (new BigNumber(available).isGreaterThanOrEqualTo(this.props.order.inputQuantity)) {
           return this.props.simpleBuyActions.confirmSBFundsOrder()
-        } else {
-          return this.props.simpleBuyActions.setStep({
-            step: 'BANK_WIRE_DETAILS',
-            fiatCurrency: inputCurrency,
-            displayBack: false
-          })
         }
-      case 'PAYMENT_CARD':
+        return this.props.simpleBuyActions.setStep({
+          displayBack: false,
+          fiatCurrency: inputCurrency,
+          step: 'BANK_WIRE_DETAILS'
+        })
+
+      case SBPaymentTypes.PAYMENT_CARD:
         if (this.props.order.paymentMethodId) {
           return this.props.simpleBuyActions.confirmSBOrder(
             this.props.order.paymentMethodId,
             this.props.order
           )
-        } else {
-          return this.props.simpleBuyActions.setStep({ step: 'ADD_CARD' })
         }
-      case 'BANK_TRANSFER':
+        return this.props.simpleBuyActions.setStep({ step: 'ADD_CARD' })
+
+      case SBPaymentTypes.BANK_TRANSFER:
         const [bankAccount] = filter(
           (b: BankTransferAccountType) =>
             b.state === 'ACTIVE' && b.id === this.props.order.paymentMethodId,
@@ -120,8 +112,8 @@ class CheckoutConfirm extends PureComponent<Props> {
         // if yapily we need the auth screen before creating the order
         if (paymentPartner === BankPartners.YAPILY) {
           return this.props.simpleBuyActions.setStep({
-            step: 'AUTHORIZE_PAYMENT',
-            order: this.props.order
+            order: this.props.order,
+            step: 'AUTHORIZE_PAYMENT'
           })
         }
         if (this.props.order.paymentMethodId) {
@@ -129,32 +121,30 @@ class CheckoutConfirm extends PureComponent<Props> {
             this.props.order.paymentMethodId,
             this.props.order
           )
-        } else {
-          this.props.brokerageActions.showModal(
-            BrokerageModalOriginType.ADD_BANK,
-            'ADD_BANK_YODLEE_MODAL'
-          )
-          return this.props.brokerageActions.setAddBankStep({
-            addBankStep: AddBankStepType.ADD_BANK_HANDLER
-          })
         }
+        this.props.brokerageActions.showModal(
+          BrokerageModalOriginType.ADD_BANK,
+          'ADD_BANK_YODLEE_MODAL'
+        )
+        return this.props.brokerageActions.setAddBankStep({
+          addBankStep: AddBankStepType.ADD_BANK_HANDLER
+        })
+
       default:
         // Not a valid payment method type, go back to CRYPTO_SELECTION
         return this.props.simpleBuyActions.setStep({
-          step: 'CRYPTO_SELECTION',
-          fiatCurrency: getFiatFromPair(this.props.order.pair)
+          fiatCurrency: getFiatFromPair(this.props.order.pair),
+          step: 'CRYPTO_SELECTION'
         })
     }
   }
 
   render() {
     return this.props.data.cata({
-      Success: val => (
-        <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
-      ),
-      Failure: e => <DataError message={{ message: e }} />,
+      Failure: (e) => <DataError message={{ message: e }} />,
       Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      NotAsked: () => <Loading />,
+      Success: (val) => <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
     })
   }
 }
@@ -167,13 +157,13 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
   ),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   sendActions: bindActionCreators(actions.components.send, dispatch),
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

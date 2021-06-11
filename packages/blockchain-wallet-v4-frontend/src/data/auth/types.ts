@@ -34,16 +34,16 @@ interface LoginFailureActionType {
   }
   type: typeof AT.LOGIN_FAILURE
 }
-interface InitalizeLoginSuccessActionType {
-  type: typeof AT.INTIALIZE_LOGIN_SUCCESS
+interface InitializeLoginSuccessActionType {
+  type: typeof AT.INITIALIZE_LOGIN_SUCCESS
 }
 
 interface InitializeLoginLoadingActionType {
-  type: typeof AT.INTIALIZE_LOGIN_LOADING
+  type: typeof AT.INITIALIZE_LOGIN_LOADING
 }
 
 interface InitializeLoginFailureActionType {
-  type: typeof AT.INTIALIZE_LOGIN_FAILURE
+  type: typeof AT.INITIALIZE_LOGIN_FAILURE
 }
 
 interface LoginGuidSuccessActionType {
@@ -81,7 +81,7 @@ export type AuthActionTypes =
   | LoginFailureActionType
   | InitializeLoginFailureActionType
   | InitializeLoginLoadingActionType
-  | InitalizeLoginSuccessActionType
+  | InitializeLoginSuccessActionType
   | LoginGuidFailureActionType
   | LoginGuidLoadingActionType
   | LoginGuidSuccessActionType

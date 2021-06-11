@@ -8,7 +8,7 @@ import VerifyEmail from './template'
 
 const { DISMISS_VERIFICATION, EMAIL_VERIFIED } = model.analytics.AB_TEST_EVENTS
 
-class VerifyEmailContainer extends React.PureComponent<Props, {}> {
+class VerifyEmailContainer extends React.PureComponent<Props> {
   static getDerivedStateFromProps(nextProps) {
     if (nextProps.isEmailVerified) {
       nextProps.authActions.setRegisterEmail(undefined)

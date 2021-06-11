@@ -45,7 +45,10 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   const lockR = selectors.components.withdraw.getWithdrawalLocks(state)
 
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
-  const supportedCoins = supportedCoinsR.getOrElse({} as SupportedWalletCurrenciesType)
+  const supportedCoins = supportedCoinsR.getOrElse(
+    {} as SupportedWalletCurrenciesType
+  )
+
   return lift(
     (
       bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,

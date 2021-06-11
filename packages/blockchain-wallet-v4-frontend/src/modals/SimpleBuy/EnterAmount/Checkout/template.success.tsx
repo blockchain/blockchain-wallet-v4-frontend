@@ -6,14 +6,19 @@ import styled from 'styled-components'
 import { Icon, Text } from 'blockchain-info-components'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { coinToString, fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import { CoinType, OrderType, SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
+import {
+  CoinType,
+  OrderType,
+  SBPaymentMethodType,
+  SBPaymentTypes
+} from 'blockchain-wallet-v4/src/types'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { model } from 'data'
 import { convertStandardToBase } from 'data/components/exchange/services'
-import { SBCheckoutFormValuesType } from 'data/types'
+import { SBCheckoutFormValuesType, SwapBaseCounterTypes } from 'data/types'
 import { CRYPTO_DECIMALS, FIAT_DECIMALS, formatTextAmount } from 'services/forms'
 
 import { Row } from '../../../Swap/EnterAmount/Checkout'
@@ -61,7 +66,6 @@ const Amounts = styled.div`
   display: flex;
   justify-content: center;
 `
-
 const QuoteActionContainer = styled.div`
   height: 32px;
 `
@@ -171,7 +175,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     const card = cards[0]
 
     const defaultCardMethod = props.paymentMethods.methods.find(
-      (m) => m.type === 'PAYMENT_CARD' && orderType === 'BUY'
+      (m) => m.type === SBPaymentTypes.PAYMENT_CARD && orderType === 'BUY'
     )
     method = {
       ...card,
@@ -181,7 +185,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         defaultCardMethod && defaultCardMethod.limits
           ? defaultCardMethod.limits
           : { max: '10000', min: '500' },
-      type: 'USER_CARD'
+      type: SBPaymentTypes.USER_CARD
     } as SBPaymentMethodType
   }
 
@@ -262,11 +266,19 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     )[fix]
     const value = convertStandardToBase(conversionCoinType, maxMin)
     if (prop === 'min') {
-      props.simpleBuyActions.handleSBMinAmountClick(value, conversionCoinType)
+      if (props.orderType === OrderType.SELL) {
+        props.simpleBuyActions.handleSellMinAmountClick(value, conversionCoinType)
+      } else if (props.orderType === OrderType.BUY) {
+        props.simpleBuyActions.handleBuyMinAmountClick(value, conversionCoinType)
+      }
     }
 
     if (prop === 'max') {
-      props.simpleBuyActions.handleSBMaxAmountClick(value, conversionCoinType)
+      if (props.orderType === OrderType.SELL) {
+        props.simpleBuyActions.handleSellMaxAmountClick(value, conversionCoinType)
+      } else if (props.orderType === OrderType.BUY) {
+        props.simpleBuyActions.handleBuyMaxAmountClick(value, conversionCoinType)
+      }
     }
   }
   const handleMaxClick = () => {
@@ -285,7 +297,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       props.limits
     )[fix]
     const value = convertStandardToBase(conversionCoinType, maxMin)
-    props.simpleBuyActions.handleSBMaxAmountClick(value, conversionCoinType)
+    if (props.orderType === OrderType.SELL) {
+      props.simpleBuyActions.handleSellMaxAmountClick(value, conversionCoinType)
+    } else if (props.orderType === OrderType.BUY) {
+      props.simpleBuyActions.handleBuyMaxAmountClick(value, conversionCoinType)
+    }
   }
 
   const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
@@ -304,7 +320,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const isErc20 = props.supportedCoins[cryptoCurrency].contractAddress
   const isSufficientEthForErc20 =
     props.payment &&
-    props.swapAccount?.type === 'ACCOUNT' &&
+    props.swapAccount?.type === SwapBaseCounterTypes.ACCOUNT &&
     props.orderType === OrderType.SELL &&
     isErc20 &&
     // @ts-ignore
@@ -454,7 +470,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               </>
             </Amounts>
           )}
-
         {!props.isSddFlow &&
           props.orderType === OrderType.SELL &&
           props.pair &&

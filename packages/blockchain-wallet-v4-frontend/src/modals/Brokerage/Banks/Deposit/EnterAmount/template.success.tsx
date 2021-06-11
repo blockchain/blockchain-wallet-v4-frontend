@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import { FiatType } from 'blockchain-wallet-v4/src/types'
+import { FiatType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -14,11 +14,7 @@ import { Form } from 'components/Form'
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
 import { model } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import {
-  AddBankStepType,
-  BankDWStepType,
-  BrokerageModalOriginType
-} from 'data/types'
+import { AddBankStepType, BankDWStepType, BrokerageModalOriginType } from 'data/types'
 
 // TODO: move this to somewhere more generic
 import {
@@ -28,19 +24,12 @@ import {
   PaymentText
 } from '../../../../SimpleBuy/EnterAmount/Checkout/Payment/model'
 import { Row } from '../../components'
-import {
-  DepositOrWithdrawal,
-  normalizeAmount,
-  RightArrowIcon
-} from '../../model'
+import { DepositOrWithdrawal, normalizeAmount, RightArrowIcon } from '../../model'
 import { LinkStatePropsType, Props as _P, SuccessStateType } from '.'
 import { getDefaultMethod, getText } from './model'
 import { maximumAmount, minimumAmount } from './validation'
 
-const {
-  DEPOSIT_CONTINUE,
-  SELECT_DEPOSIT_METHOD
-} = model.analytics.FIAT_DEPOSIT_EVENTS
+const { DEPOSIT_CONTINUE, SELECT_DEPOSIT_METHOD } = model.analytics.FIAT_DEPOSIT_EVENTS
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -64,8 +53,8 @@ const Limits = styled.div`
   display: flex;
   flex-direction: row;
   padding: 15px 40px;
-  border-top: 1px solid ${props => props.theme.grey000};
-  border-bottom: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
 `
 const LimitWrapper = styled.div`
   display: flex;
@@ -95,7 +84,7 @@ const AmountRow = styled(Row)`
   border: 0;
 `
 const SubIconWrapper = styled.div`
-  background-color: ${props => props.theme['fiat-light']};
+  background-color: ${(props) => props.theme['fiat-light']};
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -122,10 +111,7 @@ const Header = ({ brokerageActions, fiatCurrency }) => {
               })
             }
           />
-          <DepositOrWithdrawal
-            fiatCurrency={fiatCurrency}
-            orderType={'DEPOSIT'}
-          />
+          <DepositOrWithdrawal fiatCurrency={fiatCurrency} orderType='DEPOSIT' />
         </LeftTopCol>
       </TopText>
     </HeaderWrapper>
@@ -134,26 +120,20 @@ const Header = ({ brokerageActions, fiatCurrency }) => {
 
 const LimitSection = ({ fiatCurrency, paymentMethods, supportedCoins }) => {
   const bankTransfer = paymentMethods.methods.find(
-    method => method.type === 'BANK_TRANSFER'
+    (method) => method.type === SBPaymentTypes.BANK_TRANSFER
   )
 
   if (bankTransfer?.limits) {
     return (
       <Limits>
         <LimitWrapper>
-          <Text color='grey600' size='14px' lineHeight={'25px'} weight={500}>
-            <FormattedMessage
-              id='modals.brokerage.daily_limit'
-              defaultMessage='Daily Limit'
-            />
+          <Text color='grey600' size='14px' lineHeight='25px' weight={500}>
+            <FormattedMessage id='modals.brokerage.daily_limit' defaultMessage='Daily Limit' />
           </Text>
-          <Text color='grey800' size='14px' lineHeight={'25px'} weight={600}>
+          <Text color='grey800' size='14px' lineHeight='25px' weight={600}>
             {fiatToString({
-              value: convertBaseToStandard(
-                'FIAT',
-                bankTransfer.limits.daily.available
-              ),
-              unit: fiatCurrency as FiatType
+              unit: fiatCurrency as FiatType,
+              value: convertBaseToStandard('FIAT', bankTransfer.limits.daily.available)
             })}{' '}
             <FormattedMessage id='copy.available' defaultMessage='Available' />
           </Text>
@@ -170,17 +150,16 @@ const LimitSection = ({ fiatCurrency, paymentMethods, supportedCoins }) => {
         </FiatIconWrapper>
       </Limits>
     )
-  } else {
-    // TODO: return something if no limits are available
-    return <></>
   }
+  // TODO: return something if no limits are available
+  return <></>
 }
 
 const Amount = ({ fiatCurrency }) => {
   return (
     <FlyoutWrapper>
       <AmountRow id='amount-row'>
-        <Text size={'56px'} color='textBlack' weight={500}>
+        <Text size='56px' color='textBlack' weight={500}>
           {Currencies[fiatCurrency]?.units[fiatCurrency].symbol}
         </Text>
         <Field
@@ -224,9 +203,7 @@ const Account = ({
         if (!bankTransferAccounts.length) {
           brokerageActions.showModal(
             BrokerageModalOriginType.ADD_BANK,
-            fiatCurrency === 'USD'
-              ? 'ADD_BANK_YODLEE_MODAL'
-              : 'ADD_BANK_YAPILY_MODAL'
+            fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
           )
           brokerageActions.setAddBankStep({
             addBankStep: AddBankStepType.ADD_BANK
@@ -245,25 +222,13 @@ const Account = ({
       </DisplayPaymentIcon>
       <PaymentText isMethod={!!dMethod}>{getText(dMethod)}</PaymentText>
       <PaymentArrowContainer>
-        <RightArrowIcon
-          cursor
-          disabled={invalid}
-          name='arrow-back'
-          size='20px'
-          color='grey600'
-        />
+        <RightArrowIcon cursor disabled={invalid} name='arrow-back' size='20px' color='grey600' />
       </PaymentArrowContainer>
     </PaymentContainer>
   )
 }
 
-const NextButton = ({
-  analyticsActions,
-  defaultMethod,
-  invalid,
-  pristine,
-  submitting
-}) => {
+const NextButton = ({ analyticsActions, defaultMethod, invalid, pristine, submitting }) => {
   return (
     <Button
       data-e2e='submitDepositAmount'
@@ -288,7 +253,7 @@ const Success = (props: OwnProps) => {
   const amtError = props.formErrors.amount
   const isUserEligible =
     props.paymentMethods.methods.length &&
-    props.paymentMethods.methods.find(method => method.limits.max !== '0')
+    props.paymentMethods.methods.find((method) => method.limits.max !== '0')
 
   return (
     <div>
@@ -301,15 +266,8 @@ const Success = (props: OwnProps) => {
             <Account {...props} />
             <NextButton {...props} />
             {amtError && (
-              <ErrorCartridge
-                style={{ marginTop: '16px' }}
-                data-e2e='checkoutError'
-              >
-                <Icon
-                  name='alert-filled'
-                  color='red600'
-                  style={{ marginRight: '4px' }}
-                />
+              <ErrorCartridge style={{ marginTop: '16px' }} data-e2e='checkoutError'>
+                <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
                 Error: {amtError}
               </ErrorCartridge>
             )}
@@ -324,6 +282,6 @@ type Props = _P & SuccessStateType & LinkStatePropsType
 type OwnProps = Props & InjectedFormProps<{}, Props>
 
 export default reduxForm<{}, OwnProps>({
-  form: 'brokerageTx',
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
+  form: 'brokerageTx'
 })(Success)

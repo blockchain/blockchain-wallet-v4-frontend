@@ -4,14 +4,11 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { SBPaymentTypes } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
-import {
-  BeneficiaryType,
-  ExtractSuccess,
-  WalletFiatType
-} from 'blockchain-wallet-v4/src/types'
+import { BeneficiaryType, ExtractSuccess, WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
+  BankPartners,
   BankTransferAccountType,
   UserDataType,
   WithdrawCheckoutFormValuesType,
@@ -24,12 +21,21 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class EnterAmount extends PureComponent<Props> {
-  state = {}
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
 
   componentDidMount() {
     let paymentMethod: SBPaymentTypes | 'ALL' = 'ALL'
     if (this.props.defaultMethod) {
-      paymentMethod = 'BANK_TRANSFER'
+      paymentMethod = SBPaymentTypes.BANK_TRANSFER
+      if (
+        this.props.defaultMethod.partner !== BankPartners.YODLEE &&
+        this.props.defaultMethod.currency === 'USD'
+      ) {
+        paymentMethod = SBPaymentTypes.BANK_ACCOUNT
+      }
     }
     // We need to make this call each time we load the enter amount component
     // because the bank wires and ach have different min/max/fees
@@ -37,17 +43,13 @@ class EnterAmount extends PureComponent<Props> {
 
     if (!Remote.Success.is(this.props.data)) {
       this.props.brokerageActions.fetchBankTransferAccounts()
-      this.props.custodialActions.fetchCustodialBeneficiaries(
-        this.props.fiatCurrency
-      )
+      this.props.custodialActions.fetchCustodialBeneficiaries(this.props.fiatCurrency)
       this.props.withdrawActions.fetchWithdrawalLock()
     }
   }
 
   handleSubmit = () => {
-    const { defaultBeneficiary } = this.props.data.getOrElse(
-      {} as SuccessStateType
-    )
+    const { defaultBeneficiary } = this.props.data.getOrElse({} as SuccessStateType)
     const { defaultMethod } = this.props
     const beneficiary = defaultBeneficiary || this.props.beneficiary
 
@@ -55,15 +57,15 @@ class EnterAmount extends PureComponent<Props> {
 
     if (defaultMethod) {
       this.props.withdrawActions.setStep({
-        step: WithdrawStepEnum.CONFIRM_WITHDRAW,
         amount: this.props.formValues.amount,
-        defaultMethod: defaultMethod as BankTransferAccountType
+        defaultMethod: defaultMethod as BankTransferAccountType,
+        step: WithdrawStepEnum.CONFIRM_WITHDRAW
       })
     } else if (defaultBeneficiary || this.props.beneficiary) {
       this.props.withdrawActions.setStep({
-        step: WithdrawStepEnum.CONFIRM_WITHDRAW,
         amount: this.props.formValues.amount,
-        beneficiary
+        beneficiary,
+        step: WithdrawStepEnum.CONFIRM_WITHDRAW
       })
     }
   }
@@ -76,47 +78,46 @@ class EnterAmount extends PureComponent<Props> {
       this.props.simpleBuyActions.showModal('WithdrawModal')
       if (userData.tiers.current === 2) {
         return this.props.simpleBuyActions.setStep({
-          step: 'BANK_WIRE_DETAILS',
-          fiatCurrency: this.props.fiatCurrency,
+          addBank: true,
           displayBack: false,
-          addBank: true
-        })
-      } else {
-        return this.props.simpleBuyActions.setStep({
-          step: 'KYC_REQUIRED'
+          fiatCurrency: this.props.fiatCurrency,
+          step: 'BANK_WIRE_DETAILS'
         })
       }
+      return this.props.simpleBuyActions.setStep({
+        step: 'KYC_REQUIRED'
+      })
     }
 
     this.props.withdrawActions.setStep({
-      step: WithdrawStepEnum.BANK_PICKER,
-      fiatCurrency: this.props.fiatCurrency
+      fiatCurrency: this.props.fiatCurrency,
+      step: WithdrawStepEnum.BANK_PICKER
     })
   }
 
   render() {
     return this.props.data.cata({
-      Success: val => (
+      Failure: () => <Failure {...this.props} />,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />,
+      Success: (val) => (
         <Success
           {...this.props}
           {...val}
           onSubmit={this.handleSubmit}
           handleBankSelection={this.handleBankSelection}
         />
-      ),
-      Failure: () => <Failure {...this.props} />,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      )
     })
   }
 }
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   data: getData(state, ownProps),
+  defaultMethod: selectors.components.brokerage.getAccount(state),
   formValues: selectors.form.getFormValues('custodyWithdrawForm')(
     state
-  ) as WithdrawCheckoutFormValuesType,
-  defaultMethod: selectors.components.brokerage.getAccount(state)
+  ) as WithdrawCheckoutFormValuesType
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

@@ -9,6 +9,7 @@ import { Button, CoinAccountIcon, Icon, Text } from 'blockchain-info-components'
 import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListBalance } from 'components/Form'
+import IdvIntro from 'components/IdentityVerification/IdvIntro'
 import { selectors } from 'data'
 import {
   InitSwapFormValuesType,
@@ -31,7 +32,6 @@ import {
   TrendingIconRow
 } from '../components'
 import { getData } from './selectors'
-import VerifyIdentity from './VerifyIdentity'
 
 const SuggestedTextCustomBorder = styled.span`
   width: 100%;
@@ -412,8 +412,46 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         </StyledForm>
       </>
     ) : (
-      // @ts-ignore
-      <VerifyIdentity {...this.props} />
+      <IdvIntro
+        {...this.props}
+        selectedTier={1}
+        subHeaderCopy={
+          <FormattedMessage
+            id='copy.swap_get_access'
+            defaultMessage='Get access to swap in seconds by completing your profile and getting Silver access.'
+          />
+        }
+        subHeaderTitle={
+          <FormattedMessage
+            id='copy.swap_verify_email'
+            defaultMessage='Verify Your Email & Swap Today.'
+          />
+        }
+        subTitle={
+          <FormattedMessage
+            id='copy.instantly_exchange'
+            defaultMessage='Instantly exchange your crypto into any currency we offer in your wallet.'
+          />
+        }
+        title={
+          <FormattedMessage
+            id='copy.swap_your_crypto'
+            defaultMessage='Swap Your Crypto'
+          />
+        }
+        resultTitle={
+          <FormattedMessage
+            id='copy.swap_start'
+            defaultMessage='Start Swapping'
+          />
+        }
+        resultCopy={
+          <FormattedMessage
+            id='copy.swap_instantly_exchange'
+            defaultMessage='Instantly exchange your crypto.'
+          />
+        }
+      />
     )
   }
 }

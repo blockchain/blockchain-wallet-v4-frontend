@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.49.16",
+  "version": "4.50.5",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
@@ -122,6 +122,7 @@
     "@types/redux": "3.6.0",
     "@types/redux-form": "8.2.3",
     "@types/styled-components": "5.1.9",
+    "@types/uuid": "8.3.0",
     "@typescript-eslint/eslint-plugin": "4.23.0",
     "@typescript-eslint/parser": "4.23.0",
     "babel-jest": "26.6.3",

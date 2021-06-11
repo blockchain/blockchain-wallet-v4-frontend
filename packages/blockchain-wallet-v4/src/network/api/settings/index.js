@@ -1,16 +1,16 @@
 export default ({ post, rootUrl }) => {
   const getSettings = (guid, sharedKey) =>
     post({
-      url: rootUrl,
+      data: { format: 'json', guid, method: 'get-info', sharedKey },
       endPoint: '/wallet',
-      data: { guid, sharedKey, method: 'get-info', format: 'json' }
+      url: rootUrl
     })
 
   const updateSettings = (guid, sharedKey, method, payload, querystring = '') =>
     post({
-      url: rootUrl,
+      data: { guid, length: `${payload}`.length, method, payload, sharedKey },
       endPoint: querystring ? `/wallet?${querystring}` : '/wallet',
-      data: { guid, sharedKey, method, payload, length: (payload + '').length }
+      url: rootUrl
     })
 
   const updateEmail = (guid, sharedKey, email) =>
@@ -62,12 +62,7 @@ export default ({ post, rootUrl }) => {
     updateSettings(guid, sharedKey, 'update-auth-type', authType)
 
   const updateAuthTypeNeverSave = (guid, sharedKey, authTypeNeverSave) =>
-    updateSettings(
-      guid,
-      sharedKey,
-      'update-never-save-auth-type',
-      authTypeNeverSave
-    )
+    updateSettings(guid, sharedKey, 'update-never-save-auth-type', authTypeNeverSave)
 
   const getGoogleAuthenticatorSecretUrl = (guid, sharedKey) =>
     updateSettings(guid, sharedKey, 'generate-google-secret', '')
@@ -85,28 +80,28 @@ export default ({ post, rootUrl }) => {
     updateSettings(guid, sharedKey, 'update-notifications-type', value)
 
   return {
+    enableGoogleAuthenticator,
+    enableNotifications,
+    enableYubikey,
+    getGoogleAuthenticatorSecretUrl,
     getSettings,
-    updateEmail,
-    sendEmailConfirmation,
     resendVerifyEmail,
-    verifyEmail,
-    updateMobile,
-    verifyMobile,
-    updateLanguage,
-    updateLastTxTime,
-    updateCurrency,
-    updateLoggingLevel,
-    updateIpLock,
-    updateIpLockOn,
-    updateBlockTorIps,
-    updateHint,
+    sendConfirmationCodeEmail,
+    sendEmailConfirmation,
     updateAuthType,
     updateAuthTypeNeverSave,
-    getGoogleAuthenticatorSecretUrl,
-    enableGoogleAuthenticator,
-    enableYubikey,
-    sendConfirmationCodeEmail,
-    enableNotifications,
-    updateNotificationsType
+    updateBlockTorIps,
+    updateCurrency,
+    updateEmail,
+    updateHint,
+    updateIpLock,
+    updateIpLockOn,
+    updateLanguage,
+    updateLastTxTime,
+    updateLoggingLevel,
+    updateMobile,
+    updateNotificationsType,
+    verifyEmail,
+    verifyMobile
   }
 }
