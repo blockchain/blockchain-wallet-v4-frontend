@@ -196,7 +196,7 @@ export const getNextAvailableChangeAddress = curry(
       HDWallet.selectAccount(accountIndex),
       walletSelectors.getDefaultHDWallet
     )(state)
-    const xpub = HDAccount.selectXpub(account)
+    const xpub = HDAccount.selectXpub(account, 'legacy')
     const index = getChangeIndex(xpub)(state)
     return index.map(x =>
       getAddress(network, `${accountIndex}/${1}/${x}`, state)
@@ -210,7 +210,7 @@ export const getNextAvailableReceiveAddress = curry(
       HDWallet.selectAccount(accountIndex),
       walletSelectors.getDefaultHDWallet
     )(state)
-    const xpub = HDAccount.selectXpub(account)
+    const xpub = HDAccount.selectXpub(account, 'legacy')
     const index = getReceiveIndex(xpub)(state)
     return index.map(x =>
       getAddress(network, `${accountIndex}/${0}/${x}`, state)
