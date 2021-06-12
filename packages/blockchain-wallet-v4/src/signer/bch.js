@@ -130,19 +130,15 @@ export const signWithLockbox = function * (
     BitcoinCash.Transaction.SIGHASH_ALL |
     BitcoinCash.Transaction.SIGHASH_BITCOINCASHBIP143
 
-  const txHex = yield BTC.createPaymentTransactionNew(
+  const txHex = yield BTC.createPaymentTransactionNew({
     inputs,
-    paths,
+    associatedKeysets: paths,
     changePath,
-    outputs,
-    undefined,
-    hashType,
-    undefined,
-    undefined,
-    ['abc'],
-    undefined,
-    multisigInputs
-  )
+    outputScriptHex: outputs,
+    sigHashType: hashType,
+    additionals: ['abc'],
+    useTrustedInputForSegwit: multisigInputs
+  })
   const txId = crypto
     .sha256(crypto.sha256(Buffer.from(txHex, 'hex')))
     .reverse()

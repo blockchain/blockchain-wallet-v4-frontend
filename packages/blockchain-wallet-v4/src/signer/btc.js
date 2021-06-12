@@ -143,12 +143,12 @@ export const signWithLockbox = function * (
       coin.script.toString('hex')
   })
 
-  const txHex = yield BTC.createPaymentTransactionNew(
+  const txHex = yield BTC.createPaymentTransactionNew({
     inputs,
-    paths,
+    associatedKeysets: paths,
     changePath,
-    outputs
-  )
+    outputScriptHex: outputs
+  })
   const txId = crypto
     .sha256(crypto.sha256(Buffer.from(txHex, 'hex')))
     .reverse()
