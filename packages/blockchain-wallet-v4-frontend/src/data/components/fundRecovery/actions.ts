@@ -3,6 +3,40 @@ import { UnspentResponseType } from 'blockchain-wallet-v4/src/network/api/btc/ty
 import * as AT from './actionTypes'
 import { FundRecoveryActionType } from './types'
 
+export const recoverFunds = (
+  accountIndex: number,
+  unspent_outputs: UnspentResponseType['unspent_outputs'],
+  coin: string,
+  fromDerivationType: string,
+  toDerivationType: string,
+  badChange?: string[]
+) => ({
+  payload: {
+    accountIndex,
+    badChange,
+    coin,
+    fromDerivationType,
+    toDerivationType,
+    unspent_outputs
+  },
+  type: AT.RECOVER_FUNDS
+})
+
+export const recoverFundsFailure = (error: string): FundRecoveryActionType => ({
+  payload: {
+    error
+  },
+  type: AT.RECOVER_FUNDS_FAILURE
+})
+
+export const recoverFundsLoading = (): FundRecoveryActionType => ({
+  type: AT.RECOVER_FUNDS_LOADING
+})
+
+export const recoverFundsSuccess = (): FundRecoveryActionType => ({
+  type: AT.RECOVER_FUNDS_SUCCESS
+})
+
 export const searchChain = (accountIndex: number, coin: string, derivationType: string) => ({
   payload: {
     accountIndex,
@@ -44,10 +78,12 @@ export const searchChainSuccess = (
   accountIndex: number,
   coin: string,
   derivationType: string,
-  data: UnspentResponseType['unspent_outputs']
+  data: UnspentResponseType['unspent_outputs'],
+  badChange?: string[]
 ): FundRecoveryActionType => ({
   payload: {
     accountIndex,
+    badChange,
     coin,
     data,
     derivationType

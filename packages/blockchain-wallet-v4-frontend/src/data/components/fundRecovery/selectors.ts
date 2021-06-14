@@ -1,14 +1,24 @@
 import { Remote } from 'blockchain-wallet-v4/src'
-import { UnspentResponseType } from 'blockchain-wallet-v4/src/network/api/btc/types'
 import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { UnspentResponseType } from 'core/network/api/btc/types'
 import { RootState } from 'data/rootReducer'
 
+// eslint-disable-next-line
 export const getSearchChainStatus = (
   state: RootState,
   coin: string
-): RemoteDataType<string, { [key in string]: UnspentResponseType['unspent_outputs'] }> => {
-  const x = state.components.fundRecovery.unspents[coin]
-    ? state.components.fundRecovery.unspents[coin]
+): RemoteDataType<
+  string,
+  {
+    accountIndex: number
+    badChange?: string[]
+    coin: string
+    data: UnspentResponseType['unspent_outputs']
+    derivationType: string
+  }
+> => {
+  const x = state.components.fundRecovery[coin]
+    ? state.components.fundRecovery[coin]
     : Remote.NotAsked
   return x
 }

@@ -9,7 +9,7 @@ export type UnspentResponseType = {
     tx_output_n: number
     value: number
     value_hex: string
-    xpub: {
+    xpub?: {
       m: string
       path: string
     }

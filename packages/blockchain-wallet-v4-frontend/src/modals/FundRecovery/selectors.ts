@@ -10,9 +10,8 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   const searchChainR = selectors.components.fundRecovery.getSearchChainStatus(state, ownProps.coin)
 
   return lift((searchChain: ExtractSuccess<typeof searchChainR>) => {
-    debugger
     return {
-      recoverableValue: searchChain[ownProps.coin].map(({ value }) => value).reduce(add),
+      recoverableValue: searchChain.data.map(({ value }) => value).reduce(add),
       searchChain
     }
   })(searchChainR)

@@ -8,5 +8,6 @@ export default ({ api, coreSagas, networks }) => {
 
   return function* fundRecoverySaga() {
     yield takeLatest(AT.SEARCH_CHAIN_FOR_FUNDS, fundRecoverySagas.searchChainForFunds)
+    yield takeLatest(AT.RECOVER_FUNDS, fundRecoverySagas.recoverFunds)
   }
 }

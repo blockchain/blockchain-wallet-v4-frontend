@@ -4,9 +4,22 @@ import { RemoteDataType } from 'core/types'
 import * as AT from './actionTypes'
 
 export type FundRecoveryStateType = {
-  unspents: {
-    [key in string]: RemoteDataType<string, UnspentResponseType['unspent_outputs']>
+  [key in string]: RemoteDataType<string, SearchChainSuccessActionType['payload']>
+}
+
+interface RecoverFundsFailureActionType {
+  payload: {
+    error: string
   }
+  type: typeof AT.RECOVER_FUNDS_FAILURE
+}
+
+interface RecoverFundsLoadingActionType {
+  type: typeof AT.RECOVER_FUNDS_LOADING
+}
+
+interface RecoverFundsSuccessActionType {
+  type: typeof AT.RECOVER_FUNDS_SUCCESS
 }
 
 interface SearchChainFailureActionType {
@@ -31,6 +44,7 @@ interface SearchChainLoadingActionType {
 interface SearchChainSuccessActionType {
   payload: {
     accountIndex: number
+    badChange?: string[]
     coin: string
     data: UnspentResponseType['unspent_outputs']
     derivationType: string
@@ -39,6 +53,9 @@ interface SearchChainSuccessActionType {
 }
 
 export type FundRecoveryActionType =
+  | RecoverFundsFailureActionType
+  | RecoverFundsLoadingActionType
+  | RecoverFundsSuccessActionType
   | SearchChainFailureActionType
   | SearchChainLoadingActionType
   | SearchChainSuccessActionType
