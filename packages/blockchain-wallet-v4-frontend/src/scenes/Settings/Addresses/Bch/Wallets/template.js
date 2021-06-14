@@ -208,7 +208,7 @@ const WalletRow = (props) => {
                     data-e2e='bchShowFundRecovery'
                   >
                     <FormattedMessage
-                      id='scenes.settings.addresses.bch.show_fund_recovery'
+                      id='scenes.settings.addresses.show_fund_recovery'
                       defaultMessage='Recover Funds'
                     />
                   </ClickableText>

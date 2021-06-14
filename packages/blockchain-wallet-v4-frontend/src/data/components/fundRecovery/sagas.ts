@@ -101,6 +101,11 @@ export default ({ api }: { api: APIType }) => {
     try {
       yield put(A.searchChainLoading(accountIndex, coin, derivationType))
 
+      const wallet = selectors.core.wallet.getWallet(yield select())
+      const accounts = Wallet.selectHDAccounts(wallet)
+      const account = HDAccountList.selectAccount(accountIndex, accounts)
+
+      // TODO, maybe add incident?
       if (coin === 'BCH') {
         // FOR CHANGE
         // 1. get the change_index from the good xpub on bch chain
@@ -112,10 +117,6 @@ export default ({ api }: { api: APIType }) => {
         // Note: wrong receive was always index 0 because of a separate bug
         // which caused wallet to look up receive_index from the wrong xpub
         // or, elsing things to eventually return receive_index as 0.
-
-        const wallet = selectors.core.wallet.getWallet(yield select())
-        const accounts = Wallet.selectHDAccounts(wallet)
-        const account = HDAccountList.selectAccount(accountIndex, accounts)
         const badDerivation = account.derivations.find((d) => d.type === derivationType)
         const goodDerivation = account.derivations.find((d) => d.type === 'legacy')
         const badXpub = badDerivation.xpub
@@ -154,6 +155,26 @@ export default ({ api }: { api: APIType }) => {
             toCashAddr(recoveryAddress, true),
             receive_outputs.length ? undefined : badChange
           )
+        )
+      } else if (coin === 'BTC') {
+        // FOR WRONG RECEIVE
+        // 1. get the SEGWIT derivation
+        // 2. get unspents from SEGWIT xpub on active param (not activeBech32)
+        const derivation = account.derivations.find((d) => d.type === derivationType)
+        const { xpub } = derivation
+        const recoveryAddress = selectors.core.common.btc
+          .getNextAvailableReceiveAddress(network, accountIndex, 'bech32', yield select())
+          .getOrFail('No BTC address found to recovery to.')
+
+        const { unspent_outputs }: UnspentResponseType = yield call(
+          api.getBtcUnspents,
+          [xpub],
+          -1,
+          []
+        )
+
+        yield put(
+          A.searchChainSuccess(accountIndex, coin, derivationType, unspent_outputs, recoveryAddress)
         )
       } else {
         yield put(
