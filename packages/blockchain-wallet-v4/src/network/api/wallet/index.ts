@@ -140,10 +140,8 @@ export default ({ get, post, rootUrl }) => {
     })
 
   const remindGuid = (email, captchaToken, sessionToken) => {
-    // @ts-ignore
-    const recaptchaKey = RECAPTCHA_KEY
     post({
-      data: { captcha: captchaToken, email, method: 'send-guid-reminder', siteKey: recaptchaKey },
+      data: { captcha: captchaToken, email, method: 'send-guid-reminder', siteKey: window.CAPTCHA_KEY },
       endPoint: '/wallet',
       sessionToken,
       url: rootUrl
@@ -151,10 +149,8 @@ export default ({ get, post, rootUrl }) => {
   }
 
   const loginGuid = (email, captchaToken, sessionToken) => {
-    // @ts-ignore
-    const recaptchaKey = RECAPTCHA_KEY
     post({
-      data: { captcha: captchaToken, email, method: 'send-guid-reminder', siteKey: recaptchaKey },
+      data: { captcha: captchaToken, email, method: 'send-guid-reminder', siteKey: window.CAPTCHA_KEY },
       endPoint: '/wallet',
       sessionToken,
       url: rootUrl

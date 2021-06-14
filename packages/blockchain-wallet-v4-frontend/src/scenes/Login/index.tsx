@@ -43,11 +43,9 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     // @ts-ignore
     if (!window.grecaptcha || !window.grecaptcha.enterprise) return
     // @ts-ignore
-    const recaptchaKey = RECAPTCHA_KEY
-    // @ts-ignore
     window.grecaptcha.enterprise.ready(() => {
       // @ts-ignore
-      window.grecaptcha.enterprise.execute(recaptchaKey, {
+      window.grecaptcha.enterprise.execute(window.CAPTCHA_KEY, {
         action: 'LOGIN',
       })
         .then((captchaToken) => {
