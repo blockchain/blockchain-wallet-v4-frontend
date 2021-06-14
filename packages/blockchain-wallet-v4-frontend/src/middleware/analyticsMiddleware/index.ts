@@ -839,7 +839,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
         const depositMethod = DepositMethodType.BANK_TRANSFER // we only have it for now
-        const { currency } = state.form.brokerageTx.values
+        const currency =
+          (state.form.brokerageTx &&
+            state.form.brokerageTx.values &&
+            state.form.brokerageTx.values.currency) ||
+          undefined
 
         analytics.push(AnalyticsKey.DEPOSIT_METHOD_SELECTED, {
           analyticsType: AnalyticsType.EVENT,
