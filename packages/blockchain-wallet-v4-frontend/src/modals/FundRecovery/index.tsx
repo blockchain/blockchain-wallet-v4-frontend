@@ -90,7 +90,6 @@ class FundRecoveryModal extends PureComponent<Props> {
                         val.searchChain.data,
                         val.searchChain.coin,
                         'bech32',
-                        'legacy',
                         val.searchChain.recoveryAddress,
                         val.searchChain.badChange
                       )
