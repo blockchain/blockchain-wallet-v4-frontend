@@ -5,7 +5,6 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { BeneficiaryType, NabuSymbolNumberType } from 'blockchain-wallet-v4/src/types'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
@@ -231,13 +230,9 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
           {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
           <div
             style={{ marginRight: '4px' }}
-            onClick={() =>
-              props.formActions.change(
-                'custodyWithdrawForm',
-                'amount',
-                displayFiatToFiat({ value: props.minAmount.value })
-              )
-            }
+            onClick={() => {
+              props.withdrawActions.handleWithdrawMinAmountClick(props.minAmount.value)
+            }}
             role='button'
             tabIndex={0}
           >
@@ -261,13 +256,9 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
             // The <div> element has a child <button> element that allows keyboard interaction
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events
             <div
-              onClick={() =>
-                props.formActions.change(
-                  'custodyWithdrawForm',
-                  'amount',
-                  displayFiatToFiat({ value: maxAmount })
-                )
-              }
+              onClick={() => {
+                props.withdrawActions.handleWithdrawMinAmountClick(maxAmount)
+              }}
               role='button'
               tabIndex={0}
             >
