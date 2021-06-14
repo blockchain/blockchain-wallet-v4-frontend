@@ -152,8 +152,9 @@ export const getAddress = (account, path, network, type?) => {
     case 'bech32':
       return Bitcoin.payments.p2wpkh({ pubkey: publicKey }).address
     case 'legacy':
-    default:
       return Bitcoin.payments.p2pkh({ pubkey: publicKey }).address
+    default:
+      throw new Error(`Unrecogonized derivation type ${derivationType}`)
   }
 }
 
