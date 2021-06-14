@@ -10,20 +10,55 @@ export function fundRecoveryReducer(
   action: FundRecoveryActionType
 ): FundRecoveryStateType {
   switch (action.type) {
+    case AT.RESET_FUND_RECOVERY:
+      return INITIAL_STATE
+    case AT.RECOVER_FUNDS_FAILURE:
+      return {
+        ...state,
+        [action.payload.coin]: {
+          ...state[action.payload.coin],
+          fundRecoveryStatus: Remote.Failure(action.payload.error)
+        }
+      }
+    case AT.RECOVER_FUNDS_LOADING:
+      return {
+        ...state,
+        [action.payload.coin]: {
+          ...state[action.payload.coin],
+          fundRecoveryStatus: Remote.Loading
+        }
+      }
+    case AT.RECOVER_FUNDS_SUCCESS:
+      return {
+        ...state,
+        [action.payload.coin]: {
+          ...state[action.payload.coin],
+          fundRecoveryStatus: Remote.Success('Funds recovered.')
+        }
+      }
     case AT.SEARCH_CHAIN_FOR_FUNDS_FAILURE:
       return {
         ...state,
-        [action.payload.coin]: Remote.Failure(action.payload.error)
+        [action.payload.coin]: {
+          ...state[action.payload.coin],
+          chainSearch: Remote.Failure(action.payload.error)
+        }
       }
     case AT.SEARCH_CHAIN_FOR_FUNDS_LOADING:
       return {
         ...state,
-        [action.payload.coin]: Remote.Loading
+        [action.payload.coin]: {
+          ...state[action.payload.coin],
+          chainSearch: Remote.Loading
+        }
       }
     case AT.SEARCH_CHAIN_FOR_FUNDS_SUCCESS:
       return {
         ...state,
-        [action.payload.coin]: Remote.Success(action.payload)
+        [action.payload.coin]: {
+          ...state[action.payload.coin],
+          chainSearch: Remote.Success(action.payload)
+        }
       }
     default:
       return state

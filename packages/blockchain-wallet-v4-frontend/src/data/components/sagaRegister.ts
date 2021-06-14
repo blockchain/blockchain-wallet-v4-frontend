@@ -46,7 +46,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(ethTransactions())
     yield fork(xlmTransactions())
     yield fork(fiatTransactions())
-    yield fork(fundRecovery({ api, coreSagas, networks }))
+    yield fork(fundRecovery({ api }))
     yield fork(identityVerification({ api, coreSagas }))
     yield fork(interest({ api, coreSagas, networks }))
     yield fork(lockbox({ api, coreSagas }))

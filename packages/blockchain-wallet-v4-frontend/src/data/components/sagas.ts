@@ -41,7 +41,7 @@ export default ({ api, coreSagas, networks }) => ({
   dotTransactions: dotTransactions(),
   ethTransactions: ethTransactions(),
   fiatTransactions: fiatTransactions(),
-  fundRecovery: fundRecovery({ api, coreSagas, networks }),
+  fundRecovery: fundRecovery({ api }),
   identityVerification: identityVerification({ api, coreSagas, networks }),
   importBtcAddress: importBtcAddress({ api, coreSagas, networks }),
   interest: interest({ api, coreSagas, networks }),

@@ -11,6 +11,7 @@ import { UnspentResponseType } from 'blockchain-wallet-v4/src/network/api/btc/ty
 import { signSelection as bchSign } from 'blockchain-wallet-v4/src/signer/bch'
 import { HDAccountList, Wallet } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { fromCashAddr, toCashAddr } from 'blockchain-wallet-v4/src/utils/bch'
 import { actions, selectors } from 'data'
 import { promptForSecondPassword } from 'services/sagas'
 
@@ -23,9 +24,16 @@ export default ({ api }: { api: APIType }) => {
 
   const recoverFunds = function* (action: ReturnType<typeof A.recoverFunds>) {
     const { payload } = action
-    const { accountIndex, badChange, coin, fromDerivationType, unspent_outputs } = payload
+    const {
+      accountIndex,
+      badChange,
+      coin,
+      fromDerivationType,
+      recoveryAddress,
+      unspent_outputs
+    } = payload
     try {
-      yield put(A.recoverFundsLoading())
+      yield put(A.recoverFundsLoading(coin))
       const password = yield call(promptForSecondPassword)
 
       if (coin === 'BCH') {
@@ -45,9 +53,6 @@ export default ({ api }: { api: APIType }) => {
 
         const xpriv = yield call(() => taskToPromise(xprivT))
 
-        const address = selectors.core.common.bch
-          .getNextAvailableReceiveAddress(network, accountIndex, yield select())
-          .getOrFail('No BCH address found')
         const fee = yield call(api.getBchFees)
         const coins = unspent_outputs.map((val) => {
           const path = val.xpub
@@ -68,21 +73,23 @@ export default ({ api }: { api: APIType }) => {
           })
         })
 
-        const selection = selectAll(fee.priority, coins, address)
+        const selection = selectAll(fee.priority, coins, fromCashAddr(recoveryAddress))
         const dust = yield call(api.getBchDust)
         const script = dust.output_script
         const coinDust = Coin.fromJS({ ...dust, script })
         const tx = bchSign(network, coinDust, selection)
 
         yield call(api.pushBchTx, tx.txHex, dust.lock_secret)
+        yield put(A.recoverFundsSuccess(coin))
         yield put(actions.modals.closeAllModals())
-        yield put(actions.alerts.displaySuccess(`Funds recovered to ${address}.`))
+        yield put(actions.alerts.displaySuccess(`Funds recovered to ${recoveryAddress}.`))
+        yield put(actions.components.refresh.refreshClicked())
       } else {
-        yield put(A.recoverFundsFailure(`No recovery method for ${coin}`))
+        yield put(A.recoverFundsFailure(coin, `No recovery method for ${coin}`))
       }
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.recoverFundsFailure(error))
+      yield put(A.recoverFundsFailure(coin, error))
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displayWarning(error || `Recovery failed for ${coin}.`))
     }
@@ -94,17 +101,18 @@ export default ({ api }: { api: APIType }) => {
     try {
       yield put(A.searchChainLoading(accountIndex, coin, derivationType))
 
-      // FOR CHANGE
-      // 1. get the change_index from the good xpub on bch chain
-      // 2. derive change addresses from '1/change_index...0' from SEGWIT xpub
-      // 3. get unspents from the change addresses
-      // FOR WRONG RECEIVE
-      // 1. get the SEGWIT derivation
-      // 2. get unspents from SEGWIT xpub
-      // Note: wrong receive was always index 0 because of a separate bug
-      // which caused wallet to look up receive_index from the wrong xpub
-      // or, elsing things to eventually return receive_index as 0.
       if (coin === 'BCH') {
+        // FOR CHANGE
+        // 1. get the change_index from the good xpub on bch chain
+        // 2. derive change addresses from '1/change_index...0' from SEGWIT xpub
+        // 3. get unspents from the change addresses
+        // FOR WRONG RECEIVE
+        // 1. get the SEGWIT derivation
+        // 2. get unspents from SEGWIT xpub
+        // Note: wrong receive was always index 0 because of a separate bug
+        // which caused wallet to look up receive_index from the wrong xpub
+        // or, elsing things to eventually return receive_index as 0.
+
         const wallet = selectors.core.wallet.getWallet(yield select())
         const accounts = Wallet.selectHDAccounts(wallet)
         const account = HDAccountList.selectAccount(accountIndex, accounts)
@@ -114,6 +122,10 @@ export default ({ api }: { api: APIType }) => {
         const goodXpub = goodDerivation.xpub
         const { addresses } = yield call(api.fetchBchData, [goodXpub])
         const { change_index } = addresses.find(({ address }) => address === goodXpub)
+
+        const recoveryAddress = selectors.core.common.bch
+          .getNextAvailableReceiveAddress(network, accountIndex, yield select())
+          .getOrFail('No BCH address found to recovery to.')
 
         const badChange: string[] = []
         for (let i = 0; i <= change_index; i += 1) {
@@ -139,6 +151,7 @@ export default ({ api }: { api: APIType }) => {
             coin,
             derivationType,
             unspent_outputs,
+            toCashAddr(recoveryAddress, true),
             receive_outputs.length ? undefined : badChange
           )
         )

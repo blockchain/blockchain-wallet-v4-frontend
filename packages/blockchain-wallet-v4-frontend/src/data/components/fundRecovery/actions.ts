@@ -9,6 +9,7 @@ export const recoverFunds = (
   coin: string,
   fromDerivationType: string,
   toDerivationType: string,
+  recoveryAddress: string,
   badChange?: string[]
 ) => ({
   payload: {
@@ -16,25 +17,37 @@ export const recoverFunds = (
     badChange,
     coin,
     fromDerivationType,
+    recoveryAddress,
     toDerivationType,
     unspent_outputs
   },
   type: AT.RECOVER_FUNDS
 })
 
-export const recoverFundsFailure = (error: string): FundRecoveryActionType => ({
+export const recoverFundsFailure = (coin: string, error: string): FundRecoveryActionType => ({
   payload: {
+    coin,
     error
   },
   type: AT.RECOVER_FUNDS_FAILURE
 })
 
-export const recoverFundsLoading = (): FundRecoveryActionType => ({
+export const recoverFundsLoading = (coin: string): FundRecoveryActionType => ({
+  payload: {
+    coin
+  },
   type: AT.RECOVER_FUNDS_LOADING
 })
 
-export const recoverFundsSuccess = (): FundRecoveryActionType => ({
+export const recoverFundsSuccess = (coin: string): FundRecoveryActionType => ({
+  payload: {
+    coin
+  },
   type: AT.RECOVER_FUNDS_SUCCESS
+})
+
+export const resetFundRecovery = () => ({
+  type: AT.RESET_FUND_RECOVERY
 })
 
 export const searchChain = (accountIndex: number, coin: string, derivationType: string) => ({
@@ -79,14 +92,16 @@ export const searchChainSuccess = (
   coin: string,
   derivationType: string,
   data: UnspentResponseType['unspent_outputs'],
+  recoveryAddress: string,
   badChange?: string[]
-): FundRecoveryActionType => ({
+) => ({
   payload: {
     accountIndex,
     badChange,
     coin,
     data,
-    derivationType
+    derivationType,
+    recoveryAddress
   },
   type: AT.SEARCH_CHAIN_FOR_FUNDS_SUCCESS
 })

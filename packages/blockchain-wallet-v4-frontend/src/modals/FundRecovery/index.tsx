@@ -1,12 +1,21 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { compose } from 'ramda'
+import { add, compose } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
-import { BlockchainLoader, Button, Modal, ModalHeader, Text } from 'blockchain-info-components'
+import {
+  BlockchainLoader,
+  Button,
+  Icon,
+  Image,
+  Modal,
+  ModalHeader,
+  Text
+} from 'blockchain-info-components'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { displayCoinToCoin } from 'blockchain-wallet-v4/src/exchange'
-import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { ExtractSuccess, WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -41,7 +50,7 @@ class FundRecoveryModal extends PureComponent<Props> {
   }
 
   componentWillUnmount() {
-    // this.props.fundRecoveryActions.resetComponent()
+    this.props.fundRecoveryActions.resetFundRecovery()
   }
 
   render() {
@@ -58,10 +67,21 @@ class FundRecoveryModal extends PureComponent<Props> {
             Loading: () => <BlockchainLoader />,
             NotAsked: () => <BlockchainLoader />,
             Success: (val) => {
-              return (
+              return val.searchChain.data.length ? (
                 <SuccessContainer>
                   <Text size='16px' weight={500}>
-                    We found {displayCoinToCoin(val.recoverableValue, 'BCH')} that can be recovered.
+                    We found{' '}
+                    <b>
+                      {displayCoinToCoin(
+                        val.searchChain.data.map(({ value }) => value).reduce(add),
+                        this.props.coin as WalletCurrencyType
+                      )}{' '}
+                    </b>
+                    that can be recovered.
+                  </Text>
+                  <Icon name='arrow-down' size='36px' />
+                  <Text size='16px' weight={600} color='green600' style={{ textAlign: 'center' }}>
+                    Recover Funds to {val.searchChain.recoveryAddress}
                   </Text>
                   <Button
                     onClick={() =>
@@ -71,14 +91,23 @@ class FundRecoveryModal extends PureComponent<Props> {
                         val.searchChain.coin,
                         'bech32',
                         'legacy',
+                        val.searchChain.recoveryAddress,
                         val.searchChain.badChange
                       )
                     }
+                    disabled={Remote.Loading.is(val.fundRecoveryStatusR)}
                     data-e2e={`${this.props.coin}recoverNow`}
                     nature='primary'
                   >
                     Recover Now
                   </Button>
+                </SuccessContainer>
+              ) : (
+                <SuccessContainer>
+                  <Image name='empty-search' width='240px' />
+                  <Text size='16px' weight={600} style={{ marginTop: '12px' }}>
+                    We could not find any missing funds to recover.
+                  </Text>
                 </SuccessContainer>
               )
             }
