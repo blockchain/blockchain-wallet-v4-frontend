@@ -148,7 +148,7 @@ export const getAddress = (account, path, network, type?) => {
   const derivation = DerivationList.getDerivationFromType(derivations, derivationType)
   const { publicKey } = Bitcoin.bip32.fromBase58(derivation.xpub).derivePath(`${c}/${i}`)
 
-  switch (type) {
+  switch (derivationType) {
     case 'bech32':
       return Bitcoin.payments.p2wpkh({ pubkey: publicKey }).address
     case 'legacy':
