@@ -263,6 +263,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const handleWithdrawClick = function* ({ payload }: ReturnType<typeof A.handleWithdrawClick>) {
+    yield put(actions.components.withdraw.showModal(payload.fiatCurrency))
+
+    const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
+      yield select()
+    )
+    const bankTransferAccounts = bankTransferAccountsR.getOrElse([])
+    if (bankTransferAccounts.length) {
+      yield put(
+        actions.components.brokerage.setBankDetails({
+          account: bankTransferAccounts.filter(
+            (a) => a.currency === payload.fiatCurrency && a.state === 'ACTIVE'
+          )[0]
+        })
+      )
+    }
+  }
+
   const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
     const { modalType, origin } = payload
     yield put(actions.modals.showModal(modalType, { origin }))
@@ -402,6 +420,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchBankTransferUpdate,
     handleDepositFiatClick,
     handleMethodChange,
+    handleWithdrawClick,
     showModal
   }
 }

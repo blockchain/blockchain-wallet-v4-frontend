@@ -1,3 +1,4 @@
+import * as Bitcoin from 'bitcoinjs-lib'
 import Task from 'data.task'
 /* eslint-disable */
 import { fromJS as iFromJS } from 'immutable-ext' // if we delete this import, wallet tests will fail -  ¯\_(ツ)_/¯
@@ -144,8 +145,16 @@ export const getAddress = (account, path, network, type?) => {
   const c = parseInt(chain)
   const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
-  const cache = DerivationList.getCacheFromType(derivations, derivationType)
-  return Cache.getAddress(cache, c, i, network, derivationType)
+  const derivation = DerivationList.getDerivationFromType(derivations, derivationType)
+  const { publicKey } = Bitcoin.bip32.fromBase58(derivation.xpub).derivePath(`${c}/${i}`)
+
+  switch (derivationType) {
+    case 'bech32':
+      return Bitcoin.payments.p2wpkh({ pubkey: publicKey }).address
+    case 'legacy':
+    default:
+      return Bitcoin.payments.p2pkh({ pubkey: publicKey }).address
+  }
 }
 
 export const getReceiveAddress = (account, receiveIndex, network, type?) => {
@@ -159,9 +168,7 @@ export const getReceiveAddress = (account, receiveIndex, network, type?) => {
     )
   HDAccount.guard(account)
   const derivationType = type || selectDefaultDerivation(account)
-  const derivations = selectDerivations(account)
-  const cache = DerivationList.getCacheFromType(derivations, derivationType)
-  return Cache.getAddress(cache, 0, receiveIndex, network, derivationType)
+  return getAddress(account, `M/0/${receiveIndex}`, network, derivationType)
 }
 
 export const getChangeAddress = (account, changeIndex, network, type?) => {
@@ -171,9 +178,7 @@ export const getChangeAddress = (account, changeIndex, network, type?) => {
     return HDAccountDeprecatedV3.getChangeAddress(account, changeIndex, network)
   HDAccount.guard(account)
   const derivationType = type || selectDefaultDerivation(account)
-  const derivations = selectDerivations(account)
-  const cache = DerivationList.getCacheFromType(derivations, derivationType)
-  return Cache.getAddress(cache, 1, changeIndex, network, derivationType)
+  return getAddress(account, `M/1/${changeIndex}`, network, derivationType)
 }
 
 // migrateFromV3 :: Object -> Object
