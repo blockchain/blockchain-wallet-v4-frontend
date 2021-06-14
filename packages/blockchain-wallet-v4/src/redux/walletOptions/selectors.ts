@@ -120,4 +120,4 @@ export const getBrokerageDepositsWithdrawals = (state) =>
 
 // show pairing code flag on staging
 export const getPairingCodeFlag = (state) =>
-  getWebOptions(state).map(path(['featureFlags', 'showPairing']))
+  getWebOptions(state).map(path(['featureFlags', 'legacyMobilePairing']))

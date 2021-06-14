@@ -338,8 +338,8 @@
         "enabled": true
       },
       "featureFlags": {
-        "recurringBuys": true,
-        "showPairing": false
+        "legacyMobilePairing": false,
+        "recurringBuys": true
       }
     }
   },
