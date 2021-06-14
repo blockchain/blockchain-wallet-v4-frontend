@@ -13,9 +13,7 @@ enum AnalyticsKey {
   DEPOSIT_METHOD_SELECTED = 'Deposit Method Selected',
   DEPOSIT_VIEWED = 'Deposit Viewed',
   EMAIL_VERIFICATION_REQUESTED = 'Email Verification Requested',
-  LINK_BANK_CLICKED = 'Link Bank Clicked', // TODO
-  LINK_BANK_CONDITIONS_APPROVED = 'Link Bank Conditions Approved', // TODO
-  LINK_BANK_SELECTED = 'Link Bank Selected', // TODO
+  LINK_BANK_CLICKED = 'Link Bank Clicked',
   RECEIVE_CURRENCY_SELECTED = 'Receive Currency Selected',
   RECEIVE_DETAILS_COPIED = 'Receive Details Copied',
   SELL_AMOUNT_ENTERED = 'Sell Amount Entered',
@@ -92,16 +90,6 @@ enum DepositMethodType {
 enum SendReceiveType {
   RECEIVE = 'RECEIVE',
   SEND = 'SEND'
-}
-
-enum BankPartnerType {
-  YAPILY = 'YAPILY',
-  YODLEE = 'YODLEE'
-}
-
-enum BankProviderType {
-  FINTECTURE = 'FINTECTURE',
-  SAFE_CONNECT = 'SAFE_CONNECT'
 }
 
 enum WithdrawalMethodType {
@@ -196,17 +184,6 @@ type EmailVerificationClickedPayload = BasePayload & {
 
 type LinkBankClickedPayload = BasePayload & {
   // origin: 'BUY' |'DEPOSIT' | 'SETTINGS' | 'WITHDRAW'
-}
-
-type LinkBankConditionsApprovedPayload = BasePayload & {
-  bank_name: string
-  partner: BankPartnerType
-  provider: BankProviderType
-}
-
-type LinkBankSelected = BasePayload & {
-  bank_name: string
-  partner: BankPartnerType
 }
 
 type ReceiveCurrencySelectedPayload = BasePayload & {
@@ -401,8 +378,6 @@ type AnalyticsPayload =
   | DepositViewedPayload
   | EmailVerificationClickedPayload
   | LinkBankClickedPayload
-  | LinkBankConditionsApprovedPayload
-  | LinkBankSelected
   | ReceiveCurrencySelectedPayload
   | ReceiveDetailsCopiedPayload
   | SellAmountEnteredPayload

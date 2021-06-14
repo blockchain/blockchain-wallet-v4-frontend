@@ -209,6 +209,32 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
+          case 'ADD_BANK_YAPILY_MODAL': {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id
+            const id = state.walletPath.wallet.guid
+
+            analytics.push(AnalyticsKey.LINK_BANK_CLICKED, {
+              analyticsType: AnalyticsType.EVENT,
+              id,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp()
+            })
+            break
+          }
+          case 'ADD_BANK_YODLEE_MODAL': {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id
+            const id = state.walletPath.wallet.guid
+
+            analytics.push(AnalyticsKey.LINK_BANK_CLICKED, {
+              analyticsType: AnalyticsType.EVENT,
+              id,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp()
+            })
+            break
+          }
           default: {
             break
           }
@@ -992,6 +1018,41 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
+      /*       case '': {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
+        const partner = ''
+        const provider = ''
+        
+        analytics.push(AnalyticsKey.LINK_BANK_CONDITIONS_APPROVED, {
+          analyticsType: AnalyticsType.EVENT,
+          id,
+          nabuId,
+          bank_name: bankName,
+          partner,
+          provider,
+          originalTimestamp: getOriginalTimestamp()
+        })
+        break
+      }
+      case '': {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
+        const bankName = ''
+        const partner = ''
+          
+        analytics.push(AnalyticsKey.LINK_BANK_SELECTED, {
+          analyticsType: AnalyticsType.EVENT,
+          bank_name: bankName,
+          partner
+          id,
+          nabuId,
+          originalTimestamp: getOriginalTimestamp()
+        })
+        break
+      } */
 
       default: {
         break
