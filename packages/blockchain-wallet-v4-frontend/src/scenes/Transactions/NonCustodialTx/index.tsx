@@ -40,7 +40,9 @@ class NonCustodialTxListItem extends React.PureComponent<Props, { isToggled: boo
         break
       }
       case !!coinfig.type.erc20Address: {
-        this.props.ethActions.setTxNotesErc20(coin, transaction.hash, value)
+        return null
+        // TODO: erc20 phase 2, set tx notes?
+        // this.props.ethActions.setTxNotesErc20(coin, transaction.hash, value)
         break
       }
       default: {

@@ -74,8 +74,6 @@ const Converter = (props) => {
   } = props
   const errorState = getErrorState(meta)
 
-  debugger
-
   return (
     <Wrapper className={className}>
       <FiatConverterInput marginTop={marginTop}>

@@ -39,10 +39,11 @@ const coinSelectors = {
 }
 
 // retrieves introduction text for coin on its transaction page
-export const getIntroductionText = (coinfig: SupportedWalletCurrencyType) => {
+export const getIntroductionText = (coin: string) => {
+  const { coinfig } = window.coins[coin]
   return coinSelectors[
-    coinfig.contractAddress ? 'ERC20' : coinfig.coinCode
-  ]?.getTransactionPageHeaderText(coinfig.coinCode)
+    coinfig.type.erc20Address ? 'ERC20' : coinfig.symbol
+  ]?.getTransactionPageHeaderText(coinfig.symbol)
 }
 
 // retrieves custodial account balances

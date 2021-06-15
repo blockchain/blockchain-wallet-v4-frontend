@@ -26,7 +26,7 @@ export const getAnnouncements = (state) =>
 // coins
 export const getSupportedCoins = createDeepEqualSelector(
   [getWebOptions, getErc20AccountTokenBalances],
-  (webOptionsR, erc20CoinsR) => {
+  (webOptionsR /* , erc20CoinsR */) => {
     const newSupportedCoinAccount = (symbol: string) => {
       const { coinfig } = window.coins[symbol]
 
@@ -41,20 +41,32 @@ export const getSupportedCoins = createDeepEqualSelector(
     }
 
     const transform = (
-      webOptions: ExtractSuccess<typeof webOptionsR>,
-      erc20Coins: AccountTokensBalancesResponseType['tokenAccounts']
+      webOptions: ExtractSuccess<typeof webOptionsR>
+      // TODO: erc20 phase 2, use erc20s from AccountTokenBalances
+      // erc20Coins: AccountTokensBalancesResponseType['tokenAccounts']
     ) => {
       return {
         ...webOptions.coins,
-        ...erc20Coins.reduce((previousValue, currentValue) => {
+        // TODO: erc20 phase 2, remove this
+        ...Object.keys(window.coins).reduce((previousValue, currentValue) => {
+          const { coinfig } = window.coins[currentValue]
+          if (!coinfig.type.erc20Address) return previousValue
           return {
             ...previousValue,
-            [currentValue.symbol!]: newSupportedCoinAccount(currentValue.symbol!)
+            [coinfig.symbol]: newSupportedCoinAccount(coinfig.symbol)
           }
         }, {})
+        // TODO: erc20 phase 2, add this
+        // ...erc20Coins.reduce((previousValue, currentValue) => {
+        //   return {
+        //     ...previousValue,
+        //     [currentValue.symbol!]: newSupportedCoinAccount(currentValue.symbol!)
+        //   }
+        // }, {})
       }
     }
-    return lift(transform)(webOptionsR, erc20CoinsR)
+    // TODO: erc20 phase 2, add back erc20CoinsR
+    return lift(transform)(webOptionsR /* , erc20CoinsR */)
   }
 ) as (state: RootState) => RemoteDataType<string, SupportedWalletCurrenciesType>
 

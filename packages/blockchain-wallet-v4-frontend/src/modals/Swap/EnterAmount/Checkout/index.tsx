@@ -201,7 +201,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const isQuoteFailed = Remote.Failure.is(props.quoteR)
   // if user is attempting to send NC ERC20, ensure they have sufficient
   // ETH balance else warn user and disable trade
-  const isErc20 = coins[BASE.coin].contractAddress
+  const isErc20 = window.coins[BASE.coin].coinfig.type.erc20Address
   const disableInsufficientEth =
     props.payment &&
     BASE.type === SwapBaseCounterTypes.ACCOUNT &&

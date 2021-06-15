@@ -127,7 +127,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const { coin } = source
       const addressOrIndex = source.address
       const addressType = source.type
-      const isSourceErc20 = !!source.config.contractAddress
+      const isSourceErc20 = window.coins[source.coin].coinfig.type.erc20Address
       const paymentType = isSourceErc20 ? 'eth' : coin.toLowerCase()
       let payment: PaymentType = yield coreSagas.payment[paymentType]
         .create({ network: networks[paymentType] })

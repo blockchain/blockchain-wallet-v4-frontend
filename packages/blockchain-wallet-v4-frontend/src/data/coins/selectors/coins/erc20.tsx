@@ -62,16 +62,13 @@ export const getAccounts = createDeepEqualSelector(
   [
     coreSelectors.walletOptions.getSupportedCoins,
     coreSelectors.data.eth.getDefaultAddress,
-    (state, { coin }) =>
-      coreSelectors.kvStore.eth.getErc20Account(state, toLower(coin) as CoinType), // non-custodial accounts
     (state, { coin }) => coreSelectors.data.eth.getErc20Balance(state, coin), // non-custodial metadata
     (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
-  (supportedCoinsR, ethAddressR, erc20AccountR, erc20BalanceR, sbBalanceR, ownProps) => {
+  (supportedCoinsR, ethAddressR, erc20BalanceR, sbBalanceR, ownProps) => {
     const transform = (
       ethAddress,
-      erc20Account,
       erc20Balance,
       sbBalance: ExtractSuccess<typeof sbBalanceR>,
       supportedCoins: ExtractSuccess<typeof supportedCoinsR>
@@ -89,7 +86,7 @@ export const getAccounts = createDeepEqualSelector(
             baseCoin: 'ETH',
             coin,
             config,
-            label: prop('label', erc20Account),
+            label: 'Private Key Wallet',
             type: SwapBaseCounterTypes.ACCOUNT
           }
         ])
@@ -102,6 +99,6 @@ export const getAccounts = createDeepEqualSelector(
       return accounts
     }
 
-    return lift(transform)(ethAddressR, erc20AccountR, erc20BalanceR, sbBalanceR, supportedCoinsR)
+    return lift(transform)(ethAddressR, erc20BalanceR, sbBalanceR, supportedCoinsR)
   }
 )

@@ -71,10 +71,8 @@ export default ({ api }) => {
         const mnemonicT = S.wallet.getMnemonic(appState, password)
         const mnemonic = yield call(() => taskToPromise(mnemonicT))
         if (p.isErc20) {
-          const contractAddress = (yield select(
-            S.kvStore.eth.getErc20ContractAddr,
-            toLower(p.coin)
-          )).getOrFail('missing_contract_addr')
+          const { coinfig } = window.coins[p.coin]
+          const contractAddress = coinfig.type.erc20Address
           sign = (data) => taskToPromise(eth.signErc20(network, mnemonic, data, contractAddress))
         } else {
           sign = (data) => taskToPromise(eth.sign(network, mnemonic, data))
@@ -286,10 +284,7 @@ export default ({ api }) => {
         let contractAddress, fees
         try {
           if (isErc20) {
-            contractAddress = (yield select(
-              S.kvStore.eth.getErc20ContractAddr,
-              toLower(coin)
-            )).getOrFail('missing_contract_addr')
+            contractAddress = window.coins[coin].coinfig.type.erc20Address
           }
           fees = yield call(api.getEthFees, contractAddress)
         } catch (e) {

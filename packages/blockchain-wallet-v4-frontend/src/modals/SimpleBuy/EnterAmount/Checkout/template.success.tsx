@@ -317,7 +317,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const limit = Number(props.sddLimit.max) / LIMIT_FACTOR
   // if user is attempting to send NC ERC20, ensure they have sufficient
   // ETH balance else warn user and disable trade
-  const isErc20 = props.supportedCoins[cryptoCurrency].contractAddress
+  const isErc20 = window.coins[cryptoCurrency].coinfig.type.erc20Address
   const isSufficientEthForErc20 =
     props.payment &&
     props.swapAccount?.type === SwapBaseCounterTypes.ACCOUNT &&

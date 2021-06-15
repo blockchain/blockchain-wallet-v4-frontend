@@ -12,10 +12,11 @@ export const generateTradingAccount = (
   config: SupportedCoinType,
   sbBalance?: SBBalanceType
 ): SwapAccountType[] => {
+  const { coinfig } = window.coins[coin]
   return [
     {
       balance: sbBalance?.available || '0',
-      baseCoin: config.contractAddress ? 'ETH' : (coin as SwapAccountType['baseCoin']),
+      baseCoin: coinfig.type.erc20Address ? 'ETH' : (coin as SwapAccountType['baseCoin']),
       coin,
       config,
       label: 'Trading Account',
@@ -29,10 +30,11 @@ export const generateInterestAccount = (
   config: SupportedCoinType,
   interestBalance?: InterestBalanceType
 ): SwapAccountType[] => {
+  const { coinfig } = window.coins[coin]
   return [
     {
       balance: interestBalance?.balance || '0',
-      baseCoin: config.contractAddress ? 'ETH' : (coin as SwapAccountType['baseCoin']),
+      baseCoin: coinfig.type.erc20Address ? 'ETH' : (coin as SwapAccountType['baseCoin']),
       coin,
       config,
       label: `${coin} Interest Account`,
@@ -47,7 +49,7 @@ export const generateProvisionalPaymentAmount = (
   amount: number
 ): string | number => {
   if (coin === 'BTC' || coin === 'BCH') {
-    return parseInt(convertStandardToBase(coin, amount))
+    return parseInt(convertStandardToBase(coin, amount), 10)
   }
 
   return convertStandardToBase(coin, amount)

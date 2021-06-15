@@ -41,11 +41,9 @@ const coinSagas = {
 export default ({ coreSagas, networks }) => {
   // gets the default account/address for requested coin
   const getDefaultAccountForCoin = function* (coin: CoinType) {
-    const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(yield select())
-    const supportedCoins = supportedCoinsR.getOrElse({} as SupportedWalletCurrenciesType)
-    const config = supportedCoins[coin]
+    const { coinfig } = window.coins[coin]
     const defaultAccountR = yield coinSagas[
-      config.contractAddress ? 'ERC20' : coin
+      coinfig.type.erc20Address ? 'ERC20' : coin
     ]?.getDefaultAccount(coin)
     // @ts-ignore
     return defaultAccountR.getOrFail('Failed to find default account')
@@ -54,10 +52,8 @@ export default ({ coreSagas, networks }) => {
   // gets the next receive address for requested coin
   // account based currencies will just return the account address
   const getNextReceiveAddressForCoin = function* (coin: CoinType, index?: number) {
-    const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(yield select())
-    const supportedCoins = supportedCoinsR.getOrElse({} as SupportedWalletCurrenciesType)
-    const config = supportedCoins[coin]
-    return yield coinSagas[config.contractAddress ? 'ERC20' : coin]?.getNextReceiveAddress(
+    const { coinfig } = window.coins[coin]
+    return yield coinSagas[coinfig.type.erc20Address ? 'ERC20' : coin]?.getNextReceiveAddress(
       coin,
       networks,
       index
@@ -71,14 +67,10 @@ export default ({ coreSagas, networks }) => {
     coin: CoinType,
     paymentR: RemoteDataType<string | Error, PaymentValue | undefined>
   ) {
-    const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(yield select())
-    const supportedCoins = supportedCoinsR.getOrElse({} as SupportedWalletCurrenciesType)
-    const config = supportedCoins[coin]
-    return yield coinSagas[config.contractAddress ? 'ERC20' : coin]?.getOrUpdateProvisionalPayment(
-      coreSagas,
-      networks,
-      paymentR
-    ) as PaymentType
+    const { coinfig } = window.coins[coin]
+    return yield coinSagas[
+      coinfig.type.erc20Address ? 'ERC20' : coin
+    ]?.getOrUpdateProvisionalPayment(coreSagas, networks, paymentR) as PaymentType
   }
 
   return {

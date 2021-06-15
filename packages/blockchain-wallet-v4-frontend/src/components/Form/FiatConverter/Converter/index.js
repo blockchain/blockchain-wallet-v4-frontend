@@ -44,7 +44,6 @@ class ConverterContainer extends React.PureComponent {
     const val = needsFormatting ? Number(e.target.value).toFixed(2) : e.target.value
 
     const nextProps = convertFiatToCoin(unit, val, currency, rates)
-    debugger
     this.props.onChange(nextProps)
   }
 

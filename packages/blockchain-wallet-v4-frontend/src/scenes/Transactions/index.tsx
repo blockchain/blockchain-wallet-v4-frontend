@@ -239,7 +239,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
             </PageTitle>
             <ExplainerWrapper>
               <ExplainerText>
-                {getIntroductionText(coinModel)}
+                {getIntroductionText(coin)}
                 {!(coin in FiatTypeEnum) && (
                   <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
                     <LearnMoreText size='16px'>

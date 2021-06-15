@@ -19,7 +19,7 @@ import {
   StyledFiatDisplay,
   Timestamp,
   TxRow,
-  TxRowContainer,
+  TxRowContainer
 } from '../components'
 import { Props } from '.'
 import Confirmations from './Confirmations'
@@ -66,7 +66,7 @@ const NonCustodialTx = ({
   handleToggle,
   isToggled,
   onViewTxDetails,
-  transaction,
+  transaction
 }: Props & ParentClassProps) => (
   <TxRowContainer className={isToggled ? 'active' : ''} data-e2e='transactionRow'>
     <TxRow onClick={() => handleToggle()}>
@@ -121,10 +121,12 @@ const NonCustodialTx = ({
           <RowHeader>
             <FormattedMessage id='components.txlistitem.description' defaultMessage='Description' />
           </RowHeader>
-          <Description
-            description={transaction.description}
-            handleEditDescription={handleEditDescription}
-          />
+          {handleEditDescription && (
+            <Description
+              description={transaction.description}
+              handleEditDescription={handleEditDescription}
+            />
+          )}
           {coin === 'BTC' && (
             <>
               <RowHeader>

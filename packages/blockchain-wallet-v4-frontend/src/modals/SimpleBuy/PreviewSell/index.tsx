@@ -175,6 +175,7 @@ class PreviewSell extends PureComponent<
 
   getFeeInFiat = (account: SwapAccountType, BASE, COUNTER) => {
     const { payment, rates, ratesEth } = this.props
+    const isErc20 = window.coins[account.coin].coinfig.type.erc20Address
     return (
       (account.type === SwapBaseCounterTypes.ACCOUNT &&
         Number(
@@ -182,7 +183,7 @@ class PreviewSell extends PureComponent<
             coin: BASE,
             currency: COUNTER,
             isStandard: true,
-            rates: account.config.contractAddress ? ratesEth : rates,
+            rates: isErc20 ? ratesEth : rates,
             value: convertBaseToStandard(account.baseCoin, this.networkFee(payment))
           })
         )) ||
@@ -218,7 +219,7 @@ class PreviewSell extends PureComponent<
         const baseCoinTicker = coins[BASE].coinTicker
         const { rates, ratesEth } = this.props
         const fiatCurrency = getFiatFromPair(this.props.pair.pair)
-        const isErc20 = coins[COUNTER].contractAddress
+        const isErc20 = window.coins[COUNTER].coinfig.type.erc20Address
 
         return (
           <CustomForm onSubmit={this.handleSubmit}>
@@ -383,7 +384,7 @@ class PreviewSell extends PureComponent<
                           const saleInCoin = Exchange.convertFiatToCoin({
                             coin: BASE,
                             currency: fiatCurrency,
-                            rates: coins[BASE].contractAddress ? ratesEth : rates,
+                            rates: window.coins[BASE].coinfig.type.erc20Address ? ratesEth : rates,
                             value: Number(saleAmount)
                           })
                           return (

@@ -6,7 +6,7 @@ import {
   FiatType,
   InterestAfterTransactionType,
   InterestFormErrorsType,
-  RemoteDataType,
+  RemoteDataType
 } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
@@ -28,7 +28,6 @@ export const getData = (state: RootState) => {
   const displayCoin = selectors.components.interest.getCoinDisplay(state)
   const ethRatesR = selectors.core.data.misc.getRatesSelector('ETH', state)
   const paymentR = selectors.components.interest.getPayment(state)
-  const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state) as RemoteDataType<
     string,
     FiatType
@@ -51,17 +50,16 @@ export const getData = (state: RootState) => {
       interestRate: ExtractSuccess<typeof interestRateR>,
       ethRates: ExtractSuccess<typeof ethRatesR>,
       payment: ExtractSuccess<typeof paymentR>,
-      supportedCoins: ExtractSuccess<typeof supportedCoinsR>,
       walletCurrency: ExtractSuccess<typeof walletCurrencyR>,
       interestEDDWithdrawLimits
     ) => {
-      const config = supportedCoins[coin]
+      const { coinfig } = window.coins[coin]
       const depositFee =
         coin === 'BCH' || coin === 'BTC'
           ? Number(pathOr('0', ['selection', 'fee'], payment))
           : Number(propOr('0', 'fee', payment))
 
-      const feeCrypto = config.contractAddress
+      const feeCrypto = coinfig.type.erc20Address
         ? convertBaseToStandard('ETH', depositFee)
         : convertBaseToStandard(coin, depositFee)
 
@@ -69,8 +67,8 @@ export const getData = (state: RootState) => {
         coin,
         currency: walletCurrency,
         isStandard: true,
-        rates: config.contractAddress ? ethRates : rates,
-        value: feeCrypto,
+        rates: coinfig.type.erc20Address ? ethRates : rates,
+        value: feeCrypto
       })
 
       return {
@@ -87,8 +85,7 @@ export const getData = (state: RootState) => {
         isFromBuySell,
         payment,
         prefillAmount,
-        rates,
-        supportedCoins,
+        rates
       }
     }
   )(
@@ -97,7 +94,6 @@ export const getData = (state: RootState) => {
     interestRateR,
     ethRatesR,
     paymentR,
-    supportedCoinsR,
     walletCurrencyR,
     interestEDDWithdrawLimitsR
   )

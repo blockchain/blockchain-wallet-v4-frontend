@@ -248,7 +248,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
   const secondStepSubmitClicked = function* () {
     const { coin } = yield select(selectors.form.getFormValues(FORM))
-    const coinModel = (yield select(selectors.core.walletOptions.getCoinModel, coin)).getOrFail()
+    const { coinfig } = window.coins[coin]
     yield put(startSubmit(FORM))
     const p = yield select(S.getPayment)
     let payment: EthPaymentType = coreSagas.payment.eth.create({
@@ -315,7 +315,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         if (fromType !== ADDRESS_TYPES.LOCKBOX) {
           yield take(actionTypes.core.kvStore.eth.FETCH_METADATA_ETH_SUCCESS)
         }
-        if (coinModel.contractAddress) {
+        if (coinfig.type.erc20Address) {
           yield put(
             actions.core.kvStore.eth.setTxNotesErc20(
               coin,
@@ -323,14 +323,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
               payment.value().description
             )
           )
-        } else {
-          yield put(
-            actions.core.kvStore.eth.setTxNotesEth(
-              payment.value().txId,
-              payment.value().description
-            )
-          )
         }
+        yield put(
+          actions.core.kvStore.eth.setTxNotesEth(payment.value().txId, payment.value().description)
+        )
       }
       // Display success
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
@@ -343,7 +339,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         const deviceIndex = prop('device_index', device)
         yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
       } else {
-        yield put(actions.router.push(coinModel.txListAppRoute))
+        yield put(actions.router.push(`/${coin}/transactions`))
         if (coin === 'ETH') {
           yield put(actions.core.data.eth.fetchTransactions(null, true))
         } else {
@@ -353,7 +349,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           actions.alerts.displaySuccess(
             isRetryAttempt ? C.RESEND_COIN_SUCCESS : C.SEND_COIN_SUCCESS,
             {
-              coinName: coinModel.displayName
+              coinName: coinfig.name
             }
           )
         )
@@ -383,7 +379,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           actions.analytics.logEvent([
             ...TRANSACTION_EVENTS.SEND_FAILURE,
             coin,
-            coinModel.contractAddress && lowEthBalance ? 'Potentially insufficient ETH for TX' : e
+            coinfig.type.erc20Address && lowEthBalance ? 'Potentially insufficient ETH for TX' : e
           ])
         )
         if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
@@ -395,7 +391,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         } else {
           yield put(
             actions.alerts.displayError(C.SEND_COIN_ERROR, {
-              coinName: coinModel.displayName
+              coinName: coinfig.name
             })
           )
         }
@@ -528,7 +524,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         const supportedCoins = supportedCoinsR.getOrElse({} as SupportedWalletCurrenciesType)
         coin =
           Object.keys(supportedCoins).find(
-            (c: string) => tx.to === supportedCoins[c as CoinType].contractAddress
+            (c: string) => tx.to === window.coins[c].coinfig.type.erc20Address
           ) || 'ETH'
       }
 

@@ -235,6 +235,7 @@ export default ({ api }: { api: APIType }) => {
       ethAddr
     )
 
+    // TODO: erc20 phase 2, remove
     const REMOVE_ME_WHEN_BE_SENDS_TOKENNAME_TOKEN_ACCOUNTS = data.tokenAccounts.map((value) => {
       const token = Object.keys(window.coins).find(
         (val) =>
@@ -389,8 +390,6 @@ export default ({ api }: { api: APIType }) => {
         currentPage++
       }
 
-      debugger
-
       // process txs further for report
       const processedTxList = yield call(
         __processErc20ReportTxs,
@@ -489,8 +488,6 @@ export default ({ api }: { api: APIType }) => {
     // @ts-ignore
     const fullTxList = yield call(__processErc20Txs, rawTxList)
     const marketData = (yield select(selectors.data.eth.getErc20Rates, token)).getOrFail()
-
-    debugger
 
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter(

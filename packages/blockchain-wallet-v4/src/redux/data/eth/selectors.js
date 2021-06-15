@@ -57,7 +57,11 @@ export const getErc20Rates = curry((state, token) => {
 })
 export const getErc20Balance = (state, token) => {
   const tokenData = path([dataPath, 'eth', 'info', token])(state)
-  return tokenData ? tokenData.map(prop('balance')) : Remote.NotAsked
+  return tokenData
+    ? tokenData.map(prop('balance'))
+    : // TODO: erc20 phase 2, default to Remote.NotAsked
+      // Remote.NotAsked
+      Remote.Success('0')
 }
 export const getErc20CurrentBalance = (state, token) => {
   return path([dataPath, 'eth', 'current_balance', token])(state) || Remote.NotAsked

@@ -112,7 +112,6 @@
   "components.alerts.fetch_unused_addresses_error": "Falha na obtenção dos endereços sem uso.",
   "components.alerts.fetch_used_addresses_error": "Falha na obtenção dos endereços usados.",
   "components.alerts.first_pax_trade_info_dyk": "Sabia?",
-  "components.alerts.first_usdd_trade_info": "Agora que tem USD Digital, é necessário ter ETH para Enviar ou Trocar.",
   "components.alerts.get_googleauth_secret_error": "Não foi possível obter o segredo do Google Authenticator.",
   "components.alerts.google_auth_verify_error": "Falha na verificação do código do Google Authenticator",
   "components.alerts.google_auth_verify_success": "Google auth verificado",
