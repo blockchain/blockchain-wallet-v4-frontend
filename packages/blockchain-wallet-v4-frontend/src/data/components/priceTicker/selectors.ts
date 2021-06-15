@@ -8,7 +8,7 @@ const selectRates = (coin, state) => {
   const { coinfig } = window.coins[coin]
   try {
     return coinfig.type.erc20Address
-      ? selectors.core.data.eth.getErc20Rates(state, toLower(coin))
+      ? selectors.core.data.eth.getErc20Rates(state, coin)
       : selectors.core.data[toLower(coin)].getRates(state)
   } catch (e) {
     return Remote.Failure('Unsupported Coin Code: Rates selector missing')

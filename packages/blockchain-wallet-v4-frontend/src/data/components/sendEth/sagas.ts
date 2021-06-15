@@ -224,7 +224,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       if (equals(coinCode, 'ETH')) {
         rates = selectors.core.data.eth.getRates(appState).getOrFail('Failed to get ETH rates')
       } else {
-        rates = (yield select(selectors.core.data.eth.getErc20Rates, toLower(coinCode))).getOrFail(
+        rates = (yield select(selectors.core.data.eth.getErc20Rates, coinCode)).getOrFail(
           `Failed to get ${coinCode} rates`
         )
       }
@@ -343,7 +343,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         if (coin === 'ETH') {
           yield put(actions.core.data.eth.fetchTransactions(null, true))
         } else {
-          yield put(actions.core.data.eth.fetchErc20Transactions(toLower(coin), true))
+          yield put(actions.core.data.eth.fetchErc20Transactions(coin, true))
         }
         yield put(
           actions.alerts.displaySuccess(
@@ -477,7 +477,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     if (equals(coin, 'ETH')) {
       rates = selectors.core.data.eth.getRates(yield select()).getOrFail('Failed to get ETH rates')
     } else {
-      rates = (yield select(selectors.core.data.eth.getErc20Rates, toLower(coin))).getOrFail(
+      rates = (yield select(selectors.core.data.eth.getErc20Rates, coin)).getOrFail(
         `Failed to get ${coin} rates`
       )
     }

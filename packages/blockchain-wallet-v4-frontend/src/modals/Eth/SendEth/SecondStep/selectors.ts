@@ -28,9 +28,7 @@ const erc20FromLabel = curry((coin, payment, state) => {
   const { from } = payment
   switch (from.type) {
     case ADDRESS_TYPES.ACCOUNT:
-      return selectors.core.kvStore.eth
-        .getErc20AccountLabel(state, toLower(coin))
-        .getOrElse(from.address)
+      return selectors.core.kvStore.eth.getErc20AccountLabel(state, coin).getOrElse(from.address)
     default:
       return from.address
   }
@@ -41,7 +39,7 @@ export const getData = (state, coin) => {
   const paymentR = selectors.components.sendEth.getPayment(state)
   const ethRatesR = selectors.core.data.eth.getRates(state)
   const currencyR = selectors.core.settings.getCurrency(state)
-  const erc20Rates = selectors.core.data.eth.getErc20Rates(state, toLower(coin)).getOrElse({})
+  const erc20Rates = selectors.core.data.eth.getErc20Rates(state, coin).getOrElse({})
 
   const transform = (payment, ethRates, currency: FiatType) => {
     const rates = isErc20 ? erc20Rates : ethRates
@@ -51,13 +49,6 @@ export const getData = (state, coin) => {
       coin,
       value: payment.amount
     })
-    // // Convert WEI to base for fee (ETH)
-    // const feeStandard = Exchange.convertCoinToCoin({
-    //   baseToStandard: true,
-    //   coin: 'ETH',
-    //   value: payment.fee
-    // })
-    // Convert ETH or ERC20 amount to Fiat
     const amount = Exchange.convertCoinToFiat({
       coin,
       currency,
