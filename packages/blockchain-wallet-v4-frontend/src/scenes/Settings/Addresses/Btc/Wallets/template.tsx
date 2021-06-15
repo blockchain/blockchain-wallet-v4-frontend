@@ -90,11 +90,10 @@ const Success = ({
   search: any
   wallets: Array<any>
 }) => {
-  const isMatch = wallet =>
-    !search || wallet.label.toLowerCase().indexOf(search) > -1
+  const isMatch = (wallet) => !search || wallet.label.toLowerCase().indexOf(search) > -1
   const matchedWallets = filter(isMatch, take(wallets.length, wallets))
 
-  const walletTableRows = matchedWallets.map(wallet => {
+  const walletTableRows = matchedWallets.map((wallet) => {
     return (
       <TableRow key={wallet.index} data-e2e='btcWalletRow'>
         <WalletTableCell width='50%'>
@@ -110,11 +109,7 @@ const Success = ({
             </Banner>
           )}
           {wallet.archived && (
-            <Banner
-              label={'true'}
-              type='informational'
-              data-e2e='btcArchivedWalletBadge'
-            >
+            <Banner label='true' type='informational' data-e2e='btcArchivedWalletBadge'>
               <FormattedMessage
                 id='scenes.settings.addresses.btc.wallets.archivedlabel'
                 defaultMessage='Archived'
@@ -129,10 +124,7 @@ const Success = ({
             </SwitchableDisplay>
           )}
         </TableCell>
-        <TableCell
-          width='20%'
-          style={{ display: 'flex', justifyContent: 'flex-end' }}
-        >
+        <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
           {wallet.archived ? (
             <Link
               weight={500}
@@ -147,9 +139,7 @@ const Success = ({
             </Link>
           ) : //   // TODO: SEGWIT remove w/ DEPRECATED_V3
           wallet.type === 'v3' ? (
-            <LinkContainer
-              to={`/settings/addresses/btc/${wallet.index}/legacy`}
-            >
+            <LinkContainer to={`/settings/addresses/btc/${wallet.index}/legacy`}>
               <Link weight={500} size='13px' data-e2e='btcManageWalletLink'>
                 <FormattedMessage
                   id='scenes.settings.addresses.btc.wallets.manage'
@@ -158,9 +148,7 @@ const Success = ({
               </Link>
             </LinkContainer>
           ) : (
-            <LinkContainer
-              to={`/settings/addresses/btc/${wallet.index}/bech32`}
-            >
+            <LinkContainer to={`/settings/addresses/btc/${wallet.index}/bech32`}>
               <Link weight={500} size='13px' data-e2e='btcManageWalletLink'>
                 <FormattedMessage
                   id='scenes.settings.addresses.btc.wallets.manage'
@@ -267,10 +255,7 @@ const Success = ({
               <FormattedMessage id='copy.balance' defaultMessage='Balance' />
             </Text>
           </TableCell>
-          <TableCell
-            width='20%'
-            style={{ display: 'flex', justifyContent: 'flex-end' }}
-          >
+          <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Text color='grey900' size='14px' weight={500}>
               <FormattedMessage
                 id='scenes.settings.addresses.btc.wallets.manage'

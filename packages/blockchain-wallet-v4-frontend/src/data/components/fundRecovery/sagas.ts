@@ -9,6 +9,7 @@ import * as Coin from 'blockchain-wallet-v4/src/coinSelection/coin'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { UnspentResponseType } from 'blockchain-wallet-v4/src/network/api/btc/types'
 import { signSelection as bchSign } from 'blockchain-wallet-v4/src/signer/bch'
+import { signSelection as btcSign } from 'blockchain-wallet-v4/src/signer/btc'
 import { HDAccountList, Wallet } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { fromCashAddr, toCashAddr } from 'blockchain-wallet-v4/src/utils/bch'
@@ -35,24 +36,22 @@ export default ({ api }: { api: APIType }) => {
     try {
       yield put(A.recoverFundsLoading(coin))
       const password = yield call(promptForSecondPassword)
+      const wallet = selectors.core.wallet.getWallet(yield select())
+      const accounts = Wallet.selectHDAccounts(wallet)
+      const account = HDAccountList.selectAccount(accountIndex, accounts)
+      const fromDerivation = account.derivations.find((d) => d.type === fromDerivationType)
+      const xprivT = Wallet.isDoubleEncrypted(wallet)
+        ? crypto.decryptSecPass(
+            Wallet.selectSharedKey(wallet),
+            Wallet.selectIterations(wallet),
+            password,
+            fromDerivation.xpriv
+          )
+        : Task.of(fromDerivation.xpriv)
+
+      const xpriv = yield call(() => taskToPromise(xprivT))
 
       if (coin === 'BCH') {
-        const wallet = selectors.core.wallet.getWallet(yield select())
-        const accounts = Wallet.selectHDAccounts(wallet)
-        const account = HDAccountList.selectAccount(accountIndex, accounts)
-        const fromDerivation = account.derivations.find((d) => d.type === fromDerivationType)
-
-        const xprivT = Wallet.isDoubleEncrypted(wallet)
-          ? crypto.decryptSecPass(
-              Wallet.selectSharedKey(wallet),
-              Wallet.selectIterations(wallet),
-              password,
-              fromDerivation.xpriv
-            )
-          : Task.of(fromDerivation.xpriv)
-
-        const xpriv = yield call(() => taskToPromise(xprivT))
-
         const fee = yield call(api.getBchFees)
         const coins = unspent_outputs.map((val) => {
           const path = val.xpub
@@ -80,13 +79,32 @@ export default ({ api }: { api: APIType }) => {
         const tx = bchSign(network, coinDust, selection)
 
         yield call(api.pushBchTx, tx.txHex, dust.lock_secret)
-        yield put(A.recoverFundsSuccess(coin))
-        yield put(actions.modals.closeAllModals())
-        yield put(actions.alerts.displaySuccess(`Funds recovered to ${recoveryAddress}.`))
-        yield put(actions.components.refresh.refreshClicked())
+      } else if (coin === 'BTC') {
+        const fee = yield call(api.getBtcFees)
+        const coins = unspent_outputs.map((val) => {
+          const path = val.xpub!.path.split('M/')[1]
+          const node = Bitcoin.bip32.fromBase58(xpriv).derivePath(path)
+          const wif = Bitcoin.ECPair.fromWIF(node.toWIF())
+
+          return Coin.fromJS({
+            ...val,
+            path,
+            priv: wif
+          })
+        })
+
+        const selection = selectAll(fee.priority, coins, recoveryAddress)
+        const tx = btcSign(network, selection)
+        debugger
+        yield call(api.pushBtcTx, tx.txHex)
       } else {
-        yield put(A.recoverFundsFailure(coin, `No recovery method for ${coin}`))
+        throw new Error(`No recovery method for ${coin}`)
       }
+
+      yield put(A.recoverFundsSuccess(coin))
+      yield put(actions.modals.closeAllModals())
+      yield put(actions.alerts.displaySuccess(`Funds recovered to ${recoveryAddress}.`))
+      yield put(actions.components.refresh.refreshClicked())
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.recoverFundsFailure(coin, error))
@@ -101,6 +119,11 @@ export default ({ api }: { api: APIType }) => {
     try {
       yield put(A.searchChainLoading(accountIndex, coin, derivationType))
 
+      const wallet = selectors.core.wallet.getWallet(yield select())
+      const accounts = Wallet.selectHDAccounts(wallet)
+      const account = HDAccountList.selectAccount(accountIndex, accounts)
+
+      // TODO, maybe add incident?
       if (coin === 'BCH') {
         // FOR CHANGE
         // 1. get the change_index from the good xpub on bch chain
@@ -112,10 +135,6 @@ export default ({ api }: { api: APIType }) => {
         // Note: wrong receive was always index 0 because of a separate bug
         // which caused wallet to look up receive_index from the wrong xpub
         // or, elsing things to eventually return receive_index as 0.
-
-        const wallet = selectors.core.wallet.getWallet(yield select())
-        const accounts = Wallet.selectHDAccounts(wallet)
-        const account = HDAccountList.selectAccount(accountIndex, accounts)
         const badDerivation = account.derivations.find((d) => d.type === derivationType)
         const goodDerivation = account.derivations.find((d) => d.type === 'legacy')
         const badXpub = badDerivation.xpub
@@ -154,6 +173,26 @@ export default ({ api }: { api: APIType }) => {
             toCashAddr(recoveryAddress, true),
             receive_outputs.length ? undefined : badChange
           )
+        )
+      } else if (coin === 'BTC') {
+        // FOR WRONG RECEIVE
+        // 1. get the SEGWIT derivation
+        // 2. get unspents from SEGWIT xpub on active param (not activeBech32)
+        const derivation = account.derivations.find((d) => d.type === derivationType)
+        const { xpub } = derivation
+        const recoveryAddress = selectors.core.common.btc
+          .getNextAvailableReceiveAddress(network, accountIndex, 'bech32', yield select())
+          .getOrFail('No BTC address found to recovery to.')
+
+        const { unspent_outputs }: UnspentResponseType = yield call(
+          api.getBtcUnspents,
+          [xpub],
+          -1,
+          []
+        )
+
+        yield put(
+          A.searchChainSuccess(accountIndex, coin, derivationType, unspent_outputs, recoveryAddress)
         )
       } else {
         yield put(

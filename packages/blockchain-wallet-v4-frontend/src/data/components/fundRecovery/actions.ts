@@ -8,7 +8,6 @@ export const recoverFunds = (
   unspent_outputs: UnspentResponseType['unspent_outputs'],
   coin: string,
   fromDerivationType: string,
-  toDerivationType: string,
   recoveryAddress: string,
   badChange?: string[]
 ) => ({
@@ -18,7 +17,6 @@ export const recoverFunds = (
     coin,
     fromDerivationType,
     recoveryAddress,
-    toDerivationType,
     unspent_outputs
   },
   type: AT.RECOVER_FUNDS
