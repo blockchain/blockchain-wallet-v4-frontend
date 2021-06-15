@@ -43,7 +43,6 @@ export type ModalNamesType =
   | 'UPGRADE_FOR_AIRDROP_MODAL'
   | 'VERIFY_MESSAGE_AIRDROP'
   | 'WELCOME_MODAL'
-  | 'WITHDRAWAL_MODAL'
 
 export type ModalOriginType =
   | 'AirdropClaimGoal'

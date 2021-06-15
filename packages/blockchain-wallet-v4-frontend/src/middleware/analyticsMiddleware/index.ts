@@ -7,7 +7,8 @@ import {
   CoinType,
   DepositMethodType,
   OrderType,
-  SendReceiveType
+  SendReceiveType,
+  WithdrawalMethodType
 } from 'middleware/analyticsMiddleware/types'
 import {
   getNetworkFee,
@@ -179,6 +180,59 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               url: href
             })
 
+            break
+          }
+          case 'CUSTODY_WITHDRAW_MODAL': {
+            const { origin } = action.payload.props
+            const { href, pathname, search } = window.location
+            const { referrer, title } = document
+
+            analytics.push(AnalyticsKey.WITHDRAWAL_CLICKED, {
+              analyticsType: AnalyticsType.EVENT,
+              id,
+              nabuId,
+              origin,
+              originalTimestamp: getOriginalTimestamp()
+            })
+
+            analytics.push(AnalyticsKey.WITHDRAWAL_VIEWED, {
+              analyticsType: AnalyticsType.EVENT,
+              id,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp(),
+              path: pathname,
+              referrer,
+              search,
+              title,
+              url: href
+            })
+
+            break
+          }
+          case 'ADD_BANK_YAPILY_MODAL': {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id
+            const id = state.walletPath.wallet.guid
+
+            analytics.push(AnalyticsKey.LINK_BANK_CLICKED, {
+              analyticsType: AnalyticsType.EVENT,
+              id,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp()
+            })
+            break
+          }
+          case 'ADD_BANK_YODLEE_MODAL': {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id
+            const id = state.walletPath.wallet.guid
+
+            analytics.push(AnalyticsKey.LINK_BANK_CLICKED, {
+              analyticsType: AnalyticsType.EVENT,
+              id,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp()
+            })
             break
           }
           default: {
@@ -387,12 +441,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           case 'ENTER_AMOUNT': {
             const inputCurrency = state.form.initSwap.values.BASE.coin
             const inputType =
-              state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
+              state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL
                 ? AccountType.TRADING
                 : AccountType.USERKEY
             const outputCurrency = state.form.initSwap.values.COUNTER.coin
             const outputType =
-              state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
+              state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL
                 ? AccountType.TRADING
                 : AccountType.USERKEY
 
@@ -414,13 +468,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const inputAmount = Number(state.form.swapAmount.values.cryptoAmount)
             const inputCurrency = state.form.initSwap.values.BASE.coin
             const inputType =
-              state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
+              state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL
                 ? AccountType.TRADING
                 : AccountType.USERKEY
             const outputAmount = inputAmount * exchangeRate
             const outputCurrency = state.form.initSwap.values.COUNTER.coin
             const outputType =
-              state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
+              state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL
                 ? AccountType.TRADING
                 : AccountType.USERKEY
 
@@ -451,12 +505,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const id = state.walletPath.wallet.guid
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
-          state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
+          state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
             : AccountType.USERKEY
         const outputCurrency = state.form.initSwap.values.COUNTER.coin
         const outputType =
-          state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
+          state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
             : AccountType.USERKEY
 
@@ -479,12 +533,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const id = state.walletPath.wallet.guid
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
-          state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
+          state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
             : AccountType.USERKEY
         const outputCurrency = state.form.initSwap.values.COUNTER.coin
         const outputType =
-          state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
+          state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
             : AccountType.USERKEY
 
@@ -506,7 +560,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const id = state.walletPath.wallet.guid
         const inputCurrency = action.payload.account.coin
         const inputType =
-          action.payload.account.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
+          action.payload.account.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
             : AccountType.USERKEY
 
@@ -526,7 +580,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const id = state.walletPath.wallet.guid
         const inputCurrency = action.payload.account.coin
         const inputType =
-          action.payload.account.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
+          action.payload.account.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
             : AccountType.USERKEY
 
@@ -548,17 +602,17 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const inputAmount = Number(state.form.swapAmount.values.cryptoAmount)
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
-          state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
+          state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
             : AccountType.USERKEY
         const outputAmount = inputAmount * exchangeRate
         const outputCurrency = state.form.initSwap.values.COUNTER.coin
         const outputType =
-          state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
+          state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
             : AccountType.USERKEY
         const networkFeeInputAmount =
-          state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
+          state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL
             ? 0
             : Number(
                 convertBaseToStandard(
@@ -567,7 +621,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
                 )
               )
         const networkFeeOutputAmount =
-          state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
+          state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL
             ? 0
             : state.components.swap.quote.getOrElse({})?.quote.networkFee || 0
 
@@ -597,7 +651,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
         const accountType =
-          state.form.requestCrypto.values.selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
+          state.form.requestCrypto.values.selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
             : AccountType.USERKEY
         const currency = state.form.requestCrypto.values.selectedAccount.coin
@@ -618,7 +672,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
         const accountType =
-          state.form.requestCrypto.values.selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
+          state.form.requestCrypto.values.selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
             : AccountType.USERKEY
         const currency = state.form.requestCrypto.values.selectedAccount.coin
@@ -715,7 +769,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             }
 
             const accountType =
-              action.payload.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
+              action.payload.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
                 ? AccountType.TRADING
                 : AccountType.USERKEY
             const inputCurrency = state.components.simpleBuy.fiatCurrency
@@ -734,7 +788,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
           case 'PREVIEW_SELL': {
             const accountType =
-              state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
+              state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
                 ? AccountType.TRADING
                 : AccountType.USERKEY
             const inputCurrency = state.components.simpleBuy.fiatCurrency
@@ -764,7 +818,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
         const accountType =
-          state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
+          state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
             : AccountType.USERKEY
         const inputCurrency = state.components.simpleBuy.fiatCurrency
@@ -786,7 +840,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
         const accountType =
-          state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL // TODO add SwapBaseCounterTypes to it
+          state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
             : AccountType.USERKEY
         const inputCurrency = state.components.simpleBuy.fiatCurrency
@@ -811,7 +865,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         switch (stepName) {
           case BankDWStepType.CONFIRM: {
-            const depositMethod = DepositMethodType.BANK_TRANSFER // we only have it for now
+            const depositMethod = state.components.brokerage.account
+              ? DepositMethodType.BANK_ACCOUNT
+              : DepositMethodType.BANK_TRANSFER
             const { amount, currency } = state.form.brokerageTx.values
 
             analytics.push(AnalyticsKey.DEPOSIT_AMOUNT_ENTERED, {
@@ -838,20 +894,165 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
-        const depositMethod = DepositMethodType.BANK_TRANSFER // we only have it for now
-        const { currency } = state.form.brokerageTx.values
 
-        analytics.push(AnalyticsKey.DEPOSIT_METHOD_SELECTED, {
+        const originModal = state.modals.find((modal) => modal.type).type
+
+        switch (originModal) {
+          case 'BANK_DEPOSIT_MODAL': {
+            const depositMethod = state.components.brokerage.account
+              ? DepositMethodType.BANK_ACCOUNT
+              : DepositMethodType.BANK_TRANSFER
+            const { currency } = state.form.brokerageTx.values
+
+            analytics.push(AnalyticsKey.DEPOSIT_METHOD_SELECTED, {
+              analyticsType: AnalyticsType.EVENT,
+              currency,
+              deposit_method: depositMethod,
+              id,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp()
+            })
+
+            break
+          }
+
+          case 'CUSTODY_WITHDRAW_MODAL': {
+            const currency = state.components.withdraw.fiatCurrency
+            const withdrawalMethod = state.components.brokerage.account
+              ? WithdrawalMethodType.BANK_ACCOUNT
+              : WithdrawalMethodType.BANK_TRANSFER
+
+            analytics.push(AnalyticsKey.WITHDRAWAL_METHOD_SELECTED, {
+              analyticsType: AnalyticsType.EVENT,
+              currency,
+              id,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp(),
+              withdrawal_method: withdrawalMethod
+            })
+
+            break
+          }
+
+          default: {
+            break
+          }
+        }
+
+        break
+      }
+      case AT.components.withdraw.SET_STEP: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
+        const stepName = action.payload.step
+
+        switch (stepName) {
+          case 'CONFIRM_WITHDRAW': {
+            const currency = state.components.withdraw.fiatCurrency
+            const inputAmount = Number(state.form.custodyWithdrawForm.values.amount)
+            const fee = state.components.withdraw.feesAndMinAmount
+              .getOrElse({})
+              ?.fees.find((fee) => fee.symbol === currency)?.value
+            const outputAmount = inputAmount + fee
+            const withdrawMethod = state.components.brokerage.account
+              ? WithdrawalMethodType.BANK_ACCOUNT
+              : WithdrawalMethodType.BANK_TRANSFER
+
+            analytics.push(AnalyticsKey.WITHDRAWAL_AMOUNT_ENTERED, {
+              analyticsType: AnalyticsType.EVENT,
+              currency,
+              id,
+              input_amount: inputAmount,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp(),
+              output_amount: outputAmount,
+              withdrawal_method: withdrawMethod
+            })
+
+            break
+          }
+          default: {
+            break
+          }
+        }
+
+        break
+      }
+      case AT.components.withdraw.HANDLE_WITHDRAWAL_MAX_AMOUNT_CLICK: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
+        const currency = state.components.withdraw.fiatCurrency
+        const withdrawalMethod = state.components.brokerage.account
+          ? WithdrawalMethodType.BANK_ACCOUNT
+          : WithdrawalMethodType.BANK_TRANSFER
+
+        analytics.push(AnalyticsKey.WITHDRAWAL_AMOUNT_MAX_CLICKED, {
           analyticsType: AnalyticsType.EVENT,
           currency,
-          deposit_method: depositMethod,
           id,
           nabuId,
-          originalTimestamp: getOriginalTimestamp()
+          originalTimestamp: getOriginalTimestamp(),
+          withdrawal_method: withdrawalMethod
         })
 
         break
       }
+      case AT.components.withdraw.HANDLE_WITHDRAWAL_MIN_AMOUNT_CLICK: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
+        const currency = state.components.withdraw.fiatCurrency
+        const withdrawalMethod = state.components.brokerage.account
+          ? WithdrawalMethodType.BANK_ACCOUNT
+          : WithdrawalMethodType.BANK_TRANSFER
+
+        analytics.push(AnalyticsKey.WITHDRAWAL_AMOUNT_MIN_CLICKED, {
+          analyticsType: AnalyticsType.EVENT,
+          currency,
+          id,
+          nabuId,
+          originalTimestamp: getOriginalTimestamp(),
+          withdrawal_method: withdrawalMethod
+        })
+        break
+      }
+      /*       case '': {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
+        const partner = ''
+        const provider = ''
+        
+        analytics.push(AnalyticsKey.LINK_BANK_CONDITIONS_APPROVED, {
+          analyticsType: AnalyticsType.EVENT,
+          id,
+          nabuId,
+          bank_name: bankName,
+          partner,
+          provider,
+          originalTimestamp: getOriginalTimestamp()
+        })
+        break
+      }
+      case '': {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
+        const bankName = ''
+        const partner = ''
+          
+        analytics.push(AnalyticsKey.LINK_BANK_SELECTED, {
+          analyticsType: AnalyticsType.EVENT,
+          bank_name: bankName,
+          partner
+          id,
+          nabuId,
+          originalTimestamp: getOriginalTimestamp()
+        })
+        break
+      } */
 
       default: {
         break

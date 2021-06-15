@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
@@ -20,96 +20,89 @@ import Failure from './template.failure'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class EnterAmount extends PureComponent<Props> {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
-
-  componentDidMount() {
+const EnterAmount = (props: Props) => {
+  useEffect(() => {
     let paymentMethod: SBPaymentTypes | 'ALL' = 'ALL'
-    if (this.props.defaultMethod) {
+    if (props.defaultMethod) {
       paymentMethod = SBPaymentTypes.BANK_TRANSFER
       if (
-        this.props.defaultMethod.partner !== BankPartners.YODLEE &&
-        this.props.defaultMethod.currency === 'USD'
+        props.defaultMethod.partner !== BankPartners.YODLEE &&
+        props.defaultMethod.currency === 'USD'
       ) {
         paymentMethod = SBPaymentTypes.BANK_ACCOUNT
       }
     }
     // We need to make this call each time we load the enter amount component
     // because the bank wires and ach have different min/max/fees
-    this.props.withdrawActions.fetchWithdrawalFees(paymentMethod)
+    props.withdrawActions.fetchWithdrawalFees(paymentMethod)
 
-    if (!Remote.Success.is(this.props.data)) {
-      this.props.brokerageActions.fetchBankTransferAccounts()
-      this.props.custodialActions.fetchCustodialBeneficiaries(this.props.fiatCurrency)
-      this.props.withdrawActions.fetchWithdrawalLock()
+    if (props.fiatCurrency && !Remote.Success.is(props.data)) {
+      props.brokerageActions.fetchBankTransferAccounts()
+      props.custodialActions.fetchCustodialBeneficiaries(props.fiatCurrency)
+      props.withdrawActions.fetchWithdrawalLock()
     }
-  }
+  }, [props.fiatCurrency])
 
-  handleSubmit = () => {
-    const { defaultBeneficiary } = this.props.data.getOrElse({} as SuccessStateType)
-    const { defaultMethod } = this.props
-    const beneficiary = defaultBeneficiary || this.props.beneficiary
+  const handleSubmit = () => {
+    const { defaultBeneficiary } = props.data.getOrElse({} as SuccessStateType)
+    const { defaultMethod } = props
+    const beneficiary = defaultBeneficiary || props.beneficiary
 
     if (!beneficiary && !defaultMethod) return
 
     if (defaultMethod) {
-      this.props.withdrawActions.setStep({
-        amount: this.props.formValues.amount,
+      props.withdrawActions.setStep({
+        amount: props.formValues.amount,
         defaultMethod: defaultMethod as BankTransferAccountType,
         step: WithdrawStepEnum.CONFIRM_WITHDRAW
       })
-    } else if (defaultBeneficiary || this.props.beneficiary) {
-      this.props.withdrawActions.setStep({
-        amount: this.props.formValues.amount,
+    } else if (defaultBeneficiary || props.beneficiary) {
+      props.withdrawActions.setStep({
+        amount: props.formValues.amount,
         beneficiary,
         step: WithdrawStepEnum.CONFIRM_WITHDRAW
       })
     }
   }
 
-  handleBankSelection = (
+  const handleBankSelection = (
     userData: UserDataType,
     beneficiary?: BeneficiaryType | BankTransferAccountType
   ) => {
     if (!beneficiary) {
-      this.props.simpleBuyActions.showModal('WithdrawModal')
+      props.simpleBuyActions.showModal('WithdrawModal')
       if (userData.tiers.current === 2) {
-        return this.props.simpleBuyActions.setStep({
+        return props.simpleBuyActions.setStep({
           addBank: true,
           displayBack: false,
-          fiatCurrency: this.props.fiatCurrency,
+          fiatCurrency: props.fiatCurrency,
           step: 'BANK_WIRE_DETAILS'
         })
       }
-      return this.props.simpleBuyActions.setStep({
+      return props.simpleBuyActions.setStep({
         step: 'KYC_REQUIRED'
       })
     }
 
-    this.props.withdrawActions.setStep({
-      fiatCurrency: this.props.fiatCurrency,
+    props.withdrawActions.setStep({
+      fiatCurrency: props.fiatCurrency,
       step: WithdrawStepEnum.BANK_PICKER
     })
   }
 
-  render() {
-    return this.props.data.cata({
-      Failure: () => <Failure {...this.props} />,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />,
-      Success: (val) => (
-        <Success
-          {...this.props}
-          {...val}
-          onSubmit={this.handleSubmit}
-          handleBankSelection={this.handleBankSelection}
-        />
-      )
-    })
-  }
+  return props.data.cata({
+    Failure: () => <Failure {...props} />,
+    Loading: () => <Loading />,
+    NotAsked: () => <Loading />,
+    Success: (val) => (
+      <Success
+        {...props}
+        {...val}
+        onSubmit={handleSubmit}
+        handleBankSelection={handleBankSelection}
+      />
+    )
+  })
 }
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({

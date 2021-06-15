@@ -31,7 +31,7 @@ const StyledRow = styled(Row)`
   justify-content: flex-start;
   align-items: center;
   padding-top: 30px;
-  padding-bottom: 30px;
+  padding-bottom: 24px;
 
   & > div:first-child {
     width: 100%;
@@ -176,7 +176,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
                 </IconWrapper>
               </ExchangeRateRow>
             </Title>
-            <Value data-e2e='swapExchangeRate'>
+            <Value data-e2e='swapExchangeRate' style={{ marginTop: 0 }}>
               {this.props.quoteR.cata({
                 Failure: () => (
                   <Text size='14px' color='red600'>
@@ -186,9 +186,9 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
                 Loading: () => <SkeletonRectangle height='18px' width='70px' />,
                 NotAsked: () => <SkeletonRectangle height='18px' width='70px' />,
                 Success: (val) => (
-                  <>
+                  <Text weight={400} color='grey900'>
                     1 {baseCoinTicker} = {formatCoin(val.rate)} {counterCoinTicker}
-                  </>
+                  </Text>
                 )
               })}
             </Value>
@@ -208,7 +208,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
                   />{' '}
                   {BASE.coin}{' '}
                   <Link
-                    href='https://support.blockchain.com/hc/en-us/articles/360018358111-Why-do-Swap-exchange-rates-change-'
+                    href='https://support.blockchain.com/hc/en-us/articles/360061672651'
                     size='12px'
                     rel='noopener noreferrer'
                     target='_blank'
@@ -241,7 +241,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
             </Text>
             <Text size='12px' weight={500} color='grey600'>
               <Link
-                href='https://support.blockchain.com/hc/en-us/articles/360025732012-Can-I-cancel-my-Swap-order-'
+                href='https://support.blockchain.com/hc/en-us/articles/360061942111'
                 size='12px'
                 rel='noopener noreferrer'
                 target='_blank'

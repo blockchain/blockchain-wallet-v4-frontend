@@ -214,10 +214,11 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
         <TopText color='grey800' size='20px' weight={600}>
           <Icon
             cursor
-            name='arrow-left'
+            data-e2e='sbBackToEnterAmount'
+            name='arrow-back'
             size='20px'
             color='grey600'
-            style={{ marginRight: '24px' }}
+            style={{ marginRight: '8px' }}
             role='button'
             onClick={handleCancel}
           />
@@ -304,34 +305,22 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           </RowTextWrapper>
         </RowText>
       </RowItem>
-      <RowItem>
-        <RowText>
-          <FormattedMessage id='copy.purchase' defaultMessage='Purchase' />
-        </RowText>
-        <RowText>{displayFiat(props.order, props.supportedCoins, String(purchase))}</RowText>
-      </RowItem>
-      {!isBankLink && (
+      {isCardPayment && (
         <RowItem>
           <RowItemContainer>
             <TopRow>
               <RowIcon>
                 <RowText>
-                  {isCardPayment ? (
-                    <FormattedMessage id='copy.card_fee' defaultMessage='Card Fee' />
-                  ) : (
-                    <FormattedMessage id='copy.fee' defaultMessage='Fee' />
-                  )}
+                  <FormattedMessage id='copy.card_fee' defaultMessage='Card Fee' />
                 </RowText>
-                {isCardPayment && (
-                  <IconWrapper>
-                    <Icon
-                      name='question-in-circle-filled'
-                      size='16px'
-                      color={isActiveFeeTooltip ? 'blue600' : 'grey300'}
-                      onClick={() => setFeeToolTip(!isActiveFeeTooltip)}
-                    />
-                  </IconWrapper>
-                )}
+                <IconWrapper>
+                  <Icon
+                    name='question-in-circle-filled'
+                    size='16px'
+                    color={isActiveFeeTooltip ? 'blue600' : 'grey300'}
+                    onClick={() => setFeeToolTip(!isActiveFeeTooltip)}
+                  />
+                </IconWrapper>
               </RowIcon>
               <RowText data-e2e='sbFee'>
                 {props.order.fee
@@ -341,7 +330,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                     }`}
               </RowText>
             </TopRow>
-            {isCardPayment && isActiveFeeTooltip && (
+            {isActiveFeeTooltip && (
               <ToolTipText>
                 <Text size='12px' weight={500} color='grey600'>
                   <TextGroup inline>

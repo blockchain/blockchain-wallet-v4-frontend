@@ -226,8 +226,8 @@ class TransactionsContainer extends React.PureComponent<Props> {
                         data-e2e='withdrawFiat'
                         style={{ marginLeft: '8px', minWidth: 'auto' }}
                         onClick={() => {
-                          if (!this.props.withdrawActions) return
-                          this.props.withdrawActions.showModal(coin as WalletFiatType)
+                          if (!this.props.brokerageActions) return
+                          this.props.brokerageActions.handleWithdrawClick(coin as WalletFiatType)
                         }}
                       >
                         <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />

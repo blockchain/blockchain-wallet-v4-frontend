@@ -24,14 +24,14 @@ class AutoDisconnectionContainer extends React.PureComponent {
     clearTimeout(this.timeout)
   }
 
-  onSubmit() {
-    this.props.authActions.logout()
-    this.props.modalActions.closeModal()
-  }
-
   handleCancel() {
     clearTimeout(this.timeout)
     this.props.authActions.startLogoutTimer()
+    this.props.modalActions.closeModal()
+  }
+
+  onSubmit() {
+    this.props.authActions.logout()
     this.props.modalActions.closeModal()
   }
 
@@ -54,14 +54,11 @@ AutoDisconnectionContainer.propTypes = {
   duration: PropTypes.number
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const enhance = compose(
-  modalEnhancer('AutoDisconnection'),
-  connect(undefined, mapDispatchToProps)
-)
+const enhance = compose(modalEnhancer('AutoDisconnection'), connect(undefined, mapDispatchToProps))
 
 export default enhance(AutoDisconnectionContainer)
