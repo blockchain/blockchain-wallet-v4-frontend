@@ -34,6 +34,7 @@ const SuccessContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   > button {
     margin-top: 16px;
   }
@@ -69,7 +70,7 @@ class FundRecoveryModal extends PureComponent<Props> {
             Success: (val) => {
               return val.searchChain.data.length ? (
                 <SuccessContainer>
-                  <Text size='16px' weight={500}>
+                  <Text size='16px' weight={600}>
                     We found{' '}
                     <b>
                       {displayCoinToCoin(
@@ -77,11 +78,20 @@ class FundRecoveryModal extends PureComponent<Props> {
                         this.props.coin as WalletCurrencyType
                       )}{' '}
                     </b>
-                    that can be recovered.
+                    that are available for recovery.
                   </Text>
-                  <Icon name='arrow-down' size='36px' />
-                  <Text size='16px' weight={600} color='green600' style={{ textAlign: 'center' }}>
-                    Recover Funds to {val.searchChain.recoveryAddress}
+                  <Text
+                    size='14px'
+                    weight={500}
+                    style={{ marginBottom: '12px', marginTop: '12px' }}
+                  >
+                    You can use the recover funds mechanism in order to transfer crypto that is
+                    sitting on your {this.props.coin} Wallet but is not currently visible on your
+                    balance. This is in place in order to access funds that were potentially stuck
+                    due to bugs.
+                  </Text>
+                  <Text size='16px' weight={600} style={{ textAlign: 'center' }}>
+                    By pressing Recover Now, you will initiate a transfer to your Wallet.
                   </Text>
                   <Button
                     onClick={() =>
@@ -106,7 +116,7 @@ class FundRecoveryModal extends PureComponent<Props> {
                 <SuccessContainer>
                   <Image name='empty-search' width='240px' />
                   <Text size='16px' weight={600} style={{ marginTop: '12px' }}>
-                    We could not find any missing funds to recover.
+                    You have no {this.props.coin} balances to recover.
                   </Text>
                 </SuccessContainer>
               )
