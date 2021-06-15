@@ -15,40 +15,50 @@ export const handleCustodyWithdraw = (
   beneficiary: BeneficiaryType | BankTransferAccountType | null,
   fiatCurrency: WalletFiatType
 ) => ({
-  type: AT.HANDLE_WITHDRAW_SUBMIT,
   payload: {
     amount,
     beneficiary,
     fiatCurrency
-  }
+  },
+  type: AT.HANDLE_WITHDRAW_SUBMIT
 })
 
 export const setStep = (payload: WithdrawStepActionsPayload) => ({
-  type: AT.SET_STEP,
-  payload
+  payload,
+  type: AT.SET_STEP
 })
 
 export const showModal = (fiatCurrency: WalletFiatType) => ({
-  type: AT.SHOW_MODAL,
   payload: {
     fiatCurrency
-  }
+  },
+  type: AT.SHOW_MODAL
 })
 
-export const fetchWithdrawalFees = (
-  paymentMethod?: SBPaymentTypes | 'ALL'
-) => ({
-  type: AT.FETCH_WITHDRAWAL_FEES,
-  payload: { paymentMethod }
+export const handleWithdrawMaxAmountClick = (amount: number) => ({
+  payload: {
+    amount
+  },
+  type: AT.HANDLE_WITHDRAWAL_MAX_AMOUNT_CLICK
 })
 
-export const fetchWithdrawalFeesFailure = (
-  error: string
-): WithdrawActionTypes => ({
-  type: AT.FETCH_WITHDRAWAL_FEES_FAILURE,
+export const handleWithdrawMinAmountClick = (amount: number) => ({
+  payload: {
+    amount
+  },
+  type: AT.HANDLE_WITHDRAWAL_MIN_AMOUNT_CLICK
+})
+
+export const fetchWithdrawalFees = (paymentMethod?: SBPaymentTypes | 'ALL') => ({
+  payload: { paymentMethod },
+  type: AT.FETCH_WITHDRAWAL_FEES
+})
+
+export const fetchWithdrawalFeesFailure = (error: string): WithdrawActionTypes => ({
   payload: {
     error
-  }
+  },
+  type: AT.FETCH_WITHDRAWAL_FEES_FAILURE
 })
 
 export const fetchWithdrawalFeesLoading = (): WithdrawActionTypes => ({
@@ -58,24 +68,22 @@ export const fetchWithdrawalFeesLoading = (): WithdrawActionTypes => ({
 export const fetchWithdrawalFeesSuccess = (
   withdrawFeesResponse: WithdrawalMinsAndFeesResponse
 ): WithdrawActionTypes => ({
-  type: AT.FETCH_WITHDRAWAL_FEES_SUCCESS,
   payload: {
     withdrawFeesResponse
-  }
+  },
+  type: AT.FETCH_WITHDRAWAL_FEES_SUCCESS
 })
 
 export const fetchWithdrawalLock = (currency?: WalletFiatType) => ({
-  type: AT.FETCH_WITHDRAWAL_LOCK,
-  currency
+  currency,
+  type: AT.FETCH_WITHDRAWAL_LOCK
 })
 
-export const fetchWithdrawalLockFailure = (
-  error: string
-): WithdrawActionTypes => ({
-  type: AT.FETCH_WITHDRAWAL_LOCK_FAILURE,
+export const fetchWithdrawalLockFailure = (error: string): WithdrawActionTypes => ({
   payload: {
     error
-  }
+  },
+  type: AT.FETCH_WITHDRAWAL_LOCK_FAILURE
 })
 
 export const fetchWithdrawalLockLoading = (): WithdrawActionTypes => ({
@@ -85,8 +93,8 @@ export const fetchWithdrawalLockLoading = (): WithdrawActionTypes => ({
 export const fetchWithdrawalLockSuccess = (
   withdrawLockResponse: WithdrawalLockResponseType
 ): WithdrawActionTypes => ({
-  type: AT.FETCH_WITHDRAWAL_LOCK_SUCCESS,
   payload: {
     withdrawLockResponse
-  }
+  },
+  type: AT.FETCH_WITHDRAWAL_LOCK_SUCCESS
 })
