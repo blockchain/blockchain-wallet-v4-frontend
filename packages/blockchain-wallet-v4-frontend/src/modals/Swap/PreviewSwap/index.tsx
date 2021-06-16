@@ -208,7 +208,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
                   />{' '}
                   {BASE.coin}{' '}
                   <Link
-                    href='https://support.blockchain.com/hc/en-us/articles/360018358111-Why-do-Swap-exchange-rates-change-'
+                    href='https://support.blockchain.com/hc/en-us/articles/360061672651'
                     size='12px'
                     rel='noopener noreferrer'
                     target='_blank'
@@ -241,7 +241,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
             </Text>
             <Text size='12px' weight={500} color='grey600'>
               <Link
-                href='https://support.blockchain.com/hc/en-us/articles/360025732012-Can-I-cancel-my-Swap-order-'
+                href='https://support.blockchain.com/hc/en-us/articles/360061942111'
                 size='12px'
                 rel='noopener noreferrer'
                 target='_blank'

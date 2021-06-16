@@ -497,6 +497,22 @@ type MessagesType = {
   'copy.year': '1Y'
   'copy.or': 'or'
   'dentityverification.verify.resubmit.reason.missing': 'The required photos are missing'
+  'error.below_min': 'Order below min size limit'
+  'error.above_max': 'Order above max size limit'
+  'error.exceeded_daily': "You've reached your daily trading limit"
+  'error.exceeded_weekly': "You've reached your weekly trading limit"
+  'error.exceeded_annual': "You've reached your annual trading limit"
+  'error.trading_disabled': 'Trading is temporarily disabled'
+  'error.pending_limit': 'Pending orders limit reached'
+  'error.invalid_address': 'Invalid crypto address'
+  'error.invalid_crypto': 'Invalid crypto currency'
+  'error.insufficient_balance': 'Insufficient balance'
+  'error.invalid_fiat': 'Invalid fiat currency'
+  'error.disabled_direction': 'Order direction is disabled'
+  'error.pending_withdrawal': 'Pending withdrawal locks'
+  'error.invalid_quote': 'Invalid or expired quote'
+  'error.swap_eligibility': 'User not eligible for Swap'
+  'error.negative_amount': 'Destination amount is negative'
   'exchange-side-nav-tooltip-connected': 'connected'
   'exchangepromo.pairs': 'Access 20+ trading pairs on the Exchange.'
   'exchangepromo.trade': 'Trade'
@@ -1181,6 +1197,26 @@ type MessagesType = {
   'modals.recoveryphrase.success': 'Success!'
   'modals.recoveryphrase.success.body': 'Your Wallet is now backed up.'
   'modals.recoveryphrase.success.close': 'Close'
+
+  'modals.recurringbuys.notification.title': 'Recurring buys'
+  'modals.recurringbuys.notification.button': 'Setup recurring buy'
+
+  'modals.recurringbuys.notification.page_1.title': 'Instead of timing the market, many smart investors use'
+  'modals.recurringbuys.notification.page_1.description': 'Dollar cost averaging'
+
+  'modals.recurringbuys.notification.page_2.title': 'The strategy is pretty simple'
+  'modals.recurringbuys.notification.page_2.description': 'Invest the same amount every week'
+
+  'modals.recurringbuys.notification.page_3.title': 'When the price goes down,'
+  'modals.recurringbuys.notification.page_3.description': 'You’ll buy more crypto.'
+
+  'modals.recurringbuys.notification.page_4.title': 'When the price goes up,'
+  'modals.recurringbuys.notification.page_4.description': 'You’ll buy less.'
+
+  'modals.recurringbuys.notification.page_5.title': 'But does it work?'
+  'modals.recurringbuys.notification.page_5.description': 'Over the past 5 years, buying Bitcoin every week performed better than timing the market'
+  'modals.recurringbuys.notification.page_5.disclaimer': '82% of the time.'
+
   'modals.repayloan.chooseamttorepay': 'Choose how much you want to repay'
   'modals.repayloan.choosewaytopay': 'How do you want to repay?'
   'modals.repayloan.repayamount': 'Repay amount'
@@ -1441,7 +1477,7 @@ type MessagesType = {
   'modals.simplebuy.comfirm.price': '{baseCoinTicker} Price'
   'modals.simplebuy.confirm.rate': 'Exchange Rate'
   'modals.simplebuy.confirm.coin_price': '{coin} Price'
-  'modals.simplebuy.confirm.sell_description': "Final amount may change due to market activity.{linebreak} By approving this Sell you agree to Blockchain.com’s {linebreak}<a>Refund Policy.</a>"
+  'modals.simplebuy.confirm.sell_description': 'Final amount may change due to market activity.{linebreak} By approving this Sell you agree to Blockchain.com’s {linebreak}<a>Refund Policy.</a>'
   'modals.simplebuy.confirm.coin_tooltip': 'Blockchain.com provides the best market price we receive and applies a spread.'
   'modals.simplebuy.confirm.sale_amount': 'Sale Amount'
   'modals.simplebuy.confirm.network_fees': 'Network fees are set by the {coin} network.'
@@ -1956,7 +1992,6 @@ type MessagesType = {
   'scenes.home.banner.continue_to_gold.button': 'Continue to Gold'
   'scenes.home.banner.continue_to_gold.description': 'Continue your verification to become Gold level and increase your limits and payment methods'
   'scenes.home.banner.continue_to_gold.increase_your_limits': 'Increase your limits'
-  'scenes.home.banner.pendingbuy': 'Pending Buy'
   'scenes.home.banner.receive_cc_order': 'Once you finalize your credit card information, your buy order will complete.'
   'scenes.home.banner.sborder.details': 'View Details'
   'scenes.home.banner.signupapprove': 'Once you finish and get approved, start buying crypto.'
@@ -1972,6 +2007,8 @@ type MessagesType = {
   'scenes.home.banners.interestpromo.title': 'Limited Time: Earn up to 12% annual interest'
   'scenes.home.banners.interestpromo.subtitle': 'Deposit crypto in an Interest Account by midnight on Wednesday to supercharge your interest on BTC, ETH, USDT, and PAX.'
   'scenes.home.banners.interestpromo.button': 'Deposit Now'
+  'scenes.home.banners.recurringbuys.title': 'Recurring buys are now available'
+  'scenes.home.banners.recurringbuys.description': 'It’s really hard to time the market, which is why many investors use dollar cost averaging.'
   'scenes.home.pricechart.coincurrentprice.currentprice': 'Current Price'
   'scenes.home.pricechart.coinperformance.all': 'all time'
   'scenes.home.pricechart.coinperformance.day': 'today'

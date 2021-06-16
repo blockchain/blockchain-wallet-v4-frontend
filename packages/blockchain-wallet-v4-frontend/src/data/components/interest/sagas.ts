@@ -62,8 +62,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const fetchInterestBalance = function* () {
     try {
       yield put(A.fetchInterestBalanceLoading())
-      if (!(yield call(isTier2)))
-        return yield put(A.fetchInterestBalanceSuccess(DEFAULT_INTEREST_BALANCES))
+      if (!(yield call(isTier2))) {
+        yield put(A.fetchInterestBalanceSuccess(DEFAULT_INTEREST_BALANCES))
+        return
+      }
       const response: ReturnType<typeof api.getInterestAccountBalance> = yield call(
         api.getInterestAccountBalance
       )
@@ -210,6 +212,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const rate = rates[userCurrency].last
       const isDisplayed = S.getCoinDisplay(yield select())
       const isCustodialDeposit = prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
+      const accountBalance = prop('balance', formValues.interestDepositAccount)
       switch (action.meta.field) {
         case 'depositAmount':
           const value = isDisplayed
@@ -220,7 +223,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             let payment = yield getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
             const paymentAmount = generateProvisionalPaymentAmount(coin, value)
             payment = yield payment.amount(paymentAmount)
-            if (!isCustodialDeposit) {
+            if (!isCustodialDeposit && accountBalance > 0) {
               payment = yield payment.build()
               yield put(A.setPaymentSuccess(payment.value()))
             } else {
@@ -250,7 +253,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           yield put(A.setPaymentSuccess(depositPayment))
           break
         default:
-          break
+        // do nothing
       }
     } catch (e) {
       yield put(A.setPaymentFailure(e))

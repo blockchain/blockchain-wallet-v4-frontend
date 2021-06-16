@@ -14,6 +14,7 @@ import manageAddresses from './manageAddresses/sagas'
 import onboarding from './onboarding/sagas'
 import priceChart from './priceChart/sagas'
 import priceTicker from './priceTicker/sagas'
+import recurringBuys from './recurringBuys/sagas'
 import refresh from './refresh/sagas'
 import remindWalletGuid from './remindWalletGuid/sagas'
 import request from './request/sagas'
@@ -49,6 +50,7 @@ export default ({ api, coreSagas, networks }) => ({
   onboarding: onboarding(),
   priceChart: priceChart(),
   priceTicker: priceTicker({ coreSagas }),
+  recurringBuys: recurringBuys(),
   refresh: refresh(),
   remindWalletGuid: remindWalletGuid({ api }),
   request: request({ api, coreSagas, networks }),

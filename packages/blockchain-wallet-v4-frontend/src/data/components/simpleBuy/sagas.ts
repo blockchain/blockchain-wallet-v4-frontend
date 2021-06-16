@@ -23,7 +23,7 @@ import {
   SwapOrderType,
   WalletOptionsType
 } from 'blockchain-wallet-v4/src/types'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { errorHandler, errorHandlerCode } from 'blockchain-wallet-v4/src/utils'
 import { actions, selectors } from 'data'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import { UserDataType } from 'data/modules/types'
@@ -404,7 +404,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
       }
 
-      const error = errorHandler(e)
+      const error: number | string = errorHandlerCode(e)
       if (values?.orderType === OrderType.SELL) {
         yield put(actions.form.stopSubmit('previewSell', { _error: error }))
       }
