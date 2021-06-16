@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 
 import { borrowReducer } from './borrow/reducers'
 import { brokerageReducer } from './brokerage/reducers'
+import { fundRecoveryReducer } from './fundRecovery/reducers'
 import { identityVerificationReducer } from './identityVerification/reducers'
 import interestReducer from './interest/reducers'
 import layoutWallet from './layoutWallet/reducers'
@@ -29,6 +30,7 @@ import { withdrawReducer } from './withdraw/reducers'
 const componentReducer = combineReducers({
   borrow: borrowReducer,
   brokerage: brokerageReducer,
+  fundRecovery: fundRecoveryReducer,
   identityVerification: identityVerificationReducer,
   interest: interestReducer,
   layoutWallet,
@@ -51,7 +53,7 @@ const componentReducer = combineReducers({
   swap: swapReducer,
   uploadDocuments,
   veriff,
-  withdraw: withdrawReducer,
+  withdraw: withdrawReducer
 })
 
 export default componentReducer

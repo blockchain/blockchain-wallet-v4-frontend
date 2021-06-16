@@ -6,6 +6,7 @@ import * as btcTransactions from './btcTransactions/actionTypes'
 import * as dotTransactions from './dotTransactions/actionTypes'
 import * as ethTransactions from './ethTransactions/actionTypes'
 import * as fiatTransactions from './fiatTransactions/actionTypes'
+import * as fundRecovery from './fundRecovery/actionTypes'
 import * as identityVerification from './identityVerification/actionTypes'
 import * as importBtcAddress from './importBtcAddress/actionTypes'
 import * as interest from './interest/actionTypes'
@@ -45,6 +46,7 @@ export {
   dotTransactions,
   ethTransactions,
   fiatTransactions,
+  fundRecovery,
   identityVerification,
   importBtcAddress,
   interest,
@@ -73,5 +75,5 @@ export {
   uploadDocuments,
   veriff,
   withdraw,
-  xlmTransactions,
+  xlmTransactions
 }

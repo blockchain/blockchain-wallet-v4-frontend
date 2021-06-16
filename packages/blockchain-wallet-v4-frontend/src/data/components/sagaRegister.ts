@@ -8,6 +8,7 @@ import btcTransactions from './btcTransactions/sagaRegister'
 import dotTransactions from './dotTransactions/sagaRegister'
 import ethTransactions from './ethTransactions/sagaRegister'
 import fiatTransactions from './fiatTransactions/sagaRegister'
+import fundRecovery from './fundRecovery/sagaRegister'
 import identityVerification from './identityVerification/sagaRegister'
 import importBtcAddress from './importBtcAddress/sagaRegister'
 import interest from './interest/sagaRegister'
@@ -46,6 +47,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(ethTransactions())
     yield fork(xlmTransactions())
     yield fork(fiatTransactions())
+    yield fork(fundRecovery({ api }))
     yield fork(identityVerification({ api, coreSagas }))
     yield fork(interest({ api, coreSagas, networks }))
     yield fork(lockbox({ api, coreSagas }))

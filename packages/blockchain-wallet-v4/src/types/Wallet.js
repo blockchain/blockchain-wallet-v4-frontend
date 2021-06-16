@@ -493,7 +493,7 @@ export const decryptMonadic = curry((of, cipher, verify, password, wallet) => {
 })
 
 // validateSecondPwd :: (a -> m a) -> (a -> m b) -> String -> Wallet
-const validateSecondPwd = curry((pass, fail, password, wallet) =>
+export const validateSecondPwd = curry((pass, fail, password, wallet) =>
   isValidSecondPwd(password, wallet)
     ? pass(wallet)
     : fail(new Error('INVALID_SECOND_PASSWORD'))
