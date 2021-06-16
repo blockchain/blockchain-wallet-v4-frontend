@@ -27,7 +27,12 @@ const IconColumn = styled.div`
 `
 
 const buildMessageTemplate = (messageText) => (
-  <Text size='14px' weight={600} style={{ marginLeft: '10px' }} data-e2e='toastMessage'>
+  <Text
+    size='14px'
+    weight={600}
+    style={{ marginLeft: '10px', wordBreak: 'break-all' }}
+    data-e2e='toastMessage'
+  >
     {messageText}
   </Text>
 )

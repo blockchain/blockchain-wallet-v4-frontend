@@ -1,11 +1,11 @@
-import { PaymentType } from 'middleware/analyticsMiddleware/types'
+import { ISelection } from 'core/types'
 
 import * as AT from './actionTypes'
 import { FundRecoveryActionType } from './types'
 
-export const recoverFunds = (payment: PaymentType) => ({
+export const recoverFunds = (coin: string) => ({
   payload: {
-    payment
+    coin
   },
   type: AT.RECOVER_FUNDS
 })
@@ -59,9 +59,11 @@ export const searchChainLoading = (coin: string): FundRecoveryActionType => ({
   type: AT.SEARCH_CHAIN_FOR_FUNDS_LOADING
 })
 
-export const searchChainSuccess = (payment: PaymentType) => ({
+export const searchChainSuccess = (coin: any, derivation: any, selection: ISelection) => ({
   payload: {
-    payment
+    coin,
+    derivation,
+    selection
   },
   type: AT.SEARCH_CHAIN_FOR_FUNDS_SUCCESS
 })

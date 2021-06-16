@@ -1,22 +1,25 @@
 import * as Bitcoin from 'bitcoinjs-lib'
 // eslint-disable-next-line
 import Task from 'data.task'
+import { set } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
 import { crypto } from 'blockchain-wallet-v4/src'
 import { selectAll } from 'blockchain-wallet-v4/src/coinSelection'
 import * as Coin from 'blockchain-wallet-v4/src/coinSelection/coin'
+import { displayCoinToCoin } from 'blockchain-wallet-v4/src/exchange'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { UnspentResponseType } from 'blockchain-wallet-v4/src/network/api/btc/types'
 import { signSelection as bchSign } from 'blockchain-wallet-v4/src/signer/bch'
 import { signSelection as btcSign } from 'blockchain-wallet-v4/src/signer/btc'
 import { HDAccountList, Wallet } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { fromCashAddr, toCashAddr } from 'blockchain-wallet-v4/src/utils/bch'
+import { toCashAddr } from 'blockchain-wallet-v4/src/utils/bch'
 import { actions, selectors } from 'data'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as A from './actions'
+import * as S from './selectors'
 
 export default ({ api }: { api: APIType }) => {
   // const logLocation = 'components/fundRecovery/sagas'
@@ -25,76 +28,48 @@ export default ({ api }: { api: APIType }) => {
 
   const recoverFunds = function* (action: ReturnType<typeof A.recoverFunds>) {
     const { payload } = action
-    const {
-      accountIndex,
-      badChange,
-      coin,
-      fromDerivationType,
-      recoveryAddress,
-      unspent_outputs
-    } = payload
+    const { coin } = payload
+    const searchChainStatusR = S.getSearchChainStatus(yield select(), coin)
+    const searchChainStatus = searchChainStatusR.getOrFail('Not available.')
+
+    const { derivation, selection } = searchChainStatus
+
     try {
       yield put(A.recoverFundsLoading(coin))
       const password = yield call(promptForSecondPassword)
       const wallet = selectors.core.wallet.getWallet(yield select())
-      const accounts = Wallet.selectHDAccounts(wallet)
-      const account = HDAccountList.selectAccount(accountIndex, accounts)
-      const fromDerivation = account.derivations.find((d) => d.type === fromDerivationType)
       const xprivT = Wallet.isDoubleEncrypted(wallet)
         ? crypto.decryptSecPass(
             Wallet.selectSharedKey(wallet),
             Wallet.selectIterations(wallet),
             password,
-            fromDerivation.xpriv
+            derivation.xpriv
           )
-        : Task.of(fromDerivation.xpriv)
+        : Task.of(derivation.xpriv)
 
       const xpriv = yield call(() => taskToPromise(xprivT))
+      const inputs = selection.inputs.map((val) => {
+        const node = Bitcoin.bip32.fromBase58(xpriv).derivePath(val.path)
+        const wif = Bitcoin.ECPair.fromWIF(node.toWIF())
+
+        return set(Coin.priv, wif, val)
+      })
+
+      const selectionWithKeys = { ...selection, inputs }
+      let recoveryAddress = selection.outputs[0].address
 
       if (coin === 'BCH') {
-        const fee = yield call(api.getBchFees)
-        const coins = unspent_outputs.map((val) => {
-          const path = val.xpub
-            ? val.xpub.path.split('M/')[1]
-            : `1/${badChange?.indexOf(
-                Bitcoin.address
-                  .fromOutputScript(Buffer.from(val.script, 'hex'), Bitcoin.networks.bitcoin)
-                  .toString()
-              )}`
+        recoveryAddress = toCashAddr(recoveryAddress)
 
-          const node = Bitcoin.bip32.fromBase58(xpriv).derivePath(path)
-          const wif = Bitcoin.ECPair.fromWIF(node.toWIF())
-
-          return Coin.fromJS({
-            ...val,
-            path,
-            priv: wif
-          })
-        })
-
-        const selection = selectAll(fee.priority, coins, fromCashAddr(recoveryAddress))
         const dust = yield call(api.getBchDust)
         const script = dust.output_script
         const coinDust = Coin.fromJS({ ...dust, script })
-        const tx = bchSign(network, coinDust, selection)
+        const tx = bchSign(network, coinDust, selectionWithKeys)
 
         yield call(api.pushBchTx, tx.txHex, dust.lock_secret)
       } else if (coin === 'BTC') {
-        const fee = yield call(api.getBtcFees)
-        const coins = unspent_outputs.map((val) => {
-          const path = val.xpub!.path.split('M/')[1]
-          const node = Bitcoin.bip32.fromBase58(xpriv).derivePath(path)
-          const wif = Bitcoin.ECPair.fromWIF(node.toWIF())
+        const tx = btcSign(network, selectionWithKeys)
 
-          return Coin.fromJS({
-            ...val,
-            path,
-            priv: wif
-          })
-        })
-
-        const selection = selectAll(fee.priority, coins, recoveryAddress)
-        const tx = btcSign(network, selection)
         yield call(api.pushBtcTx, tx.txHex)
       } else {
         throw new Error(`No recovery method for ${coin}`)
@@ -102,7 +77,14 @@ export default ({ api }: { api: APIType }) => {
 
       yield put(A.recoverFundsSuccess(coin))
       yield put(actions.modals.closeAllModals())
-      yield put(actions.alerts.displaySuccess(`Funds recovered to ${recoveryAddress}.`))
+      yield put(
+        actions.alerts.displaySuccess(
+          `${displayCoinToCoin(
+            selection.outputs[0].value,
+            coin
+          )} successfully recovered to ${recoveryAddress}.`
+        )
+      )
       yield put(actions.components.refresh.refreshClicked())
     } catch (e) {
       const error = errorHandler(e)
@@ -163,16 +145,26 @@ export default ({ api }: { api: APIType }) => {
         // if no unspents from receive chain use change_outputs
         // if unspent from receive it will include change outputs
         const unspent_outputs = receive_outputs.length ? receive_outputs : change_outputs
-        yield put(
-          A.searchChainSuccess(
-            accountIndex,
-            coin,
-            derivationType,
-            unspent_outputs,
-            toCashAddr(recoveryAddress, true),
-            receive_outputs.length ? undefined : badChange
-          )
-        )
+
+        // Map unspents to coins
+        const coins = unspent_outputs.map((val) => {
+          const path = val.xpub
+            ? val.xpub.path.split('M/')[1]
+            : `1/${badChange?.indexOf(
+                Bitcoin.address
+                  .fromOutputScript(Buffer.from(val.script, 'hex'), Bitcoin.networks.bitcoin)
+                  .toString()
+              )}`
+
+          return Coin.fromJS({
+            ...val,
+            path
+          })
+        })
+        const fee = yield call(api.getBchFees)
+        const selection = selectAll(fee.priority, coins, recoveryAddress)
+
+        yield put(A.searchChainSuccess(coin, badDerivation, selection))
       } else if (coin === 'BTC') {
         // Get the bech32 account and xpub
         const derivation = account.derivations.find((d) => d.type === 'bech32')
@@ -191,22 +183,24 @@ export default ({ api }: { api: APIType }) => {
           []
         )
 
-        yield put(
-          A.searchChainSuccess(accountIndex, coin, derivationType, unspent_outputs, recoveryAddress)
-        )
+        // Map unspents to coins
+        const coins = unspent_outputs.map((val) => {
+          const path = val.xpub!.path.split('M/')[1]
+          return Coin.fromJS({
+            ...val,
+            path
+          })
+        })
+        const fee = yield call(api.getBtcFees)
+        const selection = selectAll(fee.regular, coins, recoveryAddress)
+
+        yield put(A.searchChainSuccess(coin, derivation, selection))
       } else {
-        yield put(
-          A.searchChainFailure(
-            accountIndex,
-            coin,
-            derivationType,
-            `No recovery method for ${coin}.`
-          )
-        )
+        yield put(A.searchChainFailure(coin, `No recovery method for ${coin}.`))
       }
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.searchChainFailure(accountIndex, coin, derivationType, error))
+      yield put(A.searchChainFailure(coin, error))
     }
   }
 

@@ -1,7 +1,4 @@
-import { PaymentType } from 'middleware/analyticsMiddleware/types'
-
-import { UnspentResponseType } from 'blockchain-wallet-v4/src/network/api/btc/types'
-import { RemoteDataType } from 'core/types'
+import { ISelection, RemoteDataType } from 'core/types'
 
 import * as AT from './actionTypes'
 
@@ -56,7 +53,8 @@ interface SearchChainLoadingActionType {
 interface SearchChainSuccessActionType {
   payload: {
     coin: string
-    payment: PaymentType
+    derivation: any
+    selection: ISelection
   }
   type: typeof AT.SEARCH_CHAIN_FOR_FUNDS_SUCCESS
 }

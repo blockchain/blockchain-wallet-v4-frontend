@@ -47,7 +47,7 @@ class FundRecoveryModal extends PureComponent<Props> {
   }
 
   componentDidMount() {
-    this.props.fundRecoveryActions.searchChain(this.props.accountIndex, this.props.coin, 'bech32')
+    this.props.fundRecoveryActions.searchChain(this.props.accountIndex, this.props.coin)
   }
 
   componentWillUnmount() {
@@ -68,17 +68,20 @@ class FundRecoveryModal extends PureComponent<Props> {
             Loading: () => <BlockchainLoader />,
             NotAsked: () => <BlockchainLoader />,
             Success: (val) => {
-              return val.searchChain.data.length ? (
+              // return <div>{JSON.stringify(val)}</div>
+
+              // @ts-ignore
+              return val.searchChain.selection.inputs.length ? (
                 <SuccessContainer>
                   <Text size='16px' weight={600}>
                     We found{' '}
                     <b>
                       {displayCoinToCoin(
-                        val.searchChain.data.map(({ value }) => value).reduce(add),
+                        val.searchChain.selection.inputs.map(({ value }) => value).reduce(add),
                         this.props.coin as WalletCurrencyType
                       )}{' '}
                     </b>
-                    that are available for recovery.
+                    that is available for recovery.
                   </Text>
                   <Text
                     size='14px'
@@ -95,14 +98,7 @@ class FundRecoveryModal extends PureComponent<Props> {
                   </Text>
                   <Button
                     onClick={() =>
-                      this.props.fundRecoveryActions.recoverFunds(
-                        val.searchChain.accountIndex,
-                        val.searchChain.data,
-                        val.searchChain.coin,
-                        'bech32',
-                        val.searchChain.recoveryAddress,
-                        val.searchChain.badChange
-                      )
+                      this.props.fundRecoveryActions.recoverFunds(val.searchChain.coin)
                     }
                     disabled={Remote.Loading.is(val.fundRecoveryStatusR)}
                     data-e2e={`${this.props.coin}recoverNow`}
