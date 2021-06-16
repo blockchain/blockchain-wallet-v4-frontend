@@ -13,6 +13,16 @@ enum AnalyticsKey {
   DEPOSIT_METHOD_SELECTED = 'Deposit Method Selected',
   DEPOSIT_VIEWED = 'Deposit Viewed',
   EMAIL_VERIFICATION_REQUESTED = 'Email Verification Requested',
+  INTEREST_CLICKED = 'Interest Clicked',
+  INTEREST_DEPOSIT_AMOUNT_ENTERED = 'Interest Deposit Amount Entered',
+  INTEREST_DEPOSIT_CLICKED = 'Interest Deposit Clicked',
+  INTEREST_DEPOSIT_MAX_AMOUNT_CLICKED = 'Interest Deposit Max Amount Clicked',
+  INTEREST_DEPOSIT_MIN_AMOUNT_CLICKED = 'Interest Deposit Min Amount Clicked',
+  INTEREST_DEPOSIT_VIEWED = 'Interest Deposit Viewed',
+  INTEREST_SUBMIT_INFORMATION_CLICKED = 'Interest Submit Information Clicked', // TODO
+  INTEREST_VIEWED = 'Interest Viewed',
+  INTEREST_WITHDRAWAL_CLICKED = 'Interest Withdrawal Clicked',
+  INTEREST_WITHDRAWAL_VIEWED = 'Interest Withdrawal Viewed',
   LINK_BANK_CLICKED = 'Link Bank Clicked',
   RECEIVE_CURRENCY_SELECTED = 'Receive Currency Selected',
   RECEIVE_DETAILS_COPIED = 'Receive Details Copied',
@@ -112,8 +122,7 @@ type PageViewPayload = {
   url: string
 }
 
-type PageNamesType = '/home'
-// | '/interest'
+type PageNamesType = '/home' | '/interest'
 // | '/settings/general'
 // | '/settings/preferences'
 // | '/settings/addresses'
@@ -181,6 +190,52 @@ type DepositViewedPayload = BasePayload & PageViewPayload & {}
 type EmailVerificationClickedPayload = BasePayload & {
   // origin: 'SIGN_UP' | 'VERIFICATION'
 }
+
+type InterestClickedPayload = BasePayload & {
+  origin: 'NAVIGATION'
+}
+
+type InterestDepositAmountEnteredPayload = BasePayload & {
+  amount: number
+  amount_currency: string
+  currency: string
+  from_account_type: AccountType
+  input_amount: number
+  interest_rate: number
+  output_amount: number
+}
+
+type InterestDepositClickedPayload = BasePayload & {
+  currency: string
+  origin: 'CURRENCY_PAGE' | 'SAVINGS_CONFIRMATION' | 'SAVINGS_PAGE'
+}
+
+type InterestDepositMaxAmountClickedPayload = BasePayload & {
+  amount_currency: string
+  currency: string
+  from_account_type: AccountType
+}
+
+type InterestDepositMinAmountClickedPayload = BasePayload & {
+  amount_currency: string
+  currency: string
+  from_account_type: AccountType
+}
+
+type InterestDepositViewedPayload = BasePayload & PageViewPayload & {}
+
+type InterestSubmitInformationClickedPayload = BasePayload & {
+  origin: 'SAVINGS_CONFIRMATION' | 'SAVINGS_PAGE'
+}
+
+type InterestViewedPayload = BasePayload & PageViewPayload & {}
+
+type InterestWithdrawalClickedPayload = BasePayload & {
+  currency: string
+  origin: 'CURRENCY_PAGE'
+}
+
+type InterestWithdrawalViewedPayload = BasePayload & PageViewPayload & {}
 
 type LinkBankClickedPayload = BasePayload & {
   // origin: 'BUY' |'DEPOSIT' | 'SETTINGS' | 'WITHDRAW'
@@ -377,6 +432,16 @@ type AnalyticsPayload =
   | DepositMethodSelectedPayload
   | DepositViewedPayload
   | EmailVerificationClickedPayload
+  | InterestClickedPayload
+  | InterestDepositAmountEnteredPayload
+  | InterestDepositClickedPayload
+  | InterestDepositMaxAmountClickedPayload
+  | InterestDepositMinAmountClickedPayload
+  | InterestDepositViewedPayload
+  | InterestSubmitInformationClickedPayload
+  | InterestViewedPayload
+  | InterestWithdrawalClickedPayload
+  | InterestWithdrawalViewedPayload
   | LinkBankClickedPayload
   | ReceiveCurrencySelectedPayload
   | ReceiveDetailsCopiedPayload

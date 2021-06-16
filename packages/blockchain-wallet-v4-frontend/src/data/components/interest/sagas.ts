@@ -258,6 +258,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const handleTransferMaxAmountClick = function* ({
+    payload: { amount }
+  }: ReturnType<typeof A.handleTransferMaxAmountClick>) {
+    yield put(actions.form.change('interestDepositForm', 'depositAmount', amount))
+  }
+
+  const handleTransferMinAmountClick = function* ({
+    payload: { amount }
+  }: ReturnType<typeof A.handleTransferMinAmountClick>) {
+    yield put(actions.form.change('interestDepositForm', 'depositAmount', amount))
+  }
+
   const initializeDepositForm = function* ({
     payload
   }: ReturnType<typeof A.initializeDepositForm>) {
@@ -583,6 +595,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchInterestTransactionsReport,
     fetchShowInterestCardAfterTransaction,
     formChanged,
+    handleTransferMaxAmountClick,
+    handleTransferMinAmountClick,
     initializeDepositForm,
     initializeWithdrawalForm,
     requestWithdrawal,
