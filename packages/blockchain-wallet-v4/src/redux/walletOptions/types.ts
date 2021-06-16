@@ -43,7 +43,6 @@ export type SupportedCoinType = {
   method?: boolean
   minConfirmations: number
   txExplorerBaseUrl: string
-  txListAppRoute: string
 }
 
 export type SupportedFiatType = {
@@ -64,7 +63,6 @@ export type SupportedFiatType = {
   method?: boolean
   minConfirmations: 0
   txExploreBaseUrl: ''
-  txListAppRoute: string
 }
 
 export type SupportedWalletCurrenciesType = {

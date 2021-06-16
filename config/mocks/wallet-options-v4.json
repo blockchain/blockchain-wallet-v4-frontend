@@ -31,8 +31,7 @@
           "displayName": "Euros",
           "isFiat": true,
           "learnMoreLink": "",
-          "minConfirmations": 0,
-          "txListAppRoute": "/eur/transactions"
+          "minConfirmations": 0
         },
         "GBP": {
           "coinCode": "GBP",
@@ -53,8 +52,7 @@
           "displayName": "Pounds",
           "isFiat": true,
           "learnMoreLink": "",
-          "minConfirmations": 0,
-          "txListAppRoute": "/gbp/transactions"
+          "minConfirmations": 0
         },
         "USD": {
           "coinCode": "USD",
@@ -75,8 +73,7 @@
           "displayName": "U.S. Dollars",
           "learnMoreLink": "",
           "isFiat": true,
-          "minConfirmations": 0,
-          "txListAppRoute": "/usd/transactions"
+          "minConfirmations": 0
         },
         "BTC": {
           "coinCode": "BTC",
@@ -100,8 +97,7 @@
           "hasLockboxSupport": true,
           "learnMoreLink": "https://www.blockchain.com/learning-portal/bitcoin-faq",
           "minConfirmations": 3,
-          "txExplorerBaseUrl": "https://blockchain.com/btc/tx",
-          "txListAppRoute": "/btc/transactions"
+          "txExplorerBaseUrl": "https://blockchain.com/btc/tx"
         },
         "ETH": {
           "coinCode": "ETH",
@@ -126,8 +122,7 @@
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/sections/360000003163-Ethereum-FAQ",
           "lastTxFuse": 600,
           "minConfirmations": 12,
-          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
-          "txListAppRoute": "/eth/transactions"
+          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx"
         },
         "BCH": {
           "coinCode": "BCH",
@@ -149,8 +144,7 @@
           "hasLockboxSupport": true,
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/sections/115001633403-Bitcoin-Cash-FAQ",
           "minConfirmations": 3,
-          "txExplorerBaseUrl": "https://blockchain.com/bch/tx",
-          "txListAppRoute": "/bch/transactions"
+          "txExplorerBaseUrl": "https://blockchain.com/bch/tx"
         },
         "XLM": {
           "airdrop": {
@@ -218,8 +212,7 @@
           "isMemoBased": true,
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360019105171-What-is-Stellar-",
           "minConfirmations": 1,
-          "txExplorerBaseUrl": "https://stellarchain.io/tx",
-          "txListAppRoute": "/xlm/transactions"
+          "txExplorerBaseUrl": "https://stellarchain.io/tx"
         },
         "ALGO": {
           "coinCode": "ALGO",
@@ -240,8 +233,7 @@
           "hasLockboxSupport": false,
           "learnMoreLink": "",
           "minConfirmations": 3,
-          "txExplorerBaseUrl": "",
-          "txListAppRoute": "/algo/transactions"
+          "txExplorerBaseUrl": ""
         },
         "DOT": {
           "coinCode": "DOT",
@@ -262,8 +254,7 @@
           "hasLockboxSupport": false,
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360044952032",
           "minConfirmations": 20,
-          "txExplorerBaseUrl": "https://polkascan.io/polkadot",
-          "txListAppRoute": "/dot/transactions"
+          "txExplorerBaseUrl": "https://polkascan.io/polkadot"
         }
       },
       "sift": {

@@ -35,8 +35,7 @@ export const getSupportedCoins = createDeepEqualSelector(
         coinTicker: coinfig.symbol,
         coinfig,
         displayName: coinfig.name,
-        minConfirmations: 3,
-        txListAppRoute: `/${coinfig.symbol}/transactions`
+        minConfirmations: 3
       }
     }
 

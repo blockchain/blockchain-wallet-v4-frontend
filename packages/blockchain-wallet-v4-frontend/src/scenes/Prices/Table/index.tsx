@@ -25,11 +25,11 @@ export const TableWrapper = styled.div`
     /* make sure the inner table is always as wide as needed */
     width: 100%;
     border-spacing: 0;
-    border: 1px solid ${props => props.theme.grey100};
+    border: 1px solid ${(props) => props.theme.grey100};
     border-radius: 8px;
 
     td {
-      border-top: 1px solid ${props => props.theme.grey100};
+      border-top: 1px solid ${(props) => props.theme.grey100};
     }
 
     th,
@@ -48,14 +48,14 @@ export const CellHeaderText = styled(Text)`
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
-  color: ${props => props.theme.grey400};
+  color: ${(props) => props.theme.grey400};
 `
 export const CellText = styled(Text)`
   font-style: normal;
   font-weight: 500;
-  font-size: ${props => (props.size ? props.size : '16px')};
+  font-size: ${(props) => (props.size ? props.size : '16px')};
   line-height: 24px;
-  color: ${props => (props.color ? props.color : props.theme.grey900)};
+  color: ${(props) => (props.color ? props.color : props.theme.grey900)};
 `
 export const HeaderText = styled.div`
   display: flex;
@@ -68,11 +68,7 @@ export const HeaderText = styled.div`
   }
 `
 
-export const getTableColumns = ({
-  modalActions,
-  routerActions,
-  walletCurrency
-}) => () => [
+export const getTableColumns = ({ modalActions, routerActions, walletCurrency }) => () => [
   getNameColumn(routerActions),
   getPriceColumn(walletCurrency),
   getPriceChangeColumn(),
