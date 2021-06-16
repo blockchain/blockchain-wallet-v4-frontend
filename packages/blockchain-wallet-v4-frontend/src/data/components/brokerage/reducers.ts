@@ -1,3 +1,4 @@
+import { createReducer } from '@reduxjs/toolkit'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 import * as AT from './actionTypes'
@@ -20,6 +21,47 @@ const INITIAL_STATE: BrokerageState = {
   fiatCurrency: undefined,
   redirectBackToStep: false
 }
+
+// const brokerageReducer = createReducer(INITIAL_STATE, (builder) => {
+//   builder
+//     .addCase(AT.FETCH_BANK_CREDENTIALS_LOADING, (state) => {
+//       state.bankCredentials = Remote.Loading
+//     })
+//     .addCase(AT.FETCH_BANK_CREDENTIALS_ERROR, (state, action) => {
+//       state.bankCredentials = Remote.Failure(action.payload.error)
+//     })
+//     .addCase(AT.FETCH_BANK_CREDENTIALS_SUCCESS, (state, action) => {
+//       state.bankCredentials = Remote.Success(action.payload.credentials)
+//     })
+//     .addCase(AT.FETCH_BANK_TRANSFER_ACCOUNTS_LOADING, (state, action) => {
+//       state.bankCredentials = Remote.Loading
+//     })
+//     .addCase(AT.FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS, (state, action) => {
+//       state.bankCredentials = Remote.Loading
+//     })
+//     .addCase(AT.FETCH_BANK_TRANSFER_ACCOUNTS_ERROR, (state, action) => {
+//       state.bankCredentials = Remote.Loading
+//     })
+//     .addCase(AT.FETCH_BANK_TRANSFER_UPDATE_LOADING, (state, action) => {
+//       state.bankCredentials = Remote.Loading
+//     })
+//     .addCase(AT.SET_FAST_LINK, (state, action) => {
+//       state.bankCredentials = Remote.Loading
+//     })
+//     .addCase(AT.SET_BANK_DETAILS, (state, action) => {
+//       state.bankCredentials = Remote.Loading
+//     })
+//     .addCase(AT.HANDLE_DEPOSIT_FIAT_CLICK, (state, action) => {
+//       state.bankCredentials = Remote.Loading
+//     })
+//     .addCase(AT.SET_ADD_BANK_STEP, (state, action) => {
+//       state.bankCredentials = Remote.Loading
+//     })
+//     .addCase(AT.SET_D_W_STEP, (state, action) => {
+//       state.bankCredentials = Remote.Loading
+//     })
+
+// })
 
 export function brokerageReducer(
   state = INITIAL_STATE,
