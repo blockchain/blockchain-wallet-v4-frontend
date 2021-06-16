@@ -12,6 +12,7 @@ import ContinueToGold from './ContinueToGold'
 import FinishKyc from './FinishKyc'
 import KycResubmit from './KycResubmit'
 import NewCurrency from './NewCurrency'
+import RecurringBuys from './RecurringBuys'
 import SBOrderBanner from './SBOrderBanner'
 import { getData } from './selectors'
 
@@ -69,6 +70,12 @@ class Banners extends React.PureComponent<Props> {
             <ContinueToGold />
           </BannerWrapper>
         )
+      case 'recurringBuys':
+        return (
+          <BannerWrapper>
+            <RecurringBuys />
+          </BannerWrapper>
+        )
       default:
         return null
     }
@@ -76,11 +83,11 @@ class Banners extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
+  data: getData(state),
   fiatCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
   userData: selectors.modules.profile.getUserData(state).getOrElse({
     tiers: { current: 0 }
-  } as UserDataType),
-  data: getData(state)
+  } as UserDataType)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
