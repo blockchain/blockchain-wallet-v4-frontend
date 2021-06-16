@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Image } from '..'
-import { BaseImage } from '../Images/Image'
+import Image, { BaseImage } from '../Images/Image'
 import Icomoon from './Icomoon'
 
 const BaseIcon = styled.span`
@@ -40,9 +39,6 @@ const Icon = (props) => {
         </BaseIcon>
       )
     }
-  }
-
-  if (window.coins[name]) {
     return (
       <BaseIcon {...props}>
         <Image
