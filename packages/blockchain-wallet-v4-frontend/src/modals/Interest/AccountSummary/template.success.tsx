@@ -409,22 +409,24 @@ const AccountSummary: React.FC<Props> = (props) => {
           </DetailsItemContainer>
         </DetailsWrapper>
       </Top>
-      <Bottom>
-        <ButtonContainer>
-          <Button
-            disabled={!account || !availToWithdraw}
-            data-e2e='interestWithdraw'
-            fullwidth
-            height='48px'
-            nature='grey800'
-            onClick={() => interestActions.showInterestModal('WITHDRAWAL', coin)}
-          >
-            <Text color='white' size='16px' weight={600}>
-              <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />
-            </Text>
-          </Button>
-        </ButtonContainer>
-      </Bottom>
+      {!showSupply && (
+        <Bottom>
+          <ButtonContainer>
+            <Button
+              disabled={!account || !availToWithdraw}
+              data-e2e='interestWithdraw'
+              fullwidth
+              height='48px'
+              nature='grey800'
+              onClick={() => interestActions.showInterestModal('WITHDRAWAL', coin)}
+            >
+              <Text color='white' size='16px' weight={600}>
+                <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />
+              </Text>
+            </Button>
+          </ButtonContainer>
+        </Bottom>
+      )}
     </Wrapper>
   )
 }
