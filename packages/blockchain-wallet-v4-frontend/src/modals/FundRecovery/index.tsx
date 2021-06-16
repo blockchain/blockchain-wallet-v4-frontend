@@ -68,9 +68,6 @@ class FundRecoveryModal extends PureComponent<Props> {
             Loading: () => <BlockchainLoader />,
             NotAsked: () => <BlockchainLoader />,
             Success: (val) => {
-              // return <div>{JSON.stringify(val)}</div>
-
-              // @ts-ignore
               return val.searchChain.selection.inputs.length ? (
                 <SuccessContainer>
                   <Text size='16px' weight={600}>
