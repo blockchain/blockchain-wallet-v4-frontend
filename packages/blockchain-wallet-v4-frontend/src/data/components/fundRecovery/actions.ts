@@ -1,23 +1,11 @@
-import { UnspentResponseType } from 'blockchain-wallet-v4/src/network/api/btc/types'
+import { PaymentType } from 'middleware/analyticsMiddleware/types'
 
 import * as AT from './actionTypes'
 import { FundRecoveryActionType } from './types'
 
-export const recoverFunds = (
-  accountIndex: number,
-  unspent_outputs: UnspentResponseType['unspent_outputs'],
-  coin: string,
-  fromDerivationType: string,
-  recoveryAddress: string,
-  badChange?: string[]
-) => ({
+export const recoverFunds = (payment: PaymentType) => ({
   payload: {
-    accountIndex,
-    badChange,
-    coin,
-    fromDerivationType,
-    recoveryAddress,
-    unspent_outputs
+    payment
   },
   type: AT.RECOVER_FUNDS
 })
@@ -48,58 +36,32 @@ export const resetFundRecovery = () => ({
   type: AT.RESET_FUND_RECOVERY
 })
 
-export const searchChain = (accountIndex: number, coin: string, derivationType: string) => ({
+export const searchChain = (accountIndex: number, coin: string) => ({
   payload: {
     accountIndex,
-    coin,
-    derivationType
+    coin
   },
   type: AT.SEARCH_CHAIN_FOR_FUNDS
 })
 
-export const searchChainFailure = (
-  accountIndex: number,
-  coin: string,
-  derivationType: string,
-  error: string
-): FundRecoveryActionType => ({
+export const searchChainFailure = (coin: string, error: string): FundRecoveryActionType => ({
   payload: {
-    accountIndex,
     coin,
-    derivationType,
     error
   },
   type: AT.SEARCH_CHAIN_FOR_FUNDS_FAILURE
 })
 
-export const searchChainLoading = (
-  accountIndex: number,
-  coin: string,
-  derivationType: string
-): FundRecoveryActionType => ({
+export const searchChainLoading = (coin: string): FundRecoveryActionType => ({
   payload: {
-    accountIndex,
-    coin,
-    derivationType
+    coin
   },
   type: AT.SEARCH_CHAIN_FOR_FUNDS_LOADING
 })
 
-export const searchChainSuccess = (
-  accountIndex: number,
-  coin: string,
-  derivationType: string,
-  data: UnspentResponseType['unspent_outputs'],
-  recoveryAddress: string,
-  badChange?: string[]
-) => ({
+export const searchChainSuccess = (payment: PaymentType) => ({
   payload: {
-    accountIndex,
-    badChange,
-    coin,
-    data,
-    derivationType,
-    recoveryAddress
+    payment
   },
   type: AT.SEARCH_CHAIN_FOR_FUNDS_SUCCESS
 })

@@ -1,3 +1,5 @@
+import { PaymentType } from 'middleware/analyticsMiddleware/types'
+
 import { UnspentResponseType } from 'blockchain-wallet-v4/src/network/api/btc/types'
 import { RemoteDataType } from 'core/types'
 
@@ -38,9 +40,7 @@ interface ResetFundRecoveryActionType {
 
 interface SearchChainFailureActionType {
   payload: {
-    accountIndex: number
     coin: string
-    derivationType: string
     error: string
   }
   type: typeof AT.SEARCH_CHAIN_FOR_FUNDS_FAILURE
@@ -48,21 +48,15 @@ interface SearchChainFailureActionType {
 
 interface SearchChainLoadingActionType {
   payload: {
-    accountIndex: number
     coin: string
-    derivationType: string
   }
   type: typeof AT.SEARCH_CHAIN_FOR_FUNDS_LOADING
 }
 
 interface SearchChainSuccessActionType {
   payload: {
-    accountIndex: number
-    badChange?: string[]
     coin: string
-    data: UnspentResponseType['unspent_outputs']
-    derivationType: string
-    recoveryAddress: string
+    payment: PaymentType
   }
   type: typeof AT.SEARCH_CHAIN_FOR_FUNDS_SUCCESS
 }

@@ -95,7 +95,6 @@ export default ({ api }: { api: APIType }) => {
 
         const selection = selectAll(fee.priority, coins, recoveryAddress)
         const tx = btcSign(network, selection)
-        debugger
         yield call(api.pushBtcTx, tx.txHex)
       } else {
         throw new Error(`No recovery method for ${coin}`)
@@ -115,37 +114,35 @@ export default ({ api }: { api: APIType }) => {
 
   const searchChainForFunds = function* (action: ReturnType<typeof A.searchChain>) {
     const { payload } = action
-    const { accountIndex, coin, derivationType } = payload
+    const { accountIndex, coin } = payload
     try {
-      yield put(A.searchChainLoading(accountIndex, coin, derivationType))
+      yield put(A.searchChainLoading(coin))
 
       const wallet = selectors.core.wallet.getWallet(yield select())
       const accounts = Wallet.selectHDAccounts(wallet)
       const account = HDAccountList.selectAccount(accountIndex, accounts)
 
       // TODO, maybe add incident?
+      // JUNE 2021 INCIDENT
       if (coin === 'BCH') {
-        // FOR CHANGE
-        // 1. get the change_index from the good xpub on bch chain
-        // 2. derive change addresses from '1/change_index...0' from SEGWIT xpub
-        // 3. get unspents from the change addresses
-        // FOR WRONG RECEIVE
-        // 1. get the SEGWIT derivation
-        // 2. get unspents from SEGWIT xpub
-        // Note: wrong receive was always index 0 because of a separate bug
-        // which caused wallet to look up receive_index from the wrong xpub
-        // or, elsing things to eventually return receive_index as 0.
-        const badDerivation = account.derivations.find((d) => d.type === derivationType)
+        // Get the segwit and legacy derivations
+        const badDerivation = account.derivations.find((d) => d.type === 'bech32')
         const goodDerivation = account.derivations.find((d) => d.type === 'legacy')
+        // Get the top level account xpub
         const badXpub = badDerivation.xpub
         const goodXpub = goodDerivation.xpub
+        // The wallet used the correct change_index to derive the wrong address
+        // Get the most recent correct change_index
         const { addresses } = yield call(api.fetchBchData, [goodXpub])
         const { change_index } = addresses.find(({ address }) => address === goodXpub)
 
+        // Get the next address to recover funds to
         const recoveryAddress = selectors.core.common.bch
           .getNextAvailableReceiveAddress(network, accountIndex, yield select())
           .getOrFail('No BCH address found to recovery to.')
 
+        // Using the BECH32 (badXpub) derive change addresses down to 0
+        // starting with the latest change_index from the legacy xpub according to multiaddr
         const badChange: string[] = []
         for (let i = 0; i <= change_index; i += 1) {
           const { publicKey } = Bitcoin.bip32.fromBase58(badXpub).derivePath(`1/${i}`)
@@ -153,10 +150,12 @@ export default ({ api }: { api: APIType }) => {
           if (badAddress) badChange.push(badAddress)
         }
 
+        // Lookup unspents on BCH chain using BECH32 xpub
         const {
           unspent_outputs: receive_outputs
         }: UnspentResponseType = yield call(api.getBchUnspents, [badXpub])
 
+        // Lookup unspents on BCH chain using badChange
         const {
           unspent_outputs: change_outputs
         }: UnspentResponseType = yield call(api.getBchUnspents, [badChange])
@@ -175,15 +174,16 @@ export default ({ api }: { api: APIType }) => {
           )
         )
       } else if (coin === 'BTC') {
-        // FOR WRONG RECEIVE
-        // 1. get the SEGWIT derivation
-        // 2. get unspents from SEGWIT xpub on active param (not activeBech32)
-        const derivation = account.derivations.find((d) => d.type === derivationType)
+        // Get the bech32 account and xpub
+        const derivation = account.derivations.find((d) => d.type === 'bech32')
         const { xpub } = derivation
+
+        // Get the next address to recover funds to
         const recoveryAddress = selectors.core.common.btc
           .getNextAvailableReceiveAddress(network, accountIndex, 'bech32', yield select())
           .getOrFail('No BTC address found to recovery to.')
 
+        // Lookup unspents on the `active` change instead of `activeBech32`
         const { unspent_outputs }: UnspentResponseType = yield call(
           api.getBtcUnspents,
           [xpub],
