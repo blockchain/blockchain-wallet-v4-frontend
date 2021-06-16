@@ -67,7 +67,7 @@
   "coins.eth.intro": "Ethereum (ETH) is a currency and platform for execution of decentralized smart contracts.",
   "coins.eur.intro": "Store Euros in your wallet and use it to Buy crypto.",
   "coins.gbp.intro": "Store British pounds in your wallet and use it to Buy crypto.",
-  "coins.pax.intro": "USD Digital (USD-D) is a stablecoin backed by the U.S. dollar.",
+  "coins.pax.intro1": "Paxos Standard (PAX) is a stablecoin backed by the U.S. dollar.",
   "coins.usd.intro": "Store U.S. dollars in your wallet and use it to Buy crypto.",
   "coins.usdt.intro": "Tether (USDT) is a stablecoin backed by the U.S. dollar.",
   "coins.wdgld.intro": "Wrapped Digital Gold (wDGLD) is a gold-backed token built with the power and flexibility of Ethereum.",
