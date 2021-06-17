@@ -68,17 +68,6 @@ export const RectangleBackground = styled.div`
   border-radius: 8px;
   margin-top: 24px;
 `
-export const SubCard = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 1.25rem;
-`
-export const SignUpText = styled(Text)`
-  &:hover {
-    color: ${(props) => props.theme.white};
-    font-weight: 600;
-  }
-`
 const TopRow = styled.div`
   display: flex;
   margin-bottom: 24px;
@@ -114,7 +103,6 @@ export const PhishingWarning = styled.div`
   border-radius: 4px;
   background-color: ${(props) => props.theme.whiteFade100};
   padding: 12px 32px;
-  margin-bottom: 16px;
 `
 
 export const BackArrowFormHeader = (props: {

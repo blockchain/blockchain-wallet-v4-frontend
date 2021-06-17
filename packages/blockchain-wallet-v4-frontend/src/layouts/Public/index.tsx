@@ -1,8 +1,11 @@
 import React, { ComponentType } from 'react'
+import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
+import { formValueSelector } from 'redux-form'
 import styled, { css } from 'styled-components'
 
 import Alerts from 'components/Alerts'
+import { LoginSteps } from 'data/types'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 
@@ -61,9 +64,9 @@ const ContentContainer = styled.div<{ isLogin?: boolean }>`
     `}
 `
 
-const PublicLayoutContainer = ({ component: Component, exact = false, path }: Props) => {
+const PublicLayoutContainer = ({ component: Component, exact = false, loginStep, path }: Props) => {
   const isLogin = path === '/login'
-
+  const isFirstLoginStep = isLogin && loginStep === LoginSteps.ENTER_EMAIL_GUID
   return (
     <Route
       path={path}
@@ -85,7 +88,7 @@ const PublicLayoutContainer = ({ component: Component, exact = false, path }: Pr
             </ContentContainer>
 
             <FooterContainer>
-              <Footer isLogin={isLogin} />
+              <Footer isLogin={isFirstLoginStep} />
             </FooterContainer>
           </Wrapper>
         </ErrorBoundary>
@@ -97,7 +100,14 @@ const PublicLayoutContainer = ({ component: Component, exact = false, path }: Pr
 type Props = {
   component: ComponentType<any>
   exact?: boolean
+  loginStep: LoginSteps
   path: string
 }
 
-export default PublicLayoutContainer
+const mapStateToProps = (state) => ({
+  loginStep: formValueSelector('login')(state, 'step')
+})
+
+const connector = connect(mapStateToProps)
+
+export default connector(PublicLayoutContainer)

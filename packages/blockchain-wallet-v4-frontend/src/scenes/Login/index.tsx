@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
 
@@ -18,7 +17,7 @@ import CheckEmail from './CheckEmail'
 // step templates
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
-import { LOGIN_FORM_NAME, PhishingWarning, SignUpText, SubCard } from './model'
+import { LOGIN_FORM_NAME, PhishingWarning } from './model'
 import VerificationMobile from './VerificationMobile'
 
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
@@ -140,23 +139,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             />
           </Text>
         )}
-        {step === LoginSteps.ENTER_EMAIL_GUID && (
-          <>
-            <Text color='grey400' weight={500} style={{ marginBottom: '8px' }}>
-              <FormattedMessage
-                id='scenes.login.phishingwarning'
-                defaultMessage='Please check that you are visiting the correct URL'
-              />
-            </Text>
-            <PhishingWarning>
-              <Icon name='padlock' color='grey400' size='16px' />
-              <Text color='grey400' weight={500} style={{ paddingLeft: '8px' }}>
-                https://login.blockchain.com
-              </Text>
-            </PhishingWarning>
-          </>
-        )}
-
         <Wrapper>
           <Form onSubmit={this.handleSubmit}>
             {(() => {
@@ -180,22 +162,20 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
           </Form>
         </Wrapper>
         {step === LoginSteps.ENTER_EMAIL_GUID && (
-          <LinkContainer data-e2e='signupLink' to='/signup'>
-            <Link>
-              <SubCard>
-                <Text size='16px' color='grey400' weight={500}>
-                  <FormattedMessage
-                    id='scenes.login.wallet.link_signup'
-                    defaultMessage="Don't have a Blockchain Wallet?"
-                  />
-                </Text>
-                &nbsp;
-                <SignUpText size='16px' color='white' weight={600}>
-                  <FormattedMessage id='buttons.signup_now' defaultMessage='Sign up Now ->' />
-                </SignUpText>
-              </SubCard>
-            </Link>
-          </LinkContainer>
+          <>
+            <Text color='grey400' weight={500} style={{ margin: '16px 0 8px 0' }}>
+              <FormattedMessage
+                id='scenes.login.phishingwarning'
+                defaultMessage='Please check that you are visiting the correct URL'
+              />
+            </Text>
+            <PhishingWarning>
+              <Icon name='padlock' color='grey400' size='16px' />
+              <Text color='grey400' weight={500} style={{ paddingLeft: '8px' }}>
+                https://login.blockchain.com
+              </Text>
+            </PhishingWarning>
+          </>
         )}
       </>
     )

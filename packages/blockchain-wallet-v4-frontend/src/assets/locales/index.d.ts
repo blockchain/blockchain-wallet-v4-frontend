@@ -2091,6 +2091,7 @@ type MessagesType = {
   'scenes.lockbox.welcome.subtitle': 'Trade, send and receive straight from your offline hardware wallet. Blockchain Lockbox works seamlessly with your Blockchain Wallet.'
   'scenes.lockbox.welcome.title': 'Secure Your Crypto Offline'
   'scenes.lockbox.welcome.trouble': 'Having trouble? View our'
+  'scenes.login.account_signup': "Don't have a Blockchain Account?"
   'scenes.login.approve': 'Approve your login'
   'scenes.login.authorize': 'Authorize login'
   'scenes.login.browserwarning': 'Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.'
