@@ -25,7 +25,7 @@ const PencilIcon = styled(Icon)`
   padding-left: 10px;
 `
 
-const EditDescription = props => {
+const EditDescription = (props) => {
   const { handleChange, value } = props
 
   return (

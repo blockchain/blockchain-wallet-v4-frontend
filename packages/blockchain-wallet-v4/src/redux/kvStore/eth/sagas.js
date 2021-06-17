@@ -1,5 +1,5 @@
 import { Map } from 'immutable-ext'
-import { head, isEmpty, isNil, path, prop } from 'ramda'
+import { forEach, head, isEmpty, isNil, path, pathOr, prop, toLower } from 'ramda'
 import { set } from 'ramda-lens'
 import { call, put, select } from 'redux-saga/effects'
 
@@ -28,26 +28,28 @@ export default ({ api, networks } = {}) => {
     }
   }
 
-  const buildErc20Entry = (token, coinModels, existingNotes) => ({
-    contract: path([token, 'contractAddress'], coinModels),
+  const buildErc20Entry = (token, contract, existingNotes) => ({
+    contract,
     has_seen: false,
     label: ACCT_NAME,
     tx_notes: existingNotes || {}
   })
 
-  // const createNewErc20Entry = function * () {
-  //   const entries = {}
-  //   const erc20List = (yield select(getErc20CoinList)).getOrFail()
-  //   const coinModels = (yield select(getSupportedCoins)).getOrFail()
-  //   forEach(token => {
-  //     entries[toLower(token)] = buildErc20Entry(token, coinModels)
-  //   }, erc20List)
-  //   return entries
-  // }
+  const createNewErc20Entry = function () {
+    const entries = {}
+    // TODO: erc20 phase 2, remove this whitelist
+    const coins = ['AAVE', 'PAX', 'USDT', 'WDGLD', 'YFI']
+    forEach((token) => {
+      const { coinfig } = window.coins[token]
+      const contract = coinfig.type.erc20Address
+      entries[toLower(token)] = buildErc20Entry(token, contract)
+    }, coins)
+    return entries
+  }
 
   const createEth = function* ({ kv, password }) {
     const { addr, defaultIndex } = yield call(deriveAccount, password)
-    // const erc20Entry = yield call(createNewErc20Entry)
+    const erc20Entry = yield call(createNewErc20Entry)
     const ethereum = {
       accounts: [
         {
@@ -58,7 +60,7 @@ export default ({ api, networks } = {}) => {
         }
       ],
       default_account_idx: defaultIndex,
-      erc20: {},
+      erc20: erc20Entry,
       has_seen: true,
       last_tx: null,
       last_tx_timestamp: null,
@@ -71,12 +73,12 @@ export default ({ api, networks } = {}) => {
 
   const transitionFromLegacy = function* ({ newkv, password }) {
     const { addr, defaultIndex } = yield call(deriveAccount, password)
-    // const erc20Entry = yield call(createNewErc20Entry)
+    const erc20Entry = yield call(createNewErc20Entry)
     const defaultAccount = Map(newkv.value.ethereum.accounts[defaultIndex])
     newkv.value.ethereum.legacy_account = defaultAccount.toJS()
     newkv.value.ethereum.accounts[defaultIndex].addr = addr
     newkv.value.ethereum.accounts[defaultIndex].correct = true
-    // newkv.value.ethereum.erc20 = erc20Entry
+    newkv.value.ethereum.erc20 = erc20Entry
     yield put(A.fetchMetadataEthSuccess(newkv))
   }
 
@@ -92,20 +94,18 @@ export default ({ api, networks } = {}) => {
       } else if (newkv.value.ethereum && !prop('correct', head(newkv.value.ethereum.accounts))) {
         yield call(secondPasswordSagaEnhancer(transitionFromLegacy), { newkv })
       } else {
-        // DONT BREAK ME!!!!!!!
-        // const erc20List = (yield select(getErc20CoinList)).getOrFail()
+        // TODO: erc20 phase 2, remove this whitelist
+        const erc20List = ['AAVE', 'PAX', 'USDT', 'WDGLD', 'YFI']
         // const coinModels = (yield select(getSupportedCoins)).getOrFail()
         // use new ETH account label
         newkv.value.ethereum.accounts[0].label = ACCT_NAME
         // create fake metadata entries for erc20 assets
-        // const erc20 = pathOr({}, ['value', 'ethereum', 'erc20'], newkv)
-        // forEach((token) => {
-        //   erc20[toLower(token)] = buildErc20Entry(
-        //     token,
-        //     coinModels,
-        //     erc20[toLower(token)]?.tx_notes
-        //   )
-        // }, erc20List)
+        const erc20 = pathOr({}, ['value', 'ethereum', 'erc20'], newkv)
+        forEach((token) => {
+          const { coinfig } = window.coins[token]
+          const contract = coinfig.type.erc20Address
+          erc20[toLower(token)] = buildErc20Entry(token, contract, erc20[toLower(token)]?.tx_notes)
+        }, erc20List)
         const { ethereum } = newkv.value
         const updatedKv = set(KVStoreEntry.value, { ethereum }, newkv)
         yield put(A.fetchMetadataEthSuccess(updatedKv))
@@ -117,7 +117,6 @@ export default ({ api, networks } = {}) => {
 
   return {
     createEth,
-    // createNewErc20Entry,
     deriveAccount,
     fetchMetadataEth,
     transitionFromLegacy
