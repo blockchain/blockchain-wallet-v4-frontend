@@ -254,11 +254,6 @@ export default ({ api, coreSagas }) => {
         yield put(actions.auth.upgradeWallet(4))
         yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
       }
-      // Adding this to sync isMnemonicVerified flags
-      const lastMnemonicBackup = selectors.core.settings
-        .getLastMnemonicBackup(yield select())
-        .getOrElse(true)
-      const isMnemonicVerified = yield select(selectors.core.wallet.isMnemonicVerified)
       // Finish upgrades
       yield put(actions.auth.authenticate())
       yield put(actions.auth.setFirstLogin(firstLogin))
@@ -320,6 +315,10 @@ export default ({ api, coreSagas }) => {
       // We are checking wallet metadata to see if mnemonic is verified
       // and then syncing that information with new Wallet Account model
       // being used for SSO
+      const lastMnemonicBackup = selectors.core.settings
+        .getLastMnemonicBackup(yield select())
+        .getOrElse(true)
+      const isMnemonicVerified = yield select(selectors.core.wallet.isMnemonicVerified)
       if (isMnemonicVerified && !lastMnemonicBackup) {
         yield put(actions.core.wallet.updateMnemonicBackup())
       }
@@ -372,7 +371,7 @@ export default ({ api, coreSagas }) => {
         sharedKey
       })
       // @ts-ignore
-      yield call(loginRoutineSaga, { mobileLogin: true })
+      yield call(loginRoutineSaga, { mobileLogin })
       yield put(stopSubmit('login'))
     } catch (error) {
       const initialError = prop('initial_error', error)
@@ -524,7 +523,6 @@ export default ({ api, coreSagas }) => {
         kvCredentials
       })
       yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
-      // @ts-ignore
       yield call(loginRoutineSaga, {
         email: true,
         firstLogin: true,
@@ -588,7 +586,8 @@ export default ({ api, coreSagas }) => {
       // Check for both stored GUID (from email) and lastGuid (last successful login)
       const storedGuid = yield select(selectors.cache.getStoredGuid)
       const lastGuid = yield select(selectors.cache.getLastGuid)
-      if ((storedGuid || lastGuid) && !params[2]) {
+      const loginLinkParameter = params[2]
+      if ((storedGuid || lastGuid) && !loginLinkParameter) {
         // logic to be compatible with lastGuid in cache make sure that email matches
         // guid being used for login eventually can deprecate after some time
         if (lastGuid) {
@@ -604,29 +603,27 @@ export default ({ api, coreSagas }) => {
           yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
         }
         // if url is just /login, take them to enter guid or email
-      } else if (!params[2]) {
+      } else if (!loginLinkParameter) {
         yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
         // we detect a guid in the pathname
-      } else if (isGuid(params[2])) {
-        const guidFromRoute = params[2]
+      } else if (isGuid(loginLinkParameter)) {
+        const guidFromRoute = loginLinkParameter
         yield put(actions.form.change('login', 'guid', guidFromRoute))
         yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
         // if path has base64 encrypted JSON
       } else {
-        const loginData = JSON.parse(atob(params[2])) as WalletDataFromMagicLink
-        // grab all the data from the JSON
-        const guidFromRoute = prop('guid', loginData)
-        const emailFromRoute = prop('email', loginData)
-        const mobileSetup = prop('is_mobile_setup', loginData) === 'true'
-        const emailToken = prop('email_code', loginData)
+        const loginData = JSON.parse(atob(loginLinkParameter)) as WalletDataFromMagicLink
+        // this flag is stored as a string in JSON object
+        // this converts it to a variable
+        const mobileSetup = loginData.is_mobile_setup === 'true'
         // store data in the cache and update form values
         // to be used to submit login
-        yield put(actions.cache.emailStored(emailFromRoute))
-        yield put(actions.cache.guidStored(guidFromRoute))
+        yield put(actions.cache.emailStored(loginData.email_code))
+        yield put(actions.cache.guidStored(loginData.guid))
         yield put(actions.cache.mobileConnectedStored(mobileSetup))
-        yield put(actions.form.change('login', 'emailToken', emailToken))
-        yield put(actions.form.change('login', 'guid', guidFromRoute))
-        yield put(actions.form.change('login', 'email', emailFromRoute))
+        yield put(actions.form.change('login', 'emailToken', loginData.email_code))
+        yield put(actions.form.change('login', 'guid', loginData.guid))
+        yield put(actions.form.change('login', 'email', loginData.email))
         // check if mobile detected
         if (mobileSetup) {
           yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
@@ -657,13 +654,13 @@ export default ({ api, coreSagas }) => {
       } else {
         yield put(actions.form.change('login', 'step', LoginSteps.CHECK_EMAIL))
       }
-      yield put(stopSubmit('login'))
       yield put(A.triggerWalletMagicLinkSuccess())
     } catch (e) {
       yield put(A.triggerWalletMagicLinkFailure())
-      yield put(stopSubmit('login'))
       yield put(actions.logs.logErrorMessage(logLocation, 'triggerWalletMagicLink', e))
       yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
+    } finally {
+      yield put(stopSubmit('login'))
     }
   }
 

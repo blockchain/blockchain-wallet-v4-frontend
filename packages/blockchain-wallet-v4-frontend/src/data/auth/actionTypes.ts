@@ -4,6 +4,7 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE'
 export const LOGIN_LOADING = 'LOGIN_LOADING'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const SET_FIRST_LOGIN = 'SET_FIRST_LOGIN'
+export const LOGIN_ROUTINE_SAGA = 'LOGIN_ROUTINE_SAGA'
 
 // LOGOUT
 export const LOGOUT = 'LOGOUT'

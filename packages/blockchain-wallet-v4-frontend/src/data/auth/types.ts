@@ -46,6 +46,16 @@ interface InitializeLoginFailureActionType {
   type: typeof AT.INITIALIZE_LOGIN_FAILURE
 }
 
+interface LoginRouteSagaActionType {
+  payload: {
+    email?: string
+    firstLogin?: boolean
+    fromRestoredFlow?: boolean
+    mobileLogin?: boolean
+  }
+  type: typeof AT.LOGIN_ROUTINE_SAGA
+}
+
 interface TriggerWalletMagicLinkSuccessActionType {
   type: typeof AT.TRIGGER_WALLET_MAGIC_LINK_SUCCESS
 }
@@ -67,6 +77,7 @@ interface UpgradeWalletActionType {
 
 export type AuthActionTypes =
   | LoginFailureActionType
+  | LoginRouteSagaActionType
   | InitializeLoginFailureActionType
   | InitializeLoginLoadingActionType
   | InitializeLoginSuccessActionType

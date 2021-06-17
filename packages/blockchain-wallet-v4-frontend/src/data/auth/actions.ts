@@ -17,6 +17,21 @@ export const setFirstLogin = (firstLogin) => ({
   type: AT.SET_FIRST_LOGIN
 })
 
+export const loginRoutine = (
+  email?: string,
+  firstLogin?: boolean,
+  fromRestoredFlow?: boolean,
+  mobileLogin?: boolean
+): AuthActionTypes => ({
+  payload: {
+    email,
+    firstLogin,
+    fromRestoredFlow,
+    mobileLogin
+  },
+  type: AT.LOGIN_ROUTINE_SAGA
+})
+
 // LOGOUT
 export const logout = () => ({ type: AT.LOGOUT })
 export const logoutClearReduxStore = () => ({
