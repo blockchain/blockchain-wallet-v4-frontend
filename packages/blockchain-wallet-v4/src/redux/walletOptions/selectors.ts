@@ -109,6 +109,9 @@ export const getSiftKey = (state: RootState) => getWebOptions(state).map(path(['
 export const getSiftPaymentKey = (state: RootState) => {
   return getWebOptions(state).map((options) => options.sift.paymentKey)
 }
+// pairing code feature falag
+export const getPairingCodeFlag = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'legacyMobilePairing']))
 
 // mobile auth flag
 export const getMobileAuthFlag = (state: RootState) =>
