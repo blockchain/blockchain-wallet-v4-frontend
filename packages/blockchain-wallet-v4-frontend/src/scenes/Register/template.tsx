@@ -14,7 +14,7 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { GoalDataType } from 'data/types'
+import { SimpleBuyWidgetGoalDataType } from 'data/types'
 import { media } from 'services/styles'
 
 import { PropsType as OwnProps } from '.'
@@ -352,7 +352,7 @@ const SignupCard = ({
 const Register = (props: InjectedFormProps<{}, Props> & Props) => {
   const { goals, isLinkAccountGoal, isSimpleBuyGoal } = props
   const dataGoal = find(propEq('name', 'simpleBuy'), goals)
-  const goalData: GoalDataType = propOr({}, 'data', dataGoal)
+  const goalData: SimpleBuyWidgetGoalDataType = propOr({}, 'data', dataGoal)
 
   if (isLinkAccountGoal) {
     return (

@@ -18,7 +18,7 @@ export type LoginFormType = {
   twoFA?: number | string
 }
 
-export type LoginObject = {
+export type WalletDataFromMagicLink = {
   email: string
   email_code?: string
   guid: string
@@ -46,16 +46,16 @@ interface InitializeLoginFailureActionType {
   type: typeof AT.INITIALIZE_LOGIN_FAILURE
 }
 
-interface LoginGuidSuccessActionType {
-  type: typeof AT.LOGIN_GUID_SUCCESS
+interface TriggerWalletMagicLinkSuccessActionType {
+  type: typeof AT.TRIGGER_WALLET_MAGIC_LINK_SUCCESS
 }
 
-interface LoginGuidLoadingActionType {
-  type: typeof AT.LOGIN_GUID_LOADING
+interface TriggerWalletMagicLinkLoadingActionType {
+  type: typeof AT.TRIGGER_WALLET_MAGIC_LINK_LOADING
 }
 
-interface LoginGuidFailureActionType {
-  type: typeof AT.LOGIN_GUID_FAILURE
+interface TriggerWalletMagicLinkFailureActionType {
+  type: typeof AT.TRIGGER_WALLET_MAGIC_LINK_FAILURE
 }
 
 interface UpgradeWalletActionType {
@@ -65,27 +65,12 @@ interface UpgradeWalletActionType {
   type: typeof AT.UPGRADE_WALLET
 }
 
-interface WalletGuidSubmitSuccessActionType {
-  type: typeof AT.GUID_WALLET_SUCCESS
-}
-
-interface WalletGuidSubmitLoadingActionType {
-  type: typeof AT.GUID_WALLET_LOADING
-}
-
-interface WalletGuidSubmitFailureActionType {
-  type: typeof AT.GUID_WALLET_FAILURE
-}
-
 export type AuthActionTypes =
   | LoginFailureActionType
   | InitializeLoginFailureActionType
   | InitializeLoginLoadingActionType
   | InitializeLoginSuccessActionType
-  | LoginGuidFailureActionType
-  | LoginGuidLoadingActionType
-  | LoginGuidSuccessActionType
+  | TriggerWalletMagicLinkFailureActionType
+  | TriggerWalletMagicLinkLoadingActionType
+  | TriggerWalletMagicLinkSuccessActionType
   | UpgradeWalletActionType
-  | WalletGuidSubmitSuccessActionType
-  | WalletGuidSubmitLoadingActionType
-  | WalletGuidSubmitFailureActionType

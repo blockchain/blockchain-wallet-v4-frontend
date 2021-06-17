@@ -107,7 +107,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
 
-  const resetUser = (userId, lifetimeToken, retailToken) =>
+  const resetUserKyc = (userId, lifetimeToken, retailToken) =>
     post({
       contentType: 'application/json',
       data: { jwt: retailToken },
@@ -175,7 +175,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     linkAccount,
     recoverUser,
     registerUserCampaign,
-    resetUser,
+    resetUserKyc,
     shareWalletDepositAddresses,
     syncUserWithWallet,
     updateUser,

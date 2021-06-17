@@ -18,6 +18,6 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.RESTORE_FROM_METADATA, authSagas.restoreFromMetadata)
     yield takeLatest(AT.UPGRADE_WALLET, authSagas.upgradeWallet)
     yield takeLatest(AT.INITIALIZE_LOGIN, authSagas.initializeLogin)
-    yield takeLatest(AT.LOGIN_GUID, authSagas.loginGuid)
+    yield takeLatest(AT.TRIGGER_WALLET_MAGIC_LINK, authSagas.triggerWalletMagicLink)
   }
 }

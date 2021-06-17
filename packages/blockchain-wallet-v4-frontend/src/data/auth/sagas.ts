@@ -13,7 +13,7 @@ import { askSecondPasswordEnhancer, confirm, promptForSecondPassword } from 'ser
 
 import * as A from './actions'
 import { guessCurrencyBasedOnCountry } from './helpers'
-import { LoginObject, LoginSteps } from './types'
+import { LoginSteps, WalletDataFromMagicLink } from './types'
 
 const { MOBILE_LOGIN } = model.analytics
 
@@ -613,7 +613,7 @@ export default ({ api, coreSagas }) => {
         yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
         // if path has base64 encrypted JSON
       } else {
-        const loginData = JSON.parse(atob(params[2])) as LoginObject
+        const loginData = JSON.parse(atob(params[2])) as WalletDataFromMagicLink
         // grab all the data from the JSON
         const guidFromRoute = prop('guid', loginData)
         const emailFromRoute = prop('email', loginData)
@@ -642,27 +642,27 @@ export default ({ api, coreSagas }) => {
   }
 
   // triggers verification email for login
-  const loginGuid = function* (action) {
+  const triggerWalletMagicLink = function* (action) {
     const formValues = yield select(selectors.form.getFormValues('login'))
     const { step } = formValues
     yield put(startSubmit('login'))
     try {
-      yield put(A.loginGuidLoading())
+      yield put(A.triggerWalletMagicLinkLoading())
       const sessionToken = yield call(api.obtainSessionToken)
       const { captchaToken, email } = action.payload
       yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
-      yield call(api.loginGuid, email, captchaToken, sessionToken)
+      yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
         yield put(actions.form.change('login', 'step', LoginSteps.CHECK_EMAIL))
       }
       yield put(stopSubmit('login'))
-      yield put(A.loginGuidSuccess())
+      yield put(A.triggerWalletMagicLinkSuccess())
     } catch (e) {
-      yield put(A.loginGuidFailure())
+      yield put(A.triggerWalletMagicLinkFailure())
       yield put(stopSubmit('login'))
-      yield put(actions.logs.logErrorMessage(logLocation, 'loginGuid', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'triggerWalletMagicLink', e))
       yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
     }
   }
@@ -674,7 +674,6 @@ export default ({ api, coreSagas }) => {
     deauthorizeBrowser,
     initializeLogin,
     login,
-    loginGuid,
     loginRoutineSaga,
     logout,
     logoutClearReduxStore,
@@ -688,6 +687,7 @@ export default ({ api, coreSagas }) => {
     saveGoals,
     setLogoutEventListener,
     startSockets,
+    triggerWalletMagicLink,
     upgradeAddressLabelsSaga,
     upgradeWallet
   }

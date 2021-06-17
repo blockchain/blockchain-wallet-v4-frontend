@@ -202,7 +202,7 @@ export default ({ api, coreSagas, networks }) => {
       const guid = yield select(selectors.core.wallet.getGuid)
       yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
       if (action.payload.fromRestoredFlow) {
-        yield put(A.resetUser())
+        yield put(A.resetUserKyc())
       }
 
       const userId = (yield select(selectors.core.kvStore.userCredentials.getUserId)).getOrElse(
@@ -260,14 +260,14 @@ export default ({ api, coreSagas, networks }) => {
     return { lifetimeToken, userId }
   }
 
-  const resetUser = function* () {
+  const resetUserKyc = function* () {
     const retailToken = yield call(generateRetailToken)
     const userId = (yield select(selectors.core.kvStore.userCredentials.getUserId)).getOrElse(null)
     const lifetimeToken = (yield select(
       selectors.core.kvStore.userCredentials.getLifetimeToken
     )).getOrFail()
     if (userId) {
-      yield call(api.resetUser, userId, lifetimeToken, retailToken)
+      yield call(api.resetUserKyc, userId, lifetimeToken, retailToken)
     }
   }
 
@@ -526,7 +526,7 @@ export default ({ api, coreSagas, networks }) => {
     renewApiSockets,
     renewSession,
     renewUser,
-    resetUser,
+    resetUserKyc,
     setSession,
     shareWalletAddressesWithExchange,
     signIn,

@@ -94,7 +94,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         formActions.change(LOGIN_FORM_NAME, 'step', LoginSteps.VERIFICATION_MOBILE)
       } else {
         formActions.change(LOGIN_FORM_NAME, 'email', guidOrEmail)
-        authActions.loginGuid(guidOrEmail, this.state.captchaToken)
+        authActions.triggerWalletMagicLink(guidOrEmail, this.state.captchaToken)
       }
     } else {
       authActions.login(guid, password, auth, null, null)

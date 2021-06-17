@@ -140,7 +140,7 @@ const VerificationMobile = (props: Props) => {
             <Text size='12px' color='grey900' weight={500} style={{ marginTop: '8px' }}>
               <FormattedMessage
                 id='scenes.login.wallet.connected.description_1'
-                defaultMessage='We sent your connected mobile device a notification. Open the app to confirm to auto-log in on the web.'
+                defaultMessage='We sent your connected mobile device a notification. Open the app to confirm auto-log in on the web.'
               />
             </Text>
             <Text size='12px' color='grey900' weight={500} style={{ marginTop: '24px' }}>

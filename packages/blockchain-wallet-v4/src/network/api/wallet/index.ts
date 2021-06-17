@@ -141,16 +141,26 @@ export default ({ get, post, rootUrl }) => {
 
   const remindGuid = (email, captchaToken, sessionToken) => {
     post({
-      data: { captcha: captchaToken, email, method: 'send-guid-reminder', siteKey: window.CAPTCHA_KEY },
+      data: {
+        captcha: captchaToken,
+        email,
+        method: 'send-guid-reminder',
+        siteKey: window.CAPTCHA_KEY
+      },
       endPoint: '/wallet',
       sessionToken,
       url: rootUrl
     })
   }
 
-  const loginGuid = (email, captchaToken, sessionToken) => {
+  const triggerWalletMagicLink = (email, captchaToken, sessionToken) => {
     post({
-      data: { captcha: captchaToken, email, method: 'send-guid-reminder', siteKey: window.CAPTCHA_KEY },
+      data: {
+        captcha: captchaToken,
+        email,
+        method: 'send-guid-reminder',
+        siteKey: window.CAPTCHA_KEY
+      },
       endPoint: '/wallet',
       sessionToken,
       url: rootUrl
@@ -257,7 +267,6 @@ export default ({ get, post, rootUrl }) => {
     getPairingPassword,
     getPinValue,
     handle2faReset,
-    loginGuid,
     obtainSessionToken,
     pollForSessionGUID,
     remindGuid,
@@ -266,6 +275,7 @@ export default ({ get, post, rootUrl }) => {
     savePayload,
     sendSecureChannel,
     triggerMnemonicViewedAlert,
+    triggerWalletMagicLink,
     updateMnemonicBackup,
     verifyEmailToken
   }

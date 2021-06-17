@@ -23,7 +23,7 @@ export type GoalsType =
   | 'interestPromo'
 
 export type GoalType = { data: any; id: string; name: GoalsType }
-export type GoalDataType = {
+export type SimpleBuyWidgetGoalDataType = {
   amount: string
   crypto: CoinType
   email?: string

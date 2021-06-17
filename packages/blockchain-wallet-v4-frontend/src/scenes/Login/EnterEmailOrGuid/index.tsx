@@ -62,7 +62,7 @@ const EnterEmailOrGuid = (props: Props) => {
             <Text size='12px' color='error' weight={400} data-e2e='walletIdError'>
               <FormattedMessage
                 id='scenes.login.guid_error'
-                defaultMessage='Unknown Wallet ID. Please check that it was entered or correctly or try signing in with your email.'
+                defaultMessage='Unknown Wallet ID. Please check that it was entered correctly or try signing in with your email.'
               />
             </Text>
           </GuidError>

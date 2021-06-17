@@ -87,8 +87,8 @@ export const linkToExchangeAccountReset = (): ProfileActionTypes => ({
   type: AT.LINK_TO_EXCHANGE_ACCOUNT_RESET
 })
 
-export const resetUser = (): ProfileActionTypes => ({
-  type: AT.RESET_USER
+export const resetUserKyc = (): ProfileActionTypes => ({
+  type: AT.RESET_USER_KYC
 })
 
 export const setApiTokenFailure = (error): ProfileActionTypes => ({

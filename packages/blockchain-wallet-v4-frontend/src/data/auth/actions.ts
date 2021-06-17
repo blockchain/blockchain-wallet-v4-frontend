@@ -111,37 +111,21 @@ export const initializeLoginFailure = (): AuthActionTypes => ({
 })
 
 // LOGIN GUID
-export const loginGuid = (email: string, captchaToken?: string) => ({
+export const triggerWalletMagicLink = (email: string, captchaToken?: string) => ({
   payload: { captchaToken, email },
-  type: AT.LOGIN_GUID
+  type: AT.TRIGGER_WALLET_MAGIC_LINK
 })
-export const loginGuidLoading = (): AuthActionTypes => ({
-  type: AT.LOGIN_GUID_LOADING
+export const triggerWalletMagicLinkLoading = (): AuthActionTypes => ({
+  type: AT.TRIGGER_WALLET_MAGIC_LINK_LOADING
 })
-export const loginGuidSuccess = (): AuthActionTypes => ({
-  type: AT.LOGIN_GUID_SUCCESS
+export const triggerWalletMagicLinkSuccess = (): AuthActionTypes => ({
+  type: AT.TRIGGER_WALLET_MAGIC_LINK_SUCCESS
 })
-export const loginGuidFailure = (): AuthActionTypes => ({
-  type: AT.LOGIN_GUID_FAILURE
+export const triggerWalletMagicLinkFailure = (): AuthActionTypes => ({
+  type: AT.TRIGGER_WALLET_MAGIC_LINK_FAILURE
 })
-export const loginGuidNotAsked = () => ({ type: AT.LOGIN_GUID_NOTASKED })
-
-// FIRST GUID SUBMISSION
-export const guidWallet = (guid: string) => ({
-  payload: { guid },
-  type: AT.GUID_WALLET
-})
-
-export const guidWalletLoading = (): AuthActionTypes => ({
-  type: AT.GUID_WALLET_LOADING
-})
-
-export const guidWalletSuccess = (): AuthActionTypes => ({
-  type: AT.GUID_WALLET_SUCCESS
-})
-
-export const guidWalletFailure = (): AuthActionTypes => ({
-  type: AT.GUID_WALLET_FAILURE
+export const triggerWalletMagicLinkNotAsked = () => ({
+  type: AT.TRIGGER_WALLET_MAGIC_LINK_NOTASKED
 })
 
 // MISC
@@ -166,4 +150,3 @@ export const logWrongChangeCache = () => ({
 export const logWrongReceiveCache = () => ({
   type: AT.WRONG_RECEIVE_CACHE
 })
-
