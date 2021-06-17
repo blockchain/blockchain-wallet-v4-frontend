@@ -202,7 +202,6 @@ export const setDepositLimits = (limits: InterestMinMaxType) => ({
   payload: { limits },
   type: AT.SET_INTEREST_DEPOSIT_LIMITS
 })
-
 export const submitDepositForm = (coin: CoinType) => ({
   payload: { coin },
   type: AT.SUBMIT_DEPOSIT_FORM
@@ -244,21 +243,41 @@ export const setInterestStep = (name: InterestStep, data?: InterestStepMetadata)
   payload: { data, name },
   type: AT.SET_INTEREST_STEP
 })
-
 export const setCoinDisplay = (isCoinDisplayed: boolean) => ({
   payload: { isCoinDisplayed },
   type: AT.SET_COIN_DISPLAY
 })
-
 export const showInterestModal = (step: InterestStep, coin: CoinType, isFromBuySell?: boolean) => ({
   payload: { coin, isFromBuySell, step },
   type: AT.SHOW_INTEREST_MODAL
 })
-
 export const stopShowingInterestModal = () => ({
   type: AT.STOP_SHOWING_INTEREST_MODAL
 })
-
+export const handleTransferMaxAmountClick = ({
+  amount,
+  coin
+}: {
+  amount: number
+  coin: 'FIAT' | CoinType
+}) => ({
+  payload: { amount, coin },
+  type: AT.HANDLE_TRANSFER_MAX_AMOUNT_CLICK
+})
+export const handleTransferMinAmountClick = ({
+  amount,
+  coin
+}: {
+  amount: number
+  coin: 'FIAT' | CoinType
+}) => ({
+  payload: { amount, coin },
+  type: AT.HANDLE_TRANSFER_MIN_AMOUNT_CLICK
+})
+export const handleWithdrawalSupplyInformation = ({ origin }: { origin: string }) => ({
+  payload: { origin },
+  type: AT.HANDLE_WITHDRAWAL_SUPPLY_INFORMATION
+})
 // INTEREST CTA/Card AFTER TRANSACTION
 export const fetchShowInterestCardAfterTransaction = (currency?: WalletFiatType) => ({
   payload: { currency },
