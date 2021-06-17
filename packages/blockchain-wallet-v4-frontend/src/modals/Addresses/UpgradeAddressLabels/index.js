@@ -15,4 +15,4 @@ UpgradeAddressLabelsContainer.propTypes = {
   duration: PropTypes.number
 }
 
-export default modalEnhancer('UPGRADE_ADDRESS_LABELS')(UpgradeAddressLabelsContainer)
+export default modalEnhancer('UPGRADE_ADDRESS_LABELS_MODAL')(UpgradeAddressLabelsContainer)
