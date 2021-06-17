@@ -232,9 +232,12 @@ const AccountSummary: React.FC<Props> = (props) => {
                     data-e2e='earnInterestSupplyMoreInformation'
                     fullwidth
                     nature='primary'
-                    onClick={() =>
+                    onClick={() => {
                       analyticsActions.logEvent(INTEREST_EVENTS.WITHDRAWAL.SUPPLY_INFORMATION)
-                    }
+                      interestActions.handleWithdrawalSupplyInformation({
+                        origin: 'SavingsConfirmation'
+                      })
+                    }}
                   >
                     <FormattedMessage
                       id='scenes.interest.submit_information'

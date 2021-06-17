@@ -2,6 +2,7 @@ import * as bchTransactions from './bchTransactions/selectors'
 import * as borrow from './borrow/selectors'
 import * as brokerage from './brokerage/selectors'
 import * as btcTransactions from './btcTransactions/selectors'
+import * as fundRecovery from './fundRecovery/selectors'
 import * as identityVerification from './identityVerification/selectors'
 import * as interest from './interest/selectors'
 import * as layoutWallet from './layoutWallet/selectors'
@@ -10,6 +11,7 @@ import * as manageAddresses from './manageAddresses/selectors'
 import * as priceChart from './priceChart/selectors'
 import * as priceTicker from './priceTicker/selectors'
 import * as recoveryPhrase from './recoveryPhrase/selectors'
+import * as recurringBuys from './recurringBuys/selectors'
 import * as remindWalletGuid from './remindWalletGuid/selectors'
 import * as request from './request/selectors'
 import * as resetWallet2fa from './resetWallet2fa/selectors'
@@ -32,6 +34,7 @@ export {
   borrow,
   brokerage,
   btcTransactions,
+  fundRecovery,
   identityVerification,
   interest,
   layoutWallet,
@@ -40,6 +43,7 @@ export {
   priceChart,
   priceTicker,
   recoveryPhrase,
+  recurringBuys,
   remindWalletGuid,
   request,
   resetWallet2fa,
@@ -55,5 +59,5 @@ export {
   uploadDocuments,
   utils,
   veriff,
-  withdraw,
+  withdraw
 }

@@ -6,6 +6,7 @@ import * as btcTransactions from './btcTransactions/actionTypes'
 import * as dotTransactions from './dotTransactions/actionTypes'
 import * as ethTransactions from './ethTransactions/actionTypes'
 import * as fiatTransactions from './fiatTransactions/actionTypes'
+import * as fundRecovery from './fundRecovery/actionTypes'
 import * as identityVerification from './identityVerification/actionTypes'
 import * as importBtcAddress from './importBtcAddress/actionTypes'
 import * as interest from './interest/actionTypes'
@@ -16,6 +17,7 @@ import * as onboarding from './onboarding/actionTypes'
 import * as priceChart from './priceChart/actionTypes'
 import * as priceTicker from './priceTicker/actionTypes'
 import * as recoveryPhrase from './recoveryPhrase/actionTypes'
+import * as recurringBuys from './recurringBuys/actionTypes'
 import * as refresh from './refresh/actionTypes'
 import * as remindWalletGuid from './remindWalletGuid/actionTypes'
 import * as request from './request/actionTypes'
@@ -44,6 +46,7 @@ export {
   dotTransactions,
   ethTransactions,
   fiatTransactions,
+  fundRecovery,
   identityVerification,
   importBtcAddress,
   interest,
@@ -54,6 +57,7 @@ export {
   priceChart,
   priceTicker,
   recoveryPhrase,
+  recurringBuys,
   refresh,
   remindWalletGuid,
   request,
@@ -71,5 +75,5 @@ export {
   uploadDocuments,
   veriff,
   withdraw,
-  xlmTransactions,
+  xlmTransactions
 }

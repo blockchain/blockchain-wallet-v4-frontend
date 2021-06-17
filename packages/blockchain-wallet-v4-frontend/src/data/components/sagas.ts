@@ -6,6 +6,7 @@ import btcTransactions from './btcTransactions/sagas'
 import dotTransactions from './dotTransactions/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import fiatTransactions from './fiatTransactions/sagas'
+import fundRecovery from './fundRecovery/sagas'
 import identityVerification from './identityVerification/sagas'
 import importBtcAddress from './importBtcAddress/sagas'
 import interest from './interest/sagas'
@@ -13,6 +14,7 @@ import manageAddresses from './manageAddresses/sagas'
 import onboarding from './onboarding/sagas'
 import priceChart from './priceChart/sagas'
 import priceTicker from './priceTicker/sagas'
+import recurringBuys from './recurringBuys/sagas'
 import refresh from './refresh/sagas'
 import remindWalletGuid from './remindWalletGuid/sagas'
 import request from './request/sagas'
@@ -40,6 +42,7 @@ export default ({ api, coreSagas, networks }) => ({
   dotTransactions: dotTransactions(),
   ethTransactions: ethTransactions(),
   fiatTransactions: fiatTransactions(),
+  fundRecovery: fundRecovery({ api }),
   identityVerification: identityVerification({ api, coreSagas, networks }),
   importBtcAddress: importBtcAddress({ api, coreSagas, networks }),
   interest: interest({ api, coreSagas, networks }),
@@ -47,6 +50,7 @@ export default ({ api, coreSagas, networks }) => ({
   onboarding: onboarding(),
   priceChart: priceChart(),
   priceTicker: priceTicker({ coreSagas }),
+  recurringBuys: recurringBuys(),
   refresh: refresh(),
   remindWalletGuid: remindWalletGuid({ api }),
   request: request({ api, coreSagas, networks }),
@@ -63,5 +67,5 @@ export default ({ api, coreSagas, networks }) => ({
   uploadDocument: uploadDocuments({ api }),
   veriff: veriff({ api, coreSagas }),
   withdraw: withdraw({ api }),
-  xlmTransactions: xlmTransactions(),
+  xlmTransactions: xlmTransactions()
 })

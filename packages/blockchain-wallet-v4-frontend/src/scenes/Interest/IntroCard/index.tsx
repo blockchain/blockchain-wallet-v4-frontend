@@ -41,7 +41,7 @@ const IneligibleBanner = styled.div`
 
 class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType> {
   renderAdditionalInfo = () => {
-    const { analyticsActions } = this.props
+    const { analyticsActions, interestActions } = this.props
     return (
       <BoxStyledAdditional>
         <ContentWrapper>
@@ -74,7 +74,12 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
               data-e2e='earnInterestSupplyInformation'
               fullwidth
               nature='dark-grey'
-              onClick={() => analyticsActions.logEvent(INTEREST_EVENTS.HOME.SUPPLY_INFORMATION)}
+              onClick={() => {
+                analyticsActions.logEvent(INTEREST_EVENTS.HOME.SUPPLY_INFORMATION)
+                interestActions.handleWithdrawalSupplyInformation({
+                  origin: 'SavingsPage'
+                })
+              }}
               style={{ marginTop: '45px' }}
             >
               <FormattedMessage
@@ -223,6 +228,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  interestActions: bindActionCreators(actions.components.interest, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 

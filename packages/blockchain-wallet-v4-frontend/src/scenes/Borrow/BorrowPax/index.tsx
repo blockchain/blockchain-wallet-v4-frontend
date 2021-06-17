@@ -62,7 +62,7 @@ class BorrowPax extends PureComponent<Props & State> {
                   <FormattedMessage id='scenes.borrow.verifyid' defaultMessage='Upgrade Now' />
                 )}
               </Button>
-            ),
+            )
           })
         ) : (
           <Link

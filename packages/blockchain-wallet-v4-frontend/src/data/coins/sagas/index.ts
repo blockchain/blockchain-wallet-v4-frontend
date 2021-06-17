@@ -1,13 +1,4 @@
-import { select } from '@redux-saga/core/effects'
-
-import {
-  CoinType,
-  PaymentType,
-  PaymentValue,
-  RemoteDataType,
-  SupportedWalletCurrenciesType
-} from 'blockchain-wallet-v4/src/types'
-import { selectors } from 'data'
+import { CoinType, PaymentType, PaymentValue, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 
 // import * as ALGO from './coins/algo'
 import * as BCH from './coins/bch'
@@ -40,7 +31,7 @@ const coinSagas = {
 
 export default ({ coreSagas, networks }) => {
   // gets the default account/address for requested coin
-  const getDefaultAccountForCoin = function* (coin: CoinType) {
+  const getDefaultAccountForCoin = function* (coin: CoinType): Generator<string> {
     const { coinfig } = window.coins[coin]
     const defaultAccountR = yield coinSagas[
       coinfig.type.erc20Address ? 'ERC20' : coin
@@ -51,7 +42,10 @@ export default ({ coreSagas, networks }) => {
 
   // gets the next receive address for requested coin
   // account based currencies will just return the account address
-  const getNextReceiveAddressForCoin = function* (coin: CoinType, index?: number) {
+  const getNextReceiveAddressForCoin = function* (
+    coin: CoinType,
+    index?: number
+  ): Generator<string> {
     const { coinfig } = window.coins[coin]
     return yield coinSagas[coinfig.type.erc20Address ? 'ERC20' : coin]?.getNextReceiveAddress(
       coin,
@@ -66,7 +60,7 @@ export default ({ coreSagas, networks }) => {
   const getOrUpdateProvisionalPaymentForCoin = function* (
     coin: CoinType,
     paymentR: RemoteDataType<string | Error, PaymentValue | undefined>
-  ) {
+  ): Generator<PaymentType> {
     const { coinfig } = window.coins[coin]
     return yield coinSagas[
       coinfig.type.erc20Address ? 'ERC20' : coin

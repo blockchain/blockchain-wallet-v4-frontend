@@ -103,6 +103,7 @@ export type HDDerivationType = 'bech32' | 'legacy'
 
 export type AccountTypes = BtcAccountType
 
+export * from '../coinSelection/types'
 export * from '../exchange/currencies'
 export * from '../network/api/borrow/types'
 export * from '../network/api/custodial/types'

@@ -1,6 +1,6 @@
 import { keys, lift, path, prop, toUpper } from 'ramda'
 
-import { AccountTokensBalancesResponseType, ExtractSuccess, RemoteDataType } from 'core/types'
+import { /* AccountTokensBalancesResponseType, */ ExtractSuccess, RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 
 import { createDeepEqualSelector } from '../../utils'
@@ -100,3 +100,7 @@ export const getMobileAuthFlag = (state) =>
 // brokerage deposits withdrawals flag
 export const getBrokerageDepositsWithdrawals = (state) =>
   getWebOptions(state).map(path(['brokerage_deposits_withdrawals', 'enabled']))
+
+// recurring buys flag
+export const getFeatureFlagRecurringBuys = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'recurringBuys']))

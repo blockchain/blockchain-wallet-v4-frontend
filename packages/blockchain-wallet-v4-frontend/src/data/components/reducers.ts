@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 
 import { borrowReducer } from './borrow/reducers'
 import { brokerageReducer } from './brokerage/reducers'
+import { fundRecoveryReducer } from './fundRecovery/reducers'
 import { identityVerificationReducer } from './identityVerification/reducers'
 import interestReducer from './interest/reducers'
 import layoutWallet from './layoutWallet/reducers'
@@ -9,6 +10,7 @@ import lockbox from './lockbox/reducers'
 import manageAddresses from './manageAddresses/reducers'
 import { priceChartReducer } from './priceChart/reducers'
 import { recoveryPhraseReducer } from './recoveryPhrase/reducers'
+import recurringBuysReducer from './recurringBuys/reducers'
 import remindWalletGuid from './remindWalletGuid/reducers'
 import { requestReducer } from './request/reducers'
 import resetWallet2fa from './resetWallet2fa/reducers'
@@ -20,7 +22,7 @@ import { sendXlmReducer } from './sendXlm/reducers'
 import { settingsReducer } from './settings/reducers'
 import signMessage from './signMessage/reducers'
 import { simpleBuyReducer } from './simpleBuy/reducers'
-import { swapReducer } from './swap/reducers'
+import swapReducer from './swap/reducers'
 import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
 import { withdrawReducer } from './withdraw/reducers'
@@ -28,6 +30,7 @@ import { withdrawReducer } from './withdraw/reducers'
 const componentReducer = combineReducers({
   borrow: borrowReducer,
   brokerage: brokerageReducer,
+  fundRecovery: fundRecoveryReducer,
   identityVerification: identityVerificationReducer,
   interest: interestReducer,
   layoutWallet,
@@ -35,6 +38,7 @@ const componentReducer = combineReducers({
   manageAddresses,
   priceChart: priceChartReducer,
   recoveryPhrase: recoveryPhraseReducer,
+  recurringBuys: recurringBuysReducer,
   remindWalletGuid,
   request: requestReducer,
   resetWallet2fa,
@@ -49,7 +53,7 @@ const componentReducer = combineReducers({
   swap: swapReducer,
   uploadDocuments,
   veriff,
-  withdraw: withdrawReducer,
+  withdraw: withdrawReducer
 })
 
 export default componentReducer
