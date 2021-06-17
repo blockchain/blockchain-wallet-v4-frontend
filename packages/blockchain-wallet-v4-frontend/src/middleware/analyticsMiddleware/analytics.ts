@@ -1,9 +1,8 @@
+import { queuevent } from '@blockchain-com/constellation'
 import type { AnalyticsPayload } from 'middleware/analyticsMiddleware/types'
 import { AnalyticsKey } from 'middleware/analyticsMiddleware/types'
 import { generateUniqueUserId } from 'middleware/analyticsMiddleware/utils'
 import { v4 } from 'uuid'
-
-import queuevent from 'utils/queuevent'
 
 const queueCallback = async (rawEvents) => {
   const res = await fetch('/wallet-options-v4.json')
