@@ -400,7 +400,7 @@ export default ({ api, coreSagas }) => {
               session
             })
             // @ts-ignore
-            yield call(loginRoutineSaga, { mobileLogin: true })
+            yield call(loginRoutineSaga, { mobileLogin })
           } catch (error) {
             if (error && error.auth_type > 0) {
               yield put(actions.auth.setAuthType(error.auth_type))
