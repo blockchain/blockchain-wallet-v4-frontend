@@ -617,7 +617,7 @@ export default ({ api, coreSagas }) => {
         const mobileSetup = loginData.is_mobile_setup === 'true'
         // store data in the cache and update form values
         // to be used to submit login
-        yield put(actions.cache.emailStored(loginData.email_code))
+        yield put(actions.cache.emailStored(loginData.email))
         yield put(actions.cache.guidStored(loginData.guid))
         yield put(actions.cache.mobileConnectedStored(mobileSetup))
         yield put(actions.form.change('login', 'emailToken', loginData.email_code))
