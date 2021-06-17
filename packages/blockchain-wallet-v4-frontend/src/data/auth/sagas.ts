@@ -227,7 +227,6 @@ export default ({ api, coreSagas }) => {
       isEmailVerified
         ? yield put(actions.router.push('/logout'))
         : yield call(logoutClearReduxStore)
-      // @ts-ignore
       yield put(actions.analytics.stopSession())
     }
   }
@@ -236,7 +235,11 @@ export default ({ api, coreSagas }) => {
     yield call(logout)
   }
 
-  const loginRoutineSaga = function* ({ email, firstLogin, fromRestoredFlow, mobileLogin }) {
+  const loginRoutineSaga = function* ({
+    email = undefined,
+    firstLogin = false,
+    fromRestoredFlow = false
+  }) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
@@ -352,7 +355,7 @@ export default ({ api, coreSagas }) => {
   }
 
   const login = function* (action) {
-    const { code, guid, mobileLogin, password, sharedKey } = action.payload
+    const { code, guid, password, sharedKey } = action.payload
     const formValues = yield select(selectors.form.getFormValues('login'))
     const { email, emailToken } = formValues
     let session = yield select(selectors.session.getSession, email || guid)
@@ -370,14 +373,13 @@ export default ({ api, coreSagas }) => {
         session,
         sharedKey
       })
-      // @ts-ignore
-      yield call(loginRoutineSaga, { mobileLogin })
+      yield call(loginRoutineSaga, {})
       yield put(stopSubmit('login'))
     } catch (error) {
       const initialError = prop('initial_error', error)
       const authRequired = prop('authorization_required', error)
       if (authRequired) {
-        // If user has already recevied authorization token
+        // If user has already received authorization token
         // from wallet guid reminder email
         let authRequiredAlert
         if (emailToken) {
@@ -399,8 +401,7 @@ export default ({ api, coreSagas }) => {
               password,
               session
             })
-            // @ts-ignore
-            yield call(loginRoutineSaga, { mobileLogin })
+            yield call(loginRoutineSaga, {})
           } catch (error) {
             if (error && error.auth_type > 0) {
               yield put(actions.auth.setAuthType(error.auth_type))
@@ -484,8 +485,7 @@ export default ({ api, coreSagas }) => {
       yield call(loginRoutineSaga, {
         email: action.payload.email,
         firstLogin: true,
-        fromRestoredFlow: false,
-        mobileLogin: false
+        fromRestoredFlow: false
       })
       yield put(actions.auth.registerSuccess())
     } catch (e) {
@@ -524,10 +524,9 @@ export default ({ api, coreSagas }) => {
       })
       yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
       yield call(loginRoutineSaga, {
-        email: true,
+        email: action.payload.email,
         firstLogin: true,
-        fromRestoredFlow: true,
-        mobileLogin: false
+        fromRestoredFlow: true
       })
       yield put(actions.auth.restoreSuccess())
     } catch (e) {
