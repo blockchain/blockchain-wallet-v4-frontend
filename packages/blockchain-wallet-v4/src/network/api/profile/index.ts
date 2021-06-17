@@ -1,181 +1,184 @@
-export default ({
-  authorizedGet,
-  authorizedPost,
-  authorizedPut,
-  get,
-  nabuUrl,
-  post,
-  rootUrl
-}) => {
+export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, post, rootUrl }) => {
   const generateRetailToken = (guid, sharedKey) =>
     get({
-      url: rootUrl,
-      endPoint: '/wallet/signed-retail-token',
       data: {
         guid,
         sharedKey
-      }
+      },
+      endPoint: '/wallet/signed-retail-token',
+      url: rootUrl
     })
 
-  const createUser = retailToken => {
+  const createUser = (retailToken) => {
     return post({
-      url: nabuUrl,
-      endPoint: '/users',
       contentType: 'application/json',
       data: {
         jwt: retailToken
-      }
+      },
+      endPoint: '/users',
+      url: nabuUrl
     })
   }
 
   const linkAccount = (linkId, email, address) => {
     return authorizedPut({
-      url: nabuUrl,
-      endPoint: '/users/link-account/existing',
       contentType: 'application/json',
       data: {
-        linkId,
-        email,
         address,
-        kycMerge: true
-      }
+        email,
+        kycMerge: true,
+        linkId
+      },
+      endPoint: '/users/link-account/existing',
+      url: nabuUrl
     })
   }
 
   const finaliseLinking = () => {
     return authorizedPut({
-      url: nabuUrl,
+      contentType: 'application/json',
       endPoint: '/users/link-account/finalise',
-      contentType: 'application/json'
+      url: nabuUrl
     })
   }
 
   const createLinkAccountId = () => {
     return authorizedPut({
-      url: nabuUrl,
+      contentType: 'application/json',
       endPoint: '/users/link-account/create/start',
-      contentType: 'application/json'
+      url: nabuUrl
     })
   }
 
-  const getPaymentsAccountExchange = currency => {
+  const getPaymentsAccountExchange = (currency) => {
     return authorizedPut({
-      url: nabuUrl,
-      endPoint: '/payments/accounts/linked',
       contentType: 'application/json',
       data: {
         currency
-      }
+      },
+      endPoint: '/payments/accounts/linked',
+      url: nabuUrl
     })
   }
 
   const getUserCampaigns = () => {
     return authorizedGet({
-      url: nabuUrl,
+      contentType: 'application/json',
       endPoint: '/users/user-campaigns',
-      contentType: 'application/json'
+      url: nabuUrl
     })
   }
 
-  const shareWalletDepositAddresses = addresses => {
+  const shareWalletDepositAddresses = (addresses) => {
     return authorizedPost({
-      url: nabuUrl,
-      endPoint: '/users/deposit/addresses',
       contentType: 'application/json',
       data: {
         addresses
-      }
+      },
+      endPoint: '/users/deposit/addresses',
+      url: nabuUrl
     })
   }
 
   const registerUserCampaign = (campaignName, campaignData, newUser = false) =>
     authorizedPut({
-      url: nabuUrl,
-      endPoint: '/users/register-campaign',
       contentType: 'application/json',
-      headers: {
-        'X-CAMPAIGN': campaignName
-      },
       data: {
         data: {
           ...campaignData
         },
         newUser
-      }
+      },
+      endPoint: '/users/register-campaign',
+      headers: {
+        'X-CAMPAIGN': campaignName
+      },
+      url: nabuUrl
     })
 
   const recoverUser = (userId, lifetimeToken, retailToken) =>
     post({
-      url: nabuUrl,
-      endPoint: `/users/recover/${userId}`,
       contentType: 'application/json',
+      data: { jwt: retailToken },
+      endPoint: `/users/recover/${userId}`,
       headers: {
         Authorization: `Bearer ${lifetimeToken}`
       },
-      data: { jwt: retailToken }
+      url: nabuUrl
     })
 
+  const resetUserKyc = (userId, lifetimeToken, retailToken) =>
+    post({
+      contentType: 'application/json',
+      data: { jwt: retailToken },
+      endPoint: `/users/reset/${userId}`,
+      headers: {
+        Authorization: `Bearer ${lifetimeToken}`
+      },
+      url: nabuUrl
+    })
   const generateSession = (userId, lifetimeToken, email, walletGuid) =>
     post({
-      url: nabuUrl,
-      endPoint: `/auth?userId=${userId}`,
       contentType: 'application/json',
+      endPoint: `/auth?userId=${userId}`,
       headers: {
-        'X-DEVICE-ID': null,
+        Authorization: `Bearer ${lifetimeToken}`,
         'X-CLIENT-TYPE': 'WEB',
-        'x-app-version': '6.11.1',
-        'X-WALLET-GUID': walletGuid,
+        'X-DEVICE-ID': null,
         'X-WALLET-EMAIL': email,
-        Authorization: `Bearer ${lifetimeToken}`
-      }
+        'X-WALLET-GUID': walletGuid,
+        'x-app-version': '6.11.1'
+      },
+      url: nabuUrl
     })
 
   const getUser = () =>
     authorizedGet({
-      url: nabuUrl,
       contentType: 'application/json',
-      endPoint: '/users/current'
-    })
-
-  const updateUser = userData =>
-    authorizedPut({
-      url: nabuUrl,
       endPoint: '/users/current',
-      contentType: 'application/json',
-      data: { ...userData }
+      url: nabuUrl
     })
 
-  const updateUserAddress = address =>
+  const updateUser = (userData) =>
     authorizedPut({
-      url: nabuUrl,
+      contentType: 'application/json',
+      data: { ...userData },
+      endPoint: '/users/current',
+      url: nabuUrl
+    })
+
+  const updateUserAddress = (address) =>
+    authorizedPut({
+      contentType: 'application/json',
+      data: { address },
       endPoint: '/users/current/address',
-      contentType: 'application/json',
-      data: { address }
+      url: nabuUrl
     })
 
-  const syncUserWithWallet = retailToken =>
+  const syncUserWithWallet = (retailToken) =>
     authorizedPut({
-      url: nabuUrl,
-      endPoint: '/users/current/walletInfo',
       contentType: 'application/json',
-      data: { jwt: retailToken }
+      data: { jwt: retailToken },
+      endPoint: '/users/current/walletInfo',
+      url: nabuUrl
     })
 
   return {
-    createUser,
     createLinkAccountId,
+    createUser,
+    finaliseLinking,
     generateRetailToken,
     generateSession,
     getPaymentsAccountExchange,
     getUser,
     getUserCampaigns,
     linkAccount,
-    finaliseLinking,
     recoverUser,
     registerUserCampaign,
+    resetUserKyc,
+    shareWalletDepositAddresses,
     syncUserWithWallet,
     updateUser,
-    shareWalletDepositAddresses,
     updateUserAddress
   }
 }

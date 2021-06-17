@@ -338,6 +338,7 @@
         "enabled": true
       },
       "featureFlags": {
+        "legacyMobilePairing": false,
         "recurringBuys": true
       }
     }

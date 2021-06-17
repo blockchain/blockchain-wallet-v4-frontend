@@ -12,8 +12,11 @@ import { RootState } from 'data/rootReducer'
 import Register from './template'
 
 class RegisterContainer extends React.PureComponent<PropsType, StateType> {
-  state = {
-    showForm: false
+  constructor(props) {
+    super(props)
+    this.state = {
+      showForm: false
+    }
   }
 
   onSubmit = () => {
@@ -27,11 +30,11 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
 
   render() {
     const { data, goals, password, search } = this.props
-    let busy = data.cata({
-      Success: () => false,
+    const busy = data.cata({
       Failure: () => false,
       Loading: () => true,
-      NotAsked: () => false
+      NotAsked: () => false,
+      Success: () => false
     })
 
     const passwordLength = (password && password.length) || 0
@@ -74,8 +77,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch)
 })
 
@@ -96,6 +99,6 @@ type StateType = {
   showForm: boolean
 }
 
-export type PropsType = ConnectedProps<typeof connector>
+export type PropsType = ConnectedProps<typeof connector> & LinkStatePropsType
 
 export default connector(RegisterContainer)

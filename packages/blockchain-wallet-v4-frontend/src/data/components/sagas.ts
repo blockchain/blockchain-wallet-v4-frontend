@@ -16,7 +16,6 @@ import priceChart from './priceChart/sagas'
 import priceTicker from './priceTicker/sagas'
 import recurringBuys from './recurringBuys/sagas'
 import refresh from './refresh/sagas'
-import remindWalletGuid from './remindWalletGuid/sagas'
 import request from './request/sagas'
 import resetWallet2fa from './resetWallet2fa/sagas'
 import send from './send/sagas'
@@ -52,7 +51,6 @@ export default ({ api, coreSagas, networks }) => ({
   priceTicker: priceTicker({ coreSagas }),
   recurringBuys: recurringBuys(),
   refresh: refresh(),
-  remindWalletGuid: remindWalletGuid({ api }),
   request: request({ api, coreSagas, networks }),
   resetWallet2fa: resetWallet2fa({ api }),
   send: send({ api, coreSagas, networks }),

@@ -396,18 +396,18 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case AT.auth.VERIFY_EMAIL_TOKEN_SUCCESS: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const id = state.walletPath.wallet.guid
-        analytics.push(AnalyticsKey.EMAIL_VERIFICATION_REQUESTED, {
-          analyticsType: AnalyticsType.EVENT,
-          id,
-          nabuId,
-          originalTimestamp: getOriginalTimestamp()
-        })
-        break
-      }
+      // case AT.auth.VERIFY_EMAIL_TOKEN_SUCCESS: {
+      //   const state = store.getState()
+      //   const nabuId = state.profile.userData.getOrElse({})?.id
+      //   const id = state.walletPath.wallet.guid
+      //   analytics.push(AnalyticsKey.EMAIL_VERIFICATION_REQUESTED, {
+      //     analyticsType: AnalyticsType.EVENT,
+      //     id,
+      //     nabuId,
+      //     originalTimestamp: getOriginalTimestamp()
+      //   })
+      //   break
+      // }
       case AT.auth.LOGIN_SUCCESS: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id

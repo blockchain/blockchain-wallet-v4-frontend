@@ -19,7 +19,6 @@ import * as priceTicker from './priceTicker/actionTypes'
 import * as recoveryPhrase from './recoveryPhrase/actionTypes'
 import * as recurringBuys from './recurringBuys/actionTypes'
 import * as refresh from './refresh/actionTypes'
-import * as remindWalletGuid from './remindWalletGuid/actionTypes'
 import * as request from './request/actionTypes'
 import * as resetWallet2fa from './resetWallet2fa/actionTypes'
 import * as send from './send/actionTypes'
@@ -59,7 +58,6 @@ export {
   recoveryPhrase,
   recurringBuys,
   refresh,
-  remindWalletGuid,
   request,
   resetWallet2fa,
   send,

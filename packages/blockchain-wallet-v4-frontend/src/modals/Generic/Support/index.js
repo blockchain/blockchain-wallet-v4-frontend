@@ -49,7 +49,7 @@ export const Support = ({ position, total }) => (
       <Title size='20px'>
         <FormattedMessage
           defaultMessage='Need some help?'
-          id='modals.support.need_some_help'
+          id='copy.need_some_help'
         />
       </Title>
       <Message>
