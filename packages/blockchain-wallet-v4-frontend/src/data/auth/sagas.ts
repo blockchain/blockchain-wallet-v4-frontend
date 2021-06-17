@@ -318,14 +318,14 @@ export default ({ api, coreSagas }) => {
       // We are checking wallet metadata to see if mnemonic is verified
       // and then syncing that information with new Wallet Account model
       // being used for SSO
-      debugger
-      const lastMnemonicBackup = selectors.core.settings
-        .getLastMnemonicBackup(yield select())
-        .getOrElse(true)
-      const isMnemonicVerified = yield select(selectors.core.wallet.isMnemonicVerified)
-      if (isMnemonicVerified && !lastMnemonicBackup) {
-        yield fork(actions.core.wallet.updateMnemonicBackup)
-      }
+      // commenting it out for
+      // const lastMnemonicBackup = selectors.core.settings
+      //   .getLastMnemonicBackup(yield select())
+      //   .getOrElse(true)
+      // const isMnemonicVerified = yield select(selectors.core.wallet.isMnemonicVerified)
+      // if (isMnemonicVerified && !lastMnemonicBackup) {
+      //  yield put(actions.core.wallet.updateMnemonicBackup())
+      // }
       // ensure xpub cache is correct
       yield fork(checkXpubCacheLegitimacy)
       yield fork(checkExchangeUsage)
