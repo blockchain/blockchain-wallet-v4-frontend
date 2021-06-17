@@ -1,5 +1,6 @@
 import { BorrowActionTypes } from './borrow/types'
 import { BrokerageActionTypes } from './brokerage/types'
+import { FundRecoveryActionType } from './fundRecovery/types'
 import { IdentityVerificationActionTypes } from './identityVerification/types'
 import { RecoveryPhraseActionTypes } from './recoveryPhrase/types'
 import { RequestActionTypes } from './request/types'
@@ -10,6 +11,7 @@ import { SimpleBuyActionTypes } from './simpleBuy/types'
 export type ComponentsActionTypes =
   | BorrowActionTypes
   | BrokerageActionTypes
+  | FundRecoveryActionType
   | IdentityVerificationActionTypes
   | RecoveryPhraseActionTypes
   | RequestActionTypes
@@ -17,9 +19,11 @@ export type ComponentsActionTypes =
 
 export * from './borrow/types'
 export * from './brokerage/types'
+export * from './fundRecovery/types'
 export * from './identityVerification/types'
 export * from './interest/types'
 export * from './recoveryPhrase/types'
+export * from './recurringBuys/types'
 export * from './request/types'
 export * from './sendBch/types'
 export * from './sendBtc/types'

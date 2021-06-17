@@ -81,11 +81,13 @@ const InterestPromo = React.lazy(() => import('./Wallet/InterestPromo'))
 
 // SOLO
 const Borrow = React.lazy(() => import('./Borrow'))
+const FundRecovery = React.lazy(() => import('./FundRecovery'))
 const Interest = React.lazy(() => import('./Interest'))
 const QRCode = React.lazy(() => import('./QRCode'))
 const SignMessage = React.lazy(() => import('./SignMessage'))
 const SimpleBuy = React.lazy(() => import('./SimpleBuy'))
 const Swap = React.lazy(() => import('./Swap'))
+const RecurringBuys = React.lazy(() => import('./RecurringBuys'))
 
 // BROKERAGE
 const BankDetails = React.lazy(() => import('./Brokerage/Banks/BankDetails'))
@@ -114,6 +116,7 @@ const Modals = () => (
       <Deposit />
       <DownloadTransactions />
       <EditTxDescription />
+      <FundRecovery />
       <IdentityVerification />
       <ImportBtcAddress />
       <Interest />
@@ -133,6 +136,7 @@ const Modals = () => (
       <QRCode />
       <RecoveryPhrase />
       <RemoveBank />
+      <RecurringBuys />
       <RequestCrypto />
       <SecondPassword />
       <SendBch />

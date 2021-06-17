@@ -8,6 +8,7 @@ import btcTransactions from './btcTransactions/sagaRegister'
 import dotTransactions from './dotTransactions/sagaRegister'
 import ethTransactions from './ethTransactions/sagaRegister'
 import fiatTransactions from './fiatTransactions/sagaRegister'
+import fundRecovery from './fundRecovery/sagaRegister'
 import identityVerification from './identityVerification/sagaRegister'
 import importBtcAddress from './importBtcAddress/sagaRegister'
 import interest from './interest/sagaRegister'
@@ -16,6 +17,7 @@ import manageAddresses from './manageAddresses/sagaRegister'
 import onboarding from './onboarding/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
 import priceTicker from './priceTicker/sagaRegister'
+import recurringBuys from './recurringBuys/sagaRegister'
 import refresh from './refresh/sagaRegister'
 import request from './request/sagaRegister'
 import resetWallet2fa from './resetWallet2fa/sagaRegister'
@@ -44,6 +46,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(ethTransactions())
     yield fork(xlmTransactions())
     yield fork(fiatTransactions())
+    yield fork(fundRecovery({ api }))
     yield fork(identityVerification({ api, coreSagas }))
     yield fork(interest({ api, coreSagas, networks }))
     yield fork(lockbox({ api, coreSagas }))
@@ -54,6 +57,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(priceTicker({ coreSagas }))
     yield fork(refresh())
     yield fork(request({ api, coreSagas, networks }))
+    yield fork(recurringBuys())
     yield fork(resetWallet2fa({ api }))
     yield fork(send({ api, coreSagas, networks }))
     yield fork(sendBch({ api, coreSagas, networks }))

@@ -1200,6 +1200,26 @@ type MessagesType = {
   'modals.recoveryphrase.success': 'Success!'
   'modals.recoveryphrase.success.body': 'Your Wallet is now backed up.'
   'modals.recoveryphrase.success.close': 'Close'
+
+  'modals.recurringbuys.notification.title': 'Recurring buys'
+  'modals.recurringbuys.notification.button': 'Setup recurring buy'
+
+  'modals.recurringbuys.notification.page_1.title': 'Instead of timing the market, many smart investors use'
+  'modals.recurringbuys.notification.page_1.description': 'Dollar cost averaging'
+
+  'modals.recurringbuys.notification.page_2.title': 'The strategy is pretty simple'
+  'modals.recurringbuys.notification.page_2.description': 'Invest the same amount every week'
+
+  'modals.recurringbuys.notification.page_3.title': 'When the price goes down,'
+  'modals.recurringbuys.notification.page_3.description': 'You’ll buy more crypto.'
+
+  'modals.recurringbuys.notification.page_4.title': 'When the price goes up,'
+  'modals.recurringbuys.notification.page_4.description': 'You’ll buy less.'
+
+  'modals.recurringbuys.notification.page_5.title': 'But does it work?'
+  'modals.recurringbuys.notification.page_5.description': 'Over the past 5 years, buying Bitcoin every week performed better than timing the market'
+  'modals.recurringbuys.notification.page_5.disclaimer': '82% of the time.'
+
   'modals.repayloan.chooseamttorepay': 'Choose how much you want to repay'
   'modals.repayloan.choosewaytopay': 'How do you want to repay?'
   'modals.repayloan.repayamount': 'Repay amount'
@@ -1973,7 +1993,6 @@ type MessagesType = {
   'scenes.home.banner.continue_to_gold.button': 'Continue to Gold'
   'scenes.home.banner.continue_to_gold.description': 'Continue your verification to become Gold level and increase your limits and payment methods'
   'scenes.home.banner.continue_to_gold.increase_your_limits': 'Increase your limits'
-  'scenes.home.banner.pendingbuy': 'Pending Buy'
   'scenes.home.banner.receive_cc_order': 'Once you finalize your credit card information, your buy order will complete.'
   'scenes.home.banner.sborder.details': 'View Details'
   'scenes.home.banner.signupapprove': 'Once you finish and get approved, start buying crypto.'
@@ -1989,6 +2008,8 @@ type MessagesType = {
   'scenes.home.banners.interestpromo.title': 'Limited Time: Earn up to 12% annual interest'
   'scenes.home.banners.interestpromo.subtitle': 'Deposit crypto in an Interest Account by midnight on Wednesday to supercharge your interest on BTC, ETH, USDT, and PAX.'
   'scenes.home.banners.interestpromo.button': 'Deposit Now'
+  'scenes.home.banners.recurringbuys.title': 'Recurring buys are now available'
+  'scenes.home.banners.recurringbuys.description': 'It’s really hard to time the market, which is why many investors use dollar cost averaging.'
   'scenes.home.pricechart.coincurrentprice.currentprice': 'Current Price'
   'scenes.home.pricechart.coinperformance.all': 'all time'
   'scenes.home.pricechart.coinperformance.day': 'today'

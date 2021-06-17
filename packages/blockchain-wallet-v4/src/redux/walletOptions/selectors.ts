@@ -97,27 +97,27 @@ export const getErc20CoinList = (state) =>
 export const getCoinModel = (state, coin) =>
   // @ts-ignore
   getSupportedCoins(state).map((x) => prop(toUpper(coin), x))
-export const getCoinIcons = (state, coin) =>
+export const getCoinIcons = (state: RootState, coin) =>
   // @ts-ignore
   getCoinModel(state, coin).map(path(['icons']))
 
 // domains
-export const getVeriffDomain = (state) => getDomains(state).map(prop('veriff'))
+export const getVeriffDomain = (state: RootState) => getDomains(state).map(prop('veriff'))
 
 // partners
-export const getSiftKey = (state) => getWebOptions(state).map(path(['sift', 'apiKey']))
+export const getSiftKey = (state: RootState) => getWebOptions(state).map(path(['sift', 'apiKey']))
 export const getSiftPaymentKey = (state: RootState) => {
   return getWebOptions(state).map((options) => options.sift.paymentKey)
 }
 
 // mobile auth flag
-export const getMobileAuthFlag = (state) =>
+export const getMobileAuthFlag = (state: RootState) =>
   getWebOptions(state).map(path(['mobile_auth', 'enabled']))
 
 // brokerage deposits withdrawals flag
-export const getBrokerageDepositsWithdrawals = (state) =>
+export const getBrokerageDepositsWithdrawals = (state: RootState) =>
   getWebOptions(state).map(path(['brokerage_deposits_withdrawals', 'enabled']))
 
-// show pairing code flag on staging
-export const getPairingCodeFlag = (state) =>
-  getWebOptions(state).map(path(['featureFlags', 'legacyMobilePairing']))
+// recurring buys flag
+export const getFeatureFlagRecurringBuys = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'recurringBuys']))

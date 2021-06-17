@@ -27,7 +27,12 @@ const IconColumn = styled.div`
 `
 
 const buildMessageTemplate = (messageText) => (
-  <Text size='14px' weight={600} style={{ marginLeft: '10px' }} data-e2e='toastMessage'>
+  <Text
+    size='14px'
+    weight={600}
+    style={{ marginLeft: '10px', wordBreak: 'break-all' }}
+    data-e2e='toastMessage'
+  >
     {messageText}
   </Text>
 )
@@ -385,10 +390,7 @@ const getAlertContent = (message, data = undefined) => {
             <Text>
               <LinkContainer to='/help'>
                 <Link size='12px' weight={500}>
-                  <FormattedMessage
-                    id='copy.need_some_help'
-                    defaultMessage='Need some help?'
-                  />
+                  <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />
                 </Link>
               </LinkContainer>
             </Text>

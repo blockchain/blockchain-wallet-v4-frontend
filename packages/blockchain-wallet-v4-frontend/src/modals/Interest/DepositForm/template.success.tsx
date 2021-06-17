@@ -139,7 +139,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     : false
 
   const handleFormSubmit = () => {
-    props.interestActions.submitDepositForm(coin)
+    interestActions.submitDepositForm(coin)
     props.setShowSupply(showEDDWithdrawLimit)
   }
 
@@ -289,64 +289,71 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
         </AmountFieldContainer>
         {depositAmountError && (
           <AmountError>
-            <Text size='14px' weight={500} color='red600'>
-              {depositAmountError === 'ABOVE_MAX' ? (
-                <FormattedMessage
-                  id='modals.interest.deposit.maxtransfer'
-                  defaultMessage='Maximum transfer: {maxFiat}'
-                  values={{
-                    maxFiat: displayCoin
-                      ? depositLimits.maxCoin
-                      : fiatToString({
-                          unit: walletCurrency,
-                          value: depositLimits.maxFiat
-                        })
-                  }}
-                />
-              ) : (
-                <FormattedMessage
-                  id='modals.interest.deposit.mintransfer'
-                  defaultMessage='Minimum transfer: {minFiat}'
-                  values={{
-                    minFiat: displayCoin
-                      ? depositLimits.minCoin
-                      : fiatToString({
-                          unit: walletCurrency,
-                          value: depositLimits.minFiat
-                        })
-                  }}
-                />
-              )}
-            </Text>
-            <GreyBlueCartridge
-              data-e2e='interestBuyMinMaxBtn'
-              role='button'
-              onClick={() =>
-                depositAmountError === 'ABOVE_MAX'
-                  ? formActions.change(
-                      FORM_NAME,
-                      'depositAmount',
-                      displayCoin ? depositLimits.maxCoin : depositLimits.maxFiat
-                    )
-                  : formActions.change(
-                      FORM_NAME,
-                      'depositAmount',
-                      displayCoin ? depositLimits.minCoin : depositLimits.minFiat
-                    )
-              }
-            >
-              {depositAmountError === 'ABOVE_MAX' ? (
-                <FormattedMessage
-                  id='modals.interest.deposit.maxtransfer.button'
-                  defaultMessage='Transfer Max'
-                />
-              ) : (
-                <FormattedMessage
-                  id='modals.interest.deposit.mintransfer.button'
-                  defaultMessage='Transfer Min'
-                />
-              )}
-            </GreyBlueCartridge>
+            {depositAmountError === 'ABOVE_MAX' ? (
+              <>
+                <Text size='14px' weight={500} color='red600'>
+                  <FormattedMessage
+                    id='modals.interest.deposit.maxtransfer'
+                    defaultMessage='Maximum transfer: {maxFiat}'
+                    values={{
+                      maxFiat: displayCoin
+                        ? depositLimits.maxCoin
+                        : fiatToString({
+                            unit: walletCurrency,
+                            value: depositLimits.maxFiat
+                          })
+                    }}
+                  />
+                </Text>
+                <GreyBlueCartridge
+                  data-e2e='interestMax'
+                  role='button'
+                  onClick={() =>
+                    interestActions.handleTransferMaxAmountClick({
+                      amount: displayCoin ? depositLimits.maxCoin : depositLimits.maxFiat,
+                      coin: displayCoin || walletCurrency
+                    })
+                  }
+                >
+                  <FormattedMessage
+                    id='modals.interest.deposit.maxtransfer.button'
+                    defaultMessage='Transfer Max'
+                  />
+                </GreyBlueCartridge>
+              </>
+            ) : (
+              <>
+                <Text size='14px' weight={500} color='red600'>
+                  <FormattedMessage
+                    id='modals.interest.deposit.mintransfer'
+                    defaultMessage='Minimum transfer: {minFiat}'
+                    values={{
+                      minFiat: displayCoin
+                        ? depositLimits.minCoin
+                        : fiatToString({
+                            unit: walletCurrency,
+                            value: depositLimits.minFiat
+                          })
+                    }}
+                  />
+                </Text>
+                <GreyBlueCartridge
+                  data-e2e='interestMin'
+                  role='button'
+                  onClick={() =>
+                    interestActions.handleTransferMinAmountClick({
+                      amount: displayCoin ? depositLimits.minCoin : depositLimits.minFiat,
+                      coin: displayCoin || walletCurrency
+                    })
+                  }
+                >
+                  <FormattedMessage
+                    id='modals.interest.deposit.mintransfer.button'
+                    defaultMessage='Transfer Min'
+                  />
+                </GreyBlueCartridge>
+              </>
+            )}
           </AmountError>
         )}
         {showEDDWithdrawLimit && (
