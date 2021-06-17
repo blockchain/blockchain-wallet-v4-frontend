@@ -118,19 +118,9 @@ export const PhishingWarning = styled.div`
 `
 
 export const BackArrowFormHeader = (props: {
-  authActions
-  cacheActions
-  formActions
   formValues: LoginFormType
-  setStep: (LoginSteps) => void
-  step?: LoginSteps
+  handleBackArrowClick: () => void
 }) => {
-  const handleIconClick = () => {
-    props.cacheActions.removedStoredLogin()
-    props.formActions.destroy(LOGIN_FORM_NAME)
-    props.setStep(LoginSteps.ENTER_EMAIL_GUID)
-    props.authActions.clearLoginError()
-  }
   return (
     <>
       <TopRow>
@@ -142,7 +132,7 @@ export const BackArrowFormHeader = (props: {
           color='grey400'
           style={{ marginRight: '8px' }}
           role='button'
-          onClick={() => handleIconClick()}
+          onClick={() => props.handleBackArrowClick()}
         />
         <Column>
           {props.formValues.email ? (

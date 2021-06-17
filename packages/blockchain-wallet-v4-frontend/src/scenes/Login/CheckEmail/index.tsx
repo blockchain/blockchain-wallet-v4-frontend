@@ -6,7 +6,7 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import { LoginSteps } from 'data/types'
 
 import { Props as OwnProps } from '..'
-import { BackArrowFormHeader, CircleBackground } from '../model'
+import { BackArrowFormHeader, CircleBackground, LOGIN_FORM_NAME } from '../model'
 
 const FormBody = styled.div`
   display: flex;
@@ -15,16 +15,15 @@ const FormBody = styled.div`
 `
 
 const CheckEmail = (props: Props) => {
-  const { authActions, cacheActions, formActions, formValues, setStep } = props
+  const handleBackArrowClick = () => {
+    props.cacheActions.removedStoredLogin()
+    props.formActions.destroy(LOGIN_FORM_NAME)
+    props.setStep(LoginSteps.ENTER_EMAIL_GUID)
+    props.authActions.clearLoginError()
+  }
   return (
     <>
-      <BackArrowFormHeader
-        authActions={authActions}
-        cacheActions={cacheActions}
-        formActions={formActions}
-        formValues={formValues}
-        setStep={setStep}
-      />
+      <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} />
       <FormBody>
         <CircleBackground>
           <Icon name='computer' color='white' size='24px' />

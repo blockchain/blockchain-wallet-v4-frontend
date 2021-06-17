@@ -5,6 +5,7 @@ import { Field } from 'redux-form'
 
 import { Banner, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
+import { LoginSteps } from 'data/types'
 import { required } from 'services/forms'
 
 import { Props } from '..'
@@ -14,25 +15,13 @@ import {
   BrowserWarning,
   isSupportedBrowser,
   LinkRow,
+  LOGIN_FORM_NAME,
   NeedHelpLink,
   removeWhitespace
 } from '../model'
 
 const EnterPassword = (props: Props) => {
-  const {
-    authActions,
-    authType,
-    busy,
-    cacheActions,
-    formActions,
-    formValues,
-    guid,
-    invalid,
-    loginError,
-    password,
-    setStep,
-    submitting
-  } = props
+  const { authType, busy, guid, invalid, loginError, password, submitting } = props
   const passwordError = loginError && loginError.toLowerCase().includes('wrong_wallet_password')
   const accountLocked =
     loginError &&
@@ -44,15 +33,16 @@ const EnterPassword = (props: Props) => {
     props.authActions.resendSmsCode(guid)
   }
 
+  const handleBackArrowClick = () => {
+    props.cacheActions.removedStoredLogin()
+    props.formActions.destroy(LOGIN_FORM_NAME)
+    props.setStep(LoginSteps.ENTER_EMAIL_GUID)
+    props.authActions.clearLoginError()
+  }
+
   return (
     <>
-      <BackArrowFormHeader
-        authActions={authActions}
-        cacheActions={cacheActions}
-        formActions={formActions}
-        formValues={formValues}
-        setStep={setStep}
-      />
+      <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} />
       <FormGroup>
         {!isSupportedBrowser && (
           <BrowserWarning>

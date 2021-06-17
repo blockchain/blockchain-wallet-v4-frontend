@@ -25,7 +25,7 @@ const FooterContainer = styled.div`
 `
 
 const Wrapper = styled.div`
-  background-color: ${props => props.theme.grey900};
+  background-color: ${(props) => props.theme.grey900};
   height: auto;
   min-height: 100%;
   width: 100%;
@@ -54,26 +54,21 @@ const ContentContainer = styled.div<{ isLogin?: boolean }>`
   box-sizing: border-box;
   margin: 0 16px;
 
-  ${props =>
+  ${(props) =>
     props.isLogin &&
     css`
       margin-top: 40px;
     `}
 `
 
-const PublicLayoutContainer = ({
-  component: Component,
-  exact = false,
-  path
-}: Props) => {
-  // TODO - remove 'new' when login flow is replaced
-  const isLogin = path === '/login' || path === '/new'
+const PublicLayoutContainer = ({ component: Component, exact = false, path }: Props) => {
+  const isLogin = path === '/login'
 
   return (
     <Route
       path={path}
       exact={exact}
-      render={matchProps => (
+      render={(matchProps) => (
         <ErrorBoundary>
           <Wrapper>
             {/* TODO: STILL NEEDS DEV/QA */}

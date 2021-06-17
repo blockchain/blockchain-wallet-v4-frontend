@@ -208,8 +208,6 @@ const mapStateToProps = (state) => ({
   data: selectors.auth.getLogin(state) as RemoteDataType<any, any>,
   formMeta: getFormMeta(LOGIN_FORM_NAME)(state),
   formValues: selectors.form.getFormValues(LOGIN_FORM_NAME)(state) as LoginFormType,
-  // TODO guid selector shouldn't come from form
-  // we set it on the state when we get the callback
   guid: formValueSelector(LOGIN_FORM_NAME)(state, 'guid'),
   guidOrEmail: formValueSelector(LOGIN_FORM_NAME)(state, 'guidOrEmail'),
   initialValues: {

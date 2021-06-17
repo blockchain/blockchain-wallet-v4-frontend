@@ -14,7 +14,7 @@ import { actions, selectors } from 'data'
 import { LoginSteps } from 'data/types'
 
 import { Props as OwnProps } from '..'
-import { BackArrowFormHeader, CartridgeSentContainer } from '../model'
+import { BackArrowFormHeader, CartridgeSentContainer, LOGIN_FORM_NAME } from '../model'
 
 const Body = styled.div`
   display: flex;
@@ -41,25 +41,18 @@ const MessageSentColumn = styled.div`
 `
 
 const VerificationMobile = (props: Props) => {
-  const {
-    authActions,
-    cacheActions,
-    formActions,
-    formValues,
-    middlewareActions,
-    qrData,
-    setStep
-  } = props
+  const { cacheActions, middlewareActions, qrData, setStep } = props
+
+  const handleBackArrowClick = () => {
+    props.cacheActions.removedStoredLogin()
+    props.formActions.destroy(LOGIN_FORM_NAME)
+    props.setStep(LoginSteps.ENTER_EMAIL_GUID)
+    props.authActions.clearLoginError()
+  }
 
   return (
     <>
-      <BackArrowFormHeader
-        authActions={authActions}
-        cacheActions={cacheActions}
-        formActions={formActions}
-        formValues={formValues}
-        setStep={setStep}
-      />
+      <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} />
       <Icon name='padlock' color='green600' size='20px' style={{ padding: '0 0 16px 4px' }} />
       <Body>
         {!props.phonePubKey && (
