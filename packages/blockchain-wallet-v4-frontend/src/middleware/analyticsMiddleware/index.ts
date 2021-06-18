@@ -17,7 +17,7 @@ import {
   simpleBuyPaymentTypeDictionary
 } from 'middleware/analyticsMiddleware/utils'
 
-import { actionTypes as AT } from 'data'
+import { actionTypes as AT, actions } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { BankDWStepType, ModalNamesType, SwapBaseCounterTypes } from 'data/types'
 
@@ -857,7 +857,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case AT.components.brokerage.SET_D_W_STEP: {
+      case actions.components.brokerage.setDWStep.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
@@ -890,7 +890,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.brokerage.SET_BANK_DETAILS: {
+      case actions.components.brokerage.setBankDetails.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid

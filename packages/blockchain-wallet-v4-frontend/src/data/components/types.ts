@@ -1,5 +1,4 @@
 import { BorrowActionTypes } from './borrow/types'
-import { BrokerageActionTypes } from './brokerage/types'
 import { IdentityVerificationActionTypes } from './identityVerification/types'
 import { RecoveryPhraseActionTypes } from './recoveryPhrase/types'
 import { RequestActionTypes } from './request/types'
@@ -9,7 +8,6 @@ import { SimpleBuyActionTypes } from './simpleBuy/types'
 // export type ComponentsActionTypes = IdentityVerificationActionTypes | ActivityListActionTypes | BchTransactionsActionTypes
 export type ComponentsActionTypes =
   | BorrowActionTypes
-  | BrokerageActionTypes
   | IdentityVerificationActionTypes
   | RecoveryPhraseActionTypes
   | RequestActionTypes

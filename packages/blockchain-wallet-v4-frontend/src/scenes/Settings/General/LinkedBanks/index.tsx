@@ -18,24 +18,30 @@ class LinkedBanks extends PureComponent<Props> {
   }
 
   handleBankClick = () => {
-    this.props.brokerageActions.showModal(
-      BrokerageModalOriginType.ADD_BANK,
-      this.props.fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
-    )
+    this.props.brokerageActions.showModal({
+      origin: BrokerageModalOriginType.ADD_BANK,
+      modalType: this.props.fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
+    })
     this.props.brokerageActions.setAddBankStep({
       addBankStep: AddBankStepType.ADD_BANK
     })
   }
 
   handleShowBankClick = (account: BankTransferAccountType) => {
-    this.props.brokerageActions.showModal(BrokerageModalOriginType.BANK, 'BANK_DETAILS_MODAL')
+    this.props.brokerageActions.showModal({
+      origin: BrokerageModalOriginType.BANK,
+      modalType: 'BANK_DETAILS_MODAL'
+    })
     this.props.brokerageActions.setBankDetails({
       account
     })
   }
 
   handleDeleteBank = (account: BankTransferAccountType) => {
-    this.props.brokerageActions.showModal(BrokerageModalOriginType.BANK, 'REMOVE_BANK_MODAL')
+    this.props.brokerageActions.showModal({
+      origin: BrokerageModalOriginType.BANK,
+      modalType: 'REMOVE_BANK_MODAL'
+    })
     this.props.brokerageActions.setBankDetails({
       account
     })

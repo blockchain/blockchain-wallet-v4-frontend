@@ -21,8 +21,7 @@ import {
 } from 'data/types'
 
 import profileSagas from '../../modules/profile/sagas'
-import * as A from './actions'
-import * as AT from './actionTypes'
+import {actions as A} from './slice'
 import { DEFAULT_METHODS, POLLING } from './model'
 import * as S from './selectors'
 import { OBType } from './types'
@@ -33,12 +32,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     coreSagas,
     networks
   })
-  const deleteSavedBank = function* ({ bankId }: ReturnType<typeof A.deleteSavedBank>) {
+  const deleteSavedBank = function* (action: ReturnType<typeof A.deleteSavedBank>) {
+    const bankId = action.payload
     try {
       yield put(actions.form.startSubmit('linkedBanks'))
       yield call(api.deleteSavedAccount, bankId, 'banktransfer')
       yield put(A.fetchBankTransferAccounts())
-      yield take([AT.FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS, AT.FETCH_BANK_TRANSFER_UPDATE_ERROR])
+      yield take([A.fetchBankTransferAccountsSuccess.type, A.fetchBankTransferAccountsError.type])
       yield put(actions.form.stopSubmit('linkedBanks'))
       yield put(actions.alerts.displaySuccess('Bank removed.'))
       yield put(actions.modals.closeModal('BANK_DETAILS_MODAL'))
@@ -71,7 +71,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const fetchBankTransferUpdate = function* (action: ReturnType<typeof A.fetchBankTransferUpdate>) {
     try {
-      const { account } = action.payload
+      const account = action.payload
 
       let bankId
       let attributes
@@ -203,9 +203,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     payload
   }: ReturnType<typeof A.handleDepositFiatClick>) {
     yield put(
-      actions.components.brokerage.showModal(
-        BrokerageModalOriginType.DEPOSIT_BUTTON,
-        'BANK_DEPOSIT_MODAL'
+      actions.components.brokerage.showModal({
+        origin: BrokerageModalOriginType.DEPOSIT_BUTTON,
+        modalType: 'BANK_DEPOSIT_MODAL'
+      }
       )
     )
     yield put(
@@ -216,13 +217,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     const paymentMethods: SBPaymentMethodType[] = yield call(
       api.getSBPaymentMethods,
-      payload.fiatCurrency,
+      payload,
       true
     )
 
     const eligibleMethods = paymentMethods.filter(
       (method) =>
-        method.currency === payload.fiatCurrency &&
+        method.currency === payload &&
         (method.type === SBPaymentTypes.BANK_ACCOUNT ||
           method.type === SBPaymentTypes.BANK_TRANSFER)
     )
@@ -243,7 +244,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(
         actions.components.brokerage.setBankDetails({
           account: bankTransferAccounts.filter(
-            (a) => a.currency === payload.fiatCurrency && a.state === 'ACTIVE'
+            (a) => a.currency === payload && a.state === 'ACTIVE'
           )[0]
         })
       )
@@ -264,7 +265,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const handleWithdrawClick = function* ({ payload }: ReturnType<typeof A.handleWithdrawClick>) {
-    yield put(actions.components.withdraw.showModal(payload.fiatCurrency))
+    yield put(actions.components.withdraw.showModal(payload))
 
     const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
       yield select()
@@ -274,7 +275,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(
         actions.components.brokerage.setBankDetails({
           account: bankTransferAccounts.filter(
-            (a) => a.currency === payload.fiatCurrency && a.state === 'ACTIVE'
+            (a) => a.currency === payload && a.state === 'ACTIVE'
           )[0]
         })
       )
