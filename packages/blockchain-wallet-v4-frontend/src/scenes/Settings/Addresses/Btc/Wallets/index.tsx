@@ -17,16 +17,15 @@ class BtcWalletsContainer extends React.Component<Props> {
     return !Remote.Loading.is(nextProps.data)
   }
 
-  onAddNewWallet = wallets => {
-    const allWalletLabels = wallets.map(wallet => wallet.label)
+  onAddNewWallet = (wallets) => {
+    const allWalletLabels = wallets.map((wallet) => wallet.label)
     this.props.modalActions.showModal('ADD_BTC_WALLET_MODAL', {
-      uniqueWalletName: value =>
-        requireUniqueWalletName(value, allWalletLabels),
-      origin: 'SettingsPage'
+      origin: 'SettingsPage',
+      uniqueWalletName: (value) => requireUniqueWalletName(value, allWalletLabels)
     })
   }
 
-  onUnarchive = i => {
+  onUnarchive = (i) => {
     this.props.coreActions.setAccountArchived(i, false)
   }
 
@@ -40,19 +39,7 @@ class BtcWalletsContainer extends React.Component<Props> {
     const { data, search, walletsWithoutRemoteData, ...rest } = this.props
 
     return data.cata({
-      Success: value => (
-        <Template
-          wallets={value}
-          search={search && search.toLowerCase()}
-          onUnarchive={this.onUnarchive}
-          onClickImport={this.onClickImport}
-          // onAddNewWallet={() => {
-          //   this.onAddNewWallet(value)
-          // }}
-          {...rest}
-        />
-      ),
-      Failure: message => (
+      Failure: (message) => (
         <Template
           failure
           message={message}
@@ -67,18 +54,30 @@ class BtcWalletsContainer extends React.Component<Props> {
         />
       ),
       Loading: () => <div />,
-      NotAsked: () => <div />
+      NotAsked: () => <div />,
+      Success: (value) => (
+        <Template
+          wallets={value}
+          search={search && search.toLowerCase()}
+          onUnarchive={this.onUnarchive}
+          onClickImport={this.onClickImport}
+          // onAddNewWallet={() => {
+          //   this.onAddNewWallet(value)
+          // }}
+          {...rest}
+        />
+      )
     })
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(actions.core.data.btc, dispatch),
   coreActions: bindActionCreators(actions.core.wallet, dispatch),
-  actions: bindActionCreators(actions.core.data.btc, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state),
   search: formValueSelector(WALLET_TX_SEARCH)(state, 'search'),
   walletsWithoutRemoteData: getWalletsWithoutRemoteData(state)

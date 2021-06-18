@@ -21,7 +21,7 @@ const AmountWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   flex: 1;
-  border: 1px solid ${props => props.theme.grey100};
+  border: 1px solid ${(props) => props.theme.grey100};
   padding: 12px;
   margin-right: 16px;
   margin-top: 32px;
@@ -46,10 +46,7 @@ const Amount = styled(Text)`
   text-overflow: ellipsis;
 `
 
-const SimpleBuyInfo = ({
-  goalData: { amount, crypto, fiatCurrency },
-  supportedCoins
-}) => (
+const SimpleBuyInfo = ({ goalData: { amount, crypto, fiatCurrency }, supportedCoins }) => (
   <SimpleBuyItemWrapper>
     <AmountWrapper>
       <SimpleWrapper>

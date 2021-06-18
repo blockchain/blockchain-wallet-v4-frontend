@@ -376,9 +376,12 @@ const Template: React.FC<Props> = (props) => {
                 data-e2e='earnInterestSupplyInformation'
                 fullwidth
                 nature='primary'
-                onClick={() =>
+                onClick={() => {
                   analyticsActions.logEvent(INTEREST_EVENTS.SETTINGS.SUPPLY_INFORMATION)
-                }
+                  /* interestActions.handleWithdrawalSupplyInformation({
+                    origin: 'Settings'
+                  }) */
+                }}
               >
                 <FormattedMessage
                   id='scenes.interest.submit_information'

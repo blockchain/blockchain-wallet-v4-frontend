@@ -30,3 +30,4 @@ export const getNotificationsOn = (state) => getSettings(state).map(prop('notifi
 export const getNotificationsType = (state) => getSettings(state).map(prop('notifications_type'))
 export const getInvitations = (state): RemoteDataType<string, InvitationsType> =>
   getSettings(state).map(prop('invited'))
+export const getLastMnemonicBackup = (state) => getSettings(state).map(prop('last_mnemonic_backup'))

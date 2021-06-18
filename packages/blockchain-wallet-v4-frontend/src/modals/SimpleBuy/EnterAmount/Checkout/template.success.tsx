@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Banner, Icon, Text } from 'blockchain-info-components'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { coinToString, fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
@@ -19,6 +19,7 @@ import { Form } from 'components/Form'
 import { model } from 'data'
 import { convertStandardToBase } from 'data/components/exchange/services'
 import { SBCheckoutFormValuesType, SwapBaseCounterTypes } from 'data/types'
+import ErrorCodeMappings from 'services/ErrorCodeMappings'
 import { CRYPTO_DECIMALS, FIAT_DECIMALS, formatTextAmount } from 'services/forms'
 
 import { Row } from '../../../Swap/EnterAmount/Checkout'
@@ -32,13 +33,6 @@ import Payment from './Payment'
 import { formatQuote, getMaxMin, getQuote, maximumAmount, minimumAmount } from './validation'
 
 const { LIMIT, LIMIT_FACTOR } = model.components.simpleBuy
-
-const DAILY_LIMIT_MESSAGE = 'User exceeded daily trading limit'
-const WEEKLY_LIMIT_MESSAGE = 'User exceeded weekly trading limit'
-const ANNUAL_LIMIT_MESSAGE = 'User exceeded annual trading limit'
-
-const isLimitError = (error: string) =>
-  error === DAILY_LIMIT_MESSAGE || error === WEEKLY_LIMIT_MESSAGE || error === ANNUAL_LIMIT_MESSAGE
 
 const AmountRow = styled(Row)`
   position: relative;
@@ -98,27 +92,6 @@ const CustomErrorCartridge = styled(ErrorCartridge)`
   border: 1px solid ${(props) => props.theme.red000};
   cursor: pointer;
 `
-const ErrorTextContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  margin-left: 40px;
-  margin-right: 40px;
-`
-const ErrorText = styled(Text)`
-  display: inline-flex;
-  align-items: center;
-  font-weight: 500;
-  font-size: 14px;
-  padding: 6px 12px;
-  border-radius: 8px;
-  background-color: ${(props) => props.theme.red000};
-  color: ${(props) => props.theme.red800};
-  margin-bottom: 16px;
-  > div {
-    cursor: pointer;
-  }
-`
 
 const BlueRedCartridge = ({ children, error }: { children: ReactChild; error: boolean }) => {
   if (error)
@@ -155,6 +128,17 @@ const getAmountLimitsError = (amount: number, min: number, max: number): string 
     return 'ABOVE_MAX'
   }
   return null
+}
+
+const isLimitError = (code: number | string): boolean => {
+  switch (Number(code)) {
+    case 45:
+    case 46:
+    case 47:
+      return true
+    default:
+      return false
+  }
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
@@ -519,28 +503,26 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           method={method}
           isSddFlow={props.isSddFlow && props.orderType === OrderType.BUY}
         />
-
         {props.error && (
-          <ErrorTextContainer>
-            <ErrorText>
-              <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
-              {isLimitError(props.error) ? (
-                <div
-                  onClick={() => props.identityVerificationActions.verifyIdentity(2, false)}
-                  onKeyDown={() => props.identityVerificationActions.verifyIdentity(2, false)}
-                  role='button'
-                  tabIndex={0}
-                >
-                  <FormattedMessage
-                    id='modals.simplebuy.checkout.upgrade_to_gold'
-                    defaultMessage='Trading limit reached. Upgrade to Gold'
-                  />
-                </div>
-              ) : (
-                <>Error: {props.error}</>
-              )}
-            </ErrorText>
-          </ErrorTextContainer>
+          <Banner type='warning' style={{ marginBottom: '15px' }}>
+            {isLimitError(props.error) && props.userData?.tiers?.current < 2 ? (
+              <div
+                onClick={() => props.identityVerificationActions.verifyIdentity(2, false)}
+                onKeyDown={() => props.identityVerificationActions.verifyIdentity(2, false)}
+                role='button'
+                tabIndex={0}
+                style={{ cursor: 'pointer' }}
+              >
+                <>
+                  <ErrorCodeMappings code={props.error} />
+                  <br />
+                  <FormattedMessage id='copy.upgrade' defaultMessage='Upgrade to Gold' />
+                </>
+              </div>
+            ) : (
+              <ErrorCodeMappings code={props.error} />
+            )}
+          </Banner>
         )}
         <ActionButton
           {...props}
@@ -562,18 +544,15 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       </FlyoutWrapper>
       {props.isSddFlow && props.orderType === OrderType.BUY && <IncreaseLimits {...props} />}
       {isSufficientEthForErc20 && (
-        <ErrorTextContainer>
-          <ErrorText>
-            <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
-            <FormattedMessage
-              id='copy.not_enough_eth1'
-              defaultMessage='ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in your Ether Wallet for this transaction, not Ether Trading Account.'
-              values={{
-                coin: props.supportedCoins[cryptoCurrency].coinTicker
-              }}
-            />
-          </ErrorText>
-        </ErrorTextContainer>
+        <Banner type='warning'>
+          <FormattedMessage
+            id='copy.not_enough_eth1'
+            defaultMessage='ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in your Ether Wallet for this transaction, not Ether Trading Account.'
+            values={{
+              coin: props.supportedCoins[cryptoCurrency].coinTicker
+            }}
+          />
+        </Banner>
       )}
     </CustomForm>
   )

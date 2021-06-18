@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import deepEqual from 'fast-deep-equal'
 import { createSelectorCreator, defaultMemoize } from 'reselect'
 
@@ -23,4 +24,8 @@ export const errorHandler = (e): string => {
     : typeof e === 'string'
     ? e
     : 'Unknown Error'
+}
+
+export const errorHandlerCode = (e) => {
+  return typeof e === 'object' && e.code ? e.code : errorHandler(e)
 }

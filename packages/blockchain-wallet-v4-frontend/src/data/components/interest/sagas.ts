@@ -62,8 +62,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const fetchInterestBalance = function* () {
     try {
       yield put(A.fetchInterestBalanceLoading())
-      if (!(yield call(isTier2)))
-        return yield put(A.fetchInterestBalanceSuccess(DEFAULT_INTEREST_BALANCES))
+      if (!(yield call(isTier2))) {
+        yield put(A.fetchInterestBalanceSuccess(DEFAULT_INTEREST_BALANCES))
+        return
+      }
       const response: ReturnType<typeof api.getInterestAccountBalance> = yield call(
         api.getInterestAccountBalance
       )
@@ -251,11 +253,23 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           yield put(A.setPaymentSuccess(depositPayment))
           break
         default:
-          break
+        // do nothing
       }
     } catch (e) {
       yield put(A.setPaymentFailure(e))
     }
+  }
+
+  const handleTransferMaxAmountClick = function* ({
+    payload: { amount }
+  }: ReturnType<typeof A.handleTransferMaxAmountClick>) {
+    yield put(actions.form.change('interestDepositForm', 'depositAmount', amount))
+  }
+
+  const handleTransferMinAmountClick = function* ({
+    payload: { amount }
+  }: ReturnType<typeof A.handleTransferMinAmountClick>) {
+    yield put(actions.form.change('interestDepositForm', 'depositAmount', amount))
   }
 
   const initializeDepositForm = function* ({
@@ -583,6 +597,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchInterestTransactionsReport,
     fetchShowInterestCardAfterTransaction,
     formChanged,
+    handleTransferMaxAmountClick,
+    handleTransferMinAmountClick,
     initializeDepositForm,
     initializeWithdrawalForm,
     requestWithdrawal,

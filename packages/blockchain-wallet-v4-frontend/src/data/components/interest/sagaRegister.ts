@@ -29,6 +29,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield takeLatest(AT.SUBMIT_DEPOSIT_FORM, interestSagas.sendDeposit)
     yield takeLatest(AT.REQUEST_WITHDRAWAL, interestSagas.requestWithdrawal)
     yield takeLatest(AT.SHOW_INTEREST_MODAL, interestSagas.showInterestModal)
+    yield takeLatest(
+      AT.HANDLE_TRANSFER_MAX_AMOUNT_CLICK,
+      interestSagas.handleTransferMaxAmountClick
+    )
+    yield takeLatest(
+      AT.HANDLE_TRANSFER_MIN_AMOUNT_CLICK,
+      interestSagas.handleTransferMinAmountClick
+    )
+
     yield takeEvery(formActionTypes.CHANGE, interestSagas.formChanged)
     yield takeLatest(
       [

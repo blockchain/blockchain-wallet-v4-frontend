@@ -41,7 +41,7 @@ const IneligibleBanner = styled.div`
 
 class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType> {
   renderAdditionalInfo = () => {
-    const { analyticsActions } = this.props
+    const { analyticsActions, interestActions } = this.props
     return (
       <BoxStyledAdditional>
         <ContentWrapper>
@@ -74,7 +74,12 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
               data-e2e='earnInterestSupplyInformation'
               fullwidth
               nature='dark-grey'
-              onClick={() => analyticsActions.logEvent(INTEREST_EVENTS.HOME.SUPPLY_INFORMATION)}
+              onClick={() => {
+                analyticsActions.logEvent(INTEREST_EVENTS.HOME.SUPPLY_INFORMATION)
+                interestActions.handleWithdrawalSupplyInformation({
+                  origin: 'SavingsPage'
+                })
+              }}
               style={{ marginTop: '45px' }}
             >
               <FormattedMessage
@@ -97,7 +102,7 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
       isGoldTier,
       preferencesActions,
       showInterestInfoBox,
-      userData,
+      userData
     } = this.props
     const highestRate = interestRateArray.reduce((a, b) => Math.max(a, b))
 
@@ -218,12 +223,13 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
 }
 
 const mapStateToProps = (state) => ({
-  showInterestInfoBox: selectors.preferences.getShowInterestInfoBox(state),
+  showInterestInfoBox: selectors.preferences.getShowInterestInfoBox(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  preferencesActions: bindActionCreators(actions.preferences, dispatch),
+  interestActions: bindActionCreators(actions.components.interest, dispatch),
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
