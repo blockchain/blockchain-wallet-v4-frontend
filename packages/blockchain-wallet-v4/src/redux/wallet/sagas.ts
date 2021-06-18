@@ -396,9 +396,13 @@ export default ({ api, networks }) => {
   }
 
   const updateMnemonicBackup = function* () {
-    const sharedKey = yield select(S.getSharedKey)
-    const guid = yield select(S.getGuid)
-    yield call(api.updateMnemonicBackup, sharedKey, guid)
+    try {
+      const sharedKey = yield select(S.getSharedKey)
+      const guid = yield select(S.getGuid)
+      yield call(api.updateMnemonicBackup, sharedKey, guid)
+    } catch (e) {
+      // shouldn't block login
+    }
   }
 
   const triggerMnemonicViewedAlert = function* () {
