@@ -1,1 +1,11 @@
-{"applinks":{"apps":[],"details":[{"appID":"NZ6PH75U7K.com.rainydayapps.Blockchain","paths":["NOT /_/*","/*"]}]}}
+{"applinks":
+  {
+    "apps":[],
+    "details":
+      [{
+          "appID":"NZ6PH75U7K.com.rainydayapps.Blockchain",
+          "paths":["NOT /_/*","/*"]
+        }
+      ]
+    }
+  }
