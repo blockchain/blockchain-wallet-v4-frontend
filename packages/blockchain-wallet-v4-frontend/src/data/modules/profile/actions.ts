@@ -91,6 +91,18 @@ export const resetUserKyc = (): ProfileActionTypes => ({
   type: AT.RESET_USER_KYC
 })
 
+export const resetUserKycLoading = (): ProfileActionTypes => ({
+  type: AT.RESET_USER_KYC_LOADING
+})
+
+export const resetUserKycSuccess = (): ProfileActionTypes => ({
+  type: AT.RESET_USER_KYC_SUCCESS
+})
+
+export const resetUserKycSuccessFailure = (error): ProfileActionTypes => ({
+  payload: { error },
+  type: AT.RESET_USER_KYC_FAILURE
+})
 export const setApiTokenFailure = (error): ProfileActionTypes => ({
   payload: { error },
   type: AT.SET_API_TOKEN_FAILURE

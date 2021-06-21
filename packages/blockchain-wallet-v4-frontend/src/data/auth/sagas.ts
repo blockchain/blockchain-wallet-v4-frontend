@@ -285,6 +285,8 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
 
+      yield call(authNabu, fromRestoredFlow)
+
       if (firstLogin) {
         const countryCode = navigator.language.slice(-2) || 'US'
         const currency = guessCurrencyBasedOnCountry(countryCode)
@@ -296,8 +298,6 @@ export default ({ api, coreSagas }) => {
       } else {
         yield put(actions.router.push('/home'))
       }
-
-      yield call(authNabu, fromRestoredFlow)
       yield call(fetchBalances)
       yield call(saveGoals, firstLogin)
       yield put(actions.goals.runGoals())
@@ -530,12 +530,13 @@ export default ({ api, coreSagas }) => {
         ...action.payload,
         kvCredentials
       })
-      yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
+
       yield call(loginRoutineSaga, {
         email: action.payload.email,
         firstLogin: true,
         fromRestoredFlow: true
       })
+      yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
       yield put(actions.auth.restoreSuccess())
     } catch (e) {
       yield put(actions.auth.restoreFailure())

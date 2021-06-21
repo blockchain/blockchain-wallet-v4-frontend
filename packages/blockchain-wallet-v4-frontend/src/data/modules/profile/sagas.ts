@@ -5,6 +5,7 @@ import { call, cancel, delay, fork, put, race, select, spawn, take } from 'redux
 import { Remote } from 'blockchain-wallet-v4/src'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { actions, actionTypes, selectors } from 'data'
+import * as C from 'services/alerts'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as A from './actions'
@@ -261,13 +262,28 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const resetUserKyc = function* () {
-    const retailToken = yield call(generateRetailToken)
-    const userId = (yield select(selectors.core.kvStore.userCredentials.getUserId)).getOrElse(null)
-    const lifetimeToken = (yield select(
-      selectors.core.kvStore.userCredentials.getLifetimeToken
-    )).getOrFail()
-    if (userId) {
-      yield call(api.resetUserKyc, userId, lifetimeToken, retailToken)
+    try {
+      yield put(A.resetUserKycLoading())
+      yield call(coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials)
+      const retailToken = yield call(generateRetailToken)
+      const userId = (yield select(selectors.core.kvStore.userCredentials.getUserId)).getOrElse(
+        null
+      )
+      const lifetimeToken = (yield select(
+        selectors.core.kvStore.userCredentials.getLifetimeToken
+      )).getOrFail()
+      if (userId) {
+        try {
+          yield call(api.resetUserKyc, userId, lifetimeToken, retailToken)
+        } catch (e) {
+          yield put(actions.alerts.displayError(C.KYC_RESET_ERROR, {}, true))
+          yield put(actions.auth.logout())
+        }
+      }
+      yield put(A.resetUserKycSuccess())
+    } catch (e) {
+      yield put(A.resetUserKycSuccessFailure(e))
+      yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
     }
   }
 

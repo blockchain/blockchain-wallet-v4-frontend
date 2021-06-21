@@ -15,15 +15,13 @@ const INITIAL_STATE: ProfileState = {
     linkToExchangeAccountStatus: Remote.NotAsked,
     shareWalletAddressesWithExchange: Remote.NotAsked
   },
-  userData: Remote.NotAsked,
   userCampaigns: Remote.NotAsked,
+  userData: Remote.NotAsked,
+  userKycReset: Remote.NotAsked,
   userTiers: Remote.Success(INITIAL_TIERS)
 }
 
-export function profileReducer(
-  state = INITIAL_STATE,
-  action: ProfileActionTypes
-): ProfileState {
+export function profileReducer(state = INITIAL_STATE, action: ProfileActionTypes): ProfileState {
   switch (action.type) {
     case AT.FETCH_USER_CAMPAIGNS_FAILURE:
       return {
@@ -129,6 +127,21 @@ export function profileReducer(
           ...state.exchangeOnboarding,
           linkToExchangeAccountStatus: Remote.Success('true')
         }
+      }
+    case AT.RESET_USER_KYC_LOADING:
+      return {
+        ...state,
+        userKycReset: Remote.Loading
+      }
+    case AT.RESET_USER_KYC_SUCCESS:
+      return {
+        ...state,
+        userKycReset: Remote.Success(true)
+      }
+    case AT.RESET_USER_KYC_FAILURE:
+      return {
+        ...state,
+        userKycReset: Remote.Failure(action.payload.error)
       }
     case AT.SET_API_TOKEN_FAILURE:
       return {

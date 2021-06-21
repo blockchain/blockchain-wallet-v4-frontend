@@ -149,6 +149,7 @@ type MessagesType = {
   'components.alerts.ipwhitelist_update_error': 'Failed to update IP whitelist'
   'components.alerts.ipwhitelist_update_success': 'IP whitelist has been successfully updated'
   'components.alerts.kyc_start_error': 'Failed to update a tier. Please try again'
+  'components.alerts.kyc_reset_error': 'Restoring account failed. Please try again.'
   'components.alerts.language_update_error': 'Failed to update language'
   'components.alerts.language_update_success': 'Language has been successfully updated.'
   'components.alerts.lockbox_delete_error': 'Failed to remove Lockbox.'
