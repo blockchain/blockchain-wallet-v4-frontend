@@ -13,7 +13,7 @@ import {
   ApiSocket,
   createWalletApi,
   HorizonStreamingService,
-  Socket,
+  Socket
 } from 'blockchain-wallet-v4/src/network/index.ts'
 import { serializer } from 'blockchain-wallet-v4/src/types'
 import { actions, rootReducer, rootSaga, selectors } from 'data'
@@ -24,7 +24,7 @@ import {
   matomoMiddleware,
   streamingXlm,
   webSocketCoins,
-  webSocketRates,
+  webSocketRates
 } from '../middleware'
 
 const devToolsConfig = {
@@ -40,10 +40,10 @@ const devToolsConfig = {
     // '@@redux-form/RESET'
     '@CORE.COINS_WEBSOCKET_MESSAGE',
     '@CORE.FETCH_ETH_LATEST_BLOCK_SUCCESS',
-    '@EVENT.RATES_SOCKET.WEBSOCKET_MESSAGE',
+    '@EVENT.RATES_SOCKET.WEBSOCKET_MESSAGE'
   ],
   maxAge: 1000,
-  serialize: serializer,
+  serialize: serializer
 }
 
 const configureStore = async function () {
@@ -63,15 +63,15 @@ const configureStore = async function () {
   const horizonUrl = options.domains.horizon
   const coinsSocket = new Socket({
     options,
-    url: `${socketUrl}/coins`,
+    url: `${socketUrl}/coins`
   })
   const ratesSocket = new ApiSocket({
     maxReconnects: 3,
     options,
-    url: `${socketUrl}/nabu-gateway/markets/quotes`,
+    url: `${socketUrl}/nabu-gateway/markets/quotes`
   })
   const xlmStreamingService = new HorizonStreamingService({
-    url: horizonUrl,
+    url: horizonUrl
   })
   const getAuthCredentials = () => selectors.modules.profile.getAuthCredentials(store.getState())
   const reauthenticate = () => store.dispatch(actions.modules.profile.signIn())
@@ -79,14 +79,14 @@ const configureStore = async function () {
     bch: BitcoinCash.networks[options.platforms.web.coins.BTC.config.network],
     btc: Bitcoin.networks[options.platforms.web.coins.BTC.config.network],
     eth: options.platforms.web.coins.ETH.config.network,
-    xlm: options.platforms.web.coins.XLM.config.network,
+    xlm: options.platforms.web.coins.XLM.config.network
   }
   const api = createWalletApi({
     apiKey,
     getAuthCredentials,
     networks,
     options,
-    reauthenticate,
+    reauthenticate
   })
   const persistWhitelist = ['session', 'preferences', 'cache']
 
@@ -96,15 +96,15 @@ const configureStore = async function () {
       persistCombineReducers(
         {
           getStoredState: getStoredStateMigrateV4({
-            whitelist: persistWhitelist,
+            whitelist: persistWhitelist
           }),
           key: 'root',
           storage,
-          whitelist: persistWhitelist,
+          whitelist: persistWhitelist
         },
         {
           router: connectRouter(history),
-          ...rootReducer,
+          ...rootReducer
         }
       )
     ),
@@ -130,7 +130,7 @@ const configureStore = async function () {
     coinsSocket,
     networks,
     options,
-    ratesSocket,
+    ratesSocket
   })
 
   // expose globals here
@@ -143,7 +143,7 @@ const configureStore = async function () {
   return {
     history,
     persistor,
-    store,
+    store
   }
 }
 

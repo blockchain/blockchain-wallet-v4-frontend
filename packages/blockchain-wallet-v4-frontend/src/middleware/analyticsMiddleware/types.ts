@@ -207,7 +207,7 @@ type InterestDepositAmountEnteredPayload = BasePayload & {
 
 type InterestDepositClickedPayload = BasePayload & {
   currency: string
-  origin: 'CURRENCY_PAGE' | 'SAVINGS_CONFIRMATION' | 'SAVINGS_PAGE'
+  origin: 'CURRENCY_PAGE' | 'SAVINGS_CONFIRMATION' | 'SAVINGS_PAGE' | 'SEND'
 }
 
 type InterestDepositMaxAmountClickedPayload = BasePayload & {

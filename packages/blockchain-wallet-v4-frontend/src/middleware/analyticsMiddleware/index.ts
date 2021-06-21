@@ -11,10 +11,11 @@ import {
   WithdrawalMethodType
 } from 'middleware/analyticsMiddleware/types'
 import {
+  buyPaymentMethodSelectedPaymentTypeDictionary,
+  buySellClickedOriginDictionary,
   getNetworkFee,
   getOriginalTimestamp,
-  simpleBuyOriginDictionary,
-  simpleBuyPaymentTypeDictionary
+  interestDepositClickedOriginDictionary
 } from 'middleware/analyticsMiddleware/utils'
 
 import { actionTypes as AT } from 'data'
@@ -106,7 +107,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const { href, pathname, search } = window.location
             const { referrer, title } = document
 
-            const origin = simpleBuyOriginDictionary(rawOrigin)
+            const origin = buySellClickedOriginDictionary(rawOrigin)
 
             analytics.push(AnalyticsKey.BUY_SELL_CLICKED, {
               analyticsType: AnalyticsType.EVENT,
@@ -180,9 +181,10 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             break
           }
           case 'BANK_DEPOSIT_MODAL': {
-            const { origin } = action.payload.props
             const { href, pathname, search } = window.location
             const { referrer, title } = document
+
+            const origin = 'CURRENCY_PAGE'
 
             analytics.push(AnalyticsKey.DEPOSIT_CLICKED, {
               analyticsType: AnalyticsType.EVENT,
@@ -385,29 +387,17 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
-        const paymentType = action.method.type
+        const paymentType = buyPaymentMethodSelectedPaymentTypeDictionary(action.method.type)
 
         analytics.push(AnalyticsKey.BUY_PAYMENT_METHOD_SELECTED, {
           analyticsType: AnalyticsType.EVENT,
           id,
           nabuId,
           originalTimestamp: getOriginalTimestamp(),
-          payment_type: simpleBuyPaymentTypeDictionary(paymentType)
+          payment_type: paymentType
         })
         break
       }
-      // case AT.auth.VERIFY_EMAIL_TOKEN_SUCCESS: {
-      //   const state = store.getState()
-      //   const nabuId = state.profile.userData.getOrElse({})?.id
-      //   const id = state.walletPath.wallet.guid
-      //   analytics.push(AnalyticsKey.EMAIL_VERIFICATION_REQUESTED, {
-      //     analyticsType: AnalyticsType.EVENT,
-      //     id,
-      //     nabuId,
-      //     originalTimestamp: getOriginalTimestamp()
-      //   })
-      //   break
-      // }
       case AT.auth.LOGIN_SUCCESS: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id
@@ -608,8 +598,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
-        const inputCurrency = action.payload.account.coin
-        const inputType =
+        const outputCurrency = action.payload.account.coin
+        const outputType =
           action.payload.account.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
             : AccountType.USERKEY
@@ -617,10 +607,10 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         analytics.push(AnalyticsKey.SWAP_RECEIVE_SELECTED, {
           analyticsType: AnalyticsType.EVENT,
           id,
-          input_currency: inputCurrency,
-          input_type: inputType,
           nabuId,
-          originalTimestamp: getOriginalTimestamp()
+          originalTimestamp: getOriginalTimestamp(),
+          output_currency: outputCurrency,
+          output_type: outputType
         })
         break
       }
@@ -647,7 +637,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             : Number(
                 convertBaseToStandard(
                   state.form.initSwap.values.BASE.coin,
-                  getNetworkFee(state.components.swap.payment.getOrElse(undefined))
+                  getNetworkFee(state.components.swap.payment.getOrElse(null))
                 )
               )
         const networkFeeOutputAmount =
@@ -726,7 +716,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { href, pathname, search } = window.location
         const { referrer, title } = document
 
-        const origin = simpleBuyOriginDictionary(rawOrigin)
+        const origin = buySellClickedOriginDictionary(rawOrigin)
 
         analytics.push(AnalyticsKey.BUY_SELL_CLICKED, {
           analyticsType: AnalyticsType.EVENT,
@@ -759,7 +749,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { href, pathname, search } = window.location
         const { referrer, title } = document
 
-        const origin = simpleBuyOriginDictionary(rawOrigin)
+        const origin = buySellClickedOriginDictionary(rawOrigin)
 
         analytics.push(AnalyticsKey.BUY_SELL_CLICKED, {
           analyticsType: AnalyticsType.EVENT,
@@ -932,7 +922,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const depositMethod = state.components.brokerage.account
               ? DepositMethodType.BANK_ACCOUNT
               : DepositMethodType.BANK_TRANSFER
-            const { currency } = state.form.brokerageTx.values
+            const { currency } = state.components.brokerage.fiatCurrency
 
             analytics.push(AnalyticsKey.DEPOSIT_METHOD_SELECTED, {
               analyticsType: AnalyticsType.EVENT,
@@ -1056,17 +1046,18 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const state = store.getState()
             const nabuId = state.profile.userData.getOrElse({})?.id
             const id = state.walletPath.wallet.guid
-            // const { origin } = action.payload.props
             const { href, pathname, search } = window.location
             const { referrer, title } = document
             const currency = action.payload.coin
+
+            const origin = interestDepositClickedOriginDictionary(action.payload.props.origin)
 
             analytics.push(AnalyticsKey.INTEREST_DEPOSIT_CLICKED, {
               analyticsType: AnalyticsType.EVENT,
               currency,
               id,
               nabuId,
-              // origin,
+              origin,
               originalTimestamp: getOriginalTimestamp()
             })
 
@@ -1088,15 +1079,16 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const state = store.getState()
             const nabuId = state.profile.userData.getOrElse({})?.id
             const id = state.walletPath.wallet.guid
-            // const { origin } = action.payload.props
             const { href, pathname, search } = window.location
             const { referrer, title } = document
+
+            const origin = 'CURRENCY_PAGE'
 
             analytics.push(AnalyticsKey.INTEREST_WITHDRAWAL_CLICKED, {
               analyticsType: AnalyticsType.EVENT,
               id,
               nabuId,
-              // origin,
+              origin,
               originalTimestamp: getOriginalTimestamp()
             })
 
@@ -1218,8 +1210,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
     }
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(e)
+    // do nothing
   }
 
   return next(action)
