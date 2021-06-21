@@ -2,18 +2,11 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
-import { Icon } from 'blockchain-info-components'
+import { Box, Icon } from 'blockchain-info-components'
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
 
 import { Props } from '../template.success'
-import {
-  getIcon,
-  getText,
-  PaymentArrowContainer,
-  PaymentContainer,
-  PaymentText,
-  SectionTitle
-} from './model'
+import { getIcon, getText, PaymentArrowContainer, PaymentText, SectionTitle } from './model'
 
 const RightArrowIcon = styled(Icon)<{
   disabled?: boolean
@@ -56,7 +49,7 @@ const Payment: React.FC<Props> = (props: Props) => {
           />
         )}
       </SectionTitle>
-      <PaymentContainer
+      <Box
         role='button'
         data-e2e='paymentMethodSelect'
         onClick={onPaymentMethodClick}
@@ -73,7 +66,7 @@ const Payment: React.FC<Props> = (props: Props) => {
             <RightArrowIcon cursor name='arrow-back' size='20px' color='grey600' />
           </PaymentArrowContainer>
         )}
-      </PaymentContainer>
+      </Box>
     </>
   )
 }
