@@ -48,7 +48,7 @@ const FirstStep = (props) => {
           <Text size='13px' weight={400} color='error'>
             <FormattedMessage
               id='scenes.recover.firststep.warning'
-              defaultMessage='You should always pair or login if you have access to your wallet ID and password. Recovering your funds will create a new wallet ID.'
+              defaultMessage='You should always pair or login if you have access to your wallet ID/wallet email and password.'
             />
           </Text>
         </TextGroup>
@@ -64,6 +64,12 @@ const FirstStep = (props) => {
               <FormattedMessage
                 id='scenes.recover.firststep.mnemonic_explain'
                 defaultMessage='Enter your 12 word phrase, lowercase, with spaces between each word, to recover your funds & transactions.'
+              />
+            </Text>
+            <Text size='12px' weight={400} style={{ marginBottom: '16px' }}>
+              <FormattedMessage
+                id='scenes.recover.firststep.mnemonic_explain_verification'
+                defaultMessage='For your security, you may have to re-verify your identity before accessing your Trading or Interest accounts.'
               />
             </Text>
             <Field

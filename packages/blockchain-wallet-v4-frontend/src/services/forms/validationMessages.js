@@ -108,6 +108,14 @@ export const InvalidWalletIdMessage = () => (
     defaultMessage='Invalid Wallet ID'
   />
 )
+
+export const InvalidWalletIdorEmailMessage = () => (
+  <FormattedMessage
+    id='formhelper.invalidwalletidemail'
+    defaultMessage='Invalid Wallet ID or Email'
+  />
+)
+
 export const PartnerCountryWhitelist = () => (
   <FormattedMessage
     id='formhelper.partnercountrywhitelist'

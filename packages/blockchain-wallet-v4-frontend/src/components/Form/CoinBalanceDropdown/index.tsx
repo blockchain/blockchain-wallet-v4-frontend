@@ -4,12 +4,7 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { CoinAccountIcon, Text } from 'blockchain-info-components'
-import {
-  CoinType,
-  RatesType,
-  SupportedCoinType,
-  SupportedWalletCurrenciesType
-} from 'blockchain-wallet-v4/src/types'
+import { RatesType } from 'blockchain-wallet-v4/src/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import SelectBox from 'components/Form/SelectBox'
@@ -17,7 +12,6 @@ import SelectBox from 'components/Form/SelectBox'
 import getData from './selectors'
 
 const DisplayContainer = styled.div<{
-  coinType: SupportedCoinType
   isItem: boolean
 }>`
   display: flex;
@@ -25,9 +19,6 @@ const DisplayContainer = styled.div<{
   align-items: center;
   box-sizing: border-box;
   padding: ${(props) => (props.isItem ? '0px 6px' : '16px 12px')};
-  > span {
-    color: ${(props) => props.theme[props.coinType.coinCode]} !important;
-  }
 `
 const AccountContainer = styled.div`
   position: relative;
@@ -77,14 +68,13 @@ class CoinBalanceDropdown extends PureComponent<Props> {
   }
 
   renderDisplay = (props: { selectProps: { options: Array<any> }; value }, children) => {
-    const coinType = this.props.supportedCoins[this.props.coin]
     const balance = this.coinBalance(props)
     const account = this.accountLabel(props)
     const isItem = !children
 
     return (
-      <DisplayContainer coinType={coinType} isItem={isItem}>
-        <CoinAccountIcon accountType={props.value?.type} coin={coinType.coinCode} />
+      <DisplayContainer isItem={isItem}>
+        <CoinAccountIcon accountType={props.value?.type} coin={this.props.coin} />
         <AccountContainer>
           <Text weight={500} color='grey400' size='14px'>
             {account}{' '}
@@ -160,7 +150,6 @@ export type OwnProps = {
   includeCustodial: boolean
   name: 'collateral' | 'interestDepositAccount' | 'interestWithdrawalAccount' | 'repay-principal'
   rates: RatesType
-  supportedCoins: SupportedWalletCurrenciesType
 }
 
 type Props = OwnProps & ConnectedProps<typeof connector>

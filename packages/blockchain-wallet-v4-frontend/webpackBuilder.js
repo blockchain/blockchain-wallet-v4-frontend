@@ -124,17 +124,15 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   plugins: concat(
     [
       new CleanWebpackPlugin(),
-      new Webpack.DefinePlugin({
-        APP_VERSION: JSON.stringify(require(CONFIG_PATH.pkgJson).version),
-        RECAPTCHA_KEY: JSON.stringify(
-          process.env.CAPTCHA_KEY ? process.env.CAPTCHA_KEY : envConfig.RECAPTCHA_KEY
-        )
-      }),
       new HtmlWebpackPlugin({
         template: CONFIG_PATH.src + '/index.html',
         filename: 'index.html'
       }),
       new HtmlReplaceWebpackPlugin([
+        {
+          pattern: '**APP_VERSION**',
+          replacement: require(CONFIG_PATH.pkgJson).version
+        },
         {
           pattern: '**RECAPTCHA_KEY**',
           replacement: process.env.CAPTCHA_KEY ? process.env.CAPTCHA_KEY : envConfig.RECAPTCHA_KEY

@@ -1,3 +1,4 @@
+import { CoinType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import { ModalNamesType } from 'data/modals/types'
 
 // State
@@ -21,6 +22,13 @@ export type GoalsType =
   | 'interestPromo'
 
 export type GoalType = { data: any; id: string; name: GoalsType }
+export type SimpleBuyWidgetGoalDataType = {
+  amount: string
+  crypto: CoinType
+  email?: string
+  fiatCurrency: WalletFiatType
+}
+
 export type GoalsState = {
   goals: Array<GoalType>
   initialModalDisplayed: boolean

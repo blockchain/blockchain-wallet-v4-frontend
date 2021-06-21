@@ -8,9 +8,26 @@ export const announcementToggled = (id, collapsed) => ({
   type: AT.ANNOUNCEMENT_TOGGLED,
   payload: { id, collapsed }
 })
+
+export const emailStored = email => ({
+  type: AT.EMAIL_STORED,
+  payload: { email }
+})
+
+export const guidStored = guid => ({
+  type: AT.GUID_STORED,
+  payload: { guid }
+})
+export const mobileConnectedStored = mobileConnected => ({
+  type: AT.MOBILE_CONNECTED_STORED,
+  payload: { mobileConnected }
+})
 export const guidEntered = guid => ({
   type: AT.GUID_ENTERED,
   payload: { guid }
+})
+export const removedStoredLogin = () => ({
+  type: AT.REMOVED_STORED_LOGIN
 })
 export const channelPrivKeyCreated = privKey => ({
   type: AT.CHANNEL_PRIV_KEY_CREATED,
