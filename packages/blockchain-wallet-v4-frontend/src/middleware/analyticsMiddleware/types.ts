@@ -155,7 +155,25 @@ type BuyPaymentMethodSelectedPayload = BasePayload & {
 }
 
 type BuySellClickedPayload = BasePayload & {
-  origin: string
+  origin:
+    | 'BUY_WIDGET'
+    | 'CURRENCY_PAGE'
+    | 'DASHBOARD_PROMO'
+    | 'DEEP_LINK'
+    | 'EMPTY_FEED'
+    | 'LINK_BANK'
+    | 'NAVIGATION'
+    | 'PENDING_ORDER'
+    | 'PRICE_CHART'
+    | 'SAVINGS'
+    | 'SAVINGS_CONFIRMATION'
+    | 'SELL'
+    | 'SEND'
+    | 'SETTINGS'
+    | 'SIMPLETRADE'
+    | 'TRANSACTION_DETAILS'
+    | 'TRANSACTION_LIST'
+    | 'WELCOME'
   type: OrderType
 }
 

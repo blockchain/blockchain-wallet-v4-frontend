@@ -4,7 +4,27 @@ import { PaymentType } from 'middleware/analyticsMiddleware/types'
 import { PaymentValue, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { SBShowModalOriginType } from 'data/types'
 
-const buySellClickedOriginDictionary = (rawOrigin: SBShowModalOriginType | string) => {
+const buySellClickedOriginDictionary = (
+  rawOrigin: SBShowModalOriginType | string
+):
+  | 'BUY_WIDGET'
+  | 'CURRENCY_PAGE'
+  | 'DASHBOARD_PROMO'
+  | 'DEEP_LINK'
+  | 'EMPTY_FEED'
+  | 'LINK_BANK'
+  | 'NAVIGATION'
+  | 'PENDING_ORDER'
+  | 'PRICE_CHART'
+  | 'SAVINGS'
+  | 'SAVINGS_CONFIRMATION'
+  | 'SELL'
+  | 'SEND'
+  | 'SETTINGS'
+  | 'SIMPLETRADE'
+  | 'TRANSACTION_DETAILS'
+  | 'TRANSACTION_LIST'
+  | 'WELCOME' => {
   switch (rawOrigin) {
     case 'InterestPage':
       return 'SAVINGS'
@@ -14,14 +34,27 @@ const buySellClickedOriginDictionary = (rawOrigin: SBShowModalOriginType | strin
       return 'NAVIGATION'
     case 'WelcomeModal':
       return 'WELCOME'
+    case 'WithdrawModal':
+      return 'LINK_BANK'
     case 'PriceChart':
       return 'PRICE_CHART'
+    case 'GOALS':
     case 'SimpleBuyLink':
       return 'BUY_WIDGET'
     case 'CurrencyList':
       return 'CURRENCY_PAGE'
+    case 'TransactionList':
+      return 'TRANSACTION_LIST'
+    case 'SettingsProfile':
+    case 'SettingsGeneral':
+      return 'SETTINGS'
+    case 'EmptyFeed':
+    case 'SwapNoHoldings':
+      return 'EMPTY_FEED'
+    case 'Goals':
+      return 'DEEP_LINK'
     default: {
-      return rawOrigin
+      throw new Error('Origin not found')
     }
   }
 }
@@ -65,12 +98,12 @@ const getNetworkFee = (paymentValue: PaymentValue | null) => {
     : 0
 }
 
-const interestDepositClickedOriginDictionary = (rawOrigin) => {
+const interestDepositClickedOriginDictionary = (rawOrigin): 'SAVINGS_PAGE' => {
   switch (rawOrigin) {
     case 'InterestPage':
       return 'SAVINGS_PAGE'
     default: {
-      return rawOrigin
+      throw new Error('Origin not found')
     }
   }
 }
