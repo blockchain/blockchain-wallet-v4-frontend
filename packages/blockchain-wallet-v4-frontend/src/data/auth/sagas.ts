@@ -11,7 +11,6 @@ import { isGuid } from 'services/forms'
 import { checkForVulnerableAddressError } from 'services/misc'
 import { askSecondPasswordEnhancer, confirm, promptForSecondPassword } from 'services/sagas'
 
-import profileSagas from '../modules/profile/sagas'
 import * as A from './actions'
 import { guessCurrencyBasedOnCountry } from './helpers'
 import { LoginSteps, WalletDataFromMagicLink } from './types'
