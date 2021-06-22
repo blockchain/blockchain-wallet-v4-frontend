@@ -34,6 +34,7 @@ export type WalletFormType =
   | 'previewSell'
   | 'prices'
   | 'priceChartCoin'
+  | 'recover'
   | 'register'
   | 'repayLoanForm'
   | 'requestCrypto'

@@ -11,6 +11,7 @@ import { isGuid } from 'services/forms'
 import { checkForVulnerableAddressError } from 'services/misc'
 import { askSecondPasswordEnhancer, confirm, promptForSecondPassword } from 'services/sagas'
 
+import profileSagas from '../modules/profile/sagas'
 import * as A from './actions'
 import { guessCurrencyBasedOnCountry } from './helpers'
 import { LoginSteps, WalletDataFromMagicLink } from './types'
@@ -94,13 +95,13 @@ export default ({ api, coreSagas }) => {
     yield put(actions.middleware.webSocket.xlm.startStreams())
   }
 
-  const authNabu = function* (fromRestoredFlow) {
+  const authNabu = function* () {
     yield put(actions.components.identityVerification.fetchSupportedCountries())
     yield take([
       actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES_SUCCESS,
       actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES_FAILURE
     ])
-    yield put(actions.modules.profile.signIn(fromRestoredFlow))
+    yield put(actions.modules.profile.signIn())
   }
 
   const fetchBalances = function* () {
@@ -285,7 +286,7 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
 
-      yield call(authNabu, fromRestoredFlow)
+      yield call(authNabu)
 
       if (firstLogin) {
         const countryCode = navigator.language.slice(-2) || 'US'
@@ -512,7 +513,27 @@ export default ({ api, coreSagas }) => {
         coreSagas.wallet.restoreWalletCredentialsFromMetadata,
         mnemonic
       )
-      yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
+      const { guid, sharedKey } = metadataInfo
+      const { token } = yield call(api.generateRetailToken, guid, sharedKey)
+      const { token: lifetimeToken, userId } = yield call(api.createUser, token)
+      if (userId) {
+        try {
+          yield call(api.resetUserKyc, userId, lifetimeToken, token)
+          yield put(A.setKycResetStatus(true))
+          yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
+        } catch (e) {
+          if (e.description === 'User reset in progress') {
+            yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
+            yield put(A.setKycResetStatus(true))
+          } else {
+            yield put(actions.alerts.displayError(C.KYC_RESET_ERROR))
+            yield put(actions.auth.restoreFromMetadataFailure({ e }))
+            yield put(A.setKycResetStatus(false))
+          }
+        }
+      } else {
+        yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
+      }
     } catch (e) {
       yield put(actions.auth.restoreFromMetadataFailure({ e }))
       yield put(actions.logs.logErrorMessage(logLocation, 'restoreFromMetadata', e))

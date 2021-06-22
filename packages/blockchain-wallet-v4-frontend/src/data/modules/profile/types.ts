@@ -133,7 +133,6 @@ export interface ProfileState {
   }
   userCampaigns: RemoteDataType<NabuApiErrorType, UserCampaignsType>
   userData: RemoteDataType<NabuApiErrorType, UserDataType>
-  userKycReset: RemoteDataType<string, boolean>
   userTiers: RemoteDataType<string, UserTiersType>
 }
 
@@ -235,25 +234,6 @@ interface LinkToExchangeAccountResetAction {
 interface LinkToExchangeAccountSuccessAction {
   type: typeof AT.LINK_TO_EXCHANGE_ACCOUNT_SUCCESS
 }
-
-interface ResetUserKycAction {
-  type: typeof AT.RESET_USER_KYC
-}
-
-interface ResetUserLoadingAction {
-  type: typeof AT.RESET_USER_KYC_LOADING
-}
-
-interface ResetUserSuccessAction {
-  type: typeof AT.RESET_USER_KYC_SUCCESS
-}
-
-interface ResetUserFailureAction {
-  payload: {
-    error: string
-  }
-  type: typeof AT.RESET_USER_KYC_FAILURE
-}
 interface SetApiTokenFailureAction {
   // FIXME: TypeScript error: Error?
   payload: {
@@ -326,10 +306,6 @@ export type ProfileActionTypes =
   | LinkToExchangeAccountResetAction
   | LinkToExchangeAccountLoadingAction
   | LinkToExchangeAccountSuccessAction
-  | ResetUserKycAction
-  | ResetUserFailureAction
-  | ResetUserLoadingAction
-  | ResetUserSuccessAction
   | SetApiTokenFailureAction
   | SetApiTokenNotAskedAction
   | SetApiTokenLoadingAction

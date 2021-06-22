@@ -197,15 +197,11 @@ export default ({ api, coreSagas, networks }) => {
     yield call(setSession, userId, lifetimeToken, email, guid)
   }
 
-  const signIn = function* (action) {
+  const signIn = function* () {
     try {
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail('No email')
       const guid = yield select(selectors.core.wallet.getGuid)
       yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
-      if (action.payload.fromRestoredFlow) {
-        yield put(A.resetUserKyc())
-      }
-
       const userId = (yield select(selectors.core.kvStore.userCredentials.getUserId)).getOrElse(
         null
       )
@@ -259,32 +255,6 @@ export default ({ api, coreSagas, networks }) => {
     const { token: lifetimeToken, userId } = yield call(api.createUser, retailToken)
     yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
     return { lifetimeToken, userId }
-  }
-
-  const resetUserKyc = function* () {
-    try {
-      yield put(A.resetUserKycLoading())
-      yield call(coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials)
-      const retailToken = yield call(generateRetailToken)
-      const userId = (yield select(selectors.core.kvStore.userCredentials.getUserId)).getOrElse(
-        null
-      )
-      const lifetimeToken = (yield select(
-        selectors.core.kvStore.userCredentials.getLifetimeToken
-      )).getOrFail()
-      if (userId) {
-        try {
-          yield call(api.resetUserKyc, userId, lifetimeToken, retailToken)
-        } catch (e) {
-          yield put(actions.alerts.displayError(C.KYC_RESET_ERROR, {}, true))
-          yield put(actions.auth.logout())
-        }
-      }
-      yield put(A.resetUserKycSuccess())
-    } catch (e) {
-      yield put(A.resetUserKycSuccessFailure(e))
-      yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
-    }
   }
 
   const createUser = function* () {
@@ -542,7 +512,6 @@ export default ({ api, coreSagas, networks }) => {
     renewApiSockets,
     renewSession,
     renewUser,
-    resetUserKyc,
     setSession,
     shareWalletAddressesWithExchange,
     signIn,

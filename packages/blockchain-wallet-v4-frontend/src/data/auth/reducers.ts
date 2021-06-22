@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   firstLogin: false,
   isAuthenticated: false,
   isLoggingIn: false,
+  kycReset: undefined,
   login: Remote.NotAsked,
   metadataRestore: Remote.NotAsked,
   mobileLoginStarted: false,
@@ -39,6 +40,9 @@ const auth = (state = INITIAL_STATE, action) => {
     }
     case AT.AUTHENTICATE: {
       return assoc('isAuthenticated', true, state)
+    }
+    case AT.SET_KYC_RESET: {
+      return assoc('kycReset', payload.kycResetStatus, state)
     }
     case AT.MOBILE_LOGIN_START: {
       return assoc('mobileLoginStarted', true, state)

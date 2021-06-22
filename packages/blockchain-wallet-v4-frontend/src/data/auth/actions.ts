@@ -165,3 +165,8 @@ export const logWrongChangeCache = () => ({
 export const logWrongReceiveCache = () => ({
   type: AT.WRONG_RECEIVE_CACHE
 })
+
+export const setKycResetStatus = (kycResetStatus) => ({
+  payload: { kycResetStatus },
+  type: AT.SET_KYC_RESET
+})

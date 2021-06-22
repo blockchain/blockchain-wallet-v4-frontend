@@ -98,7 +98,6 @@ export const getAuthCredentials = (state) => ({
 })
 
 export const getCampaign = pathOr(null, ['profile', 'campaign'])
-export const getUserKycReset = path(['profile', 'userKycReset'])
 
 export const CLOSE_TO_AMOUNT = 0.8
 export const closeToTier1Limit = (state) =>
