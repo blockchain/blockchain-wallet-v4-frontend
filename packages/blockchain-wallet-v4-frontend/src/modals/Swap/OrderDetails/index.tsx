@@ -13,15 +13,12 @@ import { Props as BaseProps, SuccessStateType } from '..'
 import { TopText } from '../components'
 
 class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
-  state = {}
-
   render() {
     if (!this.props.order) return null
 
     const baseCoin = getInput(this.props.order)
     const counterCoin = getOutput(this.props.order)
-    // @ts-ignore
-    const { coins, handleClose, order } = this.props
+    const { handleClose, order } = this.props
     return (
       <>
         <FlyoutWrapper>
@@ -57,8 +54,8 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           </Title>
           <Value>
             {coinToString({
-              unit: { symbol: coins[baseCoin].coinTicker },
-              value: convertBaseToStandard(baseCoin, order.priceFunnel.inputMoney),
+              unit: { symbol: baseCoin },
+              value: convertBaseToStandard(baseCoin, order.priceFunnel.inputMoney)
             })}
           </Value>
         </Row>
@@ -68,8 +65,8 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           </Title>
           <Value>
             {coinToString({
-              unit: { symbol: coins[counterCoin].coinTicker },
-              value: convertBaseToStandard(counterCoin, this.props.order.priceFunnel.outputMoney),
+              unit: { symbol: counterCoin },
+              value: convertBaseToStandard(counterCoin, this.props.order.priceFunnel.outputMoney)
             })}
           </Value>
         </Row>
