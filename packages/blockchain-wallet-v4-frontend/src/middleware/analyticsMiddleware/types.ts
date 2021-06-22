@@ -154,8 +154,28 @@ type BuyPaymentMethodSelectedPayload = BasePayload & {
   payment_type: PaymentType
 }
 
+type BuySellClickedOrigin =
+  | 'BUY_WIDGET'
+  | 'CURRENCY_PAGE'
+  | 'DASHBOARD_PROMO'
+  | 'DEEP_LINK'
+  | 'EMPTY_FEED'
+  | 'LINK_BANK'
+  | 'NAVIGATION'
+  | 'PENDING_ORDER'
+  | 'PRICE_CHART'
+  | 'SAVINGS'
+  | 'SAVINGS_CONFIRMATION'
+  | 'SELL'
+  | 'SEND'
+  | 'SETTINGS'
+  | 'SIMPLETRADE'
+  | 'TRANSACTION_DETAILS'
+  | 'TRANSACTION_LIST'
+  | 'WELCOME'
+
 type BuySellClickedPayload = BasePayload & {
-  origin: string
+  origin: BuySellClickedOrigin
   type: OrderType
 }
 
@@ -164,8 +184,10 @@ type BuySellViewedPayload = BasePayload &
     type: OrderType
   }
 
+type DashboardClickedOrigin = 'SIGN_IN'
+
 type DashboardClickedPayload = BasePayload & {
-  origin: 'SIGN_IN'
+  origin: DashboardClickedOrigin
 }
 
 type DashboardViewedPayload = BasePayload & PageViewPayload & {}
@@ -176,8 +198,10 @@ type DepositAmountEnteredPayload = BasePayload & {
   deposit_method: DepositMethodType
 }
 
+type DepositClickedOrigin = 'CURRENCY_PAGE'
+
 type DepositClickedPayload = BasePayload & {
-  origin: 'CURRENCY_PAGE' | 'PORTFOLIO'
+  origin: DepositClickedOrigin
 }
 
 type DepositMethodSelectedPayload = BasePayload & {
@@ -187,12 +211,16 @@ type DepositMethodSelectedPayload = BasePayload & {
 
 type DepositViewedPayload = BasePayload & PageViewPayload & {}
 
+type EmailVerificationClickedOrigin = 'SIGN_UP' | 'VERIFICATION'
+
 type EmailVerificationClickedPayload = BasePayload & {
-  // origin: 'SIGN_UP' | 'VERIFICATION'
+  origin: EmailVerificationClickedOrigin
 }
 
+type InterestClickedOrigin = 'NAVIGATION'
+
 type InterestClickedPayload = BasePayload & {
-  origin: 'NAVIGATION'
+  origin: InterestClickedOrigin
 }
 
 type InterestDepositAmountEnteredPayload = BasePayload & {
@@ -205,9 +233,15 @@ type InterestDepositAmountEnteredPayload = BasePayload & {
   output_amount: number
 }
 
+type InterestDepositClickedOrigin =
+  | 'CURRENCY_PAGE'
+  | 'SAVINGS_CONFIRMATION'
+  | 'SAVINGS_PAGE'
+  | 'SEND'
+
 type InterestDepositClickedPayload = BasePayload & {
   currency: string
-  origin: 'CURRENCY_PAGE' | 'SAVINGS_CONFIRMATION' | 'SAVINGS_PAGE'
+  origin: InterestDepositClickedOrigin
 }
 
 type InterestDepositMaxAmountClickedPayload = BasePayload & {
@@ -224,21 +258,27 @@ type InterestDepositMinAmountClickedPayload = BasePayload & {
 
 type InterestDepositViewedPayload = BasePayload & PageViewPayload & {}
 
+type InterestSubmitInformationClickedOrigin = 'SAVINGS_CONFIRMATION' | 'SAVINGS_PAGE'
+
 type InterestSubmitInformationClickedPayload = BasePayload & {
-  origin: 'SAVINGS_CONFIRMATION' | 'SAVINGS_PAGE'
+  origin: InterestSubmitInformationClickedOrigin
 }
 
 type InterestViewedPayload = BasePayload & PageViewPayload & {}
 
+type InterestWithdrawalClickedOrigin = 'CURRENCY_PAGE'
+
 type InterestWithdrawalClickedPayload = BasePayload & {
   currency: string
-  origin: 'CURRENCY_PAGE'
+  origin: InterestWithdrawalClickedOrigin
 }
 
 type InterestWithdrawalViewedPayload = BasePayload & PageViewPayload & {}
 
+type LinkBankClickedOrigin = 'BUY' | 'DEPOSIT' | 'SETTINGS' | 'WITHDRAW'
+
 type LinkBankClickedPayload = BasePayload & {
-  // origin: 'BUY' |'DEPOSIT' | 'SETTINGS' | 'WITHDRAW'
+  origin: LinkBankClickedOrigin
 }
 
 type ReceiveCurrencySelectedPayload = BasePayload & {
@@ -293,8 +333,10 @@ type SendFromSelectedPayload = BasePayload & {
   from_account_type: AccountType
 }
 
+type SendReceiveClickedOrigin = 'NAVIGATION'
+
 type SendReceiveClickedPayload = BasePayload & {
-  origin: 'NAVIGATION'
+  origin: SendReceiveClickedOrigin
   type: 'RECEIVE' | 'SEND'
 }
 
@@ -313,8 +355,10 @@ type SignedInPayload = BasePayload & {}
 
 type SignedOutPayload = BasePayload & {}
 
+type SwapClickedOrigin = 'CURRENCY_PAGE' | 'DASHBOARD_PROMO' | 'NAVIGATION'
+
 type SwapClickedPayload = BasePayload & {
-  origin: 'CURRENCY_PAGE' | 'DASHBOARD_PROMO' | 'NAVIGATION'
+  origin: SwapClickedOrigin
 }
 
 type SwapViewedPayload = BasePayload & PageViewPayload & {}
@@ -373,16 +417,18 @@ type SwapRequestedPayload = BasePayload & {
   output_type: string
 }
 
+type UpgradeVerificationClickedOrigin =
+  | 'AIRDROP'
+  | 'FIAT_FUNDS'
+  | 'RESUBMISSION'
+  | 'SAVINGS'
+  | 'SETTINGS'
+  | 'SIMPLEBUY'
+  | 'SIMPLETRADE'
+  | 'SWAP'
+
 type UpgradeVerificationClickedPayload = BasePayload & {
-  // origin:
-  //   | 'AIRDROP'
-  //   | 'FIAT_FUNDS'
-  //   | 'RESUBMISSION'
-  //   | 'SAVINGS'
-  //   | 'SETTINGS'
-  //   | 'SIMPLEBUY'
-  //   | 'SIMPLETRADE'
-  //   | 'SWAP'
+  origin: UpgradeVerificationClickedOrigin
   tier: number
 }
 
@@ -402,8 +448,10 @@ type WithdrawalAmountMinClickedPayload = BasePayload & {
   withdrawal_method: WithdrawalMethodType
 }
 
+type WithdrawalClickedOrigin = 'CURRENCY_PAGE'
+
 type WithdrawalClickedPayload = BasePayload & {
-  // origin: 'CURRENCY_PAGE' | 'PORTFOLIO'
+  origin: WithdrawalClickedOrigin
 }
 
 type WithdrawalMethodSelectedPayload = BasePayload & {
@@ -476,7 +524,21 @@ type AnalyticsPayload =
   | WrongChangeCachePayload
   | WrongReceiveCachePayload
 
-export type { AnalyticsPayload, PageNamesType }
+export type {
+  AnalyticsPayload,
+  BuySellClickedOrigin,
+  DashboardClickedOrigin,
+  DepositClickedOrigin,
+  EmailVerificationClickedOrigin,
+  InterestDepositClickedOrigin,
+  InterestSubmitInformationClickedOrigin,
+  InterestWithdrawalClickedOrigin,
+  LinkBankClickedOrigin,
+  PageNamesType,
+  SendReceiveClickedOrigin,
+  SwapClickedOrigin,
+  WithdrawalClickedOrigin
+}
 
 export {
   AccountType,

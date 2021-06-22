@@ -1,10 +1,16 @@
-import * as crypto from 'crypto'
+import crypto from 'crypto'
+import type {
+  BuySellClickedOrigin,
+  InterestDepositClickedOrigin
+} from 'middleware/analyticsMiddleware/types'
 import { PaymentType } from 'middleware/analyticsMiddleware/types'
 
 import { PaymentValue, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { SBShowModalOriginType } from 'data/types'
 
-const simpleBuyOriginDictionary = (rawOrigin: SBShowModalOriginType | string) => {
+const buySellClickedOriginDictionary = (
+  rawOrigin: SBShowModalOriginType | string
+): BuySellClickedOrigin => {
   switch (rawOrigin) {
     case 'InterestPage':
       return 'SAVINGS'
@@ -14,19 +20,34 @@ const simpleBuyOriginDictionary = (rawOrigin: SBShowModalOriginType | string) =>
       return 'NAVIGATION'
     case 'WelcomeModal':
       return 'WELCOME'
+    case 'WithdrawModal':
+      return 'LINK_BANK'
     case 'PriceChart':
       return 'PRICE_CHART'
+    case 'GOALS':
     case 'SimpleBuyLink':
       return 'BUY_WIDGET'
     case 'CurrencyList':
       return 'CURRENCY_PAGE'
+    case 'TransactionList':
+      return 'TRANSACTION_LIST'
+    case 'SettingsProfile':
+    case 'SettingsGeneral':
+      return 'SETTINGS'
+    case 'EmptyFeed':
+    case 'SwapNoHoldings':
+      return 'EMPTY_FEED'
+    case 'Goals':
+      return 'DEEP_LINK'
     default: {
-      return rawOrigin
+      throw new Error('Origin not found')
     }
   }
 }
 
-const simpleBuyPaymentTypeDictionary = (rawPaymentType: SBPaymentTypes): PaymentType => {
+const buyPaymentMethodSelectedPaymentTypeDictionary = (
+  rawPaymentType: SBPaymentTypes
+): PaymentType => {
   switch (rawPaymentType) {
     case SBPaymentTypes.USER_CARD: {
       return PaymentType.PAYMENT_CARD
@@ -51,24 +72,33 @@ const simpleBuyPaymentTypeDictionary = (rawPaymentType: SBPaymentTypes): Payment
 
 const getOriginalTimestamp = () => new Date().toISOString()
 
-const sha256 = (data) => crypto.createHash('sha256').update(data).digest()
-
 const generateUniqueUserId = (guid: string) => {
-  return sha256(guid).toString('base64')
+  return crypto.createHash('sha256').update(guid).digest().toString('base64')
 }
 
-const getNetworkFee = (value: PaymentValue | undefined) => {
-  return value
-    ? value.coin === 'BTC' || value.coin === 'BCH'
-      ? value.selection?.fee
-      : value.fee
+const getNetworkFee = (paymentValue: PaymentValue | null) => {
+  return paymentValue
+    ? paymentValue.coin === 'BTC' || paymentValue.coin === 'BCH'
+      ? paymentValue.selection?.fee
+      : paymentValue.fee
     : 0
 }
 
+const interestDepositClickedOriginDictionary = (rawOrigin): InterestDepositClickedOrigin => {
+  switch (rawOrigin) {
+    case 'InterestPage':
+      return 'SAVINGS_PAGE'
+    default: {
+      throw new Error('Origin not found')
+    }
+  }
+}
+
 export {
+  buyPaymentMethodSelectedPaymentTypeDictionary,
+  buySellClickedOriginDictionary,
   generateUniqueUserId,
   getNetworkFee,
   getOriginalTimestamp,
-  simpleBuyOriginDictionary,
-  simpleBuyPaymentTypeDictionary
+  interestDepositClickedOriginDictionary
 }
