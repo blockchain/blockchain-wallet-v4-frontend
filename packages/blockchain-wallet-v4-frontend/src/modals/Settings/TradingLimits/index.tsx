@@ -27,7 +27,6 @@ class TradingLimits extends PureComponent<Props, State> {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
-    this.props.fetchUser()
     this.props.fetchProductsEligibility()
     this.props.fetchInterestEDDStatus()
   }
@@ -68,7 +67,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   fetchInterestEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
   fetchProductsEligibility: () => dispatch(actions.components.settings.fetchProductsEligibility()),
-  fetchUser: () => dispatch(actions.modules.profile.fetchUser()),
   identityVerificationActions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 
