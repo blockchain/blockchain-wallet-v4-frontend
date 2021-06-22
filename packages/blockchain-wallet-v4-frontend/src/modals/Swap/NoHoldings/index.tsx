@@ -30,9 +30,9 @@ const DisplayContainer = styled(FlyoutWrapper)`
   box-sizing: border-box;
   padding: 16px 40px;
   flex-direction: row;
-  border-bottom: 1px solid ${props => props.theme.grey000};
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
   transition: background-color 0.3s;
-  ${props =>
+  ${(props) =>
     props.onClick &&
     css`
       cursor: pointer;
@@ -40,53 +40,30 @@ const DisplayContainer = styled(FlyoutWrapper)`
         cursor: pointer;
       }
       &:hover {
-        background-color: ${props => props.theme.blue000};
+        background-color: ${(props) => props.theme.blue000};
       }
     `}
 `
 
-const NoHoldings: React.FC<Props> = ({
-  handleClose,
-  modalActions,
-  simpleBuyActions
-}) => {
+const NoHoldings: React.FC<Props> = ({ handleClose, modalActions, simpleBuyActions }) => {
   return (
     <>
       <FlyoutWrapper>
         <TopText spaceBetween marginBottom>
           <Icon name='arrow-switch-thick' color='blue600' size='24px' />
-          <Icon
-            name='close'
-            color='grey600'
-            role='button'
-            cursor
-            onClick={handleClose}
-          />
+          <Icon name='close' color='grey600' role='button' cursor onClick={handleClose} />
         </TopText>
         <Text size='24px' color='grey900' weight={600}>
-          <FormattedMessage
-            id='copy.swap_your_crypto'
-            defaultMessage='Swap Your Crypto'
-          />
+          <FormattedMessage id='copy.swap_your_crypto' defaultMessage='Swap Your Crypto' />
         </Text>
-        <Text
-          size='16px'
-          color='grey600'
-          weight={500}
-          style={{ marginTop: '10px' }}
-        >
+        <Text size='16px' color='grey600' weight={500} style={{ marginTop: '10px' }}>
           <FormattedMessage
             id='copy.instantly_exchange'
             defaultMessage='Instantly exchange your crypto into any currency we offer in your wallet.'
           />
         </Text>
 
-        <Text
-          size='16px'
-          color='grey800'
-          weight={600}
-          style={{ marginTop: '24px' }}
-        >
+        <Text size='16px' color='grey800' weight={600} style={{ marginTop: '24px' }}>
           <FormattedMessage
             id='swap.no_holdings.own_some_first'
             defaultMessage='But you’ll need to own some first...'
@@ -126,10 +103,7 @@ const NoHoldings: React.FC<Props> = ({
             </Text>
             <CartridgeContainer>
               <SuccessCartridge>
-                <FormattedMessage
-                  id='copy.most_popular'
-                  defaultMessage='Most Popular'
-                />
+                <FormattedMessage id='copy.most_popular' defaultMessage='Most Popular' />
               </SuccessCartridge>
             </CartridgeContainer>
           </div>
@@ -201,9 +175,9 @@ const NoHoldings: React.FC<Props> = ({
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+const mapDispatchToProps = (dispatch) => ({
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(undefined, mapDispatchToProps)

@@ -1,4 +1,6 @@
-export const LOG_LEVELS = {
+const LOG_LEVELS = {
   OFF: 'off',
   VERBOSE: 'verbose'
 }
+
+export default LOG_LEVELS

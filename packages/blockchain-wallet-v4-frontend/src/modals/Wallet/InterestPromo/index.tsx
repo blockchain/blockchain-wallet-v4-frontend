@@ -7,21 +7,21 @@ import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import modalEnhancer from 'providers/ModalEnhancer'
 
-import { getData } from './selectors'
+import getData from './selectors'
 import Success from './template'
 
-const InterestPromo: React.FC<Props> = props => {
+const InterestPromo: React.FC<Props> = (props: Props) => {
   useEffect(() => {
     props.interestActions.fetchInterestRate()
-  }, [])
+  }, [props.interestActions])
 
   return (
     <>
       {props.data.cata({
-        Success: val => <Success {...props} {...val} />,
         Failure: () => null,
         Loading: () => null,
-        NotAsked: () => null
+        NotAsked: () => null,
+        Success: (val) => <Success {...props} {...val} />
       })}
     </>
   )
@@ -32,8 +32,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  interestActions: bindActionCreators(actions.components.interest, dispatch),
-  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -53,6 +53,6 @@ export type LinkStatePropsType = {
 
 export type Props = OwnPropsType & ConnectedProps<typeof connector>
 
-const enhance = compose(modalEnhancer('InterestPromo'), connector)
+const enhance = compose(modalEnhancer('INTEREST_PROMO_MODAL'), connector)
 
 export default enhance(InterestPromo)

@@ -21,6 +21,7 @@ export type SupportedCoinType = {
   displayName: string
   hasLockboxSupport: boolean
   invited?: boolean
+  isMemoBased?: boolean
   learnMoreLink: string
   method?: boolean
   minConfirmations: number

@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
-import { lighten } from 'polished'
+import { transparentize } from 'polished'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { Icon, Text, TextGroup } from 'blockchain-info-components'
@@ -33,8 +33,9 @@ export const Addresses = ({ from, to }) => {
         </Text>
       </TextGroup>
       <TextGroup inline>
-        <Text size='14px' color={'grey600'} weight={500}>
-          <FormattedMessage id='copy.from:' defaultMessage='From: ' />
+        <Text size='14px' color='grey600' weight={500}>
+          <FormattedMessage id='copy.from:' defaultMessage='From' />
+          :
         </Text>
         <Text
           size='14px'
@@ -91,6 +92,15 @@ export const DetailsColumn = styled.div`
   &:last-child {
     align-items: flex-end;
   }
+`
+export const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  width: 32px;
+  border-radius: 16px;
+  background: ${props => transparentize(0.85, props.theme[props.color])};
 `
 
 export const IconTx = ({
@@ -180,15 +190,7 @@ export const IconTx = ({
 
   return <IconWrapper color={bgColor}>{getIcon()}</IconWrapper>
 }
-export const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 32px;
-  width: 32px;
-  border-radius: 16px;
-  background: ${props => lighten(0.4, props.theme[props.color])};
-`
+
 export const Row = styled(Col)`
   display: flex;
   align-items: center;

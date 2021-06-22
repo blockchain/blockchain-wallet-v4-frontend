@@ -1,10 +1,7 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import {
-  BuyOrSell,
-  displayFiat
-} from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
+import { BuyOrSell, displayFiat } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
 import { path } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
@@ -53,10 +50,13 @@ const LastCol = styled(Col)`
   justify-content: flex-end;
 `
 class SimpleBuyListItem extends PureComponent<Props, State> {
-  state: State = { isToggled: false }
+  constructor(props: Props) {
+    super(props)
+    this.state = { isToggled: false }
+  }
 
   handleToggle = () => {
-    this.setState({ isToggled: !this.state.isToggled })
+    this.setState((prevState) => ({ isToggled: !prevState.isToggled }))
   }
 
   showModal = (order: SBOrderType) => {
@@ -64,12 +64,17 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
       origin: 'TransactionList'
     })
     this.props.simpleBuyActions.setStep({
+      order,
       step:
         order.state === 'PENDING_CONFIRMATION'
           ? 'CHECKOUT_CONFIRM'
-          : 'ORDER_SUMMARY',
-      order
+          : order.attributes?.authorisationUrl
+          ? 'OPEN_BANKING_CONNECT'
+          : 'ORDER_SUMMARY'
     })
+    if (order.attributes?.authorisationUrl) {
+      this.props.simpleBuyActions.confirmOrderPoll(order)
+    }
   }
 
   render() {
@@ -91,20 +96,12 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
     })
 
     return (
-      <TxRowContainer
-        className={this.state.isToggled ? 'active' : ''}
-        data-e2e='transactionRow'
-      >
+      <TxRowContainer className={this.state.isToggled ? 'active' : ''} data-e2e='transactionRow'>
         <TxRow onClick={this.handleToggle}>
           <Row width='30%' data-e2e='orderStatusColumn'>
             <IconTx {...this.props} />
             <StatusAndType>
-              <Text
-                size='16px'
-                color='grey800'
-                weight={600}
-                data-e2e='txTypeText'
-              >
+              <Text size='16px' color='grey800' weight={600} data-e2e='txTypeText'>
                 <BuyOrSell
                   crypto={coin}
                   orderType={orderType}
@@ -120,11 +117,10 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
               to={<>{coinDisplayName} Trading Account</>}
             />
           </Col>
-          {order.state === 'PENDING_CONFIRMATION' ||
-          order.state === 'PENDING_DEPOSIT' ? (
+          {order.state === 'PENDING_CONFIRMATION' || order.state === 'PENDING_DEPOSIT' ? (
             <LastCol
               width='20%'
-              style={{ textAlign: 'right', alignItems: 'flex-end' }}
+              style={{ alignItems: 'flex-end', textAlign: 'right' }}
               data-e2e='orderAmountColumn'
             >
               <Button
@@ -133,7 +129,7 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
                 height='35px'
                 nature='light'
                 // @ts-ignore
-                onClick={e => {
+                onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
                   return this.showModal(order)
@@ -148,18 +144,11 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
           ) : (
             <Col width='20%' data-e2e='orderAmountColumn'>
               <StyledCoinDisplay coin={coin} data-e2e='orderCoinAmt'>
-                {orderType === 'BUY'
-                  ? order.outputQuantity
-                  : order.inputQuantity}
+                {orderType === 'BUY' ? order.outputQuantity : order.inputQuantity}
               </StyledCoinDisplay>
               {orderType === 'BUY' ? (
                 <StyledBuyFiatDisplay>
-                  <Text
-                    color='grey600'
-                    data-e2e='orderFiatAmt'
-                    size='14px'
-                    weight={500}
-                  >
+                  <Text color='grey600' data-e2e='orderFiatAmt' size='14px' weight={500}>
                     {totalTxAmount}
                   </Text>
                 </StyledBuyFiatDisplay>
@@ -214,10 +203,7 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
             <DetailsColumn />
             <DetailsColumn>
               <RowHeader>
-                <FormattedMessage
-                  defaultMessage='Status'
-                  id='components.txlistitem.status'
-                />
+                <FormattedMessage defaultMessage='Status' id='components.txlistitem.status' />
               </RowHeader>
               <RowValue>
                 <Status {...this.props} />

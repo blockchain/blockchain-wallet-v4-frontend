@@ -3,49 +3,41 @@ import { select } from 'redux-saga/effects'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { PaymentValue } from 'blockchain-wallet-v4/src/redux/payment/types'
-import {
-  CoinType,
-  CurrenciesType,
-  RatesType
-} from 'blockchain-wallet-v4/src/types'
+import { CoinType, CurrenciesType, RatesType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
 // retrieves default account/address
-export const getDefaultAccount = function * () {
+export const getDefaultAccount = function* () {
   const ethAccountR = yield select(selectors.core.common.eth.getAccountBalances)
   return ethAccountR.map(head)
 }
 
 // retrieves the next receive address
-export const getNextReceiveAddress = function * () {
+export const getNextReceiveAddress = function* () {
   return selectors.core.data.eth
     .getDefaultAddress(yield select())
     .getOrFail(`Failed to get ETH receive address`)
 }
 
 // gets or updates a provisional payment
-export const getOrUpdateProvisionalPayment = function * (
-  coreSagas,
-  networks,
-  paymentR
-) {
+export const getOrUpdateProvisionalPayment = function* (coreSagas, networks, paymentR) {
   return yield coreSagas.payment.eth.create({
-    payment: paymentR.getOrElse(<PaymentValue>{}),
-    network: networks.eth
+    network: networks.eth,
+    payment: paymentR.getOrElse(<PaymentValue>{})
   })
 }
 
 // converts base unit (WEI) to fiat
-export const convertFromBaseUnitToFiat = function(
+export const convertFromBaseUnitToFiat = function (
   coin: CoinType,
   baseUnitValue: number | string,
   userCurrency: keyof CurrenciesType,
   rates: RatesType
 ): number {
   return Exchange.convertEthToFiat({
-    value: baseUnitValue,
     fromUnit: 'WEI',
+    rates,
     toCurrency: userCurrency,
-    rates
+    value: baseUnitValue
   }).value
 }

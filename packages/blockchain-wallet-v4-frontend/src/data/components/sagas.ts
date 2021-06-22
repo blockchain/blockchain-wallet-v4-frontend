@@ -5,6 +5,7 @@ import btcTransactions from './btcTransactions/sagas'
 import dotTransactions from './dotTransactions/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import fiatTransactions from './fiatTransactions/sagas'
+import fundRecovery from './fundRecovery/sagas'
 import identityVerification from './identityVerification/sagas'
 import importBtcAddress from './importBtcAddress/sagas'
 import interest from './interest/sagas'
@@ -12,7 +13,10 @@ import manageAddresses from './manageAddresses/sagas'
 import onboarding from './onboarding/sagas'
 import priceChart from './priceChart/sagas'
 import priceTicker from './priceTicker/sagas'
+import recurringBuys from './recurringBuys/sagas'
 import refresh from './refresh/sagas'
+import request from './request/sagas'
+import resetWallet2fa from './resetWallet2fa/sagas'
 import send from './send/sagas'
 import sendBch from './sendBch/sagas'
 import sendBtc from './sendBtc/sagas'
@@ -34,16 +38,19 @@ export default ({ api, coreSagas, networks }) => ({
   btcTransactions: btcTransactions(),
   dotTransactions: dotTransactions(),
   ethTransactions: ethTransactions(),
-  xlmTransactions: xlmTransactions(),
   fiatTransactions: fiatTransactions(),
+  fundRecovery: fundRecovery({ api }),
   identityVerification: identityVerification({ api, coreSagas, networks }),
-  interest: interest({ api, coreSagas, networks }),
   importBtcAddress: importBtcAddress({ api, coreSagas, networks }),
+  interest: interest({ api, coreSagas, networks }),
   manageAddresses: manageAddresses({ api, networks }),
   onboarding: onboarding(),
   priceChart: priceChart(),
   priceTicker: priceTicker({ coreSagas }),
+  recurringBuys: recurringBuys(),
   refresh: refresh(),
+  request: request({ api, coreSagas, networks }),
+  resetWallet2fa: resetWallet2fa({ api }),
   send: send({ api, coreSagas, networks }),
   sendBch: sendBch({ api, coreSagas, networks }),
   sendBtc: sendBtc({ api, coreSagas, networks }),
@@ -54,6 +61,7 @@ export default ({ api, coreSagas, networks }) => ({
   simpleBuy: simpleBuy({ api, coreSagas, networks }),
   swap: swap({ api, coreSagas, networks }),
   uploadDocument: uploadDocuments({ api }),
+  veriff: veriff({ api, coreSagas }),
   withdraw: withdraw({ api }),
-  veriff: veriff({ api, coreSagas })
+  xlmTransactions: xlmTransactions()
 })

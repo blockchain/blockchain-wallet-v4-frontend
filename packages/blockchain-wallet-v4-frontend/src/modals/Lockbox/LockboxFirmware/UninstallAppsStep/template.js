@@ -23,7 +23,7 @@ const UninstallApps = props => {
       <Title>
         <Text size='22px' weight={500}>
           <FormattedMessage
-            id='modals.lockboxfirmware.uninstallapps.title'
+            id='copy.verifyyourdevice'
             defaultMessage='Verify Your Device'
           />
         </Text>

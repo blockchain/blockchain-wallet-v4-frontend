@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { equals, prop } from 'ramda'
 import styled from 'styled-components'
 
@@ -126,7 +126,7 @@ class CoinActions extends React.PureComponent {
               onClick={!disableUpdates ? installApp : undefined}
               disabled={disableUpdates}
             >
-              <FormattedHTMLMessage
+              <FormattedMessage
                 id='components.lockbox.appmanager.install'
                 defaultMessage='Install'
               />
@@ -175,7 +175,7 @@ const LockboxAppManager = props => {
                 type='informational'
                 style={{ margin: '4px 0' }}
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   id='components.lockbox.appmanager.required'
                   defaultMessage='Required'
                 />
@@ -184,13 +184,13 @@ const LockboxAppManager = props => {
           </NameContainer>
           <Text size='11px' weight={400}>
             {equals('Updating', prop('status', coinState)) ? (
-              <FormattedHTMLMessage
+              <FormattedMessage
                 id='components.lockbox.appmanager.changeType'
                 defaultMessage='{changeType}...'
                 values={{ changeType: coinState.changeType }}
               />
             ) : (
-              <FormattedHTMLMessage
+              <FormattedMessage
                 id='components.lockbox.appmanager.successmsg'
                 defaultMessage='Version {version}'
                 values={{ version }}

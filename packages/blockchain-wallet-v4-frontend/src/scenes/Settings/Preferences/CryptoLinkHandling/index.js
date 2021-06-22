@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import Bowser from 'bowser'
 import { bindActionCreators } from 'redux'
@@ -29,7 +29,10 @@ const TextWrapper = styled(Text)`
 
 const { ENABLE_BTC_LINKS } = model.analytics.PREFERENCE_EVENTS.GENERAL
 class CryptoLinkHandlingContainer extends React.PureComponent {
-  state = { warningDisplayed: false }
+  constructor(props) {
+    super(props)
+    this.state = {warningDisplayed: false }
+  }
 
   onEnableClick = () => {
     this.setState({ warningDisplayed: !this.state.warningDisplayed })
@@ -83,10 +86,13 @@ class CryptoLinkHandlingContainer extends React.PureComponent {
 
               {isSafari && (
                 <TextWrapper size='12px' weight={400} color='error'>
-                  <FormattedHTMLMessage
+                  <FormattedMessage
                     id='scenes.settings.preferences.cryptolinkhandling.unknownstatus.safari'
-                    defaultMessage='This feature is not supported in Safari <a href="https://caniuse.com/?search=registerProtocolHandler" target="_blank" rel="noopener noreferrrer">more details</a>.'
-                  />
+                    defaultMessage='This feature is not supported in Safari <a>more details</a>.'
+                    values = {{
+                      a: msg => <a href="https://caniuse.com/?search=registerProtocolHandler" target="_blank" rel="noopener noreferrrer">{msg}</a>
+                    }}
+                    />
                 </TextWrapper>
               )}
             </TextGroup>

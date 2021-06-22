@@ -11,61 +11,75 @@ import { getData as getXlmAddressData } from 'components/Form/SelectBoxXlmAddres
 
 import { OwnProps } from '.'
 
-export const getData = (state, ownProps: OwnProps) => {
+const getData = (state, ownProps: OwnProps) => {
   const { coin, includeCustodial } = ownProps
   let addressDataR
 
   switch (coin) {
     case 'BCH':
       addressDataR = getBchAddressData(state, {
-        excludeLockbox: true,
         excludeImported: true,
-        includeCustodial: includeCustodial,
-        includeInterest: false,
-        includeAll: false
+        excludeLockbox: true,
+        includeAll: false,
+        includeCustodial,
+        includeInterest: false
       })
       break
     case 'BTC':
       addressDataR = getBtcAddressData(state, {
-        excludeLockbox: true,
         excludeImported: true,
-        includeCustodial: includeCustodial,
-        includeInterest: false,
-        includeAll: false
+        excludeLockbox: true,
+        includeAll: false,
+        includeCustodial,
+        includeInterest: false
       })
       break
     case 'ETH':
       addressDataR = getEthAddressData(state, {
         excludeLockbox: true,
-        includeCustodial: includeCustodial,
+        includeCustodial,
         includeInterest: false
       })
       break
     case 'PAX':
       addressDataR = getErc20AddressData(state, {
         coin: 'PAX',
-        includeCustodial: includeCustodial,
+        includeCustodial,
         includeInterest: false
       })
       break
     case 'USDT':
       addressDataR = getErc20AddressData(state, {
         coin: 'USDT',
-        includeCustodial: includeCustodial,
+        includeCustodial,
         includeInterest: false
       })
       break
     case 'WDGLD':
       addressDataR = getErc20AddressData(state, {
         coin: 'WDGLD',
-        includeCustodial: includeCustodial,
+        includeCustodial,
         includeInterest: false
       })
       break
     case 'XLM':
       addressDataR = getXlmAddressData(state, {
         excludeLockbox: true,
-        includeCustodial: includeCustodial,
+        includeCustodial,
+        includeInterest: false
+      })
+      break
+    case 'AAVE':
+      addressDataR = getErc20AddressData(state, {
+        coin: 'AAVE',
+        includeCustodial,
+        includeInterest: false
+      })
+      break
+    case 'YFI':
+      addressDataR = getErc20AddressData(state, {
+        coin: 'YFI',
+        includeCustodial,
         includeInterest: false
       })
       break
@@ -73,7 +87,7 @@ export const getData = (state, ownProps: OwnProps) => {
       addressDataR = Remote.Success({ data: [] })
   }
 
-  const transform = addressData => {
+  const transform = (addressData) => {
     return {
       addressData
     }
@@ -81,3 +95,5 @@ export const getData = (state, ownProps: OwnProps) => {
 
   return lift(transform)(addressDataR)
 }
+
+export default getData

@@ -5,19 +5,19 @@ import styled from 'styled-components'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import {
   SBPaymentMethodsType,
-  SBPaymentMethodType
+  SBPaymentMethodType,
+  SBPaymentTypes
 } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
-import {
-  AddBankStepType,
-  BankDWStepType,
-  BrokerageModalOriginType
-} from 'data/types'
+import { model } from 'data'
+import { AddBankStepType, BankDWStepType, BrokerageModalOriginType } from 'data/types'
 
 // TODO: move to somewhere more generic
 import BankWire from '../../../../SimpleBuy/PaymentMethods/Methods/BankWire'
 import { mapDispatchToProps, Props as _P } from '.'
 import BankDeposit from './BankDeposit'
+
+const { LINK_BANK_TRANSFER, LINK_WIRE_TRANSFER } = model.analytics.FIAT_DEPOSIT_EVENTS
 
 const Wrapper = styled.section`
   display: flex;
@@ -37,14 +37,14 @@ const TopText = styled(Text)`
 `
 
 const MethodList = styled.section`
-  border-top: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 
 const IconContainer = styled.div`
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: ${props => props.theme.blue000};
+  background-color: ${(props) => props.theme.blue000};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -52,11 +52,11 @@ const IconContainer = styled.div`
 
 const getIcon = (value: SBPaymentMethodType): ReactElement => {
   switch (value.type) {
-    case 'BANK_TRANSFER':
-    case 'LINK_BANK':
+    case SBPaymentTypes.BANK_TRANSFER:
+    case SBPaymentTypes.LINK_BANK:
     default:
       return <Image name='bank' height='48px' />
-    case 'BANK_ACCOUNT':
+    case SBPaymentTypes.BANK_ACCOUNT:
       return (
         <IconContainer>
           <Icon size='18px' color='blue600' name='arrow-down' />
@@ -67,37 +67,34 @@ const getIcon = (value: SBPaymentMethodType): ReactElement => {
 
 const getType = (value: SBPaymentMethodType) => {
   switch (value.type) {
-    case 'BANK_TRANSFER':
-    case 'LINK_BANK':
+    case SBPaymentTypes.BANK_TRANSFER:
+    case SBPaymentTypes.LINK_BANK:
     default:
-      return (
-        <FormattedMessage
-          id='modals.simplebuy.banklink'
-          defaultMessage='Link a Bank'
-        />
-      )
-    case 'BANK_ACCOUNT':
-      return (
-        <FormattedMessage
-          id='modals.simplebuy.bankwire'
-          defaultMessage='Wire Transfer'
-        />
-      )
+      return <FormattedMessage id='modals.simplebuy.banklink' defaultMessage='Link a Bank' />
+    case SBPaymentTypes.BANK_ACCOUNT:
+      let text
+      if (value.currency === 'EUR' || value.currency === 'GBP') {
+        text = <FormattedMessage id='buttons.transfer' defaultMessage='Transfer' />
+      } else {
+        text = <FormattedMessage id='modals.simplebuy.bankwire' defaultMessage='Wire Transfer' />
+      }
+      return text
   }
 }
 
 const Success = ({
   addNew,
+  analyticsActions,
   brokerageActions,
   close,
   fiatCurrency,
   paymentMethods
 }: Props) => {
   const bankTransfer = paymentMethods.methods.find(
-    method => method.type === 'BANK_TRANSFER'
+    (method) => method.type === SBPaymentTypes.BANK_TRANSFER
   )
   const bankWire = paymentMethods.methods.find(
-    method => method.type === 'BANK_ACCOUNT'
+    (method) => method.type === SBPaymentTypes.BANK_ACCOUNT
   )
 
   return (
@@ -135,9 +132,7 @@ const Success = ({
               if (addNew) {
                 brokerageActions.showModal(
                   BrokerageModalOriginType.ADD_BANK,
-                  fiatCurrency === 'USD'
-                    ? 'ADD_BANK_YODLEE_MODAL'
-                    : 'ADD_BANK_YAPILY_MODAL'
+                  fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
                 )
                 brokerageActions.setAddBankStep({
                   addBankStep: AddBankStepType.ADD_BANK
@@ -150,20 +145,21 @@ const Success = ({
                   dwStep: BankDWStepType.ENTER_AMOUNT
                 })
               }
+              analyticsActions.logEvent(LINK_BANK_TRANSFER)
             }}
             text={getType(bankTransfer)}
             value={bankTransfer}
           />
         )}
-
         {bankWire && (
           <BankWire
             icon={getIcon(bankWire)}
-            onClick={() =>
+            onClick={() => {
               brokerageActions.setDWStep({
                 dwStep: BankDWStepType.WIRE_INSTRUCTIONS
               })
-            }
+              analyticsActions.logEvent(LINK_WIRE_TRANSFER)
+            }}
             text={getType(bankWire)}
             value={bankWire}
           />

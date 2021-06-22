@@ -1,48 +1,53 @@
 import * as AT from './actionTypes'
 
-export type ModalNamesType =
-  | '@KYC.IdentityVerification'
-  | '@MODAL.SEND.BCH'
-  | '@MODAL.SEND.BTC'
-  | '@MODAL.SEND.ETH'
-  | '@MODAL.SEND.XLM'
-  | 'AddBtcWallet'
-  | 'AirdropClaim'
-  | 'AirdropSuccess'
-  | 'BANK_DEPOSIT_MODAL'
-  | 'BitPayInvoiceExpired'
-  | 'ADD_BANK_YAPILY_MODAL'
-  | 'ADD_BANK_YODLEE_MODAL'
-  | 'BANK_DETAILS_MODAL'
-  | 'REMOVE_BANK_MODAL'
-  | 'Confirm'
-  | 'CUSTODY_WITHDRAW_MODAL'
-  | 'DeleteAddressLabel'
-  | 'EditTxDescription'
-  | 'ImportBtcAddress'
-  | 'InterestPromo'
-  | 'INTEREST_MODAL'
-  | 'KycDocResubmit'
-  | 'KycTierUpgrade'
-  | 'LinkFromExchangeAccount'
-  | 'LinkToExchangeAccount'
-  | 'PairingCode'
-  | 'RECOVERY_PHRASE_MODAL'
-  | 'REQUEST_CRYPTO_MODAL'
-  | 'ShowBtcPrivateKey'
-  | 'ShowUsedAddresses'
-  | 'ShowXPub'
-  | 'SignMessage'
-  | 'SIMPLE_BUY_MODAL'
-  | 'SWAP_MODAL'
-  | 'SwapGetStarted'
-  | 'TRANSACTION_REPORT'
-  | 'TransferEth'
-  | 'TRADING_LIMITS'
-  | 'UpgradeForAirdrop'
-  | 'VerifyMessage'
-  | 'WELCOME_MODAL'
-  | 'WITHDRAWAL_MODAL'
+export enum ModalNamesEnum {
+  ADD_BANK_YAPILY_MODAL = 'ADD_BANK_YAPILY_MODAL',
+  ADD_BANK_YODLEE_MODAL = 'ADD_BANK_YODLEE_MODAL',
+  ADD_BTC_WALLET_MODAL = 'ADD_BTC_WALLET_MODAL',
+  AIRDROP_CLAIM_MODAL = 'AIRDROP_CLAIM_MODAL',
+  AIRDROP_SUCCESS_MODAL = 'AIRDROP_SUCCESS_MODAL',
+  BANK_DEPOSIT_MODAL = 'BANK_DEPOSIT_MODAL',
+  BANK_DETAILS_MODAL = 'BANK_DETAILS_MODAL',
+  BITPAY_INVOICE_EXPIRED_MODAL = 'BITPAY_INVOICE_EXPIRED_MODAL',
+  CONFIRMATION_MODAL = 'CONFIRMATION_MODAL',
+  CUSTODY_WITHDRAW_MODAL = 'CUSTODY_WITHDRAW_MODAL',
+  DELETE_ADDRESS_LABEL_MODAL = 'DELETE_ADDRESS_LABEL_MODAL',
+  EDIT_TX_DESCRIPTION_MODAL = 'EDIT_TX_DESCRIPTION_MODAL',
+  FUND_RECOVERY_MODAL = 'FUND_RECOVERY_MODAL',
+  IMPORT_BTC_ADDRESS_MODAL = 'IMPORT_BTC_ADDRESS_MODAL',
+  INTEREST_MODAL = 'INTEREST_MODAL',
+  INTEREST_PROMO_MODAL = 'INTEREST_PROMO_MODAL',
+  KYC_MODAL = 'KYC_MODAL',
+  KYC_RESUBMIT_MODAL = 'KYC_RESUBMIT_MODAL',
+  KYC_TIER_UPGRADE_MODAL = 'KYC_TIER_UPGRADE_MODAL',
+  LINK_FROM_EXCHANGE_ACCOUNT_MODAL = 'LINK_FROM_EXCHANGE_ACCOUNT_MODAL',
+  LINK_TO_EXCHANGE_ACCOUNT_MODAL = 'LINK_TO_EXCHANGE_ACCOUNT_MODAL',
+  PAIRING_CODE_MODAL = 'PAIRING_CODE_MODAL',
+  RECOVERY_PHRASE_MODAL = 'RECOVERY_PHRASE_MODAL',
+  RECURRING_BUYS_MODAL = 'RECURRING_BUYS_MODAL',
+  REMOVE_BANK_MODAL = 'REMOVE_BANK_MODAL',
+  REQUEST_CRYPTO_MODAL = 'REQUEST_CRYPTO_MODAL',
+  SEND_BCH_MODAL = 'SEND_BCH_MODAL',
+  SEND_BTC_MODAL = 'SEND_BTC_MODAL',
+  SEND_ETH_MODAL = 'SEND_ETH_MODAL',
+  SEND_XLM_MODAL = 'SEND_XLM_MODAL',
+  SHOW_BTC_PRIVATE_KEY_MODAL = 'SHOW_BTC_PRIVATE_KEY_MODAL',
+  SHOW_USED_ADDRESS_MODAL = 'SHOW_USED_ADDRESS_MODAL',
+  SHOW_XPUB_MODAL = 'SHOW_XPUB_MODAL',
+  SIGN_MESSAGE_MODAL = 'SIGN_MESSAGE_MODAL',
+  SIMPLE_BUY_MODAL = 'SIMPLE_BUY_MODAL',
+  SWAP_GET_STARTED_MODAL = 'SWAP_GET_STARTED_MODAL',
+  SWAP_MODAL = 'SWAP_MODAL',
+  TRADING_LIMITS = 'TRADING_LIMITS',
+  TRANSACTION_REPORT_MODAL = 'TRANSACTION_REPORT_MODAL',
+  TRANSFER_ETH_MODAL = 'TRANSFER_ETH_MODAL',
+  UPGRADE_ADDRESS_LABELS_MODAL = 'UPGRADE_ADDRESS_LABELS_MODAL',
+  UPGRADE_FOR_AIRDROP_MODAL = 'UPGRADE_FOR_AIRDROP_MODAL',
+  VERIFY_MESSAGE_AIRDROP = 'VERIFY_MESSAGE_AIRDROP',
+  WELCOME_MODAL = 'WELCOME_MODAL'
+}
+
+export type ModalNamesType = keyof typeof ModalNamesEnum
 
 export type ModalOriginType =
   | 'AirdropClaimGoal'
@@ -53,15 +58,18 @@ export type ModalOriginType =
   | 'EmptyFeed'
   | 'ExchangeForm'
   | 'FeaturesTopNav'
+  | 'Goals'
   | 'Header'
   | 'InterestPage'
   | 'KycDocResubmitGoal'
   | 'KycRequiredStep'
+  | 'LoginSaga'
   | 'PaymentProtocolGoal'
   | 'PendingOrder'
   | 'PriceChart'
   | 'Request'
   | 'RetrySendEth'
+  | 'RecurringBuys'
   | 'RunKycGoal'
   | 'SBEnterAmountCheckout'
   | 'SBPaymentMethodSelection'
@@ -89,6 +97,7 @@ export type ModalOriginType =
   | 'WalletBalanceDropdown'
   | 'WelcomeModal'
   | 'WithdrawModal'
+  | 'CurrencyList'
 
 export type ModalParamPropsType = {
   [key: string]: any
@@ -128,8 +137,4 @@ interface UpdateModalOptions {
   type: typeof AT.UPDATE_MODAL
 }
 
-export type ModalActionTypes =
-  | CloseAllModals
-  | CloseModal
-  | ShowModal
-  | UpdateModalOptions
+export type ModalActionTypes = CloseAllModals | CloseModal | ShowModal | UpdateModalOptions

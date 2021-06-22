@@ -60,8 +60,16 @@ export const validEmailNotAllowed = value =>
 export const validMnemonic = value =>
   bip39.validateMnemonic(value) ? undefined : <M.InvalidPassphraseMessage />
 
+// TODO SSO: remove with new flow
 export const validWalletId = value =>
   isGuid(value) ? undefined : <M.InvalidWalletIdMessage />
+
+export const validWalletIdOrEmail = value =>
+  isGuid(value) | isEmail(value) ? (
+    undefined
+  ) : (
+    <M.InvalidWalletIdorEmailMessage />
+  )
 
 export const validMobileNumber = value =>
   isValidNumber(value) ? undefined : <M.InvalidMobileNumberMessage />

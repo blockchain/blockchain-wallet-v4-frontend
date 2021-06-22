@@ -1,9 +1,4 @@
-import {
-  CoinType,
-  FiatType,
-  NabuMoneyFloatType,
-  WalletFiatType
-} from 'core/types'
+import { CoinType, FiatType, NabuMoneyFloatType, WalletFiatType } from 'core/types'
 
 export type InterestBalanceType = {
   balance: string
@@ -32,6 +27,20 @@ export type InterestAfterTransactionType = {
   fiatAmount: number | null
   fiatCurrency: WalletFiatType | null
   show: boolean
+}
+
+type LimitDetails = {
+  amount: number
+  currency: WalletFiatType
+  savingsCurrency: CoinType
+}
+
+export type DepositLimits = {
+  depositLimits: LimitDetails[] | []
+}
+
+export type WithdrawLimits = {
+  withdrawLimits: LimitDetails
 }
 
 export type InterestInstrumentsType = Array<CoinType>
@@ -104,4 +113,9 @@ export type WithdrawalMinimumType = Array<NabuMoneyFloatType>
 export type CustodialTransferResponseType = {
   amount: string
   coin: CoinType
+}
+
+export type InterestEDDStatus = {
+  eddNeeded: boolean
+  eddPassed: boolean
 }

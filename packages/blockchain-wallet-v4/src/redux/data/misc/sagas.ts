@@ -1,13 +1,8 @@
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
-import readBlob from 'read-blob'
 import { call, put, select } from 'redux-saga/effects'
 
-import {
-  FiatTypeEnum,
-  PriceDiffType,
-  TimeRange
-} from 'blockchain-wallet-v4/src/types'
+import { FiatTypeEnum, PriceDiffType, TimeRange } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { APIType } from 'core/network/api'
 
@@ -16,23 +11,9 @@ import * as wS from '../../wallet/selectors'
 import * as A from './actions'
 import { start } from './model'
 
-const taskToPromise = t =>
-  new Promise((resolve, reject) => t.fork(reject, resolve))
+const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api }: { api: APIType }) => {
-  const fetchCaptcha = function * () {
-    try {
-      const timestamp = new Date().getTime()
-      const sessionToken = yield call(api.obtainSessionToken)
-      yield put(A.fetchCaptchaLoading())
-      const data = yield call(api.getCaptchaImage, timestamp, sessionToken)
-      const url = yield call(readBlob, data, 'dataurl')
-      yield put(A.fetchCaptchaSuccess({ url, sessionToken }))
-    } catch (e) {
-      yield put(A.fetchCaptchaFailure(e.message))
-    }
-  }
-
   const getPercentChange = (newNum: number, oldNum: number): PriceDiffType => {
     const current = new BigNumber(newNum)
     const previous = new BigNumber(oldNum)
@@ -43,27 +24,18 @@ export default ({ api }: { api: APIType }) => {
 
     return {
       diff: diff.toFixed(2),
-      percentChange: diffPercent.abs().toFixed(2),
-      movement: diffPercent.isEqualTo(0)
-        ? 'none'
-        : diffPercent.isGreaterThan(0)
-        ? 'up'
-        : 'down'
+      movement: diffPercent.isEqualTo(0) ? 'none' : diffPercent.isGreaterThan(0) ? 'up' : 'down',
+      percentChange: diffPercent.abs().toFixed(2)
     }
   }
 
-  const fetchPriceChange = function * (
-    action: ReturnType<typeof A.fetchPriceChange>
-  ) {
+  const fetchPriceChange = function* (action: ReturnType<typeof A.fetchPriceChange>) {
     const { base, positionAmt = 0, quote, range } = action.payload
     try {
       if (base in FiatTypeEnum) return
       yield put(A.fetchPriceChangeLoading(base, range))
 
-      const time =
-        range === TimeRange.ALL
-          ? moment.unix(start[base])
-          : moment().subtract(1, range)
+      const time = range === TimeRange.ALL ? moment.unix(start[base]) : moment().subtract(1, range)
 
       const previous: ReturnType<typeof api.getPriceIndex> = yield call(
         api.getPriceIndex,
@@ -82,12 +54,8 @@ export default ({ api }: { api: APIType }) => {
       const overallChange = getPercentChange(current.price, previous.price)
       // User's position, if given an amount will provide the
       // change for that amount or else will fallback to 0
-      const currentPosition = new BigNumber(positionAmt)
-        .times(current.price)
-        .toNumber()
-      const previousPosition = new BigNumber(positionAmt)
-        .times(previous.price)
-        .toNumber()
+      const currentPosition = new BigNumber(positionAmt).times(current.price).toNumber()
+      const previousPosition = new BigNumber(positionAmt).times(previous.price).toNumber()
       const positionChange = getPercentChange(currentPosition, previousPosition)
 
       yield put(
@@ -106,24 +74,18 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchPriceIndexSeries = function * (action) {
+  const fetchPriceIndexSeries = function* (action) {
     try {
       const { coin, currency, scale, start } = action.payload
       yield put(A.fetchPriceIndexSeriesLoading())
-      const data = yield call(
-        api.getPriceIndexSeries,
-        coin,
-        currency,
-        start,
-        scale
-      )
+      const data = yield call(api.getPriceIndexSeries, coin, currency, start, scale)
       yield put(A.fetchPriceIndexSeriesSuccess(data))
     } catch (e) {
       yield put(A.fetchPriceIndexSeriesFailure(e.message))
     }
   }
 
-  const encodePairingCode = function * () {
+  const encodePairingCode = function* () {
     try {
       yield put(A.encodePairingCodeLoading())
       const guid = yield select(wS.getGuid)
@@ -131,9 +93,7 @@ export default ({ api }: { api: APIType }) => {
       const password = yield select(wS.getMainPassword)
       const pairingPassword = yield call(api.getPairingPassword, guid)
       const encryptionPhrase = yield call(() =>
-        taskToPromise(
-          pairing.encode(guid, sharedKey, password, pairingPassword)
-        )
+        taskToPromise(pairing.encode(guid, sharedKey, password, pairingPassword))
       )
       yield put(A.encodePairingCodeSuccess(encryptionPhrase))
     } catch (e) {
@@ -141,7 +101,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const authorizeLogin = function * (action) {
+  const authorizeLogin = function* (action) {
     const { confirm, token } = action.payload
     try {
       yield put(A.authorizeLoginLoading())
@@ -156,7 +116,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const sendSecureChannelMessage = function * (action) {
+  const sendSecureChannelMessage = function* (action) {
     try {
       // yield put(A.authorizeLoginLoading())
       // const data =
@@ -172,7 +132,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const handle2FAReset = function * (action) {
+  const handle2FAReset = function* (action) {
     const { token } = action.payload
     try {
       yield put(A.handle2FAResetLoading())
@@ -187,7 +147,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const verifyEmailToken = function * (action) {
+  const verifyEmailToken = function* (action) {
     const { token } = action.payload
     try {
       yield put(A.verifyEmailTokenLoading())
@@ -205,7 +165,6 @@ export default ({ api }: { api: APIType }) => {
   return {
     authorizeLogin,
     encodePairingCode,
-    fetchCaptcha,
     fetchPriceChange,
     fetchPriceIndexSeries,
     handle2FAReset,

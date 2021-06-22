@@ -3,11 +3,13 @@ import { isNil, lift, mapObjIndexed, reject, values } from 'ramda'
 import {
   CoinTypeEnum,
   ExtractSuccess,
+  SBPaymentTypes,
   SupportedWalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
+// eslint-disable-next-line import/prefer-default-export
 export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
   const sbMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(state)
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
@@ -41,8 +43,7 @@ export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
           method:
             coin.coinCode in CoinTypeEnum ||
             !!paymentMethods.methods.find(
-              method =>
-                method.currency === coin.coinCode && method.type === 'FUNDS'
+              (method) => method.currency === coin.coinCode && method.type === SBPaymentTypes.FUNDS
             )
         }
       }, coinOrder)

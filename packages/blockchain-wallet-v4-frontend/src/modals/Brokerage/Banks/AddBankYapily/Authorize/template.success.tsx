@@ -1,12 +1,19 @@
 import React, { useState } from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
+import moment from 'moment'
 import styled from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper, Row, Title } from 'components/Flyout'
+import { model } from 'data'
 import { AddBankStepType } from 'data/types'
 
 import { Props as _P } from '.'
+
+const {
+  ACCEPT_YAPILY_AIS_AGREEMENT,
+  DECLINE_YAPILY_AIS_AGREEMENT
+} = model.analytics.FIAT_DEPOSIT_EVENTS
 
 const Wrapper = styled.div`
   display: flex;
@@ -88,6 +95,9 @@ const Success = (props: Props) => {
   const entityName =
     entity === 'Safeconnect(UK)' ? 'SafeConnect' : 'SafeConnect (UAB)'
 
+  const today = moment()
+  today.add(90, 'day')
+
   return (
     <Wrapper>
       <FlyoutWrapper style={{ paddingBottom: '24px' }}>
@@ -108,7 +118,7 @@ const Success = (props: Props) => {
         bodyText={
           <FormattedMessage
             id='modals.brokertitleage.authorize.data_sharing'
-            defaultMessage='{entityName} will retrieve your bank data based on your request and provide this information to Blockchain.'
+            defaultMessage='{entityName} will retrieve your bank data based on your request and provide this information to Blockchain.com.'
             values={{ entityName }}
           />
         }
@@ -138,7 +148,7 @@ const Success = (props: Props) => {
           entityName === 'SafeConnect' ? (
             <FormattedMessage
               id='modals.brokerage.authorize.fca'
-              defaultMessage='Blockchain is an agent of {entityName} Ltd. {entityName} Ltd is authorised and regulated by the Financial Conduct Authority under the Payment Service Regulations 2017 [827001] for the provision of Account Information and Payment Initiation services.'
+              defaultMessage='Blockchain.com is an agent of {entityName} Ltd. {entityName} Ltd is authorised and regulated by the Financial Conduct Authority under the Payment Service Regulations 2017 [827001] for the provision of Account Information and Payment Initiation services.'
               values={{ entityName }}
             />
           ) : (
@@ -166,7 +176,7 @@ const Success = (props: Props) => {
         <InfoText>
           <FormattedMessage
             id='modals.brokerage.authorize.data'
-            defaultMessage='In order to share your bank account data with Blockchain, you will now be securely redirected to your bank to confirm your consent for {entityName} to read the following information:'
+            defaultMessage='In order to share your bank account data with Blockchain.com, you will now be securely redirected to your bank to confirm your consent for {entityName} to read the following information:'
             values={{ entityName }}
           />
         </InfoText>
@@ -189,14 +199,20 @@ const Success = (props: Props) => {
         bodyText={
           <>
             <FormattedMessage
-              id='modals.brokerage.authorize.about_access'
-              defaultMessage='{entityName} will then use these details with Blockchain solely for the purposes of buying cryptocurrencies. This access is valid until 24th of January 2021, you can cancel consent at any time via the Blockchain settings or via your bank. This request is not a one-off, you will continue to receive consent requests as older versions expire.'
-              values={{ entityName }}
+              id='modals.brokerage.authorize.about_access_ais'
+              defaultMessage='{entityName} will then use these details with Blockchain.com solely for the purposes of buying cryptocurrencies. This access is valid until {expirationDate}, you can cancel consent at any time via the Blockchain.com settings or via your bank. This request is not a one-off, you will continue to receive consent requests as older versions expire.'
+              values={{
+                entityName,
+                expirationDate: today.format('Do MMM YYYY')
+              }}
             />
             {entityName !== 'SafeConnect' && (
-              <FormattedHTMLMessage
+              <FormattedMessage
                 id='modals.brokerage.authorize.bol.terms'
-                defaultMessage="View SafeConnect UAB <a href='https://yapi.ly/GDNT' rel='noopener noreferrer' target='_blank'>Terms and Conditions</a> for more information."
+                defaultMessage="View SafeConnect UAB <a>Terms and Conditions</a> for more information."
+                values = {{
+                  a: msg => <a href='https://yapi.ly/GDNT' rel='noopener noreferrer' target='_blank'>{msg}</a>
+                }}
               />
             )}
           </>
@@ -216,11 +232,12 @@ const Success = (props: Props) => {
           type='submit'
           fullwidth
           height='48px'
-          onClick={() =>
+          onClick={() => {
             props.brokerageActions.setAddBankStep({
               addBankStep: AddBankStepType.ADD_BANK_CONNECT
             })
-          }
+            props.analyticsActions.logEvent(ACCEPT_YAPILY_AIS_AGREEMENT)
+          }}
         >
           <FormattedMessage id='copy.approve' defaultMessage='Approve' />
         </Button>
@@ -232,7 +249,10 @@ const Success = (props: Props) => {
           height='48px'
           color='red400'
           style={{ marginTop: '16px' }}
-          onClick={() => props.handleClose()}
+          onClick={() => {
+            props.handleClose()
+            props.analyticsActions.logEvent(DECLINE_YAPILY_AIS_AGREEMENT)
+          }}
         >
           <FormattedMessage id='copy.deny' defaultMessage='Deny' />
         </Button>

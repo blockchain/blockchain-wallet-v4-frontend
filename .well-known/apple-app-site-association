@@ -1,0 +1,30 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": [ "NZ6PH75U7K.com.rainydayapps.Blockchain" ],
+        "components": [
+          {
+            "/": "/login/*",
+            "comment": "Matches any URL whose path starts with /login/"
+          },
+          {
+            "/": "/#/login/*",
+            "comment": "Matches any URL whose path starts with /#/login/"
+          },
+          {
+            "/", "/signup/*",
+            "comment": "Matches any URL whose path starts with /signup/"
+          },
+          {
+            "/", "/#/signup/*",
+            "comment": "Matches any URL whose path starts with /#/signup/"
+          }
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": [ "NZ6PH75U7K.com.rainydayapps.Blockchain" ]
+  }
+}

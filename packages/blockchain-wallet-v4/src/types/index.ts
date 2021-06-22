@@ -1,7 +1,4 @@
-import {
-  Erc20CurrenciesType,
-  FiatCurrenciesType
-} from 'core/exchange/currencies'
+import { Erc20CurrenciesType, FiatCurrenciesType } from 'core/exchange/currencies'
 
 import * as Address from './Address'
 import * as AddressBook from './AddressBook'
@@ -122,6 +119,7 @@ export type HDDerivationType = 'bech32' | 'legacy'
 
 export type AccountTypes = BtcAccountType
 
+export * from '../coinSelection/types'
 export * from '../exchange/currencies'
 export * from '../network/api/custodial/types'
 export * from '../network/api/eth/types'
@@ -134,9 +132,9 @@ export * from '../network/types'
 export * from '../redux/data/custodial/types'
 export * from '../redux/data/misc/types'
 export * from '../redux/payment/types'
-export * from '../redux/settings/'
+export * from '../redux/settings'
 export * from '../redux/walletOptions/types'
 export * from '../remote/types'
 export * from '../transactions/types'
-export * from '../types/index'
+export * from './index'
 export * from './WalletPayload'

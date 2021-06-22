@@ -192,6 +192,7 @@
             "GBQ6RTEHEHXFPKSWCIM4KSVQXBANLFMVV6FJIZDLTF3ZOGFHTBDZUYDD"
           ],
           "hasLockboxSupport": true,
+          "isMemoBased": true,
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360019105171-What-is-Stellar-",
           "minConfirmations": 1,
           "txExplorerBaseUrl": "https://stellarchain.io/tx",
@@ -332,9 +333,13 @@
       "sift": {
         "apiKey": "0ecd212038",
         "paymentKey": "4a0510ff14"
-      }, 
+      },
       "mobile_auth": {
         "enabled": true
+      },
+      "featureFlags": {
+        "legacyMobilePairing": false,
+        "recurringBuys": true
       }
     }
   },

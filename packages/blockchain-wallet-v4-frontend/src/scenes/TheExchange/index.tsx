@@ -11,7 +11,7 @@ const { EXCHANGE_EVENTS } = model.analytics
 
 class ExchangeContainer extends React.PureComponent<Props> {
   onSignup = () => {
-    this.props.modalActions.showModal('LinkToExchangeAccount', {
+    this.props.modalActions.showModal('LINK_TO_EXCHANGE_ACCOUNT_MODAL', {
       origin: 'TheExchangePage'
     })
     this.props.analyticsActions.logEvent(EXCHANGE_EVENTS.CONNECT_NOW)

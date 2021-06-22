@@ -20,11 +20,13 @@ export const getData = (state: RootState) => {
       userData: ExtractSuccess<typeof userDataR>,
       withdrawLockCheck: ExtractSuccess<typeof withdrawLockCheckR>,
       afterTransaction: ExtractSuccess<typeof afterTransactionR>
-    ) => ({
-      cards,
-      userData,
-      withdrawLockCheck,
-      afterTransaction
-    })
+    ) => {
+      return {
+        cards,
+        userData,
+        withdrawLockCheck,
+        afterTransaction
+      }
+    }
   )(cardsR, userDataR, withdrawLockCheckR, afterTransactionR)
 }

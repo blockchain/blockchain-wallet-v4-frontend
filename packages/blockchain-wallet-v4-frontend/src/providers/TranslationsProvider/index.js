@@ -7,9 +7,12 @@ import { selectors } from 'data'
 import { languages, loadLocaleData } from 'services/locales'
 
 class TranslationsProvider extends React.Component {
-  state = {
-    locale: 'en',
-    messages: {}
+  constructor(props) {
+    super(props)
+    this.state = {
+      locale: 'en',
+      messages: {}
+    }
   }
 
   // ⚠️ HACK ALERT ⚠️
@@ -31,25 +34,33 @@ class TranslationsProvider extends React.Component {
   }
 
   initLocale = () => {
-    const locale = any(propOr('en', this.props.locale), languages)
-      ? this.props.locale
-      : 'en'
-    loadLocaleData(locale, messages => {
-      this.setState({ messages, locale })
+    const locale = any(propOr('en', this.props.locale), languages) ? this.props.locale : 'en'
+    loadLocaleData(locale, (messages) => {
+      this.setState({ locale, messages })
     })
   }
 
   render() {
     const { locale, messages } = this.state
     return (
-      <IntlProvider locale={locale} key={locale} messages={messages}>
+      <IntlProvider
+        locale={locale}
+        key={locale}
+        messages={messages}
+        defaultRichTextElements={{
+          a: (chunks) => <a>{chunks}</a>,
+          b: (chunks) => <b>{chunks}</b>,
+          br: () => <br />,
+          p: (chunks) => <p>{chunks}</p>
+        }}
+      >
         {this.props.children}
       </IntlProvider>
     )
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   locale: selectors.preferences.getLanguage(state)
 })
 

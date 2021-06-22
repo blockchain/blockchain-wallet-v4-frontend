@@ -15,29 +15,34 @@ import Success from './template.success'
 const Connect = (props: Props) => {
   const fetchBank = () => {
     if (props.walletCurrency && !Remote.Success.is(props.data)) {
-      props.brokerageActions.fetchBankLinkCredentials(
-        props.walletCurrency as WalletFiatType
-      )
+      props.brokerageActions.fetchBankLinkCredentials(props.walletCurrency as WalletFiatType)
     }
   }
+  useEffect(() => {
+    const { id } = props.order
+    if (id) {
+      props.simpleBuyActions.pollSBOrder(id)
+    }
+  }, [])
 
   useEffect(fetchBank, [props.walletCurrency])
 
   return props.data.cata({
-    Success: val => <Success {...props} {...val} />,
     Failure: () => <DataError onClick={fetchBank} />,
     Loading: () => <Loading text={LoadingTextEnum.LOADING} />,
-    NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />
+    NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />,
+    Success: (val) => <Success {...props} {...val} />
   })
 }
 
 const mapStateToProps = (state: RootState) => ({
+  account: selectors.components.brokerage.getAccount(state),
   data: getData(state),
-  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
-  account: selectors.components.brokerage.getAccount(state)
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

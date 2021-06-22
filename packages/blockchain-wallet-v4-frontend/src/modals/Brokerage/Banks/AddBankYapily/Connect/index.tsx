@@ -22,7 +22,11 @@ const Connect = (props: Props) => {
     props.brokerageActions.fetchBankTransferUpdate(props.yapilyBankId)
   }
 
-  useEffect(fetchBank, [props.walletCurrency])
+  useEffect(() => {
+    // Clears any previous accounts so there is no cached qrcode on the UI
+    props.brokerageActions.setBankDetails({ account: undefined })
+    fetchBank()
+  }, [props.walletCurrency])
 
   return props.data.cata({
     Success: val => <Success {...props} {...val} />,
@@ -38,6 +42,7 @@ const mapStateToProps = (state: RootState) => ({
   account: selectors.components.brokerage.getAccount(state)
 })
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 
