@@ -1,4 +1,4 @@
-import { keys, lift, path, prop, toUpper } from 'ramda'
+import { keys, lift, path, prop } from 'ramda'
 
 import { /* AccountTokensBalancesResponseType, */ ExtractSuccess, RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
@@ -74,15 +74,6 @@ export const getXlmSendTimeOutSeconds = (state) =>
   getSupportedCoins(state).map(path(['XLM', 'config', 'sendTimeOutSeconds']))
 export const getXlmExchangeAddresses = (state) =>
   getSupportedCoins(state).map(path(['XLM', 'exchangeAddresses']))
-export const getStxCampaign = (state) =>
-  getWebOptions(state).map(path(['coins', 'STX', 'campaign']))
-
-export const getCoinModel = (state, coin) =>
-  // @ts-ignore
-  getSupportedCoins(state).map((x) => prop(toUpper(coin), x))
-export const getCoinIcons = (state, coin) =>
-  // @ts-ignore
-  getCoinModel(state, coin).map(path(['icons']))
 
 // domains
 export const getVeriffDomain = (state) => getDomains(state).map(prop('veriff'))

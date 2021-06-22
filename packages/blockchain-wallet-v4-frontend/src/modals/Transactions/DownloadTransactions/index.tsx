@@ -27,7 +27,6 @@ export type OwnProps = {
   total: number
 }
 type LinkStatePropsType = {
-  coinModel: SupportedCoinType
   formValues: any
 }
 type LinkDispatchPropsType = {
@@ -38,7 +37,10 @@ type LinkDispatchPropsType = {
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 class DownloadTransactionsModal extends Component<Props, StateProps> {
-  state: StateProps = { filename: '', generating: false }
+  constructor(props) {
+    super(props)
+    this.state = { filename: '', generating: false }
+  }
 
   componentDidMount() {
     const { initForm } = this.props
@@ -49,7 +51,7 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
       from: 'all',
 
       // @ts-ignore
-      start: moment().startOf('day').subtract(7, 'day'),
+      start: moment().startOf('day').subtract(7, 'day')
     })
   }
 
@@ -58,7 +60,7 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
   }
 
   onFetchHistory = () => {
-    const { coinModel, fetchTransactions, formValues } = this.props
+    const { coin, fetchTransactions, formValues } = this.props
     const from = prop('from', formValues)
     const startDate = prop('start', formValues)
     const endDate = prop('end', formValues)
@@ -66,12 +68,10 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
       from.derivations &&
       from.derivations.map((derivation) => ({
         address: derivation.xpub,
-        type: derivation.type,
+        type: derivation.type
       }))
     const address = from && (addressDerivations || from.xpub || from.address || from)
-    const filename =
-      `${coinModel.coinTicker}_${startDate.format('MM-DD-YYYY')}` +
-      `_${endDate.format('MM-DD-YYYY')}.csv`
+    const filename = `${coin}_${startDate.format('MM-DD-YYYY')}_${endDate.format('MM-DD-YYYY')}.csv`
     this.setState({ filename, generating: true })
     fetchTransactions(address, startDate, endDate)
   }
@@ -97,11 +97,8 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
 }
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
-  coinModel: selectors.core.walletOptions
-    .getCoinModel(state, ownProps.coin)
-    .getOrElse({ coinTicker: 'ETH' } as SupportedCoinType),
   formValues: selectors.form.getFormValues('transactionReport')(state),
-  ...getData(state, ownProps.coin),
+  ...getData(state, ownProps.coin)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch, { coin }: OwnProps) => {
@@ -121,7 +118,7 @@ const mapDispatchToProps = (dispatch: Dispatch, { coin }: OwnProps) => {
       )
     },
     initForm: (initialValues) =>
-      dispatch(actions.form.initialize('transactionReport', initialValues)),
+      dispatch(actions.form.initialize('transactionReport', initialValues))
   }
 }
 

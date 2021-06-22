@@ -10,7 +10,6 @@ import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import {
   CoinType,
   FiatType,
-  FiatTypeEnum,
   OrderType,
   SupportedWalletCurrencyType,
   TimeRange,
@@ -135,7 +134,6 @@ class TransactionsContainer extends React.PureComponent<Props> {
   render() {
     const {
       coin,
-      coinModel,
       currency,
       hasTxResults,
       isInvited,
@@ -144,7 +142,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       pages,
       sourceType
     } = this.props
-    const { coinfig } = coinModel
+    const { coinfig } = window.coins[coin]
 
     return (
       <SceneWrapper>
@@ -238,20 +236,11 @@ class TransactionsContainer extends React.PureComponent<Props> {
               </TitleActionContainer>
             </PageTitle>
             <ExplainerWrapper>
-              <ExplainerText>
-                {getIntroductionText(coin)}
-                {!(coin in FiatTypeEnum) && (
-                  <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
-                    <LearnMoreText size='16px'>
-                      <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
-                    </LearnMoreText>
-                  </LearnMoreLink>
-                )}
-              </ExplainerText>
+              <ExplainerText>{getIntroductionText(coin)}</ExplainerText>
             </ExplainerWrapper>
             <StatsContainer>
-              <WalletBalanceDropdown coin={coin} coinModel={coinModel} />
-              {!coinfig.type.isFiat && <CoinPerformance coin={coin} coinModel={coinModel} />}
+              <WalletBalanceDropdown coin={coin} />
+              {!coinfig.type.isFiat && <CoinPerformance coin={coin} />}
             </StatsContainer>
           </Header>
           {(hasTxResults || isSearchEntered) && !coinfig.type.isFiat && (
@@ -336,7 +325,6 @@ export type OwnProps = {
 }
 
 export type SuccessStateType = {
-  coinModel: SupportedWalletCurrencyType
   currency: FiatType
   hasTxResults: boolean
   isInvited: boolean

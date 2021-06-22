@@ -35,7 +35,7 @@ const Wrapper = styled.div`
   align-content: flex-start;
 `
 
-const DisplayContainer = styled.div<{ coinType: any; isItem?: boolean }>`
+const DisplayContainer = styled.div<{ isItem?: boolean }>`
   display: flex;
   width: 100%;
   align-items: center;
@@ -143,8 +143,9 @@ class WalletBalanceDropdown extends Component<Props> {
   }
 
   handleRequest = () => {
+    const { coinfig } = window.coins[this.props.coin]
     this.props.modalActions.showModal('REQUEST_CRYPTO_MODAL' as ModalNamesType, {
-      coin: !this.props.coinModel.coinfig.type.isFiat && this.props.coin,
+      coin: !coinfig.type.isFiat && this.props.coin,
       origin: 'WalletBalanceDropdown'
     })
   }
@@ -181,7 +182,7 @@ class WalletBalanceDropdown extends Component<Props> {
   accountLabel = (selectProps) => {
     if (this.isTotalBalanceType(selectProps)) {
       // All label
-      return this.props.coinModel.coinTicker
+      return this.props.coin
     }
     if (selectProps.value) {
       // Account/Custodial label
@@ -198,7 +199,7 @@ class WalletBalanceDropdown extends Component<Props> {
     data: SuccessStateType
   ) => {
     const balance = this.coinBalance(props) || 0
-    const { coinTicker, coinfig } = this.props.coinModel
+    const { coinfig } = window.coins[this.props.coin]
 
     const isAllOrCustodial = () => {
       return (
@@ -241,7 +242,7 @@ class WalletBalanceDropdown extends Component<Props> {
               <FormattedMessage
                 id='scenes.transactions.performance.request'
                 defaultMessage='Request {coinTicker} Now'
-                values={{ coinTicker }}
+                values={{ coinTicker: coinfig.symbol }}
               />
             </Text>
           )
@@ -262,7 +263,6 @@ class WalletBalanceDropdown extends Component<Props> {
 
   // FIXME: TypeScript use value: { AccountTypes }
   renderDisplay = (props: { selectProps: { options: Array<any> }; value }, children) => {
-    const { coinCode } = this.props.coinModel
     const balance = this.coinBalance(props) || 0
     const account = this.accountLabel(props)
     const unsafe_data = this.props.data.getOrElse({
@@ -274,7 +274,7 @@ class WalletBalanceDropdown extends Component<Props> {
     } as SuccessStateType)
 
     return (
-      <DisplayContainer coinType={coinCode}>
+      <DisplayContainer>
         <AccountContainer>
           {children && children.length && children[1]}
           <Text weight={500} color='grey400'>
@@ -299,16 +299,13 @@ class WalletBalanceDropdown extends Component<Props> {
   }
 
   renderItem = (props: { label; value }) => {
-    const coinType = this.props.coinModel as SupportedCoinType
+    const { coin } = this.props
     const balance = this.coinBalance(props)
     const account = this.accountLabel(props)
 
     return (
-      <DisplayContainer coinType={coinType} isItem>
-        <CoinAccountIcon
-          accountType={props.value.type}
-          coin={coinType.coinfig.symbol as CoinType}
-        />
+      <DisplayContainer isItem>
+        <CoinAccountIcon accountType={props.value.type} coin={coin} />
         <AccountContainer isItem>
           <Text weight={500} color='grey400' size='14px'>
             {account}{' '}
@@ -388,7 +385,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   coin: CoinType | WalletFiatType
-  coinModel: SupportedCoinType
 }
 
 type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>

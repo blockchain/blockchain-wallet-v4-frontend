@@ -105,10 +105,9 @@ export const getData = (state, coin, coinfig: SupportedWalletCurrencyType['coinf
       () => selectors.core.settings.getInvitations(state),
       selectors.form.getFormValues(WALLET_TX_SEARCH),
       coinSelectorMap(state, coin, coinfig),
-      selectors.core.settings.getCurrency,
-      () => selectors.core.walletOptions.getCoinModel(state, coin)
+      selectors.core.settings.getCurrency
     ],
-    (invitationsR, userSearch, pagesR, currencyR, coinModelR) => {
+    (invitationsR, userSearch, pagesR, currencyR) => {
       const empty = (page) => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status: TransferType = propOr('', 'status', userSearch)
@@ -121,7 +120,6 @@ export const getData = (state, coin, coinfig: SupportedWalletCurrencyType['coinf
           : []
 
       return {
-        coinModel: coinModelR.getOrElse({} as SupportedCoinType),
         currency: currencyR.getOrElse(''),
         hasTxResults: !all(empty)(filteredPages),
         isInvited: invitationsR
