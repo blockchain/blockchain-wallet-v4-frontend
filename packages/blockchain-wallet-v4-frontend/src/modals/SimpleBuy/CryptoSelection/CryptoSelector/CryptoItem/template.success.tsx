@@ -66,8 +66,8 @@ type Props = OwnProps & ParentOwnProps & SuccessStateType
 const Success: React.FC<Props> = (props) => {
   const { coin } = props
   const { fiat } = props
-  const coinType = props.supportedCoins[coin]
-  const { displayName } = coinType
+  const { coinfig } = window.coins[coin]
+  const displayName = coinfig.name
 
   return (
     <CheckoutDisplayContainer
@@ -75,7 +75,7 @@ const Success: React.FC<Props> = (props) => {
       role='button'
       onClick={props.onClick}
     >
-      {props.onClick && <Icon size='32px' color={coinType.coinCode} name={coinType.coinCode} />}
+      {props.onClick && <Icon size='32px' color={coin} name={coin} />}
       <Display canClick={!!props.onClick}>
         <Value style={{ marginTop: '0px' }}>{displayName}</Value>
         <DisplayTitle>
@@ -95,8 +95,8 @@ const Success: React.FC<Props> = (props) => {
         <>
           <Icon
             size='32px'
-            color={coinType.coinCode}
-            name={coinType.coinCode}
+            color={coin}
+            name={coin}
             style={{ left: '5px', position: 'relative' }}
           />
           <PlusMinusIconWrapper>
@@ -104,7 +104,7 @@ const Success: React.FC<Props> = (props) => {
               <StyledIcon
                 name={props.orderType === 'BUY' ? 'plus' : 'minus'}
                 size='24px'
-                background={coinType.coinCode}
+                background={coin}
               />
             </IconBackground>
           </PlusMinusIconWrapper>

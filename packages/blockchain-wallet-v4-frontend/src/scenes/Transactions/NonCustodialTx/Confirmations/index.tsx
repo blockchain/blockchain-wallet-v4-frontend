@@ -5,7 +5,7 @@ import { toString } from 'ramda'
 import styled from 'styled-components'
 
 import { Icon, Link, Tooltip, TooltipHost } from 'blockchain-info-components'
-import { CoinType, SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, WalletOptionsType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { media } from 'services/styles'
 
@@ -42,21 +42,16 @@ const IconWrapper = styled.div`
 `
 
 const Confirmations = (props: Props) => {
-  const {
-    blockHeight,
-    coin,
-    isConfirmed,
-    onViewTxDetails,
-    supportedCoins,
-    txBlockHeight = 0
-  } = props
+  const { blockHeight, coin, domains, isConfirmed, onViewTxDetails, txBlockHeight = 0 } = props
   const conf = blockHeight - txBlockHeight + 1
   const confirmations = conf > 0 && txBlockHeight ? conf : 0
-  const { minConfirmations } = supportedCoins[coin]
+  const { coinfig } = window.coins[coin]
+  const { parentChain } = coinfig.type
+  const { minimumOnChainConfirmations = 3 } = window.coins[parentChain].coinfig.type
 
   return (
     <Wrapper>
-      {confirmations >= minConfirmations || isConfirmed ? (
+      {confirmations >= minimumOnChainConfirmations || isConfirmed ? (
         <RowValue>
           <FormattedMessage
             id='scenes.transactions.content.pages.listitem.confirmation.confirmed'
@@ -70,19 +65,19 @@ const Confirmations = (props: Props) => {
             defaultMessage='Pending: {count}/{total} Confirmations'
             values={{
               count: toString(confirmations),
-              total: minConfirmations
+              total: minimumOnChainConfirmations
             }}
           />
         </ConfirmationsText>
       )}
       <IconWrapper>
-        {confirmations < minConfirmations && (
+        {confirmations < minimumOnChainConfirmations && (
           <TransactionTooltip id='confirmations' data-iscapture='true' data-offset="{'left': 0.75}">
             <Icon name='question-in-circle' />
           </TransactionTooltip>
         )}
         <Link
-          href={`${supportedCoins[coin].txExplorerBaseUrl}/${props.hash}`}
+          href={`${domains.comRoot}/search/?search=${props.hash}`}
           target='_blank'
           data-e2e='transactionListItemExplorerLink'
           onClick={() => onViewTxDetails(coin)}
@@ -93,8 +88,8 @@ const Confirmations = (props: Props) => {
       <Tooltip id='confirmations' offset={{ bottom: 8 }}>
         <FormattedMessage
           id='scenes.transactions.content.list.listitem.transactionunconfirmed'
-          defaultMessage='Your transaction will be complete after it has {minConfirmations} confirmations.'
-          values={{ minConfirmations }}
+          defaultMessage='Your transaction will be complete after it has {minimumOnChainConfirmations} confirmations.'
+          values={{ minimumOnChainConfirmations }}
         />
         <span>&nbsp;</span>
         <Link
@@ -113,9 +108,9 @@ const Confirmations = (props: Props) => {
 
 const mapStateToProps = (state, ownProps) => ({
   blockHeight: getBlockHeight(state, ownProps.coin),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType)
+  domains: selectors.core.walletOptions.getDomains(state).getOrElse({
+    comRoot: 'https://blockchain.com'
+  } as WalletOptionsType['domains'])
 })
 
 const connector = connect(mapStateToProps)

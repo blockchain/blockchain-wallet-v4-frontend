@@ -87,8 +87,7 @@ const ButtonContainer = styled.div`
 `
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
-  // TODO: Borrow - make dynamic
-  const { displayName } = props.supportedCoins.PAX
+  const displayName = 'Paxos Standard'
 
   return (
     <CustomForm onSubmit={props.handleSubmit}>
@@ -115,7 +114,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               <Text color='blue600' size='14px' weight={500}>
                 {fiatToString({
                   unit: 'USD',
-                  value: props.limits.maxFiat,
+                  value: props.limits.maxFiat
                 })}
               </Text>
             </FiatContainer>{' '}
@@ -150,7 +149,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               autoFocus: true,
               errorBottom: true,
               errorIcon: 'alert-filled',
-              errorLeft: true,
+              errorLeft: true
             }}
           />
           <PrincipalCcyAbsolute>
@@ -182,7 +181,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-  values: selectors.form.getFormValues('borrowForm')(state),
+  values: selectors.form.getFormValues('borrowForm')(state)
 })
 
 // @ts-ignore

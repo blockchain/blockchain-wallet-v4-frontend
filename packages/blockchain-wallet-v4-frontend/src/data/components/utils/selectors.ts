@@ -10,28 +10,28 @@ import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 // eslint-disable-next-line import/prefer-default-export
-export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
+export const getCoinsWithMethodAndOrder = (state: RootState) => {
   const sbMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(state)
-  const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
+  const coinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const erc20sR = selectors.core.data.eth.getErc20AccountTokenBalances(state)
 
   const transform = (
     paymentMethods: ExtractSuccess<typeof sbMethodsR>,
-    supportedCoins: ExtractSuccess<typeof supportedCoinsR>,
+    coins: ExtractSuccess<typeof coinsR>,
     erc20s: AccountTokensBalancesResponseType['tokenAccounts']
   ) => {
     // remove coins that may not yet exist in wallet options to avoid app crash
     const coinOrder = reject(isNil)([
-      supportedCoins.USD,
-      supportedCoins.EUR,
-      supportedCoins.GBP,
-      supportedCoins.BTC,
-      supportedCoins.ETH,
-      supportedCoins.BCH,
-      supportedCoins.XLM,
-      supportedCoins.ALGO,
-      supportedCoins.DOT,
-      // ...supportedCoins.rest // erc20s
+      coins.USD,
+      coins.EUR,
+      coins.GBP,
+      coins.BTC,
+      coins.ETH,
+      coins.BCH,
+      coins.XLM,
+      coins.ALGO,
+      coins.DOT,
+      // ...coins.rest // erc20s
       ...erc20s.map((value) => {
         return window.coins[value.symbol!]
       })
@@ -51,7 +51,7 @@ export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
     )
   }
 
-  return lift(transform)(sbMethodsR, supportedCoinsR, erc20sR)
+  return lift(transform)(sbMethodsR, coinsR, erc20sR)
 }
 
-export default getSupportedCoinsWithMethodAndOrder
+export default getCoinsWithMethodAndOrder

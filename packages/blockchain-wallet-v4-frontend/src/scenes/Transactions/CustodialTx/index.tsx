@@ -1,16 +1,10 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
 
 import { Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import {
-  FiatSBAndSwapTransactionType,
-  SupportedWalletCurrenciesType
-} from 'blockchain-wallet-v4/src/types'
-import { selectors } from 'data'
+import { FiatSBAndSwapTransactionType } from 'blockchain-wallet-v4/src/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { RootState } from 'data/rootReducer'
 
 import {
   Addresses,
@@ -139,17 +133,8 @@ const CustodialTxListItem: React.FC<Props> = (props) => {
   )
 }
 
-const mapStateToProps = (state: RootState) => ({
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType)
-})
+export type Props = OwnProps & {
+  tx: FiatSBAndSwapTransactionType
+}
 
-const connector = connect(mapStateToProps)
-
-export type Props = OwnProps &
-  ConnectedProps<typeof connector> & {
-    tx: FiatSBAndSwapTransactionType
-  }
-
-export default connector(CustodialTxListItem)
+export default CustodialTxListItem

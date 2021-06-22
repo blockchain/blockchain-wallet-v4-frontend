@@ -37,7 +37,7 @@ const Amount = styled.div`
 `
 
 const Success: React.FC<Props> = (props) => {
-  const { sellOrder, supportedCoins } = props
+  const { sellOrder } = props
   const sellBaseAmount = sellOrder && getSellBaseAmount(sellOrder)
   const sellBaseCurrency = sellOrder ? getCoinFromPair(sellOrder.pair) : 'BTC'
   const sellCounterCurrency = sellOrder ? getFiatFromPair(sellOrder.pair) : 'USD'
@@ -49,11 +49,7 @@ const Success: React.FC<Props> = (props) => {
         <FlyoutWrapper>
           <TopText color='grey800' size='20px' weight={600}>
             <span>
-              <BuyOrSell
-                orderType={OrderType.SELL}
-                crypto={sellBaseCurrency}
-                coinModel={supportedCoins[sellBaseCurrency]}
-              />
+              <BuyOrSell orderType={OrderType.SELL} crypto={sellBaseCurrency} />
             </span>
             <Icon
               cursor
@@ -67,8 +63,8 @@ const Success: React.FC<Props> = (props) => {
             <Text color='grey800' data-e2e='sbAmount' size='32px' weight={600}>
               {sellBaseAmount} of
             </Text>
-            <Text size='32px' weight={600} color={supportedCoins[sellBaseCurrency].coinCode}>
-              {supportedCoins[sellBaseCurrency].coinTicker}
+            <Text size='32px' weight={600} color={sellBaseCurrency}>
+              {sellBaseCurrency}
             </Text>
           </Amount>
           <div style={{ margin: '16px 0' }}>
@@ -102,7 +98,7 @@ const Success: React.FC<Props> = (props) => {
                   unit: sellCounterCurrency,
                   value: sellOrder.priceFunnel.price
                 })}{' '}
-                / 1 {supportedCoins[sellBaseCurrency].coinTicker}
+                / 1 {sellBaseCurrency}
               </Value>
             </Row>
           )}
@@ -111,7 +107,7 @@ const Success: React.FC<Props> = (props) => {
               <FormattedMessage id='copy.amount' defaultMessage='Amount' />
             </Title>
             <Value data-e2e='sbPurchasing'>
-              {sellBaseAmount} of {supportedCoins[sellBaseCurrency].coinTicker}
+              {sellBaseAmount} of {sellBaseCurrency}
             </Value>
           </Row>
         </>
@@ -145,8 +141,8 @@ const Success: React.FC<Props> = (props) => {
           </Title>
           <Value data-e2e='sbPaymentMethod'>
             {isInternal
-              ? `${supportedCoins[sellBaseCurrency].coinTicker} Trading Account`
-              : `${supportedCoins[sellBaseCurrency].coinTicker} Private Key Wallet`}
+              ? `${sellBaseCurrency} Trading Account`
+              : `${sellBaseCurrency} Private Key Wallet`}
           </Value>
         </Row>
       </div>

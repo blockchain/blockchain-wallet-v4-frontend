@@ -3,12 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 
-import {
-  CoinType,
-  FiatType,
-  SupportedWalletCurrenciesType,
-  WalletCurrencyType
-} from 'blockchain-wallet-v4/src/types'
+import { CoinType, FiatType, WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -101,9 +96,6 @@ const mapStateToProps = (state): LinkStatePropsType => ({
     step: RequestSteps.COIN_SELECT
   },
   requestableCoins: getData(state),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
@@ -125,7 +117,6 @@ type LinkStatePropsType = {
     step: RequestSteps
   }
   requestableCoins: Array<string>
-  supportedCoins: SupportedWalletCurrenciesType
   walletCurrency: FiatType
 }
 export type Props = OwnProps &

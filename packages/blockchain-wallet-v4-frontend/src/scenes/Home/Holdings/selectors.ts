@@ -5,7 +5,7 @@ import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 export const getData = (state: RootState) => {
-  const coinsR = selectors.components.utils.getSupportedCoinsWithMethodAndOrder(state)
+  const coinsR = selectors.components.utils.getCoinsWithMethodAndOrder(state)
 
   return lift((coins: ExtractSuccess<typeof coinsR>) => ({
     coins

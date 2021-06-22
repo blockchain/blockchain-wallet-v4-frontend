@@ -15,7 +15,6 @@ import {
   TextGroup
 } from 'blockchain-info-components'
 import { formatCoin } from 'blockchain-wallet-v4/src/exchange/utils'
-import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { actions, selectors } from 'data'
@@ -90,9 +89,9 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
 
     const { BASE, COUNTER } = this.props.initSwapFormValues
 
-    const { coins, swapActions } = this.props
-    const baseCoinTicker = coins[BASE.coin].coinTicker
-    const counterCoinTicker = coins[COUNTER.coin].coinTicker
+    const { swapActions } = this.props
+    const baseCoinTicker = BASE.coin
+    const counterCoinTicker = COUNTER.coin
     return (
       <>
         <FlyoutWrapper>
@@ -120,7 +119,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
           accountType={BASE.type}
           amount={this.props.swapAmountFormValues?.cryptoAmount}
           base
-          coinCode={coins[BASE.coin].coinCode}
+          coinCode={BASE.coin}
           label={BASE.label}
         >
           <FormattedMessage id='copy.from' defaultMessage='From' />
@@ -144,7 +143,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
                 accountType={COUNTER.type}
                 amount={value.amt}
                 base={false}
-                coinCode={coins[COUNTER.coin].coinCode}
+                coinCode={COUNTER.coin}
                 label={COUNTER.label}
               >
                 <FormattedMessage id='copy.to' defaultMessage='To' />
@@ -225,12 +224,10 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
         </StyledRow>
         <Row style={{ borderTop: '0' }}>
           <FeeBreakdownBox
-            coins={coins}
             counter={COUNTER}
             counterQuote={this.props.quoteR}
             base={BASE}
             basePayment={this.props.paymentR}
-            supportedCoins={this.props.supportedCoins}
           />
           <TextGroup inline style={{ marginTop: '16px', textAlign: 'center' }}>
             <Text size='12px' weight={500} color='grey600'>
@@ -302,9 +299,6 @@ const mapStateToProps = (state: RootState) => ({
   initSwapFormValues: selectors.form.getFormValues('initSwap')(state) as InitSwapFormValuesType,
   paymentR: selectors.components.swap.getPayment(state),
   quoteR: selectors.components.swap.getQuote(state),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType),
   swapAmountFormValues: selectors.form.getFormValues('swapAmount')(state) as SwapAmountFormValues
 })
 

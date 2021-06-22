@@ -14,12 +14,12 @@ const Icon = styled(BCIcon)`
   font-weight: 600;
 `
 const getSymbolDisplayName = (props: Props) => {
-  const { coinfig } = props.supportedCoins[props.tx.amount.symbol]
+  const { coinfig } = window.coins[props.tx.amount.symbol]
   return coinfig.type.isFiat ? 'Bank' : props.tx.amount.symbol
 }
 
 const getCoinDisplayName = (props: Props) => {
-  const { coinfig } = props.supportedCoins[props.coin]
+  const { coinfig } = window.coins[props.coin]
   return coinfig.type.isFiat ? 'Bank' : props.coin
 }
 
@@ -83,11 +83,11 @@ export const IconTx = (props: Props) => {
 }
 
 export const Status = (props: Props) => {
-  const coin = props.supportedCoins[props.tx.amount.symbol]
+  const { coinfig } = window.coins[props.tx.amount.symbol]
   switch (props.tx.state) {
     case 'COMPLETE':
     case 'FINISHED':
-      if (!coin.coinfig.type.isFiat && props.tx.extraAttributes?.confirmations) {
+      if (!coinfig.type.isFiat && props.tx.extraAttributes?.confirmations) {
         return (
           <Confirmations
             coin={props.tx.amount.symbol}
@@ -146,7 +146,7 @@ export const Timestamp = (props: Props) => {
 }
 
 export const TransactionType = (props: Props) => {
-  const { coinfig } = props.supportedCoins[props.tx.amount.symbol]
+  const { coinfig } = window.coins[props.tx.amount.symbol]
   if (!coinfig.type.isFiat) {
     switch (props.tx.type) {
       case 'DEPOSIT':

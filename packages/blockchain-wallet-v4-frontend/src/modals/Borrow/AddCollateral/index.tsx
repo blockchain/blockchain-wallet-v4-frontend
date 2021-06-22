@@ -8,8 +8,7 @@ import {
   OfferType,
   PaymentValue,
   RatesType,
-  RemoteDataType,
-  SupportedWalletCurrenciesType
+  RemoteDataType
 } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
@@ -34,7 +33,6 @@ export type SuccessStateType = {
   limits: BorrowMinMaxType
   payment: PaymentValue
   rates: RatesType
-  supportedCoins: SupportedWalletCurrenciesType
 }
 
 type LinkStatePropsType = {
@@ -44,7 +42,10 @@ type LinkStatePropsType = {
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 export type State = { isAddrCopied: boolean; showQrCode: boolean }
 class BorrowForm extends PureComponent<Props, State> {
-  state = { isAddrCopied: false, showQrCode: false }
+  constructor(props) {
+    super(props)
+    this.state = { isAddrCopied: false, showQrCode: false }
+  }
 
   componentDidMount() {
     this.props.borrowActions.initializeBorrow('BTC')
@@ -63,15 +64,12 @@ class BorrowForm extends PureComponent<Props, State> {
   }
 
   copyAddress = () => {
-    var input = document.createElement('input')
+    const input = document.createElement('input')
     // TODO: Borrow make dynamic
-    input.setAttribute(
-      'value',
-      this.props.loan.collateral.depositAddresses['BTC']
-    )
+    input.setAttribute('value', this.props.loan.collateral.depositAddresses.BTC)
     document.body.appendChild(input)
     input.select()
-    var result = document.execCommand('copy')
+    const result = document.execCommand('copy')
     document.body.removeChild(input)
     this.setState({ isAddrCopied: true })
     setTimeout(() => {
@@ -81,14 +79,17 @@ class BorrowForm extends PureComponent<Props, State> {
   }
 
   toggleQrCode = () => {
-    this.setState({ showQrCode: !this.state.showQrCode })
+    this.setState((prevState) => ({ showQrCode: !prevState.showQrCode }))
   }
 
   render() {
     const { data } = this.props
 
     return data.cata({
-      Success: val => (
+      Failure: () => <DataError onClick={this.handleRefresh} />,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />,
+      Success: (val) => (
         <Success
           {...val}
           {...this.props}
@@ -97,10 +98,7 @@ class BorrowForm extends PureComponent<Props, State> {
           onCopyAddress={this.copyAddress}
           onToggleQrCode={this.toggleQrCode}
         />
-      ),
-      Failure: () => <DataError onClick={this.handleRefresh} />,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      )
     })
   }
 }

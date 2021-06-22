@@ -21,8 +21,7 @@ import {
   PaymentValue,
   RatesType,
   SBOrderActionType,
-  SBPairType,
-  SupportedWalletCurrenciesType
+  SBPairType
 } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Value } from 'components/Flyout'
@@ -164,10 +163,10 @@ class PreviewSell extends PureComponent<
 
   networkFee = (value: PaymentValue | undefined) => (value ? getNetworkValue(value) : 0)
 
-  displayAmount = (formValues, coins, account) => {
+  displayAmount = (formValues, account) => {
     return coinToString({
       unit: {
-        symbol: coins[account.coin].coinTicker
+        symbol: account.coin
       },
       value: formValues?.cryptoAmount
     })
@@ -209,14 +208,14 @@ class PreviewSell extends PureComponent<
       Loading: () => <Loading />,
       NotAsked: () => null,
       Success: (val) => {
-        const { account, coins, formValues } = this.props
+        const { account, formValues } = this.props
         if (!formValues) return null
         if (!account) return null
         const BASE = getInputFromPair(val.quote.pair)
         const COUNTER = getOutputFromPair(val.quote.pair)
         const feeInFiat = this.getFeeInFiat(account, BASE, COUNTER)
-        const counterCoinTicker = coins[COUNTER].coinTicker
-        const baseCoinTicker = coins[BASE].coinTicker
+        const counterCoinTicker = COUNTER
+        const baseCoinTicker = BASE
         const { rates, ratesEth } = this.props
         const fiatCurrency = getFiatFromPair(this.props.pair.pair)
         const isErc20 = window.coins[COUNTER].coinfig.type.erc20Address
@@ -253,7 +252,7 @@ class PreviewSell extends PureComponent<
               <Amount data-e2e='sbTotalAmount'>
                 <div>
                   <Text size='32px' weight={600} color='grey800'>
-                    {this.displayAmount(formValues, coins, account)}
+                    {this.displayAmount(formValues, account)}
                   </Text>
                 </div>
                 <div>
@@ -291,7 +290,7 @@ class PreviewSell extends PureComponent<
                       <FormattedMessage
                         id='modals.simplebuy.confirm.coin_price'
                         defaultMessage='{coin} Price'
-                        values={{ coin: coins[account.coin].coinTicker }}
+                        values={{ coin: account.coin }}
                       />
                     </RowText>
                     <IconWrapper>
@@ -396,7 +395,7 @@ class PreviewSell extends PureComponent<
                               <AdditionalText>
                                 {coinToString({
                                   unit: {
-                                    symbol: coins[account.baseCoin].coinTicker
+                                    symbol: account.baseCoin
                                   },
                                   value: saleInCoin
                                 })}
@@ -434,7 +433,7 @@ class PreviewSell extends PureComponent<
                           <AdditionalText>
                             {coinToString({
                               unit: {
-                                symbol: coins[account.baseCoin].coinTicker
+                                symbol: account.baseCoin
                               },
                               value: convertBaseToStandard(
                                 account.baseCoin,
@@ -508,7 +507,7 @@ class PreviewSell extends PureComponent<
                       }
                     })}
                   </Value>
-                  <AdditionalText>{this.displayAmount(formValues, coins, account)}</AdditionalText>
+                  <AdditionalText>{this.displayAmount(formValues, account)}</AdditionalText>
                 </RowTextWrapper>
               </RowText>
             </RowItem>
@@ -551,7 +550,7 @@ class PreviewSell extends PureComponent<
                         id='buttons.sell_coin'
                         defaultMessage='Sell {displayName}'
                         values={{
-                          displayName: this.displayAmount(formValues, coins, account)
+                          displayName: this.displayAmount(formValues, account)
                         }}
                       />
                     </Text>
@@ -612,9 +611,6 @@ const mapStateToProps = (state: RootState) => {
   return {
     account: selectors.components.simpleBuy.getSwapAccount(state),
     coin,
-    coins: selectors.core.walletOptions
-      .getSupportedCoins(state)
-      .getOrElse({} as SupportedWalletCurrenciesType),
     formValues: selectors.form.getFormValues('simpleBuyCheckout')(
       state
     ) as SBCheckoutFormValuesType,

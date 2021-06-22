@@ -381,7 +381,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           />
           {fix === 'CRYPTO' && (
             <Text size='56px' color='textBlack' weight={500}>
-              {props.supportedCoins[cryptoCurrency].coinTicker}
+              {cryptoCurrency}
             </Text>
           )}
         </AmountRow>
@@ -404,7 +404,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             <QuoteRow>
               <div />
               <Text color='grey600' size='14px' weight={500} data-e2e='sbQuoteAmount'>
-                {formatQuote(quoteAmt, props.pair.pair, fix, props.supportedCoins)}
+                {formatQuote(quoteAmt, props.pair.pair, fix)}
               </Text>
               <Icon
                 color='blue600'
@@ -549,7 +549,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             id='copy.not_enough_eth1'
             defaultMessage='ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in your Ether Wallet for this transaction, not Ether Trading Account.'
             values={{
-              coin: props.supportedCoins[cryptoCurrency].coinTicker
+              coin: cryptoCurrency
             }}
           />
         </Banner>

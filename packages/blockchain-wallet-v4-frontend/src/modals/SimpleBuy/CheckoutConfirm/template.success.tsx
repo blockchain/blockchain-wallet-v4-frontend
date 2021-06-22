@@ -15,12 +15,7 @@ import {
   TextGroup
 } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import {
-  FiatType,
-  OrderType,
-  SBPaymentTypes,
-  SupportedWalletCurrenciesType
-} from 'blockchain-wallet-v4/src/types'
+import { FiatType, OrderType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row } from 'components/Flyout'
 import { Form } from 'components/Form'
@@ -158,9 +153,9 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   const [isActiveFeeTooltip, setFeeToolTip] = useState(false)
   const orderType = getOrderType(props.order)
   const baseAmount = getBaseAmount(props.order)
-  const baseCurrency = getBaseCurrency(props.order, props.supportedCoins)
+  const baseCurrency = getBaseCurrency(props.order)
   const counterAmount = getCounterAmount(props.order)
-  const counterCurrency = getCounterCurrency(props.order, props.supportedCoins)
+  const counterCurrency = getCounterCurrency(props.order)
   const paymentMethodId = getPaymentMethodId(props.order)
   const requiresTerms =
     props.order.paymentType === SBPaymentTypes.PAYMENT_CARD ||
@@ -189,7 +184,6 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     unit: counterCurrency as FiatType,
     value: counterAmount
   })
-  const purchase = Number(counterAmount) * 100 - Number(fee)
 
   useEffect(() => {
     if (!requiresTerms) {
@@ -261,7 +255,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
               </IconWrapper>
             </RowIcon>
             <RowText data-e2e='sbExchangeRate'>
-              {displayFiat(props.order, props.supportedCoins, props.quote.rate)}
+              {displayFiat(props.order, props.quote.rate)}
             </RowText>
           </TopRow>
           {isActiveCoinTooltip && (
@@ -298,7 +292,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
         </RowText>
         <RowText>
           <RowTextWrapper>
-            {getPaymentMethod(props.order, props.supportedCoins, bankAccount)}
+            {getPaymentMethod(props.order, bankAccount)}
             <AdditionalText>
               {getPaymentMethodDetails(props.order, bankAccount, cardDetails)}
             </AdditionalText>
@@ -324,10 +318,8 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
               </RowIcon>
               <RowText data-e2e='sbFee'>
                 {props.order.fee
-                  ? displayFiat(props.order, props.supportedCoins, props.order.fee)
-                  : `${displayFiat(props.order, props.supportedCoins, props.quote.fee)} ${
-                      props.order.inputCurrency
-                    }`}
+                  ? displayFiat(props.order, props.order.fee)
+                  : `${displayFiat(props.order, props.quote.fee)} ${props.order.inputCurrency}`}
               </RowText>
             </TopRow>
             {isActiveFeeTooltip && (
@@ -484,6 +476,6 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   )
 }
 
-type Props = OwnProps & SuccessStateType & { supportedCoins: SupportedWalletCurrenciesType }
+type Props = OwnProps & SuccessStateType
 
 export default reduxForm<{ form: string }, Props>({ form: 'sbCheckoutConfirm' })(Success)

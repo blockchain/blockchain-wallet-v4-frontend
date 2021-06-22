@@ -35,7 +35,6 @@ const Wrapper = styled.div`
   align-content: flex-start;
 `
 
-// FIXME: TypeScript use SupportedWalletCurrenciesType
 const DisplayContainer = styled.div<{ coinType: any; isItem?: boolean }>`
   display: flex;
   width: 100%;

@@ -144,7 +144,7 @@ class CoinSelection extends PureComponent<Props> {
               isCustodialEligible && (
                 <CoinAccountListOption
                   account={account}
-                  coinModel={coins[account.coin]}
+                  coin={account.coin}
                   onClick={() => {
                     if (this.props.side === 'BASE') {
                       this.props.swapActions.changeBase(account)

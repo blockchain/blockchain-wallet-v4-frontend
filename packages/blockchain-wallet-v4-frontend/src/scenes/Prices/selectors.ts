@@ -9,15 +9,15 @@ export const getData = createDeepEqualSelector(
   [
     selectors.prices.getAllCoinPrices,
     selectors.prices.getAllCoinPricesPreviousDay,
-    selectors.core.walletOptions.getSupportedCoins,
+    selectors.components.utils.getCoinsWithMethodAndOrder,
     getAllCoinsBalancesSelector,
     (state) => state
   ],
-  (coinPricesR, coinPricesPreviousR, supportedCoinsR, coinBalances, state) => {
+  (coinPricesR, coinPricesPreviousR, coinsWithMethodAndOrderR, coinBalances, state) => {
     const transform = (
       coinPrices: ExtractSuccess<typeof coinPricesR>,
       coinPricesPrevious: ExtractSuccess<typeof coinPricesPreviousR>,
-      supportedCoins: ExtractSuccess<typeof supportedCoinsR>
+      coinsWithMethodAndOrder: ExtractSuccess<typeof coinsWithMethodAndOrderR>
     ) => {
       // logic to exclude fiat currencies from list
       return reject(
@@ -43,12 +43,12 @@ export const getData = createDeepEqualSelector(
                 ).toPrecision(2)
               }
             )
-          }, supportedCoins)
+          }, coinsWithMethodAndOrder)
         )
       )
     }
 
-    return lift(transform)(coinPricesR, coinPricesPreviousR, supportedCoinsR)
+    return lift(transform)(coinPricesR, coinPricesPreviousR, coinsWithMethodAndOrderR)
   }
 )
 

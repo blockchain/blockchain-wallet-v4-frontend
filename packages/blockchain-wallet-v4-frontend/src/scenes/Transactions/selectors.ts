@@ -24,7 +24,6 @@ import {
   SBOrderType,
   SBTransactionType,
   SupportedCoinType,
-  SupportedWalletCurrenciesType,
   SupportedWalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
 import { model, selectors } from 'data'
@@ -107,10 +106,9 @@ export const getData = (state, coin, coinfig: SupportedWalletCurrencyType['coinf
       selectors.form.getFormValues(WALLET_TX_SEARCH),
       coinSelectorMap(state, coin, coinfig),
       selectors.core.settings.getCurrency,
-      () => selectors.core.walletOptions.getCoinModel(state, coin),
-      () => selectors.core.walletOptions.getSupportedCoins(state)
+      () => selectors.core.walletOptions.getCoinModel(state, coin)
     ],
-    (invitationsR, userSearch, pagesR, currencyR, coinModelR, supportedCoinsR) => {
+    (invitationsR, userSearch, pagesR, currencyR, coinModelR) => {
       const empty = (page) => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status: TransferType = propOr('', 'status', userSearch)
@@ -132,8 +130,7 @@ export const getData = (state, coin, coinfig: SupportedWalletCurrencyType['coinf
         // @ts-ignore
         isSearchEntered: search.length > 0 || status !== '',
         pages: filteredPages,
-        sourceType,
-        supportedCoins: supportedCoinsR.getOrElse({} as SupportedWalletCurrenciesType)
+        sourceType
       }
     }
   )(state)

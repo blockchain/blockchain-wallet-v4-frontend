@@ -96,7 +96,6 @@ export default ({ api, networks } = {}) => {
       } else {
         // TODO: erc20 phase 2, remove this whitelist
         const erc20List = ['AAVE', 'PAX', 'USDT', 'WDGLD', 'YFI']
-        // const coinModels = (yield select(getSupportedCoins)).getOrFail()
         // use new ETH account label
         newkv.value.ethereum.accounts[0].label = ACCT_NAME
         // create fake metadata entries for erc20 assets

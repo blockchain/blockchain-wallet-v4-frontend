@@ -1,17 +1,15 @@
-import { path, propOr, toUpper } from 'ramda'
+import { path, toUpper } from 'ramda'
 import { createSelector } from 'reselect'
 
 import { DEFAULT_INVITATIONS } from 'blockchain-wallet-v4/src/model'
-import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
 export const getData = createSelector(
   [
     path<any>(['router', 'location', 'pathname']),
-    (state) => selectors.core.walletOptions.getSupportedCoins(state),
     (state) => selectors.core.settings.getInvitations(state)
   ],
-  (pathname: string, supportedCoinsR, invitationsR) => {
+  (pathname: string, invitationsR) => {
     const params = pathname.split('/')
     const coin = toUpper(params[1])
     return {
@@ -21,8 +19,7 @@ export const getData = createSelector(
       lockboxPath: pathname.includes('lockbox'),
       pathname,
       requestAvailable: true,
-      sendAvailable: true,
-      supportedCoins: supportedCoinsR.getOrElse({} as SupportedWalletCurrenciesType)
+      sendAvailable: true
     }
   }
 )

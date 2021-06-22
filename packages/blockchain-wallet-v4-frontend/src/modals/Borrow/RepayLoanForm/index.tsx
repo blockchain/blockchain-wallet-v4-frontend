@@ -8,8 +8,7 @@ import {
   OfferType,
   PaymentValue,
   RatesType,
-  RemoteDataType,
-  SupportedWalletCurrenciesType
+  RemoteDataType
 } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
@@ -63,7 +62,6 @@ export type SuccessStateType = {
   loanTransactions: Array<LoanTransactionsType>
   payment: PaymentValue
   rates: RatesType
-  supportedCoins: SupportedWalletCurrenciesType
 }
 type LinkStatePropsType = {
   data: RemoteDataType<string | Error, SuccessStateType>

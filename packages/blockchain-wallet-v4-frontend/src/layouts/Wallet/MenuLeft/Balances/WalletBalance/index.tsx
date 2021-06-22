@@ -29,7 +29,7 @@ class WalletBalanceContainer extends React.PureComponent<Props> {
 
 const mapStateToProps = (state) => ({
   coins: selectors.components.utils
-    .getSupportedCoinsWithMethodAndOrder(state)
+    .getCoinsWithMethodAndOrder(state)
     // @ts-ignore
     .getOrElse({}),
   totalBalancesDropdown: selectors.preferences.getTotalBalancesDropdown(state)

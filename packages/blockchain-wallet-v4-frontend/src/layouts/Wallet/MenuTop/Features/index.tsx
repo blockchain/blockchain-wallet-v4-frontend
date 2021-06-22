@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { includes, keys } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
@@ -11,7 +10,7 @@ import Features from './template'
 
 class FeaturesContainer extends React.PureComponent<Props> {
   showModal = (type) => {
-    const { coin, lockboxDeviceId, lockboxPath, modalActions, supportedCoins } = this.props
+    const { coin, lockboxDeviceId, lockboxPath, modalActions } = this.props
 
     if (!window.coins[coin]) {
       if (type === 'REQUEST') {
@@ -42,7 +41,7 @@ class FeaturesContainer extends React.PureComponent<Props> {
         origin: 'FeaturesTopNav'
       })
     }
-    if (includes(coin, keys(supportedCoins))) {
+    if (window.coins[coin]) {
       return this.props.modalActions.showModal(`SEND_${coin}_MODAL` as ModalNamesType, {
         lockboxIndex: lockboxPath ? lockboxDeviceId : null,
         origin: 'FeaturesTopNav'

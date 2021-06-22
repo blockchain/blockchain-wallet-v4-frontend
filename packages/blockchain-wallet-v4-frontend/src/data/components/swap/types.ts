@@ -2,7 +2,6 @@ import {
   CoinType,
   PaymentValue,
   RemoteDataType,
-  SupportedCoinType,
   SwapOrderType,
   SwapQuoteType,
   SwapUserLimitsType
@@ -23,7 +22,6 @@ export type SwapAccountType = {
   balance: number | string
   baseCoin: string
   coin: CoinType
-  config: SupportedCoinType
   index?: number
   label: string
   type: SwapBaseCounterTypes

@@ -9,12 +9,7 @@ import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { FlyoutWrapper } from 'components/Flyout'
-import {
-  CoinBalanceDropdown,
-  Form,
-  FormLabel,
-  NumberBox
-} from 'components/Form'
+import { CoinBalanceDropdown, Form, FormLabel, NumberBox } from 'components/Form'
 import { selectors } from 'data'
 import { RepayLoanFormType } from 'data/components/borrow/types'
 
@@ -50,7 +45,7 @@ const AmountsHeader = styled(Text)`
   font-size: 14px;
   font-weight: 500;
   margin-bottom: 8px;
-  color: ${props => props.theme.grey600};
+  color: ${(props) => props.theme.grey600};
 `
 
 const Bottom = styled(FlyoutWrapper)`
@@ -94,20 +89,18 @@ const ErrorText = styled(Text)`
   font-size: 14px;
   padding: 6px 12px;
   border-radius: 32px;
-  background-color: ${props => props.theme.red000};
-  color: ${props => props.theme.red800};
+  background-color: ${(props) => props.theme.red000};
+  color: ${(props) => props.theme.red800};
   margin-bottom: 16px;
 `
 
 export type Props = OwnProps & SuccessStateType & LinkStatePropsType & FormProps
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  const principalDisplayName =
-    props.supportedCoins[props.loan.principal.amount[0].currency].displayName
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
+  const principalDisplayName = window.coins[props.loan.principal.amount[0].currency].coinfig.name
   const isSufficientEthForErc20 =
-    (props.payment.coin === 'PAX' ||
-      props.payment.coin === 'USDT' ||
-      props.payment.coin === 'WDGLD') &&
+    window.coins[props.payment.coin].coinfig.type.erc20Address &&
+    // @ts-ignore
     props.payment.isSufficientEthForErc20
 
   return (
@@ -122,16 +115,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             color='grey600'
             onClick={() =>
               props.borrowActions.setStep({
-                step: 'DETAILS',
                 loan: props.loan,
-                offer: props.offer
+                offer: props.offer,
+                step: 'DETAILS'
               })
             }
           />
-          <FormattedMessage
-            id='modals.borrow.repayloan'
-            defaultMessage='Repay Loan'
-          />
+          <FormattedMessage id='modals.borrow.repayloan' defaultMessage='Repay Loan' />
         </TopText>
         <AmountsContainer>
           <div>
@@ -194,10 +184,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
-            <FormattedMessage
-              id='modals.repayloan.repayfrom'
-              defaultMessage='Repay from'
-            />
+            <FormattedMessage id='modals.repayloan.repayfrom' defaultMessage='Repay from' />
           </Text>
         </CustomFormLabel>
         <CoinBalanceDropdown
@@ -208,10 +195,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
-            <FormattedMessage
-              id='modals.repayloan.repayamount'
-              defaultMessage='Repay amount'
-            />
+            <FormattedMessage id='modals.repayloan.repayamount' defaultMessage='Repay amount' />
           </Text>
         </CustomFormLabel>
         <AmountFieldContainer>
@@ -221,12 +205,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             name='amount'
             validate={[maximumAmount, minimumAmount]}
             {...{
-              disabled: props.values
-                ? props.values['repay-type'] === 'full'
-                : false,
+              disabled: props.values ? props.values['repay-type'] === 'full' : false,
               errorBottom: true,
-              errorLeft: true,
-              errorIcon: 'alert-filled'
+              errorIcon: 'alert-filled',
+              errorLeft: true
             }}
           />
           <PrincipalCcyAbsolute>
@@ -238,40 +220,27 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       </Top>
       <Bottom>
         <InfoContainer>
-          <Icon
-            name='info'
-            color='grey600'
-            size='20px'
-            style={{ marginRight: '8px' }}
-          />
+          <Icon name='info' color='grey600' size='20px' style={{ marginRight: '8px' }} />
           <Text size='12px' color='grey600' weight={500}>
             <FormattedMessage
               id='modals.borrow.repayloan.info'
               defaultMessage='If we don’t receive the full outstanding amount in {principalCcy} we will automatically repay the remaining amount with {collateralCcy} collateral.'
               values={{
-                principalCcy: principalDisplayName,
-                collateralCcy: props.offer.terms.collateralCcy
+                collateralCcy: props.offer.terms.collateralCcy,
+                principalCcy: principalDisplayName
               }}
             />
           </Text>
         </InfoContainer>
         {props.error && (
           <ErrorText>
-            <Icon
-              name='alert-filled'
-              color='red600'
-              style={{ marginRight: '4px' }}
-            />
+            <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
             Error: {props.error}
           </ErrorText>
         )}
         {!isSufficientEthForErc20 && (
           <ErrorText>
-            <Icon
-              name='alert-filled'
-              color='red600'
-              style={{ marginRight: '4px' }}
-            />
+            <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
             <FormattedMessage
               id='modals.borrow.repayloan.notenougheth'
               defaultMessage='ETH is required to send {principalDisplayName}. You do not have enough ETH to perform a transaction.'
@@ -283,9 +252,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           nature='primary'
           type='submit'
           data-e2e='repayLoanSubmit'
-          disabled={
-            props.submitting || props.invalid || !isSufficientEthForErc20
-          }
+          disabled={props.submitting || props.invalid || !isSufficientEthForErc20}
           fullwidth
         >
           {props.submitting ? (
@@ -304,13 +271,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   values: selectors.form.getFormValues('repayLoanForm')(state)
 })
 
 // @ts-ignore
 const enhance = compose(
-  reduxForm<{}, Props>({ form: 'repayLoanForm', destroyOnUnmount: false }),
+  reduxForm<{}, Props>({ destroyOnUnmount: false, form: 'repayLoanForm' }),
   connect(mapStateToProps)
 )
 

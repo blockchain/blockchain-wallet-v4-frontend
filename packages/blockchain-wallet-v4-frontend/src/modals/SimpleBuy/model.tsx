@@ -8,16 +8,13 @@ import {
   SBCardType,
   SBOrderActionType,
   SBOrderType,
-  SBPaymentTypes,
-  SupportedWalletCurrenciesType,
-  SupportedWalletCurrencyType
+  SBPaymentTypes
 } from 'blockchain-wallet-v4/src/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getBaseCurrency, getCounterCurrency, getOrderType } from 'data/components/simpleBuy/model'
 import { BankTransferAccountType } from 'data/types'
 
 export const BuyOrSell = (props: {
-  coinModel: SupportedWalletCurrencyType
   crypto?: 'Crypto' | CoinType
   orderType: SBOrderActionType
 }) => {
@@ -27,14 +24,14 @@ export const BuyOrSell = (props: {
         id='buttons.buy_coin'
         defaultMessage='Buy {displayName}'
         values={{
-          displayName: props.crypto === 'Crypto' ? 'Crypto' : props.coinModel?.coinTicker
+          displayName: props.crypto === 'Crypto' ? 'Crypto' : props.crypto
         }}
       />
     ) : (
       <FormattedMessage
         id='buttons.sell_coin'
         defaultMessage='Sell {displayName}'
-        values={{ displayName: props.coinModel?.coinTicker }}
+        values={{ displayName: props.crypto }}
       />
     )
   }
@@ -46,21 +43,17 @@ export const BuyOrSell = (props: {
   )
 }
 
-export const getOrderDestination = (order: SBOrderType, supportedCoins) => {
+export const getOrderDestination = (order: SBOrderType) => {
   const orderType = getOrderType(order)
-  const baseCurrency = getBaseCurrency(order, supportedCoins)
-  const counterCurrency = getCounterCurrency(order, supportedCoins)
+  const baseCurrency = getBaseCurrency(order)
+  const counterCurrency = getCounterCurrency(order)
 
   return orderType === 'BUY' ? `${baseCurrency} Trading Account` : `${counterCurrency} Account`
 }
 
-export const getPaymentMethod = (
-  order: SBOrderType,
-  supportedCoins: SupportedWalletCurrenciesType,
-  bankAccount: BankTransferAccountType
-) => {
-  const baseCurrency = getBaseCurrency(order, supportedCoins)
-  const counterCurrency = getCounterCurrency(order, supportedCoins)
+export const getPaymentMethod = (order: SBOrderType, bankAccount: BankTransferAccountType) => {
+  const baseCurrency = getBaseCurrency(order)
+  const counterCurrency = getCounterCurrency(order)
   const orderType = getOrderType(order)
 
   switch (order.paymentType) {
@@ -98,12 +91,8 @@ export const getPaymentMethod = (
   }
 }
 
-export const displayFiat = (
-  order: SBOrderType,
-  supportedCoins: SupportedWalletCurrenciesType,
-  amt: string
-) => {
-  const counterCurrency = getCounterCurrency(order, supportedCoins)
+export const displayFiat = (order: SBOrderType, amt: string) => {
+  const counterCurrency = getCounterCurrency(order)
 
   return fiatToString({
     unit: counterCurrency as FiatType,

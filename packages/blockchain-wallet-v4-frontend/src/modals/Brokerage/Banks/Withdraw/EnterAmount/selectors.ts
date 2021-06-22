@@ -1,11 +1,7 @@
 import { lift } from 'ramda'
 
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
-import {
-  ExtractSuccess,
-  InvitationsType,
-  SupportedWalletCurrenciesType
-} from 'blockchain-wallet-v4/src/types'
+import { ExtractSuccess, InvitationsType } from 'blockchain-wallet-v4/src/types'
 import { getFiatBalance, getWithdrawableFiatBalance } from 'components/Balances/selectors'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -44,11 +40,6 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   const feesR = selectors.components.withdraw.getFeeForCurrency(state, ownProps.fiatCurrency)
   const lockR = selectors.components.withdraw.getWithdrawalLocks(state)
 
-  const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
-  const supportedCoins = supportedCoinsR.getOrElse(
-    {} as SupportedWalletCurrenciesType
-  )
-
   return lift(
     (
       bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
@@ -68,7 +59,6 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       formErrors,
       locks,
       minAmount,
-      supportedCoins,
       userData,
       withdrawableBalance
     })
@@ -83,3 +73,5 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
     lockR
   )
 }
+
+export default getData

@@ -7,8 +7,7 @@ import {
   OfferType,
   PaymentValue,
   RatesType,
-  RemoteDataType,
-  SupportedWalletCurrenciesType
+  RemoteDataType
 } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
@@ -19,8 +18,6 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class BorrowForm extends PureComponent<Props> {
-  state = {}
-
   componentDidMount() {
     this.props.borrowActions.initializeBorrow('BTC')
   }
@@ -31,20 +28,18 @@ class BorrowForm extends PureComponent<Props> {
 
   handleSubmit = () => {
     this.props.borrowActions.setStep({
-      step: 'CONFIRM',
-      offer: this.props.offer
+      offer: this.props.offer,
+      step: 'CONFIRM'
     })
   }
 
   render() {
     const { data } = this.props
     return data.cata({
-      Success: val => (
-        <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
-      ),
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      NotAsked: () => <Loading />,
+      Success: (val) => <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
     })
   }
 }
@@ -71,7 +66,6 @@ export type SuccessStateType = {
   limits: BorrowMinMaxType
   payment: PaymentValue
   rates: RatesType
-  supportedCoins: SupportedWalletCurrenciesType
 }
 
 type LinkStatePropsType = {

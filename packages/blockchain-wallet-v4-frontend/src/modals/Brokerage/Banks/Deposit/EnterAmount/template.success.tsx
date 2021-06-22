@@ -118,7 +118,7 @@ const Header = ({ brokerageActions, fiatCurrency }) => {
   )
 }
 
-const LimitSection = ({ fiatCurrency, paymentMethods, supportedCoins }) => {
+const LimitSection = ({ fiatCurrency, paymentMethods }) => {
   const bankTransfer = paymentMethods.methods.find(
     (method) => method.type === SBPaymentTypes.BANK_TRANSFER
   )
@@ -139,11 +139,7 @@ const LimitSection = ({ fiatCurrency, paymentMethods, supportedCoins }) => {
           </Text>
         </LimitWrapper>
         <FiatIconWrapper>
-          <Icon
-            color={supportedCoins[fiatCurrency].coinCode}
-            name={supportedCoins[fiatCurrency].coinCode}
-            size='32px'
-          />
+          <Icon color={fiatCurrency} name={fiatCurrency} size='32px' />
           <SubIconWrapper>
             <Icon size='24px' color='USD' name='arrow-down' />
           </SubIconWrapper>

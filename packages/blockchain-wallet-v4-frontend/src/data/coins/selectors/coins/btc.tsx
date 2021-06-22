@@ -28,29 +28,18 @@ export const getAccounts = createDeepEqualSelector(
     coreSelectors.wallet.getHDAccounts, // non-custodial accounts
     coreSelectors.data.btc.getAddresses, // non-custodial xpub info
     coreSelectors.common.btc.getActiveAddresses, // imported addresses
-    coreSelectors.walletOptions.getSupportedCoins,
     (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
     (state, { coin }) => getInterestBalance(coin, state), // custodial accounts
     (state, ownProps): CoinAccountSelectorType & { coin: CoinType } => ownProps // selector config
   ],
-  (
-    btcAccounts,
-    btcDataR,
-    importedAddressesR,
-    supportedCoinsR,
-    sbBalanceR,
-    interestBalanceR,
-    ownProps
-  ) => {
+  (btcAccounts, btcDataR, importedAddressesR, sbBalanceR, interestBalanceR, ownProps) => {
     const transform = (
       btcData,
       importedAddresses,
       sbBalance: ExtractSuccess<typeof sbBalanceR>,
-      interestBalance: ExtractSuccess<typeof interestBalanceR>,
-      supportedCoins: ExtractSuccess<typeof supportedCoinsR>
+      interestBalance: ExtractSuccess<typeof interestBalanceR>
     ) => {
       const { coin } = ownProps
-      const config = supportedCoins[coin as CoinType]
       let accounts: SwapAccountType[] = []
       // add non-custodial accounts if requested
       if (ownProps?.nonCustodialAccounts) {
@@ -71,7 +60,6 @@ export const getAccounts = createDeepEqualSelector(
                 : prop<string, any>('final_balance', prop(prop('xpub', acc), btcData)),
               baseCoin: coin,
               coin,
-              config,
               label: prop('label', acc) || prop('xpub', acc),
               type: ADDRESS_TYPES.ACCOUNT
             }))
@@ -87,7 +75,6 @@ export const getAccounts = createDeepEqualSelector(
             balance: importedAcc.info.final_balance,
             baseCoin: coin,
             coin,
-            config,
             label: importedAcc.label || importedAcc.addr,
             type: ADDRESS_TYPES.LEGACY
           }))
@@ -96,22 +83,16 @@ export const getAccounts = createDeepEqualSelector(
 
       // add trading accounts if requested
       if (ownProps?.tradingAccounts) {
-        accounts = accounts.concat(generateTradingAccount(coin, config, sbBalance))
+        accounts = accounts.concat(generateTradingAccount(coin, sbBalance))
       }
 
       // add interest accounts if requested
       if (ownProps?.interestAccounts) {
-        accounts = accounts.concat(generateInterestAccount(coin, config, interestBalance))
+        accounts = accounts.concat(generateInterestAccount(coin, interestBalance))
       }
       return accounts
     }
 
-    return lift(transform)(
-      btcDataR,
-      importedAddressesR,
-      sbBalanceR,
-      interestBalanceR,
-      supportedCoinsR
-    )
+    return lift(transform)(btcDataR, importedAddressesR, sbBalanceR, interestBalanceR)
   }
 )

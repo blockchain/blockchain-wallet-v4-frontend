@@ -61,13 +61,14 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     invalid,
     rates,
     submitting,
-    supportedCoins,
     values,
     walletCurrency
   } = props
 
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
-  const { coinTicker, displayName } = supportedCoins[coin]
+  const { coinfig } = window.coins[coin]
+  const coinTicker = coin
+  const displayName = coinfig.name
   const account = accountBalances[coin]
   const accountBalanceBase = account && account.balance
   const interestBalanceBase = account && account.totalInterest
@@ -80,7 +81,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     currency: walletCurrency,
     isStandard: true,
     rates,
-    value: availToWithdrawCrypto,
+    value: availToWithdrawCrypto
   })
   const withdrawalAmountFiat = amountToFiat(
     displayCoin,

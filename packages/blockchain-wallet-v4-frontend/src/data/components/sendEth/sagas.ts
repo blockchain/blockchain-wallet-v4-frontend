@@ -9,12 +9,7 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { EthAccountFromType } from 'blockchain-wallet-v4/src/redux/payment/eth/types'
-import {
-  CoinType,
-  Erc20CoinType,
-  EthPaymentType,
-  SupportedWalletCurrenciesType
-} from 'blockchain-wallet-v4/src/types'
+import { Erc20CoinType, EthPaymentType } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
 import { actions, actionTypes, model, selectors } from 'data'
@@ -520,10 +515,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       }
       let coin = 'ETH'
       if (isErc20) {
-        const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(yield select())
-        const supportedCoins = supportedCoinsR.getOrElse({} as SupportedWalletCurrenciesType)
         coin =
-          Object.keys(supportedCoins).find(
+          Object.keys(window.coins).find(
             (c: string) => tx.to === window.coins[c].coinfig.type.erc20Address
           ) || 'ETH'
       }

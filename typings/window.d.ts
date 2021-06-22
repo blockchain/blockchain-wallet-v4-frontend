@@ -1,4 +1,7 @@
 interface Window {
+  APP_VERSION: string
+  CAPTCHA_KEY: string
+  NONCE: string
   coins: {
     [key in string]: {
       coinfig: {
@@ -9,7 +12,9 @@ interface Window {
         type: {
           erc20Address?: string
           isFiat?: boolean
+          isMemoBased?: boolean
           logoPngUrl: string
+          minimumOnChainConfirmations?: number
           name: string
           parentChain: string
           websiteUrl: string
@@ -17,8 +22,5 @@ interface Window {
       }
     }
   }
-  APP_VERSION: string
-  CAPTCHA_KEY: string
-  NONCE: string
   zxcvbn?: any
 }

@@ -1,11 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { lift, prop, toLower } from 'ramda'
+import { lift } from 'ramda'
 
 import { coreSelectors } from 'blockchain-wallet-v4/src'
 import { SBBalanceType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { generateTradingAccount } from 'data/coins/utils'
 import { SwapAccountType, SwapBaseCounterTypes } from 'data/components/types'
@@ -60,21 +59,14 @@ export const getTransactionPageHeaderText = (coin) => {
 // NOT IMPLEMENTED: imported addresses/accounts
 export const getAccounts = createDeepEqualSelector(
   [
-    coreSelectors.walletOptions.getSupportedCoins,
     coreSelectors.data.eth.getDefaultAddress,
     (state, { coin }) => coreSelectors.data.eth.getErc20Balance(state, coin), // non-custodial metadata
     (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
-  (supportedCoinsR, ethAddressR, erc20BalanceR, sbBalanceR, ownProps) => {
-    const transform = (
-      ethAddress,
-      erc20Balance,
-      sbBalance: ExtractSuccess<typeof sbBalanceR>,
-      supportedCoins: ExtractSuccess<typeof supportedCoinsR>
-    ) => {
+  (ethAddressR, erc20BalanceR, sbBalanceR, ownProps) => {
+    const transform = (ethAddress, erc20Balance, sbBalance: ExtractSuccess<typeof sbBalanceR>) => {
       const { coin } = ownProps
-      const config = supportedCoins[coin as CoinType]
       let accounts: SwapAccountType[] = []
 
       // add non-custodial accounts if requested
@@ -85,7 +77,6 @@ export const getAccounts = createDeepEqualSelector(
             balance: erc20Balance,
             baseCoin: 'ETH',
             coin,
-            config,
             label: 'Private Key Wallet',
             type: SwapBaseCounterTypes.ACCOUNT
           }
@@ -94,11 +85,11 @@ export const getAccounts = createDeepEqualSelector(
 
       // add trading accounts if requested
       if (ownProps?.tradingAccounts) {
-        accounts = accounts.concat(generateTradingAccount(coin, config, sbBalance as SBBalanceType))
+        accounts = accounts.concat(generateTradingAccount(coin, sbBalance as SBBalanceType))
       }
       return accounts
     }
 
-    return lift(transform)(ethAddressR, erc20BalanceR, sbBalanceR, supportedCoinsR)
+    return lift(transform)(ethAddressR, erc20BalanceR, sbBalanceR)
   }
 )

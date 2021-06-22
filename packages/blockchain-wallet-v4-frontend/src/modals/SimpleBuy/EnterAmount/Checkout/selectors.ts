@@ -20,7 +20,6 @@ const getData = (state: RootState, ownProps: OwnProps) => {
   const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
   const userDataR = selectors.modules.profile.getUserData(state)
   const sddEligibleR = selectors.components.simpleBuy.getSddEligible(state)
-  const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const userSDDTierR = selectors.components.simpleBuy.getUserSddEligibleTier(state)
   const sddLimitR = selectors.components.simpleBuy.getUserLimit(state, SBPaymentTypes.PAYMENT_CARD)
   const cardsR = selectors.components.simpleBuy.getSBCards(state) || []
@@ -39,12 +38,10 @@ const getData = (state: RootState, ownProps: OwnProps) => {
       userData: ExtractSuccess<typeof userDataR>,
       sddEligible: ExtractSuccess<typeof sddEligibleR>,
       sddLimit: ExtractSuccess<typeof sddLimitR>,
-      supportedCoins: ExtractSuccess<typeof supportedCoinsR>,
       userSDDTier: ExtractSuccess<typeof userSDDTierR>
     ) => ({
       bankTransferAccounts,
       cards,
-      coinModel: supportedCoins[coin],
       formErrors,
       hasFiatBalance,
       hasPaymentAccount: hasFiatBalance || cards.length > 0 || bankTransferAccounts.length > 0,
@@ -56,20 +53,9 @@ const getData = (state: RootState, ownProps: OwnProps) => {
       sbBalances,
       sddEligible,
       sddLimit,
-      supportedCoins,
       userData
     })
-  )(
-    cardsR,
-    quoteR,
-    ratesR,
-    sbBalancesR,
-    userDataR,
-    sddEligibleR,
-    sddLimitR,
-    supportedCoinsR,
-    userSDDTierR
-  )
+  )(cardsR, quoteR, ratesR, sbBalancesR, userDataR, sddEligibleR, sddLimitR, userSDDTierR)
 }
 
 export default getData

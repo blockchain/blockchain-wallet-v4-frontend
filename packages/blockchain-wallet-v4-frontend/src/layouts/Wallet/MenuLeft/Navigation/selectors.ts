@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js'
 import { head, last, lift, map, not, reject, toPairs } from 'ramda'
 
 import {
-  CoinType,
   ExtractSuccess,
   SupportedCoinType,
   SupportedWalletCurrencyType,
@@ -15,7 +14,7 @@ import { RootState } from 'data/rootReducer'
 
 export const getData = createDeepEqualSelector(
   [
-    selectors.components.utils.getSupportedCoinsWithMethodAndOrder,
+    selectors.components.utils.getCoinsWithMethodAndOrder,
     getAllCoinsBalancesSelector,
     (state: RootState) => state
   ],

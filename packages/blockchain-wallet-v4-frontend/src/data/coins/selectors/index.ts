@@ -1,12 +1,7 @@
 import { any, isEmpty, isNil, map, values } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import {
-  CoinType,
-  RemoteDataType,
-  SupportedWalletCurrenciesType,
-  SupportedWalletCurrencyType
-} from 'blockchain-wallet-v4/src/types'
+import { CoinType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { SUPPORTED_COINS } from 'data/coins/model/swap'
 import { CoinAccountSelectorType } from 'data/coins/types'

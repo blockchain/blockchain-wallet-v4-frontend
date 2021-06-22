@@ -2,7 +2,7 @@ import React, { Suspense } from 'react'
 import { connect, ConnectedProps, Provider } from 'react-redux'
 import { Redirect, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
-import { has, map, values } from 'ramda'
+import { map, values } from 'ramda'
 import { PersistGate } from 'redux-persist/integration/react'
 
 import SiftScience from 'components/SiftScience'
@@ -103,7 +103,7 @@ class App extends React.PureComponent<Props> {
                               key={coinfig.symbol}
                             />
                           )
-                        }, this.props.supportedCoins)
+                        }, this.props.coinsWithMethodAndOrder)
                       )}
                       {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
                     </Switch>
@@ -121,24 +121,21 @@ class App extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
-  // supportedCoins: selectors.core.walletOptions
-  //   .getSupportedCoins(state)
-  //   .getOrFail('No supported coins.'),
-  supportedCoins: selectors.components.utils
-    .getSupportedCoinsWithMethodAndOrder(state)
+  coinsWithMethodAndOrder: selectors.components.utils
+    .getCoinsWithMethodAndOrder(state)
     .getOrElse([]),
+  isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
 })
 
 const connector = connect(mapStateToProps)
 
 type Props = {
+  coinsWithMethodAndOrder: any
   history: any
   isAuthenticated: boolean
   persistor: any
   store: any
-  supportedCoins: any
 } & ConnectedProps<typeof connector>
 
 export default connector(App)

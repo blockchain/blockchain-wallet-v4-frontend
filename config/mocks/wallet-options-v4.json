@@ -85,6 +85,7 @@
             "symbol": "BTC",
             "type": {
               "logoPngUrl": "",
+              "minimumOnChainConfirmations": 3,
               "name": "Bitcoin",
               "parentChain": "BTC",
               "websiteUrl": ""
@@ -109,6 +110,7 @@
             "symbol": "ETH",
             "type": {
               "logoPngUrl": "",
+              "minimumOnChainConfirmations": 12,
               "name": "Ethereum",
               "parentChain": "ETH",
               "websiteUrl": ""
@@ -134,6 +136,7 @@
             "symbol": "BCH",
             "type": {
               "logoPngUrl": "",
+              "minimumOnChainConfirmations": 3,
               "name": "Bitcoin Cash",
               "parentChain": "BTC",
               "websiteUrl": ""
@@ -161,6 +164,8 @@
             "symbol": "XLM",
             "type": {
               "logoPngUrl": "",
+              "minimumOnChainConfirmations": 1,
+              "isMemoBased": true,
               "name": "Stellar",
               "parentChain": "XLM",
               "websiteUrl": ""
@@ -224,6 +229,7 @@
             "symbol": "ALGO",
             "type": {
               "logoPngUrl": "",
+              "minimumOnChainConfirmations": 3,
               "name": "Algorand",
               "parentChain": "ALGO",
               "websiteUrl": ""
@@ -245,6 +251,7 @@
             "symbol": "DOT",
             "type": {
               "logoPngUrl": "",
+              "minimumOnChainConfirmations": 20,
               "name": "Polkadot",
               "parentChain": "DOT",
               "websiteUrl": ""

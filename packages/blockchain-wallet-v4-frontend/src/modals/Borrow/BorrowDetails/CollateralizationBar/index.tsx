@@ -2,19 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import {
-  LoanType,
-  OfferType,
-  RatesType,
-  SupportedWalletCurrenciesType
-} from 'blockchain-wallet-v4/src/types'
+import { LoanType, OfferType, RatesType } from 'blockchain-wallet-v4/src/types'
 import { model } from 'data'
 
 const Bar = styled.div`
   position: relative;
   width: 100%;
   height: 8px;
-  background-color: ${props => props.theme.grey100};
+  background-color: ${(props) => props.theme.grey100};
   margin-top: 16px;
   margin-bottom: 48px;
   border-radius: 8px;
@@ -23,7 +18,7 @@ const Line = styled.div<{ position: number }>`
   top: 0;
   position: absolute;
   z-index: 3;
-  left: ${props => props.position * 100}%;
+  left: ${(props) => props.position * 100}%;
   &:before {
     content: '';
     width: 1px;
@@ -31,7 +26,7 @@ const Line = styled.div<{ position: number }>`
     position: relative;
     display: block;
     height: 24px;
-    border-right: 2px dashed ${props => props.theme.greyFade400};
+    border-right: 2px dashed ${(props) => props.theme.greyFade400};
   }
 `
 const Percentage = styled(Text)`
@@ -44,9 +39,9 @@ const Percentage = styled(Text)`
 `
 const Current = styled.div<{ color: string; width: number }>`
   z-index: 2;
-  width: ${props => props.width * 100}%;
+  width: ${(props) => props.width * 100}%;
   height: 8px;
-  background-color: ${props => props.theme[props.color]};
+  background-color: ${(props) => props.theme[props.color]};
   border-radius: 8px;
   transition: width 0.3s;
   position: relative;
@@ -63,47 +58,30 @@ type Props = {
   offer: OfferType
   rates: RatesType
   showPercentages?: boolean
-  supportedCoins: SupportedWalletCurrenciesType
 }
 
 const PADDING = 0.363636
-const {
-  getCollateralizationColor,
-  getCollateralizationDisplayName
-} = model.components.borrow
+const { getCollateralizationColor, getCollateralizationDisplayName } = model.components.borrow
 
 export const percentageFormatter = (n: number) => {
-  return (
-    Number(n * 100).toLocaleString(undefined, {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2
-    }) + '%'
-  )
+  return `${Number(n * 100).toLocaleString(undefined, {
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 0
+  })}%`
 }
 
-const CollateralizationBar: React.FC<Props> = props => {
+const CollateralizationBar: React.FC<Props> = (props) => {
   const { offer } = props
 
-  const max = Math.ceil(
-    offer.terms.collateralRatio * PADDING + offer.terms.collateralRatio
-  )
+  const max = Math.ceil(offer.terms.collateralRatio * PADDING + offer.terms.collateralRatio)
   const currentRatio = props.loan.collateralisationRatio
-  const currentCollateralStatus = getCollateralizationDisplayName(
-    currentRatio,
-    offer
-  )
+  const currentCollateralStatus = getCollateralizationDisplayName(currentRatio, offer)
   const currentWidth = currentRatio >= max ? 1 : currentRatio / max
 
   return (
     <Bar>
-      <Current
-        width={currentWidth}
-        color={getCollateralizationColor(currentCollateralStatus)}
-      />
-      <CurrentBackground
-        width={currentWidth === 0 ? 0 : currentWidth + 0.01}
-        color={'white'}
-      />
+      <Current width={currentWidth} color={getCollateralizationColor(currentCollateralStatus)} />
+      <CurrentBackground width={currentWidth === 0 ? 0 : currentWidth + 0.01} color='white' />
       <Line position={offer.callTerms.liquidationHardRatio / max}>
         {props.showPercentages && (
           <Percentage color='red600'>

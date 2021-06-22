@@ -7,11 +7,7 @@ import styled from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import {
-  FiatType,
-  SBOrderType,
-  SupportedWalletCurrenciesType,
-} from 'blockchain-wallet-v4/src/types'
+import { FiatType, SBOrderType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { getCounterAmount, getCounterCurrency } from 'data/components/simpleBuy/model'
@@ -99,7 +95,7 @@ const DropdownItem = ({ bodyText, isPaymentInformation, titleText }) => {
 const Authorize = (props: Props) => {
   const { bankAccounts, order, simpleBuyActions } = props
   const counterAmount = getCounterAmount(props.order)
-  const counterCurrency = getCounterCurrency(props.order, props.supportedCoins)
+  const counterCurrency = getCounterCurrency(props.order)
   const [bankAccount] = filter(
     (b: BankTransferAccountType) => b.state === 'ACTIVE' && b.id === prop('paymentMethodId', order),
     defaultTo([])(bankAccounts)
@@ -137,7 +133,7 @@ const Authorize = (props: Props) => {
         <Value>
           {fiatToString({
             unit: counterCurrency as FiatType,
-            value: counterAmount,
+            value: counterAmount
           })}
         </Value>
       </Row>
@@ -281,11 +277,15 @@ const Authorize = (props: Props) => {
               values={{ entityName }}
             />
             {entityName !== 'SafeConnect' && (
-                <FormattedMessage
+              <FormattedMessage
                 id='modals.brokerage.authorize.bol.terms'
-                defaultMessage="View SafeConnect UAB <a>Terms and Conditions</a> for more information."
-                values = {{
-                  a: msg => <a href='https://yapi.ly/GDNT' rel='noopener noreferrer' target='_blank'>{msg}</a>
+                defaultMessage='View SafeConnect UAB <a>Terms and Conditions</a> for more information.'
+                values={{
+                  a: (msg) => (
+                    <a href='https://yapi.ly/GDNT' rel='noopener noreferrer' target='_blank'>
+                      {msg}
+                    </a>
+                  )
                 }}
               />
             )}
@@ -332,14 +332,11 @@ const Authorize = (props: Props) => {
 const mapStateToProps = (state: RootState) => ({
   bankAccounts: selectors.components.brokerage
     .getBankTransferAccounts(state)
-    .getOrElse([] as Array<BankTransferAccountType>),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType),
+    .getOrElse([] as Array<BankTransferAccountType>)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

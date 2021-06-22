@@ -100,7 +100,6 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     BASE,
     COUNTER,
     baseRates,
-    coins,
     fix,
     formErrors,
     formValues,
@@ -169,7 +168,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const quoteAmountString =
     fix === 'FIAT'
       ? coinToString({
-          unit: { symbol: coins[BASE.coin].coinTicker },
+          unit: { symbol: BASE.coin },
           value: quoteAmount
         })
       : fiatToString({ unit: walletCurrency, value: quoteAmount })
@@ -237,7 +236,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           />
           {fix === 'CRYPTO' && (
             <Text size='56px' color='textBlack' weight={500}>
-              {coins[BASE.coin].coinTicker}
+              {BASE.coin}
             </Text>
           )}
         </AmountRow>
@@ -274,7 +273,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     value:
                       fix === 'FIAT'
                         ? fiatToString({ unit: walletCurrency, value: fiatMin })
-                        : `${min} ${coins[BASE.coin].coinTicker}`
+                        : `${min} ${BASE.coin}`
                   }}
                 />
               </CustomErrorCartridge>
@@ -326,7 +325,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     value:
                       fix === 'FIAT'
                         ? fiatToString({ unit: walletCurrency, value: fiatMax })
-                        : `${max} ${coins[BASE.coin].coinTicker}`
+                        : `${max} ${BASE.coin}`
                   }}
                 />
               </CustomErrorCartridge>
@@ -346,8 +345,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         <Amounts>
           <div>
             <Text size='14px' weight={500} color='grey600'>
-              {coins[BASE.coin].coinTicker}{' '}
-              <FormattedMessage id='copy.available' defaultMessage='Available' />
+              {BASE.coin} <FormattedMessage id='copy.available' defaultMessage='Available' />
             </Text>
             <CoinBalance>
               <CoinDisplay size='14px' weight={500} color='grey900' coin={BASE.coin}>
@@ -413,7 +411,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               id='copy.not_enough_eth1'
               defaultMessage='ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in your Ether Wallet for this transaction, not Ether Trading Account.'
               values={{
-                coin: coins[BASE.coin].coinTicker
+                coin: BASE.coin
               }}
             />
           </ErrorCartridge>

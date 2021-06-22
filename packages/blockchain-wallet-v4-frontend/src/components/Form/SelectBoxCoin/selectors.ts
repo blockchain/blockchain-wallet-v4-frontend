@@ -4,15 +4,15 @@ import { ExtractSuccess } from 'core/types'
 import { selectors } from 'data'
 
 export const getData = (state) => {
-  const supportedCoinsR = selectors.components.utils.getSupportedCoinsWithMethodAndOrder(state)
+  const coinsR = selectors.components.utils.getCoinsWithMethodAndOrder(state)
 
-  const transform = (supportedCoins: ExtractSuccess<typeof supportedCoinsR>) => {
-    return supportedCoins
+  const transform = (coins: ExtractSuccess<typeof coinsR>) => {
+    return coins
       .filter((val) => val.coinfig.products.includes('PrivateKey'))
       .map(({ coinfig }) => ({ text: coinfig.name, value: coinfig.symbol }))
   }
 
-  return lift(transform)(supportedCoinsR)
+  return lift(transform)(coinsR)
 }
 
 export default getData
