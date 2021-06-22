@@ -209,9 +209,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             break
           }
           case 'CUSTODY_WITHDRAW_MODAL': {
-            const { origin } = action.payload.props
             const { href, pathname, search } = window.location
             const { referrer, title } = document
+            const origin = 'CURRENCY_PAGE'
 
             analytics.push(AnalyticsKey.WITHDRAWAL_CLICKED, {
               analyticsType: AnalyticsType.EVENT,

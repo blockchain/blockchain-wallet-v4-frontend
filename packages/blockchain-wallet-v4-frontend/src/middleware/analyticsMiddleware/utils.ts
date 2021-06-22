@@ -1,4 +1,8 @@
 import crypto from 'crypto'
+import type {
+  BuySellClickedOrigin,
+  InterestDepositClickedOrigin
+} from 'middleware/analyticsMiddleware/types'
 import { PaymentType } from 'middleware/analyticsMiddleware/types'
 
 import { PaymentValue, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
@@ -6,25 +10,7 @@ import { SBShowModalOriginType } from 'data/types'
 
 const buySellClickedOriginDictionary = (
   rawOrigin: SBShowModalOriginType | string
-):
-  | 'BUY_WIDGET'
-  | 'CURRENCY_PAGE'
-  | 'DASHBOARD_PROMO'
-  | 'DEEP_LINK'
-  | 'EMPTY_FEED'
-  | 'LINK_BANK'
-  | 'NAVIGATION'
-  | 'PENDING_ORDER'
-  | 'PRICE_CHART'
-  | 'SAVINGS'
-  | 'SAVINGS_CONFIRMATION'
-  | 'SELL'
-  | 'SEND'
-  | 'SETTINGS'
-  | 'SIMPLETRADE'
-  | 'TRANSACTION_DETAILS'
-  | 'TRANSACTION_LIST'
-  | 'WELCOME' => {
+): BuySellClickedOrigin => {
   switch (rawOrigin) {
     case 'InterestPage':
       return 'SAVINGS'
@@ -98,7 +84,7 @@ const getNetworkFee = (paymentValue: PaymentValue | null) => {
     : 0
 }
 
-const interestDepositClickedOriginDictionary = (rawOrigin): 'SAVINGS_PAGE' => {
+const interestDepositClickedOriginDictionary = (rawOrigin): InterestDepositClickedOrigin => {
   switch (rawOrigin) {
     case 'InterestPage':
       return 'SAVINGS_PAGE'
