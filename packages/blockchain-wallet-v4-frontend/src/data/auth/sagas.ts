@@ -513,26 +513,33 @@ export default ({ api, coreSagas }) => {
         mnemonic
       )
       const { guid, sharedKey } = metadataInfo
+      // during recovery we reset user kyc
+      // we generate a retail token from nabu using guid/shared key
       const { token } = yield call(api.generateRetailToken, guid, sharedKey)
+      // pass that token to /user. if a user already exists, it returns
+      // information associated with that user
       const { token: lifetimeToken, userId } = yield call(api.createUser, token)
-      if (userId) {
-        try {
-          yield call(api.resetUserKyc, userId, lifetimeToken, token)
-          yield put(A.setKycResetStatus(true))
-          yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
-        } catch (e) {
-          if (e.description === 'User reset in progress') {
-            yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
-            yield put(A.setKycResetStatus(true))
-          } else {
-            yield put(actions.alerts.displayError(C.KYC_RESET_ERROR))
-            yield put(actions.auth.restoreFromMetadataFailure({ e }))
-            yield put(A.setKycResetStatus(false))
-          }
-        }
-      } else {
+      // if (userId) {
+      try {
+        // call reset kyc
+        yield call(api.resetUserKyc, userId, lifetimeToken, token)
+        yield put(A.setKycResetStatus(true))
         yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
+      } catch (e) {
+        // if it fails with user already being reset, shuold be allowed
+        // to continue with flow
+        if (e.description === 'User reset in progress') {
+          yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
+          yield put(A.setKycResetStatus(true))
+        } else {
+          yield put(actions.alerts.displayError(C.KYC_RESET_ERROR))
+          yield put(actions.auth.restoreFromMetadataFailure({ e }))
+          yield put(A.setKycResetStatus(false))
+        }
       }
+      // } else {
+      //   yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
+      // }
     } catch (e) {
       yield put(actions.auth.restoreFromMetadataFailure({ e }))
       yield put(actions.logs.logErrorMessage(logLocation, 'restoreFromMetadata', e))

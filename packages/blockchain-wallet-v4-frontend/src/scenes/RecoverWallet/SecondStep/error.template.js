@@ -18,7 +18,10 @@ const Error = (props) => {
       <Body>
         <Icon color='error' name='close-circle' size='40px' />
         <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }}>
-          Restoring Account Failed
+          <FormattedMessage
+            id='scenes.recover.restore_fails'
+            defaultMessage='Restoring Account Failed'
+          />
         </Text>
         <Text
           color='blue600'

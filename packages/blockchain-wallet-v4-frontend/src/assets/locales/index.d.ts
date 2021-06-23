@@ -2227,6 +2227,7 @@ type MessagesType = {
   'scenes.recover.secondstep.funds': 'Recover Funds'
   'scenes.recover.secondstep.password': 'Password'
   'scenes.recover.secondstep.recover': 'Recover Funds'
+  'scenes.recover.restore_fails': 'Restoring Account Failed'
   'scenes.register.browserwarning': 'Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera '
   'scenes.register.confirmpassword': 'Confirm Password'
   'scenes.register.exchange.subcard': 'You will be taken to our trading experience to continue sign up.'
