@@ -1,6 +1,5 @@
 import { keysIn } from 'ramda'
 import { Palette } from '../../src/Colors/index.ts'
-import { storiesOf } from '@storybook/react'
 import Layout from '../components/layout'
 import React from 'react'
 import styled from 'styled-components'
@@ -25,7 +24,7 @@ const Sample = styled.div`
   display: block;
   width: 100%;
   height: 150px;
-  background-color: ${props => props.bgColor};
+  background-color: ${(props) => props.bgColor};
 `
 const Code = styled.div`
   display: block;
@@ -38,7 +37,7 @@ const Code = styled.div`
   text-align: center;
 `
 
-const PaletteLayout = props => {
+const PaletteLayout = (props) => {
   const palette = Palette(props.theme)
   const keys = keysIn(palette)
 
@@ -67,7 +66,7 @@ const ColorGridRow = styled.tr`
   justify-content: center;
   align-items: center;
   border-top: 1px solid #efefef;
-  border-bottom: 1px ${props => (props.last ? 'solid' : 'none')} #efefef;
+  border-bottom: 1px ${(props) => (props.last ? 'solid' : 'none')} #efefef;
 `
 const ColorGridCell = styled.td`
   flex-basis: 20%;
@@ -75,14 +74,14 @@ const ColorGridCell = styled.td`
   text-transform: uppercase;
   text-align: center;
   border-left: 1px solid #efefef;
-  border-right: 1px ${props => (props.last ? 'solid' : 'none')} #efefef;
-  background-color: ${props => (props.color ? props.color : 'white')};
+  border-right: 1px ${(props) => (props.last ? 'solid' : 'none')} #efefef;
+  background-color: ${(props) => (props.color ? props.color : 'white')};
   &:first-child {
     flex-basis: 40%;
   }
 `
 
-const PaletteGrid = props => {
+const PaletteGrid = (props) => {
   const themes = ['default', 'complement', 'grayscale', 'invert']
   const keys = keysIn(Palette('default'))
 
@@ -118,10 +117,18 @@ const PaletteGrid = props => {
   )
 }
 
-storiesOf('Colors', module)
-  .addDecorator(story => <Layout>{story()}</Layout>)
-  .add('All colors', () => <PaletteGrid />)
-  .add('Theme Default', () => <PaletteLayout theme='default' />)
-  .add('Theme Complement', () => <PaletteLayout theme='complement' />)
-  .add('Theme Grayscale', () => <PaletteLayout theme='grayscale' />)
-  .add('Theme Invert', () => <PaletteLayout theme='invert' />)
+export default {
+  title: 'Colors',
+  decorators: [(story) => <Layout>{story()}</Layout>]
+}
+
+export const AllColors = () => <PaletteGrid />
+
+AllColors.story = {
+  name: 'All colors'
+}
+
+export const ThemeDefault = () => <PaletteLayout theme='default' />
+export const ThemeComplement = () => <PaletteLayout theme='complement' />
+export const ThemeGrayscale = () => <PaletteLayout theme='grayscale' />
+export const ThemeInvert = () => <PaletteLayout theme='invert' />

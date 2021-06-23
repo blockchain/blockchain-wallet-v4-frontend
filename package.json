@@ -104,13 +104,12 @@
     "@commitlint/cli": "12.1.1",
     "@commitlint/config-conventional": "12.1.1",
     "@formatjs/cli": "4.2.2",
-    "@storybook/addon-actions": "5.3.19",
-    "@storybook/addon-info": "5.3.19",
-    "@storybook/addon-links": "5.3.19",
-    "@storybook/cli": "5.3.19",
-    "@storybook/preset-typescript": "3.0.0",
-    "@storybook/react": "5.3.19",
-    "@storybook/storybook-deployer": "2.8.1",
+    "@storybook/addon-actions": "6.2.9",
+    "@storybook/addon-info": "5.3.21",
+    "@storybook/addon-links": "6.2.9",
+    "@storybook/cli": "6.2.9",
+    "@storybook/react": "6.2.9",
+    "@storybook/storybook-deployer": "2.8.8",
     "@types/axios": "0.14.0",
     "@types/hoist-non-react-statics": "3.3.1",
     "@types/jest": "26.0.22",
@@ -194,6 +193,7 @@
     "stylelint-prettier": "1.2.0",
     "stylelint-processor-styled-components": "1.10.0",
     "terser-webpack-plugin": "2.3.5",
+    "themeprovider-storybook": "^1.7.2",
     "thread-loader": "2.1.3",
     "ts-jest": "26.5.5",
     "ts-loader": "6.2.2",
@@ -204,5 +204,8 @@
     "webpack-cli": "3.3.11",
     "webpack-dev-server": "3.11.2",
     "wsrun": "5.2.4"
+  },
+  "dependencies": {
+    "@storybook/addon-essentials": "^6.2.9"
   }
 }

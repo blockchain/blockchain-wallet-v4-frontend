@@ -1,12 +1,14 @@
 import { keysIn } from 'ramda'
-import { storiesOf } from '@storybook/react'
 import { withInfo } from '@storybook/addon-info'
 import React from 'react'
 import styled from 'styled-components'
+import { addDecorator } from '@storybook/react'
 
 import { Image } from '../../src'
 import Images from '../../src/Images/Images'
 import Layout from '../components/layout'
+
+addDecorator(withInfo)
 
 const ImageWrapper = styled.div`
   display: flex;
@@ -44,7 +46,7 @@ const Code = styled.div`
   font-weight: 500;
   text-align: center;
 `
-const ImageComponent = props => {
+const ImageComponent = (props) => {
   const { name } = props
 
   return (
@@ -57,28 +59,42 @@ const ImageComponent = props => {
   )
 }
 
-const ImageLayout = props => {
+const ImageLayout = (props) => {
   return <ImageWrapper>{props.children}</ImageWrapper>
 }
 
 const imageKeys = keysIn(Images)
 
-storiesOf('Images', module)
-  .addDecorator(story => <Layout>{story()}</Layout>)
-  .addDecorator((story, context) =>
-    withInfo({ text: 'Documentation', inline: true })(story)(context)
-  )
-  .add('All images', () => (
-    <ImageLayout>
-      {imageKeys.map((value, index) => {
-        return <ImageComponent key={index} name={value} />
-      })}
-    </ImageLayout>
-  ))
-  .add('Image', () => <Image name='blockchain-logo' />)
-  .add('Image width width', () => (
-    <Image name='blockchain-logo' width='750px' />
-  ))
-  .add('Image width height', () => (
-    <Image name='blockchain-logo' height='50px' />
-  ))
+export default {
+  title: 'Images',
+  parameters: {
+    info: { text: 'Documentation', inline: true }
+  },
+  decorators: [(story) => <Layout>{story()}</Layout>]
+}
+
+export const AllImages = () => (
+  <ImageLayout>
+    {imageKeys.map((value, index) => {
+      return <ImageComponent key={index} name={value} />
+    })}
+  </ImageLayout>
+)
+
+AllImages.story = {
+  name: 'All images'
+}
+
+export const _Image = () => <Image name='blockchain-logo' />
+
+export const ImageWidthWidth = () => <Image name='blockchain-logo' width='750px' />
+
+ImageWidthWidth.story = {
+  name: 'Image width width'
+}
+
+export const ImageWidthHeight = () => <Image name='blockchain-logo' height='50px' />
+
+ImageWidthHeight.story = {
+  name: 'Image width height'
+}
