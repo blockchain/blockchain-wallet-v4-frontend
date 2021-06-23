@@ -519,7 +519,6 @@ export default ({ api, coreSagas }) => {
       // pass that token to /user. if a user already exists, it returns
       // information associated with that user
       const { token: lifetimeToken, userId } = yield call(api.createUser, token)
-      // if (userId) {
       try {
         // call reset kyc
         yield call(api.resetUserKyc, userId, lifetimeToken, token)
@@ -537,9 +536,6 @@ export default ({ api, coreSagas }) => {
           yield put(A.setKycResetStatus(false))
         }
       }
-      // } else {
-      //   yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
-      // }
     } catch (e) {
       yield put(actions.auth.restoreFromMetadataFailure({ e }))
       yield put(actions.logs.logErrorMessage(logLocation, 'restoreFromMetadata', e))
