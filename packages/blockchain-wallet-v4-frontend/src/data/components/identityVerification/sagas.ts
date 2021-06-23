@@ -50,6 +50,10 @@ export default ({ api, coreSagas, networks }) => {
     networks
   })
 
+  const verifyIdentity = function* ({ payload }) {
+    yield put(actions.modals.showModal(KYC_MODAL, payload))
+  }
+
   const registerUserCampaign = function* (payload) {
     const { newUser = false } = payload
     const campaign = yield select(selectors.modules.profile.getCampaign)
@@ -60,10 +64,6 @@ export default ({ api, coreSagas, networks }) => {
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'registerUserCampaign', e.message))
     }
-  }
-
-  const verifyIdentity = function* ({ payload }) {
-    yield put(actions.modals.showModal(KYC_MODAL, payload))
   }
 
   const createRegisterUserCampaign = function* () {
@@ -144,6 +144,7 @@ export default ({ api, coreSagas, networks }) => {
 
     yield put(A.setStepsSuccess(steps))
   }
+
   const initializeStep = function* () {
     const steps: Array<StepsType> = (yield select(S.getSteps)).getOrElse([])
     return yield put(A.setVerificationStep(steps[0]))
@@ -362,13 +363,16 @@ export default ({ api, coreSagas, networks }) => {
         state
       } = yield select(selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM))
       const personalData = { dob, firstName, lastName }
+
+      // in case of US we have to append state with prefix
+      const userState = country.code === 'US' ? `US-${state}` : state
       const address = {
         city,
         country: country.code,
         line1,
         line2,
         postCode,
-        state
+        state: userState
       }
       yield call(updateUser, { payload: { data: personalData } })
       yield call(updateUserAddress, {
